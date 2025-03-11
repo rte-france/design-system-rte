@@ -1,0 +1,18 @@
+{
+  "name": "@design-system-rte/react",
+  "version": "0.1.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@design-system-rte/core": "0.1.0"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0"
+  }
+}
