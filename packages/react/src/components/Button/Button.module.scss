@@ -1,0 +1,41 @@
+@use '../../../../core/primitives/colors.scss' as *;
+@use '../../../../core/primitives/typography.scss' as *;
+
+.coreButton {
+    align-items: center;
+    cursor: pointer;
+    display: inline-flex;
+    flex-shrink: 0;
+    height: 32px;
+    justify-content: center;
+    padding: 8px 16px;
+    border-radius: 2px;
+    border: 1px solid $border-primary-hl_default;
+    background: $background-primary-hl_lowest;
+
+    @include typhography-default();
+
+    &:hover {
+        background-color: $background-primary-hl_low;
+        box-shadow: 0px 2px 6px 0px rgba(17, 22, 26, 0.16);
+    }
+
+    &:active {
+        border-color: $border-primary-hl_secondary;
+        background-color: $background-primary-hl_high;
+        box-shadow: 0px 2px 6px 0px rgba(17, 22, 26, 0.08);
+    }
+
+    &:focus {
+        border-radius: 4px;
+        border: 1px solid $border-primary-hl_secondary;
+    }
+
+    &:disabled {
+        background-color: $background-neutral-high;
+        border-color: $border-neutral-tertiary;
+        color: $text-neutral-tertiary;
+        box-shadow: none;
+        cursor: default;
+    }
+}
