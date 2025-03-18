@@ -3,7 +3,7 @@
 
 ## Content
 
- Design System RTE
+ RTE's Design System : Minimum Viable Product
 
 ## Usage
 
