@@ -12,7 +12,6 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         type="button"
         // TODO: use clsx to generate className concatenation
-
         className={style.coreButton + ' ' + className}
         data-size={size}
         data-type={type}
