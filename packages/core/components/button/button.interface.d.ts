@@ -6,4 +6,6 @@ export interface ButtonProps {
     type?: ButtonType;
     size?: ButtonSize;
     disabled?: boolean;
+    leftIcon?: string;
+    rightIcon?: string;
 }
