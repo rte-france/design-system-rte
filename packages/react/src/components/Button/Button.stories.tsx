@@ -1,17 +1,21 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
 
-import { Button } from './Button';
+import Button from './Button';
 
 const meta = {
   title: 'Button',
   component: Button,
-  parameters: {
-    layout: 'centered',
-  },
   tags: ['autodocs'],
   argTypes: {
-    backgroundColor: { control: 'color' },
+    type: {
+      control: 'select',
+      options: ['filled', 'outlined', 'text', 'transparent', 'danger'],
+    },
+    size: {
+      control: 'select',
+      options: ['s', 'm', 'l'],
+    },
   },
   args: { onClick: fn() },
 } satisfies Meta<typeof Button>;
@@ -21,7 +25,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
   args: {
-    primary: true,
+    type: 'filled',
     label: 'Button',
   },
 };
@@ -34,14 +38,14 @@ export const Secondary: Story = {
 
 export const Large: Story = {
   args: {
-    size: 'large',
+    size: 'm',
     label: 'Button',
   },
 };
 
 export const Small: Story = {
   args: {
-    size: 'small',
+    size: 's',
     label: 'Button',
   },
 };

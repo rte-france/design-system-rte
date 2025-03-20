@@ -14,4 +14,8 @@ const preview: Preview = {
   },
 };
 
+// TODO: Define theme strategy for token use
+document.querySelector("html")?.setAttribute("data-theme", "bleu_iceberg");
+document.querySelector("html")?.setAttribute("data-mode", "light");
+
 export default preview;

@@ -12,7 +12,7 @@ import { ButtonType, ButtonSize } from '../../../../core/components/button/butto
 export class ButtonComponent {
 
   @Input() label: string = '';
-  @Input() type: ButtonType = 'primary';
+  @Input() type: ButtonType = 'filled';
   @Input() size: ButtonSize = 'm';
   @Input() disabled: boolean = false;
 

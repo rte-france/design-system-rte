@@ -1,46 +1,165 @@
-@use '../../../../core/primitives/colors.scss' as *;
-@use '../../../../core/primitives/typography.scss' as *;
-
-.rte-primary {
-    color: $rte-primary;
-}
+@use '../../../../core/tokens/main.scss' as *;
 
 .rte-button {
     align-items: center;
-    background-color: $rte-primary;
     cursor: pointer;
     display: inline-flex;
     flex-shrink: 0;
-    height: 32px;
     justify-content: center;
-    padding: 8px 16px;
-    border-radius: 2px;
-    border: 1px solid $border-primary-hl_default;
-    background: $background-primary-hl_lowest;
 
-    @include typhography-default();
-
-    &:hover {
-        background-color: $background-primary-hl_low;
-        box-shadow: 0px 2px 6px 0px rgba(17, 22, 26, 0.16);
+    &.s {
+        @include typography-button-s;
+        height: 24px;
+        border-radius: $radius-s;
+        padding: $positive-spacing_050;
     }
 
-    &:active {
-        border-color: $border-primary-hl_secondary;
-        background-color: $background-primary-hl_high;
-        box-shadow: 0px 2px 6px 0px rgba(17, 22, 26, 0.08);
+    &.m {
+        @include typography-button-m;
+        height: 32px;
+        border-radius: $radius-s;
+        padding: $positive-spacing_050 $positive-spacing_100;
+        background-color: red;
     }
 
-    &:focus {
-        border-radius: 4px;
-        border: 1px solid $border-primary-hl_secondary;
+    &.l {
+        @include typography-button-l;
+        height: 40px;
+        border-radius: $radius-m;
+        padding: $positive-spacing_050 $positive-spacing_200;
     }
 
-    &:disabled {
-        background-color: $background-neutral-high;
-        border-color: $border-neutral-tertiary;
-        color: $text-neutral-tertiary;
-        box-shadow: none;
-        cursor: default;
+    &.filled {
+        border: var(--border-brand_default);
+        color: var(--content-primary_inverse);
+        background: var(--background-brand_default);
+
+        &:hover {
+            background: var(--background-brand_hover);
+            border: var(--background-brand_hover);
+        }
+
+        &:active {
+            background: var(--background-brand_pressed);
+        }
+
+        &:focus {
+            // TODO: find a solution with a new focus wrapper component
+            outline: 2px solid var(--border-brand_focused);
+        }
+
+        &:disabled {
+            background: var(--background-disabled);
+            border: solid  1px var(--border-disabled);
+            color: var(--content-disabled);
+            box-shadow: none;
+            cursor: default;
+        }
+    };
+
+    /*
+
+    &.outlined {
+        background: var(--background-default);
+        border: solid 1px var(--border-brand_default);
+        color: var(--content-brand_default);
+
+        &:hover {
+            background: var(--background-brand_inverse_hover);
+            border: solid 1px var(--border-brand_default);
+        }
+
+        &:active {
+            border: var(--background-brand_inverse);
+            background: var(--background-brand_inverse_pressed);
+        }
+
+        &:focus {
+            outline: 2px solid var(--border-brand_focused);
+        }
+
+        &:disabled {
+            background: var(--background-disabled);
+            border: solid 1px var(--border-disabled);
+            color: var(--content-disabled);
+            cursor: default;
+        }
+    };
+
+    &.text {
+        background: transparent;
+        border: none;
+        color: var(--content-brand_default);
+
+        &:hover {
+            background: var(--background-brand_inverse_hover);
+        }
+
+        &:active {
+            background: var(--background-brand_inverse_pressed);
+        }
+
+        &:focus {
+            outline: 2px solid var(--border-brand_focused);
+        }
+
+        &:disabled {
+            background: var(--background-disabled);
+            color: var(--content-disabled);
+            cursor: default;
+        }
+    };
+
+    &.transparent {
+        background: transparent;
+        border: none;
+        color: var(--content-brand_default);
+
+        &:hover {
+            color: var(--content-brand_hover);
+        }
+
+        &:active {
+            color: var(--content-brand_pressed);
+        }
+
+        &:focus {
+            outline: 2px solid var(--border-brand_focused);
+        }
+
+        &:disabled {
+            color: var(--content-disabled);
+            box-shadow: none;
+            cursor: default;
+        }
+    };
+    
+    &.danger {
+        background: var(--background-danger_default);
+        border: none;
+        color: var(--content-primary_inverse);
+        border-radius: $radius-m;
+
+        &:hover {
+            background: var(--background-danger_hover);
+        }
+
+        &:active {
+            background: var(--background-danger_pressed);
+        }
+
+        &:focus {
+            outline: 2px solid var(--border-brand_focused);
+        }
+
+        &:disabled {
+            background: var(--background-disabled);
+            border: var(--border-disabled);
+            color: var(--content-disabled);
+            box-shadow: none;
+            cursor: default;
+        }
     }
+
+    */
 }

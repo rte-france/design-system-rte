@@ -95,6 +95,7 @@
               "-d",
               "."
             ],
+            "styles": ["../core/tokens/main.scss"],
             "port": 6006
           }
         },
