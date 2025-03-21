@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { fn, userEvent, within, expect } from '@storybook/test';
 import { ENTER_KEY, SPACE_KEY, TAB_KEY } from '@design-system-rte/core/constants/keyboard.constants';
 
+
 import Button from './Button';
 
 const meta = {
@@ -17,8 +18,15 @@ const meta = {
       control: 'select',
       options: ['s', 'm', 'l'],
     },
+    iconPosition: {
+      control: 'select',
+      options: ['left', 'right'],
+    },
+    disabled: {
+      control: 'boolean',
+    },
   },
-  args: { onClick: fn() },
+  args: { onClick: fn(), icon: '' },
 } satisfies Meta<typeof Button>;
 
 export default meta;
