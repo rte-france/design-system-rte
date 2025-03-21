@@ -1,4 +1,4 @@
-import { IconProps } from '../../../../core/components/icon/icon.interface';
+import { IconProps } from '@design-system-rte/core/components/icon/icon.interface';
 
 export default function Icon({ name, size = 24 }: IconProps) {
   return (
