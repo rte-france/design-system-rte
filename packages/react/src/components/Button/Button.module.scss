@@ -1,6 +1,4 @@
-@use '../../../../core/tokens/main.scss' as *;
-
-// TODO : Think about when to use css variables and when to use scss variables
+@use '@design-system-rte/core/tokens/main.scss' as *;
 
 .button {
     align-items: center;
