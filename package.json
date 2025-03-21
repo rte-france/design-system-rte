@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "base-storybook": "npm --prefix packages/design-docs run base-storybook",
+    "design-docs": "npm --prefix packages/design-docs run storybook"
   },
   "keywords": [],
   "author": "",

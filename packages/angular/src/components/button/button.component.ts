@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 // TODO: create alias for core components
 import { ButtonType, ButtonSize } from '../../../../core/components/button/button.interface';
 
@@ -12,8 +12,10 @@ import { ButtonType, ButtonSize } from '../../../../core/components/button/butto
 export class ButtonComponent {
 
   @Input() label: string = '';
-  @Input() type: ButtonType = 'primary';
+  @Input() type: ButtonType = 'filled';
   @Input() size: ButtonSize = 'm';
   @Input() disabled: boolean = false;
+
+  @Output() onClick = new EventEmitter<void>();
 
 }

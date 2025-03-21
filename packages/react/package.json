@@ -10,7 +10,9 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "format": "prettier --write 'src/**/*.{ts,tsx,js,jsx}'"
+    "format": "prettier --write 'src/**/*.{ts,tsx,js,jsx}'",
+    "storybook": "storybook dev -p 7008",
+    "build-storybook": "storybook build"
   },
   "keywords": [],
   "author": "",
@@ -26,7 +28,16 @@
     "react": ">=18.0.0"
   },
   "devDependencies": {
+    "@chromatic-com/storybook": "^3.2.6",
     "@eslint/js": "^9.21.0",
+    "@storybook/addon-a11y": "^8.6.6",
+    "@storybook/addon-essentials": "^8.6.6",
+    "@storybook/addon-interactions": "^8.6.6",
+    "@storybook/addon-onboarding": "^8.6.6",
+    "@storybook/blocks": "^8.6.6",
+    "@storybook/react": "^8.6.6",
+    "@storybook/react-vite": "^8.6.6",
+    "@storybook/test": "^8.6.6",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
     "@types/node": "^22.13.9",
@@ -42,15 +53,22 @@
     "eslint-plugin-react": "^7.37.4",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
+    "eslint-plugin-storybook": "^0.11.4",
     "eslint-plugin-vitest": "^0.5.4",
     "globals": "^15.15.0",
     "jsdom": "^26.0.0",
     "prettier": "^3.5.3",
+    "storybook": "^8.6.6",
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.24.1",
     "vite": "^6.2.1",
     "vite-plugin-dts": "^4.5.3",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.0.8"
+  },
+  "eslintConfig": {
+    "extends": [
+      "plugin:storybook/recommended"
+    ]
   }
 }
