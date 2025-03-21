@@ -2,25 +2,31 @@
 
 // TODO : Think about when to use css variables and when to use scss variables
 
-.coreButton {
+.button {
     align-items: center;
     cursor: pointer;
     display: inline-flex;
     flex-shrink: 0;
     justify-content: center;
 
+    &:focus-visible {
+        outline: 1px solid var(--border-brand_focused);
+        outline-offset: 4px;
+    }
+
+
     &[data-size='s'] {
         @include typography-button-s;
         height: 24px;
         border-radius: $radius-s;
-        padding: $positive-spacing_050;
+        padding: $positive-spacing_050 $positive-spacing_100;  
     }
 
     &[data-size='m'] {
         @include typography-button-m;
         height: 32px;
         border-radius: $radius-s;
-        padding: $positive-spacing_050 $positive-spacing_100;
+        padding: $positive-spacing_050 $positive-spacing_150;
     }
 
     &[data-size='l'] {
@@ -43,11 +49,6 @@
 
         &:active {
             background: var(--background-brand_pressed);
-        }
-
-        &:focus {
-            // TODO: find a solution with a new focus wrapper component
-            outline: 2px solid var(--border-brand_focused);
         }
 
         &:disabled {
@@ -74,10 +75,6 @@
             background: var(--background-brand_inverse_pressed);
         }
 
-        &:focus {
-            outline: 2px solid var(--border-brand_focused);
-        }
-
         &:disabled {
             background: var(--background-disabled);
             border: solid 1px var(--border-disabled);
@@ -97,10 +94,6 @@
 
         &:active {
             background: var(--background-brand_inverse_pressed);
-        }
-
-        &:focus {
-            outline: 2px solid var(--border-brand_focused);
         }
 
         &:disabled {
@@ -123,10 +116,6 @@
             color: var(--content-brand_pressed);
         }
 
-        &:focus {
-            outline: 2px solid var(--border-brand_focused);
-        }
-
         &:disabled {
             color: var(--content-disabled);
             box-shadow: none;
@@ -138,7 +127,6 @@
         background: var(--background-danger_default);
         border: none;
         color: var(--content-primary_inverse);
-        border-radius: $radius-m;
 
         &:hover {
             background: var(--background-danger_hover);
@@ -148,10 +136,6 @@
             background: var(--background-danger_pressed);
         }
 
-        &:focus {
-            outline: 2px solid var(--border-brand_focused);
-        }
-
         &:disabled {
             background: var(--background-disabled);
             border: var(--border-disabled);
@@ -159,5 +143,17 @@
             box-shadow: none;
             cursor: default;
         }
+    }
+}
+
+.label {
+    &[data-size='s'] {
+        padding: 0 $positive-spacing_050;
+    }
+    &[data-size='m'] {
+        padding: 0 $positive-spacing_075;
+    }
+    &[data-size='l'] {
+        padding: 0 $positive-spacing_100;
     }
 }
