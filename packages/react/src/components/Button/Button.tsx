@@ -6,7 +6,9 @@ import Icon from '../Icon/Icon';
 
 interface BaseButtonProps
   extends CoreButtonProps,
-    Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'size' | 'type' | 'label'> {}
+    Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'size' | 'type' | 'label' | 'onClick'> {
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+}
 
 interface LeftIconButtonProps extends BaseButtonProps {
   leftIcon: string;
@@ -32,7 +34,10 @@ const buttonIconSize: Record<ButtonSize, number> = {
 };
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ size = 'm', label, type = 'filled', disabled = false, className = '', leftIcon, rightIcon, ...props }, ref) => {
+  (
+    { size = 'm', label, type = 'filled', disabled = false, className = '', leftIcon, rightIcon, onClick, ...props },
+    ref,
+  ) => {
     return (
       <button
         ref={ref}
@@ -42,6 +47,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         data-size={size}
         data-type={type}
         disabled={disabled}
+        onClick={onClick}
         {...props}
       >
         {leftIcon && <Icon name={leftIcon} size={buttonIconSize[size]} />}
