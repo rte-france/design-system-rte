@@ -1,7 +1,7 @@
 import { forwardRef } from 'react';
 
 import style from './Button.module.scss';
-import { ButtonProps as CoreButtonProps } from '../../../../core/components/button/button.interface';
+import { ButtonProps as CoreButtonProps } from '@design-system-rte/core/components';
 
 type ButtonProps = CoreButtonProps & Omit<React.HTMLProps<HTMLButtonElement>, 'size' | 'type'>;
 

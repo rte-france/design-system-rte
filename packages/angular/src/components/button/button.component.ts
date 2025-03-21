@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 // TODO: create alias for core components
-import { ButtonType, ButtonSize } from '../../../../core/components/button/button.interface';
+import { ButtonType, ButtonSize } from '@design-system-rte/core/components/button/button.interface';
 
 @Component({
   selector: 'rte-button',
