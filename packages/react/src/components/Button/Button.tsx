@@ -4,9 +4,26 @@ import style from './Button.module.scss';
 import { ButtonSize, ButtonProps as CoreButtonProps } from '../../../../core/components/button/button.interface';
 import Icon from '../Icon/Icon';
 
-interface ButtonProps
+interface BaseButtonProps
   extends CoreButtonProps,
     Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'size' | 'type' | 'label'> {}
+
+interface LeftIconButtonProps extends BaseButtonProps {
+  leftIcon: string;
+  rightIcon?: never;
+}
+
+interface RightIconButtonProps extends BaseButtonProps {
+  rightIcon: string;
+  leftIcon?: never;
+}
+
+interface NoIconButtonProps extends BaseButtonProps {
+  leftIcon?: never;
+  rightIcon?: never;
+}
+
+type ButtonProps = LeftIconButtonProps | RightIconButtonProps | NoIconButtonProps;
 
 const buttonIconSize: Record<ButtonSize, number> = {
   s: 16,
