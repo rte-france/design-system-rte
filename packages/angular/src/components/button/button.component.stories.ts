@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/angular';
 import { fn } from '@storybook/test';
 
 import { ButtonComponent } from './button.component';
+import { ButtonProps } from '@design-system-rte/core/components/button/button.interface';
 
 const meta: Meta<ButtonComponent> = {
   title: 'Button',
@@ -10,42 +11,47 @@ const meta: Meta<ButtonComponent> = {
   argTypes: {
     type: {
       control: 'select',
-      options: ['primary', 'secondary'],
+      options: ['filled', 'outlined', 'text', 'transparent', 'danger'],
     },
     size: {
       control: 'select',
       options: ['s', 'm', 'l'],
     },
   },
-  args: { onClick: fn() },
+  args: { click: fn() },
 };
 
 export default meta;
 type Story = StoryObj<ButtonComponent>;
 
+const DefaultArgs: ButtonProps = {
+  type: 'filled',
+  label: 'Button',
+};
+
 export const Primary: Story = {
   args: {
-    type: 'filled',
-    label: 'Button',
-  },
-};
-
-export const Secondary: Story = {
-  args: {
-    label: 'Button',
-  },
-};
-
-export const Large: Story = {
-  args: {
-    size: 'm',
-    label: 'Button',
+    ...DefaultArgs,
   },
 };
 
 export const Small: Story = {
   args: {
+    ...DefaultArgs,
     size: 's',
-    label: 'Button',
+  },
+};
+
+export const Medium: Story = {
+  args: {
+    ...DefaultArgs,
+    size: 'm',
+  },
+};
+
+export const Large: Story = {
+  args: {
+    ...DefaultArgs,
+    size: 'm',
   },
 };
