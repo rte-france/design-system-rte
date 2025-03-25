@@ -13,6 +13,6 @@ on:
             runs-on: ubuntu-latest
             steps:
                 - id: build-publish
-                  uses: bitovi/github-actions-storybook-to-github-pages@v1.0.3
-                  with:
-                    path: packages/deisgn-docs/storybook-static # change to your build folder
+                uses: bitovi/github-actions-storybook-to-github-pages@v1.0.3
+                with:
+                path: packages/deisgn-docs/storybook-static # change to your build folder
