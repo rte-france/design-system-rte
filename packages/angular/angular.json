@@ -24,7 +24,10 @@
               "src/assets"
             ],
             "styles": [],
-            "scripts": []
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": ["../"]
+            }
           },
           "configurations": {
             "production": {
@@ -95,7 +98,7 @@
               "-d",
               "."
             ],
-            "styles": ["../core/tokens/main.scss"],
+            "styles": ["@design-system-rte/core/tokens/main.scss"],
             "port": 6006
           }
         },

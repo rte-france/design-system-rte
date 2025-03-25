@@ -1,4 +1,4 @@
-@use '../../../../core/tokens/main.scss' as *;
+@use '@design-system-rte/core/tokens/main.scss' as *;
 
 .rte-button {
     align-items: center;
@@ -7,22 +7,21 @@
     flex-shrink: 0;
     justify-content: center;
 
-    &.s {
+    &.size-s {
         @include typography-button-s;
         height: 24px;
         border-radius: $radius-s;
         padding: $positive-spacing_050;
     }
 
-    &.m {
+    &.size-m {
         @include typography-button-m;
         height: 32px;
         border-radius: $radius-s;
         padding: $positive-spacing_050 $positive-spacing_100;
-        background-color: red;
     }
 
-    &.l {
+    &.size-l {
         @include typography-button-l;
         height: 40px;
         border-radius: $radius-m;
@@ -56,8 +55,6 @@
             cursor: default;
         }
     };
-
-    /*
 
     &.outlined {
         background: var(--background-default);
@@ -160,6 +157,4 @@
             cursor: default;
         }
     }
-
-    */
 }

@@ -1,6 +1,5 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-// TODO: create alias for core components
-import { ButtonType, ButtonSize } from '../../../../core/components/button/button.interface';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { ButtonSize, ButtonType } from '@design-system-rte/core/components/button/button.interface';
 
 @Component({
   selector: 'rte-button',
@@ -11,11 +10,11 @@ import { ButtonType, ButtonSize } from '../../../../core/components/button/butto
 })
 export class ButtonComponent {
 
-  @Input() label: string = '';
+  @Input() label = '';
   @Input() type: ButtonType = 'filled';
   @Input() size: ButtonSize = 'm';
-  @Input() disabled: boolean = false;
+  @Input() disabled = false;
 
-  @Output() onClick = new EventEmitter<void>();
+  @Output() click = new EventEmitter<void>();
 
 }
