@@ -6,12 +6,12 @@
   "main": "dist/react-package.cjs",
   "types": "dist/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 0",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write 'src/**/*.{ts,tsx,js,jsx}'",
     "storybook": "storybook dev -p 7008",
+    "test": "test-storybook --url http://localhost:7008",
     "build-storybook": "storybook build"
   },
   "keywords": [],
