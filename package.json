@@ -17,6 +17,6 @@
   ],
   "devDependencies": {
     "@angular/cli": "^17.3.12",
-    "@storybook/*": "^8.6.7"
+    "storybook": "^8.6.7"
   }
 }
