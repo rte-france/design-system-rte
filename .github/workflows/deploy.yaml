@@ -1,4 +1,3 @@
-# Workflow name
 name: Build and Publish Storybook to GitHub Pages
 
 on:
