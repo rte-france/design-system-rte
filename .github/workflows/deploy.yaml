@@ -15,4 +15,4 @@ jobs:
       - id: build-publish
         uses: bitovi/github-actions-storybook-to-github-pages@v1.0.3
         with:
-          path: packages/deisgn-docs/build # change to your build folder
+          path: packages/deisgn-docs # change to your build folder
