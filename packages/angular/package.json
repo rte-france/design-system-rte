@@ -5,7 +5,7 @@
     "ng": "ng",
     "test": "ng test",
     "storybook": "ng run angular:storybook --port 7007",
-    "build-storybook": "ng run angular:build-storybook"
+    "build-storybook": "ng run angular:build-storybook --output-dir ../design-docs/storybook-static/angular"
   },
   "private": true,
   "dependencies": {
