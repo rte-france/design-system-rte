@@ -1,11 +1,5 @@
-
-
 import { join, dirname } from "path"
 
-/**
-* This function is used to resolve the absolute path of a package.
-* It is needed in projects that use Yarn PnP or are set up within a monorepo.
-*/
 function getAbsolutePath(value) {
   return dirname(require.resolve(join(value, 'package.json')))
 }
@@ -26,15 +20,17 @@ const config = {
     "name": getAbsolutePath('@storybook/react-vite'),
     "options": {}
   },
-  refs: {
-    angular: {
-      title: 'Angular',
-      url: 'http://localhost:7007',
-    },
-    react: {
-      title: 'React',
-      url: 'http://localhost:7008',
-    },
+  // Remove or comment out refs for localhost
+  // refs: {},
+  
+  // Optional: Add base configuration for GitHub Pages
+  "core": {
+    "builder": "@storybook/builder-vite"
   },
+  
+  // Optional: Configure your base path if deploying to a subdirectory
+  // "site": {
+  //   "base": "/your-repo-name/"
+  // }
 };
 export default config;

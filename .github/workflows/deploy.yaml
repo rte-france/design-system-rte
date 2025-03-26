@@ -26,9 +26,20 @@ jobs:
         working-directory: ./packages/design-docs
         run: npm ci
       
+      - name: Debug - List Installed Packages
+        working-directory: ./packages/design-docs
+        run: |
+          echo "Installed packages:"
+          npm list | grep storybook
+          npm list | grep vite
+      
       - name: Build Storybook
         working-directory: ./packages/design-docs
-        run: npx @storybook/react build
+        run: |
+          echo "Current directory contents:"
+          ls -la
+          echo "Running Storybook build..."
+          npx storybook build
       
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
