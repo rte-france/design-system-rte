@@ -26,13 +26,9 @@ jobs:
         working-directory: ./packages/design-docs
         run: npm ci
       
-      - name: Install Storybook CLI
-        working-directory: ./packages/design-docs
-        run: npm install -D @storybook/cli
-      
       - name: Build Storybook
         working-directory: ./packages/design-docs
-        run: npx storybook build
+        run: npx @storybook/react build
       
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
