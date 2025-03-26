@@ -17,28 +17,32 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
+      
+      - name: Clean npm cache
+        run: |
+          npm cache clean --force
+          rm -rf node_modules
+          rm -rf ~/.npm
       
       - name: Install root dependencies
-        run: npm ci
+        run: npm install
       
       - name: Install package dependencies
         working-directory: ./packages/design-docs
-        run: npm ci
+        run: |
+          npm install
+          npm list
       
-      - name: Debug - List Installed Packages
+      - name: Verify Storybook Installation
         working-directory: ./packages/design-docs
         run: |
-          echo "Installed packages:"
-          npm list | grep storybook
-          npm list | grep vite
+          npx @storybook/doctor
+          npm list @storybook/react
       
       - name: Build Storybook
         working-directory: ./packages/design-docs
         run: |
-          echo "Current directory contents:"
-          ls -la
-          echo "Running Storybook build..."
+          npm install -g @storybook/cli
           npx storybook build
       
       - name: Deploy to GitHub Pages
