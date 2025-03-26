@@ -17,33 +17,22 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'npm'
       
-      - name: Clean npm cache
+      - name: Install root and workspace dependencies
         run: |
-          npm cache clean --force
-          rm -rf node_modules
-          rm -rf ~/.npm
+          npm ci
+          npm run bootstrap || true
       
-      - name: Install root dependencies
-        run: npm install
-      
-      - name: Install package dependencies
+      - name: List Installed Packages in design-docs
         working-directory: ./packages/design-docs
         run: |
-          npm install
-          npm list
-      
-      - name: Verify Storybook Installation
-        working-directory: ./packages/design-docs
-        run: |
-          npx @storybook/doctor
-          npm list @storybook/react
+          echo "Installed packages:"
+          npm list | grep storybook
+          npm list | grep vite
       
       - name: Build Storybook
-        working-directory: ./packages/design-docs
-        run: |
-          npm install -g @storybook/cli
-          npx storybook build
+        run: npm run build-design-docs
       
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3

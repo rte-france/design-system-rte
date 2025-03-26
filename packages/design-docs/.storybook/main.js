@@ -20,17 +20,11 @@ const config = {
     "name": getAbsolutePath('@storybook/react-vite'),
     "options": {}
   },
-  // Remove or comment out refs for localhost
+  // Remove refs or comment out
   // refs: {},
   
-  // Optional: Add base configuration for GitHub Pages
   "core": {
     "builder": "@storybook/builder-vite"
-  },
-  
-  // Optional: Configure your base path if deploying to a subdirectory
-  // "site": {
-  //   "base": "/your-repo-name/"
-  // }
+  }
 };
 export default config;
