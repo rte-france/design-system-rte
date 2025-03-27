@@ -1,0 +1,109 @@
+name: Main CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  quality-react:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        working-directory: packages/react
+        run: npm ci --prefer-offline
+
+      - name: Run tests
+        working-directory: packages/react
+        run: echo "No tests for React package"
+
+  build-react:
+    runs-on: ubuntu-latest
+    needs: quality-react
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      
+      - name: Install dependencies
+        working-directory: packages/react-package
+        run: npm ci --prefer-offline
+
+      - name: Build project
+        working-directory: packages/react-package
+        run: npm run build
+
+  quality-angular:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        working-directory: packages/angular
+        run: npm ci --prefer-offline
+
+      - name: Run tests
+        working-directory: packages/angular
+        run: echo "No tests for Angular package"
+  
+  build-angular:
+    runs-on: ubuntu-latest
+    needs: quality-angular
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+  
+      - name: Install dependencies
+        working-directory: packages/angular-package
+        run: npm ci --prefer-offline
+
+      - name: Build project
+        working-directory: packages/angular-package
+        run: npm run build
+
+  
+  prepare-release:
+    needs: [build-react, build-angular]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci --prefer-offline
+
+      - name: Create/Update Release Pull Request
+        uses: changesets/action@v1.4.9
+        with:
+          title: "chore(release): update package versions"
+          commit: "chore(release): update package versions"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

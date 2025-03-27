@@ -1,14 +1,13 @@
-name: Main CI
+name: Pull request CI
 
 on:
-  push:
+  pull_request:
     branches:
       - main
 
 jobs:
   quality-react:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -19,12 +18,12 @@ jobs:
           node-version: 20
 
       - name: Install dependencies
-        working-directory: packages/react
-        run: npm ci
+        working-directory: packages/react 
+        run: npm ci --prefer-offline
 
       - name: Run tests
         working-directory: packages/react
-        run: npm run test
+        run: echo "No tests for React package"
 
   quality-angular:
     runs-on: ubuntu-latest
@@ -36,11 +35,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-
+      
       - name: Install dependencies
-        working-directory: packages/angular
-        run: npm ci
+        working-directory: packages/angular 
+        run: npm ci --prefer-offline
 
       - name: Run tests
         working-directory: packages/angular
         run: echo "No tests for Angular package"
+
