@@ -30,6 +30,6 @@ jobs:
       - uses: bitovi/github-actions-storybook-to-github-pages@v1.0.3
         with:
           install_command: npm ci
-          build_command: npm run
+          build_command: npm run build-design-docs
           path: ./packages/design-docs/storybook-static # default: dist/storybook
           checkout: false # default: true
