@@ -3,10 +3,8 @@
   "version": "0.1.0",
   "main": "index.js",
   "scripts": {
-    "bootstrap": "npm install",
     "base-storybook": "npm --prefix packages/design-docs run base-storybook",
-    "design-docs": "npm --prefix packages/design-docs run storybook",
-    "build-design-docs": "npm --prefix packages/design-docs run build-storybook"
+    "design-docs": "npm --prefix packages/design-docs run storybook"
   },
   "keywords": [],
   "author": "",
