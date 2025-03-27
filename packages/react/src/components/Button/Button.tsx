@@ -3,6 +3,7 @@ import { forwardRef } from 'react';
 import { ButtonSize, ButtonProps as CoreButtonProps } from '@design-system-rte/core/components/button/button.interface';
 import style from './Button.module.scss';
 import Icon from '../Icon/Icon';
+import { concatClassNames } from '../utils';
 
 interface ButtonProps
   extends CoreButtonProps,
@@ -35,8 +36,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       <button
         ref={ref}
         type="button"
-        // TODO: use clsx to generate className concatenation
-        className={style.button + ' ' + className}
+        className={concatClassNames(style.button, className)}
         data-size={size}
         data-type={type}
         disabled={disabled}
