@@ -24,14 +24,14 @@ const config = {
     "name": getAbsolutePath('@storybook/react-vite'),
     "options": {}
   },
-  refs: {
-    angular: {
+  "refs": {
+    "angular": {
       title: 'Angular',
-      url: 'https://thomascandille.github.io/design-system-rte-deployment-test/angular',
+      url: 'https://thomascandille.github.io/design-system-rte-deployment-test/angular/',
     },
-    react: {
+    "react": {
       title: 'React',
-      url: 'https://thomascandille.github.io/design-system-rte-deployment-test/react',
+      url: 'https://thomascandille.github.io/design-system-rte-deployment-test/react/',
     },
   },
 };
