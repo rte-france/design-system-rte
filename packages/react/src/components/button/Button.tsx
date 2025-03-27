@@ -1,45 +1,26 @@
 import { forwardRef } from 'react';
 
-import { ButtonSize, ButtonProps as CoreButtonProps } from '@design-system-rte/core/components/button/button.interface';
+import { ButtonProps as CoreButtonProps } from '@design-system-rte/core/components/button/button.interface';
+import { buttonIconSize } from '@design-system-rte/core/components/button/button.constants';
 import style from './Button.module.scss';
-import Icon from '../Icon/Icon';
+import Icon from '../icon/Icon';
+import { concatClassNames } from '../utils';
 
 interface ButtonProps
-  extends CoreButtonProps,
-    Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'size' | 'type' | 'label' | 'onClick'> {
+  extends Omit<CoreButtonProps, 'disabled'>,
+    Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'type' | 'onClick'> {
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-const buttonIconSize: Record<ButtonSize, number> = {
-  s: 16,
-  m: 20,
-  l: 24,
-};
-
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  (
-    {
-      size = 'm',
-      label,
-      type = 'filled',
-      disabled = false,
-      className = '',
-      icon,
-      iconPosition = 'left',
-      onClick,
-      ...props
-    },
-    ref,
-  ) => {
+  ({ size = 'm', label, type = 'filled', className = '', icon, iconPosition = 'left', onClick, ...props }, ref) => {
     return (
       <button
         ref={ref}
         type="button"
-        // TODO: use clsx to generate className concatenation
-        className={style.button + ' ' + className}
+        className={concatClassNames(style.button, className)}
         data-size={size}
         data-type={type}
-        disabled={disabled}
         onClick={onClick}
         {...props}
       >
