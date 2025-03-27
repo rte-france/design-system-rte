@@ -1,0 +1,1 @@
+const r={parameters:{controls:{matchers:{color:/(background|color)$/i,date:/Date$/i}}}};var e;(e=document.querySelector("html"))==null||e.setAttribute("data-theme","bleu_iceberg");var t;(t=document.querySelector("html"))==null||t.setAttribute("data-mode","light");export{r as default};

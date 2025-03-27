@@ -5,6 +5,7 @@
   "scripts": {
     "storybook": "storybook dev -p 7006",
     "base-storybook": "npm --prefix ../angular run storybook & npm --prefix ../react run storybook",
+    "build-base-storybook": "npm --prefix ../angular run build-storybook && npm --prefix ../react run build-storybook",
     "build-storybook": "storybook build"
   },
   "keywords": [],
