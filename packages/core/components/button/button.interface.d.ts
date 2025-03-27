@@ -3,7 +3,7 @@ export type ButtonSize = 's' | 'm' | 'l';
 export type ButtonIconPosition = 'left' | 'right';
 
 export interface ButtonProps {
-    label?: string;
+    label: string;
     type?: ButtonType;
     size?: ButtonSize;
     disabled?: boolean;
