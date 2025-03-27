@@ -88,6 +88,7 @@
           "options": {
             "configDir": ".storybook",
             "browserTarget": "angular:build",
+            "styles": ["../core/tokens/main.scss"],
             "compodoc": true,
             "compodocArgs": [
               "-e",
@@ -95,7 +96,6 @@
               "-d",
               "."
             ],
-            "styles": ["../core/tokens/main.scss"],
             "port": 6006
           }
         },
@@ -104,6 +104,7 @@
           "options": {
             "configDir": ".storybook",
             "browserTarget": "angular:build",
+            "styles": ["../core/tokens/main.scss"],
             "compodoc": true,
             "compodocArgs": [
               "-e",
