@@ -46,35 +46,3 @@ export const Filled: Story = {
     button.blur();
   },
 };
-
-export const Outlined: Story = {
-  args: {
-    type: 'outlined',
-    label: 'Button',
-    onClick: mockFn,
-  },
-};
-
-export const Text: Story = {
-  args: {
-    type: 'text',
-    label: 'Button',
-    onClick: mockFn,
-  },
-};
-
-export const Transparent: Story = {
-  args: {
-    type: 'transparent',
-    label: 'Button',
-    onClick: mockFn,
-  },
-};
-
-export const Danger: Story = {
-  args: {
-    type: 'danger',
-    label: 'Button',
-    onClick: mockFn,
-  },
-};
