@@ -12,33 +12,31 @@
         outline-offset: 4px;
     }
 
-
     &[data-size='s'] {
         @include typography-button-s;
-        height: 24px;
         border-radius: $radius-s;
+        height: 24px;
         padding: $positive-spacing_050 $positive-spacing_100;  
     }
 
     &[data-size='m'] {
         @include typography-button-m;
-        height: 32px;
         border-radius: $radius-s;
+        height: 32px;
         padding: $positive-spacing_050 $positive-spacing_150;
     }
 
     &[data-size='l'] {
         @include typography-button-l;
-        height: 40px;
         border-radius: $radius-m;
+        height: 40px;
         padding: $positive-spacing_050 $positive-spacing_200;
     }
 
     &[data-type='filled'] {
-        
+        background: var(--background-brand_default);
         border: var(--border-brand_default);
         color: var(--content-primary_inverse);
-        background: var(--background-brand_default);
 
         &:hover {
             background: var(--background-brand_hover);
@@ -52,8 +50,8 @@
         &:disabled {
             background: var(--background-disabled);
             border: solid  1px var(--border-disabled);
-            color: var(--content-disabled);
             box-shadow: none;
+            color: var(--content-disabled);
             cursor: default;
         }
     };
@@ -69,8 +67,8 @@
         }
 
         &:active {
-            border: var(--background-brand_inverse);
             background: var(--background-brand_inverse_pressed);
+            border: var(--background-brand_inverse);
         }
 
         &:disabled {
@@ -115,8 +113,8 @@
         }
 
         &:disabled {
-            color: var(--content-disabled);
             box-shadow: none;
+            color: var(--content-disabled);
             cursor: default;
         }
     };
@@ -137,8 +135,8 @@
         &:disabled {
             background: var(--background-disabled);
             border: var(--border-disabled);
-            color: var(--content-disabled);
             box-shadow: none;
+            color: var(--content-disabled);
             cursor: default;
         }
     }
