@@ -4,6 +4,8 @@
   "main": "index.js",
   "scripts": {
     "base-storybook": "npm --prefix packages/design-docs run base-storybook",
+    "changeset": "changeset",
+    "changeset:add": "changeset add",
     "design-docs": "npm --prefix packages/design-docs run storybook"
   },
   "keywords": [],
@@ -14,6 +16,7 @@
     "packages/*"
   ],
   "devDependencies": {
+    "@changesets/cli": "^2.28.1",
     "@angular/cli": "^17.3.12"
   }
 }
