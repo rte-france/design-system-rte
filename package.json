@@ -4,7 +4,9 @@
   "main": "index.js",
   "scripts": {
     "base-storybook": "npm --prefix packages/design-docs run base-storybook",
-    "design-docs": "npm --prefix packages/design-docs run storybook"
+    "design-docs": "npm --prefix packages/design-docs run storybook",
+    "test-storybook:angular": "npm --prefix packages/angular run test-storybook:angular",
+    "test-storybook:react": "npm --prefix packages/react run test-storybook:react"
   },
   "keywords": [],
   "author": "",
