@@ -1,6 +1,7 @@
 import { forwardRef } from 'react';
 
-import { ButtonSize, ButtonProps as CoreButtonProps } from '@design-system-rte/core/components/button/button.interface';
+import { ButtonProps as CoreButtonProps } from '@design-system-rte/core/components/button/button.interface';
+import { buttonIconSize } from '@design-system-rte/core/components/button/button.constants';
 import style from './Button.module.scss';
 import Icon from '../Icon/Icon';
 import { concatClassNames } from '../utils';
@@ -10,12 +11,6 @@ interface ButtonProps
     Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'size' | 'type' | 'label' | 'onClick'> {
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
-
-const buttonIconSize: Record<ButtonSize, number> = {
-  s: 16,
-  m: 20,
-  l: 24,
-};
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
