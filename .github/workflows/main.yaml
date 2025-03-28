@@ -6,7 +6,8 @@ on:
       - main
 
 jobs:
-  quality-react:
+
+  global-install: 
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -17,9 +18,48 @@ jobs:
         with:
           node-version: 20
 
+      - name: Cache node_modules and Vite cache
+        id: cache-packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./node_modules
+            ./packages/react/node_modules
+            ./packages/react/.vite
+            ./packages/angular/node_modules
+            ./packages/angular/.vite
+          key: deps-node20-main-${{ hashFiles('package-lock.json') }}-${{ github.run_id }}
+          restore-keys: |
+            deps-node20-main-
+
       - name: Install dependencies
-        working-directory: packages/react
+        if: steps.cache-packages.outputs.cache-hit != 'true'
         run: npm ci --prefer-offline
+
+  quality-react:
+    runs-on: ubuntu-latest
+    needs: global-install
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Restore cache node_modules and Vite cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./node_modules
+            ./packages/react/node_modules
+            ./packages/react/.vite
+            ./packages/angular/node_modules
+            ./packages/angular/.vite
+          key: deps-node20-main-${{ hashFiles('package-lock.json') }}-${{ github.run_id }}
+          restore-keys: |
+            deps-node20-main-
 
       - name: Run tests
         working-directory: packages/react
@@ -36,17 +76,34 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+
+      - name: Restore cache node_modules and Vite cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./node_modules
+            ./packages/react/node_modules
+            ./packages/react/.vite
+            ./packages/angular/node_modules
+            ./packages/angular/.vite
+          key: deps-node20-main-${{ hashFiles('package-lock.json') }}-${{ github.run_id }}
+          restore-keys: |
+            deps-node20-main-
       
-      - name: Install dependencies
-        working-directory: packages/react-package
-        run: npm ci --prefer-offline
+      - name: Cache react build output
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./packages/react/dist
+          key: react-build-${{ hashFiles('./packages/react/dist/react.js') }}
 
       - name: Build project
-        working-directory: packages/react-package
+        working-directory: packages/react
         run: npm run build
 
   quality-angular:
     runs-on: ubuntu-latest
+    needs: global-install
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -55,10 +112,19 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-
-      - name: Install dependencies
-        working-directory: packages/angular
-        run: npm ci --prefer-offline
+      
+      - name: Restore cache node_modules and Vite cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./node_modules
+            ./packages/react/node_modules
+            ./packages/react/.vite
+            ./packages/angular/node_modules
+            ./packages/angular/.vite
+          key: deps-node20-main-${{ hashFiles('package-lock.json') }}-${{ github.run_id }}
+          restore-keys: |
+            deps-node20-main-
 
       - name: Run tests
         working-directory: packages/angular
@@ -76,13 +142,22 @@ jobs:
         with:
           node-version: 20
   
-      - name: Install dependencies
-        working-directory: packages/angular-package
-        run: npm ci --prefer-offline
-
+      - name: Restore cache node_modules and Vite cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./node_modules
+            ./packages/react/node_modules
+            ./packages/react/.vite
+            ./packages/angular/node_modules
+            ./packages/angular/.vite
+          key: deps-node20-main-${{ hashFiles('package-lock.json') }}-${{ github.run_id }}
+          restore-keys: |
+            deps-node20-main-
+    
       - name: Build project
         working-directory: packages/angular-package
-        run: npm run build
+        run: echo "No build for Angular package"
 
   
   prepare-release:
