@@ -5,7 +5,8 @@ import { fn, userEvent, within, expect } from '@storybook/test';
 
 import { ButtonComponent } from './button.component';
 
-const meta: Meta<ButtonComponent> = {
+
+const meta: Meta<ButtonComponent>= {
   title: 'Button',
   component: ButtonComponent,
   tags: ['autodocs'],
@@ -18,6 +19,9 @@ const meta: Meta<ButtonComponent> = {
       control: 'select',
       options: ['s', 'm', 'l'],
     },
+    disabled: {
+      control: 'boolean',
+    },
   },
   args: { click: fn() },
 };
@@ -28,6 +32,7 @@ type Story = StoryObj<ButtonComponent>;
 const mockFn = fn();
 
 export const Default: Story = {
+
   args: {
     variant: 'filled',
     label: 'Button',
