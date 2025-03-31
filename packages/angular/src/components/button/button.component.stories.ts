@@ -1,10 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/angular';
-import { fn } from '@storybook/test';
-
+import { fn, userEvent, within, expect } from '@storybook/test';
 import { ButtonComponent } from './button.component';
-import { ButtonProps } from '@design-system-rte/core/components/button/button.interface';
 
-const meta: Meta<ButtonComponent> = {
+
+const meta: Meta<ButtonComponent>= {
   title: 'Button',
   component: ButtonComponent,
   tags: ['autodocs'],
@@ -17,6 +16,9 @@ const meta: Meta<ButtonComponent> = {
       control: 'select',
       options: ['s', 'm', 'l'],
     },
+    disabled: {
+      control: 'boolean',
+    },
   },
   args: { click: fn() },
 };
@@ -24,34 +26,19 @@ const meta: Meta<ButtonComponent> = {
 export default meta;
 type Story = StoryObj<ButtonComponent>;
 
-const DefaultArgs: ButtonProps = {
-  type: 'filled',
-  label: 'Button',
-};
+const mockFn = fn();
 
-export const Primary: Story = {
+export const Filled: Story = {
   args: {
-    ...DefaultArgs,
+    type: 'filled',
+    label: 'Button',
+    click: mockFn,
   },
-};
-
-export const Small: Story = {
-  args: {
-    ...DefaultArgs,
-    size: 's',
-  },
-};
-
-export const Medium: Story = {
-  args: {
-    ...DefaultArgs,
-    size: 'm',
-  },
-};
-
-export const Large: Story = {
-  args: {
-    ...DefaultArgs,
-    size: 'm',
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const button = canvas.getByRole('button');
+    await userEvent.click(button);
+    expect(mockFn).toHaveBeenCalled();
+    button.blur();
   },
 };
