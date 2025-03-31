@@ -18,12 +18,15 @@ const config = {
     getAbsolutePath('@storybook/addon-essentials'),
     getAbsolutePath('@storybook/addon-onboarding'),
     getAbsolutePath('@chromatic-com/storybook'),
-    getAbsolutePath("@storybook/experimental-addon-test")
+    getAbsolutePath("@storybook/experimental-addon-test"),
+    getAbsolutePath("@storybook/addon-themes"),
   ],
   "framework": {
     "name": getAbsolutePath('@storybook/react-vite'),
     "options": {}
   },
+
+  //refs for deployment
   "refs": {
     "angular": {
       title: 'Angular',
@@ -32,6 +35,17 @@ const config = {
     "react": {
       title: 'React',
       url: 'https://thomascandille.github.io/design-system-rte-deployment-test/react/',
+    },
+  },
+  //refs for local test
+  "refs": {
+    "angular": {
+      title: 'Angular',
+      url: 'http://localhost:7007',
+    },
+    "react": {
+      title: 'React',
+      url: 'http://localhost:7008',
     },
   },
 };
