@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { ButtonSize, ButtonType } from '@design-system-rte/core/components/button/button.interface';
 
 @Component({
@@ -10,11 +10,11 @@ import { ButtonSize, ButtonType } from '@design-system-rte/core/components/butto
 })
 export class ButtonComponent {
 
-  @Input() label = '';
-  @Input() type: ButtonType = 'filled';
-  @Input() size: ButtonSize = 'm';
-  @Input() disabled = false;
+  label = input('');
+  type = input<ButtonType>('filled');
+  size = input<ButtonSize>('m');
+  disabled = input(false);
 
-  @Output() click = new EventEmitter<void>();
+  click = output<void>();
 
 }

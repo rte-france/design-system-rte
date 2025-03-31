@@ -1,7 +1,7 @@
 <button
-    class="rte-button {{ type }} size-{{ size }}"
-    [disabled]="disabled"
+    class="rte-button {{ type() }} size-{{ size() }}"
+    [disabled]="disabled()"
     (click)="click.emit()"
 >
-    {{ label }}
+    {{ label() }}
 </button>
