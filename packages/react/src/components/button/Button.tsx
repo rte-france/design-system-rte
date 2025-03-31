@@ -3,7 +3,7 @@ import { forwardRef } from 'react';
 import { ButtonProps as CoreButtonProps } from '@design-system-rte/core/components/button/button.interface';
 import { buttonIconSize } from '@design-system-rte/core/components/button/button.constants';
 import style from './Button.module.scss';
-import Icon from '../Icon/Icon';
+import Icon from '../icon/Icon';
 import { concatClassNames } from '../utils';
 
 interface ButtonProps
