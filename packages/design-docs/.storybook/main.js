@@ -30,11 +30,11 @@ const config = {
   "refs": {
     "angular": {
       title: 'Angular',
-      url: 'https://thomascandille.github.io/design-system-rte-deployment-test/angular/',
+      url: 'https://rte-france.github.io/design-system-rte/angular/',
     },
     "react": {
       title: 'React',
-      url: 'https://thomascandille.github.io/design-system-rte-deployment-test/react/',
+      url: 'https://rte-france.github.io/design-system-rte/react/',
     },
   },
   //refs for local test

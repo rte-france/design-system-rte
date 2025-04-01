@@ -9,9 +9,7 @@ function applyTheme(themeName) {
     try {
         const theme = customThemes[themeName];
 
-        addons.setConfig({
-            theme
-        });
+        addons.setConfig({ theme });
 
         document.documentElement.setAttribute('data-theme', themeName);
 
@@ -26,15 +24,11 @@ applyTheme();
 window.addEventListener('message', (event) => {
     try {
         const parsedData = JSON.parse(event.data);
+        const globals = parsedData?.event.args[0].userGlobals
 
-        if (
-            parsedData &&
-            (parsedData.event.args[0].userGlobals.color || parsedData.event.args[0].userGlobals.theme)
-        ) {
-            const newTheme = `${parsedData.event.args[0].userGlobals.theme}${parsedData.event.args[0].userGlobals.color}`;
-            applyTheme(newTheme);
-        }
+        const newTheme = `${globals.theme}${globals.color}`;
+        applyTheme(newTheme);
+
     } catch (e) {
-        console.error(`Error processing message event: ${e.message}`);
     }
 });

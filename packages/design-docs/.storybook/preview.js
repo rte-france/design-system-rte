@@ -26,7 +26,7 @@ const preview = {
         ],
         showName: true,
       },
-    },
+    }
   },
   initialGlobals: {
     color: 'blue',
