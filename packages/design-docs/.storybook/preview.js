@@ -1,43 +1,46 @@
 /** @type { import('@storybook/react').Preview } */
+
 const preview = {
-  parameters: {
-    controls: {
-      matchers: {
-       color: /(background|color)$/i,
-       date: /Date$/i,
-      },
-    },
-  },
   globalTypes: {
-    theme: {
-      description: 'Global theme mode',
-      defaultValue: 'light',
+    color: {
+      name: 'Color',
+      description: 'Couleur globale pour les composants',
       toolbar: {
-        title: 'Theme',
-        icon: 'circlehollow',
-        items: ['light', 'dark'],
-        dynamicTitle: true,
+        icon: 'paintbrush',
+        items: [
+          { value: 'blue', title: 'Blue' },
+          { value: 'green', title: 'Green' },
+          { value: 'purple', title: 'Purple' },
+        ],
+        showName: true,
       },
     },
-    colorScheme: {
-      description: 'Global color scheme',
-      defaultValue: 'blue',
+    theme: {
+      name: 'Theme',
+      description: 'Thème global pour les composants',
       toolbar: {
-        title: 'Color',
-        icon: 'paintbrush',
-        items: ['blue', 'green', 'purple'],
-        dynamicTitle: true,
+        icon: 'circlehollow',
+        items: [
+          { value: 'light', title: 'Light' },
+          { value: 'dark', title: 'Dark' },
+        ],
+        showName: true,
       },
     },
   },
   initialGlobals: {
+    color: 'blue',
     theme: 'light',
-    colorScheme: 'blue',
   },
+  parameters: {
+    actions: { argTypesRegex: '^on[A-Z].*' },
+    controls: {
+      matchers: {
+        color: /(background|color)$/i,
+        date: /Date$/,
+      },
+    },
+  }
 };
-
-// TODO: Define theme strategy for token use
-// document.querySelector("html")?.setAttribute("data-theme", "bleu_iceberg");
-// document.querySelector("html")?.setAttribute("data-mode", "light");
 
 export default preview;
