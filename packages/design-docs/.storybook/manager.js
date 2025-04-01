@@ -3,6 +3,7 @@ import { customThemes } from './customTheme';
 
 function applyTheme(themeName) {
     if (!customThemes[themeName]) {
+        console.warn(`Theme "${themeName}" not found. Falling back to default theme.`);
         themeName = 'lightblue';
     }
 
@@ -19,16 +20,21 @@ function applyTheme(themeName) {
     }
 }
 
-applyTheme();
+applyTheme()
 
 window.addEventListener('message', (event) => {
-    try {
-        const parsedData = JSON.parse(event.data);
-        const globals = parsedData?.event.args[0].userGlobals
 
-        const newTheme = `${globals.theme}${globals.color}`;
-        applyTheme(newTheme);
-
-    } catch (e) {
+    if (typeof event.data !== 'string') {
+        return;
     }
+
+    const parsedData = JSON.parse(event.data);
+    const globals = parsedData?.event.args[0].userGlobals
+
+    if (!globals?.theme || !globals?.color) {
+        return;
+    }
+
+    const newTheme = `${globals.theme}${globals.color}`;
+    applyTheme(newTheme)
 });

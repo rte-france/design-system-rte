@@ -1,9 +1,36 @@
 <style>
+  :root{
+    --stories-display: none;
+  }
+
+  /* This css rule target the element in the sidebar with the icon representing individual stories to hide them */
+  .sidebar-item:has(div.css-99l9qv > svg.css-ndobih) {
+    display: var(--stories-display);
+  }
+</style>
+
+<script>
+
+  let isDev = false
+
+  window.addEventListener('message', function () {
+
+    if (typeof event.data !== 'string'){
+      return;
+    }
     
-    /* This css rule target the element in the sidebar with the icon representing individual stories to hide them */
-    .sidebar-item:has(div.css-99l9qv > svg.css-ndobih) {
-      display: none;
+    const globals = JSON.parse(event.data)?.event.args[0]?.userGlobals;
+
+    if (!globals?.modeDev) {
+
+      document.documentElement.style.setProperty('--stories-display', isDev ? 'block' : 'none');
+      return;
     }
 
-    
-</style>
+    isDev = globals.modeDev === "dev";
+
+    document.documentElement.style.setProperty('--stories-display', isDev ? 'block' : 'none');
+  });
+
+
+</script>
