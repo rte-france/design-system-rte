@@ -26,8 +26,12 @@ const config = {
     "options": {}
   },
 
+
+  // TODO: set this conf from ENV variables instead.
+  // We can't duplicate the refs property in config.
+  
   //refs for deployment
-  "refs": {
+  /*"refs": {
     "angular": {
       title: 'Angular',
       url: 'https://rte-france.github.io/design-system-rte/angular/',
@@ -36,7 +40,8 @@ const config = {
       title: 'React',
       url: 'https://rte-france.github.io/design-system-rte/react/',
     },
-  },
+  },*/
+
   //refs for local test
   "refs": {
     "angular": {
