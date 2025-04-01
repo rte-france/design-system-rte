@@ -1,7 +1,5 @@
-
 import { addons } from '@storybook/manager-api';
-import { customThemes } from './customTheme';zz
-
+import { customThemes } from './customTheme';
 
 function applyTheme(themeName) {
     if (!customThemes[themeName]) {
@@ -19,11 +17,11 @@ function applyTheme(themeName) {
 
         localStorage.setItem('storybook-applied-theme', themeName);
     } catch (e) {
+        console.error(`Error applying theme: ${e.message}`);
     }
 }
 
-const savedTheme = localStorage.getItem('storybook-theme') || 'lightblue';
-applyTheme(savedTheme);
+applyTheme();
 
 window.addEventListener('message', (event) => {
     try {
@@ -31,11 +29,12 @@ window.addEventListener('message', (event) => {
 
         if (
             parsedData &&
-            parsedData.event.args[0].userGlobals.theme
+            (parsedData.event.args[0].userGlobals.color || parsedData.event.args[0].userGlobals.theme)
         ) {
-            const newTheme = parsedData.event.args[0].userGlobals.theme;
+            const newTheme = `${parsedData.event.args[0].userGlobals.theme}${parsedData.event.args[0].userGlobals.color}`;
             applyTheme(newTheme);
         }
     } catch (e) {
+        console.error(`Error processing message event: ${e.message}`);
     }
 });
