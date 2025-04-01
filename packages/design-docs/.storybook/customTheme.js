@@ -5,7 +5,7 @@ export const customThemes = {
     base: 'light',
     brandTitle: 'Mon Design System',
     brandUrl: 'https://example.com',
-    brandImage: './logo.png',
+    brandImage: '',
     
     appBg: '#F0F8FF',
     appContentBg: '#FFFFFF',
@@ -30,7 +30,7 @@ export const customThemes = {
     base: 'dark',
     brandTitle: 'Mon Design System',
     brandUrl: 'https://example.com',
-    brandImage: './logo-dark.png',
+    brandImage: '',
     appBg: '#0A1929',
     appContentBg: '#101E2C',
     appBorderColor: '#1E3A5F',
