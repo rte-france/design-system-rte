@@ -29,11 +29,11 @@ const config = {
   refs: {
     angular: {
       title: 'Angular',
-      url: 'http://localhost:7007',
+      url: 'https://rte-france.github.io/design-system-rte/angular/',
     },
     react: {
       title: 'React',
-      url: 'http://localhost:7008',
+      url: 'https://rte-france.github.io/design-system-rte/react/',
     },
   },
 };
