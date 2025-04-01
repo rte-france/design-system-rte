@@ -14,8 +14,20 @@ const preview: Preview = {
   },
 };
 
+window.addEventListener('message', (event) => {
+  try {
+      const parsedData = JSON.parse(event.data);
+      const globals = parsedData?.event.args[0].userGlobals
+
+      const newTheme = `${globals.theme}${globals.color}`;
+
+      
+  } catch (e) {
+  }
+});
+
 // TODO: Define theme strategy for token use
-document.querySelector("html")?.setAttribute("data-theme", "bleu_iceberg");
-document.querySelector("html")?.setAttribute("data-mode", "light");
+// document.querySelector("html")?.setAttribute("data-theme", "bleu_iceberg");
+// document.querySelector("html")?.setAttribute("data-mode", "light");
 
 export default preview;
