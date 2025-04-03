@@ -1,5 +1,3 @@
 @use "@design-system-rte/core/tokens/_mixins.scss" as *;
 
-:root {
-  @include apply-theme('violet', 'dark');
-}
+@include theme-selector();
