@@ -43,6 +43,4 @@ Thumbs.db
 
 *storybook.log
 
-# TODO: File added from compodoc.
-# Check if compodoc is still used & needed.
 documentation.json
