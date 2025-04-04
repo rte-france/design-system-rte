@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { fn } from '@storybook/test';
+import { fn, userEvent, within, expect } from '@storybook/test';
 
 import Button from './Button';
 
@@ -16,36 +16,33 @@ const meta = {
       control: 'select',
       options: ['s', 'm', 'l'],
     },
+    iconPosition: {
+      control: 'select',
+      options: ['left', 'right'],
+    },
+    disabled: {
+      control: 'boolean',
+    },
   },
-  args: { onClick: fn() },
+  args: { onClick: fn(), icon: '' },
 } satisfies Meta<typeof Button>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Primary: Story = {
+const mockFn = fn();
+
+export const Filled: Story = {
   args: {
     type: 'filled',
     label: 'Button',
+    onClick: mockFn,
   },
-};
-
-export const Secondary: Story = {
-  args: {
-    label: 'Button',
-  },
-};
-
-export const Large: Story = {
-  args: {
-    size: 'm',
-    label: 'Button',
-  },
-};
-
-export const Small: Story = {
-  args: {
-    size: 's',
-    label: 'Button',
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const button = canvas.getByRole('button');
+    await userEvent.click(button);
+    expect(mockFn).toHaveBeenCalled();
+    button.blur();
   },
 };
