@@ -35,6 +35,13 @@ window.addEventListener('message', (event) => {
         return;
     }
 
+
     const newTheme = `${globals.color}_${globals.theme}`;
     applyTheme(newTheme)
+    _emitThemeChange(globals.theme, globals.color)
 });
+
+// TODO: Propagate to inner globals for the sake of sharing state
+function _emitThemeChange(theme, color) {
+    addons.getChannel().emit('THEME_CHANGED', {theme, color});
+}
