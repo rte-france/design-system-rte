@@ -15,21 +15,16 @@ $themes: (
 }
 
 @mixin apply-theme($targetTheme: bleu_iceberg, $mode: light) {
-
-    @debug "DEBUGGER $targetTheme: #{$targetTheme}";
-    
     $targetTheme: map.get($themes, $targetTheme, $mode);
 
     @include extract-custom-properties-from-theme($targetTheme);
 }
 
+
 @mixin theme-selector($targetTheme: violet, $mode: light) {
-    $targetTheme: map.get($themes, $targetTheme, $mode);
-
-    // @debug "DEBUGGER $targetTheme: #{$targetTheme}";
-
+    $theme: map.get($themes, $targetTheme, $mode);
 
     [data-theme="#{$targetTheme}"][data-mode="#{$mode}"] {
-        @include extract-custom-properties-from-theme($targetTheme);
+        @include extract-custom-properties-from-theme($theme);
     }
 }
