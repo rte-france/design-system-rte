@@ -1,3 +1,8 @@
 @use "@design-system-rte/core/tokens/_mixins.scss" as *;
 
-@include theme-selector();
+@include theme-selector('bleu_iceberg');
+@include theme-selector('blue_iceberg', 'dark');
+@include theme-selector('violet');
+@include theme-selector('violet', 'dark');
+@include theme-selector('vert_foret');
+@include theme-selector('vert_foret', 'dark');

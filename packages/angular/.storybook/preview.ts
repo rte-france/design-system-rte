@@ -19,15 +19,14 @@ window.addEventListener('message', (event) => {
       const parsedData = JSON.parse(event.data);
       const globals = parsedData?.event.args[0].userGlobals
 
-      const newTheme = `${globals.theme}${globals.color}`;
+      document.querySelector("html")?.setAttribute("data-mode", globals.theme);
 
-      
   } catch (e) {
   }
 });
 
 // TODO: Define theme strategy for token use
-// document.querySelector("html")?.setAttribute("data-theme", "bleu_iceberg");
-// document.querySelector("html")?.setAttribute("data-mode", "light");
+document.querySelector("html")?.setAttribute("data-theme", "vert_foret");
+document.querySelector("html")?.setAttribute("data-mode", "light");
 
 export default preview;
