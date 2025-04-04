@@ -8,12 +8,6 @@ $themes: (
     "vert_foret": $vert_foret
 );
 
-@mixin extract-custom-properties-from-theme($theme) {
-    @each $property, $value in $theme {
-      --#{$property}: #{$value};
-    }
-}
-
 @mixin apply-theme($targetTheme: bleu_iceberg, $mode: light) {
     $targetTheme: map.get($themes, $targetTheme, $mode);
 
@@ -26,5 +20,11 @@ $themes: (
 
     [data-theme="#{$targetTheme}"][data-mode="#{$mode}"] {
         @include extract-custom-properties-from-theme($theme);
+    }
+}
+
+@mixin extract-custom-properties-from-theme($theme) {
+    @each $property, $value in $theme {
+      --#{$property}: #{$value};
     }
 }
