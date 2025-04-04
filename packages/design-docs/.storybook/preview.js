@@ -9,9 +9,9 @@ const preview = {
         icon: 'paintbrush',
         title: 'Color',
         items: [
-          { value: 'blue', title: 'Blue' },
-          { value: 'green', title: 'Green' },
-          { value: 'purple', title: 'Purple' },
+          { value: 'bleu_iceberg', title: 'bleu_iceberg' },
+          { value: 'vert_foret', title: 'vert_foret' },
+          { value: 'violet', title: 'violet' },
         ],
         showName: true,
       },
@@ -44,7 +44,7 @@ const preview = {
     },
   },
   initialGlobals: {
-    color: 'blue',
+    color: 'bleu_iceberg',
     theme: 'light',
     modeDev: 'utilisateur',
   },

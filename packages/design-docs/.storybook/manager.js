@@ -4,7 +4,7 @@ import { customThemes } from './customTheme';
 function applyTheme(themeName) {
     if (!customThemes[themeName]) {
         console.warn(`Theme "${themeName}" not found. Falling back to default theme.`);
-        themeName = 'lightblue';
+        themeName = 'bleu_iceberg_light';
     }
 
     try {
@@ -35,6 +35,6 @@ window.addEventListener('message', (event) => {
         return;
     }
 
-    const newTheme = `${globals.theme}${globals.color}`;
+    const newTheme = `${globals.color}_${globals.theme}`;
     applyTheme(newTheme)
 });
