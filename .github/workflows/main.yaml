@@ -156,8 +156,8 @@ jobs:
             deps-node20-main-
     
       - name: Build project
-        working-directory: packages/angular-package
-        run: echo "No build for Angular package"
+        working-directory: packages/angular
+        run: npm run build
 
   
   prepare-release:
