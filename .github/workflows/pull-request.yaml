@@ -62,7 +62,7 @@ jobs:
 
       - name: Run tests
         working-directory: packages/react
-        run: echo "No tests for React package"
+        run: npm run test
 
   quality-angular:
     runs-on: ubuntu-latest
