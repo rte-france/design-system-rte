@@ -34,6 +34,7 @@
     "vitest": "^3.0.9"
   },
   "dependencies": {
+    "@dotenvx/dotenvx": "^1.39.1",
     "@storybook/addon-themes": "^8.6.11"
   }
 }

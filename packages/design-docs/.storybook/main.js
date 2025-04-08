@@ -1,4 +1,5 @@
 import { join, dirname } from "path"
+import '@dotenvx/dotenvx/config'
 
 /**
 * This function is used to resolve the absolute path of a package.
@@ -26,31 +27,14 @@ const config = {
     "options": {}
   },
 
-
-  // TODO: set this conf from ENV variables instead.
-  // We can't duplicate the refs property in config.
-  
-  //refs for deployment
-  /*"refs": {
-    "angular": {
-      title: 'Angular',
-      url: 'https://rte-france.github.io/design-system-rte/angular/',
-    },
-    "react": {
-      title: 'React',
-      url: 'https://rte-france.github.io/design-system-rte/react/',
-    },
-  },*/
-
-  //refs for local test
   "refs": {
     "angular": {
       title: 'Angular',
-      url: 'http://localhost:7007',
+      url: process.env.STORYBOOK_ANGULAR_URL
     },
     "react": {
       title: 'React',
-      url: 'http://localhost:7008',
+      url: process.env.STORYBOOK_REACT_URL
     },
   },
 };
