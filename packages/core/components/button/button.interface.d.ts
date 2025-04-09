@@ -1,10 +1,10 @@
-export type ButtonType = 'filled' | 'outlined' | 'text' | 'transparent' | 'danger'
+export type ButtonVariant = 'filled' | 'outlined' | 'text' | 'transparent' | 'danger'
 export type ButtonSize = 's' | 'm' | 'l';
 export type ButtonIconPosition = 'left' | 'right';
 
 export interface ButtonProps {
     label: string;
-    type?: ButtonType;
+    variant?: ButtonVariant;
     size?: ButtonSize;
     disabled?: boolean;
     icon?: string;

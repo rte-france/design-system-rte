@@ -8,7 +8,7 @@ const meta = {
   component: Button,
   tags: ['autodocs'],
   argTypes: {
-    type: {
+    variant: {
       control: 'select',
       options: ['filled', 'outlined', 'text', 'transparent', 'danger'],
     },
@@ -34,7 +34,7 @@ const mockFn = fn();
 
 export const Filled: Story = {
   args: {
-    type: 'filled',
+    variant: 'filled',
     label: 'Button',
     onClick: mockFn,
   },
