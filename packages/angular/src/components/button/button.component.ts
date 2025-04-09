@@ -1,5 +1,5 @@
 import { Component, input, output } from '@angular/core';
-import { ButtonSize, ButtonType } from '@design-system-rte/core/components/button/button.interface';
+import { ButtonSize, ButtonVariant } from '@design-system-rte/core/components/button/button.interface';
 
 @Component({
   selector: 'rte-button',
@@ -11,7 +11,7 @@ import { ButtonSize, ButtonType } from '@design-system-rte/core/components/butto
 export class ButtonComponent {
 
   label = input('');
-  type = input<ButtonType>('filled');
+  variant = input<ButtonVariant>('filled');
   size = input<ButtonSize>('m');
   disabled = input(false);
 

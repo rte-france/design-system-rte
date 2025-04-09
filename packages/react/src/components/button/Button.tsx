@@ -8,19 +8,32 @@ import { concatClassNames } from '../utils';
 
 interface ButtonProps
   extends Omit<CoreButtonProps, 'disabled'>,
-    Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'type' | 'onClick'> {
+    Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'> {
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ size = 'm', label, type = 'filled', className = '', icon, iconPosition = 'left', onClick, ...props }, ref) => {
+  (
+    {
+      size = 'm',
+      label,
+      variant = 'filled',
+      className = '',
+      icon,
+      iconPosition = 'left',
+      onClick,
+      type = 'button',
+      ...props
+    },
+    ref,
+  ) => {
     return (
       <button
         ref={ref}
-        type="button"
+        type={type}
         className={concatClassNames(style.button, className)}
         data-size={size}
-        data-type={type}
+        data-variant={variant}
         onClick={onClick}
         {...props}
       >

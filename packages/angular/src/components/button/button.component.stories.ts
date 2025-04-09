@@ -10,7 +10,7 @@ const meta: Meta<ButtonComponent> = {
   component: ButtonComponent,
   tags: ['autodocs'],
   argTypes: {
-    type: {
+    variant: {
       control: 'select',
       options: ['filled', 'outlined', 'text', 'transparent', 'danger'],
     },
