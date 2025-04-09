@@ -9,7 +9,7 @@ const meta: Meta<ButtonComponent> = {
   component: ButtonComponent,
   tags: ['autodocs'],
   argTypes: {
-    type: {
+    variant: {
       control: 'select',
       options: ['filled', 'outlined', 'text', 'transparent', 'danger'],
     },
@@ -25,7 +25,7 @@ export default meta;
 type Story = StoryObj<ButtonComponent>;
 
 const DefaultArgs: ButtonProps = {
-  type: 'filled',
+  variant: 'filled',
   label: 'Button',
 };
 
