@@ -107,7 +107,7 @@
           "options": {
             "configDir": ".storybook",
             "browserTarget": "angular:build",
-            "styles": ["../core/tokens/main.scss"],
+            "styles": ["@design-system-rte/core/tokens/main.scss", ".storybook/preview.scss"],
             "compodoc": true,
             "compodocArgs": [
               "-e",
