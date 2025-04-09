@@ -4,8 +4,7 @@ import themes from './theme.json';
 export const customThemes = {
   bleu_iceberg_light: create({
     base: 'light',
-    brandTitle: 'Mon Design System',
-    brandUrl: 'https://example.com',
+    brandTitle: 'Design System RTE',
     brandImage: '',
     appBg: themes.bleu_iceberg.light['background-default'],
     appContentBg: themes.bleu_iceberg.light['background-default'],
@@ -28,8 +27,7 @@ export const customThemes = {
 
   bleu_iceberg_dark: create({
     base: 'dark',
-    brandTitle: 'Mon Design System',
-    brandUrl: 'https://example.com',
+    brandTitle: 'Design System RTE',
     brandImage: '',
     appBg: themes.bleu_iceberg.dark['background-default'],
     appContentBg: themes.bleu_iceberg.dark['background-default'],
@@ -52,8 +50,7 @@ export const customThemes = {
 
   vert_foret_light: create({
     base: 'light',
-    brandTitle: 'Mon Design System',
-    brandUrl: 'https://example.com',
+    brandTitle: 'Design System RTE',
     brandImage: '',
     appBg: themes.vert_foret.light['background-default'],
     appContentBg: themes.vert_foret.light['background-default'],
@@ -76,8 +73,7 @@ export const customThemes = {
 
   vert_foret_dark: create({
     base: 'dark',
-    brandTitle: 'Mon Design System',
-    brandUrl: 'https://example.com',
+    brandTitle: 'Design System RTE',
     brandImage: '',
     appBg: themes.vert_foret.dark['background-default'],
     appContentBg: themes.vert_foret.dark['background-default'],
@@ -100,8 +96,7 @@ export const customThemes = {
 
   violet_light: create({
     base: 'light',
-    brandTitle: 'Mon Design System',
-    brandUrl: 'https://example.com',
+    brandTitle: 'Design System RTE',
     brandImage: '',
     appBg: themes.violet.light['background-default'],
     appContentBg: themes.violet.light['background-default'],
@@ -124,8 +119,7 @@ export const customThemes = {
 
   violet_dark: create({
     base: 'dark',
-    brandTitle: 'Mon Design System',
-    brandUrl: 'https://example.com',
+    brandTitle: 'Design System RTE',
     brandImage: '',
     appBg: themes.violet.dark['background-default'],
     appContentBg: themes.violet.dark['background-default'],
