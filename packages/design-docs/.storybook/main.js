@@ -8,6 +8,28 @@ function getAbsolutePath(value) {
   return dirname(require.resolve(join(value, 'package.json')))
 }
 
+const DEVELOPEMENT_DEPLOYMENT_CONFIG = {
+  angular: {
+    title: 'Angular Development',
+    url: 'http://localhost:7007',
+  },
+  react: {
+    title: 'React Development',
+    url: 'http://localhost:7008',
+  },
+};
+
+const PRODUCTION_DEPLOYMENT_CONFIG = {
+  angular: {
+      title: 'Angular Production',
+      url: 'https://rte-france.github.io/design-system-rte/angular/',
+  },
+  react: {
+      title: 'React Production',
+      url: 'https://rte-france.github.io/design-system-rte/react/',
+  },
+};
+
 /** @type { import('@storybook/react-vite').StorybookConfig } */
 const config = {
   "stories": [
@@ -26,29 +48,9 @@ const config = {
     "options": {}
   },
 
-  refs: (config, { configType }) => {
-    if (configType === 'DEVELOPMENT') {
-      return {
-        angular: {
-          title: 'Angular Development',
-          url: 'http://localhost:7007',
-        },
-        react: {
-          title: 'React Development',
-          url: 'http://localhost:7008',
-        },
-      };
-    }
-    return {
-      angular: {
-        title: 'Angular Production',
-        url: 'https://rte-france.github.io/design-system-rte/angular/',
-      },
-      react: {
-        title: 'React Production',
-        url: 'https://rte-france.github.io/design-system-rte/react/',
-      },
-    };
+  refs: ({ configType }) => {
+
+    return configType === 'PRODUCTION' ? PRODUCTION_DEPLOYMENT_CONFIG : DEVELOPEMENT_DEPLOYMENT_CONFIG;
   },
 };
 export default config;
