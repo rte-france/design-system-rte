@@ -6,7 +6,7 @@
     "test": "ng test",
     "build": "echo \"No build for Angular package\" && exit 0",
     "storybook": "ng run angular:storybook --port 7007",
-    "build-storybook": "ng run angular:build-storybook --output-dir ../design-docs/storybook-static/angular"
+    "build-storybook": "ng run angular:build-storybook --output-dir ../design-docs/storybook-static/angular --config-dir .storybook"
   },
   "private": true,
   "dependencies": {

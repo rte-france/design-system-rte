@@ -26,32 +26,29 @@ const config = {
     "options": {}
   },
 
-
-  // TODO: set this conf from ENV variables instead.
-  // We can't duplicate the refs property in config.
-  
-  //refs for deployment
-  /*"refs": {
-    "angular": {
-      title: 'Angular',
-      url: 'https://rte-france.github.io/design-system-rte/angular/',
-    },
-    "react": {
-      title: 'React',
-      url: 'https://rte-france.github.io/design-system-rte/react/',
-    },
-  },*/
-
-  //refs for local test
-  "refs": {
-    "angular": {
-      title: 'Angular',
-      url: 'http://localhost:7007',
-    },
-    "react": {
-      title: 'React',
-      url: 'http://localhost:7008',
-    },
+  refs: (config, { configType }) => {
+    if (configType === 'DEVELOPMENT') {
+      return {
+        angular: {
+          title: 'Angular Development',
+          url: 'http://localhost:7007',
+        },
+        react: {
+          title: 'React Development',
+          url: 'http://localhost:7008',
+        },
+      };
+    }
+    return {
+      angular: {
+        title: 'Angular Production',
+        url: 'https://rte-france.github.io/design-system-rte/angular/',
+      },
+      react: {
+        title: 'React Production',
+        url: 'https://rte-france.github.io/design-system-rte/react/',
+      },
+    };
   },
 };
 export default config;
