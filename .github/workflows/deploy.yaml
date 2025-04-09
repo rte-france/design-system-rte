@@ -3,7 +3,7 @@ name: Publish Storybook Composition to GitHub Pages
 on:
   push:
     branches:
-      - 'main' # Replace with the branch you want to deploy from
+      - 'main'
 
 permissions:
   contents: read
@@ -15,19 +15,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout the repository
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      # Set up Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      # Cache node_modules and Vite cache
       - name: Cache node_modules and Vite cache
         id: cache-packages
         uses: actions/cache@v4
@@ -42,20 +39,15 @@ jobs:
           restore-keys: |
             deps-node20-PR-
 
-      # Install dependencies
       - name: Install dependencies
         if: steps.cache-packages.outputs.cache-hit != 'true'
         run: npm ci --prefer-offline
 
-      # Build Design Docs Storybook (Container Storybook)
       - name: Build Design Docs Storybook
         run: npm run build-design-docs
 
-      # Build Base Storybook (Content Storybook)
       - name: Build Base Storybook
         run: npm run build-base-storybook
-
-      # Deploy Storybook build to GitHub Pages
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
