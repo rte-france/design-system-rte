@@ -48,7 +48,7 @@ const config = {
     "options": {}
   },
 
-  refs: ({ configType }) => {
+  refs: (_, { configType }) => {
 
     return configType === 'PRODUCTION' ? PRODUCTION_DEPLOYMENT_CONFIG : DEVELOPEMENT_DEPLOYMENT_CONFIG;
   },
