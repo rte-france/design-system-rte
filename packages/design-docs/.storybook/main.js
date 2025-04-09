@@ -22,11 +22,11 @@ const DEVELOPEMENT_DEPLOYMENT_CONFIG = {
 const PRODUCTION_DEPLOYMENT_CONFIG = {
   angular: {
       title: 'Angular Production',
-      url: 'https://rte-france.github.io/design-system-rte/angular/',
+      url: 'http://opensource.rte-france.com/design-system-rte/angular/',
   },
   react: {
       title: 'React Production',
-      url: 'https://rte-france.github.io/design-system-rte/react/',
+      url: 'http://opensource.rte-france.com/design-system-rte/react/',
   },
 };
 
