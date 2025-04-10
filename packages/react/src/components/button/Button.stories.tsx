@@ -1,11 +1,11 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/react';
 import { fn, userEvent, within, expect } from '@storybook/test';
-import { ButtonComponent } from './button.component';
 
+import Button from './Button';
 
-const meta: Meta<ButtonComponent>= {
+const meta = {
   title: 'Button',
-  component: ButtonComponent,
+  component: Button,
   tags: ['autodocs'],
   argTypes: {
     variant: {
@@ -16,16 +16,19 @@ const meta: Meta<ButtonComponent>= {
       control: 'select',
       options: ['s', 'm', 'l'],
     },
+    iconPosition: {
+      control: 'select',
+      options: ['left', 'right'],
+    },
     disabled: {
       control: 'boolean',
     },
   },
-  args: { click: fn() },
-};
+  args: { onClick: fn(), icon: '' },
+} satisfies Meta<typeof Button>;
 
 export default meta;
-type Story = StoryObj<ButtonComponent>;
-
+type Story = StoryObj<typeof meta>;
 
 const mockFn = fn();
 
@@ -33,7 +36,7 @@ export const Filled: Story = {
   args: {
     variant: 'filled',
     label: 'Button',
-    click: mockFn,
+    onClick: mockFn,
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
