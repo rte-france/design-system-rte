@@ -33,7 +33,7 @@ jobs:
 
       - name: Install dependencies
         if: steps.cache-packages.outputs.cache-hit != 'true'
-        run: npm ci --prefer-offline
+        run: npm ci --prefer-offline --verbose
 
   quality-react:
     runs-on: ubuntu-latest
