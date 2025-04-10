@@ -1,12 +1,7 @@
 import { addons } from '@storybook/manager-api';
 import { customThemes } from './customTheme';
 
-function applyTheme(themeName) {
-    if (!customThemes[themeName]) {
-        console.warn(`Theme "${themeName}" not found. Falling back to default theme.`);
-        themeName = 'bleu_iceberg_light';
-    }
-
+function applyTheme(themeName = 'bleu_iceberg_light'): void {
     try {
         const theme = customThemes[themeName];
 
@@ -35,13 +30,11 @@ window.addEventListener('message', (event) => {
         return;
     }
 
-
     const newTheme = `${globals.color}_${globals.theme}`;
     applyTheme(newTheme)
     _emitThemeChange(globals.theme, globals.color)
 });
 
-// TODO: Propagate to inner globals for the sake of sharing state
-function _emitThemeChange(theme, color) {
+function _emitThemeChange(theme: string, color: string): void {
     addons.getChannel().emit('THEME_CHANGED', {theme, color});
 }
