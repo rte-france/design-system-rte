@@ -3,7 +3,7 @@ name: Publish Storybook Composition to GitHub Pages
 on:
   push:
     branches:
-      - 'main'
+      - 'fix/test-ci'
 
 permissions:
   contents: read
