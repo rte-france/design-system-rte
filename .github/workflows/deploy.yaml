@@ -41,7 +41,7 @@ jobs:
 
       - name: Install dependencies
         if: steps.cache-packages.outputs.cache-hit != 'true'
-        run: npm ci --prefer-offline
+        run: npm ci --prefer-offline --verbose
 
       - name: Build Design Docs Storybook
         run: npm run build-design-docs
