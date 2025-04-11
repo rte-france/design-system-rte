@@ -6,13 +6,14 @@
   "main": "dist/react-package.cjs",
   "types": "dist/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 0",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write 'src/**/*.{ts,tsx,js,jsx}'",
     "storybook": "storybook dev -p 7008",
-    "build-storybook": "storybook build -o ../design-docs/storybook-static/react"
+    "build-storybook": "storybook build -o ../design-docs/storybook-static/react",
+    "test:ci": "npx playwright install && npx start-server-and-test storybook http://localhost:7008 test",
+    "test": "test-storybook --url http://localhost:7008"
   },
   "keywords": [],
   "author": "",
@@ -38,6 +39,7 @@
     "@storybook/react": "^8.6.6",
     "@storybook/react-vite": "^8.6.6",
     "@storybook/test": "^8.6.6",
+    "@storybook/test-runner": "^0.22.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
     "@types/node": "^22.13.9",
