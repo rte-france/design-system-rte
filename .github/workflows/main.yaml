@@ -63,7 +63,7 @@ jobs:
 
       - name: Run tests
         working-directory: packages/react
-        run: echo "No tests for React package"
+        run: npm run test:ci
 
   build-react:
     runs-on: ubuntu-latest
@@ -128,7 +128,7 @@ jobs:
 
       - name: Run tests
         working-directory: packages/angular
-        run: echo "No tests for Angular package"
+        run: npm run test:ci
   
   build-angular:
     runs-on: ubuntu-latest

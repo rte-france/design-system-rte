@@ -62,7 +62,7 @@ jobs:
 
       - name: Run tests
         working-directory: packages/react
-        run: npm run test
+        run: npm run test:ci
 
   quality-angular:
     runs-on: ubuntu-latest
@@ -91,5 +91,5 @@ jobs:
 
       - name: Run tests
         working-directory: packages/angular
-        run: echo "No tests for Angular package"
+        run: npm run test:ci
 
