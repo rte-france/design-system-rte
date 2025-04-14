@@ -17,4 +17,9 @@ export class ButtonComponent {
 
   click = output<void>();
 
+  onClick(event: MouseEvent | KeyboardEvent): void {
+    event.stopPropagation();
+    this.click.emit();
+  }
+
 }
