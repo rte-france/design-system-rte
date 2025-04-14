@@ -9,7 +9,9 @@
     "build-design-docs": "npm --prefix packages/design-docs run build-storybook",
     "changeset": "changeset",
     "changeset:add": "changeset add",
-    "test:all": "npm --prefix packages/react run test && npm --prefix packages/angular run test"
+    "test:all": "npm --prefix packages/react run test && npm --prefix packages/angular run test",
+    "test:angular": "npm --prefix packages/angular run test",
+    "test:react": "npm --prefix packages/react run test"
   },
   "keywords": [],
   "author": "",
