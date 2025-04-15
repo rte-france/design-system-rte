@@ -2,7 +2,6 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { fn, userEvent, within, expect } from '@storybook/test';
 import { ENTER_KEY, SPACE_KEY, TAB_KEY } from '@design-system-rte/core/constants/keyboard.constants';
 
-
 import Button from './Button';
 
 const meta = {
@@ -56,17 +55,17 @@ export const Sizing: Story = {
   render: (args) => {
     return (
       <div style={{ display: 'flex', gap: 8 }}>
-        <Button {...args} size="s" label="Small" />
-        <Button {...args} label="Medium" />
-        <Button {...args} size="l" label="Large" />
+        <Button {...args} size="s" label="Small" data-testId="small-button" />
+        <Button {...args} label="Medium" data-testId="medium-button" />
+        <Button {...args} size="l" label="Large" data-testId="large-button" />
       </div>
     );
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const smallButton = canvas.getByText('Small');
-    const mediumButton = canvas.getByText('Medium');
-    const largeButton = canvas.getByText('Large');
+    const smallButton = canvas.getByTestId('small-button');
+    const mediumButton = canvas.getByTestId('medium-button');
+    const largeButton = canvas.getByTestId('large-button');
 
     expect(smallButton.clientHeight).toBe(24);
     expect(mediumButton.clientHeight).toBe(32);
