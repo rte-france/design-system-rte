@@ -54,28 +54,31 @@ export const Sizing: Story = {
     template: `
     <div style="display: flex; gap: 8px;">
         <rte-button
-          [size]="'s'"
-          [label]="'Small'"
-          [variant]="'filled'"
+          size="s"
+          label="Small"
+          variant="filled"
+          data-testid="small-button"
           />
         <rte-button
-          [size]="'m'"
-          [label]="'Medium'"
-          [variant]="'filled'"
+          size="m"
+          label="Medium"
+          variant="filled"
+          data-testid="medium-button"
           />
           <rte-button
-          [size]="'l'"
-          [label]="'Large'"
-          [variant]="'filled'"
+          size="l"
+          label="Large"
+          variant="filled"
+          data-testid="large-button"
           />
     </div>
     `,
   }),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const smallButton = canvas.getByText('Small');
-    const mediumButton = canvas.getByText('Medium');
-    const largeButton = canvas.getByText('Large');
+    const smallButton = canvas.getByTestId('small-button').getElementsByTagName('button')[0];
+    const mediumButton = canvas.getByTestId('medium-button').getElementsByTagName('button')[0];
+    const largeButton = canvas.getByTestId('large-button').getElementsByTagName('button')[0];
 
     expect(smallButton.clientHeight).toBe(24);
     expect(mediumButton.clientHeight).toBe(32);
