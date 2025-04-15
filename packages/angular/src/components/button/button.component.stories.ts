@@ -29,7 +29,7 @@ const mockFn = fn();
 
 export const Default: Story = {
   args: {
-    type: 'filled',
+    variant: 'filled',
     label: 'Button',
     click: mockFn,
   },
@@ -51,17 +51,17 @@ export const Sizing: Story = {
         <rte-button
           [size]="'s'"
           [label]="'Small'"
-          [type]="'filled'"
+          [variant]="'filled'"
           />
         <rte-button
           [size]="'m'"
           [label]="'Medium'"
-          [type]="'filled'"
+          [variant]="'filled'"
           />
           <rte-button
           [size]="'l'"
           [label]="'Large'"
-          [type]="'filled'"
+          [variant]="'filled'"
           />
     </div>
     `,
