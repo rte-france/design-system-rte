@@ -16,17 +16,17 @@ function createTheme(themeName: string, mode: 'light' | 'dark') {
     base: mode,
     appBg: themes[themeName][mode]['background-default'],
     appContentBg: themes[themeName][mode]['background-default'],
-    appBorderColor: themes[themeName][mode]['border-brand_default'],
+    appBorderColor: themes[themeName][mode]['border-brand-default'],
     textColor: themes[themeName][mode]['content-primary'],
-    textInverseColor: themes[themeName][mode]['content-primary_inverse'],
+    textInverseColor: themes[themeName][mode]['content-primary-inverse'],
     barTextColor: themes[themeName][mode]['content-primary'],
-    barSelectedColor: themes[themeName][mode]['content-brand_pressed'],
+    barSelectedColor: themes[themeName][mode]['content-brand-pressed'],
     barBg: themes[themeName][mode]['background-default'],
     inputBg: themes[themeName][mode]['background-default'],
     inputBorder: themes[themeName][mode]['border-primary'],
     inputTextColor: themes[themeName][mode]['content-primary'],
     colorPrimary: themes[themeName][mode]['content-primary'],
-    colorSecondary: themes[themeName][mode]['background-brand_default'],
+    colorSecondary: themes[themeName][mode]['background-brand-default'],
   })
 }
 
