@@ -1,12 +1,36 @@
 {
   "name": "@design-system-rte/core",
   "version": "0.1.0",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "style": "dist/styles/main.css",
+  "sass": "tokens/main.scss",
+  "files": ["dist", "tokens"],
   "scripts": {
+    "build": "vite build && sass tokens/main.scss:dist/styles/main.css",
+    "build:types": "tsc --emitDeclarationOnly",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rte-france/design-system-rte"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "Design Tokens, interfaces and utilities for the Design System RTE",
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "sass": "^1.85.1"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./tokens/*": "./tokens/*",
+    "./style.css": "./dist/styles/main.css"
+  }
 }

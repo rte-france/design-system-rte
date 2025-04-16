@@ -1,5 +1,5 @@
 import { Component, input, output } from '@angular/core';
-import { ButtonSize, ButtonVariant } from '@design-system-rte/core/components/button/button.interface';
+import { ButtonSize, ButtonVariant } from '@design-system-rte/core';
 
 @Component({
   selector: 'rte-button',
