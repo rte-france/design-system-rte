@@ -7,6 +7,11 @@
     flex-shrink: 0;
     justify-content: center;
 
+    &:focus-visible {
+        outline: 1px solid var(--border-brand-focused);
+        outline-offset: 4px;
+    }
+
     &.size-s {
         @include typography-button-s;
         height: 24px;
@@ -54,11 +59,6 @@
             background: var(--background-brand-pressed);
         }
 
-        &:focus {
-            // TODO: find a solution with a new focus wrapper component
-            outline: 2px solid var(--border-brand-focused);
-        }
-
         &:disabled {
             background: var(--background-disabled);
             border: solid  1px var(--border-disabled);
@@ -83,10 +83,6 @@
             background: var(--background-brand-inverse-pressed);
         }
 
-        &:focus {
-            outline: 2px solid var(--border-brand-focused);
-        }
-
         &:disabled {
             background: var(--background-disabled);
             border: solid 1px var(--border-disabled);
@@ -106,10 +102,6 @@
 
         &:active {
             background: var(--background-brand-inverse-pressed);
-        }
-
-        &:focus {
-            outline: 2px solid var(--border-brand-focused);
         }
 
         &:disabled {
@@ -132,10 +124,6 @@
             color: var(--content-brand-pressed);
         }
 
-        &:focus {
-            outline: 2px solid var(--border-brand-focused);
-        }
-
         &:disabled {
             color: var(--content-disabled);
             box-shadow: none;
@@ -156,11 +144,7 @@
         &:active {
             background: var(--background-danger-pressed);
         }
-
-        &:focus {
-            outline: 2px solid var(--border-brand-focused);
-        }
-
+        
         &:disabled {
             background: var(--background-disabled);
             border: var(--border-disabled);
