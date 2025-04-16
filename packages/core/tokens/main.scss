@@ -1,6 +1,7 @@
-@forward "./colors";
-@forward "./radius";
-@forward "./spacings";
-@forward "./typography";
+@forward "radius";
+@forward "spacings";
+@forward "typography";
+@forward "layout";
+@forward "opacity";
 
 @import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:wght,FILL,GRAD@400,0,0&display=swap");
