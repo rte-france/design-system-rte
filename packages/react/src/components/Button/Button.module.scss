@@ -1,0 +1,163 @@
+@use '@design-system/core/tokens/main.scss' as *;
+
+// TODO : Think about when to use css variables and when to use scss variables
+
+.coreButton {
+    align-items: center;
+    cursor: pointer;
+    display: inline-flex;
+    flex-shrink: 0;
+    justify-content: center;
+
+    &[data-size='s'] {
+        @include typography-button-s;
+        height: 24px;
+        border-radius: $radius-s;
+        padding: $positive-spacing_050;
+    }
+
+    &[data-size='m'] {
+        @include typography-button-m;
+        height: 32px;
+        border-radius: $radius-s;
+        padding: $positive-spacing_050 $positive-spacing_100;
+    }
+
+    &[data-size='l'] {
+        @include typography-button-l;
+        height: 40px;
+        border-radius: $radius-m;
+        padding: $positive-spacing_050 $positive-spacing_200;
+    }
+
+    &[data-type='filled'] {
+        
+        border: var(--border-brand_default);
+        color: var(--content-primary_inverse);
+        background: var(--background-brand_default);
+
+        &:hover {
+            background: var(--background-brand_hover);
+            border: var(--background-brand_hover);
+        }
+
+        &:active {
+            background: var(--background-brand_pressed);
+        }
+
+        &:focus {
+            // TODO: find a solution with a new focus wrapper component
+            outline: 2px solid var(--border-brand_focused);
+        }
+
+        &:disabled {
+            background: var(--background-disabled);
+            border: solid  1px var(--border-disabled);
+            color: var(--content-disabled);
+            box-shadow: none;
+            cursor: default;
+        }
+    };
+
+    &[data-type='outlined'] {
+        background: var(--background-default);
+        border: solid 1px var(--border-brand_default);
+        color: var(--content-brand_default);
+
+        &:hover {
+            background: var(--background-brand_inverse_hover);
+            border: solid 1px var(--border-brand_default);
+        }
+
+        &:active {
+            border: var(--background-brand_inverse);
+            background: var(--background-brand_inverse_pressed);
+        }
+
+        &:focus {
+            outline: 2px solid var(--border-brand_focused);
+        }
+
+        &:disabled {
+            background: var(--background-disabled);
+            border: solid 1px var(--border-disabled);
+            color: var(--content-disabled);
+            cursor: default;
+        }
+    };
+
+    &[data-type='text'] {
+        background: transparent;
+        border: none;
+        color: var(--content-brand_default);
+
+        &:hover {
+            background: var(--background-brand_inverse_hover);
+        }
+
+        &:active {
+            background: var(--background-brand_inverse_pressed);
+        }
+
+        &:focus {
+            outline: 2px solid var(--border-brand_focused);
+        }
+
+        &:disabled {
+            background: var(--background-disabled);
+            color: var(--content-disabled);
+            cursor: default;
+        }
+    };
+
+    &[data-type='transparent'] {
+        background: transparent;
+        border: none;
+        color: var(--content-brand_default);
+
+        &:hover {
+            color: var(--content-brand_hover);
+        }
+
+        &:active {
+            color: var(--content-brand_pressed);
+        }
+
+        &:focus {
+            outline: 2px solid var(--border-brand_focused);
+        }
+
+        &:disabled {
+            color: var(--content-disabled);
+            box-shadow: none;
+            cursor: default;
+        }
+    };
+    
+    &[data-type='danger'] {
+        background: var(--background-danger_default);
+        border: none;
+        color: var(--content-primary_inverse);
+        border-radius: $radius-m;
+
+        &:hover {
+            background: var(--background-danger_hover);
+        }
+
+        &:active {
+            background: var(--background-danger_pressed);
+        }
+
+        &:focus {
+            outline: 2px solid var(--border-brand_focused);
+        }
+
+        &:disabled {
+            background: var(--background-disabled);
+            border: var(--border-disabled);
+            color: var(--content-disabled);
+            box-shadow: none;
+            cursor: default;
+        }
+    }
+}
