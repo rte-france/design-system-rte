@@ -2,6 +2,7 @@
   "name": "design-system-rte",
   "version": "0.1.0",
   "main": "index.js",
+  "private": true,
   "scripts": {
     "base-storybook": "npm --prefix packages/design-docs run base-storybook",
     "design-docs": "npm --prefix packages/design-docs run storybook",
@@ -21,7 +22,7 @@
     "packages/*"
   ],
   "devDependencies": {
-    "@changesets/cli": "^2.28.1",
-    "@angular/cli": "^17.3.12"
+    "@angular/cli": "^17.3.12",
+    "@changesets/cli": "^2.28.1"
   }
 }
