@@ -24,6 +24,13 @@ const meta: Meta<ButtonComponent>= {
     },
   },
   args: { click: fn() },
+  parameters: {
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/design/Wiy8uWsWjoagf95lOmPXNU/01.0-Design-System-RTE---WEB?node-id=1-150&p=f&t=7MF0XdytmOgL4rYA-0',
+      allowFullscreen: true,
+    },
+  },
 };
 
 export default meta;
