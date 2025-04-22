@@ -5,7 +5,10 @@
   "types": "dist/index.d.ts",
   "style": "dist/styles/main.css",
   "sass": "tokens/main.scss",
-  "files": ["dist", "tokens"],
+  "files": [
+    "dist",
+    "tokens"
+  ],
   "scripts": {
     "build": "vite build && sass tokens/main.scss:dist/styles/main.css",
     "build:types": "tsc --emitDeclarationOnly",
@@ -31,6 +34,11 @@
       "import": "./dist/index.js"
     },
     "./tokens/*": "./tokens/*",
-    "./style.css": "./dist/styles/main.css"
+    "./style.css": "./dist/styles/main.css",
+    "./scss": "./tokens/main.scss"
+  },
+  "devDependencies": {
+    "vite": "^6.3.2",
+    "vite-plugin-dts": "^4.5.3"
   }
 }
