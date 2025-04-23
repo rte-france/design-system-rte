@@ -1,6 +1,6 @@
 @use '@design-system-rte/core/tokens/main.scss' as *;
 
-.link {
+.rte-link {
 
     @include typography-link-m;
     align-items: center;
@@ -8,7 +8,7 @@
     display: inline-flex;
     justify-content: center;
 
-    &[data-subtle='false'] {
+    &.subtle-false {
 
         &:visited {
 
@@ -58,7 +58,7 @@
         }
     }
 
-    &[data-subtle='true'] {
+    &.subtle-true {
 
         &:visited {
 
