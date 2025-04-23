@@ -10,7 +10,7 @@ interface GridProps extends CoreGridProps, Omit<React.HTMLAttributes<HTMLDivElem
 }
 
 interface ColProps extends CoreColProps, Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 const Col = ({ children, className, xxs, xs, s, m, l, xl, ...props }: ColProps) => {

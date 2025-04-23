@@ -1,4 +1,5 @@
 @use "@design-system-rte/core/tokens/_mixins.scss" as *;
+@use "@design-system-rte/core/components/grid/grid.stories.scss" as *;
 
 @include theme-selector('bleu_iceberg');
 @include theme-selector('bleu_iceberg', 'dark');

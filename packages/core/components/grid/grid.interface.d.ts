@@ -1,5 +1,7 @@
+export type GridType = 'fluid' | 'fixed-narrow' | 'fixed-wide';
+
 export interface GridProps {
-  gridType?: 'fluid' | 'fixed-narrow' | 'fixed-wide';
+  gridType?: GridType
 }
 
 export interface ColProps {
