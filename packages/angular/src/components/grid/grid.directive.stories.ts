@@ -1,17 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { GridType } from '@design-system-rte/core/components/grid/grid.interface';
 import { componentWrapperDecorator, moduleMetadata, type Meta, type StoryObj } from '@storybook/angular';
-import { GridComponent } from './grid.component';
-import { ColComponent } from '../col/col.component';
+import { GridDirective } from './grid.directive';
+import { ColDirective } from '../col/col.directive';
 
-type GridStoriesArgs = GridComponent;
+type GridStoriesArgs = GridDirective;
 
 const COLUMN_NUMBER = 12;
 
 const meta: Meta<GridStoriesArgs>= {
-  title: 'Grid/GridComponent',
-  component: GridComponent,
-  subcomponents: {ColComponent},
+  title: 'Grid/GridDirective',
+  component: GridDirective,
   tags: ['autodocs'],
   argTypes: {
     gridType: {
@@ -23,8 +22,7 @@ const meta: Meta<GridStoriesArgs>= {
   },
   decorators: [
     moduleMetadata({
-      declarations: [ColComponent],
-      imports: [CommonModule],
+      imports: [CommonModule, ColDirective],
     }),
     componentWrapperDecorator((story) => `<div class="sb-css-grid-container">${story}</div>`)
   ],
@@ -35,16 +33,16 @@ type Story = StoryObj<GridStoriesArgs>;
 
 const defaultTemplate = (gridType: GridType) => {
   return `
-        <rte-grid
-          gridType=${gridType}
+        <div dsGrid 
+          [gridType]="'${gridType}'"
           data-testid="grid"
           >
             <ng-container *ngFor="let item of items">
-              <rte-col
-                data-testid="col{{item}}"
-                />
+              <div
+                dsCol
+                ></div>
             </ng-container>
-          </rte-grid>
+          </div>
     `;
 };
 
