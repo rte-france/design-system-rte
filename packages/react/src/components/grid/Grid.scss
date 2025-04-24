@@ -14,6 +14,7 @@
     @media (min-width: $breakpoints-m) {
         grid-template-columns: repeat($column-number-l, 1fr);
         gap: $positive-spacing_200;
+        padding: 0 $positive-spacing_400;
     }
 
     &[data-gridtype='fixed-narrow'] {
