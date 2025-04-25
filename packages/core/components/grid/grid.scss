@@ -1,5 +1,8 @@
 @use '@design-system-rte/core/tokens/main.scss' as *;
 
+$grid-max-width-narrow: 864px;
+$grid-max-width-wide: 1296px;
+
 .grid {
     display: grid;
     grid-template-columns: repeat($column-number-s, 1fr);
@@ -17,12 +20,12 @@
         padding: 0 $positive-spacing_400;
     }
 
-    &.fixed-narrow {
-        max-width: 864px;
+    &[data-gridtype='fixed-narrow'] {
+        max-width: $grid-max-width-narrow;
     }
 
-    &.fixed-wide{
-        max-width: 1296px;
+    &[data-gridtype='fixed-wide'] {
+        max-width: $grid-max-width-wide;
     }
 }
 

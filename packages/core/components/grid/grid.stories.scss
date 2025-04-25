@@ -1,12 +1,22 @@
 @use '@design-system-rte/core/tokens/main.scss' as *;
+@use '@design-system-rte/core/tokens/primitives/_colors.scss' as *;
 
 .sb-css-grid-container {
-  background-color: #C9D8EE;
+  background-color: $jaune-indications-200;
+  outline: 1px dashed $jaune-indications-400;
 
   .grid {
     .col {
-      background-color: #FFCCD1;
-      height: 200px;
+      @include typography-text-l;
+      background-color: #FFFFFF;
+      box-shadow: 0 0 0 1px $jaune-indications-400;
+      min-block-size: 100px;
+      display: flex;
+      gap: $positive-spacing_200;
+
+      p {
+        margin: 0;
+      }
     }
   }
 }

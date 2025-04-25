@@ -15,21 +15,23 @@ export class ColDirective {
 
     @HostBinding ("class") 
     get colClasses(): string {
-    const generateColumnClass = (prefix: string, size?: number) =>
-      size ? `${prefix}-${size}` : '';
     return [
       'col',
-      generateColumnClass('col-xxs', this.xxs()),
-      generateColumnClass('col-xs', this.xs()),
-      generateColumnClass('col-s', this.s()),
-      generateColumnClass('col-m', this.m()),
-      generateColumnClass('col-l', this.l()),
-      generateColumnClass('col-xl', this.xl()),
+      this.generateColumnClass('col-xxs', this.xxs()),
+      this.generateColumnClass('col-xs', this.xs()),
+      this.generateColumnClass('col-s', this.s()),
+      this.generateColumnClass('col-m', this.m()),
+      this.generateColumnClass('col-l', this.l()),
+      this.generateColumnClass('col-xl', this.xl()),
     ]
       .filter(Boolean)
       .join(' ');
   }
 
   constructor() { }
+
+  private generateColumnClass(prefix: string, size?: number): string {
+    return size ? `${prefix}-${size}` : '';
+  }
 
 }

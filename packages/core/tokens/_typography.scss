@@ -147,3 +147,17 @@ $button-l-semibold-letter-spacing: $letter-spacing-s;
     line-height: $button-l-semibold-line-height;
     letter-spacing: $button-l-semibold-letter-spacing;
 }
+
+@mixin typography-text {
+    font-feature-settings: 'liga' off, 'clig' off;
+    font-style: normal;
+}
+
+@mixin typography-text-l {
+    @include typography-text;
+    font-family: $text-l-regular-font-family;
+    font-weight: $text-l-regular-font-weight;
+    font-size: $text-l-regular-font-size;
+    line-height: $text-l-regular-line-height;
+    letter-spacing: $text-l-regular-letter-spacing;
+}
