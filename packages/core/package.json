@@ -33,6 +33,14 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
+    "./components/*": {
+      "types": "./dist/components/*.d.ts",
+      "import": "./dist/components/*.js"
+    },
+    "./constants/*": {
+      "types": "./dist/constants/*.d.ts",
+      "import": "./dist/constants/*.js"
+    },
     "./tokens/*": "./tokens/*",
     "./style.css": "./dist/styles/main.css",
     "./scss": "./tokens/main.scss"
