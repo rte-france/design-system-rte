@@ -2,7 +2,7 @@ import { Directive, HostBinding, input } from '@angular/core';
 import { GridType } from '@design-system-rte/core/components/grid/grid.interface';
 
 @Directive({
-  selector: '[dsGrid]',
+  selector: '[rte-grid]',
   standalone: true
 })
 export class GridDirective {
@@ -11,9 +11,13 @@ export class GridDirective {
 
     @HostBinding("class")
     get hostClasses(): string {
-      const base = 'grid';
+      return 'grid'
+    }
+
+    @HostBinding("attr.data-gridtype")
+    get hostDataClasses(): string {
       const variation = this.gridType();
-      return `${base} ${variation}`;
+      return `${variation}`;
     }
   constructor() { }
 
