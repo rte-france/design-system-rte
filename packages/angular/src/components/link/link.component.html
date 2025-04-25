@@ -1,4 +1,4 @@
-<a class="rte-link subtle-{{ subtle() }}" href="{{ href() }}" role="link">
+<a class="rte-link" [ngClass]="{'subtle': subtle()}" href="{{ href() }}" role="link">
     <span class="rte-link-label">
         {{ label() }}
     </span>

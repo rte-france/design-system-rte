@@ -1,9 +1,10 @@
 import { Component, input } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'rte-link',
     standalone: true,
-    imports: [],
+    imports: [CommonModule],
     templateUrl: './link.component.html',
     styleUrl: './link.component.scss'
 })

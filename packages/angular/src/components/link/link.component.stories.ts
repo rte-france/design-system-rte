@@ -31,8 +31,8 @@ export const Subtle: Story = {
         props: args,
         template: `
             <div style="display: flex; gap: 8px;">
-                <rte-link [label]="'Subtle Link'" [href]="'#'" [subtle]="true"></rte-link>
-                <rte-link [label]="'Subtle Link'" [href]="'#'" [subtle]="true" [externalLink]="true"></rte-link>
+                <rte-link label="Subtle Link" href="#" [subtle]="true" />
+                <rte-link label="Subtle Link" href="#" [subtle]="true" [externalLink]="true" />
             </div>
         `,
     }),

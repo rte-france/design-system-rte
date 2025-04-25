@@ -8,8 +8,6 @@
     display: inline-flex;
     justify-content: center;
 
-    &.subtle-false {
-
         &:visited {
 
             color: var(--content-link-visited);
@@ -56,9 +54,8 @@
                 border-radius: $radius-s;
             }
         }
-    }
 
-    &.subtle-true {
+    &.subtle{
 
         &:visited {
 
