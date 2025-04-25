@@ -1,0 +1,60 @@
+import { forwardRef } from "react";
+import { RadioButtonProps as CoreRadioButtonProps } from "@design-system-rte/core/components/radio-button/radio-button.interface";
+import { labelSize } from "@design-system-rte/core/components/radio-button/radio-button.constants"
+import style from "./RadioButton.module.scss";
+import { concatClassNames } from "../utils";
+
+interface RadioButtonProps
+    extends CoreRadioButtonProps,
+    React.AnchorHTMLAttributes<HTMLInputElement> { }
+
+const RadioButton = forwardRef<HTMLInputElement, RadioButtonProps>(({
+    label,
+    groupName,
+    showLabel = true,
+    disabled = false,
+    error = false,
+    readOnly = false,
+    className = "",
+    ...props
+}, ref) => {
+
+    if (disabled && error) {
+        return
+    }
+
+    console.log(labelSize)
+
+    return (
+        <div className={style.radioButtonContainer}>
+            <input
+                ref={ref}
+                type="radio"
+                id={label}
+                value={label}
+                size={labelSize}
+                name={groupName}
+                className={concatClassNames(style.radioButton, className)}
+                data-show-label={showLabel}
+                disabled={disabled}
+                data-error={error}
+                data-read-only={readOnly}
+                {...props}
+            />
+            {showLabel && (
+                <label
+                    htmlFor={label}
+                    className={concatClassNames(style.radioButtonLabel, className)}
+                    data-disabled={disabled}
+                    data-error={error}
+                    data-read-only={readOnly}
+                    data-show-label={showLabel}
+                >
+                    {label}
+                </label>
+            )}
+        </div>
+    );
+})
+
+export default RadioButton;

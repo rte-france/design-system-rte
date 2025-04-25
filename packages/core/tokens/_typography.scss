@@ -175,3 +175,17 @@ $button-l-semibold-letter-spacing: $letter-spacing-s;
     line-height: $text-m-regular-line-height;
     letter-spacing: $text-m-regular-letter-spacing;
 }
+
+@mixin typography-radio-button {
+    font-feature-settings: 'liga' off, 'clig' off;
+    font-style: normal;
+}
+
+@mixin typography-radio-button-l {
+    @include typography-radio-button;
+    font-family: $text-l-regular-font-family;
+    font-size: $text-l-regular-font-size;
+    font-weight: $text-l-regular-font-weight;
+    line-height: $text-l-regular-line-height;
+    letter-spacing: $text-l-regular-letter-spacing;
+}
