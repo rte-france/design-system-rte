@@ -57,12 +57,29 @@
             background: var(--content-danger);
         }
 
+        //TODO: Modify brute variable to use tokens
         &:hover {
-            box-shadow: 0 0 0 8px var(--background-danger-hover);
+            box-shadow: 0 0 0 8px rgba(200, 22, 64, 0.2);
 
             &:checked {
-                box-shadow: 0 0 0 8px var(--background-danger-hover);
+                box-shadow: 0 0 0 8px rgba(200, 22, 64, 0.2);
             }
+        }
+    }
+
+    &[data-read-only='true'] {
+        pointer-events: none;
+        cursor: default;
+
+        &::before{
+            background: var(--content-tertiary);
+        }
+        &:checked {
+            border: $width-xs solid var(--content-tertiary);
+        }
+
+        &[data-error='true'] {
+            border: $width-xs solid var(--content-danger);
         }
     }
 
@@ -83,14 +100,18 @@
     }
 
     &:hover {
+
+        //TODO: Modify brute variable to use tokens
+
         box-shadow: 0 0 0 8px var(--background-hover);
 
         &:checked {
-            box-shadow: 0 0 0 8px var(--background-brand-hover);
+            box-shadow: 0 0 0 8px rgba(34, 80, 130, 0.2);
         }
     }
 
     &:disabled {
+        pointer-events: none;
         background: var(--background-disabled);
         border: $width-xs solid var(--content-disabled);
         cursor: not-allowed;
@@ -105,7 +126,13 @@
     @include typography-radio-button-l;
 
     &[data-disabled='true'] {
-        cursor: not-allowed;
+        pointer-events: none;
         color: var(--content-disabled);
+    }
+
+    &[data-read-only='true'] {
+        pointer-events: none;
+        cursor: default;
+        color: var(--content-tertiary);
     }
 }
