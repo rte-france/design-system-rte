@@ -43,8 +43,8 @@ export const NotSubtle: Story = {
         props: args,
         template: `
             <div style="display: flex; gap: 8px;">
-                <rte-link [label]="'External Link'" [href]="'#'"></rte-link>
-                <rte-link [label]="'External Link'" [href]="'#'" [externalLink]="true"></rte-link>
+                <rte-link label="External Link" href="#"></rte-link>
+                <rte-link label="External Link" href="#" [externalLink]="true"></rte-link>
             </div>
         `,
     }),
