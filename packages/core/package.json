@@ -46,6 +46,7 @@
     "./scss": "./tokens/main.scss"
   },
   "devDependencies": {
+    "glob": "^11.0.2",
     "vite": "^6.3.2",
     "vite-plugin-dts": "^4.5.3"
   }

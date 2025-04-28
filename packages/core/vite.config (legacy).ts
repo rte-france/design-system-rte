@@ -3,9 +3,9 @@ import { resolve } from 'path';
 import dts from 'vite-plugin-dts';
 import { glob } from 'glob';
 
-// Get all TypeScript files except tests and declarations
+// Only exclude .d.ts and test files from JS build
 const files = glob.sync('src/**/*.ts', {
-  ignore: ['**/*.d.ts', '**/*.test.ts', '**/*.spec.ts']
+  ignore: ['**/*.d.ts', '**/*.test.ts']
 });
 
 export default defineConfig({
@@ -20,18 +20,21 @@ export default defineConfig({
     },
     rollupOptions: {
       output: {
+        assetFileNames: 'assets/[name][extname]',
         preserveModules: true,
         preserveModulesRoot: 'src',
-        entryFileNames: '[name].js',
-        assetFileNames: 'assets/[name][extname]'
+        entryFileNames: '[name].js'
       }
-    },
-    copyPublicDir: true
+    }
   },
   plugins: [
     dts({
-      outDir: 'dist',
-      tsconfigPath: './tsconfig.json',
+      exclude: ['**/*.test.ts'],
+      compilerOptions: {
+        preserveModules: true,
+        rootDir: 'src',
+        emitDeclarationOnly: true
+      }
     })
   ],
   publicDir: 'assets'
