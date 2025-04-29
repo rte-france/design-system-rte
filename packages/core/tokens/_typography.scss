@@ -171,6 +171,15 @@ $button-l-semibold-letter-spacing: $letter-spacing-s;
     letter-spacing: $text-m-bold-letter-spacing;
 }
 
+@mixin typography-text-s {
+    @include typography-text;
+    font-family: $text-s-regular-font-family;
+    font-weight: $text-s-regular-font-weight;
+    font-size: $text-s-regular-font-size;
+    line-height: $text-s-regular-line-height;
+    letter-spacing: $text-s-regular-letter-spacing;
+}
+
 @mixin typography-text-l {
     @include typography-text;
     font-family: $text-l-regular-font-family;
@@ -220,4 +229,9 @@ $button-l-semibold-letter-spacing: $letter-spacing-s;
     font-size: $heading-s-semibold-font-size;
     line-height: $heading-s-semibold-line-height;
     letter-spacing: $heading-s-semibold-letter-spacing;
+}
+
+@mixin typography-checkbox-error {
+    @include typography-text-s;
+    font-weight: $text-s-bold-font-weight;
 }
