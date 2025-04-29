@@ -23,8 +23,6 @@ const RadioButton = forwardRef<HTMLInputElement, RadioButtonProps>(({
         return
     }
 
-    console.log(labelSize)
-
     return (
         <div className={style.radioButtonContainer}>
             <input
@@ -35,7 +33,6 @@ const RadioButton = forwardRef<HTMLInputElement, RadioButtonProps>(({
                 size={labelSize}
                 name={groupName}
                 className={concatClassNames(style.radioButton, className)}
-                data-show-label={showLabel}
                 disabled={disabled}
                 data-error={error}
                 data-read-only={readOnly}

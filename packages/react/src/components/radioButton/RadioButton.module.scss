@@ -20,6 +20,7 @@
     background: var(--background-defaut);
     position: relative;
     cursor: pointer;
+    transition: box-shadow 0.3s ease-in-out;
     margin: 0;
 
     &::before {
@@ -44,13 +45,10 @@
 
     &[data-error='true'] {
         border: $width-xs solid var(--content-danger);
+        transition: box-shadow 0.3s ease-in-out;
 
         &:checked {
             border: $width-xs solid var(--content-danger);
-        }
-
-        &[data-disabled='true'] {
-            display: none;
         }
 
         &::before {
@@ -59,7 +57,8 @@
 
         //TODO: Modify brute variable to use tokens
         &:hover {
-            box-shadow: 0 0 0 8px rgba(200, 22, 64, 0.2);
+            transition: box-shadow 0.15s ease-in-out;
+            box-shadow: 0 0 0 8px var(--background-hover);
 
             &:checked {
                 box-shadow: 0 0 0 8px rgba(200, 22, 64, 0.2);
@@ -103,6 +102,7 @@
 
         //TODO: Modify brute variable to use tokens
 
+        transition: box-shadow 0.15s ease-in-out;
         box-shadow: 0 0 0 8px var(--background-hover);
 
         &:checked {
