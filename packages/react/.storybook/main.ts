@@ -1,5 +1,4 @@
 import type { StorybookConfig } from '@storybook/react-vite';
-
 import { join, dirname } from 'path';
 
 function getAbsolutePath(value: string): string {
@@ -14,9 +13,13 @@ const config: StorybookConfig = {
     getAbsolutePath('@storybook/addon-interactions'),
     getAbsolutePath('@storybook/addon-a11y'),
   ],
+  core: {
+    builder: '@storybook/builder-vite',
+  },
   framework: {
     name: getAbsolutePath('@storybook/react-vite'),
     options: {},
-  },
+  }
 };
+
 export default config;
