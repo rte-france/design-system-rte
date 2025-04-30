@@ -1,0 +1,24 @@
+    <div *ngIf="isInteractive()" class="rte-radio-button-container">
+        <input
+            type="radio"
+            [id]="label()"
+            [value]="label()"
+            [size]="labelSize"
+            [name]="groupName()"
+            class="rte-radio-button"
+            [ngClass]="{'error': error(), 'read-only': readOnly()}"
+            [disabled]="disabled()"
+        />
+        <label 
+            *ngIf="showLabel()" 
+            [for]="label()" 
+            class="rte-radio-button-label"
+            [ngClass]="{
+                'error': error(),
+                'read-only': readOnly(),
+                'disabled': disabled()
+            }"
+        >
+            {{ label() }}
+        </label>
+    </div>

@@ -1,6 +1,7 @@
 @use 'themes' as *;
 @use 'primitives/colors' as *;
 @use 'sass:map';
+@use 'sass:color';
 
 $themes: (
     "bleu_iceberg": $bleu_iceberg,
