@@ -80,6 +80,12 @@ export const Default: Story = {
     disabled: false,
     readOnly: false,
   },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const radioButton = canvas.getByLabelText("Option 1");
+    await userEvent.click(radioButton);
+    expect(radioButton).toBeChecked();
+  },
 };
 
 export const Disabled: Story = {
