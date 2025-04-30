@@ -6,7 +6,7 @@ import style from "./RadioButtonGroup.module.scss";
 
 interface RadioButtonGroupProps
     extends CoreRadioButtonGroupProps,
-    React.AnchorHTMLAttributes<HTMLDivElement> { }
+    React.InputHTMLAttributes<HTMLDivElement> { }
 
 const RadioButtonGroup = forwardRef<HTMLDivElement, RadioButtonGroupProps>(({
     groupName,
