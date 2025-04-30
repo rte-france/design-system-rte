@@ -6,7 +6,7 @@ import style from "./RadioButton.module.scss";
 
 interface RadioButtonProps
     extends CoreRadioButtonProps,
-    React.AnchorHTMLAttributes<HTMLInputElement> { }
+    React.InputHTMLAttributes<HTMLInputElement> { }
 
 const RadioButton = forwardRef<HTMLInputElement, RadioButtonProps>(({
     label,
