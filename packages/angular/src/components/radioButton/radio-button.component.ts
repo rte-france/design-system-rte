@@ -1,4 +1,4 @@
-import { Component,input } from "@angular/core";
+import { Component,computed,input } from "@angular/core";
 import { labelSize } from "@design-system-rte/core/components/radio-button/radio-button.constants";
 import { CommonModule } from "@angular/common";
 
@@ -6,8 +6,8 @@ import { CommonModule } from "@angular/common";
   selector: 'rte-radio-button',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './radioButton.component.html',
-  styleUrl: './radioButton.component.scss',
+  templateUrl: './radio-button.component.html',
+  styleUrl: './radio-button.component.scss',
 })
 
 export class RadioButtonComponent {
@@ -18,4 +18,6 @@ export class RadioButtonComponent {
     error = input(false);
     readOnly = input(false);
     labelSize = labelSize;
-    }
+
+    isInteractive = computed(() => !(this.disabled() && this.readOnly()));
+}
