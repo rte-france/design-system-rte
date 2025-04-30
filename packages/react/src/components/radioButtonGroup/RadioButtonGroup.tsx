@@ -26,19 +26,19 @@ const RadioButtonGroup = forwardRef<HTMLDivElement, RadioButtonGroupProps>(({
 }, ref) => {
 
     if (disabled && error) {
-        return null;
+        return;
     }
 
     return (
         <div
             ref={ref}
             className={concatClassNames(style.radioButtonGroupContainer, className)}
-            data-error={error}
-            data-disabled={disabled}
-            data-read-only={readOnly}
             {...props}
         >
-            <div className={style.radioButtonGroupHeader}>
+            <div className={style.radioButtonGroupHeader}
+            data-error={error}
+            data-disabled={disabled}
+            data-read-only={readOnly}>
                 {groupTitle && showGroupTitle && (
                     <h3 className={style.groupTitle}>{groupTitle}</h3>
                 )}
@@ -49,7 +49,8 @@ const RadioButtonGroup = forwardRef<HTMLDivElement, RadioButtonGroupProps>(({
                     <p className={style.errorMessage}>{errorMessage}</p>
                 )}
             </div>
-            <div className={style.radioButtonGroup}>
+            <div className={style.radioButtonGroup}
+                data-direction={direction}>
                 {items.map((item, index) => (
                     <RadioButton
                         key={index}
