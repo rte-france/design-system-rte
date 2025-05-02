@@ -15,10 +15,8 @@ export const Default: Story = {
   args: {
     label: 'Label',
     description: 'Description',
-    // error: 'Error message',
-    // disabled: true,
-    // readOnly: true,
-    // selected: true,
-    // indeterminated: true,
+    disabled: false,
+    readOnly: false,
+    indeterminate: true,
   },
 };

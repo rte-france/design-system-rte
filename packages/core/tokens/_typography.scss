@@ -230,3 +230,8 @@ $button-l-semibold-letter-spacing: $letter-spacing-s;
     line-height: $heading-s-semibold-line-height;
     letter-spacing: $heading-s-semibold-letter-spacing;
 }
+
+@mixin typography-checkbox-error {
+    @include typography-text-s;
+    font-weight: $text-s-bold-font-weight;
+}
