@@ -153,6 +153,24 @@ $button-l-semibold-letter-spacing: $letter-spacing-s;
     font-style: normal;
 }
 
+@mixin typography-text-m {
+    @include typography-text;
+    font-family: $text-m-regular-font-family;
+    font-weight: $text-m-regular-font-weight;
+    font-size: $text-m-regular-font-size;
+    line-height: $text-m-regular-line-height;
+    letter-spacing: $text-m-regular-letter-spacing;
+}
+
+@mixin typography-text-m-bold {
+    @include typography-text;
+    font-family: $text-m-bold-font-family;
+    font-weight: $text-m-bold-font-weight;
+    font-size: $text-m-bold-font-size;
+    line-height: $text-m-bold-line-height;
+    letter-spacing: $text-m-bold-letter-spacing;
+}
+
 @mixin typography-text-l {
     @include typography-text;
     font-family: $text-l-regular-font-family;
@@ -188,4 +206,18 @@ $button-l-semibold-letter-spacing: $letter-spacing-s;
     font-weight: $text-l-regular-font-weight;
     line-height: $text-l-regular-line-height;
     letter-spacing: $text-l-regular-letter-spacing;
+}
+
+@mixin typography-heading{
+    font-feature-settings: "liga" off, "clig" off;
+    font-style: normal;
+}
+
+@mixin typography-heading-s{
+    @include typography-heading;
+    font-family: $heading-s-semibold-font-family;
+    font-weight: $heading-s-semibold-font-weight;
+    font-size: $heading-s-semibold-font-size;
+    line-height: $heading-s-semibold-line-height;
+    letter-spacing: $heading-s-semibold-letter-spacing;
 }

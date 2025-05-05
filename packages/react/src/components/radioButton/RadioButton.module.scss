@@ -125,14 +125,14 @@
 .radioButtonLabel {
     @include typography-radio-button-l;
 
-    &[data-disabled='true'] {
-        pointer-events: none;
-        color: var(--content-disabled);
-    }
-
     &[data-read-only='true'] {
         pointer-events: none;
         cursor: default;
         color: var(--content-tertiary);
+    }
+
+    &[data-disabled='true'] {
+        pointer-events: none;
+        color: var(--content-disabled);
     }
 }

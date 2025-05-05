@@ -127,14 +127,14 @@
 .rte-radio-button-label {
     @include typography-radio-button-l;
 
-    &.disabled {
-        pointer-events: none;
-        color: var(--content-disabled);
-    }
-
     &.read-only {
         pointer-events: none;
         cursor: default;
         color: var(--content-tertiary);
+    }
+
+    &.disabled {
+        pointer-events: none;
+        color: var(--content-disabled);
     }
 }

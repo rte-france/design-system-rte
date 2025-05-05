@@ -3,7 +3,7 @@ import { userEvent, within, expect } from '@storybook/test';
 import { RadioButtonComponent } from './radio-button.component';
 
 const meta: Meta<RadioButtonComponent> = {
-  title: 'Components/RadioButton',
+  title: 'RadioButton',
   component: RadioButtonComponent,
   tags: ['autodocs'],
   argTypes: {

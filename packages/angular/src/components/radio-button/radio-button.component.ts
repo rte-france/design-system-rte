@@ -19,5 +19,5 @@ export class RadioButtonComponent {
     readOnly = input(false);
     labelSize = labelSize;
 
-    isInteractive = computed(() => !(this.disabled() && this.readOnly()));
+    isDisplayed = computed(() => !(this.disabled() && this.error()));
 }
