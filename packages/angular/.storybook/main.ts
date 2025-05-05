@@ -1,11 +1,9 @@
 import type { StorybookConfig } from '@storybook/angular';
-import { join, dirname, resolve } from "path";
+import { join, dirname } from "path";
 
 function getAbsolutePath(value: string): any {
   return dirname(require.resolve(join(value, 'package.json')))
 }
-
-const isCI = process.env.CI === 'true';
 
 const config: StorybookConfig = {
   "stories": [
@@ -22,15 +20,6 @@ const config: StorybookConfig = {
   "framework": {
     "name": getAbsolutePath('@storybook/angular'),
     "options": {}
-  },
-  webpackFinal: async (config) => {
-    config!.resolve!.alias = {
-      ...config!.resolve!.alias,
-      '@design-system-rte/core': isCI 
-        ? resolve(__dirname, '../../core/lib')
-        : resolve(__dirname, '../node_modules/@design-system-rte/core')
-    };
-    return config;
   }
 };
 
