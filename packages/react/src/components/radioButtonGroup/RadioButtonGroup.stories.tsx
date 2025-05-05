@@ -3,7 +3,7 @@ import { userEvent, within, expect } from "@storybook/test";
 import RadioButtonGroup from "./RadioButtonGroup";
 
 const meta = {
-    title: "Components/RadioButtonGroup",
+    title: "RadioButtonGroup",
     component: RadioButtonGroup,
     tags: ["autodocs"],
     argTypes: {
