@@ -1,17 +1,20 @@
 import { useEffect, useRef } from 'react';
+import { CheckboxProps as CoreCheckboxProps } from '@design-system-rte/core/components/checkbox/checkbox.interface';
 import styles from './Checkbox.module.scss';
 
-interface CheckboxProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  label: string;
-  description?: string;
-  error?: string;
-  readOnly?: boolean;
-  indeterminate?: boolean;
-}
+interface CheckboxProps extends CoreCheckboxProps, React.InputHTMLAttributes<HTMLInputElement> {}
 
-// TODO handle the case where error message + disabled state (impossible)
-
-const Checkbox = ({ id, label, disabled, description, error, readOnly, indeterminate, ...props }: CheckboxProps) => {
+const Checkbox = ({
+  id,
+  label,
+  showLabel,
+  disabled,
+  description,
+  errorMessage,
+  readOnly,
+  indeterminate,
+  ...props
+}: CheckboxProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -29,7 +32,7 @@ const Checkbox = ({ id, label, disabled, description, error, readOnly, indetermi
         disabled={disabled}
         ref={inputRef}
         data-read-only={readOnly}
-        data-error={!!error}
+        data-error={!!errorMessage}
         {...props}
       />
       <div className={`${styles['checkbox-icon-selected']} ${styles['checkbox-icons']}`}>
@@ -44,9 +47,9 @@ const Checkbox = ({ id, label, disabled, description, error, readOnly, indetermi
         </svg>
       </div>
       <div className={styles['checkbox-text-container']} data-disabled={disabled}>
-        <label htmlFor={id}>{label}</label>
+        {showLabel && <label htmlFor={id}>{label}</label>}
         <p className={styles['checkbox-description']}>{description}</p>
-        {error && <p className={styles['checkbox-error']}>{error}</p>}
+        {errorMessage && <p className={styles['checkbox-error']}>{errorMessage}</p>}
       </div>
     </div>
   );
