@@ -24,7 +24,7 @@ export class RadioButtonGroupComponent {
     disabled = input(false);
     readOnly = input(false);
 
-    isInteractive = computed(() => !(this.disabled()==true && this.error()==true));
+    isDisplayed = computed(() => !(this.disabled() && this.error()));
 
 }
 
