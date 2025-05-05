@@ -18,5 +18,6 @@ export const Default: Story = {
     disabled: false,
     readOnly: false,
     indeterminate: true,
+    errorMessage: '',
   },
 };

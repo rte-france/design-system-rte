@@ -47,8 +47,6 @@
       content: '';
       display: none;
       position: absolute;
-      top: 5px;
-      left: 6px;
       border-radius: $radius-pill;
       background: var(--background-hover);
       width: 32px;
@@ -168,9 +166,8 @@
     display: none;
     z-index: 1;
     pointer-events: none;
+    transform: translate(4px, 3px);
     position: absolute;
-    top: 13px;
-    left: 14px;
 
     svg {
       fill: white;
