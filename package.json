@@ -24,5 +24,10 @@
   "devDependencies": {
     "@angular/cli": "^17.3.12",
     "@changesets/cli": "^2.28.1"
+  },
+  "compilerOptions": {
+    "paths": {
+      "@design-system-rte/core/*": ["../core/lib/*"]
+    }
   }
 }
