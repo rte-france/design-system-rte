@@ -99,13 +99,7 @@
               "."
             ],
             "styles": ["@design-system-rte/core/tokens/main.scss", ".storybook/preview.scss"],
-            "port": 6006,
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules",
-                "../core/lib"
-              ]
-            }
+            "port": 6006
           }
         },
         "build-storybook": {
