@@ -26,33 +26,30 @@ export const Default: Story = {
     },
 };
 
-export const Subtle: Story = {
-    render: (args) => ({
-        props: args,
-        template: `
-            <div style="display: flex; gap: 8px;">
-                <rte-link label="Subtle Link" href="#" [subtle]="true" />
-                <rte-link label="Subtle Link" href="#" [subtle]="true" [externalLink]="true" />
-            </div>
-        `,
-    }),
-};
+export const SubtleLink: Story = {
+    args: {
+        ...Default.args,
+        subtle: true,
+    },
+}
 
-export const NotSubtle: Story = {
-    render: (args) => ({
-        props: args,
-        template: `
-            <div style="display: flex; gap: 8px;">
-                <rte-link label="External Link" href="#"></rte-link>
-                <rte-link label="External Link" href="#" [externalLink]="true"></rte-link>
-            </div>
-        `,
-    }),
+export const SubtleLinkExternal: Story = {
+    args: {
+        ...SubtleLink.args,
+        externalLink: true,
+    },
+}
+
+export const ExternalLink: Story = {
+    args: {
+        ...Default.args,
+        externalLink: true,
+    },
 };
 
 export const KeyboardInteraction: Story = {
     args: {
-        label: 'Link',
+        ...Default.args,
         href: '#',
     },
     play: async ({ canvasElement }) => {
