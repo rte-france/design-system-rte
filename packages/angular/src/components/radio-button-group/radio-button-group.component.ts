@@ -1,6 +1,6 @@
 import { Component, computed, input } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { RadioButtonComponent } from "../radioButton/radio-button.component";
+import { RadioButtonComponent } from "../radio-button/radio-button.component";
 
 @Component({
   selector: 'rte-radio-button-group',
