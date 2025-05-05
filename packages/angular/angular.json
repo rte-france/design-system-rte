@@ -83,7 +83,10 @@
               "src/assets"
             ],
             "styles": [],
-            "scripts": []
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": ["../"]
+            }
           }
         },
         "storybook": {
