@@ -4,10 +4,11 @@
             [id]="id()"
             [value]="value()"
             class="rte-checkbox"
-            [ngClass]="{'error': errorMessage(), 'read-only': readOnly()}"
+            [ngClass]="{'error': error(), 'read-only': readOnly()}"
             [disabled]="disabled()"
             [indeterminate]="indeterminate()"
             [checked]="checked()"
+            (keydown)="onKeydown($event)"
         />
         <div class="rte-checkbox-icons rte-checkbox-icon-selected">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -33,6 +34,6 @@
                 {{ label() }}
             </label>
             <p class="rte-checkbox-description">{{ description() }}</p>
-            <p *ngIf="errorMessage()" class="rte-checkbox-error">{{ errorMessage() }}</p>
+            <p *ngIf="error() && errorMessage()" class="rte-checkbox-error">{{ errorMessage() }}</p>
         </div>
     </div>

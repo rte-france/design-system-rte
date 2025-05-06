@@ -10,14 +10,24 @@ import { CommonModule } from "@angular/common";
 })
 
 export class CheckboxComponent {
-    id = input('');
-    value = input('');
-    label = input('');
-    indeterminate = input(false);
-    description = input('');
-    showLabel = input(true);
-    disabled = input(false);
-    errorMessage = input('');
-    readOnly = input(false);
-    checked = input(false);
+  id = input('');
+  value = input('');
+  label = input('');
+  indeterminate = input(false);
+  description = input('');
+  showLabel = input(true);
+  disabled = input(false);
+  error = input(false);
+  errorMessage = input('');
+  readOnly = input(false);
+  checked = input(false);
+  groupName = input('');
+
+  onKeydown(event: KeyboardEvent) {
+    if (event.code === "Space") {
+      if(this.disabled() || this.readOnly()) {
+        event.preventDefault();
+      }
+    }
+  }
 }

@@ -91,9 +91,9 @@ export const Default: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const radioButton = canvas.getByRole('radio', { name: 'Option 1' });
-    await userEvent.click(radioButton);
-    expect(radioButton).toBeChecked();
+    const checkbox = canvas.getByRole('checkbox', { name: 'Option 1' });
+    await userEvent.click(checkbox);
+    expect(checkbox).toBeChecked();
   },
 };
 
@@ -119,16 +119,16 @@ export const ReadOnly: Story = {
   },
 };
 
-export const Directions: Story = {
+export const Horizontal: Story = {
   args: {
     ...Default.args,
+    direction: 'horizontal',
   },
-  render: (args) => {
-    return (
-      <div style={{ display: 'flex', gap: 8 }}>
-        <CheckboxGroup {...args} direction="horizontal" groupName="horizontal" />
-        <CheckboxGroup {...args} direction="vertical" groupName="vertical" />
-      </div>
-    );
+};
+
+export const Vertical: Story = {
+  args: {
+    ...Default.args,
+    direction: 'vertical',
   },
 };
