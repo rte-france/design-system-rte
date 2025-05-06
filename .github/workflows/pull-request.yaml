@@ -64,6 +64,7 @@ jobs:
         working-directory: packages/react
         run: npm run test:ci
 
+  # TODO: Restablish after testing publication flow
   # quality-angular:
   #   runs-on: ubuntu-latest
   #   needs: global-install

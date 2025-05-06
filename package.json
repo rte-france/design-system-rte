@@ -22,7 +22,7 @@
     "packages/*"
   ],
   "devDependencies": {
-    "@angular/cli": "^17.3.12",
-    "@changesets/cli": "^2.28.1"
+    "@changesets/cli": "^2.28.1",
+    "@angular/cli": "^17.3.12"
   }
 }

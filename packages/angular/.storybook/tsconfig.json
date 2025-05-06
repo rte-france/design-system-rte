@@ -3,17 +3,9 @@
   "compilerOptions": {
     "types": ["node"],
     "allowSyntheticDefaultImports": true,
-    "resolveJsonModule": true,
-    "paths": {
-      "@design-system-rte/core/*": ["./core/lib/*"]
-    }
+    "resolveJsonModule": true
   },
   "exclude": ["../src/test.ts", "../src/**/*.spec.ts"],
-  "include": [
-    "../src/**/*.stories.*",
-    "../src/**/*.ts",
-    "./preview.ts",
-    "../../core/lib/**/*.ts"
-  ],
+  "include": ["../src/**/*.stories.*", "./preview.ts"],
   "files": ["./typings.d.ts"]
 }
