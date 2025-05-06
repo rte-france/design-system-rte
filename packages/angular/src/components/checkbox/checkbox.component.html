@@ -4,7 +4,7 @@
             [id]="id()"
             [value]="value()"
             class="rte-checkbox"
-            [ngClass]="{'error': errorMessage(), 'read-only': readOnly()}"
+            [ngClass]="{'error': error(), 'read-only': readOnly()}"
             [disabled]="disabled()"
             [indeterminate]="indeterminate()"
             [checked]="checked()"
@@ -33,6 +33,6 @@
                 {{ label() }}
             </label>
             <p class="rte-checkbox-description">{{ description() }}</p>
-            <p *ngIf="errorMessage()" class="rte-checkbox-error">{{ errorMessage() }}</p>
+            <p *ngIf="error() && errorMessage()" class="rte-checkbox-error">{{ errorMessage() }}</p>
         </div>
     </div>

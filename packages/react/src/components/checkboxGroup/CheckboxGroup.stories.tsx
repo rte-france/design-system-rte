@@ -119,16 +119,16 @@ export const ReadOnly: Story = {
   },
 };
 
-export const Directions: Story = {
+export const Horizontal: Story = {
   args: {
     ...Default.args,
+    direction: 'horizontal',
   },
-  render: (args) => {
-    return (
-      <div style={{ display: 'flex', gap: 8 }}>
-        <CheckboxGroup {...args} direction="horizontal" groupName="horizontal" />
-        <CheckboxGroup {...args} direction="vertical" groupName="vertical" />
-      </div>
-    );
+};
+
+export const Vertical: Story = {
+  args: {
+    ...Default.args,
+    direction: 'vertical',
   },
 };

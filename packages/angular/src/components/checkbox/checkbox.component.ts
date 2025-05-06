@@ -17,7 +17,9 @@ export class CheckboxComponent {
     description = input('');
     showLabel = input(true);
     disabled = input(false);
+    error = input(false);
     errorMessage = input('');
     readOnly = input(false);
     checked = input(false);
+    groupName = input('');
 }
