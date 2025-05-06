@@ -21,6 +21,10 @@ const meta = {
       control: 'boolean',
       defaultValue: false,
     },
+    error: {
+      control: 'boolean',
+      defaultValue: false,
+    },
     errorMessage: {
       control: 'text',
       defaultValue: '',
@@ -95,6 +99,7 @@ export const ReadOnly: Story = {
 export const Error: Story = {
   args: {
     ...Default.args,
+    error: true,
     errorMessage: 'Error message',
   },
 };

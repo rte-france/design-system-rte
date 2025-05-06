@@ -10,6 +10,7 @@ const Checkbox = ({
   showLabel,
   disabled,
   description,
+  error,
   errorMessage,
   readOnly,
   indeterminate,
@@ -32,7 +33,7 @@ const Checkbox = ({
         disabled={disabled}
         ref={inputRef}
         data-read-only={readOnly}
-        data-error={!!errorMessage}
+        data-error={!!error}
         {...props}
       />
       {/* TODO: Replace with the real icon from Iconography ticket */}
@@ -49,7 +50,7 @@ const Checkbox = ({
       <div className={styles['checkbox-text-container']} data-disabled={disabled}>
         {showLabel && <label htmlFor={id}>{label}</label>}
         <p className={styles['checkbox-description']}>{description}</p>
-        {errorMessage && <p className={styles['checkbox-error']}>{errorMessage}</p>}
+        {error && errorMessage && <p className={styles['checkbox-error']}>{errorMessage}</p>}
       </div>
     </div>
   );
