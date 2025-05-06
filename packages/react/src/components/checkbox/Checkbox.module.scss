@@ -118,6 +118,7 @@
       ~ .checkbox-text-container {
         label,
         .checkbox-description {
+          pointer-events: none;
           color: var(--content-tertiary);
         }
       }
