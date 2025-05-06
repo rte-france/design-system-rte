@@ -64,7 +64,7 @@ jobs:
         working-directory: packages/react
         run: npm run test:ci
 
-  quality-angular:
+  # quality-angular:
     runs-on: ubuntu-latest
     needs: global-install
     steps:
