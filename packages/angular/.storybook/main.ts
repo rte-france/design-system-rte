@@ -22,20 +22,18 @@ const config: StorybookConfig = {
     "options": {}
   },
   webpackFinal: async (config) => {
-    if (process.env.CI === 'true') {
-      config!.resolve!.alias = {
-        ...config!.resolve!.alias,
-        '@design-system-rte/core': resolve(__dirname, '../../core/lib'),
-        'core-fonts': resolve(__dirname, '../../core/assets/fonts'),
-        '../../core/lib/tokens/primitives/core-fonts': resolve(__dirname, '../../core/assets/fonts'),
-        '../../../../core/lib/tokens/primitives/core-fonts': resolve(__dirname, '../../core/assets/fonts')
-      };
+    config!.resolve!.alias = {
+      ...config!.resolve!.alias,
+      '@design-system-rte/core': resolve(__dirname, '../../core/lib'),
+      'core-fonts': resolve(__dirname, '../../core/assets/fonts'),
+      '../../core/lib/tokens/primitives/core-fonts': resolve(__dirname, '../../core/assets/fonts'),
+      '../../../../core/lib/tokens/primitives/core-fonts': resolve(__dirname, '../../core/assets/fonts')
+    };
 
-      config!.module!.rules!.push({
-        test: /\.(woff|woff2|eot|ttf|otf)$/i,
-        type: 'asset/resource',
-      });
-    }
+    config!.module!.rules!.push({
+      test: /\.(woff|woff2|eot|ttf|otf)$/i,
+      type: 'asset/resource',
+    });
     return config;
   }
   
