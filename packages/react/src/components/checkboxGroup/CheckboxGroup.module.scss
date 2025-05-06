@@ -1,0 +1,77 @@
+@use '@design-system-rte/core/tokens/main.scss' as *;
+
+.checkboxGroupContainer {
+  display: flex;
+  padding: $positive-spacing_0;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: $positive-spacing_100;
+
+  .checkboxGroupHeader {
+    .groupTitle {
+      @include typography-heading-s;
+      align-self: stretch;
+      margin: $positive-spacing_0;
+    }
+
+    .groupHelpText {
+      @include typography-text-m;
+      color: var(--content-tertiary);
+      align-self: stretch;
+      margin: $positive-spacing_0;
+    }
+
+    .errorMessage {
+      @include typography-text-m-bold;
+      color: var(--content-danger);
+      align-self: stretch;
+      margin: $positive-spacing_0;
+      margin-top: $positive-spacing_050;
+    }
+
+    &[data-read-only='true'] {
+      .groupTitle {
+        color: var(--content-tertiary);
+      }
+
+      &[data-error='true'] {
+        .groupTitle {
+            color: var(--content-danger);
+        }
+      }
+    }
+
+    &[data-disabled='true'] {
+
+      pointer-events: none;
+
+      .groupTitle {
+        color: var(--content-disabled);
+      }
+
+      .groupHelpText {
+        color: var(--content-disabled);
+      }
+    }
+
+    &[data-error='true'] {
+        .groupTitle {
+          color: var(--content-danger);
+        }
+    }
+  }
+
+  .checkboxGroup {
+    display: flex;
+    flex-direction: row;
+    padding: $positive-spacing_0;
+    align-items: flex-start;
+    gap: $positive-spacing_300;
+
+    &[data-direction='vertical'] {
+      flex-direction: column;
+      gap: $positive-spacing_100;
+    }
+  }
+}
