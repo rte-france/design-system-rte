@@ -83,9 +83,9 @@
       border: 1px solid var(--content-disabled);
       background: var(--background-disabled);
 
-      ~ .checkbox-text-container {
+      ~ .rte-checkbox-text-container {
         label,
-        .checkbox-description {
+        .rte-checkbox-description {
           color: var(--content-disabled);
         }
       }

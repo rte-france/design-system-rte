@@ -35,7 +35,11 @@ const meta: Meta<CheckboxComponent> = {
       control: 'boolean',
       defaultValue: false,
     },
-  },
+    checked: {
+      control: 'boolean',
+      defaultValue: false,
+    },
+  }
 };
 export default meta;
 type Story = StoryObj<CheckboxComponent>;
