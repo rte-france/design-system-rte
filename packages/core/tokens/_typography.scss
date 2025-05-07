@@ -221,3 +221,17 @@ $button-l-semibold-letter-spacing: $letter-spacing-s;
     line-height: $heading-s-semibold-line-height;
     letter-spacing: $heading-s-semibold-letter-spacing;
 }
+
+@mixin typography-tooltip{
+    font-feature-settings: "liga" off, "clig" off;
+    font-style: normal;
+}
+
+@mixin typography-tooltip-label{
+    @include typography-tooltip;
+    font-family: $text-m-regular-font-family;
+    font-weight: $text-m-regular-font-weight;
+    font-size: $text-m-regular-font-size;
+    line-height: $text-m-regular-line-height;
+    letter-spacing: $text-m-regular-letter-spacing;
+}
