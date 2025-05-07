@@ -11,7 +11,7 @@ import { ButtonSize, ButtonVariant } from '@design-system-rte/core/components/bu
 export class ButtonComponent {
 
   label = input('');
-  variant = input<ButtonVariant>('filled');
+  variant = input<ButtonVariant>('primary');
   size = input<ButtonSize>('m');
   disabled = input(false);
 
