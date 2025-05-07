@@ -1,10 +1,18 @@
-import { defineConfig } from 'vitest/config';
+import { defineConfig } from 'vite';
 import { resolve } from 'path';
 import dts from 'vite-plugin-dts';
 import react from '@vitejs/plugin-react-swc';
 
-// https://vite.dev/config/
+const isCI = process.env.CI === 'true';
+
 export default defineConfig({
+  resolve: {
+    alias: isCI ? {
+      '@design-system-rte/core': resolve(__dirname, '../core/lib')
+    } : {
+      '@design-system-rte/core': resolve(__dirname, './node_modules/@design-system-rte/core')
+    }
+  },
   plugins: [
     react(),
     dts({
@@ -14,11 +22,6 @@ export default defineConfig({
       tsconfigPath: './tsconfig.app.json',
     }),
   ],
-  test: {
-    globals: true,
-    environment: 'jsdom',
-    setupFiles: './src/setupTests.ts', // Optionnel, recommandé pour Testing Library
-  },
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
@@ -27,7 +30,11 @@ export default defineConfig({
       cssFileName: 'style',
     },
     rollupOptions: {
-      external: ['react', 'react/jsx-runtime', 'react-dom'],
+      external: [
+        'react', 
+        'react/jsx-runtime', 
+        'react-dom',
+      ],
     },
   },
 });

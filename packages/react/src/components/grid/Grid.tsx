@@ -3,7 +3,6 @@ import {
   GridProps as CoreGridProps,
   ColProps as CoreColProps,
 } from '@design-system-rte/core/components/grid/grid.interface';
-import '@design-system-rte/core/components/grid/grid.scss';
 
 interface GridProps extends CoreGridProps, Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> {
   children: React.ReactNode[];
