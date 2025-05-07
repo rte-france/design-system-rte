@@ -1,6 +1,6 @@
 {
   "name": "@design-system-rte/angular",
-  "version": "0.1.0",
+  "version": "0.1.1-rc1",
   "scripts": {
     "ng": "ng",
     "build": "echo \"No build for Angular package\" && exit 0",
@@ -9,7 +9,10 @@
     "test:ci": "npx playwright install && npx start-server-and-test storybook http://localhost:7007 test",
     "test": "test-storybook --url http://localhost:7007"
   },
-  "private": true,
+  "description": "Angular components for the Design System RTE",
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "@angular/animations": "^17.3.0",
     "@angular/common": "^17.3.0",
@@ -22,7 +25,7 @@
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3",
-    "@design-system-rte/core": "^0.1.0"
+    "@design-system-rte/core": "^0.1.2-rc2"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^17.3.12",
