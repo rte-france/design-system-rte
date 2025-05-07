@@ -45,7 +45,7 @@
         }
     }
 
-    &.filled {
+    &.primary {
         border: var(--border-brand-default);
         color: var(--content-primary-inverse);
         background: var(--background-brand-default);
@@ -68,7 +68,7 @@
         }
     };
 
-    &.outlined {
+    &.secondary {
         background: var(--background-default);
         border: solid 1px var(--border-brand-default);
         color: var(--content-brand-default);

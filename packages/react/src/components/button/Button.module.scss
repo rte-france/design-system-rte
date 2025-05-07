@@ -33,7 +33,7 @@
         padding: $positive-spacing_050 $positive-spacing_200;
     }
 
-    &[data-variant='filled'] {
+    &[data-variant='primary'] {
         background: var(--background-brand-default);
         border: var(--border-brand-default);
         color: var(--content-primary-inverse);
@@ -56,7 +56,7 @@
         }
     };
 
-    &[data-variant='outlined'] {
+    &[data-variant='secondary'] {
         background: var(--background-default);
         border: solid 1px var(--border-brand-default);
         color: var(--content-brand-default);
