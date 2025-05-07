@@ -1,6 +1,6 @@
 {
   "name": "@design-system-rte/core",
-  "version": "0.1.0",
+  "version": "0.1.2-rc2",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -8,5 +8,11 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "Design Tokens, interfaces and utilities for the Design System RTE",
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "sass": "^1.85.1"
+  }
 }
