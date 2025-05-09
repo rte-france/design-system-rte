@@ -1,0 +1,7 @@
+<button
+    class="rte-button {{ variant() }} size-{{ size() }}"
+    [disabled]="disabled()"
+    (click)="onClick($event)"
+>
+    <span class="rte-button-label">{{ label() }}</span>
+</button>

@@ -1,9 +1,9 @@
 {
-  "name": "@design-system-rte/angular",
-  "version": "0.1.1-rc1",
+  "name": "@design-system-rte/angular-builder",
+  "version": "0.1.1-rc2",
   "scripts": {
     "ng": "ng",
-    "build": "echo \"No build for Angular package\" && exit 0",
+    "build": "ng build",
     "storybook": "ng run angular:storybook --port 7007",
     "build-storybook": "ng run angular:build-storybook --output-dir ../design-docs/storybook-static/angular --config-dir .storybook",
     "test:ci": "npx playwright install && npx start-server-and-test storybook http://localhost:7007 test",
@@ -49,6 +49,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "ng-packagr": "^17.3.0",
     "storybook": "^8.6.6",
     "typescript": "~5.4.2"
   }

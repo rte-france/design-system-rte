@@ -1,0 +1,45 @@
+<div  
+    *ngIf="isDisplayed()"
+    class="radio-button-group-container">
+    <div
+        class="radio-button-group-header"
+        [ngClass]="{
+            'disabled': disabled(),
+            'error': error(),
+            'read-only': readOnly(),
+        }">
+        <h3
+            *ngIf="showGroupTitle()"
+            class="group-title"
+            >
+            {{ groupTitle() }}
+        </h3>
+        <p
+            *ngIf="showHelpText()"
+            class="group-help-text"
+            >
+            {{ groupHelpText() }}
+
+        </p>
+        <p
+            *ngIf="error()"
+            class="group-error-message"
+            >
+            {{ errorMessage() }}
+        </p>
+    </div>
+    <div class="radio-button-group" 
+        [ngClass]="{'horizontal': direction() === 'horizontal', 'vertical': direction() === 'vertical'}">
+        <ng-container 
+        *ngFor="let item of items()">
+            <rte-radio-button
+                [label]="item"
+                [groupName]="groupName()"
+                [showLabel]="showItemsLabel()"
+                [disabled]="disabled()"
+                [error]="error()"
+                [readOnly]="readOnly()"
+            />
+        </ng-container>
+    </div>
+</div>
