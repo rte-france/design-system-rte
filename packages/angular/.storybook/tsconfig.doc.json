@@ -1,7 +1,6 @@
-
 {
   "extends": "./tsconfig.json",
-  "exclude": ["../src/test.ts", "../src/**/*.spec.ts", "../src/**/*.stories.ts"],
-  "include": ["../src/**/*"],
+  "exclude": ["../projects/ds-rte-lib/src/test.ts", "../projects/ds-rte-lib/src/**/*.spec.ts", "../projects/ds-rte-lib/src/**/*.stories.ts"],
+  "include": ["../projects/ds-rte-lib/src/**/*"],
   "files": ["./typings.d.ts"]
 }
