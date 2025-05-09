@@ -1,11 +1,11 @@
 {
-  "extends": "../tsconfig.app.json",
+  "extends": "../projects/ds-rte-lib/tsconfig.lib.json",
   "compilerOptions": {
     "types": ["node"],
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true
   },
-  "exclude": ["../src/test.ts", "../src/**/*.spec.ts"],
-  "include": ["../src/**/*.stories.*", "./preview.ts"],
+  "exclude": ["../projects/ds-rte-lib/src/test.ts", "../projects/ds-rte-lib/src/**/*.spec.ts"],
+  "include": ["../projects/ds-rte-lib/src/**/*.stories.*", "./preview.ts"],
   "files": ["./typings.d.ts"]
 }
