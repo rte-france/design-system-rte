@@ -10,9 +10,9 @@ import { CommonModule } from "@angular/common";
 })
 
 export class CheckboxComponent {
-  id = input('');
+  id = input.required<string>();
+  label = input.required<string>();
   value = input('');
-  label = input('');
   indeterminate = input(false);
   description = input('');
   showLabel = input(true);
