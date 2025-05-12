@@ -30,9 +30,8 @@
 .rte-checkbox-container {
     display: flex;
     gap: $positive-spacing-150;
-}
 
-.rte-checkbox {
+  .rte-checkbox {
     appearance: none;
     display: flex;
     width: 16px;
@@ -145,9 +144,9 @@
         }
       }
     }
-}
+  }
 
-.rte-checkbox-text-container {
+  .rte-checkbox-text-container {
     label {
       @include typography-text-l;
     }
@@ -174,3 +173,4 @@
       fill: white;
     }
   }
+}
