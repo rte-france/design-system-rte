@@ -25,7 +25,7 @@ export class CheckboxComponent {
 
   onKeydown(event: KeyboardEvent) {
     if (event.code === "Space") {
-      if(this.disabled() || this.readOnly()) {
+      if(this.readOnly()) {
         event.preventDefault();
       }
     }

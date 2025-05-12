@@ -24,6 +24,13 @@ const Checkbox = ({
     }
   }, [indeterminate]);
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.code === 'Space') {
+      if (readOnly) {
+        event.preventDefault();
+      }
+    }
+  };
   return (
     <div className={styles['container']}>
       <input
@@ -34,6 +41,7 @@ const Checkbox = ({
         ref={inputRef}
         data-read-only={readOnly}
         data-error={!!error}
+        onKeyDown={handleKeyDown}
         {...props}
       />
       {/* TODO: Replace with the real icon from Iconography ticket */}
