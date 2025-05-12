@@ -10,6 +10,7 @@
             [checked]="checked()"
             (keydown)="onKeydown($event)"
         />
+        <!-- TODO: Replace with the real icon from Iconography ticket -->
         <div class="rte-checkbox-icons rte-checkbox-icon-selected">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
                 <path d="M6.66667 9.06668L10.6 5.13335C10.7222 5.01112 10.8778 4.95001 11.0667 4.95001C11.2556 4.95001 11.4111 5.01112 11.5333 5.13335C11.6556 5.25557 11.7167 5.41112 11.7167 5.60001C11.7167 5.7889 11.6556 5.94446 11.5333 6.06668L7.13334 10.4667C7.00001 10.6 6.84445 10.6667 6.66667 10.6667C6.4889 10.6667 6.33334 10.6 6.20001 10.4667L4.46667 8.73335C4.34445 8.61112 4.28334 8.45557 4.28334 8.26668C4.28334 8.07779 4.34445 7.92223 4.46667 7.80001C4.5889 7.67779 4.74445 7.61668 4.93334 7.61668C5.12223 7.61668 5.27778 7.67779 5.40001 7.80001L6.66667 9.06668Z" />
@@ -26,7 +27,7 @@
             [for]="id()" 
             class="rte-checkbox-label"
             [ngClass]="{
-                'error': errorMessage(),
+                'error': error(),
                 'read-only': readOnly(),
                 'disabled': disabled()
             }"
