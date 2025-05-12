@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { CheckboxProps as CoreCheckboxProps } from '@design-system-rte/core/components/checkbox/checkbox.interface';
 import styles from './Checkbox.module.scss';
 
-interface CheckboxProps extends CoreCheckboxProps, React.InputHTMLAttributes<HTMLInputElement> {}
+interface CheckboxProps extends CoreCheckboxProps, Omit<React.InputHTMLAttributes<HTMLInputElement>, 'id'> {}
 
 const Checkbox = ({
   id,
