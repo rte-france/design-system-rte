@@ -11,8 +11,8 @@ import { CheckboxComponent } from "../checkbox/checkbox.component";
 })
 
 export class CheckboxGroupComponent {
-    groupName = input('');
-    items = input<string[]>([]);
+    groupName = input.required<string>();
+    items = input.required<string[]>();
     direction = input('horizontal');
     showItemsLabel = input(true);
     groupTitle = input('');
