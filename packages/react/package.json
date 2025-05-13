@@ -7,6 +7,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc -b && vite build",
+    "generate-icons": "npx @svgr/cli -d ./src/components/icon/generated ../core/assets/Icons --template template.js && npm run lint:fix",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write 'src/**/*.{ts,tsx,js,jsx}'",
