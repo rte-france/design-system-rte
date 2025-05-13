@@ -151,12 +151,12 @@
       @include typography-text-l;
     }
     .rte-checkbox-description {
-      // @include typography-text-s;
+      @include typography-text-s;
       margin: 0;
       color: var(--content-tertiary);
     }
     .rte-checkbox-error {
-      // @include typography-checkbox-error;
+      @include typography-checkbox-error;
       margin: 0;
       color: var(--content-danger);
     }

@@ -1,10 +1,13 @@
 {
   "name": "@design-system-rte/react",
-  "version": "0.1.0",
+  "version": "0.1.1-rc2",
   "type": "module",
   "module": "dist/react-package.js",
   "main": "dist/react-package.cjs",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc -b && vite build",
     "lint": "eslint .",
@@ -13,14 +16,15 @@
     "storybook": "storybook dev -p 7008",
     "build-storybook": "storybook build -o ../design-docs/storybook-static/react",
     "test:ci": "npx playwright install && npx start-server-and-test storybook http://localhost:7008 test",
-    "test": "test-storybook --url http://localhost:7008"
+    "test": "test-storybook --url http://localhost:7008",
+    "prepublishOnly": "npm run build"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@design-system-rte/core": "0.1.0",
+    "@design-system-rte/core": "^0.1.0",
     "@testing-library/jest-dom": "^6.6.3",
     "clsx": "^2.1.1",
     "react": ">=18.0.0",
@@ -61,11 +65,13 @@
     "globals": "^15.15.0",
     "jsdom": "^26.0.0",
     "prettier": "^3.5.3",
+    "sass-embedded": "^1.88.0",
     "storybook": "^8.6.6",
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.24.1",
     "vite": "^6.2.1",
     "vite-plugin-dts": "^4.5.3",
+    "vite-plugin-lib-inject-css": "^2.2.2",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.0.8"
   },

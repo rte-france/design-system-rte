@@ -1,12 +1,18 @@
-import { defineConfig } from 'vitest/config';
+import { defineConfig } from 'vite';
 import { resolve } from 'path';
 import dts from 'vite-plugin-dts';
 import react from '@vitejs/plugin-react-swc';
+// import { libInjectCss } from 'vite-plugin-lib-inject-css';
 
-// https://vite.dev/config/
 export default defineConfig({
+  resolve: {
+    alias: {
+      '@design-system-rte/core': resolve(__dirname, '../core')
+    },
+  },
   plugins: [
     react(),
+    // libInjectCss(),
     dts({
       include: ['src/index.ts', 'src/components'],
       exclude: ['**/*.stories.*', '**/*.styled.ts'],
@@ -14,11 +20,6 @@ export default defineConfig({
       tsconfigPath: './tsconfig.app.json',
     }),
   ],
-  test: {
-    globals: true,
-    environment: 'jsdom',
-    setupFiles: './src/setupTests.ts', // Optionnel, recommandé pour Testing Library
-  },
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
