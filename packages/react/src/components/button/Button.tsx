@@ -1,14 +1,16 @@
 import { forwardRef } from 'react';
 
 import { ButtonProps as CoreButtonProps } from '@design-system-rte/core/components/button/button.interface';
+import { IconKeys } from '@design-system-rte/core/components/icon/icon.interface';
 import { buttonIconSize } from '@design-system-rte/core/components/button/button.constants';
 import style from './Button.module.scss';
-import Icon from '../icon/Icon';
 import { concatClassNames } from '../utils';
+import Icon from '../icon/Icon';
 
 interface ButtonProps
   extends Omit<CoreButtonProps, 'disabled'>,
     Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'> {
+  icon?: IconKeys;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 

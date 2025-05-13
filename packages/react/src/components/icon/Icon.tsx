@@ -1,16 +1,11 @@
-import { IconProps } from '@design-system-rte/core/components/icon/icon.interface';
+import { IconIds } from './IconMap';
 
-export default function Icon({ name, size = 24 }: IconProps) {
-  return (
-    <span
-      data-testid={`icon-${name}`}
-      className="material-symbols-rounded"
-      style={{
-        fontSize: size,
-        color: 'inherit',
-      }}
-    >
-      {name}
-    </span>
-  );
-}
+export type IconIdKey = keyof typeof IconIds;
+
+const Icon = ({ name, size }: { name: IconIdKey; size?: number }) => {
+  const Icon = IconIds[name as IconIdKey];
+
+  return <Icon width={size} height={size} fill="currentColor" />;
+};
+
+export default Icon;

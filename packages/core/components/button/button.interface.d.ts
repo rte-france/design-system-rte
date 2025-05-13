@@ -7,6 +7,5 @@ export interface ButtonProps {
     variant?: ButtonVariant;
     size?: ButtonSize;
     disabled?: boolean;
-    icon?: string;
     iconPosition?: ButtonIconPosition
 }
