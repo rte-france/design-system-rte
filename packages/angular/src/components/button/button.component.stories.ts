@@ -13,7 +13,7 @@ const meta: Meta<ButtonComponent>= {
   argTypes: {
     variant: {
       control: 'select',
-      options: ['filled', 'outlined', 'text', 'transparent', 'danger'],
+      options: ['primary', 'secondary', 'text', 'transparent', 'danger'],
     },
     size: {
       control: 'select',
@@ -34,7 +34,7 @@ const mockFn = fn();
 export const Default: Story = {
 
   args: {
-    variant: 'filled',
+    variant: 'primary',
     label: 'Button',
     click: mockFn,
   },
@@ -56,19 +56,19 @@ export const Sizing: Story = {
         <rte-button
           size="s"
           label="Small"
-          variant="filled"
+          variant="primary"
           data-testid="small-button"
           />
         <rte-button
           size="m"
           label="Medium"
-          variant="filled"
+          variant="primary"
           data-testid="medium-button"
           />
           <rte-button
           size="l"
           label="Large"
-          variant="filled"
+          variant="primary"
           data-testid="large-button"
           />
     </div>

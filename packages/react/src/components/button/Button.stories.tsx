@@ -11,7 +11,7 @@ const meta = {
   argTypes: {
     variant: {
       control: 'select',
-      options: ['filled', 'outlined', 'text', 'transparent', 'danger'],
+      options: ['primary', 'secondary', 'text', 'transparent', 'danger'],
     },
     size: {
       control: 'select',
@@ -35,7 +35,7 @@ const mockFn = fn();
 
 export const Default: Story = {
   args: {
-    variant: 'filled',
+    variant: 'primary',
     label: 'Button',
     onClick: mockFn,
   },

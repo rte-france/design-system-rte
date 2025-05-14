@@ -1,4 +1,4 @@
-export type ButtonVariant = 'filled' | 'outlined' | 'text' | 'transparent' | 'danger'
+export type ButtonVariant = 'primary' | 'secondary' | 'text' | 'transparent' | 'danger'
 export type ButtonSize = 's' | 'm' | 'l';
 export type ButtonIconPosition = 'left' | 'right';
 

@@ -17,7 +17,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     {
       size = 'm',
       label,
-      variant = 'filled',
+      variant = 'primary',
       className = '',
       icon,
       iconPosition = 'left',
