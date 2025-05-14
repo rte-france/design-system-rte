@@ -58,10 +58,10 @@
         //TODO: Modify brute variable to use tokens
         &:hover {
             transition: box-shadow 0.15s ease-in-out;
-            box-shadow: 0 0 0 8px var(--background-hover);
+            box-shadow: 0 0 0 8px var(--background-hover-opacity-50);
 
             &:checked {
-                box-shadow: 0 0 0 8px rgba(200, 22, 64, 0.2);
+                box-shadow: 0 0 0 8px var(--background-danger-hover-opacity-20);
             }
         }
     }
@@ -103,10 +103,10 @@
         //TODO: Modify brute variable to use tokens
 
         transition: box-shadow 0.15s ease-in-out;
-        box-shadow: 0 0 0 8px var(--background-hover);
+        box-shadow: 0 0 0 8px var(--background-hover-opacity-50);
 
         &:checked {
-            box-shadow: 0 0 0 8px rgba(34, 80, 130, 0.2);
+            box-shadow: 0 0 0 8px var(--background-brand-hover-opacity-20);
         }
     }
 

@@ -1,4 +1,5 @@
 @use 'primitives/colors' as *;
+@use 'primitives/devColors' as *;
 
 $bleu_iceberg: (
     "light": (
@@ -63,6 +64,9 @@ $bleu_iceberg: (
         "content-success": $vert-digital-600,
         "content-success-inverse": $core-white,
         "content-success-bold": $vert-digital-700,
+        "background-hover-opacity-50": $greyscale-50-opacity-50,
+        "background-brand-hover-opacity-20": $bleu-iceberg-700-opacity-20,
+        "background-danger-hover-opacity-20": $rouge-indications-700-opacity-20,
     ),
     "dark": (
         "content-primary": $core-white,
@@ -126,6 +130,9 @@ $bleu_iceberg: (
         "content-success": $vert-digital-600,
         "content-success-inverse": $core-white,
         "content-success-bold": $vert-digital-500,
+        "background-hover-opacity-50": $greyscale-800-opacity-50,
+        "background-brand-hover-opacity-20": $bleu-iceberg-200-opacity-20,
+        "background-danger-hover-opacity-20": $rouge-indications-500-opacity-20,
     )
 );
 
@@ -192,6 +199,9 @@ $violet: (
         "content-success": $vert-digital-600,
         "content-success-inverse": $core-white,
         "content-success-bold": $vert-digital-700,
+        "background-hover-opacity-50": $greyscale-50-opacity-50,
+        "background-brand-hover-opacity-20": $violet-700-opacity-20,
+        "background-danger-hover-opacity-20": $rouge-indications-700-opacity-20,
     ),
     "dark": (
         "content-primary": $core-white,
@@ -255,6 +265,9 @@ $violet: (
         "content-success": $vert-digital-600,
         "content-success-inverse": $core-white,
         "content-success-bold": $vert-digital-500,
+        "background-hover-opacity-50": $greyscale-800-opacity-50,
+        "background-brand-hover-opacity-20": $violet-200-opacity-20,
+        "background-danger-hover-opacity-20": $rouge-indications-500-opacity-20,
     )    
 );
 
@@ -321,6 +334,9 @@ $vert_foret: (
         "content-success": $vert-digital-600,
         "content-success-inverse": $core-white,
         "content-success-bold": $vert-digital-700,
+        "background-hover-opacity-50": $greyscale-50-opacity-50,
+        "background-brand-hover-opacity-20": $vert-foret-700-opacity-20,
+        "background-danger-hover-opacity-20": $rouge-indications-700-opacity-20,
     ),
     "dark": (
         "content-primary": $core-white,
@@ -384,5 +400,8 @@ $vert_foret: (
         "content-success": $vert-digital-600,
         "content-success-inverse": $core-white,
         "content-success-bold": $vert-digital-500,
+        "background-hover-opacity-50": $greyscale-800-opacity-50,
+        "background-brand-hover-opacity-20": $vert-foret-200-opacity-20,
+        "background-danger-hover-opacity-20": $rouge-indications-500-opacity-20,
     )
 );
