@@ -2,7 +2,7 @@ import { forwardRef } from 'react';
 import { LinkProps as CoreLinkProps } from '@design-system-rte/core/components/link/link.interface';
 import { concatClassNames } from '../utils';
 import style from './Link.module.scss';
-import IconOld from '../icon/IconOld';
+import Icon from '../icon/Icon';
 
 interface LinkProps extends CoreLinkProps, React.AnchorHTMLAttributes<HTMLAnchorElement> {}
 
@@ -19,7 +19,7 @@ const Link = forwardRef<HTMLAnchorElement, LinkProps>(
         {...props}
       >
         <span className={style.label}>{label}</span>
-        {externalLink && <IconOld name="external" size={12} />}
+        {externalLink && <Icon name="external_link" size={12} />}
       </a>
     );
   },
