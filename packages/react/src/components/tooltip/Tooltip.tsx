@@ -3,6 +3,7 @@ import { forwardRef } from "react";
 import { TooltipProps as CoreTooltipProps } from "@design-system-rte/core/components/tooltip/tooltip.interface";
 import style from "./Tooltip.module.scss";
 import { concatClassNames } from "../utils";
+import {getAutoPlacement} from "@design-system-rte/core/components/utils/auto-placement";
 
 interface TooltipProps
     extends CoreTooltipProps,
@@ -23,11 +24,24 @@ const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
         },
         ref,
     ) => {
+        const tooltipRef = (node: HTMLDivElement) => {
+            if (ref && typeof ref === "function") {
+                ref(node);
+            } else if (ref) {
+                (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+            }
+
+            if (node && position === "auto") {
+                const autoPosition = getAutoPlacement(node, "top");
+                node.setAttribute("data-position", autoPosition);
+            }
+        };
+
         return (
             <div
-                ref={ref}
+                ref={tooltipRef}
                 className={concatClassNames(style.tooltip, className)}
-                data-position={position}
+                data-position={position === "auto" ? undefined : position}
                 data-alignment={alignment}
                 data-arrow={arrow}
                 {...props}
@@ -39,4 +53,4 @@ const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
     }
 );
 
-export default Tooltip;
+export default Tooltip
