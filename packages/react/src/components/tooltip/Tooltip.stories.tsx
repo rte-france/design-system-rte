@@ -106,3 +106,29 @@ export const Arrow: Story = {
         );
     },
 };
+
+export const AutoPlacement: Story = {
+    args: {
+        label: "Tooltip",
+        children: mockChildren,
+    },
+    render: (args) => {
+        return (<div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+            <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "flex-start", gap: 8, border: "1px solid red", width: 75, height: 250 }}>
+                <Tooltip {...args} position="auto" />
+            </div>
+
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-start", gap: 8, border: "1px solid red", width: 250, height: 50  }}>
+                <Tooltip {...args} position="auto" />
+            </div>
+
+            <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "flex-end", gap: 8, border: "1px solid red", width: 75, height: 250  }}>
+                <Tooltip {...args} position="auto" />
+            </div>
+
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", gap: 8, border: "1px solid red", width: 250, height: 50  }}>
+                <Tooltip {...args} position="auto" />
+            </div></div>
+        );
+    }
+};
