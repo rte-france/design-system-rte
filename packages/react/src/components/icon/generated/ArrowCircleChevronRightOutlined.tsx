@@ -1,4 +1,7 @@
-import { IconProps } from '@design-system-rte/core/components/icon/icon.interface';
+import { IconProps as coreIconProps } from '@design-system-rte/core/components/icon/icon.interface';
+interface IconProps extends coreIconProps {
+  className?: string;
+}
 const SvgArrowCircleChevronRightOutlined = ({
   width = 20,
   height = 20,
