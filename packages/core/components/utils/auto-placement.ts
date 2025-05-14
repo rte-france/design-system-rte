@@ -15,5 +15,8 @@ export const getAutoPlacement = (element: HTMLElement, defaultPosition: string) 
     if (hasSpaceLeft) return "left";
     if (hasSpaceRight) return "right";
 
+    console.warn(defaultPosition);
+    console.log(hasSpaceTop, hasSpaceBottom, hasSpaceLeft, hasSpaceRight);
+
     return defaultPosition;
 };
