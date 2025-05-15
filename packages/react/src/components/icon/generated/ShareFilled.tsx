@@ -1,0 +1,23 @@
+import { IconProps as coreIconProps } from '@design-system-rte/core/components/icon/icon.interface';
+interface IconProps extends coreIconProps {
+  className?: string;
+}
+const SvgShareFilled = ({ width = 20, height = 20, fill = 'currentColor', ...props }: IconProps) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 20 20"
+      width={width}
+      height={height}
+      role="img"
+      {...props}
+    >
+      <path
+        fill={fill}
+        d="M14.167 18.333a2.4 2.4 0 0 1-1.771-.729 2.4 2.4 0 0 1-.73-1.77q0-.126.063-.584l-5.854-3.417a2.47 2.47 0 0 1-1.708.667 2.4 2.4 0 0 1-1.771-.73 2.4 2.4 0 0 1-.73-1.77q0-1.042.73-1.77a2.4 2.4 0 0 1 1.77-.73 2.48 2.48 0 0 1 1.709.667l5.854-3.417a1.4 1.4 0 0 1-.052-.281 4 4 0 0 1-.01-.302q0-1.042.729-1.771a2.4 2.4 0 0 1 1.77-.73 2.4 2.4 0 0 1 1.771.73q.73.729.73 1.77 0 1.042-.73 1.772a2.4 2.4 0 0 1-1.77.729A2.47 2.47 0 0 1 12.458 6L6.604 9.417q.042.145.052.28a4 4 0 0 1 0 .605q-.01.135-.052.281L12.458 14a2.47 2.47 0 0 1 1.709-.667 2.4 2.4 0 0 1 1.77.73q.73.729.73 1.77 0 1.042-.73 1.771a2.4 2.4 0 0 1-1.77.73"
+      />
+    </svg>
+  );
+};
+export default SvgShareFilled;
