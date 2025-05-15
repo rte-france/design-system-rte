@@ -1,7 +1,5 @@
-import { Component, input, ContentChild, ElementRef} from "@angular/core";
+import { Component, input} from "@angular/core";
 import { CommonModule } from "@angular/common";
-
-import {getAutoPlacement} from "../../../../core/components/utils/auto-placement";
 
 @Component({
   selector: 'rte-tooltip',
@@ -18,4 +16,5 @@ export class TooltipComponent {
     alignment = input('center');
     arrow = input(true);
 
-}
+    
+    }
