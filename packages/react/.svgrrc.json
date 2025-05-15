@@ -4,8 +4,7 @@
   "expandProps": "end",
   "dimensions": false,
   "replaceAttrValues": {
-    "#201F1F": "{fill}",
-    "#1F1F1F": "{fill}"
+    "currentColor": "{fill}"
   },
   "svgProps": {
     "width": "{width}",
