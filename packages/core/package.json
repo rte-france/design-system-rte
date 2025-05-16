@@ -1,9 +1,12 @@
 {
   "name": "@design-system-rte/core",
-  "version": "0.1.2",
+  "version": "0.2.0-rc1",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npm run build:css-themes",
+    "build:css-themes": "ts-node css-theme-generator.ts",
+    "prepublishOnly": "npm run build"
   },
   "keywords": [],
   "author": "",
@@ -14,5 +17,10 @@
   },
   "peerDependencies": {
     "sass": "^1.85.1"
+  },
+  "devDependencies": {
+    "sass": "^1.89.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
   }
 }
