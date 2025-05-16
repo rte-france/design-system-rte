@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { fn, userEvent, within, expect } from '@storybook/test';
-// TODO: Resolve import from core 
-// import { ENTER_KEY, SPACE_KEY, TAB_KEY } from '@design-system-rte/core/constants/keyboard.constants'; 
+import { ENTER_KEY, SPACE_KEY, TAB_KEY } from '@design-system-rte/core/constants/keyboard.constants'; 
 
 import { ButtonComponent } from './button.component';
 

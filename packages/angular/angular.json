@@ -3,47 +3,21 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "angular": {
+    "ds-rte-lib": {
       "projectType": "library",
       "schematics": {},
-      "root": "",
-      "sourceRoot": "src",
-      "prefix": "app",
+      "root": "projects/ds-rte-lib",
+      "sourceRoot": "projects/dse-rte-lib/src",
+      "prefix": "rte",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:application",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "outputPath": "dist/angular",
-            "index": "src/index.html",
-            "browser": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
-            "tsConfig": "tsconfig.app.json",
-            "assets": [
-              "src/assets"
-            ],
-            "styles": [],
-            "scripts": [],
-            "stylePreprocessorOptions": {
-              "includePaths": ["../"]
-            }
+            "project": "projects/ds-rte-lib/ng-package.json",
+            "tsConfig": "projects/ds-rte-lib/tsconfig.lib.json"
           },
           "configurations": {
             "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
-                }
-              ],
-              "outputHashing": "all"
             },
             "development": {
               "optimization": false,
@@ -57,10 +31,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "angular:build:production"
+              "buildTarget": "ds-rte-lib:build:production"
             },
             "development": {
-              "buildTarget": "angular:build:development"
+              "buildTarget": "ds-rte-lib:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -68,11 +42,11 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "angular:build"
+            "buildTarget": "ds-rte-lib:build"
           }
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular-devkit/angular:karma",
           "options": {
             "polyfills": [
               "zone.js",
@@ -90,7 +64,7 @@
           "builder": "@storybook/angular:start-storybook",
           "options": {
             "configDir": ".storybook",
-            "browserTarget": "angular:build",
+            "browserTarget": "ds-rte-lib:build",
             "compodoc": true,
             "compodocArgs": [
               "-e",
@@ -106,7 +80,7 @@
           "builder": "@storybook/angular:build-storybook",
           "options": {
             "configDir": ".storybook",
-            "browserTarget": "angular:build",
+            "browserTarget": "ds-rte-lib:build",
             "styles": ["@design-system-rte/core/tokens/main.scss", ".storybook/preview.scss"],
             "compodoc": true,
             "compodocArgs": [
@@ -118,7 +92,7 @@
             "outputDir": "storybook-static"
           }
         }
-      }
+      },
     }
   },
   "cli": {

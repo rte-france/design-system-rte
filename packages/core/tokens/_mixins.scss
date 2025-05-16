@@ -16,7 +16,7 @@ $themes: (
 }
 
 
-@mixin theme-selector($targetTheme: violet, $mode: light) {
+@mixin theme-selector($targetTheme: bleu_iceberg, $mode: light) {
     $theme: map.get($themes, $targetTheme, $mode);
 
     [data-theme="#{$targetTheme}"][data-mode="#{$mode}"] {
