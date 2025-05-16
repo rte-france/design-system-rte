@@ -7,6 +7,5 @@
       "forceConsistentCasingInFileNames": true,
       "strict": true
     },
-    "include": ["scripts/**/*"],
     "exclude": ["node_modules"]
-  }
+}
