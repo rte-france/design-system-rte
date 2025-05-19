@@ -1,10 +1,11 @@
 import { Component, input } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { IconComponent } from "../icon/icon.component";
 
 @Component({
   selector: 'rte-checkbox',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, IconComponent],
   templateUrl: './checkbox.component.html',
   styleUrl: './checkbox.component.scss',
 })

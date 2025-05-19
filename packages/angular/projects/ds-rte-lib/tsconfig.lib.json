@@ -13,5 +13,10 @@
   },
   "exclude": [
     "**/*.spec.ts"
+  ],
+  "files": ["typings.d.ts"],
+  "include": [
+    "src/**/*.ts",
+    "src/types.d.ts"
   ]
 }
