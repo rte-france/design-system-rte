@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "build": "ng build ds-rte-lib",
+    "postbuild": "cp -R projects/ds-rte-lib/src/lib/assets dist/lib/lib/assets",
     "publish": "npm publish ./dist/lib --access public",
     "build:publish": "npm run build && npm run publish",
     "storybook": "ng run ds-rte-lib:storybook --port 7007",

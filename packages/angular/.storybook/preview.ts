@@ -1,10 +1,17 @@
-import type { Preview } from '@storybook/angular'
+import { applicationConfig, type Preview } from '@storybook/angular'
+import { importProvidersFrom } from '@angular/core'
+import { HttpClientModule } from '@angular/common/http';
 import { setCompodocJson } from "@storybook/addon-docs/angular";
 import docJson from "../documentation.json";
 setCompodocJson(docJson);
 
 import { addons } from '@storybook/preview-api';
 
+const decorators = [
+  applicationConfig({
+    providers: [importProvidersFrom(HttpClientModule)]
+  })
+];
 const preview: Preview = {
   parameters: {
     controls: {
@@ -14,6 +21,7 @@ const preview: Preview = {
       },
     },
   },
+  decorators: decorators,
 };
 
 addons.getChannel().on('THEME_CHANGED', (theme) => {

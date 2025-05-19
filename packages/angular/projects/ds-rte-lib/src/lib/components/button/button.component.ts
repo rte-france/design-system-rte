@@ -1,10 +1,12 @@
 import { Component, input, output } from '@angular/core';
 import { ButtonSize, ButtonVariant } from '@design-system-rte/core/components/button/button.interface';
+import { IconComponent } from '../icon/icon.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'rte-button',
   standalone: true,
-  imports: [],
+  imports: [IconComponent, CommonModule],
   templateUrl: './button.component.html',
   styleUrl: './button.component.scss'
 })
@@ -14,6 +16,7 @@ export class ButtonComponent {
   variant = input<ButtonVariant>('primary');
   size = input<ButtonSize>('m');
   disabled = input(false);
+  icon = input<string>('');
 
   click = output<void>();
 
