@@ -2,20 +2,20 @@ import { IconProps as coreIconProps } from '@design-system-rte/core/components/i
 interface IconProps extends coreIconProps {
   className?: string;
 }
-const SvgVolumeMuteOutlined = ({ width = 20, height = 20, fill = 'currentColor', ...props }: IconProps) => {
+const SvgVolumeMuteOutlined = ({ width = 20, height = 20, ...props }: IconProps) => {
   return (
     <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
       viewBox="0 0 20 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
       width={width}
       height={height}
       role="img"
       {...props}
     >
       <path
-        fill={fill}
-        d="M9.167 12.5h-2.5a.8.8 0 0 1-.594-.24.8.8 0 0 1-.24-.593V8.333q0-.354.24-.593.24-.24.594-.24h2.5l2.75-2.75q.396-.396.906-.177t.51.781v9.292q0 .562-.51.781t-.906-.177zM7.5 10.833h2.375l1.792 1.792v-5.25L9.875 9.167H7.5z"
+        d="M9.16671 12.5H6.66671C6.4306 12.5 6.23268 12.4201 6.07296 12.2604C5.91324 12.1007 5.83337 11.9028 5.83337 11.6667V8.33333C5.83337 8.09722 5.91324 7.89931 6.07296 7.73958C6.23268 7.57986 6.4306 7.5 6.66671 7.5H9.16671L11.9167 4.75C12.1806 4.48611 12.4827 4.42708 12.823 4.57292C13.1632 4.71875 13.3334 4.97917 13.3334 5.35417V14.6458C13.3334 15.0208 13.1632 15.2812 12.823 15.4271C12.4827 15.5729 12.1806 15.5139 11.9167 15.25L9.16671 12.5ZM7.50004 10.8333H9.87504L11.6667 12.625V7.375L9.87504 9.16667H7.50004V10.8333Z"
+        fill="currentColor"
       />
     </svg>
   );

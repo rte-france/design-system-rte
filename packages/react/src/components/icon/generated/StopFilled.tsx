@@ -2,20 +2,20 @@ import { IconProps as coreIconProps } from '@design-system-rte/core/components/i
 interface IconProps extends coreIconProps {
   className?: string;
 }
-const SvgStopFilled = ({ width = 20, height = 20, fill = 'currentColor', ...props }: IconProps) => {
+const SvgStopFilled = ({ width = 20, height = 20, ...props }: IconProps) => {
   return (
     <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
       viewBox="0 0 20 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
       width={width}
       height={height}
       role="img"
       {...props}
     >
       <path
-        fill={fill}
-        d="M5 13.333V6.667q0-.688.49-1.177Q5.979 5 6.667 5h6.666q.688 0 1.177.49.49.489.49 1.177v6.666q0 .688-.49 1.177-.489.49-1.177.49H6.667q-.688 0-1.177-.49A1.6 1.6 0 0 1 5 13.333"
+        d="M5 13.3333V6.66667C5 6.20833 5.16319 5.81597 5.48958 5.48958C5.81597 5.16319 6.20833 5 6.66667 5H13.3333C13.7917 5 14.184 5.16319 14.5104 5.48958C14.8368 5.81597 15 6.20833 15 6.66667V13.3333C15 13.7917 14.8368 14.184 14.5104 14.5104C14.184 14.8368 13.7917 15 13.3333 15H6.66667C6.20833 15 5.81597 14.8368 5.48958 14.5104C5.16319 14.184 5 13.7917 5 13.3333Z"
+        fill="currentColor"
       />
     </svg>
   );
