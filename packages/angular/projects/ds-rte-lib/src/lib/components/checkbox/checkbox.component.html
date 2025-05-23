@@ -10,8 +10,8 @@
             [checked]="checked()"
             (keydown)="onKeydown($event)"
         />
-            <rte-icon name="check-small" size="16px" class="rte-checkbox-icons rte-checkbox-icon-selected"/> 
-            <rte-icon name="check-indeterminate" size="16px" class="rte-checkbox-icons rte-checkbox-icon-indeterminated"/> 
+            <rte-icon class="rte-checkbox-icons rte-checkbox-icon-selected" name="check-small" [size]="16"/> 
+            <rte-icon class="rte-checkbox-icons rte-checkbox-icon-indeterminated" name="check-indeterminate" [size]="16" /> 
         <div class="rte-checkbox-text-container">
             <label 
             *ngIf="showLabel()" 
