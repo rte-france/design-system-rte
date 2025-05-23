@@ -6,7 +6,6 @@ export interface IconPropsBis {
 export interface IconProps {
   width?: number;
   height?: number;
-  fill?: string;
   description?: string;
 };
 

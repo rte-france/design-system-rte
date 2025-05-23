@@ -1,19 +1,23 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { IconService } from './icon.service';
 import { Observable } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 @Component({
   standalone: true,
-  selector: 'ds-icon',
+  selector: 'rte-icon',
+  imports: [CommonModule],
   providers: [IconService],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './icon.component.html',
+  encapsulation: ViewEncapsulation.None
 })
 export class IconComponent {
   @Input() name!: string;
   @Input() size: string = '20px';
   @Input() color: string = 'currentColor';
+  @Input() classes: string ='';
 
   svgContent: SafeHtml | null = null;
   svg!: Observable<string>;
@@ -27,9 +31,17 @@ export class IconComponent {
   private setSvgContent(svgName: string) {
 
     const svgFile = this.iconService.getSvgForName(svgName)
-      
+    console.log('svgName', svgName);
+
     svgFile.subscribe((res) => {
-      this.svgContent = this.sanitizer.bypassSecurityTrustHtml(res);
+
+      const size = this.size
+      const svgWithSize = res.replace(
+        /<svg([^>]*)>/,
+        `<svg$1 width="${size}" height="${size}">`
+      );
+
+      this.svgContent = this.sanitizer.bypassSecurityTrustHtml(svgWithSize);
       this.cdr.markForCheck();
     });
   }

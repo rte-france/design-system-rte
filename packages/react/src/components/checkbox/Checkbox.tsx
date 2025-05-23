@@ -45,12 +45,11 @@ const Checkbox = ({
         onKeyDown={handleKeyDown}
         {...props}
       />
-      {/* TODO: Replace with the real icon from Iconography ticket */}
       <div className={`${styles['checkbox-icon-selected']} ${styles['checkbox-icons']}`}>
-        <Icon name="check_small" size={16} fill="white" />
+        <Icon name="check-small" size={16} />
       </div>
       <div className={`${styles['checkbox-icon-indeterminated']} ${styles['checkbox-icons']}`}>
-        <Icon name="check_indeterminate" size={16} fill="white" />
+        <Icon name="check-indeterminate" size={16} />
       </div>
       <div className={styles['checkbox-text-container']} data-disabled={disabled}>
         {showLabel && <label htmlFor={id}>{label}</label>}
