@@ -1,0 +1,18 @@
+{
+  "icon": true,
+  "jsxRuntime": "automatic",
+  "expandProps": "end",
+  "dimensions": false,
+  "replaceAttrValues": {
+    "currentColor": "{fill}"
+  },
+  "svgo": false,
+  "svgProps": {
+    "width": "{width}",
+    "height": "{height}",
+    "role": "img"
+  },
+  "titleProp": false,
+  "descProp": false,
+  "typescript": true
+}

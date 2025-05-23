@@ -11,7 +11,8 @@
     "changeset:add": "changeset add",
     "test:all": "npm --prefix packages/react run test && npm --prefix packages/angular run test",
     "test:angular": "npm --prefix packages/angular run test",
-    "test:react": "npm --prefix packages/react run test"
+    "test:react": "npm --prefix packages/react run test",
+    "generate-icons": "npm --prefix packages/react run generate-icons && cp -R packages/core/assets/icons packages/angular/projects/ds-rte-lib/src/lib/assets"
   },
   "keywords": [],
   "author": "",
