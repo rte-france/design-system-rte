@@ -15,7 +15,7 @@ import { CommonModule } from '@angular/common';
 })
 export class IconComponent {
   @Input() name!: string;
-  @Input() size: string = '20px';
+  @Input() size: number = 20;
   @Input() color: string = 'currentColor';
   @Input() classes: string ='';
 
