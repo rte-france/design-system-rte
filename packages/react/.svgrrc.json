@@ -9,8 +9,7 @@
   "svgo": false,
   "svgProps": {
     "width": "{width}",
-    "height": "{height}",
-    "role": "img"
+    "height": "{height}"
   },
   "titleProp": false,
   "descProp": false,
