@@ -11,10 +11,14 @@ export class IconService {
 
   constructor(private http: HttpClient) {}
 
-  public getSvgForName(name: IconType): Observable<string> {
+  public getSvgForName(name: string): Observable<string> {
     if(!this.http) {
       throw new Error('HttpClient is not available');
     }
-    return this.http.get(`assets/icons/${name}.svg`, { responseType: 'text' });
+    const iconName = iconMap[name as IconType];
+    if (!iconName) {
+      throw new Error(`Icon ${name} not found`);
+    }
+    return this.http.get(`assets/icons/${iconName}.svg`, { responseType: 'text' });
   }
 }

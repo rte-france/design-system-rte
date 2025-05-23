@@ -6,7 +6,7 @@ interface IconProps extends coreIconProps {
   className?: string;
 }
 
-const ${variables.componentName} = ({width = 20, height = 20, fill = 'currentColor', ...props}: IconProps) => {
+const ${variables.componentName} = ({width = 20, height = 20, ...props}: IconProps) => {
 
   return (
     ${variables.jsx}
