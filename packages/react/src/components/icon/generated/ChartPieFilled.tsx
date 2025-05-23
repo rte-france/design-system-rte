@@ -2,20 +2,20 @@ import { IconProps as coreIconProps } from '@design-system-rte/core/components/i
 interface IconProps extends coreIconProps {
   className?: string;
 }
-const SvgChartPieFilled = ({ width = 20, height = 20, fill = 'currentColor', ...props }: IconProps) => {
+const SvgChartPieFilled = ({ width = 20, height = 20, ...props }: IconProps) => {
   return (
     <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
       viewBox="0 0 20 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
       width={width}
       height={height}
       role="img"
       {...props}
     >
       <path
-        fill={fill}
-        d="M10.833 9.167V1.75q2.979.312 5.032 2.375t2.385 5.042zm-1.646 9.062q-3.165-.312-5.302-2.666Q1.75 13.208 1.75 10q0-3.23 2.135-5.583Q6.02 2.062 9.188 1.75zm1.646 0v-7.416h7.417q-.291 2.979-2.365 5.052-2.072 2.073-5.052 2.364"
+        d="M10.8333 9.16667V1.75C12.8194 1.95833 14.4965 2.75 15.8646 4.125C17.2326 5.5 18.0278 7.18056 18.25 9.16667H10.8333ZM9.1875 18.2292C7.07639 18.0208 5.30903 17.1319 3.88542 15.5625C2.46181 13.9931 1.75 12.1389 1.75 10C1.75 7.84722 2.46181 5.98611 3.88542 4.41667C5.30903 2.84722 7.07639 1.95833 9.1875 1.75V18.2292ZM10.8333 18.2292V10.8125H18.25C18.0556 12.7986 17.2674 14.4826 15.8854 15.8646C14.5035 17.2465 12.8194 18.0347 10.8333 18.2292Z"
+        fill="currentColor"
       />
     </svg>
   );

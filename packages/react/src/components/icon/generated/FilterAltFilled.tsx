@@ -2,20 +2,20 @@ import { IconProps as coreIconProps } from '@design-system-rte/core/components/i
 interface IconProps extends coreIconProps {
   className?: string;
 }
-const SvgFilterAltFilled = ({ width = 20, height = 20, fill = 'currentColor', ...props }: IconProps) => {
+const SvgFilterAltFilled = ({ width = 20, height = 20, ...props }: IconProps) => {
   return (
     <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
       viewBox="0 0 20 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
       width={width}
       height={height}
       role="img"
       {...props}
     >
       <path
-        fill={fill}
-        d="M9.167 16.667a.8.8 0 0 1-.594-.24.8.8 0 0 1-.24-.594v-5L3.5 4.667q-.313-.417-.094-.875.22-.459.76-.459h11.667q.542 0 .76.459.22.458-.093.875l-4.833 6.166v5q0 .355-.24.594a.8.8 0 0 1-.594.24z"
+        d="M9.16665 16.6667C8.93054 16.6667 8.73262 16.5868 8.5729 16.4271C8.41318 16.2674 8.33332 16.0695 8.33332 15.8334V10.8334L3.49999 4.66671C3.29165 4.38893 3.2604 4.09726 3.40624 3.79171C3.55207 3.48615 3.80554 3.33337 4.16665 3.33337H15.8333C16.1944 3.33337 16.4479 3.48615 16.5937 3.79171C16.7396 4.09726 16.7083 4.38893 16.5 4.66671L11.6667 10.8334V15.8334C11.6667 16.0695 11.5868 16.2674 11.4271 16.4271C11.2673 16.5868 11.0694 16.6667 10.8333 16.6667H9.16665Z"
+        fill="currentColor"
       />
     </svg>
   );

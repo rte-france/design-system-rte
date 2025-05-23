@@ -2,20 +2,20 @@ import { IconProps as coreIconProps } from '@design-system-rte/core/components/i
 interface IconProps extends coreIconProps {
   className?: string;
 }
-const SvgCloudFilled = ({ width = 20, height = 20, fill = 'currentColor', ...props }: IconProps) => {
+const SvgCloudFilled = ({ width = 20, height = 20, ...props }: IconProps) => {
   return (
     <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
       viewBox="0 0 20 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
       width={width}
       height={height}
       role="img"
       {...props}
     >
       <path
-        fill={fill}
-        d="M5.417 16.667q-1.896 0-3.24-1.313T.833 12.146q0-1.626.98-2.896a4.33 4.33 0 0 1 2.562-1.625A5.66 5.66 0 0 1 6.46 4.521 5.7 5.7 0 0 1 10 3.333q2.438 0 4.136 1.698t1.698 4.136a3.64 3.64 0 0 1 2.385 1.24q.948 1.072.948 2.51 0 1.562-1.094 2.656t-2.656 1.094z"
+        d="M5.41683 16.6667C4.15294 16.6667 3.07308 16.2292 2.17725 15.3542C1.28141 14.4792 0.833496 13.4098 0.833496 12.1459C0.833496 11.0625 1.15988 10.0973 1.81266 9.25004C2.46544 8.40282 3.31961 7.86115 4.37516 7.62504C4.72239 6.34726 5.41683 5.31254 6.4585 4.52087C7.50016 3.72921 8.68072 3.33337 10.0002 3.33337C11.6252 3.33337 13.0036 3.89935 14.1356 5.03129C15.2675 6.16324 15.8335 7.54171 15.8335 9.16671C16.7918 9.27782 17.587 9.69101 18.2189 10.4063C18.8509 11.1216 19.1668 11.9584 19.1668 12.9167C19.1668 13.9584 18.8022 14.8438 18.0731 15.573C17.3439 16.3021 16.4585 16.6667 15.4168 16.6667H5.41683Z"
+        fill="currentColor"
       />
     </svg>
   );
