@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { IconService } from './icon.service';
+import { IconService, RegularIconIdKey, TogglableIconIdKey } from './icon.service';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
@@ -14,10 +14,11 @@ import { CommonModule } from '@angular/common';
   encapsulation: ViewEncapsulation.None
 })
 export class IconComponent {
-  @Input() name!: string;
+  @Input() name!: RegularIconIdKey | TogglableIconIdKey;
   @Input() size: number = 20;
   @Input() color: string = 'currentColor';
   @Input() classes: string ='';
+  @Input() appearance!: 'outlined' | 'filled';
 
   svgContent: SafeHtml | null = null;
   svg!: Observable<string>;
@@ -28,9 +29,9 @@ export class IconComponent {
     this.setSvgContent(this.name);
   }
 
-  private setSvgContent(svgName: string) {
+  private setSvgContent(svgName: RegularIconIdKey | TogglableIconIdKey) {
 
-    const svgFile = this.iconService.getSvgForName(svgName)
+    const svgFile = this.iconService.getSvg(svgName)
     console.log('svgName', svgName);
 
     svgFile.subscribe((res) => {
