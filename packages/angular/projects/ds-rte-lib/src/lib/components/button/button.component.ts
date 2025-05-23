@@ -1,12 +1,11 @@
+import { CommonModule } from '@angular/common';
 import { Component, input, output } from '@angular/core';
 import { ButtonSize, ButtonVariant } from '@design-system-rte/core/components/button/button.interface';
-import { IconComponent } from '../icon/icon.component';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'rte-button',
   standalone: true,
-  imports: [IconComponent, CommonModule],
+  imports: [CommonModule],
   templateUrl: './button.component.html',
   styleUrl: './button.component.scss'
 })

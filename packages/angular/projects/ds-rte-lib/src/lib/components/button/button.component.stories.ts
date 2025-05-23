@@ -36,7 +36,6 @@ export const Default: Story = {
     variant: 'primary',
     label: 'Button',
     click: mockFn,
-    icon: 'add_circle_filled'
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -58,7 +57,6 @@ export const Sizing: Story = {
           label="Small"
           variant="primary"
           data-testid="small-button"
-          icon="add_circle_filled"
           />
         <rte-button
           size="m"
