@@ -2,7 +2,7 @@ import { IconProps as coreIconProps } from '@design-system-rte/core/components/i
 interface IconProps extends coreIconProps {
   className?: string;
 }
-const SvgCheckIndeterminate = ({ width = 20, height = 20, ...props }: IconProps) => {
+const SvgCheckIndeterminate = ({ width = 20, height = 20, fill = 'currentColor', ...props }: IconProps) => {
   return (
     <svg
       viewBox="0 0 20 20"
@@ -15,7 +15,7 @@ const SvgCheckIndeterminate = ({ width = 20, height = 20, ...props }: IconProps)
     >
       <path
         d="M5.83333 10.8334C5.59722 10.8334 5.39931 10.7535 5.23958 10.5938C5.07986 10.434 5 10.2361 5 10C5 9.76391 5.07986 9.56599 5.23958 9.40627C5.39931 9.24655 5.59722 9.16669 5.83333 9.16669H14.1667C14.4028 9.16669 14.6007 9.24655 14.7604 9.40627C14.9201 9.56599 15 9.76391 15 10C15 10.2361 14.9201 10.434 14.7604 10.5938C14.6007 10.7535 14.4028 10.8334 14.1667 10.8334H5.83333Z"
-        fill="currentColor"
+        fill={fill}
       />
     </svg>
   );

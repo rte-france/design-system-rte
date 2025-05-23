@@ -3,6 +3,9 @@
   "jsxRuntime": "automatic",
   "expandProps": "end",
   "dimensions": false,
+  "replaceAttrValues": {
+    "currentColor": "{fill}"
+  },
   "svgo": false,
   "svgProps": {
     "width": "{width}",
