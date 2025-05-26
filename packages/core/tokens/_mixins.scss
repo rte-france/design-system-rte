@@ -282,3 +282,33 @@ $themes: (
     line-height: $heading-s-semibold-line-height;
     letter-spacing: $heading-s-semibold-letter-spacing;
 }
+
+@mixin typography-split-button {
+  font-feature-settings: "liga" off, "clig" off;
+  font-style: normal;
+}
+
+@mixin typography-split-button-s {
+  @include typography-split-button;
+  font-family: $button-s-semibold-font-family;
+  font-weight: $button-s-semibold-font-weight;
+  font-size: $button-s-semibold-font-size;
+  line-height: $button-s-semibold-line-height;
+  letter-spacing: $button-s-semibold-letter-spacing;
+}
+@mixin typography-split-button-m {
+  @include typography-split-button;
+  font-family: $button-m-semibold-font-family;
+  font-weight: $button-m-semibold-font-weight;
+  font-size: $button-m-semibold-font-size;
+  line-height: $button-m-semibold-line-height;
+  letter-spacing: $button-m-semibold-letter-spacing;
+}
+@mixin typography-split-button-l {
+  @include typography-split-button;
+  font-family: $button-l-semibold-font-family;
+  font-weight: $button-l-semibold-font-weight;
+  font-size: $button-l-semibold-font-size;
+  line-height: $button-l-semibold-line-height;
+  letter-spacing: $button-l-semibold-letter-spacing;
+}
