@@ -25,6 +25,9 @@ const meta = {
             control:'select',
             options:['bottom-start','bottom-end','top-start','top-end']
         },
+        disabled: {
+            control: 'boolean',
+        },
     },
     args: { onClick: fn(), icon: ''},
 } satisfies Meta<typeof SplitButton>
@@ -34,17 +37,18 @@ type Story = StoryObj<typeof meta>
 
 const mockFn = fn()
 const mockChildren = (
-    <span
+    <div
         style={{
             color: "#FF8C00",
-            width:150,
-            height:250,
+            backgroundColor: "#00FF00",
+            width:100,
+            height:50,
             borderWidth: 2,
             borderColor: 'black'
         }}
     >
         Dropdown Exemple
-    </span>
+    </div>
 );
 
 export const Default: Story = {
@@ -53,9 +57,10 @@ export const Default: Story = {
         size : "s",
         label : "Button Label",
         compactSpacing : false,
-        selected : false,
+        selected : true,
         position : "bottom-start",
-        icon: "A",
+        icon: ">",
+        disabled: false,
         onClick: mockFn(),
         children: mockChildren,
     }
