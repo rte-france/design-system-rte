@@ -12,7 +12,7 @@ export class IconService {
 
   constructor(private http: HttpClient) {}
 
-  public getSvg(name: RegularIconIdKey | TogglableIconIdKey, appearance: 'outlined' | 'filled' = 'outlined'): Observable<string> {
+  public getSvg(name: RegularIconIdKey | TogglableIconIdKey, appearance: 'outlined' | 'filled'): Observable<string> {
     if(!this.http) {
       throw new Error('HttpClient is not available');
     }
