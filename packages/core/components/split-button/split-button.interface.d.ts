@@ -6,7 +6,7 @@ export type SplitButtonPosition = 'bottom-start' | 'bottom-end' | 'top-start' | 
 export interface SplitButtonProps {
     appearance?: SplitButtonAppearance;
     size?: SplitButtonSize;
-    label?: string;
+    label: string;
     compactSpacing?: boolean;
     selected?: boolean;
     position?: SplitButtonPosition;
