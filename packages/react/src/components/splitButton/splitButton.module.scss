@@ -32,8 +32,8 @@
     }
 
     .splitButtonLeft {
-        all: unset;
         display: flex;
+        border: none;
         padding: $positive-spacing_0 $positive-spacing_100;
         align-items: center;
         gap: $positive-spacing_0;
@@ -76,6 +76,12 @@
             border-bottom: 1px solid var(--border-disabled);
             border-left: 1px solid var(--border-disabled);
             cursor: not-allowed;
+        }
+
+        &:focus {
+            //TODO ICI CA MARCHE PAS
+            outline: 1px solid var(--border-brand-default);
+            outline-offset: 4px 4px 4px 4px; 
         }
 
         &[data-appearance='secondary'] {
@@ -142,8 +148,8 @@
         }
 
         .splitButtonRight {
-            all: unset;
             display: flex;
+            border: none;
             padding: $positive-spacing_075 $positive-spacing_200;
             align-items: center;
             justify-content: center;
