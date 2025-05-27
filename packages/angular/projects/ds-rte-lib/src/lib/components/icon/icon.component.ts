@@ -35,7 +35,7 @@ export class IconComponent {
 
     svgFile.subscribe((res) => {
 
-      const size = this.size
+      const size = this.size();
       const svgWithSize = res.replace(
         /<svg([^>]*)>/,
         `<svg$1 width="${size}" height="${size}">`
