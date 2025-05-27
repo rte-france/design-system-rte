@@ -19,7 +19,7 @@ const Link = forwardRef<HTMLAnchorElement, LinkProps>(
         {...props}
       >
         <span className={style.label}>{label}</span>
-        {externalLink && <Icon name="external_link" size={12} />}
+        {externalLink && <Icon name="external-link" size={12} />}
       </a>
     );
   },
