@@ -13,7 +13,7 @@ export interface SplitButtonProps {
   showIcon?: boolean;
     appearance?: SplitButtonAppearance;
     size?: SplitButtonSize;
-    label?: string;
+    label: string;
     compactSpacing?: boolean;
     selected?: boolean;
     position?: SplitButtonPosition;

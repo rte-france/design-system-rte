@@ -79,9 +79,22 @@
         }
 
         &:focus {
-            //TODO ICI CA MARCHE PAS
-            outline: 1px solid var(--border-brand-default);
-            outline-offset: 4px 4px 4px 4px; 
+            outline: none;
+            position: relative;
+            z-index: 1;
+
+            &::after {
+                content: '';
+                position: absolute;
+                top: -8px;
+                left: -8px;
+                bottom: -8px;
+                right: -1px;
+                border: 1px solid var(--border-brand-focused);
+                pointer-events: none;
+                border-radius: $radius-s;
+                z-index: 2;
+            }
         }
 
         &[data-appearance='secondary'] {
@@ -164,6 +177,7 @@
             &:hover {
                 cursor: pointer;
                 background-color: var(--background-brand-hover);
+                
             }
 
             &:active {
@@ -177,6 +191,25 @@
                 border-bottom: 1px solid var(--border-disabled);
                 border-right: 1px solid var(--border-disabled);
                 cursor: not-allowed;
+            }
+
+            &:focus {
+                outline: none;
+                position: relative;
+                z-index: 1;
+
+                &::after {
+                    content: '';
+                    position: absolute;
+                    top: -8px;
+                    left: -1px;
+                    bottom: -8px;
+                    right: -8px;
+                    border: 1px solid var(--border-brand-focused);
+                    pointer-events: none;
+                    border-radius: $radius-s;
+                    z-index: 2;
+                }
             }
 
             &[data-appearance='secondary'] {
@@ -206,23 +239,29 @@
 
             }
 
+            .splitButtonRightIconContainer {
+                pointer-events: none;
+            }
         }
 
-        .splitButtonDropdown{
+        .splitButtonDropdown {
             position: absolute;
 
             &[data-position='bottom-start'] {
                 top: 100%;
                 left: 0;
             }
+
             &[data-position='bottom-end'] {
                 top: 100%;
                 right: 0;
             }
+
             &[data-position='top-start'] {
                 bottom: 100%;
                 left: 0;
             }
+
             &[data-position='top-end'] {
                 bottom: 100%;
                 right: 0;
@@ -231,4 +270,20 @@
 
     }
 
+}
+
+.animationSlideFromTop {
+    animation: slide-from-top 0.2s ease-in-out;
+}
+
+@keyframes slide-from-top {
+    from {
+        transform: translateY(-10px);
+        pointer-events: none;
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
