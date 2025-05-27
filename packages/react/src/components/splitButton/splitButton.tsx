@@ -1,7 +1,6 @@
+import React, { ForwardedRef, useEffect } from "react";
 import { SplitButtonProps as CoreSplitButtonProps } from "@design-system-rte/core/components/split-button/split-button.interface";
-import { splitButtonLeftIconSize, splitButtonRightIconSize} from "@design-system-rte/core/components/split-button/split-button.constants";
-
-import React, { ForwardedRef } from "react";
+import { splitButtonLeftIconSize, splitButtonRightIconSize } from "@design-system-rte/core/components/split-button/split-button.constants";
 
 import Icon from "../icon/Icon";
 import { concatClassNames } from "../utils";
@@ -18,8 +17,8 @@ const SplitButton = React.forwardRef<HTMLElement | HTMLButtonElement, SplitButto
     (
         {
             appearance = "primary",
-            size = "s",
-            label = "",
+            size = "m",
+            label,
             compactSpacing = false,
             selected = false,
             position = "bottom-start",
@@ -33,23 +32,45 @@ const SplitButton = React.forwardRef<HTMLElement | HTMLButtonElement, SplitButto
         ref
     ) => {
 
-        const [display, setDisplay] = React.useState<React.CSSProperties['visibility']>(selected ? "visible" : "hidden");
-        const mouseClickChangeVisibility = () => {
-            setDisplay((display) => (display === "hidden" ? "visible" : "hidden"));
-        };
+        const [isHovered, setIsHovered] = React.useState<boolean>(false);
 
-        //TODO: Fix this event listener to not close the dropdown when clicking inside it
-        //TODO: Optimise this event listener to not close the dropdown when clicking on the right button
+        const [isClicked, setIsClicked] = React.useState<boolean>(false);
+
+        const [asAnimationRan, setAsAnimationRan] = React.useState<boolean>(false);
+
+        const [display, setDisplay] = React.useState<React.CSSProperties['visibility']>(selected ? "visible" : "hidden");
+
+
+
+        useEffect(() => {
+            if (isHovered || isClicked) {
+                setDisplay("visible");
+                if (asAnimationRan == false) {
+                    const dropdown = document.querySelector(`.${style.splitButtonDropdown}`) as HTMLElement;
+                    if (dropdown) {
+                        dropdown.classList.remove(style.animationSlideFromTop);
+                        dropdown.offsetWidth;
+                        dropdown.classList.add(style.animationSlideFromTop);
+                    }
+                    setAsAnimationRan(true)
+                }
+                return;
+            }
+            setDisplay("hidden");
+            setAsAnimationRan(false)
+        }, [isHovered, isClicked]);
+
+
 
         window.addEventListener("click", (e) => {
             const target = e.target as HTMLElement;
             if (
                 Array.from(target.classList).some(
-                    cls => cls.includes("splitButtonRight") || cls.includes("material")
-                )
+                    cls => cls.includes("splitButtonRight"))
             ) return;
-            if (display === "visible") setDisplay("hidden");
+            setIsClicked(false);
         });
+
 
         return (
             <div
@@ -76,16 +97,16 @@ const SplitButton = React.forwardRef<HTMLElement | HTMLButtonElement, SplitButto
                         {label}
                     </p>
                 </button>
-                <div 
+                <div
                     className={style.splitButtonDivider}
                     data-appearance={appearance}
-                    data-disabled={disabled} 
+                    data-disabled={disabled}
                 >
                 </div>
                 <div
                     className={style.splitButtonRightContainer}
                     ref={ref as ForwardedRef<HTMLDivElement>}
-                    >
+                >
                     <button
                         type="button"
                         className={style.splitButtonRight}
@@ -93,11 +114,15 @@ const SplitButton = React.forwardRef<HTMLElement | HTMLButtonElement, SplitButto
                         data-size={size}
                         data-selected={selected}
                         disabled={disabled}
-                        onClick={mouseClickChangeVisibility}
+                        onClick={() => setIsClicked(true)}
+                        onMouseEnter={() => setIsHovered(true)}
+                        onMouseLeave={() => setIsHovered(false)}
                         {...props}
                         ref={ref as ForwardedRef<HTMLButtonElement>}
                     >
-                        <Icon name=">" size={splitButtonRightIconSize[size]} />
+                        <div className={style.splitButtonRightIconContainer}>
+                            <Icon name=">" size={splitButtonRightIconSize[size]} />
+                        </div>
                     </button>
                     <div
                         className={style.splitButtonDropdown}
