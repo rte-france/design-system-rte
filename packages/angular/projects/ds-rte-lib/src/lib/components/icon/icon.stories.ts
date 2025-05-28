@@ -14,7 +14,7 @@ const meta = {
   argTypes: {
     name: {
       control: 'select',
-      options: [...RegularIconIds, ...TogglableIconIds],
+      options: [...RegularIconIds, ...TogglableIconIds].sort(),
       description: 'Nom de l’icône à afficher',
       defaultValue: 'check',
     },
