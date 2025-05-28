@@ -10,17 +10,8 @@ import { CommonModule } from "@angular/common";
 })
 
 export class TooltipComponent {
-
   label = input.required<string>();
   position = model<string>('auto');
   alignment = input<string>('center');
   arrow = input<boolean>(true);
-
-  ngOnInit() {
-    console.log(this.label());
-    console.log(this.position());
-    console.log(this.alignment());
-    console.log(this.arrow());
-  }
-
 }
