@@ -12,7 +12,7 @@ export class IconService {
 
   constructor(private http: HttpClient) {}
 
-  public getSvg(name: RegularIconIdKey | TogglableIconIdKey, appearance: 'outlined' | 'filled'): Observable<string> {
+  getSvg(name: RegularIconIdKey | TogglableIconIdKey, appearance: 'outlined' | 'filled'): Observable<string> {
     if(!this.http) {
       throw new Error('HttpClient is not available');
     }
@@ -20,7 +20,10 @@ export class IconService {
 
     if (toggableIcon) {
       const [outlinedIconName, filledIconName] = toggableIcon;
-      return appearance === 'filled' ? this.http.get(`assets/icons/${filledIconName}.svg`, { responseType: 'text' }) : this.http.get(`assets/icons/${outlinedIconName}.svg`, { responseType: 'text' });
+
+      const iconName = appearance === 'filled' ? filledIconName : outlinedIconName;
+      return this.http.get(`assets/icons/${iconName}.svg`, { responseType: 'text' })
+
     } else {
       const iconName = regularIcons[name as RegularIconIdKey];
       if (!iconName) {
