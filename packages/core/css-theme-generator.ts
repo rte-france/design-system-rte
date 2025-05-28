@@ -1,22 +1,17 @@
-import path from 'path';
-import sass from 'sass';
-import fs from 'fs';
+import path from "path";
+import sass from "sass";
+import fs from "fs";
 
-const themes = [
-    'bleu_iceberg',
-    'violet',
-    'vert_foret'
-]
+const themes = ["bleu_iceberg", "violet", "vert_foret"];
 
-const outputDir = path.resolve(__dirname, 'css');
+const outputDir = path.resolve(__dirname, "css");
 
 if (!fs.existsSync(outputDir)) {
-    fs.mkdirSync(outputDir);
+  fs.mkdirSync(outputDir);
 }
 
-themes.forEach(theme => {
-
-    const sassContent = `
+themes.forEach((theme) => {
+  const sassContent = `
         @use 'tokens/_mixins.scss' as *;
 
         :root {
@@ -30,19 +25,21 @@ themes.forEach(theme => {
         }
     `;
 
-    const result = sass.compileString(sassContent, {
-        loadPaths: [path.resolve(__dirname)],
-        style: 'compressed'
-    })
-    
-    const fileName = `${theme}.css`;
-    fs.writeFileSync(path.join(outputDir, fileName), result.css);
+  const result = sass.compileString(sassContent, {
+    loadPaths: [path.resolve(__dirname)],
+    style: "compressed",
+  });
+
+  const fileName = `${theme}.css`;
+  fs.writeFileSync(path.join(outputDir, fileName), result.css);
 });
 
 const allThemesSassContent = `
     @use 'tokens/_mixins.scss' as *;
 
-    ${themes.map(theme => `
+    ${themes
+      .map(
+        (theme) => `
         [data-theme="${theme}"][data-mode="light"] {
             @include apply-theme('${theme}', 'light');
         }
@@ -50,12 +47,14 @@ const allThemesSassContent = `
         [data-theme="${theme}"][data-mode="dark"] {
             @include apply-theme('${theme}', 'dark');
         }
-    `).join('\n')}
-`
+    `,
+      )
+      .join("\n")}
+`;
 
 const allThemesResult = sass.compileString(allThemesSassContent, {
-    loadPaths: [path.resolve(__dirname)],
-    style: 'compressed'
-})
+  loadPaths: [path.resolve(__dirname)],
+  style: "compressed",
+});
 
-fs.writeFileSync(path.join(outputDir, 'rte-themes.css'), allThemesResult.css);
+fs.writeFileSync(path.join(outputDir, "rte-themes.css"), allThemesResult.css);

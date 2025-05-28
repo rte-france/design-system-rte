@@ -1,14 +1,15 @@
-import React, { forwardRef } from 'react';
-import { RadioButtonProps as CoreRadioButtonProps } from '@design-system-rte/core/components/radio-button/radio-button.interface';
-import { labelSize } from '@design-system-rte/core/components/radio-button/radio-button.constants';
-import { concatClassNames } from '../utils';
-import style from './RadioButton.module.scss';
+
+import React, { forwardRef } from "react";
+import { RadioButtonProps as CoreRadioButtonProps } from "@design-system-rte/core/components/radio-button/radio-button.interface";
+import { labelSize } from "@design-system-rte/core/components/radio-button/radio-button.constants";
+import { concatClassNames } from "../utils";
+import style from "./RadioButton.module.scss";
 
 interface RadioButtonProps extends CoreRadioButtonProps, React.InputHTMLAttributes<HTMLInputElement> {}
 
 const RadioButton = forwardRef<HTMLInputElement, RadioButtonProps>(
   (
-    { label, groupName, showLabel = true, disabled = false, error = false, readOnly = false, className = '', ...props },
+    { label, groupName, showLabel = true, disabled = false, error = false, readOnly = false, className = "", ...props },
     ref,
   ) => {
     if (disabled && error) {

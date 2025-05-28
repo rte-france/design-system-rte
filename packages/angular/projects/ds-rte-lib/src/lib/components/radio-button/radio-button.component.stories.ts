@@ -1,34 +1,34 @@
-import { Meta, StoryObj } from '@storybook/angular';
-import { userEvent, within, expect } from '@storybook/test';
-import { RadioButtonComponent } from './radio-button.component';
+import { Meta, StoryObj } from "@storybook/angular";
+import { userEvent, within, expect } from "@storybook/test";
+import { RadioButtonComponent } from "./radio-button.component";
 
 const meta: Meta<RadioButtonComponent> = {
-  title: 'RadioButton',
+  title: "RadioButton",
   component: RadioButtonComponent,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   argTypes: {
     label: {
-      control: 'text',
-      defaultValue: 'Radio Button',
+      control: "text",
+      defaultValue: "Radio Button",
     },
     groupName: {
-      control: 'text',
-      defaultValue: 'radio-group',
+      control: "text",
+      defaultValue: "radio-group",
     },
     showLabel: {
-      control: 'boolean',
+      control: "boolean",
       defaultValue: true,
     },
     disabled: {
-      control: 'boolean',
+      control: "boolean",
       defaultValue: false,
     },
     error: {
-      control: 'boolean',
+      control: "boolean",
       defaultValue: false,
     },
     readOnly: {
-      control: 'boolean',
+      control: "boolean",
       defaultValue: false,
     },
   },
@@ -38,8 +38,8 @@ type Story = StoryObj<RadioButtonComponent>;
 
 export const Default: Story = {
   args: {
-    label: 'Radio Button',
-    groupName: 'radio-group',
+    label: "Radio Button",
+    groupName: "radio-group",
     showLabel: true,
     disabled: false,
     error: false,
@@ -47,7 +47,7 @@ export const Default: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const radioButton = canvas.getByRole('radio');
+    const radioButton = canvas.getByRole("radio");
     await userEvent.click(radioButton);
     expect(radioButton).toBeChecked();
   },
@@ -58,18 +58,18 @@ export const Disabled: Story = {
     ...Default.args,
     disabled: true,
   },
-}
+};
 
 export const Error: Story = {
   args: {
     ...Default.args,
     error: true,
   },
-}
+};
 
 export const ReadOnly: Story = {
   args: {
     ...Default.args,
     readOnly: true,
   },
-}
+};

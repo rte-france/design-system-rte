@@ -7,7 +7,7 @@ import Icon from '../icon/Icon';
 interface LinkProps extends CoreLinkProps, React.AnchorHTMLAttributes<HTMLAnchorElement> {}
 
 const Link = forwardRef<HTMLAnchorElement, LinkProps>(
-  ({ label, href, subtle = false, externalLink = false, className = '', ...props }, ref) => {
+  ({ label, href, subtle = false, externalLink = false, className = "", ...props }, ref) => {
     return (
       <a
         ref={ref}

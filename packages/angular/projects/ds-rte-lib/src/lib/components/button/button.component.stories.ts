@@ -1,25 +1,23 @@
-import type { Meta, StoryObj } from '@storybook/angular';
-import { fn, userEvent, within, expect } from '@storybook/test';
-import { ENTER_KEY, SPACE_KEY, TAB_KEY } from '@design-system-rte/core/constants/keyboard.constants'; 
+import type { Meta, StoryObj } from "@storybook/angular";
+import { fn, userEvent, within, expect } from "@storybook/test";
 
-import { ButtonComponent } from './button.component';
+import { ButtonComponent } from "./button.component";
 
-
-const meta: Meta<ButtonComponent>= {
-  title: 'Button',
+const meta: Meta<ButtonComponent> = {
+  title: "Button",
   component: ButtonComponent,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   argTypes: {
     variant: {
-      control: 'select',
-      options: ['primary', 'secondary', 'text', 'transparent', 'danger'],
+      control: "select",
+      options: ["primary", "secondary", "text", "transparent", "danger"],
     },
     size: {
-      control: 'select',
-      options: ['s', 'm', 'l'],
+      control: "select",
+      options: ["s", "m", "l"],
     },
     disabled: {
-      control: 'boolean',
+      control: "boolean",
     },
   },
   args: { click: fn() },
@@ -31,15 +29,14 @@ type Story = StoryObj<ButtonComponent>;
 const mockFn = fn();
 
 export const Default: Story = {
-
   args: {
-    variant: 'primary',
-    label: 'Button',
+    variant: "primary",
+    label: "Button",
     click: mockFn,
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const button = canvas.getByRole('button');
+    const button = canvas.getByRole("button");
     await userEvent.click(button);
     expect(mockFn).toHaveBeenCalled();
     button.blur();
@@ -47,7 +44,6 @@ export const Default: Story = {
 };
 
 export const Sizing: Story = {
-
   render: (args) => ({
     props: args,
     template: `
@@ -75,9 +71,9 @@ export const Sizing: Story = {
   }),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const smallButton = canvas.getByTestId('small-button').getElementsByTagName('button')[0];
-    const mediumButton = canvas.getByTestId('medium-button').getElementsByTagName('button')[0];
-    const largeButton = canvas.getByTestId('large-button').getElementsByTagName('button')[0];
+    const smallButton = canvas.getByTestId("small-button").getElementsByTagName("button")[0];
+    const mediumButton = canvas.getByTestId("medium-button").getElementsByTagName("button")[0];
+    const largeButton = canvas.getByTestId("large-button").getElementsByTagName("button")[0];
 
     expect(smallButton.clientHeight).toBe(24);
     expect(mediumButton.clientHeight).toBe(32);
@@ -91,7 +87,7 @@ export const KeyboardInteraction: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const button = canvas.getByRole('button');
+    const button = canvas.getByRole("button");
     await userEvent.keyboard(`{Tab}`);
     expect(button).toHaveFocus();
     await userEvent.keyboard(`{Enter}}`);

@@ -34,8 +34,7 @@ const meta: Meta<RadioButtonGroupComponent> = {
     },
     groupHelpText: {
       control: "text",
-      defaultValue:
-        "This is a help text for the radio button group.",
+      defaultValue: "This is a help text for the radio button group.",
     },
     showHelpText: {
       control: "boolean",
@@ -43,8 +42,7 @@ const meta: Meta<RadioButtonGroupComponent> = {
     },
     errorMessage: {
       control: "text",
-      defaultValue:
-        'This is an error message. Please select an option.',
+      defaultValue: "This is an error message. Please select an option.",
     },
     error: {
       control: "boolean",
@@ -71,11 +69,9 @@ export const Default: Story = {
     showItemsLabel: true,
     groupTitle: "Radio Button Group Title",
     showGroupTitle: true,
-    groupHelpText:
-      "This is a help text for the radio button group.",
+    groupHelpText: "This is a help text for the radio button group.",
     showHelpText: true,
-    errorMessage:
-      'This is an error message. Please select an option.',
+    errorMessage: "This is an error message. Please select an option.",
     error: false,
     disabled: false,
     readOnly: false,
@@ -89,36 +85,36 @@ export const Default: Story = {
 };
 
 export const Disabled: Story = {
-    args: {
-        ...Default.args,
-        disabled: true,
-    },
-}
+  args: {
+    ...Default.args,
+    disabled: true,
+  },
+};
 
 export const Error: Story = {
-    args: {
-        ...Default.args,
-        error: true,
-    },
+  args: {
+    ...Default.args,
+    error: true,
+  },
 };
 
 export const ReadOnly: Story = {
-    args: {
-        ...Default.args,
-        readOnly: true,
-    },
+  args: {
+    ...Default.args,
+    readOnly: true,
+  },
 };
 
 export const Vertical: Story = {
-    args: {
-        ...Default.args,
-        direction: "vertical",
-    },
+  args: {
+    ...Default.args,
+    direction: "vertical",
+  },
 };
 
 export const Horizontal: Story = {
-    args: {
-        ...Default.args,
-        direction: "horizontal",
-    },
+  args: {
+    ...Default.args,
+    direction: "horizontal",
+  },
 };

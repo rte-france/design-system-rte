@@ -1,36 +1,36 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from "@storybook/react";
 
-import Checkbox from './Checkbox';
-import { userEvent, within, expect } from '@storybook/test';
-import { SPACE_KEY, TAB_KEY } from '@design-system-rte/core/constants/keyboard.constants';
+import Checkbox from "./Checkbox";
+import { userEvent, within, expect } from "@storybook/test";
+import { SPACE_KEY, TAB_KEY } from "@design-system-rte/core/constants/keyboard.constants";
 
 const meta = {
-  title: 'Checkbox',
+  title: "Checkbox",
   component: Checkbox,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   argTypes: {
     label: {
-      control: 'text',
-      defaultValue: 'Label',
+      control: "text",
+      defaultValue: "Label",
     },
     showLabel: {
-      control: 'boolean',
+      control: "boolean",
       defaultValue: true,
     },
     disabled: {
-      control: 'boolean',
+      control: "boolean",
       defaultValue: false,
     },
     error: {
-      control: 'boolean',
+      control: "boolean",
       defaultValue: false,
     },
     errorMessage: {
-      control: 'text',
-      defaultValue: '',
+      control: "text",
+      defaultValue: "",
     },
     readOnly: {
-      control: 'boolean',
+      control: "boolean",
       defaultValue: false,
     },
   },
@@ -41,18 +41,18 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    id: 'my-checkbox',
-    label: 'Label',
-    description: 'Description',
+    id: "my-checkbox",
+    label: "Label",
+    description: "Description",
     disabled: false,
     readOnly: false,
     showLabel: true,
     indeterminate: false,
-    errorMessage: '',
+    errorMessage: "",
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const checkbox = canvas.getByRole('checkbox');
+    const checkbox = canvas.getByRole("checkbox");
     await userEvent.click(checkbox);
     expect(checkbox).toBeChecked();
     checkbox.blur();
@@ -66,7 +66,7 @@ export const Disabled: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const checkbox = canvas.getByRole('checkbox');
+    const checkbox = canvas.getByRole("checkbox");
     expect(checkbox).toBeDisabled();
     await userEvent.click(checkbox);
     expect(checkbox).not.toBeChecked();
@@ -88,7 +88,7 @@ export const ReadOnly: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const checkbox = canvas.getByRole('checkbox');
+    const checkbox = canvas.getByRole("checkbox");
     await userEvent.keyboard(`{${TAB_KEY}}`);
     expect(checkbox).toHaveFocus();
     await userEvent.keyboard(`{${SPACE_KEY}}`);
@@ -100,7 +100,7 @@ export const Error: Story = {
   args: {
     ...Default.args,
     error: true,
-    errorMessage: 'Error message',
+    errorMessage: "Error message",
   },
 };
 
@@ -110,7 +110,7 @@ export const KeyboardInteractions: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const checkbox = canvas.getByRole('checkbox');
+    const checkbox = canvas.getByRole("checkbox");
     await userEvent.keyboard(`{${TAB_KEY}}`);
     expect(checkbox).toHaveFocus();
     await userEvent.keyboard(`{${SPACE_KEY}}`);
