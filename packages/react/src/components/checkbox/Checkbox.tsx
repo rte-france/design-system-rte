@@ -3,7 +3,7 @@ import { CheckboxProps as CoreCheckboxProps } from '@design-system-rte/core/comp
 import styles from './Checkbox.module.scss';
 import Icon from '../icon/Icon';
 
-interface CheckboxProps extends CoreCheckboxProps, Omit<React.InputHTMLAttributes<HTMLInputElement>, 'id'> {}
+interface CheckboxProps extends CoreCheckboxProps, Omit<React.InputHTMLAttributes<HTMLInputElement>, "id"> {}
 
 const Checkbox = ({
   id,
@@ -26,18 +26,18 @@ const Checkbox = ({
   }, [indeterminate]);
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.code === 'Space') {
+    if (event.code === "Space") {
       if (readOnly) {
         event.preventDefault();
       }
     }
   };
   return (
-    <div className={styles['container']}>
+    <div className={styles["container"]}>
       <input
         type="checkbox"
         id={id}
-        className={styles['checkbox']}
+        className={styles["checkbox"]}
         disabled={disabled}
         ref={inputRef}
         data-read-only={readOnly}
@@ -51,10 +51,10 @@ const Checkbox = ({
       <div className={`${styles['checkbox-icon-indeterminated']} ${styles['checkbox-icons']}`}>
         <Icon name="check-indeterminate" size={16} />
       </div>
-      <div className={styles['checkbox-text-container']} data-disabled={disabled}>
+      <div className={styles["checkbox-text-container"]} data-disabled={disabled}>
         {showLabel && <label htmlFor={id}>{label}</label>}
-        <p className={styles['checkbox-description']}>{description}</p>
-        {error && errorMessage && <p className={styles['checkbox-error']}>{errorMessage}</p>}
+        <p className={styles["checkbox-description"]}>{description}</p>
+        {error && errorMessage && <p className={styles["checkbox-error"]}>{errorMessage}</p>}
       </div>
     </div>
   );

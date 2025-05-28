@@ -8,6 +8,7 @@ export type TogglableIconIdKey = keyof typeof TogglableIcons;
 
 export interface IconProps extends coreIconProps {
   className?: string;
+
 }
 
 interface IconWrapperProps

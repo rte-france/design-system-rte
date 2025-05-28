@@ -9,12 +9,9 @@ import { IconComponent } from '../icon/icon.component';
     templateUrl: './link.component.html',
     styleUrl: './link.component.scss'
 })
-
 export class LinkComponent {
-
-    label = input('');
-    href = input<string>('#');
-    subtle = input<boolean>(false);
-    externalLink = input<boolean>(false);
-
+  label = input("");
+  href = input<string>("#");
+  subtle = input<boolean>(false);
+  externalLink = input<boolean>(false);
 }

@@ -10,3 +10,4 @@ export interface IconProps {
   fill?: string;
   description?: string;
 };
+

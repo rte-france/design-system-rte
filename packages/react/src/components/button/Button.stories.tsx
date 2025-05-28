@@ -1,28 +1,28 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { fn, userEvent, within, expect } from '@storybook/test';
-import { ENTER_KEY, SPACE_KEY, TAB_KEY } from '@design-system-rte/core/constants/keyboard.constants';
+import type { Meta, StoryObj } from "@storybook/react";
+import { fn, userEvent, within, expect } from "@storybook/test";
+import { ENTER_KEY, SPACE_KEY, TAB_KEY } from "@design-system-rte/core/constants/keyboard.constants";
 
-import Button from './Button';
+import Button from "./Button";
 
 const meta = {
-  title: 'Button',
+  title: "Button",
   component: Button,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   argTypes: {
     variant: {
-      control: 'select',
-      options: ['primary', 'secondary', 'text', 'transparent', 'danger'],
+      control: "select",
+      options: ["primary", "secondary", "text", "transparent", "danger"],
     },
     size: {
-      control: 'select',
-      options: ['s', 'm', 'l'],
+      control: "select",
+      options: ["s", "m", "l"],
     },
     iconPosition: {
-      control: 'select',
-      options: ['left', 'right'],
+      control: "select",
+      options: ["left", "right"],
     },
     disabled: {
-      control: 'boolean',
+      control: "boolean",
     },
   },
   args: { onClick: fn() },
@@ -35,13 +35,13 @@ const mockFn = fn();
 
 export const Default: Story = {
   args: {
-    variant: 'primary',
-    label: 'Button',
+    variant: "primary",
+    label: "Button",
     onClick: mockFn,
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const button = canvas.getByRole('button');
+    const button = canvas.getByRole("button");
     await userEvent.click(button);
     expect(mockFn).toHaveBeenCalled();
     button.blur();
@@ -54,7 +54,7 @@ export const Sizing: Story = {
   },
   render: (args) => {
     return (
-      <div style={{ display: 'flex', gap: 8 }}>
+      <div style={{ display: "flex", gap: 8 }}>
         <Button {...args} size="s" label="Small" data-testId="small-button" />
         <Button {...args} label="Medium" data-testId="medium-button" />
         <Button {...args} size="l" label="Large" data-testId="large-button" />
@@ -63,9 +63,9 @@ export const Sizing: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const smallButton = canvas.getByTestId('small-button');
-    const mediumButton = canvas.getByTestId('medium-button');
-    const largeButton = canvas.getByTestId('large-button');
+    const smallButton = canvas.getByTestId("small-button");
+    const mediumButton = canvas.getByTestId("medium-button");
+    const largeButton = canvas.getByTestId("large-button");
 
     expect(smallButton.clientHeight).toBe(24);
     expect(mediumButton.clientHeight).toBe(32);
@@ -79,7 +79,7 @@ export const KeyboardInteraction: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const button = canvas.getByRole('button');
+    const button = canvas.getByRole("button");
     await userEvent.keyboard(`{${TAB_KEY}}`);
     expect(button).toHaveFocus();
     await userEvent.keyboard(`{${ENTER_KEY}}`);
