@@ -8,10 +8,10 @@ export const getAutoPlacement = (element: HTMLElement, defaultPosition: string) 
     const parentRect = parent.getBoundingClientRect();
     const tooltipRect = element.getBoundingClientRect();
 
-    const hasSpaceTop = tooltipRect.top-MAX_TOOLTIP_HEIGHT >= parentRect.top;
-    const hasSpaceBottom = tooltipRect.bottom+MAX_TOOLTIP_HEIGHT <= parentRect.bottom;
-    const hasSpaceLeft = tooltipRect.left-MAX_TOOLTIP_WIDTH >= parentRect.left;
-    const hasSpaceRight = tooltipRect.right+MAX_TOOLTIP_WIDTH <= parentRect.right;
+    const hasSpaceTop = tooltipRect.top - MAX_TOOLTIP_HEIGHT >= parentRect.top;
+    const hasSpaceBottom = tooltipRect.bottom + MAX_TOOLTIP_HEIGHT <= parentRect.bottom;
+    const hasSpaceLeft = tooltipRect.left - MAX_TOOLTIP_WIDTH >= parentRect.left;
+    const hasSpaceRight = tooltipRect.right + MAX_TOOLTIP_WIDTH <= parentRect.right;
 
     if (hasSpaceTop) return "top";
     if (hasSpaceBottom) return "bottom";
