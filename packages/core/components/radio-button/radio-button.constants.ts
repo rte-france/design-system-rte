@@ -1,1 +1,1 @@
-export const labelSize = 16
+export const labelSize = 16;

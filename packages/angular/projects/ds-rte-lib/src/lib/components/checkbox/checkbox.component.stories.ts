@@ -1,63 +1,63 @@
-import { Meta, StoryObj } from '@storybook/angular';
-import { userEvent, within, expect } from '@storybook/test';
-import { CheckboxComponent } from './checkbox.component';
+import { Meta, StoryObj } from "@storybook/angular";
+import { userEvent, within, expect } from "@storybook/test";
+import { CheckboxComponent } from "./checkbox.component";
 
 const meta: Meta<CheckboxComponent> = {
-  title: 'Checkbox',
+  title: "Checkbox",
   component: CheckboxComponent,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   argTypes: {
     label: {
-      control: 'text',
-      defaultValue: 'Label',
+      control: "text",
+      defaultValue: "Label",
     },
     description: {
-      control: 'text',
-      defaultValue: 'Description',
+      control: "text",
+      defaultValue: "Description",
     },
     showLabel: {
-      control: 'boolean',
+      control: "boolean",
       defaultValue: true,
     },
     disabled: {
-      control: 'boolean',
+      control: "boolean",
       defaultValue: false,
     },
     indeterminate: {
-      control: 'boolean',
+      control: "boolean",
       defaultValue: false,
     },
     errorMessage: {
-      control: 'text',
-      defaultValue: '',
+      control: "text",
+      defaultValue: "",
     },
     readOnly: {
-      control: 'boolean',
+      control: "boolean",
       defaultValue: false,
     },
     checked: {
-      control: 'boolean',
+      control: "boolean",
       defaultValue: false,
     },
-  }
+  },
 };
 export default meta;
 type Story = StoryObj<CheckboxComponent>;
 
 export const Default: Story = {
   args: {
-    id: 'my-checkbox',
-    label: 'Label',
-    description: 'Description',
+    id: "my-checkbox",
+    label: "Label",
+    description: "Description",
     disabled: false,
     readOnly: false,
     showLabel: true,
     indeterminate: false,
-    errorMessage: '',
+    errorMessage: "",
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const checkbox = canvas.getByRole('checkbox');
+    const checkbox = canvas.getByRole("checkbox");
     await userEvent.click(checkbox);
     expect(checkbox).toBeChecked();
     checkbox.blur();
@@ -71,7 +71,7 @@ export const Disabled: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const checkbox = canvas.getByRole('checkbox');
+    const checkbox = canvas.getByRole("checkbox");
     expect(checkbox).toBeDisabled();
     await userEvent.click(checkbox);
     expect(checkbox).not.toBeChecked();
@@ -93,7 +93,7 @@ export const ReadOnly: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const checkbox = canvas.getByRole('checkbox');
+    const checkbox = canvas.getByRole("checkbox");
     await userEvent.keyboard(`{Tab}`);
     expect(checkbox).toHaveFocus();
     await userEvent.keyboard(`{ }`);
@@ -105,7 +105,7 @@ export const ReadOnly: Story = {
 export const Error: Story = {
   args: {
     ...Default.args,
-    errorMessage: 'Error message',
+    errorMessage: "Error message",
   },
 };
 
@@ -115,7 +115,7 @@ export const KeyboardInteractions: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const checkbox = canvas.getByRole('checkbox');
+    const checkbox = canvas.getByRole("checkbox");
     await userEvent.keyboard(`{Tab}`);
     expect(checkbox).toHaveFocus();
     await userEvent.keyboard(`{ }`);

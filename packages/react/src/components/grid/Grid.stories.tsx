@@ -1,19 +1,19 @@
-import { Meta, StoryObj } from '@storybook/react';
-import { GridProps } from '@design-system-rte/core/components/grid/grid.interface';
-import Grid from './Grid';
+import { Meta, StoryObj } from "@storybook/react";
+import { GridProps } from "@design-system-rte/core/components/grid/grid.interface";
+import Grid from "./Grid";
 
 type GridStoriesArgs = GridProps;
 
 const COLUMN_NUMBER = 12;
 
 const meta: Meta<GridStoriesArgs> = {
-  title: 'Grid',
+  title: "Grid",
   component: Grid,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   argTypes: {
     gridType: {
-      control: 'select',
-      options: ['fluid', 'fixed-narrow', 'fixed-wide'],
+      control: "select",
+      options: ["fluid", "fixed-narrow", "fixed-wide"],
     },
   },
 
@@ -43,28 +43,28 @@ const defaultRender = (args: GridStoriesArgs) => {
 
 export const Fluid: Story = {
   args: {
-    gridType: 'fluid',
+    gridType: "fluid",
   },
   render: (args) => defaultRender(args),
 };
 
 export const FixedWide: Story = {
   args: {
-    gridType: 'fixed-wide',
+    gridType: "fixed-wide",
   },
   render: (args) => defaultRender(args),
 };
 
 export const FixedNarrow: Story = {
   args: {
-    gridType: 'fixed-narrow',
+    gridType: "fixed-narrow",
   },
   render: (args) => defaultRender(args),
 };
 
 export const ResponsiveColumns: Story = {
   args: {
-    gridType: 'fluid',
+    gridType: "fluid",
   },
   render: (args) => {
     return (

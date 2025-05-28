@@ -1,5 +1,5 @@
 export interface LinkProps {
-    label: string;
-    subtle?: boolean;
-    externalLink?: boolean;
+  label: string;
+  subtle?: boolean;
+  externalLink?: boolean;
 }

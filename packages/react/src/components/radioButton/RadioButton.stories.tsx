@@ -1,34 +1,34 @@
-import { Meta, StoryObj } from '@storybook/react';
-import { userEvent, within, expect } from '@storybook/test';
-import RadioButton from './RadioButton';
+import { Meta, StoryObj } from "@storybook/react";
+import { userEvent, within, expect } from "@storybook/test";
+import RadioButton from "./RadioButton";
 
 const meta = {
-  title: 'RadioButton',
+  title: "RadioButton",
   component: RadioButton,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   argTypes: {
     label: {
-      control: 'text',
-      defaultValue: 'Radio Button',
+      control: "text",
+      defaultValue: "Radio Button",
     },
     groupName: {
-      control: 'text',
-      defaultValue: 'radio-group',
+      control: "text",
+      defaultValue: "radio-group",
     },
     showLabel: {
-      control: 'boolean',
+      control: "boolean",
       defaultValue: true,
     },
     disabled: {
-      control: 'boolean',
+      control: "boolean",
       defaultValue: false,
     },
     error: {
-      control: 'boolean',
+      control: "boolean",
       defaultValue: false,
     },
     readOnly: {
-      control: 'boolean',
+      control: "boolean",
       defaultValue: false,
     },
   },
@@ -40,8 +40,8 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    label: 'Radio Button',
-    groupName: 'radio-group',
+    label: "Radio Button",
+    groupName: "radio-group",
     showLabel: true,
     disabled: false,
     error: false,
@@ -49,7 +49,7 @@ export const Default: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const radioButton = canvas.getByRole('radio');
+    const radioButton = canvas.getByRole("radio");
     await userEvent.click(radioButton);
     expect(radioButton).toBeChecked();
   },
@@ -61,7 +61,7 @@ export const Disabled: Story = {
   },
   render: (args) => {
     return (
-      <div style={{ display: 'flex', gap: 8 }}>
+      <div style={{ display: "flex", gap: 8 }}>
         <RadioButton {...args} label="Disabled" disabled={true} />
       </div>
     );
@@ -74,7 +74,7 @@ export const ReadOnly: Story = {
   },
   render: (args) => {
     return (
-      <div style={{ display: 'flex', gap: 8 }}>
+      <div style={{ display: "flex", gap: 8 }}>
         <RadioButton {...args} label="Read Only" readOnly={true} />
       </div>
     );
@@ -86,9 +86,9 @@ export const Error: Story = {
   },
   render: (args) => {
     return (
-      <div style={{ display: 'flex', gap: 8 }}>
+      <div style={{ display: "flex", gap: 8 }}>
         <RadioButton {...args} label="Error" error={true} />
       </div>
     );
   },
-}
+};

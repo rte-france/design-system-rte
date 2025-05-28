@@ -1,4 +1,4 @@
-import { IconProps } from '@design-system-rte/core/components/icon/icon.interface';
+import { IconProps } from "@design-system-rte/core/components/icon/icon.interface";
 
 export default function Icon({ name, size = 24 }: IconProps) {
   return (
@@ -7,7 +7,7 @@ export default function Icon({ name, size = 24 }: IconProps) {
       className="material-symbols-rounded"
       style={{
         fontSize: size,
-        color: 'inherit',
+        color: "inherit",
       }}
     >
       {name}

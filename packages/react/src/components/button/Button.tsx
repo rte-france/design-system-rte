@@ -1,28 +1,28 @@
-import { forwardRef } from 'react';
+import { forwardRef } from "react";
 
-import { ButtonProps as CoreButtonProps } from '@design-system-rte/core/components/button/button.interface';
-import { buttonIconSize } from '@design-system-rte/core/components/button/button.constants';
-import style from './Button.module.scss';
-import Icon from '../icon/Icon';
-import { concatClassNames } from '../utils';
+import { ButtonProps as CoreButtonProps } from "@design-system-rte/core/components/button/button.interface";
+import { buttonIconSize } from "@design-system-rte/core/components/button/button.constants";
+import style from "./Button.module.scss";
+import Icon from "../icon/Icon";
+import { concatClassNames } from "../utils";
 
 interface ButtonProps
-  extends Omit<CoreButtonProps, 'disabled'>,
-    Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'> {
+  extends Omit<CoreButtonProps, "disabled">,
+    Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "onClick"> {
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
-      size = 'm',
+      size = "m",
       label,
-      variant = 'primary',
-      className = '',
+      variant = "primary",
+      className = "",
       icon,
-      iconPosition = 'left',
+      iconPosition = "left",
       onClick,
-      type = 'button',
+      type = "button",
       ...props
     },
     ref,
@@ -37,11 +37,11 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         onClick={onClick}
         {...props}
       >
-        {icon && iconPosition === 'left' && <Icon name={icon} size={buttonIconSize[size]} />}
+        {icon && iconPosition === "left" && <Icon name={icon} size={buttonIconSize[size]} />}
         <span data-size={size} className={style.label}>
           {label}
         </span>
-        {icon && iconPosition === 'right' && <Icon name={icon} size={buttonIconSize[size]} />}
+        {icon && iconPosition === "right" && <Icon name={icon} size={buttonIconSize[size]} />}
       </button>
     );
   },
