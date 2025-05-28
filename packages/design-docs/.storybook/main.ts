@@ -36,7 +36,6 @@ const config = {
   ],
   "addons": [
     getAbsolutePath('@storybook/addon-essentials'),
-    getAbsolutePath('@storybook/addon-onboarding'),
     getAbsolutePath('@chromatic-com/storybook'),
     getAbsolutePath("@storybook/addon-themes"),
     getAbsolutePath("@storybook/addon-a11y"),

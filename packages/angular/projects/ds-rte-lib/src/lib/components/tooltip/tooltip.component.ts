@@ -1,4 +1,4 @@
-import { Component, input} from "@angular/core";
+import { Component, input, model} from "@angular/core";
 import { CommonModule } from "@angular/common";
 
 @Component({
@@ -10,11 +10,8 @@ import { CommonModule } from "@angular/common";
 })
 
 export class TooltipComponent {
-
-    label = input.required<string>();
-    position = input('auto');
-    alignment = input('center');
-    arrow = input(true);
-
-    
-    }
+  label = input.required<string>();
+  position = model<string>('auto');
+  alignment = input<string>('center');
+  arrow = input<boolean>(true);
+}
