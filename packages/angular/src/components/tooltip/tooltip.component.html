@@ -1,7 +1,0 @@
-<div class="tooltip"
-    [ngClass]="{ 'top': position() === 'top', 'bottom': position() === 'bottom', 'left': position() === 'left', 'right': position() === 'right', 'start':alignment() === 'start', 'end': alignment() === 'end', 'center': alignment() === 'center', 'no-arrow': !arrow() }">
-
-    <ng-content  />
-    <span class="tooltip-label"> {{label()}} </span>
-
-</div>

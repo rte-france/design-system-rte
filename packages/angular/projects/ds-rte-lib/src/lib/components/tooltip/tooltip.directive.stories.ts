@@ -32,6 +32,22 @@ const meta: Meta<TooltipDirective> = {
 export default meta;
 type Story = StoryObj<TooltipDirective>;
 
+const mockHost = (tooltipDirectives: string) => `
+<span style="
+    text-decoration: underline;
+    text-decoration-color: #FF8C00;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+    color: #FF8C00;
+    cursor: pointer;
+    font-weight: bold;
+"
+    ${tooltipDirectives}
+>
+    Hover Me!
+</span>
+`
+
 export const Default: Story = {
   args: {
     rteTooltip: "Tooltip",
@@ -42,126 +58,138 @@ export const Default: Story = {
     render: (args) => ({
         props: args,
         declarations: [TooltipDirective],
-        template: 
-            `<span style="
-                text-decoration: underline;
-                text-decoration-color: #FF8C00;
-                text-decoration-thickness: 2px;
-                text-underline-offset: 4px;
-                color: #FF8C00;
-                cursor: pointer;
-                font-weight: bold;
-            "
+        template: mockHost(`
             [rteTooltip]="rteTooltip"
             [rteTooltipPosition]="rteTooltipPosition"
             [rteTooltipAlignment]="rteTooltipAlignment"
             [rteTooltipArrow]="rteTooltipArrow"
-        >
-            Hover Me!
-        </span>`,
+        `),
     }),
 };
 
-/* export const AllPositions: Story = {
+export const Position: Story = {
+    args: Default.args,
     render: (args) => ({
         props: args,
+        declarations: [TooltipDirective],
         template: `
-            <div style="display: flex; flex-direction: column; align-items: center; gap: 16px;">
-                <rte-tooltip label="Top Tooltip" position="top" [alignment]="alignment" [arrow]="arrow">
-                    ${mockChildren}
-                </rte-tooltip>
-                <rte-tooltip label="Bottom Tooltip" position="bottom" [alignment]="alignment" [arrow]="arrow">
-                    ${mockChildren}
-                </rte-tooltip>
-                <rte-tooltip label="Left Tooltip" position="left" [alignment]="alignment" [arrow]="arrow">
-                    ${mockChildren}
-                </rte-tooltip>
-                <rte-tooltip label="Right Tooltip" position="right" [alignment]="alignment" [arrow]="arrow">
-                    ${mockChildren}
-                </rte-tooltip>
-            </div>
-        `,
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 16px;">
+            ${mockHost(`
+                rteTooltipPosition="top"
+                [rteTooltip]="rteTooltip"
+                [rteTooltipAlignment]="rteTooltipAlignment"
+                [rteTooltipArrow]="rteTooltipArrow"
+            `)}
+            ${mockHost(`
+                rteTooltipPosition="bottom"
+                [rteTooltip]="rteTooltip"
+                [rteTooltipAlignment]="rteTooltipAlignment"
+                [rteTooltipArrow]="rteTooltipArrow"
+            `)}
+            ${mockHost(`
+                rteTooltipPosition="left"
+                [rteTooltip]="rteTooltip"
+                [rteTooltipAlignment]="rteTooltipAlignment"
+                [rteTooltipArrow]="rteTooltipArrow"
+            `)}
+            ${mockHost(`
+                rteTooltipPosition="right"
+                [rteTooltip]="rteTooltip"
+                [rteTooltipAlignment]="rteTooltipAlignment"
+                [rteTooltipArrow]="rteTooltipArrow"
+            `)}
+        </div>
+        `
     }),
-    args: {
-        alignment: "center",
-        arrow: true,
-    },
-}; */
+};
 
-/* export const AllAlignments: Story = {
+export const Alignment: Story = {
+    args: Default.args,
     render: (args) => ({
         props: args,
+        declarations: [TooltipDirective],
         template: `
-            <div style="display: flex; flex-direction: column; align-items: center; gap: 16px;">
-                <rte-tooltip label="Start Tooltip" position="top" [alignment]="'start'" [arrow]="arrow">
-                    ${mockChildren}
-                </rte-tooltip>
-                <rte-tooltip label="Center Tooltip" position="top" [alignment]="'center'" [arrow]="arrow">
-                    ${mockChildren}
-                </rte-tooltip>
-                <rte-tooltip label="End Tooltip" position="top" [alignment]="'end'" [arrow]="arrow">
-                    ${mockChildren}
-                </rte-tooltip>
-            </div>
-        `,
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 16px;">
+            ${mockHost(`
+                rteTooltipAlignment="start"
+                [rteTooltipPosition]="rteTooltipPosition"
+                [rteTooltip]="rteTooltip"
+                [rteTooltipArrow]="rteTooltipArrow"
+            `)}
+            ${mockHost(`
+                rteTooltipAlignment="center"
+                [rteTooltipPosition]="rteTooltipPosition"
+                [rteTooltip]="rteTooltip"
+                [rteTooltipArrow]="rteTooltipArrow"
+            `)}
+            ${mockHost(`
+                rteTooltipAlignment="end"
+                [rteTooltipPosition]="rteTooltipPosition"
+                [rteTooltip]="rteTooltip"
+                [rteTooltipArrow]="rteTooltipArrow"
+            `)}
+        </div>
+        `
     }),
-    args: {
-        position: "top",
-        arrow: true,
-    },
-}; */
+};
 
-/* export const Arrow: Story = {
+export const Arrow: Story = {
+    args: Default.args,
     render: (args) => ({
         props: args,
+        declarations: [TooltipDirective],
         template: `
-            <div style="display: flex; flex-direction: column; align-items: center; gap: 16px;">
-                <rte-tooltip label="Arrow Tooltip" position="top" [alignment]="alignment" [arrow]="true">
-                    ${mockChildren}
-                </rte-tooltip>
-                <rte-tooltip label="No Arrow Tooltip" position="top" [alignment]="alignment" [arrow]="false">
-                    ${mockChildren}
-                </rte-tooltip>
-            </div>
-        `,
+        <div style="display: flex; gap: 8;">
+            ${mockHost(`
+                [rteTooltipArrow]="true"
+                [rteTooltipPosition]="rteTooltipPosition"
+                [rteTooltip]="rteTooltip"
+            `)}
+            ${mockHost(`
+                [rteTooltipArrow]="false"
+                [rteTooltipPosition]="rteTooltipPosition"
+                [rteTooltip]="rteTooltip"
+            `)}
+        </div>
+        `
     }),
-    args: {
-        position: "top",
-        alignment: "center",
-    },
-}; */
+}
 
-/* export const Placement: Story = {
+export const AutoPlacement: Story = {
+    args: Default.args,
     render: (args) => ({
         props: args,
+        declarations: [TooltipDirective],
         template: `
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-                <div style="display: flex; align-items: flex-start; justify-content: flex-start; gap: 8px; border: 1px solid red; width: 75px; height: 250px;">
-                    <rte-tooltip [label]="label" [position]="'auto'" [alignment]="alignment" [arrow]="arrow">
-                        ${mockChildren}
-                    </rte-tooltip>
-                </div>
-                <div style="display: flex; align-items: center; justify-content: flex-start; gap: 8px; border: 1px solid red; width: 250px; height: 50px;">
-                    <rte-tooltip [label]="label" [position]="'auto'" [alignment]="alignment" [arrow]="arrow">
-                        ${mockChildren}
-                    </rte-tooltip>
-                </div>
-                <div style="display: flex; align-items: flex-end; justify-content: flex-end; gap: 8px; border: 1px solid red; width: 75px; height: 250px;">
-                    <rte-tooltip [label]="label" [position]="'auto'" [alignment]="alignment" [arrow]="arrow">
-                        ${mockChildren}
-                    </rte-tooltip>
-                </div>
-                <div style="display: flex; align-items: center; justify-content: flex-end; gap: 8px; border: 1px solid red; width: 250px; height: 50px;">
-                    <rte-tooltip [label]="label" [position]="'auto'" [alignment]="alignment" [arrow]="arrow">
-                        ${mockChildren}
-                    </rte-tooltip>
-                </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <div style="display: flex; align-items: flex-start; justify-content: flex-start; gap: 8px; border: 1px solid red; width: 75px; height: 250px;">
+                ${mockHost(`
+                    rteTooltipPosition="auto"
+                    [rteTooltip]="rteTooltip"
+                `)}
             </div>
-        `,
+
+            <div style="display: flex; align-items: center; justify-content: flex-start; gap: 8px; border: 1px solid red; width: 250px; height: 50px;">
+                ${mockHost(`
+                    rteTooltipPosition="auto"
+                    [rteTooltip]="rteTooltip"
+                `)}
+            </div>
+
+            <div style="display: flex; align-items: flex-end; justify-content: flex-end; gap: 8px; border: 1px solid red; width: 75px; height: 250px;">
+                ${mockHost(`
+                    rteTooltipPosition="auto"
+                    [rteTooltip]="rteTooltip"
+                `)}
+            </div>
+
+            <div style="display: flex; align-items: center; justify-content: flex-end; gap: 8px; border: 1px solid red; width: 250px; height: 50px;">
+                ${mockHost(`
+                    rteTooltipPosition="auto"
+                    [rteTooltip]="rteTooltip"
+                `)}
+            </div>
+        </div>
+        `
     }),
-    args: {
-        label: "Tooltip",
-        alignment: "center",
-        arrow: true,
-    },
-}; */
+}

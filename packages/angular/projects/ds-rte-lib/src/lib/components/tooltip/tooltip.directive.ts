@@ -31,10 +31,12 @@ export class TooltipDirective {
   rteTooltipArrow = input(true);
 
   private tooltipRef: ComponentRef<TooltipComponent> | null = null;
+  private hostElement: HTMLElement;
 
   private elementRef = inject(ElementRef);
   private viewContainerRef = inject(ViewContainerRef)
   private renderer = inject(Renderer2);
+  private cdr = inject(ChangeDetectorRef);
 
   @HostListener('mouseenter')
   onMouseEnter(): void {
@@ -46,46 +48,47 @@ export class TooltipDirective {
     this.hideTooltip();
   }
 
-  private createTooltip(): ElementRef {
-    const componentRef = this.viewContainerRef.createComponent(TooltipComponent);
-    return componentRef.location.nativeElement;
+  constructor() {
+    this.hostElement = this.elementRef.nativeElement;
   }
 
-  constructor(private cdr: ChangeDetectorRef) {}
-
   showTooltip(): void {
-    const componentRef = this.viewContainerRef.createComponent(TooltipComponent);
-    this.tooltipRef = componentRef;
-
-    const hostElement = this.elementRef.nativeElement;
-    const tooltipElement = componentRef.location.nativeElement;
-
-    componentRef.instance.label = this.rteTooltip;
-    componentRef.instance.position.set(this.rteTooltipPosition() === 'auto' ? getAutoPlacement(hostElement, 'top') : this.rteTooltipPosition());
-    componentRef.instance.alignment = this.rteTooltipAlignment;
-    componentRef.instance.arrow = this.rteTooltipArrow;
-
-    this.renderer.appendChild(hostElement, tooltipElement);
-
+    this.tooltipRef = this.viewContainerRef.createComponent(TooltipComponent);
+    this.assignDirectiveToComponent();
+    this.appendComponentToHost();
     this.cdr.detectChanges();
     this.positionTooltip();
   }
+  
+  private assignDirectiveToComponent(): void {
+    if (this.tooltipRef) {
+      const position = this.rteTooltipPosition() === 'auto' ? getAutoPlacement(this.hostElement, 'top') : this.rteTooltipPosition()
+
+    this.tooltipRef.instance.label = this.rteTooltip;
+    this.tooltipRef.instance.position.set(position);
+    this.tooltipRef.instance.alignment = this.rteTooltipAlignment;
+    this.tooltipRef.instance.arrow = this.rteTooltipArrow;
+    }
+  }
+
+  private appendComponentToHost(): void {
+    if (this.tooltipRef) {
+      this.renderer.appendChild(this.elementRef.nativeElement, this.tooltipRef.location.nativeElement);
+    }
+  }
 
   private positionTooltip(): void {
-    if (!this.tooltipRef) {
-      return;
+    if (this.tooltipRef) {
+      const tooltipElement = this.tooltipRef.location.nativeElement;
+
+      const bounds = this.getTooltipPosition(this.hostElement, this.tooltipRef);
+
+      this.renderer.setStyle(this.hostElement, 'position', 'relative');
+
+      this.renderer.setStyle(tooltipElement, bounds.x.position, `${bounds.x.offset}px`);
+      this.renderer.setStyle(tooltipElement, bounds.y.position, `${bounds.y.offset}px`);
     }
-
-    const hostElement = this.elementRef.nativeElement;
-    const tooltipElement = this.tooltipRef.location.nativeElement;
-
-    this.renderer.setStyle(tooltipElement, 'position', 'absolute');
-    const bounds = this.getTooltipPosition(hostElement, this.tooltipRef);
-
-    this.renderer.setStyle(hostElement, 'position', 'relative');
-
-    this.renderer.setStyle(tooltipElement, bounds.x.position, `${bounds.x.offset}px`);
-    this.renderer.setStyle(tooltipElement, bounds.y.position, `${bounds.y.offset}px`);
+    
   }
 
   private getTooltipPosition(host: HTMLElement, tooltip: ComponentRef<TooltipComponent>): TooltipBounds {

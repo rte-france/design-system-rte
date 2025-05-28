@@ -60,10 +60,7 @@ export const Default: Story = {
 };
 
 export const Position: Story = {
-    args: {
-        label: "Tooltip",
-        children: mockChildren,
-    },
+    args: Default.args,
     render: (args) => {
         return (
             <div style={{ display: "flex", gap: 8 }}>
@@ -77,10 +74,7 @@ export const Position: Story = {
 };
 
 export const Alignment: Story = {
-    args: {
-        label: "Tooltip",
-        children: mockChildren,
-    },
+    args: Default.args,
     render: (args) => {
         return (
             <div style={{ display: "flex", gap: 8 }}>
@@ -93,10 +87,7 @@ export const Alignment: Story = {
 };
 
 export const Arrow: Story = {
-    args: {
-        label: "Tooltip",
-        children: mockChildren,
-    },
+    args: Default.args,
     render: (args) => {
         return (
             <div style={{ display: "flex", gap: 8 }}>
@@ -108,10 +99,7 @@ export const Arrow: Story = {
 };
 
 export const AutoPlacement: Story = {
-    args: {
-        label: "Tooltip",
-        children: mockChildren,
-    },
+    args: Default.args,
     render: (args) => {
         return (<div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
             <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "flex-start", gap: 8, border: "1px solid red", width: 75, height: 250 }}>
