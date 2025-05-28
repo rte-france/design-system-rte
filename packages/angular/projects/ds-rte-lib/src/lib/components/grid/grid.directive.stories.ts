@@ -1,30 +1,30 @@
-import { CommonModule } from '@angular/common';
-import { GridType } from '@design-system-rte/core/components/grid/grid.interface';
-import { componentWrapperDecorator, moduleMetadata, type Meta, type StoryObj } from '@storybook/angular';
-import { GridDirective } from './grid.directive';
-import { ColDirective } from './col/col.directive';
+import { CommonModule } from "@angular/common";
+import { GridType } from "@design-system-rte/core/components/grid/grid.interface";
+import { componentWrapperDecorator, moduleMetadata, type Meta, type StoryObj } from "@storybook/angular";
+import { GridDirective } from "./grid.directive";
+import { ColDirective } from "./col/col.directive";
 
 type GridStoriesArgs = GridDirective;
 
 const COLUMN_NUMBER = 12;
 
-const meta: Meta<GridStoriesArgs>= {
-  title: 'Grid',
+const meta: Meta<GridStoriesArgs> = {
+  title: "Grid",
   component: GridDirective,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   argTypes: {
     gridType: {
-      control: 'select',
+      control: "select",
       defaultValue: (args: GridStoriesArgs) => args.gridType,
-      options: ['fluid', 'fixed-narrow', 'fixed-wide'],
-      description: 'The type of grid to use',
+      options: ["fluid", "fixed-narrow", "fixed-wide"],
+      description: "The type of grid to use",
     },
   },
   decorators: [
     moduleMetadata({
       imports: [CommonModule, ColDirective],
     }),
-    componentWrapperDecorator((story) => `<div class="sb-css-grid-container">${story}</div>`)
+    componentWrapperDecorator((story) => `<div class="sb-css-grid-container">${story}</div>`),
   ],
 };
 
@@ -48,12 +48,12 @@ const defaultTemplate = (gridType: GridType) => {
 
 export const Fluid: Story = {
   args: {
-    gridType: 'fluid',
+    gridType: "fluid",
   },
   render: (args) => ({
     props: {
       ...args,
-      items: Array.from(Array(COLUMN_NUMBER)).map((_,i)=>i+1)
+      items: Array.from(Array(COLUMN_NUMBER)).map((_, i) => i + 1),
     },
     template: defaultTemplate(args.gridType),
   }),
@@ -61,12 +61,12 @@ export const Fluid: Story = {
 
 export const FixedWide: Story = {
   args: {
-    gridType: 'fixed-wide',
+    gridType: "fixed-wide",
   },
   render: (args) => ({
     props: {
       ...args,
-      items: Array.from(Array(COLUMN_NUMBER)).map((_,i)=>i+1)
+      items: Array.from(Array(COLUMN_NUMBER)).map((_, i) => i + 1),
     },
     template: defaultTemplate(args.gridType),
   }),
@@ -74,12 +74,12 @@ export const FixedWide: Story = {
 
 export const FixedNarrow: Story = {
   args: {
-      gridType: 'fixed-narrow',
+    gridType: "fixed-narrow",
   },
   render: (args) => ({
     props: {
       ...args,
-      items: Array.from(Array(COLUMN_NUMBER)).map((_,i)=>i+1)
+      items: Array.from(Array(COLUMN_NUMBER)).map((_, i) => i + 1),
     },
     template: defaultTemplate(args.gridType),
   }),
@@ -87,10 +87,10 @@ export const FixedNarrow: Story = {
 
 export const ResponsiveColumns: Story = {
   args: {
-    gridType: 'fluid',
+    gridType: "fluid",
   },
   render: (args) => ({
-    template:`
+    template: `
         <div rte-grid 
           [gridType]="'${args.gridType}'"
           data-testid="grid"
@@ -144,6 +144,6 @@ export const ResponsiveColumns: Story = {
             </div>
           </div>
         </div>
-    `
+    `,
   }),
 };
