@@ -8,7 +8,7 @@ import prettier from "eslint-plugin-prettier";
 import vitest from "eslint-plugin-vitest";
 
 export default tseslint.config(
-  { ignores: ["packages/react/dist", "packages/angular/dist", "packages/design-docs/storybook-static"] },
+  { ignores: ["**/dist", "**/storybook-static"] },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ["**/*.{js,ts,jsx,tsx}"],
