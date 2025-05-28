@@ -15,11 +15,11 @@ const preview: Preview = {
 };
 
 addons.getChannel().on('THEME_CHANGED', (theme) => {
-  document.querySelector("html")?.setAttribute("data-mode", theme.theme);
-  document.querySelector("html")?.setAttribute("data-theme", theme.color);
+  document.querySelector('html')?.setAttribute('data-mode', theme.theme);
+  document.querySelector('html')?.setAttribute('data-theme', theme.color);
 });
 
-document.querySelector("html")?.setAttribute("data-theme", "bleu_iceberg");
-document.querySelector("html")?.setAttribute("data-mode", "light");
+document.querySelector('html')?.setAttribute('data-theme', 'bleu_iceberg');
+document.querySelector('html')?.setAttribute('data-mode', 'light');
 
 export default preview;
