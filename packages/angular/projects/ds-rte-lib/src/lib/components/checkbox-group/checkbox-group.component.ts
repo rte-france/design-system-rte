@@ -4,10 +4,10 @@ import { CheckboxComponent } from "../checkbox/checkbox.component";
 
 @Component({
   selector: "rte-checkbox-group",
-  standalone: true,
   imports: [CommonModule, CheckboxComponent],
+  standalone: true,
   templateUrl: "./checkbox-group.component.html",
-  styleUrls: ["./checkbox-group.component.scss"],
+  styleUrl: "./checkbox-group.component.scss",
 })
 export class CheckboxGroupComponent {
   groupName = input.required<string>();

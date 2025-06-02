@@ -4,8 +4,8 @@ import { CommonModule } from "@angular/common";
 
 @Component({
   selector: "rte-radio-button",
-  standalone: true,
   imports: [CommonModule],
+  standalone: true,
   templateUrl: "./radio-button.component.html",
   styleUrl: "./radio-button.component.scss",
 })

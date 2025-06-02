@@ -1,9 +1,9 @@
     <div class="rte-checkbox-container">
         <input
             type="checkbox"
+            class="rte-checkbox"
             [id]="id()"
             [value]="value()"
-            class="rte-checkbox"
             [ngClass]="{'error': error(), 'read-only': readOnly()}"
             [disabled]="disabled()"
             [indeterminate]="indeterminate()"
@@ -15,8 +15,8 @@
         <div class="rte-checkbox-text-container">
             <label 
             *ngIf="showLabel()" 
-            [for]="id()" 
-            class="rte-checkbox-label"
+            class="rte-checkbox-label" 
+            [for]="id()"
             [ngClass]="{
                 'error': error(),
                 'read-only': readOnly(),
