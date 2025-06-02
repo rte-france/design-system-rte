@@ -11,8 +11,8 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   providers: [IconService],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './icon.component.scss',
   templateUrl: './icon.component.html',
-  encapsulation: ViewEncapsulation.None
 })
 export class IconComponent {
   name = input.required<RegularIconIdKey | TogglableIconIdKey>();
