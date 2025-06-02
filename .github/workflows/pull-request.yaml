@@ -9,7 +9,6 @@ permissions: read-all
 
 jobs:
 
-  jobs:
   debug-sonarqube:
     runs-on: ubuntu-latest
     steps:
