@@ -6,8 +6,9 @@ import { IconComponent } from "../icon/icon.component";
   selector: "rte-checkbox",
   standalone: true,
   imports: [CommonModule, IconComponent],
-  templateUrl: './checkbox.component.html',
-  styleUrl: './checkbox.component.scss',
+  templateUrl: "./checkbox.component.html",
+  styleUrl: "./checkbox.component.scss",
+
 })
 export class CheckboxComponent {
   id = input.required<string>();

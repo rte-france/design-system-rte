@@ -4,10 +4,10 @@ import { RadioButtonComponent } from "../radio-button/radio-button.component";
 
 @Component({
   selector: "rte-radio-button-group",
-  standalone: true,
   imports: [CommonModule, RadioButtonComponent],
+  standalone: true,
   templateUrl: "./radio-button-group.component.html",
-  styleUrls: ["./radio-button-group.component.scss"],
+  styleUrl: "./radio-button-group.component.scss",
 })
 export class RadioButtonGroupComponent {
   groupName = input("");

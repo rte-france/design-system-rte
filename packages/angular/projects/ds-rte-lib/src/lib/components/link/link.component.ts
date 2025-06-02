@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { IconComponent } from '../icon/icon.component';
 
 @Component({
-    selector: 'rte-link',
+    selector: "rte-link",
     standalone: true,
     imports: [CommonModule, IconComponent],
-    templateUrl: './link.component.html',
-    styleUrl: './link.component.scss'
+    templateUrl: "./link.component.html",
+    styleUrl: "./link.component.scss"
+
 })
 export class LinkComponent {
   label = input("");

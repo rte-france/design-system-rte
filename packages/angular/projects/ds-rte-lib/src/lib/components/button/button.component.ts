@@ -5,8 +5,8 @@ import { ButtonSize, ButtonVariant } from '@design-system-rte/core/components/bu
 
 @Component({
   selector: "rte-button",
-  standalone: true,
   imports: [],
+  standalone: true,
   templateUrl: "./button.component.html",
   styleUrl: "./button.component.scss",
 })
