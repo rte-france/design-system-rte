@@ -7,7 +7,6 @@ on:
 
 jobs:
 
-  jobs:
   debug-sonarqube:
     runs-on: ubuntu-latest
     steps:
