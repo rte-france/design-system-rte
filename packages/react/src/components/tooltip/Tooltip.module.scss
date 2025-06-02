@@ -125,7 +125,7 @@
         }
     }
 
-    &:hover .tooltipLabel {
+    &:is(:hover, :focus) .tooltipLabel {
         visibility: visible;
     }
 }
