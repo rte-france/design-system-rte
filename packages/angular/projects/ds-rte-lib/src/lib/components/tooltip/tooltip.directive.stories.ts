@@ -1,5 +1,7 @@
 import { Meta, StoryObj } from "@storybook/angular";
 import { TooltipDirective } from "./tooltip.directive";
+import { within, userEvent, expect } from "@storybook/test";
+import { TAB_KEY } from "@design-system-rte/core/constants/keyboard.constants";
 
 const meta: Meta<TooltipDirective> = {
   title: "Tooltip",
@@ -33,19 +35,18 @@ export default meta;
 type Story = StoryObj<TooltipDirective>;
 
 const mockHost = (tooltipDirectives: string) => `
-<span style="
+<div style="
     text-decoration: underline;
-    text-decoration-color: #FF8C00;
+    text-decoration-color: #BF4C00;
     text-decoration-thickness: 2px;
     text-underline-offset: 4px;
-    color: #FF8C00;
-    cursor: pointer;
+    color: #BF4C00;
     font-weight: bold;
 "
     ${tooltipDirectives}
 >
     Hover Me!
-</span>
+</div>
 `
 
 export const Default: Story = {
@@ -192,4 +193,25 @@ export const AutoPlacement: Story = {
         </div>
         `
     }),
+}
+
+export const KeyboardInteraction: Story = {
+    args: Default.args,
+    render: (args) => ({
+        props: args,
+        declarations: [TooltipDirective],
+        template: `
+        <div style="display: flex; gap: 8px;">
+            ${mockHost(`[rteTooltip]="rteTooltip"`)}
+        </div>
+        `,
+    }),
+    play: async ({ canvasElement }) => {
+        const canvas = within(canvasElement);
+        const tooltipHost = canvas.getByText('Hover Me!');
+        await userEvent.keyboard(TAB_KEY);
+        const tooltip = canvas.queryByRole('tooltip');
+        expect(tooltipHost).toHaveFocus();
+        expect(tooltip).toBeVisible();
+    },
 }

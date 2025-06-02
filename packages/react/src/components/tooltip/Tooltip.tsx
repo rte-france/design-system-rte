@@ -44,9 +44,10 @@ const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
                 data-position={position === "auto" ? undefined : position}
                 data-alignment={alignment}
                 data-arrow={arrow}
+                tabIndex={0}
                 {...props}
             >
-                {label && <span className={style.tooltipLabel}>{label}</span>}
+                {label && <span role="tooltip" className={style.tooltipLabel}>{label}</span>}
                 {children}
             </div>
         );

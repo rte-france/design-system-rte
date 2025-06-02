@@ -1,5 +1,7 @@
 import { Meta, StoryObj } from "@storybook/react";
 import Tooltip from "./Tooltip";
+import { expect, userEvent, within } from "@storybook/test";
+import { TAB_KEY } from "@design-system-rte/core/constants/keyboard.constants";
 
 const meta = {
     title: "Tooltip",
@@ -40,11 +42,10 @@ const mockChildren = (
     <span
         style={{
             textDecoration: "underline",
-            textDecorationColor: "#FF8C00",
+            textDecorationColor: "#BF4C00",
             textDecorationThickness: "2px",
             textUnderlineOffset: "4px",
-            color: "#FF8C00",
-            cursor: "pointer",
+            color: "#BF4C00",
             fontWeight: "bold",
         }}
     >
@@ -120,3 +121,22 @@ export const AutoPlacement: Story = {
         );
     }
 };
+
+export const KeyboardInteraction: Story = {
+    args: Default.args,
+    render: (args) => {
+        return (
+            <div style={{ display: "flex", gap: 8 }}>
+                <Tooltip {...args} />
+            </div>
+        );
+    },
+    play: async ({ canvasElement }) => {
+        const canvas = within(canvasElement);
+        const tooltipComponent = canvas.queryByText('Hover Me!')?.parentElement;
+        await userEvent.keyboard(TAB_KEY);
+        const tooltipLabel = canvas.queryByRole('tooltip');
+        expect(tooltipComponent).toHaveFocus();
+        expect(tooltipLabel).toBeVisible();
+    },
+}

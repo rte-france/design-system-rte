@@ -48,11 +48,27 @@ export class TooltipDirective {
     this.hideTooltip();
   }
 
+  @HostListener('focus')
+  onFocus(): void {
+    this.showTooltip();
+  }
+
+  @HostListener('blur')
+  onBlur(): void {
+    this.hideTooltip();
+  }
+
   constructor() {
     this.hostElement = this.elementRef.nativeElement;
+    this.hostElement.setAttribute('tabindex', '0');
   }
 
   showTooltip(): void {
+
+    if (this.tooltipRef) {
+      this.tooltipRef.destroy();
+    }
+
     this.tooltipRef = this.viewContainerRef.createComponent(TooltipComponent);
     this.assignDirectiveToComponent();
     this.appendComponentToHost();
@@ -64,10 +80,10 @@ export class TooltipDirective {
     if (this.tooltipRef) {
       const position = this.rteTooltipPosition() === 'auto' ? getAutoPlacement(this.hostElement, 'top') : this.rteTooltipPosition()
 
-    this.tooltipRef.instance.label = this.rteTooltip;
-    this.tooltipRef.instance.position.set(position);
-    this.tooltipRef.instance.alignment = this.rteTooltipAlignment;
-    this.tooltipRef.instance.arrow = this.rteTooltipArrow;
+      this.tooltipRef.instance.label = this.rteTooltip;
+      this.tooltipRef.instance.position.set(position);
+      this.tooltipRef.instance.alignment = this.rteTooltipAlignment;
+      this.tooltipRef.instance.arrow = this.rteTooltipArrow;
     }
   }
 
