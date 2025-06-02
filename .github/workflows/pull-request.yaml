@@ -9,18 +9,19 @@ permissions: read-all
 
 jobs:
 
+  jobs:
   debug-sonarqube:
     runs-on: ubuntu-latest
     steps:
       - name: Debug SONAR_TOKEN availability
         run: |
-      if [ -z "$SONAR_TOKEN" ]; then
-        echo "SONAR_TOKEN is not set"
-      else
-        echo "SONAR_TOKEN is available (length: ${#SONAR_TOKEN})"
-      fi
-    env:
-      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          if [ -z "$SONAR_TOKEN" ]; then
+            echo "SONAR_TOKEN is not set"
+          else
+            echo "SONAR_TOKEN is available (length: ${#SONAR_TOKEN})"
+          fi
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   global-install: 
     runs-on: ubuntu-latest
