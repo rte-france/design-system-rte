@@ -25,7 +25,7 @@ const meta = {
       control: 'boolean',
     },
   },
-  args: { onClick: fn(), icon: undefined },
+  args: { onClick: fn() },
 } satisfies Meta<typeof Button>;
 
 export default meta;
