@@ -9,7 +9,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsc -b && vite build",
+    "build": "npm run generate-icons && tsc -b && vite build",
     "generate-icons": "npx @svgr/cli -d ./src/components/icon/generated ../core/assets/icons --template template.js && npm run lint:fix",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
