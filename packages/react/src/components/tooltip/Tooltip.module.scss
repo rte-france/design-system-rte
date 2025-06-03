@@ -8,7 +8,7 @@
         @include typography-tooltip-label;
         color: var(--content-primary-inverse);
         position: absolute;
-        visibility: hidden;
+        opacity: 0;
         text-align: center;
         z-index: 1;
         max-width: 160px;
@@ -17,6 +17,7 @@
         padding-inline: $positive-spacing_200;
         border-radius: $radius-s;
         background: var(--background-inverse);
+        transition: opacity 150ms ease-out;
 
         &::after {
             content: '';
@@ -126,6 +127,7 @@
     }
 
     &:is(:hover, :focus) .tooltipLabel {
-        visibility: visible;
+        opacity: 1;
+        transition: opacity 100ms ease-in;
     }
 }

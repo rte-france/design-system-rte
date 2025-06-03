@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from "@storybook/angular";
 import { TooltipDirective } from "./tooltip.directive";
-import { within, userEvent, expect } from "@storybook/test";
+import { within, userEvent, expect, waitFor } from "@storybook/test";
 import { TAB_KEY } from "@design-system-rte/core/constants/keyboard.constants";
 
 const meta: Meta<TooltipDirective> = {
@@ -210,8 +210,8 @@ export const KeyboardInteraction: Story = {
         const canvas = within(canvasElement);
         const tooltipHost = canvas.getByText('Hover Me!');
         await userEvent.keyboard(TAB_KEY);
-        const tooltip = canvas.queryByRole('tooltip');
+        const tooltip = await canvas.findByRole('tooltip');
         expect(tooltipHost).toHaveFocus();
-        expect(tooltip).toBeVisible();
+        await waitFor(() => expect(tooltip).toBeVisible());
     },
 }

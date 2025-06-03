@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react";
 import Tooltip from "./Tooltip";
-import { expect, userEvent, within } from "@storybook/test";
+import { expect, userEvent, waitFor, within } from "@storybook/test";
 import { TAB_KEY } from "@design-system-rte/core/constants/keyboard.constants";
 
 const meta = {
@@ -137,6 +137,6 @@ export const KeyboardInteraction: Story = {
         await userEvent.keyboard(TAB_KEY);
         const tooltipLabel = canvas.queryByRole('tooltip');
         expect(tooltipComponent).toHaveFocus();
-        expect(tooltipLabel).toBeVisible();
+        await waitFor(() => expect(tooltipLabel).toBeVisible());
     },
 }
