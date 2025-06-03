@@ -64,7 +64,6 @@ export class TooltipDirective {
   }
 
   showTooltip(): void {
-
     if (this.tooltipRef) {
       this.tooltipRef.destroy();
     }
@@ -73,7 +72,15 @@ export class TooltipDirective {
     this.assignDirectiveToComponent();
     this.appendComponentToHost();
     this.cdr.detectChanges();
-    this.positionTooltip();
+    
+    if (this.tooltipRef) {
+      const tooltipElement = this.tooltipRef.location.nativeElement.firstElementChild;
+      this.renderer.setStyle(tooltipElement, 'opacity', '0');
+      this.positionTooltip();
+      
+      tooltipElement.offsetHeight;
+      this.renderer.setStyle(tooltipElement, 'opacity', '1');
+    }
   }
   
   private assignDirectiveToComponent(): void {
@@ -152,7 +159,16 @@ export class TooltipDirective {
   
   private hideTooltip(): void {
     if (this.tooltipRef) {
-      this.tooltipRef.destroy();
+      const tooltipElement = this.tooltipRef.location.nativeElement.firstElementChild;
+      
+      this.renderer.setStyle(tooltipElement, 'opacity', '0');
+      
+      setTimeout(() => {
+        if (this.tooltipRef) {
+          this.tooltipRef.destroy();
+          this.tooltipRef = null;
+        }
+      }, 200);
     }
   }
 
