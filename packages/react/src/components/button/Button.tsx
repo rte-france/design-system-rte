@@ -3,7 +3,6 @@ import { forwardRef } from 'react';
 import { ButtonProps as CoreButtonProps } from '@design-system-rte/core/components/button/button.interface';
 import style from './Button.module.scss';
 import { concatClassNames } from '../utils';
-import Icon from '../icon/Icon';
 
 interface ButtonProps
   extends Omit<CoreButtonProps, 'disabled'>,
@@ -28,7 +27,6 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             {label}
           </span>
         </button>
-        <Icon name="mode-dark" size={24} color="red" appearance="filled" />
       </>
     );
   },
