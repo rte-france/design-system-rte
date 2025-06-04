@@ -32,7 +32,8 @@ const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
             }
 
             if (node && position === "auto") {
-                const autoPosition = getAutoPlacement(node, "top");
+                const tooltipLabel = node.querySelector("[role='tooltip']");
+                const autoPosition = getAutoPlacement(node, tooltipLabel!,"top");
                 node.setAttribute("data-position", autoPosition);
             }
         };

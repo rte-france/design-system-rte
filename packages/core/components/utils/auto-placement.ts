@@ -1,17 +1,16 @@
-const MAX_TOOLTIP_HEIGHT = 40;
-const MAX_TOOLTIP_WIDTH = 160;
-
-export const getAutoPlacement = (element: HTMLElement, defaultPosition: string) => {
-    const parent = element.parentElement;
+export const getAutoPlacement = (hostElement: HTMLElement, castedElement: Element, defaultPosition: string) => {
+    const parent = hostElement.parentElement;
     if (!parent) return defaultPosition;
 
     const parentRect = parent.getBoundingClientRect();
-    const tooltipRect = element.getBoundingClientRect();
+    const castedElementRect = castedElement.getBoundingClientRect();
+    const maxWidth = parseInt(getComputedStyle(castedElement).getPropertyValue('max-width'));
+    const maxHeight = parseInt(getComputedStyle(castedElement).getPropertyValue('max-height'));
 
-    const hasSpaceTop = tooltipRect.top - MAX_TOOLTIP_HEIGHT >= parentRect.top;
-    const hasSpaceBottom = tooltipRect.bottom + MAX_TOOLTIP_HEIGHT <= parentRect.bottom;
-    const hasSpaceLeft = tooltipRect.left - MAX_TOOLTIP_WIDTH >= parentRect.left;
-    const hasSpaceRight = tooltipRect.right + MAX_TOOLTIP_WIDTH <= parentRect.right;
+    const hasSpaceTop = castedElementRect.top - maxHeight >= parentRect.top;
+    const hasSpaceBottom = castedElementRect.bottom + maxHeight <= parentRect.bottom;
+    const hasSpaceLeft = castedElementRect.left - maxWidth >= parentRect.left;
+    const hasSpaceRight = castedElementRect.right + maxWidth <= parentRect.right;
 
     if (hasSpaceTop) return "top";
     if (hasSpaceBottom) return "bottom";
