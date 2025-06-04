@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { fn, userEvent, within, expect } from "@storybook/test";
 
 import { ButtonComponent } from "./button.component";
+import { ENTER_KEY, TAB_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard.constants";
 
 const meta: Meta<ButtonComponent> = {
   title: "Button",

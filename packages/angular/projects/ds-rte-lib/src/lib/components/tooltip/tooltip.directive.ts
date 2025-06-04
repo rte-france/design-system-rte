@@ -74,7 +74,7 @@ export class TooltipDirective {
     this.cdr.detectChanges();
     
     if (this.tooltipRef) {
-      const tooltipElement = this.tooltipRef.location.nativeElement.firstElementChild;
+      const tooltipElement = this.tooltipRef.location.nativeElement;
       this.renderer.setStyle(tooltipElement, 'opacity', '0');
       this.positionTooltip();
       
@@ -85,7 +85,8 @@ export class TooltipDirective {
   
   private assignDirectiveToComponent(): void {
     if (this.tooltipRef) {
-      const position = this.rteTooltipPosition() === 'auto' ? getAutoPlacement(this.hostElement, 'top') : this.rteTooltipPosition()
+      const tooltipElement = this.tooltipRef.location.nativeElement;
+      const position = this.rteTooltipPosition() === 'auto' ? getAutoPlacement(this.hostElement, tooltipElement, 'top') : this.rteTooltipPosition()
 
       this.tooltipRef.instance.label = this.rteTooltip;
       this.tooltipRef.instance.position.set(position);
@@ -127,10 +128,11 @@ export class TooltipDirective {
       offset: this.getTooltipXOffset(host, tooltip)
     }
   }
+  
   private getTooltipXOffset(host: HTMLElement, tooltip: ComponentRef<TooltipComponent>): number {
     const hostRect = host.getBoundingClientRect();
     if (tooltip.instance.position() === 'left') {
-      return - tooltip.location.nativeElement.firstElementChild.offsetWidth - TOOLTIP_GAP;
+      return - tooltip.location.nativeElement.querySelector('.tooltip').offsetWidth - TOOLTIP_GAP;
     }
     if (tooltip.instance.position() === 'right') {
       return - TOOLTIP_GAP;
@@ -149,7 +151,7 @@ export class TooltipDirective {
     const hostRect = host.getBoundingClientRect();
 
     if (tooltip.instance.position() === 'top') {
-      return - tooltip.location.nativeElement.firstElementChild.offsetHeight - TOOLTIP_GAP;
+      return - tooltip.location.nativeElement.querySelector('.tooltip').offsetHeight - TOOLTIP_GAP;
     }
     if (tooltip.instance.position() === 'bottom') {
       return - TOOLTIP_GAP;
@@ -159,7 +161,7 @@ export class TooltipDirective {
   
   private hideTooltip(): void {
     if (this.tooltipRef) {
-      const tooltipElement = this.tooltipRef.location.nativeElement.firstElementChild;
+      const tooltipElement = this.tooltipRef.location.nativeElement;
       
       this.renderer.setStyle(tooltipElement, 'opacity', '0');
       

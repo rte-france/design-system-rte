@@ -1,7 +1,18 @@
 @use '@design-system-rte/core/tokens/main.scss' as *;
 
+$max-width: 160px;
+$max-height: 40px;
+
 :host {
     position: absolute;
+    max-width: $max-width;
+    max-height: $max-height;
+
+    transition: opacity 150ms ease-out;
+
+    &:not(:hover) {
+        transition: opacity 100ms ease-in;
+    }
 }
 
 .tooltip {
@@ -10,13 +21,13 @@
     position: absolute;
     text-align: center;
     z-index: 1;
-    max-width: 160px;
+    max-width: $max-width;
+    max-height: $max-height;
     width: fit-content;
     padding-block: $positive-spacing_050;
     padding-inline: $positive-spacing_200;
     border-radius: $radius-s;
     background: var(--background-inverse);
-    transition: opacity 150ms ease-out;
 
     &.top {
         transform: translateX(-50%);
@@ -101,10 +112,6 @@
             border-width: 5px;
             border-style: solid;
         }
-    }
-
-    &:not(:hover) {
-        transition: opacity 100ms ease-in;
     }
 }
 
