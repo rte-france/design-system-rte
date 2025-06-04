@@ -1,17 +1,16 @@
-import { applicationConfig, type Preview } from '@storybook/angular'
-import { importProvidersFrom } from '@angular/core'
-import { HttpClientModule } from '@angular/common/http';
-
+import { HttpClientModule } from "@angular/common/http";
+import { importProvidersFrom } from "@angular/core";
 import { setCompodocJson } from "@storybook/addon-docs/angular";
+import { applicationConfig, type Preview } from "@storybook/angular";
+import { addons } from "@storybook/preview-api";
+
 import docJson from "../documentation.json";
 setCompodocJson(docJson);
 
-import { addons } from "@storybook/preview-api";
-
 const decorators = [
   applicationConfig({
-    providers: [importProvidersFrom(HttpClientModule)]
-  })
+    providers: [importProvidersFrom(HttpClientModule)],
+  }),
 ];
 const preview: Preview = {
   parameters: {

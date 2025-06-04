@@ -1,6 +1,7 @@
-import path from "path";
-import sass from "sass";
 import fs from "fs";
+import path from "path";
+
+import sass from "sass";
 
 const themes = ["bleu_iceberg", "violet", "vert_foret"];
 

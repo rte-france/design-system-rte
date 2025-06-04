@@ -1,5 +1,5 @@
-import type { Preview } from "@storybook/react";
 import { addons } from "@storybook/preview-api";
+import type { Preview } from "@storybook/react";
 
 import "./preview.scss";
 
@@ -19,7 +19,7 @@ addons.getChannel().on("THEME_CHANGED", (theme) => {
   document.querySelector("html")?.setAttribute("data-theme", theme.color);
 });
 
-document.querySelector('html')?.setAttribute('data-theme', 'bleu_iceberg');
-document.querySelector('html')?.setAttribute('data-mode', 'light');
+document.querySelector("html")?.setAttribute("data-theme", "bleu_iceberg");
+document.querySelector("html")?.setAttribute("data-mode", "light");
 
 export default preview;

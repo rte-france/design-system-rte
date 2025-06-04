@@ -1,4 +1,5 @@
 import { addons } from "@storybook/manager-api";
+
 import { customThemes } from "./customTheme";
 
 function applyTheme(themeName = "bleu_iceberg_light"): void {

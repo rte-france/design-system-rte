@@ -1,7 +1,9 @@
-import { useEffect, useRef } from 'react';
-import { CheckboxProps as CoreCheckboxProps } from '@design-system-rte/core/components/checkbox/checkbox.interface';
-import styles from './Checkbox.module.scss';
-import Icon from '../icon/Icon';
+import { CheckboxProps as CoreCheckboxProps } from "@design-system-rte/core/components/checkbox/checkbox.interface";
+import { useEffect, useRef } from "react";
+
+import Icon from "../icon/Icon";
+
+import styles from "./Checkbox.module.scss";
 
 interface CheckboxProps extends CoreCheckboxProps, Omit<React.InputHTMLAttributes<HTMLInputElement>, "id"> {}
 
@@ -45,10 +47,10 @@ const Checkbox = ({
         onKeyDown={handleKeyDown}
         {...props}
       />
-      <div className={`${styles['checkbox-icon-selected']} ${styles['checkbox-icons']}`}>
+      <div className={`${styles["checkbox-icon-selected"]} ${styles["checkbox-icons"]}`}>
         <Icon name="check-small" size={16} />
       </div>
-      <div className={`${styles['checkbox-icon-indeterminated']} ${styles['checkbox-icons']}`}>
+      <div className={`${styles["checkbox-icon-indeterminated"]} ${styles["checkbox-icons"]}`}>
         <Icon name="check-indeterminate" size={16} />
       </div>
       <div className={styles["checkbox-text-container"]} data-disabled={disabled}>

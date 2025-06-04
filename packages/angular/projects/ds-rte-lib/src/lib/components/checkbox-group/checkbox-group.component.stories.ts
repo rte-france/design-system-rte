@@ -1,5 +1,6 @@
 import { Meta, StoryObj } from "@storybook/angular";
 import { userEvent, within, expect } from "@storybook/test";
+
 import { CheckboxGroupComponent } from "./checkbox-group.component";
 
 const meta: Meta<CheckboxGroupComponent> = {

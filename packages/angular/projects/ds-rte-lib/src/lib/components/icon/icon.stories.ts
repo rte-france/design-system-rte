@@ -1,38 +1,37 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import type { Meta, StoryObj } from "@storybook/angular";
 
-import { IconComponent } from './icon.component';
-import { regularIcons as RegularIconsList, togglableIcons as TogglableIconsList } from './icon-map';
-
+import { regularIcons as RegularIconsList, togglableIcons as TogglableIconsList } from "./icon-map";
+import { IconComponent } from "./icon.component";
 
 const RegularIconIds = Object.keys(RegularIconsList);
 const TogglableIconIds = Object.keys(TogglableIconsList);
 
 const meta = {
-  title: 'Icon',
+  title: "Icon",
   component: IconComponent,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   argTypes: {
     name: {
-      control: 'select',
+      control: "select",
       options: [...RegularIconIds, ...TogglableIconIds].sort(),
-      description: 'Nom de l’icône à afficher',
-      defaultValue: 'check',
+      description: "Nom de l’icône à afficher",
+      defaultValue: "check",
     },
     appearance: {
-      control: 'select',
-      options: ['outlined', 'filled'],
-      description: 'Apparence de l’icône (pour les icônes togglables)',
-      defaultValue: 'outlined',
+      control: "select",
+      options: ["outlined", "filled"],
+      description: "Apparence de l’icône (pour les icônes togglables)",
+      defaultValue: "outlined",
     },
     size: {
-      control: { type: 'number', min: 20, step: 1 },
-      description: 'Taille de l’icône en pixels',
+      control: { type: "number", min: 20, step: 1 },
+      description: "Taille de l’icône en pixels",
       defaultValue: 20,
     },
     color: {
-      control: 'color',
-      description: 'Couleur de l’icône',
-      defaultValue: '#000000',
+      control: "color",
+      description: "Couleur de l’icône",
+      defaultValue: "#000000",
     },
   },
 } satisfies Meta<IconComponent>;
@@ -45,14 +44,14 @@ export const Default: Story = {
   args: {
     name: "add",
     size: 20,
-    color: '#000000',
-    appearance: 'outlined',
+    color: "#000000",
+    appearance: "outlined",
   },
 };
 
 export const RegularIcons: Story = {
   render: (args) => ({
-    props: {...args, iconNames: RegularIconIds },
+    props: { ...args, iconNames: RegularIconIds },
     template: `
     <div style="display: flex; flex-direction: column; flex-wrap: wrap; gap: 10px; height: 700px">
       <div *ngFor="let iconName of iconNames" style="display: flex; align-items: center; gap: 5px; border: 1px solid #ccc; padding: 5px">
@@ -61,13 +60,13 @@ export const RegularIcons: Story = {
         />
       <span>{{iconName}}</span>
       </div>
-    </div>`
-  })
+    </div>`,
+  }),
 };
 
 export const TogglableIcons: Story = {
   render: (args) => ({
-    props: {...args, iconNames: TogglableIconIds },
+    props: { ...args, iconNames: TogglableIconIds },
     template: `
     <div style="display: flex; flex-direction: column; flex-wrap: wrap; gap: 10px; height: 700px">
       <div *ngFor="let iconName of iconNames" style="display: flex; align-items: center; gap: 5px; border: 1px solid #ccc; padding: 5px">
@@ -80,6 +79,6 @@ export const TogglableIcons: Story = {
         />
       <span>{{iconName}}</span>
       </div>
-    </div>`
-  })
+    </div>`,
+  }),
 };

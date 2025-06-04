@@ -1,8 +1,8 @@
+import { SPACE_KEY, TAB_KEY } from "@design-system-rte/core/constants/keyboard.constants";
 import type { Meta, StoryObj } from "@storybook/react";
+import { userEvent, within, expect } from "@storybook/test";
 
 import Checkbox from "./Checkbox";
-import { userEvent, within, expect } from "@storybook/test";
-import { SPACE_KEY, TAB_KEY } from "@design-system-rte/core/constants/keyboard.constants";
 
 const meta = {
   title: "Checkbox",

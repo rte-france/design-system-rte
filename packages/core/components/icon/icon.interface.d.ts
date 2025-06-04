@@ -1,7 +1,7 @@
 export interface IconWrapperProps {
-    name: string;
-    color?: string;
-    size?: number;
+  name: string;
+  color?: string;
+  size?: number;
 }
 
 export interface IconProps {
@@ -9,5 +9,4 @@ export interface IconProps {
   height?: number;
   fill?: string;
   description?: string;
-};
-
+}

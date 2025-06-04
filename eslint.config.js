@@ -1,7 +1,8 @@
 import js from "@eslint/js";
+import importPlugin from "eslint-plugin-import";
+import prettier from "eslint-plugin-prettier";
 import globals from "globals";
 import tseslint from "typescript-eslint";
-import prettier from "eslint-plugin-prettier";
 
 export default tseslint.config(
   { ignores: ["**/dist", "**/storybook-static"] },
@@ -14,6 +15,7 @@ export default tseslint.config(
     },
     plugins: {
       prettier,
+      import: importPlugin,
     },
     rules: {
       "prettier/prettier": [
@@ -24,6 +26,14 @@ export default tseslint.config(
           tabWidth: 2,
           endOfLine: "auto",
           printWidth: 120,
+        },
+      ],
+      "import/order": [
+        "error",
+        {
+          groups: ["builtin", "external", "internal", "parent", "sibling", "index"],
+          "newlines-between": "always",
+          alphabetize: { order: "asc", caseInsensitive: true },
         },
       ],
     },

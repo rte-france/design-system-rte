@@ -1,8 +1,10 @@
-import { forwardRef } from 'react';
-import { LinkProps as CoreLinkProps } from '@design-system-rte/core/components/link/link.interface';
-import { concatClassNames } from '../utils';
-import style from './Link.module.scss';
-import Icon from '../icon/Icon';
+import { LinkProps as CoreLinkProps } from "@design-system-rte/core/components/link/link.interface";
+import { forwardRef } from "react";
+
+import Icon from "../icon/Icon";
+import { concatClassNames } from "../utils";
+
+import style from "./Link.module.scss";
 
 interface LinkProps extends CoreLinkProps, React.AnchorHTMLAttributes<HTMLAnchorElement> {}
 
