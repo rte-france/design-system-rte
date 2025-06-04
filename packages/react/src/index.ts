@@ -1,8 +1,8 @@
 import "./styles.d.ts";
 import Button from "./components/button/Button";
-import Grid from "./components/grid/Grid.tsx";
 import Checkbox from "./components/checkbox/Checkbox.tsx";
 import CheckboxGroup from "./components/checkboxGroup/CheckboxGroup.tsx";
+import Grid from "./components/grid/Grid.tsx";
 import Link from "./components/link/Link.tsx";
 import RadioButton from "./components/radioButton/RadioButton.tsx";
 import RadioButtonGroup from "./components/radioButtonGroup/RadioButtonGroup.tsx";

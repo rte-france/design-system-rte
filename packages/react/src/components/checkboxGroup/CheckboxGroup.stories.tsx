@@ -1,5 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { userEvent, within, expect } from "@storybook/test";
+
 import CheckboxGroup from "./CheckboxGroup";
 
 const meta = {

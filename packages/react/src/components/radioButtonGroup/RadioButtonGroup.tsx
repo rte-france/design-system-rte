@@ -1,8 +1,10 @@
-import React, { forwardRef } from 'react';
-import { RadioButtonGroupProps as CoreRadioButtonGroupProps } from '@design-system-rte/core/components/radio-button-group/radio-button-group.interface';
-import { concatClassNames } from '../utils';
-import RadioButton from '../radioButton/RadioButton';
-import style from './RadioButtonGroup.module.scss';
+import { RadioButtonGroupProps as CoreRadioButtonGroupProps } from "@design-system-rte/core/components/radio-button-group/radio-button-group.interface";
+import React, { forwardRef } from "react";
+
+import RadioButton from "../radioButton/RadioButton";
+import { concatClassNames } from "../utils";
+
+import style from "./RadioButtonGroup.module.scss";
 
 interface RadioButtonGroupProps extends CoreRadioButtonGroupProps, React.InputHTMLAttributes<HTMLDivElement> {}
 

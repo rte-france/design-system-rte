@@ -1,8 +1,9 @@
 import { CommonModule } from "@angular/common";
 import { GridType } from "@design-system-rte/core/components/grid/grid.interface";
 import { componentWrapperDecorator, moduleMetadata, type Meta, type StoryObj } from "@storybook/angular";
-import { GridDirective } from "./grid.directive";
+
 import { ColDirective } from "./col/col.directive";
+import { GridDirective } from "./grid.directive";
 
 type GridStoriesArgs = GridDirective;
 

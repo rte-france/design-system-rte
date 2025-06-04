@@ -1,7 +1,9 @@
-import React, { forwardRef } from "react";
 import { CheckboxGroupProps as CoreCheckboxGroupProps } from "@design-system-rte/core/components/checkbox-group/checkbox-group.interface";
-import { concatClassNames } from "../utils";
+import React, { forwardRef } from "react";
+
 import Checkbox from "../checkbox/Checkbox";
+import { concatClassNames } from "../utils";
+
 import style from "./CheckboxGroup.module.scss";
 
 interface CheckboxGroupProps extends CoreCheckboxGroupProps, React.InputHTMLAttributes<HTMLDivElement> {}

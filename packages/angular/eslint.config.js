@@ -1,7 +1,7 @@
-import tseslint from "typescript-eslint";
 import angularPlugin from "@angular-eslint/eslint-plugin";
 import angularTemplate from "@angular-eslint/eslint-plugin-template";
 import angularParser from "@angular-eslint/template-parser";
+import tseslint from "typescript-eslint";
 
 import baseConfig from "../../eslint.config.js";
 

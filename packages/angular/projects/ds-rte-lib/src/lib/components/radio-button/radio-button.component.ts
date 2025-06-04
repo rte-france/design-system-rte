@@ -1,6 +1,6 @@
+import { CommonModule } from "@angular/common";
 import { Component, computed, input } from "@angular/core";
 import { labelSize } from "@design-system-rte/core/components/radio-button/radio-button.constants";
-import { CommonModule } from "@angular/common";
 
 @Component({
   selector: "rte-radio-button",

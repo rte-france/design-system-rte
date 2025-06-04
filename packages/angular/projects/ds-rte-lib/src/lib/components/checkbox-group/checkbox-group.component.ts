@@ -1,5 +1,6 @@
-import { Component, computed, input } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { Component, computed, input } from "@angular/core";
+
 import { CheckboxComponent } from "../checkbox/checkbox.component";
 
 @Component({

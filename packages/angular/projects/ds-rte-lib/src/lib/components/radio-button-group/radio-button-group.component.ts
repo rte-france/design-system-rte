@@ -1,5 +1,6 @@
-import { Component, computed, input } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { Component, computed, input } from "@angular/core";
+
 import { RadioButtonComponent } from "../radio-button/radio-button.component";
 
 @Component({
