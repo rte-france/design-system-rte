@@ -470,7 +470,7 @@ import {
   WarningOutlined,
   WaterdropFilled,
   WaterdropOutlined,
-} from '../icon/generated';
+} from './generated';
 
 export const TogglableIcons = {
   'add-circle': [AddCircleOutlined, AddCircleFilled],

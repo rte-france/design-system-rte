@@ -15,7 +15,7 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write 'src/**/*.{ts,tsx,js,jsx}'",
     "storybook": "storybook dev -p 7008",
-    "build-storybook": "storybook build -o ../design-docs/storybook-static/react",
+    "build-storybook": "npm run generate-icons && storybook build -o ../design-docs/storybook-static/react",
     "test:ci": "npm run generate-icons && npx playwright install && npx start-server-and-test storybook http://localhost:7008 test",
     "test": "test-storybook --url http://localhost:7008",
     "prepublishOnly": "npm run build"
