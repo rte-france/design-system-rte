@@ -61,6 +61,10 @@ jobs:
           restore-keys: |
             deps-node20-main-
 
+      - name: Lint
+        working-directory: packages/react
+        run: npm run lint:fix
+
       - name: Run tests
         working-directory: packages/react
         run: npm run test:ci
@@ -125,6 +129,10 @@ jobs:
           key: deps-node20-main-${{ hashFiles('package-lock.json') }}-${{ github.run_id }}
           restore-keys: |
             deps-node20-main-
+
+      - name: Lint
+        working-directory: packages/react
+        run: npm run lint:fix
 
       - name: Run tests
         working-directory: packages/angular
