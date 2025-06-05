@@ -1,9 +1,14 @@
 import { IconWrapperProps as CoreIconWrapperProps } from '@design-system-rte/core/components/icon/icon.interface';
+import { IconProps as coreIconProps } from '@design-system-rte/core/components/icon/icon.interface';
 
 import { IconIds, TogglableIcons } from './IconMap';
 
 export type RegularIconIdKey = keyof typeof IconIds;
 export type TogglableIconIdKey = keyof typeof TogglableIcons;
+
+export interface IconProps extends coreIconProps {
+  className?: string;
+}
 
 interface IconWrapperProps
   extends CoreIconWrapperProps,
