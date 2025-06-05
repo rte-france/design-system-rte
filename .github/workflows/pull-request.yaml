@@ -27,6 +27,7 @@ jobs:
             ./packages/react/.vite
             ./packages/angular/node_modules
             ./packages/angular/.vite
+            ./packages/core/node_modules
           key: deps-node20-PR-${{ hashFiles('package-lock.json') }}-${{ github.run_id }}
           restore-keys: |
             deps-node20-PR-
@@ -56,9 +57,14 @@ jobs:
             ./packages/react/.vite
             ./packages/angular/node_modules
             ./packages/angular/.vite
+            ./packages/core/node_modules
           key: deps-node20-PR-${{ hashFiles('package-lock.json') }}-${{ github.run_id }}
           restore-keys: |
             deps-node20-PR-
+
+      - name: Lint
+        working-directory: packages/react
+        run: npm run lint:fix
 
       - name: Run tests
         working-directory: packages/react
@@ -85,11 +91,47 @@ jobs:
             ./packages/react/.vite
             ./packages/angular/node_modules
             ./packages/angular/.vite
+            ./packages/core/node_modules
           key: deps-node20-PR-${{ hashFiles('package-lock.json') }}-${{ github.run_id }}
           restore-keys: |
             deps-node20-PR-
 
+      - name: Lint
+        working-directory: packages/angular
+        run: npm run lint:fix
+
       - name: Run tests
         working-directory: packages/angular
         run: npm run test:ci
+
+  quality-core:
+    runs-on: ubuntu-latest
+    needs: global-install
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      
+      - name: Restore cache node_modules and Vite cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./node_modules
+            ./packages/react/node_modules
+            ./packages/react/.vite
+            ./packages/angular/node_modules
+            ./packages/angular/.vite
+            ./packages/core/node_modules
+          key: deps-node20-PR-${{ hashFiles('package-lock.json') }}-${{ github.run_id }}
+          restore-keys: |
+            deps-node20-PR-
+
+      - name: Lint
+        working-directory: packages/core
+        run: npm run lint:fix
+
 
