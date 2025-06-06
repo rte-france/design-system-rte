@@ -66,7 +66,7 @@ jobs:
 
       - name: Lint
         working-directory: packages/react
-        run: npm run lint:fix
+        run: npm run lint
 
       - name: Run tests
         working-directory: packages/react
@@ -100,7 +100,7 @@ jobs:
 
       - name: Lint
         working-directory: packages/angular
-        run: npm run lint:fix
+        run: npm run lint
 
       - name: Run tests
         working-directory: packages/angular
@@ -134,6 +134,6 @@ jobs:
 
       - name: Lint
         working-directory: packages/core
-        run: npm run lint:fix
+        run: npm run lint
 
 
