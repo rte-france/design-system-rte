@@ -2,105 +2,35 @@ $ambient-shadow-position-x: 0;
 $ambient-shadow-position-y: 0;
 $ambient-shadow-blur: 2;
 $ambient-shadow-spread: 0;
-
 $ambient-shadow-darker-position-x: 0;
 $ambient-shadow-darker-position-y: 0;
 $ambient-shadow-darker-blur: 8;
 $ambient-shadow-darker-spread: 0;
-
 $inner-shadow-key-position-x: 0;
 $inner-shadow-key-position-y: 1;
 $inner-shadow-key-blur: 4;
 $inner-shadow-key-spread: 0;
-
 $shadow-1-key-position-x: 0;
 $shadow-1-key-position-y: 1;
 $shadow-1-key-blur: 2;
 $shadow-1-key-spread: 0;
-
 $shadow-2-key-position-x: 0;
 $shadow-2-key-position-y: 2;
 $shadow-2-key-blur: 4;
 $shadow-2-key-spread: 0;
-
 $shadow-3-key-position-x: 0;
 $shadow-3-key-position-y: 4;
 $shadow-3-key-blur: 8;
 $shadow-3-key-spread: 0;
-
 $shadow-4-key-position-x: 0;
 $shadow-4-key-position-y: 8;
 $shadow-4-key-blur: 16;
 $shadow-4-key-spread: 0;
-
 $shadow-5-key-position-x: 0;
 $shadow-5-key-position-y: 14;
 $shadow-5-key-blur: 28;
 $shadow-5-key-spread: 0;
-
 $shadow-6-key-position-x: 0;
 $shadow-6-key-position-y: 32;
 $shadow-6-key-blur: 64;
 $shadow-6-key-spread: 0;
-
-@mixin neutral-inner-shadow {
-  box-shadow: inset $inner-shadow-key-position-x $inner-shadow-key-position-y $inner-shadow-key-blur $inner-shadow-key-spread var(--elevation-surface-inner-shadow);
-}
-@mixin neutral-shadow-1 {
-  box-shadow: $shadow-1-key-position-x $shadow-1-key-position-y $shadow-1-key-blur $shadow-1-key-spread var(--elevation-shadow-key),
-  $ambient-shadow-position-x $ambient-shadow-position-y $ambient-shadow-blur $ambient-shadow-spread var(--elevation-shadow-ambient);
-}
-@mixin neutral-shadow-2 {
-  box-shadow: $shadow-2-key-position-x $shadow-2-key-position-y $shadow-2-key-blur $shadow-2-key-spread var(--elevation-shadow-key), 
-  $ambient-shadow-position-x $ambient-shadow-position-y $ambient-shadow-blur $ambient-shadow-spread var(--elevation-shadow-ambient);
-}
-@mixin neutral-shadow-3 {
-  box-shadow: $shadow-3-key-position-x $shadow-3-key-position-y $shadow-3-key-blur $shadow-3-key-spread var(--elevation-shadow-key), 
-  $ambient-shadow-position-x $ambient-shadow-position-y $ambient-shadow-blur $ambient-shadow-spread var(--elevation-shadow-ambient);
-}
-@mixin neutral-shadow-4 {
-  box-shadow: $shadow-4-key-position-x $shadow-4-key-position-y $shadow-4-key-blur $shadow-4-key-spread var(--elevation-shadow-key), 
-  $ambient-shadow-position-x $ambient-shadow-position-y $ambient-shadow-blur $ambient-shadow-spread var(--elevation-shadow-ambient);
-}
-@mixin neutral-shadow-5 {
-  box-shadow: $shadow-5-key-position-x $shadow-5-key-position-y $shadow-5-key-blur $shadow-5-key-spread var(--elevation-shadow-key-darker), 
-  $ambient-shadow-darker-position-x $ambient-shadow-darker-position-y $ambient-shadow-darker-blur $ambient-shadow-darker-spread var(--elevation-shadow-ambient-darker);
-}
-@mixin neutral-shadow-6 {
-  box-shadow: $shadow-6-key-position-x $shadow-6-key-position-y $shadow-6-key-blur $shadow-6-key-spread var(--elevation-shadow-key-darker), 
-  $ambient-shadow-darker-position-x $ambient-shadow-darker-position-y $ambient-shadow-darker-blur $ambient-shadow-darker-spread var(--elevation-shadow-ambient-darker);
-}
-
-@mixin brand-inner-shadow {
-  box-shadow: inset $inner-shadow-key-position-x $inner-shadow-key-position-y $inner-shadow-key-blur $inner-shadow-key-spread var(--elevation-shadow-key-brand);
-}
-@mixin brand-shadow-1 {
-  box-shadow: 
-    $shadow-1-key-position-x $shadow-1-key-position-y $shadow-1-key-blur $shadow-1-key-spread var(--elevation-shadow-key-brand),
-    $ambient-shadow-position-x $ambient-shadow-position-y $ambient-shadow-blur $ambient-shadow-spread var(--elevation-shadow-ambient-brand);
-}
-@mixin brand-shadow-2 {
-  box-shadow: 
-    $shadow-2-key-position-x $shadow-2-key-position-y $shadow-2-key-blur $shadow-2-key-spread var(--elevation-shadow-key-brand),
-    $ambient-shadow-position-x $ambient-shadow-position-y $ambient-shadow-blur $ambient-shadow-spread var(--elevation-shadow-ambient-brand);
-}
-@mixin brand-shadow-3 {
-  box-shadow: 
-    $shadow-3-key-position-x $shadow-3-key-position-y $shadow-3-key-blur $shadow-3-key-spread var(--elevation-shadow-key-brand),
-    $ambient-shadow-position-x $ambient-shadow-position-y $ambient-shadow-blur $ambient-shadow-spread var(--elevation-shadow-ambient-brand);
-}
-@mixin brand-shadow-4 {
-  box-shadow: 
-    $shadow-4-key-position-x $shadow-4-key-position-y $shadow-4-key-blur $shadow-4-key-spread var(--elevation-shadow-key-brand),
-    $ambient-shadow-position-x $ambient-shadow-position-y $ambient-shadow-blur $ambient-shadow-spread var(--elevation-shadow-ambient-brand);
-}
-@mixin brand-shadow-5 {
-  box-shadow: 
-    $shadow-5-key-position-x $shadow-5-key-position-y $shadow-5-key-blur $shadow-5-key-spread var(--elevation-shadow-key-brand),
-    $ambient-shadow-darker-position-x $ambient-shadow-darker-position-y $ambient-shadow-darker-blur $ambient-shadow-darker-spread var(--elevation-shadow-ambient-brand);
-}
-@mixin brand-shadow-6 {
-  box-shadow: 
-    $shadow-6-key-position-x $shadow-6-key-position-y $shadow-6-key-blur $shadow-6-key-spread var(--elevation-shadow-key-brand),
-    $ambient-shadow-darker-position-x $ambient-shadow-darker-position-y $ambient-shadow-darker-blur $ambient-shadow-darker-spread var(--elevation-shadow-ambient-brand);
-}
