@@ -6,7 +6,7 @@ import { GridType } from "@design-system-rte/core/components/grid/grid.interface
   standalone: true,
 })
 export class GridDirective {
-  gridType = input<GridType>("fluid");
+  readonly gridType = input<GridType>("fluid");
 
   @HostBinding("class")
   get hostClasses(): string {

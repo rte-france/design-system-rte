@@ -11,18 +11,18 @@ import { RadioButtonComponent } from "../radio-button/radio-button.component";
   styleUrl: "./radio-button-group.component.scss",
 })
 export class RadioButtonGroupComponent {
-  groupName = input("");
-  items = input<string[]>([]);
-  direction = input("horizontal");
-  showItemsLabel = input(true);
-  groupTitle = input("");
-  showGroupTitle = input(false);
-  groupHelpText = input("");
-  showHelpText = input(false);
-  errorMessage = input("");
-  error = input(false);
-  disabled = input(false);
-  readOnly = input(false);
+  readonly groupName = input("");
+  readonly items = input<string[]>([]);
+  readonly direction = input("horizontal");
+  readonly showItemsLabel = input(true);
+  readonly groupTitle = input("");
+  readonly showGroupTitle = input(false);
+  readonly groupHelpText = input("");
+  readonly showHelpText = input(false);
+  readonly errorMessage = input("");
+  readonly error = input(false);
+  readonly disabled = input(false);
+  readonly readOnly = input(false);
 
-  isDisplayed = computed(() => !(this.disabled() && this.error()));
+  readonly isDisplayed = computed(() => !(this.disabled() && this.error()));
 }
