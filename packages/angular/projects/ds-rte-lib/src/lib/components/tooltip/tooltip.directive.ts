@@ -35,10 +35,10 @@ const TOOLTIP_GAP = 8;
   standalone: true,
 })
 export class TooltipDirective {
-  rteTooltip = input.required<string>();
-  rteTooltipPosition = input("auto");
-  rteTooltipAlignment = input("center");
-  rteTooltipArrow = input(true);
+  readonly rteTooltip = input.required<string>();
+  readonly rteTooltipPosition = input("auto");
+  readonly rteTooltipAlignment = input("center");
+  readonly rteTooltipArrow = input(true);
 
   private tooltipRef: ComponentRef<TooltipComponent> | null = null;
   private hostElement: HTMLElement;
@@ -100,10 +100,10 @@ export class TooltipDirective {
           ? getAutoPlacement(this.hostElement, tooltipElement, "top")
           : this.rteTooltipPosition();
 
-      this.tooltipRef.instance.label = this.rteTooltip;
-      this.tooltipRef.instance.position.set(position);
-      this.tooltipRef.instance.alignment = this.rteTooltipAlignment;
-      this.tooltipRef.instance.arrow = this.rteTooltipArrow;
+      this.tooltipRef.setInput("label", this.rteTooltip());
+      this.tooltipRef.setInput("position", position);
+      this.tooltipRef.setInput("alignment", this.rteTooltipAlignment());
+      this.tooltipRef.setInput("arrow", this.rteTooltipArrow());
     }
   }
 
