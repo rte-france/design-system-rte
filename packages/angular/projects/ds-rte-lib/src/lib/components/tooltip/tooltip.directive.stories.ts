@@ -1,7 +1,8 @@
-import { Meta, StoryObj } from "@storybook/angular";
-import { TooltipDirective } from "./tooltip.directive";
-import { within, userEvent, expect, waitFor } from "@storybook/test";
 import { TAB_KEY } from "@design-system-rte/core/constants/keyboard.constants";
+import { Meta, StoryObj } from "@storybook/angular";
+import { within, userEvent, expect, waitFor } from "@storybook/test";
+
+import { TooltipDirective } from "./tooltip.directive";
 
 const meta: Meta<TooltipDirective> = {
   title: "Tooltip",
@@ -30,7 +31,7 @@ const meta: Meta<TooltipDirective> = {
   parameters: {
     layout: "centered",
   },
-}
+};
 export default meta;
 type Story = StoryObj<TooltipDirective>;
 
@@ -47,7 +48,7 @@ const mockHost = (tooltipDirectives: string) => `
 >
     Hover Me!
 </div>
-`
+`;
 
 export const Default: Story = {
   args: {
@@ -56,24 +57,24 @@ export const Default: Story = {
     rteTooltipAlignment: "center",
     rteTooltipArrow: true,
   },
-    render: (args) => ({
-        props: args,
-        declarations: [TooltipDirective],
-        template: mockHost(`
+  render: (args) => ({
+    props: args,
+    declarations: [TooltipDirective],
+    template: mockHost(`
             [rteTooltip]="rteTooltip"
             [rteTooltipPosition]="rteTooltipPosition"
             [rteTooltipAlignment]="rteTooltipAlignment"
             [rteTooltipArrow]="rteTooltipArrow"
         `),
-    }),
+  }),
 };
 
 export const Position: Story = {
-    args: Default.args,
-    render: (args) => ({
-        props: args,
-        declarations: [TooltipDirective],
-        template: `
+  args: Default.args,
+  render: (args) => ({
+    props: args,
+    declarations: [TooltipDirective],
+    template: `
         <div style="display: flex; flex-direction: column; align-items: center; gap: 16px;">
             ${mockHost(`
                 rteTooltipPosition="top"
@@ -100,16 +101,16 @@ export const Position: Story = {
                 [rteTooltipArrow]="rteTooltipArrow"
             `)}
         </div>
-        `
-    }),
+        `,
+  }),
 };
 
 export const Alignment: Story = {
-    args: Default.args,
-    render: (args) => ({
-        props: args,
-        declarations: [TooltipDirective],
-        template: `
+  args: Default.args,
+  render: (args) => ({
+    props: args,
+    declarations: [TooltipDirective],
+    template: `
         <div style="display: flex; flex-direction: column; align-items: center; gap: 16px;">
             ${mockHost(`
                 rteTooltipAlignment="start"
@@ -130,16 +131,16 @@ export const Alignment: Story = {
                 [rteTooltipArrow]="rteTooltipArrow"
             `)}
         </div>
-        `
-    }),
+        `,
+  }),
 };
 
 export const Arrow: Story = {
-    args: Default.args,
-    render: (args) => ({
-        props: args,
-        declarations: [TooltipDirective],
-        template: `
+  args: Default.args,
+  render: (args) => ({
+    props: args,
+    declarations: [TooltipDirective],
+    template: `
         <div style="display: flex; gap: 8;">
             ${mockHost(`
                 [rteTooltipArrow]="true"
@@ -152,16 +153,16 @@ export const Arrow: Story = {
                 [rteTooltip]="rteTooltip"
             `)}
         </div>
-        `
-    }),
-}
+        `,
+  }),
+};
 
 export const AutoPlacement: Story = {
-    args: Default.args,
-    render: (args) => ({
-        props: args,
-        declarations: [TooltipDirective],
-        template: `
+  args: Default.args,
+  render: (args) => ({
+    props: args,
+    declarations: [TooltipDirective],
+    template: `
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
             <div style="display: flex; align-items: flex-start; justify-content: flex-start; gap: 8px; border: 1px solid red; width: 75px; height: 250px;">
                 ${mockHost(`
@@ -191,27 +192,27 @@ export const AutoPlacement: Story = {
                 `)}
             </div>
         </div>
-        `
-    }),
-}
+        `,
+  }),
+};
 
 export const KeyboardInteraction: Story = {
-    args: Default.args,
-    render: (args) => ({
-        props: args,
-        declarations: [TooltipDirective],
-        template: `
+  args: Default.args,
+  render: (args) => ({
+    props: args,
+    declarations: [TooltipDirective],
+    template: `
         <div style="display: flex; gap: 8px;">
             ${mockHost(`[rteTooltip]="rteTooltip"`)}
         </div>
         `,
-    }),
-    play: async ({ canvasElement }) => {
-        const canvas = within(canvasElement);
-        const tooltipHost = canvas.getByText('Hover Me!');
-        await userEvent.keyboard(TAB_KEY);
-        const tooltip = await canvas.findByRole('tooltip');
-        expect(tooltipHost).toHaveFocus();
-        await waitFor(() => expect(tooltip).toBeVisible());
-    },
-}
+  }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const tooltipHost = canvas.getByText("Hover Me!");
+    await userEvent.keyboard(TAB_KEY);
+    const tooltip = await canvas.findByRole("tooltip");
+    expect(tooltipHost).toHaveFocus();
+    await waitFor(() => expect(tooltip).toBeVisible());
+  },
+};
