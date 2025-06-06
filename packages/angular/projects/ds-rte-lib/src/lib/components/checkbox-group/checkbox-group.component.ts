@@ -11,18 +11,18 @@ import { CheckboxComponent } from "../checkbox/checkbox.component";
   styleUrl: "./checkbox-group.component.scss",
 })
 export class CheckboxGroupComponent {
-  groupName = input.required<string>();
-  items = input.required<string[]>();
-  direction = input("horizontal");
-  showItemsLabel = input(true);
-  groupTitle = input("");
-  showGroupTitle = input(false);
-  groupHelpText = input("");
-  showHelpText = input(false);
-  errorMessage = input("");
-  error = input(false);
-  disabled = input(false);
-  readOnly = input(false);
+  readonly groupName = input.required<string>();
+  readonly items = input.required<string[]>();
+  readonly direction = input("horizontal");
+  readonly showItemsLabel = input(true);
+  readonly groupTitle = input("");
+  readonly showGroupTitle = input(false);
+  readonly groupHelpText = input("");
+  readonly showHelpText = input(false);
+  readonly errorMessage = input("");
+  readonly error = input(false);
+  readonly disabled = input(false);
+  readonly readOnly = input(false);
 
-  isDisplayed = computed(() => !(this.disabled() && this.error()));
+  readonly isDisplayed = computed(() => !(this.disabled() && this.error()));
 }

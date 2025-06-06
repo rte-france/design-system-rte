@@ -10,13 +10,13 @@ import { labelSize } from "@design-system-rte/core/components/radio-button/radio
   styleUrl: "./radio-button.component.scss",
 })
 export class RadioButtonComponent {
-  label = input("");
-  groupName = input("");
-  showLabel = input(true);
-  disabled = input(false);
-  error = input(false);
-  readOnly = input(false);
+  readonly label = input("");
+  readonly groupName = input("");
+  readonly showLabel = input(true);
+  readonly disabled = input(false);
+  readonly error = input(false);
+  readonly readOnly = input(false);
   labelSize = labelSize;
 
-  isDisplayed = computed(() => !(this.disabled() && this.error()));
+  readonly isDisplayed = computed(() => !(this.disabled() && this.error()));
 }

@@ -11,18 +11,18 @@ import { IconComponent } from "../icon/icon.component";
   styleUrl: "./checkbox.component.scss",
 })
 export class CheckboxComponent {
-  id = input.required<string>();
-  label = input.required<string>();
-  value = input("");
-  indeterminate = input(false);
-  description = input("");
-  showLabel = input(true);
-  disabled = input(false);
-  error = input(false);
-  errorMessage = input("");
-  readOnly = input(false);
-  checked = input(false);
-  groupName = input("");
+  readonly id = input.required<string>();
+  readonly label = input.required<string>();
+  readonly value = input("");
+  readonly indeterminate = input(false);
+  readonly description = input("");
+  readonly showLabel = input(true);
+  readonly disabled = input(false);
+  readonly error = input(false);
+  readonly errorMessage = input("");
+  readonly readOnly = input(false);
+  readonly checked = input(false);
+  readonly groupName = input("");
 
   onKeydown(event: KeyboardEvent) {
     if (event.code === "Space") {

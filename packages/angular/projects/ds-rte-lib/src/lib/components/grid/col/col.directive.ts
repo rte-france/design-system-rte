@@ -5,12 +5,12 @@ import { Directive, HostBinding, input } from "@angular/core";
   standalone: true,
 })
 export class ColDirective {
-  xxs = input<number>();
-  xs = input<number>();
-  s = input<number>();
-  m = input<number>();
-  l = input<number>();
-  xl = input<number>();
+  readonly xxs = input<number>();
+  readonly xs = input<number>();
+  readonly s = input<number>();
+  readonly m = input<number>();
+  readonly l = input<number>();
+  readonly xl = input<number>();
 
   @HostBinding("class")
   get colClasses(): string {

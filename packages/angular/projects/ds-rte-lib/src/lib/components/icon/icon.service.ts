@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 
 import { regularIcons, togglableIcons } from "./icon-map";
@@ -9,7 +9,7 @@ export type TogglableIconIdKey = keyof typeof togglableIcons;
 
 @Injectable()
 export class IconService {
-  constructor(private http: HttpClient) {}
+  private http = inject(HttpClient);
 
   getSvg(name: RegularIconIdKey | TogglableIconIdKey, appearance: "outlined" | "filled"): Observable<string> {
     if (!this.http) {
