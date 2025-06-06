@@ -1,1 +1,2 @@
+npm run generate:tokens
 npm run lint:fix
