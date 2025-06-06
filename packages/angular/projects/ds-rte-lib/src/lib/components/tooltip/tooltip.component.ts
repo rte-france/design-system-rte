@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, input, model } from "@angular/core";
+import { Component, input } from "@angular/core";
 
 @Component({
   selector: "rte-tooltip",
@@ -9,8 +9,8 @@ import { Component, input, model } from "@angular/core";
   styleUrl: "./tooltip.component.scss",
 })
 export class TooltipComponent {
-  label = input.required<string>();
-  position = model<string>("auto");
-  alignment = input<string>("center");
-  arrow = input<boolean>(true);
+  readonly label = input.required<string>();
+  readonly position = input<string>("auto");
+  readonly alignment = input<string>("center");
+  readonly arrow = input<boolean>(true);
 }

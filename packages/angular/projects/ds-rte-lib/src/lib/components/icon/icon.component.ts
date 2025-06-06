@@ -24,21 +24,21 @@ import { IconService, RegularIconIdKey, TogglableIconIdKey } from "./icon.servic
   providers: [IconService],
 })
 export class IconComponent {
-  name = input.required<RegularIconIdKey | TogglableIconIdKey>();
-  size = input(20);
-  color = input("currentColor");
-  classes = input("");
-  appearance = input<"outlined" | "filled">();
+  readonly name = input.required<RegularIconIdKey | TogglableIconIdKey>();
+  readonly size = input(20);
+  readonly color = input("currentColor");
+  readonly classes = input("");
+  readonly appearance = input<"outlined" | "filled">();
   destroyRef = inject(DestroyRef);
 
   svgContent: SafeHtml | null = null;
   svg!: Observable<string>;
 
-  constructor(
-    private sanitizer: DomSanitizer,
-    private iconService: IconService,
-    private cdr: ChangeDetectorRef,
-  ) {
+  private sanitizer = inject(DomSanitizer);
+  private iconService = inject(IconService);
+  private cdr = inject(ChangeDetectorRef);
+
+  constructor() {
     effect(() => {
       this.setSvgContent(this.name());
     });

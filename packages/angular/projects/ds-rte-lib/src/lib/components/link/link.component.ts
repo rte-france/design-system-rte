@@ -11,8 +11,8 @@ import { IconComponent } from "../icon/icon.component";
   styleUrl: "./link.component.scss",
 })
 export class LinkComponent {
-  label = input("");
-  href = input<string>("#");
-  subtle = input<boolean>(false);
-  externalLink = input<boolean>(false);
+  readonly label = input("");
+  readonly href = input<string>("#");
+  readonly subtle = input<boolean>(false);
+  readonly externalLink = input<boolean>(false);
 }

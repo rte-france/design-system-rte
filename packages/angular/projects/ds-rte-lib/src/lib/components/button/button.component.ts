@@ -9,13 +9,13 @@ import { ButtonSize, ButtonVariant } from "@design-system-rte/core/components/bu
   styleUrl: "./button.component.scss",
 })
 export class ButtonComponent {
-  label = input("");
-  variant = input<ButtonVariant>("primary");
-  size = input<ButtonSize>("m");
-  disabled = input(false);
-  icon = input<string>("");
+  readonly label = input("");
+  readonly variant = input<ButtonVariant>("primary");
+  readonly size = input<ButtonSize>("m");
+  readonly disabled = input(false);
+  readonly icon = input<string>("");
 
-  click = output<void>();
+  readonly click = output<void>();
 
   onClick(event: MouseEvent | KeyboardEvent): void {
     event.stopPropagation();

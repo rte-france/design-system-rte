@@ -17,6 +17,13 @@ export default tseslint.config(
       "@angular-eslint/no-output-native": "off",
       "@angular-eslint/sort-keys-in-type-decorator": "error",
       "@angular-eslint/consistent-component-styles": "error",
+      "@angular-eslint/component-selector": "error",
+      "@angular-eslint/directive-selector": "error",
+      "@angular-eslint/prefer-inject": "error",
+      "@angular-eslint/prefer-output-emitter-ref": "error",
+      "@angular-eslint/prefer-output-readonly": "error",
+      "@angular-eslint/prefer-signals": "error",
+      "@angular-eslint/use-lifecycle-interface": "error",
     },
   },
   {
