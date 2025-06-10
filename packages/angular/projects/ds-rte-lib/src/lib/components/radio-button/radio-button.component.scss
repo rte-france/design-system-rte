@@ -56,14 +56,12 @@
             background: var(--content-danger);
         }
 
-        //TODO: Modify brute variable to use tokens
-        
         &:hover {
             transition: box-shadow 0.15s ease-in-out;
-            box-shadow: 0 0 0 8px var(--background-hover-opacity-50);
+            @include hover-box-shadow(var(--background-hover-opacity-50));
 
             &:checked {
-                box-shadow: 0 0 0 8px var(--background-danger-hover-opacity-20);
+                @include hover-box-shadow(var(--background-danger-hover-opacity-20));
             }
         }
     }
@@ -85,7 +83,7 @@
         }
     }
 
-    &:focus {
+    &:focus-visible {
         outline: none;
 
         &::after {
@@ -101,14 +99,11 @@
         opacity: $opacity-100;
     }
 
-    //TODO: Modify brute variable to use tokens
-
     &:hover {
-        transition: box-shadow 0.15s ease-in-out;
-        box-shadow: 0 0 0 8px var(--background-hover-opacity-50);
+        @include hover-box-shadow(var(--background-hover-opacity-50));
 
         &:checked {
-            box-shadow: 0 0 0 8px var(--background-brand-hover-opacity-20);
+            @include hover-box-shadow(var(--background-brand-hover-opacity-20));
         }
     }
 
