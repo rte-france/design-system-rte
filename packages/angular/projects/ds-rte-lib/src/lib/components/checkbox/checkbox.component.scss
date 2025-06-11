@@ -59,7 +59,7 @@
       transition: transform 0s, opacity 0s;
     }
     
-    &:focus-within {
+    &:focus-visible {
       outline: 1px solid var(--border-brand-focused);
       outline-offset: 4px;
     }
