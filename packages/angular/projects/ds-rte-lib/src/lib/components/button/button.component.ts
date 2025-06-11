@@ -1,5 +1,5 @@
 import { Component, input, output } from "@angular/core";
-import { ButtonSize, ButtonVariant } from "@design-system-rte/core/components/button/button.interface";
+import { ButtonSize, ButtonType, ButtonVariant } from "@design-system-rte/core/components/button/button.interface";
 
 @Component({
   selector: "rte-button",
@@ -14,6 +14,9 @@ export class ButtonComponent {
   readonly size = input<ButtonSize>("m");
   readonly disabled = input(false);
   readonly icon = input<string>("");
+  readonly ariaLabel = input<string>("");
+  readonly ariaLabelledBy = input<string>("");
+  readonly buttonType = input<ButtonType>("button");
 
   readonly click = output<void>();
 
