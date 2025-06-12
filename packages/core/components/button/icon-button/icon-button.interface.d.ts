@@ -6,3 +6,7 @@ export interface IconButtonProps {
   icon: string;
   iconAppearance?: "outlined" | "filled";
 }
+
+export interface IconButtonToggleProps extends Omit<IconButtonProps, "iconAppearance"> {
+  selected?: boolean;
+}

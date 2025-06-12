@@ -2,33 +2,30 @@ import { ENTER_KEY, SPACE_KEY, TAB_KEY } from "@design-system-rte/core/constants
 import { Meta, StoryObj } from "@storybook/react";
 import { fn, userEvent, within, expect } from "@storybook/test";
 
-import { IconIds as RegularIconsList, TogglableIcons as TogglableIconsList } from "../icon/IconMap";
+import { TogglableIcons as TogglableIconsList } from "../icon/IconMap";
 
-import IconButton from "./IconButton";
+import IconButtonToggle from "./IconButtonToggle";
 
-const RegularIconIds = Object.keys(RegularIconsList);
 const TogglableIconIds = Object.keys(TogglableIconsList);
 
 const meta = {
-  title: "IconButton",
-  component: IconButton,
+  title: "IconButtonToggle",
+  component: IconButtonToggle,
   tags: ["autodocs"],
   argTypes: {
     icon: {
       control: "select",
-      options: [...RegularIconIds, ...TogglableIconIds].sort(),
+      options: TogglableIconIds.sort(),
       description: "Nom de l’icône à afficher",
       defaultValue: "check",
+    },
+    selected: {
+      control: "boolean",
+      description: "Indique si le bouton est sélectionné",
     },
     variant: {
       control: "select",
       options: ["primary", "secondary", "text", "transparent", "danger"],
-    },
-    iconAppearance: {
-      control: "select",
-      options: ["outlined", "filled"],
-      description: "Apparence de l’icône (pour les icônes togglables)",
-      defaultValue: "outlined",
     },
     size: {
       control: "select",
@@ -42,7 +39,7 @@ const meta = {
       control: "boolean",
     },
   },
-} satisfies Meta<typeof IconButton>;
+} satisfies Meta<typeof IconButtonToggle>;
 
 export default meta;
 
@@ -54,14 +51,13 @@ export const Default: Story = {
   args: {
     icon: "settings",
     size: "m",
-    iconAppearance: "outlined",
     disabled: false,
     compactSpacing: false,
-    ["aria-label"]: "icon button aria label",
     onClick: mockFn,
+    selected: false,
   },
 
-  render: (args) => <IconButton {...args} />,
+  render: (args) => <IconButtonToggle {...args} aria-label={args.name} />,
 
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -79,9 +75,9 @@ export const Sizing: Story = {
   render: (args) => {
     return (
       <div style={{ display: "flex", gap: 8 }}>
-        <IconButton {...args} size="s" data-testId="small-icon-button" />
-        <IconButton {...args} data-testId="medium-icon-button" />
-        <IconButton {...args} size="l" data-testId="large-icon-button" />
+        <IconButtonToggle {...args} size="s" data-testId="small-icon-button" />
+        <IconButtonToggle {...args} data-testId="medium-icon-button" />
+        <IconButtonToggle {...args} size="l" data-testId="large-icon-button" />
       </div>
     );
   },
@@ -105,9 +101,9 @@ export const CompactSizing: Story = {
   render: (args) => {
     return (
       <div style={{ display: "flex", gap: 8 }}>
-        <IconButton {...args} size="s" data-testId="small-icon-button" />
-        <IconButton {...args} data-testId="medium-icon-button" />
-        <IconButton {...args} size="l" data-testId="large-icon-button" />
+        <IconButtonToggle {...args} size="s" data-testId="small-icon-button" />
+        <IconButtonToggle {...args} data-testId="medium-icon-button" />
+        <IconButtonToggle {...args} size="l" data-testId="large-icon-button" />
       </div>
     );
   },
