@@ -21,7 +21,7 @@ function createTheme(themeName: string, mode: "light" | "dark") {
     textColor: themes[themeName][mode]["content-primary"],
     textInverseColor: themes[themeName][mode]["content-primary-inverse"],
     barTextColor: themes[themeName][mode]["content-primary"],
-    barSelectedColor: themes[themeName][mode]["content-brand-pressed"],
+    barSelectedColor: themes[themeName][mode]["content-brand-press"],
     barBg: themes[themeName][mode]["background-default"],
     inputBg: themes[themeName][mode]["background-default"],
     inputBorder: themes[themeName][mode]["border-primary"],
