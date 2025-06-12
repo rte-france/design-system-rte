@@ -61,7 +61,7 @@
 
         &:disabled {
             background: var(--background-disabled);
-            border: solid  1px var(--border-disabled);
+            border: solid $width-xs var(--border-disabled);
             color: var(--content-disabled);
             box-shadow: none;
             cursor: default;
@@ -70,22 +70,20 @@
 
     &.secondary {
         background: var(--background-default);
-        border: solid 1px var(--border-brand-default);
+        border: solid $width-xs var(--border-brand-default);
         color: var(--content-brand-default);
 
         &:hover {
             background: var(--background-brand-inverse-hover);
-            border: solid 1px var(--border-brand-default);
         }
 
         &:active {
-            border: var(--background-brand-inverse);
             background: var(--background-brand-inverse-pressed);
         }
 
         &:disabled {
             background: var(--background-disabled);
-            border: solid 1px var(--border-disabled);
+            border: solid $width-xs var(--border-disabled);
             color: var(--content-disabled);
             cursor: default;
         }
