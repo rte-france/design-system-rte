@@ -1,12 +1,10 @@
-export type ButtonVariant = "primary" | "secondary" | "text" | "transparent" | "danger";
-export type ButtonSize = "s" | "m" | "l";
 export type ButtonIconPosition = "left" | "right";
 export type ButtonType = "button" | "submit" | "reset";
 
 export interface ButtonProps {
   label: string;
-  variant?: ButtonVariant;
-  size?: ButtonSize;
+  variant?: import("./common/common-button").ButtonVariant;
+  size?: import("./common/common-button").ButtonSize;
   disabled?: boolean;
   iconPosition?: ButtonIconPosition;
 }

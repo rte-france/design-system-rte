@@ -1,4 +1,4 @@
-import { ButtonSize } from "./button.interface";
+import { ButtonSize } from "./common-button";
 
 export const buttonIconSize: Record<ButtonSize, number> = {
   s: 16,
