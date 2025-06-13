@@ -2,3 +2,4 @@ node_modules
 *storybook.log
 storybook-static
 .vscode
+.cursorrules
