@@ -1,6 +1,6 @@
 import { DOWN_KEY, TAB_KEY } from "@design-system-rte/core/constants/keyboard.constants";
 import { Meta, StoryObj } from "@storybook/react";
-import { expect, fn, userEvent, within } from "@storybook/test";
+import { expect, fn, userEvent, waitFor, within } from "@storybook/test";
 
 import SplitButton from "./SplitButton";
 
@@ -149,6 +149,6 @@ export const KeyboardInteraction: Story = {
     await userEvent.keyboard(TAB_KEY);
     expect(button).toHaveFocus();
     await userEvent.keyboard(DOWN_KEY);
-    expect(menuContainer).toBeVisible();
+    await waitFor(() => expect(menuContainer).toBeVisible());
   },
 };
