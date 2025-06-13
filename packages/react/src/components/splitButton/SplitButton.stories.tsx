@@ -108,6 +108,7 @@ export const Size: Story = {
     ...Default.args,
   },
 };
+
 export const CompactSpacing: Story = {
   render: (args) => (
     <div style={{ display: "flex", gap: 16 }}>
