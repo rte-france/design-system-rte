@@ -1,6 +1,6 @@
 import fs from "fs";
 
-enum Collection {
+export enum Collection {
   COLORS = "Semantic : Colors",
   TYPOGRAPHY = "Semantic : Type",
   SPACING = "Spacing",
@@ -11,6 +11,52 @@ enum Collection {
   SIZE = "Size",
 }
 
+export interface TokenValue {
+  $type: string;
+  $scopes: string[];
+  $value: string | number;
+}
+
+export interface TypographyToken {
+  [category: string]: {
+    [size: string]: {
+      [weight: string]: {
+        [typographyTokenName: string]: TokenValue;
+      };
+    };
+  };
+}
+
+export interface ShadowToken {
+  [category: string]: {
+    [shadowTokenName: string]: TokenValue;
+  };
+}
+
+export interface LayoutToken {
+  [category: string]: {
+    [size: string]: TokenValue;
+  };
+}
+
+export interface DefaultToken {
+  [category: string]: {
+    [subCategory: string]: TokenValue;
+  };
+}
+
+export interface OpacityToken {
+  [percentage: string]: TokenValue;
+}
+
+export type TokenVariables = TypographyToken | ShadowToken | LayoutToken | DefaultToken | OpacityToken;
+
+export interface TokenItem {
+  collection: Collection;
+  mode: string;
+  variables: TokenVariables;
+}
+
 const inputPath = "./tokens/sourceFiles/tokens.json";
 const outputDir = "./tokens/";
 const UNIT = "px";
@@ -19,14 +65,10 @@ if (!fs.existsSync(outputDir)) {
   fs.mkdirSync(outputDir);
 }
 
-function generateScssFromJson(
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  json: { collection: Collection; variables: Record<string, any>; mode: string }[],
-): void {
-  let scss = "";
-  let filename = "";
-
+function extractScssVariablesFromTokens(json: TokenItem[]): void {
   for (const tokenItem of json) {
+    let scss = "";
+    let filename = "";
     switch (tokenItem.collection) {
       case Collection.COLORS:
         console.log("Skipping colors : " + tokenItem.mode);
@@ -36,21 +78,8 @@ function generateScssFromJson(
         if (tokenItem.mode === "desktop") {
           filename = `_typography.scss`;
           scss += `@use 'primitives/typography' as *;\n\n`;
-          for (const category in tokenItem.variables) {
-            for (const size in tokenItem.variables[category]) {
-              for (const weight in tokenItem.variables[category][size]) {
-                for (const typographyTokenName in tokenItem.variables[category][size][weight]) {
-                  const typographyToken = tokenItem.variables[category][size][weight][typographyTokenName];
-                  const rawTypographyTokenValue = typographyToken.$value.split("Type.desktop.")[1];
-                  const typographyTokenValue = rawTypographyTokenValue.replace(/\./g, "-");
-                  scss += buildScssVariable([category, size, weight, typographyTokenName], `$${typographyTokenValue}`);
-                }
-              }
-            }
-          }
-          fs.writeFileSync(outputDir + filename, scss);
-          scss = "";
-          filename = "";
+          scss += extractTypography(tokenItem.variables as TypographyToken);
+          generateScssFile(scss, filename);
         } else {
           console.log("Skipping typography : " + tokenItem.mode);
         }
@@ -58,64 +87,98 @@ function generateScssFromJson(
 
       case Collection.OPACITY:
         filename = buildScssFileName(tokenItem.collection);
-        for (const percentage in tokenItem.variables) {
-          const value = percentage.replace(/%$/, "");
-          scss += buildScssVariable([tokenItem.collection, value], percentage);
-        }
-
-        fs.writeFileSync(outputDir + filename, scss);
-        scss = "";
-        filename = "";
-
+        scss += extractOpacity(tokenItem.variables as OpacityToken, tokenItem.collection);
+        generateScssFile(scss, filename);
         break;
 
       case Collection.SHADOWS:
         filename = buildScssFileName(tokenItem.collection);
-        for (const category in tokenItem.variables) {
-          for (const shadowTokenName in tokenItem.variables[category]) {
-            const shadowToken = tokenItem.variables[category][shadowTokenName];
-            scss += buildScssVariable([category, shadowTokenName], shadowToken.$value);
-          }
-        }
-        fs.writeFileSync(outputDir + filename, scss);
-        scss = "";
-        filename = "";
-
+        scss += extractShadows(tokenItem.variables as ShadowToken);
+        generateScssFile(scss, filename);
         break;
 
       case Collection.LAYOUT:
         filename = buildScssFileName(tokenItem.collection);
-        for (const category in tokenItem.variables) {
-          for (const size in tokenItem.variables[category]) {
-            const layoutToken = tokenItem.variables[category][size];
-            if (category === "column-number") {
-              scss += buildScssVariable([category, size], layoutToken.$value);
-            } else {
-              scss += buildScssVariable([category, size], `${layoutToken.$value}${UNIT}`);
-            }
-          }
-        }
-        fs.writeFileSync(outputDir + filename, scss);
-        scss = "";
-        filename = "";
-
+        scss += extractLayout(tokenItem.variables as LayoutToken);
+        generateScssFile(scss, filename);
         break;
 
       default:
         filename = buildScssFileName(tokenItem.collection);
-        for (const category in tokenItem.variables) {
-          for (const subCategory in tokenItem.variables[category]) {
-            const token = tokenItem.variables[category][subCategory];
-            scss += buildScssVariable([category, subCategory], `${token.$value}${UNIT}`);
-          }
-        }
-        fs.writeFileSync(outputDir + filename, scss);
-        scss = "";
-        filename = "";
-
+        scss += extractDefault(tokenItem.variables as DefaultToken);
+        generateScssFile(scss, filename);
         break;
     }
   }
+}
+
+function extractTypography(variables: TypographyToken): string {
+  let scss = "";
+  for (const category in variables) {
+    for (const size in variables[category]) {
+      for (const weight in variables[category][size]) {
+        for (const typographyTokenName in variables[category][size][weight]) {
+          const typographyToken = variables[category][size][weight][typographyTokenName];
+          const rawTypographyTokenValue =
+            typeof typographyToken.$value === "string"
+              ? typographyToken.$value.split("Type.desktop.")[1]
+              : typographyToken.$value;
+          const typographyTokenValue =
+            typeof rawTypographyTokenValue === "string"
+              ? rawTypographyTokenValue.replace(/\./g, "-")
+              : rawTypographyTokenValue;
+          scss += buildScssVariable([category, size, weight, typographyTokenName], `$${typographyTokenValue}`);
+        }
+      }
+    }
+  }
+  return scss;
+}
+
+function extractOpacity(variables: OpacityToken, collection: string): string {
+  let scss = "";
+  for (const percentage in variables) {
+    const value = percentage.replace(/%$/, "");
+    scss += buildScssVariable([collection, value], percentage);
+  }
+  return scss;
+}
+
+function extractShadows(variables: ShadowToken): string {
+  let scss = "";
+  for (const category in variables) {
+    for (const shadowTokenName in variables[category]) {
+      const shadowToken = variables[category][shadowTokenName];
+      scss += buildScssVariable([category, shadowTokenName], String(shadowToken.$value));
+    }
+  }
+  return scss;
+}
+
+function extractLayout(variables: LayoutToken): string {
+  let scss = "";
+  for (const category in variables) {
+    for (const size in variables[category]) {
+      const layoutToken = variables[category][size];
+      if (category === "column-number") {
+        scss += buildScssVariable([category, size], String(layoutToken.$value));
+      } else {
+        scss += buildScssVariable([category, size], `${layoutToken.$value}${UNIT}`);
+      }
+    }
+  }
+  return scss;
+}
+
+function extractDefault(variables: DefaultToken): string {
+  let scss = "";
+  for (const category in variables) {
+    for (const subCategory in variables[category]) {
+      const token = variables[category][subCategory];
+      scss += buildScssVariable([category, subCategory], `${token.$value}${UNIT}`);
+    }
+  }
+  return scss;
 }
 
 function buildScssVariable(variableName: string[], value: string): string {
@@ -126,5 +189,9 @@ function buildScssFileName(collection: string): string {
   return `_${collection.toLowerCase()}.scss`;
 }
 
-const json = JSON.parse(fs.readFileSync(inputPath, "utf8"));
-generateScssFromJson(json);
+function generateScssFile(scss: string, filename: string) {
+  fs.writeFileSync(outputDir + filename, scss);
+}
+
+const json: TokenItem[] = JSON.parse(fs.readFileSync(inputPath, "utf8"));
+extractScssVariablesFromTokens(json);
