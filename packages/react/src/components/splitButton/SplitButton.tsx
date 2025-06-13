@@ -46,13 +46,9 @@ const SplitButton = React.forwardRef<HTMLElement | HTMLButtonElement, SplitButto
 
     const [display, setDisplay] = React.useState<React.CSSProperties["visibility"]>(selected ? "visible" : "hidden");
 
-    const handleKeyDownOnRightButton = (e: React.KeyboardEvent<HTMLButtonElement>) => {
-      handleKeyDown(e, "ArrowDown", () => setIsClicked(true));
-      handleKeyDown(e, "Escape", () => setIsClicked(false));
-    };
-
-    const handleKeyDownOnMenu = (e: React.KeyboardEvent<HTMLDivElement>) =>
-      handleKeyDown(e, "Escape", () => setIsClicked(false));
+    const rightButtonRef = useRef<HTMLButtonElement>(null);
+    const leftButtonRef = useRef<HTMLButtonElement>(null);
+    const menuRef = useRef<HTMLDivElement>(null);
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLElement>, key: string, callback: () => void) => {
       if (e.key === key) {
@@ -61,14 +57,21 @@ const SplitButton = React.forwardRef<HTMLElement | HTMLButtonElement, SplitButto
       }
     };
 
+    const handleKeyDownOnRightButton = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+      handleKeyDown(e, "ArrowDown", () => setIsClicked(true));
+      handleKeyDown(e, "Escape", () => setIsClicked(false));
+    };
+
+    const handleKeyDownOnMenu = (e: React.KeyboardEvent<HTMLDivElement>) =>
+      handleKeyDown(e, "Escape", () => setIsClicked(false));
+
     useEffect(() => {
       if (isHovered || isClicked || selected) {
         setDisplay("visible");
         if (!hasAnimationRan.current) {
-          const dropdown = document.querySelector(`.${style.splitButtonDropdown}`) as HTMLElement;
-          if (dropdown) {
-            dropdown.classList.remove(style.animationSlideFromTop);
-            dropdown.classList.add(style.animationSlideFromTop);
+          if (menuRef.current) {
+            menuRef.current.classList.remove(style.animationSlideFromTop);
+            menuRef.current.classList.add(style.animationSlideFromTop);
           }
           hasAnimationRan.current = true;
         }
@@ -100,7 +103,7 @@ const SplitButton = React.forwardRef<HTMLElement | HTMLButtonElement, SplitButto
           disabled={disabled}
           data-testid="Main action button"
           {...props}
-          ref={ref as ForwardedRef<HTMLButtonElement>}
+          ref={leftButtonRef}
         >
           {icon && <Icon name={icon} size={splitButtonLeftIconSize[size]} />}
           <p data-size={size} className={style.splitButtonLabel}>
@@ -108,7 +111,7 @@ const SplitButton = React.forwardRef<HTMLElement | HTMLButtonElement, SplitButto
           </p>
         </button>
         <div className={style.splitButtonDivider} data-appearance={appearance} data-disabled={disabled}></div>
-        <div className={style.splitButtonRightContainer} ref={ref as ForwardedRef<HTMLDivElement>}>
+        <div className={style.splitButtonRightContainer}>
           <button
             type="button"
             aria-haspopup="menu"
@@ -125,7 +128,7 @@ const SplitButton = React.forwardRef<HTMLElement | HTMLButtonElement, SplitButto
             onMouseLeave={() => setIsHovered(false)}
             onKeyDown={handleKeyDownOnRightButton}
             {...props}
-            ref={ref as ForwardedRef<HTMLButtonElement>}
+            ref={rightButtonRef}
           >
             <div className={style.splitButtonRightIconContainer}>
               <Icon name="arrow-chevron-down" size={splitButtonRightIconSize[size]} />
