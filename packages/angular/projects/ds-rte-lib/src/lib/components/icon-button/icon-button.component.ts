@@ -30,10 +30,10 @@ export class IconButtonComponent {
     return buttonIconSize[this.size()];
   }
 
-  readonly click = output<void>();
+  readonly click = output<MouseEvent | KeyboardEvent>();
 
   onClick(event: MouseEvent | KeyboardEvent): void {
     event.stopPropagation();
-    this.click.emit();
+    this.click.emit(event);
   }
 }
