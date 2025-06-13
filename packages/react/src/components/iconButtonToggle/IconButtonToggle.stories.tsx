@@ -55,9 +55,10 @@ export const Default: Story = {
     compactSpacing: false,
     onClick: mockFn,
     selected: false,
+    ["aria-label"]: "icon button toggle aria label",
   },
 
-  render: (args) => <IconButtonToggle {...args} aria-label={args.name} />,
+  render: (args) => <IconButtonToggle {...args} />,
 
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
