@@ -1,54 +1,61 @@
 @use '@design-system-rte/core/tokens/main.scss' as *;
 
-.rte-button {
-    align-items: center;
-    cursor: pointer;
+.icon-button {
     display: inline-flex;
+    cursor: pointer;
+    height: 24px;
+    align-items: center;
+    gap: $positive-spacing_0;
     flex-shrink: 0;
-    justify-content: center;
 
     &:focus-visible {
-        outline: 1px solid var(--border-brand-focused);
-        outline-offset: 4px;
+        outline: none;
+        position: relative;
+
+        &::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 6px;
+            pointer-events: none;
+            box-shadow: 0 0 0 1px var(--border-brand-focused);
+        }
     }
 
-    &.size-s {
-        @include typography-button-s;
+    &[data-size='s'] {
+        border-radius: $radius-s;
         height: 24px;
-        border-radius: $radius-s;
-        padding: $positive-spacing_050 $positive-spacing_100;
+        padding: $positive-spacing_025 $positive-spacing_050; 
 
-        .rte-button-label {
-            margin: 0 $positive-spacing_050;
+        &[data-compact-spacing='true'] {
+            height: 16px;
         }
     }
 
-    &.size-m {
-        @include typography-button-m;
+    &[data-size='m'] {
+        border-radius: $radius-s;
         height: 32px;
-        border-radius: $radius-s;
-        padding: $positive-spacing_050 $positive-spacing_150;
+        padding: $positive-spacing_050 $positive-spacing_075;
 
-        .rte-button-label {
-            margin: 0 $positive-spacing_075;
+        &[data-compact-spacing='true'] {
+            height: 20px;
         }
     }
 
-    &.size-l {
-        @include typography-button-l;
-        height: 40px;
+    &[data-size='l'] {
         border-radius: $radius-m;
-        padding: $positive-spacing_050 $positive-spacing_200;
+        height: 40px;
+        padding: $positive-spacing_075 $positive-spacing_100;
 
-        .rte-button-label {
-            margin: 0 $positive-spacing_100;
+        &[data-compact-spacing='true'] {
+            height: 24px;
         }
     }
 
-    &.primary {
+    &[data-variant='primary'] {
+        background: var(--background-brand-default);
         border: var(--border-brand-default);
         color: var(--content-primary-inverse);
-        background: var(--background-brand-default);
 
         &:hover {
             background: var(--background-brand-hover);
@@ -62,19 +69,20 @@
         &:disabled {
             background: var(--background-disabled);
             border: solid $width-xs var(--border-disabled);
-            color: var(--content-disabled);
             box-shadow: none;
+            color: var(--content-disabled);
             cursor: default;
         }
     };
 
-    &.secondary {
+    &[data-variant='secondary'] {
         background: var(--background-default);
         border: solid $width-xs var(--border-brand-default);
         color: var(--content-brand-default);
 
         &:hover {
             background: var(--background-brand-inverse-hover);
+            border: solid $width-xs var(--border-brand-default);
         }
 
         &:active {
@@ -89,7 +97,7 @@
         }
     };
 
-    &.text {
+    &[data-variant='text'] {
         background: transparent;
         border: none;
         color: var(--content-brand-default);
@@ -109,7 +117,7 @@
         }
     };
 
-    &.transparent {
+    &[data-variant='transparent'] {
         background: transparent;
         border: none;
         color: var(--content-brand-default);
@@ -123,17 +131,17 @@
         }
 
         &:disabled {
-            color: var(--content-disabled);
             box-shadow: none;
+            background-color: var(--background-disabled);
+            color: var(--content-disabled);
             cursor: default;
         }
     };
     
-    &.danger {
+    &[data-variant='danger'] {
         background: var(--background-danger-default);
         border: none;
         color: var(--content-primary-inverse);
-        border-radius: $radius-m;
 
         &:hover {
             background: var(--background-danger-hover);
@@ -142,13 +150,16 @@
         &:active {
             background: var(--background-danger-pressed);
         }
-        
+
         &:disabled {
             background: var(--background-disabled);
-            border: var(--border-disabled);
+            border: solid $width-xs var(--border-disabled);
             color: var(--content-disabled);
-            box-shadow: none;
             cursor: default;
         }
+    }
+
+    &[data-compact-spacing='true'] {
+        padding: $positive-spacing_0;
     }
 }
