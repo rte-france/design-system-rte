@@ -1,0 +1,15 @@
+<button
+  class="rte-icon-button {{ variant() }} size-{{ size() }}"
+  [class.compact-spacing]="compactSpacing()"
+  [disabled]="disabled()"
+  [attr.aria-label]="ariaLabel()"
+  [attr.aria-labelledBy]="ariaLabelledBy()"
+  [type]="type()"
+  (click)="onClick($event)"
+>
+  <rte-icon
+    [name]="icon()"
+    [appearance]="iconAppearance()"
+    [size]="buttonIconSize"
+  />
+</button>
