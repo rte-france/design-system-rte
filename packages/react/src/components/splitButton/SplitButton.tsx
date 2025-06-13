@@ -9,7 +9,7 @@ import Icon from "../icon/Icon";
 import { IconIds, TogglableIcons } from "../icon/IconMap";
 import { concatClassNames } from "../utils";
 
-import style from "./splitButton.module.scss";
+import style from "./SplitButton.module.scss";
 
 interface SplitButtonProps
   extends CoreSplitButtonProps,

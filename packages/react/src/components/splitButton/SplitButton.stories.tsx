@@ -2,7 +2,7 @@ import { DOWN_KEY, TAB_KEY } from "@design-system-rte/core/constants/keyboard.co
 import { Meta, StoryObj } from "@storybook/react";
 import { expect, fn, userEvent, within } from "@storybook/test";
 
-import SplitButton from "./splitButton";
+import SplitButton from "./SplitButton";
 
 const meta = {
   title: "SplitButton",
