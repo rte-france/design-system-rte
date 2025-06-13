@@ -1,0 +1,63 @@
+<div 
+  class="split-button-container size-{{ size() }}"
+  [attr.data-compact-spacing]="compactSpacing()"
+>
+  <button
+    class="split-button-left size-{{ size() }}" 
+    type="button"
+    data-testid="Main action button"
+    [attr.data-appearance]="appearance()"
+    [disabled]="disabled()"
+  >
+    <rte-icon 
+      *ngIf="icon()"
+      [name]="icon()!"
+      [size]="splitButtonLeftIconSize()"
+    />
+    <p class="split-button-label" [attr.data-size]="size()">
+      {{label()}}
+    </p>
+  </button>
+
+  <div 
+    class="split-button-divider"
+    [attr.data-appearance]="appearance()"
+    [attr.data-disabled]="disabled()"
+  ></div>
+
+  <div class="split-button-right-container">
+    <button
+      type="button"
+      aria-haspopup="menu"
+      class="split-button-right"
+      data-testid="Menu button"
+      [attr.aria-expanded]="isOpen()"
+      [attr.aria-label]="ariaLabelRight()"
+      [attr.data-appearance]="appearance()"
+      [attr.data-size]="size()"
+      [attr.data-selected]="selected()"
+      [disabled]="disabled()"
+      (click)="isOpen.set(true)"
+      (mouseenter)="isOpen.set(true)"
+      (mouseleave)="isOpen.set(false)"
+      (keydown)="handleKeyDownOnRightButton($event)"
+    >
+      <div class="split-button-right-icon-container">
+        <rte-icon 
+          name="arrow-chevron-down"
+          [size]="splitButtonRightIconSize()"
+        ></rte-icon>
+      </div>
+    </button>
+
+    <div
+      class="split-button-dropdown"
+      data-testid="Menu container"
+      [attr.data-position]="position()"
+      [style.visibility]="isOpen() ? 'visible' : 'hidden'"
+      (keydown)="handleKeyDownOnMenu($event)"
+    >
+      <ng-content></ng-content>
+    </div>
+  </div>
+</div>
