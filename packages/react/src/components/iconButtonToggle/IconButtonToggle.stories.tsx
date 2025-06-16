@@ -13,7 +13,7 @@ const meta = {
   component: IconButtonToggle,
   tags: ["autodocs"],
   argTypes: {
-    icon: {
+    name: {
       control: "select",
       options: TogglableIconIds.sort(),
       description: "Nom de l’icône à afficher",
@@ -49,7 +49,7 @@ const mockFn = fn();
 
 export const Default: Story = {
   args: {
-    icon: "settings",
+    name: "settings",
     size: "m",
     disabled: false,
     compactSpacing: false,

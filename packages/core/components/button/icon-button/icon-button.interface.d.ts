@@ -3,10 +3,10 @@ export interface IconButtonProps {
   size?: import("../common/common-button").ButtonSize;
   compactSpacing?: boolean;
   disabled?: boolean;
-  icon: string;
-  iconAppearance?: "outlined" | "filled";
+  name: string;
+  appearance?: "outlined" | "filled";
 }
 
-export interface IconButtonToggleProps extends Omit<IconButtonProps, "iconAppearance"> {
+export interface IconButtonToggleProps extends Omit<IconButtonProps, "appearance"> {
   selected?: boolean;
 }

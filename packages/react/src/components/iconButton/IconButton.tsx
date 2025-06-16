@@ -8,9 +8,9 @@ import { concatClassNames } from "../utils";
 import style from "./IconButton.module.scss";
 
 interface IconButtonProps
-  extends Omit<CoreIconButtonProps, "disabled" | "icon">,
+  extends Omit<CoreIconButtonProps, "disabled" | "name">,
     Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "onClick"> {
-  icon: RegularIconIdKey | TogglableIconIdKey;
+  name: RegularIconIdKey | TogglableIconIdKey;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
@@ -22,8 +22,8 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
       className = "",
       onClick,
       type = "button",
-      icon,
-      iconAppearance,
+      name,
+      appearance,
       compactSpacing,
       ...props
     },
@@ -40,7 +40,7 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
         onClick={onClick}
         {...props}
       >
-        <Icon name={icon} appearance={iconAppearance} size={buttonIconSize[size]} />
+        <Icon name={name} appearance={appearance} size={buttonIconSize[size]} />
       </button>
     );
   },

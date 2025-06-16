@@ -13,7 +13,7 @@ const meta = {
   component: IconButtonToggleComponent,
   tags: ["autodocs"],
   argTypes: {
-    icon: {
+    name: {
       control: "select",
       options: [...TogglableIconIds].sort(),
       description: "Nom de l’icône à afficher",
@@ -49,7 +49,7 @@ const mockFn = fn();
 
 export const Default: Story = {
   args: {
-    icon: "settings",
+    name: "settings",
     size: "m",
     disabled: false,
     compactSpacing: false,
@@ -79,7 +79,7 @@ export const Sizing: Story = {
     <div style="display: flex; gap: 8px">
       <rte-icon-button-toggle 
         size="s" 
-        icon=${args.icon} 
+        name=${args.name} 
         data-testId="small-icon-button" 
         [compactSpacing]="${args.compactSpacing}" 
         [disabled]="${args.disabled}"
@@ -89,7 +89,7 @@ export const Sizing: Story = {
         [variant]="'${args.variant}'"
       />
       <rte-icon-button-toggle
-        icon=${args.icon} 
+        name=${args.name} 
         data-testId="medium-icon-button" 
         [compactSpacing]="${args.compactSpacing}" 
         [disabled]="${args.disabled}"
@@ -100,7 +100,7 @@ export const Sizing: Story = {
       />
       <rte-icon-button-toggle 
         size="l" 
-        icon=${args.icon} 
+        name=${args.name} 
         data-testId="large-icon-button" 
         [compactSpacing]="${args.compactSpacing}" 
         [disabled]="${args.disabled}"
@@ -135,7 +135,7 @@ export const CompactSizing: Story = {
     <div style="display: flex; gap: 8px">
       <rte-icon-button-toggle 
         size="s" 
-        icon=${args.icon} 
+        name=${args.name} 
         data-testId="small-icon-button" 
         [compactSpacing]="${args.compactSpacing}" 
         [disabled]="${args.disabled}"
@@ -145,7 +145,7 @@ export const CompactSizing: Story = {
         [variant]="'${args.variant}'"
       />
       <rte-icon-button-toggle 
-        icon=${args.icon} 
+        name=${args.name} 
         data-testId="medium-icon-button" 
         [compactSpacing]="${args.compactSpacing}" 
         [disabled]="${args.disabled}"
@@ -156,7 +156,7 @@ export const CompactSizing: Story = {
       />
       <rte-icon-button-toggle 
         size="l" 
-        icon=${args.icon} 
+        name=${args.name} 
         data-testId="large-icon-button" 
         [compactSpacing]="${args.compactSpacing}" 
         [disabled]="${args.disabled}"

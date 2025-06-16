@@ -17,11 +17,11 @@ import { RegularIconIdKey, TogglableIconIdKey } from "../icon/icon.service";
 })
 export class IconButtonComponent {
   readonly disabled = input<boolean>(false);
-  readonly icon = input.required<RegularIconIdKey | TogglableIconIdKey>();
+  readonly name = input.required<RegularIconIdKey | TogglableIconIdKey>();
   readonly size = input<ButtonSize>("m");
   readonly variant = input<ButtonVariant>("primary");
   readonly type = input<ButtonType>("button");
-  readonly iconAppearance = input<"outlined" | "filled">("outlined");
+  readonly appearance = input<"outlined" | "filled">("outlined");
   readonly compactSpacing = input<boolean>(false);
   readonly ariaLabel = input<string | undefined>(undefined);
   readonly ariaLabelledBy = input<string | undefined>(undefined);
