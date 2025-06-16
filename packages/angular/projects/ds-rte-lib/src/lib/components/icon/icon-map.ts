@@ -299,3 +299,7 @@ export const regularIcons = {
   "zoom-out": "zoom_out",
   "zoom-in": "zoom_in",
 };
+
+export const isValidIconName = (name: string): boolean => {
+  return Object.keys(regularIcons).includes(name) || Object.keys(togglableIcons).includes(name);
+};
