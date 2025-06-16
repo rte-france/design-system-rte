@@ -80,7 +80,7 @@ export const Sizing: Story = {
       <rte-icon-button-toggle 
         size="s" 
         name=${args.name} 
-        data-testId="small-icon-button" 
+        data-testid="small-icon-button" 
         [compactSpacing]="${args.compactSpacing}" 
         [disabled]="${args.disabled}"
         [selected]="${args.selected}"
@@ -90,7 +90,7 @@ export const Sizing: Story = {
       />
       <rte-icon-button-toggle
         name=${args.name} 
-        data-testId="medium-icon-button" 
+        data-testid="medium-icon-button" 
         [compactSpacing]="${args.compactSpacing}" 
         [disabled]="${args.disabled}"
         [selected]="${args.selected}"
@@ -101,7 +101,7 @@ export const Sizing: Story = {
       <rte-icon-button-toggle 
         size="l" 
         name=${args.name} 
-        data-testId="large-icon-button" 
+        data-testid="large-icon-button" 
         [compactSpacing]="${args.compactSpacing}" 
         [disabled]="${args.disabled}"
         [selected]="${args.selected}"
@@ -136,7 +136,7 @@ export const CompactSizing: Story = {
       <rte-icon-button-toggle 
         size="s" 
         name=${args.name} 
-        data-testId="small-icon-button" 
+        data-testid="small-icon-button" 
         [compactSpacing]="${args.compactSpacing}" 
         [disabled]="${args.disabled}"
         [selected]="${args.selected}"
@@ -146,7 +146,7 @@ export const CompactSizing: Story = {
       />
       <rte-icon-button-toggle 
         name=${args.name} 
-        data-testId="medium-icon-button" 
+        data-testid="medium-icon-button" 
         [compactSpacing]="${args.compactSpacing}" 
         [disabled]="${args.disabled}"
         [selected]="${args.selected}"
@@ -157,7 +157,7 @@ export const CompactSizing: Story = {
       <rte-icon-button-toggle 
         size="l" 
         name=${args.name} 
-        data-testId="large-icon-button" 
+        data-testid="large-icon-button" 
         [compactSpacing]="${args.compactSpacing}" 
         [disabled]="${args.disabled}"
         [selected]="${args.selected}"
