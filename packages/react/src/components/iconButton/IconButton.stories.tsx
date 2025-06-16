@@ -14,7 +14,7 @@ const meta = {
   component: IconButton,
   tags: ["autodocs"],
   argTypes: {
-    icon: {
+    name: {
       control: "select",
       options: [...RegularIconIds, ...TogglableIconIds].sort(),
       description: "Nom de l’icône à afficher",
@@ -24,7 +24,7 @@ const meta = {
       control: "select",
       options: ["primary", "secondary", "text", "transparent", "danger"],
     },
-    iconAppearance: {
+    appearance: {
       control: "select",
       options: ["outlined", "filled"],
       description: "Apparence de l’icône (pour les icônes togglables)",
@@ -52,9 +52,9 @@ const mockFn = fn();
 
 export const Default: Story = {
   args: {
-    icon: "settings",
+    name: "settings",
     size: "m",
-    iconAppearance: "outlined",
+    appearance: "outlined",
     disabled: false,
     compactSpacing: false,
     ["aria-label"]: "icon button aria label",

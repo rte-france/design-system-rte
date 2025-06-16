@@ -16,7 +16,7 @@ import { IconButtonComponent } from "../icon-button/icon-button.component";
 })
 export class IconButtonToggleComponent {
   readonly disabled = input<boolean>(false);
-  readonly icon = input.required<RegularIconIdKey | TogglableIconIdKey>();
+  readonly name = input.required<RegularIconIdKey | TogglableIconIdKey>();
   readonly size = input<ButtonSize>("m");
   readonly variant = input<ButtonVariant>("primary");
   readonly type = input<ButtonType>("button");

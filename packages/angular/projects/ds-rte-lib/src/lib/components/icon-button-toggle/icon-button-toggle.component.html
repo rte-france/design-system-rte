@@ -1,12 +1,12 @@
 <rte-icon-button 
   [size]="size()" 
-  [icon]="icon()" 
+  [name]="name()" 
   [compactSpacing]="compactSpacing()"
   [disabled]="disabled()"
   [ariaLabel]="ariaLabel()"
   [ariaLabelledBy]="ariaLabelledBy()"
   [type]="type()"
   [variant]="variant()"
-  [iconAppearance]="selected() ? 'filled' : 'outlined'"
+  [appearance]="selected() ? 'filled' : 'outlined'"
   (click)="onClick($event)"
 />

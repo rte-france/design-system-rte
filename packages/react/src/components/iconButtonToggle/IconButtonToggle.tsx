@@ -7,12 +7,12 @@ import IconButton from "../iconButton/IconButton";
 interface IconButtonToggleProps
   extends Omit<CoreIconButtonToggleProps, "icon">,
     Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "onClick"> {
-  icon: TogglableIconIdKey;
+  name: TogglableIconIdKey;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 const IconButtonToggle = forwardRef<HTMLButtonElement, IconButtonToggleProps>(({ selected, ...props }, ref) => {
-  return <IconButton ref={ref} iconAppearance={selected ? "filled" : "outlined"} {...props} />;
+  return <IconButton ref={ref} appearance={selected ? "filled" : "outlined"} {...props} />;
 });
 
 export default IconButtonToggle;
