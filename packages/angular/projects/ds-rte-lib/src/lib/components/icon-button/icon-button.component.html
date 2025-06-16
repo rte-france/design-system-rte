@@ -1,4 +1,5 @@
 <button
+  *ngIf="isValidIconName"
   class="rte-icon-button {{ variant() }} size-{{ size() }}"
   [class.compact-spacing]="compactSpacing()"
   [disabled]="disabled()"

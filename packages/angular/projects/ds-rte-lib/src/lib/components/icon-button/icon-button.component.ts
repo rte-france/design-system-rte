@@ -4,6 +4,7 @@ import { ButtonType } from "@design-system-rte/core/components/button/button.int
 import { ButtonSize, ButtonVariant } from "@design-system-rte/core/components/button/common/common-button";
 import { buttonIconSize } from "@design-system-rte/core/components/button/common/common-button.constants";
 
+import { isValidIconName } from "../icon/icon-map";
 import { IconComponent } from "../icon/icon.component";
 import { RegularIconIdKey, TogglableIconIdKey } from "../icon/icon.service";
 
@@ -28,6 +29,11 @@ export class IconButtonComponent {
 
   get buttonIconSize(): number {
     return buttonIconSize[this.size()];
+  }
+
+  get isValidIconName(): boolean {
+    const name = this.name();
+    return isValidIconName(name);
   }
 
   readonly click = output<MouseEvent | KeyboardEvent>();

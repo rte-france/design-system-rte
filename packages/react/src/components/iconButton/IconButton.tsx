@@ -3,6 +3,7 @@ import { IconButtonProps as CoreIconButtonProps } from "@design-system-rte/core/
 import { forwardRef } from "react";
 
 import Icon, { RegularIconIdKey, TogglableIconIdKey } from "../icon/Icon";
+import { isValidIconName } from "../icon/IconMap";
 import { concatClassNames } from "../utils";
 
 import style from "./IconButton.module.scss";
@@ -29,20 +30,25 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
     },
     ref,
   ) => {
-    return (
-      <button
-        ref={ref}
-        type={type}
-        className={concatClassNames(style["icon-button"], className)}
-        data-size={size}
-        data-variant={variant}
-        data-compact-spacing={compactSpacing}
-        onClick={onClick}
-        {...props}
-      >
-        <Icon name={name} appearance={appearance} size={buttonIconSize[size]} />
-      </button>
-    );
+    if (isValidIconName(name)) {
+      return (
+        <button
+          ref={ref}
+          type={type}
+          className={concatClassNames(style["icon-button"], className)}
+          data-size={size}
+          data-variant={variant}
+          data-compact-spacing={compactSpacing}
+          onClick={onClick}
+          {...props}
+        >
+          <Icon name={name} appearance={appearance} size={buttonIconSize[size]} />
+        </button>
+      );
+    } else {
+      console.warn(`IconButton: Invalid icon name "${name}". Please use a valid icon key.`);
+      return null;
+    }
   },
 );
 

@@ -773,3 +773,7 @@ export const IconIds = {
   "zoom-out": ZoomOut,
   "zoom-in": ZoomIn,
 };
+
+export const isValidIconName = (name: string): boolean => {
+  return Object.keys(IconIds).includes(name) || Object.keys(TogglableIcons).includes(name);
+};
