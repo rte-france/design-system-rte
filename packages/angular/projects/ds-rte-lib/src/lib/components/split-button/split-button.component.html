@@ -45,6 +45,7 @@
 
     <div
       class="split-button-dropdown position-{{ position() }}"
+      role="menu"
       data-testid="Menu container"
       [style.visibility]="isOpen() ? 'visible' : 'hidden'"
       (keydown)="handleKeyDownOnMenu($event)"
