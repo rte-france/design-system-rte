@@ -1,3 +1,5 @@
+import { isValidIconName as isValidIconNameShared } from "@design-system-rte/core/components/icon/icon-utils";
+
 import {
   Add,
   AltRoute,
@@ -775,5 +777,5 @@ export const IconIds = {
 };
 
 export const isValidIconName = (name: string): boolean => {
-  return Object.keys(IconIds).includes(name) || Object.keys(TogglableIcons).includes(name);
+  return isValidIconNameShared(name, IconIds, TogglableIcons);
 };

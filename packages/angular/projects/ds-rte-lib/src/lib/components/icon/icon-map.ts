@@ -1,3 +1,5 @@
+import { isValidIconName as isValidIconNameShared } from "@design-system-rte/core/components/icon/icon-utils";
+
 export const togglableIcons = {
   "add-circle": ["add_circle_outlined", "add_circle_filled"],
   "admin-panel-settings": ["admin_panel_settings_outlined", "admin_panel_settings_filled"],
@@ -300,6 +302,4 @@ export const regularIcons = {
   "zoom-in": "zoom_in",
 };
 
-export const isValidIconName = (name: string): boolean => {
-  return Object.keys(regularIcons).includes(name) || Object.keys(togglableIcons).includes(name);
-};
+export const isValidIconName = (name: string): boolean => isValidIconNameShared(name, regularIcons, togglableIcons);
