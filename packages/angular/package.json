@@ -1,6 +1,6 @@
 {
   "name": "@design-system-rte/angular-builder",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "scripts": {
     "ng": "ng",
     "build": "npm run generate-icons && ng build ds-rte-lib",
@@ -10,7 +10,7 @@
     "publish": "npm publish ./dist/lib --access public",
     "build:publish": "npm run build && npm run publish",
     "storybook": "ng run ds-rte-lib:storybook --port 7007",
-    "build-storybook": "ng run ds-rte-lib:build-storybook --output-dir ../design-docs/storybook-static/angular --config-dir .storybook",
+    "build-storybook": "npm run generate-icons && ng run ds-rte-lib:build-storybook --output-dir ../design-docs/storybook-static/angular --config-dir .storybook",
     "test:ci": "npx playwright install && npx start-server-and-test storybook http://localhost:7007 test",
     "test": "test-storybook --url http://localhost:7007",
     "generate-icons": "cp -R ../core/assets/icons projects/ds-rte-lib/src/lib/assets"
