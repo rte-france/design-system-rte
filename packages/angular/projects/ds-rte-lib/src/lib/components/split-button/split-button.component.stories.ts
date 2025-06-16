@@ -107,7 +107,7 @@ export const Default: Story = {
   }),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const button = canvas.getByRole("button");
+    const button = canvas.getByTestId("Main action button");
     await userEvent.click(button);
   },
 };

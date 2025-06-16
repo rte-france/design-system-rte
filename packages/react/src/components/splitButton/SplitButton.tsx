@@ -138,6 +138,7 @@ const SplitButton = React.forwardRef<HTMLElement | HTMLButtonElement, SplitButto
             onKeyDown={handleKeyDownOnMenu}
             className={style.splitButtonDropdown}
             data-position={position}
+            role="menu"
             style={{ visibility: display }}
             data-testid="Menu container"
           >
