@@ -1,5 +1,6 @@
-import style from "./UtilisationExemple.module.scss";
 import Icon from "../../../src/components/icon/Icon";
+
+import style from "./UtilisationExemple.module.scss";
 
 interface UtilisationExempleProps {
   toDo: boolean;

@@ -1,5 +1,6 @@
 import { RegularIconIdKey, TogglableIconIdKey } from "../../../src/components/icon/Icon";
 import Icon from "../../../src/components/icon/Icon";
+
 import style from "./IconTitle.module.scss";
 
 interface IconTitleProps {
