@@ -35,8 +35,20 @@ jobs:
             deps-node20-main-
 
       - name: Install dependencies
-        if: steps.cache-packages.outputs.cache-hit != 'true'
         run: npm ci --prefer-offline
+
+      - name: Cache icons
+        id: cache-icons
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./packages/react/src/components/icon/generated
+            ./packages/angular/projects/ds-rte-lib/src/lib/assets/icons
+          key: icons-${{ hashFiles('package-lock.json') }}-${{ github.run_id }}
+
+      - name: Generate icons
+        run: npm run generate-icons
+
 
   quality-react:
     runs-on: ubuntu-latest
@@ -62,6 +74,14 @@ jobs:
           key: deps-node20-main-${{ hashFiles('package-lock.json') }}-${{ github.run_id }}
           restore-keys: |
             deps-node20-main-
+
+      - name: Restore cache icons
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./packages/react/src/components/icon/generated
+            ./packages/angular/projects/ds-rte-lib/src/lib/assets/icons
+          key: icons-${{ hashFiles('package-lock.json') }}-${{ github.run_id }}
 
       - name: Lint
         working-directory: packages/react
@@ -95,6 +115,16 @@ jobs:
           key: deps-node20-main-${{ hashFiles('package-lock.json') }}-${{ github.run_id }}
           restore-keys: |
             deps-node20-main-
+      
+      - name: Restore cache icons
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./packages/react/src/components/icon/generated
+            ./packages/angular/projects/ds-rte-lib/src/lib/assets/icons
+          key: icons-${{ hashFiles('package-lock.json') }}-${{ github.run_id }}
+          restore-keys: |
+            icons
       
       - name: Cache react build output
         uses: actions/cache@v4
@@ -132,6 +162,14 @@ jobs:
           restore-keys: |
             deps-node20-main-
 
+      - name: Restore cache icons
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./packages/react/src/components/icon/generated
+            ./packages/angular/projects/ds-rte-lib/src/lib/assets/icons
+          key: icons-${{ hashFiles('package-lock.json') }}-${{ github.run_id }}
+            
       - name: Lint
         working-directory: packages/react
         run: npm run lint:fix
@@ -165,6 +203,14 @@ jobs:
           restore-keys: |
             deps-node20-main-
     
+      - name: Restore cache icons
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./packages/react/src/components/icon/generated
+            ./packages/angular/projects/ds-rte-lib/src/lib/assets/icons
+          key: icons-${{ hashFiles('package-lock.json') }}-${{ github.run_id }}
+
       - name: Build project
         working-directory: packages/angular
         run: npm run build
