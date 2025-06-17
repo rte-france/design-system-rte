@@ -1,16 +1,10 @@
 import React from "react";
 
-// @ts-expect-error storybook don't import img if error is not ignored
 import couleurs from "../img/couleurs.svg";
-// @ts-expect-error storybook don't import img if error is not ignored
 import elevation from "../img/elevation.svg";
-// @ts-expect-error storybook don't import img if error is not ignored
 import grilles from "../img/grilles.svg";
-// @ts-expect-error storybook don't import img if error is not ignored
 import iconographie from "../img/iconographie.svg";
-// @ts-expect-error storybook don't import img if error is not ignored
 import spacing from "../img/spacing.svg";
-// @ts-expect-error storybook don't import img if error is not ignored
 import typographie from "../img/typographie.svg";
 
 import "../styles/Footer.css";
@@ -22,7 +16,7 @@ type InfoCardProps = {
 
 const InfoCard = ({ img, title }: InfoCardProps) => (
   <div className="info_card_container">
-    <img className="card_img" src={img} alt="Info Icon" />
+    <img className="card_img" src={img} alt={`${title} icon`} aria-hidden="true" />
     <p className="card_title">{title}</p>
   </div>
 );
@@ -41,10 +35,10 @@ const Footer = () => (
       <InfoCard img={typographie} title="Typographie" />
       <InfoCard img={grilles} title="Grilles" />
       <InfoCard img={iconographie} title="Iconographie" />
-      <div />
+      <div className="empty_grid_slot" aria-hidden="true" />
       <InfoCard img={spacing} title="Espacements" />
       <InfoCard img={elevation} title="Elevation" />
-      <div />
+      <div className="empty_grid_slot" aria-hidden="true" />
     </div>
   </footer>
 );

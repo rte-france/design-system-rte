@@ -60,7 +60,7 @@
             &:active{
                 background-color: #214770;
             }
-            &:focus{
+            &:focus-visible{
                 outline: 1px solid #2964A0;
                 outline-offset: 4px;
             }

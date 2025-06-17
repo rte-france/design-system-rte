@@ -1,6 +1,4 @@
 import React from "react";
-
-// @ts-expect-error storybook don't import img if error is not ignored
 import header from "../img/header.png";
 import "../styles/Header.css";
 

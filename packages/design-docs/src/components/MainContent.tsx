@@ -2,11 +2,8 @@ import React from "react";
 
 import "../styles/MainContent.css";
 
-// @ts-expect-error storybook don't import img if error is not ignored
 import designFace from "../img/face.svg";
-// @ts-expect-error storybook don't import img if error is not ignored
 import devFace from "../img/face_4.svg";
-// @ts-expect-error storybook don't import img if error is not ignored
 import placeholder from "../img/picture.png";
 
 type UserCardProps = {
@@ -25,7 +22,13 @@ type ExplanationCardProps = {
 
 const UserCard = ({ icon, title, content, img_background }: UserCardProps) => (
   <div className="user_card_container">
-    <img className="img" style={{ backgroundColor: img_background }} src={icon} alt="User Icon" />
+    <img
+      className="img"
+      style={{ backgroundColor: img_background }}
+      src={icon}
+      alt={`${title} avatar icon`}
+      aria-hidden="true"
+    />
     <p className="title">{title}</p>
     <p className="content">{content}</p>
   </div>
@@ -33,7 +36,7 @@ const UserCard = ({ icon, title, content, img_background }: UserCardProps) => (
 
 const ExplanationCard = ({ img, title, content, link }: ExplanationCardProps) => (
   <div className="explanation_card_container">
-    <img className="img" src={img} alt="Explanation Img" />
+    <img className="img" src={img} alt={`Image pour ${title}`} aria-hidden="true" />
     <div className="card_content">
       <p className="title">{title}</p>
       <p className="content">{content}</p>
