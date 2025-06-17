@@ -1,33 +1,11 @@
 import { Meta } from "@storybook/blocks";
+import React from "react";
+import Header from "../src/components/Header";
+import MainContent from "../src/components/MainContent";
+import Footer from "../src/components/Footer";
 
 <Meta title="Design systems" />
 
-<div className="sb-container">
-  <div className='sb-section-title'>
-    # Design systems
-
-    La pensée systémique a bien sûr transformé la conception des expériences digitales, avec l’adoption des Design Systems qui transcendent les disciplines pour créer une véritable harmonie visuelle.
-    
-    Chez OpenClassrooms, le nôtre se nomme "Classify". Nous y stockons tous les éléments de marque, de contenu, d'UI, ainsi que les guidelines qui nous permettent d'utiliser correctement tous ses composants. Sans oublier les Design Tokens évidemment.
-    
-    Ce système nous permet d'assurer une cohérence d'expérience tout en maximisant l'efficacité des équipes.
-  </div>
-</div>
-
-<style>
-  {`
-  .sb-container {
-    margin-bottom: 48px;
-  }
-
-  .sb-section-title {
-    margin-bottom: 32px;
-  }
-
-  @media screen and (max-width: 600px) {
-    .sb-section {
-      flex-direction: column;
-    }
-  }
-  `}
-</style>
+<Header />
+<MainContent />
+<Footer />
