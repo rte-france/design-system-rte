@@ -1,7 +1,9 @@
 import { Meta } from "@storybook/blocks";
 import React from "react";
+
 import StorybookTabs from "../../../.storybook/template/StorybookTabs";
 import HeaderComponent from "../../../.storybook/template/HeaderComponent";
+import Usage from "../../../.storybook/template/Usage";
 
 <Meta title="Components/Button" />
 
@@ -11,10 +13,52 @@ import HeaderComponent from "../../../.storybook/template/HeaderComponent";
 
 </HeaderComponent>
 
-<StorybookTabs> 
+<StorybookTabs>
 
-    <div> fniqnfisehfisenqifhsieu <p> zdqdzqzd </p> </div>
+    <div className="Overview">
 
-    <div> fniqnfisehfisenqifhsieu </div>
+        <p> Overview </p>
+
+    </div>
+
+    <div className="Guidelines">
+
+        <p> Guidelines </p>
+
+    </div>
+
+    <div className="Code">
+
+        <p> Code </p>
+
+    </div>
+
+    <div className="Accessibility">
+
+        <p> Accessibility </p>
+
+    </div>
 
 </StorybookTabs>
+
+<Usage title="Bouton">
+
+    <div>
+        <h4> Déclencher une action </h4>
+
+        <p> Validation, soumission, ouverture d’une modale, navigation, etc. </p>
+    </div>
+
+    <div>
+        <h4> Guider l’utilisateur </h4>
+
+        <p> Appeler à une action principale ("S'inscrire", "Acheter", "Envoyer"). </p>
+    </div>
+
+    <div>
+        <h4> Interagir avec une interface </h4>
+
+        <p> Activation/désactivation, chargement, confirmation d’une tâche. </p>
+    </div>
+
+</Usage>

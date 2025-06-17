@@ -38,5 +38,6 @@
 
     .storybook_header_content{
         @include typography-storybook-header-content;
+        color: #21272A;
     }
 }

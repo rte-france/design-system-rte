@@ -259,6 +259,15 @@ $button-l-semibold-letter-spacing: $letter-spacing-s;
     line-height: $heading-xl-semibold-line-height;
 }
 
+@mixin typography-storybook-subtitle{
+    font-feature-settings: "liga" off, "clig" off;
+    font-style: normal;
+    font-family: $heading-4xl-semibold-font-family;
+    font-weight: $heading-m-semibold-font-weight;
+    font-size: $heading-m-semibold-font-size;
+    line-height: $heading-m-semibold-line-height;
+}
+
 @mixin typography-storybook-header-content{
     font-feature-settings: "liga" off, "clig" off;
     font-style: normal;
@@ -266,4 +275,14 @@ $button-l-semibold-letter-spacing: $letter-spacing-s;
     font-weight: $text-xl-regular-font-weight;
     font-size: $text-xl-regular-font-size;
     line-height: $text-xl-regular-line-height;
+}
+
+@mixin typography-storybook-header-xs{
+    font-feature-settings: "liga" off, "clig" off;
+    font-style: normal;
+    font-family: $heading-xs-semibold-font-family;
+    font-weight: $heading-xs-semibold-font-weight;
+    font-size: $heading-xs-semibold-font-size;
+    line-height: $heading-xs-semibold-line-height;
+    letter-spacing: $heading-xs-semibold-letter-spacing;
 }
