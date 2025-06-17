@@ -4,6 +4,8 @@ function getAbsolutePath(value: string): string {
   return dirname(require.resolve(join(value, "package.json")));
 }
 
+// test comment
+
 const PRODUCTION_PATH = "https://opensource.rte-france.com/design-system-rte";
 
 const DEVELOPEMENT_DEPLOYMENT_CONFIG = {
