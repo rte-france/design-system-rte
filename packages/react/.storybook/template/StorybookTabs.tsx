@@ -30,9 +30,7 @@ const StorybookTabs = ({ children }: StorybookTabsProps) => {
           </h3>
         ))}
       </div>
-      <div className="storybook_tab_content" style={{ padding: "16px" }}>
-        {React.Children.toArray(children)[activeTab]}
-      </div>
+      <div className="storybook_tab_content">{React.Children.toArray(children)[activeTab]}</div>
     </div>
   );
 };

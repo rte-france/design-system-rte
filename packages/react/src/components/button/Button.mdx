@@ -2,11 +2,10 @@ import { Meta } from "@storybook/blocks";
 import React from "react";
 
 import StorybookTabs from "../../../.storybook/template/StorybookTabs";
-import HeaderComponent from "../../../.storybook/template/HeaderComponent";
-import Usage from "../../../.storybook/template/Usage";
-import UtilisationExemple from "../../../.storybook/template/UtilisationExemple";
-
-import picture from "../../../.storybook/template/picture.png";
+import HeaderComponent from "../../../.storybook/template/headerComponent/HeaderComponent";
+import Usage from "../../../.storybook/template/usage/Usage";
+import UtilisationExemple from "../../../.storybook/template/utilisationExemple/UtilisationExemple";
+import IconTitle from "../../../.storybook/template/iconTitle/IconTitle";
 
 <Meta title="Components/Button" />
 
@@ -20,7 +19,46 @@ import picture from "../../../.storybook/template/picture.png";
 
     <div className="Overview">
 
-        <p> Overview </p>
+        <Usage title="Bouton">
+
+    <div>
+        <h4> Déclencher une action </h4>
+
+        <p> Validation, soumission, ouverture d’une modale, navigation, etc. </p>
+    </div>
+
+    <div>
+        <h4> Guider l’utilisateur </h4>
+
+        <p> Appeler à une action principale ("S'inscrire", "Acheter", "Envoyer"). </p>
+    </div>
+
+    <div>
+        <h4> Interagir avec une interface </h4>
+
+        <p> Activation/désactivation, chargement, confirmation d’une tâche. </p>
+    </div>
+
+</Usage>
+
+<IconTitle title="Exemples d'utilisation" icon="heart" />
+
+- 1 mot → "Envoyer"
+- 2 mots → "Ajouter au panier"
+- 3 mots max → "Créer un compte"
+
+**Si un bouton nécessite plus de 3 mots, envisagez une reformulation plus concise.**
+
+
+<div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
+
+<UtilisationExemple toDo={true} imgPath="/placeholder_img.png" />
+
+<UtilisationExemple toDo={false} imgPath="/placeholder_img.png" />
+
+</div>
+
+    <img src="/placeholder_img.png" alt="Exemple de bouton" style={{ width: "100%", margin: "2rem auto", display: "block" }} />
 
     </div>
 
@@ -43,31 +81,4 @@ import picture from "../../../.storybook/template/picture.png";
     </div>
 
 </StorybookTabs>
-
-<Usage title="Bouton">
-
-    <div>
-        <h4> Déclencher une action </h4>
-
-        <p> Validation, soumission, ouverture d’une modale, navigation, etc. </p>
-    </div>
-
-    <div>
-        <h4> Guider l’utilisateur </h4>
-
-        <p> Appeler à une action principale ("S'inscrire", "Acheter", "Envoyer"). </p>
-    </div>
-
-    <div>
-        <h4> Interagir avec une interface </h4>
-
-        <p> Activation/désactivation, chargement, confirmation d’une tâche. </p>
-    </div>
-
-</Usage>
-
-<UtilisationExemple toDo={true} img={picture} />
-
-<UtilisationExemple toDo={false} img={picture} />
-
 

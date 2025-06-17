@@ -1,7 +1,5 @@
-import Link from "../../src/components/link/Link";
+import Link from "../../../src/components/link/Link";
 
-import figmaLogo from "./figma.png";
-import githubLogo from "./github.png";
 import style from "./HeaderComponent.module.scss";
 
 interface HeaderComponentProps {
@@ -19,13 +17,13 @@ const HeaderComponent = ({ title, linkFigma, linkGithub, children }: HeaderCompo
         <div className={style.storybook_links}>
           {linkFigma && (
             <div className={style.storybook_link_container}>
-              <img src={figmaLogo} alt="Figma" className={style.storybook_logo} />
+              <img src="/figma.png" alt="Figma" className={style.storybook_logo} />
               <Link label="Figma" href={linkFigma} />
             </div>
           )}
           {linkGithub && (
             <div className={style.storybook_link_container}>
-              <img src={githubLogo} alt="GitHub" className={style.storybook_logo} />
+              <img src="/github.png" alt="GitHub" className={style.storybook_logo} />
               <Link label="GitHub" href={linkGithub} />
             </div>
           )}

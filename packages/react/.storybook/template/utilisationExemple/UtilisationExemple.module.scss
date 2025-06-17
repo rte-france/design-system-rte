@@ -5,7 +5,8 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    width: 31.25rem;
+    width: 25rem;
+    padding-block: 2rem;
 
     .storybook_utilisation_exemple_content_todo_true {
 
@@ -15,15 +16,19 @@
         flex-direction: row;
         justify-content: flex-start;
         align-items: center;
-        gap: 1rem;
+        gap: 0.5rem;
         background-color: rgba(37, 162, 73, 0.10);
         border-left: 3px solid #25A249;
+
+        .storybook_utilisation_exemple_icon {
+            color: #25A249;
+            margin-left: 1rem;
+        }
 
         p {
 
             @include typography-storybook-header-s;
             color: #21272A;
-            margin: 1rem;
         }
 
 
@@ -37,15 +42,19 @@
         flex-direction: row;
         justify-content: flex-start;
         align-items: center;
-        gap: 1rem;
+        gap: 0.5rem;
         background-color: rgba(218, 30, 40, 0.10);
         border-left: 3px solid #DA1E28;
+
+        .storybook_utilisation_exemple_icon {
+            color: #DA1E28;
+            margin-left: 1rem;
+        }
 
         p {
 
             @include typography-storybook-header-s;
             color: #21272A;
-            margin: 1rem;
         }
 
 
@@ -54,8 +63,7 @@
     .storybook_utilisation_exemple_image {
 
         width: 100%;
-        height: 300px;
-        background-color: black;
+        height: 250px;
 
     }
 }
