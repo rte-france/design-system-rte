@@ -1,6 +1,6 @@
 {
   "name": "@design-system-rte/design-docs",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "main": "index.js",
   "scripts": {
     "storybook": "storybook dev -p 7006",

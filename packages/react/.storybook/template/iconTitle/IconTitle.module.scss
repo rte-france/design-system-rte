@@ -1,0 +1,27 @@
+@use '@design-system-rte/core/tokens/main.scss' as *;
+
+.storybook_icon {
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+    padding-block: 1rem;
+
+    .storybook_icon_icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 48px;
+        height: 48px;
+        border-radius: 8px;
+        background-color: #FFE1E9;
+
+    }
+
+    .storybook_icon_title {
+        text-align: center;
+        margin: 0;
+        @include typography-storybook-subtitle;
+    }
+}
