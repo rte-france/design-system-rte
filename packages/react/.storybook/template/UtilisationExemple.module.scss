@@ -1,0 +1,61 @@
+@use '@design-system-rte/core/tokens/main.scss' as *;
+
+.storybook_utilisation_exemple {
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 31.25rem;
+
+    .storybook_utilisation_exemple_content_todo_true {
+
+        width: calc(100% - 3px);
+        height: 48px;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 1rem;
+        background-color: rgba(37, 162, 73, 0.10);
+        border-left: 3px solid #25A249;
+
+        p {
+
+            @include typography-storybook-header-s;
+            color: #21272A;
+            margin: 1rem;
+        }
+
+
+    }
+
+    .storybook_utilisation_exemple_content_todo_false {
+
+        width: calc(100% - 3px);
+        height: 48px;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 1rem;
+        background-color: rgba(218, 30, 40, 0.10);
+        border-left: 3px solid #DA1E28;
+
+        p {
+
+            @include typography-storybook-header-s;
+            color: #21272A;
+            margin: 1rem;
+        }
+
+
+    }
+
+    .storybook_utilisation_exemple_image {
+
+        width: 100%;
+        height: 300px;
+        background-color: black;
+
+    }
+}

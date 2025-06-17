@@ -286,3 +286,13 @@ $button-l-semibold-letter-spacing: $letter-spacing-s;
     line-height: $heading-xs-semibold-line-height;
     letter-spacing: $heading-xs-semibold-letter-spacing;
 }
+
+@mixin typography-storybook-header-s{
+    font-feature-settings: "liga" off, "clig" off;
+    font-style: normal;
+    font-family: $heading-s-semibold-font-family;
+    font-weight: $heading-s-semibold-font-weight;
+    font-size: $heading-s-semibold-font-size;
+    line-height: $heading-s-semibold-line-height;
+    letter-spacing: $heading-s-semibold-letter-spacing;
+}

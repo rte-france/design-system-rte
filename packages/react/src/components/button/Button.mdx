@@ -4,6 +4,9 @@ import React from "react";
 import StorybookTabs from "../../../.storybook/template/StorybookTabs";
 import HeaderComponent from "../../../.storybook/template/HeaderComponent";
 import Usage from "../../../.storybook/template/Usage";
+import UtilisationExemple from "../../../.storybook/template/UtilisationExemple";
+
+import picture from "../../../.storybook/template/picture.png";
 
 <Meta title="Components/Button" />
 
@@ -62,3 +65,9 @@ import Usage from "../../../.storybook/template/Usage";
     </div>
 
 </Usage>
+
+<UtilisationExemple toDo={true} img={picture} />
+
+<UtilisationExemple toDo={false} img={picture} />
+
+
