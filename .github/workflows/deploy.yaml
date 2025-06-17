@@ -3,7 +3,7 @@ name: Publish Storybook Composition to GitHub Pages
 on:
   push:
     branches:
-      - 'main'
+      - main
 
 permissions:
   contents: read
@@ -25,23 +25,11 @@ jobs:
         with:
           node-version: 20
 
-      - name: Cache node_modules and Vite cache
-        id: cache-packages
-        uses: actions/cache@v4
-        with:
-          path: |
-            ./node_modules
-            ./packages/react/node_modules
-            ./packages/react/.vite
-            ./packages/angular/node_modules
-            ./packages/angular/.vite
-          key: deps-node20-PR-${{ hashFiles('package-lock.json') }}-${{ github.run_id }}
-          restore-keys: |
-            deps-node20-PR-
-
       - name: Install dependencies
-        if: steps.cache-packages.outputs.cache-hit != 'true'
         run: npm ci --prefer-offline
+        
+      - name: Generate icons
+        run: npm run generate-icons
 
       - name: Build Design Docs Storybook
         run: npm run build-design-docs
