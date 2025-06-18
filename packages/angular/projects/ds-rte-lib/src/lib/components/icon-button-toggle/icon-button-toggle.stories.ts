@@ -1,4 +1,4 @@
-import { ENTER_KEY, SPACE_KEY, TAB_KEY } from "@design-system-rte/core/constants/keyboard.constants";
+import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard.constants";
 import { Meta, StoryObj } from "@storybook/angular";
 import { fn, userEvent, within, expect } from "@storybook/test";
 
@@ -187,7 +187,7 @@ export const KeyboardInteraction: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const button = canvas.getByRole("button");
-    await userEvent.keyboard(TAB_KEY);
+    await userEvent.tab();
     expect(button).toHaveFocus();
     await userEvent.keyboard(ENTER_KEY);
     await userEvent.keyboard(SPACE_KEY);
