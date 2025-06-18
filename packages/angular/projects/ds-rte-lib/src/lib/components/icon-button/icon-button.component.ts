@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component, input, output } from "@angular/core";
+import { ChangeDetectionStrategy, Component, computed, input, output } from "@angular/core";
 import { ButtonType } from "@design-system-rte/core/components/button/button.interface";
 import { ButtonSize, ButtonVariant } from "@design-system-rte/core/components/button/common/common-button";
 import { buttonIconSize } from "@design-system-rte/core/components/button/common/common-button.constants";
@@ -27,14 +27,9 @@ export class IconButtonComponent {
   readonly ariaLabel = input<string | undefined>(undefined);
   readonly ariaLabelledBy = input<string | undefined>(undefined);
 
-  get buttonIconSize(): number {
-    return buttonIconSize[this.size()];
-  }
+  readonly buttonIconSize = computed(() => buttonIconSize[this.size()]);
 
-  get isValidIconName(): boolean {
-    const name = this.name();
-    return isValidIconName(name);
-  }
+  readonly isValidIconName = computed(() => isValidIconName(this.name()));
 
   readonly click = output<MouseEvent | KeyboardEvent>();
 
