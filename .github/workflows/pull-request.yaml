@@ -32,9 +32,12 @@ jobs:
         with:
           node-version: 20
 
+      - name: Install dependencies
+        run: npm ci --prefer-offline
+      
       - name: Cache node_modules and Vite cache
         id: cache-packages
-        uses: actions/cache@v4
+        uses: actions/cache/save@v4
         with:
           path: |
             ./node_modules
@@ -44,12 +47,6 @@ jobs:
             ./packages/angular/.vite
             ./packages/core/node_modules
           key: deps-node20-PR-${{ hashFiles('package-lock.json') }}-${{ github.run_id }}
-          restore-keys: |
-            deps-node20-PR-
-
-      - name: Install dependencies
-        if: steps.cache-packages.outputs.cache-hit != 'true'
-        run: npm ci --prefer-offline
 
   quality-react:
     runs-on: ubuntu-latest
@@ -74,8 +71,6 @@ jobs:
             ./packages/angular/.vite
             ./packages/core/node_modules
           key: deps-node20-PR-${{ hashFiles('package-lock.json') }}-${{ github.run_id }}
-          restore-keys: |
-            deps-node20-PR-
 
       - name: Lint
         working-directory: packages/react
@@ -108,8 +103,6 @@ jobs:
             ./packages/angular/.vite
             ./packages/core/node_modules
           key: deps-node20-PR-${{ hashFiles('package-lock.json') }}-${{ github.run_id }}
-          restore-keys: |
-            deps-node20-PR-
 
       - name: Lint
         working-directory: packages/angular
@@ -142,8 +135,6 @@ jobs:
             ./packages/angular/.vite
             ./packages/core/node_modules
           key: deps-node20-PR-${{ hashFiles('package-lock.json') }}-${{ github.run_id }}
-          restore-keys: |
-            deps-node20-PR-
 
       - name: Lint
         working-directory: packages/core
