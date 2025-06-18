@@ -1,0 +1,64 @@
+import { Meta } from "@storybook/blocks";
+
+import "../src/styles/Police.css";
+
+<Meta title="Design systems/Couleurs" />
+
+<h1 style={{fontFamily:"Nunito"}}> Les couleurs sémantiques </h1>
+
+<h2 style={{border:"none", fontFamily:"Nunito"}}> Définition </h2>
+
+Une première valeur HEX est attribuée à ce que l’on appelle une "couleur primitive". Ensuite, une signification est associée à cette couleur, ce qui en fait une "couleur sémantique". Par exemple, cela peut être la couleur par défaut d'un arrière-plan. C'est cette couleur sémantique qui peut être utilisée pour des éléments comme l’arrière-plan d’un bouton.
+
+L'exemple ci-dessous illustre bien ce concept :
+
+<img src="/Exemple.png" width="100%" />
+
+<h2 style={{border:"none", fontFamily:"Nunito"}}> Brands et modes </h2>
+
+Une première valeur HEX est attribuée à ce que l’on appelle une "couleur primitive". Ensuite, une signification est associée à cette couleur, ce qui en fait une "couleur sémantique". Par exemple, cela peut être la couleur par défaut d'un arrière-plan. C'est cette couleur sémantique qui peut être utilisée pour des éléments comme l’arrière-plan d’un bouton.
+
+L'exemple ci-dessous illustre bien ce concept :
+
+Le Design RTE propose trois gammes de couleurs, appelées Brands, et permettant aux designers d'adapter le thème du design system en fonction du produit :
+
+- **Blue Iceberg**
+- **Violet**
+- **Vert Forêt**
+
+<img src="/Brands.png" width="100%" />
+
+Certains composants du Design System et leurs éléments sont adaptés aux différentes "brands", tandis que d’autres restent communs à tous.
+
+Chaque "brand" est ensuite disponible en deux modes : **Light** et **Dark**. Ces termes font référence à la polarité du contraste entre un objet et le fond sur lequel il repose.
+
+- Le “**Light Mode**”, souvent le mode par défaut, utilise des fonds clairs sur les interfaces utilisateur.
+- Le ”**Dark Mode**” utilise des fonds sombres.
+
+Ainsi, la couleur d’un composant, d’un texte ou d’un élément d’interface varie selon le mode (Light ou Dark), afin de garantir une visibilité optimale en fonction du contraste avec les différents fonds.
+
+<img src="/Modes.png" width="100%" />
+
+<h2 style={{border:"none", fontFamily:"Nunito"}}> Choix des couleurs </h2>
+
+Les conversions de couleurs entre les "brands" et les thèmes sont gérées à l’aide des Design Tokens.
+
+Par exemple, tous les arrière-plans de boutons par défaut sont définis par la couleur sémantique "background/brand_default". Cependant, les couleurs primitives associées à ce token varient en fonction des "brands" et des modes.
+
+Si l’arrière-plan d’un bouton est "bleu_iceberg/300" en Light Mode, il sera également "bleu_iceberg/300" en Dark Mode.
+
+Ainsi, si une couleur primitive est modifiée, cette modification se répercute dans l'ensemble du Design System et dans tous les produits qui l’utilisent.
+
+<img src="/ColorChoice.png" width="100%" />
+
+<h2 style={{border:"none"}}> Dénomination </h2>
+
+Les noms des couleurs sémantiques sont construits selon le schéma suivant :
+
+<img src="/Denomination.png" width="100%" />
+
+Exemples :
+
+- content/primary_inverse
+- background/brand_danger_pressed
+- border_disabled
