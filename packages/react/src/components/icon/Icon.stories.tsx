@@ -13,7 +13,7 @@ const meta = {
   argTypes: {
     name: {
       control: "select",
-      options: [...RegularIconIds, ...TogglableIconIds].sort(),
+      options: [...RegularIconIds, ...TogglableIconIds].sort((a, b) => a.localeCompare(b)),
       description: "Nom de l’icône à afficher",
       defaultValue: "check",
     },

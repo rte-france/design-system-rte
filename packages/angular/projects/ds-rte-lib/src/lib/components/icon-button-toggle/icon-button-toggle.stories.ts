@@ -15,7 +15,7 @@ const meta = {
   argTypes: {
     name: {
       control: "select",
-      options: [...TogglableIconIds].sort(),
+      options: [...TogglableIconIds].sort((a, b) => a.localeCompare(b)),
       description: "Nom de l’icône à afficher",
       defaultValue: "check",
     },
