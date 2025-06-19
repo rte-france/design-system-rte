@@ -46,7 +46,7 @@ jobs:
             ./packages/angular/node_modules
             ./packages/angular/.vite
             ./packages/core/node_modules
-          key: deps-node20-PR-${{ hashFiles('package-lock.json') }}-${{ github.run_id }}
+          key: deps-node20-PR-${{ hashFiles('package-lock.json') }}-${{ github.sha }}
 
       - name: Cache icons
         id: cache-icons
@@ -55,7 +55,7 @@ jobs:
           path: |
             ./packages/react/src/components/icon/generated
             ./packages/angular/projects/ds-rte-lib/src/lib/assets/icons
-          key: icons-${{ hashFiles('package-lock.json') }}-${{ github.run_id }}
+          key: icons-${{ hashFiles('package-lock.json') }}-${{ github.sha }}
 
       - name: Generate icons
         run: npm run generate-icons
@@ -83,7 +83,7 @@ jobs:
             ./packages/angular/node_modules
             ./packages/angular/.vite
             ./packages/core/node_modules
-          key: deps-node20-PR-${{ hashFiles('package-lock.json') }}-${{ github.run_id }}
+          key: deps-node20-PR-${{ hashFiles('package-lock.json') }}-${{ github.sha }}
         
       - name: Restore cache icons
         uses: actions/cache@v4
@@ -91,7 +91,7 @@ jobs:
           path: |
             ./packages/react/src/components/icon/generated
             ./packages/angular/projects/ds-rte-lib/src/lib/assets/icons
-          key: icons-${{ hashFiles('package-lock.json') }}-${{ github.run_id }}
+          key: icons-${{ hashFiles('package-lock.json') }}-${{ github.sha }}
 
       - name: Lint
         working-directory: packages/react
@@ -123,7 +123,7 @@ jobs:
             ./packages/angular/node_modules
             ./packages/angular/.vite
             ./packages/core/node_modules
-          key: deps-node20-PR-${{ hashFiles('package-lock.json') }}-${{ github.run_id }}
+          key: deps-node20-PR-${{ hashFiles('package-lock.json') }}-${{ github.sha }}
 
       - name: Restore cache icons
         uses: actions/cache@v4
@@ -131,7 +131,7 @@ jobs:
           path: |
             ./packages/react/src/components/icon/generated
             ./packages/angular/projects/ds-rte-lib/src/lib/assets/icons
-          key: icons-${{ hashFiles('package-lock.json') }}-${{ github.run_id }}
+          key: icons-${{ hashFiles('package-lock.json') }}-${{ github.sha }}
 
       - name: Lint
         working-directory: packages/angular
@@ -163,7 +163,7 @@ jobs:
             ./packages/angular/node_modules
             ./packages/angular/.vite
             ./packages/core/node_modules
-          key: deps-node20-PR-${{ hashFiles('package-lock.json') }}-${{ github.run_id }}
+          key: deps-node20-PR-${{ hashFiles('package-lock.json') }}-${{ github.sha }}
 
       - name: Lint
         working-directory: packages/core
