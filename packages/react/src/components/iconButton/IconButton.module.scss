@@ -1,4 +1,4 @@
-@use '@design-system-rte/core/tokens/main.scss' as *;
+@use '@design-system-rte/core/design-tokens/main.scss' as *;
 
 .icon-button {
     display: inline-flex;
@@ -25,7 +25,7 @@
     &[data-size='s'] {
         border-radius: $radius-s;
         height: 24px;
-        padding: $positive-spacing_025 $positive-spacing_050; 
+        padding: $positive-spacing_025 $positive-spacing_050;
 
         &[data-compact-spacing='true'] {
             height: 16px;
@@ -73,7 +73,9 @@
             color: var(--content-disabled);
             cursor: default;
         }
-    };
+    }
+
+    ;
 
     &[data-variant='secondary'] {
         background: var(--background-default);
@@ -95,7 +97,9 @@
             color: var(--content-disabled);
             cursor: default;
         }
-    };
+    }
+
+    ;
 
     &[data-variant='text'] {
         background: transparent;
@@ -115,7 +119,9 @@
             color: var(--content-disabled);
             cursor: default;
         }
-    };
+    }
+
+    ;
 
     &[data-variant='transparent'] {
         background: transparent;
@@ -136,8 +142,10 @@
             color: var(--content-disabled);
             cursor: default;
         }
-    };
-    
+    }
+
+    ;
+
     &[data-variant='danger'] {
         background: var(--background-danger-default);
         border: none;
