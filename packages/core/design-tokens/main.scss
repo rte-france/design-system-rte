@@ -1,9 +1,9 @@
-@forward "border";
-@forward "spacing";
-@forward "typography";
-@forward "layout";
-@forward "opacity";
-@forward "mixins";
+@forward "tokens/border";
+@forward "tokens/spacing";
+@forward "tokens/typography";
+@forward "tokens/layout";
+@forward "tokens/opacity";
+@forward "tokens/mixins";
 
 @import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:wght,FILL,GRAD@400,0,0&display=swap");
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');

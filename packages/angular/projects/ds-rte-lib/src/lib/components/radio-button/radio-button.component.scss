@@ -1,4 +1,4 @@
-@use '@design-system-rte/core/tokens/main.scss' as *;
+@use '@design-system-rte/core/design-tokens/main.scss' as *;
 
 
 .rte-radio-button-container {
@@ -78,7 +78,7 @@
             border: $width-xs solid var(--content-tertiary);
         }
 
-        &.error{
+        &.error {
             border: $width-xs solid var(--content-danger);
         }
     }

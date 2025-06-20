@@ -2,7 +2,7 @@ import fs from "fs";
 
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-import { Collection, ColorMode, extractScssVariablesFromTokens, generateThemeMainScssFile } from "./tokens-generator";
+import { Collection, ColorMode, generateTokensScssFiles, generateThemeMainScssFile } from "./tokens-generator";
 
 vi.mock("fs");
 
@@ -28,7 +28,7 @@ describe("tokens-generator", () => {
       },
     ];
     const writeSpy = vi.spyOn(fs, "writeFileSync");
-    extractScssVariablesFromTokens(colorTokens);
+    generateTokensScssFiles(colorTokens);
     expect(writeSpy).toHaveBeenCalledWith(
       expect.stringContaining("bleu-iceberg-light.scss"),
       expect.stringContaining('"background-default": $bleu-100,'),
@@ -69,7 +69,7 @@ describe("tokens-generator", () => {
       },
     ];
     const writeSpy = vi.spyOn(fs, "writeFileSync");
-    extractScssVariablesFromTokens(typoTokens);
+    generateTokensScssFiles(typoTokens);
     expect(writeSpy).toHaveBeenCalledWith(
       expect.stringContaining("_typography.scss"),
       expect.stringContaining("$heading-xl-bold-main: $heading-xl-bold-main;"),
@@ -88,7 +88,7 @@ describe("tokens-generator", () => {
       },
     ];
     const writeSpy = vi.spyOn(fs, "writeFileSync");
-    extractScssVariablesFromTokens(opacityTokens);
+    generateTokensScssFiles(opacityTokens);
     expect(writeSpy).toHaveBeenCalledWith(
       expect.stringContaining("_opacity.scss"),
       expect.stringContaining("$opacity-80: 80%;"),
@@ -113,7 +113,7 @@ describe("tokens-generator", () => {
       },
     ];
     const writeSpy = vi.spyOn(fs, "writeFileSync");
-    extractScssVariablesFromTokens(shadowTokens);
+    generateTokensScssFiles(shadowTokens);
     expect(writeSpy).toHaveBeenCalledWith(
       expect.stringContaining("_shadows.scss"),
       expect.stringContaining("$elevation-shadow1: 0 1px 2px #00000033;"),
@@ -141,7 +141,7 @@ describe("tokens-generator", () => {
       },
     ];
     const writeSpy = vi.spyOn(fs, "writeFileSync");
-    extractScssVariablesFromTokens(layoutTokens);
+    generateTokensScssFiles(layoutTokens);
     expect(writeSpy).toHaveBeenCalledWith(
       expect.stringContaining("_layout.scss"),
       expect.stringContaining("$spacing-sm: 8px;"),
@@ -170,7 +170,7 @@ describe("tokens-generator", () => {
       },
     ];
     const writeSpy = vi.spyOn(fs, "writeFileSync");
-    extractScssVariablesFromTokens(defaultTokens);
+    generateTokensScssFiles(defaultTokens);
     expect(writeSpy).toHaveBeenCalledWith(
       expect.stringContaining("_spacing.scss"),
       expect.stringContaining("$space-sm: 4px;"),

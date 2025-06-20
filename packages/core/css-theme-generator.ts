@@ -13,7 +13,7 @@ if (!fs.existsSync(outputDir)) {
 
 themes.forEach((theme) => {
   const sassContent = `
-        @use 'tokens/_mixins.scss' as *;
+        @use 'design-tokens/tokens/_mixins.scss' as *;
 
         :root {
             [data-theme=${theme}][data-mode=light] {
@@ -36,7 +36,7 @@ themes.forEach((theme) => {
 });
 
 const allThemesSassContent = `
-    @use 'tokens/_mixins.scss' as *;
+    @use 'design-tokens/tokens/_mixins.scss' as *;
 
     ${themes
       .map(

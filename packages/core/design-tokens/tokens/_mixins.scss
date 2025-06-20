@@ -1,0 +1,328 @@
+@use 'themes' as *;
+@use '../primitives/colors' as *;
+@use 'shadows' as *;
+@use 'typography' as *;
+@use 'sass:map';
+@use 'sass:color';
+
+$themes: (
+  "bleu_iceberg": $bleu-iceberg,
+  "violet": $violet,
+  "vert_foret": $vert-foret
+);
+
+@mixin apply-theme($targetTheme: bleu_iceberg, $mode: light) {
+  $targetTheme: map.get($themes, $targetTheme, $mode);
+
+  @include extract-custom-properties-from-theme($targetTheme);
+}
+
+
+@mixin theme-selector($targetTheme: bleu_iceberg, $mode: light) {
+  $theme: map.get($themes, $targetTheme, $mode);
+
+  [data-theme="#{$targetTheme}"][data-mode="#{$mode}"] {
+    @include extract-custom-properties-from-theme($theme);
+  }
+}
+
+@mixin extract-custom-properties-from-theme($theme) {
+  @each $property, $value in $theme {
+    --#{$property}: #{$value};
+  }
+}
+
+// Mixins for shadows and inner shadows
+
+@mixin hover-box-shadow($color) {
+  box-shadow: 0 0 0 8px $color;
+}
+
+@mixin neutral-inner-shadow {
+  box-shadow: inset $inner-shadow-key-position-x $inner-shadow-key-position-y $inner-shadow-key-blur $inner-shadow-key-spread var(--elevation-surface-inner-shadow);
+}
+
+@mixin neutral-shadow-1 {
+  box-shadow: $shadow-1-key-position-x $shadow-1-key-position-y $shadow-1-key-blur $shadow-1-key-spread var(--elevation-shadow-key),
+    $ambient-shadow-position-x $ambient-shadow-position-y $ambient-shadow-blur $ambient-shadow-spread var(--elevation-shadow-ambient);
+}
+
+@mixin neutral-shadow-2 {
+  box-shadow: $shadow-2-key-position-x $shadow-2-key-position-y $shadow-2-key-blur $shadow-2-key-spread var(--elevation-shadow-key),
+    $ambient-shadow-position-x $ambient-shadow-position-y $ambient-shadow-blur $ambient-shadow-spread var(--elevation-shadow-ambient);
+}
+
+@mixin neutral-shadow-3 {
+  box-shadow: $shadow-3-key-position-x $shadow-3-key-position-y $shadow-3-key-blur $shadow-3-key-spread var(--elevation-shadow-key),
+    $ambient-shadow-position-x $ambient-shadow-position-y $ambient-shadow-blur $ambient-shadow-spread var(--elevation-shadow-ambient);
+}
+
+@mixin neutral-shadow-4 {
+  box-shadow: $shadow-4-key-position-x $shadow-4-key-position-y $shadow-4-key-blur $shadow-4-key-spread var(--elevation-shadow-key),
+    $ambient-shadow-position-x $ambient-shadow-position-y $ambient-shadow-blur $ambient-shadow-spread var(--elevation-shadow-ambient);
+}
+
+@mixin neutral-shadow-5 {
+  box-shadow: $shadow-5-key-position-x $shadow-5-key-position-y $shadow-5-key-blur $shadow-5-key-spread var(--elevation-shadow-key-darker),
+    $ambient-shadow-darker-position-x $ambient-shadow-darker-position-y $ambient-shadow-darker-blur $ambient-shadow-darker-spread var(--elevation-shadow-ambient-darker);
+}
+
+@mixin neutral-shadow-6 {
+  box-shadow: $shadow-6-key-position-x $shadow-6-key-position-y $shadow-6-key-blur $shadow-6-key-spread var(--elevation-shadow-key-darker),
+    $ambient-shadow-darker-position-x $ambient-shadow-darker-position-y $ambient-shadow-darker-blur $ambient-shadow-darker-spread var(--elevation-shadow-ambient-darker);
+}
+
+@mixin brand-inner-shadow {
+  box-shadow: inset $inner-shadow-key-position-x $inner-shadow-key-position-y $inner-shadow-key-blur $inner-shadow-key-spread var(--elevation-shadow-key-brand);
+}
+
+@mixin brand-shadow-1 {
+  box-shadow:
+    $shadow-1-key-position-x $shadow-1-key-position-y $shadow-1-key-blur $shadow-1-key-spread var(--elevation-shadow-key-brand),
+    $ambient-shadow-position-x $ambient-shadow-position-y $ambient-shadow-blur $ambient-shadow-spread var(--elevation-shadow-ambient-brand);
+}
+
+@mixin brand-shadow-2 {
+  box-shadow:
+    $shadow-2-key-position-x $shadow-2-key-position-y $shadow-2-key-blur $shadow-2-key-spread var(--elevation-shadow-key-brand),
+    $ambient-shadow-position-x $ambient-shadow-position-y $ambient-shadow-blur $ambient-shadow-spread var(--elevation-shadow-ambient-brand);
+}
+
+@mixin brand-shadow-3 {
+  box-shadow:
+    $shadow-3-key-position-x $shadow-3-key-position-y $shadow-3-key-blur $shadow-3-key-spread var(--elevation-shadow-key-brand),
+    $ambient-shadow-position-x $ambient-shadow-position-y $ambient-shadow-blur $ambient-shadow-spread var(--elevation-shadow-ambient-brand);
+}
+
+@mixin brand-shadow-4 {
+  box-shadow:
+    $shadow-4-key-position-x $shadow-4-key-position-y $shadow-4-key-blur $shadow-4-key-spread var(--elevation-shadow-key-brand),
+    $ambient-shadow-position-x $ambient-shadow-position-y $ambient-shadow-blur $ambient-shadow-spread var(--elevation-shadow-ambient-brand);
+}
+
+@mixin brand-shadow-5 {
+  box-shadow:
+    $shadow-5-key-position-x $shadow-5-key-position-y $shadow-5-key-blur $shadow-5-key-spread var(--elevation-shadow-key-brand),
+    $ambient-shadow-darker-position-x $ambient-shadow-darker-position-y $ambient-shadow-darker-blur $ambient-shadow-darker-spread var(--elevation-shadow-ambient-brand);
+}
+
+@mixin brand-shadow-6 {
+  box-shadow:
+    $shadow-6-key-position-x $shadow-6-key-position-y $shadow-6-key-blur $shadow-6-key-spread var(--elevation-shadow-key-brand),
+    $ambient-shadow-darker-position-x $ambient-shadow-darker-position-y $ambient-shadow-darker-blur $ambient-shadow-darker-spread var(--elevation-shadow-ambient-brand);
+}
+
+// Mixins for typography
+
+@mixin typography-button {
+  font-feature-settings: 'liga' off, 'clig' off;
+  font-style: normal;
+}
+
+@mixin typography-button-s {
+  @include typography-button;
+  font-family: $button-s-semibold-font-family;
+  font-size: $button-s-semibold-font-size;
+  letter-spacing: $button-s-semibold-letter-spacing;
+  font-weight: $button-s-semibold-font-weight;
+  line-height: $button-s-semibold-line-height;
+}
+
+@mixin typography-button-m {
+  @include typography-button;
+  font-family: $button-m-semibold-font-family;
+  font-weight: $button-m-semibold-font-weight;
+  font-size: $button-m-semibold-font-size;
+  line-height: $button-m-semibold-line-height;
+  letter-spacing: $button-m-semibold-letter-spacing;
+}
+
+@mixin typography-button-l {
+  @include typography-button;
+  font-family: $button-l-semibold-font-family;
+  font-weight: $button-l-semibold-font-weight;
+  font-size: $button-l-semibold-font-size;
+  line-height: $button-l-semibold-line-height;
+  letter-spacing: $button-l-semibold-letter-spacing;
+}
+
+@mixin typography-text {
+  font-feature-settings: 'liga' off, 'clig' off;
+  font-style: normal;
+}
+
+@mixin typography-text-m {
+  @include typography-text;
+  font-family: $text-m-regular-font-family;
+  font-weight: $text-m-regular-font-weight;
+  font-size: $text-m-regular-font-size;
+  line-height: $text-m-regular-line-height;
+  letter-spacing: $text-m-regular-letter-spacing;
+}
+
+@mixin typography-text-m-bold {
+  @include typography-text;
+  font-family: $text-m-bold-font-family;
+  font-weight: $text-m-bold-font-weight;
+  font-size: $text-m-bold-font-size;
+  line-height: $text-m-bold-line-height;
+  letter-spacing: $text-m-bold-letter-spacing;
+}
+
+@mixin typography-text-s {
+  @include typography-text;
+  font-family: $text-s-regular-font-family;
+  font-weight: $text-s-regular-font-weight;
+  font-size: $text-s-regular-font-size;
+  line-height: $text-s-regular-line-height;
+  letter-spacing: $text-s-regular-letter-spacing;
+}
+
+@mixin typography-text-l {
+  @include typography-text;
+  font-family: $text-l-regular-font-family;
+  font-weight: $text-l-regular-font-weight;
+  font-size: $text-l-regular-font-size;
+  line-height: $text-l-regular-line-height;
+  letter-spacing: $text-l-regular-letter-spacing;
+}
+
+@mixin typography-link {
+  font-feature-settings: 'liga' off, 'clig' off;
+  font-style: normal;
+}
+
+@mixin typography-link-m {
+  @include typography-link;
+  font-family: $text-m-regular-font-family;
+  font-weight: $text-m-regular-font-weight;
+  font-size: $text-m-regular-font-size;
+  line-height: $text-m-regular-line-height;
+  letter-spacing: $text-m-regular-letter-spacing;
+}
+
+@mixin typography-radio-button {
+  font-feature-settings: 'liga' off, 'clig' off;
+  font-style: normal;
+}
+
+@mixin typography-radio-button-l {
+  @include typography-radio-button;
+  font-family: $text-l-regular-font-family;
+  font-size: $text-l-regular-font-size;
+  font-weight: $text-l-regular-font-weight;
+  line-height: $text-l-regular-line-height;
+  letter-spacing: $text-l-regular-letter-spacing;
+}
+
+@mixin typography-heading {
+  font-feature-settings: "liga" off, "clig" off;
+  font-style: normal;
+}
+
+@mixin typography-heading-s {
+  @include typography-heading;
+  font-family: $heading-s-semibold-font-family;
+  font-weight: $heading-s-semibold-font-weight;
+  font-size: $heading-s-semibold-font-size;
+  line-height: $heading-s-semibold-line-height;
+  letter-spacing: $heading-s-semibold-letter-spacing;
+}
+
+@mixin typography-checkbox-error {
+  @include typography-text-s;
+  font-weight: $text-s-bold-font-weight;
+}
+
+@mixin typography-tooltip {
+  font-feature-settings: "liga" off, "clig" off;
+  font-style: normal;
+}
+
+@mixin typography-tooltip-label {
+  @include typography-tooltip;
+  font-family: $text-m-regular-font-family;
+  font-weight: $text-m-regular-font-weight;
+  font-size: $text-m-regular-font-size;
+  line-height: $text-m-regular-line-height;
+  letter-spacing: $text-m-regular-letter-spacing;
+}
+
+@mixin typography-storybook-title {
+  font-feature-settings: "liga" off, "clig" off;
+  font-style: normal;
+  font-family: $heading-3xl-semibold-font-family;
+  font-weight: $heading-3xl-semibold-font-weight;
+  font-size: $heading-2xl-semibold-font-size;
+  line-height: $heading-xl-semibold-line-height;
+}
+
+@mixin typography-storybook-subtitle {
+  font-feature-settings: "liga" off, "clig" off;
+  font-style: normal;
+  font-family: $heading-4xl-semibold-font-family;
+  font-weight: $heading-m-semibold-font-weight;
+  font-size: $heading-m-semibold-font-size;
+  line-height: $heading-m-semibold-line-height;
+}
+
+@mixin typography-storybook-header-content {
+  font-feature-settings: "liga" off, "clig" off;
+  font-style: normal;
+  font-family: $text-xl-regular-font-family;
+  font-weight: $text-xl-regular-font-weight;
+  font-size: $text-xl-regular-font-size;
+  line-height: $text-xl-regular-line-height;
+}
+
+@mixin typography-storybook-header-xs {
+  font-feature-settings: "liga" off, "clig" off;
+  font-style: normal;
+  font-family: $heading-xs-semibold-font-family;
+  font-weight: $heading-xs-semibold-font-weight;
+  font-size: $heading-xs-semibold-font-size;
+  line-height: $heading-xs-semibold-line-height;
+  letter-spacing: $heading-xs-semibold-letter-spacing;
+}
+
+@mixin typography-storybook-header-s {
+  font-feature-settings: "liga" off, "clig" off;
+  font-style: normal;
+  font-family: $heading-s-semibold-font-family;
+  font-weight: $heading-s-semibold-font-weight;
+  font-size: $heading-s-semibold-font-size;
+  line-height: $heading-s-semibold-line-height;
+  letter-spacing: $heading-s-semibold-letter-spacing;
+}
+
+@mixin typography-split-button {
+  font-feature-settings: "liga" off, "clig" off;
+  font-style: normal;
+}
+
+@mixin typography-split-button-s {
+  @include typography-split-button;
+  font-family: $button-s-semibold-font-family;
+  font-weight: $button-s-semibold-font-weight;
+  font-size: $button-s-semibold-font-size;
+  line-height: $button-s-semibold-line-height;
+  letter-spacing: $button-s-semibold-letter-spacing;
+}
+
+@mixin typography-split-button-m {
+  @include typography-split-button;
+  font-family: $button-m-semibold-font-family;
+  font-weight: $button-m-semibold-font-weight;
+  font-size: $button-m-semibold-font-size;
+  line-height: $button-m-semibold-line-height;
+  letter-spacing: $button-m-semibold-letter-spacing;
+}
+
+@mixin typography-split-button-l {
+  @include typography-split-button;
+  font-family: $button-l-semibold-font-family;
+  font-weight: $button-l-semibold-font-weight;
+  font-size: $button-l-semibold-font-size;
+  line-height: $button-l-semibold-line-height;
+  letter-spacing: $button-l-semibold-letter-spacing;
+}

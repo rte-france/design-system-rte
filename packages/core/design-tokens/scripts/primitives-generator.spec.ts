@@ -2,7 +2,7 @@ import fs from "fs";
 
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-import { Collection, extractScssVariables } from "./primitives-generator";
+import { Collection, generatePrimitivesScssFiles } from "./primitives-generator";
 
 vi.mock("fs");
 
@@ -33,7 +33,7 @@ describe("primitives-generator", () => {
 
     vi.spyOn(fs, "readFileSync").mockReturnValue(colorCollection.toString());
 
-    extractScssVariables(colorCollection);
+    generatePrimitivesScssFiles(colorCollection);
 
     expect(writeSpy).toHaveBeenCalledWith(
       expect.stringContaining("_colors.scss"),
@@ -66,7 +66,7 @@ describe("primitives-generator", () => {
     const writeSpy = vi.spyOn(fs, "writeFileSync");
     vi.spyOn(fs, "existsSync").mockReturnValue(true);
 
-    extractScssVariables(typoCollection);
+    generatePrimitivesScssFiles(typoCollection);
 
     expect(writeSpy).toHaveBeenCalledWith(
       expect.stringContaining("_typography.scss"),
