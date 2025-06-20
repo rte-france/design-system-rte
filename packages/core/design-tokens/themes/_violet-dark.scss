@@ -154,4 +154,10 @@ $violet-dark: (
   "elevation-shadow-key-darker": rgba(0, 0, 0, 0.48),
   "elevation-shadow-key-brand": rgba(0, 0, 0, 0.21),
   "gradient-default": #ffffff,
+  // TODO remove this color (not a real token)
+  "background-brand-hover-opacity-20": $violet-200-opacity-20,
+  // TODO remove this color (not a real token)
+  "background-danger-hover-opacity-20": $rouge-indications-500-opacity-20,
+  // TODO remove this color (not a real token)
+  "background-hover-opacity-50": $greyscale-800-opacity-50,
 );

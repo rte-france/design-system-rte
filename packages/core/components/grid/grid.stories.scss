@@ -1,5 +1,5 @@
-@use '@design-system-rte/core/tokens/main.scss' as *;
-@use '@design-system-rte/core/tokens/primitives/_colors.scss' as *;
+@use '@design-system-rte/core/design-tokens/main.scss' as *;
+@use '@design-system-rte/core/design-tokens/primitives/_colors.scss' as *;
 
 .sb-css-grid-container {
   background-color: $jaune-indications-200;

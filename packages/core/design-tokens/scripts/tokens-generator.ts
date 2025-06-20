@@ -11,6 +11,12 @@ export enum Collection {
   SIZE = "Size",
 }
 
+export enum ColorTheme {
+  BLEU_ICEBERG = "bleu-iceberg",
+  VIOLET = "violet",
+  VERT_FORET = "vert-foret",
+}
+
 export enum ColorMode {
   BLEU_ICEBERG_LIGHT = "bleu-iceberg-light",
   BLEU_ICEBERG_DARK = "bleu-iceberg-dark",
@@ -81,19 +87,20 @@ export interface TokenItem {
 }
 const INDENT = " ".repeat(2);
 
-const outputDir = "./tokens/";
+const outputDir = "./design-tokens/";
+const tokensOutputDir = "tokens/";
 const themeOutputDir = "themes/";
 const UNIT = "px";
 
-if (!fs.existsSync(outputDir)) {
-  fs.mkdirSync(outputDir);
+if (!fs.existsSync(`${outputDir}${tokensOutputDir}`)) {
+  fs.mkdirSync(`${outputDir}${tokensOutputDir}`);
 }
 
 if (!fs.existsSync(`${outputDir}${themeOutputDir}`)) {
   fs.mkdirSync(`${outputDir}${themeOutputDir}`);
 }
 
-export function extractScssVariablesFromTokens(json: TokenItem[]): void {
+export function generateTokensScssFiles(json: TokenItem[]): void {
   for (const tokenItem of json) {
     let scss = "";
     let filename = "";
@@ -103,47 +110,68 @@ export function extractScssVariablesFromTokens(json: TokenItem[]): void {
           const mode = tokenItem.mode as ColorMode;
           filename = buildScssFileName(mode);
           const filePath = `${themeOutputDir}/${filename}`;
+
           scss = extractColors(tokenItem.variables as ColorToken, mode);
           generateScssFile(scss, filePath);
         }
         break;
 
       case Collection.TYPOGRAPHY:
-        if (tokenItem.mode === "desktop") {
-          filename = `_typography.scss`;
+        {
+          if (tokenItem.mode === "desktop") {
+            filename = `_typography.scss`;
+            const filePath = `${tokensOutputDir}/${filename}`;
 
-          scss += extractTypography(tokenItem.variables as TypographyToken);
-          generateScssFile(scss, filename);
-        } else {
-          console.log("Skipping typography : " + tokenItem.mode);
+            scss += extractTypography(tokenItem.variables as TypographyToken);
+            generateScssFile(scss, filePath);
+          } else {
+            console.log("Skipping typography : " + tokenItem.mode);
+          }
         }
         break;
 
       case Collection.OPACITY:
-        filename = buildScssFileName(tokenItem.collection);
-        scss += extractOpacity(tokenItem.variables as OpacityToken, tokenItem.collection);
-        generateScssFile(scss, filename);
+        {
+          filename = buildScssFileName(tokenItem.collection);
+          const filePath = `${tokensOutputDir}/${filename}`;
+          scss += extractOpacity(tokenItem.variables as OpacityToken, tokenItem.collection);
+          generateScssFile(scss, filePath);
+        }
         break;
 
       case Collection.SHADOWS:
-        filename = buildScssFileName(tokenItem.collection);
-        scss += extractShadows(tokenItem.variables as ShadowToken);
-        generateScssFile(scss, filename);
+        {
+          filename = buildScssFileName(tokenItem.collection);
+          const filePath = `${tokensOutputDir}/${filename}`;
+
+          scss += extractShadows(tokenItem.variables as ShadowToken);
+          generateScssFile(scss, filePath);
+        }
         break;
 
       case Collection.LAYOUT:
-        filename = buildScssFileName(tokenItem.collection);
-        scss += extractLayout(tokenItem.variables as LayoutToken);
-        generateScssFile(scss, filename);
+        {
+          filename = buildScssFileName(tokenItem.collection);
+          const filePath = `${tokensOutputDir}/${filename}`;
+
+          scss += extractLayout(tokenItem.variables as LayoutToken);
+          generateScssFile(scss, filePath);
+        }
         break;
 
       default:
-        filename = buildScssFileName(tokenItem.collection);
-        scss += extractDefault(tokenItem.variables as DefaultToken);
-        generateScssFile(scss, filename);
+        {
+          filename = buildScssFileName(tokenItem.collection);
+          const filePath = `${tokensOutputDir}/${filename}`;
+
+          scss += extractDefault(tokenItem.variables as DefaultToken);
+          generateScssFile(scss, filePath);
+        }
         break;
     }
   }
+
+  generateThemesFile();
 }
 
 export function generateThemeMainScssFile() {
@@ -183,13 +211,14 @@ function extractColors(variables: ColorToken, mode: ColorMode): string {
       }
     }
   }
+  scss += addDevColors(mode);
   scss += ");\n";
   return scss;
 }
 
 function extractTypography(variables: TypographyToken): string {
   let scss = "";
-  scss += `@use 'primitives/typography' as *;\n\n`;
+  scss += `@use '../primitives/typography' as *;\n\n`;
   for (const category in variables) {
     for (const size in variables[category]) {
       for (const weight in variables[category][size]) {
@@ -270,10 +299,44 @@ function buildColorsScssVariableValue(rawValue: string, mode: ColorMode): string
   return value ? value.replace(/\./g, "-") : rawValue;
 }
 
+function addDevColors(mode: ColorMode): string {
+  const isLightMode = mode.includes("light");
+  let scss = "";
+  if (isLightMode) {
+    scss += `${INDENT.repeat(1)}// TODO remove this color (not a real token)\n`;
+    scss += `${INDENT.repeat(1)}"background-brand-hover-opacity-20": $${mode.replace("-light", "")}-700-opacity-20,\n`;
+    scss += `${INDENT.repeat(1)}// TODO remove this color (not a real token)\n`;
+    scss += `${INDENT.repeat(1)}"background-danger-hover-opacity-20": $rouge-indications-700-opacity-20,\n`;
+    scss += `${INDENT.repeat(1)}// TODO remove this color (not a real token)\n`;
+    scss += `${INDENT.repeat(1)}"background-hover-opacity-50": $greyscale-50-opacity-50,\n`;
+  } else {
+    scss += `${INDENT.repeat(1)}// TODO remove this color (not a real token)\n`;
+    scss += `${INDENT.repeat(1)}"background-brand-hover-opacity-20": $${mode.replace("-dark", "")}-200-opacity-20,\n`;
+    scss += `${INDENT.repeat(1)}// TODO remove this color (not a real token)\n`;
+    scss += `${INDENT.repeat(1)}"background-danger-hover-opacity-20": $rouge-indications-500-opacity-20,\n`;
+    scss += `${INDENT.repeat(1)}// TODO remove this color (not a real token)\n`;
+    scss += `${INDENT.repeat(1)}"background-hover-opacity-50": $greyscale-800-opacity-50,\n`;
+  }
+
+  return scss;
+}
+
 function buildScssFileName(collection: string): string {
   return `_${collection.toLowerCase()}.scss`;
 }
 
 function generateScssFile(scss: string, filePath: string) {
   fs.writeFileSync(outputDir + filePath, scss);
+}
+
+function generateThemesFile() {
+  let scss = `@use "../themes/main" as *;\n\n`;
+  Object.values(ColorTheme).forEach((theme) => {
+    scss += `$${theme}: (\n`;
+    scss += `${INDENT.repeat(1)}"light": $${theme}-light,\n`;
+    scss += `${INDENT.repeat(1)}"dark": $${theme}-dark,\n`;
+    scss += `);\n`;
+  });
+  const filePath = `${tokensOutputDir}/_themes.scss`;
+  generateScssFile(scss, filePath);
 }

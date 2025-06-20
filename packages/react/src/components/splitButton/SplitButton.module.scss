@@ -1,4 +1,4 @@
-@use '@design-system-rte/core/tokens/main.scss' as *;
+@use '@design-system-rte/core/design-tokens/main.scss' as *;
 
 .splitButtonContainer {
     display: inline-flex;
@@ -177,7 +177,7 @@
             &:hover {
                 cursor: pointer;
                 background-color: var(--background-brand-hover);
-                
+
             }
 
             &:active {
@@ -282,6 +282,7 @@
         pointer-events: none;
         opacity: 0;
     }
+
     to {
         transform: translateY(0);
         opacity: 1;

@@ -17,7 +17,7 @@ if (!fs.existsSync(outputDir)) {
   fs.mkdirSync(outputDir);
 }
 
-export function extractScssVariables(json: CollectionItem[]) {
+export function generatePrimitivesScssFiles(json: CollectionItem[]) {
   for (const tokenItem of json) {
     let scss = "";
     let filename = "";

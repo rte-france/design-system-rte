@@ -1,4 +1,4 @@
-@use '@design-system-rte/core/tokens/main.scss' as *;
+@use '@design-system-rte/core/design-tokens/main.scss' as *;
 
 @mixin checked-indeterminate-style {
   border: 1px solid var(--content-brand-default);
@@ -15,8 +15,8 @@
     border: 1px solid var(--content-disabled);
     background: var(--background-disabled);
 
-    ~ .rte-checkbox-icons {
-      color: var(--content-disabled);    
+    ~.rte-checkbox-icons {
+      color: var(--content-disabled);
     }
   }
 
@@ -26,8 +26,8 @@
 }
 
 .rte-checkbox-container {
-    display: flex;
-    gap: $positive-spacing-150;
+  display: flex;
+  gap: $positive-spacing-150;
 
   .rte-checkbox {
     appearance: none;
@@ -58,7 +58,7 @@
       transform: scale(0);
       transition: transform 0s, opacity 0s;
     }
-    
+
     &:focus-visible {
       outline: 1px solid var(--border-brand-focused);
       outline-offset: 4px;
@@ -70,6 +70,7 @@
       &:not(:disabled)::before {
         display: inline-block;
       }
+
       &:not(:disabled):not(:active)::before {
         opacity: $opacity-50;
         transition: transform 0.15s ease, opacity 0.3s ease;
@@ -81,7 +82,8 @@
       border: 1px solid var(--content-disabled);
       background: var(--background-disabled);
 
-      ~ .rte-checkbox-text-container {
+      ~.rte-checkbox-text-container {
+
         label,
         .rte-checkbox-description {
           color: var(--content-disabled);
@@ -93,7 +95,7 @@
       @include checked-indeterminate-style;
 
       &:not(:indeterminate) {
-        ~ .rte-checkbox-icon-selected {
+        ~.rte-checkbox-icon-selected {
           display: block;
         }
       }
@@ -102,7 +104,7 @@
     &:indeterminate {
       @include checked-indeterminate-style;
 
-      ~ .rte-checkbox-icon-indeterminated {
+      ~.rte-checkbox-icon-indeterminated {
         display: block;
       }
     }
@@ -114,14 +116,16 @@
       opacity: $opacity-100;
       background: var(--background-disabled);
 
-      ~ .rte-checkbox-text-container {
+      ~.rte-checkbox-text-container {
+
         label,
         .checkbox-description {
           color: var(--content-tertiary);
         }
       }
-      ~ .rte-checkbox-icons {
-          color: var(--content-tertiary);
+
+      ~.rte-checkbox-icons {
+        color: var(--content-tertiary);
       }
 
       &.error {
@@ -147,11 +151,13 @@
     label {
       @include typography-text-l;
     }
+
     .rte-checkbox-description {
       @include typography-text-s;
       margin: 0;
       color: var(--content-tertiary);
     }
+
     .rte-checkbox-error {
       @include typography-checkbox-error;
       margin: 0;
