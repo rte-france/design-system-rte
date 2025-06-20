@@ -1,4 +1,4 @@
-@use '@design-system-rte/core/tokens/main.scss' as *;
+@use '@design-system-rte/core/design-tokens/main.scss' as *;
 
 .rte-link {
 
@@ -8,54 +8,54 @@
     display: inline-flex;
     justify-content: center;
 
-        &:visited {
+    &:visited {
 
+        color: var(--content-link-visited);
+        text-decoration: underline;
+
+        &:hover {
+            color: var(--content-link-visited-hover);
+            text-decoration: none;
+        }
+
+        &:active {
+            color: var(--content-link-visited-press);
+            text-decoration: underline;
+        }
+
+        &:focus-visible {
             color: var(--content-link-visited);
             text-decoration: underline;
+            outline: 1px solid var(--border-brand-focused);
+            outline-offset: $radius-s;
+            border-radius: $radius-s;
+        }
+    }
 
-            &:hover {
-                color: var(--content-link-visited-hover);
-                text-decoration: none;
-            }
+    &:not(:visited) {
 
-            &:active {
-                color: var(--content-link-visited-press);
-                text-decoration: underline;
-            }
+        color: var(--content-link-default);
 
-            &:focus-visible {
-                color: var(--content-link-visited);
-                text-decoration: underline;
-                outline: 1px solid var(--border-brand-focused);
-                outline-offset: $radius-s;
-                border-radius: $radius-s;
-            }
+        &:hover {
+            color: var(--content-link-hover);
+            text-decoration: none;
         }
 
-        &:not(:visited) {
+        &:active {
+            color: var(--content-link-press);
+            text-decoration: underline;
+        }
 
+        &:focus-visible {
             color: var(--content-link-default);
-
-            &:hover {
-                color: var(--content-link-hover);
-                text-decoration: none;
-            }
-
-            &:active {
-                color: var(--content-link-press);
-                text-decoration: underline;
-            }
-
-            &:focus-visible {
-                color: var(--content-link-default);
-                text-decoration: underline;
-                outline: 1px solid var(--border-brand-focused);
-                outline-offset: $radius-s;
-                border-radius: $radius-s;
-            }
+            text-decoration: underline;
+            outline: 1px solid var(--border-brand-focused);
+            outline-offset: $radius-s;
+            border-radius: $radius-s;
         }
+    }
 
-    &.subtle{
+    &.subtle {
 
         &:visited {
 

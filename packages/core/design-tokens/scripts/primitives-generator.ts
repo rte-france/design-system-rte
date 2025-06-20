@@ -1,6 +1,6 @@
 import fs from "fs";
 
-enum Collection {
+export enum Collection {
   COLORS = "Primitive : Colors",
   TYPOGRAPHY = "Primitive : Type",
 }
@@ -10,15 +10,14 @@ interface CollectionItem {
   variables: Record<string, Record<string, { $value: string }>>;
 }
 
-const inputPath = "./tokens/sourceFiles/primitives.json";
-const outputDir = "./tokens/primitives/";
+const outputDir = "design-tokens/primitives/";
 const UNIT = "px";
 
 if (!fs.existsSync(outputDir)) {
   fs.mkdirSync(outputDir);
 }
 
-function extractScssVariables(json: CollectionItem[]) {
+export function extractScssVariables(json: CollectionItem[]) {
   for (const tokenItem of json) {
     let scss = "";
     let filename = "";
@@ -69,6 +68,3 @@ function extractTypography(typographyCollection: CollectionItem): string {
 function generateScssFile(scssValue: string, filename: string) {
   fs.writeFileSync(outputDir + filename, scssValue);
 }
-
-const raw = JSON.parse(fs.readFileSync(inputPath, "utf8"));
-extractScssVariables(raw);

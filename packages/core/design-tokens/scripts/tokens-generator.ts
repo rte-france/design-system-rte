@@ -11,10 +11,33 @@ export enum Collection {
   SIZE = "Size",
 }
 
+export enum ColorMode {
+  BLEU_ICEBERG_LIGHT = "bleu-iceberg-light",
+  BLEU_ICEBERG_DARK = "bleu-iceberg-dark",
+  VIOLET_LIGHT = "violet-light",
+  VIOLET_DARK = "violet-dark",
+  VERT_FORET_LIGHT = "vert-foret-light",
+  VERT_FORET_DARK = "vert-foret-dark",
+}
+
 export interface TokenValue {
   $type: string;
   $scopes: string[];
   $value: string | number;
+}
+
+export interface ColorTokenValue {
+  $type: string;
+  $scopes: string[];
+  $value: string;
+}
+
+export interface ColorToken {
+  [category: string]:
+    | {
+        [colorTokenName: string]: ColorTokenValue;
+      }
+    | ColorTokenValue;
 }
 
 export interface TypographyToken {
@@ -49,35 +72,46 @@ export interface OpacityToken {
   [percentage: string]: TokenValue;
 }
 
-export type TokenVariables = TypographyToken | ShadowToken | LayoutToken | DefaultToken | OpacityToken;
+export type TokenVariables = TypographyToken | ShadowToken | LayoutToken | DefaultToken | OpacityToken | ColorToken;
 
 export interface TokenItem {
   collection: Collection;
-  mode: string;
+  mode: string | ColorMode;
   variables: TokenVariables;
 }
+const INDENT = " ".repeat(2);
 
-const inputPath = "./tokens/sourceFiles/tokens.json";
 const outputDir = "./tokens/";
+const themeOutputDir = "themes/";
 const UNIT = "px";
 
 if (!fs.existsSync(outputDir)) {
   fs.mkdirSync(outputDir);
 }
 
-function extractScssVariablesFromTokens(json: TokenItem[]): void {
+if (!fs.existsSync(`${outputDir}${themeOutputDir}`)) {
+  fs.mkdirSync(`${outputDir}${themeOutputDir}`);
+}
+
+export function extractScssVariablesFromTokens(json: TokenItem[]): void {
   for (const tokenItem of json) {
     let scss = "";
     let filename = "";
     switch (tokenItem.collection) {
       case Collection.COLORS:
-        console.log("Skipping colors : " + tokenItem.mode);
+        {
+          const mode = tokenItem.mode as ColorMode;
+          filename = buildScssFileName(mode);
+          const filePath = `${themeOutputDir}/${filename}`;
+          scss = extractColors(tokenItem.variables as ColorToken, mode);
+          generateScssFile(scss, filePath);
+        }
         break;
 
       case Collection.TYPOGRAPHY:
         if (tokenItem.mode === "desktop") {
           filename = `_typography.scss`;
-          scss += `@use 'primitives/typography' as *;\n\n`;
+
           scss += extractTypography(tokenItem.variables as TypographyToken);
           generateScssFile(scss, filename);
         } else {
@@ -112,8 +146,50 @@ function extractScssVariablesFromTokens(json: TokenItem[]): void {
   }
 }
 
+export function generateThemeMainScssFile() {
+  let scss = "";
+  Object.values(ColorMode).forEach((mode) => {
+    scss += `@forward "${mode}";\n`;
+  });
+  fs.writeFileSync(outputDir + `themes/_main.scss`, scss);
+}
+
+function extractColors(variables: ColorToken, mode: ColorMode): string {
+  let scss = `@use '../primitives/colors' as *;\n`;
+  scss += `@use '../primitives/devColors' as *;\n\n`;
+  scss += `$${mode}: (\n`;
+  for (const category in variables) {
+    const categoryTokens = variables[category];
+    if ((categoryTokens as ColorTokenValue).$value) {
+      const tokenValue = buildColorsScssVariableValue((categoryTokens as ColorTokenValue).$value, mode);
+      scss += buildColorScssVariable([category], `$${tokenValue}`);
+    } else {
+      for (const subCategory in categoryTokens as Record<string, ColorTokenValue>) {
+        const token = (categoryTokens as Record<string, ColorTokenValue>)[subCategory];
+        if (token.$value) {
+          const tokenValue = buildColorsScssVariableValue(token.$value, mode);
+          if (category === "gradient") {
+            scss += buildColorScssVariable([category, subCategory], `${tokenValue}`);
+          } else {
+            scss += buildColorScssVariable([category, subCategory], `$${tokenValue}`);
+          }
+        } else {
+          const subTokenObj = token as unknown as Record<string, ColorTokenValue>;
+          for (const subSubCategory in subTokenObj) {
+            const tokenValue = buildColorsScssVariableValue(subTokenObj[subSubCategory]?.$value, mode);
+            scss += buildColorScssVariable([category, subCategory, subSubCategory], `${tokenValue}`);
+          }
+        }
+      }
+    }
+  }
+  scss += ");\n";
+  return scss;
+}
+
 function extractTypography(variables: TypographyToken): string {
   let scss = "";
+  scss += `@use 'primitives/typography' as *;\n\n`;
   for (const category in variables) {
     for (const size in variables[category]) {
       for (const weight in variables[category][size]) {
@@ -185,13 +261,19 @@ function buildScssVariable(variableName: string[], value: string): string {
   return `$${variableName.join("-")}: ${value};\n`.toLowerCase();
 }
 
+function buildColorScssVariable(variableName: string[], value: string): string {
+  return `${INDENT.repeat(1)}"${variableName.join("-")}": ${value},\n`.toLowerCase();
+}
+
+function buildColorsScssVariableValue(rawValue: string, mode: ColorMode): string {
+  const value = rawValue.split(`.${mode}.`)[1];
+  return value ? value.replace(/\./g, "-") : rawValue;
+}
+
 function buildScssFileName(collection: string): string {
   return `_${collection.toLowerCase()}.scss`;
 }
 
-function generateScssFile(scss: string, filename: string) {
-  fs.writeFileSync(outputDir + filename, scss);
+function generateScssFile(scss: string, filePath: string) {
+  fs.writeFileSync(outputDir + filePath, scss);
 }
-
-const json: TokenItem[] = JSON.parse(fs.readFileSync(inputPath, "utf8"));
-extractScssVariablesFromTokens(json);

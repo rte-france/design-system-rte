@@ -1,4 +1,4 @@
-@use '@design-system-rte/core/tokens/main.scss' as *;
+@use '@design-system-rte/core/design-tokens/main.scss' as *;
 
 .radio-button-group-container {
     display: flex;
@@ -31,7 +31,7 @@
             margin: $positive-spacing_0;
             margin-top: $positive-spacing_050;
         }
-        
+
         &.error {
             .group-title {
                 color: var(--content-danger);
@@ -43,7 +43,7 @@
                 color: var(--content-tertiary);
             }
 
-            .error{
+            .error {
                 .group-title {
                     color: var(--content-danger);
                 }
