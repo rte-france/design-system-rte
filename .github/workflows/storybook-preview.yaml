@@ -1,22 +1,20 @@
-name: Publish Storybook Composition to GitHub Pages
+name: Deploy Storybook Preview
 
 on:
   push:
-    branches:
+    branches-ignore:
       - main
 
 permissions:
   contents: write
 
 jobs:
-  deploy:
+  deploy-preview:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -24,21 +22,35 @@ jobs:
           node-version: 20
 
       - name: Install dependencies
-        run: npm ci --prefer-offline
-        
+        run: npm ci
+
       - name: Generate icons
         run: npm run generate-icons
 
       - name: Build Design Docs Storybook
         run: npm run build-design-docs
 
-      - name: Build Base Storybook
+      - name: Build Storybook
         run: npm run build-base-storybook
 
-      - name: Deploy to GitHub Pages (root)
+      - name: Sanitize branch name
+        id: vars
+        run: echo "slug=${GITHUB_REF##*/}" | sed 's#/##g' >> "$GITHUB_OUTPUT"
+
+      - name: Check if PR to main exists
+        id: prcheck
+        run: |
+          PR_COUNT=$(gh pr list --base main --head "${GITHUB_HEAD_REF}" --json number --jq 'length')
+          echo "count=$PR_COUNT" >> "$GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
+      - name: Deploy to GitHub Pages
+        if: steps.prcheck.outputs.count != '0'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./packages/design-docs/storybook-static
+          destination_dir: preview/${{ steps.vars.outputs.slug }}
           publish_branch: gh-pages
-          keep_files: true
