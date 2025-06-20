@@ -38,9 +38,10 @@ jobs:
         run: echo "slug=${GITHUB_REF##*/}" | sed 's#/##g' >> "$GITHUB_OUTPUT"
 
       - name: Deploy to GitHub Pages
+        if: steps.prcheck.outputs.count != '0'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./packages/design-docs/storybook-static
+          publish_dir: ./storybook-static
           destination_dir: preview/${{ steps.vars.outputs.slug }}
           publish_branch: gh-pages
