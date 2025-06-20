@@ -3,10 +3,10 @@ name: Deploy Storybook Preview
 on:
   push:
     branches-ignore:
-      - main  # We deploy main with a separate workflow
+      - main
 
 permissions:
-  contents: write  # Needed to push to gh-pages
+  contents: write
 
 jobs:
   deploy-preview:
@@ -31,17 +31,26 @@ jobs:
         run: npm run build-design-docs
 
       - name: Build Storybook
-        run: npm run build-base-storybook  # Make sure this outputs to ./storybook-static
+        run: npm run build-base-storybook
 
       - name: Sanitize branch name
         id: vars
         run: echo "slug=${GITHUB_REF##*/}" | sed 's#/##g' >> "$GITHUB_OUTPUT"
+
+      - name: Check if PR to main exists
+        id: prcheck
+        run: |
+          PR_COUNT=$(gh pr list --base main --head "${GITHUB_HEAD_REF}" --json number --jq 'length')
+          echo "count=$PR_COUNT" >> "$GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 
       - name: Deploy to GitHub Pages
         if: steps.prcheck.outputs.count != '0'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./storybook-static
+          publish_dir: ./packages/design-docs/storybook-static
           destination_dir: preview/${{ steps.vars.outputs.slug }}
           publish_branch: gh-pages
