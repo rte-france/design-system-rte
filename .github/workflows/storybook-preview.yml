@@ -1,0 +1,46 @@
+name: Deploy Storybook Preview
+
+on:
+  push:
+    branches-ignore:
+      - main  # We deploy main with a separate workflow
+
+permissions:
+  contents: write  # Needed to push to gh-pages
+
+jobs:
+  deploy-preview:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate icons
+        run: npm run generate-icons
+
+      - name: Build Design Docs Storybook
+        run: npm run build-design-docs
+
+      - name: Build Storybook
+        run: npm run build-base-storybook  # Make sure this outputs to ./storybook-static
+
+      - name: Sanitize branch name
+        id: vars
+        run: echo "slug=${GITHUB_REF##*/}" | sed 's#/##g' >> "$GITHUB_OUTPUT"
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./packages/design-docs/storybook-static
+          destination_dir: preview/${{ steps.vars.outputs.slug }}
+          publish_branch: gh-pages
