@@ -106,9 +106,9 @@ function extractScssVariablesFromTokens(json: TokenItem[]): void {
         {
           const mode = tokenItem.mode as ColorMode;
           filename = buildScssFileName(mode);
-          const path = `${themeOutputDir}/${filename}`;
+          const filePath = `${themeOutputDir}/${filename}`;
           scss = extractColors(tokenItem.variables as ColorToken, mode);
-          generateScssFile(scss, path);
+          generateScssFile(scss, filePath);
         }
         break;
 
@@ -270,8 +270,8 @@ function buildScssFileName(collection: string): string {
   return `_${collection.toLowerCase()}.scss`;
 }
 
-function generateScssFile(scss: string, path: string) {
-  fs.writeFileSync(outputDir + path, scss);
+function generateScssFile(scss: string, filePath: string) {
+  fs.writeFileSync(outputDir + filePath, scss);
 }
 
 function generateThemeMainScssFile() {
