@@ -32,11 +32,12 @@ $themes: (
   }
 }
 
-// Mixins for shadows and inner shadows
 
 @mixin hover-box-shadow($color) {
   box-shadow: 0 0 0 8px $color;
 }
+
+// Mixins for shadows and inner shadows
 
 @mixin neutral-inner-shadow {
   box-shadow: inset $inner-shadow-key-position-x $inner-shadow-key-position-y $inner-shadow-key-blur $inner-shadow-key-spread var(--elevation-surface-inner-shadow);

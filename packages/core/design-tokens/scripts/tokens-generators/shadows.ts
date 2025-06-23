@@ -1,4 +1,4 @@
-import { buildScssVariable, TokenValue } from "../common";
+import { buildScssVariable, TokenValue, UNIT } from "../common";
 
 export interface ShadowToken {
   [category: string]: {
@@ -11,7 +11,7 @@ export function extractShadows(variables: ShadowToken): string {
   for (const category in variables) {
     for (const shadowTokenName in variables[category]) {
       const shadowToken = variables[category][shadowTokenName];
-      scss += buildScssVariable([category, shadowTokenName], String(shadowToken.$value));
+      scss += buildScssVariable([category, shadowTokenName], `${String(shadowToken.$value)}${UNIT}`);
     }
   }
   return scss;
