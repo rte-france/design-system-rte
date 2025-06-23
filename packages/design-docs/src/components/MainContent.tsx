@@ -50,6 +50,7 @@ const ExplanationCard = ({ img, title, content, link }: ExplanationCardProps) =>
 const MainContent = () => (
   <main className="main-content">
     <h2 className="main_title">Storybook Preview Instance</h2>
+    <h3 className="main_title">2nd Iteration</h3>
     <h2 className="main_title">Concevoir et construire ensemble</h2>
     <div className="main_user_card_container">
       <UserCard
