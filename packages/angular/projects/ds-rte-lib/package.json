@@ -3,8 +3,8 @@
   "version": "0.4.0",
   "description": "Angular components for the Design System RTE",
   "peerDependencies": {
-    "@angular/common": "^17.3.0",
-    "@angular/core": "^17.3.0"
+    "@angular/common": "^17.3.12",
+    "@angular/core": "^17.3.12"
   },
   "dependencies": {
     "@design-system-rte/core": "^0.4.0",

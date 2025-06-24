@@ -5,7 +5,9 @@ import globals from "globals";
 import tseslint from "typescript-eslint";
 
 export default tseslint.config(
-  { ignores: ["**/dist", "**/storybook-static"] },
+  {
+    ignores: ["**/dist", "**/storybook-static", "./dist", "./test-apps/angular/.angular"],
+  },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ["**/*.{js,ts,jsx,tsx}"],
