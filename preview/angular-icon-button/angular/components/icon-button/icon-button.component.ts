@@ -27,14 +27,14 @@ export class IconButtonComponent {
   readonly ariaLabel = input<string | undefined>(undefined);
   readonly ariaLabelledBy = input<string | undefined>(undefined);
 
-  readonly buttonIconSize = computed(() => 20);
+  readonly buttonIconSize = 20;
 
   readonly isValidIconName = computed(() => isValidIconName(this.name()));
 
   readonly click = output<MouseEvent | KeyboardEvent>();
 
   constructor() {
-    console.log(this.buttonIconSize());
+    console.log(this.buttonIconSize);
   }
 
   onClick(event: MouseEvent | KeyboardEvent): void {
