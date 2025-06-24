@@ -32,18 +32,21 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
   ) => {
     if (isValidIconName(name)) {
       return (
-        <button
-          ref={ref}
-          type={type}
-          className={concatClassNames(style["icon-button"], className)}
-          data-size={size}
-          data-variant={variant}
-          data-compact-spacing={compactSpacing}
-          onClick={onClick}
-          {...props}
-        >
-          <Icon name={name} appearance={appearance} size={buttonIconSize[size]} />
-        </button>
+        <>
+          <button
+            ref={ref}
+            type={type}
+            className={concatClassNames(style["icon-button"], className)}
+            data-size={size}
+            data-variant={variant}
+            data-compact-spacing={compactSpacing}
+            onClick={onClick}
+            {...props}
+          >
+            <Icon name={name} appearance={appearance} size={buttonIconSize[size]} />
+          </button>
+          <p>Shiba</p>
+        </>
       );
     } else {
       console.warn(`IconButton: Invalid icon name "${name}". Please use a valid icon key.`);
