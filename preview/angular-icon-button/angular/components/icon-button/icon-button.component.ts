@@ -33,10 +33,6 @@ export class IconButtonComponent {
 
   readonly click = output<MouseEvent | KeyboardEvent>();
 
-  constructor() {
-    console.log(this.buttonIconSize);
-  }
-
   onClick(event: MouseEvent | KeyboardEvent): void {
     event.stopPropagation();
     this.click.emit(event);
