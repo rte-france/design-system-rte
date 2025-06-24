@@ -22,7 +22,7 @@ jobs:
           node-version: 20
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --prefer-offline
 
       - name: Generate icons
         run: npm run generate-icons
@@ -37,6 +37,12 @@ jobs:
         id: vars
         run: echo "slug=${GITHUB_REF##*/}" | sed 's#/##g' >> "$GITHUB_OUTPUT"
 
+      - name: Update refs configuration in built storybook
+        run: |
+          PREVIEW_BASE_URL="https://opensource.rte-france.com/design-system-rte/preview/${{ steps.vars.outputs.slug }}"
+          sed -i "s|https://opensource.rte-france.com/design-system-rte/angular|$PREVIEW_BASE_URL/angular|g" packages/design-docs/storybook-static/index.html
+          sed -i "s|https://opensource.rte-france.com/design-system-rte/react|$PREVIEW_BASE_URL/react|g" packages/design-docs/storybook-static/index.html
+
       - name: Check if PR to main exists
         id: prcheck
         run: |
@@ -44,7 +50,6 @@ jobs:
           echo "count=$PR_COUNT" >> "$GITHUB_OUTPUT"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
 
       - name: Deploy to GitHub Pages
         if: steps.prcheck.outputs.count != '0'
