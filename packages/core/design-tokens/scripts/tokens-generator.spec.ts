@@ -2,7 +2,8 @@ import fs from "fs";
 
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-import { Collection, ColorMode, generateTokensScssFiles, generateThemeMainScssFile } from "./tokens-generator";
+import { Collection, generateTokensScssFiles } from "./tokens-generator";
+import { ColorMode, generateThemeMainScssFile } from "./tokens-generators/colors";
 
 vi.mock("fs");
 

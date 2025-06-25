@@ -1,4 +1,7 @@
 import fs from "fs";
+import path from "path";
+
+import { generateScssFile, primitivesOutputDir, UNIT } from "./common";
 
 export enum Collection {
   COLORS = "Primitive : Colors",
@@ -10,11 +13,8 @@ interface CollectionItem {
   variables: Record<string, Record<string, { $value: string }>>;
 }
 
-const outputDir = "design-tokens/primitives/";
-const UNIT = "px";
-
-if (!fs.existsSync(outputDir)) {
-  fs.mkdirSync(outputDir);
+if (!fs.existsSync(primitivesOutputDir)) {
+  fs.mkdirSync(primitivesOutputDir);
 }
 
 export function generatePrimitivesScssFiles(json: CollectionItem[]) {
@@ -25,13 +25,13 @@ export function generatePrimitivesScssFiles(json: CollectionItem[]) {
       case Collection.COLORS:
         filename = "_colors.scss";
         scss += extractColors(tokenItem);
-        generateScssFile(scss, filename);
+        generateScssFile(scss, path.join(primitivesOutputDir, filename));
         break;
 
       case Collection.TYPOGRAPHY:
         filename = "_typography.scss";
         scss += extractTypography(tokenItem);
-        generateScssFile(scss, filename);
+        generateScssFile(scss, path.join(primitivesOutputDir, filename));
         break;
     }
   }
@@ -63,8 +63,4 @@ function extractTypography(typographyCollection: CollectionItem): string {
     }
   }
   return scss;
-}
-
-function generateScssFile(scssValue: string, filename: string) {
-  fs.writeFileSync(outputDir + filename, scssValue);
 }
