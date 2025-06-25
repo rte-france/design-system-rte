@@ -1,4 +1,4 @@
-@use '@design-system-rte/core/tokens/main.scss' as *;
+@use '@design-system-rte/core/design-tokens/main.scss' as *;
 
 .split-button-container {
     display: inline-flex;
@@ -61,7 +61,7 @@
         .split-button-divider {
             background-color: var(--border-brand-default);
         }
-        
+
         .split-button-right-container {
             .split-button-right {
                 border-top: 1px solid var(--border-brand-default);
@@ -280,6 +280,7 @@
         pointer-events: none;
         opacity: 0;
     }
+
     to {
         transform: translateY(0);
         opacity: 1;

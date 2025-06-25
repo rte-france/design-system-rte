@@ -1,4 +1,4 @@
-@use '@design-system-rte/core/tokens/main.scss' as *;
+@use '@design-system-rte/core/design-tokens/main.scss' as *;
 
 .rte-button {
     align-items: center;
@@ -66,7 +66,7 @@
             box-shadow: none;
             cursor: default;
         }
-    };
+    }
 
     &.secondary {
         background: var(--background-default);
@@ -87,7 +87,7 @@
             color: var(--content-disabled);
             cursor: default;
         }
-    };
+    }
 
     &.text {
         background: transparent;
@@ -107,7 +107,7 @@
             color: var(--content-disabled);
             cursor: default;
         }
-    };
+    }
 
     &.transparent {
         background: transparent;
@@ -127,8 +127,8 @@
             box-shadow: none;
             cursor: default;
         }
-    };
-    
+    }
+
     &.danger {
         background: var(--background-danger-default);
         border: none;
@@ -142,7 +142,7 @@
         &:active {
             background: var(--background-danger-pressed);
         }
-        
+
         &:disabled {
             background: var(--background-disabled);
             border: var(--border-disabled);
