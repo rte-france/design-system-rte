@@ -56,8 +56,6 @@
         }
     }
 
-    ;
-
     &[data-variant='secondary'] {
         background: var(--background-default);
         border: solid $width-xs var(--border-brand-default);
@@ -79,8 +77,6 @@
         }
     }
 
-    ;
-
     &[data-variant='text'] {
         background: transparent;
         border: none;
@@ -101,8 +97,6 @@
         }
     }
 
-    ;
-
     &[data-variant='transparent'] {
         background: transparent;
         border: none;
@@ -122,8 +116,6 @@
             cursor: default;
         }
     }
-
-    ;
 
     &[data-variant='danger'] {
         background: var(--background-danger-default);

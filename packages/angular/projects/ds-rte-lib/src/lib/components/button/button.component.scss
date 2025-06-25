@@ -68,8 +68,6 @@
         }
     }
 
-    ;
-
     &.secondary {
         background: var(--background-default);
         border: solid $width-xs var(--border-brand-default);
@@ -91,8 +89,6 @@
         }
     }
 
-    ;
-
     &.text {
         background: transparent;
         border: none;
@@ -113,8 +109,6 @@
         }
     }
 
-    ;
-
     &.transparent {
         background: transparent;
         border: none;
@@ -134,8 +128,6 @@
             cursor: default;
         }
     }
-
-    ;
 
     &.danger {
         background: var(--background-danger-default);
