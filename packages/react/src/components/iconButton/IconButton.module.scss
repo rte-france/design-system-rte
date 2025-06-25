@@ -75,7 +75,6 @@
         }
     }
 
-    ;
 
     &[data-variant='secondary'] {
         background: var(--background-default);
@@ -99,8 +98,6 @@
         }
     }
 
-    ;
-
     &[data-variant='text'] {
         background: transparent;
         border: none;
@@ -120,8 +117,6 @@
             cursor: default;
         }
     }
-
-    ;
 
     &[data-variant='transparent'] {
         background: transparent;
@@ -143,8 +138,6 @@
             cursor: default;
         }
     }
-
-    ;
 
     &[data-variant='danger'] {
         background: var(--background-danger-default);
