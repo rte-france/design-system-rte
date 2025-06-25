@@ -8,7 +8,7 @@
     "test": "vitest run",
     "build": "npm run build:css-themes",
     "build:css-themes": "ts-node css-theme-generator.ts",
-    "generate:tokens": "ts-node ./design-tokens/script.ts",
+    "generate:tokens": "ts-node ./design-tokens/generator.ts",
     "prepublishOnly": "npm run build"
   },
   "keywords": [],
