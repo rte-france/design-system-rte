@@ -1,0 +1,72 @@
+import { writeFileSync, mkdirSync, readdirSync, existsSync, unlinkSync } from "fs";
+import { join } from "path";
+
+import { getCommits, getChangedFiles, getRelevantCommitsForPackage } from "./git.js";
+
+const commits = getCommits();
+const changedFiles = getChangedFiles();
+
+export function cleanupExistingAutoChangesets() {
+  if (!existsSync(".changeset")) {
+    return;
+  }
+
+  const files = readdirSync(".changeset");
+  files.forEach((file) => {
+    if (file.endsWith(".md") && file.startsWith("auto-")) {
+      try {
+        unlinkSync(join(".changeset", file));
+        console.log(`🗑️  Removed existing changeset: ${file}`);
+      } catch (error) {
+        console.warn(`Could not remove changeset file ${file}:`, error.message);
+      }
+    }
+  });
+}
+
+export function addChangesetForAffectedPackages(packages) {
+  Object.keys(packages).forEach((pkgKey) => {
+    const { name, bump, dir } = packages[pkgKey];
+    if (!bump) return;
+
+    console.log(`📦 Adding ${bump} changeset for ${name}`);
+
+    try {
+      const relevantCommits = getRelevantCommitsForPackage(dir, commits, changedFiles);
+      const changesetContent = formatChangesetContent(name, bump, relevantCommits);
+
+      const timestamp = Date.now();
+      const changesetFile = join(".changeset", `auto-${timestamp}.md`);
+
+      mkdirSync(".changeset", { recursive: true });
+      writeFileSync(changesetFile, changesetContent);
+
+      console.log(`✅ Created changeset: ${changesetFile}`);
+      if (relevantCommits.length > 0) {
+        console.log(`   📝 Included ${relevantCommits.length} relevant commits`);
+      }
+    } catch (error) {
+      console.error(`Failed to add changeset for ${name}:`, error.message);
+    }
+  });
+}
+
+export function formatChangesetContent(packageName, bump, relevantCommits) {
+  let content = `---
+  "${packageName}": ${bump}
+  ---
+  
+  `;
+
+  if (relevantCommits.length > 0) {
+    content += `## Changes\n\n`;
+    relevantCommits.forEach((commit) => {
+      const cleanCommit = commit.replace(/^(feat|fix|docs|style|refactor|test|chore)(\(.+?\))?:?\s*/i, "");
+      content += `- ${cleanCommit}\n`;
+    });
+  } else {
+    content += `Auto bump from CI`;
+  }
+
+  return content;
+}

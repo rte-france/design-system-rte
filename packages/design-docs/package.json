@@ -1,7 +1,8 @@
 {
   "name": "@design-system-rte/design-docs",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "main": "index.js",
+  "private": true,
   "scripts": {
     "storybook": "storybook dev -p 7006",
     "base-storybook": "npm --prefix ../angular run storybook & npm --prefix ../react run storybook",
