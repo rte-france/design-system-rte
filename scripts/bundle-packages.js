@@ -3,19 +3,16 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
+import { copyDirectoryRecursive, cleanDirectory } from "./directory-helper.js";
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const packages = ["core", "angular", "react"];
 const distDir = path.resolve(__dirname, "../dist/packages");
 
-cleanDistDir();
+cleanDirectory(distDir);
 copyBundlesToDist(packages);
-
-function cleanDistDir() {
-  fs.rmSync(distDir, { recursive: true, force: true });
-  fs.mkdirSync(distDir, { recursive: true });
-}
 
 function copyBundlesToDist(packages) {
   packages.forEach((pkg) => {
@@ -50,7 +47,7 @@ function copyCoreToDist() {
   fs.mkdirSync(outputDir, { recursive: true });
 
   const exclude = ["node_modules", "dist", "test", ".DS_Store"];
-  copyFolderRecursive(packageRoot, outputDir, exclude);
+  copyDirectoryRecursive(packageRoot, outputDir, exclude);
 
   console.log(`✅ core copied to ${outputDir}`);
 }
@@ -67,28 +64,9 @@ function copyFrameworkToDist(packageName) {
 
   console.log(`📁 Copying build output of ${packageName} to ${sourceDir}`);
   fs.mkdirSync(sourceDir, { recursive: true });
-  copyFolderRecursive(sourceDir, packageOut);
+  copyDirectoryRecursive(sourceDir, packageOut);
 
   console.log(`✅ ${packageName} bundled to ${packageOut}`);
-}
-
-function copyFolderRecursive(src, dest, exclude = []) {
-  if (!fs.existsSync(src)) return;
-  if (!fs.existsSync(dest)) fs.mkdirSync(dest, { recursive: true });
-
-  for (const item of fs.readdirSync(src)) {
-    if (exclude.includes(item)) continue;
-
-    const srcPath = path.join(src, item);
-    const destPath = path.join(dest, item);
-    const stat = fs.statSync(srcPath);
-
-    if (stat.isDirectory()) {
-      copyFolderRecursive(srcPath, destPath, exclude);
-    } else {
-      fs.copyFileSync(srcPath, destPath);
-    }
-  }
 }
 
 console.log("\n✅ All packages bundled into dist/packages\n");
