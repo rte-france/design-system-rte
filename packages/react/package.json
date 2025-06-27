@@ -1,6 +1,6 @@
 {
   "name": "@design-system-rte/react",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "type": "module",
   "module": "dist/react-package.js",
   "main": "dist/react-package.cjs",
@@ -18,7 +18,7 @@
     "build-storybook": "storybook build -o ../design-docs/storybook-static/react",
     "test:ci": "npx playwright install && npx start-server-and-test storybook http://localhost:7008 test",
     "test": "test-storybook --url http://localhost:7008",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run generate-icons && npm run build"
   },
   "keywords": [],
   "author": "",
@@ -71,5 +71,8 @@
     "extends": [
       "plugin:storybook/recommended"
     ]
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

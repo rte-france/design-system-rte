@@ -1,6 +1,7 @@
 {
   "name": "@design-system-rte/angular-builder",
   "version": "0.1.5",
+  "private": true,
   "scripts": {
     "ng": "ng",
     "build": "ng build ds-rte-lib && npm run copy-build-icons",

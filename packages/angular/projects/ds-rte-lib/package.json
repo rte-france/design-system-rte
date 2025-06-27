@@ -1,7 +1,10 @@
 {
   "name": "@design-system-rte/angular",
-  "version": "0.4.0",
+  "version": "0.4.5",
   "description": "Angular components for the Design System RTE",
+  "publishConfig": {
+    "access": "public"
+  },
   "peerDependencies": {
     "@angular/common": "^17.3.12",
     "@angular/core": "^17.3.12"
@@ -10,5 +13,6 @@
     "@design-system-rte/core": "^0.6.0",
     "tslib": "^2.3.0"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "private": false
 }
