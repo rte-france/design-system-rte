@@ -31,7 +31,8 @@
   "license": "ISC",
   "description": "",
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "packages/angular/projects/*"
   ],
   "devDependencies": {
     "@angular/cli": "^17.3.12",
