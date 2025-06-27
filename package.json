@@ -17,6 +17,8 @@
     "test-bundle:react": "npm --prefix test-apps/react run dev",
     "changeset": "changeset",
     "changeset:add": "changeset add",
+    "auto-add-changesets": "node scripts/changesets/auto-add-changesets.js",
+    "publish:all": "node scripts/publish-all.js",
     "tag-release": "node scripts/generate-release-tag.js",
     "lint": "eslint . && npm --prefix packages/react run lint && npm --prefix packages/angular run lint",
     "lint:fix": "eslint . --fix && npm --prefix packages/react run lint:fix && npm --prefix packages/angular run lint:fix",
@@ -32,7 +34,8 @@
   "license": "ISC",
   "description": "",
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "packages/angular/projects/*"
   ],
   "devDependencies": {
     "@angular/cli": "^17.3.12",
