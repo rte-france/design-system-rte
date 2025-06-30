@@ -21,11 +21,7 @@ const config: StorybookConfig = {
   },
   babel: async (options) => ({
     ...options,
-    presets: [
-      ...options.presets,
-      require.resolve("@babel/preset-env"),
-      require.resolve("@babel/preset-react"),
-    ],
+    presets: [...options.presets, require.resolve("@babel/preset-env"), require.resolve("@babel/preset-react")],
   }),
   webpackFinal: async (config) => {
     config.module?.rules?.push({
