@@ -1,5 +1,8 @@
 import React, { ReactNode } from "react";
 
+import figma from "../assets/img/figma.png";
+import github from "../assets/img/github.png";
+
 interface HeaderComponentProps {
   title: string;
   linkFigma?: string;
@@ -7,7 +10,7 @@ interface HeaderComponentProps {
   children?: ReactNode;
 }
 
-const HeaderComponent: React.FC<HeaderComponentProps> = ({ title, linkFigma, linkGithub, children }) => {
+const HeaderComponent = ({ title, linkFigma, linkGithub, children }: HeaderComponentProps) => {
   return (
     <header className="storybook_header">
       <div className="storybook_header_content">
@@ -15,13 +18,13 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({ title, linkFigma, lin
         <div className="storybook_links">
           {linkFigma && (
             <div className="storybook_link_container">
-              <img src="/figma.png" alt="Figma" className="storybook_logo" />
+              <img src={figma} alt="Figma" className="storybook_logo" />
               <a href={linkFigma}> Figma </a>
             </div>
           )}
           {linkGithub && (
             <div className="storybook_link_container">
-              <img src="/github.png" alt="GitHub" className="storybook_logo" />
+              <img src={github} alt="GitHub" className="storybook_logo" />
               <a href={linkGithub}> GitHub </a>
             </div>
           )}
