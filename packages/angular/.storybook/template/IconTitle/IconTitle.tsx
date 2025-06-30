@@ -19,7 +19,7 @@ const IconTitle: React.FC<IconTitleProps> = ({ title, icon }) => {
       <div className="storybook_icon_icon">
         <img src={iconSrc} alt={icon} className="rte-icon" style={{ width: "20px", height: "20px" }} />
       </div>
-      <p className="storybook_icon_title">{title}</p>
+      <p tabIndex={0} className="storybook_icon_title">{title}</p>
     </div>
   );
 };

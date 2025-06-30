@@ -14,17 +14,18 @@ const UtilisationExemple = ({ toDo, imgPath }: UtilisationExempleProps) => {
         {toDo ? (
           <div className={style.storybook_utilisation_exemple_content_todo_true}>
             <Icon className={style.storybook_utilisation_exemple_icon} name="check" />
-            <p className={style.storybook_utilisation_exemple}> À faire</p>
+            <p tabIndex={0} className={style.storybook_utilisation_exemple}> À faire</p>
           </div>
         ) : (
           <div className={style.storybook_utilisation_exemple_content_todo_false}>
             <Icon className={style.storybook_utilisation_exemple_icon} name="warning" />
-            <p className={style.storybook_utilisation_exemple}>À ne pas faire</p>
+            <p tabIndex={0} className={style.storybook_utilisation_exemple}>À ne pas faire</p>
           </div>
         )}
         <img
+          tabIndex={0}
           src={imgPath}
-          alt={toDo ? "Exemple à faire" : "Exemple à ne pas faire"}
+          alt={toDo ? "Exemple d'usage à faire" : "Exemple d'usage à ne pas faire"}
           className={style.storybook_utilisation_exemple_image}
         />
       </div>
