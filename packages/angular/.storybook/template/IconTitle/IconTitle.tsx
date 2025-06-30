@@ -1,5 +1,9 @@
 import React from "react";
-import { RegularIconIdKey, TogglableIconIdKey } from "../../../projects/ds-rte-lib/src/lib/components/icon/icon.service";
+
+import {
+  RegularIconIdKey,
+  TogglableIconIdKey,
+} from "../../../projects/ds-rte-lib/src/lib/components/icon/icon.service";
 
 interface IconTitleProps {
   title: string;
@@ -9,16 +13,11 @@ interface IconTitleProps {
 const IconTitle: React.FC<IconTitleProps> = ({ title, icon }) => {
   // Create the icon using the same approach as the Angular component
   const iconSrc = `/assets/icons/${icon}.svg`;
-  
+
   return (
-    <div className="storybook_icon" >
+    <div className="storybook_icon">
       <div className="storybook_icon_icon">
-        <img 
-          src={iconSrc} 
-          alt={icon} 
-          className="rte-icon" 
-          style={{ width: '24px', height: '24px' }}
-        />
+        <img src={iconSrc} alt={icon} className="rte-icon" style={{ width: "24px", height: "24px" }} />
       </div>
       <p className="storybook_icon_title">{title}</p>
     </div>

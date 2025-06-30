@@ -7,12 +7,7 @@ interface HeaderComponentProps {
   children?: ReactNode;
 }
 
-const HeaderComponent: React.FC<HeaderComponentProps> = ({
-  title,
-  linkFigma,
-  linkGithub,
-  children,
-}) => {
+const HeaderComponent: React.FC<HeaderComponentProps> = ({ title, linkFigma, linkGithub, children }) => {
   return (
     <header className="storybook_header">
       <div className="storybook_header_content">

@@ -7,10 +7,7 @@ function getAbsolutePath(value: string): string {
 }
 
 const config: StorybookConfig = {
-  stories: [
-    "../projects/ds-rte-lib/src/**/*.mdx",
-    "../projects/ds-rte-lib/src/**/*.stories.@(js|jsx|mjs|ts|tsx)"
-  ],
+  stories: ["../projects/ds-rte-lib/src/**/*.mdx", "../projects/ds-rte-lib/src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
   addons: [
     getAbsolutePath("@storybook/addon-essentials"),
     getAbsolutePath("@chromatic-com/storybook"),
@@ -28,7 +25,7 @@ const config: StorybookConfig = {
       ...options.presets,
       require.resolve("@babel/preset-env"),
       require.resolve("@babel/preset-react"),
-      require.resolve("@babel/preset-typescript")
+      require.resolve("@babel/preset-typescript"),
     ],
   }),
   webpackFinal: async (config) => {
@@ -45,18 +42,14 @@ const config: StorybookConfig = {
       },
       {
         test: /\.(ts|tsx)$/,
-        exclude: [/node_modules/,/src/],
+        exclude: [/node_modules/, /src/],
         use: {
           loader: "babel-loader",
           options: {
-            presets: [
-              "@babel/preset-env",
-              "@babel/preset-react",
-              "@babel/preset-typescript"
-            ],
+            presets: ["@babel/preset-env", "@babel/preset-react", "@babel/preset-typescript"],
           },
         },
-      }
+      },
     );
     return config;
   },
