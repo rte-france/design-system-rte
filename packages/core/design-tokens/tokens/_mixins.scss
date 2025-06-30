@@ -101,6 +101,15 @@
   letter-spacing: $text-s-bold-letter-spacing;
 }
 
+@mixin typography-text-m {
+  @include typography-text;
+  font-family: $text-m-regular-font-family;
+  font-weight: $text-m-regular-font-weight;
+  font-size: $text-m-regular-font-size;
+  line-height: $text-m-regular-line-height;
+  letter-spacing: $text-m-regular-letter-spacing;
+}
+
 @mixin typography-text-l {
   @include typography-text;
   font-family: $text-l-regular-font-family;

@@ -18,6 +18,7 @@ const Link = forwardRef<HTMLAnchorElement, LinkProps>(
         aria-label={label}
         className={concatClassNames(style.link, className)}
         data-subtle={subtle}
+        target={externalLink ? "_blank" : undefined}
         {...props}
       >
         <span className={style.label}>{label}</span>
