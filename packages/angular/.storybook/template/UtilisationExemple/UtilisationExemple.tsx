@@ -4,7 +4,6 @@ interface UtilisationExempleProps {
 }
 
 const UtilisationExemple = ({ toDo, img }: UtilisationExempleProps) => {
-
   return (
     <div>
       <div className="storybook_utilisation_exemple">
