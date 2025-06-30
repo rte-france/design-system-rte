@@ -21,7 +21,10 @@ const UtilisationExemple = ({ toDo, img }: UtilisationExempleProps) => {
               }}
               //Filter to match design system (#25A249) colors because the svg is an img
             />
-            <p tabIndex={0} className="storybook_utilisation_exemple"> À faire</p>
+            <p tabIndex={0} className="storybook_utilisation_exemple">
+              {" "}
+              À faire
+            </p>
           </div>
         ) : (
           <div className="storybook_utilisation_exemple_content_todo_false">
@@ -37,7 +40,9 @@ const UtilisationExemple = ({ toDo, img }: UtilisationExempleProps) => {
               }}
               //Filter to match design system (#DA1E28) colors because the svg is an img
             />
-            <p tabIndex={0} className="storybook_utilisation_exemple">À ne pas faire</p>
+            <p tabIndex={0} className="storybook_utilisation_exemple">
+              À ne pas faire
+            </p>
           </div>
         )}
         <img
