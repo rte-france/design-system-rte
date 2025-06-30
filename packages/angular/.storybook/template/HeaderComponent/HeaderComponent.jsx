@@ -1,5 +1,6 @@
-import React from 'react';
-import style from './HeaderComponent.module.scss';
+import React from "react";
+
+import style from "./HeaderComponent.module.scss";
 
 const HeaderComponent = (title, linkFigma, linkGithub, children) => {
   return (
