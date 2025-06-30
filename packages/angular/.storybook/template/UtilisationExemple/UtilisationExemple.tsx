@@ -1,16 +1,9 @@
 interface UtilisationExempleProps {
   toDo: boolean;
-  imgPath: string;
+  img: string;
 }
 
-const UtilisationExemple = ({ toDo, imgPath }: UtilisationExempleProps) => {
-  let importedImg;
-  try {
-    importedImg = `./assets/img/${imgPath}`;
-  } catch (error) {
-    console.error("Image import failed:", error);
-    importedImg = undefined;
-  }
+const UtilisationExemple = ({ toDo, img }: UtilisationExempleProps) => {
 
   return (
     <div>
@@ -49,7 +42,7 @@ const UtilisationExemple = ({ toDo, imgPath }: UtilisationExempleProps) => {
           </div>
         )}
         <img
-          src={importedImg}
+          src={img}
           alt={toDo ? "Exemple à faire" : "Exemple à ne pas faire"}
           className="storybook_utilisation_exemple_image"
         />
