@@ -1,3 +1,7 @@
+import {
+  TEXTAREA_ICON_SIZE,
+  TEXTAREA_REQUIRED_LABEL,
+} from "@design-system-rte/core/components/textarea/textarea.constants";
 import type { TextareaProps as CoreTextareaProps } from "@design-system-rte/core/components/textarea/textarea.interface";
 import { ChangeEvent, forwardRef, TextareaHTMLAttributes, useState } from "react";
 
@@ -46,14 +50,12 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       if (onChange) {
         onChange(event);
       }
-      setCharacterCount(event.target.value.length);
+      if (maxLength) {
+        setCharacterCount(event.target.value.length);
+      }
     };
 
-    const assistiveIconName =
-      assistiveTextAppearance === "error" ? "error" : assistiveTextAppearance === "success" ? "check-circle" : null;
-
-    const requiredIndicator =
-      requiredAppearance === "required" ? "(obligatoire)" : requiredAppearance === "icon" ? "*" : "(facultatif)";
+    const requiredIndicator = TEXTAREA_REQUIRED_LABEL[requiredAppearance];
 
     return (
       <div className={style.container} data-label-position={labelPosition}>
@@ -102,7 +104,12 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
                 ></Link>
               ) : (
                 <div className={style["assistive-text"]} data-assistive-text-appearance={assistiveTextAppearance}>
-                  {showAssistiveTextIcon && assistiveIconName ? <Icon name={assistiveIconName} size={16} /> : null}
+                  {assistiveTextAppearance === "error" ? (
+                    <Icon name="error" size={TEXTAREA_ICON_SIZE} />
+                  ) : showAssistiveTextIcon && assistiveTextAppearance === "success" ? (
+                    <Icon name={"check-circle"} size={TEXTAREA_ICON_SIZE} />
+                  ) : null}
+
                   <span>{assistiveTextLabel}</span>
                 </div>
               )}
