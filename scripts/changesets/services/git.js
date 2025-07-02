@@ -52,3 +52,61 @@ export function getRelevantCommitsForPackage(packageDir, commits, changedFiles) 
 
   return relevantCommits;
 }
+
+export function stageChangesetFiles() {
+  try {
+    execSync("git add .changeset/auto-*.md", { stdio: "inherit" });
+    console.log("📝 Staged auto-generated changeset files");
+  } catch (error) {
+    console.warn("No auto-generated changeset files to stage:", error.message);
+  }
+}
+
+function isOnMainBranch() {
+  const currentBranch = execSync("git branch --show-current", { encoding: "utf8" }).trim();
+  return currentBranch === "main";
+}
+
+function hasLocalCommits() {
+  const commitsAhead = execSync("git log origin/main..HEAD --oneline", { encoding: "utf8" })
+    .split("\n")
+    .filter((line) => line.trim() !== "");
+  return commitsAhead.length > 0;
+}
+
+function isLastCommitPushed() {
+  const lastCommitHash = execSync("git rev-parse HEAD", { encoding: "utf8" }).trim();
+  const remoteBranches = execSync(`git branch -r --contains ${lastCommitHash}`, { encoding: "utf8" })
+    .split("\n")
+    .filter((line) => line.trim() !== "");
+  
+  return remoteBranches.some((branch) => branch.trim().startsWith("origin/"));
+}
+
+function performAmend() {
+  execSync("git commit --amend --no-edit --no-verify", { stdio: "inherit" });
+  console.log("✅ Amended last commit with changeset files");
+}
+
+export function amendLastCommit() {
+  try {
+    if (isOnMainBranch()) {
+      console.warn("⚠️  Cannot amend commit on main branch - skipping amendment");
+      return;
+    }
+
+    if (!hasLocalCommits()) {
+      console.warn("⚠️  No local commits to amend - skipping amendment");
+      return;
+    }
+
+    if (isLastCommitPushed()) {
+      console.warn("⚠️  Last commit is already pushed to remote - skipping amendment");
+      return;
+    }
+
+    performAmend();
+  } catch (error) {
+    console.error("Failed to amend last commit:", error.message);
+  }
+}
