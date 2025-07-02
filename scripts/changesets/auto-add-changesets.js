@@ -1,7 +1,7 @@
 import { packages } from "./changeset-config.js";
 import { cleanupExistingAutoChangesets, addChangesetForAffectedPackages } from "./services/changeset.js";
 import { determineBump, getHighestBump } from "./services/commit.js";
-import { getCommits, getChangedFiles, getRelevantCommitsForPackage } from "./services/git.js";
+import { getCommits, getChangedFiles, getRelevantCommitsForPackage, stageChangesetFiles, amendLastCommit } from "./services/git.js";
 
 const commits = getCommits();
 const changedFiles = getChangedFiles();
@@ -9,6 +9,8 @@ const changedFiles = getChangedFiles();
 assignBumpsPerPackage(commits, changedFiles);
 cleanupExistingAutoChangesets();
 addChangesetForAffectedPackages(packages);
+stageChangesetFiles();
+amendLastCommit();
 
 function assignBumpsPerPackage(commits, changedFiles) {
   resetPackageBumps();
