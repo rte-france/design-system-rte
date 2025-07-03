@@ -1,14 +1,13 @@
-type TextareaLabelPosition = "top" | "side";
-type TextareaAssistiveTextAppearance = "description" | "error" | "success" | "link";
-type TextareaRequiredAppearance = "required" | "icon" | "text";
-type RequiredIndicator = "required" | "icon" | "optional";
+export type TextareaLabelPosition = "top" | "side";
+export type TextareaAssistiveTextAppearance = "description" | "error" | "success" | "link";
+export type TextareaRequiredAppearance = "required" | "icon" | "optional";
 
 export interface TextareaProps {
   label?: string;
   labelId?: string;
   labelPosition?: TextareaLabelPosition;
   required?: boolean;
-  requiredAppearance?: RequiredIndicator;
+  requiredAppearance?: TextareaRequiredAppearance;
   resizeable?: boolean;
   showCounter?: boolean;
   value?: string;
