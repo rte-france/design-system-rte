@@ -11,13 +11,11 @@
   <div class="textarea-container" [attr.data-label-position]="labelPosition()">
     <textarea
       #textarea
-      class="textarea {{ resizeable() }} {{ assistiveTextAppearance() }}"
+      class="textarea {{ resizeable() ? 'resizeable' : '' }} {{ assistiveTextAppearance() }}"
       [attr.id]="id()"
       [attr.name]="name()"
       [attr.aria-labelledby]="labelId() || ariaLabelledby()"
-      [attr.required]="required()"
-      [attr.disabled]="disabled()"
-      [attr.readOnly]="readOnly()"
+      [attr.required]="required() ? true : null"
       [attr.maxLength]="maxLength() !== undefined ? maxLength() : null"
       [attr.disabled]="disabled() ? true : null"
       [attr.readonly]="readOnly() ? true : null"
