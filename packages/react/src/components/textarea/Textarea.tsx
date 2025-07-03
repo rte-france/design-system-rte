@@ -3,7 +3,7 @@ import {
   TEXTAREA_REQUIRED_LABEL,
 } from "@design-system-rte/core/components/textarea/textarea.constants";
 import type { TextareaProps as CoreTextareaProps } from "@design-system-rte/core/components/textarea/textarea.interface";
-import { ChangeEvent, forwardRef, TextareaHTMLAttributes, useState } from "react";
+import { ChangeEvent, FocusEvent, forwardRef, TextareaHTMLAttributes, useRef, useState } from "react";
 
 import Icon from "../icon/Icon";
 import Link from "../link/Link";
@@ -28,6 +28,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       name,
       required = false,
       onChange,
+      onBlur,
       label,
       labelId,
       labelPosition = "top",
@@ -44,6 +45,15 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
     ref,
   ) => {
     const [characterCount, setCharacterCount] = useState(value?.length || 0);
+
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+    const handleBlur = (event: FocusEvent<HTMLTextAreaElement, Element>) => {
+      if (onBlur) {
+        onBlur(event);
+      }
+      textareaRef.current?.scrollTo({ top: 0 });
+    };
 
     const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
       if (onChange) {
@@ -81,7 +91,11 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         </div>
         <div className={style["textarea-container"]} data-label-position={labelPosition}>
           <textarea
-            ref={ref}
+            ref={(node) => {
+              (textareaRef as React.MutableRefObject<HTMLTextAreaElement | null>).current = node;
+              if (typeof ref === "function") ref(node);
+              else if (ref) (ref as React.MutableRefObject<HTMLTextAreaElement | null>).current = node;
+            }}
             id={id}
             name={name}
             className={concatClassNames(style.textarea, className)}
@@ -90,6 +104,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
             onChange={handleChange}
             aria-labelledby={labelId || ariaLabelledby}
             maxLength={maxLength}
+            onBlur={handleBlur}
             {...props}
           />
           {assistiveTextLabel && (
