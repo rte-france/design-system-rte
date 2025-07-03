@@ -9,6 +9,7 @@ import IconButtonToggle from "./components/iconButtonToggle/IconButtonToggle.tsx
 import Link from "./components/link/Link.tsx";
 import RadioButton from "./components/radioButton/RadioButton.tsx";
 import RadioButtonGroup from "./components/radioButtonGroup/RadioButtonGroup.tsx";
+import Textarea from "./components/textarea/Textarea.tsx";
 
 export {
   Button,
@@ -21,4 +22,5 @@ export {
   Icon,
   IconButton,
   IconButtonToggle,
+  Textarea,
 };
