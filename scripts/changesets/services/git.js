@@ -62,30 +62,13 @@ export function stageChangesetFiles() {
   }
 }
 
-function isOnMainBranch() {
-  const currentBranch = execSync("git branch --show-current", { encoding: "utf8" }).trim();
-  return currentBranch === "main";
-}
-
-function hasLocalCommits() {
-  const commitsAhead = execSync("git log origin/main..HEAD --oneline", { encoding: "utf8" })
-    .split("\n")
-    .filter((line) => line.trim() !== "");
-  return commitsAhead.length > 0;
-}
-
-function isLastCommitPushed() {
-  const lastCommitHash = execSync("git rev-parse HEAD", { encoding: "utf8" }).trim();
-  const remoteBranches = execSync(`git branch -r --contains ${lastCommitHash}`, { encoding: "utf8" })
-    .split("\n")
-    .filter((line) => line.trim() !== "");
-  
-  return remoteBranches.some((branch) => branch.trim().startsWith("origin/"));
-}
-
-function performAmend() {
-  execSync("git commit --amend --no-edit --no-verify", { stdio: "inherit" });
-  console.log("✅ Amended last commit with changeset files");
+export function commitChangesetFiles() {
+  try {
+    execSync("git commit -m 'chore: generate changesets automatically' --no-verify", { stdio: "inherit" });
+    console.log("✅ Committed auto-generated changeset files");
+  } catch (error) {
+    console.warn("No changeset files to commit:", error.message);
+  }
 }
 
 export function amendLastCommit() {
@@ -109,4 +92,30 @@ export function amendLastCommit() {
   } catch (error) {
     console.error("Failed to amend last commit:", error.message);
   }
+}
+
+function isOnMainBranch() {
+  const currentBranch = execSync("git branch --show-current", { encoding: "utf8" }).trim();
+  return currentBranch === "main";
+}
+
+function hasLocalCommits() {
+  const commitsAhead = execSync("git log origin/main..HEAD --oneline", { encoding: "utf8" })
+    .split("\n")
+    .filter((line) => line.trim() !== "");
+  return commitsAhead.length > 0;
+}
+
+function isLastCommitPushed() {
+  const lastCommitHash = execSync("git rev-parse HEAD", { encoding: "utf8" }).trim();
+  const remoteBranches = execSync(`git branch -r --contains ${lastCommitHash}`, { encoding: "utf8" })
+    .split("\n")
+    .filter((line) => line.trim() !== "");
+
+  return remoteBranches.some((branch) => branch.trim().startsWith("origin/"));
+}
+
+function performAmend() {
+  execSync("git commit --amend --no-edit --no-verify", { stdio: "inherit" });
+  console.log("✅ Amended last commit with changeset files");
 }

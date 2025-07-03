@@ -35,8 +35,7 @@ export function addChangesetForAffectedPackages(packages) {
       const relevantCommits = getRelevantCommitsForPackage(dir, commits, changedFiles);
       const changesetContent = formatChangesetContent(name, bump, relevantCommits);
 
-      const timestamp = Date.now();
-      const changesetFile = join(".changeset", `auto-${timestamp}.md`);
+      const changesetFile = join(".changeset", `auto-${pkgKey}.md`);
 
       mkdirSync(".changeset", { recursive: true });
       writeFileSync(changesetFile, changesetContent);
@@ -65,7 +64,7 @@ export function formatChangesetContent(packageName, bump, relevantCommits) {
       content += `- ${cleanCommit}\n`;
     });
   } else {
-    content += `Auto bump from CI`;
+    content += `Auto bump`;
   }
 
   return content;
