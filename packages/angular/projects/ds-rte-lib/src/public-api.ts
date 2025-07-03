@@ -7,3 +7,7 @@ export * from "./lib/components/radio-button-group/radio-button-group.component"
 export * from "./lib/components/checkbox/checkbox.component";
 export * from "./lib/components/checkbox-group/checkbox-group.component";
 export * from "./lib/components/icon/icon.component";
+export * from "./lib/components/tooltip/tooltip.directive";
+export * from "./lib/components/split-button/split-button.component";
+export * from "./lib/components/icon-button/icon-button.component";
+export * from "./lib/components/icon-button-toggle/icon-button-toggle.component";
