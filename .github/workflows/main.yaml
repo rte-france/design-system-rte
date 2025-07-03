@@ -230,12 +230,15 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+      
+      - name: Install dependencies
+        run: npm ci --prefer-offline
 
       - name: Apply changeset versioning
         run: npm run changeset version
 
       - name: Stage all changes
-        run: git add .changeset/ packages/*/package.json CHANGELOG.md
+        run: git add .changeset/ packages/
 
       - name: Commit and push changesets if any were created
         run: |
