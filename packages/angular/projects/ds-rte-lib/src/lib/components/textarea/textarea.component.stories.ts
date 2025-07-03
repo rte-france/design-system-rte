@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/angular";
+import { fn, userEvent, within, expect } from "@storybook/test";
 
 import { TextareaComponent } from "./textarea.component";
 
@@ -43,7 +44,10 @@ const meta: Meta<TextareaComponent> = {
 };
 
 export default meta;
+
 type Story = StoryObj<TextareaComponent>;
+
+const mockFn = fn();
 
 export const Default: Story = {
   args: {
@@ -57,6 +61,7 @@ export const Default: Story = {
     requiredAppearance: "icon",
     value: "",
     rows: 3,
+    change: mockFn,
   },
   render: (args) => ({
     props: { ...args },
@@ -87,7 +92,7 @@ export const Default: Story = {
 export const CharacterCount: Story = {
   args: {
     ...Default.args,
-    maxLength: 100,
+    maxLength: 10,
   },
   render: (args) => ({
     props: { ...args },
@@ -108,11 +113,18 @@ export const CharacterCount: Story = {
         [value]="'${args.value}'"
         [rows]=${args.rows}
         [disabled]=${args.disabled}
-        (change)="args.change($event)"
+        (change)="change($event)"
         />
     </div>
     `,
   }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const textarea = canvas.getByRole("textbox");
+    await userEvent.type(textarea, "Hello World");
+    expect(mockFn).toHaveBeenCalledTimes(10);
+    expect(textarea).toHaveValue("Hello Worl");
+  },
 };
 
 export const Error: Story = {
@@ -141,7 +153,7 @@ export const Error: Story = {
         [value]="'${args.value}'"
         [rows]=${args.rows}
         [disabled]=${args.disabled}
-        (change)="args.change($event)"
+        (change)="change($event)"
         />
     </div>
     `,
@@ -173,11 +185,20 @@ export const ReadOnly: Story = {
         [value]="'${args.value}'"
         [rows]=${args.rows}
         [disabled]=${args.disabled}
-        (change)="args.change($event)"
+        (change)="change($event)"
         />
     </div>
     `,
   }),
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const textarea = canvas.getByRole("textbox");
+    await userEvent.tab();
+    expect(textarea).toHaveFocus();
+    await userEvent.type(textarea, "Hello World");
+    expect(mockFn).not.toHaveBeenCalled();
+    expect(textarea).toHaveValue(args.value);
+  },
 };
 
 export const Disabled: Story = {
@@ -204,9 +225,52 @@ export const Disabled: Story = {
         [value]="'${args.value}'"
         [rows]=${args.rows}
         [disabled]=${args.disabled}
-        (change)="args.change($event)"
+        (change)="change($event)"
         />
     </div>
     `,
   }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const textarea = canvas.getByRole("textbox");
+    await userEvent.tab();
+    expect(textarea).not.toHaveFocus();
+  },
+};
+
+export const KeyboardInteraction: Story = {
+  args: {
+    ...Default.args,
+  },
+  render: (args) => ({
+    props: { ...args },
+    template: `
+    <div style="width: 350px">
+      <rte-textarea
+        [id]="'${args.id}'"
+        [label]="'${args.label}'"
+        [labelId]="'${args.labelId}'"
+        [assistiveTextLabel]="'${args.assistiveTextLabel}'"
+        [assistiveTextLink]="'${args.assistiveTextLink}'"
+        [assistiveTextAppearance]="'${args.assistiveTextAppearance}'"
+        [required]=${args.required}
+        [requiredAppearance]="'${args.requiredAppearance}'"
+        [maxLength]=${args.maxLength}
+        [required]=${args.required}
+        [readOnly]=${args.readOnly}
+        [value]="'${args.value}'"
+        [rows]=${args.rows}
+        [disabled]=${args.disabled}
+        (change)="change($event)"
+        />
+    </div>
+    `,
+  }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const textarea = canvas.getByRole("textbox");
+    await userEvent.tab();
+    expect(textarea).toHaveFocus();
+    textarea.blur();
+  },
 };

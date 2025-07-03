@@ -1,4 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
+import { userEvent, within, expect, fn } from "@storybook/test";
 
 import Textarea from "./Textarea";
 
@@ -48,6 +49,8 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
+const mockFn = fn();
+
 export const Default: Story = {
   args: {
     id: "my-textarea",
@@ -55,6 +58,7 @@ export const Default: Story = {
     labelId: "LabelId",
     assistiveTextLabel: "Assistive text for the textarea",
     required: false,
+    onChange: mockFn,
   },
   render: (args) => {
     return (
@@ -68,7 +72,7 @@ export const Default: Story = {
 export const CharacterCount: Story = {
   args: {
     ...Default.args,
-    maxLength: 100,
+    maxLength: 10,
   },
   render: (args) => {
     return (
@@ -76,6 +80,13 @@ export const CharacterCount: Story = {
         <Textarea {...args} />
       </div>
     );
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const textarea = canvas.getByRole("textbox");
+    await userEvent.type(textarea, "Hello World");
+    expect(mockFn).toHaveBeenCalledTimes(10);
+    expect(textarea).toHaveValue("Hello Worl");
   },
 };
 
@@ -99,7 +110,7 @@ export const ReadOnly: Story = {
   args: {
     ...Default.args,
     readOnly: true,
-    defaultValue: "This is a read-only textarea.",
+    value: "This is a read-only textarea.",
   },
   render: (args) => {
     return (
@@ -107,6 +118,15 @@ export const ReadOnly: Story = {
         <Textarea {...args} />
       </div>
     );
+  },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const textarea = canvas.getByRole("textbox");
+    await userEvent.tab();
+    expect(textarea).toHaveFocus();
+    await userEvent.type(textarea, "Hello World");
+    expect(mockFn).not.toHaveBeenCalled();
+    expect(textarea).toHaveValue(args.value);
   },
 };
 
@@ -121,5 +141,31 @@ export const Disabled: Story = {
         <Textarea {...args} />
       </div>
     );
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const textarea = canvas.getByRole("textbox");
+    await userEvent.tab();
+    expect(textarea).not.toHaveFocus();
+  },
+};
+
+export const KeyboardInteraction: Story = {
+  args: {
+    ...Default.args,
+  },
+  render: (args) => {
+    return (
+      <div style={{ width: "350px" }}>
+        <Textarea {...args} />
+      </div>
+    );
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const textarea = canvas.getByRole("textbox");
+    await userEvent.tab();
+    expect(textarea).toHaveFocus();
+    textarea.blur();
   },
 };
