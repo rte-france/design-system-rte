@@ -33,7 +33,6 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       labelPosition = "top",
       assistiveTextLabel,
       assistiveTextAppearance = "description",
-      showAssistiveTextIcon = false,
       ["aria-labelledby"]: ariaLabelledby,
       assistiveTextLink,
       requiredAppearance = "icon",
@@ -106,7 +105,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
                 <div className={style["assistive-text"]} data-assistive-text-appearance={assistiveTextAppearance}>
                   {assistiveTextAppearance === "error" ? (
                     <Icon name="error" size={TEXTAREA_ICON_SIZE} />
-                  ) : showAssistiveTextIcon && assistiveTextAppearance === "success" ? (
+                  ) : assistiveTextAppearance === "success" ? (
                     <Icon name={"check-circle"} size={TEXTAREA_ICON_SIZE} />
                   ) : null}
 

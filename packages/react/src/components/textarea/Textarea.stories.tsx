@@ -28,10 +28,6 @@ const meta = {
       control: "text",
       description: "Link for the assistive text when appearance is 'link'",
     },
-    showAssistiveTextIcon: {
-      control: "boolean",
-      description: "Whether to show an icon next to the assistive text",
-    },
     required: {
       control: "boolean",
       description: "Whether the textarea is required",
@@ -40,6 +36,10 @@ const meta = {
       control: "select",
       options: ["required", "icon", "optional"],
       description: "Appearance of the required indicator",
+    },
+    maxLength: {
+      control: "number",
+      description: "Maximum number of characters allowed in the textarea",
     },
   },
 } satisfies Meta<typeof Textarea>;

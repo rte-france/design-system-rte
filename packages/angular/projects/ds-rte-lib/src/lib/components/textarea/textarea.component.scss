@@ -19,7 +19,6 @@
   }
 
   .header-container {
-
     display: flex;
     width: 100%;
     flex-direction: row;
@@ -27,7 +26,6 @@
     justify-content: space-between;
     padding: $positive-spacing_025 $positive-spacing_100;
     box-sizing: border-box;
-
 
     .label {
       @include typography-text-m;
@@ -42,17 +40,17 @@
       .required-indicator {
         margin-left: $positive-spacing_025;
 
-        .required,
-        .optional {
+        &.required,
+        &.optional {
           @include typography-text-s;
           color: var(--content-tertiary);
         }
 
-        .optional {
+        &.optional {
           font-style: italic;
         }
 
-        .icon {
+        &.icon {
           vertical-align: text-bottom;
           color: var(--content-danger);
         }
@@ -66,7 +64,6 @@
   }
 
   .textarea-container {
-
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -93,9 +90,9 @@
         max-width: 1100px;
       }
 
-      &:focus-visible {
-        outline: 1px solid var(--border-brand-focused);
-        outline-offset: 4px;
+      &:focus-visible,
+      &:active {
+        border: 2px solid var(--border-brand-default);
       }
 
       &.error {
