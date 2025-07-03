@@ -1,0 +1,165 @@
+@use '@design-system-rte/core/design-tokens/main.scss' as *;
+
+.rte-icon-button {
+    display: inline-flex;
+    cursor: pointer;
+    height: 24px;
+    align-items: center;
+    gap: $positive-spacing_0;
+    flex-shrink: 0;
+
+    &:focus-visible {
+        outline: none;
+        position: relative;
+
+        &::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 6px;
+            pointer-events: none;
+            box-shadow: 0 0 0 1px var(--border-brand-focused);
+        }
+    }
+
+    &.size-s {
+        border-radius: $radius-s;
+        height: 24px;
+        padding: $positive-spacing_025 $positive-spacing_050;
+
+        &.compact-spacing {
+            height: 16px;
+        }
+    }
+
+    &.size-m {
+        border-radius: $radius-s;
+        height: 32px;
+        padding: $positive-spacing_050 $positive-spacing_075;
+
+        &.compact-spacing {
+            height: 20px;
+        }
+    }
+
+    &.size-l {
+        border-radius: $radius-m;
+        height: 40px;
+        padding: $positive-spacing_075 $positive-spacing_100;
+
+        &.compact-spacing {
+            height: 24px;
+        }
+    }
+
+    &.primary {
+        background: var(--background-brand-default);
+        border: var(--border-brand-default);
+        color: var(--content-primary-inverse);
+
+        &:hover {
+            background: var(--background-brand-hover);
+            border: var(--background-brand-hover);
+        }
+
+        &:active {
+            background: var(--background-brand-pressed);
+        }
+
+        &:disabled {
+            background: var(--background-disabled);
+            border: solid $width-xs var(--border-disabled);
+            box-shadow: none;
+            color: var(--content-disabled);
+            cursor: default;
+        }
+    }
+
+    &.secondary {
+        background: var(--background-default);
+        border: solid $width-xs var(--border-brand-default);
+        color: var(--content-brand-default);
+
+        &:hover {
+            background: var(--background-brand-inverse-hover);
+            border: solid $width-xs var(--border-brand-default);
+        }
+
+        &:active {
+            background: var(--background-brand-inverse-pressed);
+        }
+
+        &:disabled {
+            background: var(--background-disabled);
+            border: solid $width-xs var(--border-disabled);
+            color: var(--content-disabled);
+            cursor: default;
+        }
+    }
+
+    &.text {
+        background: transparent;
+        border: none;
+        color: var(--content-brand-default);
+
+        &:hover {
+            background: var(--background-brand-inverse-hover);
+        }
+
+        &:active {
+            background: var(--background-brand-inverse-pressed);
+        }
+
+        &:disabled {
+            background: var(--background-disabled);
+            color: var(--content-disabled);
+            cursor: default;
+        }
+    }
+
+    &.transparent {
+        background: transparent;
+        border: none;
+        color: var(--content-brand-default);
+
+        &:hover {
+            color: var(--content-brand-hover);
+        }
+
+        &:active {
+            color: var(--content-brand-press);
+        }
+
+        &:disabled {
+            box-shadow: none;
+            background-color: var(--background-disabled);
+            color: var(--content-disabled);
+            cursor: default;
+        }
+    }
+
+    &.danger {
+        background: var(--background-danger-default);
+        border: none;
+        color: var(--content-primary-inverse);
+
+        &:hover {
+            background: var(--background-danger-hover);
+        }
+
+        &:active {
+            background: var(--background-danger-pressed);
+        }
+
+        &:disabled {
+            background: var(--background-disabled);
+            border: solid $width-xs var(--border-disabled);
+            color: var(--content-disabled);
+            cursor: default;
+        }
+    }
+
+    &.compact-spacing {
+        padding: $positive-spacing_0;
+    }
+}
