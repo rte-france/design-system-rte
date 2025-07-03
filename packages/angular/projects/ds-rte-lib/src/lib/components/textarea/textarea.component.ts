@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, input, computed, output } from "@angular/core";
+import { Component, input, computed, output, ElementRef, viewChild } from "@angular/core";
 import { NG_VALUE_ACCESSOR } from "@angular/forms";
 import {
   TEXTAREA_ICON_SIZE,
@@ -54,6 +54,9 @@ export class TextareaComponent {
   });
 
   readonly change = output<Event>();
+  readonly blur = output<FocusEvent>();
+
+  readonly textareaRef = viewChild<ElementRef<HTMLTextAreaElement>>("textarea");
 
   characterCount = 0;
 
@@ -61,5 +64,10 @@ export class TextareaComponent {
     const target = event.target as HTMLTextAreaElement;
     this.characterCount = target.value.length;
     this.change.emit(event);
+  }
+
+  onBlur(event: FocusEvent) {
+    this.textareaRef()?.nativeElement?.scrollTo({ top: 0 });
+    this.blur.emit(event);
   }
 }

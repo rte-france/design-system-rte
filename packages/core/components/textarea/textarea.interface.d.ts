@@ -15,7 +15,6 @@ export interface TextareaProps {
   assistiveTextLabel?: string;
   assistiveTextAppearance?: TextareaAssistiveTextAppearance;
   assistiveTextLink?: string;
-  showAssistiveTextIcon?: boolean;
   showHandleIcon?: boolean;
   showScrollBar?: boolean;
 }
