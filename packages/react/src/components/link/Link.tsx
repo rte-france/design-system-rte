@@ -19,6 +19,7 @@ const Link = forwardRef<HTMLAnchorElement, LinkProps>(
         className={concatClassNames(style.link, className)}
         data-subtle={subtle}
         target={externalLink ? "_blank" : undefined}
+        rel={externalLink ? "noopener noreferrer" : undefined}
         {...props}
       >
         <span className={style.label}>{label}</span>
