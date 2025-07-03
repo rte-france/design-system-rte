@@ -18,6 +18,7 @@ function applyTag() {
   execSync(`git tag -a ${tag} -m "${message}"`, { stdio: "inherit" });
 
   console.log(`✅ Tag ${tag} created successfully.`);
+  console.log(message);
 }
 
 function generateTagName() {
@@ -50,7 +51,13 @@ function generateTagMessage(customMessage) {
 }
 
 function getPackageVersion(packageName) {
-  const packageJsonPath = path.join("packages", packageName, "package.json");
+  let packageJsonPath;
+
+  if (packageName === "angular") {
+    packageJsonPath = path.join("packages", packageName, "projects", "ds-rte-lib", "package.json");
+  } else {
+    packageJsonPath = path.join("packages", packageName, "package.json");
+  }
 
   if (!fs.existsSync(packageJsonPath)) {
     throw new Error(`Package ${packageName} not found at ${packageJsonPath}`);
@@ -59,7 +66,7 @@ function getPackageVersion(packageName) {
   const pkg = JSON.parse(fs.readFileSync(packageJsonPath, "utf-8"));
 
   if (!pkg.version) {
-    throw new Error(`No version found in packages/${packageName}/package.json`);
+    throw new Error(`No version found in ${packageJsonPath}`);
   }
 
   return pkg.version;
