@@ -10,6 +10,7 @@
   </div>
   <div class="textarea-container" [attr.data-label-position]="labelPosition()">
     <textarea
+      #textarea
       class="textarea {{ resizeable() }} {{ assistiveTextAppearance() }}"
       [attr.id]="id()"
       [attr.name]="name()"
@@ -24,6 +25,7 @@
       [defaultValue]="defaultValue() !== undefined ? defaultValue() : null"
       [attr.rows]="rows()"
       (input)="onInput($event)"
+      (blur)="onBlur($event)"
     ></textarea>
     <rte-link *ngIf="assistiveTextAppearance() === 'link' && assistiveTextLink() !== undefined" class="assistive-text-link" [externalLink]="true" [href]="assistiveTextLink() || ''" [label]="assistiveTextLabel() || ''">
     </rte-link>
