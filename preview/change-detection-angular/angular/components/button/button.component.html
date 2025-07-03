@@ -1,0 +1,10 @@
+<button
+    class="rte-button {{ variant() }} size-{{ size() }}"
+    [attr.aria-label]="ariaLabel()"
+    [attr.aria-labelledby]="ariaLabelledBy()"
+    [attr.type]="buttonType()"
+    [disabled]="disabled()"
+    (click)="onClick($event)"
+>
+    <span class="rte-button-label">{{ label() }}</span>
+</button>
