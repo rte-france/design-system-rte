@@ -81,7 +81,7 @@
       border: 1px solid var(--border-secondary);
       opacity: $opacity-100;
       background-color: var(--background-default);
-      resize: vertical;
+      resize: none;
       box-sizing: border-box;
 
       @media (min-width: $breakpoints-m) {
@@ -99,8 +99,8 @@
         border: 2px solid var(--border-danger);
       }
 
-      &[data-resizeable='false'] {
-        resize: none;
+      &.resizeable {
+        resize: vertical;
       }
 
       &:disabled {
