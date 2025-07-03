@@ -6,7 +6,40 @@ const meta: Meta<TextareaComponent> = {
   title: "Textarea",
   component: TextareaComponent,
   tags: ["autodocs"],
-  argTypes: {},
+  argTypes: {
+    value: { control: "text" },
+    label: { control: "text" },
+    labelPosition: {
+      control: "select",
+      options: ["top", "side"],
+      description: "Position of the label relative to the textarea",
+    },
+    disabled: { control: "boolean" },
+    rows: { control: "number" },
+    change: { action: "changed" },
+    assistiveTextAppearance: {
+      control: "select",
+      options: ["description", "error", "success", "link"],
+      description: "Appearance of the assistive text",
+    },
+    assistiveTextLink: {
+      control: "text",
+      description: "Link for the assistive text when appearance is 'link'",
+    },
+    required: {
+      control: "boolean",
+      description: "Whether the textarea is required",
+    },
+    requiredAppearance: {
+      control: "select",
+      options: ["required", "icon", "optional"],
+      description: "Appearance of the required indicator",
+    },
+    maxLength: {
+      control: "number",
+      description: "Maximum number of characters allowed in the textarea",
+    },
+  },
 };
 
 export default meta;
@@ -18,7 +51,12 @@ export const Default: Story = {
     label: "Label",
     labelId: "LabelId",
     assistiveTextLabel: "Assistive text label",
+    assistiveTextLink: "https://example.com",
+    assistiveTextAppearance: "description",
     required: false,
+    requiredAppearance: "icon",
+    value: "",
+    rows: 3,
   },
   render: (args) => ({
     props: { ...args },
@@ -29,7 +67,17 @@ export const Default: Story = {
         [label]="'${args.label}'"
         [labelId]="'${args.labelId}'"
         [assistiveTextLabel]="'${args.assistiveTextLabel}'"
+        [assistiveTextLink]="'${args.assistiveTextLink}'"
+        [assistiveTextAppearance]="'${args.assistiveTextAppearance}'"
         [required]=${args.required}
+        [requiredAppearance]="'${args.requiredAppearance}'"
+        [maxLength]=${args.maxLength}
+        [required]=${args.required}
+        [readOnly]=${args.readOnly}
+        [value]="'${args.value}'"
+        [rows]=${args.rows}
+        [disabled]=${args.disabled}
+        (change)="args.change($event)"
         />
     </div>
     `,
@@ -50,8 +98,17 @@ export const CharacterCount: Story = {
         [label]="'${args.label}'"
         [labelId]="'${args.labelId}'"
         [assistiveTextLabel]="'${args.assistiveTextLabel}'"
+        [assistiveTextLink]="'${args.assistiveTextLink}'"
+        [assistiveTextAppearance]="'${args.assistiveTextAppearance}'"
         [required]=${args.required}
+        [requiredAppearance]="'${args.requiredAppearance}'"
         [maxLength]=${args.maxLength}
+        [required]=${args.required}
+        [readOnly]=${args.readOnly}
+        [value]="'${args.value}'"
+        [rows]=${args.rows}
+        [disabled]=${args.disabled}
+        (change)="args.change($event)"
         />
     </div>
     `,
@@ -74,9 +131,17 @@ export const Error: Story = {
         [label]="'${args.label}'"
         [labelId]="'${args.labelId}'"
         [assistiveTextLabel]="'${args.assistiveTextLabel}'"
-        assistiveTextAppearance=${args.assistiveTextAppearance}
+        [assistiveTextLink]="'${args.assistiveTextLink}'"
+        [assistiveTextAppearance]="'${args.assistiveTextAppearance}'"
+        [required]=${args.required}
+        [requiredAppearance]="'${args.requiredAppearance}'"
         [maxLength]=${args.maxLength}
         [required]=${args.required}
+        [readOnly]=${args.readOnly}
+        [value]="'${args.value}'"
+        [rows]=${args.rows}
+        [disabled]=${args.disabled}
+        (change)="args.change($event)"
         />
     </div>
     `,
@@ -98,11 +163,17 @@ export const ReadOnly: Story = {
         [label]="'${args.label}'"
         [labelId]="'${args.labelId}'"
         [assistiveTextLabel]="'${args.assistiveTextLabel}'"
-        assistiveTextAppearance=${args.assistiveTextAppearance}
+        [assistiveTextLink]="'${args.assistiveTextLink}'"
+        [assistiveTextAppearance]="'${args.assistiveTextAppearance}'"
+        [required]=${args.required}
+        [requiredAppearance]="'${args.requiredAppearance}'"
         [maxLength]=${args.maxLength}
         [required]=${args.required}
         [readOnly]=${args.readOnly}
         [value]="'${args.value}'"
+        [rows]=${args.rows}
+        [disabled]=${args.disabled}
+        (change)="args.change($event)"
         />
     </div>
     `,
@@ -123,11 +194,17 @@ export const Disabled: Story = {
         [label]="'${args.label}'"
         [labelId]="'${args.labelId}'"
         [assistiveTextLabel]="'${args.assistiveTextLabel}'"
-        assistiveTextAppearance=${args.assistiveTextAppearance}
+        [assistiveTextLink]="'${args.assistiveTextLink}'"
+        [assistiveTextAppearance]="'${args.assistiveTextAppearance}'"
+        [required]=${args.required}
+        [requiredAppearance]="'${args.requiredAppearance}'"
         [maxLength]=${args.maxLength}
         [required]=${args.required}
         [readOnly]=${args.readOnly}
+        [value]="'${args.value}'"
+        [rows]=${args.rows}
         [disabled]=${args.disabled}
+        (change)="args.change($event)"
         />
     </div>
     `,

@@ -1,6 +1,6 @@
 <div class="container" [attr.data-label-position]="labelPosition()">
   <div class="header-container" [attr.data-label-position]="labelPosition()">
-    <label *ngIf="label" class="label" [attr.id]="labelId()" [attr.for]="id()">
+    <label *ngIf="label()" [attr.id]="labelId()" [attr.for]="id()">
       {{ label()}}
       <span *ngIf="required()" class="required-indicator {{requiredAppearance()}}" aria-hidden="true">
         {{ requiredIndicator() }}
@@ -22,20 +22,15 @@
       [attr.readonly]="readOnly() ? true : null"
       [value]="value() !== undefined ? value() : null"
       [defaultValue]="defaultValue() !== undefined ? defaultValue() : null"
+      [attr.rows]="rows()"
+      (input)="onInput($event)"
     ></textarea>
-    <ng-container *ngIf="assistiveTextLabel()">
-      <a *ngIf="assistiveTextAppearance() === 'link'" target="_blank" rel="noopener" class="assistive-text-link" [href]="assistiveTextLink()">
-        {{ assistiveTextLabel() }}
-      </a>
-      <div *ngIf="assistiveTextAppearance() !== 'link'" class="assistive-text {{ assistiveTextAppearance() }}">
-        <ng-container *ngIf="assistiveTextAppearance() === 'error'">
-          <rte-icon name="error" [size]="assistiveTextIconSize"></rte-icon>
-        </ng-container>
-        <ng-container *ngIf="showAssistiveTextIcon() && assistiveTextAppearance() === 'success'">
-          <rte-icon name="check-circle" [size]="assistiveTextIconSize"></rte-icon>
-        </ng-container>
-        <span>{{ assistiveTextLabel() }}</span>
-      </div>
-    </ng-container>
+    <rte-link *ngIf="assistiveTextAppearance() === 'link' && assistiveTextLink() !== undefined" class="assistive-text-link" [externalLink]="true" [href]="assistiveTextLink() || ''" [label]="assistiveTextLabel() || ''">
+    </rte-link>
+    <div *ngIf="assistiveTextAppearance() !== 'link'" class="assistive-text {{ assistiveTextAppearance() }}">
+      <rte-icon *ngIf="assistiveTextAppearance() === 'error'" name="error" [size]="assistiveTextIconSize"></rte-icon>
+      <rte-icon *ngIf="assistiveTextAppearance() === 'success'" name="check-circle" [size]="assistiveTextIconSize"></rte-icon>
+      <span>{{ assistiveTextLabel() }}</span>
+    </div>
   </div>
 </div>
