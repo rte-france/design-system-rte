@@ -13,10 +13,7 @@ import style from "./Textarea.module.scss";
 
 interface TextareaProps
   extends CoreTextareaProps,
-    Omit<
-      TextareaHTMLAttributes<HTMLTextAreaElement>,
-      "onChange" | "value" | "defaultValue" | "onChange" | "placeholder"
-    > {
+    Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "onChange" | "value" | "defaultValue" | "placeholder"> {
   onChange?: (event: ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
@@ -39,12 +36,13 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       requiredAppearance = "icon",
       resizeable = "true",
       maxLength,
+      defaultValue,
       value,
       ...props
     },
     ref,
   ) => {
-    const [characterCount, setCharacterCount] = useState(value?.length || 0);
+    const [characterCount, setCharacterCount] = useState(value?.length || defaultValue?.length || 0);
 
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -105,6 +103,8 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
             aria-labelledby={labelId || ariaLabelledby}
             maxLength={maxLength}
             onBlur={handleBlur}
+            defaultValue={defaultValue}
+            value={value}
             {...props}
           />
           {assistiveTextLabel && (
@@ -115,7 +115,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
                   href={assistiveTextLink}
                   externalLink
                   className={style["assistive-text-link"]}
-                ></Link>
+                />
               ) : (
                 <div className={style["assistive-text"]} data-assistive-text-appearance={assistiveTextAppearance}>
                   {assistiveTextAppearance === "error" ? (
