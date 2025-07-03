@@ -1,0 +1,41 @@
+<div class="container" [attr.data-label-position]="labelPosition()">
+  <div class="header-container" [attr.data-label-position]="labelPosition()">
+    <label *ngIf="label" class="label" [attr.id]="labelId()" [attr.for]="id()">
+      {{ label()}}
+      <span *ngIf="required()" class="required-indicator {{requiredAppearance()}}" aria-hidden="true">
+        {{ requiredIndicator() }}
+      </span>
+    </label>
+    <span *ngIf="maxLength()" class="character-counter">{{ characterCount }}/{{ maxLength() }}</span>
+  </div>
+  <div class="textarea-container" [attr.data-label-position]="labelPosition()">
+    <textarea
+      class="textarea {{ resizeable() }} {{ assistiveTextAppearance() }}"
+      [attr.id]="id()"
+      [attr.name]="name()"
+      [attr.aria-labelledby]="labelId() || ariaLabelledby()"
+      [attr.required]="required()"
+      [attr.disabled]="disabled()"
+      [attr.readOnly]="readOnly()"
+      [attr.maxLength]="maxLength() !== undefined ? maxLength() : null"
+      [attr.disabled]="disabled() ? true : null"
+      [attr.readonly]="readOnly() ? true : null"
+      [value]="value() !== undefined ? value() : null"
+      [defaultValue]="defaultValue() !== undefined ? defaultValue() : null"
+    ></textarea>
+    <ng-container *ngIf="assistiveTextLabel()">
+      <a *ngIf="assistiveTextAppearance() === 'link'" target="_blank" rel="noopener" class="assistive-text-link" [href]="assistiveTextLink()">
+        {{ assistiveTextLabel() }}
+      </a>
+      <div *ngIf="assistiveTextAppearance() !== 'link'" class="assistive-text {{ assistiveTextAppearance() }}">
+        <ng-container *ngIf="assistiveTextAppearance() === 'error'">
+          <rte-icon name="error" [size]="assistiveTextIconSize"></rte-icon>
+        </ng-container>
+        <ng-container *ngIf="showAssistiveTextIcon() && assistiveTextAppearance() === 'success'">
+          <rte-icon name="check-circle" [size]="assistiveTextIconSize"></rte-icon>
+        </ng-container>
+        <span>{{ assistiveTextLabel() }}</span>
+      </div>
+    </ng-container>
+  </div>
+</div>
