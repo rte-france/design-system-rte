@@ -169,36 +169,4 @@ jobs:
         working-directory: packages/core
         run: npm run lint
 
-  auto-add-changesets:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          ref: ${{ github.head_ref }}
-
-      - name: Fetch origin/main
-        run: git fetch origin main
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Run auto-add-changesets
-        run: npm run auto-add-changesets
-
-      - name: Amend last commit with auto-generated changesets
-        run: |
-          git add .changeset
-          if git diff --staged --quiet; then
-            echo "✅ No changeset to add"
-          else
-            git config --local user.email "action@github.com"
-            git config --local user.name "GitHub Action"
-            git commit --amend --no-edit
-            git push --force-with-lease
-          fi
-
 

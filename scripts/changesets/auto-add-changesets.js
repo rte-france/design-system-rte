@@ -1,16 +1,54 @@
 import { packages } from "./changeset-config.js";
 import { cleanupExistingAutoChangesets, addChangesetForAffectedPackages } from "./services/changeset.js";
 import { determineBump, getHighestBump } from "./services/commit.js";
-import { getCommits, getChangedFiles, getRelevantCommitsForPackage, stageChangesetFiles, amendLastCommit } from "./services/git.js";
+import {
+  getCommits,
+  getChangedFiles,
+  getRelevantCommitsForPackage,
+  stageChangesetFiles,
+  commitChangesetFiles,
+  amendLastCommit,
+} from "./services/git.js";
 
-const commits = getCommits();
-const changedFiles = getChangedFiles();
+const args = process.argv.slice(2);
+const mode = args[0] || "amend";
 
-assignBumpsPerPackage(commits, changedFiles);
-cleanupExistingAutoChangesets();
-addChangesetForAffectedPackages(packages);
-stageChangesetFiles();
-amendLastCommit();
+if (mode === "commit") {
+  generateAndCommitChangesets();
+} else if (mode === "amend") {
+  generateAndAmendChangesets();
+} else {
+  console.error("Invalid mode. Use 'commit' or 'amend'");
+  process.exit(1);
+}
+
+function generateAndCommitChangesets() {
+  console.log("🚀 Generating and committing changesets...");
+  const commits = getCommits();
+  const changedFiles = getChangedFiles();
+
+  assignBumpsPerPackage(commits, changedFiles);
+  cleanupExistingAutoChangesets();
+  addChangesetForAffectedPackages(packages);
+  stageChangesetFiles();
+  commitChangesetFiles();
+
+  console.log("✅ Changesets generated and committed.");
+}
+
+function generateAndAmendChangesets() {
+  console.log("🔧 Generating and amending changesets to last commit...");
+  const commits = getCommits();
+  const changedFiles = getChangedFiles();
+
+  assignBumpsPerPackage(commits, changedFiles);
+  cleanupExistingAutoChangesets();
+  addChangesetForAffectedPackages(packages);
+  stageChangesetFiles();
+  amendLastCommit();
+
+  console.log("✅ Changesets generated and amended to last commit.");
+}
 
 function assignBumpsPerPackage(commits, changedFiles) {
   resetPackageBumps();
