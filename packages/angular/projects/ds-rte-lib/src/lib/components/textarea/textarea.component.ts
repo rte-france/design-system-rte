@@ -12,10 +12,11 @@ import type {
 } from "@design-system-rte/core/components/textarea/textarea.interface";
 
 import { IconComponent } from "../icon/icon.component";
+import { LinkComponent } from "../link/link.component";
 
 @Component({
   selector: "rte-textarea",
-  imports: [CommonModule, IconComponent],
+  imports: [CommonModule, IconComponent, LinkComponent],
   standalone: true,
   templateUrl: "./textarea.component.html",
   styleUrl: "./textarea.component.scss",
@@ -36,7 +37,6 @@ export class TextareaComponent {
   readonly labelPosition = input<TextareaLabelPosition>("top");
   readonly assistiveTextLabel = input<string | undefined>(undefined);
   readonly assistiveTextAppearance = input<TextareaAssistiveTextAppearance>("description");
-  readonly showAssistiveTextIcon = input<boolean>(false);
   readonly assistiveTextLink = input<string | undefined>(undefined);
   readonly required = input<boolean>(false);
   readonly requiredAppearance = input<TextareaRequiredAppearance>("icon");
@@ -45,6 +45,7 @@ export class TextareaComponent {
   readonly disabled = input<boolean>(false);
   readonly readOnly = input<boolean>(false);
   readonly value = input<string | undefined>(undefined);
+  readonly rows = input<number>(3);
   readonly defaultValue = input<string | undefined>(undefined);
 
   readonly assistiveTextIconSize = TEXTAREA_ICON_SIZE;
