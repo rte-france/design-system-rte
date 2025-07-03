@@ -90,7 +90,7 @@ function updatePackageBumps(affectedPackages, commits, changedFiles) {
   affectedPackages.forEach((pkgKey) => {
     const pkg = packages[pkgKey];
     const relevantCommits = getRelevantCommitsForPackage(pkg.dir, commits, changedFiles);
-    let highestBump = undefined;
+    let highestBump;
     relevantCommits.forEach((commitMessage) => {
       const bump = determineBump(commitMessage);
       if (bump) {
