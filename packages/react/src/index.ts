@@ -9,6 +9,8 @@ import IconButtonToggle from "./components/iconButtonToggle/IconButtonToggle.tsx
 import Link from "./components/link/Link.tsx";
 import RadioButton from "./components/radioButton/RadioButton.tsx";
 import RadioButtonGroup from "./components/radioButtonGroup/RadioButtonGroup.tsx";
+import SplitButton from "./components/splitButton/SplitButton.tsx";
+import Tooltip from "./components/tooltip/Tooltip.tsx";
 
 export {
   Button,
@@ -21,4 +23,6 @@ export {
   Icon,
   IconButton,
   IconButtonToggle,
+  SplitButton,
+  Tooltip,
 };
