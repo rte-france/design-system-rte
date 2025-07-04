@@ -63,7 +63,8 @@
                     margin: 1px;
                     border: $width-xs solid var(--border-secondary);
                     padding: $positive-spacing-050 $positive-spacing-100;
-                    @include elevation-neutral-inner-shadow;
+                    background: linear-gradient(0deg, var(--elevation-surface-inner-shadow) 0%, var(--elevation-surface-inner-shadow) 100%), var(--background-default);
+                    @include neutral-inner-shadow;
 
                     &:hover{
                         cursor: pointer;
@@ -76,8 +77,15 @@
                         border: $width-s solid var(--border-brand-default)
                     }
 
+                    &:disabled, &[data-read-only='true'] {
+                        border : $width-xs solid var(--border-disabled);
+                        cursor: not-allowed;
+                        pointer-events: none;
+                        background: linear-gradient(0deg, var(--elevation-surface-inner-shadow) 0%, var(--elevation-surface-inner-shadow) 100%), var(--background-disabled);
+                    }
+
                     &[data-error='true']{
-                        border: $width-s solid var(border-danger)
+                        border: $width-s solid var(--border-danger)
                     }
 
                 }
