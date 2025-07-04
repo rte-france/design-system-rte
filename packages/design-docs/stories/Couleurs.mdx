@@ -2,6 +2,12 @@ import { Meta } from "@storybook/blocks";
 
 import "../src/styles/Police.css";
 
+import Exemple from "../src/img/Exemple.png";
+import Brands from "../src/img/Brands.png";
+import Modes from "../src/img/Modes.png";
+import ColorChoice from "../src/img/ColorChoice.png";
+import Denomination from "../src/img/Denomination.png";
+
 <Meta title="Design systems/Couleurs" />
 
 <h1 style={{fontFamily:"Nunito"}}> Les couleurs sémantiques </h1>
@@ -12,7 +18,7 @@ Une première valeur HEX est attribuée à ce que l’on appelle une "couleur pr
 
 L'exemple ci-dessous illustre bien ce concept :
 
-<img src="/Exemple.png" width="100%" />
+<img src={Exemple} width="100%" />
 
 <h2 style={{border:"none", fontFamily:"Nunito"}}> Brands et modes </h2>
 
@@ -26,7 +32,7 @@ Le Design RTE propose trois gammes de couleurs, appelées Brands, et permettant 
 - **Violet**
 - **Vert Forêt**
 
-<img src="/Brands.png" width="100%" />
+<img src={Brands} width="100%" />
 
 Certains composants du Design System et leurs éléments sont adaptés aux différentes "brands", tandis que d’autres restent communs à tous.
 
@@ -37,7 +43,7 @@ Chaque "brand" est ensuite disponible en deux modes : **Light** et **Dark**. Ces
 
 Ainsi, la couleur d’un composant, d’un texte ou d’un élément d’interface varie selon le mode (Light ou Dark), afin de garantir une visibilité optimale en fonction du contraste avec les différents fonds.
 
-<img src="/Modes.png" width="100%" />
+<img src={Modes} width="100%" />
 
 <h2 style={{border:"none", fontFamily:"Nunito"}}> Choix des couleurs </h2>
 
@@ -49,13 +55,13 @@ Si l’arrière-plan d’un bouton est "bleu_iceberg/300" en Light Mode, il sera
 
 Ainsi, si une couleur primitive est modifiée, cette modification se répercute dans l'ensemble du Design System et dans tous les produits qui l’utilisent.
 
-<img src="/ColorChoice.png" width="100%" />
+<img src={ColorChoice} width="100%" />
 
 <h2 style={{border:"none"}}> Dénomination </h2>
 
 Les noms des couleurs sémantiques sont construits selon le schéma suivant :
 
-<img src="/Denomination.png" width="100%" />
+<img src={Denomination} width="100%" />
 
 Exemples :
 
