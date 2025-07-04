@@ -21,19 +21,36 @@ const config: StorybookConfig = {
   },
   babel: async (options) => ({
     ...options,
-    presets: [...options.presets, require.resolve("@babel/preset-env"), require.resolve("@babel/preset-react")],
+    presets: [
+      ...options.presets,
+      require.resolve("@babel/preset-env"),
+      require.resolve("@babel/preset-react"),
+      require.resolve("@babel/preset-typescript"),
+    ],
   }),
   webpackFinal: async (config) => {
-    config.module?.rules?.push({
-      test: /\.(js|jsx)$/,
-      exclude: /node_modules/,
-      use: {
-        loader: "babel-loader",
-        options: {
-          presets: ["@babel/preset-env", "@babel/preset-react"],
+    config.module?.rules?.push(
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: ["@babel/preset-env", "@babel/preset-react"],
+          },
         },
       },
-    });
+      {
+        test: /\.(ts|tsx)$/,
+        exclude: [/node_modules/, /src/],
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: ["@babel/preset-env", "@babel/preset-react", "@babel/preset-typescript"],
+          },
+        },
+      },
+    );
     return config;
   },
 };
