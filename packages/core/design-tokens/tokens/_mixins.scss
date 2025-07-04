@@ -240,3 +240,35 @@
   line-height: $button-l-semibold-line-height;
   letter-spacing: $button-l-semibold-letter-spacing;
 }
+
+@mixin typography-text-input {
+  font-feature-settings: "liga" off, "clig" off;
+  font-style: normal;
+}
+
+@mixin typography-text-input-m {
+  @include typography-text-input;
+  font-family: $text-m-regular-font-family;
+  font-weight: $text-m-regular-font-weight;
+  font-size: $text-m-regular-font-size;
+  line-height: $text-m-regular-line-height;
+  letter-spacing: $text-m-regular-letter-spacing;
+}
+
+@mixin typography-text-input-tertiary-regular {
+  @include typography-text-input;
+  font-family: $text-s-regular-font-family;
+  font-weight: $text-s-regular-font-weight;
+  font-size: $text-s-regular-font-size;
+  line-height: $text-s-regular-line-height;
+  letter-spacing: $text-s-regular-letter-spacing;
+}
+
+@mixin typography-text-input-s-bold {
+  @include typography-text-input;
+  font-family: $text-s-bold-font-family;
+  font-weight: $text-s-bold-font-weight;
+  font-size: $text-s-bold-font-size;
+  line-height: $text-s-bold-line-height;
+  letter-spacing: $text-s-bold-letter-spacing;
+}
