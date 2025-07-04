@@ -8,4 +8,5 @@ import { default as IconButtonToggle } from './components/iconButtonToggle/IconB
 import { default as Link } from './components/link/Link.tsx';
 import { default as RadioButton } from './components/radioButton/RadioButton.tsx';
 import { default as RadioButtonGroup } from './components/radioButtonGroup/RadioButtonGroup.tsx';
-export { Button, Grid, Checkbox, CheckboxGroup, Link, RadioButton, RadioButtonGroup, Icon, IconButton, IconButtonToggle, };
+import { default as Textarea } from './components/textarea/Textarea.tsx';
+export { Button, Grid, Checkbox, CheckboxGroup, Link, RadioButton, RadioButtonGroup, Icon, IconButton, IconButtonToggle, Textarea, };
