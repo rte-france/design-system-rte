@@ -6,6 +6,8 @@ import Usage from "../../../../../../.storybook/template/Usage/Usage";
 import UtilisationExemple from "../../../../../../.storybook/template/UtilisationExemple/UtilisationExemple";
 import StorybookTabs from "../../../../../../.storybook/template/StorybookTabs";
 
+import placeholderImg from "./img/placeholder_img.png";
+
 <Meta title="Components/Button" />
 
 <HeaderComponent title="Button" linkFigma="https://www.figma.com/design/Wiy8uWsWjoagf95lOmPXNU/01.0-Design-System-RTE---WEB?node-id=1-150&p=f&m=dev" linkGithub="https://github.com/rte-france/design-system-rte/tree/main/packages/angular/projects/ds-rte-lib/src//lib/components/button">
@@ -40,7 +42,7 @@ import StorybookTabs from "../../../../../../.storybook/template/StorybookTabs";
 
 </Usage>
 
-<IconTitle title="Exemples d'utilisation" icon="heart" />
+<IconTitle title="Exemples d'utilisation" icon="heart_outlined" />
 
 - 1 mot → "Envoyer"
 - 2 mots → "Ajouter au panier"
@@ -51,13 +53,13 @@ import StorybookTabs from "../../../../../../.storybook/template/StorybookTabs";
 
 <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
 
-<UtilisationExemple toDo={true} imgPath="/placeholder_img.png" />
+<UtilisationExemple toDo={true} img={placeholderImg} />
 
-<UtilisationExemple toDo={false} imgPath="/placeholder_img.png" />
+<UtilisationExemple toDo={false} img={placeholderImg} />
 
 </div>
 
-    <img src="/placeholder_img.png" alt="Exemple de bouton" style={{ width: "100%", margin: "2rem auto", display: "block" }} />
+    <img src={placeholderImg} alt="Exemple de bouton" style={{ width: "100%", margin: "2rem auto", display: "block" }} />
 
     </div>
 
