@@ -86,7 +86,8 @@
             "browserTarget": "ds-rte-lib:build",
             "styles": [
               "@design-system-rte/core/design-tokens/main.scss",
-              ".storybook/preview.scss"
+              ".storybook/preview.scss",
+              ".storybook/main.scss"
             ],
             "compodoc": true,
             "compodocArgs": [

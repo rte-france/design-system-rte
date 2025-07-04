@@ -4,10 +4,10 @@ import style from "./UtilisationExemple.module.scss";
 
 interface UtilisationExempleProps {
   toDo: boolean;
-  imgPath: string;
+  img: string;
 }
 
-const UtilisationExemple = ({ toDo, imgPath }: UtilisationExempleProps) => {
+const UtilisationExemple = ({ toDo, img }: UtilisationExempleProps) => {
   return (
     <div>
       <div className={style.storybook_utilisation_exemple}>
@@ -29,7 +29,7 @@ const UtilisationExemple = ({ toDo, imgPath }: UtilisationExempleProps) => {
         )}
         <img
           tabIndex={0}
-          src={imgPath}
+          src={img}
           alt={toDo ? "Exemple d'usage à faire" : "Exemple d'usage à ne pas faire"}
           className={style.storybook_utilisation_exemple_image}
         />

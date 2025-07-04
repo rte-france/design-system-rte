@@ -2,6 +2,8 @@ interface UtilisationExempleProps {
   toDo: boolean;
   img: string;
 }
+import check from "../../../projects/ds-rte-lib/src/lib/assets/icons/check.svg";
+import warningOutlined from "../../../projects/ds-rte-lib/src/lib/assets/icons/warning_outlined.svg";
 
 const UtilisationExemple = ({ toDo, img }: UtilisationExempleProps) => {
   return (
@@ -10,7 +12,7 @@ const UtilisationExemple = ({ toDo, img }: UtilisationExempleProps) => {
         {toDo ? (
           <div className="storybook_utilisation_exemple_content_todo_true">
             <img
-              src="/assets/icons/check.svg"
+              src={check}
               alt="icone_check"
               className="rte-icon"
               style={{
@@ -29,7 +31,7 @@ const UtilisationExemple = ({ toDo, img }: UtilisationExempleProps) => {
         ) : (
           <div className="storybook_utilisation_exemple_content_todo_false">
             <img
-              src="/assets/icons/warning_outlined.svg"
+              src={warningOutlined}
               alt="icone_warning"
               className="rte-icon"
               style={{

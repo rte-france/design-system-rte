@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 
-import figma from "../assets/img/figma.png";
-import github from "../assets/img/github.png";
+import figma from "../img/figma.png";
+import github from "../img/github.png";
 
 interface HeaderComponentProps {
   title: string;

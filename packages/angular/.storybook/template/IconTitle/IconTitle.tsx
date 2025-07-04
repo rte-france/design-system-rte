@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import {
   RegularIconIdKey,
@@ -10,9 +10,21 @@ interface IconTitleProps {
   icon: RegularIconIdKey | TogglableIconIdKey;
 }
 
-const IconTitle: React.FC<IconTitleProps> = ({ title, icon }) => {
-  // Create the icon using the same approach as the Angular component
-  const iconSrc = `/assets/icons/${icon}.svg`;
+const IconTitle = ({ title, icon }: IconTitleProps) => {
+  const [iconSrc, setIconSrc] = useState<string>("");
+
+  useEffect(() => {
+    const loadIcon = async () => {
+      try {
+        const module = await import(`../../../projects/ds-rte-lib/src/lib/assets/icons/${icon}.svg`);
+        setIconSrc(module.default);
+      } catch (error) {
+        console.error(`Failed to load icon: ${icon}`, error);
+      }
+    };
+
+    loadIcon();
+  }, [icon]);
 
   return (
     <div className="storybook_icon">
