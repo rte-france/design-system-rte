@@ -1,4 +1,4 @@
-import { Button, Icon, IconButtonToggle, SplitButton, Tooltip, TextInput, Chip, Badge } from "@design-system-rte/react";
+import { Button, Icon, IconButtonToggle, SplitButton, Tooltip, TextInput, Chip, Badge, Textarea } from "@design-system-rte/react";
 import "./App.css";
 import { useState } from "react";
 
@@ -61,6 +61,17 @@ function App() {
         <div style={{ display: "inline-block", backgroundColor: "bisque" }}>
           <Badge count={1}>A badge host</Badge>
         </div>
+      </div>
+      <hr />
+      <div>
+        <h3>Textarea</h3>
+          <Textarea
+            label="This is a textarea"
+            labelPosition="top"
+            assistiveTextLabel="This is a label"
+            assistiveTextAppearance="description"
+            required
+          />
       </div>
     </div>
   );

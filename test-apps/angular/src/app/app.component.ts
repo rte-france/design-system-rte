@@ -9,6 +9,7 @@ import {
   TextInputComponent,
   ChipComponent,
   BadgeDirective,
+  TextareaComponent,
 } from "@design-system-rte/angular";
 
 @Component({
@@ -24,6 +25,7 @@ import {
     TextInputComponent,
     ChipComponent,
     BadgeDirective,
+    TextareaComponent,
   ],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",
