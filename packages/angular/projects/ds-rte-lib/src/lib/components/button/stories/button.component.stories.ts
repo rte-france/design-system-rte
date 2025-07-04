@@ -1,12 +1,12 @@
-import { ENTER_KEY, SPACE_KEY, TAB_KEY } from "@design-system-rte/core/constants/keyboard.constants";
-import type { Meta, StoryObj } from "@storybook/react";
+import { ENTER_KEY, TAB_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard.constants";
+import type { Meta, StoryObj } from "@storybook/angular";
 import { fn, userEvent, within, expect } from "@storybook/test";
 
-import Button from "./Button";
+import { ButtonComponent } from "../button.component";
 
-const meta = {
+const meta: Meta<ButtonComponent> = {
   title: "Button",
-  component: Button,
+  component: ButtonComponent,
   tags: ["autodocs"],
   argTypes: {
     variant: {
@@ -17,19 +17,15 @@ const meta = {
       control: "select",
       options: ["s", "m", "l"],
     },
-    iconPosition: {
-      control: "select",
-      options: ["left", "right"],
-    },
     disabled: {
       control: "boolean",
     },
   },
-  args: { onClick: fn() },
-} satisfies Meta<typeof Button>;
+  args: { click: fn() },
+};
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<ButtonComponent>;
 
 const mockFn = fn();
 
@@ -37,7 +33,7 @@ export const Default: Story = {
   args: {
     variant: "primary",
     label: "Button",
-    onClick: mockFn,
+    click: mockFn,
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -49,23 +45,36 @@ export const Default: Story = {
 };
 
 export const Sizing: Story = {
-  args: {
-    ...Default.args,
-  },
-  render: (args) => {
-    return (
-      <div style={{ display: "flex", gap: 8 }}>
-        <Button {...args} size="s" label="Small" data-testId="small-button" />
-        <Button {...args} label="Medium" data-testId="medium-button" />
-        <Button {...args} size="l" label="Large" data-testId="large-button" />
-      </div>
-    );
-  },
+  render: (args) => ({
+    props: args,
+    template: `
+    <div style="display: flex; gap: 8px;">
+        <rte-button
+          size="s"
+          label="Small"
+          variant="primary"
+          data-testid="small-button"
+          />
+        <rte-button
+          size="m"
+          label="Medium"
+          variant="primary"
+          data-testid="medium-button"
+          />
+          <rte-button
+          size="l"
+          label="Large"
+          variant="primary"
+          data-testid="large-button"
+          />
+    </div>
+    `,
+  }),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const smallButton = canvas.getByTestId("small-button");
-    const mediumButton = canvas.getByTestId("medium-button");
-    const largeButton = canvas.getByTestId("large-button");
+    const smallButton = canvas.getByTestId("small-button").getElementsByTagName("button")[0];
+    const mediumButton = canvas.getByTestId("medium-button").getElementsByTagName("button")[0];
+    const largeButton = canvas.getByTestId("large-button").getElementsByTagName("button")[0];
 
     expect(smallButton.clientHeight).toBe(24);
     expect(mediumButton.clientHeight).toBe(32);
