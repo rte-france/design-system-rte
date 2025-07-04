@@ -1,5 +1,5 @@
 import "./App.css";
-import { Button, Icon, SplitButton, Tooltip } from "@design-system-rte/react";
+import { Button, Icon, SplitButton, Tooltip, Textarea } from "@design-system-rte/react";
 
 function App() {
   return (
@@ -26,6 +26,17 @@ function App() {
         <Tooltip label="Tooltip">
           <Button label="Click me" />
         </Tooltip>
+      </div>
+      <hr />
+      <div>
+        <h3>Textarea</h3>
+        <Textarea
+          label="This is a textarea"
+          labelPosition="top"
+          assistiveTextLabel="This is a label"
+          assistiveTextAppearance="description"
+          required
+        />
       </div>
     </div>
   );
