@@ -17,14 +17,19 @@ type InfoCardProps = {
 const InfoCard = ({ img, title }: InfoCardProps) => (
   <div className="info_card_container">
     <img className="card_img" src={img} alt={`${title} icon`} aria-hidden="true" />
-    <p className="card_title">{title}</p>
+    <p tabIndex={0} className="card_title">
+      {title}
+    </p>
   </div>
 );
 
 const Footer = () => (
   <footer className="footer">
-    <h2 className="title"> Tokens </h2>
-    <p className="content">
+    <h2 tabIndex={0} className="title">
+      {" "}
+      Tokens{" "}
+    </h2>
+    <p tabIndex={0} className="content">
       Les design tokens traduisent les décisions de design (couleurs, typographies, espacements…) en variables
       structurées, partagées entre designers et développeurs. Ils garantissent une cohérence visuelle à grande échelle,
       facilitent les déclinaisons (dark mode, branding, accessibilité) et accélèrent la mise en œuvre sur tous les
