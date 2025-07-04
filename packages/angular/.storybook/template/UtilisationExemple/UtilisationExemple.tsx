@@ -7,9 +7,10 @@ interface UtilisationExempleProps {
 }
 
 const UtilisationExemple = ({ toDo, img }: UtilisationExempleProps) => {
-
-  const designSystemGreenColorFIlter = "invert(47%) sepia(73%) saturate(513%) hue-rotate(85deg) brightness(93%) contrast(82%)";
-  const designSystemRedColorFilter = "invert(17%) sepia(87%) saturate(3767%) hue-rotate(347deg) brightness(88%) contrast(94%)";
+  const designSystemGreenColorFIlter =
+    "invert(47%) sepia(73%) saturate(513%) hue-rotate(85deg) brightness(93%) contrast(82%)";
+  const designSystemRedColorFilter =
+    "invert(17%) sepia(87%) saturate(3767%) hue-rotate(347deg) brightness(88%) contrast(94%)";
 
   return (
     <div>
@@ -26,7 +27,6 @@ const UtilisationExemple = ({ toDo, img }: UtilisationExempleProps) => {
                 marginLeft: "1rem",
                 filter: designSystemGreenColorFIlter,
               }}
-
             />
             <p className="storybook_utilisation_exemple"> À faire</p>
           </div>
