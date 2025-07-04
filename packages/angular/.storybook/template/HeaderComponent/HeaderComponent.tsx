@@ -14,14 +14,14 @@ const HeaderComponent = ({ title, linkFigma, linkGithub, children }: HeaderCompo
   return (
     <header className="storybook_header">
       <div className="storybook_header_content">
-        <h1 tabIndex={0} className="storybook_title">
+        <h1  className="storybook_title">
           {title}
         </h1>
         <div className="storybook_links">
           {linkFigma && (
             <div className="storybook_link_container">
               <img src={figma} alt="Lien du Figma" className="storybook_logo" />
-              <a tabIndex={0} href={linkFigma}>
+              <a  href={linkFigma}>
                 {" "}
                 Figma{" "}
               </a>
@@ -30,7 +30,7 @@ const HeaderComponent = ({ title, linkFigma, linkGithub, children }: HeaderCompo
           {linkGithub && (
             <div className="storybook_link_container">
               <img src={github} alt="Lien du GitHub" className="storybook_logo" />
-              <a tabIndex={0} href={linkGithub}>
+              <a  href={linkGithub}>
                 {" "}
                 GitHub{" "}
               </a>

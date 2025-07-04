@@ -15,7 +15,7 @@ const HeaderComponent = ({ title, linkFigma, linkGithub, children }: HeaderCompo
   return (
     <header className={style.storybook_header}>
       <div className={style.storybook_header_content}>
-        <h1 tabIndex={0} className={style.storybook_title}>
+        <h1  className={style.storybook_title}>
           {title}
         </h1>
         <div className={style.storybook_links}>
@@ -33,7 +33,7 @@ const HeaderComponent = ({ title, linkFigma, linkGithub, children }: HeaderCompo
           )}
         </div>
       </div>
-      <div tabIndex={0} className={style.storybook_header_content}>
+      <div  className={style.storybook_header_content}>
         {children}
       </div>
     </header>

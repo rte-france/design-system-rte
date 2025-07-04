@@ -31,7 +31,7 @@ const IconTitle = ({ title, icon }: IconTitleProps) => {
       <div className="storybook_icon_icon">
         <img src={iconSrc} alt={icon} className="rte-icon" style={{ width: "20px", height: "20px" }} />
       </div>
-      <p tabIndex={0} className="storybook_icon_title">
+      <p  className="storybook_icon_title">
         {title}
       </p>
     </div>

@@ -14,7 +14,7 @@ const StorybookTabs = ({ children }: StorybookTabsProps) => {
       <div className="storybook_tabs_header" style={{ display: "flex", alignItems: "center", gap: "1.5rem" }}>
         {TabsTitle.map((title, index) => (
           <h3
-            tabIndex={0}
+            
             key={index}
             className={`storybook_tab_title${activeTab === index ? " active" : ""}`}
             style={{

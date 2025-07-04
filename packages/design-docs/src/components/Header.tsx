@@ -6,11 +6,11 @@ import "../styles/Header.css";
 const Header = () => (
   <header className="header">
     <div className="header_left_container">
-      <h1 tabIndex={0} className="title">
+      <h1  className="title">
         {" "}
         Design System RTE{" "}
       </h1>
-      <p tabIndex={0} className="text">
+      <p  className="text">
         Un socle solide pour concevoir des expériences cohérentes, accessibles et durables.
         <br />
         Ce design system rassemble tous les fondements visuels, techniques et éditoriaux pour concevoir plus vite,

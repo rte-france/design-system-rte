@@ -10,61 +10,61 @@ import Denomination from "../src/img/Denomination.png";
 
 <Meta title="Design systems/Couleurs" />
 
-<h1 tabIndex={0} style={{fontFamily:"Nunito"}}> Les couleurs sémantiques </h1>
+<h1  style={{fontFamily:"Nunito"}}> Les couleurs sémantiques </h1>
 
-<h2 tabIndex={0} style={{border:"none", fontFamily:"Nunito"}}> Définition </h2>
+<h2  style={{border:"none", fontFamily:"Nunito"}}> Définition </h2>
 
-<p tabIndex={0}> Une première valeur HEX est attribuée à ce que l’on appelle une "couleur primitive". Ensuite, une signification est associée à cette couleur, ce qui en fait une "couleur sémantique". Par exemple, cela peut être la couleur par défaut d'un arrière-plan. C'est cette couleur sémantique qui peut être utilisée pour des éléments comme l’arrière-plan d’un bouton. </p>
+<p > Une première valeur HEX est attribuée à ce que l’on appelle une "couleur primitive". Ensuite, une signification est associée à cette couleur, ce qui en fait une "couleur sémantique". Par exemple, cela peut être la couleur par défaut d'un arrière-plan. C'est cette couleur sémantique qui peut être utilisée pour des éléments comme l’arrière-plan d’un bouton. </p>
 
 L'exemple ci-dessous illustre bien ce concept :
 
 <img src={Exemple} width="100%" alt="Schema du fonctionnement d'un design token" />
 
-<h2 tabIndex={0} style={{border:"none", fontFamily:"Nunito"}}> Brands et modes </h2>
+<h2  style={{border:"none", fontFamily:"Nunito"}}> Brands et modes </h2>
 
-<p tabIndex={0}> Une première valeur HEX est attribuée à ce que l’on appelle une "couleur primitive". Ensuite, une signification est associée à cette couleur, ce qui en fait une "couleur sémantique". Par exemple, cela peut être la couleur par défaut d'un arrière-plan. C'est cette couleur sémantique qui peut être utilisée pour des éléments comme l’arrière-plan d’un bouton.</p>
+<p > Une première valeur HEX est attribuée à ce que l’on appelle une "couleur primitive". Ensuite, une signification est associée à cette couleur, ce qui en fait une "couleur sémantique". Par exemple, cela peut être la couleur par défaut d'un arrière-plan. C'est cette couleur sémantique qui peut être utilisée pour des éléments comme l’arrière-plan d’un bouton.</p>
 
 L'exemple ci-dessous illustre bien ce concept :
 
-<p tabIndex={0}>Le Design RTE propose trois gammes de couleurs, appelées Brands, et permettant aux designers d'adapter le thème du design system en fonction du produit :</p>
+<p >Le Design RTE propose trois gammes de couleurs, appelées Brands, et permettant aux designers d'adapter le thème du design system en fonction du produit :</p>
 
-- <b tabIndex={0}>Blue Iceberg</b>
-- <b tabIndex={0}>Violet</b>
-- <b tabIndex={0}>Vert Forêt</b>
+- <b >Blue Iceberg</b>
+- <b >Violet</b>
+- <b >Vert Forêt</b>
 
 <img src={Brands} width="100%" alt="Exemple visuel des themes disponible"/>
 
-<p tabIndex={0}> Certains composants du Design System et leurs éléments sont adaptés aux différentes "brands", tandis que d’autres restent communs à tous.</p>
+<p > Certains composants du Design System et leurs éléments sont adaptés aux différentes "brands", tandis que d’autres restent communs à tous.</p>
 
-<p tabIndex={0}WChaq>e "brand" est ensuite disponible en deux modes : **Light** et **Dark**. Ces termes font référence à la polarité du contraste entre un objet et le fond sur lequel il repose.</p>
+<p WChaq>e "brand" est ensuite disponible en deux modes : **Light** et **Dark**. Ces termes font référence à la polarité du contraste entre un objet et le fond sur lequel il repose.</p>
 
-- <p tabIndex={0}>Le “**Light Mode**”, souvent le mode par défaut, utilise des fonds clairs sur les interfaces utilisateur.</p>
-- <p tabIndex={0}>Le ”**Dark Mode**” utilise des fonds sombres.</p>
+- <p >Le “**Light Mode**”, souvent le mode par défaut, utilise des fonds clairs sur les interfaces utilisateur.</p>
+- <p >Le ”**Dark Mode**” utilise des fonds sombres.</p>
 
-<p tabIndex={0}>Ainsi, la couleur d’un composant, d’un texte ou d’un élément d’interface varie selon le mode (Light ou Dark), afin de garantir une visibilité optimale en fonction du contraste avec les différents fonds.</p>
+<p >Ainsi, la couleur d’un composant, d’un texte ou d’un élément d’interface varie selon le mode (Light ou Dark), afin de garantir une visibilité optimale en fonction du contraste avec les différents fonds.</p>
 
 <img src={Modes} width="100%" alt="Image montrant la differenc entre light et dark theme"/>
 
-<h2 tabIndex={0} style={{border:"none", fontFamily:"Nunito"}}> Choix des couleurs </h2>
+<h2  style={{border:"none", fontFamily:"Nunito"}}> Choix des couleurs </h2>
 
-<p tabIndex={0}> Les conversions de couleurs entre les "brands" et les thèmes sont gérées à l’aide des Design Tokens.</p>
+<p > Les conversions de couleurs entre les "brands" et les thèmes sont gérées à l’aide des Design Tokens.</p>
 
-<p tabIndex={0}>Par exemple, tous les arrière-plans de boutons par défaut sont définis par la couleur sémantique "background/brand_default". Cependant, les couleurs primitives associées à ce token varient en fonction des "brands" et des modes.</p>
+<p >Par exemple, tous les arrière-plans de boutons par défaut sont définis par la couleur sémantique "background/brand_default". Cependant, les couleurs primitives associées à ce token varient en fonction des "brands" et des modes.</p>
 
-<p tabIndex={0}>Si l’arrière-plan d’un bouton est "bleu_iceberg/300" en Light Mode, il sera également "bleu_iceberg/300" en Dark Mode.</p>
+<p >Si l’arrière-plan d’un bouton est "bleu_iceberg/300" en Light Mode, il sera également "bleu_iceberg/300" en Dark Mode.</p>
 
-<p tabIndex={0}>Ainsi, si une couleur primitive est modifiée, cette modification se répercute dans l'ensemble du Design System et dans tous les produits qui l’utilisent.</p>
+<p >Ainsi, si une couleur primitive est modifiée, cette modification se répercute dans l'ensemble du Design System et dans tous les produits qui l’utilisent.</p>
 
 <img src={ColorChoice} width="100%" alt="Exemple de fonctionnement des designs tokens entre light et dark theme" />
 
-<h2 tabIndex={0} style={{border:"none"}}> Dénomination </h2>
+<h2  style={{border:"none"}}> Dénomination </h2>
 
-<p tabIndex={0}>Les noms des couleurs sémantiques sont construits selon le schéma suivant :</p>
+<p >Les noms des couleurs sémantiques sont construits selon le schéma suivant :</p>
 
 <img src={Denomination} width="100%" alt="Schema de nomination par Groupe, Role, Apparence et Etat" />
 
-<p tabIndex={0}>Exemples :</p>
+<p >Exemples :</p>
 
-- <p tabIndex={0}>content/primary_inverse</p>
-- <p tabIndex={0}>background/brand_danger_pressed</p>
-- <p tabIndex={0}>border_disabled</p>
+- <p >content/primary_inverse</p>
+- <p >background/brand_danger_pressed</p>
+- <p >border_disabled</p>

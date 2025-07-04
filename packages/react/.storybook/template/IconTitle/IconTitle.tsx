@@ -14,7 +14,7 @@ const IconTitle = ({ title, icon }: IconTitleProps) => {
       <div className={style.storybook_icon_icon}>
         <Icon name={icon} accentHeight={24} />
       </div>
-      <p tabIndex={0} className={style.storybook_icon_title}>
+      <p  className={style.storybook_icon_title}>
         {title}
       </p>
     </div>
