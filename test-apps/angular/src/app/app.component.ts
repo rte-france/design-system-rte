@@ -6,6 +6,7 @@ import {
   SplitButtonComponent,
   IconButtonToggleComponent,
   TooltipDirective,
+  TextareaComponent,
 } from "@design-system-rte/angular";
 
 @Component({
@@ -18,6 +19,7 @@ import {
     SplitButtonComponent,
     IconButtonToggleComponent,
     TooltipDirective,
+    TextareaComponent,
   ],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",

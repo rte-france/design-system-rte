@@ -27,7 +27,7 @@
     padding: $positive-spacing_025 $positive-spacing_100;
     box-sizing: border-box;
 
-    .label {
+    label {
       @include typography-text-m;
       color: var(--content-secondary);
 
