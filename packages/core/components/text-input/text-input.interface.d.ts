@@ -20,7 +20,7 @@ export interface TextInputProps {
   showAssistiveIcon?: boolean;
   assistiveLabel?: string;
   disabled?: boolean;
-  error?:boolean;
+  error?: boolean;
   readOnly?: boolean;
   onChange?: (value: string) => void;
   onRightIconClick?: () => void;
