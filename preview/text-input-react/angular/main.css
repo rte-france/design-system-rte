@@ -2,6 +2,8 @@
 @import url(https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap);
 @import url(https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:wght,FILL,GRAD@400,0,0&display=swap);
 @import url(https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap);
+@import url(https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:wght,FILL,GRAD@400,0,0&display=swap);
+@import url(https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap);
 
 .sb-css-grid-container {
   background-color: #f9ce8e;
@@ -1239,4 +1241,177 @@
   --background-brand-hover-opacity-20: rgba(179, 231, 209, 0.2);
   --background-danger-hover-opacity-20: rgba(241, 70, 98, 0.2);
   --background-hover-opacity-50: rgba(62, 62, 61, 0.5);
+}
+.storybook_header .storybook_header_content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  gap: 2rem;
+}
+.storybook_header .storybook_header_content .storybook_title {
+  font-feature-settings: "liga" off, "clig" off;
+  font-style: normal;
+  font-family: "Nunito";
+  font-weight: 600;
+  font-size: 48px;
+  line-height: 48px;
+}
+.storybook_header .storybook_header_content .storybook_links {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.storybook_header .storybook_header_content .storybook_links .storybook_link_container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+}
+.storybook_header .storybook_header_content .storybook_links .storybook_link_container .storybook_logo {
+  width: 24px;
+  height: 24px;
+  aspect-ratio: 1;
+  border-radius: 999px;
+}
+.storybook_header .storybook_header_content {
+  font-feature-settings: "liga" off, "clig" off;
+  font-style: normal;
+  font-family: "Arial";
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 28px;
+  color: #21272A;
+}
+
+.storybook_icon {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  padding-block: 1rem;
+}
+.storybook_icon .storybook_icon_icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  background-color: #FFE1E9;
+}
+.storybook_icon .storybook_icon_title {
+  text-align: center;
+  margin: 0;
+  font-feature-settings: "liga" off, "clig" off;
+  font-style: normal;
+  font-family: "Nunito";
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 32px;
+}
+
+.storybook_usage {
+  padding-block: 1rem;
+}
+.storybook_usage .storybook_usage_title {
+  font-feature-settings: "liga" off, "clig" off;
+  font-style: normal;
+  font-family: "Nunito";
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 32px;
+  border: none;
+  padding-bottom: 1rem;
+}
+.storybook_usage .storybook_usage_content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+.storybook_usage .storybook_usage_content .storybook_usage_item h4 {
+  margin: 0;
+  font-feature-settings: "liga" off, "clig" off;
+  font-style: normal;
+  font-family: "Nunito";
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -0.5px;
+  color: #21272A;
+}
+.storybook_usage .storybook_usage_content .storybook_usage_item p {
+  margin: 0;
+  font-feature-settings: "liga" off, "clig" off;
+  font-style: normal;
+  font-family: "Nunito";
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -0.5px;
+  color: #697077;
+}
+
+.storybook_utilisation_exemple {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 25rem;
+  padding-block: 2rem;
+}
+.storybook_utilisation_exemple .storybook_utilisation_exemple_content_todo_true {
+  width: calc(100% - 3px);
+  height: 48px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: rgba(37, 162, 73, 0.1);
+  border-left: 3px solid #25A249;
+}
+.storybook_utilisation_exemple .storybook_utilisation_exemple_content_todo_true .storybook_utilisation_exemple_icon {
+  color: #25A249;
+  margin-left: 1rem;
+}
+.storybook_utilisation_exemple .storybook_utilisation_exemple_content_todo_true p {
+  font-feature-settings: "liga" off, "clig" off;
+  font-style: normal;
+  font-family: "Nunito";
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 28px;
+  letter-spacing: -0.5px;
+  color: #21272A;
+}
+.storybook_utilisation_exemple .storybook_utilisation_exemple_content_todo_false {
+  width: calc(100% - 3px);
+  height: 48px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: rgba(218, 30, 40, 0.1);
+  border-left: 3px solid #DA1E28;
+}
+.storybook_utilisation_exemple .storybook_utilisation_exemple_content_todo_false .storybook_utilisation_exemple_icon {
+  color: #DA1E28;
+  margin-left: 1rem;
+}
+.storybook_utilisation_exemple .storybook_utilisation_exemple_content_todo_false p {
+  font-feature-settings: "liga" off, "clig" off;
+  font-style: normal;
+  font-family: "Nunito";
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 28px;
+  letter-spacing: -0.5px;
+  color: #21272A;
+}
+.storybook_utilisation_exemple .storybook_utilisation_exemple_image {
+  width: 100%;
+  height: 250px;
 }

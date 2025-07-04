@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, computed, input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, computed, input } from "@angular/core";
 
 import { RadioButtonComponent } from "../radio-button/radio-button.component";
 
@@ -9,6 +9,7 @@ import { RadioButtonComponent } from "../radio-button/radio-button.component";
   standalone: true,
   templateUrl: "./radio-button-group.component.html",
   styleUrl: "./radio-button-group.component.scss",
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RadioButtonGroupComponent {
   readonly groupName = input("");
