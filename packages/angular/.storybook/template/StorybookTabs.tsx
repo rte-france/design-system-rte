@@ -1,11 +1,11 @@
-import React from "react";
+import { ReactNode, useState, Children } from "react";
 
 interface StorybookTabsProps {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 const StorybookTabs = ({ children }: StorybookTabsProps) => {
-  const [activeTab, setActiveTab] = React.useState(0);
+  const [activeTab, setActiveTab] = useState(0);
 
   const TabsTitle = ["Overview", "Guideline", "Code", "Accessibilité"];
 
@@ -35,7 +35,7 @@ const StorybookTabs = ({ children }: StorybookTabsProps) => {
           </h3>
         ))}
       </div>
-      <div className="storybook_tab_content">{React.Children.toArray(children)[activeTab]}</div>
+      <div className="storybook_tab_content">{Children.toArray(children)[activeTab]}</div>
     </div>
   );
 };
