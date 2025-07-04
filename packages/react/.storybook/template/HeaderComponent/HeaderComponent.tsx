@@ -1,6 +1,4 @@
 import Link from "../../../src/components/link/Link";
-import logoFigmaImg from "../img/figma.png";
-import logoGithubImg from "../img/github.png";
 
 import style from "./HeaderComponent.module.scss";
 
@@ -19,14 +17,14 @@ const HeaderComponent = ({ title, linkFigma, linkGithub, children }: HeaderCompo
         <div className={style.storybook_links}>
           {linkFigma && (
             <div className={style.storybook_link_container}>
-              <img src={logoFigmaImg} alt="Figma" className={style.storybook_logo} />
-              <Link label="Lien du Figma" href={linkFigma} />
+              <img src="/figma.png" alt="Figma" className={style.storybook_logo} />
+              <Link label="Figma" href={linkFigma} />
             </div>
           )}
           {linkGithub && (
             <div className={style.storybook_link_container}>
-              <img src={logoGithubImg} alt="GitHub" className={style.storybook_logo} />
-              <Link label="Lien du GitHub" href={linkGithub} />
+              <img src="/github.png" alt="GitHub" className={style.storybook_logo} />
+              <Link label="GitHub" href={linkGithub} />
             </div>
           )}
         </div>
