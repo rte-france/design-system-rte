@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, computed, input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, computed, input } from "@angular/core";
 import { labelSize } from "@design-system-rte/core/components/radio-button/radio-button.constants";
 
 @Component({
@@ -8,6 +8,7 @@ import { labelSize } from "@design-system-rte/core/components/radio-button/radio
   standalone: true,
   templateUrl: "./radio-button.component.html",
   styleUrl: "./radio-button.component.scss",
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RadioButtonComponent {
   readonly label = input("");

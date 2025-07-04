@@ -1,4 +1,4 @@
-import { Component, input, output } from "@angular/core";
+import { ChangeDetectionStrategy, Component, input, output } from "@angular/core";
 import { ButtonType } from "@design-system-rte/core/components/button/button.interface";
 import { ButtonSize, ButtonVariant } from "@design-system-rte/core/components/button/common/common-button";
 
@@ -8,6 +8,7 @@ import { ButtonSize, ButtonVariant } from "@design-system-rte/core/components/bu
   standalone: true,
   templateUrl: "./button.component.html",
   styleUrl: "./button.component.scss",
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ButtonComponent {
   readonly label = input("");

@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 
 import { IconComponent } from "../icon/icon.component";
 
@@ -9,6 +9,7 @@ import { IconComponent } from "../icon/icon.component";
   standalone: true,
   templateUrl: "./checkbox.component.html",
   styleUrl: "./checkbox.component.scss",
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CheckboxComponent {
   readonly id = input.required<string>();
