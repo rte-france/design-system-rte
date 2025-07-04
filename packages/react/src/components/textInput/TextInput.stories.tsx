@@ -1,6 +1,7 @@
-import { Meta, StoryObj } from "@storybook/react";
-import TextInput from "./TextInput";
 import { TextInputProps } from "@design-system-rte/core/components/text-input/text-input.interface";
+import { Meta, StoryObj } from "@storybook/react";
+
+import TextInput from "./TextInput";
 
 const meta: Meta<typeof TextInput> = {
   title: "TextInput",
@@ -15,26 +16,26 @@ const meta: Meta<typeof TextInput> = {
     value: { control: "text", defaultValue: "" },
     showLeftIcon: { control: "boolean", defaultValue: false },
     showRightIcon: { control: "boolean", defaultValue: false },
-    rightIconAppearance: { 
-      control: { type: "select" }, 
-      options: ["clean", "visibilityOn", "visibilityOff"], 
-      defaultValue: "clean" 
+    rightIconAppearance: {
+      control: { type: "select" },
+      options: ["clean", "visibilityOn", "visibilityOff"],
+      defaultValue: "clean",
     },
-    requiredAppearance: { 
-      control: { type: "select" }, 
-      options: ["required", "requiredIconOnly", "optional"], 
-      defaultValue: "requiredIconOnly" 
+    requiredAppearance: {
+      control: { type: "select" },
+      options: ["required", "requiredIconOnly", "optional"],
+      defaultValue: "requiredIconOnly",
     },
     showAssistiveText: { control: "boolean", defaultValue: false },
-    assistiveAppearance: { 
-      control: { type: "select" }, 
-      options: ["description", "error", "success", "link"], 
-      defaultValue: "description" 
+    assistiveAppearance: {
+      control: { type: "select" },
+      options: ["description", "error", "success", "link"],
+      defaultValue: "description",
     },
     showAssistiveIcon: { control: "boolean", defaultValue: false },
     assistiveLabel: { control: "text", defaultValue: "" },
     disabled: { control: "boolean", defaultValue: false },
-    error: { control: "boolean", defaultValue: false},
+    error: { control: "boolean", defaultValue: false },
     readOnly: { control: "boolean", defaultValue: false },
     onChange: { action: "changed" },
     onRightIconClick: { action: "right icon clicked" },
@@ -61,7 +62,7 @@ export const Default: Story = {
     showAssistiveIcon: false,
     assistiveLabel: "Assistive Text",
     disabled: false,
-    error:false,
+    error: false,
     readOnly: false,
   } as TextInputProps,
 };
