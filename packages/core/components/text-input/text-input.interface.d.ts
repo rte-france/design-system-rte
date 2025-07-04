@@ -1,25 +1,26 @@
 export type LabelPosition = "top" | "side";
-export type RightIconAppearance = "clear" | "visibilityOn" | "visibilityOff";
-export type RequiredAppearance = "required" | "requiredIconOnly";
-export type AssistiveAppearance = "description" | "error" | "succes" | "link";
+export type RightIconAppearance = "clean" | "visibilityOn" | "visibilityOff";
+// export type RightIconAppearance = "close" | "visibility-show" | "visibility-hide";
+export type RequiredAppearance = "required" | "requiredIconOnly" | "optional";
+export type AssistiveAppearance = "description" | "error" | "success" | "link";
 
 export interface TextInputProps {
   showLabel?: boolean;
   label?: string;
   labelPosition?: LabelPosition;
-  required?: boolean;
-  optional?: boolean;
+  required_optional?: boolean;
   showCounter?: boolean;
   value?: string;
   showLeftIcon?: boolean;
   showRightIcon?: boolean;
-  RightIconAppearance?: RightIconAppearance;
-  RequiredAppearance?: RequiredAppearance;
+  rightIconAppearance?: RightIconAppearance;
+  requiredAppearance?: RequiredAppearance;
   showAssistiveText?: boolean;
-  assistiveText?: string;
+  assistiveAppearance?: AssistiveAppearance;
   showAssistiveIcon?: boolean;
   assistiveLabel?: string;
   disabled?: boolean;
+  error?:boolean;
   readOnly?: boolean;
   onChange?: (value: string) => void;
   onRightIconClick?: () => void;
