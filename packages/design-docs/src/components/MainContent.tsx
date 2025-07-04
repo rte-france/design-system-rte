@@ -29,12 +29,8 @@ const UserCard = ({ icon, title, content, img_background }: UserCardProps) => (
       alt={`${title} avatar icon`}
       aria-hidden="true"
     />
-    <p  className="title">
-      {title}
-    </p>
-    <p  className="content">
-      {content}
-    </p>
+    <p className="title">{title}</p>
+    <p className="content">{content}</p>
   </div>
 );
 
@@ -42,12 +38,8 @@ const ExplanationCard = ({ img, title, content, link }: ExplanationCardProps) =>
   <div className="explanation_card_container">
     <img className="img" src={img} alt={`Image pour ${title}`} aria-hidden="true" />
     <div className="card_content">
-      <p  className="title">
-        {title}
-      </p>
-      <p  className="content">
-        {content}
-      </p>
+      <p className="title">{title}</p>
+      <p className="content">{content}</p>
       <a className="link" href={link}>
         Plus d'information ➔
       </a>
@@ -57,9 +49,7 @@ const ExplanationCard = ({ img, title, content, link }: ExplanationCardProps) =>
 
 const MainContent = () => (
   <main className="main-content">
-    <h2  className="main_title">
-      Concevoir et construire ensemble
-    </h2>
+    <h2 className="main_title">Concevoir et construire ensemble</h2>
     <div className="main_user_card_container">
       <UserCard
         icon={designFace}
