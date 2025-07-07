@@ -1,5 +1,13 @@
 # @design-system-rte/react
 
+## 0.4.1
+
+### Patch Changes
+
+- e07ebe6: ## Changes
+
+  - repair react public API to include SplitButton & Tooltip
+
 ## 0.4.0
 
 ### Minor Changes

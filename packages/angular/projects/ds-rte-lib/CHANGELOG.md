@@ -1,5 +1,13 @@
 # @design-system-rte/angular
 
+## 0.5.2
+
+### Patch Changes
+
+- e07ebe6: ## Changes
+
+  - repair angular public api & angular test app
+
 ## 0.5.1
 
 ### Patch Changes
