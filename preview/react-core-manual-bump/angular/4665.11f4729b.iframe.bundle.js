@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_design_system_rte_angular_builder=self.webpackChunk_design_system_rte_angular_builder||[]).push([[4665],{"./projects/ds-rte-lib/src/lib/assets/icons/support_agent.svg":(module,__unused_webpack_exports,__webpack_require__)=>{module.exports=__webpack_require__.p+"static/media/support_agent.d02fdc50.svg"}}]);
