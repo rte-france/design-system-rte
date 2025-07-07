@@ -1,6 +1,6 @@
 {
   "name": "@design-system-rte/react",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "type": "module",
   "module": "dist/react-package.js",
   "main": "dist/react-package.cjs",
@@ -25,7 +25,7 @@
   "license": "Apache-2.0",
   "description": "",
   "dependencies": {
-    "@design-system-rte/core": "^0.6.0",
+    "@design-system-rte/core": "^0.7.0",
     "@testing-library/jest-dom": "^6.6.3",
     "clsx": "^2.1.1",
     "react": ">=18.0.0",
