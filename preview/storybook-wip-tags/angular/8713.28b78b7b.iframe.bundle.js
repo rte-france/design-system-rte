@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_design_system_rte_angular_builder=self.webpackChunk_design_system_rte_angular_builder||[]).push([[8713],{"./projects/ds-rte-lib/src/lib/assets/icons/chat_outlined.svg":(module,__unused_webpack_exports,__webpack_require__)=>{module.exports=__webpack_require__.p+"static/media/chat_outlined.6fa1eb5e.svg"}}]);
