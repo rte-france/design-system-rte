@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_design_system_rte_angular_builder=self.webpackChunk_design_system_rte_angular_builder||[]).push([[9332],{"./projects/ds-rte-lib/src/lib/assets/icons/language.svg":(module,__unused_webpack_exports,__webpack_require__)=>{module.exports=__webpack_require__.p+"static/media/language.4a3cd7c6.svg"}}]);
