@@ -215,42 +215,6 @@ jobs:
         working-directory: packages/angular
         run: npm run build
 
-  apply-changesets:
-    runs-on: ubuntu-latest
-    needs: [build-react, build-angular]
-    permissions:
-      contents: write
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      
-      - name: Install dependencies
-        run: npm ci --prefer-offline
-
-      - name: Apply changeset versioning
-        run: npm run changeset version
-
-      - name: Stage all changes
-        run: git add .changeset/ packages/
-
-      - name: Commit and push changesets if any were created
-        run: |
-          if git diff --staged --quiet; then
-            echo "No changesets to commit"
-          else
-            git config --local user.email "action@github.com"
-            git config --local user.name "GitHub Action"
-            git commit -m "chore: apply changesets"
-            git push
-          fi
-
   prepare-release:
     needs: [build-react, build-angular, apply-changesets]
     runs-on: ubuntu-latest
