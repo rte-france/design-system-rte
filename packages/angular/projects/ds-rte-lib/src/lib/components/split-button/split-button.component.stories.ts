@@ -52,6 +52,12 @@ function generateSplitButtonElement(props: Record<string, string> = {}): string 
     .join("\n");
 
   return `
+    <div>
+      <span style="font-family: sans-serif; margin-bottom: 16px; border: 1px solid #F4922B; padding: 8px; border-radius: 5px; background-color: #FAFFC1; margin: 0;">
+        Ce composant est en cours de développement et n'est pas encore disponible
+      </span>
+    </div>
+    <br/>
     <rte-split-button
       ${attributes}
     >
@@ -60,7 +66,8 @@ function generateSplitButtonElement(props: Record<string, string> = {}): string 
 }
 
 const meta: Meta<SplitButtonComponent> = {
-  title: "SplitButton",
+  title: "SplitButton (développement en cours)",
+  id: "SplitButton",
   component: SplitButtonComponent,
   tags: ["autodocs"],
   argTypes: {

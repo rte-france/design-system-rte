@@ -9,7 +9,8 @@ import IconButtonToggle from "./IconButtonToggle";
 const TogglableIconIds = Object.keys(TogglableIconsList);
 
 const meta = {
-  title: "IconButtonToggle",
+  title: "IconButtonToggle (développement en cours)",
+  id: "IconButtonToggle",
   component: IconButtonToggle,
   tags: ["autodocs"],
   argTypes: {
@@ -58,7 +59,27 @@ export const Default: Story = {
     ["aria-label"]: "icon button toggle aria label",
   },
 
-  render: (args) => <IconButtonToggle {...args} />,
+  render: (args) => (
+    <>
+      <div>
+        <span
+          style={{
+            fontFamily: "sans-serif",
+            marginBottom: 16,
+            border: "1px solid #F4922B",
+            padding: 8,
+            borderRadius: 5,
+            backgroundColor: "#FAFFC1",
+            margin: 0,
+          }}
+        >
+          Ce composant est en cours de développement et n'est pas encore disponible
+        </span>
+      </div>
+      <br />
+      <IconButtonToggle {...args} />
+    </>
+  ),
 
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
