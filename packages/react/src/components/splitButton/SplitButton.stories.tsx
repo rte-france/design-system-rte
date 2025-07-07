@@ -5,7 +5,8 @@ import { expect, fn, userEvent, waitFor, within } from "@storybook/test";
 import SplitButton from "./SplitButton";
 
 const meta = {
-  title: "SplitButton",
+  title: "SplitButton (développement en cours)",
+  id: "SplitButton",
   component: SplitButton,
   tags: ["autodocs"],
   argTypes: {
@@ -82,6 +83,27 @@ export const Default: Story = {
     onClick: mockFn(),
     children: mockChildren,
   },
+  render: (args) => (
+    <>
+      <div>
+        <span
+          style={{
+            fontFamily: "sans-serif",
+            marginBottom: 16,
+            border: "1px solid #F4922B",
+            padding: 8,
+            borderRadius: 5,
+            backgroundColor: "#FAFFC1",
+            margin: 0,
+          }}
+        >
+          Ce composant est en cours de développement et n'est pas encore disponible
+        </span>
+      </div>
+      <br />
+      <SplitButton {...args} />
+    </>
+  ),
 };
 
 export const Appearance: Story = {
