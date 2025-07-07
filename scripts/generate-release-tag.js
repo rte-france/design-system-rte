@@ -5,13 +5,15 @@ import path from "node:path";
 applyTag();
 
 function applyTag() {
-  const tag = generateTagName();
+  const tagDate = generateTagDate();
   const customMessage = process.argv[2];
   const message = generateTagMessage(customMessage);
+  let subVersion = 0;
+  let tag = `${tagDate}.${subVersion}`;
 
-  if (tagExists(tag)) {
-    console.error(`❌ Tag ${tag} already exists`);
-    process.exit(1);
+  while (tagExists(tag)) {
+    subVersion++;
+    tag = `${tagDate}.${subVersion}`;
   }
 
   console.log(`🏷️ Creating git tag ${tag}...`);
@@ -21,7 +23,7 @@ function applyTag() {
   console.log(message);
 }
 
-function generateTagName() {
+function generateTagDate() {
   const now = new Date();
   const year = now.getFullYear();
   const month = String(now.getMonth() + 1).padStart(2, "0");
