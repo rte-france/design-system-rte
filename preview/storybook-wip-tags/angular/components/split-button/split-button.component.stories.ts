@@ -54,7 +54,7 @@ function generateSplitButtonElement(props: Record<string, string> = {}): string 
   return `
     <div>
       <span style="font-family: sans-serif; margin-bottom: 16px; border: 1px solid #F4922B; padding: 8px; border-radius: 5px; background-color: #FAFFC1; margin: 0;">
-        Cette fonctionnalité est en cours de développement et n'est pas encore disponible
+        Ce composant est en cours de développement et n'est pas encore disponible
       </span>
     </div>
     <br/>
