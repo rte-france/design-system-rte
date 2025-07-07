@@ -216,7 +216,7 @@ jobs:
         run: npm run build
 
   prepare-release:
-    needs: [build-react, build-angular, apply-changesets]
+    needs: [build-react, build-angular]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
