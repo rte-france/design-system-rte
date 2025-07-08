@@ -9,7 +9,8 @@ import { IconButtonToggleComponent } from "./icon-button-toggle.component";
 const TogglableIconIds = Object.keys(TogglableIconsList);
 
 const meta = {
-  title: "IconButtonToggle",
+  title: "IconButtonToggle (développement en cours)",
+  id: "IconButtonToggle",
   component: IconButtonToggleComponent,
   tags: ["autodocs"],
   argTypes: {
@@ -58,7 +59,26 @@ export const Default: Story = {
     click: mockFn,
     selected: false,
   },
-
+  render: (args) => ({
+    props: { ...args },
+    template: `
+    <div>
+      <span style="font-family: sans-serif; margin-bottom: 16px; border: 1px solid #F4922B; padding: 8px; border-radius: 5px; background-color: #FAFFC1; margin: 0;">
+        Ce composant est en cours de développement et n'est pas encore disponible
+      </span>
+    </div>
+    <br/>
+    <rte-icon-button-toggle 
+        name=${args.name} 
+        [compactSpacing]="${args.compactSpacing}" 
+        [disabled]="${args.disabled}"
+        [selected]="${args.selected}"
+        [type]="'${args.type}'"
+        [variant]="'${args.variant}'"
+        (click)="click()"
+      />
+    `,
+  }),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const iconButton = canvas.getByRole("button");

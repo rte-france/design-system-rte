@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, computed, input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, computed, input } from "@angular/core";
 
 import { CheckboxComponent } from "../checkbox/checkbox.component";
 
@@ -9,6 +9,7 @@ import { CheckboxComponent } from "../checkbox/checkbox.component";
   standalone: true,
   templateUrl: "./checkbox-group.component.html",
   styleUrl: "./checkbox-group.component.scss",
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CheckboxGroupComponent {
   readonly groupName = input.required<string>();
