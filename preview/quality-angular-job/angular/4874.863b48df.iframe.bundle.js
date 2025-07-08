@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_design_system_rte_angular_builder=self.webpackChunk_design_system_rte_angular_builder||[]).push([[4874],{"./projects/ds-rte-lib/src/lib/assets/icons/folder_open_outlined.svg":(module,__unused_webpack_exports,__webpack_require__)=>{module.exports=__webpack_require__.p+"static/media/folder_open_outlined.66454baf.svg"}}]);
