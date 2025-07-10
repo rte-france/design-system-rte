@@ -28,7 +28,7 @@ export class SplitButtonComponent {
   readonly compactSpacing = input(false);
   readonly selected = input(false);
   readonly position = input<SplitButtonPosition>("bottom-start");
-  readonly icon = input<RegularIconIdKey | TogglableIconIdKey>();
+  readonly icon = input<RegularIconIdKey | TogglableIconIdKey | null>(null);
   readonly disabled = input(false);
   readonly ariaLabelRight = input<string>();
 
