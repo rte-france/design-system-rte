@@ -34,7 +34,7 @@
     .splitButtonLeft {
         display: flex;
         border: none;
-        padding: $positive-spacing_0 $positive-spacing_100;
+        padding: $positive-spacing_050 $positive-spacing_150;
         align-items: center;
         gap: $positive-spacing_0;
         align-self: stretch;
@@ -42,6 +42,14 @@
         border-color: var(--border-brand-default);
         background-color: var(--background-brand-default);
         color: var(--content-primary-inverse);
+
+        &[data-size='s'] {
+            padding: $positive-spacing_0 $positive-spacing_100;
+        }
+
+        &[data-size='l'] {
+            padding: $positive-spacing_100 $positive-spacing_150;
+        }
 
         .splitButtonLabel {
             margin: 0;
@@ -239,6 +247,7 @@
             }
 
             .splitButtonRightIconContainer {
+                display: flex;
                 pointer-events: none;
             }
         }
