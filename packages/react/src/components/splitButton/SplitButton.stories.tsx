@@ -2,7 +2,12 @@ import { DOWN_KEY, TAB_KEY } from "@design-system-rte/core/constants/keyboard.co
 import { Meta, StoryObj } from "@storybook/react";
 import { expect, fn, userEvent, waitFor, within } from "@storybook/test";
 
+import { IconIds as RegularIconsList, TogglableIcons as TogglableIconsList } from "../icon/IconMap";
+
 import SplitButton from "./SplitButton";
+
+const RegularIconIds = Object.keys(RegularIconsList);
+const TogglableIconIds = Object.keys(TogglableIconsList);
 
 const meta = {
   title: "SplitButton (développement en cours)",
@@ -30,6 +35,12 @@ const meta = {
     },
     disabled: {
       control: "boolean",
+    },
+    icon: {
+      control: "select",
+      options: ["", ...RegularIconIds, ...TogglableIconIds].sort((a, b) => a.localeCompare(b)),
+      description: "Nom de l’icône à afficher",
+      defaultValue: "",
     },
   },
   args: { onClick: fn() },
