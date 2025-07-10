@@ -4,6 +4,7 @@
   
   ## Changes
 
+- improve assistive text handling
 - naming typo
 - add public api export
 - add tests on storybook

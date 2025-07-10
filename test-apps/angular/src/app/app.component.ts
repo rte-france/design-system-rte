@@ -7,6 +7,7 @@ import {
   IconButtonToggleComponent,
   TooltipDirective,
   TextareaComponent,
+  LinkComponent,
 } from "@design-system-rte/angular";
 
 @Component({
@@ -20,6 +21,7 @@ import {
     IconButtonToggleComponent,
     TooltipDirective,
     TextareaComponent,
+    LinkComponent,
   ],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",

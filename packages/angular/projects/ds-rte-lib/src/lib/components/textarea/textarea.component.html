@@ -11,21 +11,22 @@
   <div class="textarea-container" [attr.data-label-position]="labelPosition()">
     <textarea
       #textarea
-      class="textarea {{ resizeable() ? 'resizeable' : '' }} {{ assistiveTextAppearance() }}"
+      class="textarea {{ assistiveTextAppearance() }}"
+      [class.resizeable]="resizeable()"
       [attr.id]="id()"
       [attr.name]="name()"
       [attr.aria-labelledby]="labelId() || ariaLabelledby()"
-      [attr.required]="required() ? true : null"
+      [attr.required]="required() || null"
       [attr.maxLength]="maxLength() !== undefined ? maxLength() : null"
-      [attr.disabled]="disabled() ? true : null"
-      [attr.readonly]="readOnly() ? true : null"
+      [attr.disabled]="disabled() || null"
+      [attr.readonly]="readOnly() || null"
       [value]="value() !== undefined ? value() : null"
       [defaultValue]="defaultValue() !== undefined ? defaultValue() : null"
       [attr.rows]="rows()"
       (input)="onInput($event)"
       (blur)="onBlur($event)"
     ></textarea>
-    <rte-link *ngIf="assistiveTextAppearance() === 'link' && assistiveTextLink() !== undefined" class="assistive-text-link" [externalLink]="true" [href]="assistiveTextLink() || ''" [label]="assistiveTextLabel() || ''">
+    <rte-link *ngIf="isAssistiveTextLinkVisible()" class="assistive-text-link" [externalLink]="true" [href]="assistiveTextLink() || ''" [label]="assistiveTextLabel() || ''">
     </rte-link>
     <div *ngIf="assistiveTextAppearance() !== 'link'" class="assistive-text {{ assistiveTextAppearance() }}">
       <rte-icon *ngIf="assistiveTextAppearance() === 'error'" name="error" [size]="assistiveTextIconSize"></rte-icon>
