@@ -148,31 +148,30 @@
         gap: $positive-spacing_0;
         align-self: stretch;
 
-        &[data-size='s'] {
-            width: 24px;
-        }
-
-        &[data-size='m'] {
-            width: 34px;
-        }
-
-        &[data-size='l'] {
-            width: 44px;
-        }
-
         .splitButtonRight {
             display: flex;
             border: none;
-            padding: $positive-spacing_075 $positive-spacing_200;
+            padding: $positive-spacing_050 $positive-spacing_150;
             align-items: center;
             justify-content: center;
             align-self: stretch;
+            width: 34px;
 
             border-radius: $radius-none $radius-s $radius-s $radius-none;
             border-color: var(--border-brand-default);
             background-color: var(--background-brand-default);
 
             color: var(--content-primary-inverse);
+
+            &[data-size='s'] {
+                width: 24px;
+                padding: $positive-spacing_025 $positive-spacing_100;
+            }
+    
+            &[data-size='l'] {
+                width: 44px;
+                padding: $positive-spacing_075 $positive-spacing_200;
+            }
 
             &:hover {
                 cursor: pointer;
