@@ -4,6 +4,8 @@
   
   ## Changes
 
+- improve assistive text handling
+- add component to tests apps
 - add public api export
 - add tests on storybook
 - set better props handling + handle resizing logic on angular comp
