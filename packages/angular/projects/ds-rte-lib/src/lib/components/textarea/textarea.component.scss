@@ -11,7 +11,6 @@
   flex-shrink: 0;
   border-radius: $radius-none;
   opacity: $opacity-100;
-  display: flex;
 
   &[data-label-position='side'] {
     flex-direction: row;
