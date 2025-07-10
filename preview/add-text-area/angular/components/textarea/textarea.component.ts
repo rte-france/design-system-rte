@@ -58,6 +58,10 @@ export class TextareaComponent {
 
   readonly textareaRef = viewChild<ElementRef<HTMLTextAreaElement>>("textarea");
 
+  readonly isAssistiveTextLinkVisible = computed(
+    () => this.assistiveTextAppearance() === "link" && this.assistiveTextLink() !== undefined,
+  );
+
   characterCount = 0;
 
   onInput(event: Event) {
