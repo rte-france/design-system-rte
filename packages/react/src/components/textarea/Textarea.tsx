@@ -3,7 +3,7 @@ import {
   TEXTAREA_REQUIRED_LABEL,
 } from "@design-system-rte/core/components/textarea/textarea.constants";
 import type { TextareaProps as CoreTextareaProps } from "@design-system-rte/core/components/textarea/textarea.interface";
-import { ChangeEvent, FocusEvent, forwardRef, TextareaHTMLAttributes, useRef, useState } from "react";
+import { ChangeEvent, FocusEvent, forwardRef, MutableRefObject, TextareaHTMLAttributes, useRef, useState } from "react";
 
 import Icon from "../icon/Icon";
 import Link from "../link/Link";
@@ -44,7 +44,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   ) => {
     const [characterCount, setCharacterCount] = useState(value?.length || defaultValue?.length || 0);
 
-    const textareaRef = useRef<HTMLTextAreaElement>(null);
+    const textareaRef: MutableRefObject<HTMLTextAreaElement | null> = useRef<HTMLTextAreaElement>(null);
 
     const handleBlur = (event: FocusEvent<HTMLTextAreaElement, Element>) => {
       if (onBlur) {
@@ -90,9 +90,9 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         <div className={style["textarea-container"]} data-label-position={labelPosition}>
           <textarea
             ref={(node) => {
-              (textareaRef as React.MutableRefObject<HTMLTextAreaElement | null>).current = node;
+              textareaRef.current = node;
               if (typeof ref === "function") ref(node);
-              else if (ref) (ref as React.MutableRefObject<HTMLTextAreaElement | null>).current = node;
+              else if (ref) ref.current = node;
             }}
             id={id}
             name={name}
