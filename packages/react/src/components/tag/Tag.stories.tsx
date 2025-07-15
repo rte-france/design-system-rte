@@ -63,45 +63,48 @@ export const Default: Story = {
     iconName: "check",
   },
 };
-
 export const Decorative: Story = {
-  args: {
-    tagType: "decorative",
-    color: "azur",
-    compactSpacing: false,
-    label: "Decorative Tag",
-    showLeftIcon: false,
-  },
+    args: {
+        ...Default.args,
+        tagType: "decorative",
+        color: "azur",
+        label: "Decorative Tag",
+        showLeftIcon: false,
+    },
+    render: (args) => {
+        return (
+            <div style={{ display: "flex", gap: 8 }}>
+                <Tag {...args} />
+            </div>
+        );
+    },
 };
-
 export const WithIcon: Story = {
-  args: {
-    tagType: "status",
-    status: "information",
-    color: "jade",
-    compactSpacing: false,
-    label: "Tag with Icon",
-    showLeftIcon: true,
-  },
+    args: {
+        ...Default.args,
+        tagType: "decorative",
+        color: "jade",
+        label: "Decorative Tag with Icon",
+        showLeftIcon: true,
+    },
+    render: (args) => (
+        <div style={{ display: "flex", gap: 8 }}>
+            <Tag {...args} />
+        </div>
+    ),
 };
 
 export const Compact: Story = {
-  args: {
-    tagType: "status",
-    status: "warning",
-    color: "citronnelle",
-    compactSpacing: true,
-    label: "Compact Tag",
-    showLeftIcon: false,
-  },
-};
-
-export const AlertStatus: Story = {
-  args: {
-    tagType: "status",
-    status: "alert",
-    compactSpacing: false,
-    label: "Alert Tag",
-    showLeftIcon: true,
-  },
+    args: {
+        ...Default.args,
+        tagType: "decorative",
+        color: "citronnelle",
+        compactSpacing: true,
+        label: "Compact Decorative Tag",
+    },
+    render: (args) => (
+        <div style={{ display: "flex", gap: 8 }}>
+            <Tag {...args} />
+        </div>
+    ),
 };
