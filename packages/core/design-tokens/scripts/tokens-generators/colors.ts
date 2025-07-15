@@ -67,6 +67,13 @@ export function generateThemesFile() {
     scss += `${INDENT.repeat(1)}"dark": $${theme}-dark,\n`;
     scss += `);\n`;
   });
+
+  scss += `\n$themes: (\n`;
+  Object.values(ColorTheme).forEach((theme) => {
+    scss += `${INDENT.repeat(1)}"${theme.replace(/-/g, "_")}": $${theme},\n`;
+  });
+  scss += `);\n`;
+
   const filePath = path.join(tokensOutputDir, "_themes.scss");
   generateScssFile(scss, filePath);
 }

@@ -2,18 +2,10 @@
 @use 'typography' as *;
 @use 'sass:map';
 
-$themes: (
-  "bleu_iceberg": $bleu-iceberg,
-  "violet": $violet,
-  "vert_foret": $vert-foret
-);
-
 @mixin apply-theme($targetTheme: bleu_iceberg, $mode: light) {
-  $targetTheme: map.get($themes, $targetTheme, $mode);
-
-  @include extract-custom-properties-from-theme($targetTheme);
+  $selectedTheme: map.get($themes, $targetTheme, $mode);
+  @include extract-custom-properties-from-theme($selectedTheme);
 }
-
 
 @mixin theme-selector($targetTheme: bleu_iceberg, $mode: light) {
   $theme: map.get($themes, $targetTheme, $mode);
