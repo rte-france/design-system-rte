@@ -23,21 +23,21 @@ export class TagComponent {
   readonly showLeftIcon = input<boolean>(false);
   readonly iconName = input<RegularIconIdKey | TogglableIconIdKey>();
 
-get computedIconName(): RegularIconIdKey | TogglableIconIdKey | "" {
+  get computedIconName(): RegularIconIdKey | TogglableIconIdKey | "" {
     if (this.tagType() === "status") {
-        const statusIconMap: Record<string, RegularIconIdKey | TogglableIconIdKey> = {
-            success: "check",
-            information: "info",
-            warning: "warning",
-            alert: "dangerous",
-        };
-        const statusValue = this.status();
-        if (statusValue && statusIconMap[statusValue]) {
-            return statusIconMap[statusValue];
-        }
+      const statusIconMap: Record<string, RegularIconIdKey | TogglableIconIdKey> = {
+        success: "check",
+        information: "info",
+        warning: "warning",
+        alert: "dangerous",
+      };
+      const statusValue = this.status();
+      if (statusValue && statusIconMap[statusValue]) {
+        return statusIconMap[statusValue];
+      }
     }
     return this.iconName() ?? "";
-}
+  }
 
   isValidIconName(iconName: string): boolean {
     return iconName ? isValidIconName(iconName) : false;
