@@ -7,7 +7,7 @@ import { isValidIconName } from "../icon/IconMap";
 import style from "./Tag.module.scss";
 
 const Tag = forwardRef<HTMLDivElement, TagProps>(
-  ({ tagType = "status", status, color, CompactSpacing, label, showLeftIcon = false, iconName, ...props }, ref) => {
+  ({ tagType = "status", status, color, compactSpacing, label, showLeftIcon = false, iconName, ...props }, ref) => {
     if (tagType === "status") {
       const statusIconMap: Record<string, string> = {
         success: "check",
@@ -32,7 +32,7 @@ const Tag = forwardRef<HTMLDivElement, TagProps>(
         data-tag-type={tagType}
         data-status={status}
         data-color={color}
-        data-compact-spacing={CompactSpacing}
+        data-compact-spacing={compactSpacing}
         {...props}
       >
         {showLeftIcon && iconName && isValidIconName(iconName) && (
