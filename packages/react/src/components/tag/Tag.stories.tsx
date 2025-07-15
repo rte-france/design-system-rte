@@ -41,7 +41,7 @@ const meta = {
         "cendre",
       ],
     },
-    CompactSpacing: {
+    compactSpacing: {
       control: "boolean",
     },
     showLeftIcon: {
@@ -57,7 +57,7 @@ export const Default: Story = {
     tagType: "status",
     status: "success",
     color: "brand",
-    CompactSpacing: false,
+    compactSpacing: false,
     label: "Tag Label",
     showLeftIcon: false,
     iconName: "check",
@@ -68,7 +68,7 @@ export const Decorative: Story = {
   args: {
     tagType: "decorative",
     color: "azur",
-    CompactSpacing: false,
+    compactSpacing: false,
     label: "Decorative Tag",
     showLeftIcon: false,
   },
@@ -79,7 +79,7 @@ export const WithIcon: Story = {
     tagType: "status",
     status: "information",
     color: "jade",
-    CompactSpacing: false,
+    compactSpacing: false,
     label: "Tag with Icon",
     showLeftIcon: true,
   },
@@ -90,7 +90,7 @@ export const Compact: Story = {
     tagType: "status",
     status: "warning",
     color: "citronnelle",
-    CompactSpacing: true,
+    compactSpacing: true,
     label: "Compact Tag",
     showLeftIcon: false,
   },
@@ -100,7 +100,7 @@ export const AlertStatus: Story = {
   args: {
     tagType: "status",
     status: "alert",
-    CompactSpacing: false,
+    compactSpacing: false,
     label: "Alert Tag",
     showLeftIcon: true,
   },

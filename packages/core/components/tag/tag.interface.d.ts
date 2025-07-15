@@ -27,7 +27,7 @@ export interface TagProps {
   tagType?: TagType;
   status?: Status;
   color?: Color;
-  CompactSpacing?: boolean;
+  compactSpacing?: boolean;
   label?: string;
   showLeftIcon?: boolean;
   iconName?: string;
