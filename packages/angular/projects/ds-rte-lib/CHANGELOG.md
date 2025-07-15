@@ -1,5 +1,14 @@
 # @design-system-rte/angular
 
+## 0.5.3
+
+### Patch Changes
+
+- 3ae37a6: ## Changes
+
+  - correct left-button styling for SplitButton
+  - correct right-button sizing for SplitButton
+
 ## 0.5.2
 
 ### Patch Changes

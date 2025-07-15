@@ -1,5 +1,14 @@
 # @design-system-rte/react
 
+## 0.4.2
+
+### Patch Changes
+
+- 3ae37a6: ## Changes
+
+  - correct left-button styling for SplitButton
+  - correct right-button sizing for SplitButton
+
 ## 0.4.1
 
 ### Patch Changes
