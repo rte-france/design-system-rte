@@ -78,7 +78,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    groupName: "group1",
+    groupName: "radio-group",
     items: ["Option 1", "Option 2", "Option 3"],
     direction: "horizontal",
     showItemsLabel: true,
@@ -102,6 +102,7 @@ export const Default: Story = {
 export const Disabled: Story = {
   args: {
     ...Default.args,
+    groupName: "disabled-radio-group",
     disabled: true,
   },
   render: (args) => {
@@ -116,6 +117,7 @@ export const Disabled: Story = {
 export const Error: Story = {
   args: {
     ...Default.args,
+    groupName: "error-radio-group",
     error: true,
   },
   render: (args) => {
@@ -130,6 +132,7 @@ export const Error: Story = {
 export const ReadOnly: Story = {
   args: {
     ...Default.args,
+    groupName: "readonly-radio-group",
     readOnly: true,
   },
   render: (args) => {
