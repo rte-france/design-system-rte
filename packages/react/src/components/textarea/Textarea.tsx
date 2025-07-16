@@ -122,7 +122,11 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
                   className={style["assistive-text-link"]}
                 />
               ) : (
-                <div className={style["assistive-text"]} data-assistive-text-appearance={assistiveTextAppearance}>
+                <div
+                  className={style["assistive-text"]}
+                  data-assistive-text-appearance={assistiveTextAppearance}
+                  data-disabled={props.disabled}
+                >
                   {assistiveTextAppearance === "error" ? (
                     <Icon name="error" size={TEXTAREA_ICON_SIZE} />
                   ) : assistiveTextAppearance === "success" ? (
