@@ -1,6 +1,6 @@
 <div class="container" [attr.data-label-position]="labelPosition()">
   <div class="header-container" [attr.data-label-position]="labelPosition()">
-    <label *ngIf="label()" [attr.id]="labelId()" [attr.for]="id()">{{label()}}<span *ngIf="required() || showLabelRequirement()" class="requirement-indicator" [ngClass]="{'required': required(), 'show-label-requirement': showLabelRequirement() }" aria-hidden="true">{{requirementIndicatorValue()}}</span></label>
+    <label *ngIf="label()" [attr.id]="labelId()" [attr.for]="id()">{{label()}}<span *ngIf="required() || showLabelRequirement()" class="requirement-indicator" aria-hidden="true" [ngClass]="{'required': required(), 'show-label-requirement': showLabelRequirement() }">{{requirementIndicatorValue()}}</span></label>
     <span *ngIf="maxLength()" class="character-counter">{{ characterCount }}/{{ maxLength() }}</span>
   </div>
   <div class="textarea-container" [attr.data-label-position]="labelPosition()">
