@@ -57,6 +57,7 @@ export const Default: Story = {
 export const Disabled: Story = {
   args: {
     ...Default.args,
+    groupName: "disabled-radio-group",
     disabled: true,
   },
 };
@@ -64,6 +65,7 @@ export const Disabled: Story = {
 export const Error: Story = {
   args: {
     ...Default.args,
+    groupName: "error-radio-group",
     error: true,
   },
 };
@@ -71,6 +73,7 @@ export const Error: Story = {
 export const ReadOnly: Story = {
   args: {
     ...Default.args,
+    groupName: "readonly-radio-group",
     readOnly: true,
   },
 };
