@@ -1,7 +1,14 @@
 import "./App.css";
-import { Button, Icon, SplitButton, Tooltip } from "@design-system-rte/react";
+import { Button, Icon, SplitButton, Tooltip, TextInput } from "@design-system-rte/react";
+import { useState } from "react";
 
 function App() {
+  const [inputValue, setInputValue] = useState("");
+
+  const handleInputChange = (value: string) => {
+    setInputValue(value);
+  };
+
   return (
     <div data-theme="bleu_iceberg" data-mode="light">
       <div>
@@ -26,6 +33,12 @@ function App() {
         <Tooltip label="Tooltip">
           <Button label="Click me" />
         </Tooltip>
+      </div>
+      <hr />
+      <div>
+        <h3>TextInput</h3>
+        <TextInput label="Label" value={inputValue} onChange={handleInputChange} />
+        <h4>The input is : {inputValue}</h4>
       </div>
     </div>
   );

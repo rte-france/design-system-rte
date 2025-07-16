@@ -1,20 +1,47 @@
 @use '@design-system-rte/core/design-tokens/main.scss' as *;
 
 .container {
-    width: 100%;
     display: flex;
-    padding: $positive-spacing-0;
+    width: 300px;
+    padding: var(--positive-spacing_0);
     flex-direction: column;
-    align-items: flex-start;
     justify-content: center;
-    gap: $positive-spacing-0;
+    align-items: flex-start;
+    gap: var(--positive-spacing_0);
 
-    .topText {
+    &[data-label-position="side"] {
+        align-items: center;
+        flex-direction: row;
+        
+        .text {
+            width: auto;
+        }
+
+        .inputCounter {
+            padding: 0 $positive-spacing-100;
+        }
+    }
+
+    &[data-error="true"] {
+        .inputContainer {
+            .input {
+                .inputBar {
+                    .leftIcon {
+                        color: var(--content-danger);
+                    }
+                }
+            }
+        }
+    }
+
+    .text {
         width: 100%;
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
+        padding: $positive-spacing-025 $positive-spacing-100;
+        box-sizing: border-box;
 
         .labelContainer {
             display: flex;
@@ -44,40 +71,90 @@
     }
 
     .inputContainer {
+        display: flex;
+        flex-direction: column;
+        height: 32px;
+        width: 100%;
+        min-width: 48px;
+        min-height: 32px;
+        max-height: 32px;
+        padding: var(--positive-spacing_050) var(--positive-spacing_100);
+        gap: var(--positive-spacing_0);
+        align-self: stretch;
 
         .input {
 
             .inputBar {
+                position: relative;
+                display: flex;
+                align-items: center;
+
+                &.withLeftIcon {
+                    .inputField {
+                        padding-left: $positive-spacing-400;
+                    }
+                }
+                &.withRightIcon {
+                    .inputField {
+                        padding-right: $positive-spacing-400;
+                    }
+                }
 
                 .leftIcon {
-                    color: var(--content-danger);
+                    position: absolute;
+                    left: $positive-spacing-100;
+                    color: var(--content-secondary);
+                }
+
+                .rightIcon {
+                    position: absolute;
+                    right: $positive-spacing-100;
+                    color: var(--content-secondary);
+                    padding: 0 $positive-spacing-025;
+                    height: 24px;
+
+                    &:focus {
+                        outline: none;
+                    }
+
+                    &:focus-visible {
+                        outline: 1px solid var(--border-brand-focused);
+                        border-radius: $radius-m;
+                        &::after {
+                            display: none;
+                        }
+                    }
                 }
 
                 .inputField {
+                    box-sizing: border-box;
                     appearance: none;
+                    width: 100%;
                     height: 32px;
                     min-width: 48px;
-                    min-height: 32px;
                     max-height: 32px;
                     border-radius: $radius-s;
                     margin: 1px;
                     border: $width-xs solid var(--border-secondary);
-                    padding: $positive-spacing-050 $positive-spacing-100;
+                    padding: $positive-spacing-050 $positive-spacing-200;
                     background: linear-gradient(0deg, var(--elevation-surface-inner-shadow) 0%, var(--elevation-surface-inner-shadow) 100%), var(--background-default);
+                    transition: border 200ms;
                     @include neutral-inner-shadow;
 
                     &:hover{
-                        cursor: pointer;
                         border: $width-xs solid var(--border-primary);
                     }
 
                     &:focus{
                         outline: none;
-                        margin: 0px;
                         border: $width-s solid var(--border-brand-default)
                     }
 
-                    &:disabled, &[data-read-only='true'] {
+                    &:active {
+                        border: $width-s solid var(--border-brand-default)
+                    }
+
+                    &:disabled, &:read-only {
                         border : $width-xs solid var(--border-disabled);
                         cursor: not-allowed;
                         pointer-events: none;
@@ -99,7 +176,6 @@
 
         .assistiveText {
             display: flex;
-            flex-direction: row;
             align-items: center;
             gap: $positive-spacing-050;
             padding: $positive-spacing-050 $positive-spacing-100;
@@ -113,6 +189,8 @@
             }
 
             .assistiveLabel {
+
+                transition: color 200ms;
 
                 &[data-appearance="error"] {
                     color: var(--content-danger);
