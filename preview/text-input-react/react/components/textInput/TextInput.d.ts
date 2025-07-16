@@ -1,3 +1,3 @@
 import { TextInputProps } from '../../../../core/components/text-input/text-input.interface';
-declare const TextInput: ({ showLabel, label, labelPosition, required_optional, showCounter, value, showLeftIcon, showRightIcon, rightIconAppearance, requiredAppearance, showAssistiveText, assistiveAppearance, showAssistiveIcon, assistiveLabel, disabled, error, readOnly, onChange, onRightIconClick, }: TextInputProps) => import("react/jsx-runtime").JSX.Element;
+declare const TextInput: import('../../../../../node_modules/react').ForwardRefExoticComponent<TextInputProps & import('../../../../../node_modules/react').RefAttributes<HTMLInputElement>>;
 export default TextInput;
