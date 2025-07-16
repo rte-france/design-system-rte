@@ -3,12 +3,11 @@ import { Component, input, computed, output, ElementRef, viewChild } from "@angu
 import { NG_VALUE_ACCESSOR } from "@angular/forms";
 import {
   TEXTAREA_ICON_SIZE,
-  TEXTAREA_REQUIRED_LABEL,
+  TEXTAREA_REQUIREMENT_INDICATOR_VALUE,
 } from "@design-system-rte/core/components/textarea/textarea.constants";
 import type {
   TextareaAssistiveTextAppearance,
   TextareaLabelPosition,
-  TextareaRequiredAppearance,
 } from "@design-system-rte/core/components/textarea/textarea.interface";
 
 import { IconComponent } from "../icon/icon.component";
@@ -39,7 +38,7 @@ export class TextareaComponent {
   readonly assistiveTextAppearance = input<TextareaAssistiveTextAppearance>("description");
   readonly assistiveTextLink = input<string | undefined>(undefined);
   readonly required = input<boolean>(false);
-  readonly requiredAppearance = input<TextareaRequiredAppearance>("icon");
+  readonly showLabelRequirement = input<boolean>(false);
   readonly resizeable = input<boolean | string>(true);
   readonly maxLength = input<number | undefined>(undefined);
   readonly disabled = input<boolean>(false);
@@ -49,9 +48,14 @@ export class TextareaComponent {
   readonly defaultValue = input<string | undefined>(undefined);
 
   readonly assistiveTextIconSize = TEXTAREA_ICON_SIZE;
-  readonly requiredIndicator = computed(() => {
-    return TEXTAREA_REQUIRED_LABEL[this.requiredAppearance()];
-  });
+
+  readonly requirementIndicatorValue = computed(() =>
+    this.required()
+      ? this.showLabelRequirement()
+        ? TEXTAREA_REQUIREMENT_INDICATOR_VALUE.required
+        : TEXTAREA_REQUIREMENT_INDICATOR_VALUE.requiredIcon
+      : TEXTAREA_REQUIREMENT_INDICATOR_VALUE.optional,
+  );
 
   readonly change = output<Event>();
   readonly blur = output<FocusEvent>();

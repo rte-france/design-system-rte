@@ -95,7 +95,9 @@
       }
 
       &[data-assistive-text-appearance="error"] {
-        border: 2px solid var(--border-danger);
+        &:not(:disabled) {
+          border: 2px solid var(--border-danger)
+        }
       }
 
       &[data-resizeable='false'] {
@@ -125,7 +127,9 @@
       gap: $positive-spacing_050;
 
       &[data-assistive-text-appearance="error"] {
-        color: var(--content-danger);
+        &[data-disabled='false'] {
+          color: var(--content-danger);
+        }
       }
 
       &[data-assistive-text-appearance="success"] {

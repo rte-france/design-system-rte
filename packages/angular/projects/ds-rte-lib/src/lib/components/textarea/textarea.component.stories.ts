@@ -31,14 +31,17 @@ const meta: Meta<TextareaComponent> = {
       control: "boolean",
       description: "Whether the textarea is required",
     },
-    requiredAppearance: {
-      control: "select",
-      options: ["required", "icon", "optional"],
-      description: "Appearance of the required indicator",
+    showLabelRequirement: {
+      control: "boolean",
+      description: "Whether to show the requirement indicator in the label",
     },
     maxLength: {
       control: "number",
       description: "Maximum number of characters allowed in the textarea",
+    },
+    readOnly: {
+      control: "boolean",
+      description: "Whether the textarea is read-only",
     },
   },
 };
@@ -58,9 +61,9 @@ export const Default: Story = {
     assistiveTextLink: "https://example.com",
     assistiveTextAppearance: "description",
     required: false,
-    requiredAppearance: "icon",
     value: "",
     rows: 3,
+    showLabelRequirement: false,
     change: mockFn,
   },
   render: (args) => ({
@@ -75,9 +78,9 @@ export const Default: Story = {
         [assistiveTextLink]="'${args.assistiveTextLink}'"
         [assistiveTextAppearance]="'${args.assistiveTextAppearance}'"
         [required]=${args.required}
-        [requiredAppearance]="'${args.requiredAppearance}'"
         [maxLength]=${args.maxLength}
         [required]=${args.required}
+        [showLabelRequirement]=${args.showLabelRequirement}
         [readOnly]=${args.readOnly}
         [value]="'${args.value}'"
         [rows]=${args.rows}
@@ -100,15 +103,15 @@ export const CharacterCount: Story = {
     <div style="width: 350px">
       <rte-textarea
         [id]="'${args.id}'"
-        [label]="'${args.label}'"
+        [label]="${args.label}"
         [labelId]="'${args.labelId}'"
         [assistiveTextLabel]="'${args.assistiveTextLabel}'"
         [assistiveTextLink]="'${args.assistiveTextLink}'"
         [assistiveTextAppearance]="'${args.assistiveTextAppearance}'"
         [required]=${args.required}
-        [requiredAppearance]="'${args.requiredAppearance}'"
         [maxLength]=${args.maxLength}
         [required]=${args.required}
+        [showLabelRequirement]=${args.showLabelRequirement}
         [readOnly]=${args.readOnly}
         [value]="'${args.value}'"
         [rows]=${args.rows}
@@ -140,15 +143,15 @@ export const Error: Story = {
     <div style="width: 350px">
       <rte-textarea
         [id]="'${args.id}'"
-        [label]="'${args.label}'"
+        [label]="${args.label}"
         [labelId]="'${args.labelId}'"
         [assistiveTextLabel]="'${args.assistiveTextLabel}'"
         [assistiveTextLink]="'${args.assistiveTextLink}'"
         [assistiveTextAppearance]="'${args.assistiveTextAppearance}'"
         [required]=${args.required}
-        [requiredAppearance]="'${args.requiredAppearance}'"
         [maxLength]=${args.maxLength}
         [required]=${args.required}
+        [showLabelRequirement]=${args.showLabelRequirement}
         [readOnly]=${args.readOnly}
         [value]="'${args.value}'"
         [rows]=${args.rows}
@@ -172,15 +175,15 @@ export const ReadOnly: Story = {
     <div style="width: 350px">
       <rte-textarea
         [id]="'${args.id}'"
-        [label]="'${args.label}'"
+        [label]="${args.label}"
         [labelId]="'${args.labelId}'"
         [assistiveTextLabel]="'${args.assistiveTextLabel}'"
         [assistiveTextLink]="'${args.assistiveTextLink}'"
         [assistiveTextAppearance]="'${args.assistiveTextAppearance}'"
         [required]=${args.required}
-        [requiredAppearance]="'${args.requiredAppearance}'"
         [maxLength]=${args.maxLength}
         [required]=${args.required}
+        [showLabelRequirement]=${args.showLabelRequirement}
         [readOnly]=${args.readOnly}
         [value]="'${args.value}'"
         [rows]=${args.rows}
@@ -212,15 +215,15 @@ export const Disabled: Story = {
     <div style="width: 350px">
       <rte-textarea
         [id]="'${args.id}'"
-        [label]="'${args.label}'"
+        [label]="${args.label}"
         [labelId]="'${args.labelId}'"
         [assistiveTextLabel]="'${args.assistiveTextLabel}'"
         [assistiveTextLink]="'${args.assistiveTextLink}'"
         [assistiveTextAppearance]="'${args.assistiveTextAppearance}'"
         [required]=${args.required}
-        [requiredAppearance]="'${args.requiredAppearance}'"
         [maxLength]=${args.maxLength}
         [required]=${args.required}
+        [showLabelRequirement]=${args.showLabelRequirement}
         [readOnly]=${args.readOnly}
         [value]="'${args.value}'"
         [rows]=${args.rows}
@@ -248,15 +251,15 @@ export const KeyboardInteraction: Story = {
     <div style="width: 350px">
       <rte-textarea
         [id]="'${args.id}'"
-        [label]="'${args.label}'"
+        [label]="${args.label}"
         [labelId]="'${args.labelId}'"
         [assistiveTextLabel]="'${args.assistiveTextLabel}'"
         [assistiveTextLink]="'${args.assistiveTextLink}'"
         [assistiveTextAppearance]="'${args.assistiveTextAppearance}'"
         [required]=${args.required}
-        [requiredAppearance]="'${args.requiredAppearance}'"
         [maxLength]=${args.maxLength}
         [required]=${args.required}
+        [showLabelRequirement]=${args.showLabelRequirement}
         [readOnly]=${args.readOnly}
         [value]="'${args.value}'"
         [rows]=${args.rows}

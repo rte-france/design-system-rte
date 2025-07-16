@@ -5,6 +5,7 @@ import Textarea from "./Textarea";
 
 const meta = {
   title: "Textarea",
+  tags: ["autodocs"],
   component: Textarea,
   args: {
     disabled: false,
@@ -41,6 +42,10 @@ const meta = {
       control: "number",
       description: "Maximum number of characters allowed in the textarea",
     },
+    readOnly: {
+      control: "boolean",
+      description: "Whether the textarea is read-only",
+    },
   },
 } satisfies Meta<typeof Textarea>;
 
@@ -59,6 +64,7 @@ export const Default: Story = {
     required: false,
     showLabelRequirement: false,
     onChange: mockFn,
+    readOnly: false,
   },
   render: (args) => {
     return (
