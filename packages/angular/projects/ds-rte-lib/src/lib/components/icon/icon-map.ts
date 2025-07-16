@@ -30,6 +30,7 @@ export const togglableIcons = {
   "calendar-month": ["calendar_month_outlined", "calendar_month_filled"],
   "calendar-today": ["calendar_today_outlined", "calendar_today_filled"],
   call: ["call_outlined", "call_filled"],
+  cancel: ["cancel_outlined", "cancel_filled"],
   category: ["category_outlined", "category_filled"],
   "chart-add": ["chart_add_outlined", "chart_add_filled"],
   "chart-area": ["chart_area_outlined", "chart_area_filled"],
