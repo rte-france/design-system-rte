@@ -1,43 +1,50 @@
 import { TextInputProps } from "@design-system-rte/core/components/text-input/text-input.interface";
 import { Meta, StoryObj } from "@storybook/react";
+import { fn } from "@storybook/test";
+
+import { IconIds as RegularIconsList, TogglableIcons as TogglableIconsList } from "../icon/IconMap";
 
 import TextInput from "./TextInput";
+
+const RegularIconIds = Object.keys(RegularIconsList);
+const TogglableIconIds = Object.keys(TogglableIconsList);
+
+const mockFn = fn();
 
 const meta: Meta<typeof TextInput> = {
   title: "TextInput",
   component: TextInput,
   tags: ["autodocs"],
   argTypes: {
+    value: { control: "text" },
     label: { control: "text", defaultValue: "Label" },
-    showLabel: { control: "boolean", defaultValue: true },
     labelPosition: { control: { type: "radio" }, options: ["top", "side"], defaultValue: "top" },
-    required_optional: { control: "boolean", defaultValue: false },
+    required: { control: "boolean", defaultValue: false },
     showCounter: { control: "boolean", defaultValue: false },
-    value: { control: "text", defaultValue: "" },
-    showLeftIcon: { control: "boolean", defaultValue: false },
-    showRightIcon: { control: "boolean", defaultValue: false },
-    rightIconAppearance: {
+    maxLength: { control: "number", defaultValue: 150 },
+    leftIcon: {
+      control: "select",
+      options: ["", ...RegularIconIds, ...TogglableIconIds].sort((a, b) => a.localeCompare(b)),
+      description: "Nom de l’icône à afficher",
+      defaultValue: "check",
+    },
+    rightIconAction: {
       control: { type: "select" },
-      options: ["clean", "visibilityOn", "visibilityOff"],
+      options: ["", "clean", "visibilityOn", "visibilityOff"],
       defaultValue: "clean",
     },
-    requiredAppearance: {
-      control: { type: "select" },
-      options: ["required", "requiredIconOnly", "optional"],
-      defaultValue: "requiredIconOnly",
-    },
-    showAssistiveText: { control: "boolean", defaultValue: false },
+    showLabelRequirement: { control: "boolean", defaultValue: false },
     assistiveAppearance: {
       control: { type: "select" },
       options: ["description", "error", "success", "link"],
       defaultValue: "description",
     },
     showAssistiveIcon: { control: "boolean", defaultValue: false },
-    assistiveLabel: { control: "text", defaultValue: "" },
+    assistiveTextLabel: { control: "text", defaultValue: "" },
     disabled: { control: "boolean", defaultValue: false },
     error: { control: "boolean", defaultValue: false },
     readOnly: { control: "boolean", defaultValue: false },
-    onChange: { action: "changed" },
+    onChange: mockFn,
     onRightIconClick: { action: "right icon clicked" },
   },
 };
@@ -48,21 +55,19 @@ type Story = StoryObj<typeof TextInput>;
 export const Default: Story = {
   args: {
     label: "Label",
-    showLabel: true,
     labelPosition: "top",
-    required_optional: false,
+    required: false,
     showCounter: false,
-    value: "",
-    showLeftIcon: false,
-    showRightIcon: false,
-    rightIconAppearance: "clean",
-    requiredAppearance: "requiredIconOnly",
-    showAssistiveText: false,
+    showRightIcon: true,
+    rightIconAction: "visibilityOn",
+    showLabelRequirement: false,
     assistiveAppearance: "description",
     showAssistiveIcon: false,
-    assistiveLabel: "Assistive Text",
+    assistiveTextLabel: "Assistive Text",
     disabled: false,
     error: false,
     readOnly: false,
+    maxLength: 150,
   } as TextInputProps,
+  render: (args) => <TextInput {...args} />,
 };
