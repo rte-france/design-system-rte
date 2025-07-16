@@ -1,5 +1,11 @@
 # @design-system-rte/design-docs
 
+## 0.5.2
+
+### Patch Changes
+
+- 8227267: add groupName to radio button stories for better identification
+
 ## 0.5.1
 
 ### Patch Changes
