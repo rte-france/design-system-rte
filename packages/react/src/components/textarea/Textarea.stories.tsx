@@ -33,10 +33,9 @@ const meta = {
       control: "boolean",
       description: "Whether the textarea is required",
     },
-    requiredAppearance: {
-      control: "select",
-      options: ["required", "icon", "optional"],
-      description: "Appearance of the required indicator",
+    showLabelRequirement: {
+      control: "boolean",
+      description: "Whether to show the requirement indicator in the label",
     },
     maxLength: {
       control: "number",
@@ -58,6 +57,7 @@ export const Default: Story = {
     labelId: "LabelId",
     assistiveTextLabel: "Assistive text for the textarea",
     required: false,
+    showLabelRequirement: false,
     onChange: mockFn,
   },
   render: (args) => {
