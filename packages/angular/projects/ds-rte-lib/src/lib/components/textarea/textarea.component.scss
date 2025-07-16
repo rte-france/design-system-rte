@@ -36,22 +36,22 @@
       overflow-wrap: normal;
       word-break: normal;
 
-      .required-indicator {
+      .requirement-indicator {
         margin-left: $positive-spacing_025;
 
-        &.required,
-        &.optional {
+        &.show-label-requirement {
           @include typography-text-s;
           color: var(--content-tertiary);
+
+          &:not(.required) {
+            font-style: italic;
+          }
         }
 
-        &.optional {
-          font-style: italic;
-        }
-
-        &.icon {
-          vertical-align: text-bottom;
-          color: var(--content-danger);
+        &:not(.show-label-requirement) {
+          &.required {
+            color: var(--content-danger);
+          }
         }
       }
     }
@@ -95,7 +95,9 @@
       }
 
       &.error {
-        border: 2px solid var(--border-danger);
+        &:not(:disabled) {
+          border: 2px solid var(--border-danger)
+        }
       }
 
       &.resizeable {
@@ -125,7 +127,9 @@
       gap: $positive-spacing_050;
 
       &.error {
-        color: var(--content-danger);
+        &:not(.disabled) {
+          color: var(--content-danger);
+        }
       }
 
       &.success {
