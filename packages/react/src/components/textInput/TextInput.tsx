@@ -1,134 +1,232 @@
-import { TextInputProps } from "@design-system-rte/core/components/text-input/text-input.interface";
-import React, { useEffect, useRef } from "react";
+import {
+  TextInputProps as CoreTextInputProps,
+  RightIconAction,
+  RightIconName,
+} from "@design-system-rte/core/components/text-input/text-input.interface";
+import { ChangeEvent, forwardRef, InputHTMLAttributes, useEffect, useRef, useState } from "react";
 
 import Icon from "../icon/Icon";
+import IconButton from "../iconButton/IconButton";
 import Link from "../link/Link";
+import { concatClassNames } from "../utils";
 
 import style from "./TextInput.module.scss";
 
-const TextInput = ({
-  showLabel = true,
-  label,
-  labelPosition = "top",
-  required_optional = false,
-  showCounter = false,
-  value = "",
-  showLeftIcon = false,
-  showRightIcon = false,
-  rightIconAppearance = "clean",
-  requiredAppearance = "requiredIconOnly",
-  showAssistiveText = false,
-  assistiveAppearance = "description",
-  showAssistiveIcon = false,
-  assistiveLabel = "",
-  disabled = false,
-  error = false,
-  readOnly = false,
-  onChange,
-  onRightIconClick,
-}: TextInputProps) => {
-  const inputRef = useRef<HTMLInputElement>(null);
+interface TextInputProps
+  extends CoreTextInputProps,
+    Omit<InputHTMLAttributes<HTMLInputElement>, "onChange" | "value" | "defaultValue" | "placeholder"> {
+  onChange?: (value: string) => void;
+}
 
-  useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.value = value;
-    }
-  }, [value]);
+const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
+  (
+    {
+      label,
+      labelPosition = "top",
+      required = false,
+      showCounter,
+      value,
+      defaultValue,
+      leftIcon = "",
+      showRightIcon,
+      rightIconAction = "clean",
+      showLabelRequirement = false,
+      assistiveAppearance = "description",
+      showAssistiveIcon = false,
+      assistiveTextLabel = "",
+      error = false,
+      maxLength,
+      disabled,
+      readOnly,
+      onChange,
+      onRightIconClick,
+      ...props
+    }: TextInputProps,
+    ref,
+  ) => {
+    const inputRef = useRef<HTMLInputElement | null>(null);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (onChange) {
-      onChange(event.target.value);
-    }
-  };
+    const getRightIconName = (rightIconActionType: RightIconAction): RightIconName => {
+      if (["visibilityOn", "visibilityOff"].includes(rightIconActionType)) {
+        return isHiddenInput ? "visibility-show" : "visibility-hide";
+      } else if (rightIconActionType === "clean") {
+        return "close";
+      }
+      return "" as RightIconName;
+    };
 
-  const onRightIconClickHandler = () => {
-    if (onRightIconClick) {
-      onRightIconClick();
-    }
-  };
+    const [characterCount, setCharacterCount] = useState(value?.length || defaultValue?.length || 0);
+    const [isHiddenInput, setIsHiddenInput] = useState(rightIconAction === "visibilityOn");
 
-  const rightIconCorrectName =
-    rightIconAppearance === "visibilityOn"
-      ? "visibility-show"
-      : rightIconAppearance === "visibilityOff"
-        ? "visibility-hide"
-        : rightIconAppearance === "clean"
-          ? "close"
-          : rightIconAppearance;
+    useEffect(() => {
+      if (inputRef.current) {
+        inputRef.current.value = value || "";
+      }
+    }, [value]);
 
-  return (
-    <div className={style.container}>
-      {showLabel && (
-        <div className={style.topText}>
-          <div className={style.labelContainer} data-label-position={labelPosition}>
-            <label className={style.inputLabel}> {label} </label>
-            {required_optional ? (
-              requiredAppearance == "required" ? (
-                <p className={style.requiredText}>(obligatoire)</p>
-              ) : requiredAppearance == "requiredIconOnly" ? (
-                <div className={style.requiredIconContainer}>
-                  <Icon name="asterisk" size={8} />
-                </div>
-              ) : requiredAppearance == "optional" ? (
-                <p className={style.requiredText}>(optionnel)</p>
-              ) : null
-            ) : null}
-          </div>
-          {showCounter && labelPosition == "top" && <p className={style.inputCounter}> xxx/yyy</p>}
-        </div>
-      )}
-      <div className={style.inputContainer}>
-        <div
-          className={style.input}
-          data-label-position={labelPosition}
-          data-disabled={disabled}
-          data-read-only={readOnly}
-        >
-          <div className={style.inputBar}>
-            {showLeftIcon && <Icon name="error" appearance="outlined" className={style.leftIcon} />}
-            <input
-              ref={inputRef}
-              type="text"
-              value={value}
-              disabled={disabled}
-              data-read-only={readOnly}
-              data-error={error}
-              className={style.inputField}
-              onChange={handleChange}
-            />
+    useEffect(() => {
+      setIsHiddenInput(rightIconAction === "visibilityOn");
+    }, [rightIconAction]);
 
-            {showRightIcon && (
-              <Icon
-                name={rightIconCorrectName}
-                appearance="outlined"
-                className={style.rightIcon}
-                onClick={onRightIconClickHandler}
-              />
-            )}
-          </div>
-          {showCounter && labelPosition == "side" && <p className={style.inputCounter}> xxx/yyy </p>}
-        </div>
-        {showAssistiveText && (
-          <div className={style.assistiveText}>
-            {showAssistiveIcon && assistiveAppearance === "error" && (
-              <Icon name="error" appearance="outlined" className={style.assistiveIconError} size={12} />
-            )}
-            {showAssistiveIcon && assistiveAppearance === "success" && (
-              <Icon name="check" appearance="outlined" className={style.assistiveIconSucces} size={12} />
-            )}
-            {assistiveAppearance === "link" ? (
-              <Link label={assistiveLabel} />
-            ) : (
-              <p className={style.assistiveLabel} data-appearance={assistiveAppearance}>
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+      if (onChange) {
+        onChange(event.target.value);
+      }
+      if (maxLength) {
+        setCharacterCount(event.target.value.length);
+      }
+    };
+
+    const triggerRightIconAction = () => {
+      if (rightIconAction === "clean") {
+        if (inputRef.current) {
+          inputRef.current.value = "";
+        }
+      }
+      if (["visibilityOn", "visibilityOff"].includes(rightIconAction)) {
+        toggleInputVisibility();
+      }
+    };
+
+    const onRightIconClickHandler = () => {
+      if (onRightIconClick) {
+        onRightIconClick();
+        triggerRightIconAction();
+      }
+    };
+
+    const toggleInputVisibility = () => {
+      setIsHiddenInput(!isHiddenInput);
+    };
+
+    const computedInputBarClassName = concatClassNames(
+      style.inputBar,
+      leftIcon ? style.withLeftIcon : "",
+      rightIconAction ? style.withRightIcon : "",
+    );
+
+    const getInputAriaLabel = () => {
+      let ariaLabel = "";
+
+      if (label) {
+        ariaLabel = label;
+      }
+      if (error) {
+        ariaLabel += " error";
+      }
+      if (value) {
+        ariaLabel += ` ${value}`;
+      }
+      return ariaLabel;
+    };
+
+    const displayCounter = showCounter && typeof maxLength === "number";
+    const rightIconName = getRightIconName(rightIconAction);
+
+    return (
+      <div className={style.container} data-label-position={labelPosition} data-error={error}>
+        {label && (
+          <div className={style.text}>
+            <div className={style.labelContainer}>
+              <label className={style.inputLabel} id="inputLabel">
                 {" "}
-                {assistiveLabel}{" "}
+                {label}{" "}
+              </label>
+              {required ? (
+                showLabelRequirement ? (
+                  <p className={style.requiredText}>(obligatoire)</p>
+                ) : (
+                  <div className={style.requiredIconContainer}>
+                    <Icon name="asterisk" size={8} />
+                  </div>
+                )
+              ) : showLabelRequirement ? (
+                <p className={style.requiredText}>(optionnel)</p>
+              ) : null}
+            </div>
+            {displayCounter && labelPosition === "top" && (
+              <p className={style.inputCounter}>
+                {" "}
+                {characterCount}/{maxLength}
               </p>
             )}
           </div>
         )}
+        <div className={style.inputContainer}>
+          <div
+            className={style.input}
+            data-label-position={labelPosition}
+            data-disabled={disabled}
+            data-read-only={readOnly}
+          >
+            <div className={computedInputBarClassName}>
+              {leftIcon && (
+                <Icon
+                  name={error ? "error" : leftIcon}
+                  appearance="outlined"
+                  className={style.leftIcon}
+                  aria-hidden="true"
+                />
+              )}
+              <input
+                aria-label={getInputAriaLabel()}
+                role="textbox"
+                ref={(node) => {
+                  inputRef.current = node;
+                  if (typeof ref === "function") {
+                    ref(node);
+                  } else if (ref) {
+                    ref.current = node;
+                  }
+                }}
+                type={isHiddenInput ? "password" : "text"}
+                data-read-only={readOnly}
+                data-error={error}
+                className={style.inputField}
+                maxLength={maxLength}
+                onChange={handleChange}
+                {...props}
+              />
+
+              {showRightIcon && rightIconAction && (
+                <IconButton
+                  name={rightIconName}
+                  appearance="outlined"
+                  variant="transparent"
+                  className={style.rightIcon}
+                  onClick={onRightIconClickHandler}
+                />
+              )}
+            </div>
+          </div>
+          {assistiveTextLabel && (
+            <div className={style.assistiveText}>
+              {showAssistiveIcon && assistiveAppearance === "error" && (
+                <Icon name="error" appearance="outlined" className={style.assistiveIconError} size={12} />
+              )}
+              {showAssistiveIcon && assistiveAppearance === "success" && (
+                <Icon name="check" appearance="outlined" className={style.assistiveIconSucces} size={12} />
+              )}
+              {assistiveAppearance === "link" ? (
+                <Link label={assistiveTextLabel} />
+              ) : (
+                <p className={style.assistiveLabel} data-appearance={assistiveAppearance}>
+                  {" "}
+                  {assistiveTextLabel}{" "}
+                </p>
+              )}
+            </div>
+          )}
+        </div>
+        {displayCounter && labelPosition == "side" && (
+          <p className={style.inputCounter}>
+            {" "}
+            {characterCount}/{maxLength}{" "}
+          </p>
+        )}
       </div>
-    </div>
-  );
-};
+    );
+  },
+);
 
 export default TextInput;
