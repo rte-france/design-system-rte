@@ -36,22 +36,22 @@
       overflow-wrap: normal;
       word-break: normal;
 
-      .required-indicator {
+      .requirement-indicator {
         margin-left: $positive-spacing_025;
 
-        &[data-required-appearance='required'],
-        &[data-required-appearance='optional'] {
+        &[data-show-label-requirement='true'] {
           @include typography-text-s;
           color: var(--content-tertiary);
+
+          &[data-required='false'] {
+            font-style: italic;
+          }
         }
 
-        &[data-required-appearance='optional'] {
-          font-style: italic;
-        }
-
-        &[data-required-appearance='icon'] {
-          vertical-align: text-bottom;
-          color: var(--content-danger);
+        &[data-show-label-requirement='false'] {
+          &[data-required='true'] {
+            color: var(--content-danger);
+          }
         }
       }
     }

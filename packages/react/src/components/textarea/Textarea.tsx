@@ -1,6 +1,6 @@
 import {
   TEXTAREA_ICON_SIZE,
-  TEXTAREA_REQUIRED_LABEL,
+  TEXTAREA_REQUIREMENT_INDICATOR_VALUE,
 } from "@design-system-rte/core/components/textarea/textarea.constants";
 import type { TextareaProps as CoreTextareaProps } from "@design-system-rte/core/components/textarea/textarea.interface";
 import { ChangeEvent, FocusEvent, forwardRef, MutableRefObject, TextareaHTMLAttributes, useRef, useState } from "react";
@@ -33,7 +33,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       assistiveTextAppearance = "description",
       ["aria-labelledby"]: ariaLabelledby,
       assistiveTextLink,
-      requiredAppearance = "icon",
+      showLabelRequirement = false,
       resizeable = "true",
       maxLength,
       defaultValue,
@@ -62,7 +62,11 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       }
     };
 
-    const requiredIndicator = TEXTAREA_REQUIRED_LABEL[requiredAppearance];
+    const computedRequirementIndicatorValue = required
+      ? showLabelRequirement
+        ? TEXTAREA_REQUIREMENT_INDICATOR_VALUE.required
+        : TEXTAREA_REQUIREMENT_INDICATOR_VALUE.requiredIcon
+      : TEXTAREA_REQUIREMENT_INDICATOR_VALUE.optional;
 
     return (
       <div className={style.container} data-label-position={labelPosition}>
@@ -70,13 +74,14 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           {label && (
             <label id={labelId} className={style.label} htmlFor={id}>
               {label}
-              {required && (
+              {(showLabelRequirement || required) && (
                 <span
-                  className={style["required-indicator"]}
-                  data-required-appearance={requiredAppearance}
+                  className={style["requirement-indicator"]}
+                  data-required={required}
+                  data-show-label-requirement={showLabelRequirement}
                   aria-hidden="true"
                 >
-                  {requiredIndicator}
+                  {computedRequirementIndicatorValue}
                 </span>
               )}
             </label>
