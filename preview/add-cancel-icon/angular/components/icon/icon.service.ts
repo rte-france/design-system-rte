@@ -2,10 +2,10 @@ import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 
-import { regularIcons, togglableIcons } from "./icon-map";
+import { RegularIcons, TogglableIcons } from "./icon-map";
 
-export type RegularIconIdKey = keyof typeof regularIcons;
-export type TogglableIconIdKey = keyof typeof togglableIcons;
+export type RegularIconIdKey = keyof typeof RegularIcons;
+export type TogglableIconIdKey = keyof typeof TogglableIcons;
 
 @Injectable()
 export class IconService {
@@ -15,7 +15,7 @@ export class IconService {
     if (!this.http) {
       throw new Error("HttpClient is not available");
     }
-    const toggableIcon = togglableIcons[name as TogglableIconIdKey];
+    const toggableIcon = TogglableIcons[name as TogglableIconIdKey];
 
     if (toggableIcon) {
       const [outlinedIconName, filledIconName] = toggableIcon;
@@ -23,7 +23,7 @@ export class IconService {
       const iconName = appearance === "filled" ? filledIconName : outlinedIconName;
       return this.http.get(`assets/icons/${iconName}.svg`, { responseType: "text" });
     } else {
-      const iconName = regularIcons[name as RegularIconIdKey];
+      const iconName = RegularIcons[name as RegularIconIdKey];
       if (!iconName) {
         throw new Error(`Icon ${name} not found`);
       }

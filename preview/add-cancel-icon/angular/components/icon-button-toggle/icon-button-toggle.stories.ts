@@ -2,7 +2,7 @@ import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard
 import { Meta, StoryObj } from "@storybook/angular";
 import { fn, userEvent, within, expect } from "@storybook/test";
 
-import { togglableIcons as TogglableIconsList } from "../icon/icon-map";
+import { TogglableIcons as TogglableIconsList } from "../icon/icon-map";
 
 import { IconButtonToggleComponent } from "./icon-button-toggle.component";
 
