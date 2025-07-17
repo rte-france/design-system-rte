@@ -15,10 +15,10 @@ export class IconService {
     if (!this.http) {
       throw new Error("HttpClient is not available");
     }
-    const toggableIcon = TogglableIcons[name as TogglableIconIdKey];
+    const togglableIcon = TogglableIcons[name as TogglableIconIdKey];
 
-    if (toggableIcon) {
-      const [outlinedIconName, filledIconName] = toggableIcon;
+    if (togglableIcon) {
+      const [outlinedIconName, filledIconName] = togglableIcon;
 
       const iconName = appearance === "filled" ? filledIconName : outlinedIconName;
       return this.http.get(`assets/icons/${iconName}.svg`, { responseType: "text" });
