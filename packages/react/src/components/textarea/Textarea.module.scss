@@ -1,6 +1,13 @@
 @use '@design-system-rte/core/design-tokens/main.scss' as *;
 
 .container {
+  &[data-label-position='side'] {
+    display: flex;
+    flex-direction: row;
+  }
+}
+
+.top-position-container {
   @include typography-text-m;
   display: flex;
   height: 100%;
@@ -13,8 +20,7 @@
   opacity: $opacity-100;
 
   &[data-label-position='side'] {
-    flex-direction: row;
-    max-width: fit-content;
+    flex-grow: 1;
   }
 
   .header-container {
@@ -25,40 +31,11 @@
     justify-content: space-between;
     padding: $positive-spacing_025 $positive-spacing_100;
     box-sizing: border-box;
+    gap: $positive-spacing_100;
 
-    .label {
-      @include typography-text-m;
-      color: var(--content-secondary);
-
-      justify-content: space-between;
-      max-width: 100%;
-      white-space: normal;
-      overflow-wrap: normal;
-      word-break: normal;
-
-      .requirement-indicator {
-        margin-left: $positive-spacing_025;
-
-        &[data-show-label-requirement='true'] {
-          @include typography-text-s;
-          color: var(--content-tertiary);
-
-          &[data-required='false'] {
-            font-style: italic;
-          }
-        }
-
-        &[data-show-label-requirement='false'] {
-          &[data-required='true'] {
-            color: var(--content-danger);
-          }
-        }
-      }
-    }
-
-    .character-counter {
-      @include typography-text-s;
-      color: var(--content-tertiary);
+    &[data-label-position='side'] {
+      padding: 0;
+      justify-content: flex-end;
     }
   }
 
@@ -134,6 +111,47 @@
 
       &[data-assistive-text-appearance="success"] {
         color: var(--content-success);
+      }
+    }
+  }
+}
+
+.character-counter {
+  @include typography-text-s;
+  color: var(--content-tertiary);
+}
+
+.label {
+  @include typography-text-m;
+  color: var(--content-secondary);
+  max-width: 300px;
+  justify-content: space-between;
+  white-space: normal;
+  overflow-wrap: normal;
+  word-break: normal;
+
+  &[data-label-position='side'] {
+    padding: $positive-spacing_300 $positive-spacing_100;
+    align-items: flex-start;
+    gap: $positive-spacing_0;
+    align-self: stretch;
+  }
+
+  .requirement-indicator {
+    margin-left: $positive-spacing_025;
+
+    &[data-show-label-requirement='true'] {
+      @include typography-text-s;
+      color: var(--content-tertiary);
+
+      &[data-required='false'] {
+        font-style: italic;
+      }
+    }
+
+    &[data-show-label-requirement='false'] {
+      &[data-required='true'] {
+        color: var(--content-danger);
       }
     }
   }

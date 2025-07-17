@@ -57,6 +57,7 @@ export const Default: Story = {
     id: "my-textarea",
     label: "Label",
     labelId: "LabelId",
+    labelPosition: "top",
     assistiveTextLabel: "Assistive text label",
     assistiveTextLink: "https://example.com",
     assistiveTextAppearance: "description",
@@ -74,6 +75,7 @@ export const Default: Story = {
         [id]="'${args.id}'"
         [label]="'${args.label}'"
         [labelId]="'${args.labelId}'"
+        [labelPosition]="'${args.labelPosition}'"
         [assistiveTextLabel]="'${args.assistiveTextLabel}'"
         [assistiveTextLink]="'${args.assistiveTextLink}'"
         [assistiveTextAppearance]="'${args.assistiveTextAppearance}'"
@@ -105,6 +107,7 @@ export const CharacterCount: Story = {
         [id]="'${args.id}'"
         [label]="${args.label}"
         [labelId]="'${args.labelId}'"
+        [labelPosition]="'${args.labelPosition}'"
         [assistiveTextLabel]="'${args.assistiveTextLabel}'"
         [assistiveTextLink]="'${args.assistiveTextLink}'"
         [assistiveTextAppearance]="'${args.assistiveTextAppearance}'"
@@ -145,6 +148,7 @@ export const Error: Story = {
         [id]="'${args.id}'"
         [label]="${args.label}"
         [labelId]="'${args.labelId}'"
+        [labelPosition]="'${args.labelPosition}'"
         [assistiveTextLabel]="'${args.assistiveTextLabel}'"
         [assistiveTextLink]="'${args.assistiveTextLink}'"
         [assistiveTextAppearance]="'${args.assistiveTextAppearance}'"
@@ -177,6 +181,7 @@ export const ReadOnly: Story = {
         [id]="'${args.id}'"
         [label]="${args.label}"
         [labelId]="'${args.labelId}'"
+        [labelPosition]="'${args.labelPosition}'"
         [assistiveTextLabel]="'${args.assistiveTextLabel}'"
         [assistiveTextLink]="'${args.assistiveTextLink}'"
         [assistiveTextAppearance]="'${args.assistiveTextAppearance}'"
@@ -217,6 +222,7 @@ export const Disabled: Story = {
         [id]="'${args.id}'"
         [label]="${args.label}"
         [labelId]="'${args.labelId}'"
+        [labelPosition]="'${args.labelPosition}'"
         [assistiveTextLabel]="'${args.assistiveTextLabel}'"
         [assistiveTextLink]="'${args.assistiveTextLink}'"
         [assistiveTextAppearance]="'${args.assistiveTextAppearance}'"
@@ -253,6 +259,7 @@ export const KeyboardInteraction: Story = {
         [id]="'${args.id}'"
         [label]="${args.label}"
         [labelId]="'${args.labelId}'"
+        [labelPosition]="'${args.labelPosition}'"
         [assistiveTextLabel]="'${args.assistiveTextLabel}'"
         [assistiveTextLink]="'${args.assistiveTextLink}'"
         [assistiveTextAppearance]="'${args.assistiveTextAppearance}'"

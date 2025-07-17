@@ -65,6 +65,7 @@ export const Default: Story = {
     showLabelRequirement: false,
     onChange: mockFn,
     readOnly: false,
+    rows: 3,
   },
   render: (args) => {
     return (

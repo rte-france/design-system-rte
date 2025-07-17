@@ -70,74 +70,91 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
 
     return (
       <div className={style.container} data-label-position={labelPosition}>
-        <div className={style["header-container"]} data-label-position={labelPosition}>
-          {label && (
-            <label id={labelId} className={style.label} htmlFor={id}>
-              {label}
-              {(showLabelRequirement || required) && (
-                <span
-                  className={style["requirement-indicator"]}
-                  data-required={required}
-                  data-show-label-requirement={showLabelRequirement}
-                  aria-hidden="true"
-                >
-                  {computedRequirementIndicatorValue}
-                </span>
-              )}
-            </label>
-          )}
-          {maxLength && (
-            <span className={style["character-counter"]}>
-              {characterCount}/{maxLength}
-            </span>
-          )}
-        </div>
-        <div className={style["textarea-container"]} data-label-position={labelPosition}>
-          <textarea
-            ref={(node) => {
-              textareaRef.current = node;
-              if (typeof ref === "function") ref(node);
-              else if (ref) ref.current = node;
-            }}
-            id={id}
-            name={name}
-            className={concatClassNames(style.textarea, className)}
-            data-resizeable={resizeable}
-            data-assistive-text-appearance={assistiveTextAppearance}
-            onChange={handleChange}
-            aria-labelledby={labelId || ariaLabelledby}
-            maxLength={maxLength}
-            onBlur={handleBlur}
-            defaultValue={defaultValue}
-            value={value}
-            {...props}
-          />
-          {assistiveTextLabel && (
-            <>
-              {assistiveTextAppearance === "link" ? (
-                <Link
-                  label={assistiveTextLabel}
-                  href={assistiveTextLink}
-                  externalLink
-                  className={style["assistive-text-link"]}
-                />
-              ) : (
-                <div
-                  className={style["assistive-text"]}
-                  data-assistive-text-appearance={assistiveTextAppearance}
-                  data-disabled={props.disabled}
-                >
-                  {assistiveTextAppearance === "error" ? (
-                    <Icon name="error" size={TEXTAREA_ICON_SIZE} />
-                  ) : assistiveTextAppearance === "success" ? (
-                    <Icon name={"check-circle"} size={TEXTAREA_ICON_SIZE} />
-                  ) : null}
+        {label && labelPosition === "side" && (
+          <label id={labelId} className={style.label} htmlFor={id} data-label-position={labelPosition}>
+            {label}
+            {(showLabelRequirement || required) && (
+              <span
+                className={style["requirement-indicator"]}
+                data-required={required}
+                data-show-label-requirement={showLabelRequirement}
+                aria-hidden="true"
+              >
+                {computedRequirementIndicatorValue}
+              </span>
+            )}
+          </label>
+        )}
+        <div className={style["top-position-container"]} data-label-position={labelPosition}>
+          <div className={style["header-container"]} data-label-position={labelPosition}>
+            {label && labelPosition === "top" && (
+              <label id={labelId} className={style.label} htmlFor={id} data-label-position={labelPosition}>
+                {label}
+                {(showLabelRequirement || required) && (
+                  <span
+                    className={style["requirement-indicator"]}
+                    data-required={required}
+                    data-show-label-requirement={showLabelRequirement}
+                    aria-hidden="true"
+                  >
+                    {computedRequirementIndicatorValue}
+                  </span>
+                )}
+              </label>
+            )}
+            {maxLength && (
+              <span className={style["character-counter"]}>
+                {characterCount}/{maxLength}
+              </span>
+            )}
+          </div>
+          <div className={style["textarea-container"]} data-label-position={labelPosition}>
+            <textarea
+              ref={(node) => {
+                textareaRef.current = node;
+                if (typeof ref === "function") ref(node);
+                else if (ref) ref.current = node;
+              }}
+              id={id}
+              name={name}
+              className={concatClassNames(style.textarea, className)}
+              data-resizeable={resizeable}
+              data-assistive-text-appearance={assistiveTextAppearance}
+              onChange={handleChange}
+              aria-labelledby={labelId || ariaLabelledby}
+              maxLength={maxLength}
+              onBlur={handleBlur}
+              defaultValue={defaultValue}
+              value={value}
+              {...props}
+            />
+            {assistiveTextLabel && (
+              <>
+                {assistiveTextAppearance === "link" ? (
+                  <Link
+                    label={assistiveTextLabel}
+                    href={assistiveTextLink}
+                    externalLink
+                    className={style["assistive-text-link"]}
+                  />
+                ) : (
+                  <div
+                    className={style["assistive-text"]}
+                    data-assistive-text-appearance={assistiveTextAppearance}
+                    data-disabled={props.disabled}
+                  >
+                    {assistiveTextAppearance === "error" ? (
+                      <Icon name="error" size={TEXTAREA_ICON_SIZE} />
+                    ) : assistiveTextAppearance === "success" ? (
+                      <Icon name={"check-circle"} size={TEXTAREA_ICON_SIZE} />
+                    ) : null}
 
-                  <span>{assistiveTextLabel}</span>
-                </div>
-              )}
-            </>
-          )}
+                    <span>{assistiveTextLabel}</span>
+                  </div>
+                )}
+              </>
+            )}
+          </div>
         </div>
       </div>
     );
