@@ -70,7 +70,7 @@ export class TextareaComponent {
   characterCount = 0;
 
   readonly isCounterVisible = computed(() => {
-    return this.showCounter() && typeof this.maxLength() === "number";
+    return this.showCounter() && this.maxLength();
   });
 
   onInput(event: Event) {
