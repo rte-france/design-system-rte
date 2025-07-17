@@ -42,6 +42,10 @@ const meta = {
       control: "number",
       description: "Maximum number of characters allowed in the textarea",
     },
+    showCounter: {
+      control: "boolean",
+      description: "Whether to display the character count",
+    },
     readOnly: {
       control: "boolean",
       description: "Whether the textarea is read-only",
