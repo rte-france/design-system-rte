@@ -1,5 +1,13 @@
 # @design-system-rte/core
 
+## 0.9.0
+
+### Minor Changes
+
+- f51dfca: ## Changes
+
+  - add cancel icon
+
 ## 0.8.0
 
 ### Minor Changes

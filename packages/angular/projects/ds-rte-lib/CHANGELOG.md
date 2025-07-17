@@ -1,5 +1,22 @@
 # @design-system-rte/angular
 
+## 0.6.0
+
+### Minor Changes
+
+- 0684f1c: ## Changes
+
+  - harmonise togglable variable name
+  - update generate:icon command to add icon map generation
+  - use capitalise variable name for Regular and Togglable icons
+  - add script to generate icon maps
+  - add cancel icon
+
+### Patch Changes
+
+- Updated dependencies [f51dfca]
+  - @design-system-rte/core@0.9.0
+
 ## 0.5.4
 
 ### Patch Changes
