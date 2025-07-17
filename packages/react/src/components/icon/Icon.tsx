@@ -21,9 +21,9 @@ interface IconWrapperProps
 
 const Icon = ({ name, size, color, appearance, ...props }: IconWrapperProps) => {
   if (isValidIconName(name)) {
-    const toggableIcon = TogglableIcons[name as TogglableIconIdKey];
-    if (toggableIcon) {
-      const [OutlinedIcon, FilledIcon] = toggableIcon;
+    const togglableIcon = TogglableIcons[name as TogglableIconIdKey];
+    if (togglableIcon) {
+      const [OutlinedIcon, FilledIcon] = togglableIcon;
       return appearance === "filled" ? (
         <FilledIcon width={size} height={size} fill={color} {...props} />
       ) : (
