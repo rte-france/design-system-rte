@@ -2,6 +2,12 @@ import { Meta, StoryObj } from "@storybook/angular";
 
 import { TagComponent } from "./tag.component";
 
+
+import { regularIcons as RegularIconsList, togglableIcons as TogglableIconsList } from "../icon/icon-map";
+
+const RegularIconIds = Object.keys(RegularIconsList);
+const TogglableIconIds = Object.keys(TogglableIconsList);
+
 const meta: Meta<TagComponent> = {
   title: "Tag",
   component: TagComponent,
@@ -57,8 +63,19 @@ const meta: Meta<TagComponent> = {
       description: "Show icon on the left",
     },
     iconName: {
-      control: "text",
+      control: "select",
       description: "Custom icon name",
+      options: [...RegularIconIds, ...TogglableIconIds],
+    },
+    computedIconName: {
+      table: {
+        disable: true,
+      },
+    },
+    isValidIconName: {
+      table: {
+        disable: true,
+      },
     },
   },
 };

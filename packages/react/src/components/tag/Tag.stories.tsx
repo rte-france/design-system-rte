@@ -2,6 +2,11 @@ import { Meta, StoryObj } from "@storybook/react";
 
 import Tag from "./Tag";
 
+import { IconIds, TogglableIcons } from "../icon/IconMap";
+
+const RegularIconIds = Object.keys(IconIds);
+const TogglableIconIds = Object.keys(TogglableIcons);
+
 const meta = {
   title: "Tag",
   component: Tag,
@@ -47,6 +52,11 @@ const meta = {
     showLeftIcon: {
       control: "boolean",
     },
+    iconName: {
+      control: "select",
+      options: [...RegularIconIds, ...TogglableIconIds],
+      description: "Icon to display on the tag",
+    }
   },
 } satisfies Meta<typeof Tag>;
 export default meta;

@@ -1,6 +1,6 @@
 export type TagType = "status" | "decorative";
-export type Status = "success" | "information" | "warning" | "alert";
-export type Color =
+export type TagStatus = "success" | "information" | "warning" | "alert";
+export type TagColor =
   | "brand"
   | "neutral"
   | "azur"
@@ -25,8 +25,8 @@ export type Color =
 
 export interface TagProps {
   tagType?: TagType;
-  status?: Status;
-  color?: Color;
+  status?: TagStatus;
+  color?: TagColor;
   compactSpacing?: boolean;
   label?: string;
   showLeftIcon?: boolean;

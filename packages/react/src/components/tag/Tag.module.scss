@@ -36,36 +36,45 @@
     }
 }
 
-&[data-tag-type="decorative"] {
+    &[data-tag-type="decorative"] {
 
-    $decorative-colors: (
-        brand: --background-brand-default,
-        neutral: --decorative-neutral,
-        azur: --decorative-bleu-iceberg,
-        jade: --decorative-vert-foret,
-        lavande: --decorative-violet,
-        ciel: --decorative-bleu-rte,
-        nuage: --decorative-bleu-digital,
-        givre: --decorative-marine,
-        brume: --decorative-bleu-petrole,
-        glacier: --decorative-bleu-cyan,
-        turquoise: --decorative-vert,
-        anis: --decorative-vert-indications,
-        menthe: --decorative-vert-digital,
-        citronnelle: --decorative-jaune,
-        sable: --decorative-jaune-ocre,
-        abricot: --decorative-jaune-indications,
-        coral: --decorative-saumon,
-        rose: --decorative-rose-digital,
-        petale: --decorative-fuschia,
-        quartz: --decorative-rouge-indication,
-        cendre: --decorative-taupe
-    );
+        $decorative-colors: (
+            brand: --background-brand-default,
+            neutral: --decorative-neutral,
+            azur: --decorative-bleu-iceberg,
+            jade: --decorative-vert-foret,
+            lavande: --decorative-violet,
+            ciel: --decorative-bleu-rte,
+            nuage: --decorative-bleu-digital,
+            givre: --decorative-marine,
+            brume: --decorative-bleu-petrole,
+            glacier: --decorative-bleu-cyan,
+            turquoise: --decorative-vert,
+            anis: --decorative-vert-indications,
+            menthe: --decorative-vert-digital,
+            citronnelle: --decorative-jaune,
+            sable: --decorative-jaune-ocre,
+            abricot: --decorative-jaune-indications,
+            coral: --decorative-saumon,
+            rose: --decorative-rose-digital,
+            petale: --decorative-fuschia,
+            quartz: --decorative-rouge-indication,
+            cendre: --decorative-taupe
+        );
 
-@each $name, $var in $decorative-colors {
-    &[data-color="#{$name}"] {
-        background-color: var(#{$var});
+        @each $name, $var in $decorative-colors {
+            &[data-color="#{'' + $name}"] {
+                    background-color: var(#{$var});
+                }
+        }
+
+
+            &[data-color="brand"] {
+                color: var(--content-primary-inverse);
+
+            .tag-label {
+                color: var(--content-primary-inverse);
+            }
+        }
     }
-}
-}
 }
