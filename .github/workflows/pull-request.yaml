@@ -58,7 +58,7 @@ jobs:
           key: icons-${{ hashFiles('package-lock.json') }}-${{ github.sha }}
 
       - name: Generate icons
-        run: npm run generate-icons
+        run: npm run generate:icons
 
 
   quality-react:
