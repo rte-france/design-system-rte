@@ -1,5 +1,12 @@
 # @design-system-rte/react
 
+## 0.4.3
+
+### Patch Changes
+
+- Updated dependencies [7d6d633]
+  - @design-system-rte/core@0.8.0
+
 ## 0.4.2
 
 ### Patch Changes
