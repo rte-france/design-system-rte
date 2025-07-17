@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component, input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, input, computed } from "@angular/core";
 import { TagProps } from "@design-system-rte/core/components/tag/tag.interface";
 
 import { isValidIconName } from "../icon/icon-map";
@@ -23,7 +23,7 @@ export class TagComponent {
   readonly showLeftIcon = input<boolean>(false);
   readonly iconName = input<RegularIconIdKey | TogglableIconIdKey>();
 
-  get computedIconName(): RegularIconIdKey | TogglableIconIdKey | "" {
+  readonly computedIconName = computed(() => {
     if (this.tagType() === "status") {
       const statusIconMap: Record<string, RegularIconIdKey | TogglableIconIdKey> = {
         success: "check",
@@ -36,10 +36,11 @@ export class TagComponent {
         return statusIconMap[statusValue];
       }
     }
-    return this.iconName() ?? "";
-  }
+    return this.iconName() ?? "check";
+  });
 
-  isValidIconName(iconName: string): boolean {
-    return iconName ? isValidIconName(iconName) : false;
-  }
+  readonly isValidIconName = computed(() => {
+    const iconName = this.computedIconName();
+    return !!iconName && isValidIconName(iconName);
+  });
 }
