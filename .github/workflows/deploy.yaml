@@ -27,7 +27,7 @@ jobs:
         run: npm ci --prefer-offline
         
       - name: Generate icons
-        run: npm run generate-icons
+        run: npm run generate:icons
 
       - name: Build Design Docs Storybook
         run: npm run build-design-docs
