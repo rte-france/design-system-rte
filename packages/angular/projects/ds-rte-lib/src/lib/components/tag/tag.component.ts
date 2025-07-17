@@ -24,7 +24,7 @@ export class TagComponent {
   readonly iconName = input<RegularIconIdKey | TogglableIconIdKey>();
 
   readonly computedIconName = computed(() => {
-  if (this.tagType() === "status") {
+    if (this.tagType() === "status") {
       const statusIconMap: Record<string, RegularIconIdKey | TogglableIconIdKey> = {
         success: "check",
         information: "info",
@@ -37,7 +37,7 @@ export class TagComponent {
       }
     }
     return this.iconName() ?? "check";
-})
+  });
 
   readonly isValidIconName = computed(() => {
     const iconName = this.computedIconName();
