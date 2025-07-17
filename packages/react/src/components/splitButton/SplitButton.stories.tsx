@@ -2,7 +2,7 @@ import { DOWN_KEY, TAB_KEY } from "@design-system-rte/core/constants/keyboard.co
 import { Meta, StoryObj } from "@storybook/react";
 import { expect, fn, userEvent, waitFor, within } from "@storybook/test";
 
-import { IconIds as RegularIconsList, TogglableIcons as TogglableIconsList } from "../icon/IconMap";
+import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../icon/IconMap";
 
 import SplitButton from "./SplitButton";
 
