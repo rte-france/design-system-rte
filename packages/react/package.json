@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "build": "tsc -b && vite build",
-    "generate-icons": "npx @svgr/cli -d ./src/components/icon/generated ../core/assets/icons --no-prettier --template template.js && npm run lint:fix",
+    "generate-icons": "npx @svgr/cli -d ./src/components/icon/generated ../core/assets/icons --no-prettier --template template.js && node ./generateIconMap.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write 'src/**/*.{ts,tsx,js,jsx}'",

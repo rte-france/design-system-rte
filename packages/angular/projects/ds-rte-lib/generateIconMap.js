@@ -13,15 +13,15 @@ generateIconMaps();
 
 function getIconsName() {
   const files = fs.readdirSync(assetsDir);
-  const componentNames = files.filter((file) => file.endsWith(".svg")).map((file) => path.basename(file, ".svg"));
-  return componentNames;
+  const iconsName = files.filter((file) => file.endsWith(".svg")).map((file) => path.basename(file, ".svg"));
+  return iconsName;
 }
 
 function extractRegularAndTogglableIcons() {
   const togglableIcons = [];
   const regularIcons = [];
   ALL_ICONS.forEach((iconName) => {
-    if (iconName.includes("outlined") || iconName.includes("filled")) {
+    if (iconName.toLowerCase().includes("outlined") || iconName.includes("filled")) {
       const baseName = iconName.replace(/(_outlined|_filled)$/, "");
       if (!togglableIcons.includes(baseName)) {
         togglableIcons.push(baseName);

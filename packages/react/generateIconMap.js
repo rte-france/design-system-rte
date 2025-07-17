@@ -4,6 +4,7 @@ import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const iconDir = path.resolve(__dirname, "src/components/icon");
 const ALL_ICONS = getIconsName();
 const { togglableIcons, regularIcons } = extractRegularAndTogglableIcons();
 
@@ -11,10 +12,9 @@ generateIndexFile();
 generateIconMaps();
 
 function getIconsName() {
-  const iconsDir = path.resolve(__dirname, "src/components/icon/generated");
-  const files = fs.readdirSync(iconsDir);
-  const componentNames = files.filter((file) => file.endsWith(".tsx")).map((file) => path.basename(file, ".tsx"));
-  return componentNames;
+  const files = fs.readdirSync(path.resolve(iconDir, "generated"));
+  const iconsName = files.filter((file) => file.endsWith(".tsx")).map((file) => path.basename(file, ".tsx"));
+  return iconsName;
 }
 
 function extractRegularAndTogglableIcons() {
@@ -39,10 +39,9 @@ function extractRegularAndTogglableIcons() {
 function generateIndexFile() {
   let string = `// This file is auto-generated. Do not edit manually.\n\n`;
   ALL_ICONS.forEach((iconName) => {
-    const iconNameCamelCase = iconName.charAt(0).toUpperCase() + iconName.slice(1);
-    string += `export { default as ${iconNameCamelCase} } from './${iconNameCamelCase}';\n`;
+    string += `export { default as ${iconName} } from './${iconName}';\n`;
   });
-  fs.writeFileSync(path.resolve(__dirname, "src/components/icon/generated/index.ts"), string);
+  fs.writeFileSync(path.resolve(iconDir, "generated/index.ts"), string);
 }
 
 function generateIconMaps() {
@@ -53,7 +52,7 @@ function generateIconMaps() {
   string += generateTogglableIconsMap();
   string += generateIsValidIconNameFunction();
 
-  fs.writeFileSync(path.resolve(__dirname, "src/components/icon/IconMap.ts"), string);
+  fs.writeFileSync(path.resolve(iconDir, "IconMap.ts"), string);
 }
 
 function generateImportsIconsMap() {
@@ -70,10 +69,7 @@ function generateImportsIconsMap() {
 function generateRegularIconsMap() {
   let string = `export const RegularIcons = {\n`;
   regularIcons.forEach((iconName) => {
-    const snakeCaseName = iconName
-      .replace(/([a-z0-9])([A-Z])/g, "$1-$2")
-      .replace(/([A-Z])([A-Z][a-z])/g, "$1-$2")
-      .toLowerCase();
+    const snakeCaseName = iconName.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
     string += `  "${snakeCaseName}": ${iconName},\n`;
   });
   string += `};\n\n`;
