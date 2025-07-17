@@ -1,8 +1,8 @@
 import { Meta, StoryObj } from "@storybook/react";
 
-import Tag from "./Tag";
-
 import { IconIds, TogglableIcons } from "../icon/IconMap";
+
+import Tag from "./Tag";
 
 const RegularIconIds = Object.keys(IconIds);
 const TogglableIconIds = Object.keys(TogglableIcons);
@@ -56,7 +56,7 @@ const meta = {
       control: "select",
       options: [...RegularIconIds, ...TogglableIconIds],
       description: "Icon to display on the tag",
-    }
+    },
   },
 } satisfies Meta<typeof Tag>;
 export default meta;

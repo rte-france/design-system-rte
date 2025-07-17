@@ -19,8 +19,7 @@ const statusIconMap: Record<string, RegularIconIdKey | TogglableIconIdKey> = {
 
 const Tag = forwardRef<HTMLDivElement, TagProps>(
   ({ tagType = "status", status, color, compactSpacing, label, showLeftIcon = false, iconName, ...props }, ref) => {
-
-    if (tagType === "status" && (status && statusIconMap[status])) {
+    if (tagType === "status" && status && statusIconMap[status]) {
       iconName = statusIconMap[status];
     }
 
@@ -39,9 +38,7 @@ const Tag = forwardRef<HTMLDivElement, TagProps>(
         data-compact-spacing={compactSpacing}
         {...props}
       >
-        {showLeftIcon && iconName && isValidIconName(iconName) && (
-          <Icon name={iconName} size={16} />
-        )}
+        {showLeftIcon && iconName && isValidIconName(iconName) && <Icon name={iconName} size={16} />}
         {label && <label className={style["tag-label"]}>{label}</label>}
       </div>
     );
