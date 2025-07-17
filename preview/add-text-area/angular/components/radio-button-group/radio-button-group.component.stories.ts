@@ -88,6 +88,7 @@ export const Default: Story = {
 export const Disabled: Story = {
   args: {
     ...Default.args,
+    groupName: "disabled-radio-group",
     disabled: true,
   },
 };
@@ -95,6 +96,7 @@ export const Disabled: Story = {
 export const Error: Story = {
   args: {
     ...Default.args,
+    groupName: "error-radio-group",
     error: true,
   },
 };
@@ -102,6 +104,7 @@ export const Error: Story = {
 export const ReadOnly: Story = {
   args: {
     ...Default.args,
+    groupName: "readonly-radio-group",
     readOnly: true,
   },
 };
@@ -109,6 +112,7 @@ export const ReadOnly: Story = {
 export const Vertical: Story = {
   args: {
     ...Default.args,
+    groupName: "vertical-radio-group",
     direction: "vertical",
   },
 };
@@ -116,6 +120,7 @@ export const Vertical: Story = {
 export const Horizontal: Story = {
   args: {
     ...Default.args,
+    groupName: "horizontal-radio-group",
     direction: "horizontal",
   },
 };
