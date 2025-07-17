@@ -3,9 +3,9 @@ import {
   IconWrapperProps as CoreIconWrapperProps,
 } from "@design-system-rte/core/components/icon/icon.interface";
 
-import { IconIds, isValidIconName, TogglableIcons } from "./IconMap";
+import { RegularIcons, isValidIconName, TogglableIcons } from "./IconMap";
 
-export type RegularIconIdKey = keyof typeof IconIds;
+export type RegularIconIdKey = keyof typeof RegularIcons;
 export type TogglableIconIdKey = keyof typeof TogglableIcons;
 
 export interface IconProps extends coreIconProps {
@@ -30,7 +30,7 @@ const Icon = ({ name, size, color, appearance, ...props }: IconWrapperProps) => 
         <OutlinedIcon width={size} height={size} fill={color} {...props} />
       );
     } else {
-      const Icon = IconIds[name as RegularIconIdKey];
+      const Icon = RegularIcons[name as RegularIconIdKey];
       return <Icon width={size} height={size} fill={color} {...props} />;
     }
   } else {

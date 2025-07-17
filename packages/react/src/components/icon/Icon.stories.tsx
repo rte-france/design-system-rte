@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from "@storybook/react";
 
 import Icon from "./Icon";
-import { IconIds as RegularIconsList, TogglableIcons as TogglableIconsList } from "./IconMap";
+import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "./IconMap";
 
 const RegularIconIds = Object.keys(RegularIconsList);
 const TogglableIconIds = Object.keys(TogglableIconsList);

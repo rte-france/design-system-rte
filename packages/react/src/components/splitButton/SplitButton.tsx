@@ -6,7 +6,7 @@ import { SplitButtonProps as CoreSplitButtonProps } from "@design-system-rte/cor
 import React, { ForwardedRef, useEffect, useRef } from "react";
 
 import Icon from "../icon/Icon";
-import { IconIds, TogglableIcons } from "../icon/IconMap";
+import { RegularIcons, TogglableIcons } from "../icon/IconMap";
 import { concatClassNames } from "../utils";
 
 import style from "./SplitButton.module.scss";
@@ -16,7 +16,7 @@ interface SplitButtonProps
     Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "onClick" | "children"> {
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   children?: React.ReactNode;
-  icon?: keyof typeof IconIds | keyof typeof TogglableIcons;
+  icon?: keyof typeof RegularIcons | keyof typeof TogglableIcons;
 }
 
 const SplitButton = React.forwardRef<HTMLElement | HTMLButtonElement, SplitButtonProps>(
