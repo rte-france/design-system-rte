@@ -72,7 +72,7 @@ export function generateThemesFile() {
   Object.values(ColorTheme).forEach((theme) => {
     scss += `${INDENT.repeat(1)}"${theme.replace(/-/g, "_")}": $${theme},\n`;
   });
-  scss += `);\n`;
+  scss += `);`;
 
   const filePath = path.join(tokensOutputDir, "_themes.scss");
   generateScssFile(scss, filePath);
