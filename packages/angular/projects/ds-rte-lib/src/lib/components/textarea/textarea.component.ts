@@ -46,6 +46,7 @@ export class TextareaComponent {
   readonly value = input<string | undefined>(undefined);
   readonly rows = input<number>(3);
   readonly defaultValue = input<string | undefined>(undefined);
+  readonly showCounter = input<boolean>(false);
 
   readonly assistiveTextIconSize = TEXTAREA_ICON_SIZE;
 
@@ -67,6 +68,10 @@ export class TextareaComponent {
   );
 
   characterCount = 0;
+
+  readonly isCounterVisible = computed(() => {
+    return this.showCounter() && this.maxLength();
+  });
 
   onInput(event: Event) {
     const target = event.target as HTMLTextAreaElement;

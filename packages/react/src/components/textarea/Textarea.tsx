@@ -37,6 +37,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       resizeable = "true",
       maxLength,
       defaultValue,
+      showCounter,
       value,
       ...props
     },
@@ -45,6 +46,8 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
     const [characterCount, setCharacterCount] = useState(value?.length || defaultValue?.length || 0);
 
     const textareaRef: MutableRefObject<HTMLTextAreaElement | null> = useRef<HTMLTextAreaElement>(null);
+
+    const displayCounter = showCounter && maxLength;
 
     const handleBlur = (event: FocusEvent<HTMLTextAreaElement, Element>) => {
       if (onBlur) {
@@ -102,7 +105,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
                 )}
               </label>
             )}
-            {maxLength && (
+            {displayCounter && (
               <span className={style["character-counter"]}>
                 {characterCount}/{maxLength}
               </span>

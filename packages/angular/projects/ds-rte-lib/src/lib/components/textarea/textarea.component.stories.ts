@@ -39,6 +39,10 @@ const meta: Meta<TextareaComponent> = {
       control: "number",
       description: "Maximum number of characters allowed in the textarea",
     },
+    showCounter: {
+      control: "boolean",
+      description: "Whether to display the character count",
+    },
     readOnly: {
       control: "boolean",
       description: "Whether the textarea is read-only",
@@ -65,6 +69,7 @@ export const Default: Story = {
     value: "",
     rows: 3,
     showLabelRequirement: false,
+    showCounter: false,
     change: mockFn,
   },
   render: (args) => ({
@@ -81,6 +86,7 @@ export const Default: Story = {
         [assistiveTextAppearance]="'${args.assistiveTextAppearance}'"
         [required]=${args.required}
         [maxLength]=${args.maxLength}
+        [showCounter]=${args.showCounter}
         [required]=${args.required}
         [showLabelRequirement]=${args.showLabelRequirement}
         [readOnly]=${args.readOnly}
@@ -113,6 +119,7 @@ export const CharacterCount: Story = {
         [assistiveTextAppearance]="'${args.assistiveTextAppearance}'"
         [required]=${args.required}
         [maxLength]=${args.maxLength}
+        [showCounter]=${args.showCounter}
         [required]=${args.required}
         [showLabelRequirement]=${args.showLabelRequirement}
         [readOnly]=${args.readOnly}
@@ -154,6 +161,7 @@ export const Error: Story = {
         [assistiveTextAppearance]="'${args.assistiveTextAppearance}'"
         [required]=${args.required}
         [maxLength]=${args.maxLength}
+        [showCounter]=${args.showCounter}
         [required]=${args.required}
         [showLabelRequirement]=${args.showLabelRequirement}
         [readOnly]=${args.readOnly}
@@ -187,6 +195,7 @@ export const ReadOnly: Story = {
         [assistiveTextAppearance]="'${args.assistiveTextAppearance}'"
         [required]=${args.required}
         [maxLength]=${args.maxLength}
+        [showCounter]=${args.showCounter}
         [required]=${args.required}
         [showLabelRequirement]=${args.showLabelRequirement}
         [readOnly]=${args.readOnly}
@@ -228,6 +237,7 @@ export const Disabled: Story = {
         [assistiveTextAppearance]="'${args.assistiveTextAppearance}'"
         [required]=${args.required}
         [maxLength]=${args.maxLength}
+        [showCounter]=${args.showCounter}
         [required]=${args.required}
         [showLabelRequirement]=${args.showLabelRequirement}
         [readOnly]=${args.readOnly}
@@ -265,6 +275,7 @@ export const KeyboardInteraction: Story = {
         [assistiveTextAppearance]="'${args.assistiveTextAppearance}'"
         [required]=${args.required}
         [maxLength]=${args.maxLength}
+        [showCounter]=${args.showCounter}
         [required]=${args.required}
         [showLabelRequirement]=${args.showLabelRequirement}
         [readOnly]=${args.readOnly}
