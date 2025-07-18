@@ -23,7 +23,7 @@ const Badge = forwardRef<HTMLDivElement, BadgeProps>(
           {size !== "XS" && size !== "S" && (
             <>
               {appearance == "icon" && <Icon name={icon} className={style.icon} size={size === "M" ? 12 : 20} />}
-              {appearance == "text" && <p className={style.count}>{count < 1000 ? count : "999+"}</p>}
+              {appearance == "text" && count > 0 && <p className={style.count}>{count < 1000 ? count : "999+"}</p>}
             </>
           )}
         </div>

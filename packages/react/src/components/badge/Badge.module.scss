@@ -19,7 +19,7 @@
 
         &[data-badge-type='neutral'] {
             @include elevation-neutral-shadow-2;
-            background-color: var(--background-neutral-default);
+            background-color: var(--background-neutral-regular-default);
             color: var(--content-secondary);
         }
 

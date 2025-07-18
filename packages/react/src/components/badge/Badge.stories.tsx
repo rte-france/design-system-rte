@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react";
 
-import { IconIds as RegularIconsList, TogglableIcons as TogglableIconsList } from "../icon/IconMap";
+import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../icon/IconMap";
 
 import Badge from "./Badge";
 
@@ -71,4 +71,38 @@ export const Default: Story = {
     count: 42,
     children: mockChildren,
   },
+};
+
+export const IconBadge: Story = {
+  args: {
+    badgeType: "brand",
+    size: "M",
+    appearance: "icon",
+    icon: "settings",
+    count: 0,
+    children: mockChildren,
+  },
+};
+
+export const Sizes: Story = {
+  args: {
+    badgeType: "brand",
+    appearance: "text",
+    count: 42,
+    children: mockChildren,
+  },
+  argTypes: {
+    size: {
+      control: "select",
+      options: ["XS", "S", "M", "L"],
+    },
+  },
+  render: (args) => (
+    <div style={{ display: "flex", gap: "16px", alignItems: "center" }}>
+      <Badge {...args} size="XS" />
+      <Badge {...args} size="S" />
+      <Badge {...args} size="M" />
+      <Badge {...args} size="L" />
+    </div>
+  ),
 };
