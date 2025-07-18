@@ -6,7 +6,7 @@ import { TogglableIcons as TogglableIconsList } from "../icon/IconMap";
 
 import IconButtonToggle from "./IconButtonToggle";
 
-const TogglableIconIds = Object.keys(TogglableIconsList);
+const TogglableIconIds = Object.keys(TogglableIconsList).sort((a, b) => a.localeCompare(b));
 
 const meta = {
   title: "IconButtonToggle (développement en cours)",
@@ -16,13 +16,17 @@ const meta = {
   argTypes: {
     name: {
       control: "select",
-      options: TogglableIconIds.sort((a, b) => a.localeCompare(b)),
+      options: TogglableIconIds,
       description: "Nom de l’icône à afficher",
       defaultValue: "check",
     },
     selected: {
       control: "boolean",
-      description: "Indique si le bouton est sélectionné",
+      description: "Indique si le bouton est sélectionné en mode contrôlé",
+    },
+    defaultSelected: {
+      control: "boolean",
+      description: "Indique si le bouton est sélectionné par défaut en mode non contrôlé",
     },
     variant: {
       control: "select",
@@ -55,7 +59,7 @@ export const Default: Story = {
     disabled: false,
     compactSpacing: false,
     onClick: mockFn,
-    selected: false,
+    defaultSelected: false,
     ["aria-label"]: "icon button toggle aria label",
   },
 

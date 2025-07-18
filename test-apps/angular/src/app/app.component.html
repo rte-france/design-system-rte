@@ -21,8 +21,8 @@
 
 <hr />
 
-<rte-icon-button-toggle name="home" />
+<rte-icon-button-toggle name="home" [selected]="selected()" (click)="onClick($event)"/>
 
 <hr />
 
-<span rteTooltip="Tooltip">Tooltip</span>
+<span rteTooltip="Tooltip" >Tooltip</span>

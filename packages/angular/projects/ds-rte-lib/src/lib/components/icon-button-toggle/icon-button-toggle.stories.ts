@@ -37,7 +37,11 @@ const meta = {
     },
     selected: {
       control: "boolean",
-      description: "Indique si l'icône est sélectionnée",
+      description: "Indique si l'icône est sélectionnée en mode contrôlé",
+    },
+    defaultSelected: {
+      control: "boolean",
+      description: "Valeur par défaut de la sélection en mode non contrôlé",
     },
   },
 } satisfies Meta<IconButtonToggleComponent>;
@@ -57,7 +61,8 @@ export const Default: Story = {
     variant: "primary",
     ariaLabel: "icon button aria label",
     click: mockFn,
-    selected: false,
+    selected: undefined,
+    defaultSelected: false,
   },
   render: (args) => ({
     props: { ...args },
@@ -75,6 +80,7 @@ export const Default: Story = {
         [selected]="${args.selected}"
         [type]="'${args.type}'"
         [variant]="'${args.variant}'"
+        [defaultSelected]="${args.defaultSelected}"
         (click)="click()"
       />
     `,
@@ -104,6 +110,7 @@ export const Sizing: Story = {
         [compactSpacing]="${args.compactSpacing}" 
         [disabled]="${args.disabled}"
         [selected]="${args.selected}"
+        [defaultSelected]="${args.defaultSelected}"
         [ariaLabel]="'Small Icon Button'"
         [type]="'${args.type}'"
         [variant]="'${args.variant}'"
@@ -114,6 +121,7 @@ export const Sizing: Story = {
         [compactSpacing]="${args.compactSpacing}" 
         [disabled]="${args.disabled}"
         [selected]="${args.selected}"
+        [defaultSelected]="${args.defaultSelected}"
         [ariaLabel]="'Small Icon Button'"
         [type]="'${args.type}'"
         [variant]="'${args.variant}'"
@@ -125,6 +133,7 @@ export const Sizing: Story = {
         [compactSpacing]="${args.compactSpacing}" 
         [disabled]="${args.disabled}"
         [selected]="${args.selected}"
+        [defaultSelected]="${args.defaultSelected}"
         [ariaLabel]="'Small Icon Button'"
         [type]="'${args.type}'"
         [variant]="'${args.variant}'"
@@ -160,6 +169,7 @@ export const CompactSizing: Story = {
         [compactSpacing]="${args.compactSpacing}" 
         [disabled]="${args.disabled}"
         [selected]="${args.selected}"
+        [defaultSelected]="${args.defaultSelected}"
         [ariaLabel]="'Small Icon Button'"
         [type]="'${args.type}'"
         [variant]="'${args.variant}'"
@@ -181,6 +191,7 @@ export const CompactSizing: Story = {
         [compactSpacing]="${args.compactSpacing}" 
         [disabled]="${args.disabled}"
         [selected]="${args.selected}"
+        [defaultSelected]="${args.defaultSelected}"
         [ariaLabel]="'Small Icon Button'"
         [type]="'${args.type}'"
         [variant]="'${args.variant}'"
