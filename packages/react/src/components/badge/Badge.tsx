@@ -17,23 +17,12 @@ const Badge = forwardRef<HTMLDivElement, BadgeProps>(
       return null;
     }
 
-    if (appearance == "text" && typeof count !== "number") {
-      console.warn("Badge: 'count' must be a number when appearance is 'text'.");
-      return null;
-    }
-
     return (
       <div ref={ref} className={style["badge-container"]}>
         <div data-badge-type={badgeType} data-size={size} className={style.badge}>
           {size !== "XS" && size !== "S" && (
             <>
-              {appearance == "icon" && (
-                <Icon
-                  name={icon as RegularIconIdKey | TogglableIconIdKey}
-                  className={style.icon}
-                  size={size === "M" ? 12 : 20}
-                />
-              )}
+              {appearance == "icon" && <Icon name={icon} className={style.icon} size={size === "M" ? 12 : 20} />}
               {appearance == "text" && <p className={style.count}>{count < 1000 ? count : "999+"}</p>}
             </>
           )}
