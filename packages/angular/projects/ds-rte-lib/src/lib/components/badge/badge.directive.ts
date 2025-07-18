@@ -58,5 +58,5 @@ export class BadgeDirective implements OnInit, OnDestroy {
       `rte-badge-size-${this.rteBadgeSize()}`,
       `rte-badge-appearance-${this.rteBadgeAppearance()}`,
     ].join(" ");
-  }  
+  }
 }
