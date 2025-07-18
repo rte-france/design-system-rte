@@ -92,6 +92,15 @@
   letter-spacing: $text-s-regular-letter-spacing;
 }
 
+@mixin typography-text-s-bold {
+  @include typography-text;
+  font-family: $text-s-bold-font-family;
+  font-weight: $text-s-bold-font-weight;
+  font-size: $text-s-bold-font-size;
+  line-height: $text-s-bold-line-height;
+  letter-spacing: $text-s-bold-letter-spacing;
+}
+
 @mixin typography-text-l {
   @include typography-text;
   font-family: $text-l-regular-font-family;
@@ -99,6 +108,15 @@
   font-size: $text-l-regular-font-size;
   line-height: $text-l-regular-line-height;
   letter-spacing: $text-l-regular-letter-spacing;
+}
+
+@mixin typography-text-l-bold {
+  @include typography-text;
+  font-family: $text-l-bold-font-family;
+  font-weight: $text-l-bold-font-weight;
+  font-size: $text-l-bold-font-size;
+  line-height: $text-l-bold-line-height;
+  letter-spacing: $text-l-bold-letter-spacing;
 }
 
 @mixin typography-link {
