@@ -8,6 +8,7 @@ import {
   TooltipDirective,
   TextInputComponent,
   ChipComponent,
+  BadgeDirective,
 } from "@design-system-rte/angular";
 
 @Component({
@@ -22,6 +23,7 @@ import {
     TooltipDirective,
     TextInputComponent,
     ChipComponent,
+    BadgeDirective,
   ],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",

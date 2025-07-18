@@ -1,4 +1,4 @@
-import { Button, Icon, IconButtonToggle, SplitButton, Tooltip, TextInput, Chip } from "@design-system-rte/react";
+import { Button, Icon, IconButtonToggle, SplitButton, Tooltip, TextInput, Chip, Badge } from "@design-system-rte/react";
 import "./App.css";
 import { useState } from "react";
 
@@ -54,6 +54,13 @@ function App() {
       <div>
         <h3>Chip</h3>
         <Chip label="Chip Label" type="single" onClick={() => console.log("Chip clicked")} />
+      </div>
+      <hr />
+      <div>
+        <h3>Badge</h3>
+        <div style={{ display: "inline-block", backgroundColor: "bisque" }}>
+          <Badge count={1}>A badge host</Badge>
+        </div>
       </div>
     </div>
   );
