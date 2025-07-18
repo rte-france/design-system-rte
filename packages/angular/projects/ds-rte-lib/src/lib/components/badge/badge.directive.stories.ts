@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from "@storybook/angular";
 
-import { regularIcons as RegularIconsList, togglableIcons as TogglableIconsList } from "../icon/icon-map";
+import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../icon/icon-map";
 
 import { BadgeDirective } from "./badge.directive";
 
