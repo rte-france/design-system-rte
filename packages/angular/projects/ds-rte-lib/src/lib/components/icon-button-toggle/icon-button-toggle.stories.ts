@@ -9,7 +9,7 @@ import { IconButtonToggleComponent } from "./icon-button-toggle.component";
 const TogglableIconIds = Object.keys(TogglableIconsList);
 
 const meta = {
-  title: "IconButtonToggle (développement en cours)",
+  title: "IconButtonToggle",
   id: "IconButtonToggle",
   component: IconButtonToggleComponent,
   tags: ["autodocs"],
@@ -67,12 +67,6 @@ export const Default: Story = {
   render: (args) => ({
     props: { ...args },
     template: `
-    <div>
-      <span style="font-family: sans-serif; margin-bottom: 16px; border: 1px solid #F4922B; padding: 8px; border-radius: 5px; background-color: #FAFFC1; margin: 0;">
-        Ce composant est en cours de développement et n'est pas encore disponible
-      </span>
-    </div>
-    <br/>
     <rte-icon-button-toggle 
         name=${args.name} 
         [compactSpacing]="${args.compactSpacing}" 
