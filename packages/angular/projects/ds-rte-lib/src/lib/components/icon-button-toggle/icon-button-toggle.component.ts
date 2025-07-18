@@ -21,10 +21,10 @@ export class IconButtonToggleComponent {
   readonly variant = input<ButtonVariant>("primary");
   readonly type = input<ButtonType>("button");
   readonly compactSpacing = input<boolean>(false);
-  readonly ariaLabel = input<string | undefined>(undefined);
-  readonly ariaLabelledBy = input<string | undefined>(undefined);
+  readonly ariaLabel = input<string | undefined>();
+  readonly ariaLabelledBy = input<string | undefined>();
 
-  readonly selected = input<boolean | undefined>(undefined);
+  readonly selected = input<boolean | undefined>();
 
   readonly internalSelected = signal(false);
 
@@ -38,7 +38,7 @@ export class IconButtonToggleComponent {
     return this.isControlled() ? this.selected() : this.internalSelected();
   });
 
-  toggleInternalSelectedState(): void {
+  private toggleInternalSelectedState(): void {
     this.internalSelected.set(!this.internalSelected());
   }
 
