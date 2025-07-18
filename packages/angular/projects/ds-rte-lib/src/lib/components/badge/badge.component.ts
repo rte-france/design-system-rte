@@ -22,6 +22,6 @@ export class BadgeComponent {
 
   readonly isValidIconName = computed(() => isValidIconName(this.icon()));
   readonly showIcon = computed(() => this.badgeAppearance() === "icon" && this.isValidIconName());
-  readonly showText = computed(() => this.badgeAppearance() === "text" && this.count() > 0) ;
+  readonly showText = computed(() => this.badgeAppearance() === "text" && this.count() > 0);
   readonly displayCount = computed(() => (this.count() < 1000 ? this.count() : "999+"));
 }
