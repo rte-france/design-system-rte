@@ -38,6 +38,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       maxLength,
       disabled,
       readOnly,
+      width,
       onChange,
       onRightIconClick,
       ...props
@@ -55,8 +56,17 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       return "" as RightIconName;
     };
 
+    const getRightIconAriaLabel = (rightIconActionType: RightIconAction): string => {
+      if (["visibilityOn", "visibilityOff"].includes(rightIconActionType)) {
+        return isHiddenInput ? "show text" : "hide text";
+      } else if (rightIconActionType === "clean") {
+        return "clear";
+      }
+      return "";
+    };
+
     const [characterCount, setCharacterCount] = useState(value?.length || defaultValue?.length || 0);
-    const [isHiddenInput, setIsHiddenInput] = useState(rightIconAction === "visibilityOn");
+    const [isHiddenInput, setIsHiddenInput] = useState(!!showRightIcon && rightIconAction === "visibilityOn");
 
     useEffect(() => {
       if (inputRef.current) {
@@ -65,8 +75,8 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
     }, [value]);
 
     useEffect(() => {
-      setIsHiddenInput(rightIconAction === "visibilityOn");
-    }, [rightIconAction]);
+      setIsHiddenInput(!!showRightIcon && rightIconAction === "visibilityOn");
+    }, [showRightIcon, rightIconAction]);
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
       if (onChange) {
@@ -122,9 +132,10 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
 
     const displayCounter = showCounter && typeof maxLength === "number";
     const rightIconName = getRightIconName(rightIconAction);
+    const rightIconAriaLabel = getRightIconAriaLabel(rightIconAction);
 
     return (
-      <div className={style.container} data-label-position={labelPosition} data-error={error}>
+      <div className={style.container} data-label-position={labelPosition} data-error={error} style={{ width }}>
         {label && (
           <div className={style.text}>
             <div className={style.labelContainer}>
@@ -134,18 +145,18 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
               </label>
               {required ? (
                 showLabelRequirement ? (
-                  <p className={style.requiredText}>(obligatoire)</p>
+                  <span className={style.requiredText}>(obligatoire)</span>
                 ) : (
-                  <div className={style.requiredIconContainer}>
+                  <span className={style.requiredIconContainer}>
                     <Icon name="asterisk" size={8} />
-                  </div>
+                  </span>
                 )
               ) : showLabelRequirement ? (
-                <p className={style.requiredText}>(optionnel)</p>
+                <span className={style.requiredText}>(optionnel)</span>
               ) : null}
             </div>
             {displayCounter && labelPosition === "top" && (
-              <p className={style.inputCounter}>
+              <p className={style.inputCounter} data-testid="input-counter">
                 {" "}
                 {characterCount}/{maxLength}
               </p>
@@ -170,7 +181,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
               )}
               <input
                 aria-label={getInputAriaLabel()}
-                role="textbox"
+                aria-required={required}
                 ref={(node) => {
                   inputRef.current = node;
                   if (typeof ref === "function") {
@@ -180,11 +191,12 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
                   }
                 }}
                 type={isHiddenInput ? "password" : "text"}
-                data-read-only={readOnly}
                 data-error={error}
                 className={style.inputField}
                 maxLength={maxLength}
                 onChange={handleChange}
+                disabled={disabled}
+                readOnly={readOnly}
                 {...props}
               />
 
@@ -194,6 +206,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
                   appearance="outlined"
                   variant="transparent"
                   className={style.rightIcon}
+                  aria-label={rightIconAriaLabel}
                   onClick={onRightIconClickHandler}
                 />
               )}

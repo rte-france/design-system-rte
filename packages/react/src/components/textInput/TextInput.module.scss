@@ -45,7 +45,6 @@
 
         .labelContainer {
             display: flex;
-            flex-direction: row;
             align-items: flex-start;
 
             .inputLabel {
@@ -139,6 +138,7 @@
                     padding: $positive-spacing-050 $positive-spacing-200;
                     background: linear-gradient(0deg, var(--elevation-surface-inner-shadow) 0%, var(--elevation-surface-inner-shadow) 100%), var(--background-default);
                     transition: border 200ms;
+                    color: var(--content-primary);
                     @include neutral-inner-shadow;
 
                     &:hover{
@@ -154,7 +154,7 @@
                         border: $width-s solid var(--border-brand-default)
                     }
 
-                    &:disabled, &:read-only {
+                    &:disabled, &[readonly] {
                         border : $width-xs solid var(--border-disabled);
                         cursor: not-allowed;
                         pointer-events: none;

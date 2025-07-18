@@ -18,6 +18,7 @@
     "build-storybook": "storybook build -o ../design-docs/storybook-static/react",
     "test:ci": "npx playwright install && npx start-server-and-test storybook http://localhost:7008 test",
     "test": "test-storybook --url http://localhost:7008",
+    "test:watch": "test-storybook --url http://localhost:7008 --watch",
     "prepublishOnly": "npm run generate-icons && npm run build"
   },
   "keywords": [],
