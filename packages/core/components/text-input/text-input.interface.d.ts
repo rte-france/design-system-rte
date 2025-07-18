@@ -12,13 +12,10 @@ export interface TextInputProps {
   leftIcon?: RegularIconIdKey | TogglableIconIdKey | "";
   showRightIcon?: boolean;
   rightIconAction?: RightIconAction;
-  required?: boolean;
   showLabelRequirement?: boolean;
   assistiveAppearance?: AssistiveAppearance;
   showAssistiveIcon?: boolean;
   assistiveTextLabel?: string;
-  disabled?: boolean;
   error?: boolean;
-  readOnly?: boolean;
   onRightIconClick?: () => void;
 }
