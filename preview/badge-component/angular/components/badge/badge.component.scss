@@ -1,0 +1,66 @@
+@use '@design-system-rte/core/design-tokens/main.scss' as *;
+
+.badge {
+    position: absolute;
+    border-radius: $radius-pill;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &.type-brand {
+        @include elevation-brand-shadow-2;
+        background-color: var(--background-brand-default);
+        color: var(--content-primary-inverse);
+    }
+
+    &.type-neutral {
+        @include elevation-neutral-shadow-2;
+        background-color: var(--background-neutral-regular-default);
+        color: var(--content-secondary);
+    }
+
+    &.type-indicator {
+        @include elevation-brand-shadow-2;
+        background-color: var(--background-danger-default);
+        color: var(--content-primary-inverse);
+    }
+
+    &.size-XS {
+        width: 6px;
+        height: 6px;
+        box-shadow: none;
+        top: 0;
+        right: 0;
+    }
+
+    &.size-S {
+        width: 12px;
+        height: 12px;
+        top: -3px;
+        right: -3px;
+    }
+
+    &.size-M {
+        @include typography-text-s-bold;
+        min-width: 16px;
+        width: fit-content;
+        height: 16px;
+        top: -4px;
+        right: -4px;
+        padding: $positive-spacing_0 $positive-spacing_025;
+    }
+
+    &.size-L {
+        @include typography-text-l-bold;
+        min-width: 24px;
+        width: fit-content;
+        height: 24px;
+        top: -8px;
+        right: -8px;
+        padding: $positive-spacing_0 $positive-spacing_050;
+    }
+
+    p {
+        margin: 0;
+    }
+}
