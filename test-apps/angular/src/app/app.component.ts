@@ -37,7 +37,6 @@ export class AppComponent {
   readonly click = output<MouseEvent | KeyboardEvent>();
 
   toggleSelectState(): void {
-    console.log("AppComponent.toggleSelectState", this.selected());
     this.selected.set(!this.selected());
   }
 
