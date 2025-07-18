@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { Component, input, computed } from "@angular/core";
-
+import {BadgeAppearance, BadgeSize, BadgeType} from "@design-system-rte/core/components/badge/badge.interface";
 import { isValidIconName } from "../icon/icon-map";
 import { IconComponent } from "../icon/icon.component";
 import { RegularIconIdKey, TogglableIconIdKey } from "../icon/icon.service";
@@ -13,9 +13,9 @@ import { RegularIconIdKey, TogglableIconIdKey } from "../icon/icon.service";
   styleUrl: "./badge.component.scss",
 })
 export class BadgeComponent {
-  readonly badgeType = input<string>("brand");
-  readonly badgeSize = input<string>("M");
-  readonly badgeAppearance = input<string>("text");
+  readonly badgeType = input<BadgeType>("brand");
+  readonly badgeSize = input<BadgeSize>("M");
+  readonly badgeAppearance = input<BadgeAppearance>("text");
   readonly count = input<number>(42);
   readonly icon = input<RegularIconIdKey | TogglableIconIdKey>("settings");
 

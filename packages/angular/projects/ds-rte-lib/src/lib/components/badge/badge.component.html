@@ -1,6 +1,5 @@
 <div
-    class="badge"
-    [ngClass]="{'type' : badgeType(), 'size' : badgeSize()}"
+    class="badge size-{{ badgeSize() }} type-{{ badgeType() }}"
 >
     <ng-container *ngIf="badgeSize() !== 'XS' && badgeSize() !== 'S'">
         <rte-icon
