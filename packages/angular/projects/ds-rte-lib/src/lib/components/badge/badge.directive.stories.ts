@@ -95,21 +95,21 @@ export const Default: Story = {
 };
 
 export const Sizes: Story = {
-    args: {
-        rteBadge: "Badge",
-        rteBadgeType: "brand",
-        rteBadgeAppearance: "text",
+  args: {
+    rteBadge: "Badge",
+    rteBadgeType: "brand",
+    rteBadgeAppearance: "text",
+  },
+  render: (args) => ({
+    props: {
+      ...args,
+      sizeXS: "XS",
+      sizeS: "S",
+      sizeM: "M",
+      sizeL: "L",
     },
-    render: (args) => ({
-        props: { 
-            ...args,
-            sizeXS: "XS",
-            sizeS: "S", 
-            sizeM: "M",
-            sizeL: "L"
-        },
-        declarations: [BadgeDirective],
-        template: `
+    declarations: [BadgeDirective],
+    template: `
             <div style="display: flex; gap: 16px; align-items: center;">
                 ${mockHost(`
                     [rteBadge]="rteBadge"
@@ -137,27 +137,26 @@ export const Sizes: Story = {
                 `)}
             </div>
         `,
-    }),
+  }),
 };
 
-
 export const CountLimit: Story = {
-    args: {
-        rteBadgeType: "indicator",
-        rteBadgeAppearance: "text",
-        rteBadgeSize: "M",
+  args: {
+    rteBadgeType: "indicator",
+    rteBadgeAppearance: "text",
+    rteBadgeSize: "M",
+  },
+  render: (args) => ({
+    props: {
+      ...args,
+      count5: 5,
+      count99: 99,
+      count100: 100,
+      count999: 999,
+      count1000: 1000,
     },
-    render: (args) => ({
-        props: { 
-            ...args,
-            count5: 5,
-            count99: 99,
-            count100: 100,
-            count999: 999,
-            count1000: 1000,
-        },
-        declarations: [BadgeDirective],
-        template: `
+    declarations: [BadgeDirective],
+    template: `
             <div style="display: flex; gap: 16px; align-items: center;">
                 ${mockHost(`
                     [rteBadge]="rteBadge"
@@ -196,19 +195,19 @@ export const CountLimit: Story = {
                 `)}
             </div>
         `,
-    }),
+  }),
 };
 
 export const Icons: Story = {
-    args: {
-        rteBadgeType: "brand",
-        rteBadgeAppearance: "icon",
-        rteBadgeSize: "M",
-    },
-    render: (args) => ({
-        props: args,
-        declarations: [BadgeDirective],
-        template: `
+  args: {
+    rteBadgeType: "brand",
+    rteBadgeAppearance: "icon",
+    rteBadgeSize: "M",
+  },
+  render: (args) => ({
+    props: args,
+    declarations: [BadgeDirective],
+    template: `
             <div style="display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
                 ${mockHost(`
                     [rteBadge]="rteBadge"
@@ -254,5 +253,5 @@ export const Icons: Story = {
                 `)}
             </div>
         `,
-    }),
+  }),
 };

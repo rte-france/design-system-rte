@@ -1,6 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { Component, input, computed } from "@angular/core";
-import {BadgeAppearance, BadgeSize, BadgeType} from "@design-system-rte/core/components/badge/badge.interface";
+import { BadgeAppearance, BadgeSize, BadgeType } from "@design-system-rte/core/components/badge/badge.interface";
+
 import { isValidIconName } from "../icon/icon-map";
 import { IconComponent } from "../icon/icon.component";
 import { RegularIconIdKey, TogglableIconIdKey } from "../icon/icon.service";
