@@ -7,10 +7,13 @@ import {
   ViewContainerRef,
   ComponentRef,
   inject,
+    ElementRef,
+    Renderer2,
 } from "@angular/core";
 
 import { RegularIconIdKey, TogglableIconIdKey } from "../icon/icon.service";
 
+import { BadgeType, BadgeSize, BadgeAppearance } from "@design-system-rte/core/components/badge/badge.interface";
 import { BadgeComponent } from "./badge.component";
 
 @Directive({
@@ -19,13 +22,15 @@ import { BadgeComponent } from "./badge.component";
 })
 export class BadgeDirective implements OnInit, OnDestroy {
   readonly rteBadge = input.required<string>();
-  readonly rteBadgeType = input<string>("brand");
-  readonly rteBadgeSize = input<string>("M");
-  readonly rteBadgeAppearance = input<string>("text");
+  readonly rteBadgeType = input<BadgeType>("brand");
+  readonly rteBadgeSize = input<BadgeSize>("M");
+  readonly rteBadgeAppearance = input<BadgeAppearance>("text");
   readonly rteBadgeCount = input<number>(42);
   readonly rteBadgeIcon = input<RegularIconIdKey | TogglableIconIdKey>("settings");
 
   private viewContainer = inject(ViewContainerRef);
+    private elementRef = inject(ElementRef);
+    private renderer = inject(Renderer2);
   private badgeComponentRef: ComponentRef<BadgeComponent> | null = null;
 
   ngOnInit() {
@@ -40,7 +45,7 @@ export class BadgeDirective implements OnInit, OnDestroy {
     this.badgeComponentRef.setInput("icon", this.rteBadgeIcon());
 
     // Trigger change detection
-    this.badgeComponentRef.changeDetectorRef.detectChanges();
+    this.renderer.appendChild(this.elementRef.nativeElement, this.badgeComponentRef.location.nativeElement);
   }
 
   ngOnDestroy() {
