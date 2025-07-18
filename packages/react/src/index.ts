@@ -1,4 +1,5 @@
 import "./styles.d.ts";
+import Badge from "./components/badge/Badge.tsx";
 import Button from "./components/button/Button";
 import Checkbox from "./components/checkbox/Checkbox.tsx";
 import CheckboxGroup from "./components/checkboxGroup/CheckboxGroup.tsx";
@@ -29,4 +30,5 @@ export {
   Tooltip,
   TextInput,
   Chip,
+  Badge,
 };

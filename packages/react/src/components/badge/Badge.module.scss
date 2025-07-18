@@ -1,6 +1,6 @@
 @use '@design-system-rte/core/design-tokens/main.scss' as *;
 
-.badge-container {
+.badgeContainer {
     position: relative;
     display: inline-flex;
 
@@ -10,6 +10,11 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        transition: opacity 0.15s;
+
+        &.hidden {
+            opacity: 0;
+        }
 
         &[data-badge-type='brand'] {
             @include elevation-brand-shadow-2;
@@ -19,7 +24,7 @@
 
         &[data-badge-type='neutral'] {
             @include elevation-neutral-shadow-2;
-            background-color: var(--background-neutral-default);
+            background-color: var(--background-neutral-regular-default);
             color: var(--content-secondary);
         }
 
@@ -29,7 +34,7 @@
             color: var(--content-primary-inverse);
         }
 
-        &[data-size='XS'] {
+        &[data-size='xs'] {
             width: 6px;
             height: 6px;
             box-shadow: none;
@@ -37,14 +42,14 @@
             right: 0;
         }
 
-        &[data-size='S'] {
+        &[data-size='s'] {
             width: 12px;
             height: 12px;
             top: -3px;
             right: -3px;
         }
 
-        &[data-size='M'] {
+        &[data-size='m'] {
             @include typography-text-s-bold;
             min-width: 16px;
             width: fit-content;
@@ -54,7 +59,7 @@
             padding: $positive-spacing_0 $positive-spacing_025;
         }
 
-        &[data-size='L'] {
+        &[data-size='l'] {
             @include typography-text-l-bold;
             min-width: 24px;
             width: fit-content;
@@ -67,6 +72,7 @@
         p {
             margin: 0;
         }
+
     }
 
 }

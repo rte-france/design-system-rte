@@ -1,30 +1,51 @@
 import { BadgeProps as BadgePropsCore } from "@design-system-rte/core/components/badge/badge.interface";
+import {
+  getBadgeIconSize,
+  getDisplayCount,
+  getShowBadge,
+  getShowIcon,
+  getShowText,
+} from "@design-system-rte/core/components/badge/badge.utils";
 import { forwardRef } from "react";
 
 import Icon, { RegularIconIdKey, TogglableIconIdKey } from "../icon/Icon";
 import { isValidIconName } from "../icon/IconMap";
+import { concatClassNames } from "../utils";
 
 import style from "./Badge.module.scss";
+
 export interface BadgeProps extends BadgePropsCore, Omit<React.HTMLAttributes<HTMLDivElement>, "children"> {
   children: React.ReactNode;
   icon?: RegularIconIdKey | TogglableIconIdKey;
 }
 
 const Badge = forwardRef<HTMLDivElement, BadgeProps>(
-  ({ badgeType = "brand", size = "M", appearance = "text", count = 42, icon = "settings", children }, ref) => {
+  ({ badgeType = "brand", size = "m", appearance = "text", count, icon = "settings", children, ...props }, ref) => {
     if (appearance == "icon" && icon && !isValidIconName(icon)) {
       console.warn(`Badge: Invalid icon name "${icon}". Please use a valid icon key.`);
       return null;
     }
 
+    const iconSize = getBadgeIconSize(size);
+
+    const showIcon = getShowIcon({ size, appearance, iconSize });
+    const showText = getShowText({ size, appearance, count });
+
+    const showBadge = getShowBadge({ size, appearance, count, iconSize });
+
     return (
-      <div ref={ref} className={style["badge-container"]}>
-        <div data-badge-type={badgeType} data-size={size} className={style.badge}>
-          {size !== "XS" && size !== "S" && (
-            <>
-              {appearance == "icon" && <Icon name={icon} className={style.icon} size={size === "M" ? 12 : 20} />}
-              {appearance == "text" && <p className={style.count}>{count < 1000 ? count : "999+"}</p>}
-            </>
+      <div ref={ref} className={style.badgeContainer} {...props}>
+        <div
+          data-badge-type={badgeType}
+          data-size={size}
+          data-testid="badge"
+          className={concatClassNames(style.badge, showBadge ? "" : style.hidden)}
+        >
+          {showIcon && <Icon name={icon} className={style.icon} size={iconSize} />}
+          {showText && (
+            <p className={style.count} key={count}>
+              {getDisplayCount(count)}
+            </p>
           )}
         </div>
         {children}
