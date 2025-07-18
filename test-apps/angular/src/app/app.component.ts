@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, output, signal } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
 import {
   ButtonComponent,
@@ -24,4 +24,18 @@ import {
 })
 export class AppComponent {
   title = "angular";
+
+  selected = signal(false);
+
+  readonly click = output<MouseEvent | KeyboardEvent>();
+
+  toggleSelectState(): void {
+    this.selected.set(!this.selected());
+  }
+
+  onClick(event: MouseEvent | KeyboardEvent): void {
+    event.stopPropagation();
+    this.click.emit(event);
+    this.toggleSelectState();
+  }
 }

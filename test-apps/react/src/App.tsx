@@ -1,7 +1,14 @@
+import { Button, Icon, IconButtonToggle, SplitButton, Tooltip } from "@design-system-rte/react";
+import { useState } from "react";
 import "./App.css";
-import { Button, Icon, SplitButton, Tooltip } from "@design-system-rte/react";
 
 function App() {
+  const [isIconButtonToggleSelected, setIsIconButtonToggleSelected] = useState(false);
+
+  const handleIconButtonToggleClick = () => {
+    setIsIconButtonToggleSelected(!isIconButtonToggleSelected);
+  };
+
   return (
     <div data-theme="bleu_iceberg" data-mode="light">
       <div>
@@ -26,6 +33,11 @@ function App() {
         <Tooltip label="Tooltip">
           <Button label="Click me" />
         </Tooltip>
+      </div>
+      <hr />
+      <div>
+        <h3>Icon Button Toggle</h3>
+        <IconButtonToggle onClick={handleIconButtonToggleClick} selected={isIconButtonToggleSelected} name="settings" />
       </div>
     </div>
   );

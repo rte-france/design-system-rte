@@ -6,23 +6,27 @@ import { TogglableIcons as TogglableIconsList } from "../icon/IconMap";
 
 import IconButtonToggle from "./IconButtonToggle";
 
-const TogglableIconIds = Object.keys(TogglableIconsList);
+const TogglableIconIds = Object.keys(TogglableIconsList).sort((a, b) => a.localeCompare(b));
 
 const meta = {
-  title: "IconButtonToggle (développement en cours)",
+  title: "IconButtonToggle",
   id: "IconButtonToggle",
   component: IconButtonToggle,
   tags: ["autodocs"],
   argTypes: {
     name: {
       control: "select",
-      options: TogglableIconIds.sort((a, b) => a.localeCompare(b)),
+      options: TogglableIconIds,
       description: "Nom de l’icône à afficher",
       defaultValue: "check",
     },
     selected: {
       control: "boolean",
-      description: "Indique si le bouton est sélectionné",
+      description: "Indique si le bouton est sélectionné en mode contrôlé",
+    },
+    defaultSelected: {
+      control: "boolean",
+      description: "Indique si le bouton est sélectionné par défaut en mode non contrôlé",
     },
     variant: {
       control: "select",
@@ -55,31 +59,11 @@ export const Default: Story = {
     disabled: false,
     compactSpacing: false,
     onClick: mockFn,
-    selected: false,
+    defaultSelected: false,
     ["aria-label"]: "icon button toggle aria label",
   },
 
-  render: (args) => (
-    <>
-      <div>
-        <span
-          style={{
-            fontFamily: "sans-serif",
-            marginBottom: 16,
-            border: "1px solid #F4922B",
-            padding: 8,
-            borderRadius: 5,
-            backgroundColor: "#FAFFC1",
-            margin: 0,
-          }}
-        >
-          Ce composant est en cours de développement et n'est pas encore disponible
-        </span>
-      </div>
-      <br />
-      <IconButtonToggle {...args} />
-    </>
-  ),
+  render: (args) => <IconButtonToggle {...args} />,
 
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);

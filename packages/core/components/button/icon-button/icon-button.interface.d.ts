@@ -9,4 +9,5 @@ export interface IconButtonProps {
 
 export interface IconButtonToggleProps extends Omit<IconButtonProps, "appearance"> {
   selected?: boolean;
+  defaultSelected?: boolean;
 }
