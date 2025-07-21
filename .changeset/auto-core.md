@@ -4,6 +4,7 @@
   
   ## Changes
 
+- correct display & behavior of rightIcon & assistiveText for TextInput
 - add stories cases for TextInput
 - add textInput behavior for left & right Icons and error handling
 - add error and disabled props to TextInput component and update stories
