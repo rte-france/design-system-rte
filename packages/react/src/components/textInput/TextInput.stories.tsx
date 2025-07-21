@@ -3,7 +3,7 @@ import { SPACE_KEY } from "@design-system-rte/core/constants/keyboard.constants"
 import { Meta, StoryObj } from "@storybook/react";
 import { fn, within, userEvent, expect, waitFor } from "@storybook/test";
 
-import { IconIds as RegularIconsList, TogglableIcons as TogglableIconsList } from "../icon/IconMap";
+import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../icon/IconMap";
 
 import TextInput from "./TextInput";
 
@@ -175,22 +175,20 @@ export const RequiredIndicator: Story = {
   render: (args) => (
     <div style={{ display: "flex", flexDirection: "column", gap: "32px", fontFamily: "Nunito Sans" }}>
       <div>
-        <TextInput {...args} width="400px" label="Required (show label requirement)" required showLabelRequirement />
+        <h3>Required (show label requirement)</h3>
+        <TextInput {...args} width="400px" label="Label" required showLabelRequirement />
       </div>
       <div>
-        <TextInput
-          {...args}
-          width="400px"
-          label="Required (hide label requirement)"
-          required
-          assistiveAppearance="error"
-        />
+        <h3>Required (hide label requirement)</h3>
+        <TextInput {...args} width="400px" label="Label" required assistiveAppearance="error" />
       </div>
       <div>
-        <TextInput {...args} width="400px" label="Not required (show label requirement)" showLabelRequirement />
+        <h3>Not required (show label requirement)</h3>
+        <TextInput {...args} width="400px" label="Label" showLabelRequirement />
       </div>
       <div>
-        <TextInput {...args} width="400px" label="Not required (hide label requirement)" assistiveAppearance="error" />
+        <h3>Not required (hide label requirement)</h3>
+        <TextInput {...args} width="400px" label="Label" assistiveAppearance="error" />
       </div>
     </div>
   ),
@@ -248,7 +246,19 @@ export const RightIconClean: Story = {
     rightIconAction: "clean",
     showRightIcon: true,
   } as TextInputProps,
-  render: (args) => <TextInput {...args} />,
+  render: (args) => <TextInput data-testid="input" {...args} />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const textInput = canvas.getByTestId("input");
+    let rightIcon = canvas.queryByTestId("right-icon");
+    expect(rightIcon).not.toBeInTheDocument();
+    await userEvent.type(textInput, "Hello");
+    rightIcon = canvas.getByTestId("right-icon");
+    await userEvent.tab();
+    expect(rightIcon).toBeInTheDocument();
+    await userEvent.keyboard(SPACE_KEY);
+    expect(textInput).toHaveValue("");
+  },
 };
 
 export const KeyboardInteraction: Story = {
