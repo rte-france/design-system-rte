@@ -10,7 +10,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        animation: badge-fade-in 0.15s;
+        animation: fade-in 0.15s;
 
         &[data-badge-type='brand'] {
             @include elevation-brand-shadow-2;
@@ -67,18 +67,18 @@
 
         p {
             margin: 0;
-            animation: text-appear 0.1s;
+            animation: fade-in 0.1s;
         }
 
     }
 
     .hidden {
-        animation: badge-fade-out 0.15s forwards;
+        animation: fade-out 0.15s forwards;
     }
 
 }
 
-@keyframes text-appear {
+@keyframes fade-in {
     from {
         opacity: 0;
     }
@@ -88,18 +88,7 @@
     }
 }
 
-@keyframes badge-fade-in {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
-
-}
-
-@keyframes badge-fade-out {
+@keyframes fade-out {
     from {
         opacity: 1;
     }
