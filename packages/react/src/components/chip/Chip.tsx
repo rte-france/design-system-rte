@@ -1,6 +1,7 @@
 import React from "react";
 
 import { useActiveKeyboard } from "../../hooks/useActiveKeyboard";
+import Icon from "../icon/Icon";
 import { concatClassNames } from "../utils";
 
 import styles from "./Chip.module.scss";
@@ -48,6 +49,28 @@ export const Chip: React.FC<ChipProps> = ({
       aria-checked={selected}
       aria-disabled={disabled}
     >
+      {type === "multi" && (
+        <span className={styles["chip-icon-container"]}>
+          <span
+            className={concatClassNames(
+              styles["chip-icon"],
+              selected ? styles["chip-icon--visible"] : styles["chip-icon--hidden"],
+            )}
+            aria-hidden={!selected}
+          >
+            <Icon name="check-circle" appearance="filled" size={16} />
+          </span>
+          <span
+            className={concatClassNames(
+              styles["chip-icon"],
+              !selected ? styles["chip-icon--visible"] : styles["chip-icon--hidden"],
+            )}
+            aria-hidden={selected}
+          >
+            <Icon name="radio-button-empty" size={16} />
+          </span>
+        </span>
+      )}
       <span className={styles["chip-label"]}>{label}</span>
     </span>
   );

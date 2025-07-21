@@ -102,3 +102,70 @@ export const SingleSelect: Story = {
     expect(chips[2]).toHaveAttribute("aria-checked", "false");
   },
 };
+
+export const MultiSelect: Story = {
+  args: {
+    ...Default.args,
+  },
+  render: (args) => {
+    const [selectedChips, setSelectedChips] = useState<string[]>([]);
+
+    const options = [
+      { id: "option-1", label: "Option 1" },
+      { id: "option-2", label: "Option 2" },
+      { id: "option-3", label: "Option 3" },
+    ];
+
+    const handleClick = (event: React.MouseEvent<HTMLSpanElement> | React.KeyboardEvent<HTMLSpanElement>) => {
+      const clickedChipId = event.currentTarget.id;
+      setSelectedChips((prev) =>
+        prev.includes(clickedChipId) ? prev.filter((id) => id !== clickedChipId) : [...prev, clickedChipId],
+      );
+    };
+
+    return (
+      <>
+        <div style={{ display: "flex", gap: "10px" }} role="group">
+          {options.map(({ id, label }) => (
+            <Chip
+              id={id}
+              key={id}
+              label={label}
+              selected={selectedChips.includes(id)}
+              onClick={handleClick}
+              type="multi"
+              compactSpacing={args.compactSpacing}
+            />
+          ))}
+        </div>
+        <p>
+          Chip(s) sélectionnée(s):{" "}
+          {options
+            .filter((option) => selectedChips.includes(option.id))
+            .map((option) => option.label)
+            .join(", ")}
+        </p>
+      </>
+    );
+  },
+
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const chips = canvas.getAllByRole("checkbox");
+
+    await userEvent.click(chips[0]);
+    expect(chips[0]).toHaveAttribute("aria-checked", "true");
+
+    await userEvent.click(chips[1]);
+    expect(chips[1]).toHaveAttribute("aria-checked", "true");
+    expect(chips[0]).toHaveAttribute("aria-checked", "true");
+
+    await userEvent.click(chips[1]);
+    expect(chips[1]).toHaveAttribute("aria-checked", "false");
+
+    await userEvent.tab();
+    expect(chips[2]).toHaveFocus();
+    await userEvent.keyboard(ENTER_KEY);
+    expect(chips[2]).toHaveAttribute("aria-checked", "true");
+  },
+};
