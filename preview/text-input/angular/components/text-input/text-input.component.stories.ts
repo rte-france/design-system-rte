@@ -1,3 +1,4 @@
+import { SPACE_KEY } from "@design-system-rte/core/constants/keyboard.constants";
 import { Meta, StoryObj } from "@storybook/angular";
 import { expect, userEvent, waitFor, within } from "@storybook/test";
 
@@ -252,8 +253,9 @@ export const RightIconClean: Story = {
     rightIcon = canvas.getByTestId("right-icon");
     await userEvent.tab();
     expect(rightIcon).toBeInTheDocument();
-    await userEvent.keyboard("[Space]");
+    await userEvent.keyboard(SPACE_KEY);
     expect(textInput).toHaveValue("");
+    expect(rightIcon).not.toBeInTheDocument();
   },
 };
 
@@ -288,7 +290,7 @@ export const KeyboardRightIconClean: Story = {
     const textInput = canvas.getByTestId("input").querySelector("input");
     await userEvent.type(textInput!, "Hello");
     await userEvent.tab();
-    await userEvent.keyboard("[Space]");
+    await userEvent.keyboard(SPACE_KEY);
     expect(textInput).toHaveValue("");
   },
 };
@@ -309,9 +311,9 @@ export const KeyboardRightIconVisibility: Story = {
     await userEvent.type(textInput!, "Hello");
     await userEvent.tab();
     expect(textInput).toHaveAttribute("type", "text");
-    await userEvent.keyboard("[Space]");
+    await userEvent.keyboard(SPACE_KEY);
     expect(textInput).toHaveAttribute("type", "password");
-    await userEvent.keyboard("[Space]");
+    await userEvent.keyboard(SPACE_KEY);
     expect(textInput).toHaveAttribute("type", "text");
   },
 };
