@@ -3,6 +3,7 @@ import { forwardRef } from "react";
 
 import Icon, { RegularIconIdKey, TogglableIconIdKey } from "../icon/Icon";
 import { isValidIconName } from "../icon/IconMap";
+import { concatClassNames } from "../utils";
 
 import style from "./Badge.module.scss";
 export interface BadgeProps extends BadgePropsCore, Omit<React.HTMLAttributes<HTMLDivElement>, "children"> {
@@ -18,12 +19,12 @@ const Badge = forwardRef<HTMLDivElement, BadgeProps>(
     }
 
     return (
-      <div ref={ref} className={style["badge-container"]}>
-        <div data-badge-type={badgeType} data-size={size} className={style.badge}>
+      <div ref={ref} className={style.badgeContainer}>
+        <div data-badge-type={badgeType} data-size={size} className={concatClassNames(style.badge, count > 0 ? "" : style.hidden)}>
           {size !== "XS" && size !== "S" && (
             <>
               {appearance == "icon" && <Icon name={icon} className={style.icon} size={size === "M" ? 12 : 20} />}
-              {appearance == "text" && count > 0 && <p className={style.count}>{count < 1000 ? count : "999+"}</p>}
+              {appearance == "text" && count > 0 && <p className={style.count} key={count}>{count < 1000 ? count : "999+"}</p>}
             </>
           )}
         </div>

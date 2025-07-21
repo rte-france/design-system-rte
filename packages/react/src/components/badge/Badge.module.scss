@@ -1,6 +1,6 @@
 @use '@design-system-rte/core/design-tokens/main.scss' as *;
 
-.badge-container {
+.badgeContainer {
     position: relative;
     display: inline-flex;
 
@@ -10,6 +10,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        animation: badge-fade-in 0.15s;
 
         &[data-badge-type='brand'] {
             @include elevation-brand-shadow-2;
@@ -66,7 +67,45 @@
 
         p {
             margin: 0;
+            animation: text-appear 0.1s;
         }
+
+    }
+
+    .hidden {
+        animation: badge-fade-out 0.15s forwards;
+    }
+
+}
+
+@keyframes text-appear {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes badge-fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+
+}
+
+@keyframes badge-fade-out {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
     }
 
 }
