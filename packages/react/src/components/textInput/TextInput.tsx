@@ -133,6 +133,22 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
     const displayCounter = showCounter && typeof maxLength === "number";
     const rightIconName = getRightIconName(rightIconAction);
     const rightIconAriaLabel = getRightIconAriaLabel(rightIconAction);
+    const shouldShowRightIcon =
+      rightIconAction === "clean"
+        ? !!inputRef.current?.value.length && showRightIcon
+        : showRightIcon && rightIconAction;
+
+    const labelRequirementTemplate = required ? (
+      showLabelRequirement ? (
+        <span className={style.requiredText}>(obligatoire)</span>
+      ) : (
+        <span className={style.requiredIconContainer}>
+          <Icon name="asterisk" size={8} />
+        </span>
+      )
+    ) : showLabelRequirement ? (
+      <span className={style.requiredText}>(optionnel)</span>
+    ) : null;
 
     return (
       <div className={style.container} data-label-position={labelPosition} data-error={error} style={{ width }}>
@@ -143,17 +159,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
                 {" "}
                 {label}{" "}
               </label>
-              {required ? (
-                showLabelRequirement ? (
-                  <span className={style.requiredText}>(obligatoire)</span>
-                ) : (
-                  <span className={style.requiredIconContainer}>
-                    <Icon name="asterisk" size={8} />
-                  </span>
-                )
-              ) : showLabelRequirement ? (
-                <span className={style.requiredText}>(optionnel)</span>
-              ) : null}
+              {labelRequirementTemplate}
             </div>
             {displayCounter && labelPosition === "top" && (
               <p className={style.inputCounter} data-testid="input-counter">
@@ -200,7 +206,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
                 {...props}
               />
 
-              {showRightIcon && rightIconAction && (
+              {shouldShowRightIcon && (
                 <IconButton
                   name={rightIconName}
                   appearance="outlined"
@@ -208,6 +214,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
                   className={style.rightIcon}
                   aria-label={rightIconAriaLabel}
                   onClick={onRightIconClickHandler}
+                  data-testid="right-icon"
                 />
               )}
             </div>
