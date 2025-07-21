@@ -20,11 +20,19 @@ const Badge = forwardRef<HTMLDivElement, BadgeProps>(
 
     return (
       <div ref={ref} className={style.badgeContainer}>
-        <div data-badge-type={badgeType} data-size={size} className={concatClassNames(style.badge, count > 0 ? "" : style.hidden)}>
+        <div
+          data-badge-type={badgeType}
+          data-size={size}
+          className={concatClassNames(style.badge, count > 0 ? "" : style.hidden)}
+        >
           {size !== "XS" && size !== "S" && (
             <>
               {appearance == "icon" && <Icon name={icon} className={style.icon} size={size === "M" ? 12 : 20} />}
-              {appearance == "text" && count > 0 && <p className={style.count} key={count}>{count < 1000 ? count : "999+"}</p>}
+              {appearance == "text" && count > 0 && (
+                <p className={style.count} key={count}>
+                  {count < 1000 ? count : "999+"}
+                </p>
+              )}
             </>
           )}
         </div>
