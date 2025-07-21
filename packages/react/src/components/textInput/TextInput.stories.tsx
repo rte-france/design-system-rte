@@ -258,6 +258,7 @@ export const RightIconClean: Story = {
     expect(rightIcon).toBeInTheDocument();
     await userEvent.keyboard(SPACE_KEY);
     expect(textInput).toHaveValue("");
+    expect(rightIcon).not.toBeInTheDocument();
   },
 };
 

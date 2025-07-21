@@ -26,7 +26,6 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       required = false,
       showCounter,
       value,
-      defaultValue,
       leftIcon = "",
       showRightIcon,
       rightIconAction = "clean",
@@ -65,12 +64,14 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       return "";
     };
 
-    const [characterCount, setCharacterCount] = useState(value?.length || defaultValue?.length || 0);
+    const [inputValue, setInputValue] = useState(value ?? "");
+    const [characterCount, setCharacterCount] = useState(inputValue.length);
     const [isHiddenInput, setIsHiddenInput] = useState(!!showRightIcon && rightIconAction === "visibilityOn");
 
     useEffect(() => {
-      if (inputRef.current) {
-        inputRef.current.value = value || "";
+      if (value !== undefined) {
+        setInputValue(value);
+        setCharacterCount(value.length);
       }
     }, [value]);
 
@@ -79,18 +80,20 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
     }, [showRightIcon, rightIconAction]);
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+      const newValue = event.target.value;
+      setInputValue(newValue);
+      setCharacterCount(newValue.length);
       if (onChange) {
-        onChange(event.target.value);
-      }
-      if (maxLength) {
-        setCharacterCount(event.target.value.length);
+        onChange(newValue);
       }
     };
 
     const triggerRightIconAction = () => {
       if (rightIconAction === "clean") {
-        if (inputRef.current) {
-          inputRef.current.value = "";
+        setInputValue("");
+        setCharacterCount(0);
+        if (onChange) {
+          onChange("");
         }
       }
       if (["visibilityOn", "visibilityOff"].includes(rightIconAction)) {
@@ -101,8 +104,8 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
     const onRightIconClickHandler = () => {
       if (onRightIconClick) {
         onRightIconClick();
-        triggerRightIconAction();
       }
+      triggerRightIconAction();
     };
 
     const toggleInputVisibility = () => {
@@ -134,9 +137,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
     const rightIconName = getRightIconName(rightIconAction);
     const rightIconAriaLabel = getRightIconAriaLabel(rightIconAction);
     const shouldShowRightIcon =
-      rightIconAction === "clean"
-        ? !!inputRef.current?.value.length && showRightIcon
-        : showRightIcon && rightIconAction;
+      rightIconAction === "clean" ? !!inputValue.length && showRightIcon : showRightIcon && rightIconAction;
 
     const labelRequirementTemplate = required ? (
       showLabelRequirement ? (
@@ -203,6 +204,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
                 onChange={handleChange}
                 disabled={disabled}
                 readOnly={readOnly}
+                value={inputValue}
                 {...props}
               />
 
