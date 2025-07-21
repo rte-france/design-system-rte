@@ -25,6 +25,9 @@ function copyBundlesToDist(packages) {
 
     console.log(`📦 Building ${pkg}...`);
     try {
+      if (pkg !== "core") {
+        execSync("npm run generate-icons", { cwd: pkgRoot, stdio: "inherit" });
+      }
       execSync("npm run build", { cwd: pkgRoot, stdio: "inherit" });
     } catch {
       console.error(`❌ Failed to build ${pkg}`);

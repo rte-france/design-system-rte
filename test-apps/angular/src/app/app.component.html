@@ -26,3 +26,8 @@
 <hr />
 
 <span rteTooltip="Tooltip">Tooltip</span>
+
+<hr />
+
+<rte-text-input label="Text Input" [value]="inputValue()" (valueChange)="handleInputChange($event)" />
+<h4>The input is : {{inputValue()}}</h4>

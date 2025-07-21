@@ -9,7 +9,7 @@
     align-items: flex-start;
     gap: var(--positive-spacing_0);
 
-    &[data-label-position="side"] {
+    &.side {
         align-items: center;
         flex-direction: row;
         
@@ -17,16 +17,16 @@
             width: auto;
         }
 
-        .inputCounter {
+        .input-counter {
             padding: 0 $positive-spacing-100;
         }
     }
 
-    &[data-error="true"] {
-        .inputContainer {
+    &.error {
+        .input-container {
             .input {
-                .inputBar {
-                    .leftIcon {
+                .input-bar {
+                    .left-icon {
                         color: var(--content-danger);
                     }
                 }
@@ -43,23 +43,23 @@
         padding: $positive-spacing-025 $positive-spacing-100;
         box-sizing: border-box;
 
-        .labelContainer {
+        .label-container {
             display: flex;
             align-items: flex-start;
 
-            .inputLabel {
+            .input-label {
                 color: var(--content-secondary);
                 @include typography-text-input-m;
             }
 
-            .requiredText {
+            .required-text {
                 color: var(--content-tertiary);
                 @include typography-text-input-tertiary-regular;
                 margin-block: $positive-spacing-0;
                 margin-inline: $positive-spacing-050;
             }
 
-            .requiredIconContainer {
+            .required-icon-container {
                 color: var(--content-danger);
                 display: flex;
                 align-items: center;
@@ -69,7 +69,7 @@
         }
     }
 
-    .inputContainer {
+    .input-container {
         display: flex;
         flex-direction: column;
         height: 32px;
@@ -83,29 +83,29 @@
 
         .input {
 
-            .inputBar {
+            .input-bar {
                 position: relative;
                 display: flex;
                 align-items: center;
 
-                &.withLeftIcon {
-                    .inputField {
+                &.with-left-icon {
+                    .input-field {
                         padding-left: $positive-spacing-400;
                     }
                 }
-                &.withRightIcon {
-                    .inputField {
+                &.with-right-icon {
+                    .input-field {
                         padding-right: $positive-spacing-400;
                     }
                 }
 
-                .leftIcon {
+                .left-icon {
                     position: absolute;
                     left: $positive-spacing-100;
                     color: var(--content-secondary);
                 }
 
-                .rightIcon {
+                .right-icon {
                     position: absolute;
                     right: $positive-spacing-100;
                     color: var(--content-secondary);
@@ -125,7 +125,7 @@
                     }
                 }
 
-                .inputField {
+                .input-field {
                     box-sizing: border-box;
                     appearance: none;
                     width: 100%;
@@ -154,14 +154,14 @@
                         border: $width-s solid var(--border-brand-default)
                     }
 
-                    &:disabled, &[readonly] {
+                    &:disabled, &:read-only {
                         border : $width-xs solid var(--border-disabled);
                         cursor: not-allowed;
                         pointer-events: none;
                         background: linear-gradient(0deg, var(--elevation-surface-inner-shadow) 0%, var(--elevation-surface-inner-shadow) 100%), var(--background-disabled);
                     }
 
-                    &[data-error='true']{
+                    &.error {
                         border: $width-s solid var(--border-danger)
                     }
 
@@ -170,37 +170,37 @@
             }
         }
 
-        .assistiveText {
+        .assistive-text {
             display: flex;
             align-items: center;
             gap: $positive-spacing-050;
             padding: $positive-spacing-050 $positive-spacing-100;
 
-            .assistiveIconError {
+            .assistive-icon-error {
                 color: var(--content-danger);
             }
 
-            .assistiveIconSuccess {
+            .assistive-icon-success {
                 color: var(--content-success);
             }
 
-            .assistiveLabel {
+            .assistive-label {
 
                 transition: color 200ms;
 
-                &[data-appearance="error"] {
+                &.error {
                     color: var(--content-danger);
                     @include typography-text-input-s-bold;
                     margin: $positive-spacing-0;
                 }
 
-                &[data-appearance="success"] {
+                &.success {
                     color: var(--content-success);
                     @include typography-text-input-s-bold;
                     margin: $positive-spacing-0;
                 }
 
-                &[data-appearance="description"] {
+                &.description {
                     color: var(--content-tertiary);
                     @include typography-text-input-tertiary-regular;
                     margin: $positive-spacing-0;
@@ -210,7 +210,7 @@
     }
 }
 
-.inputCounter {
+.input-counter {
     color: var(--content-tertiary);
     @include typography-text-input-tertiary-regular;
     margin-block: $positive-spacing-0;
