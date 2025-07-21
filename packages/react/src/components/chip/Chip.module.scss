@@ -12,6 +12,7 @@
   gap: $positive-spacing_0;
   border-radius: $radius-pill;
   background: var(--background-brand-unselected-default);
+  transition: background-color 200ms ease-in-out, color 200ms ease-in-out;
 
   &:hover {
     cursor: pointer;
@@ -53,4 +54,37 @@
 
 .chip-label {
   padding: $positive-spacing_0 $positive-spacing_075;
+}
+
+.chip-icon-container {
+  // display: inline-flex;
+  // align-items: center;
+  // justify-content: center;
+  position: relative;
+  width: 16px;
+  height: 16px;
+}
+
+.chip-icon {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 200ms ease-in-out, transform 200ms ease-in-out;
+  pointer-events: none;
+}
+
+.chip-icon--visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.chip-icon--hidden {
+  opacity: 0;
+  pointer-events: none;
 }
