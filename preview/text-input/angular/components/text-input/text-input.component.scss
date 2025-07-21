@@ -1,0 +1,217 @@
+@use '@design-system-rte/core/design-tokens/main.scss' as *;
+
+.container {
+    display: flex;
+    width: 300px;
+    padding: var(--positive-spacing_0);
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: var(--positive-spacing_0);
+
+    &.side {
+        align-items: center;
+        flex-direction: row;
+        
+        .text {
+            width: auto;
+        }
+
+        .input-counter {
+            padding: 0 $positive-spacing-100;
+        }
+    }
+
+    &.error {
+        .input-container {
+            .input {
+                .input-bar {
+                    .left-icon {
+                        color: var(--content-danger);
+                    }
+                }
+            }
+        }
+    }
+
+    .text {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: $positive-spacing-025 $positive-spacing-100;
+        box-sizing: border-box;
+
+        .label-container {
+            display: flex;
+            align-items: flex-start;
+
+            .input-label {
+                color: var(--content-secondary);
+                @include typography-text-input-m;
+            }
+
+            .required-text {
+                color: var(--content-tertiary);
+                @include typography-text-input-tertiary-regular;
+                margin-block: $positive-spacing-0;
+                margin-inline: $positive-spacing-050;
+            }
+
+            .required-icon-container {
+                color: var(--content-danger);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-inline: $positive-spacing-050;
+            }
+        }
+    }
+
+    .input-container {
+        display: flex;
+        flex-direction: column;
+        height: 32px;
+        width: 100%;
+        min-width: 48px;
+        min-height: 32px;
+        max-height: 32px;
+        padding: var(--positive-spacing_050) var(--positive-spacing_100);
+        gap: var(--positive-spacing_0);
+        align-self: stretch;
+
+        .input {
+
+            .input-bar {
+                position: relative;
+                display: flex;
+                align-items: center;
+
+                &.with-left-icon {
+                    .input-field {
+                        padding-left: $positive-spacing-400;
+                    }
+                }
+                &.with-right-icon {
+                    .input-field {
+                        padding-right: $positive-spacing-400;
+                    }
+                }
+
+                .left-icon {
+                    position: absolute;
+                    left: $positive-spacing-100;
+                    color: var(--content-secondary);
+                }
+
+                .right-icon {
+                    position: absolute;
+                    right: $positive-spacing-100;
+                    color: var(--content-secondary);
+                    padding: 0 $positive-spacing-025;
+                    height: 24px;
+
+                    &:focus {
+                        outline: none;
+                    }
+
+                    &:focus-visible {
+                        outline: 1px solid var(--border-brand-focused);
+                        border-radius: $radius-m;
+                        &::after {
+                            display: none;
+                        }
+                    }
+                }
+
+                .input-field {
+                    box-sizing: border-box;
+                    appearance: none;
+                    width: 100%;
+                    height: 32px;
+                    min-width: 48px;
+                    max-height: 32px;
+                    border-radius: $radius-s;
+                    margin: 1px;
+                    border: $width-xs solid var(--border-secondary);
+                    padding: $positive-spacing-050 $positive-spacing-200;
+                    background: linear-gradient(0deg, var(--elevation-surface-inner-shadow) 0%, var(--elevation-surface-inner-shadow) 100%), var(--background-default);
+                    transition: border 200ms;
+                    color: var(--content-primary);
+                    @include neutral-inner-shadow;
+
+                    &:hover{
+                        border: $width-xs solid var(--border-primary);
+                    }
+
+                    &:focus{
+                        outline: none;
+                        border: $width-s solid var(--border-brand-default)
+                    }
+
+                    &:active {
+                        border: $width-s solid var(--border-brand-default)
+                    }
+
+                    &:disabled, &:read-only {
+                        border : $width-xs solid var(--border-disabled);
+                        cursor: not-allowed;
+                        pointer-events: none;
+                        background: linear-gradient(0deg, var(--elevation-surface-inner-shadow) 0%, var(--elevation-surface-inner-shadow) 100%), var(--background-disabled);
+                    }
+
+                    &.error {
+                        border: $width-s solid var(--border-danger)
+                    }
+
+                }
+
+            }
+        }
+
+        .assistive-text {
+            display: flex;
+            align-items: center;
+            gap: $positive-spacing-050;
+            padding: $positive-spacing-050 $positive-spacing-100;
+
+            .assistive-icon-error {
+                color: var(--content-danger);
+            }
+
+            .assistive-icon-success {
+                color: var(--content-success);
+            }
+
+            .assistive-label {
+
+                transition: color 200ms;
+
+                &.error {
+                    color: var(--content-danger);
+                    @include typography-text-input-s-bold;
+                    margin: $positive-spacing-0;
+                }
+
+                &.success {
+                    color: var(--content-success);
+                    @include typography-text-input-s-bold;
+                    margin: $positive-spacing-0;
+                }
+
+                &.description {
+                    color: var(--content-tertiary);
+                    @include typography-text-input-tertiary-regular;
+                    margin: $positive-spacing-0;
+                }
+            }
+        }
+    }
+}
+
+.input-counter {
+    color: var(--content-tertiary);
+    @include typography-text-input-tertiary-regular;
+    margin-block: $positive-spacing-0;
+}
