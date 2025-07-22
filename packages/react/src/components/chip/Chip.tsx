@@ -13,12 +13,13 @@ type ChipProps = {
   type?: "single" | "multi" | "input";
   disabled?: boolean;
   onClick?: (event: React.MouseEvent<HTMLSpanElement> | React.KeyboardEvent<HTMLSpanElement>) => void;
+  onClose?: (event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLButtonElement>) => void;
   className?: string;
   compactSpacing?: boolean;
   value?: string;
 };
 
-export const Chip: React.FC<ChipProps> = ({
+export const Chip = ({
   id,
   label,
   selected = false,
@@ -27,7 +28,8 @@ export const Chip: React.FC<ChipProps> = ({
   type = "single",
   className = "",
   compactSpacing = false,
-}) => {
+  onClose,
+}: ChipProps) => {
   const { onBlur, onKeyDown, onKeyUp } = useActiveKeyboard<HTMLSpanElement>((e) => onClick?.(e), {
     id,
   });
@@ -35,7 +37,7 @@ export const Chip: React.FC<ChipProps> = ({
   return (
     <span
       id={id}
-      role={type === "single" ? "radio" : "checkbox"}
+      role={type === "single" ? "radio" : type === "multi" ? "checkbox" : "option"}
       className={concatClassNames(styles["chip"], ...className)}
       data-selected={selected}
       data-disabled={disabled}
@@ -71,7 +73,21 @@ export const Chip: React.FC<ChipProps> = ({
           </span>
         </span>
       )}
-      <span className={styles["chip-label"]}>{label}</span>
+      <span className={styles["chip-label"]} data-type={type}>
+        {label}
+      </span>
+      {type === "input" && (
+        <button
+          value={label}
+          type="button"
+          className={styles["chip-close-button"]}
+          onClick={onClose}
+          disabled={disabled}
+          aria-label={`Supprimer ${label}`}
+        >
+          <Icon className={styles["chip-close-button--icon"]} name="close" />
+        </button>
+      )}
     </span>
   );
 };
