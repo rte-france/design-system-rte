@@ -32,6 +32,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
+    id: "chip-1",
     label: "Label",
     selected: false,
     disabled: false,
@@ -181,7 +182,6 @@ export const Input: Story = {
     const [chipsValue, setChipsValue] = useState<string[]>([]);
 
     const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      console.log("Input value changed:", e.target.value);
       setInputValue(e.target.value);
     };
 
@@ -208,7 +208,6 @@ export const Input: Story = {
             value={inputValue}
             onChange={handleOnChange}
             onKeyDown={(e) => {
-              console.log("Key pressed:", e.key);
               if (e.key === "Enter") handleAddChip();
             }}
           />
@@ -235,7 +234,6 @@ export const Input: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const input = canvas.getByRole("textbox");
-    console.log("Input element:", input);
 
     await userEvent.type(input, "New Chip");
     await userEvent.keyboard(ENTER_KEY);
