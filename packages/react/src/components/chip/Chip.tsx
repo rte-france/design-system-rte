@@ -30,12 +30,14 @@ export const Chip = ({
     id,
   });
 
+  const isCheckable = type === "single" || type === "multi";
+
   return (
     <span
       id={id}
       role={type === "single" ? "radio" : type === "multi" ? "checkbox" : "option"}
       className={concatClassNames(styles["chip"], ...className)}
-      data-selected={selected}
+      data-selected={isCheckable && selected}
       data-disabled={disabled}
       data-compact-spacing={compactSpacing}
       data-type={type}
@@ -44,7 +46,7 @@ export const Chip = ({
       onKeyDown={onKeyDown}
       onKeyUp={onKeyUp}
       onBlur={onBlur}
-      aria-checked={selected}
+      aria-checked={isCheckable && selected}
       aria-disabled={disabled}
       {...props}
     >
