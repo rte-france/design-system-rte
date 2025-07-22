@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { fn, userEvent, within, expect } from "@storybook/test";
 import { useState } from "react";
 
+import Button from "../../button/Button";
 import Chip from "../Chip";
 
 const meta = {
@@ -167,5 +168,115 @@ export const MultiSelect: Story = {
     expect(chips[2]).toHaveFocus();
     await userEvent.keyboard(ENTER_KEY);
     expect(chips[2]).toHaveAttribute("aria-checked", "true");
+  },
+};
+
+export const Input: Story = {
+  args: {
+    ...Default.args,
+    type: "input",
+  },
+  render: () => {
+    const [inputValue, setInputValue] = useState("");
+    const [chipsValue, setChipsValue] = useState<string[]>([]);
+
+    const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      console.log("Input value changed:", e.target.value);
+      setInputValue(e.target.value);
+    };
+
+    const handleAddChip = () => {
+      if (inputValue && !chipsValue.includes(inputValue)) {
+        setChipsValue((prev) => [...prev, inputValue]);
+        setInputValue("");
+      }
+    };
+
+    const handleChipClick = (event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLButtonElement>) => {
+      const chipsToRemove = event.currentTarget.value;
+      setChipsValue((chipsValue) =>
+        chipsValue.includes(chipsToRemove) ? chipsValue.filter((value) => value !== chipsToRemove) : chipsValue,
+      );
+    };
+
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+        <div style={{ display: "flex", gap: "10px" }}>
+          <input
+            type="text"
+            name="chip-input"
+            value={inputValue}
+            onChange={handleOnChange}
+            onKeyDown={(e) => {
+              console.log("Key pressed:", e.key);
+              if (e.key === "Enter") handleAddChip();
+            }}
+          />
+          <Button label="Ajouter" size="s" onClick={handleAddChip}></Button>
+        </div>
+        {chipsValue.length > 0 && (
+          <div style={{ display: "flex", columnGap: "10px", rowGap: 0 }} role="listbox">
+            {chipsValue.map((value, index) => (
+              <Chip
+                id={`chip-${index}-${value}`}
+                key={index + value}
+                label={value}
+                selected={false}
+                disabled={false}
+                type="input"
+                onClose={handleChipClick}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByRole("textbox");
+    console.log("Input element:", input);
+
+    await userEvent.type(input, "New Chip");
+    await userEvent.keyboard(ENTER_KEY);
+
+    await userEvent.type(input, "Another Chip");
+    await userEvent.keyboard(ENTER_KEY);
+
+    const allChipsList = canvas.getAllByRole("option");
+
+    expect(allChipsList).toHaveLength(2);
+
+    const closeButton = within(allChipsList[0]).getByRole("button");
+
+    await userEvent.click(closeButton);
+
+    const remainingChips = canvas.getAllByRole("option");
+
+    expect(remainingChips).toHaveLength(1);
+
+    await userEvent.type(input, "More Chip");
+    await userEvent.keyboard(ENTER_KEY);
+
+    const newRemainingChips = canvas.getAllByRole("option");
+    expect(newRemainingChips).toHaveLength(2);
+
+    newRemainingChips[0].focus();
+    await userEvent.tab();
+    await userEvent.keyboard(ENTER_KEY);
+
+    expect(canvas.getAllByRole("option")).toHaveLength(1);
+
+    await userEvent.type(input, "Last Chip");
+    await userEvent.keyboard(ENTER_KEY);
+
+    expect(canvas.getAllByRole("option")).toHaveLength(2);
+
+    const lastChip = canvas.getAllByRole("option")[1];
+    lastChip.focus();
+    await userEvent.tab();
+    await userEvent.keyboard(SPACE_KEY);
+
+    expect(canvas.getAllByRole("option")).toHaveLength(1);
   },
 };
