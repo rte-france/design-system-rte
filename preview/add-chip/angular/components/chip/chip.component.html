@@ -2,7 +2,7 @@
   class="chip"
   tabindex="0"
   [attr.role]="role()"
-  [attr.data-selected]="selected()"
+  [attr.data-selected]="isCheckable() ? selected() : null"
   [attr.data-disabled]="disabled()"
   [attr.data-compact-spacing]="compactSpacing()"
   [attr.data-type]="type()"
