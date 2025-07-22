@@ -23,6 +23,12 @@ const meta = {
       control: "boolean",
       description: "Whether the chip should be compact",
     },
+    type: {
+      control: "select",
+      options: ["single", "multi", "input"],
+      description: "Type of the chip",
+      defaultValue: "single",
+    },
   },
   args: { onClick: fn() },
 } satisfies Meta<typeof Chip>;
