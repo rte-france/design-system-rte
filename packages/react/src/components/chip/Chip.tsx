@@ -1,3 +1,4 @@
+import { ChipProps as CoreChipProps } from "@design-system-rte/core/components/chip/chip.interface";
 import React from "react";
 
 import { useActiveKeyboard } from "../../hooks/useActiveKeyboard";
@@ -6,18 +7,12 @@ import { concatClassNames } from "../utils";
 
 import styles from "./Chip.module.scss";
 
-type ChipProps = {
-  id?: string;
-  label: string;
-  selected?: boolean;
-  type?: "single" | "multi" | "input";
-  disabled?: boolean;
+interface ChipProps
+  extends Omit<CoreChipProps, "onClick" | "onClose">,
+    Omit<React.HTMLAttributes<HTMLSpanElement>, "id"> {
   onClick?: (event: React.MouseEvent<HTMLSpanElement> | React.KeyboardEvent<HTMLSpanElement>) => void;
   onClose?: (event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLButtonElement>) => void;
-  className?: string;
-  compactSpacing?: boolean;
-  value?: string;
-};
+}
 
 export const Chip = ({
   id,
@@ -29,6 +24,7 @@ export const Chip = ({
   className = "",
   compactSpacing = false,
   onClose,
+  ...props
 }: ChipProps) => {
   const { onBlur, onKeyDown, onKeyUp } = useActiveKeyboard<HTMLSpanElement>((e) => onClick?.(e), {
     id,
@@ -50,6 +46,7 @@ export const Chip = ({
       onBlur={onBlur}
       aria-checked={selected}
       aria-disabled={disabled}
+      {...props}
     >
       {type === "multi" && (
         <span className={styles["chip-icon-container"]}>
@@ -78,12 +75,12 @@ export const Chip = ({
       </span>
       {type === "input" && (
         <button
-          value={label}
           type="button"
           className={styles["chip-close-button"]}
           onClick={onClose}
           disabled={disabled}
           aria-label={`Supprimer ${label}`}
+          value={label}
         >
           <Icon className={styles["chip-close-button--icon"]} name="close" />
         </button>

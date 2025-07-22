@@ -21,14 +21,12 @@ export const useActiveKeyboard = <T extends HTMLElement>(
   const onKeyDown = (e: KeyboardEvent<T>) => {
     if (interactiveKeysRef.current?.includes(e.code) && (!id || (e.target as T).id === id)) {
       e.preventDefault();
-      console.log(`Key down: ${e.code}`);
       setIsActiveKeyboard(true);
     }
   };
 
   const onKeyUp = (e: KeyboardEvent<T>) => {
     if (interactiveKeysRef.current?.includes(e.code) && (!id || (e.target as T).id === id)) {
-      console.log(`Key up: ${e.code}`);
       handlerKeyup(e);
       setIsActiveKeyboard(false);
     }
