@@ -1,4 +1,4 @@
-import { DOWN_KEY, TAB_KEY } from "@design-system-rte/core/constants/keyboard.constants";
+import { DOWN_KEY } from "@design-system-rte/core/constants/keyboard.constants";
 import { Meta, StoryObj } from "@storybook/react";
 import { expect, fn, userEvent, waitFor, within } from "@storybook/test";
 
@@ -179,10 +179,10 @@ export const KeyboardInteraction: Story = {
     const canvas = within(canvasElement);
     const button = canvas.getByTestId("Menu button");
     const menuContainer = canvas.getByTestId("Menu container");
-    await userEvent.keyboard(TAB_KEY);
-    await userEvent.keyboard(TAB_KEY);
+    await userEvent.tab();
+    await userEvent.tab();
     expect(button).toHaveFocus();
-    await userEvent.keyboard(DOWN_KEY);
+    await userEvent.keyboard(`{${DOWN_KEY}}`);
     await waitFor(() => expect(menuContainer).toBeVisible());
   },
 };

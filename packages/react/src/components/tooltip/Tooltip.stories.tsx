@@ -1,4 +1,3 @@
-import { TAB_KEY } from "@design-system-rte/core/constants/keyboard.constants";
 import { Meta, StoryObj } from "@storybook/react";
 import { expect, userEvent, waitFor, within } from "@storybook/test";
 
@@ -176,7 +175,7 @@ export const KeyboardInteraction: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const tooltipComponent = canvas.queryByText("Hover Me!")?.parentElement;
-    await userEvent.keyboard(TAB_KEY);
+    await userEvent.tab();
     const tooltipLabel = canvas.queryByRole("tooltip");
     expect(tooltipComponent).toHaveFocus();
     await waitFor(() => expect(tooltipLabel).toBeVisible());
