@@ -1,4 +1,4 @@
-import { SPACE_KEY, TAB_KEY } from "@design-system-rte/core/constants/keyboard.constants";
+import { SPACE_KEY } from "@design-system-rte/core/constants/keyboard.constants";
 import type { Meta, StoryObj } from "@storybook/react";
 import { userEvent, within, expect } from "@storybook/test";
 
@@ -89,7 +89,7 @@ export const ReadOnly: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const checkbox = canvas.getByRole("checkbox");
-    await userEvent.keyboard(TAB_KEY);
+    await userEvent.tab();
     expect(checkbox).toHaveFocus();
     await userEvent.keyboard(`{${SPACE_KEY}}`);
     expect(checkbox).toBeChecked();
@@ -111,7 +111,7 @@ export const KeyboardInteractions: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const checkbox = canvas.getByRole("checkbox");
-    await userEvent.keyboard(TAB_KEY);
+    await userEvent.tab();
     expect(checkbox).toHaveFocus();
     await userEvent.keyboard(`{${SPACE_KEY}}`);
     expect(checkbox).toBeChecked();
