@@ -2,6 +2,7 @@ import "./styles.d.ts";
 import Button from "./components/button/Button";
 import Checkbox from "./components/checkbox/Checkbox.tsx";
 import CheckboxGroup from "./components/checkboxGroup/CheckboxGroup.tsx";
+import Chip from "./components/chip/Chip.tsx";
 import Grid from "./components/grid/Grid.tsx";
 import Icon from "./components/icon/Icon.tsx";
 import IconButton from "./components/iconButton/IconButton.tsx";
@@ -27,4 +28,5 @@ export {
   SplitButton,
   Tooltip,
   TextInput,
+  Chip,
 };
