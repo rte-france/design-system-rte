@@ -1,5 +1,23 @@
 # @design-system-rte/angular
 
+## 0.7.0
+
+### Minor Changes
+
+- 2c7a587: ## Changes
+
+  - simplify aria attributes handling for TextInput
+  - correct right-icon default behavior & positioning in InputText
+  - correct leftIcon display for TextInput
+  - correct display & behavior of rightIcon & assistiveText for TextInput
+  - correct TextInputComponent's rightIcon display
+  - add TextInputComponent for Angular
+
+### Patch Changes
+
+- Updated dependencies [0c0177e]
+  - @design-system-rte/core@0.10.0
+
 ## 0.6.0
 
 ### Minor Changes
