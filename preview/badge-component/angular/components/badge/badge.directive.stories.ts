@@ -33,7 +33,7 @@ const meta: Meta<BadgeDirective> = {
     },
     rteBadgeCount: {
       control: "number",
-      defaultValue: 42,
+      defaultValue: 1,
     },
     rteBadgeIcon: {
       control: "select",

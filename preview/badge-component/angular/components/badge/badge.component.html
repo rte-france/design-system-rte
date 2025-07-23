@@ -1,12 +1,13 @@
 <div
-    class="badge size-{{ badgeSize() }} type-{{ badgeType() }} {{ count() <= 0 ? 'hidden' : count() === 1 ? 'visible' : '' }}"
+    class="badge size-{{ badgeSize() }} type-{{ badgeType() }}"
+    [ngClass]="{'hidden': count() <= 0}"
 >
     <ng-container *ngIf="badgeSize() !== 'XS' && badgeSize() !== 'S'">
         <rte-icon
             *ngIf="showIcon()"
             class="badge-icon"
             [name]="icon()"
-            [size]="badgeSize() === 'M' ? 12 : 20"
+            [size]="iconSize()"
         ></rte-icon>
         <p *ngIf="showText()" class="badge-text">
             {{displayCount()}}
