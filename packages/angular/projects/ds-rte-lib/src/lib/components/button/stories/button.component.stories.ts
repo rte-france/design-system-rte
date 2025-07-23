@@ -91,8 +91,8 @@ export const KeyboardInteraction: Story = {
     const button = canvas.getByRole("button");
     await userEvent.keyboard(TAB_KEY);
     expect(button).toHaveFocus();
-    await userEvent.keyboard(ENTER_KEY);
-    await userEvent.keyboard(SPACE_KEY);
+    await userEvent.keyboard(`{${ENTER_KEY}}`);
+    await userEvent.keyboard(`{${SPACE_KEY}}`);
     expect(mockFn).toHaveBeenCalledTimes(2);
     button.blur();
   },
