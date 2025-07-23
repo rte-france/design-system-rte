@@ -4,6 +4,8 @@
   
   ## Changes
 
+- simplify aria attributes handling for TextInput
+- correct right-icon default behavior & positioning in InputText
 - correct content-success color
 - correct display & behavior of rightIcon & assistiveText for TextInput
 - add stories cases for TextInput
