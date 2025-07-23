@@ -1,5 +1,27 @@
 # @design-system-rte/react
 
+## 0.6.0
+
+### Minor Changes
+
+- 0c0177e: ## Changes
+
+  - simplify aria attributes handling for TextInput
+  - correct right-icon default behavior & positioning in InputText
+  - correct leftIcon display for TextInput
+  - correct display & behavior of rightIcon & assistiveText for TextInput
+  - add stories cases for TextInput
+  - add textInput behavior for left & right Icons and error handling
+  - update input styles with gradient background and disabled state handling
+  - add error and disabled props to TextInput component and update stories
+  - enhance TextInput component with new props and styles for better usability
+  - add TextInput types and prepared file for component
+
+### Patch Changes
+
+- Updated dependencies [0c0177e]
+  - @design-system-rte/core@0.10.0
+
 ## 0.5.0
 
 ### Minor Changes
