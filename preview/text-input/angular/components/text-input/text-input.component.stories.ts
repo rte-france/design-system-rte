@@ -249,7 +249,7 @@ export const RightIconClean: Story = {
   },
   render: (args) => ({
     props: args,
-    template: `<rte-text-input data-testid="input" [rightIconAction]="rightIconAction" [showRightIcon]="showRightIcon"></rte-text-input>`,
+    template: `<rte-text-input [label]="label" data-testid="input" [rightIconAction]="rightIconAction" [showRightIcon]="showRightIcon"></rte-text-input>`,
   }),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -272,7 +272,7 @@ export const KeyboardInteraction: Story = {
   },
   render: (args) => ({
     props: args,
-    template: `<rte-text-input data-testid="input"></rte-text-input>`,
+    template: `<rte-text-input [label]="label" data-testid="input"></rte-text-input>`,
   }),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -290,7 +290,7 @@ export const KeyboardRightIconClean: Story = {
   },
   render: (args) => ({
     props: args,
-    template: `<rte-text-input data-testid="input" [rightIconAction]="rightIconAction" [showRightIcon]="showRightIcon"></rte-text-input>`,
+    template: `<rte-text-input [label]="label" data-testid="input" [rightIconAction]="rightIconAction" [showRightIcon]="showRightIcon"></rte-text-input>`,
   }),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -310,7 +310,7 @@ export const KeyboardRightIconVisibility: Story = {
   },
   render: (args) => ({
     props: args,
-    template: `<rte-text-input data-testid="input" [rightIconAction]="rightIconAction" [showRightIcon]="showRightIcon"></rte-text-input>`,
+    template: `<rte-text-input [label]="label" data-testid="input" [rightIconAction]="rightIconAction" [showRightIcon]="showRightIcon"></rte-text-input>`,
   }),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
