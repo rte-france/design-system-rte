@@ -50,8 +50,9 @@
           #inputRef
           class="input-field"
           [ngClass]="{'error': error()}"
-          [ariaLabel]="inputAriaLabel()"
-          [ariaRequired]="required()"
+          [attr.aria-label]="ariaLabel()"
+          [attr.aria-labelledby]="ariaLabelledby()"
+          [attr.aria-required]="ariaRequired()"
           [type]="isHiddenInput() ? 'password' : 'text'"
           [maxLength]="maxLength()"
           [disabled]="disabled()"

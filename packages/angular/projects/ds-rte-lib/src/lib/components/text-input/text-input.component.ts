@@ -33,6 +33,9 @@ export class TextInputComponent {
   readonly disabled = input<boolean>(false);
   readonly readOnly = input<boolean>(false);
   readonly width = input<string>("300px");
+  readonly ariaLabel = input<string>("");
+  readonly ariaRequired = input<boolean>(false);
+  readonly ariaLabelledby = input<string>("");
 
   readonly valueChange = output<string>();
   readonly rightIconClick = output<void>();
@@ -69,14 +72,6 @@ export class TextInputComponent {
       return !!this.internalValue()?.length && this.showRightIcon();
     }
     return this.showRightIcon() && !!this.rightIconAction();
-  });
-
-  readonly inputAriaLabel = computed(() => {
-    let ariaLabel = "";
-    if (this.label()) ariaLabel = this.label();
-    if (this.error()) ariaLabel += " error";
-    if (this.internalValue()) ariaLabel += ` ${this.internalValue()}`;
-    return ariaLabel;
   });
 
   private lastParentValue = this.value();

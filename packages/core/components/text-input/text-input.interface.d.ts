@@ -9,7 +9,7 @@ export interface TextInputProps {
   showCounter?: boolean;
   value?: string;
   defaultValue?: string;
-  leftIcon?: RegularIconIdKey | TogglableIconIdKey | "";
+  leftIcon?: RegularIconIdKey | TogglableIconIdKey;
   showRightIcon?: boolean;
   rightIconAction?: RightIconAction;
   showLabelRequirement?: boolean;

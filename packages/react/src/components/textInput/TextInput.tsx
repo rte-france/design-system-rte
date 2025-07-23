@@ -26,7 +26,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       required = false,
       showCounter,
       value,
-      leftIcon = "",
+      leftIcon,
       showRightIcon = true,
       rightIconAction = "clean",
       showLabelRequirement = false,
@@ -120,21 +120,6 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       rightIconAction ? style.withRightIcon : "",
     );
 
-    const getInputAriaLabel = () => {
-      let ariaLabel = "";
-
-      if (label) {
-        ariaLabel = label;
-      }
-      if (error) {
-        ariaLabel += " error";
-      }
-      if (value) {
-        ariaLabel += ` ${value}`;
-      }
-      return ariaLabel;
-    };
-
     const displayCounter = showCounter && typeof maxLength === "number";
     const rightIconName = getRightIconName(rightIconAction);
     const rightIconAriaLabel = getRightIconAriaLabel(rightIconAction);
@@ -198,8 +183,6 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
                 />
               )}
               <input
-                aria-label={getInputAriaLabel()}
-                aria-required={required}
                 ref={(node) => {
                   inputRef.current = node;
                   if (typeof ref === "function") {
