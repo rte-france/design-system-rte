@@ -36,7 +36,7 @@ export const Chip = ({
     <span
       id={id}
       role={type === "single" ? "radio" : type === "multi" ? "checkbox" : "option"}
-      className={concatClassNames(styles["chip"], ...className)}
+      className={concatClassNames(styles["chip"], className)}
       data-selected={isCheckable && selected}
       data-disabled={disabled}
       data-compact-spacing={compactSpacing}
