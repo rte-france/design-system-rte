@@ -27,7 +27,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       showCounter,
       value,
       leftIcon = "",
-      showRightIcon,
+      showRightIcon = true,
       rightIconAction = "clean",
       showLabelRequirement = false,
       assistiveAppearance = "description",
@@ -112,13 +112,13 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       setIsHiddenInput(!isHiddenInput);
     };
 
+    const computedLeftIcon = error ? "error" : leftIcon;
+
     const computedInputBarClassName = concatClassNames(
       style.inputBar,
-      leftIcon ? style.withLeftIcon : "",
+      computedLeftIcon ? style.withLeftIcon : "",
       rightIconAction ? style.withRightIcon : "",
     );
-
-    const computedLeftIcon = error ? "error" : leftIcon;
 
     const getInputAriaLabel = () => {
       let ariaLabel = "";
@@ -138,8 +138,16 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
     const displayCounter = showCounter && typeof maxLength === "number";
     const rightIconName = getRightIconName(rightIconAction);
     const rightIconAriaLabel = getRightIconAriaLabel(rightIconAction);
-    const shouldShowRightIcon =
-      rightIconAction === "clean" ? !!inputValue.length && showRightIcon : showRightIcon && rightIconAction;
+
+    const shouldShowRightIcon = () => {
+      if (readOnly || disabled) {
+        return false;
+      }
+      if (rightIconAction === "clean") {
+        return !!inputValue?.length && showRightIcon;
+      }
+      return showRightIcon && !!rightIconAction;
+    };
 
     const labelRequirementTemplate = required ? (
       showLabelRequirement ? (
@@ -211,7 +219,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
                 {...props}
               />
 
-              {shouldShowRightIcon && (
+              {shouldShowRightIcon() && (
                 <IconButton
                   name={rightIconName}
                   appearance="outlined"
@@ -244,7 +252,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
           )}
         </div>
         {displayCounter && labelPosition == "side" && (
-          <p className={style.inputCounter}>
+          <p className={style.inputCounter} data-testid="input-counter">
             {" "}
             {characterCount}/{maxLength}{" "}
           </p>

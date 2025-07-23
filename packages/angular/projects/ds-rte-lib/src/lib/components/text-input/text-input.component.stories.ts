@@ -122,11 +122,17 @@ export const InteractionStates: Story = {
       <div style="display: flex; flex-direction: column; gap: 32px; font-family: Nunito Sans">
         <rte-text-input [label]="'Enabled'" [value]="value"></rte-text-input>
         <rte-text-input [label]="'Disabled'" [disabled]="true"></rte-text-input>
-        <rte-text-input [label]="'Read only'" [value]="'Read only text'" [readOnly]="true"></rte-text-input>
+        <rte-text-input [label]="'Read only'" [value]="'Read only text'" [readOnly]="true" data-testid="read-only"></rte-text-input>
         <rte-text-input [label]="'Error'" [assistiveTextLabel]="'Error message'" [assistiveAppearance]="'error'" [error]="true"></rte-text-input>
       </div>
     `,
   }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const readOnlyInput = canvas.getByTestId("read-only");
+    const rightIcon = readOnlyInput.querySelector("rte-icon");
+    expect(rightIcon).not.toBeInTheDocument();
+  },
 };
 
 export const Sizes: Story = {
