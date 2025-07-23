@@ -39,6 +39,7 @@ export class TextInputComponent {
 
   readonly characterCount = signal<number>(this.internalValue().length);
   readonly isHiddenInput = signal<boolean>(this.showRightIcon() && this.rightIconAction() === "visibilityOn");
+  readonly displayedLeftIcon = computed(() => (this.error() ? "error" : this.leftIcon()));
 
   readonly displayCounter = computed(() => this.showCounter() && typeof this.maxLength() === "number");
 

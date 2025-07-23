@@ -228,10 +228,17 @@ export const LeftIcon: Story = {
     template: `
       <div style="display: flex; flex-direction: column; gap: 32px; font-family: Nunito Sans">
         <rte-text-input [label]="'Search icon'" [leftIcon]="'search'"></rte-text-input>
-        <rte-text-input [label]="'Search icon + error'" [leftIcon]="'search'" [error]="true"></rte-text-input>
+        <rte-text-input [label]="'Search icon + error'" [leftIcon]="'search'" [error]="true" data-testid="error"></rte-text-input>
       </div>
     `,
   }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const errorInput = canvas.getByTestId("error");
+    const leftIcon = errorInput.querySelector("rte-icon");
+    expect(leftIcon).toBeVisible();
+    expect(leftIcon).toHaveAttribute("ng-reflect-name", "error");
+  },
 };
 
 export const RightIconClean: Story = {
