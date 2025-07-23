@@ -15,6 +15,7 @@
         
         .text {
             width: auto;
+            align-items: center;
         }
 
         .inputCounter {
@@ -38,7 +39,7 @@
         width: 100%;
         display: flex;
         flex-direction: row;
-        align-items: center;
+        align-items: flex-end;
         justify-content: space-between;
         padding: $positive-spacing-025 $positive-spacing-100;
         box-sizing: border-box;
@@ -49,11 +50,12 @@
 
             .inputLabel {
                 color: var(--content-secondary);
-                @include typography-text-input-m;
+                @include typography-text-m-regular;
             }
 
             .requiredText {
                 color: var(--content-tertiary);
+                align-self: center;
                 @include typography-text-input-tertiary-regular;
                 margin-block: $positive-spacing-0;
                 margin-inline: $positive-spacing-050;
@@ -77,8 +79,6 @@
         min-width: 48px;
         min-height: 32px;
         max-height: 32px;
-        padding: var(--positive-spacing_050) var(--positive-spacing_100);
-        gap: var(--positive-spacing_0);
         align-self: stretch;
 
         .input {
@@ -133,11 +133,10 @@
                     min-width: 48px;
                     max-height: 32px;
                     border-radius: $radius-s;
-                    margin: 1px;
                     border: $width-xs solid var(--border-secondary);
                     padding: $positive-spacing-050 $positive-spacing-200;
                     background: linear-gradient(0deg, var(--elevation-surface-inner-shadow) 0%, var(--elevation-surface-inner-shadow) 100%), var(--background-default);
-                    transition: border 200ms;
+                    transition: border 200ms, outline 200ms;
                     color: var(--content-primary);
                     @include neutral-inner-shadow;
 
@@ -146,23 +145,24 @@
                     }
 
                     &:focus{
-                        outline: none;
-                        border: $width-s solid var(--border-brand-default)
+                        outline: 1px solid var(--border-brand-default);
+                        border: $width-xs solid var(--border-brand-default)
                     }
 
                     &:active {
-                        border: $width-s solid var(--border-brand-default)
+                        outline: 1px solid var(--border-brand-default);
+                        border: $width-xs solid var(--border-brand-default)
                     }
 
                     &:disabled, &[readonly] {
+                        outline: 1px solid var(--border-disabled);
                         border : $width-xs solid var(--border-disabled);
-                        cursor: not-allowed;
-                        pointer-events: none;
                         background: linear-gradient(0deg, var(--elevation-surface-inner-shadow) 0%, var(--elevation-surface-inner-shadow) 100%), var(--background-disabled);
                     }
 
                     &[data-error='true']{
-                        border: $width-s solid var(--border-danger)
+                        outline: 1px solid var(--border-danger);
+                        border: $width-xs solid var(--border-danger)
                     }
 
                 }
@@ -212,6 +212,6 @@
 
 .inputCounter {
     color: var(--content-tertiary);
-    @include typography-text-input-tertiary-regular;
+    @include typography-text-s-regular;
     margin-block: $positive-spacing-0;
 }

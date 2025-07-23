@@ -22,7 +22,7 @@ export class TextInputComponent {
   readonly value = input<string>("");
   readonly internalValue = signal<string>(this.value());
   readonly leftIcon = input<RegularIconIdKey | TogglableIconIdKey | null>(null);
-  readonly showRightIcon = input<boolean>(false);
+  readonly showRightIcon = input<boolean>(true);
   readonly rightIconAction = input<"clean" | "visibilityOn" | "visibilityOff">("clean");
   readonly showLabelRequirement = input<boolean>(false);
   readonly assistiveAppearance = input<"description" | "error" | "success" | "link">("description");
@@ -62,6 +62,9 @@ export class TextInputComponent {
   });
 
   readonly shouldShowRightIcon = computed(() => {
+    if (this.readOnly() || this.disabled()) {
+      return false;
+    }
     if (this.rightIconAction() === "clean") {
       return !!this.internalValue()?.length && this.showRightIcon();
     }

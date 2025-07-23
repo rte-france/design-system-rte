@@ -272,3 +272,19 @@
   line-height: $text-s-bold-line-height;
   letter-spacing: $text-s-bold-letter-spacing;
 }
+
+@mixin typography-text-s-regular {
+  font-family: $text-s-regular-font-family;
+  font-size: $text-s-regular-font-size;
+  font-weight: $text-s-regular-font-weight;
+  line-height: $text-s-regular-line-height;
+  letter-spacing: $text-s-regular-letter-spacing;
+}
+
+@mixin typography-text-m-regular {
+  font-family: $text-m-regular-font-family;
+  font-size: $text-m-regular-font-size;
+  font-weight: $text-m-regular-font-weight;
+  line-height: $text-m-regular-line-height;
+  letter-spacing: $text-m-regular-letter-spacing;
+}

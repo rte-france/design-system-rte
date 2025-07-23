@@ -121,13 +121,19 @@ export const InteractionStates: Story = {
         <TextInput {...args} label="Disabled" disabled />
       </div>
       <div>
-        <TextInput {...args} label="Read only" value="Read only text" readOnly />
+        <TextInput {...args} label="Read only" value="Read only text" data-testid="read-only" readOnly />
       </div>
       <div>
         <TextInput {...args} label="Error" assistiveTextLabel="Error message" assistiveAppearance="error" error />
       </div>
     </div>
   ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const readOnlyInput = canvas.getByTestId("read-only");
+    const rightIcon = readOnlyInput.querySelector("rte-icon");
+    expect(rightIcon).not.toBeInTheDocument();
+  },
 };
 
 export const Sizes: Story = {

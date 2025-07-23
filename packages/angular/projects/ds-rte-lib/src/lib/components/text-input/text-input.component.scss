@@ -3,11 +3,11 @@
 .container {
     display: flex;
     width: 300px;
-    padding: var(--positive-spacing_0);
+    padding: $positive-spacing_0;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    gap: var(--positive-spacing_0);
+    gap: $positive-spacing_0;
 
     &.side {
         align-items: center;
@@ -15,6 +15,7 @@
         
         .text {
             width: auto;
+            align-items: center;
         }
 
         .input-counter {
@@ -38,7 +39,7 @@
         width: 100%;
         display: flex;
         flex-direction: row;
-        align-items: center;
+        align-items: flex-end;
         justify-content: space-between;
         padding: $positive-spacing-025 $positive-spacing-100;
         box-sizing: border-box;
@@ -49,11 +50,12 @@
 
             .input-label {
                 color: var(--content-secondary);
-                @include typography-text-input-m;
+                @include typography-text-m-regular;
             }
 
             .required-text {
                 color: var(--content-tertiary);
+                align-self: center;
                 @include typography-text-input-tertiary-regular;
                 margin-block: $positive-spacing-0;
                 margin-inline: $positive-spacing-050;
@@ -77,8 +79,6 @@
         min-width: 48px;
         min-height: 32px;
         max-height: 32px;
-        padding: var(--positive-spacing_050) var(--positive-spacing_100);
-        gap: var(--positive-spacing_0);
         align-self: stretch;
 
         .input {
@@ -143,36 +143,38 @@
                     min-width: 48px;
                     max-height: 32px;
                     border-radius: $radius-s;
-                    margin: 1px;
                     border: $width-xs solid var(--border-secondary);
                     padding: $positive-spacing-050 $positive-spacing-200;
                     background: linear-gradient(0deg, var(--elevation-surface-inner-shadow) 0%, var(--elevation-surface-inner-shadow) 100%), var(--background-default);
-                    transition: border 200ms;
+                    transition: border 200ms, outline 200ms;
                     color: var(--content-primary);
                     @include neutral-inner-shadow;
 
                     &:hover{
-                        border: $width-xs solid var(--border-primary);
+                        outline: 1px solid var(--border-primary);
+                        border-color: var(--border-primary);
                     }
 
                     &:focus{
-                        outline: none;
-                        border: $width-s solid var(--border-brand-default)
+                        outline: 1px solid var(--border-brand-default);
+                        border-color: var(--border-brand-default)
                     }
 
                     &:active {
-                        border: $width-s solid var(--border-brand-default)
+                        outline: 1px solid var(--border-brand-default);
+                        border-color: var(--border-brand-default)
                     }
 
                     &:disabled, &:read-only {
-                        border : $width-xs solid var(--border-disabled);
-                        cursor: not-allowed;
-                        pointer-events: none;
+                        outline: 1px solid var(--border-brand-disabled);
+                        border-color: var(--border-disabled);
                         background: linear-gradient(0deg, var(--elevation-surface-inner-shadow) 0%, var(--elevation-surface-inner-shadow) 100%), var(--background-disabled);
+                        cursor: not-allowed;
                     }
 
                     &.error {
-                        border: $width-s solid var(--border-danger)
+                        outline: 1px solid var(--border-danger);
+                        border-color: var(--border-danger)
                     }
 
                 }
@@ -222,6 +224,6 @@
 
 .input-counter {
     color: var(--content-tertiary);
-    @include typography-text-input-tertiary-regular;
+    @include typography-text-s-regular;
     margin-block: $positive-spacing-0;
 }
