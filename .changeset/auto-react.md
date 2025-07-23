@@ -4,6 +4,7 @@
   
   ## Changes
 
+- correct leftIcon display for TextInput
 - correct display & behavior of rightIcon & assistiveText for TextInput
 - add stories cases for TextInput
 - add textInput behavior for left & right Icons and error handling

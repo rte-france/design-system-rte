@@ -118,6 +118,8 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       rightIconAction ? style.withRightIcon : "",
     );
 
+    const computedLeftIcon = error ? "error" : leftIcon;
+
     const getInputAriaLabel = () => {
       let ariaLabel = "";
 
@@ -178,12 +180,13 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
             data-read-only={readOnly}
           >
             <div className={computedInputBarClassName}>
-              {leftIcon && (
+              {computedLeftIcon && (
                 <Icon
-                  name={error ? "error" : leftIcon}
+                  name={computedLeftIcon}
                   appearance="outlined"
                   className={style.leftIcon}
                   aria-hidden="true"
+                  data-testid={`left-icon ${computedLeftIcon}`}
                 />
               )}
               <input
