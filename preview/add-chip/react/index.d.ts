@@ -1,6 +1,7 @@
 import { default as Button } from './components/button/Button';
 import { default as Checkbox } from './components/checkbox/Checkbox.tsx';
 import { default as CheckboxGroup } from './components/checkboxGroup/CheckboxGroup.tsx';
+import { default as Chip } from './components/chip/Chip.tsx';
 import { default as Grid } from './components/grid/Grid.tsx';
 import { default as Icon } from './components/icon/Icon.tsx';
 import { default as IconButton } from './components/iconButton/IconButton.tsx';
@@ -10,4 +11,4 @@ import { default as RadioButton } from './components/radioButton/RadioButton.tsx
 import { default as RadioButtonGroup } from './components/radioButtonGroup/RadioButtonGroup.tsx';
 import { default as SplitButton } from './components/splitButton/SplitButton.tsx';
 import { default as Tooltip } from './components/tooltip/Tooltip.tsx';
-export { Button, Grid, Checkbox, CheckboxGroup, Link, RadioButton, RadioButtonGroup, Icon, IconButton, IconButtonToggle, SplitButton, Tooltip, };
+export { Button, Grid, Checkbox, CheckboxGroup, Link, RadioButton, RadioButtonGroup, Icon, IconButton, IconButtonToggle, SplitButton, Tooltip, Chip, };
