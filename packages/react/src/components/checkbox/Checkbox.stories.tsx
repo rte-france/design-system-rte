@@ -91,7 +91,7 @@ export const ReadOnly: Story = {
     const checkbox = canvas.getByRole("checkbox");
     await userEvent.keyboard(TAB_KEY);
     expect(checkbox).toHaveFocus();
-    await userEvent.keyboard(SPACE_KEY);
+    await userEvent.keyboard(`{${SPACE_KEY}}`);
     expect(checkbox).toBeChecked();
   },
 };
@@ -113,7 +113,7 @@ export const KeyboardInteractions: Story = {
     const checkbox = canvas.getByRole("checkbox");
     await userEvent.keyboard(TAB_KEY);
     expect(checkbox).toHaveFocus();
-    await userEvent.keyboard(SPACE_KEY);
+    await userEvent.keyboard(`{${SPACE_KEY}}`);
     expect(checkbox).toBeChecked();
     checkbox.blur();
   },

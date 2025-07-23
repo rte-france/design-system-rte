@@ -104,9 +104,9 @@ export const SingleSelect: Story = {
 
     await userEvent.tab();
     expect(chips[2]).toHaveFocus();
-    await userEvent.keyboard(ENTER_KEY);
+    await userEvent.keyboard(`{${ENTER_KEY}}`);
     expect(chips[2]).toHaveAttribute("aria-checked", "true");
-    await userEvent.keyboard(SPACE_KEY);
+    await userEvent.keyboard(`{${SPACE_KEY}}`);
     expect(chips[2]).toHaveAttribute("aria-checked", "false");
   },
 };
@@ -173,7 +173,7 @@ export const MultiSelect: Story = {
 
     await userEvent.tab();
     expect(chips[2]).toHaveFocus();
-    await userEvent.keyboard(ENTER_KEY);
+    await userEvent.keyboard(`{${ENTER_KEY}}`);
     expect(chips[2]).toHaveAttribute("aria-checked", "true");
   },
 };
@@ -242,10 +242,10 @@ export const Input: Story = {
     const input = canvas.getByRole("textbox");
 
     await userEvent.type(input, "New Chip");
-    await userEvent.keyboard(ENTER_KEY);
+    await userEvent.keyboard(`{${ENTER_KEY}}`);
 
     await userEvent.type(input, "Another Chip");
-    await userEvent.keyboard(ENTER_KEY);
+    await userEvent.keyboard(`{${ENTER_KEY}}`);
 
     const allChipsList = canvas.getAllByRole("option");
 
@@ -260,26 +260,26 @@ export const Input: Story = {
     expect(remainingChips).toHaveLength(1);
 
     await userEvent.type(input, "More Chip");
-    await userEvent.keyboard(ENTER_KEY);
+    await userEvent.keyboard(`{${ENTER_KEY}}`);
 
     const newRemainingChips = canvas.getAllByRole("option");
     expect(newRemainingChips).toHaveLength(2);
 
     newRemainingChips[0].focus();
     await userEvent.tab();
-    await userEvent.keyboard(ENTER_KEY);
+    await userEvent.keyboard(`{${ENTER_KEY}}`);
 
     expect(canvas.getAllByRole("option")).toHaveLength(1);
 
     await userEvent.type(input, "Last Chip");
-    await userEvent.keyboard(ENTER_KEY);
+    await userEvent.keyboard(`{${ENTER_KEY}}`);
 
     expect(canvas.getAllByRole("option")).toHaveLength(2);
 
     const lastChip = canvas.getAllByRole("option")[1];
     lastChip.focus();
     await userEvent.tab();
-    await userEvent.keyboard(SPACE_KEY);
+    await userEvent.keyboard(`{${SPACE_KEY}}`);
 
     expect(canvas.getAllByRole("option")).toHaveLength(1);
   },
