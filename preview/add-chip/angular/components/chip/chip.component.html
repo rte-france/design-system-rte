@@ -40,6 +40,7 @@
     class="chip-close-button"
     [attr.aria-label]="'Supprimer ' + label()"
     [disabled]="disabled()"
+    [value]="label()"
     (click)="onCloseClick($event)"
   >
     <rte-icon class="chip-close-button--icon" name="close" [size]="16"></rte-icon>

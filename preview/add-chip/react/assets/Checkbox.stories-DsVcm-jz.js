@@ -1,4 +1,4 @@
-import{T as O,S as _}from"./keyboard.constants-G_CZ5sfP.js";import{w as i,u as c,e as n}from"./index-DaW6VCyr.js";import{C as A}from"./Checkbox-CaMSNP2H.js";import"./jsx-runtime-Cf8x2fCZ.js";import"./index-yBjzXJbu.js";import"./index-G8LIXM5I.js";import"./_commonjsHelpers-CqkleIqs.js";import"./Icon-BNDpdXCt.js";const P={title:"Checkbox",component:A,tags:["autodocs"],argTypes:{label:{control:"text",defaultValue:"Label"},showLabel:{control:"boolean",defaultValue:!0},disabled:{control:"boolean",defaultValue:!1},error:{control:"boolean",defaultValue:!1},errorMessage:{control:"text",defaultValue:""},readOnly:{control:"boolean",defaultValue:!1}}},a={args:{id:"my-checkbox",label:"Label",description:"Description",disabled:!1,readOnly:!1,showLabel:!0,indeterminate:!1,errorMessage:""},play:async({canvasElement:r})=>{const e=i(r).getByRole("checkbox");await c.click(e),n(e).toBeChecked(),e.blur()}},s={args:{...a.args,disabled:!0},play:async({canvasElement:r})=>{const e=i(r).getByRole("checkbox");n(e).toBeDisabled(),await c.click(e),n(e).not.toBeChecked()}},o={args:{...a.args,indeterminate:!0}},t={args:{...a.args,readOnly:!0,checked:!0},play:async({canvasElement:r})=>{const e=i(r).getByRole("checkbox");await c.keyboard(O),n(e).toHaveFocus(),await c.keyboard(_),n(e).toBeChecked()}},l={args:{...a.args,error:!0,errorMessage:"Error message"}},d={args:{...a.args},play:async({canvasElement:r})=>{const e=i(r).getByRole("checkbox");await c.keyboard(O),n(e).toHaveFocus(),await c.keyboard(_),n(e).toBeChecked(),e.blur()}};var b,m,p;a.parameters={...a.parameters,docs:{...(b=a.parameters)==null?void 0:b.docs,source:{originalSource:`{
+import{T as O,S as _}from"./keyboard.constants-DfsyBqty.js";import{w as i,u as c,e as n}from"./index-DaW6VCyr.js";import{C as A}from"./Checkbox-CaMSNP2H.js";import"./jsx-runtime-Cf8x2fCZ.js";import"./index-yBjzXJbu.js";import"./index-G8LIXM5I.js";import"./_commonjsHelpers-CqkleIqs.js";import"./Icon-BNDpdXCt.js";const $={title:"Checkbox",component:A,tags:["autodocs"],argTypes:{label:{control:"text",defaultValue:"Label"},showLabel:{control:"boolean",defaultValue:!0},disabled:{control:"boolean",defaultValue:!1},error:{control:"boolean",defaultValue:!1},errorMessage:{control:"text",defaultValue:""},readOnly:{control:"boolean",defaultValue:!1}}},a={args:{id:"my-checkbox",label:"Label",description:"Description",disabled:!1,readOnly:!1,showLabel:!0,indeterminate:!1,errorMessage:""},play:async({canvasElement:r})=>{const e=i(r).getByRole("checkbox");await c.click(e),n(e).toBeChecked(),e.blur()}},s={args:{...a.args,disabled:!0},play:async({canvasElement:r})=>{const e=i(r).getByRole("checkbox");n(e).toBeDisabled(),await c.click(e),n(e).not.toBeChecked()}},o={args:{...a.args,indeterminate:!0}},t={args:{...a.args,readOnly:!0,checked:!0},play:async({canvasElement:r})=>{const e=i(r).getByRole("checkbox");await c.keyboard(O),n(e).toHaveFocus(),await c.keyboard(`{${_}}`),n(e).toBeChecked()}},l={args:{...a.args,error:!0,errorMessage:"Error message"}},d={args:{...a.args},play:async({canvasElement:r})=>{const e=i(r).getByRole("checkbox");await c.keyboard(O),n(e).toHaveFocus(),await c.keyboard(`{${_}}`),n(e).toBeChecked(),e.blur()}};var b,m,p;a.parameters={...a.parameters,docs:{...(b=a.parameters)==null?void 0:b.docs,source:{originalSource:`{
   args: {
     id: "my-checkbox",
     label: "Label",
@@ -50,7 +50,7 @@ import{T as O,S as _}from"./keyboard.constants-G_CZ5sfP.js";import{w as i,u as c
     const checkbox = canvas.getByRole("checkbox");
     await userEvent.keyboard(TAB_KEY);
     expect(checkbox).toHaveFocus();
-    await userEvent.keyboard(SPACE_KEY);
+    await userEvent.keyboard(\`{\${SPACE_KEY}}\`);
     expect(checkbox).toBeChecked();
   }
 }`,...(w=(f=t.parameters)==null?void 0:f.docs)==null?void 0:w.source}}};var B,C,D;l.parameters={...l.parameters,docs:{...(B=l.parameters)==null?void 0:B.docs,source:{originalSource:`{
@@ -70,8 +70,8 @@ import{T as O,S as _}from"./keyboard.constants-G_CZ5sfP.js";import{w as i,u as c
     const checkbox = canvas.getByRole("checkbox");
     await userEvent.keyboard(TAB_KEY);
     expect(checkbox).toHaveFocus();
-    await userEvent.keyboard(SPACE_KEY);
+    await userEvent.keyboard(\`{\${SPACE_KEY}}\`);
     expect(checkbox).toBeChecked();
     checkbox.blur();
   }
-}`,...(K=(S=d.parameters)==null?void 0:S.docs)==null?void 0:K.source}}};const j=["Default","Disabled","Indeterminated","ReadOnly","Error","KeyboardInteractions"];export{a as Default,s as Disabled,l as Error,o as Indeterminated,d as KeyboardInteractions,t as ReadOnly,j as __namedExportsOrder,P as default};
+}`,...(K=(S=d.parameters)==null?void 0:S.docs)==null?void 0:K.source}}};const P=["Default","Disabled","Indeterminated","ReadOnly","Error","KeyboardInteractions"];export{a as Default,s as Disabled,l as Error,o as Indeterminated,d as KeyboardInteractions,t as ReadOnly,P as __namedExportsOrder,$ as default};
