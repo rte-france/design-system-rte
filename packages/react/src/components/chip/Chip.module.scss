@@ -32,7 +32,7 @@
     cursor: default;
     color: var(--content-disabled);
     background: var(--background-disabled);
-    outline: none
+    outline: none;
   }
 
   &[data-selected="true"] {
@@ -120,7 +120,7 @@
     cursor: default;
     color: var(--content-disabled);
     background: var(--background-disabled);
-    outline: none
+    outline: none;
   }
 
   &:hover:not(:disabled) {
