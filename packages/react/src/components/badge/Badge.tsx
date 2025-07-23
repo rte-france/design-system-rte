@@ -12,7 +12,7 @@ export interface BadgeProps extends BadgePropsCore, Omit<React.HTMLAttributes<HT
 }
 
 const Badge = forwardRef<HTMLDivElement, BadgeProps>(
-  ({ badgeType = "brand", size = "M", appearance = "text", count = 42, icon = "settings", children }, ref) => {
+  ({ badgeType = "brand", size = "M", appearance = "text", count = 1, icon = "settings", children }, ref) => {
     if (appearance == "icon" && icon && !isValidIconName(icon)) {
       console.warn(`Badge: Invalid icon name "${icon}". Please use a valid icon key.`);
       return null;

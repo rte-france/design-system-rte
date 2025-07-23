@@ -33,7 +33,7 @@ const meta = {
     count: {
       control: "number",
       description: "Count to display when appearance is 'text'",
-      defaultValue: 42,
+      defaultValue: 1,
     },
     icon: {
       control: "select",
@@ -68,7 +68,7 @@ export const Default: Story = {
     badgeType: "brand",
     size: "M",
     appearance: "text",
-    count: 42,
+    count: 1,
     children: mockChildren,
   },
 };
@@ -88,7 +88,7 @@ export const Sizes: Story = {
   args: {
     badgeType: "brand",
     appearance: "text",
-    count: 42,
+    count: 1,
     children: mockChildren,
   },
   argTypes: {
