@@ -1,5 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, input, output } from "@angular/core";
+import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard.constants";
 
 import { IconComponent } from "../icon/icon.component";
 
@@ -18,8 +19,8 @@ export class ChipComponent {
   readonly disabled = input<boolean>(false);
   readonly type = input<"single" | "multi" | "input">("single");
   readonly compactSpacing = input<boolean>(false);
-  readonly chipClick = output<Event>();
-  readonly chipClose = output<Event>();
+  readonly click = output<Event>();
+  readonly close = output<Event>();
 
   readonly isCheckable = computed(() => this.type() === "single" || this.type() === "multi");
   readonly role = computed(() => {
@@ -30,17 +31,32 @@ export class ChipComponent {
   });
 
   onClick(event: Event) {
+    event.stopPropagation();
     if (!this.disabled()) {
-      this.chipClick.emit(event);
+      this.click.emit(event);
     }
   }
-  // onKeyDown(event: KeyboardEvent) {}
-  // onKeyUp(event: KeyboardEvent) {}
-  // onBlur(event: FocusEvent) {}
+  onKeyDown(event: KeyboardEvent) {
+    event.stopPropagation();
+  }
+  onKeyUp(event: KeyboardEvent) {
+    event.stopPropagation();
+    if (!this.disabled()) {
+      if (event.key === SPACE_KEY || event.key === ENTER_KEY) {
+        const target = event.target as HTMLElement;
+        if (!target.classList.contains("chip-close-button")) {
+          this.onClick(event);
+        }
+      }
+    }
+  }
+  onBlur(event: FocusEvent) {
+    event.stopPropagation();
+  }
   onCloseClick(event: Event) {
     event.stopPropagation();
     if (!this.disabled()) {
-      this.chipClose.emit(event);
+      this.close.emit(event);
     }
   }
 }

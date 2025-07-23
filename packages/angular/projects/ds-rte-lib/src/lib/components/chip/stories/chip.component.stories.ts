@@ -1,14 +1,14 @@
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard.constants";
-import type { Meta, StoryObj } from "@storybook/react";
-import { fn, userEvent, within, expect } from "@storybook/test";
-import { useState } from "react";
+import { moduleMetadata } from "@storybook/angular";
+import type { Meta, StoryObj } from "@storybook/angular";
+import { userEvent, within, expect } from "@storybook/test";
 
-import Button from "../../button/Button";
-import Chip from "../Chip";
+import { ButtonComponent } from "../../button/button.component";
+import { ChipComponent } from "../chip.component";
 
 const meta = {
   title: "Chip",
-  component: Chip,
+  component: ChipComponent,
   tags: ["autodocs"],
   argTypes: {
     label: {
@@ -30,11 +30,11 @@ const meta = {
       defaultValue: "single",
     },
   },
-  args: { onClick: fn() },
-} satisfies Meta<typeof Chip>;
+} satisfies Meta<ChipComponent>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+
+type Story = StoryObj<ChipComponent>;
 
 export const Default: Story = {
   args: {
@@ -49,46 +49,44 @@ export const Default: Story = {
 export const SingleSelect: Story = {
   args: {
     ...Default.args,
+    type: "single",
   },
   render: (args) => {
-    const [selectedChip, setSelectedChip] = useState<string | null>(null);
-
     const options = [
       { id: "all", label: "All" },
       { id: "option-1", label: "Option 1" },
       { id: "option-2", label: "Option 2" },
     ];
 
-    const handleClick = (event: React.MouseEvent<HTMLSpanElement> | React.KeyboardEvent<HTMLSpanElement>) => {
-      const clickedChipId = event.currentTarget.id;
-      if (clickedChipId === selectedChip) {
-        setSelectedChip(null);
-      } else {
-        setSelectedChip(clickedChipId);
-      }
-    };
-
-    return (
-      <>
-        <div style={{ display: "flex", gap: "10px" }} role="radiogroup">
-          {options.map(({ id, label }) => (
-            <Chip
-              id={id}
-              key={id}
-              label={label}
-              selected={selectedChip === id}
-              onClick={handleClick}
-              type="single"
-              compactSpacing={args.compactSpacing}
-              className="chip"
-            />
-          ))}
+    return {
+      props: {
+        ...args,
+        options,
+        selectedChip: null,
+        selectedLabel: "Aucune",
+        onChipClick(optionId: string) {
+          this["selectedChip"] = this["selectedChip"] === optionId ? null : optionId;
+          const found = options.find((option) => option.id === this["selectedChip"]);
+          this["selectedLabel"] = found ? found.label : "Aucune";
+        },
+      },
+      template: `
+        <div style="display: flex; gap: 10px;" role="radiogroup">
+          <rte-chip
+            *ngFor="let option of options"
+            [id]="option.id"
+            [label]="option.label"
+            [selected]="selectedChip === option.id"
+            [type]="type"
+            [compactSpacing]="compactSpacing"
+            (click)="onChipClick(option.id)"
+            class="chip"
+          ></rte-chip>
         </div>
-        <p>Chip sélectionnée: {options.find((option) => option.id === selectedChip)?.label || "Aucune"}</p>
-      </>
-    );
+        <p>Chip sélectionnée: {{ selectedLabel }}</p>
+      `,
+    };
   },
-
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const chips = canvas.getAllByRole("radio");
@@ -114,49 +112,44 @@ export const SingleSelect: Story = {
 export const MultiSelect: Story = {
   args: {
     ...Default.args,
+    type: "multi",
   },
   render: (args) => {
-    const [selectedChips, setSelectedChips] = useState<string[]>([]);
-
     const options = [
       { id: "option-1", label: "Option 1" },
       { id: "option-2", label: "Option 2" },
       { id: "option-3", label: "Option 3" },
     ];
 
-    const handleClick = (event: React.MouseEvent<HTMLSpanElement> | React.KeyboardEvent<HTMLSpanElement>) => {
-      const clickedChipId = event.currentTarget.id;
-      setSelectedChips((prev) =>
-        prev.includes(clickedChipId) ? prev.filter((id) => id !== clickedChipId) : [...prev, clickedChipId],
-      );
-    };
-
-    return (
-      <>
-        <div style={{ display: "flex", gap: "10px" }} role="group">
-          {options.map(({ id, label }) => (
-            <Chip
-              id={id}
-              key={id}
-              label={label}
-              selected={selectedChips.includes(id)}
-              onClick={handleClick}
-              type="multi"
-              compactSpacing={args.compactSpacing}
-            />
-          ))}
+    return {
+      props: {
+        ...args,
+        options,
+        selectedChips: new Set<string>(),
+        onChipClick(optionId: string) {
+          if (this["selectedChips"].has(optionId)) {
+            this["selectedChips"].delete(optionId);
+          } else {
+            this["selectedChips"].add(optionId);
+          }
+        },
+      },
+      template: `
+        <div style="display: flex; gap: 10px;" role="group">
+          <rte-chip
+            *ngFor="let option of options"
+            [id]="option.id"
+            [label]="option.label"
+            [selected]="selectedChips.has(option.id)"
+            [type]="type"
+            [compactSpacing]="compactSpacing"
+            (click)="onChipClick(option.id)"
+            class="chip"
+          ></rte-chip>
         </div>
-        <p>
-          Chip(s) sélectionnée(s):{" "}
-          {options
-            .filter((option) => selectedChips.includes(option.id))
-            .map((option) => option.label)
-            .join(", ")}
-        </p>
-      </>
-    );
+      `,
+    };
   },
-
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const chips = canvas.getAllByRole("checkbox");
@@ -177,65 +170,62 @@ export const MultiSelect: Story = {
     expect(chips[2]).toHaveAttribute("aria-checked", "true");
   },
 };
-
-export const Input: Story = {
+export const InputChip: Story = {
+  decorators: [
+    moduleMetadata({
+      imports: [ButtonComponent],
+    }),
+  ],
   args: {
     ...Default.args,
     type: "input",
   },
-  render: () => {
-    const [inputValue, setInputValue] = useState("");
-    const [chipsValue, setChipsValue] = useState<string[]>([]);
-
-    const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setInputValue(e.target.value);
-    };
-
-    const handleAddChip = () => {
-      if (inputValue && !chipsValue.includes(inputValue)) {
-        setChipsValue((prev) => [...prev, inputValue]);
-        setInputValue("");
-      }
-    };
-
-    const handleChipClick = (event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLButtonElement>) => {
-      const chipsToRemove = event.currentTarget.value;
-      setChipsValue((chipsValue) =>
-        chipsValue.includes(chipsToRemove) ? chipsValue.filter((value) => value !== chipsToRemove) : chipsValue,
-      );
-    };
-
-    return (
-      <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-        <div style={{ display: "flex", gap: "10px" }}>
-          <input
-            type="text"
-            name="chip-input"
-            value={inputValue}
-            onChange={handleOnChange}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") handleAddChip();
-            }}
+  render: (args) => {
+    return {
+      props: {
+        ...args,
+        inputValue: "",
+        chipsValues: [],
+        onChange(event: Event) {
+          const target = event.target as HTMLInputElement;
+          this["inputValue"] = target.value;
+        },
+        onClose(event: Event) {
+          const target = event.currentTarget as HTMLInputElement;
+          this["chipsValues"] = this["chipsValues"].filter((chip: string) => chip !== target.value);
+        },
+        handleAddChip() {
+          if (this["inputValue"].trim()) {
+            this["chipsValues"].push(this["inputValue"]);
+            this["inputValue"] = "";
+          }
+        },
+      },
+      template: `
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <div style="display: flex; gap: 10px;" role="listbox">
+        <input
+          type="text"
+          name="chip-input"
+          (input)="onChange($event)"
+          [value]="inputValue"
+          (keydown.enter)="handleAddChip()"
           />
-          <Button label="Ajouter" size="s" onClick={handleAddChip}></Button>
+          <rte-button label="Add Chip" size="s" (click)="handleAddChip()"></rte-button>
         </div>
-        {chipsValue.length > 0 && (
-          <div style={{ display: "flex", gap: "10px" }} role="listbox">
-            {chipsValue.map((value, index) => (
-              <Chip
-                id={`chip-${index}-${value}`}
-                key={index + value}
-                label={value}
-                selected={false}
-                disabled={false}
-                type="input"
-                onClose={handleChipClick}
-              />
-            ))}
-          </div>
-        )}
+        <div style="display: flex; gap: 10px;" role="listbox">
+          <rte-chip
+            *ngFor="let chip of chipsValues"
+            [id]="'chip-' + chip"
+            [label]="chip"
+            [type]="type"
+            (close)="onClose($event)"
+          >
+          </rte-chip>
+        </div>
       </div>
-    );
+    `,
+    };
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
