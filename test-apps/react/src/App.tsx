@@ -1,6 +1,6 @@
-import { Button, Icon, IconButtonToggle, SplitButton, Tooltip, TextInput } from "@design-system-rte/react";
-import { useState } from "react";
+import { Button, Icon, IconButtonToggle, SplitButton, Tooltip, TextInput, Chip } from "@design-system-rte/react";
 import "./App.css";
+import { useState } from "react";
 
 function App() {
   const [isIconButtonToggleSelected, setIsIconButtonToggleSelected] = useState(false);
@@ -44,9 +44,16 @@ function App() {
         <h3>TextInput</h3>
         <TextInput label="Label" value={inputValue} onChange={handleInputChange} />
         <h4>The input is : {inputValue}</h4>
-        <hr />
+      </div>
+      <hr />
+      <div>
         <h3>Icon Button Toggle</h3>
         <IconButtonToggle onClick={handleIconButtonToggleClick} selected={isIconButtonToggleSelected} name="settings" />
+      </div>
+      <hr />
+      <div>
+        <h3>Chip</h3>
+        <Chip label="Chip Label" type="single" onClick={() => console.log("Chip clicked")} />
       </div>
     </div>
   );
