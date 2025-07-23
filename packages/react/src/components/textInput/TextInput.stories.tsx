@@ -238,6 +238,11 @@ export const LeftIcon: Story = {
       </div>
     </div>
   ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const leftIcon = canvas.getByTestId("left-icon error");
+    expect(leftIcon).toBeVisible();
+  },
 };
 
 export const RightIconClean: Story = {
