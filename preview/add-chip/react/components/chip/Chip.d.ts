@@ -4,5 +4,5 @@ interface ChipProps extends Omit<CoreChipProps, "onClick" | "onClose">, Omit<Rea
     onClick?: (event: React.MouseEvent<HTMLSpanElement> | React.KeyboardEvent<HTMLSpanElement>) => void;
     onClose?: (event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLButtonElement>) => void;
 }
-export declare const Chip: ({ id, label, selected, onClick, disabled, type, className, compactSpacing, onClose, ...props }: ChipProps) => import("react/jsx-runtime").JSX.Element;
+export declare const Chip: React.ForwardRefExoticComponent<ChipProps & React.RefAttributes<HTMLSpanElement>>;
 export default Chip;
