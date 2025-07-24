@@ -4,6 +4,7 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { userEvent, within, expect } from "@storybook/test";
 
 import { ButtonComponent } from "../../button/button.component";
+import { TextInputComponent } from "../../text-input/text-input.component";
 import { ChipComponent } from "../chip.component";
 
 const meta = {
@@ -173,7 +174,7 @@ export const MultiSelect: Story = {
 export const InputChip: Story = {
   decorators: [
     moduleMetadata({
-      imports: [ButtonComponent],
+      imports: [ButtonComponent, TextInputComponent],
     }),
   ],
   args: {
@@ -186,9 +187,8 @@ export const InputChip: Story = {
         ...args,
         inputValue: "",
         chipsValues: [],
-        onChange(event: Event) {
-          const target = event.target as HTMLInputElement;
-          this["inputValue"] = target.value;
+        onChange(value: string) {
+          this["inputValue"] = value;
         },
         onClose(event: Event) {
           const target = event.currentTarget as HTMLInputElement;
@@ -200,20 +200,27 @@ export const InputChip: Story = {
             this["inputValue"] = "";
           }
         },
+        handleKeyDown(event: KeyboardEvent) {
+          const input = event.target as HTMLInputElement;
+          if (event.key === ENTER_KEY && input.value.trim()) {
+            event.preventDefault();
+            this["handleAddChip"]();
+          }
+        },
       },
       template: `
       <div style="display: flex; flex-direction: column; gap: 10px;">
-        <div style="display: flex; gap: 10px;" role="listbox">
-        <input
-          type="text"
-          name="chip-input"
-          (input)="onChange($event)"
+        <div style="display: flex; gap: 10px; align-items: end;">
+        <rte-text-input
+          id="input-add-chip"
+          label="Ajouter un chip"
           [value]="inputValue"
-          (keydown.enter)="handleAddChip()"
-          />
-          <rte-button label="Add Chip" size="s" (click)="handleAddChip()"></rte-button>
+          (valueChange)="onChange($event)"
+          (keydown)="handleKeyDown($event)"
+        ></rte-text-input>
+          <rte-button label="Add Chip" (click)="handleAddChip()"></rte-button>
         </div>
-        <div style="display: flex; gap: 10px;" role="listbox">
+        <div style="display: flex; gap: 10px;" role="listbox" aria-label="Chips List">
           <rte-chip
             *ngFor="let chip of chipsValues"
             [id]="'chip-' + chip"
