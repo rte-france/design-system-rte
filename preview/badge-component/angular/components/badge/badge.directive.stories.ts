@@ -1,4 +1,5 @@
 import { Meta, StoryObj } from "@storybook/angular";
+import { userEvent, within, expect, waitFor } from "@storybook/test";
 
 import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../icon/icon-map";
 
@@ -33,7 +34,7 @@ const meta: Meta<BadgeDirective> = {
     },
     rteBadgeCount: {
       control: "number",
-      defaultValue: 1,
+      type: "number",
     },
     rteBadgeIcon: {
       control: "select",
@@ -48,6 +49,7 @@ const meta: Meta<BadgeDirective> = {
 
 const mockHost = (badgeDirectives: string) => `
 <span
+    data-testid="badge-host"
     style="
       display: inline-flex;
       width: 48px;
@@ -76,8 +78,8 @@ export const Default: Story = {
     rteBadge: "Badge Text",
     rteBadgeType: "brand",
     rteBadgeSize: "M",
+    rteBadgeCount: 1,
     rteBadgeAppearance: "text",
-    rteBadgeCount: 42,
     rteBadgeIcon: "settings",
   },
   render: (args) => ({
@@ -254,4 +256,48 @@ export const Icons: Story = {
             </div>
         `,
   }),
+};
+
+export const BadgeVisibility: Story = {
+  args: {
+    rteBadgeType: "brand",
+    rteBadgeAppearance: "text",
+    rteBadgeSize: "M",
+    rteBadgeCount: 1,
+  },
+  render: (args) => ({
+    props: args,
+    declarations: [BadgeDirective],
+    template: `
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            ${mockHost(`
+                [rteBadge]="rteBadge"
+                [rteBadgeType]="rteBadgeType"
+                [rteBadgeAppearance]="rteBadgeAppearance"
+                [rteBadgeSize]="rteBadgeSize"
+                [rteBadgeCount]="rteBadgeCount"
+            `)}
+            <hr>
+            <label>Badge Count</label>
+            <input
+              type="number"
+              [value]="rteBadgeCount"
+              (input)="rteBadgeCount = $event.target.valueAsNumber"
+              data-testid="badge-count-input"
+              aria-hidden="true"
+            />
+          </div>
+        `,
+  }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const badgeCountInput = canvas.getByTestId("badge-count-input");
+    const badge = canvas.getByTestId("badge");
+    expect(badge).toBeVisible();
+    await userEvent.clear(badgeCountInput);
+    await userEvent.type(badgeCountInput, "0");
+    await waitFor(() => expect(badge).not.toBeVisible());
+    await userEvent.type(badgeCountInput, "1");
+    await waitFor(() => expect(badge).toBeVisible());
+  },
 };

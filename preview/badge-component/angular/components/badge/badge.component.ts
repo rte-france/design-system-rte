@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, input, computed } from "@angular/core";
+import { Component, input, computed, ChangeDetectionStrategy } from "@angular/core";
 import { BadgeAppearance, BadgeSize, BadgeType } from "@design-system-rte/core/components/badge/badge.interface";
 
 import { isValidIconName } from "../icon/icon-map";
@@ -12,6 +12,7 @@ import { RegularIconIdKey, TogglableIconIdKey } from "../icon/icon.service";
   standalone: true,
   templateUrl: "./badge.component.html",
   styleUrl: "./badge.component.scss",
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BadgeComponent {
   readonly badgeType = input<BadgeType>("brand");
