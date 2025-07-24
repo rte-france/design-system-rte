@@ -10,7 +10,11 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        animation: fade-in 0.15s;
+        transition: opacity 0.15s;
+
+        &.hidden {
+            opacity: 0;
+        }
 
         &[data-badge-type='brand'] {
             @include elevation-brand-shadow-2;
@@ -67,34 +71,8 @@
 
         p {
             margin: 0;
-            animation: fade-in 0.1s;
         }
 
-    }
-
-    .hidden {
-        animation: fade-out 0.15s forwards;
-    }
-
-}
-
-@keyframes fade-in {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes fade-out {
-    from {
-        opacity: 1;
-    }
-
-    to {
-        opacity: 0;
     }
 
 }

@@ -1,4 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react";
+import { within, userEvent, waitFor, expect } from "@storybook/test";
+import { useState } from "react";
 
 import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../icon/IconMap";
 
@@ -105,4 +107,47 @@ export const Sizes: Story = {
       <Badge {...args} size="L" />
     </div>
   ),
+};
+
+const BadgeVisibilityDemo = (args: Story["args"]) => {
+  const [count, setCount] = useState(args.count);
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+      <div>
+        <Badge {...args} count={count} />
+      </div>
+      <hr />
+      <label>Badge Count</label>
+      <input
+        id="badge-count-input"
+        type="number"
+        value={count}
+        onChange={(e) => setCount(Number(e.target.value))}
+        data-testid="badge-count-input"
+      />
+    </div>
+  );
+};
+
+export const BadgeVisibility: Story = {
+  args: {
+    badgeType: "brand",
+    appearance: "text",
+    size: "M",
+    count: 1,
+    children: mockChildren,
+  },
+  render: BadgeVisibilityDemo,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const badgeCountInput = canvas.getByTestId("badge-count-input");
+    const badge = canvas.getByTestId("badge");
+    expect(badge).toBeVisible();
+    await userEvent.clear(badgeCountInput);
+    await userEvent.type(badgeCountInput, "0");
+    await waitFor(() => expect(badge).not.toBeVisible());
+    await userEvent.clear(badgeCountInput);
+    await userEvent.type(badgeCountInput, "1");
+    await waitFor(() => expect(badge).toBeVisible());
+  },
 };

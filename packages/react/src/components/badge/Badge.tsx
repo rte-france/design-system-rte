@@ -23,6 +23,7 @@ const Badge = forwardRef<HTMLDivElement, BadgeProps>(
         <div
           data-badge-type={badgeType}
           data-size={size}
+          data-testid="badge"
           className={concatClassNames(style.badge, count > 0 ? "" : style.hidden)}
         >
           {size !== "XS" && size !== "S" && (
