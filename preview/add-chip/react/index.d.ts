@@ -10,5 +10,6 @@ import { default as Link } from './components/link/Link.tsx';
 import { default as RadioButton } from './components/radioButton/RadioButton.tsx';
 import { default as RadioButtonGroup } from './components/radioButtonGroup/RadioButtonGroup.tsx';
 import { default as SplitButton } from './components/splitButton/SplitButton.tsx';
+import { default as TextInput } from './components/textInput/TextInput.tsx';
 import { default as Tooltip } from './components/tooltip/Tooltip.tsx';
-export { Button, Grid, Checkbox, CheckboxGroup, Link, RadioButton, RadioButtonGroup, Icon, IconButton, IconButtonToggle, SplitButton, Tooltip, Chip, };
+export { Button, Grid, Checkbox, CheckboxGroup, Link, RadioButton, RadioButtonGroup, Icon, IconButton, IconButtonToggle, SplitButton, Tooltip, TextInput, Chip, };
