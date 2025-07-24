@@ -41,7 +41,7 @@ function App() {
         <h4>The input is : {inputValue}</h4>
         <div>
           <h3>Chip</h3>
-          <Chip label="Chip Label" type="single" onClick={() => console.log("Chip clicked")} />
+          <Chip label="Chip Label" type="single" />
         </div>
       </div>
     </div>

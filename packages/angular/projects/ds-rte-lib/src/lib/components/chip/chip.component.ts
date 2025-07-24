@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, input, output } from "@angular/core";
-import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard.constants";
+import { BACKSPACE_KEY, DELETE_KEY, ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard.constants";
 
 import { IconComponent } from "../icon/icon.component";
 
@@ -47,6 +47,15 @@ export class ChipComponent {
         if (!target.classList.contains("chip-close-button")) {
           this.onClick(event);
         }
+      } else if ((event.key === BACKSPACE_KEY || event.key === DELETE_KEY) && this.type() === "input") {
+        const closeButton = (event.target as HTMLElement).querySelector(
+          ".chip-close-button",
+        ) as HTMLButtonElement | null;
+        if (closeButton) {
+          closeButton.click();
+        }
+      } else {
+        return;
       }
     }
   }
