@@ -4,6 +4,7 @@ export type RightIconName = "close" | "visibility-show" | "visibility-hide";
 export type AssistiveAppearance = "description" | "error" | "success" | "link";
 
 export interface TextInputProps {
+  id: string;
   label?: string;
   labelPosition?: LabelPosition;
   showCounter?: boolean;

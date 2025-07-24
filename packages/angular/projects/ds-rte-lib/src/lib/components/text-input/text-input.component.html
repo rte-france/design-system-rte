@@ -6,7 +6,7 @@
   <ng-container *ngIf="label()">
     <div class="text">
       <div class="label-container">
-        <label class="input-label" id="inputLabel">
+        <label class="input-label" [id]="'input-label-' + id" [for]="id()">
           {{ label() }}
         </label>
         <ng-container *ngIf="required()">
@@ -48,6 +48,7 @@
 
         <input
           #inputRef
+          [id]="id()"
           class="input-field"
           [ngClass]="{'error': error()}"
           [attr.aria-label]="ariaLabel()"
