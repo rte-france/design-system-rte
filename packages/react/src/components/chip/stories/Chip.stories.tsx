@@ -4,6 +4,7 @@ import { fn, userEvent, within, expect } from "@storybook/test";
 import { useState } from "react";
 
 import Button from "../../button/Button";
+import TextInput from "../../textInput/TextInput";
 import Chip from "../Chip";
 
 const meta = {
@@ -187,8 +188,15 @@ export const Input: Story = {
     const [inputValue, setInputValue] = useState("");
     const [chipsValue, setChipsValue] = useState<string[]>([]);
 
-    const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setInputValue(e.target.value);
+    const handleOnChange = (value: string) => {
+      setInputValue(value);
+    };
+
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+      if (event.key === ENTER_KEY) {
+        event.preventDefault();
+        handleAddChip();
+      }
     };
 
     const handleAddChip = () => {
@@ -198,7 +206,7 @@ export const Input: Story = {
       }
     };
 
-    const handleChipClick = (event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLButtonElement>) => {
+    const handleRemoveChip = (event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLButtonElement>) => {
       const chipsToRemove = event.currentTarget.value;
       setChipsValue((chipsValue) =>
         chipsValue.includes(chipsToRemove) ? chipsValue.filter((value) => value !== chipsToRemove) : chipsValue,
@@ -207,20 +215,19 @@ export const Input: Story = {
 
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-        <div style={{ display: "flex", gap: "10px" }}>
-          <input
-            type="text"
-            name="chip-input"
+        <div style={{ display: "flex", gap: "10px", alignItems: "end" }}>
+          <TextInput
+            id="input-add-chip"
+            label="Ajouter un chip"
             value={inputValue}
             onChange={handleOnChange}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") handleAddChip();
-            }}
+            onKeyDown={handleKeyDown}
           />
-          <Button label="Ajouter" size="s" onClick={handleAddChip}></Button>
+
+          <Button label="Ajouter" onClick={handleAddChip}></Button>
         </div>
         {chipsValue.length > 0 && (
-          <div style={{ display: "flex", gap: "10px" }} role="listbox">
+          <div style={{ display: "flex", gap: "10px" }} role="listbox" aria-label="Chips list">
             {chipsValue.map((value, index) => (
               <Chip
                 id={`chip-${index}-${value}`}
@@ -229,7 +236,7 @@ export const Input: Story = {
                 selected={false}
                 disabled={false}
                 type="input"
-                onClose={handleChipClick}
+                onClose={handleRemoveChip}
               />
             ))}
           </div>
