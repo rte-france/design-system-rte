@@ -77,7 +77,7 @@ export const Default: Story = {
   args: {
     rteBadge: "Badge Text",
     rteBadgeType: "brand",
-    rteBadgeSize: "M",
+    rteBadgeSize: "m",
     rteBadgeCount: 1,
     rteBadgeAppearance: "text",
     rteBadgeIcon: "settings",
@@ -105,10 +105,6 @@ export const Sizes: Story = {
   render: (args) => ({
     props: {
       ...args,
-      sizeXS: "XS",
-      sizeS: "S",
-      sizeM: "M",
-      sizeL: "L",
     },
     declarations: [BadgeDirective],
     template: `
@@ -117,25 +113,25 @@ export const Sizes: Story = {
                     [rteBadge]="rteBadge"
                     [rteBadgeType]="rteBadgeType"
                     [rteBadgeAppearance]="rteBadgeAppearance"
-                    [rteBadgeSize]="sizeXS"
+                    rteBadgeSize="xs"
                 `)}
                 ${mockHost(`
                     [rteBadge]="rteBadge"
                     [rteBadgeType]="rteBadgeType"
                     [rteBadgeAppearance]="rteBadgeAppearance"
-                    [rteBadgeSize]="sizeS"
+                    rteBadgeSize="s"
                 `)}
                 ${mockHost(`
                     [rteBadge]="rteBadge"
                     [rteBadgeType]="rteBadgeType"
                     [rteBadgeAppearance]="rteBadgeAppearance"
-                    [rteBadgeSize]="sizeM"
+                    rteBadgeSize="m"
                 `)}
                 ${mockHost(`
                     [rteBadge]="rteBadge"
                     [rteBadgeType]="rteBadgeType"
                     [rteBadgeAppearance]="rteBadgeAppearance"
-                    [rteBadgeSize]="sizeL"
+                    rteBadgeSize="l"
                 `)}
             </div>
         `,
@@ -146,7 +142,7 @@ export const CountLimit: Story = {
   args: {
     rteBadgeType: "indicator",
     rteBadgeAppearance: "text",
-    rteBadgeSize: "M",
+    rteBadgeSize: "m",
   },
   render: (args) => ({
     props: {
@@ -204,7 +200,7 @@ export const Icons: Story = {
   args: {
     rteBadgeType: "brand",
     rteBadgeAppearance: "icon",
-    rteBadgeSize: "M",
+    rteBadgeSize: "m",
   },
   render: (args) => ({
     props: args,
@@ -262,7 +258,7 @@ export const BadgeVisibility: Story = {
   args: {
     rteBadgeType: "brand",
     rteBadgeAppearance: "text",
-    rteBadgeSize: "M",
+    rteBadgeSize: "m",
     rteBadgeCount: 1,
   },
   render: (args) => ({
