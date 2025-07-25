@@ -1,7 +1,12 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, input, output } from "@angular/core";
 import { CHIP_TYPE_TO_ARIA_ROLE_MAP } from "@design-system-rte/core/components/chip/chip.constants";
-import { BACKSPACE_KEY, DELETE_KEY, ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard.constants";
+import {
+  BACKSPACE_KEY,
+  DELETE_KEY,
+  ENTER_KEY,
+  SPACE_KEY,
+} from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
 import { IconComponent } from "../icon/icon.component";
 

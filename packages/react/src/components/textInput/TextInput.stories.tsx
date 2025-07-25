@@ -1,5 +1,5 @@
 import { TextInputProps } from "@design-system-rte/core/components/text-input/text-input.interface";
-import { SPACE_KEY } from "@design-system-rte/core/constants/keyboard.constants";
+import { SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 import { Meta, StoryObj } from "@storybook/react";
 import { fn, within, userEvent, expect, waitFor } from "@storybook/test";
 
