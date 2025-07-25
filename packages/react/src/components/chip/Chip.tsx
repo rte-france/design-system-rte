@@ -1,3 +1,4 @@
+import { CHIP_TYPE_TO_ARIA_ROLE_MAP } from "@design-system-rte/core/components/chip/chip.constants";
 import { ChipProps as CoreChipProps } from "@design-system-rte/core/components/chip/chip.interface";
 import { BACKSPACE_KEY, DELETE_KEY, ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard.constants";
 import React, { forwardRef } from "react";
@@ -53,17 +54,11 @@ export const Chip = forwardRef<HTMLSpanElement, ChipProps>(
 
     const isCheckable = type === "single" || type === "multi";
 
-    const roleMapping: Record<string, string> = {
-      single: "radio",
-      multi: "checkbox",
-      input: "option",
-    };
-
     return (
       <span
         id={id}
         ref={ref}
-        role={roleMapping[type]}
+        role={CHIP_TYPE_TO_ARIA_ROLE_MAP[type]}
         className={concatClassNames(styles["chip"], className)}
         data-selected={isCheckable && selected}
         data-disabled={disabled}
