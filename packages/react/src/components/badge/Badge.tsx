@@ -1,3 +1,4 @@
+import { badgeIconSize } from "@design-system-rte/core/components/badge/badge.constants";
 import { BadgeProps as BadgePropsCore } from "@design-system-rte/core/components/badge/badge.interface";
 import { forwardRef } from "react";
 
@@ -6,13 +7,14 @@ import { isValidIconName } from "../icon/IconMap";
 import { concatClassNames } from "../utils";
 
 import style from "./Badge.module.scss";
+
 export interface BadgeProps extends BadgePropsCore, Omit<React.HTMLAttributes<HTMLDivElement>, "children"> {
   children: React.ReactNode;
   icon?: RegularIconIdKey | TogglableIconIdKey;
 }
 
 const Badge = forwardRef<HTMLDivElement, BadgeProps>(
-  ({ badgeType = "brand", size = "M", appearance = "text", count = 1, icon = "settings", children }, ref) => {
+  ({ badgeType = "brand", size = "m", appearance = "text", count = 1, icon = "settings", children }, ref) => {
     if (appearance == "icon" && icon && !isValidIconName(icon)) {
       console.warn(`Badge: Invalid icon name "${icon}". Please use a valid icon key.`);
       return null;
@@ -26,9 +28,9 @@ const Badge = forwardRef<HTMLDivElement, BadgeProps>(
           data-testid="badge"
           className={concatClassNames(style.badge, count > 0 ? "" : style.hidden)}
         >
-          {size !== "XS" && size !== "S" && (
+          {size !== "xs" && size !== "s" && (
             <>
-              {appearance == "icon" && <Icon name={icon} className={style.icon} size={size === "M" ? 12 : 20} />}
+              {appearance == "icon" && <Icon name={icon} className={style.icon} size={badgeIconSize[size]} />}
               {appearance == "text" && count > 0 && (
                 <p className={style.count} key={count}>
                   {count < 1000 ? count : "999+"}

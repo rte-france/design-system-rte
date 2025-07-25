@@ -34,7 +34,7 @@
             color: var(--content-primary-inverse);
         }
 
-        &[data-size='XS'] {
+        &[data-size='xs'] {
             width: 6px;
             height: 6px;
             box-shadow: none;
@@ -42,14 +42,14 @@
             right: 0;
         }
 
-        &[data-size='S'] {
+        &[data-size='s'] {
             width: 12px;
             height: 12px;
             top: -3px;
             right: -3px;
         }
 
-        &[data-size='M'] {
+        &[data-size='m'] {
             @include typography-text-s-bold;
             min-width: 16px;
             width: fit-content;
@@ -59,7 +59,7 @@
             padding: $positive-spacing_0 $positive-spacing_025;
         }
 
-        &[data-size='L'] {
+        &[data-size='l'] {
             @include typography-text-l-bold;
             min-width: 24px;
             width: fit-content;

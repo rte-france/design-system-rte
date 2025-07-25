@@ -22,7 +22,7 @@ const meta = {
     },
     size: {
       control: "select",
-      options: ["XS", "S", "M", "L"],
+      options: ["xs", "s", "m", "l"],
       description: "Size of the badge",
       defaultValue: "M",
     },
@@ -68,7 +68,7 @@ const mockChildren = (
 export const Default: Story = {
   args: {
     badgeType: "brand",
-    size: "M",
+    size: "m",
     appearance: "text",
     count: 1,
     children: mockChildren,
@@ -78,10 +78,9 @@ export const Default: Story = {
 export const IconBadge: Story = {
   args: {
     badgeType: "brand",
-    size: "M",
+    size: "m",
     appearance: "icon",
     icon: "settings",
-    count: 0,
     children: mockChildren,
   },
 };
@@ -96,15 +95,15 @@ export const Sizes: Story = {
   argTypes: {
     size: {
       control: "select",
-      options: ["XS", "S", "M", "L"],
+      options: ["xs", "s", "m", "l"],
     },
   },
   render: (args) => (
     <div style={{ display: "flex", gap: "16px", alignItems: "center" }}>
-      <Badge {...args} size="XS" />
-      <Badge {...args} size="S" />
-      <Badge {...args} size="M" />
-      <Badge {...args} size="L" />
+      <Badge {...args} size="xs" />
+      <Badge {...args} size="s" />
+      <Badge {...args} size="m" />
+      <Badge {...args} size="l" />
     </div>
   ),
 };
@@ -133,7 +132,7 @@ export const BadgeVisibility: Story = {
   args: {
     badgeType: "brand",
     appearance: "text",
-    size: "M",
+    size: "m",
     count: 1,
     children: mockChildren,
   },

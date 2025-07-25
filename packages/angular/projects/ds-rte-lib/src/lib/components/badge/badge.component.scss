@@ -30,7 +30,7 @@
         color: var(--content-primary-inverse);
     }
 
-    &.size-XS {
+    &.size-xs {
         width: 6px;
         height: 6px;
         box-shadow: none;
@@ -38,14 +38,14 @@
         right: 0;
     }
 
-    &.size-S {
+    &.size-s {
         width: 12px;
         height: 12px;
         top: -3px;
         right: -3px;
     }
 
-    &.size-M {
+    &.size-m {
         @include typography-text-s-bold;
         min-width: 16px;
         width: fit-content;
@@ -55,7 +55,7 @@
         padding: $positive-spacing_0 $positive-spacing_025;
     }
 
-    &.size-L {
+    &.size-l {
         @include typography-text-l-bold;
         min-width: 24px;
         width: fit-content;
