@@ -1,5 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, input, output } from "@angular/core";
+import { CHIP_TYPE_TO_ARIA_ROLE_MAP } from "@design-system-rte/core/components/chip/chip.constants";
 import { BACKSPACE_KEY, DELETE_KEY, ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard.constants";
 
 import { IconComponent } from "../icon/icon.component";
@@ -13,7 +14,7 @@ import { IconComponent } from "../icon/icon.component";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChipComponent {
-  readonly id = input<string | undefined>(undefined);
+  readonly id = input<string | undefined>();
   readonly label = input<string>("");
   readonly selected = input<boolean>(false);
   readonly disabled = input<boolean>(false);
@@ -23,12 +24,7 @@ export class ChipComponent {
   readonly close = output<Event>();
 
   readonly isCheckable = computed(() => this.type() === "single" || this.type() === "multi");
-  readonly role = computed(() => {
-    if (this.type() === "single") return "radio";
-    if (this.type() === "multi") return "checkbox";
-    if (this.type() === "input") return "option";
-    return null;
-  });
+  readonly role = computed(() => CHIP_TYPE_TO_ARIA_ROLE_MAP[this.type()] || null);
 
   onClick(event: Event) {
     event.stopPropagation();
@@ -54,8 +50,6 @@ export class ChipComponent {
         if (closeButton) {
           closeButton.click();
         }
-      } else {
-        return;
       }
     }
   }
