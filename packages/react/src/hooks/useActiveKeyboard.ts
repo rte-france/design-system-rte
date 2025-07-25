@@ -1,4 +1,4 @@
-import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard.constants";
+import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 import { KeyboardEvent, useRef } from "react";
 
 type OptionsActiveKeyboard = {

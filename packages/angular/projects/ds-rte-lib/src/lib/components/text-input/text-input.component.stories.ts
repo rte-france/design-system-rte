@@ -1,4 +1,4 @@
-import { SPACE_KEY } from "@design-system-rte/core/constants/keyboard.constants";
+import { SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 import { Meta, StoryObj } from "@storybook/angular";
 import { expect, userEvent, waitFor, within } from "@storybook/test";
 

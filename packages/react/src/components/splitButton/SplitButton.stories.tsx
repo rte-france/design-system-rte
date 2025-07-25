@@ -1,4 +1,4 @@
-import { DOWN_KEY } from "@design-system-rte/core/constants/keyboard.constants";
+import { DOWN_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 import { Meta, StoryObj } from "@storybook/react";
 import { expect, fn, userEvent, waitFor, within } from "@storybook/test";
 
