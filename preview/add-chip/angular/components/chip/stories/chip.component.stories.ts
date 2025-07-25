@@ -1,4 +1,8 @@
-import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard.constants";
+import {
+  TESTING_ENTER_KEY,
+  TESTING_SPACE_KEY,
+} from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
+import { ENTER_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 import { moduleMetadata } from "@storybook/angular";
 import type { Meta, StoryObj } from "@storybook/angular";
 import { userEvent, within, expect } from "@storybook/test";
@@ -103,9 +107,9 @@ export const SingleSelect: Story = {
 
     await userEvent.tab();
     expect(chips[2]).toHaveFocus();
-    await userEvent.keyboard(`{${ENTER_KEY}}`);
+    await userEvent.keyboard(TESTING_ENTER_KEY);
     expect(chips[2]).toHaveAttribute("aria-checked", "true");
-    await userEvent.keyboard(`{${SPACE_KEY}}`);
+    await userEvent.keyboard(TESTING_SPACE_KEY);
     expect(chips[2]).toHaveAttribute("aria-checked", "false");
   },
 };
@@ -174,7 +178,7 @@ export const MultiSelect: Story = {
 
     await userEvent.tab();
     expect(chips[2]).toHaveFocus();
-    await userEvent.keyboard(`{${ENTER_KEY}}`);
+    await userEvent.keyboard(TESTING_ENTER_KEY);
     expect(chips[2]).toHaveAttribute("aria-checked", "true");
   },
 };
@@ -246,10 +250,10 @@ export const InputChip: Story = {
     const input = canvas.getByRole("textbox");
 
     await userEvent.type(input, "New Chip");
-    await userEvent.keyboard(`{${ENTER_KEY}}`);
+    await userEvent.keyboard(TESTING_ENTER_KEY);
 
     await userEvent.type(input, "Another Chip");
-    await userEvent.keyboard(`{${ENTER_KEY}}`);
+    await userEvent.keyboard(TESTING_ENTER_KEY);
 
     const allChipsList = canvas.getAllByRole("option");
 
@@ -264,26 +268,26 @@ export const InputChip: Story = {
     expect(remainingChips).toHaveLength(1);
 
     await userEvent.type(input, "More Chip");
-    await userEvent.keyboard(`{${ENTER_KEY}}`);
+    await userEvent.keyboard(TESTING_ENTER_KEY);
 
     const newRemainingChips = canvas.getAllByRole("option");
     expect(newRemainingChips).toHaveLength(2);
 
     newRemainingChips[0].focus();
     await userEvent.tab();
-    await userEvent.keyboard(`{${ENTER_KEY}}`);
+    await userEvent.keyboard(TESTING_ENTER_KEY);
 
     expect(canvas.getAllByRole("option")).toHaveLength(1);
 
     await userEvent.type(input, "Last Chip");
-    await userEvent.keyboard(`{${ENTER_KEY}}`);
+    await userEvent.keyboard(TESTING_ENTER_KEY);
 
     expect(canvas.getAllByRole("option")).toHaveLength(2);
 
     const lastChip = canvas.getAllByRole("option")[1];
     lastChip.focus();
     await userEvent.tab();
-    await userEvent.keyboard(`{${SPACE_KEY}}`);
+    await userEvent.keyboard(TESTING_SPACE_KEY);
 
     expect(canvas.getAllByRole("option")).toHaveLength(1);
   },
