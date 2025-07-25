@@ -18,7 +18,6 @@
       <span
         class="chip-icon"
         [class.chip-icon--visible]="selected()"
-        [class.chip-icon--hidden]="!selected()"
         [attr.aria-hidden]="!selected()"
       >
         <rte-icon name="check-circle" appearance="filled" [size]="16"></rte-icon>
@@ -26,7 +25,6 @@
       <span
         class="chip-icon"
         [class.chip-icon--visible]="!selected()"
-        [class.chip-icon--hidden]="selected()"
         [attr.aria-hidden]="selected()"
       >
         <rte-icon name="radio-button-empty" [size]="16"></rte-icon>

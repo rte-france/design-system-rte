@@ -13,7 +13,7 @@ import { IconComponent } from "../icon/icon.component";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChipComponent {
-  readonly id = input<string | undefined>(undefined);
+  readonly id = input<string | undefined>();
   readonly label = input<string>("");
   readonly selected = input<boolean>(false);
   readonly disabled = input<boolean>(false);
