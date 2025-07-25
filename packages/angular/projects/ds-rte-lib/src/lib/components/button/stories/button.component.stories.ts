@@ -1,4 +1,7 @@
-import { ENTER_KEY, TAB_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard.constants";
+import {
+  TESTING_ENTER_KEY,
+  TESTING_SPACE_KEY,
+} from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
 import type { Meta, StoryObj } from "@storybook/angular";
 import { fn, userEvent, within, expect } from "@storybook/test";
 
@@ -89,10 +92,10 @@ export const KeyboardInteraction: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const button = canvas.getByRole("button");
-    await userEvent.keyboard(TAB_KEY);
+    await userEvent.tab();
     expect(button).toHaveFocus();
-    await userEvent.keyboard(ENTER_KEY);
-    await userEvent.keyboard(SPACE_KEY);
+    await userEvent.keyboard(TESTING_ENTER_KEY);
+    await userEvent.keyboard(TESTING_SPACE_KEY);
     expect(mockFn).toHaveBeenCalledTimes(2);
     button.blur();
   },

@@ -14,13 +14,14 @@ import style from "./TextInput.module.scss";
 
 interface TextInputProps
   extends CoreTextInputProps,
-    Omit<InputHTMLAttributes<HTMLInputElement>, "onChange" | "value" | "defaultValue" | "placeholder"> {
+    Omit<InputHTMLAttributes<HTMLInputElement>, "id" | "onChange" | "value" | "defaultValue" | "placeholder"> {
   onChange?: (value: string) => void;
 }
 
 const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
   (
     {
+      id,
       label,
       labelPosition = "top",
       required = false,
@@ -151,7 +152,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
         {label && (
           <div className={style.text}>
             <div className={style.labelContainer}>
-              <label className={style.inputLabel} id="inputLabel">
+              <label className={style.inputLabel} id={`inputLabel-${id}`} htmlFor={id}>
                 {" "}
                 {label}{" "}
               </label>
@@ -183,6 +184,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
                 />
               )}
               <input
+                id={id}
                 ref={(node) => {
                   inputRef.current = node;
                   if (typeof ref === "function") {

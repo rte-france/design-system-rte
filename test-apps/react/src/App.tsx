@@ -1,5 +1,5 @@
 import "./App.css";
-import { Button, Icon, SplitButton, Tooltip, TextInput } from "@design-system-rte/react";
+import { Button, Icon, SplitButton, Tooltip, TextInput, Chip } from "@design-system-rte/react";
 import { useState } from "react";
 
 function App() {
@@ -39,6 +39,10 @@ function App() {
         <h3>TextInput</h3>
         <TextInput label="Label" value={inputValue} onChange={handleInputChange} />
         <h4>The input is : {inputValue}</h4>
+        <div>
+          <h3>Chip</h3>
+          <Chip label="Chip Label" type="single" />
+        </div>
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import { SPACE_KEY } from "@design-system-rte/core/constants/keyboard.constants";
+import { SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 import { Meta, StoryObj } from "@storybook/angular";
 import { expect, userEvent, waitFor, within } from "@storybook/test";
 
@@ -71,12 +71,14 @@ export const CharacterCount: Story = {
     ...Default.args,
     maxLength: 15,
     showCounter: true,
+    id: "text-input-add-chip",
   },
   render: (args) => ({
     props: args,
     template: `
       <div data-testid="input-container">
         <rte-text-input
+          [id]="id"
           [label]="label"
           [labelPosition]="labelPosition"
           [required]="required"

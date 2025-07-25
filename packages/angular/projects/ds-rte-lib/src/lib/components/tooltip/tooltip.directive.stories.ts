@@ -1,4 +1,3 @@
-import { TAB_KEY } from "@design-system-rte/core/constants/keyboard.constants";
 import { Meta, StoryObj } from "@storybook/angular";
 import { within, userEvent, expect, waitFor } from "@storybook/test";
 
@@ -210,7 +209,7 @@ export const KeyboardInteraction: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const tooltipHost = canvas.getByText("Hover Me!");
-    await userEvent.keyboard(TAB_KEY);
+    await userEvent.tab();
     const tooltip = await canvas.findByRole("tooltip");
     expect(tooltipHost).toHaveFocus();
     await waitFor(() => expect(tooltip).toBeVisible());
