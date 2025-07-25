@@ -47,10 +47,13 @@ export const Chip = forwardRef<HTMLSpanElement, ChipProps>(
       }
     };
 
-    const { onBlur, onKeyDown, onKeyUp } = useActiveKeyboard<HTMLSpanElement>(keyboardHandler, {
-      id,
-      interactiveKeyCodes: [SPACE_KEY, ENTER_KEY, BACKSPACE_KEY, DELETE_KEY],
-    });
+    const { onBlur, onKeyDown, onKeyUp } = useActiveKeyboard<HTMLSpanElement>(
+      { onKeyUp: keyboardHandler },
+      {
+        id,
+        interactiveKeyCodes: [SPACE_KEY, ENTER_KEY, BACKSPACE_KEY, DELETE_KEY],
+      },
+    );
 
     const isCheckable = type === "single" || type === "multi";
 

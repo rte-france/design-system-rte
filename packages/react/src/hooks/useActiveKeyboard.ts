@@ -1,38 +1,47 @@
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard.constants";
-import { KeyboardEvent, useRef, useState } from "react";
+import { KeyboardEvent, useRef } from "react";
 
 type OptionsActiveKeyboard = {
   id?: string;
   interactiveKeyCodes?: string[];
 };
 
+type handlersActiveKeyboard<T extends HTMLElement> = {
+  onKeyDown?: (e: KeyboardEvent<T>) => void;
+  onKeyUp?: (e: KeyboardEvent<T>) => void;
+  onBlur?: () => void;
+};
+
 const noop = () => {};
 
 export const useActiveKeyboard = <T extends HTMLElement>(
-  handlerKeyup: (e: KeyboardEvent<T>) => void = noop,
+  handlerFunctions: handlersActiveKeyboard<T> = {},
   options: OptionsActiveKeyboard = {},
 ) => {
   const { id, interactiveKeyCodes } = options;
-  const [isActiveKeyboard, setIsActiveKeyboard] = useState<boolean>(false);
+  const {
+    onKeyDown: handlerOnKeyDown = noop,
+    onKeyUp: handlerOnKeyUp = noop,
+    onBlur: handlerOnBlur = noop,
+  } = handlerFunctions;
   const interactiveKeysRef = useRef<string[]>(interactiveKeyCodes ?? [SPACE_KEY, ENTER_KEY]);
 
   const onKeyDown = (e: KeyboardEvent<T>) => {
     if (interactiveKeysRef.current?.includes(e.key) && (!id || (e.target as T).id === id)) {
       e.preventDefault();
-      setIsActiveKeyboard(true);
+      handlerOnKeyDown(e);
     }
   };
 
   const onKeyUp = (e: KeyboardEvent<T>) => {
     if (interactiveKeysRef.current?.includes(e.key) && (!id || (e.target as T).id === id)) {
-      handlerKeyup(e);
-      setIsActiveKeyboard(false);
+      handlerOnKeyUp(e);
     }
   };
 
   const onBlur = () => {
-    setIsActiveKeyboard(false);
+    handlerOnBlur();
   };
 
-  return { onKeyDown, onKeyUp, onBlur, isActiveKeyboard };
+  return { onKeyDown, onKeyUp, onBlur };
 };
