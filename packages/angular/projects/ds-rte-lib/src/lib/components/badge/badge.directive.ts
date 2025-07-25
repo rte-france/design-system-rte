@@ -25,7 +25,7 @@ export class BadgeDirective implements OnInit, OnChanges, OnDestroy {
   readonly rteBadgeType = input<BadgeType>("brand");
   readonly rteBadgeSize = input<BadgeSize>("m");
   readonly rteBadgeAppearance = input<BadgeAppearance>("text");
-  readonly rteBadgeCount = input<number>(42);
+  readonly rteBadgeCount = input<number | undefined>();
   readonly rteBadgeIcon = input<RegularIconIdKey | TogglableIconIdKey>("settings");
 
   private badgeComponentRef: ComponentRef<BadgeComponent> | null = null;

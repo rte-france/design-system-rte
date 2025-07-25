@@ -24,8 +24,8 @@ const meta: Meta<BadgeDirective> = {
     },
     rteBadgeSize: {
       control: "select",
-      options: ["XS", "S", "M", "L"],
-      defaultValue: "M",
+      options: ["xs", "s", "m", "l"],
+      defaultValue: "m",
     },
     rteBadgeAppearance: {
       control: "select",
@@ -96,11 +96,33 @@ export const Default: Story = {
   }),
 };
 
+export const IconBadge: Story = {
+  args: {
+    rteBadge: "Badge Text",
+    rteBadgeType: "brand",
+    rteBadgeSize: "m",
+    rteBadgeAppearance: "icon",
+    rteBadgeIcon: "settings",
+  },
+  render: (args) => ({
+    props: args,
+    declarations: [BadgeDirective],
+    template: mockHost(`
+      [rteBadge]="rteBadge"
+      [rteBadgeType]="rteBadgeType"
+      [rteBadgeSize]="rteBadgeSize"
+      [rteBadgeAppearance]="rteBadgeAppearance"
+      [rteBadgeIcon]="rteBadgeIcon"
+    `),
+  }),
+};
+
 export const Sizes: Story = {
   args: {
     rteBadge: "Badge",
     rteBadgeType: "brand",
     rteBadgeAppearance: "text",
+    rteBadgeCount: 1,
   },
   render: (args) => ({
     props: {
@@ -114,24 +136,28 @@ export const Sizes: Story = {
                     [rteBadgeType]="rteBadgeType"
                     [rteBadgeAppearance]="rteBadgeAppearance"
                     rteBadgeSize="xs"
+                    [rteBadgeCount]="rteBadgeCount"
                 `)}
                 ${mockHost(`
                     [rteBadge]="rteBadge"
                     [rteBadgeType]="rteBadgeType"
                     [rteBadgeAppearance]="rteBadgeAppearance"
                     rteBadgeSize="s"
+                    [rteBadgeCount]="rteBadgeCount"
                 `)}
                 ${mockHost(`
                     [rteBadge]="rteBadge"
                     [rteBadgeType]="rteBadgeType"
                     [rteBadgeAppearance]="rteBadgeAppearance"
                     rteBadgeSize="m"
+                    [rteBadgeCount]="rteBadgeCount"
                 `)}
                 ${mockHost(`
                     [rteBadge]="rteBadge"
                     [rteBadgeType]="rteBadgeType"
                     [rteBadgeAppearance]="rteBadgeAppearance"
                     rteBadgeSize="l"
+                    [rteBadgeCount]="rteBadgeCount"
                 `)}
             </div>
         `,

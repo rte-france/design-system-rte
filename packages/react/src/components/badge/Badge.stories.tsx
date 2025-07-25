@@ -108,6 +108,44 @@ export const Sizes: Story = {
   ),
 };
 
+export const CountLimit: Story = {
+  args: {
+    badgeType: "indicator",
+    appearance: "text",
+    size: "m",
+    children: mockChildren,
+  },
+  render: (args) => (
+    <div style={{ display: "flex", gap: "16px", alignItems: "center" }}>
+      <Badge {...args} count={5} />
+      <Badge {...args} count={99} />
+      <Badge {...args} count={100} />
+      <Badge {...args} count={999} />
+      <Badge {...args} count={1000} />
+    </div>
+  ),
+};
+
+export const Icons: Story = {
+  args: {
+    badgeType: "brand",
+    appearance: "icon",
+    size: "m",
+    icon: "settings",
+    children: mockChildren,
+  },
+  render: (args) => (
+    <div style={{ display: "flex", gap: "16px", alignItems: "center" }}>
+      <Badge {...args} icon="settings" />
+      <Badge {...args} icon="home" />
+      <Badge {...args} icon="user" />
+      <Badge {...args} icon="search" />
+      <Badge {...args} icon="heart" />
+      <Badge {...args} icon="star" />
+    </div>
+  ),
+};
+
 const BadgeVisibilityDemo = (args: Story["args"]) => {
   const [count, setCount] = useState(args.count);
   return (
