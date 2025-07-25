@@ -81,19 +81,13 @@ export const Chip = forwardRef<HTMLSpanElement, ChipProps>(
         {type === "multi" && (
           <span className={styles["chip-icon-container"]}>
             <span
-              className={concatClassNames(
-                styles["chip-icon"],
-                selected ? styles["chip-icon--visible"] : styles["chip-icon--hidden"],
-              )}
+              className={concatClassNames(styles["chip-icon"], selected ? styles["chip-icon--visible"] : "")}
               aria-hidden={!selected}
             >
               <Icon name="check-circle" appearance="filled" size={16} />
             </span>
             <span
-              className={concatClassNames(
-                styles["chip-icon"],
-                !selected ? styles["chip-icon--visible"] : styles["chip-icon--hidden"],
-              )}
+              className={concatClassNames(styles["chip-icon"], !selected ? styles["chip-icon--visible"] : "")}
               aria-hidden={selected}
             >
               <Icon name="radio-button-empty" size={16} />
