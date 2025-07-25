@@ -127,12 +127,18 @@ export const MultiSelect: Story = {
         ...args,
         options,
         selectedChips: new Set<string>(),
+        displayedChips: "",
         onChipClick(optionId: string) {
           if (this["selectedChips"].has(optionId)) {
             this["selectedChips"].delete(optionId);
           } else {
             this["selectedChips"].add(optionId);
           }
+
+          this["displayedChips"] = this["options"]
+            .filter((option: { id: string; label: string }) => this["selectedChips"].has(option.id))
+            .map((option: { id: string; label: string }) => option.label)
+            .join(", ");
         },
       },
       template: `
@@ -147,7 +153,8 @@ export const MultiSelect: Story = {
             (click)="onChipClick(option.id)"
             class="chip"
           ></rte-chip>
-        </div>
+          </div>
+          <p>Chips sélectionnées: {{ displayedChips }}</p>
       `,
     };
   },
