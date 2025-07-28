@@ -21,7 +21,6 @@ import { BadgeComponent } from "./badge.component";
   standalone: true,
 })
 export class BadgeDirective implements OnInit, OnChanges, OnDestroy {
-  readonly rteBadge = input.required<string>();
   readonly rteBadgeType = input<BadgeType>("brand");
   readonly rteBadgeSize = input<BadgeSize>("m");
   readonly rteBadgeAppearance = input<BadgeAppearance>("text");

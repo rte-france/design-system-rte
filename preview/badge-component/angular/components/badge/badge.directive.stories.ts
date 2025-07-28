@@ -13,10 +13,6 @@ const meta: Meta<BadgeDirective> = {
   component: BadgeDirective,
   tags: ["autodocs"],
   argTypes: {
-    rteBadge: {
-      control: "text",
-      defaultValue: "Badge Text",
-    },
     rteBadgeType: {
       control: "select",
       options: ["brand", "neutral", "indicator"],
@@ -64,6 +60,7 @@ const mockHost = (badgeDirectives: string) => `
       font-size: 16px;
       position: relative;
     "
+    rteBadge
     ${badgeDirectives}
 >
 </span>
@@ -75,7 +72,6 @@ type Story = StoryObj<BadgeDirective>;
 
 export const Default: Story = {
   args: {
-    rteBadge: "Badge Text",
     rteBadgeType: "brand",
     rteBadgeSize: "m",
     rteBadgeCount: 1,
@@ -98,7 +94,6 @@ export const Default: Story = {
 
 export const IconBadge: Story = {
   args: {
-    rteBadge: "Badge Text",
     rteBadgeType: "brand",
     rteBadgeSize: "m",
     rteBadgeAppearance: "icon",
@@ -117,9 +112,105 @@ export const IconBadge: Story = {
   }),
 };
 
+export const BadgeDisplay: Story = {
+  args: {
+    rteBadgeIcon: "settings",
+    rteBadgeCount: 1,
+  },
+  render: (args) => ({
+    props: args,
+    declarations: [BadgeDirective],
+    template: `
+    <div style="display: flex; flex-direction: column; align-items: center; font-family: 'Nunito Sans', sans-serif;">
+      <h4>Appearance: Text</h4>
+      <div style="display: flex; gap: 16px;">
+        ${mockHost(`
+            rteBadgeSize="xs"
+            rteBadgeAppearance="text"
+            [rteBadgeCount]="rteBadgeCount"
+        `)}
+        ${mockHost(`
+            rteBadgeSize="s"
+            rteBadgeAppearance="text"
+            [rteBadgeCount]="rteBadgeCount"
+            data-testid="badge-text-s-host"
+        `)}
+        ${mockHost(`
+            rteBadgeSize="m"
+            rteBadgeAppearance="text"
+            [rteBadgeCount]="rteBadgeCount"
+            data-testid="badge-text-m-host"
+        `)}
+        ${mockHost(`
+            rteBadgeSize="l"
+            rteBadgeAppearance="text"
+            [rteBadgeCount]="rteBadgeCount"
+        `)}
+      </div>
+      <h4>Appearance: Icon</h4>
+      <div style="display: flex; gap: 16px;">
+        ${mockHost(`
+            rteBadgeSize="xs"
+            rteBadgeAppearance="icon"
+            [rteBadgeIcon]="rteBadgeIcon"
+        `)}
+        ${mockHost(`
+            rteBadgeSize="s"  
+            rteBadgeAppearance="icon"
+            [rteBadgeIcon]="rteBadgeIcon"
+            data-testid="badge-icon-s-host"
+        `)}
+        ${mockHost(`
+            rteBadgeSize="m"
+            rteBadgeAppearance="icon"
+            [rteBadgeIcon]="rteBadgeIcon"
+            data-testid="badge-icon-m-host"
+        `)}
+        ${mockHost(`
+            rteBadgeSize="l"
+            rteBadgeAppearance="icon"
+            [rteBadgeIcon]="rteBadgeIcon"
+        `)}
+    </div>
+    <h4>Appearance: Empty</h4>
+      <div style="display: flex; gap: 16px;">
+        ${mockHost(`
+            rteBadgeSize="xs"
+            rteBadgeAppearance="empty"
+        `)}
+        ${mockHost(`
+            rteBadgeSize="s"  
+            rteBadgeAppearance="empty"
+            data-testid="badge-empty-s-host"
+        `)}
+        ${mockHost(`
+            rteBadgeSize="m"
+            rteBadgeAppearance="empty"
+        `)}
+        ${mockHost(`
+            rteBadgeSize="l"
+            rteBadgeAppearance="empty"
+        `)}
+    </div>
+    `,
+  }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const badgeTextS = canvas.getByTestId("badge-text-s-host").querySelector(".badge");
+    expect(badgeTextS).not.toBeVisible();
+    const badgeIconS = canvas.getByTestId("badge-icon-s-host").querySelector(".badge");
+    expect(badgeIconS).not.toBeVisible();
+    const badgeEmptyS = canvas.getByTestId("badge-empty-s-host").querySelector(".badge");
+    expect(badgeEmptyS).toBeVisible();
+    const badgeTextM = canvas.getByTestId("badge-text-m-host").querySelector(".badge");
+    expect(badgeTextM).toBeVisible();
+    const badgeIconM = canvas.getByTestId("badge-icon-m-host").querySelector(".badge");
+    expect(badgeIconM).toBeVisible();
+  },
+};
+
 export const Sizes: Story = {
   args: {
-    rteBadge: "Badge",
     rteBadgeType: "brand",
     rteBadgeAppearance: "text",
     rteBadgeCount: 1,

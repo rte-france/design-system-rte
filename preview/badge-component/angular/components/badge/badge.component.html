@@ -1,17 +1,15 @@
 <div
     class="badge size-{{ badgeSize() }} type-{{ badgeType() }}"
     data-testid="badge"
-    [ngClass]="{'hidden': count() === 0}"
+    [ngClass]="{'hidden': !showBadge()}"
 >
-    <ng-container *ngIf="iconSize()">
-        <rte-icon
-            *ngIf="showIcon()"
-            class="badge-icon"
-            [name]="icon()"
-            [size]="iconSize()!"
-        />
-        <p *ngIf="showText()" class="badge-text">
-            {{displayCount()}}
-        </p>
-    </ng-container>
+    <rte-icon
+        *ngIf="showIcon()"
+        class="badge-icon"
+        [name]="icon()"
+        [size]="iconSize()!"
+    />
+    <p *ngIf="showText()" class="badge-text">
+        {{displayCount()}}
+    </p>
 </div>

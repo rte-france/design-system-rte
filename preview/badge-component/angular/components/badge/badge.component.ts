@@ -1,7 +1,12 @@
 import { CommonModule } from "@angular/common";
 import { Component, input, computed, ChangeDetectionStrategy } from "@angular/core";
-import { badgeIconSize } from "@design-system-rte/core/components/badge/badge.constants";
 import { BadgeAppearance, BadgeSize, BadgeType } from "@design-system-rte/core/components/badge/badge.interface";
+import {
+  getBadgeIconSize,
+  getShowBadge,
+  getShowIcon,
+  getShowText,
+} from "@design-system-rte/core/components/badge/badge.utils";
 
 import { isValidIconName } from "../icon/icon-map";
 import { IconComponent } from "../icon/icon.component";
@@ -23,12 +28,34 @@ export class BadgeComponent {
   readonly icon = input<RegularIconIdKey | TogglableIconIdKey>("settings");
 
   readonly isValidIconName = computed(() => isValidIconName(this.icon()));
-  readonly showIcon = computed(() => this.badgeAppearance() === "icon" && this.isValidIconName());
-  readonly showText = computed(
-    () => this.badgeAppearance() === "text" && typeof this.count() === "number" && this.count()! > 0,
+
+  readonly showIcon = computed(() =>
+    getShowIcon({
+      size: this.badgeSize(),
+      appearance: this.badgeAppearance(),
+      iconSize: this.iconSize(),
+    }),
   );
+
+  readonly showText = computed(() =>
+    getShowText({
+      size: this.badgeSize(),
+      appearance: this.badgeAppearance(),
+      count: this.count(),
+    }),
+  );
+
   readonly displayCount = computed(() =>
     typeof this.count() === "number" && this.count()! < 1000 ? this.count() : "999+",
   );
-  readonly iconSize = computed(() => badgeIconSize[this.badgeSize()]);
+  readonly iconSize = computed(() => getBadgeIconSize(this.badgeSize()));
+
+  readonly showBadge = computed(() =>
+    getShowBadge({
+      size: this.badgeSize(),
+      appearance: this.badgeAppearance(),
+      count: this.count(),
+      iconSize: this.iconSize(),
+    }),
+  );
 }
