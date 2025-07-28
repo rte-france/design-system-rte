@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/angular";
-import { userEvent, within, expect, waitFor } from "@storybook/test";
+import { expect, userEvent, waitFor, within } from "@storybook/test";
 
 import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../icon/icon-map";
 
@@ -82,7 +82,6 @@ export const Default: Story = {
     props: args,
     declarations: [BadgeDirective],
     template: mockHost(`
-            [rteBadge]="rteBadge"
             [rteBadgeType]="rteBadgeType"
             [rteBadgeSize]="rteBadgeSize"
             [rteBadgeAppearance]="rteBadgeAppearance"
@@ -103,7 +102,6 @@ export const IconBadge: Story = {
     props: args,
     declarations: [BadgeDirective],
     template: mockHost(`
-      [rteBadge]="rteBadge"
       [rteBadgeType]="rteBadgeType"
       [rteBadgeSize]="rteBadgeSize"
       [rteBadgeAppearance]="rteBadgeAppearance"
@@ -211,8 +209,7 @@ export const BadgeDisplay: Story = {
 
 export const Sizes: Story = {
   args: {
-    rteBadgeType: "brand",
-    rteBadgeAppearance: "text",
+    rteBadgeAppearance: "empty",
     rteBadgeCount: 1,
   },
   render: (args) => ({
@@ -223,29 +220,21 @@ export const Sizes: Story = {
     template: `
             <div style="display: flex; gap: 16px; align-items: center;">
                 ${mockHost(`
-                    [rteBadge]="rteBadge"
-                    [rteBadgeType]="rteBadgeType"
                     [rteBadgeAppearance]="rteBadgeAppearance"
                     rteBadgeSize="xs"
                     [rteBadgeCount]="rteBadgeCount"
                 `)}
                 ${mockHost(`
-                    [rteBadge]="rteBadge"
-                    [rteBadgeType]="rteBadgeType"
                     [rteBadgeAppearance]="rteBadgeAppearance"
                     rteBadgeSize="s"
                     [rteBadgeCount]="rteBadgeCount"
                 `)}
                 ${mockHost(`
-                    [rteBadge]="rteBadge"
-                    [rteBadgeType]="rteBadgeType"
                     [rteBadgeAppearance]="rteBadgeAppearance"
                     rteBadgeSize="m"
                     [rteBadgeCount]="rteBadgeCount"
                 `)}
                 ${mockHost(`
-                    [rteBadge]="rteBadge"
-                    [rteBadgeType]="rteBadgeType"
                     [rteBadgeAppearance]="rteBadgeAppearance"
                     rteBadgeSize="l"
                     [rteBadgeCount]="rteBadgeCount"
@@ -267,46 +256,27 @@ export const CountLimit: Story = {
       count5: 5,
       count99: 99,
       count100: 100,
-      count999: 999,
-      count1000: 1000,
     },
     declarations: [BadgeDirective],
     template: `
             <div style="display: flex; gap: 16px; align-items: center;">
                 ${mockHost(`
-                    [rteBadge]="rteBadge"
                     [rteBadgeType]="rteBadgeType"
                     [rteBadgeAppearance]="rteBadgeAppearance"
                     [rteBadgeSize]="rteBadgeSize"
                     [rteBadgeCount]="count5"
                 `)}
                 ${mockHost(`
-                    [rteBadge]="rteBadge"
                     [rteBadgeType]="rteBadgeType"
                     [rteBadgeAppearance]="rteBadgeAppearance"
                     [rteBadgeSize]="rteBadgeSize"
                     [rteBadgeCount]="count99"
                 `)}
                 ${mockHost(`
-                    [rteBadge]="rteBadge"
                     [rteBadgeType]="rteBadgeType"
                     [rteBadgeAppearance]="rteBadgeAppearance"
                     [rteBadgeSize]="rteBadgeSize"
                     [rteBadgeCount]="count100"
-                `)}
-                ${mockHost(`
-                    [rteBadge]="rteBadge"
-                    [rteBadgeType]="rteBadgeType"
-                    [rteBadgeAppearance]="rteBadgeAppearance"
-                    [rteBadgeSize]="rteBadgeSize"
-                    [rteBadgeCount]="count999"
-                `)}
-                ${mockHost(`
-                    [rteBadge]="rteBadge"
-                    [rteBadgeType]="rteBadgeType"
-                    [rteBadgeAppearance]="rteBadgeAppearance"
-                    [rteBadgeSize]="rteBadgeSize"
-                    [rteBadgeCount]="count1000"
                 `)}
             </div>
         `,
@@ -325,42 +295,36 @@ export const Icons: Story = {
     template: `
             <div style="display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
                 ${mockHost(`
-                    [rteBadge]="rteBadge"
                     [rteBadgeType]="rteBadgeType"
                     [rteBadgeAppearance]="rteBadgeAppearance"
                     [rteBadgeSize]="rteBadgeSize"
                     rteBadgeIcon="settings"
                 `)}
                 ${mockHost(`
-                    [rteBadge]="rteBadge"
                     [rteBadgeType]="rteBadgeType"
                     [rteBadgeAppearance]="rteBadgeAppearance"
                     [rteBadgeSize]="rteBadgeSize"
                     rteBadgeIcon="home"
                 `)}
                 ${mockHost(`
-                    [rteBadge]="rteBadge"
                     [rteBadgeType]="rteBadgeType"
                     [rteBadgeAppearance]="rteBadgeAppearance"
                     [rteBadgeSize]="rteBadgeSize"
                     rteBadgeIcon="user"
                 `)}
                 ${mockHost(`
-                    [rteBadge]="rteBadge"
                     [rteBadgeType]="rteBadgeType"
                     [rteBadgeAppearance]="rteBadgeAppearance"
                     [rteBadgeSize]="rteBadgeSize"
                     rteBadgeIcon="search"
                 `)}
                 ${mockHost(`
-                    [rteBadge]="rteBadge"
                     [rteBadgeType]="rteBadgeType"
                     [rteBadgeAppearance]="rteBadgeAppearance"
                     [rteBadgeSize]="rteBadgeSize"
                     rteBadgeIcon="heart"
                 `)}
                 ${mockHost(`
-                    [rteBadge]="rteBadge"
                     [rteBadgeType]="rteBadgeType"
                     [rteBadgeAppearance]="rteBadgeAppearance"
                     [rteBadgeSize]="rteBadgeSize"
@@ -384,7 +348,6 @@ export const BadgeVisibility: Story = {
     template: `
           <div style="display: flex; flex-direction: column; gap: 8px;">
             ${mockHost(`
-                [rteBadge]="rteBadge"
                 [rteBadgeType]="rteBadgeType"
                 [rteBadgeAppearance]="rteBadgeAppearance"
                 [rteBadgeSize]="rteBadgeSize"
@@ -413,4 +376,61 @@ export const BadgeVisibility: Story = {
     await userEvent.type(badgeCountInput, "1");
     await waitFor(() => expect(badge).toBeVisible());
   },
+};
+
+export const KeyboardInteraction: Story = {
+  args: Default.args,
+  render: (args) => ({
+    props: args,
+    declarations: [BadgeDirective],
+    template: `
+        <div style="display: flex; gap: 8px;">
+            ${mockHost(`
+              [rteBadgeCount]="rteBadgeCount"
+            `)}
+        </div>
+        `,
+  }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const badge = canvas.getByTestId("badge");
+    await userEvent.tab();
+    expect(badge).not.toHaveFocus();
+  },
+};
+
+export const BadgeType: Story = {
+  args: {
+    rteBadgeType: "brand",
+    rteBadgeCount: 1,
+  },
+  render: (args) => ({
+    props: args,
+    declarations: [BadgeDirective],
+    template: `
+      <div style="display: flex; gap: 24px; font-family: 'Nunito Sans', sans-serif;">
+        <div>
+          <h4>Brand</h4>
+          ${mockHost(`
+            rteBadgeType="brand"
+            [rteBadgeCount]="rteBadgeCount"
+          `)}
+        </div>
+        <div>
+          <h4>Neutral</h4>
+          ${mockHost(`
+            rteBadgeType="neutral"
+            [rteBadgeCount]="rteBadgeCount"
+          `)}
+        </div>
+        <div>
+          <h4>Indicator</h4>
+          ${mockHost(`
+            rteBadgeType="indicator"
+            [rteBadgeCount]="rteBadgeCount"
+          `)} 
+        </div>
+      </div>
+    `,
+  }),
 };
