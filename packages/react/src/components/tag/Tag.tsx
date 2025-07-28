@@ -11,7 +11,7 @@ interface TagProps extends Omit<TagPropsCore, "iconName">, Omit<React.HTMLAttrib
 }
 
 const statusIconMap: Record<string, RegularIconIdKey | TogglableIconIdKey> = {
-  success: "check",
+  success: "check-circle",
   information: "info",
   warning: "warning",
   alert: "dangerous",
