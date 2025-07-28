@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from "@storybook/angular";
 
-import { regularIcons as RegularIconsList, togglableIcons as TogglableIconsList } from "../icon/icon-map";
+import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../icon/icon-map";
 
 import { TagComponent } from "./tag.component";
 
@@ -116,9 +116,8 @@ export const WithIcon: Story = {
 
 export const Compact: Story = {
   args: {
-    tagType: "status",
-    status: "warning",
-    color: "citronnelle",
+    tagType: "decorative",
+    color: "brand",
     compactSpacing: true,
     label: "Compact Tag",
     showLeftIcon: false,
