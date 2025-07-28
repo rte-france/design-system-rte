@@ -26,7 +26,7 @@ export class TagComponent {
   readonly computedIconName = computed(() => {
     if (this.tagType() === "status") {
       const statusIconMap: Record<string, RegularIconIdKey | TogglableIconIdKey> = {
-        success: "check",
+        success: "check-circle",
         information: "info",
         warning: "warning",
         alert: "dangerous",
