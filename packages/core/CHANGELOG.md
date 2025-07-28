@@ -1,5 +1,13 @@
 # @design-system-rte/core
 
+## 0.10.1
+
+### Patch Changes
+
+- 9fcc804: ## Changes
+
+  - add correct behaviour on click
+
 ## 0.10.0
 
 ### Minor Changes
