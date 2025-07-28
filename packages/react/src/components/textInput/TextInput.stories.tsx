@@ -55,6 +55,7 @@ type Story = StoryObj<typeof TextInput>;
 
 export const Default: Story = {
   args: {
+    id: "text-input-default",
     label: "Label",
     labelPosition: "top",
     required: false,

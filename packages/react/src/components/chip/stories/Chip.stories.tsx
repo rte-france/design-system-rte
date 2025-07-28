@@ -89,7 +89,9 @@ export const SingleSelect: Story = {
             />
           ))}
         </div>
-        <p>Chip sélectionnée: {options.find((option) => option.id === selectedChip)?.label || "Aucune"}</p>
+        <p style={{ fontFamily: "Arial, sans-serif" }}>
+          Chip sélectionnée: {options.find((option) => option.id === selectedChip)?.label || "Aucune"}
+        </p>
       </>
     );
   },
@@ -151,7 +153,7 @@ export const MultiSelect: Story = {
             />
           ))}
         </div>
-        <p>
+        <p style={{ fontFamily: "Arial, sans-serif" }}>
           Chip(s) sélectionnée(s):{" "}
           {options
             .filter((option) => selectedChips.includes(option.id))
