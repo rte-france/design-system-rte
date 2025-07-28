@@ -6,14 +6,13 @@ function App() {
   const [isIconButtonToggleSelected, setIsIconButtonToggleSelected] = useState(false);
   const [inputValue, setInputValue] = useState("");
 
-
   const handleIconButtonToggleClick = () => {
     setIsIconButtonToggleSelected(!isIconButtonToggleSelected);
   };
 
   const handleInputChange = (value: string) => {
     setInputValue(value);
-  }
+  };
 
   return (
     <div data-theme="bleu_iceberg" data-mode="light">
@@ -45,7 +44,7 @@ function App() {
         <h3>TextInput</h3>
         <TextInput label="Label" value={inputValue} onChange={handleInputChange} />
         <h4>The input is : {inputValue}</h4>
-      <hr />
+        <hr />
         <h3>Icon Button Toggle</h3>
         <IconButtonToggle onClick={handleIconButtonToggleClick} selected={isIconButtonToggleSelected} name="settings" />
       </div>
