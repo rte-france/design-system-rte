@@ -1,5 +1,29 @@
 # @design-system-rte/angular
 
+## 0.8.0
+
+### Minor Changes
+
+- ae703ee: ## Changes
+
+  - set Arial font to stories
+  - add keyboard test constants file
+  - add type to aria role mapping constant
+  - simplify chip icon visibility logic and remove unused styles
+  - add keyboard event handling for backspace and delete keys
+  - add id property to text input component to get better accessibility
+  - export chip component
+  - add missing semicolon + pass className as plain string
+  - update missing correct keyboard event handling syntaxe in stories
+  - add angular storybook component
+  - update keyboard event handling in stories to use correct syntax
+  - add angular chip component
+
+### Patch Changes
+
+- Updated dependencies [ae703ee]
+  - @design-system-rte/core@0.11.0
+
 ## 0.7.1
 
 ### Patch Changes
