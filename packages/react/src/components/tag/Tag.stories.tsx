@@ -1,10 +1,10 @@
 import { Meta, StoryObj } from "@storybook/react";
 
-import { IconIds, TogglableIcons } from "../icon/IconMap";
+import { RegularIcons, TogglableIcons } from "../icon/IconMap";
 
 import Tag from "./Tag";
 
-const RegularIconIds = Object.keys(IconIds);
+const RegularIconIds = Object.keys(RegularIcons);
 const TogglableIconIds = Object.keys(TogglableIcons);
 
 const meta = {
@@ -108,9 +108,9 @@ export const Compact: Story = {
   args: {
     ...Default.args,
     tagType: "decorative",
-    color: "citronnelle",
+    color: "brand",
     compactSpacing: true,
-    label: "Compact Decorative Tag",
+    label: "Compact Tag",
   },
   render: (args) => (
     <div style={{ display: "flex", gap: 8 }}>
