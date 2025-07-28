@@ -3,6 +3,7 @@ import { Component, input, computed, ChangeDetectionStrategy } from "@angular/co
 import { BadgeAppearance, BadgeSize, BadgeType } from "@design-system-rte/core/components/badge/badge.interface";
 import {
   getBadgeIconSize,
+  getDisplayCount,
   getShowBadge,
   getShowIcon,
   getShowText,
@@ -45,9 +46,7 @@ export class BadgeComponent {
     }),
   );
 
-  readonly displayCount = computed(() =>
-    typeof this.count() === "number" && this.count()! < 1000 ? this.count() : "999+",
-  );
+  readonly displayCount = computed(() => getDisplayCount(this.count()));
   readonly iconSize = computed(() => getBadgeIconSize(this.badgeSize()));
 
   readonly showBadge = computed(() =>
