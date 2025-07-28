@@ -29,9 +29,9 @@ export class BadgeDirective implements OnInit, OnChanges, OnDestroy {
 
   private badgeComponentRef: ComponentRef<BadgeComponent> | null = null;
 
-  private viewContainer = inject(ViewContainerRef);
-  private elementRef = inject(ElementRef);
-  private renderer = inject(Renderer2);
+  private readonly viewContainer = inject(ViewContainerRef);
+  private readonly elementRef = inject(ElementRef);
+  private readonly renderer = inject(Renderer2);
 
   ngOnInit(): void {
     this.badgeComponentRef = this.viewContainer.createComponent(BadgeComponent);
