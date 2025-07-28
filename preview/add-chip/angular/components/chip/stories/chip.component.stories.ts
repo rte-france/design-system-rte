@@ -88,7 +88,7 @@ export const SingleSelect: Story = {
             class="chip"
           ></rte-chip>
         </div>
-        <p>Chip sélectionnée: {{ selectedLabel }}</p>
+        <p style="font-family: Arial, sans-sérif">Chip sélectionnée: {{ selectedLabel }}</p>
       `,
     };
   },
@@ -158,7 +158,7 @@ export const MultiSelect: Story = {
             class="chip"
           ></rte-chip>
           </div>
-          <p>Chips sélectionnées: {{ displayedChips }}</p>
+          <p style="font-family: Arial, sans-sérif">Chips sélectionnées: {{ displayedChips }}</p>
       `,
     };
   },
