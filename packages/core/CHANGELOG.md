@@ -1,5 +1,18 @@
 # @design-system-rte/core
 
+## 0.11.0
+
+### Minor Changes
+
+- ae703ee: ## Changes
+
+  - add keyboard test constants file
+  - add type to aria role mapping constant
+  - add keyboard event handling for backspace and delete keys
+  - add id property to text input component to get better accessibility
+  - update keyboard event handling in stories to use correct syntax
+  - extract chip props in interface
+
 ## 0.10.1
 
 ### Patch Changes
