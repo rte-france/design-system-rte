@@ -1,5 +1,18 @@
 # @design-system-rte/angular
 
+## 0.7.1
+
+### Patch Changes
+
+- 9fcc804: ## Changes
+
+  - remove ongoing development marker
+  - set private visibility to toggleInternalSelectedState method + remove console.log
+  - add correct behaviour on click
+
+- Updated dependencies [9fcc804]
+  - @design-system-rte/core@0.10.1
+
 ## 0.7.0
 
 ### Minor Changes

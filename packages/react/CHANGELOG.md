@@ -1,5 +1,17 @@
 # @design-system-rte/react
 
+## 0.6.1
+
+### Patch Changes
+
+- 9fcc804: ## Changes
+
+  - remove ongoing development marker
+  - add correct behaviour on click
+
+- Updated dependencies [9fcc804]
+  - @design-system-rte/core@0.10.1
+
 ## 0.6.0
 
 ### Minor Changes
