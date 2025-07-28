@@ -1,15 +1,18 @@
-import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard.constants";
+import {
+  TESTING_ENTER_KEY,
+  TESTING_SPACE_KEY,
+} from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
 import { Meta, StoryObj } from "@storybook/angular";
 import { fn, userEvent, within, expect } from "@storybook/test";
 
-import { togglableIcons as TogglableIconsList } from "../icon/icon-map";
+import { TogglableIcons as TogglableIconsList } from "../icon/icon-map";
 
 import { IconButtonToggleComponent } from "./icon-button-toggle.component";
 
 const TogglableIconIds = Object.keys(TogglableIconsList);
 
 const meta = {
-  title: "IconButtonToggle (développement en cours)",
+  title: "IconButtonToggle",
   id: "IconButtonToggle",
   component: IconButtonToggleComponent,
   tags: ["autodocs"],
@@ -37,7 +40,11 @@ const meta = {
     },
     selected: {
       control: "boolean",
-      description: "Indique si l'icône est sélectionnée",
+      description: "Indique si l'icône est sélectionnée en mode contrôlé",
+    },
+    defaultSelected: {
+      control: "boolean",
+      description: "Valeur par défaut de la sélection en mode non contrôlé",
     },
   },
 } satisfies Meta<IconButtonToggleComponent>;
@@ -57,17 +64,12 @@ export const Default: Story = {
     variant: "primary",
     ariaLabel: "icon button aria label",
     click: mockFn,
-    selected: false,
+    selected: undefined,
+    defaultSelected: false,
   },
   render: (args) => ({
     props: { ...args },
     template: `
-    <div>
-      <span style="font-family: sans-serif; margin-bottom: 16px; border: 1px solid #F4922B; padding: 8px; border-radius: 5px; background-color: #FAFFC1; margin: 0;">
-        Ce composant est en cours de développement et n'est pas encore disponible
-      </span>
-    </div>
-    <br/>
     <rte-icon-button-toggle 
         name=${args.name} 
         [compactSpacing]="${args.compactSpacing}" 
@@ -75,6 +77,7 @@ export const Default: Story = {
         [selected]="${args.selected}"
         [type]="'${args.type}'"
         [variant]="'${args.variant}'"
+        [defaultSelected]="${args.defaultSelected}"
         (click)="click()"
       />
     `,
@@ -104,6 +107,7 @@ export const Sizing: Story = {
         [compactSpacing]="${args.compactSpacing}" 
         [disabled]="${args.disabled}"
         [selected]="${args.selected}"
+        [defaultSelected]="${args.defaultSelected}"
         [ariaLabel]="'Small Icon Button'"
         [type]="'${args.type}'"
         [variant]="'${args.variant}'"
@@ -114,6 +118,7 @@ export const Sizing: Story = {
         [compactSpacing]="${args.compactSpacing}" 
         [disabled]="${args.disabled}"
         [selected]="${args.selected}"
+        [defaultSelected]="${args.defaultSelected}"
         [ariaLabel]="'Small Icon Button'"
         [type]="'${args.type}'"
         [variant]="'${args.variant}'"
@@ -125,6 +130,7 @@ export const Sizing: Story = {
         [compactSpacing]="${args.compactSpacing}" 
         [disabled]="${args.disabled}"
         [selected]="${args.selected}"
+        [defaultSelected]="${args.defaultSelected}"
         [ariaLabel]="'Small Icon Button'"
         [type]="'${args.type}'"
         [variant]="'${args.variant}'"
@@ -160,6 +166,7 @@ export const CompactSizing: Story = {
         [compactSpacing]="${args.compactSpacing}" 
         [disabled]="${args.disabled}"
         [selected]="${args.selected}"
+        [defaultSelected]="${args.defaultSelected}"
         [ariaLabel]="'Small Icon Button'"
         [type]="'${args.type}'"
         [variant]="'${args.variant}'"
@@ -181,6 +188,7 @@ export const CompactSizing: Story = {
         [compactSpacing]="${args.compactSpacing}" 
         [disabled]="${args.disabled}"
         [selected]="${args.selected}"
+        [defaultSelected]="${args.defaultSelected}"
         [ariaLabel]="'Small Icon Button'"
         [type]="'${args.type}'"
         [variant]="'${args.variant}'"
@@ -209,8 +217,8 @@ export const KeyboardInteraction: Story = {
     const button = canvas.getByRole("button");
     await userEvent.tab();
     expect(button).toHaveFocus();
-    await userEvent.keyboard(ENTER_KEY);
-    await userEvent.keyboard(SPACE_KEY);
+    await userEvent.keyboard(TESTING_ENTER_KEY);
+    await userEvent.keyboard(TESTING_SPACE_KEY);
     expect(mockFn).toHaveBeenCalledTimes(2);
     button.blur();
   },

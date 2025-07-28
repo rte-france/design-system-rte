@@ -1,8 +1,13 @@
-import { DOWN_KEY } from "@design-system-rte/core/constants/keyboard.constants";
+import { DOWN_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 import { Meta, StoryObj } from "@storybook/angular";
 import { expect, userEvent, waitFor, within } from "@storybook/test";
 
+import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../icon/icon-map";
+
 import { SplitButtonComponent } from "./split-button.component";
+
+const RegularIconIds = Object.keys(RegularIconsList);
+const TogglableIconIds = Object.keys(TogglableIconsList);
 
 const mockChildren = `
   <div style="display: flex; flex-direction: column; gap: 8px; min-width: 120px">
@@ -73,6 +78,12 @@ const meta: Meta<SplitButtonComponent> = {
     disabled: {
       control: "boolean",
     },
+    icon: {
+      control: "select",
+      options: ["", ...RegularIconIds, ...TogglableIconIds].sort((a, b) => a.localeCompare(b)),
+      description: "Nom de l’icône à afficher",
+      defaultValue: "",
+    },
   },
 };
 export default meta;
@@ -88,6 +99,7 @@ export const Default: Story = {
     position: "bottom-start",
     disabled: false,
     selected: false,
+    icon: null,
   },
   render: (args) => ({
     props: args,
@@ -102,6 +114,7 @@ export const Default: Story = {
         position="${args.position}"
         [disabled]="${args.disabled}"
         [selected]="${args.selected}"
+        [icon]="icon"
       >
         ${mockChildren}
       </rte-split-button>
@@ -321,7 +334,7 @@ export const KeyboardInteraction: Story = {
     await userEvent.tab();
     await userEvent.tab();
     expect(document.activeElement).toBe(button);
-    await userEvent.keyboard(DOWN_KEY);
+    await userEvent.keyboard(`{${DOWN_KEY}}`);
     await waitFor(() => expect(menuContainer).toBeVisible());
   },
   args: {

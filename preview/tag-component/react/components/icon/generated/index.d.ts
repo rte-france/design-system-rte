@@ -98,6 +98,8 @@ export { default as CalendarTodayFilled } from './CalendarTodayFilled';
 export { default as CalendarTodayOutlined } from './CalendarTodayOutlined';
 export { default as CallFilled } from './CallFilled';
 export { default as CallOutlined } from './CallOutlined';
+export { default as CancelFilled } from './CancelFilled';
+export { default as CancelOutlined } from './CancelOutlined';
 export { default as CategoryFilled } from './CategoryFilled';
 export { default as CategoryOutlined } from './CategoryOutlined';
 export { default as ChartAddFilled } from './ChartAddFilled';

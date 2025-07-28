@@ -1,8 +1,11 @@
-import { ENTER_KEY, SPACE_KEY, TAB_KEY } from "@design-system-rte/core/constants/keyboard.constants";
+import {
+  TESTING_ENTER_KEY,
+  TESTING_SPACE_KEY,
+} from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
 import { Meta, StoryObj } from "@storybook/angular";
 import { fn, userEvent, within, expect } from "@storybook/test";
 
-import { regularIcons as RegularIconsList, togglableIcons as TogglableIconsList } from "../icon/icon-map";
+import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../icon/icon-map";
 
 import { IconButtonComponent } from "./icon-button.component";
 
@@ -190,10 +193,10 @@ export const KeyboardInteraction: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const button = canvas.getByRole("button");
-    await userEvent.keyboard(TAB_KEY);
+    await userEvent.tab();
     expect(button).toHaveFocus();
-    await userEvent.keyboard(ENTER_KEY);
-    await userEvent.keyboard(SPACE_KEY);
+    await userEvent.keyboard(TESTING_ENTER_KEY);
+    await userEvent.keyboard(TESTING_SPACE_KEY);
     expect(mockFn).toHaveBeenCalledTimes(2);
     button.blur();
   },

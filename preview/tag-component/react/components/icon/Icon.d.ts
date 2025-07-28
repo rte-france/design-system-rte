@@ -1,6 +1,6 @@
 import { IconProps as coreIconProps, IconWrapperProps as CoreIconWrapperProps } from '../../../../core/components/icon/icon.interface';
-import { IconIds, TogglableIcons } from './IconMap';
-export type RegularIconIdKey = keyof typeof IconIds;
+import { RegularIcons, TogglableIcons } from './IconMap';
+export type RegularIconIdKey = keyof typeof RegularIcons;
 export type TogglableIconIdKey = keyof typeof TogglableIcons;
 export interface IconProps extends coreIconProps {
     className?: string;
