@@ -15,6 +15,7 @@ import { LinkComponent } from "../link/link.component";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TextInputComponent {
+  readonly id = input<string>();
   readonly label = input<string>("");
   readonly labelPosition = input<"top" | "side">("top");
   readonly required = input<boolean>(false);

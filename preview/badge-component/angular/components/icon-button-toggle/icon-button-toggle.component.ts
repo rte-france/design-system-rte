@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component, computed, input, output } from "@angular/core";
+import { ChangeDetectionStrategy, Component, computed, input, output, signal } from "@angular/core";
 import { ButtonType } from "@design-system-rte/core/components/button/button.interface";
 import { ButtonSize, ButtonVariant } from "@design-system-rte/core/components/button/common/common-button";
 import { buttonIconSize } from "@design-system-rte/core/components/button/common/common-button.constants";
@@ -21,15 +21,33 @@ export class IconButtonToggleComponent {
   readonly variant = input<ButtonVariant>("primary");
   readonly type = input<ButtonType>("button");
   readonly compactSpacing = input<boolean>(false);
-  readonly ariaLabel = input<string | undefined>(undefined);
-  readonly ariaLabelledBy = input<string | undefined>(undefined);
-  readonly selected = input<boolean>(false);
+  readonly ariaLabel = input<string | undefined>();
+  readonly ariaLabelledBy = input<string | undefined>();
 
-  readonly click = output<void>();
+  readonly selected = input<boolean | undefined>();
+
+  readonly internalSelected = signal(false);
+
+  readonly defaultSelected = input<boolean>(false);
+
+  readonly isControlled = computed(() => this.selected() !== undefined);
+
+  readonly click = output<MouseEvent | KeyboardEvent>();
+
+  readonly isSelected = computed(() => {
+    return this.isControlled() ? this.selected() : this.internalSelected();
+  });
+
+  private toggleInternalSelectedState(): void {
+    this.internalSelected.set(!this.internalSelected());
+  }
 
   onClick(event: MouseEvent | KeyboardEvent): void {
     event.stopPropagation();
-    this.click.emit();
+    this.click.emit(event);
+    if (!this.isControlled()) {
+      this.toggleInternalSelectedState();
+    }
   }
 
   readonly buttonIconSize = computed(() => buttonIconSize[this.size()]);
