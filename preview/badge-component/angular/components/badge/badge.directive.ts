@@ -28,15 +28,21 @@ export class BadgeDirective implements OnInit, OnChanges, OnDestroy {
   readonly rteBadgeIcon = input<RegularIconIdKey | TogglableIconIdKey>("settings");
 
   private badgeComponentRef: ComponentRef<BadgeComponent> | null = null;
+  private hostElement: HTMLElement;
 
   private readonly viewContainer = inject(ViewContainerRef);
   private readonly elementRef = inject(ElementRef);
   private readonly renderer = inject(Renderer2);
 
+  constructor() {
+    this.hostElement = this.elementRef.nativeElement;
+  }
+
   ngOnInit(): void {
     this.badgeComponentRef = this.viewContainer.createComponent(BadgeComponent);
     this.assignDirectiveToComponent();
     this.appendComponentToHost();
+    this.renderer.setStyle(this.hostElement, "position", "relative");
   }
 
   ngOnChanges(): void {

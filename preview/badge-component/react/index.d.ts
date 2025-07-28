@@ -1,3 +1,4 @@
+import { default as Badge } from './components/badge/Badge.tsx';
 import { default as Button } from './components/button/Button';
 import { default as Checkbox } from './components/checkbox/Checkbox.tsx';
 import { default as CheckboxGroup } from './components/checkboxGroup/CheckboxGroup.tsx';
@@ -11,4 +12,4 @@ import { default as RadioButtonGroup } from './components/radioButtonGroup/Radio
 import { default as SplitButton } from './components/splitButton/SplitButton.tsx';
 import { default as TextInput } from './components/textInput/TextInput.tsx';
 import { default as Tooltip } from './components/tooltip/Tooltip.tsx';
-export { Button, Grid, Checkbox, CheckboxGroup, Link, RadioButton, RadioButtonGroup, Icon, IconButton, IconButtonToggle, SplitButton, Tooltip, TextInput, };
+export { Button, Grid, Checkbox, CheckboxGroup, Link, RadioButton, RadioButtonGroup, Icon, IconButton, IconButtonToggle, SplitButton, Tooltip, TextInput, Badge, };
