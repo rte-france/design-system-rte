@@ -1,7 +1,7 @@
 <div
     class="badge size-{{ badgeSize() }} type-{{ badgeType() }}"
     data-testid="badge"
-    [ngClass]="{'hidden': !showBadge()}"
+    [ngClass]="{'hidden': !showBadge(), 'count-overflow': countOverflow()}"
 >
     <rte-icon
         *ngIf="showIcon()"
