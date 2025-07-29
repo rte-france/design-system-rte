@@ -1,4 +1,14 @@
-import { Button, Icon, IconButtonToggle, SplitButton, Tooltip, TextInput, Chip, Badge, Textarea } from "@design-system-rte/react";
+import {
+  Button,
+  Icon,
+  IconButtonToggle,
+  SplitButton,
+  Tooltip,
+  TextInput,
+  Chip,
+  Badge,
+  Textarea,
+} from "@design-system-rte/react";
 import "./App.css";
 import { useState } from "react";
 
@@ -65,13 +75,13 @@ function App() {
       <hr />
       <div>
         <h3>Textarea</h3>
-          <Textarea
-            label="This is a textarea"
-            labelPosition="top"
-            assistiveTextLabel="This is a label"
-            assistiveTextAppearance="description"
-            required
-          />
+        <Textarea
+          label="This is a textarea"
+          labelPosition="top"
+          assistiveTextLabel="This is a label"
+          assistiveTextAppearance="description"
+          required
+        />
       </div>
     </div>
   );
