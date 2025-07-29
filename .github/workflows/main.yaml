@@ -233,6 +233,9 @@ jobs:
       - name: Install dependencies
         run: npm ci --prefer-offline
 
+      - name: Generate changelog
+        run: npm run changelog
+
       - name: Create/Update Release Pull Request
         uses: changesets/action@v1.4.9
         with:

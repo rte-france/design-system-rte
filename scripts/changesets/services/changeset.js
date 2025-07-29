@@ -68,12 +68,23 @@ export function formatChangesetContent(packageName, bump, relevantCommits) {
   if (relevantCommits.length > 0) {
     content += `## Changes\n\n`;
     relevantCommits.forEach((commit) => {
+      const commitKeywords = commit.indexOf(":") !== -1 ? commit.substring(0, commit.indexOf(":")) : "";
+      const commitContext = commitKeywords.match(/\((.+?)\)/)[1].trim();
       const cleanCommit = commit.replace(/^(feat|fix|docs|style|refactor|test|chore)(\(.+?\))?:?\s*/i, "");
-      content += `- ${cleanCommit}\n`;
+      content += `- (${capitalizeText(commitContext)}) ${cleanCommit}\n`;
     });
   } else {
     content += `Auto bump`;
   }
 
   return content;
+}
+
+function capitalizeText(text) {
+  if (text) {
+    return text
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+  }
 }
