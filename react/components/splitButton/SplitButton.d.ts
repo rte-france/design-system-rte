@@ -6,5 +6,5 @@ interface SplitButtonProps extends CoreSplitButtonProps, Omit<React.ButtonHTMLAt
     children?: React.ReactNode;
     icon?: keyof typeof RegularIcons | keyof typeof TogglableIcons;
 }
-declare const SplitButton: React.ForwardRefExoticComponent<SplitButtonProps & React.RefAttributes<HTMLButtonElement | HTMLElement>>;
+declare const SplitButton: React.ForwardRefExoticComponent<SplitButtonProps & React.RefAttributes<HTMLElement | HTMLButtonElement>>;
 export default SplitButton;
