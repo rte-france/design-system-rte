@@ -94,8 +94,12 @@ export function amendLastCommit() {
   }
 }
 
+export function getCurrentBranch() {
+  return execSync("git branch --show-current", { encoding: "utf8" }).trim();
+}
+
 function isOnMainBranch() {
-  const currentBranch = execSync("git branch --show-current", { encoding: "utf8" }).trim();
+  const currentBranch = getCurrentBranch();
   return currentBranch === "main";
 }
 
