@@ -35,7 +35,7 @@ const meta: Meta<BadgeDirective> = {
     rteBadgeIcon: {
       control: "select",
       options: [...RegularIconIds, ...TogglableIconIds].sort((a, b) => a.localeCompare(b)),
-      defaultValue: "settings",
+      defaultValue: "notification",
     },
   },
   parameters: {
@@ -76,7 +76,7 @@ export const Default: Story = {
     rteBadgeSize: "m",
     rteBadgeCount: 1,
     rteBadgeAppearance: "text",
-    rteBadgeIcon: "settings",
+    rteBadgeIcon: "notification",
   },
   render: (args) => ({
     props: args,
@@ -96,7 +96,7 @@ export const IconBadge: Story = {
     rteBadgeType: "brand",
     rteBadgeSize: "m",
     rteBadgeAppearance: "icon",
-    rteBadgeIcon: "settings",
+    rteBadgeIcon: "notification",
   },
   render: (args) => ({
     props: args,
@@ -112,7 +112,7 @@ export const IconBadge: Story = {
 
 export const BadgeDisplay: Story = {
   args: {
-    rteBadgeIcon: "settings",
+    rteBadgeIcon: "notification",
     rteBadgeCount: 1,
   },
   render: (args) => ({
@@ -298,7 +298,7 @@ export const Icons: Story = {
                     [rteBadgeType]="rteBadgeType"
                     [rteBadgeAppearance]="rteBadgeAppearance"
                     [rteBadgeSize]="rteBadgeSize"
-                    rteBadgeIcon="settings"
+                    rteBadgeIcon="notification"
                 `)}
                 ${mockHost(`
                     [rteBadgeType]="rteBadgeType"

@@ -80,14 +80,14 @@ export const IconBadge: Story = {
     badgeType: "brand",
     size: "m",
     appearance: "icon",
-    icon: "settings",
+    icon: "notification",
     children: mockChildren,
   },
 };
 
 export const BadgeDisplay: Story = {
   args: {
-    icon: "settings",
+    icon: "notification",
     count: 1,
     children: mockChildren,
   },
@@ -176,12 +176,12 @@ export const Icons: Story = {
     badgeType: "brand",
     appearance: "icon",
     size: "m",
-    icon: "settings",
+    icon: "notification",
     children: mockChildren,
   },
   render: (args) => (
     <div style={{ display: "flex", gap: "16px", alignItems: "center" }}>
-      <Badge {...args} icon="settings" />
+      <Badge {...args} icon="notification" />
       <Badge {...args} icon="home" />
       <Badge {...args} icon="user" />
       <Badge {...args} icon="search" />

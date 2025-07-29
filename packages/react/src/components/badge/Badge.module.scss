@@ -11,6 +11,7 @@
         align-items: center;
         justify-content: center;
         transition: opacity 0.15s;
+        box-sizing: border-box;
 
         &.hidden {
             opacity: 0;
@@ -57,6 +58,10 @@
             top: -4px;
             right: -4px;
             padding: $positive-spacing_0 $positive-spacing_025;
+
+            &.countOverflow {
+                padding: $positive-spacing_0 $positive-spacing_050;
+            }
         }
 
         &[data-size='l'] {
@@ -67,6 +72,10 @@
             top: -8px;
             right: -8px;
             padding: $positive-spacing_0 $positive-spacing_050;
+
+            &.countOverflow {
+                padding: $positive-spacing_0 $positive-spacing_075;
+            }
         }
 
         p {

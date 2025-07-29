@@ -20,7 +20,7 @@ export interface BadgeProps extends BadgePropsCore, Omit<React.HTMLAttributes<HT
 }
 
 const Badge = forwardRef<HTMLDivElement, BadgeProps>(
-  ({ badgeType = "brand", size = "m", appearance = "text", count, icon = "settings", children, ...props }, ref) => {
+  ({ badgeType = "brand", size = "m", appearance = "text", count, icon = "notification", children, ...props }, ref) => {
     if (appearance == "icon" && icon && !isValidIconName(icon)) {
       console.warn(`Badge: Invalid icon name "${icon}". Please use a valid icon key.`);
       return null;
@@ -32,6 +32,7 @@ const Badge = forwardRef<HTMLDivElement, BadgeProps>(
     const showText = getShowText({ size, appearance, count });
 
     const showBadge = getShowBadge({ size, appearance, count, iconSize });
+    const countOverflow = showText && getDisplayCount(count)?.length > 2;
 
     return (
       <div ref={ref} className={style.badgeContainer} {...props}>
@@ -39,7 +40,11 @@ const Badge = forwardRef<HTMLDivElement, BadgeProps>(
           data-badge-type={badgeType}
           data-size={size}
           data-testid="badge"
-          className={concatClassNames(style.badge, showBadge ? "" : style.hidden)}
+          className={concatClassNames(
+            style.badge,
+            showBadge ? "" : style.hidden,
+            countOverflow ? style.countOverflow : "",
+          )}
         >
           {showIcon && <Icon name={icon} className={style.icon} size={iconSize} />}
           {showText && (

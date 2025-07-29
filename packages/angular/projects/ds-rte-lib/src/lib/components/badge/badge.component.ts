@@ -26,7 +26,7 @@ export class BadgeComponent {
   readonly badgeSize = input<BadgeSize>("m");
   readonly badgeAppearance = input<BadgeAppearance>("text");
   readonly count = input<number | undefined>();
-  readonly icon = input<RegularIconIdKey | TogglableIconIdKey>("settings");
+  readonly icon = input<RegularIconIdKey | TogglableIconIdKey>("notification");
 
   readonly isValidIconName = computed(() => isValidIconName(this.icon()));
 
@@ -47,6 +47,7 @@ export class BadgeComponent {
   );
 
   readonly displayCount = computed(() => getDisplayCount(this.count()));
+  readonly countOverflow = computed(() => this.showText() && this.displayCount().length > 2);
   readonly iconSize = computed(() => getBadgeIconSize(this.badgeSize()));
 
   readonly showBadge = computed(() =>
