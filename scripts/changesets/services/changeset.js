@@ -1,10 +1,14 @@
 import { writeFileSync, mkdirSync, readdirSync, existsSync, unlinkSync } from "fs";
 import { join } from "path";
 
-import { getCommits, getChangedFiles, getRelevantCommitsForPackage } from "./git.js";
+import { getCommits, getChangedFiles, getRelevantCommitsForPackage, getCurrentBranch } from "./git.js";
 
 const commits = getCommits();
 const changedFiles = getChangedFiles();
+
+function sanitizeBranchName(branchName) {
+  return branchName.replace(/\//g, "-").toLowerCase();
+}
 
 export function cleanupExistingAutoChangesets() {
   if (!existsSync(".changeset")) {
@@ -25,6 +29,9 @@ export function cleanupExistingAutoChangesets() {
 }
 
 export function addChangesetForAffectedPackages(packages) {
+  const currentBranch = getCurrentBranch();
+  const sanitizedBranch = sanitizeBranchName(currentBranch);
+
   Object.keys(packages).forEach((pkgKey) => {
     const { name, bump, dir } = packages[pkgKey];
     if (!bump) return;
@@ -35,7 +42,7 @@ export function addChangesetForAffectedPackages(packages) {
       const relevantCommits = getRelevantCommitsForPackage(dir, commits, changedFiles);
       const changesetContent = formatChangesetContent(name, bump, relevantCommits);
 
-      const changesetFile = join(".changeset", `auto-${pkgKey}.md`);
+      const changesetFile = join(".changeset", `auto-${pkgKey}-${sanitizedBranch}.md`);
 
       mkdirSync(".changeset", { recursive: true });
       writeFileSync(changesetFile, changesetContent);
