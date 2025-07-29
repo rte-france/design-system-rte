@@ -1,5 +1,20 @@
 # @design-system-rte/angular
 
+## 0.9.0
+
+### Minor Changes
+
+- b824254: ## Changes
+
+  - correct Badge display for icon & text
+  - enhance Badge component with improved class bindings and styling options
+  - implement Badge component in Angular
+
+### Patch Changes
+
+- Updated dependencies [b824254]
+  - @design-system-rte/core@0.12.0
+
 ## 0.8.0
 
 ### Minor Changes
