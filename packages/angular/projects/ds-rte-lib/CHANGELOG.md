@@ -1,5 +1,42 @@
 # @design-system-rte/angular
 
+## 0.10.0
+
+### Minor Changes
+
+- 89289e7: ## Changes
+
+  - (textarea) update focus, error styles border and cursor on readonly and disabled
+  - (textarea) add showCounter variable to display counter
+  - (textarea) set correct style for label in side position
+  - (textarea) prevent odd displaying on error state and disabled
+  - (textarea) improve assistive text handling
+  - (textarea) add component to tests apps
+  - (textarea) add public api export
+  - (textarea) add tests on storybook
+  - (textarea) set better props handling + handle resizing logic on angular comp
+  - (Link) add rel noopener noreferrer on external link
+  - (textarea) add auto scroll to top on blur event
+  - harmonise border style on focus + remove showAssistiveTextIcon prop + add link component on angular textarea
+  - add angular textarea component
+
+- f6bb90d: ## Changes
+
+  - add decorative brand example
+  - set correct success icon
+  - set correct color token name
+  - improve formatting and consistency in Tag component and stories
+  - update Tag component to use computed properties for icon name and validation
+  - improve formatting and consistency in computedIconName getter
+  - update computedIconName method to return an empty string instead of default icon
+  - add Tag component with customizable properties and icon support
+
+### Patch Changes
+
+- Updated dependencies [89289e7]
+- Updated dependencies [f6bb90d]
+  - @design-system-rte/core@0.13.0
+
 ## 0.9.0
 
 ### Minor Changes
