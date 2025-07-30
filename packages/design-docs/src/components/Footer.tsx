@@ -22,7 +22,10 @@ const InfoCard = ({ img, title }: InfoCardProps) => (
 
 const Footer = () => (
   <footer className="footer">
-    <h2 id="tokens" className="title"> Tokens </h2>
+    <h2 id="tokens" className="title">
+      {" "}
+      Tokens{" "}
+    </h2>
     <p className="content">
       Les design tokens traduisent les décisions de design (couleurs, typographies, espacements…) en variables
       structurées, partagées entre designers et développeurs. Ils garantissent une cohérence visuelle à grande échelle,
