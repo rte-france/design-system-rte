@@ -2,9 +2,9 @@ import React from "react";
 
 import "../styles/MainContent.css";
 
-import designFace from "../img/face.svg";
-import devFace from "../img/face_4.svg";
-import placeholder from "../img/picture.png";
+import designFace from "../img/introduction/face.svg";
+import devFace from "../img/introduction/face_4.svg";
+import placeholder from "../img/introduction/picture.png";
 
 type UserCardProps = {
   icon: string;
@@ -49,7 +49,7 @@ const ExplanationCard = ({ img, title, content, link }: ExplanationCardProps) =>
 
 const MainContent = () => (
   <main className="main-content">
-    <h2 className="main_title">Concevoir et construire ensemble</h2>
+    <h2 id="conception" className="main_title">Concevoir et construire ensemble</h2>
     <div className="main_user_card_container">
       <UserCard
         icon={designFace}

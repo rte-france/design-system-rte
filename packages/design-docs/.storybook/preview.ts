@@ -64,6 +64,12 @@ const preview = {
       // 'off' - skip a11y checks entirely
       test: "todo",
     },
+    docs:{
+      toc: {
+        headingSelector: 'h1, h2, h3',
+        disable: false,
+      },
+    },
   },
 };
 

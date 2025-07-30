@@ -1,12 +1,12 @@
 import React from "react";
 
-import header from "../img/header.png";
+import header from "../img/introduction/header.png";
 import "../styles/Header.css";
 
 const Header = () => (
   <header className="header">
     <div className="header_left_container">
-      <h1 className="title"> Design System RTE </h1>
+      <h1 id="design-system-rte" className="title"> Design System RTE </h1>
       <p className="text">
         Un socle solide pour concevoir des expériences cohérentes, accessibles et durables.
         <br />
