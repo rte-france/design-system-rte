@@ -41,9 +41,34 @@
 
   .textarea-container {
     display: flex;
+    position: relative;
     flex-direction: column;
     width: 100%;
     align-items: flex-start;
+
+    &:not([data-disabled='true']) {
+      &::before {
+        content: '';
+        position: absolute;
+        right: 3px;
+        bottom: 31px;
+        width: 10px;
+        border-top: solid 1px var(--border-primary);
+        transform: rotate(-45deg);
+        border-radius: $radius-pill;
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        right: 3px;
+        bottom: 29px;
+        width: 6px;
+        border-top: solid 1px var(--border-primary);
+        transform: rotate(-45deg);
+        border-radius: $radius-pill;
+      }
+    }
 
     .textarea {
       @include elevation-neutral-inner-shadow;
@@ -64,6 +89,10 @@
         min-height: 56px;
         min-width: 112px;
         max-width: 1100px;
+      }
+
+      &::-webkit-resizer {
+        display: none;
       }
 
       &:focus-visible,

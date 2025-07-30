@@ -5,7 +5,7 @@
       <label *ngIf="label() && labelPosition() === 'top'" [attr.id]="labelId()" [attr.for]="id()">{{label()}}<span *ngIf="required() || showLabelRequirement()" class="requirement-indicator" aria-hidden="true" [ngClass]="{'required': required(), 'show-label-requirement': showLabelRequirement() }">{{requirementIndicatorValue()}}</span></label>
       <span *ngIf="isCounterVisible()" class="character-counter">{{ characterCount }}/{{ maxLength() }}</span>
     </div>
-    <div class="textarea-container" [attr.data-label-position]="labelPosition()">
+    <div class="textarea-container" [attr.data-label-position]="labelPosition()" [attr.data-disabled]="disabled()">
       <textarea
       #textarea
       class="textarea {{ assistiveTextAppearance() }}"
