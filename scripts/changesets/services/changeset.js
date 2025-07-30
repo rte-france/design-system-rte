@@ -17,7 +17,8 @@ export function cleanupExistingAutoChangesets() {
 
   const files = readdirSync(".changeset");
   files.forEach((file) => {
-    if (file.startsWith("auto-") && file.includes(getCurrentBranch()) && file.endsWith(".md")) {
+    const branch = sanitizeBranchName(getCurrentBranch());
+    if (file.startsWith("auto-") && file.includes(branch) && file.endsWith(".md")) {
       try {
         unlinkSync(join(".changeset", file));
         console.log(`🗑️  Removed existing changeset: ${file}`);
