@@ -158,6 +158,7 @@
                         outline: 1px solid var(--border-disabled);
                         border : $width-xs solid var(--border-disabled);
                         background: linear-gradient(0deg, var(--elevation-surface-inner-shadow) 0%, var(--elevation-surface-inner-shadow) 100%), var(--background-disabled);
+                        cursor: not-allowed;
                     }
 
                     &[data-error='true']{
