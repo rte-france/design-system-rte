@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_design_system_rte_angular_builder=self.webpackChunk_design_system_rte_angular_builder||[]).push([[22526],{"./projects/ds-rte-lib/src/lib/assets/icons/first_page.svg":(module,__unused_webpack_exports,__webpack_require__)=>{module.exports=__webpack_require__.p+"static/media/first_page.7d928f52.svg"}}]);
