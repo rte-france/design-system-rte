@@ -1,5 +1,25 @@
 # @design-system-rte/core
 
+## 0.13.0
+
+### Minor Changes
+
+- 89289e7: ## Changes
+
+  - (textarea) simplify required and optional appearence
+  - (textarea) set better props handling + handle resizing logic on angular comp
+  - (textarea) add auto scroll to top on blur event
+  - add angular textarea component
+  - extract constants in core
+  - add react textarea component
+
+- f6bb90d: ## Changes
+
+  - update Tag component to use computed properties for icon name and validation
+  - correct casing of compactSpacing property in Tag component and stories
+  - improve formatting and consistency in Tag component and interface
+  - add Tag component with status and decorative types, including styles and stories
+
 ## 0.12.0
 
 ### Minor Changes

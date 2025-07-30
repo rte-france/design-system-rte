@@ -1,5 +1,49 @@
 # @design-system-rte/react
 
+## 0.9.0
+
+### Minor Changes
+
+- 89289e7: ## Changes
+
+  - (textarea) update focus, error styles border and cursor on readonly and disabled
+  - (textarea) add showCounter variable to display counter
+  - (textarea) set correct style for label in side position
+  - (textarea) prevent odd displaying on error state and disabled
+  - (textarea) simplify required and optional appearence
+  - add type to textarea ref to avoid casting
+  - (textarea) improve assistive text handling
+  - naming typo
+  - (textarea) add public api export
+  - (textarea) add tests on storybook
+  - (textarea) set better props handling + handle resizing logic on angular comp
+  - (Link) add rel noopener noreferrer on external link
+  - (textarea) add auto scroll to top on blur event
+  - harmonise border style on focus + remove showAssistiveTextIcon prop + add link component on angular textarea
+  - add react textarea stories
+  - extract constants in core
+  - add react textarea component
+  - update changeDetectionStrategy for angular components
+
+- f6bb90d: ## Changes
+
+  - add decorative brand example
+  - set correct success icon
+  - set correct color token name
+  - improve formatting and consistency in Tag component and stories
+  - update Tag component to use computed properties for icon name and validation
+  - improve formatting and consistency in Decorative, WithIcon, and Compact story definitions
+  - streamline args structure in Tag component stories
+  - correct casing of compactSpacing property in Tag component and stories
+  - improve formatting and consistency in Tag component and interface
+  - add Tag component with status and decorative types, including styles and stories
+
+### Patch Changes
+
+- Updated dependencies [89289e7]
+- Updated dependencies [f6bb90d]
+  - @design-system-rte/core@0.13.0
+
 ## 0.8.0
 
 ### Minor Changes
