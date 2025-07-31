@@ -1,4 +1,4 @@
-<a href="{{ href() }}" class="rte-link" role="link" [ngClass]="{'subtle': subtle()}">
+<a href="{{ href() }}" class="rte-link" role="link" [ngClass]="{'subtle': subtle()}" [target]="externalLink() ? '_blank' : undefined" [rel]="externalLink() ? 'noopener noreferrer' : null">
     <span class="rte-link-label">
         {{ label() }}
     </span>
