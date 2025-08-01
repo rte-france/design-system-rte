@@ -65,15 +65,30 @@ export function formatChangesetContent(packageName, bump, relevantCommits) {
   
   `;
 
-  if (relevantCommits.length > 0) {
+  if (relevantCommits.length) {
+    const PARENTHESIS_REGEX = /\((.+?)\)/;
     content += `## Changes\n\n`;
     relevantCommits.forEach((commit) => {
-      const cleanCommit = commit.replace(/^(feat|fix|docs|style|refactor|test|chore)(\(.+?\))?:?\s*/i, "");
-      content += `- ${cleanCommit}\n`;
+      const commitKeywords = commit.indexOf(":") !== -1 ? commit.substring(0, commit.indexOf(":")) : "";
+      const commitContext = commitKeywords.match(PARENTHESIS_REGEX)
+        ? commitKeywords.match(PARENTHESIS_REGEX)[1].trim()
+        : "";
+      const formattedCommitContext = commitContext ? `(${capitalizeText(commitContext)}) ` : "";
+      const cleanCommit = commit.replace(/^(feat|fix|docs|style|refactor|test|chore)\s*(\([^)]+\))?\s*:?\s*/i, "");
+      content += `- ${formattedCommitContext}${cleanCommit}\n`;
     });
   } else {
     content += `Auto bump`;
   }
 
   return content;
+}
+
+function capitalizeText(text) {
+  if (text) {
+    return text
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+  }
 }
