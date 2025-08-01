@@ -6,7 +6,13 @@ import style from "./Divider.module.scss";
 const Divider = forwardRef<HTMLDivElement, DividerProps>(
   ({ orientation = "horizontal", thickness = "light", color = "default", ...props }, ref) => {
     return orientation === "horizontal" ? (
-      <hr ref={ref as React.Ref<HTMLHRElement>} className={style.horizontal} data-thickness={thickness} data-color={color} {...props} />
+      <hr
+        ref={ref as React.Ref<HTMLHRElement>}
+        className={style.horizontal}
+        data-thickness={thickness}
+        data-color={color}
+        {...props}
+      />
     ) : (
       <div
         ref={ref as React.Ref<HTMLDivElement>}

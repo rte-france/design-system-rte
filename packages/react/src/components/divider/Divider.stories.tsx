@@ -70,7 +70,9 @@ export const HorizontalSizes: Story = {
     color: "default",
   },
   render: (args) => (
-    <div style={{ display: "flex", flexDirection: "column", gap: "20px", justifyContent: "space-between", width: "500px" }}>
+    <div
+      style={{ display: "flex", flexDirection: "column", gap: "20px", justifyContent: "space-between", width: "500px" }}
+    >
       <Divider {...args} thickness="light" />
       <Divider {...args} thickness="medium" />
       <Divider {...args} thickness="bold" />
@@ -84,13 +86,17 @@ export const InverseColor: Story = {
     thickness: "light",
     color: "inverse",
   },
-  decorators: [(Story) => (
-    <div style={{ backgroundColor: "#214770", width: "100%", padding: "20px" }}>
-      <Story />
-    </div>
-  )],
+  decorators: [
+    (Story) => (
+      <div style={{ backgroundColor: "#214770", width: "100%", padding: "20px" }}>
+        <Story />
+      </div>
+    ),
+  ],
   render: (args) => (
-    <div style={{ display: "flex", flexDirection: "column", gap: "20px", justifyContent: "space-between", width: "500px" }}>
+    <div
+      style={{ display: "flex", flexDirection: "column", gap: "20px", justifyContent: "space-between", width: "500px" }}
+    >
       <Divider {...args} thickness="light" />
       <Divider {...args} thickness="medium" />
       <Divider {...args} thickness="bold" />
