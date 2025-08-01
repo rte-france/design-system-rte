@@ -17,6 +17,10 @@
     &.bold {
         border-top: 4px solid var(--border-divider);
     }
+
+    &.inverse {
+        border-top-color: var(--border-inverse);
+    }
 }
 
 .vertical {
@@ -35,5 +39,9 @@
 
     &.bold {
         width: 4px;
+    }
+
+    &.inverse {
+        background-color: var(--border-inverse);
     }
 }

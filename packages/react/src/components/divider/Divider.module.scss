@@ -17,6 +17,10 @@
     &[data-thickness='bold'] {
         border-top: 4px solid var(--border-divider);
     }
+
+    &[data-color='inverse'] {
+        border-top-color: var(--border-inverse);
+    }
 }
 
 .vertical {
@@ -35,5 +39,9 @@
 
     &[data-thickness='bold'] {
         width: 4px;
+    }
+
+    &[data-color='inverse'] {
+        background-color: var(--border-inverse);
     }
 }
