@@ -8,6 +8,7 @@ import {
   Chip,
   Badge,
   Textarea,
+  SegmentedControl,
 } from "@design-system-rte/react";
 import "./App.css";
 import { useState } from "react";
@@ -15,6 +16,7 @@ import { useState } from "react";
 function App() {
   const [isIconButtonToggleSelected, setIsIconButtonToggleSelected] = useState(false);
   const [inputValue, setInputValue] = useState("");
+  const [segmentedControlValue, setSegmentedControlValue] = useState("label-1");
 
   const handleIconButtonToggleClick = () => {
     setIsIconButtonToggleSelected(!isIconButtonToggleSelected);
@@ -22,6 +24,13 @@ function App() {
 
   const handleInputChange = (value: string) => {
     setInputValue(value);
+  };
+
+  const handleSegmentedControlClick = (
+    event: React.MouseEvent<HTMLDivElement> | React.KeyboardEvent<HTMLDivElement>,
+  ) => {
+    const newValue = event.currentTarget.getAttribute("id") || "";
+    setSegmentedControlValue(newValue);
   };
 
   return (
@@ -81,6 +90,19 @@ function App() {
           assistiveTextLabel="This is a label"
           assistiveTextAppearance="description"
           required
+        />
+      </div>
+      <hr />
+      <div>
+        <h3>Segmented Control</h3>
+        <SegmentedControl
+          options={[
+            { id: "label-1", label: "Label 1" },
+            { id: "label-2", label: "Label 2" },
+            { id: "label-3", label: "Label 3" },
+          ]}
+          selected={segmentedControlValue}
+          onClick={handleSegmentedControlClick}
         />
       </div>
     </div>

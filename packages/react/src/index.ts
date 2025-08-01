@@ -11,6 +11,7 @@ import IconButtonToggle from "./components/iconButtonToggle/IconButtonToggle.tsx
 import Link from "./components/link/Link.tsx";
 import RadioButton from "./components/radioButton/RadioButton.tsx";
 import RadioButtonGroup from "./components/radioButtonGroup/RadioButtonGroup.tsx";
+import SegmentedControl from "./components/segmentedControl/SegmentedControl.tsx";
 import SplitButton from "./components/splitButton/SplitButton.tsx";
 import Textarea from "./components/textarea/Textarea.tsx";
 import TextInput from "./components/textInput/TextInput.tsx";
@@ -33,4 +34,5 @@ export {
   Chip,
   Badge,
   Textarea,
+  SegmentedControl,
 };
