@@ -1,6 +1,6 @@
 {
   "name": "@design-system-rte/design-docs",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "main": "index.js",
   "private": true,
   "scripts": {
