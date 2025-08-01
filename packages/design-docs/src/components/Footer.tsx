@@ -1,12 +1,11 @@
 import React from "react";
 
-import couleurs from "../img/couleurs.svg";
-import elevation from "../img/elevation.svg";
-import grilles from "../img/grilles.svg";
-import iconographie from "../img/iconographie.svg";
-import spacing from "../img/spacing.svg";
-import typographie from "../img/typographie.svg";
-
+import couleurs from "../img/introduction/couleurs.svg";
+import elevation from "../img/introduction/elevation.svg";
+import grilles from "../img/introduction/grilles.svg";
+import iconographie from "../img/introduction/iconographie.svg";
+import spacing from "../img/introduction/spacing.svg";
+import typographie from "../img/introduction/typographie.svg";
 import "../styles/Footer.css";
 
 type InfoCardProps = {
@@ -23,7 +22,10 @@ const InfoCard = ({ img, title }: InfoCardProps) => (
 
 const Footer = () => (
   <footer className="footer">
-    <h2 className="title"> Tokens </h2>
+    <h2 id="tokens" className="title">
+      {" "}
+      Tokens{" "}
+    </h2>
     <p className="content">
       Les design tokens traduisent les décisions de design (couleurs, typographies, espacements…) en variables
       structurées, partagées entre designers et développeurs. Ils garantissent une cohérence visuelle à grande échelle,

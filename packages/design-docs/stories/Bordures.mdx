@@ -1,0 +1,42 @@
+import {Meta} from "@storybook/blocks"
+
+import ExempleBorderRadius from "../src/img/bordures/ExempleBorderRadius.png";
+import TableauDenominationBorderRadius from "../src/img/bordures/TableauDenominationBorderRadius.png";
+import ExempleBorderWidth from "../src/img/bordures/ExempleBorderWidth.png";
+import TableauDenominationBorderWidth from "../src/img/bordures/TableauDenominationBorderWidth.png";
+
+import "../src/styles/Police.css";
+
+<Meta title="Design systems/Bordures" />
+
+<h1 id="bordures" style={{fontFamily:"Nunito"}}> Les bordures </h1>
+
+<h2 id="definition-bordures" style={{border:"none", fontFamily:"Nunito"}}> Qu'est ce que les bordures </h2>
+
+<p> Les bordures délimitent certains éléments de l'interface utilisateur tels que les boutons, les cartes et les images et varient en termes de rayon (radius), d'épaisseur (width) et de style (continu, pointillé). </p>
+
+<h2 id="rayon-bordure" style={{border:"none", fontFamily:"Nunito"}}> Rayon de bordure (border radius) </h2>
+
+<p> Le <b>rayon de bordure</b>, ou border-radius, est l’arrondi appliqué aux coins d’un élément d’interface. Il peut adoucir son apparence et contribuer à une expérience utilisateur plus fluide et accueillante.</p>
+
+<p> Dans l’exemple qui suit, on observe comment l’ajout d’un rayon de bordure transforme le design de gauche, au style professionnel et institutionnel rappelant Microsoft, en un design plus convivial et accessible, à l’image d’Apple, sur la droite.</p>
+
+<img src={ExempleBorderRadius} width="100%" alt="Exemple de bordure sans et avec radius" />
+
+<h2 id="denomination-bordure-radius" style={{border:"none", fontFamily:"Nunito"}}> Dénomination </h2>
+
+<img src={TableauDenominationBorderRadius} width="100%" alt="Tableau de denomination des bordures" />
+
+<h2 id="epaisseur-bordure" style={{border:"none", fontFamily:"Nunito"}}> Epaisseur de bordure (border width) </h2>
+
+<p> <b>L’épaisseur de bordure</b>, ou border width, désigne l’épaisseur des contours et influence la perception visuelle des lignes, qu’elles soient fines ou épaisses. Ajuster cette épaisseur peut permettre de renforcer la présence visuelle d’un élément ou d’indiquer à l’utilisateur qu’un état d’interaction a changé.</p>
+
+<p> Dans cet exemple, on observe comment la bordure d’un champ de saisie s’épaissit lorsque l’on passe de son état par défaut à son état focused (navigation clavier).</p>
+
+<img src={ExempleBorderWidth} width="100%" alt="Exemple de bordure avec 1 pixel puis 2 pixels" />
+
+<h2 id="denomination-bordure-width" style={{border:"none", fontFamily:"Nunito"}}> Dénomination </h2>
+
+<p>Les tokens d’épaisseur de bordure suivent églament le système de tailles de t-shirts.</p>
+
+<img src={TableauDenominationBorderWidth} width="100%" alt="Tableau de denomination des épaisseurs de bordures" />
