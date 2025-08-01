@@ -3,49 +3,45 @@ import { componentWrapperDecorator, Meta, StoryObj } from "@storybook/angular";
 import { DividerComponent } from "./divider.component";
 
 const meta: Meta<DividerComponent> = {
-    title: "Divider",
-    component: DividerComponent,
-    tags: ["autodocs"],
-    parameters: {
-        layout: "centered",
+  title: "Divider",
+  component: DividerComponent,
+  tags: ["autodocs"],
+  parameters: {
+    layout: "centered",
+  },
+  decorators: [componentWrapperDecorator((story) => `<div style="height: 100px; width: 500px;">${story}</div>`)],
+  argTypes: {
+    orientation: {
+      control: "select",
+      options: ["horizontal", "vertical"],
+      description: "Orientation of the divider",
     },
-    decorators: [
-        componentWrapperDecorator(
-            (story) => `<div style="height: 100px; width: 500px;">${story}</div>`,
-        ),
-    ],
-    argTypes: {
-        orientation: {
-            control: "select",
-            options: ["horizontal", "vertical"],
-            description: "Orientation of the divider",
-        },
-        thickness: {
-            control: "select",
-            options: ["light", "medium", "bold"],
-            description: "Thickness of the divider",
-        },
+    thickness: {
+      control: "select",
+      options: ["light", "medium", "bold"],
+      description: "Thickness of the divider",
     },
+  },
 };
 
 export default meta;
 type Story = StoryObj<DividerComponent>;
 
 export const Default: Story = {
-    args: {
-        orientation: "horizontal",
-        thickness: "light",
-    },
+  args: {
+    orientation: "horizontal",
+    thickness: "light",
+  },
 };
 
 export const VerticalSizes: Story = {
-    args: {
-        orientation: "vertical",
-        thickness: "light",
-    },
-    render: (args) => ({
-        props: args,
-        template: `
+  args: {
+    orientation: "vertical",
+    thickness: "light",
+  },
+  render: (args) => ({
+    props: args,
+    template: `
         <div style="display: flex; justify-content: space-between; gap: 20px; height: 100px; width: 500px;">
             <rte-divider
                 orientation="vertical"
@@ -64,17 +60,17 @@ export const VerticalSizes: Story = {
             </rte-divider>
         </div>
         `,
-    }),
+  }),
 };
 
 export const HorizontalSizes: Story = {
-    args: {
-        orientation: "horizontal",
-        thickness: "light",
-    },
-    render: (args) => ({
-        props: args,
-        template: `
+  args: {
+    orientation: "horizontal",
+    thickness: "light",
+  },
+  render: (args) => ({
+    props: args,
+    template: `
         <div style="display: flex; flex-direction: column; gap: 20px; height: 100px; width: 500px;">
             <rte-divider
                 orientation="horizontal"
@@ -93,5 +89,5 @@ export const HorizontalSizes: Story = {
             </rte-divider>
         </div>
         `,
-    }),
+  }),
 };
