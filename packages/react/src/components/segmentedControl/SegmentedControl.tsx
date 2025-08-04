@@ -4,8 +4,8 @@ import {
 } from "@design-system-rte/core/components/segmented-control/segmented-control.interface";
 import { FOCUSABLE_ELEMENTS_QUERY } from "@design-system-rte/core/constants/dom/dom.constants";
 import {
-  ARROW_LEFT,
-  ARROW_RIGHT,
+  ARROW_LEFT_KEY,
+  ARROW_RIGHT_KEY,
   ENTER_KEY,
   SPACE_KEY,
   TAB_KEY,
@@ -72,6 +72,12 @@ const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps>(
       console.warn("SegmentedControl: 'options' should have 2 or 3 items.");
       return null;
     }
+
+    if (options.some((option) => option.icon && option.label)) {
+      console.warn("SegmentedControl: Each option must have either 'icon' or 'label', not both.");
+      return null;
+    }
+
     return (
       <div
         ref={(node) => {
@@ -145,7 +151,7 @@ const Segment = ({
     if (event.key === SPACE_KEY || event.key === ENTER_KEY) {
       event.stopPropagation();
       handleClick?.(event);
-    } else if (event.key === ARROW_LEFT || event.key === ARROW_RIGHT) {
+    } else if (event.key === ARROW_LEFT_KEY || event.key === ARROW_RIGHT_KEY) {
       event.stopPropagation();
       const segmentContainers = parentRef?.current?.querySelectorAll(`.${style["segment-container"]}`);
       if (segmentContainers) {
@@ -153,7 +159,7 @@ const Segment = ({
         const currentActiveElementParentIndex =
           currentActiveElementParent != null ? Array.from(segmentContainers).indexOf(currentActiveElementParent) : -1;
         const nextIndex =
-          event.key === ARROW_LEFT ? currentActiveElementParentIndex - 1 : currentActiveElementParentIndex + 1;
+          event.key === ARROW_LEFT_KEY ? currentActiveElementParentIndex - 1 : currentActiveElementParentIndex + 1;
 
         if (segmentContainers[nextIndex]) {
           const firstChild = segmentContainers[nextIndex].firstChild as HTMLElement | null;
@@ -199,7 +205,7 @@ const Segment = ({
     { onKeyUp: keyboardHandler, onKeyDown: keyboardDownHandler },
     {
       id,
-      interactiveKeyCodes: [SPACE_KEY, ENTER_KEY, TAB_KEY, ARROW_LEFT, ARROW_RIGHT],
+      interactiveKeyCodes: [SPACE_KEY, ENTER_KEY, TAB_KEY, ARROW_LEFT_KEY, ARROW_RIGHT_KEY],
     },
   );
 
@@ -208,20 +214,23 @@ const Segment = ({
     onClick?.(e);
   };
 
-  if ((!label && !icon) || (label && icon)) {
-    console.warn("SegmentedControl: Must use one of 'label' or 'icon', not both.");
-    return null;
-  }
-
   return (
-    <div ref={ref} role="radio" className={style["segment-container"]} data-position={position} {...props}>
+    <div
+      id={id}
+      ref={ref}
+      role="radio"
+      className={style["segment-container"]}
+      data-position={position}
+      onClick={handleClick}
+      {...props}
+    >
       <div
         id={id}
         aria-label={label || icon}
         aria-selected={selected}
         className={style.segment}
+        data-segment-type={icon ? "icon" : "label"}
         data-selected={selected}
-        onClick={handleClick}
         onKeyDown={onKeyDown}
         onKeyUp={onKeyUp}
         onBlur={onBlur}

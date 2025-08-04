@@ -78,6 +78,10 @@
     }
   }
 
+  &[data-segment-type="icon"] {
+    padding: $positive-spacing_100;
+  }
+
   .segment-content {
     display: flex;
     align-items: center;
