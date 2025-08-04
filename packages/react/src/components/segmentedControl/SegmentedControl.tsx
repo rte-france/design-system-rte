@@ -1,4 +1,9 @@
 import {
+  SegmentProps as CoreSegmentProps,
+  SegmentedControlProps as CoreSegmentedControlProps,
+} from "@design-system-rte/core/components/segmented-control/segmented-control.interface";
+import { FOCUSABLE_ELEMENTS_QUERY } from "@design-system-rte/core/constants/dom/dom.constants";
+import {
   ARROW_LEFT,
   ARROW_RIGHT,
   ENTER_KEY,
@@ -12,36 +17,16 @@ import Icon from "../icon/Icon";
 
 import style from "./SegmentedControl.module.scss";
 
-export interface SegmentProps extends React.HTMLAttributes<HTMLDivElement> {
-  id: string;
-  label?: string;
-  icon?: string;
-  iconAppearance?: "outlined" | "filled";
-  position: "left" | "middle" | "right";
-  selected?: boolean;
+export interface SegmentProps extends CoreSegmentProps, Omit<React.HTMLAttributes<HTMLDivElement>, "id"> {
   onClick?: (event: React.MouseEvent<HTMLDivElement> | React.KeyboardEvent<HTMLDivElement>) => void;
   parentRef?: MutableRefObject<HTMLDivElement | null>;
 }
 
-interface SegmentedControlProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
-  options: Omit<SegmentProps, "position" | "selected">[];
+interface SegmentedControlProps
+  extends CoreSegmentedControlProps,
+    Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
   onChange: (id: string) => void;
-  selectedSegment?: string;
 }
-
-const FOCUSABLE_ELEMENTS = [
-  "button",
-  "a[href]",
-  "input",
-  "select",
-  "textarea",
-  "details",
-  '[tabindex]:not([tabindex="-1"])',
-];
-
-const FOCUSABLE_ELEMENTS_QUERY = FOCUSABLE_ELEMENTS.map((elmt) => elmt + ":not([disabled]):not([aria-hidden])").join(
-  ",",
-);
 
 const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps>(
   ({ options, onChange, selectedSegment, ...props }, ref) => {
@@ -114,7 +99,17 @@ const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps>(
   },
 );
 
-const Segment = ({ id, icon, iconAppearance, label, position, selected, onClick, parentRef }: SegmentProps) => {
+const Segment = ({
+  id,
+  icon,
+  iconAppearance,
+  label,
+  position,
+  selected,
+  onClick,
+  parentRef,
+  ...props
+}: SegmentProps) => {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -170,6 +165,7 @@ const Segment = ({ id, icon, iconAppearance, label, position, selected, onClick,
 
   const keyboardDownHandler = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (event.key === TAB_KEY) {
+      event.stopPropagation();
       const allFocusableElement = (document.querySelectorAll(FOCUSABLE_ELEMENTS_QUERY) ||
         []) as NodeListOf<HTMLDivElement>;
 
@@ -196,8 +192,6 @@ const Segment = ({ id, icon, iconAppearance, label, position, selected, onClick,
           (allFocusableElement[nextIndex] as HTMLElement).focus();
         }
       }
-      // }
-      event.stopPropagation();
     }
   };
 
@@ -209,18 +203,18 @@ const Segment = ({ id, icon, iconAppearance, label, position, selected, onClick,
     },
   );
 
-  if ((!label && !icon) || (label && icon)) {
-    console.warn("SegmentedControl: Must use one of 'label' or 'icon', not both.");
-    return null;
-  }
-
   const handleClick = (e: React.MouseEvent<HTMLDivElement> | React.KeyboardEvent<HTMLDivElement>) => {
     e.stopPropagation();
     onClick?.(e);
   };
 
+  if ((!label && !icon) || (label && icon)) {
+    console.warn("SegmentedControl: Must use one of 'label' or 'icon', not both.");
+    return null;
+  }
+
   return (
-    <div ref={ref} role="radio" className={style["segment-container"]} data-position={position}>
+    <div ref={ref} role="radio" className={style["segment-container"]} data-position={position} {...props}>
       <div
         id={id}
         aria-label={label || icon}
