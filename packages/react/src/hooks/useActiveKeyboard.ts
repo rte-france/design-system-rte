@@ -34,6 +34,9 @@ export const useActiveKeyboard = <T extends HTMLElement>(
   };
 
   const onKeyUp = (e: KeyboardEvent<T>) => {
+    console.log("Key pressed:", e.key);
+    console.log("id:", id);
+    console.log("e.target.id:", e.target);
     if (interactiveKeysRef.current?.includes(e.key) && (!id || (e.target as T).id === id)) {
       handlerOnKeyUp(e);
     }
