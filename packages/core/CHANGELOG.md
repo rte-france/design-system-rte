@@ -1,5 +1,13 @@
 # @design-system-rte/core
 
+## 0.14.0
+
+### Minor Changes
+
+- db7edfd: ## Changes
+
+  - add border-divider token color
+
 ## 0.13.0
 
 ### Minor Changes
