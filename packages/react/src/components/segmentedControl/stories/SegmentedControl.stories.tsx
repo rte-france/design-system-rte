@@ -33,22 +33,22 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     options: [
-      { id: "label-1", label: "Label 1" },
-      { id: "label-2", label: "Label 2" },
-      { id: "label-3", label: "Label 3" },
+      { label: "Option 1", id: "option1" },
+      { label: "Option 2", id: "option2" },
+      { label: "Option 3", id: "option3" },
     ],
     onChange: fn(),
   },
 
   render: (args) => {
-    const [selected, setSelected] = useState("label-1");
+    const [selected, setSelected] = useState("option1");
 
     const handleOnChange = (id: string) => {
       setSelected(id);
     };
 
     return (
-      <div style={{ width: "360px" }}>
+      <div style={{ width: "400px" }}>
         <SegmentedControl options={args.options} onChange={handleOnChange} selectedSegment={selected} />
       </div>
     );
@@ -83,24 +83,24 @@ export const Default: Story = {
   },
 };
 
-export const TwoItems: Story = {
+export const TwoOptions: Story = {
   args: {
     options: [
-      { id: "label-1", label: "Label 1" },
-      { id: "label-2", label: "Label 2" },
+      { label: "Option 1", id: "option1" },
+      { label: "Option 2", id: "option2" },
     ],
     onChange: fn(),
   },
 
   render: (args) => {
-    const [selected, setSelected] = useState("label-1");
+    const [selected, setSelected] = useState("option1");
 
     const handleOnChange = (id: string) => {
       setSelected(id);
     };
 
     return (
-      <div style={{ width: "360px" }}>
+      <div style={{ width: "400px" }}>
         <SegmentedControl options={args.options} onChange={handleOnChange} selectedSegment={selected} />
       </div>
     );
@@ -110,9 +110,9 @@ export const TwoItems: Story = {
 export const Icons: Story = {
   args: {
     options: [
-      { id: "agenda", icon: "view-agenda" },
-      { id: "column", icon: "view-column" },
-      { id: "grid", icon: "view-grid" },
+      { id: "agenda", icon: "view-agenda", label: "Vue agenda" },
+      { id: "column", icon: "view-column", label: "Vue colonne" },
+      { id: "grid", icon: "view-grid", label: "Vue grille" },
     ],
     onChange: fn(),
   },
@@ -125,7 +125,7 @@ export const Icons: Story = {
     };
 
     return (
-      <div style={{ width: "360px" }}>
+      <div style={{ width: "400px" }}>
         <SegmentedControl options={args.options} onChange={handleOnChange} selectedSegment={selected} />
       </div>
     );

@@ -1,3 +1,4 @@
+import { getSegmentPosition } from "@design-system-rte/core/components/segmented-control/segmented-control-utils";
 import {
   SegmentProps as CoreSegmentProps,
   SegmentedControlProps as CoreSegmentedControlProps,
@@ -33,13 +34,6 @@ const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps>(
     const containerRef: MutableRefObject<HTMLDivElement | null> = useRef<HTMLDivElement>(null);
     const [sliderStyle, setSliderStyle] = useState<{ left: number; width: number }>({ left: 0, width: 0 });
 
-    const getSegmentPosition = (index: number, length: number): SegmentProps["position"] => {
-      if (length === 2) return index === 0 ? "left" : "right";
-      if (index === 0) return "left";
-      if (index === length - 1) return "right";
-      return "middle";
-    };
-
     const handleOnClick = (event: React.MouseEvent<HTMLDivElement> | React.KeyboardEvent<HTMLDivElement>) => {
       event.stopPropagation();
       const target = event.currentTarget as HTMLDivElement;
@@ -73,11 +67,6 @@ const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps>(
       return null;
     }
 
-    if (options.some((option) => option.icon && option.label)) {
-      console.warn("SegmentedControl: Each option must have either 'icon' or 'label', not both.");
-      return null;
-    }
-
     return (
       <div
         ref={(node) => {
@@ -89,7 +78,7 @@ const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps>(
         className={style["segmented-control"]}
         {...props}
       >
-        <div className={style["segment-slider"]} style={{ left: sliderStyle.left, width: sliderStyle.width }} />
+        <span className={style["segment-slider"]} style={{ left: sliderStyle.left, width: sliderStyle.width }} />
         {options.map((option, index) => (
           <Segment
             key={`${option.id}-${index}`}
@@ -215,32 +204,29 @@ const Segment = ({
   };
 
   return (
-    <div
-      id={id}
-      ref={ref}
-      role="radio"
-      className={style["segment-container"]}
-      data-position={position}
-      onClick={handleClick}
-      {...props}
-    >
+    <div ref={ref} className={style["segment-container"]} data-position={position} {...props}>
       <div
         id={id}
-        aria-label={label || icon}
-        aria-selected={selected}
+        role="radio"
+        aria-checked={selected}
+        aria-label={label}
         className={style.segment}
         data-segment-type={icon ? "icon" : "label"}
         data-selected={selected}
         onKeyDown={onKeyDown}
         onKeyUp={onKeyUp}
         onBlur={onBlur}
+        onClick={handleClick}
         tabIndex={0}
         ref={ref}
       >
         {selected && <Icon name="check-small" appearance="filled" size={24} className={style["selected-icon"]} />}
         <div className={style["segment-content"]}>
-          {icon && <Icon name={icon} appearance={(iconAppearance ?? selected) ? "filled" : "outlined"} size={24} />}
-          {!icon && label && <span className={style["segment-label"]}>{label}</span>}
+          {icon ? (
+            <Icon name={icon} appearance={(iconAppearance ?? selected) ? "filled" : "outlined"} size={24} />
+          ) : (
+            <span className={style["segment-label"]}>{label}</span>
+          )}
         </div>
       </div>
     </div>
