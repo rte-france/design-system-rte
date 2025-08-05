@@ -16,24 +16,39 @@ const Switch = ({
   showIcon = true,
   disabled = false,
   readOnly = false,
+  checked = false,
   ...props
 }: SwitchProps) => {
-  const [checked, setChecked] = useState(false);
+
+  const [isChecked, setIsChecked] = useState(checked);
+
+  const handleToggle = () => {
+    if (!readOnly && !disabled) {
+      setIsChecked(!isChecked);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === ' ') {
+      e.preventDefault();
+      handleToggle();
+    }
+  };
 
   return (
-    <div
+    <button
+      type="button"
       className={style["switch-container"]}
       data-appearance={appearance}
       data-disabled={disabled}
       data-read-only={readOnly}
-      data-checked={checked}
-      onClick={(e) => {
-        if (readOnly || disabled) {
-          e.stopPropagation();
-        } else {
-          setChecked(!checked);
-        }
-      }}
+      data-checked={isChecked}
+      onClick={handleToggle}
+      onKeyDown={handleKeyDown}
+      disabled={disabled}
+      aria-pressed={isChecked}
+      aria-label={label}
+      tabIndex={-1}
     >
       <input
         aria-label={label}
@@ -42,7 +57,7 @@ const Switch = ({
         name={label}
         className={style["switch"]}
         disabled={disabled}
-        checked={checked}
+        checked={isChecked}
         readOnly={readOnly}
         style={{
           minHeight: switchHeight,
@@ -50,16 +65,16 @@ const Switch = ({
         }}
         {...props}
       />
-      <div className={style["switch-icon-check"]} data-checked={checked}>
-        {showIcon && checked && <Icon name="check" size={16} />}
-        {showIcon && !checked && <Icon name="close" size={16} />}
+      <div className={style["switch-icon-check"]} data-checked={isChecked}>
+        {showIcon && isChecked && <Icon name="check" size={16} />}
+        {showIcon && !isChecked && <Icon name="close" size={16} />}
       </div>
       {showLabel && label && (
         <label htmlFor={label} className={concatClassNames(style["switch-label"])}>
           {label}
         </label>
       )}
-    </div>
+    </button>
   );
 };
 

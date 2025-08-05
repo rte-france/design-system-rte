@@ -1,6 +1,7 @@
 @use '@design-system-rte/core/design-tokens/main.scss' as *;
 
 .switch-container {
+    all: unset;
     display: inline-flex;
     align-items: center;
     gap: $positive-spacing_150;

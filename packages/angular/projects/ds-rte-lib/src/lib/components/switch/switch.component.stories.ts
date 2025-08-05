@@ -34,10 +34,8 @@ const meta: Meta<SwitchComponent> = {
       defaultValue: false,
     },
     checked: {
-      table: { disable: true },
-    },
-    handleClick: {
-      table: { disable: true },
+      control: "boolean",
+      defaultValue: false,
     },
     switchHeight: {
       table: { disable: true },
@@ -59,6 +57,7 @@ export const Default: Story = {
     showIcon: true,
     disabled: false,
     readOnly: false,
+    checked: true,
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
