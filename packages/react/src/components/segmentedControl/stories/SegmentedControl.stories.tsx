@@ -56,30 +56,26 @@ export const Default: Story = {
 
   play: async ({ canvasElement }) => {
     const canvas = canvasElement;
-    const [firstSegments, secondSegment, thirdSegment] = within(canvas).getAllByRole("radio");
+    const [firstSegment, secondSegment, thirdSegment] = within(canvas).getAllByRole("radio");
 
-    const firstSegmentFocusableChild = firstSegments.firstChild as HTMLElement;
-    const secondSegmentFocusableChild = secondSegment.firstChild as HTMLElement;
-    const thirdSegmentFocusableChild = thirdSegment.firstChild as HTMLElement;
+    expect(firstSegment).toHaveAttribute("aria-checked", "true");
+    await userEvent.click(secondSegment);
+    expect(secondSegment).toHaveAttribute("aria-checked", "true");
+    await userEvent.click(thirdSegment);
+    expect(thirdSegment).toHaveAttribute("aria-checked", "true");
 
-    expect(firstSegmentFocusableChild).toHaveAttribute("aria-selected", "true");
-    await userEvent.click(secondSegmentFocusableChild);
-    expect(secondSegmentFocusableChild).toHaveAttribute("aria-selected", "true");
-    await userEvent.click(thirdSegmentFocusableChild);
-    expect(thirdSegmentFocusableChild).toHaveAttribute("aria-selected", "true");
-
-    await userEvent.click(firstSegmentFocusableChild);
+    await userEvent.click(firstSegment);
     await userEvent.tab();
     await userEvent.keyboard(TESTING_ARROW_RIGHT_KEY);
-    expect(secondSegmentFocusableChild).toHaveFocus();
+    expect(secondSegment).toHaveFocus();
     await userEvent.keyboard(TESTING_SPACE_KEY);
-    expect(secondSegmentFocusableChild).toHaveAttribute("aria-selected", "true");
+    expect(secondSegment).toHaveAttribute("aria-checked", "true");
     await userEvent.keyboard(TESTING_ARROW_LEFT_KEY);
     await userEvent.keyboard(TESTING_ENTER_KEY);
-    expect(firstSegmentFocusableChild).toHaveAttribute("aria-selected", "true");
+    expect(firstSegment).toHaveAttribute("aria-checked", "true");
     await userEvent.keyboard(TESTING_ARROW_RIGHT_KEY);
     await userEvent.keyboard(TESTING_ARROW_RIGHT_KEY);
-    expect(thirdSegmentFocusableChild).toHaveFocus();
+    expect(thirdSegment).toHaveFocus();
   },
 };
 

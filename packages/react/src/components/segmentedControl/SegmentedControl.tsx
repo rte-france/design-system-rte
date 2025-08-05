@@ -3,7 +3,6 @@ import {
   SegmentProps as CoreSegmentProps,
   SegmentedControlProps as CoreSegmentedControlProps,
 } from "@design-system-rte/core/components/segmented-control/segmented-control.interface";
-import { FOCUSABLE_ELEMENTS_QUERY } from "@design-system-rte/core/constants/dom/dom.constants";
 import {
   ARROW_LEFT_KEY,
   ARROW_RIGHT_KEY,
@@ -14,9 +13,16 @@ import {
 import { forwardRef, MutableRefObject, useEffect, useRef, useState } from "react";
 
 import { useActiveKeyboard } from "../../hooks/useActiveKeyboard";
+import { useSelectFocusableElements } from "../../hooks/useSelectFocusableElements";
 import Icon from "../icon/Icon";
 
 import style from "./SegmentedControl.module.scss";
+import {
+  focusNextNotSegmentElement,
+  focusNextSegmentElement,
+  focusPreviousNotSegmentElement,
+  focusPreviousSegmentElement,
+} from "./SegmentedControlUtils";
 
 export interface SegmentProps extends CoreSegmentProps, Omit<React.HTMLAttributes<HTMLDivElement>, "id"> {
   onClick?: (event: React.MouseEvent<HTMLDivElement> | React.KeyboardEvent<HTMLDivElement>) => void;
@@ -85,7 +91,6 @@ const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps>(
             position={getSegmentPosition(index, options.length)}
             onClick={handleOnClick}
             selected={selectedSegment === option.id}
-            parentRef={containerRef || ref}
             {...option}
           />
         ))}
@@ -94,18 +99,10 @@ const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps>(
   },
 );
 
-const Segment = ({
-  id,
-  icon,
-  iconAppearance,
-  label,
-  position,
-  selected,
-  onClick,
-  parentRef,
-  ...props
-}: SegmentProps) => {
+const Segment = ({ id, icon, iconAppearance, label, position, selected, onClick, ...props }: SegmentProps) => {
   const ref = useRef<HTMLDivElement>(null);
+
+  const allFocusableElement = useSelectFocusableElements();
 
   useEffect(() => {
     const segmentRef = ref && "current" in ref ? ref.current : null;
@@ -136,62 +133,42 @@ const Segment = ({
     };
   }, [ref, id]);
 
-  const keyboardHandler = (event: React.KeyboardEvent<HTMLDivElement>) => {
+  const handleKeyUp = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    event.stopPropagation();
     if (event.key === SPACE_KEY || event.key === ENTER_KEY) {
-      event.stopPropagation();
       handleClick?.(event);
     } else if (event.key === ARROW_LEFT_KEY || event.key === ARROW_RIGHT_KEY) {
-      event.stopPropagation();
-      const segmentContainers = parentRef?.current?.querySelectorAll(`.${style["segment-container"]}`);
-      if (segmentContainers) {
-        const currentActiveElementParent = document.activeElement?.parentElement;
-        const currentActiveElementParentIndex =
-          currentActiveElementParent != null ? Array.from(segmentContainers).indexOf(currentActiveElementParent) : -1;
-        const nextIndex =
-          event.key === ARROW_LEFT_KEY ? currentActiveElementParentIndex - 1 : currentActiveElementParentIndex + 1;
+      const allSegmentElements = Array.from(
+        document.activeElement?.parentElement?.parentElement?.querySelectorAll("." + style.segment) ?? [],
+      ) as HTMLElement[];
 
-        if (segmentContainers[nextIndex]) {
-          const firstChild = segmentContainers[nextIndex].firstChild as HTMLElement | null;
-          firstChild?.focus();
-        }
+      const currentActiveSegmentElementIndex = allSegmentElements.findIndex(
+        (element) => element === document.activeElement,
+      );
+
+      if (event.key === ARROW_RIGHT_KEY) {
+        focusNextSegmentElement(currentActiveSegmentElementIndex, allSegmentElements);
+      } else if (event.key === ARROW_LEFT_KEY) {
+        focusPreviousSegmentElement(currentActiveSegmentElementIndex, allSegmentElements);
       }
     }
   };
 
-  const keyboardDownHandler = (event: React.KeyboardEvent<HTMLDivElement>) => {
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (event.key === TAB_KEY) {
-      event.stopPropagation();
-      const allFocusableElement = (document.querySelectorAll(FOCUSABLE_ELEMENTS_QUERY) ||
-        []) as NodeListOf<HTMLDivElement>;
-
       const currentActiveElement = document.activeElement;
-
       const currentIndex = Array.from(allFocusableElement).indexOf(currentActiveElement as HTMLDivElement);
+
       if (event.shiftKey) {
-        let previousIndex = currentIndex - 1;
-        while (previousIndex > 0 && allFocusableElement[previousIndex].classList.contains(style.segment)) {
-          previousIndex--;
-        }
-        if (previousIndex > 0) {
-          allFocusableElement[previousIndex].focus();
-        }
+        focusPreviousNotSegmentElement(currentIndex, allFocusableElement);
       } else {
-        let nextIndex = currentIndex + 1;
-        while (
-          nextIndex < allFocusableElement.length &&
-          allFocusableElement[nextIndex].classList.contains(style.segment)
-        ) {
-          nextIndex++;
-        }
-        if (nextIndex < allFocusableElement.length) {
-          (allFocusableElement[nextIndex] as HTMLElement).focus();
-        }
+        focusNextNotSegmentElement(currentIndex, allFocusableElement);
       }
     }
   };
 
   const { onBlur, onKeyDown, onKeyUp } = useActiveKeyboard<HTMLDivElement>(
-    { onKeyUp: keyboardHandler, onKeyDown: keyboardDownHandler },
+    { onKeyUp: handleKeyUp, onKeyDown: handleKeyDown },
     {
       id,
       interactiveKeyCodes: [SPACE_KEY, ENTER_KEY, TAB_KEY, ARROW_LEFT_KEY, ARROW_RIGHT_KEY],
