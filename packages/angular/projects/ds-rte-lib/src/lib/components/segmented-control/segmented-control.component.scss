@@ -1,6 +1,6 @@
 @use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
 
-.segmented-control {
+.rte-segmented-control {
   position: relative;
   display: flex;
   min-width: 256px;
@@ -8,7 +8,7 @@
   height: 48px;
 }
 
-.segment-slider {
+.rte-segment-slider {
   position: absolute;
   top: 4px;
   height: 40px;
@@ -17,7 +17,7 @@
   transition: left 0.2s ease-out, width 0.2s ease-out;
 }
 
-.segment-container {
+.rte-segment-container {
   display: flex;
   border-top: $width-xs solid var(--border-inverse);
   border-bottom: $width-xs solid var(--border-inverse);
@@ -46,7 +46,7 @@
   }
 }
 
-.segment {
+.rte-segment {
   display: flex;
   padding: $positive-spacing_075 $positive-spacing_100;
   align-items: center;
@@ -82,14 +82,14 @@
     padding: $positive-spacing_100;
   }
 
-  .segment-content {
+  .rte-segment-content {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
     overflow: hidden;
 
-    .segment-label {
+    .rte-segment-label {
       @include typography-button-l;
       padding: $positive-spacing_0 $positive-spacing_050;
       overflow: hidden;
@@ -98,7 +98,7 @@
     }
   }
 
-  .selected-icon {
+  .rte-selected-icon {
     min-width: 24px;
     min-height: 24px;
   }

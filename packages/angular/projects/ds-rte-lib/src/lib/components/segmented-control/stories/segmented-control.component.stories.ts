@@ -1,4 +1,11 @@
+import {
+  TESTING_ARROW_LEFT_KEY,
+  TESTING_ARROW_RIGHT_KEY,
+  TESTING_ENTER_KEY,
+  TESTING_SPACE_KEY,
+} from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
 import { Meta, StoryObj } from "@storybook/angular";
+import { userEvent, within, expect } from "@storybook/test";
 
 import { SegmentedControlComponent } from "../segmented-control.component";
 
@@ -37,6 +44,30 @@ export const Default: Story = {
     </div>
     `,
   }),
+
+  play: async ({ canvasElement }) => {
+    const canvas = canvasElement;
+    const [firstSegment, secondSegment, thirdSegment] = within(canvas).getAllByRole("radio");
+
+    expect(firstSegment).toHaveAttribute("aria-checked", "true");
+    await userEvent.click(secondSegment);
+    expect(secondSegment).toHaveAttribute("aria-checked", "true");
+    await userEvent.click(thirdSegment);
+    expect(thirdSegment).toHaveAttribute("aria-checked", "true");
+
+    await userEvent.click(firstSegment);
+    await userEvent.tab();
+    await userEvent.keyboard(TESTING_ARROW_RIGHT_KEY);
+    expect(secondSegment).toHaveFocus();
+    await userEvent.keyboard(TESTING_SPACE_KEY);
+    expect(secondSegment).toHaveAttribute("aria-checked", "true");
+    await userEvent.keyboard(TESTING_ARROW_LEFT_KEY);
+    await userEvent.keyboard(TESTING_ENTER_KEY);
+    expect(firstSegment).toHaveAttribute("aria-checked", "true");
+    await userEvent.keyboard(TESTING_ARROW_RIGHT_KEY);
+    await userEvent.keyboard(TESTING_ARROW_RIGHT_KEY);
+    expect(thirdSegment).toHaveFocus();
+  },
 };
 
 export const TwoOptions: Story = {
