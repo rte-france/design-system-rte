@@ -1,5 +1,6 @@
 <div
     class="switch-container appearance-{{appearance()}}"
+    onkeypress="handleClick($event)"
     [ngClass]="{
         'disabled': disabled(),
         'read-only': readOnly(),
@@ -12,6 +13,7 @@
         role="switch"
         class="switch"
         [ariaLabel]="label()"
+        [ariaChecked]="checked()"
         [name]="label()"
         [ngClass]="{
         'disabled': disabled(),
@@ -21,10 +23,11 @@
         [style.min-height.px]="switchHeight"
         [style.min-width.px]="switchWidth"
     />
-    <div class="switch-icon-check" [ngClass]="{'checked': checked() }" (click)="handleClick($event)">
+    <div class="switch-icon-check" onkeypress="handleClick($event)    " [ngClass]="{'checked': checked() }" (click)="handleClick($event)">
         @if (showIcon() && checked()) {
             <rte-icon
             class="icon"
+            onkeypress="handleClick($event)"
             [name]="'check'"
             [size]="16"
             (click)="handleClick($event)"
@@ -33,6 +36,7 @@
         @if (showIcon() && !checked()) {
             <rte-icon
             class="icon"
+            onkeypress="handleClick($event)"
             [name]="'close'"
             [size]="16"
             (click)="handleClick($event)"
