@@ -12,10 +12,10 @@ import Link from "./components/link/Link.tsx";
 import RadioButton from "./components/radioButton/RadioButton.tsx";
 import RadioButtonGroup from "./components/radioButtonGroup/RadioButtonGroup.tsx";
 import SplitButton from "./components/splitButton/SplitButton.tsx";
+import Switch from "./components/switch/Switch.tsx";
 import Textarea from "./components/textarea/Textarea.tsx";
 import TextInput from "./components/textInput/TextInput.tsx";
 import Tooltip from "./components/tooltip/Tooltip.tsx";
-import Switch from "./components/switch/Switch.tsx";
 
 export {
   Button,
