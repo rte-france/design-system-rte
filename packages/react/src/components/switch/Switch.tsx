@@ -36,6 +36,7 @@ const Switch = ({
       }}
     >
       <input
+        aria-label={label}
         type="checkbox"
         role="switch"
         name={label}
