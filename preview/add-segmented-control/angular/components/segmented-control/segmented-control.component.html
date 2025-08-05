@@ -1,33 +1,32 @@
-<div class="segmented-control" role="radio-group" [attr.aria-label]="ariaLabel()">
-  <span class="segment-slider" [ngStyle]="{ left: sliderLeft + 'px', width: sliderWidth + 'px' }"></span>
+<div class="rte-segmented-control" role="radiogroup" [attr.aria-label]="ariaLabel()">
+  <span class="rte-segment-slider" [ngStyle]="{ left: sliderLeft + 'px', width: sliderWidth + 'px' }"></span>
   <ng-container *ngFor="let option of options(); let idx = index">
-    <div class="segment-container" [attr.data-position]="getSegmentPosition(idx)">
+    <div class="rte-segment-container" [attr.data-position]="getSegmentPosition(idx)">
       <div
       #segment
       role="radio"
-      class="segment"
+      class="rte-segment"
       tabindex="0"
       [attr.data-id]="option.id"
       [class.selected]="selectedSegment() === option.id"
       [attr.aria-checked]="selectedSegment() === option.id"
       (click)="selectSegment(option.id)"
-      (keydown.enter)="selectSegment(option.id)"
-      (keydown.space)="selectSegment(option.id)"
+      (keydown)="handleKeyDown($event)"
+      (keyup)="handleKeyUp($event)"
       >
       <rte-icon
           *ngIf="selectedSegment() === option.id"
           name="check-small"
+          class="rte-selected-icon"
           [size]="24"
           ></rte-icon>
-      <div class="segment-content">
-        <rte-icon
-          *ngIf="option.icon"
-          [name]="option.icon"
-          [size]="24"
-          ></rte-icon>
-        <span class="segment-label">
-          {{ option.label }}
-        </span>
+      <div class="rte-segment-content">
+        <ng-container *ngIf="option.icon; else label">
+          <rte-icon [name]="option.icon" [size]="24"></rte-icon>
+        </ng-container>
+        <ng-template #label>
+          <span class="rte-segment-label">{{ option.label }}</span>
+        </ng-template>
       </div>
     </div>
   </div>
