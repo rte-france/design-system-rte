@@ -6,12 +6,14 @@
         'checked': checked()
     }"
     (click)="handleClick($event)"
+    onkeypress="handleClick($event)"
 >
     <input
         type="checkbox"
         role="switch"
         class="switch"
         [ariaLabel]="label()"
+        [ariaChecked]="checked()"
         [name]="label()"
         [ngClass]="{
         'disabled': disabled(),
@@ -21,13 +23,14 @@
         [style.min-height.px]="switchHeight"
         [style.min-width.px]="switchWidth"
     />
-    <div class="switch-icon-check" [ngClass]="{'checked': checked() }" (click)="handleClick($event)">
+    <div class="switch-icon-check" [ngClass]="{'checked': checked() }" (click)="handleClick($event)" onkeypress="handleClick($event)    ">
         @if (showIcon() && checked()) {
             <rte-icon
             class="icon"
             [name]="'check'"
             [size]="16"
             (click)="handleClick($event)"
+            onkeypress="handleClick($event)"
             ></rte-icon>
         }
         @if (showIcon() && !checked()) {
@@ -36,6 +39,7 @@
             [name]="'close'"
             [size]="16"
             (click)="handleClick($event)"
+            onkeypress="handleClick($event)"
             ></rte-icon>
         }
     </div>

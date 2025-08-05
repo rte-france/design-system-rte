@@ -27,11 +27,20 @@ const Switch = ({
       data-disabled={disabled}
       data-read-only={readOnly}
       data-checked={checked}
+      role="switch"
       onClick={(e) => {
         if (readOnly || disabled) {
           e.stopPropagation();
         } else {
           setChecked(!checked);
+        }
+      }}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          if (!readOnly && !disabled) {
+            setChecked(!checked);
+          }
         }
       }}
     >
