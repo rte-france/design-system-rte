@@ -6,12 +6,12 @@
         'read-only': readOnly(),
         'checked': isChecked()
     }"
-    (click)="handleClick($event)"
-    (keydown)="handleKeyDown($event)"
     [disabled]="disabled()"
     [attr.aria-pressed]="isChecked()"
     [attr.aria-label]="label()"
     [tabIndex]="-1"
+    (click)="handleClick($event)"
+    (keydown)="handleKeyDown($event)"
 >
     <input
         type="checkbox"

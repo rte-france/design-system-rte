@@ -25,7 +25,7 @@ export class SwitchComponent implements OnInit {
   switchHeight = switchHeight;
   switchWidth = switchWidth;
 
-  isChecked = signal(false);
+  readonly isChecked = signal(false);
 
   ngOnInit() {
     this.isChecked.set(this.checked());
@@ -37,12 +37,12 @@ export class SwitchComponent implements OnInit {
       return;
     }
     this.isChecked.set(!this.isChecked());
-  }
+  };
 
-    readonly handleKeyDown = (event: KeyboardEvent) => {
-        if (event.key === " ") {
-        event.preventDefault();
-        this.handleClick(event);
-        }
-    };
+  readonly handleKeyDown = (event: KeyboardEvent) => {
+    if (event.key === " ") {
+      event.preventDefault();
+      this.handleClick(event);
+    }
+  };
 }

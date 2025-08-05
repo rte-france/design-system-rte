@@ -19,7 +19,6 @@ const Switch = ({
   checked = false,
   ...props
 }: SwitchProps) => {
-
   const [isChecked, setIsChecked] = useState(checked);
 
   const handleToggle = () => {
@@ -29,7 +28,7 @@ const Switch = ({
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === ' ') {
+    if (e.key === " ") {
       e.preventDefault();
       handleToggle();
     }
