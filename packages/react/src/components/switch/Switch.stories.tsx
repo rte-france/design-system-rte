@@ -1,5 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { expect, within, userEvent } from "@storybook/test";
+
 import Switch from "./Switch";
 
 const meta = {
@@ -61,32 +62,32 @@ export const Default: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const switchElement = canvas.getByRole('switch');
+    const switchElement = canvas.getByRole("switch");
 
     await userEvent.tab();
     await expect(switchElement).toHaveFocus();
 
-    await userEvent.keyboard(' ');
+    await userEvent.keyboard(" ");
     await expect(switchElement).toBeChecked();
 
-    await userEvent.keyboard(' ');
+    await userEvent.keyboard(" ");
     await expect(switchElement).not.toBeChecked();
 
-    await userEvent.keyboard('{Enter}');
+    await userEvent.keyboard("{Enter}");
     await expect(switchElement).not.toBeChecked();
-  }
+  },
 };
 
 export const Disabled: Story = {
   args: {
     label: "Disabled Switch",
     disabled: true,
-  }
+  },
 };
 
 export const ReadOnly: Story = {
   args: {
     label: "Read-Only Switch",
     readOnly: true,
-  }
+  },
 };
