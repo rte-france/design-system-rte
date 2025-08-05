@@ -1,13 +1,13 @@
 <div
     class="switch-container appearance-{{appearance()}}"
     role="switch"
+    onkeypress="handleClick($event)"
     [ngClass]="{
         'disabled': disabled(),
         'read-only': readOnly(),
         'checked': checked()
     }"
     (click)="handleClick($event)"
-    onkeypress="handleClick($event)"
 >
     <input
         type="checkbox"
