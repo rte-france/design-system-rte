@@ -1,0 +1,56 @@
+<button
+    type="button"
+    class="switch-container"
+        [ngClass]="{
+        'disabled': disabled(),
+        'read-only': readOnly(),
+        'checked': isChecked()
+    }"
+    [disabled]="disabled()"
+    [attr.aria-pressed]="isChecked()"
+    [attr.aria-label]="label()"
+    [tabIndex]="-1"
+    (click)="handleClick($event)"
+    (keydown)="handleKeyDown($event)"
+>
+    <input
+        type="checkbox"
+        role="switch"
+        class="switch"
+        [ariaLabel]="label()"
+        [name]="label()"
+        [ngClass]="{
+        'disabled': disabled(),
+        'read-only': readOnly(),
+        'checked': isChecked()
+    }"
+        [style.min-height.px]="switchHeight"
+        [style.min-width.px]="switchWidth"
+    />
+    <div class="switch-icon-check" [ngClass]="{'checked': isChecked() }" (click)="handleClick($event)">
+        @if (showIcon() && isChecked()) {
+            <rte-icon
+            class="icon"
+            [name]="'check'"
+            [size]="16"
+            (click)="handleClick($event)"
+            ></rte-icon>
+        }
+        @if (showIcon() && !isChecked()) {
+            <rte-icon
+            class="icon"
+            [name]="'close'"
+            [size]="16"
+            (click)="handleClick($event)"
+            ></rte-icon>
+        }
+    </div>
+    @if (showLabel() && label()) {
+        <label
+            class="switch-label"
+            [for]="label()"
+        >
+        {{ label() }} {{isChecked() ? 'On' : 'Off'}}
+    </label>
+    }
+</button>
