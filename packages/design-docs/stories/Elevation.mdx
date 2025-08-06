@@ -1,0 +1,60 @@
+import { Meta } from "@storybook/blocks";
+
+import TokenOmbres from "../src/img/elevation/TokenOmbres.png";
+import NeutralShadows from "../src/img/elevation/NeutralShadows.png";
+import NeutralShadowsTokens from "../src/img/elevation/NeutralShadowsTokens.png";
+import BrandShadows from "../src/img/elevation/BrandShadows.png";
+import BrandShadowsTokens from "../src/img/elevation/BrandShadowsTokens.png";
+import SurfacesExemple from "../src/img/elevation/SurfacesExemple.png";
+import DarkModeSurfaces from "../src/img/elevation/DarkModeSurfaces.png";
+
+import "../src/styles/Police.css";
+
+<Meta title="Design System/Elevation" />
+
+<h1 id="elevation" style={{fontFamily:"Nunito"}}> Elevation </h1>
+
+<h2 id="definition" style={{border:"none", fontFamily:"Nunito"}}> Qu'est ce que l'élévation ? </h2>
+
+<p> L'élévation correspond à la <b>distance perçue entre un objet et la surface située derrière lui</b>, grâce à l'utilisation d'ombres et de lumières. Surélever des éléments de l'interface utilisateur permet de créer des repères visuels, faciliter la lisibilité et transmettre des niveaux d'importance.</p>
+
+<h3 id="profondeurs-ombres_surfaces" style={{border:"none", fontFamily:"Nunito"}}> Profondeurs, ombres et surfaces </h3>
+
+<p> Les interfaces RTE imitent l'espace tridimensionnel en plaçant les composants à différentes hauteurs le long d’un axe vertical, afin d'augmenter la visibilité de certains éléments. Cela crée une <b>hiérarchie claire</b>, qui permet de <b>focaliser l'attention sur un élément spécifique</b> au sein de l’expérience utilisateur.</p>
+
+<p>L'élévation repose sur un jeu de <b>surfaces</b> et d’<b>ombres</b> pour suggérer la distance entre deux surfaces ou la distance entre un objet et la surface se trouvant derrière lui.</p>
+
+<h2 id="appliquer-elevation" style={{border:"none", fontFamily:"Nunito"}}>Appliquer les élévations</h2>
+
+<p> Les élévations utilisent deux types de design tokens pour obtenir différents niveaux de surface : les <b>ombres</b> et les <b>couleurs de surface</b>.</p>
+
+<h3 id="token-ombres" style={{border:"none", fontFamily:"Nunito"}}> Tokens d'ombres </h3>
+
+<p> Pour utiliser les ombres, il suffit d’utiliser les styles d’effets correspondants (<b>Effect Styles</b>) dans la librairie des effets.</p>
+<p> Il existe 7 styles d’ombres <b>neutres</b> et 7 styles d’ombres adaptées aux <b>couleurs de surface de type “brand”</b>. En effet, par rapport aux couleurs neutres, la même valeur d'ombre sur une couleur de marque peut donner une impression de niveaux d'élévation différents.</p>
+
+<img src={TokenOmbres} width="100%" alt="Exemple de token d'ombre" />
+
+<p> La palette d'ombres définie dans ces styles fait appel à des valeurs de blur croissantes pour déterminer la taille de l'ombre et, par conséquent, la distance. Les sept types d'ombres, les valeurs des tokens utilisés dans les styles et les cas d'utilisation sont répertoriés ci-dessous.   </p>
+
+<img src={NeutralShadows} width="100%" alt="Exemple de palette d'ombres neutres" />
+
+<img src={NeutralShadowsTokens} width="100%" alt="Exemple des tokens d'ombres neutres avec le détails des tokens de position, blur et spread" />
+
+<img src={BrandShadows} width="100%" alt="Exemple de palette d'ombres de marque" />
+
+<img src={BrandShadowsTokens} width="100%" alt="Exemple des tokens d'ombres de marque avec le détails des tokens de position, blur et spread" />
+
+<h3 id="surfaces" style={{border:"none", fontFamily:"Nunito"}}> Tokens de surfaces : couleurs et dark mode </h3>
+
+<p> Les ombres seules peuvent être plus <b>difficiles à distinguer en dark mode</b>. C'est la raison pour laquelle, dans ce mode, les élévations utilisent également <b>des couleurs de surface différentes</b>.</p>
+<p> Si l’on imagine que les surfaces sont éclairées de loin par l'avant : plus l'élévation est importante, plus la distance entre la surface et la source de lumière diminue et la surface semble donc plus claire.</p>
+
+<p> Pour appliquer ces couleurs, il faut ajouter <b>une couche supplémentaire en couleur de Fill à la surface ciblée</b> (voir ci-dessous).</p>
+<p> Cette couleur supplémentaire doit-être au niveau le plus haut et la couleur choisie doit correspondre à l’ombre utilisée, suivant les tokens ci-dessous.</p>
+
+<img src={SurfacesExemple} width="30%" alt="Exemple de surface avec une couleur de Fill" />
+
+<p> Ex : La surface utilise l’<b>Effect</b> d’ombre “Shadow-1”, la couleur à utiliser doit également correspondre à la “Shadow-1”.</p>
+
+<img src={DarkModeSurfaces} width="70%" style={{marginLeft:"auto", marginRight:"auto", display:"block"}} alt="Exemple des surface en dark mode avec différentes shadows" />
