@@ -7,22 +7,28 @@ interface StorybookTabsProps {
 const StorybookTabs = ({ children }: StorybookTabsProps) => {
   const [activeTab, setActiveTab] = useState(0);
 
-  const TabsTitle = ["Overview", "Guideline", "Code", "Accessibilité"];
+  const TabsTitle = ["Overview", "Guideline", "Accessibilité"];
 
   return (
     <div className="storybook_tabs">
       <div className="storybook_tabs_header" style={{ display: "flex", alignItems: "center", gap: "1.5rem" }}>
         {TabsTitle.map((title, index) => (
-          <h3
+          <p
             key={index}
             className={`storybook_tab_title${activeTab === index ? " active" : ""}`}
+            tabIndex={0}
             style={{
               margin: 0,
-              paddingBlock: "1rem",
+              paddingTop: "1rem",
+              paddingBottom: "0.5rem",
+              marginBottom: "1.5rem",
               cursor: "pointer",
               borderBottom: activeTab === index ? "2px solid #001D6C" : "2px solid transparent",
               color: activeTab === index ? "#001D6C" : "#21272A",
+              fontWeight: activeTab === index ? "bold" : "normal",
+              fontSize: "1.25rem",
               background: "none",
+              transition: "border-color 0.3s, color 0.3s",
             }}
             onClick={() => setActiveTab(index)}
             onKeyDown={(e) => {
@@ -32,7 +38,7 @@ const StorybookTabs = ({ children }: StorybookTabsProps) => {
             }}
           >
             {title}
-          </h3>
+          </p>
         ))}
       </div>
       <div className="storybook_tab_content">{Children.toArray(children)[activeTab]}</div>

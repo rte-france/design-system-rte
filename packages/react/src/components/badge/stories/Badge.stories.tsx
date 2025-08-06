@@ -2,9 +2,9 @@ import { Meta, StoryObj } from "@storybook/react";
 import { within, userEvent, waitFor, expect } from "@storybook/test";
 import { useState } from "react";
 
-import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../icon/IconMap";
+import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../../icon/IconMap";
 
-import Badge from "./Badge";
+import Badge from "../Badge";
 
 const RegularIconIds = Object.keys(RegularIconsList);
 const TogglableIconIds = Object.keys(TogglableIconsList);
