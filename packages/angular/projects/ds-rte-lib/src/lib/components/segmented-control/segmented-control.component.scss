@@ -59,7 +59,7 @@
   z-index: 0;
 
   &:focus-visible {
-    outline: 1px solid var(--border-inverse);
+    outline: $width-xs solid var(--border-inverse);
     outline-offset: -2px;
   }
 
@@ -68,7 +68,7 @@
     color: var(--content-brand-default);
 
     &:focus-visible {
-      outline: 1px solid var(--border-brand-focused);
+      outline: $width-xs solid var(--border-brand-focused);
     }
   }
 
