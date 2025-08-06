@@ -8,6 +8,7 @@
       class="rte-segment"
       tabindex="0"
       [attr.data-id]="option.id"
+      [attr.data-segment-type]="option.icon ?  'icon' : 'label'"
       [class.selected]="selectedSegment() === option.id"
       [attr.aria-checked]="selectedSegment() === option.id"
       (click)="selectSegment(option.id)"

@@ -52,8 +52,10 @@ const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps>(
         if (!containerRef.current) return;
         const idx = options.findIndex((opt) => opt.id === selectedSegment);
         if (idx === -1) return;
+
         const segmentNodes = containerRef.current.querySelectorAll(`.${style.segment}`);
         const node = segmentNodes[idx] as HTMLElement;
+
         if (node) {
           setSliderStyle({
             left: node.offsetLeft,
