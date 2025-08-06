@@ -30,8 +30,9 @@ const Segment = ({ id, icon, iconAppearance, label, position, selected, onClick,
     if (event.key === SPACE_KEY || event.key === ENTER_KEY) {
       handleClick?.(event);
     } else if (event.key === ARROW_LEFT_KEY || event.key === ARROW_RIGHT_KEY) {
+      const segmentedControlElement = ref.current?.parentElement;
       const allSegmentElements = Array.from(
-        document.activeElement?.parentElement?.parentElement?.querySelectorAll("." + style.segment) ?? [],
+        segmentedControlElement?.querySelectorAll("." + style.segment) ?? [],
       ) as HTMLElement[];
 
       const currentActiveSegmentElementIndex = allSegmentElements.findIndex(
@@ -48,13 +49,15 @@ const Segment = ({ id, icon, iconAppearance, label, position, selected, onClick,
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (event.key === TAB_KEY) {
-      const currentActiveElement = document.activeElement;
-      const currentIndex = Array.from(allFocusableElement).indexOf(currentActiveElement as HTMLDivElement);
+      const currentActiveSegmentElement = document.activeElement;
+      const currentActiveSegmentElementIndex = Array.from(allFocusableElement).indexOf(
+        currentActiveSegmentElement as HTMLDivElement,
+      );
 
       if (event.shiftKey) {
-        focusPreviousNotSegmentElement(currentIndex, allFocusableElement);
+        focusPreviousNotSegmentElement(currentActiveSegmentElementIndex, allFocusableElement);
       } else {
-        focusNextNotSegmentElement(currentIndex, allFocusableElement);
+        focusNextNotSegmentElement(currentActiveSegmentElementIndex, allFocusableElement);
       }
     }
   };
