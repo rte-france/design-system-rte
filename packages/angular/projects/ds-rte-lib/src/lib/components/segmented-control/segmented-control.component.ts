@@ -46,18 +46,18 @@ export class SegmentedControlComponent implements AfterViewInit, OnDestroy {
   sliderWidth = 0;
 
   ngAfterViewInit() {
-    this.updateSlider();
-    window.addEventListener("resize", this.updateSlider.bind(this));
+    this.updateSelectedSegmentIndicator();
+    window.addEventListener("resize", this.updateSelectedSegmentIndicator.bind(this));
   }
 
   ngOnDestroy() {
-    window.removeEventListener("resize", this.updateSlider.bind(this));
+    window.removeEventListener("resize", this.updateSelectedSegmentIndicator.bind(this));
   }
 
   selectSegment(id: string) {
     this.change.emit(id);
 
-    setTimeout(() => this.updateSlider());
+    setTimeout(() => this.updateSelectedSegmentIndicator());
   }
 
   handleKeyDown(event: KeyboardEvent) {
@@ -97,7 +97,6 @@ export class SegmentedControlComponent implements AfterViewInit, OnDestroy {
         this.focusPreviousSegmentElement(currentActiveSegmentElementIndex, allSegmentElements);
       }
     } else if (event.key === SPACE_KEY || event.key === ENTER_KEY) {
-      event.preventDefault();
       const target = event.target as HTMLElement;
       const dataId = target.getAttribute("data-id");
       this.selectSegment(dataId || "");
@@ -108,28 +107,13 @@ export class SegmentedControlComponent implements AfterViewInit, OnDestroy {
     return getSegmentPosition(index, this.options().length);
   }
 
-  private updateSlider() {
+  private updateSelectedSegmentIndicator() {
     const idx = this.options().findIndex((opt) => opt.id === this.selectedSegment());
     const segment = this.segmentRefs()[idx]?.nativeElement;
 
     if (segment) {
       this.sliderWidth = segment.offsetWidth;
       this.sliderLeft = segment.offsetLeft;
-      // if (this.getSegmentPosition(idx) === "middle") {
-      //   const clientWidth = segment.getBoundingClientRect().width;
-      //   if (Number.isInteger(clientWidth)) {
-      //     this.sliderWidth = segment.offsetWidth;
-      //   } else {
-      //     if (Number.parseInt(clientWidth.toString().split(".")[1].split("")[0]) > 5) {
-      //       this.sliderWidth = segment.offsetWidth - 1;
-      //     } else {
-      //       this.sliderWidth = Math.ceil(segment.getBoundingClientRect().width);
-      //     }
-      //   }
-      // } else {
-      //   this.sliderWidth = segment.offsetWidth;
-      // }
-      // this.sliderLeft = segment.offsetLeft;
     }
   }
 
@@ -142,7 +126,6 @@ export class SegmentedControlComponent implements AfterViewInit, OnDestroy {
         nextIndex = 0;
       }
     }
-
     allFocusableElements[nextIndex].focus();
   };
 
