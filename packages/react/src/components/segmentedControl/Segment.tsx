@@ -1,4 +1,10 @@
 import {
+  focusNextNotSegmentElement,
+  focusNextSegmentElement,
+  focusPreviousNotSegmentElement,
+  focusPreviousSegmentElement,
+} from "@design-system-rte/core/components/segmented-control/segmented-control-utils";
+import {
   ARROW_LEFT_KEY,
   ARROW_RIGHT_KEY,
   ENTER_KEY,
@@ -13,12 +19,6 @@ import Icon from "../icon/Icon";
 
 import { SegmentProps } from "./SegmentedControl";
 import style from "./SegmentedControl.module.scss";
-import {
-  focusNextNotSegmentElement,
-  focusNextSegmentElement,
-  focusPreviousNotSegmentElement,
-  focusPreviousSegmentElement,
-} from "./SegmentedControlUtils";
 
 const Segment = ({ id, icon, iconAppearance, label, position, selected, onClick, ...props }: SegmentProps) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -55,9 +55,9 @@ const Segment = ({ id, icon, iconAppearance, label, position, selected, onClick,
       );
 
       if (event.shiftKey) {
-        focusPreviousNotSegmentElement(currentActiveSegmentElementIndex, allFocusableElement);
+        focusPreviousNotSegmentElement(currentActiveSegmentElementIndex, allFocusableElement, style.segment);
       } else {
-        focusNextNotSegmentElement(currentActiveSegmentElementIndex, allFocusableElement);
+        focusNextNotSegmentElement(currentActiveSegmentElementIndex, allFocusableElement, style.segment);
       }
     }
   };
