@@ -48,7 +48,7 @@ export const Default: Story = {
     };
 
     return (
-      <div style={{ width: "400px" }}>
+      <div style={{ width: "360px" }}>
         <SegmentedControl options={args.options} onChange={handleOnChange} selectedSegment={selected} />
       </div>
     );
@@ -96,7 +96,7 @@ export const TwoOptions: Story = {
     };
 
     return (
-      <div style={{ width: "400px" }}>
+      <div style={{ width: "360px" }}>
         <SegmentedControl options={args.options} onChange={handleOnChange} selectedSegment={selected} />
       </div>
     );
@@ -121,7 +121,7 @@ export const Icons: Story = {
     };
 
     return (
-      <div style={{ width: "400px" }}>
+      <div style={{ width: "360px" }}>
         <SegmentedControl options={args.options} onChange={handleOnChange} selectedSegment={selected} />
       </div>
     );

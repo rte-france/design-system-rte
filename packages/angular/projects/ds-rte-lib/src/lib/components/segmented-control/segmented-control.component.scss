@@ -3,16 +3,20 @@
 .rte-segmented-control {
   position: relative;
   display: flex;
-  min-width: 256px;
+  min-width: 168px;
   max-width: 720px;
   height: 48px;
+
+  &[data-number-of-segments="3"] {
+    min-width: 256px;
+  }
 }
 
 .rte-segment-slider {
   position: absolute;
   top: 4px;
   height: 40px;
-  background: var(--background-default); // couleur du slider
+  background: var(--background-default);
   border-radius: $radius-pill;
   transition: left 0.2s ease-out, width 0.2s ease-out;
 }
@@ -27,9 +31,6 @@
   flex: 1 0 0;
   overflow: hidden;
 
-  &:focus-visible {
-    outline: 1px solid var(--border-inverse);
-  }
 
   &[data-position="left"] {
     border-radius: $radius-pill $radius-none $radius-none $radius-pill;
@@ -59,6 +60,7 @@
 
   &:focus-visible {
     outline: 1px solid var(--border-inverse);
+    outline-offset: -2px;
   }
 
   &.selected {
@@ -67,7 +69,6 @@
 
     &:focus-visible {
       outline: 1px solid var(--border-brand-focused);
-      outline-offset: -2px;
     }
   }
 
