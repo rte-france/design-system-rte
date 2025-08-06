@@ -9,7 +9,13 @@ import {
   AfterViewInit,
   OnDestroy,
 } from "@angular/core";
-import { getSegmentPosition } from "@design-system-rte/core/components/segmented-control/segmented-control-utils";
+import {
+  getSegmentPosition,
+  focusNextNotSegmentElement,
+  focusPreviousNotSegmentElement,
+  focusNextSegmentElement,
+  focusPreviousSegmentElement,
+} from "@design-system-rte/core/components/segmented-control/segmented-control-utils";
 import {
   SegmentOptions,
   SegmentProps,
@@ -24,6 +30,8 @@ import {
 } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
 import { IconComponent } from "../icon/icon.component";
+
+const segmentSelector = ".rte-segment";
 
 @Component({
   selector: "rte-segmented-control",
@@ -71,9 +79,9 @@ export class SegmentedControlComponent implements AfterViewInit, OnDestroy {
       const currentIndex = allFocusableElements.indexOf(currentActiveElement as HTMLElement);
 
       if (event.shiftKey) {
-        this.focusPreviousNotSegmentElement(currentIndex, allFocusableElements);
+        focusPreviousNotSegmentElement(currentIndex, allFocusableElements, segmentSelector);
       } else {
-        this.focusNextNotSegmentElement(currentIndex, allFocusableElements);
+        focusNextNotSegmentElement(currentIndex, allFocusableElements, segmentSelector);
       }
     }
   }
@@ -83,18 +91,20 @@ export class SegmentedControlComponent implements AfterViewInit, OnDestroy {
     event.stopPropagation();
     if (event.key === ARROW_RIGHT_KEY || event.key === ARROW_LEFT_KEY) {
       const allSegmentElements =
-        (document.activeElement?.parentElement?.parentElement?.querySelectorAll(
-          ".rte-segment",
-        ) as NodeListOf<HTMLElement>) || [];
+        Array.from(
+          document.activeElement?.parentElement?.parentElement?.querySelectorAll(
+            segmentSelector,
+          ) as NodeListOf<HTMLElement>,
+        ) || [];
 
       const currentActiveSegmentElementIndex = Array.from(allSegmentElements).findIndex(
         (element) => element === document.activeElement,
       );
 
       if (event.key === ARROW_RIGHT_KEY) {
-        this.focusNextSegmentElement(currentActiveSegmentElementIndex, allSegmentElements);
+        focusNextSegmentElement(currentActiveSegmentElementIndex, allSegmentElements);
       } else if (event.key === ARROW_LEFT_KEY) {
-        this.focusPreviousSegmentElement(currentActiveSegmentElementIndex, allSegmentElements);
+        focusPreviousSegmentElement(currentActiveSegmentElementIndex, allSegmentElements);
       }
     } else if (event.key === SPACE_KEY || event.key === ENTER_KEY) {
       const target = event.target as HTMLElement;
@@ -116,54 +126,4 @@ export class SegmentedControlComponent implements AfterViewInit, OnDestroy {
       this.sliderLeft = segment.offsetLeft;
     }
   }
-
-  private focusNextNotSegmentElement = (currentFocusedElementIndex: number, allFocusableElements: HTMLElement[]) => {
-    let nextIndex = currentFocusedElementIndex < allFocusableElements.length - 2 ? currentFocusedElementIndex + 1 : 0;
-    while (allFocusableElements[nextIndex]?.classList.contains("rte-segment")) {
-      if (nextIndex < allFocusableElements.length - 1) {
-        nextIndex++;
-      } else {
-        nextIndex = 0;
-      }
-    }
-    allFocusableElements[nextIndex].focus();
-  };
-
-  private focusNextSegmentElement = (
-    currentActiveSegmentElementIndex: number,
-    allSegmentElements: NodeListOf<HTMLElement>,
-  ) => {
-    const nextIndex =
-      currentActiveSegmentElementIndex < allSegmentElements.length - 1 ? currentActiveSegmentElementIndex + 1 : 0;
-
-    allSegmentElements[nextIndex].focus();
-  };
-
-  private focusPreviousNotSegmentElement = (
-    currentFocusedElementIndex: number,
-    allFocusableElements: HTMLElement[],
-  ) => {
-    let previousIndex =
-      currentFocusedElementIndex > 0 ? currentFocusedElementIndex - 1 : allFocusableElements.length - 1;
-
-    while (allFocusableElements[previousIndex]?.classList.contains("rte-segment")) {
-      if (previousIndex > 0) {
-        previousIndex--;
-      } else {
-        previousIndex = allFocusableElements.length - 1;
-      }
-    }
-
-    allFocusableElements[previousIndex].focus();
-  };
-
-  private focusPreviousSegmentElement = (
-    currentActiveSegmentElementIndex: number,
-    allSegmentElements: NodeListOf<HTMLElement>,
-  ) => {
-    const previousIndex =
-      currentActiveSegmentElementIndex > 0 ? currentActiveSegmentElementIndex - 1 : allSegmentElements.length - 1;
-
-    allSegmentElements[previousIndex].focus();
-  };
 }
