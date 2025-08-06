@@ -1,8 +1,10 @@
-import style from "./SegmentedControl.module.scss";
-
-export const focusNextNotSegmentElement = (currentFocusedElementIndex: number, allFocusableElement: HTMLElement[]) => {
+export const focusNextNotSegmentElement = (
+  currentFocusedElementIndex: number,
+  allFocusableElement: HTMLElement[],
+  criteria: string,
+) => {
   let nextIndex = currentFocusedElementIndex < allFocusableElement.length - 2 ? currentFocusedElementIndex + 1 : 0;
-  while (allFocusableElement[nextIndex]?.classList.contains(style.segment)) {
+  while (allFocusableElement[nextIndex]?.classList.contains(criteria)) {
     if (nextIndex < allFocusableElement.length - 1) {
       nextIndex++;
     } else {
@@ -16,10 +18,11 @@ export const focusNextNotSegmentElement = (currentFocusedElementIndex: number, a
 export const focusPreviousNotSegmentElement = (
   currentFocusedElementIndex: number,
   allFocusableElement: HTMLElement[],
+  criteria: string,
 ) => {
   let previousIndex = currentFocusedElementIndex > 0 ? currentFocusedElementIndex - 1 : allFocusableElement.length - 1;
 
-  while (allFocusableElement[previousIndex]?.classList.contains(style.segment)) {
+  while (allFocusableElement[previousIndex]?.classList.contains(criteria)) {
     if (previousIndex > 0) {
       previousIndex--;
     } else {
