@@ -61,9 +61,11 @@ export class SegmentedControlComponent implements AfterViewInit, OnDestroy {
   }
 
   handleKeyDown(event: KeyboardEvent) {
-    if (event.key === TAB_KEY) {
+    if (event.key === TAB_KEY || event.key === SPACE_KEY || event.key === ENTER_KEY) {
       event.preventDefault();
       event.stopPropagation();
+    }
+    if (event.key === TAB_KEY) {
       const allFocusableElements = Array.from(document.querySelectorAll(FOCUSABLE_ELEMENTS_QUERY)) as HTMLElement[];
       const currentActiveElement = document.activeElement;
       const currentIndex = allFocusableElements.indexOf(currentActiveElement as HTMLElement);
@@ -95,6 +97,7 @@ export class SegmentedControlComponent implements AfterViewInit, OnDestroy {
         this.focusPreviousSegmentElement(currentActiveSegmentElementIndex, allSegmentElements);
       }
     } else if (event.key === SPACE_KEY || event.key === ENTER_KEY) {
+      event.preventDefault();
       const target = event.target as HTMLElement;
       const dataId = target.getAttribute("data-id");
       this.selectSegment(dataId || "");
@@ -105,12 +108,28 @@ export class SegmentedControlComponent implements AfterViewInit, OnDestroy {
     return getSegmentPosition(index, this.options().length);
   }
 
-  updateSlider() {
+  private updateSlider() {
     const idx = this.options().findIndex((opt) => opt.id === this.selectedSegment());
     const segment = this.segmentRefs()[idx]?.nativeElement;
+
     if (segment) {
-      this.sliderLeft = segment.offsetLeft;
       this.sliderWidth = segment.offsetWidth;
+      this.sliderLeft = segment.offsetLeft;
+      // if (this.getSegmentPosition(idx) === "middle") {
+      //   const clientWidth = segment.getBoundingClientRect().width;
+      //   if (Number.isInteger(clientWidth)) {
+      //     this.sliderWidth = segment.offsetWidth;
+      //   } else {
+      //     if (Number.parseInt(clientWidth.toString().split(".")[1].split("")[0]) > 5) {
+      //       this.sliderWidth = segment.offsetWidth - 1;
+      //     } else {
+      //       this.sliderWidth = Math.ceil(segment.getBoundingClientRect().width);
+      //     }
+      //   }
+      // } else {
+      //   this.sliderWidth = segment.offsetWidth;
+      // }
+      // this.sliderLeft = segment.offsetLeft;
     }
   }
 

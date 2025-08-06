@@ -35,7 +35,7 @@ export const Default: Story = {
       },
     },
     template: `
-    <div style="width: 400px">
+    <div style="width: 360px">
       <rte-segmented-control
         [options]="options"
         [selectedSegment]="selectedSegment"
@@ -86,7 +86,7 @@ export const TwoOptions: Story = {
       },
     },
     template: `
-    <div style="width: 400px">
+    <div style="width: 360px">
       <rte-segmented-control
         [options]="options"
         [selectedSegment]="selectedSegment"
@@ -114,7 +114,7 @@ export const Icons: Story = {
       },
     },
     template: `
-    <div style="width: 400px">
+    <div style="width: 360px">
       <rte-segmented-control
         [options]="options"
         [selectedSegment]="selectedSegment"
