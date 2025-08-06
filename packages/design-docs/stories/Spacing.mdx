@@ -1,0 +1,62 @@
+import {Meta} from "@storybook/blocks"
+
+import TokenSpacing from "../src/img/spacing/TokenSpacing.png"
+import NegativeToken from "../src/img/spacing/NegativeToken.png"
+import SpacingComposant from "../src/img/spacing/SpacingComposant.png"
+import SpacingCard from "../src/img/spacing/SpacingCard.png"
+
+import "../src/styles/Police.css"
+
+<Meta title="Design Systems/Spacing" />
+
+<h1 id="spacing" style={{fontFamily:"Nunito"}}> Spacing </h1>
+
+<h2 id="definition-spacing" style={{border:"none", fontFamily:"Nunito"}}> Qu'est ce que le spacing </h2>
+
+<p> L’<b>espacement</b>, ou <b>spacing</b>, désigne l’espace entre les textes, images, boutons et autres éléments de l’interface. Il joue un rôle clé dans l’harmonie visuelle, la lisibilité et l’ergonomie des expériences que vous concevez. </p>
+
+{/* TODO : RAJOUTER LA BONNE IMAGE LA PREMIERE DU SPACING */}
+
+<h2 id="base-huit-pixel" style={{border:"none", fontFamily:"Nunito"}}> Base de 8 pixels </h2>
+
+<p> Notre système d’espacement repose sur une unité de base de <b>8 pixels</b>. Cette unité définit l’échelle des espacements et garantit une cohérence visuelle entre les différents produits. </p>
+
+<h2 id="echelle-spacing" style={{border:"none", fontFamily:"Nunito"}}> Echelle de spacing </h2>
+
+<p> En s’appuyant sur l’unité de base de 8 pixels, le système d’espacement repose sur une <b>échelle d’espacement</b>. Celle-ci définit un ensemble restreint de valeurs permettant d’agencer les éléments de l’interface de manière homogène et structurée. </p>
+
+<p> Chaque valeur est un multiple de l’unité de base, allant de <b>0 à 80 px</b>, afin d’offrir une flexibilité suffisante tout en maintenant une cohérence visuelle entre les différentes mises en page. </p>
+
+<h2 id="base-huit-pixel" style={{border:"none", fontFamily:"Nunito"}}> Tokens de spacing</h2>
+
+<p> L’unité de base de 8 pixels sert également de référence pour notre système de tokens de spacing.</p>
+
+<p>L’espacement de 8 pixels correspond au token de référence "<b>spacing_100</b>". Chaque token correspond à un multiple de cette référence, où le suffixe numérique indique le pourcentage de l’unité de base.</p>
+
+<p> Par exemple, "<b>spacing_200</b>" équivaut à <b>200%</b> de l’unité de base, soit <b>16 px</b>.</p>
+
+<p> Les tokens de spacing doivent être utilisés à la place des valeurs brutes en pixels pour structurer l’espacement entre les composants et objets d’une page. </p>
+
+<img src={TokenSpacing} width="70%" alt="Tableau de relation entre les valeurs de token et la valeur en px des spacings" />
+
+<h2 id="valeur-negative" style={{border:"none", fontFamily:"Nunito"}}> Valeur négatives</h2>
+
+<p> Notre système de tokens inclut également des <b>valeurs négatives</b>, permettant de déborder de la zone de padding d’un contenant ou de créer des effets de chevauchement entre les éléments.</p>
+
+<img src={NegativeToken} width="70%" alt="Tableau de relation entre les valeurs de token négtives et la valeur en px des spacings" />
+
+<h2 id="exemple" style={{border:"none", fontFamily:"Nunito"}}> Exemples </h2>
+
+<p> Les exemples ci-dessous montrent comment les espacements peuvent être utilisés au niveau d’un composant et d’une card. </p>
+
+<h3 id="composant" style={{border:"none", fontFamily:"Nunito"}}> Composant </h3>
+
+<p> Pour ce bouton (taille L), un padding de 8 pixels est appliqué à gauche et à droite du label. Ensuite, un padding vertical de 16 pixels et un padding horizontal de 6 pixels sont ajoutés pour encadrer à la fois le label et l’icône. </p>
+
+<img src={SpacingComposant} width="100%" alt="Exemple de spacing sur un composant" />
+
+<h3 id="card" style={{border:"none", fontFamily:"Nunito"}}> Card </h3>
+
+<p> Pour les cartes, le texte est entouré d’un padding de 16 pixels sur tous les côtés, un espacement de 8 pixels entre le titre et le texte, et 16 pixels entre le texte et les détails de l’auteur. </p>
+
+<img src={SpacingCard} width="100%" alt="Exemple de spacing sur une card" />
