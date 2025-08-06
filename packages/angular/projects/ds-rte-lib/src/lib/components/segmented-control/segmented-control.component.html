@@ -1,5 +1,5 @@
 <div class="rte-segmented-control" role="radiogroup" [attr.aria-label]="ariaLabel()">
-  <span class="rte-segment-slider" [ngStyle]="{ left: sliderLeft + 'px', width: sliderWidth + 'px' }"></span>
+  <span class="rte-segment-selected-indicator" [ngStyle]="{ left: sliderLeft + 'px', width: sliderWidth + 'px' }"></span>
   <ng-container *ngFor="let option of options(); let idx = index">
     <div class="rte-segment-container" [attr.data-position]="getSegmentPosition(idx)">
       <div
