@@ -31,7 +31,8 @@ import {
 
 import { IconComponent } from "../icon/icon.component";
 
-const segmentSelector = ".rte-segment";
+const segmentClass = "rte-segment";
+const segmentSelector = `.${segmentClass}`;
 
 @Component({
   selector: "rte-segmented-control",
@@ -79,9 +80,9 @@ export class SegmentedControlComponent implements AfterViewInit, OnDestroy {
       const currentIndex = allFocusableElements.indexOf(currentActiveElement as HTMLElement);
 
       if (event.shiftKey) {
-        focusPreviousNotSegmentElement(currentIndex, allFocusableElements, segmentSelector);
+        focusPreviousNotSegmentElement(currentIndex, allFocusableElements, segmentClass);
       } else {
-        focusNextNotSegmentElement(currentIndex, allFocusableElements, segmentSelector);
+        focusNextNotSegmentElement(currentIndex, allFocusableElements, segmentClass);
       }
     }
   }
