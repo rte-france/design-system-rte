@@ -49,9 +49,7 @@
   assistiveTextLink="https://example.com"
   [required]="true"
 />
-
 <hr />
-
 <rte-link
   href="https://example.com"
   label="Link"
@@ -92,3 +90,12 @@
   [showLabel]="true"
   [checked]="true"
 />
+  <rte-divider orientation="vertical" thickness="bold"></rte-divider>
+<hr />
+<div style="width: 380px; display: flex; flex-direction: column; gap: 10px;">
+
+  <rte-segmented-control
+  [options]="segments"
+  [selectedSegment]="selectedSegment()"
+  (change)="onSegmentSelected($event)"/>
+</div>
