@@ -11,6 +11,7 @@
       [attr.data-segment-type]="option.icon ?  'icon' : 'label'"
       [class.selected]="selectedSegment() === option.id"
       [attr.aria-checked]="selectedSegment() === option.id"
+      [attr.aria-label]="option.label"
       (click)="selectSegment(option.id)"
       (keydown)="handleKeyDown($event)"
       (keyup)="handleKeyUp($event)"
