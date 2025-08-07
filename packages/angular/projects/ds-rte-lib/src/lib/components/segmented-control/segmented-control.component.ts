@@ -10,6 +10,8 @@ import {
   OnDestroy,
   computed,
   signal,
+  OnChanges,
+  SimpleChanges,
 } from "@angular/core";
 import {
   getSegmentPosition,
@@ -44,7 +46,7 @@ const segmentSelector = `.${segmentClass}`;
   styleUrl: "./segmented-control.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SegmentedControlComponent implements AfterViewInit, OnDestroy {
+export class SegmentedControlComponent implements OnChanges, AfterViewInit, OnDestroy {
   readonly options = input<SegmentOptions[]>([]);
   readonly change = output<string>();
   readonly selectedSegment = input<string>();
@@ -53,12 +55,19 @@ export class SegmentedControlComponent implements AfterViewInit, OnDestroy {
 
   readonly segmentRefs = viewChildren<ElementRef<HTMLDivElement>>("segment");
 
-  readonly segmentSelectedIndicatorStyle = computed(() => {
-    return {
-      left: `${this.sliderLeft()}px`,
-      width: `${this.sliderWidth()}px`,
-    };
-  });
+  readonly sliderLeft = signal(0);
+  readonly sliderWidth = signal(0);
+
+  readonly segmentSelectedIndicatorStyle = computed(() => ({
+    left: `${this.sliderLeft()}px`,
+    width: `${this.sliderWidth()}px`,
+  }));
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes["selectedSegment"]) {
+      this.updateSelectedSegmentIndicator();
+    }
+  }
 
   ngAfterViewInit() {
     this.updateSelectedSegmentIndicator();
@@ -71,8 +80,6 @@ export class SegmentedControlComponent implements AfterViewInit, OnDestroy {
 
   selectSegment(id: string) {
     this.change.emit(id);
-
-    setTimeout(() => this.updateSelectedSegmentIndicator());
   }
 
   handleKeyUp(event: KeyboardEvent) {
@@ -124,16 +131,13 @@ export class SegmentedControlComponent implements AfterViewInit, OnDestroy {
     return getSegmentPosition(index, this.options().length);
   }
 
-  private readonly sliderLeft = signal(0);
-  private readonly sliderWidth = signal(0);
-
   private updateSelectedSegmentIndicator() {
     const idx = this.options().findIndex((opt) => opt.id === this.selectedSegment());
     const segment = this.segmentRefs()[idx]?.nativeElement;
 
     if (segment) {
-      this.sliderWidth.update(() => segment.offsetWidth);
-      this.sliderLeft.update(() => segment.offsetLeft);
+      this.sliderWidth.set(segment.offsetWidth);
+      this.sliderLeft.set(segment.offsetLeft);
     }
   }
 }
