@@ -82,7 +82,6 @@ export class SegmentedControlComponent implements AfterViewInit, OnDestroy {
       if (event.shiftKey) {
         focusPreviousNotSegmentElement(currentIndex, allFocusableElements, segmentClass);
       } else {
-        console.log("focusNextNotSegmentElement", currentIndex, allFocusableElements, segmentClass);
         focusNextNotSegmentElement(currentIndex, allFocusableElements, segmentClass);
       }
     }

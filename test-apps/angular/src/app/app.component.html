@@ -49,9 +49,18 @@
   assistiveTextLink="https://example.com"
   [required]="true"
 />
-
+<hr />
 <rte-link
   href="https://example.com"
   label="Link"
   [subtle]="false"
 />
+
+<hr />
+<div style="width: 380px; display: flex; flex-direction: column; gap: 10px;">
+
+  <rte-segmented-control
+  [options]="segments"
+  [selectedSegment]="selectedSegment()"
+  (change)="onSegmentSelected($event)"/>
+</div>
