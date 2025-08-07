@@ -8,6 +8,8 @@ import {
   viewChildren,
   AfterViewInit,
   OnDestroy,
+  computed,
+  signal,
 } from "@angular/core";
 import {
   getSegmentPosition,
@@ -51,8 +53,12 @@ export class SegmentedControlComponent implements AfterViewInit, OnDestroy {
 
   readonly segmentRefs = viewChildren<ElementRef<HTMLDivElement>>("segment");
 
-  sliderLeft = 0;
-  sliderWidth = 0;
+  readonly segmentSelectedIndicatorStyle = computed(() => {
+    return {
+      left: `${this.sliderLeft()}px`,
+      width: `${this.sliderWidth()}px`,
+    };
+  });
 
   ngAfterViewInit() {
     this.updateSelectedSegmentIndicator();
@@ -67,24 +73,6 @@ export class SegmentedControlComponent implements AfterViewInit, OnDestroy {
     this.change.emit(id);
 
     setTimeout(() => this.updateSelectedSegmentIndicator());
-  }
-
-  handleKeyDown(event: KeyboardEvent) {
-    if (event.key === TAB_KEY || event.key === SPACE_KEY || event.key === ENTER_KEY) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-    if (event.key === TAB_KEY) {
-      const allFocusableElements = Array.from(document.querySelectorAll(FOCUSABLE_ELEMENTS_QUERY)) as HTMLElement[];
-      const currentActiveElement = document.activeElement;
-      const currentIndex = allFocusableElements.indexOf(currentActiveElement as HTMLElement);
-
-      if (event.shiftKey) {
-        focusPreviousNotSegmentElement(currentIndex, allFocusableElements, segmentClass);
-      } else {
-        focusNextNotSegmentElement(currentIndex, allFocusableElements, segmentClass);
-      }
-    }
   }
 
   handleKeyUp(event: KeyboardEvent) {
@@ -114,17 +102,38 @@ export class SegmentedControlComponent implements AfterViewInit, OnDestroy {
     }
   }
 
+  handleKeyDown(event: KeyboardEvent) {
+    if (event.key === TAB_KEY || event.key === SPACE_KEY || event.key === ENTER_KEY) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    if (event.key === TAB_KEY) {
+      const allFocusableElements = Array.from(document.querySelectorAll(FOCUSABLE_ELEMENTS_QUERY)) as HTMLElement[];
+      const currentActiveElement = document.activeElement;
+      const currentIndex = allFocusableElements.indexOf(currentActiveElement as HTMLElement);
+
+      if (event.shiftKey) {
+        focusPreviousNotSegmentElement(currentIndex, allFocusableElements, segmentClass);
+      } else {
+        focusNextNotSegmentElement(currentIndex, allFocusableElements, segmentClass);
+      }
+    }
+  }
+
   getSegmentPosition(index: number): SegmentProps["position"] {
     return getSegmentPosition(index, this.options().length);
   }
+
+  private readonly sliderLeft = signal(0);
+  private readonly sliderWidth = signal(0);
 
   private updateSelectedSegmentIndicator() {
     const idx = this.options().findIndex((opt) => opt.id === this.selectedSegment());
     const segment = this.segmentRefs()[idx]?.nativeElement;
 
     if (segment) {
-      this.sliderWidth = segment.offsetWidth;
-      this.sliderLeft = segment.offsetLeft;
+      this.sliderWidth.update(() => segment.offsetWidth);
+      this.sliderLeft.update(() => segment.offsetLeft);
     }
   }
 }
