@@ -24,7 +24,7 @@ import { IconService, RegularIconIdKey, TogglableIconIdKey } from "./icon.servic
   providers: [IconService],
 })
 export class IconComponent {
-  readonly name = input.required<string | string>();
+  readonly name = input.required<string>();
   readonly size = input(20);
   readonly color = input("currentColor");
   readonly classes = input("");
