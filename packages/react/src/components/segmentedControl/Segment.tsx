@@ -95,7 +95,7 @@ const Segment = ({ id, icon, iconAppearance, label, position, selected, onClick,
         {selected && <Icon name="check-small" appearance="filled" size={24} className={style["selected-icon"]} />}
         <div className={style["segment-content"]}>
           {icon ? (
-            <Icon name={icon} appearance={(iconAppearance ?? selected) ? "filled" : "outlined"} size={24} />
+            <Icon name={icon} appearance={iconAppearance} size={24} />
           ) : (
             <span className={style["segment-label"]}>{label}</span>
           )}
