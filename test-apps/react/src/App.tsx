@@ -8,6 +8,7 @@ import {
   Chip,
   Badge,
   Textarea,
+  Switch,
 } from "@design-system-rte/react";
 import "./App.css";
 import { useState } from "react";
@@ -81,6 +82,34 @@ function App() {
           assistiveTextLabel="This is a label"
           assistiveTextAppearance="description"
           required
+        />
+      </div>
+      <hr />
+      <div>
+        <h3>Switch</h3>
+        <Switch
+          label="Switch Label"
+          appearance="brand"
+          showLabel={true}
+          showIcon={true}
+          disabled={false}
+          readOnly={false}
+        />
+        <Switch
+          label="Disabled Switch"
+          appearance="brand"
+          showLabel={true}
+          showIcon={true}
+          disabled={true}
+          readOnly={false}
+        />
+        <Switch
+          label="Read-Only Switch"
+          appearance="brand"
+          showLabel={true}
+          showIcon={true}
+          disabled={false}
+          readOnly={true}
         />
       </div>
     </div>

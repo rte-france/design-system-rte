@@ -15,3 +15,4 @@ export * from "./lib/components/text-input/text-input.component";
 export * from "./lib/components/chip/chip.component";
 export * from "./lib/components/badge/badge.directive";
 export * from "./lib/components/textarea/textarea.component";
+export * from "./lib/components/switch/switch.component";
