@@ -82,6 +82,10 @@ export class SegmentedControlComponent implements OnChanges, AfterViewInit, OnDe
     this.change.emit(id);
   }
 
+  isSegmentSelected(id: string): boolean {
+    return this.selectedSegment() === id;
+  }
+
   handleKeyUp(event: KeyboardEvent) {
     event.preventDefault();
     event.stopPropagation();

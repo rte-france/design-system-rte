@@ -8,7 +8,6 @@ export interface SegmentOptions {
   id: string;
   label: string;
   icon?: string;
-  iconAppearance?: "outlined" | "filled";
 }
 
 export interface SegmentProps {
@@ -16,6 +15,5 @@ export interface SegmentProps {
   position: "left" | "middle" | "right";
   label?: string;
   icon?: string;
-  iconAppearance?: "outlined" | "filled";
-  selected?: boolean;
+  isSelected?: boolean;
 }

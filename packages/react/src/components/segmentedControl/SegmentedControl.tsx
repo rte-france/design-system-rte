@@ -57,7 +57,7 @@ const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps>(
             key={`${option.id}-${index}`}
             position={getSegmentPosition(index, options.length)}
             onClick={handleOnClick}
-            selected={selectedSegment === option.id}
+            isSelected={selectedSegment === option.id}
             {...option}
           />
         ))}
