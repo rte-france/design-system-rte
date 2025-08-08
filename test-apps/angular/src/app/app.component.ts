@@ -11,6 +11,7 @@ import {
   BadgeDirective,
   TextareaComponent,
   LinkComponent,
+  SegmentedControlComponent,
 } from "@design-system-rte/angular";
 
 @Component({
@@ -28,6 +29,7 @@ import {
     BadgeDirective,
     TextareaComponent,
     LinkComponent,
+    SegmentedControlComponent,
   ],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",
@@ -52,5 +54,17 @@ export class AppComponent {
     event.stopPropagation();
     this.click.emit(event);
     this.toggleSelectState();
+  }
+
+  segments = [
+    { id: "segment1", label: "Label 1" },
+    { id: "segment2", label: "Label 2" },
+    { id: "segment3", label: "Label 3" },
+  ];
+
+  selectedSegment = signal("segment1");
+
+  onSegmentSelected(segmentId: string): void {
+    this.selectedSegment.set(segmentId);
   }
 }
