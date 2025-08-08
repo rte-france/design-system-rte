@@ -37,11 +37,9 @@ export class ChipComponent {
       this.click.emit(event);
     }
   }
-  onKeyDown(event: KeyboardEvent) {
-    event.stopPropagation();
-  }
+
   onKeyUp(event: KeyboardEvent) {
-    event.stopPropagation();
+    event.preventDefault();
     if (!this.disabled()) {
       if (event.key === SPACE_KEY || event.key === ENTER_KEY) {
         const target = event.target as HTMLElement;
