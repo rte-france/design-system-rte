@@ -8,10 +8,9 @@ interface HeaderComponentProps {
   title: string;
   linkFigma?: string;
   linkGithub?: string;
-  children?: React.ReactNode;
 }
 
-const HeaderComponent = ({ title, linkFigma, linkGithub, children }: HeaderComponentProps) => {
+const HeaderComponent = ({ title, linkFigma, linkGithub }: HeaderComponentProps) => {
   return (
     <header className={style.storybook_header}>
       <div className={style.storybook_header_content}>
@@ -31,7 +30,6 @@ const HeaderComponent = ({ title, linkFigma, linkGithub, children }: HeaderCompo
           )}
         </div>
       </div>
-      <div className={style.storybook_header_content_text}>{children}</div>
     </header>
   );
 };
