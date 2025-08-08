@@ -9,7 +9,7 @@ const RegularIconIds = Object.keys(RegularIconsList);
 const TogglableIconIds = Object.keys(TogglableIconsList);
 
 const meta = {
-  title: "Badge",
+  title: "Composants/Badge/Badge",
   component: Badge,
   tags: ["autodocs"],
   argTypes: {
@@ -44,7 +44,10 @@ const meta = {
   },
 } satisfies Meta<typeof Badge>;
 export default meta;
+
 type Story = StoryObj<typeof meta>;
+
+
 
 const mockChildren = (
   <span

@@ -8,7 +8,7 @@ const RegularIconIds = Object.keys(RegularIconsList);
 const TogglableIconIds = Object.keys(TogglableIconsList);
 
 const meta: Meta<BadgeDirective> = {
-  title: "Badge",
+  title: "Composants/Badge/Badge",
   component: BadgeDirective,
   tags: ["autodocs"],
   argTypes: {
