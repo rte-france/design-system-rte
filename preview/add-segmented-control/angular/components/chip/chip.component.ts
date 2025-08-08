@@ -43,7 +43,10 @@ export class ChipComponent {
     if (!this.disabled()) {
       if (event.key === SPACE_KEY || event.key === ENTER_KEY) {
         const target = event.target as HTMLElement;
-        if (!target.classList.contains("chip-close-button")) {
+        const isCloseButton = target.classList.contains("chip-close-button");
+        if (isCloseButton) {
+          target.click();
+        } else {
           this.onClick(event);
         }
       } else if ((event.key === BACKSPACE_KEY || event.key === DELETE_KEY) && this.type() === "input") {
