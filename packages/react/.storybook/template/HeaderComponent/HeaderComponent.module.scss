@@ -36,8 +36,16 @@
         }
     }
 
-    .storybook_header_content {
+    .storybook_header_content_text {
         @include typography-storybook-header-content;
         color: #21272A;
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+        
+        p{
+            margin: 0;
+            padding: 0;
+        }
     }
 }

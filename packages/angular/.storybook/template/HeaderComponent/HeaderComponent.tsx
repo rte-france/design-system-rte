@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React from "react";
 
 import figma from "../img/figma.png";
 import github from "../img/github.png";
@@ -7,10 +7,9 @@ interface HeaderComponentProps {
   title: string;
   linkFigma?: string;
   linkGithub?: string;
-  children?: ReactNode;
 }
 
-const HeaderComponent = ({ title, linkFigma, linkGithub, children }: HeaderComponentProps) => {
+const HeaderComponent = ({ title, linkFigma, linkGithub }: HeaderComponentProps) => {
   return (
     <header className="storybook_header">
       <div className="storybook_header_content">
@@ -30,7 +29,6 @@ const HeaderComponent = ({ title, linkFigma, linkGithub, children }: HeaderCompo
           )}
         </div>
       </div>
-      <div className="storybook_header_content">{children}</div>
     </header>
   );
 };
