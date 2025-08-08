@@ -26,7 +26,6 @@ const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps>(
     const sliderStyle = useSelectedSegmentIndicatorStyle(containerRef, options, selectedSegment);
 
     const handleOnClick = (event: React.MouseEvent<HTMLDivElement> | React.KeyboardEvent<HTMLDivElement>) => {
-      event.stopPropagation();
       const target = event.currentTarget as HTMLDivElement;
       const id = target.getAttribute("id") || "";
       onChange(id);

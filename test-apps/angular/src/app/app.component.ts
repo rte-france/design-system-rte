@@ -70,6 +70,5 @@ export class AppComponent {
 
   onSegmentSelected(segmentId: string): void {
     this.selectedSegment.set(segmentId);
-    console.log("Selected segment:", segmentId);
   }
 }
