@@ -72,14 +72,28 @@ export class SegmentedControlComponent implements OnChanges, AfterViewInit, OnDe
   ngAfterViewInit() {
     this.updateSelectedSegmentIndicator();
     window.addEventListener("resize", this.updateSelectedSegmentIndicator.bind(this));
+    window.addEventListener("keydown", this.onGlobalKeyDown.bind(this));
+
+    this.segmentRefs().forEach((segmentElement) => {
+      segmentElement.nativeElement.addEventListener("focus", this.focusFirstSegmentElement.bind(this));
+    });
   }
 
   ngOnDestroy() {
     window.removeEventListener("resize", this.updateSelectedSegmentIndicator.bind(this));
+    window.removeEventListener("keydown", this.onGlobalKeyDown.bind(this));
+
+    this.segmentRefs().forEach((segmentElement) => {
+      segmentElement.nativeElement.addEventListener("focus", this.focusFirstSegmentElement.bind(this));
+    });
   }
 
   selectSegment(id: string) {
     this.change.emit(id);
+  }
+
+  isSegmentSelected(id: string): boolean {
+    return this.selectedSegment() === id;
   }
 
   handleKeyUp(event: KeyboardEvent) {
@@ -138,6 +152,18 @@ export class SegmentedControlComponent implements OnChanges, AfterViewInit, OnDe
     if (segment) {
       this.sliderWidth.set(segment.offsetWidth);
       this.sliderLeft.set(segment.offsetLeft);
+    }
+  }
+
+  private lastKeydown: string | null = null;
+
+  private onGlobalKeyDown = (event: KeyboardEvent) => {
+    this.lastKeydown = event.key;
+  };
+
+  private focusFirstSegmentElement() {
+    if (this.lastKeydown === "Tab") {
+      this.segmentRefs()[0]?.nativeElement?.focus();
     }
   }
 }
