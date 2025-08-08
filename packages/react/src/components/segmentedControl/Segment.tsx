@@ -17,6 +17,7 @@ import { useActiveKeyboard } from "../../hooks/useActiveKeyboard";
 import { useSelectFocusableElements } from "../../hooks/useSelectFocusableElements";
 import Icon from "../icon/Icon";
 
+import useFocusFirstSegment from "./hooks/useFocusFirstSegment";
 import { SegmentProps } from "./SegmentedControl";
 import style from "./SegmentedControl.module.scss";
 
@@ -25,12 +26,14 @@ const Segment = ({ id, icon, label, position, isSelected, onClick, ...props }: S
 
   const allFocusableElement = useSelectFocusableElements();
 
+  useFocusFirstSegment(ref);
+
   const handleKeyUp = (event: React.KeyboardEvent<HTMLDivElement>) => {
     event.stopPropagation();
     if (event.key === SPACE_KEY || event.key === ENTER_KEY) {
       handleClick?.(event);
     } else if (event.key === ARROW_LEFT_KEY || event.key === ARROW_RIGHT_KEY) {
-      const segmentedControlElement = ref.current?.parentElement;
+      const segmentedControlElement = ref.current?.parentElement?.parentElement;
       const allSegmentElements = Array.from(
         segmentedControlElement?.querySelectorAll("." + style.segment) ?? [],
       ) as HTMLElement[];
@@ -76,7 +79,7 @@ const Segment = ({ id, icon, label, position, isSelected, onClick, ...props }: S
   };
 
   return (
-    <div ref={ref} className={style["segment-container"]} data-position={position} {...props}>
+    <div className={style["segment-container"]} data-position={position} {...props}>
       <div
         id={id}
         role="radio"
