@@ -29,7 +29,6 @@ const Segment = ({ id, icon, label, position, isSelected, onClick, ...props }: S
   useFocusFirstSegment(ref);
 
   const handleKeyUp = (event: React.KeyboardEvent<HTMLDivElement>) => {
-    event.stopPropagation();
     if (event.key === SPACE_KEY || event.key === ENTER_KEY) {
       handleClick?.(event);
     } else if (event.key === ARROW_LEFT_KEY || event.key === ARROW_RIGHT_KEY) {
@@ -74,6 +73,7 @@ const Segment = ({ id, icon, label, position, isSelected, onClick, ...props }: S
   );
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement> | React.KeyboardEvent<HTMLDivElement>) => {
+    e.preventDefault();
     e.stopPropagation();
     onClick?.(e);
   };

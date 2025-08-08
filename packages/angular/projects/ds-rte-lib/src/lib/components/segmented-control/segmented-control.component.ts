@@ -98,7 +98,6 @@ export class SegmentedControlComponent implements OnChanges, AfterViewInit, OnDe
 
   handleKeyUp(event: KeyboardEvent) {
     event.preventDefault();
-    event.stopPropagation();
     if (event.key === ARROW_RIGHT_KEY || event.key === ARROW_LEFT_KEY) {
       const allSegmentElements =
         Array.from(
@@ -126,7 +125,6 @@ export class SegmentedControlComponent implements OnChanges, AfterViewInit, OnDe
   handleKeyDown(event: KeyboardEvent) {
     if (event.key === TAB_KEY || event.key === SPACE_KEY || event.key === ENTER_KEY) {
       event.preventDefault();
-      event.stopPropagation();
     }
     if (event.key === TAB_KEY) {
       const allFocusableElements = Array.from(document.querySelectorAll(FOCUSABLE_ELEMENTS_QUERY)) as HTMLElement[];
