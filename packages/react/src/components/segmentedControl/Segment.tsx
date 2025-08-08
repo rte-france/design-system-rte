@@ -20,7 +20,7 @@ import Icon from "../icon/Icon";
 import { SegmentProps } from "./SegmentedControl";
 import style from "./SegmentedControl.module.scss";
 
-const Segment = ({ id, icon, iconAppearance, label, position, selected, onClick, ...props }: SegmentProps) => {
+const Segment = ({ id, icon, label, position, isSelected, onClick, ...props }: SegmentProps) => {
   const ref = useRef<HTMLDivElement>(null);
 
   const allFocusableElement = useSelectFocusableElements();
@@ -80,11 +80,11 @@ const Segment = ({ id, icon, iconAppearance, label, position, selected, onClick,
       <div
         id={id}
         role="radio"
-        aria-checked={selected}
+        aria-checked={isSelected}
         aria-label={label}
         className={style.segment}
         data-segment-type={icon ? "icon" : "label"}
-        data-selected={selected}
+        data-selected={isSelected}
         onKeyDown={onKeyDown}
         onKeyUp={onKeyUp}
         onBlur={onBlur}
@@ -92,10 +92,10 @@ const Segment = ({ id, icon, iconAppearance, label, position, selected, onClick,
         tabIndex={0}
         ref={ref}
       >
-        {selected && <Icon name="check-small" appearance="filled" size={24} className={style["selected-icon"]} />}
+        {isSelected && <Icon name="check-small" appearance="filled" size={24} className={style["selected-icon"]} />}
         <div className={style["segment-content"]}>
           {icon ? (
-            <Icon name={icon} appearance={iconAppearance} size={24} />
+            <Icon name={icon} appearance={isSelected ? "filled" : "outlined"} size={24} />
           ) : (
             <span className={style["segment-label"]}>{label}</span>
           )}
