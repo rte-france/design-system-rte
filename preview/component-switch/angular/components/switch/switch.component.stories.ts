@@ -1,3 +1,4 @@
+import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 import { Meta, StoryObj } from "@storybook/angular";
 import { expect, within, userEvent } from "@storybook/test";
 
@@ -69,13 +70,13 @@ export const Default: Story = {
     await userEvent.tab();
     await expect(switchElement).toHaveFocus();
 
-    await userEvent.keyboard(" ");
+    await userEvent.keyboard(SPACE_KEY);
     await expect(switchElement).toBeChecked();
 
-    await userEvent.keyboard(" ");
+    await userEvent.keyboard(SPACE_KEY);
     await expect(switchElement).not.toBeChecked();
 
-    await userEvent.keyboard("{Enter}");
+    await userEvent.keyboard(ENTER_KEY);
     await expect(switchElement).not.toBeChecked();
   },
 };
