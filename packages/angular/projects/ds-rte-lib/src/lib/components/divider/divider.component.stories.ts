@@ -98,17 +98,19 @@ export const HorizontalSizes: Story = {
 };
 
 export const InverseColor: Story = {
-    args: {
-        orientation: "horizontal",
-        thickness: "light",
-        color: "inverse",
-    },
-    decorators: [
-        componentWrapperDecorator((story) => `<div style="background-color: #214770; width: 100%; padding: 20px;">${story}</div>`)
-    ],
-    render: (args) => ({
-        props: args,
-        template: `
+  args: {
+    orientation: "horizontal",
+    thickness: "light",
+    color: "inverse",
+  },
+  decorators: [
+    componentWrapperDecorator(
+      (story) => `<div style="background-color: #214770; width: 100%; padding: 20px;">${story}</div>`,
+    ),
+  ],
+  render: (args) => ({
+    props: args,
+    template: `
                 <div style="display: flex; flex-direction: column; gap: 20px; justify-content: space-between; width: 500px;">
                         <rte-divider
                                 orientation="horizontal"
@@ -130,5 +132,5 @@ export const InverseColor: Story = {
                         </rte-divider>
                 </div>
                 `,
-    }),
+  }),
 };
