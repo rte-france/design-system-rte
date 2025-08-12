@@ -1,7 +1,7 @@
 import { Directive, HostBinding, input } from "@angular/core";
 
 @Directive({
-  selector: "[dsCol]",
+  selector: "[rteCol]",
   standalone: true,
 })
 export class ColDirective {
