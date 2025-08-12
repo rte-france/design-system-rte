@@ -13,6 +13,7 @@ import { DividerProps } from "@design-system-rte/core/components/divider/divider
 export class DividerComponent {
   readonly orientation = input<DividerProps["orientation"]>("horizontal");
   readonly thickness = input<DividerProps["thickness"]>("light");
+    readonly color = input<DividerProps["color"]>("default");
 
   readonly isHorizontal = computed(() => this.orientation() === "horizontal");
 }

@@ -21,6 +21,11 @@ const meta: Meta<DividerComponent> = {
       options: ["light", "medium", "bold"],
       description: "Thickness of the divider",
     },
+    color: {
+      control: "select",
+      options: ["default", "inverse"],
+      description: "Color of the divider",
+    },
   },
 };
 
@@ -90,4 +95,40 @@ export const HorizontalSizes: Story = {
         </div>
         `,
   }),
+};
+
+export const InverseColor: Story = {
+    args: {
+        orientation: "horizontal",
+        thickness: "light",
+        color: "inverse",
+    },
+    decorators: [
+        componentWrapperDecorator((story) => `<div style="background-color: #214770; width: 100%; padding: 20px;">${story}</div>`)
+    ],
+    render: (args) => ({
+        props: args,
+        template: `
+                <div style="display: flex; flex-direction: column; gap: 20px; justify-content: space-between; width: 500px;">
+                        <rte-divider
+                                orientation="horizontal"
+                                thickness="light"
+                                color="inverse"
+                                data-testid="inverse-light-divider">
+                        </rte-divider>
+                        <rte-divider
+                                orientation="horizontal"
+                                thickness="medium"
+                                color="inverse"
+                                data-testid="inverse-medium-divider">
+                        </rte-divider>
+                        <rte-divider
+                                orientation="horizontal"
+                                thickness="bold"
+                                color="inverse"
+                                data-testid="inverse-bold-divider">
+                        </rte-divider>
+                </div>
+                `,
+    }),
 };
