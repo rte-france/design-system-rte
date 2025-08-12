@@ -8,13 +8,13 @@
     (click)="handleClick($event)"
 >
     <input
+        aria-checked="{{ isChecked() }}"
+        aria-label="{{ label() }}"
+        aria-disabled="{{ disabled() }}"
+        aria-readonly="{{ readOnly() }}"
         type="checkbox"
         role="switch"
         class="switch"
-        [attr.aria-label]="label()"
-        [attr.aria-checked]="isChecked()"
-        [attr.aria-disabled]="disabled()"
-        [attr.aria-readonly]="readOnly()"
         [ariaLabel]="label()"
         [name]="label()"
         [ngClass]="{
