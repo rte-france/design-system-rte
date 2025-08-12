@@ -8,11 +8,11 @@ import { DividerProps } from "@design-system-rte/core/components/divider/divider
   standalone: true,
   templateUrl: "./divider.component.html",
   styleUrl: "./divider.component.scss",
-    changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DividerComponent {
   readonly orientation = input<DividerProps["orientation"]>("horizontal");
   readonly thickness = input<DividerProps["thickness"]>("light");
 
-   readonly isHorizontal = computed(() => this.orientation() === "horizontal");
+  readonly isHorizontal = computed(() => this.orientation() === "horizontal");
 }
