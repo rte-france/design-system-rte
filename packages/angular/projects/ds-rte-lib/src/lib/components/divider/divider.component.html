@@ -1,2 +1,5 @@
-<hr *ngIf="isHorizontal()" class="horizontal {{thickness()}} {{color()}}" />
-<div *ngIf="!isHorizontal()" class="vertical {{thickness()}} {{color()}}" role="separator"></div>
+@if (isHorizontal()) {
+  <hr class="horizontal {{thickness()}} {{color()}}" />
+} @else {
+  <div class="vertical {{thickness()}} {{color()}}" role="separator"></div>
+}
