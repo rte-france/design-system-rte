@@ -1,0 +1,26 @@
+.tooltip-trigger {
+  position: relative;
+  width: max-content;
+}
+
+.tooltip-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: black;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  pointer-events: none;
+  z-index: 1000;
+  white-space: nowrap;
+  max-width: 160px;
+  opacity: 0;
+  transition: opacity 150ms ease-out;
+}
+
+/* Ouverture contrôlée via Portal: on s'appuie sur data-open */
+.tooltip-overlay[data-open='true'] {
+  opacity: 1;
+}
