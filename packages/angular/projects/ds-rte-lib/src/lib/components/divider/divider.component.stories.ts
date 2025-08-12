@@ -31,7 +31,7 @@ const meta: Meta<DividerComponent> = {
       options: ["round", "square"],
       description: "End point style of the divider",
     },
-    isHorizontal:{
+    isHorizontal: {
       table: {
         disable: true,
       },
@@ -109,11 +109,11 @@ export const HorizontalSizes: Story = {
   }),
 };
 
-export const SquaredEnd: Story ={
+export const SquaredEnd: Story = {
   args: {
     orientation: "horizontal",
     thickness: "light",
-    endPoint: "square"
+    endPoint: "square",
   },
   render: (args) => ({
     props: args,
@@ -140,7 +140,7 @@ export const SquaredEnd: Story ={
         </div>
         `,
   }),
-}
+};
 
 export const InverseColor: Story = {
   args: {

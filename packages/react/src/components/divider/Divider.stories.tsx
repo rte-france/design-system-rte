@@ -87,7 +87,6 @@ export const HorizontalSizes: Story = {
 };
 
 export const SquaredEnd: Story = {
-
   args: {
     orientation: "horizontal",
     thickness: "light",
