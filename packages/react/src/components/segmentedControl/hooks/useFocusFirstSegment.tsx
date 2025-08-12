@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 import style from "../SegmentedControl.module.scss";
 
-const useFocusFirstSegment = (ref: React.RefObject<HTMLDivElement>) => {
+const useFocusCurrentSegmentElement = (ref: React.RefObject<HTMLDivElement>) => {
   useEffect(() => {
     const segmentRef = ref.current;
 
@@ -14,23 +14,28 @@ const useFocusFirstSegment = (ref: React.RefObject<HTMLDivElement>) => {
     };
     window.addEventListener("keydown", handleKeyDown);
 
-    const focusFirstSegmentElement = () => {
+    const focusCurrentSegmentElement = () => {
       if (lastKey === "Tab") {
         const segmentedControlElement = segmentRef.parentElement?.parentElement;
-        const allSegmentElements = Array.from(
-          segmentedControlElement?.querySelectorAll("." + style.segment) ?? [],
-        ) as HTMLElement[];
-        allSegmentElements[0]?.focus();
+        const selectedSegmentElement = segmentedControlElement?.querySelector("[data-selected='true']") as HTMLElement;
+        if (selectedSegmentElement) {
+          selectedSegmentElement.focus();
+        } else {
+          const allSegmentElements = Array.from(
+            segmentedControlElement?.querySelectorAll("." + style.segment) ?? [],
+          ) as HTMLElement[];
+          allSegmentElements[0]?.focus();
+        }
       }
     };
 
-    ref.current?.addEventListener("focus", focusFirstSegmentElement);
+    ref.current?.addEventListener("focus", focusCurrentSegmentElement);
 
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
-      segmentRef.removeEventListener("focus", focusFirstSegmentElement);
+      segmentRef.removeEventListener("focus", focusCurrentSegmentElement);
     };
   }, [ref]);
 };
 
-export default useFocusFirstSegment;
+export default useFocusCurrentSegmentElement;

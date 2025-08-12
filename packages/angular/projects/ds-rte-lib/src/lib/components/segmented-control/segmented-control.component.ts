@@ -75,7 +75,7 @@ export class SegmentedControlComponent implements OnChanges, AfterViewInit, OnDe
     window.addEventListener("keydown", this.onGlobalKeyDown.bind(this));
 
     this.segmentRefs().forEach((segmentElement) => {
-      segmentElement.nativeElement.addEventListener("focus", this.focusFirstSegmentElement.bind(this));
+      segmentElement.nativeElement.addEventListener("focus", this.focusCurrentSegmentElement.bind(this));
     });
   }
 
@@ -84,7 +84,7 @@ export class SegmentedControlComponent implements OnChanges, AfterViewInit, OnDe
     window.removeEventListener("keydown", this.onGlobalKeyDown.bind(this));
 
     this.segmentRefs().forEach((segmentElement) => {
-      segmentElement.nativeElement.addEventListener("focus", this.focusFirstSegmentElement.bind(this));
+      segmentElement.nativeElement.addEventListener("focus", this.focusCurrentSegmentElement.bind(this));
     });
   }
 
@@ -159,9 +159,16 @@ export class SegmentedControlComponent implements OnChanges, AfterViewInit, OnDe
     this.lastKeydown = event.key;
   };
 
-  private focusFirstSegmentElement() {
+  private focusCurrentSegmentElement() {
     if (this.lastKeydown === "Tab") {
-      this.segmentRefs()[0]?.nativeElement?.focus();
+      const selectedSegmentElement = this.segmentRefs().find((segment) =>
+        segment.nativeElement.classList.contains("selected"),
+      )?.nativeElement;
+      if (selectedSegmentElement) {
+        selectedSegmentElement.focus();
+      } else {
+        this.segmentRefs()[0]?.nativeElement?.focus();
+      }
     }
   }
 }

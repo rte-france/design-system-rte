@@ -17,7 +17,7 @@ import { useActiveKeyboard } from "../../hooks/useActiveKeyboard";
 import { useSelectFocusableElements } from "../../hooks/useSelectFocusableElements";
 import Icon from "../icon/Icon";
 
-import useFocusFirstSegment from "./hooks/useFocusFirstSegment";
+import useFocusCurrentSegmentElement from "./hooks/useFocusFirstSegment";
 import { SegmentProps } from "./SegmentedControl";
 import style from "./SegmentedControl.module.scss";
 
@@ -26,7 +26,7 @@ const Segment = ({ id, icon, label, position, isSelected, onClick, ...props }: S
 
   const allFocusableElement = useSelectFocusableElements();
 
-  useFocusFirstSegment(ref);
+  useFocusCurrentSegmentElement(ref);
 
   const handleKeyUp = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (event.key === SPACE_KEY || event.key === ENTER_KEY) {
