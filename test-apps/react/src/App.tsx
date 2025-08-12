@@ -8,6 +8,7 @@ import {
   Chip,
   Badge,
   Textarea,
+  Divider,
 } from "@design-system-rte/react";
 import "./App.css";
 import { useState } from "react";
@@ -83,6 +84,21 @@ function App() {
           required
         />
       </div>
+      <hr />
+      <h3>Divider</h3>
+      <p> First text </p>
+      <Divider />
+      <p> Second text </p>
+      <Divider thickness="medium" />
+      <div style={{ display: "flex", flexDirection: "row" }}>
+        <p style={{ margin: "20px" }}> left text </p>
+        <Divider orientation="vertical" />
+        <p style={{ margin: "20px" }}> middle text </p>
+        <Divider orientation="vertical" thickness="medium" />
+        <p style={{ margin: "20px" }}> right text </p>
+        <Divider orientation="vertical" thickness="bold" />
+      </div>
+      <Divider orientation="horizontal" thickness="bold" />
     </div>
   );
 }

@@ -11,6 +11,7 @@ import {
   BadgeDirective,
   TextareaComponent,
   LinkComponent,
+  DividerComponent,
 } from "@design-system-rte/angular";
 
 @Component({
@@ -28,6 +29,7 @@ import {
     BadgeDirective,
     TextareaComponent,
     LinkComponent,
+    DividerComponent,
   ],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",
