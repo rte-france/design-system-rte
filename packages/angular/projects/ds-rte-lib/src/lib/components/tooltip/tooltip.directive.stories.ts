@@ -208,10 +208,10 @@ export const KeyboardInteraction: Story = {
   }),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const tooltipHost = canvas.getByText("Hover Me!");
+    const tooltipTrigger = canvas.queryByText("Hover Me!");
     await userEvent.tab();
-    const tooltip = await canvas.findByRole("tooltip");
-    expect(tooltipHost).toHaveFocus();
+    const tooltip = within(document.body).getByRole("tooltip");
+    expect(tooltipTrigger).toHaveFocus();
     await waitFor(() => expect(tooltip).toBeVisible());
   },
 };

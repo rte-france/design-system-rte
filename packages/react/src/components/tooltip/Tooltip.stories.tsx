@@ -63,7 +63,7 @@ export const Position: Story = {
   args: Default.args,
   render: (args) => {
     return (
-      <div style={{ display: "flex", gap: 8 }}>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>
         <Tooltip {...args} position="top" />
         <Tooltip {...args} position="bottom" />
         <Tooltip {...args} position="left" />
@@ -174,10 +174,10 @@ export const KeyboardInteraction: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const tooltipComponent = canvas.queryByText("Hover Me!")?.parentElement;
+    const tooltipTrigger = canvas.queryByText("Hover Me!")?.parentElement;
     await userEvent.tab();
-    const tooltipLabel = canvas.queryByRole("tooltip");
-    expect(tooltipComponent).toHaveFocus();
-    await waitFor(() => expect(tooltipLabel).toBeVisible());
+    const tooltip = within(document.body).getByRole("tooltip");
+    expect(tooltipTrigger).toHaveFocus();
+    await waitFor(() => expect(tooltip).toBeVisible());
   },
 };
