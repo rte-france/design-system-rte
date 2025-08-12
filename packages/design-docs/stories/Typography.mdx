@@ -1,0 +1,40 @@
+import { Meta } from "@storybook/blocks"
+
+import VariablePrimitive from "../src/img/typography/VariablePrimitive.png"
+import StyleDeTexte from "../src/img/typography/StyleDeTexte.png"
+import SizingExemple from "../src/img/typography/SizingExemple.png"
+import SupportExemple from "../src/img/typography/SupportExemple.png"
+
+import "../src/styles/Police.css"
+
+<Meta title="Design system/Typographies"/>
+
+<h1 id="typography" style={{fontFamily:"Nunito"}}> Typographies sémantiques </h1>
+
+<h2 id="rappels" style={{border:"none", fontFamily:"Nunito"}}> Rappels </h2>
+
+<p>Les typographies sont basées sur <b>5 variables primitives</b> :</p>
+
+<img src={VariablePrimitive} width="100%" alt="Rappel des valeurs primitives font_family, font_weight, font_size, line_height et letter_spacing" />
+
+<h2 id="styleTexte" style={{border:"none", fontFamily:"Nunito"}}> Styles de texte </h2>
+
+<p> Même avec l’utilisation de variables typographiques, les styles de texte restent essentiels et pertinents. Ils permettent de créer un “<b>package de variables</b>” intégré au sein d’un style applicable en un geste. </p>
+
+<p> Dans l’exemple ci-dessous, on peut voir comment les <b>5 variables primitives sont combinées</b> pour obtenir les valeurs du style “Heading L” - un des styles d’en-têtes disponible. </p>
+
+<img src={StyleDeTexte} width="100%" alt="schema des 5 variables de styles combinées" />
+
+<h2 id="TshirtSizing" style={{border:"none", fontFamily:"Nunito"}}> T-shirt Sizing </h2>
+
+<p> Plutôt que de nommer les styles de texte en fonction de leur rôle (comme H1, H2 ou Body), le Design System RTE utilise un système basé sur les <b>tailles de t-shirts</b>, offrant ainsi <b>plus de flexibilité.</b> Les tailles vont de <b>2XS à 5XL</b>. </p>
+
+<p> L’exemple ci-dessous montre que grâce à cette nomenclature, un titre H1 peut être associé au style Heading XL dans un produit et à Heading L dans un autre. Nommer le style directement H1 reviendrait à imposer une même taille et un même style à tous les produits ou à devoir créer plusieurs jeux de typographies pour s’adapter à chaque besoin. </p>
+
+<img src={SizingExemple} width="100%" alt="Exemple de différente taille de titre" />
+
+<h2 id="DifferentsSupports" style={{border:"none", fontFamily:"Nunito"}} > Différents supports </h2>
+
+<p> L’adaptation de la typographie entre desktop et mobile/tablette est essentielle pour assurer une lisibilité optimale et une hiérarchie visuelle cohérente. C’est pourquoi la <b>taille des Headings varie en fonction du support</b>. Cette variation est gérée par les <b>tokens</b>, qui définissent <b>deux modes distincts</b> : desktop et mobile_tablet. </p>
+
+<img src={SupportExemple} width="100%" alt="Exemple de la difference de taille en fonction du support" />
