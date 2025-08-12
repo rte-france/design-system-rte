@@ -2,7 +2,7 @@ import { Directive, HostBinding, input } from "@angular/core";
 import { GridType } from "@design-system-rte/core/components/grid/grid.interface";
 
 @Directive({
-  selector: "[rte-grid]",
+  selector: "[rteGrid]",
   standalone: true,
 })
 export class GridDirective {
