@@ -43,9 +43,9 @@ export class SwitchComponent implements OnInit {
     if (this.readOnly() || this.disabled()) {
       event.stopPropagation();
     } else {
-      const inputElement = (event.currentTarget as HTMLElement).querySelector(
+      const inputElement = (event.currentTarget as HTMLInputElement).querySelector<HTMLInputElement>(
         'input[type="checkbox"]',
-      ) as HTMLInputElement;
+      );
       if (inputElement) {
         inputElement.checked = !this.isChecked();
         const changeEvent = new Event("change", { bubbles: true });
