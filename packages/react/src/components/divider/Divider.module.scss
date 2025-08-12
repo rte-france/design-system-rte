@@ -5,6 +5,7 @@
     padding: 0;
     margin: 0;
     width: 100%;
+    border-radius: $radius-pill;
 
     &[data-thickness='light'] {
         border-top: 1px solid var(--border-divider);
@@ -24,10 +25,11 @@
 }
 
 .vertical {
-    height: auto;
+    height: 100%;
     background-color: var(--border-divider);
     margin: 0;
     padding: 0;
+    border-radius: $radius-pill;
 
     &[data-thickness='light'] {
         width: 1px;
