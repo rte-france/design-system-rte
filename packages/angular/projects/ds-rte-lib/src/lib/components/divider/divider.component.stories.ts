@@ -21,10 +21,20 @@ const meta: Meta<DividerComponent> = {
       options: ["light", "medium", "bold"],
       description: "Thickness of the divider",
     },
-    color: {
+    appearance: {
       control: "select",
       options: ["default", "inverse"],
       description: "Color of the divider",
+    },
+    endPoint: {
+      control: "select",
+      options: ["round", "square"],
+      description: "End point style of the divider",
+    },
+    isHorizontal:{
+      table: {
+        disable: true,
+      },
     },
   },
 };
@@ -36,6 +46,7 @@ export const Default: Story = {
   args: {
     orientation: "horizontal",
     thickness: "light",
+    endPoint: "round",
   },
 };
 
@@ -43,6 +54,7 @@ export const VerticalSizes: Story = {
   args: {
     orientation: "vertical",
     thickness: "light",
+    endPoint: "round",
   },
   render: (args) => ({
     props: args,
@@ -97,11 +109,44 @@ export const HorizontalSizes: Story = {
   }),
 };
 
+export const SquaredEnd: Story ={
+  args: {
+    orientation: "horizontal",
+    thickness: "light",
+    endPoint: "square"
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+        <div style="display: flex; flex-direction: column; gap: 20px; height: 100px; width: 500px;">
+            <rte-divider
+                orientation="horizontal"
+                thickness="light"
+                endPoint="square"
+                data-testid="horizontal-light-divider">
+            </rte-divider>
+            <rte-divider
+                orientation="horizontal"
+                thickness="medium"
+                endPoint="square"
+                data-testid="horizontal-medium-divider">
+            </rte-divider>
+            <rte-divider
+                orientation="horizontal"
+                thickness="bold"
+                endPoint="square"
+                data-testid="horizontal-bold-divider">
+            </rte-divider>
+        </div>
+        `,
+  }),
+}
+
 export const InverseColor: Story = {
   args: {
     orientation: "horizontal",
     thickness: "light",
-    color: "inverse",
+    appearance: "inverse",
   },
   decorators: [
     componentWrapperDecorator(
@@ -115,19 +160,19 @@ export const InverseColor: Story = {
                         <rte-divider
                                 orientation="horizontal"
                                 thickness="light"
-                                color="inverse"
+                                appearance="inverse"
                                 data-testid="inverse-light-divider">
                         </rte-divider>
                         <rte-divider
                                 orientation="horizontal"
                                 thickness="medium"
-                                color="inverse"
+                                appearance="inverse"
                                 data-testid="inverse-medium-divider">
                         </rte-divider>
                         <rte-divider
                                 orientation="horizontal"
                                 thickness="bold"
-                                color="inverse"
+                                appearance="inverse"
                                 data-testid="inverse-bold-divider">
                         </rte-divider>
                 </div>

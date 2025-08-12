@@ -29,11 +29,17 @@ const meta = {
       description: "Thickness of the divider",
       defaultValue: "light",
     },
-    color: {
+    appearance: {
       control: "select",
       options: ["default", "inverse"],
       description: "Color of the divider",
       defaultValue: "default",
+    },
+    endPoint: {
+      control: "select",
+      options: ["round", "square"],
+      description: "End point style of the divider",
+      defaultValue: "round",
     },
   },
 } satisfies Meta<typeof Divider>;
@@ -44,7 +50,7 @@ export const Default: Story = {
   args: {
     orientation: "horizontal",
     thickness: "light",
-    color: "default",
+    appearance: "default",
   },
 };
 
@@ -52,7 +58,7 @@ export const VerticalSizes: Story = {
   args: {
     orientation: "vertical",
     thickness: "light",
-    color: "default",
+    appearance: "default",
   },
   render: (args) => (
     <div style={{ display: "flex", justifyContent: "space-between", gap: "20px", height: "100px", width: "500px" }}>
@@ -67,7 +73,26 @@ export const HorizontalSizes: Story = {
   args: {
     orientation: "horizontal",
     thickness: "light",
-    color: "default",
+    appearance: "default",
+  },
+  render: (args) => (
+    <div
+      style={{ display: "flex", flexDirection: "column", gap: "20px", justifyContent: "space-between", width: "500px" }}
+    >
+      <Divider {...args} thickness="light" />
+      <Divider {...args} thickness="medium" />
+      <Divider {...args} thickness="bold" />
+    </div>
+  ),
+};
+
+export const SquaredEnd: Story = {
+
+  args: {
+    orientation: "horizontal",
+    thickness: "light",
+    appearance: "default",
+    endPoint: "square",
   },
   render: (args) => (
     <div
@@ -84,7 +109,7 @@ export const InverseColor: Story = {
   args: {
     orientation: "horizontal",
     thickness: "light",
-    color: "inverse",
+    appearance: "inverse",
   },
   decorators: [
     (Story) => (

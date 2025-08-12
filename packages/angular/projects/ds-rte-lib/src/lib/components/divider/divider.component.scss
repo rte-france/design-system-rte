@@ -6,6 +6,10 @@
     margin: 0;
     width: 100%;
 
+    &.round{
+        border-radius: $radius-pill;
+    }
+
     &.light {
         border-top: 1px solid var(--border-divider);
     }
@@ -28,6 +32,10 @@
     background-color: var(--border-divider);
     margin: 0;
     padding: 0;
+
+    &.round {
+        border-radius: $radius-pill;
+    }
 
     &.light {
         width: 1px;
