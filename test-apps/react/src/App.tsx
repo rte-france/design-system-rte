@@ -8,7 +8,7 @@ import {
   Chip,
   Badge,
   Textarea,
-  Divider
+  Divider,
 } from "@design-system-rte/react";
 import "./App.css";
 import { useState } from "react";
@@ -90,13 +90,13 @@ function App() {
       <Divider />
       <p> Second text </p>
       <Divider thickness="medium" />
-      <div style={{display:"flex", flexDirection :"row"}}>
+      <div style={{ display: "flex", flexDirection: "row" }}>
         <p style={{ margin: "20px" }}> left text </p>
         <Divider orientation="vertical" />
         <p style={{ margin: "20px" }}> middle text </p>
-        <Divider orientation="vertical" thickness="medium"/>
+        <Divider orientation="vertical" thickness="medium" />
         <p style={{ margin: "20px" }}> right text </p>
-        <Divider orientation="vertical" thickness="bold"/>
+        <Divider orientation="vertical" thickness="bold" />
       </div>
       <Divider orientation="horizontal" thickness="bold" />
     </div>
