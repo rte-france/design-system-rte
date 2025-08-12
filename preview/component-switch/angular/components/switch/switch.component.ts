@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component, input, signal, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, Component, input, signal, OnInit, output } from "@angular/core";
 import { switchHeight, switchWidth } from "@design-system-rte/core/components/switch/switch.constants";
 import { SwitchProps } from "@design-system-rte/core/components/switch/switch.interface";
 
@@ -22,6 +22,8 @@ export class SwitchComponent implements OnInit {
   readonly readOnly = input(false);
   readonly checked = input(false);
 
+  readonly stateChange = output<Event>();
+
   switchHeight = switchHeight;
   switchWidth = switchWidth;
 
@@ -31,11 +33,28 @@ export class SwitchComponent implements OnInit {
     this.isChecked.set(this.checked());
   }
 
+  handleChange(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    this.isChecked.set(target.checked);
+    this.stateChange.emit(event);
+  }
+
   handleClick(event: MouseEvent): void {
     if (this.readOnly() || this.disabled()) {
       event.stopPropagation();
     } else {
-      this.isChecked.set(!this.isChecked());
+      const inputElement = (event.currentTarget as HTMLElement).querySelector(
+        'input[type="checkbox"]',
+      ) as HTMLInputElement;
+      if (inputElement) {
+        inputElement.checked = !this.isChecked();
+        const changeEvent = new Event("change", { bubbles: true });
+        Object.defineProperty(changeEvent, "target", {
+          value: inputElement,
+          writable: false,
+        });
+        this.handleChange(changeEvent);
+      }
     }
   }
 }
