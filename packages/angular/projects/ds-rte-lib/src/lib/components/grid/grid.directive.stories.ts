@@ -34,13 +34,13 @@ type Story = StoryObj<GridStoriesArgs>;
 
 const defaultTemplate = (gridType: GridType) => {
   return `
-        <div rte-grid 
+        <div rteGrid 
           [gridType]="'${gridType}'"
           data-testid="grid"
           >
             <ng-container *ngFor="let item of items">
               <div
-                dsCol
+                rteCol
                 ></div>
             </ng-container>
           </div>
@@ -92,11 +92,11 @@ export const ResponsiveColumns: Story = {
   },
   render: (args) => ({
     template: `
-        <div rte-grid 
+        <div rteGrid 
           [gridType]="'${args.gridType}'"
           data-testid="grid"
         >
-          <div dsCol [xxs]=1 [xs]=1 [s]=3 [m]=4 [l]=4 [xl]=12>
+          <div rteCol [xxs]=1 [xs]=1 [s]=3 [m]=4 [l]=4 [xl]=12>
             <div>
               <p>xxs : Span 1 de 2</p>
               <p>xs : Span 1 de 6</p>
@@ -108,7 +108,7 @@ export const ResponsiveColumns: Story = {
               <p>xl : Span 12 de 12</p>
             </div>
           </div>
-          <div dsCol [xxs]=1 [xs]=3 [s]=3 [m]=4 [l]=8 [xl]=12>
+          <div rteCol [xxs]=1 [xs]=3 [s]=3 [m]=4 [l]=8 [xl]=12>
                   <div>
             <p>xxs : Span 1 de 2</p>
             <p>xs : Span 3 de 6</p>
@@ -120,7 +120,7 @@ export const ResponsiveColumns: Story = {
             <p>xl : Span 12 de 12</p>
           </div>
           </div>
-          <div dsCol [xxs]=2 [xs]=2 [s]=3 [m]=4 [l]=10 [xl]=12>
+          <div rteCol [xxs]=2 [xs]=2 [s]=3 [m]=4 [l]=10 [xl]=12>
             <div>
               <p>xxs : Span 2 de 2</p>
               <p>xs : Span 2 de 6</p>
@@ -132,7 +132,7 @@ export const ResponsiveColumns: Story = {
               <p>xl : Span 12 de 12</p>
             </div>
             </div>
-          <div dsCol [xxs]=2 [xs]=6 [s]=6 [m]=4 [l]=12 [xl]=12>
+          <div rteCol [xxs]=2 [xs]=6 [s]=6 [m]=4 [l]=12 [xl]=12>
             <div>
               <p>xxs : Span 2 de 2</p>
               <p>xs : Span 6 de 6</p>

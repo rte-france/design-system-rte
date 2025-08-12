@@ -7,7 +7,7 @@
       "projectType": "library",
       "schematics": {},
       "root": "projects/ds-rte-lib",
-      "sourceRoot": "projects/dse-rte-lib/src",
+      "sourceRoot": "projects/ds-rte-lib/src",
       "prefix": "rte",
       "architect": {
         "build": {
