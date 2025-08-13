@@ -28,18 +28,10 @@
         [checked]="isChecked()"
     />
     <div class="switch-icon-check" [ngClass]="{'checked': isChecked() }" (click)="handleClick($event)">
-        @if (showIcon() && isChecked()) {
+        @if (showIcon()) {
             <rte-icon
             class="icon"
-            [name]="'check'"
-            [size]="16"
-            (click)="handleClick($event)"
-            ></rte-icon>
-        }
-        @if (showIcon() && !isChecked()) {
-            <rte-icon
-            class="icon"
-            [name]="'close'"
+            [name]="isChecked() ? 'check' : 'close'"
             [size]="16"
             (click)="handleClick($event)"
             ></rte-icon>

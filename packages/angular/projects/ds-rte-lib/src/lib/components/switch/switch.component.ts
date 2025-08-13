@@ -31,7 +31,7 @@ export class SwitchComponent implements OnInit {
     this.isChecked.set(this.checked());
   }
 
-  handleClick = (event: MouseEvent) => {
+  handleClick (event: MouseEvent) : void {
     if (this.readOnly() || this.disabled()) {
       event.stopPropagation();
     } else {
