@@ -66,7 +66,7 @@ export const Default: Story = {
     readOnly: false,
     appearance: "brand",
     showIcon: true,
-    checked: true,
+    checked: false,
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
