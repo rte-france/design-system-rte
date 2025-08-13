@@ -1,5 +1,5 @@
 import { SegmentedControlProps as CoreSegmentedControlProps } from "@design-system-rte/core/components/segmented-control/segmented-control.interface";
-import { MutableRefObject, useEffect, useState } from "react";
+import { MutableRefObject, useCallback, useEffect, useState } from "react";
 
 import style from "../SegmentedControl.module.scss";
 
@@ -10,28 +10,21 @@ const useSelectedSegmentIndicatorStyle = (
 ) => {
   const [sliderStyle, setSliderStyle] = useState<{ left: number; width: number }>({ left: 0, width: 0 });
 
+  const updateSlider = useCallback(() => {
+    if (!containerRef.current) return;
+    const idx = options.findIndex((opt) => opt.id === selectedSegment);
+    if (idx < 0) return;
+    const node = containerRef.current.querySelectorAll(`.${style.segment}`)[idx] as HTMLElement | undefined;
+    if (node) setSliderStyle({ left: node.offsetLeft, width: node.offsetWidth });
+  }, [selectedSegment, options, containerRef]);
+
   useEffect(() => {
-    function updateSlider() {
-      if (!containerRef.current) return;
-      const idx = options.findIndex((opt) => opt.id === selectedSegment);
-      if (idx === -1) return;
-
-      const segmentNodes = containerRef.current.querySelectorAll(`.${style.segment}`);
-      const node = segmentNodes[idx] as HTMLElement;
-
-      if (node) {
-        setSliderStyle({
-          left: node.offsetLeft,
-          width: node.offsetWidth,
-        });
-      }
-    }
     updateSlider();
     window.addEventListener("resize", updateSlider);
     return () => {
       window.removeEventListener("resize", updateSlider);
     };
-  }, [selectedSegment, options, containerRef]);
+  }, [selectedSegment, options, containerRef, updateSlider]);
 
   return sliderStyle;
 };
