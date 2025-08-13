@@ -11,7 +11,13 @@ const meta = {
     (Story) => (
       <div style={{ height: "50px", width: "200px" }}>
         <Story />
-        <div> <p> Switch State : <span id="switch-state">  </span></p></div>
+        <div>
+          {" "}
+          <p>
+            {" "}
+            Switch State : <span id="switch-state"> </span>
+          </p>
+        </div>
       </div>
     ),
   ],
