@@ -1,6 +1,7 @@
 import { Meta, StoryObj } from "@storybook/react";
 
 import { RegularIcons, TogglableIcons } from "../icon/IconMap";
+import { TooltipOverlay } from "../overlay/TooltipOverlay";
 
 import Tag from "./Tag";
 
@@ -117,4 +118,82 @@ export const Compact: Story = {
       <Tag {...args} />
     </div>
   ),
+};
+
+export const WithTooltip: Story = {
+  args: {
+    ...Default.args,
+    tagType: "decorative",
+    color: "brand",
+    label: "Compact Tag",
+  },
+  render: (args) => {
+    return (
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "flex-start",
+            justifyContent: "flex-start",
+            gap: 8,
+            border: "1px solid red",
+            width: 204,
+            height: 250,
+          }}
+        >
+          <TooltipOverlay label="This is a tooltip for the tag" position="auto">
+            <Tag {...args} label="Compact with tooltip auto" />
+          </TooltipOverlay>
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-start",
+            gap: 8,
+            border: "1px solid red",
+            width: 500,
+            height: 50,
+          }}
+        >
+          <TooltipOverlay label="This is a tooltip for the tag" position="auto">
+            <Tag {...args} label="Compact with tooltip auto" />
+          </TooltipOverlay>
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            alignItems: "flex-end",
+            justifyContent: "flex-end",
+            gap: 8,
+            border: "1px solid red",
+            width: 204,
+            height: 250,
+          }}
+        >
+          <TooltipOverlay label="This is a tooltip for the tag" position="auto">
+            <Tag {...args} label="Compact with tooltip auto" />
+          </TooltipOverlay>
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-end",
+            gap: 8,
+            border: "1px solid red",
+            width: 500,
+            height: 50,
+          }}
+        >
+          <TooltipOverlay label="This is a tooltip for the tag" position="auto">
+            <Tag {...args} label="Compact with tooltip auto" />
+          </TooltipOverlay>
+        </div>
+      </div>
+    );
+  },
 };
