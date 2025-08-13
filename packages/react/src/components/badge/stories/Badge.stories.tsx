@@ -2,15 +2,14 @@ import { Meta, StoryObj } from "@storybook/react";
 import { within, userEvent, waitFor, expect } from "@storybook/test";
 import { useState } from "react";
 
-import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../icon/IconMap";
-
-import Badge from "./Badge";
+import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../../icon/IconMap";
+import Badge from "../Badge";
 
 const RegularIconIds = Object.keys(RegularIconsList);
 const TogglableIconIds = Object.keys(TogglableIconsList);
 
 const meta = {
-  title: "Badge",
+  title: "Composants/Badge/Badge",
   component: Badge,
   tags: ["autodocs"],
   argTypes: {
@@ -45,6 +44,7 @@ const meta = {
   },
 } satisfies Meta<typeof Badge>;
 export default meta;
+
 type Story = StoryObj<typeof meta>;
 
 const mockChildren = (
