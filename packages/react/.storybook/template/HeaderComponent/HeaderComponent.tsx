@@ -1,6 +1,5 @@
 import Link from "../../../src/components/link/Link";
-
-import Figma from "../img/figma.png"
+import Figma from "../img/figma.png";
 import Github from "../img/github.png";
 
 import style from "./HeaderComponent.module.scss";
