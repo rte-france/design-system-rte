@@ -16,3 +16,4 @@ export * from "./lib/components/chip/chip.component";
 export * from "./lib/components/badge/badge.directive";
 export * from "./lib/components/textarea/textarea.component";
 export * from "./lib/components/divider/divider.component";
+export * from "./lib/components/switch/switch.component";

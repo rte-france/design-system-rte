@@ -9,6 +9,7 @@ import {
   Badge,
   Textarea,
   Divider,
+  Switch,
 } from "@design-system-rte/react";
 import "./App.css";
 import { useState } from "react";
@@ -99,6 +100,34 @@ function App() {
         <Divider orientation="vertical" thickness="bold" />
       </div>
       <Divider orientation="horizontal" thickness="bold" />
+      <hr />
+      <div>
+        <h3>Switch</h3>
+        <Switch
+          label="Switch Label"
+          appearance="brand"
+          showLabel={true}
+          showIcon={true}
+          disabled={false}
+          readOnly={false}
+        />
+        <Switch
+          label="Disabled Switch"
+          appearance="brand"
+          showLabel={true}
+          showIcon={true}
+          disabled={true}
+          readOnly={false}
+        />
+        <Switch
+          label="Read-Only Switch"
+          appearance="brand"
+          showLabel={true}
+          showIcon={true}
+          disabled={false}
+          readOnly={true}
+        />
+      </div>
     </div>
   );
 }
