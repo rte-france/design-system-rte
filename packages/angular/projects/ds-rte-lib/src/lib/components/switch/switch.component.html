@@ -3,7 +3,7 @@
     [ngClass]="{
         'disabled': disabled(),
         'read-only': readOnly(),
-        'checked': checked()
+        'checked': isChecked()
     }"
     (click)="handleClick($event)"
 >
@@ -16,13 +16,13 @@
         [ngClass]="{
         'disabled': disabled(),
         'read-only': readOnly(),
-        'checked': checked()
+        'checked': isChecked()
     }"
         [style.min-height.px]="switchHeight"
         [style.min-width.px]="switchWidth"
     />
-    <div class="switch-icon-check" [ngClass]="{'checked': checked() }" (click)="handleClick($event)">
-        @if (showIcon() && checked()) {
+    <div class="switch-icon-check" [ngClass]="{'checked': isChecked() }" (click)="handleClick($event)">
+        @if (showIcon() && isChecked()) {
             <rte-icon
             class="icon"
             [name]="'check'"
@@ -30,7 +30,7 @@
             (click)="handleClick($event)"
             ></rte-icon>
         }
-        @if (showIcon() && !checked()) {
+        @if (showIcon() && !isChecked()) {
             <rte-icon
             class="icon"
             [name]="'close'"

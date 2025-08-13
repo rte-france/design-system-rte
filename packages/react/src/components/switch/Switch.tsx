@@ -16,9 +16,10 @@ const Switch = ({
   showIcon = true,
   disabled = false,
   readOnly = false,
+  checked = false,
   ...props
 }: SwitchProps) => {
-  const [checked, setChecked] = useState(false);
+  const [isChecked, setIsChecked] = useState(checked);
 
   return (
     <div
@@ -26,12 +27,12 @@ const Switch = ({
       data-appearance={appearance}
       data-disabled={disabled}
       data-read-only={readOnly}
-      data-checked={checked}
+      data-checked={isChecked}
       onClick={(e) => {
         if (readOnly || disabled) {
           e.stopPropagation();
         } else {
-          setChecked(!checked);
+          setIsChecked(!isChecked);
         }
       }}
     >
@@ -42,7 +43,7 @@ const Switch = ({
         name={label}
         className={style["switch"]}
         disabled={disabled}
-        checked={checked}
+        checked={isChecked}
         readOnly={readOnly}
         style={{
           minHeight: switchHeight,
@@ -50,9 +51,9 @@ const Switch = ({
         }}
         {...props}
       />
-      <div className={style["switch-icon-check"]} data-checked={checked}>
-        {showIcon && checked && <Icon name="check" size={16} />}
-        {showIcon && !checked && <Icon name="close" size={16} />}
+      <div className={style["switch-icon-check"]} data-checked={isChecked}>
+        {showIcon && isChecked && <Icon name="check" size={16} />}
+        {showIcon && !isChecked && <Icon name="close" size={16} />}
       </div>
       {showLabel && label && (
         <label htmlFor={label} className={concatClassNames(style["switch-label"])}>

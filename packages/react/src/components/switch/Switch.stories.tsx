@@ -46,6 +46,11 @@ const meta = {
       description: "Whether the switch is read-only",
       defaultValue: false,
     },
+    checked: {
+      control: "boolean",
+      description: "Initial checked state of the switch",
+      defaultValue: false,
+    },
   },
 } satisfies Meta<typeof Switch>;
 
@@ -59,6 +64,9 @@ export const Default: Story = {
     showLabel: true,
     disabled: false,
     readOnly: false,
+    appearance: "brand",
+    showIcon: true,
+    checked: true,
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
