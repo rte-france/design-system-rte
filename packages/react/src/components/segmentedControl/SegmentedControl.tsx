@@ -1,4 +1,7 @@
-import { getSegmentPosition } from "@design-system-rte/core/components/segmented-control/segmented-control-utils";
+import {
+  getSegmentPosition,
+  isValidSegmentedControlOptions,
+} from "@design-system-rte/core/components/segmented-control/segmented-control-utils";
 import {
   SegmentProps as CoreSegmentProps,
   SegmentedControlProps as CoreSegmentedControlProps,
@@ -31,19 +34,7 @@ const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps>(
       onChange(id);
     };
 
-    if (options.length <= 1 || options.length > 3) {
-      console.warn("SegmentedControl: 'options' should have 2 or 3 items.");
-      return null;
-    }
-
-    const iconCount = options.filter((option) => option.icon).length;
-    if (iconCount > 0 && iconCount < options.length) {
-      console.warn("SegmentedControl: All options must either have an icon or none.");
-      return null;
-    }
-
-    if (options.every((option) => !option.label || !option.id)) {
-      console.warn("SegmentedControl: Each option must have a 'label' and 'id'.");
+    if (!isValidSegmentedControlOptions(options)) {
       return null;
     }
 

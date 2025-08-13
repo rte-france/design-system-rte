@@ -1,4 +1,4 @@
-import { SegmentProps } from "./segmented-control.interface";
+import { SegmentOptions, SegmentProps } from "./segmented-control.interface";
 
 export const getSegmentPosition = (optionIndex: number, numberOfOptions: number): SegmentProps["position"] => {
   if (numberOfOptions === 2) return optionIndex === 0 ? "left" : "right";
@@ -59,4 +59,19 @@ export const focusPreviousSegmentElement = (
     currentActiveSegmentElementIndex > 0 ? currentActiveSegmentElementIndex - 1 : allSegmentElements.length - 1;
 
   allSegmentElements[previousIndex].focus();
+};
+
+export const isValidSegmentedControlOptions = (options: SegmentOptions[]) => {
+  if (options.length <= 1 || options.length > 3) {
+    console.warn("SegmentedControl: 'options' should have 2 or 3 items.");
+    return false;
+  }
+
+  const iconCount = options.filter((option) => option.icon).length;
+  if (iconCount > 0 && iconCount < options.length) {
+    console.warn("SegmentedControl: All options must either have an icon or none.");
+    return false;
+  }
+
+  return true;
 };
