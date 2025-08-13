@@ -63,6 +63,24 @@ export class SegmentedControlComponent implements OnChanges, AfterViewInit, OnDe
     width: `${this.sliderWidth()}px`,
   }));
 
+  readonly isValidOptions = computed(() => {
+    const iconCount = this.options().filter((opt) => opt.icon).length;
+
+    if (this.options().length <= 1 || this.options().length > 3) {
+      console.warn("SegmentedControl: 'options' should have 2 or 3 items.");
+      return false;
+    }
+    if (iconCount > 0 && iconCount < this.options().length) {
+      console.warn("SegmentedControl: All options must either have an icon or none.");
+      return false;
+    }
+    if (this.options().every((option) => !option.label || !option.id)) {
+      console.warn("SegmentedControl: Each option must have a 'label' and 'id'.");
+      return false;
+    }
+    return true;
+  });
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes["selectedSegment"]) {
       this.updateSelectedSegmentIndicator();
