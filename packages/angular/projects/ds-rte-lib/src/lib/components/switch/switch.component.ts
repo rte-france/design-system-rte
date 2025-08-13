@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component, computed, input, signal } from "@angular/core";
+import { ChangeDetectionStrategy, Component, input, signal } from "@angular/core";
 import { switchHeight, switchWidth } from "@design-system-rte/core/components/switch/switch.constants";
 import { SwitchProps } from "@design-system-rte/core/components/switch/switch.interface";
 
@@ -24,7 +24,7 @@ export class SwitchComponent {
   switchHeight = switchHeight;
   switchWidth = switchWidth;
 
-  checked = signal(false);
+  readonly checked = signal(false);
 
   handleClick = (event: MouseEvent) => {
     if (this.readOnly() || this.disabled()) {

@@ -10,8 +10,8 @@
     <input
         type="checkbox"
         role="switch"
-        [name]="label()"
         class="switch"
+        [name]="label()"
         [ngClass]="{
         'disabled': disabled(),
         'read-only': readOnly(),
@@ -40,8 +40,8 @@
     </div>
     @if (showLabel() && label()) {
         <label
-            [for]="label()"
             class="switch-label"
+            [for]="label()"
         >
         {{ label() }}
     </label>
