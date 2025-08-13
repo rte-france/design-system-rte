@@ -1,5 +1,5 @@
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
-import { Meta, StoryObj } from "@storybook/angular";
+import { componentWrapperDecorator, Meta, StoryObj } from "@storybook/angular";
 import { expect, within, userEvent } from "@storybook/test";
 
 import { SwitchComponent } from "./switch.component";
@@ -8,6 +8,18 @@ const meta: Meta<SwitchComponent> = {
   title: "Switch",
   component: SwitchComponent,
   tags: ["autodocs"],
+  decorators: [
+    componentWrapperDecorator(
+      (story) => `<div style="height: 50px; width: 200px;">
+        ${story}
+        <div>
+          <p>
+            Switch State : <span id="switch-state"> </span>
+          </p>
+        </div>
+      </div>`,
+    ),
+  ],
   argTypes: {
     label: {
       control: "text",
@@ -38,6 +50,10 @@ const meta: Meta<SwitchComponent> = {
       control: "boolean",
       defaultValue: false,
     },
+    stateChange: {
+      action: "changed",
+      description: "Function called when the switch state changes",
+    },
     handleClick: {
       table: { disable: true },
     },
@@ -62,6 +78,13 @@ export const Default: Story = {
     disabled: false,
     readOnly: false,
     checked: false,
+    stateChange: (e: Event) => {
+      const switchState = (e.target as HTMLInputElement).checked ? "ON" : "OFF";
+      const switchStateElement = document.getElementById("switch-state");
+      if (switchStateElement) {
+        switchStateElement.textContent = switchState;
+      }
+    },
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
