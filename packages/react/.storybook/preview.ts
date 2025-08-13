@@ -6,11 +6,12 @@ import "./preview.scss";
 
 const preview: Preview = {
   decorators: [
-    (Story) => React.createElement(
-      "div",
-      { style: { padding: "50px", backgroundColor: "var(--background-default)", width: "auto", height: "100%" } },
-      React.createElement(Story)
-    ),
+    (Story) =>
+      React.createElement(
+        "div",
+        { style: { padding: "50px", backgroundColor: "var(--background-default)", width: "auto", height: "100%" } },
+        React.createElement(Story),
+      ),
   ],
 
   parameters: {
@@ -22,7 +23,6 @@ const preview: Preview = {
     },
   },
 };
-
 
 addons.getChannel().on("THEME_CHANGED", (theme) => {
   document.querySelector("html")?.setAttribute("data-mode", theme.theme);

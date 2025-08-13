@@ -23,7 +23,10 @@ const preview: Preview = {
   },
   decorators: [
     ...decorators,
-    componentWrapperDecorator((story) => `<div style="padding: 20px; background-color: var(--background-default); width: auto; height: 100%;">${story}</div>`),
+    componentWrapperDecorator(
+      (story) =>
+        `<div style="padding: 20px; background-color: var(--background-default); width: auto; height: 100%;">${story}</div>`,
+    ),
   ],
 };
 
