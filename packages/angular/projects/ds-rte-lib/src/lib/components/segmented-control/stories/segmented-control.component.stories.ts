@@ -13,7 +13,16 @@ const meta: Meta<SegmentedControlComponent> = {
   title: "Segmented Control",
   component: SegmentedControlComponent,
   tags: ["autodocs"],
-  argTypes: {},
+  argTypes: {
+    options: {
+      control: { type: "object" },
+      description: "Array of segment options",
+      table: {
+        type: { summary: "SegmentProps[]" },
+        defaultValue: { summary: "[]" },
+      },
+    },
+  },
 };
 export default meta;
 type Story = StoryObj<SegmentedControlComponent>;
@@ -35,7 +44,7 @@ export const Default: Story = {
       },
     },
     template: `
-    <div style="width: 360px">
+    <div style="width: 420px">
       <rte-segmented-control
         [options]="options"
         [selectedSegment]="selectedSegment"
@@ -86,7 +95,7 @@ export const TwoOptions: Story = {
       },
     },
     template: `
-    <div style="width: 360px">
+    <div style="width: 420px">
       <rte-segmented-control
         [options]="options"
         [selectedSegment]="selectedSegment"
@@ -114,7 +123,7 @@ export const Icons: Story = {
       },
     },
     template: `
-    <div style="width: 360px">
+    <div style="width: 420px">
       <rte-segmented-control
         [options]="options"
         [selectedSegment]="selectedSegment"
