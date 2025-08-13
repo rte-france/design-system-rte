@@ -11,6 +11,7 @@
         type="checkbox"
         role="switch"
         class="switch"
+        aria-checked="{{ isChecked() }}"
         [attr.aria-label]="label()"
         [attr.aria-checked]="isChecked()"
         [attr.aria-disabled]="disabled()"
