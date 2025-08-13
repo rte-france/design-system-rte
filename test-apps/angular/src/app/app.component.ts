@@ -12,7 +12,7 @@ import {
   TextareaComponent,
   LinkComponent,
   DividerComponent,
-  SwitchComponent
+  SwitchComponent,
 } from "@design-system-rte/angular";
 
 @Component({
@@ -31,7 +31,7 @@ import {
     TextareaComponent,
     LinkComponent,
     DividerComponent,
-    SwitchComponent
+    SwitchComponent,
   ],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",
