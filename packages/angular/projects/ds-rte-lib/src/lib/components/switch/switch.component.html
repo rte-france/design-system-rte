@@ -11,6 +11,10 @@
         type="checkbox"
         role="switch"
         class="switch"
+        [attr.aria-label]="label()"
+        [attr.aria-checked]="isChecked()"
+        [attr.aria-disabled]="disabled()"
+        [attr.aria-readonly]="readOnly()"
         [ariaLabel]="label()"
         [name]="label()"
         [ngClass]="{
@@ -20,6 +24,8 @@
     }"
         [style.min-height.px]="switchHeight"
         [style.min-width.px]="switchWidth"
+        [disabled]="disabled()"
+        [checked]="isChecked()"
     />
     <div class="switch-icon-check" [ngClass]="{'checked': isChecked() }" (click)="handleClick($event)">
         @if (showIcon() && isChecked()) {
