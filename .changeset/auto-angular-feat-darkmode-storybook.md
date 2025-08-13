@@ -1,5 +1,5 @@
 ---
-  "@design-system-rte/react": minor
+  "@design-system-rte/angular": minor
   ---
   
   ## Changes
