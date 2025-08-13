@@ -24,7 +24,7 @@ import { IconService, RegularIconIdKey, TogglableIconIdKey } from "./icon.servic
   providers: [IconService],
 })
 export class IconComponent {
-  readonly name = input.required<RegularIconIdKey | TogglableIconIdKey>();
+  readonly name = input.required<string>();
   readonly size = input(20);
   readonly color = input("currentColor");
   readonly classes = input("");
@@ -44,8 +44,11 @@ export class IconComponent {
     });
   }
 
-  private setSvgContent(svgName: RegularIconIdKey | TogglableIconIdKey) {
-    const svgFile = this.iconService.getSvg(svgName, this.appearance() || "outlined");
+  private setSvgContent(svgName: string) {
+    const svgFile = this.iconService.getSvg(
+      svgName as RegularIconIdKey | TogglableIconIdKey,
+      this.appearance() || "outlined",
+    );
 
     svgFile.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((res) => {
       const size = this.size();

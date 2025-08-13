@@ -11,9 +11,10 @@ import { default as IconButtonToggle } from './components/iconButtonToggle/IconB
 import { default as Link } from './components/link/Link.tsx';
 import { default as RadioButton } from './components/radioButton/RadioButton.tsx';
 import { default as RadioButtonGroup } from './components/radioButtonGroup/RadioButtonGroup.tsx';
+import { default as SegmentedControl } from './components/segmentedControl/SegmentedControl.tsx';
 import { default as SplitButton } from './components/splitButton/SplitButton.tsx';
 import { default as Switch } from './components/switch/Switch.tsx';
 import { default as Textarea } from './components/textarea/Textarea.tsx';
 import { default as TextInput } from './components/textInput/TextInput.tsx';
 import { default as Tooltip } from './components/tooltip/Tooltip.tsx';
-export { Button, Grid, Checkbox, CheckboxGroup, Link, RadioButton, RadioButtonGroup, Icon, IconButton, IconButtonToggle, SplitButton, Tooltip, TextInput, Chip, Badge, Textarea, Divider, Switch, };
+export { Button, Grid, Checkbox, CheckboxGroup, Link, RadioButton, RadioButtonGroup, Icon, IconButton, IconButtonToggle, SplitButton, Tooltip, TextInput, Chip, Badge, Textarea, Divider, Switch, SegmentedControl, };
