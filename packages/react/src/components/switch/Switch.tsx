@@ -7,7 +7,9 @@ import { concatClassNames } from "../utils";
 
 import style from "./Switch.module.scss";
 
-interface SwitchProps extends CoreSwitchProps, InputHTMLAttributes<HTMLInputElement> {}
+interface SwitchProps extends CoreSwitchProps, InputHTMLAttributes<HTMLInputElement> {
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
 
 const Switch = ({
   label,
@@ -17,9 +19,31 @@ const Switch = ({
   disabled = false,
   readOnly = false,
   checked = false,
+  onChange,
   ...props
 }: SwitchProps) => {
   const [isChecked, setIsChecked] = useState(checked);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsChecked(e.target.checked);
+    onChange?.(e);
+  };
+
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (readOnly || disabled) {
+      e.stopPropagation();
+    } else {
+      const inputElement = e.currentTarget.querySelector('input[type="checkbox"]') as HTMLInputElement;
+      if (inputElement) {
+        inputElement.checked = !isChecked;
+        const syntheticEvent = {
+          target: inputElement,
+          currentTarget: inputElement,
+        } as React.ChangeEvent<HTMLInputElement>;
+        handleChange(syntheticEvent);
+      }
+    }
+  };
 
   return (
     <div
@@ -28,13 +52,7 @@ const Switch = ({
       data-disabled={disabled}
       data-read-only={readOnly}
       data-checked={isChecked}
-      onClick={(e) => {
-        if (readOnly || disabled) {
-          e.stopPropagation();
-        } else {
-          setIsChecked(!isChecked);
-        }
-      }}
+      onClick={handleClick}
     >
       <input
         aria-label={label}

@@ -11,6 +11,7 @@ const meta = {
     (Story) => (
       <div style={{ height: "50px", width: "200px" }}>
         <Story />
+        <div> <p> Switch State : <span id="switch-state">  </span></p></div>
       </div>
     ),
   ],
@@ -52,6 +53,10 @@ const meta = {
       description: "Initial checked state of the switch",
       defaultValue: false,
     },
+    onChange: {
+      action: "changed",
+      description: "Function called when the switch state changes",
+    },
   },
 } satisfies Meta<typeof Switch>;
 
@@ -68,6 +73,13 @@ export const Default: Story = {
     appearance: "brand",
     showIcon: true,
     checked: false,
+    onChange: (e) => {
+      const switchState = e.target.checked ? "ON" : "OFF";
+      const switchStateElement = document.getElementById("switch-state");
+      if (switchStateElement) {
+        switchStateElement.textContent = switchState;
+      }
+    },
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
