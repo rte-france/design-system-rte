@@ -135,9 +135,9 @@ function App() {
           showIcon={true}
           disabled={false}
           readOnly={true}
-          />
-        </div>
-        <hr/>
+        />
+      </div>
+      <hr />
       <div>
         <h3>Segmented Control</h3>
         <SegmentedControl
