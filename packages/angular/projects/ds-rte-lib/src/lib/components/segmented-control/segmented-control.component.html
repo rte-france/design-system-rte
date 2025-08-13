@@ -1,4 +1,4 @@
-<div class="rte-segmented-control" role="radiogroup" [attr.aria-label]="ariaLabel()">
+<div *ngIf="isValidOptions()" class="rte-segmented-control" role="radiogroup" [attr.aria-label]="ariaLabel()">
   <span class="rte-segment-selected-indicator" [ngStyle]="segmentSelectedIndicatorStyle()"></span>
   <ng-container *ngFor="let option of options(); let idx = index">
     <div class="rte-segment-container" [attr.data-position]="getSegmentPosition(idx)">

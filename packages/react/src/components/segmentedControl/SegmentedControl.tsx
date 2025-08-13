@@ -36,6 +36,17 @@ const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps>(
       return null;
     }
 
+    const iconCount = options.filter((option) => option.icon).length;
+    if (iconCount > 0 && iconCount < options.length) {
+      console.warn("SegmentedControl: All options must either have an icon or none.");
+      return null;
+    }
+
+    if (options.every((option) => !option.label || !option.id)) {
+      console.warn("SegmentedControl: Each option must have a 'label' and 'id'.");
+      return null;
+    }
+
     return (
       <div
         ref={(node) => {
