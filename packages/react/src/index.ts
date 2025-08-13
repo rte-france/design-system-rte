@@ -16,6 +16,7 @@ import SplitButton from "./components/splitButton/SplitButton.tsx";
 import Textarea from "./components/textarea/Textarea.tsx";
 import TextInput from "./components/textInput/TextInput.tsx";
 import Tooltip from "./components/tooltip/Tooltip.tsx";
+import Switch from "./components/switch/Switch.tsx";
 
 export {
   Button,
@@ -35,4 +36,5 @@ export {
   Badge,
   Textarea,
   Divider,
+  Switch,
 };

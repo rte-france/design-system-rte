@@ -50,6 +50,8 @@
   [required]="true"
 />
 
+<hr />
+
 <rte-link
   href="https://example.com"
   label="Link"
@@ -66,3 +68,26 @@
   <p style="margin: 20px;"> right text </p>
   <rte-divider orientation="vertical" thickness="bold"></rte-divider>
 </div>
+
+<hr />
+
+<rte-switch
+  label="Switch"
+  [disabled]="false"
+  [readOnly]="false"
+  [appearance]="'brand'"
+></rte-switch>
+<rte-switch
+  label="Switch ReadOnly"
+  [disabled]="false"
+  [readOnly]="true"
+  [appearance]="'brand'"
+  [showIcon]="true"
+></rte-switch>
+<rte-switch
+  label="Switch disabled"
+  [disabled]="true"
+  [readOnly]="false"
+  [appearance]="'brand'"
+  [showLabel]="true"
+></rte-switch>
