@@ -1,7 +1,7 @@
 import { HttpClientModule } from "@angular/common/http";
 import { importProvidersFrom } from "@angular/core";
 import { setCompodocJson } from "@storybook/addon-docs/angular";
-import { applicationConfig, type Preview } from "@storybook/angular";
+import { applicationConfig, type Preview, componentWrapperDecorator } from "@storybook/angular";
 import { addons } from "@storybook/preview-api";
 
 import docJson from "../documentation.json";
@@ -21,7 +21,13 @@ const preview: Preview = {
       },
     },
   },
-  decorators: decorators,
+  decorators: [
+    ...decorators,
+    componentWrapperDecorator(
+      (story) =>
+        `<div style="padding: 20px; background-color: var(--background-default); width: auto; height: 100%;">${story}</div>`,
+    ),
+  ],
 };
 
 addons.getChannel().on("THEME_CHANGED", (theme) => {

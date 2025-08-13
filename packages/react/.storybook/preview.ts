@@ -1,9 +1,19 @@
 import { addons } from "@storybook/preview-api";
 import type { Preview } from "@storybook/react";
+import React from "react";
 
 import "./preview.scss";
 
 const preview: Preview = {
+  decorators: [
+    (Story) =>
+      React.createElement(
+        "div",
+        { style: { padding: "50px", backgroundColor: "var(--background-default)", width: "auto", height: "100%" } },
+        React.createElement(Story),
+      ),
+  ],
+
   parameters: {
     controls: {
       matchers: {
