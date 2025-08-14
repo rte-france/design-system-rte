@@ -21,11 +21,6 @@
 - harmonise style + keyboard interaction
 - improve keyboard interaction support
 - add angular component
-
-### Segmented-control
-
-#### Minor Changes
-
 - increase width to display full segment label
 
 ### Switch
@@ -57,6 +52,12 @@
 #### Minor Changes
 
 - set directive selector to rteCol & rteGrid to respect Angular style guidelines
+
+### Button
+
+#### Minor Changes
+
+- add neutral and reverse variants to button styles
 
 ### Other
 
@@ -158,11 +159,6 @@
 - add angular component
 - extract props types and constants to core
 - add react component
-
-### Segmented-control
-
-#### Minor Changes
-
 - increase width to display full segment label
 
 ### Icon
@@ -194,6 +190,12 @@
 #### Minor Changes
 
 - add Badge component documentation
+
+### Button
+
+#### Minor Changes
+
+- add neutral and reverse variants to button styles
 
 ### Other
 
@@ -313,6 +315,12 @@
 #### Minor Changes
 
 - add Badge component documentation
+
+### Button
+
+#### Minor Changes
+
+- add neutral and reverse variants to button styles
 
 ### Other
 
