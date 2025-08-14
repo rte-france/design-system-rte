@@ -151,4 +151,46 @@
             cursor: default;
         }
     }
+
+    &.neutral {
+        background: none;
+        border: none;
+        color: var(--content-primary);
+
+        &:hover {
+            color: var(--content-secondary);
+        }
+
+        &:active {
+            color: var(--content-tertiary);
+        }
+
+        &:disabled {
+            background: var(--background-disabled);
+            box-shadow: none;
+            color: var(--content-disabled);
+            cursor: default;
+        }
+    }
+
+    &.reverse {
+        background: none;
+        border: none;
+        color: var(--content-primary-inverse);
+
+        &:hover {
+            color: var(--background-hover);
+        }
+
+        &:active {
+            color: var(--content-primary-inverse);
+        }
+
+        &:disabled {
+            background: var(--background-disabled);
+            box-shadow: none;
+            color: var(--content-disabled);
+            cursor: default;
+        }
+    }
 }
