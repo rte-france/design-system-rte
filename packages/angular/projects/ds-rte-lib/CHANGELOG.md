@@ -1,5 +1,55 @@
 # @design-system-rte/angular
 
+## 0.11.0
+
+### Minor Changes
+
+- 4dead3f: ## Changes
+
+  - (Segmented Control) add validation for options to ensure proper configuration
+  - (Segmented-control) increase width to display full segment label
+  - (Segmented Control) set default focus on selected segment
+  - remove event.stopPropagation calls in key event handlers
+  - (Segmented Control) force focus on first segment on tab keyboard navigation
+  - (Segmented Control) automatically toggle icon appearance on segment selection state
+  - (Segmented Control) correct frozen animation for segment change used to be handled by a timeout
+  - (Segmented Control) set selected indicator style using signals
+  - (Segmented Control) export component in angular public api
+  - (Segmented Control) extract focus handling logic into utils file
+  - (Segmented Control) use design token for outline width
+  - (Segmented Control) rename slider to selected indicator and harmonise related logic
+  - (Segmented Control) harmonise style + keyboard interaction
+  - (Segmented Control) improve keyboard interaction support
+  - (Segmented Control) add angular component
+
+- f2f7349: ## Changes
+
+  - (Switch) implement switch component with functionality and styling
+
+- e8a673a: ## Changes
+
+  - (Storybook) add dark theme background for stories
+
+- 7d41c21: ## Changes
+
+  - (Divider) add Divider component with customizable orientation, thickness, appearance, and endPoint
+
+- cbd90b0: ## Changes
+
+  - (Storybook-badge) add Badge component stories and documentation for angular and update styles and structure for consistency
+
+- 5c06469: ## Changes
+
+  - (Grid) set directive selector to rteCol & rteGrid to respect Angular style guidelines
+
+### Patch Changes
+
+- Updated dependencies [4dead3f]
+- Updated dependencies [f2f7349]
+- Updated dependencies [7d41c21]
+- Updated dependencies [cbd90b0]
+  - @design-system-rte/core@0.15.0
+
 ## 0.10.1
 
 ### Patch Changes

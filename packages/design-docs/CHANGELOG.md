@@ -1,5 +1,13 @@
 # @design-system-rte/design-docs
 
+## 0.6.0
+
+### Minor Changes
+
+- c6cfd06: ## Changes
+
+  - (Design-docs) add elevation, grid, spacing and typography documentation to the storybook
+
 ## 0.5.3
 
 ### Patch Changes
