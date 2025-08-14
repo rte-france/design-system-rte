@@ -25,7 +25,7 @@ const meta = {
     },
     variant: {
       control: "select",
-      options: ["primary", "secondary", "text", "transparent", "danger"],
+      options: ["primary", "secondary", "text", "transparent", "danger", "neutral", "inverse"],
     },
     appearance: {
       control: "select",
