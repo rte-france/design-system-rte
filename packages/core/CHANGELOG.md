@@ -1,5 +1,30 @@
 # @design-system-rte/core
 
+## 0.15.0
+
+### Minor Changes
+
+- 4dead3f: ## Changes
+
+  - (Segmented Control) automatically toggle icon appearance on segment selection state
+  - (Segmented Control) extract focus handling logic into utils file
+  - (Segmented Control) add angular component
+  - add storybook interactions tests
+  - (Segmented Control) extract props types and constants to core
+  - (Segmented Control) add react component
+
+- f2f7349: ## Changes
+
+  - (Switch) added switch component to Core with types and interface
+
+- 7d41c21: ## Changes
+
+  - (Divider) implement Divider component types with orientation, thickness, appearance, and endPoint
+
+- cbd90b0: ## Changes
+
+  - (Storybook-badge) add Badge component documentation
+
 ## 0.14.0
 
 ### Minor Changes
