@@ -1,0 +1,85 @@
+import { Meta } from "@storybook/blocks";
+
+import HeaderComponent from "../../../../../../../.storybook/template/HeaderComponent/HeaderComponent";
+import IconTitle from "../../../../../../../.storybook/template/IconTitle/IconTitle";
+import Usage from "../../../../../../../.storybook/template/Usage/Usage";
+import UtilisationExemple from "../../../../../../../.storybook/template/UtilisationExemple/UtilisationExemple";
+import StorybookTabs from "../../../../../../../.storybook/template/StorybookTabs";
+
+import placeholderImg from "./img/placeholder_img.png";
+
+<Meta title="Components/Button" />
+
+<HeaderComponent title="Button" linkFigma="https://www.figma.com/design/Wiy8uWsWjoagf95lOmPXNU/01.0-Design-System-RTE---WEB?node-id=1-150&p=f&m=dev" linkGithub="https://github.com/rte-france/design-system-rte/tree/main/packages/angular/projects/ds-rte-lib/src//lib/components/button">
+
+<p >Un bouton est un élément interactif d’une interface utilisateur qui permet aux utilisateurs d’effectuer une action, comme soumettre un formulaire, ouvrir une fenêtre ou déclencher un événement. Il est généralement représenté par un texte, une icône ou une combinaison des deux.</p>
+
+</HeaderComponent>
+
+<StorybookTabs>
+
+    <div className="Overview">
+
+        <Usage title="Bouton">
+
+    <div>
+        <h4 > Déclencher une action </h4>
+
+        <p > Validation, soumission, ouverture d’une modale, navigation, etc. </p>
+    </div>
+
+    <div>
+        <h4 > Guider l’utilisateur </h4>
+
+        <p > Appeler à une action principale ("S'inscrire", "Acheter", "Envoyer"). </p>
+    </div>
+
+    <div>
+        <h4 > Interagir avec une interface </h4>
+
+        <p > Activation/désactivation, chargement, confirmation d’une tâche. </p>
+    </div>
+
+</Usage>
+
+<IconTitle title="Exemples d'utilisation" icon="heart_outlined" />
+
+- <p > 1 mot → "Envoyer" </p>
+- <p > 2 mots → "Ajouter au panier" </p>
+- <p > 3 mots max → "Créer un compte" </p>
+
+<b >Si un bouton nécessite plus de 3 mots, envisagez une reformulation plus concise.</b>
+
+
+<div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
+
+<UtilisationExemple toDo={true} img={placeholderImg} />
+
+<UtilisationExemple toDo={false} img={placeholderImg} />
+
+</div>
+
+    <img  src={placeholderImg} alt="Exemple de bouton" style={{ width: "100%", margin: "2rem auto", display: "block" }} />
+
+    </div>
+
+    <div className="Guidelines">
+
+        <p > Guidelines </p>
+
+    </div>
+
+    <div className="Code">
+
+        <p > Code </p>
+
+    </div>
+
+    <div className="Accessibility">
+
+        <p > Accessibility </p>
+
+    </div>
+
+</StorybookTabs>
+
