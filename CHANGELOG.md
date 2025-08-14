@@ -2,6 +2,76 @@
 
 # Angular
 
+## 0.11.0
+
+### Segmented Control
+
+#### Minor Changes
+
+- add validation for options to ensure proper configuration
+- set default focus on selected segment
+- force focus on first segment on tab keyboard navigation
+- automatically toggle icon appearance on segment selection state
+- correct frozen animation for segment change used to be handled by a timeout
+- set selected indicator style using signals
+- export component in angular public api
+- extract focus handling logic into utils file
+- use design token for outline width
+- rename slider to selected indicator and harmonise related logic
+- harmonise style + keyboard interaction
+- improve keyboard interaction support
+- add angular component
+
+### Segmented-control
+
+#### Minor Changes
+
+- increase width to display full segment label
+
+### Switch
+
+#### Minor Changes
+
+- implement switch component with functionality and styling
+
+### Storybook
+
+#### Minor Changes
+
+- add dark theme background for stories
+
+### Divider
+
+#### Minor Changes
+
+- add Divider component with customizable orientation, thickness, appearance, and endPoint
+
+### Storybook-badge
+
+#### Minor Changes
+
+- add Badge component stories and documentation for angular and update styles and structure for consistency
+
+### Grid
+
+#### Minor Changes
+
+- set directive selector to rteCol & rteGrid to respect Angular style guidelines
+
+### Other
+
+#### Minor Changes
+
+- remove event.stopPropagation calls in key event handlers
+
+#### Patch Changes
+
+- Updated dependencies [4dead3f]
+- Updated dependencies [f2f7349]
+- Updated dependencies [7d41c21]
+- Updated dependencies [cbd90b0]
+- @design-system-rte/core@0.15.0
+
 ## 0.10.1
 
 #### Patch Changes
@@ -65,29 +135,80 @@
 
 - Updated dependencies [b824254]
 - @design-system-rte/core@0.12.0
+# React
 
-## 0.8.0
+## 0.10.0
+
+### Segmented Control
 
 #### Minor Changes
 
-- set Arial font to stories
-- add keyboard test constants file
-- add type to aria role mapping constant
-- simplify chip icon visibility logic and remove unused styles
-- add keyboard event handling for backspace and delete keys
-- add id property to text input component to get better accessibility
-- export chip component
-- add missing semicolon + pass className as plain string
-- update missing correct keyboard event handling syntaxe in stories
-- add angular storybook component
-- update keyboard event handling in stories to use correct syntax
-- add angular chip component
+- extract updateSlider function
+- add validation for options to ensure proper configuration
+- set default focus on selected segment
+- force focus on first segment on tab keyboard navigation
+- automatically toggle icon appearance on segment selection state
+- set selected indicator style using signals
+- extract focus handling logic into utils file
+- use design token for outline width
+- improve focus handling by referencing parent element for segment queries
+- rename slider to selected indicator and harmonise related logic
+- harmonise style + keyboard interaction
+- improve keyboard interaction support
+- add angular component
+- extract props types and constants to core
+- add react component
+
+### Segmented-control
+
+#### Minor Changes
+
+- increase width to display full segment label
+
+### Icon
+
+#### Minor Changes
+
+- set name props as string type
+
+### Switch
+
+#### Minor Changes
+
+- added switch component to React with style and functionality
+
+### Storybook
+
+#### Minor Changes
+
+- add dark theme background for stories
+
+### Divider
+
+#### Minor Changes
+
+- implement Divider component with orientation, thickness, appearance, and endPoint
+
+### Storybook-badge
+
+#### Minor Changes
+
+- add Badge component documentation
+
+### Other
+
+#### Minor Changes
+
+- remove event.stopPropagation calls in key event handlers
+- add storybook interactions tests
 
 #### Patch Changes
 
-- Updated dependencies [ae703ee]
-- @design-system-rte/core@0.11.0
-# React
+- Updated dependencies [4dead3f]
+- Updated dependencies [f2f7349]
+- Updated dependencies [7d41c21]
+- Updated dependencies [cbd90b0]
+- @design-system-rte/core@0.15.0
 
 ## 0.9.1
 
@@ -161,35 +282,43 @@
 
 - Updated dependencies [b824254]
 - @design-system-rte/core@0.12.0
+# Core
 
-## 0.7.0
+## 0.15.0
+
+### Segmented Control
 
 #### Minor Changes
 
-- set Arial font to stories
-- add keyboard test constants file
-- enrich useActiveKeyboard handler parameters with more keyboard event case and remove unused isActiveKeyboard state
-- add type to aria role mapping constant
-- simplify chip icon visibility logic and remove unused styles
-- add keyboard event handling for backspace and delete keys
-- add id property to text input component to get better accessibility
-- export chip component
-- add missing semicolon + pass className as plain string
-- update missing correct keyboard event handling syntaxe in stories
-- add angular storybook component
-- update keyboard event handling in stories to use correct syntax
-- add angular chip component
-- extract chip props in interface
-- add react input chip
-- add multi select type + add animation
-- add React single chip component
-- add useActiveKeyboard hook to centralise keyboard interaction
+- automatically toggle icon appearance on segment selection state
+- extract focus handling logic into utils file
+- add angular component
+- extract props types and constants to core
+- add react component
 
-#### Patch Changes
+### Switch
 
-- Updated dependencies [ae703ee]
-- @design-system-rte/core@0.11.0
-# Core
+#### Minor Changes
+
+- added switch component to Core with types and interface
+
+### Divider
+
+#### Minor Changes
+
+- implement Divider component types with orientation, thickness, appearance, and endPoint
+
+### Storybook-badge
+
+#### Minor Changes
+
+- add Badge component documentation
+
+### Other
+
+#### Minor Changes
+
+- add storybook interactions tests
 
 ## 0.14.0
 
@@ -218,15 +347,18 @@
 - correct casing of compactSpacing property in Tag component and stories
 - improve formatting and consistency in Tag component and interface
 - add Tag component with status and decorative types, including styles and stories
+# Design Docs
 
-## 0.12.0
+## 0.6.0
+
+### Design-docs
 
 #### Minor Changes
 
-- enhance Badge component with improved class bindings and styling options
-- implement Badge component in Angular
-- add Badge interface
-# Design Docs
+- add elevation, grid, spacing and typography documentation to the storybook
+
+### Other
+
 
 ## 0.5.3
 
