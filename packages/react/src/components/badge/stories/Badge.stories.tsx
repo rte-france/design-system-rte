@@ -27,7 +27,7 @@ const meta = {
     },
     appearance: {
       control: "select",
-      options: ["text", "icon"],
+      options: ["text", "icon", "empty"],
       description: "Appearance of the badge",
       defaultValue: "text",
     },
