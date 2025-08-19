@@ -1,5 +1,13 @@
 # @design-system-rte/design-docs
 
+## 0.6.1
+
+### Patch Changes
+
+- e77d31f: ## Changes
+
+  - (Badge) add controls for empty appearance
+
 ## 0.6.0
 
 ### Minor Changes
