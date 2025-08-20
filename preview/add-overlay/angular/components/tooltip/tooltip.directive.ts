@@ -9,26 +9,11 @@ import {
   Renderer2,
   ViewContainerRef,
 } from "@angular/core";
-import { getAutoPlacement } from "@design-system-rte/core/components/utils/auto-placement";
+import { getAutoPlacement, getCoordinates } from "@design-system-rte/core/components/utils/auto-placement";
+
+import { OverlayService } from "../../services/overlay.service";
 
 import { TooltipComponent } from "./tooltip.component";
-
-interface TooltipXBound {
-  position: "left" | "right";
-  offset: number;
-}
-
-interface TooltipYBound {
-  position: "top" | "bottom";
-  offset: number;
-}
-
-interface TooltipBounds {
-  x: TooltipXBound;
-  y: TooltipYBound;
-}
-
-const TOOLTIP_GAP = 8;
 
 @Directive({
   selector: "[rteTooltip]",
@@ -42,6 +27,7 @@ export class TooltipDirective {
 
   private tooltipRef: ComponentRef<TooltipComponent> | null = null;
   private hostElement: HTMLElement;
+  private overlayService: OverlayService;
 
   private elementRef = inject(ElementRef);
   private viewContainerRef = inject(ViewContainerRef);
@@ -69,6 +55,7 @@ export class TooltipDirective {
   }
 
   constructor() {
+    this.overlayService = inject(OverlayService);
     this.hostElement = this.elementRef.nativeElement;
     this.hostElement.setAttribute("tabindex", "0");
   }
@@ -78,16 +65,14 @@ export class TooltipDirective {
       this.tooltipRef.destroy();
     }
 
-    this.tooltipRef = this.viewContainerRef.createComponent(TooltipComponent);
+    this.tooltipRef = this.overlayService.create(TooltipComponent, this.viewContainerRef);
     this.assignDirectiveToComponent();
-    this.appendComponentToHost();
     this.cdr.detectChanges();
 
     if (this.tooltipRef) {
       const tooltipElement = this.tooltipRef.location.nativeElement;
       this.renderer.setStyle(tooltipElement, "opacity", "0");
       this.positionTooltip();
-
       this.renderer.setStyle(tooltipElement, "opacity", "1");
     }
   }
@@ -95,9 +80,10 @@ export class TooltipDirective {
   private assignDirectiveToComponent(): void {
     if (this.tooltipRef) {
       const tooltipElement = this.tooltipRef.location.nativeElement;
+
       const position =
         this.rteTooltipPosition() === "auto"
-          ? getAutoPlacement(this.hostElement, tooltipElement, "top")
+          ? getAutoPlacement(this.hostElement, tooltipElement, "top", 10)
           : this.rteTooltipPosition();
 
       this.tooltipRef.setInput("label", this.rteTooltip());
@@ -107,67 +93,16 @@ export class TooltipDirective {
     }
   }
 
-  private appendComponentToHost(): void {
-    if (this.tooltipRef) {
-      this.renderer.appendChild(this.elementRef.nativeElement, this.tooltipRef.location.nativeElement);
-    }
-  }
-
   private positionTooltip(): void {
     if (this.tooltipRef) {
       const tooltipElement = this.tooltipRef.location.nativeElement;
-
-      const bounds = this.getTooltipPosition(this.hostElement, this.tooltipRef);
+      const positions = getCoordinates(this.tooltipRef.instance.position(), this.hostElement, tooltipElement, 10);
 
       this.renderer.setStyle(this.hostElement, "position", "relative");
 
-      this.renderer.setStyle(tooltipElement, bounds.x.position, `${bounds.x.offset}px`);
-      this.renderer.setStyle(tooltipElement, bounds.y.position, `${bounds.y.offset}px`);
+      this.renderer.setStyle(tooltipElement, "top", `${positions.top}px`);
+      this.renderer.setStyle(tooltipElement, "left", `${positions.left}px`);
     }
-  }
-
-  private getTooltipPosition(host: HTMLElement, tooltip: ComponentRef<TooltipComponent>): TooltipBounds {
-    return {
-      x: this.getTooltipXBound(host, tooltip),
-      y: this.getTooltipYBound(host, tooltip),
-    };
-  }
-
-  private getTooltipXBound(host: HTMLElement, tooltip: ComponentRef<TooltipComponent>): TooltipXBound {
-    return {
-      position: tooltip.instance.position() === "right" ? "right" : "left",
-      offset: this.getTooltipXOffset(host, tooltip),
-    };
-  }
-
-  private getTooltipXOffset(host: HTMLElement, tooltip: ComponentRef<TooltipComponent>): number {
-    const hostRect = host.getBoundingClientRect();
-    if (tooltip.instance.position() === "left") {
-      return -tooltip.location.nativeElement.querySelector(".tooltip").offsetWidth - TOOLTIP_GAP;
-    }
-    if (tooltip.instance.position() === "right") {
-      return -TOOLTIP_GAP;
-    }
-    return hostRect.width / 2;
-  }
-
-  private getTooltipYBound(host: HTMLElement, tooltip: ComponentRef<TooltipComponent>): TooltipYBound {
-    return {
-      position: tooltip.instance.position() === "bottom" ? "bottom" : "top",
-      offset: this.getTooltipYOffset(host, tooltip),
-    };
-  }
-
-  private getTooltipYOffset(host: HTMLElement, tooltip: ComponentRef<TooltipComponent>): number {
-    const hostRect = host.getBoundingClientRect();
-
-    if (tooltip.instance.position() === "top") {
-      return -tooltip.location.nativeElement.querySelector(".tooltip").offsetHeight - TOOLTIP_GAP;
-    }
-    if (tooltip.instance.position() === "bottom") {
-      return -TOOLTIP_GAP;
-    }
-    return hostRect.height / 2;
   }
 
   private hideTooltip(): void {

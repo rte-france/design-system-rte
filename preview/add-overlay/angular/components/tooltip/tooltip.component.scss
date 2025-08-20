@@ -31,6 +31,8 @@ $max-height: 40px;
 
     &.top {
         transform: translateX(-50%);
+        bottom: 150%;
+        left: 50%;
 
         &::after {
             top: 100%;
@@ -49,6 +51,8 @@ $max-height: 40px;
     }
 
     &.bottom {
+        top: 150%;
+        left: 50%;
         transform: translateX(-50%);
 
         &::after {
@@ -68,6 +72,8 @@ $max-height: 40px;
     }
 
     &.left {
+        top: 50%;
+        right: 120%;
         transform: translateY(-50%);
 
         &::after {
@@ -87,6 +93,8 @@ $max-height: 40px;
     }
 
     &.right {
+        top: 50%;
+        left: 120%;
         transform: translateY(-50%);
 
         &::after {
