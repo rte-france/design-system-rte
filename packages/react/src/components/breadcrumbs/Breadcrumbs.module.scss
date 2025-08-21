@@ -1,0 +1,30 @@
+@use '@design-system-rte/core/design-tokens/main.scss' as *;
+
+.breadcrumbsContainer {
+    display: flex;
+    align-items: center;
+    gap: $positive-spacing_025;
+}
+
+.breadcrumbItem {
+    display: inline-flex;
+    align-items: center;
+
+    @include typography-text-m-regular;
+
+    a {
+        color: var(--content-tertiary);
+    }
+
+
+    &:last-child {
+        cursor: default;
+        color: var(--content-primary);
+    }
+}
+
+.separator {
+    color: var(--content-tertiary);
+    padding: 0 $positive-spacing_100;
+    user-select: none;
+}

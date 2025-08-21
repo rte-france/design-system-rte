@@ -1,0 +1,66 @@
+import { Meta, StoryObj } from "@storybook/react";
+import { userEvent, within, expect } from "@storybook/test";
+
+import Breadcrumbs from "../Breadcrumbs";
+
+const meta = {
+  title: "Composants/Breadcrumbs/Breadcrumbs",
+  component: Breadcrumbs,
+  tags: ["autodocs"],
+} satisfies Meta<typeof Breadcrumbs>;
+export default meta;
+
+type Story = StoryObj<typeof meta>;
+
+const mockItems = [
+  { label: "Home", link: "/" },
+  { label: "Products", link: "/products" },
+  { label: "Electronics", link: "/products/electronics" },
+  { label: "Smartphones", link: "/products/electronics/smartphones" },
+];
+
+export const Default: Story = {
+  args: {
+    items: mockItems,
+  },
+};
+
+export const KeyboardNavigation: Story = {
+  args: {
+    ...Default.args,
+  },
+  render: (args) => {
+    return <Breadcrumbs {...args} data-testid="breadcrumbs" />;
+  },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const breadcrumbs = canvas.getByTestId("breadcrumbs").querySelectorAll("div");
+    const breadCrumbsHead = breadcrumbs[breadcrumbs.length - 1].querySelector("span");
+    args.items.forEach(async () => {
+      await userEvent.tab();
+    });
+    expect(breadCrumbsHead).not.toHaveFocus();
+    await userEvent.tab({ shift: true });
+    expect(breadcrumbs[breadcrumbs.length - 2].querySelector("a")).toHaveFocus();
+  },
+};
+
+export const Truncated: Story = {
+  args: {
+    ...Default.args,
+    items: [...Default.args.items, { label: "iPhone 13", link: "/products/electronics/smartphones/iphone-13" }],
+  },
+  render: (args) => {
+    return (
+      <>
+        <Breadcrumbs {...args} data-testid="breadcrumbs" />
+        <Breadcrumbs {...args} data-testid="breadcrumbs-truncated" />
+      </>
+    );
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const breadcrumbs = canvas.getByTestId("breadcrumbs");
+    const breadcrumbsTruncated = canvas.getByTestId("breadcrumbs-truncated");
+  },
+};
