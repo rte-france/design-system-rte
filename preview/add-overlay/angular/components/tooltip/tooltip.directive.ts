@@ -9,7 +9,7 @@ import {
   Renderer2,
   ViewContainerRef,
 } from "@angular/core";
-import { TOOLTIP_GAP } from "@design-system-rte/core/components/tooltip/tooltip.constants";
+import { TOOLTIP_GAP, TOOLTIP_GAP_ARROW } from "@design-system-rte/core/components/tooltip/tooltip.constants";
 import { getAutoPlacement, getCoordinates } from "@design-system-rte/core/components/utils/auto-placement";
 
 import { OverlayService } from "../../services/overlay.service";
@@ -68,14 +68,7 @@ export class TooltipDirective {
 
     this.tooltipRef = this.overlayService.create(TooltipComponent, this.viewContainerRef);
     this.assignDirectiveToComponent();
-    this.cdr.detectChanges();
-
-    if (this.tooltipRef) {
-      const tooltipElement = this.tooltipRef.location.nativeElement;
-      this.renderer.setStyle(tooltipElement, "opacity", "0");
-      this.positionTooltip();
-      this.renderer.setStyle(tooltipElement, "opacity", "1");
-    }
+    this.positionTooltip();
   }
 
   private assignDirectiveToComponent(): void {
@@ -84,7 +77,12 @@ export class TooltipDirective {
 
       const position =
         this.rteTooltipPosition() === "auto"
-          ? getAutoPlacement(this.hostElement, tooltipElement, "top", TOOLTIP_GAP)
+          ? getAutoPlacement(
+              this.hostElement,
+              tooltipElement,
+              "top",
+              this.rteTooltipArrow() ? TOOLTIP_GAP_ARROW : TOOLTIP_GAP,
+            )
           : this.rteTooltipPosition();
 
       this.tooltipRef.setInput("label", this.rteTooltip());
@@ -97,11 +95,12 @@ export class TooltipDirective {
   private positionTooltip(): void {
     if (this.tooltipRef) {
       const tooltipElement = this.tooltipRef.location.nativeElement;
+
       const positions = getCoordinates(
         this.tooltipRef.instance.position(),
         this.hostElement,
         tooltipElement,
-        TOOLTIP_GAP,
+        this.rteTooltipArrow() ? TOOLTIP_GAP_ARROW : TOOLTIP_GAP,
       );
 
       this.renderer.setStyle(this.hostElement, "position", "relative");
