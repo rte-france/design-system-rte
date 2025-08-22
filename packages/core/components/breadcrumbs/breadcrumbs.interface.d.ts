@@ -5,7 +5,6 @@ export interface BreadcrumbsProps {
 export interface BreadcrumbProps {
   label: string;
   link: string;
-  role?: string;
 }
 
 export interface BreadcrumbsTruncatedItems {
