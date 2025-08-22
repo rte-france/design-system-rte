@@ -1,10 +1,10 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { userEvent, within, expect } from "@storybook/test";
 
-import Breadcrumbs from "../Breadcrumbs";
+import Breadcrumbs from "./Breadcrumbs";
 
 const meta = {
-  title: "Composants/Breadcrumbs/Breadcrumbs",
+  title: "Breadcrumbs",
   component: Breadcrumbs,
   tags: ["autodocs"],
 } satisfies Meta<typeof Breadcrumbs>;
@@ -48,13 +48,13 @@ export const KeyboardNavigation: Story = {
 export const Truncated: Story = {
   args: {
     ...Default.args,
-    items: [...Default.args.items, { label: "iPhone 13", link: "/products/electronics/smartphones/iphone-13" }],
+    items: [...Default.args.items.slice(0, 2)],
   },
   render: (args) => {
     return (
       <>
         <Breadcrumbs {...args} data-testid="breadcrumbs" />
-        <Breadcrumbs {...args} data-testid="breadcrumbs-truncated" />
+        <Breadcrumbs {...Default.args} data-testid="breadcrumbs-truncated" />
       </>
     );
   },
@@ -62,5 +62,7 @@ export const Truncated: Story = {
     const canvas = within(canvasElement);
     const breadcrumbs = canvas.getByTestId("breadcrumbs");
     const breadcrumbsTruncated = canvas.getByTestId("breadcrumbs-truncated");
+    expect(within(breadcrumbs).queryByTestId("show-more")).not.toBeInTheDocument();
+    expect(within(breadcrumbsTruncated).queryByTestId("show-more")).toBeInTheDocument();
   },
 };

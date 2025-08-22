@@ -9,6 +9,8 @@
 .breadcrumbItem {
     display: inline-flex;
     align-items: center;
+    opacity: 0;
+    animation: fadeIn 150ms forwards;
 
     @include typography-text-m-regular;
 
@@ -21,10 +23,24 @@
         cursor: default;
         color: var(--content-primary);
     }
+
+    :focus-visible {
+        outline: 1px solid var(--border-brand-focused);
+        outline-offset: $radius-s;
+        border-radius: $radius-s;
+    }
+
 }
+
 
 .separator {
     color: var(--content-tertiary);
     padding: 0 $positive-spacing_100;
     user-select: none;
+    opacity: 0;
+    animation: fadeIn 150ms forwards;
+}
+  
+@keyframes fadeIn {
+    to { opacity: 1; }
 }

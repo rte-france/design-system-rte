@@ -1,7 +1,4 @@
-import {
-  BreadcrumbProps,
-  BreadcrumbsProps as BreadcrumbsPropsCore,
-} from "@design-system-rte/core/components/breadcrumbs/breadcrumbs.interface";
+import { BreadcrumbsProps as BreadcrumbsPropsCore } from "@design-system-rte/core/components/breadcrumbs/breadcrumbs.interface";
 import {
   getBreadcrumbsTruncatedItems,
   shouldTruncateBreadcrumbs,
@@ -20,20 +17,30 @@ const Breadcrumbs = forwardRef<HTMLDivElement, BreadcrumbsProps>(({ items, ...pr
     const { root, truncated, remaining } = getBreadcrumbsTruncatedItems(items);
 
     return (
-      <div ref={ref} className={style.breadcrumbsBadge} {...props} role="navigation" aria-label="Fil d'Ariane">
+      <nav ref={ref} className={style.breadcrumbsBadge} {...props} role="navigation" aria-label="Fil d'Ariane">
         <div className={style.breadcrumbsTruncated}>
           <Link
             subtle
             href={root.link}
             label={root.label}
             style={{ color: "var(--content-tertiary)" }}
-            {...(root.role && { role: root.role })}
+            className={style.breadcrumbItem}
           />
           <span aria-hidden="true" className={style.separator}>
             /
           </span>
-          <span title={`More items: ${truncated.map((item) => item.label).join(", ")}`}>
-            <Icon name="more-horiz" size={12} />
+          <span
+            title={`More items: ${truncated.map((item) => item.label).join(", ")}`}
+            className={style.breadcrumbItem}
+          >
+            <Icon
+              name="more-horiz"
+              size={12}
+              tabIndex={0}
+              role="menu"
+              aria-label="More items"
+              data-testid="show-more"
+            />
           </span>
           <span aria-hidden="true" className={style.separator}>
             /
@@ -45,13 +52,7 @@ const Breadcrumbs = forwardRef<HTMLDivElement, BreadcrumbsProps>(({ items, ...pr
                   {item.label}
                 </span>
               ) : (
-                <Link
-                  href={item.link}
-                  label={item.label}
-                  subtle
-                  style={{ color: "var(--content-tertiary)" }}
-                  {...(item.role && { role: item.role })}
-                />
+                <Link href={item.link} label={item.label} subtle style={{ color: "var(--content-tertiary)" }} />
               )}
               {index < remaining.length - 1 && (
                 <span aria-hidden="true" className={style.separator}>
@@ -61,7 +62,7 @@ const Breadcrumbs = forwardRef<HTMLDivElement, BreadcrumbsProps>(({ items, ...pr
             </div>
           ))}
         </div>
-      </div>
+      </nav>
     );
   } else {
     return (
@@ -73,13 +74,7 @@ const Breadcrumbs = forwardRef<HTMLDivElement, BreadcrumbsProps>(({ items, ...pr
                 {item.label}
               </span>
             ) : (
-              <Link
-                href={item.link}
-                label={item.label}
-                subtle
-                style={{ color: "var(--content-tertiary)" }}
-                {...(item.role && { role: item.role })}
-              />
+              <Link href={item.link} label={item.label} subtle style={{ color: "var(--content-tertiary)" }} />
             )}
             {index < items.length - 1 && (
               <span aria-hidden="true" className={style.separator}>
