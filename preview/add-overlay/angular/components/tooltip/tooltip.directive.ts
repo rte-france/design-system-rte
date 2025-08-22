@@ -120,6 +120,7 @@ export class TooltipDirective {
         if (this.tooltipRef) {
           this.tooltipRef.destroy();
           this.tooltipRef = null;
+          this.overlayService.destroy();
         }
       }, 200);
     }
