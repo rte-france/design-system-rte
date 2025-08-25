@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectorRef,
   ComponentRef,
   Directive,
@@ -6,6 +7,7 @@ import {
   HostListener,
   inject,
   input,
+  OnDestroy,
   Renderer2,
   ViewContainerRef,
 } from "@angular/core";
@@ -20,7 +22,7 @@ import { TooltipComponent } from "./tooltip.component";
   selector: "[rteTooltip]",
   standalone: true,
 })
-export class TooltipDirective {
+export class TooltipDirective implements AfterViewInit, OnDestroy {
   readonly rteTooltip = input.required<string>();
   readonly rteTooltipPosition = input("auto");
   readonly rteTooltipAlignment = input("center");
@@ -59,6 +61,14 @@ export class TooltipDirective {
     this.overlayService = inject(OverlayService);
     this.hostElement = this.elementRef.nativeElement;
     this.hostElement.setAttribute("tabindex", "0");
+  }
+
+  ngAfterViewInit() {
+    window.addEventListener("scroll", this.positionTooltip.bind(this));
+  }
+
+  ngOnDestroy() {
+    window.removeEventListener("scroll", this.positionTooltip.bind(this));
   }
 
   showTooltip(): void {

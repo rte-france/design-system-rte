@@ -37,7 +37,7 @@ const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
       [ref],
     );
 
-    useEffect(() => {
+    const computePosition = useCallback(() => {
       if (isOpen && triggerRef.current && tooltipElement) {
         const computedPosition =
           position === "auto"
@@ -54,9 +54,19 @@ const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
       }
     }, [isOpen, position, arrow, tooltipElement]);
 
+    useEffect(() => {
+      computePosition();
+      window.addEventListener("scroll", computePosition);
+
+      return () => {
+        window.removeEventListener("scroll", computePosition);
+      };
+    }, [computePosition]);
+
     const openTooltip = () => {
       setIsOpen(true);
     };
+
     const closeTooltip = () => {
       setIsOpen(false);
     };

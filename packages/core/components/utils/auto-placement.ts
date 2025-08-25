@@ -36,41 +36,28 @@ export const getCoordinates = (
 ) => {
   let top = 0;
   let left = 0;
-
   if (position === "bottom") {
-    top = triggerElement.getBoundingClientRect().bottom + window.scrollY + offset;
+    top = triggerElement.getBoundingClientRect().bottom + offset;
     left =
       triggerElement.getBoundingClientRect().left +
-      window.scrollX +
       triggerElement.getBoundingClientRect().width / 2 -
       castedElement.getBoundingClientRect().width / 2;
   } else if (position === "left") {
     top =
       triggerElement.getBoundingClientRect().top +
-      window.scrollY +
       triggerElement.getBoundingClientRect().height / 2 -
       castedElement.getBoundingClientRect().height / 2;
-    left =
-      triggerElement.getBoundingClientRect().left +
-      window.scrollX -
-      castedElement.getBoundingClientRect().width -
-      offset;
+    left = triggerElement.getBoundingClientRect().left - castedElement.getBoundingClientRect().width - offset;
   } else if (position === "right") {
     top =
       triggerElement.getBoundingClientRect().top +
-      window.scrollY +
       triggerElement.getBoundingClientRect().height / 2 -
       castedElement.getBoundingClientRect().height / 2;
-    left = triggerElement.getBoundingClientRect().right + window.scrollX + offset;
+    left = triggerElement.getBoundingClientRect().right + offset;
   } else if (position === "top" || !position) {
-    top =
-      triggerElement.getBoundingClientRect().top +
-      window.scrollY -
-      castedElement.getBoundingClientRect().height -
-      offset;
+    top = triggerElement.getBoundingClientRect().top - castedElement.getBoundingClientRect().height - offset;
     left =
       triggerElement.getBoundingClientRect().left +
-      window.scrollX +
       triggerElement.getBoundingClientRect().width / 2 -
       castedElement.getBoundingClientRect().width / 2;
   }
