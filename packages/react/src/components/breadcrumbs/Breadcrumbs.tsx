@@ -48,9 +48,9 @@ const Breadcrumbs = forwardRef<HTMLDivElement, BreadcrumbsProps>(({ items, ...pr
           {remaining.map((item, index) => (
             <div key={item.link} className={style.breadcrumbItem}>
               {index === remaining.length - 1 ? (
-                <span aria-label={item.label} aria-current="page" tabIndex={0}>
+                <a role="link" aria-label={item.label} aria-current="page" tabIndex={0}>
                   {item.label}
-                </span>
+                </a>
               ) : (
                 <Link href={item.link} label={item.label} subtle style={{ color: "var(--content-tertiary)" }} />
               )}
@@ -70,9 +70,9 @@ const Breadcrumbs = forwardRef<HTMLDivElement, BreadcrumbsProps>(({ items, ...pr
         {items.map((item, index) => (
           <div key={item.link} className={style.breadcrumbItem}>
             {index === items.length - 1 ? (
-              <span aria-label={item.label} aria-current="page" tabIndex={0}>
+              <a role="link" aria-label={item.label} aria-current="page" tabIndex={0}>
                 {item.label}
-              </span>
+              </a>
             ) : (
               <Link href={item.link} label={item.label} subtle style={{ color: "var(--content-tertiary)" }} />
             )}
