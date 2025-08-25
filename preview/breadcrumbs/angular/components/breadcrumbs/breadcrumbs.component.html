@@ -1,40 +1,47 @@
-<nav *ngIf="truncatedItems" role="navigation" aria-label="Fil d'Ariane">
-  <div class="breadcrumbsTruncated">
-    <a class="breadcrumbItem" [href]="truncatedItems.root.link" [ngClass]="{'loaded': isLoaded[0]}">
-      {{ truncatedItems.root.label }}
-    </a>
-    <span aria-hidden="true" class="separator">/</span>
-    <span
-      title="More items: {{ truncatedItems.truncated.map(item => item.label).join(', ') }}"
-      class="breadcrumbItem"
-    >
-      <i class="icon-more-horiz" aria-label="More items" tabindex="0"></i>
-    </span>
-    <span aria-hidden="true" class="separator">/</span>
-    <ng-container *ngFor="let item of truncatedItems.remaining; let i = index">
-      <div class="breadcrumbItem">
-        <span *ngIf="i === truncatedItems.remaining.length - 1" aria-label="{{ item.label }}" aria-current="page" tabindex="0">
-          {{ item.label }}
-        </span>
-        <a *ngIf="i < truncatedItems.remaining.length - 1" [href]="item.link">
-          {{ item.label }}
-        </a>
-        <span *ngIf="i < truncatedItems.remaining.length - 1" aria-hidden="true" class="separator">/</span>
+<nav class="breadcrumbs-container" role="navigation" aria-label="Fil d'Ariane">
+  @if (truncatedItems()?.truncated?.length) {
+    <div class="breadcrumbs-truncated">
+      <div class="breadcrumb-item">
+        <rte-link
+        [href]="truncatedItems()!.root.link"
+        [label]="truncatedItems()!.root.label"
+        [subtle]="true"
+      />
       </div>
-    </ng-container>
-  </div>
-</nav>
-
-<div *ngIf="!truncatedItems" role="navigation" aria-label="Fil d'Ariane">
-  <ng-container *ngFor="let item of items; let i = index">
-    <div class="breadcrumbItem">
-      <span *ngIf="i === items.length - 1" aria-label="{{ item.label }}" aria-current="page" tabindex="0">
-        {{ item.label }}
+      <span aria-hidden="true" class="separator">/</span>
+      <span title="More items: {{ truncatedItemsText() }}" class="breadcrumb-item">
+        <rte-icon name="more-horiz" tabIndex="0" role="menu" aria-label="More items" data-testid="show-more" [size]="12"/>
       </span>
-      <a *ngIf="i < items.length - 1" [href]="item.link">
-        {{ item.label }}
-      </a>
-      <span *ngIf="i < items.length - 1" aria-hidden="true" class="separator">/</span>
+      <span aria-hidden="true" class="separator">/</span>
+      @for (item of truncatedItems()!.remaining; track item.link; let i = $index) {
+        <div class="breadcrumb-item">
+          @if (i === truncatedItems()!.remaining.length - 1) {
+            <a role="link" aria-current="page" tabindex="0" [attr.aria-label]="item.label">
+              {{ item.label }}
+            </a>
+          } @else {
+            <rte-link [href]="item.link" [label]="item.label" [subtle]="true"/>
+          }
+        </div>
+        @if (i < truncatedItems()!.remaining.length - 1) {
+          <span aria-hidden="true" class="separator">/</span>
+        }
+      }
     </div>
-  </ng-container>
-</div>
+  } @else {
+      @for (item of items(); track item.link; let i = $index) {
+        <div class="breadcrumb-item">
+          @if (i === items().length - 1) {
+            <a role="link" aria-current="page" tabindex="0" [attr.aria-label]="item.label">
+              {{ item.label }}
+            </a>
+          } @else {
+            <rte-link [href]="item.link" [label]="item.label" [subtle]="true"/>
+          }
+        </div>
+        @if (i < items().length - 1) {
+          <span aria-hidden="true" class="separator">/</span>
+        }
+      }
+  }
+</nav>

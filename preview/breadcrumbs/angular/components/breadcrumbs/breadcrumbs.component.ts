@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ChangeDetectionStrategy, Component, computed, input } from "@angular/core";
 import {
   BreadcrumbProps,
   BreadcrumbsTruncatedItems,
@@ -9,23 +9,31 @@ import {
   shouldTruncateBreadcrumbs,
 } from "@design-system-rte/core/components/breadcrumbs/breadcrumbs.utils";
 
+import { IconComponent } from "../icon/icon.component";
 import { LinkComponent } from "../link/link.component";
 
 @Component({
   selector: "rte-breadcrumbs",
-  imports: [CommonModule, LinkComponent],
+  imports: [CommonModule, LinkComponent, IconComponent],
   standalone: true,
   templateUrl: "./breadcrumbs.component.html",
   styleUrl: "./breadcrumbs.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BreadcrumbsComponent {
-  items: BreadcrumbProps[] = [];
+  readonly items = input<BreadcrumbProps[]>([]);
 
-  get truncatedItems(): BreadcrumbsTruncatedItems | null {
-    if (shouldTruncateBreadcrumbs(this.items)) {
-      return getBreadcrumbsTruncatedItems(this.items);
+  readonly truncatedItems = computed<BreadcrumbsTruncatedItems | null>(() => {
+    if (shouldTruncateBreadcrumbs(this.items())) {
+      return getBreadcrumbsTruncatedItems(this.items());
     }
     return null;
-  }
+  });
+
+  // TODO: replace this placeholder functionality for the Dropdown component
+  readonly truncatedItemsText = computed(() => {
+    return this.truncatedItems()
+      ?.truncated.map((item) => item.label)
+      .join(", ");
+  });
 }

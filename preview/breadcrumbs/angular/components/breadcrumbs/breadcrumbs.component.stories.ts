@@ -1,18 +1,18 @@
-import { CommonModule } from "@angular/common";
-import { Meta, moduleMetadata, StoryObj } from "@storybook/angular";
+import { Meta, StoryObj } from "@storybook/angular";
+import { expect, userEvent, waitFor, within } from "@storybook/test";
 
 import { BreadcrumbsComponent } from "./breadcrumbs.component";
 
 export default {
   title: "Breadcrumbs",
   component: BreadcrumbsComponent,
-  decorators: [
-    moduleMetadata({
-      declarations: [BreadcrumbsComponent],
-      imports: [CommonModule],
-    }),
-  ],
-} as Meta;
+  tags: ["autodocs"],
+  argTypes: {
+    items: {
+      control: "object",
+    },
+  },
+} satisfies Meta<BreadcrumbsComponent>;
 
 const mockItems = [
   { label: "Home", link: "/" },
@@ -21,15 +21,31 @@ const mockItems = [
   { label: "Smartphones", link: "/products/electronics/smartphones" },
 ];
 
-const Template: StoryObj<BreadcrumbsComponent> = {
+export const Default: StoryObj<BreadcrumbsComponent> = {
   args: {
     items: mockItems,
   },
 };
 
-export const Default = Template;
-
-export const Truncated = Template;
-Truncated.args = {
-  items: mockItems.slice(0, 2),
+export const KeyboardNavigation: StoryObj<BreadcrumbsComponent> = {
+  args: {
+    ...Default.args,
+  },
+  render: (args) => ({
+    props: {
+      ...args,
+    },
+    template: `<rte-breadcrumbs [items]="items" data-testid="breadcrumbs"/>`,
+  }),
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const breadcrumbs = canvas.getByTestId("breadcrumbs").querySelectorAll("div");
+    const breadCrumbsHead = breadcrumbs[breadcrumbs.length - 1].querySelector("a");
+    args.items.forEach(async () => {
+      await userEvent.tab();
+    });
+    await waitFor(() => expect(breadCrumbsHead).toHaveFocus());
+    await userEvent.tab({ shift: true });
+    expect(breadcrumbs[breadcrumbs.length - 2].querySelector("a")).toHaveFocus();
+  },
 };
