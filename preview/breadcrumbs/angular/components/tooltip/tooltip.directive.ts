@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectorRef,
   ComponentRef,
   Directive,
@@ -6,35 +7,22 @@ import {
   HostListener,
   inject,
   input,
+  OnDestroy,
   Renderer2,
   ViewContainerRef,
 } from "@angular/core";
-import { getAutoPlacement } from "@design-system-rte/core/components/utils/auto-placement";
+import { TOOLTIP_GAP, TOOLTIP_GAP_ARROW } from "@design-system-rte/core/components/tooltip/tooltip.constants";
+import { getAutoPlacement, getCoordinates } from "@design-system-rte/core/components/utils/auto-placement";
+
+import { OverlayService } from "../../services/overlay.service";
 
 import { TooltipComponent } from "./tooltip.component";
-
-interface TooltipXBound {
-  position: "left" | "right";
-  offset: number;
-}
-
-interface TooltipYBound {
-  position: "top" | "bottom";
-  offset: number;
-}
-
-interface TooltipBounds {
-  x: TooltipXBound;
-  y: TooltipYBound;
-}
-
-const TOOLTIP_GAP = 8;
 
 @Directive({
   selector: "[rteTooltip]",
   standalone: true,
 })
-export class TooltipDirective {
+export class TooltipDirective implements AfterViewInit, OnDestroy {
   readonly rteTooltip = input.required<string>();
   readonly rteTooltipPosition = input("auto");
   readonly rteTooltipAlignment = input("center");
@@ -42,6 +30,7 @@ export class TooltipDirective {
 
   private tooltipRef: ComponentRef<TooltipComponent> | null = null;
   private hostElement: HTMLElement;
+  private overlayService: OverlayService;
 
   private elementRef = inject(ElementRef);
   private viewContainerRef = inject(ViewContainerRef);
@@ -69,8 +58,17 @@ export class TooltipDirective {
   }
 
   constructor() {
+    this.overlayService = inject(OverlayService);
     this.hostElement = this.elementRef.nativeElement;
     this.hostElement.setAttribute("tabindex", "0");
+  }
+
+  ngAfterViewInit() {
+    window.addEventListener("scroll", this.positionTooltip.bind(this));
+  }
+
+  ngOnDestroy() {
+    window.removeEventListener("scroll", this.positionTooltip.bind(this));
   }
 
   showTooltip(): void {
@@ -78,26 +76,23 @@ export class TooltipDirective {
       this.tooltipRef.destroy();
     }
 
-    this.tooltipRef = this.viewContainerRef.createComponent(TooltipComponent);
+    this.tooltipRef = this.overlayService.create(TooltipComponent, this.viewContainerRef);
     this.assignDirectiveToComponent();
-    this.appendComponentToHost();
-    this.cdr.detectChanges();
-
-    if (this.tooltipRef) {
-      const tooltipElement = this.tooltipRef.location.nativeElement;
-      this.renderer.setStyle(tooltipElement, "opacity", "0");
-      this.positionTooltip();
-
-      this.renderer.setStyle(tooltipElement, "opacity", "1");
-    }
+    this.positionTooltip();
   }
 
   private assignDirectiveToComponent(): void {
     if (this.tooltipRef) {
       const tooltipElement = this.tooltipRef.location.nativeElement;
+
       const position =
         this.rteTooltipPosition() === "auto"
-          ? getAutoPlacement(this.hostElement, tooltipElement, "top")
+          ? getAutoPlacement(
+              this.hostElement,
+              tooltipElement,
+              "top",
+              this.rteTooltipArrow() ? TOOLTIP_GAP_ARROW : TOOLTIP_GAP,
+            )
           : this.rteTooltipPosition();
 
       this.tooltipRef.setInput("label", this.rteTooltip());
@@ -107,67 +102,22 @@ export class TooltipDirective {
     }
   }
 
-  private appendComponentToHost(): void {
-    if (this.tooltipRef) {
-      this.renderer.appendChild(this.elementRef.nativeElement, this.tooltipRef.location.nativeElement);
-    }
-  }
-
   private positionTooltip(): void {
     if (this.tooltipRef) {
       const tooltipElement = this.tooltipRef.location.nativeElement;
 
-      const bounds = this.getTooltipPosition(this.hostElement, this.tooltipRef);
+      const positions = getCoordinates(
+        this.tooltipRef.instance.position(),
+        this.hostElement,
+        tooltipElement,
+        this.rteTooltipArrow() ? TOOLTIP_GAP_ARROW : TOOLTIP_GAP,
+      );
 
       this.renderer.setStyle(this.hostElement, "position", "relative");
 
-      this.renderer.setStyle(tooltipElement, bounds.x.position, `${bounds.x.offset}px`);
-      this.renderer.setStyle(tooltipElement, bounds.y.position, `${bounds.y.offset}px`);
+      this.renderer.setStyle(tooltipElement, "top", `${positions.top}px`);
+      this.renderer.setStyle(tooltipElement, "left", `${positions.left}px`);
     }
-  }
-
-  private getTooltipPosition(host: HTMLElement, tooltip: ComponentRef<TooltipComponent>): TooltipBounds {
-    return {
-      x: this.getTooltipXBound(host, tooltip),
-      y: this.getTooltipYBound(host, tooltip),
-    };
-  }
-
-  private getTooltipXBound(host: HTMLElement, tooltip: ComponentRef<TooltipComponent>): TooltipXBound {
-    return {
-      position: tooltip.instance.position() === "right" ? "right" : "left",
-      offset: this.getTooltipXOffset(host, tooltip),
-    };
-  }
-
-  private getTooltipXOffset(host: HTMLElement, tooltip: ComponentRef<TooltipComponent>): number {
-    const hostRect = host.getBoundingClientRect();
-    if (tooltip.instance.position() === "left") {
-      return -tooltip.location.nativeElement.querySelector(".tooltip").offsetWidth - TOOLTIP_GAP;
-    }
-    if (tooltip.instance.position() === "right") {
-      return -TOOLTIP_GAP;
-    }
-    return hostRect.width / 2;
-  }
-
-  private getTooltipYBound(host: HTMLElement, tooltip: ComponentRef<TooltipComponent>): TooltipYBound {
-    return {
-      position: tooltip.instance.position() === "bottom" ? "bottom" : "top",
-      offset: this.getTooltipYOffset(host, tooltip),
-    };
-  }
-
-  private getTooltipYOffset(host: HTMLElement, tooltip: ComponentRef<TooltipComponent>): number {
-    const hostRect = host.getBoundingClientRect();
-
-    if (tooltip.instance.position() === "top") {
-      return -tooltip.location.nativeElement.querySelector(".tooltip").offsetHeight - TOOLTIP_GAP;
-    }
-    if (tooltip.instance.position() === "bottom") {
-      return -TOOLTIP_GAP;
-    }
-    return hostRect.height / 2;
   }
 
   private hideTooltip(): void {
@@ -180,6 +130,7 @@ export class TooltipDirective {
         if (this.tooltipRef) {
           this.tooltipRef.destroy();
           this.tooltipRef = null;
+          this.overlayService.destroy();
         }
       }, 200);
     }
