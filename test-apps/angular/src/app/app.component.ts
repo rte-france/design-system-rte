@@ -14,6 +14,7 @@ import {
   DividerComponent,
   SwitchComponent,
   SegmentedControlComponent,
+  BreadcrumbsComponent,
 } from "@design-system-rte/angular";
 
 @Component({
@@ -34,6 +35,7 @@ import {
     DividerComponent,
     SwitchComponent,
     SegmentedControlComponent,
+    BreadcrumbsComponent,
   ],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",
@@ -71,4 +73,11 @@ export class AppComponent {
   onSegmentSelected(segmentId: string): void {
     this.selectedSegment.set(segmentId);
   }
+
+  breadcrumbItems = [
+    { label: "Home", link: "/" },
+    { label: "Products", link: "/products" },
+    { label: "Electronics", link: "/products/electronics" },
+    { label: "Smartphones", link: "/products/electronics/smartphones" },
+  ];
 }
