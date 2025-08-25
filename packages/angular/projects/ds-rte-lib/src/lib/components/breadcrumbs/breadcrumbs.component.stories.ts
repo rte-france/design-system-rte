@@ -49,3 +49,26 @@ export const KeyboardNavigation: StoryObj<BreadcrumbsComponent> = {
     expect(breadcrumbs[breadcrumbs.length - 2].querySelector("a")).toHaveFocus();
   },
 };
+
+export const Truncated: StoryObj<BreadcrumbsComponent> = {
+  args: {
+    ...Default.args,
+    items: Default.args?.items ? Default.args.items.slice(0, 2) : [],
+  },
+  render: (args) => ({
+    props: {
+      ...args,
+    },
+    template: `
+      <rte-breadcrumbs [items]="items" data-testid="breadcrumbs"/>
+      <rte-breadcrumbs [items]="items" data-testid="breadcrumbs-truncated"/>
+    `,
+  }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const breadcrumbs = canvas.getByTestId("breadcrumbs");
+    const breadcrumbsTruncated = canvas.getByTestId("breadcrumbs-truncated");
+    expect(within(breadcrumbs).queryByTestId("show-more")).not.toBeInTheDocument();
+    expect(within(breadcrumbsTruncated).queryByTestId("show-more")).toBeInTheDocument();
+  },
+};
