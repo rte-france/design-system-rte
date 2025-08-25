@@ -11,10 +11,11 @@ import {
 
 import { IconComponent } from "../icon/icon.component";
 import { LinkComponent } from "../link/link.component";
+import { TooltipDirective } from "../tooltip/tooltip.directive";
 
 @Component({
   selector: "rte-breadcrumbs",
-  imports: [CommonModule, LinkComponent, IconComponent],
+  imports: [CommonModule, LinkComponent, IconComponent, TooltipDirective],
   standalone: true,
   templateUrl: "./breadcrumbs.component.html",
   styleUrl: "./breadcrumbs.component.scss",
@@ -32,8 +33,10 @@ export class BreadcrumbsComponent {
 
   // TODO: replace this placeholder functionality for the Dropdown component
   readonly truncatedItemsText = computed(() => {
-    return this.truncatedItems()
-      ?.truncated.map((item) => item.label)
-      .join(", ");
+    return (
+      this.truncatedItems()
+        ?.truncated.map((item) => item.label)
+        .join(", ") || ""
+    );
   });
 }
