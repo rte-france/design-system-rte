@@ -31,7 +31,7 @@ const Breadcrumbs = forwardRef<HTMLDivElement, BreadcrumbsProps>(({ items, ...pr
             /
           </span>
 
-          <span className={style.breadcrumbItem} aria-hidden="true">
+          <span className={style.breadcrumbItem}>
             <Tooltip
               position="bottom"
               aria-label="More items"

@@ -58,10 +58,11 @@ export const Truncated: StoryObj<BreadcrumbsComponent> = {
   render: (args) => ({
     props: {
       ...args,
+      mockItems,
     },
     template: `
       <rte-breadcrumbs [items]="items" data-testid="breadcrumbs"/>
-      <rte-breadcrumbs [items]="items" data-testid="breadcrumbs-truncated"/>
+      <rte-breadcrumbs [items]="mockItems" data-testid="breadcrumbs-truncated"/>
     `,
   }),
   play: async ({ canvasElement }) => {
