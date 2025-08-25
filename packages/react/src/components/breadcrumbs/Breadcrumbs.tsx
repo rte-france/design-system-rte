@@ -5,8 +5,9 @@ import {
 } from "@design-system-rte/core/components/breadcrumbs/breadcrumbs.utils";
 import { forwardRef } from "react";
 
-import { Icon, Tooltip } from "../..";
+import Icon from "../icon/Icon";
 import Link from "../link/Link";
+import Tooltip from "../tooltip/Tooltip";
 
 import style from "./Breadcrumbs.module.scss";
 
@@ -64,7 +65,7 @@ const Breadcrumbs = forwardRef<HTMLDivElement, BreadcrumbsProps>(({ items, ...pr
     );
   } else {
     return (
-      <div ref={ref} className={style.breadcrumbsBadge} {...props} role="navigation" aria-label="Fil d'Ariane">
+      <nav ref={ref} className={style.breadcrumbsBadge} {...props} role="navigation" aria-label="Fil d'Ariane">
         {items.map((item, index) => (
           <div key={item.link} className={style.breadcrumbItem}>
             {index === items.length - 1 ? (
@@ -81,7 +82,7 @@ const Breadcrumbs = forwardRef<HTMLDivElement, BreadcrumbsProps>(({ items, ...pr
             )}
           </div>
         ))}
-      </div>
+      </nav>
     );
   }
 });
