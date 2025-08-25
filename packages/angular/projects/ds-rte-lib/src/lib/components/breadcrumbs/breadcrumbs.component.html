@@ -1,0 +1,47 @@
+<nav class="breadcrumbs-container" role="navigation" aria-label="Fil d'Ariane">
+  @if (truncatedItems()?.truncated?.length) {
+    <div class="breadcrumbs-truncated">
+      <div class="breadcrumb-item">
+        <rte-link
+        [href]="truncatedItems()!.root.link"
+        [label]="truncatedItems()!.root.label"
+        [subtle]="true"
+      />
+      </div>
+      <span aria-hidden="true" class="separator">/</span>
+      <span title="More items: {{ truncatedItemsText() }}" class="breadcrumb-item">
+        <rte-icon name="more-horiz" [size]="12" tabIndex="0" role="menu" aria-label="More items" data-testid="show-more"/>
+      </span>
+      <span aria-hidden="true" class="separator">/</span>
+      @for (item of truncatedItems()!.remaining; track item.link; let i = $index) {
+        <div class="breadcrumb-item">
+          @if (i === truncatedItems()!.remaining.length - 1) {
+            <a role="link" [attr.aria-label]="item.label" aria-current="page" tabindex="0">
+              {{ item.label }}
+            </a>
+          } @else {
+            <rte-link [href]="item.link" [label]="item.label" [subtle]="true"/>
+          }
+        </div>
+        @if (i < truncatedItems()!.remaining.length - 1) {
+          <span aria-hidden="true" class="separator">/</span>
+        }
+      }
+    </div>
+  } @else {
+      @for (item of items(); track item.link; let i = $index) {
+        <div class="breadcrumb-item">
+          @if (i === items().length - 1) {
+            <a role="link" [attr.aria-label]="item.label" aria-current="page" tabindex="0">
+              {{ item.label }}
+            </a>
+          } @else {
+            <rte-link [href]="item.link" [label]="item.label" [subtle]="true"/>
+          }
+        </div>
+        @if (i < items().length - 1) {
+          <span aria-hidden="true" class="separator">/</span>
+        }
+      }
+  }
+</nav>
