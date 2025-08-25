@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { userEvent, within, expect } from "@storybook/test";
+import { userEvent, within, expect, waitFor } from "@storybook/test";
 
 import Breadcrumbs from "./Breadcrumbs";
 
@@ -7,6 +7,11 @@ const meta = {
   title: "Breadcrumbs",
   component: Breadcrumbs,
   tags: ["autodocs"],
+  argTypes: {
+    items: {
+      control: "object",
+    },
+  },
 } satisfies Meta<typeof Breadcrumbs>;
 export default meta;
 
@@ -35,11 +40,11 @@ export const KeyboardNavigation: Story = {
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
     const breadcrumbs = canvas.getByTestId("breadcrumbs").querySelectorAll("div");
-    const breadCrumbsHead = breadcrumbs[breadcrumbs.length - 1].querySelector("span");
+    const breadCrumbsHead = breadcrumbs[breadcrumbs.length - 1].querySelector("a");
     args.items.forEach(async () => {
       await userEvent.tab();
     });
-    expect(breadCrumbsHead).not.toHaveFocus();
+    await waitFor(() => expect(breadCrumbsHead).toHaveFocus());
     await userEvent.tab({ shift: true });
     expect(breadcrumbs[breadcrumbs.length - 2].querySelector("a")).toHaveFocus();
   },
