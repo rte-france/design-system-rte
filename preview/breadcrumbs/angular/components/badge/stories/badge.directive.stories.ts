@@ -24,7 +24,7 @@ const meta: Meta<BadgeDirective> = {
     },
     rteBadgeAppearance: {
       control: "select",
-      options: ["text", "icon"],
+      options: ["text", "icon", "empty"],
       defaultValue: "text",
     },
     rteBadgeCount: {
