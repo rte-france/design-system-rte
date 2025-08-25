@@ -9,14 +9,14 @@
       />
       </div>
       <span aria-hidden="true" class="separator">/</span>
-      <span title="More items: {{ truncatedItemsText() }}" class="breadcrumb-item">
-        <rte-icon name="more-horiz" [size]="12" tabIndex="0" role="menu" aria-label="More items" data-testid="show-more"/>
+      <span class="breadcrumb-item">
+        <rte-icon name="more-horiz" tabIndex="0" role="menu" aria-label="More items" data-testid="show-more" rteTooltipPosition="bottom" [size]="12" [rteTooltip]="truncatedItemsText()"/>
       </span>
       <span aria-hidden="true" class="separator">/</span>
       @for (item of truncatedItems()!.remaining; track item.link; let i = $index) {
         <div class="breadcrumb-item">
           @if (i === truncatedItems()!.remaining.length - 1) {
-            <a role="link" [attr.aria-label]="item.label" aria-current="page" tabindex="0">
+            <a role="link" aria-current="page" tabindex="0" [attr.aria-label]="item.label">
               {{ item.label }}
             </a>
           } @else {
@@ -32,7 +32,7 @@
       @for (item of items(); track item.link; let i = $index) {
         <div class="breadcrumb-item">
           @if (i === items().length - 1) {
-            <a role="link" [attr.aria-label]="item.label" aria-current="page" tabindex="0">
+            <a role="link" aria-current="page" tabindex="0" [attr.aria-label]="item.label">
               {{ item.label }}
             </a>
           } @else {

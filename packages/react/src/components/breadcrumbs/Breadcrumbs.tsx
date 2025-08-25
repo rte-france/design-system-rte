@@ -5,7 +5,7 @@ import {
 } from "@design-system-rte/core/components/breadcrumbs/breadcrumbs.utils";
 import { forwardRef } from "react";
 
-import { Icon } from "../..";
+import { Icon, Tooltip } from "../..";
 import Link from "../link/Link";
 
 import style from "./Breadcrumbs.module.scss";
@@ -29,18 +29,16 @@ const Breadcrumbs = forwardRef<HTMLDivElement, BreadcrumbsProps>(({ items, ...pr
           <span aria-hidden="true" className={style.separator}>
             /
           </span>
-          <span
-            title={`More items: ${truncated.map((item) => item.label).join(", ")}`}
-            className={style.breadcrumbItem}
-          >
-            <Icon
-              name="more-horiz"
-              size={12}
-              tabIndex={0}
-              role="menu"
+
+          <span className={style.breadcrumbItem} aria-hidden="true">
+            <Tooltip
+              position="bottom"
               aria-label="More items"
-              data-testid="show-more"
-            />
+              label={truncated.map((item) => item.label).join(", ")}
+              role="menu"
+            >
+              <Icon name="more-horiz" size={12} data-testid="show-more" />
+            </Tooltip>
           </span>
           <span aria-hidden="true" className={style.separator}>
             /

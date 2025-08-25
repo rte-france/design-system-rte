@@ -21,7 +21,9 @@
 
     &:last-child {
         cursor: default;
-        color: var(--content-primary);
+        a {
+            color: var(--content-primary);
+        }
     }
 
     :focus-visible {
