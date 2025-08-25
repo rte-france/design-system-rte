@@ -1,0 +1,22 @@
+.breadcrumbs-truncated {
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumb-item {
+  margin-right: 8px;
+  color: var(--content-tertiary);
+}
+
+.separator {
+  margin: 0 4px;
+}
+
+.loaded {
+  font-weight: bold;
+}
+
+.icon-more-horiz {
+  font-size: 12px;
+  cursor: pointer;
+}
