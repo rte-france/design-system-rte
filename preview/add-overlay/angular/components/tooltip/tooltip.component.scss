@@ -39,7 +39,7 @@ $max-height: 40px;
     }
 
     &.top {
-        bottom: 150%;
+        bottom: 0px;
 
         &::after {
             top: 100%;
@@ -75,7 +75,7 @@ $max-height: 40px;
     }
 
     &.left {
-        right: 120%;
+        right: 0px;
 
         &::after {
             top: 50%;
