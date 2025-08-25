@@ -7,7 +7,6 @@ $max-height: 40px;
     position: absolute;
     max-width: $max-width;
     max-height: $max-height;
-
     transition: opacity 150ms ease-out;
 
     &:not(:hover) {
@@ -29,8 +28,18 @@ $max-height: 40px;
     border-radius: $radius-s;
     background: var(--background-inverse);
 
-    &.top {
+    &.top,
+    &.bottom {
         transform: translateX(-50%);
+    }
+
+    &.left,
+    &.right {
+        transform: translateY(-50%);
+    }
+
+    &.top {
+        bottom: 0px;
 
         &::after {
             top: 100%;
@@ -49,8 +58,6 @@ $max-height: 40px;
     }
 
     &.bottom {
-        transform: translateX(-50%);
-
         &::after {
             bottom: 100%;
             left: 50%;
@@ -68,7 +75,7 @@ $max-height: 40px;
     }
 
     &.left {
-        transform: translateY(-50%);
+        right: 0px;
 
         &::after {
             top: 50%;
@@ -87,8 +94,6 @@ $max-height: 40px;
     }
 
     &.right {
-        transform: translateY(-50%);
-
         &::after {
             top: 50%;
             right: 100%;
