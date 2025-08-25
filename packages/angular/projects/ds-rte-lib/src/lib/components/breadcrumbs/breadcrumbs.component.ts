@@ -9,12 +9,13 @@ import {
   shouldTruncateBreadcrumbs,
 } from "@design-system-rte/core/components/breadcrumbs/breadcrumbs.utils";
 
-import { LinkComponent } from "../link/link.component";
 import { IconComponent } from "../icon/icon.component";
+import { LinkComponent } from "../link/link.component";
+import { TooltipDirective } from "../tooltip/tooltip.directive";
 
 @Component({
   selector: "rte-breadcrumbs",
-  imports: [CommonModule, LinkComponent, IconComponent],
+  imports: [CommonModule, LinkComponent, IconComponent, TooltipDirective],
   standalone: true,
   templateUrl: "./breadcrumbs.component.html",
   styleUrl: "./breadcrumbs.component.scss",
@@ -23,7 +24,7 @@ import { IconComponent } from "../icon/icon.component";
 export class BreadcrumbsComponent {
   readonly items = input<BreadcrumbProps[]>([]);
 
-  truncatedItems = computed<BreadcrumbsTruncatedItems | null>(() => {
+  readonly truncatedItems = computed<BreadcrumbsTruncatedItems | null>(() => {
     if (shouldTruncateBreadcrumbs(this.items())) {
       return getBreadcrumbsTruncatedItems(this.items());
     }
@@ -31,7 +32,11 @@ export class BreadcrumbsComponent {
   });
 
   // TODO: replace this placeholder functionality for the Dropdown component
-  truncatedItemsText = computed(() => {
-    return this.truncatedItems()?.truncated.map((item) => item.label).join(", ");
+  readonly truncatedItemsText = computed(() => {
+    return (
+      this.truncatedItems()
+        ?.truncated.map((item) => item.label)
+        .join(", ") || ""
+    );
   });
 }
