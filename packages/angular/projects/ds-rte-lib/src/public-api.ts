@@ -18,3 +18,4 @@ export * from "./lib/components/textarea/textarea.component";
 export * from "./lib/components/divider/divider.component";
 export * from "./lib/components/switch/switch.component";
 export * from "./lib/components/segmented-control/segmented-control.component";
+export * from "./lib/components/breadcrumbs/breadcrumbs.component";
