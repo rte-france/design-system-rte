@@ -11,7 +11,7 @@ import Tooltip from "../tooltip/Tooltip";
 
 import style from "./Breadcrumbs.module.scss";
 
-export interface BreadcrumbsProps extends BreadcrumbsPropsCore, React.HTMLAttributes<HTMLDivElement> {}
+export interface BreadcrumbsProps extends BreadcrumbsPropsCore, React.HTMLAttributes<HTMLElement> {}
 
 const Breadcrumbs = forwardRef<HTMLDivElement, BreadcrumbsProps>(({ items, ...props }, ref) => {
   if (shouldTruncateBreadcrumbs(items)) {
@@ -63,28 +63,28 @@ const Breadcrumbs = forwardRef<HTMLDivElement, BreadcrumbsProps>(({ items, ...pr
         </div>
       </nav>
     );
-  } else {
-    return (
-      <nav ref={ref} className={style.breadcrumbsBadge} {...props} role="navigation" aria-label="Fil d'Ariane">
-        {items.map((item, index) => (
-          <div key={item.link} className={style.breadcrumbItem}>
-            {index === items.length - 1 ? (
-              <a role="link" aria-label={item.label} aria-current="page" tabIndex={0}>
-                {item.label}
-              </a>
-            ) : (
-              <Link href={item.link} label={item.label} subtle style={{ color: "var(--content-tertiary)" }} />
-            )}
-            {index < items.length - 1 && (
-              <span aria-hidden="true" className={style.separator}>
-                /
-              </span>
-            )}
-          </div>
-        ))}
-      </nav>
-    );
   }
+
+  return (
+    <nav ref={ref} className={style.breadcrumbsBadge} {...props} role="navigation" aria-label="Fil d'Ariane">
+      {items.map((item, index) => (
+        <div key={item.link} className={style.breadcrumbItem}>
+          {index === items.length - 1 ? (
+            <a role="link" aria-label={item.label} aria-current="page" tabIndex={0}>
+              {item.label}
+            </a>
+          ) : (
+            <Link href={item.link} label={item.label} subtle style={{ color: "var(--content-tertiary)" }} />
+          )}
+          {index < items.length - 1 && (
+            <span aria-hidden="true" className={style.separator}>
+              /
+            </span>
+          )}
+        </div>
+      ))}
+    </nav>
+  );
 });
 
 export default Breadcrumbs;
