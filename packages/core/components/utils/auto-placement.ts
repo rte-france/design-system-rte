@@ -33,6 +33,7 @@ export const getCoordinates = (
   triggerElement: HTMLElement,
   castedElement: HTMLElement,
   offset: number = 0,
+  alignment: "start" | "center" | "end" = "center",
 ) => {
   let top = 0;
   let left = 0;
@@ -49,10 +50,15 @@ export const getCoordinates = (
       castedElement.getBoundingClientRect().height / 2;
     left = triggerElement.getBoundingClientRect().left - castedElement.getBoundingClientRect().width - offset;
   } else if (position === "right") {
-    top =
-      triggerElement.getBoundingClientRect().top +
-      triggerElement.getBoundingClientRect().height / 2 -
-      castedElement.getBoundingClientRect().height / 2;
+    if (alignment === "start") {
+      top = triggerElement.getBoundingClientRect().top;
+    } else if (alignment === "end") {
+      top = triggerElement.getBoundingClientRect().bottom - castedElement.getBoundingClientRect().height;
+    } else
+      top =
+        triggerElement.getBoundingClientRect().top +
+        triggerElement.getBoundingClientRect().height / 2 -
+        castedElement.getBoundingClientRect().height / 2;
     left = triggerElement.getBoundingClientRect().right + offset;
   } else if (position === "top" || !position) {
     top = triggerElement.getBoundingClientRect().top - castedElement.getBoundingClientRect().height - offset;

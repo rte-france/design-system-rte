@@ -1,0 +1,74 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+.trigger {
+  cursor: pointer;
+
+  &[data-disabled='true'] {
+    cursor: not-allowed;
+
+    &:hover {
+      cursor: not-allowed;
+    }
+  }
+}
+
+.dropdown {
+  @include elevation-neutral-shadow-4;
+  background-color: var(--background-default);
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  min-width: 200px;
+  max-width: 280px;
+  padding: $positive-spacing_100 $positive-spacing_0;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: $positive-spacing_0;
+  border-radius: $radius-s;
+  opacity: 0;
+  transition: opacity 100ms ease-in-out;
+  pointer-events: auto;
+
+  &[data-open='true'] {
+    opacity: 1;
+    transition: opacity 150ms ease-in-out;
+  }
+
+
+  .dropdown-items {
+    width: 100%;
+  }
+}
+
+.dropdown-item {
+  @include typography-text-m-regular;
+  color: var(--content-secondary);
+  display: flex;
+  height: 40px;
+  padding: $positive-spacing_100 $positive-spacing_150;
+  align-items: center;
+  gap: $positive-spacing_150;
+  align-self: stretch;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--background-hover);
+  }
+
+  &[data-active='true'] {
+    background-color: var(--background-brand-inverse-pressed);
+  }
+
+  &[data-disabled='true'] {
+    cursor: not-allowed;
+    color: var(--content-disabled);
+    background: var(--background-disabled);
+  }
+
+}
+
+.dropdown-divider {
+  width: 100%;
+  padding: $positive-spacing_100 0;
+}
