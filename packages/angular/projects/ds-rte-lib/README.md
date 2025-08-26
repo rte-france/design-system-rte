@@ -1,24 +1,27 @@
-# Lib
+### Installation Instructions
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.0.
+1. **Add Branding/Theme Mixin:**
+   
+   Include the branding/theme mixin in your main `.scss` file. This will create a style scope for the components.
+   ```scss
+    @use "@design-system-rte/core/design-tokens/tokens/mixins" as *;
 
-## Code scaffolding
+    @include theme-selector('bleu_iceberg', 'light');
+   ```
 
-Run `ng generate component component-name --project lib` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project lib`.
-> Note: Don't forget to add `--project lib` or else it will be added to the default project in your `angular.json` file. 
+2. **Add HTML Selector:**
+   
+   Add an HTML selector to define the context for applying component styles.
+   ```html
+    <body data-theme="bleu_iceberg" data-mode="light">
+        <app-root/>
+    </body>
+   ```
 
-## Build
+3. **Use Components:**
+   
+   Implement the different components as documented in the [Storybook](https://opensource.rte-france.com/design-system-rte/?path=/docs/angular_button--docs) provided with the library.
 
-Run `ng build lib` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Publishing
-
-After building your library with `ng build lib`, go to the dist folder `cd dist/lib` and run `npm publish`.
-
-## Running unit tests
-
-Run `ng test lib` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+4. **Icon Component Usage:**
+   
+   To use the Icon Component (rte-icon), copy the `.svg` files from `node_modules/@design-system-rte/core/assets/icons` to the `/assets/icons` directory of your application.

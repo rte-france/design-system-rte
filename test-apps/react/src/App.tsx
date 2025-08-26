@@ -36,7 +36,7 @@ function App() {
   };
 
   return (
-    <div data-theme="bleu_iceberg" data-mode="light">
+    <div>
       <div>
         <h3>Icon</h3>
         <Icon name="check" />
