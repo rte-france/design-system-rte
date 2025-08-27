@@ -1,5 +1,6 @@
 export interface BreadcrumbsProps {
   items: BreadcrumbProps[];
+  ariaLabel?: string;
 }
 
 export interface BreadcrumbProps {
