@@ -2,6 +2,7 @@
 
 .trigger {
   cursor: pointer;
+  height: fit-content;
 
   &[data-disabled='true'] {
     cursor: not-allowed;
@@ -19,7 +20,7 @@
   top: 0;
   left: 0;
   display: flex;
-  min-width: 200px;
+  min-width: 112px;
   max-width: 280px;
   padding: $positive-spacing_100 $positive-spacing_0;
   flex-direction: column;
@@ -29,6 +30,8 @@
   opacity: 0;
   transition: opacity 100ms ease-in-out;
   pointer-events: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
 
   &[data-open='true'] {
     opacity: 1;
@@ -38,6 +41,12 @@
 
   .dropdown-items {
     width: 100%;
+    padding: $positive-spacing_0;
+    margin: 0;
+
+    li {
+      list-style: none;
+    }
   }
 }
 
@@ -51,6 +60,13 @@
   gap: $positive-spacing_150;
   align-self: stretch;
   cursor: pointer;
+  box-sizing: border-box;
+
+  span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 
   &:hover {
     background-color: var(--background-hover);
