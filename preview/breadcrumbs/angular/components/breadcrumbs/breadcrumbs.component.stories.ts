@@ -73,3 +73,24 @@ export const Truncated: StoryObj<BreadcrumbsComponent> = {
     expect(within(breadcrumbsTruncated).queryByTestId("show-more")).toBeInTheDocument();
   },
 };
+
+export const MultipleElements: StoryObj<BreadcrumbsComponent> = {
+  args: {
+    ...Default.args,
+  },
+  render: (args) => ({
+    props: {
+      ...args,
+      oneItem: args.items.slice(0, 1),
+      twoItems: args.items.slice(0, 2),
+      threeItems: args.items.slice(0, 3),
+      fourItems: [...args.items, { label: "brand", link: "/products/electronics/smartphones/brand" }],
+    },
+    template: `
+      <rte-breadcrumbs [items]="oneItem" data-testid="breadcrumbs-one-item"/>
+      <rte-breadcrumbs [items]="twoItems" data-testid="breadcrumbs-two-items"/>
+      <rte-breadcrumbs [items]="threeItems" data-testid="breadcrumbs-three-items"/>
+      <rte-breadcrumbs [items]="items" data-testid="breadcrumbs"/>
+    `,
+  }),
+};

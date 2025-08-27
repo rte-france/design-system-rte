@@ -15,7 +15,7 @@ import { TooltipDirective } from "../tooltip/tooltip.directive";
 
 @Component({
   selector: "rte-breadcrumbs",
-  imports: [CommonModule, LinkComponent, IconComponent, TooltipDirective],
+  imports: [CommonModule, LinkComponent, TooltipDirective, IconComponent],
   standalone: true,
   templateUrl: "./breadcrumbs.component.html",
   styleUrl: "./breadcrumbs.component.scss",
