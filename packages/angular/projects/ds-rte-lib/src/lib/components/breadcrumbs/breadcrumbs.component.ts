@@ -1,5 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, input } from "@angular/core";
+import { BREADCRUMBS_DEFAULT_ARIA_LABEL } from "@design-system-rte/core/components/breadcrumbs/breadcrumbs.constants";
 import {
   BreadcrumbProps,
   BreadcrumbsTruncatedItems,
@@ -15,7 +16,7 @@ import { TooltipDirective } from "../tooltip/tooltip.directive";
 
 @Component({
   selector: "rte-breadcrumbs",
-  imports: [CommonModule, LinkComponent, IconComponent, TooltipDirective],
+  imports: [CommonModule, LinkComponent, TooltipDirective, IconComponent],
   standalone: true,
   templateUrl: "./breadcrumbs.component.html",
   styleUrl: "./breadcrumbs.component.scss",
@@ -23,6 +24,7 @@ import { TooltipDirective } from "../tooltip/tooltip.directive";
 })
 export class BreadcrumbsComponent {
   readonly items = input<BreadcrumbProps[]>([]);
+  readonly ariaLabel = input<string>(BREADCRUMBS_DEFAULT_ARIA_LABEL);
 
   readonly truncatedItems = computed<BreadcrumbsTruncatedItems | null>(() => {
     if (shouldTruncateBreadcrumbs(this.items())) {

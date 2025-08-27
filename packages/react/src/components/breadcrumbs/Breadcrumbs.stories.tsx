@@ -11,6 +11,9 @@ const meta = {
     items: {
       control: "object",
     },
+    ariaLabel: {
+      control: "text",
+    },
   },
 } satisfies Meta<typeof Breadcrumbs>;
 export default meta;
@@ -69,5 +72,21 @@ export const Truncated: Story = {
     const breadcrumbsTruncated = canvas.getByTestId("breadcrumbs-truncated");
     expect(within(breadcrumbs).queryByTestId("show-more")).not.toBeInTheDocument();
     expect(within(breadcrumbsTruncated).queryByTestId("show-more")).toBeInTheDocument();
+  },
+};
+
+export const MultipleElements: Story = {
+  args: {
+    ...Default.args,
+  },
+  render: (args) => {
+    return (
+      <>
+        <Breadcrumbs {...args} items={args.items.slice(0, 1)} />
+        <Breadcrumbs {...args} items={args.items.slice(0, 2)} />
+        <Breadcrumbs {...args} items={args.items.slice(0, 3)} />
+        <Breadcrumbs {...args} items={args.items} />
+      </>
+    );
   },
 };
