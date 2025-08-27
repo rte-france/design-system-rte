@@ -1,5 +1,9 @@
-import { getAutoPlacement, getCoordinates } from "@design-system-rte/core/components/utils/auto-placement";
-import { useEffect, useState, useRef, useCallback, forwardRef } from "react";
+import {
+  getAutoAlignment,
+  getAutoPlacementDropdown,
+  getCoordinates,
+} from "@design-system-rte/core/components/utils/auto-placement";
+import { useEffect, useState, useRef, useCallback, forwardRef, Fragment } from "react";
 
 import useAnimatedMount from "../../hooks/useAnimatedMount";
 import Divider from "../divider/Divider";
@@ -19,6 +23,7 @@ interface DropdownProps extends React.HTMLAttributes<HTMLDivElement> {
   options: DropdownOptionItem[];
   hasParent?: boolean;
   disabled?: boolean;
+  position?: "top" | "bottom" | "left" | "right" | "auto";
 }
 
 interface DropdownItemOptionCategorized {
@@ -48,14 +53,14 @@ function isSimpleOption(option: DropdownOptionItem): option is DropdownItemOptio
 }
 
 export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
-  ({ options, trigger, className, style, dropdownId, hasParent, disabled, ...props }, ref) => {
-    const { dropdownId: autoId, isOpen, toggle, close } = useDropdownState(dropdownId);
-    const [openedChildren, setOpenedChildren] = useState<string[]>([]);
-    const [autoPosition, setAutoPosition] = useState<string>("bottom");
+  ({ options, trigger, className, style, dropdownId, hasParent, disabled, position = "bottom", ...props }, ref) => {
+    const { dropdownId: autoId, isOpen, open } = useDropdownState(dropdownId);
+    const [autoPosition, setAutoPosition] = useState<string>(position);
 
-    const triggerRef = useRef<HTMLDivElement>(null);
+    const triggerRef = useRef<HTMLDivElement | null>(null);
     const dropdownRef = useRef<HTMLDivElement | null>(null);
     const [dropdownElement, setDropdownElement] = useState<HTMLDivElement | null>(null);
+    const [triggerElement, setTriggerElement] = useState<HTMLDivElement | null>(null);
     const [coordinates, setCoordinates] = useState<{ top: number; left: number }>({ top: 500, left: 500 });
 
     const { shouldRender, isAnimating } = useAnimatedMount(isOpen, 150);
@@ -72,6 +77,11 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
       },
       [ref],
     );
+
+    const triggerCallbackRef = useCallback((node: HTMLDivElement | null) => {
+      triggerRef.current = node;
+      setTriggerElement(node);
+    }, []);
 
     useEffect(() => {
       if (!isOpen) return;
@@ -94,47 +104,32 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
 
     useEffect(() => {
       if (!isOpen) return;
-      if (!triggerRef.current || !dropdownElement) return;
+      if (!triggerElement || !dropdownElement) return;
 
-      const computedPosition = getAutoPlacement(
-        triggerRef.current,
-        dropdownElement!,
-        hasParent ? "right" : "bottom",
-        0,
-      );
-      const computedCoordinates = getCoordinates(
-        computedPosition,
-        triggerRef.current,
-        dropdownElement,
-        0,
-        hasParent ? "start" : "center",
-      );
-      setAutoPosition(computedPosition);
-      setCoordinates(computedCoordinates);
-    }, [isOpen, dropdownElement]);
-
-    const handleMouseLeave = () => {
       if (hasParent) {
-        const firstChild = document.querySelector(`[data-dropdown-id='${openedChildren[openedChildren.length - 1]}']`);
-        const isOverFirstChild = firstChild?.matches(":hover");
-        if (!isOverFirstChild) {
-          close();
-          setOpenedChildren((prev) => prev.filter((id) => id !== openedChildren[openedChildren.length - 1]));
-        }
-      }
-    };
+        const computedPosition = getAutoPlacementDropdown(triggerElement, dropdownElement!, "right", 0, hasParent);
+        const autoAlignment = getAutoAlignment(triggerElement, dropdownElement!, computedPosition);
+        const computedCoordinates = getCoordinates(computedPosition, triggerElement, dropdownElement, 0, autoAlignment);
 
-    const handleOnClick = () => {
-      setOpenedChildren((prev) => [...prev, autoId]);
-      toggle();
-    };
+        setAutoPosition(computedPosition);
+        setCoordinates(computedCoordinates);
+      } else {
+        const computedPosition =
+          position === "auto" ? getAutoPlacementDropdown(triggerElement, dropdownElement!, "bottom") : position;
+        const autoAlignment = getAutoAlignment(triggerElement, dropdownElement!, computedPosition);
+        const computedCoordinates = getCoordinates(computedPosition, triggerElement, dropdownElement, 0, autoAlignment);
+
+        setAutoPosition(computedPosition);
+        setCoordinates(computedCoordinates);
+      }
+    }, [isOpen, dropdownElement, triggerElement, hasParent, position]);
 
     return (
       <>
         <div
-          ref={triggerRef}
-          onClick={disabled ? undefined : handleOnClick}
-          onMouseLeave={disabled ? undefined : handleMouseLeave}
+          ref={triggerCallbackRef}
+          onClick={disabled ? undefined : open}
+          onMouseOver={disabled || !hasParent ? undefined : open}
           className={styles.trigger}
           data-disabled={disabled}
         >
@@ -148,7 +143,6 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
               data-dropdown-id={autoId}
               data-position={autoPosition}
               data-open={isAnimating || undefined}
-              onMouseLeave={handleMouseLeave}
               {...props}
               style={{
                 ...style,
@@ -157,29 +151,39 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
               }}
               ref={dropdownCallbackRef}
             >
-              <div className={styles["dropdown-items"]}>
+              <ul className={styles["dropdown-items"]} role="menu">
                 {options.map((option, index) => {
                   if (isCategorizedOption(option)) {
                     return (
-                      <div key={option.category + index}>
+                      <Fragment key={`category-${option.category}-${index}`}>
                         {option.values.map(
                           (item, idx) =>
                             isSimpleOption(item) && (
-                              <DropdownItem key={item.label + idx} option={item} parentId={autoId} />
+                              <li key={`${option.category}-${item.label}-${idx}`}>
+                                <DropdownItem option={item} parentId={autoId} />
+                              </li>
                             ),
                         )}
-                        <div className={styles["dropdown-divider"]}>
+                        <li
+                          key={`divider-${option.category}-${index}`}
+                          className={styles["dropdown-divider"]}
+                          role="separator"
+                        >
                           <Divider />
-                        </div>
-                      </div>
+                        </li>
+                      </Fragment>
                     );
                   }
                   if (isSimpleOption(option)) {
-                    return <DropdownItem key={option.label + index} option={option} parentId={autoId} />;
+                    return (
+                      <li key={`simple-${option.label}-${index}`}>
+                        <DropdownItem key={option.label + index} option={option} parentId={autoId} />
+                      </li>
+                    );
                   }
                   return null;
                 })}
-              </div>
+              </ul>
             </div>
           </Overlay>
         )}
@@ -192,6 +196,12 @@ export const DropdownItem = ({ option, parentId }: DropdownItemProps) => {
   const submenuId = `${parentId}-${option.label.replace(/\s+/g, "")}`;
   const { isOpen } = useDropdownState(submenuId);
 
+  const handleMouseOver = () => {
+    const dropdownsCurrentlyOpened = DropdownManager.getOpenedDropdowns();
+    const dropdownsToClose = dropdownsCurrentlyOpened.filter((id) => id.startsWith(parentId) && id !== parentId);
+    dropdownsToClose.forEach((dropdown) => DropdownManager.close(dropdown));
+  };
+
   const { label, leftIcon, subOptions, trailingText, disabled } = option;
   if (subOptions && subOptions.length > 0) {
     return (
@@ -201,9 +211,15 @@ export const DropdownItem = ({ option, parentId }: DropdownItemProps) => {
         disabled={disabled}
         trigger={
           <>
-            <div className={styles["dropdown-item"]} data-active={isOpen} data-disabled={disabled}>
+            <div
+              className={styles["dropdown-item"]}
+              data-active={isOpen}
+              data-disabled={disabled}
+              role="menuitem"
+              onMouseOver={handleMouseOver}
+            >
               {leftIcon && <Icon name={leftIcon} className={styles["dropdown-item-icon"]} />}
-              <div style={{ flex: "2" }}>{label}</div>
+              <span style={{ flex: "2" }}>{label}</span>
               <Icon name="arrow-chevron-right" className={styles["dropdown-item-icon"]} />
             </div>
           </>
@@ -214,9 +230,9 @@ export const DropdownItem = ({ option, parentId }: DropdownItemProps) => {
   }
   return (
     <>
-      <div className={styles["dropdown-item"]} data-disabled={disabled}>
+      <div className={styles["dropdown-item"]} data-disabled={disabled} role="menuitem" onMouseOver={handleMouseOver}>
         {leftIcon && <Icon name={leftIcon} className={styles["dropdown-item-icon"]} />}
-        <div style={{ flex: "2" }}>{label}</div>
+        <span style={{ flex: "2" }}>{label}</span>
         {trailingText && <div>{trailingText}</div>}
       </div>
     </>
