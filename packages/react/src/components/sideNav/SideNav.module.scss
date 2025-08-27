@@ -1,0 +1,60 @@
+@use '@design-system-rte/core/design-tokens/main.scss' as *;
+
+.sideNavContainer {
+    width: 200px;
+    height: 100%;
+    border-right: 1px solid var(--color-border-primary);
+    padding: $positive-spacing_0;
+    position: relative;
+    display: flex;
+}
+
+.sideNav {
+    background-color: var(--background-brand-default);
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: $positive-spacing_0;
+    overflow: hidden;
+    box-sizing: border-box;
+    border-radius: var(--border-radius-0);
+    transition: min-width 300ms;
+}
+
+.sideNavHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 48px;
+    padding: $positive-spacing_050;
+    background-color: var(--background-brand-default);
+}
+
+.sideNavBody {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: $positive-spacing_200 $positive-spacing_100;
+    background-color: var(--content-secondary);
+}
+
+.sideNavFooter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    width: 100%;
+    padding: $positive-spacing_100;
+    background-color: teal;
+}
+
+.collapsibleSection {
+    width: 100%;
+    box-sizing: border-box;
+    padding: $positive-spacing_0 $positive-spacing_100;
+}
