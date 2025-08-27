@@ -27,6 +27,10 @@ export class DropdownManager {
       .forEach((listener) => listener());
   }
 
+  static getOpenedDropdowns() {
+    return Object.keys(globalDropdownState);
+  }
+
   static subscribe(id: string, callback: () => void) {
     if (!globalListeners[id]) globalListeners[id] = [];
     globalListeners[id].push(callback);

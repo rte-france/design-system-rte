@@ -50,7 +50,7 @@ const optionsWithCategories = [
     category: "Category 2",
     values: [
       {
-        label: "Settings",
+        label: "Actions",
         leftIcon: "settings",
         subOptions: [
           {
@@ -58,13 +58,36 @@ const optionsWithCategories = [
             leftIcon: "edit",
             subOptions: [
               { label: "Cut", leftIcon: "cut", trailingText: "⌘X" },
-              { label: "Copy", leftIcon: "copy", trailingText: "⌘C" },
+              {
+                label: "Copy",
+                leftIcon: "copy",
+                trailingText: "⌘C",
+                subOptions: [
+                  { label: "Cut", leftIcon: "cut", trailingText: "⌘X" },
+                  { label: "Copy", leftIcon: "copy", trailingText: "⌘C" },
+                  {
+                    label: "Paste",
+                    leftIcon: "paste",
+                    trailingText: "⌘V",
+                    subOptions: [
+                      {
+                        label: "Cut",
+                        leftIcon: "cut",
+                        trailingText: "⌘X",
+                        subOptions: [
+                          { label: "Cut", leftIcon: "cut", trailingText: "⌘X" },
+                          { label: "Copy", leftIcon: "copy", trailingText: "⌘C" },
+                          { label: "Paste", leftIcon: "paste", trailingText: "⌘V" },
+                        ],
+                      },
+                      { label: "Copy", leftIcon: "copy", trailingText: "⌘C" },
+                      { label: "Paste", leftIcon: "paste", trailingText: "⌘V" },
+                    ],
+                  },
+                ],
+              },
               { label: "Paste", leftIcon: "paste", trailingText: "⌘V" },
             ],
-          },
-          {
-            label: "Duplicate",
-            leftIcon: "copy",
           },
           { label: "Archive", leftIcon: "archive" },
           { label: "Delete", leftIcon: "delete" },
@@ -77,7 +100,7 @@ const optionsWithCategories = [
   {
     category: "Category 3",
     values: [
-      { label: "First Option" },
+      { label: "First Option a little bit longer than usual" },
       { label: "Second Option", subOptions: [{ label: "Sub Option 1" }, { label: "Sub Option 2" }], disabled: true },
       { label: "Third Option" },
     ],
@@ -103,16 +126,19 @@ export const Default: Story = {
   render: (args) => (
     <div
       style={{
+        border: "1px solid black",
         position: "relative",
-        width: "200px",
+        width: "800px",
         height: "200px",
         display: "flex",
-        alignItems: "center",
+        // alignItems: "end",
+        justifyContent: "space-between",
         gap: "500px",
       }}
     >
-      <Dropdown {...args} style={{ width: "1504px" }} />
-      <Dropdown {...args} options={optionsWithCategories} style={{ width: "1504px" }} />
+      {/* <Dropdown {...args} style={{ width: "1504px" }} /> */}
+      <Dropdown {...args} options={optionsWithCategories} style={{ width: "250px" }} />
+      <Dropdown {...args} options={optionsWithCategories} style={{ width: "250px" }} />
       {/* <Tooltip position="top" label="This is a tooltip">
         <span
           style={{
