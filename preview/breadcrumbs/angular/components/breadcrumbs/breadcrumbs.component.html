@@ -1,7 +1,7 @@
 <nav
   class="breadcrumbs-container"
   role="navigation"
-  aria-label="Fil d'Ariane"
+  [attr.aria-label]="ariaLabel()"
   [ngClass]="{'truncated': truncatedItems()?.truncated?.length}"
 >
   @if (truncatedItems()?.truncated?.length) {

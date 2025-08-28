@@ -11,6 +11,9 @@ export default {
     items: {
       control: "object",
     },
+    ariaLabel: {
+      control: "text",
+    },
   },
 } satisfies Meta<BreadcrumbsComponent>;
 
@@ -35,7 +38,7 @@ export const KeyboardNavigation: StoryObj<BreadcrumbsComponent> = {
     props: {
       ...args,
     },
-    template: `<rte-breadcrumbs [items]="items" data-testid="breadcrumbs"/>`,
+    template: `<rte-breadcrumbs [items]="items" [ariaLabel]="ariaLabel" data-testid="breadcrumbs"/>`,
   }),
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
@@ -61,8 +64,8 @@ export const Truncated: StoryObj<BreadcrumbsComponent> = {
       mockItems,
     },
     template: `
-      <rte-breadcrumbs [items]="items" data-testid="breadcrumbs"/>
-      <rte-breadcrumbs [items]="mockItems" data-testid="breadcrumbs-truncated"/>
+      <rte-breadcrumbs [items]="items" [ariaLabel]="ariaLabel" data-testid="breadcrumbs"/>
+      <rte-breadcrumbs [items]="mockItems" [ariaLabel]="ariaLabel" data-testid="breadcrumbs-truncated"/>
     `,
   }),
   play: async ({ canvasElement }) => {
@@ -87,10 +90,10 @@ export const MultipleElements: StoryObj<BreadcrumbsComponent> = {
       fourItems: [...args.items, { label: "brand", link: "/products/electronics/smartphones/brand" }],
     },
     template: `
-      <rte-breadcrumbs [items]="oneItem" data-testid="breadcrumbs-one-item"/>
-      <rte-breadcrumbs [items]="twoItems" data-testid="breadcrumbs-two-items"/>
-      <rte-breadcrumbs [items]="threeItems" data-testid="breadcrumbs-three-items"/>
-      <rte-breadcrumbs [items]="items" data-testid="breadcrumbs"/>
+      <rte-breadcrumbs [items]="oneItem" [ariaLabel]="ariaLabel" data-testid="breadcrumbs-one-item"/>
+      <rte-breadcrumbs [items]="twoItems" [ariaLabel]="ariaLabel" data-testid="breadcrumbs-two-items"/>
+      <rte-breadcrumbs [items]="threeItems" [ariaLabel]="ariaLabel" data-testid="breadcrumbs-three-items"/>
+      <rte-breadcrumbs [items]="items" [ariaLabel]="ariaLabel" data-testid="breadcrumbs"/>
     `,
   }),
 };
