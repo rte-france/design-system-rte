@@ -120,6 +120,7 @@
 
 .radioButtonLabel {
     @include typography-radio-button-l;
+    color: var(--content-primary);
 
     &[data-read-only='true'] {
         pointer-events: none;
