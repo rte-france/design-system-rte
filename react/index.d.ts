@@ -1,4 +1,5 @@
 import { default as Badge } from './components/badge/Badge.tsx';
+import { default as Breadcrumbs } from './components/breadcrumbs/Breadcrumbs.tsx';
 import { default as Button } from './components/button/Button';
 import { default as Checkbox } from './components/checkbox/Checkbox.tsx';
 import { default as CheckboxGroup } from './components/checkboxGroup/CheckboxGroup.tsx';
@@ -17,4 +18,4 @@ import { default as Switch } from './components/switch/Switch.tsx';
 import { default as Textarea } from './components/textarea/Textarea.tsx';
 import { default as TextInput } from './components/textInput/TextInput.tsx';
 import { default as Tooltip } from './components/tooltip/Tooltip.tsx';
-export { Button, Grid, Checkbox, CheckboxGroup, Link, RadioButton, RadioButtonGroup, Icon, IconButton, IconButtonToggle, SplitButton, Tooltip, TextInput, Chip, Badge, Textarea, Divider, Switch, SegmentedControl, };
+export { Button, Grid, Checkbox, CheckboxGroup, Link, RadioButton, RadioButtonGroup, Icon, IconButton, IconButtonToggle, SplitButton, Tooltip, TextInput, Chip, Badge, Textarea, Divider, Switch, SegmentedControl, Breadcrumbs, };
