@@ -4,7 +4,7 @@ import { userEvent, within, expect, waitFor } from "@storybook/test";
 import Breadcrumbs from "./Breadcrumbs";
 
 const meta = {
-  title: "Breadcrumbs",
+  title: "Breadcrumbs (développement en cours)",
   component: Breadcrumbs,
   tags: ["autodocs"],
   argTypes: {
@@ -31,6 +31,27 @@ export const Default: Story = {
   args: {
     items: mockItems,
   },
+  render: (args) => (
+    <>
+      <div>
+        <span
+          style={{
+            fontFamily: "sans-serif",
+            marginBottom: 16,
+            border: "1px solid #F4922B",
+            padding: 8,
+            borderRadius: 5,
+            backgroundColor: "#FAFFC1",
+            margin: 0,
+          }}
+        >
+          Ce composant est en cours de développement et n'est pas encore disponible
+        </span>
+      </div>
+      <br />
+      <Breadcrumbs {...args} data-testid="breadcrumbs" />
+    </>
+  ),
 };
 
 export const KeyboardNavigation: Story = {
