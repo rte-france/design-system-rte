@@ -48,6 +48,7 @@ const Breadcrumbs = forwardRef<HTMLDivElement, BreadcrumbsProps>(
               triggerStyles={{
                 display: "flex",
               }}
+              onClick={() => console.log("Event from Tooltip")}
             >
               <IconButton
                 name="more-horiz"
@@ -55,7 +56,7 @@ const Breadcrumbs = forwardRef<HTMLDivElement, BreadcrumbsProps>(
                 data-testid="show-more"
                 variant="neutral"
                 compactSpacing
-                tabIndex={-1}
+                onClick={() => console.log("Event from IconButton")}
               />
             </Tooltip>
           </span>
