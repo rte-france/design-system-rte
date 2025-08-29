@@ -1,5 +1,21 @@
 # @design-system-rte/angular
 
+## 0.12.0
+
+### Minor Changes
+
+- 21cab4b: ## Changes
+
+  - (Breacrumbs) correct unadressed accessibility criteria
+  - (Breadcrumbs) add missing truncated test
+  - (Breadcrumbs) correct breadcrumbs-head styling
+  - (Breadcrumbs) add breadcrumbs
+
+### Patch Changes
+
+- Updated dependencies [21cab4b]
+  - @design-system-rte/core@0.16.0
+
 ## 0.11.0
 
 ### Minor Changes
