@@ -20,10 +20,25 @@ interface DropdownProps extends React.HTMLAttributes<HTMLDivElement> {
   hasParent?: boolean;
   disabled?: boolean;
   position?: "top" | "bottom" | "left" | "right" | "auto";
+  autoClose?: boolean;
 }
 
 export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
-  ({ trigger, className, style, dropdownId, hasParent, disabled, position = "bottom", children, ...props }, ref) => {
+  (
+    {
+      trigger,
+      className,
+      style,
+      dropdownId,
+      hasParent,
+      disabled,
+      position = "bottom",
+      autoClose = true,
+      children,
+      ...props
+    },
+    ref,
+  ) => {
     const { dropdownId: autoId, isOpen, open } = useDropdownState(dropdownId);
     const [autoPosition, setAutoPosition] = useState<string>(position);
 
@@ -95,41 +110,39 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
     }, [isOpen, dropdownElement, triggerElement, hasParent, position]);
 
     return (
-      <>
-        <DropdownContextProvider dropdownId={autoId}>
-          <div
-            ref={triggerCallbackRef}
-            onClick={disabled ? undefined : open}
-            onMouseOver={disabled || !hasParent ? undefined : open}
-            className={styles.trigger}
-            data-disabled={disabled}
-          >
-            {trigger}
-          </div>
+      <DropdownContextProvider dropdownId={autoId} autoClose={autoClose}>
+        <div
+          ref={triggerCallbackRef}
+          onClick={disabled ? undefined : open}
+          onMouseOver={disabled || !hasParent ? undefined : open}
+          className={styles.trigger}
+          data-disabled={disabled}
+        >
+          {trigger}
+        </div>
 
-          {shouldRender && (
-            <Overlay>
-              <div
-                className={concatClassNames(styles.dropdown, className)}
-                data-dropdown-id={autoId}
-                data-position={autoPosition}
-                data-open={isAnimating || undefined}
-                {...props}
-                style={{
-                  ...style,
-                  top: coordinates.top,
-                  left: coordinates.left,
-                }}
-                ref={dropdownCallbackRef}
-              >
-                <ul className={styles["dropdown-items"]} role="menu">
-                  {children}
-                </ul>
-              </div>
-            </Overlay>
-          )}
-        </DropdownContextProvider>
-      </>
+        {shouldRender && (
+          <Overlay>
+            <div
+              className={concatClassNames(styles.dropdown, className)}
+              data-dropdown-id={autoId}
+              data-position={autoPosition}
+              data-open={isAnimating || undefined}
+              {...props}
+              style={{
+                ...style,
+                top: coordinates.top,
+                left: coordinates.left,
+              }}
+              ref={dropdownCallbackRef}
+            >
+              <ul className={styles["dropdown-items"]} role="menu">
+                {children}
+              </ul>
+            </div>
+          </Overlay>
+        )}
+      </DropdownContextProvider>
     );
   },
 );
