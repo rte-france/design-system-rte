@@ -55,7 +55,12 @@
     &.primary {
         background: var(--background-brand-default);
         border: var(--border-brand-default);
-        color: var(--content-primary-inverse);
+
+        ::ng-deep {
+            .rte-icon-container {
+                color: var(--content-primary-inverse);
+            }
+        }
 
         &:hover {
             background: var(--background-brand-hover);
@@ -141,7 +146,12 @@
     &.danger {
         background: var(--background-danger-default);
         border: none;
-        color: var(--content-primary-inverse);
+
+        ::ng-deep {
+            .rte-icon-container {
+                color: var(--content-primary-inverse);
+            }
+        }
 
         &:hover {
             background: var(--background-danger-hover);

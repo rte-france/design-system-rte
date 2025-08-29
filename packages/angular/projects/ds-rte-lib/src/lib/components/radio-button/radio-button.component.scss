@@ -121,6 +121,7 @@
 
 .rte-radio-button-label {
     @include typography-radio-button-l;
+    color: var(--content-primary);
 
     &.read-only {
         pointer-events: none;

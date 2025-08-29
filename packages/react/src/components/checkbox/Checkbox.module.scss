@@ -151,6 +151,7 @@
   .checkbox-text-container {
     label {
       @include typography-text-l;
+      color: var(--content-primary);
     }
 
     .checkbox-description {
