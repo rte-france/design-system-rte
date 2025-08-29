@@ -30,7 +30,7 @@ export const Default: Story = {
       }}
     >
       <Dropdown {...args} style={{ width: "250px" }}>
-        <DropdownItem label="Messages" leftIcon="mail" withSeparator onClick={() => console.log("click")} />
+        <DropdownItem label="Messages" leftIcon="mail" hasSeparator onClick={() => console.log("click")} />
         <DropdownItem label="Actions" leftIcon="settings">
           <DropdownItem label="Edit" leftIcon="edit">
             <DropdownItem label="Cut" leftIcon="cut" trailingText="⌘X" />
@@ -40,15 +40,15 @@ export const Default: Story = {
           <DropdownItem label="Archive" leftIcon="archive" />
           <DropdownItem label="Delete" leftIcon="delete" />
         </DropdownItem>
-        <DropdownItem label="Help" leftIcon="help" />
-        <DropdownItem label="More information" leftIcon="info" withSeparator />
-        <DropdownItem label="First option" />
-        <DropdownItem label="Second option" />
-        <DropdownItem label="Third option" withSeparator />
-        <DropdownItem label="Username" leftIcon="user-circle" />
+        <DropdownItem label="Help" leftIcon="help" hasIndent />
+        <DropdownItem label="More information" leftIcon="info" hasSeparator />
+        <DropdownItem label="First option" hasIndent />
+        <DropdownItem label="Second option" hasIndent />
+        <DropdownItem label="Third option" hasSeparator hasIndent />
+        <DropdownItem label="Username" leftIcon="user-circle" disabled />
       </Dropdown>
       {/* <Dropdown {...args} options={optionsWithCategories} style={{ width: "250px" }}>
-        <DropdownItem label="Messages" leftIcon="mail" withSeparator />
+        <DropdownItem label="Messages" leftIcon="mail" hasSeparator />
         <DropdownItem label="Actions" leftIcon="settings">
           <DropdownItem label="Edit" leftIcon="edit">
             <DropdownItem label="Cut" leftIcon="cut" trailingText="⌘X" />
@@ -59,10 +59,10 @@ export const Default: Story = {
           <DropdownItem label="Delete" leftIcon="delete" />
         </DropdownItem>
         <DropdownItem label="Help" leftIcon="help" />
-        <DropdownItem label="More information" leftIcon="info" withSeparator />
+        <DropdownItem label="More information" leftIcon="info" hasSeparator />
         <DropdownItem label="First option" />
         <DropdownItem label="Second option" />
-        <DropdownItem label="Third option" withSeparator />
+        <DropdownItem label="Third option" hasSeparator />
         <DropdownItem label="Username" leftIcon="user-circle" />
       </Dropdown> */}
     </div>
