@@ -15,7 +15,8 @@ interface DropdownItemProps extends React.HTMLAttributes<HTMLLIElement> {
   trailingText?: string;
   disabled?: boolean;
   onClick?: (event: React.MouseEvent<HTMLLIElement>) => void;
-  withSeparator?: boolean;
+  hasSeparator?: boolean;
+  hasIndent?: boolean;
 }
 
 export const DropdownItem = ({
@@ -24,17 +25,32 @@ export const DropdownItem = ({
   trailingText,
   disabled,
   onClick,
-  withSeparator,
+  hasSeparator,
+  hasIndent,
   children,
   ...props
 }: DropdownItemProps) => {
-  const parentId = useContext(DropdownParentContext) || null;
+  const { autoClose, dropdownId: parentId } = useContext(DropdownParentContext) || {};
   const submenuId = `${parentId}-${label && label.replace(/\s+/g, "")}`;
   const { isOpen } = useDropdownState(submenuId);
 
   const handleMouseOver = () => {
-    if (parentId === null) return;
+    if (!parentId) return;
     DropdownManager.closeSubMenus(parentId);
+  };
+
+  if (hasIndent && leftIcon) {
+    console.warn(
+      `DropdownItem: 'hasIndent' prop is ignored when 'leftIcon' is provided : displaying icon '${leftIcon}' for dropdownitem with label '${label}' without indentation.`,
+    );
+  }
+
+  const handleOnClick = (event: React.MouseEvent<HTMLLIElement>) => {
+    if (disabled) return;
+    onClick?.(event);
+    if (autoClose) {
+      DropdownManager.closeAll();
+    }
   };
 
   if (children) {
@@ -52,11 +68,12 @@ export const DropdownItem = ({
               role="menuitem"
               onMouseOver={handleMouseOver}
             >
+              {hasIndent && <span style={{ width: "20px" }} />}
               {leftIcon && <Icon name={leftIcon} className={styles["dropdown-item-icon"]} />}
               <span style={{ flex: "2" }}>{label}</span>
               <Icon name="arrow-chevron-right" className={styles["dropdown-item-icon"]} />
             </li>
-            {withSeparator && (
+            {hasSeparator && (
               <div className={styles["dropdown-divider"]}>
                 <Divider />
               </div>
@@ -74,15 +91,16 @@ export const DropdownItem = ({
         className={styles["dropdown-item"]}
         data-disabled={disabled}
         role="menuitem"
-        {...props}
         onMouseOver={handleMouseOver}
-        onClick={onClick}
+        onClick={handleOnClick}
+        {...props}
       >
+        {hasIndent && !leftIcon && <span style={{ width: "20px" }} />}
         {leftIcon && <Icon name={leftIcon} className={styles["dropdown-item-icon"]} />}
         <span style={{ flex: "2" }}>{label}</span>
         {trailingText && <div>{trailingText}</div>}
       </li>
-      {withSeparator && (
+      {hasSeparator && (
         <div className={styles["dropdown-divider"]}>
           <Divider />
         </div>

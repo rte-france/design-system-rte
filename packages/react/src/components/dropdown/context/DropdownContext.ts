@@ -1,3 +1,3 @@
 import { createContext } from "react";
 
-export const DropdownParentContext = createContext<string | undefined>(undefined);
+export const DropdownParentContext = createContext<{ dropdownId: string; autoClose: boolean } | undefined>(undefined);
