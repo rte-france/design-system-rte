@@ -31,6 +31,11 @@
     color: var(--content-disabled);
     background: var(--background-disabled);
   }
+
+  &:focus-visible {
+    outline: $width-xs solid var(--border-brand-focused);
+    outline-offset: -1px;
+  }
 }
 
 .dropdown-divider {
