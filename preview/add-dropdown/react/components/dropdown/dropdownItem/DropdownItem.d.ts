@@ -3,8 +3,9 @@ interface DropdownItemProps extends React.HTMLAttributes<HTMLLIElement> {
     leftIcon?: string;
     trailingText?: string;
     disabled?: boolean;
-    onClick?: (event: React.MouseEvent<HTMLLIElement>) => void;
-    withSeparator?: boolean;
+    hasSeparator?: boolean;
+    hasIndent?: boolean;
+    onClick?: (event: React.MouseEvent<HTMLLIElement> | React.KeyboardEventHandler<HTMLLIElement>) => void;
 }
-export declare const DropdownItem: ({ label, leftIcon, trailingText, disabled, onClick, withSeparator, children, ...props }: DropdownItemProps) => import("react/jsx-runtime").JSX.Element;
+export declare const DropdownItem: ({ label, leftIcon, trailingText, disabled, hasSeparator, hasIndent, children, onClick, ...props }: DropdownItemProps) => import("react/jsx-runtime").JSX.Element;
 export {};

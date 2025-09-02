@@ -5,6 +5,7 @@ export declare class DropdownManager {
     static close(id: string): void;
     static closeAll(): void;
     static getOpenedDropdowns(): string[];
+    static getParentDropdownId(id: string): string | null;
     static closeSubMenus(parentId: string): void;
     static subscribe(id: string, callback: () => void): () => void;
     private static notifyListeners;
