@@ -1,9 +1,19 @@
+import {
+  ARROW_DOWN_KEY,
+  ARROW_UP_KEY,
+  ENTER_KEY,
+  ESCAPE_KEY,
+  SPACE_KEY,
+  TAB_KEY,
+} from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 import { useContext } from "react";
 
+import { useActiveKeyboard } from "../../../hooks/useActiveKeyboard";
 import Divider from "../../divider/Divider";
 import Icon from "../../icon/Icon";
 import { DropdownParentContext } from "../context/DropdownContext";
 import { Dropdown } from "../Dropdown";
+import { focusChildDropdownFirstElement, focusParentDropdownFirstElement } from "../DropdownUtils";
 import { DropdownManager } from "../hooks/DropdownManager";
 import { useDropdownState } from "../hooks/useDropdownState";
 
@@ -14,9 +24,9 @@ interface DropdownItemProps extends React.HTMLAttributes<HTMLLIElement> {
   leftIcon?: string;
   trailingText?: string;
   disabled?: boolean;
-  onClick?: (event: React.MouseEvent<HTMLLIElement>) => void;
   hasSeparator?: boolean;
   hasIndent?: boolean;
+  onClick?: (event: React.MouseEvent<HTMLLIElement> | React.KeyboardEventHandler<HTMLLIElement>) => void;
 }
 
 export const DropdownItem = ({
@@ -24,19 +34,25 @@ export const DropdownItem = ({
   leftIcon,
   trailingText,
   disabled,
-  onClick,
   hasSeparator,
   hasIndent,
   children,
+  onClick,
   ...props
 }: DropdownItemProps) => {
-  const { autoClose, dropdownId: parentId } = useContext(DropdownParentContext) || {};
-  const submenuId = `${parentId}-${label && label.replace(/\s+/g, "")}`;
-  const { isOpen } = useDropdownState(submenuId);
+  const { dropdownId, autoClose, closeRoot } = useContext(DropdownParentContext) || {};
+  const childDropdownId = `${dropdownId}-${label && label.replace(/\s+/g, "")}`;
+  const { isOpen, open } = useDropdownState(childDropdownId);
 
   const handleMouseOver = () => {
-    if (!parentId) return;
-    DropdownManager.closeSubMenus(parentId);
+    if (!dropdownId) return;
+    DropdownManager.closeSubMenus(dropdownId);
+    open();
+  };
+
+  const handleOnFocus = () => {
+    if (!dropdownId) return;
+    DropdownManager.closeSubMenus(dropdownId);
   };
 
   if (hasIndent && leftIcon) {
@@ -45,20 +61,52 @@ export const DropdownItem = ({
     );
   }
 
-  const handleOnClick = (event: React.MouseEvent<HTMLLIElement>) => {
+  const handleOnClick = (event: React.MouseEvent<HTMLLIElement> | React.KeyboardEventHandler<HTMLLIElement>) => {
     if (disabled) return;
-    onClick?.(event);
-    if (autoClose) {
-      DropdownManager.closeAll();
+    if (onClick) {
+      onClick?.(event);
+    }
+    if (autoClose && closeRoot) {
+      closeRoot();
     }
   };
+
+  const handleKeyUp = (e: React.KeyboardEvent<HTMLLIElement>) => {
+    e.preventDefault();
+    if (e.key === TAB_KEY) {
+      if (isOpen) {
+        focusChildDropdownFirstElement(childDropdownId);
+      }
+      if (e.shiftKey) {
+        if (dropdownId) {
+          focusParentDropdownFirstElement(dropdownId);
+        }
+      }
+    }
+    if (e.key === ENTER_KEY || e.key === SPACE_KEY) {
+      if (disabled) return;
+      if (onClick) {
+        handleOnClick(e as unknown as React.KeyboardEventHandler<HTMLLIElement>);
+      }
+      if (children) {
+        open();
+      }
+    }
+  };
+
+  const { onKeyUp, onFocus } = useActiveKeyboard<HTMLLIElement>(
+    { onKeyUp: handleKeyUp, onFocus: handleOnFocus },
+    {
+      interactiveKeyCodes: [SPACE_KEY, ENTER_KEY, TAB_KEY, ARROW_DOWN_KEY, ARROW_UP_KEY, ESCAPE_KEY],
+    },
+  );
 
   if (children) {
     return (
       <Dropdown
         hasParent
-        dropdownId={submenuId}
-        disabled={disabled}
+        dropdownId={childDropdownId}
+        isOpen={isOpen}
         trigger={
           <>
             <li
@@ -67,6 +115,9 @@ export const DropdownItem = ({
               data-disabled={disabled}
               role="menuitem"
               onMouseOver={handleMouseOver}
+              onKeyUp={onKeyUp}
+              onFocus={onFocus}
+              tabIndex={0}
             >
               {hasIndent && <span style={{ width: "20px" }} />}
               {leftIcon && <Icon name={leftIcon} className={styles["dropdown-item-icon"]} />}
@@ -91,8 +142,11 @@ export const DropdownItem = ({
         className={styles["dropdown-item"]}
         data-disabled={disabled}
         role="menuitem"
-        onMouseOver={handleMouseOver}
         onClick={handleOnClick}
+        onMouseOver={handleMouseOver}
+        onKeyUp={onKeyUp}
+        onFocus={onFocus}
+        tabIndex={0}
         {...props}
       >
         {hasIndent && !leftIcon && <span style={{ width: "20px" }} />}

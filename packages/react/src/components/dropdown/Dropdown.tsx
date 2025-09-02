@@ -3,14 +3,25 @@ import {
   getAutoPlacementDropdown,
   getCoordinates,
 } from "@design-system-rte/core/components/utils/auto-placement";
-import { useEffect, useState, useRef, useCallback, forwardRef } from "react";
+import {
+  ARROW_DOWN_KEY,
+  ARROW_UP_KEY,
+  ENTER_KEY,
+  ESCAPE_KEY,
+  SPACE_KEY,
+  TAB_KEY,
+} from "@design-system-rte/core/constants/keyboard/keyboard.constants";
+import { useEffect, useState, useRef, useCallback, forwardRef, useContext } from "react";
 
+import { useActiveKeyboard } from "../../hooks/useActiveKeyboard";
 import useAnimatedMount from "../../hooks/useAnimatedMount";
 import { Overlay } from "../overlay/Overlay";
 import { concatClassNames } from "../utils";
 
+import { DropdownParentContext } from "./context/DropdownContext";
 import { DropdownContextProvider } from "./context/DropdownContextProvider";
 import styles from "./Dropdown.module.scss";
+import { focusNextElement, focusPreviousElement } from "./DropdownUtils";
 import { DropdownManager } from "./hooks/DropdownManager";
 import { useDropdownState } from "./hooks/useDropdownState";
 
@@ -20,7 +31,11 @@ interface DropdownProps extends React.HTMLAttributes<HTMLDivElement> {
   hasParent?: boolean;
   disabled?: boolean;
   position?: "top" | "bottom" | "left" | "right" | "auto";
+  autoOpen?: boolean;
   autoClose?: boolean;
+  onOpen?: () => void;
+  onClose?: () => void;
+  isOpen?: boolean;
 }
 
 export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
@@ -31,16 +46,19 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
       style,
       dropdownId,
       hasParent,
-      disabled,
       position = "bottom",
       autoClose = true,
+      isOpen = false,
+      onOpen = () => {},
+      onClose = () => {},
       children,
       ...props
     },
     ref,
   ) => {
-    const { dropdownId: autoId, isOpen, open } = useDropdownState(dropdownId);
+    const { dropdownId: autoId, open } = useDropdownState(dropdownId);
     const [autoPosition, setAutoPosition] = useState<string>(position);
+    const { closeRoot } = useContext(DropdownParentContext) || {};
 
     const triggerRef = useRef<HTMLDivElement | null>(null);
     const dropdownRef = useRef<HTMLDivElement | null>(null);
@@ -68,9 +86,47 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
       setTriggerElement(node);
     }, []);
 
-    useEffect(() => {
-      if (!isOpen) return;
+    const closeDropdown = useCallback(() => {
+      if (hasParent && closeRoot) {
+        closeRoot();
+      } else {
+        onClose();
+      }
+      DropdownManager.closeAll();
+    }, [closeRoot, hasParent, onClose]);
 
+    const openDropdown = useCallback(() => {
+      onOpen();
+      open();
+    }, [onOpen, open]);
+
+    const handleKeyUp = (e: React.KeyboardEvent<HTMLDivElement>) => {
+      if (e.key === ARROW_DOWN_KEY || e.key === ARROW_UP_KEY) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        if (dropdownElement === null) return;
+
+        if (e.key === ARROW_DOWN_KEY) {
+          focusNextElement(dropdownElement);
+        } else {
+          focusPreviousElement(dropdownElement);
+        }
+      }
+
+      if (e.key === ESCAPE_KEY) {
+        closeDropdown();
+      }
+    };
+
+    const { onKeyDown, onKeyUp } = useActiveKeyboard<HTMLDivElement>(
+      { onKeyUp: handleKeyUp },
+      {
+        interactiveKeyCodes: [SPACE_KEY, ENTER_KEY, TAB_KEY, ARROW_DOWN_KEY, ARROW_UP_KEY, ESCAPE_KEY],
+      },
+    );
+
+    useEffect(() => {
       const handleClickOutside = (event: MouseEvent) => {
         const target = event.target as Element;
         const allDropdowns = document.querySelectorAll("[data-dropdown-id]");
@@ -79,45 +135,51 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
           triggerRef.current?.contains(target);
 
         if (!clickedInside) {
-          DropdownManager.closeAll();
+          closeDropdown();
         }
       };
 
       document.addEventListener("mousedown", handleClickOutside);
       return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, [isOpen]);
+    }, [closeDropdown]);
 
     useEffect(() => {
       if (!isOpen) return;
       if (!triggerElement || !dropdownElement) return;
-
+      openDropdown();
       if (hasParent) {
-        const computedPosition = getAutoPlacementDropdown(triggerElement, dropdownElement!, "right", 0, hasParent);
-        const autoAlignment = getAutoAlignment(triggerElement, dropdownElement!, computedPosition);
-        const computedCoordinates = getCoordinates(computedPosition, triggerElement, dropdownElement, 0, autoAlignment);
-
-        setAutoPosition(computedPosition);
-        setCoordinates(computedCoordinates);
+        positionChildDropdown(triggerElement, dropdownElement);
       } else {
-        const computedPosition =
-          position === "auto" ? getAutoPlacementDropdown(triggerElement, dropdownElement!, "bottom") : position;
-        const autoAlignment = getAutoAlignment(triggerElement, dropdownElement!, computedPosition);
-        const computedCoordinates = getCoordinates(computedPosition, triggerElement, dropdownElement, 0, autoAlignment);
-
-        setAutoPosition(computedPosition);
-        setCoordinates(computedCoordinates);
+        positionDropdown(triggerElement, dropdownElement, position);
       }
-    }, [isOpen, dropdownElement, triggerElement, hasParent, position]);
+    }, [isOpen, hasParent, openDropdown, dropdownElement, triggerElement, position]);
+
+    const positionChildDropdown = (triggerElement: HTMLDivElement, dropdownElement: HTMLDivElement) => {
+      const computedPosition = getAutoPlacementDropdown(triggerElement, dropdownElement, "right", 0, true);
+      const autoAlignment = getAutoAlignment(triggerElement!, dropdownElement!, computedPosition);
+      const computedCoordinates = getCoordinates(computedPosition, triggerElement!, dropdownElement!, 0, autoAlignment);
+
+      setAutoPosition(computedPosition);
+      setCoordinates(computedCoordinates);
+    };
+
+    const positionDropdown = (
+      triggerElement: HTMLDivElement,
+      dropdownElement: HTMLDivElement,
+      position: "top" | "bottom" | "left" | "right" | "auto",
+    ) => {
+      const computedPosition =
+        position === "auto" ? getAutoPlacementDropdown(triggerElement!, dropdownElement!, "bottom") : position;
+      const autoAlignment = getAutoAlignment(triggerElement!, dropdownElement!, computedPosition);
+      const computedCoordinates = getCoordinates(computedPosition, triggerElement!, dropdownElement!, 0, autoAlignment);
+
+      setAutoPosition(computedPosition);
+      setCoordinates(computedCoordinates);
+    };
 
     return (
-      <DropdownContextProvider dropdownId={autoId} autoClose={autoClose}>
-        <div
-          ref={triggerCallbackRef}
-          onClick={disabled ? undefined : open}
-          onMouseOver={disabled || !hasParent ? undefined : open}
-          className={styles.trigger}
-          data-disabled={disabled}
-        >
+      <DropdownContextProvider dropdownId={autoId} closeRoot={closeDropdown} autoClose={autoClose}>
+        <div ref={triggerCallbackRef} className={styles.trigger}>
           {trigger}
         </div>
 
@@ -135,6 +197,8 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
                 left: coordinates.left,
               }}
               ref={dropdownCallbackRef}
+              onKeyUp={onKeyUp}
+              onKeyDown={onKeyDown}
             >
               <ul className={styles["dropdown-items"]} role="menu">
                 {children}
