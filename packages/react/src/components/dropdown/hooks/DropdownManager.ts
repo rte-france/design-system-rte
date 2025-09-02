@@ -31,6 +31,13 @@ export class DropdownManager {
     return Object.keys(globalDropdownState);
   }
 
+  static getParentDropdownId(id: string) {
+    const parts = id.split("-");
+    if (parts.length <= 2) return null;
+    parts.pop();
+    return parts.join("-");
+  }
+
   static closeSubMenus(parentId: string) {
     const dropdownsCurrentlyOpened = Object.keys(globalDropdownState);
     const dropdownsToClose = dropdownsCurrentlyOpened.filter((id) => id.startsWith(parentId) && id !== parentId);
