@@ -10,6 +10,7 @@ type handlersActiveKeyboard<T extends HTMLElement> = {
   onKeyDown?: (e: KeyboardEvent<T>) => void;
   onKeyUp?: (e: KeyboardEvent<T>) => void;
   onBlur?: () => void;
+  onFocus?: () => void;
 };
 
 const noop = () => {};
@@ -23,6 +24,7 @@ export const useActiveKeyboard = <T extends HTMLElement>(
     onKeyDown: handlerOnKeyDown = noop,
     onKeyUp: handlerOnKeyUp = noop,
     onBlur: handlerOnBlur = noop,
+    onFocus: handlerOnFocus = noop,
   } = handlerFunctions;
   const interactiveKeysRef = useRef<string[]>(interactiveKeyCodes ?? [SPACE_KEY, ENTER_KEY]);
 
@@ -43,5 +45,9 @@ export const useActiveKeyboard = <T extends HTMLElement>(
     handlerOnBlur();
   };
 
-  return { onKeyDown, onKeyUp, onBlur };
+  const onFocus = () => {
+    handlerOnFocus();
+  };
+
+  return { onKeyDown, onKeyUp, onBlur, onFocus };
 };
