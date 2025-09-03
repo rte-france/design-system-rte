@@ -5,7 +5,6 @@ export interface DropdownProps {
   position?: import("../../common-types").Position;
   autoOpen?: boolean;
   autoClose?: boolean;
-  onOpen?: () => void;
   onClose?: () => void;
   isOpen?: boolean;
 }
