@@ -150,6 +150,7 @@
   .rte-checkbox-text-container {
     label {
       @include typography-text-l;
+      color: var(--content-primary);
     }
 
     .rte-checkbox-description {
