@@ -1,9 +1,11 @@
+import { Alignment, Position } from "../common/common-types";
+
 export const getAutoPlacement = (
   hostElement: HTMLElement,
   castedElement: Element,
-  defaultPosition: "top" | "bottom" | "left" | "right",
+  defaultPosition: Omit<Position, "auto">,
   offset: number = 0,
-): "top" | "bottom" | "left" | "right" => {
+): Omit<Position, "auto"> => {
   const triggerParent = hostElement.parentElement;
   if (!triggerParent) {
     return defaultPosition;
@@ -31,10 +33,10 @@ export const getAutoPlacement = (
 export const getAutoPlacementDropdown = (
   hostElement: HTMLElement,
   castedElement: Element,
-  defaultPosition: "top" | "bottom" | "left" | "right",
+  defaultPosition: Omit<Position, "auto">,
   offset: number = 0,
   hasDropdownParent: boolean = false,
-) => {
+): Omit<Position, "auto"> => {
   const triggerRect = hostElement.getBoundingClientRect();
   const elementRect = castedElement.getBoundingClientRect();
   const sides = {
@@ -61,7 +63,11 @@ export const getAutoPlacementDropdown = (
   return defaultPosition;
 };
 
-export const getAutoAlignment = (hostElement: HTMLElement, castedElement: Element, position: string) => {
+export const getAutoAlignment = (
+  hostElement: HTMLElement,
+  castedElement: Element,
+  position: Omit<Position, "auto">,
+) => {
   const triggerParent = hostElement.parentElement;
   if (!triggerParent) {
     return "center";
@@ -85,11 +91,11 @@ export const getAutoAlignment = (hostElement: HTMLElement, castedElement: Elemen
 };
 
 export const getCoordinates = (
-  position: string,
+  position: Omit<Position, "auto">,
   triggerElement: HTMLElement,
   castedElement: HTMLElement,
   offset: number = 0,
-  alignment: "start" | "center" | "end" = "center",
+  alignment: Alignment = "center",
 ) => {
   const triggerElementRect = triggerElement.getBoundingClientRect();
   const castedElementRect = castedElement.getBoundingClientRect();

@@ -1,3 +1,5 @@
+import { Position } from "@design-system-rte/core/components/common/common-types";
+import { DropdownProps as CoreDropdownProps } from "@design-system-rte/core/components/dropdown/dropdown.interface";
 import {
   getAutoAlignment,
   getAutoPlacementDropdown,
@@ -25,17 +27,8 @@ import { focusNextElement, focusPreviousElement } from "./DropdownUtils";
 import { DropdownManager } from "./hooks/DropdownManager";
 import { useDropdownState } from "./hooks/useDropdownState";
 
-interface DropdownProps extends React.HTMLAttributes<HTMLDivElement> {
-  dropdownId: string;
+interface DropdownProps extends CoreDropdownProps, React.HTMLAttributes<HTMLDivElement> {
   trigger: React.ReactNode;
-  hasParent?: boolean;
-  disabled?: boolean;
-  position?: "top" | "bottom" | "left" | "right" | "auto";
-  autoOpen?: boolean;
-  autoClose?: boolean;
-  onOpen?: () => void;
-  onClose?: () => void;
-  isOpen?: boolean;
 }
 
 export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
@@ -163,11 +156,7 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
       setCoordinates(computedCoordinates);
     };
 
-    const positionDropdown = (
-      triggerElement: HTMLDivElement,
-      dropdownElement: HTMLDivElement,
-      position: "top" | "bottom" | "left" | "right" | "auto",
-    ) => {
+    const positionDropdown = (triggerElement: HTMLDivElement, dropdownElement: HTMLDivElement, position: Position) => {
       const computedPosition =
         position === "auto" ? getAutoPlacementDropdown(triggerElement!, dropdownElement!, "bottom") : position;
       const autoAlignment = getAutoAlignment(triggerElement!, dropdownElement!, computedPosition);
