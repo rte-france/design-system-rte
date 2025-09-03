@@ -32,7 +32,6 @@ export const Default: Story = {
         <Dropdown
           {...args}
           onClose={() => {
-            console.log("closing from component state managemen");
             setIsOpen(false);
           }}
           trigger={
