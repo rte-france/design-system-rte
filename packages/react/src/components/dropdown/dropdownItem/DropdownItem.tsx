@@ -1,3 +1,4 @@
+import { DropdownItemProps as CoreDropdownItemProps } from "@design-system-rte/core/components/dropdown/dropdown.interface";
 import {
   ARROW_DOWN_KEY,
   ARROW_UP_KEY,
@@ -19,13 +20,7 @@ import { useDropdownState } from "../hooks/useDropdownState";
 
 import styles from "./DropdownItem.module.scss";
 
-interface DropdownItemProps extends React.HTMLAttributes<HTMLLIElement> {
-  label?: string;
-  leftIcon?: string;
-  trailingText?: string;
-  disabled?: boolean;
-  hasSeparator?: boolean;
-  hasIndent?: boolean;
+interface DropdownItemProps extends Omit<CoreDropdownItemProps, "onClick">, React.HTMLAttributes<HTMLLIElement> {
   onClick?: (event: React.MouseEvent<HTMLLIElement> | React.KeyboardEventHandler<HTMLLIElement>) => void;
 }
 
