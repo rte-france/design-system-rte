@@ -42,15 +42,14 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
       position = "bottom",
       autoClose = true,
       isOpen = false,
-      onOpen = () => {},
       onClose = () => {},
       children,
       ...props
     },
     ref,
   ) => {
-    const { dropdownId: autoId, open } = useDropdownState(dropdownId);
-    const [autoPosition, setAutoPosition] = useState<string>(position);
+    const { dropdownId: autoId } = useDropdownState(dropdownId);
+    const [autoPosition, setAutoPosition] = useState<Omit<Position, "auto">>(position);
     const { closeRoot } = useContext(DropdownParentContext) || {};
 
     const triggerRef = useRef<HTMLDivElement | null>(null);
@@ -87,11 +86,6 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
       }
       DropdownManager.closeAll();
     }, [closeRoot, hasParent, onClose]);
-
-    const openDropdown = useCallback(() => {
-      onOpen();
-      open();
-    }, [onOpen, open]);
 
     const handleKeyUp = (e: React.KeyboardEvent<HTMLDivElement>) => {
       if (e.key === ARROW_DOWN_KEY || e.key === ARROW_UP_KEY) {
@@ -139,13 +133,12 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
     useEffect(() => {
       if (!isOpen) return;
       if (!triggerElement || !dropdownElement) return;
-      openDropdown();
       if (hasParent) {
         positionChildDropdown(triggerElement, dropdownElement);
       } else {
         positionDropdown(triggerElement, dropdownElement, position);
       }
-    }, [isOpen, hasParent, openDropdown, dropdownElement, triggerElement, position]);
+    }, [isOpen, hasParent, dropdownElement, triggerElement, position]);
 
     const positionChildDropdown = (triggerElement: HTMLDivElement, dropdownElement: HTMLDivElement) => {
       const computedPosition = getAutoPlacementDropdown(triggerElement, dropdownElement, "right", 0, true);
