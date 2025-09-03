@@ -1,3 +1,6 @@
+@use '@design-system-rte/core/design-tokens/main.scss' as *;
+
 .rte-icon-container {
-  display: flex
+  display: flex;
+  color: var(--content-primary);
 }
