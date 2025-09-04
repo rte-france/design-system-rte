@@ -8,5 +8,7 @@ export interface PopoverProps {
   arrow?: boolean;
   title?: string;
   showTitle?: boolean;
+  buttonLabel?: string;
   button2?: boolean;
+  button2Label?: string;
 }
