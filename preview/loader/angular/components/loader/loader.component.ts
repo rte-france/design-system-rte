@@ -1,9 +1,8 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 import { computed } from "@angular/core";
-
-import { loaderSize } from "./../../../../../../../core/components/loader/loader.constants";
-import { LoaderProps } from "./../../../../../../../core/components/loader/loader.interface.d";
+import { loaderSize } from "@design-system-rte/core/components/loader/loader.constants";
+import { LoaderProps } from "@design-system-rte/core/components/loader/loader.interface.d";
 
 @Component({
   selector: "rte-loader",
