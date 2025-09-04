@@ -60,7 +60,7 @@ const Loader = forwardRef<HTMLDivElement, LoaderProps>(
             width={loaderSize[size]}
             height={loaderSize[size]}
             className={style.svgLoader}
-            viewBox="0 0 24 24"
+            viewBox="0 0 48 48"
             fill="none"
           >
             <g clip-path="url(#paint0_angular_4438_1033_clip_path)" data-figma-skip-parse="true">
