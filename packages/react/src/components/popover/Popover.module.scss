@@ -10,48 +10,59 @@
     pointer-events: auto;
     top: 0;
     left: 0;
-    padding: $positive-spacing_300;
+    padding: $positive-spacing_0;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: $positive-spacing_300;
-    @include elevation-neutral-shadow-3;
-    border-radius: $radius-s;
+    gap: $positive-spacing_0;
+    @include neutral-shadow-3;
+    background-color: var(--background-default);
     transition: opacity 150ms ease-out;
     opacity: 0;
     z-index: 1000;
-    min-width: 200px;
-    max-width: 320px;
+    min-width: 320px;
+    max-width: 600px;
 
-    .popoverContentContainer {
+    .popoverInner {
+
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        padding: $positive-spacing_0;
-        gap: $positive-spacing_200;
-
-        .popoverTitle {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            color: var(--content-brand-default);
-            @include typography-heading-m;
-        }
-
-        .popoverContent {
-            color: var(--content-primary);
-            @include typography-text-m;
-            width: 100%;
-            word-break: break-word;
-        }
-    }
-
-    .popoverButtonContainer {
-        display: flex;
-        justify-content: flex-end;
-        align-items: flex-start;
-        padding: $positive-spacing_0;
+        padding: $positive-spacing_300;
         gap: $positive-spacing_300;
-        width: 100%;
+        border-radius: $radius-s;
+        @include elevation-brand-shadow-3;
+
+        .popoverContentContainer {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: $positive-spacing_0;
+            gap: $positive-spacing_200;
+
+            .popoverTitle {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                color: var(--content-brand-default);
+                @include typography-heading-m;
+            }
+
+            .popoverContent {
+                color: var(--content-primary);
+                @include typography-text-m;
+                width: 100%;
+                word-break: break-word;
+            }
+        }
+
+        .popoverButtonContainer {
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-start;
+            padding: $positive-spacing_0;
+            gap: $positive-spacing_300;
+            width: 100%;
+        }
     }
 
     &::after {
