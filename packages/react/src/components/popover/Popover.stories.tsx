@@ -39,7 +39,8 @@ export const Default: Story = {
     showTitle: true,
     button2: false,
     title: "Popover Title",
-    content: "Le Popover est un composant de type superposition (overlay), qui apparaît au clic, au focus ou au survol d’un élément déclencheur (trigger). Il est utilisé pour afficher un contenu contextuel enrichi : aide, options, actions complémentaires… Il s’affiche au-dessus de l’interface sans perturber la navigation.Le Popover est un composant de type superposition (overlay), qui apparaît au clic, au focus ou au survol d’un élément déclencheur (trigger). ",
+    content:
+      "Le Popover est un composant de type superposition (overlay), qui apparaît au clic, au focus ou au survol d’un élément déclencheur (trigger). Il est utilisé pour afficher un contenu contextuel enrichi : aide, options, actions complémentaires… Il s’affiche au-dessus de l’interface sans perturber la navigation.Le Popover est un composant de type superposition (overlay), qui apparaît au clic, au focus ou au survol d’un élément déclencheur (trigger). ",
     buttonLabel: "Close",
     button2Label: "Cancel",
     children: <button>Open Popover</button>,
@@ -54,7 +55,8 @@ export const WithTwoButtons: Story = {
     showTitle: true,
     button2: true,
     title: "Confirm Action",
-    content: "Le Popover est un composant de type superposition (overlay), qui apparaît au clic, au focus ou au survol d’un élément déclencheur (trigger). Il est utilisé pour afficher un contenu contextuel enrichi : aide, options, actions complémentaires… Il s’affiche au-dessus de l’interface sans perturber la navigation.Le Popover est un composant de type superposition (overlay), qui apparaît au clic, au focus ou au survol d’un élément déclencheur (trigger). ",
+    content:
+      "Le Popover est un composant de type superposition (overlay), qui apparaît au clic, au focus ou au survol d’un élément déclencheur (trigger). Il est utilisé pour afficher un contenu contextuel enrichi : aide, options, actions complémentaires… Il s’affiche au-dessus de l’interface sans perturber la navigation.Le Popover est un composant de type superposition (overlay), qui apparaît au clic, au focus ou au survol d’un élément déclencheur (trigger). ",
     buttonLabel: "Confirm",
     button2Label: "Cancel",
     children: <button>Open Confirmation</button>,
