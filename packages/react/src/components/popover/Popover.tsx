@@ -2,9 +2,8 @@ import { PopoverProps as CorePopoverProps } from "@design-system-rte/core/compon
 import { getAutoPlacement, getCoordinates } from "@design-system-rte/core/components/utils/auto-placement";
 import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
 
-import Button from "../button/Button";
-
 import useAnimatedMount from "../../hooks/useAnimatedMount";
+import Button from "../button/Button";
 import { Overlay } from "../overlay/Overlay";
 import { concatClassNames } from "../utils";
 
@@ -113,29 +112,21 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
                             data-position={autoPosition}
                             data-alignment={alignment}
                             data-open={isAnimating || undefined}
-                            data-arrow={arrow}
-                            data-showTitle={showTitle}
-                            data-button2={button2}
                             style={{
                                 top: `${coordinates.top}px`,
                                 left: `${coordinates.left}px`,
                             }}
                             {...props}
                         >
-                            <div className={style.popoverContentContainer}>
-                            {showTitle && title && (
-                                <div className={style.popoverTitle}>
-                                    {title}
+                            <div className={style.popoverInner}>
+                                <div className={style.popoverContentContainer}>
+                                    {showTitle && title && <div className={style.popoverTitle}>{title}</div>}
+                                    <div className={style.popoverContent}>{content}</div>
                                 </div>
-                            )}
-                            <div className={style.popoverContent}>
-                                {content}
-                            </div>
-                            </div>
-                            <div className={style.popoverButtonContainer}>
-                                <Button onClick={closePopover} label={buttonLabel} variant="primary"
-                                size="m" />
-                                {button2 && <Button onClick={closePopover} label={button2Label} variant="secondary" size="m" />}
+                                <div className={style.popoverButtonContainer}>
+                                    {button2 && <Button onClick={closePopover} label={button2Label} variant="secondary" size="m" />}
+                                    <Button onClick={closePopover} label={buttonLabel} variant="primary" size="m" />
+                                </div>
                             </div>
                         </div>
                     </Overlay>
