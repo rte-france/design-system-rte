@@ -180,6 +180,15 @@
   letter-spacing: $heading-s-semibold-letter-spacing;
 }
 
+@mixin typography-heading-m {
+  @include typography-heading;
+  font-family: $heading-m-semibold-font-family;
+  font-weight: $heading-m-semibold-font-weight;
+  font-size: $heading-m-semibold-font-size;
+  line-height: $heading-m-semibold-line-height;
+  letter-spacing: $heading-m-semibold-letter-spacing;
+}
+
 @mixin typography-checkbox-error {
   @include typography-text-s;
   font-weight: $text-s-bold-font-weight;
