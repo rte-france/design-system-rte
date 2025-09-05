@@ -7,7 +7,16 @@ const meta = {
   component: Popover,
   decorators: [
     (Story) => (
-      <div style={{ height: "400px", width: "80%", padding: "100px", display: "flex", justifyContent: "center", alignItems: "center" }}>
+      <div
+        style={{
+          height: "400px",
+          width: "80%",
+          padding: "100px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
         <Story />
       </div>
     ),
@@ -91,7 +100,8 @@ export const Default: Story = {
     showTitle: true,
     button2: false,
     title: "Popover Title",
-    content: "Le Popover est un composant de type superposition (overlay), qui apparaît au clic, au focus ou au survol d'un élément déclencheur (trigger). Il est utilisé pour afficher un contenu contextuel enrichi : aide, options, actions complémentaires…",
+    content:
+      "Le Popover est un composant de type superposition (overlay), qui apparaît au clic, au focus ou au survol d'un élément déclencheur (trigger). Il est utilisé pour afficher un contenu contextuel enrichi : aide, options, actions complémentaires…",
     buttonLabel: "Close",
     button2Label: "Cancel",
     children: <button>Open Popover</button>,
