@@ -15,7 +15,7 @@
     flex-direction: column;
     align-items: flex-start;
     gap: $positive-spacing_0;
-    @include neutral-shadow-3;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.12)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.08));
     background-color: var(--background-default);
     transition: opacity 150ms ease-out;
     opacity: 0;
@@ -31,7 +31,6 @@
         padding: $positive-spacing_300;
         gap: $positive-spacing_300;
         border-radius: $radius-s;
-        @include elevation-brand-shadow-3;
 
         .popoverContentContainer {
             display: flex;
@@ -66,22 +65,18 @@
     }
 
     &::after {
-        content: '';
-        position: absolute;
-        width: 0;
-        height: 0;
-        border-left: 20px solid transparent;
-        border-right: 20px solid transparent;
-        border-bottom: 30px solid var(--background-primary);
-        @include elevation-brand-shadow-3;
+            content: '';
+            position: absolute;
+            border-width: 12px;
+            border-style: solid;
     }
 
     &[data-position='top'] {
         &::after {
             top: 100%;
             left: 50%;
-            margin-left: -6px;
-            border-color: var(--background-primary) transparent transparent transparent;
+            margin-left: -12px;
+            border-color: var(--background-default) transparent transparent transparent;
         }
 
         &[data-alignment='start']::after {
@@ -98,8 +93,8 @@
         &::after {
             bottom: 100%;
             left: 50%;
-            margin-left: -6px;
-            border-color: transparent transparent var(--background-primary) transparent;
+            margin-left: -12px;
+            border-color: transparent transparent var(--background-default) transparent;
         }
 
         &[data-alignment='start']::after {
@@ -116,8 +111,8 @@
         &::after {
             top: 50%;
             left: 100%;
-            margin-top: -6px;
-            border-color: transparent transparent transparent var(--background-primary);
+            margin-top: -12px;
+            border-color: transparent transparent transparent var(--background-default);
         }
 
         &[data-alignment='start']::after {
@@ -134,8 +129,8 @@
         &::after {
             top: 50%;
             right: 100%;
-            margin-top: -6px;
-            border-color: transparent var(--background-primary) transparent transparent;
+            margin-top: -12px;
+            border-color: transparent var(--background-default) transparent transparent;
         }
 
         &[data-alignment='start']::after {
