@@ -2,6 +2,37 @@
 
 # Angular
 
+## 0.12.0
+
+### Loader
+
+#### Minor Changes
+
+- add Loader component for angular
+
+### Breacrumbs
+
+#### Minor Changes
+
+- correct unadressed accessibility criteria
+
+### Breadcrumbs
+
+#### Minor Changes
+
+- add missing truncated test
+- correct breadcrumbs-head styling
+- add breadcrumbs
+
+### Other
+
+#### Patch Changes
+
+- add missing default font colors for Checkbox, Icon & Radio Button
+- Updated dependencies [5e685f0]
+- Updated dependencies [21cab4b]
+- @design-system-rte/core@0.16.0
+
 ## 0.11.0
 
 ### Segmented Control
@@ -122,20 +153,34 @@
 - Updated dependencies [89289e7]
 - Updated dependencies [f6bb90d]
 - @design-system-rte/core@0.13.0
+# React
 
-## 0.9.0
+## 0.11.0
+
+### Loader
 
 #### Minor Changes
 
-- correct Badge display for icon & text
-- enhance Badge component with improved class bindings and styling options
-- implement Badge component in Angular
+- add Loader component for react
+
+### Breadcrumbs
+
+#### Minor Changes
+
+- correct unadressed accessibility criteria
+- correct missing nav tag for Breadcrumbs
+- correct breadcrumbs-head styling
+- correct test cases
+- add Breadcrumbs
+
+### Other
 
 #### Patch Changes
 
-- Updated dependencies [b824254]
-- @design-system-rte/core@0.12.0
-# React
+- add missing default font colors for Checkbox, Icon & Radio Button
+- Updated dependencies [5e685f0]
+- Updated dependencies [21cab4b]
+- @design-system-rte/core@0.16.0
 
 ## 0.10.0
 
@@ -268,21 +313,25 @@
 - Updated dependencies [89289e7]
 - Updated dependencies [f6bb90d]
 - @design-system-rte/core@0.13.0
+# Core
 
-## 0.8.0
+## 0.16.0
+
+### Loader
 
 #### Minor Changes
 
-- correct Badge display for icon & text
-- enhance Badge component with improved class bindings and styling options
-- add react component
-- add Badge interface
+- add loader component for react and angular
 
-#### Patch Changes
+### Breadcrumbs
 
-- Updated dependencies [b824254]
-- @design-system-rte/core@0.12.0
-# Core
+#### Minor Changes
+
+- add Breadcrumbs
+- set initial breacrumbs structure for React and Core
+
+### Other
+
 
 ## 0.15.0
 
@@ -325,28 +374,6 @@
 #### Minor Changes
 
 - add border-divider token color
-
-## 0.13.0
-
-### textarea
-
-#### Minor Changes
-
-- simplify required and optional appearence
-- set better props handling + handle resizing logic on angular comp
-- add auto scroll to top on blur event
-
-### Other
-
-#### Minor Changes
-
-- add angular textarea component
-- extract constants in core
-- add react textarea component
-- update Tag component to use computed properties for icon name and validation
-- correct casing of compactSpacing property in Tag component and stories
-- improve formatting and consistency in Tag component and interface
-- add Tag component with status and decorative types, including styles and stories
 # Design Docs
 
 ## 0.6.1
