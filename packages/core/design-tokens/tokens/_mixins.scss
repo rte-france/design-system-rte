@@ -65,6 +65,16 @@
   font-style: normal;
 }
 
+@mixin typography-text-xs {
+  @include typography-text;
+  font-family: $text-xs-regular-font-family;
+  font-weight: $text-xs-regular-font-weight;
+  font-size: $text-xs-regular-font-size;
+  line-height: $text-xs-regular-line-height;
+  letter-spacing: $text-xs-regular-letter-spacing;
+}
+
+
 @mixin typography-text-m {
   @include typography-text;
   font-family: $text-m-regular-font-family;
