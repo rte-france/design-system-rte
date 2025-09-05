@@ -1,5 +1,30 @@
 # @design-system-rte/angular
 
+## 0.12.0
+
+### Minor Changes
+
+- 5e685f0: ## Changes
+
+  - (Loader) add Loader component for angular
+
+- 21cab4b: ## Changes
+
+  - (Breacrumbs) correct unadressed accessibility criteria
+  - (Breadcrumbs) add missing truncated test
+  - (Breadcrumbs) correct breadcrumbs-head styling
+  - (Breadcrumbs) add breadcrumbs
+
+### Patch Changes
+
+- d282e25: ## Changes
+
+  - add missing default font colors for Checkbox, Icon & Radio Button
+
+- Updated dependencies [5e685f0]
+- Updated dependencies [21cab4b]
+  - @design-system-rte/core@0.16.0
+
 ## 0.11.0
 
 ### Minor Changes
