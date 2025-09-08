@@ -642,7 +642,7 @@
   --border-inverse: #ffffff;
   --border-brand-default: #7d5a9f;
   --border-brand-focused: #4a355a;
-  --border-danger: #f97385;
+  --border-danger: #de2048;
   --border-info: #2b86ff;
   --border-warning: #f4922b;
   --border-success: #09b05f;
@@ -796,7 +796,7 @@
   --border-inverse: #201f1f;
   --border-brand-default: #fcfbfd;
   --border-brand-focused: #fcfbfd;
-  --border-danger: #de2048;
+  --border-danger: #f97385;
   --border-info: #2b86ff;
   --border-warning: #f4922b;
   --border-success: #09b05f;
@@ -1104,7 +1104,7 @@
   --border-inverse: #201f1f;
   --border-brand-default: #f5fcfa;
   --border-brand-focused: #f5fcfa;
-  --border-danger: #de2048;
+  --border-danger: #f97385;
   --border-info: #2b86ff;
   --border-warning: #f4922b;
   --border-success: #09b05f;
