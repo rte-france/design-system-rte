@@ -1,4 +1,4 @@
-import { DropdownManager } from "./hooks/DropdownManager";
+import { DropdownManager } from "@design-system-rte/core/components/dropdown/DropdownManager";
 
 export const focusNextElement = (dropdown: HTMLElement) => {
   const menuItems = getDropdownMenuItems(dropdown);
