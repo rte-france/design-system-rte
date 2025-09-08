@@ -3,9 +3,9 @@ import { Alignment, Position } from "../common/common-types";
 export const getAutoPlacement = (
   hostElement: HTMLElement,
   castedElement: Element,
-  defaultPosition: Omit<Position, "auto">,
+  defaultPosition: Exclude<Position, "auto">,
   offset: number = 0,
-): Omit<Position, "auto"> => {
+): Exclude<Position, "auto"> => {
   const triggerParent = hostElement.parentElement;
   if (!triggerParent) {
     return defaultPosition;
@@ -33,10 +33,10 @@ export const getAutoPlacement = (
 export const getAutoPlacementDropdown = (
   hostElement: HTMLElement,
   castedElement: Element,
-  defaultPosition: Omit<Position, "auto">,
+  defaultPosition: Exclude<Position, "auto">,
   offset: number = 0,
   hasDropdownParent: boolean = false,
-): Omit<Position, "auto"> => {
+): Exclude<Position, "auto"> => {
   const triggerRect = hostElement.getBoundingClientRect();
   const elementRect = castedElement.getBoundingClientRect();
   const sides = {
@@ -47,14 +47,28 @@ export const getAutoPlacementDropdown = (
   } as const;
 
   if (hasDropdownParent) {
-    if (sides.right) return "right";
-    if (sides.left) return "left";
-    if (sides.bottom) return "bottom";
-    if (sides.top) return "top";
-
-    return defaultPosition;
+    return getAutoPlacementDropdownWithParent(sides, defaultPosition);
   }
 
+  return getAutoPlacementDropdownWithoutParent(sides, defaultPosition);
+};
+
+const getAutoPlacementDropdownWithParent = (
+  sides: Record<Exclude<Position, "auto">, boolean>,
+  defaultPosition: Exclude<Position, "auto">,
+) => {
+  if (sides.right) return "right";
+  if (sides.left) return "left";
+  if (sides.bottom) return "bottom";
+  if (sides.top) return "top";
+
+  return defaultPosition;
+};
+
+const getAutoPlacementDropdownWithoutParent = (
+  sides: Record<Exclude<Position, "auto">, boolean>,
+  defaultPosition: Exclude<Position, "auto">,
+) => {
   if (sides.bottom) return "bottom";
   if (sides.right) return "right";
   if (sides.left) return "left";
@@ -66,11 +80,12 @@ export const getAutoPlacementDropdown = (
 export const getAutoAlignment = (
   hostElement: HTMLElement,
   castedElement: Element,
-  position: Omit<Position, "auto">,
+  position: Exclude<Position, "auto">,
 ) => {
+  const defaultPosition = "center";
   const triggerParent = hostElement.parentElement;
   if (!triggerParent) {
-    return "center";
+    return defaultPosition;
   }
   const triggerRect = hostElement.getBoundingClientRect();
   const castedRect = castedElement.getBoundingClientRect();
@@ -87,11 +102,11 @@ export const getAutoAlignment = (
   } as const;
   if (alignments.start) return "start";
   if (alignments.end) return "end";
-  return "center";
+  return defaultPosition;
 };
 
 export const getCoordinates = (
-  position: Omit<Position, "auto">,
+  position: Exclude<Position, "auto">,
   triggerElement: HTMLElement,
   castedElement: HTMLElement,
   offset: number = 0,
@@ -100,40 +115,93 @@ export const getCoordinates = (
   const triggerElementRect = triggerElement.getBoundingClientRect();
   const castedElementRect = castedElement.getBoundingClientRect();
 
-  let top = 0;
-  let left = 0;
   if (position === "bottom") {
-    if (alignment === "start") {
-      left = triggerElementRect.left + window.scrollX;
-    } else if (alignment === "end") {
-      left = triggerElementRect.right - castedElementRect.width + window.scrollX;
-    } else {
-      left = triggerElementRect.left + triggerElementRect.width / 2 - castedElementRect.width / 2 + window.scrollX;
-    }
-    top = triggerElementRect.bottom + offset + window.scrollY;
+    return handleBottomPosition(triggerElementRect, castedElementRect, offset, alignment);
   } else if (position === "left") {
-    if (alignment === "start") {
-      top = triggerElementRect.top + window.scrollY;
-    } else if (alignment === "end") {
-      top = triggerElementRect.bottom - castedElementRect.height + window.scrollY;
-    } else {
-      top = triggerElementRect.top + triggerElementRect.height / 2 - castedElementRect.height / 2 + window.scrollY;
-    }
-    left = triggerElementRect.left - castedElementRect.width - offset + window.scrollX;
+    return handleLeftPosition(triggerElementRect, castedElementRect, offset, alignment);
   } else if (position === "right") {
-    if (alignment === "start") {
-      top = triggerElementRect.top + window.scrollY;
-    } else if (alignment === "end") {
-      top = triggerElementRect.bottom - castedElementRect.height + window.scrollY;
-    } else top = triggerElementRect.top + triggerElementRect.height / 2 - castedElementRect.height / 2 + window.scrollY;
-    left = triggerElementRect.right + offset + window.scrollX;
-  } else if (position === "top" || !position) {
-    top = triggerElementRect.top - castedElementRect.height - offset + window.scrollY;
+    return handleRightPosition(triggerElementRect, castedElementRect, offset, alignment);
+  } else {
+    return handleTopPosition(triggerElementRect, castedElementRect, offset, alignment);
+  }
+};
+
+const handleBottomPosition = (
+  triggerElementRect: DOMRect,
+  castedElementRect: DOMRect,
+  offset: number,
+  alignment: Alignment,
+) => {
+  const top = triggerElementRect.bottom + offset + window.scrollY;
+  let left = 0;
+
+  if (alignment === "start") {
+    left = triggerElementRect.left + window.scrollX;
+  } else if (alignment === "end") {
+    left = triggerElementRect.right - castedElementRect.width + window.scrollX;
+  } else {
     left = triggerElementRect.left + triggerElementRect.width / 2 - castedElementRect.width / 2 + window.scrollX;
   }
 
-  return {
-    top,
-    left,
-  };
+  return { top, left };
+};
+
+const handleLeftPosition = (
+  triggerElementRect: DOMRect,
+  castedElementRect: DOMRect,
+  offset: number,
+  alignment: Alignment,
+) => {
+  const left = triggerElementRect.left - castedElementRect.width - offset + window.scrollX;
+  let top = 0;
+
+  if (alignment === "start") {
+    top = triggerElementRect.top + window.scrollY;
+  } else if (alignment === "end") {
+    top = triggerElementRect.bottom - castedElementRect.height + window.scrollY;
+  } else {
+    top = triggerElementRect.top + triggerElementRect.height / 2 - castedElementRect.height / 2 + window.scrollY;
+  }
+
+  return { top, left };
+};
+
+const handleRightPosition = (
+  triggerElementRect: DOMRect,
+  castedElementRect: DOMRect,
+  offset: number,
+  alignment: Alignment,
+) => {
+  const left = triggerElementRect.right + offset + window.scrollX;
+  let top = 0;
+
+  if (alignment === "start") {
+    top = triggerElementRect.top + window.scrollY;
+  } else if (alignment === "end") {
+    top = triggerElementRect.bottom - castedElementRect.height + window.scrollY;
+  } else {
+    top = triggerElementRect.top + triggerElementRect.height / 2 - castedElementRect.height / 2 + window.scrollY;
+  }
+
+  return { top, left };
+};
+
+const handleTopPosition = (
+  triggerElementRect: DOMRect,
+  castedElementRect: DOMRect,
+  offset: number,
+  alignment: Alignment,
+) => {
+  const top = triggerElementRect.top - castedElementRect.height - offset + window.scrollY;
+  let left = 0;
+
+  if (alignment === "start") {
+    left = triggerElementRect.left + window.scrollX;
+  } else if (alignment === "end") {
+    left = triggerElementRect.right - castedElementRect.width + window.scrollX;
+  } else {
+    left = triggerElementRect.left + triggerElementRect.width / 2 - castedElementRect.width / 2 + window.scrollX;
+  }
+
+  return { top, left };
 };

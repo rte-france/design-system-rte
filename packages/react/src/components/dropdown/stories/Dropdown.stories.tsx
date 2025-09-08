@@ -7,7 +7,7 @@ import { DropdownItem } from "../dropdownItem/DropdownItem";
 const meta: Meta<typeof Dropdown> = {
   title: "Dropdown (développement en cours)",
   component: Dropdown,
-  args: {}
+  args: {},
 };
 
 export default meta;
@@ -29,7 +29,7 @@ export const Default: Story = {
               padding: 8,
               borderRadius: 5,
               backgroundColor: "#FAFFC1",
-              margin: 0
+              margin: 0,
             }}
           >
             Ce composant est en cours de développement et n'est pas encore disponible
@@ -44,7 +44,7 @@ export const Default: Story = {
             height: "200px",
             display: "flex",
             justifyContent: "space-between",
-            gap: "500px"
+            gap: "500px",
           }}
         >
           <Dropdown
@@ -80,5 +80,5 @@ export const Default: Story = {
         </div>
       </>
     );
-  }
+  },
 };

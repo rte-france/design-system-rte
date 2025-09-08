@@ -1,9 +1,10 @@
 import { Position } from "@design-system-rte/core/components/common/common-types";
 import { DropdownProps as CoreDropdownProps } from "@design-system-rte/core/components/dropdown/dropdown.interface";
+import { DropdownManager } from "@design-system-rte/core/components/dropdown/DropdownManager";
 import {
   getAutoAlignment,
   getAutoPlacementDropdown,
-  getCoordinates
+  getCoordinates,
 } from "@design-system-rte/core/components/utils/auto-placement";
 import {
   ARROW_DOWN_KEY,
@@ -11,7 +12,7 @@ import {
   ENTER_KEY,
   ESCAPE_KEY,
   SPACE_KEY,
-  TAB_KEY
+  TAB_KEY,
 } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 import { useEffect, useState, useRef, useCallback, forwardRef, useContext } from "react";
 
@@ -24,8 +25,6 @@ import { DropdownParentContext } from "./context/DropdownContext";
 import { DropdownContextProvider } from "./context/DropdownContextProvider";
 import styles from "./Dropdown.module.scss";
 import { focusNextElement, focusPreviousElement } from "./DropdownUtils";
-import { DropdownManager } from "@design-system-rte/core/components/dropdown/DropdownManager";
-
 import { useDropdownState } from "./hooks/useDropdownState";
 
 interface DropdownProps extends CoreDropdownProps, React.HTMLAttributes<HTMLDivElement> {
@@ -47,7 +46,7 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
       children,
       ...props
     },
-    ref
+    ref,
   ) => {
     const { dropdownId: autoId } = useDropdownState(dropdownId);
     const [autoPosition, setAutoPosition] = useState<Omit<Position, "auto">>(position);
@@ -71,7 +70,7 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
           ref.current = node;
         }
       },
-      [ref]
+      [ref],
     );
 
     const triggerCallbackRef = useCallback((node: HTMLDivElement | null) => {
@@ -110,8 +109,8 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
     const { onKeyDown, onKeyUp } = useActiveKeyboard<HTMLDivElement>(
       { onKeyUp: handleKeyUp },
       {
-        interactiveKeyCodes: [SPACE_KEY, ENTER_KEY, TAB_KEY, ARROW_DOWN_KEY, ARROW_UP_KEY, ESCAPE_KEY]
-      }
+        interactiveKeyCodes: [SPACE_KEY, ENTER_KEY, TAB_KEY, ARROW_DOWN_KEY, ARROW_UP_KEY, ESCAPE_KEY],
+      },
     );
 
     useEffect(() => {
@@ -180,7 +179,7 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
               style={{
                 ...style,
                 top: coordinates.top,
-                left: coordinates.left
+                left: coordinates.left,
               }}
               ref={dropdownCallbackRef}
               onKeyUp={onKeyUp}
@@ -194,5 +193,5 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
         )}
       </DropdownContextProvider>
     );
-  }
+  },
 );
