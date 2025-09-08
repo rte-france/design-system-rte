@@ -1,7 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react";
 
 import { RegularIcons, TogglableIcons } from "../../icon/IconMap";
-
 import Tag from "../Tag";
 
 const RegularIconIds = Object.keys(RegularIcons);
