@@ -1,7 +1,6 @@
 import { Meta, StoryObj } from "@storybook/angular";
 
 import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../../icon/icon-map";
-
 import { TagComponent } from "../tag.component";
 
 const RegularIconIds = Object.keys(RegularIconsList);
