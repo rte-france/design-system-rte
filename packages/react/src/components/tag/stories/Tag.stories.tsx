@@ -1,14 +1,14 @@
 import { Meta, StoryObj } from "@storybook/react";
 
-import { RegularIcons, TogglableIcons } from "../icon/IconMap";
+import { RegularIcons, TogglableIcons } from "../../icon/IconMap";
 
-import Tag from "./Tag";
+import Tag from "../Tag";
 
 const RegularIconIds = Object.keys(RegularIcons);
 const TogglableIconIds = Object.keys(TogglableIcons);
 
 const meta = {
-  title: "Tag",
+  title: "Composants/Tag/Tag",
   component: Tag,
   tags: ["autodocs"],
   argTypes: {
