@@ -1,14 +1,14 @@
 import { Meta, StoryObj } from "@storybook/angular";
 
-import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../icon/icon-map";
+import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../../icon/icon-map";
 
-import { TagComponent } from "./tag.component";
+import { TagComponent } from "../tag.component";
 
 const RegularIconIds = Object.keys(RegularIconsList);
 const TogglableIconIds = Object.keys(TogglableIconsList);
 
 const meta: Meta<TagComponent> = {
-  title: "Tag",
+  title: "Composants/Tag/Tag",
   component: TagComponent,
   tags: ["autodocs"],
   argTypes: {
