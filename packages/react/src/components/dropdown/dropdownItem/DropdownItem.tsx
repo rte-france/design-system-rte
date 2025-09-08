@@ -1,11 +1,12 @@
 import { DropdownItemProps as CoreDropdownItemProps } from "@design-system-rte/core/components/dropdown/dropdown.interface";
+import { DropdownManager } from "@design-system-rte/core/components/dropdown/DropdownManager";
 import {
   ARROW_DOWN_KEY,
   ARROW_UP_KEY,
   ENTER_KEY,
   ESCAPE_KEY,
   SPACE_KEY,
-  TAB_KEY
+  TAB_KEY,
 } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 import { useContext } from "react";
 
@@ -15,8 +16,6 @@ import Icon from "../../icon/Icon";
 import { DropdownParentContext } from "../context/DropdownContext";
 import { Dropdown } from "../Dropdown";
 import { focusChildDropdownFirstElement, focusParentDropdownFirstElement } from "../DropdownUtils";
-import { DropdownManager } from "@design-system-rte/core/components/dropdown/DropdownManager";
-
 import { useDropdownState } from "../hooks/useDropdownState";
 
 import styles from "./DropdownItem.module.scss";
@@ -53,7 +52,7 @@ export const DropdownItem = ({
 
   if (hasIndent && leftIcon) {
     console.warn(
-      `DropdownItem: 'hasIndent' prop is ignored when 'leftIcon' is provided : displaying icon '${leftIcon}' for dropdownitem with label '${label}' without indentation.`
+      `DropdownItem: 'hasIndent' prop is ignored when 'leftIcon' is provided : displaying icon '${leftIcon}' for dropdownitem with label '${label}' without indentation.`,
     );
   }
 
@@ -93,8 +92,8 @@ export const DropdownItem = ({
   const { onKeyUp, onFocus } = useActiveKeyboard<HTMLLIElement>(
     { onKeyUp: handleKeyUp, onFocus: handleOnFocus },
     {
-      interactiveKeyCodes: [SPACE_KEY, ENTER_KEY, TAB_KEY, ARROW_DOWN_KEY, ARROW_UP_KEY, ESCAPE_KEY]
-    }
+      interactiveKeyCodes: [SPACE_KEY, ENTER_KEY, TAB_KEY, ARROW_DOWN_KEY, ARROW_UP_KEY, ESCAPE_KEY],
+    },
   );
 
   if (children) {
