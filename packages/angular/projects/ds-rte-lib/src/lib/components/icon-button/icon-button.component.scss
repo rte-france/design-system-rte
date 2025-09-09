@@ -1,7 +1,7 @@
 @use '@design-system-rte/core/design-tokens/main.scss' as *;
 
 .rte-icon-button {
-    display: inline-flex;
+    display: flex;
     cursor: pointer;
     height: 24px;
     align-items: center;
