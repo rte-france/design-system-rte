@@ -7,6 +7,7 @@ export interface DropdownProps {
   autoClose?: boolean;
   onClose?: () => void;
   isOpen?: boolean;
+  offset?: number;
 }
 
 export interface DropdownItemProps {

@@ -3,6 +3,7 @@
 .trigger {
   cursor: pointer;
   height: fit-content;
+  display: grid;
 
   &[data-disabled='true'] {
     cursor: not-allowed;
