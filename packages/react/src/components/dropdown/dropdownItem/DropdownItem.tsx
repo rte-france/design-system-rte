@@ -59,7 +59,7 @@ export const DropdownItem = ({
   const handleOnClick = (event: React.MouseEvent<HTMLLIElement> | React.KeyboardEventHandler<HTMLLIElement>) => {
     if (disabled) return;
     if (onClick) {
-      onClick?.(event);
+      onClick(event);
     }
     if (autoClose && closeRoot) {
       closeRoot();

@@ -3,7 +3,7 @@ const globalListeners: { [id: string]: (() => void)[] } = {};
 
 export class DropdownManager {
   static generateId() {
-    return `dropdown-${Math.random().toString(36).substr(2, 9)}`;
+    return `dropdown-${Math.random().toString(36).substring(2, 9)}`;
   }
 
   static isOpen(id: string) {

@@ -7,7 +7,7 @@ export class DropdownService {
   private globalListeners: { [id: string]: (() => void)[] } = {};
 
   generateId() {
-    return `dropdown-${Math.random().toString(36).substr(2, 9)}`;
+    return `dropdown-${Math.random().toString(36).substring(2, 9)}`;
   }
 
   open(id: string) {

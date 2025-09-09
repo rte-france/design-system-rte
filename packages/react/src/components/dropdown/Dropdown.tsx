@@ -117,9 +117,6 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
       const handleClickOutside = (event: MouseEvent) => {
         const target = event.target as Element;
         const allDropdowns = document.querySelectorAll("[data-dropdown-id]");
-        console.log(allDropdowns);
-        console.log("event target : ", event.target);
-        console.log(Array.from(allDropdowns).some((dropdown) => dropdown.contains(target)));
         const clickedInside =
           Array.from(allDropdowns).some((dropdown) => dropdown.contains(target)) ||
           triggerRef.current?.contains(target);
