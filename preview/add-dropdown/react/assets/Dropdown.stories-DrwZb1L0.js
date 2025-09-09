@@ -1,0 +1,58 @@
+import{j as t}from"./jsx-runtime-Cf8x2fCZ.js";import{r as l}from"./index-G8LIXM5I.js";import{u as ge,b as z,c as G,a as J,O as xe}from"./Overlay-BozqJJVk.js";import{S as H,E as U,T as $,c as K,d as V,e as Y}from"./keyboard.constants-YQ0IdItO.js";import{u as oe}from"./useActiveKeyboard-CyCI8mio.js";import{c as he}from"./index-DSdvzt-y.js";import{D as Q}from"./Divider-B0TD5a92.js";import{I as P}from"./Icon-DjEid3Hw.js";import"./index-yBjzXJbu.js";import"./_commonjsHelpers-CqkleIqs.js";import"./index-DoK7PxrN.js";import"./index-fNjTmf9T.js";let E={};const y={};class d{static generateId(){return`dropdown-${Math.random().toString(36).substring(2,9)}`}static isOpen(e){return E[e]||!1}static open(e){E[e]=!0,this.notifyListeners(e)}static close(e){delete E[e],this.notifyListeners(e)}static closeAll(){E={},Object.values(y).flat().forEach(e=>e())}static getOpenedDropdowns(){return Object.keys(E)}static getParentDropdownId(e){const o=e.split("-");return o.length<=2?null:(o.pop(),o.join("-"))}static closeSubMenus(e){Object.keys(E).filter(a=>a.startsWith(e)&&a!==e).forEach(a=>d.close(a))}static subscribe(e,o){return y[e]||(y[e]=[]),y[e].push(o),()=>{y[e]=y[e].filter(s=>s!==o)}}static notifyListeners(e){var o;(o=y[e])==null||o.forEach(s=>s())}}const B=l.createContext(void 0),ne=({dropdownId:n,closeRoot:e,autoClose:o=!0,children:s})=>t.jsx(B.Provider,{value:{dropdownId:n,closeRoot:e,autoClose:o},children:s});ne.__docgenInfo={description:"",methods:[],displayName:"DropdownContextProvider",props:{dropdownId:{required:!0,tsType:{name:"string"},description:""},autoClose:{required:!1,tsType:{name:"boolean"},description:"",defaultValue:{value:"true",computed:!1}},closeRoot:{required:!0,tsType:{name:"signature",type:"function",raw:"() => void",signature:{arguments:[],return:{name:"void"}}},description:""},children:{required:!0,tsType:{name:"ReactReactNode",raw:"React.ReactNode"},description:""}}};const Ie="_trigger_1n20h_3",be="_dropdown_1n20h_14",q={trigger:Ie,dropdown:be,"dropdown-items":"_dropdown-items_1n20h_39"},ye=n=>{var s;const e=se(n),o=e.findIndex(a=>a===document.activeElement);o<e.length-1?e[o+1].focus():(s=e[0])==null||s.focus()},ve=n=>{var s;const e=se(n),o=e.findIndex(a=>a===document.activeElement);o>0?e[o-1].focus():(s=e[e.length-1])==null||s.focus()},Ce=n=>{var o;const e=document.querySelector(`[data-dropdown-id='${n}']`);e&&((o=(e==null?void 0:e.querySelectorAll('li[role="menuitem"]'))[0])==null||o.focus())},De=n=>{var s;const e=d.getParentDropdownId(n),o=document.querySelector(`[data-dropdown-id='${e}']`);(s=o==null?void 0:o.querySelector("[data-active=true]"))==null||s.focus()},se=n=>{const e=n==null?void 0:n.querySelectorAll('li[role="menuitem"]');return e?Array.from(e):[]},re=n=>{const e=l.useRef(n||d.generateId()),[o,s]=l.useState(!1);l.useEffect(()=>d.subscribe(e.current,()=>{s(d.isOpen(e.current))}),[]);const a=()=>{d.open(e.current)},c=()=>{d.close(e.current)},h=()=>{o?c():a()};return{dropdownId:e.current,isOpen:o,open:a,close:c,toggle:h}},N=l.forwardRef(({trigger:n,className:e,style:o,dropdownId:s,hasParent:a,position:c="bottom",autoClose:h=!0,isOpen:g=!1,onClose:k=()=>{},children:u,...F},x)=>{const{dropdownId:C}=re(s),[D,R]=l.useState(c),{closeRoot:j}=l.useContext(B)||{},O=l.useRef(null),S=l.useRef(null),[m,_]=l.useState(null),[I,p]=l.useState(null),[W,X]=l.useState({top:500,left:500}),{shouldRender:ae,isAnimating:le}=ge(g,150),ie=l.useCallback(r=>{S.current=r,_(r),typeof x=="function"?x(r):x&&(x.current=r)},[x]),de=l.useCallback(r=>{O.current=r,p(r)},[]),A=l.useCallback(()=>{a&&j?j():k(),d.closeAll()},[j,a,k]),ce=r=>{if(r.key===K||r.key===V){if(r.stopPropagation(),r.preventDefault(),m===null)return;r.key===K?ye(m):ve(m)}r.key===Y&&A()},{onKeyDown:pe,onKeyUp:ue}=oe({onKeyUp:ce},{interactiveKeyCodes:[H,U,$,K,V,Y]});l.useEffect(()=>{const r=f=>{var T;const w=f.target,b=document.querySelectorAll("[data-dropdown-id]");Array.from(b).some(we=>we.contains(w))||((T=O.current)==null?void 0:T.contains(w))||A()};return document.addEventListener("mousedown",r),()=>document.removeEventListener("mousedown",r)},[A]),l.useEffect(()=>{g&&(!I||!m||(a?me(I,m):fe(I,m,c)))},[g,a,m,I,c]);const me=(r,f)=>{const w=z(r,f,"right",0,!0),b=G(r,f,w),M=J(w,r,f,0,b);R(w),X(M)},fe=(r,f,w)=>{const b=w==="auto"?z(r,f,"bottom"):w,M=G(r,f,b),T=J(b,r,f,0,M);R(b),X(T)};return t.jsxs(ne,{dropdownId:C,closeRoot:A,autoClose:h,children:[t.jsx("div",{ref:de,className:q.trigger,children:n}),ae&&t.jsx(xe,{children:t.jsx("div",{className:he(q.dropdown,e),"data-dropdown-id":C,"data-position":D,"data-open":le||void 0,...F,style:{...o,top:W.top,left:W.left},ref:ie,onKeyUp:ue,onKeyDown:pe,children:t.jsx("ul",{className:q["dropdown-items"],role:"menu",children:u})})})]})});N.__docgenInfo={description:"",methods:[],displayName:"Dropdown",props:{trigger:{required:!0,tsType:{name:"ReactReactNode",raw:"React.ReactNode"},description:""},position:{defaultValue:{value:'"bottom"',computed:!1},required:!1},autoClose:{defaultValue:{value:"true",computed:!1},required:!1},isOpen:{defaultValue:{value:"false",computed:!1},required:!1},onClose:{defaultValue:{value:"() => {}",computed:!1},required:!1}},composes:["CoreDropdownProps"]};const v={"dropdown-item":"_dropdown-item_h8tgc_3","dropdown-divider":"_dropdown-divider_h8tgc_40"},i=({label:n,leftIcon:e,trailingText:o,disabled:s,hasSeparator:a,hasIndent:c,children:h,onClick:g,...k})=>{const{dropdownId:u,autoClose:F,closeRoot:x}=l.useContext(B)||{},C=`${u}-${n&&n.replace(/\s+/g,"")}`,{isOpen:D,open:R}=re(C),j=()=>{u&&(d.closeSubMenus(u),R())},O=()=>{u&&d.closeSubMenus(u)};c&&e&&console.warn(`DropdownItem: 'hasIndent' prop is ignored when 'leftIcon' is provided : displaying icon '${e}' for dropdownitem with label '${n}' without indentation.`);const S=p=>{s||(g&&g(p),F&&x&&x())},m=p=>{if(p.preventDefault(),p.key===$&&(D&&Ce(C),p.shiftKey&&u&&De(u)),p.key===U||p.key===H){if(s)return;g&&S(p),h&&R()}},{onKeyUp:_,onFocus:I}=oe({onKeyUp:m,onFocus:O},{interactiveKeyCodes:[H,U,$,K,V,Y]});return h?t.jsx(N,{hasParent:!0,dropdownId:C,isOpen:D,trigger:t.jsxs(t.Fragment,{children:[t.jsxs("li",{className:v["dropdown-item"],"data-active":D,"data-disabled":s,role:"menuitem",onMouseOver:j,onKeyUp:_,onFocus:I,tabIndex:0,children:[c&&t.jsx("span",{style:{width:"20px"}}),e&&t.jsx(P,{name:e,className:v["dropdown-item-icon"],appearance:D?"filled":"outlined"}),t.jsx("span",{style:{flex:"2"},children:n}),t.jsx(P,{name:"arrow-chevron-right",className:v["dropdown-item-icon"]})]}),a&&t.jsx("div",{className:v["dropdown-divider"],children:t.jsx(Q,{})})]}),children:h}):t.jsxs(t.Fragment,{children:[t.jsxs("li",{className:v["dropdown-item"],"data-disabled":s,role:"menuitem",onClick:S,onMouseOver:j,onKeyUp:_,onFocus:I,tabIndex:0,...k,children:[c&&!e&&t.jsx("span",{style:{width:"20px"}}),e&&t.jsx(P,{name:e,className:v["dropdown-item-icon"]}),t.jsx("span",{style:{flex:"2"},children:n}),o&&t.jsx("div",{children:o})]}),a&&t.jsx("div",{className:v["dropdown-divider"],children:t.jsx(Q,{})})]})};i.__docgenInfo={description:"",methods:[],displayName:"DropdownItem",props:{onClick:{required:!1,tsType:{name:"signature",type:"function",raw:"(event: React.MouseEvent<HTMLLIElement> | React.KeyboardEventHandler<HTMLLIElement>) => void",signature:{arguments:[{type:{name:"union",raw:"React.MouseEvent<HTMLLIElement> | React.KeyboardEventHandler<HTMLLIElement>",elements:[{name:"ReactMouseEvent",raw:"React.MouseEvent<HTMLLIElement>",elements:[{name:"HTMLLIElement"}]},{name:"ReactKeyboardEventHandler",raw:"React.KeyboardEventHandler<HTMLLIElement>",elements:[{name:"HTMLLIElement"}]}]},name:"event"}],return:{name:"void"}}},description:""}},composes:["Omit"]};const Ne={title:"Dropdown (développement en cours)",component:N,args:{}},L={args:{},render:n=>{const[e,o]=l.useState(!1);return t.jsxs(t.Fragment,{children:[t.jsx("div",{children:t.jsx("span",{style:{fontFamily:"sans-serif",marginBottom:16,border:"1px solid #F4922B",padding:8,borderRadius:5,backgroundColor:"#FAFFC1",margin:0},children:"Ce composant est en cours de développement et n'est pas encore disponible"})}),t.jsx("br",{}),t.jsx("div",{style:{position:"relative",width:"800px",height:"200px",display:"flex",justifyContent:"space-between",gap:"500px"},children:t.jsxs(N,{...n,onClose:()=>{o(!1)},trigger:t.jsx("button",{onClick:()=>o(!0),style:{color:"black"},children:"Click Me!"}),style:{width:"250px"},isOpen:e,children:[t.jsx(i,{label:"Messages",leftIcon:"mail",hasSeparator:!0,onClick:()=>console.log("click")}),t.jsxs(i,{label:"Actions",leftIcon:"settings",children:[t.jsxs(i,{label:"Edit",leftIcon:"edit",children:[t.jsx(i,{label:"Cut",leftIcon:"cut",trailingText:"⌘X"}),t.jsx(i,{label:"Copy",leftIcon:"copy",trailingText:"⌘X",onClick:()=>console.log("click")}),t.jsx(i,{label:"Paste",leftIcon:"paste",trailingText:"⌘V"})]}),t.jsx(i,{label:"Archive",leftIcon:"archive"}),t.jsx(i,{label:"Delete",leftIcon:"delete"})]}),t.jsx(i,{label:"Help",leftIcon:"help"}),t.jsx(i,{label:"More information",leftIcon:"info",hasSeparator:!0}),t.jsx(i,{label:"First option",hasIndent:!0}),t.jsx(i,{label:"Second option",hasIndent:!0}),t.jsx(i,{label:"Third option",hasSeparator:!0,hasIndent:!0}),t.jsx(i,{label:"Username",leftIcon:"user-circle",disabled:!0})]})})]})}};var Z,ee,te;L.parameters={...L.parameters,docs:{...(Z=L.parameters)==null?void 0:Z.docs,source:{originalSource:`{
+  args: {},
+  render: args => {
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+    return <>
+        <div>
+          <span style={{
+          fontFamily: "sans-serif",
+          marginBottom: 16,
+          border: "1px solid #F4922B",
+          padding: 8,
+          borderRadius: 5,
+          backgroundColor: "#FAFFC1",
+          margin: 0
+        }}>
+            Ce composant est en cours de développement et n'est pas encore disponible
+          </span>
+        </div>
+        <br />
+
+        <div style={{
+        position: "relative",
+        width: "800px",
+        height: "200px",
+        display: "flex",
+        justifyContent: "space-between",
+        gap: "500px"
+      }}>
+          <Dropdown {...args} onClose={() => {
+          setIsOpen(false);
+        }} trigger={<button onClick={() => setIsOpen(true)} style={{
+          color: "black"
+        }}>
+                Click Me!
+              </button>} style={{
+          width: "250px"
+        }} isOpen={isOpen}>
+            <DropdownItem label="Messages" leftIcon="mail" hasSeparator onClick={() => console.log("click")} />
+            <DropdownItem label="Actions" leftIcon="settings">
+              <DropdownItem label="Edit" leftIcon="edit">
+                <DropdownItem label="Cut" leftIcon="cut" trailingText="⌘X" />
+                <DropdownItem label="Copy" leftIcon="copy" trailingText="⌘X" onClick={() => console.log("click")} />
+                <DropdownItem label="Paste" leftIcon="paste" trailingText="⌘V" />
+              </DropdownItem>
+              <DropdownItem label="Archive" leftIcon="archive" />
+              <DropdownItem label="Delete" leftIcon="delete" />
+            </DropdownItem>
+            <DropdownItem label="Help" leftIcon="help" />
+            <DropdownItem label="More information" leftIcon="info" hasSeparator />
+            <DropdownItem label="First option" hasIndent />
+            <DropdownItem label="Second option" hasIndent />
+            <DropdownItem label="Third option" hasSeparator hasIndent />
+            <DropdownItem label="Username" leftIcon="user-circle" disabled />
+          </Dropdown>
+        </div>
+      </>;
+  }
+}`,...(te=(ee=L.parameters)==null?void 0:ee.docs)==null?void 0:te.source}}};const Fe=["Default"];export{L as Default,Fe as __namedExportsOrder,Ne as default};
