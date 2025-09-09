@@ -19,12 +19,15 @@ import { DropdownMenuComponent } from "./dropdownMenu/dropdown-menu.component";
 
 @Component({
   selector: "rte-dropdown",
-  exportAs: "rteDropdown",
+  standalone: true,
   templateUrl: "./dropdown.component.html",
+  styleUrl: "./dropdown.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
+  exportAs: "rteDropdown",
 })
 export class DropdownComponent implements AfterViewInit, OnDestroy {
   readonly autoclose = input<boolean>(true);
+  readonly offset = input<number>(0);
 
   readonly triggerRef = viewChild<ElementRef>("trigger");
   readonly items = contentChildren<DropdownItemComponent>(DropdownItemComponent);
@@ -48,7 +51,7 @@ export class DropdownComponent implements AfterViewInit, OnDestroy {
     if (this.menuRef) return;
 
     this.menuRef = this.overlayService.create(DropdownMenuComponent, this.viewContainerRef);
-    this.positionTooltip();
+    this.positionDropdown();
     this.menuRef.setInput("isOpen", true);
 
     this.menuRef.instance.setItems(this.items());
@@ -56,14 +59,14 @@ export class DropdownComponent implements AfterViewInit, OnDestroy {
     this.menuRef.instance.close.subscribe(() => this.close());
   }
 
-  private positionTooltip(): void {
+  private positionDropdown(): void {
     if (this.menuRef) {
       const dropdownElement = this.menuRef.location.nativeElement;
       const positions = getCoordinates(
         "bottom",
         this.triggerRef()?.nativeElement.children[0],
         dropdownElement,
-        0,
+        this.offset(),
         "start",
       );
 
