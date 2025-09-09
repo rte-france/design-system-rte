@@ -44,6 +44,7 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
       isOpen = false,
       onClose = () => {},
       children,
+      offset = 0,
       ...props
     },
     ref,
@@ -106,6 +107,13 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
       }
     };
 
+    const handleOnKeyDownTrigger = (e: React.KeyboardEvent<HTMLDivElement>) => {
+      if (e.key === TAB_KEY) {
+        if (dropdownElement === null) return;
+        e.preventDefault();
+        focusNextElement(dropdownElement);
+      }
+    };
     const { onKeyDown, onKeyUp } = useActiveKeyboard<HTMLDivElement>(
       { onKeyUp: handleKeyUp },
       {
@@ -130,6 +138,43 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
       return () => document.removeEventListener("mousedown", handleClickOutside);
     }, [closeDropdown]);
 
+    const positionChildDropdown = useCallback(
+      (triggerElement: HTMLDivElement, dropdownElement: HTMLDivElement) => {
+        const computedPosition = getAutoPlacementDropdown(triggerElement, dropdownElement, "right", offset, true);
+        const autoAlignment = getAutoAlignment(triggerElement!, dropdownElement!, computedPosition);
+        const computedCoordinates = getCoordinates(
+          computedPosition,
+          triggerElement!,
+          dropdownElement!,
+          offset,
+          autoAlignment,
+        );
+
+        setAutoPosition(computedPosition);
+        setCoordinates(computedCoordinates);
+      },
+      [offset],
+    );
+
+    const positionDropdown = useCallback(
+      (triggerElement: HTMLDivElement, dropdownElement: HTMLDivElement, position: Position) => {
+        const computedPosition =
+          position === "auto" ? getAutoPlacementDropdown(triggerElement!, dropdownElement!, "bottom") : position;
+        const autoAlignment = getAutoAlignment(triggerElement!, dropdownElement!, computedPosition);
+        const computedCoordinates = getCoordinates(
+          computedPosition,
+          triggerElement!,
+          dropdownElement!,
+          offset,
+          autoAlignment,
+        );
+
+        setAutoPosition(computedPosition);
+        setCoordinates(computedCoordinates);
+      },
+      [offset],
+    );
+
     useEffect(() => {
       if (!isOpen) return;
       if (!triggerElement || !dropdownElement) return;
@@ -138,30 +183,11 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
       } else {
         positionDropdown(triggerElement, dropdownElement, position);
       }
-    }, [isOpen, hasParent, dropdownElement, triggerElement, position]);
-
-    const positionChildDropdown = (triggerElement: HTMLDivElement, dropdownElement: HTMLDivElement) => {
-      const computedPosition = getAutoPlacementDropdown(triggerElement, dropdownElement, "right", 0, true);
-      const autoAlignment = getAutoAlignment(triggerElement!, dropdownElement!, computedPosition);
-      const computedCoordinates = getCoordinates(computedPosition, triggerElement!, dropdownElement!, 0, autoAlignment);
-
-      setAutoPosition(computedPosition);
-      setCoordinates(computedCoordinates);
-    };
-
-    const positionDropdown = (triggerElement: HTMLDivElement, dropdownElement: HTMLDivElement, position: Position) => {
-      const computedPosition =
-        position === "auto" ? getAutoPlacementDropdown(triggerElement!, dropdownElement!, "bottom") : position;
-      const autoAlignment = getAutoAlignment(triggerElement!, dropdownElement!, computedPosition);
-      const computedCoordinates = getCoordinates(computedPosition, triggerElement!, dropdownElement!, 0, autoAlignment);
-
-      setAutoPosition(computedPosition);
-      setCoordinates(computedCoordinates);
-    };
+    }, [isOpen, hasParent, dropdownElement, triggerElement, position, positionChildDropdown, positionDropdown]);
 
     return (
       <DropdownContextProvider dropdownId={autoId} closeRoot={closeDropdown} autoClose={autoClose}>
-        <div ref={triggerCallbackRef} className={styles.trigger}>
+        <div ref={triggerCallbackRef} className={styles.trigger} tabIndex={-1} onKeyDown={handleOnKeyDownTrigger}>
           {trigger}
         </div>
 

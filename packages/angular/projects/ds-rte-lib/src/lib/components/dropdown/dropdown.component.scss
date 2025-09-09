@@ -1,8 +1,9 @@
 @use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
 
-.trigger {
+.rte-trigger {
   cursor: pointer;
   height: fit-content;
+  display: flex;
 
   &[data-disabled='true'] {
     cursor: not-allowed;
@@ -11,33 +12,4 @@
       cursor: not-allowed;
     }
   }
-}
-
-.rte-dropdown {
-  @include elevation-neutral-shadow-4;
-  background-color: var(--background-default);
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: flex;
-  min-width: 112px;
-  max-width: 280px;
-  padding: $positive-spacing_100 $positive-spacing_0;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: $positive-spacing_0;
-  border-radius: $radius-s;
-  opacity: 0;
-  transition: opacity 100ms ease-in-out;
-  pointer-events: auto;
-  overflow-x: hidden;
-  overflow-y: auto;
-
-  &[data-open='true'] {
-    opacity: 1;
-    transition: opacity 150ms ease-in-out;
-  }
-
-
-
 }
