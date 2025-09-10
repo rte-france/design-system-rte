@@ -4,6 +4,7 @@ import {
   RegularIconIdKey,
   TogglableIconIdKey,
 } from "../../../projects/ds-rte-lib/src/lib/components/icon/icon.service";
+import "./IconTitle.css";
 
 interface IconTitleProps {
   title: string;
@@ -31,7 +32,7 @@ const IconTitle = ({ title, icon }: IconTitleProps) => {
       <div className="storybook_icon_icon">
         <img src={iconSrc} alt={icon} className="rte-icon" style={{ width: "20px", height: "20px" }} />
       </div>
-      <p className="storybook_icon_title">{title}</p>
+      <h3 className="storybook_icon_title">{title}</h3>
     </div>
   );
 };

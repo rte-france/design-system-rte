@@ -1,7 +1,7 @@
 import { RegularIconIdKey, TogglableIconIdKey } from "../../../src/components/icon/Icon";
 import Icon from "../../../src/components/icon/Icon";
 
-import style from "./IconTitle.module.scss";
+import "./IconTitle.css";
 
 interface IconTitleProps {
   title: string;
@@ -10,11 +10,11 @@ interface IconTitleProps {
 
 const IconTitle = ({ title, icon }: IconTitleProps) => {
   return (
-    <div className={style.storybook_icon}>
-      <div className={style.storybook_icon_icon}>
+    <div className="storybook_icon">
+      <div className="storybook_icon_icon">
         <Icon name={icon} accentHeight={24} />
       </div>
-      <p className={style.storybook_icon_title}>{title}</p>
+      <p className="storybook_icon_title">{title}</p>
     </div>
   );
 };
