@@ -1,10 +1,10 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { userEvent, within, expect, fn } from "@storybook/test";
 
-import Textarea from "./Textarea";
+import Textarea from "../Textarea";
 
 const meta = {
-  title: "Textarea",
+  title: "Composants/Textarea/Textarea",
   tags: ["autodocs"],
   component: Textarea,
   args: {
