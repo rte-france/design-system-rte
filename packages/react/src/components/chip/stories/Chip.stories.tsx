@@ -12,7 +12,7 @@ import TextInput from "../../textInput/TextInput";
 import Chip from "../Chip";
 
 const meta = {
-  title: "Chip",
+  title: "Composants/Chip/Chip",
   component: Chip,
   tags: ["autodocs"],
   argTypes: {
