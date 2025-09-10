@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/angular";
 import { fn, userEvent, within, expect } from "@storybook/test";
 
-import { TextareaComponent } from "./textarea.component";
+import { TextareaComponent } from "../textarea.component";
 
 const meta: Meta<TextareaComponent> = {
-  title: "Textarea",
+  title: "Composants/Textarea/Textarea",
   component: TextareaComponent,
   tags: ["autodocs"],
   argTypes: {
