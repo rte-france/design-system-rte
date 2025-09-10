@@ -2,15 +2,15 @@ import { SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.c
 import { Meta, StoryObj } from "@storybook/angular";
 import { expect, userEvent, waitFor, within } from "@storybook/test";
 
-import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../icon/icon-map";
+import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../../icon/icon-map";
 
-import { TextInputComponent } from "./text-input.component";
+import { TextInputComponent } from "../text-input.component";
 
 const RegularIconIds = Object.keys(RegularIconsList);
 const TogglableIconIds = Object.keys(TogglableIconsList);
 
 const meta: Meta<TextInputComponent> = {
-  title: "TextInput",
+  title: "Composants/TextInput/TextInput",
   component: TextInputComponent,
   tags: ["autodocs"],
   argTypes: {
