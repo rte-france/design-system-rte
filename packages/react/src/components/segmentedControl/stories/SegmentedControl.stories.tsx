@@ -11,7 +11,7 @@ import { useState } from "react";
 import SegmentedControl from "../SegmentedControl";
 
 const meta = {
-  title: "SegmentedControl",
+  title: "Composants/SegmentedControl/SegmentedControl",
   component: SegmentedControl,
   tags: ["autodocs"],
   argTypes: {
