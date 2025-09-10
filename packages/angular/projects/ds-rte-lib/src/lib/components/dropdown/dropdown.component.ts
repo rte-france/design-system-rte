@@ -11,6 +11,7 @@ import {
 } from "@angular/core";
 import { ComponentRef, AfterViewInit, OnDestroy } from "@angular/core";
 import { getCoordinates } from "@design-system-rte/core/components/utils/auto-placement";
+import { TAB_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
 import { OverlayService } from "../../services/overlay.service";
 
@@ -103,6 +104,15 @@ export class DropdownComponent implements AfterViewInit, OnDestroy {
     }
   }
 
+  handleKeydown(event: KeyboardEvent) {
+    if (event.key === TAB_KEY) {
+      if (this.menuRef?.instance.isOpen()) {
+        event.preventDefault();
+        this.focusDropdownFirstElement(this.menuRef.instance.dropdownId);
+      }
+    }
+  }
+
   private handleClickOutside = (event: MouseEvent) => {
     const target = event.target as Element;
     const allDropdowns = document.querySelectorAll("[data-dropdown-id]");
@@ -112,6 +122,14 @@ export class DropdownComponent implements AfterViewInit, OnDestroy {
 
     if (!clickedInside) {
       this.close();
+    }
+  };
+
+  private focusDropdownFirstElement = (dropdownId: string) => {
+    const dropdown = document.querySelector(`[data-dropdown-id='${dropdownId}']`);
+    if (dropdown) {
+      const allDropdownElement = dropdown?.querySelectorAll<HTMLElement>('li[role="menuitem"]');
+      allDropdownElement[0]?.focus();
     }
   };
 }
