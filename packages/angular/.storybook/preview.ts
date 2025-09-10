@@ -34,7 +34,6 @@ const preview: Preview = {
         `<div style="padding: 20px; background-color: var(--background-default); width: auto; height: 100%;">${story}</div>`,
     ),
   ],
-  
 };
 
 addons.getChannel().on("THEME_CHANGED", (theme) => {
