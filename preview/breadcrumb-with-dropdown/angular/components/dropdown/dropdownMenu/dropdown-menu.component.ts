@@ -115,6 +115,8 @@ export class DropdownMenuComponent implements AfterViewInit, OnDestroy {
       if (this.isOpen()) {
         event.preventDefault();
       }
+    } else if (event.key === ARROW_DOWN_KEY || event.key === ARROW_UP_KEY) {
+      event.preventDefault();
     }
   }
 
