@@ -2,10 +2,10 @@ import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard
 import { componentWrapperDecorator, Meta, StoryObj } from "@storybook/angular";
 import { expect, within, userEvent } from "@storybook/test";
 
-import { SwitchComponent } from "./switch.component";
+import { SwitchComponent } from "../switch.component";
 
 const meta: Meta<SwitchComponent> = {
-  title: "Switch",
+  title: "Composants/Switch/Switch",
   component: SwitchComponent,
   tags: ["autodocs"],
   decorators: [
