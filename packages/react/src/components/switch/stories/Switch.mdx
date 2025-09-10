@@ -67,11 +67,13 @@ Composant générique pouvant être utilisé par toutes les équipes de la DSIT.
     <p className="light-gray no-margin-top">Éviter les switchs  : utiliser plutôt un Checkbox. Les switches sont mieux utilisés pour communiquer une <b>activation</b> (par exemple, des états on/off), tandis que les checkboxes sont mieux utilisées pour communiquer une <b>sélection, des choix à valider ultérieurement.</b> Les switchs, contrairement aux checkboxes, ne peuvent pas avoir d'état d'erreur.</p>
 
     <img src={SwitchDistinctCheckbox} alt="Distinction entre switch et checkbox" />
+    <img src={SwitchDistinctCheckbox} alt="Illustration de la différence entre switch et case à cocher" />
 
     <p className="no-margin-bottom">Label et switchs autonomes</p>
     <p className="light-gray no-margin-top">Les switchs doivent <b>toujours avoir des labels.</b> Lorsque le label n'est pas défini, un switch devient <b>autonome.</b> Les switchs autonomes ne doivent être utilisés que lorsque leur connexion à d'autres composants est <b>claire</b> et qu'ils fournissent un <b>contexte suffisant</b> - par exemple, dans les panneaux d'application : exemple, un switch situé en haut d'un panneau à côté du titre du panneau indique clairement que le switch activera/désactivera les options du panneau.</p>
 
     <img src={SwitchAutonomousLabel} alt="Switch autonome sans label" />
+    <img src={SwitchAutonomousLabel} alt="Exemple de switch autonome sans label" />
 
     <p className="no-margin-bottom">Sélection</p>
     <p className="light-gray no-margin-top">Les switchs <b>peuvent être sélectionnés ou non sélectionnés.</b> Ils ne peuvent <b>pas être dans un état indéterminé</b> (contrairement aux checkboxes). Lorsqu’un switch représente plusieurs valeurs qui ne sont pas identiques, <b>le switch doit apparaître comme non sélectionné</b> (voir ci-dessous).</p>
@@ -100,22 +102,27 @@ Composant générique pouvant être utilisé par toutes les équipes de la DSIT.
 
     <h3 id="interaction-states" className="h3" style={{fontFamily:"Nunito"}}> Interaction States </h3>
     <img src={SwitchInteractionState} alt="Interaction States" />
+    <img src={SwitchInteractionState} alt="Illustration des états d'interaction du switch (activé, désactivé)" />
 
     <h3 id="appearance" className="h3" style={{fontFamily:"Nunito"}}> Appearance </h3>
     <img src={SwitchAppearance} alt="Appearance" />
+    <img src={SwitchAppearance} alt="Exemples d'apparence visuelle du switch" />
 
     <h3 id="Tailles" className="h3" style={{fontFamily:"Nunito"}}> Tailles </h3>
     <p> Le Switch n'existe qu'en une seule taille : <b>24px pixels de hauteur - 40px de largeur</b></p>
 
     <h3 id="boolean-options" className="h3" style={{fontFamily:"Nunito"}}> Boolean Options </h3>
     <img src={SwitchBooleanOptions} alt="Boolean Options" />
+    <img src={SwitchBooleanOptions} alt="Options booléennes disponibles pour le switch" />
 
     <h3 id="text-options" className="h3" style={{fontFamily:"Nunito"}}> Text Options </h3>
     <img src={SwitchTextOptions} alt="Text Options" />
+    <img src={SwitchTextOptions} alt="Options de texte pour le contenu du switch" />
 
     <h3 id="structure" className="h3" style={{fontFamily:"Nunito"}}> Structure </h3>
     <p> Le <b>Switch</b> est composé de plusieurs éléments :</p>
     <img src={SwitchStructure} alt="SwitchStructure" />
+    <img src={SwitchStructure} alt="Schéma de la structure du composant switch" />
     <ol>
         <li>Un <b>Champ de saisie (container)</b></li>
         <li>Un <b>Container d’icône</b></li>
@@ -126,18 +133,22 @@ Composant générique pouvant être utilisé par toutes les équipes de la DSIT.
     <h3 id="table-of-options" className="h3" style={{fontFamily:"Nunito"}}> Table of Options </h3>
     <p className="light-gray"> Tous les éléments modifiables sont inscrit dans le tableau. On y renseigne le nom de la propriété et les choix qui s’offrent aux développeurs.</p>
     <img src={SwitchTableOfOptions} alt="Table of Options" />
+    <img src={SwitchTableOfOptions} alt="Tableau des propriétés et options du switch" />
 
     <h2 id="behaviors" className="h2" style={{border:"none", fontFamily:"Nunito", color:"#2964A0"}} > Behaviors </h2>
 
     <h3 id="focus" className="h3" style={{fontFamily:"Nunito"}}> Focus </h3>
     <img src={SwitchFocus} alt="Focus" />
+    <img src={SwitchFocus} alt="Illustration de l'état de focus du switch" />
 
     <h3 id="layout" className="h3" style={{fontFamily:"Nunito"}}> Layout </h3>
     <img src={SwitchLayout} alt="Layout" />
+    <img src={SwitchLayout} alt="Exemple de disposition et positionnement du switch" />
 
     <h3 id="animations" className="h3" style={{fontFamily:"Nunito"}}> Animations </h3>
     <p className="light-gray no-margin-top">Toutes les animations doivent respecter les préférences utilisateur (prefers-reduced-motion) et <b>être désactivables si nécessaire.</b><br /> Les transitions doivent <b>rester non-intrusives</b> et <b>ne jamais bloquer l'interaction ou la lisibilité.</b></p>
     <img src={SwitchAnimations} alt="Animations" />
+    <img src={SwitchAnimations} alt="Exemples d'animations du switch (apparition, disparition)" />
 
     <h3 id="interactions" className="h3" style={{fontFamily:"Nunito"}}> Interactions </h3>
 
@@ -149,9 +160,11 @@ Composant générique pouvant être utilisé par toutes les équipes de la DSIT.
 
     <h3 id="keyboard-interactions" className="h3" style={{fontFamily:"Nunito"}}> Keyboard Interactions </h3>
     <img src={SwitchKeyboardInteractions} alt="Keyboard Interactions" />
+    <img src={SwitchKeyboardInteractions} alt="Illustration des interactions clavier pour le switch" />
 
     <h3 id="autre-contextuel" className="h3" style={{fontFamily:"Nunito"}}> Autre / contextuel </h3>
     <img src={SwitchAutreContextuel} alt="Autre / contextuel" />
+    <img src={SwitchAutreContextuel} alt="Exemples de contextes d'utilisation du switch" />
 
 </div>
 
@@ -159,7 +172,7 @@ Composant générique pouvant être utilisé par toutes les équipes de la DSIT.
 
     <h2 id="accessibility-testing-status" className="h2" style={{border:"none", fontFamily:"Nunito", color:"#2964A0"}} > Accessibility Testing Status </h2>
     <p> Voici les tests à effectuer pour vérifier l'Accessibilité de chaque catégorie :</p>
-    <img src={SwitchAccessibility} alt="Accessibilité" />
+    <img src={SwitchAccessibility} alt="Checklist des tests d’accessibilité pour le switch" />
 
 </div>
 
