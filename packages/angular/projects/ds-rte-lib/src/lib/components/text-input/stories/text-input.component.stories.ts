@@ -3,7 +3,6 @@ import { Meta, StoryObj } from "@storybook/angular";
 import { expect, userEvent, waitFor, within } from "@storybook/test";
 
 import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../../icon/icon-map";
-
 import { TextInputComponent } from "../text-input.component";
 
 const RegularIconIds = Object.keys(RegularIconsList);
