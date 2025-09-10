@@ -17,15 +17,15 @@
       <rte-dropdown #dropdown="rteDropdown" [autoclose]="true" [offset]="8">
         <rte-icon-button
           name="more-horiz"
-          tabIndex="0"
           role="menu"
           variant="neutral"
           aria-label="More items"
           data-testid="show-more"
           size="s"
           dropdownTrigger
+          tabindex="-1"
           [compactSpacing]="true"
-          (click)="dropdown.open()"
+          (click)="dropdown.toggle()"
         />
         @for (
           item of truncatedItems()?.truncated;
