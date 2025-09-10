@@ -2,10 +2,10 @@ import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard
 import { Meta, StoryObj } from "@storybook/react";
 import { expect, within, userEvent } from "@storybook/test";
 
-import Switch from "./Switch";
+import Switch from "../Switch";
 
 const meta = {
-  title: "Switch",
+  title: "Composants/Switch/Switch",
   component: Switch,
   decorators: [
     (Story) => (
