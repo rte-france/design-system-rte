@@ -10,7 +10,7 @@ import { userEvent, within, expect } from "@storybook/test";
 import { SegmentedControlComponent } from "../segmented-control.component";
 
 const meta: Meta<SegmentedControlComponent> = {
-  title: "Segmented Control",
+  title: "Composants/SegmentedControl/SegmentedControl",
   component: SegmentedControlComponent,
   tags: ["autodocs"],
   argTypes: {
