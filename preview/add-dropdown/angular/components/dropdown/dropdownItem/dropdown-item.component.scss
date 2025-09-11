@@ -33,8 +33,8 @@
   }
 
   &:focus-visible {
-    outline: $width-xs solid var(--border-brand-focused);
-    outline-offset: -1px;
+    outline: none;
+    background-color: var(--background-hover);
   }
 }
 
