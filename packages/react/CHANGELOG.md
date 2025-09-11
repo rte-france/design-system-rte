@@ -1,5 +1,43 @@
 # @design-system-rte/react
 
+## 0.11.0
+
+### Minor Changes
+
+- 5e685f0: ## Changes
+
+  - (Loader) add Loader component for react
+
+- 191f1e9: ## Changes
+
+  - (Segmented-control) added Segmented-control documentation for storybook and stories
+  - (Loader) added Loader documentation for storybook and stories
+  - (Textarea) added Textarea documentation for storybook and stories
+  - (Switch) added Switch documentation for storybook and stories
+  - (Divider) added Divider documentation for storybook and stories
+  - (Chip) added Chip documentation for storybook and stories
+  - (Icon-title) refactor IconTitle component to use in stories
+  - (Tag) added Tag documentation for storybook and stories
+
+- 21cab4b: ## Changes
+
+  - (Breadcrumbs) correct unadressed accessibility criteria
+  - (Breadcrumbs) correct missing nav tag for Breadcrumbs
+  - (Breadcrumbs) correct breadcrumbs-head styling
+  - (Breadcrumbs) correct test cases
+  - (Breadcrumbs) add Breadcrumbs
+
+### Patch Changes
+
+- d282e25: ## Changes
+
+  - add missing default font colors for Checkbox, Icon & Radio Button
+
+- Updated dependencies [5e685f0]
+- Updated dependencies [191f1e9]
+- Updated dependencies [21cab4b]
+  - @design-system-rte/core@0.16.0
+
 ## 0.10.0
 
 ### Minor Changes
