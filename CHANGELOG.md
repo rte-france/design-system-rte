@@ -2,6 +2,81 @@
 
 # Angular
 
+## 0.12.0
+
+### Loader
+
+#### Minor Changes
+
+- add Loader component for angular
+- added Loader documentation for storybook and stories
+
+### Segmented-control
+
+#### Minor Changes
+
+- added Segmented-control documentation for storybook and stories
+
+### Textarea
+
+#### Minor Changes
+
+- added Textarea documentation for storybook and stories
+
+### Switch
+
+#### Minor Changes
+
+- added Switch documentation for storybook and stories
+
+### Divider
+
+#### Minor Changes
+
+- added Divider documentation for storybook and stories
+
+### Chip
+
+#### Minor Changes
+
+- added Chip documentation for storybook and stories
+
+### Icon-title
+
+#### Minor Changes
+
+- refactor IconTitle component to use in stories
+
+### Tag
+
+#### Minor Changes
+
+- added Tag documentation for storybook and stories
+
+### Breacrumbs
+
+#### Minor Changes
+
+- correct unadressed accessibility criteria
+
+### Breadcrumbs
+
+#### Minor Changes
+
+- add missing truncated test
+- correct breadcrumbs-head styling
+- add breadcrumbs
+
+### Other
+
+#### Patch Changes
+
+- add missing default font colors for Checkbox, Icon & Radio Button
+- Updated dependencies [5e685f0]
+- Updated dependencies [191f1e9]
+- Updated dependencies [21cab4b]
+- @design-system-rte/core@0.16.0
+
 ## 0.11.0
 
 ### Segmented Control
@@ -122,20 +197,78 @@
 - Updated dependencies [89289e7]
 - Updated dependencies [f6bb90d]
 - @design-system-rte/core@0.13.0
+# React
 
-## 0.9.0
+## 0.11.0
+
+### Loader
 
 #### Minor Changes
 
-- correct Badge display for icon & text
-- enhance Badge component with improved class bindings and styling options
-- implement Badge component in Angular
+- add Loader component for react
+- added Loader documentation for storybook and stories
+
+### Segmented-control
+
+#### Minor Changes
+
+- added Segmented-control documentation for storybook and stories
+
+### Textarea
+
+#### Minor Changes
+
+- added Textarea documentation for storybook and stories
+
+### Switch
+
+#### Minor Changes
+
+- added Switch documentation for storybook and stories
+
+### Divider
+
+#### Minor Changes
+
+- added Divider documentation for storybook and stories
+
+### Chip
+
+#### Minor Changes
+
+- added Chip documentation for storybook and stories
+
+### Icon-title
+
+#### Minor Changes
+
+- refactor IconTitle component to use in stories
+
+### Tag
+
+#### Minor Changes
+
+- added Tag documentation for storybook and stories
+
+### Breadcrumbs
+
+#### Minor Changes
+
+- correct unadressed accessibility criteria
+- correct missing nav tag for Breadcrumbs
+- correct breadcrumbs-head styling
+- correct test cases
+- add Breadcrumbs
+
+### Other
 
 #### Patch Changes
 
-- Updated dependencies [b824254]
-- @design-system-rte/core@0.12.0
-# React
+- add missing default font colors for Checkbox, Icon & Radio Button
+- Updated dependencies [5e685f0]
+- Updated dependencies [191f1e9]
+- Updated dependencies [21cab4b]
+- @design-system-rte/core@0.16.0
 
 ## 0.10.0
 
@@ -268,21 +401,65 @@
 - Updated dependencies [89289e7]
 - Updated dependencies [f6bb90d]
 - @design-system-rte/core@0.13.0
+# Core
 
-## 0.8.0
+## 0.16.0
+
+### Loader
 
 #### Minor Changes
 
-- correct Badge display for icon & text
-- enhance Badge component with improved class bindings and styling options
-- add react component
-- add Badge interface
+- add loader component for react and angular
+- add Loader component stories and documentation
 
-#### Patch Changes
+### Segmented-control
 
-- Updated dependencies [b824254]
-- @design-system-rte/core@0.12.0
-# Core
+#### Minor Changes
+
+- added documentation for storybook
+
+### Textarea
+
+#### Minor Changes
+
+- add Storybook documentation and examples for Textarea component
+
+### Switch
+
+#### Minor Changes
+
+- add Switch component stories and documentation
+
+### Divider
+
+#### Minor Changes
+
+- add Divider component stories and documentation
+
+### Chip
+
+#### Minor Changes
+
+- update story titles and add Chip documentation with images
+
+### Tag
+
+#### Minor Changes
+
+- add Tag documentation and stories
+
+### Breadcrumbs
+
+#### Minor Changes
+
+- add Breadcrumbs
+- set initial breacrumbs structure for React and Core
+
+### Other
+
+#### Minor Changes
+
+- add TextInput component documentation and stories with accessibility guidelines and various interaction states
 
 ## 0.15.0
 
@@ -325,28 +502,6 @@
 #### Minor Changes
 
 - add border-divider token color
-
-## 0.13.0
-
-### textarea
-
-#### Minor Changes
-
-- simplify required and optional appearence
-- set better props handling + handle resizing logic on angular comp
-- add auto scroll to top on blur event
-
-### Other
-
-#### Minor Changes
-
-- add angular textarea component
-- extract constants in core
-- add react textarea component
-- update Tag component to use computed properties for icon name and validation
-- correct casing of compactSpacing property in Tag component and stories
-- improve formatting and consistency in Tag component and interface
-- add Tag component with status and decorative types, including styles and stories
 # Design Docs
 
 ## 0.6.1
