@@ -45,11 +45,6 @@ const meta = {
       description: "Whether to show the title",
       defaultValue: false,
     },
-    button2: {
-      control: "boolean",
-      description: "Whether to show the second button",
-      defaultValue: false,
-    },
     title: {
       control: "text",
       description: "Title of the popover",
@@ -60,12 +55,12 @@ const meta = {
       description: "Content of the popover",
       defaultValue: "Popover content",
     },
-    buttonLabel: {
+    primaryButtonLabel: {
       control: "text",
       description: "Label for the primary button",
       defaultValue: "Close",
     },
-    button2Label: {
+    secondaryButtonLabel: {
       control: "text",
       description: "Label for the secondary button",
       defaultValue: "Cancel",
@@ -95,15 +90,14 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     position: "auto",
-    alignment: "start",
+    alignment: "end",
     arrow: true,
     showTitle: true,
-    button2: false,
     title: "Popover Title",
     content:
       "Le Popover est un composant de type superposition (overlay), qui apparaît au clic, au focus ou au survol d'un élément déclencheur (trigger). Il est utilisé pour afficher un contenu contextuel enrichi : aide, options, actions complémentaires…",
-    buttonLabel: "Close",
-    button2Label: "Cancel",
+    primaryButtonLabel: "Close",
+    secondaryButtonLabel: "Cancel",
     children: <button>Open Popover</button>,
   },
 };
@@ -111,14 +105,13 @@ export const Default: Story = {
 export const WithTwoButtons: Story = {
   args: {
     position: "bottom",
-    alignment: "center",
+    alignment: "start",
     arrow: true,
     showTitle: true,
-    button2: true,
     title: "Confirm Action",
     content: "Are you sure you want to proceed with this action? This cannot be undone.",
-    buttonLabel: "Confirm",
-    button2Label: "Cancel",
+    primaryButtonLabel: "Confirm",
+    secondaryButtonLabel: "Cancel",
     children: <button>Open Confirmation</button>,
   },
 };
@@ -129,9 +122,8 @@ export const WithoutTitle: Story = {
     alignment: "center",
     arrow: true,
     showTitle: false,
-    button2: false,
     content: "This popover has no title, just content and a close button.",
-    buttonLabel: "Got it",
+    primaryButtonLabel: "Got it",
     children: <button>Show Info</button>,
   },
 };
@@ -142,10 +134,9 @@ export const WithoutArrow: Story = {
     alignment: "start",
     arrow: false,
     showTitle: true,
-    button2: false,
     title: "No Arrow",
     content: "This popover is displayed without an arrow pointer.",
-    buttonLabel: "Close",
+    primaryButtonLabel: "Close",
     children: <button>Open Without Arrow</button>,
   },
 };
