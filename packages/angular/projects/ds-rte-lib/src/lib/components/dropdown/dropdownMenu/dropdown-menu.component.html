@@ -1,0 +1,17 @@
+<div
+  #menu
+  class="rte-dropdown-menu"
+  [attr.data-dropdown-id]="dropdownId"
+  [class.open]="isOpen()"
+  [ngStyle]="{ top: positionY() + 'px', left: positionX() + 'px' }"
+  (click)="handleClick($event)"
+>
+  <ul
+    class="rte-dropdown-items"
+    role="menu"
+    (keyup)="handleKeyup($event)"
+    (keydown)="handleKeydown($event)"
+  >
+    <ng-container #container></ng-container>
+  </ul>
+</div>

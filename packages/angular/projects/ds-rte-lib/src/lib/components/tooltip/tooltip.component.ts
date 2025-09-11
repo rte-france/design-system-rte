@@ -1,5 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { Component, input } from "@angular/core";
+import { Alignment, Position } from "@design-system-rte/core/components/common/common-types";
 
 @Component({
   selector: "rte-tooltip",
@@ -10,7 +11,7 @@ import { Component, input } from "@angular/core";
 })
 export class TooltipComponent {
   readonly label = input.required<string>();
-  readonly position = input<string>("auto");
-  readonly alignment = input<string>("center");
+  readonly position = input<Exclude<Position, "auto">>("top");
+  readonly alignment = input<Alignment>("center");
   readonly arrow = input<boolean>(true);
 }
