@@ -193,6 +193,7 @@ const handleTopPosition = (
   alignment: Alignment,
 ) => {
   const top = triggerElementRect.top - castedElementRect.height - offset + window.scrollY;
+
   let left = 0;
 
   if (alignment === "start") {
