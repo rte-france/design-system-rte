@@ -25,11 +25,12 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
       arrow = true,
       title,
       showTitle = false,
-      buttonLabel = "Close",
-      button2 = false,
-      button2Label = "Cancel",
+      primaryButtonLabel,
+      secondaryButtonLabel,
       className = "",
       triggerStyles,
+      onClickPrimaryButton,
+      onClickSecondaryButton,
       ...props
     },
     ref,
@@ -63,10 +64,12 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
         triggerRef.current,
         popoverElement,
         arrow ? POPOVER_GAP_ARROW : POPOVER_GAP,
+        alignment,
       );
+      console.log({ computedPosition, computedCoordinates });
       setAutoPosition(computedPosition);
       setCoordinates(computedCoordinates);
-    }, [isOpen, position, arrow, popoverElement]);
+    }, [isOpen, position, arrow, popoverElement, alignment]);
 
     useEffect(() => {
       updatePopoverPosition();
@@ -75,7 +78,7 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
       return () => {
         window.removeEventListener("scroll", updatePopoverPosition, true);
       };
-    }, [isOpen, updatePopoverPosition]);
+    }, [isOpen, updatePopoverPosition, setPopoverElement]);
 
     useEffect(() => {
       if (!(shouldRender && isOpen && popoverElement)) {
@@ -131,6 +134,20 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
       }
     };
 
+    const handleClickSecondaryButton = () => {
+      if (onClickSecondaryButton) {
+        onClickSecondaryButton();
+      }
+      setIsOpen(false);
+    };
+
+    const handleClickPrimaryButton = () => {
+      if (onClickPrimaryButton) {
+        onClickPrimaryButton();
+      }
+      setIsOpen(false);
+    };
+
     return (
       <div
         ref={triggerRef}
@@ -162,19 +179,19 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
                   <div className={style.popoverContent}>{content}</div>
                 </div>
                 <div className={style.popoverButtonContainer}>
-                  {button2 && (
+                  {secondaryButtonLabel && (
                     <Button
                       className="popoverButton"
-                      onClick={() => setIsOpen(false)}
-                      label={button2Label}
+                      onClick={() => handleClickSecondaryButton()}
+                      label={secondaryButtonLabel}
                       variant="secondary"
                       size="m"
                     />
                   )}
                   <Button
                     className="popoverButton"
-                    onClick={() => setIsOpen(false)}
-                    label={buttonLabel}
+                    onClick={() => handleClickPrimaryButton()}
+                    label={primaryButtonLabel}
                     variant="primary"
                     size="m"
                   />
