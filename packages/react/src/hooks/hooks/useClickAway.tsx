@@ -11,5 +11,5 @@ export const useClickAway = <TElement extends HTMLElement>(onClickAway: () => vo
     }
     document.addEventListener("mousedown", handleClickAway);
     return () => document.removeEventListener("mousedown", handleClickAway);
-  }, [elements]);
+  }, [onClickAway, elements]);
 };

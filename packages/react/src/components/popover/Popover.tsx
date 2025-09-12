@@ -3,20 +3,20 @@ import { PopoverProps as CorePopoverProps } from "@design-system-rte/core/compon
 import {
   getAutoAlignment,
   getAutoPlacement,
-  getCoordinates
+  getCoordinates,
 } from "@design-system-rte/core/components/utils/auto-placement";
+import { ESCAPE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
 
+import { useClickAway } from "../../hooks/hooks/useClickAway";
+import { useFocusTrap } from "../../hooks/hooks/useFocusTrap";
 import useAnimatedMount from "../../hooks/useAnimatedMount";
+import { useScrollEvent } from "../../hooks/useScrollEvent";
 import Button from "../button/Button";
 import { Overlay } from "../overlay/Overlay";
 import { concatClassNames } from "../utils";
 
 import style from "./Popover.module.scss";
-import { useFocusTrap } from "../../hooks/hooks/useFocusTrap";
-import { ESCAPE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
-import { useClickAway } from "../../hooks/hooks/useClickAway";
-import { useScrollEvent } from "../../hooks/useScrollEvent";
 
 interface PopoverProps extends CorePopoverProps, Omit<React.HTMLAttributes<HTMLDivElement>, "children"> {
   children: React.ReactNode;
@@ -41,7 +41,7 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
       onClickSecondaryButton,
       ...props
     },
-    ref
+    ref,
   ) => {
     const triggerRef = useRef<HTMLDivElement>(null);
     const [popoverElement, setPopoverElement] = useState<HTMLDivElement | null>(null);
@@ -64,7 +64,7 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
         triggerRef.current,
         popoverElement,
         arrow ? POPOVER_GAP_ARROW : POPOVER_GAP,
-        computedAlignment
+        computedAlignment,
       );
       setAutoAlignment(computedAlignment);
       setCoordinates(computedCoordinates);
@@ -88,7 +88,7 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
           });
         }
       },
-      [ref, isOpen, updatePopoverPosition]
+      [ref, isOpen, updatePopoverPosition],
     );
 
     useEffect(() => {
@@ -186,7 +186,7 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
         )}
       </div>
     );
-  }
+  },
 );
 
 export default Popover;
