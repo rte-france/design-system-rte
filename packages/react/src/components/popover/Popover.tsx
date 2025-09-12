@@ -1,6 +1,10 @@
 import { POPOVER_GAP, POPOVER_GAP_ARROW } from "@design-system-rte/core/components/popover/popover.constants";
 import { PopoverProps as CorePopoverProps } from "@design-system-rte/core/components/popover/popover.interface";
-import { getAutoPlacement, getCoordinates } from "@design-system-rte/core/components/utils/auto-placement";
+import {
+  getAutoAlignment,
+  getAutoPlacement,
+  getCoordinates
+} from "@design-system-rte/core/components/utils/auto-placement";
 import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
 
 import useAnimatedMount from "../../hooks/useAnimatedMount";
@@ -9,6 +13,10 @@ import { Overlay } from "../overlay/Overlay";
 import { concatClassNames } from "../utils";
 
 import style from "./Popover.module.scss";
+import { useFocusTrap } from "../../hooks/hooks/useFocusTrap";
+import { ESCAPE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
+import { useClickAway } from "../../hooks/hooks/useClickAway";
+import { useScrollEvent } from "../../hooks/useScrollEvent";
 
 interface PopoverProps extends CorePopoverProps, Omit<React.HTMLAttributes<HTMLDivElement>, "children"> {
   children: React.ReactNode;
@@ -20,7 +28,7 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
     {
       children,
       position = "auto",
-      alignment = "start",
+      alignment,
       content,
       arrow = true,
       title,
@@ -33,95 +41,70 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
       onClickSecondaryButton,
       ...props
     },
-    ref,
+    ref
   ) => {
     const triggerRef = useRef<HTMLDivElement>(null);
     const [popoverElement, setPopoverElement] = useState<HTMLDivElement | null>(null);
     const [autoPosition, setAutoPosition] = useState<string>(position);
+    const [autoAlignment, setAutoAlignment] = useState<string | undefined>(alignment);
     const [coordinates, setCoordinates] = useState<{ top: number; left: number }>({ top: 0, left: 0 });
     const [isOpen, setIsOpen] = useState(false);
     const { shouldRender, isAnimating } = useAnimatedMount(isOpen, 150);
+    const [positionReady, setPositionReady] = useState(false);
+
+    const updatePopoverPosition = useCallback(() => {
+      if (!triggerRef.current || !popoverElement) return;
+      const computedPosition =
+        position === "auto"
+          ? getAutoPlacement(triggerRef.current, popoverElement, "top", arrow ? POPOVER_GAP_ARROW : POPOVER_GAP)
+          : position;
+      const computedAlignment = alignment || getAutoAlignment(triggerRef.current, popoverElement, computedPosition);
+      const computedCoordinates = getCoordinates(
+        computedPosition,
+        triggerRef.current,
+        popoverElement,
+        arrow ? POPOVER_GAP_ARROW : POPOVER_GAP,
+        computedAlignment
+      );
+      setAutoAlignment(computedAlignment);
+      setCoordinates(computedCoordinates);
+      setAutoPosition(computedPosition);
+    }, [position, arrow, popoverElement, alignment]);
+
+    useFocusTrap(popoverElement!, shouldRender);
+    useClickAway(() => setIsOpen(false), triggerRef.current!, popoverElement!);
+    useScrollEvent(updatePopoverPosition);
 
     const popoverCallbackRef = useCallback(
       (node: HTMLDivElement | null) => {
         setPopoverElement(node);
         if (typeof ref === "function") ref(node);
         else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+        if (node && isOpen) {
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              updatePopoverPosition();
+            });
+          });
+        }
       },
-      [ref],
+      [ref, isOpen, updatePopoverPosition]
     );
 
-    const updatePopoverPosition = useCallback(() => {
-      if (!(isOpen && triggerRef.current && popoverElement)) {
-        return;
-      }
-      const computedPosition =
-        position === "auto"
-          ? getAutoPlacement(triggerRef.current, popoverElement, "top", arrow ? POPOVER_GAP_ARROW : POPOVER_GAP)
-          : position;
-      const computedCoordinates = getCoordinates(
-        computedPosition,
-        triggerRef.current,
-        popoverElement,
-        arrow ? POPOVER_GAP_ARROW : POPOVER_GAP,
-        alignment,
-      );
-      console.log({ computedPosition, computedCoordinates });
-      setAutoPosition(computedPosition);
-      setCoordinates(computedCoordinates);
-    }, [isOpen, position, arrow, popoverElement, alignment]);
-
     useEffect(() => {
-      updatePopoverPosition();
-      if (!isOpen) return;
-      window.addEventListener("scroll", updatePopoverPosition, true);
-      return () => {
-        window.removeEventListener("scroll", updatePopoverPosition, true);
-      };
-    }, [isOpen, updatePopoverPosition, setPopoverElement]);
-
-    useEffect(() => {
-      if (!(shouldRender && isOpen && popoverElement)) {
-        return;
+      if (isOpen && popoverElement) {
+        updatePopoverPosition();
+        setPositionReady(true);
+      } else {
+        setPositionReady(false);
       }
-      const focusable = popoverElement.querySelectorAll(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
-      );
-      if (focusable.length > 0) (focusable[0] as HTMLElement).focus();
+    }, [isOpen, popoverElement, updatePopoverPosition]);
 
-      const handleKeyDown = (event: KeyboardEvent) => {
-        if (event.key === "Tab") {
-          const first = focusable[0] as HTMLElement;
-          const last = focusable[focusable.length - 1] as HTMLElement;
-          if (event.shiftKey && document.activeElement === first) {
-            event.preventDefault();
-            last.focus();
-          } else if (!event.shiftKey && document.activeElement === last) {
-            event.preventDefault();
-            first.focus();
-          }
-          return;
-        }
-        if (event.key === "Escape") {
-          setIsOpen(false);
-        }
-      };
-      popoverElement.addEventListener("keydown", handleKeyDown);
-      return () => popoverElement.removeEventListener("keydown", handleKeyDown);
-    }, [shouldRender, isOpen, popoverElement]);
-
-    useEffect(() => {
-      if (!isOpen) return;
-      function handleClickAway(event: MouseEvent) {
-        const trigger = triggerRef.current;
-        if (!trigger || !popoverElement) return;
-        if (!trigger.contains(event.target as Node) && !popoverElement.contains(event.target as Node)) {
-          setIsOpen(false);
-        }
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+      if (e.key === ESCAPE_KEY) {
+        setIsOpen(false);
       }
-      document.addEventListener("mousedown", handleClickAway);
-      return () => document.removeEventListener("mousedown", handleClickAway);
-    }, [isOpen, popoverElement]);
+    };
 
     const handleTriggerInteraction = (e: React.MouseEvent | React.KeyboardEvent) => {
       if (
@@ -168,8 +151,9 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
               aria-describedby="popover-content"
               data-arrow={arrow}
               data-position={autoPosition}
-              data-alignment={alignment}
-              data-open={isAnimating || undefined}
+              data-alignment={autoAlignment}
+              data-open={(positionReady && isAnimating) || undefined}
+              onKeyDown={handleKeyDown}
               style={{ top: `${coordinates.top}px`, left: `${coordinates.left}px` }}
               {...props}
             >
@@ -182,7 +166,7 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
                   {secondaryButtonLabel && (
                     <Button
                       className="popoverButton"
-                      onClick={() => handleClickSecondaryButton()}
+                      onClick={handleClickSecondaryButton}
                       label={secondaryButtonLabel}
                       variant="secondary"
                       size="m"
@@ -190,7 +174,7 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
                   )}
                   <Button
                     className="popoverButton"
-                    onClick={() => handleClickPrimaryButton()}
+                    onClick={handleClickPrimaryButton}
                     label={primaryButtonLabel}
                     variant="primary"
                     size="m"
@@ -202,7 +186,7 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
         )}
       </div>
     );
-  },
+  }
 );
 
 export default Popover;

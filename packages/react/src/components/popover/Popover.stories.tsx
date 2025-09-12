@@ -14,12 +14,12 @@ const meta = {
           padding: "100px",
           display: "flex",
           justifyContent: "center",
-          alignItems: "center",
+          alignItems: "center"
         }}
       >
         <Story />
       </div>
-    ),
+    )
   ],
   tags: ["autodocs"],
   argTypes: {
@@ -27,60 +27,60 @@ const meta = {
       control: "select",
       options: ["auto", "top", "bottom", "left", "right"],
       description: "Position of the popover relative to trigger",
-      defaultValue: "auto",
+      defaultValue: "auto"
     },
     alignment: {
       control: "select",
       options: ["start", "center", "end"],
       description: "Alignment of the popover",
-      defaultValue: "start",
+      defaultValue: "start"
     },
     arrow: {
       control: "boolean",
       description: "Whether to show the arrow",
-      defaultValue: true,
+      defaultValue: true
     },
     showTitle: {
       control: "boolean",
       description: "Whether to show the title",
-      defaultValue: false,
+      defaultValue: false
     },
     title: {
       control: "text",
       description: "Title of the popover",
-      defaultValue: "Popover Title",
+      defaultValue: "Popover Title"
     },
     content: {
       control: "text",
       description: "Content of the popover",
-      defaultValue: "Popover content",
+      defaultValue: "Popover content"
     },
     primaryButtonLabel: {
       control: "text",
       description: "Label for the primary button",
-      defaultValue: "Close",
+      defaultValue: "Close"
     },
     secondaryButtonLabel: {
       control: "text",
       description: "Label for the secondary button",
-      defaultValue: "Cancel",
+      defaultValue: "Cancel"
     },
     children: {
       table: {
-        disable: true,
-      },
+        disable: true
+      }
     },
     triggerStyles: {
       table: {
-        disable: true,
-      },
+        disable: true
+      }
     },
     className: {
       table: {
-        disable: true,
-      },
-    },
-  },
+        disable: true
+      }
+    }
+  }
 } satisfies Meta<typeof Popover>;
 
 export default meta;
@@ -90,7 +90,6 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     position: "auto",
-    alignment: "end",
     arrow: true,
     showTitle: true,
     title: "Popover Title",
@@ -98,8 +97,8 @@ export const Default: Story = {
       "Le Popover est un composant de type superposition (overlay), qui apparaît au clic, au focus ou au survol d'un élément déclencheur (trigger). Il est utilisé pour afficher un contenu contextuel enrichi : aide, options, actions complémentaires…",
     primaryButtonLabel: "Close",
     secondaryButtonLabel: "Cancel",
-    children: <button>Open Popover</button>,
-  },
+    children: <button>Open Popover</button>
+  }
 };
 
 export const WithTwoButtons: Story = {
@@ -112,8 +111,8 @@ export const WithTwoButtons: Story = {
     content: "Are you sure you want to proceed with this action? This cannot be undone.",
     primaryButtonLabel: "Confirm",
     secondaryButtonLabel: "Cancel",
-    children: <button>Open Confirmation</button>,
-  },
+    children: <button>Open Confirmation</button>
+  }
 };
 
 export const WithoutTitle: Story = {
@@ -124,8 +123,8 @@ export const WithoutTitle: Story = {
     showTitle: false,
     content: "This popover has no title, just content and a close button.",
     primaryButtonLabel: "Got it",
-    children: <button>Show Info</button>,
-  },
+    children: <button>Show Info</button>
+  }
 };
 
 export const WithoutArrow: Story = {
@@ -137,6 +136,6 @@ export const WithoutArrow: Story = {
     title: "No Arrow",
     content: "This popover is displayed without an arrow pointer.",
     primaryButtonLabel: "Close",
-    children: <button>Open Without Arrow</button>,
-  },
+    children: <button>Open Without Arrow</button>
+  }
 };

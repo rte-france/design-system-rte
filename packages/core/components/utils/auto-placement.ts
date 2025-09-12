@@ -30,6 +30,34 @@ export const getAutoPlacement = (
   return defaultPosition;
 };
 
+export const getAutoAlignment = (
+  hostElement: HTMLElement,
+  castedElement: Element,
+  position: Exclude<Position, "auto">,
+) => {
+  const defaultPosition = "center";
+  const triggerParent = hostElement.parentElement;
+  if (!triggerParent) {
+    return defaultPosition;
+  }
+  const triggerRect = hostElement.getBoundingClientRect();
+  const castedRect = castedElement.getBoundingClientRect();
+
+  const alignments = {
+    end:
+      position === "top" || position === "bottom"
+        ? triggerRect.right >= castedRect.width
+        : window.innerHeight - triggerRect.bottom >= castedRect.height,
+    start:
+      position === "top" || position === "bottom"
+        ? window.innerWidth - triggerRect.left >= castedRect.width
+        : window.innerHeight - triggerRect.top >= castedRect.height,
+  } as const;
+  if (alignments.start) return "start";
+  if (alignments.end) return "end";
+  return defaultPosition;
+};
+
 export const getCoordinates = (
   position: Exclude<Position, "auto">,
   triggerElement: HTMLElement,
@@ -39,6 +67,12 @@ export const getCoordinates = (
 ) => {
   const triggerElementRect = triggerElement.getBoundingClientRect();
   const castedElementRect = castedElement.getBoundingClientRect();
+
+  console.log({ position });
+  console.log({ alignment });
+  console.log({ triggerElementRect });
+  console.log({ castedElementRect });
+  console.log({ castedElement: castedElement });
 
   if (position === "bottom") {
     return handleBottomPosition(triggerElementRect, castedElementRect, offset, alignment);
