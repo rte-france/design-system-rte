@@ -13,4 +13,5 @@ export interface PopoverProps {
   onClickPrimaryButton?: () => void;
   onClickSecondaryButton?: () => void;
   isOpen?: boolean;
+  onClose?: () => void;
 }
