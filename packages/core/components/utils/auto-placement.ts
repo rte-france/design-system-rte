@@ -68,12 +68,6 @@ export const getCoordinates = (
   const triggerElementRect = triggerElement.getBoundingClientRect();
   const castedElementRect = castedElement.getBoundingClientRect();
 
-  console.log({ position });
-  console.log({ alignment });
-  console.log({ triggerElementRect });
-  console.log({ castedElementRect });
-  console.log({ castedElement: castedElement });
-
   if (position === "bottom") {
     return handleBottomPosition(triggerElementRect, castedElementRect, offset, alignment);
   } else if (position === "left") {
@@ -152,11 +146,6 @@ const handleTopPosition = (
   alignment: Alignment,
 ) => {
   const top = triggerElementRect.top - castedElementRect.height - offset + window.scrollY;
-  console.log({ "triggerElementRect.top": triggerElementRect.top });
-  console.log({ "castedElementRect.height": castedElementRect.height });
-  console.log({ offset });
-  console.log({ scrollY: window.scrollY });
-  console.log({ top });
   let left = 0;
 
   if (alignment === "start") {
