@@ -115,12 +115,6 @@ export const getCoordinates = (
   const triggerElementRect = triggerElement.getBoundingClientRect();
   const castedElementRect = castedElement.getBoundingClientRect();
 
-  console.log({ position });
-  console.log({ alignment });
-  console.log({ triggerElementRect });
-  console.log({ castedElementRect });
-  console.log({ castedElement: castedElement });
-
   if (position === "bottom") {
     return handleBottomPosition(triggerElementRect, castedElementRect, offset, alignment);
   } else if (position === "left") {

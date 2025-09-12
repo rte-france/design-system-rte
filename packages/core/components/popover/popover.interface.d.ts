@@ -8,10 +8,7 @@ export interface PopoverProps {
   content?: string;
   arrow?: boolean;
   title?: string;
-  showTitle?: boolean;
   secondaryButtonLabel?: string;
   onClickPrimaryButton?: () => void;
   onClickSecondaryButton?: () => void;
-  isOpen?: boolean;
-  onClose?: () => void;
 }
