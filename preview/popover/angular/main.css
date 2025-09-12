@@ -317,6 +317,7 @@
   --background-danger-default: #de2048;
   --background-danger-hover: #c81640;
   --background-danger-pressed: #9d1439;
+  --background-info-default: #1465fc;
   --background-status-info-regular: #53aaff;
   --background-status-info-subtle: #d8ebff;
   --background-status-warning-regular: #ffe500;
@@ -404,9 +405,12 @@
   --content-danger: #de2048;
   --content-danger-hover: #c81640;
   --content-danger-inverse: #ffffff;
+  --content-success: #0b8a4d;
+  --content-success-hover: #0e6d40;
+  --content-info: #1465fc;
+  --content-info-hover: #0d4fea;
   --content-decorative: #201f1f;
   --content-status: #201f1f;
-  --content-success: #09b05f;
   --decorative-neutral: #ebebea;
   --decorative-bleu-iceberg: #c7dbf0;
   --decorative-vert-foret: #d7f4e6;
@@ -465,16 +469,17 @@
   --background-brand-inverse-hover: #225082;
   --background-brand-inverse-pressed: #2964a0;
   --background-danger-default: #f97385;
-  --background-danger-hover: #f14662;
-  --background-danger-pressed: #de2048;
+  --background-danger-hover: #fca5af;
+  --background-danger-pressed: #fdced4;
+  --background-info-default: #53aaff;
   --background-status-info-regular: #53aaff;
-  --background-status-info-subtle: #d8ebff;
+  --background-status-info-subtle: #153b93;
   --background-status-warning-regular: #ffe500;
   --background-status-warning-subtle: #faffc1;
   --background-status-success-regular: #3cec96;
   --background-status-success-subtle: #b5fdd9;
   --background-status-alert-regular: #f14662;
-  --background-status-alert-subtle: #ffe4e6;
+  --background-status-alert-subtle: #861537;
   --border-primary: #a1a1a0;
   --border-secondary: #737272;
   --border-tertiary: #3e3e3d;
@@ -483,7 +488,7 @@
   --border-inverse: #201f1f;
   --border-brand-default: #f9fbfd;
   --border-brand-focused: #f9fbfd;
-  --border-danger: #de2048;
+  --border-danger: #f97385;
   --border-info: #2b86ff;
   --border-warning: #f4922b;
   --border-success: #09b05f;
@@ -554,9 +559,12 @@
   --content-danger: #f97385;
   --content-danger-hover: #f14662;
   --content-danger-inverse: #ffffff;
+  --content-success: #3cec96;
+  --content-success-hover: #12d577;
+  --content-info: #53aaff;
+  --content-info-hover: #2b86ff;
   --content-decorative: #201f1f;
   --content-status: #201f1f;
-  --content-success: #09b05f;
   --decorative-neutral: #ebebea;
   --decorative-bleu-iceberg: #c7dbf0;
   --decorative-vert-foret: #d7f4e6;
@@ -617,6 +625,7 @@
   --background-danger-default: #de2048;
   --background-danger-hover: #c81640;
   --background-danger-pressed: #9d1439;
+  --background-info-default: #1465fc;
   --background-status-info-regular: #53aaff;
   --background-status-info-subtle: #d8ebff;
   --background-status-warning-regular: #ffe500;
@@ -704,9 +713,12 @@
   --content-danger: #de2048;
   --content-danger-hover: #c81640;
   --content-danger-inverse: #ffffff;
+  --content-success: #0b8a4d;
+  --content-success-hover: #0e6d40;
+  --content-info: #1465fc;
+  --content-info-hover: #0d4fea;
   --content-decorative: #201f1f;
   --content-status: #201f1f;
-  --content-success: #09b05f;
   --decorative-neutral: #ebebea;
   --decorative-bleu-iceberg: #c7dbf0;
   --decorative-vert-foret: #d7f4e6;
@@ -765,16 +777,17 @@
   --background-brand-inverse-hover: #674883;
   --background-brand-inverse-pressed: #7d5a9f;
   --background-danger-default: #f97385;
-  --background-danger-hover: #f14662;
-  --background-danger-pressed: #de2048;
+  --background-danger-hover: #fca5af;
+  --background-danger-pressed: #fdced4;
+  --background-info-default: #53aaff;
   --background-status-info-regular: #53aaff;
-  --background-status-info-subtle: #d8ebff;
+  --background-status-info-subtle: #153b93;
   --background-status-warning-regular: #ffe500;
   --background-status-warning-subtle: #faffc1;
   --background-status-success-regular: #3cec96;
   --background-status-success-subtle: #b5fdd9;
   --background-status-alert-regular: #f14662;
-  --background-status-alert-subtle: #ffe4e6;
+  --background-status-alert-subtle: #861537;
   --border-primary: #a1a1a0;
   --border-secondary: #737272;
   --border-tertiary: #3e3e3d;
@@ -783,7 +796,7 @@
   --border-inverse: #201f1f;
   --border-brand-default: #fcfbfd;
   --border-brand-focused: #fcfbfd;
-  --border-danger: #de2048;
+  --border-danger: #f97385;
   --border-info: #2b86ff;
   --border-warning: #f4922b;
   --border-success: #09b05f;
@@ -854,9 +867,12 @@
   --content-danger: #f97385;
   --content-danger-hover: #f14662;
   --content-danger-inverse: #ffffff;
+  --content-success: #3cec96;
+  --content-success-hover: #12d577;
+  --content-info: #53aaff;
+  --content-info-hover: #2b86ff;
   --content-decorative: #201f1f;
   --content-status: #201f1f;
-  --content-success: #09b05f;
   --decorative-neutral: #ebebea;
   --decorative-bleu-iceberg: #c7dbf0;
   --decorative-vert-foret: #d7f4e6;
@@ -917,6 +933,7 @@
   --background-danger-default: #de2048;
   --background-danger-hover: #c81640;
   --background-danger-pressed: #9d1439;
+  --background-info-default: #1465fc;
   --background-status-info-regular: #53aaff;
   --background-status-info-subtle: #d8ebff;
   --background-status-warning-regular: #ffe500;
@@ -1004,9 +1021,12 @@
   --content-danger: #de2048;
   --content-danger-hover: #c81640;
   --content-danger-inverse: #ffffff;
+  --content-success: #0b8a4d;
+  --content-success-hover: #0e6d40;
+  --content-info: #1465fc;
+  --content-info-hover: #0d4fea;
   --content-decorative: #201f1f;
   --content-status: #201f1f;
-  --content-success: #09b05f;
   --decorative-neutral: #ebebea;
   --decorative-bleu-iceberg: #c7dbf0;
   --decorative-vert-foret: #d7f4e6;
@@ -1065,16 +1085,17 @@
   --background-brand-inverse-hover: #176b57;
   --background-brand-inverse-pressed: #1b8065;
   --background-danger-default: #f97385;
-  --background-danger-hover: #f14662;
-  --background-danger-pressed: #de2048;
+  --background-danger-hover: #fca5af;
+  --background-danger-pressed: #fdced4;
+  --background-info-default: #53aaff;
   --background-status-info-regular: #53aaff;
-  --background-status-info-subtle: #d8ebff;
+  --background-status-info-subtle: #153b93;
   --background-status-warning-regular: #ffe500;
   --background-status-warning-subtle: #faffc1;
   --background-status-success-regular: #3cec96;
   --background-status-success-subtle: #b5fdd9;
   --background-status-alert-regular: #f14662;
-  --background-status-alert-subtle: #ffe4e6;
+  --background-status-alert-subtle: #861537;
   --border-primary: #a1a1a0;
   --border-secondary: #737272;
   --border-tertiary: #3e3e3d;
@@ -1083,7 +1104,7 @@
   --border-inverse: #201f1f;
   --border-brand-default: #f5fcfa;
   --border-brand-focused: #f5fcfa;
-  --border-danger: #de2048;
+  --border-danger: #f97385;
   --border-info: #2b86ff;
   --border-warning: #f4922b;
   --border-success: #09b05f;
@@ -1154,9 +1175,12 @@
   --content-danger: #f97385;
   --content-danger-hover: #f14662;
   --content-danger-inverse: #ffffff;
+  --content-success: #3cec96;
+  --content-success-hover: #12d577;
+  --content-info: #53aaff;
+  --content-info-hover: #2b86ff;
   --content-decorative: #201f1f;
   --content-status: #201f1f;
-  --content-success: #09b05f;
   --decorative-neutral: #ebebea;
   --decorative-bleu-iceberg: #c7dbf0;
   --decorative-vert-foret: #d7f4e6;
@@ -1235,135 +1259,4 @@
   font-size: 20px;
   line-height: 28px;
   color: #21272A;
-}
-
-.storybook_icon {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 1rem;
-  padding-block: 1rem;
-}
-.storybook_icon .storybook_icon_icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 8px;
-  background-color: #FFE1E9;
-}
-.storybook_icon .storybook_icon_title {
-  text-align: center;
-  margin: 0;
-  font-feature-settings: "liga" off, "clig" off;
-  font-style: normal;
-  font-family: "Nunito";
-  font-weight: 600;
-  font-size: 24px;
-  line-height: 32px;
-}
-
-.storybook_usage {
-  padding-block: 1rem;
-}
-.storybook_usage .storybook_usage_title {
-  font-feature-settings: "liga" off, "clig" off;
-  font-style: normal;
-  font-family: "Nunito";
-  font-weight: 600;
-  font-size: 24px;
-  line-height: 32px;
-  border: none;
-  padding-bottom: 1rem;
-}
-.storybook_usage .storybook_usage_content {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 1rem;
-}
-.storybook_usage .storybook_usage_content .storybook_usage_item h4 {
-  margin: 0;
-  font-feature-settings: "liga" off, "clig" off;
-  font-style: normal;
-  font-family: "Nunito";
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 24px;
-  letter-spacing: -0.5px;
-  color: #21272A;
-}
-.storybook_usage .storybook_usage_content .storybook_usage_item p {
-  margin: 0;
-  font-feature-settings: "liga" off, "clig" off;
-  font-style: normal;
-  font-family: "Nunito";
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 24px;
-  letter-spacing: -0.5px;
-  color: #697077;
-}
-
-.storybook_utilisation_exemple {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  width: 25rem;
-  padding-block: 2rem;
-}
-.storybook_utilisation_exemple .storybook_utilisation_exemple_content_todo_true {
-  width: calc(100% - 3px);
-  height: 48px;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 0.5rem;
-  background-color: rgba(37, 162, 73, 0.1);
-  border-left: 3px solid #25A249;
-}
-.storybook_utilisation_exemple .storybook_utilisation_exemple_content_todo_true .storybook_utilisation_exemple_icon {
-  color: #25A249;
-  margin-left: 1rem;
-}
-.storybook_utilisation_exemple .storybook_utilisation_exemple_content_todo_true p {
-  font-feature-settings: "liga" off, "clig" off;
-  font-style: normal;
-  font-family: "Nunito";
-  font-weight: 600;
-  font-size: 20px;
-  line-height: 28px;
-  letter-spacing: -0.5px;
-  color: #21272A;
-}
-.storybook_utilisation_exemple .storybook_utilisation_exemple_content_todo_false {
-  width: calc(100% - 3px);
-  height: 48px;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 0.5rem;
-  background-color: rgba(218, 30, 40, 0.1);
-  border-left: 3px solid #DA1E28;
-}
-.storybook_utilisation_exemple .storybook_utilisation_exemple_content_todo_false .storybook_utilisation_exemple_icon {
-  color: #DA1E28;
-  margin-left: 1rem;
-}
-.storybook_utilisation_exemple .storybook_utilisation_exemple_content_todo_false p {
-  font-feature-settings: "liga" off, "clig" off;
-  font-style: normal;
-  font-family: "Nunito";
-  font-weight: 600;
-  font-size: 20px;
-  line-height: 28px;
-  letter-spacing: -0.5px;
-  color: #21272A;
-}
-.storybook_utilisation_exemple .storybook_utilisation_exemple_image {
-  width: 100%;
-  height: 250px;
 }
