@@ -17,6 +17,7 @@ import {
   getAutoPlacement,
   getCoordinates,
 } from "@design-system-rte/core/components/utils/auto-placement";
+import { ESCAPE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
 import { OverlayService } from "../../services/overlay.service";
 
@@ -66,6 +67,7 @@ export class PopoverDirective implements AfterViewInit, OnDestroy {
   ngOnDestroy() {
     window.removeEventListener("scroll", this.positionPopover.bind(this));
     document.removeEventListener("mousedown", this.handleClickAway.bind(this));
+    this.destroyPopover();
   }
 
   showPopover(): void {
@@ -75,6 +77,12 @@ export class PopoverDirective implements AfterViewInit, OnDestroy {
     this.popoverRef = this.overlayService.create(PopoverComponent, this.viewContainerRef);
     this.popoverRef!.instance.clickPrimaryButton.subscribe(() => this.handleClickPrimaryButton());
     this.popoverRef!.instance.clickSecondaryButton.subscribe(() => this.handleClickSecondaryButton());
+
+    this.popoverRef?.location.nativeElement.addEventListener("keydown", (event: KeyboardEvent) => {
+      if (event.key === ESCAPE_KEY) {
+        this.hidePopover();
+      }
+    });
 
     this.assignDirectiveToComponent();
     requestAnimationFrame(() => {
@@ -157,13 +165,15 @@ export class PopoverDirective implements AfterViewInit, OnDestroy {
     if (this.popoverRef) {
       this.popoverRef.setInput("isOpen", false);
 
-      setTimeout(() => {
-        if (this.popoverRef) {
-          this.popoverRef.destroy();
-          this.popoverRef = null;
-          this.overlayService.destroy();
-        }
-      }, 200);
+      setTimeout(() => this.destroyPopover(), 200);
+    }
+  }
+
+  private destroyPopover(): void {
+    if (this.popoverRef) {
+      this.popoverRef.destroy();
+      this.popoverRef = null;
+      this.overlayService.destroy();
     }
   }
 }
