@@ -5,22 +5,34 @@ export const getAutoPlacement = (
   castedElement: Element,
   defaultPosition: Exclude<Position, "auto">,
   offset: number = 0,
+  hasParent: boolean = false,
 ): Exclude<Position, "auto"> => {
-  const triggerParent = hostElement.parentElement;
-  if (!triggerParent) {
-    return defaultPosition;
-  }
+  let sides: Record<Exclude<Position, "auto">, boolean>;
   const triggerRect = hostElement.getBoundingClientRect();
-  const maxWidth = parseInt(getComputedStyle(castedElement).getPropertyValue("max-width"));
-  const maxHeight = parseInt(getComputedStyle(castedElement).getPropertyValue("max-height"));
+  if (hasParent) {
+    const triggerParent = hostElement.parentElement;
+    if (!triggerParent) {
+      return defaultPosition;
+    }
 
-  const parentRect = triggerParent.getBoundingClientRect();
-  const sides = {
-    top: triggerRect.top - parentRect.top > maxHeight + offset,
-    right: parentRect.right - triggerRect.right > maxWidth + offset,
-    bottom: parentRect.bottom - triggerRect.bottom >= maxHeight + offset,
-    left: triggerRect.left - parentRect.left > maxWidth + offset,
-  } as const;
+    const maxWidth = parseInt(getComputedStyle(castedElement).getPropertyValue("max-width"));
+    const maxHeight = parseInt(getComputedStyle(castedElement).getPropertyValue("max-height"));
+    const parentRect = triggerParent.getBoundingClientRect();
+    sides = {
+      top: triggerRect.top - parentRect.top > maxHeight + offset,
+      right: parentRect.right - triggerRect.right > maxWidth + offset,
+      bottom: parentRect.bottom - triggerRect.bottom >= maxHeight + offset,
+      left: triggerRect.left - parentRect.left > maxWidth + offset,
+    } as const;
+  } else {
+    const elementRect = castedElement.getBoundingClientRect();
+    sides = {
+      top: elementRect.height + offset < triggerRect.top,
+      right: elementRect.width + offset < window.innerWidth - triggerRect.right,
+      bottom: elementRect.height + offset < window.innerHeight - triggerRect.bottom,
+      left: elementRect.width + offset < triggerRect.left,
+    } as const;
+  }
 
   if (sides.top) return "top";
   if (sides.bottom) return "bottom";
