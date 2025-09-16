@@ -8,6 +8,7 @@
   [attr.data-alignment]="alignment()"
   [attr.data-open]="isOpen()"
   [style]="{ top: coordinates().top + 'px', left: coordinates().left + 'px' }"
+  (keydown)="handleKeydown($event)"
 >
   <div class="popoverInner">
     <div class="popoverContentContainer">
@@ -16,6 +17,7 @@
     </div>
     <div class="popoverButtonContainer">
       <rte-button
+        *ngIf="secondaryButtonLabel()"
         variant="secondary"
         size="m"
         [label]="secondaryButtonLabel() || ''"
