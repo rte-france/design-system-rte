@@ -45,7 +45,13 @@ const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
       if (isOpen && triggerRef.current && tooltipElement) {
         const computedPosition =
           position === "auto"
-            ? getAutoPlacement(triggerRef.current, tooltipElement!, "top", arrow ? TOOLTIP_GAP_ARROW : TOOLTIP_GAP)
+            ? getAutoPlacement(
+                triggerRef.current,
+                tooltipElement!,
+                "top",
+                arrow ? TOOLTIP_GAP_ARROW : TOOLTIP_GAP,
+                true,
+              )
             : position;
         const computedCoordinates = getCoordinates(
           computedPosition,
