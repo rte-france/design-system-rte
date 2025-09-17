@@ -62,11 +62,13 @@ export class PopoverDirective implements AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     window.addEventListener("scroll", this.positionPopover.bind(this));
     document.addEventListener("mousedown", this.handleClickAway.bind(this));
+    document.addEventListener("keydown", this.handleKeydown.bind(this));
   }
 
   ngOnDestroy() {
     window.removeEventListener("scroll", this.positionPopover.bind(this));
     document.removeEventListener("mousedown", this.handleClickAway.bind(this));
+    document.removeEventListener("keydown", this.handleKeydown.bind(this));
     this.destroyPopover();
   }
 
@@ -77,12 +79,6 @@ export class PopoverDirective implements AfterViewInit, OnDestroy {
     this.popoverRef = this.overlayService.create(PopoverComponent, this.viewContainerRef);
     this.popoverRef!.instance.clickPrimaryButton.subscribe(() => this.handleClickPrimaryButton());
     this.popoverRef!.instance.clickSecondaryButton.subscribe(() => this.handleClickSecondaryButton());
-
-    this.popoverRef?.location.nativeElement.addEventListener("keydown", (event: KeyboardEvent) => {
-      if (event.key === ESCAPE_KEY) {
-        this.hidePopover();
-      }
-    });
 
     this.assignDirectiveToComponent();
     requestAnimationFrame(() => {
@@ -97,6 +93,13 @@ export class PopoverDirective implements AfterViewInit, OnDestroy {
     if (elements.some((element) => !element)) return;
     const shouldIgnore = elements.some((element) => element.contains(event.target as Node));
     if (!shouldIgnore) {
+      this.hidePopover();
+    }
+  }
+
+  private handleKeydown(event: KeyboardEvent) {
+    if (event.key === ESCAPE_KEY) {
+      event.preventDefault();
       this.hidePopover();
     }
   }
