@@ -1,4 +1,7 @@
-import { TESTING_ENTER_KEY } from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
+import {
+  TESTING_ENTER_KEY,
+  TESTING_ESCAPE_KEY,
+} from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
 import { Meta, StoryObj } from "@storybook/react";
 import { expect, userEvent, waitFor, within } from "@storybook/test";
 
@@ -148,6 +151,7 @@ export const KeyboardInteraction: Story = {
     await userEvent.tab();
     await userEvent.keyboard(TESTING_ENTER_KEY);
     const popover = within(document.body).getByRole("dialog");
+    // expect(popover).toBeVisible();
     await waitFor(() => expect(popover).toBeVisible());
 
     await userEvent.tab();
@@ -160,5 +164,8 @@ export const KeyboardInteraction: Story = {
 
     await userEvent.tab();
     expect(closeButton).toHaveFocus();
+
+    await userEvent.keyboard(TESTING_ESCAPE_KEY);
+    await waitFor(() => expect(popover).not.toBeVisible());
   },
 };

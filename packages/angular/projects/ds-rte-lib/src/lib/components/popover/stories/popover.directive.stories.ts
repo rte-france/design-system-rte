@@ -1,4 +1,7 @@
-import { TESTING_ENTER_KEY } from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
+import {
+  TESTING_ENTER_KEY,
+  TESTING_ESCAPE_KEY,
+} from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
 import { Meta, StoryObj } from "@storybook/angular";
 import { userEvent, waitFor, within, expect } from "@storybook/test";
 
@@ -86,7 +89,6 @@ export const Default: Story = {
             [rtePopoverPrimaryButtonLabel]="rtePopoverPrimaryButtonLabel"
             [rtePopoverSecondaryButtonLabel]="rtePopoverSecondaryButtonLabel"
             [rtePopoverTitle]="rtePopoverTitle"
-            [rtePopoverContent]="rtePopoverContent"
             (clickSecondaryButton)="clickSecondaryButton()"
             (clickPrimaryButton)="clickPrimaryButton()"
         `),
@@ -114,7 +116,6 @@ export const WithTwoButtons: Story = {
             [rtePopoverPrimaryButtonLabel]="rtePopoverPrimaryButtonLabel"
             [rtePopoverSecondaryButtonLabel]="rtePopoverSecondaryButtonLabel"
             [rtePopoverTitle]="rtePopoverTitle"
-            [rtePopoverContent]="rtePopoverContent"
             (clickSecondaryButton)="clickSecondaryButton()"
             (clickPrimaryButton)="clickPrimaryButton()"
         `),
@@ -140,7 +141,6 @@ export const WithoutTitle: Story = {
             [rtePopoverPrimaryButtonLabel]="rtePopoverPrimaryButtonLabel"
             [rtePopoverSecondaryButtonLabel]="rtePopoverSecondaryButtonLabel"
             [rtePopoverTitle]="rtePopoverTitle"
-            [rtePopoverContent]="rtePopoverContent"
             (clickSecondaryButton)="clickSecondaryButton()"
             (clickPrimaryButton)="clickPrimaryButton()"
         `),
@@ -167,7 +167,6 @@ export const WithoutArrow: Story = {
             [rtePopoverPrimaryButtonLabel]="rtePopoverPrimaryButtonLabel"
             [rtePopoverSecondaryButtonLabel]="rtePopoverSecondaryButtonLabel"
             [rtePopoverTitle]="rtePopoverTitle"
-            [rtePopoverContent]="rtePopoverContent"
             (clickSecondaryButton)="clickSecondaryButton()"
             (clickPrimaryButton)="clickPrimaryButton()"
         `),
@@ -196,7 +195,6 @@ export const KeyboardInteraction: Story = {
             [rtePopoverPrimaryButtonLabel]="rtePopoverPrimaryButtonLabel"
             [rtePopoverSecondaryButtonLabel]="rtePopoverSecondaryButtonLabel"
             [rtePopoverTitle]="rtePopoverTitle"
-            [rtePopoverContent]="rtePopoverContent"
             (clickSecondaryButton)="clickSecondaryButton()"
             (clickPrimaryButton)="clickPrimaryButton()"
         `),
@@ -217,5 +215,8 @@ export const KeyboardInteraction: Story = {
 
     await userEvent.tab();
     expect(closeButton).toHaveFocus();
+
+    await userEvent.keyboard(TESTING_ESCAPE_KEY);
+    await waitFor(() => expect(popover).not.toBeVisible());
   },
 };

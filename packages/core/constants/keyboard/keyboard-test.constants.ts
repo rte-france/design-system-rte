@@ -6,10 +6,12 @@ import {
   DELETE_KEY,
   ARROW_RIGHT_KEY,
   ARROW_LEFT_KEY,
+  ESCAPE_KEY,
 } from "./keyboard.constants";
 
 export const TESTING_SPACE_KEY = `{${SPACE_KEY}}`;
 export const TESTING_ENTER_KEY = `{${ENTER_KEY}}`;
+export const TESTING_ESCAPE_KEY = `{${ESCAPE_KEY}}`;
 export const TESTING_DOWN_KEY = `{${DOWN_KEY}}`;
 export const TESTING_BACKSPACE_KEY = `{${BACKSPACE_KEY}}`;
 export const TESTING_DELETE_KEY = `{${DELETE_KEY}}`;
