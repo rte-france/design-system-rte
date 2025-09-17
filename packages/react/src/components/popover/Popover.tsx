@@ -3,7 +3,7 @@ import { PopoverProps as CorePopoverProps } from "@design-system-rte/core/compon
 import {
   getAutoAlignment,
   getAutoPlacement,
-  getCoordinates
+  getCoordinates,
 } from "@design-system-rte/core/components/utils/auto-placement";
 import { ENTER_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
@@ -44,7 +44,7 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
       onClickSecondaryButton,
       ...props
     },
-    ref
+    ref,
   ) => {
     const triggerRef = useRef<HTMLDivElement>(null);
     const [popoverElement, setPopoverElement] = useState<HTMLDivElement | null>(null);
@@ -67,7 +67,7 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
         triggerRef.current,
         popoverElement,
         arrow ? POPOVER_GAP_ARROW : POPOVER_GAP,
-        computedAlignment
+        computedAlignment,
       );
       setAutoAlignment(computedAlignment);
       setCoordinates(computedCoordinates);
@@ -104,7 +104,7 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
           });
         }
       },
-      [ref, isOpen, updatePopoverPosition]
+      [ref, isOpen, updatePopoverPosition],
     );
 
     useEffect(() => {
@@ -198,7 +198,7 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
         )}
       </div>
     );
-  }
+  },
 );
 
 export default Popover;
