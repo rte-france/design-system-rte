@@ -13,6 +13,7 @@ import {
   SegmentedControl,
   Breadcrumbs,
   Banner,
+  Popover
 } from "@design-system-rte/react";
 import "./App.css";
 import { useState } from "react";
@@ -33,7 +34,7 @@ function App() {
   };
 
   const handleSegmentedControlClick = (
-    event: React.MouseEvent<HTMLDivElement> | React.KeyboardEvent<HTMLDivElement>,
+    event: React.MouseEvent<HTMLDivElement> | React.KeyboardEvent<HTMLDivElement>
   ) => {
     const newValue = event.currentTarget.getAttribute("id") || "";
     setSegmentedControlValue(newValue);
@@ -175,12 +176,13 @@ function App() {
           options={[
             { id: "label-1", label: "Label 1" },
             { id: "label-2", label: "Label 2" },
-            { id: "label-3", label: "Label 3" },
+            { id: "label-3", label: "Label 3" }
           ]}
           selected={segmentedControlValue}
           onClick={handleSegmentedControlClick}
         />
       </div>
+      <hr />
       <div>
         <h3>Breadcrumbs</h3>
         <Breadcrumbs
@@ -188,10 +190,19 @@ function App() {
             { link: "/", label: "Home" },
             { link: "/products", label: "Products" },
             { link: "/electronics", label: "Electronics" },
-            { link: "/smartphones", label: "Smartphones" },
+            { link: "/smartphones", label: "Smartphones" }
           ]}
         />
       </div>
+      <hr />
+      <Popover
+        content="This is the popover content"
+        primaryButtonLabel="Confirm"
+        secondaryButtonLabel="Cancel"
+        title="Popover Title"
+      >
+        <Button label="Open Popover" />
+      </Popover>
     </div>
   );
 }
