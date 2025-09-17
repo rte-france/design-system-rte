@@ -3,7 +3,7 @@ import { PopoverProps as CorePopoverProps } from "@design-system-rte/core/compon
 import {
   getAutoAlignment,
   getAutoPlacement,
-  getCoordinates,
+  getCoordinates
 } from "@design-system-rte/core/components/utils/auto-placement";
 import { ENTER_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
@@ -19,7 +19,8 @@ import { concatClassNames } from "../utils";
 
 import style from "./Popover.module.scss";
 
-interface PopoverProps extends CorePopoverProps, Omit<React.HTMLAttributes<HTMLDivElement>, "children"> {
+interface PopoverProps extends CorePopoverProps, Omit<React.HTMLAttributes<HTMLDivElement>, "children" | "content"> {
+  content: string;
   children: React.ReactNode;
   triggerStyles?: React.CSSProperties;
 }
@@ -37,11 +38,13 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
       secondaryButtonLabel,
       className = "",
       triggerStyles,
+      closeOnClickOutside = true,
+      closeOnEscape = true,
       onClickPrimaryButton,
       onClickSecondaryButton,
       ...props
     },
-    ref,
+    ref
   ) => {
     const triggerRef = useRef<HTMLDivElement>(null);
     const [popoverElement, setPopoverElement] = useState<HTMLDivElement | null>(null);
@@ -64,16 +67,28 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
         triggerRef.current,
         popoverElement,
         arrow ? POPOVER_GAP_ARROW : POPOVER_GAP,
-        computedAlignment,
+        computedAlignment
       );
       setAutoAlignment(computedAlignment);
       setCoordinates(computedCoordinates);
       setAutoPosition(computedPosition);
     }, [position, arrow, popoverElement, alignment]);
 
+    const handleClickAway = useCallback(() => {
+      if (closeOnClickOutside) {
+        setIsOpen(false);
+      }
+    }, [closeOnClickOutside]);
+
+    const handleKeydownEscape = useCallback(() => {
+      if (closeOnEscape) {
+        setIsOpen(false);
+      }
+    }, [closeOnEscape]);
+
     useFocusTrap(popoverElement!, shouldRender);
-    useClickAway(() => setIsOpen(false), triggerRef.current!, popoverElement!);
-    useKeydownEscape(() => setIsOpen(false));
+    useClickAway(handleClickAway, triggerRef.current!, popoverElement!);
+    useKeydownEscape(handleKeydownEscape);
     useScrollEvent(updatePopoverPosition);
 
     const popoverCallbackRef = useCallback(
@@ -89,7 +104,7 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
           });
         }
       },
-      [ref, isOpen, updatePopoverPosition],
+      [ref, isOpen, updatePopoverPosition]
     );
 
     useEffect(() => {
@@ -183,7 +198,7 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
         )}
       </div>
     );
-  },
+  }
 );
 
 export default Popover;

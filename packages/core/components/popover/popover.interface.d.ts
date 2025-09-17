@@ -3,12 +3,14 @@ export type PopoverAlignment = "start" | "center" | "end";
 
 export interface PopoverProps {
   primaryButtonLabel: string;
+  content: string;
   position?: PopoverPosition;
   alignment?: PopoverAlignment;
-  content?: string;
   arrow?: boolean;
   title?: string;
   secondaryButtonLabel?: string;
+  closeOnClickOutside?: boolean;
+  closeOnEscape?: boolean;
   onClickPrimaryButton?: () => void;
   onClickSecondaryButton?: () => void;
 }

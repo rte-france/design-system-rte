@@ -37,6 +37,8 @@ export class PopoverDirective implements AfterViewInit, OnDestroy {
   readonly rtePopoverSecondaryButtonLabel = input<string>();
   readonly clickPrimaryButton = output<void>();
   readonly clickSecondaryButton = output<void>();
+  readonly rtePopoverCloseOnClickOutside = input<boolean>(true);
+  readonly rtePopoverCloseOnEscape = input<boolean>(true);
 
   private popoverRef: ComponentRef<PopoverComponent> | null = null;
   private hostElement: HTMLElement;
@@ -92,13 +94,13 @@ export class PopoverDirective implements AfterViewInit, OnDestroy {
     const elements = [this.hostElement, this.popoverRef?.location.nativeElement] as HTMLElement[];
     if (elements.some((element) => !element)) return;
     const shouldIgnore = elements.some((element) => element.contains(event.target as Node));
-    if (!shouldIgnore) {
+    if (!shouldIgnore && this.rtePopoverCloseOnClickOutside()) {
       this.hidePopover();
     }
   }
 
   private handleKeydown(event: KeyboardEvent) {
-    if (event.key === ESCAPE_KEY) {
+    if (event.key === ESCAPE_KEY && this.rtePopoverCloseOnEscape()) {
       event.preventDefault();
       this.hidePopover();
     }
