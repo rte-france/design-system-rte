@@ -12,6 +12,7 @@ import Icon from "./components/icon/Icon.tsx";
 import IconButton from "./components/iconButton/IconButton.tsx";
 import IconButtonToggle from "./components/iconButtonToggle/IconButtonToggle.tsx";
 import Link from "./components/link/Link.tsx";
+import Popover from "./components/popover/Popover.tsx";
 import RadioButton from "./components/radioButton/RadioButton.tsx";
 import RadioButtonGroup from "./components/radioButtonGroup/RadioButtonGroup.tsx";
 import SegmentedControl from "./components/segmentedControl/SegmentedControl.tsx";
@@ -43,4 +44,5 @@ export {
   SegmentedControl,
   Breadcrumbs,
   Banner,
+  Popover,
 };
