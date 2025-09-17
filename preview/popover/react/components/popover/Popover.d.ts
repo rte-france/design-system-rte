@@ -1,5 +1,6 @@
 import { PopoverProps as CorePopoverProps } from '../../../../core/components/popover/popover.interface';
-interface PopoverProps extends CorePopoverProps, Omit<React.HTMLAttributes<HTMLDivElement>, "children"> {
+interface PopoverProps extends CorePopoverProps, Omit<React.HTMLAttributes<HTMLDivElement>, "children" | "content"> {
+    content: string;
     children: React.ReactNode;
     triggerStyles?: React.CSSProperties;
 }
