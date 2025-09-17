@@ -15,6 +15,7 @@ import {
   SwitchComponent,
   SegmentedControlComponent,
   BreadcrumbsComponent,
+  PopoverDirective,
 } from "@design-system-rte/angular";
 
 @Component({
@@ -36,6 +37,7 @@ import {
     SwitchComponent,
     SegmentedControlComponent,
     BreadcrumbsComponent,
+    PopoverDirective,
   ],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",
