@@ -5,12 +5,13 @@ import {
   getAutoPlacement,
   getCoordinates,
 } from "@design-system-rte/core/components/utils/auto-placement";
-import { ESCAPE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
+import { ENTER_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
 
-import { useClickAway } from "../../hooks/hooks/useClickAway";
-import { useFocusTrap } from "../../hooks/hooks/useFocusTrap";
 import useAnimatedMount from "../../hooks/useAnimatedMount";
+import { useClickAway } from "../../hooks/useClickAway";
+import { useKeydownEscape } from "../../hooks/useCloseOnEscape";
+import { useFocusTrap } from "../../hooks/useFocusTrap";
 import { useScrollEvent } from "../../hooks/useScrollEvent";
 import Button from "../button/Button";
 import { Overlay } from "../overlay/Overlay";
@@ -72,6 +73,7 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
 
     useFocusTrap(popoverElement!, shouldRender);
     useClickAway(() => setIsOpen(false), triggerRef.current!, popoverElement!);
+    useKeydownEscape(() => setIsOpen(false));
     useScrollEvent(updatePopoverPosition);
 
     const popoverCallbackRef = useCallback(
@@ -100,18 +102,17 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
     }, [isOpen, popoverElement, updatePopoverPosition]);
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
-      if (e.key === ESCAPE_KEY) {
-        setIsOpen(false);
+      if (e.key === ENTER_KEY) {
+        e.preventDefault();
+        if (!isOpen) {
+          setIsOpen(true);
+        }
       }
     };
 
-    const handleTriggerInteraction = (e: React.MouseEvent | React.KeyboardEvent) => {
-      if (
-        !isOpen &&
-        ((e.type === "click" && (e as React.MouseEvent).button === 0) ||
-          (e.type === "keydown" &&
-            ((e as React.KeyboardEvent).key === "Enter" || (e as React.KeyboardEvent).key === " ")))
-      ) {
+    const handleOnClick = (e: React.MouseEvent) => {
+      if (!isOpen) {
+        e.preventDefault();
         setIsOpen(true);
       }
     };
@@ -134,8 +135,8 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
       <div
         ref={triggerRef}
         className={concatClassNames(style.popoverTrigger)}
-        onClick={handleTriggerInteraction}
-        onKeyUp={handleTriggerInteraction}
+        onClick={handleOnClick}
+        onKeyDown={handleKeyDown}
         style={triggerStyles}
       >
         {children}
@@ -150,7 +151,6 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
               data-position={autoPosition}
               data-alignment={autoAlignment}
               data-open={(positionReady && isAnimating) || undefined}
-              onKeyDown={handleKeyDown}
               style={{ top: `${coordinates.top}px`, left: `${coordinates.left}px` }}
               {...props}
             >

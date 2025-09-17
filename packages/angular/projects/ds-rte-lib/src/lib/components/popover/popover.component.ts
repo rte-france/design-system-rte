@@ -2,7 +2,7 @@ import { CommonModule } from "@angular/common";
 import { Component, ElementRef, inject, input, output, AfterViewInit } from "@angular/core";
 import { PopoverAlignment, PopoverPosition } from "@design-system-rte/core/components/popover/popover.interface";
 import { FOCUSABLE_ELEMENTS_QUERY } from "@design-system-rte/core/constants/dom/dom.constants";
-import { ESCAPE_KEY, TAB_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
+import { TAB_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
 import { ButtonComponent } from "../button/button.component";
 
@@ -26,8 +26,6 @@ export class PopoverComponent implements AfterViewInit {
 
   readonly clickPrimaryButton = output<void>();
   readonly clickSecondaryButton = output<void>();
-
-  readonly closePopover = output<void>();
 
   private element: HTMLElement;
 
@@ -55,8 +53,6 @@ export class PopoverComponent implements AfterViewInit {
           first.focus();
         }
       }
-    } else if (event.key === ESCAPE_KEY) {
-      this.closePopover.emit();
     }
   }
 
