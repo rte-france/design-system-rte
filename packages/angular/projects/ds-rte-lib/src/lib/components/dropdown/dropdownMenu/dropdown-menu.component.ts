@@ -28,7 +28,7 @@ export class DropdownMenuComponent implements AfterViewInit, OnDestroy {
 
   readonly vcr = viewChild("container", { read: ViewContainerRef });
   readonly dropdownRef = viewChild<ElementRef>("menu");
-  private pendingItems?: ReadonlyArray<DropdownItemComponent>;
+  private pendingItems: ReadonlyArray<DropdownItemComponent> | null = null;
   private dropdownService: DropdownService;
   readonly childrenDropdownId = input<string>("");
 
@@ -52,7 +52,7 @@ export class DropdownMenuComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     if (this.pendingItems) {
       this.renderItems(this.pendingItems);
-      this.pendingItems = undefined;
+      this.pendingItems = null;
       this.dropdownService.open(this.dropdownId);
     }
   }

@@ -1,4 +1,3 @@
-// overlay.service.ts
 import { Injectable, ComponentRef, Type, ViewContainerRef } from "@angular/core";
 
 @Injectable({ providedIn: "root" })
