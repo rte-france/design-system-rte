@@ -12,6 +12,7 @@ import {
   Switch,
   SegmentedControl,
   Breadcrumbs,
+  Popover,
 } from "@design-system-rte/react";
 import "./App.css";
 import { useState } from "react";
@@ -151,6 +152,7 @@ function App() {
           onClick={handleSegmentedControlClick}
         />
       </div>
+      <hr />
       <div>
         <h3>Breadcrumbs</h3>
         <Breadcrumbs
@@ -162,6 +164,15 @@ function App() {
           ]}
         />
       </div>
+      <hr />
+      <Popover
+        content="This is the popover content"
+        primaryButtonLabel="Confirm"
+        secondaryButtonLabel="Cancel"
+        title="Popover Title"
+      >
+        <Button label="Open Popover" />
+      </Popover>
     </div>
   );
 }

@@ -6,3 +6,4 @@ export const BACKSPACE_KEY = "Backspace";
 export const DELETE_KEY = "Delete";
 export const ARROW_LEFT_KEY = "ArrowLeft";
 export const ARROW_RIGHT_KEY = "ArrowRight";
+export const ESCAPE_KEY = "Escape";
