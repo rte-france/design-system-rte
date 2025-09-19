@@ -24,7 +24,6 @@ import { DropdownMenuComponent } from "./dropdownMenu/dropdown-menu.component";
   templateUrl: "./dropdown.component.html",
   styleUrl: "./dropdown.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
-  exportAs: "rteDropdown",
 })
 export class DropdownComponent implements AfterViewInit, OnDestroy {
   readonly autoclose = input<boolean>(true);
@@ -133,3 +132,33 @@ export class DropdownComponent implements AfterViewInit, OnDestroy {
     }
   };
 }
+
+
+
+/*
+
+<button rteDropdownTrigger="fishMenu"/>
+
+
+
+
+<div rteDropdown>
+  <rte-dropdown-menu>
+    <rte-dropdown-item label="Fish" />
+    <rte-dropdown-item rteDropdown label="Bird">
+      <rte-dropdown-item label="Bird" />
+      <rte-dropdown-item label="Bird" />
+      <rte-dropdown-item label="Bird" />
+      <rte-dropdown-item label="Bird" />
+      <rte-dropdown-item label="Bird" />
+    </rte-dropdown-item>
+    <rte-dropdown-item label="Cat" />
+  </rte-dropdown-menu>
+</div>
+
+
+
+
+
+
+*/
