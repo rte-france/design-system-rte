@@ -1,4 +1,3 @@
-// overlay.service.ts
 import { Injectable, ComponentRef, Type, ViewContainerRef } from "@angular/core";
 
 @Injectable({ providedIn: "root" })
@@ -15,13 +14,6 @@ export class OverlayService {
       if (!this.overlayRoot) {
         this.overlayRoot = document.createElement("div");
         this.overlayRoot.id = "overlay-root";
-        this.overlayRoot.style.position = "fixed";
-        this.overlayRoot.style.top = "0";
-        this.overlayRoot.style.left = "0";
-        this.overlayRoot.style.width = "100%";
-        this.overlayRoot.style.height = "100%";
-        this.overlayRoot.style.pointerEvents = "none";
-        this.overlayRoot.style.zIndex = "1000";
         document.body.appendChild(this.overlayRoot);
       }
     }
