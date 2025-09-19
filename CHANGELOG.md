@@ -504,6 +504,12 @@
 - add border-divider token color
 # Design Docs
 
+## 0.7.0
+
+#### Minor Changes
+
+- replace png images without emojis for svg files for storybook
+
 ## 0.6.1
 
 ### Badge
