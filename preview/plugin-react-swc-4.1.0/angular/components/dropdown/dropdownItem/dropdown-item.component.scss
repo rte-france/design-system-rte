@@ -1,0 +1,44 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+.rte-dropdown-item {
+  @include typography-text-m-regular;
+  color: var(--content-secondary);
+  display: flex;
+  height: 40px;
+  padding: $positive-spacing_100 $positive-spacing_150;
+  align-items: center;
+  gap: $positive-spacing_150;
+  align-self: stretch;
+  cursor: pointer;
+  box-sizing: border-box;
+
+  span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &:hover {
+    background-color: var(--background-hover);
+  }
+
+  &[data-active='true'] {
+    background-color: var(--background-brand-inverse-pressed);
+  }
+
+  &[data-disabled='true'] {
+    cursor: not-allowed;
+    color: var(--content-disabled);
+    background: var(--background-disabled);
+  }
+
+  &:focus-visible {
+    outline: none;
+    background-color: var(--background-hover);
+  }
+}
+
+.dropdown-divider {
+  width: 100%;
+  padding: $positive-spacing_100 0;
+}
