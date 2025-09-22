@@ -1,12 +1,21 @@
 import fs from "fs";
 import path from "path";
 
-import { buildScssVariable, generateScssFile, themesOutputDir, tokensOutputDir, TokenValue, UNIT } from "./common";
+import {
+  buildScssFileName,
+  buildScssVariable,
+  generateScssFile,
+  themesOutputDir,
+  tokensOutputDir,
+  TokenValue,
+  UNIT,
+} from "./common";
 import { ColorMode, ColorToken, extractColors } from "./tokens-generators/colors";
 import { extractLayout, LayoutToken } from "./tokens-generators/layout";
 import { extractOpacity, OpacityToken } from "./tokens-generators/opacity";
 import { extractShadows, ShadowToken } from "./tokens-generators/shadows";
 import { extractTypography, TypographyToken } from "./tokens-generators/typography";
+import { generateZIndexTokensFile } from "./tokens-generators/zIndex";
 
 export enum Collection {
   COLORS = "Semantic : Colors",
@@ -110,6 +119,8 @@ export function generateTokensScssFiles(json: TokenItem[]): void {
         break;
     }
   }
+
+  generateZIndexTokensFile();
 }
 
 function extractDefault(variables: DefaultToken): string {
@@ -121,8 +132,4 @@ function extractDefault(variables: DefaultToken): string {
     }
   }
   return scss;
-}
-
-function buildScssFileName(collection: string): string {
-  return `_${collection.toLowerCase()}.scss`;
 }
