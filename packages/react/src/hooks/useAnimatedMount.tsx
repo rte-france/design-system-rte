@@ -2,23 +2,25 @@ import { useState, useEffect } from "react";
 
 const useAnimatedMount = (show: boolean, animationDuration = 300) => {
   const [shouldRender, setShouldRender] = useState(show);
-  const [isAnimating, setIsAnimating] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(show);
 
   useEffect(() => {
-    if (show && !shouldRender) {
-      setShouldRender(true);
-      requestAnimationFrame(() => {
-        setIsAnimating(true);
-      });
-    } else if (!show && shouldRender) {
+    if (show) {
+      if (!shouldRender) {
+        setShouldRender(true);
+        setIsAnimating(false);
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => setIsAnimating(true));
+        });
+      }
+    } else {
       setIsAnimating(false);
       const timer = setTimeout(() => {
         setShouldRender(false);
       }, animationDuration);
-
       return () => clearTimeout(timer);
     }
-  }, [show, shouldRender, animationDuration]);
+  }, [show, animationDuration, shouldRender]);
 
   return {
     shouldRender,
