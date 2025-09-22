@@ -26,3 +26,7 @@ export function buildScssVariable(variableName: string[], value: string): string
 export function generateScssFile(scss: string, filePath: string) {
   fs.writeFileSync(filePath, scss);
 }
+
+export function buildScssFileName(collection: string): string {
+  return `_${collection.toLowerCase()}.scss`;
+}
