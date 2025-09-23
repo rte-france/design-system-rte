@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunk_design_system_rte_angular_builder=self.webpackChunk_design_system_rte_angular_builder||[]).push([[47975],{"./projects/ds-rte-lib/src/lib/assets/icons/trending_up.svg":(module,__unused_webpack_exports,__webpack_require__)=>{module.exports=__webpack_require__.p+"static/media/trending_up.fe04725b.svg"}}]);
