@@ -1,6 +1,6 @@
 @use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
 
-.banner-container {
+.rte-banner-container {
   display: flex;
   box-sizing: border-box;
   width: 100%;
@@ -20,21 +20,26 @@
   transition: opacity 200ms ease, transform 200ms ease;
   z-index: $level-1;
 
-  &[data-type='alert'] {
+  &.alert {
     background: var(--background-danger-default);
     color: var(--content-danger);
   }
 
-  &[data-position='overlay'] {
+  &.overlay {
     position: fixed;
   }
 
-  &[data-open='true'] {
+  &.open {
     opacity: 1;
     transform: translateY(0);
   }
 
-  .banner {
+  &.close {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  .rte-banner {
     display: flex;
     padding: $positive-spacing_200;
     align-items: flex-start;
@@ -46,7 +51,7 @@
 
     background-color: var(--background-default, #FFF);
 
-    .banner-icon {
+    .rte-banner-icon {
       display: flex;
       padding: $positive-spacing_0 $positive-spacing_100 $positive-spacing_0 $positive-spacing_200;
       justify-content: center;
@@ -59,7 +64,7 @@
       color: var(--content-secondary);
     }
 
-    .banner-content {
+    .rte-banner-content {
       display: flex;
       padding: $positive-spacing_0 $positive-spacing_200;
       flex-direction: column;
@@ -69,11 +74,11 @@
       border-radius: $radius-none;
       opacity: $opacity-100;
 
-      .banner-title {
+      .rte-banner-title {
         @include typography-heading-s;
       }
 
-      .banner-message {
+      .rte-banner-message {
         @include typography-text-s;
         color: var(--content-secondary);
         display: flex;
@@ -83,10 +88,14 @@
         justify-content: space-between;
         width: 100%;
 
-        .banner-action-button {
+        .rte-banner-action-button {
           width: max-content;
         }
       }
+    }
+
+    .rte-banner-close-icon {
+      color: var(--content-secondary);
     }
   }
 }

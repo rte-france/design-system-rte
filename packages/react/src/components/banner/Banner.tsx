@@ -1,3 +1,4 @@
+import { BannerProps as CoreBannerProps } from "@design-system-rte/core/components/banner/banner.interface";
 import { forwardRef } from "react";
 
 import useAnimatedMount from "../../hooks/useAnimatedMount";
@@ -8,18 +9,7 @@ import { concatClassNames } from "../utils";
 
 import style from "./Banner.module.scss";
 
-interface BannerProps extends React.HTMLAttributes<HTMLDivElement> {
-  type: "default" | "alert";
-  position?: "overlay" | "push";
-  title?: string;
-  message?: string;
-  closable?: boolean;
-  showIcon?: boolean;
-  onClose?: () => void;
-  actionCallback?: () => void;
-  actionLabel?: string;
-  isOpen?: boolean;
-}
+interface BannerProps extends CoreBannerProps, React.HTMLAttributes<HTMLDivElement> {}
 
 const Banner = forwardRef<HTMLDivElement, BannerProps>(
   (
@@ -51,8 +41,6 @@ const Banner = forwardRef<HTMLDivElement, BannerProps>(
       onClose?.();
     };
 
-    console.log({ isOpen, shouldRender, isAnimating });
-
     return (
       shouldRender && (
         <section
@@ -73,20 +61,15 @@ const Banner = forwardRef<HTMLDivElement, BannerProps>(
             <div className={style["banner-content"]}>
               <span className={style["banner-title"]}>{title}</span>
               <div className={style["banner-message"]}>
-                <p>{message}</p>
+                <span>{message}</span>
                 {actionCallback && actionLabel && (
-                  <Button
-                    label={actionLabel}
-                    className={style["banner-action-button"]}
-                    onClick={actionCallback}
-                    variant="text"
-                  />
+                  <Button label={actionLabel} onClick={actionCallback} variant="neutral" aria-label={actionLabel} />
                 )}
               </div>
             </div>
             {closable && (
               <div className={style["banner-close-icon"]}>
-                <IconButton variant="transparent" name="close" onClick={handleOnClose} />
+                <IconButton variant="neutral" name="close" onClick={handleOnClose} aria-label="close banner" />
               </div>
             )}
           </div>
