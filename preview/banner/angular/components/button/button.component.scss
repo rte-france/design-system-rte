@@ -1,10 +1,14 @@
 @use '@design-system-rte/core/design-tokens/main.scss' as *;
 
+:host {
+    display: inline-flex;
+    flex-shrink: 0;
+}
+
 .rte-button {
     align-items: center;
     cursor: pointer;
     display: inline-flex;
-    flex-shrink: 0;
     justify-content: center;
 
     &:focus-visible {
