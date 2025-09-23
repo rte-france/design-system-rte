@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { within, userEvent, waitFor, expect } from "@storybook/test";
 import { useState } from "react";
 
-import Button from "../button/Button";
-import Switch from "../switch/Switch";
-
-import Banner from "./Banner";
+import Button from "../../button/Button";
+import Switch from "../../switch/Switch";
+import Banner from "../Banner";
 
 const meta = {
   title: "Banner",
@@ -82,25 +82,11 @@ export const Closable: Story = {
 export const WithAction: Story = {
   args: {
     ...Default.args,
-    closable: true,
     actionLabel: "Voir les détails",
     showIcon: true,
     actionCallback: () => {
       console.log("Action button clicked");
     },
-  },
-  render: (args) => {
-    const [showBanner, setShowBanner] = useState(false);
-    return (
-      <div>
-        <Banner {...args} onClose={() => setShowBanner(false)} isOpen={showBanner} />
-        <Button
-          label={showBanner ? "Hide banner" : "Show banner"}
-          onClick={() => setShowBanner((prev) => !prev)}
-          style={{ marginTop: "16px" }}
-        />
-      </div>
-    );
   },
 };
 
@@ -113,15 +99,7 @@ export const Overlay: Story = {
     const [showBanner, setShowBanner] = useState(false);
     const [isOverlay, setIsOverlay] = useState(true);
     return (
-      <div
-        style={{
-          height: "1300px",
-          boxSizing: "border-box",
-          overflow: "auto",
-          borderRadius: "8px",
-          width: "100%",
-        }}
-      >
+      <>
         <Banner
           {...args}
           showIcon
@@ -144,18 +122,55 @@ export const Overlay: Story = {
             onChange={() => setIsOverlay((prev) => !prev)}
           />
           <div style={{ width: "100%", display: "flex", gap: "16px", flexWrap: "wrap" }}>
-            <div style={{ width: "200px", height: "300px", backgroundColor: "grey" }}>Content</div>
-            <div style={{ width: "400px", height: "300px", backgroundColor: "grey" }}>Content</div>
-            <div style={{ width: "200px", height: "600pxpx", backgroundColor: "grey" }}></div>
-            <div style={{ width: "400px", height: "300px", backgroundColor: "grey" }}>Content</div>
-            <div style={{ width: "200px", height: "300px", backgroundColor: "grey" }}>Content</div>
-            <div style={{ width: "200px", height: "600pxpx", backgroundColor: "grey" }}></div>
-            <div style={{ width: "200px", height: "300px", backgroundColor: "grey" }}>Content</div>
-            <div style={{ width: "200px", height: "600pxpx", backgroundColor: "grey" }}></div>
-            <div style={{ width: "400px", height: "300px", backgroundColor: "grey" }}>Content</div>
+            <div style={{ width: "200px", height: "300px", backgroundColor: "#e1e1e0" }}></div>
+            <div style={{ width: "400px", height: "300px", backgroundColor: "#e1e1e0" }}></div>
+            <div style={{ width: "200px", height: "300px", backgroundColor: "#e1e1e0" }}></div>
+            <div style={{ width: "400px", height: "300px", backgroundColor: "#e1e1e0" }}></div>
+            <div style={{ width: "200px", height: "300px", backgroundColor: "#e1e1e0" }}></div>
+            <div style={{ width: "200px", height: "300px", backgroundColor: "#e1e1e0" }}></div>
+            <div style={{ width: "200px", height: "300px", backgroundColor: "#e1e1e0" }}></div>
+            <div style={{ width: "200px", height: "300px", backgroundColor: "#e1e1e0" }}></div>
+            <div style={{ width: "400px", height: "300px", backgroundColor: "#e1e1e0" }}></div>
           </div>
         </div>
-      </div>
+      </>
     );
+  },
+};
+
+export const KeyboardInteration: Story = {
+  args: {
+    ...Default.args,
+    closable: true,
+    isOpen: true,
+    actionLabel: "Voir les détails",
+    actionCallback: () => {
+      console.log("Action button clicked");
+    },
+  },
+  render: (args) => {
+    const [showBanner, setShowBanner] = useState(true);
+    return (
+      <>
+        <Banner {...args} showIcon closable onClose={() => setShowBanner(false)} isOpen={showBanner} />
+        <Button
+          label={showBanner ? "Hide banner" : "Show banner"}
+          onClick={() => setShowBanner((prev) => !prev)}
+          style={{ marginTop: "16px" }}
+        />
+      </>
+    );
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const banner = await canvas.getByRole("status");
+    const actionButton = await within(banner).getAllByRole("button")[0];
+    const closeButton = await within(banner).getAllByRole("button")[1];
+    await userEvent.tab();
+    expect(actionButton).toHaveFocus();
+    await userEvent.tab();
+    expect(closeButton).toHaveFocus();
+    await userEvent.keyboard("{Enter}");
+    await waitFor(() => expect(banner).not.toBeInTheDocument());
   },
 };
