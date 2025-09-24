@@ -27,7 +27,7 @@ interface SegmentedControlProps
 const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps>(
   ({ options, onChange, selectedSegment, ...props }, ref) => {
     const containerRef: MutableRefObject<HTMLDivElement | null> = useRef<HTMLDivElement>(null);
-    const sliderStyle = useSelectedIndicatorPosition(containerRef, options, selectedSegment);
+    const sliderStyle = useSelectedIndicatorPosition(containerRef, selectedSegment);
 
     const handleOnClick = (event: React.MouseEvent<HTMLDivElement> | React.KeyboardEvent<HTMLDivElement>) => {
       const target = event.currentTarget as HTMLDivElement;
