@@ -19,7 +19,8 @@
     "test:ci": "npx playwright install && npx start-server-and-test storybook http://localhost:7008 test",
     "test": "test-storybook --url http://localhost:7008",
     "test:watch": "test-storybook --url http://localhost:7008 --watch",
-    "prepublishOnly": "npm run generate-icons && npm run build"
+    "prepublishOnly": "npm run generate-icons && npm run build",
+    "generate:component": "node scripts/generate-component.js"
   },
   "keywords": [],
   "author": "",
