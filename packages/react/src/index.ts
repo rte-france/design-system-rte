@@ -1,5 +1,6 @@
 import "./styles.d.ts";
 import Badge from "./components/badge/Badge.tsx";
+import Banner from "./components/banner/Banner.tsx";
 import Breadcrumbs from "./components/breadcrumbs/Breadcrumbs.tsx";
 import Button from "./components/button/Button";
 import Checkbox from "./components/checkbox/Checkbox.tsx";
@@ -41,4 +42,5 @@ export {
   Switch,
   SegmentedControl,
   Breadcrumbs,
+  Banner,
 };

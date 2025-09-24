@@ -40,7 +40,7 @@ export const Alert: Story = {
     ...Default.args,
     title: "Indisponibilité de l’application",
     message:
-      "Dans le cadre des changements de serveur à venir le 18 mai 2026, votre application évolue et sera par conséquent insponible du 29 mars au 12 avril 2026.",
+      "Dans le cadre des changements de serveur à venir le 18 mai 2026, votre application évolue et sera par conséquent indisponible du 29 mars au 12 avril 2026.",
     type: "alert",
   },
 };
@@ -138,7 +138,7 @@ export const Overlay: Story = {
   },
 };
 
-export const KeyboardInteration: Story = {
+export const KeyboardInteraction: Story = {
   args: {
     ...Default.args,
     closable: true,
