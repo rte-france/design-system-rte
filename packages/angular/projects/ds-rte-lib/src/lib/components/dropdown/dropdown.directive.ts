@@ -1,43 +1,58 @@
-import { ChangeDetectorRef, ComponentRef, Directive, ElementRef, Host, HostListener, inject, Optional, Renderer2, ViewContainerRef } from "@angular/core";
+import { AfterViewInit, ComponentRef, Directive, ElementRef, Host, HostListener, inject, input, OnInit, Optional, ViewContainerRef } from "@angular/core";
 import { DropdownComponent } from "./dropdown.component";
 import { OverlayService } from "../../services/overlay.service";
+import { DropdownMenuComponent } from "./dropdownMenu/dropdown-menu.component";
 
 @Directive({
-  selector: "[rteDropdown]",
+  selector: "[rteDropdownTriggerFor]",
   standalone: true,
   host: {
-    role: "menu",
     "(keydown)": "handleKeyDown($event)"
   }
 })
-export class DropdownDirective implements AfterViewInit, OnDestroy {
-    readonly rteDropdown = input.required<string>();
+export class DropdownDirective implements OnInit {
 
-    private dropdownRef: ComponentRef<DropdownComponent> | null = null;
-    private hostElement: HTMLElement;
-    private overlayService: OverlayService;
+  readonly nativeElement: HTMLElement = inject(ElementRef).nativeElement;
 
-    private elementRef = inject(ElementRef);
-    private viewContainerRef = inject(ViewContainerRef);
-    private renderer = inject(Renderer2);
-    private cdr = inject(ChangeDetectorRef);
+  readonly rteDropdownTriggerFor = input.required<ComponentRef<DropdownMenuComponent>>();
 
-    constructor(@Optional() @Host() private dropdown: DropdownComponent) {
-        this.overlayService = inject(OverlayService);
-        this.hostElement = this.elementRef.nativeElement;
-    }
 
-    @HostListener("mouseenter")
-    onHover() {
-        if (this.dropdown) {
-          this.dropdown.open(this.hostElement.nativeElement);
-        }
+  private overlayService: OverlayService;
+  private viewContainerRef = inject(ViewContainerRef);
+
+
+  private menuRef: ComponentRef<DropdownMenuComponent> | null = null;
+
+  constructor(
+  ) {
+    this.overlayService = inject(OverlayService);
+  }
+
+  @HostListener("mouseenter")
+  onHover() {
+      if (this.menuRef) {
+        this.menuRef
       }
-
-    @HostListener("mouseleave")
-    onMouseLeave(): void {
-        this.hideTooltip();
     }
+
+  @HostListener("mouseleave")
+  onMouseLeave(): void {
+    
+  }
+
+  @HostListener("click")
+  onClick() {
+    if (this.menuRef) {
+      this.overlayService.attach(this.menuRef, this.viewContainerRef);
+    }
+  }
+
+  ngOnInit() {
+    this.menuRef = this.rteDropdownTriggerFor();
+    if (this.menuRef) {
+      this.overlayService.attach(this.menuRef, this.viewContainerRef);
+    }
+  }
   
 }
 

@@ -37,6 +37,12 @@ export class OverlayService {
     return componentRef;
   }
 
+  attach<T>(component: ComponentRef<T>, viewContainer: ViewContainerRef): ComponentRef<T> {
+    const root = this.getOverlayRoot();
+    root.appendChild(component?.location.nativeElement);
+    return component;
+  }
+
   destroy() {
     if (this.activeOverlays.size === 0) {
       this.overlayRoot?.remove();

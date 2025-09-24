@@ -1,5 +1,9 @@
 @use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
 
+:host {
+  display: none;
+}
+
 .rte-trigger {
   cursor: pointer;
   height: fit-content;

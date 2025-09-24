@@ -4,10 +4,8 @@ import {
   contentChildren,
   ElementRef,
   inject,
-  Input,
   input,
   output,
-  ViewChild,
   viewChild,
   ViewContainerRef,
 } from "@angular/core";
@@ -21,18 +19,13 @@ import { DropdownItemComponent } from "./dropdownItem/dropdown-item.component";
 import { DropdownMenuComponent } from "./dropdownMenu/dropdown-menu.component";
 
 @Component({
-  selector: "rte-dropdown",
+  selector: "rte-dropdown-legacy",
   standalone: true,
   templateUrl: "./dropdown.component.html",
   styleUrl: "./dropdown.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DropdownComponent implements AfterViewInit, OnDestroy {
-
-  @ViewChild("panel") panelRef!: ElementRef<HTMLElement>;
-
-  @Input() closeOnSelect = true;
-
+export class DropdownComponentLegacy implements AfterViewInit, OnDestroy {
   readonly autoclose = input<boolean>(true);
   readonly offset = input<number>(0);
 
@@ -42,10 +35,6 @@ export class DropdownComponent implements AfterViewInit, OnDestroy {
   private menuRef?: ComponentRef<DropdownMenuComponent> | null = null;
   private overlayService: OverlayService;
   private viewContainerRef = inject(ViewContainerRef);
-
-  private overlayRef: HTMLElement | null = null;
-
-
   constructor() {
     this.overlayService = inject(OverlayService);
   }
@@ -56,13 +45,18 @@ export class DropdownComponent implements AfterViewInit, OnDestroy {
 
   ngOnDestroy() {
     document.removeEventListener("click", this.handleClickOutside.bind(this));
-    this.close();
   }
 
   open() {
     if (this.menuRef) return;
 
     this.menuRef = this.overlayService.create(DropdownMenuComponent, this.viewContainerRef);
+    this.positionDropdown();
+    this.menuRef.setInput("isOpen", true);
+
+    this.menuRef.instance.setItems(this.items());
+
+    this.menuRef.instance.close.subscribe(() => this.close());
   }
 
   private positionDropdown(): void {
@@ -81,7 +75,7 @@ export class DropdownComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  toggle(origin: HTMLElement) {
+  toggle() {
     if (this.menuRef) {
       this.close();
     } else {
@@ -95,19 +89,12 @@ export class DropdownComponent implements AfterViewInit, OnDestroy {
     if (this.menuRef) {
       setTimeout(() => {
         if (this.menuRef) {
-          this.overlayService.destroy();
+          this.menuRef.destroy();
           this.menuRef = null;
+          this.overlayService.destroy();
         }
       }, 200);
     }
-  }
-
-  detach() {
-    this.panelRef.nativeElement.style.display = 'none';
-  }
-
-  attach() {
-    this.panelRef.nativeElement.style.display = '';
   }
 
   handleClick() {

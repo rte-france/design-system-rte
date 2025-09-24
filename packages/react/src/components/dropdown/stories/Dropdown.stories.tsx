@@ -67,7 +67,12 @@ export const Default: Story = {
                 <DropdownItem label="Copy" leftIcon="copy" trailingText="⌘X" onClick={() => console.log("click")} />
                 <DropdownItem label="Paste" leftIcon="paste" trailingText="⌘V" />
               </DropdownItem>
-              <DropdownItem label="Archive" leftIcon="archive" />
+              <DropdownItem label="Archive" leftIcon="archive">
+                <DropdownItem label="Cut" leftIcon="cut" trailingText="⌘X" />
+                <DropdownItem label="Copy" leftIcon="copy" trailingText="⌘X" onClick={() => console.log("click")} />
+                <DropdownItem label="Paste" leftIcon="paste" trailingText="⌘V" />
+              
+              </DropdownItem>
               <DropdownItem label="Delete" leftIcon="delete" />
             </DropdownItem>
             <DropdownItem label="Help" leftIcon="help" />
