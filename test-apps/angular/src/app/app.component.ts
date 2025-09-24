@@ -15,6 +15,7 @@ import {
   SwitchComponent,
   SegmentedControlComponent,
   BreadcrumbsComponent,
+  BannerComponent,
 } from "@design-system-rte/angular";
 
 @Component({
@@ -36,6 +37,7 @@ import {
     SwitchComponent,
     SegmentedControlComponent,
     BreadcrumbsComponent,
+    BannerComponent,
   ],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",
@@ -60,6 +62,18 @@ export class AppComponent {
     event.stopPropagation();
     this.click.emit(event);
     this.toggleSelectState();
+  }
+
+  readonly isInfoBannerVisible = signal(true);
+  readonly isAlertBannerVisible = signal(true);
+
+  toggleInfoBanner(): void {
+    console.log("toggle info banner");
+    this.isInfoBannerVisible.set(!this.isInfoBannerVisible());
+  }
+
+  toggleAlertBanner(): void {
+    this.isAlertBannerVisible.set(!this.isAlertBannerVisible());
   }
 
   segments = [

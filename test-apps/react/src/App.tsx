@@ -12,6 +12,7 @@ import {
   Switch,
   SegmentedControl,
   Breadcrumbs,
+  Banner,
 } from "@design-system-rte/react";
 import "./App.css";
 import { useState } from "react";
@@ -20,6 +21,8 @@ function App() {
   const [isIconButtonToggleSelected, setIsIconButtonToggleSelected] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [segmentedControlValue, setSegmentedControlValue] = useState("label-1");
+  const [isInfoBannerVisible, setIsInfoBannerVisible] = useState(true);
+  const [isAlertBannerVisible, setIsAlertBannerVisible] = useState(true);
 
   const handleIconButtonToggleClick = () => {
     setIsIconButtonToggleSelected(!isIconButtonToggleSelected);
@@ -36,8 +39,35 @@ function App() {
     setSegmentedControlValue(newValue);
   };
 
+  const toggleInfoBanner = () => {
+    setIsInfoBannerVisible((prev) => !prev);
+  };
+
+  const toggleAlertBanner = () => {
+    setIsAlertBannerVisible((prev) => !prev);
+  };
+
   return (
     <div>
+      <div>
+        <h3>Banner</h3>
+        <Banner
+          type="default"
+          title="Info Banner"
+          message="This is an info banner"
+          closable
+          isOpen={isInfoBannerVisible}
+        />
+        <Banner
+          type="alert"
+          title="Alert Banner"
+          message="This is an alert banner"
+          closable
+          isOpen={isAlertBannerVisible}
+        />
+        <Button label={isInfoBannerVisible ? "Close info banner" : "Show info banner"} onClick={toggleInfoBanner} />
+        <Button label={isAlertBannerVisible ? "Close alert banner" : "Show alert banner"} onClick={toggleAlertBanner} />
+      </div>
       <div>
         <h3>Icon</h3>
         <Icon name="check" />

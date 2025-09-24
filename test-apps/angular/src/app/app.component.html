@@ -1,3 +1,36 @@
+<rte-banner
+  type="default"
+  message="This is an info banner"
+  [closable]="true"
+  title="Info Banner"
+  [isOpen]="isInfoBannerVisible()"
+></rte-banner>
+<rte-banner
+  type="alert"
+  message="This is an alert banner"
+  [closable]="true"
+  title="Alert Banner"
+  [isOpen]="isAlertBannerVisible()"
+></rte-banner>
+<rte-button
+  label="Toggle alert banner"
+  size="m"
+  [disabled]="false"
+  ariaLabel="Home"
+  ariaLabelledBy="home"
+  buttonType="button"
+  (click)="toggleAlertBanner()"
+/>
+<rte-button
+  label="Toggle info banner"
+  size="m"
+  [disabled]="false"
+  ariaLabel="Home"
+  ariaLabelledBy="home"
+  buttonType="button"
+  (click)="toggleInfoBanner()"
+/>
+<hr />
 <rte-button
   label="Button"
   variant="primary"
@@ -14,14 +47,45 @@
 <hr />
 
 <rte-split-button label="Split Button">
-  <rte-button label="Button" variant="primary" size="m" [disabled]="false" icon="home" ariaLabel="Home" ariaLabelledBy="home" buttonType="button" />
-  <rte-button label="Button" variant="primary" size="m" [disabled]="false" icon="home" ariaLabel="Home" ariaLabelledBy="home" buttonType="button" />
-  <rte-button label="Button" variant="primary" size="m" [disabled]="false" icon="home" ariaLabel="Home" ariaLabelledBy="home" buttonType="button" />
+  <rte-button
+    label="Button"
+    variant="primary"
+    size="m"
+    [disabled]="false"
+    icon="home"
+    ariaLabel="Home"
+    ariaLabelledBy="home"
+    buttonType="button"
+  />
+  <rte-button
+    label="Button"
+    variant="primary"
+    size="m"
+    [disabled]="false"
+    icon="home"
+    ariaLabel="Home"
+    ariaLabelledBy="home"
+    buttonType="button"
+  />
+  <rte-button
+    label="Button"
+    variant="primary"
+    size="m"
+    [disabled]="false"
+    icon="home"
+    ariaLabel="Home"
+    ariaLabelledBy="home"
+    buttonType="button"
+  />
 </rte-split-button>
 
 <hr />
 
-<rte-icon-button-toggle name="home" [selected]="selected()" (click)="onClick($event)"/>
+<rte-icon-button-toggle
+  name="home"
+  [selected]="selected()"
+  (click)="onClick($event)"
+/>
 
 <hr />
 
@@ -29,16 +93,23 @@
 
 <hr />
 
-<rte-text-input label="Text Input" [value]="inputValue()" (valueChange)="handleInputChange($event)" />
-<h4>The input is : {{inputValue()}}</h4>
+<rte-text-input
+  label="Text Input"
+  [value]="inputValue()"
+  (valueChange)="handleInputChange($event)"
+/>
+<h4>The input is : {{ inputValue() }}</h4>
 <hr />
-<rte-chip 
-  label="Chip Label"
-  type="single"
-></rte-chip>
+<rte-chip label="Chip Label" type="single"></rte-chip>
 <hr />
 
-<p style="display: inline-block; background-color: bisque;" rteBadge [rteBadgeCount]="1">A badge host</p>
+<p
+  style="display: inline-block; background-color: bisque"
+  rteBadge
+  [rteBadgeCount]="1"
+>
+  A badge host
+</p>
 <hr />
 <rte-textarea
   label="Enter text"
@@ -50,20 +121,16 @@
   [required]="true"
 />
 <hr />
-<rte-link
-  href="https://example.com"
-  label="Link"
-  [subtle]="false"
-/>
+<rte-link href="https://example.com" label="Link" [subtle]="false" />
 
-<p> Divider </p>
+<p>Divider</p>
 <rte-divider />
-<div style="display: flex; flex-direction: row;">
-  <p style="margin: 20px;"> left text </p>
+<div style="display: flex; flex-direction: row">
+  <p style="margin: 20px">left text</p>
   <rte-divider orientation="vertical" />
-  <p style="margin: 20px;"> middle text </p>
+  <p style="margin: 20px">middle text</p>
   <rte-divider orientation="vertical" thickness="medium" />
-  <p style="margin: 20px;"> right text </p>
+  <p style="margin: 20px">right text</p>
   <rte-divider orientation="vertical" thickness="bold" />
 </div>
 
@@ -90,14 +157,14 @@
   [showLabel]="true"
   [checked]="true"
 />
-  <rte-divider orientation="vertical" thickness="bold"></rte-divider>
+<rte-divider orientation="vertical" thickness="bold"></rte-divider>
 <hr />
-<div style="width: 380px; display: flex; flex-direction: column; gap: 10px;">
-
+<div style="width: 380px; display: flex; flex-direction: column; gap: 10px">
   <rte-segmented-control
-  [options]="segments"
-  [selectedSegment]="selectedSegment()"
-  (change)="onSegmentSelected($event)"/>
+    [options]="segments"
+    [selectedSegment]="selectedSegment()"
+    (change)="onSegmentSelected($event)"
+  />
 </div>
 <hr />
 <rte-breadcrumbs [items]="breadcrumbItems" />
