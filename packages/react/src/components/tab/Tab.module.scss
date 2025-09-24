@@ -1,0 +1,34 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+.tab-container {
+  display: flex;
+  align-items: flex-start;
+  gap: $positive-spacing_300;
+  justify-content: flex-start;
+  align-self: stretch;
+  border-bottom: 2px solid var(--background-neutral-regular-default);
+
+  &[data-direction='vertical'] {
+    flex-direction: column;
+    border-bottom: none;
+    border-left: 2px solid var(--background-neutral-regular-default);
+    gap: $positive-spacing_050;
+
+    .segment-selected-indicator {
+      width: 2px;
+      transition: top 0.2s ease, height 0.2s ease;
+    }
+  }
+
+  &[data-alignment='center'] {
+    justify-content: center
+  }
+
+  .segment-selected-indicator {
+    position: absolute;
+    top: 4px;
+    height: 2px;
+    background: var(--background-brand-selected-default);
+    transition: left 0.2s ease, width 0.2s ease;
+  }
+}
