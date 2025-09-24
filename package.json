@@ -8,6 +8,7 @@
     "design-docs": "npm --prefix packages/design-docs run storybook",
     "generate:tokens": "npm --prefix packages/core run generate:tokens",
     "generate:icons": "npm --prefix packages/react run generate-icons && npm --prefix packages/angular run generate-icons  && npm run lint:fix",
+    "generate:component": "npm --prefix packages/react run generate:component",
     "build-base-storybook": "npm --prefix packages/design-docs run build-base-storybook",
     "build-design-docs": "npm --prefix packages/design-docs run build-storybook",
     "bundle-packages": "node scripts/bundle-packages.js",
