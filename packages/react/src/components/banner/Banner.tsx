@@ -1,5 +1,5 @@
 import { BannerProps as CoreBannerProps } from "@design-system-rte/core/components/banner/banner.interface";
-import { forwardRef } from "react";
+import { forwardRef, useEffect, useState } from "react";
 
 import useAnimatedMount from "../../hooks/useAnimatedMount";
 import Button from "../button/Button";
@@ -29,8 +29,13 @@ const Banner = forwardRef<HTMLDivElement, BannerProps>(
     },
     ref,
   ) => {
+    const [isInternalOpen, setIsInternalOpen] = useState(isOpen);
     const ariaRole = type === "default" ? "status" : "alert";
-    const { shouldRender, isAnimating } = useAnimatedMount(isOpen, 200);
+    const { shouldRender, isAnimating } = useAnimatedMount(isInternalOpen, 200);
+
+    useEffect(() => {
+      setIsInternalOpen(isOpen);
+    }, [isOpen]);
 
     if (closable === false && position === "overlay") {
       console.warn("Banner: 'closable' and 'onClose' props must be set when 'position' has 'overlay' value.");
@@ -38,6 +43,7 @@ const Banner = forwardRef<HTMLDivElement, BannerProps>(
     }
 
     const handleOnClose = () => {
+      setIsInternalOpen(false);
       onClose?.();
     };
 
