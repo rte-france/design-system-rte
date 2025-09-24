@@ -15,8 +15,6 @@
   color: var(--content-info);
   top: 0;
   left: 0;
-  opacity: 0;
-  transform: translateY(-10px);
   transition: opacity 200ms ease, transform 200ms ease;
   z-index: $level-1;
 
