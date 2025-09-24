@@ -236,12 +236,12 @@ export const KeyboardInteration: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const banner = await canvas.getByRole("status");
-    // const actionButton = await within(banner).getAllByRole("button")[0];
-    // const closeButton = await within(banner).getAllByRole("button")[1];
-    userEvent.tab();
-    // expect(actionButton).toHaveFocus();
+    const actionButton = await within(banner).getAllByRole("button")[0];
+    const closeButton = await within(banner).getAllByRole("button")[1];
     await userEvent.tab();
-    // expect(closeButton).toHaveFocus();
+    expect(actionButton).toHaveFocus();
+    await userEvent.tab();
+    expect(closeButton).toHaveFocus();
     await userEvent.keyboard("{Enter}");
     await waitFor(() => expect(banner).not.toBeInTheDocument());
   },
