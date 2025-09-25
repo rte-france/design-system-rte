@@ -58,9 +58,11 @@ export class SegmentedControlComponent implements OnChanges, AfterViewInit, OnDe
 
   readonly sliderLeft = signal(0);
   readonly sliderWidth = signal(0);
+  readonly sliderTop = signal(0);
 
   readonly segmentSelectedIndicatorStyle = computed(() => ({
     left: `${this.sliderLeft()}px`,
+    top: `${this.sliderTop()}px`,
     width: `${this.sliderWidth()}px`,
   }));
 
@@ -152,6 +154,7 @@ export class SegmentedControlComponent implements OnChanges, AfterViewInit, OnDe
 
     if (segment) {
       this.sliderWidth.set(segment.offsetWidth);
+      this.sliderTop.set(segment.offsetTop);
       this.sliderLeft.set(segment.offsetLeft);
     }
   }

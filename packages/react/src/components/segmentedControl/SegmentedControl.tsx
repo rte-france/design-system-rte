@@ -8,7 +8,8 @@ import {
 } from "@design-system-rte/core/components/segmented-control/segmented-control.interface";
 import { forwardRef, MutableRefObject, useRef } from "react";
 
-import useSelectedSegmentIndicatorStyle from "./hooks/useSelectedSegmentIndicatorStyle";
+import useSelectedIndicatorPosition from "../../hooks/useSelectedIndicatorPosition";
+
 import Segment from "./Segment";
 import style from "./SegmentedControl.module.scss";
 
@@ -26,7 +27,7 @@ interface SegmentedControlProps
 const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps>(
   ({ options, onChange, selectedSegment, ...props }, ref) => {
     const containerRef: MutableRefObject<HTMLDivElement | null> = useRef<HTMLDivElement>(null);
-    const sliderStyle = useSelectedSegmentIndicatorStyle(containerRef, options, selectedSegment);
+    const sliderStyle = useSelectedIndicatorPosition(containerRef, options, selectedSegment);
 
     const handleOnClick = (event: React.MouseEvent<HTMLDivElement> | React.KeyboardEvent<HTMLDivElement>) => {
       const target = event.currentTarget as HTMLDivElement;
@@ -51,7 +52,7 @@ const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps>(
       >
         <span
           className={style["segment-selected-indicator"]}
-          style={{ left: sliderStyle.left, width: sliderStyle.width }}
+          style={{ left: sliderStyle.left, top: sliderStyle.top, width: sliderStyle.width }}
         />
         {options.map((option, index) => (
           <Segment
