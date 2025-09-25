@@ -19,6 +19,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^17.3.12",
+    "@angular/cdk": "^17.3.10",
     "@angular/cli": "^17.3.12",
     "@angular/compiler-cli": "^17.3.12",
     "@angular/forms": "^17.3.12",

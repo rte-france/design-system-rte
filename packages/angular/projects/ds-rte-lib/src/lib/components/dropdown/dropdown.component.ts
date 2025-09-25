@@ -17,12 +17,14 @@ import { OverlayService } from "../../services/overlay.service";
 
 import { DropdownItemComponent } from "./dropdownItem/dropdown-item.component";
 import { DropdownMenuComponent } from "./dropdownMenu/dropdown-menu.component";
+import { CdkMenuModule } from "@angular/cdk/menu";
 
 @Component({
   selector: "rte-dropdown",
   standalone: true,
   templateUrl: "./dropdown.component.html",
   styleUrl: "./dropdown.component.scss",
+  imports: [CdkMenuModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   exportAs: "rteDropdown",
 })
