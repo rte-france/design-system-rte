@@ -1,3 +1,4 @@
+import { CdkMenuModule } from "@angular/cdk/menu";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -20,6 +21,7 @@ import { DropdownMenuComponent } from "./dropdownMenu/dropdown-menu.component";
 
 @Component({
   selector: "rte-dropdown",
+  imports: [CdkMenuModule],
   standalone: true,
   templateUrl: "./dropdown.component.html",
   styleUrl: "./dropdown.component.scss",

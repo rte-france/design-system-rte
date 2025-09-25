@@ -37,6 +37,23 @@ export const Default: Story = {
     props: { ...args, click: (event: Event) => console.log("clicked", event) },
     template: `
     ${wipWarning}
+      <rte-dropdown #dropdown="rteDropdown" [autoclose]="true">
+        <button dropdownTrigger (click)="dropdown.open()">Menu principal ⬇</button>
+        <rte-dropdown-item label="Messages" leftIcon="mail" [hasSeparator]="true" (click)="click"></rte-dropdown-item>
+        <rte-dropdown-item label="Actions" leftIcon="settings"></rte-dropdown-item>
+        <rte-dropdown-item label="Help" leftIcon="help"></rte-dropdown-item>
+        <rte-dropdown-item label="More information" leftIcon="info" [hasSeparator]="true"></rte-dropdown-item>
+        <rte-dropdown-item label="First option" [hasIndent]="true" ></rte-dropdown-item>
+        <rte-dropdown-item label="Second option" [hasIndent]="true"></rte-dropdown-item>
+        <rte-dropdown-item label="Third option" [hasSeparator]="true" [hasIndent]="true"></rte-dropdown-item>
+        <rte-dropdown-item label="Username" leftIcon="user-circle" [disabled]="true"></rte-dropdown-item>
+      </rte-dropdown>
+    `,
+  }),
+};
+
+/*
+
     <rte-dropdown #dropdown="rteDropdown" [autoclose]="true">
       <button dropdownTrigger (click)="dropdown.open()">Menu principal ⬇</button>
       <rte-dropdown-item label="Messages" leftIcon="mail" [hasSeparator]="true" (click)="click"></rte-dropdown-item>
@@ -48,6 +65,6 @@ export const Default: Story = {
       <rte-dropdown-item label="Third option" [hasSeparator]="true" [hasIndent]="true"></rte-dropdown-item>
       <rte-dropdown-item label="Username" leftIcon="user-circle" [disabled]="true"></rte-dropdown-item>
     </rte-dropdown>
-    `,
-  }),
-};
+
+
+*/
