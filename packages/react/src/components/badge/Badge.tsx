@@ -4,19 +4,19 @@ import {
   getDisplayCount,
   getShowBadge,
   getShowIcon,
-  getShowText,
+  getShowText
 } from "@design-system-rte/core/components/badge/badge.utils";
 import { forwardRef } from "react";
 
-import Icon, { RegularIconIdKey, TogglableIconIdKey } from "../icon/Icon";
+import Icon from "../icon/Icon";
 import { isValidIconName } from "../icon/IconMap";
 import { concatClassNames } from "../utils";
 
 import style from "./Badge.module.scss";
 
 export interface BadgeProps extends BadgePropsCore, Omit<React.HTMLAttributes<HTMLDivElement>, "children" | "content"> {
-  children: React.ReactNode;
-  icon?: RegularIconIdKey | TogglableIconIdKey;
+  children?: React.ReactNode;
+  icon?: string;
 }
 
 const Badge = forwardRef<HTMLDivElement, BadgeProps>(
@@ -34,6 +34,31 @@ const Badge = forwardRef<HTMLDivElement, BadgeProps>(
     const showBadge = getShowBadge({ size, content, count, iconSize });
     const countOverflow = showText && getDisplayCount(count)?.length > 2;
 
+    if (!children) {
+      return (
+        <div ref={ref} className={style.badgeContainer} {...props}>
+          <div
+            data-simple-badge="true"
+            data-badge-type={badgeType}
+            data-size={size}
+            data-testid="badge"
+            className={concatClassNames(
+              style.badge,
+              showBadge ? "" : style.hidden,
+              countOverflow ? style.countOverflow : ""
+            )}
+          >
+            {showIcon && <Icon name={icon} className={style.icon} size={iconSize} />}
+            {showText && (
+              <span className={style.count} key={count}>
+                {getDisplayCount(count)}
+              </span>
+            )}
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div ref={ref} className={style.badgeContainer} {...props}>
         <div
@@ -43,20 +68,20 @@ const Badge = forwardRef<HTMLDivElement, BadgeProps>(
           className={concatClassNames(
             style.badge,
             showBadge ? "" : style.hidden,
-            countOverflow ? style.countOverflow : "",
+            countOverflow ? style.countOverflow : ""
           )}
         >
           {showIcon && <Icon name={icon} className={style.icon} size={iconSize} />}
           {showText && (
-            <p className={style.count} key={count}>
+            <span className={style.count} key={count}>
               {getDisplayCount(count)}
-            </p>
+            </span>
           )}
         </div>
         {children}
       </div>
     );
-  },
+  }
 );
 
 export default Badge;
