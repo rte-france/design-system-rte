@@ -192,7 +192,7 @@ export const Icons: Story = {
 };
 
 const BadgeVisibilityDemo = (args: Story["args"]) => {
-  const [count, setCount] = useState(args.count);
+  const [count, setCount] = useState(1);
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
       <div>
