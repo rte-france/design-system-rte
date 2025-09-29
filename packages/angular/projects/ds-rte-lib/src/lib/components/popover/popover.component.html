@@ -19,14 +19,11 @@
       <rte-button
         *ngIf="secondaryButtonLabel()"
         variant="secondary"
-        size="m"
         [label]="secondaryButtonLabel() || ''"
         (click)="handleClickSecondaryButton()"
       />
-
       <rte-button
         variant="primary"
-        size="m"
         [label]="primaryButtonLabel()"
         (click)="handleClickPrimaryButton()"
       />
