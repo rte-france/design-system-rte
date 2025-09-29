@@ -28,7 +28,6 @@ const meta: Meta<BannerComponent> = {
     isOpen: {
       control: "boolean",
     },
-    actionCallback: { action: "actionCallback" },
     close: { action: "close" },
   },
   args: { close: fn() },
@@ -125,10 +124,28 @@ export const WithAction: Story = {
     ...Default.args,
     closable: true,
     actionLabel: "Voir les détails",
-    actionCallback: () => {
-      console.log("Action button clicked");
-    },
   },
+  render: (args) => ({
+    props: {
+      ...args,
+      actionCallback: () => {
+        console.log("Action button clicked");
+      },
+    },
+    template: `
+    <div style="display: flex; flex-direction: column; gap: 16px;">
+        <rte-banner
+          [title]="title"
+          [message]="message"
+          [type]="type"
+          [showIcon]="true"
+          [isOpen]="isOpen"
+          [actionLabel]="actionLabel"
+          (click)="actionCallback()"
+          />
+    </div>
+    `,
+  }),
 };
 
 export const Overlay: Story = {
@@ -201,9 +218,6 @@ export const KeyboardInteraction: Story = {
     closable: true,
     isOpen: true,
     actionLabel: "Voir les détails",
-    actionCallback: () => {
-      console.log("Action button clicked");
-    },
   },
   render: (args) => ({
     props: {
@@ -213,6 +227,9 @@ export const KeyboardInteraction: Story = {
       },
       toggleBanner() {
         this["isOpen"] = !this["isOpen"];
+      },
+      actionCallback: () => {
+        console.log("Action button clicked");
       },
     },
     template: `
@@ -226,7 +243,7 @@ export const KeyboardInteraction: Story = {
           [isOpen]="isOpen"
           (close)="close()"
           [actionLabel]="actionLabel"
-          [actionCallback]="actionCallback"
+          (click)="actionCallback()"
           />
         <rte-button [label]="isOpen ? 'Hide banner' : 'Show banner' " (click)="toggleBanner()" style="margin-top: 16px;"/>
     </div>
