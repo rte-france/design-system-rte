@@ -34,6 +34,7 @@ const Badge = forwardRef<HTMLDivElement, BadgeProps>(
     const showBadge = getShowBadge({ size, content, count, iconSize });
     const countOverflow = showText && getDisplayCount(count)?.length > 2;
 
+    // TODO change when refactoring button with badge
     if (!children) {
       return (
         <div ref={ref} className={style.badgeContainer} {...props}>

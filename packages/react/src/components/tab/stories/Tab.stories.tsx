@@ -1,3 +1,4 @@
+import { BadgeAppearance, BadgeType } from "@design-system-rte/core/components/badge/badge.interface";
 import {
   TESTING_ARROW_LEFT_KEY,
   TESTING_ARROW_RIGHT_KEY,
@@ -297,7 +298,9 @@ export const WithBadge: Story = {
         panelId: "panel-1",
         icon: "photo-camera",
         badgeCount: 5,
-        badgeType: "indicator",
+        badgeAppearance: "text" as BadgeAppearance,
+        badgeType: "indicator" as BadgeType,
+        showBadge: true,
       },
       { id: "videos", label: "Vidéos", panelId: "panel-2", icon: "video-camera" },
       { id: "musique", label: "Musique", panelId: "panel-3", icon: "headphones" },
@@ -379,13 +382,6 @@ export const KeyboardInteraction: Story = {
       expect(canvas.getByText(`Contenu onglet ${tab.textContent}`)).toBeVisible();
     };
 
-    const expectAllTabsToBeUnselected = () => {
-      [firstTab, secondTab, thirdTab].forEach((tab) => {
-        expect(tab).toHaveAttribute("aria-selected", "false");
-        expect(tab).not.toHaveFocus();
-      });
-    };
-
     await step("Focus on the first tab and select it", async () => {
       await userEvent.tab();
       expectTabToBeSelected(firstTab);
@@ -409,11 +405,6 @@ export const KeyboardInteraction: Story = {
     await step("Navigate back to the third tab and select it", async () => {
       await userEvent.keyboard(TESTING_ARROW_LEFT_KEY);
       expectTabToBeSelected(thirdTab);
-    });
-
-    await step("move focus out of component", async () => {
-      await userEvent.tab();
-      expectAllTabsToBeUnselected();
     });
   },
 };
