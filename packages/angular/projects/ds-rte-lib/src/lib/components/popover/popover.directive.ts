@@ -48,6 +48,13 @@ export class PopoverDirective implements AfterViewInit, OnDestroy {
   private viewContainerRef = inject(ViewContainerRef);
   private renderer = inject(Renderer2);
 
+  private subPrimary?: { unsubscribe(): void };
+  private subSecondary?: { unsubscribe(): void };
+
+  private onScroll = () => this.positionPopover();
+  private onMouseDown = (e: MouseEvent) => this.handleClickAway(e);
+  private onKeyDown = (e: KeyboardEvent) => this.handleKeydown(e);
+
   @HostListener("click")
   onClick(): void {
     if (!this.popoverRef) {
@@ -62,15 +69,15 @@ export class PopoverDirective implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    window.addEventListener("scroll", this.positionPopover.bind(this));
-    document.addEventListener("mousedown", this.handleClickAway.bind(this));
-    document.addEventListener("keydown", this.handleKeydown.bind(this));
+    window.addEventListener("scroll", this.onScroll);
+    document.addEventListener("mousedown", this.onMouseDown);
+    document.addEventListener("keydown", this.onKeyDown);
   }
 
   ngOnDestroy() {
-    window.removeEventListener("scroll", this.positionPopover.bind(this));
-    document.removeEventListener("mousedown", this.handleClickAway.bind(this));
-    document.removeEventListener("keydown", this.handleKeydown.bind(this));
+    window.removeEventListener("scroll", this.onScroll);
+    document.removeEventListener("mousedown", this.onMouseDown);
+    document.removeEventListener("keydown", this.onKeyDown);
     this.destroyPopover();
   }
 
@@ -79,8 +86,13 @@ export class PopoverDirective implements AfterViewInit, OnDestroy {
       this.popoverRef.destroy();
     }
     this.popoverRef = this.overlayService.create(PopoverComponent, this.viewContainerRef);
-    this.popoverRef!.instance.clickPrimaryButton.subscribe(() => this.handleClickPrimaryButton());
-    this.popoverRef!.instance.clickSecondaryButton.subscribe(() => this.handleClickSecondaryButton());
+
+    this.subPrimary?.unsubscribe();
+    this.subSecondary?.unsubscribe();
+    this.subPrimary = this.popoverRef.instance.clickPrimaryButton.subscribe(() => this.handleClickPrimaryButton());
+    this.subSecondary = this.popoverRef.instance.clickSecondaryButton.subscribe(() =>
+      this.handleClickSecondaryButton(),
+    );
 
     this.assignDirectiveToComponent();
     requestAnimationFrame(() => {
@@ -176,6 +188,10 @@ export class PopoverDirective implements AfterViewInit, OnDestroy {
 
   private destroyPopover(): void {
     if (this.popoverRef) {
+      this.subPrimary?.unsubscribe();
+      this.subSecondary?.unsubscribe();
+      this.subPrimary = undefined;
+      this.subSecondary = undefined;
       this.popoverRef.destroy();
       this.popoverRef = null;
       this.overlayService.destroy();
