@@ -32,7 +32,8 @@ export class BannerComponent implements OnInit, OnChanges {
   readonly showIcon = input<boolean>(false);
   readonly isOpen = input<boolean>(true);
   readonly actionLabel = input<string>();
-  readonly actionCallback = input<() => void>();
+
+  readonly click = output<void>();
 
   readonly visible = signal(false);
   readonly rendering = signal(false);
@@ -58,7 +59,7 @@ export class BannerComponent implements OnInit, OnChanges {
   }
 
   clickAction() {
-    this.actionCallback()?.();
+    this.click.emit();
   }
 
   closeBanner() {

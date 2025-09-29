@@ -13,7 +13,7 @@
       <div class="rte-banner-message">
         <span>{{ message() }}</span>
         <rte-button
-          *ngIf="actionLabel() && actionCallback()"
+          *ngIf="actionLabel()"
           variant="neutral"
           [label]="actionLabel()!"
           [ariaLabel]="actionLabel()!"
