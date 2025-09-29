@@ -1,0 +1,37 @@
+<div
+  class="rte-dropdown-menu"
+>
+  <ul
+    class="rte-dropdown-items"
+    role="menu"
+    (keydown)="onKeyDown($event)"
+  >
+    @for (item of items(); track item.label) {
+        @if (item.subMenuItems && item.subMenuItems.length > 0) {
+            <div rteDropdown>
+                <rte-dropdown-item 
+                    rteDropdownTrigger 
+                    [label]="item.label" 
+                    [leftIcon]="item.leftIcon" 
+                    [trailingText]="item.trailingText" 
+                    [disabled]="item.disabled ?? false" 
+                    [hasSeparator]="item.hasSeparator ?? false"
+                    [subMenuItems]="item.subMenuItems" 
+                    [hasIndent]="item.hasIndent ?? false">
+                </rte-dropdown-item>
+                <rte-dropdown-menu [items]="item.subMenuItems"></rte-dropdown-menu>
+            </div>
+        } @else {
+            <rte-dropdown-item 
+                [label]="item.label" 
+                [leftIcon]="item.leftIcon" 
+                [trailingText]="item.trailingText" 
+                [disabled]="item.disabled ?? false" 
+                [hasSeparator]="item.hasSeparator ?? false" 
+                [hasIndent]="item.hasIndent ?? false"
+                (click)="item.click?.emit($event)">
+            </rte-dropdown-item>
+        }
+    }
+  </ul>
+</div>
