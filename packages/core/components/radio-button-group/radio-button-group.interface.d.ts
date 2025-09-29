@@ -1,9 +1,7 @@
-export type Direction = "horizontal" | "vertical";
-
 export interface RadioButtonGroupProps {
   groupName: string;
   items: string[];
-  direction?: Direction;
+  direction?: import("../common/common-types").Direction;
   showItemsLabel?: boolean;
   groupTitle?: string;
   showGroupTitle?: boolean;

@@ -1,25 +1,14 @@
-import { BadgeAppearance, BadgeType } from "@design-system-rte/core/components/badge/badge.interface";
+import { TabItemProps as CoreTabItemProps } from "@design-system-rte/core/components/tab/tab.interface";
 import { ARROW_LEFT_KEY, ARROW_RIGHT_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { HTMLAttributes, useCallback, useEffect, useRef, useState, MouseEvent, KeyboardEvent } from "react";
 
 import Badge from "../../badge/Badge";
 import Icon from "../../icon/Icon";
 
 import style from "./TabItem.module.scss";
 
-interface TabItemProps extends React.HTMLAttributes<HTMLButtonElement> {
-  id: string;
-  panelId: string;
-  label?: string;
-  isSelected?: boolean;
-  onClick?: (event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLButtonElement>) => void;
-  icon?: string;
-  badgeCount?: number;
-  badgeAppearance?: BadgeAppearance;
-  badgeIcon?: string;
-  badgeType?: BadgeType;
-  compactSpacing?: boolean;
-  direction?: "horizontal" | "vertical";
+interface TabItemProps extends CoreTabItemProps, Omit<HTMLAttributes<HTMLButtonElement>, "id" | "onClick"> {
+  onClick: (event: MouseEvent<HTMLButtonElement> | KeyboardEvent<HTMLButtonElement>) => void;
 }
 
 const TabItem = ({
@@ -27,8 +16,9 @@ const TabItem = ({
   panelId,
   label,
   isSelected,
+  showBadge,
   badgeCount,
-  badgeAppearance,
+  badgeAppearance = "empty",
   badgeIcon,
   onClick,
   icon,
@@ -37,7 +27,6 @@ const TabItem = ({
   direction,
   ...props
 }: TabItemProps) => {
-  const shouldDisplayBadge = badgeCount || (badgeIcon && badgeAppearance === "icon");
   const badgeProps = {
     count: badgeCount,
     appearance: badgeAppearance,
@@ -45,6 +34,10 @@ const TabItem = ({
     badgeType,
   };
 
+  const displayBadge =
+    showBadge ||
+    (badgeCount !== undefined && badgeCount > 0 && badgeAppearance === "text") ||
+    (badgeAppearance === "icon" && badgeIcon);
   const tabItemRef = useRef<HTMLButtonElement | null>(null);
 
   const [hoverIndicatorStyle, setHoverIndicatorStyle] = useState<{
@@ -74,7 +67,10 @@ const TabItem = ({
     [isSelected],
   );
 
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
+  const handleKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
+    if (event.key === "Tab") {
+      console.log(event.key);
+    }
     if ([ARROW_LEFT_KEY, ARROW_RIGHT_KEY].includes(event.key)) {
       event.preventDefault();
       if (event.key === ARROW_RIGHT_KEY) {
@@ -143,7 +139,7 @@ const TabItem = ({
       >
         {icon && <Icon name={icon} appearance={isSelected ? "filled" : "outlined"} />}
         {label && <span>{label}</span>}
-        {shouldDisplayBadge && <Badge {...badgeProps} />}
+        {displayBadge && <Badge {...badgeProps} />}
       </button>
       <span
         className={style["segment-hover-indicator"]}
