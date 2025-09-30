@@ -1,4 +1,4 @@
-type TabAlignment = "start" | "center";
+export type TabAlignment = "start" | "center";
 
 export interface TabProps {
   options: TabItemProps[];

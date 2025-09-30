@@ -110,28 +110,26 @@ export const Vertical: Story = {
     };
 
     return (
-      <>
-        <div style={{ display: "flex", gap: "16px", height: "200px" }}>
-          <Tab {...args} options={tabs} selectedTabId={selectedTab} onChange={handleTabClick} />
-          <div
-            style={{
-              width: "100%",
-              border: "1px solid #ccc",
-              padding: "8px",
-            }}
-          >
-            <div role="tabpanel" id="panel-1" aria-labelledby="tab-1" hidden={selectedTab !== "tab-1"}>
-              Contenu onglet 1
-            </div>
-            <div role="tabpanel" id="panel-2" aria-labelledby="tab-2" hidden={selectedTab !== "tab-2"}>
-              Contenu onglet 2
-            </div>
-            <div role="tabpanel" id="panel-3" aria-labelledby="tab-3" hidden={selectedTab !== "tab-3"}>
-              Contenu onglet 3
-            </div>
+      <div style={{ display: "flex", gap: "16px", height: "200px" }}>
+        <Tab {...args} options={tabs} selectedTabId={selectedTab} onChange={handleTabClick} />
+        <div
+          style={{
+            width: "100%",
+            border: "1px solid #ccc",
+            padding: "8px",
+          }}
+        >
+          <div role="tabpanel" id="panel-1" aria-labelledby="tab-1" hidden={selectedTab !== "tab-1"}>
+            Contenu onglet 1
+          </div>
+          <div role="tabpanel" id="panel-2" aria-labelledby="tab-2" hidden={selectedTab !== "tab-2"}>
+            Contenu onglet 2
+          </div>
+          <div role="tabpanel" id="panel-3" aria-labelledby="tab-3" hidden={selectedTab !== "tab-3"}>
+            Contenu onglet 3
           </div>
         </div>
-      </>
+      </div>
     );
   },
 };
