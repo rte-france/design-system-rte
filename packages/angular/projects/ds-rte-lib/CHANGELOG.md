@@ -1,5 +1,22 @@
 # @design-system-rte/angular
 
+## 0.13.0
+
+### Minor Changes
+
+- a901693: ## Changes
+
+  - (Banner) conditionally render message and title in banner component + set correct action button size
+  - (Banner) use click output instead of input actionCallback
+  - (Banner) add component to tests apps
+  - (Banner) add internal state to handle banner visibility
+  - (Banner) add angular component + add keyboard interaction tests
+
+### Patch Changes
+
+- Updated dependencies [a901693]
+  - @design-system-rte/core@0.17.0
+
 ## 0.12.0
 
 ### Minor Changes
