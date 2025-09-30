@@ -1,10 +1,13 @@
-import { Directive, HostListener, output, Output } from "@angular/core";
+import { Directive, HostListener, inject, output, Output, ViewContainerRef } from "@angular/core";
 
 @Directive({
     selector: '[rteDropdownTrigger]',
     standalone: true,
 })
 export class DropdownTriggerDirective {
+
+    readonly viewContainerRef = inject(ViewContainerRef);
+
     constructor() {
         console.log('DropdownTriggerDirective');
     }
