@@ -7,14 +7,19 @@ import { Directive, HostListener, inject, output, ViewContainerRef } from "@angu
 export class DropdownTriggerDirective {
   readonly viewContainerRef = inject(ViewContainerRef);
 
-  constructor() {
-    console.log("DropdownTriggerDirective");
-  }
+  readonly dropdownKeyDown = output<KeyboardEvent>();
 
   readonly dropdownTriggered = output<Event>();
+
+  constructor() {}
 
   @HostListener("click", ["$event"])
   onDropdownTriggered(event: Event): void {
     this.dropdownTriggered.emit(event);
+  }
+
+  @HostListener("keydown", ["$event"])
+  onKeyDown(event: KeyboardEvent): void {
+    this.dropdownKeyDown.emit(event);
   }
 }

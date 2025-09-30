@@ -4,6 +4,7 @@
   <ul
     class="rte-dropdown-items"
     role="menu"
+    (keydown)="onKeyDown($event)"
   >
     @for (item of items(); track item.label) {
         @if (item.subMenuItems && item.subMenuItems.length > 0) {

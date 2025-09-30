@@ -9,11 +9,18 @@ import {
   ViewContainerRef,
 } from "@angular/core";
 import { getCoordinates } from "@design-system-rte/core/components/utils/auto-placement";
+import {
+  ARROW_DOWN_KEY,
+  ARROW_UP_KEY,
+  SPACE_KEY,
+  TAB_KEY,
+} from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
 import { OverlayService } from "../../services/overlay.service";
 
 import { DropdownMenuComponent } from "./dropdown-menu/dropdown-menu.component";
 import { DropdownTriggerDirective } from "./dropdown-trigger/dropdown-trigger.directive";
+import { focusNextElement, focusPreviousElement } from "./dropdown.utils";
 
 @Directive({
   selector: "[rteDropdown]",
@@ -33,22 +40,56 @@ export class DropdownDirective implements AfterContentInit {
   readonly hostElement: HTMLElement;
 
   constructor() {
-    console.log("DropdownDirective");
     this.hostElement = this.elementRef.nativeElement;
   }
 
   dropdownMenuRef: ComponentRef<DropdownMenuComponent> | null = null;
 
-  onTrigger(event: unknown): void {
-    console.log("onTrigger", event);
+  onTrigger(): void {
     this.showDropdownMenu();
   }
 
+//   onTriggerKeyEvent(event: KeyboardEvent): void {}
+
+//   onMenuKeyEvent(event: KeyboardEvent): void {}
+
+  onKeyDown(event: KeyboardEvent): void {
+    console.log("onKeyDown", event);
+    if (event.key === TAB_KEY) {
+      if (this.dropdownMenuRef !== null) {
+        // event.preventDefault();
+        // focusNextElement(this.dropdownMenuRef.location.nativeElement);
+      }
+    }
+    if (event.key === SPACE_KEY) {
+      event.preventDefault();
+      this.showDropdownMenu();
+    }
+
+    if ([ARROW_DOWN_KEY, ARROW_UP_KEY].includes(event.key)) {
+      event.preventDefault();
+
+      if (event.key === ARROW_DOWN_KEY) {
+        console.log("focusNextElement", this.dropdownMenuRef?.location.nativeElement);
+        focusNextElement(this.dropdownMenuRef?.location.nativeElement);
+      } else {
+        focusPreviousElement(this.dropdownMenuRef?.location.nativeElement);
+      }
+    }
+  }
+
   ngAfterContentInit(): void {
-    console.log("ngAfterContentInit", this.trigger());
     if (this.trigger()) {
       this.trigger()?.dropdownTriggered.subscribe((event) => {
         this.onTrigger(event);
+      });
+      this.trigger()?.dropdownKeyDown.subscribe((event) => {
+        event.preventDefault();
+        this.onKeyDown(event);
+      });
+      this.menu()?.keydown.subscribe((event) => {
+        event.preventDefault();
+        this.onKeyDown(event);
       });
     }
   }
