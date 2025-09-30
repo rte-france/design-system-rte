@@ -49,9 +49,9 @@ export class DropdownDirective implements AfterContentInit {
     this.showDropdownMenu();
   }
 
-//   onTriggerKeyEvent(event: KeyboardEvent): void {}
+  //   onTriggerKeyEvent(event: KeyboardEvent): void {}
 
-//   onMenuKeyEvent(event: KeyboardEvent): void {}
+  //   onMenuKeyEvent(event: KeyboardEvent): void {}
 
   onKeyDown(event: KeyboardEvent): void {
     console.log("onKeyDown", event);
