@@ -2,6 +2,25 @@
 
 # Angular
 
+## 0.13.0
+
+### Banner
+
+#### Minor Changes
+
+- conditionally render message and title in banner component + set correct action button size
+- use click output instead of input actionCallback
+- add component to tests apps
+- add internal state to handle banner visibility
+- add angular component + add keyboard interaction tests
+
+### Other
+
+#### Patch Changes
+
+- Updated dependencies [a901693]
+- @design-system-rte/core@0.17.0
+
 ## 0.12.0
 
 ### Loader
@@ -146,58 +165,26 @@
 - Updated dependencies [7d41c21]
 - Updated dependencies [cbd90b0]
 - @design-system-rte/core@0.15.0
+# React
 
-## 0.10.1
+## 0.12.0
 
-#### Patch Changes
-
-- Updated dependencies [db7edfd]
-- @design-system-rte/core@0.14.0
-
-## 0.10.0
-
-### textarea
+### Banner
 
 #### Minor Changes
 
-- update focus, error styles border and cursor on readonly and disabled
-- add showCounter variable to display counter
-- set correct style for label in side position
-- prevent odd displaying on error state and disabled
-- improve assistive text handling
+- conditionally render message and title in banner component + set correct action button size
 - add component to tests apps
-- add public api export
-- add tests on storybook
-- set better props handling + handle resizing logic on angular comp
-- add auto scroll to top on blur event
-
-### Link
-
-#### Minor Changes
-
-- add rel noopener noreferrer on external link
+- add internal state to handle banner visibility
+- add angular component + add keyboard interaction tests
+- add react component
 
 ### Other
 
-#### Minor Changes
-
-- harmonise border style on focus + remove showAssistiveTextIcon prop + add link component on angular textarea
-- add angular textarea component
-- add decorative brand example
-- set correct success icon
-- set correct color token name
-- improve formatting and consistency in Tag component and stories
-- update Tag component to use computed properties for icon name and validation
-- improve formatting and consistency in computedIconName getter
-- update computedIconName method to return an empty string instead of default icon
-- add Tag component with customizable properties and icon support
-
 #### Patch Changes
 
-- Updated dependencies [89289e7]
-- Updated dependencies [f6bb90d]
-- @design-system-rte/core@0.13.0
-# React
+- Updated dependencies [a901693]
+- @design-system-rte/core@0.17.0
 
 ## 0.11.0
 
@@ -342,66 +329,24 @@
 - Updated dependencies [7d41c21]
 - Updated dependencies [cbd90b0]
 - @design-system-rte/core@0.15.0
+# Core
 
-## 0.9.1
+## 0.17.0
 
-#### Patch Changes
-
-- correct TextInput cursor for React
-- Updated dependencies [db7edfd]
-- @design-system-rte/core@0.14.0
-
-## 0.9.0
-
-### textarea
+### Banner
 
 #### Minor Changes
 
-- update focus, error styles border and cursor on readonly and disabled
-- add showCounter variable to display counter
-- set correct style for label in side position
-- prevent odd displaying on error state and disabled
-- simplify required and optional appearence
-- improve assistive text handling
-- add public api export
-- add tests on storybook
-- set better props handling + handle resizing logic on angular comp
-- add auto scroll to top on blur event
+- use click output instead of input actionCallback
 
-### Link
+### Tokens
 
 #### Minor Changes
 
-- add rel noopener noreferrer on external link
+- add zIndex tokens
 
 ### Other
 
-#### Minor Changes
-
-- add type to textarea ref to avoid casting
-- naming typo
-- harmonise border style on focus + remove showAssistiveTextIcon prop + add link component on angular textarea
-- add react textarea stories
-- extract constants in core
-- add react textarea component
-- update changeDetectionStrategy for angular components
-- add decorative brand example
-- set correct success icon
-- set correct color token name
-- improve formatting and consistency in Tag component and stories
-- update Tag component to use computed properties for icon name and validation
-- improve formatting and consistency in Decorative, WithIcon, and Compact story definitions
-- streamline args structure in Tag component stories
-- correct casing of compactSpacing property in Tag component and stories
-- improve formatting and consistency in Tag component and interface
-- add Tag component with status and decorative types, including styles and stories
-
-#### Patch Changes
-
-- Updated dependencies [89289e7]
-- Updated dependencies [f6bb90d]
-- @design-system-rte/core@0.13.0
-# Core
 
 ## 0.16.0
 
@@ -496,13 +441,13 @@
 #### Minor Changes
 
 - add storybook interactions tests
+# Design Docs
 
-## 0.14.0
+## 0.7.0
 
 #### Minor Changes
 
-- add border-divider token color
-# Design Docs
+- replace png images without emojis for svg files for storybook
 
 ## 0.6.1
 
