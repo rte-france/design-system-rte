@@ -13,8 +13,9 @@
     border-bottom: none;
     border-left: 2px solid var(--background-neutral-regular-default);
     gap: $positive-spacing_050;
+    height: 100%;
 
-    .segment-selected-indicator {
+    .tab-selected-indicator {
       width: 2px;
       transition: top 0.2s ease, height 0.2s ease;
     }
@@ -24,7 +25,7 @@
     justify-content: center
   }
 
-  .segment-selected-indicator {
+  .tab-selected-indicator {
     position: absolute;
     top: 4px;
     height: 2px;

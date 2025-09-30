@@ -40,7 +40,7 @@ const Tab = forwardRef<HTMLDivElement, TabProps>(
         data-direction={direction}
       >
         <span
-          className={style["segment-selected-indicator"]}
+          className={style["tab-selected-indicator"]}
           style={{ left: sliderStyle.left, width: sliderStyle.width, top: sliderStyle.top, height: sliderStyle.height }}
         />
         {options.map((option, index) => (
