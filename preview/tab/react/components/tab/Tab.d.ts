@@ -1,19 +1,7 @@
-interface TabProps {
-    options: {
-        id: string;
-        panelId: string;
-        label?: string;
-        selected?: boolean;
-        icon?: string;
-        badgeCount?: number;
-        badgeAppearance?: "text" | "icon";
-        badgeIcon?: string;
-    }[];
+import { TabProps as CoreTabProps } from '../../../../core/components/tab/tab.interface';
+import { HTMLAttributes } from '../../../../../node_modules/react';
+interface TabProps extends CoreTabProps, Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
     onChange: (id: string) => void;
-    direction?: "horizontal" | "vertical";
-    alignment?: "start" | "center";
-    selectedTabId?: string;
-    compactSpacing?: boolean;
 }
-declare const Tab: ({ options, onChange, direction, alignment, selectedTabId, compactSpacing, }: TabProps) => import("react/jsx-runtime").JSX.Element;
+declare const Tab: import('../../../../../node_modules/react').ForwardRefExoticComponent<TabProps & import('../../../../../node_modules/react').RefAttributes<HTMLDivElement>>;
 export default Tab;

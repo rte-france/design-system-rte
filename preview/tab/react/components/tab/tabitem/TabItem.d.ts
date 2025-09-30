@@ -1,17 +1,7 @@
-import { BadgeAppearance, BadgeType } from '../../../../../core/components/badge/badge.interface';
-interface TabItemProps extends React.HTMLAttributes<HTMLButtonElement> {
-    id: string;
-    panelId: string;
-    label?: string;
-    isSelected?: boolean;
-    onClick?: (event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLButtonElement>) => void;
-    icon?: string;
-    badgeCount?: number;
-    badgeAppearance?: BadgeAppearance;
-    badgeIcon?: string;
-    badgeType?: BadgeType;
-    compactSpacing?: boolean;
-    direction?: "horizontal" | "vertical";
+import { TabItemProps as CoreTabItemProps } from '../../../../../core/components/tab/tab.interface';
+import { HTMLAttributes, MouseEvent, KeyboardEvent } from '../../../../../../node_modules/react';
+interface TabItemProps extends CoreTabItemProps, Omit<HTMLAttributes<HTMLButtonElement>, "id" | "onClick"> {
+    onClick: (event: MouseEvent<HTMLButtonElement> | KeyboardEvent<HTMLButtonElement>) => void;
 }
-declare const TabItem: ({ id, panelId, label, isSelected, badgeCount, badgeAppearance, badgeIcon, onClick, icon, badgeType, compactSpacing, direction, ...props }: TabItemProps) => import("react/jsx-runtime").JSX.Element;
+declare const TabItem: ({ id, panelId, label, isSelected, showBadge, badgeCount, badgeAppearance, badgeIcon, onClick, icon, badgeType, compactSpacing, direction, ...props }: TabItemProps) => import("react/jsx-runtime").JSX.Element;
 export default TabItem;
