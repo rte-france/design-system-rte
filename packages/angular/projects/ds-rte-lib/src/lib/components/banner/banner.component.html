@@ -10,11 +10,12 @@
     </div>
     <div class="rte-banner-content">
       <span *ngIf="title()" class="rte-banner-title">{{ title() }}</span>
-      <div class="rte-banner-message">
+      <div *ngIf="message()" class="rte-banner-message">
         <span>{{ message() }}</span>
         <rte-button
           *ngIf="actionLabel()"
           variant="neutral"
+          size="s"
           [label]="actionLabel()!"
           [ariaLabel]="actionLabel()!"
           (click)="clickAction()"

@@ -4,5 +4,5 @@
   
   ## Changes
 
-- (Banner) add angular component + add keyboard interaction tests
+- (Banner) use click output instead of input actionCallback
 - (Tokens) add zIndex tokens

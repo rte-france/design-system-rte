@@ -65,13 +65,21 @@ const Banner = forwardRef<HTMLDivElement, BannerProps>(
               </div>
             )}
             <div className={style["banner-content"]}>
-              <span className={style["banner-title"]}>{title}</span>
-              <div className={style["banner-message"]}>
-                <span>{message}</span>
-                {actionCallback && actionLabel && (
-                  <Button label={actionLabel} onClick={actionCallback} variant="neutral" aria-label={actionLabel} />
-                )}
-              </div>
+              {title && <span className={style["banner-title"]}>{title}</span>}
+              {message && (
+                <div className={style["banner-message"]}>
+                  <span>{message}</span>
+                  {actionCallback && actionLabel && (
+                    <Button
+                      label={actionLabel}
+                      onClick={actionCallback}
+                      variant="neutral"
+                      aria-label={actionLabel}
+                      size="s"
+                    />
+                  )}
+                </div>
+              )}
             </div>
             {closable && (
               <div className={style["banner-close-icon"]}>

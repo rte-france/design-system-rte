@@ -15,6 +15,15 @@ const meta: Meta<BannerComponent> = {
       control: "select",
       options: ["default", "alert"],
     },
+    title: {
+      control: "text",
+    },
+    message: {
+      control: "text",
+    },
+    actionLabel: {
+      control: "text",
+    },
     position: {
       control: "select",
       options: ["push", "overlay"],
