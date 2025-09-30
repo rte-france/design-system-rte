@@ -1,5 +1,14 @@
 # @design-system-rte/core
 
+## 0.17.0
+
+### Minor Changes
+
+- a901693: ## Changes
+
+  - (Banner) use click output instead of input actionCallback
+  - (Tokens) add zIndex tokens
+
 ## 0.16.0
 
 ### Minor Changes
