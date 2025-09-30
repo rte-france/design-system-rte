@@ -4,11 +4,12 @@ import {
   getBreadcrumbsTruncatedItems,
   shouldTruncateBreadcrumbs,
 } from "@design-system-rte/core/components/breadcrumbs/breadcrumbs.utils";
-import { forwardRef } from "react";
+import { forwardRef, useState } from "react";
 
+import { Dropdown } from "../dropdown/Dropdown";
+import { DropdownItem } from "../dropdown/dropdownItem/DropdownItem";
 import IconButton from "../iconButton/IconButton";
 import Link from "../link/Link";
-import Tooltip from "../tooltip/Tooltip";
 import { concatClassNames } from "../utils";
 
 import style from "./Breadcrumbs.module.scss";
@@ -17,6 +18,7 @@ export interface BreadcrumbsProps extends BreadcrumbsPropsCore, React.HTMLAttrib
 
 const Breadcrumbs = forwardRef<HTMLDivElement, BreadcrumbsProps>(
   ({ items, ariaLabel = BREADCRUMBS_DEFAULT_ARIA_LABEL, ...props }, ref) => {
+    const [isTrucatedListOpened, setIsTruncatedListOpened] = useState<boolean>(false);
     if (shouldTruncateBreadcrumbs(items)) {
       const { root, truncated, remaining } = getBreadcrumbsTruncatedItems(items);
 
@@ -40,24 +42,28 @@ const Breadcrumbs = forwardRef<HTMLDivElement, BreadcrumbsProps>(
           </span>
 
           <span className={style.breadcrumbItem}>
-            <Tooltip
-              position="bottom"
-              aria-label="More items"
-              label={truncated.map((item) => item.label).join(", ")}
-              role="menu"
-              triggerStyles={{
-                display: "flex",
+            <Dropdown
+              dropdownId={"breadcrumbs-truncated-list" + ariaLabel}
+              onClose={() => {
+                setIsTruncatedListOpened(false);
               }}
+              trigger={
+                <IconButton
+                  name="more-horiz"
+                  size="s"
+                  data-testid="show-more"
+                  variant="neutral"
+                  compactSpacing
+                  onClick={() => setIsTruncatedListOpened(!isTrucatedListOpened)}
+                />
+              }
+              isOpen={isTrucatedListOpened}
+              offset={6}
             >
-              <IconButton
-                name="more-horiz"
-                size="s"
-                data-testid="show-more"
-                variant="neutral"
-                compactSpacing
-                tabIndex={-1}
-              />
-            </Tooltip>
+              {truncated.map((item, idx) => (
+                <DropdownItem key={item.label + idx} label={item.label} />
+              ))}
+            </Dropdown>
           </span>
           <span aria-hidden="true" className={style.separator}>
             /
