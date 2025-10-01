@@ -1,5 +1,5 @@
 import { TabProps as CoreTabProps } from "@design-system-rte/core/components/tab/tab.interface";
-import { forwardRef, HTMLAttributes, MutableRefObject, useRef, MouseEvent, KeyboardEvent } from "react";
+import { forwardRef, HTMLAttributes, MutableRefObject, useRef, MouseEvent, KeyboardEvent, useEffect } from "react";
 
 import useSelectedIndicatorPosition from "../../hooks/useSelectedIndicatorPosition";
 
@@ -19,6 +19,12 @@ const Tab = forwardRef<HTMLDivElement, TabProps>(
       selectedTabId,
       direction === "horizontal" ? "bottom" : "left",
     );
+
+    useEffect(() => {
+      if (!selectedTabId && options.length > 0) {
+        onChange(options[0].id);
+      }
+    }, [selectedTabId, options, onChange]);
 
     const handleOnClick = (event: MouseEvent<HTMLButtonElement> | KeyboardEvent<HTMLButtonElement>) => {
       const target = event.currentTarget;
