@@ -25,6 +25,7 @@ const TabItem = ({
   badgeType = "indicator",
   compactSpacing,
   direction,
+  disabled,
   ...props
 }: TabItemProps) => {
   const badgeProps = {
@@ -34,10 +35,9 @@ const TabItem = ({
     badgeType,
   };
 
-  const displayBadge =
-    showBadge ||
-    (badgeCount !== undefined && badgeCount > 0 && badgeAppearance === "text") ||
-    (badgeAppearance === "icon" && badgeIcon);
+  const hasNumberBadge = badgeCount && badgeCount > 0 && badgeAppearance === "text";
+  const hasIconBadge = badgeAppearance === "icon" && badgeIcon;
+  const displayBadge = !disabled && (showBadge || hasNumberBadge || hasIconBadge);
   const tabItemRef = useRef<HTMLButtonElement | null>(null);
 
   const [hoverIndicatorStyle, setHoverIndicatorStyle] = useState<{
@@ -47,6 +47,14 @@ const TabItem = ({
     height?: number;
     opacity?: number;
   } | null>(null);
+
+  const handleOnClick = (event: MouseEvent<HTMLButtonElement>) => {
+    if (!disabled) {
+      onClick(event);
+    } else {
+      event.preventDefault();
+    }
+  };
 
   const handleHover = useCallback(
     (event: string) => {
@@ -68,9 +76,6 @@ const TabItem = ({
   );
 
   const handleKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
-    if (event.key === "Tab") {
-      console.log(event.key);
-    }
     if ([ARROW_LEFT_KEY, ARROW_RIGHT_KEY].includes(event.key)) {
       event.preventDefault();
       if (event.key === ARROW_RIGHT_KEY) {
@@ -86,19 +91,23 @@ const TabItem = ({
     if (!parent) return;
     const allTabItems = Array.from(parent.querySelectorAll(`.${style.tabitem}`)) as HTMLElement[];
     const currentIndex = allTabItems.findIndex((tab) => tab === document.activeElement);
-    let newIndex;
-    if (direction === "next") {
-      newIndex = (currentIndex + 1) % allTabItems.length;
-    } else {
-      newIndex = (currentIndex - 1 + allTabItems.length) % allTabItems.length;
+    let newIndex = computeNextItemIndex(currentIndex, allTabItems.length, direction);
+    let counter = 0;
+    const maxIterations = allTabItems.length;
+    while (allTabItems[newIndex].getAttribute("data-disabled") === "true" && counter < maxIterations) {
+      newIndex = computeNextItemIndex(newIndex, allTabItems.length, direction);
+      counter++;
     }
     allTabItems[newIndex].focus();
     allTabItems[newIndex].click();
   };
 
+  const computeNextItemIndex = (currentIndex: number, totalItems: number, direction: "next" | "previous") => {
+    return direction === "next" ? (currentIndex + 1) % totalItems : (currentIndex - 1 + totalItems) % totalItems;
+  };
+
   useEffect(() => {
     if (tabItemRef.current) {
-      console.log(direction);
       if (direction === "horizontal") {
         setHoverIndicatorStyle({
           width: tabItemRef.current.offsetWidth,
@@ -107,7 +116,6 @@ const TabItem = ({
           opacity: 0,
         });
       } else {
-        console.log("vertical");
         setHoverIndicatorStyle({
           left: tabItemRef.current.offsetLeft - 2,
           top: tabItemRef.current.offsetTop,
@@ -126,9 +134,11 @@ const TabItem = ({
         role="tab"
         aria-selected={isSelected}
         aria-controls={panelId}
+        aria-disabled={disabled}
         tabIndex={isSelected ? 0 : -1}
         data-selected={isSelected}
-        onClick={onClick}
+        data-disabled={disabled}
+        onClick={handleOnClick}
         data-compact-spacing={compactSpacing}
         ref={tabItemRef}
         onKeyDown={handleKeyDown}
@@ -142,6 +152,7 @@ const TabItem = ({
         {displayBadge && <Badge {...badgeProps} />}
       </button>
       <span
+        data-disabled={disabled}
         className={style["segment-hover-indicator"]}
         style={{
           width: hoverIndicatorStyle?.width,

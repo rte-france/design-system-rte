@@ -6,6 +6,7 @@ export interface TabProps {
   alignment?: TabAlignment;
   selectedTabId?: string;
   compactSpacing?: boolean;
+  disabled?: boolean;
 }
 
 export interface TabItemProps {
@@ -21,4 +22,5 @@ export interface TabItemProps {
   showBadge?: boolean;
   compactSpacing?: boolean;
   direction?: import("../common/common-types").Direction;
+  disabled?: boolean;
 }
