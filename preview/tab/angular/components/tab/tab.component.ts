@@ -86,7 +86,6 @@ export class TabComponent implements AfterViewInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes["selectedTabId"]) {
-      console.log("selectedTabId changed:", changes["selectedTabId"]);
       this.updateSelectedTabItemIndicator();
     }
   }
@@ -95,7 +94,6 @@ export class TabComponent implements AfterViewInit, OnChanges {
     if ([ARROW_LEFT_KEY, ARROW_RIGHT_KEY].includes(event.key)) {
       event.preventDefault();
       if (event.key === ARROW_RIGHT_KEY) {
-        console.log("event.key:", event.key);
         this.focusItem("next");
       } else {
         this.focusItem("previous");
@@ -118,7 +116,6 @@ export class TabComponent implements AfterViewInit, OnChanges {
       this.tabItemRefs()[newIndex].tabItemRef()?.nativeElement.getAttribute("data-disabled") === "true" &&
       counter < maxIterations
     ) {
-      console.log("Tab item is disabled, moving to next/previous");
       newIndex = this.computeNextItemIndex(newIndex, maxIterations, direction);
       counter++;
     }

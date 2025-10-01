@@ -77,7 +77,6 @@ export class TabItemComponent implements AfterViewInit {
       ...this.hoverIndicatorStyle(),
       opacity: 0,
     });
-    console.log("Tab item clicked:", id);
     if (!this.isSelected()) {
       this.click.emit(id);
     }
