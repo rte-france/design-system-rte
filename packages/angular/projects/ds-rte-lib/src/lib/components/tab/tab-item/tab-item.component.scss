@@ -1,7 +1,13 @@
-@use '@design-system-rte/core/design-tokens/main.scss' as *;
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
 
-.tabitem {
+:host {
+  pointer-events: none;
+}
+
+.rte-tabitem {
   @include typography-text-m;
+  position: relative;
+  pointer-events: auto;
   display: flex;
   padding: $positive-spacing_150;
   justify-content: center;
@@ -15,6 +21,7 @@
 
   &[data-selected='true'],
   &:hover {
+
     &:not([data-disabled='true']) {
       @include typography-text-m-bold;
     }
@@ -29,15 +36,13 @@
     padding: $positive-spacing_050 $positive-spacing_150;
   }
 
-
   &:focus-visible {
-    z-index: 10;
+    z-index: 1;
     outline: 2px solid var(--border-brand-focused);
   }
-
 }
 
-.segment-hover-indicator {
+.rte-tab-hover-indicator {
   &[data-disabled='true'] {
     display: none;
   }

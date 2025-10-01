@@ -10,33 +10,13 @@
     [ngStyle]="tabItemSelectedIndicatorStyle()"
   ></span>
   <ng-container *ngFor="let option of options(); let idx = index">
-    <button
+    <rte-tab-item
       #tabItem
-      class="rte-tabitem"
-      role="tab"
-      [id]="option.id"
-      [attr.aria-selected]="isSelected(option.id)"
-      [attr.aria-controls]="option.panelId"
-      [tabIndex]="isSelected(option.id) ? 0 : -1"
-      [attr.data-selected]="isSelected(option.id)"
-      [attr.data-compact-spacing]="compactSpacing()"
-      (click)="onClickTabItem(option.id)"
+      [option]="option"
+      [compactSpacing]="compactSpacing()"
+      [isSelected]="isSelected(option.id)"
       (keydown)="onKeydownTabItem($event)"
-    >
-      <rte-icon
-        *ngIf="option.icon"
-        [name]="option.icon"
-        [appearance]="isSelected(option.id) ? 'filled' : 'outlined'"
-      />
-      <span *ngIf="option.label">{{ option.label }}</span>
-      <rte-badge
-        *ngIf="displayBadge(option)"
-        [simpleBadge]="true"
-        [badgeAppearance]="option.badgeAppearance || 'empty'"
-        [badgeType]="option.badgeType || 'neutral'"
-        [icon]="option.badgeIcon || ''"
-        [count]="option.badgeCount"
-      />
-    </button>
+      (click)="onClickTabItem(option.id)"
+    ></rte-tab-item>
   </ng-container>
 </div>
