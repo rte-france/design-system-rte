@@ -10,7 +10,7 @@
     [ngStyle]="tabItemSelectedIndicatorStyle()"
   ></span>
   <ng-container *ngFor="let option of options(); let idx = index">
-    <button
+    <!-- <button
       #tabItem
       class="rte-tabitem"
       role="tab"
@@ -20,8 +20,11 @@
       [tabIndex]="isSelected(option.id) ? 0 : -1"
       [attr.data-selected]="isSelected(option.id)"
       [attr.data-compact-spacing]="compactSpacing()"
+      [attr.data-disabled]="option.disabled"
       (click)="onClickTabItem(option.id)"
       (keydown)="onKeydownTabItem($event)"
+      (mouseover)="handleMouseHover($event)"
+      (mouseout)="handleMouseOut($event)"
     >
       <rte-icon
         *ngIf="option.icon"
@@ -38,5 +41,19 @@
         [count]="option.badgeCount"
       />
     </button>
+    <span
+      #hoverIndicator
+      [attr.data-disabled]="option.disabled"
+      class="rte-tab-hover-indicator"
+      [id]="'tab-hover-indicator' + option.id"
+    ></span> -->
+    <rte-tab-item
+      #tabItem
+      [option]="option"
+      [compactSpacing]="compactSpacing()"
+      [isSelected]="isSelected(option.id)"
+      (keydown)="onKeydownTabItem($event)"
+      (click)="onClickTabItem(option.id)"
+    ></rte-tab-item>
   </ng-container>
 </div>

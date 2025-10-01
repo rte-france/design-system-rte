@@ -1,0 +1,58 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+:host {
+  pointer-events: none;
+}
+
+.rte-tabitem {
+  @include typography-text-m;
+  position: relative;
+  pointer-events: auto;
+  display: flex;
+  padding: $positive-spacing_150;
+  justify-content: center;
+  align-items: center;
+  gap: $positive-spacing_150;
+  background: transparent;
+  color: var(--content-secondary);
+  cursor: pointer;
+  border: none;
+  text-align: left;
+
+  &[data-selected='true'],
+  &:hover {
+
+    &:not([data-disabled='true']) {
+      @include typography-text-m-bold;
+    }
+  }
+
+  &[data-disabled='true'] {
+    color: var(--content-disabled);
+    cursor: not-allowed;
+  }
+
+  &[data-compact-spacing='true'] {
+    padding: $positive-spacing_050 $positive-spacing_150;
+  }
+
+  &:focus-visible {
+    z-index: 1;
+    outline: 2px solid var(--border-brand-focused);
+  }
+}
+
+.rte-tab-hover-indicator {
+  &[data-disabled='true'] {
+    display: none;
+  }
+
+  position: absolute;
+  top: 4px;
+  height: 2px;
+  width: 2px;
+  background: var(--background-neutral-regular-hover);
+  opacity: 0;
+  transition: left 0.2s ease,
+  width 0.2s ease;
+}

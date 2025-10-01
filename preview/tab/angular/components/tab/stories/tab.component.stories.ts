@@ -35,6 +35,7 @@ export const Default: Story = {
         id: "tab-1",
         label: "First Tab",
         panelId: "panel-1",
+        disabled: true,
       },
       {
         id: "tab-2",

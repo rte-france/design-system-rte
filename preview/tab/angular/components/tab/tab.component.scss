@@ -32,45 +32,4 @@
     background: var(--background-brand-selected-default);
     transition: left 0.2s ease, width 0.2s ease;
   }
-
-
-  .rte-tabitem {
-    @include typography-text-m;
-    display: flex;
-    padding: $positive-spacing_150;
-    justify-content: center;
-    align-items: center;
-    gap: $positive-spacing_150;
-    background: transparent;
-    color: var(--content-secondary);
-    cursor: pointer;
-    border: none;
-    text-align: left;
-
-    &[data-selected='true'],
-    &:hover {
-      @include typography-text-m-bold;
-    }
-
-    &[data-compact-spacing='true'] {
-      padding: $positive-spacing_050 $positive-spacing_150;
-    }
-
-
-    &:focus-visible {
-      z-index: 1;
-      outline: 2px solid var(--border-brand-focused);
-    }
-
-  }
-
-  .rte-tab-hover-indicator {
-    position: absolute;
-    top: 4px;
-    height: 2px;
-    width: 2px;
-    background: var(--background-neutral-regular-hover);
-    opacity: 0;
-    transition: left 0.2s ease, width 0.2s ease;
-  }
 }

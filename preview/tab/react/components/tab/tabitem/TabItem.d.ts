@@ -3,5 +3,5 @@ import { HTMLAttributes, MouseEvent, KeyboardEvent } from '../../../../../../nod
 interface TabItemProps extends CoreTabItemProps, Omit<HTMLAttributes<HTMLButtonElement>, "id" | "onClick"> {
     onClick: (event: MouseEvent<HTMLButtonElement> | KeyboardEvent<HTMLButtonElement>) => void;
 }
-declare const TabItem: ({ id, panelId, label, isSelected, showBadge, badgeCount, badgeAppearance, badgeIcon, onClick, icon, badgeType, compactSpacing, direction, ...props }: TabItemProps) => import("react/jsx-runtime").JSX.Element;
+declare const TabItem: ({ id, panelId, label, isSelected, showBadge, badgeCount, badgeAppearance, badgeIcon, onClick, icon, badgeType, compactSpacing, direction, disabled, ...props }: TabItemProps) => import("react/jsx-runtime").JSX.Element;
 export default TabItem;
