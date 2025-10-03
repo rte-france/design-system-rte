@@ -1,19 +1,30 @@
 @use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
 
 .tab-container {
+  position: relative; // contexte indicateur
   display: flex;
-  align-items: flex-start;
+  align-items: center;
+  height: 100%;
   gap: $positive-spacing_300;
   justify-content: flex-start;
   align-self: stretch;
-  border-bottom: 2px solid var(--background-neutral-regular-default);
+  overflow-x: scroll;
+  overflow-y: visible;
+  padding-bottom: 2px;
+  margin-bottom: -2px;
+  padding-top: 5px;
+  padding-left: 2px;
+  scrollbar-width: none;
+  width: 100%;
 
   &[data-direction='vertical'] {
     flex-direction: column;
     border-bottom: none;
-    border-left: 2px solid var(--background-neutral-regular-default);
+    // border-left: 2px solid var(--background-neutral-regular-default);
     gap: $positive-spacing_050;
     height: 100%;
+    padding-left: 2px;
+    margin-left: -2px;
 
     .tab-selected-indicator {
       width: 2px;
@@ -27,9 +38,48 @@
 
   .tab-selected-indicator {
     position: absolute;
-    top: 4px;
+    bottom: 0;
     height: 2px;
     background: var(--background-brand-selected-default);
     transition: left 0.2s ease, width 0.2s ease;
+    pointer-events: none;
+    z-index: 1;
   }
+
+  .tab-separator {
+    width: $positive-spacing_300;
+    flex-shrink: 0;
+  }
+}
+
+.tab-border-horizontal {
+  background-color: var(--background-neutral-regular-default);
+  position: relative;
+  height: 2px;
+
+  &[data-direction='vertical'] {
+    display: none;
+  }
+}
+
+.tab-border-vertical {
+  background-color: var(--background-neutral-regular-default);
+  position: relative;
+  height: 100%;
+  width: 2px;
+
+  &[data-direction='horizontal'] {
+    display: none;
+  }
+}
+
+.tab-dropdown-button {
+  width: max-content;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0
 }

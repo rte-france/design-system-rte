@@ -13,6 +13,18 @@
   border: none;
   text-align: left;
 
+  height: 100%;
+
+  &[data-direction='horizontal'] {
+    flex-shrink: 0;
+  }
+
+
+  &[data-hidden='true'] {
+    visibility: hidden;
+    // display: none;
+  }
+
   &[data-selected='true'],
   &:hover {
     &:not([data-disabled='true']) {

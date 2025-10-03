@@ -80,6 +80,8 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
     }, []);
 
     const closeDropdown = useCallback(() => {
+      console.log("closeDropdown");
+      console.log({ hasParent, closeRoot });
       if (hasParent && closeRoot) {
         closeRoot();
       } else {
@@ -123,12 +125,14 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
 
     useEffect(() => {
       const handleClickOutside = (event: MouseEvent) => {
+        console.log("handleClickOutside");
         const target = event.target as Element;
         const allDropdowns = document.querySelectorAll("[data-dropdown-id]");
         const clickedInside =
           Array.from(allDropdowns).some((dropdown) => dropdown.contains(target)) ||
           triggerRef.current?.contains(target);
 
+        console.log("clickedInside", clickedInside);
         if (!clickedInside) {
           closeDropdown();
         }
