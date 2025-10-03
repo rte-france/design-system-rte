@@ -25,7 +25,12 @@ const meta = {
     },
     selectedTabId: { control: "text" },
     compactSpacing: { control: "boolean" },
+    overflowType: {
+      control: "select",
+      options: ["scrollable", "dropdown"],
+    },
   },
+  parameters: {},
 } satisfies Meta<typeof Tab>;
 
 export default meta;
@@ -328,6 +333,7 @@ export const KeyboardInteraction: Story = {
     onChange: () => {},
     options: [],
     alignment: "start",
+    overflowType: "dropdown",
   },
 
   render: (args) => {

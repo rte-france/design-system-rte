@@ -7,6 +7,7 @@ export function generateZIndexTokensFile() {
 
   scss += `$level-0: 0;\n`;
   scss += `$level-1: 10;\n`;
+  scss += `$level-2: 100;\n`;
 
   const filename = buildScssFileName("zIndex");
 
