@@ -1,5 +1,7 @@
 import { CommonModule } from "@angular/common";
-import { Component, EventEmitter, input, output } from "@angular/core";
+import { Component, DestroyRef, EventEmitter, inject, input, output } from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { DropdownService } from "../../../services/dropdown.service";
 
 import { DividerComponent } from "../../divider/divider.component";
 import { IconComponent } from "../../icon/icon.component";
@@ -23,6 +25,8 @@ export interface DropdownItemConfig {
   styleUrl: "./dropdown-item.component.scss",
 })
 export class DropdownItemComponent {
+  private readonly dropdownService = inject(DropdownService);
+  private readonly destroyRef = inject(DestroyRef);
   readonly label = input.required<string>();
   readonly leftIcon = input<string>();
   readonly trailingText = input<string>();
@@ -32,9 +36,27 @@ export class DropdownItemComponent {
 
   readonly subMenuItems = input<DropdownItemConfig[]>([]);
 
+  readonly menuId = input<string>();
+  readonly itemIndex = input<number>();
   readonly click = output<Event>();
 
+  isActive(): boolean {
+    let active = false;
+    if (this.menuId() && this.subMenuItems().length) {
+      const submenuId = `${this.menuId()}:${this.itemIndex() ?? 0 + 1}`;
+      this.dropdownService.isMenuActive(submenuId)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe(isActive => active = isActive);
+    }
+    return active;
+  }
+
   handleClick(event: Event) {
+    if (this.disabled()) {
+      event.preventDefault();
+      event.stopPropagation();
+      return;
+    }
     this.click.emit(event);
   }
 }

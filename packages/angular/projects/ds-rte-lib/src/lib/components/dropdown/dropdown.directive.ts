@@ -2,16 +2,25 @@ import {
   AfterContentInit,
   ComponentRef,
   contentChild,
+  DestroyRef,
   Directive,
   ElementRef,
   inject,
+  input,
+  OnDestroy,
   Renderer2,
   ViewContainerRef,
 } from "@angular/core";
+import { Subject, takeUntil } from "rxjs";
+import { DropdownService } from "../../services/dropdown.service";
 import { getCoordinates } from "@design-system-rte/core/components/utils/auto-placement";
 import {
   ARROW_DOWN_KEY,
+  ARROW_LEFT_KEY,
+  ARROW_RIGHT_KEY,
   ARROW_UP_KEY,
+  ENTER_KEY,
+  ESCAPE_KEY,
   SPACE_KEY,
   TAB_KEY,
 } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
@@ -20,76 +29,82 @@ import { OverlayService } from "../../services/overlay.service";
 
 import { DropdownMenuComponent } from "./dropdown-menu/dropdown-menu.component";
 import { DropdownTriggerDirective } from "./dropdown-trigger/dropdown-trigger.directive";
-import { focusNextElement, focusPreviousElement } from "./dropdown.utils";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+
+export interface DropdownContext {
+  id: string;
+  parentId?: string;
+  itemIndex?: number;
+}
+
+export interface DropdownState {
+  activeMenuId: string;      // Currently focused menu
+  visibleMenuIds: string[];  // All menus that should be shown
+  activePath: string[];      // Full path from root to active menu
+}
 
 @Directive({
   selector: "[rteDropdown]",
   host: {
     "[class.dropdown]": "true",
+    "[attr.data-dropdown-id]": "context()?.id ?? dropdownId",
   },
-  standalone: true,
+  standalone: true
 })
-export class DropdownDirective implements AfterContentInit {
+export class DropdownDirective implements AfterContentInit, OnDestroy {
+  private static idCounter = 0;
+  
   readonly trigger = contentChild(DropdownTriggerDirective);
   readonly menu = contentChild(DropdownMenuComponent);
+  
+  readonly dropdownId = `dropdown_${++DropdownDirective.idCounter}`;
+  readonly context = input<DropdownContext>();
 
+  private readonly destroy$ = new Subject<void>();
   readonly overlayService = inject(OverlayService);
+  readonly dropdownService = inject(DropdownService);
   readonly viewContainerRef = inject(ViewContainerRef);
   readonly elementRef = inject(ElementRef);
   readonly renderer = inject(Renderer2);
   readonly hostElement: HTMLElement;
+  readonly destroyRef = inject(DestroyRef);
 
   constructor() {
     this.hostElement = this.elementRef.nativeElement;
   }
-
+  
   dropdownMenuRef: ComponentRef<DropdownMenuComponent> | null = null;
 
   onTrigger(): void {
     this.showDropdownMenu();
   }
 
-  //   onTriggerKeyEvent(event: KeyboardEvent): void {}
-
-  //   onMenuKeyEvent(event: KeyboardEvent): void {}
-
-  onKeyDown(event: KeyboardEvent): void {
-    console.log("onKeyDown", event);
-    if (event.key === TAB_KEY) {
-      if (this.dropdownMenuRef !== null) {
-        // event.preventDefault();
-        // focusNextElement(this.dropdownMenuRef.location.nativeElement);
-      }
-    }
+  onTriggerKeyEvent(event: KeyboardEvent): void {
     if (event.key === SPACE_KEY) {
-      event.preventDefault();
       this.showDropdownMenu();
     }
 
-    if ([ARROW_DOWN_KEY, ARROW_UP_KEY].includes(event.key)) {
+    if (event.key === TAB_KEY && this.dropdownMenuRef) {
       event.preventDefault();
-
-      if (event.key === ARROW_DOWN_KEY) {
-        console.log("focusNextElement", this.dropdownMenuRef?.location.nativeElement);
-        focusNextElement(this.dropdownMenuRef?.location.nativeElement);
-      } else {
-        focusPreviousElement(this.dropdownMenuRef?.location.nativeElement);
+      const menuElement = this.dropdownMenuRef.location.nativeElement;
+      const focusableElements = menuElement.querySelectorAll(
+        'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"]):not([disabled])'
+      );
+      if (focusableElements.length) {
+        focusableElements[0].focus();
       }
     }
   }
 
   ngAfterContentInit(): void {
     if (this.trigger()) {
-      this.trigger()?.dropdownTriggered.subscribe((event) => {
-        this.onTrigger(event);
+      this.trigger()?.dropdownTriggered.subscribe(() => {
+        this.onTrigger();
       });
-      this.trigger()?.dropdownKeyDown.subscribe((event) => {
+
+      this.trigger()?.dropdownKeyDown.subscribe((event: KeyboardEvent) => {
         event.preventDefault();
-        this.onKeyDown(event);
-      });
-      this.menu()?.keydown.subscribe((event) => {
-        event.preventDefault();
-        this.onKeyDown(event);
+        this.onTriggerKeyEvent(event);
       });
     }
   }
@@ -100,8 +115,29 @@ export class DropdownDirective implements AfterContentInit {
     }
 
     this.dropdownMenuRef = this.overlayService.create(DropdownMenuComponent, this.viewContainerRef);
+    
+    const menuId = this.context()?.id ?? this.dropdownId;
+    const parentId = this.context()?.parentId;
+    
+    this.dropdownMenuRef.setInput('menuId', menuId);
+    this.dropdownMenuRef.setInput('parentMenuId', parentId);
+    
+    this.updateState(menuId, 'activate');
+    
+    this.dropdownMenuRef.instance.onKeyDown.bind(this.dropdownMenuRef.instance);
+    
     this.positionDropdownMenu();
     this.assignItems();
+    
+    this.addClickOutsideListener();
+
+    this.dropdownService.state$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(state => {
+        if (state === null) {
+          this.closeDropdown();
+        }
+    })
   }
 
   private assignItems(): void {
@@ -124,23 +160,65 @@ export class DropdownDirective implements AfterContentInit {
     }
   }
 
-  /*     ngAfterViewInit() {
-        document.addEventListener("click", this.handleClickOutside.bind(this));
+  private updateState(menuId: string, action: 'activate' | 'deactivate'): void {
+    if (action === 'activate') {
+      this.dropdownService.activateMenu(menuId);
+    } else {
+      this.dropdownService.deactivateMenu(menuId);
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.removeClickOutsideListener();
+    if (this.dropdownMenuRef) {
+      this.dropdownMenuRef.destroy();
+    }
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  private handleClickOutside = (event: MouseEvent): void => {
+    const target = event.target as Element;
+    
+    const isMenuItemClick = target.closest('.rte-dropdown-item') !== null;
+    if (isMenuItemClick) {
+      return;
+    }
+
+    const clickedInTrigger = this.hostElement.contains(target);
+    
+    let clickedInMenus = false;
+    this.dropdownService.visibleMenuIds$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(visibleMenuIds => {
+        clickedInMenus = !!visibleMenuIds?.some(menuId => {
+          const menuElement = document.querySelector(`[data-menu-id="${menuId}"]`);
+          return menuElement?.contains(target);
+        });
+      });
+
+    if (!clickedInTrigger && !clickedInMenus) {
+      this.closeDropdown();
+    }
+  };
+
+  private addClickOutsideListener(): void {
+    document.addEventListener("mousedown", this.handleClickOutside);
+  }
+
+  private removeClickOutsideListener(): void {
+    document.removeEventListener("mousedown", this.handleClickOutside);
+  }
+
+  private closeDropdown(): void {
+    const currentId = this.context()?.id ?? this.dropdownId;
+    this.updateState(currentId, 'deactivate');
+    
+    if (this.dropdownMenuRef) {
+      this.dropdownMenuRef.destroy();
+      this.dropdownMenuRef = null;
     }
     
-    ngOnDestroy() {
-        document.removeEventListener("click", this.handleClickOutside.bind(this));
-    } */
-
-  /* private handleClickOutside = (event: MouseEvent) => {
-        const target = event.target as Element;
-        const allDropdowns = document.querySelectorAll("[data-dropdown-id]");
-        const clickedInside =
-            Array.from(allDropdowns).some((dropdown) => dropdown.contains(target)) ||
-            // this.triggerRef()?.nativeElement.contains(target);
-
-        if (!clickedInside) {
-            this.close();
-        }
-    }; */
+    this.removeClickOutsideListener();
+  }
 }
