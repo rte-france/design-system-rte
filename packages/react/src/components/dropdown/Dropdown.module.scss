@@ -33,6 +33,7 @@
   pointer-events: auto;
   overflow-x: hidden;
   overflow-y: auto;
+  z-index: $level-2;
 
   &[data-open='true'] {
     opacity: 1;

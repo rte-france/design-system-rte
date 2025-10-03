@@ -7,6 +7,7 @@ export interface TabProps {
   selectedTabId?: string;
   compactSpacing?: boolean;
   disabled?: boolean;
+  overflowType?: "dropdown" | "scrollable";
 }
 
 export interface TabItemProps {

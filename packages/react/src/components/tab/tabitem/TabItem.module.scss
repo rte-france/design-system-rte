@@ -1,4 +1,4 @@
-@use '@design-system-rte/core/design-tokens/main.scss' as *;
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
 
 .tabitem {
   @include typography-text-m;
@@ -12,6 +12,18 @@
   cursor: pointer;
   border: none;
   text-align: left;
+  flex-shrink: 0;
+  margin-left: 2px;
+  height: 100%;
+
+  &[data-direction='vertical'] {
+    flex-shrink: 1;
+  }
+
+
+  &[data-hidden='true'] {
+    visibility: hidden;
+  }
 
   &[data-selected='true'],
   &:hover {
@@ -50,4 +62,5 @@
   opacity: 0;
   transition: left 0.2s ease,
   width 0.2s ease;
+  z-index: $level-1;
 }

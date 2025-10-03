@@ -21,7 +21,7 @@ import { useDropdownState } from "../hooks/useDropdownState";
 import styles from "./DropdownItem.module.scss";
 
 interface DropdownItemProps extends Omit<CoreDropdownItemProps, "onClick">, React.HTMLAttributes<HTMLLIElement> {
-  onClick?: (event: React.MouseEvent<HTMLLIElement> | React.KeyboardEventHandler<HTMLLIElement>) => void;
+  onClick?: (event: React.MouseEvent<HTMLLIElement> | React.KeyboardEvent<HTMLLIElement>) => void;
 }
 
 export const DropdownItem = ({
@@ -56,7 +56,7 @@ export const DropdownItem = ({
     );
   }
 
-  const handleOnClick = (event: React.MouseEvent<HTMLLIElement> | React.KeyboardEventHandler<HTMLLIElement>) => {
+  const handleOnClick = (event: React.MouseEvent<HTMLLIElement> | React.KeyboardEvent<HTMLLIElement>) => {
     if (disabled) return;
     if (onClick) {
       onClick(event);
@@ -81,7 +81,7 @@ export const DropdownItem = ({
     if (e.key === ENTER_KEY || e.key === SPACE_KEY) {
       if (disabled) return;
       if (onClick) {
-        handleOnClick(e as unknown as React.KeyboardEventHandler<HTMLLIElement>);
+        handleOnClick(e as unknown as React.KeyboardEvent<HTMLLIElement>);
       }
       if (children) {
         open();
