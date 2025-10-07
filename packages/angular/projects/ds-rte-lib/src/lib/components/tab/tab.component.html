@@ -1,22 +1,85 @@
-<div
-  role="tablist"
-  aria-label="Sample Tabs"
-  class="rte-tab-container"
-  [attr.data-alignment]="alignment()"
-  [attr.data-direction]="direction()"
->
-  <span
-    class="rte-tab-selected-indicator"
-    [ngStyle]="tabItemSelectedIndicatorStyle()"
-  ></span>
-  <ng-container *ngFor="let option of options(); let idx = index">
-    <rte-tab-item
-      #tabItem
-      [option]="option"
-      [compactSpacing]="compactSpacing()"
-      [isSelected]="isSelected(option.id)"
-      (keydown)="onKeydownTabItem($event)"
-      (click)="onClickTabItem(option.id)"
-    ></rte-tab-item>
-  </ng-container>
+<div class="rte-tab-container" [attr.data-direction]="direction()">
+  <div
+    class="rte-tab-border-vertical"
+    aria-hidden="true"
+    role="presentation"
+    [attr.data-direction]="direction()"
+  ></div>
+  <div
+    [ngStyle]="{
+      position: 'relative',
+      display: 'flex',
+      'align-items': 'center',
+      'flex-direction': direction() === 'horizontal' ? 'row' : 'column',
+    }"
+  >
+    <rte-icon-button
+      *ngIf="isScrollable() && !shouldDisplayDropdown()"
+      aria-label="Previous tabs"
+      variant="transparent"
+      size="l"
+      [name]="
+        direction() === 'horizontal' ? 'arrow-chevron-left' : 'arrow-chevron-up'
+      "
+      [ngStyle]="{
+        'z-index': 11,
+        'background-color': 'white',
+        opacity: canScrollBackward() ? '1' : '0',
+        'pointer-events': canScrollBackward() ? 'auto' : 'none',
+      }"
+      (click)="scrollBackward()"
+    />
+    <div
+      #tabList
+      role="tablist"
+      aria-label="Sample Tabs"
+      class="rte-tab"
+      [attr.data-alignment]="alignment()"
+      [attr.data-direction]="direction()"
+    >
+      <span
+        class="rte-tab-selected-indicator"
+        [ngStyle]="tabItemSelectedIndicatorStyle()"
+      ></span>
+      <ng-container *ngFor="let option of options(); let idx = index">
+        <rte-tab-item
+          #tabItem
+          [option]="option"
+          [direction]="direction()"
+          [compactSpacing]="compactSpacing()"
+          [isSelected]="isSelected(option.id)"
+          (keydown)="onKeydownTabItem($event)"
+          (click)="onClickTabItem(option.id)"
+        ></rte-tab-item>
+      </ng-container>
+    </div>
+    <rte-icon-button
+      *ngIf="isScrollable() && !shouldDisplayDropdown()"
+      aria-label="Next tabs"
+      variant="transparent"
+      size="l"
+      [name]="
+        direction() === 'horizontal'
+          ? 'arrow-chevron-right'
+          : 'arrow-chevron-down'
+      "
+      [ngStyle]="{
+        'z-index': 11,
+        'background-color': 'white',
+        opacity: canScrollForward() ? '1' : '0',
+        'pointer-events': canScrollForward() ? 'auto' : 'none',
+      }"
+      (click)="scrollForward()"
+    />
+  </div>
+  <div
+    class="rte-tab-border-horizontal"
+    aria-hidden="true"
+    role="presentation"
+    [attr.data-direction]="direction()"
+    [attr.data-compact-spacing]="compactSpacing()"
+    [attr.data-scrollable]="
+      isScrollable() && overflowType() === 'scrollable' ? true : undefined
+    "
+  ></div>
 </div>

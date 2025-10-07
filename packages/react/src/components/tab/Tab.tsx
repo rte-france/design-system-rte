@@ -40,10 +40,10 @@ const Tab = forwardRef<HTMLDivElement, TabProps>(
   ) => {
     const [isScrollableLeft, setIsScrollableLeft] = useState(false);
     const [isScrollableRight, setIsScrollableRight] = useState(false);
+    const [isScrollableBottom, setIsScrollableBottom] = useState(false);
+    const [isScrollableTop, setIsScrollableTop] = useState(false);
     const [isScrollable, setIsScrollable] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-    const shouldDisplayDropdown = isScrollable && overflowType === "dropdown";
 
     const containerRef: MutableRefObject<HTMLDivElement | null> = useRef<HTMLDivElement>(null);
 
@@ -53,14 +53,26 @@ const Tab = forwardRef<HTMLDivElement, TabProps>(
       direction === "horizontal" ? "bottom" : "left",
     );
 
+    const isHorizontalScrollable = direction === "horizontal" && (isScrollableLeft || isScrollableRight);
+
+    const shouldDisplayDropdown = isHorizontalScrollable && overflowType === "dropdown";
+
     const computeScrollableState = useCallback(() => {
       if (containerRef.current) {
-        const isScrollable = containerRef.current.offsetWidth < containerRef.current.scrollWidth;
+        const isScrollable =
+          containerRef.current.offsetWidth < containerRef.current.scrollWidth ||
+          containerRef.current.offsetHeight < containerRef.current.scrollHeight;
+
         const isOverFlowingLeft = containerRef.current.scrollLeft > 0;
         const isOverFlowingRight =
           containerRef.current.scrollWidth - containerRef.current.clientWidth - containerRef.current.scrollLeft > 0;
+        const isOverFlowingTop = containerRef.current.scrollTop > 0;
+        const isOverFlowingBottom =
+          containerRef.current.scrollHeight - containerRef.current.clientHeight - containerRef.current.scrollTop > 0;
         setIsScrollableLeft(isOverFlowingLeft);
         setIsScrollableRight(isOverFlowingRight);
+        setIsScrollableTop(isOverFlowingTop);
+        setIsScrollableBottom(isOverFlowingBottom);
         setIsScrollable(isScrollable);
       }
     }, [containerRef]);
@@ -92,6 +104,46 @@ const Tab = forwardRef<HTMLDivElement, TabProps>(
       const id = target.getAttribute("id") || "";
       onChange(id);
       setIsDropdownOpen(false);
+      if (isHiddenByOverflow(target)) {
+        scrollToSelectedTab(target);
+      }
+    };
+
+    const isHiddenByOverflow = (target: HTMLElement): boolean => {
+      const parent = containerRef.current;
+      if (parent && target) {
+        const parentRect = parent.getBoundingClientRect();
+        const targetRect = target.getBoundingClientRect();
+        const isHiddenLeft = targetRect.left < parentRect.left;
+        const isHiddenRight = targetRect.right > parentRect.right;
+        const isHiddenTop = targetRect.top < parentRect.top;
+        const isHiddenBottom = targetRect.bottom > parentRect.bottom;
+        if (direction === "horizontal") return isHiddenLeft || isHiddenRight;
+        return isHiddenTop || isHiddenBottom;
+      }
+      return false;
+    };
+
+    const scrollToSelectedTab = (target: HTMLElement) => {
+      if (direction === "horizontal") {
+        containerRef.current?.scrollTo({ left: target.offsetLeft, behavior: "smooth" });
+      } else {
+        containerRef.current?.scrollTo({ top: target.offsetTop, behavior: "smooth" });
+      }
+    };
+
+    const scrollBackward = () => {
+      if (containerRef.current) {
+        const scrollObject = direction === "horizontal" ? { left: -300 } : { top: -300 };
+        containerRef.current.scrollBy({ ...scrollObject, behavior: "smooth" });
+      }
+    };
+
+    const scrollForward = () => {
+      if (containerRef.current) {
+        const scrollObject = direction === "horizontal" ? { left: 300 } : { top: 300 };
+        containerRef.current.scrollBy({ ...scrollObject, behavior: "smooth" });
+      }
     };
 
     const selectedOption = options.find((option) => option.id === selectedTabId);
@@ -104,8 +156,15 @@ const Tab = forwardRef<HTMLDivElement, TabProps>(
           role="presentation"
           data-direction={direction}
         ></div>
-        <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
-          {isScrollable && overflowType === "scrollable" && (
+        <div
+          style={{
+            position: "relative",
+            display: "flex",
+            alignItems: "center",
+            flexDirection: direction === "horizontal" ? "row" : "column",
+          }}
+        >
+          {isScrollable && !shouldDisplayDropdown && (
             <IconButton
               name={direction === "horizontal" ? "arrow-chevron-left" : "arrow-chevron-up"}
               aria-label="Previous tabs"
@@ -114,14 +173,10 @@ const Tab = forwardRef<HTMLDivElement, TabProps>(
               style={{
                 zIndex: 11,
                 backgroundColor: "white",
-                opacity: isScrollableLeft ? 1 : 0,
-                pointerEvents: isScrollableLeft ? "auto" : "none",
+                opacity: isScrollableLeft || isScrollableTop ? 1 : 0,
+                pointerEvents: isScrollableLeft || isScrollableTop ? "auto" : "none",
               }}
-              onClick={() => {
-                if (containerRef.current) {
-                  containerRef.current.scrollBy({ left: -300, behavior: "smooth" });
-                }
-              }}
+              onClick={scrollBackward}
             />
           )}
           <div
@@ -201,7 +256,7 @@ const Tab = forwardRef<HTMLDivElement, TabProps>(
               />
             ))}
           </div>
-          {isScrollable && overflowType === "scrollable" && (
+          {isScrollable && !shouldDisplayDropdown && (
             <IconButton
               name={direction === "horizontal" ? "arrow-chevron-right" : "arrow-chevron-down"}
               aria-label="Next tabs"
@@ -210,14 +265,10 @@ const Tab = forwardRef<HTMLDivElement, TabProps>(
               style={{
                 zIndex: 11,
                 backgroundColor: "white",
-                opacity: isScrollableRight ? 1 : 0,
-                pointerEvents: isScrollableRight ? "auto" : "none",
+                opacity: isScrollableBottom ? 1 : 0,
+                pointerEvents: isScrollableBottom ? "auto" : "none",
               }}
-              onClick={() => {
-                if (containerRef.current) {
-                  containerRef.current.scrollBy({ left: 300, behavior: "smooth" });
-                }
-              }}
+              onClick={scrollForward}
             />
           )}
         </div>

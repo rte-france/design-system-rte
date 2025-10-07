@@ -1,5 +1,10 @@
 import { TabItemProps as CoreTabItemProps } from "@design-system-rte/core/components/tab/tab.interface";
-import { ARROW_LEFT_KEY, ARROW_RIGHT_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
+import {
+  ARROW_DOWN_KEY,
+  ARROW_LEFT_KEY,
+  ARROW_RIGHT_KEY,
+  ARROW_UP_KEY,
+} from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 import { HTMLAttributes, useCallback, useEffect, useRef, useState, MouseEvent, KeyboardEvent, forwardRef } from "react";
 
 import Badge from "../../badge/Badge";
@@ -82,13 +87,19 @@ const TabItem = forwardRef<HTMLButtonElement, TabItemProps>(
     );
 
     const handleKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
-      if ([ARROW_LEFT_KEY, ARROW_RIGHT_KEY].includes(event.key)) {
+      const isVertical = direction === "vertical";
+
+      const isDownKeyPressed = isVertical && event.key === ARROW_DOWN_KEY;
+      const isUpKeyPressed = isVertical && event.key === ARROW_UP_KEY;
+      const isRightKeyPressed = !isVertical && event.key === ARROW_RIGHT_KEY;
+      const isLeftKeyPressed = !isVertical && event.key === ARROW_LEFT_KEY;
+
+      const isArrowNext = isDownKeyPressed || isRightKeyPressed;
+      const isArrowPrev = isUpKeyPressed || isLeftKeyPressed;
+
+      if (isArrowNext || isArrowPrev) {
         event.preventDefault();
-        if (event.key === ARROW_RIGHT_KEY) {
-          focusItem("next");
-        } else {
-          focusItem("previous");
-        }
+        focusItem(isArrowNext ? "next" : "previous");
       }
     };
 
@@ -118,7 +129,7 @@ const TabItem = forwardRef<HTMLButtonElement, TabItemProps>(
           setHoverIndicatorStyle((prev) => ({
             ...prev,
             width: tabItemRef.current?.offsetWidth,
-            left: (tabItemRef.current?.offsetLeft ?? 0) - (tabItemRef.current?.parentElement?.scrollLeft ?? 0),
+            left: tabItemRef.current?.offsetLeft ?? 0,
             top: (tabItemRef.current?.offsetTop ?? 0) + (tabItemRef.current?.offsetHeight ?? 0),
           }));
         } else {
