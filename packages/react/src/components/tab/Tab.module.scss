@@ -6,7 +6,8 @@
   flex-direction: column;
 
   &[data-direction='vertical'] {
-    flex-direction: row
+    flex-direction: row;
+    height: 100%;
   }
 }
 
@@ -25,6 +26,8 @@
   width: 100%;
   padding-top: 2px;
   align-items: center;
+  padding-left: 2px;
+  padding-right: 2px;
 
   &[data-direction='vertical'] {
     flex-direction: column;
@@ -36,6 +39,7 @@
     margin-left: -2px;
     width: max-content;
     align-items: start;
+    margin-bottom: 0px;
 
     .tab-selected-indicator {
       width: 2px;

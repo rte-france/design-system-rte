@@ -115,7 +115,7 @@ export const Vertical: Story = {
     };
 
     return (
-      <div style={{ display: "flex", gap: "16px", height: "200px" }}>
+      <div style={{ display: "flex", gap: "16px", height: "120px" }}>
         <Tab {...args} options={tabs} selectedTabId={selectedTab} onChange={handleTabClick} />
         <div
           style={{
@@ -372,7 +372,7 @@ export const KeyboardInteraction: Story = {
     };
 
     return (
-      <>
+      <div style={{ height: "150px" }}>
         <Tab {...args} options={tabs} selectedTabId={selectedTab} onChange={handleTabClick} />
         <div style={{ height: "100px", border: "1px solid #ccc", padding: "8px", marginTop: "16px" }}>
           {tabs.map((tab) => (
@@ -381,7 +381,7 @@ export const KeyboardInteraction: Story = {
             </div>
           ))}
         </div>
-      </>
+      </div>
     );
   },
 

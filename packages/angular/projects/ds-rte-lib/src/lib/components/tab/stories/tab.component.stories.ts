@@ -188,13 +188,13 @@ export const WithIcons: Story = {
         [compactSpacing]="compactSpacing"
         />
         <div style="height: 100px; border: 1px solid #ccc; padding: 8px; marginTop: 16px">
-          <div [hidden]="selectedTabId !== 'tab-1'" id="panel-1">
+          <div [hidden]="selectedTabId !== 'photos'" id="panel-1">
             Content for First Tab
           </div>
-          <div [hidden]="selectedTabId !== 'tab-2'" id="panel-2">
+          <div [hidden]="selectedTabId !== 'videos'" id="panel-2">
             Content for Second Tab
           </div>
-          <div [hidden]="selectedTabId !== 'tab-3'" id="panel-3">
+          <div [hidden]="selectedTabId !== 'musique'" id="panel-3">
             Content for Third Tab
           </div>
         </div>
@@ -358,7 +358,7 @@ export const KeyboardInteraction: Story = {
       },
     },
     template: `
-    <div>
+    <div style="height: 150px">
       <rte-tab
         [options]="options"
         [selectedTabId]="selectedTabId"

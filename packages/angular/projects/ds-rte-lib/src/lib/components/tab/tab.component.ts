@@ -11,27 +11,37 @@ import {
   output,
   AfterViewInit,
   OnChanges,
+  viewChild,
+  OnDestroy,
 } from "@angular/core";
 import { Direction } from "@design-system-rte/core/components/common/common-types";
 import { TabAlignment, TabItemProps, TabProps } from "@design-system-rte/core/components/tab/tab.interface";
-import { ARROW_LEFT_KEY, ARROW_RIGHT_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
+import {
+  ARROW_DOWN_KEY,
+  ARROW_LEFT_KEY,
+  ARROW_RIGHT_KEY,
+  ARROW_UP_KEY,
+} from "@design-system-rte/core/constants/keyboard/keyboard.constants";
+
+import { IconButtonComponent } from "../icon-button/icon-button.component";
 
 import { TabItemComponent } from "./tab-item/tab-item.component";
 
 @Component({
   selector: "rte-tab",
-  imports: [CommonModule, TabItemComponent],
+  imports: [CommonModule, TabItemComponent, IconButtonComponent],
   standalone: true,
   templateUrl: "./tab.component.html",
   styleUrl: "./tab.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TabComponent implements AfterViewInit, OnChanges {
+export class TabComponent implements AfterViewInit, OnChanges, OnDestroy {
   readonly alignment = input<TabAlignment>("start");
   readonly direction = input<Direction>("horizontal");
   readonly options = input<TabProps["options"]>([]);
   readonly selectedTabId = input<TabProps["selectedTabId"]>();
   readonly compactSpacing = input<TabProps["compactSpacing"]>(false);
+  readonly overflowType = input<TabProps["overflowType"]>("scrollable");
 
   readonly sliderLeft = signal(0);
   readonly sliderWidth = signal(0);
@@ -39,6 +49,7 @@ export class TabComponent implements AfterViewInit, OnChanges {
   readonly sliderHeight = signal(0);
 
   readonly tabItemRefs = viewChildren<TabItemComponent>("tabItem");
+  readonly containerRef = viewChild<ElementRef<HTMLDivElement>>("tabList");
   readonly hoverIndicatorRefs = viewChildren<ElementRef<HTMLDivElement>>("hoverIndicator");
 
   readonly selectedTabRef = computed(() => {
@@ -56,6 +67,24 @@ export class TabComponent implements AfterViewInit, OnChanges {
   } | null>(null);
 
   readonly change = output<string>();
+
+  readonly isScrollable = signal(false);
+  private readonly isOverflowingLeft = signal(false);
+  private readonly isOverflowingRight = signal(false);
+  private readonly isOverflowingTop = signal(false);
+  private readonly isOverflowingBottom = signal(false);
+
+  readonly canScrollBackward = computed(() => {
+    return this.isOverflowingLeft() || this.isOverflowingTop();
+  });
+
+  readonly canScrollForward = computed(() => {
+    return this.isOverflowingRight() || this.isOverflowingBottom();
+  });
+
+  readonly shouldDisplayDropdown = computed(
+    () => this.overflowType() === "dropdown" && this.direction() === "horizontal",
+  );
 
   displayBadge = (option: TabItemProps): boolean => {
     return (
@@ -78,10 +107,23 @@ export class TabComponent implements AfterViewInit, OnChanges {
 
   ngAfterViewInit() {
     this.updateSelectedTabItemIndicator();
+    this.computeScrollableSignals();
     window.addEventListener("resize", this.updateSelectedTabItemIndicator.bind(this));
+    window.addEventListener("resize", this.computeScrollableSignals.bind(this));
+    if (this.containerRef()) {
+      this.containerRef()?.nativeElement.addEventListener("scroll", this.computeScrollableSignals.bind(this));
+    }
     this.hoverIndicatorRefs().forEach((hoverIndicator) => {
       hoverIndicator.nativeElement.style.opacity = "0";
     });
+  }
+
+  ngOnDestroy() {
+    window.removeEventListener("resize", this.updateSelectedTabItemIndicator.bind(this));
+    window.removeEventListener("resize", this.computeScrollableSignals.bind(this));
+    if (this.containerRef()) {
+      this.containerRef()?.nativeElement.removeEventListener("scroll", this.computeScrollableSignals.bind(this));
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -91,20 +133,75 @@ export class TabComponent implements AfterViewInit, OnChanges {
   }
 
   onKeydownTabItem = (event: KeyboardEvent) => {
-    if ([ARROW_LEFT_KEY, ARROW_RIGHT_KEY].includes(event.key)) {
+    const isVertical = this.direction() === "vertical";
+
+    const isDownKeyPressed = isVertical && event.key === ARROW_DOWN_KEY;
+    const isUpKeyPressed = isVertical && event.key === ARROW_UP_KEY;
+    const isRightKeyPressed = !isVertical && event.key === ARROW_RIGHT_KEY;
+    const isLeftKeyPressed = !isVertical && event.key === ARROW_LEFT_KEY;
+
+    const isArrowNext = isDownKeyPressed || isRightKeyPressed;
+    const isArrowPrev = isUpKeyPressed || isLeftKeyPressed;
+
+    if (isArrowNext || isArrowPrev) {
       event.preventDefault();
-      if (event.key === ARROW_RIGHT_KEY) {
-        this.focusItem("next");
-      } else {
-        this.focusItem("previous");
-      }
+      this.focusItem(isArrowNext ? "next" : "previous");
     }
   };
 
   onClickTabItem = (id: string) => {
     if (id !== this.selectedTabId()) {
       this.change.emit(id);
+      const newTab = this.getTabItem(id)?.tabItemRef()?.nativeElement;
+      if (newTab) {
+        if (this.isHiddenByOverflow(newTab)) {
+          this.scrollToSelectedTab(newTab);
+        }
+      }
     }
+  };
+
+  scrollBackward() {
+    if (this.containerRef() && this.containerRef()?.nativeElement) {
+      const scrollObject = this.direction() === "horizontal" ? { left: -300 } : { top: -300 };
+      this.containerRef()?.nativeElement.scrollBy({ ...scrollObject, behavior: "smooth" });
+    }
+  }
+
+  scrollForward() {
+    if (this.containerRef() && this.containerRef()?.nativeElement) {
+      const scrollObject = this.direction() === "horizontal" ? { left: 300 } : { top: 300 };
+      this.containerRef()?.nativeElement.scrollBy({ ...scrollObject, behavior: "smooth" });
+    }
+  }
+
+  private getTabItem = (id: string) => {
+    return this.tabItemRefs().find((tab) => tab.option()?.id === id);
+  };
+
+  private scrollToSelectedTab = (target: HTMLElement) => {
+    const containerElement = this.containerRef()?.nativeElement;
+    if (!containerElement) return;
+    if (this.direction() === "horizontal") {
+      containerElement.scrollTo({ left: target.offsetLeft, behavior: "smooth" });
+    } else {
+      containerElement.scrollTo({ top: target.offsetTop, behavior: "smooth" });
+    }
+  };
+
+  private isHiddenByOverflow = (target: HTMLElement): boolean => {
+    const parent = this.containerRef()?.nativeElement;
+    if (parent && target) {
+      const parentRect = parent.getBoundingClientRect();
+      const targetRect = target.getBoundingClientRect();
+      const isHiddenLeft = targetRect.left < parentRect.left;
+      const isHiddenRight = targetRect.right > parentRect.right;
+      const isHiddenTop = targetRect.top < parentRect.top;
+      const isHiddenBottom = targetRect.bottom > parentRect.bottom;
+      if (this.direction() === "horizontal") return isHiddenLeft || isHiddenRight;
+      return isHiddenTop || isHiddenBottom;
+    }
+    return false;
   };
 
   private focusItem = (direction: "next" | "previous") => {
@@ -136,9 +233,10 @@ export class TabComponent implements AfterViewInit, OnChanges {
       };
     } else {
       return {
-        left: tabItem.offsetLeft - 2,
+        left: 0,
         top: tabItem.offsetTop,
         height: tabItem.offsetHeight,
+        width: 2,
       };
     }
   }
@@ -159,6 +257,61 @@ export class TabComponent implements AfterViewInit, OnChanges {
         this.sliderWidth.set(indicatorStyle.width ?? 2);
         this.sliderLeft.set(indicatorStyle.left);
       }
+    }
+  }
+
+  private computeScrollableSignals = () => {
+    this.computeIsScrollable();
+    this.computeIsOverflowingLeft();
+    this.computeIsOverflowingRight();
+    this.computeIsOverflowingTop();
+    this.computeIsOverflowingBottom();
+  };
+
+  private computeIsScrollable() {
+    if (this.containerRef() && this.containerRef()?.nativeElement) {
+      const containerNativeElement = this.containerRef()?.nativeElement;
+      if (containerNativeElement) {
+        this.isScrollable.set(
+          containerNativeElement.offsetWidth < containerNativeElement.scrollWidth ||
+            containerNativeElement.offsetHeight < containerNativeElement.scrollHeight,
+        );
+      }
+    }
+    return false;
+  }
+
+  private computeIsOverflowingLeft() {
+    const containerNativeElement = this.containerRef()?.nativeElement;
+    if (containerNativeElement) {
+      const isOverFlowingLeft = containerNativeElement.scrollLeft > 0;
+      this.isOverflowingLeft.set(this.isScrollable() && isOverFlowingLeft);
+    }
+  }
+
+  private computeIsOverflowingRight() {
+    const containerNativeElement = this.containerRef()?.nativeElement;
+    if (containerNativeElement) {
+      const isOverflowingRight =
+        containerNativeElement.scrollWidth - containerNativeElement.clientWidth - containerNativeElement.scrollLeft > 0;
+      return this.isOverflowingRight.set(this.isScrollable() && isOverflowingRight);
+    }
+  }
+
+  private computeIsOverflowingTop() {
+    const containerNativeElement = this.containerRef()?.nativeElement;
+    if (containerNativeElement) {
+      const isOverFlowingTop = containerNativeElement.scrollTop > 0;
+      this.isOverflowingTop.set(this.isScrollable() && isOverFlowingTop);
+    }
+  }
+  private computeIsOverflowingBottom() {
+    const containerNativeElement = this.containerRef()?.nativeElement;
+    if (containerNativeElement) {
+      const isOverflowingBottom =
+        containerNativeElement.scrollHeight - containerNativeElement.clientHeight - containerNativeElement.scrollTop >
+        0;
+      return this.isOverflowingBottom.set(this.isScrollable() && isOverflowingBottom);
     }
   }
 }

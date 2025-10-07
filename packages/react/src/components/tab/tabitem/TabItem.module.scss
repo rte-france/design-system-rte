@@ -13,11 +13,12 @@
   border: none;
   text-align: left;
   flex-shrink: 0;
-  margin-left: 2px;
+  // margin-left: 2px;
   height: 100%;
 
   &[data-direction='vertical'] {
     flex-shrink: 1;
+    margin-left: 0px;
   }
 
 
