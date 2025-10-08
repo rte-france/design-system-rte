@@ -23,6 +23,7 @@ const meta: Meta<TabComponent> = {
     },
     selectedTabId: { control: "text" },
     compactSpacing: { control: "boolean" },
+    inverted: { control: "boolean" },
   },
 };
 export default meta;
@@ -51,6 +52,7 @@ export const Default: Story = {
     alignment: "start",
     compactSpacing: false,
     direction: "horizontal",
+    inverted: false,
   },
   render: (args) => ({
     props: {
@@ -61,15 +63,31 @@ export const Default: Story = {
     },
     template: `
     <div>
-      <rte-tab
+      <div style="height: 100%; padding: 16px">
+        <span style="font-family: Arial">Normal</span>
+        <rte-tab
         [options]="options"
         [selectedTabId]="selectedTabId"
         (change)="change($event)"
         [direction]="direction"
         [alignment]="alignment"
         [compactSpacing]="compactSpacing"
+        [inverted]="inverted"
         />
-        <div style="height: 100px; border: 1px solid #ccc; padding: 8px; marginTop: 16px">
+      </div>
+      <div style="height: 100%; padding: 16px;  background-color: var(--background-inverse)">
+        <span style="color: var(--content-primary-inverse); font-family: Arial">Inverted</span>
+        <rte-tab
+        [options]="options"
+        [selectedTabId]="selectedTabId"
+        (change)="change($event)"
+        [direction]="direction"
+        [alignment]="alignment"
+        [compactSpacing]="compactSpacing"
+        [inverted]="true"
+        />
+      </div>
+      <div style="height: 100px; border: 1px solid #ccc; padding: 8px; marginTop: 64px">
           <div [hidden]="selectedTabId !== 'tab-1'" id="panel-1">
             Content for First Tab
           </div>
