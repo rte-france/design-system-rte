@@ -35,6 +35,7 @@ const Tab = forwardRef<HTMLDivElement, TabProps>(
       selectedTabId,
       compactSpacing,
       overflowType = "scrollable",
+      inverted = false,
     },
     ref,
   ) => {
@@ -252,6 +253,7 @@ const Tab = forwardRef<HTMLDivElement, TabProps>(
                 compactSpacing={compactSpacing}
                 direction={direction}
                 data-hidden={shouldDisplayDropdown ? true : undefined}
+                inverted={inverted}
                 {...option}
               />
             ))}

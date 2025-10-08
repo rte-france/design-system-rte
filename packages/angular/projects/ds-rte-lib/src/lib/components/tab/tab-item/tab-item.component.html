@@ -7,6 +7,7 @@
   [attr.aria-controls]="option()?.panelId"
   [tabIndex]="isSelected() ? 0 : -1"
   [attr.data-selected]="isSelected()"
+  [attr.data-inverted]="inverted()"
   [attr.data-compact-spacing]="compactSpacing()"
   [attr.data-disabled]="option()?.disabled"
   (click)="onClickTabItem($event, option()?.id || '')"
