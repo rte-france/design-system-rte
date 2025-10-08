@@ -23,6 +23,7 @@ const meta: Meta<TabComponent> = {
     },
     selectedTabId: { control: "text" },
     compactSpacing: { control: "boolean" },
+    inverted: { control: "boolean" },
   },
 };
 export default meta;
@@ -35,7 +36,6 @@ export const Default: Story = {
         id: "tab-1",
         label: "First Tab",
         panelId: "panel-1",
-        disabled: true,
       },
       {
         id: "tab-2",
@@ -52,6 +52,7 @@ export const Default: Story = {
     alignment: "start",
     compactSpacing: false,
     direction: "horizontal",
+    inverted: false,
   },
   render: (args) => ({
     props: {
@@ -69,15 +70,16 @@ export const Default: Story = {
         [direction]="direction"
         [alignment]="alignment"
         [compactSpacing]="compactSpacing"
+        [inverted]="inverted"
         />
         <div style="height: 100px; border: 1px solid #ccc; padding: 8px; marginTop: 16px">
-          <div *ngIf="selectedTabId === 'tab-1'" id="panel-1">
+          <div [hidden]="selectedTabId !== 'tab-1'" id="panel-1">
             Content for First Tab
           </div>
-          <div *ngIf="selectedTabId === 'tab-2'" id="panel-2">
+          <div [hidden]="selectedTabId !== 'tab-2'" id="panel-2">
             Content for Second Tab
           </div>
-          <div *ngIf="selectedTabId === 'tab-3'" id="panel-3">
+          <div [hidden]="selectedTabId !== 'tab-3'" id="panel-3">
             Content for Third Tab
           </div>
         </div>
@@ -129,13 +131,13 @@ export const Vertical: Story = {
         [compactSpacing]="compactSpacing"
         />
         <div style="width: 100%; border: 1px solid #ccc; padding: 8px">
-          <div *ngIf="selectedTabId === 'tab-1'" id="panel-1">
+          <div [hidden]="selectedTabId !== 'tab-1'" id="panel-1">
             Content for First Tab
           </div>
-          <div *ngIf="selectedTabId === 'tab-2'" id="panel-2">
+          <div [hidden]="selectedTabId !== 'tab-2'" id="panel-2">
             Content for Second Tab
           </div>
-          <div *ngIf="selectedTabId === 'tab-3'" id="panel-3">
+          <div [hidden]="selectedTabId !== 'tab-3'" id="panel-3">
             Content for Third Tab
           </div>
         </div>
@@ -189,13 +191,13 @@ export const WithIcons: Story = {
         [compactSpacing]="compactSpacing"
         />
         <div style="height: 100px; border: 1px solid #ccc; padding: 8px; marginTop: 16px">
-          <div *ngIf="selectedTabId === 'tab-1'" id="panel-1">
+          <div [hidden]="selectedTabId !== 'photos'" id="panel-1">
             Content for First Tab
           </div>
-          <div *ngIf="selectedTabId === 'tab-2'" id="panel-2">
+          <div [hidden]="selectedTabId !== 'videos'" id="panel-2">
             Content for Second Tab
           </div>
-          <div *ngIf="selectedTabId === 'tab-3'" id="panel-3">
+          <div [hidden]="selectedTabId !== 'musique'" id="panel-3">
             Content for Third Tab
           </div>
         </div>
@@ -235,16 +237,16 @@ export const IconsOnly: Story = {
         [compactSpacing]="compactSpacing"
         />
         <div style="height: 100px; border: 1px solid #ccc; padding: 8px; marginTop: 16px">
-          <div *ngIf="selectedTabId === 'home'" id="panel-1">
+          <div [hidden]="selectedTabId !== 'home'" id="panel-1">
             Content for First Tab
           </div>
-          <div *ngIf="selectedTabId === 'bookmarks'" id="panel-2">
+          <div [hidden]="selectedTabId !== 'bookmarks'" id="panel-2">
             Content for Second Tab
           </div>
-          <div *ngIf="selectedTabId === 'chat'" id="panel-3">
+          <div [hidden]="selectedTabId !== 'chat'" id="panel-3">
             Content for Third Tab
           </div>
-          <div *ngIf="selectedTabId === 'settings'" id="panel-3">
+          <div [hidden]="selectedTabId !== 'settings'" id="panel-3">
             Content for Fourth Tab
           </div>
         </div>
@@ -301,13 +303,13 @@ export const WithBadge: Story = {
         [compactSpacing]="compactSpacing"
         />
         <div style="height: 100px; border: 1px solid #ccc; padding: 8px; marginTop: 16px">
-          <div *ngIf="selectedTabId === 'photos'" id="panel-1">
+          <div [hidden]="selectedTabId !== 'photos'" id="panel-1">
             Content for First Tab
           </div>
-          <div *ngIf="selectedTabId === 'videos'" id="panel-2">
+          <div [hidden]="selectedTabId !== 'videos'" id="panel-2">
             Content for Second Tab
           </div>
-          <div *ngIf="selectedTabId === 'musique'" id="panel-3">
+          <div [hidden]="selectedTabId !== 'musique'" id="panel-3">
             Content for Third Tab
           </div>
         </div>
@@ -334,6 +336,17 @@ export const KeyboardInteraction: Story = {
         label: "Third Tab",
         panelId: "panel-3",
       },
+      {
+        id: "tab-4",
+        label: "Fourth Tab",
+        panelId: "panel-4",
+        disabled: true,
+      },
+      {
+        id: "tab-5",
+        label: "Fifth Tab",
+        panelId: "panel-5",
+      },
     ],
     selectedTabId: "tab-1",
     alignment: "start",
@@ -348,7 +361,7 @@ export const KeyboardInteraction: Story = {
       },
     },
     template: `
-    <div>
+    <div style="height: 150px">
       <rte-tab
         [options]="options"
         [selectedTabId]="selectedTabId"
@@ -358,14 +371,20 @@ export const KeyboardInteraction: Story = {
         [compactSpacing]="compactSpacing"
         />
         <div style="height: 100px; border: 1px solid #ccc; padding: 8px; marginTop: 16px">
-          <div *ngIf="selectedTabId === 'tab-1'" id="panel-1">
+          <div [hidden]="selectedTabId !== 'tab-1'" id="panel-1">
             Content for First Tab
           </div>
-          <div *ngIf="selectedTabId === 'tab-2'" id="panel-2">
+          <div [hidden]="selectedTabId !== 'tab-2'" id="panel-2">
             Content for Second Tab
           </div>
-          <div *ngIf="selectedTabId === 'tab-3'" id="panel-3">
+          <div [hidden]="selectedTabId !== 'tab-3'" id="panel-3">
             Content for Third Tab
+          </div>
+          <div [hidden]="selectedTabId !== 'tab-4'" id="panel-4">
+            Content for Fourth Tab
+          </div>
+          <div [hidden]="selectedTabId !== 'tab-5'" id="panel-5">
+            Content for Fifth Tab
           </div>
         </div>
     </div>
@@ -376,11 +395,19 @@ export const KeyboardInteraction: Story = {
     const firstTab = await canvas.getByRole("tab", { name: "First Tab" });
     const secondTab = await canvas.getByRole("tab", { name: "Second Tab" });
     const thirdTab = await canvas.getByRole("tab", { name: "Third Tab" });
+    const fourthTab = await canvas.getByRole("tab", { name: "Fourth Tab" });
+    const fifthTab = await canvas.getByRole("tab", { name: "Fifth Tab" });
 
     const expectTabToBeSelected = async (tab: HTMLElement) => {
       expect(tab).toHaveAttribute("aria-selected", "true");
       expect(tab).toHaveFocus();
       expect(canvas.getByText(`Content for ${tab.textContent}`)).toBeVisible();
+    };
+
+    const expectTabToBeNotSelected = async (tab: HTMLElement) => {
+      expect(tab).toHaveAttribute("aria-selected", "false");
+      expect(tab).not.toHaveFocus();
+      expect(canvas.getByText(`Content for ${tab.textContent}`)).not.toBeVisible();
     };
 
     await step("Focus on the first tab and select it", async () => {
@@ -398,14 +425,20 @@ export const KeyboardInteraction: Story = {
       expectTabToBeSelected(thirdTab);
     });
 
+    await step("Navigate directly to the fifth tab and select it because the forth is disabled", async () => {
+      await userEvent.keyboard(TESTING_ARROW_RIGHT_KEY);
+      expectTabToBeSelected(fifthTab);
+      expectTabToBeNotSelected(fourthTab);
+    });
+
     await step("Navigate back to the first tab when there are no next tabs", async () => {
       await userEvent.keyboard(TESTING_ARROW_RIGHT_KEY);
       expectTabToBeSelected(firstTab);
     });
 
-    await step("Navigate back to the third tab and select it", async () => {
+    await step("Navigate back to the last tab and select it", async () => {
       await userEvent.keyboard(TESTING_ARROW_LEFT_KEY);
-      expectTabToBeSelected(thirdTab);
+      expectTabToBeSelected(fifthTab);
     });
   },
 };

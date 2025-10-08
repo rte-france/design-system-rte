@@ -7,9 +7,10 @@
   [attr.aria-controls]="option()?.panelId"
   [tabIndex]="isSelected() ? 0 : -1"
   [attr.data-selected]="isSelected()"
+  [attr.data-inverted]="inverted()"
   [attr.data-compact-spacing]="compactSpacing()"
   [attr.data-disabled]="option()?.disabled"
-  (click)="onClickTabItem(option()?.id || '')"
+  (click)="onClickTabItem($event, option()?.id || '')"
   (mouseover)="handleMouseHover()"
   (mouseout)="handleMouseOut()"
   (keydown)="handleKeydown()"
@@ -39,6 +40,6 @@
     left: hoverIndicatorStyle()?.left + 'px',
     top: hoverIndicatorStyle()?.top + 'px',
     height: hoverIndicatorStyle()?.height + 'px',
-    opacity: hoverIndicatorStyle()?.opacity,
+    opacity: hoverIndicatorStyle()?.opacity || '0',
   }"
 ></span>

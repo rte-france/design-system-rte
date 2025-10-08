@@ -8,6 +8,7 @@ import {
   AfterViewInit,
   viewChild,
   output,
+  OnDestroy,
 } from "@angular/core";
 import { TabItemProps } from "@design-system-rte/core/components/tab/tab.interface";
 
@@ -22,13 +23,14 @@ import { IconComponent } from "../../icon/icon.component";
   styleUrl: "./tab-item.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TabItemComponent implements AfterViewInit {
+export class TabItemComponent implements AfterViewInit, OnDestroy {
   readonly direction = input<"horizontal" | "vertical">("horizontal");
   readonly option = input<TabItemProps>();
   readonly compactSpacing = input<boolean>();
   readonly isSelected = input<boolean>(false);
   readonly click = output<string>();
   readonly handleKeydown = input<() => void>();
+  readonly inverted = input<boolean>(false);
 
   readonly tabItemRef = viewChild<ElementRef<HTMLButtonElement>>("tabItem");
 
@@ -45,40 +47,34 @@ export class TabItemComponent implements AfterViewInit {
   };
 
   ngAfterViewInit() {
+    this.computeHoverIndicatorStyle();
     if (this.tabItemRef && this.tabItemRef()?.nativeElement) {
       if (this.option()?.disabled) return;
-      if (this.direction() === "horizontal") {
-        this.hoverIndicatorStyle.set({
-          width: this.tabItemRef()?.nativeElement.offsetWidth,
-          height: 2,
-          left: this.tabItemRef()?.nativeElement.offsetLeft,
-          top: this.tabItemRef()
-            ? this.tabItemRef()!.nativeElement.offsetTop + this.tabItemRef()!.nativeElement.offsetHeight
-            : undefined,
-          opacity: 0,
-        });
-      } else {
-        this.hoverIndicatorStyle.set({
-          width: 2,
-          height: this.tabItemRef()?.nativeElement.offsetHeight,
-          left:
-            this.tabItemRef()?.nativeElement.offsetLeft !== undefined
-              ? this.tabItemRef()!.nativeElement.offsetLeft - 2
-              : undefined,
-          top: this.tabItemRef()!.nativeElement.offsetTop,
-          opacity: 0,
-        });
+      window.addEventListener("resize", this.computeHoverIndicatorStyle);
+      const parent = this.tabItemRef()?.nativeElement.parentElement?.parentElement;
+      if (parent) {
+        parent.addEventListener("scroll", this.computeHoverIndicatorStyle);
       }
     }
   }
 
-  onClickTabItem(id: string): void {
+  ngOnDestroy() {
+    const parent = this.tabItemRef()?.nativeElement.parentElement?.parentElement;
+    window.removeEventListener("resize", this.computeHoverIndicatorStyle);
+    if (parent) {
+      parent.removeEventListener("scroll", this.computeHoverIndicatorStyle);
+    }
+  }
+
+  onClickTabItem(event: MouseEvent, id: string): void {
     this.hoverIndicatorStyle.set({
       ...this.hoverIndicatorStyle(),
       opacity: 0,
     });
-    if (!this.isSelected()) {
+    if (!this.option()?.disabled) {
       this.click.emit(id);
+    } else {
+      event.stopPropagation();
     }
   }
 
@@ -97,4 +93,29 @@ export class TabItemComponent implements AfterViewInit {
       opacity: 0,
     });
   }
+
+  private computeHoverIndicatorStyle = () => {
+    if (this.direction() === "horizontal") {
+      this.hoverIndicatorStyle.set({
+        width: this.tabItemRef()?.nativeElement.offsetWidth,
+        height: 2,
+        left: this.tabItemRef()?.nativeElement.offsetLeft,
+        top: this.tabItemRef()
+          ? this.tabItemRef()!.nativeElement.offsetTop + this.tabItemRef()!.nativeElement.offsetHeight
+          : undefined,
+        opacity: 0,
+      });
+    } else {
+      this.hoverIndicatorStyle.set({
+        width: 2,
+        height: this.tabItemRef()?.nativeElement.offsetHeight,
+        left:
+          this.tabItemRef()?.nativeElement.offsetLeft !== undefined
+            ? this.tabItemRef()!.nativeElement.offsetLeft - 4
+            : undefined,
+        top: this.tabItemRef()!.nativeElement.offsetTop,
+        opacity: 0,
+      });
+    }
+  };
 }
