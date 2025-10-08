@@ -48,6 +48,7 @@
           [direction]="direction()"
           [compactSpacing]="compactSpacing()"
           [isSelected]="isSelected(option.id)"
+          [inverted]="inverted()"
           (keydown)="onKeydownTabItem($event)"
           (click)="onClickTabItem(option.id)"
         ></rte-tab-item>

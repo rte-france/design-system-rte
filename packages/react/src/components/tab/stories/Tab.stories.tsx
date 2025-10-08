@@ -69,8 +69,17 @@ export const Default: Story = {
 
     return (
       <>
-        <Tab {...args} options={tabs} selectedTabId={selectedTab} onChange={handleTabClick} />
-        <div style={{ height: "100px", border: "1px solid #ccc", padding: "8px", marginTop: "16px" }}>
+        <div>
+          <div style={{ height: "100%", padding: "16px" }}>
+            <span style={{ fontFamily: "Arial" }}>Normal</span>
+            <Tab {...args} options={tabs} selectedTabId={selectedTab} onChange={handleTabClick} />
+          </div>
+          <div style={{ backgroundColor: "var(--background-inverse)", marginTop: "16px", padding: "10px" }}>
+            <span style={{ color: "var(--content-primary-inverse)", fontFamily: "Arial" }}>Inverted</span>
+            <Tab {...args} options={tabs} selectedTabId={selectedTab} onChange={handleTabClick} inverted={true} />
+          </div>
+        </div>
+        <div style={{ height: "100px", border: "1px solid #ccc", padding: "8px", marginTop: "64px" }}>
           {tabs.map((tab) => (
             <div key={tab.id} role="tabpanel" id={tab.panelId} aria-labelledby={tab.id} hidden={selectedTab !== tab.id}>
               Contenu onglet {tab.label}

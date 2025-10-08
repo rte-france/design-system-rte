@@ -8,6 +8,7 @@ export interface TabProps {
   compactSpacing?: boolean;
   disabled?: boolean;
   overflowType?: "dropdown" | "scrollable";
+  inverted?: boolean;
 }
 
 export interface TabItemProps {
@@ -24,4 +25,5 @@ export interface TabItemProps {
   compactSpacing?: boolean;
   direction?: import("../common/common-types").Direction;
   disabled?: boolean;
+  inverted?: boolean;
 }

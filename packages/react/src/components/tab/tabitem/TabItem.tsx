@@ -33,6 +33,7 @@ const TabItem = forwardRef<HTMLButtonElement, TabItemProps>(
       compactSpacing,
       direction,
       disabled,
+      inverted,
       ...props
     },
     ref,
@@ -190,6 +191,7 @@ const TabItem = forwardRef<HTMLButtonElement, TabItemProps>(
           data-selected={isSelected}
           data-disabled={disabled}
           data-direction={direction}
+          data-inverted={inverted}
           onClick={handleOnClick}
           data-compact-spacing={compactSpacing}
           ref={(node) => {
