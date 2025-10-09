@@ -16,6 +16,7 @@ import {
 } from "@angular/core";
 import { Direction } from "@design-system-rte/core/components/common/common-types";
 import { TabAlignment, TabItemProps, TabProps } from "@design-system-rte/core/components/tab/tab.interface";
+import { scrollToSelectedTab } from "@design-system-rte/core/components/tab/tab.utils";
 import {
   ARROW_DOWN_KEY,
   ARROW_LEFT_KEY,
@@ -155,8 +156,9 @@ export class TabComponent implements AfterViewInit, OnChanges, OnDestroy {
       this.change.emit(id);
       const newTab = this.getTabItem(id)?.tabItemRef()?.nativeElement;
       if (newTab) {
-        if (this.isHiddenByOverflow(newTab)) {
-          this.scrollToSelectedTab(newTab);
+        const container = this.containerRef()?.nativeElement;
+        if (container) {
+          scrollToSelectedTab(newTab, container, this.direction());
         }
       }
     }
@@ -178,31 +180,6 @@ export class TabComponent implements AfterViewInit, OnChanges, OnDestroy {
 
   private getTabItem = (id: string) => {
     return this.tabItemRefs().find((tab) => tab.option()?.id === id);
-  };
-
-  private scrollToSelectedTab = (target: HTMLElement) => {
-    const containerElement = this.containerRef()?.nativeElement;
-    if (!containerElement) return;
-    if (this.direction() === "horizontal") {
-      containerElement.scrollTo({ left: target.offsetLeft, behavior: "smooth" });
-    } else {
-      containerElement.scrollTo({ top: target.offsetTop, behavior: "smooth" });
-    }
-  };
-
-  private isHiddenByOverflow = (target: HTMLElement): boolean => {
-    const parent = this.containerRef()?.nativeElement;
-    if (parent && target) {
-      const parentRect = parent.getBoundingClientRect();
-      const targetRect = target.getBoundingClientRect();
-      const isHiddenLeft = targetRect.left < parentRect.left;
-      const isHiddenRight = targetRect.right > parentRect.right;
-      const isHiddenTop = targetRect.top < parentRect.top;
-      const isHiddenBottom = targetRect.bottom > parentRect.bottom;
-      if (this.direction() === "horizontal") return isHiddenLeft || isHiddenRight;
-      return isHiddenTop || isHiddenBottom;
-    }
-    return false;
   };
 
   private focusItem = (direction: "next" | "previous") => {

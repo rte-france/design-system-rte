@@ -1,4 +1,5 @@
 import { TabProps as CoreTabProps } from "@design-system-rte/core/components/tab/tab.interface";
+import { scrollToSelectedTab } from "@design-system-rte/core/components/tab/tab.utils";
 import {
   forwardRef,
   HTMLAttributes,
@@ -105,31 +106,9 @@ const Tab = forwardRef<HTMLDivElement, TabProps>(
       const id = target.getAttribute("id") || "";
       onChange(id);
       setIsDropdownOpen(false);
-      if (isHiddenByOverflow(target)) {
-        scrollToSelectedTab(target);
-      }
-    };
-
-    const isHiddenByOverflow = (target: HTMLElement): boolean => {
-      const parent = containerRef.current;
-      if (parent && target) {
-        const parentRect = parent.getBoundingClientRect();
-        const targetRect = target.getBoundingClientRect();
-        const isHiddenLeft = targetRect.left < parentRect.left;
-        const isHiddenRight = targetRect.right > parentRect.right;
-        const isHiddenTop = targetRect.top < parentRect.top;
-        const isHiddenBottom = targetRect.bottom > parentRect.bottom;
-        if (direction === "horizontal") return isHiddenLeft || isHiddenRight;
-        return isHiddenTop || isHiddenBottom;
-      }
-      return false;
-    };
-
-    const scrollToSelectedTab = (target: HTMLElement) => {
-      if (direction === "horizontal") {
-        containerRef.current?.scrollTo({ left: target.offsetLeft, behavior: "smooth" });
-      } else {
-        containerRef.current?.scrollTo({ top: target.offsetTop, behavior: "smooth" });
+      const container = containerRef.current;
+      if (container) {
+        scrollToSelectedTab(target, container, direction);
       }
     };
 
@@ -151,12 +130,6 @@ const Tab = forwardRef<HTMLDivElement, TabProps>(
 
     return (
       <div className={style["tab-container"]} data-direction={direction}>
-        <div
-          className={style["tab-border-vertical"]}
-          aria-hidden="true"
-          role="presentation"
-          data-direction={direction}
-        ></div>
         <div
           style={{
             position: "relative",
@@ -267,8 +240,8 @@ const Tab = forwardRef<HTMLDivElement, TabProps>(
               style={{
                 zIndex: 11,
                 backgroundColor: "white",
-                opacity: isScrollableBottom ? 1 : 0,
-                pointerEvents: isScrollableBottom ? "auto" : "none",
+                opacity: isScrollableRight || isScrollableBottom ? 1 : 0,
+                pointerEvents: isScrollableRight || isScrollableBottom ? "auto" : "none",
               }}
               onClick={scrollForward}
             />
