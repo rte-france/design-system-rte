@@ -16,6 +16,7 @@ import {
 } from "@angular/core";
 import { Direction } from "@design-system-rte/core/components/common/common-types";
 import { TabAlignment, TabItemProps, TabProps } from "@design-system-rte/core/components/tab/tab.interface";
+import { scrollToSelectedTab } from "@design-system-rte/core/components/tab/tab.utils";
 import {
   ARROW_DOWN_KEY,
   ARROW_LEFT_KEY,
@@ -23,13 +24,25 @@ import {
   ARROW_UP_KEY,
 } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
+import { BadgeComponent } from "../badge/badge.component";
+import { DropdownComponent } from "../dropdown/dropdown.component";
+import { DropdownItemComponent } from "../dropdown/dropdownItem/dropdown-item.component";
+import { IconComponent } from "../icon/icon.component";
 import { IconButtonComponent } from "../icon-button/icon-button.component";
 
 import { TabItemComponent } from "./tab-item/tab-item.component";
 
 @Component({
   selector: "rte-tab",
-  imports: [CommonModule, TabItemComponent, IconButtonComponent],
+  imports: [
+    CommonModule,
+    TabItemComponent,
+    IconButtonComponent,
+    DropdownComponent,
+    DropdownItemComponent,
+    IconComponent,
+    BadgeComponent,
+  ],
   standalone: true,
   templateUrl: "./tab.component.html",
   styleUrl: "./tab.component.scss",
@@ -83,9 +96,18 @@ export class TabComponent implements AfterViewInit, OnChanges, OnDestroy {
     return this.isOverflowingRight() || this.isOverflowingBottom();
   });
 
-  readonly shouldDisplayDropdown = computed(
-    () => this.overflowType() === "dropdown" && this.direction() === "horizontal",
+  readonly isHorizontal = computed(
+    () => this.direction() === "horizontal" && (this.isOverflowingRight() || this.isOverflowingLeft()),
   );
+
+  readonly shouldDisplayDropdown = computed(() => this.overflowType() === "dropdown" && this.isHorizontal());
+
+  readonly selectedTab = computed(() => {
+    return this.options().find((option) => option.id === this.selectedTabId());
+  });
+  readonly dropdownFilteredOptions = computed(() => {
+    return this.options().filter((option) => option.id !== this.selectedTabId());
+  });
 
   displayBadge = (option: TabItemProps): boolean => {
     return (
@@ -100,9 +122,9 @@ export class TabComponent implements AfterViewInit, OnChanges, OnDestroy {
   }
 
   readonly tabItemSelectedIndicatorStyle = computed(() => ({
-    left: `${this.sliderLeft()}px`,
+    left: `${this.shouldDisplayDropdown() ? 0 : this.sliderLeft()}px`,
     top: `${this.sliderTop()}px`,
-    width: `${this.sliderWidth()}px`,
+    width: `${this.sliderWidth() + (this.shouldDisplayDropdown() ? 16 : 0)}px`,
     height: `${this.sliderHeight()}px`,
   }));
 
@@ -153,10 +175,13 @@ export class TabComponent implements AfterViewInit, OnChanges, OnDestroy {
   onClickTabItem = (id: string) => {
     if (id !== this.selectedTabId()) {
       this.change.emit(id);
-      const newTab = this.getTabItem(id)?.tabItemRef()?.nativeElement;
-      if (newTab) {
-        if (this.isHiddenByOverflow(newTab)) {
-          this.scrollToSelectedTab(newTab);
+      if (!this.shouldDisplayDropdown()) {
+        const newTab = this.getTabItem(id)?.tabItemRef()?.nativeElement;
+        if (newTab) {
+          const container = this.containerRef()?.nativeElement;
+          if (container) {
+            scrollToSelectedTab(newTab, container, this.direction());
+          }
         }
       }
     }
@@ -178,31 +203,6 @@ export class TabComponent implements AfterViewInit, OnChanges, OnDestroy {
 
   private getTabItem = (id: string) => {
     return this.tabItemRefs().find((tab) => tab.option()?.id === id);
-  };
-
-  private scrollToSelectedTab = (target: HTMLElement) => {
-    const containerElement = this.containerRef()?.nativeElement;
-    if (!containerElement) return;
-    if (this.direction() === "horizontal") {
-      containerElement.scrollTo({ left: target.offsetLeft, behavior: "smooth" });
-    } else {
-      containerElement.scrollTo({ top: target.offsetTop, behavior: "smooth" });
-    }
-  };
-
-  private isHiddenByOverflow = (target: HTMLElement): boolean => {
-    const parent = this.containerRef()?.nativeElement;
-    if (parent && target) {
-      const parentRect = parent.getBoundingClientRect();
-      const targetRect = target.getBoundingClientRect();
-      const isHiddenLeft = targetRect.left < parentRect.left;
-      const isHiddenRight = targetRect.right > parentRect.right;
-      const isHiddenTop = targetRect.top < parentRect.top;
-      const isHiddenBottom = targetRect.bottom > parentRect.bottom;
-      if (this.direction() === "horizontal") return isHiddenLeft || isHiddenRight;
-      return isHiddenTop || isHiddenBottom;
-    }
-    return false;
   };
 
   private focusItem = (direction: "next" | "previous") => {

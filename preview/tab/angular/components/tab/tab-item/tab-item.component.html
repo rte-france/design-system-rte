@@ -10,6 +10,7 @@
   [attr.data-inverted]="inverted()"
   [attr.data-compact-spacing]="compactSpacing()"
   [attr.data-disabled]="option()?.disabled"
+  [attr.data-hidden]="isHidden()"
   (click)="onClickTabItem($event, option()?.id || '')"
   (mouseover)="handleMouseHover()"
   (mouseout)="handleMouseOut()"

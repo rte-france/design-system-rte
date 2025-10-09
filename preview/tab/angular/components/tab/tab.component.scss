@@ -17,13 +17,20 @@
   height: 100%;
   gap: $positive-spacing_300;
   justify-content: flex-start;
-  overflow-x: scroll;
-  overflow-y: visible;
   padding-bottom: 2px;
   margin-bottom: -2px;
   scrollbar-width: none;
   width: 100%;
   padding-top: 2px;
+  align-items: center;
+
+  &[data-direction='horizontal'] {
+    overflow-x: scroll;
+
+    &[data-overflow-type='dropdown'] {
+      overflow: hidden;
+    }
+  }
 
   &[data-direction='vertical'] {
     flex-direction: column;
@@ -90,6 +97,8 @@
 }
 
 .rte-tab-dropdown-button {
+  @include typography-text-m-bold;
+  color: var(--content-secondary);
   width: max-content;
   display: flex;
   align-items: center;
@@ -97,5 +106,11 @@
   background-color: transparent;
   border: none;
   cursor: pointer;
-  padding: 0
+  padding: 0;
+  margin: $positive-spacing_150;
+
+  &[data-inverted='true'] {
+    color: var(--content-primary-inverse);
+  }
+
 }
