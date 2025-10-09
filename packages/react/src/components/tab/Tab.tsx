@@ -177,7 +177,7 @@ const Tab = forwardRef<HTMLDivElement, TabProps>(
               className={style["tab-selected-indicator"]}
               style={{
                 left: shouldDisplayDropdown ? 0 : sliderStyle.left,
-                width: (sliderStyle.width ?? 0) + (shouldDisplayDropdown ? 16 : 0),
+                width: (sliderStyle.width ?? 0) + (shouldDisplayDropdown ? 32 : 0),
                 top: sliderStyle.top,
                 height: sliderStyle.height,
               }}

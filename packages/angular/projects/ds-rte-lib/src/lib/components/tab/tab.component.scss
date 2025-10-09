@@ -19,6 +19,7 @@
   justify-content: flex-start;
   padding-bottom: 2px;
   margin-bottom: -2px;
+  margin-left: -2px;
   scrollbar-width: none;
   width: 100%;
   padding-top: 2px;
@@ -102,12 +103,17 @@
   width: max-content;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: $positive-spacing_150;
   background-color: transparent;
   border: none;
   cursor: pointer;
   padding: 0;
   margin: $positive-spacing_150;
+
+  &:focus-visible {
+    outline: 2px solid var(--border-brand-focused);
+    outline-offset: 8px;
+  }
 
   &[data-inverted='true'] {
     color: var(--content-primary-inverse);

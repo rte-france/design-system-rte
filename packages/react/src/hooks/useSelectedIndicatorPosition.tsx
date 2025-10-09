@@ -21,7 +21,6 @@ const useSelectedIndicatorPosition = (
 
     if (node)
       if (node?.getAttribute("data-disabled") !== "true") {
-        console.log("position", position);
         if (position === "bottom") {
           setIndicatorStyle({ left: node.offsetLeft, bottom: 0, width: node.offsetWidth });
         } else if (position === "left") {
