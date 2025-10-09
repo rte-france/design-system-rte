@@ -97,6 +97,8 @@
 }
 
 .rte-tab-dropdown-button {
+  @include typography-text-m-bold;
+  color: var(--content-secondary);
   width: max-content;
   display: flex;
   align-items: center;
