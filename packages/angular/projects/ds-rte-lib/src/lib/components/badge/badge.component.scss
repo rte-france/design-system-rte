@@ -83,4 +83,9 @@
         margin: 0;
     }
 
+    &[data-simple-badge="true"] {
+        position: static;
+        box-shadow: none;
+    }
+
 }
