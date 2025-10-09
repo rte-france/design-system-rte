@@ -106,12 +106,17 @@
   width: max-content;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: $positive-spacing_150;
   background-color: transparent;
   border: none;
   cursor: pointer;
   padding: 0;
   margin: $positive-spacing_150;
+
+  &:focus-visible {
+    outline: 2px solid var(--border-brand-focused);
+    outline-offset: 8px;
+  }
 
   &[data-inverted='true'] {
     color: var(--content-primary-inverse);

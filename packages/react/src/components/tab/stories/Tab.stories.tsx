@@ -95,6 +95,7 @@ export const Default: Story = {
 
 export const Vertical: Story = {
   args: {
+    ...Default.args,
     onChange: () => {},
     options: [],
     alignment: "start",
@@ -152,6 +153,7 @@ export const Vertical: Story = {
 
 export const CompactSpacing: Story = {
   args: {
+    ...Default.args,
     onChange: () => {},
     options: [],
     alignment: "start",
@@ -229,6 +231,7 @@ export const CompactSpacing: Story = {
 
 export const WithIcons: Story = {
   args: {
+    ...Default.args,
     onChange: () => {},
     options: [],
     alignment: "start",
@@ -263,6 +266,7 @@ export const WithIcons: Story = {
 
 export const IconsOnly: Story = {
   args: {
+    ...Default.args,
     onChange: () => {},
     options: [],
     alignment: "start",
@@ -298,6 +302,7 @@ export const IconsOnly: Story = {
 
 export const WithBadge: Story = {
   args: {
+    ...Default.args,
     onChange: () => {},
     options: [],
     alignment: "start",
