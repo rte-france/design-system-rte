@@ -23,7 +23,6 @@
       "
       [ngStyle]="{
         'z-index': 11,
-        'background-color': 'white',
         opacity: canScrollBackward() ? '1' : '0',
         'pointer-events': canScrollBackward() ? 'auto' : 'none',
       }"
@@ -34,13 +33,54 @@
       role="tablist"
       aria-label="Sample Tabs"
       class="rte-tab"
-      [attr.data-alignment]="alignment()"
+      [attr.data-alignment]="shouldDisplayDropdown() ? 'start' : alignment()"
       [attr.data-direction]="direction()"
+      [attr.data-overflow-type]="overflowType()"
     >
       <span
         class="rte-tab-selected-indicator"
         [ngStyle]="tabItemSelectedIndicatorStyle()"
       ></span>
+      <rte-dropdown
+        *ngIf="shouldDisplayDropdown() && options().length > 0"
+        #dropdown="rteDropdown"
+        [autoclose]="true"
+        [ariaLabel]="'Select tab'"
+        [offset]="10"
+      >
+        <button
+          class="rte-tab-dropdown-button"
+          dropdownTrigger
+          [attr.data-inverted]="inverted()"
+          [attr.data-overflow-type]="overflowType()"
+          (click)="dropdown.open()"
+        >
+          <rte-icon
+            *ngIf="selectedTab()?.icon"
+            appearance="filled"
+            [name]="selectedTab()?.icon!"
+          />
+          {{ selectedTab()?.label || "Select tab" }}
+          <rte-badge
+            *ngIf="
+              selectedTab()?.badgeCount &&
+              selectedTab()?.badgeCount! > 0 &&
+              selectedTab()?.badgeAppearance === 'text'
+            "
+            [badgeType]="selectedTab()?.badgeType!"
+            [badgeAppearance]="selectedTab()?.badgeAppearance!"
+            [count]="selectedTab()?.badgeCount"
+            [simpleBadge]="true"
+          />
+          <rte-icon name="arrow-chevron-down" appearance="outlined" />
+        </button>
+        <rte-dropdown-item
+          *ngFor="let option of dropdownFilteredOptions()"
+          [label]="option?.label || ''"
+          [leftIcon]="option.icon"
+          (click)="onClickTabItem(option.id)"
+        ></rte-dropdown-item>
+      </rte-dropdown>
       <ng-container *ngFor="let option of options(); let idx = index">
         <rte-tab-item
           #tabItem
@@ -49,6 +89,8 @@
           [compactSpacing]="compactSpacing()"
           [isSelected]="isSelected(option.id)"
           [inverted]="inverted()"
+          [attr.data-hidden]="shouldDisplayDropdown()"
+          [isHidden]="shouldDisplayDropdown()"
           (keydown)="onKeydownTabItem($event)"
           (click)="onClickTabItem(option.id)"
         ></rte-tab-item>
@@ -66,7 +108,6 @@
       "
       [ngStyle]="{
         'z-index': 11,
-        'background-color': 'white',
         opacity: canScrollForward() ? '1' : '0',
         'pointer-events': canScrollForward() ? 'auto' : 'none',
       }"
