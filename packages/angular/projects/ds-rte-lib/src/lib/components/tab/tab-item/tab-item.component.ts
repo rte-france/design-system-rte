@@ -31,6 +31,7 @@ export class TabItemComponent implements AfterViewInit, OnDestroy {
   readonly click = output<string>();
   readonly handleKeydown = input<() => void>();
   readonly inverted = input<boolean>(false);
+  readonly isHidden = input<boolean>(false);
 
   readonly tabItemRef = viewChild<ElementRef<HTMLButtonElement>>("tabItem");
 

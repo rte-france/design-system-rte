@@ -24,6 +24,10 @@ const meta: Meta<TabComponent> = {
     selectedTabId: { control: "text" },
     compactSpacing: { control: "boolean" },
     inverted: { control: "boolean" },
+    overflowType: {
+      control: "select",
+      options: ["scrollable", "dropdown"],
+    },
   },
 };
 export default meta;
@@ -53,6 +57,7 @@ export const Default: Story = {
     compactSpacing: false,
     direction: "horizontal",
     inverted: false,
+    overflowType: "scrollable",
   },
   render: (args) => ({
     props: {
@@ -73,6 +78,7 @@ export const Default: Story = {
         [alignment]="alignment"
         [compactSpacing]="compactSpacing"
         [inverted]="inverted"
+        [overflowType]="overflowType"
         />
       </div>
       <div style="height: 100%; padding: 16px;  background-color: var(--background-inverse)">
@@ -85,6 +91,7 @@ export const Default: Story = {
         [alignment]="alignment"
         [compactSpacing]="compactSpacing"
         [inverted]="true"
+        [overflowType]="overflowType"
         />
       </div>
       <div style="height: 100px; border: 1px solid #ccc; padding: 8px; marginTop: 64px">
@@ -144,6 +151,8 @@ export const Vertical: Story = {
         [direction]="direction"
         [alignment]="alignment"
         [compactSpacing]="compactSpacing"
+        [inverted]="inverted"
+        [overflowType]="overflowType"
         />
         <div style="width: 100%; border: 1px solid #ccc; padding: 8px">
           <div [hidden]="selectedTabId !== 'tab-1'" id="panel-1">
@@ -204,6 +213,8 @@ export const WithIcons: Story = {
         [direction]="direction"
         [alignment]="alignment"
         [compactSpacing]="compactSpacing"
+        [inverted]="inverted"
+        [overflowType]="overflowType"
         />
         <div style="height: 100px; border: 1px solid #ccc; padding: 8px; marginTop: 16px">
           <div [hidden]="selectedTabId !== 'photos'" id="panel-1">
@@ -250,6 +261,8 @@ export const IconsOnly: Story = {
         [direction]="direction"
         [alignment]="alignment"
         [compactSpacing]="compactSpacing"
+        [inverted]="inverted"
+        [overflowType]="overflowType"
         />
         <div style="height: 100px; border: 1px solid #ccc; padding: 8px; marginTop: 16px">
           <div [hidden]="selectedTabId !== 'home'" id="panel-1">
@@ -316,6 +329,8 @@ export const WithBadge: Story = {
         [direction]="direction"
         [alignment]="alignment"
         [compactSpacing]="compactSpacing"
+        [inverted]="inverted"
+        [overflowType]="overflowType"
         />
         <div style="height: 100px; border: 1px solid #ccc; padding: 8px; marginTop: 16px">
           <div [hidden]="selectedTabId !== 'photos'" id="panel-1">
@@ -367,6 +382,7 @@ export const KeyboardInteraction: Story = {
     alignment: "start",
     compactSpacing: false,
     direction: "horizontal",
+    overflowType: "scrollable",
   },
   render: (args) => ({
     props: {
@@ -384,6 +400,8 @@ export const KeyboardInteraction: Story = {
         [direction]="direction"
         [alignment]="alignment"
         [compactSpacing]="compactSpacing"
+        [overflowType]="overflowType"
+        [inverted]="inverted"
         />
         <div style="height: 100px; border: 1px solid #ccc; padding: 8px; marginTop: 16px">
           <div [hidden]="selectedTabId !== 'tab-1'" id="panel-1">

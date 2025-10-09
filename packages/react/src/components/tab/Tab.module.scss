@@ -17,8 +17,6 @@
   height: 100%;
   gap: $positive-spacing_300;
   justify-content: flex-start;
-  overflow-x: scroll;
-  overflow-y: visible;
   padding-bottom: 2px;
   margin-bottom: -2px;
   margin-left: -2px;
@@ -28,6 +26,14 @@
   align-items: center;
   padding-left: 2px;
   padding-right: 2px;
+
+  &[data-direction='horizontal'] {
+    overflow-x: scroll;
+
+    &[data-overflow-type='dropdown'] {
+      overflow: hidden;
+    }
+  }
 
   &[data-direction='vertical'] {
     flex-direction: column;
@@ -40,6 +46,7 @@
     width: max-content;
     align-items: start;
     margin-bottom: 0px;
+    overflow-y: scroll;
 
     .tab-selected-indicator {
       width: 2px;
@@ -102,5 +109,9 @@
   border: none;
   cursor: pointer;
   padding: 0;
-  margin: $positive-spacing_150
+  margin: $positive-spacing_150;
+
+  &[data-inverted='true'] {
+    color: var(--content-primary-inverse);
+  }
 }

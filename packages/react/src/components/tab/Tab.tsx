@@ -131,6 +131,14 @@ const Tab = forwardRef<HTMLDivElement, TabProps>(
     return (
       <div className={style["tab-container"]} data-direction={direction}>
         <div
+          className={style["tab-border-vertical"]}
+          aria-hidden="true"
+          role="presentation"
+          data-direction={direction}
+          data-compact-spacing={compactSpacing}
+          data-scrollable={isScrollable && overflowType === "scrollable" ? true : undefined}
+        ></div>
+        <div
           style={{
             position: "relative",
             display: "flex",
@@ -146,7 +154,6 @@ const Tab = forwardRef<HTMLDivElement, TabProps>(
               size="l"
               style={{
                 zIndex: 11,
-                backgroundColor: "white",
                 opacity: isScrollableLeft || isScrollableTop ? 1 : 0,
                 pointerEvents: isScrollableLeft || isScrollableTop ? "auto" : "none",
               }}
@@ -164,6 +171,7 @@ const Tab = forwardRef<HTMLDivElement, TabProps>(
             className={style["tab"]}
             data-alignment={isScrollable ? "start" : alignment}
             data-direction={direction}
+            data-overflow-type={overflowType}
           >
             <div
               className={style["tab-selected-indicator"]}
@@ -186,6 +194,7 @@ const Tab = forwardRef<HTMLDivElement, TabProps>(
                     className={style["tab-dropdown-button"]}
                     onClick={() => setIsDropdownOpen((prev) => !prev)}
                     aria-label="Select tab"
+                    data-inverted={inverted}
                   >
                     {selectedOption && selectedOption.icon && <Icon name={selectedOption.icon} appearance="filled" />}
                     {selectedOption && <div style={{ flexShrink: 0 }}>{selectedOption?.label}</div>}
@@ -225,7 +234,7 @@ const Tab = forwardRef<HTMLDivElement, TabProps>(
                 isSelected={selectedTabId === option.id}
                 compactSpacing={compactSpacing}
                 direction={direction}
-                data-hidden={shouldDisplayDropdown ? true : undefined}
+                data-hidden={shouldDisplayDropdown}
                 inverted={inverted}
                 {...option}
               />
@@ -239,7 +248,6 @@ const Tab = forwardRef<HTMLDivElement, TabProps>(
               size="l"
               style={{
                 zIndex: 11,
-                backgroundColor: "white",
                 opacity: isScrollableRight || isScrollableBottom ? 1 : 0,
                 pointerEvents: isScrollableRight || isScrollableBottom ? "auto" : "none",
               }}
