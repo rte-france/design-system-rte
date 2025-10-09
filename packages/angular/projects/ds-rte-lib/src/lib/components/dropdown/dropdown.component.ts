@@ -65,7 +65,7 @@ export class DropdownComponent implements AfterViewInit, OnDestroy {
       const dropdownElement = this.menuRef.location.nativeElement;
       const positions = getCoordinates(
         "bottom",
-        this.triggerRef()?.nativeElement.children[0],
+        this.triggerRef()?.nativeElement,
         dropdownElement,
         this.offset(),
         "start",
