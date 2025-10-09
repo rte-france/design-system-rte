@@ -76,7 +76,6 @@ const TabItem = forwardRef<HTMLButtonElement, TabItemProps>(
               opacity: 1,
             }));
           } else {
-            console.log("event mouse leave");
             setHoverIndicatorStyle((prev) => ({
               ...prev,
               opacity: 0,
