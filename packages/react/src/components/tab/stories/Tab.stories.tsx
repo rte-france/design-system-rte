@@ -25,6 +25,7 @@ const meta = {
     },
     selectedTabId: { control: "text" },
     compactSpacing: { control: "boolean" },
+    inverted: { control: "boolean" },
     overflowType: {
       control: "select",
       options: ["scrollable", "dropdown"],
@@ -41,6 +42,7 @@ export const Default: Story = {
     onChange: () => {},
     options: [],
     alignment: "start",
+    overflowType: "scrollable",
   },
 
   render: (args) => {
@@ -124,7 +126,7 @@ export const Vertical: Story = {
     };
 
     return (
-      <div style={{ display: "flex", gap: "16px", height: "120px" }}>
+      <div style={{ display: "flex", gap: "16px" }}>
         <Tab {...args} options={tabs} selectedTabId={selectedTab} onChange={handleTabClick} />
         <div
           style={{
@@ -337,12 +339,96 @@ export const WithBadge: Story = {
   },
 };
 
-export const KeyboardInteraction: Story = {
+export const OverflowType: Story = {
   args: {
+    ...Default.args,
     onChange: () => {},
     options: [],
     alignment: "start",
-    overflowType: "dropdown",
+  },
+
+  render: (args) => {
+    const [selectedTab, setSelectedTab] = useState("tab-1");
+    const tabs = [
+      {
+        id: "tab-1",
+        label: "First Tab",
+        panelId: "panel-1",
+      },
+      {
+        id: "tab-2",
+        label: "Second Tab",
+        panelId: "panel-2",
+      },
+      {
+        id: "tab-3",
+        label: "Third Tab",
+        panelId: "panel-3",
+      },
+      {
+        id: "tab-4",
+        label: "Fourth Tab",
+        panelId: "panel-4",
+        disabled: true,
+      },
+      {
+        id: "tab-5",
+        label: "Fifth Tab",
+        panelId: "panel-5",
+      },
+    ];
+
+    const handleTabClick = (tabId: string) => {
+      setSelectedTab(tabId);
+    };
+
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
+        <div style={{ width: "400px" }}>
+          <span style={{ fontFamily: "Arial" }}>Scrollable</span>
+          <Tab {...args} options={tabs} selectedTabId={selectedTab} onChange={handleTabClick} />
+          <div style={{ height: "100px", border: "1px solid #ccc", padding: "8px", marginTop: "16px" }}>
+            {tabs.map((tab) => (
+              <div
+                key={tab.id}
+                role="tabpanel"
+                id={tab.panelId}
+                aria-labelledby={tab.id}
+                hidden={selectedTab !== tab.id}
+              >
+                Contenu onglet {tab.label}
+              </div>
+            ))}
+          </div>
+        </div>
+        <div style={{ width: "400px" }}>
+          <span style={{ fontFamily: "Arial" }}>Dropdown</span>
+          <Tab {...args} options={tabs} selectedTabId={selectedTab} onChange={handleTabClick} overflowType="dropdown" />
+          <div style={{ height: "100px", border: "1px solid #ccc", padding: "8px", marginTop: "16px" }}>
+            {tabs.map((tab) => (
+              <div
+                key={tab.id}
+                role="tabpanel"
+                id={tab.panelId}
+                aria-labelledby={tab.id}
+                hidden={selectedTab !== tab.id}
+              >
+                Contenu onglet {tab.label}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  },
+};
+
+export const KeyboardInteraction: Story = {
+  args: {
+    ...Default.args,
+    onChange: () => {},
+    options: [],
+    alignment: "start",
   },
 
   render: (args) => {
