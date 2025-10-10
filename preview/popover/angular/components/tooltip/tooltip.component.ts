@@ -13,6 +13,5 @@ export class TooltipComponent {
   readonly label = input.required<string>();
   readonly position = input<Exclude<Position, "auto">>("top");
   readonly alignment = input<Alignment>("center");
-
   readonly arrow = input<boolean>(true);
 }
