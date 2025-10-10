@@ -43,12 +43,12 @@
       .popoverTitle {
         overflow: hidden;
         text-overflow: ellipsis;
-        color: var(--content-brand-default);
+        color: var(--content-primary);
         @include typography-heading-m;
       }
 
       .popoverContent {
-        color: var(--content-primary);
+        color: var(--content-secondary);
         @include typography-text-m;
         width: 100%;
         word-break: break-word;
