@@ -1,11 +1,11 @@
 import { CommonModule } from "@angular/common";
-import { Component, DestroyRef, ElementRef, forwardRef, HostListener, inject, input, output } from "@angular/core";
+import { Component, DestroyRef, ElementRef, forwardRef, HostListener, inject, input } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
+import { DropdownService } from "../../../services/dropdown.service";
 import { DropdownItemComponent, DropdownItemConfig } from "../dropdown-item/dropdown-item.component";
 import { DropdownTriggerDirective } from "../dropdown-trigger/dropdown-trigger.directive";
 import { DropdownDirective } from "../dropdown.directive";
-import { DropdownService } from "../../../services/dropdown.service";
 
 @Component({
   selector: "rte-dropdown-menu",
@@ -17,8 +17,8 @@ import { DropdownService } from "../../../services/dropdown.service";
     "[attr.data-menu-id]": "menuId()",
     "[attr.data-parent-menu-id]": "parentMenuId()",
     "[class.active]": "isActive()",
-    "[class.visible]": "isVisible()"
-  }
+    "[class.visible]": "isVisible()",
+  },
 })
 export class DropdownMenuComponent {
   private readonly elementRef = inject(ElementRef);
@@ -28,24 +28,26 @@ export class DropdownMenuComponent {
   readonly items = input<DropdownItemConfig[]>([]);
   readonly menuId = input<string>();
   readonly parentMenuId = input<string>();
-  
+
   getChildMenuId(itemIndex: number): string {
     return `${this.menuId()}:${itemIndex + 1}`;
   }
 
   isActive(): boolean {
     let active = false;
-    this.dropdownService.isMenuActive(this.menuId() ?? '')
+    this.dropdownService
+      .isMenuActive(this.menuId() ?? "")
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(isActive => active = isActive);
+      .subscribe((isActive) => (active = isActive));
     return active;
   }
 
   isVisible(): boolean {
     let visible = false;
-    this.dropdownService.isMenuVisible(this.menuId() ?? '')
+    this.dropdownService
+      .isMenuVisible(this.menuId() ?? "")
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(isVisible => visible = isVisible);
+      .subscribe((isVisible) => (visible = isVisible));
     return visible;
   }
 
@@ -55,14 +57,14 @@ export class DropdownMenuComponent {
       return;
     }
 
-    if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(event.key)) {
+    if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.key)) {
       event.preventDefault();
     }
 
     const target = event.target as HTMLElement;
     const menuId = this.menuId() as string;
-    const hasSubmenu = target.hasAttribute('data-has-submenu');
-    const itemIndex = hasSubmenu ? parseInt(target.getAttribute('data-item-index') ?? '-1') : undefined;
+    const hasSubmenu = target.hasAttribute("data-has-submenu");
+    const itemIndex = hasSubmenu ? parseInt(target.getAttribute("data-item-index") ?? "-1") : undefined;
     const isSubmenu = this.parentMenuId() !== undefined;
 
     event.stopPropagation();
@@ -73,7 +75,7 @@ export class DropdownMenuComponent {
       menuId,
       hasSubmenu,
       itemIndex,
-      isSubmenu
+      isSubmenu,
     });
   }
 }
