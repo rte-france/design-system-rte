@@ -59,4 +59,16 @@ export class DropdownItemComponent {
     }
     this.click.emit(event);
   }
+
+  handleKeyDown(event: KeyboardEvent) {
+    // Prevent scrolling when space is pressed
+    if (event.code === 'Space' || event.key === ' ') {
+      event.preventDefault();
+      
+      // If not disabled, trigger the click event as expected for accessibility
+      if (!this.disabled()) {
+        this.click.emit(event);
+      }
+    }
+  }
 }
