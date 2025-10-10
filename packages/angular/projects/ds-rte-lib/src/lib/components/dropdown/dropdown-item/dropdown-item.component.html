@@ -12,6 +12,7 @@
       [attr.aria-disabled]="disabled()"
       [class.active]="isActive()"
       (click)="handleClick($event)"
+      (keydown)="handleKeyDown($event)"
     >
       <span *ngIf="hasIndent() && !leftIcon()" style="width: 20px"></span>
       <rte-icon *ngIf="leftIcon()" [name]="leftIcon() ?? ''" />
