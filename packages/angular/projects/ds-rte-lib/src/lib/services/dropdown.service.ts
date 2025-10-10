@@ -11,35 +11,29 @@ export interface KeyboardHandlingOptions {
 }
 
 export interface DropdownState {
-  activeMenuId: string;      // Currently focused menu
-  visibleMenuIds: string[];  // All menus that should be shown
-  activePath: string[];      // Full path from root to active menu
+  activeMenuId: string; // Currently focused menu
+  visibleMenuIds: string[]; // All menus that should be shown
+  activePath: string[]; // Full path from root to active menu
 }
 
 @Injectable({
-  providedIn: 'root'  // Makes the service a singleton
+  providedIn: "root", // Makes the service a singleton
 })
 export class DropdownService {
   private initialState: DropdownState = {
-    activeMenuId: '',
+    activeMenuId: "",
     visibleMenuIds: [],
-    activePath: []
+    activePath: [],
   };
 
   state$ = new BehaviorSubject<DropdownState | null>(this.initialState);
 
   // Public observables for components to subscribe to
-  readonly activeMenuId$ = this.state$.pipe(
-    map(state => state?.activeMenuId)
-  );
+  readonly activeMenuId$ = this.state$.pipe(map((state) => state?.activeMenuId));
 
-  readonly visibleMenuIds$ = this.state$.pipe(
-    map(state => state?.visibleMenuIds)
-  );
+  readonly visibleMenuIds$ = this.state$.pipe(map((state) => state?.visibleMenuIds));
 
-  readonly activePath$ = this.state$.pipe(
-    map(state => state?.activePath)
-  );
+  readonly activePath$ = this.state$.pipe(map((state) => state?.activePath));
 
   // Helper to get current state snapshot
   private get currentState(): DropdownState | null {
@@ -49,48 +43,47 @@ export class DropdownService {
   // Basic state update methods
   activateMenu(menuId: string): void {
     // Build the path from root to this menu
-    const path = menuId.split(':');
-    
+    const path = menuId.split(":");
+
     // Update state
     this.state$.next({
       activeMenuId: menuId,
       activePath: path,
       // All menus in the path should be visible
-      visibleMenuIds: path.map((_, index) => path.slice(0, index + 1).join(':'))
+      visibleMenuIds: path.map((_, index) => path.slice(0, index + 1).join(":")),
     });
 
-    console.log('🔵 Dropdown Service - Menu Activated:', {
+    console.log("🔵 Dropdown Service - Menu Activated:", {
       menuId,
-      newState: this.currentState
+      newState: this.currentState,
     });
   }
 
   deactivateMenu(menuId: string): void {
     const currentState = this.currentState;
-    
+
     // Remove this menu and all its children from visible menus
-    const newVisibleMenuIds = currentState?.visibleMenuIds
-      .filter(id => !id.startsWith(menuId));
+    const newVisibleMenuIds = currentState?.visibleMenuIds.filter((id) => !id.startsWith(menuId));
 
     // If this was the active menu, activate its parent
     let newActiveMenuId = currentState?.activeMenuId;
     let newActivePath = currentState?.activePath;
 
     if (currentState?.activeMenuId === menuId) {
-      const parentId = menuId.split(':').slice(0, -1).join(':');
+      const parentId = menuId.split(":").slice(0, -1).join(":");
       newActiveMenuId = parentId;
-      newActivePath = parentId ? parentId.split(':') : [];
+      newActivePath = parentId ? parentId.split(":") : [];
     }
 
     this.state$.next({
-      activeMenuId: newActiveMenuId ?? '',
+      activeMenuId: newActiveMenuId ?? "",
       visibleMenuIds: newVisibleMenuIds ?? [],
-      activePath: newActivePath ?? []
+      activePath: newActivePath ?? [],
     });
 
-    console.log('🔵 Dropdown Service - Menu Deactivated:', {
+    console.log("🔵 Dropdown Service - Menu Deactivated:", {
       menuId,
-      newState: this.currentState
+      newState: this.currentState,
     });
   }
 
@@ -100,28 +93,24 @@ export class DropdownService {
 
   // Helper methods
   isMenuVisible(menuId: string): Observable<boolean> {
-    return this.visibleMenuIds$.pipe(
-      map(ids => !!ids?.includes(menuId))
-    );
+    return this.visibleMenuIds$.pipe(map((ids) => !!ids?.includes(menuId)));
   }
 
   isMenuActive(menuId: string): Observable<boolean> {
-    return this.activeMenuId$.pipe(
-      map(activeId => activeId === menuId)
-    );
+    return this.activeMenuId$.pipe(map((activeId) => activeId === menuId));
   }
 
   reset(): void {
     this.state$.next(this.initialState);
-    console.log('🔵 Dropdown Service - State Reset');
+    console.log("🔵 Dropdown Service - State Reset");
   }
 
   handleKeyboardInput(key: string, options: KeyboardHandlingOptions): void {
-    if (['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight'].includes(key)) {
+    if (["ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight"].includes(key)) {
       this.handleKeyboardNavigation(key, options);
     }
 
-    if (key === 'Escape') {
+    if (key === "Escape") {
       this.closeMenu();
     }
   }
@@ -132,14 +121,14 @@ export class DropdownService {
     const nativeElement = menuElement?.nativeElement as HTMLElement;
 
     switch (key) {
-      case 'ArrowDown':
+      case "ArrowDown":
         this.focusNextElement(nativeElement);
         break;
 
-      case 'ArrowUp':
+      case "ArrowUp":
         this.focusPreviousElement(nativeElement);
         break;
-/* 
+      /* 
       case 'ArrowRight':
         if (hasSubmenu && itemIndex !== undefined) {
           const submenuId = `${menuId}:${itemIndex + 1}`;
@@ -156,7 +145,7 @@ export class DropdownService {
           }
         }
         break; */
-/* 
+      /* 
       case 'Space':
         this.focusNextElement(nativeElement);
         break; */
@@ -169,9 +158,9 @@ export class DropdownService {
     if (!element) return;
 
     const focusableElements = this.getFocusableElements(element);
-    const currentIndex = focusableElements.findIndex(el => el === document.activeElement);
+    const currentIndex = focusableElements.findIndex((el) => el === document.activeElement);
     const nextIndex = currentIndex + 1 < focusableElements.length ? currentIndex + 1 : 0;
-    
+
     focusableElements[nextIndex]?.focus();
   }
 
@@ -179,23 +168,23 @@ export class DropdownService {
     if (!element) return;
 
     const focusableElements = this.getFocusableElements(element);
-    const currentIndex = focusableElements.findIndex(el => el === document.activeElement);
+    const currentIndex = focusableElements.findIndex((el) => el === document.activeElement);
     const previousIndex = currentIndex ? currentIndex - 1 : focusableElements.length - 1;
-    
+
     focusableElements[previousIndex]?.focus();
   }
 
   private getFocusableElements(element: HTMLElement): HTMLElement[] {
-    const menuId = element.getAttribute('data-menu-id');
+    const menuId = element.getAttribute("data-menu-id");
     return Array.from(
       element.querySelectorAll(
-        'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"]):not([disabled])'
-      )
-    ).filter(el => {
+        'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"]):not([disabled])',
+      ),
+    ).filter((el) => {
       // Get the closest menu container for this element
-      const closestMenu = el.closest('[data-menu-id]');
+      const closestMenu = el.closest("[data-menu-id]");
       // Only keep elements that belong to the current menu
-      return closestMenu?.getAttribute('data-menu-id') === menuId;
+      return closestMenu?.getAttribute("data-menu-id") === menuId;
     }) as HTMLElement[];
   }
 }

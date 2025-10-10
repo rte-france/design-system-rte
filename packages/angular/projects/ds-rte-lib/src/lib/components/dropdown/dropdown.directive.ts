@@ -11,25 +11,16 @@ import {
   Renderer2,
   ViewContainerRef,
 } from "@angular/core";
-import { Subject, takeUntil } from "rxjs";
-import { DropdownService } from "../../services/dropdown.service";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { getCoordinates } from "@design-system-rte/core/components/utils/auto-placement";
-import {
-  ARROW_DOWN_KEY,
-  ARROW_LEFT_KEY,
-  ARROW_RIGHT_KEY,
-  ARROW_UP_KEY,
-  ENTER_KEY,
-  ESCAPE_KEY,
-  SPACE_KEY,
-  TAB_KEY,
-} from "@design-system-rte/core/constants/keyboard/keyboard.constants";
+import { SPACE_KEY, TAB_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
+import { Subject, takeUntil } from "rxjs";
 
+import { DropdownService } from "../../services/dropdown.service";
 import { OverlayService } from "../../services/overlay.service";
 
 import { DropdownMenuComponent } from "./dropdown-menu/dropdown-menu.component";
 import { DropdownTriggerDirective } from "./dropdown-trigger/dropdown-trigger.directive";
-import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 export interface DropdownContext {
   id: string;
@@ -38,9 +29,9 @@ export interface DropdownContext {
 }
 
 export interface DropdownState {
-  activeMenuId: string;      // Currently focused menu
-  visibleMenuIds: string[];  // All menus that should be shown
-  activePath: string[];      // Full path from root to active menu
+  activeMenuId: string; // Currently focused menu
+  visibleMenuIds: string[]; // All menus that should be shown
+  activePath: string[]; // Full path from root to active menu
 }
 
 @Directive({
@@ -49,14 +40,14 @@ export interface DropdownState {
     "[class.dropdown]": "true",
     "[attr.data-dropdown-id]": "context()?.id ?? dropdownId",
   },
-  standalone: true
+  standalone: true,
 })
 export class DropdownDirective implements AfterContentInit, OnDestroy {
   private static idCounter = 0;
-  
+
   readonly trigger = contentChild(DropdownTriggerDirective);
   readonly menu = contentChild(DropdownMenuComponent);
-  
+
   readonly dropdownId = `dropdown_${++DropdownDirective.idCounter}`;
   readonly context = input<DropdownContext>();
 
@@ -72,7 +63,7 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
   constructor() {
     this.hostElement = this.elementRef.nativeElement;
   }
-  
+
   dropdownMenuRef: ComponentRef<DropdownMenuComponent> | null = null;
 
   onTrigger(): void {
@@ -88,7 +79,7 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
       event.preventDefault();
       const menuElement = this.dropdownMenuRef.location.nativeElement;
       const focusableElements = menuElement.querySelectorAll(
-        'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"]):not([disabled])'
+        'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"]):not([disabled])',
       );
       if (focusableElements.length) {
         focusableElements[0].focus();
@@ -115,29 +106,27 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
     }
 
     this.dropdownMenuRef = this.overlayService.create(DropdownMenuComponent, this.viewContainerRef);
-    
+
     const menuId = this.context()?.id ?? this.dropdownId;
     const parentId = this.context()?.parentId;
-    
-    this.dropdownMenuRef.setInput('menuId', menuId);
-    this.dropdownMenuRef.setInput('parentMenuId', parentId);
-    
-    this.updateState(menuId, 'activate');
-    
+
+    this.dropdownMenuRef.setInput("menuId", menuId);
+    this.dropdownMenuRef.setInput("parentMenuId", parentId);
+
+    this.updateState(menuId, "activate");
+
     this.dropdownMenuRef.instance.onKeyDown.bind(this.dropdownMenuRef.instance);
-    
+
     this.positionDropdownMenu();
     this.assignItems();
-    
+
     this.addClickOutsideListener();
 
-    this.dropdownService.state$
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(state => {
-        if (state === null) {
-          this.closeDropdown();
-        }
-    })
+    this.dropdownService.state$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((state) => {
+      if (state === null) {
+        this.closeDropdown();
+      }
+    });
   }
 
   private assignItems(): void {
@@ -160,8 +149,8 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
     }
   }
 
-  private updateState(menuId: string, action: 'activate' | 'deactivate'): void {
-    if (action === 'activate') {
+  private updateState(menuId: string, action: "activate" | "deactivate"): void {
+    if (action === "activate") {
       this.dropdownService.activateMenu(menuId);
     } else {
       this.dropdownService.deactivateMenu(menuId);
@@ -179,23 +168,21 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
 
   private handleClickOutside = (event: MouseEvent): void => {
     const target = event.target as Element;
-    
-    const isMenuItemClick = target.closest('.rte-dropdown-item') !== null;
+
+    const isMenuItemClick = target.closest(".rte-dropdown-item") !== null;
     if (isMenuItemClick) {
       return;
     }
 
     const clickedInTrigger = this.hostElement.contains(target);
-    
+
     let clickedInMenus = false;
-    this.dropdownService.visibleMenuIds$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(visibleMenuIds => {
-        clickedInMenus = !!visibleMenuIds?.some(menuId => {
-          const menuElement = document.querySelector(`[data-menu-id="${menuId}"]`);
-          return menuElement?.contains(target);
-        });
+    this.dropdownService.visibleMenuIds$.pipe(takeUntil(this.destroy$)).subscribe((visibleMenuIds) => {
+      clickedInMenus = !!visibleMenuIds?.some((menuId) => {
+        const menuElement = document.querySelector(`[data-menu-id="${menuId}"]`);
+        return menuElement?.contains(target);
       });
+    });
 
     if (!clickedInTrigger && !clickedInMenus) {
       this.closeDropdown();
@@ -212,13 +199,13 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
 
   private closeDropdown(): void {
     const currentId = this.context()?.id ?? this.dropdownId;
-    this.updateState(currentId, 'deactivate');
-    
+    this.updateState(currentId, "deactivate");
+
     if (this.dropdownMenuRef) {
       this.dropdownMenuRef.destroy();
       this.dropdownMenuRef = null;
     }
-    
+
     this.removeClickOutsideListener();
   }
 }
