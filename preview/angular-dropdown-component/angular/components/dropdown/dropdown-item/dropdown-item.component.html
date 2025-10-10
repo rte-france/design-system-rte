@@ -5,7 +5,14 @@
       role="menuitem"
       tabindex="0"
       [attr.data-disabled]="disabled()"
+      [attr.data-has-submenu]="subMenuItems().length"
+      [attr.data-item-index]="itemIndex()"
+      [attr.aria-haspopup]="subMenuItems().length ? 'menu' : undefined"
+      [attr.aria-expanded]="subMenuItems().length ? isActive() : undefined"
+      [attr.aria-disabled]="disabled()"
+      [class.active]="isActive()"
       (click)="handleClick($event)"
+      (keydown)="handleKeyDown($event)"
     >
       <span *ngIf="hasIndent() && !leftIcon()" style="width: 20px"></span>
       <rte-icon *ngIf="leftIcon()" [name]="leftIcon() ?? ''" />
