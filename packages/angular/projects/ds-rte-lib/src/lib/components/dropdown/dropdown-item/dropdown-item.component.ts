@@ -1,8 +1,7 @@
 import { CommonModule } from "@angular/common";
-import { Component, DestroyRef, EventEmitter, inject, input, output } from "@angular/core";
-import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { Component, EventEmitter, input, output } from "@angular/core";
+import { SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
-import { DropdownService } from "../../../services/dropdown.service";
 import { DividerComponent } from "../../divider/divider.component";
 import { IconComponent } from "../../icon/icon.component";
 
@@ -25,8 +24,6 @@ export interface DropdownItemConfig {
   styleUrl: "./dropdown-item.component.scss",
 })
 export class DropdownItemComponent {
-  private readonly dropdownService = inject(DropdownService);
-  private readonly destroyRef = inject(DestroyRef);
   readonly label = input.required<string>();
   readonly leftIcon = input<string>();
   readonly trailingText = input<string>();
@@ -34,41 +31,24 @@ export class DropdownItemComponent {
   readonly hasSeparator = input<boolean>(false);
   readonly hasIndent = input<boolean>(false);
 
-  readonly subMenuItems = input<DropdownItemConfig[]>([]);
-
   readonly menuId = input<string>();
-  readonly itemIndex = input<number>();
-  readonly click = output<Event>();
+  readonly itemEvent = output<{ event: Event; id: string }>();
 
-  isActive(): boolean {
-    let active = false;
-    if (this.menuId() && this.subMenuItems().length) {
-      const submenuId = `${this.menuId()}:${this.itemIndex() ?? 0 + 1}`;
-      this.dropdownService
-        .isMenuActive(submenuId)
-        .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe((isActive) => (active = isActive));
-    }
-    return active;
-  }
-
-  handleClick(event: Event) {
+  handleClick(event: Event): void {
     if (this.disabled()) {
       event.preventDefault();
       event.stopPropagation();
       return;
     }
-    this.click.emit(event);
+    this.itemEvent.emit({ event, id: this.menuId() || this.label() });
   }
 
-  handleKeyDown(event: KeyboardEvent) {
-    // Prevent scrolling when space is pressed
-    if (event.code === "Space" || event.key === " ") {
+  handleKeyDown(event: KeyboardEvent): void {
+    if (event.key === SPACE_KEY) {
       event.preventDefault();
 
-      // If not disabled, trigger the click event as expected for accessibility
       if (!this.disabled()) {
-        this.click.emit(event);
+        this.itemEvent.emit({ event, id: this.menuId() || this.label() });
       }
     }
   }
