@@ -1,49 +1,19 @@
-<div
-  class="rte-dropdown-menu"
-  [attr.aria-hidden]="!isVisible()"
-  [attr.aria-expanded]="isActive()"
->
+<div class="rte-dropdown-menu">
   <ul 
-    class="rte-dropdown-items" 
+    class="rte-dropdown-items"
     role="menu" 
     [attr.aria-activedescendant]="menuId()"
   >
     @for (item of items(); track item.label; let i = $index) {
-        @if (item.subMenuItems?.length) {
-            <div 
-              rteDropdown 
-              [context]="{id: getChildMenuId(i), parentId: menuId()}"
-              [attr.data-item-index]="i"
-              [attr.data-has-submenu]="true">
-                <rte-dropdown-item 
-                    rteDropdownTrigger 
-                    [label]="item.label" 
-                    [leftIcon]="item.leftIcon" 
-                    [trailingText]="item.trailingText" 
-                    [disabled]="item.disabled ?? false" 
-                    [hasSeparator]="item.hasSeparator ?? false"
-                    [subMenuItems]="item.subMenuItems ?? []" 
-                    [hasIndent]="item.hasIndent ?? false"
-                    (click)="item.click?.emit($event)"
-                >
-                </rte-dropdown-item>
-                <rte-dropdown-menu 
-                    [items]="item.subMenuItems ?? []"
-                    [menuId]="getChildMenuId(i)"
-                    [parentMenuId]="menuId()">
-                </rte-dropdown-menu>
-            </div>
-        } @else {
-            <rte-dropdown-item 
-                [label]="item.label" 
-                [leftIcon]="item.leftIcon" 
-                [trailingText]="item.trailingText" 
-                [disabled]="item.disabled ?? false" 
-                [hasSeparator]="item.hasSeparator ?? false" 
-                [hasIndent]="item.hasIndent ?? false"
-                (click)="item.click?.emit($event)">
-            </rte-dropdown-item>
-        }
+      <rte-dropdown-item 
+        [label]="item.label" 
+        [leftIcon]="item.leftIcon" 
+        [trailingText]="item.trailingText" 
+        [disabled]="!!item.disabled" 
+        [hasSeparator]="!!item.hasSeparator" 
+        [hasIndent]="!!item.hasIndent"
+        (itemEvent)="handleItemEvent($event)"
+      />
     }
   </ul>
 </div>

@@ -20,3 +20,8 @@ export * from "./lib/components/switch/switch.component";
 export * from "./lib/components/segmented-control/segmented-control.component";
 export * from "./lib/components/breadcrumbs/breadcrumbs.component";
 export * from "./lib/components/banner/banner.component";
+export * from "./lib/components/dropdown/dropdown.directive";
+export * from "./lib/components/dropdown/dropdown-trigger/dropdown-trigger.directive";
+export * from "./lib/components/dropdown/dropdown-menu/dropdown-menu.component";
+export * from "./lib/components/dropdown/dropdown-item/dropdown-item.component";
+export * from "./lib/components/dropdown/dropdown.module";

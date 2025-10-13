@@ -5,12 +5,7 @@
       role="menuitem"
       tabindex="0"
       [attr.data-disabled]="disabled()"
-      [attr.data-has-submenu]="subMenuItems().length"
-      [attr.data-item-index]="itemIndex()"
-      [attr.aria-haspopup]="subMenuItems().length ? 'menu' : undefined"
-      [attr.aria-expanded]="subMenuItems().length ? isActive() : undefined"
       [attr.aria-disabled]="disabled()"
-      [class.active]="isActive()"
       (click)="handleClick($event)"
       (keydown)="handleKeyDown($event)"
     >
@@ -18,9 +13,8 @@
       <rte-icon *ngIf="leftIcon()" [name]="leftIcon() ?? ''" />
       <span style="flex: 2">{{ label() }}</span>
       <div *ngIf="trailingText()">{{ trailingText() }}</div>
-      <rte-icon *ngIf="subMenuItems().length" name="arrow-chevron-right" />
     </li>
     <div *ngIf="hasSeparator()" class="dropdown-divider">
-      <rte-divider></rte-divider>
+      <rte-divider/>
     </div>
 </ng-container>
