@@ -22,7 +22,6 @@
         direction() === 'horizontal' ? 'arrow-chevron-left' : 'arrow-chevron-up'
       "
       [ngStyle]="{
-        'z-index': 11,
         opacity: canScrollBackward() ? '1' : '0',
         'pointer-events': canScrollBackward() ? 'auto' : 'none',
       }"
@@ -44,8 +43,8 @@
       <rte-dropdown
         *ngIf="shouldDisplayDropdown() && options().length > 0"
         #dropdown="rteDropdown"
+        aria-label="Select tab"
         [autoclose]="true"
-        [ariaLabel]="'Select tab'"
         [offset]="10"
       >
         <button
@@ -64,7 +63,6 @@
           <rte-badge
             *ngIf="
               selectedTab()?.badgeCount &&
-              selectedTab()?.badgeCount! > 0 &&
               selectedTab()?.badgeAppearance === 'text'
             "
             [badgeType]="selectedTab()?.badgeType!"
@@ -107,7 +105,6 @@
           : 'arrow-chevron-down'
       "
       [ngStyle]="{
-        'z-index': 11,
         opacity: canScrollForward() ? '1' : '0',
         'pointer-events': canScrollForward() ? 'auto' : 'none',
       }"
@@ -120,8 +117,6 @@
     role="presentation"
     [attr.data-direction]="direction()"
     [attr.data-compact-spacing]="compactSpacing()"
-    [attr.data-scrollable]="
-      isScrollable() && overflowType() === 'scrollable' ? true : undefined
-    "
+    [attr.data-scrollable]="isScrollable() && overflowType() === 'scrollable'"
   ></div>
 </div>

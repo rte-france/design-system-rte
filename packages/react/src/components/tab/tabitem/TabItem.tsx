@@ -146,7 +146,7 @@ const TabItem = forwardRef<HTMLButtonElement, TabItemProps>(
     useEffect(() => {
       updateIndicator();
       window.addEventListener("resize", updateIndicator);
-      if (tabItemRef.current && tabItemRef.current.parentElement) {
+      if (tabItemRef.current?.parentElement) {
         tabItemRef.current.parentElement.addEventListener("scroll", updateIndicator);
       }
       return () => {

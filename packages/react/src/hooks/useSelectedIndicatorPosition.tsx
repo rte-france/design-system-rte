@@ -19,21 +19,20 @@ const useSelectedIndicatorPosition = (
     if (!containerRef.current) return;
     const node = containerRef.current.querySelector(`#${selectedId}`) as HTMLElement | undefined;
 
-    if (node)
-      if (node?.getAttribute("data-disabled") !== "true") {
-        if (position === "bottom") {
-          setIndicatorStyle({ left: node.offsetLeft, bottom: 0, width: node.offsetWidth });
-        } else if (position === "left") {
-          setIndicatorStyle({
-            left: 0,
-            top: node.offsetTop,
-            height: node.offsetHeight,
-            width: 2,
-          });
-        } else {
-          setIndicatorStyle({ left: node.offsetLeft, top: node.offsetTop, width: node.offsetWidth });
-        }
+    if (node && node?.getAttribute("data-disabled") !== "true") {
+      if (position === "bottom") {
+        setIndicatorStyle({ left: node.offsetLeft, bottom: 0, width: node.offsetWidth });
+      } else if (position === "left") {
+        setIndicatorStyle({
+          left: 0,
+          top: node.offsetTop,
+          height: node.offsetHeight,
+          width: 2,
+        });
+      } else {
+        setIndicatorStyle({ left: node.offsetLeft, top: node.offsetTop, width: node.offsetWidth });
       }
+    }
   }, [selectedId, containerRef, position]);
 
   useEffect(() => {
