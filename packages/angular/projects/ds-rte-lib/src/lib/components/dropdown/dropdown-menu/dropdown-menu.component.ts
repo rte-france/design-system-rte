@@ -28,6 +28,8 @@ export class DropdownMenuComponent {
 
   readonly itemEvent = output<{ event: Event; id: string }>();
 
+  readonly itemEvent = output<{ event: Event; id: string }>();
+
   getChildMenuId(itemIndex: number): string {
     return `${this.menuId()}:${itemIndex + 1}`;
   }
