@@ -37,10 +37,10 @@
   [attr.data-disabled]="option()?.disabled"
   [id]="'tab-hover-indicator' + option()?.id"
   [ngStyle]="{
-    width: hoverIndicatorStyle()?.width + 'px',
-    left: hoverIndicatorStyle()?.left + 'px',
-    top: hoverIndicatorStyle()?.top + 'px',
-    height: hoverIndicatorStyle()?.height + 'px',
-    opacity: hoverIndicatorStyle()?.opacity || '0',
+    width: hoverIndicatorWidth(),
+    height: hoverIndicatorHeight(),
+    left: hoverIndicatorLeft(),
+    top: hoverIndicatorTop(),
+    opacity: hoverIndicatorOpacity(),
   }"
 ></span>

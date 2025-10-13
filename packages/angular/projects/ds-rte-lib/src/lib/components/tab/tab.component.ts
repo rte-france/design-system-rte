@@ -188,7 +188,7 @@ export class TabComponent implements AfterViewInit, OnChanges, OnDestroy {
   };
 
   scrollBackward() {
-    if (this.containerRef() && this.containerRef()?.nativeElement) {
+    if (this.containerRef()?.nativeElement) {
       const scrollObject = this.direction() === "horizontal" ? { left: -300 } : { top: -300 };
       this.containerRef()?.nativeElement.scrollBy({ ...scrollObject, behavior: "smooth" });
     }
@@ -245,7 +245,7 @@ export class TabComponent implements AfterViewInit, OnChanges, OnDestroy {
   private updateSelectedTabItemIndicator() {
     const idx = this.options().findIndex((opt) => opt.id === this.selectedTabId());
     const tabItem = this.tabItemRefs()[idx];
-    if (tabItem && tabItem.tabItemRef) {
+    if (tabItem?.tabItemRef) {
       if (tabItem.option()?.disabled) {
         return;
       }
@@ -270,7 +270,7 @@ export class TabComponent implements AfterViewInit, OnChanges, OnDestroy {
   };
 
   private computeIsScrollable() {
-    if (this.containerRef() && this.containerRef()?.nativeElement) {
+    if (this.containerRef()?.nativeElement) {
       const containerNativeElement = this.containerRef()?.nativeElement;
       if (containerNativeElement) {
         this.isScrollable.set(
@@ -295,7 +295,7 @@ export class TabComponent implements AfterViewInit, OnChanges, OnDestroy {
     if (containerNativeElement) {
       const isOverflowingRight =
         containerNativeElement.scrollWidth - containerNativeElement.clientWidth - containerNativeElement.scrollLeft > 0;
-      return this.isOverflowingRight.set(this.isScrollable() && isOverflowingRight);
+      this.isOverflowingRight.set(this.isScrollable() && isOverflowingRight);
     }
   }
 
@@ -312,7 +312,7 @@ export class TabComponent implements AfterViewInit, OnChanges, OnDestroy {
       const isOverflowingBottom =
         containerNativeElement.scrollHeight - containerNativeElement.clientHeight - containerNativeElement.scrollTop >
         0;
-      return this.isOverflowingBottom.set(this.isScrollable() && isOverflowingBottom);
+      this.isOverflowingBottom.set(this.isScrollable() && isOverflowingBottom);
     }
   }
 }
