@@ -94,7 +94,6 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
       });
 
       this.trigger()?.dropdownKeyDown.subscribe((event: KeyboardEvent) => {
-        event.preventDefault();
         this.onTriggerKeyEvent(event);
       });
     }
