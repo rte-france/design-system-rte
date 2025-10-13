@@ -1,17 +1,15 @@
-import { Directive, HostListener, inject, output, ViewContainerRef } from "@angular/core";
+import { Directive, ElementRef, HostListener, inject, output } from "@angular/core";
 
 @Directive({
   selector: "[rteDropdownTrigger]",
   standalone: true,
 })
 export class DropdownTriggerDirective {
-  readonly viewContainerRef = inject(ViewContainerRef);
+  readonly elementRef = inject(ElementRef);
 
   readonly dropdownKeyDown = output<KeyboardEvent>();
 
   readonly dropdownTriggered = output<Event>();
-
-  constructor() {}
 
   @HostListener("click", ["$event"])
   onDropdownTriggered(event: Event): void {

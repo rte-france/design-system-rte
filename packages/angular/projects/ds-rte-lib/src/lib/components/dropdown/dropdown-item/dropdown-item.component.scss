@@ -22,10 +22,6 @@
     background-color: var(--background-hover);
   }
 
-  &[data-active='true'] {
-    background-color: var(--background-brand-inverse-pressed);
-  }
-
   &[data-disabled='true'] {
     cursor: not-allowed;
     color: var(--content-disabled);
