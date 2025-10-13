@@ -44,8 +44,8 @@
       <rte-dropdown
         *ngIf="shouldDisplayDropdown() && options().length > 0"
         #dropdown="rteDropdown"
+        aria-label="Select tab"
         [autoclose]="true"
-        [ariaLabel]="'Select tab'"
         [offset]="10"
       >
         <button
@@ -64,7 +64,6 @@
           <rte-badge
             *ngIf="
               selectedTab()?.badgeCount &&
-              selectedTab()?.badgeCount! > 0 &&
               selectedTab()?.badgeAppearance === 'text'
             "
             [badgeType]="selectedTab()?.badgeType!"

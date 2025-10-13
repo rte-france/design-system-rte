@@ -9,6 +9,7 @@ import {
   viewChild,
   output,
   OnDestroy,
+  computed,
 } from "@angular/core";
 import { TabItemProps } from "@design-system-rte/core/components/tab/tab.interface";
 
@@ -46,6 +47,22 @@ export class TabItemComponent implements AfterViewInit, OnDestroy {
   readonly displayBadge = (option: TabItemProps): boolean => {
     return !!(option.badgeAppearance || option.badgeType || option.badgeIcon || option.badgeCount);
   };
+
+  readonly hoverIndicatorWidth = computed(() => {
+    return `${this.hoverIndicatorStyle()?.width}px`;
+  });
+  readonly hoverIndicatorHeight = computed(() => {
+    return `${this.hoverIndicatorStyle()?.height}px`;
+  });
+  readonly hoverIndicatorLeft = computed(() => {
+    return `${this.hoverIndicatorStyle()?.left}px`;
+  });
+  readonly hoverIndicatorTop = computed(() => {
+    return `${this.hoverIndicatorStyle()?.top}px`;
+  });
+  readonly hoverIndicatorOpacity = computed(() => {
+    return this.hoverIndicatorStyle()?.opacity ?? 0;
+  });
 
   ngAfterViewInit() {
     this.computeHoverIndicatorStyle();
@@ -103,17 +120,14 @@ export class TabItemComponent implements AfterViewInit, OnDestroy {
         left: this.tabItemRef()?.nativeElement.offsetLeft,
         top: this.tabItemRef()
           ? this.tabItemRef()!.nativeElement.offsetTop + this.tabItemRef()!.nativeElement.offsetHeight
-          : undefined,
+          : 0,
         opacity: 0,
       });
     } else {
       this.hoverIndicatorStyle.set({
         width: 2,
         height: this.tabItemRef()?.nativeElement.offsetHeight,
-        left:
-          this.tabItemRef()?.nativeElement.offsetLeft !== undefined
-            ? this.tabItemRef()!.nativeElement.offsetLeft - 4
-            : undefined,
+        left: this.tabItemRef()?.nativeElement.offsetLeft && this.tabItemRef()!.nativeElement.offsetLeft - 4,
         top: this.tabItemRef()!.nativeElement.offsetTop,
         opacity: 0,
       });

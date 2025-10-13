@@ -124,7 +124,7 @@ export class TabComponent implements AfterViewInit, OnChanges, OnDestroy {
   readonly tabItemSelectedIndicatorStyle = computed(() => ({
     left: `${this.shouldDisplayDropdown() ? 0 : this.sliderLeft()}px`,
     top: `${this.sliderTop()}px`,
-    width: `${this.sliderWidth() + (this.shouldDisplayDropdown() ? 16 : 0)}px`,
+    width: `${this.sliderWidth() + (this.shouldDisplayDropdown() ? 32 : 0)}px`,
     height: `${this.sliderHeight()}px`,
   }));
 
@@ -295,7 +295,7 @@ export class TabComponent implements AfterViewInit, OnChanges, OnDestroy {
     if (containerNativeElement) {
       const isOverflowingRight =
         containerNativeElement.scrollWidth - containerNativeElement.clientWidth - containerNativeElement.scrollLeft > 0;
-      return this.isOverflowingRight.set(this.isScrollable() && isOverflowingRight);
+      this.isOverflowingRight.set(this.isScrollable() && isOverflowingRight);
     }
   }
 
@@ -312,7 +312,7 @@ export class TabComponent implements AfterViewInit, OnChanges, OnDestroy {
       const isOverflowingBottom =
         containerNativeElement.scrollHeight - containerNativeElement.clientHeight - containerNativeElement.scrollTop >
         0;
-      return this.isOverflowingBottom.set(this.isScrollable() && isOverflowingBottom);
+      this.isOverflowingBottom.set(this.isScrollable() && isOverflowingBottom);
     }
   }
 }
