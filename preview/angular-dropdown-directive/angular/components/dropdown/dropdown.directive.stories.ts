@@ -14,8 +14,17 @@ const MOCKUP_ITEMS = [
   { label: "Username", leftIcon: "user-circle", disabled: true },
 ];
 
+const wipWarning = `
+<div>
+  <span style="font-family: sans-serif; margin-bottom: 16px; border: 1px solid #F4922B; padding: 8px; border-radius: 5px; background-color: #FAFFC1; margin: 0;">
+    Ce composant est en cours de développement et n'est pas encore disponible
+  </span>
+</div>
+<br/>
+`;
+
 const meta: Meta<DropdownDirective> = {
-  title: "Dropdown",
+  title: "Dropdown (développement en cours)",
   component: DropdownDirective,
   tags: ["autodocs"],
   argTypes: {},
@@ -41,6 +50,7 @@ export const Default: Story = {
       },
     },
     template: `
+    ${wipWarning}
     <div rteDropdown (menuEvent)="onItemClick($event)">
       <button rteDropdownTrigger>Menu principal ⬇</button>
       <rte-dropdown-menu [items]="items"/>

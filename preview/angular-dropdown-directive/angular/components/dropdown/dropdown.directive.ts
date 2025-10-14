@@ -14,7 +14,6 @@ import {
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { getCoordinates } from "@design-system-rte/core/components/utils/auto-placement";
 import { SPACE_KEY, TAB_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
-import { Subject } from "rxjs";
 
 import { DropdownService } from "../../services/dropdown.service";
 import { OverlayService } from "../../services/overlay.service";
@@ -39,7 +38,6 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
   readonly dropdownId = `dropdown_${++DropdownDirective.idCounter}`;
   readonly menuEvent = output<{ event: Event; id: string }>();
 
-  private readonly destroy$ = new Subject<void>();
   readonly overlayService = inject(OverlayService);
   readonly dropdownService = inject(DropdownService);
   readonly viewContainerRef = inject(ViewContainerRef);
@@ -105,8 +103,6 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
 
     this.dropdownService.openMenu(menuId);
 
-    this.dropdownMenuRef.instance.onKeyDown.bind(this.dropdownMenuRef.instance);
-
     this.positionDropdownMenu();
     this.assignItems();
 
@@ -138,16 +134,19 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
   }
 
   private positionDropdownMenu(): void {
-    if (this.dropdownMenuRef) {
+    if (this.dropdownMenuRef && this.trigger()) {
       const dropdownMenuElement = this.dropdownMenuRef.location.nativeElement;
+      const triggerElement = this.trigger()?.elementRef.nativeElement;
 
-      const positions = getCoordinates("right", this.hostElement, dropdownMenuElement);
+      if (triggerElement) {
+        const positions = getCoordinates("right", triggerElement, dropdownMenuElement);
 
-      this.renderer.setStyle(dropdownMenuElement, "opacity", "1");
-      this.renderer.setStyle(dropdownMenuElement, "display", "block");
+        this.renderer.setStyle(dropdownMenuElement, "opacity", "1");
+        this.renderer.setStyle(dropdownMenuElement, "display", "block");
 
-      this.renderer.setStyle(dropdownMenuElement, "top", `${positions.top}px`);
-      this.renderer.setStyle(dropdownMenuElement, "left", `${positions.left}px`);
+        this.renderer.setStyle(dropdownMenuElement, "top", `${positions.top}px`);
+        this.renderer.setStyle(dropdownMenuElement, "left", `${positions.left}px`);
+      }
     }
   }
 
@@ -156,8 +155,6 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
     if (this.dropdownMenuRef) {
       this.dropdownMenuRef.destroy();
     }
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 
   private handleClickOutside = (event: MouseEvent): void => {
@@ -170,9 +167,7 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
 
     const clickedInTrigger = this.hostElement.contains(target);
 
-    const clickedInMenus = false;
-
-    if (!clickedInTrigger && !clickedInMenus) {
+    if (!clickedInTrigger) {
       this.closeDropdown();
     }
   };
