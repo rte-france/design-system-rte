@@ -3,6 +3,9 @@
     "config:recommended",
     "schedule:nonOfficeHours"
   ],
+  "allowedPostUpgradeCommands": [
+    "npm install"
+  ],
   "branchPrefix": "Renovate_",
   "baseBranchPatterns": [
     "main"
