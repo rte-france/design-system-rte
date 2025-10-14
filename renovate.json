@@ -1,11 +1,27 @@
 {
-  "extends": ["config:recommended", "schedule:nonOfficeHours"],
+  "extends": [
+    "config:recommended",
+    "schedule:nonOfficeHours"
+  ],
   "branchPrefix": "Renovate_",
-  "baseBranchPatterns": ["main"],
+  "baseBranchPatterns": [
+    "main"
+  ],
   "prConcurrentLimit": 3,
   "ignorePaths": [
     "**/node_modules/**"
   ],
+  "npm": {
+    "postUpgradeTasks": {
+      "commands": [
+        "npm install"
+      ],
+      "fileFilters": [
+        "package-lock.json"
+      ],
+      "executionMode": "update"
+    }
+  },
   "major": {
     "packageRules": [
       {
@@ -22,15 +38,23 @@
       "digest": {
         "enabled": false
       },
-      "matchPackageNames": ["*"]
+      "matchPackageNames": [
+        "*"
+      ]
     },
     {
       "groupName": "angular",
-      "matchPackageNames": ["@angular/{/,}**", "@angular-devkit/{/,}**"]
+      "matchPackageNames": [
+        "@angular/{/,}**",
+        "@angular-devkit/{/,}**"
+      ]
     },
     {
       "groupName": "react",
-      "matchPackageNames": ["react", "react-dom"]
+      "matchPackageNames": [
+        "react",
+        "react-dom"
+      ]
     }
   ]
 }
