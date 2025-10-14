@@ -6,15 +6,15 @@ import {
   Directive,
   ElementRef,
   inject,
-  input,
   OnDestroy,
+  output,
   Renderer2,
   ViewContainerRef,
 } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { getCoordinates } from "@design-system-rte/core/components/utils/auto-placement";
 import { SPACE_KEY, TAB_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
-import { Subject, takeUntil } from "rxjs";
+import { Subject } from "rxjs";
 
 import { DropdownService } from "../../services/dropdown.service";
 import { OverlayService } from "../../services/overlay.service";
@@ -22,23 +22,11 @@ import { OverlayService } from "../../services/overlay.service";
 import { DropdownMenuComponent } from "./dropdown-menu/dropdown-menu.component";
 import { DropdownTriggerDirective } from "./dropdown-trigger/dropdown-trigger.directive";
 
-export interface DropdownContext {
-  id: string;
-  parentId?: string;
-  itemIndex?: number;
-}
-
-export interface DropdownState {
-  activeMenuId: string; // Currently focused menu
-  visibleMenuIds: string[]; // All menus that should be shown
-  activePath: string[]; // Full path from root to active menu
-}
-
 @Directive({
   selector: "[rteDropdown]",
   host: {
     "[class.dropdown]": "true",
-    "[attr.data-dropdown-id]": "context()?.id ?? dropdownId",
+    "[attr.data-dropdown-id]": "dropdownId",
   },
   standalone: true,
 })
@@ -49,7 +37,7 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
   readonly menu = contentChild(DropdownMenuComponent);
 
   readonly dropdownId = `dropdown_${++DropdownDirective.idCounter}`;
-  readonly context = input<DropdownContext>();
+  readonly menuEvent = output<{ event: Event; id: string }>();
 
   private readonly destroy$ = new Subject<void>();
   readonly overlayService = inject(OverlayService);
@@ -87,6 +75,11 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
     }
   }
 
+  onMenuEvent(event: { event: Event; id: string }): void {
+    this.menuEvent.emit(event);
+    this.dropdownService.closeAllMenus();
+  }
+
   ngAfterContentInit(): void {
     if (this.trigger()) {
       this.trigger()?.dropdownTriggered.subscribe(() => {
@@ -106,13 +99,11 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
 
     this.dropdownMenuRef = this.overlayService.create(DropdownMenuComponent, this.viewContainerRef);
 
-    const menuId = this.context()?.id ?? this.dropdownId;
-    const parentId = this.context()?.parentId;
+    const menuId = this.dropdownId;
 
     this.dropdownMenuRef.setInput("menuId", menuId);
-    this.dropdownMenuRef.setInput("parentMenuId", parentId);
 
-    this.updateState(menuId, "activate");
+    this.dropdownService.openMenu(menuId);
 
     this.dropdownMenuRef.instance.onKeyDown.bind(this.dropdownMenuRef.instance);
 
@@ -121,11 +112,23 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
 
     this.addClickOutsideListener();
 
-    this.dropdownService.state$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((state) => {
-      if (state === null) {
-        this.closeDropdown();
-      }
+    this.dropdownMenuRef.instance.itemEvent.subscribe((event: { event: Event; id: string }) => {
+      this.onMenuEvent(event);
     });
+
+    const dropdownStateSubscription = this.dropdownService.state$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((state) => {
+        if (state === null) {
+          if (this.dropdownMenuRef) {
+            this.dropdownMenuRef.destroy();
+            this.dropdownMenuRef = null;
+
+            this.removeClickOutsideListener();
+            dropdownStateSubscription.unsubscribe();
+          }
+        }
+      });
   }
 
   private assignItems(): void {
@@ -148,14 +151,6 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
     }
   }
 
-  private updateState(menuId: string, action: "activate" | "deactivate"): void {
-    if (action === "activate") {
-      this.dropdownService.activateMenu(menuId);
-    } else {
-      this.dropdownService.deactivateMenu(menuId);
-    }
-  }
-
   ngOnDestroy(): void {
     this.removeClickOutsideListener();
     if (this.dropdownMenuRef) {
@@ -175,13 +170,7 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
 
     const clickedInTrigger = this.hostElement.contains(target);
 
-    let clickedInMenus = false;
-    this.dropdownService.visibleMenuIds$.pipe(takeUntil(this.destroy$)).subscribe((visibleMenuIds) => {
-      clickedInMenus = !!visibleMenuIds?.some((menuId) => {
-        const menuElement = document.querySelector(`[data-menu-id="${menuId}"]`);
-        return menuElement?.contains(target);
-      });
-    });
+    const clickedInMenus = false;
 
     if (!clickedInTrigger && !clickedInMenus) {
       this.closeDropdown();
@@ -197,14 +186,6 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
   }
 
   private closeDropdown(): void {
-    const currentId = this.context()?.id ?? this.dropdownId;
-    this.updateState(currentId, "deactivate");
-
-    if (this.dropdownMenuRef) {
-      this.dropdownMenuRef.destroy();
-      this.dropdownMenuRef = null;
-    }
-
-    this.removeClickOutsideListener();
+    this.dropdownService.closeAllMenus();
   }
 }

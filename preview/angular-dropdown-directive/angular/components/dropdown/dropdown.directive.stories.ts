@@ -4,24 +4,8 @@ import { DropdownDirective } from "./dropdown.directive";
 import { DropdownModule } from "./dropdown.module";
 
 const MOCKUP_ITEMS = [
-  { label: "Messages", leftIcon: "mail", hasSeparator: true, onClick: () => console.log("click") },
-  {
-    label: "Actions",
-    leftIcon: "settings",
-    subMenuItems: [
-      {
-        label: "Edit",
-        leftIcon: "edit",
-        subMenuItems: [
-          { label: "Cut", leftIcon: "cut", trailingText: "⌘X" },
-          { label: "Copy", leftIcon: "copy", trailingText: "⌘X", onClick: () => console.log("click") },
-          { label: "Paste", leftIcon: "paste", trailingText: "⌘V" },
-        ],
-      },
-      { label: "Archive", leftIcon: "archive" },
-      { label: "Delete", leftIcon: "delete" },
-    ],
-  },
+  { label: "Messages", leftIcon: "mail", hasSeparator: true },
+  { label: "Actions", leftIcon: "settings" },
   { label: "Help", leftIcon: "help" },
   { label: "More information", leftIcon: "info", hasSeparator: true },
   { label: "First option", hasIndent: true },
@@ -52,9 +36,12 @@ export const Default: Story = {
   render: () => ({
     props: {
       items: MOCKUP_ITEMS,
+      onItemClick: (event: { event: Event; id: string }) => {
+        console.log("Item clicked:", event);
+      },
     },
     template: `
-    <div rteDropdown>
+    <div rteDropdown (menuEvent)="onItemClick($event)">
       <button rteDropdownTrigger>Menu principal ⬇</button>
       <rte-dropdown-menu [items]="items"/>
     </div>
