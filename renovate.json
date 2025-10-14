@@ -3,9 +3,6 @@
     "config:recommended",
     "schedule:nonOfficeHours"
   ],
-  "allowedPostUpgradeCommands": [
-    "npm install"
-  ],
   "branchPrefix": "Renovate_",
   "baseBranchPatterns": [
     "main"
@@ -14,17 +11,6 @@
   "ignorePaths": [
     "**/node_modules/**"
   ],
-  "npm": {
-    "postUpgradeTasks": {
-      "commands": [
-        "npm install"
-      ],
-      "fileFilters": [
-        "package-lock.json"
-      ],
-      "executionMode": "update"
-    }
-  },
   "major": {
     "packageRules": [
       {
