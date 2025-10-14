@@ -41,7 +41,7 @@
     "packages/angular/projects/*"
   ],
   "devDependencies": {
-    "@angular/cli": "^17.3.12",
+    "@angular/cli": "^20.3.5",
     "@changesets/cli": "^2.28.1",
     "@eslint/js": "^9.21.0",
     "eslint": "^9.21.0",
