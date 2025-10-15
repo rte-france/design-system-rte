@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { Component, EventEmitter, input, output } from "@angular/core";
-import { SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
+import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
 import { DividerComponent } from "../../divider/divider.component";
 import { IconComponent } from "../../icon/icon.component";
@@ -12,7 +12,6 @@ export interface DropdownItemConfig {
   disabled?: boolean;
   hasSeparator?: boolean;
   hasIndent?: boolean;
-  subMenuItems?: DropdownItemConfig[];
   click?: EventEmitter<Event>;
 }
 
@@ -44,7 +43,7 @@ export class DropdownItemComponent {
   }
 
   handleKeyDown(event: KeyboardEvent): void {
-    if (event.key === SPACE_KEY) {
+    if ([SPACE_KEY, ENTER_KEY].includes(event.key)) {
       event.preventDefault();
 
       if (!this.disabled()) {

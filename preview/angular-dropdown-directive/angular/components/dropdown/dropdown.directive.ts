@@ -157,7 +157,7 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
     }
   }
 
-  private handleClickOutside = (event: MouseEvent): void => {
+  private readonly handleClickOutside = (event: MouseEvent): void => {
     const target = event.target as Element;
 
     const isMenuItemClick = target.closest(".rte-dropdown-item") !== null;
