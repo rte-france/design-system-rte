@@ -12,9 +12,7 @@ import { map } from "rxjs/operators";
 export interface KeyboardHandlingOptions {
   menuElement: ElementRef | null;
   menuId: string;
-  hasSubmenu?: boolean;
   itemIndex?: number;
-  isSubmenu?: boolean;
 }
 
 export interface DropdownState {
@@ -25,7 +23,7 @@ export interface DropdownState {
   providedIn: "root", // Makes the service a singleton
 })
 export class DropdownService {
-  private initialState: DropdownState = {
+  private readonly initialState: DropdownState = {
     activeMenuId: "",
   };
 
@@ -81,7 +79,7 @@ export class DropdownService {
     if (!element) return;
 
     const focusableElements = this.getFocusableElements(element);
-    const currentIndex = focusableElements.findIndex((el) => el === document.activeElement);
+    const currentIndex = focusableElements.indexOf(document.activeElement as HTMLElement);
     const nextIndex = currentIndex + 1 < focusableElements.length ? currentIndex + 1 : 0;
 
     focusableElements[nextIndex]?.focus();
@@ -91,21 +89,21 @@ export class DropdownService {
     if (!element) return;
 
     const focusableElements = this.getFocusableElements(element);
-    const currentIndex = focusableElements.findIndex((el) => el === document.activeElement);
+    const currentIndex = focusableElements.indexOf(document.activeElement as HTMLElement);
     const previousIndex = currentIndex ? currentIndex - 1 : focusableElements.length - 1;
 
     focusableElements[previousIndex]?.focus();
   }
 
   private getFocusableElements(element: HTMLElement): HTMLElement[] {
-    const menuId = element.getAttribute("data-menu-id");
+    const menuId = element.dataset["menuId"];
     return Array.from(
       element.querySelectorAll(
         'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"]):not([disabled])',
       ),
     ).filter((el) => {
-      const closestMenu = el.closest("[data-menu-id]");
-      return closestMenu?.getAttribute("data-menu-id") === menuId;
+      const closestMenu = el.closest("[data-menu-id]") as HTMLElement;
+      return closestMenu?.dataset["menuId"] === menuId;
     }) as HTMLElement[];
   }
 }

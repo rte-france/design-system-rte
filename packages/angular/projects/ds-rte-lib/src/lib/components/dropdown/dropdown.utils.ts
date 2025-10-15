@@ -2,7 +2,7 @@ import { DropdownManager } from "@design-system-rte/core/components/dropdown/Dro
 
 export const focusNextElement = (dropdown: HTMLElement) => {
   const menuItems = getDropdownMenuItems(dropdown);
-  const activeElementIndex = menuItems.findIndex((el) => el === document.activeElement);
+  const activeElementIndex = menuItems.indexOf(document.activeElement as HTMLElement);
 
   if (activeElementIndex < menuItems.length - 1) {
     const nextElement = menuItems[activeElementIndex + 1];
@@ -14,13 +14,13 @@ export const focusNextElement = (dropdown: HTMLElement) => {
 
 export const focusPreviousElement = (dropdown: HTMLElement) => {
   const menuItems = getDropdownMenuItems(dropdown);
-  const activeElementIndex = menuItems.findIndex((el) => el === document.activeElement);
+  const activeElementIndex = menuItems.indexOf(document.activeElement as HTMLElement);
 
   if (activeElementIndex > 0) {
     const previousElement = menuItems[activeElementIndex - 1];
     previousElement.focus();
   } else {
-    menuItems[menuItems.length - 1]?.focus();
+    menuItems.at(-1)?.focus();
   }
 };
 
