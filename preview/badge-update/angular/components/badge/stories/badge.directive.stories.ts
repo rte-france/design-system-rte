@@ -24,8 +24,8 @@ const meta: Meta<BadgeDirective> = {
     },
     rteBadgeContent: {
       control: "select",
-      options: ["text", "icon", "empty"],
-      defaultValue: "text",
+      options: ["number", "icon", "empty"],
+      defaultValue: "number",
     },
     rteBadgeCount: {
       control: "number",
@@ -123,24 +123,24 @@ export const BadgeDisplay: Story = {
       <div style="display: flex; gap: 16px;">
         ${mockHost(`
             rteBadgeSize="xs"
-            rteBadgeContent="text"
+            rteBadgeContent="number"
             [rteBadgeCount]="rteBadgeCount"
         `)}
         ${mockHost(`
             rteBadgeSize="s"
-            rteBadgeContent="text"
+            rteBadgeContent="number"
             [rteBadgeCount]="rteBadgeCount"
             data-testid="badge-text-s-host"
         `)}
         ${mockHost(`
             rteBadgeSize="m"
-            rteBadgeContent="text"
+            rteBadgeContent="number"
             [rteBadgeCount]="rteBadgeCount"
             data-testid="badge-text-m-host"
         `)}
         ${mockHost(`
             rteBadgeSize="l"
-            rteBadgeContent="text"
+            rteBadgeContent="number"
             [rteBadgeCount]="rteBadgeCount"
         `)}
       </div>
