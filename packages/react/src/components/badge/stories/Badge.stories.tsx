@@ -25,21 +25,21 @@ const meta = {
       description: "Size of the badge",
       defaultValue: "M",
     },
-    appearance: {
+    content: {
       control: "select",
-      options: ["text", "icon", "empty"],
-      description: "Appearance of the badge",
-      defaultValue: "text",
+      options: ["number", "icon", "empty"],
+      description: "Content type of the badge",
+      defaultValue: "number",
     },
     count: {
       control: "number",
-      description: "Count to display when appearance is 'text'",
+      description: "Count to display when content is 'text'",
       defaultValue: 1,
     },
     icon: {
       control: "select",
       options: [...RegularIconIds, ...TogglableIconIds].sort((a, b) => a.localeCompare(b)),
-      description: "Icon to display when appearance is 'icon'",
+      description: "Icon to display when content is 'icon'",
     },
   },
 } satisfies Meta<typeof Badge>;
@@ -69,7 +69,7 @@ export const Default: Story = {
   args: {
     badgeType: "brand",
     size: "m",
-    appearance: "text",
+    content: "number",
     count: 1,
     children: mockChildren,
   },
@@ -79,7 +79,7 @@ export const IconBadge: Story = {
   args: {
     badgeType: "brand",
     size: "m",
-    appearance: "icon",
+    content: "icon",
     icon: "notification",
     children: mockChildren,
   },
@@ -95,26 +95,26 @@ export const BadgeDisplay: Story = {
     <div
       style={{ display: "flex", flexDirection: "column", alignItems: "center", fontFamily: "Nunito Sans, sans-serif" }}
     >
-      <h4>Appearance: Text</h4>
+      <h4>content: Text</h4>
       <div style={{ display: "flex", gap: "16px" }}>
         <Badge {...args} size="xs" />
         <Badge {...args} size="s" data-testid="badge-text-s" />
         <Badge {...args} size="m" data-testid="badge-text-m" />
         <Badge {...args} size="l" />
       </div>
-      <h4>Appearance: Icon</h4>
+      <h4>content: Icon</h4>
       <div style={{ display: "flex", gap: "16px" }}>
-        <Badge {...args} size="xs" appearance="icon" />
-        <Badge {...args} size="s" appearance="icon" data-testid="badge-icon-s" />
-        <Badge {...args} size="m" appearance="icon" data-testid="badge-icon-m" />
-        <Badge {...args} size="l" appearance="icon" />
+        <Badge {...args} size="xs" content="icon" />
+        <Badge {...args} size="s" content="icon" data-testid="badge-icon-s" />
+        <Badge {...args} size="m" content="icon" data-testid="badge-icon-m" />
+        <Badge {...args} size="l" content="icon" />
       </div>
-      <h4>Appearance: Empty</h4>
+      <h4>content: Empty</h4>
       <div style={{ display: "flex", gap: "16px" }}>
-        <Badge {...args} size="xs" appearance="empty" />
-        <Badge {...args} size="s" appearance="empty" data-testid="badge-empty-s" />
-        <Badge {...args} size="m" appearance="empty" />
-        <Badge {...args} size="l" appearance="empty" />
+        <Badge {...args} size="xs" content="empty" />
+        <Badge {...args} size="s" content="empty" data-testid="badge-empty-s" />
+        <Badge {...args} size="m" content="empty" />
+        <Badge {...args} size="l" content="empty" />
       </div>
     </div>
   ),
@@ -135,7 +135,7 @@ export const BadgeDisplay: Story = {
 
 export const Sizes: Story = {
   args: {
-    appearance: "empty",
+    content: "empty",
     count: 1,
     children: mockChildren,
   },
@@ -158,7 +158,7 @@ export const Sizes: Story = {
 export const CountLimit: Story = {
   args: {
     badgeType: "indicator",
-    appearance: "text",
+    content: "number",
     size: "m",
     children: mockChildren,
   },
@@ -174,7 +174,7 @@ export const CountLimit: Story = {
 export const Icons: Story = {
   args: {
     badgeType: "brand",
-    appearance: "icon",
+    content: "icon",
     size: "m",
     icon: "notification",
     children: mockChildren,
@@ -214,7 +214,7 @@ const BadgeVisibilityDemo = (args: Story["args"]) => {
 export const BadgeVisibility: Story = {
   args: {
     badgeType: "brand",
-    appearance: "text",
+    content: "number",
     size: "m",
     count: 1,
     children: mockChildren,

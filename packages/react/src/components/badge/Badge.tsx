@@ -14,24 +14,24 @@ import { concatClassNames } from "../utils";
 
 import style from "./Badge.module.scss";
 
-export interface BadgeProps extends BadgePropsCore, Omit<React.HTMLAttributes<HTMLDivElement>, "children"> {
+export interface BadgeProps extends BadgePropsCore, Omit<React.HTMLAttributes<HTMLDivElement>, "children" | "content"> {
   children: React.ReactNode;
   icon?: RegularIconIdKey | TogglableIconIdKey;
 }
 
 const Badge = forwardRef<HTMLDivElement, BadgeProps>(
-  ({ badgeType = "brand", size = "m", appearance = "text", count, icon = "notification", children, ...props }, ref) => {
-    if (appearance == "icon" && icon && !isValidIconName(icon)) {
+  ({ badgeType = "brand", size = "m", content = "number", count, icon = "notification", children, ...props }, ref) => {
+    if (content == "icon" && icon && !isValidIconName(icon)) {
       console.warn(`Badge: Invalid icon name "${icon}". Please use a valid icon key.`);
       return null;
     }
 
     const iconSize = getBadgeIconSize(size);
 
-    const showIcon = getShowIcon({ size, appearance, iconSize });
-    const showText = getShowText({ size, appearance, count });
+    const showIcon = getShowIcon({ size, content, iconSize });
+    const showText = getShowText({ size, content, count });
 
-    const showBadge = getShowBadge({ size, appearance, count, iconSize });
+    const showBadge = getShowBadge({ size, content, count, iconSize });
     const countOverflow = showText && getDisplayCount(count)?.length > 2;
 
     return (
