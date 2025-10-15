@@ -1,10 +1,10 @@
 export type BadgeType = "brand" | "neutral" | "indicator";
 export type BadgeSize = "xs" | "s" | "m" | "l";
-export type BadgeAppearance = "text" | "icon" | "empty";
+export type BadgeContent = "number" | "icon" | "empty";
 
 export interface BadgeProps {
   badgeType?: BadgeType;
   size?: BadgeSize;
-  appearance?: BadgeAppearance;
+  content?: BadgeContent;
   count?: number;
 }
