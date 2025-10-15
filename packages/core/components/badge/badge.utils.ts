@@ -1,17 +1,17 @@
-import { BadgeAppearance, BadgeSize } from "./badge.interface";
+import { BadgeContent, BadgeSize } from "./badge.interface";
 
 const COUNT_THRESHOLD = 100;
 const COUNT_THRESHOLD_LABEL = "99+";
 
 interface ShowIconProps {
   size: BadgeSize;
-  appearance: BadgeAppearance;
+  content: BadgeContent;
   iconSize?: number;
 }
 
 interface ShowTextProps {
   size: BadgeSize;
-  appearance: BadgeAppearance;
+  content: BadgeContent;
   count?: number;
 }
 
@@ -28,20 +28,20 @@ export function getBadgeIconSize(size: BadgeSize): number | undefined {
   return badgeIconSize[size] ?? undefined;
 }
 
-export function getShowIcon({ size, appearance, iconSize }: ShowIconProps): boolean {
-  return !["xs", "s"].includes(size) && appearance === "icon" && !!iconSize;
+export function getShowIcon({ size, content, iconSize }: ShowIconProps): boolean {
+  return !["xs", "s"].includes(size) && content === "icon" && !!iconSize;
 }
 
-export function getShowText({ size, appearance, count }: ShowTextProps): boolean {
-  return !["xs", "s"].includes(size) && appearance === "text" && typeof count === "number" && count > 0;
+export function getShowText({ size, content, count }: ShowTextProps): boolean {
+  return !["xs", "s"].includes(size) && content === "number" && typeof count === "number" && count > 0;
 }
 
-export function getShowBadge({ size, appearance, count, iconSize }: ShowBadgeProps): boolean {
-  switch (appearance) {
+export function getShowBadge({ size, content, count, iconSize }: ShowBadgeProps): boolean {
+  switch (content) {
     case "icon":
-      return getShowIcon({ size, appearance, iconSize });
-    case "text":
-      return getShowText({ size, appearance, count });
+      return getShowIcon({ size, content, iconSize });
+    case "number":
+      return getShowText({ size, content, count });
     default:
       return true;
   }
