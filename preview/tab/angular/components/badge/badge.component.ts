@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { Component, input, computed, ChangeDetectionStrategy } from "@angular/core";
-import { BadgeAppearance, BadgeSize, BadgeType } from "@design-system-rte/core/components/badge/badge.interface";
+import { BadgeContent, BadgeSize, BadgeType } from "@design-system-rte/core/components/badge/badge.interface";
 import {
   getBadgeIconSize,
   getDisplayCount,
@@ -23,7 +23,7 @@ import { IconComponent } from "../icon/icon.component";
 export class BadgeComponent {
   readonly badgeType = input<BadgeType>("brand");
   readonly badgeSize = input<BadgeSize>("m");
-  readonly badgeAppearance = input<BadgeAppearance>("text");
+  readonly badgeContent = input<BadgeContent>("number");
   readonly count = input<number | undefined>();
   readonly icon = input<string>("notification");
   readonly simpleBadge = input<boolean>(false);
@@ -33,7 +33,7 @@ export class BadgeComponent {
   readonly showIcon = computed(() =>
     getShowIcon({
       size: this.badgeSize(),
-      appearance: this.badgeAppearance(),
+      content: this.badgeContent(),
       iconSize: this.iconSize(),
     }),
   );
@@ -41,7 +41,7 @@ export class BadgeComponent {
   readonly showText = computed(() =>
     getShowText({
       size: this.badgeSize(),
-      appearance: this.badgeAppearance(),
+      content: this.badgeContent(),
       count: this.count(),
     }),
   );
@@ -53,7 +53,7 @@ export class BadgeComponent {
   readonly showBadge = computed(() =>
     getShowBadge({
       size: this.badgeSize(),
-      appearance: this.badgeAppearance(),
+      content: this.badgeContent(),
       count: this.count(),
       iconSize: this.iconSize(),
     }),

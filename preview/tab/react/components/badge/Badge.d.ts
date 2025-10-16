@@ -1,5 +1,5 @@
 import { BadgeProps as BadgePropsCore } from '../../../../core/components/badge/badge.interface';
-export interface BadgeProps extends BadgePropsCore, Omit<React.HTMLAttributes<HTMLDivElement>, "children"> {
+export interface BadgeProps extends BadgePropsCore, Omit<React.HTMLAttributes<HTMLDivElement>, "children" | "content"> {
     children?: React.ReactNode;
     icon?: string;
 }

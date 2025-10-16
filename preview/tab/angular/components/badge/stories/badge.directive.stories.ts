@@ -22,10 +22,10 @@ const meta: Meta<BadgeDirective> = {
       options: ["xs", "s", "m", "l"],
       defaultValue: "m",
     },
-    rteBadgeAppearance: {
+    rteBadgeContent: {
       control: "select",
-      options: ["text", "icon", "empty"],
-      defaultValue: "text",
+      options: ["number", "icon", "empty"],
+      defaultValue: "number",
     },
     rteBadgeCount: {
       control: "number",
@@ -74,7 +74,7 @@ export const Default: Story = {
     rteBadgeType: "brand",
     rteBadgeSize: "m",
     rteBadgeCount: 1,
-    rteBadgeAppearance: "text",
+    rteBadgeContent: "number",
     rteBadgeIcon: "notification",
   },
   render: (args) => ({
@@ -83,7 +83,7 @@ export const Default: Story = {
     template: mockHost(`
             [rteBadgeType]="rteBadgeType"
             [rteBadgeSize]="rteBadgeSize"
-            [rteBadgeAppearance]="rteBadgeAppearance"
+            [rteBadgeContent]="rteBadgeContent"
             [rteBadgeCount]="rteBadgeCount"
             [rteBadgeIcon]="rteBadgeIcon"
         `),
@@ -94,7 +94,7 @@ export const IconBadge: Story = {
   args: {
     rteBadgeType: "brand",
     rteBadgeSize: "m",
-    rteBadgeAppearance: "icon",
+    rteBadgeContent: "icon",
     rteBadgeIcon: "notification",
   },
   render: (args) => ({
@@ -103,7 +103,7 @@ export const IconBadge: Story = {
     template: mockHost(`
       [rteBadgeType]="rteBadgeType"
       [rteBadgeSize]="rteBadgeSize"
-      [rteBadgeAppearance]="rteBadgeAppearance"
+      [rteBadgeContent]="rteBadgeContent"
       [rteBadgeIcon]="rteBadgeIcon"
     `),
   }),
@@ -123,24 +123,24 @@ export const BadgeDisplay: Story = {
       <div style="display: flex; gap: 16px;">
         ${mockHost(`
             rteBadgeSize="xs"
-            rteBadgeAppearance="text"
+            rteBadgeContent="number"
             [rteBadgeCount]="rteBadgeCount"
         `)}
         ${mockHost(`
             rteBadgeSize="s"
-            rteBadgeAppearance="text"
+            rteBadgeContent="number"
             [rteBadgeCount]="rteBadgeCount"
             data-testid="badge-text-s-host"
         `)}
         ${mockHost(`
             rteBadgeSize="m"
-            rteBadgeAppearance="text"
+            rteBadgeContent="number"
             [rteBadgeCount]="rteBadgeCount"
             data-testid="badge-text-m-host"
         `)}
         ${mockHost(`
             rteBadgeSize="l"
-            rteBadgeAppearance="text"
+            rteBadgeContent="number"
             [rteBadgeCount]="rteBadgeCount"
         `)}
       </div>
@@ -148,24 +148,24 @@ export const BadgeDisplay: Story = {
       <div style="display: flex; gap: 16px;">
         ${mockHost(`
             rteBadgeSize="xs"
-            rteBadgeAppearance="icon"
+            rteBadgeContent="icon"
             [rteBadgeIcon]="rteBadgeIcon"
         `)}
         ${mockHost(`
             rteBadgeSize="s"  
-            rteBadgeAppearance="icon"
+            rteBadgeContent="icon"
             [rteBadgeIcon]="rteBadgeIcon"
             data-testid="badge-icon-s-host"
         `)}
         ${mockHost(`
             rteBadgeSize="m"
-            rteBadgeAppearance="icon"
+            rteBadgeContent="icon"
             [rteBadgeIcon]="rteBadgeIcon"
             data-testid="badge-icon-m-host"
         `)}
         ${mockHost(`
             rteBadgeSize="l"
-            rteBadgeAppearance="icon"
+            rteBadgeContent="icon"
             [rteBadgeIcon]="rteBadgeIcon"
         `)}
     </div>
@@ -173,20 +173,20 @@ export const BadgeDisplay: Story = {
       <div style="display: flex; gap: 16px;">
         ${mockHost(`
             rteBadgeSize="xs"
-            rteBadgeAppearance="empty"
+            rteBadgeContent="empty"
         `)}
         ${mockHost(`
             rteBadgeSize="s"  
-            rteBadgeAppearance="empty"
+            rteBadgeContent="empty"
             data-testid="badge-empty-s-host"
         `)}
         ${mockHost(`
             rteBadgeSize="m"
-            rteBadgeAppearance="empty"
+            rteBadgeContent="empty"
         `)}
         ${mockHost(`
             rteBadgeSize="l"
-            rteBadgeAppearance="empty"
+            rteBadgeContent="empty"
         `)}
     </div>
     `,
@@ -208,7 +208,7 @@ export const BadgeDisplay: Story = {
 
 export const Sizes: Story = {
   args: {
-    rteBadgeAppearance: "empty",
+    rteBadgeContent: "empty",
     rteBadgeCount: 1,
   },
   render: (args) => ({
@@ -219,22 +219,22 @@ export const Sizes: Story = {
     template: `
             <div style="display: flex; gap: 16px; align-items: center;">
                 ${mockHost(`
-                    [rteBadgeAppearance]="rteBadgeAppearance"
+                    [rteBadgeContent]="rteBadgeContent"
                     rteBadgeSize="xs"
                     [rteBadgeCount]="rteBadgeCount"
                 `)}
                 ${mockHost(`
-                    [rteBadgeAppearance]="rteBadgeAppearance"
+                    [rteBadgeContent]="rteBadgeContent"
                     rteBadgeSize="s"
                     [rteBadgeCount]="rteBadgeCount"
                 `)}
                 ${mockHost(`
-                    [rteBadgeAppearance]="rteBadgeAppearance"
+                    [rteBadgeContent]="rteBadgeContent"
                     rteBadgeSize="m"
                     [rteBadgeCount]="rteBadgeCount"
                 `)}
                 ${mockHost(`
-                    [rteBadgeAppearance]="rteBadgeAppearance"
+                    [rteBadgeContent]="rteBadgeContent"
                     rteBadgeSize="l"
                     [rteBadgeCount]="rteBadgeCount"
                 `)}
@@ -246,7 +246,7 @@ export const Sizes: Story = {
 export const CountLimit: Story = {
   args: {
     rteBadgeType: "indicator",
-    rteBadgeAppearance: "text",
+    rteBadgeContent: "number",
     rteBadgeSize: "m",
   },
   render: (args) => ({
@@ -261,19 +261,19 @@ export const CountLimit: Story = {
             <div style="display: flex; gap: 16px; align-items: center;">
                 ${mockHost(`
                     [rteBadgeType]="rteBadgeType"
-                    [rteBadgeAppearance]="rteBadgeAppearance"
+                    [rteBadgeContent]="rteBadgeContent"
                     [rteBadgeSize]="rteBadgeSize"
                     [rteBadgeCount]="count5"
                 `)}
                 ${mockHost(`
                     [rteBadgeType]="rteBadgeType"
-                    [rteBadgeAppearance]="rteBadgeAppearance"
+                    [rteBadgeContent]="rteBadgeContent"
                     [rteBadgeSize]="rteBadgeSize"
                     [rteBadgeCount]="count99"
                 `)}
                 ${mockHost(`
                     [rteBadgeType]="rteBadgeType"
-                    [rteBadgeAppearance]="rteBadgeAppearance"
+                    [rteBadgeContent]="rteBadgeContent"
                     [rteBadgeSize]="rteBadgeSize"
                     [rteBadgeCount]="count100"
                 `)}
@@ -285,7 +285,7 @@ export const CountLimit: Story = {
 export const Icons: Story = {
   args: {
     rteBadgeType: "brand",
-    rteBadgeAppearance: "icon",
+    rteBadgeContent: "icon",
     rteBadgeSize: "m",
   },
   render: (args) => ({
@@ -295,37 +295,37 @@ export const Icons: Story = {
             <div style="display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
                 ${mockHost(`
                     [rteBadgeType]="rteBadgeType"
-                    [rteBadgeAppearance]="rteBadgeAppearance"
+                    [rteBadgeContent]="rteBadgeContent"
                     [rteBadgeSize]="rteBadgeSize"
                     rteBadgeIcon="notification"
                 `)}
                 ${mockHost(`
                     [rteBadgeType]="rteBadgeType"
-                    [rteBadgeAppearance]="rteBadgeAppearance"
+                    [rteBadgeContent]="rteBadgeContent"
                     [rteBadgeSize]="rteBadgeSize"
                     rteBadgeIcon="home"
                 `)}
                 ${mockHost(`
                     [rteBadgeType]="rteBadgeType"
-                    [rteBadgeAppearance]="rteBadgeAppearance"
+                    [rteBadgeContent]="rteBadgeContent"
                     [rteBadgeSize]="rteBadgeSize"
                     rteBadgeIcon="user"
                 `)}
                 ${mockHost(`
                     [rteBadgeType]="rteBadgeType"
-                    [rteBadgeAppearance]="rteBadgeAppearance"
+                    [rteBadgeContent]="rteBadgeContent"
                     [rteBadgeSize]="rteBadgeSize"
                     rteBadgeIcon="search"
                 `)}
                 ${mockHost(`
                     [rteBadgeType]="rteBadgeType"
-                    [rteBadgeAppearance]="rteBadgeAppearance"
+                    [rteBadgeContent]="rteBadgeContent"
                     [rteBadgeSize]="rteBadgeSize"
                     rteBadgeIcon="heart"
                 `)}
                 ${mockHost(`
                     [rteBadgeType]="rteBadgeType"
-                    [rteBadgeAppearance]="rteBadgeAppearance"
+                    [rteBadgeContent]="rteBadgeContent"
                     [rteBadgeSize]="rteBadgeSize"
                     rteBadgeIcon="star"
                 `)}
@@ -337,7 +337,7 @@ export const Icons: Story = {
 export const BadgeVisibility: Story = {
   args: {
     rteBadgeType: "brand",
-    rteBadgeAppearance: "text",
+    rteBadgeContent: "number",
     rteBadgeSize: "m",
     rteBadgeCount: 1,
   },
@@ -348,7 +348,7 @@ export const BadgeVisibility: Story = {
           <div style="display: flex; flex-direction: column; gap: 8px;">
             ${mockHost(`
                 [rteBadgeType]="rteBadgeType"
-                [rteBadgeAppearance]="rteBadgeAppearance"
+                [rteBadgeContent]="rteBadgeContent"
                 [rteBadgeSize]="rteBadgeSize"
                 [rteBadgeCount]="rteBadgeCount"
             `)}
