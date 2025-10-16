@@ -23,6 +23,7 @@
   scrollbar-width: none;
   width: 100%;
   padding-top: 2px;
+  padding-left: 2px;
   align-items: center;
 
   &[data-direction='horizontal'] {
@@ -30,6 +31,7 @@
 
     &[data-overflow-type='dropdown'] {
       overflow: hidden;
+      margin-left: 0;
     }
   }
 
@@ -111,7 +113,8 @@
 
   &:focus-visible {
     outline: 2px solid var(--border-brand-focused);
-    outline-offset: 8px;
+    outline-offset: 12px;
+    z-index: $level-0 + 1;
   }
 
   &[data-inverted='true'] {

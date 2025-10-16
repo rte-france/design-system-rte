@@ -75,6 +75,7 @@
           *ngFor="let option of dropdownFilteredOptions()"
           [label]="option?.label || ''"
           [leftIcon]="option.icon"
+          [disabled]="option.disabled || false"
           (click)="onClickTabItem(option.id)"
         ></rte-dropdown-item>
       </rte-dropdown>
