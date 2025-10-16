@@ -11,7 +11,6 @@ import {
 
 import { isValidIconName } from "../icon/icon-map";
 import { IconComponent } from "../icon/icon.component";
-import { RegularIconIdKey, TogglableIconIdKey } from "../icon/icon.service";
 
 @Component({
   selector: "rte-badge",
@@ -26,7 +25,8 @@ export class BadgeComponent {
   readonly badgeSize = input<BadgeSize>("m");
   readonly badgeContent = input<BadgeContent>("number");
   readonly count = input<number | undefined>();
-  readonly icon = input<RegularIconIdKey | TogglableIconIdKey>("notification");
+  readonly icon = input<string>("notification");
+  readonly simpleBadge = input<boolean>(false);
 
   readonly isValidIconName = computed(() => isValidIconName(this.icon()));
 
