@@ -32,7 +32,7 @@
     "@storybook/addon-docs": "~8.6.0",
     "@storybook/addon-essentials": "~8.6.0",
     "@storybook/addon-interactions": "~8.6.0",
-    "@storybook/angular": "~8.6.0",
+    "@storybook/angular": "~9.1.10",
     "@storybook/blocks": "~8.6.0",
     "@storybook/test": "~8.6.0",
     "@storybook/test-runner": "^0.23.0",
