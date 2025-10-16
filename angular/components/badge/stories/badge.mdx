@@ -15,6 +15,8 @@ import Accessibility from "../../../../../../../../core/components/badge/stories
 
 import "../../../../../../../.storybook/template/style/police.css";
 
+import { TabOfOptions } from "./TabOfOptions";
+
 <Meta title="Composants/Badge" />
 
 <HeaderComponent title="Badge" linkFigma="https://www.figma.com/design/Wiy8uWsWjoagf95lOmPXNU/01.0-Design-System-RTE---WEB?node-id=1712-2202&p=f&m=dev" linkGithub="https://github.com/rte-france/design-system-rte/tree/main/packages/angular/projects/ds-rte-lib/src/lib/components/badge/"  />
@@ -126,7 +128,7 @@ import "../../../../../../../.storybook/template/style/police.css";
 
         <p className="light-gray"> Tous les éléments modifiables sont inscrit dans le tableau. On y renseigne le nom de la propriété et les choix qui s’offrent aux développeurs.</p>
 
-        <img src={TableOfOptions} alt="Tableau des propriétés et options du badge" />
+        <TabOfOptions/>
 
         <h2 id="Behaviors" className="h2" style={{border:"none", fontFamily:"Nunito"}}> Behaviors </h2>
 
