@@ -6,8 +6,16 @@ import { DropdownItem } from "../dropdownItem/DropdownItem";
 
 const meta: Meta<typeof Dropdown> = {
   title: "Dropdown (développement en cours)",
+  id: "Dropdown",
+  tags: ["autodocs"],
   component: Dropdown,
-  args: {},
+  argTypes: {
+    position: {
+      control: "select",
+      options: ["top", "bottom", "left", "right"],
+      defaultValue: "bottom",
+    },
+  },
 };
 
 export default meta;

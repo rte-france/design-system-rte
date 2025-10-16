@@ -25,9 +25,16 @@ const wipWarning = `
 
 const meta: Meta<DropdownDirective> = {
   title: "Dropdown (développement en cours)",
+  id: "Dropdown",
   component: DropdownDirective,
   tags: ["autodocs"],
-  argTypes: {},
+  argTypes: {
+    rteDropdownPosition: {
+      control: "select",
+      options: ["top", "bottom", "left", "right"],
+      defaultValue: "bottom",
+    },
+  },
   parameters: {
     layout: "centered",
   },
@@ -41,9 +48,12 @@ export const Default: Story = {
       imports: [DropdownModule],
     }),
   ],
-  args: {},
-  render: () => ({
+  args: {
+    rteDropdownPosition: "bottom",
+  },
+  render: (args) => ({
     props: {
+      ...args,
       items: MOCKUP_ITEMS,
       onItemClick: (event: { event: Event; id: string }) => {
         console.log("Item clicked:", event);
@@ -51,7 +61,7 @@ export const Default: Story = {
     },
     template: `
     ${wipWarning}
-    <div rteDropdown (menuEvent)="onItemClick($event)">
+    <div rteDropdown [rteDropdownPosition]="rteDropdownPosition" (menuEvent)="onItemClick($event)">
       <button rteDropdownTrigger>Menu principal ⬇</button>
       <rte-dropdown-menu [items]="items"/>
     </div>
