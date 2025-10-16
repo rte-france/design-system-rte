@@ -156,7 +156,7 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
         const computedCoordinates = getCoordinates(
           computedPosition,
           triggerElement,
-          dropdownMenuElement.location.nativeElement,
+          dropdownMenuElement.children[0],
           0,
           autoAlignment,
         );
