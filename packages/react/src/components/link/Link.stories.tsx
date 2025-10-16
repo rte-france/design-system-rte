@@ -14,6 +14,9 @@ const meta = {
     externalLink: {
       control: "boolean",
     },
+    reverse: {
+      control: "boolean",
+    },
   },
 } satisfies Meta<typeof Link>;
 export default meta;
@@ -23,6 +26,7 @@ export const Default: Story = {
   args: {
     label: "Link",
     href: "#",
+    reverse: false,
   },
 };
 
@@ -50,6 +54,23 @@ export const NotSubtle: Story = {
   render: (args) => {
     return (
       <div style={{ display: "flex", gap: 8 }}>
+        <Link {...args} label="External Link" href="#" />
+        <Link {...args} label="External Link" href="#" externalLink />
+      </div>
+    );
+  },
+};
+
+export const Reverse: Story = {
+  args: {
+    label: "External Link",
+    href: "#",
+    reverse: true,
+    subtle: true,
+  },
+  render: (args) => {
+    return (
+      <div style={{ display: "flex", gap: 8, backgroundColor: "black", padding: 16 }}>
         <Link {...args} label="External Link" href="#" />
         <Link {...args} label="External Link" href="#" externalLink />
       </div>
