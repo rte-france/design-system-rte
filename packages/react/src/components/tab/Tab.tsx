@@ -151,7 +151,6 @@ const Tab = forwardRef<HTMLDivElement, TabProps>(
               name={direction === "horizontal" ? "arrow-chevron-left" : "arrow-chevron-up"}
               aria-label="Previous tabs"
               variant="transparent"
-              size="l"
               style={{
                 zIndex: 11,
                 opacity: isScrollableLeft || isScrollableTop ? 1 : 0,
@@ -245,7 +244,6 @@ const Tab = forwardRef<HTMLDivElement, TabProps>(
               name={direction === "horizontal" ? "arrow-chevron-right" : "arrow-chevron-down"}
               aria-label="Next tabs"
               variant="transparent"
-              size="l"
               style={{
                 zIndex: 11,
                 opacity: isScrollableRight || isScrollableBottom ? 1 : 0,
