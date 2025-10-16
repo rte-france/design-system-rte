@@ -14,6 +14,9 @@ const meta: Meta<LinkComponent> = {
     externalLink: {
       control: "boolean",
     },
+    reverse: {
+      control: "boolean",
+    },
   },
 };
 export default meta;
@@ -45,6 +48,23 @@ export const ExternalLink: Story = {
     ...Default.args,
     externalLink: true,
   },
+};
+
+export const Reverse: Story = {
+  args: {
+    ...Default.args,
+    externalLink: true,
+    reverse: true,
+    subtle: false,
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <div style="background-color: black; padding: 16px; display: flex; gap: 16px;">
+        <rte-link [label]="label" [href]="href" [externalLink]="externalLink" [reverse]="reverse" [subtle]="subtle"/>
+        <rte-link [label]="label" [href]="href" [reverse]="reverse" [subtle]="subtle"/>
+      </div>`,
+  }),
 };
 
 export const KeyboardInteraction: Story = {

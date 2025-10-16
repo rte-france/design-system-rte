@@ -9,7 +9,7 @@ import style from "./Link.module.scss";
 interface LinkProps extends CoreLinkProps, React.AnchorHTMLAttributes<HTMLAnchorElement> {}
 
 const Link = forwardRef<HTMLAnchorElement, LinkProps>(
-  ({ label, href, subtle = false, externalLink = false, className = "", ...props }, ref) => {
+  ({ label, href, subtle = false, externalLink = false, className = "", reverse, ...props }, ref) => {
     return (
       <a
         ref={ref}
@@ -20,6 +20,7 @@ const Link = forwardRef<HTMLAnchorElement, LinkProps>(
         data-subtle={subtle}
         target={externalLink ? "_blank" : undefined}
         rel={externalLink ? "noopener noreferrer" : undefined}
+        data-reverse={reverse}
         {...props}
       >
         <span className={style.label}>{label}</span>
