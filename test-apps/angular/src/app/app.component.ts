@@ -16,7 +16,6 @@ import {
   SegmentedControlComponent,
   BreadcrumbsComponent,
   BannerComponent,
-  DropdownModule,
 } from "@design-system-rte/angular";
 
 @Component({
@@ -39,7 +38,6 @@ import {
     SegmentedControlComponent,
     BreadcrumbsComponent,
     BannerComponent,
-    DropdownModule,
   ],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",
@@ -97,5 +95,4 @@ export class AppComponent {
     { label: "Smartphones", link: "/products/electronics/smartphones" },
   ];
 
-  dropdownItems = [{ label: "Item 1" }, { label: "Item 2" }, { label: "Item 3" }];
 }
