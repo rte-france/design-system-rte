@@ -1,18 +1,25 @@
 import {
   AfterContentInit,
+  ChangeDetectorRef,
   ComponentRef,
   contentChild,
   DestroyRef,
   Directive,
   ElementRef,
   inject,
+  input,
   OnDestroy,
   output,
   Renderer2,
   ViewContainerRef,
 } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { getCoordinates } from "@design-system-rte/core/components/utils/auto-placement";
+import { Position } from "@design-system-rte/core/components/common/common-types";
+import {
+  getAutoAlignment,
+  getAutoPlacementDropdown,
+  getCoordinates,
+} from "@design-system-rte/core/components/utils/auto-placement";
 import { SPACE_KEY, TAB_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
 import { DropdownService } from "../../services/dropdown.service";
@@ -32,6 +39,8 @@ import { DropdownTriggerDirective } from "./dropdown-trigger/dropdown-trigger.di
 export class DropdownDirective implements AfterContentInit, OnDestroy {
   private static idCounter = 0;
 
+  readonly rteDropdownPosition = input<Position>("bottom");
+
   readonly trigger = contentChild(DropdownTriggerDirective);
   readonly menu = contentChild(DropdownMenuComponent);
 
@@ -45,6 +54,7 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
   readonly renderer = inject(Renderer2);
   readonly hostElement: HTMLElement;
   readonly destroyRef = inject(DestroyRef);
+  readonly cdr = inject(ChangeDetectorRef);
 
   constructor() {
     this.hostElement = this.elementRef.nativeElement;
@@ -103,9 +113,8 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
 
     this.dropdownService.openMenu(menuId);
 
-    this.positionDropdownMenu();
     this.assignItems();
-
+    this.positionDropdownMenu(this.rteDropdownPosition());
     this.addClickOutsideListener();
 
     this.dropdownMenuRef.instance.itemEvent.subscribe((event: { event: Event; id: string }) => {
@@ -133,19 +142,29 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
     }
   }
 
-  private positionDropdownMenu(): void {
+  private positionDropdownMenu(position: Position = "bottom"): void {
     if (this.dropdownMenuRef && this.trigger()) {
       const dropdownMenuElement = this.dropdownMenuRef.location.nativeElement;
       const triggerElement = this.trigger()?.elementRef.nativeElement;
 
       if (triggerElement) {
-        const positions = getCoordinates("right", triggerElement, dropdownMenuElement);
+        this.renderer.setStyle(dropdownMenuElement, "display", "block");
+        this.cdr.detectChanges();
+        const computedPosition: Exclude<Position, "auto"> =
+          position === "auto" ? getAutoPlacementDropdown(triggerElement, dropdownMenuElement, "bottom") : position;
+        const autoAlignment = getAutoAlignment(triggerElement, dropdownMenuElement, computedPosition);
+        const computedCoordinates = getCoordinates(
+          computedPosition,
+          triggerElement,
+          dropdownMenuElement.location.nativeElement,
+          0,
+          autoAlignment,
+        );
+
+        this.renderer.setStyle(dropdownMenuElement, "top", `${computedCoordinates.top}px`);
+        this.renderer.setStyle(dropdownMenuElement, "left", `${computedCoordinates.left}px`);
 
         this.renderer.setStyle(dropdownMenuElement, "opacity", "1");
-        this.renderer.setStyle(dropdownMenuElement, "display", "block");
-
-        this.renderer.setStyle(dropdownMenuElement, "top", `${positions.top}px`);
-        this.renderer.setStyle(dropdownMenuElement, "left", `${positions.left}px`);
       }
     }
   }
