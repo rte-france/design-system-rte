@@ -1,4 +1,4 @@
-import { BadgeAppearance, BadgeType } from "@design-system-rte/core/components/badge/badge.interface";
+import { BadgeContent, BadgeType } from "@design-system-rte/core/components/badge/badge.interface";
 import {
   TESTING_ARROW_LEFT_KEY,
   TESTING_ARROW_RIGHT_KEY,
@@ -317,7 +317,7 @@ export const WithBadge: Story = {
         panelId: "panel-1",
         icon: "photo-camera",
         badgeCount: 5,
-        badgeAppearance: "text" as BadgeAppearance,
+        badgeContent: "number" as BadgeContent,
         badgeType: "indicator" as BadgeType,
         showBadge: true,
       },
