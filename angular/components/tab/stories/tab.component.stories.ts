@@ -291,7 +291,7 @@ export const WithBadge: Story = {
         panelId: "panel-1",
         icon: "photo-camera",
         badgeCount: 5,
-        badgeAppearance: "text",
+        badgeContent: "number",
         badgeType: "indicator",
         showBadge: true,
       },
