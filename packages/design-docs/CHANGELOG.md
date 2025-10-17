@@ -1,5 +1,13 @@
 # @design-system-rte/design-docs
 
+## 0.7.0
+
+### Minor Changes
+
+- 8618d1a: ## Changes
+
+  - replace png images without emojis for svg files for storybook
+
 ## 0.6.1
 
 ### Patch Changes
