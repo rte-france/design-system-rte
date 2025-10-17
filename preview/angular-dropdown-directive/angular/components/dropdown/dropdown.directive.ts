@@ -39,10 +39,12 @@ import { DropdownTriggerDirective } from "./dropdown-trigger/dropdown-trigger.di
 export class DropdownDirective implements AfterContentInit, OnDestroy {
   private static idCounter = 0;
 
-  readonly rteDropdownPosition = input<Position>("bottom");
-
   readonly trigger = contentChild(DropdownTriggerDirective);
   readonly menu = contentChild(DropdownMenuComponent);
+
+  readonly rteDropdownPosition = input<Position>("bottom");
+  readonly rteDropdownIsOpen = input<boolean>(false);
+  readonly rteDropdownOffset = input<number>(0);
 
   readonly dropdownId = `dropdown_${++DropdownDirective.idCounter}`;
   readonly menuEvent = output<{ event: Event; id: string }>();
@@ -157,7 +159,7 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
           computedPosition,
           triggerElement,
           dropdownMenuElement.children[0],
-          0,
+          this.rteDropdownOffset(),
           autoAlignment,
         );
 
