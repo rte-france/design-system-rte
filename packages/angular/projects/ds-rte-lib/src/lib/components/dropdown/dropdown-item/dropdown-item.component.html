@@ -4,17 +4,17 @@
       class="rte-dropdown-item"
       role="menuitem"
       tabindex="0"
-      [attr.data-disabled]="disabled()"
-      [attr.aria-disabled]="disabled()"
+      [attr.data-disabled]="item()?.disabled"
+      [attr.aria-disabled]="item()?.disabled"
       (click)="handleClick($event)"
       (keydown)="handleKeyDown($event)"
     >
-      <span *ngIf="hasIndent() && !leftIcon()" style="width: 20px"></span>
-      <rte-icon *ngIf="leftIcon()" [name]="leftIcon() ?? ''" />
-      <span style="flex: 2">{{ label() }}</span>
-      <div *ngIf="trailingText()">{{ trailingText() }}</div>
+      <span *ngIf="item()?.hasIndent && !item()?.leftIcon" style="width: 20px"></span>
+      <rte-icon *ngIf="item()?.leftIcon" [name]="item()?.leftIcon ?? ''" />
+      <span style="flex: 2">{{ item()?.label }}</span>
+      <div *ngIf="item()?.trailingText">{{ item()?.trailingText }}</div>
     </li>
-    <div *ngIf="hasSeparator()" class="dropdown-divider">
+    <div *ngIf="item()?.hasSeparator" class="dropdown-divider">
       <rte-divider/>
     </div>
 </ng-container>

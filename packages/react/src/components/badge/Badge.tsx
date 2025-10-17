@@ -4,7 +4,7 @@ import {
   getDisplayCount,
   getShowBadge,
   getShowIcon,
-  getShowText
+  getShowText,
 } from "@design-system-rte/core/components/badge/badge.utils";
 import { forwardRef } from "react";
 
@@ -46,7 +46,7 @@ const Badge = forwardRef<HTMLDivElement, BadgeProps>(
             className={concatClassNames(
               style.badge,
               showBadge ? "" : style.hidden,
-              countOverflow ? style.countOverflow : ""
+              countOverflow ? style.countOverflow : "",
             )}
           >
             {showIcon && <Icon name={icon} className={style.icon} size={iconSize} />}
@@ -69,7 +69,7 @@ const Badge = forwardRef<HTMLDivElement, BadgeProps>(
           className={concatClassNames(
             style.badge,
             showBadge ? "" : style.hidden,
-            countOverflow ? style.countOverflow : ""
+            countOverflow ? style.countOverflow : "",
           )}
         >
           {showIcon && <Icon name={icon} className={style.icon} size={iconSize} />}
@@ -82,7 +82,7 @@ const Badge = forwardRef<HTMLDivElement, BadgeProps>(
         {children}
       </div>
     );
-  }
+  },
 );
 
 export default Badge;

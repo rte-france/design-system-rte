@@ -1,3 +1,5 @@
+import { DropdownItemConfig } from "../dropdown/dropdown-item/dropdown-item.component";
+
 export type TabAlignment = "start" | "center";
 
 export interface TabProps {
@@ -11,14 +13,14 @@ export interface TabProps {
   inverted?: boolean;
 }
 
-export interface TabItemProps {
+export interface TabItemProps extends DropdownItemConfig {
   id: string;
   panelId: string;
   label?: string;
   isSelected?: boolean;
   icon?: string;
   badgeCount?: number;
-  badgeAppearance?: import("../badge/badge.interface").BadgeAppearance;
+  badgeContent?: import("../badge/badge.interface").BadgeContent;
   badgeIcon?: string;
   badgeType?: import("../badge/badge.interface").BadgeType;
   showBadge?: boolean;

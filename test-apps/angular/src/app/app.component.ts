@@ -94,5 +94,4 @@ export class AppComponent {
     { label: "Electronics", link: "/products/electronics" },
     { label: "Smartphones", link: "/products/electronics/smartphones" },
   ];
-
 }
