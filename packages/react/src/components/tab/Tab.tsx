@@ -199,10 +199,10 @@ const Tab = forwardRef<HTMLDivElement, TabProps>(
                     {selectedOption && <div style={{ flexShrink: 0 }}>{selectedOption?.label}</div>}
                     {selectedOption.badgeCount &&
                       selectedOption.badgeCount > 0 &&
-                      selectedOption.badgeAppearance === "text" && (
+                      selectedOption.badgeContent === "number" && (
                         <Badge
                           badgeType={selectedOption.badgeType}
-                          appearance={selectedOption.badgeAppearance}
+                          content={selectedOption.badgeContent}
                           count={selectedOption.badgeCount}
                         />
                       )}

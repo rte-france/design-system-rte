@@ -25,7 +25,7 @@ const TabItem = forwardRef<HTMLButtonElement, TabItemProps>(
       isSelected,
       showBadge,
       badgeCount,
-      badgeAppearance = "empty",
+      badgeContent = "empty",
       badgeIcon,
       onClick,
       icon,
@@ -40,13 +40,13 @@ const TabItem = forwardRef<HTMLButtonElement, TabItemProps>(
   ) => {
     const badgeProps = {
       count: badgeCount,
-      appearance: badgeAppearance,
+      content: badgeContent,
       icon: badgeIcon,
       badgeType,
     };
 
-    const hasNumberBadge = badgeCount && badgeCount > 0 && badgeAppearance === "text";
-    const hasIconBadge = badgeAppearance === "icon" && badgeIcon;
+    const hasNumberBadge = badgeCount && badgeCount > 0 && badgeContent === "number";
+    const hasIconBadge = badgeContent === "icon" && badgeIcon;
     const displayBadge = !disabled && (showBadge || hasNumberBadge || hasIconBadge);
     const tabItemRef = useRef<HTMLButtonElement | null>(null);
 
