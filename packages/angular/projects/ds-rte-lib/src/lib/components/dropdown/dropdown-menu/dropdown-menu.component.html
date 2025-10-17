@@ -6,12 +6,7 @@
   >
     @for (item of items(); track item.label; let i = $index) {
       <rte-dropdown-item 
-        [label]="item.label" 
-        [leftIcon]="item.leftIcon" 
-        [trailingText]="item.trailingText" 
-        [disabled]="!!item.disabled" 
-        [hasSeparator]="!!item.hasSeparator" 
-        [hasIndent]="!!item.hasIndent"
+        [item]="item"
         (itemEvent)="handleItemEvent($event)"
       />
     }

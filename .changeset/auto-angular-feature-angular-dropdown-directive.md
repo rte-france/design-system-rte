@@ -4,6 +4,7 @@
   
   ## Changes
 
+- (Dropdown) correct angular integration between tab & dropdown
 - (Dropdown) correct dropdown positioning
 - (Dropdown) correct dropdown item selection with enter
 - (Dropdown) correct trigger holding focus when navigating with tab

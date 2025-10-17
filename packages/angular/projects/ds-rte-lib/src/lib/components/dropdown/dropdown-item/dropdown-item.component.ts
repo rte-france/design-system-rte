@@ -6,6 +6,7 @@ import { DividerComponent } from "../../divider/divider.component";
 import { IconComponent } from "../../icon/icon.component";
 
 export interface DropdownItemConfig {
+  id?: string;
   label: string;
   leftIcon?: string;
   trailingText?: string;
@@ -23,31 +24,25 @@ export interface DropdownItemConfig {
   styleUrl: "./dropdown-item.component.scss",
 })
 export class DropdownItemComponent {
-  readonly label = input.required<string>();
-  readonly leftIcon = input<string>();
-  readonly trailingText = input<string>();
-  readonly disabled = input<boolean>(false);
-  readonly hasSeparator = input<boolean>(false);
-  readonly hasIndent = input<boolean>(false);
-
+  readonly item = input<DropdownItemConfig>();
   readonly menuId = input<string>();
   readonly itemEvent = output<{ event: Event; id: string }>();
 
   handleClick(event: Event): void {
-    if (this.disabled()) {
+    if (this.item()?.disabled) {
       event.preventDefault();
       event.stopPropagation();
       return;
     }
-    this.itemEvent.emit({ event, id: this.menuId() || this.label() });
+    this.itemEvent.emit({ event, id: this.item()?.id || this.item()?.label || "" });
   }
 
   handleKeyDown(event: KeyboardEvent): void {
     if ([SPACE_KEY, ENTER_KEY].includes(event.key)) {
       event.preventDefault();
 
-      if (!this.disabled()) {
-        this.itemEvent.emit({ event, id: this.menuId() || this.label() });
+      if (!this.item()?.disabled) {
+        this.itemEvent.emit({ event, id: this.item()?.id || this.item()?.label || "" });
       }
     }
   }
