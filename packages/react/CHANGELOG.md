@@ -1,5 +1,45 @@
 # @design-system-rte/react
 
+## 0.12.0
+
+### Minor Changes
+
+- a901693: ## Changes
+
+  - (Banner) conditionally render message and title in banner component + set correct action button size
+  - (Banner) add component to tests apps
+  - (Banner) add internal state to handle banner visibility
+  - (Banner) add angular component + add keyboard interaction tests
+  - (Banner) add react component
+
+- 00ec1aa: ## Changes
+
+  - (Tab) add overflow type stories
+  - (Tab) add overflow type and dropdown support for angular tab component
+  - (Tab) extract scroll methods in utils
+  - (Tab) add inverted case
+  - (Tab) handle vertical up and down arrow key navigation
+  - (Tab) handle wrapped behavior
+  - (Tab) add disabled state for tab items
+  - (Tab) add angular component
+  - (Tab) extract common props to core
+  - (Tab) add react component
+  - (Badge) add react simple badge component
+  - (Segmented-control) extract selected indicator position logic in common hook + set top position to remove relative position
+  - add script to scaffold react component
+
+- 0cb0e68: ## Changes
+
+  - (Popover) add popover
+
+### Patch Changes
+
+- Updated dependencies [a901693]
+- Updated dependencies [00ec1aa]
+- Updated dependencies [a3838c6]
+- Updated dependencies [0cb0e68]
+  - @design-system-rte/core@0.17.0
+
 ## 0.11.0
 
 ### Minor Changes
