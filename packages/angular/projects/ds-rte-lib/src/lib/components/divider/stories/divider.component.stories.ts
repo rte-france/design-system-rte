@@ -23,7 +23,7 @@ const meta: Meta<DividerComponent> = {
     },
     appearance: {
       control: "select",
-      options: ["default", "inverse"],
+      options: ["default", "inverse", "brand"],
       description: "Color of the divider",
     },
     endPoint: {
@@ -47,6 +47,15 @@ export const Default: Story = {
     orientation: "horizontal",
     thickness: "light",
     endPoint: "round",
+  },
+};
+
+export const Brand: Story = {
+  args: {
+    orientation: "horizontal",
+    thickness: "light",
+    endPoint: "round",
+    appearance: "brand",
   },
 };
 

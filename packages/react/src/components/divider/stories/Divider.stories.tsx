@@ -31,7 +31,7 @@ const meta = {
     },
     appearance: {
       control: "select",
-      options: ["default", "inverse"],
+      options: ["default", "inverse", "brand"],
       description: "Color of the divider",
       defaultValue: "default",
     },
@@ -51,6 +51,14 @@ export const Default: Story = {
     orientation: "horizontal",
     thickness: "light",
     appearance: "default",
+  },
+};
+
+export const Brand: Story = {
+  args: {
+    orientation: "horizontal",
+    thickness: "light",
+    appearance: "brand",
   },
 };
 
