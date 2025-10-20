@@ -2,6 +2,72 @@
 
 # Angular
 
+## 0.13.0
+
+### Banner
+
+#### Minor Changes
+
+- conditionally render message and title in banner component + set correct action button size
+- use click output instead of input actionCallback
+- add component to tests apps
+- add internal state to handle banner visibility
+- add angular component + add keyboard interaction tests
+
+### Tab
+
+#### Minor Changes
+
+- add overflow type stories
+- add overflow type and dropdown support for angular tab component
+- extract scroll methods in utils
+- add inverted case
+- handle vertical up and down arrow key navigation
+- add disabled state for tab items
+- add angular component
+
+### Badge
+
+#### Minor Changes
+
+- add simple angular badge type
+- add simple badge
+
+### Dropdown
+
+#### Minor Changes
+
+- update trigger reference for position calculation on angular comp
+- correct angular integration between tab & dropdown
+- correct dropdown positioning
+- correct dropdown item selection with enter
+- correct trigger holding focus when navigating with tab
+- avoid scrollbar navigation while navigating a dropdown-menu using the keyboard
+- handle menu key input for navigation and closing
+- add dropdown system
+
+### Segmented-control
+
+#### Minor Changes
+
+- extract selected indicator position logic in common hook + set top position to remove relative position
+
+### Popover
+
+#### Minor Changes
+
+- add popover directive
+
+### Other
+
+#### Patch Changes
+
+- Updated dependencies [a901693]
+- Updated dependencies [00ec1aa]
+- Updated dependencies [a3838c6]
+- Updated dependencies [0cb0e68]
+- @design-system-rte/core@0.17.0
+
 ## 0.12.0
 
 ### Loader
@@ -146,58 +212,66 @@
 - Updated dependencies [7d41c21]
 - Updated dependencies [cbd90b0]
 - @design-system-rte/core@0.15.0
+# React
 
-## 0.10.1
+## 0.12.0
 
-#### Patch Changes
-
-- Updated dependencies [db7edfd]
-- @design-system-rte/core@0.14.0
-
-## 0.10.0
-
-### textarea
+### Banner
 
 #### Minor Changes
 
-- update focus, error styles border and cursor on readonly and disabled
-- add showCounter variable to display counter
-- set correct style for label in side position
-- prevent odd displaying on error state and disabled
-- improve assistive text handling
+- conditionally render message and title in banner component + set correct action button size
 - add component to tests apps
-- add public api export
-- add tests on storybook
-- set better props handling + handle resizing logic on angular comp
-- add auto scroll to top on blur event
+- add internal state to handle banner visibility
+- add angular component + add keyboard interaction tests
+- add react component
 
-### Link
+### Tab
 
 #### Minor Changes
 
-- add rel noopener noreferrer on external link
+- add overflow type stories
+- add overflow type and dropdown support for angular tab component
+- extract scroll methods in utils
+- add inverted case
+- handle vertical up and down arrow key navigation
+- handle wrapped behavior
+- add disabled state for tab items
+- add angular component
+- extract common props to core
+- add react component
+
+### Badge
+
+#### Minor Changes
+
+- add react simple badge component
+
+### Segmented-control
+
+#### Minor Changes
+
+- extract selected indicator position logic in common hook + set top position to remove relative position
+
+### Popover
+
+#### Minor Changes
+
+- add popover
 
 ### Other
 
 #### Minor Changes
 
-- harmonise border style on focus + remove showAssistiveTextIcon prop + add link component on angular textarea
-- add angular textarea component
-- add decorative brand example
-- set correct success icon
-- set correct color token name
-- improve formatting and consistency in Tag component and stories
-- update Tag component to use computed properties for icon name and validation
-- improve formatting and consistency in computedIconName getter
-- update computedIconName method to return an empty string instead of default icon
-- add Tag component with customizable properties and icon support
+- add script to scaffold react component
 
 #### Patch Changes
 
-- Updated dependencies [89289e7]
-- Updated dependencies [f6bb90d]
-- @design-system-rte/core@0.13.0
-# React
+- Updated dependencies [a901693]
+- Updated dependencies [00ec1aa]
+- Updated dependencies [a3838c6]
+- Updated dependencies [0cb0e68]
+- @design-system-rte/core@0.17.0
 
 ## 0.11.0
 
@@ -342,66 +416,47 @@
 - Updated dependencies [7d41c21]
 - Updated dependencies [cbd90b0]
 - @design-system-rte/core@0.15.0
+# Core
 
-## 0.9.1
+## 0.17.0
+
+### Banner
+
+#### Minor Changes
+
+- use click output instead of input actionCallback
+
+### Tokens
+
+#### Minor Changes
+
+- add zIndex tokens
+
+### Tab
+
+#### Minor Changes
+
+- extract scroll methods in utils
+- add inverted case
+- handle wrapped behavior
+- add disabled state for tab items
+- add angular component
+- extract common props to core
+
+### Popover
+
+#### Minor Changes
+
+- add popover
+
+### Dropdown
 
 #### Patch Changes
 
-- correct TextInput cursor for React
-- Updated dependencies [db7edfd]
-- @design-system-rte/core@0.14.0
-
-## 0.9.0
-
-### textarea
-
-#### Minor Changes
-
-- update focus, error styles border and cursor on readonly and disabled
-- add showCounter variable to display counter
-- set correct style for label in side position
-- prevent odd displaying on error state and disabled
-- simplify required and optional appearence
-- improve assistive text handling
-- add public api export
-- add tests on storybook
-- set better props handling + handle resizing logic on angular comp
-- add auto scroll to top on blur event
-
-### Link
-
-#### Minor Changes
-
-- add rel noopener noreferrer on external link
+- correct angular integration between tab & dropdown
 
 ### Other
 
-#### Minor Changes
-
-- add type to textarea ref to avoid casting
-- naming typo
-- harmonise border style on focus + remove showAssistiveTextIcon prop + add link component on angular textarea
-- add react textarea stories
-- extract constants in core
-- add react textarea component
-- update changeDetectionStrategy for angular components
-- add decorative brand example
-- set correct success icon
-- set correct color token name
-- improve formatting and consistency in Tag component and stories
-- update Tag component to use computed properties for icon name and validation
-- improve formatting and consistency in Decorative, WithIcon, and Compact story definitions
-- streamline args structure in Tag component stories
-- correct casing of compactSpacing property in Tag component and stories
-- improve formatting and consistency in Tag component and interface
-- add Tag component with status and decorative types, including styles and stories
-
-#### Patch Changes
-
-- Updated dependencies [89289e7]
-- Updated dependencies [f6bb90d]
-- @design-system-rte/core@0.13.0
-# Core
 
 ## 0.16.0
 
@@ -496,13 +551,13 @@
 #### Minor Changes
 
 - add storybook interactions tests
+# Design Docs
 
-## 0.14.0
+## 0.7.0
 
 #### Minor Changes
 
-- add border-divider token color
-# Design Docs
+- replace png images without emojis for svg files for storybook
 
 ## 0.6.1
 
