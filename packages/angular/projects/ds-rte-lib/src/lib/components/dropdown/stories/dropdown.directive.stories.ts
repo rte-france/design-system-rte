@@ -6,8 +6,8 @@ import {
 import { Meta, moduleMetadata, StoryObj } from "@storybook/angular";
 import { expect, userEvent } from "@storybook/test";
 
-import { DropdownDirective } from "./dropdown.directive";
-import { DropdownModule } from "./dropdown.module";
+import { DropdownDirective } from "../dropdown.directive";
+import { DropdownModule } from "../dropdown.module";
 
 const MOCKUP_ITEMS = [
   { label: "Messages", leftIcon: "mail", hasSeparator: true },

@@ -2,7 +2,8 @@ export interface DropdownProps {
   dropdownId: string;
   hasParent?: boolean;
   disabled?: boolean;
-  position?: import("../../common-types").Position;
+  position?: import("../common/common-types").Position;
+  alignment?: import("../common/common-types").Alignment;
   autoOpen?: boolean;
   autoClose?: boolean;
   onClose?: () => void;

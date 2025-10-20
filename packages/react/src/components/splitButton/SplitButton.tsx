@@ -1,25 +1,35 @@
+import { DropdownProps } from "@design-system-rte/core/components/dropdown/dropdown.interface";
 import {
   splitButtonLeftIconSize,
   splitButtonRightIconSize,
 } from "@design-system-rte/core/components/split-button/split-button.constants";
-import { SplitButtonProps as CoreSplitButtonProps } from "@design-system-rte/core/components/split-button/split-button.interface";
-import React, { ForwardedRef, useEffect, useRef } from "react";
+import {
+  SplitButtonProps as CoreSplitButtonProps,
+  SplitButtonItemProps as CoreSplitButtonOptionProps,
+} from "@design-system-rte/core/components/split-button/split-button.interface";
+import { ButtonHTMLAttributes, ForwardedRef, forwardRef, KeyboardEvent, MouseEvent, useRef, useState } from "react";
 
+import { Dropdown } from "../dropdown/Dropdown";
+import { DropdownItem } from "../dropdown/dropdownItem/DropdownItem";
 import Icon from "../icon/Icon";
 import { RegularIcons, TogglableIcons } from "../icon/IconMap";
 import { concatClassNames } from "../utils";
 
 import style from "./SplitButton.module.scss";
 
-interface SplitButtonProps
-  extends CoreSplitButtonProps,
-    Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "onClick" | "children"> {
-  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  children?: React.ReactNode;
-  icon?: keyof typeof RegularIcons | keyof typeof TogglableIcons;
+interface SplitButtonOption extends CoreSplitButtonOptionProps {
+  onClick?: (e: MouseEvent<HTMLElement> | KeyboardEvent<HTMLElement>) => void;
 }
 
-const SplitButton = React.forwardRef<HTMLElement | HTMLButtonElement, SplitButtonProps>(
+interface SplitButtonProps
+  extends Omit<CoreSplitButtonProps, "options">,
+    Omit<ButtonHTMLAttributes<HTMLButtonElement>, "onClick"> {
+  onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
+  icon?: keyof typeof RegularIcons | keyof typeof TogglableIcons;
+  options: SplitButtonOption[];
+}
+
+const SplitButton = forwardRef<HTMLElement | HTMLButtonElement, SplitButtonProps>(
   (
     {
       appearance = "primary",
@@ -31,61 +41,36 @@ const SplitButton = React.forwardRef<HTMLElement | HTMLButtonElement, SplitButto
       className,
       icon,
       onClick,
-      children,
       disabled,
       ariaLabelRight,
+      options,
       ...props
     }: SplitButtonProps,
     ref,
   ) => {
-    const [isHovered, setIsHovered] = React.useState<boolean>(false);
-
-    const [isClicked, setIsClicked] = React.useState<boolean>(false);
-
-    const hasAnimationRan = useRef<boolean>(false);
-
-    const [display, setDisplay] = React.useState<React.CSSProperties["visibility"]>(selected ? "visible" : "hidden");
+    const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
 
     const rightButtonRef = useRef<HTMLButtonElement>(null);
     const leftButtonRef = useRef<HTMLButtonElement>(null);
     const menuRef = useRef<HTMLDivElement>(null);
 
-    const handleKeyDown = (e: React.KeyboardEvent<HTMLElement>, key: string, callback: () => void) => {
-      if (e.key === key) {
-        e.preventDefault();
-        callback();
+    const [internalPosition, internalAlignment] = position.split("-") as [
+      DropdownProps["position"],
+      DropdownProps["alignment"],
+    ];
+
+    const handleMouseLeave = (e: MouseEvent) => {
+      const toElement = e.relatedTarget as HTMLElement | null;
+
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(toElement) &&
+        rightButtonRef.current &&
+        !rightButtonRef.current.contains(toElement)
+      ) {
+        setIsDropdownOpen(false);
       }
     };
-
-    const handleKeyDownOnRightButton = (e: React.KeyboardEvent<HTMLButtonElement>) => {
-      handleKeyDown(e, "ArrowDown", () => setIsClicked(true));
-      handleKeyDown(e, "Escape", () => setIsClicked(false));
-    };
-
-    const handleKeyDownOnMenu = (e: React.KeyboardEvent<HTMLDivElement>) =>
-      handleKeyDown(e, "Escape", () => setIsClicked(false));
-
-    useEffect(() => {
-      if (isHovered || isClicked || selected) {
-        setDisplay("visible");
-        if (!hasAnimationRan.current) {
-          if (menuRef.current) {
-            menuRef.current.classList.remove(style.animationSlideFromTop);
-            menuRef.current.classList.add(style.animationSlideFromTop);
-          }
-          hasAnimationRan.current = true;
-        }
-        return;
-      }
-      setDisplay("hidden");
-      hasAnimationRan.current = false;
-    }, [isHovered, isClicked, selected]);
-
-    window.addEventListener("click", (e) => {
-      const target = e.target as HTMLElement;
-      if (Array.from(target.classList).some((cls) => cls.includes("splitButtonRight"))) return;
-      setIsClicked(false);
-    });
 
     return (
       <div
@@ -111,40 +96,53 @@ const SplitButton = React.forwardRef<HTMLElement | HTMLButtonElement, SplitButto
           </p>
         </button>
         <div className={style.splitButtonDivider} data-appearance={appearance} data-disabled={disabled}></div>
-        <div className={style.splitButtonRightContainer}>
-          <button
-            type="button"
-            aria-haspopup="menu"
-            aria-expanded={display === "visible"}
-            aria-label={ariaLabelRight}
-            className={style.splitButtonRight}
-            data-appearance={appearance}
-            data-size={size}
-            data-selected={selected}
-            data-testid="Menu button"
-            disabled={disabled}
-            onClick={() => setIsClicked(true)}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-            onKeyDown={handleKeyDownOnRightButton}
-            {...props}
-            ref={rightButtonRef}
-          >
-            <div className={style.splitButtonRightIconContainer}>
-              <Icon name="arrow-chevron-down" size={splitButtonRightIconSize[size]} />
-            </div>
-          </button>
-          <div
-            onKeyDown={handleKeyDownOnMenu}
-            className={style.splitButtonDropdown}
-            data-position={position}
-            role="menu"
-            style={{ visibility: display }}
-            data-testid="Menu container"
-          >
-            {children}
-          </div>
-        </div>
+        <Dropdown
+          ref={menuRef}
+          autoClose
+          dropdownId={"tab-dropdown"}
+          onClose={() => setIsDropdownOpen(false)}
+          offset={0}
+          data-testid="Menu container"
+          position={internalPosition}
+          alignment={internalAlignment}
+          trigger={
+            <button
+              type="button"
+              aria-haspopup="menu"
+              aria-expanded={isDropdownOpen}
+              aria-label={ariaLabelRight}
+              className={style.splitButtonRight}
+              data-active={isDropdownOpen}
+              data-compact-spacing={compactSpacing}
+              data-appearance={appearance}
+              data-size={size}
+              data-selected={selected}
+              data-testid="Menu button"
+              disabled={disabled}
+              onFocus={() => setIsDropdownOpen(true)}
+              onMouseEnter={() => setIsDropdownOpen(true)}
+              onMouseLeave={handleMouseLeave}
+              {...props}
+              ref={rightButtonRef}
+            >
+              <div className={style.splitButtonRightIconContainer}>
+                <Icon name="arrow-chevron-down" size={splitButtonRightIconSize[size]} />
+              </div>
+            </button>
+          }
+          isOpen={isDropdownOpen}
+        >
+          {options.map((option, idx) => (
+            <DropdownItem
+              key={`${option.id}-dropdown-${idx}`}
+              id={option.id}
+              label={option.label}
+              onClick={option.onClick}
+              disabled={option.disabled}
+              leftIcon={option.icon}
+            />
+          ))}
+        </Dropdown>
       </div>
     );
   },

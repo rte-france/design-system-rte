@@ -11,9 +11,24 @@ export interface SplitButtonProps {
   size?: SplitButtonSize;
   label: string;
   compactSpacing?: boolean;
-  selected?: boolean;
   position?: SplitButtonPosition;
   icon?: string;
   showIcon?: boolean;
   Disabled?: boolean;
+  options?: SplitButtonItemProps[];
+}
+
+export interface SplitButtonItemProps {
+  id: string;
+  label: string;
+  icon?: string;
+  badgeCount?: number;
+  badgeContent?: import("../badge/badge.interface").BadgeContent;
+  badgeIcon?: string;
+  badgeType?: import("../badge/badge.interface").BadgeType;
+  showBadge?: boolean;
+  compactSpacing?: boolean;
+  direction?: import("../common/common-types").Direction;
+  disabled?: boolean;
+  inverted?: boolean;
 }
