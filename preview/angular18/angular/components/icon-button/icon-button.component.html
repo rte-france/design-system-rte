@@ -1,0 +1,16 @@
+<button
+  *ngIf="isValidIconName"
+  class="rte-icon-button {{ variant() }} size-{{ size() }}"
+  [class.compact-spacing]="compactSpacing()"
+  [disabled]="disabled()"
+  [attr.aria-label]="ariaLabel()"
+  [attr.aria-labelledby]="ariaLabelledBy()"
+  [type]="type()"
+  (click)="onClick($event)"
+>
+  <rte-icon
+    [name]="name()"
+    [appearance]="appearance()"
+    [size]="buttonIconSize()"
+  />
+</button>
