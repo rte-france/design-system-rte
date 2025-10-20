@@ -10,14 +10,13 @@ import {
   shouldTruncateBreadcrumbs,
 } from "@design-system-rte/core/components/breadcrumbs/breadcrumbs.utils";
 
-import { DropdownComponent } from "../dropdown/dropdown.component";
-import { DropdownItemComponent } from "../dropdown/dropdownItem/dropdown-item.component";
+import { DropdownModule } from "../dropdown";
 import { IconButtonComponent } from "../icon-button/icon-button.component";
 import { LinkComponent } from "../link/link.component";
 
 @Component({
   selector: "rte-breadcrumbs",
-  imports: [CommonModule, LinkComponent, DropdownComponent, IconButtonComponent, DropdownItemComponent],
+  imports: [CommonModule, LinkComponent, DropdownModule, IconButtonComponent],
   standalone: true,
   templateUrl: "./breadcrumbs.component.html",
   styleUrl: "./breadcrumbs.component.scss",

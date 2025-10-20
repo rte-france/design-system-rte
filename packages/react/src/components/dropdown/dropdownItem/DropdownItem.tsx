@@ -26,6 +26,7 @@ interface DropdownItemProps extends Omit<CoreDropdownItemProps, "onClick">, Reac
 
 export const DropdownItem = ({
   label,
+  link,
   leftIcon,
   trailingText,
   disabled,
@@ -78,13 +79,20 @@ export const DropdownItem = ({
         }
       }
     }
-    if (e.key === ENTER_KEY || e.key === SPACE_KEY) {
-      if (disabled) return;
-      if (onClick) {
-        handleOnClick(e as unknown as React.KeyboardEvent<HTMLLIElement>);
-      }
-      if (children) {
-        open();
+    if ([SPACE_KEY, ENTER_KEY].includes(e.key)) {
+      if (link) {
+        const linkElement = e.currentTarget.querySelector("a");
+        if (linkElement) {
+          linkElement.click();
+        }
+      } else {
+        if (disabled) return;
+        if (onClick) {
+          handleOnClick(e as unknown as React.KeyboardEvent<HTMLLIElement>);
+        }
+        if (children) {
+          open();
+        }
       }
     }
   };
@@ -122,7 +130,13 @@ export const DropdownItem = ({
                   appearance={isOpen ? "filled" : "outlined"}
                 />
               )}
-              <span style={{ flex: "2" }}>{label}</span>
+              {link ? (
+                <a href={link} style={{ flex: "2", textDecoration: "none", color: "inherit" }}>
+                  {label}
+                </a>
+              ) : (
+                <span style={{ flex: "2" }}>{label}</span>
+              )}
               <Icon name="arrow-chevron-right" className={styles["dropdown-item-icon"]} />
             </li>
             {hasSeparator && (
@@ -152,7 +166,13 @@ export const DropdownItem = ({
       >
         {hasIndent && !leftIcon && <span style={{ width: "20px" }} />}
         {leftIcon && <Icon name={leftIcon} className={styles["dropdown-item-icon"]} />}
-        <span style={{ flex: "2" }}>{label}</span>
+        {link ? (
+          <a href={link} style={{ flex: "2", textDecoration: "none", color: "inherit" }}>
+            {label}
+          </a>
+        ) : (
+          <span style={{ flex: "2" }}>{label}</span>
+        )}
         {trailingText && <div>{trailingText}</div>}
       </li>
       {hasSeparator && (

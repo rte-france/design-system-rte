@@ -17,5 +17,6 @@ export interface DropdownItemProps {
   disabled?: boolean;
   hasSeparator?: boolean;
   hasIndent?: boolean;
+  link?: string;
   onClick?: () => void;
 }
