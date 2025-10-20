@@ -4,7 +4,7 @@ import { expect, userEvent, waitFor, within } from "@storybook/test";
 import { BreadcrumbsComponent } from "./breadcrumbs.component";
 
 export default {
-  title: "Breadcrumbs (développement en cours)",
+  title: "Breadcrumbs",
   component: BreadcrumbsComponent,
   tags: ["autodocs"],
   argTypes: {
@@ -24,15 +24,6 @@ const mockItems = [
   { label: "Smartphones", link: "/products/electronics/smartphones" },
 ];
 
-const wipWarning = `
-<div>
-  <span style="font-family: sans-serif; margin-bottom: 16px; border: 1px solid #F4922B; padding: 8px; border-radius: 5px; background-color: #FAFFC1; margin: 0;">
-    Ce composant est en cours de développement et n'est pas encore disponible
-  </span>
-</div>
-<br/>
-`;
-
 export const Default: StoryObj<BreadcrumbsComponent> = {
   args: {
     items: mockItems,
@@ -43,7 +34,6 @@ export const Default: StoryObj<BreadcrumbsComponent> = {
       mockItems,
     },
     template: `
-      ${wipWarning}
       <rte-breadcrumbs [items]="items" [ariaLabel]="ariaLabel" data-testid="breadcrumbs"/>
     `,
   }),

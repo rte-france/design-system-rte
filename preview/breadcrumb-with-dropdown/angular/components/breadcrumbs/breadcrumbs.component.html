@@ -13,9 +13,9 @@
       />
     </div>
     <span aria-hidden="true" class="separator">/</span>
-    <span class="breadcrumb-item">
-      <rte-dropdown #dropdown="rteDropdown" [autoclose]="true" [offset]="8">
-        <rte-icon-button
+    <span class="breadcrumb-item" rteDropdown [rteDropdownOffset]="8">
+      <rte-icon-button
+          rteDropdownTrigger
           name="more-horiz"
           role="menu"
           variant="neutral"
@@ -25,20 +25,8 @@
           dropdownTrigger
           tabindex="-1"
           [compactSpacing]="true"
-          (click)="dropdown.toggle()"
         />
-        @for (
-          item of truncatedItems()?.truncated;
-          track item.link;
-          let i = $index
-        ) {
-          <rte-dropdown-item
-            role="link"
-            [label]="item.label"
-            (click)="dropdown.close()"
-          ></rte-dropdown-item>
-        }
-      </rte-dropdown>
+      <rte-dropdown-menu [items]="truncatedItems()?.truncated ?? []" />
     </span>
     <span aria-hidden="true" class="separator">/</span>
     @for (

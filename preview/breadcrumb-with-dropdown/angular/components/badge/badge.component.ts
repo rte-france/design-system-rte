@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { Component, input, computed, ChangeDetectionStrategy } from "@angular/core";
-import { BadgeAppearance, BadgeSize, BadgeType } from "@design-system-rte/core/components/badge/badge.interface";
+import { BadgeContent, BadgeSize, BadgeType } from "@design-system-rte/core/components/badge/badge.interface";
 import {
   getBadgeIconSize,
   getDisplayCount,
@@ -11,7 +11,6 @@ import {
 
 import { isValidIconName } from "../icon/icon-map";
 import { IconComponent } from "../icon/icon.component";
-import { RegularIconIdKey, TogglableIconIdKey } from "../icon/icon.service";
 
 @Component({
   selector: "rte-badge",
@@ -24,16 +23,17 @@ import { RegularIconIdKey, TogglableIconIdKey } from "../icon/icon.service";
 export class BadgeComponent {
   readonly badgeType = input<BadgeType>("brand");
   readonly badgeSize = input<BadgeSize>("m");
-  readonly badgeAppearance = input<BadgeAppearance>("text");
+  readonly badgeContent = input<BadgeContent>("number");
   readonly count = input<number | undefined>();
-  readonly icon = input<RegularIconIdKey | TogglableIconIdKey>("notification");
+  readonly icon = input<string>("notification");
+  readonly simpleBadge = input<boolean>(false);
 
   readonly isValidIconName = computed(() => isValidIconName(this.icon()));
 
   readonly showIcon = computed(() =>
     getShowIcon({
       size: this.badgeSize(),
-      appearance: this.badgeAppearance(),
+      content: this.badgeContent(),
       iconSize: this.iconSize(),
     }),
   );
@@ -41,7 +41,7 @@ export class BadgeComponent {
   readonly showText = computed(() =>
     getShowText({
       size: this.badgeSize(),
-      appearance: this.badgeAppearance(),
+      content: this.badgeContent(),
       count: this.count(),
     }),
   );
@@ -53,7 +53,7 @@ export class BadgeComponent {
   readonly showBadge = computed(() =>
     getShowBadge({
       size: this.badgeSize(),
-      appearance: this.badgeAppearance(),
+      content: this.badgeContent(),
       count: this.count(),
       iconSize: this.iconSize(),
     }),
