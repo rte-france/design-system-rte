@@ -25,7 +25,7 @@
   <rte-badge
     *ngIf="displayBadge(option()!)"
     [simpleBadge]="true"
-    [badgeAppearance]="option()?.badgeAppearance || 'empty'"
+    [badgeContent]="option()?.badgeContent || 'empty'"
     [badgeType]="option()?.badgeType || 'neutral'"
     [icon]="option()?.badgeIcon || ''"
     [count]="option()?.badgeCount"
