@@ -1,0 +1,50 @@
+<nav
+  class="breadcrumbs-container"
+  role="navigation"
+  [attr.aria-label]="ariaLabel()"
+  [ngClass]="{'truncated': truncatedItems()?.truncated?.length}"
+>
+  @if (truncatedItems()?.truncated?.length) {
+    <div class="breadcrumb-item">
+      <rte-link
+        [href]="truncatedItems()!.root.link"
+        [label]="truncatedItems()!.root.label"
+        [subtle]="true"
+      />
+    </div>
+    <span aria-hidden="true" class="separator">/</span>
+    <span class="breadcrumb-item">
+      <rte-icon name="more-horiz" tabIndex="0" role="menu" aria-label="More items" data-testid="show-more" rteTooltipPosition="bottom" [size]="12" [rteTooltip]="truncatedItemsText()"/>
+    </span>
+    <span aria-hidden="true" class="separator">/</span>
+    @for (item of truncatedItems()!.remaining; track item.link; let i = $index) {
+      <div class="breadcrumb-item">
+        @if (i === truncatedItems()!.remaining.length - 1) {
+          <a role="link" aria-current="page" tabindex="0" [attr.aria-label]="item.label">
+            {{ item.label }}
+          </a>
+        } @else {
+          <rte-link [href]="item.link" [label]="item.label" [subtle]="true"/>
+        }
+      </div>
+      @if (i < truncatedItems()!.remaining.length - 1) {
+        <span aria-hidden="true" class="separator">/</span>
+      }
+    }
+  } @else {
+      @for (item of items(); track item.link; let i = $index) {
+        <div class="breadcrumb-item">
+          @if (i === items().length - 1) {
+            <a role="link" aria-current="page" tabindex="0" [attr.aria-label]="item.label">
+              {{ item.label }}
+            </a>
+          } @else {
+            <rte-link [href]="item.link" [label]="item.label" [subtle]="true"/>
+          }
+        </div>
+        @if (i < items().length - 1) {
+          <span aria-hidden="true" class="separator">/</span>
+        }
+      }
+  }
+</nav>
