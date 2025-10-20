@@ -1,5 +1,33 @@
 # @design-system-rte/core
 
+## 0.17.0
+
+### Minor Changes
+
+- a901693: ## Changes
+
+  - (Banner) use click output instead of input actionCallback
+  - (Tokens) add zIndex tokens
+
+- 00ec1aa: ## Changes
+
+  - (Tab) extract scroll methods in utils
+  - (Tab) add inverted case
+  - (Tab) handle wrapped behavior
+  - (Tab) add disabled state for tab items
+  - (Tab) add angular component
+  - (Tab) extract common props to core
+
+- 0cb0e68: ## Changes
+
+  - (Popover) add popover
+
+### Patch Changes
+
+- a3838c6: ## Changes
+
+  - (Dropdown) correct angular integration between tab & dropdown
+
 ## 0.16.0
 
 ### Minor Changes
