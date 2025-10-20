@@ -61,7 +61,7 @@ const Breadcrumbs = forwardRef<HTMLDivElement, BreadcrumbsProps>(
               offset={6}
             >
               {truncated.map((item, idx) => (
-                <DropdownItem key={item.label + idx} label={item.label} />
+                <DropdownItem key={item.label + idx} label={item.label} link={item.link} />
               ))}
             </Dropdown>
           </span>
