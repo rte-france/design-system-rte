@@ -1,4 +1,4 @@
-import { Position } from "@design-system-rte/core/components/common/common-types";
+import { Alignment, Position } from "@design-system-rte/core/components/common/common-types";
 import { DropdownProps as CoreDropdownProps } from "@design-system-rte/core/components/dropdown/dropdown.interface";
 import { DropdownManager } from "@design-system-rte/core/components/dropdown/DropdownManager";
 import {
@@ -45,6 +45,7 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
       onClose = () => {},
       children,
       offset = 0,
+      alignment = "start",
       ...props
     },
     ref,
@@ -157,10 +158,10 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
     );
 
     const positionDropdown = useCallback(
-      (triggerElement: HTMLDivElement, dropdownElement: HTMLDivElement, position: Position) => {
+      (triggerElement: HTMLDivElement, dropdownElement: HTMLDivElement, position: Position, alignment: Alignment) => {
         const computedPosition =
           position === "auto" ? getAutoPlacementDropdown(triggerElement!, dropdownElement!, "bottom") : position;
-        const autoAlignment = getAutoAlignment(triggerElement!, dropdownElement!, computedPosition);
+        const autoAlignment = alignment ?? getAutoAlignment(triggerElement!, dropdownElement!, computedPosition);
         const computedCoordinates = getCoordinates(
           computedPosition,
           triggerElement!,
@@ -181,9 +182,18 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
       if (hasParent) {
         positionChildDropdown(triggerElement, dropdownElement);
       } else {
-        positionDropdown(triggerElement, dropdownElement, position);
+        positionDropdown(triggerElement, dropdownElement, position, alignment);
       }
-    }, [isOpen, hasParent, dropdownElement, triggerElement, position, positionChildDropdown, positionDropdown]);
+    }, [
+      isOpen,
+      hasParent,
+      dropdownElement,
+      triggerElement,
+      position,
+      alignment,
+      positionChildDropdown,
+      positionDropdown,
+    ]);
 
     return (
       <DropdownContextProvider dropdownId={autoId} closeRoot={closeDropdown} autoClose={autoClose}>
