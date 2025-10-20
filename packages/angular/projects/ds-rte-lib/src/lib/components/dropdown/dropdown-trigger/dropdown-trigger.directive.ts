@@ -11,9 +11,16 @@ export class DropdownTriggerDirective {
 
   readonly dropdownTriggered = output<Event>();
 
+  readonly dropdownTriggerFocus = output<Event>();
+
   @HostListener("click", ["$event"])
   onDropdownTriggered(event: Event): void {
     this.dropdownTriggered.emit(event);
+  }
+
+  @HostListener("focus", ["$event"])
+  onDropdownTriggerFocus(event: Event): void {
+    this.dropdownTriggerFocus.emit(event);
   }
 
   @HostListener("keydown", ["$event"])

@@ -14,19 +14,21 @@ import {
   ViewContainerRef,
 } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { Alignment } from "@design-system-rte/core/common/common-types";
 import { Position } from "@design-system-rte/core/components/common/common-types";
 import {
   getAutoAlignment,
   getAutoPlacementDropdown,
   getCoordinates,
 } from "@design-system-rte/core/components/utils/auto-placement";
-import { SPACE_KEY, TAB_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
+import { ARROW_DOWN_KEY, ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
 import { DropdownService } from "../../services/dropdown.service";
 import { OverlayService } from "../../services/overlay.service";
 
 import { DropdownMenuComponent } from "./dropdown-menu/dropdown-menu.component";
 import { DropdownTriggerDirective } from "./dropdown-trigger/dropdown-trigger.directive";
+import { focusDropdownFirstElement } from "./dropdown.utils";
 
 @Directive({
   selector: "[rteDropdown]",
@@ -43,6 +45,7 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
   readonly menu = contentChild(DropdownMenuComponent);
 
   readonly rteDropdownPosition = input<Position>("bottom");
+  readonly rteDropdownAlignment = input<Alignment>("start");
   readonly rteDropdownIsOpen = input<boolean>(false);
   readonly rteDropdownOffset = input<number>(0);
 
@@ -69,19 +72,11 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
   }
 
   onTriggerKeyEvent(event: KeyboardEvent): void {
-    if (event.key === SPACE_KEY) {
+    if (event.key === SPACE_KEY || event.key === ENTER_KEY || event.key === ARROW_DOWN_KEY) {
       this.showDropdownMenu();
-    }
-
-    if (event.key === TAB_KEY && this.dropdownMenuRef) {
-      event.preventDefault();
-      const menuElement = this.dropdownMenuRef.location.nativeElement;
-      const focusableElements = menuElement.querySelectorAll(
-        'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"]):not([disabled])',
-      );
-      if (focusableElements.length) {
-        focusableElements[0].focus();
-      }
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => focusDropdownFirstElement(this.dropdownId));
+      });
     }
   }
 
@@ -154,7 +149,8 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
         this.cdr.detectChanges();
         const computedPosition: Exclude<Position, "auto"> =
           position === "auto" ? getAutoPlacementDropdown(triggerElement, dropdownMenuElement, "bottom") : position;
-        const autoAlignment = getAutoAlignment(triggerElement, dropdownMenuElement, computedPosition);
+        const autoAlignment =
+          this.rteDropdownAlignment() ?? getAutoAlignment(triggerElement, dropdownMenuElement, computedPosition);
         const computedCoordinates = getCoordinates(
           computedPosition,
           triggerElement,

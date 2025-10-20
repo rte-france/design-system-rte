@@ -147,48 +147,85 @@
         }
     }
 
-    .splitButtonRightContainer {
+    .splitButtonRight {
         display: flex;
-        position: relative;
-        padding: $positive-spacing_0;
+        border: none;
+        padding: $positive-spacing_050 $positive-spacing_150;
         align-items: center;
         justify-content: center;
-        gap: $positive-spacing_0;
         align-self: stretch;
+        width: 34px;
 
-        .splitButtonRight {
-            display: flex;
-            border: none;
-            padding: $positive-spacing_050 $positive-spacing_150;
-            align-items: center;
-            justify-content: center;
-            align-self: stretch;
-            width: 34px;
+        border-radius: $radius-none $radius-s $radius-s $radius-none;
+        border-color: var(--border-brand-default);
+        background-color: var(--background-brand-default);
 
-            border-radius: $radius-none $radius-s $radius-s $radius-none;
-            border-color: var(--border-brand-default);
-            background-color: var(--background-brand-default);
+        color: var(--content-primary-inverse);
 
-            color: var(--content-primary-inverse);
+        &[data-size='s'] {
+            width: 24px;
+            padding: $positive-spacing_025 $positive-spacing_100;
+        }
 
-            &[data-size='s'] {
-                width: 24px;
-                padding: $positive-spacing_025 $positive-spacing_100;
+        &[data-size='l'] {
+            width: 44px;
+            padding: $positive-spacing_075 $positive-spacing_200;
+        }
+
+        &:hover {
+            cursor: pointer;
+            background-color: var(--background-brand-hover);
+
+        }
+
+        &:active,
+        &[data-active='true'] {
+            background-color: var(--background-brand-pressed);
+        }
+
+        &:disabled {
+            background-color: var(--background-disabled);
+            color: var(--content-disabled);
+            border-top: 1px solid var(--border-disabled);
+            border-bottom: 1px solid var(--border-disabled);
+            border-right: 1px solid var(--border-disabled);
+            cursor: not-allowed;
+        }
+
+        &:focus {
+            outline: none;
+            position: relative;
+            z-index: 1;
+
+            &::after {
+                content: '';
+                position: absolute;
+                top: -8px;
+                left: -1px;
+                bottom: -8px;
+                right: -8px;
+                border: 1px solid var(--border-brand-focused);
+                pointer-events: none;
+                border-radius: $radius-s;
+                z-index: 2;
             }
-    
-            &[data-size='l'] {
-                width: 44px;
-                padding: $positive-spacing_075 $positive-spacing_200;
-            }
+        }
+
+        &[data-appearance='secondary'] {
+            border-top: 1px solid var(--border-brand-default);
+            border-bottom: 1px solid var(--border-brand-default);
+            border-right: 1px solid var(--border-brand-default);
+            background-color: var(--background-default);
+            color: var(--content-brand-default);
 
             &:hover {
                 cursor: pointer;
-                background-color: var(--background-brand-hover);
-
+                background-color: var(--background-brand-inverse-hover);
             }
 
-            &:active {
-                background-color: var(--background-brand-pressed);
+            &:active,
+            &[data-active='true'] {
+                background-color: var(--background-brand-inverse-pressed);
             }
 
             &:disabled {
@@ -200,84 +237,37 @@
                 cursor: not-allowed;
             }
 
-            &:focus {
-                outline: none;
-                position: relative;
-                z-index: 1;
+        }
 
-                &::after {
-                    content: '';
-                    position: absolute;
-                    top: -8px;
-                    left: -1px;
-                    bottom: -8px;
-                    right: -8px;
-                    border: 1px solid var(--border-brand-focused);
-                    pointer-events: none;
-                    border-radius: $radius-s;
-                    z-index: 2;
-                }
-            }
+        &[data-size='s'] {
+            height: 24px;
 
-            &[data-appearance='secondary'] {
-                border-top: 1px solid var(--border-brand-default);
-                border-bottom: 1px solid var(--border-brand-default);
-                border-right: 1px solid var(--border-brand-default);
-                background-color: var(--background-default);
-                color: var(--content-brand-default);
-
-                &:hover {
-                    cursor: pointer;
-                    background-color: var(--background-brand-inverse-hover);
-                }
-
-                &:active {
-                    background-color: var(--background-brand-inverse-pressed);
-                }
-
-                &:disabled {
-                    background-color: var(--background-disabled);
-                    color: var(--content-disabled);
-                    border-top: 1px solid var(--border-disabled);
-                    border-bottom: 1px solid var(--border-disabled);
-                    border-right: 1px solid var(--border-disabled);
-                    cursor: not-allowed;
-                }
-
-            }
-
-            .splitButtonRightIconContainer {
-                display: flex;
-                pointer-events: none;
+            &[data-compact-spacing='true'] {
+                height: 20px;
             }
         }
 
-        .splitButtonDropdown {
-            position: absolute;
+        &[data-size='m'] {
+            height: 32px;
 
-            &[data-position='bottom-start'] {
-                top: 100%;
-                left: 0;
-            }
-
-            &[data-position='bottom-end'] {
-                top: 100%;
-                right: 0;
-            }
-
-            &[data-position='top-start'] {
-                bottom: 100%;
-                left: 0;
-            }
-
-            &[data-position='top-end'] {
-                bottom: 100%;
-                right: 0;
+            &[data-compact-spacing='true'] {
+                height: 24px;
             }
         }
 
+        &[data-size='l'] {
+            height: 40px;
+
+            &[data-compact-spacing='true'] {
+                height: 28px;
+            }
+        }
+
+        .splitButtonRightIconContainer {
+            display: flex;
+            pointer-events: none;
+        }
     }
-
 }
 
 .animationSlideFromTop {
