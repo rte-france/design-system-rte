@@ -50,7 +50,6 @@ const CheckboxGroup = forwardRef<HTMLDivElement, CheckboxGroupProps>(
               id={`${item}-${index}`}
               key={`${item}-${index}`}
               label={item}
-              groupName={groupName}
               showLabel={showItemsLabel}
               disabled={disabled}
               error={error}

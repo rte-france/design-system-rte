@@ -17,7 +17,7 @@ const Loader = forwardRef<HTMLDivElement, LoaderProps>(
       <div
         className={concatClassNames(style.loader, className)}
         data-appearance={appearance}
-        data-labelPosition={labelPosition}
+        data-label-position={labelPosition}
         ref={ref}
         {...props}
       >
@@ -30,7 +30,7 @@ const Loader = forwardRef<HTMLDivElement, LoaderProps>(
             viewBox="0 0 48 48"
             fill="none"
           >
-            <g clip-path="url(#paint0_angular_4438_67_clip_path)" data-figma-skip-parse="true">
+            <g clipPath="url(#paint0_angular_4438_67_clip_path)" data-figma-skip-parse="true">
               <g transform="matrix(0.0240793 7.6297e-08 -7.62968e-08 0.0240017 24.0001 24.0003)">
                 <foreignObject x="-999.939" y="-999.939" width="1999.88" height="1999.88">
                   <div
@@ -63,7 +63,7 @@ const Loader = forwardRef<HTMLDivElement, LoaderProps>(
             viewBox="0 0 48 48"
             fill="none"
           >
-            <g clip-path="url(#paint0_angular_4438_1033_clip_path)" data-figma-skip-parse="true">
+            <g clipPath="url(#paint0_angular_4438_1033_clip_path)" data-figma-skip-parse="true">
               <g transform="matrix(0.0240793 7.6297e-08 -7.62968e-08 0.0240017 24.0001 24.0003)">
                 <foreignObject x="-999.939" y="-999.939" width="1999.88" height="1999.88">
                   <div

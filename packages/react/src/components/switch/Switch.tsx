@@ -61,7 +61,7 @@ const Switch = ({
         name={label}
         className={style["switch"]}
         disabled={disabled}
-        checked={isChecked}
+        defaultChecked={isChecked}
         readOnly={readOnly}
         style={{
           minHeight: switchHeight,

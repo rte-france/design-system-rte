@@ -82,9 +82,9 @@ export const Sizing: Story = {
   render: (args) => {
     return (
       <div style={{ display: "flex", gap: 8 }}>
-        <IconButton {...args} size="s" data-testId="small-icon-button" />
-        <IconButton {...args} data-testId="medium-icon-button" />
-        <IconButton {...args} size="l" data-testId="large-icon-button" />
+        <IconButton {...args} size="s" data-testid="small-icon-button" />
+        <IconButton {...args} data-testid="medium-icon-button" />
+        <IconButton {...args} size="l" data-testid="large-icon-button" />
       </div>
     );
   },
@@ -108,9 +108,9 @@ export const CompactSizing: Story = {
   render: (args) => {
     return (
       <div style={{ display: "flex", gap: 8 }}>
-        <IconButton {...args} size="s" data-testId="small-icon-button" />
-        <IconButton {...args} data-testId="medium-icon-button" />
-        <IconButton {...args} size="l" data-testId="large-icon-button" />
+        <IconButton {...args} size="s" data-testid="small-icon-button" />
+        <IconButton {...args} data-testid="medium-icon-button" />
+        <IconButton {...args} size="l" data-testid="large-icon-button" />
       </div>
     );
   },
