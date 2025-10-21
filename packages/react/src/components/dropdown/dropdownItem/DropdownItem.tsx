@@ -15,7 +15,7 @@ import Divider from "../../divider/Divider";
 import Icon from "../../icon/Icon";
 import { DropdownParentContext } from "../context/DropdownContext";
 import { Dropdown } from "../Dropdown";
-import { focusChildDropdownFirstElement, focusParentDropdownFirstElement } from "../DropdownUtils";
+import { focusDropdownFirstElement, focusParentDropdownFirstElement } from "../DropdownUtils";
 import { useDropdownState } from "../hooks/useDropdownState";
 
 import styles from "./DropdownItem.module.scss";
@@ -71,7 +71,7 @@ export const DropdownItem = ({
     e.preventDefault();
     if (e.key === TAB_KEY) {
       if (isOpen) {
-        focusChildDropdownFirstElement(childDropdownId);
+        focusDropdownFirstElement(childDropdownId);
       }
       if (e.shiftKey) {
         if (dropdownId) {
