@@ -36,7 +36,6 @@ const SplitButton = forwardRef<HTMLElement | HTMLButtonElement, SplitButtonProps
       size = "m",
       label,
       compactSpacing = false,
-      selected = false,
       position = "bottom-start",
       className,
       icon,
@@ -58,19 +57,6 @@ const SplitButton = forwardRef<HTMLElement | HTMLButtonElement, SplitButtonProps
       DropdownProps["position"],
       DropdownProps["alignment"],
     ];
-
-    const handleMouseLeave = (e: MouseEvent) => {
-      const toElement = e.relatedTarget as HTMLElement | null;
-
-      if (
-        menuRef.current &&
-        !menuRef.current.contains(toElement) &&
-        rightButtonRef.current &&
-        !rightButtonRef.current.contains(toElement)
-      ) {
-        setIsDropdownOpen(false);
-      }
-    };
 
     return (
       <div
@@ -116,12 +102,9 @@ const SplitButton = forwardRef<HTMLElement | HTMLButtonElement, SplitButtonProps
               data-compact-spacing={compactSpacing}
               data-appearance={appearance}
               data-size={size}
-              data-selected={selected}
               data-testid="Menu button"
               disabled={disabled}
-              onFocus={() => setIsDropdownOpen(true)}
-              onMouseEnter={() => setIsDropdownOpen(true)}
-              onMouseLeave={handleMouseLeave}
+              onClick={() => setIsDropdownOpen(true)}
               {...props}
               ref={rightButtonRef}
             >

@@ -26,9 +26,6 @@ const meta = {
     compactSpacing: {
       control: "boolean",
     },
-    selected: {
-      control: "boolean",
-    },
     position: {
       control: "select",
       options: ["bottom-start", "bottom-end", "top-start", "top-end"],

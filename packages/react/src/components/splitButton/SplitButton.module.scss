@@ -86,7 +86,7 @@
             cursor: not-allowed;
         }
 
-        &:focus {
+        &:focus-visible {
             outline: none;
             position: relative;
             z-index: 1;
@@ -192,7 +192,7 @@
             cursor: not-allowed;
         }
 
-        &:focus {
+        &:focus-visible {
             outline: none;
             position: relative;
             z-index: 1;

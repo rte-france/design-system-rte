@@ -24,7 +24,7 @@ import { concatClassNames } from "../utils";
 import { DropdownParentContext } from "./context/DropdownContext";
 import { DropdownContextProvider } from "./context/DropdownContextProvider";
 import styles from "./Dropdown.module.scss";
-import { focusNextElement, focusPreviousElement } from "./DropdownUtils";
+import { focusDropdownFirstElement, focusNextElement, focusPreviousElement } from "./DropdownUtils";
 import { useDropdownState } from "./hooks/useDropdownState";
 
 interface DropdownProps extends CoreDropdownProps, React.HTMLAttributes<HTMLDivElement> {
@@ -115,6 +115,14 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
         focusNextElement(dropdownElement);
       }
     };
+
+    const handleOnKeyUpTrigger = (e: React.KeyboardEvent<HTMLDivElement>) => {
+      if (e.key === TAB_KEY) {
+        if (dropdownElement === null) return;
+        e.preventDefault();
+        focusNextElement(dropdownElement);
+      }
+    };
     const { onKeyDown, onKeyUp } = useActiveKeyboard<HTMLDivElement>(
       { onKeyUp: handleKeyUp },
       {
@@ -177,27 +185,29 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
     );
 
     useEffect(() => {
-      if (!isOpen) return;
       if (!triggerElement || !dropdownElement) return;
       if (hasParent) {
         positionChildDropdown(triggerElement, dropdownElement);
       } else {
         positionDropdown(triggerElement, dropdownElement, position, alignment);
       }
-    }, [
-      isOpen,
-      hasParent,
-      dropdownElement,
-      triggerElement,
-      position,
-      alignment,
-      positionChildDropdown,
-      positionDropdown,
-    ]);
+    }, [hasParent, dropdownElement, triggerElement, position, alignment, positionChildDropdown, positionDropdown]);
+
+    useEffect(() => {
+      if (isOpen && dropdownElement) {
+        focusDropdownFirstElement(autoId);
+      }
+    }, [isOpen, autoId, dropdownElement]);
 
     return (
       <DropdownContextProvider dropdownId={autoId} closeRoot={closeDropdown} autoClose={autoClose}>
-        <div ref={triggerCallbackRef} className={styles.trigger} tabIndex={-1} onKeyDown={handleOnKeyDownTrigger}>
+        <div
+          ref={triggerCallbackRef}
+          className={styles.trigger}
+          tabIndex={-1}
+          onKeyDown={handleOnKeyDownTrigger}
+          onKeyUp={handleOnKeyUpTrigger}
+        >
           {trigger}
         </div>
 
