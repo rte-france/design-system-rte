@@ -24,8 +24,8 @@ export const focusPreviousElement = (dropdown: HTMLElement) => {
   }
 };
 
-export const focusChildDropdownFirstElement = (childDropdownId: string) => {
-  const childDropdown = document.querySelector(`[data-dropdown-id='${childDropdownId}']`);
+export const focusDropdownFirstElement = (dropdownId: string) => {
+  const childDropdown = document.querySelector(`[data-dropdown-id='${dropdownId}']`);
   if (childDropdown) {
     const allChildDropdownElement = childDropdown?.querySelectorAll<HTMLElement>('li[role="menuitem"]');
     allChildDropdownElement[0]?.focus();
