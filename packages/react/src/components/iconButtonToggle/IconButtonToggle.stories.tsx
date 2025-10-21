@@ -84,9 +84,9 @@ export const Sizing: Story = {
   render: (args) => {
     return (
       <div style={{ display: "flex", gap: 8 }}>
-        <IconButtonToggle {...args} size="s" data-testId="small-icon-button" />
-        <IconButtonToggle {...args} data-testId="medium-icon-button" />
-        <IconButtonToggle {...args} size="l" data-testId="large-icon-button" />
+        <IconButtonToggle {...args} size="s" data-testid="small-icon-button" />
+        <IconButtonToggle {...args} data-testid="medium-icon-button" />
+        <IconButtonToggle {...args} size="l" data-testid="large-icon-button" />
       </div>
     );
   },
@@ -110,9 +110,9 @@ export const CompactSizing: Story = {
   render: (args) => {
     return (
       <div style={{ display: "flex", gap: 8 }}>
-        <IconButtonToggle {...args} size="s" data-testId="small-icon-button" />
-        <IconButtonToggle {...args} data-testId="medium-icon-button" />
-        <IconButtonToggle {...args} size="l" data-testId="large-icon-button" />
+        <IconButtonToggle {...args} size="s" data-testid="small-icon-button" />
+        <IconButtonToggle {...args} data-testid="medium-icon-button" />
+        <IconButtonToggle {...args} size="l" data-testid="large-icon-button" />
       </div>
     );
   },

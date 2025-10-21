@@ -10,7 +10,7 @@
     gap: $positive-spacing_100;
     animation: fade-in 150ms linear;
 
-    &[data-labelPosition='under'] {
+    &[data-label-position='under'] {
         flex-direction: column;
         padding: $positive-spacing_0;
         gap: $positive-spacing_100;

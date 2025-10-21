@@ -58,9 +58,9 @@ export const Sizing: Story = {
   render: (args) => {
     return (
       <div style={{ display: "flex", gap: 8 }}>
-        <Button {...args} size="s" label="Small" data-testId="small-button" />
-        <Button {...args} label="Medium" data-testId="medium-button" />
-        <Button {...args} size="l" label="Large" data-testId="large-button" />
+        <Button {...args} size="s" label="Small" data-testid="small-button" />
+        <Button {...args} label="Medium" data-testid="medium-button" />
+        <Button {...args} size="l" label="Large" data-testid="large-button" />
       </div>
     );
   },

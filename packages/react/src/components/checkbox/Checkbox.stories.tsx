@@ -84,7 +84,7 @@ export const ReadOnly: Story = {
   args: {
     ...Default.args,
     readOnly: true,
-    checked: true,
+    defaultChecked: true,
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
