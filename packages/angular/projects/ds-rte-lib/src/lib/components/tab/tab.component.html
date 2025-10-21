@@ -39,7 +39,7 @@
         class="rte-tab-selected-indicator"
         [ngStyle]="tabItemSelectedIndicatorStyle()"
       ></span>      
-      <div *ngIf="shouldDisplayDropdown() && options().length" rteDropdown [rteDropdownOffset]="10" (menuEvent)="onClickTabItem($event)">
+      <div *ngIf="shouldDisplayDropdown() && options().length" rteDropdown [rteDropdownOffset]="10" (menuEvent)="onClickTabItem($event.id)">
         <button rteDropdownTrigger
           class="rte-tab-dropdown-button"
           [attr.data-inverted]="inverted()"
