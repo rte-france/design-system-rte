@@ -140,13 +140,7 @@ jobs:
 
       - name: Run tests
         working-directory: packages/angular
-        run: |
-          npm run test:ci
-          status=$?
-          if [ $status -ne 0 ]; then
-            echo "::error title=Angular tests::packages/angular test:ci failed (exit $status)"
-            exit $status
-          fi
+        run: npm run test:ci
 
   quality-core:
     runs-on: ubuntu-latest
