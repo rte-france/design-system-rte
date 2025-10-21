@@ -11,7 +11,6 @@ interface CheckboxGroupProps extends CoreCheckboxGroupProps, React.InputHTMLAttr
 const CheckboxGroup = forwardRef<HTMLDivElement, CheckboxGroupProps>(
   (
     {
-      groupName,
       items,
       direction = "horizontal",
       showItemsLabel = true,
