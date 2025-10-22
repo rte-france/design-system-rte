@@ -23,7 +23,6 @@ export class CheckboxComponent {
   readonly errorMessage = input("");
   readonly readOnly = input(false);
   readonly checked = input(false);
-  readonly groupName = input("");
 
   onKeydown(event: KeyboardEvent) {
     if (event.code === "Space") {
