@@ -1,5 +1,4 @@
 export interface CheckboxGroupProps {
-  groupName: string;
   items: string[];
   direction?: import("../common/common-types").Direction;
   showItemsLabel?: boolean;

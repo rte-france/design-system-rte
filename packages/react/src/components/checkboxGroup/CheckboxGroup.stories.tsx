@@ -6,13 +6,8 @@ import CheckboxGroup from "./CheckboxGroup";
 const meta = {
   title: "CheckboxGroup",
   component: CheckboxGroup,
-  tags: ["autodocs"],
+  tags: ["autodocs", "checkboxgroup"],
   argTypes: {
-    groupName: {
-      control: "text",
-      description: "The name of the checkbox group.",
-      defaultValue: "group1",
-    },
     items: {
       control: "object",
       description: "The items in the checkbox group.",
@@ -77,7 +72,6 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    groupName: "group1",
     items: ["Option 1", "Option 2", "Option 3"],
     direction: "horizontal",
     showItemsLabel: true,
