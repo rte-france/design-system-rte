@@ -7,6 +7,7 @@ import {
   SplitButtonProps as CoreSplitButtonProps,
   SplitButtonItemProps as CoreSplitButtonOptionProps,
 } from "@design-system-rte/core/components/split-button/split-button.interface";
+import { ARROW_DOWN_KEY, ENTER_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 import { ButtonHTMLAttributes, ForwardedRef, forwardRef, KeyboardEvent, MouseEvent, useRef, useState } from "react";
 
 import { Dropdown } from "../dropdown/Dropdown";
@@ -58,6 +59,18 @@ const SplitButton = forwardRef<HTMLElement | HTMLButtonElement, SplitButtonProps
       DropdownProps["alignment"],
     ];
 
+    const handleKeyDown = (e: KeyboardEvent<HTMLButtonElement>) => {
+      if ([ENTER_KEY].includes(e.key)) {
+        e.preventDefault();
+      }
+    };
+
+    const handleKeyUp = (e: KeyboardEvent<HTMLButtonElement>) => {
+      if ([ENTER_KEY, ARROW_DOWN_KEY].includes(e.key)) {
+        setIsDropdownOpen(true);
+      }
+    };
+
     return (
       <div
         className={concatClassNames(style.splitButtonContainer, className)}
@@ -105,6 +118,8 @@ const SplitButton = forwardRef<HTMLElement | HTMLButtonElement, SplitButtonProps
               data-testid="Menu button"
               disabled={disabled}
               onClick={() => setIsDropdownOpen(true)}
+              onKeyDown={handleKeyDown}
+              onKeyUp={handleKeyUp}
               {...props}
               ref={rightButtonRef}
             >
