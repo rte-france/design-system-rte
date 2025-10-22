@@ -89,7 +89,7 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
       DropdownManager.closeAll();
     }, [closeRoot, hasParent, onClose]);
 
-    const handleKeyUp = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
       if (e.key === ARROW_DOWN_KEY || e.key === ARROW_UP_KEY) {
         e.stopPropagation();
         e.preventDefault();
@@ -102,7 +102,9 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
           focusPreviousElement(dropdownElement);
         }
       }
+    };
 
+    const handleKeyUp = (e: React.KeyboardEvent<HTMLDivElement>) => {
       if (e.key === ESCAPE_KEY) {
         closeDropdown();
       }
@@ -124,7 +126,7 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
       }
     };
     const { onKeyDown, onKeyUp } = useActiveKeyboard<HTMLDivElement>(
-      { onKeyUp: handleKeyUp },
+      { onKeyUp: handleKeyUp, onKeyDown: handleKeyDown },
       {
         interactiveKeyCodes: [SPACE_KEY, ENTER_KEY, TAB_KEY, ARROW_DOWN_KEY, ARROW_UP_KEY, ESCAPE_KEY],
       },

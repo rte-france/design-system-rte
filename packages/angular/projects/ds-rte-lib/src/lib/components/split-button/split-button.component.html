@@ -25,6 +25,7 @@
     style="height: 100%"
     [rteDropdownPosition]="internalPosition()"
     [rteDropdownAlignment]="internalAlignment()"
+    [attr.data-testid]="'Menu container'"
   >
     <button
       class="split-button-right size-{{ size() }}"
@@ -32,6 +33,7 @@
       data-testid="Menu button"
       type="button"
       aria-haspopup="menu"
+      [attr.data-expanded]="isOpen()"
       [attr.aria-expanded]="isOpen()"
       [attr.aria-label]="ariaLabelRight()"
       [disabled]="disabled()"
