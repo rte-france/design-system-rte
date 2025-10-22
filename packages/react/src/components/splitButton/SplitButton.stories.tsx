@@ -1,4 +1,4 @@
-import { DOWN_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
+import { ARROW_DOWN_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 import { Meta, StoryObj } from "@storybook/react";
 import { expect, fn, userEvent, waitFor, within } from "@storybook/test";
 
@@ -152,7 +152,7 @@ export const KeyboardInteraction: Story = {
     await userEvent.tab();
     await userEvent.tab();
     expect(button).toHaveFocus();
-    await userEvent.keyboard(`{${DOWN_KEY}}`);
+    await userEvent.keyboard(`{${ARROW_DOWN_KEY}}`);
     await waitFor(() => expect(document.body.querySelector('[data-testid = "Menu container"]')).toBeVisible());
   },
 };

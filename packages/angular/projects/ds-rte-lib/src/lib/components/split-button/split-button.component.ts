@@ -11,6 +11,7 @@ import {
   SplitButtonPosition,
   SplitButtonSize,
 } from "@design-system-rte/core/components/split-button/split-button.interface";
+import { ARROW_DOWN_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
 import { DropdownModule } from "../dropdown";
 import { IconComponent } from "../icon/icon.component";
@@ -66,8 +67,8 @@ export class SplitButtonComponent implements OnInit, OnDestroy {
   }
 
   handleKeyDownOnRightButton(event: KeyboardEvent): void {
-    this.handleKeyDown(event, "ArrowDown", () => this.isOpen.set(true));
-    this.handleKeyDown(event, "Space", () => this.isOpen.set(true));
+    this.handleKeyDown(event, ARROW_DOWN_KEY, () => this.isOpen.set(true));
+    this.handleKeyDown(event, SPACE_KEY, () => this.isOpen.set(true));
     this.handleKeyDown(event, "Escape", () => this.isOpen.set(false));
   }
 
@@ -77,6 +78,7 @@ export class SplitButtonComponent implements OnInit, OnDestroy {
 
   private handleKeyDown(event: KeyboardEvent, key: string, callback: () => void): void {
     if (event.key === key) {
+      console.log("key pressed:", key);
       event.preventDefault();
       callback();
     }
