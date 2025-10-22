@@ -146,7 +146,8 @@
             background-color: var(--background-brand-hover);
         }
 
-        &:active {
+        &:active,
+        &[data-expanded="true"] {
             background-color: var(--background-brand-pressed);
         }
 
