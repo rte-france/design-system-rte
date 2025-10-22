@@ -78,7 +78,6 @@ export class SplitButtonComponent implements OnInit, OnDestroy {
 
   private handleKeyDown(event: KeyboardEvent, key: string, callback: () => void): void {
     if (event.key === key) {
-      console.log("key pressed:", key);
       event.preventDefault();
       callback();
     }
