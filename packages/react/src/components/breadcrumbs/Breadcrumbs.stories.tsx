@@ -1,5 +1,10 @@
+import {
+  TESTING_DOWN_KEY,
+  TESTING_ENTER_KEY,
+  TESTING_UP_KEY,
+} from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
 import { Meta, StoryObj } from "@storybook/react";
-import { userEvent, within, expect, waitFor } from "@storybook/test";
+import { expect, userEvent, waitFor, within } from "@storybook/test";
 
 import Breadcrumbs from "./Breadcrumbs";
 
@@ -89,5 +94,31 @@ export const MultipleElements: Story = {
         <Breadcrumbs {...args} items={args.items} />
       </>
     );
+  },
+};
+
+export const KeyboardNavigationWithDropdown: Story = {
+  args: {
+    ...Default.args,
+    items: [
+      ...Default.args.items,
+      { label: "FancyBrand Phone", link: "/products/electronics/smartphones/fancybrand-phone" },
+    ],
+  },
+  render: (args) => {
+    return <Breadcrumbs {...args} data-testid="breadcrumbs" />;
+  },
+  play: async () => {
+    await userEvent.tab();
+    await userEvent.tab();
+    await userEvent.keyboard(TESTING_ENTER_KEY);
+    const dropdown = document.querySelector('[data-dropdown-id="breadcrumbs-truncated-listFil d\'Ariane"]');
+    expect(dropdown).toBeInTheDocument();
+    await userEvent.tab();
+    await waitFor(() => expect(dropdown?.querySelector("ul")?.children[0]).toHaveFocus());
+    await userEvent.keyboard(TESTING_DOWN_KEY);
+    await waitFor(() => expect(dropdown?.querySelector("ul")?.children[1]).toHaveFocus());
+    await userEvent.keyboard(TESTING_UP_KEY);
+    await waitFor(() => expect(dropdown?.querySelector("ul")?.children[0]).toHaveFocus());
   },
 };
