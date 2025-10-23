@@ -97,11 +97,7 @@ export class DropdownService {
 
   private getFocusableElements(element: HTMLElement): HTMLElement[] {
     const menuId = element.dataset["menuId"];
-    return Array.from(
-      element.querySelectorAll(
-        'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"]):not([disabled])',
-      ),
-    ).filter((el) => {
+    return Array.from(element.querySelectorAll("li")).filter((el) => {
       const closestMenu = el.closest("[data-menu-id]") as HTMLElement;
       return closestMenu?.dataset["menuId"] === menuId;
     }) as HTMLElement[];
