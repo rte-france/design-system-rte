@@ -4,4 +4,5 @@
   
   ## Changes
 
+- (Dropdown) correct dropdown keyboard navigation
 - (Breadcrumbs) integrate dropdown with breadcrumbs
