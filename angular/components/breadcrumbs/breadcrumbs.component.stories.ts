@@ -1,10 +1,15 @@
+import {
+  TESTING_DOWN_KEY,
+  TESTING_ENTER_KEY,
+  TESTING_UP_KEY,
+} from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
 import { Meta, StoryObj } from "@storybook/angular";
 import { expect, userEvent, waitFor, within } from "@storybook/test";
 
 import { BreadcrumbsComponent } from "./breadcrumbs.component";
 
 export default {
-  title: "Breadcrumbs (développement en cours)",
+  title: "Breadcrumbs",
   component: BreadcrumbsComponent,
   tags: ["autodocs"],
   argTypes: {
@@ -24,15 +29,6 @@ const mockItems = [
   { label: "Smartphones", link: "/products/electronics/smartphones" },
 ];
 
-const wipWarning = `
-<div>
-  <span style="font-family: sans-serif; margin-bottom: 16px; border: 1px solid #F4922B; padding: 8px; border-radius: 5px; background-color: #FAFFC1; margin: 0;">
-    Ce composant est en cours de développement et n'est pas encore disponible
-  </span>
-</div>
-<br/>
-`;
-
 export const Default: StoryObj<BreadcrumbsComponent> = {
   args: {
     items: mockItems,
@@ -43,7 +39,6 @@ export const Default: StoryObj<BreadcrumbsComponent> = {
       mockItems,
     },
     template: `
-      ${wipWarning}
       <rte-breadcrumbs [items]="items" [ariaLabel]="ariaLabel" data-testid="breadcrumbs"/>
     `,
   }),
@@ -115,4 +110,37 @@ export const MultipleElements: StoryObj<BreadcrumbsComponent> = {
       <rte-breadcrumbs [items]="items" [ariaLabel]="ariaLabel" data-testid="breadcrumbs"/>
     `,
   }),
+};
+
+export const KeyboardNavigationWithDropdown: StoryObj<BreadcrumbsComponent> = {
+  args: {
+    ...Default.args,
+    items: [
+      ...(Default.args?.items ?? []),
+      { label: "FancyBrand Phone", link: "/products/electronics/smartphones/fancybrand-phone" },
+    ],
+  },
+  render: (args) => {
+    return {
+      props: {
+        ...args,
+      },
+      template: `<rte-breadcrumbs [items]="items" [ariaLabel]="ariaLabel" data-testid="breadcrumbs"/>`,
+    };
+  },
+  play: async () => {
+    await userEvent.tab();
+    await userEvent.tab();
+    await userEvent.keyboard(TESTING_ENTER_KEY);
+    const overlay = document.getElementById("overlay-root");
+    const dropdownMenu = overlay?.querySelector("rte-dropdown-menu");
+    const menuItems = dropdownMenu?.querySelector("ul")?.querySelectorAll("li");
+    expect(dropdownMenu).toBeInTheDocument();
+    await userEvent.tab();
+    await waitFor(() => expect(menuItems?.[0]).toHaveFocus());
+    await userEvent.keyboard(TESTING_DOWN_KEY);
+    await waitFor(() => expect(menuItems?.[1]).toHaveFocus());
+    await userEvent.keyboard(TESTING_UP_KEY);
+    await waitFor(() => expect(menuItems?.[0]).toHaveFocus());
+  },
 };
