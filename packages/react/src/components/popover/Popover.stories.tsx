@@ -151,7 +151,6 @@ export const KeyboardInteraction: Story = {
     await userEvent.tab();
     await userEvent.keyboard(TESTING_ENTER_KEY);
     const popover = within(document.body).getByRole("dialog");
-    // expect(popover).toBeVisible();
     await waitFor(() => expect(popover).toBeVisible());
 
     await userEvent.tab();
