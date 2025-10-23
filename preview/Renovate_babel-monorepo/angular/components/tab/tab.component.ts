@@ -164,11 +164,11 @@ export class TabComponent implements AfterViewInit, OnChanges, OnDestroy {
     }
   };
 
-  onClickTabItem = (event: { event: Event; id: string }) => {
-    if (event.id !== this.selectedTabId()) {
-      this.change.emit(event.id);
+  onClickTabItem = (id: string) => {
+    if (id !== this.selectedTabId()) {
+      this.change.emit(id);
       if (!this.shouldDisplayDropdown()) {
-        const newTab = this.getTabItem(event.id)?.tabItemRef()?.nativeElement;
+        const newTab = this.getTabItem(id)?.tabItemRef()?.nativeElement;
         if (newTab) {
           const container = this.containerRef()?.nativeElement;
           if (container) {
