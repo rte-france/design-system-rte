@@ -1,6 +1,8 @@
 @use '@design-system-rte/core/design-tokens/main.scss' as *;
 
 .container {
+  width: 100%;
+
   &[data-label-position='side'] {
     display: flex;
     flex-direction: row;
@@ -15,9 +17,9 @@
   flex-direction: column;
   align-items: flex-start;
   gap: $positive-spacing_0;
-  flex-shrink: 0;
   border-radius: $radius-none;
   opacity: $opacity-100;
+  width: 100%;
 
   &[data-label-position='side'] {
     flex-grow: 1;
