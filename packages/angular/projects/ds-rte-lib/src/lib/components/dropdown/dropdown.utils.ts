@@ -24,8 +24,8 @@ export const focusPreviousElement = (dropdown: HTMLElement) => {
   }
 };
 
-export const focusChildDropdownFirstElement = (childDropdownId: string) => {
-  const childDropdown = document.querySelector(`[data-dropdown-id='${childDropdownId}']`);
+export const focusDropdownFirstElement = (dropdownId: string) => {
+  const childDropdown = document.querySelector(`[data-menu-id='${dropdownId}']`);
   if (childDropdown) {
     const allChildDropdownElement = childDropdown?.querySelectorAll<HTMLElement>('li[role="menuitem"]');
     allChildDropdownElement[0]?.focus();
@@ -34,7 +34,7 @@ export const focusChildDropdownFirstElement = (childDropdownId: string) => {
 
 export const focusParentDropdownFirstElement = (dropdownId: string) => {
   const parentDropdownId = DropdownManager.getParentDropdownId(dropdownId);
-  const parentDropdown = document.querySelector(`[data-dropdown-id='${parentDropdownId}']`);
+  const parentDropdown = document.querySelector(`[data-menu-id='${parentDropdownId}']`);
   parentDropdown?.querySelector<HTMLElement>("[data-active=true]")?.focus();
 };
 

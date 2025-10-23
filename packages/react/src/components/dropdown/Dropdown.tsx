@@ -1,4 +1,4 @@
-import { Position } from "@design-system-rte/core/components/common/common-types";
+import { Alignment, Position } from "@design-system-rte/core/components/common/common-types";
 import { DropdownProps as CoreDropdownProps } from "@design-system-rte/core/components/dropdown/dropdown.interface";
 import { DropdownManager } from "@design-system-rte/core/components/dropdown/DropdownManager";
 import {
@@ -24,7 +24,7 @@ import { concatClassNames } from "../utils";
 import { DropdownParentContext } from "./context/DropdownContext";
 import { DropdownContextProvider } from "./context/DropdownContextProvider";
 import styles from "./Dropdown.module.scss";
-import { focusNextElement, focusPreviousElement } from "./DropdownUtils";
+import { focusDropdownFirstElement, focusNextElement, focusPreviousElement } from "./DropdownUtils";
 import { useDropdownState } from "./hooks/useDropdownState";
 
 interface DropdownProps extends CoreDropdownProps, React.HTMLAttributes<HTMLDivElement> {
@@ -45,6 +45,7 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
       onClose = () => {},
       children,
       offset = 0,
+      alignment = "start",
       ...props
     },
     ref,
@@ -88,7 +89,7 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
       DropdownManager.closeAll();
     }, [closeRoot, hasParent, onClose]);
 
-    const handleKeyUp = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
       if (e.key === ARROW_DOWN_KEY || e.key === ARROW_UP_KEY) {
         e.stopPropagation();
         e.preventDefault();
@@ -101,7 +102,9 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
           focusPreviousElement(dropdownElement);
         }
       }
+    };
 
+    const handleKeyUp = (e: React.KeyboardEvent<HTMLDivElement>) => {
       if (e.key === ESCAPE_KEY) {
         closeDropdown();
       }
@@ -114,8 +117,16 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
         focusNextElement(dropdownElement);
       }
     };
+
+    const handleOnKeyUpTrigger = (e: React.KeyboardEvent<HTMLDivElement>) => {
+      if (e.key === TAB_KEY) {
+        if (dropdownElement === null) return;
+        e.preventDefault();
+        focusNextElement(dropdownElement);
+      }
+    };
     const { onKeyDown, onKeyUp } = useActiveKeyboard<HTMLDivElement>(
-      { onKeyUp: handleKeyUp },
+      { onKeyUp: handleKeyUp, onKeyDown: handleKeyDown },
       {
         interactiveKeyCodes: [SPACE_KEY, ENTER_KEY, TAB_KEY, ARROW_DOWN_KEY, ARROW_UP_KEY, ESCAPE_KEY],
       },
@@ -157,10 +168,10 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
     );
 
     const positionDropdown = useCallback(
-      (triggerElement: HTMLDivElement, dropdownElement: HTMLDivElement, position: Position) => {
+      (triggerElement: HTMLDivElement, dropdownElement: HTMLDivElement, position: Position, alignment: Alignment) => {
         const computedPosition =
           position === "auto" ? getAutoPlacementDropdown(triggerElement!, dropdownElement!, "bottom") : position;
-        const autoAlignment = getAutoAlignment(triggerElement!, dropdownElement!, computedPosition);
+        const autoAlignment = alignment ?? getAutoAlignment(triggerElement!, dropdownElement!, computedPosition);
         const computedCoordinates = getCoordinates(
           computedPosition,
           triggerElement!,
@@ -176,18 +187,29 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
     );
 
     useEffect(() => {
-      if (!isOpen) return;
       if (!triggerElement || !dropdownElement) return;
       if (hasParent) {
         positionChildDropdown(triggerElement, dropdownElement);
       } else {
-        positionDropdown(triggerElement, dropdownElement, position);
+        positionDropdown(triggerElement, dropdownElement, position, alignment);
       }
-    }, [isOpen, hasParent, dropdownElement, triggerElement, position, positionChildDropdown, positionDropdown]);
+    }, [hasParent, dropdownElement, triggerElement, position, alignment, positionChildDropdown, positionDropdown]);
+
+    useEffect(() => {
+      if (isOpen && dropdownElement) {
+        focusDropdownFirstElement(autoId);
+      }
+    }, [isOpen, autoId, dropdownElement]);
 
     return (
       <DropdownContextProvider dropdownId={autoId} closeRoot={closeDropdown} autoClose={autoClose}>
-        <div ref={triggerCallbackRef} className={styles.trigger} tabIndex={-1} onKeyDown={handleOnKeyDownTrigger}>
+        <div
+          ref={triggerCallbackRef}
+          className={styles.trigger}
+          tabIndex={-1}
+          onKeyDown={handleOnKeyDownTrigger}
+          onKeyUp={handleOnKeyUpTrigger}
+        >
           {trigger}
         </div>
 

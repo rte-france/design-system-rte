@@ -1,4 +1,4 @@
-import { DOWN_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
+import { ARROW_DOWN_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 import { Meta, StoryObj } from "@storybook/react";
 import { expect, fn, userEvent, waitFor, within } from "@storybook/test";
 
@@ -26,9 +26,6 @@ const meta = {
     compactSpacing: {
       control: "boolean",
     },
-    selected: {
-      control: "boolean",
-    },
     position: {
       control: "select",
       options: ["bottom-start", "bottom-end", "top-start", "top-end"],
@@ -50,38 +47,12 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const mockFn = fn();
-const mockChildren = (
-  <div style={{ display: "flex", flexDirection: "column", gap: 8, minWidth: 120 }}>
-    <button
-      style={{
-        padding: "8px 16px",
-        border: "none",
-        borderRadius: 4,
-        background: "#2563eb",
-        color: "#fff",
-        fontWeight: 500,
-        fontSize: 15,
-        cursor: "pointer",
-      }}
-    >
-      Action 1
-    </button>
-    <button
-      style={{
-        padding: "8px 16px",
-        border: "none",
-        borderRadius: 4,
-        background: "#64748b",
-        color: "#fff",
-        fontWeight: 500,
-        fontSize: 15,
-        cursor: "pointer",
-      }}
-    >
-      Action 2
-    </button>
-  </div>
-);
+
+const defaultOptions = [
+  { id: "option-1", label: "Option 1", onClick: () => console.log("Option 1 clicked") },
+  { id: "option-2", label: "Option 2", onClick: () => console.log("Option 2 clicked") },
+  { id: "option-3", label: "Option 3", onClick: () => console.log("Option 3 clicked") },
+];
 
 export const Default: Story = {
   args: {
@@ -92,7 +63,7 @@ export const Default: Story = {
     disabled: false,
     ariaLabelRight: "Open menu",
     onClick: mockFn(),
-    children: mockChildren,
+    options: defaultOptions,
   },
   render: (args) => (
     <>
@@ -178,11 +149,10 @@ export const KeyboardInteraction: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const button = canvas.getByTestId("Menu button");
-    const menuContainer = canvas.getByTestId("Menu container");
     await userEvent.tab();
     await userEvent.tab();
     expect(button).toHaveFocus();
-    await userEvent.keyboard(`{${DOWN_KEY}}`);
-    await waitFor(() => expect(menuContainer).toBeVisible());
+    await userEvent.keyboard(`{${ARROW_DOWN_KEY}}`);
+    await waitFor(() => expect(document.body.querySelector('[data-testid = "Menu container"]')).toBeVisible());
   },
 };
