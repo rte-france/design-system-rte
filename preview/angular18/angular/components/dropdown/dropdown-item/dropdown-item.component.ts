@@ -13,6 +13,7 @@ export interface DropdownItemConfig {
   disabled?: boolean;
   hasSeparator?: boolean;
   hasIndent?: boolean;
+  link?: string;
   click?: EventEmitter<Event>;
 }
 
@@ -38,10 +39,13 @@ export class DropdownItemComponent {
   }
 
   handleKeyDown(event: KeyboardEvent): void {
-    if ([SPACE_KEY, ENTER_KEY].includes(event.key)) {
-      event.preventDefault();
+    event.preventDefault();
 
-      if (!this.item()?.disabled) {
+    if ([SPACE_KEY, ENTER_KEY].includes(event.key)) {
+      if (this.item()?.link) {
+        const link = (event.target as HTMLElement).closest("li")?.querySelector("a");
+        link?.click();
+      } else {
         this.itemEvent.emit({ event, id: this.item()?.id || this.item()?.label || "" });
       }
     }
