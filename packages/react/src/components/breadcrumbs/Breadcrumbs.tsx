@@ -50,7 +50,6 @@ const Breadcrumbs = forwardRef<HTMLDivElement, BreadcrumbsProps>(
               trigger={
                 <IconButton
                   name="more-horiz"
-                  size="s"
                   data-testid="show-more"
                   variant="neutral"
                   compactSpacing
