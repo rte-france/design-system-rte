@@ -10,8 +10,8 @@ import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
 
 import useAnimatedMount from "../../hooks/useAnimatedMount";
 import { useClickAway } from "../../hooks/useClickAway";
-import { useKeydownEscape } from "../../hooks/useCloseOnEscape";
 import { useFocusTrap } from "../../hooks/useFocusTrap";
+import { useKeydownEscape } from "../../hooks/useKeydownEscape";
 import { useScrollEvent } from "../../hooks/useScrollEvent";
 import Button from "../button/Button";
 import { Overlay } from "../overlay/Overlay";
