@@ -41,11 +41,13 @@ export class DropdownItemComponent {
   handleKeyDown(event: KeyboardEvent): void {
     event.preventDefault();
 
-    if (this.item()?.link) {
-      const link = (event.target as HTMLElement).closest("li")?.querySelector("a");
-      link?.click();
-    } else if ([SPACE_KEY, ENTER_KEY].includes(event.key)) {
-      this.itemEvent.emit({ event, id: this.item()?.id || this.item()?.label || "" });
+    if ([SPACE_KEY, ENTER_KEY].includes(event.key)) {
+      if (this.item()?.link) {
+        const link = (event.target as HTMLElement).closest("li")?.querySelector("a");
+        link?.click();
+      } else {
+        this.itemEvent.emit({ event, id: this.item()?.id || this.item()?.label || "" });
+      }
     }
   }
 }
