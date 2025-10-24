@@ -2,6 +2,47 @@
 
 # Angular
 
+## 0.14.0
+
+### Angular 18
+
+#### Minor Changes
+
+- Update Angular package to Angular@18 from @17
+
+### Breadcrumbs
+
+#### Minor Changes
+
+- change truncated breadcrumbs icon size from small to medium
+- integrate dropdown with breadcrumbs
+- add dropdown to display truncated links
+
+### Dropdown
+
+#### Minor Changes
+
+- correct dropdown keyboard navigation
+
+### Icon-button
+
+#### Minor Changes
+
+- set correct focus style
+
+### Tab
+
+#### Patch Changes
+
+- correct angular's tab navigation that was broken after incorporating dropdown behavior
+
+### Other
+
+#### Patch Changes
+
+- Updated dependencies [9e7b2cd]
+- @design-system-rte/core@0.18.0
+
 ## 0.13.0
 
 ### Banner
@@ -142,77 +183,36 @@
 - Updated dependencies [191f1e9]
 - Updated dependencies [21cab4b]
 - @design-system-rte/core@0.16.0
+# React
 
-## 0.11.0
+## 0.13.0
 
-### Segmented Control
-
-#### Minor Changes
-
-- add validation for options to ensure proper configuration
-- set default focus on selected segment
-- force focus on first segment on tab keyboard navigation
-- automatically toggle icon appearance on segment selection state
-- correct frozen animation for segment change used to be handled by a timeout
-- set selected indicator style using signals
-- export component in angular public api
-- extract focus handling logic into utils file
-- use design token for outline width
-- rename slider to selected indicator and harmonise related logic
-- harmonise style + keyboard interaction
-- improve keyboard interaction support
-- add angular component
-
-### Segmented-control
+### Breadcrumbs
 
 #### Minor Changes
 
-- increase width to display full segment label
+- change truncated breadcrumbs icon size from small to medium
+- integrate dropdown with breadcrumbs
+- add dropdown to display truncated links
 
-### Switch
-
-#### Minor Changes
-
-- implement switch component with functionality and styling
-
-### Storybook
+### Dropdown
 
 #### Minor Changes
 
-- add dark theme background for stories
+- correct dropdown keyboard navigation
 
-### Divider
-
-#### Minor Changes
-
-- add Divider component with customizable orientation, thickness, appearance, and endPoint
-
-### Storybook-badge
+### Icon-button
 
 #### Minor Changes
 
-- add Badge component stories and documentation for angular and update styles and structure for consistency
-
-### Grid
-
-#### Minor Changes
-
-- set directive selector to rteCol & rteGrid to respect Angular style guidelines
+- set correct focus style
 
 ### Other
 
-#### Minor Changes
-
-- remove event.stopPropagation calls in key event handlers
-
 #### Patch Changes
 
-- Updated dependencies [4dead3f]
-- Updated dependencies [f2f7349]
-- Updated dependencies [7d41c21]
-- Updated dependencies [cbd90b0]
-- @design-system-rte/core@0.15.0
-# React
+- Updated dependencies [9e7b2cd]
+- @design-system-rte/core@0.18.0
 
 ## 0.12.0
 
@@ -343,80 +343,24 @@
 - Updated dependencies [191f1e9]
 - Updated dependencies [21cab4b]
 - @design-system-rte/core@0.16.0
+# Core
 
-## 0.10.0
+## 0.18.0
 
-### Segmented Control
-
-#### Minor Changes
-
-- extract updateSlider function
-- add validation for options to ensure proper configuration
-- set default focus on selected segment
-- force focus on first segment on tab keyboard navigation
-- automatically toggle icon appearance on segment selection state
-- set selected indicator style using signals
-- extract focus handling logic into utils file
-- use design token for outline width
-- improve focus handling by referencing parent element for segment queries
-- rename slider to selected indicator and harmonise related logic
-- harmonise style + keyboard interaction
-- improve keyboard interaction support
-- add angular component
-- extract props types and constants to core
-- add react component
-
-### Segmented-control
+### Dropdown
 
 #### Minor Changes
 
-- increase width to display full segment label
+- correct dropdown keyboard navigation
 
-### Icon
-
-#### Minor Changes
-
-- set name props as string type
-
-### Switch
+### Breadcrumbs
 
 #### Minor Changes
 
-- added switch component to React with style and functionality
-
-### Storybook
-
-#### Minor Changes
-
-- add dark theme background for stories
-
-### Divider
-
-#### Minor Changes
-
-- implement Divider component with orientation, thickness, appearance, and endPoint
-
-### Storybook-badge
-
-#### Minor Changes
-
-- add Badge component documentation
+- integrate dropdown with breadcrumbs
 
 ### Other
 
-#### Minor Changes
-
-- remove event.stopPropagation calls in key event handlers
-- add storybook interactions tests
-
-#### Patch Changes
-
-- Updated dependencies [4dead3f]
-- Updated dependencies [f2f7349]
-- Updated dependencies [7d41c21]
-- Updated dependencies [cbd90b0]
-- @design-system-rte/core@0.15.0
-# Core
 
 ## 0.17.0
 
@@ -515,42 +459,6 @@
 #### Minor Changes
 
 - add TextInput component documentation and stories with accessibility guidelines and various interaction states
-
-## 0.15.0
-
-### Segmented Control
-
-#### Minor Changes
-
-- automatically toggle icon appearance on segment selection state
-- extract focus handling logic into utils file
-- add angular component
-- extract props types and constants to core
-- add react component
-
-### Switch
-
-#### Minor Changes
-
-- added switch component to Core with types and interface
-
-### Divider
-
-#### Minor Changes
-
-- implement Divider component types with orientation, thickness, appearance, and endPoint
-
-### Storybook-badge
-
-#### Minor Changes
-
-- add Badge component documentation
-
-### Other
-
-#### Minor Changes
-
-- add storybook interactions tests
 # Design Docs
 
 ## 0.7.0
