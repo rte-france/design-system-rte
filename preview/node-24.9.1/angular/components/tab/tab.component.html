@@ -1,0 +1,94 @@
+<div class="rte-tab-container" [attr.data-direction]="direction()">
+  <div
+    class="rte-tab-border-vertical"
+    aria-hidden="true"
+    role="presentation"
+    [attr.data-direction]="direction()"
+  ></div>
+  <div
+    [ngStyle]="{
+      position: 'relative',
+      display: 'flex',
+      'align-items': 'center',
+      'flex-direction': direction() === 'horizontal' ? 'row' : 'column',
+    }"
+  >
+    <rte-icon-button
+      *ngIf="isScrollable() && !shouldDisplayDropdown()"
+      aria-label="Previous tabs"
+      variant="transparent"
+      [name]="
+        direction() === 'horizontal' ? 'arrow-chevron-left' : 'arrow-chevron-up'
+      "
+      [ngStyle]="{
+        opacity: canScrollBackward() ? '1' : '0',
+        'pointer-events': canScrollBackward() ? 'auto' : 'none',
+      }"
+      (click)="scrollBackward()"
+    />
+    <div
+      #tabList
+      role="tablist"
+      aria-label="Sample Tabs"
+      class="rte-tab"
+      [attr.data-alignment]="shouldDisplayDropdown() ? 'start' : alignment()"
+      [attr.data-direction]="direction()"
+      [attr.data-overflow-type]="overflowType()"
+    >
+      <span
+        class="rte-tab-selected-indicator"
+        [ngStyle]="tabItemSelectedIndicatorStyle()"
+      ></span>      
+      <div *ngIf="shouldDisplayDropdown() && options().length" rteDropdown [rteDropdownOffset]="10" (menuEvent)="onClickTabItem($event.id)">
+        <button rteDropdownTrigger
+          class="rte-tab-dropdown-button"
+          [attr.data-inverted]="inverted()"
+          [attr.data-overflow-type]="overflowType()" 
+        >
+          <rte-icon *ngIf="selectedTab()?.icon" appearance="filled" [name]="selectedTab()?.icon!"></rte-icon>
+          <span *ngIf="selectedTab()?.label">{{ selectedTab()?.label }}</span>
+          <rte-badge *ngIf="selectedTab()?.badgeCount && selectedTab()?.badgeContent === 'number'" [badgeType]="selectedTab()?.badgeType!" [badgeContent]="selectedTab()?.badgeContent!" [count]="selectedTab()?.badgeCount" [simpleBadge]="true"></rte-badge>
+          <rte-icon name="arrow-chevron-down" appearance="outlined"></rte-icon>
+        </button>
+        <rte-dropdown-menu [items]="dropdownFilteredOptions()" />
+      </div>
+      <ng-container *ngFor="let option of options(); let idx = index">
+        <rte-tab-item
+          #tabItem
+          [option]="option"
+          [direction]="direction()"
+          [compactSpacing]="compactSpacing()"
+          [isSelected]="isSelected(option.id)"
+          [inverted]="inverted()"
+          [attr.data-hidden]="shouldDisplayDropdown()"
+          [isHidden]="shouldDisplayDropdown()"
+          (keydown)="onKeydownTabItem($event)"
+          (click)="onClickTabItem(option.id)"
+        ></rte-tab-item>
+      </ng-container>
+    </div>
+    <rte-icon-button
+      *ngIf="isScrollable() && !shouldDisplayDropdown()"
+      aria-label="Next tabs"
+      variant="transparent"
+      [name]="
+        direction() === 'horizontal'
+          ? 'arrow-chevron-right'
+          : 'arrow-chevron-down'
+      "
+      [ngStyle]="{
+        opacity: canScrollForward() ? '1' : '0',
+        'pointer-events': canScrollForward() ? 'auto' : 'none',
+      }"
+      (click)="scrollForward()"
+    />
+  </div>
+  <div
+    class="rte-tab-border-horizontal"
+    aria-hidden="true"
+    role="presentation"
+    [attr.data-direction]="direction()"
+    [attr.data-compact-spacing]="compactSpacing()"
+    [attr.data-scrollable]="isScrollable() && overflowType() === 'scrollable'"
+  ></div>
+</div>
