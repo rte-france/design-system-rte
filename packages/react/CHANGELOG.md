@@ -1,11 +1,26 @@
 # @design-system-rte/react
 
+## 0.13.0
+
+### Minor Changes
+
+- 9e7b2cd: ## Changes
+  - (Breadcrumbs) change truncated breadcrumbs icon size from small to medium
+  - (Dropdown) correct dropdown keyboard navigation
+  - (Breadcrumbs) integrate dropdown with breadcrumbs
+  - (Icon-button) set correct focus style
+  - (Breadcrumbs) add dropdown to display truncated links
+
+### Patch Changes
+
+- Updated dependencies [9e7b2cd]
+  - @design-system-rte/core@0.18.0
+
 ## 0.12.0
 
 ### Minor Changes
 
 - a901693: ## Changes
-
   - (Banner) conditionally render message and title in banner component + set correct action button size
   - (Banner) add component to tests apps
   - (Banner) add internal state to handle banner visibility
@@ -13,7 +28,6 @@
   - (Banner) add react component
 
 - 00ec1aa: ## Changes
-
   - (Tab) add overflow type stories
   - (Tab) add overflow type and dropdown support for angular tab component
   - (Tab) extract scroll methods in utils
@@ -29,7 +43,6 @@
   - add script to scaffold react component
 
 - 0cb0e68: ## Changes
-
   - (Popover) add popover
 
 ### Patch Changes
@@ -45,11 +58,9 @@
 ### Minor Changes
 
 - 5e685f0: ## Changes
-
   - (Loader) add Loader component for react
 
 - 191f1e9: ## Changes
-
   - (Segmented-control) added Segmented-control documentation for storybook and stories
   - (Loader) added Loader documentation for storybook and stories
   - (Textarea) added Textarea documentation for storybook and stories
@@ -60,7 +71,6 @@
   - (Tag) added Tag documentation for storybook and stories
 
 - 21cab4b: ## Changes
-
   - (Breadcrumbs) correct unadressed accessibility criteria
   - (Breadcrumbs) correct missing nav tag for Breadcrumbs
   - (Breadcrumbs) correct breadcrumbs-head styling
@@ -70,7 +80,6 @@
 ### Patch Changes
 
 - d282e25: ## Changes
-
   - add missing default font colors for Checkbox, Icon & Radio Button
 
 - Updated dependencies [5e685f0]
@@ -83,7 +92,6 @@
 ### Minor Changes
 
 - 4dead3f: ## Changes
-
   - (Segmented Control) extract updateSlider function
   - (Segmented Control) add validation for options to ensure proper configuration
   - (Segmented-control) increase width to display full segment label
@@ -105,19 +113,15 @@
   - (Icon) set name props as string type
 
 - f2f7349: ## Changes
-
   - (Switch) added switch component to React with style and functionality
 
 - bc8c22e: ## Changes
-
   - (Storybook) add dark theme background for stories
 
 - 7d41c21: ## Changes
-
   - (Divider) implement Divider component with orientation, thickness, appearance, and endPoint
 
 - cbd90b0: ## Changes
-
   - (Storybook-badge) add Badge component documentation
 
 ### Patch Changes
@@ -133,7 +137,6 @@
 ### Patch Changes
 
 - 7156472: ## Changes
-
   - correct TextInput cursor for React
 
 - Updated dependencies [db7edfd]
@@ -144,7 +147,6 @@
 ### Minor Changes
 
 - 89289e7: ## Changes
-
   - (textarea) update focus, error styles border and cursor on readonly and disabled
   - (textarea) add showCounter variable to display counter
   - (textarea) set correct style for label in side position
@@ -165,7 +167,6 @@
   - update changeDetectionStrategy for angular components
 
 - f6bb90d: ## Changes
-
   - add decorative brand example
   - set correct success icon
   - set correct color token name
@@ -188,7 +189,6 @@
 ### Minor Changes
 
 - b824254: ## Changes
-
   - correct Badge display for icon & text
   - enhance Badge component with improved class bindings and styling options
   - add react component
@@ -204,7 +204,6 @@
 ### Minor Changes
 
 - ae703ee: ## Changes
-
   - set Arial font to stories
   - add keyboard test constants file
   - enrich useActiveKeyboard handler parameters with more keyboard event case and remove unused isActiveKeyboard state
@@ -234,7 +233,6 @@
 ### Patch Changes
 
 - 9fcc804: ## Changes
-
   - remove ongoing development marker
   - add correct behaviour on click
 
@@ -246,7 +244,6 @@
 ### Minor Changes
 
 - 0c0177e: ## Changes
-
   - simplify aria attributes handling for TextInput
   - correct right-icon default behavior & positioning in InputText
   - correct leftIcon display for TextInput
@@ -268,7 +265,6 @@
 ### Minor Changes
 
 - 0684f1c: ## Changes
-
   - harmonise togglable variable name
   - update generate:icon command to add icon map generation
   - use capitalise variable name for Regular and Togglable icons
@@ -292,7 +288,6 @@
 ### Patch Changes
 
 - 3ae37a6: ## Changes
-
   - correct left-button styling for SplitButton
   - correct right-button sizing for SplitButton
 
@@ -301,7 +296,6 @@
 ### Patch Changes
 
 - e07ebe6: ## Changes
-
   - repair react public API to include SplitButton & Tooltip
 
 ## 0.4.0
