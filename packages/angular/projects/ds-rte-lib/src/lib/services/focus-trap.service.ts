@@ -1,4 +1,4 @@
-import { Injectable, Renderer2, RendererFactory2 } from "@angular/core";
+import { inject, Injectable, Renderer2, RendererFactory2 } from "@angular/core";
 import { FOCUSABLE_ELEMENTS_QUERY } from "@design-system-rte/core/constants/dom/dom.constants";
 
 @Injectable({ providedIn: "root" })
@@ -9,8 +9,10 @@ export class FocusTrapService {
   private previouslyFocusedElement: HTMLElement | null = null;
   private focusable: HTMLElement[] = [];
 
-  constructor(private rendererFactory: RendererFactory2) {
-    this.renderer = rendererFactory.createRenderer(null, null);
+  private rendererFactory = inject(RendererFactory2);
+
+  constructor() {
+    this.renderer = this.rendererFactory.createRenderer(null, null);
   }
 
   activate(element: HTMLElement) {
