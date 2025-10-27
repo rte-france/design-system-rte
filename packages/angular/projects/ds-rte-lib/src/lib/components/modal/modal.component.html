@@ -18,7 +18,12 @@
   >
     <div class="rte-modal-header">
       <div class="rte-modal-header-text">
-        <rte-icon *ngIf="icon()" [name]="icon() ?? ''" [size]="32" />
+        <rte-icon
+          *ngIf="icon()"
+          [name]="icon() ?? ''"
+          [size]="iconSize()"
+          [appearance]="iconAppearance()"
+        />
         <h2 class="rte-modal-title" [id]="id() + '-modal-title'">
           {{ title() }}
         </h2>

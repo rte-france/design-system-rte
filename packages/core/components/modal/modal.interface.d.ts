@@ -6,6 +6,7 @@ export interface ModalProps {
   closeOnOverlayClick?: boolean;
   isOpen: boolean;
   icon?: string;
+  iconAppearance?: "outlined" | "filled";
   description?: string;
   size?: ModalSize;
 }

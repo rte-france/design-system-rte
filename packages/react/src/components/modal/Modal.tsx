@@ -33,6 +33,7 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
       isOpen,
       title,
       icon,
+      iconAppearance,
       description,
       primaryButton,
       secondaryButton,
@@ -78,7 +79,7 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
             >
               <div className={styles["modal-header"]}>
                 <div className={styles["modal-header-text"]}>
-                  {icon && <Icon name={icon} size={IconSize["xl"]} />}
+                  {icon && <Icon name={icon} size={IconSize["xl"]} appearance={iconAppearance} />}
                   <h2 id={`${id}-modal-title`} className={styles["modal-title"]}>
                     {title}
                   </h2>
