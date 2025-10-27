@@ -122,7 +122,9 @@ export const Closable: Story = {
           [isOpen]="isOpen"
           (close)="close()"
           />
-        <rte-button [label]="isOpen ? 'Hide banner' : 'Show banner' " (click)="toggleBanner()" style="margin-top: 16px;"/>
+        <button rteButton (click)="toggleBanner()" style="margin-top: 16px;">
+          {{ isOpen ? 'Hide banner' : 'Show banner' }}
+        </button>
     </div>
     `,
   }),
@@ -194,7 +196,9 @@ export const Overlay: Story = {
         [position]="position"
       />
     <div style="display: flex; flex-direction: column; gap: 16px;">
-        <rte-button [label]="isOpen ? 'Hide banner' : 'Show banner' " (click)="toggleBanner()" style="margin-top: 16px;"/>
+        <button rteButton (click)="toggleBanner()" style="margin-top: 16px;">
+          {{ isOpen ? 'Hide banner' : 'Show banner' }}
+        </button>
          <rte-switch
             label="{{position === 'overlay' ? 'Overlay' : 'Push'}} mode"
             [checked]="position === 'overlay'"
@@ -254,7 +258,9 @@ export const KeyboardInteraction: Story = {
           [actionLabel]="actionLabel"
           (click)="actionCallback()"
           />
-        <rte-button [label]="isOpen ? 'Hide banner' : 'Show banner' " (click)="toggleBanner()" style="margin-top: 16px;"/>
+        <button rteButton (click)="toggleBanner()" style="margin-top: 16px;">
+          {{ isOpen ? 'Hide banner' : 'Show banner' }}
+        </button>
     </div>
     `,
   }),
