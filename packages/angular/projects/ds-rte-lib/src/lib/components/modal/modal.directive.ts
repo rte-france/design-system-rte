@@ -33,6 +33,7 @@ export class ModalDirective implements AfterContentInit, OnDestroy {
 
   readonly rteModalId = input<string | undefined>();
   readonly rteModalIcon = input<string | undefined>();
+  readonly rteModalIconAppearance = input<"outlined" | "filled">("outlined");
   readonly rteModalTitle = input<string>();
   readonly rteModalDescription = input<string>();
   readonly rteModalIsOpen = input<boolean>(false);
@@ -106,6 +107,7 @@ export class ModalDirective implements AfterContentInit, OnDestroy {
     if (this.modalCompRef) {
       this.modalCompRef.setInput("id", this.rteModalId());
       this.modalCompRef.setInput("icon", this.rteModalIcon());
+      this.modalCompRef.setInput("iconAppearance", this.rteModalIconAppearance());
       this.modalCompRef.setInput("title", this.rteModalTitle());
       this.modalCompRef.setInput("description", this.rteModalDescription());
       this.modalCompRef.setInput("size", this.rteModalSize());

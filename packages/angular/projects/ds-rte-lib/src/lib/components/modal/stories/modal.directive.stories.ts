@@ -18,6 +18,12 @@ const meta: Meta<ModalDirective> = {
   argTypes: {
     rteModalId: { control: "text", description: "ID of the modal", defaultValue: undefined },
     rteModalIcon: { control: "text", description: "Icon name for the modal", defaultValue: undefined },
+    rteModalIconAppearance: {
+      control: "select",
+      options: ["outlined", "filled"],
+      description: "Icon appearance for the modal",
+      defaultValue: "outlined",
+    },
     rteModalTitle: { control: "text", description: "Title of the modal", defaultValue: "Modal Title" },
     rteModalDescription: {
       control: "text",
@@ -58,6 +64,7 @@ export const Default: Story = {
     rteModalAriaDescribedby: undefined,
     rteModalSize: "xs",
     rteModalIcon: "wifi",
+    rteModalIconAppearance: "filled",
     rteModalCloseOnClickOutside: true,
   },
   render: (args) => ({
@@ -70,6 +77,7 @@ export const Default: Story = {
     template: `<div
                 rteModal
                 [rteModalId]="rteModalId"
+                [rteModalIconAppearance]="rteModalIconAppearance"
                 [rteModalTitle]="rteModalTitle"
                 [rteModalDescription]="rteModalDescription"
                 [rteModalSize]="rteModalSize"
@@ -96,6 +104,7 @@ export const Sizes: Story = {
     }),
   ],
   args: {
+    ...Default.args,
     rteModalTitle: "Modal Title",
     rteModalDescription:
       "La Modal (ou fenêtre modale) est un composant de superposition (overlay) qui interrompt le flux principal pour afficher un contenu ou solliciter une action de l’utilisateur. Elle nécessite une interaction explicite pour être fermée. Elle se superpose au contenu existant avec un fond atténué (overlay) et capte le focus tant qu’elle est ouverte.",
@@ -116,6 +125,7 @@ export const Sizes: Story = {
     <div
                 rteModal
                 [rteModalId]="'modal-xs'"
+                [rteModalIconAppearance]="rteModalIconAppearance"
                 [rteModalTitle]="rteModalTitle"
                 [rteModalDescription]="rteModalDescription"
                 [rteModalSize]="'xs'"
@@ -134,6 +144,7 @@ export const Sizes: Story = {
               <div
                 rteModal
                 [rteModalId]="'modal-s'"
+                [rteModalIconAppearance]="rteModalIconAppearance"
                 [rteModalTitle]="rteModalTitle"
                 [rteModalDescription]="rteModalDescription"
                 [rteModalSize]="'s'"
@@ -152,6 +163,7 @@ export const Sizes: Story = {
               <div
                 rteModal
                 [rteModalId]="'modal-m'"
+                [rteModalIconAppearance]="rteModalIconAppearance"
                 [rteModalTitle]="rteModalTitle"
                 [rteModalDescription]="rteModalDescription"
                 [rteModalSize]="'m'"
@@ -170,6 +182,7 @@ export const Sizes: Story = {
               <div
                 rteModal
                 [rteModalId]="'modal-l'"
+                [rteModalIconAppearance]="rteModalIconAppearance"
                 [rteModalTitle]="rteModalTitle"
                 [rteModalDescription]="rteModalDescription"
                 [rteModalSize]="'l'"
@@ -188,6 +201,7 @@ export const Sizes: Story = {
               <div
                 rteModal
                 [rteModalId]="'modal-xl'"
+                [rteModalIconAppearance]="rteModalIconAppearance"
                 [rteModalTitle]="rteModalTitle"
                 [rteModalDescription]="rteModalDescription"
                 [rteModalSize]="'xl'"
@@ -215,6 +229,7 @@ export const WithCustomContent: Story = {
     }),
   ],
   args: {
+    ...Default.args,
     rteModalId: "modal-2",
     rteModalTitle: "Préciser le motif du refus",
     rteModalDescription:
@@ -232,6 +247,7 @@ export const WithCustomContent: Story = {
     template: `<div
                 rteModal
                 [rteModalId]="rteModalId"
+                [rteModalIconAppearance]="rteModalIconAppearance"
                 [rteModalTitle]="rteModalTitle"
                 [rteModalDescription]="rteModalDescription"
                 [rteModalSize]="rteModalSize"
@@ -261,6 +277,7 @@ export const KeyboardInteraction: Story = {
     }),
   ],
   args: {
+    ...Default.args,
     rteModalId: "modal-3",
     rteModalTitle: "Delete 3 documents",
     rteModalDescription: "The selected documents will be deleted.",
@@ -281,6 +298,7 @@ export const KeyboardInteraction: Story = {
     template: `<div
                 rteModal
                 [rteModalId]="rteModalId"
+                [rteModalIconAppearance]="rteModalIconAppearance"
                 [rteModalTitle]="rteModalTitle"
                 [rteModalDescription]="rteModalDescription"
                 [rteModalSize]="rteModalSize"

@@ -19,6 +19,7 @@ const meta = {
     id: { control: "text" },
     title: { control: "text" },
     icon: { control: "text" },
+    iconAppearance: { control: "select", options: ["outlined", "filled"] },
     description: { control: "text" },
     size: { control: "select", options: ["xs", "s", "m", "l", "xl"] },
     closeOnOverlayClick: { control: "boolean" },
@@ -37,6 +38,7 @@ export const Default: Story = {
     isOpen: false,
     title: "Connect to Wi-Fi",
     icon: "wifi",
+    iconAppearance: "outlined",
     description: "Please connect to wifi to synchronise your projects or go to Settings to change your preferences.",
     primaryButton: <Button variant="primary" label="Continue" />,
     secondaryButton: <Button variant="neutral" label="Cancel" />,
@@ -57,6 +59,7 @@ export const Default: Story = {
 
 export const Sizes: Story = {
   args: {
+    ...Default.args,
     id: "modal-1",
     onClose: () => {},
     isOpen: false,
@@ -114,6 +117,7 @@ export const Sizes: Story = {
 
 export const withCustomContent: Story = {
   args: {
+    ...Default.args,
     id: "modal-2",
     onClose: () => {},
     isOpen: false,
@@ -140,6 +144,7 @@ export const withCustomContent: Story = {
 
 export const KeyboardInteraction: Story = {
   args: {
+    ...Default.args,
     id: "modal-3",
     onClose: () => {},
     isOpen: false,
