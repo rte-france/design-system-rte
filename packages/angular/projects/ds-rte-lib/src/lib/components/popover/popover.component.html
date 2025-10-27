@@ -16,17 +16,15 @@
       <div class="popoverContent">{{ content() }}</div>
     </div>
     <div class="popoverButtonContainer">
-      <rte-button
-        *ngIf="secondaryButtonLabel()"
-        variant="secondary"
-        [label]="secondaryButtonLabel() || ''"
+      <button *ngIf="secondaryButtonLabel()"
+        rteButton
+        rteButtonVariant="secondary"
         (click)="handleClickSecondaryButton()"
-      />
-      <rte-button
-        variant="primary"
-        [label]="primaryButtonLabel()"
+      >{{ secondaryButtonLabel() }}</button>
+      <button rteButton
+        rteButtonVariant="primary"
         (click)="handleClickPrimaryButton()"
-      />
+      >{{ primaryButtonLabel() }}</button>
     </div>
   </div>
 </div>

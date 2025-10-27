@@ -12,71 +12,55 @@
   title="Alert Banner"
   [isOpen]="isAlertBannerVisible()"
 ></rte-banner>
-<rte-button
-  label="Toggle alert banner"
-  size="m"
+<button rteButton
   [disabled]="false"
   ariaLabel="Home"
   ariaLabelledBy="home"
   buttonType="button"
   (click)="toggleAlertBanner()"
-/>
-<rte-button
-  label="Toggle info banner"
-  size="m"
+>Toggle alert banner</button>
+<button rteButton
   [disabled]="false"
   ariaLabel="Home"
   ariaLabelledBy="home"
   buttonType="button"
   (click)="toggleInfoBanner()"
-/>
+>Toggle info banner</button>
 <hr />
-<rte-button
-  label="Button"
-  variant="primary"
-  size="m"
+<button rteButton
   [disabled]="false"
   icon="home"
   ariaLabel="Home"
   ariaLabelledBy="home"
   buttonType="button"
-/>
+>Button</button>
 
 <rte-icon name="home" />
 
 <hr />
 
 <rte-split-button label="Split Button">
-  <rte-button
-    label="Button"
-    variant="primary"
-    size="m"
+  <button rteButton
     [disabled]="false"
     icon="home"
     ariaLabel="Home"
     ariaLabelledBy="home"
     buttonType="button"
-  />
-  <rte-button
-    label="Button"
-    variant="primary"
-    size="m"
+  >Button</button>
+  <button rteButton
     [disabled]="false"
     icon="home"
     ariaLabel="Home"
     ariaLabelledBy="home"
     buttonType="button"
-  />
-  <rte-button
-    label="Button"
-    variant="primary"
-    size="m"
+  >Button</button>
+  <button rteButton
     [disabled]="false"
     icon="home"
     ariaLabel="Home"
     ariaLabelledBy="home"
     buttonType="button"
-  />
+  >Button</button>
 </rte-split-button>
 
 <hr />
@@ -170,14 +154,11 @@
 <rte-breadcrumbs [items]="breadcrumbItems" />
 <hr />
 <div style="margin-top: 100px; display: flex; justify-content: center">
-  <rte-button
-    label="Hover me"
-    variant="secondary"
-    size="m"
+  <button rteButton
     buttonType="button"
     rtePopover
     rtePopoverPrimaryButtonLabel="Primary"
     rtePopoverContent="This is the popover content"
     rtePopoverTitle="Popover Title"
-  />
+  >Hover me</button>
 </div>
