@@ -4,7 +4,7 @@ import { ButtonSize, ButtonVariant } from "@design-system-rte/core/components/bu
 @Component({
   selector: "button[rteButton]",
   standalone: true,
-  template: "<ng-content/>",
+  templateUrl: "./button.component.html",
   styleUrl: "./button.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
