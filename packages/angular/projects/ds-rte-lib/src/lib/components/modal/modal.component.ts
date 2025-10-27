@@ -9,7 +9,9 @@ import {
   AfterViewInit,
   output,
   inject,
+  signal,
 } from "@angular/core";
+import { IconSize } from "@design-system-rte/core/components/icon/icon.constants";
 
 import { FocusTrapService } from "../../services/focus-trap.service";
 import { ButtonComponent } from "../button/button.component";
@@ -27,6 +29,7 @@ import { IconButtonComponent } from "../icon-button/icon-button.component";
 export class ModalComponent implements AfterViewInit, OnDestroy {
   readonly id = input<string | undefined>();
   readonly icon = input<string | undefined>();
+  readonly iconAppearance = input<"outlined" | "filled">("outlined");
   readonly title = input<string>();
   readonly description = input<string>();
   readonly secondaryButtonLabel = input<string>();
@@ -46,7 +49,10 @@ export class ModalComponent implements AfterViewInit, OnDestroy {
 
   readonly close = output<void>();
 
+  readonly iconSize = signal(IconSize["xl"]);
+
   ngAfterViewInit() {
+    console.log(this.iconAppearance());
     const native = this.elementRef()?.nativeElement;
     if (native) {
       this.focusTrap.activate(native);
