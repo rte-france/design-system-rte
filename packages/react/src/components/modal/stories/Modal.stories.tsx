@@ -124,7 +124,7 @@ export const withCustomContent: Story = {
     secondaryButton: <Button variant="neutral" label="Annuler" />,
     size: "m",
     closeOnOverlayClick: true,
-    children: <Textarea resizeable={false} />,
+    children: <Textarea resizeable={true} />,
   },
 
   render: (args) => {
@@ -146,6 +146,7 @@ export const KeyboardInteraction: Story = {
     title: "Delete 3 documents",
     description: "The selected documents will be deleted.",
     size: "s",
+    icon: "delete",
     closeOnOverlayClick: true,
     primaryButton: <></>,
   },
