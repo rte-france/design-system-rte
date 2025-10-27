@@ -1,0 +1,34 @@
+<section
+  *ngIf="rendering()"
+  class="rte-banner-container {{ type() }} {{ position() }}"
+  [ngClass]="{ open: visible(), close: !visible() }"
+  [attr.role]="type() === 'default' ? 'status' : 'alert'"
+>
+  <div class="rte-banner">
+    <div *ngIf="showIcon()" class="rte-banner-icon">
+      <rte-icon [name]="type() === 'default' ? 'info' : 'error'" [size]="32" />
+    </div>
+    <div class="rte-banner-content">
+      <span *ngIf="title()" class="rte-banner-title">{{ title() }}</span>
+      <div *ngIf="message()" class="rte-banner-message">
+        <span>{{ message() }}</span>
+        <rte-button
+          *ngIf="actionLabel()"
+          variant="neutral"
+          size="s"
+          [label]="actionLabel()!"
+          [ariaLabel]="actionLabel()!"
+          (click)="clickAction()"
+        />
+      </div>
+    </div>
+    <div *ngIf="closable()" class="rte-banner-close-icon">
+      <rte-icon-button
+        name="close"
+        variant="neutral"
+        ariaLabel="close banner"
+        (click)="closeBanner()"
+      />
+    </div>
+  </div>
+</section>
