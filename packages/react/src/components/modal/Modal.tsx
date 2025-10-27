@@ -87,7 +87,7 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
                     name="close"
                     size="l"
                     className={styles["close-icon"]}
-                    variant="transparent"
+                    variant="neutral"
                     onClick={onClose}
                     aria-label={`Close modal ${id}`}
                   />

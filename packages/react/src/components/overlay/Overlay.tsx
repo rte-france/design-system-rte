@@ -36,7 +36,7 @@ export const Overlay = ({ children, freezeNavigation }: OverlayPortalProps) => {
         }
       }
     };
-  }, []);
+  }, [freezeNavigation]);
 
   if (!overlayRoot) return null;
   return <>{createPortal(children, overlayRoot)}</>;
