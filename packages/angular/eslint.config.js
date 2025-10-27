@@ -17,7 +17,7 @@ export default tseslint.config(
       "@angular-eslint/no-output-native": "off",
       "@angular-eslint/sort-keys-in-type-decorator": "error",
       "@angular-eslint/consistent-component-styles": "error",
-      "@angular-eslint/component-selector": ["error", { type: "element", prefix: "rte", style: "kebab-case" }],
+      "@angular-eslint/component-selector": ["error", { type: "element", style: "kebab-case" }],
       "@angular-eslint/directive-selector": ["error", { type: "attribute", prefix: "rte", style: "camelCase" }],
       "@angular-eslint/prefer-inject": "error",
       "@angular-eslint/prefer-output-emitter-ref": "error",

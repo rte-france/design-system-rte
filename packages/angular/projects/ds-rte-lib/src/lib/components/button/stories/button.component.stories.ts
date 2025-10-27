@@ -62,9 +62,7 @@ export const Sizing: Story = {
           rteButtonSize="s"
           rteButtonVariant="primary"
           data-testid="small-button"
-        >
-          Small
-        </button>
+        >Small</button>
         <button rteButton 
           rteButtonSize="m"
           rteButtonVariant="primary"
