@@ -4,6 +4,7 @@ import { Injectable, ComponentRef, Type, ViewContainerRef } from "@angular/core"
 export class OverlayService {
   private overlayRoot?: HTMLElement;
   private activeOverlays = new Set<ComponentRef<unknown>>();
+  private isNavigationFrozen = false;
 
   constructor() {}
 
@@ -16,6 +17,7 @@ export class OverlayService {
         this.overlayRoot.id = "overlay-root";
         this.overlayRoot.tabIndex = -1;
         if (freezeNavigation) {
+          this.isNavigationFrozen = true;
           this.overlayRoot.style.position = "fixed";
           this.overlayRoot.style.width = "100%";
           this.overlayRoot.style.height = "100%";
@@ -49,6 +51,9 @@ export class OverlayService {
 
   destroy() {
     if (this.activeOverlays.size === 0) {
+      if (this.isNavigationFrozen) {
+        document.body.style.overflow = "unset";
+      }
       this.overlayRoot?.remove();
       this.overlayRoot = undefined;
     }

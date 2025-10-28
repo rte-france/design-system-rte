@@ -52,7 +52,6 @@ export class ModalComponent implements AfterViewInit, OnDestroy {
   readonly iconSize = signal(IconSize["xl"]);
 
   ngAfterViewInit() {
-    console.log(this.iconAppearance());
     const native = this.elementRef()?.nativeElement;
     if (native) {
       this.focusTrap.activate(native);

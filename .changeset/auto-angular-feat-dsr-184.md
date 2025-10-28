@@ -4,6 +4,7 @@
   
   ## Changes
 
+- (Modal) unset scroll behavior on unmount
 - (Modal) add support for filled / outlined appearance for title icon
 - (Modal) add angular component
 - (Angular) add focus trap service
