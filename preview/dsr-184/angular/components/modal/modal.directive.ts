@@ -9,6 +9,7 @@ import {
   OnDestroy,
   ViewContainerRef,
 } from "@angular/core";
+import { Size } from "@design-system-rte/core/components/common/common-types";
 import { ESCAPE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
 import { OverlayService } from "../../services/overlay.service";
@@ -37,8 +38,8 @@ export class ModalDirective implements AfterContentInit, OnDestroy {
   readonly rteModalTitle = input<string>();
   readonly rteModalDescription = input<string>();
   readonly rteModalIsOpen = input<boolean>(false);
-  readonly rteModalSize = input<"xs" | "s" | "m" | "l" | "xl">("m");
-  readonly rteModalAriaDescribedby = input<string | undefined>(undefined);
+  readonly rteModalSize = input<Size>("m");
+  readonly rteModalAriaDescribedby = input<string | undefined>();
   readonly rteModalCloseOnClickOutside = input<boolean>(true);
 
   readonly primaryButton = contentChild.required<ButtonComponent>("primaryButton");
@@ -46,8 +47,6 @@ export class ModalDirective implements AfterContentInit, OnDestroy {
   readonly customContent = contentChild<unknown>("customContent");
 
   private modalElement: HTMLElement | null = null;
-
-  private subClose?: { unsubscribe(): void };
 
   private onMouseDown = (e: MouseEvent) => this.handleClickAway(e);
   private onKeyDown = (e: KeyboardEvent) => this.handleKeydown(e);
@@ -87,7 +86,7 @@ export class ModalDirective implements AfterContentInit, OnDestroy {
 
     this.modalCompRef = this.overlayService.create(ModalComponent, this.viewContainerRef, true);
 
-    this.modalCompRef?.instance.close.subscribe(() => {
+    this.modalCompRef?.instance.closeModal.subscribe(() => {
       this.closeModal();
     });
 
@@ -142,8 +141,6 @@ export class ModalDirective implements AfterContentInit, OnDestroy {
 
   private destroyModal(): void {
     if (this.modalCompRef) {
-      this.subClose?.unsubscribe();
-      this.subClose = undefined;
       this.modalCompRef.destroy();
       this.modalCompRef = null;
       this.overlayService.destroy();

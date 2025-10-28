@@ -1,7 +1,7 @@
 import { ModalProps as coreModalProps } from '../../../../core/components/modal/modal.interface';
 import { default as Button } from '../button/Button';
 type DSButtonElement = React.ReactElement<React.ComponentProps<typeof Button>, typeof Button>;
-interface ModalProps extends coreModalProps, Omit<React.HTMLAttributes<HTMLDivElement>, "id" | "title"> {
+interface ModalProps extends coreModalProps, Omit<React.HTMLAttributes<HTMLDialogElement>, "id" | "title"> {
     onClose: () => void;
     closeOnOverlayClick?: boolean;
     isOpen: boolean;
@@ -9,5 +9,5 @@ interface ModalProps extends coreModalProps, Omit<React.HTMLAttributes<HTMLDivEl
     primaryButton: DSButtonElement;
     secondaryButton?: DSButtonElement;
 }
-declare const Modal: import('../../../../../node_modules/react').ForwardRefExoticComponent<ModalProps & import('../../../../../node_modules/react').RefAttributes<HTMLDivElement>>;
+declare const Modal: import('../../../../../node_modules/react').ForwardRefExoticComponent<ModalProps & import('../../../../../node_modules/react').RefAttributes<HTMLDialogElement>>;
 export default Modal;
