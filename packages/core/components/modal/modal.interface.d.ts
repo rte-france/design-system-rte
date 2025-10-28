@@ -1,5 +1,3 @@
-export type ModalSize = "xs" | "s" | "m" | "l" | "xl";
-
 export interface ModalProps {
   id: string;
   title: string;
@@ -8,5 +6,5 @@ export interface ModalProps {
   icon?: string;
   iconAppearance?: "outlined" | "filled";
   description?: string;
-  size?: ModalSize;
+  size?: import("./common/common-types").Size;
 }

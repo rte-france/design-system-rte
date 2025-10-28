@@ -17,7 +17,7 @@ import styles from "./Modal.module.scss";
 
 type DSButtonElement = React.ReactElement<React.ComponentProps<typeof Button>, typeof Button>;
 
-interface ModalProps extends coreModalProps, Omit<React.HTMLAttributes<HTMLDivElement>, "id" | "title"> {
+interface ModalProps extends coreModalProps, Omit<React.HTMLAttributes<HTMLDialogElement>, "id" | "title"> {
   onClose: () => void;
   closeOnOverlayClick?: boolean;
   isOpen: boolean;
@@ -26,7 +26,7 @@ interface ModalProps extends coreModalProps, Omit<React.HTMLAttributes<HTMLDivEl
   secondaryButton?: DSButtonElement;
 }
 
-const Modal = forwardRef<HTMLDivElement, ModalProps>(
+const Modal = forwardRef<HTMLDialogElement, ModalProps>(
   (
     {
       id,
@@ -47,13 +47,13 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
     ref,
   ) => {
     const { shouldRender, isAnimating } = useAnimatedMount(isOpen, 150);
-    const [modalElement, setModalElement] = useState<HTMLDivElement | null>(null);
+    const [modalElement, setModalElement] = useState<HTMLDialogElement | null>(null);
 
     const modalCallbackRef = useCallback(
-      (node: HTMLDivElement | null) => {
+      (node: HTMLDialogElement | null) => {
         setModalElement(node);
         if (typeof ref === "function") ref(node);
-        else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+        else if (ref) (ref as React.MutableRefObject<HTMLDialogElement | null>).current = node;
       },
       [ref],
     );
@@ -67,10 +67,9 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
         {shouldRender && (
           <Overlay freezeNavigation={true}>
             <div className={styles["modal-backdrop"]} data-open={isAnimating}></div>
-            <div
+            <dialog
               ref={modalCallbackRef}
               className={concatClassNames(styles["modal-container"], className)}
-              role="dialog"
               aria-modal="true"
               aria-labelledby={`${id}-modal-title`}
               aria-describedby={description ? `${id}-modal-desc` : props["aria-describedby"]}
@@ -107,7 +106,7 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
                 {secondaryButton}
                 {primaryButton}
               </div>
-            </div>
+            </dialog>
           </Overlay>
         )}
       </>

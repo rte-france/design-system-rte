@@ -11,6 +11,7 @@ import {
   inject,
   signal,
 } from "@angular/core";
+import { Size } from "@design-system-rte/core/components/common/common-types";
 import { IconSize } from "@design-system-rte/core/components/icon/icon.constants";
 
 import { FocusTrapService } from "../../services/focus-trap.service";
@@ -34,7 +35,7 @@ export class ModalComponent implements AfterViewInit, OnDestroy {
   readonly description = input<string>();
   readonly secondaryButtonLabel = input<string>();
   readonly isOpen = input<boolean>(false);
-  readonly size = input<"xs" | "s" | "m" | "l" | "xl">("m");
+  readonly size = input<Size>("m");
   readonly ariaDescribedby = input<string | undefined>(undefined);
 
   readonly primaryButton = input<TemplateRef<ButtonComponent> | null>(null);
@@ -47,7 +48,7 @@ export class ModalComponent implements AfterViewInit, OnDestroy {
 
   constructor() {}
 
-  readonly close = output<void>();
+  readonly closeModal = output<void>();
 
   readonly iconSize = signal(IconSize["xl"]);
 
@@ -63,6 +64,6 @@ export class ModalComponent implements AfterViewInit, OnDestroy {
   }
 
   onClose() {
-    this.close.emit();
+    this.closeModal.emit();
   }
 }
