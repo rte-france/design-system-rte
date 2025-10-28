@@ -17,6 +17,7 @@ import {
   BreadcrumbsComponent,
   BannerComponent,
   PopoverDirective,
+  ModalModule,
 } from "@design-system-rte/angular";
 
 @Component({
@@ -40,6 +41,7 @@ import {
     BreadcrumbsComponent,
     BannerComponent,
     PopoverDirective,
+    ModalModule,
   ],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",
@@ -96,4 +98,12 @@ export class AppComponent {
     { label: "Electronics", link: "/products/electronics" },
     { label: "Smartphones", link: "/products/electronics/smartphones" },
   ];
+
+  handleModalPrimaryClick() {
+    console.log("Primary button clicked");
+  }
+
+  handleModalSecondaryClick() {
+    console.log("Secondary button clicked");
+  }
 }
