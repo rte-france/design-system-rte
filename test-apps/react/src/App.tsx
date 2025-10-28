@@ -14,6 +14,7 @@ import {
   Breadcrumbs,
   Banner,
   Popover,
+  Modal,
 } from "@design-system-rte/react";
 import "./App.css";
 import { useState } from "react";
@@ -24,6 +25,7 @@ function App() {
   const [segmentedControlValue, setSegmentedControlValue] = useState("label-1");
   const [isInfoBannerVisible, setIsInfoBannerVisible] = useState(true);
   const [isAlertBannerVisible, setIsAlertBannerVisible] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleIconButtonToggleClick = () => {
     setIsIconButtonToggleSelected(!isIconButtonToggleSelected);
@@ -203,6 +205,21 @@ function App() {
       >
         <Button label="Open Popover" />
       </Popover>
+      <Divider />
+      <Button variant="primary" label="Open Modal" onClick={() => setIsModalOpen(true)} />
+      <Modal
+        title="Modal Title"
+        description="This is the modal description"
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        primaryButton={<Button variant="primary" label="Continue" onClick={() => setIsModalOpen(false)} />}
+        secondaryButton={<Button variant="neutral" label="Cancel" onClick={() => setIsModalOpen(false)} />}
+      >
+        <div>
+          <Badge count={5}>Modal Content Badge</Badge>
+          <TextInput label="Modal Input" value={inputValue} onChange={handleInputChange} />
+        </div>
+      </Modal>
     </div>
   );
 }
