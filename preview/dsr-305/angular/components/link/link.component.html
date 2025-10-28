@@ -1,0 +1,14 @@
+<a
+  href="{{ href() }}"
+  class="rte-link"
+  role="link"
+  [ngClass]="{ subtle: subtle() }"
+  [target]="externalLink() ? '_blank' : undefined"
+  [rel]="externalLink() ? 'noopener noreferrer' : null"
+  [style.max-width]="maxWidth() + 'px'"
+>
+  <span class="rte-link-label" [style.max-width]="maxWidth() + 'px'">
+    {{ label() }}
+  </span>
+  <rte-icon *ngIf="externalLink()" name="external-link" [size]="12"></rte-icon>
+</a>
