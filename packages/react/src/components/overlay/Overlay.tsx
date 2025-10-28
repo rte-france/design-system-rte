@@ -31,7 +31,9 @@ export const Overlay = ({ children, freezeNavigation }: OverlayPortalProps) => {
     return () => {
       if (root && root.parentNode) {
         if (root.children.length === 0) {
-          document.body.style.overflow = "unset";
+          if (freezeNavigation) {
+            document.body.style.overflow = "unset";
+          }
           document.body.removeChild(root);
         }
       }
