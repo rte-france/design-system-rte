@@ -19,6 +19,9 @@ const meta = {
     ariaLabel: {
       control: "text",
     },
+    breadcrumbItemMaxWidth: {
+      control: "number",
+    },
   },
 } satisfies Meta<typeof Breadcrumbs>;
 export default meta;

@@ -25,6 +25,7 @@ import { LinkComponent } from "../link/link.component";
 export class BreadcrumbsComponent {
   readonly items = input<BreadcrumbProps[]>([]);
   readonly ariaLabel = input<string>(BREADCRUMBS_DEFAULT_ARIA_LABEL);
+  readonly breadcrumbItemMaxWidth = input<number>(150);
 
   readonly truncatedItems = computed<BreadcrumbsTruncatedItems | null>(() => {
     if (shouldTruncateBreadcrumbs(this.items())) {
