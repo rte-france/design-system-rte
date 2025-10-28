@@ -162,3 +162,26 @@
     rtePopoverTitle="Popover Title"
   >Hover me</button>
 </div>
+<rte-divider />
+<div
+  rteModal
+  [rteModalId]="'rte-modal-1'"
+  [rteModalTitle]="'Modal title'"
+  [rteModalDescription]="'This is a description for the modal.'"
+>
+  <rte-button variant="primary" label="Open Modal" rteModalTrigger />
+  <ng-template #primaryButton>
+    <rte-button
+      variant="primary"
+      label="Continue"
+      (click)="handleModalPrimaryClick()"
+    />
+  </ng-template>
+  <ng-template #secondaryButton>
+    <rte-button
+      variant="neutral"
+      label="Cancel"
+      (click)="handleModalSecondaryClick()"
+    />
+  </ng-template>
+</div>
