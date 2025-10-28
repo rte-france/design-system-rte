@@ -1,13 +1,8 @@
 <div class="rte-modal-wrapper">
-  <div
-    #modalWrapper
-    class="rte-modal-backdrop"
-    [attr.data-open]="isOpen()"
-  ></div>
-  <div
+  <div class="rte-modal-backdrop" [attr.data-open]="isOpen()"></div>
+  <dialog
     #modal
     class="rte-modal-container"
-    role="dialog"
     [attr.aria-modal]="true"
     [attr.aria-labelledby]="id() + '-modal-title'"
     [attr.aria-describedby]="
@@ -49,5 +44,5 @@
       <ng-container [ngTemplateOutlet]="secondaryButton()"></ng-container>
       <ng-container [ngTemplateOutlet]="primaryButton()"></ng-container>
     </div>
-  </div>
+  </dialog>
 </div>
