@@ -17,7 +17,7 @@ import style from "./Breadcrumbs.module.scss";
 export interface BreadcrumbsProps extends BreadcrumbsPropsCore, React.HTMLAttributes<HTMLElement> {}
 
 const Breadcrumbs = forwardRef<HTMLDivElement, BreadcrumbsProps>(
-  ({ items, ariaLabel = BREADCRUMBS_DEFAULT_ARIA_LABEL, ...props }, ref) => {
+  ({ items, ariaLabel = BREADCRUMBS_DEFAULT_ARIA_LABEL, breadcrumbItemMaxWidth, ...props }, ref) => {
     const [isTrucatedListOpened, setIsTruncatedListOpened] = useState<boolean>(false);
     if (shouldTruncateBreadcrumbs(items)) {
       const { root, truncated, remaining } = getBreadcrumbsTruncatedItems(items);
@@ -34,7 +34,10 @@ const Breadcrumbs = forwardRef<HTMLDivElement, BreadcrumbsProps>(
             subtle
             href={root.link}
             label={root.label}
-            style={{ color: "var(--content-tertiary)" }}
+            style={{
+              color: "var(--content-tertiary)",
+              maxWidth: `${breadcrumbItemMaxWidth}px`,
+            }}
             className={style.breadcrumbItem}
           />
           <span aria-hidden="true" className={style.separator}>
@@ -70,11 +73,22 @@ const Breadcrumbs = forwardRef<HTMLDivElement, BreadcrumbsProps>(
           {remaining.map((item, index) => (
             <div key={item.link} className={style.breadcrumbItem}>
               {index === remaining.length - 1 ? (
-                <a role="link" aria-label={item.label} aria-current="page" tabIndex={0}>
+                <a
+                  role="link"
+                  aria-label={item.label}
+                  aria-current="page"
+                  tabIndex={0}
+                  style={{ maxWidth: `${breadcrumbItemMaxWidth}px` }}
+                >
                   {item.label}
                 </a>
               ) : (
-                <Link href={item.link} label={item.label} subtle style={{ color: "var(--content-tertiary)" }} />
+                <Link
+                  href={item.link}
+                  label={item.label}
+                  subtle
+                  style={{ color: "var(--content-tertiary)", maxWidth: `${breadcrumbItemMaxWidth}px` }}
+                />
               )}
               {index < remaining.length - 1 && (
                 <span aria-hidden="true" className={style.separator}>
@@ -92,11 +106,22 @@ const Breadcrumbs = forwardRef<HTMLDivElement, BreadcrumbsProps>(
         {items.map((item, index) => (
           <div key={item.link} className={style.breadcrumbItem}>
             {index === items.length - 1 ? (
-              <a role="link" aria-label={item.label} aria-current="page" tabIndex={0}>
+              <a
+                role="link"
+                aria-label={item.label}
+                aria-current="page"
+                tabIndex={0}
+                style={{ maxWidth: `${breadcrumbItemMaxWidth}px` }}
+              >
                 {item.label}
               </a>
             ) : (
-              <Link href={item.link} label={item.label} subtle style={{ color: "var(--content-tertiary)" }} />
+              <Link
+                href={item.link}
+                label={item.label}
+                subtle
+                style={{ color: "var(--content-tertiary)", maxWidth: `${breadcrumbItemMaxWidth}px` }}
+              />
             )}
             {index < items.length - 1 && (
               <span aria-hidden="true" className={style.separator}>

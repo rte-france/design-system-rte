@@ -149,4 +149,10 @@
         align-self: start;
         margin-left: $positive-spacing_025;
     }
+
+    .label {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
 }

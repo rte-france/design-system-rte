@@ -10,21 +10,22 @@
         [href]="truncatedItems()!.root.link"
         [label]="truncatedItems()!.root.label"
         [subtle]="true"
+        [maxWidth]="breadcrumbItemMaxWidth()"
       />
     </div>
     <span aria-hidden="true" class="separator">/</span>
     <span class="breadcrumb-item" rteDropdown [rteDropdownOffset]="8">
       <rte-icon-button
-          rteDropdownTrigger
-          name="more-horiz"
-          role="menu"
-          variant="neutral"
-          aria-label="More items"
-          data-testid="show-more"
-          dropdownTrigger
-          tabindex="-1"
-          [compactSpacing]="true"
-        />
+        rteDropdownTrigger
+        name="more-horiz"
+        role="menu"
+        variant="neutral"
+        aria-label="More items"
+        data-testid="show-more"
+        dropdownTrigger
+        tabindex="-1"
+        [compactSpacing]="true"
+      />
       <rte-dropdown-menu [items]="truncatedItems()?.truncated ?? []" />
     </span>
     <span aria-hidden="true" class="separator">/</span>
@@ -40,11 +41,17 @@
             aria-current="page"
             tabindex="0"
             [attr.aria-label]="item.label"
+            [style]="'max-width:' + breadcrumbItemMaxWidth() + 'px'"
           >
             {{ item.label }}
           </a>
         } @else {
-          <rte-link [href]="item.link" [label]="item.label" [subtle]="true" />
+          <rte-link
+            [href]="item.link"
+            [label]="item.label"
+            [subtle]="true"
+            [maxWidth]="breadcrumbItemMaxWidth()"
+          />
         }
       </div>
       @if (i < truncatedItems()!.remaining.length - 1) {
@@ -60,11 +67,17 @@
             aria-current="page"
             tabindex="0"
             [attr.aria-label]="item.label"
+            [style]="'max-width:' + breadcrumbItemMaxWidth() + 'px'"
           >
             {{ item.label }}
           </a>
         } @else {
-          <rte-link [href]="item.link" [label]="item.label" [subtle]="true" />
+          <rte-link
+            [href]="item.link"
+            [label]="item.label"
+            [subtle]="true"
+            [maxWidth]="breadcrumbItemMaxWidth()"
+          />
         }
       </div>
       @if (i < items().length - 1) {

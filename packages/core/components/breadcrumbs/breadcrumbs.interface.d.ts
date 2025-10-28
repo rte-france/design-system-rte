@@ -1,6 +1,7 @@
 export interface BreadcrumbsProps {
   items: BreadcrumbProps[];
   ariaLabel?: string;
+  breadcrumbItemMaxWidth?: number;
 }
 
 export interface BreadcrumbProps {

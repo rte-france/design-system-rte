@@ -16,11 +16,15 @@
 
     a {
         color: var(--content-tertiary);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
 
     &:last-child {
         cursor: default;
+
         a {
             color: var(--content-primary);
         }
@@ -42,7 +46,9 @@
     opacity: 0;
     animation: fadeIn 150ms forwards;
 }
-  
+
 @keyframes fadeIn {
-    to { opacity: 1; }
+    to {
+        opacity: 1;
+    }
 }
