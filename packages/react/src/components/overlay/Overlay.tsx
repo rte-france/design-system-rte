@@ -28,14 +28,14 @@ export const Overlay = ({ children, freezeNavigation }: OverlayPortalProps) => {
     }
     setOverlayRoot(root);
 
+    const { parentNode, children } = root;
+
     return () => {
-      if (root && root.parentNode) {
-        if (root.children.length === 0) {
-          if (freezeNavigation) {
-            document.body.style.overflow = "unset";
-          }
-          document.body.removeChild(root);
+      if (parentNode && !children.length) {
+        if (freezeNavigation) {
+          document.body.style.overflow = "unset";
         }
+        document.body.removeChild(root);
       }
     };
   }, [freezeNavigation]);

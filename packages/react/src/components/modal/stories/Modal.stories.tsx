@@ -8,8 +8,12 @@ import { userEvent, within, expect, fn, waitFor } from "@storybook/test";
 import { useState } from "react";
 
 import Button from "../../button/Button";
+import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../../icon/IconMap";
 import Textarea from "../../textarea/Textarea";
 import Modal from "../Modal";
+
+const RegularIconIds = Object.keys(RegularIconsList);
+const TogglableIconIds = Object.keys(TogglableIconsList);
 
 const meta = {
   title: "Modal",
@@ -18,7 +22,12 @@ const meta = {
   argTypes: {
     id: { control: "text" },
     title: { control: "text" },
-    icon: { control: "text" },
+    icon: {
+      control: "select",
+      options: ["", ...RegularIconIds, ...TogglableIconIds].sort((a, b) => a.localeCompare(b)),
+      description: "Nom de l’icône à afficher",
+      defaultValue: "",
+    },
     iconAppearance: { control: "select", options: ["outlined", "filled"] },
     description: { control: "text" },
     size: { control: "select", options: ["xs", "s", "m", "l", "xl"] },
