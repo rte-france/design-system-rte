@@ -112,7 +112,9 @@ export const KeyboardNavigationWithDropdown: Story = {
     await userEvent.tab();
     await userEvent.tab();
     await userEvent.keyboard(TESTING_ENTER_KEY);
-    const dropdown = document.querySelector('[data-dropdown-id="breadcrumbs-truncated-listFil d\'Ariane"]');
+    const value = "breadcrumbs-truncated-listFil d'Ariane";
+    const safeValue = CSS.escape(value);
+    const dropdown = document.querySelector(`[data-dropdown-id="${safeValue}"]`);
     expect(dropdown).toBeInTheDocument();
     await userEvent.tab();
     await waitFor(() => expect(dropdown?.querySelector("ul")?.children[0]).toHaveFocus());

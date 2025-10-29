@@ -37,7 +37,6 @@ export function getShowText({ size, content, count }: ShowTextProps): boolean {
 }
 
 export function getShowBadge({ size, content, count, iconSize }: ShowBadgeProps): boolean {
-  console.log(size, content, count);
   switch (content) {
     case "icon":
       return getShowIcon({ size, content, iconSize });
