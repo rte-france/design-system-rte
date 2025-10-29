@@ -33,13 +33,12 @@
     <ng-container 
     *ngFor="let item of items(); let i = index">
       <rte-checkbox
-      [id]="item + '-' + i"
-      [label]="item"
-      [groupName]="groupName()"
-      [showLabel]="showItemsLabel()"
-      [disabled]="disabled()"
-      [error]="error()"
-      [readOnly]="readOnly()"
+        [id]="item + '-' + i"
+        [label]="item"
+        [showLabel]="showItemsLabel()"
+        [disabled]="disabled()"
+        [error]="error()"
+        [readOnly]="readOnly()"
       />
     </ng-container>
   </div>
