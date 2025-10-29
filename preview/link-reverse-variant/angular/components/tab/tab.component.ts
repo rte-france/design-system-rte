@@ -25,8 +25,8 @@ import {
 } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
 import { BadgeComponent } from "../badge/badge.component";
-import { DropdownComponent } from "../dropdown/dropdown.component";
-import { DropdownItemComponent } from "../dropdown/dropdownItem/dropdown-item.component";
+import { DropdownModule } from "../dropdown";
+import { DropdownItemConfig } from "../dropdown/dropdown-item/dropdown-item.component";
 import { IconComponent } from "../icon/icon.component";
 import { IconButtonComponent } from "../icon-button/icon-button.component";
 
@@ -34,15 +34,7 @@ import { TabItemComponent } from "./tab-item/tab-item.component";
 
 @Component({
   selector: "rte-tab",
-  imports: [
-    CommonModule,
-    TabItemComponent,
-    IconButtonComponent,
-    DropdownComponent,
-    DropdownItemComponent,
-    IconComponent,
-    BadgeComponent,
-  ],
+  imports: [CommonModule, TabItemComponent, IconButtonComponent, DropdownModule, IconComponent, BadgeComponent],
   standalone: true,
   templateUrl: "./tab.component.html",
   styleUrl: "./tab.component.scss",
@@ -106,14 +98,14 @@ export class TabComponent implements AfterViewInit, OnChanges, OnDestroy {
     return this.options().find((option) => option.id === this.selectedTabId());
   });
   readonly dropdownFilteredOptions = computed(() => {
-    return this.options().filter((option) => option.id !== this.selectedTabId());
+    return this.options().filter((option) => option.id !== this.selectedTabId()) as DropdownItemConfig[];
   });
 
   displayBadge = (option: TabItemProps): boolean => {
     return (
       !!option.showBadge ||
-      (option.badgeCount !== undefined && option.badgeCount > 0 && option.badgeAppearance === "text") ||
-      (option.badgeAppearance === "icon" && !!option.badgeIcon)
+      (option.badgeCount !== undefined && option.badgeCount > 0 && option.badgeContent === "number") ||
+      (option.badgeContent === "icon" && !!option.badgeIcon)
     );
   };
 

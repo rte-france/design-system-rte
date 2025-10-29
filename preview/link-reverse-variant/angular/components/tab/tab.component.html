@@ -38,47 +38,20 @@
       <span
         class="rte-tab-selected-indicator"
         [ngStyle]="tabItemSelectedIndicatorStyle()"
-      ></span>
-      <rte-dropdown
-        *ngIf="shouldDisplayDropdown() && options().length > 0"
-        #dropdown="rteDropdown"
-        aria-label="Select tab"
-        [autoclose]="true"
-        [offset]="10"
-      >
-        <button
+      ></span>      
+      <div *ngIf="shouldDisplayDropdown() && options().length" rteDropdown [rteDropdownOffset]="10" (menuEvent)="onClickTabItem($event.id)">
+        <button rteDropdownTrigger
           class="rte-tab-dropdown-button"
-          dropdownTrigger
           [attr.data-inverted]="inverted()"
-          [attr.data-overflow-type]="overflowType()"
-          (click)="dropdown.open()"
+          [attr.data-overflow-type]="overflowType()" 
         >
-          <rte-icon
-            *ngIf="selectedTab()?.icon"
-            appearance="filled"
-            [name]="selectedTab()?.icon!"
-          />
-          {{ selectedTab()?.label || "Select tab" }}
-          <rte-badge
-            *ngIf="
-              selectedTab()?.badgeCount &&
-              selectedTab()?.badgeAppearance === 'text'
-            "
-            [badgeType]="selectedTab()?.badgeType!"
-            [badgeAppearance]="selectedTab()?.badgeAppearance!"
-            [count]="selectedTab()?.badgeCount"
-            [simpleBadge]="true"
-          />
-          <rte-icon name="arrow-chevron-down" appearance="outlined" />
+          <rte-icon *ngIf="selectedTab()?.icon" appearance="filled" [name]="selectedTab()?.icon!"></rte-icon>
+          <span *ngIf="selectedTab()?.label">{{ selectedTab()?.label }}</span>
+          <rte-badge *ngIf="selectedTab()?.badgeCount && selectedTab()?.badgeContent === 'number'" [badgeType]="selectedTab()?.badgeType!" [badgeContent]="selectedTab()?.badgeContent!" [count]="selectedTab()?.badgeCount" [simpleBadge]="true"></rte-badge>
+          <rte-icon name="arrow-chevron-down" appearance="outlined"></rte-icon>
         </button>
-        <rte-dropdown-item
-          *ngFor="let option of dropdownFilteredOptions()"
-          [label]="option?.label || ''"
-          [leftIcon]="option.icon"
-          [disabled]="option.disabled || false"
-          (click)="onClickTabItem(option.id)"
-        ></rte-dropdown-item>
-      </rte-dropdown>
+        <rte-dropdown-menu [items]="dropdownFilteredOptions()" />
+      </div>
       <ng-container *ngFor="let option of options(); let idx = index">
         <rte-tab-item
           #tabItem

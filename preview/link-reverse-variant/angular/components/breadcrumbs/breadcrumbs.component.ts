@@ -10,13 +10,13 @@ import {
   shouldTruncateBreadcrumbs,
 } from "@design-system-rte/core/components/breadcrumbs/breadcrumbs.utils";
 
-import { IconComponent } from "../icon/icon.component";
+import { DropdownModule } from "../dropdown";
+import { IconButtonComponent } from "../icon-button/icon-button.component";
 import { LinkComponent } from "../link/link.component";
-import { TooltipDirective } from "../tooltip/tooltip.directive";
 
 @Component({
   selector: "rte-breadcrumbs",
-  imports: [CommonModule, LinkComponent, TooltipDirective, IconComponent],
+  imports: [CommonModule, LinkComponent, DropdownModule, IconButtonComponent],
   standalone: true,
   templateUrl: "./breadcrumbs.component.html",
   styleUrl: "./breadcrumbs.component.scss",
@@ -31,14 +31,5 @@ export class BreadcrumbsComponent {
       return getBreadcrumbsTruncatedItems(this.items());
     }
     return null;
-  });
-
-  // TODO: replace this placeholder functionality for the Dropdown component
-  readonly truncatedItemsText = computed(() => {
-    return (
-      this.truncatedItems()
-        ?.truncated.map((item) => item.label)
-        .join(", ") || ""
-    );
   });
 }

@@ -117,7 +117,7 @@
             &:focus-visible {
                 color: var(--content-primary-inverse);
                 text-decoration: underline;
-                outline: 1px solid var(--border-brand-focused);
+                outline: 1px solid var(--border-inverse);
                 outline-offset: $radius-s;
                 border-radius: $radius-s;
             }
@@ -138,9 +138,14 @@
         &:focus-visible {
             color: var(--content-primary-inverse);
             text-decoration: underline;
-            outline: 1px solid var(--border-brand-focused);
+            outline: 1px solid var(--border-inverse);
             outline-offset: $radius-s;
             border-radius: $radius-s;
         }
+    }
+
+    .rte-link-external-icon {
+        align-self: start;
+        margin-left: $positive-spacing_025;
     }
 }

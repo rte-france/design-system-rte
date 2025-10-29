@@ -92,6 +92,7 @@ export class TooltipDirective implements AfterViewInit, OnDestroy {
               tooltipElement,
               "top",
               this.rteTooltipArrow() ? TOOLTIP_GAP_ARROW : TOOLTIP_GAP,
+              true,
             )
           : this.rteTooltipPosition();
 
