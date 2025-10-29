@@ -67,18 +67,7 @@ export const DropdownItem = ({
     }
   };
 
-  const handleKeyUp = (e: React.KeyboardEvent<HTMLLIElement>) => {
-    e.preventDefault();
-    if (e.key === TAB_KEY) {
-      if (isOpen) {
-        focusDropdownFirstElement(childDropdownId);
-      }
-      if (e.shiftKey) {
-        if (dropdownId) {
-          focusParentDropdownFirstElement(dropdownId);
-        }
-      }
-    }
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLLIElement>) => {
     if ([SPACE_KEY, ENTER_KEY].includes(e.key)) {
       if (link) {
         const linkElement = e.currentTarget.querySelector("a");
@@ -97,8 +86,22 @@ export const DropdownItem = ({
     }
   };
 
-  const { onKeyUp, onFocus } = useActiveKeyboard<HTMLLIElement>(
-    { onKeyUp: handleKeyUp, onFocus: handleOnFocus },
+  const handleKeyUp = (e: React.KeyboardEvent<HTMLLIElement>) => {
+    e.preventDefault();
+    if (e.key === TAB_KEY) {
+      if (isOpen) {
+        focusDropdownFirstElement(childDropdownId);
+      }
+      if (e.shiftKey) {
+        if (dropdownId) {
+          focusParentDropdownFirstElement(dropdownId);
+        }
+      }
+    }
+  };
+
+  const { onKeyUp, onFocus, onKeyDown } = useActiveKeyboard<HTMLLIElement>(
+    { onKeyUp: handleKeyUp, onFocus: handleOnFocus, onKeyDown: handleKeyDown },
     {
       interactiveKeyCodes: [SPACE_KEY, ENTER_KEY, TAB_KEY, ARROW_DOWN_KEY, ARROW_UP_KEY, ESCAPE_KEY],
     },
@@ -119,6 +122,7 @@ export const DropdownItem = ({
               role="menuitem"
               onMouseOver={handleMouseOver}
               onKeyUp={onKeyUp}
+              onKeyDown={onKeyDown}
               onFocus={onFocus}
               tabIndex={0}
             >
@@ -160,6 +164,7 @@ export const DropdownItem = ({
         onClick={handleOnClick}
         onMouseOver={handleMouseOver}
         onKeyUp={onKeyUp}
+        onKeyDown={onKeyDown}
         onFocus={onFocus}
         tabIndex={0}
         {...props}
