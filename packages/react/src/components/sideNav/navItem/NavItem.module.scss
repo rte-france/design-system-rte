@@ -1,0 +1,32 @@
+@use '@design-system-rte/core/design-tokens/main.scss' as *;
+
+.navItemContainer {
+    @include typography-text-m-regular;
+    display: flex;
+    justify-content: flex-start;
+    gap: $positive-spacing_100;
+    padding: $positive-spacing_100 $positive-spacing_075;
+    border-radius: $radius-s;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    justify-content: space-between;
+    align-items: center;
+    align-self: stretch;
+
+    .navItem {
+        display: flex;
+        padding: 0;
+        align-items: center;
+        gap: $positive-spacing_100;
+        flex: 1 0 0;
+    }
+
+    &.collapsed {
+        padding: $positive-spacing_100 $positive-spacing_150;
+        justify-content: center;
+
+        .navItem {
+            justify-content: center;
+        }
+    }
+}
