@@ -17,5 +17,5 @@ export class LinkComponent {
   readonly subtle = input<boolean>(false);
   readonly externalLink = input<boolean>(false);
   readonly reverse = input<boolean>(false);
-  readonly maxWidth = input<number | null>(null);
+  readonly maxWidth = input<number>();
 }

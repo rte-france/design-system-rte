@@ -5,14 +5,10 @@
   [ngClass]="{ truncated: truncatedItems()?.truncated?.length }"
 >
   @if (truncatedItems()?.truncated?.length) {
-    <div class="breadcrumb-item">
-      <rte-link
-        [href]="truncatedItems()!.root.link"
-        [label]="truncatedItems()!.root.label"
-        [subtle]="true"
-        [maxWidth]="breadcrumbItemMaxWidth()"
-      />
-    </div>
+    <rte-breadcrumb-item
+      [item]="truncatedItems()!.root"
+      [breadcrumbItemMaxWidth]="breadcrumbItemMaxWidth()"
+    />
     <span aria-hidden="true" class="separator">/</span>
     <span class="breadcrumb-item" rteDropdown [rteDropdownOffset]="8">
       <rte-icon-button
@@ -34,52 +30,22 @@
       track item.link;
       let i = $index
     ) {
-      <div class="breadcrumb-item">
-        @if (i === truncatedItems()!.remaining.length - 1) {
-          <a
-            role="link"
-            aria-current="page"
-            tabindex="0"
-            [attr.aria-label]="item.label"
-            [style]="'max-width:' + breadcrumbItemMaxWidth() + 'px'"
-          >
-            {{ item.label }}
-          </a>
-        } @else {
-          <rte-link
-            [href]="item.link"
-            [label]="item.label"
-            [subtle]="true"
-            [maxWidth]="breadcrumbItemMaxWidth()"
-          />
-        }
-      </div>
+      <rte-breadcrumb-item
+        [item]="item"
+        [breadcrumbItemMaxWidth]="breadcrumbItemMaxWidth()"
+        [isLast]="i === truncatedItems()!.remaining.length - 1"
+      />
       @if (i < truncatedItems()!.remaining.length - 1) {
         <span aria-hidden="true" class="separator">/</span>
       }
     }
   } @else {
     @for (item of items(); track item.link; let i = $index) {
-      <div class="breadcrumb-item">
-        @if (i === items().length - 1) {
-          <a
-            role="link"
-            aria-current="page"
-            tabindex="0"
-            [attr.aria-label]="item.label"
-            [style]="'max-width:' + breadcrumbItemMaxWidth() + 'px'"
-          >
-            {{ item.label }}
-          </a>
-        } @else {
-          <rte-link
-            [href]="item.link"
-            [label]="item.label"
-            [subtle]="true"
-            [maxWidth]="breadcrumbItemMaxWidth()"
-          />
-        }
-      </div>
+      <rte-breadcrumb-item
+        [item]="item"
+        [breadcrumbItemMaxWidth]="breadcrumbItemMaxWidth()"
+        [isLast]="i === items().length - 1"
+      />
       @if (i < items().length - 1) {
         <span aria-hidden="true" class="separator">/</span>
       }
