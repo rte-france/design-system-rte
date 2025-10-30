@@ -84,6 +84,16 @@ export const Truncated: Story = {
   },
 };
 
+export const maxWidthBreadcrumbItem: Story = {
+  args: {
+    ...Default.args,
+    breadcrumbItemMaxWidth: 50,
+  },
+  render: (args) => {
+    return <Breadcrumbs {...args} data-testid="breadcrumbs" />;
+  },
+};
+
 export const MultipleElements: Story = {
   args: {
     ...Default.args,

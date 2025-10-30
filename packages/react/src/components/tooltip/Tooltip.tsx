@@ -12,11 +12,22 @@ import style from "./Tooltip.module.scss";
 interface TooltipProps extends CoreTooltipProps, Omit<React.HTMLAttributes<HTMLDivElement>, "children"> {
   children: React.ReactNode;
   triggerStyles?: React.CSSProperties;
+  shouldFocusTrigger?: boolean;
 }
 
 const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
   (
-    { children, position = "top", alignment = "center", label, arrow = true, className = "", triggerStyles, ...props },
+    {
+      children,
+      position = "top",
+      alignment = "center",
+      label,
+      arrow = true,
+      className = "",
+      triggerStyles,
+      shouldFocusTrigger = true,
+      ...props
+    },
     ref,
   ) => {
     const triggerRef = useRef<HTMLDivElement>(null);
@@ -89,7 +100,7 @@ const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
         onMouseLeave={closeTooltip}
         onFocus={openTooltip}
         onBlur={closeTooltip}
-        tabIndex={0}
+        tabIndex={shouldFocusTrigger ? 0 : undefined}
         style={triggerStyles}
       >
         {children}
