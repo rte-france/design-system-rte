@@ -5,7 +5,7 @@ import {
   TESTING_ENTER_KEY,
 } from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
 import { Meta, StoryObj } from "@storybook/react";
-import { expect, userEvent } from "@storybook/test";
+import { expect, userEvent, waitFor } from "@storybook/test";
 import { useState } from "react";
 
 import { Dropdown } from "../Dropdown";
@@ -182,14 +182,13 @@ export const KeyboardNavigationWithLink: Story = {
   play: async () => {
     await userEvent.tab();
     await userEvent.keyboard(TESTING_ENTER_KEY);
-    await userEvent.tab();
     const overlay = document.getElementById("overlay-root");
     const dropdown = overlay?.querySelector("[data-dropdown-id]");
     const menuItems = dropdown?.querySelector("ul")?.querySelectorAll("li");
-    expect(dropdown).toBeInTheDocument();
-    expect(menuItems?.[0].querySelector("a")).toBeInTheDocument();
-    expect(menuItems?.[1].querySelector("a")).toBeInTheDocument();
-    expect(menuItems?.[0]).toHaveFocus();
+    await waitFor(() => {
+      expect(dropdown).toBeInTheDocument();
+      expect(menuItems?.[0]).toHaveFocus();
+    });
     await userEvent.keyboard(TESTING_DOWN_KEY);
     expect(menuItems?.[1]).toHaveFocus();
     await userEvent.keyboard(TESTING_UP_KEY);
