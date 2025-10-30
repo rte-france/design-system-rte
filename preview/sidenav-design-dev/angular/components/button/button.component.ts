@@ -1,29 +1,18 @@
-import { ChangeDetectionStrategy, Component, input, output } from "@angular/core";
-import { ButtonType } from "@design-system-rte/core/components/button/button.interface";
+import { ChangeDetectionStrategy, Component, HostBinding, input } from "@angular/core";
 import { ButtonSize, ButtonVariant } from "@design-system-rte/core/components/button/common/common-button";
 
 @Component({
-  selector: "rte-button",
-  imports: [],
+  selector: "button[rteButton]",
   standalone: true,
   templateUrl: "./button.component.html",
   styleUrl: "./button.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ButtonComponent {
-  readonly label = input("");
-  readonly variant = input<ButtonVariant>("primary");
-  readonly size = input<ButtonSize>("m");
-  readonly disabled = input(false);
-  readonly icon = input<string>("");
-  readonly ariaLabel = input<string>("");
-  readonly ariaLabelledBy = input<string>("");
-  readonly buttonType = input<ButtonType>("button");
+  readonly rteButtonVariant = input<ButtonVariant>("primary");
+  readonly rteButtonSize = input<ButtonSize>("m");
 
-  readonly click = output<void>();
-
-  onClick(event: MouseEvent | KeyboardEvent): void {
-    event.stopPropagation();
-    this.click.emit();
+  @HostBinding("class") get classes() {
+    return `rte-button ${this.rteButtonVariant()} size-${this.rteButtonSize()}`;
   }
 }

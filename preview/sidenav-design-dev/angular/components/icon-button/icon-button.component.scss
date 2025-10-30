@@ -1,7 +1,7 @@
 @use '@design-system-rte/core/design-tokens/main.scss' as *;
 
 .rte-icon-button {
-    display: inline-flex;
+    display: flex;
     cursor: pointer;
     height: 24px;
     align-items: center;
@@ -11,15 +11,9 @@
     &:focus-visible {
         outline: none;
         position: relative;
-
-        &::after {
-            content: '';
-            position: absolute;
-            inset: -4px;
-            border-radius: 6px;
-            pointer-events: none;
-            box-shadow: 0 0 0 1px var(--border-brand-focused);
-        }
+        outline: 1px solid var(--border-brand-focused);
+        outline-offset: $radius-s;
+        border-radius: $radius-s;
     }
 
     &.size-s {
@@ -55,7 +49,12 @@
     &.primary {
         background: var(--background-brand-default);
         border: var(--border-brand-default);
-        color: var(--content-primary-inverse);
+
+        ::ng-deep {
+            .rte-icon-container {
+                color: var(--content-primary-inverse);
+            }
+        }
 
         &:hover {
             background: var(--background-brand-hover);
@@ -141,7 +140,12 @@
     &.danger {
         background: var(--background-danger-default);
         border: none;
-        color: var(--content-primary-inverse);
+
+        ::ng-deep {
+            .rte-icon-container {
+                color: var(--content-primary-inverse);
+            }
+        }
 
         &:hover {
             background: var(--background-danger-hover);

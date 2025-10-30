@@ -12,7 +12,6 @@ import { CheckboxComponent } from "../checkbox/checkbox.component";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CheckboxGroupComponent {
-  readonly groupName = input.required<string>();
   readonly items = input.required<string[]>();
   readonly direction = input("horizontal");
   readonly showItemsLabel = input(true);

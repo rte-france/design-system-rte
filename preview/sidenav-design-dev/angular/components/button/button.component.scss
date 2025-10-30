@@ -1,11 +1,13 @@
 @use '@design-system-rte/core/design-tokens/main.scss' as *;
 
-.rte-button {
-    align-items: center;
-    cursor: pointer;
+:host {
+    
     display: inline-flex;
     flex-shrink: 0;
+    align-items: center;
+    cursor: pointer;
     justify-content: center;
+    width: fit-content;
 
     &:focus-visible {
         outline: 1px solid var(--border-brand-focused);

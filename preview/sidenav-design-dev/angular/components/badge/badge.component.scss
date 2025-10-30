@@ -54,6 +54,7 @@
         top: -4px;
         right: -4px;
         padding: $positive-spacing_0 $positive-spacing_025;
+
         &.count-overflow {
             padding: $positive-spacing_0 $positive-spacing_050;
         }
@@ -67,13 +68,18 @@
         top: -8px;
         right: -8px;
         padding: $positive-spacing_0 $positive-spacing_050;
+
         &.count-overflow {
             padding: $positive-spacing_0 $positive-spacing_075;
         }
     }
 
+    &[data-simple-badge='true'] {
+        position: static;
+        box-shadow: none;
+    }
+
     .badge-text {
         margin: 0;
     }
-
 }

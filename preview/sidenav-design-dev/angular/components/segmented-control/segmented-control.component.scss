@@ -1,7 +1,6 @@
 @use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
 
 .rte-segmented-control {
-  position: relative;
   display: flex;
   min-width: 168px;
   max-width: 720px;
