@@ -48,6 +48,22 @@ export const Default: StoryObj<BreadcrumbsComponent> = {
   }),
 };
 
+export const MaxWidthBreadcrumbItem: StoryObj<BreadcrumbsComponent> = {
+  args: {
+    items: mockItems,
+    breadcrumbItemMaxWidth: 50,
+  },
+  render: (args) => ({
+    props: {
+      ...args,
+      mockItems,
+    },
+    template: `
+      <rte-breadcrumbs [items]="items" [ariaLabel]="ariaLabel" data-testid="breadcrumbs" [breadcrumbItemMaxWidth]="breadcrumbItemMaxWidth"/>
+    `,
+  }),
+};
+
 export const KeyboardNavigation: StoryObj<BreadcrumbsComponent> = {
   args: {
     ...Default.args,
