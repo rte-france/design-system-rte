@@ -1,5 +1,6 @@
 import { NavItemProps as CoreNavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
 import { ForwardedRef, forwardRef, HTMLAttributes, ReactNode } from "react";
+
 import { Icon } from "../../..";
 import { concatClassNames } from "../../utils";
 
@@ -9,15 +10,25 @@ interface NavItemProps extends CoreNavItemProps, Omit<HTMLAttributes<HTMLDivElem
 
 import style from "./NavItem.module.scss";
 
-const NavItem = forwardRef<HTMLElement | HTMLDivElement, NavItemProps>( 
-  ({ icon, showIcon, onClick, children, collapsed, ...props }: NavItemProps, ref: ForwardedRef<HTMLElement | HTMLDivElement>) => {
-    return <div className={concatClassNames(style.navItemContainer, collapsed && style.collapsed)} onClick={onClick} ref={ref as ForwardedRef<HTMLDivElement>} {...props}>
-      <div className={style.navItem}>
-        {showIcon && icon && <Icon name={icon} className={style.icon} />}
-        {children}
+const NavItem = forwardRef<HTMLElement | HTMLDivElement, NavItemProps>(
+  (
+    { icon, showIcon, onClick, children, collapsed, ...props }: NavItemProps,
+    ref: ForwardedRef<HTMLElement | HTMLDivElement>,
+  ) => {
+    return (
+      <div
+        className={concatClassNames(style.navItemContainer, collapsed && style.collapsed)}
+        onClick={onClick}
+        ref={ref as ForwardedRef<HTMLDivElement>}
+        {...props}
+      >
+        <div className={style.navItem}>
+          {showIcon && icon && <Icon name={icon} className={style.icon} />}
+          {children}
+        </div>
       </div>
-    </div>;
-  }
+    );
+  },
 );
 
 NavItem.displayName = "NavItem";

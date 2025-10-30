@@ -8,10 +8,12 @@ import React, { ForwardedRef, ReactNode, useState } from "react";
 
 import { concatClassNames } from "../utils";
 
-import style from "./SideNav.module.scss";
 import NavItem from "./navItem/NavItem";
+import style from "./SideNav.module.scss";
 
-interface SideNavProps extends Partial<Omit<CoreSideNavProps, "items">>, Omit<React.HTMLAttributes<HTMLDivElement>, "content"> {
+interface SideNavProps
+  extends Partial<Omit<CoreSideNavProps, "items">>,
+    Omit<React.HTMLAttributes<HTMLDivElement>, "content"> {
   header?: ReactNode;
   body?: ReactNode;
   footer?: ReactNode;
@@ -20,7 +22,6 @@ interface SideNavProps extends Partial<Omit<CoreSideNavProps, "items">>, Omit<Re
 
 const SideNav = React.forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
   ({ size = "m", header, body, footer, showHeader = true, showFooter = true, collapsible, children }, ref) => {
-
     const [isCollapsed, setIsCollapsed] = useState(false);
 
     const collapseSideNav = () => {
@@ -36,37 +37,31 @@ const SideNav = React.forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
           className={concatClassNames(style.sideNav, isCollapsed ? style.collapsed : "")}
           style={{
             minWidth: isCollapsed ? sideNavCollapsedSize : sideNavPanelSize[size],
-          }}>
-          {showHeader && header && (
-            <div className={style.sideNavHeader}>{isCollapsed ? null : header}</div>
-          )}
-          
-          {body && (
-            <div className={style.sideNavBody}>{isCollapsed ? null : body}</div>
-          )}
-          
-          {showFooter && footer && (
-            <div className={style.sideNavFooter}>{isCollapsed ? null : footer}</div>
-          )}
-          
-          {collapsible && (<div className={style.collapsibleSection}>
-            <NavItem icon={collapseIcon} showIcon={true} collapsed={isCollapsed} onClick={collapseSideNav}>
-              {!isCollapsed && <span>Réduire le menu</span>}
-            </NavItem>
-          </div>
+          }}
+        >
+          {showHeader && header && <div className={style.sideNavHeader}>{isCollapsed ? null : header}</div>}
+
+          {body && <div className={style.sideNavBody}>{isCollapsed ? null : body}</div>}
+
+          {showFooter && footer && <div className={style.sideNavFooter}>{isCollapsed ? null : footer}</div>}
+
+          {collapsible && (
+            <div className={style.collapsibleSection}>
+              <NavItem icon={collapseIcon} showIcon={true} collapsed={isCollapsed} onClick={collapseSideNav}>
+                {!isCollapsed && <span>Réduire le menu</span>}
+              </NavItem>
+            </div>
           )}
         </nav>
-        {children && (
-          <div className={style.sideNavContent}>{children}</div>
-        )}
+        {children && <div className={style.sideNavContent}>{children}</div>}
       </div>
     );
-  }
+  },
 );
 
 SideNav.displayName = "SideNav";
 
-export default SideNav
+export default SideNav;
 
 /*
 

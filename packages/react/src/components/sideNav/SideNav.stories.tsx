@@ -23,7 +23,7 @@ const siteContent = (
     <h1>Site Title</h1>
     <p>Site Description</p>
   </div>
-)
+);
 
 // Example: Basic SideNav with content projection
 export const Default: Story = {
@@ -42,10 +42,18 @@ export const Default: Story = {
       }
       body={
         <ul style={{ listStyle: "none", padding: 0 }}>
-          <li><a href="#home">Home</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#services">Services</a></li>
-          <li><a href="#contact">Contact</a></li>
+          <li>
+            <a href="#home">Home</a>
+          </li>
+          <li>
+            <a href="#about">About</a>
+          </li>
+          <li>
+            <a href="#services">Services</a>
+          </li>
+          <li>
+            <a href="#contact">Contact</a>
+          </li>
         </ul>
       }
       footer={
@@ -106,9 +114,7 @@ export const ComplexLayout: Story = {
       header={
         <div style={{ padding: "1rem", borderBottom: "1px solid #ccc" }}>
           <h2 style={{ margin: 0 }}>Dashboard</h2>
-          <p style={{ margin: "0.5rem 0 0 0", fontSize: "0.875rem", color: "#666" }}>
-            v1.0.0
-          </p>
+          <p style={{ margin: "0.5rem 0 0 0", fontSize: "0.875rem", color: "#666" }}>v1.0.0</p>
         </div>
       }
       body={
@@ -116,16 +122,26 @@ export const ComplexLayout: Story = {
           <div style={{ marginBottom: "1.5rem" }}>
             <h4>Main Menu</h4>
             <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-              <li><a href="#overview">Overview</a></li>
-              <li><a href="#analytics">Analytics</a></li>
-              <li><a href="#reports">Reports</a></li>
+              <li>
+                <a href="#overview">Overview</a>
+              </li>
+              <li>
+                <a href="#analytics">Analytics</a>
+              </li>
+              <li>
+                <a href="#reports">Reports</a>
+              </li>
             </ul>
           </div>
           <div>
             <h4>Settings</h4>
             <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-              <li><a href="#profile">Profile</a></li>
-              <li><a href="#preferences">Preferences</a></li>
+              <li>
+                <a href="#profile">Profile</a>
+              </li>
+              <li>
+                <a href="#preferences">Preferences</a>
+              </li>
             </ul>
           </div>
         </div>
