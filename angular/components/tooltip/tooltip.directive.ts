@@ -13,6 +13,7 @@ import {
 } from "@angular/core";
 import { TOOLTIP_GAP, TOOLTIP_GAP_ARROW } from "@design-system-rte/core/components/tooltip/tooltip.constants";
 import { getAutoPlacement, getCoordinates } from "@design-system-rte/core/components/utils/auto-placement";
+import { FOCUSABLE_ELEMENTS_QUERY } from "@design-system-rte/core/constants/dom/dom.constants";
 
 import { OverlayService } from "../../services/overlay.service";
 
@@ -27,6 +28,7 @@ export class TooltipDirective implements AfterViewInit, OnDestroy {
   readonly rteTooltipPosition = input("auto");
   readonly rteTooltipAlignment = input("center");
   readonly rteTooltipArrow = input(true);
+  readonly rteTooltipShouldFocusTrigger = input(true);
 
   private tooltipRef: ComponentRef<TooltipComponent> | null = null;
   private hostElement: HTMLElement;
@@ -60,14 +62,26 @@ export class TooltipDirective implements AfterViewInit, OnDestroy {
   constructor() {
     this.overlayService = inject(OverlayService);
     this.hostElement = this.elementRef.nativeElement;
-    this.hostElement.setAttribute("tabindex", "0");
   }
 
   ngAfterViewInit() {
+    if (!this.rteTooltipShouldFocusTrigger()) {
+      this.renderer.setAttribute(this.hostElement, "tabindex", "-1");
+      const focusableTrigger = this.hostElement.querySelectorAll(FOCUSABLE_ELEMENTS_QUERY)[0];
+      focusableTrigger.addEventListener("focus", () => this.onFocus());
+      focusableTrigger.addEventListener("blur", () => this.onBlur());
+    } else {
+      this.renderer.setAttribute(this.hostElement, "tabindex", "0");
+    }
     window.addEventListener("scroll", this.positionTooltip.bind(this));
   }
 
   ngOnDestroy() {
+    if (!this.rteTooltipShouldFocusTrigger()) {
+      const focusableTrigger = this.hostElement.querySelectorAll(FOCUSABLE_ELEMENTS_QUERY)[0];
+      focusableTrigger.removeEventListener("focus", () => this.onFocus());
+      focusableTrigger.removeEventListener("blur", () => this.onBlur());
+    }
     window.removeEventListener("scroll", this.positionTooltip.bind(this));
   }
 
