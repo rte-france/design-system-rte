@@ -4,7 +4,7 @@ import {
   TESTING_UP_KEY,
 } from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
 import { Meta, moduleMetadata, StoryObj } from "@storybook/angular";
-import { expect, userEvent } from "@storybook/test";
+import { expect, userEvent, waitFor } from "@storybook/test";
 
 import { DropdownDirective } from "../dropdown.directive";
 import { DropdownModule } from "../dropdown.module";
@@ -147,12 +147,13 @@ export const KeyboardNavigationWithLink: Story = {
   play: async () => {
     await userEvent.tab();
     await userEvent.keyboard(TESTING_ENTER_KEY);
-    await userEvent.tab();
     const overlay = document.getElementById("overlay-root");
     const dropdown = overlay?.querySelector("rte-dropdown-menu");
     const menuItems = dropdown?.querySelector("ul")?.querySelectorAll("li");
-    expect(dropdown).toBeInTheDocument();
-    expect(menuItems?.[0]).toHaveFocus();
+    await waitFor(() => {
+      expect(dropdown).toBeInTheDocument();
+      expect(menuItems?.[0]).toHaveFocus();
+    });
     await userEvent.keyboard(TESTING_DOWN_KEY);
     expect(menuItems?.[1]).toHaveFocus();
     await userEvent.keyboard(TESTING_UP_KEY);
