@@ -24,7 +24,7 @@ const NavItem = forwardRef<HTMLElement | HTMLDivElement, NavItemProps>(
       >
         <div className={style.navItem}>
           {showIcon && icon && <Icon name={icon} className={style.icon} />}
-          {children}
+          {collapsed ? null : children}
         </div>
       </div>
     );

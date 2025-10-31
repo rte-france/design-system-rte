@@ -1,7 +1,8 @@
-export type NavItemAppearance = "neutral" | "brand";
+import { SideNavAppearance } from "../side-nav.interface";
 
 export interface NavItemProps {
-  appearance?: NavItemAppearance;
+  appearance?: SideNavAppearance;
+  label: string;
   icon?: string;
   showIcon?: boolean;
   showBadgeOrTag?: boolean;
