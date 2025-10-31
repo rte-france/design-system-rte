@@ -53,7 +53,8 @@ export const Default: Story = {
   fs.writeFileSync(path.join(storiesDir, `${componentName}.stories.tsx`), storiesTemplate);
   fs.writeFileSync(
     path.join(componentDir, `${componentName}.module.scss`),
-    `// Styles for ${componentName} will go here.`,
+    `@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+// Styles for ${componentName} will go here.`,
   );
 
   console.log(`Component ${componentName} and its story have been created.`);
