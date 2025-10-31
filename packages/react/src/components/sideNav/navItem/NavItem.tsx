@@ -4,32 +4,46 @@ import { ForwardedRef, forwardRef, HTMLAttributes, ReactNode } from "react";
 import { Icon } from "../../..";
 import { concatClassNames } from "../../utils";
 
-interface NavItemProps extends CoreNavItemProps, Omit<HTMLAttributes<HTMLDivElement>, "onClick"> {
+interface NavItemProps extends CoreNavItemProps, Omit<HTMLAttributes<HTMLLIElement>, "onClick"> {
   children?: ReactNode;
 }
 
 import style from "./NavItem.module.scss";
 
-const NavItem = forwardRef<HTMLElement | HTMLDivElement, NavItemProps>(
+const NavItem = forwardRef<HTMLElement | HTMLLIElement, NavItemProps>(
   (
-    { icon, showIcon, onClick, children, collapsed, ...props }: NavItemProps,
-    ref: ForwardedRef<HTMLElement | HTMLDivElement>,
+    { icon, showIcon, onClick, label, collapsed, link, ...props }: NavItemProps,
+    ref: ForwardedRef<HTMLElement | HTMLLIElement>,
   ) => {
     return (
-      <div
+      <li
         className={concatClassNames(style.navItemContainer, collapsed && style.collapsed)}
         onClick={onClick}
-        ref={ref as ForwardedRef<HTMLDivElement>}
+        ref={ref as ForwardedRef<HTMLLIElement>}
         {...props}
       >
-        <div className={style.navItem}>
-          {showIcon && icon && <Icon name={icon} className={style.icon} />}
-          {collapsed ? null : children}
-        </div>
-      </div>
+        {link ? (
+          <a href={link} className={style.navItem}>
+            <NavItemLabel icon={icon} showIcon={showIcon} label={label} collapsed={collapsed}/>
+          </a>
+        ) : (
+          <span className={style.navItem} tabIndex={0}>
+            <NavItemLabel icon={icon} showIcon={showIcon} label={label} collapsed={collapsed} />
+          </span>
+        )}
+      </li>
     );
   },
 );
+
+const NavItemLabel = (props: Omit<NavItemProps, "children">) => {
+  return (
+    <>
+      {props.showIcon && props.icon && <Icon name={props.icon} className={style.icon} />}
+      {props.collapsed ? null : <span>{props.label}</span>}
+    </>
+  );
+};
 
 NavItem.displayName = "NavItem";
 

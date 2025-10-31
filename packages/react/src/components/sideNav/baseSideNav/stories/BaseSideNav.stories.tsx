@@ -29,10 +29,12 @@ const PageContent = (
   <div style={{ padding: "2rem", width: "320px", boxSizing: "border-box" }}>
     <h1 style={{ margin: "0 0 1rem 0" }}>Welcome to the Design System</h1>
     <p style={{ lineHeight: "1.6", color: "#555", marginBottom: "1rem" }}>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore
+      magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
     </p>
     <p style={{ lineHeight: "1.6", color: "#555", marginBottom: "1rem" }}>
-      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+      sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
     </p>
   </div>
 );
@@ -72,11 +74,7 @@ export const HeaderWithBody: Story = {
       collapsible={args.collapsible}
       showHeader={args.showHeader}
       showFooter={args.showFooter}
-      header={
-        <div style={{ fontWeight: "600", fontSize: "0.875rem" }}>
-          Menu
-        </div>
-      }
+      header={<div style={{ fontWeight: "600", fontSize: "0.875rem" }}>Menu</div>}
       body={SimpleBody}
     >
       {PageContent}
@@ -98,11 +96,7 @@ export const BodyWithFooter: Story = {
       showHeader={args.showHeader}
       showFooter={args.showFooter}
       body={SimpleBody}
-      footer={
-        <div style={{ fontSize: "0.75rem", color: "#666" }}>
-          Footer
-        </div>
-      }
+      footer={<div style={{ fontSize: "0.75rem", color: "#666" }}>Footer</div>}
     >
       {PageContent}
     </BaseSideNav>
@@ -122,17 +116,9 @@ export const HeaderBodyFooter: Story = {
       collapsible={args.collapsible}
       showHeader={args.showHeader}
       showFooter={args.showFooter}
-      header={
-        <div style={{ fontWeight: "600", fontSize: "0.875rem" }}>
-          Navigation
-        </div>
-      }
+      header={<div style={{ fontWeight: "600", fontSize: "0.875rem" }}>Navigation</div>}
       body={SimpleBody}
-      footer={
-        <div style={{ fontSize: "0.75rem" }}>
-          © 2025
-        </div>
-      }
+      footer={<div style={{ fontSize: "0.75rem" }}>© 2025</div>}
     >
       {PageContent}
     </BaseSideNav>
@@ -141,7 +127,6 @@ export const HeaderBodyFooter: Story = {
 
 export const ColoredSections: Story = {
   args: {
-    size: "m",
     collapsible: true,
     showHeader: true,
     showFooter: true,
@@ -153,37 +138,45 @@ export const ColoredSections: Story = {
       showHeader={args.showHeader}
       showFooter={args.showFooter}
       header={
-        <div style={{
-          fontWeight: "600",
-          fontSize: "0.875rem",
-          padding: "1rem",
-          backgroundColor: "#E8F4F8",
-          width: "100%",
-          boxSizing: "border-box",
-        }}>
+        <div
+          style={{
+            fontWeight: "600",
+            color: "#000",
+            padding: "1rem",
+            backgroundColor: "#E8F4F8",
+            width: "100%",
+            boxSizing: "border-box",
+          }}
+        >
           📍 Header Section
         </div>
       }
       body={
-        <div style={{
-          fontSize: "0.875rem",
-          padding: "1rem",
-          backgroundColor: "#F0E8F8",
-          width: "100%",
-          height: "100%",
-          boxSizing: "border-box",
-        }}>
-          📄 Body Section<br/><small>Expands to fill available space</small>
+        <div
+          style={{
+            padding: "1rem",
+            backgroundColor: "#F0E8F8",
+            width: "100%",
+            height: "100%",
+            boxSizing: "border-box",
+            color: "#000",
+          }}
+        >
+          📄 Body Section
+          <br />
+          <small>Expands to fill available space</small>
         </div>
       }
       footer={
-        <div style={{
-          fontSize: "0.75rem",
-          padding: "1rem",
-          backgroundColor: "#F8F0E8",
-          width: "100%",
-          boxSizing: "border-box",
-        }}>
+        <div
+          style={{
+            padding: "1rem",
+            backgroundColor: "#F8F0E8",
+            width: "100%",
+            boxSizing: "border-box",
+            color: "#000",
+          }}
+        >
           🔧 Footer Section
         </div>
       }
