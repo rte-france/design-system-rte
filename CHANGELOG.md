@@ -2,6 +2,66 @@
 
 # Angular
 
+## 0.15.0
+
+### Button
+
+#### Minor Changes
+
+- Change button selector to button[rteButton] & change implementation to native button without wrapper
+
+### Breadcrumbs
+
+#### Minor Changes
+
+- add tooltip on ellipsed item
+- enable breadcrumbItem max width with ellipsis
+
+### Divider
+
+#### Minor Changes
+
+- add brand appearance
+
+### Dropdown
+
+#### Minor Changes
+
+- add trigger props to allow arrow down key to open the dropdown
+
+### Split Button
+
+#### Minor Changes
+
+- enhance keyboard navigation
+- add dropdown to right button
+
+### Link
+
+#### Minor Changes
+
+- add reverse variant
+
+### Tag
+
+#### Patch Changes
+
+- remove vertical padding and change label font size for compact spacing variant
+
+### Other
+
+#### Minor Changes
+
+- generate changesets automatically
+
+#### Patch Changes
+
+- Updated dependencies [f246255]
+- Updated dependencies [bb5af23]
+- Updated dependencies [196aaab]
+- Updated dependencies [97d3bea]
+- @design-system-rte/core@0.19.0
+
 ## 0.14.0
 
 ### Angular 18
@@ -108,82 +168,52 @@
 - Updated dependencies [a3838c6]
 - Updated dependencies [0cb0e68]
 - @design-system-rte/core@0.17.0
+# React
 
-## 0.12.0
-
-### Loader
-
-#### Minor Changes
-
-- add Loader component for angular
-- added Loader documentation for storybook and stories
-
-### Segmented-control
-
-#### Minor Changes
-
-- added Segmented-control documentation for storybook and stories
-
-### Textarea
-
-#### Minor Changes
-
-- added Textarea documentation for storybook and stories
-
-### Switch
-
-#### Minor Changes
-
-- added Switch documentation for storybook and stories
-
-### Divider
-
-#### Minor Changes
-
-- added Divider documentation for storybook and stories
-
-### Chip
-
-#### Minor Changes
-
-- added Chip documentation for storybook and stories
-
-### Icon-title
-
-#### Minor Changes
-
-- refactor IconTitle component to use in stories
-
-### Tag
-
-#### Minor Changes
-
-- added Tag documentation for storybook and stories
-
-### Breacrumbs
-
-#### Minor Changes
-
-- correct unadressed accessibility criteria
+## 0.14.0
 
 ### Breadcrumbs
 
 #### Minor Changes
 
-- add missing truncated test
-- correct breadcrumbs-head styling
-- add breadcrumbs
+- add tooltip on ellipsed item
+- enable breadcrumbItem max width with ellipsis
+
+### Divider
+
+#### Minor Changes
+
+- add brand appearance
+
+### Split Button
+
+#### Minor Changes
+
+- enhance keyboard navigation
+- remove unused selected props + change focus behavior type on focus-visible
+- add dropdown to right button
+
+### Link
+
+#### Minor Changes
+
+- add reverse variant
+
+### Tag
+
+#### Patch Changes
+
+- remove vertical padding and change label font size for compact spacing variant
 
 ### Other
 
 #### Patch Changes
 
-- add missing default font colors for Checkbox, Icon & Radio Button
-- Updated dependencies [5e685f0]
-- Updated dependencies [191f1e9]
-- Updated dependencies [21cab4b]
-- @design-system-rte/core@0.16.0
-# React
+- Updated dependencies [f246255]
+- Updated dependencies [bb5af23]
+- Updated dependencies [196aaab]
+- Updated dependencies [97d3bea]
+- @design-system-rte/core@0.19.0
 
 ## 0.13.0
 
@@ -272,78 +302,37 @@
 - Updated dependencies [a3838c6]
 - Updated dependencies [0cb0e68]
 - @design-system-rte/core@0.17.0
+# Core
 
-## 0.11.0
-
-### Loader
-
-#### Minor Changes
-
-- add Loader component for react
-- added Loader documentation for storybook and stories
-
-### Segmented-control
-
-#### Minor Changes
-
-- added Segmented-control documentation for storybook and stories
-
-### Textarea
-
-#### Minor Changes
-
-- added Textarea documentation for storybook and stories
-
-### Switch
-
-#### Minor Changes
-
-- added Switch documentation for storybook and stories
-
-### Divider
-
-#### Minor Changes
-
-- added Divider documentation for storybook and stories
-
-### Chip
-
-#### Minor Changes
-
-- added Chip documentation for storybook and stories
-
-### Icon-title
-
-#### Minor Changes
-
-- refactor IconTitle component to use in stories
-
-### Tag
-
-#### Minor Changes
-
-- added Tag documentation for storybook and stories
+## 0.19.0
 
 ### Breadcrumbs
 
 #### Minor Changes
 
-- correct unadressed accessibility criteria
-- correct missing nav tag for Breadcrumbs
-- correct breadcrumbs-head styling
-- correct test cases
-- add Breadcrumbs
+- enable breadcrumbItem max width with ellipsis
+
+### Divider
+
+#### Minor Changes
+
+- add brand appearance
+
+### Split Button
+
+#### Minor Changes
+
+- enhance keyboard navigation
+- add dropdown to right button
+
+### Link
+
+#### Minor Changes
+
+- add reverse variant
 
 ### Other
 
-#### Patch Changes
-
-- add missing default font colors for Checkbox, Icon & Radio Button
-- Updated dependencies [5e685f0]
-- Updated dependencies [191f1e9]
-- Updated dependencies [21cab4b]
-- @design-system-rte/core@0.16.0
-# Core
 
 ## 0.18.0
 
@@ -401,64 +390,6 @@
 
 ### Other
 
-
-## 0.16.0
-
-### Loader
-
-#### Minor Changes
-
-- add loader component for react and angular
-- add Loader component stories and documentation
-
-### Segmented-control
-
-#### Minor Changes
-
-- added documentation for storybook
-
-### Textarea
-
-#### Minor Changes
-
-- add Storybook documentation and examples for Textarea component
-
-### Switch
-
-#### Minor Changes
-
-- add Switch component stories and documentation
-
-### Divider
-
-#### Minor Changes
-
-- add Divider component stories and documentation
-
-### Chip
-
-#### Minor Changes
-
-- update story titles and add Chip documentation with images
-
-### Tag
-
-#### Minor Changes
-
-- add Tag documentation and stories
-
-### Breadcrumbs
-
-#### Minor Changes
-
-- add Breadcrumbs
-- set initial breacrumbs structure for React and Core
-
-### Other
-
-#### Minor Changes
-
-- add TextInput component documentation and stories with accessibility guidelines and various interaction states
 # Design Docs
 
 ## 0.7.0
