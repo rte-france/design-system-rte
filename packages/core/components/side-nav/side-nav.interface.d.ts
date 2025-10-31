@@ -6,6 +6,7 @@ export interface SideNavHeaderConfig {
   icon?: string;
   title: string;
   version?: string;
+  identifier?: string;
 }
 
 export interface SideNavProps extends BaseSideNavProps {

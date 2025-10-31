@@ -20,6 +20,23 @@
     box-sizing: border-box;
     border-radius: var(--border-radius-0);
     transition: min-width 300ms;
+
+    &.neutral {
+        background-color: red;
+    }
+}
+
+.sideNavHeaderContainer {
+    display: flex;
+    padding: $positive-spacing_050;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    flex-shrink: 0;
+    align-self: stretch;
+    height: 120px;
+    min-height: 120px;
+    max-height: 120px;
 }
 
 .sideNavHeader {
@@ -30,8 +47,17 @@
     gap: $positive-spacing_050;
     flex: 1 0 0;
     align-self: stretch;
-    
-    .sideNavHeaderTitle {
+
+    &.neutral {
+        .sideNavHeaderTitleContainer {
+            &:hover {
+                background: var(--background-neutral-navigation-hover);
+                @include neutral-shadow-1;
+            }
+        }
+    }
+
+    .sideNavHeaderTitleContainer {
         display: flex;
         padding: $positive-spacing_0 $positive-spacing_100;
         align-items: center;
@@ -39,20 +65,69 @@
         flex: 1 0 0;
         align-self: stretch;
 
-        h1 {
-            @include typography-heading-xs;
-            user-select: none;
+        &:hover {
+            border-radius: $radius-s;
+            opacity: $opacity-100;
+            background: var(--background-brand-navigation-hover);
+            cursor: pointer;
         }
+
+        .sideNavHeaderTitle {
+            display: flex;
+            align-items: center;
+            gap: $positive-spacing_100;
+
+            .sideNavHeaderIdentifier {
+                @include typography-text-s-bold;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                flex: 1 0 0;
+                align-self: stretch;
+                color: var(--content-brand-navigation-default);
+                text-align: center;
+                user-select: none;
+                border-radius: $radius-s;
+                background: var(--background-brand-navigation-active);
+                width: 24px;
+                height: 24px;
+            }
+    
+            h1 {
+                @include typography-heading-xs;
+                user-select: none;
+                align-self: stretch;
+                margin: 0
+            }
+        }
+    }
+
+    .sideNavHeaderVersion {
+        display: flex;
+        padding: $positive-spacing_050 $positive-spacing_0;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: flex-end;
+        gap: $positive-spacing_0;
+        align-self: stretch;
+        @include typography-text-xs;
     }
 }
 
 .sideNavBody {
     display: flex;
-    align-items: center;
-    width: 100%;
-    box-sizing: border-box;
     padding: $positive-spacing_200 $positive-spacing_100;
-    background-color: var(--content-secondary);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $positive-spacing_100;
+    flex: 1 0 0;
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
 }
 
 .sideNavFooter {
@@ -66,7 +141,9 @@
 }
 
 .collapsibleSection {
-    width: 100%;
-    box-sizing: border-box;
-    padding: $positive-spacing_0 $positive-spacing_100;
+    display: flex;
+    padding: $positive-spacing_050 $positive-spacing_0;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: stretch;
 }
