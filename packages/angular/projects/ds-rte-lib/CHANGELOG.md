@@ -1,5 +1,39 @@
 # @design-system-rte/angular
 
+## 0.15.0
+
+### Minor Changes
+
+- 7e88d16: ## Changes
+  - (Button) Change button selector to button[rteButton] & change implementation to native button without wrapper
+
+- f246255: ## Changes
+  - (Breadcrumbs) add tooltip on ellipsed item
+  - (Breadcrumbs) enable breadcrumbItem max width with ellipsis
+
+- bb5af23: ## Changes
+  - (Divider) add brand appearance
+
+- 196aaab: ## Changes
+  - (Dropdown) add trigger props to allow arrow down key to open the dropdown
+  - generate changesets automatically
+  - (Split Button) enhance keyboard navigation
+  - (Split Button) add dropdown to right button
+
+- 97d3bea: ## Changes
+  - (Link) add reverse variant
+
+### Patch Changes
+
+- daf0f33: ## Changes
+  - (Tag) remove vertical padding and change label font size for compact spacing variant
+
+- Updated dependencies [f246255]
+- Updated dependencies [bb5af23]
+- Updated dependencies [196aaab]
+- Updated dependencies [97d3bea]
+  - @design-system-rte/core@0.19.0
+
 ## 0.14.0
 
 ### Minor Changes
