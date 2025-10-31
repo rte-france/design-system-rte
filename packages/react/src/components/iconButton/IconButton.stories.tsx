@@ -44,6 +44,26 @@ const meta = {
     disabled: {
       control: "boolean",
     },
+    badgeContent: {
+      control: "select",
+      options: ["number", "icon", "empty"],
+      description: "Type de contenu du badge",
+    },
+    badgeIcon: {
+      control: "select",
+      options: [...RegularIconIds, ...TogglableIconIds].sort((a, b) => a.localeCompare(b)),
+      description: "Nom de l’icône à afficher sur le badge",
+      defaultValue: "check",
+    },
+    badgeCount: {
+      control: "number",
+      description: "Nombre à afficher dans le badge",
+    },
+    badgeType: {
+      control: "select",
+      options: ["brand", "neutral", "indicator"],
+      description: "Type de badge",
+    },
   },
 } satisfies Meta<typeof IconButton>;
 
@@ -124,6 +144,23 @@ export const CompactSizing: Story = {
     expect(mediumIconButton.clientHeight).toBe(20);
     expect(largeIconButton.clientHeight).toBe(24);
   },
+};
+
+export const WithBadge: Story = {
+  args: {
+    name: "settings",
+    size: "m",
+    appearance: "outlined",
+    disabled: false,
+    compactSpacing: false,
+    ["aria-label"]: "icon button aria label",
+    onClick: mockFn,
+    badgeContent: "number",
+    badgeCount: 1,
+    badgeType: "brand",
+  },
+
+  render: (args) => <IconButton {...args} />,
 };
 
 export const KeyboardInteraction: Story = {
