@@ -7,4 +7,5 @@ export interface BadgeProps {
   size?: BadgeSize;
   content?: BadgeContent;
   count?: number;
+  icon?: string;
 }
