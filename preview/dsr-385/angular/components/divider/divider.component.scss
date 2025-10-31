@@ -56,4 +56,8 @@
     &.inverse {
         background-color: var(--border-inverse);
     }
+
+    &.brand {
+        background-color: var(--border-brand-default);
+    }
 }
