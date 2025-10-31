@@ -1,5 +1,22 @@
 # @design-system-rte/core
 
+## 0.19.0
+
+### Minor Changes
+
+- f246255: ## Changes
+  - (Breadcrumbs) enable breadcrumbItem max width with ellipsis
+
+- bb5af23: ## Changes
+  - (Divider) add brand appearance
+
+- 196aaab: ## Changes
+  - (Split Button) enhance keyboard navigation
+  - (Split Button) add dropdown to right button
+
+- 97d3bea: ## Changes
+  - (Link) add reverse variant
+
 ## 0.18.0
 
 ### Minor Changes
