@@ -1,30 +1,26 @@
-export interface SideNavItem {
-  navigationLevel?: "primary" | "secondary" | "tertiary";
-  showLeadingIcon?: boolean;
-  showMenuIcon?: boolean;
-  openMenu?: boolean;
-  showDivider?: boolean;
+import { NavItemProps } from "./nav-item/nav-item.interface";
 
-  // Check for relevancy of these props
-  appearance?: "neutral" | "brand";
-  size?: "s" | "m" | "l";
-  collapsible?: boolean;
-  collapsed?: boolean;
-  showHeader?: boolean;
-  showFooter?: boolean;
-  showScrollbar?: boolean;
-  autoCollapse?: boolean;
-  scrollable?: boolean;
+export type SideNavAppearance = "neutral" | "brand";
+
+export interface SideNavHeaderConfig {
+  icon?: string;
+  title: string;
+  version?: string;
 }
 
-export interface SideNavProps {
-  size?: SideNavSize;
+export interface SideNavProps extends BaseSideNavProps {
   collapsible?: boolean;
+  items: NavItemProps[];
+  headerConfig: SideNavHeaderConfig;
+}
+
+export interface BaseSideNavProps {
+  appearance?: SideNavAppearance;
+  size?: SideNavSize;
   collapsed?: boolean;
   showHeader?: boolean;
   showFooter?: boolean;
   showScrollbar?: boolean;
   autoCollapse?: boolean;
   scrollable?: boolean;
-  items: SideNavItem[];
 }

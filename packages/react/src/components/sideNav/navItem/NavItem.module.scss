@@ -2,6 +2,7 @@
 
 .navItemContainer {
     @include typography-text-m-regular;
+    width: 100%;
     display: flex;
     justify-content: flex-start;
     gap: $positive-spacing_100;
@@ -9,9 +10,8 @@
     border-radius: $radius-s;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    justify-content: space-between;
     align-items: center;
-    align-self: stretch;
+    box-sizing: border-box;
 
     .navItem {
         display: flex;
@@ -19,6 +19,7 @@
         align-items: center;
         gap: $positive-spacing_100;
         flex: 1 0 0;
+        user-select: none;
     }
 
     &.collapsed {

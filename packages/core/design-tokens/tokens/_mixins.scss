@@ -171,6 +171,15 @@
   font-style: normal;
 }
 
+@mixin typography-heading-xs {
+  @include typography-heading;
+  font-family: $heading-xs-semibold-font-family;
+  font-weight: $heading-xs-semibold-font-weight;
+  font-size: $heading-xs-semibold-font-size;
+  line-height: $heading-xs-semibold-line-height;
+  letter-spacing: $heading-xs-semibold-letter-spacing;
+}
+
 @mixin typography-heading-s {
   @include typography-heading;
   font-family: $heading-s-semibold-font-family;
