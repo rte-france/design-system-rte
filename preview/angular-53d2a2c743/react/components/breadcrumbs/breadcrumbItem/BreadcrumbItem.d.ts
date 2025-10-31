@@ -1,7 +1,7 @@
 type BreadcrumbItemProps = {
     item: {
         label: string;
-        link?: string;
+        link: string;
     };
     isLast: boolean;
     breadcrumbItemMaxWidth?: number;

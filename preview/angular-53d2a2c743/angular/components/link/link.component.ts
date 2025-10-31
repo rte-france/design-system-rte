@@ -16,4 +16,6 @@ export class LinkComponent {
   readonly href = input<string>("#");
   readonly subtle = input<boolean>(false);
   readonly externalLink = input<boolean>(false);
+  readonly reverse = input<boolean>(false);
+  readonly maxWidth = input<number>();
 }
