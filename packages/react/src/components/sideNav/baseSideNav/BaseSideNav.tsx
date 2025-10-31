@@ -16,8 +16,20 @@ interface BaseSideNavProps
 }
 
 const BaseSideNav = React.forwardRef<HTMLElement | HTMLDivElement, BaseSideNavProps>(
-  ({ size = "m", header, body, footer, showHeader = true, showFooter = true, children, appearance = "brand", collapsed}, ref) => {
-
+  (
+    {
+      size = "m",
+      header,
+      body,
+      footer,
+      showHeader = true,
+      showFooter = true,
+      children,
+      appearance = "brand",
+      collapsed,
+    },
+    ref,
+  ) => {
     return (
       <div className={style.sideNavContainer}>
         <nav

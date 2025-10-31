@@ -1,14 +1,11 @@
 import { SideNavProps as CoreSideNavProps } from "@design-system-rte/core/components/side-nav/side-nav.interface";
 import React, { ReactNode, useState } from "react";
 
-
 import BaseSideNav from "./baseSideNav/BaseSideNav";
 import NavItem from "./navItem/NavItem";
 import style from "./SideNav.module.scss";
 
-interface SideNavProps
-  extends Partial<CoreSideNavProps>,
-    Omit<React.HTMLAttributes<HTMLDivElement>, "content"> {
+interface SideNavProps extends Partial<CoreSideNavProps>, Omit<React.HTMLAttributes<HTMLDivElement>, "content"> {
   children?: ReactNode;
 }
 

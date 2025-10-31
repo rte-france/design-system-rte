@@ -23,7 +23,8 @@ const PageContent = (
       Welcome to the dashboard. Use the navigation on the left to explore different sections.
     </p>
     <p style={{ lineHeight: "1.6", color: "#555", marginBottom: "1rem" }}>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore
+      magna aliqua.
     </p>
   </div>
 );
@@ -45,12 +46,7 @@ export const Default: Story = {
     items: navigationItems,
   },
   render: (args) => (
-    <SideNav
-      size={args.size}
-      collapsible={args.collapsible}
-      headerConfig={args.headerConfig}
-      items={args.items}
-    >
+    <SideNav size={args.size} collapsible={args.collapsible} headerConfig={args.headerConfig} items={args.items}>
       {PageContent}
     </SideNav>
   ),
@@ -62,12 +58,7 @@ export const Collapsible: Story = {
     collapsible: true,
   },
   render: (args) => (
-    <SideNav
-      size={args.size}
-      collapsible={args.collapsible}
-      headerConfig={args.headerConfig}
-      items={args.items}
-    >
+    <SideNav size={args.size} collapsible={args.collapsible} headerConfig={args.headerConfig} items={args.items}>
       {PageContent}
     </SideNav>
   ),
