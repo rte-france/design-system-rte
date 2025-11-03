@@ -1,4 +1,4 @@
-@use '@design-system-rte/core/design-tokens/main.scss' as *;
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
 
 .breadcrumbs-container {
   display: flex;
@@ -10,26 +10,37 @@
     align-items: center;
     opacity: 0;
     animation: fadeIn 150ms forwards;
-  
+
     @include typography-text-m-regular;
 
     rte-link {
       ::ng-deep {
-        a, a.subtle {
+
+        a,
+        a.subtle {
           color: var(--content-tertiary);
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
         }
       }
     }
-  
-    &:last-child {
-        cursor: default;
-        color: var(--content-primary);
+
+    a {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
-  
+
+    &:last-child {
+      cursor: default;
+      color: var(--content-primary);
+    }
+
     :focus-visible {
-        outline: 1px solid var(--border-brand-focused);
-        outline-offset: $radius-s;
-        border-radius: $radius-s;
+      outline: 1px solid var(--border-brand-focused);
+      outline-offset: $radius-s;
+      border-radius: $radius-s;
     }
   }
 }
@@ -43,5 +54,7 @@
 }
 
 @keyframes fadeIn {
-  to { opacity: 1; }
+  to {
+    opacity: 1;
+  }
 }

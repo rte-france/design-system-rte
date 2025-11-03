@@ -5,8 +5,9 @@
   [ngClass]="{ subtle: subtle(), reverse: reverse() }"
   [target]="externalLink() ? '_blank' : undefined"
   [rel]="externalLink() ? 'noopener noreferrer' : null"
+  [style.max-width]="maxWidth() + 'px'"
 >
-  <span class="rte-link-label">
+  <span class="rte-link-label" [style.max-width]="maxWidth() + 'px'">
     {{ label() }}
   </span>
   <rte-icon
@@ -14,5 +15,5 @@
     name="external-link"
     style="align-self: start; margin-left: 2px"
     [size]="12"
-  />
+  ></rte-icon>
 </a>
