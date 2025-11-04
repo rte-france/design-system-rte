@@ -38,6 +38,37 @@ const navigationItems = [
   { label: "Profile", icon: "user", showIcon: true, link: "/profile" },
 ];
 
+const navigationItemsWithNested = [
+  { label: "Home", icon: "home", showIcon: true, link: "/home" },
+  {
+    label: "Dashboard",
+    icon: "dashboard",
+    showIcon: true,
+    items: [
+      { label: "Overview", link: "/dashboard/overview" },
+      { label: "Reports", link: "/dashboard/reports" },
+      { label: "Analytics", link: "/dashboard/analytics" },
+    ],
+  },
+  {
+    label: "Settings",
+    icon: "settings",
+    showIcon: true,
+    items: [
+      { label: "General", link: "/settings/general" },
+      { label: "Privacy", link: "/settings/privacy" },
+      {
+        label: "Advanced",
+        items: [
+          { label: "Security", link: "/settings/advanced/security" },
+          { label: "API Keys", link: "/settings/advanced/api" },
+        ],
+      },
+    ],
+  },
+  { label: "Profile", icon: "user", showIcon: true, link: "/profile" },
+];
+
 export const Default: Story = {
   args: {
     headerConfig: {
@@ -48,7 +79,13 @@ export const Default: Story = {
     items: navigationItems,
   },
   render: (args) => (
-    <SideNav size={args.size} collapsible={args.collapsible} headerConfig={args.headerConfig} appearance={args.appearance} items={args.items}>
+    <SideNav
+      size={args.size}
+      collapsible={args.collapsible}
+      headerConfig={args.headerConfig}
+      appearance={args.appearance}
+      items={args.items}
+    >
       {PageContent}
     </SideNav>
   ),
@@ -60,7 +97,13 @@ export const Collapsible: Story = {
     collapsible: true,
   },
   render: (args) => (
-    <SideNav size={args.size} collapsible={args.collapsible} headerConfig={args.headerConfig} appearance={args.appearance} items={args.items}>
+    <SideNav
+      size={args.size}
+      collapsible={args.collapsible}
+      headerConfig={args.headerConfig}
+      appearance={args.appearance}
+      items={args.items}
+    >
       {PageContent}
     </SideNav>
   ),
@@ -77,7 +120,37 @@ export const HeaderWithVersion: Story = {
     items: navigationItems,
   },
   render: (args) => (
-    <SideNav size={args.size} collapsible={args.collapsible} headerConfig={args.headerConfig} appearance={args.appearance} items={args.items}>
+    <SideNav
+      size={args.size}
+      collapsible={args.collapsible}
+      headerConfig={args.headerConfig}
+      appearance={args.appearance}
+      items={args.items}
+    >
+      {PageContent}
+    </SideNav>
+  ),
+};
+
+export const WithNestedMenus: Story = {
+  args: {
+    headerConfig: {
+      identifier: "MA",
+      title: "My Application",
+      version: "V1.2.3",
+      icon: "home",
+    },
+    items: navigationItemsWithNested,
+    collapsible: true,
+  },
+  render: (args) => (
+    <SideNav
+      size={args.size}
+      collapsible={args.collapsible}
+      headerConfig={args.headerConfig}
+      appearance={args.appearance}
+      items={args.items}
+    >
       {PageContent}
     </SideNav>
   ),

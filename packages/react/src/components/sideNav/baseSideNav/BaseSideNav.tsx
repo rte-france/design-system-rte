@@ -32,7 +32,6 @@ const BaseSideNav = React.forwardRef<HTMLElement | HTMLDivElement, BaseSideNavPr
   ) => {
     return (
       <div className={style.sideNavContainer}>
-        <h1>collapse: {collapsed ? "true" : "false"}</h1>
         <nav
           ref={ref as ForwardedRef<HTMLDivElement>}
           className={concatClassNames(style.sideNav, collapsed ? style.collapsed : "", appearance && style[appearance])}
