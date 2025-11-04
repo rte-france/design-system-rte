@@ -10,6 +10,7 @@ const meta = {
   argTypes: {
     collapsible: { control: "boolean" },
     size: { control: "select", options: ["s", "m", "l"] },
+    appearance: { control: "select", options: ["neutral", "brand"] },
   },
 } satisfies Meta<typeof SideNav>;
 
@@ -34,7 +35,7 @@ const navigationItems = [
   { label: "Dashboard", icon: "dashboard", showIcon: true },
   { label: "Analytics", icon: "analytics", showIcon: true },
   { label: "Settings", icon: "settings", showIcon: true },
-  { label: "Profile", icon: "person", showIcon: true },
+  { label: "Profile", icon: "user", showIcon: true, link: "/profile" },
 ];
 
 export const Default: Story = {
@@ -42,11 +43,12 @@ export const Default: Story = {
     headerConfig: {
       title: "My Header",
       icon: "home",
+      identifier: "MA",
     },
     items: navigationItems,
   },
   render: (args) => (
-    <SideNav size={args.size} collapsible={args.collapsible} headerConfig={args.headerConfig} items={args.items}>
+    <SideNav size={args.size} collapsible={args.collapsible} headerConfig={args.headerConfig} appearance={args.appearance} items={args.items}>
       {PageContent}
     </SideNav>
   ),
@@ -58,7 +60,24 @@ export const Collapsible: Story = {
     collapsible: true,
   },
   render: (args) => (
-    <SideNav size={args.size} collapsible={args.collapsible} headerConfig={args.headerConfig} items={args.items}>
+    <SideNav size={args.size} collapsible={args.collapsible} headerConfig={args.headerConfig} appearance={args.appearance} items={args.items}>
+      {PageContent}
+    </SideNav>
+  ),
+};
+
+export const HeaderWithVersion: Story = {
+  args: {
+    headerConfig: {
+      identifier: "MA",
+      title: "My Application",
+      version: "V1.2.3",
+      icon: "home",
+    },
+    items: navigationItems,
+  },
+  render: (args) => (
+    <SideNav size={args.size} collapsible={args.collapsible} headerConfig={args.headerConfig} appearance={args.appearance} items={args.items}>
       {PageContent}
     </SideNav>
   ),

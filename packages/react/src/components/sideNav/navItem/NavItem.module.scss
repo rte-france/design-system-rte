@@ -20,6 +20,15 @@
         gap: $positive-spacing_100;
         flex: 1 0 0;
         user-select: none;
+
+        &:link {
+            text-decoration: none;
+            color: inherit;
+            &:hover {
+                text-decoration: none;
+                color: inherit;
+            }
+        }
     }
 
     &.collapsed {

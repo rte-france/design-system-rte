@@ -127,7 +127,6 @@ export const HeaderBodyFooter: Story = {
 
 export const ColoredSections: Story = {
   args: {
-    size: "m",
     collapsible: true,
     showHeader: true,
     showFooter: true,
@@ -142,7 +141,7 @@ export const ColoredSections: Story = {
         <div
           style={{
             fontWeight: "600",
-            fontSize: "0.875rem",
+            color: "#000",
             padding: "1rem",
             backgroundColor: "#E8F4F8",
             width: "100%",
@@ -155,12 +154,12 @@ export const ColoredSections: Story = {
       body={
         <div
           style={{
-            fontSize: "0.875rem",
             padding: "1rem",
             backgroundColor: "#F0E8F8",
             width: "100%",
             height: "100%",
             boxSizing: "border-box",
+            color: "#000",
           }}
         >
           📄 Body Section
@@ -171,11 +170,11 @@ export const ColoredSections: Story = {
       footer={
         <div
           style={{
-            fontSize: "0.75rem",
             padding: "1rem",
             backgroundColor: "#F8F0E8",
             width: "100%",
             boxSizing: "border-box",
+            color: "#000",
           }}
         >
           🔧 Footer Section
