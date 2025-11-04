@@ -20,6 +20,7 @@
     box-sizing: border-box;
     border-radius: var(--border-radius-0);
     transition: min-width 300ms;
+    position: relative;
 
     &.neutral {
         background-color: red;
@@ -37,6 +38,12 @@
     height: 120px;
     min-height: 120px;
     max-height: 120px;
+
+    &.collapsed {
+        align-items: center;
+        justify-content: center;
+        padding: $positive-spacing_050;
+    }
 }
 
 .sideNavHeader {
@@ -112,6 +119,17 @@
         gap: $positive-spacing_0;
         align-self: stretch;
         @include typography-text-xs;
+        transition: opacity 300ms, max-height 300ms;
+        max-height: 50px;
+        overflow: hidden;
+        opacity: 1;
+
+        &.hidden {
+            opacity: 0;
+            max-height: 0;
+            padding: 0;
+            margin: 0;
+        }
     }
 }
 
@@ -122,11 +140,17 @@
     align-items: flex-start;
     gap: $positive-spacing_100;
     flex: 1 0 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 100%;
+    box-sizing: border-box;
 
     ul {
         list-style: none;
         padding: 0;
         margin: 0;
+        width: 100%;
+        box-sizing: border-box;
     }
 }
 
@@ -138,6 +162,7 @@
     box-sizing: border-box;
     width: 100%;
     padding: $positive-spacing_100;
+    box-sizing: border-box;
 }
 
 .collapsibleSection {

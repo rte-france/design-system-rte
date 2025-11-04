@@ -1,0 +1,72 @@
+@use '@design-system-rte/core/design-tokens/main.scss' as *;
+
+.navMenuContainer {
+    @include typography-text-m-regular;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    border-radius: $radius-s;
+    cursor: pointer;
+    transition: background-color 300ms;
+    box-sizing: border-box;
+
+    .navMenu {
+        display: flex;
+        padding: $positive-spacing_100 $positive-spacing_075;
+        align-items: center;
+        gap: $positive-spacing_100;
+        flex: 1 0 0;
+        user-select: none;
+        justify-content: space-between;
+        width: 100%;
+        box-sizing: border-box;
+
+        &:link {
+            text-decoration: none;
+            color: inherit;
+            &:hover {
+                text-decoration: none;
+                color: inherit;
+            }
+        }
+    }
+
+    &.collapsed {
+        .navMenu {
+            padding: $positive-spacing_100 $positive-spacing_150;
+            justify-content: center;
+        }
+    }
+
+    .menuIcon {
+        flex-shrink: 0;
+        transition: transform 200ms;
+        margin-left: auto;
+    }
+
+    .menuIconOpen {
+        transform: rotate(90deg);
+    }
+
+    .nestedMenu {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 300ms, padding 300ms;
+        padding-left: $positive-spacing_200;
+
+        &.nestedMenuOpen {
+            max-height: 1000px;
+            padding-top: $positive-spacing_050;
+            padding-bottom: $positive-spacing_050;
+        }
+    }
+
+    .icon {
+        flex-shrink: 0;
+    }
+}
+

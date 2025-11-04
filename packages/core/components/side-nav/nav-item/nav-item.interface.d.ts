@@ -9,4 +9,5 @@ export interface NavItemProps {
   collapsed?: boolean;
   link?: string;
   onClick?: () => void;
+  items?: NavItemProps[];
 }
