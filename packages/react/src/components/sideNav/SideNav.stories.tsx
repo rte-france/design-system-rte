@@ -16,6 +16,7 @@ const meta = {
     collapsible: { control: "boolean" },
     size: { control: "select", options: ["s", "m", "l"] },
     appearance: { control: "select", options: ["neutral", "brand"] },
+    collapsed: { control: "boolean" },
   },
   render: (args) => (
     <SideNav
@@ -24,6 +25,7 @@ const meta = {
       headerConfig={args.headerConfig}
       appearance={args.appearance}
       items={args.items}
+      collapsed={args.collapsed}
     >
       {PageContent}
     </SideNav>
@@ -101,8 +103,27 @@ const getNavElement = (sideNav: HTMLElement, text: string): HTMLElement | null =
   const navContainer = within(sideNav);
   const link = navContainer.queryByRole("link", { name: text });
   if (link) return link;
-  const textElement = navContainer.getByText(text);
-  const listItem = textElement.closest("li") as HTMLElement | null;
+  const textElement = navContainer.queryByText(text);
+  if (textElement) {
+    const listItem = textElement.closest("li") as HTMLElement | null;
+    if (listItem) {
+      const anchor = listItem.querySelector("a");
+      if (anchor) return anchor;
+      const spans = Array.from(listItem.querySelectorAll("span"));
+      const interactiveSpan = spans.find((span) => span.hasAttribute("tabindex"));
+      if (interactiveSpan) return interactiveSpan as HTMLElement;
+    }
+  }
+  return null;
+};
+
+const getNavElementInCollapsedState = (sideNav: HTMLElement, itemIndex: number): HTMLElement | null => {
+  const body = sideNav.querySelector('[class*="sideNavBody"]');
+  if (!body) return null;
+
+  const bodyListItems = Array.from(body.querySelectorAll("li")) as HTMLElement[];
+  const listItem = bodyListItems[itemIndex];
+
   if (listItem) {
     const anchor = listItem.querySelector("a");
     if (anchor) return anchor;
@@ -390,6 +411,79 @@ export const HeaderWithOnClickTest: Story = {
 
       await userEvent.keyboard(TESTING_ENTER_KEY);
       await userEvent.keyboard(TESTING_SPACE_KEY);
+    });
+  },
+};
+
+export const CollapsedTooltipTest: Story = {
+  args: {
+    ...Default.args,
+    headerConfig: defaultHeaderConfig,
+    items: navigationItems,
+    collapsible: true,
+    collapsed: true,
+  },
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    const sideNav = canvas.getByRole("navigation");
+
+    await step("Verify tooltips appear when tabbing to navigation items", async () => {
+      const homeElement = getNavElementInCollapsedState(sideNav, 0);
+      expect(homeElement).not.toBeNull();
+
+      homeElement?.focus();
+      await new Promise((resolve) => setTimeout(resolve, 200));
+
+      const tooltip = within(document.body).queryByRole("tooltip", { name: "Home" });
+      expect(tooltip).not.toBeNull();
+      expect(tooltip).toHaveTextContent("Home");
+    });
+
+    await step("Verify tooltips appear when tabbing to next navigation item", async () => {
+      await userEvent.tab();
+      await new Promise((resolve) => setTimeout(resolve, 200));
+
+      const tooltip = within(document.body).queryByRole("tooltip", { name: "Dashboard" });
+      expect(tooltip).not.toBeNull();
+      expect(tooltip).toHaveTextContent("Dashboard");
+    });
+
+    await step("Verify tooltips appear for items with links when tabbing", async () => {
+      await userEvent.tab();
+      await userEvent.tab();
+      await userEvent.tab();
+      await new Promise((resolve) => setTimeout(resolve, 200));
+
+      const tooltip = within(document.body).queryByRole("tooltip", { name: "Profile" });
+      expect(tooltip).not.toBeNull();
+      expect(tooltip).toHaveTextContent("Profile");
+    });
+  },
+};
+
+export const CollapsedTooltipWithNestedTest: Story = {
+  args: {
+    ...Default.args,
+    headerConfig: defaultHeaderConfig,
+    items: navigationItemsWithNested,
+    collapsible: true,
+    collapsed: true,
+  },
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    const sideNav = canvas.getByRole("navigation");
+
+    await step("Verify tooltips appear when tabbing to menu items", async () => {
+      const dashboardMenu = getNavElementInCollapsedState(sideNav, 1);
+      expect(dashboardMenu).not.toBeNull();
+
+      await userEvent.tab();
+      await userEvent.tab();
+      await new Promise((resolve) => setTimeout(resolve, 200));
+
+      const tooltip = within(document.body).queryByRole("tooltip", { name: "Dashboard" });
+      expect(tooltip).not.toBeNull();
+      expect(tooltip).toHaveTextContent("Dashboard");
     });
   },
 };
