@@ -8,7 +8,7 @@
     justify-content: flex-start;
     border-radius: $radius-s;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 300ms;
     box-sizing: border-box;
 
     .navMenu {
@@ -41,7 +41,7 @@
 
     .menuIcon {
         flex-shrink: 0;
-        transition: transform 0.2s ease;
+        transition: transform 200ms;
         margin-left: auto;
     }
 
@@ -55,7 +55,7 @@
         margin: 0;
         max-height: 0;
         overflow: hidden;
-        transition: max-height 0.3s ease, padding 0.3s ease;
+        transition: max-height 300ms, padding 300ms;
         padding-left: $positive-spacing_200;
 
         &.nestedMenuOpen {

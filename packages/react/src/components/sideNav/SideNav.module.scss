@@ -119,7 +119,7 @@
         gap: $positive-spacing_0;
         align-self: stretch;
         @include typography-text-xs;
-        transition: opacity 0.3s ease, max-height 0.3s ease;
+        transition: opacity 300ms, max-height 300ms;
         max-height: 50px;
         overflow: hidden;
         opacity: 1;
