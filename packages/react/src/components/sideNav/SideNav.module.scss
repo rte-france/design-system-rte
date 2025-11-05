@@ -57,9 +57,12 @@
 
     &.neutral {
         .sideNavHeaderTitleContainer {
-            &:hover {
-                background: var(--background-neutral-navigation-hover);
-                @include neutral-shadow-1;
+            &[href],
+            &[role="button"] {
+                &:hover {
+                    background: var(--background-neutral-navigation-hover);
+                    @include neutral-shadow-1;
+                }
             }
         }
     }
@@ -71,12 +74,18 @@
         gap: $positive-spacing_100;
         flex: 1 0 0;
         align-self: stretch;
+        text-decoration: none;
+        color: inherit;
 
-        &:hover {
-            border-radius: $radius-s;
-            opacity: $opacity-100;
-            background: var(--background-brand-navigation-hover);
+        &[href],
+        &[role="button"] {
             cursor: pointer;
+
+            &:hover {
+                border-radius: $radius-s;
+                opacity: $opacity-100;
+                background: var(--background-brand-navigation-hover);
+            }
         }
 
         .sideNavHeaderTitle {
@@ -171,4 +180,12 @@
     flex-direction: column;
     align-items: flex-start;
     align-self: stretch;
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        box-sizing: border-box;
+    }
 }
