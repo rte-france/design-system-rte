@@ -1,3 +1,7 @@
+import {
+  TESTING_ENTER_KEY,
+  TESTING_SPACE_KEY,
+} from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
 import { Meta, StoryObj } from "@storybook/react";
 import { expect, userEvent, within } from "@storybook/test";
 
@@ -13,6 +17,17 @@ const meta = {
     size: { control: "select", options: ["s", "m", "l"] },
     appearance: { control: "select", options: ["neutral", "brand"] },
   },
+  render: (args) => (
+    <SideNav
+      size={args.size}
+      collapsible={args.collapsible}
+      headerConfig={args.headerConfig}
+      appearance={args.appearance}
+      items={args.items}
+    >
+      {PageContent}
+    </SideNav>
+  ),
 } satisfies Meta<typeof SideNav>;
 
 export default meta;
@@ -45,30 +60,91 @@ const navigationItemsWithNested = [
     label: "Dashboard",
     icon: "dashboard",
     showIcon: true,
-    items: [
-      { label: "Overview"},
-      { label: "Reports"},
-      { label: "Analytics"},
-    ],
+    items: [{ label: "Overview" }, { label: "Reports" }, { label: "Analytics" }],
   },
   {
     label: "Settings",
     icon: "settings",
     showIcon: true,
     items: [
-      { label: "General"},
-      { label: "Privacy"},
+      { label: "General" },
+      { label: "Privacy" },
       {
         label: "Advanced",
-        items: [
-          { label: "Security"},
-          { label: "API Keys"},
-        ],
+        items: [{ label: "Security" }, { label: "API Keys" }],
       },
     ],
   },
   { label: "Profile", icon: "user", showIcon: true, link: "/profile" },
 ];
+
+const defaultHeaderConfig = {
+  identifier: "MA",
+  title: "My Application",
+  version: "V1.2.3",
+  icon: "home",
+};
+
+const headerConfigWithLink = {
+  ...defaultHeaderConfig,
+  link: "/home",
+};
+
+const headerConfigWithOnClick = {
+  ...defaultHeaderConfig,
+  onClick: () => {
+    console.log("Header clicked");
+  },
+};
+
+const getNavElement = (sideNav: HTMLElement, text: string): HTMLElement | null => {
+  const navContainer = within(sideNav);
+  const link = navContainer.queryByRole("link", { name: text });
+  if (link) return link;
+  const textElement = navContainer.getByText(text);
+  const listItem = textElement.closest("li") as HTMLElement | null;
+  if (listItem) {
+    const anchor = listItem.querySelector("a");
+    if (anchor) return anchor;
+    const spans = Array.from(listItem.querySelectorAll("span"));
+    const interactiveSpan = spans.find((span) => span.hasAttribute("tabindex"));
+    if (interactiveSpan) return interactiveSpan as HTMLElement;
+  }
+  return null;
+};
+
+const getHeaderTitleContainer = (sideNav: HTMLElement, identifierText: string = "MA"): HTMLElement | null => {
+  const navContainer = within(sideNav);
+  const identifier = navContainer.getByText(identifierText);
+  const headerTitleContainer = identifier.parentElement?.parentElement;
+  return headerTitleContainer as HTMLElement | null;
+};
+
+const expectElementToHaveFocus = (element: HTMLElement | null) => {
+  expect(element).not.toBeNull();
+  expect(element).toHaveFocus();
+};
+
+const expectElementNotToHaveFocus = (sideNav: HTMLElement, text: string) => {
+  const element = getNavElement(sideNav, text);
+  if (element) {
+    expect(element).not.toHaveFocus();
+  }
+};
+
+const expectElementToBeSkipped = (sideNav: HTMLElement, text: string) => {
+  const element = getNavElement(sideNav, text);
+  if (element) {
+    expect(element).toHaveAttribute("tabindex", "-1");
+  }
+};
+
+const expectElementToBeAccessible = (sideNav: HTMLElement, text: string) => {
+  const element = getNavElement(sideNav, text);
+  if (element) {
+    expect(element).toHaveAttribute("tabindex", "0");
+  }
+};
 
 export const Default: Story = {
   args: {
@@ -76,20 +152,10 @@ export const Default: Story = {
       title: "My Header",
       icon: "home",
       identifier: "MA",
+      link: "/my-application",
     },
     items: navigationItems,
   },
-  render: (args) => (
-    <SideNav
-      size={args.size}
-      collapsible={args.collapsible}
-      headerConfig={args.headerConfig}
-      appearance={args.appearance}
-      items={args.items}
-    >
-      {PageContent}
-    </SideNav>
-  ),
 };
 
 export const Collapsible: Story = {
@@ -97,256 +163,233 @@ export const Collapsible: Story = {
     ...Default.args,
     collapsible: true,
   },
-  render: (args) => (
-    <SideNav
-      size={args.size}
-      collapsible={args.collapsible}
-      headerConfig={args.headerConfig}
-      appearance={args.appearance}
-      items={args.items}
-    >
-      {PageContent}
-    </SideNav>
-  ),
 };
 
 export const HeaderWithVersion: Story = {
   args: {
-    headerConfig: {
-      identifier: "MA",
-      title: "My Application",
-      version: "V1.2.3",
-      icon: "home",
-    },
-    items: navigationItems,
+    ...Default.args,
+    headerConfig: defaultHeaderConfig,
   },
-  render: (args) => (
-    <SideNav
-      size={args.size}
-      collapsible={args.collapsible}
-      headerConfig={args.headerConfig}
-      appearance={args.appearance}
-      items={args.items}
-    >
-      {PageContent}
-    </SideNav>
-  ),
 };
 
 export const WithNestedMenus: Story = {
   args: {
-    headerConfig: {
-      identifier: "MA",
-      title: "My Application",
-      version: "V1.2.3",
-      icon: "home",
-    },
+    ...Default.args,
+    headerConfig: defaultHeaderConfig,
     items: navigationItemsWithNested,
     collapsible: true,
   },
-  render: (args) => (
-    <SideNav
-      size={args.size}
-      collapsible={args.collapsible}
-      headerConfig={args.headerConfig}
-      appearance={args.appearance}
-      items={args.items}
-    >
-      {PageContent}
-    </SideNav>
-  ),
 };
 
 export const KeyboardNavigationTest: Story = {
   args: {
-    headerConfig: {
-      identifier: "MA",
-      title: "My Application",
-      version: "V1.2.3",
-      icon: "home",
-    },
+    ...Default.args,
+    headerConfig: defaultHeaderConfig,
     items: navigationItemsWithNested,
     collapsible: true,
   },
-  render: (args) => (
-    <SideNav
-      size={args.size}
-      collapsible={args.collapsible}
-      headerConfig={args.headerConfig}
-      appearance={args.appearance}
-      items={args.items}
-    >
-      {PageContent}
-    </SideNav>
-  ),
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
     const sideNav = canvas.getByRole("navigation");
 
-    const getNavElement = (text: string): HTMLElement | null => {
-      const navContainer = within(sideNav);
-      const link = navContainer.queryByRole("link", { name: text });
-      if (link) return link;
-      const textElement = navContainer.getByText(text);
-      const listItem = textElement.closest("li") as HTMLElement | null;
-      if (listItem) {
-        const anchor = listItem.querySelector("a");
-        if (anchor) return anchor;
-        const spans = Array.from(listItem.querySelectorAll("span"));
-        const interactiveSpan = spans.find((span) => span.hasAttribute("tabindex"));
-        if (interactiveSpan) return interactiveSpan as HTMLElement;
-      }
-      return null;
-    };
-
-    const expectElementToHaveFocus = (element: HTMLElement | null) => {
-      expect(element).not.toBeNull();
-      expect(element).toHaveFocus();
-    };
-
-    const expectElementNotToHaveFocus = (text: string) => {
-      const element = getNavElement(text);
-      if (element) {
-        expect(element).not.toHaveFocus();
-      }
-    };
-
-    const expectElementToBeSkipped = (text: string) => {
-      const element = getNavElement(text);
-      if (element) {
-        expect(element).toHaveAttribute("tabindex", "-1");
-      }
-    };
-
-    const expectElementToBeAccessible = (text: string) => {
-      const element = getNavElement(text);
-      if (element) {
-        expect(element).toHaveAttribute("tabindex", "0");
-      }
-    };
-
     await step("Navigate through navigation when all menus are closed", async () => {
-      expectElementToBeSkipped("Overview");
-      expectElementToBeSkipped("Reports");
-      expectElementToBeSkipped("Analytics");
-      expectElementToBeSkipped("General");
-      expectElementToBeSkipped("Privacy");
-      expectElementToBeSkipped("Advanced");
+      expectElementToBeSkipped(sideNav, "Overview");
+      expectElementToBeSkipped(sideNav, "Reports");
+      expectElementToBeSkipped(sideNav, "Analytics");
+      expectElementToBeSkipped(sideNav, "General");
+      expectElementToBeSkipped(sideNav, "Privacy");
+      expectElementToBeSkipped(sideNav, "Advanced");
 
-      await userEvent.tab();
-      await userEvent.tab();
-      const homeElement = getNavElement("Home");
+      const homeElement = getNavElement(sideNav, "Home");
+      homeElement?.focus();
       expectElementToHaveFocus(homeElement);
 
       await userEvent.tab();
-      const dashboardMenu = getNavElement("Dashboard");
+      const dashboardMenu = getNavElement(sideNav, "Dashboard");
       expectElementToHaveFocus(dashboardMenu);
-      expectElementNotToHaveFocus("Overview");
-      expectElementNotToHaveFocus("Reports");
-      expectElementNotToHaveFocus("Analytics");
+      expectElementNotToHaveFocus(sideNav, "Overview");
+      expectElementNotToHaveFocus(sideNav, "Reports");
+      expectElementNotToHaveFocus(sideNav, "Analytics");
 
       await userEvent.tab();
-      const settingsMenu = getNavElement("Settings");
+      const settingsMenu = getNavElement(sideNav, "Settings");
       expectElementToHaveFocus(settingsMenu);
-      expectElementNotToHaveFocus("General");
-      expectElementNotToHaveFocus("Privacy");
-      expectElementNotToHaveFocus("Advanced");
+      expectElementNotToHaveFocus(sideNav, "General");
+      expectElementNotToHaveFocus(sideNav, "Privacy");
+      expectElementNotToHaveFocus(sideNav, "Advanced");
 
       await userEvent.tab();
-      const profileElement = getNavElement("Profile");
+      const profileElement = getNavElement(sideNav, "Profile");
       expectElementToHaveFocus(profileElement);
     });
 
     await step("Open Dashboard menu and verify nested items are accessible", async () => {
-      const dashboardMenu = getNavElement("Dashboard");
+      const dashboardMenu = getNavElement(sideNav, "Dashboard");
       await userEvent.click(dashboardMenu!);
 
-      expectElementToBeAccessible("Overview");
-      expectElementToBeAccessible("Reports");
-      expectElementToBeAccessible("Analytics");
+      expectElementToBeAccessible(sideNav, "Overview");
+      expectElementToBeAccessible(sideNav, "Reports");
+      expectElementToBeAccessible(sideNav, "Analytics");
 
       await userEvent.tab();
-      const overviewElement = getNavElement("Overview");
+      const overviewElement = getNavElement(sideNav, "Overview");
       expectElementToHaveFocus(overviewElement);
 
       await userEvent.tab();
-      const reportsElement = getNavElement("Reports");
+      const reportsElement = getNavElement(sideNav, "Reports");
       expectElementToHaveFocus(reportsElement);
 
       await userEvent.tab();
-      const analyticsElement = getNavElement("Analytics");
+      const analyticsElement = getNavElement(sideNav, "Analytics");
       expectElementToHaveFocus(analyticsElement);
     });
 
     await step("Close Dashboard menu and verify nested items are skipped again", async () => {
-      const dashboardMenu = getNavElement("Dashboard");
+      const dashboardMenu = getNavElement(sideNav, "Dashboard");
       await userEvent.click(dashboardMenu!);
 
-      expectElementToBeSkipped("Overview");
-      expectElementToBeSkipped("Reports");
-      expectElementToBeSkipped("Analytics");
+      expectElementToBeSkipped(sideNav, "Overview");
+      expectElementToBeSkipped(sideNav, "Reports");
+      expectElementToBeSkipped(sideNav, "Analytics");
 
       await userEvent.tab();
-      const settingsMenu = getNavElement("Settings");
+      const settingsMenu = getNavElement(sideNav, "Settings");
       expectElementToHaveFocus(settingsMenu);
-      expectElementNotToHaveFocus("Overview");
-      expectElementNotToHaveFocus("Reports");
-      expectElementNotToHaveFocus("Analytics");
+      expectElementNotToHaveFocus(sideNav, "Overview");
+      expectElementNotToHaveFocus(sideNav, "Reports");
+      expectElementNotToHaveFocus(sideNav, "Analytics");
     });
 
     await step("Open Settings menu and verify nested items are accessible", async () => {
-      const settingsMenu = getNavElement("Settings");
+      const settingsMenu = getNavElement(sideNav, "Settings");
       await userEvent.click(settingsMenu!);
 
-      expectElementToBeAccessible("General");
-      expectElementToBeAccessible("Privacy");
-      expectElementToBeAccessible("Advanced");
-      expectElementToBeSkipped("Security");
-      expectElementToBeSkipped("API Keys");
+      expectElementToBeAccessible(sideNav, "General");
+      expectElementToBeAccessible(sideNav, "Privacy");
+      expectElementToBeAccessible(sideNav, "Advanced");
+      expectElementToBeSkipped(sideNav, "Security");
+      expectElementToBeSkipped(sideNav, "API Keys");
 
       await userEvent.tab();
-      const generalElement = getNavElement("General");
+      const generalElement = getNavElement(sideNav, "General");
       expectElementToHaveFocus(generalElement);
 
       await userEvent.tab();
-      const privacyElement = getNavElement("Privacy");
+      const privacyElement = getNavElement(sideNav, "Privacy");
       expectElementToHaveFocus(privacyElement);
 
       await userEvent.tab();
-      const advancedMenu = getNavElement("Advanced");
+      const advancedMenu = getNavElement(sideNav, "Advanced");
       expectElementToHaveFocus(advancedMenu);
-      expectElementNotToHaveFocus("Security");
-      expectElementNotToHaveFocus("API Keys");
+      expectElementNotToHaveFocus(sideNav, "Security");
+      expectElementNotToHaveFocus(sideNav, "API Keys");
     });
 
     await step("Open Advanced menu and verify deeply nested items are accessible", async () => {
-      const advancedMenu = getNavElement("Advanced");
+      const advancedMenu = getNavElement(sideNav, "Advanced");
       await userEvent.click(advancedMenu!);
 
-      expectElementToBeAccessible("Security");
-      expectElementToBeAccessible("API Keys");
+      expectElementToBeAccessible(sideNav, "Security");
+      expectElementToBeAccessible(sideNav, "API Keys");
 
       await userEvent.tab();
-      const securityElement = getNavElement("Security");
+      const securityElement = getNavElement(sideNav, "Security");
       expectElementToHaveFocus(securityElement);
 
       await userEvent.tab();
-      const apiKeysElement = getNavElement("API Keys");
+      const apiKeysElement = getNavElement(sideNav, "API Keys");
       expectElementToHaveFocus(apiKeysElement);
     });
 
     await step("Close Advanced menu and verify deeply nested items are skipped", async () => {
-      const advancedMenu = getNavElement("Advanced");
+      const advancedMenu = getNavElement(sideNav, "Advanced");
       await userEvent.click(advancedMenu!);
 
-      expectElementToBeSkipped("Security");
-      expectElementToBeSkipped("API Keys");
+      expectElementToBeSkipped(sideNav, "Security");
+      expectElementToBeSkipped(sideNav, "API Keys");
 
       await userEvent.tab();
-      const profileElement = getNavElement("Profile");
+      const profileElement = getNavElement(sideNav, "Profile");
       expectElementToHaveFocus(profileElement);
-      expectElementNotToHaveFocus("Security");
-      expectElementNotToHaveFocus("API Keys");
+      expectElementNotToHaveFocus(sideNav, "Security");
+      expectElementNotToHaveFocus(sideNav, "API Keys");
+    });
+  },
+};
+
+export const HeaderClickabilityTest: Story = {
+  args: {
+    ...Default.args,
+    headerConfig: defaultHeaderConfig,
+    collapsible: true,
+  },
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    const sideNav = canvas.getByRole("navigation");
+
+    await step("Verify header is not clickable when no link or onClick is provided", async () => {
+      const headerTitleContainer = getHeaderTitleContainer(sideNav);
+      expect(headerTitleContainer).not.toBeNull();
+      expect(headerTitleContainer?.tagName).toBe("DIV");
+      expect(headerTitleContainer).not.toHaveAttribute("href");
+      expect(headerTitleContainer).not.toHaveAttribute("role", "button");
+      expect(headerTitleContainer).not.toHaveAttribute("tabindex");
+    });
+  },
+};
+
+export const HeaderWithLinkTest: Story = {
+  args: {
+    ...Default.args,
+    headerConfig: headerConfigWithLink,
+    collapsible: true,
+  },
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    const sideNav = canvas.getByRole("navigation");
+
+    await step("Verify header is a link when link prop is provided", async () => {
+      const headerTitleContainer = getHeaderTitleContainer(sideNav);
+      expect(headerTitleContainer).not.toBeNull();
+      expect(headerTitleContainer?.tagName).toBe("A");
+      expect(headerTitleContainer).toHaveAttribute("href", "/home");
+      expect(headerTitleContainer).toHaveStyle({ cursor: "pointer" });
+    });
+
+    await step("Verify header is keyboard navigable", async () => {
+      const headerLink = getHeaderTitleContainer(sideNav);
+      headerLink?.focus();
+      expect(headerLink).toHaveFocus();
+    });
+  },
+};
+
+export const HeaderWithOnClickTest: Story = {
+  args: {
+    ...Default.args,
+    headerConfig: headerConfigWithOnClick,
+    collapsible: true,
+  },
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    const sideNav = canvas.getByRole("navigation");
+
+    await step("Verify header is clickable button when onClick is provided", async () => {
+      const headerTitleContainer = getHeaderTitleContainer(sideNav);
+      expect(headerTitleContainer).not.toBeNull();
+      expect(headerTitleContainer?.tagName).toBe("DIV");
+      expect(headerTitleContainer).toHaveAttribute("role", "button");
+      expect(headerTitleContainer).toHaveAttribute("tabindex", "0");
+      expect(headerTitleContainer).toHaveStyle({ cursor: "pointer" });
+    });
+
+    await step("Verify header is keyboard navigable and responds to Enter/Space", async () => {
+      const headerButton = getHeaderTitleContainer(sideNav);
+      headerButton?.focus();
+      expect(headerButton).toHaveFocus();
+
+      await userEvent.keyboard(TESTING_ENTER_KEY);
+      await userEvent.keyboard(TESTING_SPACE_KEY);
     });
   },
 };
