@@ -20,6 +20,7 @@
         gap: $positive-spacing_100;
         flex: 1 0 0;
         user-select: none;
+        outline: none;
 
         &:link {
             text-decoration: none;
@@ -29,6 +30,11 @@
                 color: inherit;
             }
         }
+    }
+
+    &.focused {
+        outline: 1px solid var(--border-brand-focused);
+        outline-offset: 0;
     }
 
     &.collapsed {

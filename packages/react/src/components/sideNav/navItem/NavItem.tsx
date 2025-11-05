@@ -1,6 +1,6 @@
 import { NavItemProps as CoreNavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
-import { ForwardedRef, forwardRef, HTMLAttributes, ReactNode } from "react";
+import { ForwardedRef, forwardRef, HTMLAttributes, ReactNode, useRef } from "react";
 
 import { Icon } from "../../..";
 import { useActiveKeyboard } from "../../../hooks/useActiveKeyboard";
@@ -18,6 +18,8 @@ const NavItem = forwardRef<HTMLElement | HTMLLIElement, NavItemProps>(
     { icon, showIcon, onClick, label, collapsed, link, parentMenuOpen, ...props }: NavItemProps,
     ref: ForwardedRef<HTMLElement | HTMLLIElement>,
   ) => {
+    const listItemRef = useRef<HTMLLIElement | null>(null);
+
     const handleKeyDown = (e: React.KeyboardEvent<HTMLSpanElement>) => {
       if ([SPACE_KEY, ENTER_KEY].includes(e.key)) {
         e.preventDefault();
@@ -34,21 +36,42 @@ const NavItem = forwardRef<HTMLElement | HTMLLIElement, NavItemProps>(
       },
     );
 
+    const handleFocus = () => {
+      listItemRef.current?.classList.add(style.focused);
+    };
+
+    const handleBlur = () => {
+      listItemRef.current?.classList.remove(style.focused);
+    };
+
     const tabIndex = parentMenuOpen === false ? -1 : 0;
 
     return (
       <li
         className={concatClassNames(style.navItemContainer, collapsed && style.collapsed)}
         onClick={onClick}
-        ref={ref as ForwardedRef<HTMLLIElement>}
+        ref={(node) => {
+          listItemRef.current = node;
+          if (typeof ref === "function") {
+            ref(node);
+          } else if (ref && "current" in ref) {
+            (ref as { current: HTMLElement | HTMLLIElement | null }).current = node;
+          }
+        }}
         {...props}
       >
         {link ? (
-          <a href={link} className={style.navItem} tabIndex={tabIndex}>
+          <a href={link} className={style.navItem} tabIndex={tabIndex} onFocus={handleFocus} onBlur={handleBlur}>
             <NavItemLabel icon={icon} showIcon={showIcon} label={label} collapsed={collapsed} />
           </a>
         ) : (
-          <span className={style.navItem} tabIndex={tabIndex} onKeyDown={onKeyDown}>
+          <span
+            className={style.navItem}
+            tabIndex={tabIndex}
+            onKeyDown={onKeyDown}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+          >
             <NavItemLabel icon={icon} showIcon={showIcon} label={label} collapsed={collapsed} />
           </span>
         )}
