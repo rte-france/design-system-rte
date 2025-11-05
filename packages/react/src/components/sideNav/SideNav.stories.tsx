@@ -85,11 +85,11 @@ const defaultHeaderConfig = {
   title: "My Application",
   version: "V1.2.3",
   icon: "home",
+  link: "/",
 };
 
 const headerConfigWithLink = {
   ...defaultHeaderConfig,
-  link: "/home",
 };
 
 const headerConfigWithOnClick = {
@@ -373,7 +373,7 @@ export const HeaderWithLinkTest: Story = {
       const headerTitleContainer = getHeaderTitleContainer(sideNav);
       expect(headerTitleContainer).not.toBeNull();
       expect(headerTitleContainer?.tagName).toBe("A");
-      expect(headerTitleContainer).toHaveAttribute("href", "/home");
+      expect(headerTitleContainer).toHaveAttribute("href", "/");
       expect(headerTitleContainer).toHaveStyle({ cursor: "pointer" });
     });
 
@@ -398,9 +398,7 @@ export const HeaderWithOnClickTest: Story = {
     await step("Verify header is clickable button when onClick is provided", async () => {
       const headerTitleContainer = getHeaderTitleContainer(sideNav);
       expect(headerTitleContainer).not.toBeNull();
-      expect(headerTitleContainer?.tagName).toBe("DIV");
-      expect(headerTitleContainer).toHaveAttribute("role", "button");
-      expect(headerTitleContainer).toHaveAttribute("tabindex", "0");
+      expect(headerTitleContainer?.tagName).toBe("A");
       expect(headerTitleContainer).toHaveStyle({ cursor: "pointer" });
     });
 

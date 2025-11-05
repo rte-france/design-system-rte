@@ -48,7 +48,7 @@ const NavItemContent = ({ link, tabIndex, onKeyDown, onFocus, onBlur, children }
 
 const NavItem = forwardRef<HTMLElement | HTMLLIElement, NavItemProps>(
   (
-    { icon, showIcon, onClick, label, collapsed, link, parentMenuOpen, ...props }: NavItemProps,
+    { icon, showIcon, onClick, label, collapsed, link, parentMenuOpen, appearance, ...props }: NavItemProps,
     ref: ForwardedRef<HTMLElement | HTMLLIElement>,
   ) => {
     const listItemRef = useRef<HTMLLIElement | null>(null);
@@ -83,7 +83,12 @@ const NavItem = forwardRef<HTMLElement | HTMLLIElement, NavItemProps>(
 
     const listItem = (
       <li
-        className={concatClassNames(style.navItemContainer, collapsed && style.collapsed)}
+        className={concatClassNames(
+          style.navItemContainer,
+          appearance && style[appearance],
+          collapsed && style.collapsed,
+          parentMenuOpen && style.nested,
+        )}
         onClick={onClick}
         ref={(node) => {
           listItemRef.current = node;
