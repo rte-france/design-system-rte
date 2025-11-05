@@ -14,6 +14,38 @@ interface NavItemProps extends CoreNavItemProps, Omit<HTMLAttributes<HTMLLIEleme
 
 import style from "./NavItem.module.scss";
 
+interface NavItemContentProps {
+  link?: string;
+  tabIndex: number;
+  onKeyDown?: (e: React.KeyboardEvent<HTMLSpanElement>) => void;
+  onFocus: () => void;
+  onBlur: () => void;
+  children: ReactNode;
+}
+
+const NavItemContent = ({ link, tabIndex, onKeyDown, onFocus, onBlur, children }: NavItemContentProps) => {
+  const commonProps = {
+    className: style.navItem,
+    tabIndex,
+    onFocus,
+    onBlur,
+  };
+
+  if (link) {
+    return (
+      <a href={link} {...commonProps}>
+        {children}
+      </a>
+    );
+  }
+
+  return (
+    <span {...commonProps} onKeyDown={onKeyDown}>
+      {children}
+    </span>
+  );
+};
+
 const NavItem = forwardRef<HTMLElement | HTMLLIElement, NavItemProps>(
   (
     { icon, showIcon, onClick, label, collapsed, link, parentMenuOpen, ...props }: NavItemProps,
@@ -47,27 +79,9 @@ const NavItem = forwardRef<HTMLElement | HTMLLIElement, NavItemProps>(
 
     const tabIndex = parentMenuOpen === false ? -1 : 0;
 
-    const navItemContent = (
-      <>
-        {link ? (
-          <a href={link} className={style.navItem} tabIndex={tabIndex} onFocus={handleFocus} onBlur={handleBlur}>
-            <NavItemLabel icon={icon} showIcon={showIcon} label={label} collapsed={collapsed} />
-          </a>
-        ) : (
-          <span
-            className={style.navItem}
-            tabIndex={tabIndex}
-            onKeyDown={onKeyDown}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-          >
-            <NavItemLabel icon={icon} showIcon={showIcon} label={label} collapsed={collapsed} />
-          </span>
-        )}
-      </>
-    );
+    const labelContent = <NavItemLabel icon={icon} showIcon={showIcon} label={label} collapsed={collapsed} />;
 
-    return (
+    const listItem = (
       <li
         className={concatClassNames(style.navItemContainer, collapsed && style.collapsed)}
         onClick={onClick}
@@ -81,15 +95,34 @@ const NavItem = forwardRef<HTMLElement | HTMLLIElement, NavItemProps>(
         }}
         {...props}
       >
-        {collapsed && label ? (
-          <Tooltip label={label} position="right" alignment="center" shouldFocusTrigger={true}>
-            {navItemContent}
-          </Tooltip>
-        ) : (
-          navItemContent
-        )}
+        <NavItemContent
+          link={link}
+          tabIndex={tabIndex}
+          onKeyDown={link ? undefined : onKeyDown}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+        >
+          {labelContent}
+        </NavItemContent>
       </li>
     );
+
+    if (collapsed && label) {
+      return (
+        <Tooltip
+          label={label}
+          position="right"
+          alignment="center"
+          arrow={false}
+          shouldFocusTrigger={false}
+          triggerStyles={{ outline: "none" }}
+        >
+          {listItem}
+        </Tooltip>
+      );
+    }
+
+    return listItem;
   },
 );
 

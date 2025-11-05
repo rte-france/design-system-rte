@@ -99,6 +99,7 @@ const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
         onMouseEnter={openTooltip}
         onMouseLeave={closeTooltip}
         onFocus={openTooltip}
+        onFocusCapture={!shouldFocusTrigger ? openTooltip : undefined}
         onBlur={closeTooltip}
         tabIndex={shouldFocusTrigger ? 0 : undefined}
         style={triggerStyles}

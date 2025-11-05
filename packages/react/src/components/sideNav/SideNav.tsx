@@ -20,8 +20,11 @@ interface SideNavProps extends Partial<CoreSideNavProps>, Omit<React.HTMLAttribu
 const TRANSITION_DURATION = 300;
 
 const SideNav = React.forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
-  ({ size = "m", collapsible, children, headerConfig, items, appearance = "brand" }: SideNavProps, ref) => {
-    const [isCollapsed, setIsCollapsed] = useState(false);
+  (
+    { size = "m", collapsible, children, headerConfig, items, collapsed = false, appearance = "brand" }: SideNavProps,
+    ref,
+  ) => {
+    const [isCollapsed, setIsCollapsed] = useState(collapsed);
     const [shouldShowTitle, setShouldShowTitle] = useState(true);
 
     useEffect(() => {

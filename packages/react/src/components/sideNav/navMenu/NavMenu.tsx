@@ -22,6 +22,33 @@ interface NavMenuProps extends CoreNavMenuProps, Omit<HTMLAttributes<HTMLLIEleme
   parentMenuOpen?: boolean;
 }
 
+interface NavMenuContentProps {
+  link?: string;
+  tabIndex: number;
+  onClick: () => void;
+  onKeyDown: (e: React.KeyboardEvent<HTMLElement>) => void;
+  children: ReactNode;
+}
+
+const NavMenuContent = ({ link, tabIndex, onClick, onKeyDown, children }: NavMenuContentProps) => {
+  const commonProps = {
+    className: style.navMenu,
+    onClick,
+    tabIndex,
+    onKeyDown: onKeyDown as React.KeyboardEventHandler<HTMLElement>,
+  };
+
+  if (link) {
+    return (
+      <a href={link} {...commonProps}>
+        {children}
+      </a>
+    );
+  }
+
+  return <span {...commonProps}>{children}</span>;
+};
+
 const NavMenuComponent = forwardRef<HTMLElement | HTMLLIElement, NavMenuProps>(
   (
     {
@@ -65,15 +92,8 @@ const NavMenuComponent = forwardRef<HTMLElement | HTMLLIElement, NavMenuProps>(
       }
     };
 
-    const { onKeyDown: onKeyDownAnchor } = useActiveKeyboard<HTMLAnchorElement>(
-      { onKeyDown: handleKeyDown as React.KeyboardEventHandler<HTMLAnchorElement> },
-      {
-        interactiveKeyCodes: [SPACE_KEY, ENTER_KEY, ESCAPE_KEY, ARROW_DOWN_KEY, ARROW_UP_KEY],
-      },
-    );
-
-    const { onKeyDown: onKeyDownSpan } = useActiveKeyboard<HTMLSpanElement>(
-      { onKeyDown: handleKeyDown as React.KeyboardEventHandler<HTMLSpanElement> },
+    const { onKeyDown } = useActiveKeyboard<HTMLElement>(
+      { onKeyDown: handleKeyDown },
       {
         interactiveKeyCodes: [SPACE_KEY, ENTER_KEY, ESCAPE_KEY, ARROW_DOWN_KEY, ARROW_UP_KEY],
       },
@@ -84,45 +104,27 @@ const NavMenuComponent = forwardRef<HTMLElement | HTMLLIElement, NavMenuProps>(
     const nestedItemsParentMenuOpen = isOpen;
     const tabIndex = parentMenuOpen === false ? -1 : 0;
 
-    const navMenuContent = (
+    const chevronIcon =
+      shouldShowMenu && showMenuIcon ? (
+        <Icon name="arrow-chevron-right" className={concatClassNames(style.menuIcon, isOpen && style.menuIconOpen)} />
+      ) : null;
+
+    const menuContent = (
       <>
-        {link ? (
-          <a href={link} className={style.navMenu} onClick={toggleMenu} tabIndex={tabIndex} onKeyDown={onKeyDownAnchor}>
-            <NavMenuLabel icon={icon} showIcon={showIcon} label={label} collapsed={collapsed} />
-            {shouldShowMenu && showMenuIcon && (
-              <Icon
-                name="arrow-chevron-right"
-                className={concatClassNames(style.menuIcon, isOpen && style.menuIconOpen)}
-              />
-            )}
-          </a>
-        ) : (
-          <span className={style.navMenu} onClick={toggleMenu} tabIndex={tabIndex} onKeyDown={onKeyDownSpan}>
-            <NavMenuLabel icon={icon} showIcon={showIcon} label={label} collapsed={collapsed} />
-            {shouldShowMenu && showMenuIcon && (
-              <Icon
-                name="arrow-chevron-right"
-                className={concatClassNames(style.menuIcon, isOpen && style.menuIconOpen)}
-              />
-            )}
-          </span>
-        )}
+        <NavMenuLabel icon={icon} showIcon={showIcon} label={label} collapsed={collapsed} />
+        {chevronIcon}
       </>
     );
 
-    return (
+    const listItem = (
       <li
         className={concatClassNames(style.navMenuContainer, collapsed && style.collapsed, isOpen && style.open)}
         ref={ref as ForwardedRef<HTMLLIElement>}
         {...props}
       >
-        {collapsed && label ? (
-          <Tooltip label={label} position="right" alignment="center" shouldFocusTrigger={true}>
-            {navMenuContent}
-          </Tooltip>
-        ) : (
-          navMenuContent
-        )}
+        <NavMenuContent link={link} tabIndex={tabIndex} onClick={toggleMenu} onKeyDown={onKeyDown}>
+          {menuContent}
+        </NavMenuContent>
         {shouldShowMenu && (
           <ul className={concatClassNames(style.nestedMenu, isOpen && style.nestedMenuOpen)}>
             {items.map((item: NavItemProps) => {
@@ -160,6 +162,23 @@ const NavMenuComponent = forwardRef<HTMLElement | HTMLLIElement, NavMenuProps>(
         )}
       </li>
     );
+
+    if (collapsed && label) {
+      return (
+        <Tooltip
+          label={label}
+          position="right"
+          alignment="center"
+          arrow={false}
+          shouldFocusTrigger={false}
+          triggerStyles={{ outline: "none" }}
+        >
+          {listItem}
+        </Tooltip>
+      );
+    }
+
+    return listItem;
   },
 );
 
