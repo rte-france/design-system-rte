@@ -107,8 +107,8 @@ const SideNav = React.forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
               <div className={concatClassNames(style.sideNavHeaderVersion, !shouldShowTitle && style.hidden)}>
                 <span>{headerConfig?.version}</span>
               </div>
-              <Divider appearance={appearance as DividerAppearance} />
             </div>
+            <Divider appearance={appearance as DividerAppearance} />
           </div>
         }
         body={
@@ -127,6 +127,7 @@ const SideNav = React.forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
                       link={item.link}
                       onClick={item.onClick}
                       items={item.items || []}
+                      appearance={appearance}
                     />
                   );
                 }
@@ -139,6 +140,7 @@ const SideNav = React.forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
                     collapsed={isCollapsed}
                     link={item.link}
                     onClick={item.onClick}
+                    appearance={appearance}
                   />
                 );
               })}
@@ -155,7 +157,8 @@ const SideNav = React.forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
                     showIcon={true}
                     collapsed={isCollapsed}
                     onClick={collapseSideNav}
-                    label={isCollapsed ? "" : "Réduire le menu"}
+                    label={isCollapsed ? "Ouvrir le menu" : "Réduire le menu"}
+                    appearance={appearance}
                   />
                 </ul>
               </div>

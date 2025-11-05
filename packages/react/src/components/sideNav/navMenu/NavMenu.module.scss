@@ -11,6 +11,14 @@
     transition: background-color 300ms;
     box-sizing: border-box;
 
+    &.neutral {
+        .navMenu {
+            &:hover {
+                background: var(--background-neutral-navigation-hover);
+            }
+        }
+    }
+
     .navMenu {
         display: flex;
         padding: $positive-spacing_100 $positive-spacing_075;
@@ -21,6 +29,17 @@
         justify-content: space-between;
         width: 100%;
         box-sizing: border-box;
+
+        &:hover {
+            border-radius: $radius-s;
+            opacity: $opacity-100;
+            background: var(--background-brand-navigation-hover);
+        }
+
+        &:active {
+            border-radius: $radius-s;
+            background: var(--background-brand-navigation-active);
+        }
 
         &:link {
             text-decoration: none;
@@ -41,6 +60,13 @@
         .navMenu {
             padding: $positive-spacing_100 $positive-spacing_150;
             justify-content: center;
+        }
+    }
+
+    &.nested {
+        .navMenu {
+            border-radius: 0 $radius-s $radius-s 0;
+            border-left: $width-xs solid var(--border-brand-navigation-divider);
         }
     }
 

@@ -62,6 +62,7 @@ const NavMenuComponent = forwardRef<HTMLElement | HTMLLIElement, NavMenuProps>(
       open: controlledOpen,
       showMenuIcon = true,
       parentMenuOpen,
+      appearance,
       ...props
     }: NavMenuProps,
     ref: ForwardedRef<HTMLElement | HTMLLIElement>,
@@ -118,7 +119,13 @@ const NavMenuComponent = forwardRef<HTMLElement | HTMLLIElement, NavMenuProps>(
 
     const listItem = (
       <li
-        className={concatClassNames(style.navMenuContainer, collapsed && style.collapsed, isOpen && style.open)}
+        className={concatClassNames(
+          style.navMenuContainer,
+          appearance && style[appearance],
+          collapsed && style.collapsed,
+          isOpen && style.open,
+          parentMenuOpen && style.nested,
+        )}
         ref={ref as ForwardedRef<HTMLLIElement>}
         {...props}
       >
@@ -142,6 +149,7 @@ const NavMenuComponent = forwardRef<HTMLElement | HTMLLIElement, NavMenuProps>(
                     items={item.items || []}
                     showMenuIcon={showMenuIcon}
                     parentMenuOpen={nestedItemsParentMenuOpen}
+                    appearance={appearance}
                   />
                 );
               }
@@ -155,6 +163,7 @@ const NavMenuComponent = forwardRef<HTMLElement | HTMLLIElement, NavMenuProps>(
                   link={item.link}
                   onClick={item.onClick}
                   parentMenuOpen={nestedItemsParentMenuOpen}
+                  appearance={appearance}
                 />
               );
             })}

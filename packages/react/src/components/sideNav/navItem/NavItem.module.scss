@@ -13,6 +13,22 @@
     align-items: center;
     box-sizing: border-box;
 
+    &.neutral {
+        &:hover {
+            background: var(--background-neutral-navigation-hover);
+        }
+    }
+
+    &:hover {
+        border-radius: $radius-s;
+        opacity: $opacity-100;
+        background: var(--background-brand-navigation-hover);
+    }
+
+    &:active {
+        background: var(--background-brand-navigation-active);
+    }
+
     .navItem {
         display: flex;
         padding: 0;
@@ -44,5 +60,10 @@
         .navItem {
             justify-content: center;
         }
+    }
+
+    &.nested {
+        border-radius: 0 $radius-s $radius-s 0;
+        border-left: $width-xs solid var(--border-brand-navigation-divider);
     }
 }

@@ -18,7 +18,7 @@
     gap: $positive-spacing_0;
     overflow: hidden;
     box-sizing: border-box;
-    border-radius: var(--border-radius-0);
+    border-radius: 0;
     transition: min-width 300ms;
     position: relative;
 
@@ -54,6 +54,27 @@
     gap: $positive-spacing_050;
     flex: 1 0 0;
     align-self: stretch;
+    height: 120px;
+
+    &.collapsed {
+        padding: $positive-spacing_050;
+        justify-content: center;
+        align-items: center;
+        flex: 1 0 0;
+        align-self: stretch;
+
+        .sideNavHeaderTitleContainer {
+            padding: $positive-spacing_100;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 0;
+            gap: 0;
+            align-self: auto;
+            .sideNavHeaderTitle {
+                gap: 0;
+            }
+        }
+    }
 
     &.neutral {
         .sideNavHeaderTitleContainer {
