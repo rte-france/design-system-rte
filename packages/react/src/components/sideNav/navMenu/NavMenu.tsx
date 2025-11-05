@@ -11,6 +11,7 @@ import { ForwardedRef, forwardRef, HTMLAttributes, ReactNode, useState } from "r
 
 import { Icon } from "../../..";
 import { useActiveKeyboard } from "../../../hooks/useActiveKeyboard";
+import Tooltip from "../../tooltip/Tooltip";
 import { concatClassNames } from "../../utils";
 import NavItem from "../navItem/NavItem";
 
@@ -83,12 +84,8 @@ const NavMenuComponent = forwardRef<HTMLElement | HTMLLIElement, NavMenuProps>(
     const nestedItemsParentMenuOpen = isOpen;
     const tabIndex = parentMenuOpen === false ? -1 : 0;
 
-    return (
-      <li
-        className={concatClassNames(style.navMenuContainer, collapsed && style.collapsed, isOpen && style.open)}
-        ref={ref as ForwardedRef<HTMLLIElement>}
-        {...props}
-      >
+    const navMenuContent = (
+      <>
         {link ? (
           <a href={link} className={style.navMenu} onClick={toggleMenu} tabIndex={tabIndex} onKeyDown={onKeyDownAnchor}>
             <NavMenuLabel icon={icon} showIcon={showIcon} label={label} collapsed={collapsed} />
@@ -109,6 +106,22 @@ const NavMenuComponent = forwardRef<HTMLElement | HTMLLIElement, NavMenuProps>(
               />
             )}
           </span>
+        )}
+      </>
+    );
+
+    return (
+      <li
+        className={concatClassNames(style.navMenuContainer, collapsed && style.collapsed, isOpen && style.open)}
+        ref={ref as ForwardedRef<HTMLLIElement>}
+        {...props}
+      >
+        {collapsed && label ? (
+          <Tooltip label={label} position="right" alignment="center" shouldFocusTrigger={true}>
+            {navMenuContent}
+          </Tooltip>
+        ) : (
+          navMenuContent
         )}
         {shouldShowMenu && (
           <ul className={concatClassNames(style.nestedMenu, isOpen && style.nestedMenuOpen)}>

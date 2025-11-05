@@ -4,6 +4,7 @@ import { ForwardedRef, forwardRef, HTMLAttributes, ReactNode, useRef } from "rea
 
 import { Icon } from "../../..";
 import { useActiveKeyboard } from "../../../hooks/useActiveKeyboard";
+import Tooltip from "../../tooltip/Tooltip";
 import { concatClassNames } from "../../utils";
 
 interface NavItemProps extends CoreNavItemProps, Omit<HTMLAttributes<HTMLLIElement>, "onClick"> {
@@ -46,20 +47,8 @@ const NavItem = forwardRef<HTMLElement | HTMLLIElement, NavItemProps>(
 
     const tabIndex = parentMenuOpen === false ? -1 : 0;
 
-    return (
-      <li
-        className={concatClassNames(style.navItemContainer, collapsed && style.collapsed)}
-        onClick={onClick}
-        ref={(node) => {
-          listItemRef.current = node;
-          if (typeof ref === "function") {
-            ref(node);
-          } else if (ref && "current" in ref) {
-            (ref as { current: HTMLElement | HTMLLIElement | null }).current = node;
-          }
-        }}
-        {...props}
-      >
+    const navItemContent = (
+      <>
         {link ? (
           <a href={link} className={style.navItem} tabIndex={tabIndex} onFocus={handleFocus} onBlur={handleBlur}>
             <NavItemLabel icon={icon} showIcon={showIcon} label={label} collapsed={collapsed} />
@@ -74,6 +63,30 @@ const NavItem = forwardRef<HTMLElement | HTMLLIElement, NavItemProps>(
           >
             <NavItemLabel icon={icon} showIcon={showIcon} label={label} collapsed={collapsed} />
           </span>
+        )}
+      </>
+    );
+
+    return (
+      <li
+        className={concatClassNames(style.navItemContainer, collapsed && style.collapsed)}
+        onClick={onClick}
+        ref={(node) => {
+          listItemRef.current = node;
+          if (typeof ref === "function") {
+            ref(node);
+          } else if (ref && "current" in ref) {
+            (ref as { current: HTMLElement | HTMLLIElement | null }).current = node;
+          }
+        }}
+        {...props}
+      >
+        {collapsed && label ? (
+          <Tooltip label={label} position="right" alignment="center" shouldFocusTrigger={true}>
+            {navItemContent}
+          </Tooltip>
+        ) : (
+          navItemContent
         )}
       </li>
     );
