@@ -46,9 +46,9 @@ const navigationItemsWithNested = [
     icon: "dashboard",
     showIcon: true,
     items: [
-      { label: "Overview", link: "/dashboard/overview" },
-      { label: "Reports", link: "/dashboard/reports" },
-      { label: "Analytics", link: "/dashboard/analytics" },
+      { label: "Overview"},
+      { label: "Reports"},
+      { label: "Analytics"},
     ],
   },
   {
@@ -56,13 +56,13 @@ const navigationItemsWithNested = [
     icon: "settings",
     showIcon: true,
     items: [
-      { label: "General", link: "/settings/general" },
-      { label: "Privacy", link: "/settings/privacy" },
+      { label: "General"},
+      { label: "Privacy"},
       {
         label: "Advanced",
         items: [
-          { label: "Security", link: "/settings/advanced/security" },
-          { label: "API Keys", link: "/settings/advanced/api" },
+          { label: "Security"},
+          { label: "API Keys"},
         ],
       },
     ],
@@ -183,20 +183,20 @@ export const KeyboardNavigationTest: Story = {
     const canvas = within(canvasElement);
     const sideNav = canvas.getByRole("navigation");
 
-    const getNavLink = (text: string): HTMLElement | null => {
-      try {
-        return within(sideNav).getByRole("link", { name: text });
-      } catch {
-        const textElement = within(sideNav).getByText(text);
-        return textElement.closest("a, span") as HTMLElement | null;
-      }
-    };
-
     const getNavElement = (text: string): HTMLElement | null => {
-      const link = within(sideNav).queryByRole("link", { name: text });
+      const navContainer = within(sideNav);
+      const link = navContainer.queryByRole("link", { name: text });
       if (link) return link;
-      const textElement = within(sideNav).getByText(text);
-      return textElement.parentElement as HTMLElement | null;
+      const textElement = navContainer.getByText(text);
+      const listItem = textElement.closest("li") as HTMLElement | null;
+      if (listItem) {
+        const anchor = listItem.querySelector("a");
+        if (anchor) return anchor;
+        const spans = Array.from(listItem.querySelectorAll("span"));
+        const interactiveSpan = spans.find((span) => span.hasAttribute("tabindex"));
+        if (interactiveSpan) return interactiveSpan as HTMLElement;
+      }
+      return null;
     };
 
     const expectElementToHaveFocus = (element: HTMLElement | null) => {
@@ -235,8 +235,8 @@ export const KeyboardNavigationTest: Story = {
 
       await userEvent.tab();
       await userEvent.tab();
-      const homeLink = getNavLink("Home");
-      expectElementToHaveFocus(homeLink);
+      const homeElement = getNavElement("Home");
+      expectElementToHaveFocus(homeElement);
 
       await userEvent.tab();
       const dashboardMenu = getNavElement("Dashboard");
@@ -253,8 +253,8 @@ export const KeyboardNavigationTest: Story = {
       expectElementNotToHaveFocus("Advanced");
 
       await userEvent.tab();
-      const profileLink = getNavLink("Profile");
-      expectElementToHaveFocus(profileLink);
+      const profileElement = getNavElement("Profile");
+      expectElementToHaveFocus(profileElement);
     });
 
     await step("Open Dashboard menu and verify nested items are accessible", async () => {
@@ -266,16 +266,16 @@ export const KeyboardNavigationTest: Story = {
       expectElementToBeAccessible("Analytics");
 
       await userEvent.tab();
-      const overviewLink = getNavLink("Overview");
-      expectElementToHaveFocus(overviewLink);
+      const overviewElement = getNavElement("Overview");
+      expectElementToHaveFocus(overviewElement);
 
       await userEvent.tab();
-      const reportsLink = getNavLink("Reports");
-      expectElementToHaveFocus(reportsLink);
+      const reportsElement = getNavElement("Reports");
+      expectElementToHaveFocus(reportsElement);
 
       await userEvent.tab();
-      const analyticsLink = getNavLink("Analytics");
-      expectElementToHaveFocus(analyticsLink);
+      const analyticsElement = getNavElement("Analytics");
+      expectElementToHaveFocus(analyticsElement);
     });
 
     await step("Close Dashboard menu and verify nested items are skipped again", async () => {
@@ -305,12 +305,12 @@ export const KeyboardNavigationTest: Story = {
       expectElementToBeSkipped("API Keys");
 
       await userEvent.tab();
-      const generalLink = getNavLink("General");
-      expectElementToHaveFocus(generalLink);
+      const generalElement = getNavElement("General");
+      expectElementToHaveFocus(generalElement);
 
       await userEvent.tab();
-      const privacyLink = getNavLink("Privacy");
-      expectElementToHaveFocus(privacyLink);
+      const privacyElement = getNavElement("Privacy");
+      expectElementToHaveFocus(privacyElement);
 
       await userEvent.tab();
       const advancedMenu = getNavElement("Advanced");
@@ -327,12 +327,12 @@ export const KeyboardNavigationTest: Story = {
       expectElementToBeAccessible("API Keys");
 
       await userEvent.tab();
-      const securityLink = getNavLink("Security");
-      expectElementToHaveFocus(securityLink);
+      const securityElement = getNavElement("Security");
+      expectElementToHaveFocus(securityElement);
 
       await userEvent.tab();
-      const apiKeysLink = getNavLink("API Keys");
-      expectElementToHaveFocus(apiKeysLink);
+      const apiKeysElement = getNavElement("API Keys");
+      expectElementToHaveFocus(apiKeysElement);
     });
 
     await step("Close Advanced menu and verify deeply nested items are skipped", async () => {
@@ -343,8 +343,8 @@ export const KeyboardNavigationTest: Story = {
       expectElementToBeSkipped("API Keys");
 
       await userEvent.tab();
-      const profileLink = getNavLink("Profile");
-      expectElementToHaveFocus(profileLink);
+      const profileElement = getNavElement("Profile");
+      expectElementToHaveFocus(profileElement);
       expectElementNotToHaveFocus("Security");
       expectElementNotToHaveFocus("API Keys");
     });

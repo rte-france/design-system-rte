@@ -100,13 +100,15 @@ const SideNav = React.forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
           collapsible && (
             <div className={style.sideNavFooter}>
               <div className={style.collapsibleSection}>
-                <NavItem
-                  icon={collapseIcon}
-                  showIcon={true}
-                  collapsed={isCollapsed}
-                  onClick={collapseSideNav}
-                  label={isCollapsed ? "" : "Réduire le menu"}
-                />
+                <ul>
+                  <NavItem
+                    icon={collapseIcon}
+                    showIcon={true}
+                    collapsed={isCollapsed}
+                    onClick={collapseSideNav}
+                    label={isCollapsed ? "" : "Réduire le menu"}
+                  />
+                </ul>
               </div>
             </div>
           )

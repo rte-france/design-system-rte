@@ -171,4 +171,12 @@
     flex-direction: column;
     align-items: flex-start;
     align-self: stretch;
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        box-sizing: border-box;
+    }
 }
