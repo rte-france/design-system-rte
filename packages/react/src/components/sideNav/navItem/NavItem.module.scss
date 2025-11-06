@@ -21,13 +21,10 @@
         &:active {
             @include elevation-neutral-inner-shadow;
         }
-        &.focused {
-            outline: none;
-        }
 
         &.nested {
             border-radius: 0 $radius-s $radius-s 0;
-            border-left: $width-s solid var(--border-brand-navigation-divider);   
+            border-left: $width-xs solid var(--border-divider);   
         }
     }
 
@@ -77,5 +74,9 @@
     &.nested {
         border-radius: 0 $radius-s $radius-s 0;
         border-left: $width-xs solid var(--border-brand-navigation-divider);
+
+        &:active {
+            @include neutral-inner-shadow;
+        }
     }
 }
