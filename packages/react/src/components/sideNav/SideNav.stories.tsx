@@ -388,7 +388,7 @@ export const HeaderWithLinkTest: Story = {
 export const HeaderWithOnClickTest: Story = {
   args: {
     ...Default.args,
-    headerConfig: headerConfigWithOnClick,
+    headerConfig: { ...headerConfigWithOnClick, link: null },
     collapsible: true,
   },
   play: async ({ canvasElement, step }) => {
@@ -398,7 +398,8 @@ export const HeaderWithOnClickTest: Story = {
     await step("Verify header is clickable button when onClick is provided", async () => {
       const headerTitleContainer = getHeaderTitleContainer(sideNav);
       expect(headerTitleContainer).not.toBeNull();
-      expect(headerTitleContainer?.tagName).toBe("A");
+      expect(headerTitleContainer?.tagName).toBe("DIV");
+      await userEvent.click(headerTitleContainer!);
       expect(headerTitleContainer).toHaveStyle({ cursor: "pointer" });
     });
 
@@ -475,6 +476,7 @@ export const CollapsedTooltipWithNestedTest: Story = {
       const dashboardMenu = getNavElementInCollapsedState(sideNav, 1);
       expect(dashboardMenu).not.toBeNull();
 
+      await userEvent.tab();
       await userEvent.tab();
       await userEvent.tab();
       await new Promise((resolve) => setTimeout(resolve, 200));

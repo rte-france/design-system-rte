@@ -63,7 +63,7 @@ const SideNav = React.forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
     const headerTitleContent = (
       <div className={style.sideNavHeaderTitle}>
         <div className={style.sideNavHeaderIdentifier}>{headerConfig?.identifier}</div>
-        <h1>{shouldShowTitle ? headerConfig?.title : ""}</h1>
+        {shouldShowTitle ? <h1>{headerConfig?.title}</h1> : ""}
       </div>
     );
 
