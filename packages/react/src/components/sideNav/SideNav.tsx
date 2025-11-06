@@ -149,18 +149,21 @@ const SideNav = React.forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
         }
         footer={
           collapsible && (
-            <div className={style.sideNavFooter}>
-              <div className={style.collapsibleSection}>
-                <ul>
-                  <NavItem
-                    icon={collapseIcon}
-                    showIcon={true}
-                    collapsed={isCollapsed}
-                    onClick={collapseSideNav}
-                    label={isCollapsed ? "Ouvrir le menu" : "Réduire le menu"}
-                    appearance={appearance}
-                  />
-                </ul>
+            <div className={style.sideNavFooterContainer}>
+              <Divider appearance={appearance as DividerAppearance} />
+              <div className={style.sideNavFooter}>
+                <div className={style.collapsibleSection}>
+                  <ul>
+                    <NavItem
+                      icon={collapseIcon}
+                      showIcon={true}
+                      collapsed={isCollapsed}
+                      onClick={collapseSideNav}
+                      label={isCollapsed ? "Ouvrir le menu" : "Réduire le menu"}
+                      appearance={appearance}
+                    />
+                  </ul>
+                </div>
               </div>
             </div>
           )
