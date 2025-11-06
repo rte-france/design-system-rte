@@ -24,17 +24,19 @@ interface NavMenuProps extends CoreNavMenuProps, Omit<HTMLAttributes<HTMLLIEleme
 
 interface NavMenuContentProps {
   link?: string;
+  label: string;
   tabIndex: number;
   onClick: () => void;
   onKeyDown: (e: React.KeyboardEvent<HTMLElement>) => void;
   children: ReactNode;
 }
 
-const NavMenuContent = ({ link, tabIndex, onClick, onKeyDown, children }: NavMenuContentProps) => {
+const NavMenuContent = ({ link, label, tabIndex, onClick, onKeyDown, children }: NavMenuContentProps) => {
   const commonProps = {
     className: style.navMenu,
     onClick,
     tabIndex,
+    label,
     onKeyDown: onKeyDown as React.KeyboardEventHandler<HTMLElement>,
   };
 
@@ -46,7 +48,11 @@ const NavMenuContent = ({ link, tabIndex, onClick, onKeyDown, children }: NavMen
     );
   }
 
-  return <span {...commonProps}>{children}</span>;
+  return (
+    <span aria-label={label} {...commonProps}>
+      {children}
+    </span>
+  );
 };
 
 const NavMenuComponent = forwardRef<HTMLElement | HTMLLIElement, NavMenuProps>(
@@ -129,7 +135,7 @@ const NavMenuComponent = forwardRef<HTMLElement | HTMLLIElement, NavMenuProps>(
         ref={ref as ForwardedRef<HTMLLIElement>}
         {...props}
       >
-        <NavMenuContent link={link} tabIndex={tabIndex} onClick={toggleMenu} onKeyDown={onKeyDown}>
+        <NavMenuContent link={link} label={label} tabIndex={tabIndex} onClick={toggleMenu} onKeyDown={onKeyDown}>
           {menuContent}
         </NavMenuContent>
         {shouldShowMenu && (
