@@ -48,16 +48,18 @@
 
 .sideNavHeader {
     display: flex;
-    padding: $positive-spacing_250 $positive-spacing_100 $positive-spacing_050 $positive-spacing_100;
+    position: relative;
+    padding: $positive-spacing_250 $positive-spacing_100;
     flex-direction: column;
     align-items: flex-start;
     gap: $positive-spacing_050;
     flex: 1 0 0;
     align-self: stretch;
     height: 120px;
+    transition: opacity 300ms;
 
     &.collapsed {
-        padding: $positive-spacing_050;
+        padding: $positive-spacing_100;
         justify-content: center;
         align-items: center;
         flex: 1 0 0;
@@ -127,7 +129,7 @@
                 user-select: none;
                 border-radius: $radius-s;
                 background: var(--background-brand-navigation-active);
-                width: 24px;
+                min-width: 24px;
                 height: 24px;
             }
     
@@ -135,14 +137,24 @@
                 @include typography-heading-xs;
                 user-select: none;
                 align-self: stretch;
-                margin: 0
+                margin: 0;
+                transition: opacity 300ms;
+
+                &.hidden {
+                    opacity: 0;
+                    max-height: 0;
+                    padding: 0;
+                    margin: 0;
+                }
             }
         }
     }
 
     .sideNavHeaderVersion {
         display: flex;
-        padding: $positive-spacing_050 $positive-spacing_0;
+        position: absolute;
+        bottom: $positive-spacing_050;
+        right: $positive-spacing_100;
         flex-direction: column;
         justify-content: flex-end;
         align-items: flex-end;
