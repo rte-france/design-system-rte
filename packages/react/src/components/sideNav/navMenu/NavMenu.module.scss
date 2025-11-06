@@ -27,7 +27,12 @@
         &.nested {
             .navMenu {
                 border-radius: 0 $radius-s $radius-s 0;
-                border-left: $width-s solid var(--border-brand-navigation-divider);
+                border-left: $width-xs solid var(--border-divider)
+            }
+            &:active {
+                .navMenu {
+                    @include neutral-inner-shadow;
+                }
             }
         }
     }
@@ -66,6 +71,7 @@
         &:focus-visible {
             outline: 1px solid var(--border-brand-focused);
             outline-offset: 0;
+            border-radius: $radius-s;
         }
     }
 

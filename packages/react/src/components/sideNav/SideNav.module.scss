@@ -196,14 +196,18 @@
     }
 }
 
-.sideNavFooter {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    box-sizing: border-box;
-    width: 100%;
+.sideNavFooterContainer {
     padding: $positive-spacing_100;
+
+    .sideNavFooter {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        box-sizing: border-box;
+        width: 100%;
+        margin-top: $positive-spacing_050;
+    }
 }
 
 .collapsibleSection {
