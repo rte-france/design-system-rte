@@ -26,6 +26,7 @@ const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
       className = "",
       triggerStyles,
       shouldFocusTrigger = true,
+      gap = TOOLTIP_GAP,
       ...props
     },
     ref,
@@ -60,7 +61,7 @@ const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
                 triggerRef.current,
                 tooltipElement!,
                 "top",
-                arrow ? TOOLTIP_GAP_ARROW : TOOLTIP_GAP,
+                arrow ? TOOLTIP_GAP_ARROW + gap : gap,
                 true,
               )
             : position;
@@ -68,7 +69,7 @@ const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
           computedPosition,
           triggerRef.current,
           tooltipElement,
-          arrow ? TOOLTIP_GAP_ARROW : TOOLTIP_GAP,
+          arrow ? TOOLTIP_GAP_ARROW + gap : gap,
         );
         setAutoPosition(computedPosition);
         setCoordinates(computedCoordinates);

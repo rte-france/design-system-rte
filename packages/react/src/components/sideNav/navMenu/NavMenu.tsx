@@ -187,6 +187,7 @@ const NavMenuComponent = forwardRef<HTMLElement | HTMLLIElement, NavMenuProps>(
           arrow={false}
           shouldFocusTrigger={false}
           triggerStyles={{ outline: "none" }}
+          gap={12}
         >
           {listItem}
         </Tooltip>
