@@ -16,6 +16,19 @@
             &:hover {
                 background: var(--background-neutral-navigation-hover);
             }
+            &:active {
+                @include elevation-neutral-inner-shadow;
+            }
+            &.focused {
+                outline: none;
+            }
+        }
+
+        &.nested {
+            .navMenu {
+                border-radius: 0 $radius-s $radius-s 0;
+                border-left: $width-s solid var(--border-brand-navigation-divider);
+            }
         }
     }
 

@@ -3,4 +3,5 @@ export interface TooltipProps {
   alignment?: import("../../common-types").Alignment;
   label?: string;
   arrow?: boolean;
+  gap?: number;
 }

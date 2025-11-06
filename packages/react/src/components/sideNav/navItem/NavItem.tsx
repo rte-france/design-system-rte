@@ -124,6 +124,7 @@ const NavItem = forwardRef<HTMLElement | HTMLLIElement, NavItemProps>(
           arrow={false}
           shouldFocusTrigger={false}
           triggerStyles={{ outline: "none" }}
+          gap={12}
         >
           {listItem}
         </Tooltip>
