@@ -7,7 +7,7 @@ export interface SideNavHeaderConfig {
   title: string;
   version?: string;
   identifier?: string;
-  link?: string;
+  link?: string | null;
   onClick?: () => void;
   ariaLabel?: string;
 }

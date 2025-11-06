@@ -16,6 +16,7 @@ import style from "./NavItem.module.scss";
 
 interface NavItemContentProps {
   link?: string;
+  label: string;
   tabIndex: number;
   onKeyDown?: (e: React.KeyboardEvent<HTMLSpanElement>) => void;
   onFocus: () => void;
@@ -23,24 +24,25 @@ interface NavItemContentProps {
   children: ReactNode;
 }
 
-const NavItemContent = ({ link, tabIndex, onKeyDown, onFocus, onBlur, children }: NavItemContentProps) => {
+const NavItemContent = ({ link, label, tabIndex, onKeyDown, onFocus, onBlur, children }: NavItemContentProps) => {
   const commonProps = {
     className: style.navItem,
     tabIndex,
     onFocus,
     onBlur,
+    label,
   };
 
   if (link) {
     return (
-      <a href={link} {...commonProps}>
+      <a href={link} aria-label={label} {...commonProps}>
         {children}
       </a>
     );
   }
 
   return (
-    <span {...commonProps} onKeyDown={onKeyDown}>
+    <span aria-label={label} {...commonProps} onKeyDown={onKeyDown}>
       {children}
     </span>
   );
@@ -102,6 +104,7 @@ const NavItem = forwardRef<HTMLElement | HTMLLIElement, NavItemProps>(
       >
         <NavItemContent
           link={link}
+          label={label}
           tabIndex={tabIndex}
           onKeyDown={link ? undefined : onKeyDown}
           onFocus={handleFocus}
