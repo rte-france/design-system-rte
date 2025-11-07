@@ -7,7 +7,7 @@ import { useActiveKeyboard } from "../../../hooks/useActiveKeyboard";
 import Tooltip from "../../tooltip/Tooltip";
 import { concatClassNames } from "../../utils";
 
-interface NavItemProps extends CoreNavItemProps, Omit<HTMLAttributes<HTMLLIElement>, "onClick"> {
+interface NavItemProps extends CoreNavItemProps, Omit<HTMLAttributes<HTMLDivElement>, "onClick" | "id"> {
   children?: ReactNode;
   parentMenuOpen?: boolean;
 }
@@ -48,12 +48,12 @@ const NavItemContent = ({ link, label, tabIndex, onKeyDown, onFocus, onBlur, chi
   );
 };
 
-const NavItem = forwardRef<HTMLElement | HTMLLIElement, NavItemProps>(
+const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
   (
-    { icon, showIcon, onClick, label, collapsed, link, parentMenuOpen, appearance, ...props }: NavItemProps,
-    ref: ForwardedRef<HTMLElement | HTMLLIElement>,
+    { id, icon, showIcon, onClick, label, collapsed, link, parentMenuOpen, appearance, active, ...props }: NavItemProps,
+    ref: ForwardedRef<HTMLDivElement>,
   ) => {
-    const listItemRef = useRef<HTMLLIElement | null>(null);
+    const listItemRef = useRef<HTMLDivElement | null>(null);
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLSpanElement>) => {
       if ([SPACE_KEY, ENTER_KEY].includes(e.key)) {
@@ -81,15 +81,17 @@ const NavItem = forwardRef<HTMLElement | HTMLLIElement, NavItemProps>(
 
     const tabIndex = parentMenuOpen === false ? -1 : 0;
 
-    const labelContent = <NavItemLabel icon={icon} showIcon={showIcon} label={label} collapsed={collapsed} />;
+    const labelContent = <NavItemLabel id={id} icon={icon} showIcon={showIcon} label={label} collapsed={collapsed} />;
 
     const listItem = (
-      <li
+      <div
+        id={id}
         className={concatClassNames(
           style.navItemContainer,
           appearance && style[appearance],
           collapsed && style.collapsed,
           parentMenuOpen && style.nested,
+          active && style.active,
         )}
         onClick={onClick}
         ref={(node) => {
@@ -97,7 +99,7 @@ const NavItem = forwardRef<HTMLElement | HTMLLIElement, NavItemProps>(
           if (typeof ref === "function") {
             ref(node);
           } else if (ref && "current" in ref) {
-            (ref as { current: HTMLElement | HTMLLIElement | null }).current = node;
+            (ref as { current: HTMLDivElement | null }).current = node;
           }
         }}
         {...props}
@@ -112,7 +114,7 @@ const NavItem = forwardRef<HTMLElement | HTMLLIElement, NavItemProps>(
         >
           {labelContent}
         </NavItemContent>
-      </li>
+      </div>
     );
 
     if (collapsed && label) {

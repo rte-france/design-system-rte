@@ -1,6 +1,7 @@
 import { SideNavAppearance } from "../side-nav.interface";
 
 export interface NavItemProps {
+  id?: string;
   appearance?: SideNavAppearance;
   label: string;
   icon?: string;
@@ -10,4 +11,5 @@ export interface NavItemProps {
   link?: string;
   onClick?: () => void;
   items?: NavItemProps[];
+  active?: boolean;
 }
