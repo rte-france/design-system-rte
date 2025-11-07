@@ -3,7 +3,8 @@ import {
   TESTING_SPACE_KEY,
 } from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
 import { Meta, StoryObj } from "@storybook/react";
-import { expect, userEvent, within } from "@storybook/test";
+import { expect, userEvent, waitFor, within } from "@storybook/test";
+import { useState } from "react";
 
 import SideNav from "./SideNav";
 
@@ -17,6 +18,7 @@ const meta = {
     size: { control: "select", options: ["s", "m", "l"] },
     appearance: { control: "select", options: ["neutral", "brand"] },
     collapsed: { control: "boolean" },
+    activeItem: { control: "text" },
   },
   render: (args) => (
     <SideNav
@@ -26,6 +28,7 @@ const meta = {
       appearance={args.appearance}
       items={args.items}
       collapsed={args.collapsed}
+      activeItem={args.activeItem}
     >
       {PageContent}
     </SideNav>
@@ -49,22 +52,24 @@ const PageContent = (
 );
 
 const navigationItems = [
-  { label: "Home", icon: "home", showIcon: true },
-  { label: "Dashboard", icon: "dashboard", showIcon: true },
-  { label: "Analytics", icon: "analytics", showIcon: true },
-  { label: "Settings", icon: "settings", showIcon: true },
-  { label: "Profile", icon: "user", showIcon: true, link: "/profile" },
+  { id: "home", label: "Home", icon: "home", showIcon: true },
+  { id: "dashboard", label: "Dashboard", icon: "dashboard", showIcon: true },
+  { id: "analytics", label: "Analytics", icon: "analytics", showIcon: true },
+  { id: "settings", label: "Settings", icon: "settings", showIcon: true },
+  { id: "profile", label: "Profile", icon: "user", showIcon: true, link: "/profile" },
 ];
 
 const navigationItemsWithNested = [
-  { label: "Home", icon: "home", showIcon: true, link: "/home" },
+  { id: "home", label: "Home", icon: "home", showIcon: true, link: "/home" },
   {
+    id: "dashboard",
     label: "Dashboard",
     icon: "dashboard",
     showIcon: true,
     items: [{ label: "Overview" }, { label: "Reports" }, { label: "Analytics" }],
   },
   {
+    id: "settings",
     label: "Settings",
     icon: "settings",
     showIcon: true,
@@ -77,7 +82,7 @@ const navigationItemsWithNested = [
       },
     ],
   },
-  { label: "Profile", icon: "user", showIcon: true, link: "/profile" },
+  { id: "profile", label: "Profile", icon: "user", showIcon: true, link: "/profile" },
 ];
 
 const defaultHeaderConfig = {
@@ -202,7 +207,7 @@ export const WithNestedMenus: Story = {
   },
 };
 
-export const KeyboardNavigationTest: Story = {
+export const KeyboardNavigation: Story = {
   args: {
     ...Default.args,
     headerConfig: defaultHeaderConfig,
@@ -338,10 +343,10 @@ export const KeyboardNavigationTest: Story = {
   },
 };
 
-export const HeaderClickabilityTest: Story = {
+export const HeaderClickability: Story = {
   args: {
     ...Default.args,
-    headerConfig: defaultHeaderConfig,
+    headerConfig: { ...defaultHeaderConfig, link: null },
     collapsible: true,
   },
   play: async ({ canvasElement, step }) => {
@@ -359,7 +364,7 @@ export const HeaderClickabilityTest: Story = {
   },
 };
 
-export const HeaderWithLinkTest: Story = {
+export const HeaderWithLink: Story = {
   args: {
     ...Default.args,
     headerConfig: headerConfigWithLink,
@@ -385,7 +390,7 @@ export const HeaderWithLinkTest: Story = {
   },
 };
 
-export const HeaderWithOnClickTest: Story = {
+export const HeaderWithOnClick: Story = {
   args: {
     ...Default.args,
     headerConfig: { ...headerConfigWithOnClick, link: null },
@@ -414,7 +419,7 @@ export const HeaderWithOnClickTest: Story = {
   },
 };
 
-export const CollapsedTooltipTest: Story = {
+export const CollapsedTooltip: Story = {
   args: {
     ...Default.args,
     headerConfig: defaultHeaderConfig,
@@ -460,7 +465,7 @@ export const CollapsedTooltipTest: Story = {
   },
 };
 
-export const CollapsedTooltipWithNestedTest: Story = {
+export const CollapsedTooltipWithNested: Story = {
   args: {
     ...Default.args,
     headerConfig: defaultHeaderConfig,
@@ -486,4 +491,107 @@ export const CollapsedTooltipWithNestedTest: Story = {
       expect(tooltip).toHaveTextContent("Dashboard");
     });
   },
+};
+
+const getNavItemContainer = (sideNav: HTMLElement, itemId: string): HTMLElement | null => {
+  const navItem = sideNav.querySelector(`#${itemId}`);
+  return navItem as HTMLElement | null;
+};
+
+const hasActiveClass = (element: HTMLElement): boolean => {
+  const classList = Array.from(element.classList);
+  return classList.some((className) => className.includes("active"));
+};
+
+const expectNavItemActiveState = async (canvas: ReturnType<typeof within>, itemId: string, shouldBeActive: boolean) => {
+  await waitFor(() => {
+    const sideNav = canvas.getByRole("navigation");
+    const navItemContainer = getNavItemContainer(sideNav, itemId);
+    expect(navItemContainer).not.toBeNull();
+    expect(hasActiveClass(navItemContainer!)).toBe(shouldBeActive);
+  });
+};
+
+const expectNavItemToBeActive = (canvas: ReturnType<typeof within>, itemId: string) =>
+  expectNavItemActiveState(canvas, itemId, true);
+
+const expectNavItemNotToBeActive = (canvas: ReturnType<typeof within>, itemId: string) =>
+  expectNavItemActiveState(canvas, itemId, false);
+
+export const ActiveItemState: Story = {
+  args: {
+    ...Default.args,
+    headerConfig: defaultHeaderConfig,
+    items: navigationItems,
+    activeItem: "home",
+  },
+  decorators: [
+    (Story, context) => {
+      const [activeItem, setActiveItem] = useState(context.args.activeItem);
+      const itemsWithOnClick = navigationItems.map((item) => {
+        return {
+          ...item,
+          onClick: () => setActiveItem(item.id),
+        };
+      });
+      return (
+        <div>
+          <Story key={activeItem} args={{ ...context.args, items: itemsWithOnClick, activeItem }} />
+        </div>
+      );
+    },
+  ],
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+
+    await step("Verify Home has active class initially", async () => {
+      expectNavItemToBeActive(canvas, "home");
+      expectNavItemNotToBeActive(canvas, "dashboard");
+      expectNavItemNotToBeActive(canvas, "analytics");
+      expectNavItemNotToBeActive(canvas, "settings");
+      expectNavItemNotToBeActive(canvas, "profile");
+    });
+
+    await step("Change active item to Dashboard and verify active class", async () => {
+      const sideNav = canvas.getByRole("navigation");
+      const dashboardElement = getNavElement(sideNav, "Dashboard");
+      expect(dashboardElement).not.toBeNull();
+      await userEvent.click(dashboardElement!);
+
+      expectNavItemNotToBeActive(canvas, "home");
+      expectNavItemToBeActive(canvas, "dashboard");
+      expectNavItemNotToBeActive(canvas, "analytics");
+      expectNavItemNotToBeActive(canvas, "settings");
+      expectNavItemNotToBeActive(canvas, "profile");
+    });
+  },
+};
+
+const SimplePageContent = (
+  <div style={{ padding: "2rem" }}>
+    <h1 style={{ margin: "0 0 1rem 0" }}>Dashboard</h1>
+    <p style={{ lineHeight: "1.6", color: "#555", marginBottom: "1rem" }}>
+      Welcome to the dashboard. Use the navigation on the left to explore different sections.
+    </p>
+  </div>
+);
+
+export const ScrollBar: Story = {
+  args: {
+    ...Default.args,
+    collapsible: true,
+  },
+  render: (args) => (
+    <SideNav
+      size={args.size}
+      collapsible={args.collapsible}
+      headerConfig={args.headerConfig}
+      appearance={args.appearance}
+      items={args.items}
+      collapsed={args.collapsed}
+      activeItem={args.activeItem}
+    >
+      {SimplePageContent}
+    </SideNav>
+  ),
 };

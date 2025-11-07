@@ -2,7 +2,7 @@ import { DividerAppearance } from "@design-system-rte/core/components/divider/di
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
 import { SideNavProps as CoreSideNavProps } from "@design-system-rte/core/components/side-nav/side-nav.interface";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
-import React, { ForwardedRef, ReactNode, useState, useEffect } from "react";
+import { ForwardedRef, ReactNode, useState, useEffect, forwardRef } from "react";
 
 import { Divider } from "../..";
 import { useActiveKeyboard } from "../../hooks/useActiveKeyboard";
@@ -19,9 +19,18 @@ interface SideNavProps extends Partial<CoreSideNavProps>, Omit<React.HTMLAttribu
 
 const TRANSITION_DURATION = 300;
 
-const SideNav = React.forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
+const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
   (
-    { size = "m", collapsible, children, headerConfig, items, collapsed = false, appearance = "brand" }: SideNavProps,
+    {
+      size = "m",
+      collapsible,
+      children,
+      headerConfig,
+      items,
+      collapsed = false,
+      appearance = "brand",
+      activeItem,
+    }: SideNavProps,
     ref,
   ) => {
     const [isCollapsed, setIsCollapsed] = useState(collapsed);
@@ -115,11 +124,11 @@ const SideNav = React.forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
           <div className={style.sideNavBody}>
             <ul>
               {items?.map((item: NavItemProps) => {
-                const hasNestedItems = item.items && item.items.length > 0;
+                const hasNestedItems = item.items?.length;
                 if (hasNestedItems) {
                   return (
                     <NavMenu
-                      key={item.label}
+                      key={item.id}
                       label={item.label}
                       icon={item.icon}
                       showIcon={item.showIcon}
@@ -132,16 +141,19 @@ const SideNav = React.forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
                   );
                 }
                 return (
-                  <NavItem
-                    key={item.label}
-                    label={item.label}
-                    icon={item.icon}
-                    showIcon={item.showIcon}
-                    collapsed={isCollapsed}
-                    link={item.link}
-                    onClick={item.onClick}
-                    appearance={appearance}
-                  />
+                  <li key={item.id}>
+                    <NavItem
+                      id={item.id}
+                      label={item.label}
+                      icon={item.icon}
+                      showIcon={item.showIcon}
+                      collapsed={isCollapsed}
+                      link={item.link}
+                      onClick={item.onClick}
+                      appearance={appearance}
+                      active={item.id === activeItem && !!activeItem}
+                    />
+                  </li>
                 );
               })}
             </ul>
@@ -153,23 +165,23 @@ const SideNav = React.forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
               <Divider appearance={appearance as DividerAppearance} />
               <div className={style.sideNavFooter}>
                 <div className={style.collapsibleSection}>
-                  <ul>
-                    <NavItem
-                      icon={collapseIcon}
-                      showIcon={true}
-                      collapsed={isCollapsed}
-                      onClick={collapseSideNav}
-                      label={isCollapsed ? "Ouvrir le menu" : "Réduire le menu"}
-                      appearance={appearance}
-                    />
-                  </ul>
+                  <NavItem
+                    id="collapse-button"
+                    icon={collapseIcon}
+                    showIcon={true}
+                    collapsed={isCollapsed}
+                    onClick={collapseSideNav}
+                    label={isCollapsed ? "Ouvrir le menu" : "Réduire le menu"}
+                    appearance={appearance}
+                    role="button"
+                  />
                 </div>
               </div>
             </div>
           )
         }
       >
-        {children && <div className={style.sideNavContent}>{children}</div>}
+        {children}
       </BaseSideNav>
     );
   },

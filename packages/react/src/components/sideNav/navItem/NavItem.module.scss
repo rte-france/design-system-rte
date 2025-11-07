@@ -18,7 +18,7 @@
             background: var(--background-neutral-navigation-hover);
         }
 
-        &:active {
+        &:active, &.active {
             @include elevation-neutral-inner-shadow;
         }
 
@@ -34,7 +34,7 @@
         background: var(--background-brand-navigation-hover);
     }
 
-    &:active {
+    &:active, &.active {
         background: var(--background-brand-navigation-active);
     }
 
@@ -75,7 +75,7 @@
         border-radius: 0 $radius-s $radius-s 0;
         border-left: $width-xs solid var(--border-brand-navigation-divider);
 
-        &:active {
+        &:active, &.active {
             @include neutral-inner-shadow;
         }
     }

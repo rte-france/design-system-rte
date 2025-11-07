@@ -160,17 +160,19 @@ const NavMenuComponent = forwardRef<HTMLElement | HTMLLIElement, NavMenuProps>(
                 );
               }
               return (
-                <NavItem
-                  key={item.label}
-                  label={item.label}
-                  icon={item.icon}
-                  showIcon={item.showIcon}
-                  collapsed={collapsed}
-                  link={item.link}
-                  onClick={item.onClick}
-                  parentMenuOpen={nestedItemsParentMenuOpen}
-                  appearance={appearance}
-                />
+                <li key={item.id}>
+                  <NavItem
+                    key={item.label}
+                    label={item.label}
+                    icon={item.icon}
+                    showIcon={item.showIcon}
+                    collapsed={collapsed}
+                    link={item.link}
+                    onClick={item.onClick}
+                    parentMenuOpen={nestedItemsParentMenuOpen}
+                    appearance={appearance}
+                  />
+                </li>
               );
             })}
           </ul>
