@@ -566,3 +566,32 @@ export const ActiveItemState: Story = {
     });
   },
 };
+
+const SimplePageContent = (
+  <div style={{ padding: "2rem" }}>
+    <h1 style={{ margin: "0 0 1rem 0" }}>Dashboard</h1>
+    <p style={{ lineHeight: "1.6", color: "#555", marginBottom: "1rem" }}>
+      Welcome to the dashboard. Use the navigation on the left to explore different sections.
+    </p>
+  </div>
+);
+
+export const ScrollBar: Story = {
+  args: {
+    ...Default.args,
+    collapsible: true,
+  },
+  render: (args) => (
+    <SideNav
+      size={args.size}
+      collapsible={args.collapsible}
+      headerConfig={args.headerConfig}
+      appearance={args.appearance}
+      items={args.items}
+      collapsed={args.collapsed}
+      activeItem={args.activeItem}
+    >
+      {SimplePageContent}
+    </SideNav>
+  ),
+};

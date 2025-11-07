@@ -173,6 +173,7 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
                     onClick={collapseSideNav}
                     label={isCollapsed ? "Ouvrir le menu" : "Réduire le menu"}
                     appearance={appearance}
+                    role="button"
                   />
                 </div>
               </div>
@@ -180,7 +181,7 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
           )
         }
       >
-        {children && <div className={style.sideNavContent}>{children}</div>}
+        {children}
       </BaseSideNav>
     );
   },
