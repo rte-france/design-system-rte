@@ -8,6 +8,11 @@
     display: flex;
 }
 
+.sideNavContent {
+    flex: 0 1 auto;
+    align-self: flex-start;
+}
+
 .sideNav {
     min-height: 100%;
     width: 100%;
