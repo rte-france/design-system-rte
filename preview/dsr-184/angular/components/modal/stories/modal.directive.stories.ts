@@ -7,9 +7,13 @@ import { Meta, StoryObj, moduleMetadata } from "@storybook/angular";
 import { userEvent, waitFor, within, expect, fn } from "@storybook/test";
 
 import { ButtonComponent } from "../../button/button.component";
+import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../../icon/icon-map";
 import { TextareaComponent } from "../../textarea/textarea.component";
 import { ModalDirective } from "../modal.directive";
 import { ModalModule } from "../modal.module";
+
+const RegularIconIds = Object.keys(RegularIconsList);
+const TogglableIconIds = Object.keys(TogglableIconsList);
 
 const meta: Meta<ModalDirective> = {
   title: "Modal",
@@ -17,7 +21,12 @@ const meta: Meta<ModalDirective> = {
   tags: ["autodocs"],
   argTypes: {
     rteModalId: { control: "text", description: "ID of the modal", defaultValue: undefined },
-    rteModalIcon: { control: "text", description: "Icon name for the modal", defaultValue: undefined },
+    rteModalIcon: {
+      control: "select",
+      options: ["", ...RegularIconIds, ...TogglableIconIds].sort((a, b) => a.localeCompare(b)),
+      description: "Nom de l’icône à afficher",
+      defaultValue: "",
+    },
     rteModalIconAppearance: {
       control: "select",
       options: ["outlined", "filled"],
