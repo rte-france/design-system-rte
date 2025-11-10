@@ -1,51 +1,59 @@
 @use '@design-system-rte/core/design-tokens/main.scss' as *;
 
 .sideNavContainer {
-    height: 100%;
-    border-right: 1px solid var(--color-border-primary);
-    padding: $positive-spacing_0;
-    position: relative;
-    display: flex;
+  height: auto;
+  padding: $positive-spacing_0;
+  position: relative;
+  display: flex;
+  align-items: flex-start; 
+  flex: 1;
 }
 
 .sideNavContent {
-    flex: 0 1 auto;
-    align-self: flex-start;
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .sideNav {
-    background-color: var(--background-brand-navigation-default);
-    min-height: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: $positive-spacing_0;
-    overflow: hidden;
-    box-sizing: border-box;
-    border-radius: 0;
-    transition: min-width 300ms;
-    color: var(--content-brand-navigation-default);
-    &.neutral {
-        background-color: var(--background-neutral-navigation-default);
-        color: var(--content-secondary);
-    }
+  background-color: var(--background-brand-navigation-default);
+
+  flex: 0 0 auto;
+  align-self: stretch;
+
+  display: flex;
+  flex-direction: column;
+  gap: $positive-spacing_0;
+  box-sizing: border-box;
+  border-radius: 0;
+  transition: min-width 300ms;
+  color: var(--content-brand-navigation-default);
+
+  max-height: var(--content-height);
+
+  &.neutral {
+    background-color: var(--background-neutral-navigation-default);
+    color: var(--content-secondary);
+  }
 }
 
 .sideNavHeader {
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    box-sizing: border-box;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .sideNavBody {
-    width: 100%;
-    box-sizing: border-box;
-    flex: 1;
+  width: 100%;
+  box-sizing: border-box;
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
 }
 
 .sideNavFooter {
-    align-items: center;
-    justify-content: space-between;
-    box-sizing: border-box;
-    width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  width: 100%;
 }

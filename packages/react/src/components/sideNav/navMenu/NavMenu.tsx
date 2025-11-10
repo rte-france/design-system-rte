@@ -145,7 +145,7 @@ const NavMenuComponent = forwardRef<HTMLElement | HTMLLIElement, NavMenuProps>(
               if (hasNestedItems) {
                 return (
                   <NavMenuComponent
-                    key={item.label}
+                    key={item.id || item.label}
                     label={item.label}
                     icon={item.icon}
                     showIcon={item.showIcon}
@@ -160,9 +160,8 @@ const NavMenuComponent = forwardRef<HTMLElement | HTMLLIElement, NavMenuProps>(
                 );
               }
               return (
-                <li key={item.id}>
+                <li key={item.id || item.label}>
                   <NavItem
-                    key={item.label}
                     label={item.label}
                     icon={item.icon}
                     showIcon={item.showIcon}

@@ -1,13 +1,5 @@
 @use '@design-system-rte/core/design-tokens/main.scss' as *;
 
-.sideNavContainer {
-    height: 100%;
-    border-right: 1px solid var(--color-border-primary);
-    padding: $positive-spacing_0;
-    position: relative;
-    display: flex;
-}
-
 .sideNavContent {
     flex: 0 1 auto;
     align-self: flex-start;
