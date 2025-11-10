@@ -15,6 +15,7 @@ export interface SideNavHeaderConfig {
 export interface SideNavProps extends BaseSideNavProps {
   collapsible?: boolean;
   items: NavItemProps[];
+  footerItems?: NavItemProps[];
   activeItem?: string;
   headerConfig: SideNavHeaderConfig;
 }

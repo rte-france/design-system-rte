@@ -29,6 +29,7 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
       children,
       headerConfig,
       items,
+      footerItems,
       collapsed,
       defaultCollapsed = false,
       onCollapsedChange,
@@ -116,6 +117,50 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
       <div className={style.sideNavHeaderTitleContainer}>{headerTitleContent}</div>
     );
 
+    function renderNavItems(itemsToRender: NavItemProps[] | undefined) {
+      if (!itemsToRender?.length) {
+        return null;
+      }
+
+      return (
+        <ul>
+          {itemsToRender.map((item: NavItemProps) => {
+            const hasNestedItems = item.items?.length;
+            if (hasNestedItems) {
+              return (
+                <NavMenu
+                  key={item.id}
+                  label={item.label}
+                  icon={item.icon}
+                  showIcon={item.showIcon}
+                  collapsed={isCollapsed}
+                  link={item.link}
+                  onClick={item.onClick}
+                  items={item.items || []}
+                  appearance={appearance}
+                />
+              );
+            }
+            return (
+              <li key={item.id}>
+                <NavItem
+                  id={item.id}
+                  label={item.label}
+                  icon={item.icon}
+                  showIcon={item.showIcon}
+                  collapsed={isCollapsed}
+                  link={item.link}
+                  onClick={item.onClick}
+                  appearance={appearance}
+                  active={item.id === activeItem && !!activeItem}
+                />
+              </li>
+            );
+          })}
+        </ul>
+      );
+    }
+
     return (
       <BaseSideNav
         ref={ref as ForwardedRef<HTMLElement | HTMLDivElement>}
@@ -134,62 +179,27 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
             <Divider appearance={appearance as DividerAppearance} />
           </div>
         }
-        body={
-          <div className={style.sideNavBody}>
-            <ul>
-              {items?.map((item: NavItemProps) => {
-                const hasNestedItems = item.items?.length;
-                if (hasNestedItems) {
-                  return (
-                    <NavMenu
-                      key={item.id}
-                      label={item.label}
-                      icon={item.icon}
-                      showIcon={item.showIcon}
-                      collapsed={isCollapsed}
-                      link={item.link}
-                      onClick={item.onClick}
-                      items={item.items || []}
-                      appearance={appearance}
-                    />
-                  );
-                }
-                return (
-                  <li key={item.id}>
-                    <NavItem
-                      id={item.id}
-                      label={item.label}
-                      icon={item.icon}
-                      showIcon={item.showIcon}
-                      collapsed={isCollapsed}
-                      link={item.link}
-                      onClick={item.onClick}
-                      appearance={appearance}
-                      active={item.id === activeItem && !!activeItem}
-                    />
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        }
+        body={<div className={style.sideNavBody}>{renderNavItems(items)}</div>}
         footer={
-          collapsible && (
+          (footerItems?.length || collapsible) && (
             <div className={style.sideNavFooterContainer}>
+              {footerItems?.length && <div className={style.sideNavFooterItems}>{renderNavItems(footerItems)}</div>}
               <Divider appearance={appearance as DividerAppearance} />
               <div className={style.sideNavFooter}>
-                <div className={style.collapsibleSection}>
-                  <NavItem
-                    id="collapse-button"
-                    icon={collapseIcon}
-                    showIcon={true}
-                    collapsed={isCollapsed}
-                    onClick={collapseSideNav}
-                    label={isCollapsed ? "Ouvrir le menu" : "Réduire le menu"}
-                    appearance={appearance}
-                    role="button"
-                  />
-                </div>
+                {collapsible && (
+                  <div className={style.collapsibleSection}>
+                    <NavItem
+                      id="collapse-button"
+                      icon={collapseIcon}
+                      showIcon={true}
+                      collapsed={isCollapsed}
+                      onClick={collapseSideNav}
+                      label={isCollapsed ? "Ouvrir le menu" : "Réduire le menu"}
+                      appearance={appearance}
+                      role="button"
+                    />
+                  </div>
+                )}
               </div>
             </div>
           )
