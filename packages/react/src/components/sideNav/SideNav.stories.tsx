@@ -28,6 +28,7 @@ const meta = {
       headerConfig={args.headerConfig}
       appearance={args.appearance}
       items={args.items}
+      footerItems={args.footerItems}
       collapsed={args.collapsed}
       activeItem={args.activeItem}
       onCollapsedChange={args.onCollapsedChange}
@@ -103,6 +104,36 @@ const navigationItemsWithNested = [
   { id: "profile", label: "Profile", icon: "user", showIcon: true, link: "/profile" },
 ];
 
+const footerItems: NavItemProps[] = [
+  {
+    id: "footer-settings",
+    label: "Settings",
+    icon: "settings",
+    showIcon: true,
+    onClick: () => {
+      console.log("Footer Settings clicked");
+    },
+  },
+  {
+    id: "footer-help",
+    label: "Help & Support",
+    icon: "help",
+    showIcon: true,
+    link: "/help",
+  },
+  {
+    id: "footer-account",
+    label: "Account",
+    icon: "user",
+    showIcon: true,
+    items: [
+      { id: "footer-profile", label: "Profile", link: "/profile" },
+      { id: "footer-preferences", label: "Preferences" },
+      { id: "footer-logout", label: "Logout", onClick: () => console.log("Logout clicked") },
+    ],
+  },
+];
+
 const defaultHeaderConfig = {
   identifier: "MA",
   title: "My Application",
@@ -122,6 +153,26 @@ const headerConfigWithOnClick = {
   },
 };
 
+function getInteractiveElementFromListItem(listItem: HTMLElement | null): HTMLElement | null {
+  if (!listItem) return null;
+
+  const directChildren = Array.from(listItem.children) as HTMLElement[];
+  for (const child of directChildren) {
+    if (child.tagName === "A") {
+      return child;
+    }
+    if (child.tagName === "SPAN" && child.hasAttribute("tabindex")) {
+      return child;
+    }
+  }
+
+  const anchor = listItem.querySelector("a");
+  if (anchor) return anchor;
+  const spans = Array.from(listItem.querySelectorAll("span"));
+  const interactiveSpan = spans.find((span) => span.hasAttribute("tabindex"));
+  return interactiveSpan as HTMLElement | null;
+}
+
 const getNavElement = (sideNav: HTMLElement, text: string): HTMLElement | null => {
   const navContainer = within(sideNav);
   const link = navContainer.queryByRole("link", { name: text });
@@ -129,13 +180,7 @@ const getNavElement = (sideNav: HTMLElement, text: string): HTMLElement | null =
   const textElement = navContainer.queryByText(text);
   if (textElement) {
     const listItem = textElement.closest("li") as HTMLElement | null;
-    if (listItem) {
-      const anchor = listItem.querySelector("a");
-      if (anchor) return anchor;
-      const spans = Array.from(listItem.querySelectorAll("span"));
-      const interactiveSpan = spans.find((span) => span.hasAttribute("tabindex"));
-      if (interactiveSpan) return interactiveSpan as HTMLElement;
-    }
+    return getInteractiveElementFromListItem(listItem);
   }
   return null;
 };
@@ -147,14 +192,7 @@ const getNavElementInCollapsedState = (sideNav: HTMLElement, itemIndex: number):
   const bodyListItems = Array.from(body.querySelectorAll("li")) as HTMLElement[];
   const listItem = bodyListItems[itemIndex];
 
-  if (listItem) {
-    const anchor = listItem.querySelector("a");
-    if (anchor) return anchor;
-    const spans = Array.from(listItem.querySelectorAll("span"));
-    const interactiveSpan = spans.find((span) => span.hasAttribute("tabindex"));
-    if (interactiveSpan) return interactiveSpan as HTMLElement;
-  }
-  return null;
+  return getInteractiveElementFromListItem(listItem);
 };
 
 const getHeaderTitleContainer = (sideNav: HTMLElement, identifierText: string = "MA"): HTMLElement | null => {
@@ -640,10 +678,84 @@ export const ScrollBar: Story = {
       headerConfig={args.headerConfig}
       appearance={args.appearance}
       items={args.items}
+      footerItems={args.footerItems}
       collapsed={args.collapsed}
       activeItem={args.activeItem}
     >
       {SimplePageContent}
     </SideNav>
   ),
+};
+
+export const WithFooterItems: Story = {
+  args: {
+    ...Default.args,
+    headerConfig: defaultHeaderConfig,
+    items: navigationItems,
+    footerItems: footerItems,
+    collapsible: true,
+  },
+};
+
+export const FooterItemsOnly: Story = {
+  args: {
+    ...Default.args,
+    headerConfig: defaultHeaderConfig,
+    items: navigationItems,
+    footerItems: footerItems,
+    collapsible: false,
+  },
+};
+
+const getFooterNavElement = (sideNav: HTMLElement, label: string): HTMLElement | null => {
+  const footerItemsContainer = sideNav.querySelector('[class*="sideNavFooterItems"]');
+  if (!footerItemsContainer) return null;
+
+  const footerContainer = within(footerItemsContainer as HTMLElement);
+  const link = footerContainer.queryByRole("link", { name: label });
+  if (link) return link;
+
+  const textElement = footerContainer.queryByText(label);
+  if (textElement) {
+    const listItem = textElement.closest("li") as HTMLElement | null;
+    return getInteractiveElementFromListItem(listItem);
+  }
+
+  return null;
+};
+
+export const FooterItemsWithNested: Story = {
+  args: {
+    ...Default.args,
+    headerConfig: defaultHeaderConfig,
+    items: navigationItemsWithNested,
+    footerItems: footerItems,
+    collapsible: true,
+  },
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    const sideNav = canvas.getByRole("navigation");
+
+    await step("Verify footer items are rendered", async () => {
+      const footerSettings = getFooterNavElement(sideNav, "Settings");
+      expect(footerSettings).not.toBeNull();
+
+      const footerHelp = getFooterNavElement(sideNav, "Help & Support");
+      expect(footerHelp).not.toBeNull();
+
+      const footerAccount = getFooterNavElement(sideNav, "Account");
+      expect(footerAccount).not.toBeNull();
+    });
+
+    await step("Open Account menu in footer and verify nested items", async () => {
+      const footerAccount = getFooterNavElement(sideNav, "Account");
+      await userEvent.click(footerAccount!);
+
+      const footerPreferences = getFooterNavElement(sideNav, "Preferences");
+      expect(footerPreferences).not.toBeNull();
+
+      const footerLogout = getFooterNavElement(sideNav, "Logout");
+      expect(footerLogout).not.toBeNull();
+    });
+  },
 };
