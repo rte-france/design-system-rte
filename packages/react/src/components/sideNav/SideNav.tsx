@@ -15,6 +15,8 @@ import style from "./SideNav.module.scss";
 
 interface SideNavProps extends Partial<CoreSideNavProps>, Omit<React.HTMLAttributes<HTMLDivElement>, "content"> {
   children?: ReactNode;
+  defaultCollapsed?: boolean;
+  onCollapsedChange?: (collapsed: boolean) => void;
 }
 
 const TRANSITION_DURATION = 300;
@@ -27,14 +29,22 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
       children,
       headerConfig,
       items,
-      collapsed = false,
+      collapsed,
+      defaultCollapsed = false,
+      onCollapsedChange,
       appearance = "brand",
       activeItem,
     }: SideNavProps,
     ref,
   ) => {
-    const [isCollapsed, setIsCollapsed] = useState(collapsed);
+    const [isCollapsed, setIsCollapsed] = useState(collapsed ?? defaultCollapsed);
     const [shouldShowTitle, setShouldShowTitle] = useState(true);
+
+    useEffect(() => {
+      if (collapsed !== undefined) {
+        setIsCollapsed(collapsed);
+      }
+    }, [collapsed]);
 
     useEffect(() => {
       if (isCollapsed) {
@@ -48,7 +58,11 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
     }, [isCollapsed]);
 
     const collapseSideNav = () => {
-      setIsCollapsed(!isCollapsed);
+      const newCollapsed = !isCollapsed;
+      if (collapsed === undefined) {
+        setIsCollapsed(newCollapsed);
+      }
+      onCollapsedChange?.(newCollapsed);
     };
 
     const collapseIcon = isCollapsed ? "arrow-double-right" : "arrow-double-left";
