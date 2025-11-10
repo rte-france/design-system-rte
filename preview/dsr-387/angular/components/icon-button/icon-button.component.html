@@ -1,5 +1,6 @@
 @if (shouldDisplayBadge()) {
   <button
+    *ngIf="isValidIconName"
     class="rte-icon-button {{ variant() }} size-{{ size() }}"
     rteBadge
     [class.compact-spacing]="compactSpacing()"

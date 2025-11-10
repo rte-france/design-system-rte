@@ -1,9 +1,8 @@
 import { CommonModule } from "@angular/common";
-import { Component, ElementRef, inject, input, output, AfterViewInit } from "@angular/core";
+import { Component, ElementRef, inject, input, output, AfterViewInit, OnDestroy } from "@angular/core";
 import { PopoverAlignment, PopoverPosition } from "@design-system-rte/core/components/popover/popover.interface";
-import { FOCUSABLE_ELEMENTS_QUERY } from "@design-system-rte/core/constants/dom/dom.constants";
-import { TAB_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
+import { FocusTrapService } from "../../services/focus-trap.service";
 import { ButtonComponent } from "../button/button.component";
 
 @Component({
@@ -13,7 +12,7 @@ import { ButtonComponent } from "../button/button.component";
   templateUrl: "./popover.component.html",
   styleUrl: "./popover.component.scss",
 })
-export class PopoverComponent implements AfterViewInit {
+export class PopoverComponent implements AfterViewInit, OnDestroy {
   readonly primaryButtonLabel = input.required<string>();
   readonly position = input.required<Exclude<PopoverPosition, "auto">>();
   readonly alignment = input<PopoverAlignment>();
@@ -27,33 +26,21 @@ export class PopoverComponent implements AfterViewInit {
   readonly clickPrimaryButton = output<void>();
   readonly clickSecondaryButton = output<void>();
 
-  private element: HTMLElement;
-
   private elementRef = inject(ElementRef);
 
-  constructor() {
-    this.element = this.elementRef.nativeElement;
-  }
+  private focusTrap = inject(FocusTrapService);
+
+  constructor() {}
 
   ngAfterViewInit() {
-    this.focusFirstElement();
+    const native = this.elementRef?.nativeElement;
+    if (native) {
+      this.focusTrap.activate(native);
+    }
   }
 
-  handleKeydown(event: KeyboardEvent) {
-    if (event.key === TAB_KEY) {
-      if (this.isOpen()) {
-        const focusable = this.element.querySelectorAll(FOCUSABLE_ELEMENTS_QUERY);
-        const first = focusable[0] as HTMLElement;
-        const last = focusable[focusable.length - 1] as HTMLElement;
-        if (event.shiftKey && document.activeElement === first) {
-          event.preventDefault();
-          last.focus();
-        } else if (!event.shiftKey && document.activeElement === last) {
-          event.preventDefault();
-          first.focus();
-        }
-      }
-    }
+  ngOnDestroy() {
+    this.focusTrap.deactivate();
   }
 
   handleClickPrimaryButton() {
@@ -61,10 +48,5 @@ export class PopoverComponent implements AfterViewInit {
   }
   handleClickSecondaryButton() {
     this.clickSecondaryButton.emit();
-  }
-
-  private focusFirstElement() {
-    const focusable = this.element.querySelectorAll(FOCUSABLE_ELEMENTS_QUERY);
-    if (focusable.length > 0) (focusable[0] as HTMLElement).focus();
   }
 }

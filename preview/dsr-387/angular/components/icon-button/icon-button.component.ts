@@ -42,9 +42,8 @@ export class IconButtonComponent {
   readonly shouldDisplayBadge = computed(() => {
     const count = this.badgeCount();
     const content = this.badgeContent();
-    const icon = this.badgeIcon();
 
-    return (count && count > 0 && content === "number") || (content === "icon" && icon !== undefined);
+    return (count && count > 0 && content === "number") || content === "icon";
   });
 
   onClick(event: MouseEvent | KeyboardEvent): void {
