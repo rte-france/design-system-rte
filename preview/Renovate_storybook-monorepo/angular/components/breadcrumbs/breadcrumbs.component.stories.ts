@@ -19,6 +19,10 @@ export default {
     ariaLabel: {
       control: "text",
     },
+    breadcrumbItemMaxWidth: {
+      control: "number",
+      description: "Maximum width for each breadcrumb item in pixels.",
+    },
   },
 } satisfies Meta<BreadcrumbsComponent>;
 
@@ -39,7 +43,23 @@ export const Default: StoryObj<BreadcrumbsComponent> = {
       mockItems,
     },
     template: `
-      <rte-breadcrumbs [items]="items" [ariaLabel]="ariaLabel" data-testid="breadcrumbs"/>
+      <rte-breadcrumbs [items]="items" [ariaLabel]="ariaLabel" data-testid="breadcrumbs" [breadcrumbItemMaxWidth]="breadcrumbItemMaxWidth"/>
+    `,
+  }),
+};
+
+export const MaxWidthBreadcrumbItem: StoryObj<BreadcrumbsComponent> = {
+  args: {
+    items: mockItems,
+    breadcrumbItemMaxWidth: 50,
+  },
+  render: (args) => ({
+    props: {
+      ...args,
+      mockItems,
+    },
+    template: `
+      <rte-breadcrumbs [items]="items" [ariaLabel]="ariaLabel" data-testid="breadcrumbs" [breadcrumbItemMaxWidth]="breadcrumbItemMaxWidth"/>
     `,
   }),
 };
@@ -52,7 +72,7 @@ export const KeyboardNavigation: StoryObj<BreadcrumbsComponent> = {
     props: {
       ...args,
     },
-    template: `<rte-breadcrumbs [items]="items" [ariaLabel]="ariaLabel" data-testid="breadcrumbs"/>`,
+    template: `<rte-breadcrumbs [items]="items" [ariaLabel]="ariaLabel" data-testid="breadcrumbs" [breadcrumbItemMaxWidth]="breadcrumbItemMaxWidth"/>`,
   }),
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
@@ -78,8 +98,8 @@ export const Truncated: StoryObj<BreadcrumbsComponent> = {
       mockItems,
     },
     template: `
-      <rte-breadcrumbs [items]="items" [ariaLabel]="ariaLabel" data-testid="breadcrumbs"/>
-      <rte-breadcrumbs [items]="mockItems" [ariaLabel]="ariaLabel" data-testid="breadcrumbs-truncated"/>
+      <rte-breadcrumbs [items]="items" [ariaLabel]="ariaLabel" data-testid="breadcrumbs" [breadcrumbItemMaxWidth]="breadcrumbItemMaxWidth"/>
+      <rte-breadcrumbs [items]="mockItems" [ariaLabel]="ariaLabel" data-testid="breadcrumbs-truncated" [breadcrumbItemMaxWidth]="breadcrumbItemMaxWidth"/>
     `,
   }),
   play: async ({ canvasElement }) => {
@@ -104,10 +124,10 @@ export const MultipleElements: StoryObj<BreadcrumbsComponent> = {
       fourItems: [...args.items, { label: "brand", link: "/products/electronics/smartphones/brand" }],
     },
     template: `
-      <rte-breadcrumbs [items]="oneItem" [ariaLabel]="ariaLabel" data-testid="breadcrumbs-one-item"/>
-      <rte-breadcrumbs [items]="twoItems" [ariaLabel]="ariaLabel" data-testid="breadcrumbs-two-items"/>
-      <rte-breadcrumbs [items]="threeItems" [ariaLabel]="ariaLabel" data-testid="breadcrumbs-three-items"/>
-      <rte-breadcrumbs [items]="items" [ariaLabel]="ariaLabel" data-testid="breadcrumbs"/>
+      <rte-breadcrumbs [items]="oneItem" [ariaLabel]="ariaLabel" data-testid="breadcrumbs-one-item" [breadcrumbItemMaxWidth]="breadcrumbItemMaxWidth"/>
+      <rte-breadcrumbs [items]="twoItems" [ariaLabel]="ariaLabel" data-testid="breadcrumbs-two-items" [breadcrumbItemMaxWidth]="breadcrumbItemMaxWidth"/>
+      <rte-breadcrumbs [items]="threeItems" [ariaLabel]="ariaLabel" data-testid="breadcrumbs-three-items" [breadcrumbItemMaxWidth]="breadcrumbItemMaxWidth"/>
+      <rte-breadcrumbs [items]="items" [ariaLabel]="ariaLabel" data-testid="breadcrumbs" [breadcrumbItemMaxWidth]="breadcrumbItemMaxWidth"/>
     `,
   }),
 };

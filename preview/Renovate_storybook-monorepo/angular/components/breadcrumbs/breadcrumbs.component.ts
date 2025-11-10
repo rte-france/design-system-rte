@@ -12,11 +12,12 @@ import {
 
 import { DropdownModule } from "../dropdown";
 import { IconButtonComponent } from "../icon-button/icon-button.component";
-import { LinkComponent } from "../link/link.component";
+
+import { BreadcrumbItemComponent } from "./breadcrumb-item/breadcrumb-item.component";
 
 @Component({
   selector: "rte-breadcrumbs",
-  imports: [CommonModule, LinkComponent, DropdownModule, IconButtonComponent],
+  imports: [CommonModule, DropdownModule, IconButtonComponent, BreadcrumbItemComponent],
   standalone: true,
   templateUrl: "./breadcrumbs.component.html",
   styleUrl: "./breadcrumbs.component.scss",
@@ -25,6 +26,7 @@ import { LinkComponent } from "../link/link.component";
 export class BreadcrumbsComponent {
   readonly items = input<BreadcrumbProps[]>([]);
   readonly ariaLabel = input<string>(BREADCRUMBS_DEFAULT_ARIA_LABEL);
+  readonly breadcrumbItemMaxWidth = input<number>(150);
 
   readonly truncatedItems = computed<BreadcrumbsTruncatedItems | null>(() => {
     if (shouldTruncateBreadcrumbs(this.items())) {
