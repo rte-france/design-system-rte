@@ -104,5 +104,56 @@
                 border-radius: $radius-s;
             }
         }
+
+        &.reverse {
+            color: var(--content-primary-inverse);
+            text-decoration: none;
+
+            &:hover {
+                color: var(--content-primary-inverse);
+                text-decoration: underline;
+            }
+
+            &:focus-visible {
+                color: var(--content-primary-inverse);
+                text-decoration: underline;
+                outline: 1px solid var(--border-inverse);
+                outline-offset: $radius-s;
+                border-radius: $radius-s;
+            }
+        }
+    }
+
+
+
+    &.reverse {
+        color: var(--content-primary-inverse);
+        text-decoration: underline;
+
+        &:hover {
+            color: var(--content-primary-inverse);
+            text-decoration: none;
+        }
+
+        &:focus-visible {
+            color: var(--content-primary-inverse);
+            text-decoration: underline;
+            outline: 1px solid var(--border-inverse);
+            outline-offset: $radius-s;
+            border-radius: $radius-s;
+        }
+    }
+
+    .rte-link-external-icon {
+        align-self: start;
+        margin-left: $positive-spacing_025;
+    }
+}
+
+.rte-link {
+    .rte-link-label {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 }

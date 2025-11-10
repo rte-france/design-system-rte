@@ -229,7 +229,7 @@ export const InputChip: Story = {
           (valueChange)="onChange($event)"
           (keydown)="handleKeyDown($event)"
         ></rte-text-input>
-          <rte-button label="Add Chip" (click)="handleAddChip()"></rte-button>
+          <button rteButton (click)="handleAddChip()">Add Chip</button>
         </div>
         <div style="display: flex; gap: 10px;" role="listbox" aria-label="Chips List">
           <rte-chip

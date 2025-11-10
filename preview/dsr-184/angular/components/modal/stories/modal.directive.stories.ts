@@ -94,12 +94,12 @@ export const Default: Story = {
                 [rteModalAriaDescribedby]="rteModalAriaDescribedby"
                 [rteModalCloseOnClickOutside]="rteModalCloseOnClickOutside"
                 >
-                <rte-button variant="primary" label="Open Modal" rteModalTrigger/>
+                <button rteButton rteButtonVariant="primary" rteModalTrigger>Open Modal</button>
                 <ng-template #primaryButton>
-                  <rte-button variant="primary" label="Continue" (click)="handlePrimaryClick()"/>
+                  <button rteButton rteButtonVariant="primary" (click)="handlePrimaryClick()">Continue</button>
                 </ng-template>
                 <ng-template #secondaryButton>
-                  <rte-button variant="neutral" label="Cancel" (click)="handleSecondaryClick()"/>
+                  <button rteButton rteButtonVariant="neutral" (click)="handleSecondaryClick()">Cancel</button>
                 </ng-template>
               </div>
       `,
@@ -142,12 +142,12 @@ export const Sizes: Story = {
                 [rteModalAriaDescribedby]="rteModalAriaDescribedby"
                 [rteModalCloseOnClickOutside]="rteModalCloseOnClickOutside"
                 >
-                <rte-button variant="primary" label="Open Modal xs" rteModalTrigger/>
+                <button rteButton rteButtonVariant="primary" rteModalTrigger>Open Modal xs</button>
                 <ng-template #primaryButton>
-                  <rte-button variant="primary" label="Continue" (click)="handlePrimaryClick()"/>
+                  <button rteButton rteButtonVariant="primary" (click)="handlePrimaryClick()">Continue</button>
                 </ng-template>
                 <ng-template #secondaryButton>
-                  <rte-button variant="neutral" label="Cancel" (click)="handleSecondaryClick()"/>
+                  <button rteButton rteButtonVariant="neutral" (click)="handleSecondaryClick()">Cancel</button>
                 </ng-template>
               </div>
               <div
@@ -161,12 +161,12 @@ export const Sizes: Story = {
                 [rteModalAriaDescribedby]="rteModalAriaDescribedby"
                 [rteModalCloseOnClickOutside]="rteModalCloseOnClickOutside"
                 >
-                <rte-button variant="primary" label="Open Modal s" rteModalTrigger/>
+                <button rteButton rteButtonVariant="primary" rteModalTrigger>Open Modal s</button>
                 <ng-template #primaryButton>
-                  <rte-button variant="primary" label="Continue" (click)="handlePrimaryClick()"/>
+                  <button rteButton rteButtonVariant="primary" (click)="handlePrimaryClick()">Continue</button>
                 </ng-template>
                 <ng-template #secondaryButton>
-                  <rte-button variant="neutral" label="Cancel" (click)="handleSecondaryClick()"/>
+                  <button rteButton rteButtonVariant="neutral" (click)="handleSecondaryClick()">Cancel</button>
                 </ng-template>
               </div>
               <div
@@ -180,12 +180,12 @@ export const Sizes: Story = {
                 [rteModalAriaDescribedby]="rteModalAriaDescribedby"
                 [rteModalCloseOnClickOutside]="rteModalCloseOnClickOutside"
                 >
-                <rte-button variant="primary" label="Open Modal m" rteModalTrigger/>
+                <button rteButton rteButtonVariant="primary" rteModalTrigger>Open Modal m</button>
                 <ng-template #primaryButton>
-                  <rte-button variant="primary" label="Continue" (click)="handlePrimaryClick()"/>
+                  <button rteButton rteButtonVariant="primary" (click)="handlePrimaryClick()">Continue</button>
                 </ng-template>
                 <ng-template #secondaryButton>
-                  <rte-button variant="neutral" label="Cancel" (click)="handleSecondaryClick()"/>
+                  <button rteButton rteButtonVariant="neutral" (click)="handleSecondaryClick()">Cancel</button>
                 </ng-template>
               </div>
               <div
@@ -199,12 +199,12 @@ export const Sizes: Story = {
                 [rteModalAriaDescribedby]="rteModalAriaDescribedby"
                 [rteModalCloseOnClickOutside]="rteModalCloseOnClickOutside"
                 >
-                <rte-button variant="primary" label="Open Modal l" rteModalTrigger/>
+                <button rteButton rteButtonVariant="primary" rteModalTrigger>Open Modal l</button>
                 <ng-template #primaryButton>
-                  <rte-button variant="primary" label="Continue" (click)="handlePrimaryClick()"/>
+                  <button rteButton rteButtonVariant="primary" (click)="handlePrimaryClick()">Continue</button>
                 </ng-template>
                 <ng-template #secondaryButton>
-                  <rte-button variant="neutral" label="Cancel" (click)="handleSecondaryClick()"/>
+                  <button rteButton rteButtonVariant="neutral" (click)="handleSecondaryClick()">Cancel</button>
                 </ng-template>
               </div>
               <div
@@ -218,12 +218,12 @@ export const Sizes: Story = {
                 [rteModalAriaDescribedby]="rteModalAriaDescribedby"
                 [rteModalCloseOnClickOutside]="rteModalCloseOnClickOutside"
                 >
-                <rte-button variant="primary" label="Open Modal xl" rteModalTrigger/>
+                <button rteButton rteButtonVariant="primary" rteModalTrigger>Open Modal xl</button>
                 <ng-template #primaryButton>
-                  <rte-button variant="primary" label="Continue" (click)="handlePrimaryClick()"/>
+                  <button rteButton rteButtonVariant="primary" (click)="handlePrimaryClick()">Continue</button>
                 </ng-template>
                 <ng-template #secondaryButton>
-                  <rte-button variant="neutral" label="Cancel" (click)="handleSecondaryClick()"/>
+                  <button rteButton rteButtonVariant="neutral" (click)="handleSecondaryClick()">Cancel</button>
                 </ng-template>
               </div>
     </div>
@@ -264,12 +264,12 @@ export const WithCustomContent: Story = {
                 [rteModalAriaDescribedby]="rteModalAriaDescribedby"
                 [rteModalCloseOnClickOutside]="rteModalCloseOnClickOutside"
                 >
-                <rte-button variant="primary" label="Open Modal" rteModalTrigger/>
+                <button rteButton rteButtonVariant="primary" rteModalTrigger>Open Modal</button>
                 <ng-template #primaryButton>
-                  <rte-button variant="primary" label="Continue" (click)="handlePrimaryClick()"/>
+                  <button rteButton rteButtonVariant="primary"(click)="handlePrimaryClick()">Continue</button>
                 </ng-template>
                 <ng-template #secondaryButton>
-                  <rte-button variant="neutral" label="Cancel" (click)="handleSecondaryClick()"/>
+                  <button rteButton rteButtonVariant="neutral" (click)="handleSecondaryClick()">Cancel</button>
                 </ng-template>
                 <ng-template #customContent>
                   <rte-textarea resizeable="true" />
@@ -315,12 +315,12 @@ export const KeyboardInteraction: Story = {
                 [rteModalAriaDescribedby]="rteModalAriaDescribedby"
                 [rteModalIsOpen]="rteModalIsOpen"
                 >
-                <rte-button variant="primary" label="Open Modal" rteModalTrigger/>
+                <button rteButton rteModalTrigger variant="primary">Open Modal</button>
                 <ng-template #primaryButton>
-                  <rte-button variant="danger" label="Continue" (click)="handlePrimaryClick()"/>
+                  <button rteButton rteButtonVariant="danger" (click)="handlePrimaryClick()">Continue</button>
                 </ng-template>
                 <ng-template #secondaryButton>
-                  <rte-button variant="neutral" label="Cancel" (click)="handleSecondaryClick()"/>
+                  <button rteButton rteButtonVariant="neutral" (click)="handleSecondaryClick()">Cancel</button>
                 </ng-template>
               </div>
       `,

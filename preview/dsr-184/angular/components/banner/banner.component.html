@@ -12,14 +12,13 @@
       <span *ngIf="title()" class="rte-banner-title">{{ title() }}</span>
       <div *ngIf="message()" class="rte-banner-message">
         <span>{{ message() }}</span>
-        <rte-button
-          *ngIf="actionLabel()"
-          variant="neutral"
-          size="s"
-          [label]="actionLabel()!"
-          [ariaLabel]="actionLabel()!"
+        <button *ngIf="actionLabel()"
+          rteButton
+          rteButtonVariant="neutral"
+          rteButtonSize="s"
+          [attr.aria-label]="actionLabel()!"
           (click)="clickAction()"
-        />
+        >{{ actionLabel() }}</button>
       </div>
     </div>
     <div *ngIf="closable()" class="rte-banner-close-icon">
