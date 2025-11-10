@@ -1,3 +1,4 @@
+import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
 import {
   TESTING_ENTER_KEY,
   TESTING_SPACE_KEY,
@@ -524,6 +525,7 @@ export const ActiveItemState: Story = {
     headerConfig: defaultHeaderConfig,
     items: navigationItems,
     activeItem: "home",
+    collapsible: true,
   },
   decorators: [
     (Story, context) => {
@@ -532,11 +534,12 @@ export const ActiveItemState: Story = {
         return {
           ...item,
           onClick: () => setActiveItem(item.id),
+          link: undefined,
         };
       });
       return (
         <div>
-          <Story key={activeItem} args={{ ...context.args, items: itemsWithOnClick, activeItem }} />
+          <Story args={{ ...context.args, items: itemsWithOnClick as NavItemProps[], activeItem }} />
         </div>
       );
     },
