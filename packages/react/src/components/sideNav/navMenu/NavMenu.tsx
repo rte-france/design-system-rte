@@ -59,7 +59,7 @@ const NavMenuComponent = forwardRef<HTMLLIElement, NavMenuProps>(
   (
     {
       icon,
-      showIcon,
+      showIcon = true,
       onClick,
       label,
       collapsed,
