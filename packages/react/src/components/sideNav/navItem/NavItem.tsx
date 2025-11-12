@@ -50,7 +50,19 @@ const NavItemContent = ({ link, label, tabIndex, onKeyDown, onFocus, onBlur, chi
 
 const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
   (
-    { id, icon, showIcon, onClick, label, collapsed, link, parentMenuOpen, appearance, active, ...props }: NavItemProps,
+    {
+      id,
+      icon,
+      showIcon = true,
+      onClick,
+      label,
+      collapsed,
+      link,
+      parentMenuOpen,
+      appearance,
+      active,
+      ...props
+    }: NavItemProps,
     ref: ForwardedRef<HTMLDivElement>,
   ) => {
     const listItemRef = useRef<HTMLDivElement | null>(null);

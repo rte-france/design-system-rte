@@ -85,7 +85,7 @@ const navigationItemsWithNested = [
     label: "Dashboard",
     icon: "dashboard",
     showIcon: true,
-    items: [{ label: "Overview" }, { label: "Reports" }, { label: "Analytics" }],
+    items: [{ label: "Overview" }, { label: "Reports" }, { label: "Analytics", icon: "analytics" }],
   },
   {
     id: "settings",
@@ -93,11 +93,15 @@ const navigationItemsWithNested = [
     icon: "settings",
     showIcon: true,
     items: [
-      { label: "General" },
-      { label: "Privacy" },
+      { label: "General", icon: "general" },
+      { label: "Privacy", icon: "privacy" },
       {
         label: "Advanced",
-        items: [{ label: "Security" }, { label: "API Keys" }],
+        icon: "settings",
+        items: [
+          { label: "Security", icon: "security" },
+          { label: "API Keys", icon: "api-keys" },
+        ],
       },
     ],
   },
@@ -127,9 +131,9 @@ const footerItems: NavItemProps[] = [
     icon: "user",
     showIcon: true,
     items: [
-      { id: "footer-profile", label: "Profile", link: "/profile" },
-      { id: "footer-preferences", label: "Preferences" },
-      { id: "footer-logout", label: "Logout", onClick: () => console.log("Logout clicked") },
+      { id: "footer-profile", label: "Profile", link: "/profile", icon: "user" },
+      { id: "footer-preferences", label: "Preferences", icon: "preferences" },
+      { id: "footer-logout", label: "Logout", onClick: () => console.log("Logout clicked"), icon: "logout" },
     ],
   },
 ];
