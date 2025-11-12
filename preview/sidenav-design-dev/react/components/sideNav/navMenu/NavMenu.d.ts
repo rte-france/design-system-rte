@@ -4,5 +4,5 @@ interface NavMenuProps extends CoreNavMenuProps, Omit<HTMLAttributes<HTMLLIEleme
     children?: ReactNode;
     parentMenuOpen?: boolean;
 }
-declare const NavMenu: import('../../../../../../node_modules/react').ForwardRefExoticComponent<NavMenuProps & import('../../../../../../node_modules/react').RefAttributes<HTMLElement | HTMLLIElement>>;
+declare const NavMenu: import('../../../../../../node_modules/react').ForwardRefExoticComponent<NavMenuProps & import('../../../../../../node_modules/react').RefAttributes<HTMLLIElement>>;
 export default NavMenu;
