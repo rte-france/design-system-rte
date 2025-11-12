@@ -56,7 +56,7 @@
 
         &:active {
             border-radius: $radius-s;
-            background: var(--background-brand-navigation-active);
+            background: var(--background-brand-navigation-pressed);
         }
 
         &:link {
