@@ -12,7 +12,7 @@
   gap: $positive-spacing_0;
   border-radius: $radius-none;
   background: var(--background-info-default);
-  color: var(--content-info);
+  color: var(--content-info-default);
   top: 0;
   left: 0;
   opacity: 0;
@@ -22,7 +22,7 @@
 
   &[data-type='alert'] {
     background: var(--background-danger-default);
-    color: var(--content-danger);
+    color: var(--content-danger-default);
   }
 
   &[data-position='overlay'] {

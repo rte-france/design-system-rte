@@ -12,7 +12,7 @@
 
         &:visited {
 
-            color: var(--content-link-visited);
+            color: var(--content-link-visited-default);
             text-decoration: underline;
 
             &:hover {
@@ -21,12 +21,12 @@
             }
 
             &:active {
-                color: var(--content-link-visited-press);
+                color: var(--content-link-visited-pressed);
                 text-decoration: underline;
             }
 
             &:focus-visible {
-                color: var(--content-link-visited);
+                color: var(--content-link-visited-default);
                 text-decoration: underline;
                 outline: 1px solid var(--border-brand-focused);
                 outline-offset: $radius-s;
@@ -44,7 +44,7 @@
             }
 
             &:active {
-                color: var(--content-link-press);
+                color: var(--content-link-pressed);
                 text-decoration: underline;
             }
 
