@@ -40,7 +40,8 @@ export function extractColors(variables: ColorToken, mode: ColorMode): string {
   for (const category in variables) {
     const categoryTokens = variables[category];
     if ((categoryTokens as ColorTokenValue).$value) {
-      scss += extractTokenValue(categoryTokens as ColorTokenValue, mode, [category]);
+      const sanitizedCategory = category.replace(/ /g, "-");
+      scss += extractTokenValue(categoryTokens as ColorTokenValue, mode, [sanitizedCategory]);
     } else {
       scss += processSubTokens(categoryTokens as Record<string, ColorTokenValue>, mode, category, [category]);
     }
