@@ -50,6 +50,12 @@ function App() {
     setIsAlertBannerVisible((prev) => !prev);
   };
 
+  const defaultSegmentedButtonOptions = [
+    { id: "option-1", label: "Option 1", onClick: () => console.log("Option 1 clicked") },
+    { id: "option-2", label: "Option 2", onClick: () => console.log("Option 2 clicked") },
+    { id: "option-3", label: "Option 3", onClick: () => console.log("Option 3 clicked") },
+  ];
+
   return (
     <div>
       <div>
@@ -83,7 +89,13 @@ function App() {
       <hr />
       <div>
         <h3>SplitButton</h3>
-        <SplitButton appearance="primary" ariaLabelRight="Open menu" label="Button Label" position="bottom-start">
+        <SplitButton
+          appearance="primary"
+          ariaLabelRight="Open menu"
+          label="Button Label"
+          position="bottom-start"
+          options={defaultSegmentedButtonOptions}
+        >
           <Button label="Click me" />
         </SplitButton>
       </div>
