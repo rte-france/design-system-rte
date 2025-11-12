@@ -47,7 +47,8 @@
         user-select: none;
         outline: none;
 
-        &:link {
+        &:link,
+        &:visited {
             text-decoration: none;
             color: inherit;
             &:hover {

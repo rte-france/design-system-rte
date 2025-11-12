@@ -7,7 +7,7 @@ import {
   ESCAPE_KEY,
   SPACE_KEY,
 } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
-import { ForwardedRef, forwardRef, HTMLAttributes, ReactNode, useState } from "react";
+import { forwardRef, HTMLAttributes, ReactNode, useState } from "react";
 
 import { Icon } from "../../..";
 import { useActiveKeyboard } from "../../../hooks/useActiveKeyboard";
@@ -55,7 +55,7 @@ const NavMenuContent = ({ link, label, tabIndex, onClick, onKeyDown, children }:
   );
 };
 
-const NavMenuComponent = forwardRef<HTMLElement | HTMLLIElement, NavMenuProps>(
+const NavMenuComponent = forwardRef<HTMLLIElement, NavMenuProps>(
   (
     {
       icon,
@@ -71,7 +71,7 @@ const NavMenuComponent = forwardRef<HTMLElement | HTMLLIElement, NavMenuProps>(
       appearance,
       ...props
     }: NavMenuProps,
-    ref: ForwardedRef<HTMLElement | HTMLLIElement>,
+    ref,
   ) => {
     const [internalOpen, setInternalOpen] = useState(false);
     const isOpen = controlledOpen !== undefined ? controlledOpen : internalOpen;
@@ -132,7 +132,7 @@ const NavMenuComponent = forwardRef<HTMLElement | HTMLLIElement, NavMenuProps>(
           isOpen && style.open,
           parentMenuOpen && style.nested,
         )}
-        ref={ref as ForwardedRef<HTMLLIElement>}
+        ref={ref}
         {...props}
       >
         <NavMenuContent link={link} label={label} tabIndex={tabIndex} onClick={toggleMenu} onKeyDown={onKeyDown}>

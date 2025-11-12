@@ -1,5 +1,10 @@
 @use '@design-system-rte/core/design-tokens/main.scss' as *;
 
+.sideNavContainer {
+    min-height: 100vh;
+    height: 100vh;
+}
+
 .sideNavContent {
     flex: 0 1 auto;
     align-self: flex-start;

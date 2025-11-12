@@ -1,6 +1,6 @@
 import { sideNavCollapsedSize, sideNavPanelSize } from "@design-system-rte/core/components/side-nav/side-nav.constants";
 import { SideNavProps as CoreSideNavProps } from "@design-system-rte/core/components/side-nav/side-nav.interface";
-import { ForwardedRef, forwardRef, ReactNode, useLayoutEffect, useRef } from "react";
+import { forwardRef, ReactNode, useLayoutEffect, useRef } from "react";
 
 import { concatClassNames } from "../../utils";
 
@@ -13,6 +13,7 @@ interface BaseSideNavProps
   body?: ReactNode;
   footer?: ReactNode;
   children?: ReactNode;
+  containerClassName?: string;
 }
 
 const BaseSideNav = forwardRef<HTMLElement | HTMLDivElement, BaseSideNavProps>(
@@ -27,6 +28,7 @@ const BaseSideNav = forwardRef<HTMLElement | HTMLDivElement, BaseSideNavProps>(
       children,
       appearance = "brand",
       collapsed,
+      containerClassName,
     },
     ref,
   ) => {
@@ -57,9 +59,9 @@ const BaseSideNav = forwardRef<HTMLElement | HTMLDivElement, BaseSideNavProps>(
     }, [children]);
 
     return (
-      <div ref={containerRef} className={style.sideNavContainer}>
+      <div ref={containerRef} className={concatClassNames(style.sideNavContainer, containerClassName)}>
         <nav
-          ref={ref as ForwardedRef<HTMLDivElement>}
+          ref={ref}
           className={concatClassNames(style.sideNav, collapsed ? style.collapsed : "", appearance && style[appearance])}
           style={{
             minWidth: collapsed ? sideNavCollapsedSize : sideNavPanelSize[size],

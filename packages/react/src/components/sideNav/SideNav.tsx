@@ -2,10 +2,10 @@ import { DividerAppearance } from "@design-system-rte/core/components/divider/di
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
 import { SideNavProps as CoreSideNavProps } from "@design-system-rte/core/components/side-nav/side-nav.interface";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
-import { ForwardedRef, ReactNode, useState, useEffect, forwardRef } from "react";
+import { ReactNode, useState, useEffect, forwardRef } from "react";
 
-import { Divider } from "../..";
 import { useActiveKeyboard } from "../../hooks/useActiveKeyboard";
+import Divider from "../divider/Divider";
 import { concatClassNames } from "../utils";
 
 import BaseSideNav from "./baseSideNav/BaseSideNav";
@@ -163,11 +163,13 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
 
     return (
       <BaseSideNav
-        ref={ref as ForwardedRef<HTMLElement | HTMLDivElement>}
+        ref={ref}
         size={size}
         collapsible={collapsible}
         collapsed={isCollapsed}
         appearance={appearance}
+        style={{ minHeight: "100vh" }}
+        containerClassName={style.sideNavContainer}
         header={
           <div className={style.sideNavHeaderContainer}>
             <div className={concatClassNames(style.sideNavHeader, style[appearance], isCollapsed && style.collapsed)}>
