@@ -12,19 +12,15 @@ const meta: Meta<ButtonComponent> = {
   component: ButtonComponent,
   tags: ["autodocs"],
   argTypes: {
-    variant: {
+    rteButtonVariant: {
       control: "select",
       options: ["primary", "secondary", "text", "transparent", "danger", "neutral", "reverse"],
     },
-    size: {
+    rteButtonSize: {
       control: "select",
       options: ["s", "m", "l"],
     },
-    disabled: {
-      control: "boolean",
-    },
   },
-  args: { click: fn() },
 };
 
 export default meta;
@@ -34,10 +30,20 @@ const mockFn = fn();
 
 export const Default: Story = {
   args: {
-    variant: "primary",
-    label: "Button",
-    click: mockFn,
+    rteButtonVariant: "primary",
+    rteButtonSize: "m",
   },
+  render: (args) => ({
+    props: { ...args, click: mockFn },
+    template: `
+    <button rteButton
+      [rteButtonVariant]="rteButtonVariant"
+      [rteButtonSize]="rteButtonSize"
+      data-testid="button"
+      (click)="click()"
+    >Button</button>
+    `,
+  }),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const button = canvas.getByRole("button");
@@ -52,32 +58,29 @@ export const Sizing: Story = {
     props: args,
     template: `
     <div style="display: flex; gap: 8px;">
-        <rte-button
-          size="s"
-          label="Small"
-          variant="primary"
+        <button rteButton 
+          rteButtonSize="s"
+          rteButtonVariant="primary"
           data-testid="small-button"
-          />
-        <rte-button
-          size="m"
-          label="Medium"
-          variant="primary"
+        >Small</button>
+        <button rteButton 
+          rteButtonSize="m"
+          rteButtonVariant="primary"
           data-testid="medium-button"
-          />
-          <rte-button
-          size="l"
-          label="Large"
-          variant="primary"
+        >Medium</button>
+        <button rteButton 
+          rteButtonSize="l"
+          rteButtonVariant="primary"
           data-testid="large-button"
-          />
+        >Large</button>
     </div>
     `,
   }),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const smallButton = canvas.getByTestId("small-button").getElementsByTagName("button")[0];
-    const mediumButton = canvas.getByTestId("medium-button").getElementsByTagName("button")[0];
-    const largeButton = canvas.getByTestId("large-button").getElementsByTagName("button")[0];
+    const smallButton = canvas.getByTestId("small-button");
+    const mediumButton = canvas.getByTestId("medium-button");
+    const largeButton = canvas.getByTestId("large-button");
 
     expect(smallButton.clientHeight).toBe(24);
     expect(mediumButton.clientHeight).toBe(32);
@@ -89,6 +92,17 @@ export const KeyboardInteraction: Story = {
   args: {
     ...Default.args,
   },
+  render: (args) => ({
+    props: { ...args, click: mockFn },
+    template: `
+    <button rteButton
+      [rteButtonVariant]="rteButtonVariant"
+      [rteButtonSize]="rteButtonSize"
+      data-testid="button"
+      (click)="click()"
+    >Button</button>
+    `,
+  }),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const button = canvas.getByRole("button");
