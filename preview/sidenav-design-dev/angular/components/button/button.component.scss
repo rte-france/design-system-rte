@@ -1,7 +1,7 @@
 @use '@design-system-rte/core/design-tokens/main.scss' as *;
 
 :host {
-    
+
     display: inline-flex;
     flex-shrink: 0;
     align-items: center;
@@ -121,7 +121,7 @@
         }
 
         &:active {
-            color: var(--content-brand-press);
+            color: var(--content-brand-pressed);
         }
 
         &:disabled {
