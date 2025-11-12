@@ -106,4 +106,10 @@ export class AppComponent {
   handleModalSecondaryClick() {
     console.log("Secondary button clicked");
   }
+
+  rteSplitButtonOptions = [
+    { id: "option-1", label: "Option 1", onClick: () => console.log("Option 1 clicked") },
+    { id: "option-2", label: "Option 2", onClick: () => console.log("Option 2 clicked") },
+    { id: "option-3", label: "Option 3", onClick: () => console.log("Option 3 clicked") },
+  ];
 }
