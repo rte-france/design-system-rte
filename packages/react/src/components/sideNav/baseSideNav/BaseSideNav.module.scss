@@ -5,13 +5,14 @@
   padding: $positive-spacing_0;
   position: relative;
   display: flex;
-  align-items: flex-start; 
+  align-items: stretch; 
   flex: 1;
 }
 
 .sideNavContent {
   flex: 1 1 auto;
   min-width: 0;
+  overflow-y: auto;
 }
 
 .sideNav {

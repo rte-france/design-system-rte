@@ -8,7 +8,19 @@ import { copyDirectoryRecursive, cleanDirectory } from "./directory-helper.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const packages = ["core", "angular", "react"];
+function parsePackagesArg() {
+  const packagesArg = process.argv.find((arg) => arg.startsWith("--packages="));
+  if (packagesArg) {
+    const packagesValue = packagesArg.split("=")[1].replace(/^["']|["']$/g, "");
+    return packagesValue
+      .split(",")
+      .map((pkg) => pkg.trim())
+      .filter(Boolean);
+  }
+  return ["core", "angular", "react"];
+}
+
+const packages = parsePackagesArg();
 const distDir = path.resolve(__dirname, "../dist/packages");
 
 cleanDirectory(distDir);
