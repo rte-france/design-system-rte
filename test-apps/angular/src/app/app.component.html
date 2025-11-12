@@ -39,29 +39,10 @@
 
 <hr />
 
-<rte-split-button label="Split Button">
-  <button rteButton
-    [disabled]="false"
-    icon="home"
-    ariaLabel="Home"
-    ariaLabelledBy="home"
-    buttonType="button"
-  >Button</button>
-  <button rteButton
-    [disabled]="false"
-    icon="home"
-    ariaLabel="Home"
-    ariaLabelledBy="home"
-    buttonType="button"
-  >Button</button>
-  <button rteButton
-    [disabled]="false"
-    icon="home"
-    ariaLabel="Home"
-    ariaLabelledBy="home"
-    buttonType="button"
-  >Button</button>
-</rte-split-button>
+<rte-split-button
+  label="Split Button"
+  [options]="rteSplitButtonOptions"
+/>
 
 <hr />
 
@@ -169,19 +150,15 @@
   [rteModalTitle]="'Modal title'"
   [rteModalDescription]="'This is a description for the modal.'"
 >
-  <rte-button variant="primary" label="Open Modal" rteModalTrigger />
+  <button rteButton rteButtonVariant="primary" rteModalTrigger >Open Modal</button>
   <ng-template #primaryButton>
-    <rte-button
-      variant="primary"
-      label="Continue"
-      (click)="handleModalPrimaryClick()"
-    />
+    <button rteButton rteButtonVariant="primary" (click)="handleModalPrimaryClick()">
+      Continue
+    </button>
   </ng-template>
   <ng-template #secondaryButton>
-    <rte-button
-      variant="neutral"
-      label="Cancel"
-      (click)="handleModalSecondaryClick()"
-    />
+    <button rteButton rteButtonVariant="neutral" (click)="handleModalSecondaryClick()">
+      Cancel
+    </button>
   </ng-template>
 </div>
