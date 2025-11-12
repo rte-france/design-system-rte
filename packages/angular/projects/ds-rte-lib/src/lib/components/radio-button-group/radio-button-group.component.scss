@@ -26,7 +26,7 @@
 
         .group-error-message {
             @include typography-text-m-bold;
-            color: var(--content-danger);
+            color: var(--content-danger-default);
             align-self: stretch;
             margin: $positive-spacing_0;
             margin-top: $positive-spacing_050;
@@ -34,7 +34,7 @@
 
         &.error {
             .group-title {
-                color: var(--content-danger);
+                color: var(--content-danger-default);
             }
         }
 
@@ -45,7 +45,7 @@
 
             .error {
                 .group-title {
-                    color: var(--content-danger);
+                    color: var(--content-danger-default);
                 }
             }
         }

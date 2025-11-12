@@ -118,12 +118,12 @@
 
       &[data-assistive-text-appearance="error"] {
         &[data-disabled='false'] {
-          color: var(--content-danger);
+          color: var(--content-danger-default);
         }
       }
 
       &[data-assistive-text-appearance="success"] {
-        color: var(--content-success);
+        color: var(--content-success-default);
       }
     }
   }
@@ -164,7 +164,7 @@
 
     &[data-show-label-requirement='false'] {
       &[data-required='true'] {
-        color: var(--content-danger);
+        color: var(--content-danger-default);
       }
     }
   }
