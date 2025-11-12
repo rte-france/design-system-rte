@@ -122,12 +122,12 @@
 
       &.error {
         &:not(.disabled) {
-          color: var(--content-danger);
+          color: var(--content-danger-default);
         }
       }
 
       &.success {
-        color: var(--content-success);
+        color: var(--content-success-default);
       }
     }
   }
@@ -168,7 +168,7 @@ label {
 
     &:not(.show-label-requirement) {
       &.required {
-        color: var(--content-danger);
+        color: var(--content-danger-default);
       }
     }
   }

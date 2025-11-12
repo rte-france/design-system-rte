@@ -28,9 +28,9 @@
     &[data-tag-type="status"] {
 
         $status-colors: (
-            success: --background-status-success-regular,
+            success: --background-success-default,
             information: --background-status-info-regular,
-            warning: --background-status-warning-regular,
+            warning: --background-warning-default,
             alert: --background-status-alert-regular
         );
 
