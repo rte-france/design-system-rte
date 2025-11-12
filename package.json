@@ -14,6 +14,8 @@
     "bundle-packages": "node scripts/bundle-packages.js",
     "install-bundles": "npm --prefix test-apps/angular install && npm --prefix test-apps/react install && npm --prefix test-apps/react@19 install",
     "copy-angular-icons": "node scripts/copy-angular-icons.js",
+    "prepare-test-app:angular": "node scripts/bundle-packages.js --packages='core, angular' && npm --prefix test-apps/angular install && node scripts/copy-angular-icons.js",
+    "prepare-test-app:react": "node scripts/bundle-packages.js --packages='core, react' && npm --prefix test-apps/react install",
     "prepare-test-apps": "npm run bundle-packages && npm run install-bundles && npm run copy-angular-icons",
     "test-bundle:angular": "npm --prefix test-apps/angular start",
     "test-bundle:react": "npm --prefix test-apps/react run dev",
