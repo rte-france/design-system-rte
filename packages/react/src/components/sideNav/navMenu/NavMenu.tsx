@@ -19,6 +19,7 @@ import style from "./NavMenu.module.scss";
 
 interface NavMenuProps extends CoreNavMenuProps, Omit<HTMLAttributes<HTMLLIElement>, "onClick"> {
   children?: ReactNode;
+  isNested?: boolean;
   parentMenuOpen?: boolean;
 }
 
@@ -55,7 +56,7 @@ const NavMenuContent = ({ link, label, tabIndex, onClick, onKeyDown, children }:
   );
 };
 
-const NavMenuComponent = forwardRef<HTMLLIElement, NavMenuProps>(
+const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
   (
     {
       icon,
@@ -67,6 +68,7 @@ const NavMenuComponent = forwardRef<HTMLLIElement, NavMenuProps>(
       items = [],
       open: controlledOpen,
       showMenuIcon = true,
+      isNested,
       parentMenuOpen,
       appearance,
       ...props
@@ -118,13 +120,7 @@ const NavMenuComponent = forwardRef<HTMLLIElement, NavMenuProps>(
 
     const menuContent = (
       <>
-        <NavMenuLabel
-          icon={icon}
-          showIcon={showIcon}
-          label={label}
-          collapsed={collapsed}
-          parentMenuOpen={parentMenuOpen}
-        />
+        <NavMenuLabel icon={icon} showIcon={showIcon} label={label} collapsed={collapsed} isNested={isNested} />
         {chevronIcon}
       </>
     );
@@ -136,7 +132,7 @@ const NavMenuComponent = forwardRef<HTMLLIElement, NavMenuProps>(
           appearance && style[appearance],
           collapsed && style.collapsed,
           isOpen && style.open,
-          parentMenuOpen && style.nested,
+          isNested && style.nested,
         )}
         ref={ref}
         {...props}
@@ -150,7 +146,7 @@ const NavMenuComponent = forwardRef<HTMLLIElement, NavMenuProps>(
               const hasNestedItems = !!item.items?.length;
               if (hasNestedItems) {
                 return (
-                  <NavMenuComponent
+                  <NavMenu
                     key={item.id || item.label}
                     label={item.label}
                     icon={item.icon}
@@ -160,6 +156,7 @@ const NavMenuComponent = forwardRef<HTMLLIElement, NavMenuProps>(
                     onClick={item.onClick}
                     items={item.items || []}
                     showMenuIcon={showMenuIcon}
+                    isNested={true}
                     parentMenuOpen={nestedItemsParentMenuOpen}
                     appearance={appearance}
                   />
@@ -174,6 +171,7 @@ const NavMenuComponent = forwardRef<HTMLLIElement, NavMenuProps>(
                     collapsed={collapsed}
                     link={item.link}
                     onClick={item.onClick}
+                    isNested={true}
                     parentMenuOpen={nestedItemsParentMenuOpen}
                     appearance={appearance}
                   />
@@ -205,11 +203,8 @@ const NavMenuComponent = forwardRef<HTMLLIElement, NavMenuProps>(
   },
 );
 
-const NavMenuLabel = ({
-  parentMenuOpen,
-  ...props
-}: Omit<NavMenuProps, "children" | "items" | "open" | "showMenuIcon">) => {
-  const iconSize = parentMenuOpen ? 16 : props.collapsed ? 24 : 20;
+const NavMenuLabel = ({ isNested, ...props }: Omit<NavMenuProps, "children" | "items" | "open" | "showMenuIcon">) => {
+  const iconSize = isNested ? 16 : props.collapsed ? 24 : 20;
   return (
     <>
       {props.showIcon && props.icon && <Icon name={props.icon} className={style.icon} size={iconSize} />}
@@ -218,8 +213,6 @@ const NavMenuLabel = ({
   );
 };
 
-NavMenuComponent.displayName = "NavMenu";
-
-const NavMenu = NavMenuComponent;
+NavMenu.displayName = "NavMenu";
 
 export default NavMenu;

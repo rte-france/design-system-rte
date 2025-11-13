@@ -79,7 +79,7 @@ const navigationItems = [
 ];
 
 const navigationItemsWithNested = [
-  { id: "home", label: "Home", icon: "home", showIcon: true, link: "/home" },
+  { id: "home", label: "Home", icon: "home", showIcon: true },
   {
     id: "dashboard",
     label: "Dashboard",

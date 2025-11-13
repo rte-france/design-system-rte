@@ -1,23 +1,21 @@
 @use '@design-system-rte/core/design-tokens/main.scss' as *;
 
 .navMenuContainer {
-    @include typography-text-m-regular;
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     border-radius: $radius-s;
-    cursor: pointer;
     transition: background-color 300ms;
     box-sizing: border-box;
 
     &.neutral {
         .navMenu {
+            color: var(--content-secondary);
+
             &:hover {
                 background: var(--background-neutral-navigation-hover);
-            }
-            &:active {
-                @include elevation-neutral-inner-shadow;
+                color: var(--content-primary);
             }
             &.focused {
                 outline: none;
@@ -27,17 +25,14 @@
         &.nested {
             .navMenu {
                 border-radius: 0 $radius-s $radius-s 0;
-                border-left: $width-xs solid var(--border-divider)
+                border-left: $width-xs solid var(--border-divider);
             }
-            &:active {
-                .navMenu {
-                    @include neutral-inner-shadow;
-                }
-            }
+            
         }
     }
 
     .navMenu {
+        @include typography-button-m;
         display: flex;
         padding: $positive-spacing_100 $positive-spacing_075;
         align-items: center;
@@ -47,16 +42,14 @@
         justify-content: space-between;
         width: 100%;
         box-sizing: border-box;
+        cursor: pointer;
+        border-left: $width-s solid transparent;
+        color: var(--content-brand-navigation-default);
 
         &:hover {
             border-radius: $radius-s;
-            opacity: $opacity-100;
             background: var(--background-brand-navigation-hover);
-        }
-
-        &:active {
-            border-radius: $radius-s;
-            background: var(--background-brand-navigation-pressed);
+            color: var(--content-brand-navigation-hover);
         }
 
         &:link {
