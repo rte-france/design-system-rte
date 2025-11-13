@@ -108,6 +108,83 @@ const navigationItemsWithNested = [
   { id: "profile", label: "Profile", icon: "user", showIcon: true, link: "/profile" },
 ];
 
+const navigationItemsWithNestedAndBadges: NavItemProps[] = [
+  {
+    id: "home",
+    label: "Home",
+    icon: "home",
+    showIcon: true,
+    badge: {
+      badgeType: "indicator",
+      size: "m",
+      content: "number",
+      count: 5,
+    },
+  },
+  {
+    id: "dashboard",
+    label: "Dashboard",
+    icon: "dashboard",
+    showIcon: true,
+    badge: {
+      badgeType: "indicator",
+      size: "m",
+      content: "number",
+      count: 3,
+    },
+    items: [
+      { label: "Overview", badge: { badgeType: "brand", size: "m", content: "number", count: 2 } },
+      { label: "Reports" },
+      {
+        label: "Analytics",
+        icon: "analytics",
+        badge: { badgeType: "indicator", size: "m", content: "number", count: 12 },
+      },
+    ],
+  },
+  {
+    id: "settings",
+    label: "Settings",
+    icon: "settings",
+    showIcon: true,
+    items: [
+      { label: "General", icon: "general" },
+      { label: "Privacy", icon: "privacy", badge: { badgeType: "brand", size: "m", content: "number", count: 1 } },
+      {
+        label: "Advanced",
+        icon: "settings",
+        badge: {
+          badgeType: "indicator",
+          size: "m",
+          content: "number",
+          count: 7,
+        },
+        items: [
+          {
+            label: "Security",
+            icon: "security",
+            badge: { badgeType: "indicator", size: "m", content: "number", count: 99 },
+          },
+          { label: "API Keys", icon: "api-keys" },
+        ],
+      },
+    ],
+  },
+  {
+    id: "profile",
+    label: "Profile",
+    icon: "user",
+    showIcon: true,
+    link: "/profile",
+    badge: {
+      badgeType: "brand",
+      size: "m",
+      content: "number",
+      count: 8,
+    },
+  },
+];
+
 const footerItems: NavItemProps[] = [
   {
     id: "footer-settings",
@@ -761,5 +838,14 @@ export const FooterItemsWithNested: Story = {
       const footerLogout = getFooterNavElement(sideNav, "Logout");
       expect(footerLogout).not.toBeNull();
     });
+  },
+};
+
+export const WithBadges: Story = {
+  args: {
+    ...Default.args,
+    headerConfig: defaultHeaderConfig,
+    items: navigationItemsWithNestedAndBadges,
+    collapsible: true,
   },
 };

@@ -131,6 +131,7 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
               return (
                 <NavMenu
                   key={item.id}
+                  badge={item.badge}
                   label={item.label}
                   icon={item.icon}
                   showIcon={item.showIcon}
@@ -146,6 +147,7 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
               <li key={item.id}>
                 <NavItem
                   id={item.id}
+                  badge={item.badge}
                   label={item.label}
                   icon={item.icon}
                   showIcon={item.showIcon}

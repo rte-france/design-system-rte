@@ -9,8 +9,9 @@ import {
 } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 import { forwardRef, HTMLAttributes, ReactNode, useState } from "react";
 
-import { Icon } from "../../..";
 import { useActiveKeyboard } from "../../../hooks/useActiveKeyboard";
+import Badge from "../../badge/Badge";
+import Icon from "../../icon/Icon";
 import Tooltip from "../../tooltip/Tooltip";
 import { concatClassNames } from "../../utils";
 import NavItem from "../navItem/NavItem";
@@ -71,6 +72,7 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
       isNested,
       parentMenuOpen,
       appearance,
+      badge,
       ...props
     }: NavMenuProps,
     ref,
@@ -120,8 +122,13 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
 
     const menuContent = (
       <>
-        <NavMenuLabel icon={icon} showIcon={showIcon} label={label} collapsed={collapsed} isNested={isNested} />
-        {chevronIcon}
+        <div className={style.menuContentLeft}>
+          <NavMenuLabel icon={icon} showIcon={showIcon} label={label} collapsed={collapsed} isNested={isNested} />
+        </div>
+        <div className={style.menuContentRight}>
+          {badge && <Badge badgeType={badge.badgeType} size={badge.size} content={badge.content} count={badge.count} />}
+          {chevronIcon}
+        </div>
       </>
     );
 
@@ -159,6 +166,7 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
                     isNested={true}
                     parentMenuOpen={nestedItemsParentMenuOpen}
                     appearance={appearance}
+                    badge={item.badge}
                   />
                 );
               }
@@ -174,6 +182,7 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
                     isNested={true}
                     parentMenuOpen={nestedItemsParentMenuOpen}
                     appearance={appearance}
+                    badge={item.badge}
                   />
                 </li>
               );
@@ -212,7 +221,5 @@ const NavMenuLabel = ({ isNested, ...props }: Omit<NavMenuProps, "children" | "i
     </>
   );
 };
-
-NavMenu.displayName = "NavMenu";
 
 export default NavMenu;

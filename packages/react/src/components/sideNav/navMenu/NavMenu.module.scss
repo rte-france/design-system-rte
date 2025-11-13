@@ -46,6 +46,18 @@
         border-left: $width-s solid transparent;
         color: var(--content-brand-navigation-default);
 
+        .menuContentLeft {
+            display: flex;
+            align-items: center;
+            gap: $positive-spacing_100;
+        }
+
+        .menuContentRight {
+            display: flex;
+            align-items: center;
+            gap: $positive-spacing_050;
+        }
+
         &:hover {
             border-radius: $radius-s;
             background: var(--background-brand-navigation-hover);

@@ -1,3 +1,4 @@
+import { BadgeProps } from "../../badge/badge.interface";
 import { SideNavAppearance } from "../side-nav.interface";
 
 export interface NavItemProps {
@@ -14,4 +15,5 @@ export interface NavItemProps {
   active?: boolean;
   isNested?: boolean;
   parentMenuOpen?: boolean;
+  badge?: BadgeProps;
 }
