@@ -93,7 +93,16 @@ const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
 
     const tabIndex = parentMenuOpen === false ? -1 : 0;
 
-    const labelContent = <NavItemLabel id={id} icon={icon} showIcon={showIcon} label={label} collapsed={collapsed} />;
+    const labelContent = (
+      <NavItemLabel
+        id={id}
+        icon={icon}
+        showIcon={showIcon}
+        label={label}
+        collapsed={collapsed}
+        parentMenuOpen={parentMenuOpen}
+      />
+    );
 
     const listItem = (
       <div
@@ -149,10 +158,11 @@ const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
   },
 );
 
-const NavItemLabel = (props: Omit<NavItemProps, "children">) => {
+const NavItemLabel = ({ parentMenuOpen, ...props }: Omit<NavItemProps, "children">) => {
+  const iconSize = parentMenuOpen ? 16 : props.collapsed ? 24 : 20;
   return (
     <>
-      {props.showIcon && props.icon && <Icon name={props.icon} className={style.icon} />}
+      {props.showIcon && props.icon && <Icon name={props.icon} className={style.icon} size={iconSize} />}
       {props.collapsed ? null : <span>{props.label}</span>}
     </>
   );
