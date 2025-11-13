@@ -61,6 +61,7 @@
         flex: 1 0 0;
         user-select: none;
         outline: none;
+        justify-content: space-between;
 
         &:link,
         &:visited {
@@ -70,6 +71,18 @@
                 text-decoration: none;
                 color: inherit;
             }
+        }
+
+        .navItemLeft {
+            display: flex;
+            align-items: center;
+            gap: $positive-spacing_100;
+        }
+    
+        .navItemRight {
+            display: flex;
+            align-items: center;
+            gap: $positive-spacing_050;
         }
     }
 

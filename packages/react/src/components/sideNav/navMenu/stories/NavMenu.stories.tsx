@@ -256,3 +256,115 @@ export const MixedWithNavItems: Story = {
     </ul>
   ),
 };
+
+export const WithBadge: Story = {
+  args: {
+    label: "Navigation item",
+    icon: "home",
+    showIcon: true,
+    items: simpleNestedItems,
+    showMenuIcon: true,
+    collapsed: false,
+    badge: {
+      badgeType: "indicator",
+      size: "m",
+      content: "number",
+      count: 5,
+    },
+  },
+  render: (args) => (
+    <ul style={{ listStyle: "none", padding: 0, width: "300px" }}>
+      <NavMenu {...args} />
+    </ul>
+  ),
+};
+
+export const NavItemWithBadge: Story = {
+  args: {
+    label: "Menu",
+    items: [],
+  },
+  render: () => (
+    <ul style={{ listStyle: "none", padding: 0, width: "300px" }}>
+      <NavItem
+        label="Navigation item"
+        icon="home"
+        showIcon={true}
+        collapsed={false}
+        badge={{
+          badgeType: "indicator",
+          size: "m",
+          content: "number",
+          count: 5,
+        }}
+      />
+      <NavItem
+        label="Another Item"
+        icon="dashboard"
+        showIcon={true}
+        collapsed={false}
+        badge={{
+          badgeType: "brand",
+          size: "m",
+          content: "number",
+          count: 12,
+        }}
+      />
+    </ul>
+  ),
+};
+
+export const MixedWithBadges: Story = {
+  args: {
+    label: "Menu",
+    items: [],
+  },
+  render: () => (
+    <ul style={{ listStyle: "none", padding: 0, width: "300px" }}>
+      <NavItem
+        label="Navigation item"
+        icon="home"
+        showIcon={true}
+        collapsed={false}
+        badge={{
+          badgeType: "indicator",
+          size: "m",
+          content: "number",
+          count: 5,
+        }}
+      />
+      <NavMenu
+        label="Menu with Badge"
+        icon="folder"
+        showIcon={true}
+        items={simpleNestedItems}
+        showMenuIcon={true}
+        collapsed={false}
+        badge={{
+          badgeType: "indicator",
+          size: "m",
+          content: "number",
+          count: 3,
+        }}
+      />
+      <NavItem label="Regular Item" icon="dashboard" showIcon={true} collapsed={false} />
+      <NavMenu
+        label="Another Menu"
+        icon="settings"
+        showIcon={true}
+        items={[
+          { label: "Settings 1", link: "/settings1" },
+          { label: "Settings 2", link: "/settings2" },
+        ]}
+        showMenuIcon={true}
+        collapsed={false}
+        badge={{
+          badgeType: "brand",
+          size: "m",
+          content: "number",
+          count: 99,
+        }}
+      />
+    </ul>
+  ),
+};
