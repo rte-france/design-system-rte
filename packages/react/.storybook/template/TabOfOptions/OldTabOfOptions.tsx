@@ -1,4 +1,4 @@
-import "./tabOfOptions.scss";
+import "./OldTabOfOptions.css";
 
 interface TabOfOptionsProps {
   options: {
