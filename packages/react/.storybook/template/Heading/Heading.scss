@@ -1,0 +1,6 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+.sbdocs h2 {
+  @include typography-heading-m;
+  color: var(--content-brand-default);
+}
