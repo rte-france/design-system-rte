@@ -118,7 +118,13 @@ const NavMenuComponent = forwardRef<HTMLLIElement, NavMenuProps>(
 
     const menuContent = (
       <>
-        <NavMenuLabel icon={icon} showIcon={showIcon} label={label} collapsed={collapsed} />
+        <NavMenuLabel
+          icon={icon}
+          showIcon={showIcon}
+          label={label}
+          collapsed={collapsed}
+          parentMenuOpen={parentMenuOpen}
+        />
         {chevronIcon}
       </>
     );
@@ -199,10 +205,14 @@ const NavMenuComponent = forwardRef<HTMLLIElement, NavMenuProps>(
   },
 );
 
-const NavMenuLabel = (props: Omit<NavMenuProps, "children" | "items" | "open" | "showMenuIcon">) => {
+const NavMenuLabel = ({
+  parentMenuOpen,
+  ...props
+}: Omit<NavMenuProps, "children" | "items" | "open" | "showMenuIcon">) => {
+  const iconSize = parentMenuOpen ? 16 : props.collapsed ? 24 : 20;
   return (
     <>
-      {props.showIcon && props.icon && <Icon name={props.icon} className={style.icon} />}
+      {props.showIcon && props.icon && <Icon name={props.icon} className={style.icon} size={iconSize} />}
       {props.collapsed ? null : <span>{props.label}</span>}
     </>
   );
