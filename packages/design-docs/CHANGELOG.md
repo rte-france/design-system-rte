@@ -1,11 +1,17 @@
 # @design-system-rte/design-docs
 
+## 0.8.0
+
+### Minor Changes
+
+- f88d2c6: ## Changes
+  - (Storybook) add Accessibilité page
+
 ## 0.7.0
 
 ### Minor Changes
 
 - 8618d1a: ## Changes
-
   - replace png images without emojis for svg files for storybook
 
 ## 0.6.1
@@ -13,7 +19,6 @@
 ### Patch Changes
 
 - e77d31f: ## Changes
-
   - (Badge) add controls for empty appearance
 
 ## 0.6.0
@@ -21,7 +26,6 @@
 ### Minor Changes
 
 - c6cfd06: ## Changes
-
   - (Design-docs) add elevation, grid, spacing and typography documentation to the storybook
 
 ## 0.5.3
@@ -29,7 +33,6 @@
 ### Patch Changes
 
 - ab76159: ## Changes
-
   - format code for consistency and readability across multiple components
   - fixed a lot of storybook structure and cofig problem Addition of the borders page
 

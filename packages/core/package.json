@@ -1,6 +1,6 @@
 {
   "name": "@design-system-rte/core",
-  "version": "0.19.0",
+  "version": "0.20.0",
   "main": "index.js",
   "scripts": {
     "lint": "eslint .",
