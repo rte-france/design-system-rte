@@ -1,8 +1,7 @@
-import { DividerAppearance } from "@design-system-rte/core/components/divider/divider.interface";
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
 import { SideNavProps as CoreSideNavProps } from "@design-system-rte/core/components/side-nav/side-nav.interface";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
-import { ReactNode, useState, useEffect, forwardRef } from "react";
+import { forwardRef, ReactNode, useEffect, useState } from "react";
 
 import { useActiveKeyboard } from "../../hooks/useActiveKeyboard";
 import Divider from "../divider/Divider";
@@ -67,6 +66,8 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
     };
 
     const collapseIcon = isCollapsed ? "arrow-double-right" : "arrow-double-left";
+
+    const dividerAppearance = appearance === "brand" ? "brand-navigation" : "default";
 
     const handleHeaderKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
       if ([SPACE_KEY, ENTER_KEY].includes(e.key)) {
@@ -178,7 +179,7 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
                 <span>{headerConfig?.version}</span>
               </div>
             </div>
-            <Divider appearance={appearance as DividerAppearance} />
+            <Divider appearance={dividerAppearance} />
           </div>
         }
         body={<div className={style.sideNavBody}>{renderNavItems(items)}</div>}
@@ -186,7 +187,7 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
           (footerItems?.length || collapsible) && (
             <div className={style.sideNavFooterContainer}>
               {footerItems?.length && <div className={style.sideNavFooterItems}>{renderNavItems(footerItems)}</div>}
-              <Divider appearance={appearance as DividerAppearance} />
+              <Divider appearance={dividerAppearance} />
               <div className={style.sideNavFooter}>
                 {collapsible && (
                   <div className={style.collapsibleSection}>
