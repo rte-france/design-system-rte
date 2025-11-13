@@ -8,10 +8,10 @@ import { expect, userEvent, waitFor, within } from "@storybook/test";
 
 import { focusElementBeforeComponent } from "../../../.storybook/testing/testing.utils";
 
-import Breadcrumbs from "./Breadcrumbs";
+import Breadcrumbs from "../Breadcrumbs";
 
 const meta = {
-  title: "Composants/Breadcrumbs",
+  title: "Composants/Breadcrumbs/Breadcrumbs",
   component: Breadcrumbs,
   tags: ["autodocs"],
   argTypes: {
