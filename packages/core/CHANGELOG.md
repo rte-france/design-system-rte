@@ -1,5 +1,17 @@
 # @design-system-rte/core
 
+## 0.20.0
+
+### Minor Changes
+
+- a7d75ed: ## Changes
+  - (Modal) add support for filled / outlined appearance for title icon
+  - (Modal) add react modal component
+  - (Icon) add icon sizes constants
+
+- cc64a7f: ## Changes
+  - (Icon-button) add badge to component
+
 ## 0.19.0
 
 ### Minor Changes

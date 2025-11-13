@@ -1,5 +1,24 @@
 # @design-system-rte/angular
 
+## 0.16.0
+
+### Minor Changes
+
+- a7d75ed: ## Changes
+  - (Modal) unset scroll behavior on unmount
+  - (Modal) add support for filled / outlined appearance for title icon
+  - (Modal) add angular component
+  - (Angular) add focus trap service
+
+- cc64a7f: ## Changes
+  - (Icon-button) add badge to component
+
+### Patch Changes
+
+- Updated dependencies [a7d75ed]
+- Updated dependencies [cc64a7f]
+  - @design-system-rte/core@0.20.0
+
 ## 0.15.0
 
 ### Minor Changes
