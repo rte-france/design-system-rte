@@ -2,6 +2,36 @@
 
 # Angular
 
+## 0.16.0
+
+### Modal
+
+#### Minor Changes
+
+- unset scroll behavior on unmount
+- add support for filled / outlined appearance for title icon
+- add angular component
+
+### Angular
+
+#### Minor Changes
+
+- add focus trap service
+
+### Icon-button
+
+#### Minor Changes
+
+- add badge to component
+
+### Other
+
+#### Patch Changes
+
+- Updated dependencies [a7d75ed]
+- Updated dependencies [cc64a7f]
+- @design-system-rte/core@0.20.0
+
 ## 0.15.0
 
 ### Button
@@ -102,73 +132,48 @@
 
 - Updated dependencies [9e7b2cd]
 - @design-system-rte/core@0.18.0
+# React
 
-## 0.13.0
+## 0.15.0
 
-### Banner
-
-#### Minor Changes
-
-- conditionally render message and title in banner component + set correct action button size
-- use click output instead of input actionCallback
-- add component to tests apps
-- add internal state to handle banner visibility
-- add angular component + add keyboard interaction tests
-
-### Tab
+### Modal
 
 #### Minor Changes
 
-- add overflow type stories
-- add overflow type and dropdown support for angular tab component
-- extract scroll methods in utils
-- add inverted case
-- handle vertical up and down arrow key navigation
-- add disabled state for tab items
-- add angular component
+- unset scroll behavior on unmount
+- add support for filled / outlined appearance for title icon
+- enhance general style on react component
+- add react modal component
 
-### Badge
+### Textarea
 
 #### Minor Changes
 
-- add simple angular badge type
-- add simple badge
+- ensure full width for container
 
-### Dropdown
-
-#### Minor Changes
-
-- update trigger reference for position calculation on angular comp
-- correct angular integration between tab & dropdown
-- correct dropdown positioning
-- correct dropdown item selection with enter
-- correct trigger holding focus when navigating with tab
-- avoid scrollbar navigation while navigating a dropdown-menu using the keyboard
-- handle menu key input for navigation and closing
-- add dropdown system
-
-### Segmented-control
+### Overlay
 
 #### Minor Changes
 
-- extract selected indicator position logic in common hook + set top position to remove relative position
+- add freezeNavigation prop to control body overflow and overlay styling
 
-### Popover
+### Icon-button
 
 #### Minor Changes
 
-- add popover directive
+- add badge to component
 
 ### Other
 
+#### Minor Changes
+
+- rename useKeydownEscape hook
+
 #### Patch Changes
 
-- Updated dependencies [a901693]
-- Updated dependencies [00ec1aa]
-- Updated dependencies [a3838c6]
-- Updated dependencies [0cb0e68]
-- @design-system-rte/core@0.17.0
-# React
+- Updated dependencies [a7d75ed]
+- Updated dependencies [cc64a7f]
+- @design-system-rte/core@0.20.0
 
 ## 0.14.0
 
@@ -243,66 +248,31 @@
 
 - Updated dependencies [9e7b2cd]
 - @design-system-rte/core@0.18.0
+# Core
 
-## 0.12.0
+## 0.20.0
 
-### Banner
-
-#### Minor Changes
-
-- conditionally render message and title in banner component + set correct action button size
-- add component to tests apps
-- add internal state to handle banner visibility
-- add angular component + add keyboard interaction tests
-- add react component
-
-### Tab
+### Modal
 
 #### Minor Changes
 
-- add overflow type stories
-- add overflow type and dropdown support for angular tab component
-- extract scroll methods in utils
-- add inverted case
-- handle vertical up and down arrow key navigation
-- handle wrapped behavior
-- add disabled state for tab items
-- add angular component
-- extract common props to core
-- add react component
+- add support for filled / outlined appearance for title icon
+- add react modal component
 
-### Badge
+### Icon
 
 #### Minor Changes
 
-- add react simple badge component
+- add icon sizes constants
 
-### Segmented-control
-
-#### Minor Changes
-
-- extract selected indicator position logic in common hook + set top position to remove relative position
-
-### Popover
+### Icon-button
 
 #### Minor Changes
 
-- add popover
+- add badge to component
 
 ### Other
 
-#### Minor Changes
-
-- add script to scaffold react component
-
-#### Patch Changes
-
-- Updated dependencies [a901693]
-- Updated dependencies [00ec1aa]
-- Updated dependencies [a3838c6]
-- Updated dependencies [0cb0e68]
-- @design-system-rte/core@0.17.0
-# Core
 
 ## 0.19.0
 
@@ -350,47 +320,18 @@
 
 ### Other
 
+# Design Docs
 
-## 0.17.0
+## 0.8.0
 
-### Banner
-
-#### Minor Changes
-
-- use click output instead of input actionCallback
-
-### Tokens
+### Storybook
 
 #### Minor Changes
 
-- add zIndex tokens
-
-### Tab
-
-#### Minor Changes
-
-- extract scroll methods in utils
-- add inverted case
-- handle wrapped behavior
-- add disabled state for tab items
-- add angular component
-- extract common props to core
-
-### Popover
-
-#### Minor Changes
-
-- add popover
-
-### Dropdown
-
-#### Patch Changes
-
-- correct angular integration between tab & dropdown
+- add Accessibilité page
 
 ### Other
 
-# Design Docs
 
 ## 0.7.0
 
@@ -419,28 +360,3 @@
 
 ### Other
 
-
-## 0.5.3
-
-#### Patch Changes
-
-- format code for consistency and readability across multiple components
-- fixed a lot of storybook structure and cofig problem Addition of the borders page
-
-## 0.5.2
-
-#### Patch Changes
-
-- 8227267: add groupName to radio button stories for better identification
-
-## 0.5.1
-
-#### Patch Changes
-
-- 160dbca: Correct storybook interactions for SplitButtonComponent from angular
-
-## 0.5.0
-
-#### Minor Changes
-
-- 2ab3664: add warning indicators to Work-in-progress components
