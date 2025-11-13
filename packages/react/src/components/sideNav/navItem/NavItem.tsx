@@ -2,8 +2,9 @@ import { NavItemProps as CoreNavItemProps } from "@design-system-rte/core/compon
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 import { ForwardedRef, forwardRef, HTMLAttributes, ReactNode, useRef } from "react";
 
-import { Icon } from "../../..";
 import { useActiveKeyboard } from "../../../hooks/useActiveKeyboard";
+import Badge from "../../badge/Badge";
+import Icon from "../../icon/Icon";
 import Tooltip from "../../tooltip/Tooltip";
 import { concatClassNames } from "../../utils";
 
@@ -63,6 +64,7 @@ const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
       parentMenuOpen,
       appearance,
       active,
+      badge,
       ...props
     }: NavItemProps,
     ref: ForwardedRef<HTMLDivElement>,
@@ -96,7 +98,21 @@ const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
     const tabIndex = parentMenuOpen === false ? -1 : 0;
 
     const labelContent = (
-      <NavItemLabel id={id} icon={icon} showIcon={showIcon} label={label} collapsed={collapsed} isNested={isNested} />
+      <>
+        <div className={style.navItemLeft}>
+          <NavItemLabel
+            id={id}
+            icon={icon}
+            showIcon={showIcon}
+            label={label}
+            collapsed={collapsed}
+            isNested={isNested}
+          />
+        </div>
+        <div className={style.navItemRight}>
+          {badge && <Badge badgeType={badge.badgeType} size={badge.size} content={badge.content} count={badge.count} />}
+        </div>
+      </>
     );
 
     const listItem = (
