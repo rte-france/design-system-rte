@@ -12,7 +12,7 @@
     &.side {
         align-items: center;
         flex-direction: row;
-        
+
         .text {
             width: auto;
             align-items: center;
@@ -28,7 +28,7 @@
             .input {
                 .input-bar {
                     .left-icon {
-                        color: var(--content-danger);
+                        color: var(--content-danger-default);
                     }
                 }
             }
@@ -62,7 +62,7 @@
             }
 
             .required-icon-container {
-                color: var(--content-danger);
+                color: var(--content-danger-default);
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -93,6 +93,7 @@
                         padding-left: $positive-spacing-400;
                     }
                 }
+
                 &.with-right-icon {
                     .input-field {
                         padding-right: $positive-spacing-400;
@@ -112,6 +113,7 @@
                     align-items: center;
                     justify-content: center;
                     color: var(--content-secondary);
+
                     ::ng-deep {
                         .rte-icon-button {
                             color: var(--content-secondary);
@@ -119,20 +121,21 @@
                             width: 24px;
                             padding: 0 $positive-spacing-025;
                         }
-    
+
                         .rte-icon-button:focus {
                             outline: none;
                         }
-    
+
                         .rte-icon-button:focus-visible {
                             outline: 1px solid var(--border-brand-focused);
                             border-radius: $radius-m;
+
                             &::after {
                                 display: none;
                             }
                         }
                     }
-                        
+
                 }
 
                 .input-field {
@@ -150,12 +153,12 @@
                     color: var(--content-primary);
                     @include neutral-inner-shadow;
 
-                    &:hover{
+                    &:hover {
                         outline: 1px solid var(--border-primary);
                         border-color: var(--border-primary);
                     }
 
-                    &:focus{
+                    &:focus {
                         outline: 1px solid var(--border-brand-default);
                         border-color: var(--border-brand-default)
                     }
@@ -165,7 +168,8 @@
                         border-color: var(--border-brand-default)
                     }
 
-                    &:disabled, &:read-only {
+                    &:disabled,
+                    &:read-only {
                         outline: 1px solid var(--border-brand-disabled);
                         border-color: var(--border-disabled);
                         background: linear-gradient(0deg, var(--elevation-surface-inner-shadow) 0%, var(--elevation-surface-inner-shadow) 100%), var(--background-disabled);
@@ -189,11 +193,11 @@
             padding: $positive-spacing-050 $positive-spacing-100;
 
             .assistive-icon-error {
-                color: var(--content-danger);
+                color: var(--content-danger-default);
             }
 
             .assistive-icon-success {
-                color: var(--content-success);
+                color: var(--content-success-default);
             }
 
             .assistive-label {
@@ -201,13 +205,13 @@
                 transition: color 200ms;
 
                 &.error {
-                    color: var(--content-danger);
+                    color: var(--content-danger-default);
                     @include typography-text-input-s-bold;
                     margin: $positive-spacing-0;
                 }
 
                 &.success {
-                    color: var(--content-success);
+                    color: var(--content-success-default);
                     @include typography-text-input-s-bold;
                     margin: $positive-spacing-0;
                 }
