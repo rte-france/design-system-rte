@@ -84,8 +84,10 @@
 
     &.nested {
         .navMenu {
+            @include typography-button-s;
             border-radius: 0 $radius-s $radius-s 0;
             border-left: $width-xs solid var(--border-brand-navigation-divider);
+            padding: $positive-spacing_050 $positive-spacing_100;
         }
     }
 
@@ -107,6 +109,7 @@
         overflow: hidden;
         transition: max-height 300ms, padding 300ms;
         padding-left: $positive-spacing_200;
+        gap: 0;
 
         &.nestedMenuOpen {
             max-height: 1000px;
