@@ -12,30 +12,45 @@
     transition: background-color 0.3s ease;
     align-items: center;
     box-sizing: border-box;
+    border-left: $width-s solid transparent;
+    color: var(--content-brand-navigation-default);
 
     &.neutral {
+        color: var(--content-secondary);
         &:hover {
             background: var(--background-neutral-navigation-hover);
+            color: var(--content-primary);
         }
 
-        &:active, &.active {
+        &.active {
             @include elevation-neutral-inner-shadow;
+            color: var(--content-brand-pressed);
         }
 
         &.nested {
             border-radius: 0 $radius-s $radius-s 0;
-            border-left: $width-xs solid var(--border-divider);   
+            border-left: $width-xs solid var(--border-divider);
+            &.active {
+                border-left: $width-xs solid var(--border-brand-navigation-active);
+            }
         }
     }
 
     &:hover {
-        border-radius: $radius-s;
-        opacity: $opacity-100;
         background: var(--background-brand-navigation-hover);
+        color: var(--content-brand-navigation-hover);
     }
 
-    &:active, &.active {
+    &.active {
         background: var(--background-brand-navigation-pressed);
+        border-left: $width-s solid var(--border-brand-navigation-divider);
+        color: var(--content-primary-inverse);
+    }
+
+    &:active {
+        &.focused {
+            outline: none;
+        }
     }
 
     .navItem {
@@ -79,7 +94,7 @@
         border-left: $width-xs solid var(--border-brand-navigation-divider);
         padding: $positive-spacing_050 $positive-spacing_100;
 
-        &:active, &.active {
+        &.active {
             @include neutral-inner-shadow;
         }
     }
