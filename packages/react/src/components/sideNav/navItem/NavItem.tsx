@@ -9,6 +9,7 @@ import { concatClassNames } from "../../utils";
 
 interface NavItemProps extends CoreNavItemProps, Omit<HTMLAttributes<HTMLDivElement>, "onClick" | "id"> {
   children?: ReactNode;
+  isNested?: boolean;
   parentMenuOpen?: boolean;
 }
 
@@ -58,6 +59,7 @@ const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
       label,
       collapsed,
       link,
+      isNested,
       parentMenuOpen,
       appearance,
       active,
@@ -94,14 +96,7 @@ const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
     const tabIndex = parentMenuOpen === false ? -1 : 0;
 
     const labelContent = (
-      <NavItemLabel
-        id={id}
-        icon={icon}
-        showIcon={showIcon}
-        label={label}
-        collapsed={collapsed}
-        parentMenuOpen={parentMenuOpen}
-      />
+      <NavItemLabel id={id} icon={icon} showIcon={showIcon} label={label} collapsed={collapsed} isNested={isNested} />
     );
 
     const listItem = (
@@ -111,7 +106,7 @@ const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
           style.navItemContainer,
           appearance && style[appearance],
           collapsed && style.collapsed,
-          parentMenuOpen && style.nested,
+          isNested && style.nested,
           active && style.active,
         )}
         onClick={onClick}
@@ -158,8 +153,8 @@ const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
   },
 );
 
-const NavItemLabel = ({ parentMenuOpen, ...props }: Omit<NavItemProps, "children">) => {
-  const iconSize = parentMenuOpen ? 16 : props.collapsed ? 24 : 20;
+const NavItemLabel = ({ isNested, ...props }: Omit<NavItemProps, "children">) => {
+  const iconSize = isNested ? 16 : props.collapsed ? 24 : 20;
   return (
     <>
       {props.showIcon && props.icon && <Icon name={props.icon} className={style.icon} size={iconSize} />}

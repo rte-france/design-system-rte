@@ -12,4 +12,6 @@ export interface NavItemProps {
   onClick?: () => void;
   items?: NavItemProps[];
   active?: boolean;
+  isNested?: boolean;
+  parentMenuOpen?: boolean;
 }
