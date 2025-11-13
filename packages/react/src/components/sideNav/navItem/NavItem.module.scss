@@ -1,7 +1,7 @@
 @use '@design-system-rte/core/design-tokens/main.scss' as *;
 
 .navItemContainer {
-    @include typography-text-m-regular;
+    @include typography-button-m;
     width: 100%;
     display: flex;
     justify-content: flex-start;

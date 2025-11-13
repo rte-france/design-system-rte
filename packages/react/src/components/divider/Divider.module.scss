@@ -29,6 +29,10 @@
     &[data-appearance='brand'] {
         border-top-color: var(--border-brand-default);
     }
+
+    &[data-appearance='brand-navigation'] {
+        border-top-color: var(--border-brand-navigation-divider);
+    }
 }
 
 .vertical {
