@@ -14,6 +14,8 @@ const options = [
   },
 ];
 
-export const TabOfOptions = () => {
+const TabOfOptions = () => {
   return <CoreTabOfOptions options={options} />;
 };
+
+export default TabOfOptions;
