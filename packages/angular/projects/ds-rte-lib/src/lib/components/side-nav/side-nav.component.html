@@ -55,11 +55,31 @@
       <ul>
         @for (item of items(); track item.label) {
           @if (hasNestedItems(item)) {
-            <!-- TODO: Implement NavMenu component -->
-            <li>{{ item.label }} (Menu - TODO)</li>
+            <rte-nav-menu
+              [label]="item.label"
+              [icon]="item.icon"
+              [showIcon]="item.showIcon ?? true"
+              [collapsed]="isCollapsed()"
+              [link]="item.link"
+              [onClick]="item.onClick"
+              [items]="item.items || []"
+              [appearance]="appearance()"
+              [badge]="item.badge"
+              [showDivider]="item.showDivider ?? false"></rte-nav-menu>
           } @else {
-            <!-- TODO: Implement NavItem component -->
-            <li>{{ item.label }} (Item - TODO)</li>
+            <li>
+              <rte-nav-item
+                [id]="item.id"
+                [label]="item.label"
+                [icon]="item.icon"
+                [showIcon]="item.showIcon ?? true"
+                [collapsed]="isCollapsed()"
+                [link]="item.link"
+                [onClick]="item.onClick"
+                [appearance]="appearance()"
+                [active]="item.active ?? false"
+                [badge]="item.badge"></rte-nav-item>
+            </li>
           }
         }
       </ul>
@@ -72,9 +92,13 @@
         <div class="side-nav-footer">
           <div class="collapsible-section">
             <ul>
-              <!-- TODO: Implement NavItem component for collapse button -->
-              <li (click)="collapseSideNav()">
-                {{ collapseIcon() }} {{ isCollapsed() ? "Ouvrir le menu" : "Réduire le menu" }}
+              <li>
+                <rte-nav-item
+                  [label]="isCollapsed() ? 'Ouvrir le menu' : 'Réduire le menu'"
+                  [icon]="collapseIcon()"
+                  [collapsed]="isCollapsed()"
+                  [onClick]="getCollapseHandler()"
+                  [appearance]="appearance()"></rte-nav-item>
               </li>
             </ul>
           </div>

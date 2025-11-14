@@ -3,26 +3,27 @@ import { ChangeDetectionStrategy, Component, computed, effect, input, signal } f
 import { DividerAppearance } from "@design-system-rte/core/components/divider/divider.interface";
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
 import { SideNavAppearance, SideNavHeaderConfig } from "@design-system-rte/core/components/side-nav/side-nav.interface";
+import { SideNavSize } from "@design-system-rte/core/components/side-nav/side-nav.interface";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
 import { DividerComponent } from "../divider/divider.component";
 
 import { BaseSideNavComponent } from "./base-side-nav/base-side-nav.component";
-
-type SideNavSize = "s" | "m" | "l";
+import { NavItemComponent } from "./nav-item/nav-item.component";
+import { NavMenuComponent } from "./nav-menu/nav-menu.component";
 
 const TRANSITION_DURATION = 300;
 
 @Component({
   selector: "rte-side-nav",
-  imports: [CommonModule, BaseSideNavComponent, DividerComponent],
+  imports: [CommonModule, BaseSideNavComponent, DividerComponent, NavItemComponent, NavMenuComponent],
   standalone: true,
   templateUrl: "./side-nav.component.html",
   styleUrl: "./side-nav.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SideNavComponent {
-  readonly size = input<SideNavSize>("m");
+  readonly size = input<SideNavSize>("m" as SideNavSize);
   readonly collapsible = input<boolean>(false);
   readonly headerConfig = input<SideNavHeaderConfig | undefined>();
   readonly items = input<NavItemProps[]>([]);
@@ -35,25 +36,31 @@ export class SideNavComponent {
   private titleTimeoutId: ReturnType<typeof setTimeout> | null = null;
 
   constructor() {
-    effect(() => {
-      this.isCollapsed.set(this.collapsed());
-    });
+    effect(
+      () => {
+        this.isCollapsed.set(this.collapsed());
+      },
+      { allowSignalWrites: true },
+    );
 
-    effect(() => {
-      if (this.titleTimeoutId) {
-        clearTimeout(this.titleTimeoutId);
-        this.titleTimeoutId = null;
-      }
-
-      if (this.isCollapsed()) {
-        this.shouldShowTitle.set(false);
-      } else {
-        this.titleTimeoutId = setTimeout(() => {
-          this.shouldShowTitle.set(true);
+    effect(
+      () => {
+        if (this.titleTimeoutId) {
+          clearTimeout(this.titleTimeoutId);
           this.titleTimeoutId = null;
-        }, TRANSITION_DURATION);
-      }
-    });
+        }
+
+        if (this.isCollapsed()) {
+          this.shouldShowTitle.set(false);
+        } else {
+          this.titleTimeoutId = setTimeout(() => {
+            this.shouldShowTitle.set(true);
+            this.titleTimeoutId = null;
+          }, TRANSITION_DURATION);
+        }
+      },
+      { allowSignalWrites: true },
+    );
   }
 
   readonly collapseIcon = computed<string>(() => {
@@ -78,6 +85,10 @@ export class SideNavComponent {
 
   collapseSideNav(): void {
     this.isCollapsed.set(!this.isCollapsed());
+  }
+
+  getCollapseHandler(): () => void {
+    return () => this.collapseSideNav();
   }
 
   handleHeaderKeyDown(event: KeyboardEvent): void {

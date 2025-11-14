@@ -2,7 +2,6 @@ import { NavItemProps as CoreNavItemProps } from "@design-system-rte/core/compon
 import { ForwardedRef, forwardRef, HTMLAttributes, ReactNode, useRef } from "react";
 
 import Badge from "../../badge/Badge";
-import { concatClassNames } from "../../utils";
 import NavContentWrapper from "../shared/NavContentWrapper";
 import NavLabel from "../shared/NavLabel";
 import NavTooltipWrapper from "../shared/NavTooltipWrapper";
@@ -43,11 +42,11 @@ const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
     });
 
     function handleFocus() {
-      listItemRef.current?.classList.add(style.focused);
+      listItemRef.current?.setAttribute("data-focused", "true");
     }
 
     function handleBlur() {
-      listItemRef.current?.classList.remove(style.focused);
+      listItemRef.current?.removeAttribute("data-focused");
     }
 
     const tabIndex = getNavTabIndex(parentMenuOpen);
@@ -65,7 +64,9 @@ const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
           />
         </div>
         <div className={style.navItemRight}>
-          {badge && <Badge badgeType={badge.badgeType} size={badge.size} content={badge.content} count={badge.count} />}
+          {!collapsed && badge && (
+            <Badge badgeType={badge.badgeType} size={badge.size} content={badge.content} count={badge.count} />
+          )}
         </div>
       </>
     );
@@ -73,13 +74,11 @@ const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
     const listItem = (
       <div
         id={id}
-        className={concatClassNames(
-          style.navItemContainer,
-          appearance && style[appearance],
-          collapsed && style.collapsed,
-          isNested && style.nested,
-          active && style.active,
-        )}
+        className={style.navItemContainer}
+        data-collapsed={collapsed}
+        data-appearance={appearance}
+        data-nested={isNested}
+        data-active={active}
         onClick={onClick}
         ref={(node) => {
           listItemRef.current = node;

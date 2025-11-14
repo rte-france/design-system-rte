@@ -1,5 +1,6 @@
-import { TOOLTIP_GAP, TOOLTIP_GAP_ARROW } from "@design-system-rte/core/components/tooltip/tooltip.constants";
+import { TOOLTIP_ANIMATION_DURATION, TOOLTIP_GAP } from "@design-system-rte/core/components/tooltip/tooltip.constants";
 import { TooltipProps as CoreTooltipProps } from "@design-system-rte/core/components/tooltip/tooltip.interface";
+import { getTooltipGap } from "@design-system-rte/core/components/tooltip/tooltip.utils";
 import { getAutoPlacement, getCoordinates } from "@design-system-rte/core/components/utils/auto-placement";
 import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
 
@@ -38,7 +39,7 @@ const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
     const [coordinates, setCoordinates] = useState<{ top: number; left: number }>({ top: 0, left: 0 });
     const [isOpen, setIsOpen] = useState(false);
 
-    const { shouldRender, isAnimating } = useAnimatedMount(isOpen, 150);
+    const { shouldRender, isAnimating } = useAnimatedMount(isOpen, TOOLTIP_ANIMATION_DURATION);
 
     const tooltipCallbackRef = useCallback(
       (node: HTMLDivElement | null) => {
@@ -55,7 +56,7 @@ const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
 
     const computePosition = useCallback(() => {
       if (isOpen && triggerRef.current && tooltipElement) {
-        const tooltipGap = arrow ? TOOLTIP_GAP_ARROW + gap : gap;
+        const tooltipGap = getTooltipGap(arrow, gap);
         const computedPosition =
           position === "auto"
             ? getAutoPlacement(triggerRef.current, tooltipElement!, "top", tooltipGap, true)

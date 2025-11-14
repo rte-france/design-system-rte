@@ -1,5 +1,7 @@
 import { NavItemProps } from "./nav-item/nav-item.interface";
 
+export type SideNavSize = "s" | "m" | "l";
+
 export type SideNavAppearance = "neutral" | "brand";
 
 export interface SideNavHeaderConfig {

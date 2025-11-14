@@ -1,10 +1,10 @@
 import { DividerAppearance } from "../divider/divider.interface";
 
-import { SideNavAppearance, SideNavProps } from "./side-nav.interface";
+import { SideNavAppearance, SideNavSize } from "./side-nav.interface";
 
 export const sideNavCollapsedSize: number = 64;
 
-export const sideNavPanelSize: Record<SideNavProps["size"], number> = {
+export const sideNavPanelSize: Record<SideNavSize, number> = {
   s: 224,
   m: 320,
   l: 504,
