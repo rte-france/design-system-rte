@@ -15,7 +15,7 @@ const meta = {
     message: { control: "text" },
     type: {
       control: "select",
-      options: ["default", "alert"],
+      options: ["info", "error", "success", "warning"],
     },
     closable: { control: "boolean" },
     showIcon: { control: "boolean" },
@@ -32,7 +32,10 @@ export const Default: Story = {
     title: "La mise à jour est disponible !",
     message:
       "Une nouvelle mise à jour a été déployée sur l’environnement de production. Pour découvrir toutes les fonctionnalités et corrections d’anomalies, veuillez cliquer sur le bouton ci-contre.",
-    type: "default",
+    type: "info",
+    showIcon: true,
+    actionLabel: "Voir les détails",
+    closable: true,
   },
 };
 export const Alert: Story = {
@@ -41,7 +44,7 @@ export const Alert: Story = {
     title: "Indisponibilité de l’application",
     message:
       "Dans le cadre des changements de serveur à venir le 18 mai 2026, votre application évolue et sera par conséquent indisponible du 29 mars au 12 avril 2026.",
-    type: "alert",
+    type: "error",
   },
 };
 
