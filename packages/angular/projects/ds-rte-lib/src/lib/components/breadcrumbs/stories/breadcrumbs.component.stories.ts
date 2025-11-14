@@ -8,10 +8,10 @@ import { expect, userEvent, waitFor, within } from "@storybook/test";
 
 import { focusElementBeforeComponent } from "../../../../../../.storybook/testing/testing.utils";
 
-import { BreadcrumbsComponent } from "./breadcrumbs.component";
+import { BreadcrumbsComponent } from "../breadcrumbs.component";
 
 export default {
-  title: "Composants/Breadcrumbs",
+  title: "Composants/Breadcrumbs/Breadcrumbs",
   component: BreadcrumbsComponent,
   tags: ["autodocs"],
   argTypes: {
