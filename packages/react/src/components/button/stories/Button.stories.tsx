@@ -5,7 +5,11 @@ import {
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn, userEvent, within, expect } from "@storybook/test";
 
+import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../../icon/IconMap";
 import Button from "../Button";
+
+const RegularIconIds = Object.keys(RegularIconsList);
+const TogglableIconIds = Object.keys(TogglableIconsList);
 
 const meta = {
   title: "Button",
@@ -26,6 +30,26 @@ const meta = {
     },
     disabled: {
       control: "boolean",
+    },
+    badgeContent: {
+      control: "select",
+      options: ["number", "icon", "empty"],
+      description: "Type de contenu du badge",
+    },
+    badgeIcon: {
+      control: "select",
+      options: [...RegularIconIds, ...TogglableIconIds].sort((a, b) => a.localeCompare(b)),
+      description: "Nom de l’icône à afficher sur le badge",
+      defaultValue: "check",
+    },
+    badgeCount: {
+      control: "number",
+      description: "Nombre à afficher dans le badge",
+    },
+    badgeType: {
+      control: "select",
+      options: ["brand", "neutral", "indicator"],
+      description: "Type de badge",
     },
   },
   args: { onClick: fn() },
