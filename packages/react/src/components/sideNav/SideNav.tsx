@@ -229,6 +229,4 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
   },
 );
 
-SideNav.displayName = "SideNav";
-
 export default SideNav;

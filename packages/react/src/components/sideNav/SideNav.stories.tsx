@@ -4,10 +4,25 @@ import {
   TESTING_SPACE_KEY,
 } from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
 import { Meta, StoryObj } from "@storybook/react";
-import { expect, userEvent, waitFor, within } from "@storybook/test";
-import { useState } from "react";
+import { expect, userEvent, within } from "@storybook/test";
 
 import SideNav from "./SideNav";
+import { createActiveItemStateDecorator, createCollapsedStateDecorator } from "./stories/helpers/decorators";
+import {
+  getFooterNavElement,
+  getHeaderTitleContainer,
+  getNavElement,
+  getNavElementInCollapsedState,
+} from "./stories/helpers/elementFinders";
+import {
+  expectElementNotToHaveFocus,
+  expectElementToBeAccessible,
+  expectElementToBeSkipped,
+  expectElementToHaveFocus,
+  expectNavItemNotToBeActive,
+  expectNavItemToBeActive,
+} from "./stories/helpers/expectations";
+import { getCanvasAndSideNav, waitForTooltip } from "./stories/helpers/testHelpers";
 
 const meta = {
   title: "SideNav",
@@ -184,81 +199,6 @@ const headerConfigWithOnClick = {
   },
 };
 
-function getInteractiveElementFromListItem(listItem: HTMLElement | null): HTMLElement | null {
-  if (!listItem) return null;
-
-  const directChildren = Array.from(listItem.children) as HTMLElement[];
-  for (const child of directChildren) {
-    if (child.tagName === "A") {
-      return child;
-    }
-    if (child.tagName === "SPAN" && child.hasAttribute("tabindex")) {
-      return child;
-    }
-  }
-
-  const anchor = listItem.querySelector("a");
-  if (anchor) return anchor;
-  const spans = Array.from(listItem.querySelectorAll("span"));
-  const interactiveSpan = spans.find((span) => span.hasAttribute("tabindex"));
-  return interactiveSpan as HTMLElement | null;
-}
-
-const getNavElement = (sideNav: HTMLElement, text: string): HTMLElement | null => {
-  const navContainer = within(sideNav);
-  const link = navContainer.queryByRole("link", { name: text });
-  if (link) return link;
-  const textElement = navContainer.queryByText(text);
-  if (textElement) {
-    const listItem = textElement.closest("li") as HTMLElement | null;
-    return getInteractiveElementFromListItem(listItem);
-  }
-  return null;
-};
-
-const getNavElementInCollapsedState = (sideNav: HTMLElement, itemIndex: number): HTMLElement | null => {
-  const body = sideNav.querySelector('[class*="sideNavBody"]');
-  if (!body) return null;
-
-  const bodyListItems = Array.from(body.querySelectorAll("li")) as HTMLElement[];
-  const listItem = bodyListItems[itemIndex];
-
-  return getInteractiveElementFromListItem(listItem);
-};
-
-const getHeaderTitleContainer = (sideNav: HTMLElement, identifierText: string = "MA"): HTMLElement | null => {
-  const navContainer = within(sideNav);
-  const identifier = navContainer.getByText(identifierText);
-  const headerTitleContainer = identifier.parentElement?.parentElement;
-  return headerTitleContainer as HTMLElement | null;
-};
-
-const expectElementToHaveFocus = (element: HTMLElement | null) => {
-  expect(element).not.toBeNull();
-  expect(element).toHaveFocus();
-};
-
-const expectElementNotToHaveFocus = (sideNav: HTMLElement, text: string) => {
-  const element = getNavElement(sideNav, text);
-  if (element) {
-    expect(element).not.toHaveFocus();
-  }
-};
-
-const expectElementToBeSkipped = (sideNav: HTMLElement, text: string) => {
-  const element = getNavElement(sideNav, text);
-  if (element) {
-    expect(element).toHaveAttribute("tabindex", "-1");
-  }
-};
-
-const expectElementToBeAccessible = (sideNav: HTMLElement, text: string) => {
-  const element = getNavElement(sideNav, text);
-  if (element) {
-    expect(element).toHaveAttribute("tabindex", "0");
-  }
-};
-
 export const Default: Story = {
   args: {
     headerConfig: {
@@ -302,8 +242,7 @@ export const KeyboardNavigation: Story = {
     collapsible: true,
   },
   play: async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-    const sideNav = canvas.getByRole("navigation");
+    const { sideNav } = getCanvasAndSideNav(canvasElement);
 
     await step("Navigate through navigation when all menus are closed", async () => {
       expectElementToBeSkipped(sideNav, "Overview");
@@ -437,8 +376,7 @@ export const HeaderClickability: Story = {
     collapsible: true,
   },
   play: async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-    const sideNav = canvas.getByRole("navigation");
+    const { sideNav } = getCanvasAndSideNav(canvasElement);
 
     await step("Verify header is not clickable when no link or onClick is provided", async () => {
       const headerTitleContainer = getHeaderTitleContainer(sideNav);
@@ -458,8 +396,7 @@ export const HeaderWithLink: Story = {
     collapsible: true,
   },
   play: async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-    const sideNav = canvas.getByRole("navigation");
+    const { sideNav } = getCanvasAndSideNav(canvasElement);
 
     await step("Verify header is a link when link prop is provided", async () => {
       const headerTitleContainer = getHeaderTitleContainer(sideNav);
@@ -484,8 +421,7 @@ export const HeaderWithOnClick: Story = {
     collapsible: true,
   },
   play: async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-    const sideNav = canvas.getByRole("navigation");
+    const { sideNav } = getCanvasAndSideNav(canvasElement);
 
     await step("Verify header is clickable button when onClick is provided", async () => {
       const headerTitleContainer = getHeaderTitleContainer(sideNav);
@@ -514,26 +450,16 @@ export const CollapsedTooltip: Story = {
     collapsible: true,
     collapsed: true,
   },
-  decorators: [
-    (Story, context) => {
-      const [collapsed, setCollapsed] = useState(context.args.collapsed ?? true);
-      return (
-        <div>
-          <Story args={{ ...context.args, collapsed, onCollapsedChange: setCollapsed }} />
-        </div>
-      );
-    },
-  ],
+  decorators: [createCollapsedStateDecorator()],
   play: async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-    const sideNav = canvas.getByRole("navigation");
+    const { sideNav } = getCanvasAndSideNav(canvasElement);
 
     await step("Verify tooltips appear when tabbing to navigation items", async () => {
       const homeElement = getNavElementInCollapsedState(sideNav, 0);
       expect(homeElement).not.toBeNull();
 
       homeElement?.focus();
-      await new Promise((resolve) => setTimeout(resolve, 200));
+      await waitForTooltip();
 
       const tooltip = within(document.body).queryByRole("tooltip", { name: "Home" });
       expect(tooltip).not.toBeNull();
@@ -542,7 +468,7 @@ export const CollapsedTooltip: Story = {
 
     await step("Verify tooltips appear when tabbing to next navigation item", async () => {
       await userEvent.tab();
-      await new Promise((resolve) => setTimeout(resolve, 200));
+      await waitForTooltip();
 
       const tooltip = within(document.body).queryByRole("tooltip", { name: "Dashboard" });
       expect(tooltip).not.toBeNull();
@@ -553,7 +479,7 @@ export const CollapsedTooltip: Story = {
       await userEvent.tab();
       await userEvent.tab();
       await userEvent.tab();
-      await new Promise((resolve) => setTimeout(resolve, 200));
+      await waitForTooltip();
 
       const tooltip = within(document.body).queryByRole("tooltip", { name: "Profile" });
       expect(tooltip).not.toBeNull();
@@ -570,19 +496,9 @@ export const CollapsedTooltipWithNested: Story = {
     collapsible: true,
     collapsed: true,
   },
-  decorators: [
-    (Story, context) => {
-      const [collapsed, setCollapsed] = useState(context.args.collapsed ?? true);
-      return (
-        <div>
-          <Story args={{ ...context.args, collapsed, onCollapsedChange: setCollapsed }} />
-        </div>
-      );
-    },
-  ],
+  decorators: [createCollapsedStateDecorator()],
   play: async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-    const sideNav = canvas.getByRole("navigation");
+    const { sideNav } = getCanvasAndSideNav(canvasElement);
 
     await step("Verify tooltips appear when tabbing to menu items", async () => {
       const dashboardMenu = getNavElementInCollapsedState(sideNav, 1);
@@ -591,7 +507,7 @@ export const CollapsedTooltipWithNested: Story = {
       await userEvent.tab();
       await userEvent.tab();
       await userEvent.tab();
-      await new Promise((resolve) => setTimeout(resolve, 200));
+      await waitForTooltip();
 
       const tooltip = within(document.body).queryByRole("tooltip", { name: "Dashboard" });
       expect(tooltip).not.toBeNull();
@@ -599,31 +515,6 @@ export const CollapsedTooltipWithNested: Story = {
     });
   },
 };
-
-const getNavItemContainer = (sideNav: HTMLElement, itemId: string): HTMLElement | null => {
-  const navItem = sideNav.querySelector(`#${itemId}`);
-  return navItem as HTMLElement | null;
-};
-
-const hasActiveClass = (element: HTMLElement): boolean => {
-  const classList = Array.from(element.classList);
-  return classList.some((className) => className.includes("active"));
-};
-
-const expectNavItemActiveState = async (canvas: ReturnType<typeof within>, itemId: string, shouldBeActive: boolean) => {
-  await waitFor(() => {
-    const sideNav = canvas.getByRole("navigation");
-    const navItemContainer = getNavItemContainer(sideNav, itemId);
-    expect(navItemContainer).not.toBeNull();
-    expect(hasActiveClass(navItemContainer!)).toBe(shouldBeActive);
-  });
-};
-
-const expectNavItemToBeActive = (canvas: ReturnType<typeof within>, itemId: string) =>
-  expectNavItemActiveState(canvas, itemId, true);
-
-const expectNavItemNotToBeActive = (canvas: ReturnType<typeof within>, itemId: string) =>
-  expectNavItemActiveState(canvas, itemId, false);
 
 export const ActiveItemState: Story = {
   args: {
@@ -633,25 +524,9 @@ export const ActiveItemState: Story = {
     activeItem: "home",
     collapsible: true,
   },
-  decorators: [
-    (Story, context) => {
-      const [activeItem, setActiveItem] = useState(context.args.activeItem);
-      const itemsWithOnClick = navigationItems.map((item) => {
-        return {
-          ...item,
-          onClick: () => setActiveItem(item.id),
-          link: undefined,
-        };
-      });
-      return (
-        <div>
-          <Story args={{ ...context.args, items: itemsWithOnClick as NavItemProps[], activeItem }} />
-        </div>
-      );
-    },
-  ],
+  decorators: [createActiveItemStateDecorator(navigationItems)],
   play: async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
+    const { canvas } = getCanvasAndSideNav(canvasElement);
 
     await step("Verify Home has active class initially", async () => {
       expectNavItemToBeActive(canvas, "home");
@@ -738,23 +613,6 @@ export const FooterItemsOnly: Story = {
   },
 };
 
-const getFooterNavElement = (sideNav: HTMLElement, label: string): HTMLElement | null => {
-  const footerItemsContainer = sideNav.querySelector('[class*="sideNavFooterItems"]');
-  if (!footerItemsContainer) return null;
-
-  const footerContainer = within(footerItemsContainer as HTMLElement);
-  const link = footerContainer.queryByRole("link", { name: label });
-  if (link) return link;
-
-  const textElement = footerContainer.queryByText(label);
-  if (textElement) {
-    const listItem = textElement.closest("li") as HTMLElement | null;
-    return getInteractiveElementFromListItem(listItem);
-  }
-
-  return null;
-};
-
 export const FooterItemsWithNested: Story = {
   args: {
     ...Default.args,
@@ -764,8 +622,7 @@ export const FooterItemsWithNested: Story = {
     collapsible: true,
   },
   play: async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-    const sideNav = canvas.getByRole("navigation");
+    const { sideNav } = getCanvasAndSideNav(canvasElement);
 
     await step("Verify footer items are rendered", async () => {
       const footerSettings = getFooterNavElement(sideNav, "Settings");

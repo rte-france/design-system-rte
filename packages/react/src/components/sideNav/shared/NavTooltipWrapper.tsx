@@ -25,7 +25,7 @@ function NavTooltipWrapper({ label, collapsed, children }: NavTooltipWrapperProp
     );
   }
 
-  return <>{children}</>;
+  return children;
 }
 
 export default NavTooltipWrapper;
