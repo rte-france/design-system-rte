@@ -1,22 +1,18 @@
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
 import { NavMenuProps as CoreNavMenuProps } from "@design-system-rte/core/components/side-nav/nav-menu/nav-menu.interface";
 import { dividerAppearanceBySideNavAppearance } from "@design-system-rte/core/components/side-nav/side-nav.constants";
-import {
-  ARROW_DOWN_KEY,
-  ARROW_UP_KEY,
-  ENTER_KEY,
-  ESCAPE_KEY,
-  SPACE_KEY,
-} from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 import { forwardRef, HTMLAttributes, ReactNode, useState } from "react";
 
-import { useActiveKeyboard } from "../../../hooks/useActiveKeyboard";
 import Badge from "../../badge/Badge";
 import Divider from "../../divider/Divider";
 import Icon from "../../icon/Icon";
-import Tooltip from "../../tooltip/Tooltip";
 import { concatClassNames } from "../../utils";
 import NavItem from "../navItem/NavItem";
+import NavContentWrapper from "../shared/NavContentWrapper";
+import NavLabel from "../shared/NavLabel";
+import NavTooltipWrapper from "../shared/NavTooltipWrapper";
+import { getNavTabIndex } from "../shared/navUtils";
+import useNavKeyboard from "../shared/useNavKeyboard";
 
 import style from "./NavMenu.module.scss";
 
@@ -25,39 +21,6 @@ interface NavMenuProps extends CoreNavMenuProps, Omit<HTMLAttributes<HTMLLIEleme
   isNested?: boolean;
   parentMenuOpen?: boolean;
 }
-
-interface NavMenuContentProps {
-  link?: string;
-  label: string;
-  tabIndex: number;
-  onClick: () => void;
-  onKeyDown: (e: React.KeyboardEvent<HTMLElement>) => void;
-  children: ReactNode;
-}
-
-const NavMenuContent = ({ link, label, tabIndex, onClick, onKeyDown, children }: NavMenuContentProps) => {
-  const commonProps = {
-    className: style.navMenu,
-    onClick,
-    tabIndex,
-    label,
-    onKeyDown: onKeyDown as React.KeyboardEventHandler<HTMLElement>,
-  };
-
-  if (link) {
-    return (
-      <a href={link} {...commonProps}>
-        {children}
-      </a>
-    );
-  }
-
-  return (
-    <span aria-label={label} {...commonProps}>
-      {children}
-    </span>
-  );
-};
 
 const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
   (
@@ -84,39 +47,32 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
     const isOpen = controlledOpen !== undefined ? controlledOpen : internalOpen;
     const isControlled = controlledOpen !== undefined;
 
-    const toggleMenu = () => {
+    function toggleMenu() {
       if (!isControlled) {
         setInternalOpen(!internalOpen);
       }
       if (onClick) {
         onClick();
       }
-    };
+    }
 
-    const handleKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
-      if ([SPACE_KEY, ENTER_KEY].includes(e.key)) {
-        e.preventDefault();
-        toggleMenu();
+    function handleEscape() {
+      if (isOpen && !isControlled) {
+        setInternalOpen(false);
       }
-      if (e.key === ESCAPE_KEY && isOpen) {
-        e.preventDefault();
-        if (!isControlled) {
-          setInternalOpen(false);
-        }
-      }
-    };
+    }
 
-    const { onKeyDown } = useActiveKeyboard<HTMLElement>(
-      { onKeyDown: handleKeyDown },
-      {
-        interactiveKeyCodes: [SPACE_KEY, ENTER_KEY, ESCAPE_KEY, ARROW_DOWN_KEY, ARROW_UP_KEY],
-      },
-    );
+    const { onKeyDown } = useNavKeyboard<HTMLElement>({
+      onEnterOrSpace: toggleMenu,
+      onEscape: handleEscape,
+      includeArrowKeys: true,
+      includeEscape: true,
+    });
 
     const hasNestedItems = items.length;
     const shouldShowMenu = !collapsed && hasNestedItems;
     const nestedItemsParentMenuOpen = isOpen;
-    const tabIndex = parentMenuOpen === false ? -1 : 0;
+    const tabIndex = getNavTabIndex(parentMenuOpen);
 
     const chevronIcon =
       shouldShowMenu && showMenuIcon ? (
@@ -126,7 +82,14 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
     const menuContent = (
       <>
         <div className={style.menuContentLeft}>
-          <NavMenuLabel icon={icon} showIcon={showIcon} label={label} collapsed={collapsed} isNested={isNested} />
+          <NavLabel
+            icon={icon}
+            showIcon={showIcon}
+            label={label}
+            collapsed={collapsed}
+            isNested={isNested}
+            styleType="menu"
+          />
         </div>
         <div className={style.menuContentRight}>
           {badge && <Badge badgeType={badge.badgeType} size={badge.size} content={badge.content} count={badge.count} />}
@@ -147,9 +110,16 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
         ref={ref}
         {...props}
       >
-        <NavMenuContent link={link} label={label} tabIndex={tabIndex} onClick={toggleMenu} onKeyDown={onKeyDown}>
+        <NavContentWrapper
+          link={link}
+          label={label}
+          tabIndex={tabIndex}
+          onClick={toggleMenu}
+          onKeyDown={onKeyDown}
+          styleType="menu"
+        >
           {menuContent}
-        </NavMenuContent>
+        </NavContentWrapper>
         {shouldShowMenu && (
           <ul className={concatClassNames(style.nestedMenu, isOpen && style.nestedMenuOpen)}>
             {items.map((item: NavItemProps) => {
@@ -198,48 +168,19 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
       </li>
     );
 
-    if (collapsed && label) {
-      return (
-        <>
-          <Tooltip
-            label={label}
-            position="right"
-            alignment="center"
-            arrow={false}
-            shouldFocusTrigger={false}
-            triggerStyles={{ outline: "none" }}
-            gap={12}
-          >
-            {listItem}
-          </Tooltip>
-          {showDivider && <Divider appearance={dividerAppearanceBySideNavAppearance[appearance]} />}
-        </>
-      );
-    }
+    const wrappedListItem = (
+      <NavTooltipWrapper label={label} collapsed={collapsed}>
+        {listItem}
+      </NavTooltipWrapper>
+    );
 
     return (
       <>
-        {listItem}
+        {wrappedListItem}
         {showDivider && <Divider appearance={dividerAppearanceBySideNavAppearance[appearance]} />}
       </>
     );
   },
 );
-
-const NavMenuLabel = ({
-  isNested,
-  collapsed,
-  showIcon,
-  icon,
-  label,
-}: Omit<NavMenuProps, "children" | "items" | "open" | "showMenuIcon">) => {
-  const iconSize = isNested ? 16 : collapsed ? 24 : 20;
-  return (
-    <>
-      {showIcon && icon && <Icon name={icon} className={style.icon} size={iconSize} />}
-      {collapsed ? null : <span>{label}</span>}
-    </>
-  );
-};
 
 export default NavMenu;
