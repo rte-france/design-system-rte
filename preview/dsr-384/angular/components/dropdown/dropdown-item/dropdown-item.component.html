@@ -1,0 +1,23 @@
+<ng-container>
+    <li
+      #itemRef
+      class="rte-dropdown-item"
+      role="menuitem"
+      tabindex="0"
+      [attr.data-disabled]="item()?.disabled"
+      [attr.aria-disabled]="item()?.disabled"
+      (click)="handleClick($event)"
+      (keydown)="handleKeyDown($event)"
+    >
+      <span *ngIf="item()?.hasIndent && !item()?.leftIcon" style="width: 20px"></span>
+      <rte-icon *ngIf="item()?.leftIcon" [name]="item()?.leftIcon ?? ''" />
+      <ng-container [ngSwitch]="!!item()?.link">
+        <a *ngSwitchCase="true" style="flex: 2; text-decoration: none; color: inherit" [href]="item()?.link">{{ item()?.label }} </a>
+        <span *ngSwitchDefault style="flex: 2">{{ item()?.label }}</span>
+      </ng-container>
+      <div *ngIf="item()?.trailingText">{{ item()?.trailingText }}</div>
+    </li>
+    <div *ngIf="item()?.hasSeparator" class="dropdown-divider">
+      <rte-divider/>
+    </div>
+</ng-container>
