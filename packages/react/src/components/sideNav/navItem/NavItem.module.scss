@@ -94,9 +94,11 @@
     &.collapsed {
         padding: $positive-spacing_100 $positive-spacing_150;
         justify-content: center;
+        border-left: none;
 
         .navItem {
             justify-content: center;
+            gap: 0;
         }
     }
 

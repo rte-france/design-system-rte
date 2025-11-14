@@ -1,4 +1,5 @@
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
+import { dividerAppearanceBySideNavAppearance } from "@design-system-rte/core/components/side-nav/side-nav.constants";
 import { SideNavProps as CoreSideNavProps } from "@design-system-rte/core/components/side-nav/side-nav.interface";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 import { forwardRef, ReactNode, useEffect, useState } from "react";
@@ -67,7 +68,7 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
 
     const collapseIcon = isCollapsed ? "arrow-double-right" : "arrow-double-left";
 
-    const dividerAppearance = appearance === "brand" ? "brand-navigation" : "default";
+    const dividerAppearance = dividerAppearanceBySideNavAppearance[appearance];
 
     const handleHeaderKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
       if ([SPACE_KEY, ENTER_KEY].includes(e.key)) {
@@ -140,24 +141,28 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
                   onClick={item.onClick}
                   items={item.items || []}
                   appearance={appearance}
+                  showDivider={item.showDivider}
                 />
               );
             }
             return (
-              <li key={item.id}>
-                <NavItem
-                  id={item.id}
-                  badge={item.badge}
-                  label={item.label}
-                  icon={item.icon}
-                  showIcon={item.showIcon}
-                  collapsed={isCollapsed}
-                  link={item.link}
-                  onClick={item.onClick}
-                  appearance={appearance}
-                  active={item.id === activeItem && !!activeItem}
-                />
-              </li>
+              <>
+                <li key={item.id}>
+                  <NavItem
+                    id={item.id}
+                    badge={item.badge}
+                    label={item.label}
+                    icon={item.icon}
+                    showIcon={item.showIcon}
+                    collapsed={isCollapsed}
+                    link={item.link}
+                    onClick={item.onClick}
+                    appearance={appearance}
+                    active={item.id === activeItem && !!activeItem}
+                  />
+                </li>
+                {item.showDivider && <Divider appearance={dividerAppearance} />}
+              </>
             );
           })}
         </ul>

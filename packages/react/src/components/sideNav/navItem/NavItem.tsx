@@ -62,7 +62,7 @@ const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
       link,
       isNested,
       parentMenuOpen,
-      appearance,
+      appearance = "brand",
       active,
       badge,
       ...props

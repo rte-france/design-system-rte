@@ -84,6 +84,8 @@
         .navMenu {
             padding: $positive-spacing_100 $positive-spacing_150;
             justify-content: center;
+            gap: 0;
+            border-left: none;
         }
     }
 
