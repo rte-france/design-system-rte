@@ -226,12 +226,18 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
   },
 );
 
-const NavMenuLabel = ({ isNested, ...props }: Omit<NavMenuProps, "children" | "items" | "open" | "showMenuIcon">) => {
-  const iconSize = isNested ? 16 : props.collapsed ? 24 : 20;
+const NavMenuLabel = ({
+  isNested,
+  collapsed,
+  showIcon,
+  icon,
+  label,
+}: Omit<NavMenuProps, "children" | "items" | "open" | "showMenuIcon">) => {
+  const iconSize = isNested ? 16 : collapsed ? 24 : 20;
   return (
     <>
-      {props.showIcon && props.icon && <Icon name={props.icon} className={style.icon} size={iconSize} />}
-      {props.collapsed ? null : <span>{props.label}</span>}
+      {showIcon && icon && <Icon name={icon} className={style.icon} size={iconSize} />}
+      {collapsed ? null : <span>{label}</span>}
     </>
   );
 };

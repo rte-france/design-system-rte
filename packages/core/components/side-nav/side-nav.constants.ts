@@ -1,4 +1,5 @@
 import { DividerAppearance } from "../divider/divider.interface";
+
 import { SideNavAppearance, SideNavProps } from "./side-nav.interface";
 
 export const sideNavCollapsedSize: number = 64;

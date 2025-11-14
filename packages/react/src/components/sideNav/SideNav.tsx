@@ -95,26 +95,34 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
 
     const ariaLabel = headerConfig?.ariaLabel;
 
-    const headerTitle = headerConfig?.link ? (
+    const headerTitleLink = (
       <a
-        href={headerConfig.link}
+        href={headerConfig?.link ?? ""}
         className={style.sideNavHeaderTitleContainer}
         onClick={headerConfig?.onClick}
         aria-label={ariaLabel}
       >
         {headerTitleContent}
       </a>
-    ) : headerConfig?.onClick ? (
+    );
+
+    const clickableHeaderTitle = (
       <div
         className={style.sideNavHeaderTitleContainer}
         tabIndex={0}
-        onClick={headerConfig.onClick}
+        onClick={headerConfig?.onClick}
         onKeyDown={headerOnKeyDown}
         role="button"
         aria-label={ariaLabel}
       >
         {headerTitleContent}
       </div>
+    );
+
+    const headerTitle = headerConfig?.link ? (
+      headerTitleLink
+    ) : headerConfig?.onClick ? (
+      clickableHeaderTitle
     ) : (
       <div className={style.sideNavHeaderTitleContainer}>{headerTitleContent}</div>
     );
