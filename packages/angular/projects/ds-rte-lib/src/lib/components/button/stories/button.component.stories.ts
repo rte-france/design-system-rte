@@ -5,7 +5,11 @@ import {
 import type { Meta, StoryObj } from "@storybook/angular";
 import { fn, userEvent, within, expect } from "@storybook/test";
 
+import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../../icon/icon-map";
 import { ButtonComponent } from "../button.component";
+
+const RegularIconIds = Object.keys(RegularIconsList);
+const TogglableIconIds = Object.keys(TogglableIconsList);
 
 const meta: Meta<ButtonComponent> = {
   title: "Button",
@@ -19,6 +23,23 @@ const meta: Meta<ButtonComponent> = {
     rteButtonSize: {
       control: "select",
       options: ["s", "m", "l"],
+    },
+    rteBadgeContent: {
+      control: "select",
+      options: ["number", "icon", "empty"],
+    },
+    rteBadgeType: {
+      control: "select",
+      options: ["brand", "neutral", "indicator"],
+    },
+    rteBadgeIcon: {
+      control: "select",
+      options: [...RegularIconIds, ...TogglableIconIds].sort((a, b) => a.localeCompare(b)),
+      description: "Nom de l’icône à afficher dans le badge",
+      defaultValue: "settings",
+    },
+    rteBadgeCount: {
+      control: "number",
     },
   },
 };
@@ -86,6 +107,32 @@ export const Sizing: Story = {
     expect(mediumButton.clientHeight).toBe(32);
     expect(largeButton.clientHeight).toBe(40);
   },
+};
+
+export const WithBadge: Story = {
+  args: {
+    rteButtonVariant: "primary",
+    rteButtonSize: "m",
+    rteBadgeContent: "number",
+    rteBadgeCount: 5,
+    rteBadgeType: "brand",
+    rteBadgeIcon: "notification",
+  },
+  render: (args) => ({
+    props: { ...args },
+    template: `
+    <button rteButton
+    rteBadge
+      [rteButtonVariant]="rteButtonVariant"
+      [rteButtonSize]="rteButtonSize"
+      [rteBadgeContent]="rteBadgeContent"
+      [rteBadgeCount]="rteBadgeCount"
+      [rteBadgeType]="rteBadgeType"
+      [rteBadgeIcon]="rteBadgeIcon"
+      data-testid="button-with-badge"
+    >Button with Badge</button>
+    `,
+  }),
 };
 
 export const KeyboardInteraction: Story = {

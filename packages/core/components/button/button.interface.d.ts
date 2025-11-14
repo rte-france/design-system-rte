@@ -7,4 +7,8 @@ export interface ButtonProps {
   size?: import("./common/common-button").ButtonSize;
   disabled?: boolean;
   iconPosition?: ButtonIconPosition;
+  badgeContent?: import("../../badge/badge.interface").BadgeContent;
+  badgeCount?: import("../../badge/badge.interface").BadgeCount;
+  badgeType?: import("../../badge/badge.interface").BadgeType;
+  badgeIcon?: import("../../badge/badge.interface").BadgeProps["icon"];
 }
