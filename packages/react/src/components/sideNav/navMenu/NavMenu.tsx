@@ -1,5 +1,6 @@
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
 import { NavMenuProps as CoreNavMenuProps } from "@design-system-rte/core/components/side-nav/nav-menu/nav-menu.interface";
+import { dividerAppearanceBySideNavAppearance } from "@design-system-rte/core/components/side-nav/side-nav.constants";
 import {
   ARROW_DOWN_KEY,
   ARROW_UP_KEY,
@@ -11,6 +12,7 @@ import { forwardRef, HTMLAttributes, ReactNode, useState } from "react";
 
 import { useActiveKeyboard } from "../../../hooks/useActiveKeyboard";
 import Badge from "../../badge/Badge";
+import Divider from "../../divider/Divider";
 import Icon from "../../icon/Icon";
 import Tooltip from "../../tooltip/Tooltip";
 import { concatClassNames } from "../../utils";
@@ -71,8 +73,9 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
       showMenuIcon = true,
       isNested,
       parentMenuOpen,
-      appearance,
+      appearance = "brand",
       badge,
+      showDivider,
       ...props
     }: NavMenuProps,
     ref,
@@ -171,20 +174,23 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
                 );
               }
               return (
-                <li key={item.id || item.label}>
-                  <NavItem
-                    label={item.label}
-                    icon={item.icon}
-                    showIcon={item.showIcon}
-                    collapsed={collapsed}
-                    link={item.link}
-                    onClick={item.onClick}
-                    isNested={true}
-                    parentMenuOpen={nestedItemsParentMenuOpen}
-                    appearance={appearance}
-                    badge={item.badge}
-                  />
-                </li>
+                <>
+                  <li key={item.id || item.label}>
+                    <NavItem
+                      label={item.label}
+                      icon={item.icon}
+                      showIcon={item.showIcon}
+                      collapsed={collapsed}
+                      link={item.link}
+                      onClick={item.onClick}
+                      isNested={true}
+                      parentMenuOpen={nestedItemsParentMenuOpen}
+                      appearance={appearance}
+                      badge={item.badge}
+                    />
+                  </li>
+                  {item.showDivider && <Divider appearance={dividerAppearanceBySideNavAppearance[appearance]} />}
+                </>
               );
             })}
           </ul>
@@ -194,21 +200,29 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
 
     if (collapsed && label) {
       return (
-        <Tooltip
-          label={label}
-          position="right"
-          alignment="center"
-          arrow={false}
-          shouldFocusTrigger={false}
-          triggerStyles={{ outline: "none" }}
-          gap={12}
-        >
-          {listItem}
-        </Tooltip>
+        <>
+          <Tooltip
+            label={label}
+            position="right"
+            alignment="center"
+            arrow={false}
+            shouldFocusTrigger={false}
+            triggerStyles={{ outline: "none" }}
+            gap={12}
+          >
+            {listItem}
+          </Tooltip>
+          {showDivider && <Divider appearance={dividerAppearanceBySideNavAppearance[appearance]} />}
+        </>
       );
     }
 
-    return listItem;
+    return (
+      <>
+        {listItem}
+        {showDivider && <Divider appearance={dividerAppearanceBySideNavAppearance[appearance]} />}
+      </>
+    );
   },
 );
 
