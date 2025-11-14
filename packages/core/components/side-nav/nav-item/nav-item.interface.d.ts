@@ -7,7 +7,7 @@ export interface NavItemProps {
   label: string;
   icon?: string;
   showIcon?: boolean;
-  showBadgeOrTag?: boolean;
+  showBadge?: boolean;
   collapsed?: boolean;
   link?: string;
   onClick?: () => void;
@@ -16,4 +16,5 @@ export interface NavItemProps {
   isNested?: boolean;
   parentMenuOpen?: boolean;
   badge?: BadgeProps;
+  showDivider?: boolean;
 }
