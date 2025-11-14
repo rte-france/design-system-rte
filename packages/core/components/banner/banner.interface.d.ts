@@ -11,5 +11,5 @@ export interface BannerProps {
   isOpen?: boolean;
 }
 
-export type BannerType = "default" | "alert";
+export type BannerType = "info" | "error" | "success" | "warning";
 export type BannerPosition = "overlay" | "push";
