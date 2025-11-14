@@ -1,3 +1,4 @@
+import { getNavItemLabelIconSize } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.utils";
 import { ReactNode } from "react";
 
 import Icon from "../../icon/Icon";
@@ -14,7 +15,7 @@ interface NavLabelProps {
 }
 
 function NavLabel({ icon, showIcon = true, label, collapsed, isNested, styleType = "item" }: NavLabelProps): ReactNode {
-  const iconSize = isNested ? 16 : collapsed ? 24 : 20;
+  const iconSize = getNavItemLabelIconSize(isNested, collapsed);
   const style = styleType === "menu" ? navMenuStyle : navItemStyle;
 
   return (

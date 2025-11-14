@@ -551,48 +551,6 @@ export const ActiveItemState: Story = {
   },
 };
 
-const SimplePageContent = (
-  <div style={{ padding: "2rem" }}>
-    <h1 style={{ margin: "0 0 1rem 0" }}>Dashboard</h1>
-    <p style={{ lineHeight: "1.6", color: "#555", marginBottom: "1rem" }}>
-      Welcome to the dashboard. Use the navigation on the left to explore different sections.
-    </p>
-    <p style={{ lineHeight: "1.6", color: "#555", marginBottom: "1rem" }}>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore
-      magna aliqua.
-    </p>
-    <p style={{ lineHeight: "1.6", color: "#555", marginBottom: "1rem" }}>
-      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis
-      aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-    </p>
-    <p style={{ lineHeight: "1.6", color: "#555", marginBottom: "1rem" }}>
-      Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed
-      ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.
-    </p>
-  </div>
-);
-
-export const ScrollBar: Story = {
-  args: {
-    ...Default.args,
-    collapsible: true,
-  },
-  render: (args) => (
-    <SideNav
-      size={args.size}
-      collapsible={args.collapsible}
-      headerConfig={args.headerConfig}
-      appearance={args.appearance}
-      items={args.items}
-      footerItems={args.footerItems}
-      collapsed={args.collapsed}
-      activeItem={args.activeItem}
-    >
-      {SimplePageContent}
-    </SideNav>
-  ),
-};
-
 export const WithFooterItems: Story = {
   args: {
     ...Default.args,

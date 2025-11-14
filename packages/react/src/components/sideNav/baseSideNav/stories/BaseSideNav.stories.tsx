@@ -8,7 +8,6 @@ const meta = {
   component: BaseSideNav,
   tags: ["autodocs"],
   argTypes: {
-    collapsible: { control: "boolean" },
     size: { control: "select", options: ["s", "m", "l"] },
     showHeader: { control: "boolean" },
     showFooter: { control: "boolean" },
@@ -42,7 +41,6 @@ const PageContent = (
 export const BodyOnly: Story = {
   args: {
     size: "m",
-    collapsible: false,
     showHeader: false,
     showFooter: false,
     appearance: "brand",
@@ -50,7 +48,6 @@ export const BodyOnly: Story = {
   render: (args) => (
     <BaseSideNav
       size={args.size}
-      collapsible={args.collapsible}
       showHeader={args.showHeader}
       showFooter={args.showFooter}
       body={SimpleBody}
@@ -64,14 +61,12 @@ export const BodyOnly: Story = {
 export const HeaderWithBody: Story = {
   args: {
     size: "m",
-    collapsible: false,
     showHeader: true,
     showFooter: false,
   },
   render: (args) => (
     <BaseSideNav
       size={args.size}
-      collapsible={args.collapsible}
       showHeader={args.showHeader}
       showFooter={args.showFooter}
       header={<div style={{ fontWeight: "600", fontSize: "0.875rem" }}>Menu</div>}
@@ -85,14 +80,12 @@ export const HeaderWithBody: Story = {
 export const BodyWithFooter: Story = {
   args: {
     size: "m",
-    collapsible: false,
     showHeader: false,
     showFooter: true,
   },
   render: (args) => (
     <BaseSideNav
       size={args.size}
-      collapsible={args.collapsible}
       showHeader={args.showHeader}
       showFooter={args.showFooter}
       body={SimpleBody}
@@ -106,14 +99,12 @@ export const BodyWithFooter: Story = {
 export const HeaderBodyFooter: Story = {
   args: {
     size: "m",
-    collapsible: false,
     showHeader: true,
     showFooter: true,
   },
   render: (args) => (
     <BaseSideNav
       size={args.size}
-      collapsible={args.collapsible}
       showHeader={args.showHeader}
       showFooter={args.showFooter}
       header={<div style={{ fontWeight: "600", fontSize: "0.875rem" }}>Navigation</div>}
@@ -127,14 +118,12 @@ export const HeaderBodyFooter: Story = {
 
 export const ColoredSections: Story = {
   args: {
-    collapsible: true,
     showHeader: true,
     showFooter: true,
   },
   render: (args) => (
     <BaseSideNav
       size={args.size}
-      collapsible={args.collapsible}
       showHeader={args.showHeader}
       showFooter={args.showFooter}
       header={

@@ -1,4 +1,4 @@
-@use '@design-system-rte/core/design-tokens/main.scss' as *;
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
 
 .navMenuContainer {
     width: 100%;
@@ -9,7 +9,7 @@
     transition: background-color 300ms;
     box-sizing: border-box;
 
-    &.neutral {
+    &[data-appearance='neutral'] {
         .navMenu {
             color: var(--content-secondary);
 
@@ -17,12 +17,12 @@
                 background: var(--background-neutral-navigation-hover);
                 color: var(--content-primary);
             }
-            &.focused {
+            &[data-focused='true'] {
                 outline: none;
             }
         }
 
-        &.nested {
+        &[data-nested='true'] {
             .navMenu {
                 border-radius: 0 $radius-s $radius-s 0;
                 border-left: $width-xs solid var(--border-divider);
@@ -80,7 +80,7 @@
         }
     }
 
-    &.collapsed {
+    &[data-collapsed='true'] {
         .navMenu {
             padding: $positive-spacing_100 $positive-spacing_150;
             justify-content: center;
@@ -89,7 +89,7 @@
         }
     }
 
-    &.nested {
+    &[data-nested='true'] {
         .navMenu {
             @include typography-button-s;
             border-radius: 0 $radius-s $radius-s 0;
@@ -102,10 +102,10 @@
         flex-shrink: 0;
         transition: transform 200ms;
         margin-left: auto;
-    }
 
-    .menuIconOpen {
-        transform: rotate(90deg);
+        &[data-open='true'] {
+            transform: rotate(90deg);
+        }
     }
 
     .nestedMenu {
@@ -118,7 +118,7 @@
         padding-left: $positive-spacing_200;
         gap: 0;
 
-        &.nestedMenuOpen {
+        &[data-open='true'] {
             max-height: 1000px;
             padding-top: $positive-spacing_050;
             padding-bottom: $positive-spacing_050;

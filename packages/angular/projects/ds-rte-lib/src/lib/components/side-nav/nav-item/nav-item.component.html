@@ -1,0 +1,81 @@
+@if (collapsed() && label()) {
+  <div
+    rteTooltip
+    rteTooltipPosition="right"
+    rteTooltipAlignment="center"
+    [id]="id()"
+    [class]="containerClasses()"
+    [attr.role]="role()"
+    [rteTooltip]="label()"
+    [rteTooltipArrow]="false"
+    [rteTooltipShouldFocusTrigger]="false">
+    <ng-container [ngTemplateOutlet]="contentTemplate"></ng-container>
+  </div>
+} @else {
+  <div
+    [id]="id()"
+    [class]="containerClasses()"
+    [attr.role]="role()">
+    <ng-container [ngTemplateOutlet]="contentTemplate"></ng-container>
+  </div>
+}
+
+<ng-template #contentTemplate>
+  @if (link()) {
+    <a
+      class="nav-item"
+      [href]="link()!"
+      [attr.tabindex]="tabIndex()"
+      [attr.aria-label]="label()"
+      (focus)="handleFocus()"
+      (blur)="handleBlur()">
+      <div class="nav-item-left">
+        @if (showIcon() && icon()) {
+          <rte-icon class="icon" [name]="icon()!" [size]="iconSize()"></rte-icon>
+        }
+        @if (!collapsed()) {
+          <span>{{ label() }}</span>
+        }
+      </div>
+      <div class="nav-item-right">
+        @if (badge()) {
+          <rte-badge
+            [badgeType]="badge()!.badgeType || 'brand'"
+            [badgeSize]="badge()!.size || 'm'"
+            [badgeContent]="badge()!.content || 'number'"
+            [count]="badge()!.count"
+            [icon]="badge()!.icon || 'notification'"></rte-badge>
+        }
+      </div>
+    </a>
+  } @else {
+    <span
+      class="nav-item"
+      [attr.tabindex]="tabIndex()"
+      [attr.aria-label]="label()"
+      (click)="handleClick()"
+      (keydown)="handleKeyDown($event)"
+      (focus)="handleFocus()"
+      (blur)="handleBlur()">
+      <div class="nav-item-left">
+        @if (showIcon() && icon()) {
+          <rte-icon class="icon" [name]="icon()!" [size]="iconSize()"></rte-icon>
+        }
+        @if (!collapsed()) {
+          <span>{{ label() }}</span>
+        }
+      </div>
+      <div class="nav-item-right">
+        @if (badge()) {
+          <rte-badge
+            [badgeType]="badge()!.badgeType || 'brand'"
+            [badgeSize]="badge()!.size || 'm'"
+            [badgeContent]="badge()!.content || 'number'"
+            [count]="badge()!.count"
+            [icon]="badge()!.icon || 'notification'"></rte-badge>
+        }
+      </div>
+    </span>
+  }
+</ng-template>
+

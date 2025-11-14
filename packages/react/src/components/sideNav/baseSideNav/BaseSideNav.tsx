@@ -1,10 +1,9 @@
 import { sideNavCollapsedSize, sideNavPanelSize } from "@design-system-rte/core/components/side-nav/side-nav.constants";
-import { SideNavProps as CoreSideNavProps } from "@design-system-rte/core/components/side-nav/side-nav.interface";
-import { forwardRef, ReactNode, useLayoutEffect, useRef } from "react";
-
-import { concatClassNames } from "../../utils";
+import { BaseSideNavProps as CoreSideNavProps } from "@design-system-rte/core/components/side-nav/side-nav.interface";
+import { forwardRef, ReactNode, useRef } from "react";
 
 import style from "./BaseSideNav.module.scss";
+import useContentHeight from "./hooks/useContentHeight";
 
 interface BaseSideNavProps
   extends Partial<Omit<CoreSideNavProps, "items">>,
@@ -13,7 +12,6 @@ interface BaseSideNavProps
   body?: ReactNode;
   footer?: ReactNode;
   children?: ReactNode;
-  containerClassName?: string;
 }
 
 const BaseSideNav = forwardRef<HTMLElement | HTMLDivElement, BaseSideNavProps>(
@@ -28,41 +26,22 @@ const BaseSideNav = forwardRef<HTMLElement | HTMLDivElement, BaseSideNavProps>(
       children,
       appearance = "brand",
       collapsed,
-      containerClassName,
+      ...props
     },
     ref,
   ) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const contentRef = useRef<HTMLDivElement>(null);
 
-    useLayoutEffect(() => {
-      const containerEl = containerRef.current;
-      const contentEl = contentRef.current;
-      if (!containerEl || !contentEl) return;
-
-      const setHeightVar = () => {
-        const height = contentEl.offsetHeight;
-        containerEl.style.setProperty("--content-height", `${height}px`);
-      };
-
-      setHeightVar();
-
-      const resizeObserver = new ResizeObserver(() => setHeightVar());
-      resizeObserver.observe(contentEl);
-
-      window.addEventListener("resize", setHeightVar);
-
-      return () => {
-        resizeObserver.disconnect();
-        window.removeEventListener("resize", setHeightVar);
-      };
-    }, [children]);
+    useContentHeight(containerRef, contentRef, children);
 
     return (
-      <div ref={containerRef} className={concatClassNames(style.sideNavContainer, containerClassName)}>
+      <div ref={containerRef} className={style.sideNavContainer} {...props}>
         <nav
           ref={ref}
-          className={concatClassNames(style.sideNav, collapsed ? style.collapsed : "", appearance && style[appearance])}
+          className={style.sideNav}
+          data-collapsed={collapsed}
+          data-appearance={appearance}
           style={{
             minWidth: collapsed ? sideNavCollapsedSize : sideNavPanelSize[size],
           }}
@@ -82,5 +61,4 @@ const BaseSideNav = forwardRef<HTMLElement | HTMLDivElement, BaseSideNavProps>(
   },
 );
 
-BaseSideNav.displayName = "BaseSideNav";
 export default BaseSideNav;

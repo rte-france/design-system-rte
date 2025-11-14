@@ -2,11 +2,10 @@ import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-it
 import { dividerAppearanceBySideNavAppearance } from "@design-system-rte/core/components/side-nav/side-nav.constants";
 import { SideNavProps as CoreSideNavProps } from "@design-system-rte/core/components/side-nav/side-nav.interface";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
-import { forwardRef, ReactNode, useEffect, useState } from "react";
+import { forwardRef, Fragment, ReactNode, useEffect, useState } from "react";
 
 import { useActiveKeyboard } from "../../hooks/useActiveKeyboard";
 import Divider from "../divider/Divider";
-import { concatClassNames } from "../utils";
 
 import BaseSideNav from "./baseSideNav/BaseSideNav";
 import NavItem from "./navItem/NavItem";
@@ -89,7 +88,7 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
     const headerTitleContent = (
       <div className={style.sideNavHeaderTitle}>
         <div className={style.sideNavHeaderIdentifier}>{headerConfig?.identifier}</div>
-        {isCollapsed ? "" : <h1 className={shouldShowTitle ? "" : style.hidden}>{headerConfig?.title}</h1>}
+        {isCollapsed ? "" : <h1 data-hidden={!shouldShowTitle}>{headerConfig?.title}</h1>}
       </div>
     );
 
@@ -154,8 +153,8 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
               );
             }
             return (
-              <>
-                <li key={item.id}>
+              <Fragment key={item.id}>
+                <li>
                   <NavItem
                     id={item.id}
                     badge={item.badge}
@@ -170,7 +169,7 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
                   />
                 </li>
                 {item.showDivider && <Divider appearance={dividerAppearance} />}
-              </>
+              </Fragment>
             );
           })}
         </ul>
@@ -181,16 +180,14 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
       <BaseSideNav
         ref={ref}
         size={size}
-        collapsible={collapsible}
         collapsed={isCollapsed}
         appearance={appearance}
         style={{ minHeight: "100vh" }}
-        containerClassName={style.sideNavContainer}
         header={
           <div className={style.sideNavHeaderContainer}>
-            <div className={concatClassNames(style.sideNavHeader, style[appearance], isCollapsed && style.collapsed)}>
+            <div className={style.sideNavHeader} data-collapsed={isCollapsed} data-appearance={appearance}>
               {headerTitle}
-              <div className={concatClassNames(style.sideNavHeaderVersion, !shouldShowTitle && style.hidden)}>
+              <div className={style.sideNavHeaderVersion} data-hidden={!shouldShowTitle}>
                 <span>{headerConfig?.version}</span>
               </div>
             </div>

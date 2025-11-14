@@ -1,4 +1,4 @@
-@use '@design-system-rte/core/design-tokens/main.scss' as *;
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
 
 .sideNavContainer {
     min-height: 100vh;
@@ -38,7 +38,7 @@
     min-height: 120px;
     max-height: 120px;
 
-    &.collapsed {
+    &[data-collapsed='true'] {
         align-items: center;
         justify-content: center;
         padding: $positive-spacing_050;
@@ -57,7 +57,7 @@
     height: 120px;
     transition: opacity 300ms;
 
-    &.collapsed {
+    &[data-collapsed='true'] {
         padding: $positive-spacing_100;
         justify-content: center;
         align-items: center;
@@ -77,7 +77,7 @@
         }
     }
 
-    &.neutral {
+    &[data-appearance='neutral'] {
         .sideNavHeaderTitleContainer {
             &[href],
             &[role="button"] {
@@ -139,7 +139,7 @@
                 margin: 0;
                 transition: opacity 300ms;
 
-                &.hidden {
+                &[data-hidden='true'] {
                     opacity: 0;
                     max-height: 0;
                     padding: 0;
@@ -165,7 +165,7 @@
         overflow: hidden;
         opacity: 1;
 
-        &.hidden {
+        &[data-hidden='true'] {
             opacity: 0;
             max-height: 0;
             padding: 0;
