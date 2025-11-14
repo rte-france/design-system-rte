@@ -2,6 +2,17 @@
 
 # Angular
 
+## 0.16.1
+
+### Tag
+
+#### Patch Changes
+
+- update text color + apply new background-color tokens
+
+### Other
+
+
 ## 0.16.0
 
 ### Modal
@@ -133,6 +144,17 @@
 - Updated dependencies [9e7b2cd]
 - @design-system-rte/core@0.18.0
 # React
+
+## 0.15.1
+
+### Tag
+
+#### Patch Changes
+
+- update text color + apply new background-color tokens
+
+### Other
+
 
 ## 0.15.0
 
