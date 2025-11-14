@@ -70,28 +70,33 @@ const PageContent = (
   </div>
 );
 
-const navigationItems = [
-  { id: "home", label: "Home", icon: "home", showIcon: true },
-  { id: "dashboard", label: "Dashboard", icon: "dashboard", showIcon: true },
-  { id: "analytics", label: "Analytics", icon: "analytics", showIcon: true },
-  { id: "settings", label: "Settings", icon: "settings", showIcon: true },
-  { id: "profile", label: "Profile", icon: "user", showIcon: true, link: "/profile" },
+const baseNavItem = {
+  showIcon: true,
+};
+
+const baseBadge = {
+  size: "m" as const,
+  content: "number" as const,
+};
+
+const baseNavItems = [
+  { ...baseNavItem, id: "home", label: "Home", icon: "home" },
+  { ...baseNavItem, id: "dashboard", label: "Dashboard", icon: "dashboard" },
+  { ...baseNavItem, id: "analytics", label: "Analytics", icon: "analytics" },
+  { ...baseNavItem, id: "settings", label: "Settings", icon: "settings" },
+  { ...baseNavItem, id: "profile", label: "Profile", icon: "user", link: "/profile" },
 ];
 
+const navigationItems = baseNavItems;
+
 const navigationItemsWithNested = [
-  { id: "home", label: "Home", icon: "home", showIcon: true },
+  baseNavItems[0],
   {
-    id: "dashboard",
-    label: "Dashboard",
-    icon: "dashboard",
-    showIcon: true,
+    ...baseNavItems[1],
     items: [{ label: "Overview" }, { label: "Reports" }, { label: "Analytics", icon: "analytics" }],
   },
   {
-    id: "settings",
-    label: "Settings",
-    icon: "settings",
-    showIcon: true,
+    ...baseNavItems[3],
     items: [
       { label: "General", icon: "general" },
       { label: "Privacy", icon: "privacy" },
@@ -105,108 +110,55 @@ const navigationItemsWithNested = [
       },
     ],
   },
-  { id: "profile", label: "Profile", icon: "user", showIcon: true, link: "/profile" },
+  baseNavItems[4],
 ];
 
 const navigationItemsWithNestedAndBadges: NavItemProps[] = [
+  { ...baseNavItems[0], badge: { ...baseBadge, badgeType: "indicator", count: 5 } },
   {
-    id: "home",
-    label: "Home",
-    icon: "home",
-    showIcon: true,
-    badge: {
-      badgeType: "indicator",
-      size: "m",
-      content: "number",
-      count: 5,
-    },
-  },
-  {
-    id: "dashboard",
-    label: "Dashboard",
-    icon: "dashboard",
-    showIcon: true,
-    badge: {
-      badgeType: "indicator",
-      size: "m",
-      content: "number",
-      count: 3,
-    },
+    ...baseNavItems[1],
+    badge: { ...baseBadge, badgeType: "indicator", count: 3 },
     items: [
-      { label: "Overview", badge: { badgeType: "brand", size: "m", content: "number", count: 2 } },
+      { label: "Overview", badge: { ...baseBadge, badgeType: "brand", count: 2 } },
       { label: "Reports" },
-      {
-        label: "Analytics",
-        icon: "analytics",
-        badge: { badgeType: "indicator", size: "m", content: "number", count: 12 },
-      },
+      { label: "Analytics", icon: "analytics", badge: { ...baseBadge, badgeType: "indicator", count: 12 } },
     ],
   },
   {
-    id: "settings",
-    label: "Settings",
-    icon: "settings",
-    showIcon: true,
+    ...baseNavItems[3],
     items: [
       { label: "General", icon: "general" },
-      { label: "Privacy", icon: "privacy", badge: { badgeType: "brand", size: "m", content: "number", count: 1 } },
+      { label: "Privacy", icon: "privacy", badge: { ...baseBadge, badgeType: "brand", count: 1 } },
       {
         label: "Advanced",
         icon: "settings",
-        badge: {
-          badgeType: "indicator",
-          size: "m",
-          content: "number",
-          count: 7,
-        },
+        badge: { ...baseBadge, badgeType: "indicator", count: 7 },
         items: [
-          {
-            label: "Security",
-            icon: "security",
-            badge: { badgeType: "indicator", size: "m", content: "number", count: 99 },
-          },
+          { label: "Security", icon: "security", badge: { ...baseBadge, badgeType: "indicator", count: 99 } },
           { label: "API Keys", icon: "api-keys" },
         ],
       },
     ],
   },
-  {
-    id: "profile",
-    label: "Profile",
-    icon: "user",
-    showIcon: true,
-    link: "/profile",
-    badge: {
-      badgeType: "brand",
-      size: "m",
-      content: "number",
-      count: 8,
-    },
-  },
+  { ...baseNavItems[4], badge: { ...baseBadge, badgeType: "brand", count: 8 } },
 ];
 
 const footerItems: NavItemProps[] = [
   {
+    ...baseNavItem,
     id: "footer-settings",
     label: "Settings",
     icon: "settings",
-    showIcon: true,
     onClick: () => {
       console.log("Footer Settings clicked");
     },
   },
+  { ...baseNavItem, id: "footer-help", label: "Help & Support", icon: "help", link: "/help" },
   {
-    id: "footer-help",
-    label: "Help & Support",
-    icon: "help",
-    showIcon: true,
-    link: "/help",
-  },
-  {
+    ...baseNavItem,
     id: "footer-account",
     label: "Account",
     icon: "user",
-    showIcon: true,
     items: [
       { id: "footer-profile", label: "Profile", link: "/profile", icon: "user" },
       { id: "footer-preferences", label: "Preferences", icon: "preferences" },
@@ -223,9 +175,7 @@ const defaultHeaderConfig = {
   link: "/",
 };
 
-const headerConfigWithLink = {
-  ...defaultHeaderConfig,
-};
+const headerConfigWithLink = { ...defaultHeaderConfig };
 
 const headerConfigWithOnClick = {
   ...defaultHeaderConfig,
@@ -846,6 +796,45 @@ export const WithBadges: Story = {
     ...Default.args,
     headerConfig: defaultHeaderConfig,
     items: navigationItemsWithNestedAndBadges,
+    collapsible: true,
+  },
+};
+
+const navigationItemsWithDividers: NavItemProps[] = [
+  baseNavItems[0],
+  {
+    ...baseNavItems[1],
+    items: [{ label: "Overview" }, { label: "Reports", showDivider: true }, { label: "Analytics", icon: "analytics" }],
+  },
+  { ...baseNavItems[2], showDivider: true },
+  { ...baseNavItem, id: "reports", label: "Reports", icon: "info" },
+  {
+    ...baseNavItems[3],
+    showDivider: true,
+    items: [
+      { label: "General", icon: "general" },
+      { label: "Privacy", icon: "privacy", showDivider: true },
+      { label: "Notifications", icon: "notifications" },
+      {
+        label: "Advanced",
+        icon: "settings",
+        showDivider: true,
+        items: [
+          { label: "Security", icon: "security" },
+          { label: "API Keys", icon: "api-keys", showDivider: true },
+          { label: "Integrations", icon: "integrations" },
+        ],
+      },
+    ],
+  },
+  baseNavItems[4],
+];
+
+export const WithDividers: Story = {
+  args: {
+    ...Default.args,
+    headerConfig: defaultHeaderConfig,
+    items: navigationItemsWithDividers,
     collapsible: true,
   },
 };
