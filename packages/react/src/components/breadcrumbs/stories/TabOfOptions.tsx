@@ -1,5 +1,3 @@
-import React from "react";
-
 import { TabOfOptions as CoreTabOfOptions } from "../../../../.storybook/template/TabOfOptions/TabOfOptions";
 
 const options = [
@@ -14,6 +12,8 @@ const options = [
   },
 ];
 
-export const TabOfOptions = () => {
+const TabOfOptions = () => {
   return <CoreTabOfOptions options={options} />;
 };
+
+export default TabOfOptions;

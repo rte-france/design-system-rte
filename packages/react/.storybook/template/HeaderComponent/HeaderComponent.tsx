@@ -1,7 +1,7 @@
 import { Link } from "@design-system-rte/react";
 
-import Figma from "../img/figma.png";
-import Github from "../img/github.png";
+import Figma from "../../asset/img/figma.png";
+import Github from "../../asset/img/github.png";
 
 import style from "./HeaderComponent.module.scss";
 
