@@ -11,7 +11,7 @@ interface TabOfOptionsProps {
 
 export const TabOfOptions = ({ options }: TabOfOptionsProps) => {
   return (
-    <table className="rte-stories-table">
+    <table className="rte-stories-table-options">
       <thead>
         <tr>
           <th scope="col">Property</th>

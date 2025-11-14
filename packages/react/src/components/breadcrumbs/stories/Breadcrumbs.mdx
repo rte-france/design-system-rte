@@ -8,8 +8,10 @@ import "../../../../.storybook/template/style/police.css";
 import Heading from "../../../../.storybook/template/heading/Heading";
 import Availability from "../../../../.storybook/template/Overview/Availability/Availability";
 import LastUpdate from "../../../../.storybook/template/Overview/LastUpdate/LastUpdate";
-import {TabOfOptions} from "./TabOfOptions";
-
+import TabOfOptions from "./TabOfOptions";
+import Gerkin from "../../../../.storybook/template/guideline/Gerkin/Gerkin";
+import Usage from "./Usage";
+import Options from "./Options";
 import Icon from "../../icon/Icon";
 
 <Meta title="Composants/Breadcrumbs" />
@@ -39,9 +41,23 @@ import Icon from "../../icon/Icon";
     </div>
 </div>
 
-<div className="Guidelines">
-
-        
+<div className="Guidelines" style={{display:"flex", flexDirection:"column", gap:"16px"}}>
+    <div id="introduction" style={{padding: '16px'}}>
+        <p><i>Composant générique pouvant être utilisé par toutes les équipes de la DSIT.</i></p>
+        <Gerkin>
+        <ul>
+            <li>En tant qu’utilisateur <b>naviguant sur une interface</b>,</li>
+            <li>Je souhaite <b>visualiser clairement ma position dans l’arborescence du site ou de l’application</b>,</li>
+            <li>Afin de <b>comprendre le contexte de la page actuelle et revenir facilement à un niveau supérieur si besoin</b>.</li>
+        </ul>
+        </Gerkin>
+    </div>
+    <div id="usage">
+        <Usage />
+    </div>
+    <div id="options" style={{display: 'flex'}}>
+        <Options />
+    </div>
 </div>
 
 <div className="Accessibilité">

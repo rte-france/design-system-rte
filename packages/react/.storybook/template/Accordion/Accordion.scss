@@ -1,0 +1,36 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+.sbdocs {
+
+  .rte-accordion {
+    flex: 1 0 0;
+
+    details {
+      summary {
+        list-style: none;
+
+        span {
+          @include typography-heading-m;
+          color: var(--content-brand-default);
+        }
+
+        &::before {
+          content: "+";
+          color: black;
+          border-radius: 1em;
+          padding: 0 8px 0 0;
+        }
+      }
+
+      ul {
+        box-sizing: border-box;
+        overflow: auto;
+        margin: 0 $positive-spacing_200;
+      }
+    }
+
+    details[open] summary::before {
+      content: "−";
+    }
+  }
+}
