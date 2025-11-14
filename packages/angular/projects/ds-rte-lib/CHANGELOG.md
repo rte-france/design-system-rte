@@ -1,5 +1,12 @@
 # @design-system-rte/angular
 
+## 0.16.1
+
+### Patch Changes
+
+- 8a4e95e: ## Changes
+  - (Tag) update text color + apply new background-color tokens
+
 ## 0.16.0
 
 ### Minor Changes

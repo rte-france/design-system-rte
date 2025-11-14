@@ -1,5 +1,12 @@
 # @design-system-rte/react
 
+## 0.15.1
+
+### Patch Changes
+
+- 8a4e95e: ## Changes
+  - (Tag) update text color + apply new background-color tokens
+
 ## 0.15.0
 
 ### Minor Changes
