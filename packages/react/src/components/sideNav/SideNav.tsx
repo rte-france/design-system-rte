@@ -2,7 +2,7 @@ import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-it
 import { dividerAppearanceBySideNavAppearance } from "@design-system-rte/core/components/side-nav/side-nav.constants";
 import { SideNavProps as CoreSideNavProps } from "@design-system-rte/core/components/side-nav/side-nav.interface";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
-import { forwardRef, ReactNode, useEffect, useState } from "react";
+import { forwardRef, Fragment, ReactNode, useEffect, useState } from "react";
 
 import { useActiveKeyboard } from "../../hooks/useActiveKeyboard";
 import Divider from "../divider/Divider";
@@ -154,8 +154,8 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
               );
             }
             return (
-              <>
-                <li key={item.id}>
+              <Fragment key={item.id}>
+                <li>
                   <NavItem
                     id={item.id}
                     badge={item.badge}
@@ -170,7 +170,7 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
                   />
                 </li>
                 {item.showDivider && <Divider appearance={dividerAppearance} />}
-              </>
+              </Fragment>
             );
           })}
         </ul>

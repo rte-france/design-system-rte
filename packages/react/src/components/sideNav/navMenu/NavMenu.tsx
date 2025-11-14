@@ -1,7 +1,7 @@
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
 import { NavMenuProps as CoreNavMenuProps } from "@design-system-rte/core/components/side-nav/nav-menu/nav-menu.interface";
 import { dividerAppearanceBySideNavAppearance } from "@design-system-rte/core/components/side-nav/side-nav.constants";
-import { forwardRef, HTMLAttributes, ReactNode, useState } from "react";
+import { forwardRef, Fragment, HTMLAttributes, ReactNode, useState } from "react";
 
 import Badge from "../../badge/Badge";
 import Divider from "../../divider/Divider";
@@ -144,8 +144,8 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
                 );
               }
               return (
-                <>
-                  <li key={item.id || item.label}>
+                <Fragment key={item.id || item.label}>
+                  <li>
                     <NavItem
                       label={item.label}
                       icon={item.icon}
@@ -160,7 +160,7 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
                     />
                   </li>
                   {item.showDivider && <Divider appearance={dividerAppearanceBySideNavAppearance[appearance]} />}
-                </>
+                </Fragment>
               );
             })}
           </ul>
