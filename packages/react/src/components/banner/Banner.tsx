@@ -30,8 +30,15 @@ const Banner = forwardRef<HTMLDivElement, BannerProps>(
     ref,
   ) => {
     const [isInternalOpen, setIsInternalOpen] = useState(isOpen);
-    const ariaRole = type === "default" ? "status" : "alert";
+    const ariaRole = type === "error" ? "alert" : "status";
     const { shouldRender, isAnimating } = useAnimatedMount(isInternalOpen, 200);
+
+    const iconTypeMap: Record<string, string> = {
+      info: "info",
+      error: "dangerous",
+      success: "check-circle",
+      warning: "warning",
+    };
 
     useEffect(() => {
       setIsInternalOpen(isOpen);
@@ -51,42 +58,34 @@ const Banner = forwardRef<HTMLDivElement, BannerProps>(
       shouldRender && (
         <section
           role={ariaRole}
-          className={concatClassNames(style["banner-container"], className)}
+          className={concatClassNames(style["banner"], className)}
           ref={ref}
           data-type={type}
           data-position={position}
           data-open={isAnimating || undefined}
           {...props}
         >
-          <div className={style["banner"]}>
-            {showIcon && (
-              <div className={style["banner-icon"]}>
-                <Icon name={type === "default" ? "info" : "error"} size={32} />
-              </div>
-            )}
-            <div className={style["banner-content"]}>
-              {title && <span className={style["banner-title"]}>{title}</span>}
-              {message && (
-                <div className={style["banner-message"]}>
-                  <span>{message}</span>
-                  {actionCallback && actionLabel && (
-                    <Button
-                      label={actionLabel}
-                      onClick={actionCallback}
-                      variant="neutral"
-                      aria-label={actionLabel}
-                      size="s"
-                    />
-                  )}
-                </div>
-              )}
+          {showIcon && (
+            <div className={style["banner-icon"]}>
+              <Icon name={iconTypeMap[type]} size={32} />
             </div>
-            {closable && (
-              <div className={style["banner-close-icon"]}>
-                <IconButton variant="neutral" name="close" onClick={handleOnClose} aria-label="close banner" />
+          )}
+          <div className={style["banner-content"]}>
+            {title && <span className={style["banner-title"]}>{title}</span>}
+            {message && (
+              <div className={style["banner-message"]}>
+                <span>{message}</span>
               </div>
             )}
           </div>
+          {actionCallback && actionLabel && (
+            <Button label={actionLabel} onClick={actionCallback} variant="text" aria-label={actionLabel} size="s" />
+          )}
+          {closable && (
+            <div className={style["banner-close-icon"]}>
+              <IconButton variant="neutral" name="close" onClick={handleOnClose} aria-label="close banner" />
+            </div>
+          )}
         </section>
       )
     );
