@@ -8,7 +8,7 @@ import storybookLogo from "../../../asset/img/storybook-logo.svg";
 const Availability = () => {
   return (
     <>
-      <div className="table-wrapper">
+      <div className="availability table-wrapper">
         <table>
           <thead>
             <tr>

@@ -1,0 +1,34 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+.rte-overview {
+  display: flex;
+  flex-direction: column;
+  gap: $positive-spacing_200;
+  padding: $positive-spacing_200;
+
+  .rte-overview-top {
+    display: flex;
+    gap: $positive-spacing_200;
+
+    .rte-overview-section {
+      display: flex;
+      flex-direction: column;
+      gap: $positive-spacing_100;
+
+      &:first-child {
+        flex: 1 1 0;
+      }
+
+      &:last-child {
+        flex: 2 1 0;
+      }
+    }
+  }
+
+  .rte-overview-section {
+    display: flex;
+    flex-direction: column;
+    gap: $positive-spacing_100;
+  }
+}
+

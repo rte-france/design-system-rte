@@ -1,0 +1,71 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+.rte-options {
+  margin: 0;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-family: "Arial", sans-serif;
+  text-align: left;
+  border: 0;
+
+  tbody {
+    vertical-align: middle;
+  }
+
+  tr:nth-of-type(2n) {
+    background-color: transparent;
+  }
+
+  tr {
+    th {
+      @include typography-text-m-bold;
+      color: var(--content-secondary);
+      vertical-align: middle;
+    }
+
+    th,
+    td {
+      border: none;
+      background-color: transparent;
+      border-bottom: 1px solid var(--border-divider);
+      padding: $positive-spacing_150 $positive-spacing_200;
+      vertical-align: middle;
+    }
+
+    td {
+      @include typography-text-m;
+      color: var(--content-secondary);
+    }
+  }
+
+  // Column width utilities
+  // Auto columns: size to content (Property, Default Value, Dependance)
+  col.rte-options-col-auto {
+    width: auto;
+  }
+
+  // Flex column: takes remaining space (Value)
+  // No width set - will grow to fill remaining space after auto columns size to content
+  col.rte-options-col-flex {
+    width: auto;
+  }
+
+  // Prevent header text from breaking into multiple lines
+  th.rte-options-header-no-wrap {
+    white-space: nowrap;
+  }
+
+  thead {
+    tr {
+      th {
+        @include typography-heading-s;
+        color: var(--content-primary);
+        border-bottom: 1px solid var(--border-divider);
+        padding: $positive-spacing_200;
+        vertical-align: middle;
+      }
+    }
+  }
+}
+

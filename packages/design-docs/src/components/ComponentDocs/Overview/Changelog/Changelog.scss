@@ -1,0 +1,34 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+.rte-changelog {
+  background-color: var(--background-brand-unselected-default);
+  border-radius: $radius-s;
+  padding: $positive-spacing_200;
+  height: 268px;
+  overflow: auto;
+
+  details {
+    summary {
+      list-style: none;
+      padding: $positive-spacing_100;
+
+      .rte-changelog-summary {
+        display: flex;
+        align-items: center;
+        gap: $positive-spacing_100;
+
+        span {
+          @include typography-heading-xs;
+        }
+      }
+    }
+
+    ul {
+      box-sizing: border-box;
+      overflow: auto;
+      margin: 0 $positive-spacing_200;
+      padding-left: $positive-spacing_200;
+    }
+  }
+}
+

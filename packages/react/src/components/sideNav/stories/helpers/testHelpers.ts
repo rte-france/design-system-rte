@@ -1,6 +1,6 @@
 import { within } from "@storybook/test";
 
-function getCanvasAndSideNav(canvasElement: HTMLElement) {
+function getCanvasAndSideNav(canvasElement: HTMLElement): { canvas: ReturnType<typeof within>; sideNav: HTMLElement } {
   const canvas = within(canvasElement);
   const sideNav = canvas.getByRole("navigation");
   return { canvas, sideNav };
