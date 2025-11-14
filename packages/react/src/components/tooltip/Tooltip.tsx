@@ -26,6 +26,7 @@ const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
       className = "",
       triggerStyles,
       shouldFocusTrigger = true,
+      gap = TOOLTIP_GAP,
       ...props
     },
     ref,
@@ -54,26 +55,16 @@ const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
 
     const computePosition = useCallback(() => {
       if (isOpen && triggerRef.current && tooltipElement) {
+        const tooltipGap = arrow ? TOOLTIP_GAP_ARROW + gap : gap;
         const computedPosition =
           position === "auto"
-            ? getAutoPlacement(
-                triggerRef.current,
-                tooltipElement!,
-                "top",
-                arrow ? TOOLTIP_GAP_ARROW : TOOLTIP_GAP,
-                true,
-              )
+            ? getAutoPlacement(triggerRef.current, tooltipElement!, "top", tooltipGap, true)
             : position;
-        const computedCoordinates = getCoordinates(
-          computedPosition,
-          triggerRef.current,
-          tooltipElement,
-          arrow ? TOOLTIP_GAP_ARROW : TOOLTIP_GAP,
-        );
+        const computedCoordinates = getCoordinates(computedPosition, triggerRef.current, tooltipElement, tooltipGap);
         setAutoPosition(computedPosition);
         setCoordinates(computedCoordinates);
       }
-    }, [isOpen, position, arrow, tooltipElement]);
+    }, [isOpen, position, arrow, tooltipElement, gap]);
 
     useEffect(() => {
       computePosition();
@@ -99,6 +90,7 @@ const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
         onMouseEnter={openTooltip}
         onMouseLeave={closeTooltip}
         onFocus={openTooltip}
+        onFocusCapture={!shouldFocusTrigger ? openTooltip : undefined}
         onBlur={closeTooltip}
         tabIndex={shouldFocusTrigger ? 0 : undefined}
         style={triggerStyles}

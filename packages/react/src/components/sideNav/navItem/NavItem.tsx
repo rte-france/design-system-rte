@@ -1,0 +1,116 @@
+import { NavItemProps as CoreNavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
+import { ForwardedRef, forwardRef, HTMLAttributes, ReactNode, useRef } from "react";
+
+import Badge from "../../badge/Badge";
+import { concatClassNames } from "../../utils";
+import NavContentWrapper from "../shared/NavContentWrapper";
+import NavLabel from "../shared/NavLabel";
+import NavTooltipWrapper from "../shared/NavTooltipWrapper";
+import { getNavTabIndex } from "../shared/navUtils";
+import useNavKeyboard from "../shared/useNavKeyboard";
+
+import style from "./NavItem.module.scss";
+
+interface NavItemProps extends CoreNavItemProps, Omit<HTMLAttributes<HTMLDivElement>, "onClick" | "id"> {
+  children?: ReactNode;
+  isNested?: boolean;
+  parentMenuOpen?: boolean;
+}
+
+const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
+  (
+    {
+      id,
+      icon,
+      showIcon = true,
+      onClick,
+      label,
+      collapsed,
+      link,
+      isNested,
+      parentMenuOpen,
+      appearance = "brand",
+      active,
+      badge,
+      ...props
+    }: NavItemProps,
+    ref: ForwardedRef<HTMLDivElement>,
+  ) => {
+    const listItemRef = useRef<HTMLDivElement | null>(null);
+
+    const { onKeyDown } = useNavKeyboard<HTMLSpanElement>({
+      onEnterOrSpace: onClick,
+    });
+
+    function handleFocus() {
+      listItemRef.current?.classList.add(style.focused);
+    }
+
+    function handleBlur() {
+      listItemRef.current?.classList.remove(style.focused);
+    }
+
+    const tabIndex = getNavTabIndex(parentMenuOpen);
+
+    const labelContent = (
+      <>
+        <div className={style.navItemLeft}>
+          <NavLabel
+            icon={icon}
+            showIcon={showIcon}
+            label={label}
+            collapsed={collapsed}
+            isNested={isNested}
+            styleType="item"
+          />
+        </div>
+        <div className={style.navItemRight}>
+          {badge && <Badge badgeType={badge.badgeType} size={badge.size} content={badge.content} count={badge.count} />}
+        </div>
+      </>
+    );
+
+    const listItem = (
+      <div
+        id={id}
+        className={concatClassNames(
+          style.navItemContainer,
+          appearance && style[appearance],
+          collapsed && style.collapsed,
+          isNested && style.nested,
+          active && style.active,
+        )}
+        onClick={onClick}
+        ref={(node) => {
+          listItemRef.current = node;
+          if (typeof ref === "function") {
+            ref(node);
+          } else if (ref && "current" in ref) {
+            (ref as { current: HTMLDivElement | null }).current = node;
+          }
+        }}
+        {...props}
+      >
+        <NavContentWrapper
+          link={link}
+          label={label}
+          tabIndex={tabIndex}
+          onKeyDown={link ? undefined : onKeyDown}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          styleType="item"
+        >
+          {labelContent}
+        </NavContentWrapper>
+      </div>
+    );
+
+    return (
+      <NavTooltipWrapper label={label} collapsed={collapsed}>
+        {listItem}
+      </NavTooltipWrapper>
+    );
+  },
+);
+
+export default NavItem;
