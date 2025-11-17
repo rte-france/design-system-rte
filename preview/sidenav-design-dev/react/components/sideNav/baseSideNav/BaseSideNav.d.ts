@@ -5,7 +5,6 @@ interface BaseSideNavProps extends Partial<Omit<CoreSideNavProps, "items">>, Omi
     body?: ReactNode;
     footer?: ReactNode;
     children?: ReactNode;
-    containerClassName?: string;
 }
 declare const BaseSideNav: import('../../../../../../node_modules/react').ForwardRefExoticComponent<BaseSideNavProps & import('../../../../../../node_modules/react').RefAttributes<HTMLDivElement | HTMLElement>>;
 export default BaseSideNav;
