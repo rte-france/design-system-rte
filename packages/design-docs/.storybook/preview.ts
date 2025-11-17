@@ -1,3 +1,5 @@
+import "../src/styles/CodeBlocks.css";
+
 /** @type { import('@storybook/react').Preview } */
 
 const preview = {
