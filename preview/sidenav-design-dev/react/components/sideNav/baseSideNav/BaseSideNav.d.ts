@@ -1,4 +1,4 @@
-import { SideNavProps as CoreSideNavProps } from '../../../../../core/components/side-nav/side-nav.interface';
+import { BaseSideNavProps as CoreSideNavProps } from '../../../../../core/components/side-nav/side-nav.interface';
 import { ReactNode } from '../../../../../../node_modules/react';
 interface BaseSideNavProps extends Partial<Omit<CoreSideNavProps, "items">>, Omit<React.HTMLAttributes<HTMLDivElement>, "content"> {
     header?: ReactNode;
