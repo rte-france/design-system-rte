@@ -4,4 +4,5 @@
   
   ## Changes
 
-- add badge
+- (Button) decouple rteBadge from rteButton component but keep Badge capacities in Button
+- (Button) add badge
