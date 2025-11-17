@@ -1,0 +1,46 @@
+import { Meta } from "@storybook/blocks";
+
+import "../../src/styles/CodeBlocks.css";
+import "../../src/styles/Police.css";
+
+<Meta title="Bascule/React"/>
+
+<h1 id="react-setup" style={{fontFamily:"Nunito"}}> Configuration React </h1>
+
+<h2 id="react-installation-instructions" style={{border:"none", fontFamily:"Nunito"}}> **Instructions d'installation** </h2>
+
+<h3 id="react-install-package" style={{fontFamily:"Nunito"}}> Installer le package depuis npm </h3>
+
+<pre><code>npm install @design-system-rte/react</code></pre>
+
+<h3 id="react-add-base-styles" style={{fontFamily:"Nunito"}}> Ajouter les styles de base du Design System </h3>
+
+<pre><code>{`import "@design-system-rte/react/dist/style.css";
+
+createRoot(document.getElementById("root")!).render(
+    <StrictMode>
+        <App />
+    </StrictMode>,
+);`}</code></pre>
+
+<h3 id="react-add-branding-theme-mixin" style={{fontFamily:"Nunito"}}> Ajouter le mixin Branding/Theme </h3>
+
+<p> Incluez le mixin branding/theme dans votre fichier `.scss` principal. Cela créera une portée de style pour les composants. </p>
+<p className="light-gray"> (Si vous n'avez pas de support scss, vous pouvez utiliser les fichiers .css dans `@design-system/core/css/rte-themes.css` et les ajouter à votre fichier de styles principal). </p>
+
+<pre><code>{`@use "@design-system-rte/core/design-tokens/tokens/mixins" as *;
+
+@include theme-selector('bleu_iceberg', 'light');`}</code></pre>
+
+<h3 id="react-add-html-selector" style={{fontFamily:"Nunito"}}> Ajouter le sélecteur HTML </h3>
+
+<p> Ajoutez un sélecteur HTML pour définir le contexte d'application des styles des composants. </p>
+
+<pre><code>{`<body data-theme="bleu_iceberg" data-mode="light">
+    ...
+</body>`}</code></pre>
+
+<h3 id="react-use-components" style={{fontFamily:"Nunito"}}> Utiliser les composants </h3>
+
+<p> Implémentez les différents composants comme documenté dans le <a href="https://opensource.rte-france.com/design-system-rte/?path=/docs/react_button--docs">Storybook</a> fourni avec la bibliothèque. </p>
+

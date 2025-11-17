@@ -1,0 +1,141 @@
+import { Meta } from "@storybook/blocks";
+
+import "../../src/styles/CodeBlocks.css";
+import "../../src/styles/Police.css";
+
+<Meta title="Démarrage/React" />
+
+<h1 id="getting-started" style={{fontFamily:"Nunito"}}> Démarrage avec React </h1>
+
+<h2 id="introduction" style={{border:"none", fontFamily:"Nunito"}}> Introduction </h2>
+
+<p> Le **Design System RTE** est une bibliothèque de composants **React** qui permet d'unifier le comportement et l'apparence des interfaces utilisateur à travers les équipes de **RTE France**. </p>
+
+<p> Il est organisé en monorepo avec trois packages principaux. Le package <code>@design-system-rte/core</code> contient les design tokens et interfaces partagées, tandis que <code>@design-system-rte/react</code> fournit les composants **React** spécifiques. Cette architecture permet une maintenance centralisée tout en offrant des implémentations optimisées pour chaque framework. </p>
+
+<h2 id="installation" style={{border:"none", fontFamily:"Nunito"}}> Installation </h2>
+
+<p> Pour installer le design system dans votre projet **React**, exécutez la commande suivante : </p>
+
+<pre><code>npm install @design-system-rte/react</code></pre>
+
+<p> Le package <code>@design-system-rte/core</code> sera automatiquement installé comme dépendance pour accéder directement aux design tokens et interfaces **TypeScript**. </p>
+
+<h3 id="prerequisites" style={{border:"none", fontFamily:"Nunito"}}> Prérequis et Peer Dependencies </h3>
+
+<p> Ce guide suppose que vous avez déjà une application **React** existante. La version de **React** doit être **18** ou supérieure.<br/>Le package utilise aussi les peer dependencies suivantes (qui devraient déjà être présentes dans votre projet) :</p>
+
+<ul>
+  <li> <code>react : >=18.0.0 </code></li>
+</ul>
+
+
+<h2 id="setup-configuration" style={{border:"none", fontFamily:"Nunito"}}> Configuration initiale </h2>
+
+<h3 id="add-base-styles" style={{fontFamily:"Nunito"}}> Ajouter les styles de base du Design System </h3>
+
+<p> Importez les styles de base du design system dans votre point d'entrée principal (généralement <code>main.tsx</code> ou <code>index.tsx</code>). </p>
+
+<pre><code>{`import "@design-system-rte/react/dist/style.css";
+
+createRoot(document.getElementById("root")!).render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+);`}</code></pre>
+
+<h3 id="add-theme-mixin" style={{fontFamily:"Nunito"}}> Ajouter le mixin Branding/Theme </h3>
+
+<p> Incluez le mixin **branding/theme** dans votre fichier `.scss` principal (généralement `styles.scss` ou `index.scss` à la racine de votre projet). Cela créera une portée de style pour les composants. </p>
+
+<p className="light-gray"> (Si vous n'avez pas de support scss, vous pouvez utiliser les fichiers .css dans <code>@design-system-rte/core/css/rte-themes.css</code> et les ajouter à votre fichier de styles principal). </p>
+
+<pre><code>{`@use "@design-system-rte/core/design-tokens/tokens/mixins" as *;
+
+@include theme-selector('bleu_iceberg', 'light');`}</code></pre>
+
+<p> Les thèmes disponibles sont : </p>
+
+<ul>
+  <li> <code>bleu_iceberg</code> (thème par défaut) </li>
+  <li> <code>vert_foret</code> </li>
+  <li> <code>violet</code> </li>
+</ul>
+
+<p> Chaque thème supporte les modes <code>light</code> et <code>dark</code>. </p>
+
+<h3 id="add-html-selector" style={{fontFamily:"Nunito"}}> Ajouter les sélecteurs HTML </h3>
+
+<p> Ajoutez les attributs <code>data-theme</code> et <code>data-mode</code> sur l'élément <code>&lt;body&gt;</code> de votre application pour définir le contexte d'application des styles des composants. </p>
+
+<pre><code>{`<body data-theme="bleu_iceberg" data-mode="light">
+  <div id="root"></div>
+</body>`}</code></pre>
+
+<p> Ces attributs peuvent être modifiés dynamiquement pour changer de thème ou de mode (clair/sombre) à l'exécution. </p>
+
+<h2 id="quick-example" style={{border:"none", fontFamily:"Nunito"}}> Exemple d'utilisation </h2>
+
+<pre><code>{`import { Button } from "@design-system-rte/react";
+
+function Example() {
+  const handleClick = () => {
+    console.log('Button clicked!');
+  };
+
+  return (
+    <Button 
+      label="Click me"
+      variant="primary"
+      size="m"
+      onClick={handleClick}
+    />
+  );
+}`}</code></pre>
+
+<p> Vous pouvez lire le reste de la documentation du composant **Button** sur le <a href="https://opensource.rte-france.com/design-system-rte/?path=/docs/react_button--docs">Storybook du composant</a>.</p>
+
+<h2 id="theming-customization" style={{border:"none", fontFamily:"Nunito"}}> Thématisation et personnalisation </h2>
+
+<h3 id="themes-available" style={{fontFamily:"Nunito"}}> Thèmes disponibles </h3>
+
+<p> Le design system RTE propose trois thèmes de marque : </p>
+
+<ul>
+  <li> <code>bleu_iceberg</code> : Thème par défaut avec une palette de bleus </li>
+  <li> <code>vert_foret</code> : Thème avec une palette de verts </li>
+  <li> <code>violet</code> : Thème avec une palette de violets </li>
+</ul>
+
+<p> Chaque thème supporte les modes clair (<code>light</code>) et sombre (<code>dark</code>). </p>
+
+<h3 id="switch-theme" style={{fontFamily:"Nunito"}}> Changer de thème </h3>
+
+<p> Pour changer de thème, modifiez les attributs <code>data-theme</code> et <code>data-mode</code> sur l'élément qui héberge le thème.</p>
+
+<pre><code>{`<!-- Thème bleu_iceberg en mode clair -->
+<body data-theme="bleu_iceberg" data-mode="light">
+
+<!-- Thème vert_foret en mode sombre -->
+<body data-theme="vert_foret" data-mode="dark">`}</code></pre>
+
+<p> Vous pouvez également changer ces attributs dynamiquement pour changer le thème ou mode pendant l'exécution de l'application. </p>
+
+<h3 id="component-variants" style={{fontFamily:"Nunito"}}> Variantes de composants </h3>
+
+<p> La plupart des composants du design system proposent plusieurs variantes et options de personnalisation. Consultez la documentation de chaque composant dans le <a href="https://opensource.rte-france.com/design-system-rte/?path=/docs/react_button--docs">Storybook</a> pour découvrir toutes les options disponibles. </p>
+
+<h2 id="whats-next" style={{border:"none", fontFamily:"Nunito"}}> Prochaines étapes </h2>
+
+<p> Maintenant que vous avez configuré le design system dans votre projet, voici quelques ressources pour aller plus loin : </p>
+
+<ul>
+  <li> <a href="https://opensource.rte-france.com/design-system-rte/?path=/docs/react_button--docs">Documentation des composants React</a> : Explorez tous les composants disponibles dans le Storybook </li>
+  <li> <a href="https://opensource.rte-france.com/design-system-rte/?path=/docs/bascule--docs">Guide de migration</a> : Si vous utilisez Tailwind déjà dans votre projet </li>
+</ul>
+
+<h2 id="changelogs" style={{border:"none", fontFamily:"Nunito"}}> Changelogs </h2>
+
+<p> Le design system utilise <a href="https://github.com/changesets/changesets">Changesets</a> pour la gestion des versions dans le monorepo. Les mises à jour majeures seront documentées dans le <a href="https://github.com/rte-france/design-system-rte/blob/main/packages/react/CHANGELOG.md">CHANGELOG de ce package.</a> </p>
+
+<p> Pour lire les changelogs de tous les packages, consultez le <a href="https://github.com/rte-france/design-system-rte/blob/main/CHANGELOG.md">CHANGELOG principal</a>. </p>

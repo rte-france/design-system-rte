@@ -1,0 +1,41 @@
+import { Meta } from "@storybook/blocks";
+
+import "../../src/styles/CodeBlocks.css";
+import "../../src/styles/Police.css";
+
+<Meta title="Bascule/Angular" />
+
+<h1 id="angular-setup" style={{fontFamily:"Nunito"}}> Configuration Angular </h1>
+
+<h2 id="angular-installation-instructions" style={{border:"none", fontFamily:"Nunito"}}> Instructions d'installation </h2>
+
+<h3 id="angular-install-package" style={{fontFamily:"Nunito"}}> Installer le package depuis npm </h3>
+
+<pre><code>npm install @design-system-rte/angular</code></pre>
+
+<h3 id="angular-add-branding-theme-mixin" style={{fontFamily:"Nunito"}}> Ajouter le mixin Branding/Theme </h3>
+
+<p> Incluez le mixin branding/theme dans votre fichier `.scss` principal. Cela créera une portée de style pour les composants. </p>
+
+<pre><code>{`@use "@design-system-rte/core/design-tokens/tokens/mixins" as *;
+
+@include theme-selector('bleu_iceberg', 'light');`}</code></pre>
+
+<h3 id="angular-add-html-selector" style={{fontFamily:"Nunito"}}> Ajouter le sélecteur HTML </h3>
+
+<p> Ajoutez un sélecteur HTML pour définir le contexte d'application des styles des composants. </p>
+
+<pre><code>{`<body data-theme="bleu_iceberg" data-mode="light">
+    <app-root/>
+</body>`}</code></pre>
+
+<h3 id="angular-use-components" style={{fontFamily:"Nunito"}}> Utiliser les composants </h3>
+
+<p> Implémentez les différents composants comme documenté dans le <a href="https://opensource.rte-france.com/design-system-rte/?path=/docs/angular_button--docs">Storybook</a> fourni avec la bibliothèque. </p>
+
+<h3 id="angular-icon-component-usage" style={{fontFamily:"Nunito"}}> Utilisation du composant Icon </h3>
+
+<p> Pour utiliser le composant Icon (rte-icon), copiez les fichiers `.svg` depuis `node_modules/@design-system-rte/core/assets/icons` vers le répertoire `/assets/icons` de votre application. </p>
+
+<h3 id="angular-display" style={{fontFamily:"Nunito"}}> Affichage </h3>
+
