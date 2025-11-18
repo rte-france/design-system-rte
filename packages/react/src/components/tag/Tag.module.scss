@@ -30,9 +30,7 @@
         &[data-status="success"],
         &[data-status="information"],
         &[data-status="alert"] {
-            .tag-label {
-                color: var(--content-primary-inverse);
-            }
+            color: var(--content-primary-inverse);
         }
 
         $status-colors: (
