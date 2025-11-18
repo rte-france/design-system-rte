@@ -1,6 +1,6 @@
-import{j as e,M as r}from"./index-BllKhgw0.js";import{useMDXComponents as i}from"./index-DL7Mpk60.js";/* empty css                   *//* empty css               */import"./iframe-CHJ7bY7O.js";import"./index-B0WjJBI_.js";import"./_commonjsHelpers-CqkleIqs.js";import"./index-Dif16jpf.js";import"./index-DgH-xKnr.js";import"./index-DrFu-skq.js";function n(t){const s={code:"code",...i(),...t.components};return e.jsxs(e.Fragment,{children:[e.jsx(r,{title:"Bascule/React"}),`
+import{j as e,M as r}from"./index-C19CG4es.js";import{useMDXComponents as i}from"./index-DL7Mpk60.js";/* empty css                   *//* empty css               */import"./iframe-MgchEdug.js";import"./index-B0WjJBI_.js";import"./_commonjsHelpers-CqkleIqs.js";import"./index-Dif16jpf.js";import"./index-DgH-xKnr.js";import"./index-DrFu-skq.js";function n(t){const s={code:"code",strong:"strong",...i(),...t.components};return e.jsxs(e.Fragment,{children:[e.jsx(r,{title:"Bascule/React"}),`
 `,e.jsx("h1",{id:"react-setup",style:{fontFamily:"Nunito"},children:" Configuration React "}),`
-`,e.jsx("h2",{id:"react-installation-instructions",style:{border:"none",fontFamily:"Nunito"},children:" Instructions d'installation "}),`
+`,e.jsxs("h2",{id:"react-installation-instructions",style:{border:"none",fontFamily:"Nunito"},children:[" ",e.jsx(s.strong,{children:"Instructions d'installation"})," "]}),`
 `,e.jsx("h3",{id:"react-install-package",style:{fontFamily:"Nunito"},children:" Installer le package depuis npm "}),`
 `,e.jsx("pre",{children:e.jsx("code",{children:"npm install @design-system-rte/react"})}),`
 `,e.jsx("h3",{id:"react-add-base-styles",style:{fontFamily:"Nunito"},children:" Ajouter les styles de base du Design System "}),`
