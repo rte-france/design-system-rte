@@ -1,0 +1,133 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+.toast {
+  @include elevation-neutral-shadow-2;
+  display: flex;
+  width: 400px;
+  min-width: 240px;
+  max-width: 336px;
+  padding: $positive-spacing_100 $positive-spacing_050 $positive-spacing_150 $positive-spacing_200;
+  align-items: center;
+  border-radius: $radius-s;
+  border-bottom: $width-m solid var(--border-info);
+  color: var(--content-primary);
+
+  position: absolute;
+  top: auto;
+  bottom: auto;
+  left: auto;
+  right: auto;
+
+  opacity: 0;
+  transition: opacity 300ms ease, transform 200ms ease;
+
+  &[data-position='top'] {
+    top: 0;
+  }
+
+  &[data-position='bottom'] {
+    bottom: 0;
+
+    &[data-alignment='center'] {
+      left: 50%;
+
+      transform: translate(-50%, 10px);
+
+      &[data-open='true'] {
+        opacity: 1;
+
+        transform: translate(-50%, 0);
+      }
+    }
+
+
+  }
+
+  &[data-alignment='left'] {
+    left: 0;
+
+    transform: translate(-10px, 0);
+
+    &[data-open='true'] {
+      opacity: 1;
+
+      transform: translate(0, 0);
+
+    }
+  }
+
+  &[data-alignment='right'] {
+    right: 0;
+
+    transform: translate(10px, 0);
+
+    &[data-open='true'] {
+      opacity: 1;
+
+      transform: translate(0, 0);
+
+    }
+  }
+
+
+  .toast-message {
+    @include typography-text-s;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    width: 100%;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+
+  .toast-icon {
+    flex: 1 0 auto;
+  }
+
+  .toast-content {
+    display: flex;
+    align-items: center;
+    gap: $positive-spacing_150;
+    flex-grow: 1;
+    overflow: hidden;
+    width: 100%;
+  }
+
+  &[data-type='info'] {
+    border-bottom-color: var(--border-info);
+
+    .toast-icon {
+      color: var(--content-info-default);
+    }
+  }
+
+  &[data-type='error'] {
+    border-bottom-color: var(--border-danger);
+
+    .toast-icon {
+      color: var(--content-danger-default);
+    }
+  }
+
+  &[data-type='success'] {
+    border-bottom-color: var(--border-success);
+
+    .toast-icon {
+      color: var(--content-success-default);
+    }
+  }
+
+  &[data-type='warning'] {
+    border-bottom-color: var(--border-warning);
+
+    .toast-icon {
+      color: var(--content-warning-default);
+    }
+  }
+
+  &[data-type='neutral'] {
+    background-color: var(--background-inverse);
+    color: var(--content-primary-inverse);
+    border-bottom-color: var(--border-primary);
+  }
+}

@@ -6,3 +6,10 @@ export const IconSize: Record<Exclude<Size, "xs">, number> = {
   l: 24,
   xl: 32,
 };
+
+export const IconTypeMap: Record<string, string> = {
+  info: "info",
+  error: "dangerous",
+  success: "check-circle",
+  warning: "warning",
+};
