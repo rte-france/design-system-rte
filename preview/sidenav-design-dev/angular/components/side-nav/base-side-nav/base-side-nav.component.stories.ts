@@ -180,22 +180,16 @@ export const ColoredSections: Story = {
         [showHeader]="showHeader"
         [showFooter]="showFooter"
         [appearance]="appearance">
-        <div side-nav-header>
-          <div style="font-weight: 600; color: #000; padding: 1rem; background-color: #E8F4F8; box-sizing: border-box;">
-            📍 Header Section
-          </div>
+        <div side-nav-header style="font-weight: 600; color: #000; padding: 1rem; background-color: #E8F4F8; box-sizing: border-box;">
+          📍 Header Section
         </div>
-        <div side-nav-body>
-          <div style="padding: 1rem; background-color: #F0E8F8; width: 100%; height: 100%; box-sizing: border-box; color: #000;">
-            📄 Body Section
-            <br />
-            <small>Expands to fill available space</small>
-          </div>
+        <div side-nav-body style="padding: 1rem; background-color: #F0E8F8; width: 100%; height: 100%; box-sizing: border-box; color: #000;">
+          📄 Body Section
+          <br />
+          <small>Expands to fill available space</small>
         </div>
-        <div side-nav-footer>
-          <div style="padding: 1rem; background-color: #F8F0E8; width: 100%; box-sizing: border-box; color: #000;">
-            🔧 Footer Section
-          </div>
+        <div side-nav-footer style="padding: 1rem; background-color: #F8F0E8; width: 100%; box-sizing: border-box; color: #000;">
+          🔧 Footer Section
         </div>
         <div side-nav-content>${PageContent}</div>
       </rte-base-side-nav>

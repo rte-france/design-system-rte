@@ -1,0 +1,120 @@
+@if (collapsed() && label()) {
+  <li rteTooltip rteTooltipPosition="right" rteTooltipAlignment="center" [class]="containerClasses()" [rteTooltip]="label()" [rteTooltipArrow]="false" [rteTooltipShouldFocusTrigger]="false">
+    <ng-container [ngTemplateOutlet]="menuContentTemplate"></ng-container>
+    <ng-container [ngTemplateOutlet]="nestedMenuTemplate"></ng-container>
+  </li>
+} @else {
+  <li [class]="containerClasses()">
+    <ng-container [ngTemplateOutlet]="menuContentTemplate"></ng-container>
+    <ng-container [ngTemplateOutlet]="nestedMenuTemplate"></ng-container>
+  </li>
+}
+
+<ng-template #menuContentTemplate>
+  @if (link()) {
+    <a
+      class="nav-menu"
+      [href]="link()!"
+      [attr.tabindex]="tabIndex()"
+      [attr.aria-label]="label()"
+      (click)="toggleMenu()">
+      <div class="menu-content-left">
+        @if (showIcon() && icon()) {
+          <rte-icon class="icon" [name]="icon()!" [size]="iconSize()"></rte-icon>
+        }
+        @if (!collapsed()) {
+          <span>{{ label() }}</span>
+        }
+      </div>
+      <div class="menu-content-right">
+        @if (badge()) {
+          <rte-badge
+            [badgeType]="badge()!.badgeType || 'brand'"
+            [badgeSize]="badge()!.size || 'm'"
+            [badgeContent]="badge()!.content || 'number'"
+            [count]="badge()!.count"
+            [icon]="badge()!.icon || 'notification'"></rte-badge>
+        }
+        @if (shouldShowMenu() && showMenuIcon()) {
+          <rte-icon name="arrow-chevron-right" [class]="menuIconClasses()"></rte-icon>
+        }
+      </div>
+    </a>
+  } @else {
+    <span
+      class="nav-menu"
+      [attr.tabindex]="tabIndex()"
+      [attr.aria-label]="label()"
+      (click)="toggleMenu()"
+      (keydown)="handleKeyDown($event)">
+      <div class="menu-content-left">
+        @if (showIcon() && icon()) {
+          <rte-icon class="icon" [name]="icon()!" [size]="iconSize()"></rte-icon>
+        }
+        @if (!collapsed()) {
+          <span>{{ label() }}</span>
+        }
+      </div>
+      <div class="menu-content-right">
+        @if (badge()) {
+          <rte-badge
+            [badgeType]="badge()!.badgeType || 'brand'"
+            [badgeSize]="badge()!.size || 'm'"
+            [badgeContent]="badge()!.content || 'number'"
+            [count]="badge()!.count"
+            [icon]="badge()!.icon || 'notification'"></rte-badge>
+        }
+        @if (shouldShowMenu() && showMenuIcon()) {
+          <rte-icon name="arrow-chevron-right" [class]="menuIconClasses()"></rte-icon>
+        }
+      </div>
+    </span>
+  }
+</ng-template>
+
+<ng-template #nestedMenuTemplate>
+  @if (shouldShowMenu()) {
+    <ul [class]="nestedMenuClasses()">
+      @for (item of items(); track item.id || item.label) {
+        @if (hasNestedItemsForItem(item)) {
+          <rte-nav-menu
+            [label]="item.label"
+            [icon]="item.icon"
+            [showIcon]="item.showIcon"
+            [collapsed]="collapsed()"
+            [link]="item.link"
+            [onClick]="item.onClick"
+            [items]="item.items || []"
+            [showMenuIcon]="showMenuIcon()"
+            [isNested]="true"
+            [parentMenuOpen]="nestedItemsParentMenuOpen()"
+            [appearance]="appearance()"
+            [badge]="item.badge"></rte-nav-menu>
+        } @else {
+          <li>
+            <rte-nav-item
+              [id]="item.id"
+              [label]="item.label"
+              [icon]="item.icon"
+              [showIcon]="item.showIcon"
+              [collapsed]="collapsed()"
+              [link]="item.link"
+              [onClick]="item.onClick"
+              [isNested]="true"
+              [parentMenuOpen]="nestedItemsParentMenuOpen()"
+              [appearance]="appearance()"
+              [badge]="item.badge"></rte-nav-item>
+          </li>
+          @if (item.showDivider) {
+            <rte-divider [appearance]="dividerAppearance()"></rte-divider>
+          }
+        }
+      }
+    </ul>
+  }
+</ng-template>
+
+@if (showDivider()) {
+  <rte-divider [appearance]="dividerAppearance()"></rte-divider>
+}
+

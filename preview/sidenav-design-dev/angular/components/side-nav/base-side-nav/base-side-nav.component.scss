@@ -1,26 +1,33 @@
 @use '@design-system-rte/core/design-tokens/main.scss' as *;
 
 .side-nav-container {
-    width: 200px;
-    height: 100%;
-    border-right: 1px solid var(--color-border-primary);
+    height: auto;
     padding: $positive-spacing_0;
     position: relative;
     display: flex;
+    align-items: stretch;
+    flex: 1;
+}
+
+.side-nav-content {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow-y: auto;
 }
 
 .side-nav {
     background-color: var(--background-brand-navigation-default);
-    min-height: 100%;
-    flex-shrink: 0;
+    flex: 0 0 auto;
+    align-self: stretch;
     display: flex;
     flex-direction: column;
     gap: $positive-spacing_0;
-    overflow: hidden;
     box-sizing: border-box;
     border-radius: 0;
     transition: min-width 300ms;
     color: var(--content-brand-navigation-default);
+    max-height: var(--content-height);
+
     &.neutral {
         background-color: var(--background-neutral-navigation-default);
         color: var(--content-secondary);
@@ -38,6 +45,8 @@
     width: 100%;
     box-sizing: border-box;
     flex: 1;
+    overflow-y: auto;
+    min-height: 0;
 }
 
 .side-nav-footer {
@@ -45,8 +54,4 @@
     justify-content: space-between;
     box-sizing: border-box;
     width: 100%;
-}
-
-.side-nav-content {
-    flex: 1;
 }
