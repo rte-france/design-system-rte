@@ -3,44 +3,251 @@ import { Meta } from "@storybook/blocks";
 import "../../src/styles/CodeBlocks.css";
 import "../../src/styles/Police.css";
 
-<Meta title="Bascule/React"/>
+<Meta title="Bascule/React" />
 
-<h1 id="react-setup" style={{fontFamily:"Nunito"}}> Configuration React </h1>
+<h1 id="migration-react" style={{fontFamily:"Nunito"}}> Migration depuis Material UI </h1>
 
-<h2 id="react-installation-instructions" style={{border:"none", fontFamily:"Nunito"}}> **Instructions d'installation** </h2>
+<h2 id="introduction" style={{border:"none", fontFamily:"Nunito"}}> Introduction </h2>
 
-<h3 id="react-install-package" style={{fontFamily:"Nunito"}}> Installer le package depuis npm </h3>
+<p> Ce guide compare l'architecture et les conventions de nommage de **Material UI (MUI)** avec celles du **Design System RTE**. Si vous migrez depuis Material UI, cette documentation vous aidera à comprendre les différences fondamentales entre les deux systèmes. </p>
 
-<pre><code>npm install @design-system-rte/react</code></pre>
+<h2 id="architectural-differences" style={{border:"none", fontFamily:"Nunito"}}> Différences architecturales </h2>
 
-<h3 id="react-add-base-styles" style={{fontFamily:"Nunito"}}> Ajouter les styles de base du Design System </h3>
+<h3 id="component-model" style={{fontFamily:"Nunito"}}> Modèle de composants </h3>
 
-<pre><code>{`import "@design-system-rte/react/dist/style.css";
+<p> **Material UI** utilise des composants React avec des props pour la configuration. Le **Design System RTE** utilise également des composants React avec des props, mais avec une API unifiée et des conventions de nommage cohérentes. </p>
 
-createRoot(document.getElementById("root")!).render(
-    <StrictMode>
-        <App />
-    </StrictMode>,
-);`}</code></pre>
+<h4 id="material-ui-approach" style={{fontFamily:"Nunito"}}> Approche Material UI </h4>
 
-<h3 id="react-add-branding-theme-mixin" style={{fontFamily:"Nunito"}}> Ajouter le mixin Branding/Theme </h3>
+```tsx
+import { Button, TextField, Checkbox } from '@mui/material';
 
-<p> Incluez le mixin branding/theme dans votre fichier `.scss` principal. Cela créera une portée de style pour les composants. </p>
-<p className="light-gray"> (Si vous n'avez pas de support scss, vous pouvez utiliser les fichiers .css dans `@design-system/core/css/rte-themes.css` et les ajouter à votre fichier de styles principal). </p>
+<Button variant="contained" color="primary">Click me</Button>
+<TextField label="Nom" variant="outlined" />
+<Checkbox defaultChecked />
+```
 
-<pre><code>{`@use "@design-system-rte/core/design-tokens/tokens/mixins" as *;
+<h4 id="rte-design-system-approach" style={{fontFamily:"Nunito"}}> Approche Design System RTE </h4>
 
-@include theme-selector('bleu_iceberg', 'light');`}</code></pre>
+```tsx
+import { Button, TextInput, Checkbox } from '@design-system-rte/react';
 
-<h3 id="react-add-html-selector" style={{fontFamily:"Nunito"}}> Ajouter le sélecteur HTML </h3>
+<Button variant="primary" label="Click me" />
+<TextInput id="name" label="Nom" />
+<Checkbox id="accept" label="Accepter" />
+```
 
-<p> Ajoutez un sélecteur HTML pour définir le contexte d'application des styles des composants. </p>
+<h2 id="comparison-table" style={{border:"none", fontFamily:"Nunito"}}> Tableau comparatif </h2>
 
-<pre><code>{`<body data-theme="bleu_iceberg" data-mode="light">
-    ...
-</body>`}</code></pre>
+<p> Le tableau suivant compare les composants principaux de Material UI avec leurs équivalents dans le Design System RTE : </p>
 
-<h3 id="react-use-components" style={{fontFamily:"Nunito"}}> Utiliser les composants </h3>
+<table>
+  <thead>
+    <tr>
+      <th>Composant</th>
+      <th>Material UI</th>
+      <th>Design System RTE</th>
+      <th>Différences principales</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Button</strong></td>
+      <td><code>&lt;Button variant="contained"&gt;</code><br/><code>&lt;IconButton&gt;</code></td>
+      <td><code>&lt;Button variant="primary"&gt;</code><br/><code>&lt;IconButton&gt;</code></td>
+      <td>Material UI et Design System RTE utilisent des composants avec props. Le Design System RTE utilise <code>label</code> au lieu de children pour le texte du bouton.</td>
+    </tr>
+    <tr>
+      <td><strong>Text Input</strong></td>
+      <td><code>&lt;TextField label="Nom" /&gt;</code></td>
+      <td><code>&lt;TextInput id="name" label="Nom" /&gt;</code></td>
+      <td>Material UI et Design System RTE encapsulent label et input. Le Design System RTE utilise <code>id</code> obligatoire et <code>onChange</code> retourne la valeur directement.</td>
+    </tr>
+    <tr>
+      <td><strong>Checkbox</strong></td>
+      <td><code>&lt;Checkbox /&gt;</code><br/><code>&lt;FormControlLabel /&gt;</code></td>
+      <td><code>&lt;Checkbox id="accept" label="Accepter" /&gt;</code></td>
+      <td>Material UI sépare le checkbox et le label. Le Design System RTE les combine dans un seul composant avec <code>id</code> obligatoire.</td>
+    </tr>
+    <tr>
+      <td><strong>Radio Button</strong></td>
+      <td><code>&lt;Radio /&gt;</code><br/><code>&lt;RadioGroup&gt;</code></td>
+      <td><code>&lt;RadioButton /&gt;</code><br/><code>&lt;RadioButtonGroup&gt;</code></td>
+      <td>Structure similaire entre Material UI et Design System RTE.</td>
+    </tr>
+    <tr>
+      <td><strong>Dialog/Modal</strong></td>
+      <td><code>&lt;Dialog&gt;</code><br/><code>&lt;DialogTitle&gt;</code><br/><code>&lt;DialogContent&gt;</code><br/><code>&lt;DialogActions&gt;</code></td>
+      <td><code>&lt;Modal&gt;</code> avec props</td>
+      <td>Material UI utilise plusieurs composants pour la structure. Le Design System RTE utilise un seul composant avec des props pour title, description, et des boutons passés en props.</td>
+    </tr>
+    <tr>
+      <td><strong>Badge</strong></td>
+      <td><code>&lt;Badge badgeContent={4}&gt;</code></td>
+      <td><code>&lt;Badge count={4}&gt;</code></td>
+      <td>Material UI utilise <code>badgeContent</code>, le Design System RTE utilise <code>count</code>.</td>
+    </tr>
+    <tr>
+      <td><strong>Icon</strong></td>
+      <td><code>&lt;Icon&gt;home&lt;/Icon&gt;</code><br/>ou Material Icons</td>
+      <td><code>&lt;Icon name="home" /&gt;</code></td>
+      <td>Material UI utilise des noms d'icônes en texte ou des composants séparés. Le Design System RTE utilise une prop <code>name</code> typée avec un système de mapping d'icônes.</td>
+    </tr>
+    <tr>
+      <td><strong>Chip/Tag</strong></td>
+      <td><code>&lt;Chip label="Tag" /&gt;</code></td>
+      <td><code>&lt;Chip label="Tag" /&gt;</code><br/><code>&lt;Tag label="Tag" /&gt;</code></td>
+      <td>Material UI utilise un seul composant Chip. Le Design System RTE distingue Chip (interactif) et Tag (informatif).</td>
+    </tr>
+    <tr>
+      <td><strong>Tabs</strong></td>
+      <td><code>&lt;Tabs&gt;</code><br/><code>&lt;Tab&gt;</code></td>
+      <td><code>&lt;Tab&gt;</code><br/><code>&lt;TabItem&gt;</code></td>
+      <td>Structure similaire avec des composants parents/enfants.</td>
+    </tr>
+    <tr>
+      <td><strong>Tooltip</strong></td>
+      <td><code>&lt;Tooltip title="Info"&gt;</code></td>
+      <td><code>&lt;Tooltip content="Info"&gt;</code></td>
+      <td>Material UI utilise <code>title</code>, le Design System RTE utilise <code>content</code>.</td>
+    </tr>
+    <tr>
+      <td><strong>Loader/Spinner</strong></td>
+      <td><code>&lt;CircularProgress /&gt;</code><br/><code>&lt;LinearProgress /&gt;</code></td>
+      <td><code>&lt;Loader /&gt;</code></td>
+      <td>Material UI sépare les différents types de loaders. Le Design System RTE unifie dans un composant loader avec des variantes.</td>
+    </tr>
+  </tbody>
+</table>
 
-<p> Implémentez les différents composants comme documenté dans le <a href="https://opensource.rte-france.com/design-system-rte/?path=/docs/react_button--docs">Storybook</a> fourni avec la bibliothèque. </p>
+<h2 id="migration-examples" style={{border:"none", fontFamily:"Nunito"}}> Exemples de migration </h2>
 
+<h3 id="button-migration" style={{fontFamily:"Nunito"}}> Migration d'un bouton </h3>
+
+<h4 id="material-ui-button" style={{fontFamily:"Nunito"}}> Material UI </h4>
+
+```tsx
+import { Button } from '@mui/material';
+
+<Button variant="contained" color="primary" disabled={isDisabled} onClick={handleClick}>
+  Click me
+</Button>
+```
+
+<h4 id="rte-design-system-button" style={{fontFamily:"Nunito"}}> Design System RTE </h4>
+
+```tsx
+import { Button } from '@design-system-rte/react';
+
+<Button 
+  variant="primary" 
+  label="Click me"
+  disabled={isDisabled} 
+  onClick={handleClick}
+/>
+```
+
+<h3 id="input-migration" style={{fontFamily:"Nunito"}}> Migration d'un champ de texte </h3>
+
+<h4 id="material-ui-input" style={{fontFamily:"Nunito"}}> Material UI </h4>
+
+```tsx
+import { TextField } from '@mui/material';
+
+<TextField 
+  label="Nom" 
+  variant="outlined"
+  value={name}
+  onChange={(e) => setName(e.target.value)}
+  error={hasError}
+  required
+/>
+```
+
+<h4 id="rte-design-system-input" style={{fontFamily:"Nunito"}}> Design System RTE </h4>
+
+```tsx
+import { TextInput } from '@design-system-rte/react';
+
+<TextInput
+  id="name"
+  label="Nom"
+  value={name}
+  onChange={setName}
+  error={hasError}
+  required
+/>
+```
+
+<h3 id="checkbox-migration" style={{fontFamily:"Nunito"}}> Migration d'une case à cocher </h3>
+
+<h4 id="material-ui-checkbox" style={{fontFamily:"Nunito"}}> Material UI </h4>
+
+```tsx
+import { Checkbox, FormControlLabel } from '@mui/material';
+
+<FormControlLabel
+  control={<Checkbox checked={isChecked} onChange={(e) => setIsChecked(e.target.checked)} />}
+  label="Accepter les conditions"
+  disabled={isDisabled}
+/>
+```
+
+<h4 id="rte-design-system-checkbox" style={{fontFamily:"Nunito"}}> Design System RTE </h4>
+
+```tsx
+import { Checkbox } from '@design-system-rte/react';
+
+<Checkbox
+  id="accept"
+  label="Accepter les conditions"
+  checked={isChecked}
+  onChange={(e) => setIsChecked(e.target.checked)}
+  disabled={isDisabled}
+/>
+```
+
+<h3 id="modal-migration" style={{fontFamily:"Nunito"}}> Migration d'un dialogue/modal </h3>
+
+<h4 id="material-ui-modal" style={{fontFamily:"Nunito"}}> Material UI </h4>
+
+```tsx
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
+
+<Dialog open={isOpen} onClose={() => setIsOpen(false)}>
+  <DialogTitle>Titre</DialogTitle>
+  <DialogContent>
+    Contenu du dialogue
+  </DialogContent>
+  <DialogActions>
+    <Button onClick={() => setIsOpen(false)}>Annuler</Button>
+    <Button onClick={handleValidate} variant="contained">Valider</Button>
+  </DialogActions>
+</Dialog>
+```
+
+<h4 id="rte-design-system-modal" style={{fontFamily:"Nunito"}}> Design System RTE </h4>
+
+```tsx
+import { Modal, Button } from '@design-system-rte/react';
+
+<Modal
+  id="my-modal"
+  isOpen={isOpen}
+  onClose={() => setIsOpen(false)}
+  title="Titre"
+  description="Contenu du dialogue"
+  primaryButton={<Button variant="primary" label="Valider" onClick={handleValidate} />}
+  secondaryButton={<Button variant="neutral" label="Annuler" onClick={() => setIsOpen(false)} />}
+/>
+```
+
+<h2 id="migration-checklist" style={{border:"none", fontFamily:"Nunito"}}> Checklist de migration </h2>
+
+<ul>
+  <li> Remplacer les imports Material UI par les imports du Design System RTE </li>
+  <li> Adapter les props : <code>variant</code>, <code>size</code>, <code>label</code> </li>
+  <li> Ajouter les <code>id</code> obligatoires pour l'accessibilité </li>
+  <li> Mettre à jour la configuration de thème (attributs <code>data-theme</code> et <code>data-mode</code>) </li>
+  <li> Tester l'accessibilité et les comportements interactifs </li>
+</ul>
