@@ -17,7 +17,9 @@ import "../../src/styles/Police.css";
 
 <p> Pour installer le design system dans votre projet **Angular**, exécutez la commande suivante : </p>
 
-<pre><code>npm install @design-system-rte/angular</code></pre>
+```bash
+npm install @design-system-rte/angular
+```
 
 <p> Le package <code>@design-system-rte/core</code> sera automatiquement installé comme dépendance pour accéder directement aux design tokens et interfaces **TypeScript**. </p>
 
@@ -38,9 +40,11 @@ import "../../src/styles/Police.css";
 
 <p> Incluez le mixin **branding/theme** dans votre fichier `.scss` principal (généralement `styles.scss` à la racine de votre projet). Cela créera une portée de style pour les composants. </p>
 
-<pre><code>{`@use "@design-system-rte/core/design-tokens/tokens/mixins" as *;
+```scss
+@use "@design-system-rte/core/design-tokens/tokens/mixins" as *;
 
-@include theme-selector('bleu_iceberg', 'light');`}</code></pre>
+@include theme-selector('bleu_iceberg', 'light');
+```
 
 <p> Les thèmes disponibles sont : </p>
 
@@ -56,9 +60,11 @@ import "../../src/styles/Police.css";
 
 <p> Ajoutez les attributs <code>data-theme</code> et <code>data-mode</code> sur l'élément <code>&lt;body&gt;</code> de votre application pour définir le contexte d'application des styles des composants. </p>
 
-<pre><code>{`<body data-theme="bleu_iceberg" data-mode="light">
+```html
+<body data-theme="bleu_iceberg" data-mode="light">
   <app-root></app-root>
-</body>`}</code></pre>
+</body>
+```
 
 <p> Ces attributs peuvent être modifiés dynamiquement pour changer de thème ou de mode (clair/sombre) à l'exécution. </p>
 
@@ -70,13 +76,14 @@ import "../../src/styles/Police.css";
 
 <h2 id="quick-example" style={{border:"none", fontFamily:"Nunito"}}> Exemple d'utilisation </h2>
 
-<pre><code>{`import { Component } from '@angular/core';
+```typescript
+import { Component } from '@angular/core';
 import { ButtonComponent } from '@design-system-rte/angular';
 
 @Component({
   selector: 'app-example',
   imports: [ButtonComponent],
-  template: \`
+  template: `
     <button 
       rteButton 
       rteButtonVariant="primary"
@@ -85,13 +92,14 @@ import { ButtonComponent } from '@design-system-rte/angular';
     >
       Click me
     </button>
-  \`
+  `
 })
 export class ExampleComponent {
   handleClick() {
     console.log('Button clicked!');
   }
-}`}</code></pre>
+}
+```
 
 <p> Vous pouvez lire le reste de la documentation du composant **Button** (<code>rteButton</code>) sur le <a href="https://opensource.rte-france.com/design-system-rte/?path=/docs/angular_button--docs">Storybook du composant</a>.</p>
 
@@ -113,11 +121,13 @@ export class ExampleComponent {
 
 <p> Pour changer de thème, modifiez les attributs <code>data-theme</code> et <code>data-mode</code> sur l'élément qui heberge le thème.</p>
 
-<pre><code>{`<!-- Thème bleu_iceberg en mode clair -->
+```html
+<!-- Thème bleu_iceberg en mode clair -->
 <body data-theme="bleu_iceberg" data-mode="light">
 
 <!-- Thème vert_foret en mode sombre -->
-<body data-theme="vert_foret" data-mode="dark">`}</code></pre>
+<body data-theme="vert_foret" data-mode="dark">
+```
 
 <p> Vous pouvez également changer ces attributs dynamiquement pour changer le thème ou mode pendant l'exécution de l'application. </p>
 
