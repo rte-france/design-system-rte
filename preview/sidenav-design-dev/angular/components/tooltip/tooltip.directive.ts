@@ -1,6 +1,5 @@
 import {
   AfterViewInit,
-  ChangeDetectorRef,
   ComponentRef,
   Directive,
   ElementRef,
@@ -40,7 +39,6 @@ export class TooltipDirective implements AfterViewInit, OnDestroy {
   private elementRef = inject(ElementRef);
   private viewContainerRef = inject(ViewContainerRef);
   private renderer = inject(Renderer2);
-  private cdr = inject(ChangeDetectorRef);
 
   @HostListener("mouseenter")
   onMouseEnter(): void {
