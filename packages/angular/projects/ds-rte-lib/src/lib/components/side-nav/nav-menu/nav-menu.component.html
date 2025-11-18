@@ -1,5 +1,5 @@
 @if (collapsed() && label()) {
-  <li rteTooltip rteTooltipPosition="right" rteTooltipAlignment="center" [class]="containerClasses()" [rteTooltip]="label()" [rteTooltipArrow]="false" [rteTooltipShouldFocusTrigger]="false">
+  <li rteTooltip rteTooltipPosition="right" rteTooltipAlignment="center" [rteTooltipGap]="12" [class]="containerClasses()" [rteTooltip]="label()" [rteTooltipArrow]="false" [rteTooltipShouldFocusTrigger]="false">
     <ng-container [ngTemplateOutlet]="menuContentTemplate"></ng-container>
     <ng-container [ngTemplateOutlet]="nestedMenuTemplate"></ng-container>
   </li>
