@@ -108,7 +108,7 @@
               [appearance]="appearance()"
               [showDivider]="item.showDivider!"
               [badge]="item.badge"
-              (click)="handleMenuClick(item)"
+              (itemClick)="handleMenuClick($event)"
               (openChange)="handleMenuOpenChange($event)"
             />
           } @else {
@@ -125,7 +125,7 @@
                 [appearance]="appearance()"
                 [showDivider]="item.showDivider!"
                 [badge]="item.badge"
-                (click)="click.emit($event)" />
+                (itemClick)="itemClick.emit($event)" />
             </li>
             @if (item.showDivider) {
               <rte-divider [appearance]="dividerAppearance()" />

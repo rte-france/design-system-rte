@@ -9,6 +9,7 @@ import { expect, userEvent, within } from "@storybook/test";
 
 import { SideNavComponent } from "./side-nav.component";
 import {
+  getFooterNavElement,
   getHeaderTitleContainer,
   getNavElement,
   getNavElementInCollapsedState,
@@ -161,30 +162,26 @@ const navigationItemsWithNestedAndBadges: NavItemProps[] = [
   { ...baseNavItems[4], badge: { ...baseBadge, badgeType: "brand", count: 8 } },
 ];
 
-// Note: footerItems support not yet implemented in Angular component
-// const footerItems: NavItemProps[] = [
-//   {
-//     ...baseNavItem,
-//     id: "footer-settings",
-//     label: "Settings",
-//     icon: "settings",
-//     onClick: () => {
-//       console.log("Footer Settings clicked");
-//     },
-//   },
-//   { ...baseNavItem, id: "footer-help", label: "Help & Support", icon: "help", link: "/help" },
-//   {
-//     ...baseNavItem,
-//     id: "footer-account",
-//     label: "Account",
-//     icon: "user",
-//     items: [
-//       { id: "footer-profile", label: "Profile", link: "/profile", icon: "user" },
-//       { id: "footer-preferences", label: "Preferences", icon: "preferences" },
-//       { id: "footer-logout", label: "Logout", onClick: () => console.log("Logout clicked"), icon: "logout" },
-//     ],
-//   },
-// ];
+const footerItems: NavItemProps[] = [
+  {
+    ...baseNavItem,
+    id: "footer-settings",
+    label: "Settings",
+    icon: "settings",
+  },
+  { ...baseNavItem, id: "footer-help", label: "Help & Support", icon: "help", link: "/help" },
+  {
+    ...baseNavItem,
+    id: "footer-account",
+    label: "Account",
+    icon: "user",
+    items: [
+      { id: "footer-profile", label: "Profile", link: "/profile", icon: "user" },
+      { id: "footer-preferences", label: "Preferences", icon: "preferences" },
+      { id: "footer-logout", label: "Logout", onClick: () => console.log("Logout clicked"), icon: "logout" },
+    ],
+  },
+];
 
 const navigationItemsWithDividers: NavItemProps[] = [
   baseNavItems[0],
@@ -247,7 +244,8 @@ const defaultRender = (args: StoryArgs) => ({
       [headerConfig]="headerConfig"
       [appearance]="appearance"
       [items]="items"
-      [collapsed]="collapsed">
+      [collapsed]="collapsed"
+      [footerItems]="footerItems">
       <div content>${PageContent}</div>
     </rte-side-nav>
   `,
@@ -672,64 +670,63 @@ export const ActiveItemState: Story = {
   },
 };
 
-// Note: footerItems support not yet implemented in Angular component
-// export const WithFooterItems: Story = {
-//   args: {
-//     ...Default.args,
-//     headerConfig: defaultHeaderConfig,
-//     items: navigationItems,
-//     footerItems: footerItems,
-//     collapsible: true,
-//   },
-//   render: defaultRender,
-// };
+export const WithFooterItems: Story = {
+  args: {
+    ...Default.args,
+    headerConfig: defaultHeaderConfig,
+    items: navigationItems,
+    footerItems: footerItems,
+    collapsible: true,
+  },
+  render: defaultRender,
+};
 
-// export const FooterItemsOnly: Story = {
-//   args: {
-//     ...Default.args,
-//     headerConfig: defaultHeaderConfig,
-//     items: navigationItems,
-//     footerItems: footerItems,
-//     collapsible: false,
-//   },
-//   render: defaultRender,
-// };
+export const FooterItemsOnly: Story = {
+  args: {
+    ...Default.args,
+    headerConfig: defaultHeaderConfig,
+    items: navigationItems,
+    footerItems: footerItems,
+    collapsible: false,
+  },
+  render: defaultRender,
+};
 
-// export const FooterItemsWithNested: Story = {
-//   args: {
-//     ...Default.args,
-//     headerConfig: defaultHeaderConfig,
-//     items: navigationItemsWithNested,
-//     footerItems: footerItems,
-//     collapsible: true,
-//   },
-//   render: defaultRender,
-//   play: async ({ canvasElement, step }) => {
-//     const { sideNav } = getCanvasAndSideNav(canvasElement);
+export const FooterItemsWithNested: Story = {
+  args: {
+    ...Default.args,
+    headerConfig: defaultHeaderConfig,
+    items: navigationItemsWithNested,
+    footerItems: footerItems,
+    collapsible: true,
+  },
+  render: defaultRender,
+  play: async ({ canvasElement, step }) => {
+    const { sideNav } = getCanvasAndSideNav(canvasElement);
 
-//     await step("Verify footer items are rendered", async () => {
-//       const footerSettings = getFooterNavElement(sideNav, "Settings");
-//       expect(footerSettings).not.toBeNull();
+    await step("Verify footer items are rendered", async () => {
+      const footerSettings = getFooterNavElement(sideNav, "Settings");
+      expect(footerSettings).not.toBeNull();
 
-//       const footerHelp = getFooterNavElement(sideNav, "Help & Support");
-//       expect(footerHelp).not.toBeNull();
+      const footerHelp = getFooterNavElement(sideNav, "Help & Support");
+      expect(footerHelp).not.toBeNull();
 
-//       const footerAccount = getFooterNavElement(sideNav, "Account");
-//       expect(footerAccount).not.toBeNull();
-//     });
+      const footerAccount = getFooterNavElement(sideNav, "Account");
+      expect(footerAccount).not.toBeNull();
+    });
 
-//     await step("Open Account menu in footer and verify nested items", async () => {
-//       const footerAccount = getFooterNavElement(sideNav, "Account");
-//       await userEvent.click(footerAccount!);
+    await step("Open Account menu in footer and verify nested items", async () => {
+      const footerAccount = getFooterNavElement(sideNav, "Account");
+      await userEvent.click(footerAccount!);
 
-//       const footerPreferences = getFooterNavElement(sideNav, "Preferences");
-//       expect(footerPreferences).not.toBeNull();
+      const footerPreferences = getFooterNavElement(sideNav, "Preferences");
+      expect(footerPreferences).not.toBeNull();
 
-//       const footerLogout = getFooterNavElement(sideNav, "Logout");
-//       expect(footerLogout).not.toBeNull();
-//     });
-//   },
-// };
+      const footerLogout = getFooterNavElement(sideNav, "Logout");
+      expect(footerLogout).not.toBeNull();
+    });
+  },
+};
 
 export const WithBadges: Story = {
   args: {
