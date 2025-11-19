@@ -11,7 +11,7 @@
     [rteTooltipArrow]="false"
     [rteTooltipGap]="12"
     [rteTooltipShouldFocusTrigger]="false">
-    <ng-container [ngTemplateOutlet]="contentTemplate"></ng-container>
+    <ng-container [ngTemplateOutlet]="contentTemplate" />
   </div>
 } @else {
   <div
@@ -19,7 +19,7 @@
     [id]="id()"
     [ngClass]="{ collapsed: collapsed(), nested: isNested(), active: active(), focused: focused() }"
     [attr.role]="role()">
-    <ng-container [ngTemplateOutlet]="contentTemplate"></ng-container>
+    <ng-container [ngTemplateOutlet]="contentTemplate" />
   </div>
 }
 
@@ -34,7 +34,7 @@
       (blur)="handleBlur()">
       <div class="nav-item-left">
         @if (showIcon() && icon()) {
-          <rte-icon class="icon" [name]="icon()!" [size]="iconSize()"></rte-icon>
+          <rte-icon class="icon" [name]="icon()!" [size]="iconSize()" />
         }
         @if (!collapsed()) {
           <span>{{ label() }}</span>
@@ -47,7 +47,9 @@
             [badgeSize]="badge()!.size || 'm'"
             [badgeContent]="badge()!.content || 'number'"
             [count]="badge()!.count"
-            [icon]="badge()!.icon || 'notification'"></rte-badge>
+            [icon]="badge()!.icon || 'notification'"
+            [simpleBadge]="true"
+          />
         }
       </div>
     </a>
@@ -62,7 +64,7 @@
       (blur)="handleBlur()">
       <div class="nav-item-left">
         @if (showIcon() && icon()) {
-          <rte-icon class="icon" [name]="icon()!" [size]="iconSize()"></rte-icon>
+          <rte-icon class="icon" [name]="icon()!" [size]="iconSize()" />
         }
         @if (!collapsed()) {
           <span>{{ label() }}</span>
@@ -75,7 +77,9 @@
             [badgeSize]="badge()!.size || 'm'"
             [badgeContent]="badge()!.content || 'number'"
             [count]="badge()!.count"
-            [icon]="badge()!.icon || 'notification'"></rte-badge>
+            [icon]="badge()!.icon || 'notification'"
+            [simpleBadge]="true"
+          />
         }
       </div>
     </span>
