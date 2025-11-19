@@ -541,6 +541,8 @@ export const CollapsedTooltip: Story = {
       const homeElement = getNavElementInCollapsedState(sideNav, 0);
       expect(homeElement).not.toBeNull();
 
+      await userEvent.tab();
+
       homeElement?.focus();
       await waitForTooltip();
 
