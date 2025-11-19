@@ -24,6 +24,8 @@ import SplitButton from "./components/splitButton/SplitButton.tsx";
 import Switch from "./components/switch/Switch.tsx";
 import Textarea from "./components/textarea/Textarea.tsx";
 import TextInput from "./components/textInput/TextInput.tsx";
+import Toast from "./components/toast/Toast.tsx";
+import ToastQueueProvider from "./components/toast/toastQueue/ToastQueueProvider.tsx";
 import Tooltip from "./components/tooltip/Tooltip.tsx";
 
 export {
@@ -53,4 +55,6 @@ export {
   SideNav,
   BaseSideNav,
   Card,
+  Toast,
+  ToastQueueProvider,
 };
