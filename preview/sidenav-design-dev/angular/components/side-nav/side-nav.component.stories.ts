@@ -1,3 +1,4 @@
+import { computed, signal } from "@angular/core";
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
 import {
   TESTING_ENTER_KEY,
@@ -94,19 +95,24 @@ const navigationItemsWithNested = [
   baseNavItems[0],
   {
     ...baseNavItems[1],
-    items: [{ label: "Overview" }, { label: "Reports" }, { label: "Analytics", icon: "analytics" }],
+    items: [
+      { id: "overview", label: "Overview" },
+      { id: "reports", label: "Reports" },
+      { id: "analytics-nested", label: "Analytics", icon: "analytics" },
+    ],
   },
   {
     ...baseNavItems[3],
     items: [
-      { label: "General", icon: "general" },
-      { label: "Privacy", icon: "privacy" },
+      { id: "general", label: "General", icon: "general" },
+      { id: "privacy", label: "Privacy", icon: "privacy" },
       {
+        id: "advanced",
         label: "Advanced",
         icon: "settings",
         items: [
-          { label: "Security", icon: "security" },
-          { label: "API Keys", icon: "api-keys" },
+          { id: "security", label: "Security", icon: "security" },
+          { id: "api-keys", label: "API Keys", icon: "api-keys" },
         ],
       },
     ],
@@ -120,23 +126,34 @@ const navigationItemsWithNestedAndBadges: NavItemProps[] = [
     ...baseNavItems[1],
     badge: { ...baseBadge, badgeType: "indicator", count: 3 },
     items: [
-      { label: "Overview", badge: { ...baseBadge, badgeType: "brand", count: 2 } },
-      { label: "Reports" },
-      { label: "Analytics", icon: "analytics", badge: { ...baseBadge, badgeType: "indicator", count: 12 } },
+      { id: "overview", label: "Overview", badge: { ...baseBadge, badgeType: "brand", count: 2 } },
+      { id: "reports", label: "Reports" },
+      {
+        id: "analytics-nested",
+        label: "Analytics",
+        icon: "analytics",
+        badge: { ...baseBadge, badgeType: "indicator", count: 12 },
+      },
     ],
   },
   {
     ...baseNavItems[3],
     items: [
-      { label: "General", icon: "general" },
-      { label: "Privacy", icon: "privacy", badge: { ...baseBadge, badgeType: "brand", count: 1 } },
+      { id: "general", label: "General", icon: "general" },
+      { id: "privacy", label: "Privacy", icon: "privacy", badge: { ...baseBadge, badgeType: "brand", count: 1 } },
       {
+        id: "advanced",
         label: "Advanced",
         icon: "settings",
         badge: { ...baseBadge, badgeType: "indicator", count: 7 },
         items: [
-          { label: "Security", icon: "security", badge: { ...baseBadge, badgeType: "indicator", count: 99 } },
-          { label: "API Keys", icon: "api-keys" },
+          {
+            id: "security",
+            label: "Security",
+            icon: "security",
+            badge: { ...baseBadge, badgeType: "indicator", count: 99 },
+          },
+          { id: "api-keys", label: "API Keys", icon: "api-keys" },
         ],
       },
     ],
@@ -272,14 +289,35 @@ export const WithNestedMenus: Story = {
   render: defaultRender,
 };
 
+function deepCloneNavItems(items: NavItemProps[]): NavItemProps[] {
+  return JSON.parse(JSON.stringify(items));
+}
+
+const keyboardNavigationRender = (args: StoryArgs) => ({
+  props: {
+    ...args,
+    items: deepCloneNavItems(navigationItemsWithNested),
+  },
+  template: `
+    <rte-side-nav
+      [size]="size"
+      [collapsible]="collapsible"
+      [headerConfig]="headerConfig"
+      [appearance]="appearance"
+      [items]="items"
+      [collapsed]="collapsed">
+      <div content>${PageContent}</div>
+    </rte-side-nav>
+  `,
+});
+
 export const KeyboardNavigation: Story = {
   args: {
     ...Default.args,
     headerConfig: defaultHeaderConfig,
-    items: navigationItemsWithNested,
     collapsible: true,
   },
-  render: defaultRender,
+  render: keyboardNavigationRender,
   play: async ({ canvasElement, step }) => {
     const { sideNav } = getCanvasAndSideNav(canvasElement);
 
@@ -569,30 +607,35 @@ export const ActiveItemState: Story = {
     collapsible: true,
   },
   render: (args) => {
-    let activeItemId = "home";
-    const itemsWithOnClick = args.items.map((item: NavItemProps) => {
-      return {
+    const activeItemId = signal("home");
+
+    const handleItemClick = (itemId: string): void => {
+      activeItemId.set(itemId);
+    };
+
+    const itemsWithActiveState = computed(() => {
+      return args.items.map((item: NavItemProps) => ({
         ...item,
-        onClick: () => {
-          activeItemId = item.id || "";
-          args.items.forEach((i: NavItemProps) => {
-            i.active = i.id === activeItemId;
-          });
-        },
+        active: item.id === activeItemId(),
         link: undefined,
-      };
+      }));
     });
 
     return {
-      props: { ...args, items: itemsWithOnClick },
+      props: {
+        ...args,
+        items: itemsWithActiveState,
+        handleItemClick,
+      },
       template: `
         <rte-side-nav
           [size]="size"
           [collapsible]="collapsible"
           [headerConfig]="headerConfig"
           [appearance]="appearance"
-          [items]="items"
-          [collapsed]="collapsed">
+          [items]="items()"
+          [collapsed]="collapsed"
+          (itemClicked)="handleItemClick($event)">
           <div content>${PageContent}</div>
         </rte-side-nav>
       `,
