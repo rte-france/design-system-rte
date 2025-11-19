@@ -190,7 +190,11 @@ const navigationItemsWithDividers: NavItemProps[] = [
   baseNavItems[0],
   {
     ...baseNavItems[1],
-    items: [{ label: "Overview" }, { label: "Reports", showDivider: true }, { label: "Analytics", icon: "analytics" }],
+    items: [
+      { id: "overview", label: "Overview" },
+      { id: "reports", label: "Reports", showDivider: true },
+      { id: "analytics-nested", label: "Analytics", icon: "analytics" },
+    ],
   },
   { ...baseNavItems[2], showDivider: true },
   { ...baseNavItem, id: "reports", label: "Reports", icon: "info" },
@@ -198,17 +202,18 @@ const navigationItemsWithDividers: NavItemProps[] = [
     ...baseNavItems[3],
     showDivider: true,
     items: [
-      { label: "General", icon: "general" },
-      { label: "Privacy", icon: "privacy", showDivider: true },
-      { label: "Notifications", icon: "notifications" },
+      { id: "general", label: "General", icon: "general" },
+      { id: "privacy", label: "Privacy", icon: "privacy", showDivider: true },
+      { id: "notifications", label: "Notifications", icon: "notifications" },
       {
+        id: "advanced",
         label: "Advanced",
         icon: "settings",
         showDivider: true,
         items: [
-          { label: "Security", icon: "security" },
-          { label: "API Keys", icon: "api-keys", showDivider: true },
-          { label: "Integrations", icon: "integrations" },
+          { id: "security", label: "Security", icon: "security" },
+          { id: "api-keys", label: "API Keys", icon: "api-keys", showDivider: true },
+          { id: "integrations", label: "Integrations", icon: "integrations" },
         ],
       },
     ],

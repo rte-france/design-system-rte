@@ -83,6 +83,9 @@
                 [badge]="item.badge"
                 (click)="handleItemClick(item.id || item.label)"></rte-nav-item>
             </li>
+            @if (item.showDivider) {
+              <rte-divider [appearance]="dividerAppearance()" />
+            }
           }
         }
       </ul>
