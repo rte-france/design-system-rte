@@ -44,7 +44,9 @@
             [badgeSize]="badge()!.size || 'm'"
             [badgeContent]="badge()!.content || 'number'"
             [count]="badge()!.count"
-            [icon]="badge()!.icon || 'notification'" />
+            [icon]="badge()!.icon || 'notification'"
+            [simpleBadge]="true"
+          />
         }
         @if (shouldShowMenu() && showMenuIcon()) {
           <rte-icon name="arrow-chevron-right" class="menu-icon" [ngClass]="{ 'menu-icon-open': open() }" />
@@ -73,7 +75,9 @@
             [badgeSize]="badge()!.size || 'm'"
             [badgeContent]="badge()!.content || 'number'"
             [count]="badge()!.count"
-            [icon]="badge()!.icon || 'notification'" />
+            [icon]="badge()!.icon || 'notification'"
+            [simpleBadge]="true"
+          />
         }
         @if (shouldShowMenu() && showMenuIcon()) {
           <rte-icon name="arrow-chevron-right" class="menu-icon" [ngClass]="{ 'menu-icon-open': open() }" />
