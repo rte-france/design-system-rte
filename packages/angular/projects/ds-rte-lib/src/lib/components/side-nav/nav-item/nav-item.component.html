@@ -1,10 +1,11 @@
 @if (collapsed() && label()) {
   <div
+    class="nav-item-container {{appearance()}}"
     rteTooltip
     rteTooltipPosition="right"
     rteTooltipAlignment="center"
     [id]="id()"
-    [class]="containerClasses()"
+    [ngClass]="{ collapsed: collapsed(), nested: isNested(), active: active(), focused: focused() }"
     [attr.role]="role()"
     [rteTooltip]="label()"
     [rteTooltipArrow]="false"
@@ -14,8 +15,9 @@
   </div>
 } @else {
   <div
+    class="nav-item-container {{appearance()}}"
     [id]="id()"
-    [class]="containerClasses()"
+    [ngClass]="{ collapsed: collapsed(), nested: isNested(), active: active(), focused: focused() }"
     [attr.role]="role()">
     <ng-container [ngTemplateOutlet]="contentTemplate"></ng-container>
   </div>
@@ -54,7 +56,7 @@
       class="nav-item"
       [attr.tabindex]="tabIndex()"
       [attr.aria-label]="label()"
-      (click)="handleClick()"
+      (click)="handleClick($event)"
       (keydown)="handleKeyDown($event)"
       (focus)="handleFocus()"
       (blur)="handleBlur()">

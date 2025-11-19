@@ -1,10 +1,21 @@
 @if (collapsed() && label()) {
-  <li rteTooltip rteTooltipPosition="right" rteTooltipAlignment="center" [rteTooltipGap]="12" [class]="containerClasses()" [rteTooltip]="label()" [rteTooltipArrow]="false" [rteTooltipShouldFocusTrigger]="false">
+  <li
+    class="nav-menu-container {{appearance()}}"
+    rteTooltip
+    rteTooltipPosition="right"
+    rteTooltipAlignment="center"
+    [rteTooltipGap]="12"
+    [ngClass]="{ collapsed: collapsed(), open: open(), nested: isNested() }"
+    [rteTooltip]="label()"
+    [rteTooltipArrow]="false"
+    [rteTooltipShouldFocusTrigger]="false">
     <ng-container [ngTemplateOutlet]="menuContentTemplate"></ng-container>
     <ng-container [ngTemplateOutlet]="nestedMenuTemplate"></ng-container>
   </li>
 } @else {
-  <li [class]="containerClasses()">
+  <li
+    class="nav-menu-container {{appearance()}}"
+    [ngClass]="{ collapsed: collapsed(), open: open(), nested: isNested() }">
     <ng-container [ngTemplateOutlet]="menuContentTemplate"></ng-container>
     <ng-container [ngTemplateOutlet]="nestedMenuTemplate"></ng-container>
   </li>
@@ -20,7 +31,7 @@
       (click)="toggleMenu()">
       <div class="menu-content-left">
         @if (showIcon() && icon()) {
-          <rte-icon class="icon" [name]="icon()!" [size]="iconSize()"></rte-icon>
+          <rte-icon class="icon" [name]="icon()!" [size]="iconSize()" />
         }
         @if (!collapsed()) {
           <span>{{ label() }}</span>
@@ -33,10 +44,10 @@
             [badgeSize]="badge()!.size || 'm'"
             [badgeContent]="badge()!.content || 'number'"
             [count]="badge()!.count"
-            [icon]="badge()!.icon || 'notification'"></rte-badge>
+            [icon]="badge()!.icon || 'notification'" />
         }
         @if (shouldShowMenu() && showMenuIcon()) {
-          <rte-icon name="arrow-chevron-right" [class]="menuIconClasses()"></rte-icon>
+          <rte-icon name="arrow-chevron-right" class="menu-icon" [ngClass]="{ 'menu-icon-open': open() }" />
         }
       </div>
     </a>
@@ -49,7 +60,7 @@
       (keydown)="handleKeyDown($event)">
       <div class="menu-content-left">
         @if (showIcon() && icon()) {
-          <rte-icon class="icon" [name]="icon()!" [size]="iconSize()"></rte-icon>
+          <rte-icon class="icon" [name]="icon()!" [size]="iconSize()" />
         }
         @if (!collapsed()) {
           <span>{{ label() }}</span>
@@ -62,10 +73,10 @@
             [badgeSize]="badge()!.size || 'm'"
             [badgeContent]="badge()!.content || 'number'"
             [count]="badge()!.count"
-            [icon]="badge()!.icon || 'notification'"></rte-badge>
+            [icon]="badge()!.icon || 'notification'" />
         }
         @if (shouldShowMenu() && showMenuIcon()) {
-          <rte-icon name="arrow-chevron-right" [class]="menuIconClasses()"></rte-icon>
+          <rte-icon name="arrow-chevron-right" class="menu-icon" [ngClass]="{ 'menu-icon-open': open() }" />
         }
       </div>
     </span>
@@ -74,39 +85,47 @@
 
 <ng-template #nestedMenuTemplate>
   @if (shouldShowMenu()) {
-    <ul [class]="nestedMenuClasses()">
-      @for (item of items(); track item.id || item.label) {
-        @if (hasNestedItemsForItem(item)) {
-          <rte-nav-menu
-            [label]="item.label"
-            [icon]="item.icon"
-            [showIcon]="item.showIcon"
-            [collapsed]="collapsed()"
-            [link]="item.link"
-            [onClick]="item.onClick"
-            [items]="item.items || []"
-            [showMenuIcon]="showMenuIcon()"
-            [isNested]="true"
-            [parentMenuOpen]="nestedItemsParentMenuOpen()"
-            [appearance]="appearance()"
-            [badge]="item.badge"></rte-nav-menu>
-        } @else {
-          <li>
-            <rte-nav-item
+    <ul class="nested-menu" [ngClass]="{ 'nested-menu-open': open() }">
+      @if (open()) {
+        @for (item of items(); track item.id || item.label) {
+          @if (hasNestedItemsForItem(item)) {
+            <rte-nav-menu
               [id]="item.id"
               [label]="item.label"
               [icon]="item.icon"
-              [showIcon]="item.showIcon"
+              [showIcon]="item.showIcon!"
               [collapsed]="collapsed()"
               [link]="item.link"
-              [onClick]="item.onClick"
+              [items]="item.items || []"
+              [showMenuIcon]="showMenuIcon()"
               [isNested]="true"
-              [parentMenuOpen]="nestedItemsParentMenuOpen()"
+              [open]="item.open"
+              [parentMenuOpen]="open()"
               [appearance]="appearance()"
-              [badge]="item.badge"></rte-nav-item>
-          </li>
-          @if (item.showDivider) {
-            <rte-divider [appearance]="dividerAppearance()"></rte-divider>
+              [showDivider]="item.showDivider!"
+              [badge]="item.badge"
+              (click)="handleMenuClick(item)"
+              (openChange)="handleMenuOpenChange($event)"
+            />
+          } @else {
+            <li>
+              <rte-nav-item
+                [id]="item.id"
+                [label]="item.label"
+                [icon]="item.icon"
+                [showIcon]="item.showIcon!"
+                [collapsed]="collapsed()"
+                [link]="item.link"
+                [isNested]="true"
+                [parentMenuOpen]="open()"
+                [appearance]="appearance()"
+                [showDivider]="item.showDivider!"
+                [badge]="item.badge"
+                (click)="click.emit($event)" />
+            </li>
+            @if (item.showDivider) {
+              <rte-divider [appearance]="dividerAppearance()" />
+            }
           }
         }
       }
@@ -115,6 +134,6 @@
 </ng-template>
 
 @if (showDivider()) {
-  <rte-divider [appearance]="dividerAppearance()"></rte-divider>
+  <rte-divider [appearance]="dividerAppearance()" />
 }
 

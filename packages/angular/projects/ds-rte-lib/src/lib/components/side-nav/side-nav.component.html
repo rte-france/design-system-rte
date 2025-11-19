@@ -4,7 +4,7 @@
   [appearance]="appearance()">
   <div side-nav-header>
     <div class="side-nav-header-container">
-      <div [class]="headerTitleClasses()">
+      <div class="side-nav-header {{appearance()}}" [ngClass]="{ collapsed: isCollapsed() }">
         @if (headerConfig()?.link) {
           <a
             class="side-nav-header-title-container"
@@ -14,7 +14,7 @@
             <div class="side-nav-header-title">
               <div class="side-nav-header-identifier">{{ headerConfig()?.identifier }}</div>
               @if (!isCollapsed()) {
-                <h1 [class]="headerVersionClasses()">{{ headerConfig()?.title }}</h1>
+                <h1 [ngClass]="{ 'hidden': !shouldShowTitle() }">{{ headerConfig()?.title }}</h1>
               }
             </div>
           </a>
@@ -29,7 +29,7 @@
             <div class="side-nav-header-title">
               <div class="side-nav-header-identifier">{{ headerConfig()?.identifier }}</div>
               @if (!isCollapsed()) {
-                <h1 [class]="headerVersionClasses()">{{ headerConfig()?.title }}</h1>
+                <h1 [ngClass]="{ 'hidden': !shouldShowTitle() }">{{ headerConfig()?.title }}</h1>
               }
             </div>
           </div>
@@ -38,12 +38,12 @@
             <div class="side-nav-header-title">
               <div class="side-nav-header-identifier">{{ headerConfig()?.identifier }}</div>
               @if (!isCollapsed()) {
-                <h1 [class]="headerVersionClasses()">{{ headerConfig()?.title }}</h1>
+                <h1 [ngClass]="{ 'hidden': !shouldShowTitle() }">{{ headerConfig()?.title }}</h1>
               }
             </div>
           </div>
         }
-        <div class="side-nav-header-version" [class]="headerVersionClasses()">
+        <div class="side-nav-header-version" [ngClass]="{ 'hidden': !shouldShowTitle() }">
           <span>{{ headerConfig()?.version }}</span>
         </div>
       </div>
@@ -56,16 +56,19 @@
         @for (item of items(); track item.label) {
           @if (hasNestedItems(item)) {
             <rte-nav-menu
+              [id]="item.id"
               [label]="item.label"
               [icon]="item.icon"
               [showIcon]="item.showIcon ?? true"
               [collapsed]="isCollapsed()"
               [link]="item.link"
-              [onClick]="item.onClick"
+              [open]="item.open"
               [items]="item.items || []"
               [appearance]="appearance()"
               [badge]="item.badge"
-              [showDivider]="item.showDivider ?? false"></rte-nav-menu>
+              [showDivider]="item.showDivider!"
+              (openChange)="handleMenuOpenChange($event)"
+            />
           } @else {
             <li>
               <rte-nav-item
@@ -75,10 +78,10 @@
                 [showIcon]="item.showIcon ?? true"
                 [collapsed]="isCollapsed()"
                 [link]="item.link"
-                [onClick]="item.onClick"
                 [appearance]="appearance()"
                 [active]="item.active ?? false"
-                [badge]="item.badge"></rte-nav-item>
+                [badge]="item.badge"
+                (click)="handleItemClick(item.id || item.label)"></rte-nav-item>
             </li>
           }
         }
@@ -97,8 +100,9 @@
                   [label]="isCollapsed() ? 'Ouvrir le menu' : 'Réduire le menu'"
                   [icon]="collapseIcon()"
                   [collapsed]="isCollapsed()"
-                  [onClick]="getCollapseHandler()"
-                  [appearance]="appearance()"></rte-nav-item>
+                  [appearance]="appearance()"
+                  (click)="handleCollapseClick()"
+                />
               </li>
             </ul>
           </div>
