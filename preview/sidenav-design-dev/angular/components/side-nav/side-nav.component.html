@@ -81,7 +81,7 @@
                 [appearance]="appearance()"
                 [active]="item.active ?? false"
                 [badge]="item.badge"
-                (click)="handleItemClick(item.id || item.label)"></rte-nav-item>
+                (itemClick)="handleItemClick(item.id || item.label)"></rte-nav-item>
             </li>
             @if (item.showDivider) {
               <rte-divider [appearance]="dividerAppearance()" />
@@ -125,7 +125,7 @@
                       [appearance]="appearance()"
                       [active]="item.active ?? false"
                       [badge]="item.badge"
-                      (click)="handleFooterItemClick(item.id || item.label)"></rte-nav-item>
+                      (itemClick)="handleFooterItemClick(item.id || item.label)"></rte-nav-item>
                   </li>
                   @if (item.showDivider) {
                     <rte-divider [appearance]="dividerAppearance()" />
@@ -146,7 +146,7 @@
                     [icon]="collapseIcon()"
                     [collapsed]="isCollapsed()"
                     [appearance]="appearance()"
-                    (click)="handleCollapseClick()"
+                    (itemClick)="handleCollapseClick()"
                   />
                 </li>
               </ul>

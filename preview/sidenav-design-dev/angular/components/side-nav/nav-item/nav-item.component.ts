@@ -38,7 +38,7 @@ export class NavItemComponent {
   readonly focused = signal<boolean>(false);
   readonly tabIndex = computed<number>(() => getNavTabIndex(this.parentMenuOpen()));
 
-  readonly click = output<string>();
+  readonly itemClick = output<string>();
 
   readonly iconSize = computed<number>(() => {
     return this.isNested() ? 16 : this.collapsed() ? 24 : 20;
@@ -46,13 +46,13 @@ export class NavItemComponent {
 
   handleClick(event: Event): void {
     event.stopPropagation();
-    this.click.emit(this.id() || this.label());
+    this.itemClick.emit(this.id() || this.label());
   }
 
   handleKeyDown(event: KeyboardEvent): void {
     if ([SPACE_KEY, ENTER_KEY].includes(event.key)) {
       event.preventDefault();
-      this.click.emit(this.id() || this.label());
+      this.itemClick.emit(this.id() || this.label());
     }
   }
 
