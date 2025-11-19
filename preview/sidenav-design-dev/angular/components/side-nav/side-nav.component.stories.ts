@@ -177,8 +177,8 @@ const footerItems: NavItemProps[] = [
     icon: "user",
     items: [
       { id: "footer-profile", label: "Profile", link: "/profile", icon: "user" },
-      { id: "footer-preferences", label: "Preferences", icon: "preferences" },
-      { id: "footer-logout", label: "Logout", onClick: () => console.log("Logout clicked"), icon: "logout" },
+      { id: "footer-preferences", label: "Preferences" },
+      { id: "footer-logout", label: "Logout", onClick: () => console.log("Logout clicked") },
     ],
   },
 ];
@@ -200,8 +200,8 @@ const navigationItemsWithDividers: NavItemProps[] = [
     showDivider: true,
     items: [
       { id: "general", label: "General" },
-      { id: "privacy", label: "Privacy", icon: "privacy", showDivider: true },
-      { id: "notifications", label: "Notifications", icon: "notifications" },
+      { id: "privacy", label: "Privacy", showDivider: true },
+      { id: "notifications", label: "Notifications" },
       {
         id: "advanced",
         label: "Advanced",
@@ -209,8 +209,8 @@ const navigationItemsWithDividers: NavItemProps[] = [
         showDivider: true,
         items: [
           { id: "security", label: "Security" },
-          { id: "api-keys", label: "API Keys", icon: "api-keys", showDivider: true },
-          { id: "integrations", label: "Integrations", icon: "integrations" },
+          { id: "api-keys", label: "API Keys", showDivider: true },
+          { id: "integrations", label: "Integrations" },
         ],
       },
     ],
