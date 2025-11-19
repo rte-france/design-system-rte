@@ -91,25 +91,68 @@
       </ul>
     </div>
   </div>
-  @if (collapsible()) {
+  @if (footerItems()?.length || collapsible()) {
     <div side-nav-footer>
       <div class="side-nav-footer-container">
-        <rte-divider [appearance]="dividerAppearance()"></rte-divider>
-        <div class="side-nav-footer">
-          <div class="collapsible-section">
+        @if (footerItems()?.length) {
+          <div class="side-nav-footer-items">
             <ul>
-              <li>
-                <rte-nav-item
-                  [label]="isCollapsed() ? 'Ouvrir le menu' : 'Réduire le menu'"
-                  [icon]="collapseIcon()"
-                  [collapsed]="isCollapsed()"
-                  [appearance]="appearance()"
-                  (click)="handleCollapseClick()"
-                />
-              </li>
+              @for (item of footerItems()!; track item.id || item.label) {
+                @if (hasNestedItems(item)) {
+                  <rte-nav-menu
+                    [id]="item.id"
+                    [label]="item.label"
+                    [icon]="item.icon"
+                    [showIcon]="item.showIcon ?? true"
+                    [collapsed]="isCollapsed()"
+                    [link]="item.link"
+                    [open]="item.open"
+                    [items]="item.items || []"
+                    [appearance]="appearance()"
+                    [badge]="item.badge"
+                    [showDivider]="item.showDivider!"
+                    (openChange)="handleFooterMenuOpenChange($event)"
+                  />
+                } @else {
+                  <li>
+                    <rte-nav-item
+                      [id]="item.id"
+                      [label]="item.label"
+                      [icon]="item.icon"
+                      [showIcon]="item.showIcon ?? true"
+                      [collapsed]="isCollapsed()"
+                      [link]="item.link"
+                      [appearance]="appearance()"
+                      [active]="item.active ?? false"
+                      [badge]="item.badge"
+                      (click)="handleFooterItemClick(item.id || item.label)"></rte-nav-item>
+                  </li>
+                  @if (item.showDivider) {
+                    <rte-divider [appearance]="dividerAppearance()" />
+                  }
+                }
+              }
             </ul>
           </div>
-        </div>
+        }
+        <rte-divider [appearance]="dividerAppearance()"></rte-divider>
+        @if (collapsible()) {
+          <div class="side-nav-footer">
+            <div class="collapsible-section">
+              <ul>
+                <li>
+                  <rte-nav-item
+                    [label]="isCollapsed() ? 'Ouvrir le menu' : 'Réduire le menu'"
+                    [icon]="collapseIcon()"
+                    [collapsed]="isCollapsed()"
+                    [appearance]="appearance()"
+                    (click)="handleCollapseClick()"
+                  />
+                </li>
+              </ul>
+            </div>
+          </div>
+        }
       </div>
     </div>
   }
