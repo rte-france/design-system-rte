@@ -105,15 +105,15 @@ const navigationItemsWithNested = [
   {
     ...baseNavItems[3],
     items: [
-      { id: "general", label: "General", icon: "general" },
-      { id: "privacy", label: "Privacy", icon: "privacy" },
+      { id: "general", label: "General" },
+      { id: "privacy", label: "Privacy" },
       {
         id: "advanced",
         label: "Advanced",
         icon: "settings",
         items: [
-          { id: "security", label: "Security", icon: "security" },
-          { id: "api-keys", label: "API Keys", icon: "api-keys" },
+          { id: "security", label: "Security" },
+          { id: "api-keys", label: "API Keys" },
         ],
       },
     ],
@@ -140,7 +140,7 @@ const navigationItemsWithNestedAndBadges: NavItemProps[] = [
   {
     ...baseNavItems[3],
     items: [
-      { id: "general", label: "General", icon: "general" },
+      { id: "general", label: "General" },
       { id: "privacy", label: "Privacy", icon: "privacy", badge: { ...baseBadge, badgeType: "brand", count: 1 } },
       {
         id: "advanced",
@@ -154,7 +154,7 @@ const navigationItemsWithNestedAndBadges: NavItemProps[] = [
             icon: "security",
             badge: { ...baseBadge, badgeType: "indicator", count: 99 },
           },
-          { id: "api-keys", label: "API Keys", icon: "api-keys" },
+          { id: "api-keys", label: "API Keys" },
         ],
       },
     ],
@@ -199,7 +199,7 @@ const navigationItemsWithDividers: NavItemProps[] = [
     ...baseNavItems[3],
     showDivider: true,
     items: [
-      { id: "general", label: "General", icon: "general" },
+      { id: "general", label: "General" },
       { id: "privacy", label: "Privacy", icon: "privacy", showDivider: true },
       { id: "notifications", label: "Notifications", icon: "notifications" },
       {
@@ -208,7 +208,7 @@ const navigationItemsWithDividers: NavItemProps[] = [
         icon: "settings",
         showDivider: true,
         items: [
-          { id: "security", label: "Security", icon: "security" },
+          { id: "security", label: "Security" },
           { id: "api-keys", label: "API Keys", icon: "api-keys", showDivider: true },
           { id: "integrations", label: "Integrations", icon: "integrations" },
         ],
