@@ -11,8 +11,10 @@
   border-radius: $radius-s;
   border-bottom: $width-m solid var(--border-info);
   color: var(--content-primary);
+  background-color: var(--background-default);
+  z-index: $level-1;
 
-  position: absolute;
+  position: fixed;
   top: auto;
   bottom: auto;
   left: auto;
