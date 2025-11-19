@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import useToastQueueContext from "../toastQueue/useToastQueueContext";
 
@@ -7,9 +7,9 @@ const useHandleQueueChanges = (id: string, isOpen: boolean) => {
 
   const { isFirstInQueue, isInQueue, queue } = useToastQueueContext();
 
-  const hideToast = () => {
+  const hideToast = useCallback(() => {
     setIsInternalOpen(false);
-  };
+  }, []);
 
   const showToast = () => {
     setIsInternalOpen(true);
@@ -25,7 +25,7 @@ const useHandleQueueChanges = (id: string, isOpen: boolean) => {
         }
       }
     }
-  }, [queue.length, isFirstInQueue, isInQueue, id]);
+  }, [queue.length, isFirstInQueue, isInQueue, hideToast, id]);
 
   return { isInternalOpen, hideToast, showToast };
 };
