@@ -153,7 +153,6 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
                       collapsed={collapsed}
                       link={item.link}
                       onClick={item.onClick}
-                      showDivider={item.showDivider}
                       isNested={true}
                       parentMenuOpen={nestedItemsParentMenuOpen}
                       appearance={appearance}

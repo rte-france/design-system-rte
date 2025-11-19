@@ -1,6 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, input, output, signal } from "@angular/core";
 import { BadgeProps } from "@design-system-rte/core/components/badge/badge.interface";
+import { getNavItemLabelIconSize } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.utils";
 import { SideNavAppearance } from "@design-system-rte/core/components/side-nav/side-nav.interface";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
@@ -41,7 +42,7 @@ export class NavItemComponent {
   readonly itemClick = output<string>();
 
   readonly iconSize = computed<number>(() => {
-    return this.isNested() ? 16 : this.collapsed() ? 24 : 20;
+    return getNavItemLabelIconSize(this.isNested(), this.collapsed());
   });
 
   handleClick(event: Event): void {

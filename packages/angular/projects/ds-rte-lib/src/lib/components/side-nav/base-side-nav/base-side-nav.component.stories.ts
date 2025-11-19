@@ -3,7 +3,7 @@ import { componentWrapperDecorator, Meta, StoryObj } from "@storybook/angular";
 import { BaseSideNavComponent } from "./base-side-nav.component";
 
 const meta: Meta<BaseSideNavComponent> = {
-  title: "BaseSideNav (développement en cours)",
+  title: "BaseSideNav",
   component: BaseSideNavComponent,
   tags: ["autodocs"],
   decorators: [
