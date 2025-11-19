@@ -4,7 +4,7 @@ import { within } from "@storybook/test";
 import { getNavElement, getNavItemContainer } from "./elementFinders";
 
 function isActiveItem(element: HTMLElement): boolean {
-  return element.getAttribute("data-active") === "true";
+  return element.dataset["active"] === "true";
 }
 
 function expectElementToHaveFocus(element: HTMLElement | null): void {
