@@ -17,6 +17,8 @@ import {
   Modal,
   SideNav,
   Card,
+  Toast,
+  ToastQueueProvider,
 } from "@design-system-rte/react";
 import "./App.css";
 import { useState } from "react";
@@ -29,6 +31,7 @@ function App() {
   const [isAlertBannerVisible, setIsAlertBannerVisible] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeItem, setActiveItem] = useState("home");
+  const [isErrorOpen, setIsErrorOpen] = useState(false);
 
   const handleIconButtonToggleClick = () => {
     setIsIconButtonToggleSelected(!isIconButtonToggleSelected);
@@ -135,6 +138,7 @@ function App() {
       appearance="brand"
       activeItem={activeItem}
     >
+    </SideNav>
       <div>
         <div>
           <h3>Card</h3>
@@ -330,8 +334,29 @@ function App() {
             </div>
           </Modal>
         </div>
-      </div>
-    </SideNav>
+
+      <Divider />
+      <Button
+        label="Toggle error toast"
+        onClick={() => setIsErrorOpen(!isErrorOpen)}
+        style={{ marginBottom: "16px" }}
+        variant="danger"
+      />
+      <ToastQueueProvider>
+        <Toast
+          id="my-toast-error-z"
+          type={"error"}
+          autoDismiss={true}
+          closable={true}
+          isOpen={isErrorOpen}
+          message="Error toast"
+          // actionButton={<Button label="Mettre à jour" variant={"text"} />}
+          onClose={() => {
+            setIsErrorOpen(false);
+          }}
+        />
+      </ToastQueueProvider>
+    </div>
   );
 }
 
