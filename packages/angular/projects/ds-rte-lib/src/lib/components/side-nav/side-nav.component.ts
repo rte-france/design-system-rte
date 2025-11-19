@@ -29,6 +29,7 @@ export class SideNavComponent {
   readonly collapsible = input<boolean>(false);
   readonly headerConfig = input<SideNavHeaderConfig | undefined>();
   readonly items = input<NavItemProps[]>([]);
+  readonly footerItems = input<NavItemProps[] | undefined>();
   readonly collapsed = input<boolean>(false);
   readonly appearance = input<SideNavAppearance>("brand");
 
@@ -100,8 +101,19 @@ export class SideNavComponent {
     this.itemClicked.emit(itemId);
   }
 
+  handleFooterItemClick(itemId: string): void {
+    this.itemClicked.emit(itemId);
+  }
+
   handleMenuOpenChange(event: NavMenuOpenChangeEvent): void {
     const targetMenu = this.items().find((item) => item.id === event.id);
+    if (targetMenu) {
+      (targetMenu as NavMenuProps).open = event.open;
+    }
+  }
+
+  handleFooterMenuOpenChange(event: NavMenuOpenChangeEvent): void {
+    const targetMenu = this.footerItems()?.find((item) => item.id === event.id);
     if (targetMenu) {
       (targetMenu as NavMenuProps).open = event.open;
     }

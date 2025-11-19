@@ -46,7 +46,7 @@ export class NavMenuComponent {
   readonly badge = input<BadgeProps | undefined>();
   readonly showDivider = input<boolean>(false);
 
-  readonly click = output<string>();
+  readonly itemClick = output<string>();
   readonly openChange = output<NavMenuOpenChangeEvent>();
 
   constructor() {
@@ -102,8 +102,9 @@ export class NavMenuComponent {
     }
   }
 
-  handleMenuClick(item: NavItemProps): void {
-    if (item.onClick) {
+  handleMenuClick(itemId: string): void {
+    const item = this.items().find((i) => i.id === itemId || i.label === itemId);
+    if (item?.onClick) {
       item.onClick();
     }
   }
