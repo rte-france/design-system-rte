@@ -1,5 +1,9 @@
 @use '@design-system-rte/core/design-tokens/main.scss' as *;
 
+:host {
+    display: contents;
+}
+
 .horizontal {
     border: none;
     padding: 0;
