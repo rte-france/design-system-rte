@@ -22,7 +22,7 @@ import {
   expectNavItemNotToBeActive,
   expectNavItemToBeActive,
 } from "./stories/helpers/expectations";
-import { getCanvasAndSideNav, waitForTooltip } from "./stories/helpers/testHelpers";
+import { getCanvasAndSideNav, waitDelay } from "./stories/helpers/testHelpers";
 
 const meta: Meta<SideNavComponent> = {
   title: "SideNav",
@@ -105,15 +105,15 @@ const navigationItemsWithNested = [
   {
     ...baseNavItems[3],
     items: [
-      { id: "general", label: "General", icon: "general" },
-      { id: "privacy", label: "Privacy", icon: "privacy" },
+      { id: "general", label: "General" },
+      { id: "privacy", label: "Privacy" },
       {
         id: "advanced",
         label: "Advanced",
         icon: "settings",
         items: [
-          { id: "security", label: "Security", icon: "security" },
-          { id: "api-keys", label: "API Keys", icon: "api-keys" },
+          { id: "security", label: "Security" },
+          { id: "api-keys", label: "API Keys" },
         ],
       },
     ],
@@ -140,7 +140,7 @@ const navigationItemsWithNestedAndBadges: NavItemProps[] = [
   {
     ...baseNavItems[3],
     items: [
-      { id: "general", label: "General", icon: "general" },
+      { id: "general", label: "General" },
       { id: "privacy", label: "Privacy", icon: "privacy", badge: { ...baseBadge, badgeType: "brand", count: 1 } },
       {
         id: "advanced",
@@ -154,7 +154,7 @@ const navigationItemsWithNestedAndBadges: NavItemProps[] = [
             icon: "security",
             badge: { ...baseBadge, badgeType: "indicator", count: 99 },
           },
-          { id: "api-keys", label: "API Keys", icon: "api-keys" },
+          { id: "api-keys", label: "API Keys" },
         ],
       },
     ],
@@ -177,8 +177,8 @@ const footerItems: NavItemProps[] = [
     icon: "user",
     items: [
       { id: "footer-profile", label: "Profile", link: "/profile", icon: "user" },
-      { id: "footer-preferences", label: "Preferences", icon: "preferences" },
-      { id: "footer-logout", label: "Logout", onClick: () => console.log("Logout clicked"), icon: "logout" },
+      { id: "footer-preferences", label: "Preferences" },
+      { id: "footer-logout", label: "Logout", onClick: () => console.log("Logout clicked") },
     ],
   },
 ];
@@ -199,18 +199,18 @@ const navigationItemsWithDividers: NavItemProps[] = [
     ...baseNavItems[3],
     showDivider: true,
     items: [
-      { id: "general", label: "General", icon: "general" },
-      { id: "privacy", label: "Privacy", icon: "privacy", showDivider: true },
-      { id: "notifications", label: "Notifications", icon: "notifications" },
+      { id: "general", label: "General" },
+      { id: "privacy", label: "Privacy", showDivider: true },
+      { id: "notifications", label: "Notifications" },
       {
         id: "advanced",
         label: "Advanced",
         icon: "settings",
         showDivider: true,
         items: [
-          { id: "security", label: "Security", icon: "security" },
-          { id: "api-keys", label: "API Keys", icon: "api-keys", showDivider: true },
-          { id: "integrations", label: "Integrations", icon: "integrations" },
+          { id: "security", label: "Security" },
+          { id: "api-keys", label: "API Keys", showDivider: true },
+          { id: "integrations", label: "Integrations" },
         ],
       },
     ],
@@ -541,8 +541,10 @@ export const CollapsedTooltip: Story = {
       const homeElement = getNavElementInCollapsedState(sideNav, 0);
       expect(homeElement).not.toBeNull();
 
+      await userEvent.tab();
+
       homeElement?.focus();
-      await waitForTooltip();
+      await waitDelay();
 
       const tooltip = within(document.body).queryByRole("tooltip", { name: "Home" });
       expect(tooltip).not.toBeNull();
@@ -551,7 +553,7 @@ export const CollapsedTooltip: Story = {
 
     await step("Verify tooltips appear when tabbing to next navigation item", async () => {
       await userEvent.tab();
-      await waitForTooltip();
+      await waitDelay();
 
       const tooltip = within(document.body).queryByRole("tooltip", { name: "Dashboard" });
       expect(tooltip).not.toBeNull();
@@ -562,7 +564,7 @@ export const CollapsedTooltip: Story = {
       await userEvent.tab();
       await userEvent.tab();
       await userEvent.tab();
-      await waitForTooltip();
+      await waitDelay();
 
       const tooltip = within(document.body).queryByRole("tooltip", { name: "Profile" });
       expect(tooltip).not.toBeNull();
@@ -584,13 +586,14 @@ export const CollapsedTooltipWithNested: Story = {
     const { sideNav } = getCanvasAndSideNav(canvasElement);
 
     await step("Verify tooltips appear when tabbing to menu items", async () => {
+      await waitDelay();
       const dashboardMenu = getNavElementInCollapsedState(sideNav, 1);
       expect(dashboardMenu).not.toBeNull();
 
       await userEvent.tab();
       await userEvent.tab();
       await userEvent.tab();
-      await waitForTooltip();
+      await waitDelay();
 
       const tooltip = within(document.body).queryByRole("tooltip", { name: "Dashboard" });
       expect(tooltip).not.toBeNull();

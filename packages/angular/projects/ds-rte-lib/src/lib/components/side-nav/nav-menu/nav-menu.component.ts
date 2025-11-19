@@ -2,6 +2,7 @@ import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, effect, input, output } from "@angular/core";
 import { BadgeProps } from "@design-system-rte/core/components/badge/badge.interface";
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
+import { getNavItemLabelIconSize } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.utils";
 import { NavMenuProps } from "@design-system-rte/core/components/side-nav/nav-menu/nav-menu.interface";
 import { dividerAppearanceBySideNavAppearance } from "@design-system-rte/core/components/side-nav/side-nav.constants";
 import { SideNavAppearance } from "@design-system-rte/core/components/side-nav/side-nav.interface";
@@ -67,7 +68,7 @@ export class NavMenuComponent {
   readonly dividerAppearance = computed(() => dividerAppearanceBySideNavAppearance[this.appearance()]);
 
   readonly iconSize = computed<number>(() => {
-    return this.isNested() ? 16 : this.collapsed() ? 24 : 20;
+    return getNavItemLabelIconSize(this.isNested(), this.collapsed());
   });
 
   toggleMenu(): void {

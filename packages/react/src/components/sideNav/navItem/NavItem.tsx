@@ -12,8 +12,6 @@ import style from "./NavItem.module.scss";
 
 interface NavItemProps extends CoreNavItemProps, Omit<HTMLAttributes<HTMLDivElement>, "onClick" | "id"> {
   children?: ReactNode;
-  isNested?: boolean;
-  parentMenuOpen?: boolean;
 }
 
 const NavItem = forwardRef<HTMLDivElement, NavItemProps>(

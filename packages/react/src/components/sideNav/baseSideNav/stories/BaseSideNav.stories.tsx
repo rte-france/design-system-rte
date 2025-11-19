@@ -3,7 +3,7 @@ import { Meta, StoryObj } from "@storybook/react";
 import BaseSideNav from "../BaseSideNav";
 
 const meta = {
-  title: "BaseSideNav (développement en cours)",
+  title: "BaseSideNav",
   id: "BaseSideNav",
   component: BaseSideNav,
   tags: ["autodocs"],
