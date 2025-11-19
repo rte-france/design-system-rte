@@ -1,7 +1,8 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component, computed, effect, input, signal } from "@angular/core";
+import { ChangeDetectionStrategy, Component, computed, effect, input, output, signal } from "@angular/core";
 import { DividerAppearance } from "@design-system-rte/core/components/divider/divider.interface";
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
+import { NavMenuProps } from "@design-system-rte/core/components/side-nav/nav-menu/nav-menu.interface";
 import { SideNavAppearance, SideNavHeaderConfig } from "@design-system-rte/core/components/side-nav/side-nav.interface";
 import { SideNavSize } from "@design-system-rte/core/components/side-nav/side-nav.interface";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
@@ -10,7 +11,7 @@ import { DividerComponent } from "../divider/divider.component";
 
 import { BaseSideNavComponent } from "./base-side-nav/base-side-nav.component";
 import { NavItemComponent } from "./nav-item/nav-item.component";
-import { NavMenuComponent } from "./nav-menu/nav-menu.component";
+import { NavMenuComponent, NavMenuOpenChangeEvent } from "./nav-menu/nav-menu.component";
 
 const TRANSITION_DURATION = 300;
 
@@ -32,6 +33,8 @@ export class SideNavComponent {
 
   readonly isCollapsed = signal<boolean>(false);
   readonly shouldShowTitle = signal<boolean>(true);
+
+  readonly itemClicked = output<string>();
 
   private titleTimeoutId: ReturnType<typeof setTimeout> | null = null;
 
@@ -71,26 +74,6 @@ export class SideNavComponent {
     return this.appearance() === "neutral" ? "default" : "brand";
   });
 
-  readonly headerTitleClasses = computed<string>(() => {
-    const classes: string[] = ["side-nav-header", this.appearance()];
-    if (this.isCollapsed()) {
-      classes.push("collapsed");
-    }
-    return classes.join(" ");
-  });
-
-  readonly headerVersionClasses = computed<string>(() => {
-    return this.shouldShowTitle() ? "" : "hidden";
-  });
-
-  collapseSideNav(): void {
-    this.isCollapsed.set(!this.isCollapsed());
-  }
-
-  getCollapseHandler(): () => void {
-    return () => this.collapseSideNav();
-  }
-
   handleHeaderKeyDown(event: KeyboardEvent): void {
     if ([SPACE_KEY, ENTER_KEY].includes(event.key)) {
       event.preventDefault();
@@ -108,7 +91,22 @@ export class SideNavComponent {
     }
   }
 
-  hasNestedItems(item: NavItemProps): boolean {
-    return !!(item.items && item.items.length > 0);
+  hasNestedItems(item: NavItemProps): item is NavMenuProps {
+    return !!item.items?.length;
+  }
+
+  handleItemClick(itemId: string): void {
+    this.itemClicked.emit(itemId);
+  }
+
+  handleMenuOpenChange(event: NavMenuOpenChangeEvent): void {
+    const targetMenu = this.items().find((item) => item.id === event.id);
+    if (targetMenu) {
+      (targetMenu as NavMenuProps).open = event.open;
+    }
+  }
+
+  handleCollapseClick(): void {
+    this.isCollapsed.set(!this.isCollapsed());
   }
 }
