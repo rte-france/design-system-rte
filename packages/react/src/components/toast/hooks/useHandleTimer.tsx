@@ -7,16 +7,14 @@ type TimeoutProperties = {
   duration: ToastDuration;
 };
 
-const useHandleTimer = ({ shouldStartTimer, duration }: TimeoutProperties, isOpen: boolean, callback: () => void) => {
+const useHandleTimer = ({ shouldStartTimer, duration }: TimeoutProperties, callback: () => void) => {
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const initializeTimer = useCallback(() => {
-    if (shouldStartTimer) {
-      timerRef.current = setTimeout(() => {
-        callback();
-      }, ToastDurationMap[duration]);
-    }
-  }, [shouldStartTimer, duration, callback]);
+    timerRef.current = setTimeout(() => {
+      callback();
+    }, ToastDurationMap[duration]);
+  }, [duration, callback]);
 
   const removeTimer = useCallback(() => {
     if (timerRef.current) {
@@ -27,7 +25,7 @@ const useHandleTimer = ({ shouldStartTimer, duration }: TimeoutProperties, isOpe
   }, []);
 
   useEffect(() => {
-    if (isOpen) {
+    if (shouldStartTimer) {
       initializeTimer();
     } else {
       removeTimer();
@@ -35,7 +33,7 @@ const useHandleTimer = ({ shouldStartTimer, duration }: TimeoutProperties, isOpe
     return () => {
       removeTimer();
     };
-  }, [isOpen, initializeTimer, removeTimer]);
+  }, [initializeTimer, removeTimer]);
 
   return { initializeTimer, removeTimer };
 };
