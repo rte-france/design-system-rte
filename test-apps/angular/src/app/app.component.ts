@@ -19,6 +19,7 @@ import {
   PopoverDirective,
   ModalModule,
   SideNavComponent,
+  CardComponent,
 } from "@design-system-rte/angular";
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
 
@@ -45,6 +46,7 @@ import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-it
     PopoverDirective,
     ModalModule,
     SideNavComponent,
+    CardComponent,
   ],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",
