@@ -18,6 +18,10 @@ export class CardComponent {
   readonly selectable = input<boolean>(false);
   readonly disabled = input<boolean>(false);
 
+  readonly ariaLabel = input<string | undefined>(undefined);
+  readonly ariaLabelledby = input<string | undefined>(undefined);
+  readonly ariaRole = input<string | undefined>(undefined);
+
   readonly cardClicked = output<void>();
 
   readonly cardWidth = computed(() => `${cardSize[this.size()]}px`);
