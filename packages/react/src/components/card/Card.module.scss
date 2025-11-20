@@ -14,6 +14,10 @@
         @include elevation-neutral-shadow-3;
     }
 
+    &:active {
+        @include elevation-neutral-shadow-1;
+    }
+
     &[data-disabled='true'] {
         background: var(--background-disabled);
         opacity: $opacity-30;
@@ -29,6 +33,10 @@
         flex-shrink: 0;
         border: $width-xs solid var(--border-tertiary);
         box-shadow: none;
+
+        &:active {
+            border-color: var(--border-secondary);
+        }
     }
 
     &[data-selectable='true'] {
