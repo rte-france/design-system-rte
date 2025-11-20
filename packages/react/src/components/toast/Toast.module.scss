@@ -21,14 +21,14 @@
   right: auto;
 
   opacity: 0;
-  transition: opacity 300ms ease, transform 200ms ease;
+  transition: opacity 300ms ease, transform 300ms ease;
 
   &[data-position='top'] {
-    top: 0;
+    top: $positive-spacing_150;
   }
 
   &[data-position='bottom'] {
-    bottom: 0;
+    bottom: $positive-spacing_150;
 
     &[data-alignment='center'] {
       left: 50%;
@@ -41,12 +41,10 @@
         transform: translate(-50%, 0);
       }
     }
-
-
   }
 
   &[data-alignment='left'] {
-    left: 0;
+    left: $positive-spacing_150;
 
     transform: translate(-10px, 0);
 
@@ -59,7 +57,7 @@
   }
 
   &[data-alignment='right'] {
-    right: 0;
+    right: $positive-spacing_150;
 
     transform: translate(10px, 0);
 

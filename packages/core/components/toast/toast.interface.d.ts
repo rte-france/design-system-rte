@@ -9,9 +9,10 @@ export interface ToastProps {
   isOpen?: boolean;
   type?: ToastType;
   duration?: ToastDuration;
-  isVisible?: boolean;
   onClose?: () => void;
   placement?: ToastPlacement;
   closable?: boolean;
   autoDismiss?: boolean;
+  iconName?: string;
+  showLeftIcon?: boolean;
 }

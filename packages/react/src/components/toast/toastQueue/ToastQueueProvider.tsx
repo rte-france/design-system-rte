@@ -34,24 +34,24 @@ const ToastQueueProvider = ({ children }: { children: React.ReactNode }) => {
     if (hasButtonAction) {
       if (type === "error") {
         return 1;
-      } else if (type === "success") {
+      } else if (type === "warning") {
         return 3;
-      } else if (type === "info") {
-        return 4;
-      } else if (type === "neutral") {
+      } else if (type === "success") {
         return 5;
+      } else if (type === "info") {
+        return 6;
       } else {
-        return 9;
+        return 7;
       }
     } else {
       if (type === "error") {
         return 2;
+      } else if (type === "warning") {
+        return 4;
       } else if (type === "success") {
-        return 6;
-      } else if (type === "info") {
-        return 7;
-      } else if (type === "neutral") {
         return 8;
+      } else if (type === "info") {
+        return 9;
       } else {
         return 10;
       }
