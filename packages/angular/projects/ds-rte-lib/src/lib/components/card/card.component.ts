@@ -22,6 +22,8 @@ export class CardComponent {
 
   readonly cardWidth = computed(() => `${cardSize[this.size()]}px`);
 
+  readonly tabIndex = computed(() => (this.clickable() ? 0 : -1));
+
   onClick(): void {
     if (!this.disabled() && this.clickable()) {
       this.cardClicked.emit();
