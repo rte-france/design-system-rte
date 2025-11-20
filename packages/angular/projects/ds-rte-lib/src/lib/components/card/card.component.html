@@ -1,0 +1,10 @@
+<div
+  class="card card-{{cardType()}}"
+  [style.width]="cardWidth()"
+  [attr.disabled]="disabled()"
+  [ngClass]="{'clickable': clickable()}"
+  (click)="onClick()"
+>
+  <ng-content/>
+</div>
+
