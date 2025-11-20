@@ -1,3 +1,11 @@
+import {
+  cardStoryArgTypes,
+  sizeExamples,
+  cardTypeExamples,
+  defaultStoryArgs,
+  clickableStoryArgs,
+  disabledStoryArgs,
+} from "@design-system-rte/core/components/card/card.stories.shared";
 import type { Meta, StoryObj } from "@storybook/angular";
 import { moduleMetadata } from "@storybook/angular";
 import { fn, userEvent, within, expect } from "@storybook/test";
@@ -10,24 +18,7 @@ const meta: Meta<CardComponent> = {
   component: CardComponent,
   tags: ["autodocs"],
   argTypes: {
-    size: {
-      control: "select",
-      options: ["xs", "s", "m", "l", "xl"],
-      description: "Size of the card",
-    },
-    cardType: {
-      control: "select",
-      options: ["default", "outlined"],
-      description: "Type of card styling",
-    },
-    clickable: {
-      control: "boolean",
-      description: "Whether the card is clickable",
-    },
-    disabled: {
-      control: "boolean",
-      description: "Whether the card is disabled",
-    },
+    ...cardStoryArgTypes,
     cardClicked: { action: "clicked" },
   },
   args: { cardClicked: fn() },
@@ -47,12 +38,7 @@ const defaultContent = `
 `;
 
 export const Default: Story = {
-  args: {
-    size: "m",
-    cardType: "default",
-    clickable: false,
-    disabled: false,
-  },
+  args: defaultStoryArgs,
   render: (args) => ({
     props: args,
     template: `
@@ -69,79 +55,60 @@ export const Default: Story = {
   }),
 };
 
+function generateSizesTemplate(examples: typeof sizeExamples): string {
+  return examples
+    .map(
+      (example) => `
+        <rte-card size="${example.size}" [cardType]="cardType" [clickable]="clickable" [disabled]="disabled">
+          <div style="padding: 16px;">
+            <h3 style="margin: 0 0 8px 0; font-size: 16px; font-weight: 600;">${example.label}</h3>
+            <p style="margin: 0; color: #666; font-size: 14px;">${example.width}</p>
+          </div>
+        </rte-card>`,
+    )
+    .join("");
+}
+
 export const Sizes: Story = {
   render: (args) => ({
     props: args,
     template: `
       <div style="display: flex; flex-direction: column; gap: 16px;">
-        <rte-card size="xs" [cardType]="cardType" [clickable]="clickable" [disabled]="disabled">
-          <div style="padding: 16px;">
-            <h3 style="margin: 0 0 8px 0; font-size: 16px; font-weight: 600;">Extra Small (xs)</h3>
-            <p style="margin: 0; color: #666; font-size: 14px;">240px width</p>
-          </div>
-        </rte-card>
-        <rte-card size="s" [cardType]="cardType" [clickable]="clickable" [disabled]="disabled">
-          <div style="padding: 16px;">
-            <h3 style="margin: 0 0 8px 0; font-size: 16px; font-weight: 600;">Small (s)</h3>
-            <p style="margin: 0; color: #666; font-size: 14px;">360px width</p>
-          </div>
-        </rte-card>
-        <rte-card size="m" [cardType]="cardType" [clickable]="clickable" [disabled]="disabled">
-          <div style="padding: 16px;">
-            <h3 style="margin: 0 0 8px 0; font-size: 16px; font-weight: 600;">Medium (m)</h3>
-            <p style="margin: 0; color: #666; font-size: 14px;">480px width</p>
-          </div>
-        </rte-card>
-        <rte-card size="l" [cardType]="cardType" [clickable]="clickable" [disabled]="disabled">
-          <div style="padding: 16px;">
-            <h3 style="margin: 0 0 8px 0; font-size: 16px; font-weight: 600;">Large (l)</h3>
-            <p style="margin: 0; color: #666; font-size: 14px;">600px width</p>
-          </div>
-        </rte-card>
-        <rte-card size="xl" [cardType]="cardType" [clickable]="clickable" [disabled]="disabled">
-          <div style="padding: 16px;">
-            <h3 style="margin: 0 0 8px 0; font-size: 16px; font-weight: 600;">Extra Large (xl)</h3>
-            <p style="margin: 0; color: #666; font-size: 14px;">720px width</p>
-          </div>
-        </rte-card>
+        ${generateSizesTemplate(sizeExamples)}
       </div>
     `,
   }),
 };
+
+function generateCardTypesTemplate(examples: typeof cardTypeExamples): string {
+  return examples
+    .map(
+      (example) => `
+        <rte-card size="m" cardType="${example.cardType}" [clickable]="clickable" [disabled]="disabled">
+          <div style="padding: 16px;">
+            <h3 style="margin: 0 0 8px 0; font-size: 18px; font-weight: 600;">${example.title}</h3>
+            <p style="margin: 0; color: #666; line-height: 1.5;">
+              ${example.description}
+            </p>
+          </div>
+        </rte-card>`,
+    )
+    .join("");
+}
 
 export const CardTypes: Story = {
   render: (args) => ({
     props: args,
     template: `
       <div style="display: flex; flex-direction: column; gap: 16px;">
-        <rte-card size="m" cardType="default" [clickable]="clickable" [disabled]="disabled">
-          <div style="padding: 16px;">
-            <h3 style="margin: 0 0 8px 0; font-size: 18px; font-weight: 600;">Default Card</h3>
-            <p style="margin: 0; color: #666; line-height: 1.5;">
-              This card uses the default styling with elevation shadow.
-            </p>
-          </div>
-        </rte-card>
-        <rte-card size="m" cardType="outlined" [clickable]="clickable" [disabled]="disabled">
-          <div style="padding: 16px;">
-            <h3 style="margin: 0 0 8px 0; font-size: 18px; font-weight: 600;">Outlined Card</h3>
-            <p style="margin: 0; color: #666; line-height: 1.5;">
-              This card uses outlined styling with a border instead of shadow.
-            </p>
-          </div>
-        </rte-card>
+        ${generateCardTypesTemplate(cardTypeExamples)}
       </div>
     `,
   }),
 };
 
 export const Clickable: Story = {
-  args: {
-    size: "m",
-    cardType: "default",
-    clickable: true,
-    disabled: false,
-  },
+  args: clickableStoryArgs,
   render: (args) => ({
     props: {
       ...args,
@@ -181,12 +148,7 @@ export const Clickable: Story = {
 };
 
 export const Disabled: Story = {
-  args: {
-    size: "m",
-    cardType: "default",
-    clickable: true,
-    disabled: true,
-  },
+  args: disabledStoryArgs,
   render: (args) => ({
     props: {
       ...args,
@@ -242,12 +204,7 @@ export const WithButtons: Story = {
       imports: [ButtonComponent],
     }),
   ],
-  args: {
-    size: "m",
-    cardType: "default",
-    clickable: false,
-    disabled: false,
-  },
+  args: defaultStoryArgs,
   render: (args) => ({
     props: {
       ...args,
@@ -312,12 +269,7 @@ export const ClickableWithContent: Story = {
       imports: [ButtonComponent],
     }),
   ],
-  args: {
-    size: "m",
-    cardType: "default",
-    clickable: true,
-    disabled: false,
-  },
+  args: clickableStoryArgs,
   render: (args) => ({
     props: {
       ...args,

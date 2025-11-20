@@ -1,3 +1,11 @@
+import {
+  cardStoryArgTypes,
+  sizeExamples,
+  cardTypeExamples,
+  defaultStoryArgs,
+  clickableStoryArgs,
+  disabledStoryArgs,
+} from "@design-system-rte/core/components/card/card.stories.shared";
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn, userEvent, within, expect } from "@storybook/test";
 
@@ -9,24 +17,7 @@ const meta = {
   component: Card,
   tags: ["autodocs"],
   argTypes: {
-    size: {
-      control: "select",
-      options: ["xs", "s", "m", "l", "xl"],
-      description: "Size of the card",
-    },
-    cardType: {
-      control: "select",
-      options: ["default", "outlined"],
-      description: "Type of card styling",
-    },
-    selectable: {
-      control: "boolean",
-      description: "Whether the card is clickable",
-    },
-    disabled: {
-      control: "boolean",
-      description: "Whether the card is disabled",
-    },
+    ...cardStoryArgTypes,
     onClick: { action: "clicked" },
   },
   args: { onClick: fn() },
@@ -47,93 +38,45 @@ const defaultContent = (
 
 export const Default: Story = {
   args: {
-    size: "m",
-    cardType: "default",
-    selectable: false,
-    disabled: false,
+    ...defaultStoryArgs,
     children: defaultContent,
   },
 };
 
 export const Sizes: Story = {
-  args: {
-    size: "m",
-    cardType: "default",
-    selectable: false,
-    disabled: false,
-  },
+  args: defaultStoryArgs,
   render: (args) => (
     <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-      <Card {...args} size="xs">
-        <div style={{ padding: "16px" }}>
-          <h3 style={{ margin: "0 0 8px 0", fontSize: "16px", fontWeight: "600" }}>Extra Small (xs)</h3>
-          <p style={{ margin: "0", color: "#666", fontSize: "14px" }}>240px width</p>
-        </div>
-      </Card>
-      <Card {...args} size="s">
-        <div style={{ padding: "16px" }}>
-          <h3 style={{ margin: "0 0 8px 0", fontSize: "16px", fontWeight: "600" }}>Small (s)</h3>
-          <p style={{ margin: "0", color: "#666", fontSize: "14px" }}>360px width</p>
-        </div>
-      </Card>
-      <Card {...args} size="m">
-        <div style={{ padding: "16px" }}>
-          <h3 style={{ margin: "0 0 8px 0", fontSize: "16px", fontWeight: "600" }}>Medium (m)</h3>
-          <p style={{ margin: "0", color: "#666", fontSize: "14px" }}>480px width</p>
-        </div>
-      </Card>
-      <Card {...args} size="l">
-        <div style={{ padding: "16px" }}>
-          <h3 style={{ margin: "0 0 8px 0", fontSize: "16px", fontWeight: "600" }}>Large (l)</h3>
-          <p style={{ margin: "0", color: "#666", fontSize: "14px" }}>600px width</p>
-        </div>
-      </Card>
-      <Card {...args} size="xl">
-        <div style={{ padding: "16px" }}>
-          <h3 style={{ margin: "0 0 8px 0", fontSize: "16px", fontWeight: "600" }}>Extra Large (xl)</h3>
-          <p style={{ margin: "0", color: "#666", fontSize: "14px" }}>720px width</p>
-        </div>
-      </Card>
+      {sizeExamples.map((example) => (
+        <Card key={example.size} {...args} size={example.size}>
+          <div style={{ padding: "16px" }}>
+            <h3 style={{ margin: "0 0 8px 0", fontSize: "16px", fontWeight: "600" }}>{example.label}</h3>
+            <p style={{ margin: "0", color: "#666", fontSize: "14px" }}>{example.width}</p>
+          </div>
+        </Card>
+      ))}
     </div>
   ),
 };
 
 export const CardTypes: Story = {
-  args: {
-    size: "m",
-    cardType: "default",
-    selectable: false,
-    disabled: false,
-  },
+  args: defaultStoryArgs,
   render: (args) => (
     <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-      <Card {...args} cardType="default">
-        <div style={{ padding: "16px" }}>
-          <h3 style={{ margin: "0 0 8px 0", fontSize: "18px", fontWeight: "600" }}>Default Card</h3>
-          <p style={{ margin: "0", color: "#666", lineHeight: "1.5" }}>
-            This card uses the default styling with elevation shadow.
-          </p>
-        </div>
-      </Card>
-      <Card {...args} cardType="outlined">
-        <div style={{ padding: "16px" }}>
-          <h3 style={{ margin: "0 0 8px 0", fontSize: "18px", fontWeight: "600" }}>Outlined Card</h3>
-          <p style={{ margin: "0", color: "#666", lineHeight: "1.5" }}>
-            This card uses outlined styling with a border instead of shadow.
-          </p>
-        </div>
-      </Card>
+      {cardTypeExamples.map((example) => (
+        <Card key={example.cardType} {...args} cardType={example.cardType}>
+          <div style={{ padding: "16px" }}>
+            <h3 style={{ margin: "0 0 8px 0", fontSize: "18px", fontWeight: "600" }}>{example.title}</h3>
+            <p style={{ margin: "0", color: "#666", lineHeight: "1.5" }}>{example.description}</p>
+          </div>
+        </Card>
+      ))}
     </div>
   ),
 };
 
 export const Clickable: Story = {
-  args: {
-    size: "m",
-    cardType: "default",
-    selectable: true,
-    disabled: false,
-  },
+  args: clickableStoryArgs,
   render: (args) => (
     <Card {...args} onClick={args.onClick}>
       <div style={{ padding: "16px" }}>
@@ -158,12 +101,7 @@ export const Clickable: Story = {
 };
 
 export const Disabled: Story = {
-  args: {
-    size: "m",
-    cardType: "default",
-    selectable: true,
-    disabled: true,
-  },
+  args: disabledStoryArgs,
   render: (args) => (
     <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
       <Card {...args} cardType="default">
@@ -190,12 +128,7 @@ export const Disabled: Story = {
 };
 
 export const WithButtons: Story = {
-  args: {
-    size: "m",
-    cardType: "default",
-    selectable: false,
-    disabled: false,
-  },
+  args: defaultStoryArgs,
   render: (args) => (
     <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
       <Card {...args}>
@@ -227,12 +160,7 @@ export const WithButtons: Story = {
 };
 
 export const ClickableWithContent: Story = {
-  args: {
-    size: "m",
-    cardType: "default",
-    selectable: true,
-    disabled: false,
-  },
+  args: clickableStoryArgs,
   render: (args) => (
     <Card {...args}>
       <div style={{ padding: "16px" }}>
