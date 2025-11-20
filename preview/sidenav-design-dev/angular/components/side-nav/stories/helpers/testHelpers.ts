@@ -6,8 +6,8 @@ function getCanvasAndSideNav(canvasElement: HTMLElement) {
   return { canvas, sideNav };
 }
 
-function waitForTooltip(delay: number = 200): Promise<void> {
+function waitDelay(delay: number = 200): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, delay));
 }
 
-export { getCanvasAndSideNav, waitForTooltip };
+export { getCanvasAndSideNav, waitDelay };

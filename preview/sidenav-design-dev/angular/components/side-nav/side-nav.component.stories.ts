@@ -22,7 +22,7 @@ import {
   expectNavItemNotToBeActive,
   expectNavItemToBeActive,
 } from "./stories/helpers/expectations";
-import { getCanvasAndSideNav, waitForTooltip } from "./stories/helpers/testHelpers";
+import { getCanvasAndSideNav, waitDelay } from "./stories/helpers/testHelpers";
 
 const meta: Meta<SideNavComponent> = {
   title: "SideNav",
@@ -544,7 +544,7 @@ export const CollapsedTooltip: Story = {
       await userEvent.tab();
 
       homeElement?.focus();
-      await waitForTooltip();
+      await waitDelay();
 
       const tooltip = within(document.body).queryByRole("tooltip", { name: "Home" });
       expect(tooltip).not.toBeNull();
@@ -553,7 +553,7 @@ export const CollapsedTooltip: Story = {
 
     await step("Verify tooltips appear when tabbing to next navigation item", async () => {
       await userEvent.tab();
-      await waitForTooltip();
+      await waitDelay();
 
       const tooltip = within(document.body).queryByRole("tooltip", { name: "Dashboard" });
       expect(tooltip).not.toBeNull();
@@ -564,7 +564,7 @@ export const CollapsedTooltip: Story = {
       await userEvent.tab();
       await userEvent.tab();
       await userEvent.tab();
-      await waitForTooltip();
+      await waitDelay();
 
       const tooltip = within(document.body).queryByRole("tooltip", { name: "Profile" });
       expect(tooltip).not.toBeNull();
@@ -586,13 +586,14 @@ export const CollapsedTooltipWithNested: Story = {
     const { sideNav } = getCanvasAndSideNav(canvasElement);
 
     await step("Verify tooltips appear when tabbing to menu items", async () => {
+      await waitDelay();
       const dashboardMenu = getNavElementInCollapsedState(sideNav, 1);
       expect(dashboardMenu).not.toBeNull();
 
       await userEvent.tab();
       await userEvent.tab();
       await userEvent.tab();
-      await waitForTooltip();
+      await waitDelay();
 
       const tooltip = within(document.body).queryByRole("tooltip", { name: "Dashboard" });
       expect(tooltip).not.toBeNull();
