@@ -3,6 +3,7 @@ import Badge from "./components/badge/Badge.tsx";
 import Banner from "./components/banner/Banner.tsx";
 import Breadcrumbs from "./components/breadcrumbs/Breadcrumbs.tsx";
 import Button from "./components/button/Button";
+import Card from "./components/card/Card.tsx";
 import Checkbox from "./components/checkbox/Checkbox.tsx";
 import CheckboxGroup from "./components/checkboxGroup/CheckboxGroup.tsx";
 import Chip from "./components/chip/Chip.tsx";
@@ -47,4 +48,5 @@ export {
   Banner,
   Popover,
   Modal,
+  Card,
 };
