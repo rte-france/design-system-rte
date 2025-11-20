@@ -1,5 +1,9 @@
 @use '@design-system-rte/core/design-tokens/main.scss' as *;
 
+:host {
+    display: contents;
+}
+
 .horizontal {
     border: none;
     padding: 0;
@@ -28,6 +32,10 @@
 
     &.brand {
         border-top-color: var(--border-brand-default);
+    }
+
+    &.brand-navigation {
+        border-top-color: var(--border-brand-navigation-divider);
     }
 }
 
@@ -59,5 +67,9 @@
 
     &.brand {
         background-color: var(--border-brand-default);
+    }
+
+    &.brand-navigation {
+        background-color: var(--border-brand-navigation-divider);
     }
 }

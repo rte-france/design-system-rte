@@ -55,6 +55,23 @@ const config: StorybookConfig = {
         use: ["style-loader", "css-loader"],
       },
     );
+
+    // Configure watch options to reduce excessive HMR checks
+    config.watchOptions = {
+      ...config.watchOptions,
+      ignored: [
+        "**/node_modules/**",
+        "**/dist/**",
+        "**/.angular/cache/**",
+        "**/storybook-static/**",
+        "**/coverage/**",
+        "**/.git/**",
+        "**/documentation.json",
+      ],
+      aggregateTimeout: 300,
+      poll: false,
+    };
+
     return config;
   },
 };

@@ -1,0 +1,88 @@
+@if (collapsed() && label()) {
+  <div
+    class="nav-item-container {{appearance()}}"
+    rteTooltip
+    rteTooltipPosition="right"
+    rteTooltipAlignment="center"
+    [id]="id()"
+    [ngClass]="{ collapsed: collapsed(), nested: isNested(), active: active(), focused: focused() }"
+    [attr.role]="role()"
+    [rteTooltip]="label()"
+    [rteTooltipArrow]="false"
+    [rteTooltipGap]="12"
+    [rteTooltipShouldFocusTrigger]="false">
+    <ng-container [ngTemplateOutlet]="contentTemplate" />
+  </div>
+} @else {
+  <div
+    class="nav-item-container {{appearance()}}"
+    [id]="id()"
+    [ngClass]="{ collapsed: collapsed(), nested: isNested(), active: active(), focused: focused() }"
+    [attr.role]="role()">
+    <ng-container [ngTemplateOutlet]="contentTemplate" />
+  </div>
+}
+
+<ng-template #contentTemplate>
+  @if (link()) {
+    <a
+      class="nav-item"
+      [href]="link()!"
+      [attr.tabindex]="tabIndex()"
+      [attr.aria-label]="label()"
+      (focus)="handleFocus()"
+      (blur)="handleBlur()">
+      <div class="nav-item-left">
+        @if (showIcon() && icon()) {
+          <rte-icon class="icon" [name]="icon()!" [size]="iconSize()" />
+        }
+        @if (!collapsed()) {
+          <span>{{ label() }}</span>
+        }
+      </div>
+      <div class="nav-item-right">
+        @if (badge()) {
+          <rte-badge
+            [badgeType]="badge()!.badgeType || 'brand'"
+            [badgeSize]="badge()!.size || 'm'"
+            [badgeContent]="badge()!.content || 'number'"
+            [count]="badge()!.count"
+            [icon]="badge()!.icon || 'notification'"
+            [simpleBadge]="true"
+          />
+        }
+      </div>
+    </a>
+  } @else {
+    <span
+      class="nav-item"
+      [attr.tabindex]="tabIndex()"
+      [attr.aria-label]="label()"
+      (click)="handleClick($event)"
+      (keydown)="handleKeyDown($event)"
+      (focus)="handleFocus()"
+      (blur)="handleBlur()">
+      <div class="nav-item-left">
+        @if (showIcon() && icon()) {
+          <rte-icon class="icon" [name]="icon()!" [size]="iconSize()" />
+        }
+        @if (!collapsed()) {
+          <span>{{ label() }}</span>
+        }
+      </div>
+      <div class="nav-item-right">
+        @if (badge()) {
+          <rte-badge
+            [badgeType]="badge()!.badgeType || 'brand'"
+            [badgeSize]="badge()!.size || 'm'"
+            [badgeContent]="badge()!.content || 'number'"
+            [count]="badge()!.count"
+            [icon]="badge()!.icon || 'notification'"
+            [simpleBadge]="true"
+          />
+        }
+      </div>
+    </span>
+  }
+</ng-template>
+

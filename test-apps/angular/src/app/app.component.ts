@@ -1,4 +1,4 @@
-import { Component, output, signal } from "@angular/core";
+import { Component, computed, output, signal } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
 import {
   ButtonComponent,
@@ -18,7 +18,9 @@ import {
   BannerComponent,
   PopoverDirective,
   ModalModule,
+  SideNavComponent,
 } from "@design-system-rte/angular";
+import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
 
 @Component({
   selector: "app-root",
@@ -42,6 +44,7 @@ import {
     BannerComponent,
     PopoverDirective,
     ModalModule,
+    SideNavComponent,
   ],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",
@@ -112,4 +115,73 @@ export class AppComponent {
     { id: "option-2", label: "Option 2", onClick: () => console.log("Option 2 clicked") },
     { id: "option-3", label: "Option 3", onClick: () => console.log("Option 3 clicked") },
   ];
+
+  readonly activeItem = signal<string>("home");
+
+  readonly headerConfig = {
+    identifier: "DS",
+    title: "Design System",
+    version: "V1.0.0",
+    icon: "home",
+    link: "/",
+  };
+
+  readonly baseNavigationItems: NavItemProps[] = [
+    { id: "home", label: "Home", icon: "home", showIcon: true },
+    { id: "dashboard", label: "Dashboard", icon: "dashboard", showIcon: true },
+    { id: "analytics", label: "Analytics", icon: "analytics", showIcon: true },
+    { id: "settings", label: "Settings", icon: "settings", showIcon: true },
+    { id: "profile", label: "Profile", icon: "user", showIcon: true, link: "/profile" },
+  ];
+
+  readonly navigationItems = computed<NavItemProps[]>(() => {
+    return this.baseNavigationItems.map((item) => ({
+      ...item,
+      active: item.id === this.activeItem(),
+      onClick: () => {
+        this.activeItem.set(item.id || "");
+      },
+    }));
+  });
+
+  readonly baseFooterItems: NavItemProps[] = [
+    {
+      id: "footer-settings",
+      label: "Settings",
+      icon: "settings",
+      showIcon: true,
+    },
+    {
+      id: "footer-help",
+      label: "Help & Support",
+      icon: "help",
+      showIcon: true,
+      link: "/help",
+    },
+    {
+      id: "footer-account",
+      label: "Account",
+      icon: "user",
+      showIcon: true,
+      items: [
+        { id: "footer-profile", label: "Profile", link: "/profile" },
+        { id: "footer-preferences", label: "Preferences" },
+        { id: "footer-logout", label: "Logout", onClick: () => console.log("Logout clicked") },
+      ],
+    },
+  ];
+
+  readonly footerItems = computed<NavItemProps[]>(() => {
+    return this.baseFooterItems.map((item) => ({
+      ...item,
+      active: item.id === this.activeItem(),
+    }));
+  });
+
+  handleItemClick(itemId: string): void {
+    if (itemId === "footer-settings") {
+      console.log("Footer Settings clicked");
+    }
+    this.activeItem.set(itemId);
+  }
 }

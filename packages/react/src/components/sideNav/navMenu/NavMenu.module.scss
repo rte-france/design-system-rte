@@ -1,0 +1,132 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+.navMenuContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    border-radius: $radius-s;
+    transition: background-color 300ms;
+    box-sizing: border-box;
+
+    &[data-appearance='neutral'] {
+        .navMenu {
+            color: var(--content-secondary);
+
+            &:hover {
+                background: var(--background-neutral-navigation-hover);
+                color: var(--content-primary);
+            }
+            &[data-focused='true'] {
+                outline: none;
+            }
+        }
+
+        &[data-nested='true'] {
+            .navMenu {
+                border-radius: 0 $radius-s $radius-s 0;
+                border-left: $width-xs solid var(--border-divider);
+            }
+            
+        }
+    }
+
+    .navMenu {
+        @include typography-button-m;
+        display: flex;
+        padding: $positive-spacing_100 $positive-spacing_075;
+        align-items: center;
+        gap: $positive-spacing_100;
+        flex: 1 0 0;
+        user-select: none;
+        justify-content: space-between;
+        width: 100%;
+        box-sizing: border-box;
+        cursor: pointer;
+        border-left: $width-s solid transparent;
+        color: var(--content-brand-navigation-default);
+
+        .menuContentLeft {
+            display: flex;
+            align-items: center;
+            gap: $positive-spacing_100;
+        }
+
+        .menuContentRight {
+            display: flex;
+            align-items: center;
+            gap: $positive-spacing_050;
+        }
+
+        &:hover {
+            border-radius: $radius-s;
+            background: var(--background-brand-navigation-hover);
+            color: var(--content-brand-navigation-hover);
+        }
+
+        &:link {
+            text-decoration: none;
+            color: inherit;
+            &:hover {
+                text-decoration: none;
+                color: inherit;
+            }
+        }
+
+        &:focus-visible {
+            outline: 1px solid var(--border-brand-focused);
+            outline-offset: 0;
+            border-radius: $radius-s;
+        }
+    }
+
+    &[data-collapsed='true'] {
+        .navMenu {
+            padding: $positive-spacing_100 $positive-spacing_150;
+            justify-content: center;
+            gap: 0;
+            border-left: none;
+        }
+    }
+
+    &[data-nested='true'] {
+        .navMenu {
+            @include typography-button-s;
+            border-radius: 0 $radius-s $radius-s 0;
+            border-left: $width-xs solid var(--border-brand-navigation-divider);
+            padding: $positive-spacing_050 $positive-spacing_100;
+        }
+    }
+
+    .menuIcon {
+        flex-shrink: 0;
+        transition: transform 200ms;
+        margin-left: auto;
+
+        &[data-open='true'] {
+            transform: rotate(90deg);
+        }
+    }
+
+    .nestedMenu {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 300ms, padding 300ms;
+        padding-left: $positive-spacing_200;
+        gap: 0;
+
+        &[data-open='true'] {
+            max-height: 1000px;
+            padding-top: $positive-spacing_050;
+            padding-bottom: $positive-spacing_050;
+        }
+    }
+
+    .icon {
+        flex-shrink: 0;
+    }
+}
+

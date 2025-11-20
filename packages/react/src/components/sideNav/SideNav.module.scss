@@ -1,0 +1,247 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+.sideNavContainer {
+    min-height: 100vh;
+    height: 100vh;
+}
+
+.sideNavContent {
+    flex: 0 1 auto;
+    align-self: flex-start;
+}
+
+.sideNav {
+    min-height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: $positive-spacing_0;
+    overflow: hidden;
+    box-sizing: border-box;
+    border-radius: 0;
+    transition: min-width 300ms;
+    position: relative;
+    border-right: 1px solid var(--border-brand-navigation-divider);
+}
+
+.sideNavHeaderContainer {
+    display: flex;
+    padding: $positive-spacing_050;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    flex-shrink: 0;
+    align-self: stretch;
+    height: 120px;
+    min-height: 120px;
+    max-height: 120px;
+
+    &[data-collapsed='true'] {
+        align-items: center;
+        justify-content: center;
+        padding: $positive-spacing_050;
+    }
+}
+
+.sideNavHeader {
+    display: flex;
+    position: relative;
+    padding: $positive-spacing_250 $positive-spacing_100;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $positive-spacing_050;
+    flex: 1 0 0;
+    align-self: stretch;
+    height: 120px;
+    transition: opacity 300ms;
+
+    &[data-collapsed='true'] {
+        padding: $positive-spacing_100;
+        justify-content: center;
+        align-items: center;
+        flex: 1 0 0;
+        align-self: stretch;
+
+        .sideNavHeaderTitleContainer {
+            padding: $positive-spacing_100;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 0;
+            gap: 0;
+            align-self: auto;
+            .sideNavHeaderTitle {
+                gap: 0;
+            }
+        }
+    }
+
+    &[data-appearance='neutral'] {
+        .sideNavHeaderTitleContainer {
+            &[href],
+            &[role="button"] {
+                &:hover {
+                    background: var(--background-neutral-navigation-hover);
+                    @include neutral-shadow-1;
+                }
+            }
+        }
+    }
+
+    .sideNavHeaderTitleContainer {
+        display: flex;
+        padding: $positive-spacing_0 $positive-spacing_100;
+        align-items: center;
+        gap: $positive-spacing_100;
+        flex: 1 0 0;
+        align-self: stretch;
+        text-decoration: none;
+        color: inherit;
+
+        &[href],
+        &[role="button"] {
+            cursor: pointer;
+
+            &:hover {
+                border-radius: $radius-s;
+                opacity: $opacity-100;
+                background: var(--background-brand-navigation-hover);
+            }
+        }
+
+        .sideNavHeaderTitle {
+            display: flex;
+            align-items: center;
+            gap: $positive-spacing_100;
+
+            .sideNavHeaderIdentifier {
+                @include typography-text-s-bold;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                flex: 1 0 0;
+                align-self: stretch;
+                color: var(--content-brand-navigation-default);
+                text-align: center;
+                user-select: none;
+                border-radius: $radius-s;
+                background: var(--background-brand-navigation-pressed);
+                min-width: 24px;
+                height: 24px;
+            }
+    
+            h1 {
+                @include typography-heading-xs;
+                user-select: none;
+                align-self: stretch;
+                margin: 0;
+                transition: opacity 300ms;
+
+                &[data-hidden='true'] {
+                    opacity: 0;
+                    max-height: 0;
+                    padding: 0;
+                    margin: 0;
+                }
+            }
+        }
+    }
+
+    .sideNavHeaderVersion {
+        display: flex;
+        position: absolute;
+        bottom: $positive-spacing_050;
+        right: $positive-spacing_100;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: flex-end;
+        gap: $positive-spacing_0;
+        align-self: stretch;
+        @include typography-text-xs;
+        transition: opacity 300ms, max-height 300ms;
+        max-height: 50px;
+        overflow: hidden;
+        opacity: 1;
+
+        &[data-hidden='true'] {
+            opacity: 0;
+            max-height: 0;
+            padding: 0;
+            margin: 0;
+        }
+    }
+}
+
+.sideNavBody {
+    display: flex;
+    padding: $positive-spacing_200 $positive-spacing_100;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $positive-spacing_100;
+    flex: 1 0 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 100%;
+    box-sizing: border-box;
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        gap: $positive-spacing_100;
+    }
+}
+
+.sideNavFooterContainer {
+    padding: $positive-spacing_100;
+
+    .sideNavFooter {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        box-sizing: border-box;
+        width: 100%;
+        margin-top: $positive-spacing_050;
+    }
+}
+
+.sideNavFooterItems {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $positive-spacing_100;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: $positive-spacing_100;
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
+
+.collapsibleSection {
+    display: flex;
+    padding: $positive-spacing_050 $positive-spacing_0;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: stretch;
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        box-sizing: border-box;
+    }
+}

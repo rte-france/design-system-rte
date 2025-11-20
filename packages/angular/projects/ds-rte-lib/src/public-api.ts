@@ -24,3 +24,4 @@ export * from "./lib/components/popover/popover.directive";
 export * from "./lib/components/modal/modal-trigger/modal-trigger.directive";
 export * from "./lib/components/modal/modal.directive";
 export * from "./lib/components/modal/modal.module";
+export * from "./lib/components/side-nav/side-nav.component";
