@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component, computed, input, output } from "@an
 import { cardSize } from "@design-system-rte/core/components/card/card.constats";
 import { CardType } from "@design-system-rte/core/components/card/card.interface";
 import { Size } from "@design-system-rte/core/components/common/common-types";
+import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
 @Component({
   selector: "rte-card",
@@ -31,6 +32,15 @@ export class CardComponent {
   onClick(): void {
     if (!this.disabled() && this.clickable()) {
       this.cardClicked.emit();
+    }
+  }
+
+  onKeyDown(event: KeyboardEvent): void {
+    if (!this.disabled() && this.clickable()) {
+      if ([ENTER_KEY, SPACE_KEY].includes(event.key)) {
+        event.preventDefault();
+        this.cardClicked.emit();
+      }
     }
   }
 }
