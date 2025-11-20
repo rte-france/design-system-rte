@@ -3,6 +3,7 @@ import Badge from "./components/badge/Badge.tsx";
 import Banner from "./components/banner/Banner.tsx";
 import Breadcrumbs from "./components/breadcrumbs/Breadcrumbs.tsx";
 import Button from "./components/button/Button";
+import Card from "./components/card/Card.tsx";
 import Checkbox from "./components/checkbox/Checkbox.tsx";
 import CheckboxGroup from "./components/checkboxGroup/CheckboxGroup.tsx";
 import Chip from "./components/chip/Chip.tsx";
@@ -24,7 +25,6 @@ import Switch from "./components/switch/Switch.tsx";
 import Textarea from "./components/textarea/Textarea.tsx";
 import TextInput from "./components/textInput/TextInput.tsx";
 import Tooltip from "./components/tooltip/Tooltip.tsx";
-import Card from "./components/card/Card.tsx";
 
 export {
   Button,

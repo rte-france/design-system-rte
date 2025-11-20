@@ -147,8 +147,8 @@ function App() {
               </p>
             </div>
           </Card>
-      </div>
-      <div>
+        </div>
+        <div>
           <h3>Banner</h3>
           <Banner
             type="default"
@@ -330,8 +330,7 @@ function App() {
           </div>
         </Modal>
       </div>
-  </div>
-    </SideNav>
+    </div>
   );
 }
 
