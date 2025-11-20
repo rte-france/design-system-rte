@@ -3,7 +3,7 @@ type TimeoutProperties = {
     shouldStartTimer: boolean;
     duration: ToastDuration;
 };
-declare const useHandleTimer: ({ shouldStartTimer, duration }: TimeoutProperties, isOpen: boolean, callback: () => void) => {
+declare const useHandleTimer: ({ shouldStartTimer, duration }: TimeoutProperties, callback: () => void) => {
     initializeTimer: () => void;
     removeTimer: () => void;
 };
