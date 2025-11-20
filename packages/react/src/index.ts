@@ -22,6 +22,7 @@ import Switch from "./components/switch/Switch.tsx";
 import Textarea from "./components/textarea/Textarea.tsx";
 import TextInput from "./components/textInput/TextInput.tsx";
 import Tooltip from "./components/tooltip/Tooltip.tsx";
+import Card from "./components/card/Card.tsx";
 
 export {
   Button,
@@ -47,4 +48,5 @@ export {
   Banner,
   Popover,
   Modal,
+  Card,
 };

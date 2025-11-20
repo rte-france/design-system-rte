@@ -18,6 +18,7 @@ import {
   BannerComponent,
   PopoverDirective,
   ModalModule,
+  CardComponent,
 } from "@design-system-rte/angular";
 
 @Component({
@@ -42,6 +43,7 @@ import {
     BannerComponent,
     PopoverDirective,
     ModalModule,
+    CardComponent,
   ],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",
