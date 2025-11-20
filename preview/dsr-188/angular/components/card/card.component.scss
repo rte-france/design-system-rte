@@ -10,6 +10,10 @@
     @include elevation-neutral-shadow-2;
     transition: background-color 300ms, box-shadow 300ms;
 
+    &:active {
+        @include elevation-neutral-shadow-1;
+    }
+
     &:hover {
         @include elevation-neutral-shadow-3;
     }
@@ -29,6 +33,10 @@
         flex-shrink: 0;
         border: $width-xs solid var(--border-tertiary);
         box-shadow: none;
+
+        &:active {
+            border-color: var(--border-secondary);
+        }
     }
 
     &.clickable {
