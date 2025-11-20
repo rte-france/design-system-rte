@@ -3,8 +3,12 @@ import { userEvent, expect, within, waitFor } from "@storybook/test";
 import { useState } from "react";
 
 import Button from "../../button/Button";
+import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../../icon/IconMap";
 import Toast from "../Toast";
 import ToastQueueProvider from "../toastQueue/ToastQueueProvider";
+
+const RegularIconIds = Object.keys(RegularIconsList);
+const TogglableIconIds = Object.keys(TogglableIconsList);
 
 const meta = {
   title: "Toast",
@@ -22,6 +26,13 @@ const meta = {
     isOpen: { control: "boolean" },
     autoDismiss: { control: "boolean" },
     duration: { control: "select", options: ["short", "medium", "long"] },
+    iconName: {
+      control: "select",
+      options: [...RegularIconIds, ...TogglableIconIds].sort((a, b) => a.localeCompare(b)),
+      description: "Nom de l’icône à afficher sur le badge",
+    },
+    showLeftIcon: { control: "boolean" },
+    showActionButton: { control: "boolean" },
   },
 } satisfies Meta<typeof Toast>;
 
@@ -32,7 +43,7 @@ export const Default: Story = {
   args: {
     message: "Une mise à jour est disponible",
     type: "info",
-    autoDismiss: false,
+    autoDismiss: true,
     closable: true,
   },
 
@@ -65,80 +76,76 @@ export const Multiple: Story = {
     autoDismiss: true,
     duration: "short",
     closable: true,
-    placement: "top-left",
+    placement: "bottom-center",
   },
 
   render: (args) => {
     const [isErrorOpen, setIsErrorOpen] = useState(false);
     const [isSuccessOpen, setIsSuccessOpen] = useState(false);
     const [isInfoOpen, setIsInfoOpen] = useState(false);
-    const [isSuccessBis, setIsSuccessBis] = useState(false);
+    const [isWarningOpen, setIsWarningOpen] = useState(false);
+    const [isNeutralOpen, setIsNeutralOpen] = useState(false);
 
     return (
       <>
-        <Button
-          label="Toggle error toast"
-          onClick={() => setIsErrorOpen(!isErrorOpen)}
-          style={{ marginBottom: "16px" }}
-          variant="danger"
-        />
-        <Button
-          label="Toggle success toast"
-          onClick={() => setIsSuccessOpen(!isSuccessOpen)}
-          style={{ marginBottom: "16px" }}
-          variant="primary"
-        />
-        <Button
-          label="Toggle info toast"
-          onClick={() => setIsInfoOpen(!isInfoOpen)}
-          style={{ marginBottom: "16px" }}
-          variant="secondary"
-        />
-        <Button
-          label="Toggle success bis toast"
-          onClick={() => setIsSuccessBis(!isSuccessBis)}
-          style={{ marginBottom: "16px" }}
-          variant="secondary"
-        />
+        <div style={{ display: "flex", gap: "12px" }}>
+          <Button label="Toggle error toast" onClick={() => setIsErrorOpen(!isErrorOpen)} variant="danger" />
+          <Button label="Toggle warning toast" onClick={() => setIsWarningOpen(!isWarningOpen)} variant="secondary" />
+          <Button label="Toggle success toast" onClick={() => setIsSuccessOpen(!isSuccessOpen)} variant="primary" />
+          <Button label="Toggle info toast" onClick={() => setIsInfoOpen(!isInfoOpen)} variant="secondary" />
+          <Button label="Toggle neutral toast" onClick={() => setIsNeutralOpen(!isNeutralOpen)} variant="neutral" />
+        </div>
         <ToastQueueProvider>
           <Toast
             {...args}
-            id="my-toast-error-z"
             type={"error"}
             isOpen={isErrorOpen}
             message="Error toast"
-            actionButton={<Button label="Mettre à jour" variant={args.type === "neutral" ? "reverse" : "text"} />}
+            actionButton={<Button label="Mettre à jour" variant="text" />}
             onClose={() => {
               setIsErrorOpen(false);
             }}
           />
           <Toast
             {...args}
+            type={"warning"}
+            message="Warning toast"
+            isOpen={isWarningOpen}
+            actionButton={<Button label="Mettre à jour" variant="text" />}
+            onClose={() => {
+              setIsWarningOpen(false);
+            }}
+          />
+          <Toast
+            {...args}
             type={"success"}
+            message="Success toast"
             isOpen={isSuccessOpen}
-            actionButton={<Button label="Mettre à jour" variant={args.type === "neutral" ? "reverse" : "text"} />}
+            actionButton={<Button label="Mettre à jour" variant="text" />}
             onClose={() => {
               setIsSuccessOpen(false);
             }}
           />
           <Toast
             {...args}
+            type={"info"}
             message="Info toast"
             isOpen={isInfoOpen}
-            actionButton={<Button label="Mettre à jour" variant={args.type === "neutral" ? "reverse" : "text"} />}
+            actionButton={<Button label="Mettre à jour" variant="text" />}
             onClose={() => {
               setIsInfoOpen(false);
             }}
           />
           <Toast
             {...args}
-            type={"success"}
-            message="Success bis toast"
-            isOpen={isSuccessBis}
-            actionButton={<Button label="Mettre à jour" variant={args.type === "neutral" ? "reverse" : "text"} />}
+            type={"neutral"}
+            message="Neutral toast"
+            isOpen={isNeutralOpen}
+            actionButton={<Button label="Mettre à jour" variant="reverse" />}
             onClose={() => {
-              setIsSuccessBis(false);
+              setIsNeutralOpen(false);
             }}
+            iconName="settings"
           />
         </ToastQueueProvider>
       </>
