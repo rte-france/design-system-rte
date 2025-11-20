@@ -8,15 +8,15 @@ interface CardProps extends CardPropsCore {
   onClick?: () => void;
 }
 
-const Card = ({ size, cardType, clickable, disabled, children, onClick }: CardProps) => {
+const Card = ({ size = "m", cardType = "default", selectable = false, disabled = false, children, onClick }: CardProps) => {
   return (
     <div
       className={styles.card}
       style={{ width: cardSize[size] }}
       data-card-type={cardType}
-      data-clickable={clickable}
+      data-selectable={selectable}
       data-disabled={disabled}
-      tabIndex={clickable ? 0 : -1}
+      tabIndex={selectable ? 0 : -1}
       onClick={onClick}
     >
       {children}

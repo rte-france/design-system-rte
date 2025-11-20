@@ -19,7 +19,7 @@ const meta = {
       options: ["default", "outlined"],
       description: "Type of card styling",
     },
-    clickable: {
+    selectable: {
       control: "boolean",
       description: "Whether the card is clickable",
     },
@@ -49,7 +49,7 @@ export const Default: Story = {
   args: {
     size: "m",
     cardType: "default",
-    clickable: false,
+    selectable: false,
     disabled: false,
     children: defaultContent,
   },
@@ -59,7 +59,7 @@ export const Sizes: Story = {
   args: {
     size: "m",
     cardType: "default",
-    clickable: false,
+    selectable: false,
     disabled: false,
   },
   render: (args) => (
@@ -102,7 +102,7 @@ export const CardTypes: Story = {
   args: {
     size: "m",
     cardType: "default",
-    clickable: false,
+    selectable: false,
     disabled: false,
   },
   render: (args) => (
@@ -131,7 +131,7 @@ export const Clickable: Story = {
   args: {
     size: "m",
     cardType: "default",
-    clickable: true,
+    selectable: true,
     disabled: false,
   },
   render: (args) => (
@@ -161,7 +161,7 @@ export const Disabled: Story = {
   args: {
     size: "m",
     cardType: "default",
-    clickable: true,
+    selectable: true,
     disabled: true,
   },
   render: (args) => (
@@ -193,7 +193,7 @@ export const WithButtons: Story = {
   args: {
     size: "m",
     cardType: "default",
-    clickable: false,
+    selectable: false,
     disabled: false,
   },
   render: (args) => (
@@ -230,7 +230,7 @@ export const ClickableWithContent: Story = {
   args: {
     size: "m",
     cardType: "default",
-    clickable: true,
+    selectable: true,
     disabled: false,
   },
   render: (args) => (

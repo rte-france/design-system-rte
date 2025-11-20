@@ -2,7 +2,7 @@
   class="card card-{{cardType()}}"
   [style.width]="cardWidth()"
   [attr.disabled]="disabled()"
-  [ngClass]="{'clickable': clickable()}"
+  [ngClass]="{'selectable': selectable()}"
   [tabIndex]="tabIndex()"
   (click)="onClick()"
 >
