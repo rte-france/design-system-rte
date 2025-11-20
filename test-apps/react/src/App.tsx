@@ -16,6 +16,7 @@ import {
   Popover,
   Modal,
   SideNav,
+  Card,
 } from "@design-system-rte/react";
 import "./App.css";
 import { useState } from "react";
@@ -136,6 +137,18 @@ function App() {
     >
       <div>
         <div>
+        <h3>Card</h3>
+        <div style={{ display: "flex", flexDirection: "column", gap: "16px", alignItems: "flex-start" }}>
+          <Card size="m" cardType="default">
+            <div style={{ padding: "16px" }}>
+              <h4 style={{ margin: "0 0 12px 0", fontSize: "18px", fontWeight: "600" }}>Default Card</h4>
+              <p style={{ margin: "0", color: "#666", lineHeight: "1.5" }}>
+                This is a default card with medium size. It uses elevation shadow styling.
+              </p>
+            </div>
+          </Card>
+      </div>
+      <div>
           <h3>Banner</h3>
           <Banner
             type="default"
@@ -317,6 +330,7 @@ function App() {
           </div>
         </Modal>
       </div>
+  </div>
     </SideNav>
   );
 }
