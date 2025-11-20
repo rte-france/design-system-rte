@@ -47,7 +47,7 @@ export const Default: Story = {
         [cardType]="cardType"
         [clickable]="clickable"
         [disabled]="disabled"
-        (click)="click()"
+        (cardClicked)="click()"
       >
         ${defaultContent}
       </rte-card>
@@ -123,7 +123,7 @@ export const Clickable: Story = {
         [cardType]="cardType"
         [clickable]="clickable"
         [disabled]="disabled"
-        (click)="onCardClick()"
+        (cardClicked)="onCardClick()"
       >
         <div style="padding: 16px;">
           <h2 style="margin: 0 0 12px 0; font-size: 20px; font-weight: 600;">Clickable Card</h2>
@@ -164,7 +164,7 @@ export const Disabled: Story = {
           cardType="default"
           [clickable]="true"
           [disabled]="true"
-          (click)="onCardClick()"
+          (cardClicked)="onCardClick()"
         >
           <div style="padding: 16px;">
             <h2 style="margin: 0 0 12px 0; font-size: 20px; font-weight: 600;">Disabled Default Card</h2>
@@ -178,7 +178,7 @@ export const Disabled: Story = {
           cardType="outlined"
           [clickable]="true"
           [disabled]="true"
-          (click)="onCardClick()"
+          (cardClicked)="onCardClick()"
         >
           <div style="padding: 16px;">
             <h2 style="margin: 0 0 12px 0; font-size: 20px; font-weight: 600;">Disabled Outlined Card</h2>
@@ -288,7 +288,7 @@ export const ClickableWithContent: Story = {
         [cardType]="cardType"
         [clickable]="clickable"
         [disabled]="disabled"
-        (click)="onCardClick()"
+        (cardClicked)="onCardClick()"
       >
         <div style="padding: 16px;">
           <h2 style="margin: 0 0 12px 0; font-size: 20px; font-weight: 600;">Clickable Card with Button</h2>
