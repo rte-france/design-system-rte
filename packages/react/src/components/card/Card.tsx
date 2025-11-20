@@ -11,7 +11,7 @@ interface CardProps extends CardPropsCore {
 const Card = ({
   size = "m",
   cardType = "default",
-  selectable = false,
+  clickable = false,
   disabled = false,
   children,
   onClick,
@@ -22,9 +22,9 @@ const Card = ({
       className={styles.card}
       style={{ width: cardSize[size] }}
       data-card-type={cardType}
-      data-selectable={selectable}
+      data-clickable={clickable}
       data-disabled={disabled}
-      tabIndex={selectable ? 0 : -1}
+      tabIndex={clickable ? 0 : -1}
       onClick={onClick}
       {...props}
     >
