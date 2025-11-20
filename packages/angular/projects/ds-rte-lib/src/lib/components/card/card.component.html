@@ -3,6 +3,7 @@
   [style.width]="cardWidth()"
   [attr.disabled]="disabled()"
   [ngClass]="{'clickable': clickable()}"
+  [tabIndex]="tabIndex()"
   (click)="onClick()"
 >
   <ng-content/>

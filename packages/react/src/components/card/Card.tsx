@@ -16,6 +16,7 @@ const Card = ({ size, cardType, clickable, disabled, children, onClick }: CardPr
       data-card-type={cardType}
       data-clickable={clickable}
       data-disabled={disabled}
+      tabIndex={clickable ? 0 : -1}
       onClick={onClick}
     >
       {children}
