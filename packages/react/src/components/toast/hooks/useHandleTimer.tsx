@@ -33,7 +33,7 @@ const useHandleTimer = ({ shouldStartTimer, duration }: TimeoutProperties, callb
     return () => {
       removeTimer();
     };
-  }, [initializeTimer, removeTimer]);
+  }, [initializeTimer, removeTimer, shouldStartTimer]);
 
   return { initializeTimer, removeTimer };
 };

@@ -1,0 +1,34 @@
+<div
+  class="rte-toast {{ type() }} {{ position() }} {{ alignment() }}"
+  role="status"
+  ref="{ref}"
+  [ngClass]="{ open: isOpen(), close: !isOpen() }"
+>
+  <div class="rte-toast-content">
+    <rte-icon
+      class="rte-toast-icon"
+      aria-hidden="true"
+      [name]="defaultIconName()"
+      [size]="iconSize"
+    />
+    <span class="rte-toast-message">{{ message() }}</span>
+  </div>
+  @if (showActionButton() && actionButtonLabel() && onActionButtonClick()) {
+    <button
+      rteButton
+      rteButtonVariant="text"
+      class="rte-toast-action-button"
+      (click)="onClickActionButton()"
+    >
+      {{ actionButtonLabel() }}
+    </button>
+  }
+  @if (closable()) {
+    <rte-icon-button
+      name="close"
+      [attr.data-testid]="'toast-close-button'"
+      [variant]="type() === 'neutral' ? 'reverse' : 'neutral'"
+      (click)="clickCloseButton()"
+    />
+  }
+</div>
