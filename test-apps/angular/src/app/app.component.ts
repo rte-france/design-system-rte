@@ -1,4 +1,4 @@
-import { Component, computed, output, signal } from "@angular/core";
+import { Component, computed, output, signal, inject } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
 import {
   ButtonComponent,
@@ -20,6 +20,7 @@ import {
   ModalModule,
   SideNavComponent,
   CardComponent,
+  ToastService,
 } from "@design-system-rte/angular";
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
 
@@ -48,11 +49,15 @@ import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-it
     SideNavComponent,
     CardComponent,
   ],
+  providers: [ToastService],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",
 })
 export class AppComponent {
   title = "angular";
+
+  readonly toastService = inject(ToastService);
+  private currentOpenedToastId = "";
 
   readonly inputValue = signal("Hello");
 
@@ -185,5 +190,21 @@ export class AppComponent {
       console.log("Footer Settings clicked");
     }
     this.activeItem.set(itemId);
+  }
+  toggleToast() {
+    console.log("Toast toggled from app component");
+    if (this.toastService.isInQueue(this.currentOpenedToastId)) {
+      this.toastService.removeFromQueue(this.currentOpenedToastId);
+      return;
+    }
+    this.currentOpenedToastId = this.toastService.addToQueue({
+      message: "This is a toast message from AppComponent",
+      type: "success",
+      placement: "top-right",
+      autoDismiss: true,
+      duration: "medium",
+      closable: true,
+      showActionButton: false,
+    });
   }
 }
