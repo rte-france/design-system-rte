@@ -15,4 +15,7 @@ export interface ToastProps {
   autoDismiss?: boolean;
   iconName?: string;
   showLeftIcon?: boolean;
+  showActionButton?: boolean;
+  actionButtonLabel?: string;
+  onActionButtonClick?: () => void;
 }
