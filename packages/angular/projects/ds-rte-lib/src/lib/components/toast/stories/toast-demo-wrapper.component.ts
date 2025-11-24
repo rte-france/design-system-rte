@@ -133,6 +133,8 @@ export class ToastDemoWrapperComponent {
             closable: true,
             showActionButton: false,
             actionButtonLabel: "Mettre à jour",
+            iconName: "settings",
+            showLeftIcon: true,
             onActionButtonClick: () => {
               console.log("Mise à jour en cours...");
             },

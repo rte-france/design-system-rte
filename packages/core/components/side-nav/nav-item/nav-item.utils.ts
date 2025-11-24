@@ -1,4 +1,4 @@
-import { IconSize } from "../../icon/icon.constants";
+import { IconSize } from "@design-system-rte/core/components/icon/icon.constants";
 
 export function getNavItemLabelIconSize(isNested = false, collapsed = false): number {
   if (isNested) {
