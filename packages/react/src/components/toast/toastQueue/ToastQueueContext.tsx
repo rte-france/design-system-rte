@@ -4,7 +4,6 @@ export type InputToast = {
   id: string;
   hasActionButton: boolean;
   type: "info" | "success" | "warning" | "error" | "neutral";
-  isAutoDismiss: boolean;
 };
 
 export type ToastQueueItem = {

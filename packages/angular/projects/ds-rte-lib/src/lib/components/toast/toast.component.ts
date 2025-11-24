@@ -25,11 +25,26 @@ export class ToastComponent {
   readonly closable = input<ToastProps["closable"]>(true);
   readonly autoDismiss = input<ToastProps["autoDismiss"]>(true);
   readonly showActionButton = input<ToastProps["showActionButton"]>(true);
+  readonly iconName = input<ToastProps["iconName"]>("");
+  readonly showLeftIcon = input<ToastProps["showLeftIcon"]>(true);
 
   readonly actionButtonLabel = input<ToastProps["actionButtonLabel"]>("");
   readonly onActionButtonClick = input<ToastProps["onActionButtonClick"]>(() => {});
 
   readonly close = output<void>();
+
+  readonly displayCustomIcon = computed(() => {
+    console.log("iconName", this.iconName());
+    return this.showLeftIcon() && !!this.iconName();
+  });
+
+  readonly displayLeftIcon = computed(() => {
+    return this.showLeftIcon() && IconTypeMap[this.type()];
+  });
+
+  readonly displayActionButton = computed(() => {
+    return this.showActionButton() && this.actionButtonLabel() && !!this.onActionButtonClick();
+  });
 
   onClickActionButton(): void {
     const action = this.onActionButtonClick();
