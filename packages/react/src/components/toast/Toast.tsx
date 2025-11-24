@@ -16,10 +16,7 @@ import useHandleTimer from "./hooks/useHandleTimer";
 import styles from "./Toast.module.scss";
 import useToastQueueContext from "./toastQueue/useToastQueueContext";
 
-type DSButtonElement = React.ReactElement<React.ComponentProps<typeof Button>, typeof Button>;
-
 interface ToastProps extends coreToastProps, React.HTMLAttributes<HTMLDivElement> {
-  actionButton?: DSButtonElement;
   showActionButton?: boolean;
 }
 
@@ -28,12 +25,13 @@ const Toast = forwardRef<HTMLDivElement, ToastProps>(
     {
       id,
       message,
-      actionButton,
       type = "error",
       closable = false,
       placement = "bottom-right",
       isOpen = true,
       autoDismiss = true,
+      actionButtonLabel,
+      onActionButtonClick,
       duration = "medium",
       onClose,
       iconName,
@@ -43,7 +41,9 @@ const Toast = forwardRef<HTMLDivElement, ToastProps>(
     },
     ref,
   ) => {
-    const isAutoDismiss = autoDismiss && (!!actionButton === false || !showActionButton);
+    const hasActionButton = !!actionButtonLabel && showActionButton;
+
+    const isAutoDismiss = autoDismiss && !hasActionButton;
 
     const [internalId] = useState<string>(id || uuidv4());
 
@@ -68,11 +68,11 @@ const Toast = forwardRef<HTMLDivElement, ToastProps>(
 
     useEffect(() => {
       if (isOpen) {
-        addToQueue({ id: internalId, hasButtonAction: !!actionButton, type, isAutoDismiss: isAutoDismiss });
+        addToQueue({ id: internalId, hasActionButton, type, isAutoDismiss: isAutoDismiss });
       } else {
         handleOnClose();
       }
-    }, [isOpen, actionButton, type, isAutoDismiss, internalId, addToQueue, handleOnClose]);
+    }, [isOpen, hasActionButton, type, isAutoDismiss, internalId, addToQueue, handleOnClose]);
 
     const handleOnClickCloseButton = () => {
       handleOnClose();
@@ -123,7 +123,13 @@ const Toast = forwardRef<HTMLDivElement, ToastProps>(
               )}
               <span className={styles["toast-message"]}>{message}</span>
             </div>
-            {showActionButton && <>{actionButton}</>}
+            {hasActionButton && (
+              <Button
+                variant={type === "neutral" ? "reverse" : "transparent"}
+                onClick={onActionButtonClick}
+                label={actionButtonLabel}
+              />
+            )}
             {closable && (
               <IconButton
                 data-testid="toast-close-button"

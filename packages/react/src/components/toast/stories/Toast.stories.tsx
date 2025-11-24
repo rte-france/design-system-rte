@@ -16,7 +16,6 @@ const meta = {
   component: Toast,
   argTypes: {
     message: { control: "text" },
-    actionButton: { control: false },
     type: { control: "select", options: ["info", "success", "warning", "error", "neutral"] },
     placement: {
       control: "select",
@@ -33,6 +32,8 @@ const meta = {
     },
     showLeftIcon: { control: "boolean" },
     showActionButton: { control: "boolean" },
+    actionButtonLabel: { control: "text" },
+    onActionButtonClick: { control: false },
   },
 } satisfies Meta<typeof Toast>;
 
@@ -60,7 +61,7 @@ export const Default: Story = {
             onClose={() => {
               setIsOpen(false);
             }}
-            actionButton={<Button label="Mettre à jour" variant={args.type === "neutral" ? "reverse" : "text"} />}
+            actionButtonLabel="Mettre à jour"
           />
         </ToastQueueProvider>
       </>
@@ -101,7 +102,7 @@ export const Multiple: Story = {
             type={"error"}
             isOpen={isErrorOpen}
             message="Error toast"
-            actionButton={<Button label="Mettre à jour" variant="text" />}
+            actionButtonLabel="Mettre à jour"
             onClose={() => {
               setIsErrorOpen(false);
             }}
@@ -111,7 +112,7 @@ export const Multiple: Story = {
             type={"warning"}
             message="Warning toast"
             isOpen={isWarningOpen}
-            actionButton={<Button label="Mettre à jour" variant="text" />}
+            actionButtonLabel="Mettre à jour"
             onClose={() => {
               setIsWarningOpen(false);
             }}
@@ -121,7 +122,7 @@ export const Multiple: Story = {
             type={"success"}
             message="Success toast"
             isOpen={isSuccessOpen}
-            actionButton={<Button label="Mettre à jour" variant="text" />}
+            actionButtonLabel="Mettre à jour"
             onClose={() => {
               setIsSuccessOpen(false);
             }}
@@ -131,7 +132,7 @@ export const Multiple: Story = {
             type={"info"}
             message="Info toast"
             isOpen={isInfoOpen}
-            actionButton={<Button label="Mettre à jour" variant="text" />}
+            actionButtonLabel="Mettre à jour"
             onClose={() => {
               setIsInfoOpen(false);
             }}
@@ -141,7 +142,7 @@ export const Multiple: Story = {
             type={"neutral"}
             message="Neutral toast"
             isOpen={isNeutralOpen}
-            actionButton={<Button label="Mettre à jour" variant="reverse" />}
+            actionButtonLabel="Mettre à jour"
             onClose={() => {
               setIsNeutralOpen(false);
             }}
@@ -175,7 +176,7 @@ export const KeyboardInteraction: Story = {
             onClose={() => {
               setIsOpen(false);
             }}
-            actionButton={<Button label="Mettre à jour" variant={args.type === "neutral" ? "reverse" : "text"} />}
+            actionButtonLabel="Mettre à jour"
           />
         </ToastQueueProvider>
       </>
