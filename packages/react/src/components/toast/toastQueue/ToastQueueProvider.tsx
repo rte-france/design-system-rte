@@ -26,12 +26,12 @@ const ToastQueueProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const getPriority = (toast: {
-    hasButtonAction: boolean;
+    hasActionButton: boolean;
     type: "info" | "success" | "warning" | "error" | "neutral";
     isAutoDismiss: boolean;
   }) => {
-    const { hasButtonAction, type } = toast;
-    if (hasButtonAction) {
+    const { hasActionButton, type } = toast;
+    if (hasActionButton) {
       if (type === "error") {
         return 1;
       } else if (type === "warning") {

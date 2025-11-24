@@ -4,6 +4,7 @@
   
   ## Changes
 
+- (Toast) restrict action button appearance using only label and callback props
 - (Toast) add angular component
 - (Toast) add spacing from viewport + handle warning case in priority + add leftIcon and action button display boolean
 - (Toast) add useCallback to prevent infinite rendering
