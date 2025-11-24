@@ -33,8 +33,7 @@ export class OverlayService {
   }
 
   createWithoutAppend<T>(component: Type<T>, viewContainer: ViewContainerRef): ComponentRef<T> {
-    const componentRef = viewContainer.createComponent(component);
-    return componentRef;
+    return viewContainer.createComponent(component);
   }
 
   create<T>(component: Type<T>, viewContainer: ViewContainerRef, freezeNavigation: boolean = false): ComponentRef<T> {

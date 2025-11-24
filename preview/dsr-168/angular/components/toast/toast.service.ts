@@ -1,5 +1,6 @@
 import { Injectable, ComponentRef, ViewContainerRef, inject, signal, effect } from "@angular/core";
 import { ToastDuration, ToastPlacement, ToastType } from "@design-system-rte/core/components/toast/toast.interface";
+import { getToastPriority } from "@design-system-rte/core/components/toast/toast.utils";
 import { v4 as uuidv4 } from "uuid";
 
 import { OverlayService } from "../../services/overlay.service";
@@ -16,6 +17,8 @@ export interface ToastConfig {
   showActionButton?: boolean;
   actionButtonLabel?: string;
   onActionButtonClick?: () => void;
+  iconName?: string;
+  showLeftIcon?: boolean;
 }
 
 @Injectable({ providedIn: "root" })
@@ -72,15 +75,13 @@ export class ToastService {
 
     this.toastQueue.update((list) =>
       [...list, toast].sort((a, b) => {
-        const priorityA = this.getPriority({
-          hasButtonAction: a.instance.showActionButton()!,
+        const priorityA = getToastPriority({
+          hasActionButton: a.instance.showActionButton()!,
           type: a.instance.type(),
-          isAutoDismiss: a.instance.autoDismiss()!,
         });
-        const priorityB = this.getPriority({
-          hasButtonAction: b.instance.showActionButton()!,
+        const priorityB = getToastPriority({
+          hasActionButton: b.instance.showActionButton()!,
           type: b.instance.type(),
-          isAutoDismiss: b.instance.autoDismiss()!,
         });
         return priorityA - priorityB;
       }),
@@ -123,6 +124,8 @@ export class ToastService {
       duration = "medium",
       placement = "bottom-right",
       showActionButton = true,
+      showLeftIcon = true,
+      iconName,
       actionButtonLabel,
       onActionButtonClick,
     } = config;
@@ -133,43 +136,12 @@ export class ToastService {
     toast.setInput("autoDismiss", autoDismiss);
     toast.setInput("duration", duration);
     toast.setInput("placement", placement);
+    toast.setInput("iconName", iconName);
+    toast.setInput("showLeftIcon", showLeftIcon);
     toast.setInput("showActionButton", showActionButton);
     toast.setInput("actionButtonLabel", actionButtonLabel);
     toast.setInput("onActionButtonClick", onActionButtonClick);
   }
-
-  private getPriority = (toast: {
-    hasButtonAction: boolean;
-    type: "info" | "success" | "warning" | "error" | "neutral";
-    isAutoDismiss: boolean;
-  }) => {
-    const { hasButtonAction, type } = toast;
-    if (hasButtonAction) {
-      if (type === "error") {
-        return 1;
-      } else if (type === "warning") {
-        return 3;
-      } else if (type === "success") {
-        return 5;
-      } else if (type === "info") {
-        return 6;
-      } else {
-        return 7;
-      }
-    } else {
-      if (type === "error") {
-        return 2;
-      } else if (type === "warning") {
-        return 4;
-      } else if (type === "success") {
-        return 8;
-      } else if (type === "info") {
-        return 9;
-      } else {
-        return 10;
-      }
-    }
-  };
 
   private waitExitAnimation(ref: ComponentRef<ToastComponent>, done: () => void): void {
     setTimeout(done, 300);
