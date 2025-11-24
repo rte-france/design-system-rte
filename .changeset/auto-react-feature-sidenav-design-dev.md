@@ -4,6 +4,7 @@
   
   ## Changes
 
+- (Side Navigation): add missing props to useContentHeight detection
 - (Divider) correct horizontal display
 - (Side Navigation) add Divider support for navItems & navMenus
 - (Side Navigation) add Badge support
