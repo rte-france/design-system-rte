@@ -26,7 +26,7 @@ function useContentHeight(
       resizeObserver.disconnect();
       window.removeEventListener("resize", setHeightVar);
     };
-  }, [children]);
+  }, [children, containerRef, contentRef]);
 }
 
 export default useContentHeight;

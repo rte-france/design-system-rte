@@ -113,15 +113,12 @@ const navigationItemsWithNested = [
   {
     ...baseNavItems[3],
     items: [
-      { label: "General", icon: "general" },
-      { label: "Privacy", icon: "privacy" },
+      { label: "General" },
+      { label: "Privacy" },
       {
         label: "Advanced",
         icon: "settings",
-        items: [
-          { label: "Security", icon: "security" },
-          { label: "API Keys", icon: "api-keys" },
-        ],
+        items: [{ label: "Security" }, { label: "API Keys" }],
       },
     ],
   },
@@ -142,15 +139,15 @@ const navigationItemsWithNestedAndBadges: NavItemProps[] = [
   {
     ...baseNavItems[3],
     items: [
-      { label: "General", icon: "general" },
-      { label: "Privacy", icon: "privacy", badge: { ...baseBadge, badgeType: "brand", count: 1 } },
+      { label: "General" },
+      { label: "Privacy", badge: { ...baseBadge, badgeType: "brand", count: 1 } },
       {
         label: "Advanced",
         icon: "settings",
         badge: { ...baseBadge, badgeType: "indicator", count: 7 },
         items: [
-          { label: "Security", icon: "security", badge: { ...baseBadge, badgeType: "indicator", count: 99 } },
-          { label: "API Keys", icon: "api-keys" },
+          { label: "Security", badge: { ...baseBadge, badgeType: "indicator", count: 99 } },
+          { label: "API Keys" },
         ],
       },
     ],
@@ -627,15 +624,15 @@ const navigationItemsWithDividers: NavItemProps[] = [
     ...baseNavItems[3],
     showDivider: true,
     items: [
-      { label: "General", icon: "general" },
-      { label: "Privacy", icon: "privacy", showDivider: true },
+      { label: "General" },
+      { label: "Privacy", showDivider: true },
       { label: "Notifications", icon: "notifications" },
       {
         label: "Advanced",
         icon: "settings",
         showDivider: true,
         items: [
-          { label: "Security", icon: "security" },
+          { label: "Security" },
           { label: "API Keys", icon: "api-keys", showDivider: true },
           { label: "Integrations", icon: "integrations" },
         ],
