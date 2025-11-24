@@ -331,6 +331,7 @@ function App() {
         </Modal>
       </div>
     </div>
+    </SideNav>
   );
 }
 
