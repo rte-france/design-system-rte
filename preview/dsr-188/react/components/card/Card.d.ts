@@ -1,7 +1,7 @@
 import { CardProps as CardPropsCore } from '../../../../core/components/card/card.interface';
-interface CardProps extends CardPropsCore {
-    children?: React.ReactNode;
+import { HTMLAttributes } from '../../../../../node_modules/react';
+interface CardProps extends CardPropsCore, Omit<HTMLAttributes<HTMLDivElement>, "onClick"> {
     onClick?: () => void;
 }
-declare const Card: ({ size, cardType, clickable, disabled, children, onClick, ...props }: CardProps) => import("react/jsx-runtime").JSX.Element;
+declare const Card: import('../../../../../node_modules/react').ForwardRefExoticComponent<CardProps & import('../../../../../node_modules/react').RefAttributes<HTMLDivElement>>;
 export default Card;
