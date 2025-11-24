@@ -59,6 +59,8 @@ const Toast = forwardRef<HTMLDivElement, ToastProps>(
 
     const [position, alignment] = placement.split("-");
 
+    console.log(iconName);
+
     const handleOnClose = useCallback(() => {
       hideToast();
       removeTimer();
@@ -68,7 +70,7 @@ const Toast = forwardRef<HTMLDivElement, ToastProps>(
 
     useEffect(() => {
       if (isOpen) {
-        addToQueue({ id: internalId, hasActionButton, type, isAutoDismiss: isAutoDismiss });
+        addToQueue({ id: internalId, hasActionButton: hasActionButton, type });
       } else {
         handleOnClose();
       }

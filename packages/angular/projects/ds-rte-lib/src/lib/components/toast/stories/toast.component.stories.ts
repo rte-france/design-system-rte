@@ -24,6 +24,9 @@ const meta: Meta<ToastComponent> = {
     isOpen: { control: "boolean" },
     autoDismiss: { control: "boolean" },
     duration: { control: "select", options: ["short", "medium", "long"] },
+    actionButtonLabel: { control: "text" },
+    showActionButton: { control: "boolean" },
+    onActionButtonClick: { action: "action button clicked" },
   },
   decorators: [
     moduleMetadata({
@@ -44,6 +47,8 @@ export const Default: Story = {
     closable: true,
     isOpen: false,
     placement: "bottom-right",
+    actionButtonLabel: "Mettre à jour",
+    showActionButton: true,
   },
 
   render: (args) => ({
@@ -54,7 +59,16 @@ export const Default: Story = {
       },
     },
     template: `
-    <toast-default/>`,
+    <toast-default
+      [message]="message"
+      [type]="type"
+      [autoDismiss]="autoDismiss"
+      [closable]="closable"
+      [isOpen]="isOpen"
+      [placement]="placement"
+      [actionButtonLabel]="actionButtonLabel"
+      [showActionButton]="showActionButton"
+    />`,
   }),
 };
 export const Multiple: Story = {

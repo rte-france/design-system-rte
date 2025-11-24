@@ -18,7 +18,7 @@ import {
   SideNav,
   Card,
   Toast,
-  ToastQueueProvider,
+  ToastQueueProvider
 } from "@design-system-rte/react";
 import "./App.css";
 import { useState } from "react";
@@ -42,7 +42,7 @@ function App() {
   };
 
   const handleSegmentedControlClick = (
-    event: React.MouseEvent<HTMLDivElement> | React.KeyboardEvent<HTMLDivElement>,
+    event: React.MouseEvent<HTMLDivElement> | React.KeyboardEvent<HTMLDivElement>
   ) => {
     const newValue = event.currentTarget.getAttribute("id") || "";
     setSegmentedControlValue(newValue);
@@ -59,7 +59,7 @@ function App() {
   const defaultSegmentedButtonOptions = [
     { id: "option-1", label: "Option 1", onClick: () => console.log("Option 1 clicked") },
     { id: "option-2", label: "Option 2", onClick: () => console.log("Option 2 clicked") },
-    { id: "option-3", label: "Option 3", onClick: () => console.log("Option 3 clicked") },
+    { id: "option-3", label: "Option 3", onClick: () => console.log("Option 3 clicked") }
   ];
 
   const headerConfig = {
@@ -67,7 +67,7 @@ function App() {
     title: "Design System",
     version: "V1.0.0",
     icon: "home",
-    link: "/",
+    link: "/"
   };
 
   const navigationItems = [
@@ -77,14 +77,14 @@ function App() {
       label: "Dashboard",
       icon: "dashboard",
       showIcon: true,
-      onClick: () => setActiveItem("dashboard"),
+      onClick: () => setActiveItem("dashboard")
     },
     {
       id: "analytics",
       label: "Analytics",
       icon: "analytics",
       showIcon: true,
-      onClick: () => setActiveItem("analytics"),
+      onClick: () => setActiveItem("analytics")
     },
     { id: "settings", label: "Settings", icon: "settings", showIcon: true, onClick: () => setActiveItem("settings") },
     {
@@ -93,8 +93,8 @@ function App() {
       icon: "user",
       showIcon: true,
       link: "/profile",
-      onClick: () => setActiveItem("profile"),
-    },
+      onClick: () => setActiveItem("profile")
+    }
   ];
 
   const footerItems = [
@@ -106,7 +106,7 @@ function App() {
       onClick: () => {
         console.log("Footer Settings clicked");
         setActiveItem("footer-settings");
-      },
+      }
     },
     {
       id: "footer-help",
@@ -114,7 +114,7 @@ function App() {
       icon: "help",
       showIcon: true,
       link: "/help",
-      onClick: () => setActiveItem("footer-help"),
+      onClick: () => setActiveItem("footer-help")
     },
     {
       id: "footer-account",
@@ -124,9 +124,9 @@ function App() {
       items: [
         { id: "footer-profile", label: "Profile", link: "/profile" },
         { id: "footer-preferences", label: "Preferences" },
-        { id: "footer-logout", label: "Logout", onClick: () => console.log("Logout clicked") },
-      ],
-    },
+        { id: "footer-logout", label: "Logout", onClick: () => console.log("Logout clicked") }
+      ]
+    }
   ];
 
   return (
@@ -138,7 +138,6 @@ function App() {
       appearance="brand"
       activeItem={activeItem}
     >
-    </SideNav>
       <div>
         <div>
           <h3>Card</h3>
@@ -291,7 +290,7 @@ function App() {
               options={[
                 { id: "label-1", label: "Label 1" },
                 { id: "label-2", label: "Label 2" },
-                { id: "label-3", label: "Label 3" },
+                { id: "label-3", label: "Label 3" }
               ]}
               selected={segmentedControlValue}
               onClick={handleSegmentedControlClick}
@@ -305,7 +304,7 @@ function App() {
                 { link: "/", label: "Home" },
                 { link: "/products", label: "Products" },
                 { link: "/electronics", label: "Electronics" },
-                { link: "/smartphones", label: "Smartphones" },
+                { link: "/smartphones", label: "Smartphones" }
               ]}
             />
           </div>
@@ -335,28 +334,29 @@ function App() {
           </Modal>
         </div>
 
-      <Divider />
-      <Button
-        label="Toggle error toast"
-        onClick={() => setIsErrorOpen(!isErrorOpen)}
-        style={{ marginBottom: "16px" }}
-        variant="danger"
-      />
-      <ToastQueueProvider>
-        <Toast
-          id="my-toast-error-z"
-          type={"error"}
-          autoDismiss={true}
-          closable={true}
-          isOpen={isErrorOpen}
-          message="Error toast"
-          // actionButton={<Button label="Mettre à jour" variant={"text"} />}
-          onClose={() => {
-            setIsErrorOpen(false);
-          }}
+        <Divider />
+        <Button
+          label="Toggle error toast"
+          onClick={() => setIsErrorOpen(!isErrorOpen)}
+          style={{ marginBottom: "16px" }}
+          variant="danger"
         />
-      </ToastQueueProvider>
-    </div>
+        <ToastQueueProvider>
+          <Toast
+            id="my-toast-error-z"
+            type={"error"}
+            autoDismiss={true}
+            closable={true}
+            isOpen={isErrorOpen}
+            message="Error toast"
+            // actionButton={<Button label="Mettre à jour" variant={"text"} />}
+            onClose={() => {
+              setIsErrorOpen(false);
+            }}
+          />
+        </ToastQueueProvider>
+      </div>
+    </SideNav>
   );
 }
 

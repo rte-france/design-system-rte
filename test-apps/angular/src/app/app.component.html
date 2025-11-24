@@ -5,92 +5,97 @@
   [collapsible]="true"
   [appearance]="'brand'"
   (itemClicked)="handleItemClick($event)"
-<rte-banner
-  type="default"
-  message="This is an info banner"
-  [closable]="true"
-  title="Info Banner"
-  [isOpen]="isInfoBannerVisible()"
-></rte-banner>
-<rte-banner
-  type="alert"
-  message="This is an alert banner"
-  [closable]="true"
-  title="Alert Banner"
-  [isOpen]="isAlertBannerVisible()"
-></rte-banner>
-<button
-  rteButton
-  [disabled]="false"
-  ariaLabel="Home"
-  ariaLabelledBy="home"
-  buttonType="button"
-  (click)="toggleAlertBanner()"
 >
-  Toggle alert banner
-</button>
-<button
-  rteButton
-  [disabled]="false"
-  ariaLabel="Home"
-  ariaLabelledBy="home"
-  buttonType="button"
-  (click)="toggleInfoBanner()"
->
-  Toggle info banner
-</button>
-<hr />
-<button
-  rteButton
-  [disabled]="false"
-  icon="home"
-  ariaLabel="Home"
-  ariaLabelledBy="home"
-  buttonType="button"
->
-  Button
-</button>
+  <rte-banner
+    type="default"
+    message="This is an info banner"
+    [closable]="true"
+    title="Info Banner"
+    [isOpen]="isInfoBannerVisible()"
+  ></rte-banner>
+  <rte-banner
+    type="alert"
+    message="This is an alert banner"
+    [closable]="true"
+    title="Alert Banner"
+    [isOpen]="isAlertBannerVisible()"
+  ></rte-banner>
+  <button
+    rteButton
+    [disabled]="false"
+    ariaLabel="Home"
+    ariaLabelledBy="home"
+    buttonType="button"
+    (click)="toggleAlertBanner()"
+  >
+    Toggle alert banner
+  </button>
+  <button
+    rteButton
+    [disabled]="false"
+    ariaLabel="Home"
+    ariaLabelledBy="home"
+    buttonType="button"
+    (click)="toggleInfoBanner()"
+  >
+    Toggle info banner
+  </button>
+  <hr />
+  <button
+    rteButton
+    [disabled]="false"
+    icon="home"
+    ariaLabel="Home"
+    ariaLabelledBy="home"
+    buttonType="button"
+  >
+    Button
+  </button>
 
-<rte-icon name="home" />
+  <rte-icon name="home" />
 
-<hr />
+  <hr />
 
-<rte-split-button label="Split Button" [options]="rteSplitButtonOptions" />
+  <rte-split-button label="Split Button" [options]="rteSplitButtonOptions" />
 
-<hr />
+  <hr />
 
-<rte-icon-button-toggle
-  name="home"
-  [selected]="selected()"
-  (click)="onClick($event)"
-/>
+  <rte-icon-button-toggle
+    name="home"
+    [selected]="selected()"
+    (click)="onClick($event)"
+  />
 
-<hr />
+  <hr />
 
-<span rteTooltip="Tooltip">Tooltip</span>
+  <span rteTooltip="Tooltip">Tooltip</span>
 
-<hr />
+  <hr />
 
-<rte-text-input
-  label="Text Input"
-  [value]="inputValue()"
-  (valueChange)="handleInputChange($event)"
-/>
-<h4>The input is : {{ inputValue() }}</h4>
-<hr />
-<rte-chip label="Chip Label" type="single"></rte-chip>
-<hr />
+  <rte-text-input
+    label="Text Input"
+    [value]="inputValue()"
+    (valueChange)="handleInputChange($event)"
+  />
+  <h4>The input is : {{ inputValue() }}</h4>
+  <hr />
+  <rte-chip label="Chip Label" type="single"></rte-chip>
+  <hr />
 
-<p
-  style="display: inline-block; background-color: bisque"
-  rteBadge
-  [rteBadgeCount]="1"
+  <p
+    style="display: inline-block; background-color: bisque"
+    rteBadge
+    [rteBadgeCount]="1"
+  ></p>
   <div content>
     <rte-card>
-      <div style="padding: 16px;">
-        <h4 style="margin: 0 0 12px 0; font-size: 18px; font-weight: 600;">Default Card</h4>
-        <p style="margin: 0; color: #666; line-height: 1.5;">
-          This is a default card with medium size. It uses elevation shadow styling.
+      <div style="padding: 16px">
+        <h4 style="margin: 0 0 12px 0; font-size: 18px; font-weight: 600">
+          Default Card
+        </h4>
+        <p style="margin: 0; color: #666; line-height: 1.5">
+          This is a default card with medium size. It uses elevation shadow
+          styling.
         </p>
       </div>
     </rte-card>
@@ -108,37 +113,43 @@
       title="Alert Banner"
       [isOpen]="isAlertBannerVisible()"
     ></rte-banner>
-    <button rteButton
+    <button
+      rteButton
       [disabled]="false"
       ariaLabel="Home"
       ariaLabelledBy="home"
       buttonType="button"
       (click)="toggleAlertBanner()"
-    >Toggle alert banner</button>
-    <button rteButton
+    >
+      Toggle alert banner
+    </button>
+    <button
+      rteButton
       [disabled]="false"
       ariaLabel="Home"
       ariaLabelledBy="home"
       buttonType="button"
       (click)="toggleInfoBanner()"
-    >Toggle info banner</button>
+    >
+      Toggle info banner
+    </button>
     <hr />
-    <button rteButton
+    <button
+      rteButton
       [disabled]="false"
       icon="home"
       ariaLabel="Home"
       ariaLabelledBy="home"
       buttonType="button"
-    >Button</button>
+    >
+      Button
+    </button>
 
     <rte-icon name="home" />
 
     <hr />
 
-    <rte-split-button
-      label="Split Button"
-      [options]="rteSplitButtonOptions"
-    />
+    <rte-split-button label="Split Button" [options]="rteSplitButtonOptions" />
 
     <hr />
 
@@ -231,13 +242,16 @@
     <rte-breadcrumbs [items]="breadcrumbItems" />
     <hr />
     <div style="margin-top: 100px; display: flex; justify-content: center">
-      <button rteButton
+      <button
+        rteButton
         buttonType="button"
         rtePopover
         rtePopoverPrimaryButtonLabel="Primary"
         rtePopoverContent="This is the popover content"
         rtePopoverTitle="Popover Title"
-      >Hover me</button>
+      >
+        Hover me
+      </button>
     </div>
     <rte-divider />
     <div
@@ -246,96 +260,107 @@
       [rteModalTitle]="'Modal title'"
       [rteModalDescription]="'This is a description for the modal.'"
     >
-      <button rteButton rteButtonVariant="primary" rteModalTrigger >Open Modal</button>
+      <button rteButton rteButtonVariant="primary" rteModalTrigger>
+        Open Modal
+      </button>
       <ng-template #primaryButton>
-        <button rteButton rteButtonVariant="primary" (click)="handleModalPrimaryClick()">
+        <button
+          rteButton
+          rteButtonVariant="primary"
+          (click)="handleModalPrimaryClick()"
+        >
           Continue
         </button>
       </ng-template>
       <ng-template #secondaryButton>
-        <button rteButton rteButtonVariant="neutral" (click)="handleModalSecondaryClick()">
+        <button
+          rteButton
+          rteButtonVariant="neutral"
+          (click)="handleModalSecondaryClick()"
+        >
           Cancel
         </button>
       </ng-template>
     </div>
   </div>
-</rte-side-nav>
-<rte-switch
-  label="Switch"
-  [disabled]="false"
-  [readOnly]="false"
-  [appearance]="'brand'"
-/>
-<rte-switch
-  label="Switch ReadOnly"
-  [disabled]="false"
-  [readOnly]="true"
-  [appearance]="'brand'"
-  [showIcon]="true"
-/>
-<rte-switch
-  label="Switch disabled"
-  [disabled]="true"
-  [readOnly]="false"
-  [appearance]="'brand'"
-  [showLabel]="true"
-  [checked]="true"
-/>
-<rte-divider orientation="vertical" thickness="bold"></rte-divider>
-<hr />
-<div style="width: 380px; display: flex; flex-direction: column; gap: 10px">
-  <rte-segmented-control
-    [options]="segments"
-    [selectedSegment]="selectedSegment()"
-    (change)="onSegmentSelected($event)"
+
+  <rte-switch
+    label="Switch"
+    [disabled]="false"
+    [readOnly]="false"
+    [appearance]="'brand'"
   />
-</div>
-<hr />
-<rte-breadcrumbs [items]="breadcrumbItems" />
-<hr />
-<div style="margin-top: 100px; display: flex; justify-content: center">
-  <button
-    rteButton
-    buttonType="button"
-    rtePopover
-    rtePopoverPrimaryButtonLabel="Primary"
-    rtePopoverContent="This is the popover content"
-    rtePopoverTitle="Popover Title"
+  <rte-switch
+    label="Switch ReadOnly"
+    [disabled]="false"
+    [readOnly]="true"
+    [appearance]="'brand'"
+    [showIcon]="true"
+  />
+  <rte-switch
+    label="Switch disabled"
+    [disabled]="true"
+    [readOnly]="false"
+    [appearance]="'brand'"
+    [showLabel]="true"
+    [checked]="true"
+  />
+  <rte-divider orientation="vertical" thickness="bold"></rte-divider>
+  <hr />
+  <div style="width: 380px; display: flex; flex-direction: column; gap: 10px">
+    <rte-segmented-control
+      [options]="segments"
+      [selectedSegment]="selectedSegment()"
+      (change)="onSegmentSelected($event)"
+    />
+  </div>
+  <hr />
+  <rte-breadcrumbs [items]="breadcrumbItems" />
+  <hr />
+  <div style="margin-top: 100px; display: flex; justify-content: center">
+    <button
+      rteButton
+      buttonType="button"
+      rtePopover
+      rtePopoverPrimaryButtonLabel="Primary"
+      rtePopoverContent="This is the popover content"
+      rtePopoverTitle="Popover Title"
+    >
+      Hover me
+    </button>
+  </div>
+  <rte-divider />
+  <div
+    rteModal
+    [rteModalId]="'rte-modal-1'"
+    [rteModalTitle]="'Modal title'"
+    [rteModalDescription]="'This is a description for the modal.'"
   >
-    Hover me
-  </button>
-</div>
-<rte-divider />
-<div
-  rteModal
-  [rteModalId]="'rte-modal-1'"
-  [rteModalTitle]="'Modal title'"
-  [rteModalDescription]="'This is a description for the modal.'"
->
-  <button rteButton rteButtonVariant="primary" rteModalTrigger>
-    Open Modal
-  </button>
-  <ng-template #primaryButton>
-    <button
-      rteButton
-      rteButtonVariant="primary"
-      (click)="handleModalPrimaryClick()"
-    >
-      Continue
+    <button rteButton rteButtonVariant="primary" rteModalTrigger>
+      Open Modal
     </button>
-  </ng-template>
-  <ng-template #secondaryButton>
-    <button
-      rteButton
-      rteButtonVariant="neutral"
-      (click)="handleModalSecondaryClick()"
-    >
-      Cancel
+    <ng-template #primaryButton>
+      <button
+        rteButton
+        rteButtonVariant="primary"
+        (click)="handleModalPrimaryClick()"
+      >
+        Continue
+      </button>
+    </ng-template>
+    <ng-template #secondaryButton>
+      <button
+        rteButton
+        rteButtonVariant="neutral"
+        (click)="handleModalSecondaryClick()"
+      >
+        Cancel
+      </button>
+    </ng-template>
+  </div>
+  <div>
+    <button rteButton rteButtonVariant="neutral" (click)="toggleToast()">
+      Toggle Toast
     </button>
-  </ng-template>
-</div>
-<div>
-  <button rteButton rteButtonVariant="neutral" (click)="toggleToast()">
-    Toggle Toast
-  </button>
-</div>
+  </div>
+</rte-side-nav>
