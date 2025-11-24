@@ -1,6 +1,6 @@
 export type InputToast = {
     id: string;
-    hasButtonAction: boolean;
+    hasActionButton: boolean;
     type: "info" | "success" | "warning" | "error" | "neutral";
     isAutoDismiss: boolean;
 };
