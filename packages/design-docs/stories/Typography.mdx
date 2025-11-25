@@ -4,37 +4,147 @@ import VariablePrimitive from "../src/img/typography/VariablePrimitive.svg"
 import StyleDeTexte from "../src/img/typography/StyleDeTexte.svg"
 import SizingExemple from "../src/img/typography/SizingExemple.svg"
 import SupportExemple from "../src/img/typography/SupportExemple.svg"
+import HeaderComponent from "../.storybook/template/HeaderComponent/HeaderComponent";
+import TableComponent from "../.storybook/template/TableComponent/TableComponent";
+import SectionComponent from "../.storybook/template/SectionComponent/SectionComponent";
+import FontFamily from "../src/img/typography/FontFamily.svg";
+import FontSize from "../src/img/typography/FontSize.svg";
+import FontWeight from "../src/img/typography/FontWeight.svg";
+import LetterSpacing from "../src/img/typography/LetterSpacing.svg";
+import LineHeight from "../src/img/typography/LineHeight.svg";
+import LineHeightExt from "../src/img/typography/LineHeightExt.svg";
+import Sizing from "../src/img/typography/Sizing.svg";
+import FontStyle from "../src/img/typography/FontStyle.svg";
+import FontScale from "../src/img/typography/FontScale.svg";
+import Variables from "../src/img/typography/Variables.svg";
+import Support from "../src/img/typography/Support.svg";
 
+import "../src/styles/GeneralDocs.css";
 import "../src/styles/Police.css"
 
-<Meta title="Design system/Typographies"/>
+<Meta title='Design System/Typographie'/>
 
-<h1 id="typography" style={{fontFamily:"Nunito"}}> Typographies sémantiques </h1>
+<div className="docs">
 
-<h2 id="rappels" style={{border:"none", fontFamily:"Nunito"}}> Rappels </h2>
+    <HeaderComponent title="Typographie" linkFigma="https://www.figma.com/design/Wiy8uWsWjoagf95lOmPXNU/01.0-Design-System-RTE---WEB?node-id=1712-2202&p=f&m=dev" linkGithub="https://github.com/rte-france/design-system-rte/tree/main/packages/react/src/components/badge"/>
+    
+    <p>
+        La typographie ne se limite pas à un simple choix de polices de caractères. C'est l'art d'organiser les lettres de manière à rendre le texte lisible, compréhensible et visuellement attrayant.
+        Dans un Design System, la typographie joue un rôle essentiel dans la définition de l'identité visuelle et la hiérarchisation du contenu.
+    </p>
 
-<p>Les typographies sont basées sur <b>5 variables primitives</b> :</p>
+    <h2 className="title">Typographies primitives</h2>
 
-<img src={VariablePrimitive} width="100%" alt="Rappel des valeurs primitives font_family, font_weight, font_size, line_height et letter_spacing" />
+    <SectionComponent
+        title="Famille de polices (font family)"
+        image={FontFamily}
+    >
+        Les bases de la typographie dans le Design System reposent sur les familles de polices utilisées. Si l'on considère qu'une police de caractères est une base, les différentes graisses et styles sont des variantes qui, ensemble, forment une famille de polices.
 
-<h2 id="styleTexte" style={{border:"none", fontFamily:"Nunito"}}> Styles de texte </h2>
+        PROJECT utilise Nunito et Arial comme familles de polices pour les interfaces web.
+    </SectionComponent>
 
-<p> Même avec l’utilisation de variables typographiques, les styles de texte restent essentiels et pertinents. Ils permettent de créer un “<b>package de variables</b>” intégré au sein d’un style applicable en un geste. </p>
+    <SectionComponent
+        title="Graisse (font weight)"
+        image={FontWeight}
+    >
+        La graisse d'une police désigne l'épaisseur ou la lourdeur des caractères, allant de léger à ultra-gras. Elle influence la visibilité, la hiérarchie et l'esthétique du texte dans une interface.
 
-<p> Dans l’exemple ci-dessous, on peut voir comment les <b>5 variables primitives sont combinées</b> pour obtenir les valeurs du style “Heading L” - un des styles d’en-têtes disponible. </p>
+        Les graisses disponibles pour chaque police sont : Light, Regular, Semibold, et Bold.
+    </SectionComponent>
 
-<img src={StyleDeTexte} width="100%" alt="schema des 5 variables de styles combinées" />
+    <SectionComponent
+        title="Taille de police (font size)"
+        image={FontSize}
+    >
+        La taille de la police mesure la hauteur des caractères, généralement en points (pt) ou en pixels (px). Elle détermine la visibilité et la lisibilité du texte dans une interface : les tailles plus grandes sont utilisées pour les titres, et les tailles plus petites pour le corps du texte.
+    </SectionComponent>
 
-<h2 id="TshirtSizing" style={{border:"none", fontFamily:"Nunito"}}> T-shirt Sizing </h2>
+    <SectionComponent
+        title="Facteur d'échelle"
+        image={FontScale}
+    >
+        Le système typographique du Design System RTE suit une échelle appelée "Minor Third" : les tailles de police augmentent ou diminuent par un facteur de 1,2, arrondi au multiple de 4 le plus proche. L'échelle commence avec une unité de base de 14 px et peut atteindre jusqu'à 80 px.
+    </SectionComponent>
 
-<p> Plutôt que de nommer les styles de texte en fonction de leur rôle (comme H1, H2 ou Body), le Design System RTE utilise un système basé sur les <b>tailles de t-shirts</b>, offrant ainsi <b>plus de flexibilité.</b> Les tailles vont de <b>2XS à 5XL</b>. </p>
+    <TableComponent 
+        headers={["Taille de police", "Valeur"]}
+        rows={[
+            { label: "S", value: 10 },
+            { label: "M", value: 12 },
+            { label: "L", value: 14 },
+            { label: "XL", value: 16 },
+            { label: "2XL", value: 20 },
+            { label: "3XL", value: 24 },
+            { label: "4XL", value: 28 },
+            { label: "5XL", value: 32 },
+            { label: "6XL", value: 40 },
+            { label: "7XL", value: 48 },
+            { label: "8XL", value: 56 },
+        ]}
+    />
 
-<p> L’exemple ci-dessous montre que grâce à cette nomenclature, un titre H1 peut être associé au style Heading XL dans un produit et à Heading L dans un autre. Nommer le style directement H1 reviendrait à imposer une même taille et un même style à tous les produits ou à devoir créer plusieurs jeux de typographies pour s’adapter à chaque besoin. </p>
+    <SectionComponent title="Hauteur de ligne (line height)" image={LineHeight}>
+        La hauteur de ligne désigne la distance verticale entre deux lignes de texte, mesurée entre les lignes de base des caractères. Elle joue un rôle clé dans la lisibilité du texte, et son ajustement est l'une des pratiques typographiques les plus importantes.
+    </SectionComponent>
 
-<img src={SizingExemple} width="100%" alt="Exemple de différente taille de titre" />
+    <SectionComponent title="Relation entre hauteur de ligne et taille de police" image={LineHeightExt}>
+        La hauteur de ligne est généralement déterminée en multipliant la taille de la police par un facteur, qui varie habituellement entre 1,15 et 1,5 pour les caractères latins.
 
-<h2 id="DifferentsSupports" style={{border:"none", fontFamily:"Nunito"}} > Différents supports </h2>
+        Ces valeurs sont ensuite arrondies au multiple de 4 le plus proche afin de garantir une cohérence avec d'autres éléments fondamentaux, tels que le spacing et l'iconographie.
+    </SectionComponent>
 
-<p> L’adaptation de la typographie entre desktop et mobile/tablette est essentielle pour assurer une lisibilité optimale et une hiérarchie visuelle cohérente. C’est pourquoi la <b>taille des Headings varie en fonction du support</b>. Cette variation est gérée par les <b>tokens</b>, qui définissent <b>deux modes distincts</b> : desktop et mobile_tablet. </p>
+    <TableComponent
+        headers={["Token", "Taille de police", "Taille de police", "Taille de police"]}
+        rows={[
+            { label: "S", value: 10, value2: "x 1,4", value3: 14 },
+            { label: "M", value: 12, value2: "x 1,4", value3: 16 },
+            { label: "L", value: 14, value2: "x 1,4", value3: 20 },
+            { label: "XL", value: 16, value2: "x 1,4", value3: 24 },
+            { label: "2XL", value: 20, value2: "x 1,4", value3: 28 },
+            { label: "3XL", value: 24, value2: "x 1,4", value3: 32 },
+            { label: "4XL", value: 28, value2: "x 1,2", value3: 32 },
+            { label: "5XL", value: 32, value2: "x 1,2", value3: 40 },
+            { label: "6XL", value: 40, value2: "x 1,2", value3: 48 },
+            { label: "7XL", value: 48, value2: "x 1,2", value3: 56 },
+            { label: "8XL", value: 56, value2: "x 1,15", value3: 64 },
+            { label: "9XL", value: 68, value2: "x 1,15", value3: 80 },
+            { label: "10XL", value: 80, value2: "x 1,15", value3: 92 },
+        ]}
+    />
 
-<img src={SupportExemple} width="100%" alt="Exemple de la difference de taille en fonction du support" />
+    <SectionComponent title="Interlettrage (letter spacing)" image={LetterSpacing}>
+        L'interlettrage, ou espacement des caractères, fait référence à l'ajustement de l'espace entre les lettres d'un mot ou d'un bloc de texte. Cette technique typographique peut avoir un impact majeur sur la densité visuelle du texte, affectant ainsi sa lisibilité et sa facilité de lecture.
+    </SectionComponent>
+
+    <TableComponent
+        headers={["Espacement", "Valeur"]}
+        rows={[
+            { label: "none", value: "0" },
+            { label: "S", value: "-0,5" },
+            { label: "XSL", value: "-1" },
+        ]}
+    />
+
+    <h2 className="title">Typographie sémantique</h2>
+
+    <SectionComponent title="Rappels" image={Variables}>
+        Les typographies sont basées sur 5 variables primitives :
+    </SectionComponent>
+
+    <SectionComponent title="Styles de texte" image={FontStyle}>
+        Même avec l’utilisation de variables typographiques, les styles de texte restent essentiels et pertinents. Ils permettent de créer un “package de variables” intégré au sein d’un style applicable en un geste.
+
+        Dans l’exemple ci-dessous, on peut voir comment les 5 variables primitives sont combinées pour obtenir les valeurs du style “Heading L” - un des styles d’en-têtes disponible.
+    </SectionComponent>
+
+    <SectionComponent title="T-Shirt Sizing" image={Sizing}>
+        Plutôt que de nommer les styles de texte en fonction de leur rôle (comme H1, H2 ou Body), le Design System RTE utilise un système basé sur les tailles de t-shirts, offrant ainsi plus de flexibilité. Les tailles vont de 2XS à 5XL.
+
+        L’exemple ci-dessous montre que grâce à cette nomenclature, un titre H1 peut être associé au style Heading XL dans un produit et à Heading L dans un autre. Nommer le style directement H1 reviendrait à imposer une même taille et un même style à tous les produits ou à devoir créer plusieurs jeux de typographies pour s’adapter à chaque besoin.
+    </SectionComponent>
+
+    <SectionComponent title="Différents supports" image={Support}>
+        L’adaptation de la typographie entre desktop et mobile/tablette est essentielle pour assurer une lisibilité optimale et une hiérarchie visuelle cohérente. C’est pourquoi la taille des Headings varie en fonction du support. Cette variation est gérée par les tokens, qui définissent deux modes distincts : desktop et mobile_tablet.
+    </SectionComponent>
+</div>
