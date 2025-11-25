@@ -1,0 +1,11 @@
+{
+    "hiddenSections": [
+        "démarrage",
+        "bascule"
+    ],
+    "hiddenStories": {
+        "design-system": [],
+        "démarrage": [],
+        "bascule": []
+    }
+}
