@@ -1,6 +1,9 @@
 import "../src/styles/CodeBlocks.css";
 
 /** @type { import('@storybook/react').Preview } */
+import { addons } from "@storybook/preview-api";
+
+import "./preview.scss";
 
 const preview = {
   globalTypes: {
@@ -68,11 +71,19 @@ const preview = {
     },
     docs: {
       toc: {
-        headingSelector: "h1, h2, h3",
+        headingSelector: "h2",
         disable: false,
       },
     },
   },
 };
+
+addons.getChannel().on("THEME_CHANGED", (theme) => {
+  document.querySelector("html")?.setAttribute("data-mode", theme.theme);
+  document.querySelector("html")?.setAttribute("data-theme", theme.color);
+});
+
+document.querySelector("html")?.setAttribute("data-theme", "bleu_iceberg");
+document.querySelector("html")?.setAttribute("data-mode", "light");
 
 export default preview;

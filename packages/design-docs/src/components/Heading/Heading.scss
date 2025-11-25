@@ -1,0 +1,24 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+.sbdocs {
+  .rte-heading {
+    margin: 0;
+
+    &.h2 {
+      @include typography-heading-m;
+      padding: $positive-spacing_100 0;
+      color: var(--content-brand-default);
+
+      &[data-has-anchor="false"] {
+        @include typography-heading-s;
+        color: var(--content-primary);
+      }
+    }
+
+    &.h3 {
+      @include typography-heading-xs;
+      padding: $positive-spacing_050 0;
+      color: var(--content-primary);
+    }
+  }
+}
