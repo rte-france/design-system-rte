@@ -1,0 +1,9 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+.sbdocs {
+  .rte-paragraph {
+    @include typography-text-m;
+    color: var(--content-primary);
+    margin: 0;
+  }
+}

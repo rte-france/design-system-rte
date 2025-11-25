@@ -1,0 +1,49 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+.sbdocs {
+
+  .rte-accordion {
+    flex: 1 0 0;
+
+    details {
+      summary {
+        list-style: none;
+        padding: $positive-spacing_100 0;
+        display: flex;
+        align-items: center;
+
+        .rte-accordion-summary {
+          display: flex;
+          align-items: center;
+          gap: $positive-spacing_100;
+
+          svg {
+            color: var(--content-brand-default);
+          }
+        }
+
+        h2 {
+          @include typography-heading-m;
+          color: var(--content-brand-default);
+          border: none;
+          display: inline-block;
+          margin: 0;
+          padding: 0;
+        }
+      }
+
+      ul {
+        box-sizing: border-box;
+        overflow: auto;
+        margin: 0 $positive-spacing_200;
+      }
+    }
+
+    .rte-accordion-body {
+      display: flex;
+      flex-direction: column;
+      padding: $positive-spacing_200;
+      gap: $positive-spacing_200;
+    }
+  }
+}

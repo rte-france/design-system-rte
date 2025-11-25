@@ -1,0 +1,7 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+.sbdocs {
+  .rte-storybook-body {
+    padding: $positive-spacing_100;
+  }
+}
