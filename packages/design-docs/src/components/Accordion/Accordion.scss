@@ -11,11 +11,16 @@
         padding: $positive-spacing_100 0;
         display: flex;
         align-items: center;
+        cursor: pointer;
 
         .rte-accordion-summary {
           display: flex;
           align-items: center;
           gap: $positive-spacing_100;
+
+          h2 {
+            cursor: pointer;
+          }
 
           svg {
             color: var(--content-brand-default);
