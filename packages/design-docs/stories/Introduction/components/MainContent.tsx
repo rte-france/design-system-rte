@@ -1,10 +1,10 @@
 import React from "react";
 
-import "../styles/MainContent.css";
+import "./MainContent.css";
 
-import designFace from "../img/introduction/face.svg";
-import devFace from "../img/introduction/face_4.svg";
-import placeholder from "../img/introduction/picture.png";
+import designFace from "../assets/face.svg";
+import devFace from "../assets/face_4.svg";
+import placeholder from "../assets/picture.png";
 
 type UserCardProps = {
   icon: string;

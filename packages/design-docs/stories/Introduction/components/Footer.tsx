@@ -1,12 +1,12 @@
 import React from "react";
 
-import couleurs from "../img/introduction/couleurs.svg";
-import elevation from "../img/introduction/elevation.svg";
-import grilles from "../img/introduction/grilles.svg";
-import iconographie from "../img/introduction/iconographie.svg";
-import spacing from "../img/introduction/spacing.svg";
-import typographie from "../img/introduction/typographie.svg";
-import "../styles/Footer.css";
+import couleurs from "../assets/couleurs.svg";
+import elevation from "../assets/elevation.svg";
+import grilles from "../assets/grilles.svg";
+import iconographie from "../assets/iconographie.svg";
+import spacing from "../assets/spacing.svg";
+import typographie from "../assets/typographie.svg";
+import "./Footer.css";
 
 type InfoCardProps = {
   img: string;

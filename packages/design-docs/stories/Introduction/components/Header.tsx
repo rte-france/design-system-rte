@@ -1,7 +1,7 @@
 import React from "react";
 
-import header from "../img/introduction/header.png";
-import "../styles/Header.css";
+import header from "../assets/header.png";
+import "./Header.css";
 
 const Header = () => (
   <header className="header">
