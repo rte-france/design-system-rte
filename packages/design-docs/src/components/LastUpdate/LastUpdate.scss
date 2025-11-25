@@ -13,15 +13,14 @@
         list-style: none;
         padding: $positive-spacing_100;
 
-        span {
-          @include typography-heading-xs;
+        .rte-last-update-summary {
+          display: flex;
+          align-items: center;
+          gap: $positive-spacing_100;
         }
 
-        &::before {
-          content: "+";
-          color: black;
-          border-radius: 1em;
-          padding: 0 8px 0 0;
+        span {
+          @include typography-heading-xs;
         }
       }
 
@@ -29,12 +28,9 @@
         box-sizing: border-box;
         overflow: auto;
         margin: 0;
-        padding: 0 $positive-spacing_400;
+        padding: 0 $positive-spacing_500;
       }
     }
 
-    details[open] summary::before {
-      content: "−";
-    }
   }
 }
