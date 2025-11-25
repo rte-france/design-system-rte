@@ -1,0 +1,51 @@
+@use '@design-system-rte/core/design-tokens/main.scss' as *;
+
+.storybook_header {
+
+    .storybook_header_content {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        width: 100%;
+        gap: 2rem;
+
+        .storybook_title {
+            @include typography-storybook-title;
+        }
+
+        .storybook_links {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+
+            .storybook_link_container {
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 0.25rem;
+
+                .storybook_logo {
+                    width: 24px;
+                    height: 24px;
+                    aspect-ratio: 1;
+                    border-radius: $radius-pill;
+                }
+            }
+        }
+    }
+
+    .storybook_header_content_text {
+        @include typography-storybook-header-content;
+        color: #21272A;
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+        
+        p{
+            margin: 0;
+            padding: 0;
+        }
+    }
+}
