@@ -5,7 +5,7 @@
     ],
     "hiddenStories": {
         "design-system": [],
-        "démarrage": [],
-        "bascule": []
+        "démarrage": ["angular", "react"],
+        "bascule": ["angular", "react"]
     }
 }

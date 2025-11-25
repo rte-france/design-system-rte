@@ -46,6 +46,7 @@ function _hideStories(storySections: Record<string, string[]>): void {
   }
 
   const selectors = Object.entries(storySections)
+    .filter(([storySection, stories]) => storySection && stories.length)
     .map(([storySection, stories]) => _extractStorySelectorsFromSection({ sectionId: storySection, stories }))
     .join(", ");
 
