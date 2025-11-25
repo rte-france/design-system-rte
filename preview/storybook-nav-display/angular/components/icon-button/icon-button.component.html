@@ -1,0 +1,41 @@
+@if (shouldDisplayBadge()) {
+  <button
+    *ngIf="isValidIconName"
+    class="rte-icon-button {{ variant() }} size-{{ size() }}"
+    rteBadge
+    [class.compact-spacing]="compactSpacing()"
+    [disabled]="disabled()"
+    [attr.aria-label]="ariaLabel()"
+    [attr.aria-labelledby]="ariaLabelledBy()"
+    [type]="type()"
+    [rteBadgeType]="badgeType()!"
+    [rteBadgeSize]="size()"
+    [rteBadgeContent]="size() === 's' ? 'empty' : badgeContent()!"
+    [rteBadgeCount]="badgeCount()!"
+    [rteBadgeIcon]="badgeIcon()!"
+    (click)="onClick($event)"
+  >
+    <rte-icon
+      [name]="name()"
+      [appearance]="appearance()"
+      [size]="buttonIconSize()"
+    />
+  </button>
+} @else {
+  <button
+    *ngIf="isValidIconName"
+    class="rte-icon-button {{ variant() }} size-{{ size() }}"
+    [class.compact-spacing]="compactSpacing()"
+    [disabled]="disabled()"
+    [attr.aria-label]="ariaLabel()"
+    [attr.aria-labelledby]="ariaLabelledBy()"
+    [type]="type()"
+    (click)="onClick($event)"
+  >
+    <rte-icon
+      [name]="name()"
+      [appearance]="appearance()"
+      [size]="buttonIconSize()"
+    />
+  </button>
+}
