@@ -1,7 +1,9 @@
+import Icon from "@design-system-rte/react/src/components/icon/Icon.tsx";
+import Tag from "@design-system-rte/react/src/components/tag/Tag.tsx";
 import React from "react";
 
-import Tag from "../../../../react/src/components/Tag/Tag";
 import Heading from "../Heading/Heading.tsx";
+
 import "./LastUpdate.scss";
 
 interface LastUpdateProps {
@@ -9,6 +11,7 @@ interface LastUpdateProps {
 }
 
 const LastUpdate = ({ updates }: LastUpdateProps) => {
+  const [isOpen, setIsOpen] = React.useState(false);
   return (
     <>
       <Heading id="last-update" level={2}>
@@ -16,18 +19,27 @@ const LastUpdate = ({ updates }: LastUpdateProps) => {
       </Heading>
       <div className="rte-last-update">
         {updates?.map((update) => (
-          <details key={update.version}>
+          <details
+            key={update.version}
+            open
+            onToggle={() => {
+              setIsOpen(!isOpen);
+            }}
+          >
             <summary>
-              <span>
-                V{update.version} <span style={{ color: "#3E3E3D" }}>- {update.date}</span>
-              </span>
-              <Tag
-                tagType="decorative"
-                label="Nouveauté"
-                color="menthe"
-                compactSpacing={true}
-                style={{ marginLeft: "8px", color: "var(--background-decoration-mint)" }}
-              />
+              <div className="rte-last-update-summary">
+                {isOpen ? <Icon name="arrow-chevron-down" /> : <Icon name="arrow-chevron-up" />}
+                <span>
+                  V{update.version} <span style={{ color: "#3E3E3D" }}>- {update.date}</span>
+                </span>
+                <Tag
+                  tagType="decorative"
+                  label="Nouveauté"
+                  color="menthe"
+                  compactSpacing={true}
+                  style={{ marginLeft: "8px", color: "var(--background-decoration-mint)" }}
+                />
+              </div>
             </summary>
             <ul>
               {update.changes.map((change, index) => (
