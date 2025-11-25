@@ -1,24 +1,27 @@
 import { Meta } from "@storybook/blocks"
 
-import HeaderComponent from "../.storybook/template/HeaderComponent/HeaderComponent";
-import TableComponent from "../.storybook/template/TableComponent/TableComponent";
-import DocsSection from "../src/components/DocsSection/DocsSection";
-import FontFamily from "../src/img/typography/FontFamily.svg";
-import FontSize from "../src/img/typography/FontSize.svg";
-import FontWeight from "../src/img/typography/FontWeight.svg";
-import LetterSpacing from "../src/img/typography/LetterSpacing.svg";
-import LineHeight from "../src/img/typography/LineHeight.svg";
-import LineHeightExt from "../src/img/typography/LineHeightExt.svg";
-import Sizing from "../src/img/typography/Sizing.svg";
-import FontStyle from "../src/img/typography/FontStyle.svg";
-import FontScale from "../src/img/typography/FontScale.svg";
-import Variables from "../src/img/typography/Variables.svg";
-import Support from "../src/img/typography/Support.svg";
+import FontFamily from "./assets/FontFamily.svg";
+import FontSize from "./assets/FontSize.svg";
+import FontWeight from "./assets/FontWeight.svg";
+import LetterSpacing from "./assets/LetterSpacing.svg";
+import LineHeight from "./assets/LineHeight.svg";
+import LineHeightExt from "./assets/LineHeightExt.svg";
+import Sizing from "./assets/Sizing.svg";
+import FontStyle from "./assets/FontStyle.svg";
+import FontScale from "./assets/FontScale.svg";
+import Variables from "./assets/Variables.svg";
+import Support from "./assets/Support.svg";
+import FontScaleTable from "./assets/FontScaleTable.svg";
+import LineHeightExtTable from "./assets/LineHeightExtTable.svg";
+import LetterSpacingTable from "./assets/LetterSpacingTable.svg";
 
-import Accordion from "../src/components/Accordion/Accordion";
+import DocsSection from "../../src/components/DocsSection/DocsSection";
+import HeaderComponent from "../../src/components/Header/Header";
+import LastUpdate from "../../src/components/LastUpdate/LastUpdate";
+import Accordion from "../../src/components/Accordion/Accordion";
 
-import "../src/styles/GeneralDocs.css";
-import "../src/styles/Police.css"
+import "../../src/styles/GeneralDocs.scss";
+import "../../src/styles/Police.css"
 
 <Meta title='Design System/Typographie'/>
 
@@ -30,6 +33,10 @@ import "../src/styles/Police.css"
         La typographie ne se limite pas à un simple choix de polices de caractères. C'est l'art d'organiser les lettres de manière à rendre le texte lisible, compréhensible et visuellement attrayant.
         Dans un Design System, la typographie joue un rôle essentiel dans la définition de l'identité visuelle et la hiérarchisation du contenu.
     </p>
+
+    <div style={{padding: "16px"}}>
+      <LastUpdate updates={[ {version: '1.0.0', date: '04 Décembre 2025', changes: ['Livraison']}]} />
+    </div>
 
     <Accordion title="Typographies primitives">
         <DocsSection
@@ -60,22 +67,7 @@ import "../src/styles/Police.css"
             Le système typographique du Design System RTE suit une échelle appelée "Minor Third" : les tailles de police augmentent ou diminuent par un facteur de 1,2, arrondi au multiple de 4 le plus proche. L'échelle commence avec une unité de base de 14 px et peut atteindre jusqu'à 80 px.
         </DocsSection>
 
-        <TableComponent 
-            headers={["Taille de police", "Valeur"]}
-            rows={[
-                { label: "S", value: 10 },
-                { label: "M", value: 12 },
-                { label: "L", value: 14 },
-                { label: "XL", value: 16 },
-                { label: "2XL", value: 20 },
-                { label: "3XL", value: 24 },
-                { label: "4XL", value: 28 },
-                { label: "5XL", value: 32 },
-                { label: "6XL", value: 40 },
-                { label: "7XL", value: 48 },
-                { label: "8XL", value: 56 },
-            ]}
-        />
+        <img src={FontScaleTable} alt="Facteur d'échelle" />
 
         <DocsSection title="Hauteur de ligne (line height)" image={LineHeight}>
             La hauteur de ligne désigne la distance verticale entre deux lignes de texte, mesurée entre les lignes de base des caractères. Elle joue un rôle clé dans la lisibilité du texte, et son ajustement est l'une des pratiques typographiques les plus importantes.
@@ -87,37 +79,13 @@ import "../src/styles/Police.css"
             Ces valeurs sont ensuite arrondies au multiple de 4 le plus proche afin de garantir une cohérence avec d'autres éléments fondamentaux, tels que le spacing et l'iconographie.
         </DocsSection>
 
-        <TableComponent
-            headers={["Token", "Taille de police", "Taille de police", "Taille de police"]}
-            rows={[
-                { label: "S", value: 10, value2: "x 1,4", value3: 14 },
-                { label: "M", value: 12, value2: "x 1,4", value3: 16 },
-                { label: "L", value: 14, value2: "x 1,4", value3: 20 },
-                { label: "XL", value: 16, value2: "x 1,4", value3: 24 },
-                { label: "2XL", value: 20, value2: "x 1,4", value3: 28 },
-                { label: "3XL", value: 24, value2: "x 1,4", value3: 32 },
-                { label: "4XL", value: 28, value2: "x 1,2", value3: 32 },
-                { label: "5XL", value: 32, value2: "x 1,2", value3: 40 },
-                { label: "6XL", value: 40, value2: "x 1,2", value3: 48 },
-                { label: "7XL", value: 48, value2: "x 1,2", value3: 56 },
-                { label: "8XL", value: 56, value2: "x 1,15", value3: 64 },
-                { label: "9XL", value: 68, value2: "x 1,15", value3: 80 },
-                { label: "10XL", value: 80, value2: "x 1,15", value3: 92 },
-            ]}
-        />
+        <img src={LineHeightExtTable} alt="Relation entre hauteur de ligne et taille de police" />
 
         <DocsSection title="Interlettrage (letter spacing)" image={LetterSpacing}>
             L'interlettrage, ou espacement des caractères, fait référence à l'ajustement de l'espace entre les lettres d'un mot ou d'un bloc de texte. Cette technique typographique peut avoir un impact majeur sur la densité visuelle du texte, affectant ainsi sa lisibilité et sa facilité de lecture.
         </DocsSection>
 
-        <TableComponent
-            headers={["Espacement", "Valeur"]}
-            rows={[
-                { label: "none", value: "0" },
-                { label: "S", value: "-0,5" },
-                { label: "XSL", value: "-1" },
-            ]}
-        />
+        <img src={LetterSpacingTable} alt="Interlettrage (letter spacing)" />
     </Accordion>
 
     <Accordion title="Typographie sémantique">
