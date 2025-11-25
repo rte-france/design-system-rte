@@ -1,0 +1,29 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+.docs {
+  p {
+    @include typography-text-m;
+    color: $greyscale-900;
+  }
+
+  .title {
+    display: flex;
+    padding: $positive-spacing_100 0;
+    align-items: flex-start;
+    gap: 0;
+    flex: 1 0 0;
+
+    @include typography-heading-m;
+    color: $bleu-iceberg-600;
+
+    border-bottom: 0;
+  }
+
+  .sub-title {
+    @include typography-heading-xs;
+    color: $greyscale-900;
+
+    margin-bottom: $positive-spacing_150;
+  }
+}
+
