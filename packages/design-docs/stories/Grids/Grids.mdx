@@ -1,0 +1,261 @@
+import { Meta } from "@storybook/blocks"
+
+import DocsSection from "../../src/components/DocsSection/DocsSection";
+import HeaderComponent from "../../src/components/Header/Header";
+import LastUpdate from "../../src/components/LastUpdate/LastUpdate";
+import Accordion from "../../src/components/Accordion/Accordion";
+
+import "../../src/styles/GeneralDocs.scss";
+import "../../src/styles/Police.css"
+import Paragraph from "../../src/components/Paragraph/Paragraph";
+import Body from "../../src/components/Body/Body";
+
+import Anatomy from "./assets/Anatomy.svg";
+import BreakpointsTable from "./assets/BreakpointsTable.svg";
+import ColumnOffset from "./assets/ColumnOffset.svg";
+import ColumnSpan from "./assets/ColumnSpan.svg";
+import DoNot1a from "./assets/DoNot1a.svg";
+import DoNot1b from "./assets/DoNot1b.svg";
+import DoNot2a from "./assets/DoNot2a.svg";
+import DoNot2b from "./assets/DoNot2b.svg";
+import DoNot2c from "./assets/DoNot2c.svg";
+import DoNot3 from "./assets/DoNot3.svg";
+import Fixe from "./assets/Fixe.svg";
+import Fluid from "./assets/Fluid.svg";
+import Grid from "./assets/Grid.svg";
+import LayoutGuide from "./assets/LayoutGuide.svg";
+import PageLayout from "./assets/PageLayout.svg";
+import SidePanelTable from "./assets/SidePanelTable.svg";
+import GridOrLayoutTable from "./assets/GridOrLayoutTable.svg";
+import BestPractices from "./assets/BestPractices.svg";
+
+<Meta title='Design System/Grids'/>
+
+<div className="docs">
+
+    <HeaderComponent title="Grids" linkFigma="https://www.figma.com/design/EuNnqaEYErWwe0DgdnXPsB/01.2--Design-Tokens?node-id=351-143">
+        <Paragraph>La grille sert de base fondamentale pour le <strong>placement des éléments visuels</strong>.</Paragraph>
+        <br/>
+        <Paragraph>Le fait de travailler avec une grille garantit une <strong>approche standard</strong> pour la prise de décisions créatives sur l'ensemble des produits RTE et un framework <strong>responsif</strong> pour le design sur différents appareils. La grille confère à une application un aspect <strong>homogène</strong>, améliore la <strong>hiérarchie visuelle</strong> et<strong> équilibre le design de l’interface</strong>.</Paragraph>
+    </HeaderComponent>
+
+    <Body>
+        <div style={{padding: "16px"}}>
+            <LastUpdate updates={[ {version: '1.0.0', date: '04 Décembre 2025', changes: ['Livraison']}]} />
+        </div>
+
+        <Accordion title="Anatomie des grilles">
+            <DocsSection image={Anatomy}>
+                <Body>
+                    <div>
+                        La structure de la grille se compose de trois éléments :
+
+                        <ul>
+                            <li> <strong>Les colonnes</strong> (columns) divisent la page en sections verticales égales et sont utilisées pour organiser le contenu.</li>
+                            <li> <strong>Les espaces</strong> (gutters) sont les espaces entre les colonnes et sont utilisés pour créer un espace entre les éléments.</li>
+                            <li> <strong>Les marges</strong> (margins) sont les espaces autour de la grille et sont utilisés pour créer un espace entre la grille et le contenu.</li>
+                        </ul>
+                    </div>
+                </Body>
+            </DocsSection>
+
+            <DocsSection
+                title="Types de grilles"
+                headingLevel={3}
+            >
+                Il existe <strong>deux types de grilles</strong> : les grilles <strong>fluides</strong> et les grilles <strong>fixes</strong>. Les deux types de grille utilisent des <strong>points de rupture</strong> (breakpoints) pour déterminer si la mise en page doit être modifiée en fonction de la taille de la fenêtre.
+
+                <Body>
+                    <DocsSection title="Fluide" image={Fluid}>
+                        La grille fluide s'étend sur l'écran pour remplir tout l'espace disponible dans la zone de contenu principale. Cela signifie que les colonnes et le contenu qui y est placé s'adaptent et se redimensionnent pour remplir l'espace disponible.
+                    </DocsSection>
+
+                    <Paragraph>
+                        Il est préférable de les utiliser pour les pages à forte densité d'informations, afin de maximiser l'espace disponible à l'écran.
+                    </Paragraph>
+
+                    <br/>
+
+                    <DocsSection title="Fixe" image={Fixe}>
+                        La grille <strong>fixe</strong> applique une <strong>largeur maximale idéale</strong> aux conteneurs de page en fonction des éléments affichés. Il existe à la fois une <strong>grille fixe étroite</strong> (fixed-narrow) et une <strong>grille fixe large</strong> (fixed-wide), ce qui permet d'afficher le contenu avec la largeur la plus appropriée au cas d’usage.
+                    </DocsSection>
+
+                    <ul>
+                        <li><strong>Fixed Narrow Grid</strong> : Les grilles fixes étroites sont utilisées de préférence pour les pages axées sur le texte, telles que les blogs et les articles, afin de limiter la longueur des lignes et d'améliorer la lisibilité. Certains éléments internes, comme les en-têtes, peuvent sortir de la grille pour s'étendre sur toute la page.</li>
+                        <li><strong>Fixed Wide Grid</strong> : Les grilles fixes larges sont utilisées de préférence pour les pages à contenu dense, telles que les tableaux de données, afin d'équilibrer l'espace disponible à l'écran et la lisibilité. Les colonnes des tableaux internes n'ont pas besoin d'être alignées sur la grille.</li>
+                    </ul>
+                </Body>
+            </DocsSection>
+
+            <DocsSection title="Breakpoints" headingLevel={3}>
+                <Body>
+                    Chaque point de rupture (breakpoint) est le <strong>seuil à partir duquel la mise en page du site web change</strong>, afin de garantir une expérience utilisateur optimale. En responsive design, un point de rupture détermine le nombre de colonnes le plus approprié pour chaque taille de fenêtre, ainsi que les largeurs recommandées pour les marges et les gouttières.
+
+                    Notre grille s'aligne sur les 6 points de rupture suivants :
+                </Body>
+            </DocsSection>
+
+            <DocsSection title="Étendue des colonnes" image={ColumnSpan} headingLevel={3}>
+                <Body>
+                    Sur desktop, les éléments de mise en page peuvent s'étendre sur 3 colonnes ou plus, jusqu'à un maximum de 12.
+                    Pour plus de polyvalence, mélangez le nombre de colonnes utilisées pour débloquer une variété de mises en page à travers différents points de rupture.
+                </Body>
+            </DocsSection>
+
+            <DocsSection title="Décalage des colonnes" image={ColumnOffset} headingLevel={3}>
+                <Body>
+                    Le contenu ne doit pas nécessairement s'étendre sur les 12 colonnes. Il peut s'étendre sur un plus petit nombre de colonnes, ce qui permet d'obtenir une mise en page dont le contenu est centré.
+                </Body>
+            </DocsSection>
+
+            <DocsSection title="Anatomie de la mise en page" headingLevel={3}>
+                <Body>
+                    Les différentes zones de la mise en page sont les éléments constitutifs de toute page web. Elles sont composées d'éléments et de composants qui partagent des fonctions similaires.
+                    <br/>
+
+                    <img src={PageLayout} width="100%"/>
+
+                    <br/>
+
+                    <DocsSection title="Panneaux latéraux" image={SidePanelTable}>
+                        Un panneau latéral est utile pour afficher du contenu complémentaire à l'écran, tel que des menus, des panneaux d'aide ou des tâches secondaires.
+                        La grille remplit généralement toute la largeur de la fenêtre, mais en présence d'un panneau latéral, la grille se redimensionne pour s'adapter à la zone restante de la page.
+
+                        Les panneaux latéraux peuvent prendre deux états : <strong>collapsed</strong> et <strong>default</strong>.
+                        Ils suivent également les standards de tailles suivants :
+                    </DocsSection>
+                </Body>
+            </DocsSection>
+        </Accordion>
+
+        <Accordion title="Appliquer les grilles">
+            <DocsSection title="Deux façons d’appliquer une grille" headingLevel={3}>
+                <div>
+                    Il existe deux méthodes complémentaires pour appliquer une grille dans les interfaces RTE :
+                    <ul>
+                        <li>Via le composant Grid,</li>
+                        <li>Via l’application d’un layout guide, directement sur la frame.</li>
+                    </ul>
+
+                    <Body>
+                        <DocsSection title="Le composant Grid">
+                            <div>
+                                L'utilisation du composant Grid permet de structurer la page complète :
+                                <ul>
+                                    <li>gère les <strong>panneaux latéraux</strong>,</li>
+                                    <li>définit un <strong>conteneur fixe ou fluide</strong>,</li>
+                                    <li>assure le <strong>centrage</strong> et la <strong>largeur maximale</strong>,</li>
+                                    <li>applique automatiquement la grille adaptée au breakpoint sélectionné.</li>
+                                </ul>
+                                C'est la façon privilégiée de créer une mise en <strong>page cohérente</strong>, page après page.
+                            </div>
+                        </DocsSection>
+
+                        <DocsSection title="Les layout guides (fluid uniquement)">
+                            <div>
+                                L'utilisation des layout guides permet de structurer et aligner le <strong>contenu interne</strong> :
+                                <ul>
+                                    <li><strong>alignement précis</strong> colonne-par-colonne,</li>
+                                    <li><strong>responsivité</strong> frame-par-frame,</li>
+                                    <li>possibilité d'<strong>imbriquer</strong> plusieurs grilles,</li>
+                                    <li>idéal pour des layouts <strong>modulaires et complexes</strong>.</li>
+                                </ul>
+                                <strong>Important</strong> : seules les <strong>grilles fluides</strong> peuvent être appliquées via les Layout guides.
+                                Les grilles fixes nécessitent <strong>le Composant Grid</strong>, car elles reposent sur un conteneur centré avec largeur maximale.
+                            </div>
+                        </DocsSection>
+
+                        <br/>
+
+                        <DocsSection title="Quand utiliser l’un ou l’autre ?">
+                            <img src={GridOrLayoutTable} width="100%"/>
+
+                        </DocsSection>
+
+                        <br/>
+
+                        <DocsSection title="Bonnes pratiques générales">
+                            <img src={BestPractices} width="100%"/>
+                        </DocsSection>
+                    </Body>
+                </div>
+            </DocsSection>
+
+            <DocsSection title="Composant Grid" headingLevel={3}>
+                Le composant de grille intègre directement des panneaux latéraux, à gauche et à droite, qui redimensionnent automatiquement la grille de la zone de contenu principale. Pour configurer la grille :
+
+                <ol>
+                    <li>Déterminer le type de grille nécessaire.</li>
+                    <li>Sélectionner la bonne dimension de grille.</li>
+                    <li>Configurer les panneaux latéraux.</li>
+                    <li>Aligner le contenu sur la grille.</li>
+                </ol>
+
+                <img src={Grid} width="100%"/>
+                
+                <Body>
+                    <DocsSection title="Étape 1 : Déterminer le type de grille nécessaire">
+                        <div>
+                            Il existe <strong>deux types</strong> de grilles :
+                            <ul>
+                                <li>Les grilles <strong>fluides</strong> occupent toute la largeur de l'écran.</li>
+                                <li>Les grilles <strong>fixes</strong> s'étendent jusqu'à une largeur maximale, puis restent centrées.</li>
+                                <ul>
+                                    <li><strong>Fixed narrow</strong> → lisibilité du texte, pages rédactionnelles.</li>
+                                    <li><strong>Fixed wide</strong> → forte densité d'information sans aller jusqu'à la fluid grid.</li>
+                                </ul>
+                            </ul>
+                        </div>
+
+                        <img src={DoNot1a} width="100%"/>
+                        <img src={DoNot1b} width="100%"/>
+                    </DocsSection>
+
+                    <br/>
+
+                    <DocsSection title="Étape 2 : Sélectionner la bonne dimension de grille">
+                        <div>
+                            Il existe six tailles de grilles :
+                            <ul>
+                                <li><strong>XXS</strong>, <strong>XS</strong> et <strong>S</strong> pour les petites fenêtres de 320 à 1023 pixels.</li>
+                                <li><strong>M</strong>, <strong>L</strong> et <strong>XL</strong> pour les grandes fenêtres de 1024 pixels et plus.</li>
+                            </ul>
+                        </div>
+
+                        <img src={DoNot2a} width="100%"/>
+                        <img src={DoNot2b} width="100%"/>
+                        <img src={DoNot2c} width="100%"/>   
+                    </DocsSection>
+
+                    <br/>
+
+                    <DocsSection title="Étape 3 : Configurer les panneaux latéraux" image={DoNot3}/>
+
+                    <br/>
+
+                    <DocsSection title="Étape 4 : Aligner le contenu sur la grille">
+                        La plupart des éléments doivent être alignés sur la grille, mais des exceptions peuvent être faites selon le contexte. Utilisez des tokens de spacing et des primitives de mise en page pour structurer le contenu qui n'est pas aligné sur la grille.
+                    </DocsSection>
+                </Body>
+            </DocsSection>
+
+            <DocsSection title="Layout Guides (Fluid Grid uniquement)" headingLevel={3}>
+                Les Layout Grids sont les grilles appliquées directement sur une frame dans Figma. Elles utilisent les mêmes principes que les grilles du composant Grids (colonnes, gouttières, marges, breakpoints), mais se distinguent par leur rôle : <strong>elles servent avant tout à structurer le contenu, à assurer l'alignement et à rendre la mise en page fluide et responsive</strong>.
+
+                <img src={LayoutGuide} width="100%"/>
+
+                <Body>
+                    <DocsSection title="Pourquoi les Layout Guides ne sont disponibles que pour les grilles fluides ?">
+                        <div>
+                            La raison est structurelle :
+                            <ul>
+                                <li>une <strong>grille fluide</strong> dépend de la largeur du conteneur → comportement que Figma peut appliquer automatiquement par colonne.</li>
+                                <li>une <strong>grille fixe</strong> impose une max-width + un centrage → cela nécessite un conteneur dédié (supporté par le composant Grid), pas par une simple layout grid.</li>
+                            </ul>
+                        </div>
+                    </DocsSection>
+                </Body>
+            </DocsSection>
+        </Accordion>
+    </Body>
+</div>
