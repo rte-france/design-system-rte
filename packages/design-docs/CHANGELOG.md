@@ -1,5 +1,22 @@
 # @design-system-rte/design-docs
 
+## 0.9.0
+
+### Minor Changes
+
+- 8fad8d0: ## Changes
+  - (Docs) update last update accordion icon
+  - (Docs) add spacing page
+
+- f22d3ee: ## Changes
+  - (Docs) create subcomponent for pages
+  - (Docs) refacto architecture for Introduction page
+
+### Patch Changes
+
+- c795574: ## Changes
+  - correct sidenav display when no stories are provided to a section
+
 ## 0.8.0
 
 ### Minor Changes

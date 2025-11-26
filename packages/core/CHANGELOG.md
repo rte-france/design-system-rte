@@ -1,5 +1,26 @@
 # @design-system-rte/core
 
+## 0.21.0
+
+### Minor Changes
+
+- f22d3ee: ## Changes
+  - (Docs) create subcomponent for pages
+
+- 8bca3e1: ## Changes
+  - (Card) mutualize testing common logic
+  - (Card) add card component
+
+- 4a444d4: ## Changes
+  - (Side Navigation) add Divider support for navItems & navMenus
+  - (Side Navigation) add Badge support
+  - (Side Navigation) add footer items
+  - (Side Navigation) add NavItem selection for SideNav
+  - (Tooltip) add customizable gap
+  - (Side Navigation) correct accesibility standards for ul and li items
+  - (Side Navigation) add Nested Menus to SideNav
+  - (Side Navigation) implement simple side nav from base side nav
+
 ## 0.20.0
 
 ### Minor Changes

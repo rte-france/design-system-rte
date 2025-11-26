@@ -1,5 +1,33 @@
 # @design-system-rte/angular
 
+## 0.17.0
+
+### Minor Changes
+
+- 8bca3e1: ## Changes
+  - (Card) add keyboard handling
+  - (Card) mutualize testing common logic
+  - (Card) add accesibility options
+  - (Card) add active pseudo-state
+  - (Card) add focus ring for keyboard selection
+  - (Card) add card component
+
+- 4a444d4: ## Changes
+  - (Divider) correct horizontal display
+  - (Side Navigation) add footer navigation items
+  - (Tooltip) correct label display width to show all its content
+  - (Side Navigation) implement simple side nav from base side nav
+
+### Patch Changes
+
+- 8a4e95e: ## Changes
+  - (Tag) update text color + apply new background-color tokens
+
+- Updated dependencies [f22d3ee]
+- Updated dependencies [8bca3e1]
+- Updated dependencies [4a444d4]
+  - @design-system-rte/core@0.21.0
+
 ## 0.16.0
 
 ### Minor Changes
