@@ -1,0 +1,99 @@
+import { Meta } from "@storybook/blocks"
+
+import HeaderComponent from "../../src/components/Header/Header"
+import Paragraph from "../../src/components/Paragraph/Paragraph"
+import LastUpdate from "../../src/components/LastUpdate/LastUpdate"
+import Accordion from "../../src/components/Accordion/Accordion"
+import Heading from "../../src/components/Heading/Heading"
+import Body from "../../src/components/Body/Body"
+
+import image1 from "./assets/image_1.svg"
+import image2 from "./assets/image_2.svg"
+import image3 from "./assets/image_3.svg"
+import image4 from "./assets/image_4.svg"
+import image5 from "./assets/image_5.svg"
+import image6 from "./assets/image_6.svg"
+import image7 from "./assets/image_7.svg"
+import image8 from "./assets/image_8.svg"
+import image9 from "./assets/image_9.svg"
+import image10 from "./assets/image_10.svg"
+
+<Meta title="Design System/Elevation" />
+
+<div style={{display: "flex", flexDirection: "column", gap: "16px"}}>
+  <HeaderComponent title="Elevation" linkFigma="https://www.figma.com/design/EuNnqaEYErWwe0DgdnXPsB/01.2--Design-Tokens?node-id=911-1081">
+    <Paragraph>L'élévation correspond à la distance perçue entre un objet et la surface située derrière lui, grâce à l'utilisation d'ombres et de lumières.</Paragraph>
+    <Paragraph>Surélever des éléments de l'interface utilisateur permet de créer des repères visuels, faciliter la lisibilité et transmettre des niveaux d'importance.</Paragraph>
+  </HeaderComponent>
+  <Body>
+  
+    <div style={{ padding: "16px" }}>
+      <LastUpdate updates={[ {version: '1.0.0', date: '04 Décembre 2025', changes: ['Livraison']}]} />
+    </div>
+
+    <Accordion title="Le système d’élévation" id="systeme-d-elevation">
+      <div style={{ display: "flex", flexDirection: "column", gap: "16px", padding: "0 8px" }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+          <Paragraph>Les interfaces RTE imitent l'espace tridimensionnel en plaçant les composants à différentes hauteurs le long d’un axe vertical, afin d'augmenter la visibilité de certains éléments. L'élévation repose sur un jeu de <span class="bold">surfaces</span> et d’<span class="bold">ombres</span> pour suggérer la distance entre deux surfaces ou la distance entre un objet et la surface se trouvant derrière lui.</Paragraph>
+          <Paragraph>Cela crée une <span class="bold">hiérarchie claire</span>, qui permet de <span class="bold">focaliser l'attention sur un élément spécifique</span> au sein de l’expérience utilisateur. Cela permet également aux différentes surfaces de se déplacer les unes derrière/devant les autres (comme le défilement d’un contenu derrière un header d’application).</Paragraph>
+        </div>
+        <img src={image1} alt="Schéma d'illustration du concept d'élévation" />
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", gap: "4px", padding: "0 8px" }}>
+        <Heading level="4"> L'élévation par défaut </Heading>
+        <div style={{display: "flex", flexDirection: "column", gap: "20px"}}>
+          <Paragraph>Les élévations par défaut correspondent aux valeurs d’altitude visuelle initiales attribuées à chaque composant du design system lorsqu’il est au repos. 
+              <br/>Lorsqu’une interaction utilisateur ou un événement système se produit, le composant change temporairement de niveau d’élévation à partir de cette valeur de base : c’est ce que l’on appelle le décalage d’élévation dynamique.</Paragraph>
+          <Paragraph>TODO : List </Paragraph>
+          <Paragraph> Il est <span class="bold">recommandé de ne pas combiner les deux effets simultanément</span>, afin d’éviter de surcharger l’animation et de <span class="bold">préserver la clarté de la hiérarchie visuelle</span>.</Paragraph>
+          <Paragraph> Une fois l’action terminée ou annulée, le composant <span class="bold">revient à son élévation par défaut</span>, garantissant la cohérence visuelle de l’interface. </Paragraph>
+          <Paragraph>Certains composants sont positionnés <span class="bold">à des niveaux d’élévation supérieurs</span> afin d’établir une hiérarchie claire entre les couches de l’interface.
+              <br/>Par exemple, une modale s’affiche toujours <span class="bold">au-dessus de tous les autres éléments</span>, quelle que soit leur élévation initiale. </Paragraph>
+          <Paragraph> Le tableau ci-dessous présente les différents niveau d’élévation, leur description et la répartition des composants : </Paragraph>
+        </div>
+      </div>
+      <img src={image2} alt="Tableau des niveaux d'élévation des composants RTE" />
+      <Paragraph> L’illustration ci-dessous représente la position des différents composants selon les niveaux d’élévation et l’échelle verticale de l’interface : </Paragraph>
+      <img src={image3} alt="Schéma des positions des composants selon les niveau d'éléevation et l'échelle" />
+    </Accordion>
+
+    <Accordion title="Appliquer les élévations" id="appliquer-les-elevations">
+      <Heading level="3"> Les tokens d'élévation </Heading>
+      <div style={{ padding: "0 8px" }}>
+        <Paragraph>Les élévations utilisent deux types de design tokens pour obtenir différents niveaux de surface : les <span class="bold">ombres</span> et les couleurs de <span class="bold">surface</span>.</Paragraph> 
+      </div>
+      <div style={{display: "flex", flexDirection: "column", gap: "4px", padding: "0 8px"}}>
+        <Heading level="4"> Tokens de surfaces : couleurs et dark mode </Heading>
+        <div style={{display: "flex", flexDirection: "column", gap: "20px"}}>
+            <Paragraph> Les ombres seules peuvent être plus <span class="bold">difficiles à distinguer en dark mode</span>. C'est la raison pour laquelle, dans ce mode, les élévations utilisent également des <span class="bold">couleurs de surface différentes</span>. </Paragraph>
+            <Paragraph> Si l’on imagine que les surfaces sont éclairées de loin par l'avant : plus l'élévation est importante, plus la distance entre la surface et la source de lumière diminue et la surface semble donc plus claire. </Paragraph>
+        </div>
+        <div style={{ display: "flex", flexDirection: "row", gap: "16px", padding: "4px 0" }}>
+          <Paragraph> Pour appliquer ces couleurs, il faut ajouter une <span class="bold">couche supplémentaire en couleur de Fill à la surface ciblée</span> (voir ci-contre).
+            <br/>Cette couleur supplémentaire doit-être au niveau le plus haut et la couleur choisie doit correspondre à l’ombre utilisée, suivant les tokens ci-dessous. </Paragraph>
+          <img src={image4} alt="Tableau des tokens de surface en dark mode" />
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", gap: "16px", padding: "4px 0" }}>
+          <Paragraph> Ex : La surface utilise l’Effect d’ombre “Shadow-1”, la couleur à utiliser doit également correspondre à la “Shadow-1”.</Paragraph>
+          <img src={image5} alt="Tableau des équivalences entre ombre et couleur" />
+        </div>
+      </div>
+      <div style={{display: "flex", flexDirection: "column", gap: "4px", padding: "0 8px"}}>
+        <Heading level="4"> Tokens d’ombres </Heading>
+        <div style={{ display: "flex", flexDirection: "column", gap: "16px", padding: "4px 0" }}>
+          <Paragraph> Pour utiliser les ombres, il suffit d’utiliser les styles d’effets correspondants (<span class="bold">Effect Styles</span>) dans la librairie des effets.
+            <br/>Il existe 7 styles d’ombres <span class="bold">neutres</span> et 7 styles d’ombres adaptées aux <span class="bold">couleurs de surface de type “brand”</span>. En effet, par rapport aux couleurs neutres, la même valeur d'ombre sur une couleur de marque peut donner une impression de niveaux d'élévation différents.</Paragraph>
+          <img src={image6} alt="Tableau des styles" />
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", gap: "16px", padding: "4px 0" }}>
+          <Paragraph> La palette d'ombres définie dans ces styles fait appel à des valeurs de blur croissantes pour déterminer la taille de l'ombre et, par conséquent, la distance. Les sept types d'ombres, les valeurs des tokens utilisés dans les styles et les cas d'utilisation sont répertoriés ci-dessous.</Paragraph>
+          <img src={image7} alt="Présentation des 7 types d'ombres en mode neutral" />
+          <img src={image8} alt="Présentation des 7 types d'ombres en mode neutral, avec les valeurs détaillés des tokens utilisées" />
+          <img src={image9} alt="Présentation des 7 types d'ombres en mode brand" />
+          <img src={image10} alt="Présentation des 7 types d'ombres en mode brand, avec les valeurs détaillés des tokens utilisées" />
+        </div>
+      </div>
+    </Accordion>
+
+  </Body>
+</div>

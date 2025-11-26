@@ -16,6 +16,12 @@
     }
 
     &.h3 {
+      @include typography-heading-s;
+      padding: $positive-spacing_100 0;
+      color: var(--content-primary);
+    }
+
+    &.h4 {
       @include typography-heading-xs;
       padding: $positive-spacing_050 0;
       color: var(--content-primary);

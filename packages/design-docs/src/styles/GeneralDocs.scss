@@ -1,0 +1,28 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+.docs {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  .title {
+    display: flex;
+    padding: $positive-spacing_100 0;
+    align-items: flex-start;
+    gap: 0;
+    flex: 1 0 0;
+
+    @include typography-heading-m;
+    color: var(--content-brand-default);
+
+    border-bottom: 0;
+  }
+
+  .sub-title {
+    @include typography-heading-xs;
+    color: var(--content-primary);
+
+    margin-bottom: $positive-spacing_150;
+  }
+}
+

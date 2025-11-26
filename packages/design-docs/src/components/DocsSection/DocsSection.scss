@@ -1,0 +1,36 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+.sbdocs {
+  .rte-docs-section {
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    .rte-docs-section-title {
+      @include typography-heading-xs;
+      color: var(--content-primary);
+      margin: 0;
+    }
+
+    .rte-docs-section-content {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 4px;
+
+      p {
+        @include typography-text-m;
+        color: var(--content-primary);
+        margin: 0;
+        white-space: pre-line;
+      }
+    }
+
+    .rte-docs-section-image {
+      width: 100%;
+      height: auto;
+    }
+  }
+}
+

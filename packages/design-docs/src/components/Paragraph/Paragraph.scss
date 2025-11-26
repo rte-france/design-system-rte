@@ -5,5 +5,9 @@
     @include typography-text-m;
     color: var(--content-primary);
     margin: 0;
+
+    .bold {
+      @include typography-text-m-bold;
+    }
   }
 }
