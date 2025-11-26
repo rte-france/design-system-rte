@@ -1,7 +1,7 @@
-import Icon from "@design-system-rte/react/src/components/icon/Icon.tsx";
 import Tag from "@design-system-rte/react/src/components/tag/Tag.tsx";
 import React from "react";
 
+import AccordionIconToggle from "../AccordionIconToggle/AccordionIconToggle.tsx";
 import Heading from "../Heading/Heading.tsx";
 
 import "./LastUpdate.scss";
@@ -28,7 +28,7 @@ const LastUpdate = ({ updates }: LastUpdateProps) => {
           >
             <summary>
               <div className="rte-last-update-summary">
-                {isOpen ? <Icon name="arrow-chevron-down" /> : <Icon name="arrow-chevron-up" />}
+                <AccordionIconToggle isAccordionOpen={isOpen} />
                 <span>
                   V{update.version} <span style={{ color: "#3E3E3D" }}>- {update.date}</span>
                 </span>

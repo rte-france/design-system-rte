@@ -1,5 +1,7 @@
-import Icon from "@design-system-rte/react/src/components/icon/Icon";
 import React from "react";
+
+import AccordionIconToggle from "../AccordionIconToggle/AccordionIconToggle";
+
 import "./Accordion.scss";
 
 export interface AccordionProps {
@@ -21,7 +23,7 @@ const Accordion = ({ title, id, children }: AccordionProps) => {
       >
         <summary>
           <div className="rte-accordion-summary">
-            {isOpen ? <Icon name="arrow-chevron-down" /> : <Icon name="arrow-chevron-up" />}
+            <AccordionIconToggle isAccordionOpen={isOpen} />
             <h2 id={id || title.split(" ").join("-")}>{title}</h2>
           </div>
         </summary>
