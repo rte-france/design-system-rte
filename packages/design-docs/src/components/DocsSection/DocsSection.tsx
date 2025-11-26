@@ -1,7 +1,6 @@
 import { ReactNode } from "react";
 
 import "./DocsSection.scss";
-import Paragraph from "../Paragraph/Paragraph";
 
 interface DocsSectionProps {
   title: string;
@@ -13,8 +12,8 @@ interface DocsSectionProps {
 const DocsSection = ({ title, image, alt, children }: DocsSectionProps) => {
   return (
     <section className="rte-docs-section">
-      <h4 className="rte-docs-section-title">{title}</h4>
-      <Paragraph>{children}</Paragraph>
+      <h3 className="rte-docs-section-title">{title}</h3>
+      <div className="rte-docs-section-content">{children}</div>
       <img src={image} alt={alt || title} className="rte-docs-section-image" />
     </section>
   );
