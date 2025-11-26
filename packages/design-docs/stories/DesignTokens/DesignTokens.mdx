@@ -33,7 +33,7 @@ import "../../src/styles/Police.css"
 
     <Accordion title="Qu'est ce qu'un design token" id="quest-ce-quun-design-token">
       <div style={{ display: "flex", flexDirection: "column", gap: "4px", padding: "0 8px" }}>
-        <Heading level="3">A propos des design tokens</Heading>
+        <Heading level="4">A propos des design tokens</Heading>
         <div style={{display: "flex", flexDirection: "row", gap: "16px", padding: "4px 0"}}>
           <div style={{display: "flex", flexDirection: "column", gap: "16px"}}>
             <Paragraph> Les « design tokens », ou « tokens » tout court, sont des choix de conception traduits en données. Il s'agit simplement d'un outil de communication : un langage commun entre le design et le développement permettant de communiquer des informations détaillées sur la manière de construire des interfaces utilisateur.</Paragraph>
@@ -43,7 +43,7 @@ import "../../src/styles/Police.css"
         </div>
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: "4px", padding: "0 8px" }}>
-        <Heading level="3">Le système de design tokens de Luciole</Heading>
+        <Heading level="4">Le système de design tokens de Luciole</Heading>
           <div style={{display: "flex", flexDirection: "column", gap: "16px"}}>
             <Paragraph>Notre système de design tokens privilégie la transparence et la simplicité. La méthodologie globale consiste à disposer d'un ensemble ciblé et utile de tokens plutôt que de tous les tokens possibles pour tous les scénarios possibles. Cependant, il est important de noter que les tokens ne fournissent qu'une (grande) partie des informations nécessaires pour représenter ou mettre en œuvre un composant UI. Le système de tokens est une ressource parmi d'autres proposées par Luciole, et non un ensemble complet de connaissances. Il est utilisé en complément de la documentation relative au design et au développement.</Paragraph>
             <Paragraph> Les design tokens sont directement intégrés à nos bibliothèques de composants. Ils couvrent les différentes options de mise à l'échelle de la plateforme, les thèmes de couleurs, les états des composants et bien plus encore.</Paragraph>
@@ -59,34 +59,34 @@ import "../../src/styles/Police.css"
         </div>
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: "4px", padding: "0 8px" }}>
-        <Heading level="3">Token (ou design token)</Heading>
+        <Heading level="4">Token (ou design token)</Heading>
          <div style={{ padding: "4px 0" }}>
           <Paragraph>Un choix de conception, représenté sous forme de données. Chaque token porte un nom soigneusement choisi qui communique son intention et sa portée, et suit une convention de nommage définie.</Paragraph>
          </div>
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: "4px", padding: "0 8px" }}>
-        <Heading level="3">Valeur</Heading>
+        <Heading level="4">Valeur</Heading>
         <div style={{ display: "flex", flexDirection: "column", gap: "16px", padding: "4px 0" }}>
           <Paragraph>La donnée associée au nom du token. Il peut s'agir soit d'un autre token, soit d'une valeur finale (par exemple : couleurs HEX, pixels, pourcentages).</Paragraph>
           <img src={Tableau1} width="100%" alt="Tableau d'exemple d'association de nom de token et de valeur" />
         </div>
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: "4px", padding: "0 8px" }}>
-        <Heading level="3">Token sémantique</Heading>
+        <Heading level="4">Token sémantique</Heading>
         <div style={{ display: "flex", flexDirection: "column", gap: "16px", padding: "4px 0" }}>
           <Paragraph>Un token qui fait référence à un autre token, au lieu de faire référence à une valeur brute.</Paragraph>
           <img src={Tableau2} width="100%" alt="Tableau d'exemple d'association de nom de token et de valeur pour un autre token" />
         </div>
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: "4px", padding: "0 8px" }}>
-        <Heading level="3">Token spécique à un composant</Heading>
+        <Heading level="4">Token spécique à un composant</Heading>
         <div style={{ display: "flex", flexDirection: "column", gap: "16px", padding: "4px 0" }}>
           <Paragraph>Un token utilisé pour un composant en particulier</Paragraph>
           <img src={Tableau3} width="100%" alt="Tableau d'exemple d'association de nom de token et de valeur pour un autre token" />
         </div>
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: "4px", padding: "0 8px" }}>
-        <Heading level="3">Token général</Heading>
+        <Heading level="4">Token général</Heading>
         <div style={{ display: "flex", flexDirection: "column", gap: "16px", padding: "4px 0" }}>
           <Paragraph>Un token utilisé dans l'ensemble du design system. Ces tokens ne font pas appel au système de hiérarche primitive/sémantique, et référencent directement des valeurs brutes.</Paragraph>
           <img src={Tableau4} width="100%" alt="Tableau d'exemple d'association de nom de token et de valeur pour un autre token" />
@@ -97,7 +97,7 @@ import "../../src/styles/Police.css"
     <Accordion title="Guidelines" id="guidelines">
       <div style={{display: "flex", flexDirection: "column", gap: "4px"}}>
         <div style={{ display: "flex", flexDirection: "column", gap: "4px", padding: "0 8px" }}>
-          <Heading level="3">Utiliser des tokens dès que c’est possible</Heading>
+          <Heading level="4">Utiliser des tokens dès que c’est possible</Heading>
             <div style={{display: "flex", flexDirection: "column", gap: "16px"}}>
               <Paragraph>Il est fortement recommandé d’utiliser un maximum de tokens lorsque vous créez votre produit avec Luciole. Ils constituent un langage commun pour comprendre le design system et permettent d'associer une signification, un contexte et une intention à vos conceptions et à votre produit.</Paragraph>
             </div>
@@ -106,7 +106,7 @@ import "../../src/styles/Police.css"
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: "4px", padding: "0 8px" }}>
         <div style={{ display: "flex", flexDirection: "column", gap: "4px", padding: "0 8px" }}>
-          <Heading level="3">Utiliser des tokens sémantiques</Heading>
+          <Heading level="4">Utiliser des tokens sémantiques</Heading>
             <div style={{display: "flex", flexDirection: "column", gap: "16px"}}>
               <Paragraph>N'utilisez les tokens généraux ou primitifs que lorsqu'il n'existe absolument aucun token sémantique disponible pour votre cas d'utilisation. Les tokens généraux/primitifs semblent plus facile à utiliser et constituent les éléments de fondation de Luciole, mais ils sont également complètement détachés de la logique de notre langage de conception.</Paragraph>
             </div>
