@@ -1,0 +1,167 @@
+import { Meta } from "@storybook/blocks";
+
+import StorybookTabs from "../../../../../../../.storybook/template/StorybookTabs";
+import HeaderComponent from "../../../../../../../.storybook/template/HeaderComponent/HeaderComponent";
+import IconTitle from "../../../../../../../.storybook/template/IconTitle/IconTitle";
+
+import LoaderAccessibility from "../../../../../../../../core/components/loader/stories/img/LoaderAccessibility.png";
+import LoaderAppearance from "../../../../../../../../core/components/loader/stories/img/LoaderAppearance.svg";
+import LoaderBooleanOptions from "../../../../../../../../core/components/loader/stories/img/LoaderBooleanOptions.svg";
+import LoaderInteractions from "../../../../../../../../core/components/loader/stories/img/LoaderInteractions.svg";
+import LoaderKeyboardInteractions from "../../../../../../../../core/components/loader/stories/img/LoaderKeyboardInteractions.svg";
+import LoaderLayout from "../../../../../../../../core/components/loader/stories/img/LoaderLayout.svg";
+import LoaderPosition from "../../../../../../../../core/components/loader/stories/img/LoaderPosition.svg";
+import LoaderSafezone from "../../../../../../../../core/components/loader/stories/img/LoaderSafezone.svg";
+import LoaderStructure from "../../../../../../../../core/components/loader/stories/img/LoaderStructure.svg";
+import LoaderTableOfOptions from "../../../../../../../../core/components/loader/stories/img/LoaderTableOfOptions.svg";
+import LoaderTaille from "../../../../../../../../core/components/loader/stories/img/LoaderTaille.svg";
+import LoaderTextOptions from "../../../../../../../../core/components/loader/stories/img/LoaderTextOptions.svg";
+
+import "../../../../../../../.storybook/template/style/police.css";
+
+<Meta title="Composants/Loader" />
+
+<HeaderComponent title="Loader" linkFigma="https://www.figma.com/design/Wiy8uWsWjoagf95lOmPXNU/01.0-Design-System-RTE---WEB?node-id=1744-1406&p=f&m=dev" linkGithub="https://github.com/rte-france/design-system-rte/tree/main/packages/angular/projects/ds-rte-lib/src/lib/components/loader"  />
+
+<p className="no-margin-bottom">
+    Le <b>Loader</b> (ou Spinner) est un <b>indicateur de chargement visuel</b>, utilisé pour signaler à l’utilisateur qu’une action ou un processus est en cours. Il peut être utilisé dans l’ensemble d’une page, dans un conteneur, ou à côté d’un composant bloqué temporairement (ex. : bouton, champ…).
+</p>
+
+<StorybookTabs>
+
+<div className="Overview">
+
+    <h2 className="h2" id="Introduction" style={{border:"none", fontFamily:"Nunito", color:"#2964A0"}}> Introduction </h2>
+
+    <h3 className="h3" id="gherkin" style={{fontFamily:"Nunito"}}> Gherkin : </h3>
+    <ul>
+        <li>En tant qu’<b>utilisateur d’une interface</b>,</li>
+        <li>Je souhaite <b>être informé qu’un processus est en cours</b>,</li>
+        <li>Afin de <b>patienter en comprenant que l’application traite une action</b>.</li>
+    </ul>
+
+    <h3 className="h3" id="definition" style={{fontFamily:"Nunito"}}> Définition : </h3>
+    <p>
+        Le <b>Loader</b> (ou Spinner) est un <b>indicateur de chargement visuel</b>, utilisé pour signaler à l’utilisateur qu’une action ou un processus est en cours. Il peut être utilisé dans l’ensemble d’une page, dans un conteneur, ou à côté d’un composant bloqué temporairement (ex. : bouton, champ…).
+    </p>
+
+    <h3 className="h3" id="types" style={{fontFamily:"Nunito"}}> Type : </h3>
+    <p>
+        Composant générique pouvant être utilisé par toutes les équipes de la DSIT.
+    </p>
+
+</div>
+
+<div className="Guidelines">
+
+    <h2 id="guidelines" className="h2" style={{border:"none", fontFamily:"Nunito", color:"#2964A0"}} > Usages </h2>
+
+    <IconTitle id="préconisation" icon="heart_outlined" title="Préconisation" />
+
+    <p>Les principales règles qui entourent l'utilisation du composant :</p>
+
+    <p className="no-margin-bottom">Utiliser pour indiquer un processus actif</p>
+    <p className="light-gray no-margin-top">Ne pas utiliser un loader sans action en arrière-plan</p>
+
+    <p className="no-margin-bottom">Associer à un texte si attente ≥ 1s</p>
+    <p className="light-gray no-margin-top">Ajouter un texte d’aide : “Chargement…” ou “Traitement en cours”</p>
+
+    <p className="no-margin-bottom">Utiliser un loader par niveau de contexte</p>
+    <p className="light-gray no-margin-top">Page entière, conteneur, ou inline dans un bouton</p>
+
+    <p className="no-margin-bottom">Ne pas bloquer l’utilisateur sans raison</p>
+    <p className="light-gray no-margin-top">Ajouter un visuel uniquement si nécessaire, éviter de masquer l’interface</p>
+
+    <p className="no-margin-bottom">Utiliser des tailles adaptées</p>
+    <p className="light-gray no-margin-top">Adapter la taille selon le composant parent (ex : petit pour bouton)</p>
+
+    <p className="no-margin-bottom">Supprimer le loader dès que le process est fini</p>
+    <p className="light-gray no-margin-top">Pas de spinner fantôme après chargement terminé</p>
+
+    <h3 id="content-standards" className="h3" style={{fontFamily:"Nunito"}}> Content Standards : </h3>
+    <p>Quels sont les standards du contenu ? (UX Writing)</p>
+    <p className="no-margin-bottom">Titre (facultatif mais recommandé)</p>
+    <p className="light-gray no-margin-top no-margin-bottom">Exemples :</p>
+    <p className="light-gray no-margin-top no-margin-bottom">“Chargement en cours…”</p>
+    <p className="light-gray no-margin-top no-margin-bottom">“Recherche des résultats…”</p>
+    <p className="light-gray no-margin-top no-margin-bottom">“Mise à jour…”</p>
+
+    <h2 id="options" className="h2" style={{border:"none", fontFamily:"Nunito", color:"#2964A0"}} > Options </h2>
+    <p> Les options comprennent les états et différentes formes que peut prendre le composant. Elles incluent : Les états, les variants, les tailles, les éléments modifiables qui composent le composant, etc.<br />
+    → Ils n’incluent pas les “Behaviors” qui correspondent à comment le composant réagit.</p>
+
+    <h3 id="tailles" className="h3" style={{fontFamily:"Nunito"}} > Taille </h3>
+    <img src={LoaderTaille} alt="Illustration des différentes tailles du loader" />
+
+    <h3 id="appearance" className="h3" style={{fontFamily:"Nunito"}} > Appearance </h3>
+    <img src={LoaderAppearance} alt="Exemples d'apparence visuelle du loader" />
+
+    <h3 id="label-position" className="h3" style={{fontFamily:"Nunito"}}> Label Position </h3>
+    <img src={LoaderPosition} alt="Exemples de positionnement du loader par rapport au texte" />
+
+    <h3 id="boolean-options" className="h3" style={{fontFamily:"Nunito"}}> Boolean Options </h3>
+    <img src={LoaderBooleanOptions} alt="Options booléennes disponibles pour le loader" />
+
+    <h3 id="text-options" className="h3" style={{fontFamily:"Nunito"}}> Text Options </h3>
+    <img src={LoaderTextOptions} alt="Options de texte pour le contenu du loader" />
+
+    <h3 id="layout" className="h3" style={{fontFamily:"Nunito"}}> Layout </h3>
+    <p> le <b> loader / spinner </b> est composé de plusieurs éléments</p>
+    <img src={LoaderStructure} alt="Schéma de la structure du composant loader" />
+    <ol>
+        <li> Un <b> spinner / loader </b></li>
+        <li> Un <b> label + required </b>(optional)</li>
+    </ol>
+
+    <h3 id="table-of-options" className="h3" style={{fontFamily:"Nunito"}}> Table of Options </h3>
+    <p className="light-gray"> Tous les éléments modifiables sont inscrit dans le tableau. On y renseigne le nom de la propriété et les choix qui s’offrent aux développeurs. </p>
+    <img src={LoaderTableOfOptions} alt="Tableau des propriétés et options du loader" />
+
+    <h2 id="Behaviors" className="h2" style={{border:"none", fontFamily:"Nunito", color:"#2964A0"}} > Behaviors </h2>
+
+    <h3 id="focus" className="h3" style={{fontFamily:"Nunito"}}> Focus </h3>
+    <p> <b>Non focusable</b> </p>
+    <p className="light-gray no-margin-top"> Le loader ne reçoit jamais le focus </p>
+
+    <p> <b>Comportement transparent</b> </p>
+    <p className="light-gray no-margin-top"> Il ne gêne pas la navigation au clavier </p>
+
+    <h3 id="layout" className="h3" style={{fontFamily:"Nunito"}}> Layout </h3>
+    <img src={LoaderLayout} alt="Loader Layout" />
+
+    <h3 id="animation" className="h3" style={{fontFamily:"Nunito"}}> Animation </h3>
+    <p className="light-gray">Toutes les animations doivent respecter les préférences utilisateur (prefers-reduced-motion) et <b>être désactivables si nécessaire</b>.<br />
+    Les transitions doivent <b>rester non-intrusives</b> et ne <b>jamais bloquer l’interaction ou la lisibilité</b>.</p>
+
+    <p><b>Rotation continue</b></p>
+    <p className="light-gray no-margin-top"><b>Rotation fluide à 360°</b><br /><b>Délai :</b> infini<br /><b>Modifiable :</b> Oui</p>
+
+    <h4>Apparition / Disparition</h4>
+    <p className="light-gray no-margin-top"><b>Fade in / fade out</b><br /><b>Délai :</b> 150ms<br /><b>Modifiable :</b> Oui</p>
+
+    <h3 id="interactions" className="h3" style={{fontFamily:"Nunito"}}> Interactions </h3>
+    <img src={LoaderInteractions} alt="Loader Interactions" />
+
+    <h3 id="keyboard-interactions" className="h3" style={{fontFamily:"Nunito"}}> Keyboard Interactions </h3>
+    <img src={LoaderKeyboardInteractions} alt="Loader Keyboard Interactions" />
+
+    <h3 id="safezone" className="h3" style={{fontFamily:"Nunito"}}> Safezone </h3>
+    <img src={LoaderSafezone} alt="Loader Safezone" />
+
+    <h3 id="autre-contextuel" className="h3" style={{fontFamily:"Nunito"}}> Autre/contextuel </h3>
+
+    <p className="no-margin-bottom"><b>HTML natif recommandé</b></p>
+    <p className="no-margin-top">progress ou animation SVG avec rôle status</p>
+    <p className="no-margin-bottom"><b>Support accessibilité</b></p>
+    <p className="no-margin-top">aria-live="polite" si besoin d'annonce</p>
+</div>
+
+<div className="Accessibilité">
+
+<h2 className="h2" id="accessibility-testing-status" style={{border:"none", fontFamily:"Nunito", color:"#2964A0"}}> Accessibility Testing Status </h2>
+<p> Voici les tests à effectuer pour vérifier l’accessibilité de chaque catégorie : </p>
+    <img src={LoaderAccessibility} alt="Checklist des tests d’accessibilité pour le loader" />
+
+</div>
+
+</StorybookTabs>
