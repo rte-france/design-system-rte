@@ -1,0 +1,64 @@
+import { Meta } from "@storybook/blocks"
+
+import DocsSection from "../../src/components/DocsSection/DocsSection";
+import HeaderComponent from "../../src/components/Header/Header";
+import LastUpdate from "../../src/components/LastUpdate/LastUpdate";
+import Accordion from "../../src/components/Accordion/Accordion";
+
+import "../../src/styles/GeneralDocs.scss";
+import "../../src/styles/Police.css"
+import Paragraph from "../../src/components/Paragraph/Paragraph";
+
+import BorderRadius from "./assets/BorderRadius.svg";
+import BorderWidth from "./assets/BorderWidth.svg";
+import BorderRadiusTable from "./assets/BorderRadiusTable.svg";
+import BorderWidthTable from "./assets/BorderWidthTable.svg";
+
+<Meta title='Design System/Borders'/>
+
+<div className="docs">
+
+    <HeaderComponent title="Borders" linkFigma="https://www.figma.com/design/EuNnqaEYErWwe0DgdnXPsB/01.2--Design-Tokens?node-id=255-340">
+        <Paragraph>Les bordures délimitent certains éléments de l'interface utilisateur tels que les boutons, les cartes et les images et varient en termes de rayon (radius), d'épaisseur (width) et de style (continu, pointillé).</Paragraph>
+    </HeaderComponent>
+    
+    <div style={{padding: "16px"}}>
+      <LastUpdate updates={[ {version: '1.0.0', date: '04 Décembre 2025', changes: ['Livraison']}]} />
+    </div>
+
+    <Accordion title="Rayon de bordure (border radius)">
+        <DocsSection
+            title="Définition"
+            image={BorderRadius}
+        >
+            Le rayon de bordure, ou border-radius, est l’arrondi appliqué aux coins d’un élément d’interface. Il peut adoucir son apparence et contribuer à une expérience utilisateur plus fluide et accueillante.
+            
+            Dans l’exemple qui suit, on observe comment l’ajout d’un rayon de bordure transforme le design de gauche, au style professionnel et institutionnel rappelant Microsoft, en un design plus convivial et accessible, à l’image d’Apple, sur la droite.
+        </DocsSection>
+
+        <DocsSection
+            title="Dénominations"
+            image={BorderRadiusTable}
+        >
+            Les tokens de rayon de bordure suivent un système de tailles inspiré des t-shirts pour gérer l’arrondi des coins. Pill arrondit entièrement les côtés gauche et droit des rectangles.
+        </DocsSection>
+    </Accordion>
+
+    <Accordion title="Épaisseur de bordure (border width)">
+        <DocsSection
+            title="Définition"
+            image={BorderWidth}
+        >
+            L’épaisseur de bordure, ou border width, désigne l’épaisseur des contours et influence la perception visuelle des lignes, qu’elles soient fines ou épaisses. Ajuster cette épaisseur peut permettre de renforcer la présence visuelle d’un élément ou d’indiquer à l’utilisateur qu’un état d’interaction a changé.
+
+            Dans cet exemple, on observe comment la bordure d’un champ de saisie s’épaissit lorsque l’on passe de son état par défaut à son état focused (navigation clavier).
+        </DocsSection>
+
+        <DocsSection
+            title="Dénominations"
+            image={BorderWidthTable}
+        >
+            Les tokens d’épaisseur de bordure suivent églament le système de tailles de t-shirts.
+        </DocsSection>
+    </Accordion>
+</div>
