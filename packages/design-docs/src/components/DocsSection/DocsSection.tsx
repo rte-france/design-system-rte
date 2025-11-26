@@ -1,20 +1,24 @@
 import { ReactNode } from "react";
 
 import "./DocsSection.scss";
+import Heading from "../Heading/Heading";
 
 interface DocsSectionProps {
   title: string;
-  image: string;
+  image?: string;
   alt?: string;
   children: ReactNode;
+  headingLevel?: number;
 }
 
-const DocsSection = ({ title, image, alt, children }: DocsSectionProps) => {
+const DocsSection = ({ title, image, alt, children, headingLevel = 4 }: DocsSectionProps) => {
   return (
     <section className="rte-docs-section">
-      <h3 className="rte-docs-section-title">{title}</h3>
+      <Heading level={headingLevel} id={title}>
+        {title}
+      </Heading>
       <div className="rte-docs-section-content">{children}</div>
-      <img src={image} alt={alt || title} className="rte-docs-section-image" />
+      {image && <img src={image} alt={alt || title} className="rte-docs-section-image" />}
     </section>
   );
 };
