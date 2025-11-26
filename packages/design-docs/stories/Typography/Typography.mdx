@@ -23,6 +23,7 @@ import Accordion from "../../src/components/Accordion/Accordion";
 import "../../src/styles/GeneralDocs.scss";
 import "../../src/styles/Police.css"
 import Paragraph from "../../src/components/Paragraph/Paragraph";
+import Body from "../../src/components/Body/Body";
 
 <Meta title='Design System/Typographie'/>
 
@@ -32,84 +33,88 @@ import Paragraph from "../../src/components/Paragraph/Paragraph";
         <Paragraph>La typographie ne se limite pas à un simple choix de polices de caractères. C'est l'art d'organiser les lettres de manière à rendre le texte lisible, compréhensible et visuellement attrayant.</Paragraph>
         <Paragraph>Dans un Design System, la typographie joue un rôle essentiel dans la définition de l'identité visuelle et la hiérarchisation du contenu.</Paragraph>
     </HeaderComponent>
+
+    <Body>
     
-    <div style={{padding: "16px"}}>
-      <LastUpdate updates={[ {version: '1.0.0', date: '04 Décembre 2025', changes: ['Livraison']}]} />
-    </div>
+        <div style={{padding: "16px"}}>
+        <LastUpdate updates={[ {version: '1.0.0', date: '04 Décembre 2025', changes: ['Livraison']}]} />
+        </div>
 
-    <Accordion title="Typographies primitives">
-        <DocsSection
-            title="Famille de polices (font family)"
-            image={FontFamily}
-        >
-            Les bases de la typographie dans le Design System reposent sur les familles de polices utilisées. Si l’on considère qu'une police de caractères est une base, les différentes graisses et styles sont des variantes qui, ensemble, forment une famille de polices.
+        <Accordion title="Typographies primitives">
+            <DocsSection
+                title="Famille de polices (font family)"
+                image={FontFamily}
+            >
+                Les bases de la typographie dans le Design System reposent sur les familles de polices utilisées. Si l’on considère qu'une police de caractères est une base, les différentes graisses et styles sont des variantes qui, ensemble, forment une famille de polices.
 
-            Luciole utilise Nunito et Arial comme familles de polices pour les interfaces web.
-        </DocsSection>
+                Luciole utilise Nunito et Arial comme familles de polices pour les interfaces web.
+            </DocsSection>
 
-        <DocsSection
-            title="Graisse (font weight)"
-            image={FontWeight}
-        >
-            La graisse d'une police désigne l'épaisseur ou la lourdeur des caractères, allant de léger à ultra-gras. Elle influence la visibilité, la hiérarchie et l'esthétique du texte dans une interface.
+            <DocsSection
+                title="Graisse (font weight)"
+                image={FontWeight}
+            >
+                La graisse d'une police désigne l'épaisseur ou la lourdeur des caractères, allant de léger à ultra-gras. Elle influence la visibilité, la hiérarchie et l'esthétique du texte dans une interface.
 
-            Les graisses disponibles pour chaque police sont : Light, Regular, Semibold, et Bold.
-        </DocsSection>
+                Les graisses disponibles pour chaque police sont : Light, Regular, Semibold, et Bold.
+            </DocsSection>
 
-        <DocsSection
-            title="Taille de police (font size)"
-            image={FontSize}
-        >
-            La taille de la police mesure la hauteur des caractères, généralement en points (pt) ou en pixels (px). Elle détermine la visibilité et la lisibilité du texte dans une interface : les tailles plus grandes sont utilisées pour les titres, et les tailles plus petites pour le corps du texte.
-        </DocsSection>
+            <DocsSection
+                title="Taille de police (font size)"
+                image={FontSize}
+            >
+                La taille de la police mesure la hauteur des caractères, généralement en points (pt) ou en pixels (px). Elle détermine la visibilité et la lisibilité du texte dans une interface : les tailles plus grandes sont utilisées pour les titres, et les tailles plus petites pour le corps du texte.
+            </DocsSection>
 
-        <DocsSection
-            title="Facteur d'échelle"
-            image={FontScale}
-        >
-            Le système typographique du Design System RTE suit une échelle appelée "Minor Third" : les tailles de police augmentent ou diminuent par un facteur de 1,2, arrondi au multiple de 4 le plus proche. L'échelle commence avec une unité de base de 14 px et peut atteindre jusqu'à 80 px.
-        </DocsSection>
+            <DocsSection
+                title="Facteur d'échelle"
+                image={FontScale}
+            >
+                Le système typographique du Design System RTE suit une échelle appelée "Minor Third" : les tailles de police augmentent ou diminuent par un facteur de 1,2, arrondi au multiple de 4 le plus proche. L'échelle commence avec une unité de base de 14 px et peut atteindre jusqu'à 80 px.
+            </DocsSection>
 
-        <img src={FontScaleTable} alt="Facteur d'échelle" />
+            <img src={FontScaleTable} alt="Facteur d'échelle" />
 
-        <DocsSection title="Hauteur de ligne (line height)" image={LineHeight}>
-            La hauteur de ligne désigne la distance verticale entre deux lignes de texte, mesurée entre les lignes de base des caractères. Elle joue un rôle clé dans la lisibilité du texte, et son ajustement est l'une des pratiques typographiques les plus importantes.
-        </DocsSection>
+            <DocsSection title="Hauteur de ligne (line height)" image={LineHeight}>
+                La hauteur de ligne désigne la distance verticale entre deux lignes de texte, mesurée entre les lignes de base des caractères. Elle joue un rôle clé dans la lisibilité du texte, et son ajustement est l'une des pratiques typographiques les plus importantes.
+            </DocsSection>
 
-        <DocsSection title="Relation entre hauteur de ligne et taille de police" image={LineHeightExt}>
-            La hauteur de ligne est généralement déterminée en multipliant la taille de la police par un facteur, qui varie habituellement entre 1,15 et 1,5 pour les caractères latins.
+            <DocsSection title="Relation entre hauteur de ligne et taille de police" image={LineHeightExt}>
+                La hauteur de ligne est généralement déterminée en multipliant la taille de la police par un facteur, qui varie habituellement entre 1,15 et 1,5 pour les caractères latins.
 
-            Ces valeurs sont ensuite arrondies au multiple de 4 le plus proche afin de garantir une cohérence avec d'autres éléments fondamentaux, tels que le spacing et l'iconographie.
-        </DocsSection>
+                Ces valeurs sont ensuite arrondies au multiple de 4 le plus proche afin de garantir une cohérence avec d'autres éléments fondamentaux, tels que le spacing et l'iconographie.
+            </DocsSection>
 
-        <img src={LineHeightExtTable} alt="Relation entre hauteur de ligne et taille de police" />
+            <img src={LineHeightExtTable} alt="Relation entre hauteur de ligne et taille de police" />
 
-        <DocsSection title="Interlettrage (letter spacing)" image={LetterSpacing}>
-            L'interlettrage, ou espacement des caractères, fait référence à l'ajustement de l'espace entre les lettres d'un mot ou d'un bloc de texte. Cette technique typographique peut avoir un impact majeur sur la densité visuelle du texte, affectant ainsi sa lisibilité et sa facilité de lecture.
-        </DocsSection>
+            <DocsSection title="Interlettrage (letter spacing)" image={LetterSpacing}>
+                L'interlettrage, ou espacement des caractères, fait référence à l'ajustement de l'espace entre les lettres d'un mot ou d'un bloc de texte. Cette technique typographique peut avoir un impact majeur sur la densité visuelle du texte, affectant ainsi sa lisibilité et sa facilité de lecture.
+            </DocsSection>
 
-        <img src={LetterSpacingTable} alt="Interlettrage (letter spacing)" />
-    </Accordion>
+            <img src={LetterSpacingTable} alt="Interlettrage (letter spacing)" />
+        </Accordion>
 
-    <Accordion title="Typographie sémantique">
-        <DocsSection title="Rappels" image={Variables}>
-            Les typographies sont basées sur 5 variables primitives :
-        </DocsSection>
+        <Accordion title="Typographie sémantique">
 
-        <DocsSection title="Styles de texte" image={FontStyle}>
-            Même avec l’utilisation de variables typographiques, les styles de texte restent essentiels et pertinents. Ils permettent de créer un “package de variables” intégré au sein d’un style applicable en un geste.
+            <DocsSection title="Rappels" image={Variables}>
+                Les typographies sont basées sur 5 variables primitives :
+            </DocsSection>
 
-            Dans l’exemple ci-dessous, on peut voir comment les 5 variables primitives sont combinées pour obtenir les valeurs du style “Heading L” - un des styles d’en-têtes disponible.
-        </DocsSection>
+            <DocsSection title="Styles de texte" image={FontStyle}>
+                Même avec l’utilisation de variables typographiques, les styles de texte restent essentiels et pertinents. Ils permettent de créer un “package de variables” intégré au sein d’un style applicable en un geste.
 
-        <DocsSection title="T-Shirt Sizing" image={Sizing}>
-            Plutôt que de nommer les styles de texte en fonction de leur rôle (comme H1, H2 ou Body), le Design System RTE utilise un système basé sur les tailles de t-shirts, offrant ainsi plus de flexibilité. Les tailles vont de 2XS à 5XL.
+                Dans l’exemple ci-dessous, on peut voir comment les 5 variables primitives sont combinées pour obtenir les valeurs du style “Heading L” - un des styles d’en-têtes disponible.
+            </DocsSection>
 
-            L’exemple ci-dessous montre que grâce à cette nomenclature, un titre H1 peut être associé au style Heading XL dans un produit et à Heading L dans un autre. Nommer le style directement H1 reviendrait à imposer une même taille et un même style à tous les produits ou à devoir créer plusieurs jeux de typographies pour s’adapter à chaque besoin.
-        </DocsSection>
+            <DocsSection title="T-Shirt Sizing" image={Sizing}>
+                Plutôt que de nommer les styles de texte en fonction de leur rôle (comme H1, H2 ou Body), le Design System RTE utilise un système basé sur les tailles de t-shirts, offrant ainsi plus de flexibilité. Les tailles vont de 2XS à 5XL.
 
-        <DocsSection title="Différents supports" image={Support}>
-            L’adaptation de la typographie entre desktop et mobile/tablette est essentielle pour assurer une lisibilité optimale et une hiérarchie visuelle cohérente. C’est pourquoi la taille des Headings varie en fonction du support. Cette variation est gérée par les tokens, qui définissent deux modes distincts : desktop et mobile_tablet.
-        </DocsSection>
-    </Accordion>
+                L’exemple ci-dessous montre que grâce à cette nomenclature, un titre H1 peut être associé au style Heading XL dans un produit et à Heading L dans un autre. Nommer le style directement H1 reviendrait à imposer une même taille et un même style à tous les produits ou à devoir créer plusieurs jeux de typographies pour s’adapter à chaque besoin.
+            </DocsSection>
+
+            <DocsSection title="Différents supports" image={Support}>
+                L’adaptation de la typographie entre desktop et mobile/tablette est essentielle pour assurer une lisibilité optimale et une hiérarchie visuelle cohérente. C’est pourquoi la taille des Headings varie en fonction du support. Cette variation est gérée par les tokens, qui définissent deux modes distincts : desktop et mobile_tablet.
+            </DocsSection>
+        </Accordion>
+    </Body>
 </div>
