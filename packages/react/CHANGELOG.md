@@ -1,5 +1,43 @@
 # @design-system-rte/react
 
+## 0.16.0
+
+### Minor Changes
+
+- 8bca3e1: ## Changes
+  - (Card) add keyboard handling
+  - (Card) add card to public api of packages and test in apps
+  - (Card) mutualize testing common logic
+  - (Card) add accesibility options
+  - (Card) add active pseudo-state
+  - (Card) add focus ring for keyboard selection
+  - (Card) add card component
+
+- 4a444d4: ## Changes
+  - (Side Navigation): add missing props to useContentHeight detection
+  - (Divider) correct horizontal display
+  - (Side Navigation) add Divider support for navItems & navMenus
+  - (Side Navigation) add Badge support
+  - (Side Navigation) add footer items
+  - (Tooltip) add customizable gap
+  - (Side Navigation) add Tooltip to SideNav
+  - (Side Navigation) correct accesibility standards for ul and li items
+  - (Side Navigation) add Nested Menus to SideNav
+  - (Side Navigation) implement simple side nav from base side nav
+
+### Patch Changes
+
+- 8a4e95e: ## Changes
+  - (Tag) update text color + apply new background-color tokens
+
+- 26bb12b: ## Changes
+  - remove react and react dom from dependencies
+
+- Updated dependencies [f22d3ee]
+- Updated dependencies [8bca3e1]
+- Updated dependencies [4a444d4]
+  - @design-system-rte/core@0.21.0
+
 ## 0.15.0
 
 ### Minor Changes

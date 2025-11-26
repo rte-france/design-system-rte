@@ -1,6 +1,6 @@
 {
   "name": "@design-system-rte/angular",
-  "version": "0.16.0",
+  "version": "0.17.0",
   "description": "Angular components for the Design System RTE",
   "license": "Apache-2.0",
   "publishConfig": {
@@ -11,7 +11,7 @@
     "@angular/core": "^18.2.14"
   },
   "dependencies": {
-    "@design-system-rte/core": "^0.20.0",
+    "@design-system-rte/core": "^0.21.0",
     "tslib": "^2.3.0"
   },
   "sideEffects": false,
