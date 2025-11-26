@@ -12,37 +12,43 @@
   title="Alert Banner"
   [isOpen]="isAlertBannerVisible()"
 ></rte-banner>
-<button rteButton
+<button
+  rteButton
   [disabled]="false"
   ariaLabel="Home"
   ariaLabelledBy="home"
   buttonType="button"
   (click)="toggleAlertBanner()"
->Toggle alert banner</button>
-<button rteButton
+>
+  Toggle alert banner
+</button>
+<button
+  rteButton
   [disabled]="false"
   ariaLabel="Home"
   ariaLabelledBy="home"
   buttonType="button"
   (click)="toggleInfoBanner()"
->Toggle info banner</button>
+>
+  Toggle info banner
+</button>
 <hr />
-<button rteButton
+<button
+  rteButton
   [disabled]="false"
   icon="home"
   ariaLabel="Home"
   ariaLabelledBy="home"
   buttonType="button"
->Button</button>
+>
+  Button
+</button>
 
 <rte-icon name="home" />
 
 <hr />
 
-<rte-split-button
-  label="Split Button"
-  [options]="rteSplitButtonOptions"
-/>
+<rte-split-button label="Split Button" [options]="rteSplitButtonOptions" />
 
 <hr />
 
@@ -135,13 +141,16 @@
 <rte-breadcrumbs [items]="breadcrumbItems" />
 <hr />
 <div style="margin-top: 100px; display: flex; justify-content: center">
-  <button rteButton
+  <button
+    rteButton
     buttonType="button"
     rtePopover
     rtePopoverPrimaryButtonLabel="Primary"
     rtePopoverContent="This is the popover content"
     rtePopoverTitle="Popover Title"
-  >Hover me</button>
+  >
+    Hover me
+  </button>
 </div>
 <rte-divider />
 <div
@@ -150,15 +159,30 @@
   [rteModalTitle]="'Modal title'"
   [rteModalDescription]="'This is a description for the modal.'"
 >
-  <button rteButton rteButtonVariant="primary" rteModalTrigger >Open Modal</button>
+  <button rteButton rteButtonVariant="primary" rteModalTrigger>
+    Open Modal
+  </button>
   <ng-template #primaryButton>
-    <button rteButton rteButtonVariant="primary" (click)="handleModalPrimaryClick()">
+    <button
+      rteButton
+      rteButtonVariant="primary"
+      (click)="handleModalPrimaryClick()"
+    >
       Continue
     </button>
   </ng-template>
   <ng-template #secondaryButton>
-    <button rteButton rteButtonVariant="neutral" (click)="handleModalSecondaryClick()">
+    <button
+      rteButton
+      rteButtonVariant="neutral"
+      (click)="handleModalSecondaryClick()"
+    >
       Cancel
     </button>
   </ng-template>
+</div>
+<div>
+  <button rteButton rteButtonVariant="neutral" (click)="toggleToast()">
+    Toggle Toast
+  </button>
 </div>

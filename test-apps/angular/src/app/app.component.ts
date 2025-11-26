@@ -1,4 +1,4 @@
-import { Component, output, signal } from "@angular/core";
+import { Component, inject, output, signal } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
 import {
   ButtonComponent,
@@ -18,6 +18,7 @@ import {
   BannerComponent,
   PopoverDirective,
   ModalModule,
+  ToastService,
 } from "@design-system-rte/angular";
 
 @Component({
@@ -43,11 +44,15 @@ import {
     PopoverDirective,
     ModalModule,
   ],
+  providers: [ToastService],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",
 })
 export class AppComponent {
   title = "angular";
+
+  readonly toastService = inject(ToastService);
+  private currentOpenedToastId = "";
 
   readonly inputValue = signal("Hello");
 
@@ -112,4 +117,21 @@ export class AppComponent {
     { id: "option-2", label: "Option 2", onClick: () => console.log("Option 2 clicked") },
     { id: "option-3", label: "Option 3", onClick: () => console.log("Option 3 clicked") },
   ];
+
+  toggleToast() {
+    console.log("Toast toggled from app component");
+    if (this.toastService.isInQueue(this.currentOpenedToastId)) {
+      this.toastService.removeFromQueue(this.currentOpenedToastId);
+      return;
+    }
+    this.currentOpenedToastId = this.toastService.addToQueue({
+      message: "This is a toast message from AppComponent",
+      type: "success",
+      placement: "top-right",
+      autoDismiss: true,
+      duration: "medium",
+      closable: true,
+      showActionButton: false,
+    });
+  }
 }

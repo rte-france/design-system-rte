@@ -15,6 +15,8 @@ import {
   Banner,
   Popover,
   Modal,
+  Toast,
+  ToastQueueProvider,
 } from "@design-system-rte/react";
 import "./App.css";
 import { useState } from "react";
@@ -26,6 +28,7 @@ function App() {
   const [isInfoBannerVisible, setIsInfoBannerVisible] = useState(true);
   const [isAlertBannerVisible, setIsAlertBannerVisible] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isErrorOpen, setIsErrorOpen] = useState(false);
 
   const handleIconButtonToggleClick = () => {
     setIsIconButtonToggleSelected(!isIconButtonToggleSelected);
@@ -232,6 +235,27 @@ function App() {
           <TextInput label="Modal Input" value={inputValue} onChange={handleInputChange} />
         </div>
       </Modal>
+      <Divider />
+      <Button
+        label="Toggle error toast"
+        onClick={() => setIsErrorOpen(!isErrorOpen)}
+        style={{ marginBottom: "16px" }}
+        variant="danger"
+      />
+      <ToastQueueProvider>
+        <Toast
+          id="my-toast-error-z"
+          type={"error"}
+          autoDismiss={true}
+          closable={true}
+          isOpen={isErrorOpen}
+          message="Error toast"
+          // actionButton={<Button label="Mettre à jour" variant={"text"} />}
+          onClose={() => {
+            setIsErrorOpen(false);
+          }}
+        />
+      </ToastQueueProvider>
     </div>
   );
 }
