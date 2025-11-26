@@ -1,0 +1,91 @@
+import { Meta } from "@storybook/blocks"
+
+import HeaderComponent from "../../src/components/Header/Header"
+import Paragraph from "../../src/components/Paragraph/Paragraph"
+import LastUpdate from "../../src/components/LastUpdate/LastUpdate"
+import Accordion from "../../src/components/Accordion/Accordion"
+import Heading from "../../src/components/Heading/Heading"
+import Body from "../../src/components/Body/Body"
+
+import List from "./List"
+
+import Example1 from "./assets/example_1.svg"
+import Example2 from "./assets/example_2.svg"
+import Example3 from "./assets/example_3.svg"
+import Example4 from "./assets/example_4.svg"
+
+<Meta title="Design System/Colors" />
+
+<div style={{display: "flex", flexDirection: "column", gap: "16px"}} className="rte-storybooks_colors">
+  <HeaderComponent title="Colors" linkFigma="https://www.figma.com/design/ia8dhN9nUmHUKyR82VicU5/01.1--Primitives?node-id=1-11&p=f">
+    <Paragraph>Luciole gère les couleurs à l'aide de tokens sémantiques : cela aide les designers à prendre facilement des décisions et prend en charge un mode sombre et trois brands thématiques.</Paragraph>
+  </HeaderComponent>
+  <Body>
+  
+    <div style={{padding: "16px"}}>
+      <LastUpdate updates={[ {version: '1.0.0', date: '04 Décembre 2025', changes: ['Livraison']}]} />
+    </div>
+
+    <Accordion title="Les couleurs sémantiques" id="couleurs-semantique">
+      <div style={{ display: "flex", flexDirection: "column", gap: "4px", padding: "0 8px" }}>
+        <Heading level="3">Définition</Heading>
+        <div style={{display: "flex", flexDirection: "column", gap: "16px"}}>
+          <div style={{display: "flex", flexDirection: "column", gap: "24px"}}>
+            <Paragraph>Une première valeur HEX est attribuée à ce que l’on appelle une "couleur primitive". Ensuite, une signification est associée à cette couleur, ce qui en fait une "couleur sémantique". Par exemple, cela peut être la couleur par défaut d'un arrière-plan. C'est cette couleur sémantique qui peut être utilisée pour des éléments comme l’arrière-plan d’un bouton.</Paragraph>
+            <Paragraph>L'exemple ci-dessous illustre bien ce concept :</Paragraph>
+          </div>
+          <img src={Example1} alt="Exemple de couleur primitive et sémantique" />
+        </div>
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", gap: "4px", padding: "0 8px" }}>
+        <Heading level="3">Brands et modes</Heading>
+        <div style={{display: "flex", flexDirection: "column", gap: "16px"}}>
+          <div style={{display: "flex", flexDirection: "column", gap: "24px"}}>
+            <Paragraph>Une première valeur HEX est attribuée à ce que l’on appelle une "couleur primitive". Ensuite, une signification est associée à cette couleur, ce qui en fait une "couleur sémantique". Par exemple, cela peut être la couleur par défaut d'un arrière-plan. C'est cette couleur sémantique qui peut être utilisée pour des éléments comme l’arrière-plan d’un bouton.</Paragraph>
+            <Paragraph>L'exemple ci-dessous illustre bien ce concept :</Paragraph>
+            <Paragraph>Luciole propose trois gammes de couleurs, appelées Brands, et permettant aux designers d'adapter le thème du design system en fonction du produit :</Paragraph>
+            <List>
+              <li>
+                <b>Blue Iceberg</b>
+              </li>
+              <li>
+                <b>Violet</b>
+              </li>
+              <li>
+                <b>Vert Forêt</b>
+              </li>
+            </List>
+          </div>
+          <img src={Example2} alt="Exemple de couleur pour chaque thème" />
+          <div style={{display: "flex", flexDirection: "column", gap: "24px"}}>
+            <Paragraph>Certains composants du Design System et leurs éléments sont adaptés aux différentes "brands", tandis que d’autres restent communs à tous.</Paragraph>
+            <Paragraph>Chaque "brand" est ensuite disponible en deux modes : Light et Dark. Ces termes font référence à la polarité du contraste entre un objet et le fond sur lequel il repose.</Paragraph>
+            <List>
+              <li>
+                Le <span class="bold">“Light Mode”</span>, souvent le mode par défaut, utilise des fonds clairs sur les interfaces utilisateur.
+              </li>
+              <li>
+                Le <b>”Dark Mode”</b> utilise des fonds sombres.
+              </li>
+            </List>
+            <Paragraph>Ainsi, la couleur d’un composant, d’un texte ou d’un élément d’interface varie selon le mode (Light ou Dark), afin de garantir une visibilité optimale en fonction du contraste avec les différents fonds.</Paragraph>
+          </div>
+          <img src={Example3} alt="Exemple d'utilisation des thèmes" />
+        </div>
+      </div>
+    </Accordion>
+
+    <Accordion title="Choix des couleurs" id="choix-couleurs">
+      <div style={{ display: "flex", flexDirection: "column", gap: "16px", padding: "0 8px" }}>
+        <div style={{display: "flex", flexDirection: "column", gap: "24px"}}>
+          <Paragraph>Les conversions de couleurs entre les "brands" et les thèmes sont gérées à l’aide des Design Tokens.</Paragraph>
+          <Paragraph>Par exemple, tous les arrière-plans de boutons par défaut sont définis par la couleur sémantique "background/brand_default". Cependant, les couleurs primitives associées à ce token varient en fonction des "brands" et des modes.</Paragraph>
+          <Paragraph>Si l’arrière-plan d’un bouton est "bleu_iceberg/300" en Light Mode, il sera également "bleu_iceberg/300" en Dark Mode.</Paragraph>
+          <Paragraph>Ainsi, si une couleur primitive est modifiée, cette modification se répercute dans l'ensemble du Design System et dans tous les produits qui l’utilisent.</Paragraph>
+        </div>
+        <img src={Example4} alt="Exemple d'application des tokens aux couleurs" />
+      </div>
+      
+    </Accordion>
+  </Body>
+</div>
