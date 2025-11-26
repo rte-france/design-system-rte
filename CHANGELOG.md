@@ -2,6 +2,53 @@
 
 # Angular
 
+## 0.17.0
+
+### Card
+
+#### Minor Changes
+
+- add keyboard handling
+- mutualize testing common logic
+- add accesibility options
+- add active pseudo-state
+- add focus ring for keyboard selection
+- add card component
+
+### Divider
+
+#### Minor Changes
+
+- correct horizontal display
+
+### Side Navigation
+
+#### Minor Changes
+
+- add footer navigation items
+- implement simple side nav from base side nav
+
+### Tooltip
+
+#### Minor Changes
+
+- correct label display width to show all its content
+
+### Tag
+
+#### Patch Changes
+
+- update text color + apply new background-color tokens
+
+### Other
+
+#### Patch Changes
+
+- Updated dependencies [f22d3ee]
+- Updated dependencies [8bca3e1]
+- Updated dependencies [4a444d4]
+- @design-system-rte/core@0.21.0
+
 ## 0.16.0
 
 ### Modal
@@ -91,48 +138,62 @@
 - Updated dependencies [196aaab]
 - Updated dependencies [97d3bea]
 - @design-system-rte/core@0.19.0
+# React
 
-## 0.14.0
+## 0.16.0
 
-### Angular 18
-
-#### Minor Changes
-
-- Update Angular package to Angular@18 from @17
-
-### Breadcrumbs
+### Card
 
 #### Minor Changes
 
-- change truncated breadcrumbs icon size from small to medium
-- integrate dropdown with breadcrumbs
-- add dropdown to display truncated links
+- add keyboard handling
+- add card to public api of packages and test in apps
+- mutualize testing common logic
+- add accesibility options
+- add active pseudo-state
+- add focus ring for keyboard selection
+- add card component
 
-### Dropdown
-
-#### Minor Changes
-
-- correct dropdown keyboard navigation
-
-### Icon-button
+### Side Navigation
 
 #### Minor Changes
 
-- set correct focus style
+- : add missing props to useContentHeight detection
+- add Divider support for navItems & navMenus
+- add Badge support
+- add footer items
+- add Tooltip to SideNav
+- correct accesibility standards for ul and li items
+- add Nested Menus to SideNav
+- implement simple side nav from base side nav
 
-### Tab
+### Divider
+
+#### Minor Changes
+
+- correct horizontal display
+
+### Tooltip
+
+#### Minor Changes
+
+- add customizable gap
+
+### Tag
 
 #### Patch Changes
 
-- correct angular's tab navigation that was broken after incorporating dropdown behavior
+- update text color + apply new background-color tokens
 
 ### Other
 
 #### Patch Changes
 
-- Updated dependencies [9e7b2cd]
-- @design-system-rte/core@0.18.0
-# React
+- remove react and react dom from dependencies
+- Updated dependencies [f22d3ee]
+- Updated dependencies [8bca3e1]
+- Updated dependencies [4a444d4]
+- @design-system-rte/core@0.21.0
 
 ## 0.15.0
 
@@ -219,36 +280,43 @@
 - Updated dependencies [196aaab]
 - Updated dependencies [97d3bea]
 - @design-system-rte/core@0.19.0
+# Core
 
-## 0.13.0
+## 0.21.0
 
-### Breadcrumbs
-
-#### Minor Changes
-
-- change truncated breadcrumbs icon size from small to medium
-- integrate dropdown with breadcrumbs
-- add dropdown to display truncated links
-
-### Dropdown
+### Docs
 
 #### Minor Changes
 
-- correct dropdown keyboard navigation
+- create subcomponent for pages
 
-### Icon-button
+### Card
 
 #### Minor Changes
 
-- set correct focus style
+- mutualize testing common logic
+- add card component
+
+### Side Navigation
+
+#### Minor Changes
+
+- add Divider support for navItems & navMenus
+- add Badge support
+- add footer items
+- add NavItem selection for SideNav
+- correct accesibility standards for ul and li items
+- add Nested Menus to SideNav
+- implement simple side nav from base side nav
+
+### Tooltip
+
+#### Minor Changes
+
+- add customizable gap
 
 ### Other
 
-#### Patch Changes
-
-- Updated dependencies [9e7b2cd]
-- @design-system-rte/core@0.18.0
-# Core
 
 ## 0.20.0
 
@@ -303,24 +371,24 @@
 
 ### Other
 
+# Design Docs
 
-## 0.18.0
+## 0.9.0
 
-### Dropdown
-
-#### Minor Changes
-
-- correct dropdown keyboard navigation
-
-### Breadcrumbs
+### Docs
 
 #### Minor Changes
 
-- integrate dropdown with breadcrumbs
+- update last update accordion icon
+- add spacing page
+- create subcomponent for pages
+- refacto architecture for Introduction page
 
 ### Other
 
-# Design Docs
+#### Patch Changes
+
+- correct sidenav display when no stories are provided to a section
 
 ## 0.8.0
 
@@ -338,25 +406,3 @@
 #### Minor Changes
 
 - replace png images without emojis for svg files for storybook
-
-## 0.6.1
-
-### Badge
-
-#### Patch Changes
-
-- add controls for empty appearance
-
-### Other
-
-
-## 0.6.0
-
-### Design-docs
-
-#### Minor Changes
-
-- add elevation, grid, spacing and typography documentation to the storybook
-
-### Other
-
