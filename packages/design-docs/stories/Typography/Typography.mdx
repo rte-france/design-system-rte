@@ -22,18 +22,17 @@ import Accordion from "../../src/components/Accordion/Accordion";
 
 import "../../src/styles/GeneralDocs.scss";
 import "../../src/styles/Police.css"
+import Paragraph from "../../src/components/Paragraph/Paragraph";
 
 <Meta title='Design System/Typographie'/>
 
 <div className="docs">
 
-    <HeaderComponent title="Typographie" linkFigma="https://www.figma.com/design/EuNnqaEYErWwe0DgdnXPsB/01.2--Design-Tokens?node-id=53-623&p=f&m=dev"/>
+    <HeaderComponent title="Typographie" linkFigma="https://www.figma.com/design/EuNnqaEYErWwe0DgdnXPsB/01.2--Design-Tokens?node-id=53-623&p=f&m=dev">
+        <Paragraph>La typographie ne se limite pas à un simple choix de polices de caractères. C'est l'art d'organiser les lettres de manière à rendre le texte lisible, compréhensible et visuellement attrayant.</Paragraph>
+        <Paragraph>Dans un Design System, la typographie joue un rôle essentiel dans la définition de l'identité visuelle et la hiérarchisation du contenu.</Paragraph>
+    </HeaderComponent>
     
-    <p>
-        La typographie ne se limite pas à un simple choix de polices de caractères. C'est l'art d'organiser les lettres de manière à rendre le texte lisible, compréhensible et visuellement attrayant.
-        Dans un Design System, la typographie joue un rôle essentiel dans la définition de l'identité visuelle et la hiérarchisation du contenu.
-    </p>
-
     <div style={{padding: "16px"}}>
       <LastUpdate updates={[ {version: '1.0.0', date: '04 Décembre 2025', changes: ['Livraison']}]} />
     </div>
@@ -43,7 +42,9 @@ import "../../src/styles/Police.css"
             title="Famille de polices (font family)"
             image={FontFamily}
         >
-            Les bases de la typographie dans le Design System reposent sur les familles de polices utilisées. Si l'on considère qu'une police de caractères est une base, les différentes graisses et styles sont des variantes qui, ensemble, forment une famille de polices.
+            Les bases de la typographie dans le Design System reposent sur les familles de polices utilisées. Si l’on considère qu'une police de caractères est une base, les différentes graisses et styles sont des variantes qui, ensemble, forment une famille de polices.
+
+            Luciole utilise Nunito et Arial comme familles de polices pour les interfaces web.
         </DocsSection>
 
         <DocsSection
@@ -51,6 +52,8 @@ import "../../src/styles/Police.css"
             image={FontWeight}
         >
             La graisse d'une police désigne l'épaisseur ou la lourdeur des caractères, allant de léger à ultra-gras. Elle influence la visibilité, la hiérarchie et l'esthétique du texte dans une interface.
+
+            Les graisses disponibles pour chaque police sont : Light, Regular, Semibold, et Bold.
         </DocsSection>
 
         <DocsSection
