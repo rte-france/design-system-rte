@@ -1,0 +1,1 @@
+import{j as o}from"./index-B6Ttp8IB.js";const s=({children:e})=>o.jsx("div",{className:"rte-storybook-body",children:e});s.__docgenInfo={description:"",methods:[],displayName:"Body",props:{children:{required:!1,tsType:{name:"ReactReactNode",raw:"React.ReactNode"},description:""}}};export{s as B};
