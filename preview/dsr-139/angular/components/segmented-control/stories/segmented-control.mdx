@@ -1,0 +1,166 @@
+import { Meta } from "@storybook/blocks";
+import StorybookTabs from "../../../../../../../.storybook/template/StorybookTabs";
+import HeaderComponent from "../../../../../../../.storybook/template/HeaderComponent/HeaderComponent";
+import IconTitle from "../../../../../../../.storybook/template/IconTitle/IconTitle";
+
+import SegControlAccessibility from "../../../../../../../../core/components/segmented-control/stories/img/SegControlAccessibility.png";
+import SegControlAnimations from "../../../../../../../../core/components/segmented-control/stories/img/SegControlAnimations.svg";
+import SegControlAutreHTMLNatif from "../../../../../../../../core/components/segmented-control/stories/img/SegControlAutreHTMLNatif.svg";
+import SegControlBooleanOptions from "../../../../../../../../core/components/segmented-control/stories/img/SegControlBooleanOptions.svg";
+import SegControlContent from "../../../../../../../../core/components/segmented-control/stories/img/SegControlContent.svg";
+import SegControlDoDont from "../../../../../../../../core/components/segmented-control/stories/img/SegControlDoDont.svg";
+import SegControlFocus from "../../../../../../../../core/components/segmented-control/stories/img/SegControlFocus.svg";
+import SegControlIconOptions from "../../../../../../../../core/components/segmented-control/stories/img/SegControlIconOptions.svg";
+import SegControlInteractionState from "../../../../../../../../core/components/segmented-control/stories/img/SegControlInteractionState.svg";
+import SegControlKeyboardInteractions from "../../../../../../../../core/components/segmented-control/stories/img/SegControlKeyboardInteractions.svg";
+import SegControlLayout from "../../../../../../../../core/components/segmented-control/stories/img/SegControlLayout.svg";
+import SegControlNestedProperties from "../../../../../../../../core/components/segmented-control/stories/img/SegControlNestedProperties.svg";
+import SegControlSegments from "../../../../../../../../core/components/segmented-control/stories/img/SegControlSegments.svg";
+import SegControlStructure from "../../../../../../../../core/components/segmented-control/stories/img/SegControlStructure.svg";
+import SegControlTableOfOptions from "../../../../../../../../core/components/segmented-control/stories/img/SegControlTableOfOptions.svg";
+import SegControlTextOptions from "../../../../../../../../core/components/segmented-control/stories/img/SegControlTextOptions.svg";
+
+import "../../../../../../../.storybook/template/style/police.css";
+
+<Meta title="Composants/SegmentedControl" />
+
+<HeaderComponent title="SegmentedControl" linkFigma="https://www.figma.com/design/Wiy8uWsWjoagf95lOmPXNU/01.0-Design-System-RTE---WEB?node-id=2051-3091&p=f&m=dev" linkGithub="https://github.com/rte-france/design-system-rte/tree/main/packages/angular/projects/ds-rte-lib/src/lib/components/segmented-control"  />
+
+<p className="no-margin-bottom">Le <b>Segmented Control</b> (ou contrôle segmenté) est un composant d’interface qui permet à l’utilisateur de sélectionner une seule option parmi un ensemble affiché côte à côte. Chaque option agit comme un bouton radio visuel. Il est souvent utilisé pour basculer entre des vues, des états ou des filtres, sans rechargement de page.</p>
+<p className="no-margin-top">Ce composant facilite la navigation et le filtrage d’informations dans une interface, en proposant une sélection rapide et intuitive.</p>
+
+<StorybookTabs>
+
+<div className="Overview">
+
+    <h2 className="h2" id="Introduction" style={{border:"none", fontFamily:"Nunito", color:"#2964A0"}}> Introduction </h2>
+
+    <h3 className="h3" id="gherkin" style={{fontFamily:"Nunito"}}> Gherkin :</h3>
+    <ul>
+        <li>En tant qu’utilisateur <b>ayant le choix entre plusieurs options exclusives</b>,</li>
+        <li>Je souhaite pouvoir <b>sélectionner rapidement une option parmi un groupe affiché horizontalement</b>,</li>
+        <li>Afin d’<b>agir ou de filtrer l’interface selon un seul critère à la fois</b>.</li>
+    </ul>
+
+    <h3 className="h3" id="definition" style={{fontFamily:"Nunito"}}> Définition : </h3>
+    <p>
+        Le <b>Segmented Control</b> (ou contrôle segmenté) est un composant d’interface qui permet à l’utilisateur de sélectionner une seule option parmi un ensemble affiché côte à côte. Chaque option agit comme un bouton radio visuel. Il est souvent utilisé pour basculer entre des vues, des états ou des filtres, sans rechargement de page.
+    </p>
+
+    <h3 className="h3" id="types" style={{fontFamily:"Nunito"}}> Type : </h3>
+    <p>
+        Composant générique pouvant être utilisé par toutes les équipes de la DSIT.
+    </p>
+
+</div>
+
+<div className="Guidelines">
+
+    <h2 id="guidelines" className="h2" style={{border:"none", fontFamily:"Nunito", color:"#2964A0"}} > Usages </h2>
+
+    <IconTitle id="préconisation" icon="heart_outlined" title="Préconisation" />
+    <p>Les principales règles qui entourent l'utilisation du composant :</p>
+
+    <p className="no-margin-bottom">Utiliser pour des choix exclusifs simples</p>
+    <p className="light-gray no-margin-top">Idéal pour 2 ou 3 options, avec une sélection unique</p>
+
+    <p className="no-margin-bottom">Préférer des libellés courts</p>
+    <p className="light-gray no-margin-top">Chaque segment doit tenir en largeur et rester lisible</p>
+
+    <p className="no-margin-bottom">Réserver aux contextes de filtrage ou de vues</p>
+    <p className="light-gray no-margin-top">Exemples : liste/tuile, jour/semaine/mois, tous/mes éléments</p>
+
+    <p className="no-margin-bottom">Ne pas confondre avec des boutons actions</p>
+    <p className="light-gray no-margin-top">Chaque segment représente une valeur, pas une action indépendante</p>
+
+    <p className="no-margin-bottom">Pré-sélectionner une valeur par défaut</p>
+    <p className="light-gray no-margin-top">Aucune option vide : une valeur est toujours sélectionnée</p>
+
+    <img src={SegControlDoDont} alt="Bonnes et mauvaises pratiques pour le Segmented Control" />
+
+    <h3 id="content-standards" className="h3" style={{fontFamily:"Nunito"}}> Content Standards</h3>
+    <p>Quels sont les standards de contenu ? (UX Writing)</p>
+
+    <p className="no-margin-bottom">Label</p>
+    <p className="light-gray no-margin-top">Texte court, compréhensible seul</p>
+
+    <p className="no-margin-bottom">Icône seule</p>
+    <p className="light-gray no-margin-top">Uniquement si compréhensible, avec aria-label</p>
+
+    <h2 id="options" className="h2" style={{border:"none", fontFamily:"Nunito", color:"#2964A0"}} > Options </h2>
+    <p> Les options comprennent les états et différentes formes que peut prendre le composant. Elles incluent : Les états, les variants, les tailles, les éléments modifiables qui composent le composant, etc.<br />
+    → Ils n’incluent pas les “Behaviors” qui correspondent à comment le composant réagit.</p>
+
+    <h3 id="interaction-states" className="h3" style={{fontFamily:"Nunito"}}> Interaction States (appliqué aux segments) </h3>
+    <img src={SegControlInteractionState} alt="États d’interaction des segments du Segmented Control" />
+
+    <h3 id="content" className="h3" style={{fontFamily:"Nunito"}}> Content (appliqué aux segments) </h3>
+    <img src={SegControlContent} alt="Exemples de contenu dans les segments du Segmented Control" />
+
+    <h3 id="boolean-options" className="h3" style={{fontFamily:"Nunito"}}> Boolean Options (appliqué aux segments) </h3>
+    <img src={SegControlBooleanOptions} alt="Options booléennes pour les segments du Segmented Control" />
+
+    <h3 id="text-options" className="h3" style={{fontFamily:"Nunito"}}> Text Options (appliqué aux segments) </h3>
+    <img src={SegControlTextOptions} alt="Options de texte pour les segments du Segmented Control" />
+
+    <h3 id="icon-options" className="h3" style={{fontFamily:"Nunito"}}> Icon Options (appliqué aux segments) </h3>
+    <img src={SegControlIconOptions} alt="Options d’icônes pour les segments du Segmented Control" />
+
+    <h3 id="segments" className="h3" style={{fontFamily:"Nunito"}}> Segments </h3>
+    <img src={SegControlSegments} alt="Exemples de segments du Segmented Control" />
+
+    <h3 id="structure" className="h3" style={{fontFamily:"Nunito"}}> Structure </h3>
+    <p> Le <b>Segmented Control</b> est composé de plusieurs éléments : </p>
+    <img src={SegControlStructure} alt="Structure et éléments constitutifs du Segmented Control" />
+    <ol>
+        <li>Un <b>Container global bleu</b></li>
+        <li>Une <b>Icône</b> (Selected : validation / Unselected : pas d’icône)</li>
+        <li>Un <b>Label</b></li>
+        <li>Un <b>Container blanc</b> (élément sélectionné)</li>
+        <li>Un <b>Label</b></li>
+    </ol>
+
+    <h3 id="taille" className="h3" style={{fontFamily:"Nunito"}}> Taille </h3>
+    <p> Le Switch n'existe qu'en une seule taille : <b>24px pixels de hauteur - 40px de largeur </b></p>
+
+    <h3 id="table-of-options" className="h3" style={{fontFamily:"Nunito"}}> Table of Options </h3>
+    <p className="light-gray"> Tous les éléments modifiables sont inscrit dans le tableau. On y renseigne le nom de la propriété et les choix qui s’offrent aux développeurs.</p>
+    <img src={SegControlTableOfOptions} alt="Tableau des options modifiables du Segmented Control" />
+
+    <p className="light-gray"> Nested Properties : (Left Segment / Middle Segment / Right Segment)</p>
+    <img src={SegControlNestedProperties} alt="Propriétés imbriquées des segments du Segmented Control" />
+
+    <h2 id="behaviors" className="h2" style={{border:"none", fontFamily:"Nunito", color:"#2964A0"}} > Behaviors </h2>
+
+    <h3 id="focus" className="h3" style={{fontFamily:"Nunito"}}> Focus </h3>
+    <img src={SegControlFocus} alt="Illustration de l’état de focus du Segmented Control" />
+
+    <h3 id="layout" className="h3" style={{fontFamily:"Nunito"}}> Layout </h3>
+    <img src={SegControlLayout} alt="Exemple de disposition du Segmented Control" />
+
+    <h3 id="animations" className="h3" style={{fontFamily:"Nunito"}}> Animations </h3>
+    <p> Toutes les animations doivent respecter les préférences utilisateur (prefers-reduced-motion) et <b>être désactivables si nécessaire.</b><br />
+    Les transitions doivent <b>rester non-intrusives</b> et <b>ne jamais bloquer l'interaction ou la lisibilité.</b></p>
+    <img src={SegControlAnimations} alt="Exemples d’animations pour le Segmented Control" />
+
+    <h3 id="interactions" className="h3" style={{fontFamily:"Nunito"}}> Interactions </h3>
+    <p>Clic souris</p>
+    <p className="light-gray no-margin-top">Sélection d’une option. Le clic sur l'option déjà sélectionnée ne fait rien.</p>
+
+    <h3 id="keyboard-interactions" className="h3" style={{fontFamily:"Nunito"}}> Keyboard Interactions </h3>
+    <img src={SegControlKeyboardInteractions} alt="Interactions clavier possibles avec le Segmented Control" />
+
+    <h3 id="autre-HTML-natif" className="h3" style={{fontFamily:"Nunito"}}> Autre / HTML Natif </h3>
+    <img src={SegControlAutreHTMLNatif} alt="Comparaison avec d’autres éléments HTML natifs" />
+
+</div>
+
+<div className="Accessibilité">
+
+    <h2 id="accessibility-testing-status" className="h2" style={{border:"none", fontFamily:"Nunito", color:"#2964A0"}} > Accessibilité </h2>
+    <p>Voici les tests à effectuer pour vérifier l’accessibilité de chaque catégorie : </p>
+    <img src={SegControlAccessibility} alt="Checklist des tests d’accessibilité pour le Segmented Control" />
+
+</div>
+
+</StorybookTabs>
