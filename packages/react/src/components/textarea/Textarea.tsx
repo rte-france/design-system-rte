@@ -1,12 +1,8 @@
-import {
-  TEXTAREA_ICON_SIZE,
-  TEXTAREA_REQUIREMENT_INDICATOR_VALUE,
-} from "@design-system-rte/core/components/textarea/textarea.constants";
+import { TEXTAREA_REQUIREMENT_INDICATOR_VALUE } from "@design-system-rte/core/components/textarea/textarea.constants";
 import type { TextareaProps as CoreTextareaProps } from "@design-system-rte/core/components/textarea/textarea.interface";
 import { ChangeEvent, FocusEvent, forwardRef, MutableRefObject, TextareaHTMLAttributes, useRef, useState } from "react";
 
-import Icon from "../icon/Icon";
-import Link from "../link/Link";
+import AssistiveText from "../assistivetext/AssistiveText";
 import { concatClassNames } from "../utils";
 
 import style from "./Textarea.module.scss";
@@ -133,30 +129,12 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
               {...props}
             />
             {assistiveTextLabel && (
-              <>
-                {assistiveTextAppearance === "link" ? (
-                  <Link
-                    label={assistiveTextLabel}
-                    href={assistiveTextLink}
-                    externalLink
-                    className={style["assistive-text-link"]}
-                  />
-                ) : (
-                  <div
-                    className={style["assistive-text"]}
-                    data-assistive-text-appearance={assistiveTextAppearance}
-                    data-disabled={props.disabled}
-                  >
-                    {assistiveTextAppearance === "error" ? (
-                      <Icon name="error" size={TEXTAREA_ICON_SIZE} />
-                    ) : assistiveTextAppearance === "success" ? (
-                      <Icon name={"check-circle"} size={TEXTAREA_ICON_SIZE} />
-                    ) : null}
-
-                    <span>{assistiveTextLabel}</span>
-                  </div>
-                )}
-              </>
+              <AssistiveText
+                label={assistiveTextLabel}
+                appearance={assistiveTextAppearance}
+                showIcon={true}
+                href={assistiveTextLink}
+              />
             )}
           </div>
         </div>
