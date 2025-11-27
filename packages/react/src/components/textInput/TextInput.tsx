@@ -5,9 +5,9 @@ import {
 } from "@design-system-rte/core/components/text-input/text-input.interface";
 import { ChangeEvent, forwardRef, InputHTMLAttributes, useEffect, useRef, useState } from "react";
 
+import AssistiveText from "../assistivetext/AssistiveText";
 import Icon from "../icon/Icon";
 import IconButton from "../iconButton/IconButton";
-import Link from "../link/Link";
 import { concatClassNames } from "../utils";
 
 import style from "./TextInput.module.scss";
@@ -218,22 +218,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
             </div>
           </div>
           {assistiveTextLabel && (
-            <div className={style.assistiveText}>
-              {showAssistiveIcon && assistiveAppearance === "error" && (
-                <Icon name="error" appearance="outlined" className={style.assistiveIconError} size={12} />
-              )}
-              {showAssistiveIcon && assistiveAppearance === "success" && (
-                <Icon name="check" appearance="outlined" className={style.assistiveIconSucces} size={12} />
-              )}
-              {assistiveAppearance === "link" ? (
-                <Link label={assistiveTextLabel} />
-              ) : (
-                <p className={style.assistiveLabel} data-appearance={assistiveAppearance}>
-                  {" "}
-                  {assistiveTextLabel}{" "}
-                </p>
-              )}
-            </div>
+            <AssistiveText label={assistiveTextLabel} appearance={assistiveAppearance} showIcon={showAssistiveIcon} />
           )}
         </div>
         {displayCounter && labelPosition == "side" && (
