@@ -1,10 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
 
+.sbdocs p, .sbdocs li {
+    font-family: Arial;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    color: #201F1F;
+    letter-spacing: 0;
+}
+
 .sbdocs p.light-gray {
     color: #697077;
 }
 
-.sbdocs p.no-margin-bottom  {
+.sbdocs p.no-margin-bottom {
     margin-bottom: 0;
 }
 
