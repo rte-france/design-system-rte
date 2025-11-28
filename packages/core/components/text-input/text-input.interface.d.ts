@@ -18,5 +18,6 @@ export interface TextInputProps {
   showAssistiveIcon?: boolean;
   assistiveTextLabel?: string;
   error?: boolean;
+  compactSpacing?: boolean;
   onRightIconClick?: () => void;
 }
