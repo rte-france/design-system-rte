@@ -1,4 +1,5 @@
 import { REQUIREMENT_INDICATOR_VALUE } from "@design-system-rte/core/components/required-indicator/required-indicator.constant";
+
 import styles from "./RequiredIndicator.module.scss";
 
 interface RequiredIndicatorProps {
