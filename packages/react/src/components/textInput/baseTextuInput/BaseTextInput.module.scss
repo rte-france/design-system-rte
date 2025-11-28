@@ -66,22 +66,6 @@
                 color: var(--content-secondary);
                 @include typography-text-m-regular;
             }
-
-            .requiredText {
-                color: var(--content-tertiary);
-                align-self: center;
-                @include typography-text-input-tertiary-regular;
-                margin-block: $positive-spacing-0;
-                margin-inline: $positive-spacing-050;
-            }
-
-            .requiredIconContainer {
-                color: var(--content-danger-default);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                margin-inline: $positive-spacing-050;
-            }
         }
     }
 
