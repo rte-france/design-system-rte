@@ -1,7 +1,7 @@
 import {
   TextInputProps as CoreTextInputProps,
   RightIconAction,
-  RightIconName
+  RightIconName,
 } from "@design-system-rte/core/components/text-input/text-input.interface";
 import { ChangeEvent, forwardRef, InputHTMLAttributes, useEffect, useRef, useState } from "react";
 
@@ -44,7 +44,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       onRightIconClick,
       ...props
     }: TextInputProps,
-    ref
+    ref,
   ) => {
     const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -119,7 +119,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
     const computedInputBarClassName = concatClassNames(
       style.inputBar,
       computedLeftIcon ? style.withLeftIcon : "",
-      rightIconAction ? style.withRightIcon : ""
+      rightIconAction ? style.withRightIcon : "",
     );
 
     const displayCounter = showCounter && typeof maxLength === "number";
@@ -218,7 +218,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
         )}
       </div>
     );
-  }
+  },
 );
 
 export default TextInput;
