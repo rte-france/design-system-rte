@@ -5,11 +5,11 @@
     cursor: pointer;
     height: 24px;
     align-items: center;
+    justify-content: center;
     gap: $positive-spacing_0;
     flex-shrink: 0;
 
     &:focus-visible {
-        outline: none;
         position: relative;
         outline: 1px solid var(--border-brand-focused);
         outline-offset: $radius-s;

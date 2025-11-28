@@ -17,6 +17,7 @@ import Modal from "./components/modal/Modal.tsx";
 import Popover from "./components/popover/Popover.tsx";
 import RadioButton from "./components/radioButton/RadioButton.tsx";
 import RadioButtonGroup from "./components/radioButtonGroup/RadioButtonGroup.tsx";
+import Searchbar from "./components/searchbar/Searchbar.tsx";
 import SegmentedControl from "./components/segmentedControl/SegmentedControl.tsx";
 import BaseSideNav from "./components/sideNav/baseSideNav/BaseSideNav.tsx";
 import SideNav from "./components/sideNav/SideNav.tsx";
@@ -59,4 +60,5 @@ export {
   Toast,
   ToastQueueProvider,
   Tag,
+  Searchbar,
 };

@@ -46,6 +46,7 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
       children,
       offset = 0,
       alignment = "start",
+      autofocus = true,
       ...props
     },
     ref,
@@ -118,13 +119,6 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
       }
     };
 
-    const handleOnKeyUpTrigger = (e: React.KeyboardEvent<HTMLDivElement>) => {
-      if (e.key === TAB_KEY) {
-        if (dropdownElement === null) return;
-        e.preventDefault();
-        focusNextElement(dropdownElement);
-      }
-    };
     const { onKeyDown, onKeyUp } = useActiveKeyboard<HTMLDivElement>(
       { onKeyUp: handleKeyUp, onKeyDown: handleKeyDown },
       {
@@ -196,20 +190,14 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
     }, [hasParent, dropdownElement, triggerElement, position, alignment, positionChildDropdown, positionDropdown]);
 
     useEffect(() => {
-      if (isOpen && dropdownElement) {
+      if (isOpen && dropdownElement && autofocus) {
         focusDropdownFirstElement(autoId);
       }
-    }, [isOpen, autoId, dropdownElement]);
+    }, [isOpen, autoId, dropdownElement, autofocus]);
 
     return (
       <DropdownContextProvider dropdownId={autoId} closeRoot={closeDropdown} autoClose={autoClose}>
-        <div
-          ref={triggerCallbackRef}
-          className={styles.trigger}
-          tabIndex={-1}
-          onKeyDown={handleOnKeyDownTrigger}
-          onKeyUp={handleOnKeyUpTrigger}
-        >
+        <div ref={triggerCallbackRef} className={styles.trigger} tabIndex={-1} onKeyDown={handleOnKeyDownTrigger}>
           {trigger}
         </div>
 

@@ -1,0 +1,24 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+.searchbarContainer {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+}
+
+.textInputWrapper {
+  min-width: 0;
+  display: flex;
+  align-items: stretch;
+  border-radius: $radius-m;
+  transition: outline 200ms, border 200ms;
+
+  &:focus-within {
+    outline: 1px solid var(--border-brand-default);
+    outline-offset: 0;
+  }
+}
+
+.searchButton {
+  flex-shrink: 0;
+}
