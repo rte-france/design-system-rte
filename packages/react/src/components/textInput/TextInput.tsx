@@ -1,13 +1,14 @@
 import {
   TextInputProps as CoreTextInputProps,
   RightIconAction,
-  RightIconName,
+  RightIconName
 } from "@design-system-rte/core/components/text-input/text-input.interface";
 import { ChangeEvent, forwardRef, InputHTMLAttributes, useEffect, useRef, useState } from "react";
 
 import AssistiveText from "../assistivetext/AssistiveText";
 import Icon from "../icon/Icon";
 import IconButton from "../iconButton/IconButton";
+import RequiredIndicator from "../requiredindicator/RequiredIndicator";
 import { concatClassNames } from "../utils";
 
 import style from "./TextInput.module.scss";
@@ -43,7 +44,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       onRightIconClick,
       ...props
     }: TextInputProps,
-    ref,
+    ref
   ) => {
     const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -118,7 +119,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
     const computedInputBarClassName = concatClassNames(
       style.inputBar,
       computedLeftIcon ? style.withLeftIcon : "",
-      rightIconAction ? style.withRightIcon : "",
+      rightIconAction ? style.withRightIcon : ""
     );
 
     const displayCounter = showCounter && typeof maxLength === "number";
@@ -135,18 +136,6 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       return showRightIcon && !!rightIconAction;
     };
 
-    const labelRequirementTemplate = required ? (
-      showLabelRequirement ? (
-        <span className={style.requiredText}>(obligatoire)</span>
-      ) : (
-        <span className={style.requiredIconContainer}>
-          <Icon name="asterisk" size={8} />
-        </span>
-      )
-    ) : showLabelRequirement ? (
-      <span className={style.requiredText}>(optionnel)</span>
-    ) : null;
-
     return (
       <div className={style.container} data-label-position={labelPosition} data-error={error} style={{ width }}>
         {label && (
@@ -156,7 +145,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
                 {" "}
                 {label}{" "}
               </label>
-              {labelRequirementTemplate}
+              <RequiredIndicator required={required} showLabelRequirement={showLabelRequirement} />
             </div>
             {displayCounter && labelPosition === "top" && (
               <p className={style.inputCounter} data-testid="input-counter">
@@ -229,7 +218,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
         )}
       </div>
     );
-  },
+  }
 );
 
 export default TextInput;
