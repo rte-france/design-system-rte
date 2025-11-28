@@ -42,6 +42,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       width,
       onChange,
       onRightIconClick,
+      compactSpacing,
       ...props
     }: TextInputProps,
     ref,
@@ -52,7 +53,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       if (["visibilityOn", "visibilityOff"].includes(rightIconActionType)) {
         return isHiddenInput ? "visibility-show" : "visibility-hide";
       } else if (rightIconActionType === "clean") {
-        return "close";
+        return "cancel";
       }
       return "" as RightIconName;
     };
@@ -136,20 +137,28 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       return showRightIcon && !!rightIconAction;
     };
 
-    const labelRequirementTemplate = required ? (
-      showLabelRequirement ? (
-        <span className={style.requiredText}>(obligatoire)</span>
-      ) : (
-        <span className={style.requiredIconContainer}>
-          <Icon name="asterisk" size={8} />
-        </span>
-      )
-    ) : showLabelRequirement ? (
+    const requiredLabelRequirementTemplate = showLabelRequirement ? (
+      <span className={style.requiredText}>(obligatoire)</span>
+    ) : (
+      <span className={style.requiredIconContainer}>
+        <Icon name="asterisk" size={8} />
+      </span>
+    );
+
+    const optionalLabelRequirementTemplate = showLabelRequirement ? (
       <span className={style.requiredText}>(optionnel)</span>
     ) : null;
 
+    const labelRequirementTemplate = required ? requiredLabelRequirementTemplate : optionalLabelRequirementTemplate;
+
     return (
-      <div className={style.container} data-label-position={labelPosition} data-error={error} style={{ width }}>
+      <div
+        className={style.container}
+        data-label-position={labelPosition}
+        data-error={error}
+        style={{ width }}
+        data-compact-spacing={compactSpacing}
+      >
         {label && (
           <div className={style.text}>
             <div className={style.labelContainer}>
@@ -209,7 +218,9 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
                 <IconButton
                   name={rightIconName}
                   appearance="outlined"
-                  variant="transparent"
+                  variant="neutral"
+                  size="s"
+                  compactSpacing={true}
                   className={style.rightIcon}
                   aria-label={rightIconAriaLabel}
                   onClick={onRightIconClickHandler}

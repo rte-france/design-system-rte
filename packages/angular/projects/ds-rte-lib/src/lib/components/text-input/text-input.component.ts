@@ -18,6 +18,7 @@ export class TextInputComponent {
   readonly id = input<string>();
   readonly label = input<string>("");
   readonly labelPosition = input<"top" | "side">("top");
+  readonly placeholder = input<string>("");
   readonly required = input<boolean>(false);
   readonly showCounter = input<boolean>(false);
   readonly value = input<string>("");
@@ -37,6 +38,9 @@ export class TextInputComponent {
   readonly ariaLabel = input<string>("");
   readonly ariaRequired = input<boolean>(false);
   readonly ariaLabelledby = input<string>("");
+  readonly compactSpacing = input<boolean>(false);
+  readonly customStyle = input<Record<string, string>>();
+  readonly autocomplete = input<string>("");
 
   readonly valueChange = output<string>();
   readonly rightIconClick = output<void>();
@@ -50,10 +54,8 @@ export class TextInputComponent {
   readonly rightIconName = computed(() => {
     if (["visibilityOn", "visibilityOff"].includes(this.rightIconAction())) {
       return this.isHiddenInput() ? "visibility-show" : "visibility-hide";
-    } else if (this.rightIconAction() === "clean") {
-      return "close";
     }
-    return "";
+    return "cancel";
   });
 
   readonly rightIconAriaLabel = computed(() => {
@@ -92,12 +94,12 @@ export class TextInputComponent {
 
   handleChange(event: Event): void {
     const input = event.target as HTMLInputElement;
-    this.internalValue.set(input.value);
-    this.valueChange.emit(input.value);
+    const newValue = input.value;
+    this.internalValue.set(newValue);
     if (this.maxLength()) {
-      this.characterCount.set(input.value.length);
+      this.characterCount.set(newValue.length);
     }
-    this.valueChange.emit(input.value);
+    this.valueChange.emit(newValue);
   }
 
   onRightIconClickHandler(): void {

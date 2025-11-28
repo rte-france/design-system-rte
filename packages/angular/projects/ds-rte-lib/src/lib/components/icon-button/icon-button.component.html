@@ -4,6 +4,7 @@
     class="rte-icon-button {{ variant() }} size-{{ size() }}"
     rteBadge
     [class.compact-spacing]="compactSpacing()"
+    [ngStyle]="customStyle()"
     [disabled]="disabled()"
     [attr.aria-label]="ariaLabel()"
     [attr.aria-labelledby]="ariaLabelledBy()"
@@ -22,6 +23,7 @@
     *ngIf="isValidIconName"
     class="rte-icon-button {{ variant() }} size-{{ size() }}"
     [class.compact-spacing]="compactSpacing()"
+    [ngStyle]="customStyle()"
     [disabled]="disabled()"
     [attr.aria-label]="ariaLabel()"
     [attr.aria-labelledby]="ariaLabelledBy()"
