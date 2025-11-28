@@ -22,4 +22,5 @@ export interface DropdownItemProps {
   hasIndent?: boolean;
   link?: string;
   onClick?: () => void;
+  isSelected?: boolean;
 }
