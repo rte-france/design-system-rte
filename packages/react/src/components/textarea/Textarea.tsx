@@ -38,7 +38,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       value,
       ...props
     },
-    ref
+    ref,
   ) => {
     const [characterCount, setCharacterCount] = useState(value?.length || defaultValue?.length || 0);
 
@@ -116,7 +116,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         </div>
       </div>
     );
-  }
+  },
 );
 
 export default Textarea;
