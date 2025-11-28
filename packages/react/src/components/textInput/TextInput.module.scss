@@ -9,6 +9,20 @@
     align-items: flex-start;
     gap: var(--positive-spacing_0);
 
+    &[data-compact-spacing="true"] {
+        .inputContainer {
+            height: 24px;
+            min-height: 24px;
+            .input {
+                .inputBar {
+                    .inputField {
+                        height: 24px;
+                    }
+                }
+            }
+        }   
+    }
+
     &[data-label-position="side"] {
         align-items: center;
         flex-direction: row;
@@ -110,15 +124,13 @@
                     position: absolute;
                     right: $positive-spacing-100;
                     color: var(--content-secondary);
-                    padding: 0 $positive-spacing-025;
-                    height: 24px;
-
+                    
                     &:focus {
                         outline: none;
                     }
 
                     &:focus-visible {
-                        outline: 1px solid var(--border-brand-focused);
+                        outline: $width-xs solid var(--border-brand-focused);
                         border-radius: $radius-m;
 
                         &::after {

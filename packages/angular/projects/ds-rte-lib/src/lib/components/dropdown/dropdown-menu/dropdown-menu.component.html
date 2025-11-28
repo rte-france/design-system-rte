@@ -1,7 +1,7 @@
-<div class="rte-dropdown-menu">
+<div class="rte-dropdown-menu" [style.width]="widthStyle()">
   <ul 
     class="rte-dropdown-items"
-    role="menu" 
+    role="menu"
     [attr.aria-activedescendant]="menuId()"
   >
     @for (item of items(); track item.label; let i = $index) {
