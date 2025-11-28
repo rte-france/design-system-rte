@@ -7,7 +7,7 @@ import {
   ENTER_KEY,
   ESCAPE_KEY,
   SPACE_KEY,
-  TAB_KEY,
+  TAB_KEY
 } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 import { useContext } from "react";
 
@@ -41,6 +41,7 @@ export const DropdownItem = ({
   badgeType,
   badgeSize,
   showBadge,
+  isSelected,
   onClick,
   ...props
 }: DropdownItemProps) => {
@@ -61,7 +62,7 @@ export const DropdownItem = ({
 
   if (hasIndent && leftIcon) {
     console.warn(
-      `DropdownItem: 'hasIndent' prop is ignored when 'leftIcon' is provided : displaying icon '${leftIcon}' for dropdownitem with label '${label}' without indentation.`,
+      `DropdownItem: 'hasIndent' prop is ignored when 'leftIcon' is provided : displaying icon '${leftIcon}' for dropdownitem with label '${label}' without indentation.`
     );
   }
 
@@ -111,8 +112,8 @@ export const DropdownItem = ({
   const { onKeyUp, onFocus, onKeyDown } = useActiveKeyboard<HTMLLIElement>(
     { onKeyUp: handleKeyUp, onFocus: handleOnFocus, onKeyDown: handleKeyDown },
     {
-      interactiveKeyCodes: [SPACE_KEY, ENTER_KEY, TAB_KEY, ARROW_DOWN_KEY, ARROW_UP_KEY, ESCAPE_KEY],
-    },
+      interactiveKeyCodes: [SPACE_KEY, ENTER_KEY, TAB_KEY, ARROW_DOWN_KEY, ARROW_UP_KEY, ESCAPE_KEY]
+    }
   );
 
   if (children) {
@@ -168,6 +169,7 @@ export const DropdownItem = ({
       <li
         className={styles["dropdown-item"]}
         data-disabled={disabled}
+        data-active={isSelected}
         role="menuitem"
         onClick={handleOnClick}
         onMouseOver={handleMouseOver}

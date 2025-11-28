@@ -24,4 +24,5 @@ export interface DropdownItemProps extends BadgeHolderProps {
   hasIndent?: boolean;
   link?: string;
   onClick?: () => void;
+  isSelected?: boolean;
 }
