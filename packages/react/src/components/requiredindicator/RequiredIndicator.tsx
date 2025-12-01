@@ -1,11 +1,7 @@
 import { REQUIREMENT_INDICATOR_VALUE } from "@design-system-rte/core/components/required-indicator/required-indicator.constant";
+import { RequiredIndicatorProps } from "@design-system-rte/core/components/required-indicator/required-indicator.interface";
 
 import styles from "./RequiredIndicator.module.scss";
-
-interface RequiredIndicatorProps {
-  required: boolean;
-  showLabelRequirement: boolean;
-}
 
 const RequiredIndicator = ({ required, showLabelRequirement }: RequiredIndicatorProps) => {
   const computedRequirementIndicatorValue = required
