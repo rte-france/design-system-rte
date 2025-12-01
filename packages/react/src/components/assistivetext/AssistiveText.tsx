@@ -1,14 +1,9 @@
+import { AssistiveTextProps } from "@design-system-rte/core/components/assistive-text/assistive-text.interface";
+
 import Icon from "../icon/Icon";
 import Link from "../link/Link";
 
 import styles from "./AssistiveText.module.scss";
-
-export interface AssistiveTextProps {
-  label: string;
-  appearance: "description" | "error" | "success" | "link";
-  showIcon?: boolean;
-  href?: string;
-}
 
 const AssistiveText = ({ label, appearance, showIcon, href }: AssistiveTextProps) => {
   return (
