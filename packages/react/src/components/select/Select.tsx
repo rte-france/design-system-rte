@@ -1,7 +1,8 @@
+import { SelectProps as coreSelectProps } from "@design-system-rte/core/components/select/select.interface";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 import { useRef, useState } from "react";
 
-import AssistiveText from "../assistivetext/AssistiveText";
+import AssistiveText from "../assistiveText/AssistiveText";
 import { Dropdown } from "../dropdown/Dropdown";
 import { DropdownItem } from "../dropdown/dropdownItem/DropdownItem";
 import Icon from "../icon/Icon";
@@ -11,26 +12,7 @@ import { concatClassNames } from "../utils";
 
 import styles from "./Select.module.scss";
 
-export interface SelectProps {
-  id: string;
-  label: string;
-  labelPosition?: "top" | "side";
-  required?: boolean;
-  value?: string;
-  defaultValue?: string;
-  showLabel?: boolean;
-  isError?: boolean;
-  assistiveAppearance?: "description" | "error" | "success" | "link";
-  showAssistiveIcon?: boolean;
-  assistiveTextLabel?: string;
-  assistiveTextLink?: string;
-  showLabelRequirement?: boolean;
-  onClear?: () => void;
-  onChange?: (value: string) => void;
-  options: { value: string; label: string }[];
-  disabled?: boolean;
-  readonly?: boolean;
-}
+export interface SelectProps extends coreSelectProps, HTMLDivElement {}
 
 const Select = ({
   id,
