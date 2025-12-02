@@ -8,7 +8,7 @@ import { userEvent, within, expect } from "@storybook/test";
 import { TabComponent } from "../tab.component";
 
 const meta: Meta<TabComponent> = {
-  title: "Tab",
+  title: "Composants/Tab",
   component: TabComponent,
   tags: ["autodocs"],
   argTypes: {

@@ -25,7 +25,7 @@ import {
 import { getCanvasAndSideNav, waitDelay } from "./stories/helpers/testHelpers";
 
 const meta: Meta<SideNavComponent> = {
-  title: "SideNav",
+  title: "Composants/SideNav",
   component: SideNavComponent,
   tags: ["autodocs"],
   decorators: [
