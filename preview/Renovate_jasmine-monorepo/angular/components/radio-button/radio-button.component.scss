@@ -45,15 +45,15 @@
     }
 
     &.error {
-        border: $width-xs solid var(--content-danger);
+        border: $width-xs solid var(--content-danger-default);
         transition: box-shadow 0.3s ease-in-out;
 
         &:checked {
-            border: $width-xs solid var(--content-danger);
+            border: $width-xs solid var(--content-danger-default);
         }
 
         &::before {
-            background: var(--content-danger);
+            background: var(--content-danger-default);
         }
 
         &:hover {
@@ -79,7 +79,7 @@
         }
 
         &.error {
-            border: $width-xs solid var(--content-danger);
+            border: $width-xs solid var(--content-danger-default);
         }
     }
 

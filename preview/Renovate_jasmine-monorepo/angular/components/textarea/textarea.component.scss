@@ -1,6 +1,12 @@
 @use '@design-system-rte/core/design-tokens/main.scss' as *;
 
+:host {
+  width: 100%;
+}
+
 .container {
+  width: 100%;
+
   &[data-label-position='side'] {
     display: flex;
     flex-direction: row;
@@ -18,6 +24,7 @@
   flex-shrink: 0;
   border-radius: $radius-none;
   opacity: $opacity-100;
+  width: 100%;
 
   &[data-label-position='side'] {
     flex-grow: 1;
@@ -115,12 +122,12 @@
 
       &.error {
         &:not(.disabled) {
-          color: var(--content-danger);
+          color: var(--content-danger-default);
         }
       }
 
       &.success {
-        color: var(--content-success);
+        color: var(--content-success-default);
       }
     }
   }
@@ -161,7 +168,7 @@ label {
 
     &:not(.show-label-requirement) {
       &.required {
-        color: var(--content-danger);
+        color: var(--content-danger-default);
       }
     }
   }

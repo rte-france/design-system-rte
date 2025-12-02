@@ -129,13 +129,13 @@
       }
 
       &.error {
-        border: 1px solid var(--content-danger);
+        border: 1px solid var(--content-danger-default);
         background: var(--background-disabled);
       }
     }
 
     &.error {
-      border: 1px solid var(--content-danger);
+      border: 1px solid var(--content-danger-default);
       background: var(--background-default);
 
       &:hover {
@@ -162,7 +162,7 @@
     .rte-checkbox-error {
       @include typography-checkbox-error;
       margin: 0;
-      color: var(--content-danger);
+      color: var(--content-danger-default);
     }
   }
 

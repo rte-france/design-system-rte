@@ -1,12 +1,16 @@
 @use '@design-system-rte/core/design-tokens/main.scss' as *;
 
-.horizontal{
+:host {
+    display: contents;
+}
+
+.horizontal {
     border: none;
     padding: 0;
     margin: 0;
     width: 100%;
 
-    &.round{
+    &.round {
         border-radius: $radius-pill;
     }
 
@@ -24,6 +28,14 @@
 
     &.inverse {
         border-top-color: var(--border-inverse);
+    }
+
+    &.brand {
+        border-top-color: var(--border-brand-default);
+    }
+
+    &.brand-navigation {
+        border-top-color: var(--border-brand-navigation-divider);
     }
 }
 
@@ -51,5 +63,13 @@
 
     &.inverse {
         background-color: var(--border-inverse);
+    }
+
+    &.brand {
+        background-color: var(--border-brand-default);
+    }
+
+    &.brand-navigation {
+        background-color: var(--border-brand-navigation-divider);
     }
 }

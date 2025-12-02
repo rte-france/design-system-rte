@@ -10,7 +10,7 @@
 
     &:visited {
 
-        color: var(--content-link-visited);
+        color: var(--content-link-visited-default);
         text-decoration: underline;
 
         &:hover {
@@ -19,12 +19,12 @@
         }
 
         &:active {
-            color: var(--content-link-visited-press);
+            color: var(--content-link-visited-pressed);
             text-decoration: underline;
         }
 
         &:focus-visible {
-            color: var(--content-link-visited);
+            color: var(--content-link-visited-default);
             text-decoration: underline;
             outline: 1px solid var(--border-brand-focused);
             outline-offset: $radius-s;
@@ -42,7 +42,7 @@
         }
 
         &:active {
-            color: var(--content-link-press);
+            color: var(--content-link-pressed);
             text-decoration: underline;
         }
 
@@ -104,5 +104,56 @@
                 border-radius: $radius-s;
             }
         }
+
+        &.reverse {
+            color: var(--content-primary-inverse);
+            text-decoration: none;
+
+            &:hover {
+                color: var(--content-primary-inverse);
+                text-decoration: underline;
+            }
+
+            &:focus-visible {
+                color: var(--content-primary-inverse);
+                text-decoration: underline;
+                outline: 1px solid var(--border-inverse);
+                outline-offset: $radius-s;
+                border-radius: $radius-s;
+            }
+        }
+    }
+
+
+
+    &.reverse {
+        color: var(--content-primary-inverse);
+        text-decoration: underline;
+
+        &:hover {
+            color: var(--content-primary-inverse);
+            text-decoration: none;
+        }
+
+        &:focus-visible {
+            color: var(--content-primary-inverse);
+            text-decoration: underline;
+            outline: 1px solid var(--border-inverse);
+            outline-offset: $radius-s;
+            border-radius: $radius-s;
+        }
+    }
+
+    .rte-link-external-icon {
+        align-self: start;
+        margin-left: $positive-spacing_025;
+    }
+}
+
+.rte-link {
+    .rte-link-label {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 }

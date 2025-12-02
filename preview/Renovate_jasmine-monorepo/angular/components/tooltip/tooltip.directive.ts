@@ -1,6 +1,5 @@
 import {
   AfterViewInit,
-  ChangeDetectorRef,
   ComponentRef,
   Directive,
   ElementRef,
@@ -11,8 +10,11 @@ import {
   Renderer2,
   ViewContainerRef,
 } from "@angular/core";
-import { TOOLTIP_GAP, TOOLTIP_GAP_ARROW } from "@design-system-rte/core/components/tooltip/tooltip.constants";
+import { Position } from "@design-system-rte/core/common/common-types";
+import { TOOLTIP_FADE_OUT_DURATION, TOOLTIP_GAP } from "@design-system-rte/core/components/tooltip/tooltip.constants";
+import { getTooltipGap } from "@design-system-rte/core/components/tooltip/tooltip.utils";
 import { getAutoPlacement, getCoordinates } from "@design-system-rte/core/components/utils/auto-placement";
+import { FOCUSABLE_ELEMENTS_QUERY } from "@design-system-rte/core/constants/dom/dom.constants";
 
 import { OverlayService } from "../../services/overlay.service";
 
@@ -24,9 +26,11 @@ import { TooltipComponent } from "./tooltip.component";
 })
 export class TooltipDirective implements AfterViewInit, OnDestroy {
   readonly rteTooltip = input.required<string>();
-  readonly rteTooltipPosition = input("auto");
+  readonly rteTooltipPosition = input<Position>("auto");
   readonly rteTooltipAlignment = input("center");
   readonly rteTooltipArrow = input(true);
+  readonly rteTooltipShouldFocusTrigger = input(true);
+  readonly rteTooltipGap = input<number>(TOOLTIP_GAP);
 
   private tooltipRef: ComponentRef<TooltipComponent> | null = null;
   private hostElement: HTMLElement;
@@ -35,7 +39,6 @@ export class TooltipDirective implements AfterViewInit, OnDestroy {
   private elementRef = inject(ElementRef);
   private viewContainerRef = inject(ViewContainerRef);
   private renderer = inject(Renderer2);
-  private cdr = inject(ChangeDetectorRef);
 
   @HostListener("mouseenter")
   onMouseEnter(): void {
@@ -60,14 +63,26 @@ export class TooltipDirective implements AfterViewInit, OnDestroy {
   constructor() {
     this.overlayService = inject(OverlayService);
     this.hostElement = this.elementRef.nativeElement;
-    this.hostElement.setAttribute("tabindex", "0");
   }
 
   ngAfterViewInit() {
+    if (!this.rteTooltipShouldFocusTrigger()) {
+      this.renderer.setAttribute(this.hostElement, "tabindex", "-1");
+      const focusableTrigger = this.hostElement.querySelectorAll(FOCUSABLE_ELEMENTS_QUERY)[0];
+      focusableTrigger.addEventListener("focus", () => this.onFocus());
+      focusableTrigger.addEventListener("blur", () => this.onBlur());
+    } else {
+      this.renderer.setAttribute(this.hostElement, "tabindex", "0");
+    }
     window.addEventListener("scroll", this.positionTooltip.bind(this));
   }
 
   ngOnDestroy() {
+    if (!this.rteTooltipShouldFocusTrigger()) {
+      const focusableTrigger = this.hostElement.querySelectorAll(FOCUSABLE_ELEMENTS_QUERY)[0];
+      focusableTrigger.removeEventListener("focus", () => this.onFocus());
+      focusableTrigger.removeEventListener("blur", () => this.onBlur());
+    }
     window.removeEventListener("scroll", this.positionTooltip.bind(this));
   }
 
@@ -84,16 +99,10 @@ export class TooltipDirective implements AfterViewInit, OnDestroy {
   private assignDirectiveToComponent(): void {
     if (this.tooltipRef) {
       const tooltipElement = this.tooltipRef.location.nativeElement;
-
+      const gap = getTooltipGap(this.rteTooltipArrow(), this.rteTooltipGap());
       const position =
         this.rteTooltipPosition() === "auto"
-          ? getAutoPlacement(
-              this.hostElement,
-              tooltipElement,
-              "top",
-              this.rteTooltipArrow() ? TOOLTIP_GAP_ARROW : TOOLTIP_GAP,
-              true,
-            )
+          ? getAutoPlacement(this.hostElement, tooltipElement, "top", gap, true)
           : this.rteTooltipPosition();
 
       this.tooltipRef.setInput("label", this.rteTooltip());
@@ -106,16 +115,10 @@ export class TooltipDirective implements AfterViewInit, OnDestroy {
   private positionTooltip(): void {
     if (this.tooltipRef) {
       const tooltipElement = this.tooltipRef.location.nativeElement;
-
-      const positions = getCoordinates(
-        this.tooltipRef.instance.position(),
-        this.hostElement,
-        tooltipElement,
-        this.rteTooltipArrow() ? TOOLTIP_GAP_ARROW : TOOLTIP_GAP,
-      );
+      const gap = getTooltipGap(this.rteTooltipArrow(), this.rteTooltipGap());
+      const positions = getCoordinates(this.tooltipRef.instance.position(), this.hostElement, tooltipElement, gap);
 
       this.renderer.setStyle(this.hostElement, "position", "relative");
-
       this.renderer.setStyle(tooltipElement, "top", `${positions.top}px`);
       this.renderer.setStyle(tooltipElement, "left", `${positions.left}px`);
     }
@@ -133,7 +136,7 @@ export class TooltipDirective implements AfterViewInit, OnDestroy {
           this.tooltipRef = null;
           this.overlayService.destroy();
         }
-      }, 200);
+      }, TOOLTIP_FADE_OUT_DURATION);
     }
   }
 }
