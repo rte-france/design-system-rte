@@ -18,7 +18,6 @@ const meta = {
       options: ["info", "error", "success", "warning"],
     },
     closable: { control: "boolean" },
-    showIcon: { control: "boolean" },
     actionCallback: { action: "actionCallback" },
     actionLabel: { control: "text" },
   },
@@ -33,7 +32,6 @@ export const Default: Story = {
     message:
       "Une nouvelle mise à jour a été déployée sur l’environnement de production. Pour découvrir toutes les fonctionnalités et corrections d’anomalies, veuillez cliquer sur le bouton ci-contre.",
     type: "info",
-    showIcon: true,
     actionLabel: "Voir les détails",
     closable: true,
   },
@@ -55,8 +53,8 @@ export const WithIcon: Story = {
   render: (args) => {
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-        <Banner {...args} showIcon />
-        <Banner {...Alert.args} showIcon />
+        <Banner {...args} />
+        <Banner {...Alert.args} />
       </div>
     );
   },
@@ -71,7 +69,7 @@ export const Closable: Story = {
     const [showBanner, setShowBanner] = useState(false);
     return (
       <div>
-        <Banner {...args} showIcon closable isOpen={showBanner} onClose={() => setShowBanner(false)} />
+        <Banner {...args} closable isOpen={showBanner} onClose={() => setShowBanner(false)} />
         <Button
           label={showBanner ? "Hide banner" : "Show banner"}
           onClick={() => setShowBanner((prev) => !prev)}
@@ -86,7 +84,6 @@ export const WithAction: Story = {
   args: {
     ...Default.args,
     actionLabel: "Voir les détails",
-    showIcon: true,
     actionCallback: () => {
       console.log("Action button clicked");
     },
@@ -105,7 +102,6 @@ export const Overlay: Story = {
       <>
         <Banner
           {...args}
-          showIcon
           closable
           onClose={() => setShowBanner(false)}
           isOpen={showBanner}
@@ -155,7 +151,7 @@ export const KeyboardInteraction: Story = {
     const [showBanner, setShowBanner] = useState(true);
     return (
       <>
-        <Banner {...args} showIcon closable onClose={() => setShowBanner(false)} isOpen={showBanner} />
+        <Banner {...args} closable onClose={() => setShowBanner(false)} isOpen={showBanner} />
         <Button
           label={showBanner ? "Hide banner" : "Show banner"}
           onClick={() => setShowBanner((prev) => !prev)}
