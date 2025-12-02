@@ -59,8 +59,6 @@ const Toast = forwardRef<HTMLDivElement, ToastProps>(
 
     const [position, alignment] = placement.split("-");
 
-    console.log(iconName);
-
     const handleOnClose = useCallback(() => {
       hideToast();
       removeTimer();
@@ -89,7 +87,9 @@ const Toast = forwardRef<HTMLDivElement, ToastProps>(
 
     const handleOnMouseOut: MouseEventHandler<HTMLDivElement> = (e) => {
       e.stopPropagation();
-      initializeTimer();
+      if (isAutoDismiss) {
+        initializeTimer();
+      }
     };
 
     const displayDefaultIcon = showLeftIcon && type !== "neutral";

@@ -4,6 +4,7 @@
   
   ## Changes
 
+- (Toast) set correct padding value
 - (Toast) extract getToastPriority logic to core + use computed to display actionButton + add custom icon to input
 - (Toast) restrict action button appearance using only label and callback props
 - (Toast) add angular component

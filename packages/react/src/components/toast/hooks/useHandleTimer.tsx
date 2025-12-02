@@ -26,8 +26,6 @@ const useHandleTimer = ({ shouldStartTimer, duration }: TimeoutProperties, callb
 
   useEffect(() => {
     if (shouldStartTimer) {
-      initializeTimer();
-    } else {
       removeTimer();
     }
     return () => {
