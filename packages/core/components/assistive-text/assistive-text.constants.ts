@@ -1,0 +1,1 @@
+export const ASSISTIVE_TEXT_ICON_SIZE = 12;
