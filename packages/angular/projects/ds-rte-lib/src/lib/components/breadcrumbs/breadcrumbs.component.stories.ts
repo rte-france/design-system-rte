@@ -9,7 +9,7 @@ import { expect, userEvent, waitFor, within } from "@storybook/test";
 import { BreadcrumbsComponent } from "./breadcrumbs.component";
 
 export default {
-  title: "Breadcrumbs",
+  title: "Composants/Breadcrumbs",
   component: BreadcrumbsComponent,
   tags: ["autodocs"],
   argTypes: {

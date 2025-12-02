@@ -7,7 +7,7 @@ const RegularIconIds = Object.keys(RegularIconsList);
 const TogglableIconIds = Object.keys(TogglableIconsList);
 
 const meta = {
-  title: "Icon",
+  title: "Composants/Icon",
   component: IconComponent,
   tags: ["autodocs"],
   argTypes: {

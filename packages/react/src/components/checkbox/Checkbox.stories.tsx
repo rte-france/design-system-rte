@@ -5,7 +5,7 @@ import { userEvent, within, expect } from "@storybook/test";
 import Checkbox from "./Checkbox";
 
 const meta = {
-  title: "Checkbox",
+  title: "Composants/Checkbox",
   component: Checkbox,
   tags: ["autodocs"],
   argTypes: {

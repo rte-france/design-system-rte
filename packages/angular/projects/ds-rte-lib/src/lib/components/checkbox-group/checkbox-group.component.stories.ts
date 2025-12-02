@@ -4,7 +4,7 @@ import { userEvent, within, expect } from "@storybook/test";
 import { CheckboxGroupComponent } from "./checkbox-group.component";
 
 const meta: Meta<CheckboxGroupComponent> = {
-  title: "CheckboxGroup",
+  title: "Composants/CheckboxGroup",
   component: CheckboxGroupComponent,
   tags: ["autodocs"],
   argTypes: {

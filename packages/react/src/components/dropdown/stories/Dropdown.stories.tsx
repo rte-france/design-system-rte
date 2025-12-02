@@ -12,7 +12,7 @@ import { Dropdown } from "../Dropdown";
 import { DropdownItem } from "../dropdownItem/DropdownItem";
 
 const meta: Meta<typeof Dropdown> = {
-  title: "Dropdown (développement en cours)",
+  title: "Composants/Dropdown (développement en cours)",
   id: "Dropdown",
   tags: ["autodocs"],
   component: Dropdown,

@@ -16,7 +16,7 @@ const RegularIconIds = Object.keys(RegularIconsList);
 const TogglableIconIds = Object.keys(TogglableIconsList);
 
 const meta = {
-  title: "Modal",
+  title: "Composants/Modal",
   component: Modal,
   tags: ["autodocs"],
   argTypes: {

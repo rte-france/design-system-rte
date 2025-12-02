@@ -4,7 +4,7 @@ import { userEvent, within, expect } from "@storybook/test";
 import Link from "./Link";
 
 const meta = {
-  title: "Link",
+  title: "Composants/Link",
   component: Link,
   tags: ["autodocs"],
   argTypes: {
