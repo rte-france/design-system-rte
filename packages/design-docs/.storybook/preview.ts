@@ -75,6 +75,12 @@ const preview = {
         disable: false,
       },
     },
+    options: {
+      storySort: {
+        order: ["Design system", "Guidelines", "Fondations"],
+        locales: "fr-FR",
+      },
+    },
   },
 };
 
