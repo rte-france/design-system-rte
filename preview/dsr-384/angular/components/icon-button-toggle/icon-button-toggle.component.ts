@@ -2,7 +2,7 @@ import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, input, output, signal } from "@angular/core";
 import { ButtonType } from "@design-system-rte/core/components/button/button.interface";
 import { ButtonSize, ButtonVariant } from "@design-system-rte/core/components/button/common/common-button";
-import { buttonIconSize } from "@design-system-rte/core/components/button/common/common-button.constants";
+import { ButtonIconSize } from "@design-system-rte/core/components/button/common/common-button.constants";
 
 import { RegularIconIdKey, TogglableIconIdKey } from "../icon/icon.service";
 import { IconButtonComponent } from "../icon-button/icon-button.component";
@@ -50,5 +50,5 @@ export class IconButtonToggleComponent {
     }
   }
 
-  readonly buttonIconSize = computed(() => buttonIconSize[this.size()]);
+  readonly buttonIconSize = computed(() => ButtonIconSize[this.size()]);
 }
