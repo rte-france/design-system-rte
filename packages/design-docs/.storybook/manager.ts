@@ -68,7 +68,10 @@ function _hideStories(storySections: Record<string, string[]>): void {
 
 function _extractStorySelectorsFromSection(storySection: { sectionId: string; stories: string[] }): string[] {
   return storySection.stories.map(
-    (story) => `#storybook-explorer-tree [data-item-id="${storySection.sectionId}-${story}--docs"]`,
+    (story) => `
+      #storybook-explorer-tree [data-item-id="${storySection.sectionId}-${story}"],
+      #storybook-explorer-tree [data-item-id="${storySection.sectionId}-${story}--docs"]
+    `,
   );
 }
 

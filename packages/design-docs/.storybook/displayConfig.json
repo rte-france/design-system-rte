@@ -1,11 +1,10 @@
 {
-    "hiddenSections": [
-        "démarrage",
-        "bascule"
-    ],
+    "hiddenSections": [],
     "hiddenStories": {
-        "design-system": [],
-        "démarrage": ["angular", "react"],
-        "bascule": ["angular", "react"]
+        "design-system": [
+            "get-started-kit-de-migration-général",
+            "get-started-kit-de-migration-pour-les-designers",
+            "get-started-contribuer"
+        ]
     }
 }

@@ -77,7 +77,20 @@ const preview = {
     },
     options: {
       storySort: {
-        order: ["Design system", "Guidelines", "Fondations"],
+        order: [
+          "Design system",
+          [
+            "Acceuil",
+            "Get Started - Kit de démarrage",
+            ["Angular", "React"],
+            "Get Started - Kit de migration",
+            ["Général", "Pour les designers", "Angular", "React"],
+            "Get Started - Contribuer",
+            ["Gouvernance", "Évolutions et nouveaux composants", "Bugs et anomalies", "Icônes"],
+          ],
+          "Guidelines",
+          "Fondations",
+        ],
         locales: "fr-FR",
       },
     },
