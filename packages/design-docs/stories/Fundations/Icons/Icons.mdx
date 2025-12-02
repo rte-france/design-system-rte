@@ -1,0 +1,165 @@
+import { Meta } from "@storybook/blocks"
+
+import DocsSection from "../../../src/components/DocsSection/DocsSection";
+import HeaderComponent from "../../../src/components/Header/Header";
+import LastUpdate from "../../../src/components/LastUpdate/LastUpdate";
+import Accordion from "../../../src/components/Accordion/Accordion";
+
+import "../../../src/styles/GeneralDocs.scss";
+import "../../../src/styles/Police.css"
+import Paragraph from "../../../src/components/Paragraph/Paragraph";
+import Body from "../../../src/components/Body/Body";
+import IconComponent from "./assets/IconComponent.svg";
+import DoNot1 from "./assets/DoNot1.svg";
+import DoNot2 from "./assets/DoNot2.svg";
+import DoNot3 from "./assets/DoNot3.svg";
+import DoNot4 from "./assets/DoNot4.svg";
+import DoNot5 from "./assets/DoNot5.svg";
+import IconSizeTable from "./assets/IconSizeTable.svg";
+
+<Meta title='Fondations/Icons'/>
+
+<div className="docs">
+
+    <HeaderComponent title="Icons" linkFigma="">
+        <Paragraph>Les icônes jouent un rôle essentiel dans les interfaces RTE.</Paragraph>
+        <Paragraph>Elles renforcent la compréhension, facilitent la navigation et améliorent la lisibilité des actions et statuts.</Paragraph>
+    </HeaderComponent>
+
+    <Body>
+        <div style={{padding: "16px"}}>
+            <LastUpdate updates={[ {version: '1.0.0', date: '04 Décembre 2025', changes: ['Livraison']}]} />
+        </div>
+
+        <Accordion title="Anatomie des icônes">
+            <DocsSection>
+                Toutes les icônes actuelles du Design System proviennent de **Google Icons (Material Symbols)**, une bibliothèque open-source largement adoptée et optimisée pour les interfaces modernes.
+                
+                Nous utilisons un **style contrôlé, **afin d’assurer une cohérence visuelle dans l’ensemble des produits RTE.  Chaque icône est intégrée dans Figma comme un **composant individuel**. Cette approche permet de maintenir un référentiel **propre** et **facilement gouvernable**.
+                
+                La librairie se structure donc autour d’un principe simple : **un composant = une icône source** parfaitement conforme aux standards. Elle constitue le **socle du système iconographique** sur lequel reposent tous les autres usages.
+            </DocsSection>
+
+            <DocsSection
+                title="Style défini dans le Design System"
+            >
+            <div>
+                Les icônes utilisent un set de paramètres standardisés :
+                <ul>
+                    <li>**Style** : Rounded</li>
+                    <li>**Weight** (épaisseur) : 400</li>
+                    <li>**Grade** : 0</li>
+                    <li>**Optical Size** : 20px</li>
+                </ul>
+            </div>
+
+            Lorsque Google propose plusieurs versions d’une même icône, les variantes **Filled** et **Outlined** sont intégrées. Les variantes sont alors regroupées au sein d’un même composant sous forme de variants Figma.
+
+            **Ces paramètres ne doivent pas être modifiés.**
+            Ils garantissent un**e cohérence visuelle** optimale et rendent les icônes **compatibles** avec l’ensemble des composants du Design System.
+            </DocsSection>
+        </Accordion>
+
+        <Accordion title="Pourquoi une librairie d’icônes et un composant Icon ?">
+            <DocsSection
+                title="La librairie d’icônes"
+                headingLevel={3}
+            >
+                La librairie d’icônes sert d’**espace source** et **ne doit pas être utilisée directement dans les écrans**. Son rôle est d’assurer la stabilité, la traçabilité et la cohérence du patrimoine iconographique. 
+
+                Elle permet également de **centraliser les mises à jour** : si une icône doit être modifiée ou améliorée, la mise à jour du composant d’origine se propage **automatiquement** dans tout le Design System.
+
+                Comme les icônes y sont stockées à taille et paramètres constants, cette librairie n’a pas vocation à gérer des tailles ou des variations locales. Elle garantit uniquement la **validité du contenu iconographique**. La librairie joue donc le rôle de référentiel principal, analogue aux « primitives » d’un Design System.
+            </DocsSection>
+
+            <DocsSection
+                title="Le composant Icon"
+                headingLevel={3}
+            >
+                Le composant **Icon** est l’élément utilisé dans la création d’interfaces. Il sert d’enveloppe ergonomique autour de la librairie d’icônes, afin de simplifier et standardiser leur intégration.
+
+                Ce composant propose un **sélecteur d’icône** directement relié à la librairie. Il permet également de choisir la **variante appropriée** (filled ou outlined lorsque disponible).
+
+                <img src={IconComponent} width="100%"/>
+
+                Sa fonction principale est cependant **la gestion des tailles**. Le composant expose cinq tailles standardisées, adaptées aux différents contextes d’interface.
+
+                <Body>
+                    <DocsSection title="Tailles d’icônes">
+                        Avant tout, la taille des icônes **intégrées dans les composants** du Design System ne doit **jamais** être modifiée.
+
+                        Figma ne permet pas de restreindre l’accès à certaines propriétés internes d’un composant. Ainsi, lorsque la conception d’un composant nécessite d’exposer une propriété (par exemple le choix de l’icône), la propriété de taille devient mécaniquement visible dans le panneau de droite. Cette visibilité ne signifie pas qu’elle doit être modifiée : elle doit être considérée comme **techniquement exposée mais fonctionnellement interdite**.
+                        
+                        Pour ce qui concerne les icônes **hors composants**, leur tailles doivent être choisies en fonction du **contexte**, de la **densité de l’interface** et du **niveau d’importance** de l’action.
+                        Le tableau ci-dessous décrit l’usage recommandé pour chacune des tailles standard du Design System.
+
+                        <img src={IconSizeTable} width="100%"/>
+
+                        L’utilisation **systématique** du composant Icon permet d’assurer que toutes les icônes respectent les mêmes règles visuelles.
+
+                        Les designers n’ont plus besoin de redimensionner manuellement les icônes ni de manipuler leurs propriétés internes. Cela évite les dérives, renforce la cohérence globale et facilite les mises à jour futures : un changement sur le composant Icon se répercute automatiquement dans toutes les maquettes.
+                    </DocsSection>
+                </Body>
+            </DocsSection>
+        </Accordion>
+
+        <Accordion title="Guidelines d’utilisation des icônes">
+            <DocsSection
+                title="Icônes et typographies"
+            >
+                <DocsSection image={DoNot1}>
+                    Toujours utiliser la même couleur pour l’icône et son label : des couleurs différentes créent une incohérence visuelle et génèrent de la confusion.
+                </DocsSection>
+
+                <DocsSection image={DoNot2}>
+                    Utiliser une taille cohérente entre l’icône et le texte associé : mélanger des tailles différentes crée un déséquilibre visuel et nuit à la lisibilité.
+                </DocsSection>
+
+                <DocsSection image={DoNot3}>
+                    Ne pas aligner les icônes sur la ligne de base du texte : lorsqu’une icône accompagne un libellé, elle doit être centrée verticalement pour préserver l’équilibre visuel et la lisibilité.
+                </DocsSection>
+            </DocsSection>
+
+            <DocsSection
+                title="Ne pas utiliser d’icônes en excès"
+                image={DoNot4}
+            >
+                Avant d’ajouter une icône, vérifier qu’elle améliore réellement la compréhension : multiplier les icônes peut au contraire nuire à la clarté générale d’une page.
+            </DocsSection>
+
+            <DocsSection
+                title="Icônes et labels"
+                image={DoNot5}
+            >
+                Toujours accompagner une icône abstraite d’un libellé court et explicite : cela renforce la compréhension, en particulier dans les éléments de navigation.
+            </DocsSection>
+        </Accordion>
+
+        <Accordion title="Contribuer à la librairie">
+            <DocsSection title="Les questions à se poser avant de contribuer" headingLevel={3}>
+                <ol>
+                    <li>Est-ce que l’icône que je veux ajouter n’existe pas déjà dans la librairie ?</li><br/>
+                    <li>Est-ce qu’une icône existante dans la librairie ne remplit pas déjà la même fonction ?</li><br/>
+                    <li>Est-ce que l’icône que je veux ajouter n’a pas déjà été proposée ?</li><br/>
+                    <li>Est-ce que l’icône que je veux ajouter n’est pas déjà en cours d’analyse ou d’implémentation ?</li><br/>
+                    <li>Est-ce que je peux trouver l’icône que je veux ajouter sur Material Symbols ?</li>
+                </ol>
+            </DocsSection>
+            <DocsSection title="Comment contribuer ?" headingLevel={3}>
+                <ol>
+                    <li>**Se rendre sur la page Figma : 🚧 Propositions/Validations en cours.**</li><br/>
+                    <li>**Vérifier que l’icône qui vous manque n’a pas déjà été proposée. Si c’est le cas, ajouter un ❤️ à côté de cette icône.**<br/>
+                    <em>Cela nous permet d’évaluer l’universalité du besoin.</em><br/><br/>
+                    **Sinon continuer à l’étape suivante.**</li><br/>
+                    <li>**Suivre les guidelines pour paramétrer l’icône que vous souhaitez ajouter.**<br/>
+                    <em>Nous accordons une importance forte à la cohérence de la librairie. Votre proposition doit donc s’y intégrer harmonieusement.</em></li><br/>
+                    <li>**Remplir le journal de contribution.**<br/>
+                    <em>Toute icône ajoutée sans remplir ce journal sera supprimée.</em></li><br/>
+                    <li>**L’équipe Design System analyse la proposition** <em>(“Analyse en cours”).</em><br/>
+                    **Si la proposition est validée, l’icône sera intégrée à la librairie** <em>(“Implémentation en cours”).</em></li>
+                </ol>
+            </DocsSection>
+        </Accordion>
+    </Body>
+</div>
+
