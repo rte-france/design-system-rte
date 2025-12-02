@@ -1,5 +1,12 @@
-<div class="rte-dropdown-menu" [style.width]="widthStyle()">
-  <ul class="rte-dropdown-items" role="menu" [attr.aria-activedescendant]="menuId()">
+<div
+  class="rte-dropdown-menu {{ isOpen() ? 'open' : 'closed' }}"
+  [ngStyle]="menuStyle()"
+>
+  <ul
+    class="rte-dropdown-items"
+    role="menu"
+    [attr.aria-activedescendant]="menuId()"
+  >
     @for (item of items(); track item.label; let i = $index) {
       <rte-dropdown-item [item]="item" (itemEvent)="handleItemEvent($event)" />
     }

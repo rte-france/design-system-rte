@@ -78,10 +78,10 @@ const Select = ({
     <>
       <div className={styles["select-container"]} data-label-position={labelPosition}>
         {showLabel && labelPosition === "side" && (
-          <span id={id} className={styles["select-label"]}>
+          <label htmlFor={id} id={id} className={styles["select-label"]}>
             {label}
             <RequiredIndicator required={required} showLabelRequirement={showLabelRequirement} />
-          </span>
+          </label>
         )}
         <div className={styles["select-header"]}>
           {showLabel && labelPosition === "top" && (
@@ -101,7 +101,7 @@ const Select = ({
               <div
                 ref={selectRef}
                 aria-controls="listbox1"
-                aria-expanded="false"
+                aria-expanded={isActive}
                 aria-haspopup="listbox"
                 aria-labelledby="combo1-label"
                 data-error={isError ? "true" : "false"}

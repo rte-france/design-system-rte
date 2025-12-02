@@ -1,3 +1,4 @@
+import { ASSISTIVE_TEXT_ICON_SIZE } from "@design-system-rte/core/components/assistive-text/assistive-text.constants";
 import { AssistiveTextProps } from "@design-system-rte/core/components/assistive-text/assistive-text.interface";
 
 import Icon from "../icon/Icon";
@@ -9,10 +10,20 @@ const AssistiveText = ({ label, appearance, showIcon, href }: AssistiveTextProps
   return (
     <div className={styles["assistive-text"]}>
       {showIcon && appearance === "error" && (
-        <Icon name="error" appearance="outlined" className={styles["assistive-icon-error"]} size={12} />
+        <Icon
+          name="error"
+          appearance="outlined"
+          className={styles["assistive-icon-error"]}
+          size={ASSISTIVE_TEXT_ICON_SIZE}
+        />
       )}
       {showIcon && appearance === "success" && (
-        <Icon name="check-circle" appearance="outlined" className={styles["assistive-icon-success"]} size={12} />
+        <Icon
+          name="check-circle"
+          appearance="outlined"
+          className={styles["assistive-icon-success"]}
+          size={ASSISTIVE_TEXT_ICON_SIZE}
+        />
       )}
       {appearance === "link" ? (
         <Link label={label} href={href} />
