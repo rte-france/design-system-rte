@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, computed, input, output } from "@an
 import { BadgeContent, BadgeType } from "@design-system-rte/core/components/badge/badge.interface";
 import { ButtonType } from "@design-system-rte/core/components/button/button.interface";
 import { ButtonSize, ButtonVariant } from "@design-system-rte/core/components/button/common/common-button";
-import { buttonIconSize } from "@design-system-rte/core/components/button/common/common-button.constants";
+import { ButtonIconSize } from "@design-system-rte/core/components/button/common/common-button.constants";
 
 import { BadgeDirective } from "../badge/badge.directive";
 import { isValidIconName } from "../icon/icon-map";
@@ -33,7 +33,7 @@ export class IconButtonComponent {
   readonly badgeType = input<BadgeType>();
   readonly badgeIcon = input<RegularIconIdKey | TogglableIconIdKey>("settings");
 
-  readonly buttonIconSize = computed(() => buttonIconSize[this.size()]);
+  readonly buttonIconSize = computed(() => ButtonIconSize[this.size()]);
 
   readonly isValidIconName = computed(() => isValidIconName(this.name()));
 
