@@ -1,4 +1,4 @@
-import { buttonIconSize } from "@design-system-rte/core/components/button/common/common-button.constants";
+import { ButtonIconSize } from "@design-system-rte/core/components/button/common/common-button.constants";
 import { IconButtonProps as CoreIconButtonProps } from "@design-system-rte/core/components/button/icon-button/icon-button.interface";
 import { forwardRef } from "react";
 
@@ -58,7 +58,7 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
               onClick={onClick}
               {...props}
             >
-              <Icon name={name} appearance={appearance} size={buttonIconSize[size]} />
+              <Icon name={name} appearance={appearance} size={ButtonIconSize[size]} />
             </button>
           </Badge>
         );
@@ -74,7 +74,7 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
             onClick={onClick}
             {...props}
           >
-            <Icon name={name} appearance={appearance} size={buttonIconSize[size]} />
+            <Icon name={name} appearance={appearance} size={ButtonIconSize[size]} />
           </button>
         );
       }

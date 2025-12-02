@@ -1,4 +1,5 @@
 import { ButtonProps as CoreButtonProps } from "@design-system-rte/core/components/button/button.interface";
+import { ButtonBadgeSizeMapping } from "@design-system-rte/core/components/button/common/common-button.constants";
 import { forwardRef } from "react";
 
 import Badge from "../badge/Badge";
@@ -35,7 +36,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       return (
         <Badge
           badgeType={badgeType}
-          size={size}
+          size={ButtonBadgeSizeMapping[size]}
           content={size === "s" ? "empty" : badgeContent}
           count={badgeCount}
           icon={badgeIcon}

@@ -4,4 +4,5 @@
   
   ## Changes
 
+- (Button) set correct position to badge
 - (Button) add badge
