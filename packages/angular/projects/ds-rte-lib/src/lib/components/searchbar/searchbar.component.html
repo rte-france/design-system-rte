@@ -1,0 +1,55 @@
+<div class="searchbar-container" role="search" [ngClass]="appearance()">
+  <div class="searchbar-wrapper">
+    <div
+      class="text-input-wrapper"
+      [ngClass]="{ focused: isFocused() }"
+      [attr.data-disabled]="disabled()"
+    >
+      <div
+        rteDropdown
+        rteDropdownPosition="bottom"
+        [rteDropdownIsOpen]="isOpenComputed()"
+        [rteDropdownOffset]="DROPDOWN_OFFSET"
+        [rteDropdownWidth]="textInputWidth()"
+        [attr.data-dropdown-id]="dropdownId()"
+        (menuEvent)="onMenuEvent($event)"
+      >
+        <div class="dropdown-trigger" rteDropdownTrigger>
+          <rte-text-input
+            #textInput
+            placeholder="Rechercher"
+            [id]="id() ?? ''"
+            [label]="label()"
+            [disabled]="disabled()"
+            [value]="internalValue()"
+            [showRightIcon]="showResetButton()"
+            [rightIconAction]="'clean'"
+            [assistiveTextLabel]="assistiveText()"
+            [compactSpacing]="compactSpacing()"
+            [leftIcon]="appearanceConfig().showLeftIcon ? 'search' : null"
+            (valueChange)="handleChange($event)"
+            (rightIconClick)="handleClear()"
+          />
+          @if (appearanceConfig().showSearchButton) {
+            <rte-icon-button
+              name="search"
+              size="m"
+              variant="primary"
+              appearance="filled"
+              ariaLabel="Search"
+              class="search-button"
+              [disabled]="disabled()"
+              [compactSpacing]="compactSpacing()"
+              [ngClass]="{ 'compact-spacing': compactSpacing() }"
+              (click)="handleSearch()"
+            />
+          }
+        </div>
+        @if (dropdownItems().length > 0) {
+          <rte-dropdown-menu [items]="dropdownItems()" />
+        }
+      </div>
+    </div>
+  </div>
+</div>
+

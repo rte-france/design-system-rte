@@ -1,7 +1,15 @@
 import {
+  APPEARANCE_CONFIG,
+  DROPDOWN_OFFSET,
+  SEARCHBAR_BORDER_RADIUS,
+  SEARCHBAR_BUTTON_HEIGHT_COMPACT,
+  SEARCHBAR_BUTTON_WIDTH,
+  SEARCHBAR_PADDING_LEFT,
+} from "@design-system-rte/core/components/searchbar/searchbar.constants";
+import {
   SearchBarProps as CoreSearchBarProps,
   SearchBarAppearance,
-} from "@design-system-rte/core/components/search-bar/search-bar.interface";
+} from "@design-system-rte/core/components/searchbar/searchbar.interface";
 import { ENTER_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 import {
   CSSProperties,
@@ -10,18 +18,23 @@ import {
   forwardRef,
   useCallback,
   useEffect,
+  useImperativeHandle,
   useMemo,
   useRef,
   useState,
 } from "react";
 
-import { useControlledState } from "../../hooks/useControlledState";
 import { Dropdown } from "../dropdown/Dropdown";
 import { DropdownItem } from "../dropdown/dropdownItem/DropdownItem";
 import IconButton from "../iconButton/IconButton";
 import TextInput from "../textInput/TextInput";
 
 import styles from "./Searchbar.module.scss";
+
+export interface SearchbarRef {
+  open: () => void;
+  close: () => void;
+}
 
 interface SearchbarProps
   extends CoreSearchBarProps,
@@ -30,26 +43,8 @@ interface SearchbarProps
   onChange?: (input: string | undefined) => void;
   onOptionSelect?: (option: string) => void;
   placeholder?: string;
-  isOpen?: boolean;
   onOpenChange?: (isOpen: boolean) => void;
 }
-
-const DROPDOWN_OFFSET = 10;
-const SEARCHBAR_PADDING_LEFT = "8px";
-const SEARCHBAR_BUTTON_WIDTH = "44px";
-const SEARCHBAR_BUTTON_HEIGHT_COMPACT = "24px";
-const SEARCHBAR_BORDER_RADIUS = "4px";
-
-const APPEARANCE_CONFIG: Record<SearchBarAppearance, { showSearchButton: boolean; showLeftIcon: boolean }> = {
-  primary: {
-    showSearchButton: true,
-    showLeftIcon: false,
-  },
-  secondary: {
-    showSearchButton: false,
-    showLeftIcon: true,
-  },
-};
 
 function getTextInputStyles(appearance: SearchBarAppearance, hasLeftIcon: boolean): CSSProperties {
   const baseStyles: CSSProperties = {};
@@ -75,7 +70,7 @@ function getSearchButtonStyles(hasCompactSpacing?: boolean): CSSProperties {
   };
 }
 
-const Searchbar = forwardRef<HTMLInputElement, SearchbarProps>(
+const Searchbar = forwardRef<SearchbarRef, SearchbarProps>(
   (
     {
       onSearch,
@@ -83,9 +78,7 @@ const Searchbar = forwardRef<HTMLInputElement, SearchbarProps>(
       onOptionSelect,
       id,
       placeholder = "Rechercher",
-      label,
       disabled = false,
-      name,
       showResetButton = true,
       appearance = "primary",
       compactSpacing,
@@ -93,24 +86,42 @@ const Searchbar = forwardRef<HTMLInputElement, SearchbarProps>(
       assistiveText,
       style: customInputStyle,
       options = [],
-      isOpen: controlledIsOpen,
       onOpenChange,
       ...props
     }: SearchbarProps,
     ref,
   ) => {
     const [isFocused, setIsFocused] = useState(false);
-    const [isDropdownOpen, setInternalIsOpen, isControlled] = useControlledState(controlledIsOpen, false);
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [textInputWidth, setTextInputWidth] = useState<number | undefined>(undefined);
     const textInputRef = useRef<HTMLInputElement | null>(null);
     const dropdownId = `${id ?? "searchbar"}-dropdown`;
     const appearanceConfig = APPEARANCE_CONFIG[appearance];
 
+    const setDropdownOpen = useCallback(
+      (open: boolean) => {
+        setIsDropdownOpen(open);
+        onOpenChange?.(open);
+      },
+      [onOpenChange],
+    );
+
+    useImperativeHandle(ref, () => ({
+      open: () => {
+        setDropdownOpen(true);
+      },
+      close: () => {
+        setDropdownOpen(false);
+      },
+    }));
+
     useEffect(() => {
-      if (!isControlled && options.length > 0) {
-        setInternalIsOpen(true);
+      if (options.length > 0) {
+        setDropdownOpen(true);
+      } else {
+        setDropdownOpen(false);
       }
-    }, [options.length, isControlled, setInternalIsOpen]);
+    }, [options.length, setDropdownOpen]);
 
     useEffect(() => {
       if (isDropdownOpen && textInputRef.current) {
@@ -164,37 +175,25 @@ const Searchbar = forwardRef<HTMLInputElement, SearchbarProps>(
     }, []);
 
     const handleDropdownClose = useCallback(() => {
-      setInternalIsOpen(false);
-      onOpenChange?.(false);
-    }, [setInternalIsOpen, onOpenChange]);
+      setDropdownOpen(false);
+    }, [setDropdownOpen]);
 
     const handleDropdownSelect = useCallback(
       (option: string) => {
-        setInternalIsOpen(false);
-        onOpenChange?.(false);
+        setDropdownOpen(false);
         onOptionSelect?.(option);
       },
-      [setInternalIsOpen, onOpenChange, onOptionSelect],
+      [setDropdownOpen, onOptionSelect],
     );
 
-    const textInputRefCallback = useCallback(
-      (node: HTMLInputElement | null) => {
-        textInputRef.current = node;
-        if (typeof ref === "function") {
-          ref(node);
-        } else if (ref) {
-          ref.current = node;
-        }
-      },
-      [ref],
-    );
+    const textInputRefCallback = useCallback((node: HTMLInputElement | null) => {
+      textInputRef.current = node;
+    }, []);
 
     const textInputProps = useMemo(
       () => ({
         ref: textInputRefCallback,
-        label,
         disabled,
-        name,
         value,
         onChange: handleChange,
         onKeyUp: onSearch ? handleEnter : undefined,
@@ -211,9 +210,7 @@ const Searchbar = forwardRef<HTMLInputElement, SearchbarProps>(
       }),
       [
         textInputRefCallback,
-        label,
         disabled,
-        name,
         value,
         handleChange,
         onSearch,

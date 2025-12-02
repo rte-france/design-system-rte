@@ -4,9 +4,9 @@ import {
 } from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
 import type { Meta, StoryObj } from "@storybook/react";
 import { userEvent, within, expect, waitFor } from "@storybook/test";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useRef } from "react";
 
-import Searchbar from "../Searchbar";
+import Searchbar, { SearchbarRef } from "../Searchbar";
 
 const meta = {
   title: "Searchbar",
@@ -19,12 +19,10 @@ const meta = {
       options: ["primary", "secondary"],
     },
     compactSpacing: { control: "boolean" },
-    label: { control: "text" },
     showResetButton: { control: "boolean", defaultValue: true },
     assistiveText: { control: "text" },
     value: { control: "text" },
     disabled: { control: "boolean" },
-    name: { control: "text" },
   },
 } satisfies Meta<typeof Searchbar>;
 
@@ -35,12 +33,10 @@ export const Default: Story = {
   args: {
     id: "searchbar-default",
     appearance: "primary",
-    label: "",
     showResetButton: true,
     assistiveText: "",
     value: "",
     disabled: false,
-    name: "",
   },
 };
 
@@ -52,8 +48,6 @@ export const WithDropdown: Story = {
     assistiveText: "Select a filter option before typing",
     value: "",
     disabled: false,
-    name: "search-dropdown",
-    placeholder: "Search anything",
     options: ["option1", "option2", "option3"],
     onOptionSelect: (option: string) => {
       console.log("Selected option:", option);
@@ -79,7 +73,7 @@ export const WithFilteredOptions: Story = {
     ];
 
     const [searchValue, setSearchValue] = useState("");
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const searchbarRef = useRef<SearchbarRef>(null);
 
     const filteredOptions = useMemo(() => {
       if (!searchValue || searchValue.length < 3) {
@@ -88,14 +82,6 @@ export const WithFilteredOptions: Story = {
       return allOptions.filter((option) => option.toLowerCase().includes(searchValue.toLowerCase()));
     }, [searchValue]);
 
-    useEffect(() => {
-      if (filteredOptions.length > 0) {
-        setIsDropdownOpen(true);
-      } else {
-        setIsDropdownOpen(false);
-      }
-    }, [filteredOptions]);
-
     function handleChange(value: string | undefined) {
       setSearchValue(value ?? "");
     }
@@ -103,19 +89,18 @@ export const WithFilteredOptions: Story = {
     function handleOptionSelect(option: string) {
       console.log("Selected option:", option);
       setSearchValue(option);
-      setIsDropdownOpen(false);
+      searchbarRef.current?.close();
     }
 
     return (
       <Searchbar
+        ref={searchbarRef}
         id="searchbar-filtered"
         appearance={args.appearance}
         value={searchValue}
         compactSpacing={args.compactSpacing}
         onChange={handleChange}
         options={filteredOptions}
-        isOpen={isDropdownOpen}
-        onOpenChange={setIsDropdownOpen}
         onOptionSelect={handleOptionSelect}
         assistiveText="Type at least 3 characters to filter options"
       />
@@ -132,7 +117,7 @@ export const KeyboardNavigationWithFilteredOptions: Story = {
     const allOptions = ["Apple", "Apple2"];
 
     const [searchValue, setSearchValue] = useState("");
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const searchbarRef = useRef<SearchbarRef>(null);
 
     const filteredOptions = useMemo(() => {
       if (!searchValue || searchValue.length < 3) {
@@ -141,34 +126,26 @@ export const KeyboardNavigationWithFilteredOptions: Story = {
       return allOptions.filter((option) => option.toLowerCase().includes(searchValue.toLowerCase()));
     }, [searchValue]);
 
-    useEffect(() => {
-      if (filteredOptions.length > 0) {
-        setIsDropdownOpen(true);
-      } else {
-        setIsDropdownOpen(false);
-      }
-    }, [filteredOptions]);
-
     function handleChange(value: string | undefined) {
+      console.log(value);
       setSearchValue(value ?? "");
     }
 
     function handleOptionSelect(option: string) {
       console.log("Selected option:", option);
       setSearchValue(option);
-      setIsDropdownOpen(false);
+      searchbarRef.current?.close();
     }
 
     return (
       <Searchbar
+        ref={searchbarRef}
         id="searchbar-keyboard-navigation"
         appearance={args.appearance}
         value={searchValue}
         compactSpacing={args.compactSpacing}
         onChange={handleChange}
         options={filteredOptions}
-        isOpen={isDropdownOpen}
-        onOpenChange={setIsDropdownOpen}
         onOptionSelect={handleOptionSelect}
         assistiveText="Type at least 3 characters to filter options"
         showResetButton={true}
@@ -220,7 +197,7 @@ export const KeyboardNavigationAndSearch: Story = {
     const allOptions = ["Apple", "Apple2"];
 
     const [searchValue, setSearchValue] = useState("");
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const searchbarRef = useRef<SearchbarRef>(null);
 
     const filteredOptions = useMemo(() => {
       if (!searchValue || searchValue.length < 3) {
@@ -229,21 +206,13 @@ export const KeyboardNavigationAndSearch: Story = {
       return allOptions.filter((option) => option.toLowerCase().includes(searchValue.toLowerCase()));
     }, [searchValue]);
 
-    useEffect(() => {
-      if (filteredOptions.length > 0) {
-        setIsDropdownOpen(true);
-      } else {
-        setIsDropdownOpen(false);
-      }
-    }, [filteredOptions]);
-
     function handleChange(value: string | undefined) {
       setSearchValue(value ?? "");
     }
 
     function handleOptionSelect(option: string) {
       setSearchValue(option);
-      setIsDropdownOpen(false);
+      searchbarRef.current?.close();
     }
 
     function handleSearch(value: string | undefined) {
@@ -252,14 +221,13 @@ export const KeyboardNavigationAndSearch: Story = {
 
     return (
       <Searchbar
+        ref={searchbarRef}
         id="searchbar-keyboard-search"
         appearance={args.appearance}
         value={searchValue}
         compactSpacing={args.compactSpacing}
         onChange={handleChange}
         options={filteredOptions}
-        isOpen={isDropdownOpen}
-        onOpenChange={setIsDropdownOpen}
         onOptionSelect={handleOptionSelect}
         onSearch={handleSearch}
         assistiveText="Type at least 3 characters to filter options"
