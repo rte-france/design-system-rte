@@ -1,0 +1,53 @@
+import {Meta} from "@storybook/blocks"
+
+import HeaderComponent from "../../../src/components/Header/Header"
+import Paragraph from "../../../src/components/Paragraph/Paragraph"
+import LastUpdate from "../../../src/components/LastUpdate/LastUpdate"
+import Accordion from "../../../src/components/Accordion/Accordion"
+import Heading from "../../../src/components/Heading/Heading"
+import Body from "../../../src/components/Body/Body"
+import List from "../../../src/components/List/List"
+
+
+<Meta title="Guidelines/Accessibilité" />
+<HeaderComponent title="Accessibilité">
+    <Paragraph>L’accessibilité fait partie intégrante du Design System.</Paragraph>
+    <Paragraph>Chaque composant est conçu pour être utilisable par tous — que l’on navigue au clavier, à la souris, sur mobile ou avec un lecteur d’écran.
+L’objectif est d’assurer une expérience inclusive, claire et cohérente, conforme aux recommandations du RGAA niveau AA.</Paragraph>
+    <Paragraph>Les critères d’accessibilité sont intégrés dès les spécifications et testés automatiquement dans le Storybook pour garantir la qualité dans le temps.</Paragraph>
+</HeaderComponent>
+
+<Body>
+
+  <div style={{ padding: "16px" }}>
+      <LastUpdate updates={[ {version: '1.0.0', date: '04 Décembre 2025', changes: ['Livraison']}]} />
+    </div>
+
+  <Accordion title="Critères appliqués à chaque composant" id="criteres-appliques-a-chaque-composant">
+      <List>
+        <li><b>Navigation clavier</b> : Le composant est accessible avec Tab, Entrée et Espace, et l’ordre de navigation reste logique.</li>
+        <li><b>Focus visible</b> : Un indicateur clair (contour, ombre, halo) apparaît quand l’élément est sélectionné.</li>
+        <li><b>Lecture par lecteur d’écran</b> : Le composant est correctement annoncé grâce à un texte visible ou un aria-label.</li>
+        <li><b>Icônes et texte</b> : Les icônes décoratives ne sont pas annoncées, seules les informations utiles le sont.</li>
+        <li><b>États et retours visuels</b> : Les différents états (normal, survolé, désactivé, erreur, succès) sont visuellement distincts.</li>
+        <li><b>Contraste</b> : Le contraste respecte les seuils WCAG : 4,5:1 pour le texte, 3:1 pour les fonds.</li>
+        <li><b>Taille et espace tactile</b> : Les zones cliquables sont suffisamment grandes (≥ 24x24 px) et espacées.</li>
+      </List>
+  </Accordion>
+
+  <Accordion title="Méthodes de vérification" id="methode-de-verification">
+    <div>
+      <Paragraph>Une partie des critères est testée automatiquement via le Storybook, à l’aide d’outils tels que l'addon A11y pour le respect des normes RGAA.</Paragraph>
+      <Paragraph>Les contrôles incluent notamment : contraste, rôles ARIA, focus et labels.</Paragraph>
+      <Paragraph>Les aspects perceptifs (focus visible, lisibilité, retours d’état) font l’objet de vérifications manuelles lors des revues design et développement.</Paragraph>
+    </div>
+
+  </Accordion>
+  <Accordion title="Synthèse" id="synthese">
+  <div>
+    <Paragraph>L’accessibilité est une spécification à part entière du Design System RTE.</Paragraph>
+    <Paragraph>Elle garantit une interface robuste, inclusive et cohérente, accessible à tous les utilisateurs, dès la conception.</Paragraph>
+  </div>
+  </Accordion>
+
+</Body>
