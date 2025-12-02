@@ -3,9 +3,15 @@ import {
   TESTING_SPACE_KEY,
 } from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
 import type { Meta, StoryObj } from "@storybook/angular";
+import { moduleMetadata } from "@storybook/angular";
 import { fn, userEvent, within, expect } from "@storybook/test";
 
+import { BadgeDirective } from "../../badge/badge.directive";
+import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../../icon/icon-map";
 import { ButtonComponent } from "../button.component";
+
+const RegularIconIds = Object.keys(RegularIconsList);
+const TogglableIconIds = Object.keys(TogglableIconsList);
 
 const meta: Meta<ButtonComponent> = {
   title: "Composants/Button",
@@ -86,6 +92,65 @@ export const Sizing: Story = {
     expect(mediumButton.clientHeight).toBe(32);
     expect(largeButton.clientHeight).toBe(40);
   },
+};
+
+export const WithBadge: StoryObj<ButtonComponent & BadgeDirective> = {
+  decorators: [
+    moduleMetadata({
+      imports: [ButtonComponent, BadgeDirective],
+    }),
+  ],
+  args: {
+    rteButtonVariant: "primary",
+    rteButtonSize: "m",
+    rteBadgeContent: "number",
+    rteBadgeCount: 5,
+    rteBadgeType: "brand",
+    rteBadgeIcon: "notification",
+    rteBadgeSize: "m",
+  },
+  argTypes: {
+    rteBadgeType: {
+      control: "select",
+      options: ["brand", "neutral", "indicator"],
+      description: "Badge type variant",
+    },
+    rteBadgeSize: {
+      control: "select",
+      options: ["xs", "s", "m", "l"],
+      description: "Badge size",
+    },
+    rteBadgeContent: {
+      control: "select",
+      options: ["number", "icon", "empty"],
+      description: "Badge content type",
+    },
+    rteBadgeCount: {
+      control: "number",
+      description: "Badge count (only used when content is 'number')",
+    },
+    rteBadgeIcon: {
+      control: "select",
+      options: [...RegularIconIds, ...TogglableIconIds],
+      description: "Badge icon (only used when content is 'icon')",
+    },
+  },
+  render: (args) => ({
+    props: { ...args },
+    template: `
+    <button rteButton
+    rteBadge
+      [rteButtonVariant]="rteButtonVariant"
+      [rteButtonSize]="rteButtonSize"
+      [rteBadgeContent]="rteBadgeContent"
+      [rteBadgeCount]="rteBadgeCount"
+      [rteBadgeType]="rteBadgeType"
+      [rteBadgeIcon]="rteBadgeIcon"
+      [rteBadgeSize]="rteBadgeSize"
+      data-testid="button-with-badge"
+    >Button with Badge</button>
+    `,
+  }),
 };
 
 export const KeyboardInteraction: Story = {
