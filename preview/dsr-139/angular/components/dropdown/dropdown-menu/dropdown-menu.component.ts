@@ -25,6 +25,7 @@ export class DropdownMenuComponent {
 
   readonly items = input<DropdownItemConfig[]>([]);
   readonly menuId = input<string>();
+  readonly with = input<number | undefined>(undefined);
 
   readonly itemEvent = output<{ event: Event; id: string }>();
 

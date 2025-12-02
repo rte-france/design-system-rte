@@ -37,6 +37,7 @@ export class TextInputComponent {
   readonly ariaLabel = input<string>("");
   readonly ariaRequired = input<boolean>(false);
   readonly ariaLabelledby = input<string>("");
+  readonly compactSpacing = input<boolean>(false);
 
   readonly valueChange = output<string>();
   readonly rightIconClick = output<void>();
@@ -91,6 +92,7 @@ export class TextInputComponent {
   }
 
   handleChange(event: Event): void {
+    console.log("text input change", event);
     const input = event.target as HTMLInputElement;
     this.internalValue.set(input.value);
     this.valueChange.emit(input.value);

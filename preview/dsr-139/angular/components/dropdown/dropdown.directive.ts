@@ -5,6 +5,7 @@ import {
   contentChild,
   DestroyRef,
   Directive,
+  effect,
   ElementRef,
   inject,
   input,
@@ -48,6 +49,7 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
   readonly rteDropdownAlignment = input<Alignment>("start");
   readonly rteDropdownIsOpen = input<boolean>(false);
   readonly rteDropdownOffset = input<number>(0);
+  readonly rteDropdownWidth = input<number | undefined>(undefined);
 
   readonly dropdownId = `dropdown_${++DropdownDirective.idCounter}`;
   readonly menuEvent = output<{ event: Event; id: string }>();
@@ -63,12 +65,43 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
 
   constructor() {
     this.hostElement = this.elementRef.nativeElement;
+
+    effect(() => {
+      const isOpen = this.rteDropdownIsOpen();
+      if (isOpen) {
+        if (!this.dropdownMenuRef) {
+          this.showDropdownMenu();
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => focusDropdownFirstElement(this.dropdownId));
+          });
+        }
+      } else {
+        if (this.dropdownMenuRef) {
+          this.dropdownService.closeAllMenus();
+        }
+      }
+    });
+
+    effect(() => {
+      if (this.dropdownMenuRef && this.menu()) {
+        this.assignItems();
+      }
+    });
+
+    effect(() => {
+      if (this.dropdownMenuRef) {
+        this.assignWidth();
+      }
+    });
   }
 
   dropdownMenuRef: ComponentRef<DropdownMenuComponent> | null = null;
 
   onTrigger(): void {
     this.showDropdownMenu();
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => focusDropdownFirstElement(this.dropdownId));
+    });
   }
 
   onTriggerKeyEvent(event: KeyboardEvent): void {
@@ -115,6 +148,7 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
     this.dropdownService.openMenu(menuId);
 
     this.assignItems();
+    this.assignWidth();
     this.positionDropdownMenu(this.rteDropdownPosition());
     this.addClickOutsideListener();
 
@@ -140,6 +174,12 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
   private assignItems(): void {
     if (this.dropdownMenuRef) {
       this.dropdownMenuRef.setInput("items", this.menu()?.items());
+    }
+  }
+
+  private assignWidth(): void {
+    if (this.dropdownMenuRef && this.rteDropdownWidth() !== undefined) {
+      this.dropdownMenuRef.setInput("with", this.rteDropdownWidth());
     }
   }
 

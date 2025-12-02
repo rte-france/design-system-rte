@@ -1,6 +1,6 @@
 <div
   class="container {{labelPosition()}}"
-  [ngClass]="{'error': error()}"
+  [ngClass]="{'error': error(), 'compact-spacing': compactSpacing()}"
   [style.width]="width()"
 >
   <ng-container *ngIf="label()">
