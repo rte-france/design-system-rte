@@ -4,7 +4,6 @@ export interface BannerProps {
   position?: BannerPosition;
   title?: string;
   closable?: boolean;
-  showIcon?: boolean;
   onClose?: () => void;
   actionCallback?: () => void;
   actionLabel?: string;

@@ -18,7 +18,6 @@ const Banner = forwardRef<HTMLDivElement, BannerProps>(
       message,
       type = "alert",
       closable = false,
-      showIcon = false,
       onClose,
       position = "push",
       actionCallback,
@@ -65,11 +64,9 @@ const Banner = forwardRef<HTMLDivElement, BannerProps>(
           data-open={isAnimating || undefined}
           {...props}
         >
-          {showIcon && (
-            <div className={style["banner-icon"]}>
-              <Icon name={iconTypeMap[type]} size={32} />
-            </div>
-          )}
+          <div className={style["banner-icon"]}>
+            <Icon name={iconTypeMap[type]} size={32} />
+          </div>
           <div className={style["banner-content"]}>
             {title && <span className={style["banner-title"]}>{title}</span>}
             {message && (

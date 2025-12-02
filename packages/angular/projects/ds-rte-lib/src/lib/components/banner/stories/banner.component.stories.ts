@@ -31,9 +31,6 @@ const meta: Meta<BannerComponent> = {
     closable: {
       control: "boolean",
     },
-    showIcon: {
-      control: "boolean",
-    },
     isOpen: {
       control: "boolean",
     },
@@ -77,13 +74,11 @@ export const WithIcon: Story = {
           [title]="title"
           [message]="message"
           [type]="type"
-          [showIcon]="true"
           />
         <rte-banner
           [title]="title"
           [message]="message"
           [type]="'error'"
-          [showIcon]="true"
           />
     </div>
     `,
@@ -117,7 +112,6 @@ export const Closable: Story = {
           [title]="title"
           [message]="message"
           [type]="type"
-          [showIcon]="true"
           [closable]="true"
           [isOpen]="isOpen"
           (close)="close()"
@@ -149,7 +143,6 @@ export const WithAction: Story = {
           [title]="title"
           [message]="message"
           [type]="type"
-          [showIcon]="true"
           [isOpen]="isOpen"
           [actionLabel]="actionLabel"
           (click)="actionCallback()"
@@ -189,7 +182,6 @@ export const Overlay: Story = {
         [title]="title"
         [message]="message"
         [type]="type"
-        [showIcon]="true"
         [closable]="true"
         [isOpen]="isOpen"
         (close)="close()"
@@ -251,7 +243,6 @@ export const KeyboardInteraction: Story = {
           [title]="title"
           [message]="message"
           [type]="type"
-          [showIcon]="true"
           [closable]="true"
           [isOpen]="isOpen"
           (close)="close()"
