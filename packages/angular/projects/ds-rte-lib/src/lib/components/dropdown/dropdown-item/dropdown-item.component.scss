@@ -28,6 +28,10 @@
     background: var(--background-disabled);
   }
 
+  &[data-active='true'] {
+    background-color: var(--background-brand-inverse-pressed);
+  }
+
   &:focus-visible {
     outline: none;
     background-color: var(--background-hover);

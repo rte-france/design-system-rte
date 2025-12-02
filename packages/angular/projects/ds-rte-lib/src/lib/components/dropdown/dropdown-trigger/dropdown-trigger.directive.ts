@@ -15,7 +15,12 @@ export class DropdownTriggerDirective {
 
   readonly dropdownTriggerFocus = output<Event>();
 
-  @HostListener("click", ["$event"])
+  readonly dropdownTriggerClearContent = output<Event>();
+
+  readonly dropdownTriggerOpenDropdown = output<Event>();
+
+  readonly dropdownTriggerCloseDropdown = output<Event>();
+
   onDropdownTriggered(event: Event): void {
     this.dropdownTriggered.emit(event);
   }
@@ -28,5 +33,19 @@ export class DropdownTriggerDirective {
   @HostListener("keydown", ["$event"])
   onKeyDown(event: KeyboardEvent): void {
     this.dropdownKeyDown.emit(event);
+  }
+
+  @HostListener("clearContent", ["$event"])
+  onDropdownTriggerClearContent(event: Event) {
+    this.dropdownTriggerClearContent.emit(event);
+  }
+
+  @HostListener("openDropdown", ["$event"])
+  onDropdownTriggerOpenDropdown(event: Event) {
+    this.dropdownTriggerOpenDropdown.emit(event);
+  }
+  @HostListener("closeDropdown", ["$event"])
+  onDropdownTriggerCloseDropdown(event: Event) {
+    this.dropdownTriggerCloseDropdown.emit(event);
   }
 }

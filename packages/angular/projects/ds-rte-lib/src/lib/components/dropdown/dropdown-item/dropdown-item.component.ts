@@ -10,6 +10,14 @@ import { IconComponent } from "../../icon/icon.component";
 
 export interface DropdownItemConfig extends Omit<DropdownItemProps, "onClick"> {
   id?: string;
+  selected?: boolean;
+  label: string;
+  leftIcon?: string;
+  trailingText?: string;
+  disabled?: boolean;
+  hasSeparator?: boolean;
+  hasIndent?: boolean;
+  link?: string;
   click?: EventEmitter<Event>;
 }
 
