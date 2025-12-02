@@ -1,0 +1,162 @@
+<rte-base-side-nav
+  [size]="size()"
+  [collapsed]="isCollapsed()"
+  [appearance]="appearance()">
+  <div side-nav-header>
+    <div class="side-nav-header-container">
+      <div class="side-nav-header {{appearance()}}" [ngClass]="{ collapsed: isCollapsed() }">
+        @if (headerConfig()?.link) {
+          <a
+            class="side-nav-header-title-container"
+            [href]="headerConfig()!.link!"
+            [attr.aria-label]="headerConfig()?.ariaLabel"
+            (click)="handleHeaderClick()">
+            <div class="side-nav-header-title">
+              <div class="side-nav-header-identifier">{{ headerConfig()?.identifier }}</div>
+              @if (!isCollapsed()) {
+                <h1 [ngClass]="{ 'hidden': !shouldShowTitle() }">{{ headerConfig()?.title }}</h1>
+              }
+            </div>
+          </a>
+        } @else if (headerConfig()?.onClick) {
+          <div
+            class="side-nav-header-title-container"
+            tabindex="0"
+            role="button"
+            [attr.aria-label]="headerConfig()?.ariaLabel"
+            (click)="handleHeaderClick()"
+            (keydown)="handleHeaderKeyDown($event)">
+            <div class="side-nav-header-title">
+              <div class="side-nav-header-identifier">{{ headerConfig()?.identifier }}</div>
+              @if (!isCollapsed()) {
+                <h1 [ngClass]="{ 'hidden': !shouldShowTitle() }">{{ headerConfig()?.title }}</h1>
+              }
+            </div>
+          </div>
+        } @else {
+          <div class="side-nav-header-title-container">
+            <div class="side-nav-header-title">
+              <div class="side-nav-header-identifier">{{ headerConfig()?.identifier }}</div>
+              @if (!isCollapsed()) {
+                <h1 [ngClass]="{ 'hidden': !shouldShowTitle() }">{{ headerConfig()?.title }}</h1>
+              }
+            </div>
+          </div>
+        }
+        <div class="side-nav-header-version" [ngClass]="{ 'hidden': !shouldShowTitle() }">
+          <span>{{ headerConfig()?.version }}</span>
+        </div>
+      </div>
+      <rte-divider [appearance]="dividerAppearance()"/>
+    </div>
+  </div>
+  <div side-nav-body>
+    <div class="side-nav-body">
+      <ul>
+        @for (item of items(); track item.label) {
+          @if (hasNestedItems(item)) {
+            <rte-nav-menu
+              [id]="item.id"
+              [label]="item.label"
+              [icon]="item.icon"
+              [showIcon]="item.showIcon ?? true"
+              [collapsed]="isCollapsed()"
+              [link]="item.link"
+              [open]="item.open"
+              [items]="item.items || []"
+              [appearance]="appearance()"
+              [badge]="item.badge"
+              [showDivider]="item.showDivider!"
+              (openChange)="handleMenuOpenChange($event)"
+            />
+          } @else {
+            <li>
+              <rte-nav-item
+                [id]="item.id"
+                [label]="item.label"
+                [icon]="item.icon"
+                [showIcon]="item.showIcon ?? true"
+                [collapsed]="isCollapsed()"
+                [link]="item.link"
+                [appearance]="appearance()"
+                [active]="item.active ?? false"
+                [badge]="item.badge"
+                (itemClick)="handleItemClick(item.id || item.label)"></rte-nav-item>
+            </li>
+            @if (item.showDivider) {
+              <rte-divider [appearance]="dividerAppearance()" />
+            }
+          }
+        }
+      </ul>
+    </div>
+  </div>
+  @if (footerItems()?.length || collapsible()) {
+    <div side-nav-footer>
+      <div class="side-nav-footer-container">
+        @if (footerItems()?.length) {
+          <div class="side-nav-footer-items">
+            <ul>
+              @for (item of footerItems()!; track item.id || item.label) {
+                @if (hasNestedItems(item)) {
+                  <rte-nav-menu
+                    [id]="item.id"
+                    [label]="item.label"
+                    [icon]="item.icon"
+                    [showIcon]="item.showIcon ?? true"
+                    [collapsed]="isCollapsed()"
+                    [link]="item.link"
+                    [open]="item.open"
+                    [items]="item.items || []"
+                    [appearance]="appearance()"
+                    [badge]="item.badge"
+                    [showDivider]="item.showDivider!"
+                    (openChange)="handleFooterMenuOpenChange($event)"
+                  />
+                } @else {
+                  <li>
+                    <rte-nav-item
+                      [id]="item.id"
+                      [label]="item.label"
+                      [icon]="item.icon"
+                      [showIcon]="item.showIcon ?? true"
+                      [collapsed]="isCollapsed()"
+                      [link]="item.link"
+                      [appearance]="appearance()"
+                      [active]="item.active ?? false"
+                      [badge]="item.badge"
+                      (itemClick)="handleFooterItemClick(item.id || item.label)"></rte-nav-item>
+                  </li>
+                  @if (item.showDivider) {
+                    <rte-divider [appearance]="dividerAppearance()" />
+                  }
+                }
+              }
+            </ul>
+          </div>
+        }
+        <rte-divider [appearance]="dividerAppearance()"/>
+        @if (collapsible()) {
+          <div class="side-nav-footer">
+            <div class="collapsible-section">
+              <ul>
+                <li>
+                  <rte-nav-item
+                    [label]="isCollapsed() ? 'Ouvrir le menu' : 'Réduire le menu'"
+                    [icon]="collapseIcon()"
+                    [collapsed]="isCollapsed()"
+                    [appearance]="appearance()"
+                    (itemClick)="handleCollapseClick()"
+                  />
+                </li>
+              </ul>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+  <div side-nav-content>
+    <ng-content select="[content]"></ng-content>
+  </div>
+</rte-base-side-nav>
