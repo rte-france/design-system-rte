@@ -8,6 +8,7 @@ import {
   SimpleChanges,
   OnInit,
   OnChanges,
+  computed,
 } from "@angular/core";
 import { BannerPosition, BannerType } from "@design-system-rte/core/components/banner/banner.interface";
 
@@ -24,12 +25,11 @@ import { IconButtonComponent } from "../icon-button/icon-button.component";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BannerComponent implements OnInit, OnChanges {
-  readonly type = input<BannerType>("default");
+  readonly type = input<BannerType>("info");
   readonly message = input.required<string>();
   readonly position = input<BannerPosition>("push");
   readonly title = input<string>();
   readonly closable = input<boolean>(false);
-  readonly showIcon = input<boolean>(false);
   readonly isOpen = input<boolean>(true);
   readonly actionLabel = input<string>();
 
@@ -39,6 +39,17 @@ export class BannerComponent implements OnInit, OnChanges {
   readonly rendering = signal(false);
 
   readonly close = output<void>();
+
+  readonly iconTypeMap: Record<string, string> = {
+    info: "info",
+    error: "dangerous",
+    success: "check-circle",
+    warning: "warning",
+  };
+
+  readonly iconName = computed(() => {
+    return this.iconTypeMap[this.type()];
+  });
 
   ngOnInit() {
     this.visible.set(this.isOpen());

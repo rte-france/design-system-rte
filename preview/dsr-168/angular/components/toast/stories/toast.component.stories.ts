@@ -95,6 +95,7 @@ export const KeyboardInteraction: Story = {
     closable: true,
     isOpen: false,
     placement: "bottom-right",
+    actionButtonLabel: "Mettre à jour",
   },
 
   render: (args) => ({
@@ -105,7 +106,16 @@ export const KeyboardInteraction: Story = {
       },
     },
     template: `
-    <toast-default/>`,
+    <toast-default
+      [message]="message"
+      [type]="type"
+      [autoDismiss]="autoDismiss"
+      [closable]="closable"
+      [isOpen]="isOpen"
+      [placement]="placement"
+      [actionButtonLabel]="actionButtonLabel"
+      [showActionButton]="showActionButton"
+    />`,
   }),
 
   play: async ({ canvasElement }) => {
