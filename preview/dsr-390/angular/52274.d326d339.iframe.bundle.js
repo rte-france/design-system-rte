@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunk_design_system_rte_angular_builder=self.webpackChunk_design_system_rte_angular_builder||[]).push([[52274],{"./projects/ds-rte-lib/src/lib/assets/icons/attach_file.svg":(module,__unused_webpack_exports,__webpack_require__)=>{module.exports=__webpack_require__.p+"static/media/attach_file.62bbb407.svg"}}]);
