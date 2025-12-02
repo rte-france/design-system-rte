@@ -7,6 +7,7 @@ import { IconComponent } from "../../icon/icon.component";
 
 export interface DropdownItemConfig {
   id?: string;
+  selected?: boolean;
   label: string;
   leftIcon?: string;
   trailingText?: string;
