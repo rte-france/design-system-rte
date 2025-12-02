@@ -9,7 +9,7 @@ import { expect, userEvent, waitFor, within } from "@storybook/test";
 import Breadcrumbs from "./Breadcrumbs";
 
 const meta = {
-  title: "Breadcrumbs",
+  title: "Composants/Breadcrumbs",
   component: Breadcrumbs,
   tags: ["autodocs"],
   argTypes: {

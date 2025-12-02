@@ -10,7 +10,7 @@ import { useState } from "react";
 import Tab from "../Tab";
 
 const meta = {
-  title: "Tab",
+  title: "Composants/Tab",
   component: Tab,
   argTypes: {
     options: { control: "object" },

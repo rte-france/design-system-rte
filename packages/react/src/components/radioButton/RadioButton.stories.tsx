@@ -4,7 +4,7 @@ import { userEvent, within, expect } from "@storybook/test";
 import RadioButton from "./RadioButton";
 
 const meta = {
-  title: "RadioButton",
+  title: "Composants/RadioButton",
   component: RadioButton,
   tags: ["autodocs"],
   argTypes: {

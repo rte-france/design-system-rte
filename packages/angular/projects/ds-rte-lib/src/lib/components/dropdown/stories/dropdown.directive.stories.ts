@@ -30,7 +30,7 @@ const wipWarning = `
 `;
 
 const meta: Meta<DropdownDirective> = {
-  title: "Dropdown (développement en cours)",
+  title: "Composants/Dropdown (développement en cours)",
   id: "Dropdown",
   component: DropdownDirective,
   tags: ["autodocs"],

@@ -8,7 +8,7 @@ import { expect, userEvent, waitFor, within } from "@storybook/test";
 import Popover from "./Popover";
 
 const meta = {
-  title: "Popover",
+  title: "Composants/Popover",
   component: Popover,
   decorators: [
     (Story) => (

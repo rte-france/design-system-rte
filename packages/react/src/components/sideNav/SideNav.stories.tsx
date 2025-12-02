@@ -25,7 +25,7 @@ import {
 import { getCanvasAndSideNav, waitForTooltip } from "./stories/helpers/testHelpers";
 
 const meta = {
-  title: "SideNav",
+  title: "Composants/SideNav",
   id: "SideNav",
   component: SideNav,
   tags: ["autodocs"],
