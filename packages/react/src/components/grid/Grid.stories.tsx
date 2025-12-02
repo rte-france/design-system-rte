@@ -8,7 +8,7 @@ type GridStoriesArgs = GridProps;
 const COLUMN_NUMBER = 12;
 
 const meta: Meta<GridStoriesArgs> = {
-  title: "Grid",
+  title: "Composants/Grid",
   component: Grid,
   tags: ["autodocs"],
   argTypes: {

@@ -100,3 +100,17 @@ if (DISPLAY_CONFIG.hiddenStories) {
 if (DISPLAY_CONFIG.hiddenSections) {
   _hideSections(DISPLAY_CONFIG.hiddenSections);
 }
+
+function _hideCategoryTitle(category: string): void {
+  const styleId = `hidden-${category}-style`;
+  let styleElement = document.getElementById(styleId) as HTMLStyleElement | null;
+  if (!styleElement) {
+    styleElement = document.createElement("style");
+    styleElement.id = styleId;
+    document.head.appendChild(styleElement);
+  }
+  styleElement.textContent = `#${category} { display: none !important; }`;
+}
+
+_hideCategoryTitle("angular_composants");
+_hideCategoryTitle("react_composants");

@@ -4,7 +4,7 @@ import { expect, userEvent, waitFor, within } from "@storybook/test";
 import Tooltip from "./Tooltip";
 
 const meta = {
-  title: "Tooltip",
+  title: "Composants/Tooltip",
   component: Tooltip,
   tags: ["autodocs"],
   argTypes: {

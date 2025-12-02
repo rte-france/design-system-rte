@@ -10,7 +10,7 @@ const RegularIconIds = Object.keys(RegularIconsList);
 const TogglableIconIds = Object.keys(TogglableIconsList);
 
 const meta = {
-  title: "SplitButton (développement en cours)",
+  title: "Composants/SplitButton",
   id: "SplitButton",
   component: SplitButton,
   tags: ["autodocs"],
@@ -65,27 +65,7 @@ export const Default: Story = {
     onClick: mockFn(),
     options: defaultOptions,
   },
-  render: (args) => (
-    <>
-      <div>
-        <span
-          style={{
-            fontFamily: "sans-serif",
-            marginBottom: 16,
-            border: "1px solid #F4922B",
-            padding: 8,
-            borderRadius: 5,
-            backgroundColor: "#FAFFC1",
-            margin: 0,
-          }}
-        >
-          Ce composant est en cours de développement et n'est pas encore disponible
-        </span>
-      </div>
-      <br />
-      <SplitButton {...args} />
-    </>
-  ),
+  render: (args) => <SplitButton {...args} />,
 };
 
 export const Appearance: Story = {

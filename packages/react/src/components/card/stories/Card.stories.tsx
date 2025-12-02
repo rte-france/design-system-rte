@@ -13,7 +13,7 @@ import Button from "../../button/Button";
 import Card from "../Card";
 
 const meta = {
-  title: "Card",
+  title: "Composants/Card",
   component: Card,
   tags: ["autodocs"],
   argTypes: {

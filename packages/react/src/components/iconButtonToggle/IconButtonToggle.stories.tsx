@@ -12,7 +12,7 @@ import IconButtonToggle from "./IconButtonToggle";
 const TogglableIconIds = Object.keys(TogglableIconsList).sort((a, b) => a.localeCompare(b));
 
 const meta = {
-  title: "IconButtonToggle",
+  title: "Composants/IconButtonToggle",
   id: "IconButtonToggle",
   component: IconButtonToggle,
   tags: ["autodocs"],

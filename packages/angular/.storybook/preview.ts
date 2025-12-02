@@ -20,6 +20,13 @@ const preview: Preview = {
         date: /Date$/i,
       },
     },
+    options: {
+      storySort: {
+        order: ["Composants"],
+        method: "alphabetical",
+        locales: "fr-FR",
+      },
+    },
   },
   decorators: [
     ...decorators,
