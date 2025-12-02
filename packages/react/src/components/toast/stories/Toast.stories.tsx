@@ -44,7 +44,7 @@ export const Default: Story = {
   args: {
     message: "Une mise à jour est disponible",
     type: "info",
-    autoDismiss: true,
+    autoDismiss: false,
     closable: true,
   },
 
