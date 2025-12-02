@@ -5,7 +5,7 @@
   [ngClass]="{ open: visible(), close: !visible() }"
   [attr.role]="type() === 'error' ? 'alert' : 'status'"
 >
-  <div *ngIf="showIcon()" class="rte-banner-icon">
+  <div class="rte-banner-icon">
     <rte-icon [name]="iconName()" [size]="32" />
   </div>
   <div class="rte-banner-content">

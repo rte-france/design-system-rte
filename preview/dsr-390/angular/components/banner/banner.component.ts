@@ -30,7 +30,6 @@ export class BannerComponent implements OnInit, OnChanges {
   readonly position = input<BannerPosition>("push");
   readonly title = input<string>();
   readonly closable = input<boolean>(false);
-  readonly showIcon = input<boolean>(false);
   readonly isOpen = input<boolean>(true);
   readonly actionLabel = input<string>();
 
