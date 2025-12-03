@@ -2,6 +2,59 @@
 
 # Angular
 
+## 0.18.0
+
+### Docs
+
+#### Minor Changes
+
+- add correct component link
+- rearange component navigation structure
+- rearange component navigation structure
+- add correct component link
+- rearange component navigation structure
+
+### Toast
+
+#### Minor Changes
+
+- set correct padding value
+- extract getToastPriority logic to core + use computed to display actionButton + add custom icon to input
+- add to angular test app
+- add angular component
+
+### Button
+
+#### Minor Changes
+
+- set correct position to badge
+- decouple rteBadge from rteButton component but keep Badge capacities in Button
+- add badge
+
+### Banner
+
+#### Minor Changes
+
+- remove show icon props + remove top and left radius corner
+- update design
+
+### Tag
+
+#### Patch Changes
+
+- force icon for status tag type
+- set right color for label and icon on success / information / alert variant
+
+### Other
+
+#### Patch Changes
+
+- Updated dependencies [90fd2b4]
+- Updated dependencies [1b87a18]
+- Updated dependencies [f3d1179]
+- Updated dependencies [b779f76]
+- @design-system-rte/core@0.22.0
+
 ## 0.17.0
 
 ### Card
@@ -78,67 +131,64 @@
 - Updated dependencies [a7d75ed]
 - Updated dependencies [cc64a7f]
 - @design-system-rte/core@0.20.0
+# React
 
-## 0.15.0
+## 0.17.0
+
+### Docs
+
+#### Minor Changes
+
+- add correct component link
+- rearange component navigation structure
+- rearange component navigation structure
+- add correct component link
+- rearange component navigation structure
+
+### Toast
+
+#### Minor Changes
+
+- set correct padding value
+- extract getToastPriority logic to core + use computed to display actionButton + add custom icon to input
+- restrict action button appearance using only label and callback props
+- add angular component
+- add spacing from viewport + handle warning case in priority + add leftIcon and action button display boolean
+- add useCallback to prevent infinite rendering
+- add component to react test app
+- add priority queue management
+- add basic react component
 
 ### Button
 
 #### Minor Changes
 
-- Change button selector to button[rteButton] & change implementation to native button without wrapper
+- set correct position to badge
+- add badge
 
-### Breadcrumbs
-
-#### Minor Changes
-
-- add tooltip on ellipsed item
-- enable breadcrumbItem max width with ellipsis
-
-### Divider
+### Banner
 
 #### Minor Changes
 
-- add brand appearance
-
-### Dropdown
-
-#### Minor Changes
-
-- add trigger props to allow arrow down key to open the dropdown
-
-### Split Button
-
-#### Minor Changes
-
-- enhance keyboard navigation
-- add dropdown to right button
-
-### Link
-
-#### Minor Changes
-
-- add reverse variant
+- remove show icon props + remove top and left radius corner
+- update design
 
 ### Tag
 
 #### Patch Changes
 
-- remove vertical padding and change label font size for compact spacing variant
+- force icon for status tag type
+- set right color for label and icon on success / information / alert variant
 
 ### Other
 
-#### Minor Changes
-
-- generate changesets automatically
-
 #### Patch Changes
 
-- Updated dependencies [f246255]
-- Updated dependencies [bb5af23]
-- Updated dependencies [196aaab]
-- Updated dependencies [97d3bea]
-- @design-system-rte/core@0.19.0
-# React
+- Updated dependencies [90fd2b4]
+- Updated dependencies [1b87a18]
+- Updated dependencies [f3d1179]
+- Updated dependencies [b779f76]
+- @design-system-rte/core@0.22.0
 
 ## 0.16.0
 
@@ -235,52 +285,42 @@
 - Updated dependencies [a7d75ed]
 - Updated dependencies [cc64a7f]
 - @design-system-rte/core@0.20.0
+# Core
 
-## 0.14.0
+## 0.22.0
 
-### Breadcrumbs
-
-#### Minor Changes
-
-- add tooltip on ellipsed item
-- enable breadcrumbItem max width with ellipsis
-
-### Divider
+### Toast
 
 #### Minor Changes
 
-- add brand appearance
+- extract getToastPriority logic to core + use computed to display actionButton + add custom icon to input
+- add angular component
+- add spacing from viewport + handle warning case in priority + add leftIcon and action button display boolean
+- add priority queue management
+- add basic react component
 
-### Split Button
-
-#### Minor Changes
-
-- enhance keyboard navigation
-- remove unused selected props + change focus behavior type on focus-visible
-- add dropdown to right button
-
-### Link
+### Button
 
 #### Minor Changes
 
-- add reverse variant
+- set correct position to badge
+- add badge
 
-### Tag
+### Banner
 
-#### Patch Changes
+#### Minor Changes
 
-- remove vertical padding and change label font size for compact spacing variant
+- remove show icon props + remove top and left radius corner
+- update design
+
+### Docs
+
+#### Minor Changes
+
+- add new Home page for docs
 
 ### Other
 
-#### Patch Changes
-
-- Updated dependencies [f246255]
-- Updated dependencies [bb5af23]
-- Updated dependencies [196aaab]
-- Updated dependencies [97d3bea]
-- @design-system-rte/core@0.19.0
-# Core
 
 ## 0.21.0
 
@@ -341,37 +381,165 @@
 
 ### Other
 
+# Design Docs
 
-## 0.19.0
+## 0.10.0
 
-### Breadcrumbs
-
-#### Minor Changes
-
-- enable breadcrumbItem max width with ellipsis
-
-### Divider
+### Docs
 
 #### Minor Changes
 
-- add brand appearance
+- add correct component link
+- extract introduction in general bloc
+- add new templating to get started docs for devs
+- update Governance scheme in docs
+- add missing libraries image for Design startup docs
+- add design startup docs
+- Add page valeurs
+- add Kit de migration - general page
+- add corrected Governance Scheme to docs
+- add missing links to Contribution docs
+- add missing Figma link to Icons page
+- add contribution/icons docs
+- add bugs docs
+- add evolutions docs
+- add governance docs
+- rearange component navigation structure
+- update accessibility page to match global layout
+- add icons docs
+- add navigation for GetStarted sections
+- rearange navigation sections for common part
+- Add Elevation page
+- add grids docs
+- add border docs
+- correct typography redaction
+- remove scaffolding files from typography implementation
+- prune typography doc files
+- add border docs
+- update accessibility page to match global layout
+- add icons docs
+- add navigation for GetStarted sections
+- rearange navigation sections for common part
+- Add Elevation page
+- add grids docs
+- add border docs
+- correct typography redaction
+- remove scaffolding files from typography implementation
+- prune typography doc files
+- Add Elevation page
+- correct typography content padding
+- correct typography redaction
+- remove scaffolding files from typography implementation
+- prune typography doc files
+- Add design tokens page
+- add Kit de migration - general page
+- update accessibility page to match global layout
+- add icons docs
+- add navigation for GetStarted sections
+- rearange navigation sections for common part
+- Add Elevation page
+- add grids docs
+- add border docs
+- correct typography redaction
+- remove scaffolding files from typography implementation
+- prune typography doc files
+- Add page valeurs
+- add Kit de migration - general page
+- add missing Figma link to Icons page
+- add contribution/icons docs
+- add bugs docs
+- add evolutions docs
+- add governance docs
+- rearange component navigation structure
+- update accessibility page to match global layout
+- add icons docs
+- add navigation for GetStarted sections
+- rearange navigation sections for common part
+- Add Elevation page
+- add grids docs
+- add border docs
+- correct typography redaction
+- remove scaffolding files from typography implementation
+- prune typography doc files
+- add correct component link
+- extract introduction in general bloc
+- add new templating to get started docs for devs
+- add missing link to Icons docs page
+- add new Home page for docs
+- update Governance scheme in docs
+- add missing libraries image for Design startup docs
+- add design startup docs
+- Add page valeurs
+- add Kit de migration - general page
+- add corrected Governance Scheme to docs
+- add missing links to Contribution docs
+- add missing Figma link to Icons page
+- add contribution/icons docs
+- add bugs docs
+- add evolutions docs
+- add governance docs
+- rearange component navigation structure
+- update accessibility page to match global layout
+- add icons docs
+- add navigation for GetStarted sections
+- rearange navigation sections for common part
+- Add Elevation page
+- add grids docs
+- add border docs
+- correct typography redaction
+- remove scaffolding files from typography implementation
+- prune typography doc files
+- add grids docs
 
-### Split Button
+#### Patch Changes
+
+- prune typography doc files
+
+### Typography
 
 #### Minor Changes
 
-- enhance keyboard navigation
-- add dropdown to right button
+- change title from Typographie to Typography
+- change title from Typographie to Typography
+- change title from Typographie to Typography
+- change title from Typographie to Typography
+- change title from Typographie to Typography
 
-### Link
+### Design Docs
 
 #### Minor Changes
 
-- add reverse variant
+- add typography docs
+- add typography docs
+- add typography docs
+- add typography docs
+- add typography docs
+- add typography docs
+
+#### Patch Changes
+
+- add typography docs
+
+### Doc
+
+#### Minor Changes
+
+- add heading level 4 style
+- Add Colors page
+- add heading level 4 style
+- Add Colors page
+- Add Colors page
+- add heading level 4 style
+- Add Colors page
+- add heading level 4 style
+- Add Colors page
+- add heading level 4 style
+- Add Colors page
+- add heading level 4 style
+- Add Colors page
 
 ### Other
 
-# Design Docs
 
 ## 0.9.0
 
@@ -400,9 +568,3 @@
 
 ### Other
 
-
-## 0.7.0
-
-#### Minor Changes
-
-- replace png images without emojis for svg files for storybook
