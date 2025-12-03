@@ -20,7 +20,7 @@
 
 3. **Use Components:**
    
-   Implement the different components as documented in the [Storybook](https://opensource.rte-france.com/design-system-rte/?path=/docs/angular_button--docs) provided with the library.
+   Implement the different components as documented in the [Storybook](https://opensource.rte-france.com/design-system-rte/?path=/docs/angular_composants-button--docs) provided with the library.
 
 4. **Icon Component Usage:**
    
