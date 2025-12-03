@@ -1,0 +1,66 @@
+import { Meta } from "@storybook/blocks"
+
+import HeaderComponent from "../../../src/components/Header/Header"
+import Paragraph from "../../../src/components/Paragraph/Paragraph"
+import LastUpdate from "../../../src/components/LastUpdate/LastUpdate"
+import Accordion from "../../../src/components/Accordion/Accordion"
+import Heading from "../../../src/components/Heading/Heading"
+import Body from "../../../src/components/Body/Body"
+import List from "../../../src/components/List/List"
+
+
+<Meta title="Design system/Luciole" />
+<HeaderComponent title="Luciole">
+    <Paragraph>Luciole est le référentiel UX et UI qui accompagne la conception et le développement de tous les produits digitaux de RTE.</Paragraph>
+    <Paragraph>Il garantit la cohérence, la qualité et la fiabilité de nos interfaces, tout en favorisant un design accessible, sobre et ouvert à tous.</Paragraph>
+</HeaderComponent>
+
+<Body>
+  <Accordion title="Présentation de Luciole, le design system de RTE" id="presentation-de-luciole-le-design-system-de-rte">
+      <div style={{ display: "flex", flexDirection: "column", gap: "24px", padding: "4px 8px" }}>
+        <Paragraph>Le Design System met à disposition :</Paragraph>
+        <List>
+          <li>des styles et composants prêts à l’emploi,</li>
+          <li>des bonnes pratiques pour le design et le développement,</li>
+          <li>une documentation claire et vivante,</li>
+          <li>deux communautés : Les designers et le développeurs front-end qui partagent, échangent et font évoluer le système.</li>
+        </List>
+        <Paragraph><b>Son objectif :</b> faciliter la conception, accélérer les projets et garantir une expérience cohérente sur l’ensemble de l’écosystème numérique de RTE.</Paragraph>
+      </div>
+  </Accordion>
+
+  <Accordion title="Les valeurs du Design System" id="les-valeurs-du-design-system">
+    <div style={{ display: "flex", flexDirection: "column", gap: "24px", padding: "4px 8px" }}>
+      <Paragraph>Le Design System Luciole repose sur quatre principes :</Paragraph>
+      <List>
+        <li><b>Qualité</b> – créer des produits solides, fiables et durables.</li>
+        <li><b>Sobriété</b> – concevoir de manière responsable et efficace.</li>
+        <li><b>Ouverture</b> – partager, collaborer et progresser ensemble.</li>
+        <li><b>Accessibilité</b> – penser des interfaces inclusives, pour tous.</li>
+      </List>
+      <div>
+        <Paragraph>Ces principes orientent les décisions et donnent du sens à l’ensemble des conceptions.</Paragraph>
+      </div>
+    </div>
+  </Accordion>
+ 
+  <Accordion title="Une approche vivante et collaborative" id="une-approche-vivante-et-collaborative">
+    <div style={{ display: "flex", flexDirection: "column", gap: "24px", padding: "4px 8px" }}>
+      <div>
+        <Paragraph>Le Design System est un produit vivant : il évolue avec les besoins des projets et s’enrichit grâce à celles et ceux qui l’utilisent.</Paragraph>
+        <Paragraph>Il simplifie le travail de chacun et connecte les équipes autour d’un langage commun.</Paragraph>
+        <Paragraph>Exigeant mais essentiel, il reflète notre manière de concevoir : fonctionnelle, précise, agréable et utile.</Paragraph>
+      </div>
+    </div>
+  </Accordion>
+
+  <Accordion title="Le rôle du Design System chez RTE" id="le-role-du-design-system-chez-rte">
+    <div style={{ display: "flex", flexDirection: "column", gap: "24px", padding: "4px 8px" }}>
+      <div>
+        <Paragraph>À l’image du réseau que nous opérons, Luciole apporte clarté et cohérence aux projets numériques de RTE.</Paragraph>
+        <Paragraph>Il unit les équipes, met en lumière les bonnes pratiques et oriente la conception vers des expériences fiables et responsables.</Paragraph>
+        <Paragraph> Un point de lumière au service de tous les produits numériques : robuste, vivant et durable.</Paragraph>
+      </div>
+    </div>
+  </Accordion>
+</Body>
