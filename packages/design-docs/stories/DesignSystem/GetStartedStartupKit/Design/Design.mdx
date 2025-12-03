@@ -1,0 +1,142 @@
+import { Meta } from "@storybook/blocks"
+
+import DocsSection from "../../../../src/components/DocsSection/DocsSection";
+import HeaderComponent from "../../../../src/components/Header/Header";
+import LastUpdate from "../../../../src/components/LastUpdate/LastUpdate";
+import Accordion from "../../../../src/components/Accordion/Accordion";
+
+import "../../../../src/styles/GeneralDocs.scss";
+import "../../../../src/styles/Police.css"
+import Paragraph from "../../../../src/components/Paragraph/Paragraph";
+import Body from "../../../../src/components/Body/Body";
+
+<Meta title='Design system/Get Started - Kit de démarrage/Design'/>
+
+<div className="docs">
+    <HeaderComponent title="Design">
+        <Paragraph>Luciole a pour objectif d’aider chaque designer à travailler plus vite, plus efficacement et de manière cohérente au sein de l’écosystème RTE.</Paragraph>
+        <Paragraph>Ce guide vous accompagne pas à pas pour démarrer, configurer votre environnement et adopter les bonnes pratiques dès vos premiers écrans.</Paragraph>
+    </HeaderComponent>
+    
+    <Body>
+        <Accordion title="Fichiers Figma">
+            <DocsSection>
+                <div>
+                    Pour commencer, vous aurez besoin de plusieurs ressources clés :
+                    <ul>
+                        <li>La bibliothèque de composants Core - <a href="https://www.figma.com/design/Wiy8uWsWjoagf95lOmPXNU/01.0-Design-System-RTE---WEB" target="_blank" class="docs-link"><strong>Design System RTE - WEB</strong></a></li>
+                        <li>La bibliothèque Design Tokens (couleurs, typographies, espacements, tokens…) - <a href="https://www.figma.com/design/EuNnqaEYErWwe0DgdnXPsB/01.2--Design-Tokens" target="_blank" class="docs-link"><strong>Design Tokens</strong></a></li>
+                        <li>La bibliothèque d’icônes - <a href="https://www.figma.com/design/tKntdNwiF1x3jSpJ9Q0O0q/01.3-Iconography" target="_blank" class="docs-link"><strong>Iconography</strong></a></li>
+                    </ul>
+                </div>
+
+                <em>Activez-les dans Figma :</em>
+                Depuis votre espace de travail projet : <strong>Menu > Assets > Add more libraries > Your organization > Design System DSIT - RTE</strong>
+
+                Sélectionnez uniquement ce dont vous avez besoin pour éviter la surcharge.
+            </DocsSection>
+        </Accordion>
+
+        <Accordion title="Configurer votre environnement de travail">
+            <DocsSection title="Créer votre fichier de design">
+                <ul>
+                  <li>Créez un fichier dans votre espace équipe.</li>
+                  <li>Importez votre flow utilisateur ou votre structure de pages.</li>
+                  <li>Préparez vos frames suivant les <a href="https://opensource.rte-france.com/design-system-rte/?path=/docs/fondations-grids--docs" class="docs-link">breakpoints</a> standard du DS.</li>
+                </ul>
+            </DocsSection>
+
+            <DocsSection title="Utiliser les grilles du Design System">
+                <div>
+                    Chaque frame doit utiliser les <a href="https://opensource.rte-france.com/design-system-rte/?path=/docs/fondations-grids--docs" class="docs-link">grilles définies par le DS</a> :
+                    <ul>
+                        <li>Grille fixe ou fluide selon le produit</li>
+                        <li>Marges et colonnes conformes aux tokens</li>
+                        <li>Layout guides pour maintenir la structure</li>
+                    </ul>
+                </div>
+            </DocsSection>
+        </Accordion>
+
+        <Accordion title="Construire vos écrans avec les composants du Design System">
+            <DocsSection title="Toujours commencer par les composants Core">
+                Les composants Core sont génériques, transverses et couvrent la majorité des besoins.
+
+                <div>
+                    Avant de créer un écran :
+                    <ol>
+                        <li>Cherchez d’abord le composant dans les Assets</li>
+                        <li>Vérifiez ses variantes existantes</li>
+                        <li>Consultez les spécifications pour connaître ses comportements et usages</li>
+                    </ol>
+                </div>
+            </DocsSection>
+
+            <DocsSection title="Adapter ensuite avec les Composants Métiers">
+                Si votre domaine requiert un pattern spécifique, les composants Métiers sont là pour couvrir les cas d’usage communs à plusieurs produits.
+            </DocsSection>
+        </Accordion>
+
+        <Accordion title="Respecter les règles d’usage et les bons comportements">
+            <DocsSection>
+                Chaque composant du Design System est documenté avec :
+
+                <ul>
+                    <li>Ses comportements (états, interactions, règles d’accessibilité)</li>
+                    <li>Ses options (variants, features, propriétés)</li>
+                    <li>Ses do/don’t</li>
+                    <li>Ses cas d’usage recommandés</li>
+                </ul>
+
+                Avant d’utiliser un composant, <strong>ouvrez sa documentation DS</strong> pour confirmer que vous l’utilisez correctement
+            </DocsSection>
+        </Accordion>
+
+        <Accordion title="Ne pas recréer un composant déjà existant">
+            <DocsSection>
+                <div>
+                Si un composant similaire existe déjà : 
+                    <ul>
+                        <li><strong>utilisez la variante prévue,</strong></li>
+                        <li>ou <a href="https://opensource.rte-france.com/design-system-rte/?path=/docs/design-system-get-started-contribuer-évolutions-et-nouveaux-composants--docs" class="docs-link"><strong>proposez une évolution via Jira</strong></a> (template “Évolution Core”).</li>
+                        <li>Ne dupliquez pas un composant ou ne modifiez pas ses tokens visuels — cela crée des incohérences dans tout l’écosystème.</li>
+                    </ul>
+                </div>
+                Si votre besoin est unique, une <strong>assistance Design System – composant local</strong> peut être ouverte pour vous accompagner.
+            </DocsSection>
+        </Accordion>
+
+        <Accordion title="Contribuer : proposer une évolution ou un nouveau composant">
+            <DocsSection>
+                Le Design System est évolutif et s’adapte aux besoins du terrain.
+                Si vous souhaitez proposer un nouveau composant ou une évolution :
+
+                <strong>Consultez la page dédiée : <a href="https://opensource.rte-france.com/design-system-rte/?path=/docs/design-system-get-started-contribuer-évolutions-et-nouveaux-composants--docs" class="docs-link">Contribuer au Design System</a></strong>
+                (vous y trouverez l’arbre de décision, les templates Jira et tout le processus détaillé)
+            </DocsSection>
+        </Accordion>
+
+        <Accordion title="Remonter une anomalie (Design ou Dev)">
+            <DocsSection>
+                Si vous repérez un écart, une erreur ou un bug dans le Design System (Figma, documentation, spec, librairie front) :
+
+                <strong>Consultez la page dédiée : <a href="https://opensource.rte-france.com/design-system-rte/?path=/docs/design-system-get-started-contribuer-bugs-et-anomalies--docs" class="docs-link">Remonter une anomalie</a></strong>
+                (vous y trouverez les définitions, les templates et le workflow Jira pour chaque type d’anomalie)
+            </DocsSection>
+        </Accordion>
+
+        <Accordion title="Bonnes pratiques pour bien démarrer">
+            <DocsSection>
+                <ul>
+                  <li>Toujours commencer par consulter la documentation du composant</li>
+                  <li>Ne pas modifier les tokens (couleurs, radius, spacing, typographies…)</li>
+                  <li>Favoriser les layouts compatibles avec les grilles du DS</li>
+                  <li>Utiliser les variants, ne pas “casser” les composants Figma</li>
+                  <li>Vérifier systématiquement l’accessibilité (contraste, focus, clavier)</li>
+                  <li>En cas de doute → contactez l’équipe Design System</li>
+                </ul>
+            </DocsSection>
+        </Accordion>
+    </Body>
+</div>
+

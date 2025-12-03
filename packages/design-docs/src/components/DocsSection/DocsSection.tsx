@@ -14,9 +14,11 @@ interface DocsSectionProps {
 const DocsSection = ({ title, image, alt, children, headingLevel = 4 }: DocsSectionProps) => {
   return (
     <section className="rte-docs-section">
-      <Heading level={headingLevel} id={title}>
-        {title}
-      </Heading>
+      {title && (
+        <Heading level={headingLevel} id={title}>
+          {title}
+        </Heading>
+      )}
       <div className="rte-docs-section-content">{children}</div>
       {image && <img src={image} alt={alt || title} className="rte-docs-section-image" />}
     </section>
