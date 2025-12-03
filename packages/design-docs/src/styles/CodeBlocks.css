@@ -1,7 +1,7 @@
 p code, li code {
   background-color: #000000 !important;
   color: #fff !important;
-  padding: 0.2em 0.4em;
+  padding: 2px !important;
   border-radius: 3px;
   font-size: 0.9em;
   font-family: 'Courier New', Courier, monospace;

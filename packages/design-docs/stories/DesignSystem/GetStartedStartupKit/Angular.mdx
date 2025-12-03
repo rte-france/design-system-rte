@@ -1,151 +1,168 @@
 import { Meta } from "@storybook/blocks";
 
-import "../../../src/styles/CodeBlocks.css";
+import HeaderComponent from "../../../src/components/Header/Header";
+import Body from "../../../src/components/Body/Body";
+import Accordion from "../../../src/components/Accordion/Accordion";
+import DocsSection from "../../../src/components/DocsSection/DocsSection";
+import Paragraph from "../../../src/components/Paragraph/Paragraph";
+import List from "../../../src/components/List/List";
+
+import "../../../src/styles/GeneralDocs.scss";
 import "../../../src/styles/Police.css";
 
 <Meta title="Design system/Get Started - Kit de démarrage/Angular" />
 
-<h1 id="getting-started" style={{fontFamily:"Nunito"}}> Démarrage avec Angular </h1>
+<div className="docs">
+    <HeaderComponent title="Démarrage avec Angular" />
+    
+    <Body>
+        <Accordion title="Introduction" id="introduction">
+            <div style={{ display: "flex", flexDirection: "column", gap: "24px", padding: "4px 8px" }}>
+                <Paragraph>Le **Design System RTE** est une bibliothèque de composants **Angular** qui permet d'unifier le comportement et l'apparence des interfaces utilisateur à travers les équipes de **RTE France**.</Paragraph>
+                <Paragraph>Il est organisé en monorepo avec trois packages principaux. Le package <code>@design-system-rte/core</code> contient les design tokens et interfaces partagées, tandis que <code>@design-system-rte/angular</code> fournit les composants **Angular** spécifiques. Cette architecture permet une maintenance centralisée tout en offrant des implémentations optimisées pour chaque framework.</Paragraph>
+            </div>
+        </Accordion>
 
-<h2 id="introduction" style={{border:"none", fontFamily:"Nunito"}}> Introduction </h2>
+        <Accordion title="Installation" id="installation">
+            <div style={{ display: "flex", flexDirection: "column", gap: "24px", padding: "4px 8px" }}>
+                <Paragraph>Pour installer le design system dans votre projet **Angular**, exécutez la commande suivante :</Paragraph>
+                
+                ```bash
+                npm install @design-system-rte/angular
+                ```
 
-<p> Le **Design System RTE** est une bibliothèque de composants **Angular** qui permet d'unifier le comportement et l'apparence des interfaces utilisateur à travers les équipes de **RTE France**. </p>
+                <Paragraph>Le package <code>@design-system-rte/core</code> sera automatiquement installé comme dépendance pour accéder directement aux design tokens et interfaces **TypeScript**.</Paragraph>
 
-<p> Il est organisé en monorepo avec trois packages principaux. Le package <code>@design-system-rte/core</code> contient les design tokens et interfaces partagées, tandis que <code>@design-system-rte/angular</code> fournit les composants **Angular** spécifiques. Cette architecture permet une maintenance centralisée tout en offrant des implémentations optimisées pour chaque framework. </p>
+                <DocsSection title="Prérequis et Peer Dependencies" headingLevel={3}>
+                    <Paragraph>Ce guide suppose que vous avez déjà une application **Angular** existante. La version d'**Angular** doit être **18** ou supérieure.<br/>Le package utilise aussi les peer dependencies suivantes (qui devraient déjà être présentes dans votre projet) :</Paragraph>
+                    <List>
+                        <li><code>@angular/common : ^18.0.0</code></li>
+                        <li><code>@angular/core : ^18.0.0</code></li>
+                        <li><code>sass : ^1.85.0</code></li>
+                    </List>
+                </DocsSection>
+            </div>
+        </Accordion>
 
-<h2 id="installation" style={{border:"none", fontFamily:"Nunito"}}> Installation </h2>
+        <Accordion title="Configuration initiale" id="setup-configuration">
+            <div style={{ display: "flex", flexDirection: "column", gap: "24px", padding: "4px 8px" }}>
+                <DocsSection title="Ajouter le mixin Branding/Theme" headingLevel={3}>
+                    <Paragraph>Incluez le mixin **branding/theme** dans votre fichier `.scss` principal (généralement `styles.scss` à la racine de votre projet). Cela créera une portée de style pour les composants.</Paragraph>
 
-<p> Pour installer le design system dans votre projet **Angular**, exécutez la commande suivante : </p>
+                    ```scss
+                    @use "@design-system-rte/core/design-tokens/tokens/mixins" as *;
 
-```bash
-npm install @design-system-rte/angular
-```
+                    @include theme-selector('bleu_iceberg', 'light');
+                    ```
 
-<p> Le package <code>@design-system-rte/core</code> sera automatiquement installé comme dépendance pour accéder directement aux design tokens et interfaces **TypeScript**. </p>
+                    <Paragraph>Les thèmes disponibles sont :</Paragraph>
+                    <List>
+                        <li><code>bleu_iceberg</code> (thème par défaut)</li>
+                        <li><code>vert_foret</code></li>
+                        <li><code>violet</code></li>
+                    </List>
 
-<h3 id="prerequisites" style={{border:"none", fontFamily:"Nunito"}}> Prérequis et Peer Dependencies </h3>
+                    <Paragraph>Chaque thème supporte les modes <code>light</code> et <code>dark</code>.</Paragraph>
+                </DocsSection>
 
-<p> Ce guide suppose que vous avez déjà une application **Angular** existante. La version d'**Angular** doit être **18** ou supérieure.<br/>Le package utilise aussi les peer dependencies suivantes (qui devraient déjà être présentes dans votre projet) :</p>
+                <DocsSection title="Ajouter les sélecteurs HTML" headingLevel={3}>
+                    <Paragraph>Ajoutez les attributs <code>data-theme</code> et <code>data-mode</code> sur l'élément <code>&lt;body&gt;</code> de votre application pour définir le contexte d'application des styles des composants.</Paragraph>
 
-<ul>
-  <li> <code>@angular/common : ^18.0.0 </code></li>
-  <li> <code>@angular/core : ^18.0.0 </code></li>
-  <li> <code>sass : ^1.85.0 </code></li>
-</ul>
+                    ```html
+                    <body data-theme="bleu_iceberg" data-mode="light">
+                      <app-root></app-root>
+                    </body>
+                    ```
 
+                    <Paragraph>Ces attributs peuvent être modifiés dynamiquement pour changer de thème ou de mode (clair/sombre) à l'exécution.</Paragraph>
+                </DocsSection>
 
-<h2 id="setup-configuration" style={{border:"none", fontFamily:"Nunito"}}> Configuration initiale </h2>
+                <DocsSection title="Configuration des icônes" headingLevel={3}>
+                    <Paragraph>Pour utiliser le composant Icon (<code>rte-icon</code>), vous devez copier les fichiers `.svg` depuis le package core vers votre application.</Paragraph>
+                    <Paragraph>Copiez les fichiers depuis <code>node_modules/@design-system-rte/core/assets/icons</code> vers le répertoire <code>/assets/icons</code> de votre application.</Paragraph>
+                </DocsSection>
+            </div>
+        </Accordion>
 
-<h3 id="add-theme-mixin" style={{fontFamily:"Nunito"}}> Ajouter le mixin Branding/Theme </h3>
+        <Accordion title="Exemple d'utilisation" id="quick-example">
+            <div style={{ display: "flex", flexDirection: "column", gap: "24px", padding: "4px 8px" }}>
+                ```typescript
+                import { Component } from '@angular/core';
+                import { ButtonComponent } from '@design-system-rte/angular';
 
-<p> Incluez le mixin **branding/theme** dans votre fichier `.scss` principal (généralement `styles.scss` à la racine de votre projet). Cela créera une portée de style pour les composants. </p>
+                @Component({
+                  selector: 'app-example',
+                  imports: [ButtonComponent],
+                  template: `
+                    <button 
+                      rteButton 
+                      rteButtonVariant="primary"
+                      rteButtonSize="m"
+                      (click)="handleClick()"
+                    >
+                      Click me
+                    </button>
+                  `
+                })
+                export class ExampleComponent {
+                  handleClick() {
+                    console.log('Button clicked!');
+                  }
+                }
+                ```
 
-```scss
-@use "@design-system-rte/core/design-tokens/tokens/mixins" as *;
+                <Paragraph>Vous pouvez lire le reste de la documentation du composant **Button** (<code>rteButton</code>) sur le <a href="https://opensource.rte-france.com/design-system-rte/?path=/docs/angular_button--docs">Storybook du composant</a>.</Paragraph>
+            </div>
+        </Accordion>
 
-@include theme-selector('bleu_iceberg', 'light');
-```
+        <Accordion title="Thématisation et personnalisation" id="theming-customization">
+            <div style={{ display: "flex", flexDirection: "column", gap: "24px", padding: "4px 8px" }}>
+                <DocsSection title="Thèmes disponibles" headingLevel={3}>
+                    <Paragraph>Le design system RTE propose trois thèmes de marque :</Paragraph>
+                    <List>
+                        <li><code>bleu_iceberg</code> : Thème par défaut avec une palette de bleus</li>
+                        <li><code>vert_foret</code> : Thème avec une palette de verts</li>
+                        <li><code>violet</code> : Thème avec une palette de violets</li>
+                    </List>
 
-<p> Les thèmes disponibles sont : </p>
+                    <Paragraph>Chaque thème supporte les modes clair (<code>light</code>) et sombre (<code>dark</code>).</Paragraph>
+                </DocsSection>
 
-<ul>
-  <li> <code>bleu_iceberg</code> (thème par défaut) </li>
-  <li> <code>vert_foret</code> </li>
-  <li> <code>violet</code> </li>
-</ul>
+                <DocsSection title="Changer de thème" headingLevel={3}>
+                    <Paragraph>Pour changer de thème, modifiez les attributs <code>data-theme</code> et <code>data-mode</code> sur l'élément qui heberge le thème.</Paragraph>
 
-<p> Chaque thème supporte les modes <code>light</code> et <code>dark</code>. </p>
+                    ```html
+                    <!-- Thème bleu_iceberg en mode clair -->
+                    <body data-theme="bleu_iceberg" data-mode="light">
 
-<h3 id="add-html-selector" style={{fontFamily:"Nunito"}}> Ajouter les sélecteurs HTML </h3>
+                    <!-- Thème vert_foret en mode sombre -->
+                    <body data-theme="vert_foret" data-mode="dark">
+                    ```
 
-<p> Ajoutez les attributs <code>data-theme</code> et <code>data-mode</code> sur l'élément <code>&lt;body&gt;</code> de votre application pour définir le contexte d'application des styles des composants. </p>
+                    <Paragraph>Vous pouvez également changer ces attributs dynamiquement pour changer le thème ou mode pendant l'exécution de l'application.</Paragraph>
+                </DocsSection>
 
-```html
-<body data-theme="bleu_iceberg" data-mode="light">
-  <app-root></app-root>
-</body>
-```
+                <DocsSection title="Variantes de composants" headingLevel={3}>
+                    <Paragraph>La plupart des composants du design system proposent plusieurs variantes et options de personnalisation. Consultez la documentation de chaque composant dans le <a href="https://opensource.rte-france.com/design-system-rte/?path=/docs/angular_button--docs">Storybook</a> pour découvrir toutes les options disponibles.</Paragraph>
+                </DocsSection>
+            </div>
+        </Accordion>
 
-<p> Ces attributs peuvent être modifiés dynamiquement pour changer de thème ou de mode (clair/sombre) à l'exécution. </p>
+        <Accordion title="Prochaines étapes" id="whats-next">
+            <div style={{ display: "flex", flexDirection: "column", gap: "24px", padding: "4px 8px" }}>
+                <Paragraph>Maintenant que vous avez configuré le design system dans votre projet, voici quelques ressources pour aller plus loin :</Paragraph>
+                <List>
+                    <li><a href="https://opensource.rte-france.com/design-system-rte/?path=/docs/angular_button--docs">Documentation des composants Angular</a> : Explorez tous les composants disponibles dans le Storybook</li>
+                    <li><a href="https://opensource.rte-france.com/design-system-rte/?path=/docs/design-system-get-started-kit-de-migration-angular--docs">Guide de migration</a> : Si vous migrez depuis RGO-lib ou si vous utilises Angular Material déjà dans votre projet</li>
+                </List>
+            </div>
+        </Accordion>
 
-<h3 id="icons-setup" style={{fontFamily:"Nunito"}}> Configuration des icônes </h3>
-
-<p> Pour utiliser le composant Icon (<code>rte-icon</code>), vous devez copier les fichiers `.svg` depuis le package core vers votre application. </p>
-
-<p> Copiez les fichiers depuis <code>node_modules/@design-system-rte/core/assets/icons</code> vers le répertoire <code>/assets/icons</code> de votre application. </p>
-
-<h2 id="quick-example" style={{border:"none", fontFamily:"Nunito"}}> Exemple d'utilisation </h2>
-
-```typescript
-import { Component } from '@angular/core';
-import { ButtonComponent } from '@design-system-rte/angular';
-
-@Component({
-  selector: 'app-example',
-  imports: [ButtonComponent],
-  template: `
-    <button 
-      rteButton 
-      rteButtonVariant="primary"
-      rteButtonSize="m"
-      (click)="handleClick()"
-    >
-      Click me
-    </button>
-  `
-})
-export class ExampleComponent {
-  handleClick() {
-    console.log('Button clicked!');
-  }
-}
-```
-
-<p> Vous pouvez lire le reste de la documentation du composant **Button** (<code>rteButton</code>) sur le <a href="https://opensource.rte-france.com/design-system-rte/?path=/docs/angular_button--docs">Storybook du composant</a>.</p>
-
-<h2 id="theming-customization" style={{border:"none", fontFamily:"Nunito"}}> Thématisation et personnalisation </h2>
-
-<h3 id="themes-available" style={{fontFamily:"Nunito"}}> Thèmes disponibles </h3>
-
-<p> Le design system RTE propose trois thèmes de marque : </p>
-
-<ul>
-  <li> <code>bleu_iceberg</code> : Thème par défaut avec une palette de bleus </li>
-  <li> <code>vert_foret</code> : Thème avec une palette de verts </li>
-  <li> <code>violet</code> : Thème avec une palette de violets </li>
-</ul>
-
-<p> Chaque thème supporte les modes clair (<code>light</code>) et sombre (<code>dark</code>). </p>
-
-<h3 id="switch-theme" style={{fontFamily:"Nunito"}}> Changer de thème </h3>
-
-<p> Pour changer de thème, modifiez les attributs <code>data-theme</code> et <code>data-mode</code> sur l'élément qui heberge le thème.</p>
-
-```html
-<!-- Thème bleu_iceberg en mode clair -->
-<body data-theme="bleu_iceberg" data-mode="light">
-
-<!-- Thème vert_foret en mode sombre -->
-<body data-theme="vert_foret" data-mode="dark">
-```
-
-<p> Vous pouvez également changer ces attributs dynamiquement pour changer le thème ou mode pendant l'exécution de l'application. </p>
-
-<h3 id="component-variants" style={{fontFamily:"Nunito"}}> Variantes de composants </h3>
-
-<p> La plupart des composants du design system proposent plusieurs variantes et options de personnalisation. Consultez la documentation de chaque composant dans le <a href="https://opensource.rte-france.com/design-system-rte/?path=/docs/angular_button--docs">Storybook</a> pour découvrir toutes les options disponibles. </p>
-
-<h2 id="whats-next" style={{border:"none", fontFamily:"Nunito"}}> Prochaines étapes </h2>
-
-<p> Maintenant que vous avez configuré le design system dans votre projet, voici quelques ressources pour aller plus loin : </p>
-
-<ul>
-  <li> <a href="https://opensource.rte-france.com/design-system-rte/?path=/docs/angular_button--docs">Documentation des composants Angular</a> : Explorez tous les composants disponibles dans le Storybook </li>
-  <li> <a href="https://opensource.rte-france.com/design-system-rte/?path=/docs/design-system-get-started-kit-de-migration-angular--docs">Guide de migration</a> : Si vous migrez depuis RGO-lib ou si vous utilises Angular Material déjà dans votre projet </li>
-</ul>
-
-<h2 id="changelogs" style={{border:"none", fontFamily:"Nunito"}}> Changelogs </h2>
-
-<p> Le design system utilise <a href="https://github.com/changesets/changesets">Changesets</a> pour la gestion des versions dans le monorepo. Les mises à jour majeures seront documentées dans le <a href="https://github.com/rte-france/design-system-rte/blob/main/packages/angular/projects/ds-rte-lib/CHANGELOG.md">CHANGELOG de ce package.</a> </p>
-
-<p> Pour lire les changelogs de tous les packages, consultez le <a href="https://github.com/rte-france/design-system-rte/blob/main/CHANGELOG.md">CHANGELOG principal</a>. </p>
+        <Accordion title="Changelogs" id="changelogs">
+            <div style={{ display: "flex", flexDirection: "column", gap: "24px", padding: "4px 8px" }}>
+                <Paragraph>Le design system utilise <a href="https://github.com/changesets/changesets">Changesets</a> pour la gestion des versions dans le monorepo. Les mises à jour majeures seront documentées dans le <a href="https://github.com/rte-france/design-system-rte/blob/main/packages/angular/projects/ds-rte-lib/CHANGELOG.md">CHANGELOG de ce package.</a></Paragraph>
+                <Paragraph>Pour lire les changelogs de tous les packages, consultez le <a href="https://github.com/rte-france/design-system-rte/blob/main/CHANGELOG.md">CHANGELOG principal</a>.</Paragraph>
+            </div>
+        </Accordion>
+    </Body>
+</div>
