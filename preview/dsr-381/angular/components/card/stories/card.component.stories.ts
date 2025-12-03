@@ -14,7 +14,7 @@ import { ButtonComponent } from "../../button/button.component";
 import { CardComponent } from "../card.component";
 
 const meta: Meta<CardComponent> = {
-  title: "Card",
+  title: "Composants/Card",
   component: CardComponent,
   tags: ["autodocs"],
   argTypes: {
