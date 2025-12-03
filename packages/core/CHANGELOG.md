@@ -1,5 +1,27 @@
 # @design-system-rte/core
 
+## 0.22.0
+
+### Minor Changes
+
+- 90fd2b4: ## Changes
+  - (Toast) extract getToastPriority logic to core + use computed to display actionButton + add custom icon to input
+  - (Toast) add angular component
+  - (Toast) add spacing from viewport + handle warning case in priority + add leftIcon and action button display boolean
+  - (Toast) add priority queue management
+  - (Toast) add basic react component
+
+- 1b87a18: ## Changes
+  - (Button) set correct position to badge
+  - (Button) add badge
+
+- f3d1179: ## Changes
+  - (Banner) remove show icon props + remove top and left radius corner
+  - (Banner) update design
+
+- b779f76: ## Changes
+  - (Docs) add new Home page for docs
+
 ## 0.21.0
 
 ### Minor Changes
