@@ -35,15 +35,15 @@
         width: 6px;
         height: 6px;
         box-shadow: none;
-        top: 0;
-        right: 0;
+        top: -3;
+        right: -3;
     }
 
     &.size-s {
         width: 12px;
         height: 12px;
-        top: -3px;
-        right: -3px;
+        top: -6px;
+        right: -6px;
     }
 
     &.size-m {
@@ -51,8 +51,8 @@
         min-width: 16px;
         width: fit-content;
         height: 16px;
-        top: -4px;
-        right: -4px;
+        top: -8px;
+        right: -8px;
         padding: $positive-spacing_0 $positive-spacing_025;
 
         &.count-overflow {
@@ -65,8 +65,8 @@
         min-width: 24px;
         width: fit-content;
         height: 24px;
-        top: -8px;
-        right: -8px;
+        top: -12px;
+        right: -12px;
         padding: $positive-spacing_0 $positive-spacing_050;
 
         &.count-overflow {
