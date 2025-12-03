@@ -1,0 +1,203 @@
+import { Meta } from "@storybook/blocks";
+
+import ButtonWrapper from "./ButtonWrapper"
+
+import HeaderComponent from "../../../../src/components/Header/Header"
+import Paragraph from "../../../../src/components/Paragraph/Paragraph"
+import LastUpdate from "../../../../src/components/LastUpdate/LastUpdate"
+import Accordion from "../../../../src/components/Accordion/Accordion"
+import Heading from "../../../../src/components/Heading/Heading"
+import Body from "../../../../src/components/Body/Body"
+import List from "../../../../src/components/List/List"
+
+import "../../../../src/styles/CodeBlocks.css";
+
+import Tableau1 from "./assets/tableau_1.svg"
+import Tableau2 from "./assets/tableau_2.svg"
+import Tableau3 from "./assets/tableau_3.svg"
+
+
+<Meta title="Design system/Get Started - Kit de migration/Général" />
+
+<div style={{display: "flex", flexDirection: "column", gap: "16px"}} className="rte-storybooks_colors">
+  <HeaderComponent title="Général">
+    <Paragraph>Migrer une interface existante vers le Design System permet d’améliorer la cohérence visuelle, simplifier la maintenance et accélérer le delivery.</Paragraph>
+    <Paragraph>Ce kit a pour objectif de vous aider à estimer rapidement l’effort de bascule d’un projet, et à planifier la migration.</Paragraph>
+  </HeaderComponent>
+  <Body>
+  
+    <Accordion title="Pourquoi migrer" id="pourquoi-migrer">
+      <div style={{ display: "flex", flexDirection: "column", gap: "4px", padding: "0 8px" }}>
+        <List>
+          <li>Harmoniser l’expérience utilisateur sur l’ensemble des produits</li>
+          <li>Réduire la dette visuelle et technique</li>
+          <li>Accélérer les évolutions futures grâce à des composants standardisés</li>
+          <li>Faciliter l’onboarding des équipes et la contribution</li>
+        </List>
+      </div>
+    </Accordion>
+
+    <Accordion title="Comment migrer" id="comment-migrer">
+      <div style={{ display: "flex", flexDirection: "column", gap: "16px", padding: "0 8px" }}>
+          <Paragraph>La migration se déroule en 4 grandes étapes :</Paragraph>
+        <img src={Tableau1} alt="Étape de migrations" />
+      </div>
+    </Accordion>
+
+    <Accordion title="Ce qui influence la charge" id="ce-qui-influence-la-charge">
+      <div style={{ display: "flex", flexDirection: "column", gap: "16px", padding: "0 8px" }}>
+        <div>
+          <Paragraph>Tous les projets ne partent pas du même point.</Paragraph>
+          <Paragraph>Deux facteurs principaux comptent :</Paragraph>
+        </div>
+        <img src={Tableau2} alt="Tableau des facteur et de leurs imacts sur la charge de migration" />
+      </div>
+    </Accordion>
+
+    <Accordion title="🎮 Questionnaire - Estimer la charge de migration vers le Design System" id="questionnaire-estimer-la-charge-de-migration-vers-le-design-system">
+      <div style={{ display: "flex", flexDirection: "column", gap: "16px", padding: "0 8px" }}>
+        <Heading level="3">Section 1 - Maquettes (Design)</Heading>
+        <div style={{display: "flex", flexDirection: "column", gap: "24px", padding: "8px 0"}}>
+          <div>
+            <Paragraph>1. Les maquettes existent-elles ?</Paragraph>
+            <List>
+              <li>Oui, elles sont disponibles → +2 points</li>
+              <li>Oui, mais très partielles / datées → +1 point</li>
+              <li>Non → 0 point</li>
+            </List>
+          </div>
+          <div>
+            <Paragraph>2. Les maquettes sont-elles cohérentes visuellement ? (mêmes espacements, styles, logique d’alignements)</Paragraph>
+            <List>
+              <li>Oui, globalement homogènes → +2 points</li>
+              <li>En partie, quelques variations → +1 point</li>
+              <li>Non, chaque écran est différent → 0 point</li>
+            </List>
+          </div>
+          <div>
+            <Paragraph>3. Les composants UI sont-ils réutilisés ?</Paragraph>
+            <List>
+              <li>Oui, c’est structuré → +2 points</li>
+              <li>Un peu, selon les écrans → +1 point</li>
+              <li>Non, beaucoup de sur-mesure → 0 point</li>
+            </List>
+          </div>
+        </div>
+        <Heading level="3">Section 2 - Code & Architecture</Heading>
+        <div style={{display: "flex", flexDirection: "column", gap: "24px", padding: "8px 0"}}>
+          <div>
+            <Paragraph>4. Le front est-il bien découpé en composants ?</Paragraph>
+            <List>
+              <li>Oui, architecture modulaire → +2 points</li>
+              <li>Partiellement → +1 point</li>
+              <li>Non / pages monolithiques → 0 point</li>
+            </List>
+          </div>
+          <div>
+            <Paragraph>5. Le code est-il maintenu et relativement récent ?</Paragraph>
+            <List>
+              <li>Oui, entretiens réguliers → +2 points</li>
+              <li>Quelques dettes identifiées → +1 point</li>
+              <li>Legacy / dépendances cassées → 0 point</li>
+            </List>
+          </div>
+          <div>
+            <Paragraph>6. Les styles sont-ils propres ?</Paragraph>
+            <List>
+              <li>Centralisés, styles cohérents → +2 points</li>
+              <li>Mélange de patterns → +1 point</li>
+              <li>Beaucoup d’overrides / CSS global → 0 point</li>
+            </List>
+          </div>
+        </div>
+      </div>
+    </Accordion>
+  
+     <Accordion title="Calcul des résultats" id="calcul-des-résultats">
+      <div style={{ display: "flex", flexDirection: "column", gap: "16px", padding: "0 8px" }}>
+        <img src={Tableau3} alt="Tableau d'interprétation du resultat en fonction du nombre de point obtenus" />
+      </div>
+    </Accordion>
+
+    <Accordion title="Résultats & Recommandations" id="résultats-recommandations">
+      <Heading level="3">Projet A - Migration fluide</Heading>
+      <div style={{ display: "flex", flexDirection: "column", gap: "24px", padding: "4px 8px" }}>
+        <div>
+            <Paragraph><b>Optimiser ce qui existe sans tout refaire.</b></Paragraph>
+            <List>
+              <li>Migrer par pages / modules</li>
+              <li>Commencer tout de suite par un écran pilote</li>
+            </List>
+          </div>
+        <div>
+            <Paragraph><b>Charge indicative :</b></Paragraph>
+            <List>
+              <li>~20 écrans → Designer 4-6 j / Dev 6-10 j</li>
+              <li>~50 écrans → Designer 8-12 j / Dev 12-20 j</li>
+              <li>~200+ écrans → Designer 20-30 j / Dev 35-60 j</li>
+            </List>
+          </div>
+      </div>
+      <Heading level="3">Projet B - Migration par étapes</Heading>
+      <div style={{ display: "flex", flexDirection: "column", gap: "24px", padding: "4px 8px" }}>
+        <div>
+            <Paragraph><b>Structurer avant de migrer</b></Paragraph>
+            <List>
+              <li>La qualité est variable (certaines parties ok, d'autres à reprendre)</li>
+              <li>Identifier 3 à 5 écrans « modèles »</li>
+              <li>Aligner ces écrans au Design System</li>
+              <li>Puis généraliser progressivement</li>
+            </List>
+          </div>
+        <div>
+            <Paragraph><b>Charge indicative :</b></Paragraph>
+            <Paragraph>→ Prendre la moyenne entre les charges du Projet A et du Projet C.</Paragraph>
+          </div>
+      </div>
+      <Heading level="3">Projet C - Migration complexe</Heading>
+      <div style={{ display: "flex", flexDirection: "column", gap: "24px", padding: "4px 8px" }}>
+        <div>
+            <Paragraph><b>Refondre avant de migrer</b></Paragraph>
+            <List>
+              <li>Les maquettes sont à revoir</li>
+              <li>L’architecture front nécessite remise à niveau</li>
+              <li>Commencer par un prototype d’écran pilote pour valider les patterns</li>
+            </List>
+          </div>
+        <div>
+            <Paragraph><b>Charge indicative :</b></Paragraph>
+            <List>
+              <li>~20 écrans → Designer 6-10 j / Dev 10-15 j</li>
+              <li>~50 écrans → Designer 12-18 j / Dev 20–35 j</li>
+              <li>200+ écrans → Designer 30-45 j / Dev 60-120 j</li>
+            </List>
+          </div>
+      </div>
+    </Accordion>
+
+    <Accordion title="Accompagnement disponible" id="accompagnement-disponible">
+      <div style={{ display: "flex", flexDirection: "column", gap: "16px", padding: "4px 8px" }}>
+        <div>
+          <ButtonWrapper variant='primary' label="Faire une demande" onClick={() => window.open("https://rtefrance.sharepoint.com/sites/Portail-Acteurs-DSIT/SitePages/We-Love-Design.aspx")}/>
+        </div>  
+        <div style={{display: "flex", flexDirection: "column", gap: "24px"}}>
+          <Paragraph>Pour accompagner les équipes dans leur migration vers le Design System, RTE propose un service d’appui dédié.</Paragraph>
+          <div>
+            <Paragraph>L’offre de service <b>« We Love Design »</b>, est disponible afin de faciliter l’adoption du Design System au sein des projets.</Paragraph>
+            <Paragraph><b>Le service n°3</b> - Support à l’intégration du Design System permet d’accompagner les équipes souhaitant engager une bascule, en leur apportant un appui méthodologique et opérationnel adapté à leur niveau de maturité et à leurs contraintes.</Paragraph>
+          </div>
+          <div>
+            <Paragraph>Cet accompagnement vise à :</Paragraph>
+            <List>
+              <li>Structurer l’appropriation du Design System par les équipes ;</li>
+              <li>Sécuriser la stratégie de migration (progressive ou globale) ;</li>
+              <li>Définir et stabiliser un écran pilote avant déploiement élargi ;</li>
+              <li>Appuyer la montée en compétence design et développement.</li>
+            </List>
+          </div>
+          <Paragraph><b>L’objectif est de garantir une transition maîtrisée, cohérente et durable, tout en maintenant la continuité du projet.</b></Paragraph>
+        </div>
+      </div>
+    </Accordion>
+  </Body>
+</div>
