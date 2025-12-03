@@ -79,9 +79,10 @@ const preview = {
         order: [
           "Design system",
           [
-            "Acceuil",
+            "Accueil",
+            "Luciole",
             "Get Started - Kit de démarrage",
-            ["Angular", "React"],
+            ["Design", "Angular", "React"],
             "Get Started - Kit de migration",
             ["Général", "Pour les designers", "Angular", "React"],
             "Get Started - Contribuer",

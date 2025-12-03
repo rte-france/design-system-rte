@@ -1,11 +1,5 @@
 {
-    "hiddenSections": [
-        "angular_composants"
-    ],
     "hiddenStories": {
-        "design-system": [
-            "get-started-kit-de-migration-pour-les-designers",
-            "get-started-contribuer"
-        ]
+        "design-system": []
     }
 }
