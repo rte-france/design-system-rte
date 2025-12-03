@@ -32,4 +32,4 @@
 
 4. **Use Components:**
    
-   Implement the different components as documented in the [Storybook](https://opensource.rte-france.com/design-system-rte/?path=/docs/react_button--docs) provided with the library.
+   Implement the different components as documented in the [Storybook](https://opensource.rte-france.com/design-system-rte/?path=/docs/react_composants-button--docs) provided with the library.
