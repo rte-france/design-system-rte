@@ -1,0 +1,18 @@
+<div
+  class="rte-tag"
+  [attr.data-tag-type]="tagType()"
+  [attr.data-status]="status()"
+  [attr.data-color]="color()"
+  [attr.data-compact-spacing]="compactSpacing()"
+>
+  <ng-container
+    *ngIf="isValidIconName() && (tagType() === 'status' || showLeftIcon())"
+  >
+    <rte-icon [name]="computedIconName()" [size]="16"></rte-icon>
+  </ng-container>
+  <ng-container *ngIf="label">
+    <label class="tag-label" [attr.data-compact-spacing]="compactSpacing()">{{
+      label()
+    }}</label>
+  </ng-container>
+</div>
