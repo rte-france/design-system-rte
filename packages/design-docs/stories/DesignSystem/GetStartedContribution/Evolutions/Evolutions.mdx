@@ -1,0 +1,118 @@
+import { Meta } from "@storybook/blocks"
+
+import DocsSection from "../../../../src/components/DocsSection/DocsSection";
+import HeaderComponent from "../../../../src/components/Header/Header";
+import LastUpdate from "../../../../src/components/LastUpdate/LastUpdate";
+import Accordion from "../../../../src/components/Accordion/Accordion";
+
+import "../../../../src/styles/GeneralDocs.scss";
+import "../../../../src/styles/Police.css"
+import Paragraph from "../../../../src/components/Paragraph/Paragraph";
+import Body from "../../../../src/components/Body/Body";
+
+import DecisionTree from "./assets/DecisionTree.svg";
+
+<Meta title='Design system/Get Started - Contribuer/Évolutions et nouveaux composants'/>
+
+<div className="docs">
+    <HeaderComponent title="Évolutions et nouveaux composants"/>
+    
+    <Body>
+        <Accordion title="Les composants Luciole">
+            <DocsSection>
+                Dans une entreprise de la taille de RTE, un Design System unifié génère nécessairement de nombreux besoins : harmonisation, cohérence, évolution des usages, nouveaux patterns, spécificités produits… Avec la diversité des métiers et la multiplicité des cas d’usage, un système unique ne peut pas tout couvrir d’emblée.
+
+                Pour répondre à cette réalité, notre Design System repose sur deux familles de composants complémentaires : les composants Core et Métier.
+
+                <Body>
+                    <DocsSection title="Composants Core et Métier">
+                        Luciole vise à se composer de deux types de composants distincts :
+
+                        <ul>
+                            <li>**Composants Core** : il s'agit de composants génériques et agnostiques. Les composants Core et les Foundations définissent les bases. Les Core components sont suffisamment agnostiques pour être utilisés par l'ensemble de l'organisation, quelle que soit le métier ou le département.</li>
+                            <li>**Composants Métiers** : les composants métiers sont plus proches de la réalités et visent à s’adapter à la diversité des produits. Ces composants peuvent être utiles pour plusieurs produits, mais ils ne sont pas suffisamment agnostiques pour être utilisés par l'ensemble de l'organisation.</li>
+                        </ul>
+                    </DocsSection>
+
+                    <DocsSection title="Comment choisir ?" image={DecisionTree}>
+                        Voici un arbre décisionnel qui vous aidera à déterminer si le type de contribution à remonter :
+                    </DocsSection>
+                </Body>
+            </DocsSection>
+        </Accordion>
+
+        <Accordion title="Contribuer au Design System : comment formuler une demande dans Jira">
+            <DocsSection>
+                Le Design System de RTE évolue en continu. Pour s’assurer qu’il reste utile, cohérent et aligné avec les besoins du terrain, nous avons ouvert le Jira du projet Design System afin que chaque équipe puisse y formuler ses demandes d’évolution ou de nouveaux composants.
+            </DocsSection>
+
+            <Body>
+                <DocsSection title="Utiliser les templates Jira">
+                    Pour les trois premiers types de contributions qui relèvent du Design System (évolution d’un Core, nouveau Métier, nouveau Core), des templates dédiés sont disponibles dans Jira.
+
+                    🔗 <strong><u>Template A → Évolution d’un composant Core</u></strong>
+
+                    🔗 <strong><u>Template B → Nouveau composant Métier</u></strong>
+
+                    🔗 <strong><u>Template C → Nouveau composant Core</u></strong>
+
+                    <div>
+                        Ils contiennent les informations nécessaires à une qualification rapide :
+                        <ul>
+                            <li>description du besoin</li>
+                            <li>contexte d’usage</li>
+                            <li>captures/maquettes</li>
+                            <li>impacts</li>
+                            <li>alternatives envisagées</li>
+                            <li>contraintes d’accessibilité</li>
+                            <li>utilisateurs concernés</li>
+                            <li>proposition initiale de comportement</li>
+                        </ul>
+                    </div>
+
+                    📌 **Merci de copier le template correspondant puis de compléter votre ticket.**
+                </DocsSection>
+
+                <DocsSection title="Cas particulier : composant jetable / local">
+                    Ce type de besoin ne crée pas un composant du Design System. Cependant, pour accompagner les équipes et éviter les dérives, un template “Composant Local – Assistance design” est disponible.
+
+                    🔗 <strong><u>Template → Composant Local – Assistance design</u></strong>
+
+                    <div>
+                        Il permet :
+                        <ul>
+                            <li>d’exposer le problème</li>
+                            <li>de valider la solution proposée</li>
+                            <li>de garantir la cohérence visuelle (tokens, espacements, typographie, comportements)</li>
+                            <li>d’assurer que la solution reste bien locale et non DS</li>
+                        </ul>
+                    </div>
+                </DocsSection>
+
+                <DocsSection title="Traitement par l'équipe Design System">
+                    Chaque demande passe par trois étapes :
+                    <ol>
+                        <li>
+                            <strong>Analyse</strong> : Vérification du besoin, des impacts, de la cohérence avec les Foundations et les Core components.
+                        </li>
+                        <li>
+                            <strong>Orientation</strong> :
+                            <ul>
+                                <li>Décision si l’évolution est pertinente</li>
+                                <li>Le composant métier est récurrent</li>
+                                <li>Le composant peut devenir Core</li>
+                                <li>Le besoin est jetable/local</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Planification</strong> :
+                            Si accepté → ajout à la roadmap du Design System
+                            Si non retenu → explication et alternatives proposées
+                        </li>
+                    </ol>
+                    Un statut clair est maintenu dans Jira pour chaque ticket afin d’assurer la transparence du suivi.
+                </DocsSection>
+            </Body>
+        </Accordion>
+    </Body>
+</div>

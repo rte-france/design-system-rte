@@ -1,0 +1,60 @@
+import { Meta } from "@storybook/blocks"
+
+import DocsSection from "../../../../src/components/DocsSection/DocsSection";
+import HeaderComponent from "../../../../src/components/Header/Header";
+import LastUpdate from "../../../../src/components/LastUpdate/LastUpdate";
+import Accordion from "../../../../src/components/Accordion/Accordion";
+
+import "../../../../src/styles/GeneralDocs.scss";
+import "../../../../src/styles/Police.css"
+import Paragraph from "../../../../src/components/Paragraph/Paragraph";
+import Body from "../../../../src/components/Body/Body";
+
+<Meta title='Design system/Get Started - Contribuer/Icônes'/>
+
+<div className="docs">
+    <HeaderComponent title="Icônes"/>
+    
+    <Body>
+        <Accordion title="Comment proposer une nouvelle icône">
+            <DocsSection>
+                Les nouvelles icônes peuvent être proposées pour enrichir la librairie du Design System. Chaque proposition est évaluée selon des critères définis pour garantir la cohérence et la qualité de la librairie.
+            </DocsSection>
+
+            <DocsSection
+                title="Vérifications préalables"
+            >
+                Avant de proposer une nouvelle icône, vérifiez que :
+                <ul>
+                    <li>L'icône n'existe pas déjà dans la librairie</li>
+                    <li>Une icône existante ne remplit pas déjà la même fonction</li>
+                    <li>L'icône n'a pas déjà été proposée par un autre contributeur</li>
+                    <li>L'icône est disponible dans Material Symbols</li>
+                </ul>
+            </DocsSection>
+        </Accordion>
+
+        <Accordion title="Processus de contribution">
+            <DocsSection
+                title="Étapes de contribution"
+            >
+                Le processus de contribution pour les icônes suit un workflow structuré qui garantit la cohérence visuelle et l'intégration harmonieuse dans la librairie existante.
+            </DocsSection>
+
+            <DocsSection
+                title="Guidelines de paramétrage"
+            >
+                Les icônes proposées doivent respecter les guidelines de paramétrage définies pour assurer la cohérence avec le reste de la librairie. Ces paramètres ne doivent pas être modifiés.
+            </DocsSection>
+        </Accordion>
+
+        <Accordion title="Validation et intégration">
+            <DocsSection
+                title="Analyse et validation"
+            >
+                Les propositions d'icônes sont analysées par la Core-Team Design System. Si la proposition est validée, l'icône sera intégrée à la librairie selon le processus d'implémentation défini.
+            </DocsSection>
+        </Accordion>
+    </Body>
+</div>
+
