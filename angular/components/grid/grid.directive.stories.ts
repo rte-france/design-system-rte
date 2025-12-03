@@ -10,7 +10,7 @@ type GridStoriesArgs = GridDirective;
 const COLUMN_NUMBER = 12;
 
 const meta: Meta<GridStoriesArgs> = {
-  title: "Grid",
+  title: "Composants/Grid",
   component: GridDirective,
   tags: ["autodocs"],
   argTypes: {

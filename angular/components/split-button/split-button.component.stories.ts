@@ -9,15 +9,6 @@ import { SplitButtonComponent } from "./split-button.component";
 const RegularIconIds = Object.keys(RegularIconsList);
 const TogglableIconIds = Object.keys(TogglableIconsList);
 
-const wipWarning = `
-<div>
-  <span style="font-family: sans-serif; margin-bottom: 16px; border: 1px solid #F4922B; padding: 8px; border-radius: 5px; background-color: #FAFFC1; margin: 0;">
-    Ce composant est en cours de développement et n'est pas encore disponible
-  </span>
-</div>
-<br/>
-`;
-
 const defaultOptions = [
   { id: "option-1", label: "Option 1", onClick: () => console.log("Option 1 clicked") },
   { id: "option-2", label: "Option 2", onClick: () => console.log("Option 2 clicked") },
@@ -25,7 +16,7 @@ const defaultOptions = [
 ];
 
 const meta: Meta<SplitButtonComponent> = {
-  title: "SplitButton (développement en cours)",
+  title: "Composants/SplitButton",
   id: "SplitButton",
   component: SplitButtonComponent,
   tags: ["autodocs"],
@@ -74,7 +65,6 @@ export const Default: Story = {
   render: (args) => ({
     props: args,
     template: `
-      ${wipWarning}
       <rte-split-button
         label="${args.label}"
         ariaLabelRight="${args.ariaLabelRight}"
@@ -101,7 +91,6 @@ export const Appearance: Story = {
   render: (args) => ({
     props: args,
     template: `
-      ${wipWarning}
       <div style="display: flex; gap: 16px">
         <rte-split-button
           label="${args.label}"
@@ -139,7 +128,6 @@ export const Size: Story = {
   render: (args) => ({
     props: args,
     template: `
-      ${wipWarning}
       <div style="display: flex; gap: 16px">
         <rte-split-button
           label="${args.label}"
@@ -187,7 +175,6 @@ export const CompactSpacing: Story = {
   render: (args) => ({
     props: args,
     template: `
-      ${wipWarning}
       <div style="display: flex; gap: 16px">
         <rte-split-button
           label="${args.label}"
@@ -238,7 +225,6 @@ export const Position: Story = {
   render: (args) => ({
     props: args,
     template: `
-      ${wipWarning}
       <div style="display: flex; justify-content: center; align-items: center; min-height: 600px">
         <div style="display: grid; grid-template-columns: 2fr 2fr; gap: 24px">
           <rte-split-button
