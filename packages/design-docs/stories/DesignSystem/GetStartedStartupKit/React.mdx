@@ -14,15 +14,15 @@ import "../../../src/styles/Police.css";
 <Meta title="Design system/Get Started - Kit de démarrage/React" />
 
 <div className="docs">
-    <HeaderComponent title="Démarrage avec React" />
+    <div>
+        <HeaderComponent title="Démarrage avec React" />
+        <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+            <Paragraph>Le **Design System RTE** est une bibliothèque de composants **React** qui permet d'unifier le comportement et l'apparence des interfaces utilisateur à travers les équipes de **RTE France**.</Paragraph>
+            <Paragraph>Il est organisé en monorepo avec trois packages principaux. Le package <code>@design-system-rte/core</code> contient les design tokens et interfaces partagées, tandis que <code>@design-system-rte/react</code> fournit les composants **React** spécifiques. Cette architecture permet une maintenance centralisée tout en offrant des implémentations optimisées pour chaque framework.</Paragraph>
+        </div>
+    </div>
     
     <Body>
-        <Accordion title="Introduction" id="introduction">
-            <div style={{ display: "flex", flexDirection: "column", gap: "24px", padding: "4px 8px" }}>
-                <Paragraph>Le **Design System RTE** est une bibliothèque de composants **React** qui permet d'unifier le comportement et l'apparence des interfaces utilisateur à travers les équipes de **RTE France**.</Paragraph>
-                <Paragraph>Il est organisé en monorepo avec trois packages principaux. Le package <code>@design-system-rte/core</code> contient les design tokens et interfaces partagées, tandis que <code>@design-system-rte/react</code> fournit les composants **React** spécifiques. Cette architecture permet une maintenance centralisée tout en offrant des implémentations optimisées pour chaque framework.</Paragraph>
-            </div>
-        </Accordion>
 
         <Accordion title="Installation" id="installation">
             <div style={{ display: "flex", flexDirection: "column", gap: "24px", padding: "4px 8px" }}>

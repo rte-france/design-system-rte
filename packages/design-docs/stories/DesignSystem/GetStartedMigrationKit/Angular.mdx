@@ -14,15 +14,13 @@ import "../../../src/styles/Police.css";
 <Meta title="Design system/Get Started - Kit de migration/Angular" />
 
 <div className="docs">
-    <HeaderComponent title="Migration depuis Angular Material" />
-    
+    <div>
+        <HeaderComponent title="Migration depuis Angular Material" />
+        <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+            <Paragraph>Ce guide compare l'architecture et les conventions de nommage d'**Angular Material** avec celles du **Design System RTE**. Si vous migrez depuis Angular Material, cette documentation vous aidera à comprendre les différences fondamentales entre les deux systèmes.</Paragraph>
+        </div>
+    </div>
     <Body>
-        <Accordion title="Introduction" id="introduction">
-            <div style={{ display: "flex", flexDirection: "column", gap: "24px", padding: "4px 8px" }}>
-                <Paragraph>Ce guide compare l'architecture et les conventions de nommage d'**Angular Material** avec celles du **Design System RTE**. Si vous migrez depuis Angular Material, cette documentation vous aidera à comprendre les différences fondamentales entre les deux systèmes.</Paragraph>
-            </div>
-        </Accordion>
-
         <Accordion title="Différences architecturales" id="architectural-differences">
             <div style={{ display: "flex", flexDirection: "column", gap: "24px", padding: "4px 8px" }}>
                 <DocsSection title="Modèle de composants" headingLevel={3}>
