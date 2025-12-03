@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, HostBinding, input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, computed, HostBinding, input } from "@angular/core";
+import { BadgeContent } from "@design-system-rte/core/components/badge/badge.interface";
 import { ButtonSize, ButtonVariant } from "@design-system-rte/core/components/button/common/common-button";
 
 @Component({
@@ -11,8 +12,17 @@ import { ButtonSize, ButtonVariant } from "@design-system-rte/core/components/bu
 export class ButtonComponent {
   readonly rteButtonVariant = input<ButtonVariant>("primary");
   readonly rteButtonSize = input<ButtonSize>("m");
+  readonly rteBadgeCount = input<number>();
+  readonly rteBadgeContent = input<BadgeContent>();
 
   @HostBinding("class") get classes() {
     return `rte-button ${this.rteButtonVariant()} size-${this.rteButtonSize()}`;
   }
+
+  readonly shouldDisplayBadge = computed(() => {
+    const count = this.rteBadgeCount();
+    const content = this.rteBadgeContent();
+
+    return (count && count > 0 && content === "number") || content === "icon";
+  });
 }

@@ -32,6 +32,10 @@ export class OverlayService {
     return this.overlayRoot;
   }
 
+  createWithoutAppend<T>(component: Type<T>, viewContainer: ViewContainerRef): ComponentRef<T> {
+    return viewContainer.createComponent(component);
+  }
+
   create<T>(component: Type<T>, viewContainer: ViewContainerRef, freezeNavigation: boolean = false): ComponentRef<T> {
     const root = this.getOverlayRoot(freezeNavigation);
 
@@ -47,6 +51,12 @@ export class OverlayService {
     };
 
     return componentRef;
+  }
+
+  addToOverlay<T>(componentRef: ComponentRef<T>): void {
+    const root = this.getOverlayRoot(this.isNavigationFrozen);
+    root.appendChild(componentRef.location.nativeElement);
+    this.activeOverlays.add(componentRef);
   }
 
   destroy() {
