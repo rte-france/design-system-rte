@@ -28,5 +28,10 @@
   li {
     font-family: Arial, sans-serif;
   }
+
+  a.docs-link {
+    color: var(--content-primary);
+    text-decoration: underline;
+  }
 }
 
