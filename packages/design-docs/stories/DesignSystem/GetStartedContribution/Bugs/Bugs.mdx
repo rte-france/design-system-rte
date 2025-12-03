@@ -1,0 +1,61 @@
+import { Meta } from "@storybook/blocks"
+
+import DocsSection from "../../../../src/components/DocsSection/DocsSection";
+import HeaderComponent from "../../../../src/components/Header/Header";
+import LastUpdate from "../../../../src/components/LastUpdate/LastUpdate";
+import Accordion from "../../../../src/components/Accordion/Accordion";
+
+import "../../../../src/styles/GeneralDocs.scss";
+import "../../../../src/styles/Police.css"
+import Paragraph from "../../../../src/components/Paragraph/Paragraph";
+import Body from "../../../../src/components/Body/Body";
+
+<Meta title='Design system/Get Started - Contribuer/Bugs et Anomalies'/>
+
+<div className="docs">
+    <HeaderComponent title="Bugs et Anomalies"/>
+    
+    <Body>
+        <Accordion title="Comment signaler un bug">
+            <DocsSection>
+                Les bugs et anomalies du Design System peuvent être signalés via le formulaire dédié. Il est important de fournir toutes les informations nécessaires pour faciliter le diagnostic et la résolution du problème.
+            </DocsSection>
+
+            <DocsSection
+                title="Informations à fournir"
+            >
+                Pour signaler efficacement un bug, veuillez inclure les informations suivantes :
+                <ul>
+                    <li>Description détaillée du problème</li>
+                    <li>Composant concerné</li>
+                    <li>Contexte d'utilisation</li>
+                    <li>Captures d'écran ou exemples visuels</li>
+                    <li>Étapes pour reproduire le bug</li>
+                </ul>
+            </DocsSection>
+        </Accordion>
+
+        <Accordion title="Traitement des bugs">
+            <DocsSection
+                title="Processus de traitement"
+            >
+                Les bugs signalés sont analysés par la Core-Team Design System selon leur priorité et leur impact. Le processus de traitement suit un workflow défini pour garantir une résolution efficace.
+            </DocsSection>
+
+            <DocsSection
+                title="Suivi et communication"
+            >
+                Les contributeurs sont informés de l'avancement du traitement de leur signalement. Un suivi régulier est assuré pour maintenir la transparence sur l'état des corrections.
+            </DocsSection>
+        </Accordion>
+
+        <Accordion title="Priorisation">
+            <DocsSection
+                title="Critères de priorisation"
+            >
+                Les bugs sont priorisés selon différents critères qui prennent en compte l'impact sur les utilisateurs, la fréquence d'occurrence et la complexité de résolution.
+            </DocsSection>
+        </Accordion>
+    </Body>
+</div>
+

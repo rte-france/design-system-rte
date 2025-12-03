@@ -86,7 +86,7 @@ const preview = {
             "Get Started - Kit de migration",
             ["Général", "Pour les designers", "Angular", "React"],
             "Get Started - Contribuer",
-            ["Gouvernance", "Évolutions et nouveaux composants", "Bugs et anomalies", "Icônes"],
+            ["Gouvernance", "Évolutions et nouveaux composants", "Bugs et Anomalies", "Icônes"],
           ],
           "Guidelines",
           "Fondations",
