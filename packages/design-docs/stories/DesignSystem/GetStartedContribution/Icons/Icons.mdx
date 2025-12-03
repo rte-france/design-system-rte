@@ -16,43 +16,43 @@ import Body from "../../../../src/components/Body/Body";
     <HeaderComponent title="Icônes"/>
     
     <Body>
-        <Accordion title="Comment proposer une nouvelle icône">
-            <DocsSection>
-                Les nouvelles icônes peuvent être proposées pour enrichir la librairie du Design System. Chaque proposition est évaluée selon des critères définis pour garantir la cohérence et la qualité de la librairie.
+        <Accordion title="Contribuer à la librairie d’icônes">
+            <DocsSection title="Les questions à se poser avant de contribuer" headingLevel={3}>
+                <ol>
+                    <li>Est-ce que l’icône que je veux ajouter n’existe pas déjà dans la librairie ?</li><br/>
+                    <li>Est-ce qu’une icône existante dans la librairie ne remplit pas déjà la même fonction ?</li><br/>
+                    <li>Est-ce que l’icône que je veux ajouter n’a pas déjà été proposée ?</li><br/>
+                    <li>Est-ce que l’icône que je veux ajouter n’est pas déjà en cours d’analyse ou d’implémentation ?</li><br/>
+                    <li>Est-ce que je peux trouver l’icône que je veux ajouter sur Material Symbols ?</li>
+                </ol>
             </DocsSection>
 
-            <DocsSection
-                title="Vérifications préalables"
-            >
-                Avant de proposer une nouvelle icône, vérifiez que :
-                <ul>
-                    <li>L'icône n'existe pas déjà dans la librairie</li>
-                    <li>Une icône existante ne remplit pas déjà la même fonction</li>
-                    <li>L'icône n'a pas déjà été proposée par un autre contributeur</li>
-                    <li>L'icône est disponible dans Material Symbols</li>
-                </ul>
-            </DocsSection>
-        </Accordion>
-
-        <Accordion title="Processus de contribution">
-            <DocsSection
-                title="Étapes de contribution"
-            >
-                Le processus de contribution pour les icônes suit un workflow structuré qui garantit la cohérence visuelle et l'intégration harmonieuse dans la librairie existante.
-            </DocsSection>
-
-            <DocsSection
-                title="Guidelines de paramétrage"
-            >
-                Les icônes proposées doivent respecter les guidelines de paramétrage définies pour assurer la cohérence avec le reste de la librairie. Ces paramètres ne doivent pas être modifiés.
-            </DocsSection>
-        </Accordion>
-
-        <Accordion title="Validation et intégration">
-            <DocsSection
-                title="Analyse et validation"
-            >
-                Les propositions d'icônes sont analysées par la Core-Team Design System. Si la proposition est validée, l'icône sera intégrée à la librairie selon le processus d'implémentation défini.
+            <DocsSection title="Comment contribuer ?" headingLevel={3}>
+                <ol>
+                    <li><strong> Se rendre sur la page Figma : <u>🚧 Propositions/Validations en cours.</u></strong></li>
+                    <br/>
+                    <li>
+                        <strong>Vérifier que l’icône qui vous manque n’a pas déjà été proposée. Si c’est le cas, ajouter un ❤️ à côté de cette icône.</strong><br/>
+                        <em>Cela nous permet d’évaluer l’universalité du besoin.</em><br/>
+                        <br/>
+                        <strong>Sinon, continuer à l’étape suivante.</strong>
+                    </li>
+                    <br/>
+                    <li>
+                        <strong>Suivre les guidelines pour paramétrer l’icône que vous souhaitez ajouter.</strong>
+                        <em>Nous accordons une importance forte à la cohérence de la librairie. Votre proposition doit donc s’y intégrer harmonieusement.</em>
+                    </li>
+                    <br/>
+                    <li>
+                        <strong>Remplir le journal de contribution.</strong><br/>
+                        <em>Toute icône ajoutée sans remplir ce journal sera supprimée.</em>
+                    </li>
+                    <br/>
+                    <li>
+                        <strong>L’équipe Design System analyse la proposition</strong> (<em>“Analyse en cours”</em>).
+                        <strong>Si la proposition est validée, l’icône sera intégrée à la librairie</strong> (<em>“Implémentation en cours”</em>).
+                    </li>
+                </ol>
             </DocsSection>
         </Accordion>
     </Body>
