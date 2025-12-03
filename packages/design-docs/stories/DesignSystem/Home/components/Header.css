@@ -1,14 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
 
 .header{
     width: 100%;
-    height: 26rem;
     display: flex;
     flex-direction: row;
     align-items: center;
     align-self: stretch;
     gap: 2rem;
-    background-color: #F2F4F8;
     margin-bottom: 2rem;
 
     .header_left_container{
@@ -20,13 +19,13 @@
         padding-left: 32px;
 
         .title{
-            color: #21272A;
-            font-family: 'Nunito', sans-serif;
-            font-size: 4rem;
-            font-weight: 500;
-            line-height: 5.25rem;
-            letter-spacing: -0.02em;
-            margin: 0;
+            color: var(--content-brand-pressed);
+            font-family: Bryant;
+            font-size: 160px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: normal;
+            letter-spacing: var(--heading-5XL-semibold-letter-spacing);
         }
 
         .text{

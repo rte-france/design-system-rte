@@ -198,6 +198,24 @@
   letter-spacing: $heading-m-semibold-letter-spacing;
 }
 
+@mixin typography-heading-l {
+  @include typography-heading;
+  font-family: $heading-l-semibold-font-family;
+  font-weight: $heading-l-semibold-font-weight;
+  font-size: $heading-l-semibold-font-size;
+  line-height: $heading-l-semibold-line-height;
+  letter-spacing: $heading-l-semibold-letter-spacing;
+}
+
+@mixin typography-heading-xl {
+  @include typography-heading;
+  font-family: $heading-xl-semibold-font-family;
+  font-weight: $heading-xl-semibold-font-weight;
+  font-size: $heading-xl-semibold-font-size;
+  line-height: $heading-xl-semibold-line-height;
+  letter-spacing: $heading-xl-semibold-letter-spacing;
+}
+
 @mixin typography-checkbox-error {
   @include typography-text-s;
   font-weight: $text-s-bold-font-weight;

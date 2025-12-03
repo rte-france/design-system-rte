@@ -1,90 +1,82 @@
-import React from "react";
+import Icon from "@design-system-rte/react/src/components/icon/Icon";
+import { ReactNode } from "react";
 
-import "./MainContent.css";
+import "./MainContent.scss";
 
-import designFace from "../assets/face.svg";
-import devFace from "../assets/face_4.svg";
-import placeholder from "../assets/picture.png";
+import Designers from "../assets/Designers.svg";
+import Devs from "../assets/Devs.svg";
+
+const DESIGNERS_LINK =
+  "https://opensource.rte-france.com/design-system-rte/?path=/docs/design-system-get-started-kit-de-démarrage-design--docs";
+const ANGULAR_LINK =
+  "https://opensource.rte-france.com/design-system-rte/?path=/docs/design-system-get-started-kit-de-démarrage-angular--docs";
+const REACT_LINK =
+  "https://opensource.rte-france.com/design-system-rte/?path=/docs/design-system-get-started-kit-de-démarrage-react--docs";
 
 type UserCardProps = {
   icon: string;
   title: string;
   content: string;
   img_background?: string;
+  link?: string;
+  children?: ReactNode;
 };
 
-type ExplanationCardProps = {
-  img: string;
-  title: string;
-  content: string;
-  link: string;
-};
-
-const UserCard = ({ icon, title, content, img_background }: UserCardProps) => (
-  <div className="user_card_container">
-    <img
-      className="img"
-      style={{ backgroundColor: img_background }}
-      src={icon}
-      alt={`${title} avatar icon`}
-      aria-hidden="true"
-    />
-    <p className="title">{title}</p>
-    <p className="content">{content}</p>
-  </div>
-);
-
-const ExplanationCard = ({ img, title, content, link }: ExplanationCardProps) => (
-  <div className="explanation_card_container">
-    <img className="img" src={img} alt={`Image pour ${title}`} aria-hidden="true" />
-    <div className="card_content">
-      <p className="title">{title}</p>
-      <p className="content">{content}</p>
-      <a className="link" href={link}>
-        Plus d'information ➔
-      </a>
+const UserCard = ({ icon, title, content, img_background, link, children }: UserCardProps) => {
+  const contentElement = (
+    <div className="user_card_container">
+      <img
+        className="img"
+        style={{ backgroundColor: img_background }}
+        src={icon}
+        alt={`${title} avatar icon`}
+        aria-hidden="true"
+      />
+      <div className="user_card_content">
+        <p className="title">{title}</p>
+        <p className="content">{content}</p>
+        <div className="user_card_extra">{children}</div>
+      </div>
     </div>
-  </div>
-);
+  );
+
+  if (link) {
+    return <a href={link}>{contentElement}</a>;
+  }
+
+  return contentElement;
+};
 
 const MainContent = () => (
   <main className="main-content">
-    <h2 id="conception" className="main_title">
-      Concevoir et construire ensemble
-    </h2>
+    <div id="conception" className="main_title">
+      Démarrer avec le design system
+    </div>
     <div className="main_user_card_container">
       <UserCard
-        icon={designFace}
-        title="Pour les designers"
-        content="Accédez aux fondations visuelles, aux composants Figma, aux tokens, aux guidelines UI/UX et aux principes d’accessibilité pour concevoir des interfaces claires et harmonisées."
+        icon={Designers}
+        title="Designers"
+        link={DESIGNERS_LINK}
+        content="Découvrez comment installer les librairies Figma et construire vos premiers écrans avec le Design System."
         img_background="#E6DEF0"
       />
       <UserCard
-        icon={devFace}
-        title="Pour les développeurs"
-        content="Accédez à des composants prêts à l’emploi, aux spécifications techniques, aux tokens SCSS et aux bonnes pratiques pour développer des interfaces fiables et efficaces."
+        icon={Devs}
+        title="Développeurs"
+        content="Intégrez la librairie front-end et découvrez comment implémenter les composants DS."
         img_background="#C7DBF0"
-      />
-    </div>
-    <div className="main_explanation_card_container">
-      <ExplanationCard
-        img={placeholder}
-        title="Fondations"
-        content="Les fondations constituent les bases solides sur lesquelles repose tout notre design. Elles définissent les principes directeurs, les valeurs et les choix esthétiques qui garantissent la cohérence et la qualité de chaque élément."
-        link="/design-system"
-      />
-      <ExplanationCard
-        img={placeholder}
-        title="Tokens"
-        content="Les tokens sont les éléments clés qui harmonisent notre design à travers toutes les interfaces. Ils comprennent les couleurs, les typographies et d'autres paramètres essentiels, assurant une expérience utilisateur uniforme."
-        link="/design-system"
-      />
-      <ExplanationCard
-        img={placeholder}
-        title="Composants"
-        content="Nos composants sont les pièces maîtresses interactives de notre design system. Chaque composant est méticuleusement conçu pour être réutilisable, fonctionnel et visuellement attractif. "
-        link="/design-system"
-      />
+      >
+        <div className="user_devs_extra">
+          <a href={ANGULAR_LINK} className="user_devs_extra_link">
+            <span className="user_devs_extra_link_text">Angular</span>
+            <Icon name="arrow-right" size={16} />
+          </a>
+          <a href={REACT_LINK} className="user_devs_extra_link">
+            <span className="user_devs_extra_link_text">React</span>
+            <Icon name="arrow-right" size={16} />
+          </a>
+        </div>
+      </UserCard>
     </div>
   </main>
 );

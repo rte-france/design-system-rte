@@ -1,41 +1,53 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
 
 .user_card_container {
     display: flex;
-    padding: 24px;
-    flex-direction: column;
+    padding: $positive-spacing_250;
+    justify-content: center;
     align-items: center;
-    gap: 16px;
+    gap: $positive-spacing_200;
+    border-radius: $radius-xl;
+    border: $width-xs solid var(--border-tertiary);
 
-    border: 1px solid #DDE1E6;
+    .user_card_content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 16px;
+    }
 
     .img {
-        padding: 12px;
-        border-radius: 8px;
+        max-width: 130px;
     }
 
     .title {
-        color: #697077;
-        font-family: 'Nunito', sans-serif;
-        font-size: 1.5rem;
-        font-style: normal;
-        font-weight: 500;
-        line-height: 32px;
-        letter-spacing: -0.5px;
+        color: var(--content-brand-hover);
+        @include typography-heading-l;
     }
 
     .content {
-        color: #21272A;
-        font-family: 'Arial';
-        font-size: 1rem;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 140%;
+        color: var(--content-secondary);
+        @include typography-text-m-regular;
     }
 
     p {
         margin: 0;
-        text-align: center
+    }
+
+    .user_card_extra {
+        .user_devs_extra {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+        a.user_devs_extra_link {
+            color: var(--content-link-default);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: underline;
+        }
     }
 }
 
@@ -96,20 +108,13 @@
     }
 }
 
-
-
 .main-content {
 
     margin-bottom: 32px;
 
     .main_title {
-        color: #21272A;
-        font-family: 'Nunito', sans-serif;
-        font-size: 2.5rem;
-        font-style: normal;
-        font-weight: 500;
-        line-height: 2.5rem;
-        letter-spacing: -0.02em;
+        color: var(--content-secondary);
+        @include typography-heading-xl;
         margin-bottom: 2rem;
         padding: 0;
         border: 0;
