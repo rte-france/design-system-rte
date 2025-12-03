@@ -1,5 +1,47 @@
 # @design-system-rte/angular
 
+## 0.18.0
+
+### Minor Changes
+
+- adc4eb6: ## Changes
+  - (Docs) add correct component link
+  - (Docs) rearange component navigation structure
+
+- 90fd2b4: ## Changes
+  - (Toast) set correct padding value
+  - (Toast) extract getToastPriority logic to core + use computed to display actionButton + add custom icon to input
+  - (Toast) add to angular test app
+  - (Toast) add angular component
+
+- 1b87a18: ## Changes
+  - (Button) set correct position to badge
+  - (Button) decouple rteBadge from rteButton component but keep Badge capacities in Button
+  - (Button) add badge
+
+- f3d1179: ## Changes
+  - (Banner) remove show icon props + remove top and left radius corner
+  - (Banner) update design
+
+- 005ec89: ## Changes
+  - (Docs) rearange component navigation structure
+
+- b779f76: ## Changes
+  - (Docs) add correct component link
+  - (Docs) rearange component navigation structure
+
+### Patch Changes
+
+- 3963635: ## Changes
+  - (Tag) force icon for status tag type
+  - (Tag) set right color for label and icon on success / information / alert variant
+
+- Updated dependencies [90fd2b4]
+- Updated dependencies [1b87a18]
+- Updated dependencies [f3d1179]
+- Updated dependencies [b779f76]
+  - @design-system-rte/core@0.22.0
+
 ## 0.17.0
 
 ### Minor Changes
