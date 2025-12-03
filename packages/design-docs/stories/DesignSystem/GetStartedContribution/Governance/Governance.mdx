@@ -1,0 +1,103 @@
+import { Meta } from "@storybook/blocks"
+
+import DocsSection from "../../../../src/components/DocsSection/DocsSection";
+import HeaderComponent from "../../../../src/components/Header/Header";
+import LastUpdate from "../../../../src/components/LastUpdate/LastUpdate";
+import Accordion from "../../../../src/components/Accordion/Accordion";
+
+import "../../../../src/styles/GeneralDocs.scss";
+import "../../../../src/styles/Police.css"
+import Paragraph from "../../../../src/components/Paragraph/Paragraph";
+import Body from "../../../../src/components/Body/Body";
+import GovernanceScheme from "./assets/GovernanceScheme.svg";
+import ComiteeTable from "./assets/ComiteeTable.svg";
+
+<Meta title='Design system/Get Started - Contribuer/Gouvernance'/>
+
+<div className="docs">
+    <HeaderComponent title="Gouvernance"/>
+    
+    <Body>
+        <Accordion title="Vision globale de la gouvernance">
+            <DocsSection image={GovernanceScheme}>
+                Le schéma ci-dessous illustre la Gouvernance de Luciole, le Design System de RTE. Un lexique est disponible en fin de page.
+            </DocsSection>
+        </Accordion>
+
+        <Accordion title="Rôles et responsabilités">
+            <DocsSection>
+                **Core-Team Design System**
+                <ul>
+                  <li>
+                    Responsable : Sophie SANS (Head of Design)
+                  </li>
+                  <li>
+                    Rôle :
+                    <ul>
+                      <li>Superviser l’ensemble du Design System.</li>
+                      <li>Valider les ajouts, modifications et évolutions.</li>
+                      <li>Garantir la cohérence et la qualité des composants et de la documentation.</li>
+                      <li>Sponsoriser l’adoption du Design System auprès des acteurs de la DSIT et des autres départements.</li>
+                      <li>Planifier et animer les différentes instances : collectif des Designers, collectifs des Développeurs Front-End et les comités Core-Team Élargie.</li>
+                    </ul>
+                  </li>
+                </ul>
+
+                **Lead Designers ou Porte-paroles**
+                <ul>
+                    <li>Qui : désigné par l’équipe Core-Team et sur la base du volontariat, il y a un Lead Designer pour chaque Département de la DSIT de RTE (hors DPCO à date). Pour les autres départements RTE (R&D par exemple, des portes-paroles sont promus).</li>
+
+                    <li>
+                    Rôle:
+                        <ul>
+                        <li>Responsables d’un périmètre design spécifique (ex : DPCM, DPOI ou DPOSE).</li>
+                        <li>Sponsoriser l’adoption du Design System auprès des acteurs de leur projet (autres développeurs, CP, RPM, MOA etc).</li>
+                        <li>Participer activement au comité mensuel ainsi qu’au collectif des Designers.</li>
+                        <li>Garantir la bonne utilisation du Design System dans leur périmètre.</li>
+                        <li>Remonter les besoins et bugs à la Core-Team via le formulaire et s’assurer que les Designers de son périmètre sachent en faire de même.</li>
+                        </ul>   
+                    </li>
+                </ul>
+
+                **Designers**
+                <ul>
+                    <li>Qui : toute personne intervenant sur la conception d’un projet et ayant des accès “Designers” au Figma RTE.</li>
+                    <li>
+                        Missions :
+                        <ul>
+                            <li>Utiliser les composants et la documentation du Design System.</li>
+                            <li>Participer aux réunions mensuelles du Collectif des Designers RTE.</li>
+                            <li>Remonter rigoureusement les besoins et bugs via le formulaire.</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                **Lead Développeurs Front ou Porte-paroles**
+                <ul>
+                    <li>Missions :</li>
+                    <ul>
+                        <li>Représenter une équipe de développeurs d’un projet de RTE.</li>
+                        <li>Sponsoriser l’adoption du Design System auprès des acteurs de leur projet (autres développeurs, CP, RPM, MOA etc).</li>
+                        <li>Garantir la bonne utilisation du Design System dans leur périmètre applicatif.</li>
+                        <li>Remonter les besoins et bugs à la Core-Team via le formulaire et s’assurer que les Développeurs de son périmètre sachent en faire de même.</li>
+                    </ul>
+                </ul>
+
+                **Développeurs**
+                <ul>
+                    <li>Missions :</li>
+                    <ul>
+                        <li>Utiliser les composants et la documentation du Design System.</li>
+                        <li>Participer aux réunions mensuelles du Collectif des Développeurs Front-End RTE.</li>
+                        <li>Remonter rigoureusement les besoins et bugs via les Lead Développeurs.</li>
+                    </ul>
+                </ul>
+            </DocsSection>
+        </Accordion>
+
+        <Accordion title="Comitologie">
+            <img src={ComiteeTable}/>
+        </Accordion>
+    </Body>
+</div>
+
