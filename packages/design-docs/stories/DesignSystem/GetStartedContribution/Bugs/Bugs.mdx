@@ -16,44 +16,67 @@ import Body from "../../../../src/components/Body/Body";
     <HeaderComponent title="Bugs et Anomalies"/>
     
     <Body>
-        <Accordion title="Comment signaler un bug">
-            <DocsSection>
-                Les bugs et anomalies du Design System peuvent être signalés via le formulaire dédié. Il est important de fournir toutes les informations nécessaires pour faciliter le diagnostic et la résolution du problème.
+        <Accordion title="Anomalies Design">
+            <DocsSection title="Qu’est-ce qu’une anomalie design ?">
+                Une anomalie design désigne un écart ou une incohérence présente dans un livrable produit par l’équipe Design System.
+                Elle a**pparaît dans la documentation, les maquettes de référence, les specs, les tokens ou les composants Figma fou**rnis aux équipes produit.
+
+                <div>
+                    Cela peut concerner :
+                    <ul>
+                        <li>une erreur dans une spec (variantes manquantes, comportements incorrects, propriétés mal définies),</li>
+                        <li>un problème dans un composant Figma (auto-layout incorrect, état absent, naming incohérent, token mal appliqué),</li>
+                        <li>une incohérence visuelle ou ergonomique dans un schéma, un exemple ou une guideline,</li>
+                        <li>une contradiction entre deux pages du Design System.</li>
+                    </ul>
+                </div>
+
+                En résumé, une anomalie design signale que le **Design System lui-même contient une erreur, une divergence ou une ambiguïté.**
+                Sa correction relève exclusivement de l’équipe Design System.
             </DocsSection>
 
             <DocsSection
-                title="Informations à fournir"
+                title="Comment signaler une anomalie design ?"
             >
-                Pour signaler efficacement un bug, veuillez inclure les informations suivantes :
-                <ul>
-                    <li>Description détaillée du problème</li>
-                    <li>Composant concerné</li>
-                    <li>Contexte d'utilisation</li>
-                    <li>Captures d'écran ou exemples visuels</li>
-                    <li>Étapes pour reproduire le bug</li>
-                </ul>
+                Si vous identifiez une erreur dans un livrable du Design System (documentation, spec, composant Figma, tokens, schémas…), vous pouvez la signaler directement dans le **Jira du Design System**.
+
+                Créez un ticket en utilisant le **template “Anomalie Design”, **décrivez l’écart observé, ajoutez des captures ou un lien vers la page concernée, puis expliquez le comportement ou la règle attendue si vous la connaissez.
+
+                🔗 <strong><u>Template → Anomalie Design</u></strong>
+
+                L’équipe Design System analyse ensuite le ticket, confirme l’anomalie et la corrige dans les fichiers ou la documentation concernés.
             </DocsSection>
         </Accordion>
 
-        <Accordion title="Traitement des bugs">
-            <DocsSection
-                title="Processus de traitement"
-            >
-                Les bugs signalés sont analysés par la Core-Team Design System selon leur priorité et leur impact. Le processus de traitement suit un workflow défini pour garantir une résolution efficace.
+        <Accordion title="Anomalies Dev">
+            <DocsSection title="Qu’est-ce qu’une anomalie dev ?">
+                Une anomalie dev désigne un écart ou un dysfonctionnement présent dans la **librairie de composants front-end** publiée par l’équipe Design System.
+                Elle apparaît dans l’implémentation technique mise à disposition des équipes consommatrices.
+
+                <div>
+                    Cela peut concerner :
+                    <ul>
+                        <li>un comportement incorrect du composant (état de survol manquant, focus non conforme, interaction non respectée),</li>
+                        <li>un défaut visuel dans le rendu (espacements, couleurs, alignements différents de la spec),</li>
+                        <li>une régression technique ou un bug fonctionnel,</li>
+                        <li>un problème d’accessibilité dans l’implémentation, malgré une spec conforme.</li>
+                    </ul>
+                </div>
+
+                En résumé, une anomalie dev signale que la **librairie front-end du Design System n’est pas conforme à sa propre documentation.**
+                Comme pour les anomalies design, c’est l’équipe Design System qui en assure la correction.
             </DocsSection>
 
             <DocsSection
-                title="Suivi et communication"
+                title="Comment signaler une anomalie dev ?"
             >
-                Les contributeurs sont informés de l'avancement du traitement de leur signalement. Un suivi régulier est assuré pour maintenir la transparence sur l'état des corrections.
-            </DocsSection>
-        </Accordion>
+                Si vous constatez un écart entre l’implémentation front-end d’un composant Design System et sa spec (comportement incorrect, état manquant, bug visuel, défaut d’accessibilité…), vous pouvez le signaler dans le **Jira du Design System**.
+                
+                Créez un ticket avec le **template “Anomalie Dev”, **décrivez précisément le bug, les étapes pour le reproduire, la version de la librairie utilisée, et fournissez des captures, GIF ou liens Storybook si possible.
 
-        <Accordion title="Priorisation">
-            <DocsSection
-                title="Critères de priorisation"
-            >
-                Les bugs sont priorisés selon différents critères qui prennent en compte l'impact sur les utilisateurs, la fréquence d'occurrence et la complexité de résolution.
+                🔗 <strong><u>Template → Anomalie Dev</u></strong>
+                
+                L’équipe Design System vérifie la conformité avec la spec, puis corrige l’implémentation et publie la mise à jour dans la librairie.
             </DocsSection>
         </Accordion>
     </Body>
