@@ -1,278 +1,292 @@
 import { Meta } from "@storybook/blocks";
 
-import "../../../src/styles/CodeBlocks.css";
+import HeaderComponent from "../../../src/components/Header/Header";
+import Body from "../../../src/components/Body/Body";
+import Accordion from "../../../src/components/Accordion/Accordion";
+import DocsSection from "../../../src/components/DocsSection/DocsSection";
+import Paragraph from "../../../src/components/Paragraph/Paragraph";
+import List from "../../../src/components/List/List";
+import Heading from "../../../src/components/Heading/Heading";
+
+import "../../../src/styles/GeneralDocs.scss";
 import "../../../src/styles/Police.css";
 
 <Meta title="Design system/Get Started - Kit de migration/Angular" />
 
-<h1 id="migration-angular" style={{fontFamily:"Nunito"}}> Migration depuis Angular Material </h1>
+<div className="docs">
+    <HeaderComponent title="Migration depuis Angular Material" />
+    
+    <Body>
+        <Accordion title="Introduction" id="introduction">
+            <div style={{ display: "flex", flexDirection: "column", gap: "24px", padding: "4px 8px" }}>
+                <Paragraph>Ce guide compare l'architecture et les conventions de nommage d'**Angular Material** avec celles du **Design System RTE**. Si vous migrez depuis Angular Material, cette documentation vous aidera à comprendre les différences fondamentales entre les deux systèmes.</Paragraph>
+            </div>
+        </Accordion>
 
-<h2 id="introduction" style={{border:"none", fontFamily:"Nunito"}}> Introduction </h2>
+        <Accordion title="Différences architecturales" id="architectural-differences">
+            <div style={{ display: "flex", flexDirection: "column", gap: "24px", padding: "4px 8px" }}>
+                <DocsSection title="Modèle de composants" headingLevel={3}>
+                    <Paragraph>**Angular Material** utilise principalement des **directives** appliquées sur des éléments HTML natifs, tandis que le **Design System RTE** utilise des **composants standalone** et des **directives** avec leurs propres sélecteurs.</Paragraph>
 
-<p> Ce guide compare l'architecture et les conventions de nommage d'**Angular Material** avec celles du **Design System RTE**. Si vous migrez depuis Angular Material, cette documentation vous aidera à comprendre les différences fondamentales entre les deux systèmes. </p>
+                    <Heading level={4} id="angular-material-approach">Approche Angular Material</Heading>
+                    ```html
+                    <button mat-button>Click me</button>
+                    <input matInput placeholder="Nom">
+                    <mat-checkbox>Accepter</mat-checkbox>
+                    ```
 
-<h2 id="architectural-differences" style={{border:"none", fontFamily:"Nunito"}}> Différences architecturales </h2>
+                    <Heading level={4} id="rte-design-system-approach">Approche Design System RTE</Heading>
+                    ```html
+                    <button rteButton rteButtonVariant="primary">Click me</button>
+                    <rte-text-input label="Nom" />
+                    <rte-checkbox id="accept" label="Accepter" />
+                    ```
+                </DocsSection>
+            </div>
+        </Accordion>
 
-<h3 id="component-model" style={{fontFamily:"Nunito"}}> Modèle de composants </h3>
+        <Accordion title="Tableau comparatif" id="comparison-table">
+            <div style={{ display: "flex", flexDirection: "column", gap: "24px", padding: "4px 8px" }}>
+                <Paragraph>Le tableau suivant compare les composants principaux d'Angular Material avec leurs équivalents dans le Design System RTE :</Paragraph>
 
-<p> **Angular Material** utilise principalement des **directives** appliquées sur des éléments HTML natifs, tandis que le **Design System RTE** utilise des **composants standalone** et des **directives** avec leurs propres sélecteurs. </p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Composant</th>
+                            <th>Angular Material</th>
+                            <th>Design System RTE</th>
+                            <th>Différences principales</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Button</strong></td>
+                            <td><code>&lt;button mat-button&gt;</code><br/><code>&lt;button mat-raised-button&gt;</code><br/><code>&lt;button mat-icon-button&gt;</code></td>
+                            <td><code>&lt;button rteButton&gt;</code><br/><code>&lt;rte-icon-button&gt;</code></td>
+                            <td>Angular Material utilise des directives avec des variantes via des classes (<code>mat-raised-button</code>, <code>mat-icon-button</code>). Le Design System RTE utilise une directive pour le bouton standard et un composant dédié pour les boutons icônes. Les variantes sont passées via des inputs (<code>rteButtonVariant</code>).</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Text Input</strong></td>
+                            <td><code>&lt;mat-form-field&gt;</code><br/><code>&lt;input matInput&gt;</code></td>
+                            <td><code>&lt;rte-text-input&gt;</code></td>
+                            <td>Angular Material sépare le conteneur (<code>mat-form-field</code>) et l'input (<code>matInput</code>). Le Design System RTE encapsule tout dans un seul composant avec des props pour le label, les erreurs, et les icônes.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dialog</strong></td>
+                            <td><code>MatDialog</code> service<br/><code>&lt;mat-dialog-content&gt;</code><br/><code>&lt;mat-dialog-actions&gt;</code></td>
+                            <td><code>rteModal</code> directive<br/><code>rteModalTrigger</code> directive</td>
+                            <td>Angular Material utilise un service pour ouvrir les dialogues avec des composants séparés pour le contenu et les actions. Le Design System RTE utilise une directive déclarative appliquée sur un conteneur avec des templates pour les boutons et le contenu.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Badge</strong></td>
+                            <td><code>&lt;mat-badge&gt;</code></td>
+                            <td><code>&lt;rteBadge&gt;</code></td>
+                            <td>Angular Material utilise un composant, le Design System RTE utilise une directive appliquée sur d'autres composants.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Tag</strong></td>
+                            <td><code>&lt;mat-chip&gt;</code><br/><code>&lt;mat-chip-list&gt;</code></td>
+                            <td><code>&lt;rte-tag&gt;</code></td>
+                            <td>Angular Material distingue les chips et les chips-list. Le Design System RTE utilise un composant tag unique avec des variantes.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Tooltip</strong></td>
+                            <td><code>&lt;mat-tooltip&gt;</code></td>
+                            <td><code>&lt;rteTooltip&gt;</code></td>
+                            <td>Angular Material utilise une directive, le Design System RTE également mais avec une API différente.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Loader</strong></td>
+                            <td><code>&lt;mat-spinner&gt;</code><br/><code>&lt;mat-progress-spinner&gt;</code></td>
+                            <td><code>&lt;rte-loader&gt;</code></td>
+                            <td>Angular Material sépare spinner et progress-spinner. Le Design System RTE unifie dans un composant loader.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </Accordion>
 
-<h4 id="angular-material-approach" style={{fontFamily:"Nunito"}}> Approche Angular Material </h4>
+        <Accordion title="Conventions de nommage" id="naming-conventions">
+            <div style={{ display: "flex", flexDirection: "column", gap: "24px", padding: "4px 8px" }}>
+                <DocsSection title="Sélecteurs" headingLevel={3}>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Aspect</th>
+                                <th>Angular Material</th>
+                                <th>Design System RTE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Préfixe</strong></td>
+                                <td><code>mat-</code></td>
+                                <td><code>rte-</code></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Type</strong></td>
+                                <td>Directives sur éléments natifs + Composants</td>
+                                <td>Composants standalone + Directives</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Exemples</strong></td>
+                                <td><code>mat-button</code>, <code>matInput</code>, <code>mat-checkbox</code></td>
+                                <td><code>rteButton</code>, <code>rte-text-input</code>, <code>rte-checkbox</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </DocsSection>
 
-```html
-<button mat-button>Click me</button>
-<input matInput placeholder="Nom">
-<mat-checkbox>Accepter</mat-checkbox>
-```
+                <DocsSection title="Classes de composants" headingLevel={3}>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Aspect</th>
+                                <th>Angular Material</th>
+                                <th>Design System RTE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Convention</strong></td>
+                                <td>PascalCase avec préfixe <code>Mat</code></td>
+                                <td>PascalCase avec suffixe <code>Component</code></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Exemples</strong></td>
+                                <td><code>MatButton</code>, <code>MatCheckbox</code>, <code>MatDialog</code></td>
+                                <td><code>ButtonComponent</code>, <code>CheckboxComponent</code>, <code>ModalComponent</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </DocsSection>
+            </div>
+        </Accordion>
 
-<h4 id="rte-design-system-approach" style={{fontFamily:"Nunito"}}> Approche Design System RTE </h4>
+        <Accordion title="Exemples de migration" id="migration-examples">
+            <div style={{ display: "flex", flexDirection: "column", gap: "24px", padding: "4px 8px" }}>
+                <DocsSection title="Migration d'un bouton" headingLevel={3}>
+                    <Heading level={4} id="angular-material-button">Angular Material</Heading>
+                    ```html
+                    <button mat-raised-button color="primary" [disabled]="isDisabled" (click)="handleClick()">
+                      Click me
+                    </button>
+                    ```
 
-```html
-<button rteButton rteButtonVariant="primary">Click me</button>
-<rte-text-input label="Nom" />
-<rte-checkbox id="accept" label="Accepter" />
-```
+                    <Heading level={4} id="rte-design-system-button">Design System RTE</Heading>
+                    ```html
+                    <button 
+                      rteButton 
+                      rteButtonVariant="primary" 
+                      [disabled]="isDisabled()" 
+                      (click)="handleClick()"
+                    >
+                      Click me
+                    </button>
+                    ```
+                </DocsSection>
 
-<h2 id="comparison-table" style={{border:"none", fontFamily:"Nunito"}}> Tableau comparatif </h2>
+                <DocsSection title="Migration d'un champ de texte" headingLevel={3}>
+                    <Heading level={4} id="angular-material-input">Angular Material</Heading>
+                    ```html
+                    <mat-form-field appearance="outline">
+                      <mat-label>Nom</mat-label>
+                      <input matInput [(ngModel)]="name" required>
+                      <mat-error *ngIf="hasError">Erreur</mat-error>
+                    </mat-form-field>
+                    ```
 
-<p> Le tableau suivant compare les composants principaux d'Angular Material avec leurs équivalents dans le Design System RTE : </p>
+                    <Heading level={4} id="rte-design-system-input">Design System RTE</Heading>
+                    ```html
+                    <rte-text-input
+                      label="Nom"
+                      [value]="name()"
+                      [error]="hasError()"
+                      [required]="true"
+                      (valueChange)="name.set($event)"
+                    />
+                    ```
+                </DocsSection>
 
-<table>
-  <thead>
-    <tr>
-      <th>Composant</th>
-      <th>Angular Material</th>
-      <th>Design System RTE</th>
-      <th>Différences principales</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>Button</strong></td>
-      <td><code>&lt;button mat-button&gt;</code><br/><code>&lt;button mat-raised-button&gt;</code><br/><code>&lt;button mat-icon-button&gt;</code></td>
-      <td><code>&lt;button rteButton&gt;</code><br/><code>&lt;rte-icon-button&gt;</code></td>
-      <td>Angular Material utilise des directives avec des variantes via des classes (<code>mat-raised-button</code>, <code>mat-icon-button</code>). Le Design System RTE utilise une directive pour le bouton standard et un composant dédié pour les boutons icônes. Les variantes sont passées via des inputs (<code>rteButtonVariant</code>).</td>
-    </tr>
-    <tr>
-      <td><strong>Text Input</strong></td>
-      <td><code>&lt;mat-form-field&gt;</code><br/><code>&lt;input matInput&gt;</code></td>
-      <td><code>&lt;rte-text-input&gt;</code></td>
-      <td>Angular Material sépare le conteneur (<code>mat-form-field</code>) et l'input (<code>matInput</code>). Le Design System RTE encapsule tout dans un seul composant avec des props pour le label, les erreurs, et les icônes.</td>
-    </tr>
-    <tr>
-      <td><strong>Dialog</strong></td>
-      <td><code>MatDialog</code> service<br/><code>&lt;mat-dialog-content&gt;</code><br/><code>&lt;mat-dialog-actions&gt;</code></td>
-      <td><code>rteModal</code> directive<br/><code>rteModalTrigger</code> directive</td>
-      <td>Angular Material utilise un service pour ouvrir les dialogues avec des composants séparés pour le contenu et les actions. Le Design System RTE utilise une directive déclarative appliquée sur un conteneur avec des templates pour les boutons et le contenu.</td>
-    </tr>
-    <tr>
-      <td><strong>Badge</strong></td>
-      <td><code>&lt;mat-badge&gt;</code></td>
-      <td><code>&lt;rteBadge&gt;</code></td>
-      <td>Angular Material utilise un composant, le Design System RTE utilise une directive appliquée sur d'autres composants.</td>
-    </tr>
-    <tr>
-      <td><strong>Tag</strong></td>
-      <td><code>&lt;mat-chip&gt;</code><br/><code>&lt;mat-chip-list&gt;</code></td>
-      <td><code>&lt;rte-tag&gt;</code></td>
-      <td>Angular Material distingue les chips et les chips-list. Le Design System RTE utilise un composant tag unique avec des variantes.</td>
-    </tr>
-    <tr>
-      <td><strong>Tooltip</strong></td>
-      <td><code>&lt;mat-tooltip&gt;</code></td>
-      <td><code>&lt;rteTooltip&gt;</code></td>
-      <td>Angular Material utilise une directive, le Design System RTE également mais avec une API différente.</td>
-    </tr>
-    <tr>
-      <td><strong>Loader</strong></td>
-      <td><code>&lt;mat-spinner&gt;</code><br/><code>&lt;mat-progress-spinner&gt;</code></td>
-      <td><code>&lt;rte-loader&gt;</code></td>
-      <td>Angular Material sépare spinner et progress-spinner. Le Design System RTE unifie dans un composant loader.</td>
-    </tr>
-  </tbody>
-</table>
+                <DocsSection title="Migration d'une case à cocher" headingLevel={3}>
+                    <Heading level={4} id="angular-material-checkbox">Angular Material</Heading>
+                    ```html
+                    <mat-checkbox [(ngModel)]="isChecked" [disabled]="isDisabled">
+                      Accept the terms and conditions
+                    </mat-checkbox>
+                    ```
 
-<h2 id="naming-conventions" style={{border:"none", fontFamily:"Nunito"}}> Conventions de nommage </h2>
+                    <Heading level={4} id="rte-design-system-checkbox">Design System RTE</Heading>
+                    ```html
+                    <rte-checkbox
+                      id="accept"
+                      label="Accept the terms and conditions"
+                      [checked]="isChecked()"
+                      [disabled]="isDisabled()"
+                    />
+                    ```
+                </DocsSection>
 
-<h3 id="selectors" style={{fontFamily:"Nunito"}}> Sélecteurs </h3>
+                <DocsSection title="Migration d'un dialogue" headingLevel={3}>
+                    <Heading level={4} id="angular-material-dialog">Angular Material</Heading>
+                    ```typescript
+                    // Dans le composant
+                    constructor(private dialog: MatDialog) {}
 
-<table>
-  <thead>
-    <tr>
-      <th>Aspect</th>
-      <th>Angular Material</th>
-      <th>Design System RTE</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>Préfixe</strong></td>
-      <td><code>mat-</code></td>
-      <td><code>rte-</code></td>
-    </tr>
-    <tr>
-      <td><strong>Type</strong></td>
-      <td>Directives sur éléments natifs + Composants</td>
-      <td>Composants standalone + Directives</td>
-    </tr>
-    <tr>
-      <td><strong>Exemples</strong></td>
-      <td><code>mat-button</code>, <code>matInput</code>, <code>mat-checkbox</code></td>
-      <td><code>rteButton</code>, <code>rte-text-input</code>, <code>rte-checkbox</code></td>
-    </tr>
-  </tbody>
-</table>
+                    openDialog() {
+                      const dialogRef = this.dialog.open(MyDialogComponent, {
+                        width: '400px',
+                        data: { title: 'Titre' }
+                      });
+                      
+                      dialogRef.afterClosed().subscribe(result => {
+                        console.log(result);
+                      });
+                    }
+                    ```
 
-<h3 id="component-classes" style={{fontFamily:"Nunito"}}> Classes de composants </h3>
+                    ```html
+                    <!-- MyDialogComponent template -->
+                    <h2 mat-dialog-title>Title</h2>
+                    <mat-dialog-content>Content</mat-dialog-content>
+                    <mat-dialog-actions>
+                      <button mat-button mat-dialog-close>Cancel</button>
+                      <button mat-button [mat-dialog-close]="true">Validate</button>
+                    </mat-dialog-actions>
+                    ```
 
-<table>
-  <thead>
-    <tr>
-      <th>Aspect</th>
-      <th>Angular Material</th>
-      <th>Design System RTE</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>Convention</strong></td>
-      <td>PascalCase avec préfixe <code>Mat</code></td>
-      <td>PascalCase avec suffixe <code>Component</code></td>
-    </tr>
-    <tr>
-      <td><strong>Exemples</strong></td>
-      <td><code>MatButton</code>, <code>MatCheckbox</code>, <code>MatDialog</code></td>
-      <td><code>ButtonComponent</code>, <code>CheckboxComponent</code>, <code>ModalComponent</code></td>
-    </tr>
-  </tbody>
-</table>
+                    <Heading level={4} id="rte-design-system-modal">Design System RTE</Heading>
+                    ```html
+                    <!-- Approche déclarative avec directive -->
+                    <div
+                      rteModal
+                      [rteModalId]="'my-modal'"
+                      [rteModalTitle]="'Title'"
+                      [rteModalDescription]="'Content'"
+                      [rteModalSize]="'m'"
+                    >
+                      <button rteButton rteButtonVariant="primary" rteModalTrigger>Open Modal</button>
+                      <ng-template #primaryButton>
+                        <button rteButton rteButtonVariant="primary" (click)="handleValidate()">Validate</button>
+                      </ng-template>
+                      <ng-template #secondaryButton>
+                        <button rteButton rteButtonVariant="neutral" (click)="handleCancel()">Cancel</button>
+                      </ng-template>
+                    </div>
+                    ```
+                </DocsSection>
+            </div>
+        </Accordion>
 
-<h2 id="migration-examples" style={{border:"none", fontFamily:"Nunito"}}> Exemples de migration </h2>
-
-<h3 id="button-migration" style={{fontFamily:"Nunito"}}> Migration d'un bouton </h3>
-
-<h4 id="angular-material-button" style={{fontFamily:"Nunito"}}> Angular Material </h4>
-
-```html
-<button mat-raised-button color="primary" [disabled]="isDisabled" (click)="handleClick()">
-  Click me
-</button>
-```
-
-<h4 id="rte-design-system-button" style={{fontFamily:"Nunito"}}> Design System RTE </h4>
-
-```html
-<button 
-  rteButton 
-  rteButtonVariant="primary" 
-  [disabled]="isDisabled()" 
-  (click)="handleClick()"
->
-  Click me
-</button>
-```
-
-<h3 id="input-migration" style={{fontFamily:"Nunito"}}> Migration d'un champ de texte </h3>
-
-<h4 id="angular-material-input" style={{fontFamily:"Nunito"}}> Angular Material </h4>
-
-```html
-<mat-form-field appearance="outline">
-  <mat-label>Nom</mat-label>
-  <input matInput [(ngModel)]="name" required>
-  <mat-error *ngIf="hasError">Erreur</mat-error>
-</mat-form-field>
-```
-
-<h4 id="rte-design-system-input" style={{fontFamily:"Nunito"}}> Design System RTE </h4>
-
-```html
-<rte-text-input
-  label="Nom"
-  [value]="name()"
-  [error]="hasError()"
-  [required]="true"
-  (valueChange)="name.set($event)"
-/>
-```
-
-<h3 id="checkbox-migration" style={{fontFamily:"Nunito"}}> Migration d'une case à cocher </h3>
-
-<h4 id="angular-material-checkbox" style={{fontFamily:"Nunito"}}> Angular Material </h4>
-
-```html
-<mat-checkbox [(ngModel)]="isChecked" [disabled]="isDisabled">
-  Accept the terms and conditions
-</mat-checkbox>
-```
-
-<h4 id="rte-design-system-checkbox" style={{fontFamily:"Nunito"}}> Design System RTE </h4>
-
-```html
-<rte-checkbox
-  id="accept"
-  label="Accept the terms and conditions"
-  [checked]="isChecked()"
-  [disabled]="isDisabled()"
-/>
-```
-
-<h3 id="dialog-migration" style={{fontFamily:"Nunito"}}> Migration d'un dialogue </h3>
-
-<h4 id="angular-material-dialog" style={{fontFamily:"Nunito"}}> Angular Material </h4>
-
-```typescript
-// Dans le composant
-constructor(private dialog: MatDialog) {}
-
-openDialog() {
-  const dialogRef = this.dialog.open(MyDialogComponent, {
-    width: '400px',
-    data: { title: 'Titre' }
-  });
-  
-  dialogRef.afterClosed().subscribe(result => {
-    console.log(result);
-  });
-}
-```
-
-```html
-<!-- MyDialogComponent template -->
-<h2 mat-dialog-title>Title</h2>
-<mat-dialog-content>Content</mat-dialog-content>
-<mat-dialog-actions>
-  <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button [mat-dialog-close]="true">Validate</button>
-</mat-dialog-actions>
-```
-
-<h4 id="rte-design-system-modal" style={{fontFamily:"Nunito"}}> Design System RTE </h4>
-
-```html
-<!-- Approche déclarative avec directive -->
-<div
-  rteModal
-  [rteModalId]="'my-modal'"
-  [rteModalTitle]="'Title'"
-  [rteModalDescription]="'Content'"
-  [rteModalSize]="'m'"
->
-  <button rteButton rteButtonVariant="primary" rteModalTrigger>Open Modal</button>
-  <ng-template #primaryButton>
-    <button rteButton rteButtonVariant="primary" (click)="handleValidate()">Validate</button>
-  </ng-template>
-  <ng-template #secondaryButton>
-    <button rteButton rteButtonVariant="neutral" (click)="handleCancel()">Cancel</button>
-  </ng-template>
+        <Accordion title="Checklist de migration" id="migration-checklist">
+            <div style={{ display: "flex", flexDirection: "column", gap: "24px", padding: "4px 8px" }}>
+                <List>
+                    <li>Remplacer les imports de modules Angular Material par des imports de composants standalone</li>
+                    <li>Remplacer les composants et directives `mat-*` par les composants et directives `rte-*` équivalents</li>
+                    <li>Mettre à jour la configuration de thème</li>
+                    <li>Tester l'accessibilité et les comportements interactifs</li>
+                </List>
+            </div>
+        </Accordion>
+    </Body>
 </div>
-```
-
-<h2 id="migration-checklist" style={{border:"none", fontFamily:"Nunito"}}> Checklist de migration </h2>
-
-<ul>
-  <li>  Remplacer les imports de modules Angular Material par des imports de composants standalone </li>
-  <li>  Remplacer les composants et directives `mat-*` par les composants et directives `rte-*` équivalents </li>
-  <li>  Mettre à jour la configuration de thème </li>
-  <li>  Tester l'accessibilité et les comportements interactifs </li>
-</ul>
