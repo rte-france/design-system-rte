@@ -2,7 +2,6 @@ import "../src/styles/CodeBlocks.css";
 
 /** @type { import('@storybook/react').Preview } */
 import { addons } from "@storybook/preview-api";
-
 import "./preview.scss";
 
 const preview = {
