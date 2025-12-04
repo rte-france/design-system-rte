@@ -7,13 +7,13 @@ import { SwitchComponent } from "../../switch/switch.component";
 import { BannerComponent } from "../banner.component";
 
 const meta: Meta<BannerComponent> = {
-  title: "Banner",
+  title: "Composants/Banner",
   component: BannerComponent,
   tags: ["autodocs"],
   argTypes: {
     type: {
       control: "select",
-      options: ["default", "alert"],
+      options: ["info", "error", "success", "warning"],
     },
     title: {
       control: "text",
@@ -29,9 +29,6 @@ const meta: Meta<BannerComponent> = {
       options: ["push", "overlay"],
     },
     closable: {
-      control: "boolean",
-    },
-    showIcon: {
       control: "boolean",
     },
     isOpen: {
@@ -50,7 +47,7 @@ export const Default: Story = {
     title: "La mise à jour est disponible !",
     message:
       "Une nouvelle mise à jour a été déployée sur l’environnement de production. Pour découvrir toutes les fonctionnalités et corrections d’anomalies, veuillez cliquer sur le bouton ci-contre.",
-    type: "default",
+    type: "info",
     isOpen: true,
   },
 };
@@ -61,7 +58,7 @@ export const Alert: Story = {
     title: "Indisponibilité de l’application",
     message:
       "Dans le cadre des changements de serveur à venir le 18 mai 2026, votre application évolue et sera par conséquent indisponible du 29 mars au 12 avril 2026.",
-    type: "alert",
+    type: "error",
   },
 };
 
@@ -77,13 +74,11 @@ export const WithIcon: Story = {
           [title]="title"
           [message]="message"
           [type]="type"
-          [showIcon]="true"
           />
         <rte-banner
           [title]="title"
           [message]="message"
-          [type]="'alert'"
-          [showIcon]="true"
+          [type]="'error'"
           />
     </div>
     `,
@@ -117,7 +112,6 @@ export const Closable: Story = {
           [title]="title"
           [message]="message"
           [type]="type"
-          [showIcon]="true"
           [closable]="true"
           [isOpen]="isOpen"
           (close)="close()"
@@ -149,7 +143,6 @@ export const WithAction: Story = {
           [title]="title"
           [message]="message"
           [type]="type"
-          [showIcon]="true"
           [isOpen]="isOpen"
           [actionLabel]="actionLabel"
           (click)="actionCallback()"
@@ -189,7 +182,6 @@ export const Overlay: Story = {
         [title]="title"
         [message]="message"
         [type]="type"
-        [showIcon]="true"
         [closable]="true"
         [isOpen]="isOpen"
         (close)="close()"
@@ -251,7 +243,6 @@ export const KeyboardInteraction: Story = {
           [title]="title"
           [message]="message"
           [type]="type"
-          [showIcon]="true"
           [closable]="true"
           [isOpen]="isOpen"
           (close)="close()"
