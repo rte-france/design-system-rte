@@ -1,11 +1,18 @@
 # @design-system-rte/react
 
+## 1.0.1
+
+### Patch Changes
+
+- 0a36e15: ## Changes
+  - (Docs) order toast stories
+
 ## 1.0.0
 
 ### Major Changes
 
 - adc4eb6: ## Changes
-  - (Public Release) Public Release 
+  - (Public Release) Public Release
 
 ### Minor Changes
 

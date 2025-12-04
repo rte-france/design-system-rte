@@ -2,6 +2,17 @@
 
 # Angular
 
+## 1.0.1
+
+### Docs
+
+#### Patch Changes
+
+- order toast stories
+
+### Other
+
+
 ## 1.0.0
 
 ### Public Release
@@ -40,6 +51,16 @@
 
 - force icon for status tag type
 - set right color for label and icon on success / information / alert variant
+
+### Other
+
+#### Patch Changes
+
+- Updated dependencies [90fd2b4]
+- Updated dependencies [1b87a18]
+- Updated dependencies [f3d1179]
+- Updated dependencies [b779f76]
+- @design-system-rte/core@0.22.0
 
 ## 0.17.0
 
@@ -119,6 +140,17 @@
 - @design-system-rte/core@0.20.0
 # React
 
+## 1.0.1
+
+### Docs
+
+#### Patch Changes
+
+- order toast stories
+
+### Other
+
+
 ## 1.0.0
 
 ### Public Release
@@ -127,14 +159,6 @@
 
 - Public Release
 
-#### Minor Changes
-
-- add correct component link
-- rearange component navigation structure
-- rearange component navigation structure
-- add correct component link
-- rearange component navigation structure
-
 ### Toast
 
 #### Minor Changes
@@ -142,7 +166,6 @@
 - set correct padding value
 - extract getToastPriority logic to core + use computed to display actionButton + add custom icon to input
 - restrict action button appearance using only label and callback props
-- add angular component
 - add spacing from viewport + handle warning case in priority + add leftIcon and action button display boolean
 - add useCallback to prevent infinite rendering
 - add component to react test app
@@ -309,6 +332,9 @@
 - remove show icon props + remove top and left radius corner
 - update design
 
+### Other
+
+
 ## 0.21.0
 
 ### Docs
@@ -385,58 +411,40 @@
 - add correct component link
 - extract introduction in general bloc
 - add new templating to get started docs for devs
+- add missing link to Icons docs page
+- add new Home page for docs
 - update Governance scheme in docs
+- add missing libraries image for Design startup docs
 - add design startup docs
 - Add page valeurs
 - add Kit de migration - general page
 - add corrected Governance Scheme to docs
+- add missing links to Contribution docs
+- add missing Figma link to Icons page
 - add contribution/icons docs
 - add bugs docs
 - add evolutions docs
 - add governance docs
 - rearange component navigation structure
 - update accessibility page to match global layout
+- change title from Typographie to Typography
 - add icons docs
 - add navigation for GetStarted sections
 - rearange navigation sections for common part
 - Add Elevation page
 - add grids docs
 - add border docs
-- Add design tokens page
-- add missing link to Icons docs page
-- add new Home page for docs
-
-#### Patch Changes
-
-- prune typography doc files
 - correct typography content padding
 - correct typography redaction
-- add missing links to Contribution docs
-- add missing Figma link to Icons page
-- add missing libraries image for Design startup docs
-
-### Typography
-
-#### Minor Changes
-
-- change title from Typographie to Typography
-
-### Design Docs
-
-#### Minor Changes
-
+- remove scaffolding files from typography implementation
+- prune typography doc files
 - add typography docs
-
-#### Patch Changes
-
-- add typography docs
-
-### Doc
-
-#### Minor Changes
-
 - add heading level 4 style
 - Add Colors page
+- Add design tokens page
+
+### Other
+
 
 ## 0.9.0
 
