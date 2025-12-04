@@ -1,7 +1,12 @@
 # @design-system-rte/core
 
-## 0.22.0
+## 1.0.0
 
+### Major Changes
+
+- adc4eb6: ## Changes
+  - (Public Release) Public Release
+  
 ### Minor Changes
 
 - 90fd2b4: ## Changes
@@ -18,10 +23,7 @@
 - f3d1179: ## Changes
   - (Banner) remove show icon props + remove top and left radius corner
   - (Banner) update design
-
-- b779f76: ## Changes
-  - (Docs) add new Home page for docs
-
+  
 ## 0.21.0
 
 ### Minor Changes
