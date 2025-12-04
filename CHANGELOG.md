@@ -2,17 +2,13 @@
 
 # Angular
 
-## 0.18.0
+## 1.0.0
 
-### Docs
+### Public Release
 
-#### Minor Changes
+#### Major Changes
 
-- add correct component link
-- rearange component navigation structure
-- rearange component navigation structure
-- add correct component link
-- rearange component navigation structure
+- Public Release
 
 ### Toast
 
@@ -44,16 +40,6 @@
 
 - force icon for status tag type
 - set right color for label and icon on success / information / alert variant
-
-### Other
-
-#### Patch Changes
-
-- Updated dependencies [90fd2b4]
-- Updated dependencies [1b87a18]
-- Updated dependencies [f3d1179]
-- Updated dependencies [b779f76]
-- @design-system-rte/core@0.22.0
 
 ## 0.17.0
 
@@ -133,9 +119,13 @@
 - @design-system-rte/core@0.20.0
 # React
 
-## 0.17.0
+## 1.0.0
 
-### Docs
+### Public Release
+
+#### Major Changes
+
+- Public Release
 
 #### Minor Changes
 
@@ -287,7 +277,13 @@
 - @design-system-rte/core@0.20.0
 # Core
 
-## 0.22.0
+## 1.0.0
+
+### Public Release
+
+#### Major Changes
+
+- Public Release
 
 ### Toast
 
@@ -312,15 +308,6 @@
 
 - remove show icon props + remove top and left radius corner
 - update design
-
-### Docs
-
-#### Minor Changes
-
-- add new Home page for docs
-
-### Other
-
 
 ## 0.21.0
 
@@ -383,7 +370,13 @@
 
 # Design Docs
 
-## 0.10.0
+## 1.0.0
+
+### Public Release
+
+#### Major Changes
+
+- Public Release
 
 ### Docs
 
@@ -393,13 +386,10 @@
 - extract introduction in general bloc
 - add new templating to get started docs for devs
 - update Governance scheme in docs
-- add missing libraries image for Design startup docs
 - add design startup docs
 - Add page valeurs
 - add Kit de migration - general page
 - add corrected Governance Scheme to docs
-- add missing links to Contribution docs
-- add missing Figma link to Icons page
 - add contribution/icons docs
 - add bugs docs
 - add evolutions docs
@@ -412,108 +402,29 @@
 - Add Elevation page
 - add grids docs
 - add border docs
-- correct typography redaction
-- remove scaffolding files from typography implementation
-- prune typography doc files
-- add border docs
-- update accessibility page to match global layout
-- add icons docs
-- add navigation for GetStarted sections
-- rearange navigation sections for common part
-- Add Elevation page
-- add grids docs
-- add border docs
-- correct typography redaction
-- remove scaffolding files from typography implementation
-- prune typography doc files
-- Add Elevation page
-- correct typography content padding
-- correct typography redaction
-- remove scaffolding files from typography implementation
-- prune typography doc files
 - Add design tokens page
-- add Kit de migration - general page
-- update accessibility page to match global layout
-- add icons docs
-- add navigation for GetStarted sections
-- rearange navigation sections for common part
-- Add Elevation page
-- add grids docs
-- add border docs
-- correct typography redaction
-- remove scaffolding files from typography implementation
-- prune typography doc files
-- Add page valeurs
-- add Kit de migration - general page
-- add missing Figma link to Icons page
-- add contribution/icons docs
-- add bugs docs
-- add evolutions docs
-- add governance docs
-- rearange component navigation structure
-- update accessibility page to match global layout
-- add icons docs
-- add navigation for GetStarted sections
-- rearange navigation sections for common part
-- Add Elevation page
-- add grids docs
-- add border docs
-- correct typography redaction
-- remove scaffolding files from typography implementation
-- prune typography doc files
-- add correct component link
-- extract introduction in general bloc
-- add new templating to get started docs for devs
 - add missing link to Icons docs page
 - add new Home page for docs
-- update Governance scheme in docs
-- add missing libraries image for Design startup docs
-- add design startup docs
-- Add page valeurs
-- add Kit de migration - general page
-- add corrected Governance Scheme to docs
-- add missing links to Contribution docs
-- add missing Figma link to Icons page
-- add contribution/icons docs
-- add bugs docs
-- add evolutions docs
-- add governance docs
-- rearange component navigation structure
-- update accessibility page to match global layout
-- add icons docs
-- add navigation for GetStarted sections
-- rearange navigation sections for common part
-- Add Elevation page
-- add grids docs
-- add border docs
-- correct typography redaction
-- remove scaffolding files from typography implementation
-- prune typography doc files
-- add grids docs
 
 #### Patch Changes
 
 - prune typography doc files
+- correct typography content padding
+- correct typography redaction
+- add missing links to Contribution docs
+- add missing Figma link to Icons page
+- add missing libraries image for Design startup docs
 
 ### Typography
 
 #### Minor Changes
 
 - change title from Typographie to Typography
-- change title from Typographie to Typography
-- change title from Typographie to Typography
-- change title from Typographie to Typography
-- change title from Typographie to Typography
 
 ### Design Docs
 
 #### Minor Changes
 
-- add typography docs
-- add typography docs
-- add typography docs
-- add typography docs
-- add typography docs
 - add typography docs
 
 #### Patch Changes
@@ -526,20 +437,6 @@
 
 - add heading level 4 style
 - Add Colors page
-- add heading level 4 style
-- Add Colors page
-- Add Colors page
-- add heading level 4 style
-- Add Colors page
-- add heading level 4 style
-- Add Colors page
-- add heading level 4 style
-- Add Colors page
-- add heading level 4 style
-- Add Colors page
-
-### Other
-
 
 ## 0.9.0
 

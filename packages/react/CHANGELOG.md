@@ -1,18 +1,18 @@
 # @design-system-rte/react
 
-## 0.17.0
+## 1.0.0
 
-### Minor Changes
+### Major Changes
 
 - adc4eb6: ## Changes
-  - (Docs) add correct component link
-  - (Docs) rearange component navigation structure
+  - (Public Release) Public Release 
+
+### Minor Changes
 
 - 90fd2b4: ## Changes
   - (Toast) set correct padding value
   - (Toast) extract getToastPriority logic to core + use computed to display actionButton + add custom icon to input
   - (Toast) restrict action button appearance using only label and callback props
-  - (Toast) add angular component
   - (Toast) add spacing from viewport + handle warning case in priority + add leftIcon and action button display boolean
   - (Toast) add useCallback to prevent infinite rendering
   - (Toast) add component to react test app
@@ -26,13 +26,6 @@
 - f3d1179: ## Changes
   - (Banner) remove show icon props + remove top and left radius corner
   - (Banner) update design
-
-- 005ec89: ## Changes
-  - (Docs) rearange component navigation structure
-
-- b779f76: ## Changes
-  - (Docs) add correct component link
-  - (Docs) rearange component navigation structure
 
 ### Patch Changes
 
