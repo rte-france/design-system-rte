@@ -41,6 +41,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       width,
       onChange,
       onRightIconClick,
+      compactSpacing,
       ...props
     }: TextInputProps,
     ref,
@@ -148,7 +149,13 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
     ) : null;
 
     return (
-      <div className={style.container} data-label-position={labelPosition} data-error={error} style={{ width }}>
+      <div
+        className={style.container}
+        data-label-position={labelPosition}
+        data-error={error}
+        style={{ width }}
+        data-compact-spacing={compactSpacing}
+      >
         {label && (
           <div className={style.text}>
             <div className={style.labelContainer}>

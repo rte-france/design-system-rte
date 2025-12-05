@@ -46,6 +46,7 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
       children,
       offset = 0,
       alignment = "start",
+      autofocus = true,
       ...props
     },
     ref,
@@ -196,10 +197,10 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
     }, [hasParent, dropdownElement, triggerElement, position, alignment, positionChildDropdown, positionDropdown]);
 
     useEffect(() => {
-      if (isOpen && dropdownElement) {
+      if (isOpen && dropdownElement && autofocus) {
         focusDropdownFirstElement(autoId);
       }
-    }, [isOpen, autoId, dropdownElement]);
+    }, [isOpen, autoId, dropdownElement, autofocus]);
 
     return (
       <DropdownContextProvider dropdownId={autoId} closeRoot={closeDropdown} autoClose={autoClose}>
