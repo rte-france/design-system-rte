@@ -40,6 +40,7 @@
     align-self: stretch;
     border-radius: $radius-s;
     border: $width-xs solid var(--border-secondary);
+    box-sizing: border-box;
 
     &:hover {
       border-color: var(--border-primary);
@@ -70,13 +71,14 @@
       color: var(--content-disabled);
       background-color: var(--background-disabled);
       border-color: var(--border-disabled);
+      outline: none;
 
       &:hover {
         cursor: not-allowed;
+        border-color: var(--border-disabled);
       }
 
       .trigger-icon {
-        color: var(--content-disabled);
         pointer-events: none;
       }
     }
@@ -85,9 +87,11 @@
       color: var(--content-tertiary);
       background-color: var(--background-disabled);
       border-color: var(--border-tertiary);
+      outline: none;
 
       &:hover {
         cursor: default;
+        border-color: var(--border-tertiary);
       }
 
       .trigger-icon {
