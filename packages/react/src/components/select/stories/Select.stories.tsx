@@ -43,7 +43,7 @@ export const Default: Story = {
     options: [
       { value: "option-1", label: "Option 1" },
       { value: "option-2", label: "Option 2" },
-      { value: "option-3", label: "Option 3 (Danger)" },
+      { value: "option-3", label: "Option 3" },
     ],
     disabled: false,
     readonly: false,
@@ -52,19 +52,45 @@ export const Default: Story = {
     const [selectedOption, setSelectedOption] = useState<{ label: string; value: string }>();
 
     const handleOnChange = (value: string) => {
-      if (value === "option-3") {
-        setIsError(true);
-      } else {
-        setIsError(false);
-      }
       setSelectedOption(args.options.find((option) => option.value === value));
     };
 
-    const [isError, setIsError] = useState(false);
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: "16px", width: "280px" }}>
+        <Select {...args} onChange={handleOnChange} value={selectedOption?.value} />
+        <span style={{ fontFamily: "Arial" }}>Selected value : {selectedOption?.label || "No value"}</span>
+      </div>
+    );
+  },
+};
+
+export const error: Story = {
+  args: {
+    id: "select1",
+    label: "Choisir une option",
+    showLabel: true,
+    isError: true,
+    assistiveAppearance: "description",
+    showAssistiveIcon: false,
+    assistiveTextLabel: "This is a description for the select component.",
+    options: [
+      { value: "option-1", label: "Option 1" },
+      { value: "option-2", label: "Option 2" },
+      { value: "option-3", label: "Option 3" },
+    ],
+    disabled: false,
+    readonly: false,
+  },
+  render: (args) => {
+    const [selectedOption, setSelectedOption] = useState<{ label: string; value: string }>();
+
+    const handleOnChange = (value: string) => {
+      setSelectedOption(args.options.find((option) => option.value === value));
+    };
 
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "16px", width: "280px" }}>
-        <Select {...args} onChange={handleOnChange} isError={isError} value={selectedOption?.value} />
+        <Select {...args} onChange={handleOnChange} value={selectedOption?.value} />
         <span style={{ fontFamily: "Arial" }}>Selected value : {selectedOption?.label || "No value"}</span>
       </div>
     );

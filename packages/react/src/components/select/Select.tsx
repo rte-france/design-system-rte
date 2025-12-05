@@ -43,6 +43,8 @@ const Select = ({
 
   const currentOptionLabel = options.find((option) => option.value === internalValue)?.label;
 
+  const shouldDisplayErrorIcon = isError && !disabled && !readonly;
+
   const handleOnClick = () => {
     if (selectRef.current) {
       if (disabled || readonly) {
@@ -66,6 +68,7 @@ const Select = ({
     e.stopPropagation();
     handleOnChange("");
     onClear?.();
+    selectRef.current?.focus();
   };
 
   const handleOnChange = (newValue: string) => {
@@ -116,7 +119,7 @@ const Select = ({
                 onKeyDown={handleKeyDown}
               >
                 <div className={styles["select-content"]}>
-                  {isError && <Icon name="error" className={styles["error-icon"]} />}
+                  {shouldDisplayErrorIcon && <Icon name="error" className={styles["error-icon"]} />}
                   <div className={styles["select-value"]}>
                     <span>{currentOptionLabel}</span>
                   </div>
@@ -156,7 +159,7 @@ const Select = ({
           {assistiveTextLabel && (
             <AssistiveText
               label={assistiveTextLabel}
-              appearance={assistiveAppearance}
+              appearance={isError ? "error" : assistiveAppearance}
               showIcon={showAssistiveIcon}
               href={assistiveTextLink}
             />
