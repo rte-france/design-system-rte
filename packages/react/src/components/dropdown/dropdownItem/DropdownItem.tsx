@@ -33,6 +33,7 @@ export const DropdownItem = ({
   hasSeparator,
   hasIndent,
   children,
+  isSelected,
   onClick,
   ...props
 }: DropdownItemProps) => {
@@ -160,6 +161,7 @@ export const DropdownItem = ({
       <li
         className={styles["dropdown-item"]}
         data-disabled={disabled}
+        data-active={isSelected}
         role="menuitem"
         onClick={handleOnClick}
         onMouseOver={handleMouseOver}
