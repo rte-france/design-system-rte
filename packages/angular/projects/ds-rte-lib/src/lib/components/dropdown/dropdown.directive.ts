@@ -69,6 +69,7 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
   readonly cdr = inject(ChangeDetectorRef);
 
   readonly clickedOutside = output<void>();
+  readonly closedDropdown = output<void>();
 
   readonly isActive = signal(false);
 
@@ -144,7 +145,6 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
       });
       this.trigger()?.dropdownTriggerOpenDropdown.subscribe(() => {
         this.showDropdownMenu();
-        focusDropdownFirstElement(this.rteDropdownId() || this.dropdownId);
       });
       this.trigger()?.dropdownTriggerCloseDropdown.subscribe(() => {
         this.closeDropdown();
