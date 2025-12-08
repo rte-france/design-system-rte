@@ -43,6 +43,7 @@ export class SelectComponent {
   readonly options = input<SelectProps["options"]>([]);
   readonly isError = input<boolean>(false);
   readonly showAssistiveIcon = input<boolean>(false);
+  readonly showResetButton = input<boolean>(false);
 
   readonly selectRef = viewChild<ElementRef<HTMLElement>>("selectRef");
   readonly buttonsContainerRef = viewChild<ElementRef<HTMLElement>>("buttonsContainerRef");
@@ -84,7 +85,9 @@ export class SelectComponent {
 
   readonly assistiveTextIconSize = ASSISTIVE_TEXT_ICON_SIZE;
 
-  readonly shouldDisplayClearButton = computed(() => !!this.internalValue() && !this.readOnly() && !this.disabled());
+  readonly shouldDisplayClearButton = computed(
+    () => this.showResetButton() && !!this.internalValue() && !this.disabled(),
+  );
 
   readonly isActive = signal(false);
 
@@ -104,6 +107,7 @@ export class SelectComponent {
   }
 
   handleOnKeyDownTrigger(event: KeyboardEvent) {
+    console.log(event.key);
     if (this.readOnly() || this.disabled()) {
       return;
     }

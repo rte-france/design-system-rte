@@ -1,3 +1,4 @@
+import { TESTING_ENTER_KEY } from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
 import type { Meta, StoryObj } from "@storybook/angular";
 import { fn, userEvent, within, expect } from "@storybook/test";
 
@@ -40,6 +41,7 @@ const meta: Meta<SelectComponent> = {
     },
     options: { control: "object" },
     isError: { control: "boolean" },
+    showResetButton: { control: "boolean" },
   },
 };
 
@@ -72,6 +74,7 @@ export const Default: Story = {
     isError: false,
     readOnly: false,
     disabled: false,
+    showResetButton: false,
   },
   render: (args) => ({
     props: { ...args },
@@ -93,6 +96,7 @@ export const Default: Story = {
         [options]="options"
         (change)="change($event)"
         [isError]="isError"
+        [showResetButton]="showResetButton"
         />
     </div>
     `,
@@ -125,6 +129,7 @@ export const Error: Story = {
         [options]="options"
         isError="true"
         (change)="change($event)"
+        [showResetButton]="showResetButton"
         />
     </div>
     `,
@@ -154,19 +159,18 @@ export const ReadOnly: Story = {
         [readOnly]="readOnly"
         [value]="value"
         [disabled]="disabled"
+        [options]="options"
         (change)="change($event)"
+        [showResetButton]="showResetButton"
         />
     </div>
     `,
   }),
-  play: async ({ canvasElement, args }) => {
+  play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const textarea = canvas.getByRole("textbox");
+    const select = canvas.getByRole("combobox");
     await userEvent.tab();
-    expect(textarea).toHaveFocus();
-    await userEvent.type(textarea, "Hello World");
-    expect(mockFn).not.toHaveBeenCalled();
-    expect(textarea).toHaveValue(args.value);
+    expect(select).not.toHaveFocus();
   },
 };
 
@@ -192,22 +196,25 @@ export const Disabled: Story = {
         [readOnly]="readOnly"
         [value]="value"
         [disabled]="disabled"
+        [options]="options"
         (change)="change($event)"
+        [showResetButton]="showResetButton"
         />
     </div>
     `,
   }),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const textarea = canvas.getByRole("textbox");
+    const select = canvas.getByRole("combobox");
     await userEvent.tab();
-    expect(textarea).not.toHaveFocus();
+    expect(select).not.toHaveFocus();
   },
 };
 
 export const KeyboardInteraction: Story = {
   args: {
     ...Default.args,
+    showResetButton: true,
   },
   render: (args) => ({
     props: { ...args },
@@ -226,16 +233,36 @@ export const KeyboardInteraction: Story = {
         [readOnly]="readOnly"
         [value]="value"
         [disabled]="disabled"
+        [options]="options"
         (change)="change($event)"
+        [showResetButton]="showResetButton"
         />
     </div>
     `,
   }),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const textarea = canvas.getByRole("textbox");
+    const select = canvas.getByRole("combobox");
     await userEvent.tab();
-    expect(textarea).toHaveFocus();
-    textarea.blur();
+    expect(select).toHaveFocus();
+    await userEvent.keyboard(TESTING_ENTER_KEY);
+    await userEvent.keyboard("{ArrowDown}");
+    await userEvent.keyboard(TESTING_ENTER_KEY);
+    expect(select).toHaveTextContent("Option 2");
+
+    const buttons = select.querySelectorAll("button");
+
+    const clearButton = buttons[0];
+    const toggleButton = buttons[1];
+
+    await userEvent.click(clearButton);
+    expect(select).toHaveTextContent("");
+
+    await userEvent.click(toggleButton);
+
+    await userEvent.keyboard("{ArrowDown}");
+    await userEvent.keyboard("{ArrowDown}");
+    await userEvent.keyboard(TESTING_ENTER_KEY);
+    expect(select).toHaveTextContent("Option 3");
   },
 };

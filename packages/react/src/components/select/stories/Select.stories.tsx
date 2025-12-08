@@ -25,6 +25,7 @@ const meta = {
     options: { control: "object" },
     disabled: { control: "boolean" },
     readonly: { control: "boolean" },
+    showResetButton: { control: "boolean" },
   },
 } satisfies Meta<typeof Select>;
 
@@ -47,6 +48,7 @@ export const Default: Story = {
     ],
     disabled: false,
     readonly: false,
+    showResetButton: false,
   },
   render: (args) => {
     const [selectedOption, setSelectedOption] = useState<{ label: string; value: string }>();
@@ -64,22 +66,10 @@ export const Default: Story = {
   },
 };
 
-export const error: Story = {
+export const Error: Story = {
   args: {
-    id: "select1",
-    label: "Choisir une option",
-    showLabel: true,
+    ...Default.args,
     isError: true,
-    assistiveAppearance: "description",
-    showAssistiveIcon: false,
-    assistiveTextLabel: "This is a description for the select component.",
-    options: [
-      { value: "option-1", label: "Option 1" },
-      { value: "option-2", label: "Option 2" },
-      { value: "option-3", label: "Option 3" },
-    ],
-    disabled: false,
-    readonly: false,
   },
   render: (args) => {
     const [selectedOption, setSelectedOption] = useState<{ label: string; value: string }>();
@@ -94,25 +84,69 @@ export const error: Story = {
         <span style={{ fontFamily: "Arial" }}>Selected value : {selectedOption?.label || "No value"}</span>
       </div>
     );
+  },
+};
+
+export const ReadOnly: Story = {
+  args: {
+    ...Default.args,
+    readonly: true,
+  },
+  render: (args) => {
+    const [selectedOption, setSelectedOption] = useState<{ label: string; value: string }>();
+
+    const handleOnChange = (value: string) => {
+      setSelectedOption(args.options.find((option) => option.value === value));
+    };
+
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: "16px", width: "280px" }}>
+        <Select {...args} onChange={handleOnChange} value={selectedOption?.value} />
+        <span style={{ fontFamily: "Arial" }}>Selected value : {selectedOption?.label || "No value"}</span>
+      </div>
+    );
+  },
+
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const select = canvas.getByRole("combobox");
+    await userEvent.tab();
+    expect(select).not.toHaveFocus();
+  },
+};
+
+export const Disabled: Story = {
+  args: {
+    ...Default.args,
+    disabled: true,
+  },
+  render: (args) => {
+    const [selectedOption, setSelectedOption] = useState<{ label: string; value: string }>();
+
+    const handleOnChange = (value: string) => {
+      setSelectedOption(args.options.find((option) => option.value === value));
+    };
+
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: "16px", width: "280px" }}>
+        <Select {...args} onChange={handleOnChange} value={selectedOption?.value} />
+        <span style={{ fontFamily: "Arial" }}>Selected value : {selectedOption?.label || "No value"}</span>
+      </div>
+    );
+  },
+
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const select = canvas.getByRole("combobox");
+    await userEvent.tab();
+    expect(select).not.toHaveFocus();
   },
 };
 
 export const KeyboardInteraction: Story = {
   args: {
-    id: "select2",
-    label: "Select with keyboard interaction",
-    showLabel: true,
-    isError: false,
-    assistiveAppearance: "description",
-    showAssistiveIcon: false,
-    assistiveTextLabel: "Use Enter or Space to open the select dropdown.",
-    options: [
-      { value: "option-1", label: "Option 1" },
-      { value: "option-2", label: "Option 2" },
-      { value: "option-3", label: "Option 3" },
-    ],
-    disabled: false,
-    readonly: false,
+    ...Default.args,
+    showResetButton: true,
   },
   render: (args) => {
     const [selectedOption, setSelectedOption] = useState<{ label: string; value: string }>();
