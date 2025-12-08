@@ -1,6 +1,7 @@
 <div class="rte-select-container" [attr.data-label-position]="labelPosition()">
   <label
     *ngIf="label() && labelPosition() === 'side'"
+    class="rte-select-label"
     [attr.data-label-position]="labelPosition()"
     [attr.id]="labelId()"
     [attr.for]="id()"
