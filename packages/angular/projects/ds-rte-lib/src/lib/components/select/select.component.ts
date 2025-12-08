@@ -4,6 +4,7 @@ import { NG_VALUE_ACCESSOR } from "@angular/forms";
 import { ASSISTIVE_TEXT_ICON_SIZE } from "@design-system-rte/core/components/assistive-text/assistive-text.constants";
 import { REQUIREMENT_INDICATOR_VALUE } from "@design-system-rte/core/components/required-indicator/required-indicator.constant";
 import { SelectProps } from "@design-system-rte/core/components/select/select.interface";
+import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
 import { DropdownModule } from "../dropdown";
 import { IconComponent } from "../icon/icon.component";
@@ -25,20 +26,20 @@ import { LinkComponent } from "../link/link.component";
   ],
 })
 export class SelectComponent {
-  readonly id = input<string | undefined>(undefined);
-  readonly name = input<string | undefined>(undefined);
-  readonly ariaLabelledby = input<string | undefined>(undefined);
-  readonly label = input<string | undefined>(undefined);
-  readonly labelId = input<string | undefined>(undefined);
+  readonly id = input<string>();
+  readonly name = input<string>();
+  readonly ariaLabelledby = input<string>();
+  readonly label = input<string>();
+  readonly labelId = input<string>();
   readonly labelPosition = input<SelectProps["labelPosition"]>("top");
-  readonly assistiveTextLabel = input<string | undefined>(undefined);
+  readonly assistiveTextLabel = input<string>();
   readonly assistiveTextAppearance = input<SelectProps["assistiveAppearance"]>("description");
-  readonly assistiveTextLink = input<string | undefined>(undefined);
+  readonly assistiveTextLink = input<string>();
   readonly required = input<boolean>(false);
   readonly showLabelRequirement = input<boolean>(false);
   readonly disabled = input<boolean>(false);
   readonly readOnly = input<boolean>(false);
-  readonly value = input<string | undefined>(undefined);
+  readonly value = input<string>();
   readonly options = input<SelectProps["options"]>([]);
   readonly isError = input<boolean>(false);
   readonly showAssistiveIcon = input<boolean>(false);
@@ -95,78 +96,74 @@ export class SelectComponent {
     return null;
   });
 
-  onClickOutside() {
-    this.isActive.set(false);
-  }
-
-  onClickItem(id: string) {
+  handleOnClickTrigger() {
     if (this.readOnly() || this.disabled()) {
       return;
     }
-    this.internalValue.set(id);
-    const event = new Event("change", { bubbles: true });
-    this.change.emit(event);
-    this.isActive.set(!this.isActive());
-    this.selectRef()?.nativeElement.focus();
+    this.toggleDropdown();
   }
 
-  onClickTrigger() {
-    if (this.readOnly() || this.disabled()) {
-      return;
-    }
-    this.isActive.set(!this.isActive());
-  }
-
-  onKeyDownTrigger(event: KeyboardEvent) {
-    console.log("onKeyDownTrigger", event);
+  handleOnKeyDownTrigger(event: KeyboardEvent) {
     if (this.readOnly() || this.disabled()) {
       return;
     }
     if (this.shouldDisplayClearButton()) {
       const clearButton = this.buttonsContainerRef()?.nativeElement.children[0].children[0];
       const isClearButtonFocused = document.activeElement === clearButton;
-      if (isClearButtonFocused && (event.key === " " || event.key === "Enter")) {
-        event.preventDefault();
-        this.handleClickClearContent(event);
+      if (isClearButtonFocused && (event.key === SPACE_KEY || event.key === ENTER_KEY)) {
+        this.clearSelection(event);
         return;
       }
     }
-    const toggleButton = this.buttonsContainerRef()?.nativeElement.children[0].children[0];
-    const isToggleButtonClicked = event.target === toggleButton;
 
-    if (event.key === " " || event.key === "Enter") {
-      event.preventDefault();
-      this.onClickTrigger();
-      if (isToggleButtonClicked) {
-        if (this.isActive()) {
-          this.selectRef()?.nativeElement.dispatchEvent(new Event("openDropdown"));
-        } else {
-          this.selectRef()?.nativeElement.dispatchEvent(new Event("closeDropdown"));
-        }
-      }
+    if (event.key === SPACE_KEY || event.key === ENTER_KEY) {
+      this.toggleDropdown();
     }
   }
 
-  handleClickClearContent(event: Event) {
+  handleOnClickClearButton(event: Event) {
     if (this.readOnly() || this.disabled()) {
       return;
     }
+    event.preventDefault();
+    this.clearSelection(event);
+  }
+
+  handleOnClickItem(id: string) {
+    if (this.readOnly() || this.disabled()) {
+      return;
+    }
+    this.internalValue.set(id);
+    const event = new CustomEvent<{ target: { value: string } }>("change", {
+      bubbles: true,
+      detail: { target: { value: id } },
+    });
+    this.change.emit(event);
+    this.isActive.set(!this.isActive());
+    this.selectRef()?.nativeElement.focus();
+  }
+
+  handleOnClosingDropdown() {
+    this.isActive.set(false);
+  }
+
+  handleOnClickOutside() {
+    this.isActive.set(false);
+  }
+
+  private toggleDropdown() {
+    this.isActive.set(!this.isActive());
+    if (this.isActive()) {
+      this.selectRef()?.nativeElement.dispatchEvent(new Event("openDropdown"));
+    } else {
+      this.selectRef()?.nativeElement.dispatchEvent(new Event("closeDropdown"));
+    }
+  }
+
+  private clearSelection(event: Event) {
     this.internalValue.set(undefined);
     this.isActive.set(false);
     this.change.emit(event);
     this.selectRef()?.nativeElement.dispatchEvent(new Event("clearContent"));
-  }
-
-  handleToggleDropdown() {
-    if (this.readOnly() || this.disabled()) {
-      return;
-    }
-    if (this.isActive()) {
-      this.onClickTrigger();
-      this.selectRef()?.nativeElement.dispatchEvent(new Event("closeDropdown"));
-    } else {
-      this.onClickTrigger();
-      this.selectRef()?.nativeElement.dispatchEvent(new Event("openDropdown"));
-    }
   }
 }

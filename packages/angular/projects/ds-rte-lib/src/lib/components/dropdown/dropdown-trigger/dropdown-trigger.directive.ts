@@ -21,6 +21,7 @@ export class DropdownTriggerDirective {
 
   readonly dropdownTriggerCloseDropdown = output<Event>();
 
+  @HostListener("click", ["$event"])
   onDropdownTriggered(event: Event): void {
     this.dropdownTriggered.emit(event);
   }
