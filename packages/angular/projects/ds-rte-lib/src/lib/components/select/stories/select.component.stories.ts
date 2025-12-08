@@ -39,6 +39,7 @@ const meta: Meta<SelectComponent> = {
       description: "Whether the textarea is read-only",
     },
     options: { control: "object" },
+    isError: { control: "boolean" },
   },
 };
 
@@ -68,26 +69,30 @@ export const Default: Story = {
       { value: "option-2", label: "Option 2" },
       { value: "option-3", label: "Option 3" },
     ],
+    isError: false,
+    readOnly: false,
+    disabled: false,
   },
   render: (args) => ({
     props: { ...args },
     template: `
     <div style="width: 350px">
       <rte-select
-        [id]="'${args.id}'"
-        [label]="'${args.label}'"
-        [labelId]="'${args.labelId}'"
-        [labelPosition]="'${args.labelPosition}'"
-        [assistiveTextLabel]="'${args.assistiveTextLabel}'"
-        [assistiveTextLink]="'${args.assistiveTextLink}'"
-        [assistiveTextAppearance]="'${args.assistiveTextAppearance}'"
-        [required]=${args.required}
-        [showLabelRequirement]=${args.showLabelRequirement}
-        [readOnly]=${args.readOnly}
-        [value]="'${args.value}'"
-        [disabled]=${args.disabled}
+        [id]="id"
+        [label]="label"
+        [labelId]="labelId"
+        [labelPosition]="labelPosition"
+        [assistiveTextLabel]="assistiveTextLabel"
+        [assistiveTextLink]="assistiveTextLink"
+        [assistiveTextAppearance]="assistiveTextAppearance"
+        [required]="required"
+        [showLabelRequirement]="showLabelRequirement"
+        [readOnly]="readOnly"
+        [value]="value"
+        [disabled]="disabled"
         [options]="options"
         (change)="change($event)"
+        [isError]="isError"
         />
     </div>
     `,
@@ -105,18 +110,18 @@ export const Error: Story = {
     template: `
     <div style="width: 350px">
       <rte-select
-        [id]="'${args.id}'"
-        [label]="${args.label}"
-        [labelId]="'${args.labelId}'"
-        [labelPosition]="'${args.labelPosition}'"
-        [assistiveTextLabel]="'${args.assistiveTextLabel}'"
-        [assistiveTextLink]="'${args.assistiveTextLink}'"
-        [assistiveTextAppearance]="'${args.assistiveTextAppearance}'"
-        [required]=${args.required}
-        [showLabelRequirement]=${args.showLabelRequirement}
-        [readOnly]=${args.readOnly}
-        [value]="'${args.value}'"
-        [disabled]=${args.disabled}
+        [id]="id"
+        [label]="label"
+        [labelId]="labelId"
+        [labelPosition]="labelPosition"
+        [assistiveTextLabel]="assistiveTextLabel"
+        [assistiveTextLink]="assistiveTextLink"
+        [assistiveTextAppearance]="assistiveTextAppearance"
+        [required]="required"
+        [showLabelRequirement]="showLabelRequirement"
+        [readOnly]="readOnly"
+        [value]="value"
+        [disabled]="disabled"
         [options]="options"
         isError="true"
         (change)="change($event)"
@@ -137,18 +142,18 @@ export const ReadOnly: Story = {
     template: `
     <div style="width: 350px">
       <rte-select
-        [id]="'${args.id}'"
-        [label]="${args.label}"
-        [labelId]="'${args.labelId}'"
-        [labelPosition]="'${args.labelPosition}'"
-        [assistiveTextLabel]="'${args.assistiveTextLabel}'"
-        [assistiveTextLink]="'${args.assistiveTextLink}'"
-        [assistiveTextAppearance]="'${args.assistiveTextAppearance}'"
-        [required]=${args.required}
-        [showLabelRequirement]=${args.showLabelRequirement}
-        [readOnly]=${args.readOnly}
-        [value]="'${args.value}'"
-        [disabled]=${args.disabled}
+        [id]="id"
+        [label]="label"
+        [labelId]="labelId"
+        [labelPosition]="labelPosition"
+        [assistiveTextLabel]="assistiveTextLabel"
+        [assistiveTextLink]="assistiveTextLink"
+        [assistiveTextAppearance]="assistiveTextAppearance"
+        [required]="required"
+        [showLabelRequirement]="showLabelRequirement"
+        [readOnly]="readOnly"
+        [value]="value"
+        [disabled]="disabled"
         (change)="change($event)"
         />
     </div>
@@ -175,18 +180,18 @@ export const Disabled: Story = {
     template: `
     <div style="width: 350px">
       <rte-select
-        [id]="'${args.id}'"
-        [label]="${args.label}"
-        [labelId]="'${args.labelId}'"
-        [labelPosition]="'${args.labelPosition}'"
-        [assistiveTextLabel]="'${args.assistiveTextLabel}'"
-        [assistiveTextLink]="'${args.assistiveTextLink}'"
-        [assistiveTextAppearance]="'${args.assistiveTextAppearance}'"
-        [required]=${args.required}
-        [showLabelRequirement]=${args.showLabelRequirement}
-        [readOnly]=${args.readOnly}
-        [value]="'${args.value}'"
-        [disabled]=${args.disabled}
+        [id]="id"
+        [label]="label"
+        [labelId]="labelId"
+        [labelPosition]="labelPosition"
+        [assistiveTextLabel]="assistiveTextLabel"
+        [assistiveTextLink]="assistiveTextLink"
+        [assistiveTextAppearance]="assistiveTextAppearance"
+        [required]="required"
+        [showLabelRequirement]="showLabelRequirement"
+        [readOnly]="readOnly"
+        [value]="value"
+        [disabled]="disabled"
         (change)="change($event)"
         />
     </div>
@@ -209,18 +214,18 @@ export const KeyboardInteraction: Story = {
     template: `
     <div style="width: 350px">
       <rte-select
-        [id]="'${args.id}'"
-        [label]="${args.label}"
-        [labelId]="'${args.labelId}'"
-        [labelPosition]="'${args.labelPosition}'"
-        [assistiveTextLabel]="'${args.assistiveTextLabel}'"
-        [assistiveTextLink]="'${args.assistiveTextLink}'"
-        [assistiveTextAppearance]="'${args.assistiveTextAppearance}'"
-        [required]=${args.required}
-        [showLabelRequirement]=${args.showLabelRequirement}
-        [readOnly]=${args.readOnly}
-        [value]="'${args.value}'"
-        [disabled]=${args.disabled}
+        [id]="id"
+        [label]="label"
+        [labelId]="labelId"
+        [labelPosition]="labelPosition"
+        [assistiveTextLabel]="assistiveTextLabel"
+        [assistiveTextLink]="assistiveTextLink"
+        [assistiveTextAppearance]="assistiveTextAppearance"
+        [required]="required"
+        [showLabelRequirement]="showLabelRequirement"
+        [readOnly]="readOnly"
+        [value]="value"
+        [disabled]="disabled"
         (change)="change($event)"
         />
     </div>
