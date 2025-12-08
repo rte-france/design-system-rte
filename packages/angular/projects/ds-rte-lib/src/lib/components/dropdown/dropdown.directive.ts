@@ -66,6 +66,7 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
   readonly cdr = inject(ChangeDetectorRef);
 
   readonly clickedOutside = output<void>();
+  readonly closedDropdown = output<void>();
 
   readonly isActive = signal(false);
 
@@ -76,21 +77,8 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
   dropdownMenuRef: ComponentRef<DropdownMenuComponent> | null = null;
 
   async onTrigger(): Promise<void> {
-    if (this.rteDroprownTriggerToggle()) {
-      if (this.isActive()) {
-        this.closeDropdown();
-        this.isActive.set(false);
-      } else {
-        this.showDropdownMenu();
-        this.isActive.set(true);
-      }
-    } else {
-      if (!this.isActive()) {
-        this.showDropdownMenu();
-        this.isActive.set(true);
-      } else {
-        return;
-      }
+    if (!this.rteDroprownTriggerToggle()) {
+      this.showDropdownMenu();
     }
   }
 
@@ -128,7 +116,6 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
       });
       this.trigger()?.dropdownTriggerOpenDropdown.subscribe(() => {
         this.showDropdownMenu();
-        focusDropdownFirstElement(this.rteDropdownId() || this.dropdownId);
       });
       this.trigger()?.dropdownTriggerCloseDropdown.subscribe(() => {
         this.closeDropdown();
@@ -157,6 +144,11 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
       this.onMenuEvent(event);
     });
 
+    this.dropdownMenuRef.instance.closingMenu.subscribe(() => {
+      this.closeDropdown();
+      this.closedDropdown.emit();
+    });
+
     const dropdownStateSubscription = this.dropdownService.state$
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((state) => {
@@ -170,6 +162,8 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
           }
         }
       });
+
+    focusDropdownFirstElement(this.rteDropdownId() || this.dropdownId);
   }
 
   private assignItems(): void {

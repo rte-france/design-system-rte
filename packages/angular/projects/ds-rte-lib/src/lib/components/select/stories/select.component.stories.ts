@@ -60,7 +60,9 @@ export const Default: Story = {
     required: false,
     value: "",
     showLabelRequirement: false,
-    change: mockFn,
+    change: (event: Event) => {
+      mockFn(event);
+    },
     options: [
       { value: "option-1", label: "Option 1" },
       { value: "option-2", label: "Option 2" },
@@ -85,7 +87,7 @@ export const Default: Story = {
         [value]="'${args.value}'"
         [disabled]=${args.disabled}
         [options]="options"
-        (change)="args.change($event)"
+        (change)="change($event)"
         />
     </div>
     `,

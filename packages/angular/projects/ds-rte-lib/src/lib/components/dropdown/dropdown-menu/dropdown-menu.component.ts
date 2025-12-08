@@ -5,6 +5,7 @@ import {
   ARROW_LEFT_KEY,
   ARROW_RIGHT_KEY,
   ARROW_UP_KEY,
+  ESCAPE_KEY,
   TAB_KEY,
 } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
@@ -27,6 +28,7 @@ export class DropdownMenuComponent {
   readonly menuId = input<string>();
   readonly isOpen = input<boolean>(false);
   readonly width = input<string | null>(null);
+  readonly closingMenu = output<void>();
 
   readonly itemEvent = output<{ event: Event; id: string }>();
 
@@ -52,8 +54,11 @@ export class DropdownMenuComponent {
       event.preventDefault();
     }
 
-    const menuId = this.menuId() as string;
+    if (event.key === ESCAPE_KEY) {
+      this.closingMenu.emit();
+    }
 
+    const menuId = this.menuId() as string;
     this.dropdownService.handleKeyboardInput(event.key, {
       menuElement: this.elementRef,
       menuId,

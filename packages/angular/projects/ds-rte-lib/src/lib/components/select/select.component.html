@@ -43,8 +43,9 @@
     [rteDropdownOffset]="10"
     [rteDroprownTriggerToggle]="true"
     [rteDropdownWidth]="selectWidth()"
-    (menuEvent)="onClickItem($event.id)"
-    (clickedOutside)="onClickOutside()"
+    (menuEvent)="handleOnClickItem($event.id)"
+    (clickedOutside)="handleOnClickOutside()"
+    (closedDropdown)="handleOnClosingDropdown()"
   >
     <div
       #selectRef
@@ -59,8 +60,8 @@
       [attr.aria-labelledby]="labelId()"
       [attr.aria-expanded]="isActive()"
       [attr.data-active]="isActive()"
-      (dropdownTriggered)="onClickTrigger()"
-      (dropdownKeyDown)="onKeyDownTrigger($event)"
+      (dropdownTriggered)="handleOnClickTrigger()"
+      (dropdownKeyDown)="handleOnKeyDownTrigger($event)"
     >
       <div class="rte-select-content">
         <rte-icon *ngIf="isError()" name="error" class="error-icon" />
@@ -73,13 +74,13 @@
             name="cancel"
             variant="neutral"
             class="rte-select-icon-button clear-icon"
-            (click)="handleClickClearContent($event)"
+            (click)="handleOnClickClearButton($event)"
           />
           <rte-icon-button
             name="arrow-chevron-down"
             variant="neutral"
             class="rte-select-icon-button trigger-icon"
-            (click)="handleToggleDropdown()"
+            (click)="handleOnClickTrigger()"
           />
         </div>
       </div>
