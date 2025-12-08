@@ -9,7 +9,7 @@ import { expect, userEvent, waitFor, within } from "@storybook/test";
 import { SearchbarComponent } from "../searchbar.component";
 
 const meta: Meta<SearchbarComponent> = {
-  title: "Searchbar",
+  title: "Composants/Searchbar",
   component: SearchbarComponent,
   tags: ["autodocs"],
   argTypes: {
@@ -209,14 +209,14 @@ export const KeyboardNavigationWithFilteredOptions: Story = {
 
     await waitFor(() => {
       const overlay = document.getElementById("overlay-root");
-      const dropdown = overlay?.querySelector("[data-dropdown-id]");
+      const dropdown = overlay?.querySelector("[data-menu-id]");
       expect(dropdown).toBeInTheDocument();
     });
 
     await userEvent.tab();
 
     const overlay = document.getElementById("overlay-root");
-    const dropdown = overlay?.querySelector("[data-dropdown-id]");
+    const dropdown = overlay?.querySelector("[data-menu-id]");
     const menuItems = dropdown?.querySelector("ul")?.querySelectorAll("li");
     await waitFor(() => {
       expect(menuItems?.[0]).toHaveFocus();
@@ -303,14 +303,14 @@ export const KeyboardNavigationAndSearch: Story = {
 
     await waitFor(() => {
       const overlay = document.getElementById("overlay-root");
-      const dropdown = overlay?.querySelector("[data-dropdown-id]");
+      const dropdown = overlay?.querySelector("[data-menu-id]");
       expect(dropdown).toBeInTheDocument();
     });
 
     await userEvent.tab();
 
     const overlay = document.getElementById("overlay-root");
-    const dropdown = overlay?.querySelector("[data-dropdown-id]");
+    const dropdown = overlay?.querySelector("[data-menu-id]");
     const menuItems = dropdown?.querySelector("ul")?.querySelectorAll("li");
     await waitFor(() => {
       expect(menuItems?.[0]).toHaveFocus();

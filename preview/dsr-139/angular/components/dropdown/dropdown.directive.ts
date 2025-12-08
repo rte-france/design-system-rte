@@ -50,6 +50,7 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
   readonly rteDropdownIsOpen = input<boolean>(false);
   readonly rteDropdownOffset = input<number>(0);
   readonly rteDropdownWidth = input<number | undefined>(undefined);
+  readonly rteDropdownAutofocus = input<boolean>(true);
 
   readonly dropdownId = `dropdown_${++DropdownDirective.idCounter}`;
   readonly menuEvent = output<{ event: Event; id: string }>();
@@ -71,9 +72,11 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
       if (isOpen) {
         if (!this.dropdownMenuRef) {
           this.showDropdownMenu();
-          requestAnimationFrame(() => {
-            requestAnimationFrame(() => focusDropdownFirstElement(this.dropdownId));
-          });
+          if (this.rteDropdownAutofocus()) {
+            requestAnimationFrame(() => {
+              requestAnimationFrame(() => focusDropdownFirstElement(this.dropdownId));
+            });
+          }
         }
       } else {
         if (this.dropdownMenuRef) {
@@ -83,7 +86,8 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
     });
 
     effect(() => {
-      if (this.dropdownMenuRef && this.menu()) {
+      const menu = this.menu();
+      if (this.dropdownMenuRef && menu) {
         this.assignItems();
       }
     });
@@ -99,9 +103,11 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
 
   onTrigger(): void {
     this.showDropdownMenu();
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => focusDropdownFirstElement(this.dropdownId));
-    });
+    if (this.rteDropdownAutofocus()) {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => focusDropdownFirstElement(this.dropdownId));
+      });
+    }
   }
 
   onTriggerKeyEvent(event: KeyboardEvent): void {
@@ -111,9 +117,11 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
       (event.key === ARROW_DOWN_KEY && this.trigger()?.rteDropdownTriggerActivateWithArrowDown())
     ) {
       this.showDropdownMenu();
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => focusDropdownFirstElement(this.dropdownId));
-      });
+      if (this.rteDropdownAutofocus()) {
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => focusDropdownFirstElement(this.dropdownId));
+        });
+      }
     }
   }
 
@@ -152,6 +160,13 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
     this.positionDropdownMenu(this.rteDropdownPosition());
     this.addClickOutsideListener();
 
+    requestAnimationFrame(() => {
+      if (this.dropdownMenuRef) {
+        this.assignItems();
+        this.cdr.detectChanges();
+      }
+    });
+
     this.dropdownMenuRef.instance.itemEvent.subscribe((event: { event: Event; id: string }) => {
       this.onMenuEvent(event);
     });
@@ -173,7 +188,8 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
 
   private assignItems(): void {
     if (this.dropdownMenuRef) {
-      this.dropdownMenuRef.setInput("items", this.menu()?.items());
+      const items = this.menu()?.items() ?? [];
+      this.dropdownMenuRef.setInput("items", items);
     }
   }
 
