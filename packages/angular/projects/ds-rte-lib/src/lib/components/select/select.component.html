@@ -52,7 +52,8 @@
       #selectRef
       rteDropdownTrigger
       class="rte-select-wrapper"
-      [attr.tabIndex]="0"
+      [attr.tabIndex]="disabled() || readOnly() ? -1 : 0"
+      [attr.role]="'combobox'"
       [attr.data-error]="isError()"
       [attr.data-disabled]="disabled()"
       [attr.data-read-only]="readOnly()"
@@ -75,12 +76,14 @@
             name="cancel"
             variant="neutral"
             class="rte-select-icon-button clear-icon"
+            [disabled]="disabled()"
             (click)="handleOnClickClearButton($event)"
           />
           <rte-icon-button
             name="arrow-chevron-down"
             variant="neutral"
             class="rte-select-icon-button trigger-icon"
+            [disabled]="disabled()"
             (click)="handleOnClickTrigger()"
           />
         </div>

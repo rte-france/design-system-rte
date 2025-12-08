@@ -32,6 +32,7 @@ const Select = ({
   options = [],
   disabled,
   readonly,
+  showResetButton,
 }: SelectProps) => {
   const [internalValue, setInternalValue] = useState(value || "");
 
@@ -39,7 +40,7 @@ const Select = ({
 
   const selectRef = useRef<HTMLDivElement>(null);
 
-  const shouldDisplayClearButton = !!internalValue && !readonly && !disabled;
+  const shouldDisplayClearButton = showResetButton && !!internalValue && !readonly && !disabled;
 
   const currentOptionLabel = options.find((option) => option.value === internalValue)?.label;
 
@@ -81,17 +82,17 @@ const Select = ({
     <>
       <div className={styles["select-container"]} data-label-position={labelPosition}>
         {showLabel && labelPosition === "side" && (
-          <label htmlFor={id} id={id} className={styles["select-label"]}>
+          <label htmlFor={id} id={label} className={styles["select-label"]}>
             {label}
             <RequiredIndicator required={required} showLabelRequirement={showLabelRequirement} />
           </label>
         )}
         <div className={styles["select-header"]}>
           {showLabel && labelPosition === "top" && (
-            <span id={id} className={styles["select-label"]}>
+            <label htmlFor={id} id={label} className={styles["select-label"]}>
               {label}
               <RequiredIndicator required={required} showLabelRequirement={showLabelRequirement} />
-            </span>
+            </label>
           )}
           <Dropdown
             style={{ width: selectRef.current?.offsetWidth }}
@@ -103,15 +104,13 @@ const Select = ({
             trigger={
               <div
                 ref={selectRef}
-                aria-controls="listbox1"
                 aria-expanded={isActive}
-                aria-haspopup="listbox"
-                aria-labelledby="combo1-label"
+                aria-labelledby={label}
                 data-error={isError ? "true" : "false"}
                 data-active={isActive ? "true" : "false"}
                 data-disabled={disabled ? "true" : "false"}
                 data-read-only={readonly ? "true" : "false"}
-                id="combo1"
+                id={id}
                 className={styles["select-wrapper"]}
                 role="combobox"
                 tabIndex={0}
@@ -130,12 +129,14 @@ const Select = ({
                         variant="neutral"
                         className={concatClassNames(styles["icon-button"], styles["clear-icon"])}
                         onClick={handleOnClear}
+                        disabled={disabled}
                       />
                     )}
                     <IconButton
                       name="arrow-chevron-down"
                       variant="neutral"
                       className={concatClassNames(styles["icon-button"], styles["trigger-icon"])}
+                      disabled={disabled}
                     />
                   </div>
                 </div>
