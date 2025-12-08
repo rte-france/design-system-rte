@@ -22,11 +22,40 @@
   }
 
   .rte-select-label {
-    color: var(--content-secondary);
-    display: flex;
+    @include typography-text-m;
     padding: $positive-spacing_025 $positive-spacing_100;
-    align-items: center;
+    color: var(--content-secondary);
+    max-width: 300px;
+    justify-content: space-between;
+    white-space: normal;
+    overflow-wrap: normal;
+    word-break: normal;
 
+    &[data-label-position='side'] {
+      padding: $positive-spacing_300 $positive-spacing_100;
+      align-items: flex-start;
+      gap: $positive-spacing_0;
+      align-self: stretch;
+    }
+
+    .requirement-indicator {
+      margin-left: $positive-spacing_025;
+
+      &.show-label-requirement {
+        @include typography-text-s;
+        color: var(--content-tertiary);
+
+        &:not(.required) {
+          font-style: italic;
+        }
+      }
+
+      &:not(.show-label-requirement) {
+        &.required {
+          color: var(--content-danger-default);
+        }
+      }
+    }
   }
 
   .rte-select-wrapper {
