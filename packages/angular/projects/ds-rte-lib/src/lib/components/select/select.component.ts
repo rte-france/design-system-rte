@@ -54,6 +54,16 @@ export class SelectComponent {
     ) as HTMLElement | null;
   });
 
+  readonly dropdownPosition = computed<"bottom" | "top">(() => {
+    const selectElement = this.selectRef()?.nativeElement;
+    if (selectElement) {
+      const rect = selectElement.getBoundingClientRect();
+      const spaceBelow = window.innerHeight - rect.bottom;
+      return spaceBelow >= 100 ? "bottom" : "top";
+    }
+    return "bottom";
+  });
+
   readonly internalValue = signal(this.value());
 
   readonly requirementIndicatorValue = computed(() =>
@@ -107,7 +117,6 @@ export class SelectComponent {
   }
 
   handleOnKeyDownTrigger(event: KeyboardEvent) {
-    console.log(event.key);
     if (this.readOnly() || this.disabled()) {
       return;
     }

@@ -21,6 +21,7 @@ import {
   SideNavComponent,
   CardComponent,
   ToastService,
+  SelectComponent,
 } from "@design-system-rte/angular";
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
 
@@ -48,6 +49,7 @@ import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-it
     ModalModule,
     SideNavComponent,
     CardComponent,
+    SelectComponent,
   ],
   providers: [ToastService],
   templateUrl: "./app.component.html",
@@ -207,4 +209,10 @@ export class AppComponent {
       showActionButton: false,
     });
   }
+
+  readonly selectOptions = [
+    { value: "option1", label: "Option 1" },
+    { value: "option2", label: "Option 2" },
+    { value: "option3", label: "Option 3" },
+  ];
 }

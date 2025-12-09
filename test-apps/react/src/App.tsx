@@ -19,6 +19,7 @@ import {
   Card,
   Toast,
   ToastQueueProvider,
+  Select,
 } from "@design-system-rte/react";
 import "./App.css";
 import { useState } from "react";
@@ -334,6 +335,16 @@ function App() {
           </Modal>
         </div>
 
+        <Divider />
+        <div>
+          <Select
+            options={[
+              { value: "option1", label: "Option 1" },
+              { value: "option2", label: "Option 2" },
+              { value: "option3", label: "Option 3" },
+            ]}
+          />
+        </div>
         <Divider />
         <Button
           label="Toggle error toast"
