@@ -133,33 +133,20 @@
                 .right-icon {
                     position: absolute;
                     right: $positive-spacing-100;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
                     color: var(--content-secondary);
 
-                    ::ng-deep {
-                        .rte-icon-button {
-                            color: var(--content-secondary);
-                            height: 24px;
-                            width: 24px;
-                            padding: 0 $positive-spacing-025;
-                        }
-
-                        .rte-icon-button:focus {
-                            outline: none;
-                        }
-
-                        .rte-icon-button:focus-visible {
-                            outline: 1px solid var(--border-brand-focused);
-                            border-radius: $radius-m;
-
-                            &::after {
-                                display: none;
-                            }
-                        }
+                    &:focus {
+                        outline: none;
                     }
 
+                    &:focus-visible {
+                        outline: $width-xs solid var(--border-brand-focused);
+                        border-radius: $radius-m;
+
+                        &::after {
+                            display: none;
+                        }
+                    }
                 }
 
                 .input-field {

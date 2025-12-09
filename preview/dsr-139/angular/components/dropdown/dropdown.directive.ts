@@ -87,7 +87,8 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
 
     effect(() => {
       const menu = this.menu();
-      if (this.dropdownMenuRef && menu) {
+      const items = menu?.items() ?? [];
+      if (this.dropdownMenuRef && menu && items.length) {
         this.assignItems();
       }
     });
@@ -102,7 +103,6 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
   dropdownMenuRef: ComponentRef<DropdownMenuComponent> | null = null;
 
   onTrigger(): void {
-    this.showDropdownMenu();
     if (this.rteDropdownAutofocus()) {
       requestAnimationFrame(() => {
         requestAnimationFrame(() => focusDropdownFirstElement(this.dropdownId));

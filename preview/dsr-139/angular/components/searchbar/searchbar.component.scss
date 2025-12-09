@@ -1,96 +1,8 @@
 @use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
 
-$searchbar-border-radius: 4px;
-$searchbar-padding-left: 8px;
-$searchbar-button-width: 44px;
-$searchbar-button-height-compact: 24px;
-
 .searchbar-container {
   display: flex;
   flex-direction: column;
-  width: fit-content;
-
-  .text-input-wrapper {
-    rte-text-input {
-      ::ng-deep {
-        .container {
-          height: 24px;
-          min-height: 24px;
-          .input-container {
-            .input {
-              .input-bar {
-                .input-field {
-                  border-radius: $searchbar-border-radius 0 0 $searchbar-border-radius;
-                }
-  
-                &:not(.with-left-icon) {
-                  .input-field {
-                    padding-left: $searchbar-padding-left;
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-
-    .search-button {
-      ::ng-deep {
-        button {    
-          width: $searchbar-button-width;
-          border-radius: 0 $searchbar-border-radius $searchbar-border-radius 0;
-          justify-content: center;
-
-          &.compact-spacing {
-            height: $searchbar-button-height-compact;
-          }
-        }
-      }
-    }
-  }
-
-  &.primary {
-    .text-input-wrapper {
-      rte-text-input {
-        ::ng-deep {
-          .input-container {
-            .input {
-              .input-bar {
-                .input-field {
-                  border-right: none;
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-
-  &.secondary {
-    .text-input-wrapper {
-      rte-text-input {
-        ::ng-deep {
-          .input-container {
-            .input {
-              .input-bar {
-                .input-field {
-                  border-radius: $searchbar-border-radius;
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-.searchbar-wrapper {
-  display: flex;
-  align-items: center;
-  gap: $positive-spacing_100;
   width: fit-content;
 }
 
@@ -98,10 +10,10 @@ $searchbar-button-height-compact: 24px;
   min-width: 0;
   display: flex;
   align-items: stretch;
-  border-radius: $radius-s;
+  border-radius: $radius-m;
   transition: outline 200ms, border 200ms;
 
-  &.focused {
+  &:focus-within {
     outline: 1px solid var(--border-brand-default);
     outline-offset: 0;
   }
@@ -109,28 +21,5 @@ $searchbar-button-height-compact: 24px;
 
 .search-button {
   flex-shrink: 0;
-}
-
-.dropdown-trigger {
-  display: flex;
-  align-items: center;
-  width: 300px;
-
-  rte-text-input {
-    display: flex;
-    flex: 1;
-    min-width: 0;
-
-    ::ng-deep {
-      .container {
-        width: unset;
-        max-width: 100%;
-      }
-    }
-  }
-
-  .search-button {
-    flex-shrink: 0;
-  }
 }
 

@@ -51,6 +51,7 @@
           class="input-field"
           [id]="id()"
           [ngClass]="{'error': error()}"
+          [ngStyle]="customStyle()"
           [attr.aria-label]="ariaLabel()"
           [attr.aria-labelledby]="ariaLabelledby()"
           [attr.aria-required]="ariaRequired()"
@@ -59,16 +60,20 @@
           [disabled]="disabled()"
           [readOnly]="readOnly()"
           [value]="internalValue()"
+          [placeholder]="placeholder()"
+          [attr.autocomplete]="autocomplete()"
           (input)="handleChange($event)"
         />
 
         <ng-container *ngIf="shouldShowRightIcon()">
           <rte-icon-button
             appearance="outlined"
-            variant="transparent"
+            variant="neutral"
+            size="s"
             class="right-icon"
             data-testid="right-icon"
-            [name]="rightIconName() || 'close'"
+            [compactSpacing]="true"
+            [name]="rightIconName() || 'cancel'"
             [ariaLabel]="rightIconAriaLabel()"
             (click)="onRightIconClickHandler()"
           />
