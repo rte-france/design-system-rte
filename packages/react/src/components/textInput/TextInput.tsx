@@ -5,7 +5,7 @@ import {
 } from "@design-system-rte/core/components/text-input/text-input.interface";
 import { ChangeEvent, forwardRef, InputHTMLAttributes, useEffect, useRef, useState } from "react";
 
-import AssistiveText from "../assistiveText/AssistiveText";
+import AssistiveText from "../assistivetext/AssistiveText";
 import Icon from "../icon/Icon";
 import IconButton from "../iconButton/IconButton";
 import RequiredIndicator from "../requiredindicator/RequiredIndicator";

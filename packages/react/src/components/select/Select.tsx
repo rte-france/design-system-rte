@@ -1,8 +1,8 @@
 import { SelectProps as coreSelectProps } from "@design-system-rte/core/components/select/select.interface";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
-import { useRef, useState } from "react";
+import { forwardRef, useRef, useState } from "react";
 
-import AssistiveText from "../assistiveText/AssistiveText";
+import AssistiveText from "../assistivetext/AssistiveText";
 import { Dropdown } from "../dropdown/Dropdown";
 import { DropdownItem } from "../dropdown/dropdownItem/DropdownItem";
 import Icon from "../icon/Icon";
@@ -12,163 +12,186 @@ import { concatClassNames } from "../utils";
 
 import styles from "./Select.module.scss";
 
-export interface SelectProps extends coreSelectProps, HTMLDivElement {}
+const Select = forwardRef<HTMLDivElement, coreSelectProps>(
+  (
+    {
+      id,
+      label,
+      labelPosition = "top",
+      required = false,
+      value,
+      showLabel = true,
+      isError,
+      assistiveAppearance = "description",
+      showAssistiveIcon = false,
+      assistiveTextLink,
+      showLabelRequirement = false,
+      assistiveTextLabel,
+      onClear,
+      onChange,
+      options = [],
+      disabled,
+      readonly,
+      showResetButton,
+    },
+    ref,
+  ) => {
+    const [internalValue, setInternalValue] = useState(value || "");
 
-const Select = ({
-  id,
-  label,
-  labelPosition = "top",
-  required = false,
-  value,
-  showLabel = true,
-  isError,
-  assistiveAppearance = "description",
-  showAssistiveIcon = false,
-  assistiveTextLink,
-  showLabelRequirement = false,
-  assistiveTextLabel,
-  onClear,
-  onChange,
-  options = [],
-  disabled,
-  readonly,
-  showResetButton,
-}: SelectProps) => {
-  const [internalValue, setInternalValue] = useState(value || "");
+    const [isActive, setIsActive] = useState(false);
 
-  const [isActive, setIsActive] = useState(false);
+    const selectRef = useRef<HTMLDivElement | null>(null);
 
-  const selectRef = useRef<HTMLDivElement>(null);
-
-  const shouldDisplayClearButton = showResetButton && !!internalValue && !readonly && !disabled;
-
-  const currentOptionLabel = options.find((option) => option.value === internalValue)?.label;
-
-  const shouldDisplayErrorIcon = isError && !disabled && !readonly;
-
-  const handleOnClick = () => {
-    if (selectRef.current) {
-      if (disabled || readonly) {
-        return;
+    const selectRefCallback = (node: HTMLDivElement | null) => {
+      selectRef.current = node;
+      if (typeof ref === "function") {
+        ref(node);
+      } else if (ref) {
+        ref.current = node;
       }
-      selectRef.current.focus();
-      setIsActive(!isActive);
-    }
-  };
+    };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    if (document.activeElement === selectRef.current) {
-      if (e.key === SPACE_KEY || e.key === ENTER_KEY) {
-        e.preventDefault();
-        handleOnClick();
+    const shouldDisplayClearButton = showResetButton && !!internalValue && !readonly && !disabled;
+
+    const currentOptionLabel = options.find((option) => option.value === internalValue)?.label;
+
+    const shouldDisplayErrorIcon = isError && !disabled && !readonly;
+
+    const computeDropdownPosition = () => {
+      const selectElement = selectRef.current;
+      if (selectElement) {
+        const rect = selectElement.getBoundingClientRect();
+        const spaceBelow = window.innerHeight - rect.bottom;
+        return spaceBelow >= 100 ? "bottom" : "top";
       }
-    }
-  };
+      return "bottom";
+    };
 
-  const handleOnClear = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.stopPropagation();
-    handleOnChange("");
-    onClear?.();
-    selectRef.current?.focus();
-  };
+    const handleOnClick = () => {
+      if (selectRef.current) {
+        if (disabled || readonly) {
+          return;
+        }
+        selectRef.current.focus();
+        setIsActive(!isActive);
+      }
+    };
 
-  const handleOnChange = (newValue: string) => {
-    setInternalValue(newValue);
-    onChange?.(newValue);
-    setIsActive(false);
-  };
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+      if (document.activeElement === selectRef.current) {
+        if (e.key === SPACE_KEY || e.key === ENTER_KEY) {
+          e.preventDefault();
+          handleOnClick();
+        }
+      }
+    };
 
-  return (
-    <>
-      <div className={styles["select-container"]} data-label-position={labelPosition}>
-        {showLabel && labelPosition === "side" && (
-          <label htmlFor={id} id={label} className={styles["select-label"]}>
-            {label}
-            <RequiredIndicator required={required} showLabelRequirement={showLabelRequirement} />
-          </label>
-        )}
-        <div className={styles["select-header"]}>
-          {showLabel && labelPosition === "top" && (
+    const handleOnClear = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      e.stopPropagation();
+      handleOnChange("");
+      onClear?.();
+      selectRef.current?.focus();
+    };
+
+    const handleOnChange = (newValue: string) => {
+      setInternalValue(newValue);
+      onChange?.(newValue);
+      setIsActive(false);
+    };
+
+    return (
+      <>
+        <div className={styles["select-container"]} data-label-position={labelPosition}>
+          {showLabel && labelPosition === "side" && (
             <label htmlFor={id} id={label} className={styles["select-label"]}>
               {label}
               <RequiredIndicator required={required} showLabelRequirement={showLabelRequirement} />
             </label>
           )}
-          <Dropdown
-            style={{ width: selectRef.current?.offsetWidth }}
-            dropdownId={id + "-dropdown"}
-            onClose={() => {
-              setIsActive(false);
-            }}
-            offset={10}
-            trigger={
-              <div
-                ref={selectRef}
-                aria-expanded={isActive}
-                aria-labelledby={label}
-                data-error={isError ? "true" : "false"}
-                data-active={isActive ? "true" : "false"}
-                data-disabled={disabled ? "true" : "false"}
-                data-read-only={readonly ? "true" : "false"}
-                id={id}
-                className={styles["select-wrapper"]}
-                role="combobox"
-                tabIndex={0}
-                onClick={handleOnClick}
-                onKeyDown={handleKeyDown}
-              >
-                <div className={styles["select-content"]}>
-                  {shouldDisplayErrorIcon && <Icon name="error" className={styles["error-icon"]} />}
-                  <div className={styles["select-value"]}>
-                    <span>{currentOptionLabel}</span>
-                  </div>
-                  <div className={styles["select-right-icons"]}>
-                    {shouldDisplayClearButton && (
+          <div className={styles["select-header"]}>
+            {showLabel && labelPosition === "top" && (
+              <label htmlFor={id} id={label} className={styles["select-label"]}>
+                {label}
+                <RequiredIndicator required={required} showLabelRequirement={showLabelRequirement} />
+              </label>
+            )}
+            <Dropdown
+              style={{ width: selectRef.current?.offsetWidth }}
+              dropdownId={id + "-dropdown"}
+              onClose={() => {
+                setIsActive(false);
+              }}
+              offset={10}
+              trigger={
+                <div
+                  ref={selectRefCallback}
+                  aria-expanded={isActive}
+                  aria-labelledby={label}
+                  data-error={isError ? "true" : "false"}
+                  data-active={isActive ? "true" : "false"}
+                  data-disabled={disabled ? "true" : "false"}
+                  data-read-only={readonly ? "true" : "false"}
+                  id={id}
+                  className={styles["select-wrapper"]}
+                  role="combobox"
+                  tabIndex={disabled || readonly ? -1 : 0}
+                  onClick={handleOnClick}
+                  onKeyDown={handleKeyDown}
+                >
+                  <div className={styles["select-content"]}>
+                    {shouldDisplayErrorIcon && <Icon name="error" className={styles["error-icon"]} />}
+                    <div className={styles["select-value"]}>
+                      <span>{currentOptionLabel}</span>
+                    </div>
+                    <div className={styles["select-right-icons"]}>
+                      {shouldDisplayClearButton && (
+                        <IconButton
+                          name="cancel"
+                          variant="neutral"
+                          className={concatClassNames(styles["icon-button"], styles["clear-icon"])}
+                          onClick={handleOnClear}
+                          disabled={disabled}
+                        />
+                      )}
                       <IconButton
-                        name="cancel"
+                        name="arrow-chevron-down"
                         variant="neutral"
-                        className={concatClassNames(styles["icon-button"], styles["clear-icon"])}
-                        onClick={handleOnClear}
+                        className={concatClassNames(styles["icon-button"], styles["trigger-icon"])}
                         disabled={disabled}
                       />
-                    )}
-                    <IconButton
-                      name="arrow-chevron-down"
-                      variant="neutral"
-                      className={concatClassNames(styles["icon-button"], styles["trigger-icon"])}
-                      disabled={disabled}
-                    />
+                    </div>
                   </div>
                 </div>
-              </div>
-            }
-            isOpen={isActive}
-          >
-            {options.length === 0 && <DropdownItem label="No options available" onClick={() => {}} />}
-            {options.map(({ value, label }, index) => (
-              <DropdownItem
-                key={index + value}
-                label={label}
-                isSelected={value === internalValue}
-                onClick={() => {
-                  handleOnChange(value);
-                }}
-              />
-            ))}
-          </Dropdown>
+              }
+              isOpen={isActive}
+              position={computeDropdownPosition()}
+            >
+              {options.length === 0 && <DropdownItem label="No options available" onClick={() => {}} />}
+              {options.map(({ value, label }, index) => (
+                <DropdownItem
+                  key={index + value}
+                  label={label}
+                  isSelected={value === internalValue}
+                  onClick={() => {
+                    handleOnChange(value);
+                  }}
+                />
+              ))}
+            </Dropdown>
 
-          {assistiveTextLabel && (
-            <AssistiveText
-              label={assistiveTextLabel}
-              appearance={isError ? "error" : assistiveAppearance}
-              showIcon={showAssistiveIcon}
-              href={assistiveTextLink}
-            />
-          )}
+            {assistiveTextLabel && (
+              <AssistiveText
+                label={assistiveTextLabel}
+                appearance={isError ? "error" : assistiveAppearance}
+                showIcon={showAssistiveIcon}
+                href={assistiveTextLink}
+              />
+            )}
+          </div>
         </div>
-      </div>
-    </>
-  );
-};
+      </>
+    );
+  },
+);
 
 export default Select;
