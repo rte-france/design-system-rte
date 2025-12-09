@@ -1,0 +1,167 @@
+import { Meta } from "@storybook/blocks";
+import StorybookTabs from "../../../../../../../.storybook/template/StorybookTabs";
+import HeaderComponent from "../../../../../../../.storybook/template/HeaderComponent/HeaderComponent";
+import IconTitle from "../../../../../../../.storybook/template/IconTitle/IconTitle";
+
+import SwitchAccessibility from "../../../../../../../../core/components/switch/stories/img/SwitchAccessibility.png";
+import SwitchAnimations from "../../../../../../../../core/components/switch/stories/img/SwitchAnimations.svg";
+import SwitchAppearance from "../../../../../../../../core/components/switch/stories/img/SwitchAppearance.svg";
+import SwitchAutonomousLabel from "../../../../../../../../core/components/switch/stories/img/SwitchAutonomousLabel.svg";
+import SwitchAutreContextuel from "../../../../../../../../core/components/switch/stories/img/SwitchAutreContextuel.svg";
+import SwitchBooleanOptions from "../../../../../../../../core/components/switch/stories/img/SwitchBooleanOptions.svg";
+import SwitchDistinctCheckbox from "../../../../../../../../core/components/switch/stories/img/SwitchDistinctCheckbox.svg";
+import SwitchFocus from "../../../../../../../../core/components/switch/stories/img/SwitchFocus.svg";
+import SwitchInteractionState from "../../../../../../../../core/components/switch/stories/img/SwitchInteractionState.svg";
+import SwitchKeyboardInteractions from "../../../../../../../../core/components/switch/stories/img/SwitchKeyboardInteractions.svg";
+import SwitchLayout from "../../../../../../../../core/components/switch/stories/img/SwitchLayout.svg";
+import SwitchStructure from "../../../../../../../../core/components/switch/stories/img/SwitchStructure.svg";
+import SwitchTableOfOptions from "../../../../../../../../core/components/switch/stories/img/SwitchTableOfOptions.svg";
+import SwitchTextOptions from "../../../../../../../../core/components/switch/stories/img/SwitchTextOptions.svg";
+
+import "../../../../../../../.storybook/template/style/police.css";
+
+<Meta title="Composants/Switch" />
+
+<HeaderComponent title="Switch" linkFigma="https://www.figma.com/design/Wiy8uWsWjoagf95lOmPXNU/01.0-Design-System-RTE---WEB?node-id=2051-3090&p=f&m=dev" linkGithub="https://github.com/rte-france/design-system-rte/tree/main/packages/angular/projects/ds-rte-lib/src/lib/components/switch"  />
+
+<p className="no-margin-bottom">
+Le <b>Switch</b> (ou interrupteur) permet de <b>commuter entre deux états exclusifs</b>, souvent <b>activé</b> ou <b>désactivé</b>. Contrairement à une case à cocher, le switch est réservé à des actions <b>immédiates et binaires</b>, telles que l’activation d’une fonctionnalité ou d’un paramètre système.
+</p>
+
+<StorybookTabs>
+
+<div className="Overview">
+
+<h2 className="h2" id="Introduction" style={{border:"none", fontFamily:"Nunito", color:"#2964A0"}}> Introduction </h2>
+
+
+<h3 className="h3" id="gherkin" style={{fontFamily:"Nunito"}}> Gherkin :</h3>
+<ul>
+    <li>En tant qu’utilisateur <b>configurant un paramètre</b>,</li>
+    <li>Je souhaite pouvoir <b>activer ou désactiver une option via un interrupteur</b>,</li>
+    <li>Afin de <b>basculer rapidement entre deux états</b> (marche/arrêt, oui/non…).</li>
+</ul>
+
+<h3 className="h3" id="definition" style={{fontFamily:"Nunito"}}> Définition :</h3>
+<p>
+Le Switch (ou interrupteur) permet de <b>commuter entre deux états exclusifs</b>, souvent <b>activé</b> ou <b>désactivé</b>. Contrairement à une case à cocher, le switch est réservé à des actions <b>immédiates et binaires</b>, telles que l’activation d’une fonctionnalité ou d’un paramètre système
+</p>
+
+<h3 className="h3" id="type" style={{fontFamily:"Nunito"}}> Type :</h3>
+<p>
+Composant générique pouvant être utilisé par toutes les équipes de la DSIT.
+</p>
+
+</div>
+
+<div className="Guidelines">
+
+    <h2 id="guidelines" className="h2" style={{border:"none", fontFamily:"Nunito", color:"#2964A0"}} > Usages </h2>
+
+    <IconTitle id="préconisation" icon="heart_outlined" title="Préconisation" />
+
+    <p>Utiliser un switch uniquement pour des <b>actions instantanées</b> (ex : activer les notifications).</p>
+
+    <p className="no-margin-bottom">Distinction avec la checkbox</p>
+    <p className="light-gray no-margin-top">Éviter les switchs  : utiliser plutôt un Checkbox. Les switches sont mieux utilisés pour communiquer une <b>activation</b> (par exemple, des états on/off), tandis que les checkboxes sont mieux utilisées pour communiquer une <b>sélection, des choix à valider ultérieurement.</b> Les switchs, contrairement aux checkboxes, ne peuvent pas avoir d'état d'erreur.</p>
+
+    <img src={SwitchDistinctCheckbox} alt="Illustration de la différence entre switch et case à cocher" />
+    <img src={SwitchDistinctCheckbox} alt="Illustration de la différence entre switch et case à cocher" />
+
+    <p className="no-margin-bottom">Label et switchs autonomes</p>
+    <p className="light-gray no-margin-top">Les switchs doivent <b>toujours avoir des labels.</b> Lorsque le label n'est pas défini, un switch devient <b>autonome.</b> Les switchs autonomes ne doivent être utilisés que lorsque leur connexion à d'autres composants est <b>claire</b> et qu'ils fournissent un <b>contexte suffisant</b> - par exemple, dans les panneaux d'application : exemple, un switch situé en haut d'un panneau à côté du titre du panneau indique clairement que le switch activera/désactivera les options du panneau.</p>
+
+    <img src={SwitchAutonomousLabel} alt="Exemple de switch autonome sans label" />
+    <img src={SwitchAutonomousLabel} alt="Exemple de switch autonome sans label" />
+
+    <p className="no-margin-bottom">Sélection</p>
+    <p className="light-gray no-margin-top">Les switchs <b>peuvent être sélectionnés ou non sélectionnés.</b> Ils ne peuvent <b>pas être dans un état indéterminé</b> (contrairement aux checkboxes). Lorsqu’un switch représente plusieurs valeurs qui ne sont pas identiques, <b>le switch doit apparaître comme non sélectionné</b> (voir ci-dessous).</p>
+
+    <p className="no-margin-bottom">Accentuation (emphasized switch)</p>
+    <p className="light-gray no-margin-top"><b>Les switchs accentués</b> sont aux couleurs de la brand et sont optimaux pour les formulaires, les paramètres et autres scénarios où les switchs doivent être <b>remarqués</b>. Les <b>switchs non accentués</b> conviennent mieux aux panneaux d’application où tous les composants visuels sont monochromes afin d’attirer l’attention sur le contenu du canevas.</p>
+
+    <p className="no-margin-bottom">Représentation de valeurs mixtes</p>
+    <p className="light-gray no-margin-top">Lorsqu’un switch représente plusieurs valeurs qui ne sont pas identiques, ce switch doit apparaître comme <b>non sélectionné</b>. Tout clic ultérieur doit passer ce switch en "sélectionné" et mettre à jour toutes les valeurs comme étant sélectionnées. Un autre clic désélectionne ce switch et met à jour toutes les valeurs comme étant non sélectionnées.</p>
+
+    <h3 className="content-standards" id="content-standards" style={{fontFamily:"Nunito"}}> Content Standards</h3>
+    <p>Quels sont les standards de contenu ? (UX Writing)</p>
+
+    <p className="no-margin-bottom">Déterminer si le label doit utiliser un verbe ou un nom</p>
+    <p className="light-gray no-margin-top">Un switch indique un état de persistance pour quelque chose - un nom ou un nom propre - comme étant soit <b>allumé</b>, soit <b>éteint</b>. Un verbe n'est généralement pas nécessaire pour communiquer la chose allumée ou éteinte, mais il peut y avoir des cas où la formulation du label sous forme de verbe peut aider à la clarté. Essayez simplement de garder les switchs cohérents en utilisant soit des verbes, soit des noms si vous en avez plusieurs dans une même vue.</p>
+
+    <p className="no-margin-bottom">Éviter d'utiliser des expressions verbales liées à des états d'activité</p>
+    <p className="light-gray no-margin-top">Évitez d'utiliser des expressions verbales liées à des états d'activité dans les labels d'un switch, telles que <b>allumer</b> ou <b>éteindre</b>. Un switch est naturellement soit dans un état de marche, soit dans un état d'arrêt - actif ou inactif - donc répéter dans le label que quelque chose est <b>allumé</b> ou <b>éteint</b> est redondant et encombre une interface.</p>
+
+    <p className="no-margin-bottom">Utiliser un ton neutre</p>
+    <p className="light-gray no-margin-top">Les switchs étant utilisés à des fins de réglage et de commodité, leurs labels sont rédigés d'une manière neutre et pratique. Il n'est pas nécessaire d'utiliser des termes trop pompeux.</p>
+
+    <h2 id="options" className="h2" style={{border:"none", fontFamily:"Nunito", color:"#2964A0"}} > Options </h2>
+    <p> Les options comprennent les états et différentes formes que peut prendre le composant. Elles incluent : Les états, les variants, les tailles, les éléments modifiables qui composent le composant, etc. <br />
+    → Ils n’incluent pas les “Behaviors” qui correspondent à comment le composant réagit.</p>
+
+    <h3 id="interaction-states" className="h3" style={{fontFamily:"Nunito"}}> Interaction States </h3>
+    <img src={SwitchInteractionState} alt="Illustration des états d'interaction du switch (activé, désactivé)" />
+
+    <h3 id="appearance" className="h3" style={{fontFamily:"Nunito"}}> Appearance </h3>
+    <img src={SwitchAppearance} alt="Exemples d'apparence visuelle du switch" />
+
+    <h3 id="Tailles" className="h3" style={{fontFamily:"Nunito"}}> Tailles </h3>
+    <p> Le Switch n'existe qu'en une seule taille : <b>24px pixels de hauteur - 40px de largeur</b></p>
+
+    <h3 id="boolean-options" className="h3" style={{fontFamily:"Nunito"}}> Boolean Options </h3>
+    <img src={SwitchBooleanOptions} alt="Options booléennes disponibles pour le switch" />
+
+    <h3 id="text-options" className="h3" style={{fontFamily:"Nunito"}}> Text Options </h3>
+    <img src={SwitchTextOptions} alt="Options de texte pour le contenu du switch" />
+
+    <h3 id="structure" className="h3" style={{fontFamily:"Nunito"}}> Structure </h3>
+    <p> Le <b>Switch</b> est composé de plusieurs éléments :</p>
+    <img src={SwitchStructure} alt="Schéma de la structure du composant switch" />
+    <ol>
+        <li>Un <b>Champ de saisie (container)</b></li>
+        <li>Un <b>Container d’icône</b></li>
+        <li>Une <b>Icône</b>(Selected : validation / Unselected : croix)</li>
+        <li>Un <b>Label</b></li>
+    </ol>
+
+    <h3 id="table-of-options" className="h3" style={{fontFamily:"Nunito"}}> Table of Options </h3>
+    <p className="light-gray"> Tous les éléments modifiables sont inscrit dans le tableau. On y renseigne le nom de la propriété et les choix qui s’offrent aux développeurs.</p>
+    <img src={SwitchTableOfOptions} alt="Tableau des propriétés et options du switch" />
+
+    <h2 id="behaviors" className="h2" style={{border:"none", fontFamily:"Nunito", color:"#2964A0"}} > Behaviors </h2>
+
+    <h3 id="focus" className="h3" style={{fontFamily:"Nunito"}}> Focus </h3>
+    <img src={SwitchFocus} alt="Illustration de l'état de focus du switch" />
+
+    <h3 id="layout" className="h3" style={{fontFamily:"Nunito"}}> Layout </h3>
+    <img src={SwitchLayout} alt="Exemple de disposition et positionnement du switch" />
+
+    <h3 id="animations" className="h3" style={{fontFamily:"Nunito"}}> Animations </h3>
+    <p className="light-gray no-margin-top">Toutes les animations doivent respecter les préférences utilisateur (prefers-reduced-motion) et <b>être désactivables si nécessaire.</b><br /> Les transitions doivent <b>rester non-intrusives</b> et <b>ne jamais bloquer l'interaction ou la lisibilité.</b></p>
+    <img src={SwitchAnimations} alt="Exemples d'animations du switch (apparition, disparition)" />
+
+    <h3 id="interactions" className="h3" style={{fontFamily:"Nunito"}}> Interactions </h3>
+
+    <p className="no-margin-bottom">Zone clicable</p>
+    <p className="light-gray no-margin-top">Toute la surface du track + le label</p>
+
+    <p className="no-margin-bottom">Clic / tap</p>
+    <p className="light-gray no-margin-top">Inverse l'état entre on et off</p>
+
+    <h3 id="keyboard-interactions" className="h3" style={{fontFamily:"Nunito"}}> Keyboard Interactions </h3>
+    <img src={SwitchKeyboardInteractions} alt="Illustration des interactions clavier pour le switch" />
+
+    <h3 id="autre-contextuel" className="h3" style={{fontFamily:"Nunito"}}> Autre / contextuel </h3>
+    <img src={SwitchAutreContextuel} alt="Exemples de contextes d'utilisation du switch" />
+
+</div>
+
+<div className="Accessibilité">
+
+    <h2 id="accessibility-testing-status" className="h2" style={{border:"none", fontFamily:"Nunito", color:"#2964A0"}} > Accessibility Testing Status </h2>
+    <p> Voici les tests à effectuer pour vérifier l'Accessibilité de chaque catégorie :</p>
+    <img src={SwitchAccessibility} alt="Checklist des tests d’accessibilité pour le switch" />
+
+</div>
+
+</StorybookTabs>
