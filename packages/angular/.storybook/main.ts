@@ -27,6 +27,7 @@ const config: StorybookConfig = {
       require.resolve("@babel/preset-react"),
       require.resolve("@babel/preset-typescript"),
     ],
+    plugins: [["@babel/plugin-proposal-decorators", { legacy: true }]],
   }),
   webpackFinal: async (config) => {
     config.module?.rules?.push(
@@ -37,6 +38,7 @@ const config: StorybookConfig = {
           loader: "babel-loader",
           options: {
             presets: ["@babel/preset-env", "@babel/preset-react"],
+            plugins: [["@babel/plugin-proposal-decorators", { legacy: true }]],
           },
         },
       },
@@ -47,6 +49,7 @@ const config: StorybookConfig = {
           loader: "babel-loader",
           options: {
             presets: ["@babel/preset-env", "@babel/preset-react", "@babel/preset-typescript"],
+            plugins: [["@babel/plugin-proposal-decorators", { legacy: true }]],
           },
         },
       },

@@ -1,15 +1,19 @@
 import { HttpClientModule } from "@angular/common/http";
 import { importProvidersFrom } from "@angular/core";
 import { setCompodocJson } from "@storybook/addon-docs/angular";
-import { applicationConfig, type Preview, componentWrapperDecorator } from "@storybook/angular";
-import { addons } from "@storybook/preview-api";
+import { applicationConfig, type Preview, componentWrapperDecorator, moduleMetadata } from "@storybook/angular";
 
 import docJson from "../documentation.json";
+
+import { ThemeSelectorComponent } from "./template/ThemeSelector/theme-selector.component";
 setCompodocJson(docJson);
 
 const decorators = [
   applicationConfig({
     providers: [importProvidersFrom(HttpClientModule)],
+  }),
+  moduleMetadata({
+    imports: [ThemeSelectorComponent],
   }),
 ];
 const preview: Preview = {
@@ -32,15 +36,13 @@ const preview: Preview = {
     ...decorators,
     componentWrapperDecorator(
       (story) =>
-        `<div style="padding: 20px; background-color: var(--background-default); width: auto; height: 100%;">${story}</div>`,
+        `<div style="padding: 16px 16px 32px 50px; background-color: var(--background-default); width: auto; height: 100%; display: flex; flex-direction: column; gap: 32px;">
+      <rte-theme-selector/>
+      ${story}
+      </div>`,
     ),
   ],
 };
-
-addons.getChannel().on("THEME_CHANGED", (theme) => {
-  document.querySelector("html")?.setAttribute("data-mode", theme.theme);
-  document.querySelector("html")?.setAttribute("data-theme", theme.color);
-});
 
 document.querySelector("html")?.setAttribute("data-theme", "bleu_iceberg");
 document.querySelector("html")?.setAttribute("data-mode", "light");

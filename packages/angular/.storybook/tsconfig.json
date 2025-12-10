@@ -7,7 +7,9 @@
     "jsx": "react-jsx",
     "paths": {
       "@design-system-rte/core/*": ["../../core/*"]
-    }
+    },
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true ,
   },
   "exclude": ["../projects/ds-rte-lib/src/test.ts", "../projects/ds-rte-lib/src/**/*.spec.ts"],
   "include": ["../projects/ds-rte-lib/src/**/*.stories.*", "./preview.ts", "./template/**/*"],
