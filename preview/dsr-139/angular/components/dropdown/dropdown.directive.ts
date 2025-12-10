@@ -51,6 +51,7 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
   readonly rteDropdownOffset = input<number>(0);
   readonly rteDropdownWidth = input<number | undefined>(undefined);
   readonly rteDropdownAutofocus = input<boolean>(true);
+  readonly rteDropdownAutoOpen = input<boolean>(true);
 
   readonly dropdownId = `dropdown_${++DropdownDirective.idCounter}`;
   readonly menuEvent = output<{ event: Event; id: string }>();
@@ -78,10 +79,8 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
             });
           }
         }
-      } else {
-        if (this.dropdownMenuRef) {
-          this.dropdownService.closeAllMenus();
-        }
+      } else if (this.dropdownMenuRef) {
+        this.dropdownService.closeAllMenus();
       }
     });
 
@@ -103,6 +102,9 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
   dropdownMenuRef: ComponentRef<DropdownMenuComponent> | null = null;
 
   onTrigger(): void {
+    if (this.rteDropdownAutoOpen()) {
+      this.showDropdownMenu();
+    }
     if (this.rteDropdownAutofocus()) {
       requestAnimationFrame(() => {
         requestAnimationFrame(() => focusDropdownFirstElement(this.dropdownId));

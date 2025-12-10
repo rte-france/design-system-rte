@@ -32,7 +32,7 @@ export class SearchbarComponent {
   readonly assistiveText = input<string>("");
 
   readonly valueChange = output<string>();
-  readonly search = output<string | undefined>();
+  readonly searchEvent = output<string | undefined>();
   readonly clear = output<void>();
 
   readonly appearanceConfig = computed(() => APPEARANCE_CONFIG[this.appearance()]);
@@ -72,7 +72,7 @@ export class SearchbarComponent {
   }
 
   handleSearch(): void {
-    this.search.emit(this.value());
+    this.searchEvent.emit(this.value());
   }
 
   handleEnter(event: KeyboardEvent): void {

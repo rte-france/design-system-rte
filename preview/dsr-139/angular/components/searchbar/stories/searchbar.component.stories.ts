@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, computed, signal, ViewChild } from "@angular/core";
+import { AfterViewInit, Component, computed, effect, ElementRef, signal, viewChild } from "@angular/core";
 import { DROPDOWN_OFFSET } from "@design-system-rte/core/components/searchbar/searchbar.constants";
 import {
   TESTING_DOWN_KEY,
@@ -21,12 +21,23 @@ import { SearchbarComponent } from "../searchbar.component";
   `,
 })
 class DropdownWrapperComponent implements AfterViewInit {
-  readonly wrapperRef = ViewChild("wrapperRef", { static: false });
+  readonly wrapperRef = viewChild<ElementRef<HTMLDivElement>>("wrapperRef");
   readonly width = signal<number | undefined>(undefined);
 
+  constructor() {
+    effect(() => {
+      const element = this.wrapperRef()?.nativeElement;
+      if (element) {
+        const width = element.offsetWidth;
+        this.width.set(width);
+      }
+    });
+  }
+
   ngAfterViewInit(): void {
-    if (this.wrapperRef?.nativeElement) {
-      const width = this.wrapperRef.nativeElement.offsetWidth;
+    const element = this.wrapperRef()?.nativeElement;
+    if (element) {
+      const width = element.offsetWidth;
       this.width.set(width);
     }
   }
@@ -225,6 +236,7 @@ export const WithFilteredOptions: Story = {
             [rteDropdownOffset]="DROPDOWN_OFFSET"
             [rteDropdownWidth]="wrapper.width()"
             [rteDropdownAutofocus]="false"
+            [rteDropdownAutoOpen]="false"
             (menuEvent)="handleOptionSelect($event)"
           >
             <div rteDropdownTrigger style="width: fit-content">
@@ -305,6 +317,7 @@ export const KeyboardNavigationWithFilteredOptions: Story = {
             [rteDropdownOffset]="DROPDOWN_OFFSET"
             [rteDropdownWidth]="wrapper.width()"
             [rteDropdownAutofocus]="false"
+            [rteDropdownAutoOpen]="false"
             (menuEvent)="handleOptionSelect($event)"
           >
             <div rteDropdownTrigger style="width: fit-content">
@@ -426,6 +439,7 @@ export const KeyboardNavigationAndSearch: Story = {
             [rteDropdownOffset]="DROPDOWN_OFFSET"
             [rteDropdownWidth]="wrapper.width()"
             [rteDropdownAutofocus]="false"
+            [rteDropdownAutoOpen]="false"
             (menuEvent)="handleOptionSelect($event)"
           >
             <div rteDropdownTrigger style="width: fit-content">
@@ -437,7 +451,7 @@ export const KeyboardNavigationAndSearch: Story = {
                 [assistiveText]="'Type at least 3 characters to filter options'"
                 [showResetButton]="true"
                 (valueChange)="handleChange($event)"
-                (search)="handleSearch($event)"
+                (searchEvent)="handleSearch($event)"
               />
             </div>
             <rte-dropdown-menu [items]="filteredOptions()" />
