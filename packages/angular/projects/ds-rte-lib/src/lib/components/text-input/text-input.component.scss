@@ -165,7 +165,6 @@
                     @include neutral-inner-shadow;
 
                     &:hover {
-                        outline: 1px solid var(--border-primary);
                         border-color: var(--border-primary);
                     }
 
