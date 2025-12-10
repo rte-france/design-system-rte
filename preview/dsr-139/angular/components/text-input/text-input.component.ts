@@ -54,10 +54,8 @@ export class TextInputComponent {
   readonly rightIconName = computed(() => {
     if (["visibilityOn", "visibilityOff"].includes(this.rightIconAction())) {
       return this.isHiddenInput() ? "visibility-show" : "visibility-hide";
-    } else if (this.rightIconAction() === "clean") {
-      return "cancel";
     }
-    return "";
+    return "cancel";
   });
 
   readonly rightIconAriaLabel = computed(() => {
@@ -98,7 +96,9 @@ export class TextInputComponent {
     const input = event.target as HTMLInputElement;
     const newValue = input.value;
     this.internalValue.set(newValue);
-    this.characterCount.set(newValue.length);
+    if (this.maxLength()) {
+      this.characterCount.set(newValue.length);
+    }
     this.valueChange.emit(newValue);
   }
 

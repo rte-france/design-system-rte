@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, ElementRef, HostListener, inject, input, output } from "@angular/core";
+import { Component, computed, ElementRef, HostListener, inject, input, output } from "@angular/core";
 import {
   ARROW_DOWN_KEY,
   ARROW_LEFT_KEY,
@@ -25,9 +25,11 @@ export class DropdownMenuComponent {
 
   readonly items = input<DropdownItemConfig[]>([]);
   readonly menuId = input<string>();
-  readonly with = input<number | undefined>(undefined);
+  readonly width = input<number | undefined>(undefined);
 
   readonly itemEvent = output<{ event: Event; id: string }>();
+
+  readonly widthStyle = computed(() => (this.width() !== undefined ? `${this.width()}px` : undefined));
 
   getChildMenuId(itemIndex: number): string {
     return `${this.menuId()}:${itemIndex + 1}`;
