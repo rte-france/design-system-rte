@@ -1,38 +1,10 @@
 import "../src/styles/CodeBlocks.css";
 
 /** @type { import('@storybook/react').Preview } */
-import { addons } from "@storybook/preview-api";
 import "./preview.scss";
 
 const preview = {
   globalTypes: {
-    color: {
-      name: "Color",
-      description: "Couleur globale pour les composants",
-      toolbar: {
-        icon: "paintbrush",
-        title: "Color",
-        items: [
-          { value: "bleu_iceberg", title: "bleu_iceberg" },
-          { value: "vert_foret", title: "vert_foret" },
-          { value: "violet", title: "violet" },
-        ],
-        showName: true,
-      },
-    },
-    theme: {
-      name: "Theme",
-      description: "Thème global pour les composants",
-      toolbar: {
-        icon: "circlehollow",
-        title: "Theme",
-        items: [
-          { value: "light", title: "Light" },
-          { value: "dark", title: "Dark" },
-        ],
-        showName: true,
-      },
-    },
     modeDev: {
       name: "Mode Dev",
       description: "Mode Dev pour les composants",
@@ -48,8 +20,6 @@ const preview = {
     },
   },
   initialGlobals: {
-    color: "bleu_iceberg",
-    theme: "light",
     modeDev: "utilisateur",
   },
   parameters: {
@@ -96,11 +66,6 @@ const preview = {
     },
   },
 };
-
-addons.getChannel().on("THEME_CHANGED", (theme) => {
-  document.querySelector("html")?.setAttribute("data-mode", theme.theme);
-  document.querySelector("html")?.setAttribute("data-theme", theme.color);
-});
 
 document.querySelector("html")?.setAttribute("data-theme", "bleu_iceberg");
 document.querySelector("html")?.setAttribute("data-mode", "light");

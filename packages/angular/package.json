@@ -24,6 +24,7 @@
     "@angular/forms": "^18.2.14",
     "@angular/platform-browser-dynamic": "^18.2.14",
     "@babel/core": "^7.27.4",
+    "@babel/plugin-proposal-decorators": "^7.28.0",
     "@babel/preset-env": "^7.27.2",
     "@babel/preset-react": "^7.27.1",
     "@chromatic-com/storybook": "^3.2.6",
