@@ -38,7 +38,7 @@ export class IconButtonComponent {
 
   readonly isValidIconName = computed(() => isValidIconName(this.name()));
 
-  readonly click = output<MouseEvent | KeyboardEvent>();
+  readonly clickEvent = output<MouseEvent | KeyboardEvent>();
 
   readonly shouldDisplayBadge = computed(() => {
     const count = this.badgeCount();
@@ -49,6 +49,6 @@ export class IconButtonComponent {
 
   onClick(event: MouseEvent | KeyboardEvent): void {
     event.stopPropagation();
-    this.click.emit(event);
+    this.clickEvent.emit(event);
   }
 }

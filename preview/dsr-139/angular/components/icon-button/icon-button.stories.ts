@@ -48,7 +48,7 @@ const meta = {
       control: "text",
       description: "Texte alternatif pour l’icône bouton",
     },
-    click: {
+    clickEvent: {
       action: "click",
       description: "Événement déclenché lors du clic sur le bouton",
     },
@@ -84,7 +84,7 @@ export const Default: Story = {
     compactSpacing: false,
     variant: "primary",
     ariaLabel: "icon button aria label",
-    click: mockFn,
+    clickEvent: mockFn,
   },
 
   play: async ({ canvasElement }) => {
