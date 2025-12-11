@@ -23,4 +23,6 @@
   [ariaLabelledby]="ariaLabelledby()"
   [customStyle]="customStyle()"
   [autocomplete]="autocomplete()"
+  (valueChange)="valueChange.emit($event)"
+  (rightIconClick)="rightIconClick.emit()"
 />

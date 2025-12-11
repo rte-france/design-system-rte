@@ -1,3 +1,4 @@
+import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, input, output } from "@angular/core";
 import {
   APPEARANCE_CONFIG,
@@ -11,7 +12,6 @@ import { ENTER_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.c
 
 import { IconButtonComponent } from "../icon-button/icon-button.component";
 import { BaseTextInputComponent } from "../text-input/base-text-input/base-text-input.component";
-import { CommonModule } from "@angular/common";
 
 @Component({
   selector: "rte-searchbar",
