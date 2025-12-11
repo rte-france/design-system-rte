@@ -1,4 +1,5 @@
 import { Alignment, Position } from "@design-system-rte/core/components/common/common-types";
+import { DROPDOWN_ANIMATION_DURATION } from "@design-system-rte/core/components/dropdown/dropdown.constants";
 import { DropdownProps as CoreDropdownProps } from "@design-system-rte/core/components/dropdown/dropdown.interface";
 import { DropdownManager } from "@design-system-rte/core/components/dropdown/DropdownManager";
 import {
@@ -61,7 +62,7 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
     const [triggerElement, setTriggerElement] = useState<HTMLDivElement | null>(null);
     const [coordinates, setCoordinates] = useState<{ top: number; left: number }>({ top: 500, left: 500 });
 
-    const { shouldRender, isAnimating } = useAnimatedMount(isOpen, 150);
+    const { shouldRender, isAnimating } = useAnimatedMount(isOpen, DROPDOWN_ANIMATION_DURATION);
 
     const dropdownCallbackRef = useCallback(
       (node: HTMLDivElement | null) => {

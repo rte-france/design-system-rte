@@ -6,8 +6,9 @@ import { useState } from "react";
 import Select from "../Select";
 
 const meta = {
-  title: "Select",
+  title: "Composants/Select",
   component: Select,
+  tags: ["autodocs"],
   argTypes: {
     id: { control: "text" },
     label: { control: "text" },
@@ -60,7 +61,9 @@ export const Default: Story = {
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "16px", width: "280px" }}>
         <Select {...args} onChange={handleOnChange} value={selectedOption?.value} />
-        <span style={{ fontFamily: "Arial" }}>Selected value : {selectedOption?.label || "No value"}</span>
+        <span style={{ fontFamily: "Arial", color: "var(--content-primary)" }}>
+          Selected value : {selectedOption?.label || "No value"}
+        </span>
       </div>
     );
   },
@@ -81,7 +84,9 @@ export const Error: Story = {
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "16px", width: "280px" }}>
         <Select {...args} onChange={handleOnChange} value={selectedOption?.value} />
-        <span style={{ fontFamily: "Arial" }}>Selected value : {selectedOption?.label || "No value"}</span>
+        <span style={{ fontFamily: "Arial", color: "var(--content-primary)" }}>
+          Selected value : {selectedOption?.label || "No value"}
+        </span>
       </div>
     );
   },
@@ -102,7 +107,9 @@ export const ReadOnly: Story = {
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "16px", width: "280px" }}>
         <Select {...args} onChange={handleOnChange} value={selectedOption?.value} />
-        <span style={{ fontFamily: "Arial" }}>Selected value : {selectedOption?.label || "No value"}</span>
+        <span style={{ fontFamily: "Arial", color: "var(--content-primary)" }}>
+          Selected value : {selectedOption?.label || "No value"}
+        </span>
       </div>
     );
   },
@@ -130,7 +137,9 @@ export const Disabled: Story = {
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "16px", width: "280px" }}>
         <Select {...args} onChange={handleOnChange} value={selectedOption?.value} />
-        <span style={{ fontFamily: "Arial" }}>Selected value : {selectedOption?.label || "No value"}</span>
+        <span style={{ fontFamily: "Arial", color: "var(--content-primary)" }}>
+          Selected value : {selectedOption?.label || "No value"}
+        </span>
       </div>
     );
   },
@@ -158,7 +167,9 @@ export const KeyboardInteraction: Story = {
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "16px", width: "280px" }}>
         <Select {...args} onChange={handleOnChange} value={selectedOption?.value} />
-        <span style={{ fontFamily: "Arial" }}>Selected value : {selectedOption?.label || "No value"}</span>
+        <span style={{ fontFamily: "Arial", color: "var(--content-primary)" }}>
+          Selected value : {selectedOption?.label || "No value"}
+        </span>
       </div>
     );
   },

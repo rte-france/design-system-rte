@@ -18,6 +18,7 @@ import {
 import { waitForNextFrame } from "@design-system-rte/core/common/animation";
 import { Alignment } from "@design-system-rte/core/common/common-types";
 import { Position } from "@design-system-rte/core/components/common/common-types";
+import { DROPDOWN_ANIMATION_DURATION } from "@design-system-rte/core/components/dropdown/dropdown.constants";
 import {
   getAutoAlignment,
   getAutoPlacementDropdown,
@@ -269,6 +270,6 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
 
     setTimeout(() => {
       this.dropdownService.closeAllMenus();
-    }, 150);
+    }, DROPDOWN_ANIMATION_DURATION);
   }
 }

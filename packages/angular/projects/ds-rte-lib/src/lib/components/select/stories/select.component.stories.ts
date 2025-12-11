@@ -17,7 +17,7 @@ const meta: Meta<SelectComponent> = {
       description: "Position of the label relative to the textarea",
     },
     disabled: { control: "boolean" },
-    change: { action: "changed" },
+    valueChange: { action: "changed" },
     assistiveTextAppearance: {
       control: "select",
       options: ["description", "error", "success", "link"],
@@ -63,7 +63,7 @@ export const Default: Story = {
     required: false,
     value: "",
     showLabelRequirement: false,
-    change: (event: Event) => {
+    valueChange: (event: Event) => {
       mockFn(event);
     },
     options: [
@@ -75,6 +75,7 @@ export const Default: Story = {
     readOnly: false,
     disabled: false,
     showResetButton: false,
+    showAssistiveIcon: false,
   },
   render: (args) => ({
     props: { ...args },
@@ -97,6 +98,7 @@ export const Default: Story = {
         (change)="change($event)"
         [isError]="isError"
         [showResetButton]="showResetButton"
+        [showAssistiveIcon]="showAssistiveIcon"
         />
     </div>
     `,
@@ -130,6 +132,7 @@ export const Error: Story = {
         isError="true"
         (change)="change($event)"
         [showResetButton]="showResetButton"
+        [showAssistiveIcon]="showAssistiveIcon"
         />
     </div>
     `,
@@ -162,6 +165,7 @@ export const ReadOnly: Story = {
         [options]="options"
         (change)="change($event)"
         [showResetButton]="showResetButton"
+        [showAssistiveIcon]="showAssistiveIcon"
         />
     </div>
     `,
@@ -199,6 +203,7 @@ export const Disabled: Story = {
         [options]="options"
         (change)="change($event)"
         [showResetButton]="showResetButton"
+        [showAssistiveIcon]="showAssistiveIcon"
         />
     </div>
     `,
@@ -236,6 +241,7 @@ export const KeyboardInteraction: Story = {
         [options]="options"
         (change)="change($event)"
         [showResetButton]="showResetButton"
+        [showAssistiveIcon]="showAssistiveIcon"
         />
     </div>
     `,
