@@ -35,11 +35,14 @@ const preview: Preview = {
   decorators: [
     ...decorators,
     componentWrapperDecorator(
-      (story) =>
-        `<div style="padding: 16px 16px 32px 50px; background-color: var(--background-default); width: auto; height: 100%; display: flex; flex-direction: column; gap: 32px;">
-      <rte-theme-selector/>
-      ${story}
-      </div>`,
+      (story) => `
+        <div style="padding: 16px 16px 80px 50px; background-color: var(--background-default); width: auto; height: 100%; display: flex; flex-direction: column; gap: 96px;">
+          <rte-theme-selector/>
+          <div style="margin: auto;">
+            ${story}
+          </div>
+        </div>
+      `,
     ),
   ],
 };

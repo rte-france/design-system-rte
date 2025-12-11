@@ -12,6 +12,7 @@ type Mode = "light" | "dark";
   imports: [ChipComponent, CommonModule, IconButtonComponent],
   standalone: true,
   templateUrl: "./theme-selector.component.html",
+  styleUrl: "./theme-selector.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ThemeSelectorComponent {

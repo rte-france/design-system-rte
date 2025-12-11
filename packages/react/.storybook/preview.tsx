@@ -8,17 +8,21 @@ export const decorators: Preview["decorators"] = [
   (Story, context) => (
     <div
       style={{
-        padding: "16px 16px 32px 50px",
+        padding: "16px 16px 80px 50px",
         backgroundColor: "var(--background-default)",
         width: "auto",
         height: "100%",
         display: "flex",
         flexDirection: "column",
-        gap: "32px",
+        gap: "96px",
       }}
     >
       <ThemeSelector />
-      <div>
+      <div
+        style={{
+          margin: "auto",
+        }}
+      >
         <Story {...context} />
       </div>
     </div>

@@ -1,6 +1,8 @@
 import { Chip, IconButton } from "@design-system-rte/react";
 import { useEffect, useState } from "react";
 
+import styles from "./ThemeSelector.module.scss";
+
 const ThemeSelector = () => {
   const [currentMode, setCurrentMode] = useState<"light" | "dark">("light");
   const [currentTheme, setCurrentTheme] = useState<"bleu_iceberg" | "vert_foret" | "violet">("bleu_iceberg");
@@ -37,8 +39,8 @@ const ThemeSelector = () => {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "row", gap: "24px", justifyContent: "end" }}>
-      <div style={{ display: "flex", gap: "8px" }} role="radiogroup">
+    <div className={styles["theme-selector"]}>
+      <div className={styles["theme-selector__chips"]} role="radiogroup">
         {themes.map(({ id, label }) => (
           <Chip
             id={id}
