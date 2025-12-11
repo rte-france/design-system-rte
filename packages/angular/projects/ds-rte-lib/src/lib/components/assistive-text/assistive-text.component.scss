@@ -1,6 +1,6 @@
 @use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
 
-.assistive-text {
+.rte-assistive-text {
   @include typography-text-s;
   display: flex;
   align-items: center;
@@ -8,19 +8,19 @@
   padding: $positive-spacing_050 $positive-spacing_100;
   color: var(--content-secondary);
 
-  &[data-appearance="error"] {
+  &.error {
     color: var(--content-danger-default);
     @include typography-text-input-s-bold;
     margin: $positive-spacing-0;
   }
 
-  &[data-appearance="success"] {
+  &.success {
     color: var(--content-success-default);
     @include typography-text-input-s-bold;
     margin: $positive-spacing-0;
   }
 
-  &[data-appearance="description"] {
+  &.description {
     color: var(--content-tertiary);
     @include typography-text-input-tertiary-regular;
     margin: $positive-spacing-0;
