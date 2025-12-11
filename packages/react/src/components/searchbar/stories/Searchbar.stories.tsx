@@ -46,6 +46,7 @@ export const Default: Story = {
     label: "Rechercher",
     value: "",
     disabled: false,
+    autoComplete: "off",
   },
 };
 
@@ -124,6 +125,7 @@ export const WithDropdown: Story = {
     assistiveText: "Select a filter option before typing",
     value: "",
     disabled: false,
+    autoComplete: "off",
   },
 };
 
@@ -187,6 +189,7 @@ export const WithFilteredOptions: Story = {
               compactSpacing={args.compactSpacing}
               onChange={handleChange}
               assistiveText={args.assistiveText}
+              autoComplete={args.autoComplete}
             />
           }
           isOpen={isOpen}
@@ -273,6 +276,7 @@ export const KeyboardNavigationWithFilteredOptions: Story = {
               onChange={handleChange}
               assistiveText="Type at least 3 characters to filter options"
               showResetButton={true}
+              autoComplete={args.autoComplete}
             />
           }
           isOpen={isOpen}
@@ -388,6 +392,7 @@ export const KeyboardNavigationAndSearch: Story = {
               onSearch={handleSearch}
               assistiveText="Type at least 3 characters to filter options"
               showResetButton={true}
+              autoComplete={args.autoComplete}
             />
           }
           isOpen={isOpen}
@@ -409,6 +414,7 @@ export const KeyboardNavigationAndSearch: Story = {
     ...Default.args,
     compactSpacing: false,
     appearance: "primary",
+    autoComplete: "off",
   },
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);

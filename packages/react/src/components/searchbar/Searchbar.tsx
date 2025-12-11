@@ -77,17 +77,17 @@ const Searchbar = forwardRef<HTMLInputElement, SearchbarProps>(
       [onChange],
     );
 
-    const handleSearch = useCallback(() => {
+    const handleClick = useCallback(() => {
       onSearch?.(value);
     }, [onSearch, value]);
 
     const handleEnter = useCallback(
       (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === ENTER_KEY) {
-          handleSearch();
+          onSearch?.(value);
         }
       },
-      [handleSearch],
+      [onSearch],
     );
 
     const handleClear = useCallback(() => {
@@ -145,7 +145,7 @@ const Searchbar = forwardRef<HTMLInputElement, SearchbarProps>(
               size="m"
               variant="primary"
               appearance="filled"
-              onClick={handleSearch}
+              onClick={handleClick}
               disabled={disabled}
               aria-label={label}
               className={styles.searchButton}
