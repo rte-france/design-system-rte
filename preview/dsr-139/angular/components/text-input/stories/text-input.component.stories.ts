@@ -62,6 +62,7 @@ export const Default: Story = {
     readOnly: false,
     maxLength: 150,
     value: "",
+    placeholder: "Placeholder",
   },
 };
 
