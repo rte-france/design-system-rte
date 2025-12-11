@@ -3,7 +3,7 @@ export type RightIconAction = "clean" | "visibilityOn" | "visibilityOff";
 export type RightIconName = "cancel" | "visibility-show" | "visibility-hide";
 export type AssistiveAppearance = "description" | "error" | "success" | "link";
 
-export interface TextInputProps {
+export interface BaseTextInputProps {
   id: string;
   label?: string;
   labelPosition?: LabelPosition;
@@ -22,3 +22,5 @@ export interface TextInputProps {
   compactSpacing?: boolean;
   onRightIconClick?: () => void;
 }
+
+export type TextInputProps = Omit<BaseTextInputProps, "compactSpacing">;

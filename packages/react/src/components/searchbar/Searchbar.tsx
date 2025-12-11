@@ -13,7 +13,7 @@ import { ENTER_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.c
 import { CSSProperties, InputHTMLAttributes, KeyboardEvent, forwardRef, useCallback, useMemo } from "react";
 
 import IconButton from "../iconButton/IconButton";
-import TextInput from "../textInput/TextInput";
+import BaseTextInput from "../textInput/baseTextuInput/BaseTextInput";
 
 import styles from "./Searchbar.module.scss";
 
@@ -138,7 +138,7 @@ const Searchbar = forwardRef<HTMLInputElement, SearchbarProps>(
     return (
       <div className={styles.searchbarContainer} role="search" data-appearance={appearance}>
         <div className={styles.textInputWrapper} data-disabled={disabled}>
-          <TextInput id={id ?? ""} {...textInputProps} style={textInputStyles} ref={ref} />
+          <BaseTextInput id={id ?? ""} {...textInputProps} style={textInputStyles} ref={ref} />
           {appearanceConfig.showSearchButton && (
             <IconButton
               name="search"

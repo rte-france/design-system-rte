@@ -1,4 +1,3 @@
-import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, input, output } from "@angular/core";
 import {
   APPEARANCE_CONFIG,
@@ -11,11 +10,11 @@ import { SearchBarAppearance } from "@design-system-rte/core/components/searchba
 import { ENTER_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
 import { IconButtonComponent } from "../icon-button/icon-button.component";
-import { TextInputComponent } from "../text-input/text-input.component";
+import { BaseTextInputComponent } from "../text-input/base-text-input/base-text-input.component";
 
 @Component({
   selector: "rte-searchbar",
-  imports: [CommonModule, TextInputComponent, IconButtonComponent],
+  imports: [BaseTextInputComponent, IconButtonComponent],
   standalone: true,
   templateUrl: "./searchbar.component.html",
   styleUrl: "./searchbar.component.scss",
