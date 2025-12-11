@@ -1,22 +1,32 @@
 import { CommonModule } from "@angular/common";
-import { Component, input, computed, output, signal, viewChild, ElementRef } from "@angular/core";
+import {
+  Component,
+  input,
+  computed,
+  output,
+  signal,
+  viewChild,
+  ElementRef,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { NG_VALUE_ACCESSOR } from "@angular/forms";
-import { ASSISTIVE_TEXT_ICON_SIZE } from "@design-system-rte/core/components/assistive-text/assistive-text.constants";
 import { REQUIREMENT_INDICATOR_VALUE } from "@design-system-rte/core/components/required-indicator/required-indicator.constant";
+import { THRESHOLD_BOTTOM_POSITION } from "@design-system-rte/core/components/select/select.constants";
 import { SelectProps } from "@design-system-rte/core/components/select/select.interface";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
+import { AssistiveTextComponent } from "../assistive-text/assistive-text.component";
 import { DropdownModule } from "../dropdown";
 import { IconComponent } from "../icon/icon.component";
 import { IconButtonComponent } from "../icon-button/icon-button.component";
-import { LinkComponent } from "../link/link.component";
 
 @Component({
   selector: "rte-select",
-  imports: [CommonModule, IconComponent, LinkComponent, DropdownModule, IconButtonComponent],
+  imports: [CommonModule, IconComponent, DropdownModule, IconButtonComponent, AssistiveTextComponent],
   standalone: true,
   templateUrl: "./select.component.html",
   styleUrl: "./select.component.scss",
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -59,7 +69,7 @@ export class SelectComponent {
     if (selectElement) {
       const rect = selectElement.getBoundingClientRect();
       const spaceBelow = window.innerHeight - rect.bottom;
-      return spaceBelow >= 100 ? "bottom" : "top";
+      return spaceBelow >= THRESHOLD_BOTTOM_POSITION ? "bottom" : "top";
     }
     return "bottom";
   });
@@ -74,26 +84,23 @@ export class SelectComponent {
       : REQUIREMENT_INDICATOR_VALUE.optional,
   );
 
-  readonly change = output<Event>();
-  readonly blur = output<FocusEvent>();
+  readonly valueChange = output<Event>();
 
   readonly currentOptionLabel = computed(() => {
     return this.options().find((option) => option.value === this.internalValue())?.label;
   });
 
-  readonly isAssistiveTextLinkVisible = computed(
-    () => this.assistiveTextAppearance() === "link" && this.assistiveTextLink() !== undefined,
-  );
-
-  readonly formattedOptions = computed(() => {
-    return this.options().map((option) => ({
-      id: option.value,
-      label: option.label,
-      selected: option.value === this.internalValue(),
-    }));
+  readonly isAssistiveTextLinkVisible = computed(() => {
+    return this.assistiveTextAppearance() === "link" && this.assistiveTextLink() !== undefined;
   });
 
-  readonly assistiveTextIconSize = ASSISTIVE_TEXT_ICON_SIZE;
+  readonly formattedOptions = computed(() => {
+    return this.options().map(({ value, label }) => ({
+      id: value,
+      label: label,
+      selected: value === this.internalValue(),
+    }));
+  });
 
   readonly shouldDisplayClearButton = computed(
     () => this.showResetButton() && !!this.internalValue() && !this.disabled(),
@@ -151,7 +158,7 @@ export class SelectComponent {
       bubbles: true,
       detail: { target: { value: id } },
     });
-    this.change.emit(event);
+    this.valueChange.emit(event);
     this.isActive.set(!this.isActive());
     this.selectRef()?.nativeElement.focus();
   }
@@ -176,7 +183,7 @@ export class SelectComponent {
   private clearSelection(event: Event) {
     this.internalValue.set(undefined);
     this.isActive.set(false);
-    this.change.emit(event);
+    this.valueChange.emit(event);
     this.selectRef()?.nativeElement.dispatchEvent(new Event("clearContent"));
   }
 }

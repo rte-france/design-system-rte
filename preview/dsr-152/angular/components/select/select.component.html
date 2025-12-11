@@ -91,30 +91,11 @@
     </div>
     <rte-dropdown-menu [items]="formattedOptions()" />
   </div>
-
-  <rte-link
-    *ngIf="isAssistiveTextLinkVisible()"
-    class="assistive-text-link"
-    [externalLink]="true"
-    [href]="assistiveTextLink() || ''"
-    [label]="assistiveTextLabel() || ''"
-  >
-  </rte-link>
-  <div
-    *ngIf="assistiveTextAppearance() !== 'link'"
-    class="assistive-text {{ assistiveTextAppearance() }}"
-    [ngClass]="{ disabled: disabled() }"
-  >
-    <rte-icon
-      *ngIf="assistiveTextAppearance() === 'error'"
-      name="error"
-      [size]="assistiveTextIconSize"
-    ></rte-icon>
-    <rte-icon
-      *ngIf="assistiveTextAppearance() === 'success'"
-      name="check-circle"
-      [size]="assistiveTextIconSize"
-    ></rte-icon>
-    <span>{{ assistiveTextLabel() }}</span>
-  </div>
+  <rte-assistive-text
+    *ngIf="assistiveTextLabel()"
+    [label]="assistiveTextLabel()"
+    [appearance]="isError() ? 'error' : assistiveTextAppearance()!"
+    [showIcon]="showAssistiveIcon()"
+    [href]="assistiveTextLink()"
+  />
 </div>
