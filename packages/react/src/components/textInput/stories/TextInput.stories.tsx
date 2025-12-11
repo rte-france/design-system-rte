@@ -69,6 +69,7 @@ export const Default: Story = {
     maxLength: 150,
     value: "",
     "aria-required": true,
+    autoComplete: "off",
   } as TextInputProps,
   render: (args) => <TextInput {...args} />,
 };
