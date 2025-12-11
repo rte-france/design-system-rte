@@ -20,7 +20,8 @@ export interface BaseTextInputProps {
   assistiveTextLabel?: string;
   error?: boolean;
   compactSpacing?: boolean;
+  placeholder?: string;
   onRightIconClick?: () => void;
 }
 
-export type TextInputProps = Omit<BaseTextInputProps, "compactSpacing">;
+export type TextInputProps = Omit<BaseTextInputProps, "compactSpacing" | "placeholder">;
