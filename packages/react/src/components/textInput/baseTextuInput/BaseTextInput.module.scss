@@ -181,6 +181,10 @@
                         border: $width-xs solid var(--border-danger)
                     }
 
+                    &::placeholder {
+                        color: var(--content-secondary);
+                    }
+
                 }
 
             }

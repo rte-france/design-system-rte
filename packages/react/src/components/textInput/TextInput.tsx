@@ -11,7 +11,7 @@ interface TextInputProps
 }
 
 const TextInput = forwardRef<HTMLInputElement, TextInputProps>(({ id, ...props }: TextInputProps, ref) => {
-  return <BaseTextInput id={id} {...props} ref={ref} />;
+  return <BaseTextInput id={id} {...props} ref={ref} placeholder={undefined} />;
 });
 
 export default TextInput;

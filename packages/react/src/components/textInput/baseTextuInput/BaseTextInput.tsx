@@ -42,6 +42,7 @@ const BaseTextInput = forwardRef<HTMLInputElement, BaseTextInputProps>(
       onChange,
       onRightIconClick,
       compactSpacing,
+      placeholder,
       ...props
     }: BaseTextInputProps,
     ref,
@@ -210,6 +211,7 @@ const BaseTextInput = forwardRef<HTMLInputElement, BaseTextInputProps>(
                 disabled={disabled}
                 readOnly={readOnly}
                 value={inputValue}
+                placeholder={disabled ? undefined : placeholder}
                 {...props}
               />
 
