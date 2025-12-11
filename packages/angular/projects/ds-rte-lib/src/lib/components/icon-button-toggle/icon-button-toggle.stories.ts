@@ -78,7 +78,7 @@ export const Default: Story = {
         [type]="'${args.type}'"
         [variant]="'${args.variant}'"
         [defaultSelected]="${args.defaultSelected}"
-        (click)="click()"
+        (clickEvent)="click()"
       />
     `,
   }),

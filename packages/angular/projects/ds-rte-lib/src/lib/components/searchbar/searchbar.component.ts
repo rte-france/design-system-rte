@@ -11,10 +11,11 @@ import { ENTER_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.c
 
 import { IconButtonComponent } from "../icon-button/icon-button.component";
 import { BaseTextInputComponent } from "../text-input/base-text-input/base-text-input.component";
+import { CommonModule } from "@angular/common";
 
 @Component({
   selector: "rte-searchbar",
-  imports: [BaseTextInputComponent, IconButtonComponent],
+  imports: [CommonModule, BaseTextInputComponent, IconButtonComponent],
   standalone: true,
   templateUrl: "./searchbar.component.html",
   styleUrl: "./searchbar.component.scss",
