@@ -47,7 +47,6 @@ const meta: Meta<typeof TextInput> = {
     readOnly: { control: "boolean" },
     onChange: mockFn,
     onRightIconClick: { action: "right icon clicked" },
-    compactSpacing: { control: "boolean", defaultValue: false },
   },
 };
 export default meta;

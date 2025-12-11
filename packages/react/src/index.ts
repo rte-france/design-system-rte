@@ -25,7 +25,7 @@ import SplitButton from "./components/splitButton/SplitButton.tsx";
 import Switch from "./components/switch/Switch.tsx";
 import Tag from "./components/tag/Tag.tsx";
 import Textarea from "./components/textarea/Textarea.tsx";
-import TextInput from "./components/textInput/TextInput.tsx";
+import BaseTextInput from "./components/textInput/baseTextuInput/BaseTextInput.tsx";
 import Toast from "./components/toast/Toast.tsx";
 import ToastQueueProvider from "./components/toast/toastQueue/ToastQueueProvider.tsx";
 import Tooltip from "./components/tooltip/Tooltip.tsx";
@@ -43,7 +43,7 @@ export {
   IconButtonToggle,
   SplitButton,
   Tooltip,
-  TextInput,
+  BaseTextInput as TextInput,
   Chip,
   Badge,
   Textarea,
