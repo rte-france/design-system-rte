@@ -4,6 +4,9 @@
   
   ## Changes
 
+- (Select) review
+- (Assistive-text) add angular component
+- (Link) harmonise appearance
 - (Select) set positionning
 - (Select) harmonise readonly and disable behavior + add stories scenario
 - (Select) fix error variant on react component

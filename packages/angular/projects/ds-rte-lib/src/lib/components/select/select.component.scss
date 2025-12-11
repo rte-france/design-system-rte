@@ -23,20 +23,13 @@
 
   .rte-select-label {
     @include typography-text-m;
+    display: flex;
     padding: $positive-spacing_025 $positive-spacing_100;
     color: var(--content-secondary);
-    max-width: 300px;
     justify-content: space-between;
     white-space: normal;
     overflow-wrap: normal;
     word-break: normal;
-
-    &[data-label-position='side'] {
-      padding: $positive-spacing_300 $positive-spacing_100;
-      align-items: flex-start;
-      gap: $positive-spacing_0;
-      align-self: stretch;
-    }
 
     .requirement-indicator {
       margin-left: $positive-spacing_025;
@@ -62,7 +55,6 @@
     @include elevation-neutral-inner-shadow;
     display: flex;
     min-width: 112px;
-    max-width: 280px;
     min-height: 32px;
     max-height: 32px;
     align-items: center;
@@ -70,6 +62,10 @@
     border-radius: $radius-s;
     border: $width-xs solid var(--border-secondary);
     box-sizing: border-box;
+
+    .trigger-icon {
+      color: var(--content-tertiary);
+    }
 
     &:hover {
       border-color: var(--border-primary);
@@ -86,6 +82,33 @@
       border-color: var(--border-danger);
       outline: 1px solid var(--border-danger);
 
+      &[data-disabled="true"] {
+        color: var(--content-disabled);
+        border-color: var(--border-danger);
+        outline: 1px solid var(--border-danger);
+
+        &:hover {
+          border-color: var(--border-danger);
+        }
+      }
+
+      &[data-read-only="true"] {
+        color: var(--content-tertiary);
+        border-color: var(--border-danger);
+        outline: 1px solid var(--border-danger);
+
+        &:hover {
+          cursor: default;
+          border-color: var(--border-danger);
+        }
+
+        .rte-select-content {
+          .rte-select-value {
+            color: var(--content-tertiary);
+          }
+        }
+      }
+
       &:hover {
         border-color: var(--border-danger);
       }
@@ -93,6 +116,12 @@
       &:focus-visible {
         border-color: var(--border-danger);
         outline: 1px solid var(--border-danger);
+      }
+
+      .rte-select-content {
+        .rte-select-value {
+          color: var(--content-secondary);
+        }
       }
     }
 
@@ -107,7 +136,12 @@
 
       .trigger-icon {
         color: var(--content-disabled);
-        pointer-events: none;
+      }
+
+      .rte-select-content {
+        .rte-select-value {
+          color: var(--content-disabled);
+        }
       }
     }
 
@@ -121,7 +155,7 @@
       }
 
       .trigger-icon {
-        pointer-events: none;
+        color: var(--content-tertiary);
       }
     }
 
@@ -138,10 +172,20 @@
       }
 
       .rte-select-value {
+        @include typography-text-m;
         display: flex;
         padding: 0 $positive-spacing_100;
         align-items: center;
         flex: 1 0 0;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        color: var(--content-primary);
+
+        span {
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+        }
       }
 
       .rte-select-right-icons {

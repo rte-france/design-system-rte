@@ -1,0 +1,1 @@
+export const DROPDOWN_ANIMATION_DURATION = 150;
