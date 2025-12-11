@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, computed, effect, ElementRef, signal, viewChild } from "@angular/core";
+import { Component, ElementRef, signal, viewChild, effect, computed } from "@angular/core";
 import { DROPDOWN_OFFSET } from "@design-system-rte/core/components/searchbar/searchbar.constants";
 import {
   TESTING_DOWN_KEY,
@@ -20,26 +20,20 @@ import { SearchbarComponent } from "../searchbar.component";
     </div>
   `,
 })
-class DropdownWrapperComponent implements AfterViewInit {
+class DropdownWrapperComponent {
   readonly wrapperRef = viewChild<ElementRef<HTMLDivElement>>("wrapperRef");
   readonly width = signal<number | undefined>(undefined);
 
   constructor() {
-    effect(() => {
-      const element = this.wrapperRef()?.nativeElement;
-      if (element) {
-        const width = element.offsetWidth;
-        this.width.set(width);
-      }
-    });
-  }
-
-  ngAfterViewInit(): void {
-    const element = this.wrapperRef()?.nativeElement;
-    if (element) {
-      const width = element.offsetWidth;
-      this.width.set(width);
-    }
+    effect(
+      () => {
+        const element = this.wrapperRef()?.nativeElement;
+        if (element) {
+          this.width.set(element.offsetWidth);
+        }
+      },
+      { allowSignalWrites: true },
+    );
   }
 }
 
