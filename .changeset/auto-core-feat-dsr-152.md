@@ -4,6 +4,8 @@
   
   ## Changes
 
+- (Select) review
+- (Assistive-text) add angular component
 - (Select) harmonise readonly and disable behavior + add stories scenario
 - (Select) Add angular component
 - extract common input props

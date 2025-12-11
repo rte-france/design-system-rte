@@ -1,0 +1,3 @@
+export const THRESHOLD_BOTTOM_POSITION = 100;
+export const SELECT_DROPDOWN_OFFSET = 8;
+export const MIN_SELECT_WIDTH = 112;

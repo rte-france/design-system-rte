@@ -1,3 +1,8 @@
+import {
+  MIN_SELECT_WIDTH,
+  SELECT_DROPDOWN_OFFSET,
+  THRESHOLD_BOTTOM_POSITION,
+} from "@design-system-rte/core/components/select/select.constants";
 import { SelectProps as coreSelectProps } from "@design-system-rte/core/components/select/select.interface";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 import { forwardRef, useRef, useState } from "react";
@@ -33,6 +38,7 @@ const Select = forwardRef<HTMLDivElement, coreSelectProps>(
       disabled,
       readonly,
       showResetButton,
+      width = MIN_SELECT_WIDTH,
     },
     ref,
   ) => {
@@ -62,7 +68,7 @@ const Select = forwardRef<HTMLDivElement, coreSelectProps>(
       if (selectElement) {
         const rect = selectElement.getBoundingClientRect();
         const spaceBelow = window.innerHeight - rect.bottom;
-        return spaceBelow >= 100 ? "bottom" : "top";
+        return spaceBelow >= THRESHOLD_BOTTOM_POSITION ? "bottom" : "top";
       }
       return "bottom";
     };
@@ -121,7 +127,7 @@ const Select = forwardRef<HTMLDivElement, coreSelectProps>(
               onClose={() => {
                 setIsActive(false);
               }}
-              offset={10}
+              offset={SELECT_DROPDOWN_OFFSET}
               trigger={
                 <div
                   ref={selectRefCallback}
@@ -137,6 +143,7 @@ const Select = forwardRef<HTMLDivElement, coreSelectProps>(
                   tabIndex={disabled || readonly ? -1 : 0}
                   onClick={handleOnClick}
                   onKeyDown={handleKeyDown}
+                  style={{ width: width }}
                 >
                   <div className={styles["select-content"]}>
                     {shouldDisplayErrorIcon && <Icon name="error" className={styles["error-icon"]} />}
@@ -153,11 +160,9 @@ const Select = forwardRef<HTMLDivElement, coreSelectProps>(
                           disabled={disabled}
                         />
                       )}
-                      <IconButton
-                        name="arrow-chevron-down"
-                        variant="neutral"
-                        className={concatClassNames(styles["icon-button"], styles["trigger-icon"])}
-                        disabled={disabled}
+                      <Icon
+                        name={isActive ? "arrow-chevron-up" : "arrow-chevron-down"}
+                        className={styles["trigger-icon"]}
                       />
                     </div>
                   </div>
@@ -185,6 +190,7 @@ const Select = forwardRef<HTMLDivElement, coreSelectProps>(
                 appearance={isError ? "error" : assistiveAppearance}
                 showIcon={showAssistiveIcon}
                 href={assistiveTextLink}
+                width={width}
               />
             )}
           </div>
