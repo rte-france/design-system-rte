@@ -1,3 +1,4 @@
+import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, input, output } from "@angular/core";
 import {
   APPEARANCE_CONFIG,
@@ -14,7 +15,7 @@ import { BaseTextInputComponent } from "../text-input/base-text-input/base-text-
 
 @Component({
   selector: "rte-searchbar",
-  imports: [BaseTextInputComponent, IconButtonComponent],
+  imports: [CommonModule, BaseTextInputComponent, IconButtonComponent],
   standalone: true,
   templateUrl: "./searchbar.component.html",
   styleUrl: "./searchbar.component.scss",
