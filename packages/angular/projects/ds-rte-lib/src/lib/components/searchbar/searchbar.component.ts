@@ -37,6 +37,8 @@ export class SearchbarComponent {
 
   readonly appearanceConfig = computed(() => APPEARANCE_CONFIG[this.appearance()]);
 
+  readonly placeholder = computed(() => (this.disabled() ? "" : this.label()));
+
   readonly textInputStyles = computed(() => {
     const styles: Record<string, string> = {};
     const hasLeftIcon = this.appearanceConfig().showLeftIcon;
