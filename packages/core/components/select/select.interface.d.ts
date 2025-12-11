@@ -4,4 +4,5 @@ export interface SelectProps extends InputProps {
   onClear?: () => void;
   options: { value: string; label: string }[];
   showResetButton?: boolean;
+  width?: number;
 }
