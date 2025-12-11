@@ -1,0 +1,11 @@
+.theme-selector {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  justify-content: flex-end;
+
+  &__chips {
+    display: flex;
+    gap: 8px;
+  }
+}

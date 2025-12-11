@@ -1,7 +1,5 @@
-<div
-  style="display: flex; gap: 24px; flex-direction: row; justify-content: end"
->
-  <div style="display: flex; gap: 8px" role="radiogroup">
+<div class="rte-theme-selector">
+  <div class="rte-theme-selector__chips" role="radiogroup">
     <rte-chip
       *ngFor="let theme of themes"
       type="single"
@@ -10,12 +8,12 @@
       [selected]="selectedTheme() === theme.id"
       (click)="selectTheme(theme.id)"
     />
-    <div style="display: flex">
-      <rte-icon-button
-        label="Réinitialiser le thème"
-        [name]="iconName()"
-        (click)="selectMode(nextMode())"
-      />
-    </div>
+  </div>
+  <div style="display: flex">
+    <rte-icon-button
+      label="Réinitialiser le thème"
+      [name]="iconName()"
+      (click)="selectMode(nextMode())"
+    />
   </div>
 </div>
