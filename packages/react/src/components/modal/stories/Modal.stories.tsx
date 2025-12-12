@@ -7,6 +7,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { userEvent, within, expect, fn, waitFor } from "@storybook/test";
 import { useState } from "react";
 
+import { focusElementBeforeComponent } from "../../../../.storybook/testing/testing.utils";
 import Button from "../../button/Button";
 import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../../icon/IconMap";
 import Textarea from "../../textarea/Textarea";
@@ -182,9 +183,8 @@ export const KeyboardInteraction: Story = {
   },
 
   play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    const button = canvas.getByText("Open Modal");
-    button.focus();
+    focusElementBeforeComponent(canvasElement);
+
     await userEvent.tab();
     await userEvent.keyboard(TESTING_SPACE_KEY);
 

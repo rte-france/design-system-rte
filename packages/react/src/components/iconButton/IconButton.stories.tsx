@@ -5,6 +5,7 @@ import {
 import { Meta, StoryObj } from "@storybook/react";
 import { fn, userEvent, within, expect } from "@storybook/test";
 
+import { focusElementBeforeComponent } from "../../../.storybook/testing/testing.utils";
 import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../icon/IconMap";
 
 import IconButton from "./IconButton";
@@ -88,7 +89,7 @@ export const Default: Story = {
 
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const iconButton = canvas.getByRole("button");
+    const iconButton = canvas.getByLabelText("icon button aria label");
     await userEvent.click(iconButton);
     expect(mockFn).toHaveBeenCalled();
     iconButton.blur();
@@ -169,7 +170,8 @@ export const KeyboardInteraction: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const button = canvas.getByRole("button");
+    const button = canvas.getByRole("button", { name: "icon button aria label" });
+    focusElementBeforeComponent(canvasElement);
     await userEvent.tab();
     expect(button).toHaveFocus();
     await userEvent.keyboard(TESTING_ENTER_KEY);

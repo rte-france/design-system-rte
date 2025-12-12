@@ -2,6 +2,7 @@ import { ARROW_DOWN_KEY } from "@design-system-rte/core/constants/keyboard/keybo
 import { Meta, StoryObj } from "@storybook/react";
 import { expect, fn, userEvent, waitFor, within } from "@storybook/test";
 
+import { focusElementBeforeComponent } from "../../../.storybook/testing/testing.utils";
 import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../icon/IconMap";
 
 import SplitButton from "./SplitButton";
@@ -129,6 +130,7 @@ export const KeyboardInteraction: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const button = canvas.getByTestId("Menu button");
+    focusElementBeforeComponent(canvasElement);
     await userEvent.tab();
     await userEvent.tab();
     expect(button).toHaveFocus();

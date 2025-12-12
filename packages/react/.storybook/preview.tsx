@@ -2,6 +2,7 @@ import type { Preview } from "@storybook/react";
 import "@design-system-rte/react/dist/style.css";
 
 import "./preview.scss";
+
 import ThemeSelector from "./template/ThemeSelector/ThemeSelector";
 
 export const decorators: Preview["decorators"] = [

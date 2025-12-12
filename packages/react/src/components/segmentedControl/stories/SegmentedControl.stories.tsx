@@ -48,7 +48,7 @@ export const Default: Story = {
     };
 
     return (
-      <div style={{ width: "420px" }}>
+      <div style={{ width: "420px" }} data-testid="segmented-control-story">
         <SegmentedControl options={args.options} onChange={handleOnChange} selectedSegment={selected} />
       </div>
     );
@@ -56,7 +56,9 @@ export const Default: Story = {
 
   play: async ({ canvasElement }) => {
     const canvas = canvasElement;
-    const [firstSegment, secondSegment, thirdSegment] = within(canvas).getAllByRole("radio");
+    const [firstSegment, secondSegment, thirdSegment] = within(canvas)
+      .getByTestId("segmented-control-story")
+      .querySelectorAll("[role='radio']");
 
     expect(firstSegment).toHaveAttribute("aria-checked", "true");
     await userEvent.click(secondSegment);

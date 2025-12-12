@@ -75,7 +75,7 @@ export const SingleSelect: Story = {
 
     return (
       <>
-        <div style={{ display: "flex", gap: "10px" }} role="radiogroup">
+        <div style={{ display: "flex", gap: "10px" }} role="radiogroup" data-testid="test-chip-group">
           {options.map(({ id, label }) => (
             <Chip
               id={id}
@@ -98,7 +98,7 @@ export const SingleSelect: Story = {
 
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const chips = canvas.getAllByRole("radio");
+    const chips = canvas.getByTestId("test-chip-group").querySelectorAll("[role='radio']");
 
     await userEvent.click(chips[0]);
     expect(chips[0]).toHaveAttribute("aria-checked", "true");
