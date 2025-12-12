@@ -1,6 +1,8 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { userEvent, within, expect } from "@storybook/test";
 
+import { focusElementBeforeComponent } from "../../../.storybook/testing/testing.utils";
+
 import Link from "./Link";
 
 const meta = {
@@ -86,6 +88,7 @@ export const KeyboardInteraction: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const link = canvas.getByRole("link");
+    focusElementBeforeComponent(canvasElement);
     await userEvent.tab();
     expect(link).toHaveFocus();
   },

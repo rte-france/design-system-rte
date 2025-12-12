@@ -2,6 +2,8 @@ import { TESTING_SPACE_KEY } from "@design-system-rte/core/constants/keyboard/ke
 import type { Meta, StoryObj } from "@storybook/react";
 import { userEvent, within, expect } from "@storybook/test";
 
+import { focusElementBeforeComponent } from "../../../.storybook/testing/testing.utils";
+
 import Checkbox from "./Checkbox";
 
 const meta = {
@@ -88,6 +90,7 @@ export const ReadOnly: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
+    focusElementBeforeComponent(canvasElement);
     const checkbox = canvas.getByRole("checkbox");
     await userEvent.tab();
     expect(checkbox).toHaveFocus();
@@ -109,6 +112,7 @@ export const KeyboardInteractions: Story = {
     ...Default.args,
   },
   play: async ({ canvasElement }) => {
+    focusElementBeforeComponent(canvasElement);
     const canvas = within(canvasElement);
     const checkbox = canvas.getByRole("checkbox");
     await userEvent.tab();

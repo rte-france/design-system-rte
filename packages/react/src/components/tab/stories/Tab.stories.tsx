@@ -7,6 +7,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { within, expect, userEvent } from "@storybook/test";
 import { useState } from "react";
 
+import { focusElementBeforeComponent } from "../../../../.storybook/testing/testing.utils";
 import Tab from "../Tab";
 
 const meta = {
@@ -487,6 +488,7 @@ export const KeyboardInteraction: Story = {
 
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
+    focusElementBeforeComponent(canvasElement);
     const firstTab = await canvas.getByRole("tab", { name: "First Tab" });
     const secondTab = await canvas.getByRole("tab", { name: "Second Tab" });
     const thirdTab = await canvas.getByRole("tab", { name: "Third Tab" });

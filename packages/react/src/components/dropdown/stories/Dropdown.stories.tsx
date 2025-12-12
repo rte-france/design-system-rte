@@ -1,11 +1,7 @@
 import { DropdownProps } from "@design-system-rte/core/components/dropdown/dropdown.interface";
-import {
-  TESTING_DOWN_KEY,
-  TESTING_UP_KEY,
-  TESTING_ENTER_KEY,
-} from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
+import { TESTING_DOWN_KEY, TESTING_UP_KEY } from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
 import { Meta, StoryObj } from "@storybook/react";
-import { expect, userEvent, waitFor } from "@storybook/test";
+import { expect, userEvent, waitFor, within } from "@storybook/test";
 import { useState } from "react";
 
 import { Dropdown } from "../Dropdown";
@@ -123,10 +119,10 @@ export const KeyboardNavigation: Story = {
       </>
     );
   },
-  play: async () => {
-    await userEvent.tab();
-    await userEvent.keyboard(TESTING_ENTER_KEY);
-    await userEvent.tab();
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const triggerButton = await canvas.getByRole("button", { name: /click me!/i });
+    await userEvent.click(triggerButton);
     const overlay = document.getElementById("overlay-root");
     const dropdown = overlay?.querySelector("[data-dropdown-id]");
     const menuItems = dropdown?.querySelector("ul")?.querySelectorAll("li");
@@ -179,9 +175,10 @@ export const KeyboardNavigationWithLink: Story = {
       </>
     );
   },
-  play: async () => {
-    await userEvent.tab();
-    await userEvent.keyboard(TESTING_ENTER_KEY);
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const triggerButton = await canvas.getByRole("button", { name: /click me!/i });
+    await userEvent.click(triggerButton);
     const overlay = document.getElementById("overlay-root");
     const dropdown = overlay?.querySelector("[data-dropdown-id]");
     const menuItems = dropdown?.querySelector("ul")?.querySelectorAll("li");

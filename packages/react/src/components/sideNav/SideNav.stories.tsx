@@ -6,6 +6,8 @@ import {
 import { Meta, StoryObj } from "@storybook/react";
 import { expect, userEvent, within } from "@storybook/test";
 
+import { focusElementBeforeComponent } from "../../../.storybook/testing/testing.utils";
+
 import SideNav from "./SideNav";
 import { createActiveItemStateDecorator, createCollapsedStateDecorator } from "./stories/helpers/decorators";
 import {
@@ -498,6 +500,7 @@ export const CollapsedTooltipWithNested: Story = {
     const { sideNav } = getCanvasAndSideNav(canvasElement);
 
     await step("Verify tooltips appear when tabbing to menu items", async () => {
+      focusElementBeforeComponent(canvasElement);
       const dashboardMenu = getNavElementInCollapsedState(sideNav, 1);
       expect(dashboardMenu).not.toBeNull();
 

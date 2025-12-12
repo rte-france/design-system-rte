@@ -2,6 +2,7 @@ import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard
 import { Meta, StoryObj } from "@storybook/react";
 import { expect, within, userEvent } from "@storybook/test";
 
+import { focusElementBeforeComponent } from "../../../../.storybook/testing/testing.utils";
 import Switch from "../Switch";
 
 const meta = {
@@ -90,6 +91,7 @@ export const Default: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const switchElement = canvas.getByRole("switch");
+    focusElementBeforeComponent(canvasElement);
 
     await userEvent.tab();
     await expect(switchElement).toHaveFocus();

@@ -1,6 +1,8 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { expect, userEvent, waitFor, within } from "@storybook/test";
 
+import { focusElementBeforeComponent } from "../../../.storybook/testing/testing.utils";
+
 import Tooltip from "./Tooltip";
 
 const meta = {
@@ -175,6 +177,7 @@ export const KeyboardInteraction: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const tooltipTrigger = canvas.queryByText("Hover Me!")?.parentElement;
+    focusElementBeforeComponent(canvasElement);
     await userEvent.tab();
     const tooltip = within(document.body).getByRole("tooltip");
     expect(tooltipTrigger).toHaveFocus();

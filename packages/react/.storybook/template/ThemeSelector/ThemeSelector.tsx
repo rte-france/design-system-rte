@@ -56,8 +56,9 @@ const ThemeSelector = () => {
       <div style={{ display: "flex" }}>
         <IconButton
           name={currentMode === "light" ? "mode-dark" : "mode-light"}
-          aria-label={"Mode " + currentMode}
+          aria-label={"Toggle Theme Mode"}
           onClick={() => setCurrentMode(currentMode === "light" ? "dark" : "light")}
+          data-testid="mode-switcher"
         />
       </div>
     </div>

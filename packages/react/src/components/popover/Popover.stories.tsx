@@ -5,6 +5,8 @@ import {
 import { Meta, StoryObj } from "@storybook/react";
 import { expect, userEvent, waitFor, within } from "@storybook/test";
 
+import { focusElementBeforeComponent } from "../../../.storybook/testing/testing.utils";
+
 import Popover from "./Popover";
 
 const meta = {
@@ -147,7 +149,8 @@ export const KeyboardInteraction: Story = {
     secondaryButtonLabel: "Cancel",
     children: <button>Open Popover</button>,
   },
-  play: async () => {
+  play: async ({ canvasElement }) => {
+    focusElementBeforeComponent(canvasElement);
     await userEvent.tab();
     await userEvent.keyboard(TESTING_ENTER_KEY);
     const popover = within(document.body).getByRole("dialog");
