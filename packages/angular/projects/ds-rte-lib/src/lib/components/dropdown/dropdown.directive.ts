@@ -14,7 +14,6 @@ import {
   Renderer2,
   ViewContainerRef,
 } from "@angular/core";
-import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { waitForNextFrame } from "@design-system-rte/core/common/animation";
 import { Alignment } from "@design-system-rte/core/common/common-types";
 import { Position } from "@design-system-rte/core/components/common/common-types";
