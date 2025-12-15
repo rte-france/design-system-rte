@@ -133,6 +133,8 @@ const Searchbar = forwardRef<HTMLInputElement, SearchbarProps>(
       onClear?.();
     }, [onChange, onClear]);
 
+    const placeholder = useMemo(() => (disabled ? "Recherche indisponible" : label), [disabled, label]);
+
     const textInputProps = useMemo(
       () => ({
         disabled,
@@ -144,7 +146,7 @@ const Searchbar = forwardRef<HTMLInputElement, SearchbarProps>(
         onRightIconClick: handleClear,
         assistiveTextLabel: assistiveText,
         compactSpacing,
-        placeholder: label,
+        placeholder,
         leftIcon: appearanceConfig.showLeftIcon ? "search" : undefined,
         ...props,
       }),
@@ -158,7 +160,7 @@ const Searchbar = forwardRef<HTMLInputElement, SearchbarProps>(
         handleClear,
         assistiveText,
         compactSpacing,
-        label,
+        placeholder,
         appearanceConfig.showLeftIcon,
       ],
     );

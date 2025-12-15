@@ -8,3 +8,7 @@
 - (Dropdown) feat: add autofocus config
 - (Text input) feat: add compact spacing capacities
 - (Text input) fix: correct icon button cancel display
+- (Text input) fix: correct hover display
+- (Text input) fix: correct placeholder exposition and handling
+- (Text input) fix: hide input value when input is disabled
+- (Text input) fix: correct disabled display
