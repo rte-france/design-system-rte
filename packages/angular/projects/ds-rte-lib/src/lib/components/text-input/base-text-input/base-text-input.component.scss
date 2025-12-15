@@ -187,10 +187,10 @@
 
                     &:disabled,
                     &:read-only {
-                        outline: 1px solid var(--border-brand-disabled);
                         border-color: var(--border-disabled);
                         background: linear-gradient(0deg, var(--elevation-surface-inner-shadow) 0%, var(--elevation-surface-inner-shadow) 100%), var(--background-disabled);
                         cursor: not-allowed;
+                        box-shadow: none;
                     }
 
                     &.error {
