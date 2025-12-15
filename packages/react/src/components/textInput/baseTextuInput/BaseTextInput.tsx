@@ -225,8 +225,8 @@ const BaseTextInput = forwardRef<HTMLInputElement, BaseTextInputProps>(
                 onChange={handleChange}
                 disabled={disabled}
                 readOnly={readOnly}
-                value={inputValue}
-                placeholder={disabled ? undefined : placeholder}
+                value={disabled ? "" : inputValue}
+                placeholder={disabled ? "" : placeholder}
                 {...props}
               />
 
