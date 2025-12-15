@@ -175,11 +175,7 @@ const Searchbar = forwardRef<HTMLInputElement, SearchbarProps>(
 
     return (
       <div className={styles.searchbarContainer} role="search" data-appearance={appearance}>
-        <div
-          ref={wrapperRef}
-          className={styles.textInputWrapper}
-          data-disabled={disabled}
-        >
+        <div ref={wrapperRef} className={styles.textInputWrapper} data-disabled={disabled}>
           <BaseTextInput
             id={id ?? ""}
             {...textInputProps}
