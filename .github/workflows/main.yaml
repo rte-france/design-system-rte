@@ -235,7 +235,7 @@ jobs:
 
       - name: Create/Update Release Pull Request
         id: changesets
-        uses: changesets/action@v1.4.9
+        uses: changesets/action@v1.5.3
         with:
           title: "chore(release): update package versions"
           commit: "chore(release): update package versions"
