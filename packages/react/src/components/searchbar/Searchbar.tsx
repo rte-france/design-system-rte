@@ -12,12 +12,13 @@ import {
 import { ENTER_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 import {
   CSSProperties,
-  FocusEvent as ReactFocusEvent,
   InputHTMLAttributes,
   KeyboardEvent,
   forwardRef,
   useCallback,
+  useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 
@@ -80,6 +81,32 @@ const Searchbar = forwardRef<HTMLInputElement, SearchbarProps>(
     const appearanceConfig = APPEARANCE_CONFIG[appearance];
 
     const [hasFocusWithin, setHasFocusWithin] = useState(false);
+    const wrapperRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+      const wrapper = wrapperRef.current;
+      if (!wrapper) return;
+
+      const handleFocusIn = () => {
+        setHasFocusWithin(true);
+      };
+
+      const handleFocusOut = (event: FocusEvent) => {
+        const next = event.relatedTarget as Node | null;
+        if (next && wrapper.contains(next)) {
+          return;
+        }
+        setHasFocusWithin(false);
+      };
+
+      wrapper.addEventListener("focusin", handleFocusIn);
+      wrapper.addEventListener("focusout", handleFocusOut);
+
+      return () => {
+        wrapper.removeEventListener("focusin", handleFocusIn);
+        wrapper.removeEventListener("focusout", handleFocusOut);
+      };
+    }, []);
 
     const handleChange = useCallback(
       (newValue: string) => {
@@ -105,14 +132,6 @@ const Searchbar = forwardRef<HTMLInputElement, SearchbarProps>(
       onChange?.("");
       onClear?.();
     }, [onChange, onClear]);
-
-    const handleBlur = (event: ReactFocusEvent<HTMLDivElement>) => {
-      const next = event.relatedTarget as Node | null;
-      if (next && (event.currentTarget as Node).contains(next)) {
-        return;
-      }
-      setHasFocusWithin(false);
-    };
 
     const textInputProps = useMemo(
       () => ({
@@ -157,8 +176,7 @@ const Searchbar = forwardRef<HTMLInputElement, SearchbarProps>(
     return (
       <div className={styles.searchbarContainer} role="search" data-appearance={appearance}>
         <div
-          onFocusCapture={() => setHasFocusWithin(true)}
-          onBlurCapture={handleBlur}
+          ref={wrapperRef}
           className={styles.textInputWrapper}
           data-disabled={disabled}
         >
