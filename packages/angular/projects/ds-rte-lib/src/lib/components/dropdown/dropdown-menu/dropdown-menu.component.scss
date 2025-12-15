@@ -28,5 +28,14 @@
     &.open {
       transition: opacity 150ms ease-in-out;
     }
-  }
+
+    .rte-dropdown-items {
+      width: 100%;
+      padding: $positive-spacing_0;
+      margin: 0;
+  
+      li {
+        list-style: none;
+      }
+    }
 }

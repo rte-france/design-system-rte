@@ -22,7 +22,8 @@ import { concatClassNames } from "../../utils";
 import style from "./BaseTextInput.module.scss";
 
 interface BaseTextInputProps
-  extends CoreTextInputProps,
+  extends
+    CoreTextInputProps,
     Omit<InputHTMLAttributes<HTMLInputElement>, "id" | "onChange" | "value" | "defaultValue" | "placeholder"> {
   onChange?: (value: string) => void;
   rightSlot?: ReactNode;
@@ -226,7 +227,7 @@ const BaseTextInput = forwardRef<HTMLInputElement, BaseTextInputProps>(
                 disabled={disabled}
                 readOnly={readOnly}
                 value={disabled ? "" : inputValue}
-                placeholder={disabled ? "" : placeholder}
+                placeholder={placeholder}
                 {...props}
               />
 
