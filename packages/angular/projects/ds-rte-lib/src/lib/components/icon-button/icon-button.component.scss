@@ -71,6 +71,12 @@
             box-shadow: none;
             color: var(--content-disabled);
             cursor: default;
+
+            ::ng-deep {
+                .rte-icon-container {
+                    color: var(--content-disabled);
+                }
+            }
         }
     }
 
@@ -160,6 +166,12 @@
             border: solid $width-xs var(--border-disabled);
             color: var(--content-disabled);
             cursor: default;
+
+            ::ng-deep {
+                .rte-icon-container {
+                    color: var(--content-disabled);
+                }
+            }
         }
     }
 
