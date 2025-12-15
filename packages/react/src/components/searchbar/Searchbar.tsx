@@ -10,7 +10,16 @@ import {
   SearchBarAppearance,
 } from "@design-system-rte/core/components/searchbar/searchbar.interface";
 import { ENTER_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
-import { CSSProperties, InputHTMLAttributes, KeyboardEvent, forwardRef, useCallback, useMemo } from "react";
+import {
+  CSSProperties,
+  FocusEvent as ReactFocusEvent,
+  InputHTMLAttributes,
+  KeyboardEvent,
+  forwardRef,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
 
 import IconButton from "../iconButton/IconButton";
 import BaseTextInput from "../textInput/baseTextuInput/BaseTextInput";
@@ -70,6 +79,8 @@ const Searchbar = forwardRef<HTMLInputElement, SearchbarProps>(
   ) => {
     const appearanceConfig = APPEARANCE_CONFIG[appearance];
 
+    const [hasFocusWithin, setHasFocusWithin] = useState(false);
+
     const handleChange = useCallback(
       (newValue: string) => {
         onChange?.(newValue);
@@ -94,6 +105,14 @@ const Searchbar = forwardRef<HTMLInputElement, SearchbarProps>(
       onChange?.("");
       onClear?.();
     }, [onChange, onClear]);
+
+    const handleBlur = (event: ReactFocusEvent<HTMLDivElement>) => {
+      const next = event.relatedTarget as Node | null;
+      if (next && (event.currentTarget as Node).contains(next)) {
+        return;
+      }
+      setHasFocusWithin(false);
+    };
 
     const textInputProps = useMemo(
       () => ({
@@ -137,22 +156,35 @@ const Searchbar = forwardRef<HTMLInputElement, SearchbarProps>(
 
     return (
       <div className={styles.searchbarContainer} role="search" data-appearance={appearance}>
-        <div className={styles.textInputWrapper} data-disabled={disabled}>
-          <BaseTextInput id={id ?? ""} {...textInputProps} style={textInputStyles} ref={ref} />
-          {appearanceConfig.showSearchButton && (
-            <IconButton
-              name="search"
-              size="m"
-              variant="primary"
-              appearance="filled"
-              onClick={handleClick}
-              disabled={disabled}
-              aria-label={label}
-              className={styles.searchButton}
-              compactSpacing={compactSpacing}
-              style={searchButtonStyles}
-            />
-          )}
+        <div
+          onFocusCapture={() => setHasFocusWithin(true)}
+          onBlurCapture={handleBlur}
+          className={styles.textInputWrapper}
+          data-disabled={disabled}
+        >
+          <BaseTextInput
+            id={id ?? ""}
+            {...textInputProps}
+            style={textInputStyles}
+            highlighted={hasFocusWithin}
+            ref={ref}
+            rightSlot={
+              appearanceConfig.showSearchButton && (
+                <IconButton
+                  name="search"
+                  size="m"
+                  variant="primary"
+                  appearance="filled"
+                  onClick={handleClick}
+                  disabled={disabled}
+                  aria-label={label}
+                  className={styles.searchButton}
+                  compactSpacing={compactSpacing}
+                  style={searchButtonStyles}
+                />
+              )
+            }
+          />
         </div>
       </div>
     );

@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component, computed, input, output } from "@angular/core";
+import { ChangeDetectionStrategy, Component, computed, input, output, signal } from "@angular/core";
 import {
   APPEARANCE_CONFIG,
   SEARCHBAR_BORDER_RADIUS,
@@ -34,6 +34,8 @@ export class SearchbarComponent {
   readonly valueChange = output<string>();
   readonly searchEvent = output<string | undefined>();
   readonly clear = output<void>();
+
+  readonly hasFocusWithin = signal<boolean>(false);
 
   readonly appearanceConfig = computed(() => APPEARANCE_CONFIG[this.appearance()]);
 
@@ -86,5 +88,18 @@ export class SearchbarComponent {
   handleClear(): void {
     this.valueChange.emit("");
     this.clear.emit();
+  }
+
+  handleFocusIn(): void {
+    this.hasFocusWithin.set(true);
+  }
+
+  handleFocusOut(event: FocusEvent): void {
+    const next = event.relatedTarget as Node | null;
+    const currentTarget = event.currentTarget as Node;
+    if (next && currentTarget.contains(next)) {
+      return;
+    }
+    this.hasFocusWithin.set(false);
   }
 }

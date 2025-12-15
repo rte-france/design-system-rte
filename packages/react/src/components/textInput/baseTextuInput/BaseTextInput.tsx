@@ -3,7 +3,16 @@ import {
   RightIconAction,
   RightIconName,
 } from "@design-system-rte/core/components/text-input/text-input.interface";
-import { ChangeEvent, forwardRef, InputHTMLAttributes, useEffect, useRef, useState } from "react";
+import {
+  ChangeEvent,
+  CSSProperties,
+  forwardRef,
+  InputHTMLAttributes,
+  ReactNode,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 import Icon from "../../icon/Icon";
 import IconButton from "../../iconButton/IconButton";
@@ -16,6 +25,9 @@ interface BaseTextInputProps
   extends CoreTextInputProps,
     Omit<InputHTMLAttributes<HTMLInputElement>, "id" | "onChange" | "value" | "defaultValue" | "placeholder"> {
   onChange?: (value: string) => void;
+  rightSlot?: ReactNode;
+  inputStyle?: CSSProperties;
+  highlighted?: boolean;
 }
 
 const BaseTextInput = forwardRef<HTMLInputElement, BaseTextInputProps>(
@@ -43,6 +55,8 @@ const BaseTextInput = forwardRef<HTMLInputElement, BaseTextInputProps>(
       onRightIconClick,
       compactSpacing,
       placeholder,
+      rightSlot,
+      highlighted,
       ...props
     }: BaseTextInputProps,
     ref,
@@ -205,6 +219,7 @@ const BaseTextInput = forwardRef<HTMLInputElement, BaseTextInputProps>(
                 }}
                 type={isHiddenInput ? "password" : "text"}
                 data-error={error}
+                data-highlighted={highlighted}
                 className={style.inputField}
                 maxLength={maxLength}
                 onChange={handleChange}
@@ -229,6 +244,7 @@ const BaseTextInput = forwardRef<HTMLInputElement, BaseTextInputProps>(
                 />
               )}
             </div>
+            {rightSlot && <div className={style.rightSlot}>{rightSlot}</div>}
           </div>
           {assistiveTextLabel && (
             <div className={style.assistiveText}>

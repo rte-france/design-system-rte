@@ -41,6 +41,7 @@ export class BaseTextInputComponent {
   readonly compactSpacing = input<boolean>(false);
   readonly customStyle = input<Record<string, string>>();
   readonly autocomplete = input<string>("");
+  readonly highlighted = input<boolean>(false);
 
   readonly valueChange = output<string>();
   readonly rightIconClick = output<void>();
