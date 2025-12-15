@@ -50,7 +50,7 @@
           #inputRef
           class="input-field"
           [id]="id()"
-          [ngClass]="{'error': error()}"
+          [ngClass]="{'error': error(), 'highlighted': highlighted()}"
           [ngStyle]="customStyle()"
           [attr.aria-label]="ariaLabel()"
           [attr.aria-labelledby]="ariaLabelledby()"
@@ -78,6 +78,9 @@
             (clickEvent)="onRightIconClickHandler()"
           />
         </ng-container>
+      </div>
+      <div class="right-slot">
+        <ng-content select="[baseTextInputRightSlot]"></ng-content>
       </div>
     </div>
 
