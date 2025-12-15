@@ -13,7 +13,7 @@ const RegularIconIds = Object.keys(RegularIconsList);
 const TogglableIconIds = Object.keys(TogglableIconsList);
 
 const meta = {
-  title: "IconButton",
+  title: "Composants/IconButton",
   component: IconButtonComponent,
   tags: ["autodocs"],
   argTypes: {
@@ -43,6 +43,28 @@ const meta = {
     },
     disabled: {
       control: "boolean",
+    },
+    ariaLabel: {
+      control: "text",
+      description: "Texte alternatif pour l’icône bouton",
+    },
+    click: {
+      action: "click",
+      description: "Événement déclenché lors du clic sur le bouton",
+    },
+    badgeContent: {
+      control: "select",
+      options: ["number", "icon", "empty"],
+    },
+    badgeType: {
+      control: "select",
+      options: ["brand", "neutral", "indicator"],
+    },
+    badgeIcon: {
+      control: "select",
+      options: [...RegularIconIds, ...TogglableIconIds].sort((a, b) => a.localeCompare(b)),
+      description: "Nom de l’icône à afficher dans le badge",
+      defaultValue: "settings",
     },
   },
 } satisfies Meta<IconButtonComponent>;
@@ -83,38 +105,38 @@ export const Sizing: Story = {
     props: { ...args },
     template: `
     <div style="display: flex; gap: 8px">
-      <rte-icon-button 
-        size="s" 
-        name=${args.name} 
-        data-testid="small-icon-button" 
-        [compactSpacing]="${args.compactSpacing}" 
-        [disabled]="${args.disabled}"
-        [appearance]="${args.appearance}"
-        [ariaLabel]="'Small Icon Button'"
-        [type]="'${args.type}'"
-        [variant]="'${args.variant}'"
-      />
-      <rte-icon-button 
-        name=${args.name} 
-        data-testid="medium-icon-button" 
-        [compactSpacing]="${args.compactSpacing}" 
-        [disabled]="${args.disabled}"
-        [appearance]="${args.appearance}"
-        [ariaLabel]="'Small Icon Button'"
-        [type]="'${args.type}'"
-        [variant]="'${args.variant}'"
-      />
-      <rte-icon-button 
-        size="l" 
-        name=${args.name} 
-        data-testid="large-icon-button" 
-        [compactSpacing]="${args.compactSpacing}" 
-        [disabled]="${args.disabled}"
-        [appearance]="${args.appearance}"
-        [ariaLabel]="'Small Icon Button'"
-        [type]="'${args.type}'"
-        [variant]="'${args.variant}'"
-      />
+    <rte-icon-button 
+    size="s" 
+    name=${args.name} 
+    data-testid="small-icon-button" 
+    [compactSpacing]="${args.compactSpacing}" 
+    [disabled]="${args.disabled}"
+    [appearance]="${args.appearance}"
+    [ariaLabel]="'Small Icon Button'"
+    [type]="'${args.type}'"
+    [variant]="'${args.variant}'"
+    />
+    <rte-icon-button 
+    name=${args.name} 
+    data-testid="medium-icon-button" 
+    [compactSpacing]="${args.compactSpacing}" 
+    [disabled]="${args.disabled}"
+    [appearance]="${args.appearance}"
+    [ariaLabel]="'Small Icon Button'"
+    [type]="'${args.type}'"
+    [variant]="'${args.variant}'"
+    />
+    <rte-icon-button 
+    size="l" 
+    name=${args.name} 
+    data-testid="large-icon-button" 
+    [compactSpacing]="${args.compactSpacing}" 
+    [disabled]="${args.disabled}"
+    [appearance]="${args.appearance}"
+    [ariaLabel]="'Small Icon Button'"
+    [type]="'${args.type}'"
+    [variant]="'${args.variant}'"
+    />
     </div>
     `,
   }),
@@ -139,38 +161,38 @@ export const CompactSizing: Story = {
     props: { ...args },
     template: `
     <div style="display: flex; gap: 8px">
-      <rte-icon-button 
-        size="s" 
-        name=${args.name} 
-        data-testid="small-icon-button" 
-        [compactSpacing]="${args.compactSpacing}" 
-        [disabled]="${args.disabled}"
-        [appearance]="${args.appearance}"
-        [ariaLabel]="'Small Icon Button'"
-        [type]="'${args.type}'"
-        [variant]="'${args.variant}'"
-      />
-      <rte-icon-button 
-        name=${args.name} 
-        data-testid="medium-icon-button" 
-        [compactSpacing]="${args.compactSpacing}" 
-        [disabled]="${args.disabled}"
-        [appearance]="${args.appearance}"
-        [ariaLabel]="'Small Icon Button'"
-        [type]="'${args.type}'"
-        [variant]="'${args.variant}'"
-      />
-      <rte-icon-button 
-        size="l" 
-        name=${args.name} 
-        data-testid="large-icon-button" 
-        [compactSpacing]="${args.compactSpacing}" 
-        [disabled]="${args.disabled}"
-        [appearance]="${args.appearance}"
-        [ariaLabel]="'Small Icon Button'"
-        [type]="'${args.type}'"
-        [variant]="'${args.variant}'"
-      />
+    <rte-icon-button 
+    size="s" 
+    name=${args.name} 
+    data-testid="small-icon-button" 
+    [compactSpacing]="${args.compactSpacing}" 
+    [disabled]="${args.disabled}"
+    [appearance]="${args.appearance}"
+    [ariaLabel]="'Small Icon Button'"
+    [type]="'${args.type}'"
+    [variant]="'${args.variant}'"
+    />
+    <rte-icon-button 
+    name=${args.name} 
+    data-testid="medium-icon-button" 
+    [compactSpacing]="${args.compactSpacing}" 
+    [disabled]="${args.disabled}"
+    [appearance]="${args.appearance}"
+    [ariaLabel]="'Small Icon Button'"
+    [type]="'${args.type}'"
+    [variant]="'${args.variant}'"
+    />
+    <rte-icon-button 
+    size="l" 
+    name=${args.name} 
+    data-testid="large-icon-button" 
+    [compactSpacing]="${args.compactSpacing}" 
+    [disabled]="${args.disabled}"
+    [appearance]="${args.appearance}"
+    [ariaLabel]="'Small Icon Button'"
+    [type]="'${args.type}'"
+    [variant]="'${args.variant}'"
+    />
     </div>
     `,
   }),
@@ -184,6 +206,42 @@ export const CompactSizing: Story = {
     expect(mediumIconButton.clientHeight).toBe(20);
     expect(largeIconButton.clientHeight).toBe(24);
   },
+};
+
+export const WithBadge: Story = {
+  args: {
+    ...Default.args,
+    name: "settings",
+    size: "m",
+    appearance: "outlined",
+    disabled: false,
+    compactSpacing: false,
+    ariaLabel: "icon button aria label",
+    onClick: mockFn,
+    badgeContent: "number",
+    badgeCount: 1,
+    badgeType: "brand",
+  },
+
+  render: (args) => ({
+    props: { ...args },
+    template: `
+    <rte-icon-button 
+    size=${args.size} 
+    name=${args.name} 
+    data-testid="small-icon-button" 
+    [compactSpacing]="${args.compactSpacing}" 
+    [disabled]="${args.disabled}"
+    [appearance]="${args.appearance}"
+    [ariaLabel]="'Small Icon Button'"
+    [type]="'${args.type}'"
+    [variant]="'${args.variant}'"
+    [badgeContent]="'${args.badgeContent}'"
+    [badgeCount]="${args.badgeCount}"
+    [badgeType]="'${args.badgeType}'"
+    />
+    `,
+  }),
 };
 
 export const KeyboardInteraction: Story = {

@@ -1,26 +1,40 @@
 @use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
 
-.rte-banner-container {
+.rte-banner {
+  @include elevation-neutral-shadow-4;
+  display: flex;
+  padding: $positive-spacing_200;
+  gap: $positive-spacing_200;
+  align-self: stretch;
+  border-radius: 0 0 $radius-s $radius-s;
   display: flex;
   box-sizing: border-box;
   width: 100%;
   min-width: 320px;
-  padding: $positive-spacing_300;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: $positive-spacing_0;
-  border-radius: $radius-none;
-  background: var(--background-info-default);
-  color: var(--content-info);
+  color: var(--content-info-default);
   top: 0;
   left: 0;
+  opacity: 0;
   transition: opacity 200ms ease, transform 200ms ease;
   z-index: $level-1;
+  border-bottom: $width-l solid var(--border-info);
+  background-color: var(--background-default);
 
-  &.alert {
-    background: var(--background-danger-default);
-    color: var(--content-danger);
+  &.error {
+    color: var(--content-danger-default);
+    border-bottom-color: var(--border-danger);
+  }
+
+  &.success {
+    color: var(--content-success-default);
+    border-bottom-color: var(--border-success);
+  }
+
+  &.warning {
+    color: var(--content-primary);
+    border-bottom-color: var(--border-warning);
   }
 
   &.overlay {
@@ -37,63 +51,50 @@
     transform: translateY(-10px);
   }
 
-  .rte-banner {
+  .rte-banner-icon {
     display: flex;
-    padding: $positive-spacing_200;
-    align-items: flex-start;
-    gap: $positive-spacing_200;
+    padding: $positive-spacing_0 $positive-spacing_0 $positive-spacing_0 $positive-spacing_200;
+    justify-content: center;
+    align-items: center;
+    gap: var(--positive-spacing_0, 0);
     align-self: stretch;
-    border-radius: var(--radius-S, 4px);
-    opacity: var(--100, 1);
-    @include elevation-neutral-shadow-4;
+  }
 
-    background-color: var(--background-default, #FFF);
+  .banner-close-icon {
+    color: var(--content-secondary);
+  }
 
-    .rte-banner-icon {
+  .rte-banner-content {
+    display: flex;
+    padding: $positive-spacing_0 $positive-spacing_200;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $positive-spacing_100;
+    flex: 1 0 0;
+    border-radius: $radius-none;
+    opacity: $opacity-100;
+
+    .rte-banner-title {
+      @include typography-heading-s;
+    }
+
+    .rte-banner-action-button {
+      width: max-content;
+    }
+
+    .rte-banner-message {
+      @include typography-text-m;
+      color: var(--content-secondary);
       display: flex;
-      padding: $positive-spacing_0 $positive-spacing_0 $positive-spacing_0 $positive-spacing_200;
-      justify-content: center;
       align-items: center;
-      gap: var(--positive-spacing_0, 0);
-      align-self: stretch;
+      gap: $positive-spacing_300;
+      padding: $positive-spacing_100 0;
+      justify-content: space-between;
+      width: 100%;
     }
+  }
 
-    .banner-close-icon {
-      color: var(--content-secondary);
-    }
-
-    .rte-banner-content {
-      display: flex;
-      padding: $positive-spacing_0 $positive-spacing_200;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: $positive-spacing_100;
-      flex: 1 0 0;
-      border-radius: $radius-none;
-      opacity: $opacity-100;
-
-      .rte-banner-title {
-        @include typography-heading-s;
-      }
-
-      .rte-banner-message {
-        @include typography-text-s;
-        color: var(--content-secondary);
-        display: flex;
-        align-items: center;
-        gap: $positive-spacing_300;
-        padding: $positive-spacing_100 0;
-        justify-content: space-between;
-        width: 100%;
-
-        .rte-banner-action-button {
-          width: max-content;
-        }
-      }
-    }
-
-    .rte-banner-close-icon {
-      color: var(--content-secondary);
-    }
+  .rte-banner-close-icon {
+    color: var(--content-secondary);
   }
 }

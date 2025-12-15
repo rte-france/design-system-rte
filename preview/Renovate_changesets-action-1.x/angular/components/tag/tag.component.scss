@@ -27,11 +27,17 @@
 
     &[data-tag-type="status"] {
 
+        &[data-status="success"],
+        &[data-status="information"],
+        &[data-status="alert"] {
+            color: var(--content-primary-inverse);
+        }
+
         $status-colors: (
-            success: --background-status-success-regular,
-            information: --background-status-info-regular,
-            warning: --background-status-warning-regular,
-            alert: --background-status-alert-regular
+            success: --background-success-default,
+            information: --background-info-default,
+            warning: --background-warning-default,
+            alert: --background-danger-default
         );
 
     @each $name, $var in $status-colors {
