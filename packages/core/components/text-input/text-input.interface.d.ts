@@ -21,7 +21,8 @@ export interface BaseTextInputProps {
   error?: boolean;
   compactSpacing?: boolean;
   placeholder?: string;
+  highlighted?: boolean;
   onRightIconClick?: () => void;
 }
 
-export type TextInputProps = Omit<BaseTextInputProps, "compactSpacing" | "placeholder">;
+export type TextInputProps = Omit<BaseTextInputProps, "compactSpacing" | "placeholder" | "highlighted">;

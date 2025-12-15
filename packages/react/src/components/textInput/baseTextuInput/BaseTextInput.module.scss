@@ -97,10 +97,13 @@
 
         .input {
 
+            display: flex;
+
             .inputBar {
                 position: relative;
                 display: flex;
                 align-items: center;
+                width: 100%;
 
                 &.withLeftIcon {
                     .inputField {
@@ -158,9 +161,9 @@
                         border: $width-xs solid var(--border-primary);
                     }
 
-                    &:focus {
+                    &:focus, &[data-highlighted="true"] {
                         outline: 1px solid var(--border-brand-default);
-                        border: $width-xs solid var(--border-brand-default)
+                        border: $width-xs solid var(--border-brand-default);
                     }
 
                     &:active {
@@ -182,11 +185,9 @@
                     }
 
                     &::placeholder {
-                        color: var(--content-secondary);
+                        color: var(--content-tertiary);
                     }
-
                 }
-
             }
         }
 
