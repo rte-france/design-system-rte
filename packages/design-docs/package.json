@@ -35,6 +35,7 @@
     "vitest": "^3.0.9"
   },
   "dependencies": {
+    "@design-system-rte/react": "^1.0.0",
     "@storybook/addon-themes": "^8.6.11"
   }
 }
