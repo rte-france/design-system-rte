@@ -61,7 +61,7 @@ function copyCoreToDist() {
   console.log(`📁 Copying core source files to ${outputDir}`);
   fs.mkdirSync(outputDir, { recursive: true });
 
-  const exclude = ["node_modules", "dist", "test", ".DS_Store"];
+  const exclude = ["node_modules", "dist", "test", ".DS_Store", "scripts"];
   copyDirectoryRecursive(packageRoot, outputDir, exclude);
 
   console.log(`✅ core copied to ${outputDir}`);

@@ -1,4 +1,4 @@
-import { join, dirname } from "path";
+import { join, dirname, resolve } from "path";
 
 function getAbsolutePath(value: string): string {
   return dirname(require.resolve(join(value, "package.json")));
@@ -42,9 +42,23 @@ const config = {
     name: getAbsolutePath("@storybook/react-vite"),
     options: {},
   },
+  staticDirs: [{ from: "../../core/assets", to: "/assets" }],
 
   refs: (_, { configType }) => {
     return configType === "PRODUCTION" ? PRODUCTION_DEPLOYMENT_CONFIG : DEVELOPEMENT_DEPLOYMENT_CONFIG;
+  },
+
+  viteFinal: async (config) => {
+    const newConfig = {
+      ...config,
+      resolve: {
+        alias: {
+          "/assets": resolve(__dirname, "../../core/assets"),
+        },
+      },
+    };
+
+    return newConfig;
   },
 };
 export default config;
