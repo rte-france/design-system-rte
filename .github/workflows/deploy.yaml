@@ -2,8 +2,8 @@ name: Publish Storybook Composition to GitHub Pages
 
 on:
   push:
-    branches:
-      - main
+    tags:
+      - "*"
 
 permissions:
   contents: write
@@ -25,6 +25,15 @@ jobs:
 
       - name: Install dependencies
         run: npm ci --prefer-offline
+
+      - name: Resolve latest date tag
+        id: latest_tag
+        run: |
+          echo "tag=$(npm run -s tag:latest)" >> $GITHUB_OUTPUT
+      
+      - name: Checkout latest release tag
+        run: |
+          git checkout "${{ steps.latest_tag.outputs.tag }}"
         
       - name: Generate icons
         run: npm run generate:icons
