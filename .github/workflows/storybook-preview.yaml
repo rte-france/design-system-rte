@@ -4,6 +4,9 @@ on:
   push:
     branches-ignore:
       - main
+  pull_request:
+    branches:
+      - main
 
 permissions:
   contents: write
@@ -35,7 +38,14 @@ jobs:
 
       - name: Sanitize branch name
         id: vars
-        run: echo "slug=${GITHUB_REF##*/}" | sed 's#/##g' >> "$GITHUB_OUTPUT"
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BRANCH_NAME="${{ github.head_ref }}"
+          else
+            BRANCH_NAME="${GITHUB_REF##*/}"
+          fi
+          echo "slug=${BRANCH_NAME}" | sed 's#/##g' >> "$GITHUB_OUTPUT"
+          echo "branch=${BRANCH_NAME}" >> "$GITHUB_OUTPUT"
 
       - name: Update refs configuration in built storybook
         run: |
@@ -46,8 +56,12 @@ jobs:
       - name: Check if PR to main exists
         id: prcheck
         run: |
-          PR_COUNT=$(gh pr list --base main --head "${GITHUB_HEAD_REF}" --json number --jq 'length')
-          echo "count=$PR_COUNT" >> "$GITHUB_OUTPUT"
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            echo "count=1" >> "$GITHUB_OUTPUT"
+          else
+            PR_COUNT=$(gh pr list --base main --head "${{ steps.vars.outputs.branch }}" --json number --jq 'length')
+            echo "count=$PR_COUNT" >> "$GITHUB_OUTPUT"
+          fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
