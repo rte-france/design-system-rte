@@ -154,14 +154,14 @@ function App() {
           <div>
             <h3>Banner</h3>
             <Banner
-              type="default"
-              title="Info Banner"
+              type="info"
+              title="La mise à jour est disponible"
               message="This is an info banner"
               closable
               isOpen={isInfoBannerVisible}
             />
             <Banner
-              type="alert"
+              type="error"
               title="Alert Banner"
               message="This is an alert banner"
               closable

@@ -8,6 +8,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "@design-system-rte/core": resolve(__dirname, "../core"),
+      "/assets": resolve(__dirname, "../core/assets"),
     },
   },
   plugins: [

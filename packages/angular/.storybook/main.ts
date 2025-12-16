@@ -14,7 +14,7 @@ const config: StorybookConfig = {
     getAbsolutePath("@storybook/addon-interactions"),
     getAbsolutePath("@storybook/addon-a11y"),
   ],
-  staticDirs: ["../projects/ds-rte-lib/src/lib"],
+  staticDirs: ["../projects/ds-rte-lib/src/lib", { from: "../../core/assets", to: "/assets" }],
   framework: {
     name: getAbsolutePath("@storybook/angular"),
     options: {},

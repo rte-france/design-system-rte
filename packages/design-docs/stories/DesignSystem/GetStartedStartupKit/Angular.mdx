@@ -65,6 +65,19 @@ import "../../../src/styles/Police.css";
                     <Paragraph>Chaque thème supporte les modes <code>light</code> et <code>dark</code>.</Paragraph>
                 </DocsSection>
 
+                <DocsSection title="Ajouter la police Nunito" headingLevel={3}>
+                    <Paragraph>Dans `angular.json`, ajoutez les lignes suivantes dans la section `assets` pour qu'elle soit incluse globalement dans votre application.</Paragraph>
+
+                    ```json
+                    {
+                        "glob": "**/*",
+                        "input": "node_modules/@design-system-rte/core/assets/fonts",
+                        "output": "assets/fonts"
+                    }
+                    ```
+                    
+                </DocsSection>
+
                 <DocsSection title="Ajouter les sélecteurs HTML" headingLevel={3}>
                     <Paragraph>Ajoutez les attributs <code>data-theme</code> et <code>data-mode</code> sur l'élément <code>&lt;body&gt;</code> de votre application pour définir le contexte d'application des styles des composants.</Paragraph>
 
