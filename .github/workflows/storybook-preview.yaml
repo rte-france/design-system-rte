@@ -4,6 +4,12 @@ on:
   push:
     branches-ignore:
       - main
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch name to checkout (for workflow_dispatch)'
+        required: false
+        type: string
 
 permissions:
   contents: write
@@ -15,6 +21,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.branch || github.ref }}
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -35,7 +43,15 @@ jobs:
 
       - name: Sanitize branch name
         id: vars
-        run: echo "slug=${GITHUB_REF##*/}" | sed 's#/##g' >> "$GITHUB_OUTPUT"
+        run: |
+          if [ -n "${{ github.event.inputs.branch }}" ]; then
+            BRANCH_NAME="${{ github.event.inputs.branch }}"
+          else
+            BRANCH_NAME="${GITHUB_REF##*/}"
+          fi
+          SLUG=$(echo "$BRANCH_NAME" | sed 's#/##g')
+          echo "slug=$SLUG" >> "$GITHUB_OUTPUT"
+          echo "branch=$BRANCH_NAME" >> "$GITHUB_OUTPUT"
 
       - name: Update refs configuration in built storybook
         run: |
@@ -46,7 +62,7 @@ jobs:
       - name: Check if PR to main exists
         id: prcheck
         run: |
-          PR_COUNT=$(gh pr list --base main --head "${GITHUB_HEAD_REF}" --json number --jq 'length')
+          PR_COUNT=$(gh pr list --base main --head "${{ steps.vars.outputs.branch }}" --json number --jq 'length')
           echo "count=$PR_COUNT" >> "$GITHUB_OUTPUT"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

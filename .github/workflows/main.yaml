@@ -221,6 +221,7 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
+      actions: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -253,3 +254,11 @@ jobs:
           git add .
           git commit -m "chore: update main changelog" --no-verify || exit 0
           git push origin -u changeset-release/main
+
+      - name: Trigger Storybook Preview
+        run: |
+          gh workflow run storybook-preview.yaml \
+            --ref main \
+            --field branch=changeset-release/main
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
