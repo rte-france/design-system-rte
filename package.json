@@ -26,6 +26,7 @@
     "auto-changesets:amend": "node scripts/changesets/auto-add-changesets.js amend",
     "publish:all": "node scripts/publish-all.js",
     "tag-release": "node scripts/tags/generate-release-tag.js",
+    "release": "tsx scripts/release.ts",
     "tag:latest": "tsx scripts/tags/get-latest-date-tag.ts",
     "lint": "eslint . && npm --prefix packages/react run lint && npm --prefix packages/angular run lint",
     "lint:fix": "eslint . --fix && npm --prefix packages/react run lint:fix && npm --prefix packages/angular run lint:fix",
