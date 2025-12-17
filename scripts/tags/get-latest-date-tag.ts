@@ -20,7 +20,7 @@ function listTags(): string[] {
 
 function parseDateTag(tag: string): Candidate | null {
   const NPM_PACKAGE_IDENTIFIER = "@design-system-rte/";
-  
+
   if (tag.startsWith(NPM_PACKAGE_IDENTIFIER)) return null;
 
   return extractDateFromTag(tag);
@@ -43,7 +43,7 @@ function extractDateFromTag(tag: string): Candidate | null {
 }
 
 function validateDateMatch(day: number, month: number): boolean {
-  return month >= 1 && month <= 12 && day >= 1 && day <= 31
+  return month >= 1 && month <= 12 && day >= 1 && day <= 31;
 }
 
 function compareCandidates(a: Candidate, b: Candidate): number {

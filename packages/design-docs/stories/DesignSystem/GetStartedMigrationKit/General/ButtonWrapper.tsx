@@ -1,4 +1,4 @@
-import Button from "@design-system-rte/react/src/components/button/Button";
+import { Button } from "@design-system-rte/react";
 
 const ButtonWrapper = () => {
   return (

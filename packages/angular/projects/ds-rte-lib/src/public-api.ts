@@ -28,3 +28,4 @@ export * from "./lib/components/modal/modal.module";
 export * from "./lib/components/side-nav/side-nav.component";
 export * from "./lib/components/toast/toast.component";
 export * from "./lib/components/toast/toast.service";
+export * from "./lib/components/tag/tag.component";

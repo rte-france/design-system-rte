@@ -1,11 +1,10 @@
-import { RegularIconIdKey, TogglableIconIdKey } from "../../../src/components/icon/Icon";
-import Icon from "../../../src/components/icon/Icon";
+import { Icon } from "@design-system-rte/react";
 
 import "./IconTitle.css";
 
 interface IconTitleProps {
   title: string;
-  icon: RegularIconIdKey | TogglableIconIdKey;
+  icon: string;
 }
 
 const IconTitle = ({ title, icon }: IconTitleProps) => {

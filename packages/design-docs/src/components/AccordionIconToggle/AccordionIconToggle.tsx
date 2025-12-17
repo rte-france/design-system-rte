@@ -1,4 +1,4 @@
-import Icon from "@design-system-rte/react/src/components/icon/Icon";
+import { Icon } from "@design-system-rte/react";
 
 interface AccordionIconToggleProps {
   isAccordionOpen: boolean;

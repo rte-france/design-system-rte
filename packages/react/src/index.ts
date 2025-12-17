@@ -22,6 +22,7 @@ import BaseSideNav from "./components/sideNav/baseSideNav/BaseSideNav.tsx";
 import SideNav from "./components/sideNav/SideNav.tsx";
 import SplitButton from "./components/splitButton/SplitButton.tsx";
 import Switch from "./components/switch/Switch.tsx";
+import Tag from "./components/tag/Tag.tsx";
 import Textarea from "./components/textarea/Textarea.tsx";
 import TextInput from "./components/textInput/TextInput.tsx";
 import Toast from "./components/toast/Toast.tsx";
@@ -57,4 +58,5 @@ export {
   Card,
   Toast,
   ToastQueueProvider,
+  Tag,
 };

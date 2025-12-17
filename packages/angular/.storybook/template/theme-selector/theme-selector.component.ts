@@ -1,11 +1,9 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, signal } from "@angular/core";
+import { Mode, Theme } from "@design-system-rte/core/common/common-types";
 
 import { ChipComponent } from "../../../projects/ds-rte-lib/src/lib/components/chip/chip.component";
 import { IconButtonComponent } from "../../../projects/ds-rte-lib/src/lib/components/icon-button/icon-button.component";
-
-type Theme = "bleu_iceberg" | "violet" | "vert_foret";
-type Mode = "light" | "dark";
 
 @Component({
   selector: "rte-theme-selector",
