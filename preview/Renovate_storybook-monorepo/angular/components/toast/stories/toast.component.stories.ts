@@ -10,7 +10,7 @@ import { ToastDefaultComponent } from "./toast-default.component";
 import { ToastDemoWrapperComponent } from "./toast-demo-wrapper.component";
 
 const meta: Meta<ToastComponent> = {
-  title: "Toast",
+  title: "Composants/Toast",
   component: ToastComponent,
   tags: ["autodocs"],
   argTypes: {
