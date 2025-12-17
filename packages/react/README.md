@@ -2,7 +2,7 @@
 
 1. **Add Design System base styles:**
     ```tsx
-    import "@design-system-rte/react/dist/style.css";
+    import "@design-system-rte/react/style.css";
 
     createRoot(document.getElementById("root")!).render(
         <StrictMode>

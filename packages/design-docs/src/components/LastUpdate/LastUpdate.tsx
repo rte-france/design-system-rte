@@ -1,4 +1,4 @@
-import Tag from "@design-system-rte/react/src/components/tag/Tag.tsx";
+import { Tag } from "@design-system-rte/react";
 import React from "react";
 
 import AccordionIconToggle from "../AccordionIconToggle/AccordionIconToggle.tsx";

@@ -98,6 +98,10 @@ jobs:
         working-directory: packages/react
         run: npm run lint
 
+      - name: Build React Package
+        working-directory: packages/react
+        run: npm run build
+
       - name: Run tests
         working-directory: packages/react
         run: npm run test:ci

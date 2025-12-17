@@ -1,5 +1,5 @@
 import type { Preview } from "@storybook/react";
-import "@design-system-rte/react/dist/style.css";
+import "@design-system-rte/react/style.css";
 
 import "./preview.scss";
 

@@ -1,4 +1,4 @@
-import Icon from "@design-system-rte/react/src/components/icon/Icon";
+import { Icon } from "@design-system-rte/react";
 import { ReactNode } from "react";
 
 import "./MainContent.scss";

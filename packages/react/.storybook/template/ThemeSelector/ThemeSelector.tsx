@@ -1,31 +1,22 @@
+import { Mode, Theme } from "@design-system-rte/core/common/common-types";
 import { Chip, IconButton } from "@design-system-rte/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import styles from "./ThemeSelector.module.scss";
 
 const ThemeSelector = () => {
-  const [currentMode, setCurrentMode] = useState<"light" | "dark">("light");
-  const [currentTheme, setCurrentTheme] = useState<"bleu_iceberg" | "vert_foret" | "violet">("bleu_iceberg");
+  const [currentMode, setCurrentMode] = useState<Mode>("light");
+  const [currentTheme, setCurrentTheme] = useState<Theme>("bleu_iceberg");
 
   const switchMode = (mode: "light" | "dark") => {
     document.querySelector("html")?.setAttribute("data-mode", mode);
+    setCurrentMode(mode);
   };
 
   const switchTheme = (theme: "bleu_iceberg" | "vert_foret" | "violet") => {
     document.querySelector("html")?.setAttribute("data-theme", theme);
+    setCurrentTheme(theme);
   };
-
-  useEffect(() => {
-    if (currentMode) {
-      switchMode(currentMode);
-    }
-  }, [currentMode]);
-
-  useEffect(() => {
-    if (currentTheme) {
-      switchTheme(currentTheme);
-    }
-  }, [currentTheme]);
 
   const themes = [
     { id: "bleu_iceberg", label: "Bleu Iceberg" },
@@ -35,7 +26,7 @@ const ThemeSelector = () => {
 
   const handleClick = (event: React.MouseEvent<HTMLSpanElement> | React.KeyboardEvent<HTMLSpanElement>) => {
     const clickedChipId = event.currentTarget.id as "bleu_iceberg" | "vert_foret" | "violet";
-    setCurrentTheme(clickedChipId);
+    switchTheme(clickedChipId);
   };
 
   return (
@@ -57,7 +48,7 @@ const ThemeSelector = () => {
         <IconButton
           name={currentMode === "light" ? "mode-dark" : "mode-light"}
           aria-label={"Toggle Theme Mode"}
-          onClick={() => setCurrentMode(currentMode === "light" ? "dark" : "light")}
+          onClick={() => switchMode(currentMode === "light" ? "dark" : "light")}
           data-testid="mode-switcher"
         />
       </div>

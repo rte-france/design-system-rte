@@ -18,17 +18,16 @@ function runSilent(cmd: string, options: ExecSyncOptions = {}): string {
 async function release(): Promise<void> {
   try {
     console.log("🚀 Starting release process...\n");
-    
+
     publishAllPackages();
-    
+
     createReleaseTag();
 
     const latestTag: string = getLatestTag();
-    
+
     pushTagToOrigin(latestTag);
-    
+
     console.log("🎉 Release process completed successfully!");
-    
   } catch (error) {
     console.error("\n❌ Release process failed!");
     const errorMessage: string = error instanceof Error ? error.message : String(error);
@@ -63,4 +62,3 @@ function pushTagToOrigin(tag: string): void {
 }
 
 release();
-

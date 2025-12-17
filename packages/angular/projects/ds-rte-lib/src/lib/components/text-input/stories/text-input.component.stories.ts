@@ -324,7 +324,6 @@ export const KeyboardRightIconVisibility: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const textInput = canvas.getByTestId("input").querySelector("input");
-    // focusElementBeforeComponent(canvasElement);
     await userEvent.type(textInput!, "Hello");
     await userEvent.tab();
     expect(textInput).toHaveAttribute("type", "text");

@@ -5,7 +5,7 @@ import { applicationConfig, type Preview, componentWrapperDecorator, moduleMetad
 
 import docJson from "../documentation.json";
 
-import { ThemeSelectorComponent } from "./template/ThemeSelector/theme-selector.component";
+import { ThemeSelectorComponent } from "./template/theme-selector/theme-selector.component";
 setCompodocJson(docJson);
 
 const decorators = [
