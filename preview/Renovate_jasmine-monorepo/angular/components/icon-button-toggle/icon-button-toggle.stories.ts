@@ -12,7 +12,7 @@ import { IconButtonToggleComponent } from "./icon-button-toggle.component";
 const TogglableIconIds = Object.keys(TogglableIconsList);
 
 const meta = {
-  title: "IconButtonToggle",
+  title: "Composants/IconButtonToggle",
   id: "IconButtonToggle",
   component: IconButtonToggleComponent,
   tags: ["autodocs"],

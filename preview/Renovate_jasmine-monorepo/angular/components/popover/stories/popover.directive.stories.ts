@@ -8,7 +8,7 @@ import { userEvent, waitFor, within, expect } from "@storybook/test";
 import { PopoverDirective } from "../popover.directive";
 
 const meta: Meta<PopoverDirective> = {
-  title: "Popover",
+  title: "Composants/Popover",
   component: PopoverDirective,
   tags: ["autodocs"],
   argTypes: {
