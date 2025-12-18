@@ -2,6 +2,7 @@ import { SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.c
 import { Meta, StoryObj } from "@storybook/angular";
 import { expect, userEvent, waitFor, within } from "@storybook/test";
 
+import { focusElementBeforeComponent } from "../../../../../../../.storybook/testing/testing.utils";
 import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../../icon/icon-map";
 import { TextInputComponent } from "../text-input.component";
 
@@ -284,6 +285,7 @@ export const KeyboardInteraction: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const textInput = canvas.getByTestId("input").querySelector("input");
+    focusElementBeforeComponent(canvasElement);
     await userEvent.tab();
     expect(textInput).toHaveFocus();
   },

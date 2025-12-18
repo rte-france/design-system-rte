@@ -44,7 +44,7 @@ export const Default: Story = {
       },
     },
     template: `
-    <div style="width: 420px">
+    <div style="width: 420px" data-testid="segmented-control-story">
       <rte-segmented-control
         [options]="options"
         [selectedSegment]="selectedSegment"
@@ -56,7 +56,9 @@ export const Default: Story = {
 
   play: async ({ canvasElement }) => {
     const canvas = canvasElement;
-    const [firstSegment, secondSegment, thirdSegment] = within(canvas).getAllByRole("radio");
+    const [firstSegment, secondSegment, thirdSegment] = Array.from(
+      within(canvas).getByTestId("segmented-control-story").querySelectorAll("[role='radio']"),
+    );
 
     expect(firstSegment).toHaveAttribute("aria-checked", "true");
     await userEvent.click(secondSegment);
