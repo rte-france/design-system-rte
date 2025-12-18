@@ -4,7 +4,8 @@
   
   ## Changes
 
-- (Select) review
+- (Assistive-text) add width props
+- (Select) improve style
 - (Assistive-text) add angular component
 - (Link) harmonise appearance
 - (Select) set positionning

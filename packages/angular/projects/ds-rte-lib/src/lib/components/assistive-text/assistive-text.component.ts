@@ -20,9 +20,14 @@ export class AssistiveTextComponent {
   readonly appearance = input<AssistiveTextProps["appearance"]>("description");
   readonly showIcon = input<boolean>(false);
   readonly href = input<string>();
+  readonly width = input<number>();
 
   readonly isLink = computed(() => {
     return this.appearance() === "link" && this.href() !== undefined;
+  });
+
+  readonly widthStyle = computed(() => {
+    return `${this.width()}px`;
   });
 
   readonly assistiveTextIconSize = ASSISTIVE_TEXT_ICON_SIZE;
