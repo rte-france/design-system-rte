@@ -20,6 +20,12 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
       }
     };
 
+    const handleOnClick = () => {
+      if (!disabled && clickable) {
+        onClick?.();
+      }
+    };
+
     const { onKeyDown, onKeyUp, onBlur } = useActiveKeyboard<HTMLDivElement>(
       { onKeyUp: keyboardHandler },
       {
@@ -36,7 +42,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
         data-clickable={clickable}
         data-disabled={disabled}
         tabIndex={clickable ? 0 : -1}
-        onClick={onClick}
+        onClick={handleOnClick}
         onKeyDown={onKeyDown}
         onKeyUp={onKeyUp}
         onBlur={onBlur}
