@@ -17,13 +17,14 @@ import Modal from "./components/modal/Modal.tsx";
 import Popover from "./components/popover/Popover.tsx";
 import RadioButton from "./components/radioButton/RadioButton.tsx";
 import RadioButtonGroup from "./components/radioButtonGroup/RadioButtonGroup.tsx";
+import Searchbar from "./components/searchbar/Searchbar.tsx";
 import SegmentedControl from "./components/segmentedControl/SegmentedControl.tsx";
 import BaseSideNav from "./components/sideNav/baseSideNav/BaseSideNav.tsx";
 import SideNav from "./components/sideNav/SideNav.tsx";
 import SplitButton from "./components/splitButton/SplitButton.tsx";
 import Switch from "./components/switch/Switch.tsx";
 import Textarea from "./components/textarea/Textarea.tsx";
-import TextInput from "./components/textInput/TextInput.tsx";
+import BaseTextInput from "./components/textInput/baseTextuInput/BaseTextInput.tsx";
 import Toast from "./components/toast/Toast.tsx";
 import ToastQueueProvider from "./components/toast/toastQueue/ToastQueueProvider.tsx";
 import Tooltip from "./components/tooltip/Tooltip.tsx";
@@ -41,7 +42,7 @@ export {
   IconButtonToggle,
   SplitButton,
   Tooltip,
-  TextInput,
+  BaseTextInput as TextInput,
   Chip,
   Badge,
   Textarea,
@@ -57,4 +58,5 @@ export {
   Card,
   Toast,
   ToastQueueProvider,
+  Searchbar,
 };

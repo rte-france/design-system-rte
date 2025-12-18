@@ -66,8 +66,10 @@ export const Default: Story = {
     error: false,
     readOnly: false,
     maxLength: 150,
+    placeholder: "Placeholder",
     value: "",
     "aria-required": true,
+    autoComplete: "off",
   } as TextInputProps,
   render: (args) => <TextInput {...args} />,
 };

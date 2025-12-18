@@ -3,13 +3,37 @@
 .container {
     display: flex;
     width: 300px;
-    padding: var(--positive-spacing_0);
+    padding: $positive-spacing_0;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    gap: var(--positive-spacing_0);
+    gap: $positive-spacing_0;
 
-    &[data-label-position="side"] {
+    &.compact-spacing {
+        .input-container {
+            height: 24px;
+            min-height: 24px;
+            .input {
+                .input-bar {
+                    .input-field {
+                        height: 24px;
+                        min-height: 24px;
+                    }
+                }
+            }
+        }
+        .rte-icon-button {
+            ::ng-deep {
+                button {
+                    height: 24px;
+                    width: 24px;
+                    padding: 0 $positive-spacing-025;    
+                }
+            }
+        }
+    }
+
+    &.side {
         align-items: center;
         flex-direction: row;
 
@@ -18,16 +42,16 @@
             align-items: center;
         }
 
-        .inputCounter {
+        .input-counter {
             padding: 0 $positive-spacing-100;
         }
     }
 
-    &[data-error="true"] {
-        .inputContainer {
+    &.error {
+        .input-container {
             .input {
-                .inputBar {
-                    .leftIcon {
+                .input-bar {
+                    .left-icon {
                         color: var(--content-danger-default);
                     }
                 }
@@ -44,16 +68,16 @@
         padding: $positive-spacing-025 $positive-spacing-100;
         box-sizing: border-box;
 
-        .labelContainer {
+        .label-container {
             display: flex;
             align-items: flex-start;
 
-            .inputLabel {
+            .input-label {
                 color: var(--content-secondary);
                 @include typography-text-m-regular;
             }
 
-            .requiredText {
+            .required-text {
                 color: var(--content-tertiary);
                 align-self: center;
                 @include typography-text-input-tertiary-regular;
@@ -61,7 +85,7 @@
                 margin-inline: $positive-spacing-050;
             }
 
-            .requiredIconContainer {
+            .required-icon-container {
                 color: var(--content-danger-default);
                 display: flex;
                 align-items: center;
@@ -71,7 +95,7 @@
         }
     }
 
-    .inputContainer {
+    .input-container {
         display: flex;
         flex-direction: column;
         height: 32px;
@@ -82,43 +106,47 @@
         align-self: stretch;
 
         .input {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            width: 100%;
+            height: 100%;
 
-            .inputBar {
+            .input-bar {
                 position: relative;
                 display: flex;
                 align-items: center;
+                flex: 1;
 
-                &.withLeftIcon {
-                    .inputField {
+                &.with-left-icon {
+                    .input-field {
                         padding-left: $positive-spacing-400;
                     }
                 }
 
-                &.withRightIcon {
-                    .inputField {
+                &.with-right-icon {
+                    .input-field {
                         padding-right: $positive-spacing-400;
                     }
                 }
 
-                .leftIcon {
+                .left-icon {
                     position: absolute;
                     left: $positive-spacing-100;
                     color: var(--content-secondary);
                 }
 
-                .rightIcon {
+                .right-icon {
                     position: absolute;
                     right: $positive-spacing-100;
                     color: var(--content-secondary);
-                    padding: 0 $positive-spacing-025;
-                    height: 24px;
 
                     &:focus {
                         outline: none;
                     }
 
                     &:focus-visible {
-                        outline: 1px solid var(--border-brand-focused);
+                        outline: $width-xs solid var(--border-brand-focused);
                         border-radius: $radius-m;
 
                         &::after {
@@ -127,7 +155,7 @@
                     }
                 }
 
-                .inputField {
+                .input-field {
                     box-sizing: border-box;
                     appearance: none;
                     width: 100%;
@@ -143,68 +171,80 @@
                     @include neutral-inner-shadow;
 
                     &:hover {
-                        border: $width-xs solid var(--border-primary);
+                        border-color: var(--border-primary);
                     }
 
-                    &:focus {
+                    &:focus,
+                    &.highlighted {
                         outline: 1px solid var(--border-brand-default);
-                        border: $width-xs solid var(--border-brand-default)
+                        border-color: var(--border-brand-default);
                     }
 
                     &:active {
                         outline: 1px solid var(--border-brand-default);
-                        border: $width-xs solid var(--border-brand-default)
+                        border-color: var(--border-brand-default)
                     }
 
                     &:disabled,
-                    &[readonly] {
-                        outline: 1px solid var(--border-disabled);
-                        border: $width-xs solid var(--border-disabled);
+                    &:read-only {
+                        border-color: var(--border-disabled);
                         background: linear-gradient(0deg, var(--elevation-surface-inner-shadow) 0%, var(--elevation-surface-inner-shadow) 100%), var(--background-disabled);
                         cursor: not-allowed;
+                        box-shadow: none;
                     }
 
-                    &[data-error='true'] {
+                    &.error {
                         outline: 1px solid var(--border-danger);
-                        border: $width-xs solid var(--border-danger)
+                        border-color: var(--border-danger)
+                    }
+
+                    &::placeholder {
+                        color: var(--content-tertiary);
                     }
 
                 }
 
             }
+
+            .right-slot {
+                display: flex;
+                align-items: center;
+                flex-shrink: 0;
+                position: relative;
+            }
         }
 
-        .assistiveText {
+        .assistive-text {
             display: flex;
             align-items: center;
             gap: $positive-spacing-050;
             padding: $positive-spacing-050 $positive-spacing-100;
 
-            .assistiveIconError {
+            .assistive-icon-error {
                 color: var(--content-danger-default);
             }
 
-            .assistiveIconSuccess {
+            .assistive-icon-success {
                 color: var(--content-success-default);
             }
 
-            .assistiveLabel {
+            .assistive-label {
 
                 transition: color 200ms;
 
-                &[data-appearance="error"] {
+                &.error {
                     color: var(--content-danger-default);
                     @include typography-text-input-s-bold;
                     margin: $positive-spacing-0;
                 }
 
-                &[data-appearance="success"] {
+                &.success {
                     color: var(--content-success-default);
                     @include typography-text-input-s-bold;
                     margin: $positive-spacing-0;
                 }
 
-                &[data-appearance="description"] {
+                &.description {
                     color: var(--content-tertiary);
                     @include typography-text-input-tertiary-regular;
                     margin: $positive-spacing-0;
@@ -214,7 +254,7 @@
     }
 }
 
-.inputCounter {
+.input-counter {
     color: var(--content-tertiary);
     @include typography-text-s-regular;
     margin-block: $positive-spacing-0;

@@ -3,13 +3,27 @@
 .container {
     display: flex;
     width: 300px;
-    padding: $positive-spacing_0;
+    padding: var(--positive-spacing_0);
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    gap: $positive-spacing_0;
+    gap: var(--positive-spacing_0);
 
-    &.side {
+    &[data-compact-spacing="true"] {
+        .inputContainer {
+            height: 24px;
+            min-height: 24px;
+            .input {
+                .inputBar {
+                    .inputField {
+                        height: 24px;
+                    }
+                }
+            }
+        }   
+    }
+
+    &[data-label-position="side"] {
         align-items: center;
         flex-direction: row;
 
@@ -18,16 +32,16 @@
             align-items: center;
         }
 
-        .input-counter {
+        .inputCounter {
             padding: 0 $positive-spacing-100;
         }
     }
 
-    &.error {
-        .input-container {
+    &[data-error="true"] {
+        .inputContainer {
             .input {
-                .input-bar {
-                    .left-icon {
+                .inputBar {
+                    .leftIcon {
                         color: var(--content-danger-default);
                     }
                 }
@@ -44,16 +58,16 @@
         padding: $positive-spacing-025 $positive-spacing-100;
         box-sizing: border-box;
 
-        .label-container {
+        .labelContainer {
             display: flex;
             align-items: flex-start;
 
-            .input-label {
+            .inputLabel {
                 color: var(--content-secondary);
                 @include typography-text-m-regular;
             }
 
-            .required-text {
+            .requiredText {
                 color: var(--content-tertiary);
                 align-self: center;
                 @include typography-text-input-tertiary-regular;
@@ -61,7 +75,7 @@
                 margin-inline: $positive-spacing-050;
             }
 
-            .required-icon-container {
+            .requiredIconContainer {
                 color: var(--content-danger-default);
                 display: flex;
                 align-items: center;
@@ -71,7 +85,7 @@
         }
     }
 
-    .input-container {
+    .inputContainer {
         display: flex;
         flex-direction: column;
         height: 32px;
@@ -83,62 +97,52 @@
 
         .input {
 
-            .input-bar {
+            display: flex;
+
+            .inputBar {
                 position: relative;
                 display: flex;
                 align-items: center;
+                width: 100%;
 
-                &.with-left-icon {
-                    .input-field {
+                &.withLeftIcon {
+                    .inputField {
                         padding-left: $positive-spacing-400;
                     }
                 }
 
-                &.with-right-icon {
-                    .input-field {
+                &.withRightIcon {
+                    .inputField {
                         padding-right: $positive-spacing-400;
                     }
                 }
 
-                .left-icon {
+                .leftIcon {
                     position: absolute;
                     left: $positive-spacing-100;
                     color: var(--content-secondary);
                 }
 
-                .right-icon {
+                .rightIcon {
                     position: absolute;
                     right: $positive-spacing-100;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
                     color: var(--content-secondary);
-
-                    ::ng-deep {
-                        .rte-icon-button {
-                            color: var(--content-secondary);
-                            height: 24px;
-                            width: 24px;
-                            padding: 0 $positive-spacing-025;
-                        }
-
-                        .rte-icon-button:focus {
-                            outline: none;
-                        }
-
-                        .rte-icon-button:focus-visible {
-                            outline: 1px solid var(--border-brand-focused);
-                            border-radius: $radius-m;
-
-                            &::after {
-                                display: none;
-                            }
-                        }
+                    
+                    &:focus {
+                        outline: none;
                     }
 
+                    &:focus-visible {
+                        outline: $width-xs solid var(--border-brand-focused);
+                        border-radius: $radius-m;
+
+                        &::after {
+                            display: none;
+                        }
+                    }
                 }
 
-                .input-field {
+                .inputField {
                     box-sizing: border-box;
                     appearance: none;
                     width: 100%;
@@ -154,69 +158,70 @@
                     @include neutral-inner-shadow;
 
                     &:hover {
-                        outline: 1px solid var(--border-primary);
-                        border-color: var(--border-primary);
+                        border: $width-xs solid var(--border-primary);
                     }
 
-                    &:focus {
+                    &:focus, &[data-highlighted="true"] {
                         outline: 1px solid var(--border-brand-default);
-                        border-color: var(--border-brand-default)
+                        border: $width-xs solid var(--border-brand-default);
                     }
 
                     &:active {
                         outline: 1px solid var(--border-brand-default);
-                        border-color: var(--border-brand-default)
+                        border: $width-xs solid var(--border-brand-default)
                     }
 
                     &:disabled,
-                    &:read-only {
-                        outline: 1px solid var(--border-brand-disabled);
-                        border-color: var(--border-disabled);
+                    &[readonly] {
+                        border: $width-xs solid var(--border-disabled);
                         background: linear-gradient(0deg, var(--elevation-surface-inner-shadow) 0%, var(--elevation-surface-inner-shadow) 100%), var(--background-disabled);
                         cursor: not-allowed;
+                        box-shadow: none;
                     }
 
-                    &.error {
+                    &[data-error='true'] {
                         outline: 1px solid var(--border-danger);
-                        border-color: var(--border-danger)
+                        border: $width-xs solid var(--border-danger)
                     }
 
+                    &::placeholder {
+                        color: var(--content-tertiary);
+                    }
                 }
-
             }
         }
 
-        .assistive-text {
+        .assistiveText {
             display: flex;
             align-items: center;
             gap: $positive-spacing-050;
             padding: $positive-spacing-050 $positive-spacing-100;
 
-            .assistive-icon-error {
+            .assistiveIconError {
                 color: var(--content-danger-default);
             }
 
-            .assistive-icon-success {
+            .assistiveIconSuccess {
                 color: var(--content-success-default);
             }
 
-            .assistive-label {
+            .assistiveLabel {
 
                 transition: color 200ms;
 
-                &.error {
+                &[data-appearance="error"] {
                     color: var(--content-danger-default);
                     @include typography-text-input-s-bold;
                     margin: $positive-spacing-0;
                 }
 
-                &.success {
+                &[data-appearance="success"] {
                     color: var(--content-success-default);
                     @include typography-text-input-s-bold;
                     margin: $positive-spacing-0;
                 }
 
-                &.description {
+                &[data-appearance="description"] {
                     color: var(--content-tertiary);
                     @include typography-text-input-tertiary-regular;
                     margin: $positive-spacing-0;
@@ -226,7 +231,7 @@
     }
 }
 
-.input-counter {
+.inputCounter {
     color: var(--content-tertiary);
     @include typography-text-s-regular;
     margin-block: $positive-spacing-0;

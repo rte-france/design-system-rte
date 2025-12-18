@@ -20,7 +20,7 @@ export interface DropdownState {
 }
 
 @Injectable({
-  providedIn: "root", // Makes the service a singleton
+  providedIn: "root",
 })
 export class DropdownService {
   private readonly initialState: DropdownState = {
