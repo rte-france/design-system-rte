@@ -7,15 +7,11 @@
     align-items: center;
     align-self: stretch;
     border-radius: $radius-s;
-    @include elevation-neutral-shadow-2;
+    @include elevation-neutral-shadow-1;
     transition: background-color 300ms, box-shadow 300ms;
 
     &:hover {
-        @include elevation-neutral-shadow-3;
-    }
-
-    &:active {
-        @include elevation-neutral-shadow-1;
+        @include elevation-neutral-shadow-2;
     }
 
     &[data-disabled='true'] {
@@ -26,16 +22,20 @@
 
         &[data-card-type='outlined'] {
             border: $width-xs solid var(--border-disabled);
+            background: var(--background-disabled);
+            box-shadow: none;
         }
     }
 
     &[data-card-type='outlined'] {
+        @include elevation-neutral-shadow-1;
         flex-shrink: 0;
         border: $width-xs solid var(--border-tertiary);
-        box-shadow: none;
 
         &:active {
-            border-color: var(--border-secondary);
+            &[data-clickable='true'] {
+                border-color: var(--border-secondary);
+            }
         }
     }
 
