@@ -15,8 +15,7 @@ import { concatClassNames } from "../utils";
 import styles from "./Chip.module.scss";
 
 interface ChipProps
-  extends Omit<CoreChipProps, "onClick" | "onClose">,
-    Omit<React.HTMLAttributes<HTMLSpanElement>, "id"> {
+  extends Omit<CoreChipProps, "onClick" | "onClose">, Omit<React.HTMLAttributes<HTMLSpanElement>, "id"> {
   onClick?: (event: React.MouseEvent<HTMLSpanElement> | React.KeyboardEvent<HTMLSpanElement>) => void;
   onClose?: (event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLButtonElement>) => void;
 }

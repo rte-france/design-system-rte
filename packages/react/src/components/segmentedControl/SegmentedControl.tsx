@@ -19,8 +19,7 @@ export interface SegmentProps extends CoreSegmentProps, Omit<React.HTMLAttribute
 }
 
 interface SegmentedControlProps
-  extends CoreSegmentedControlProps,
-    Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
+  extends CoreSegmentedControlProps, Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
   onChange: (id: string) => void;
 }
 
