@@ -1,4 +1,7 @@
-<div class="rte-assistive-text {{ appearance() }}">
+<div
+  class="rte-assistive-text {{ appearance() }}"
+  [ngStyle]="{ width: widthStyle() }"
+>
   <rte-icon
     *ngIf="showIcon() && iconName()"
     class="assistive-icon-{{ appearance() }}"
