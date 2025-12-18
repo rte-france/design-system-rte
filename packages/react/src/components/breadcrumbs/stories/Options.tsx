@@ -1,5 +1,5 @@
 import Accordion from "../../../../.storybook/template/Accordion/Accordion";
-import Heading from "../../../../.storybook/template/heading/Heading";
+import Heading from "../../../../.storybook/template/Heading/Heading";
 import Table from "../../../../.storybook/template/Table/Table";
 import "./Options.scss";
 

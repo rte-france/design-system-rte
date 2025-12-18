@@ -1,5 +1,5 @@
 import Accordion from "../../../../.storybook/template/Accordion/Accordion";
-import Heading from "../../../../.storybook/template/heading/Heading";
+import Heading from "../../../../.storybook/template/Heading/Heading";
 import Icon from "../../icon/Icon";
 import BreadcrumbItem from "../breadcrumbItem/BreadcrumbItem";
 import Breadcrumbs from "../Breadcrumbs";
