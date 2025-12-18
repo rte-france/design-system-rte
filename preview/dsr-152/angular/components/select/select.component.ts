@@ -11,7 +11,11 @@ import {
 } from "@angular/core";
 import { NG_VALUE_ACCESSOR } from "@angular/forms";
 import { REQUIREMENT_INDICATOR_VALUE } from "@design-system-rte/core/components/required-indicator/required-indicator.constant";
-import { THRESHOLD_BOTTOM_POSITION } from "@design-system-rte/core/components/select/select.constants";
+import {
+  SELECT_DROPDOWN_OFFSET,
+  THRESHOLD_BOTTOM_POSITION,
+  MIN_SELECT_WIDTH,
+} from "@design-system-rte/core/components/select/select.constants";
 import { SelectProps } from "@design-system-rte/core/components/select/select.interface";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
@@ -54,9 +58,16 @@ export class SelectComponent {
   readonly isError = input<boolean>(false);
   readonly showAssistiveIcon = input<boolean>(false);
   readonly showResetButton = input<boolean>(false);
+  readonly width = input<number>(MIN_SELECT_WIDTH);
 
   readonly selectRef = viewChild<ElementRef<HTMLElement>>("selectRef");
   readonly buttonsContainerRef = viewChild<ElementRef<HTMLElement>>("buttonsContainerRef");
+
+  readonly selectDropdownOffset = SELECT_DROPDOWN_OFFSET;
+
+  readonly computedWidth = computed(() => {
+    return `${this.width()}px`;
+  });
 
   readonly clearButton = computed(() => {
     return this.buttonsContainerRef()?.nativeElement.querySelector(
@@ -105,6 +116,8 @@ export class SelectComponent {
   readonly shouldDisplayClearButton = computed(
     () => this.showResetButton() && !!this.internalValue() && !this.disabled(),
   );
+
+  readonly shouldDisplayErrorIcon = computed(() => this.isError() && !this.disabled() && !this.readOnly());
 
   readonly isActive = signal(false);
 
