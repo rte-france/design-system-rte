@@ -13,8 +13,7 @@ export interface IconProps extends coreIconProps {
 }
 
 interface IconWrapperProps
-  extends CoreIconWrapperProps,
-    Omit<React.SVGProps<SVGSVGElement>, "name" | "width" | "height"> {
+  extends CoreIconWrapperProps, Omit<React.SVGProps<SVGSVGElement>, "name" | "width" | "height"> {
   name: string;
   appearance?: "outlined" | "filled";
 }

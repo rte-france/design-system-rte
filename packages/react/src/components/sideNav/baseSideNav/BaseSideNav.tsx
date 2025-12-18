@@ -6,8 +6,7 @@ import style from "./BaseSideNav.module.scss";
 import useContentHeight from "./hooks/useContentHeight";
 
 interface BaseSideNavProps
-  extends Partial<Omit<CoreSideNavProps, "items">>,
-    Omit<React.HTMLAttributes<HTMLDivElement>, "content"> {
+  extends Partial<Omit<CoreSideNavProps, "items">>, Omit<React.HTMLAttributes<HTMLDivElement>, "content"> {
   header?: ReactNode;
   body?: ReactNode;
   footer?: ReactNode;
