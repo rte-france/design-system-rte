@@ -6,4 +6,5 @@ export interface AssistiveTextProps {
   appearance: AssitiveTextAppearances;
   showIcon?: boolean;
   href?: string;
+  width?: number;
 }

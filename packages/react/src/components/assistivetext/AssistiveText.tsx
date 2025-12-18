@@ -7,11 +7,11 @@ import Link from "../link/Link";
 
 import styles from "./AssistiveText.module.scss";
 
-const AssistiveText = ({ label, appearance, showIcon, href }: AssistiveTextProps) => {
+const AssistiveText = ({ label, appearance, showIcon, href, width }: AssistiveTextProps) => {
   const icon = getIconNameFromAppearance(appearance);
 
   return (
-    <div className={styles["assistive-text"]} data-appearance={appearance}>
+    <div className={styles["assistive-text"]} data-appearance={appearance} style={{ width: `${width}px` }}>
       {showIcon && icon && (
         <Icon
           name={icon}
