@@ -47,7 +47,7 @@ export const Default: Story = {
         [cardType]="cardType"
         [clickable]="clickable"
         [disabled]="disabled"
-        (cardClicked)="click()"
+        (cardClicked)="cardClicked()"
       >
         ${defaultContent}
       </rte-card>
