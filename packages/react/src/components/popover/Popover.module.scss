@@ -1,4 +1,4 @@
-@use '@design-system-rte/core/design-tokens/main.scss' as *;
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
 
 .popoverTrigger {
     position: relative;
@@ -6,6 +6,7 @@
 }
 
 .popover {
+    @include elevation-neutral-drop-shadow-2;
     position: absolute;
     pointer-events: auto;
     top: 0;
@@ -14,8 +15,7 @@
     display: flex;
     flex-direction: column;
     gap: $positive-spacing_0;
-    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.12)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.08));
-    background-color: var(--background-default);
+    background: var(--background-default);
     transition: opacity 150ms ease-out;
     opacity: 0;
     z-index: 1000;
@@ -24,7 +24,6 @@
     width: fit-content;
 
     .popoverInner {
-
         display: flex;
         flex-direction: column;
         align-items: flex-start;
@@ -144,6 +143,10 @@
     }
 
     &[data-arrow='false'] {
+        @include elevation-neutral-shadow-2;
+        filter: none;
+        background: var(--background-default);
+
         &::after {
             display: none;
         }
