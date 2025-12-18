@@ -22,12 +22,10 @@
 
             &:active {
                 color: var(--content-link-visited-pressed);
-                text-decoration: underline;
             }
 
             &:focus-visible {
                 color: var(--content-link-visited-default);
-                text-decoration: underline;
                 outline: 1px solid var(--border-brand-focused);
                 outline-offset: $radius-s;
                 border-radius: $radius-s;
@@ -37,20 +35,18 @@
         &:not(:visited) {
 
             color: var(--content-link-default);
+            text-decoration: underline;
 
             &:hover {
                 color: var(--content-link-hover);
-                text-decoration: none;
             }
 
             &:active {
                 color: var(--content-link-pressed);
-                text-decoration: underline;
             }
 
             &:focus-visible {
                 color: var(--content-link-default);
-                text-decoration: underline;
                 outline: 1px solid var(--border-brand-focused);
                 outline-offset: $radius-s;
                 border-radius: $radius-s;
@@ -68,7 +64,6 @@
 
             &:focus-visible {
                 color: var(--content-primary-inverse);
-                text-decoration: underline;
                 outline: 1px solid var(--border-inverse);
                 outline-offset: $radius-s;
                 border-radius: $radius-s;

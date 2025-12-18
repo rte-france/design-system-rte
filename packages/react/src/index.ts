@@ -18,6 +18,7 @@ import Popover from "./components/popover/Popover.tsx";
 import RadioButton from "./components/radioButton/RadioButton.tsx";
 import RadioButtonGroup from "./components/radioButtonGroup/RadioButtonGroup.tsx";
 import SegmentedControl from "./components/segmentedControl/SegmentedControl.tsx";
+import Select from "./components/select/Select.tsx";
 import BaseSideNav from "./components/sideNav/baseSideNav/BaseSideNav.tsx";
 import SideNav from "./components/sideNav/SideNav.tsx";
 import SplitButton from "./components/splitButton/SplitButton.tsx";
@@ -57,4 +58,5 @@ export {
   Card,
   Toast,
   ToastQueueProvider,
+  Select,
 };

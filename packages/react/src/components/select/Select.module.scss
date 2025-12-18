@@ -1,0 +1,197 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+.select-container {
+  @include typography-text-m;
+
+  display: flex;
+  flex-direction: column;
+
+  &[data-label-position="side"] {
+    flex-direction: row;
+    align-self: start;
+
+    .select-header {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .select-label {
+      height: 32px;
+      padding: 0 $positive-spacing_100;
+    }
+  }
+
+  .select-label {
+    @include typography-text-m;
+    display: flex;
+    padding: $positive-spacing_025 $positive-spacing_100;
+    color: var(--content-secondary);
+    max-width: 300px;
+    justify-content: space-between;
+    white-space: normal;
+    overflow-wrap: normal;
+    word-break: normal;
+
+  }
+
+  .select-wrapper {
+    @include elevation-neutral-inner-shadow;
+    display: flex;
+    min-width: 112px;
+    min-height: 32px;
+    max-height: 32px;
+    align-items: center;
+    align-self: stretch;
+    border-radius: $radius-s;
+    border: $width-xs solid var(--border-secondary);
+    box-sizing: border-box;
+
+    .trigger-icon {
+      color: var(--content-tertiary);
+    }
+
+    &:hover {
+      border-color: var(--border-primary);
+      cursor: pointer;
+    }
+
+    &:focus-visible,
+    &[data-active="true"] {
+      border-color: var(--border-brand-default);
+      outline: 1px solid var(--border-brand-default);
+    }
+
+    &[data-error="true"] {
+      border-color: var(--border-danger);
+      outline: 1px solid var(--border-danger);
+
+      &[data-disabled="true"] {
+        color: var(--content-disabled);
+        border-color: var(--border-danger);
+        outline: 1px solid var(--border-danger);
+
+        &:hover {
+          border-color: var(--border-danger);
+        }
+      }
+
+      &[data-read-only="true"] {
+        color: var(--content-tertiary);
+        border-color: var(--border-danger);
+        outline: 1px solid var(--border-danger);
+
+        &:hover {
+          cursor: default;
+          border-color: var(--border-danger);
+        }
+
+        .select-content {
+          .select-value {
+            color: var(--content-tertiary);
+          }
+        }
+      }
+
+      &:hover {
+        border-color: var(--border-danger);
+      }
+
+      .select-content {
+        .select-value {
+          color: var(--content-secondary);
+        }
+      }
+    }
+
+
+    &[data-disabled="true"] {
+      background-color: var(--background-disabled);
+      border-color: var(--border-disabled);
+      outline: none;
+
+      &:hover {
+        cursor: not-allowed;
+        border-color: var(--border-disabled);
+      }
+
+      .trigger-icon {
+        color: var(--content-disabled);
+      }
+
+      .select-content {
+        .select-value {
+          color: var(--content-disabled);
+        }
+      }
+    }
+
+    &[data-read-only="true"] {
+      color: var(--content-tertiary);
+      background-color: var(--background-disabled);
+      border-color: var(--border-tertiary);
+      outline: none;
+
+      &:hover {
+        cursor: default;
+      }
+
+      .trigger-icon {
+        color: var(--content-tertiary);
+      }
+
+      .select-content {
+        .select-value {
+          color: var(--content-tertiary);
+        }
+      }
+    }
+
+    .select-content {
+      display: flex;
+      min-width: 96px;
+      padding: $positive-spacing_050 $positive-spacing_100;
+      align-items: center;
+      flex: 1 0 0;
+
+      .error-icon {
+        padding: 0;
+        color: var(--content-danger-default);
+      }
+
+      .select-value {
+        @include typography-text-m;
+        display: flex;
+        padding: 0 $positive-spacing_100;
+        align-items: center;
+        flex: 1 0 0;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        color: var(--content-primary);
+
+        span {
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+        }
+      }
+
+      .select-right-icons {
+        display: flex;
+        align-items: center;
+        gap: $positive-spacing_100;
+
+        .icon-button {
+          padding: 0;
+          height: 20px;
+          width: 20px;
+
+          &:focus-visible {
+            outline: 1px solid var(--border-brand-focused);
+            border-radius: $radius-xs;
+            outline-offset: 3px;
+          }
+        }
+      }
+    }
+  }
+}
