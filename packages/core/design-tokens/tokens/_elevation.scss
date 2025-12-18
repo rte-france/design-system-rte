@@ -29,6 +29,16 @@
   background: linear-gradient(0deg, var(--elevation-surface-shadow-2) 0%, var(--elevation-surface-shadow-2) 100%);
 }
 
+@mixin neutral-drop-shadow-2 {
+  filter:
+    drop-shadow($shadow-2-key-position-x $shadow-2-key-position-y $shadow-2-key-blur var(--elevation-shadow-key)) drop-shadow($ambient-shadow-position-x $ambient-shadow-position-y $ambient-shadow-blur var(--elevation-shadow-ambient));
+}
+
+@mixin elevation-neutral-drop-shadow-2 {
+  @include neutral-drop-shadow-2;
+  background: linear-gradient(0deg, var(--elevation-surface-shadow-2) 0%, var(--elevation-surface-shadow-2) 100%);
+}
+
 @mixin neutral-shadow-3 {
   box-shadow: $shadow-3-key-position-x $shadow-3-key-position-y $shadow-3-key-blur $shadow-3-key-spread var(--elevation-shadow-key),
     $ambient-shadow-position-x $ambient-shadow-position-y $ambient-shadow-blur $ambient-shadow-spread var(--elevation-shadow-ambient);
