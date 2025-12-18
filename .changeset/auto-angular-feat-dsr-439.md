@@ -4,8 +4,8 @@
   
   ## Changes
 
-- (Popover) update shadow
-- (Modal) update shadow
-- (Dropdown) update shadow
+- (Popover) update shadows
+- (Modal) update shadows
+- (Dropdown) update shadows
 - (Card) update shadows
 - (Banner) update shadows
