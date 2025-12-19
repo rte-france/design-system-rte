@@ -1,7 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
-@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
-
-.header{
+.header {
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -10,7 +7,7 @@
     gap: 2rem;
     margin-bottom: 2rem;
 
-    .header_left_container{
+    .header_left_container {
         width: 29rem;
         display: flex;
         flex-direction: column;
@@ -18,7 +15,7 @@
         gap: 2rem;
         padding-left: 32px;
 
-        .title{
+        .title {
             color: var(--content-brand-pressed);
             font-family: Bryant;
             font-size: 160px;
@@ -28,7 +25,7 @@
             letter-spacing: var(--heading-5XL-semibold-letter-spacing);
         }
 
-        .text{
+        .text {
             color: #21272A;
             font-family: 'Nunito', sans-serif;
             font-size: 1rem;
@@ -38,7 +35,7 @@
             margin: 0;
         }
 
-        .button{
+        .button {
             border: none;
             height: 40px;
             padding: 6px 16px;
@@ -53,29 +50,32 @@
             letter-spacing: 0rem;
             cursor: pointer;
 
-            &:hover{
+            &:hover {
                 background-color: #225082;
             }
-            &:active{
+
+            &:active {
                 background-color: #214770;
             }
-            &:focus-visible{
+
+            &:focus-visible {
                 outline: 1px solid #2964A0;
                 outline-offset: 4px;
             }
         }
     }
 
-    .header_right_container{
+    .header_right_container {
         width: 30rem;
         display: flex;
         align-items: center;
         border-radius: 8px;
-        
-        .img{
+
+        .img {
             height: 45vh;
             border-radius: 8px 0 0 8px;
         }
     }
-        overflow: hidden;
+
+    overflow: hidden;
 }
