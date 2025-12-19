@@ -13,6 +13,9 @@ import Gerkin from "../../../../.storybook/template/Guideline/Gerkin/Gerkin";
 import Usage from "./Usage";
 import Options from "./Options";
 import Icon from "../../icon/Icon";
+import Behaviors from "./Behaviors";
+import Accordion from "../../../../../design-docs/src/components/Accordion/Accordion";
+import AccessibilityTable from "./AccessibilityTable";
 
 <Meta title="Composants/Breadcrumbs" />
 
@@ -58,10 +61,17 @@ import Icon from "../../icon/Icon";
     <div id="options" style={{display: 'flex'}}>
         <Options />
     </div>
+    <div id="behaviors">
+        <Behaviors />
+    </div>
 </div>
 
-<div className="Accessibilité">
-
+<div className="Accessibilité" style={{padding: '16px'}}>
+    <Accordion title="Accessibility Testing Status">
+        <div style={{padding: '16px'}}>
+            <AccessibilityTable />
+        </div>
+    </Accordion>
 </div>
 
 </StorybookTabs>

@@ -1,6 +1,5 @@
-import Accordion from "../../../../.storybook/template/Accordion/Accordion";
-import Heading from "../../../../.storybook/template/Heading/Heading";
-import Icon from "../../icon/Icon";
+import UsageTemplate from "../../../../.storybook/template/Usage/Usage";
+import UsageCard from "../../../../.storybook/template/Usage/UsageCard/UsageCard";
 import BreadcrumbItem from "../breadcrumbItem/BreadcrumbItem";
 import Breadcrumbs from "../Breadcrumbs";
 import "./Usage.scss";
@@ -30,79 +29,71 @@ const negativeSecond = [
 ];
 
 const Usage = () => {
-  return (
-    <div className="breadcrumb usage-wrapper">
-      <Accordion title="Usage">
-        <div className="breadcrumb usage-container">
-          <div className="usage">
-            <div className="section positive">
-              <div className="title">
-                <Icon name="check-circle" size={16} />
-                <Heading id="" level={3}>
-                  A faire
-                </Heading>
-              </div>
-              <div className="body">
-                <div className="content first">
-                  <div className="breadcrumb-example">
-                    <Breadcrumbs items={positiveFirst} ariaLabel="Breadcrumbs example" />
-                  </div>
-                  <p>Utiliser au maximum 3 éléments visibles</p>
-                </div>
-                <div className="content second">
-                  <p>Structure recommandée :</p>
-                  <div className="breadcrumb-example">
-                    <Breadcrumbs items={positiveSecond} ariaLabel="Breadcrumbs example" />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="section negative">
-              <div className="title">
-                <Icon name="cancel" size={16} />
-                <Heading id="" level={3}>
-                  A ne pas faire
-                </Heading>
-              </div>
-              <div className="body">
-                <div className="content first">
-                  <div className="breadcrumb-example">
-                    {negativeFirst.map((item, index) => (
-                      <div key={item.label + index} style={{ display: "inline" }}>
-                        <BreadcrumbItem item={item} isLast={index === negativeFirst.length - 1} />
-                        {index < negativeFirst.length - 1 && <span className="separator">/</span>}
-                      </div>
-                    ))}
-                  </div>
-                  <p>Si le breadcrumb dépasse 3 niveaux, ne pas afficher les niveaux intermédiaires</p>
-                </div>
-                <div className="content second">
-                  <div className="breadcrumb-example">
-                    {negativeSecond.map((item, index) => (
-                      <div key={item.label + index} style={{ display: "inline" }}>
-                        <BreadcrumbItem item={item} isLast={index === negativeFirst.length - 1} />
-                        {index < negativeFirst.length - 1 && <span className="separator">/</span>}
-                      </div>
-                    ))}
-                  </div>
-                  <p>Si le breadcrumb dépasse 3 niveaux, ne pas afficher les niveaux intermédiaires</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="content-standard">
-            <p className="title">
-              Content Standards <span>(UX Writing)</span>
-            </p>
-            <div style={{ display: "flex", gap: "4px", flexDirection: "column" }}>
-              <p className="subtitle">Description textuelle</p>
-              <p className="description">
-                <b>Texte des liens</b> simples, compréhensibles, sans ponctuation finale.
-              </p>
-            </div>
-          </div>
+  const positiveContent = (
+    <>
+      <UsageCard>
+        <div className="breadcrumb-example">
+          <Breadcrumbs items={positiveFirst} ariaLabel="Breadcrumbs example" />
         </div>
-      </Accordion>
+        <p>Utiliser au maximum 3 éléments visibles</p>
+      </UsageCard>
+      <UsageCard>
+        <p className="subtitle">Structure recommandée :</p>
+        <div className="breadcrumb-example">
+          <Breadcrumbs items={positiveSecond} ariaLabel="Breadcrumbs example" />
+        </div>
+      </UsageCard>
+    </>
+  );
+
+  const negativeContent = (
+    <>
+      <UsageCard>
+        <div className="breadcrumb-example">
+          {negativeFirst.map((item, index) => (
+            <div key={item.label + index} style={{ display: "inline" }}>
+              <BreadcrumbItem item={item} isLast={index === negativeFirst.length - 1} />
+              {index < negativeFirst.length - 1 && <span className="separator">/</span>}
+            </div>
+          ))}
+        </div>
+        <p>Si le breadcrumb dépasse 3 niveaux, ne pas afficher les niveaux intermédiaires</p>
+      </UsageCard>
+      <UsageCard>
+        <div className="breadcrumb-example">
+          {negativeSecond.map((item, index) => (
+            <div key={item.label + index} style={{ display: "inline" }}>
+              <BreadcrumbItem item={item} isLast={index === negativeFirst.length - 1} />
+              {index < negativeFirst.length - 1 && <span className="separator">/</span>}
+            </div>
+          ))}
+        </div>
+        <p>Si le breadcrumb dépasse 3 niveaux, ne pas afficher les niveaux intermédiaires</p>
+      </UsageCard>
+    </>
+  );
+
+  const contentStandards = (
+    <>
+      <p className="title">
+        Content Standards <span>(UX Writing)</span>
+      </p>
+      <div style={{ display: "flex", gap: "4px", flexDirection: "column" }}>
+        <p className="subtitle">Description textuelle</p>
+        <p className="description">
+          <b>Texte des liens</b> simples, compréhensibles, sans ponctuation finale.
+        </p>
+      </div>
+    </>
+  );
+
+  return (
+    <div className="breadcrumb">
+      <UsageTemplate
+        positiveContent={positiveContent}
+        negativeContent={negativeContent}
+        contentStandards={contentStandards}
+      />
     </div>
   );
 };
