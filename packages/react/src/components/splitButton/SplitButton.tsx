@@ -23,8 +23,7 @@ interface SplitButtonOption extends CoreSplitButtonOptionProps {
 }
 
 interface SplitButtonProps
-  extends Omit<CoreSplitButtonProps, "options">,
-    Omit<ButtonHTMLAttributes<HTMLButtonElement>, "onClick"> {
+  extends Omit<CoreSplitButtonProps, "options">, Omit<ButtonHTMLAttributes<HTMLButtonElement>, "onClick"> {
   onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
   icon?: keyof typeof RegularIcons | keyof typeof TogglableIcons;
   options: SplitButtonOption[];
