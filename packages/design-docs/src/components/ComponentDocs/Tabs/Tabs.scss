@@ -1,0 +1,46 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+.rte-component-docs-tabs {
+  .rte-component-docs-tabs-header {
+    display: flex;
+    align-items: center;
+    gap: $positive-spacing_300;
+    border-bottom: 1px solid var(--border-divider);
+  }
+
+  .rte-component-docs-tab-title {
+    margin: 0;
+    padding-top: $positive-spacing_200;
+    padding-bottom: $positive-spacing_100;
+    margin-bottom: $positive-spacing_200;
+    cursor: pointer;
+    border: none;
+    border-bottom: 2px solid transparent;
+    background: none;
+    color: var(--content-secondary);
+    font-weight: normal;
+    font-size: 1.25rem;
+    transition: border-color 0.3s, color 0.3s;
+    font-family: inherit;
+
+    &:hover {
+      color: var(--content-primary);
+    }
+
+    &:focus {
+      outline: 2px solid var(--border-focus);
+      outline-offset: 2px;
+    }
+
+    &.active {
+      border-bottom-color: var(--content-brand-default);
+      color: var(--content-brand-default);
+      font-weight: 600;
+    }
+  }
+
+  .rte-component-docs-tab-content {
+    padding-top: $positive-spacing_200;
+  }
+}
+
