@@ -1,4 +1,4 @@
-import Accordion from "../../../../.storybook/template/Accordion/Accordion";
+import Accordion from "../../../../../design-docs/src/components/Accordion/Accordion";
 import Heading from "../../../../.storybook/template/Heading/Heading";
 import Table from "../../../../.storybook/template/Table/Table";
 import "./Options.scss";

@@ -1,0 +1,12 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+.usage-card {
+    display: flex;
+    padding: $positive-spacing_200;
+    flex-direction: column;
+    align-items: center;
+    gap: $positive-spacing_200;
+
+    border-radius: $radius-m;
+    background: var(--background-default);
+}
