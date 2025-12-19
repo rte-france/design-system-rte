@@ -14,12 +14,22 @@ interface OptionsProps {
 const Options = ({ options }: OptionsProps) => {
   return (
     <table className="rte-options">
+      <colgroup>
+        <col className="rte-options-col-auto" />
+        <col className="rte-options-col-flex" />
+        <col className="rte-options-col-auto" />
+        <col className="rte-options-col-auto" />
+      </colgroup>
       <thead>
         <tr>
           <th scope="col">Property</th>
           <th scope="col">Value</th>
-          <th scope="col">Default Value</th>
-          <th scope="col">Dependance</th>
+          <th scope="col" className="rte-options-header-no-wrap">
+            Default Value
+          </th>
+          <th scope="col" className="rte-options-header-no-wrap">
+            Dependance
+          </th>
         </tr>
       </thead>
       <tbody>
