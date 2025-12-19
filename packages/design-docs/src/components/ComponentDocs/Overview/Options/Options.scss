@@ -30,9 +30,22 @@
       border: none;
       background-color: transparent;
       border-bottom: 1px solid var(--border-divider);
-      max-width: 50px;
       padding: $positive-spacing_150 $positive-spacing_200;
     }
+  }
+
+  // Column width utilities
+  // Auto columns: size to content (Property, Default Value, Dependance)
+  col.rte-options-col-auto {
+    width: auto;
+  }
+
+  // Flex column: takes remaining space (Value)
+  // No width set - will grow to fill remaining space after auto columns size to content
+
+  // Prevent header text from breaking into multiple lines
+  th.rte-options-header-no-wrap {
+    white-space: nowrap;
   }
 
   thead {

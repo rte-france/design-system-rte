@@ -12,28 +12,27 @@ const Tabs = ({ children }: TabsProps) => {
   const TabsTitle = ["Overview", "Guidelines", "Accessibilité"];
 
   return (
-    <div className="rte-component-docs-tabs">
-      <div className="rte-component-docs-tabs-header">
+    <div className="storybook_tabs">
+      <div className="storybook_tabs_header">
         {TabsTitle.map((title, index) => (
-          <button
+          <p
             key={index}
-            type="button"
-            className={`rte-component-docs-tab-title${activeTab === index ? " active" : ""}`}
+            className={`storybook_tab_title${activeTab === index ? " active" : ""}`}
+            tabIndex={0}
             onClick={() => {
               setActiveTab(index);
             }}
             onKeyDown={(e) => {
               if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault();
                 setActiveTab(index);
               }
             }}
           >
             {title}
-          </button>
+          </p>
         ))}
       </div>
-      <div className="rte-component-docs-tab-content">{Children.toArray(children)[activeTab]}</div>
+      <div className="storybook_tab_content">{Children.toArray(children)[activeTab]}</div>
     </div>
   );
 };

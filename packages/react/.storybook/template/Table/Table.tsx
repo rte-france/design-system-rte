@@ -1,37 +1,109 @@
 import "./Table.scss";
 
+type ColumnSizeConfig = number | "auto" | "flex" | { min?: number; max?: number; width?: number };
+
 interface TableProps {
   options: {
     headers: string[];
     lines: string[][];
   };
+  columnWidths?: ColumnSizeConfig[];
 }
 
-const Table = ({ options }: TableProps) => {
+function getColumnStyle(width: ColumnSizeConfig): React.CSSProperties {
+  if (typeof width === "number") {
+    return { width: `${width}px` };
+  }
+  if (width === "flex") {
+    return {};
+  }
+  if (typeof width === "object") {
+    const style: React.CSSProperties = {};
+    if (width.width !== undefined) {
+      style.width = `${width.width}px`;
+    }
+    if (width.min !== undefined) {
+      style.minWidth = `${width.min}px`;
+    }
+    if (width.max !== undefined) {
+      style.maxWidth = `${width.max}px`;
+    }
+    return style;
+  }
+  return {};
+}
+
+function getColumnClassName(width: ColumnSizeConfig): string {
+  if (width === "flex") {
+    return "rte-stories-table-col-flex";
+  }
+  if (typeof width === "object" && width.min !== undefined && width.width === undefined) {
+    return "rte-stories-table-col-min-width";
+  }
+  return "";
+}
+
+function getCellStyle(width: ColumnSizeConfig): React.CSSProperties {
+  if (typeof width === "object" && width.min !== undefined) {
+    return { minWidth: `${width.min}px` };
+  }
+  return {};
+}
+
+const Table = ({ options, columnWidths: columnSizeConfigs }: TableProps) => {
+  const hasCustomWidths = !!columnSizeConfigs?.length;
+  const allFixedWidths =
+    hasCustomWidths &&
+    columnSizeConfigs.every(
+      (columnSizeConfig) =>
+        typeof columnSizeConfig === "number" ||
+        (typeof columnSizeConfig === "object" &&
+          columnSizeConfig.width !== undefined &&
+          columnSizeConfig.min === undefined),
+    );
+  const tableLayout = allFixedWidths ? "fixed" : "auto";
+
   return (
     <div className="rte-stories table-wrapper">
-      <table className="rte-stories-table">
+      <table className="rte-stories-table" style={{ tableLayout }}>
+        {hasCustomWidths && (
+          <colgroup>
+            {columnSizeConfigs.map((width, index) => (
+              <col key={index} style={getColumnStyle(width)} className={getColumnClassName(width)} />
+            ))}
+          </colgroup>
+        )}
         <thead>
           <tr>
-            {options.headers.map((header, index) => (
-              <th scope="col" key={index}>
-                {header}
-              </th>
-            ))}
+            {options.headers.map((header, index) => {
+              const cellStyle =
+                hasCustomWidths && columnSizeConfigs[index] ? getCellStyle(columnSizeConfigs[index]) : {};
+              return (
+                <th scope="col" key={index} style={cellStyle}>
+                  {header}
+                </th>
+              );
+            })}
           </tr>
         </thead>
         <tbody>
           {options.lines.map((line, index) => (
             <tr key={index + line[index]}>
               {line.map((cell, cellIndex) => {
+                const cellStyle =
+                  hasCustomWidths && columnSizeConfigs[cellIndex] ? getCellStyle(columnSizeConfigs[cellIndex]) : {};
                 if (cellIndex === 0) {
                   return (
-                    <th scope="row" key={cellIndex}>
+                    <th scope="row" key={cellIndex} style={cellStyle}>
                       {cell}
                     </th>
                   );
                 } else {
-                  return <td key={cellIndex}>{cell}</td>;
+                  return (
+                    <td key={cellIndex} style={cellStyle}>
+                      {cell}
+                    </td>
+                  );
                 }
               })}
             </tr>

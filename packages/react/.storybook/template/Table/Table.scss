@@ -35,9 +35,12 @@
           border: none;
           background-color: transparent;
           border-bottom: #eeeded 1px solid;
-          max-width: 50px;
           padding: $positive-spacing_150;
         }
+      }
+
+      col.rte-stories-table-col-flex {
+        width: auto;
       }
 
       thead {
