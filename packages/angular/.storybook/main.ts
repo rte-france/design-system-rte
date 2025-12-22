@@ -58,7 +58,6 @@ const config: StorybookConfig = {
         use: ["style-loader", "css-loader"],
       },
     );
-
     // Configure watch options to reduce excessive HMR checks
     config.watchOptions = {
       ...config.watchOptions,

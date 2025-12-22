@@ -1,4 +1,5 @@
-@use '@design-system-rte/core/design-tokens/main.scss' as *;
+@use '../../design-tokens/tokens/_spacing.scss' as *;
+@use '../../design-tokens/tokens/_layout.scss' as *;
 
 $grid-max-width-narrow: 864px;
 $grid-max-width-wide: 1296px;

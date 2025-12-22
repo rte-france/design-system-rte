@@ -61,6 +61,18 @@ jobs:
       - name: Generate icons
         run: npm run generate:icons
 
+      - name: Build Core Package
+        working-directory: packages/core
+        run: npm run build
+
+      - name: Cache Build Core
+        id: cache-build-core
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./packages/core/css
+          key: build-core-${{ hashFiles('package-lock.json') }}-${{ github.sha }}
+
 
   quality-react:
     runs-on: ubuntu-latest
@@ -93,6 +105,13 @@ jobs:
             ./packages/react/src/components/icon/generated
             ./packages/angular/projects/ds-rte-lib/src/lib/assets/icons
           key: icons-${{ hashFiles('package-lock.json') }}-${{ github.sha }}
+
+      - name: Restore cache build core
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./packages/core/css
+          key: build-core-${{ hashFiles('package-lock.json') }}-${{ github.sha }}
 
       - name: Lint
         working-directory: packages/react
@@ -137,6 +156,13 @@ jobs:
             ./packages/react/src/components/icon/generated
             ./packages/angular/projects/ds-rte-lib/src/lib/assets/icons
           key: icons-${{ hashFiles('package-lock.json') }}-${{ github.sha }}
+      
+      - name: Restore cache build core
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./packages/core/css
+          key: build-core-${{ hashFiles('package-lock.json') }}-${{ github.sha }}
 
       - name: Lint
         working-directory: packages/angular
