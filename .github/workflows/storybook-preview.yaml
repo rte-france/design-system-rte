@@ -51,11 +51,10 @@ jobs:
           if [ -n "${{ github.event.inputs.branch }}" ]; then
             BRANCH_NAME="${{ github.event.inputs.branch }}"
           else
-            BRANCH_NAME="${GITHUB_REF##*/}"
+            BRANCH_NAME="${GITHUB_REF}"
           fi
-          SLUG=$(echo "$BRANCH_NAME" | sed 's#/##g')
+          SLUG=$(echo "${BRANCH_NAME##*/}" | sed 's#/##g')
           echo "slug=$SLUG" >> "$GITHUB_OUTPUT"
-          echo "branch=$BRANCH_NAME" >> "$GITHUB_OUTPUT"
 
       - name: Update refs configuration in built storybook
         run: |
@@ -65,14 +64,15 @@ jobs:
 
       - name: Check if PR to main exists
         id: prcheck
+        if: github.event_name == 'push'
         run: |
-          PR_COUNT=$(gh pr list --base main --head "${{ steps.vars.outputs.branch }}" --json number --jq 'length')
+          PR_COUNT=$(gh pr list --base main --head "${GITHUB_HEAD_REF}" --json number --jq 'length')
           echo "count=$PR_COUNT" >> "$GITHUB_OUTPUT"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deploy to GitHub Pages
-        if: steps.prcheck.outputs.count != '0'
+        if: github.event_name == 'workflow_dispatch' || steps.prcheck.outputs.count != '0'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
