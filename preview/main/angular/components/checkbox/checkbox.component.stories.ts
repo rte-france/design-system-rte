@@ -1,6 +1,8 @@
 import { Meta, StoryObj } from "@storybook/angular";
 import { userEvent, within, expect } from "@storybook/test";
 
+import { focusElementBeforeComponent } from "../../../../../../.storybook/testing/testing.utils";
+
 import { CheckboxComponent } from "./checkbox.component";
 
 const meta: Meta<CheckboxComponent> = {
@@ -94,6 +96,7 @@ export const ReadOnly: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
+    focusElementBeforeComponent(canvasElement);
     const checkbox = canvas.getByRole("checkbox");
     await userEvent.keyboard(`{Tab}`);
     expect(checkbox).toHaveFocus();
@@ -116,6 +119,7 @@ export const KeyboardInteractions: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
+    focusElementBeforeComponent(canvasElement);
     const checkbox = canvas.getByRole("checkbox");
     await userEvent.keyboard(`{Tab}`);
     expect(checkbox).toHaveFocus();

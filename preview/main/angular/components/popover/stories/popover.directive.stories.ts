@@ -5,6 +5,7 @@ import {
 import { Meta, StoryObj } from "@storybook/angular";
 import { userEvent, waitFor, within, expect } from "@storybook/test";
 
+import { focusElementBeforeComponent } from "../../../../../../../.storybook/testing/testing.utils";
 import { PopoverDirective } from "../popover.directive";
 
 const meta: Meta<PopoverDirective> = {
@@ -199,7 +200,8 @@ export const KeyboardInteraction: Story = {
             (clickPrimaryButton)="clickPrimaryButton()"
         `),
   }),
-  play: async () => {
+  play: async ({ canvasElement }) => {
+    focusElementBeforeComponent(canvasElement);
     await userEvent.tab();
     await userEvent.keyboard(TESTING_ENTER_KEY);
     const popover = within(document.body).getByRole("dialog");
