@@ -1,0 +1,1 @@
+import{j as s}from"./index-DeKclr4K.js";const t=({children:e})=>s.jsx("ul",{className:"colors-list",children:e});t.__docgenInfo={description:"",methods:[],displayName:"List",props:{children:{required:!1,tsType:{name:"ReactReactNode",raw:"React.ReactNode"},description:""}}};export{t as L};
