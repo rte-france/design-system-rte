@@ -1,5 +1,6 @@
 import type { Preview } from "@storybook/react";
 import "@design-system-rte/react/style.css";
+import "@design-system-rte/core/css/rte-fonts.css";
 
 import "./preview.scss";
 

@@ -46,11 +46,12 @@ import "../../../src/styles/Police.css";
 
         <Accordion title="Configuration initiale" id="setup-configuration">
             <div style={{ display: "flex", flexDirection: "column", gap: "24px", padding: "4px 8px" }}>
-                <DocsSection title="Ajouter le mixin Branding/Theme" headingLevel={3}>
-                    <Paragraph>Incluez le mixin **branding/theme** dans votre fichier `.scss` principal (généralement `styles.scss` à la racine de votre projet). Cela créera une portée de style pour les composants.</Paragraph>
+                <DocsSection title="Ajouter le mixin Branding/Theme et la police" headingLevel={3}>
+                    <Paragraph>Incluez le mixin **branding/theme** et la police dans votre fichier `.scss` principal (généralement `styles.scss` à la racine de votre projet). Cela créera une portée de style pour les composants.</Paragraph>
 
                     ```scss
                     @use "@design-system-rte/core/design-tokens/tokens/mixins" as *;
+                    @use "@design-system-rte/core/design-tokens/fonts" as *;
 
                     @include theme-selector('bleu_iceberg', 'light');
                     ```

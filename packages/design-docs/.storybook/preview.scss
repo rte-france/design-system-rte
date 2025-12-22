@@ -1,4 +1,5 @@
 @use "@design-system-rte/core/design-tokens/main.scss" as *;
+@use "@design-system-rte/core/design-tokens/fonts.scss" as *;
 @use "@design-system-rte/core/components/grid/grid.stories.scss" as *;
 
 @include theme-selector('bleu_iceberg');
