@@ -3,7 +3,7 @@ import React from "react";
 import figma from "../../img/figma.png";
 import github from "../../img/github.png";
 
-import styles from "./Header.module.scss";
+import "./Header.scss";
 
 interface HeaderComponentProps {
   title: string;
@@ -15,19 +15,19 @@ interface HeaderComponentProps {
 const HeaderComponent = ({ title, linkFigma, linkGithub, children }: HeaderComponentProps) => {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-      <header className={styles["rte-header"]}>
-        <div className={styles["rte-header_content"]}>
-          <h1 className={styles["rte-title"]}>{title}</h1>
-          <div className={styles["rte-links"]}>
+      <header className="rte-header">
+        <div className="rte-header_content">
+          <h1 className="rte-title">{title}</h1>
+          <div className="rte-links">
             {linkFigma && (
-              <div className={styles["rte-link_container"]}>
-                <img src={figma} alt="Lien du Figma" className={styles["rte-logo"]} />
+              <div className="rte-link_container">
+                <img src={figma} alt="Lien du Figma" className="rte-logo" />
                 <a href={linkFigma}> Figma </a>
               </div>
             )}
             {linkGithub && (
-              <div className={styles["rte-link_container"]}>
-                <img src={github} alt="Lien du GitHub" className={styles["rte-logo"]} />
+              <div className="rte-link_container">
+                <img src={github} alt="Lien du GitHub" className="rte-logo" />
                 <a href={linkGithub}> GitHub </a>
               </div>
             )}

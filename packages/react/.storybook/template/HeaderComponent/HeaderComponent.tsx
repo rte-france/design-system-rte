@@ -1,7 +1,7 @@
 import { Link } from "@design-system-rte/react";
 
-import Figma from "../img/figma.png";
-import Github from "../img/github.png";
+import Figma from "../../asset/img/figma.png";
+import Github from "../../asset/img/github.png";
 
 import style from "./HeaderComponent.module.scss";
 
@@ -20,13 +20,13 @@ const HeaderComponent = ({ title, linkFigma, linkGithub }: HeaderComponentProps)
           {linkFigma && (
             <div className={style.storybook_link_container}>
               <img src={Figma} alt="Figma" className={style.storybook_logo} />
-              <Link label="Figma" href={linkFigma} />
+              <Link label="Figma" href={linkFigma} target="_blank" />
             </div>
           )}
           {linkGithub && (
             <div className={style.storybook_link_container}>
               <img src={Github} alt="GitHub" className={style.storybook_logo} />
-              <Link label="GitHub" href={linkGithub} />
+              <Link label="GitHub" href={linkGithub} target="_blank" />
             </div>
           )}
         </div>

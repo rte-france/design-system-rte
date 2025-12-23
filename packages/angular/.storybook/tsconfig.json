@@ -12,6 +12,14 @@
     "emitDecoratorMetadata": true ,
   },
   "exclude": ["../projects/ds-rte-lib/src/test.ts", "../projects/ds-rte-lib/src/**/*.spec.ts"],
-  "include": ["../projects/ds-rte-lib/src/**/*.stories.*", "./preview.ts", "./template/**/*"],
+  "include": [
+    "../projects/ds-rte-lib/src/**/*.stories.*",
+    "./preview.ts",
+    "./template/**/*",
+    "../../design-docs/src/components/ComponentDocs/**/*.tsx",
+    "../../design-docs/src/components/ComponentDocs/**/*.ts",
+    "../../design-docs/src/components/Header/**/*.tsx",
+    "../../design-docs/src/components/Header/**/*.ts",
+  ],
   "files": ["./typings.d.ts"]
 }
