@@ -5,6 +5,7 @@ import {
 import { Meta, StoryObj } from "@storybook/angular";
 import { userEvent, within, expect } from "@storybook/test";
 
+import { focusElementBeforeComponent } from "../../../../../../../.storybook/testing/testing.utils";
 import { TabComponent } from "../tab.component";
 
 const meta: Meta<TabComponent> = {
@@ -535,6 +536,7 @@ export const KeyboardInteraction: Story = {
   }),
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
+    focusElementBeforeComponent(canvasElement);
     const firstTab = await canvas.getByRole("tab", { name: "First Tab" });
     const secondTab = await canvas.getByRole("tab", { name: "Second Tab" });
     const thirdTab = await canvas.getByRole("tab", { name: "Third Tab" });

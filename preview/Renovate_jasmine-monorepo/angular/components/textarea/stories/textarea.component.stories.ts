@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/angular";
 import { fn, userEvent, within, expect } from "@storybook/test";
 
+import { focusElementBeforeComponent } from "../../../../../../../.storybook/testing/testing.utils";
 import { TextareaComponent } from "../textarea.component";
 
 const meta: Meta<TextareaComponent> = {
@@ -210,6 +211,7 @@ export const ReadOnly: Story = {
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
     const textarea = canvas.getByRole("textbox");
+    focusElementBeforeComponent(canvasElement);
     await userEvent.tab();
     expect(textarea).toHaveFocus();
     await userEvent.type(textarea, "Hello World");
@@ -252,6 +254,7 @@ export const Disabled: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const textarea = canvas.getByRole("textbox");
+    focusElementBeforeComponent(canvasElement);
     await userEvent.tab();
     expect(textarea).not.toHaveFocus();
   },
@@ -290,6 +293,7 @@ export const KeyboardInteraction: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const textarea = canvas.getByRole("textbox");
+    focusElementBeforeComponent(canvasElement);
     await userEvent.tab();
     expect(textarea).toHaveFocus();
     textarea.blur();
