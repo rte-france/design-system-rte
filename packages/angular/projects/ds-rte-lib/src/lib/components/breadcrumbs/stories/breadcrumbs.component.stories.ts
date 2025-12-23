@@ -6,8 +6,7 @@ import {
 import { Meta, StoryObj } from "@storybook/angular";
 import { expect, userEvent, waitFor, within } from "@storybook/test";
 
-import { focusElementBeforeComponent } from "../../../../../../.storybook/testing/testing.utils";
-
+import { focusElementBeforeComponent } from "../../../../../../../.storybook/testing/testing.utils";
 import { BreadcrumbsComponent } from "../breadcrumbs.component";
 
 export default {

@@ -23,7 +23,7 @@ const negativeFirst = [
 ];
 const negativeSecond = [
   { label: "Link très très très long", link: "/" },
-  { label: "Link très très très long", link: "/" },
+  { label: "Link encore plus très très très long", link: "/" },
   { label: "Link 3", link: "/" },
   { label: "Active Page", link: "/" },
 ];

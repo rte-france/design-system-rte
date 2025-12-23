@@ -16,6 +16,10 @@
     flex-direction: column;
     gap: $positive-spacing_200;
     padding: $positive-spacing_200;
+
+    ul li {
+      @include typography-text-m;
+    }
   }
 
   .rte-component-docs-accessibility {
