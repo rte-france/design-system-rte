@@ -38,7 +38,7 @@
     "@storybook/test": "~8.6.0",
     "@storybook/test-runner": "^0.23.0",
     "@types/jasmine": "~5.1.0",
-    "angular-eslint": "^19.6.0",
+    "angular-eslint": "^21.1.0",
     "babel-loader": "^10.0.0",
     "jasmine-core": "~5.1.0",
     "karma": "~6.4.0",
