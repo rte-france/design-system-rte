@@ -8,8 +8,7 @@ import { concatClassNames } from "../utils";
 import style from "./Button.module.scss";
 
 interface ButtonProps
-  extends Omit<CoreButtonProps, "disabled">,
-    Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "onClick"> {
+  extends Omit<CoreButtonProps, "disabled">, Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "onClick"> {
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 

@@ -5,8 +5,7 @@ import { TogglableIconIdKey } from "../icon/Icon";
 import IconButton from "../iconButton/IconButton";
 
 interface IconButtonToggleProps
-  extends Omit<CoreIconButtonToggleProps, "icon">,
-    Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "onClick"> {
+  extends Omit<CoreIconButtonToggleProps, "icon">, Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "onClick"> {
   name: TogglableIconIdKey;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   defaultSelected?: boolean;

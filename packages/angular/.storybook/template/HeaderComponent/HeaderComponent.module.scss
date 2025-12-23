@@ -1,5 +1,3 @@
-@use '@design-system-rte/core/design-tokens/main.scss' as *;
-
 .storybook_header {
 
     .storybook_header_content {
@@ -11,7 +9,12 @@
         gap: 2rem;
 
         .storybook_title {
-            @include typography-storybook-title;
+            font-feature-settings: "liga" off, "clig" off;
+            font-style: normal;
+            font-family: "Nunito";
+            font-weight: 600;
+            font-size: 48px;
+            line-height: 48px;
         }
 
         .storybook_links {
@@ -30,14 +33,19 @@
                     width: 24px;
                     height: 24px;
                     aspect-ratio: 1;
-                    border-radius: $radius-pill;
+                    border-radius: 999px;
                 }
             }
         }
     }
 
     .storybook_header_content {
-        @include typography-storybook-header-content;
+        font-feature-settings: "liga" off, "clig" off;
+        font-style: normal;
+        font-family: "Arial";
+        font-weight: 400;
+        font-size: 20px;
+        line-height: 28px;
         color: #21272A;
     }
 }

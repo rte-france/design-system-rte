@@ -1,6 +1,6 @@
-@use "@design-system-rte/core/design-tokens/main.scss" as *;
 @use "@design-system-rte/core/components/grid/grid.stories.scss" as *;
 @use "@design-system-rte/core/components/grid/grid.scss" as *;
+@use "@design-system-rte/core/design-tokens/main.scss" as *;
 
 @include theme-selector('bleu_iceberg');
 @include theme-selector('bleu_iceberg', 'dark');
