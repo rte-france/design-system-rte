@@ -1,10 +1,59 @@
-@import url(https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:wght,FILL,GRAD@400,0,0&display=swap);
-@import url(https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap);
-@import url(https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:wght,FILL,GRAD@400,0,0&display=swap);
-@import url(https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap);
-@import url(https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:wght,FILL,GRAD@400,0,0&display=swap);
-@import url(https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap);
-
+@font-face {
+  font-display: swap;
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 300;
+  src: url("/assets/fonts/nunito-light-300.woff2") format("woff2");
+}
+@font-face {
+  font-display: swap;
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 400;
+  src: url("/assets/fonts/nunito-regular-400.woff2") format("woff2");
+}
+@font-face {
+  font-display: swap;
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 600;
+  src: url("/assets/fonts/nunito-semi-bold-600.woff2") format("woff2");
+}
+@font-face {
+  font-display: swap;
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 700;
+  src: url("/assets/fonts/nunito-bold-700.woff2") format("woff2");
+}
+@font-face {
+  font-display: swap;
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 300;
+  src: url("/assets/fonts/nunito-light-300.woff2") format("woff2");
+}
+@font-face {
+  font-display: swap;
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 400;
+  src: url("/assets/fonts/nunito-regular-400.woff2") format("woff2");
+}
+@font-face {
+  font-display: swap;
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 600;
+  src: url("/assets/fonts/nunito-semi-bold-600.woff2") format("woff2");
+}
+@font-face {
+  font-display: swap;
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 700;
+  src: url("/assets/fonts/nunito-bold-700.woff2") format("woff2");
+}
 .sb-css-grid-container {
   background-color: #f9ce8e;
   outline: 1px dashed #f4922b;
@@ -1277,6 +1326,39 @@
   --background-brand-hover-opacity-20: rgba(179, 231, 209, 0.2);
   --background-danger-hover-opacity-20: rgba(241, 70, 98, 0.2);
   --background-hover-opacity-50: rgba(62, 62, 61, 0.5);
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+@font-face {
+  font-display: swap;
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 300;
+  src: url("/assets/fonts/nunito-light-300.woff2") format("woff2");
+}
+@font-face {
+  font-display: swap;
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 400;
+  src: url("/assets/fonts/nunito-regular-400.woff2") format("woff2");
+}
+@font-face {
+  font-display: swap;
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 600;
+  src: url("/assets/fonts/nunito-semi-bold-600.woff2") format("woff2");
+}
+@font-face {
+  font-display: swap;
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 700;
+  src: url("/assets/fonts/nunito-bold-700.woff2") format("woff2");
 }
 .storybook_header .storybook_header_content {
   display: flex;

@@ -21,9 +21,10 @@ import { default as BaseSideNav } from './components/sideNav/baseSideNav/BaseSid
 import { default as SideNav } from './components/sideNav/SideNav.tsx';
 import { default as SplitButton } from './components/splitButton/SplitButton.tsx';
 import { default as Switch } from './components/switch/Switch.tsx';
+import { default as Tag } from './components/tag/Tag.tsx';
 import { default as Textarea } from './components/textarea/Textarea.tsx';
 import { default as TextInput } from './components/textInput/TextInput.tsx';
 import { default as Toast } from './components/toast/Toast.tsx';
 import { default as ToastQueueProvider } from './components/toast/toastQueue/ToastQueueProvider.tsx';
 import { default as Tooltip } from './components/tooltip/Tooltip.tsx';
-export { Button, Grid, Checkbox, CheckboxGroup, Link, RadioButton, RadioButtonGroup, Icon, IconButton, IconButtonToggle, SplitButton, Tooltip, TextInput, Chip, Badge, Textarea, Divider, Switch, SegmentedControl, Breadcrumbs, Banner, Popover, Modal, SideNav, BaseSideNav, Card, Toast, ToastQueueProvider, };
+export { Button, Grid, Checkbox, CheckboxGroup, Link, RadioButton, RadioButtonGroup, Icon, IconButton, IconButtonToggle, SplitButton, Tooltip, TextInput, Chip, Badge, Textarea, Divider, Switch, SegmentedControl, Breadcrumbs, Banner, Popover, Modal, SideNav, BaseSideNav, Card, Toast, ToastQueueProvider, Tag, };

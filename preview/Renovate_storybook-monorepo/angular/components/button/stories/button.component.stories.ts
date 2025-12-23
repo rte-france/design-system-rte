@@ -6,6 +6,7 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { moduleMetadata } from "@storybook/angular";
 import { fn, userEvent, within, expect } from "@storybook/test";
 
+import { focusElementBeforeComponent } from "../../../../../../../.storybook/testing/testing.utils";
 import { BadgeDirective } from "../../badge/badge.directive";
 import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../../icon/icon-map";
 import { ButtonComponent } from "../button.component";
@@ -52,7 +53,7 @@ export const Default: Story = {
   }),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const button = canvas.getByRole("button");
+    const button = canvas.getByRole("button", { name: "Button" });
     await userEvent.click(button);
     expect(mockFn).toHaveBeenCalled();
     button.blur();
@@ -170,7 +171,8 @@ export const KeyboardInteraction: Story = {
   }),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const button = canvas.getByRole("button");
+    const button = canvas.getByRole("button", { name: "Button" });
+    focusElementBeforeComponent(canvasElement);
     await userEvent.tab();
     expect(button).toHaveFocus();
     await userEvent.keyboard(TESTING_ENTER_KEY);
