@@ -1,7 +1,7 @@
-import Tag from "@design-system-rte/react/src/components/tag/Tag";
 import React from "react";
 
 import AccordionIconToggle from "../../../AccordionIconToggle/AccordionIconToggle";
+import Tag from "../Tag/Tag";
 
 import "./Changelog.scss";
 

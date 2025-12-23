@@ -52,6 +52,7 @@ function getCellStyle(width: ColumnSizeConfig): React.CSSProperties {
 
 const Table = ({ options, columnWidths: columnSizeConfigs }: TableProps) => {
   const hasCustomWidths = !!columnSizeConfigs?.length;
+  const isTwoColumnTable = !hasCustomWidths && options.headers.length === 2;
   const allFixedWidths =
     hasCustomWidths &&
     columnSizeConfigs.every(
@@ -61,16 +62,25 @@ const Table = ({ options, columnWidths: columnSizeConfigs }: TableProps) => {
           columnSizeConfig.width !== undefined &&
           columnSizeConfig.min === undefined),
     );
-  const tableLayout = allFixedWidths ? "fixed" : "auto";
+  const tableLayout = allFixedWidths || isTwoColumnTable ? "fixed" : "auto";
 
   return (
     <div className="rte-stories table-wrapper">
-      <table className="rte-stories-table" style={{ tableLayout }}>
+      <table
+        className={`rte-stories-table ${isTwoColumnTable ? "rte-stories-table-two-columns sb-unstyled" : "sb-unstyled"}`}
+        style={{ tableLayout }}
+      >
         {hasCustomWidths && (
           <colgroup>
             {columnSizeConfigs.map((width, index) => (
               <col key={index} style={getColumnStyle(width)} className={getColumnClassName(width)} />
             ))}
+          </colgroup>
+        )}
+        {isTwoColumnTable && (
+          <colgroup>
+            <col style={{ width: "50%" }} />
+            <col style={{ width: "50%" }} />
           </colgroup>
         )}
         <thead>

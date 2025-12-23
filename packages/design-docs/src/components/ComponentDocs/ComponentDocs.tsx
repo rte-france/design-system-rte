@@ -59,21 +59,9 @@ const ComponentDocs = ({
           <Overview disponibility={disponibility} changelog={changelog} options={options} />
         </div>
 
-        <div className="rte-component-docs-guidelines">
-          {guidelines || (
-            <div style={{ padding: "16px" }}>
-              <p>Guidelines content will be added here.</p>
-            </div>
-          )}
-        </div>
+        <div className="rte-component-docs-guidelines">{guidelines}</div>
 
-        <div className="rte-component-docs-accessibility">
-          {accessibility || (
-            <div style={{ padding: "16px" }}>
-              <p>Accessibility content will be added here.</p>
-            </div>
-          )}
-        </div>
+        <div className="rte-component-docs-accessibility">{accessibility}</div>
       </Tabs>
     </div>
   );

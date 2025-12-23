@@ -1,12 +1,9 @@
-import Icon from "@design-system-rte/react/src/components/icon/Icon";
-import React from "react";
-
 import "./Disponibility.scss";
-
 import angularLogo from "../../../../../../react/.storybook/asset/img/angular-logo.svg";
 import figmaLogo from "../../../../../../react/.storybook/asset/img/figma-logo.svg";
 import reactLogo from "../../../../../../react/.storybook/asset/img/react-logo.svg";
 import storybookLogo from "../../../../../../react/.storybook/asset/img/storybook-logo.svg";
+import Icon from "../../../../../../react/src/components/icon/Icon";
 
 interface DisponibilityProps {
   design?: {

@@ -9,7 +9,7 @@ interface TabsProps {
 const Tabs = ({ children }: TabsProps) => {
   const [activeTab, setActiveTab] = useState(0);
 
-  const TabsTitle = ["Overview", "Guidelines", "Accessibilité"];
+  const TabsTitle = ["Overview", "Guidelines", "Accessibility"];
 
   return (
     <div className="storybook_tabs">

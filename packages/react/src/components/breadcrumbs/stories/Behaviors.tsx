@@ -20,10 +20,10 @@ const Behaviors = () => {
 
           <div className="option-table animations">
             <Heading level={3}>Animations</Heading>
-            <ul>
+            <ul className="sb-unstyled">
               <li>
-                Toutes les animations doivent respecter les préférences utilisateur (prefers-reduced-motion) et être
-                désactivables si nécessaire.
+                Toutes les animations doivent respecter les préférences utilisateur <em>(prefers-reduced-motion)</em> et
+                être désactivables si nécessaire.
               </li>
               <li>
                 Les transitions doivent rester <strong>non-intrusives</strong> et ne jamais bloquer l'interaction ou la
@@ -59,7 +59,7 @@ const Behaviors = () => {
 };
 
 const layoutOptions = {
-  headers: ["Propriété", "Description"],
+  headers: ["Nom", "Descriptif"],
   lines: [
     ["Affichage horizontal", 'Les éléments sont alignés en ligne, avec des séparateurs "/".'],
     ["Troncature automatique", 'Si plus de 3 éléments → afficher : item1 / "…" / itemN-1 / itemN.'],
@@ -68,55 +68,47 @@ const layoutOptions = {
 };
 
 const focusOptions = {
-  headers: ["Propriété", "Description"],
+  headers: ["Fonction attendue", "Spécifications"],
   lines: [
-    ["Focus sur les liens uniquement", "L’indicateur de focus s’affiche uniquement sur les composants Link."],
-    ["Ordre de tabulation", "Suivant l’ordre du DOM (gauche → droite)."],
+    ["Focus sur les liens uniquement", "L'indicateur de focus s'affiche uniquement sur les composants Link."],
+    ["Ordre de tabulation", "Suivant l'ordre du DOM (gauche → droite)."],
   ],
 };
 
 const animationsOptions = {
-  headers: ["Propriété", "Valeur", "Description", "Modifiable"],
-  lines: [["Apparition", "Fade-in", "Effet de fondu si le breadcrumb se charge dynamiquement. Durée : 150ms", "Oui"]],
+  headers: ["Fonction attendue", "Spécification", "Durée", "Modifiable"],
+  lines: [["Apparition", "Fade-in si le breadcrumb se charge dynamiquement", "150ms", "Oui"]],
 };
 
 const interactionsOptions = {
-  headers: ["Propriété", "Valeur", "Description"],
+  headers: ["Fonction attendue", "Spécification"],
   lines: [
-    [
-      "Navigation lien",
-      "Composant Link",
-      'Gérée via le composant "Link", héritant de tous ses comportements prédéfinis',
-    ],
-    ["État courant non interactif", "Oui", "Le dernier élément du breadcrumb n'est jamais un lien"],
+    ["Navigation lien", "Via composant Link (tous les comportements déjà définis)."],
+    ["État courant non interactif", "Le dernier item n'est jamais un lien."],
   ],
 };
 
 const keyboardInteractionsOptions = {
-  headers: ["Touche", "Action", "Description"],
+  headers: ["Fonction attendue", "Spécifications"],
   lines: [
-    ["TAB", "Navigation", "Permet d'accéder individuellement à chaque lien"],
-    ["ENTER", "Activation", 'Active le lien focalisé via le composant "Link"'],
+    ["TAB navigation", "Permet d'accéder à chaque lien individuellement."],
+    ["ENTER", "Active le lien focusé via le composant Link."],
   ],
 };
 
 const safezoneOptions = {
-  headers: ["Propriété", "Valeur", "Description"],
+  headers: ["Fonction attendue", "Spécification"],
   lines: [
-    ["Padding minimal", "8px", "Espacement minimal entre chaque élément"],
-    ["Hauteur minimale", "20px", "Hauteur minimale du composant"],
+    ["Padding minimal", "8px entre chaque item"],
+    ["Hauteur minimale", "20px"],
   ],
 };
 
 const autreContextuelOptions = {
-  headers: ["Propriété", "Valeur", "Description"],
+  headers: ["Fonction attendue", "Spécification"],
   lines: [
-    [
-      "HTML natif recommandé",
-      '<nav aria-label="Fil d\'Ariane"><ol>...</ol></nav>',
-      "Structure HTML recommandée pour l'accessibilité",
-    ],
-    ["Page actuelle", '<li aria-current="page">Détail</li>', "Attribut ARIA pour indiquer la page courante"],
+    ["HTML natif recommandé", '<nav aria-label="Fil d\'Ariane"><ol>…</ol></nav>'],
+    ["Page actuelle", '<li aria-current="page">Détail</li>'],
   ],
 };
 

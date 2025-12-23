@@ -13,7 +13,7 @@ interface OptionsProps {
 
 const Options = ({ options }: OptionsProps) => {
   return (
-    <table className="rte-options">
+    <table className="rte-options sb-unstyled">
       <colgroup>
         <col className="rte-options-col-auto" />
         <col className="rte-options-col-flex" />

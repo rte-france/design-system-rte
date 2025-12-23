@@ -6,7 +6,7 @@
     border-radius: 8px;
     overflow: clip;
 
-    table.rte-stories-table {
+      table.rte-stories-table {
       margin: 0;
       width: 100%;
       border-collapse: separate;
@@ -18,7 +18,7 @@
       line-height: 24px;
 
       tbody {
-        vertical-align: top;
+        vertical-align: middle;
       }
 
       tr:nth-of-type(2n) {
@@ -35,12 +35,18 @@
           border: none;
           background-color: transparent;
           border-bottom: #eeeded 1px solid;
-          padding: $positive-spacing_150;
+          padding: $positive-spacing_200;
+          vertical-align: middle;
         }
       }
 
       col.rte-stories-table-col-flex {
         width: auto;
+      }
+
+      // Equal width columns for 2-column tables
+      &.rte-stories-table-two-columns {
+        table-layout: fixed;
       }
 
       thead {
@@ -50,6 +56,7 @@
             color: var(--content-primary);
             border-bottom: #DCDADA 1px solid;
             padding: $positive-spacing_075 $positive-spacing_200;
+            vertical-align: middle;
           }
         }
       }

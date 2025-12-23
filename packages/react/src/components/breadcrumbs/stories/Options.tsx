@@ -40,7 +40,7 @@ const Options = () => {
 const numberOfPages = {
   headers: ["Valeur", "Purpose"],
   lines: [
-    ["1", "page source"],
+    ["1", "Page source"],
     ["2", "2 pages visibles"],
     ["3", "3 pages visibles"],
     ["3+", 'Plus de 3 pages visibles. Structure : page source / "…" / avant-dernier / courant'],
@@ -49,7 +49,7 @@ const numberOfPages = {
 
 const booleanOptions = {
   headers: ["Valeur", "Purpose"],
-  lines: [["showBadge", "Afficher un badge à côté de la page qui nécessite une notification"]],
+  lines: [["showBadge", "Affiche un badge à côté de la page qui nécessite une notification"]],
 };
 
 export default Options;
