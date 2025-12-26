@@ -1,25 +1,20 @@
 import { CommonModule } from "@angular/common";
 import { Component, EventEmitter, input, output } from "@angular/core";
+import { DropdownItemProps } from "@design-system-rte/core/components/dropdown/dropdown.interface";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
+import { BadgeComponent } from "../../badge/badge.component";
 import { DividerComponent } from "../../divider/divider.component";
 import { IconComponent } from "../../icon/icon.component";
 
-export interface DropdownItemConfig {
+export interface DropdownItemConfig extends Omit<DropdownItemProps, "onClick"> {
   id?: string;
-  label: string;
-  leftIcon?: string;
-  trailingText?: string;
-  disabled?: boolean;
-  hasSeparator?: boolean;
-  hasIndent?: boolean;
-  link?: string;
   click?: EventEmitter<Event>;
 }
 
 @Component({
   selector: "rte-dropdown-item",
-  imports: [CommonModule, IconComponent, DividerComponent],
+  imports: [CommonModule, IconComponent, DividerComponent, BadgeComponent],
   standalone: true,
   templateUrl: "./dropdown-item.component.html",
   styleUrl: "./dropdown-item.component.scss",

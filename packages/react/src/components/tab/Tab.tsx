@@ -221,6 +221,11 @@ const Tab = forwardRef<HTMLDivElement, TabProps>(
                       onClick={handleOnClick}
                       disabled={option.disabled}
                       leftIcon={option.icon}
+                      badgeCount={option.badgeCount}
+                      badgeContent={option.badgeContent}
+                      badgeIcon={option.badgeIcon}
+                      badgeType={option.badgeType}
+                      showBadge={true}
                     />
                   ))}
               </Dropdown>
