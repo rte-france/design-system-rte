@@ -22,4 +22,9 @@ export interface DropdownItemProps extends BadgeHolderProps {
   hasIndent?: boolean;
   link?: string;
   onClick?: () => void;
+  badgeCount?: number;
+  badgeContent?: import("../badge/badge.interface").BadgeContent;
+  badgeIcon?: string;
+  badgeType?: import("../badge/badge.interface").BadgeType;
+  showBadge?: boolean;
 }

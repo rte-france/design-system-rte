@@ -1,9 +1,9 @@
 ---
-  "@design-system-rte/angular": minor
-  ---
-  
-  ## Changes
+"@design-system-rte/angular": minor
+---
 
-- (Badge) add utils function to check if it should display badge
+## Changes
+
+- (Badge) adsd utils function to check if it should display badge
 - (Dropdown) handle icon props in badge
 - (Dropdown) add Badge

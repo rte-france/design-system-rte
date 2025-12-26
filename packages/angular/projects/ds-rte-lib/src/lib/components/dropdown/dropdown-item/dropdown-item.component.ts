@@ -41,7 +41,10 @@ export class DropdownItemComponent {
       event.stopPropagation();
       return;
     }
-    this.itemEvent.emit({ event, id: this.item()?.id || this.item()?.label || "" });
+    this.itemEvent.emit({
+      event,
+      id: this.item()?.id || this.item()?.label || "",
+    });
   }
 
   handleKeyDown(event: KeyboardEvent): void {
@@ -52,7 +55,10 @@ export class DropdownItemComponent {
         const link = (event.target as HTMLElement).closest("li")?.querySelector("a");
         link?.click();
       } else {
-        this.itemEvent.emit({ event, id: this.item()?.id || this.item()?.label || "" });
+        this.itemEvent.emit({
+          event,
+          id: this.item()?.id || this.item()?.label || "",
+        });
       }
     }
   }
