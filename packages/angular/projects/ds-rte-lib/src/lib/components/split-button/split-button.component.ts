@@ -13,13 +13,14 @@ import {
 } from "@design-system-rte/core/components/split-button/split-button.interface";
 import { ARROW_DOWN_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
+import { BadgeDirective } from "../badge/badge.directive";
 import { DropdownModule } from "../dropdown";
 import { IconComponent } from "../icon/icon.component";
 import { RegularIconIdKey, TogglableIconIdKey } from "../icon/icon.service";
 
 @Component({
   selector: "rte-split-button",
-  imports: [CommonModule, IconComponent, DropdownModule],
+  imports: [CommonModule, IconComponent, DropdownModule, BadgeDirective],
   standalone: true,
   templateUrl: "./split-button.component.html",
   styleUrl: "./split-button.component.scss",
@@ -47,6 +48,20 @@ export class SplitButtonComponent implements OnInit, OnDestroy {
   readonly internalAlignment = computed(() => {
     return this.position().split("-")[1] as Alignment;
   });
+
+  readonly hasBadge = computed(() => {
+    console.log(
+      "Checking for badges in options:",
+      this.options().some((option) => option.showBadge),
+    );
+    return this.options().some((option) => option.showBadge);
+  });
+
+  readonly badgeCount = computed(() =>
+    this.hasBadge()
+      ? this.options().reduce((acc, option) => acc + (option.badgeCount ? option.badgeCount : 0), 0)
+      : undefined,
+  );
 
   handleClickOutside(event: MouseEvent): void {
     const target = event.target as Element;

@@ -10,6 +10,7 @@ import {
 import { ARROW_DOWN_KEY, ENTER_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 import { ButtonHTMLAttributes, ForwardedRef, forwardRef, KeyboardEvent, MouseEvent, useRef, useState } from "react";
 
+import Badge from "../badge/Badge";
 import { Dropdown } from "../dropdown/Dropdown";
 import { DropdownItem } from "../dropdown/dropdownItem/DropdownItem";
 import Icon from "../icon/Icon";
@@ -70,6 +71,12 @@ const SplitButton = forwardRef<HTMLElement | HTMLButtonElement, SplitButtonProps
       }
     };
 
+    const hasBadge = options.some((option) => option.showBadge);
+
+    const badgeCount = hasBadge
+      ? options.reduce((acc, option) => acc + (option.badgeCount ? option.badgeCount : 0), 0)
+      : undefined;
+
     return (
       <div
         className={concatClassNames(style.splitButtonContainer, className)}
@@ -104,28 +111,55 @@ const SplitButton = forwardRef<HTMLElement | HTMLButtonElement, SplitButtonProps
           position={internalPosition}
           alignment={internalAlignment}
           trigger={
-            <button
-              type="button"
-              aria-haspopup="menu"
-              aria-expanded={isDropdownOpen}
-              aria-label={ariaLabelRight}
-              className={style.splitButtonRight}
-              data-active={isDropdownOpen}
-              data-compact-spacing={compactSpacing}
-              data-appearance={appearance}
-              data-size={size}
-              data-testid="Menu button"
-              disabled={disabled}
-              onClick={() => setIsDropdownOpen(true)}
-              onKeyDown={handleKeyDown}
-              onKeyUp={handleKeyUp}
-              {...props}
-              ref={rightButtonRef}
-            >
-              <div className={style.splitButtonRightIconContainer}>
-                <Icon name="arrow-chevron-down" size={splitButtonRightIconSize[size]} />
-              </div>
-            </button>
+            hasBadge ? (
+              <Badge count={badgeCount} content="number" badgeType="indicator">
+                <button
+                  type="button"
+                  aria-haspopup="menu"
+                  aria-expanded={isDropdownOpen}
+                  aria-label={ariaLabelRight}
+                  className={style.splitButtonRight}
+                  data-active={isDropdownOpen}
+                  data-compact-spacing={compactSpacing}
+                  data-appearance={appearance}
+                  data-size={size}
+                  data-testid="Menu button"
+                  disabled={disabled}
+                  onClick={() => setIsDropdownOpen(true)}
+                  onKeyDown={handleKeyDown}
+                  onKeyUp={handleKeyUp}
+                  {...props}
+                  ref={rightButtonRef}
+                >
+                  <div className={style.splitButtonRightIconContainer}>
+                    <Icon name="arrow-chevron-down" size={splitButtonRightIconSize[size]} />
+                  </div>
+                </button>
+              </Badge>
+            ) : (
+              <button
+                type="button"
+                aria-haspopup="menu"
+                aria-expanded={isDropdownOpen}
+                aria-label={ariaLabelRight}
+                className={style.splitButtonRight}
+                data-active={isDropdownOpen}
+                data-compact-spacing={compactSpacing}
+                data-appearance={appearance}
+                data-size={size}
+                data-testid="Menu button"
+                disabled={disabled}
+                onClick={() => setIsDropdownOpen(true)}
+                onKeyDown={handleKeyDown}
+                onKeyUp={handleKeyUp}
+                {...props}
+                ref={rightButtonRef}
+              >
+                <div className={style.splitButtonRightIconContainer}>
+                  <Icon name="arrow-chevron-down" size={splitButtonRightIconSize[size]} />
+                </div>
+              </button>
+            )
           }
           isOpen={isDropdownOpen}
         >
@@ -137,6 +171,11 @@ const SplitButton = forwardRef<HTMLElement | HTMLButtonElement, SplitButtonProps
               onClick={option.onClick}
               disabled={option.disabled}
               leftIcon={option.icon}
+              badgeContent={option.badgeContent}
+              badgeIcon={option.badgeIcon}
+              badgeType={option.badgeType}
+              showBadge={option.showBadge}
+              badgeCount={option.badgeCount}
             />
           ))}
         </Dropdown>
