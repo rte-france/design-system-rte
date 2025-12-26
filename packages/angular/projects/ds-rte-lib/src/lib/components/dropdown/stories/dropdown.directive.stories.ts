@@ -71,6 +71,43 @@ export const Default: Story = {
   }),
 };
 
+export const WithBadge: Story = {
+  decorators: [
+    moduleMetadata({
+      imports: [DropdownModule],
+    }),
+  ],
+  args: {
+    rteDropdownPosition: "bottom",
+  },
+  render: (args) => ({
+    props: {
+      ...args,
+      items: [
+        ...MOCKUP_ITEMS,
+        {
+          label: "Notifications",
+          leftIcon: "notification",
+          badgeCount: 5,
+          badgeType: "indicator",
+          showBadge: true,
+          badgeContent: "number",
+        },
+      ],
+      onItemClick: (event: { event: Event; id: string }) => {
+        console.log("Item clicked:", event);
+      },
+    },
+    template: `
+    ${wipWarning}
+    <div rteDropdown [rteDropdownPosition]="rteDropdownPosition" (menuEvent)="onItemClick($event)">
+      <button rteDropdownTrigger>Menu principal ⬇</button>
+      <rte-dropdown-menu [items]="items"/>
+    </div>
+    `,
+  }),
+};
+
 export const KeyboardNavigation: Story = {
   decorators: [
     moduleMetadata({
