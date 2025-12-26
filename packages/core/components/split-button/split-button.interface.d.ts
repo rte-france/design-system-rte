@@ -1,3 +1,5 @@
+import { BadgeHolderProps } from "../badge/badge.interface";
+
 export type SplitButtonAppearance = "primary" | "secondary";
 export type SplitButtonSize = "s" | "m" | "l";
 export type SplitButtonPosition = "bottom-start" | "bottom-end" | "top-start" | "top-end";
@@ -5,7 +7,7 @@ export type SplitButtonAppearance = "primary" | "secondary";
 export type SplitButtonSize = "s" | "m" | "l";
 export type SplitButtonPosition = "bottom-start" | "bottom-end" | "top-start" | "top-end";
 
-export interface SplitButtonProps {
+export interface SplitButtonProps extends BadgeHolderProps {
   appearance?: SplitButtonAppearance;
   ariaLabelRight?: string;
   size?: SplitButtonSize;
@@ -18,15 +20,10 @@ export interface SplitButtonProps {
   options?: SplitButtonItemProps[];
 }
 
-export interface SplitButtonItemProps {
+export interface SplitButtonItemProps extends BadgeHolderProps {
   id: string;
   label: string;
   icon?: string;
-  badgeCount?: number;
-  badgeContent?: import("../badge/badge.interface").BadgeContent;
-  badgeIcon?: string;
-  badgeType?: import("../badge/badge.interface").BadgeType;
-  showBadge?: boolean;
   compactSpacing?: boolean;
   direction?: import("../common/common-types").Direction;
   disabled?: boolean;
