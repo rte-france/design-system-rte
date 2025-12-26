@@ -123,6 +123,38 @@ export const Position: Story = {
   },
 };
 
+export const WithBadge: Story = {
+  args: {
+    ...Default.args,
+    showBadge: true,
+    badgeContent: "empty",
+    badgeType: "indicator",
+    badgeIcon: "star",
+    badgeCount: 7,
+    options: [
+      {
+        id: "option-1",
+        label: "Option 1",
+        onClick: () => console.log("Option 1 clicked"),
+        showBadge: true,
+        badgeCount: 2,
+        badgeContent: "number",
+        badgeType: "indicator",
+      },
+      { id: "option-2", label: "Option 2", onClick: () => console.log("Option 2 clicked") },
+      {
+        id: "option-3",
+        label: "Option 3",
+        onClick: () => console.log("Option 3 clicked"),
+        showBadge: true,
+        badgeCount: 5,
+        badgeContent: "number",
+        badgeType: "indicator",
+      },
+    ],
+  },
+};
+
 export const KeyboardInteraction: Story = {
   args: {
     ...Default.args,
