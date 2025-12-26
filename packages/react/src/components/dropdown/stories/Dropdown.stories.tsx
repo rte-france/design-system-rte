@@ -107,6 +107,53 @@ export const Default: Story = {
   },
 };
 
+export const WithBadge: Story = {
+  args: {},
+  render: (args) => {
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+
+    return (
+      <>
+        <WipWarning />
+        <div
+          style={{
+            position: "relative",
+            width: "800px",
+            height: "200px",
+            display: "flex",
+            justifyContent: "space-between",
+            gap: "500px",
+          }}
+        >
+          <Dropdown
+            {...args}
+            onClose={() => {
+              setIsOpen(false);
+            }}
+            trigger={
+              <button onClick={() => setIsOpen(true)} style={{ color: "black" }}>
+                Click Me!
+              </button>
+            }
+            style={{ width: "250px" }}
+            isOpen={isOpen}
+          >
+            <DropdownItem
+              label="Messages"
+              leftIcon="mail"
+              badgeCount={5}
+              badgeContent="number"
+              badgeType="indicator"
+              showBadge={true}
+            />
+            <DropdownItem label="Username" leftIcon="user-circle" link="/username" />
+          </Dropdown>
+        </div>
+      </>
+    );
+  },
+};
+
 export const KeyboardNavigation: Story = {
   args: {
     ...Default.args,
