@@ -11,9 +11,9 @@ const RegularIconIds = Object.keys(RegularIconsList);
 const TogglableIconIds = Object.keys(TogglableIconsList);
 
 const defaultOptions = [
-  { id: "option-1", label: "Option 1", onClick: () => console.log("Option 1 clicked") },
-  { id: "option-2", label: "Option 2", onClick: () => console.log("Option 2 clicked") },
-  { id: "option-3", label: "Option 3", onClick: () => console.log("Option 3 clicked") },
+  { id: "option-1", label: "Option 1", click: () => console.log("Option 1 clicked") },
+  { id: "option-2", label: "Option 2", click: () => console.log("Option 2 clicked") },
+  { id: "option-3", label: "Option 3", click: () => console.log("Option 3 clicked") },
 ];
 
 const meta: Meta<SplitButtonComponent> = {
@@ -275,6 +275,60 @@ export const Position: Story = {
   },
 };
 
+export const WithBadge: Story = {
+  args: {
+    label: "Button Label",
+    ariaLabelRight: "Open menu",
+    size: "m",
+    compactSpacing: false,
+    appearance: "primary",
+    position: "bottom-start",
+    disabled: false,
+    icon: null,
+    options: [
+      {
+        id: "option-1",
+        label: "Option 1",
+        showBadge: true,
+        badgeCount: 2,
+        badgeContent: "number",
+        badgeType: "indicator",
+      },
+      { id: "option-2", label: "Option 2" },
+      {
+        id: "option-3",
+        label: "Option 3",
+        showBadge: true,
+        badgeCount: 5,
+        badgeContent: "number",
+        badgeType: "indicator",
+      },
+    ],
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <rte-split-button
+        label="${args.label}"
+        ariaLabelRight="${args.ariaLabelRight}"
+        size="${args.size}"
+        [compactSpacing]="${args.compactSpacing}"
+        appearance="${args.appearance}"
+        position="${args.position}"
+        [disabled]="${args.disabled}"
+        [icon]="icon"
+        [options]="options"
+      />
+        
+      
+    `,
+  }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const button = canvas.getByTestId("Main action button");
+    await userEvent.click(button);
+  },
+};
 export const KeyboardInteraction: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
