@@ -18,6 +18,13 @@
       <span *ngSwitchDefault style="flex: 2">{{ item()?.label }}</span>
     </ng-container>
     <div *ngIf="item()?.trailingText">{{ item()?.trailingText }}</div>
+    <rte-badge
+      *ngIf="item()?.showBadge && item()?.badgeCount && item()?.badgeContent === 'number'"
+      [badgeType]="item()?.badgeType!"
+      [badgeContent]="item()?.badgeContent!"
+      [count]="item()?.badgeCount"
+      [simpleBadge]="true"
+    ></rte-badge>
   </li>
   <div *ngIf="item()?.hasSeparator" class="dropdown-divider">
     <rte-divider />
