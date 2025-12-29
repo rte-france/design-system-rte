@@ -1,10 +1,10 @@
-import { BreadcrumbProps, BreadcrumbsTruncatedItems } from "./breadcrumbs.interface";
+import { BreadcrumbItemProps, BreadcrumbsTruncatedItems } from "./breadcrumbs.interface";
 
 const BREADCRUMBS_LIMIT = 3;
 const BREADCRUMBS_REMAINING = 2;
 
 export function getBreadcrumbsTruncatedItems(
-  items: BreadcrumbProps[],
+  items: BreadcrumbItemProps[],
   limit = BREADCRUMBS_LIMIT,
   rest = BREADCRUMBS_REMAINING,
 ): BreadcrumbsTruncatedItems {
@@ -19,6 +19,6 @@ export function getBreadcrumbsTruncatedItems(
   }
 }
 
-export function shouldTruncateBreadcrumbs(items: BreadcrumbProps[], limit = BREADCRUMBS_LIMIT): boolean {
+export function shouldTruncateBreadcrumbs(items: BreadcrumbItemProps[], limit = BREADCRUMBS_LIMIT): boolean {
   return items.length > limit;
 }
