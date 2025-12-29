@@ -113,6 +113,10 @@ export const DropdownItem = ({
     },
   );
 
+  const shouldDisplayBadge =
+    showBadge &&
+    ((badgeCount && badgeCount > 0 && badgeContent === "number") || (badgeContent === "icon" && badgeIcon));
+
   if (children) {
     return (
       <Dropdown
@@ -185,7 +189,7 @@ export const DropdownItem = ({
           <span style={{ flex: "2" }}>{label}</span>
         )}
         {trailingText && <div>{trailingText}</div>}
-        {showBadge && badgeCount && badgeCount > 0 && badgeContent === "number" && (
+        {shouldDisplayBadge && (
           <Badge count={badgeCount} content={badgeContent} icon={badgeIcon} badgeType={badgeType} />
         )}
       </li>
