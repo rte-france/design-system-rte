@@ -25,15 +25,12 @@
     </ng-container>
     <div *ngIf="item()?.trailingText">{{ item()?.trailingText }}</div>
     <rte-badge
-      *ngIf="
-        item()?.showBadge &&
-        item()?.badgeCount &&
-        item()?.badgeContent === 'number'
-      "
+      *ngIf="shouldDisplayBadge()"
       [badgeType]="item()?.badgeType!"
       [badgeContent]="item()?.badgeContent!"
       [count]="item()?.badgeCount"
       [simpleBadge]="true"
+      [icon]="item()?.badgeIcon ?? ''"
     ></rte-badge>
   </li>
   <div *ngIf="item()?.hasSeparator" class="dropdown-divider">
