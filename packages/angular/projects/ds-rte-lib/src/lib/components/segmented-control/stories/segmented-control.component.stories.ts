@@ -135,3 +135,37 @@ export const Icons: Story = {
     `,
   }),
 };
+
+export const WithBadge: Story = {
+  args: {
+    options: [
+      { label: "Option 1", id: "option1" },
+      {
+        label: "Option 2",
+        id: "option2",
+        showBadge: true,
+        badgeContent: "number",
+        badgeCount: 5,
+        badgeType: "indicator",
+      },
+    ],
+    selectedSegment: "option1",
+  },
+  render: (args) => ({
+    props: {
+      ...args,
+      change(id: string) {
+        this["selectedSegment"] = id;
+      },
+    },
+    template: `
+    <div style="width: 380px">
+      <rte-segmented-control
+        [options]="options"
+        [selectedSegment]="selectedSegment"
+        (change)="change($event)"
+        />
+    </div>
+    `,
+  }),
+};

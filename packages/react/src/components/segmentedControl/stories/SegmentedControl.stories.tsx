@@ -129,3 +129,34 @@ export const Icons: Story = {
     );
   },
 };
+
+export const WithBadge: Story = {
+  args: {
+    options: [
+      { label: "Option 1", id: "option1" },
+      {
+        label: "Option 2",
+        id: "option2",
+        showBadge: true,
+        badgeContent: "number",
+        badgeCount: 5,
+        badgeType: "indicator",
+      },
+    ],
+    onChange: fn(),
+  },
+
+  render: (args) => {
+    const [selected, setSelected] = useState("option1");
+
+    const handleOnChange = (id: string) => {
+      setSelected(id);
+    };
+
+    return (
+      <div style={{ width: "380px" }}>
+        <SegmentedControl options={args.options} onChange={handleOnChange} selectedSegment={selected} />
+      </div>
+    );
+  },
+};
