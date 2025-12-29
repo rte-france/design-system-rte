@@ -142,8 +142,7 @@ export const WithBadge: Story = {
               label="Messages"
               leftIcon="mail"
               badgeCount={5}
-              badgeContent="icon"
-              badgeIcon="bolt"
+              badgeContent="number"
               badgeType="indicator"
               showBadge={true}
             />
