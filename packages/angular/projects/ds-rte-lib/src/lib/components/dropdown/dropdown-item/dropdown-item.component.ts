@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, EventEmitter, input, output } from "@angular/core";
+import { Component, computed, EventEmitter, input, output } from "@angular/core";
 import { DropdownItemProps } from "@design-system-rte/core/components/dropdown/dropdown.interface";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
@@ -23,6 +23,15 @@ export class DropdownItemComponent {
   readonly item = input<DropdownItemConfig>();
   readonly menuId = input<string>();
   readonly itemEvent = output<{ event: Event; id: string }>();
+
+  readonly shouldDisplayBadge = computed(() => {
+    const item = this.item();
+    return (
+      item?.showBadge &&
+      ((item?.badgeCount && item?.badgeCount > 0 && item?.badgeContent === "number") ||
+        (item?.badgeContent === "icon" && item?.badgeIcon))
+    );
+  });
 
   handleClick(event: Event): void {
     if (this.item()?.disabled) {
