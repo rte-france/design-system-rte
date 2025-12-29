@@ -116,6 +116,32 @@ export const MultipleElements: Story = {
   },
 };
 
+export const WithBadge: Story = {
+  args: {
+    items: [
+      { label: "Home", link: "/" },
+      {
+        label: "Products",
+        link: "/products",
+        badgeContent: "number",
+        badgeCount: 5,
+        badgeType: "indicator",
+        showBadge: true,
+      },
+      {
+        label: "Electronics",
+        link: "/products/electronics",
+      },
+      { label: "Smartphones", link: "/products/electronics/smartphones" },
+    ],
+    badgeContent: "empty",
+    badgeCount: 5,
+    badgeType: "indicator",
+    showBadge: true,
+  },
+  render: (args) => <Breadcrumbs {...args} data-testid="breadcrumbs" />,
+};
+
 export const KeyboardNavigationWithDropdown: Story = {
   args: {
     ...Default.args,

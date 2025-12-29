@@ -19,6 +19,14 @@
         tabindex="-1"
         [compactSpacing]="true"
       />
+      <rte-badge
+        *ngIf="shouldDisplayBadge()"
+        [count]="badgeCount()"
+        [simpleBadge]="true"
+        [badgeContent]="badgeContent()!"
+        [icon]="badgeIcon()"
+        [badgeType]="badgeType()!"
+      />
       <rte-dropdown-menu [items]="truncatedItems()?.truncated ?? []" />
     </span>
     <span aria-hidden="true" class="separator">/</span>
