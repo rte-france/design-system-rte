@@ -6,4 +6,5 @@
 
 ## Changes
 
-- (Dropdown) add badge to dropdown
+- (Core) add badge holder interface to use
+- (Dropdown) add Badge
