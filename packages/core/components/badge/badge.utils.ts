@@ -56,3 +56,17 @@ export function getDisplayCount(count?: number): string {
 
   return count < COUNT_THRESHOLD ? count.toString() : COUNT_THRESHOLD_LABEL;
 }
+
+export function shouldDisplayBadge(
+  showBadge: boolean,
+  badgeContent?: BadgeContent,
+  badgeCount?: number,
+  badgeIcon?: string,
+) {
+  return (
+    showBadge &&
+    (badgeContent === "empty" ||
+      (badgeCount && badgeCount > 0 && badgeContent === "number") ||
+      (badgeContent === "icon" && badgeIcon))
+  );
+}
