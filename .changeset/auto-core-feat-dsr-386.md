@@ -1,7 +1,5 @@
 ---
-
 "@design-system-rte/core": minor
-
 ---
 
 ## Changes

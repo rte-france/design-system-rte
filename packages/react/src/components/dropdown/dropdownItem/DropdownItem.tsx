@@ -114,10 +114,6 @@ export const DropdownItem = ({
     },
   );
 
-  const shouldDisplayBadge =
-    showBadge &&
-    ((badgeCount && badgeCount > 0 && badgeContent === "number") || (badgeContent === "icon" && badgeIcon));
-
   if (children) {
     return (
       <Dropdown
