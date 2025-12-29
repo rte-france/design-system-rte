@@ -1,3 +1,4 @@
+import { shouldDisplayBadge } from "@design-system-rte/core/components/badge/badge.utils";
 import { DropdownItemProps as CoreDropdownItemProps } from "@design-system-rte/core/components/dropdown/dropdown.interface";
 import { DropdownManager } from "@design-system-rte/core/components/dropdown/DropdownManager";
 import {
@@ -113,10 +114,6 @@ export const DropdownItem = ({
     },
   );
 
-  const shouldDisplayBadge =
-    showBadge &&
-    ((badgeCount && badgeCount > 0 && badgeContent === "number") || (badgeContent === "icon" && badgeIcon));
-
   if (children) {
     return (
       <Dropdown
@@ -189,7 +186,7 @@ export const DropdownItem = ({
           <span style={{ flex: "2" }}>{label}</span>
         )}
         {trailingText && <div>{trailingText}</div>}
-        {shouldDisplayBadge && (
+        {shouldDisplayBadge(!!showBadge, badgeContent, badgeCount, badgeIcon) && (
           <Badge count={badgeCount} content={badgeContent} icon={badgeIcon} badgeType={badgeType} />
         )}
       </li>
