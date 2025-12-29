@@ -6,10 +6,26 @@
           {{ item()!.label }}
         </a>
       </div>
+      <rte-badge
+        *ngIf="shouldDisplayBadge()"
+        [count]="item()!.badgeCount"
+        [badgeContent]="item()!.badgeContent!"
+        [icon]="item()!.badgeIcon"
+        [badgeType]="item()!.badgeType!"
+        [simpleBadge]="true"
+      />
     } @else {
       <a role="link" aria-current="page" tabindex="0" [attr.aria-label]="item()!.label" [style]="linkStyle()">
         {{ item()!.label }}
       </a>
+      <rte-badge
+        *ngIf="shouldDisplayBadge()"
+        [count]="item()!.badgeCount"
+        [badgeContent]="item()!.badgeContent!"
+        [icon]="item()!.badgeIcon"
+        [badgeType]="item()!.badgeType!"
+        [simpleBadge]="true"
+      />
     }
   } @else {
     @if (isEllipsisActive()) {
@@ -22,8 +38,24 @@
       >
         <rte-link [href]="item()!.link" [label]="item()!.label" [subtle]="true" [maxWidth]="breadcrumbItemMaxWidth()" />
       </div>
+      <rte-badge
+        *ngIf="shouldDisplayBadge()"
+        [count]="item()!.badgeCount"
+        [badgeContent]="item()!.badgeContent!"
+        [icon]="item()!.badgeIcon"
+        [badgeType]="item()!.badgeType!"
+        [simpleBadge]="true"
+      />
     } @else {
       <rte-link [href]="item()!.link" [label]="item()!.label" [subtle]="true" [maxWidth]="breadcrumbItemMaxWidth()" />
+      <rte-badge
+        *ngIf="shouldDisplayBadge()"
+        [count]="item()!.badgeCount"
+        [badgeContent]="item()!.badgeContent!"
+        [icon]="item()!.badgeIcon"
+        [badgeType]="item()!.badgeType!"
+        [simpleBadge]="true"
+      />
     }
   }
 </div>

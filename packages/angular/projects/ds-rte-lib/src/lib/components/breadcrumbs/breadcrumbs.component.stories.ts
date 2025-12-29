@@ -138,6 +138,39 @@ export const MultipleElements: StoryObj<BreadcrumbsComponent> = {
   }),
 };
 
+export const WithBadge: StoryObj<BreadcrumbsComponent> = {
+  args: {
+    items: [
+      { label: "Home", link: "/" },
+      {
+        label: "Products",
+        link: "/products",
+        showBadge: true,
+        badgeContent: "number",
+        badgeType: "indicator",
+        badgeCount: 5,
+      },
+      { label: "Electronics", link: "/products/electronics" },
+      {
+        label: "Smartphones",
+        link: "/products/electronics/smartphones",
+      },
+    ],
+    badgeContent: "empty",
+    badgeCount: 5,
+    badgeType: "indicator",
+    showBadge: true,
+  },
+  render: (args) => ({
+    props: {
+      ...args,
+    },
+    template: `
+      <rte-breadcrumbs [items]="items" [ariaLabel]="ariaLabel" data-testid="breadcrumbs" [breadcrumbItemMaxWidth]="breadcrumbItemMaxWidth" [badgeContent]="badgeContent" [badgeCount]="badgeCount" [badgeType]="badgeType" [showBadge]="showBadge" [badgeIcon]="badgeIcon" />
+    `,
+  }),
+};
+
 export const KeyboardNavigationWithDropdown: StoryObj<BreadcrumbsComponent> = {
   args: {
     ...Default.args,
