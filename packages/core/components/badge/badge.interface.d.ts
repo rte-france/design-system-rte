@@ -9,3 +9,11 @@ export interface BadgeProps {
   count?: number;
   icon?: string;
 }
+
+export interface BadgeHolderProps {
+  showBadge?: boolean;
+  badgeCount?: number;
+  badgeContent?: BadgeContent;
+  badgeIcon?: string;
+  badgeType?: BadgeType;
+}

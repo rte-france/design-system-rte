@@ -4,4 +4,5 @@
   
   ## Changes
 
-- (Dropdown) add badge to dropdown
+- (Dropdown) handle icon props in badge
+- (Dropdown) add Badge
