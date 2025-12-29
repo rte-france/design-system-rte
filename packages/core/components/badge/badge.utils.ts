@@ -62,11 +62,11 @@ export function shouldDisplayBadge(
   badgeContent?: BadgeContent,
   badgeCount?: number,
   badgeIcon?: string,
-) {
+): boolean {
   return (
     showBadge &&
     (badgeContent === "empty" ||
-      (badgeCount && badgeCount > 0 && badgeContent === "number") ||
-      (badgeContent === "icon" && badgeIcon))
+      (typeof badgeCount === "number" && badgeCount > 0 && badgeContent === "number") ||
+      (badgeContent === "icon" && badgeIcon !== undefined))
   );
 }
