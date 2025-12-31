@@ -6,6 +6,8 @@ import {
 import { Meta, StoryObj } from "@storybook/angular";
 import { expect, userEvent, waitFor, within } from "@storybook/test";
 
+import { focusElementBeforeComponent } from "../../../../../../.storybook/testing/testing.utils";
+
 import { BreadcrumbsComponent } from "./breadcrumbs.component";
 
 export default {
@@ -78,10 +80,14 @@ export const KeyboardNavigation: StoryObj<BreadcrumbsComponent> = {
     const canvas = within(canvasElement);
     const breadcrumbs = canvas.getByTestId("breadcrumbs").querySelectorAll("div");
     const breadCrumbsHead = breadcrumbs[breadcrumbs.length - 1].querySelector("a");
+    focusElementBeforeComponent(canvasElement);
+
     args.items.forEach(async () => {
       await userEvent.tab();
     });
+
     await waitFor(() => expect(breadCrumbsHead).toHaveFocus());
+
     await userEvent.tab({ shift: true });
     expect(breadcrumbs[breadcrumbs.length - 2].querySelector("a")).toHaveFocus();
   },
@@ -148,7 +154,9 @@ export const KeyboardNavigationWithDropdown: StoryObj<BreadcrumbsComponent> = {
       template: `<rte-breadcrumbs [items]="items" [ariaLabel]="ariaLabel" data-testid="breadcrumbs"/>`,
     };
   },
-  play: async () => {
+  play: async ({ canvasElement }) => {
+    focusElementBeforeComponent(canvasElement);
+
     await userEvent.tab();
     await userEvent.tab();
     await userEvent.keyboard(TESTING_ENTER_KEY);
@@ -156,6 +164,7 @@ export const KeyboardNavigationWithDropdown: StoryObj<BreadcrumbsComponent> = {
     const dropdownMenu = overlay?.querySelector("rte-dropdown-menu");
     const menuItems = dropdownMenu?.querySelector("ul")?.querySelectorAll("li");
     expect(dropdownMenu).toBeInTheDocument();
+
     await userEvent.tab();
     await waitFor(() => expect(menuItems?.[0]).toHaveFocus());
     await userEvent.keyboard(TESTING_DOWN_KEY);
