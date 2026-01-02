@@ -42,7 +42,6 @@ export class BreadcrumbItemComponent implements AfterViewInit {
 
   readonly shouldDisplayBadge = computed((): boolean => {
     const item = this.item();
-    console.log(item);
     if (!item) return false;
     const { showBadge, badgeContent, badgeCount, badgeIcon } = item;
     return coreShouldDisplayBadge(!!showBadge, badgeContent, badgeCount, badgeIcon);

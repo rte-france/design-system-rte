@@ -44,7 +44,6 @@ export class BreadcrumbsComponent {
   });
 
   readonly shouldDisplayBadge = computed((): boolean => {
-    console.log(this.showBadge(), this.badgeContent(), this.badgeCount(), this.badgeIcon());
     return coreShouldDisplayBadge(!!this.showBadge(), this.badgeContent(), this.badgeCount(), this.badgeIcon());
   });
 }
