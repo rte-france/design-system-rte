@@ -73,9 +73,9 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
 
   onTriggerKeyEvent(event: KeyboardEvent): void {
     if (
-      event.key === SPACE_KEY ||
-      event.key === ENTER_KEY ||
-      (event.key === ARROW_DOWN_KEY && this.trigger()?.rteDropdownTriggerActivateWithArrowDown())
+      event.key === SPACE_KEY
+      || event.key === ENTER_KEY
+      || (event.key === ARROW_DOWN_KEY && this.trigger()?.rteDropdownTriggerActivateWithArrowDown())
     ) {
       this.showDropdownMenu();
       requestAnimationFrame(() => {

@@ -67,7 +67,7 @@ export function formatChangesetContent(packageName, bump, relevantCommits) {
 
   if (relevantCommits.length) {
     const PARENTHESIS_REGEX = /\((.+?)\)/;
-    content += `## Changes\n\n`;
+    content += "## Changes\n\n";
     relevantCommits.forEach((commit) => {
       const commitKeywords = commit.indexOf(":") !== -1 ? commit.substring(0, commit.indexOf(":")) : "";
       const commitContext = commitKeywords.match(PARENTHESIS_REGEX)
@@ -78,7 +78,7 @@ export function formatChangesetContent(packageName, bump, relevantCommits) {
       content += `- ${formattedCommitContext}${cleanCommit}\n`;
     });
   } else {
-    content += `Auto bump`;
+    content += "Auto bump";
   }
 
   return content;

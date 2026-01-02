@@ -125,11 +125,11 @@ export class PopoverDirective implements AfterViewInit, OnDestroy {
       const position =
         this.rtePopoverPosition() === "auto"
           ? getAutoPlacement(
-              this.hostElement,
-              popoverElement,
-              "top",
-              this.rtePopoverArrow() ? POPOVER_GAP_ARROW : POPOVER_GAP,
-            )
+            this.hostElement,
+            popoverElement,
+            "top",
+            this.rtePopoverArrow() ? POPOVER_GAP_ARROW : POPOVER_GAP,
+          )
           : this.rtePopoverPosition();
 
       this.popoverRef.setInput("title", this.rtePopoverTitle());

@@ -1,43 +1,37 @@
-import js from "@eslint/js";
+import stylistic from "@stylistic/eslint-plugin";
+import { defineConfig } from "eslint/config";
 import importPlugin from "eslint-plugin-import";
-import prettier from "eslint-plugin-prettier";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 
-export default tseslint.config(
+export default defineConfig([
+  tseslint.configs.recommended,
   {
-    ignores: ["**/dist", "**/storybook-static", "./dist", "./test-apps/angular/.angular"],
-  },
-  {
-    extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ["**/*.{js,ts,jsx,tsx}"],
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
     },
     plugins: {
-      prettier,
-      import: importPlugin,
+      "import": importPlugin,
+      "@stylistic": stylistic,
     },
     rules: {
-      "prettier/prettier": [
-        "error",
-        {
-          singleQuote: false,
-          trailingComma: "all",
-          tabWidth: 2,
-          endOfLine: "auto",
-          printWidth: 120,
-        },
-      ],
+      "@stylistic/arrow-parens": ["error", "always"],
+      "@stylistic/quotes": ["error", "double", { avoidEscape: true, allowTemplateLiterals: "avoidEscape" }],
+      "@stylistic/indent": ["error", 2, { VariableDeclarator: "first",  SwitchCase: 1 }],
+      "@stylistic/operator-linebreak": ["error", "before", { overrides: { "=": "after"} }],
       "import/order": [
         "error",
         {
-          groups: ["builtin", "external", "internal", "parent", "sibling", "index"],
+          "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
           "newlines-between": "always",
-          alphabetize: { order: "asc", caseInsensitive: true },
+          "alphabetize": { order: "asc", caseInsensitive: true },
         },
       ],
     },
   },
-);
+  {
+    ignores: ["**/dist", "**/storybook-static", "./dist", "./test-apps/angular/.angular"],
+  },
+]);

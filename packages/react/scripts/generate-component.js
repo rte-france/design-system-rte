@@ -12,7 +12,7 @@ function generateComponent() {
     process.exit(1);
   }
 
-  const pkgRoot = path.resolve(__dirname, `..`);
+  const pkgRoot = path.resolve(__dirname, "..");
 
   const componentDir = path.join(pkgRoot, "src", "components", componentName.toLocaleLowerCase());
   const storiesDir = path.join(componentDir, "stories");

@@ -103,9 +103,9 @@ export class TabComponent implements AfterViewInit, OnChanges, OnDestroy {
 
   displayBadge = (option: TabItemProps): boolean => {
     return (
-      !!option.showBadge ||
-      (option.badgeCount !== undefined && option.badgeCount > 0 && option.badgeContent === "number") ||
-      (option.badgeContent === "icon" && !!option.badgeIcon)
+      !!option.showBadge
+      || (option.badgeCount !== undefined && option.badgeCount > 0 && option.badgeContent === "number")
+      || (option.badgeContent === "icon" && !!option.badgeIcon)
     );
   };
 
@@ -203,8 +203,8 @@ export class TabComponent implements AfterViewInit, OnChanges, OnDestroy {
     let newIndex = this.computeNextItemIndex(currentIndex, maxIterations, direction);
     let counter = 0;
     while (
-      this.tabItemRefs()[newIndex].tabItemRef()?.nativeElement.getAttribute("data-disabled") === "true" &&
-      counter < maxIterations
+      this.tabItemRefs()[newIndex].tabItemRef()?.nativeElement.getAttribute("data-disabled") === "true"
+      && counter < maxIterations
     ) {
       newIndex = this.computeNextItemIndex(newIndex, maxIterations, direction);
       counter++;
@@ -266,8 +266,8 @@ export class TabComponent implements AfterViewInit, OnChanges, OnDestroy {
       const containerNativeElement = this.containerRef()?.nativeElement;
       if (containerNativeElement) {
         this.isScrollable.set(
-          containerNativeElement.offsetWidth < containerNativeElement.scrollWidth ||
-            containerNativeElement.offsetHeight < containerNativeElement.scrollHeight,
+          containerNativeElement.offsetWidth < containerNativeElement.scrollWidth
+            || containerNativeElement.offsetHeight < containerNativeElement.scrollHeight,
         );
       }
     }
@@ -302,8 +302,8 @@ export class TabComponent implements AfterViewInit, OnChanges, OnDestroy {
     const containerNativeElement = this.containerRef()?.nativeElement;
     if (containerNativeElement) {
       const isOverflowingBottom =
-        containerNativeElement.scrollHeight - containerNativeElement.clientHeight - containerNativeElement.scrollTop >
-        0;
+        containerNativeElement.scrollHeight - containerNativeElement.clientHeight - containerNativeElement.scrollTop
+        > 0;
       this.isOverflowingBottom.set(this.isScrollable() && isOverflowingBottom);
     }
   }

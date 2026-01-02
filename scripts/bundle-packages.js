@@ -55,7 +55,7 @@ function copyBundlesToDist(packages) {
 }
 
 function copyCoreToDist() {
-  const packageRoot = path.resolve(__dirname, `../packages/core`);
+  const packageRoot = path.resolve(__dirname, "../packages/core");
   const outputDir = path.join(distDir, "core");
 
   console.log(`📁 Copying core source files to ${outputDir}`);

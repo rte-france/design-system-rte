@@ -13,8 +13,8 @@ import style from "./Textarea.module.scss";
 
 interface TextareaProps
   extends
-    CoreTextareaProps,
-    Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "onChange" | "value" | "defaultValue" | "placeholder"> {
+  CoreTextareaProps,
+  Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "onChange" | "value" | "defaultValue" | "placeholder"> {
   onChange?: (event: ChangeEvent<HTMLTextAreaElement>) => void;
 }
 

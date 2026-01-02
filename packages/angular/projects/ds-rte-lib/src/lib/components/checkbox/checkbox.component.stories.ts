@@ -98,9 +98,9 @@ export const ReadOnly: Story = {
     const canvas = within(canvasElement);
     focusElementBeforeComponent(canvasElement);
     const checkbox = canvas.getByRole("checkbox");
-    await userEvent.keyboard(`{Tab}`);
+    await userEvent.keyboard("{Tab}");
     expect(checkbox).toHaveFocus();
-    await userEvent.keyboard(`{ }`);
+    await userEvent.keyboard("{ }");
     expect(checkbox).toBeChecked();
     checkbox.blur();
   },
@@ -121,9 +121,9 @@ export const KeyboardInteractions: Story = {
     const canvas = within(canvasElement);
     focusElementBeforeComponent(canvasElement);
     const checkbox = canvas.getByRole("checkbox");
-    await userEvent.keyboard(`{Tab}`);
+    await userEvent.keyboard("{Tab}");
     expect(checkbox).toHaveFocus();
-    await userEvent.keyboard(`{ }`);
+    await userEvent.keyboard("{ }");
     expect(checkbox).toBeChecked();
     checkbox.blur();
   },

@@ -1,11 +1,10 @@
 import angularPlugin from "@angular-eslint/eslint-plugin";
-import angularTemplate from "@angular-eslint/eslint-plugin-template";
-import angularParser from "@angular-eslint/template-parser";
-import tseslint from "typescript-eslint";
+// import angularTemplate from "@angular-eslint/eslint-plugin-template";
+// import angularParser from "@angular-eslint/template-parser";
 
 import baseConfig from "../../eslint.config.js";
 
-export default tseslint.config(
+export default [
   ...baseConfig,
   {
     files: ["**/*.{js,ts}"],
@@ -26,17 +25,17 @@ export default tseslint.config(
       "@angular-eslint/use-lifecycle-interface": "error",
     },
   },
-  {
-    files: ["**/*.html"],
-    languageOptions: {
-      parser: angularParser,
-    },
-    plugins: {
-      "@angular-eslint/template": angularTemplate,
-    },
-    rules: {
-      ...angularTemplate.configs.recommended.rules,
-      "@angular-eslint/template/attributes-order": "error",
-    },
-  },
-);
+  // {
+  //   files: ["**/*.html"],
+  //   languageOptions: {
+  //     parser: angularParser,
+  //   },
+  //   plugins: {
+  //     "@angular-eslint/template": angularTemplate,
+  //   },
+  //   rules: {
+  //     ...angularTemplate.configs.recommended.rules,
+  //     "@angular-eslint/template/attributes-order": "error",
+  //   },
+  // },
+];

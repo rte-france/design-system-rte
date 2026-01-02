@@ -37,7 +37,7 @@ function extractRegularAndTogglableIcons() {
 }
 
 function generateIconMaps() {
-  let string = `// This file is auto-generated. Do not edit manually.\n\n`;
+  let string = "// This file is auto-generated. Do not edit manually.\n\n";
 
   string += generateImportsIconsMap();
   string += generateRegularIconsMap();
@@ -52,25 +52,25 @@ function generateImportsIconsMap() {
 }
 
 function generateRegularIconsMap() {
-  let string = `export const RegularIcons = {\n`;
+  let string = "export const RegularIcons = {\n";
   regularIcons.forEach((iconName) => {
     const snakeCaseName = iconName.replace(/_/g, "-");
     string += `  "${snakeCaseName}": "${iconName}",\n`;
   });
-  string += `};\n\n`;
+  string += "};\n\n";
   return string;
 }
 
 function generateTogglableIconsMap() {
-  let string = `export const TogglableIcons = {\n`;
+  let string = "export const TogglableIcons = {\n";
   togglableIcons.forEach((iconName) => {
     const snakeCaseName = iconName.replace(/_/g, "-");
     string += `  "${snakeCaseName}": ["${iconName}_outlined", "${iconName}_filled"],\n`;
   });
-  string += `};\n`;
+  string += "};\n";
   return string;
 }
 
 function generateIsValidIconNameFunction() {
-  return `\nexport function isValidIconName(iconName: string): boolean {\n  return isValidIconNameShared(iconName, RegularIcons, TogglableIcons);\n}\n`;
+  return "\nexport function isValidIconName(iconName: string): boolean {\n  return isValidIconNameShared(iconName, RegularIcons, TogglableIcons);\n}\n";
 }

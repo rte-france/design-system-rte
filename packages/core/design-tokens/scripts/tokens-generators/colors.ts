@@ -26,16 +26,16 @@ export interface ColorTokenValue {
 export interface ColorToken {
   [category: string]:
     | {
-        [colorTokenName: string]: ColorTokenValue;
-      }
+      [colorTokenName: string]: ColorTokenValue;
+    }
     | ColorTokenValue;
 }
 
 const rawColorCategories = ["gradient", "elevation"];
 
 export function extractColors(variables: ColorToken, mode: ColorMode): string {
-  let scss = `@use '../../primitives/colors' as *;\n`;
-  scss += `@use '../../primitives/devColors' as *;\n\n`;
+  let scss = "@use '../../primitives/colors' as *;\n";
+  scss += "@use '../../primitives/devColors' as *;\n\n";
   scss += `$${mode}: (\n`;
   for (const category in variables) {
     const categoryTokens = variables[category];
@@ -66,14 +66,14 @@ export function generateThemesFile() {
     scss += `$${theme}: (\n`;
     scss += `${INDENT.repeat(1)}"light": $${theme}-light,\n`;
     scss += `${INDENT.repeat(1)}"dark": $${theme}-dark,\n`;
-    scss += `);\n`;
+    scss += ");\n";
   });
 
-  scss += `\n$themes: (\n`;
+  scss += "\n$themes: (\n";
   Object.values(ColorTheme).forEach((theme) => {
     scss += `${INDENT.repeat(1)}"${theme.replace(/-/g, "_")}": $${theme},\n`;
   });
-  scss += `);`;
+  scss += ");";
 
   const filePath = path.join(tokensOutputDir, "_themes.scss");
   generateScssFile(scss, filePath);

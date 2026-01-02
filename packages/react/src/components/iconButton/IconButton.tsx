@@ -11,8 +11,8 @@ import style from "./IconButton.module.scss";
 
 interface IconButtonProps
   extends
-    Omit<CoreIconButtonProps, "disabled" | "name">,
-    Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "onClick"> {
+  Omit<CoreIconButtonProps, "disabled" | "name">,
+  Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "onClick"> {
   name: RegularIconIdKey | TogglableIconIdKey;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }

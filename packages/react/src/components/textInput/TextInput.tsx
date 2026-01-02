@@ -14,8 +14,8 @@ import style from "./TextInput.module.scss";
 
 interface TextInputProps
   extends
-    CoreTextInputProps,
-    Omit<InputHTMLAttributes<HTMLInputElement>, "id" | "onChange" | "value" | "defaultValue" | "placeholder"> {
+  CoreTextInputProps,
+  Omit<InputHTMLAttributes<HTMLInputElement>, "id" | "onChange" | "value" | "defaultValue" | "placeholder"> {
   onChange?: (value: string) => void;
 }
 

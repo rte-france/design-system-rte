@@ -38,7 +38,7 @@ function restoreAngularPackagePrivacy(originallyPrivate) {
 }
 
 function publishWithChangeset() {
-  run(`changeset publish`);
+  run("changeset publish");
 }
 
 function buildAngularLibrary() {

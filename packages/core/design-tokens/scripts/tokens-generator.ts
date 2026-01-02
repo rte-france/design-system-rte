@@ -68,7 +68,7 @@ export function generateTokensScssFiles(json: TokenItem[]): void {
 
       case Collection.TYPOGRAPHY:
         if (tokenItem.mode === "desktop") {
-          filename = `_typography.scss`;
+          filename = "_typography.scss";
           const filePath = path.join(tokensOutputDir, filename);
 
           scss += extractTypography(tokenItem.variables as TypographyToken);

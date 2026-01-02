@@ -37,7 +37,7 @@ function extractRegularAndTogglableIcons() {
 }
 
 function generateIndexFile() {
-  let string = `// This file is auto-generated. Do not edit manually.\n\n`;
+  let string = "// This file is auto-generated. Do not edit manually.\n\n";
   ALL_ICONS.forEach((iconName) => {
     string += `export { default as ${iconName} } from './${iconName}';\n`;
   });
@@ -45,7 +45,7 @@ function generateIndexFile() {
 }
 
 function generateIconMaps() {
-  let string = `// This file is auto-generated. Do not edit manually.\n\n`;
+  let string = "// This file is auto-generated. Do not edit manually.\n\n";
 
   string += generateImportsIconsMap();
   string += generateRegularIconsMap();
@@ -57,7 +57,7 @@ function generateIconMaps() {
 
 function generateImportsIconsMap() {
   let string = `import { isValidIconName as isValidIconNameShared } from "@design-system-rte/core/components/icon/icon-utils";\n\n`;
-  string += `import {\n`;
+  string += "import {\n";
   ALL_ICONS.forEach((iconName) => {
     const iconNameCamelCase = iconName.charAt(0).toUpperCase() + iconName.slice(1);
     string += `  ${iconNameCamelCase},\n`;
@@ -67,17 +67,17 @@ function generateImportsIconsMap() {
 }
 
 function generateRegularIconsMap() {
-  let string = `export const RegularIcons = {\n`;
+  let string = "export const RegularIcons = {\n";
   regularIcons.forEach((iconName) => {
     const snakeCaseName = iconName.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
     string += `  "${snakeCaseName}": ${iconName},\n`;
   });
-  string += `};\n\n`;
+  string += "};\n\n";
   return string;
 }
 
 function generateTogglableIconsMap() {
-  let string = `export const TogglableIcons = {\n`;
+  let string = "export const TogglableIcons = {\n";
   togglableIcons.forEach((iconName) => {
     const snakeCaseName = iconName
       .replace(/([a-z0-9])([A-Z])/g, "$1-$2")
@@ -85,10 +85,10 @@ function generateTogglableIconsMap() {
       .toLowerCase();
     string += `  "${snakeCaseName}": [${iconName}Outlined, ${iconName}Filled],\n`;
   });
-  string += `};\n`;
+  string += "};\n";
   return string;
 }
 
 function generateIsValidIconNameFunction() {
-  return `\nexport function isValidIconName(name: string): boolean {\n  return isValidIconNameShared(name, RegularIcons, TogglableIcons);\n}\n`;
+  return "\nexport function isValidIconName(name: string): boolean {\n  return isValidIconNameShared(name, RegularIcons, TogglableIcons);\n}\n";
 }

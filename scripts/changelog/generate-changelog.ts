@@ -36,7 +36,7 @@ generateChangelog();
 
 function generateChangelog(): void {
   try {
-    let changelogContent = `# Design System RTE - Latest changes\n\n`;
+    let changelogContent = "# Design System RTE - Latest changes\n\n";
 
     packages.forEach((pkg) => {
       const packageChangelogObj = parseChangelogDocument(fs.readFileSync(pkg.changelogPath, "utf-8"));

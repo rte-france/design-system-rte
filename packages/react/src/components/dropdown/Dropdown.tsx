@@ -137,8 +137,8 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
         const target = event.target as Element;
         const allDropdowns = document.querySelectorAll("[data-dropdown-id]");
         const clickedInside =
-          Array.from(allDropdowns).some((dropdown) => dropdown.contains(target)) ||
-          triggerRef.current?.contains(target);
+          Array.from(allDropdowns).some((dropdown) => dropdown.contains(target))
+          || triggerRef.current?.contains(target);
 
         if (!clickedInside) {
           closeDropdown();

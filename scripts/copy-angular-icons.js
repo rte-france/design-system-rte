@@ -12,7 +12,7 @@ cleanDirectory(testAppIconsDir);
 copyPackageIconsToTestApp();
 
 function copyPackageIconsToTestApp() {
-  const bundleIconsDir = path.resolve(__dirname, `../dist/packages/angular/lib/assets/icons`);
+  const bundleIconsDir = path.resolve(__dirname, "../dist/packages/angular/lib/assets/icons");
   copyDirectoryRecursive(bundleIconsDir, testAppIconsDir);
 }
 

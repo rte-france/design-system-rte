@@ -62,8 +62,8 @@ const Tab = forwardRef<HTMLDivElement, TabProps>(
     const computeScrollableState = useCallback(() => {
       if (containerRef.current) {
         const isScrollable =
-          containerRef.current.offsetWidth < containerRef.current.scrollWidth ||
-          containerRef.current.offsetHeight < containerRef.current.scrollHeight;
+          containerRef.current.offsetWidth < containerRef.current.scrollWidth
+          || containerRef.current.offsetHeight < containerRef.current.scrollHeight;
 
         const isOverFlowingLeft = containerRef.current.scrollLeft > 0;
         const isOverFlowingRight =
@@ -197,15 +197,15 @@ const Tab = forwardRef<HTMLDivElement, TabProps>(
                   >
                     {selectedOption && selectedOption.icon && <Icon name={selectedOption.icon} appearance="filled" />}
                     {selectedOption && <div style={{ flexShrink: 0 }}>{selectedOption?.label}</div>}
-                    {selectedOption.badgeCount &&
-                      selectedOption.badgeCount > 0 &&
-                      selectedOption.badgeContent === "number" && (
-                        <Badge
-                          badgeType={selectedOption.badgeType}
-                          content={selectedOption.badgeContent}
-                          count={selectedOption.badgeCount}
-                        />
-                      )}
+                    {selectedOption.badgeCount
+                      && selectedOption.badgeCount > 0
+                      && selectedOption.badgeContent === "number" && (
+                      <Badge
+                        badgeType={selectedOption.badgeType}
+                        content={selectedOption.badgeContent}
+                        count={selectedOption.badgeCount}
+                      />
+                    )}
                     <Icon style={{ flexShrink: 0 }} name="arrow-chevron-down"></Icon>
                   </button>
                 }
