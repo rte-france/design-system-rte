@@ -11,7 +11,7 @@ export default defineConfig(
   tseslint.configs.recommended,
   eslintPluginPrettierRecommended,
   {
-    ignores: ["**/*/dist", "**/storybook-static", "./dist", "./test-apps/angular/.angular"],
+    ignores: ["**/dist", "**/storybook-static", "./dist", "./test-apps/angular/.angular"],
   },
   {
     files: ["**/*.{js,ts,jsx,tsx}"],
