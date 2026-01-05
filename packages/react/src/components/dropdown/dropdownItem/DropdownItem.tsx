@@ -186,7 +186,7 @@ export const DropdownItem = ({
           <span style={{ flex: "2" }}>{label}</span>
         )}
         {trailingText && <div>{trailingText}</div>}
-        {shouldDisplayBadge(!!showBadge, badgeContent, badgeCount, badgeIcon) && (
+        {shouldDisplayBadge({ showBadge: !!showBadge, badgeContent, badgeCount, badgeIcon }) && (
           <Badge count={badgeCount} content={badgeContent} icon={badgeIcon} badgeType={badgeType} />
         )}
       </li>

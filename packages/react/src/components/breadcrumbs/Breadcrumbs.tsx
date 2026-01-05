@@ -70,7 +70,7 @@ const Breadcrumbs = forwardRef<HTMLDivElement, BreadcrumbsProps>(
                     compactSpacing
                     onClick={() => setIsTruncatedListOpened(!isTrucatedListOpened)}
                   />
-                  {shouldDisplayBadge(!!showBadge, badgeContent, badgeCount, badgeIcon) && (
+                  {shouldDisplayBadge({ showBadge: !!showBadge, badgeContent, badgeCount, badgeIcon }) && (
                     <Badge count={badgeCount} content={badgeContent} icon={badgeIcon} badgeType={badgeType} />
                   )}
                 </div>
