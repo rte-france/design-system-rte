@@ -1,0 +1,32 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+.rte-component-docs {
+  display: flex;
+  flex-direction: column;
+  gap: $positive-spacing_200;
+
+  .rte-component-docs-overview {
+    display: flex;
+    flex-direction: column;
+    gap: $positive-spacing_200;
+  }
+
+  .rte-component-docs-guidelines {
+    display: flex;
+    flex-direction: column;
+    gap: $positive-spacing_200;
+    padding: $positive-spacing_200;
+
+    ul li {
+      @include typography-text-m;
+    }
+  }
+
+  .rte-component-docs-accessibility {
+    display: flex;
+    flex-direction: column;
+    gap: $positive-spacing_200;
+    padding: $positive-spacing_200;
+  }
+}
+

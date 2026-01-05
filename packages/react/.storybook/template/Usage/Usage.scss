@@ -1,0 +1,178 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+.sbdocs {
+  .usage-wrapper {
+    .usage-container {
+      flex-direction: column;
+      display: flex;
+      gap: $positive-spacing_200;
+      padding: $positive-spacing_200;
+
+      .usage {
+        display: flex;
+        gap: $positive-spacing_200;
+
+        .section {
+          display: flex;
+          flex-direction: column;
+          padding: $positive-spacing_100 0;
+          border-radius: $radius-m;
+          background: var(--background-disabled);
+          overflow: visible;
+          flex: 1 0 0;
+          position: relative;
+
+          .body {
+            display: flex;
+            flex-direction: column;
+            padding: $positive-spacing_200;
+            gap: $positive-spacing_200;
+            flex: 1 0 0;
+
+            .content {
+              padding: $positive-spacing_200;
+              background: var(--background-default);
+              border-radius: $radius-m;
+              align-items: center;
+              display: flex;
+              flex-direction: column;
+              gap: $positive-spacing_200;
+              flex: 1 0 0;
+              justify-content: center;
+
+              p {
+                margin: 0;
+              }
+            }
+          }
+
+          h3 {
+            @include typography-heading-xs;
+            color: var(--content-primary-inverse);
+            padding: 0;
+          }
+
+          .title {
+            padding: $positive-spacing_050 $positive-spacing_100;
+            display: flex;
+            align-items: center;
+            gap: $positive-spacing_050;
+            border-radius: $radius-s;
+            align-self: stretch;
+            @include elevation-neutral-shadow-2;
+
+            svg {
+              color: var(--content-primary-inverse);
+            }
+          }
+
+          &.positive {
+            .title {
+              background-color: var(--background-success-default);
+              border-right: var(--width-S, 2px) solid var(--content-success-default, #0B8A4D);
+              border-left: var(--width-S, 2px) solid var(--content-success-default, #0B8A4D);
+            }
+
+            .subtitle {
+              @include typography-text-l-bold;
+              color: var(--content-success-hover);
+            }
+
+            .body {
+              .content {
+                &.first {
+                  height: 119px;
+                  flex: 0;
+
+                  p {
+                    @include typography-text-m-bold;
+                    color: var(--content-success-hover);
+                  }
+                }
+
+                &.second {
+                  p {
+                    @include typography-text-l-bold;
+                    color: var(--content-success-hover);
+                  }
+                }
+              }
+            }
+
+            p {
+              @include typography-text-s-bold;
+              color: var(--content-success-hover);
+              text-align: center;
+              margin: 0;
+            }
+          }
+
+          &.negative {
+            .title {
+              background-color: var(--background-danger-default);
+            }
+
+            .separator {
+              color: var(--content-secondary);
+              padding: 0 $positive-spacing_100;
+              user-select: none;
+            }
+
+            p {
+              @include typography-text-s-bold;
+              color: var(--content-danger-default);
+              text-align: center;
+              margin: 0;
+            }
+
+            .body {
+              .content {
+                padding-top: 10px;
+                padding-bottom: 10px;
+
+                &.first {
+                  height: 119px;
+                  flex: 0;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .content-standard {
+        display: flex;
+        flex-direction: column;
+        gap: $positive-spacing_200;
+
+        p {
+          margin: 0;
+        }
+
+        .title {
+          @include typography-heading-s;
+          padding: $positive-spacing_100 0;
+          color: var(--content-primary);
+
+          span {
+            @include typography-heading-s;
+            color: var(--content-tertiary);
+          }
+        }
+
+        .subtitle {
+          @include typography-heading-xs;
+          color: var(--content-primary);
+          padding: $positive-spacing_050 0;
+        }
+
+        .description {
+          @include typography-text-m;
+          color: var(--content-secondary);
+          padding: $positive-spacing_050 0;
+        }
+      }
+    }
+  }
+}
+

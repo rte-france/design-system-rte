@@ -13,8 +13,7 @@ import { concatClassNames } from "../utils";
 import style from "./TextInput.module.scss";
 
 interface TextInputProps
-  extends
-    CoreTextInputProps,
+  extends CoreTextInputProps,
     Omit<InputHTMLAttributes<HTMLInputElement>, "id" | "onChange" | "value" | "defaultValue" | "placeholder"> {
   onChange?: (value: string) => void;
 }
