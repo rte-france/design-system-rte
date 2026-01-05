@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import Header from "../Header/Header";
 
+import { useFrameworkContext } from "./FrameworkContext";
 import Overview from "./Overview/Overview";
 import Tabs from "./Tabs/Tabs";
 
@@ -11,7 +12,7 @@ interface ComponentDocsProps {
   title: string;
   description?: React.ReactNode;
   linkFigma?: string;
-  linkGithub?: string;
+  linkGithub?: string | { angular?: string; react?: string };
   disponibility?: {
     design?: {
       figma?: boolean;
@@ -48,9 +49,48 @@ const ComponentDocs = ({
   guidelines,
   accessibility,
 }: ComponentDocsProps) => {
+  const contextFramework = useFrameworkContext().framework;
+
+  const [framework, setFramework] = useState<"angular" | "react">(() => {
+    if (typeof document !== "undefined") {
+      const frameworkAttr = document.documentElement.getAttribute("data-storybook-framework");
+      if (frameworkAttr === "angular") {
+        return "angular";
+      }
+    }
+    return contextFramework;
+  });
+
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      const frameworkAttr = document.documentElement.getAttribute("data-storybook-framework");
+      if (frameworkAttr === "angular") {
+        setFramework("angular");
+      } else if (frameworkAttr !== "angular") {
+        setFramework(contextFramework);
+      }
+    } else {
+      setFramework(contextFramework);
+    }
+  }, [contextFramework]);
+
+  let resolvedLinkGithub: string | undefined;
+
+  if (typeof linkGithub === "string") {
+    resolvedLinkGithub = linkGithub;
+  } else if (linkGithub && typeof linkGithub === "object") {
+    if (framework === "angular" && linkGithub.angular) {
+      resolvedLinkGithub = linkGithub.angular;
+    } else if (framework === "react" && linkGithub.react) {
+      resolvedLinkGithub = linkGithub.react;
+    } else {
+      resolvedLinkGithub = linkGithub.angular || linkGithub.react;
+    }
+  }
+
   return (
     <div className="rte-component-docs">
-      <Header title={title} linkFigma={linkFigma} linkGithub={linkGithub}>
+      <Header title={title} linkFigma={linkFigma} linkGithub={resolvedLinkGithub}>
         {description}
       </Header>
 

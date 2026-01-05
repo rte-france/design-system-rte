@@ -1,4 +1,4 @@
-import { TabOfOptions as CoreTabOfOptions } from "../../../../.storybook/template/TabOfOptions/TabOfOptions";
+import { TabOfOptions as CoreTabOfOptions } from "../../../../design-docs/src/components/TabOfOptions/TabOfOptions";
 
 const options = [
   { property: "numberOfPages", value: "1 / 2 / 3 / 3+", defaultValue: "2", dependance: "-" },

@@ -1,5 +1,5 @@
-import AccessibilityTable from "../../../../../design-docs/src/components/ComponentDocs/Overview/AccessibilityTable/AccessibilityTable";
-import type { AccessibilityCategory } from "../../../../../design-docs/src/components/ComponentDocs/Overview/AccessibilityTable/AccessibilityTable";
+import AccessibilityTable from "../../../../design-docs/src/components/ComponentDocs/Overview/AccessibilityTable/AccessibilityTable";
+import type { AccessibilityCategory } from "../../../../design-docs/src/components/ComponentDocs/Overview/AccessibilityTable/AccessibilityTable";
 
 const breadcrumbsAccessibilityData: AccessibilityCategory[] = [
   {

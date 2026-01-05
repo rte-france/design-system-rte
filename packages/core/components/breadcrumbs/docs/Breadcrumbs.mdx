@@ -1,11 +1,10 @@
 import { Meta } from "@storybook/blocks";
-import React from "react";
 
-import ComponentDocs from "../../../../../design-docs/src/components/ComponentDocs/ComponentDocs";
-import DocsSection from "../../../../../design-docs/src/components/DocsSection/DocsSection";
-import Accordion from "../../../../../design-docs/src/components/Accordion/Accordion";
-import Gerkin from "../../../../.storybook/template/Guideline/Gerkin/Gerkin";
-import Paragraph from "../../../../../design-docs/src/components/Paragraph/Paragraph";
+import ComponentDocs from "../../../../design-docs/src/components/ComponentDocs/ComponentDocs";
+import DocsSection from "../../../../design-docs/src/components/DocsSection/DocsSection";
+import Accordion from "../../../../design-docs/src/components/Accordion/Accordion";
+import Gerkin from "../../../../design-docs/src/components/Guideline/Gerkin/Gerkin";
+import Paragraph from "../../../../design-docs/src/components/Paragraph/Paragraph";
 import Usage from "./Usage";
 import Options from "./Options";
 import Behaviors from "./Behaviors";
@@ -19,7 +18,10 @@ import AccessibilityTable from "./AccessibilityTable";
     <Paragraph>Le composant <b>Breadcrumb</b> (ou fil d'Ariane) permet d'indiquer visuellement le chemin de navigation jusqu'à la page en cours. Il facilite la compréhension de la hiérarchie de l'interface et offre un accès rapide aux pages parentes. Il se base sur le composant Link pour tous les comportements de navigation, de focus et d'accessibilité.</Paragraph>
   }
   linkFigma="https://www.figma.com/design/Wiy8uWsWjoagf95lOmPXNU/01.0-Design-System-RTE---WEB?node-id=2620-7306&p=f&m=dev"
-  linkGithub="https://github.com/rte-france/design-system-rte/tree/main/packages/react/src/components/breadcrumbs"
+  linkGithub={{
+    react: "https://github.com/rte-france/design-system-rte/tree/main/packages/react/src/components/breadcrumbs",
+    angular: "https://github.com/rte-france/design-system-rte/tree/main/packages/angular/projects/ds-rte-lib/src/lib/components/breadcrumbs"
+  }}
   disponibility={{
     design: {
       figma: true,

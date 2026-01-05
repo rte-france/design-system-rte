@@ -1,0 +1,24 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+.sbdocs {
+  .gerkin-container {
+    display: flex;
+    padding: $positive-spacing_100;
+    align-items: center;
+    border-radius: $radius-s;
+    background: var(--background-hover);
+
+    ul {
+      margin: 0;
+
+      li {
+        @include typography-text-m;
+        margin-bottom: $positive-spacing_050;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+}

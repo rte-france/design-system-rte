@@ -1,8 +1,8 @@
 import { Tag } from "@design-system-rte/react";
 import React from "react";
 
-import AccordionIconToggle from "../AccordionIconToggle/AccordionIconToggle.tsx";
-import Heading from "../Heading/Heading.tsx";
+import AccordionIconToggle from "../AccordionIconToggle/AccordionIconToggle";
+import Heading from "../Heading/Heading";
 
 import "./LastUpdate.scss";
 

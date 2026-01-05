@@ -1,6 +1,6 @@
-import Accordion from "../../../../../design-docs/src/components/Accordion/Accordion";
-import Heading from "../../../../.storybook/template/Heading/Heading";
-import Table from "../../../../.storybook/template/Table/Table";
+import Accordion from "../../../../design-docs/src/components/Accordion/Accordion";
+import Heading from "../../../../design-docs/src/components/Heading/Heading";
+import Table from "../../../../design-docs/src/components/Table/Table";
 import "./Options.scss";
 
 const Options = () => {
@@ -24,11 +24,15 @@ const Options = () => {
           </div>
 
           <div className="option-table number-of-pages">
-            <Heading level={3}>Number of Pages</Heading>
+            <Heading id="number-of-pages" level={3}>
+              Number of Pages
+            </Heading>
             <Table options={numberOfPages} />
           </div>
           <div className="option-table boolean-option">
-            <Heading level={3}>Boolean options</Heading>
+            <Heading id="boolean-options" level={3}>
+              Boolean options
+            </Heading>
             <Table options={booleanOptions} />
           </div>
         </div>
