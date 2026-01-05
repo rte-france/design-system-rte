@@ -1,4 +1,4 @@
-import { join, dirname } from "path";
+import { join, dirname, resolve } from "path";
 
 import type { StorybookConfig } from "@storybook/angular";
 
@@ -30,6 +30,13 @@ const config: StorybookConfig = {
     plugins: [["@babel/plugin-proposal-decorators", { legacy: true }]],
   }),
   webpackFinal: async (config) => {
+    // Configure resolve alias for /assets/fonts to resolve font file paths in SCSS
+    config.resolve = config.resolve || {};
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      "/assets/fonts": resolve(__dirname, "../../core/assets/fonts"),
+    };
+
     // Fix SCSS loader chain: ensure css-loader processes CSS output from sass-loader
     // This handles @import url() statements in the compiled CSS
     type WebpackRule = {
