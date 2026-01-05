@@ -19,6 +19,24 @@ const decorators = [
   }),
 ];
 const preview: Preview = {
+  globalTypes: {
+    framework: {
+      name: "Framework",
+      description: "Framework context for documentation",
+      defaultValue: "angular",
+      toolbar: {
+        icon: "circlehollow",
+        items: [
+          { value: "angular", title: "Angular" },
+          { value: "react", title: "React" },
+        ],
+        showName: false,
+      },
+    },
+  },
+  initialGlobals: {
+    framework: "angular",
+  },
   parameters: {
     controls: {
       matchers: {
@@ -36,16 +54,19 @@ const preview: Preview = {
   },
   decorators: [
     ...decorators,
-    componentWrapperDecorator(
-      (story) => `
-        <div style="padding: 16px 16px 80px 50px; background-color: var(--background-default); width: auto; height: 100%; display: flex; flex-direction: column; gap: 96px;">
-          <rte-theme-selector/>
-          <div style="margin: auto;">
-            ${story}
+    componentWrapperDecorator((story) => {
+      if (typeof document !== "undefined") {
+        document.documentElement.setAttribute("data-storybook-framework", "angular");
+      }
+      return `
+          <div style="padding: 16px 16px 80px 50px; background-color: var(--background-default); width: auto; height: 100%; display: flex; flex-direction: column; gap: 96px;">
+            <rte-theme-selector/>
+            <div style="margin: auto;">
+              ${story}
+            </div>
           </div>
-        </div>
-      `,
-    ),
+        `;
+    }),
   ],
 };
 

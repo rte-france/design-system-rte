@@ -1,0 +1,65 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+.sbdocs {
+  .rte-stories.table-wrapper {
+    border: 1px solid var(--border-tertiary);
+    border-radius: 8px;
+    overflow: clip;
+
+      table.rte-stories-table {
+      margin: 0;
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-family: "Arial", sans-serif;
+      text-align: left;
+      border-radius: 8px;
+      font-size: 14px;
+      line-height: 24px;
+
+      tbody {
+        vertical-align: middle;
+      }
+
+      tr:nth-of-type(2n) {
+        background-color: transparent;
+      }
+
+      tr {
+        th {
+          @include typography-text-m-bold;
+        }
+
+        th,
+        td {
+          border: none;
+          background-color: transparent;
+          border-bottom: #eeeded 1px solid;
+          padding: $positive-spacing_200;
+          vertical-align: middle;
+        }
+      }
+
+      col.rte-stories-table-col-flex {
+        width: auto;
+      }
+
+      // Equal width columns for 2-column tables
+      &.rte-stories-table-two-columns {
+        table-layout: fixed;
+      }
+
+      thead {
+        tr {
+          th {
+            @include typography-text-m-bold;
+            color: var(--content-primary);
+            border-bottom: #DCDADA 1px solid;
+            padding: $positive-spacing_075 $positive-spacing_200;
+            vertical-align: middle;
+          }
+        }
+      }
+    }
+  }
+}

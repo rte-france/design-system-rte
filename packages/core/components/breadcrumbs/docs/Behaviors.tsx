@@ -1,6 +1,6 @@
-import Accordion from "../../../../../design-docs/src/components/Accordion/Accordion";
-import Heading from "../../../../.storybook/template/Heading/Heading";
-import Table from "../../../../.storybook/template/Table/Table";
+import Accordion from "../../../../design-docs/src/components/Accordion/Accordion";
+import Heading from "../../../../design-docs/src/components/Heading/Heading";
+import Table from "../../../../design-docs/src/components/Table/Table";
 import "./Options.scss";
 
 const Behaviors = () => {
@@ -9,17 +9,23 @@ const Behaviors = () => {
       <Accordion title="Behaviors">
         <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
           <div className="option-table layout">
-            <Heading level={3}>Layout</Heading>
+            <Heading id="layout" level={3}>
+              Layout
+            </Heading>
             <Table options={layoutOptions} />
           </div>
 
           <div className="option-table focus">
-            <Heading level={3}>Focus</Heading>
+            <Heading id="focus" level={3}>
+              Focus
+            </Heading>
             <Table options={focusOptions} />
           </div>
 
           <div className="option-table animations">
-            <Heading level={3}>Animations</Heading>
+            <Heading id="animations" level={3}>
+              Animations
+            </Heading>
             <ul className="sb-unstyled">
               <li>
                 Toutes les animations doivent respecter les préférences utilisateur <em>(prefers-reduced-motion)</em> et
@@ -34,22 +40,30 @@ const Behaviors = () => {
           </div>
 
           <div className="option-table interactions">
-            <Heading level={3}>Interactions</Heading>
+            <Heading id="interactions" level={3}>
+              Interactions
+            </Heading>
             <Table options={interactionsOptions} />
           </div>
 
           <div className="option-table keyboard-interactions">
-            <Heading level={3}>Keyboard interactions</Heading>
+            <Heading id="keyboard-interactions" level={3}>
+              Keyboard interactions
+            </Heading>
             <Table options={keyboardInteractionsOptions} />
           </div>
 
           <div className="option-table safezone">
-            <Heading level={3}>Safezone</Heading>
+            <Heading id="safezone" level={3}>
+              Safezone
+            </Heading>
             <Table options={safezoneOptions} />
           </div>
 
           <div className="option-table autre-contextuel">
-            <Heading level={3}>Autre / contextuel</Heading>
+            <Heading id="autre-contextuel" level={3}>
+              Autre / contextuel
+            </Heading>
             <Table options={autreContextuelOptions} />
           </div>
         </div>

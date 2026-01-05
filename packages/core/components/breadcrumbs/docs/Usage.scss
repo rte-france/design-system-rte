@@ -1,12 +1,6 @@
 @use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
 
 .sbdocs {
-  .breadcrumb {
-    .breadcrumb-example {
-      padding: $positive-spacing_200;
-    }
-  }
-  
   .subtitle {
     @include typography-text-l-bold;
   }

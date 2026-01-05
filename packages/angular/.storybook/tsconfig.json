@@ -5,21 +5,28 @@
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "jsx": "react-jsx",
+    "baseUrl": ".",
     "paths": {
-      "@design-system-rte/core/*": ["../../core/*"]
+      "@design-system-rte/core/*": ["../../core/*"],
+      "rxjs": ["../../../node_modules/rxjs"],
+      "rxjs/*": ["../../../node_modules/rxjs/*"]
     },
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true ,
   },
-  "exclude": ["../projects/ds-rte-lib/src/test.ts", "../projects/ds-rte-lib/src/**/*.spec.ts"],
+  "exclude": [
+    "../projects/ds-rte-lib/src/test.ts",
+    "../projects/ds-rte-lib/src/**/*.spec.ts",
+    "../../react/**/*"
+  ],
   "include": [
     "../projects/ds-rte-lib/src/**/*.stories.*",
     "./preview.ts",
     "./template/**/*",
-    "../../design-docs/src/components/ComponentDocs/**/*.tsx",
-    "../../design-docs/src/components/ComponentDocs/**/*.ts",
-    "../../design-docs/src/components/Header/**/*.tsx",
-    "../../design-docs/src/components/Header/**/*.ts",
+    "../../design-docs/src/components/**/*.tsx",
+    "../../design-docs/src/components/**/*.ts",
+    "../../core/components/**/docs/**/*.tsx",
+    "../../core/components/**/docs/**/*.ts",
   ],
   "files": ["./typings.d.ts"]
 }
