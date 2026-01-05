@@ -1,6 +1,5 @@
 import js from "@eslint/js";
 import { defineConfig } from "eslint/config";
-// import eslintConfigPrettier from "eslint-config-prettier/flat";
 import importPlugin from "eslint-plugin-import";
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
 import globals from "globals";
@@ -11,7 +10,7 @@ export default defineConfig(
   tseslint.configs.recommended,
   eslintPluginPrettierRecommended,
   {
-    ignores: ["**/*/dist", "**/storybook-static", "./dist", "./test-apps/angular/.angular"],
+    ignores: ["**/dist", "**/storybook-static", "./dist", "./test-apps/angular/.angular"],
   },
   {
     files: ["**/*.{js,ts,jsx,tsx}"],
