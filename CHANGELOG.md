@@ -117,6 +117,7 @@
 - Updated dependencies [a7d75ed]
 - Updated dependencies [cc64a7f]
 - @design-system-rte/core@0.20.0
+
 # React
 
 ## 1.0.0
@@ -275,6 +276,7 @@
 - Updated dependencies [a7d75ed]
 - Updated dependencies [cc64a7f]
 - @design-system-rte/core@0.20.0
+
 # Core
 
 ## 1.0.0
@@ -343,7 +345,6 @@
 - add customizable gap
 
 ### Other
-
 
 ## 0.20.0
 
@@ -464,4 +465,3 @@
 - add Accessibilité page
 
 ### Other
-

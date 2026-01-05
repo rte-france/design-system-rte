@@ -37,6 +37,7 @@ export default tseslint.config(
     rules: {
       ...angularTemplate.configs.recommended.rules,
       "@angular-eslint/template/attributes-order": "error",
+      "@typescript-eslint/ban-ts-comment": "off",
     },
   },
 );
