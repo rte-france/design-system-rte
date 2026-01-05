@@ -96,7 +96,12 @@ export class SegmentedControlComponent implements OnChanges, AfterViewInit, OnDe
   }
 
   shouldDisplayBadge(option: SegmentOptions): boolean {
-    return CoreShouldDisplayBadge(!!option.showBadge, option.badgeContent, option.badgeCount, option.badgeIcon);
+    return CoreShouldDisplayBadge({
+      showBadge: !!option.showBadge,
+      badgeContent: option.badgeContent,
+      badgeCount: option.badgeCount,
+      badgeIcon: option.badgeIcon,
+    });
   }
 
   selectSegment(id: string) {
