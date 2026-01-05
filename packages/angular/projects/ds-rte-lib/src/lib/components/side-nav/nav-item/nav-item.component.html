@@ -1,6 +1,6 @@
 @if (collapsed() && label()) {
   <div
-    class="nav-item-container {{appearance()}}"
+    class="nav-item-container {{ appearance() }}"
     rteTooltip
     rteTooltipPosition="right"
     rteTooltipAlignment="center"
@@ -10,15 +10,17 @@
     [rteTooltip]="label()"
     [rteTooltipArrow]="false"
     [rteTooltipGap]="12"
-    [rteTooltipShouldFocusTrigger]="false">
+    [rteTooltipShouldFocusTrigger]="false"
+  >
     <ng-container [ngTemplateOutlet]="contentTemplate" />
   </div>
 } @else {
   <div
-    class="nav-item-container {{appearance()}}"
+    class="nav-item-container {{ appearance() }}"
     [id]="id()"
     [ngClass]="{ collapsed: collapsed(), nested: isNested(), active: active(), focused: focused() }"
-    [attr.role]="role()">
+    [attr.role]="role()"
+  >
     <ng-container [ngTemplateOutlet]="contentTemplate" />
   </div>
 }
@@ -31,7 +33,8 @@
       [attr.tabindex]="tabIndex()"
       [attr.aria-label]="label()"
       (focus)="handleFocus()"
-      (blur)="handleBlur()">
+      (blur)="handleBlur()"
+    >
       <div class="nav-item-left">
         @if (showIcon() && icon()) {
           <rte-icon class="icon" [name]="icon()!" [size]="iconSize()" />
@@ -61,7 +64,8 @@
       (click)="handleClick($event)"
       (keydown)="handleKeyDown($event)"
       (focus)="handleFocus()"
-      (blur)="handleBlur()">
+      (blur)="handleBlur()"
+    >
       <div class="nav-item-left">
         @if (showIcon() && icon()) {
           <rte-icon class="icon" [name]="icon()!" [size]="iconSize()" />
@@ -85,4 +89,3 @@
     </span>
   }
 </ng-template>
-

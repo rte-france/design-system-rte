@@ -1,35 +1,28 @@
 import js from "@eslint/js";
+import { defineConfig } from "eslint/config";
+// import eslintConfigPrettier from "eslint-config-prettier/flat";
 import importPlugin from "eslint-plugin-import";
-import prettier from "eslint-plugin-prettier";
+import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 
-export default tseslint.config(
+export default defineConfig(
+  js.configs.recommended,
+  tseslint.configs.recommended,
+  eslintPluginPrettierRecommended,
   {
-    ignores: ["**/dist", "**/storybook-static", "./dist", "./test-apps/angular/.angular"],
+    ignores: ["**/*/dist", "**/storybook-static", "./dist", "./test-apps/angular/.angular"],
   },
   {
-    extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ["**/*.{js,ts,jsx,tsx}"],
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
     },
     plugins: {
-      prettier,
       import: importPlugin,
     },
     rules: {
-      "prettier/prettier": [
-        "error",
-        {
-          singleQuote: false,
-          trailingComma: "all",
-          tabWidth: 2,
-          endOfLine: "auto",
-          printWidth: 120,
-        },
-      ],
       "import/order": [
         "error",
         {
@@ -38,6 +31,7 @@ export default tseslint.config(
           alphabetize: { order: "asc", caseInsensitive: true },
         },
       ],
+      "no-undef": "off",
     },
   },
 );

@@ -1,8 +1,4 @@
-<div
-  class="container {{labelPosition()}}"
-  [ngClass]="{'error': error()}"
-  [style.width]="width()"
->
+<div class="container {{ labelPosition() }}" [ngClass]="{ error: error() }" [style.width]="width()">
   <ng-container *ngIf="label()">
     <div class="text">
       <div class="label-container">
@@ -24,33 +20,26 @@
         </ng-container>
       </div>
       <ng-container *ngIf="displayCounter() && labelPosition() === 'top'">
-        <p class="input-counter" data-testid="input-counter">
-          {{ characterCount() }}/{{ maxLength() }}
-        </p>
+        <p class="input-counter" data-testid="input-counter">{{ characterCount() }}/{{ maxLength() }}</p>
       </ng-container>
     </div>
   </ng-container>
 
   <div class="input-container">
-    <div
-      class="input {{labelPosition()}}"
-      [ngClass]="{'disabled': disabled(), 'read-only': readOnly()}"
-    >
-      <div class="input-bar" [ngClass]="{'with-left-icon': displayedLeftIcon(), 'with-right-icon': rightIconAction()}">
+    <div class="input {{ labelPosition() }}" [ngClass]="{ disabled: disabled(), 'read-only': readOnly() }">
+      <div
+        class="input-bar"
+        [ngClass]="{ 'with-left-icon': displayedLeftIcon(), 'with-right-icon': rightIconAction() }"
+      >
         <ng-container *ngIf="displayedLeftIcon()">
-          <rte-icon
-            appearance="outlined"
-            class="left-icon"
-            aria-hidden="true"
-            [name]="displayedLeftIcon()!"
-          />
+          <rte-icon appearance="outlined" class="left-icon" aria-hidden="true" [name]="displayedLeftIcon()!" />
         </ng-container>
 
         <input
           #inputRef
           class="input-field"
           [id]="id()"
-          [ngClass]="{'error': error()}"
+          [ngClass]="{ error: error() }"
           [attr.aria-label]="ariaLabel()"
           [attr.aria-labelledby]="ariaLabelledby()"
           [attr.aria-required]="ariaRequired()"
@@ -97,8 +86,6 @@
   </div>
 
   <ng-container *ngIf="displayCounter() && labelPosition() === 'side'">
-    <p class="input-counter" data-testid="input-counter">
-      {{ characterCount() }}/{{ maxLength() }}
-    </p>
+    <p class="input-counter" data-testid="input-counter">{{ characterCount() }}/{{ maxLength() }}</p>
   </ng-container>
 </div>

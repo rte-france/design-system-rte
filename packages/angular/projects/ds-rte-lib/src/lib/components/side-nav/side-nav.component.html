@@ -1,20 +1,18 @@
-<rte-base-side-nav
-  [size]="size()"
-  [collapsed]="isCollapsed()"
-  [appearance]="appearance()">
+<rte-base-side-nav [size]="size()" [collapsed]="isCollapsed()" [appearance]="appearance()">
   <div side-nav-header>
     <div class="side-nav-header-container">
-      <div class="side-nav-header {{appearance()}}" [ngClass]="{ collapsed: isCollapsed() }">
+      <div class="side-nav-header {{ appearance() }}" [ngClass]="{ collapsed: isCollapsed() }">
         @if (headerConfig()?.link) {
           <a
             class="side-nav-header-title-container"
             [href]="headerConfig()!.link!"
             [attr.aria-label]="headerConfig()?.ariaLabel"
-            (click)="handleHeaderClick()">
+            (click)="handleHeaderClick()"
+          >
             <div class="side-nav-header-title">
               <div class="side-nav-header-identifier">{{ headerConfig()?.identifier }}</div>
               @if (!isCollapsed()) {
-                <h1 [ngClass]="{ 'hidden': !shouldShowTitle() }">{{ headerConfig()?.title }}</h1>
+                <h1 [ngClass]="{ hidden: !shouldShowTitle() }">{{ headerConfig()?.title }}</h1>
               }
             </div>
           </a>
@@ -25,11 +23,12 @@
             role="button"
             [attr.aria-label]="headerConfig()?.ariaLabel"
             (click)="handleHeaderClick()"
-            (keydown)="handleHeaderKeyDown($event)">
+            (keydown)="handleHeaderKeyDown($event)"
+          >
             <div class="side-nav-header-title">
               <div class="side-nav-header-identifier">{{ headerConfig()?.identifier }}</div>
               @if (!isCollapsed()) {
-                <h1 [ngClass]="{ 'hidden': !shouldShowTitle() }">{{ headerConfig()?.title }}</h1>
+                <h1 [ngClass]="{ hidden: !shouldShowTitle() }">{{ headerConfig()?.title }}</h1>
               }
             </div>
           </div>
@@ -38,16 +37,16 @@
             <div class="side-nav-header-title">
               <div class="side-nav-header-identifier">{{ headerConfig()?.identifier }}</div>
               @if (!isCollapsed()) {
-                <h1 [ngClass]="{ 'hidden': !shouldShowTitle() }">{{ headerConfig()?.title }}</h1>
+                <h1 [ngClass]="{ hidden: !shouldShowTitle() }">{{ headerConfig()?.title }}</h1>
               }
             </div>
           </div>
         }
-        <div class="side-nav-header-version" [ngClass]="{ 'hidden': !shouldShowTitle() }">
+        <div class="side-nav-header-version" [ngClass]="{ hidden: !shouldShowTitle() }">
           <span>{{ headerConfig()?.version }}</span>
         </div>
       </div>
-      <rte-divider [appearance]="dividerAppearance()"/>
+      <rte-divider [appearance]="dividerAppearance()" />
     </div>
   </div>
   <div side-nav-body>
@@ -81,7 +80,8 @@
                 [appearance]="appearance()"
                 [active]="item.active ?? false"
                 [badge]="item.badge"
-                (itemClick)="handleItemClick(item.id || item.label)"></rte-nav-item>
+                (itemClick)="handleItemClick(item.id || item.label)"
+              ></rte-nav-item>
             </li>
             @if (item.showDivider) {
               <rte-divider [appearance]="dividerAppearance()" />
@@ -125,7 +125,8 @@
                       [appearance]="appearance()"
                       [active]="item.active ?? false"
                       [badge]="item.badge"
-                      (itemClick)="handleFooterItemClick(item.id || item.label)"></rte-nav-item>
+                      (itemClick)="handleFooterItemClick(item.id || item.label)"
+                    ></rte-nav-item>
                   </li>
                   @if (item.showDivider) {
                     <rte-divider [appearance]="dividerAppearance()" />
@@ -135,7 +136,7 @@
             </ul>
           </div>
         }
-        <rte-divider [appearance]="dividerAppearance()"/>
+        <rte-divider [appearance]="dividerAppearance()" />
         @if (collapsible()) {
           <div class="side-nav-footer">
             <div class="collapsible-section">
