@@ -27,7 +27,12 @@ export class DropdownItemComponent {
 
   readonly shouldDisplayBadge = computed(() => {
     const item = this.item();
-    return shouldDisplayBadge(!!item?.showBadge, item?.badgeContent, item?.badgeCount, item?.badgeIcon);
+    return shouldDisplayBadge({
+      showBadge: !!item?.showBadge,
+      badgeContent: item?.badgeContent,
+      badgeCount: item?.badgeCount,
+      badgeIcon: item?.badgeIcon,
+    });
   });
 
   handleClick(event: Event): void {
