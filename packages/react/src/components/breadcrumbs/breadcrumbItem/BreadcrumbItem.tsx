@@ -29,7 +29,7 @@ const BreadcrumbItem = ({ item, isLast, breadcrumbItemMaxWidth }: BreadcrumbProp
   }, [breadcrumbItemMaxWidth]);
 
   const { showBadge, badgeContent, badgeCount, badgeIcon, badgeType } = item;
-  const shouldDisplayBadge = coreShouldDisplayBadge(!!showBadge, badgeContent, badgeCount, badgeIcon);
+  const shouldDisplayBadge = coreShouldDisplayBadge({ showBadge: !!showBadge, badgeContent, badgeCount, badgeIcon });
 
   return (
     <div key={item.link} className={style.breadcrumbItem} ref={ref}>

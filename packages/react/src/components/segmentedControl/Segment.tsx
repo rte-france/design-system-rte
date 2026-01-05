@@ -122,7 +122,7 @@ const Segment = ({
             <span className={style["segment-label"]}>{label}</span>
           )}
         </div>
-        {shouldDisplayBadge(!!showBadge, badgeContent, badgeCount, badgeIcon) && (
+        {shouldDisplayBadge({ showBadge: !!showBadge, badgeContent, badgeCount, badgeIcon }) && (
           <Badge count={badgeCount} content={badgeContent} icon={badgeIcon} badgeType={badgeType} />
         )}
       </div>
