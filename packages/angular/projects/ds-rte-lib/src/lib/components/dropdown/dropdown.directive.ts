@@ -13,7 +13,6 @@ import {
   Renderer2,
   ViewContainerRef,
 } from "@angular/core";
-import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { Alignment } from "@design-system-rte/core/common/common-types";
 import { Position } from "@design-system-rte/core/components/common/common-types";
 import {
@@ -122,19 +121,19 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
       this.onMenuEvent(event);
     });
 
-    const dropdownStateSubscription = this.dropdownService.state$
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((state) => {
-        if (state === null) {
-          if (this.dropdownMenuRef) {
-            this.dropdownMenuRef.destroy();
-            this.dropdownMenuRef = null;
+    const dropdownStateSubscription = this.dropdownService.state$.subscribe((state) => {
+      if (state === null) {
+        if (this.dropdownMenuRef) {
+          this.dropdownMenuRef.destroy();
+          this.dropdownMenuRef = null;
 
-            this.removeClickOutsideListener();
-            dropdownStateSubscription.unsubscribe();
-          }
+          this.removeClickOutsideListener();
+          dropdownStateSubscription.unsubscribe();
         }
-      });
+      }
+    });
+
+    this.destroyRef.onDestroy(() => dropdownStateSubscription.unsubscribe());
   }
 
   private assignItems(): void {
