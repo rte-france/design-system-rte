@@ -7,15 +7,11 @@
     align-items: center;
     align-self: stretch;
     border-radius: $radius-s;
-    @include elevation-neutral-shadow-2;
+    @include elevation-neutral-shadow-1;
     transition: background-color 300ms, box-shadow 300ms;
 
-    &:active {
-        @include elevation-neutral-shadow-1;
-    }
-
     &:hover {
-        @include elevation-neutral-shadow-3;
+        @include elevation-neutral-shadow-2;
     }
 
     &[disabled='true'] {
@@ -26,16 +22,20 @@
 
         &.card-outlined {
             border: $width-xs solid var(--border-disabled);
+            background: var(--background-disabled);
+            box-shadow: none;
         }
     }
 
     &.card-outlined {
+        @include elevation-neutral-shadow-1;
         flex-shrink: 0;
         border: $width-xs solid var(--border-tertiary);
-        box-shadow: none;
 
         &:active {
-            border-color: var(--border-secondary);
+            &.clickable {
+                border-color: var(--border-secondary);
+            }
         }
     }
 
@@ -48,4 +48,3 @@
         outline-offset: $width-m;
     }
 }
-
