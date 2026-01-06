@@ -1,32 +1,4 @@
-@use 'themes' as *;
-@use 'typography' as *;
-@use 'sass:map';
-
-@mixin apply-theme($targetTheme: bleu_iceberg, $mode: light) {
-  $selectedTheme: map.get($themes, $targetTheme, $mode);
-  @include extract-custom-properties-from-theme($selectedTheme);
-}
-
-@mixin theme-selector($targetTheme: bleu_iceberg, $mode: light) {
-  $theme: map.get($themes, $targetTheme, $mode);
-
-  [data-theme="#{$targetTheme}"][data-mode="#{$mode}"] {
-    @include extract-custom-properties-from-theme($theme);
-  }
-}
-
-@mixin extract-custom-properties-from-theme($theme) {
-  @each $property, $value in $theme {
-    --#{$property}: #{$value};
-  }
-}
-
-
-@mixin hover-box-shadow($color) {
-  box-shadow: 0 0 0 8px $color;
-}
-
-// Mixins for typography
+@use "../../tokens/public/typography" as *;
 
 @mixin typography-button {
   font-feature-settings: 'liga' off, 'clig' off;

@@ -1,5 +1,5 @@
 @use 'sass:map';
-@use 'themes' as *;
+@use '../public/themes/index' as *;
 
 @mixin neutral-top-bottom {
   background: linear-gradient(180deg, hsla(0, 4%, 5%, 1), hsla(0, 4%, 5%, 0));
