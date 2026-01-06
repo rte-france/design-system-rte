@@ -1,6 +1,5 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
-import { Observable } from "rxjs";
 
 import { RegularIcons, TogglableIcons } from "./icon-map";
 
@@ -11,7 +10,7 @@ export type TogglableIconIdKey = keyof typeof TogglableIcons;
 export class IconService {
   private http = inject(HttpClient);
 
-  getSvg(name: RegularIconIdKey | TogglableIconIdKey, appearance: "outlined" | "filled"): Observable<string> {
+  getSvg(name: RegularIconIdKey | TogglableIconIdKey, appearance: "outlined" | "filled") {
     if (!this.http) {
       throw new Error("HttpClient is not available");
     }
