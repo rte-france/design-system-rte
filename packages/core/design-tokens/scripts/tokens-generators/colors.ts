@@ -34,8 +34,8 @@ export interface ColorToken {
 const rawColorCategories = ["gradient", "elevation"];
 
 export function extractColors(variables: ColorToken, mode: ColorMode): string {
-  let scss = `@use '../../primitives/colors' as *;\n`;
-  scss += `@use '../../primitives/devColors' as *;\n\n`;
+  let scss = `@use '../../../../primitives/colors' as *;\n`;
+  scss += `@use '../../../../primitives/devColors' as *;\n\n`;
   scss += `$${mode}: (\n`;
   for (const category in variables) {
     const categoryTokens = variables[category];

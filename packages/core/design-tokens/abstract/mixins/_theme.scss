@@ -1,0 +1,21 @@
+@use 'sass:map';
+@use '../../tokens/public/themes' as *;
+
+@mixin apply-theme($targetTheme: bleu_iceberg, $mode: light) {
+  $selectedTheme: map.get($themes, $targetTheme, $mode);
+  @include extract-custom-properties-from-theme($selectedTheme);
+}
+
+@mixin theme-selector($targetTheme: bleu_iceberg, $mode: light) {
+  $theme: map.get($themes, $targetTheme, $mode);
+
+  [data-theme="#{$targetTheme}"][data-mode="#{$mode}"] {
+    @include extract-custom-properties-from-theme($theme);
+  }
+}
+
+@mixin extract-custom-properties-from-theme($theme) {
+  @each $property, $value in $theme {
+    --#{$property}: #{$value};
+  }
+}

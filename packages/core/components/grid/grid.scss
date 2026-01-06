@@ -1,5 +1,5 @@
-@use '../../design-tokens/tokens/_spacing.scss' as *;
-@use '../../design-tokens/tokens/_layout.scss' as *;
+@use '../../design-tokens/tokens/public/spacing' as *;
+@use '../../design-tokens/tokens/public/layout' as *;
 
 $grid-max-width-narrow: 864px;
 $grid-max-width-wide: 1296px;

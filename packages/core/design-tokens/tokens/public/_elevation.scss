@@ -1,4 +1,4 @@
-@use "shadows" as *;
+@use "../private/shadows" as *;
 
 @mixin neutral-inner-shadow {
   box-shadow: inset $inner-shadow-key-position-x $inner-shadow-key-position-y $inner-shadow-key-blur $inner-shadow-key-spread var(--elevation-shadow-key);
