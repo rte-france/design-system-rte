@@ -12,7 +12,7 @@ export interface TypographyToken {
 
 export function extractTypography(variables: TypographyToken): string {
   let scss = "";
-  scss += `@use '../primitives/typography' as *;\n\n`;
+  scss += `@use '../../primitives/typography' as *;\n\n`;
   for (const category in variables) {
     scss += extractFromTypographyCategory(category, variables[category]);
   }
