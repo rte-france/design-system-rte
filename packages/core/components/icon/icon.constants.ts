@@ -1,6 +1,7 @@
 import { Size } from "../common/common-types";
 
-export const IconSize: Record<Exclude<Size, "xs">, number> = {
+export const IconSize: Record<Size, number> = {
+  xs: 12,
   s: 16,
   m: 20,
   l: 24,

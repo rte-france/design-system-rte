@@ -1,3 +1,5 @@
+import { IconSize } from "../icon/icon.constants";
+
 import { BadgeContent, BadgeSize } from "./badge.interface";
 
 const COUNT_THRESHOLD = 100;
@@ -20,8 +22,8 @@ type ShowBadgeProps = ShowIconProps & ShowTextProps;
 const badgeIconSize: Record<BadgeSize, number | null> = {
   xs: null,
   s: null,
-  m: 12,
-  l: 20,
+  m: IconSize["xs"],
+  l: IconSize["s"],
 };
 
 export function getBadgeIconSize(size: BadgeSize): number | undefined {
