@@ -1,5 +1,5 @@
 import fs from "fs";
-import path from "path";
+import path, { resolve } from "path";
 
 export interface TokenValue {
   $type: string;
@@ -10,13 +10,16 @@ export interface TokenValue {
 export const UNIT = "px";
 export const INDENT = " ".repeat(2);
 
-const rootDir = "design-tokens";
+export enum PrivacyLevel {
+  PUBLIC = "public",
+  PRIVATE = "private",
+}
+
+const rootDir = path.join(resolve(__dirname), "../../design-tokens");
 const tokensDir = "tokens";
 const primitivesDir = "primitives";
-const themesDir = "themes";
 
 export const tokensOutputDir = path.join(rootDir, tokensDir);
-export const themesOutputDir = path.join(rootDir, tokensDir, themesDir);
 export const primitivesOutputDir = path.join(rootDir, primitivesDir);
 
 export function buildScssVariable(variableName: string[], value: string): string {

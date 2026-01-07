@@ -19,7 +19,7 @@ if (!fs.existsSync(primitivesOutputDir)) {
 
 export function generatePrimitivesScssFiles(json: CollectionItem[]) {
   for (const tokenItem of json) {
-    let scss = "";
+    let scss = "// This file is auto-generated. Do not edit directly.\n\n";
     let filename = "";
     switch (tokenItem.collection) {
       case Collection.COLORS:

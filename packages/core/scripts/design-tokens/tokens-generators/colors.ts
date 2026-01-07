@@ -1,6 +1,6 @@
 import path from "path";
 
-import { generateScssFile, INDENT, themesOutputDir, tokensOutputDir } from "../common";
+import { generateScssFile, INDENT, PrivacyLevel, tokensOutputDir } from "../common";
 
 export enum ColorTheme {
   BLEU_ICEBERG = "bleu-iceberg",
@@ -51,17 +51,18 @@ export function extractColors(variables: ColorToken, mode: ColorMode): string {
   return scss;
 }
 
-export function generateThemeMainScssFile() {
+export function generateThemeIndexScssFile() {
   let scss = "";
   Object.values(ColorMode).forEach((mode) => {
     scss += `@forward "${mode}";\n`;
   });
-  const pathFile = path.join(themesOutputDir, "_main.scss");
+  const pathFile = path.join(tokensOutputDir, PrivacyLevel.PUBLIC, "themes", "base", "_index.scss");
   generateScssFile(scss, pathFile);
 }
 
 export function generateThemesFile() {
-  let scss = `@use "./themes/main" as *;\n\n`;
+  let scss = `// This file is auto-generated. Do not edit directly.\n\n`;
+  scss += `@use 'base' as *;\n\n`;
   Object.values(ColorTheme).forEach((theme) => {
     scss += `$${theme}: (\n`;
     scss += `${INDENT.repeat(1)}"light": $${theme}-light,\n`;
@@ -75,7 +76,7 @@ export function generateThemesFile() {
   });
   scss += `);`;
 
-  const filePath = path.join(tokensOutputDir, "_themes.scss");
+  const filePath = path.join(tokensOutputDir, PrivacyLevel.PUBLIC, "themes", "_index.scss");
   generateScssFile(scss, filePath);
 }
 
