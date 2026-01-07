@@ -3,7 +3,7 @@ import fs from "fs";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import { Collection, generateTokensScssFiles } from "./tokens-generator";
-import { ColorMode, generateThemeMainScssFile } from "./tokens-generators/colors";
+import { ColorMode, generateThemeIndexScssFile } from "./tokens-generators/colors";
 
 vi.mock("fs");
 
@@ -42,7 +42,7 @@ describe("tokens-generator", () => {
 
   it("génère correctement le fichier _main.scss pour les thèmes", () => {
     const writeSpy = vi.spyOn(fs, "writeFileSync");
-    generateThemeMainScssFile();
+    generateThemeIndexScssFile();
     expect(writeSpy).toHaveBeenCalledWith(
       expect.stringContaining("themes/_main.scss"),
       expect.stringContaining('@forward "bleu-iceberg-light";'),
