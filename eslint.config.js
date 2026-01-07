@@ -20,8 +20,17 @@ export default defineConfig(
     },
     plugins: {
       import: importPlugin,
+      prettier: eslintPluginPrettierRecommended.plugins.prettier,
     },
     rules: {
+      "prettier/prettier": [
+        "error",
+        {
+          single: false,
+          trailingComma: "all",
+          printWidth: 120,
+        },
+      ],
       "import/order": [
         "error",
         {
