@@ -1,18 +1,7 @@
-<div
-  *ngIf="isValidOptions()"
-  class="rte-segmented-control"
-  role="radiogroup"
-  [attr.aria-label]="ariaLabel()"
->
-  <span
-    class="rte-segment-selected-indicator"
-    [ngStyle]="segmentSelectedIndicatorStyle()"
-  ></span>
+<div *ngIf="isValidOptions()" class="rte-segmented-control" role="radiogroup" [attr.aria-label]="ariaLabel()">
+  <span class="rte-segment-selected-indicator" [ngStyle]="segmentSelectedIndicatorStyle()"></span>
   <ng-container *ngFor="let option of options(); let idx = index">
-    <div
-      class="rte-segment-container"
-      [attr.data-position]="getSegmentPosition(idx)"
-    >
+    <div class="rte-segment-container" [attr.data-position]="getSegmentPosition(idx)">
       <div
         #segment
         role="radio"
@@ -27,20 +16,13 @@
         (keydown)="handleKeyDown($event)"
         (keyup)="handleKeyUp($event)"
       >
-        <rte-icon
-          *ngIf="isSegmentSelected(option.id)"
-          name="check-small"
-          class="rte-selected-icon"
-          [size]="24"
-        />
+        <rte-icon *ngIf="isSegmentSelected(option.id)" name="check-small" class="rte-selected-icon" [size]="24" />
         <div class="rte-segment-content">
           <ng-container *ngIf="option.icon; else label">
             <rte-icon
               [name]="option.icon"
               [size]="24"
-              [appearance]="
-                isSegmentSelected(option.id) ? 'filled' : 'outlined'
-              "
+              [appearance]="isSegmentSelected(option.id) ? 'filled' : 'outlined'"
             ></rte-icon>
           </ng-container>
           <ng-template #label>
@@ -51,7 +33,7 @@
           *ngIf="shouldDisplayBadge(option)"
           [count]="option.badgeCount"
           [badgeContent]="option.badgeContent!"
-          [icon]="option.badgeIcon"
+          [icon]="option.badgeIcon!"
           [badgeType]="option.badgeType!"
           [simpleBadge]="true"
         ></rte-badge>

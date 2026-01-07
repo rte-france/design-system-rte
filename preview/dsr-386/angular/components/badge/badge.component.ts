@@ -30,7 +30,7 @@ export class BadgeComponent {
 
   readonly isValidIconName = computed(() => {
     const icon = this.icon();
-    return isValidIconName(icon);
+    return isValidIconName(icon!);
   });
 
   readonly showIcon = computed(() =>

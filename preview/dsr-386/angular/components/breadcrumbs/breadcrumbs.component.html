@@ -5,10 +5,7 @@
   [ngClass]="{ truncated: truncatedItems()?.truncated?.length }"
 >
   @if (truncatedItems()?.truncated?.length) {
-    <rte-breadcrumb-item
-      [item]="truncatedItems()!.root"
-      [breadcrumbItemMaxWidth]="breadcrumbItemMaxWidth()"
-    />
+    <rte-breadcrumb-item [item]="truncatedItems()!.root" [breadcrumbItemMaxWidth]="breadcrumbItemMaxWidth()" />
     <span aria-hidden="true" class="separator">/</span>
     <span class="breadcrumb-item" rteDropdown [rteDropdownOffset]="8">
       <rte-icon-button
@@ -33,11 +30,7 @@
       <rte-dropdown-menu [items]="truncatedItems()?.truncated ?? []" />
     </span>
     <span aria-hidden="true" class="separator">/</span>
-    @for (
-      item of truncatedItems()!.remaining;
-      track item.link;
-      let i = $index
-    ) {
+    @for (item of truncatedItems()!.remaining; track item.link; let i = $index) {
       <rte-breadcrumb-item
         [item]="item"
         [breadcrumbItemMaxWidth]="breadcrumbItemMaxWidth()"

@@ -15,11 +15,7 @@
     [rteBadgeIcon]="badgeIcon()!"
     (click)="onClick($event)"
   >
-    <rte-icon
-      [name]="name()"
-      [appearance]="appearance()"
-      [size]="buttonIconSize()"
-    />
+    <rte-icon [name]="name()" [appearance]="appearance()" [size]="buttonIconSize()" />
   </button>
 } @else {
   <button
@@ -32,10 +28,6 @@
     [type]="type()"
     (click)="onClick($event)"
   >
-    <rte-icon
-      [name]="name()"
-      [appearance]="appearance()"
-      [size]="buttonIconSize()"
-    />
+    <rte-icon [name]="name()" [appearance]="appearance()" [size]="buttonIconSize()" />
   </button>
 }

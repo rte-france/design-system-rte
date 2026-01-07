@@ -44,7 +44,12 @@ export class BreadcrumbItemComponent implements AfterViewInit {
     const item = this.item();
     if (!item) return false;
     const { showBadge, badgeContent, badgeCount, badgeIcon } = item;
-    return coreShouldDisplayBadge({ showBadge: !!showBadge, badgeContent, badgeCount, badgeIcon });
+    return coreShouldDisplayBadge({
+      showBadge: !!showBadge,
+      badgeContent,
+      badgeCount,
+      badgeIcon,
+    });
   });
 
   readonly tooltipTriggerStyle = computed(() => {
