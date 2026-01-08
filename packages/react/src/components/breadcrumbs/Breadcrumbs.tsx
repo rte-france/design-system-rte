@@ -34,6 +34,7 @@ const Breadcrumbs = forwardRef<HTMLDivElement, BreadcrumbsProps>(
       badgeCount,
       badgeIcon,
       badgeType,
+      badgeSize,
       showBadge,
       ...props
     },
@@ -71,7 +72,13 @@ const Breadcrumbs = forwardRef<HTMLDivElement, BreadcrumbsProps>(
                     onClick={() => setIsTruncatedListOpened(!isTrucatedListOpened)}
                   />
                   {shouldDisplayBadge({ showBadge: !!showBadge, badgeContent, badgeCount, badgeIcon }) && (
-                    <Badge count={badgeCount} content={badgeContent} icon={badgeIcon} badgeType={badgeType} />
+                    <Badge
+                      count={badgeCount}
+                      content={badgeContent}
+                      icon={badgeIcon}
+                      badgeType={badgeType}
+                      size={badgeSize}
+                    />
                   )}
                 </div>
               }
