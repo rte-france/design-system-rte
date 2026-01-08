@@ -1,11 +1,45 @@
 # @design-system-rte/react
 
+## 1.1.0
+
+### Minor Changes
+
+- f39a6fb: ## Changes
+  - better export of module to access style and component
+  - (Docs) update test to take theme-selector component into account
+  - (Docs) harmonise stories layout
+  - (Docs) move theme and mode switcher to component page
+
+- aa4024c: ## Changes
+  - (Core) add Nunito font to serve to react and angular package
+
+### Patch Changes
+
+- ddb8b02: ## Changes
+  - (Popover) update shadows
+  - (Modal) update shadows
+  - (Dropdown) update shadows
+  - (Card) prevent click action on disabled or not clickable state
+  - (Card) update shadows
+  - (Banner) update shadows
+  - upgrade @storybook/addon-essentials and @storybook/addon-interactions packages
+
+- ddd932b: ## Changes
+  - (Modal) increase border radius for size L and XL
+
+- 0a36e15: ## Changes
+  - (Docs) order toast stories
+
+- Updated dependencies [aa4024c]
+- Updated dependencies [ddb8b02]
+  - @design-system-rte/core@1.1.0
+
 ## 1.0.0
 
 ### Major Changes
 
 - adc4eb6: ## Changes
-  - (Public Release) Public Release 
+  - (Public Release) Public Release
 
 ### Minor Changes
 

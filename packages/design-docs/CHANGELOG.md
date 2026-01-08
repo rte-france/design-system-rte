@@ -1,5 +1,32 @@
 # @design-system-rte/design-docs
 
+## 1.1.0
+
+### Minor Changes
+
+- cb28ab9: ## Changes
+  - (Docs) add presentation video to home page
+
+- f39a6fb: ## Changes
+  - better export of module to access style and component
+  - (Design-docs) add react package as dependencies
+  - (Docs) move theme and mode switcher to component page
+
+- aa4024c: ## Changes
+  - (Core) add Nunito font to serve to react and angular package
+
+### Patch Changes
+
+- 1274057: ## Changes
+  - (Docs) correct general migration kit points table
+
+- Updated dependencies [f39a6fb]
+- Updated dependencies [aa4024c]
+- Updated dependencies [ddb8b02]
+- Updated dependencies [ddd932b]
+- Updated dependencies [0a36e15]
+  - @design-system-rte/react@1.1.0
+
 ## 1.0.0
 
 ### Major Changes
@@ -44,7 +71,7 @@
   - (Docs) add heading level 4 style
   - (Docs) Add Colors page
   - (Docs) Add design tokens page
-  
+
 ## 0.9.0
 
 ### Minor Changes
