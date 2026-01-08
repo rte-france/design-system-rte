@@ -159,3 +159,61 @@ export const KeyboardNavigationWithLink: Story = {
     expect(menuItems?.[0]).toHaveFocus();
   },
 };
+
+export const WithProjectedHeaderAndFooter: Story = {
+  decorators: [
+    moduleMetadata({
+      imports: [DropdownModule],
+    }),
+  ],
+  args: {
+    rteDropdownPosition: "bottom",
+  },
+  render: (args) => ({
+    props: {
+      ...args,
+      items: MOCKUP_ITEMS,
+      onItemClick: (event: { event: Event; id: string }) => {
+        console.log("Item clicked:", event);
+      },
+    },
+    template: `
+    ${wipWarning}
+    <div rteDropdown [rteDropdownPosition]="rteDropdownPosition" (menuEvent)="onItemClick($event)">
+      <button rteDropdownTrigger>Menu with Header/Footer ⬇</button>
+      <rte-dropdown-menu [items]="items">
+        <ng-template rteDropdownMenuHeader>
+          <div style="padding: 8px 16px; font-weight: bold;">Dropdown Header</div>
+        </ng-template>
+        <ng-template rteDropdownMenuFooter>
+          <div style="padding: 8px 16px; font-weight: bold;">Dropdown Footer</div>
+        </ng-template>
+      </rte-dropdown-menu>
+    </div>
+    `,
+  }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const triggerButton = await canvas.getByRole("button", { name: /menu with header\/footer/i });
+    await userEvent.click(triggerButton);
+
+    const overlay = document.getElementById("overlay-root");
+    const dropdown = overlay?.querySelector("rte-dropdown-menu");
+
+    await waitFor(() => {
+      expect(dropdown).toBeInTheDocument();
+    });
+
+    const headerSection = dropdown?.querySelector(".rte-dropdown-menu-header");
+    const footerSection = dropdown?.querySelector(".rte-dropdown-menu-footer");
+
+    expect(headerSection).toBeInTheDocument();
+    expect(footerSection).toBeInTheDocument();
+
+    const headerContent = headerSection?.textContent?.trim();
+    const footerContent = footerSection?.textContent?.trim();
+
+    expect(headerContent).toContain("Dropdown Header");
+    expect(footerContent).toContain("Dropdown Footer");
+  },
+};

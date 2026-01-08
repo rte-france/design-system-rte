@@ -20,7 +20,7 @@ export interface DropdownState {
 }
 
 @Injectable({
-  providedIn: "root", // Makes the service a singleton
+  providedIn: "root",
 })
 export class DropdownService {
   private readonly initialState: DropdownState = {
@@ -47,7 +47,6 @@ export class DropdownService {
 
   reset(): void {
     this.state$.next(this.initialState);
-    console.log("🔵 Dropdown Service - State Reset");
   }
 
   handleKeyboardInput(key: string, options: KeyboardHandlingOptions): void {
