@@ -1,20 +1,14 @@
+import { shouldDisplayBadge as coreShouldDisplayBadge } from "@design-system-rte/core/components/badge/badge.utils";
+import { BreadcrumbProps } from "@design-system-rte/core/components/breadcrumbs/breadcrumbs.interface";
 import { useEffect, useRef, useState } from "react";
 
+import Badge from "../../badge/Badge";
 import Link from "../../link/Link";
 import Tooltip from "../../tooltip/Tooltip";
 
 import style from "./BreadcrumbItem.module.scss";
 
-type BreadcrumbItemProps = {
-  item: {
-    label: string;
-    link: string;
-  };
-  isLast: boolean;
-  breadcrumbItemMaxWidth?: number;
-};
-
-const BreadcrumbItem = ({ item, isLast, breadcrumbItemMaxWidth }: BreadcrumbItemProps) => {
+const BreadcrumbItem = ({ item, isLast, breadcrumbItemMaxWidth }: BreadcrumbProps) => {
   const [isEllipsisActive, setIsEllipsisActive] = useState<boolean>(false);
   const initialScrollWidth = useRef<number>();
   const ref = useRef<HTMLDivElement>(null);
@@ -33,6 +27,9 @@ const BreadcrumbItem = ({ item, isLast, breadcrumbItemMaxWidth }: BreadcrumbItem
     };
     computeIsEllipsisActive();
   }, [breadcrumbItemMaxWidth]);
+
+  const { showBadge, badgeContent, badgeCount, badgeIcon, badgeType, badgeSize } = item;
+  const shouldDisplayBadge = coreShouldDisplayBadge({ showBadge: !!showBadge, badgeContent, badgeCount, badgeIcon });
 
   return (
     <div key={item.link} className={style.breadcrumbItem} ref={ref}>
@@ -59,17 +56,31 @@ const BreadcrumbItem = ({ item, isLast, breadcrumbItemMaxWidth }: BreadcrumbItem
               >
                 {item.label}
               </a>
+              {shouldDisplayBadge && (
+                <Badge
+                  count={badgeCount}
+                  content={badgeContent}
+                  icon={badgeIcon}
+                  badgeType={badgeType}
+                  size={badgeSize}
+                />
+              )}
             </Tooltip>
           ) : (
-            <a
-              role="link"
-              aria-label={item.label}
-              aria-current="page"
-              tabIndex={0}
-              style={{ maxWidth: `${breadcrumbItemMaxWidth}px` }}
-            >
-              {item.label}
-            </a>
+            <>
+              <a
+                role="link"
+                aria-label={item.label}
+                aria-current="page"
+                tabIndex={0}
+                style={{ maxWidth: `${breadcrumbItemMaxWidth}px` }}
+              >
+                {item.label}
+              </a>
+              {shouldDisplayBadge && (
+                <Badge count={badgeCount} content={badgeContent} icon={badgeIcon} badgeType={badgeType} />
+              )}
+            </>
           )}
         </>
       ) : (
@@ -91,15 +102,23 @@ const BreadcrumbItem = ({ item, isLast, breadcrumbItemMaxWidth }: BreadcrumbItem
                 label={item.label}
                 subtle
                 style={{ color: "var(--content-tertiary)", maxWidth: `${breadcrumbItemMaxWidth}px` }}
-              />
+              />{" "}
+              {shouldDisplayBadge && (
+                <Badge count={badgeCount} content={badgeContent} icon={badgeIcon} badgeType={badgeType} />
+              )}
             </Tooltip>
           ) : (
-            <Link
-              href={item.link}
-              label={item.label}
-              subtle
-              style={{ color: "var(--content-tertiary)", maxWidth: `${breadcrumbItemMaxWidth}px` }}
-            />
+            <>
+              <Link
+                href={item.link}
+                label={item.label}
+                subtle
+                style={{ color: "var(--content-tertiary)", maxWidth: `${breadcrumbItemMaxWidth}px` }}
+              />
+              {shouldDisplayBadge && (
+                <Badge count={badgeCount} content={badgeContent} icon={badgeIcon} badgeType={badgeType} />
+              )}
+            </>
           )}
         </>
       )}

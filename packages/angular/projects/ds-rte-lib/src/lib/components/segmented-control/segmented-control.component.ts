@@ -13,6 +13,7 @@ import {
   OnChanges,
   SimpleChanges,
 } from "@angular/core";
+import { shouldDisplayBadge as CoreShouldDisplayBadge } from "@design-system-rte/core/components/badge/badge.utils";
 import {
   getSegmentPosition,
   focusNextNotSegmentElement,
@@ -34,6 +35,7 @@ import {
   TAB_KEY,
 } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
+import { BadgeComponent } from "../badge/badge.component";
 import { IconComponent } from "../icon/icon.component";
 
 const segmentClass = "rte-segment";
@@ -41,7 +43,7 @@ const segmentSelector = `.${segmentClass}`;
 
 @Component({
   selector: "rte-segmented-control",
-  imports: [CommonModule, IconComponent],
+  imports: [CommonModule, IconComponent, BadgeComponent],
   standalone: true,
   templateUrl: "./segmented-control.component.html",
   styleUrl: "./segmented-control.component.scss",
@@ -90,6 +92,15 @@ export class SegmentedControlComponent implements OnChanges, AfterViewInit, OnDe
 
     this.segmentRefs().forEach((segmentElement) => {
       segmentElement.nativeElement.addEventListener("focus", this.focusCurrentSegmentElement.bind(this));
+    });
+  }
+
+  shouldDisplayBadge(option: SegmentOptions): boolean {
+    return CoreShouldDisplayBadge({
+      showBadge: !!option.showBadge,
+      badgeContent: option.badgeContent,
+      badgeCount: option.badgeCount,
+      badgeIcon: option.badgeIcon,
     });
   }
 

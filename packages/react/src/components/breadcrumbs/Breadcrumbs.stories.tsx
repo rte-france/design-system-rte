@@ -7,8 +7,12 @@ import { Meta, StoryObj } from "@storybook/react";
 import { expect, userEvent, waitFor, within } from "@storybook/test";
 
 import { focusElementBeforeComponent } from "../../../.storybook/testing/testing.utils";
+import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../icon/IconMap";
 
 import Breadcrumbs from "./Breadcrumbs";
+
+const RegularIconIds = Object.keys(RegularIconsList);
+const TogglableIconIds = Object.keys(TogglableIconsList);
 
 const meta = {
   title: "Composants/Breadcrumbs",
@@ -23,6 +27,28 @@ const meta = {
     },
     breadcrumbItemMaxWidth: {
       control: "number",
+    },
+    badgeContent: {
+      control: "select",
+      options: ["number", "icon", "empty"],
+    },
+    badgeType: {
+      control: "select",
+      options: ["brand", "neutral", "indicator"],
+    },
+    badgeIcon: {
+      control: "select",
+      options: ["", ...RegularIconIds, ...TogglableIconIds].sort((a, b) => a.localeCompare(b)),
+    },
+    showBadge: {
+      control: "boolean",
+    },
+    badgeCount: {
+      control: "number",
+    },
+    badgeSize: {
+      control: "select",
+      options: ["xs", "s", "m", "l"],
     },
   },
 } satisfies Meta<typeof Breadcrumbs>;
@@ -115,6 +141,32 @@ export const MultipleElements: Story = {
       </>
     );
   },
+};
+
+export const WithBadge: Story = {
+  args: {
+    items: [
+      { label: "Home", link: "/" },
+      {
+        label: "Products",
+        link: "/products",
+        badgeContent: "number",
+        badgeCount: 5,
+        badgeType: "indicator",
+        showBadge: true,
+      },
+      {
+        label: "Electronics",
+        link: "/products/electronics",
+      },
+      { label: "Smartphones", link: "/products/electronics/smartphones" },
+    ],
+    badgeContent: "empty",
+    badgeCount: 5,
+    badgeType: "indicator",
+    showBadge: true,
+  },
+  render: (args) => <Breadcrumbs {...args} data-testid="breadcrumbs" />,
 };
 
 export const KeyboardNavigationWithDropdown: Story = {

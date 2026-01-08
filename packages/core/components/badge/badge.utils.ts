@@ -17,6 +17,13 @@ interface ShowTextProps {
   count?: number;
 }
 
+interface BadgeConfig {
+  showBadge: boolean;
+  badgeContent?: BadgeContent;
+  badgeCount?: number;
+  badgeIcon?: string;
+}
+
 type ShowBadgeProps = ShowIconProps & ShowTextProps;
 
 const badgeIconSize: Record<BadgeSize, number | null> = {
@@ -55,4 +62,14 @@ export function getDisplayCount(count?: number): string {
   }
 
   return count < COUNT_THRESHOLD ? count.toString() : COUNT_THRESHOLD_LABEL;
+}
+
+export function shouldDisplayBadge(badgeConfig: BadgeConfig): boolean {
+  const { showBadge, badgeContent, badgeCount, badgeIcon } = badgeConfig;
+  return (
+    showBadge &&
+    (badgeContent === "empty" ||
+      (typeof badgeCount === "number" && badgeCount > 0 && badgeContent === "number") ||
+      (badgeContent === "icon" && badgeIcon !== undefined))
+  );
 }

@@ -361,6 +361,10 @@ export const OverflowType: Story = {
         id: "tab-2",
         label: "Second Tab",
         panelId: "panel-2",
+        badgeCount: 5,
+        badgeContent: "number",
+        badgeType: "indicator",
+        showBadge: true,
       },
       {
         id: "tab-3",

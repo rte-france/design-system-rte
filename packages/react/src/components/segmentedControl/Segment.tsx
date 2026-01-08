@@ -1,9 +1,11 @@
+import { shouldDisplayBadge } from "@design-system-rte/core/components/badge/badge.utils";
 import {
   focusNextNotSegmentElement,
   focusNextSegmentElement,
   focusPreviousNotSegmentElement,
   focusPreviousSegmentElement,
 } from "@design-system-rte/core/components/segmented-control/segmented-control-utils";
+import { SegmentProps as CoreSegmentProps } from "@design-system-rte/core/components/segmented-control/segmented-control.interface";
 import {
   ARROW_LEFT_KEY,
   ARROW_RIGHT_KEY,
@@ -15,13 +17,31 @@ import { useRef } from "react";
 
 import { useActiveKeyboard } from "../../hooks/useActiveKeyboard";
 import { useSelectFocusableElements } from "../../hooks/useSelectFocusableElements";
+import Badge from "../badge/Badge";
 import Icon from "../icon/Icon";
 
 import useFocusCurrentSegmentElement from "./hooks/useFocusFirstSegment";
-import { SegmentProps } from "./SegmentedControl";
 import style from "./SegmentedControl.module.scss";
 
-const Segment = ({ id, icon, label, position, isSelected, onClick, ...props }: SegmentProps) => {
+interface SegmentProps extends CoreSegmentProps {
+  onClick?: (event: React.MouseEvent<HTMLDivElement> | React.KeyboardEvent<HTMLDivElement>) => void;
+}
+
+const Segment = ({
+  id,
+  icon,
+  label,
+  position,
+  isSelected,
+  onClick,
+  badgeCount,
+  badgeContent,
+  badgeIcon,
+  badgeType,
+  badgeSize,
+  showBadge,
+  ...props
+}: SegmentProps) => {
   const ref = useRef<HTMLDivElement>(null);
 
   const allFocusableElement = useSelectFocusableElements();
@@ -103,6 +123,9 @@ const Segment = ({ id, icon, label, position, isSelected, onClick, ...props }: S
             <span className={style["segment-label"]}>{label}</span>
           )}
         </div>
+        {shouldDisplayBadge({ showBadge: !!showBadge, badgeContent, badgeCount, badgeIcon }) && (
+          <Badge count={badgeCount} content={badgeContent} icon={badgeIcon} badgeType={badgeType} size={badgeSize} />
+        )}
       </div>
     </div>
   );

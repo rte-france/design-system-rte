@@ -1,3 +1,4 @@
+import { shouldDisplayBadge } from "@design-system-rte/core/components/badge/badge.utils.ts";
 import { BREADCRUMBS_DEFAULT_ARIA_LABEL } from "@design-system-rte/core/components/breadcrumbs/breadcrumbs.constants";
 import { BreadcrumbsProps as BreadcrumbsPropsCore } from "@design-system-rte/core/components/breadcrumbs/breadcrumbs.interface";
 import {
@@ -6,6 +7,7 @@ import {
 } from "@design-system-rte/core/components/breadcrumbs/breadcrumbs.utils";
 import { forwardRef, useState, Fragment } from "react";
 
+import Badge from "../badge/Badge.tsx";
 import { Dropdown } from "../dropdown/Dropdown";
 import { DropdownItem } from "../dropdown/dropdownItem/DropdownItem";
 import IconButton from "../iconButton/IconButton";
@@ -23,7 +25,21 @@ const Separator = () => (
 );
 
 const Breadcrumbs = forwardRef<HTMLDivElement, BreadcrumbsProps>(
-  ({ items, ariaLabel = BREADCRUMBS_DEFAULT_ARIA_LABEL, breadcrumbItemMaxWidth, ...props }, ref) => {
+  (
+    {
+      items,
+      ariaLabel = BREADCRUMBS_DEFAULT_ARIA_LABEL,
+      breadcrumbItemMaxWidth,
+      badgeContent,
+      badgeCount,
+      badgeIcon,
+      badgeType,
+      badgeSize,
+      showBadge,
+      ...props
+    },
+    ref,
+  ) => {
     const [isTrucatedListOpened, setIsTruncatedListOpened] = useState<boolean>(false);
 
     if (shouldTruncateBreadcrumbs(items)) {
@@ -37,11 +53,7 @@ const Breadcrumbs = forwardRef<HTMLDivElement, BreadcrumbsProps>(
           role="navigation"
           aria-label={ariaLabel}
         >
-          <BreadcrumbItem
-            item={{ label: root.label, link: root.link }}
-            isLast={false}
-            breadcrumbItemMaxWidth={breadcrumbItemMaxWidth}
-          />
+          <BreadcrumbItem item={root} isLast={false} breadcrumbItemMaxWidth={breadcrumbItemMaxWidth} />
           <Separator />
 
           <span className={style.breadcrumbItem}>
@@ -51,19 +63,39 @@ const Breadcrumbs = forwardRef<HTMLDivElement, BreadcrumbsProps>(
                 setIsTruncatedListOpened(false);
               }}
               trigger={
-                <IconButton
-                  name="more-horiz"
-                  data-testid="show-more"
-                  variant="neutral"
-                  compactSpacing
-                  onClick={() => setIsTruncatedListOpened(!isTrucatedListOpened)}
-                />
+                <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+                  <IconButton
+                    name="more-horiz"
+                    data-testid="show-more"
+                    variant="neutral"
+                    compactSpacing
+                    onClick={() => setIsTruncatedListOpened(!isTrucatedListOpened)}
+                  />
+                  {shouldDisplayBadge({ showBadge: !!showBadge, badgeContent, badgeCount, badgeIcon }) && (
+                    <Badge
+                      count={badgeCount}
+                      content={badgeContent}
+                      icon={badgeIcon}
+                      badgeType={badgeType}
+                      size={badgeSize}
+                    />
+                  )}
+                </div>
               }
               isOpen={isTrucatedListOpened}
               offset={6}
             >
               {truncated.map((item, idx) => (
-                <DropdownItem key={item.label + idx} label={item.label} link={item.link} />
+                <DropdownItem
+                  key={item.label + idx}
+                  label={item.label}
+                  link={item.link}
+                  badgeCount={item.badgeCount}
+                  badgeContent={item.badgeContent}
+                  badgeIcon={item.badgeIcon}
+                  badgeType={item.badgeType}
+                  showBadge={item.showBadge}
+                />
               ))}
             </Dropdown>
           </span>
