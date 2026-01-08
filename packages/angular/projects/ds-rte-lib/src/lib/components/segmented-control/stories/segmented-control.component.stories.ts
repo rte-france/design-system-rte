@@ -7,7 +7,11 @@ import {
 import { Meta, StoryObj } from "@storybook/angular";
 import { userEvent, within, expect } from "@storybook/test";
 
+import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../../icon/icon-map";
 import { SegmentedControlComponent } from "../segmented-control.component";
+
+const RegularIconIds = Object.keys(RegularIconsList);
+const TogglableIconIds = Object.keys(TogglableIconsList);
 
 const meta: Meta<SegmentedControlComponent> = {
   title: "Composants/SegmentedControl/SegmentedControl",
@@ -20,6 +24,28 @@ const meta: Meta<SegmentedControlComponent> = {
       table: {
         type: { summary: "SegmentProps[]" },
         defaultValue: { summary: "[]" },
+      },
+      badgeContent: {
+        control: "select",
+        options: ["number", "icon", "empty"],
+      },
+      badgeType: {
+        control: "select",
+        options: ["brand", "neutral", "indicator"],
+      },
+      badgeIcon: {
+        control: "select",
+        options: ["", ...RegularIconIds, ...TogglableIconIds].sort((a, b) => a.localeCompare(b)),
+      },
+      showBadge: {
+        control: "boolean",
+      },
+      badgeCount: {
+        control: "number",
+      },
+      badgeSize: {
+        control: "select",
+        options: ["xs", "s", "m", "l"],
       },
     },
   },
