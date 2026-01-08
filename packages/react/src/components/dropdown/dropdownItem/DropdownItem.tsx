@@ -39,6 +39,7 @@ export const DropdownItem = ({
   badgeContent,
   badgeIcon,
   badgeType,
+  badgeSize,
   showBadge,
   onClick,
   ...props
@@ -187,7 +188,7 @@ export const DropdownItem = ({
         )}
         {trailingText && <div>{trailingText}</div>}
         {shouldDisplayBadge({ showBadge: !!showBadge, badgeContent, badgeCount, badgeIcon }) && (
-          <Badge count={badgeCount} content={badgeContent} icon={badgeIcon} badgeType={badgeType} />
+          <Badge count={badgeCount} content={badgeContent} icon={badgeIcon} badgeType={badgeType} size={badgeSize} />
         )}
       </li>
       {hasSeparator && (
