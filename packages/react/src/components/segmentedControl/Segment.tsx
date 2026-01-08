@@ -38,6 +38,7 @@ const Segment = ({
   badgeContent,
   badgeIcon,
   badgeType,
+  badgeSize,
   showBadge,
   ...props
 }: SegmentProps) => {
@@ -123,7 +124,7 @@ const Segment = ({
           )}
         </div>
         {shouldDisplayBadge({ showBadge: !!showBadge, badgeContent, badgeCount, badgeIcon }) && (
-          <Badge count={badgeCount} content={badgeContent} icon={badgeIcon} badgeType={badgeType} />
+          <Badge count={badgeCount} content={badgeContent} icon={badgeIcon} badgeType={badgeType} size={badgeSize} />
         )}
       </div>
     </div>
