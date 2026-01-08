@@ -8,8 +8,7 @@ on:
 permissions: read-all
 
 jobs:
-
-  global-install: 
+  global-install:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -48,7 +47,7 @@ jobs:
 
       - name: Generate icons
         run: npm run generate:icons
-      
+
       - name: Build Core Package
         working-directory: packages/core
         run: npm run build
@@ -60,8 +59,6 @@ jobs:
           path: |
             ./core/css
           key: build-core-${{ hashFiles('package-lock.json') }}-${{ github.sha }}
-
-
 
   quality-react:
     runs-on: ubuntu-latest
@@ -95,6 +92,13 @@ jobs:
             ./packages/react/src/components/icon/generated
             ./packages/angular/projects/ds-rte-lib/src/lib/assets/icons
           key: icons-${{ hashFiles('package-lock.json') }}-${{ github.sha }}
+
+      - name: Restore cache build core
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./packages/core/css
+          key: build-core-${{ hashFiles('package-lock.json') }}-${{ github.sha }}
 
       - name: Restore cache build core
         uses: actions/cache@v4
@@ -139,7 +143,7 @@ jobs:
           key: deps-node20-main-${{ hashFiles('package-lock.json') }}-${{ github.sha }}
           restore-keys: |
             deps-node20-main-
-      
+
       - name: Restore cache icons
         uses: actions/cache@v4
         with:
@@ -172,7 +176,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-      
+
       - name: Restore cache node_modules and Vite cache
         uses: actions/cache@v4
         with:
@@ -193,14 +197,21 @@ jobs:
             ./packages/react/src/components/icon/generated
             ./packages/angular/projects/ds-rte-lib/src/lib/assets/icons
           key: icons-${{ hashFiles('package-lock.json') }}-${{ github.sha }}
-    
+
       - name: Restore cache build core
         uses: actions/cache@v4
         with:
           path: |
             ./packages/core/css
           key: build-core-${{ hashFiles('package-lock.json') }}-${{ github.sha }}
-            
+
+      - name: Restore cache build core
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./packages/core/css
+          key: build-core-${{ hashFiles('package-lock.json') }}-${{ github.sha }}
+
       - name: Lint
         working-directory: packages/react
         run: npm run lint:fix
@@ -208,7 +219,7 @@ jobs:
       - name: Run tests
         working-directory: packages/angular
         run: npm run test:ci
-  
+
   build-angular:
     runs-on: ubuntu-latest
     needs: quality-angular
@@ -220,7 +231,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-  
+
       - name: Restore cache node_modules and Vite cache
         uses: actions/cache@v4
         with:
@@ -233,7 +244,7 @@ jobs:
           key: deps-node20-main-${{ hashFiles('package-lock.json') }}-${{ github.sha }}
           restore-keys: |
             deps-node20-main-
-    
+
       - name: Restore cache icons
         uses: actions/cache@v4
         with:
