@@ -1,12 +1,22 @@
 # @design-system-rte/core
 
+## 1.1.0
+
+### Minor Changes
+
+- aa4024c: ## Changes
+  - (Core) add Nunito font to serve to react and angular package
+
+- ddb8b02: ## Changes
+  - (Core) add elevation mixins
+
 ## 1.0.0
 
 ### Major Changes
 
 - adc4eb6: ## Changes
   - (Public Release) Public Release
-  
+
 ### Minor Changes
 
 - 90fd2b4: ## Changes
@@ -23,7 +33,7 @@
 - f3d1179: ## Changes
   - (Banner) remove show icon props + remove top and left radius corner
   - (Banner) update design
-  
+
 ## 0.21.0
 
 ### Minor Changes
