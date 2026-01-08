@@ -25,6 +25,7 @@
       [count]="item()?.badgeCount"
       [simpleBadge]="true"
       [icon]="item()?.badgeIcon ?? ''"
+      [badgeSize]="item()?.badgeSize!"
     ></rte-badge>
   </li>
   <div *ngIf="item()?.hasSeparator" class="dropdown-divider">
