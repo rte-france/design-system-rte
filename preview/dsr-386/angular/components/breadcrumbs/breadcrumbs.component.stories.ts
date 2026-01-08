@@ -7,8 +7,12 @@ import { Meta, StoryObj } from "@storybook/angular";
 import { expect, userEvent, waitFor, within } from "@storybook/test";
 
 import { focusElementBeforeComponent } from "../../../../../../.storybook/testing/testing.utils";
+import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../icon/icon-map";
 
 import { BreadcrumbsComponent } from "./breadcrumbs.component";
+
+const RegularIconIds = Object.keys(RegularIconsList);
+const TogglableIconIds = Object.keys(TogglableIconsList);
 
 export default {
   title: "Composants/Breadcrumbs",
@@ -24,6 +28,28 @@ export default {
     breadcrumbItemMaxWidth: {
       control: "number",
       description: "Maximum width for each breadcrumb item in pixels.",
+    },
+    badgeContent: {
+      control: "select",
+      options: ["number", "icon", "empty"],
+    },
+    badgeType: {
+      control: "select",
+      options: ["brand", "neutral", "indicator"],
+    },
+    badgeIcon: {
+      control: "select",
+      options: ["", ...RegularIconIds, ...TogglableIconIds].sort((a, b) => a.localeCompare(b)),
+    },
+    showBadge: {
+      control: "boolean",
+    },
+    badgeCount: {
+      control: "number",
+    },
+    badgeSize: {
+      control: "select",
+      options: ["xs", "s", "m", "l"],
     },
   },
 } satisfies Meta<BreadcrumbsComponent>;
@@ -157,8 +183,9 @@ export const WithBadge: StoryObj<BreadcrumbsComponent> = {
       },
     ],
     badgeContent: "empty",
-    badgeCount: 5,
+    badgeCount: 7,
     badgeType: "indicator",
+    badgeSize: "xs",
     showBadge: true,
   },
   render: (args) => ({
@@ -166,7 +193,7 @@ export const WithBadge: StoryObj<BreadcrumbsComponent> = {
       ...args,
     },
     template: `
-      <rte-breadcrumbs [items]="items" [ariaLabel]="ariaLabel" data-testid="breadcrumbs" [breadcrumbItemMaxWidth]="breadcrumbItemMaxWidth" [badgeContent]="badgeContent" [badgeCount]="badgeCount" [badgeType]="badgeType" [showBadge]="showBadge" [badgeIcon]="badgeIcon" />
+      <rte-breadcrumbs [items]="items" [ariaLabel]="ariaLabel" data-testid="breadcrumbs" [breadcrumbItemMaxWidth]="breadcrumbItemMaxWidth" [badgeContent]="badgeContent" [badgeCount]="badgeCount" [badgeType]="badgeType" [showBadge]="showBadge" [badgeIcon]="badgeIcon" [badgeSize]="badgeSize" />
     `,
   }),
 };
@@ -176,7 +203,10 @@ export const KeyboardNavigationWithDropdown: StoryObj<BreadcrumbsComponent> = {
     ...Default.args,
     items: [
       ...(Default.args?.items ?? []),
-      { label: "FancyBrand Phone", link: "/products/electronics/smartphones/fancybrand-phone" },
+      {
+        label: "FancyBrand Phone",
+        link: "/products/electronics/smartphones/fancybrand-phone",
+      },
     ],
   },
   render: (args) => {
