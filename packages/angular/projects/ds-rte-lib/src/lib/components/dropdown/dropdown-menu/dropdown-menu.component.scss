@@ -25,6 +25,18 @@
   overflow-x: hidden;
   overflow-y: auto;
 
+  &-header {
+    width: 100%;
+  }
+
+  &-content {
+    width: 100%;
+  }
+
+  &-footer {
+    width: 100%;
+  }
+
   &.open {
     opacity: 1;
   }
