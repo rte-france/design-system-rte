@@ -1,0 +1,335 @@
+@use "../../tokens/public/typography" as *;
+
+@mixin typography-button {
+  font-feature-settings: 'liga' off, 'clig' off;
+  font-style: normal;
+}
+
+@mixin typography-button-s {
+  @include typography-button;
+  font-family: $button-s-semibold-font-family;
+  font-size: $button-s-semibold-font-size;
+  letter-spacing: $button-s-semibold-letter-spacing;
+  font-weight: $button-s-semibold-font-weight;
+  line-height: $button-s-semibold-line-height;
+}
+
+@mixin typography-button-m {
+  @include typography-button;
+  font-family: $button-m-semibold-font-family;
+  font-weight: $button-m-semibold-font-weight;
+  font-size: $button-m-semibold-font-size;
+  line-height: $button-m-semibold-line-height;
+  letter-spacing: $button-m-semibold-letter-spacing;
+}
+
+@mixin typography-button-l {
+  @include typography-button;
+  font-family: $button-l-semibold-font-family;
+  font-weight: $button-l-semibold-font-weight;
+  font-size: $button-l-semibold-font-size;
+  line-height: $button-l-semibold-line-height;
+  letter-spacing: $button-l-semibold-letter-spacing;
+}
+
+@mixin typography-text {
+  font-feature-settings: 'liga' off, 'clig' off;
+  font-style: normal;
+}
+
+@mixin typography-text-xs {
+  @include typography-text;
+  font-family: $text-xs-regular-font-family;
+  font-weight: $text-xs-regular-font-weight;
+  font-size: $text-xs-regular-font-size;
+  line-height: $text-xs-regular-line-height;
+  letter-spacing: $text-xs-regular-letter-spacing;
+}
+
+
+@mixin typography-text-m {
+  @include typography-text;
+  font-family: $text-m-regular-font-family;
+  font-weight: $text-m-regular-font-weight;
+  font-size: $text-m-regular-font-size;
+  line-height: $text-m-regular-line-height;
+  letter-spacing: $text-m-regular-letter-spacing;
+}
+
+@mixin typography-text-m-bold {
+  @include typography-text;
+  font-family: $text-m-bold-font-family;
+  font-weight: $text-m-bold-font-weight;
+  font-size: $text-m-bold-font-size;
+  line-height: $text-m-bold-line-height;
+  letter-spacing: $text-m-bold-letter-spacing;
+}
+
+@mixin typography-text-s {
+  @include typography-text;
+  font-family: $text-s-regular-font-family;
+  font-weight: $text-s-regular-font-weight;
+  font-size: $text-s-regular-font-size;
+  line-height: $text-s-regular-line-height;
+  letter-spacing: $text-s-regular-letter-spacing;
+}
+
+@mixin typography-text-s-bold {
+  @include typography-text;
+  font-family: $text-s-bold-font-family;
+  font-weight: $text-s-bold-font-weight;
+  font-size: $text-s-bold-font-size;
+  line-height: $text-s-bold-line-height;
+  letter-spacing: $text-s-bold-letter-spacing;
+}
+
+@mixin typography-text-m {
+  @include typography-text;
+  font-family: $text-m-regular-font-family;
+  font-weight: $text-m-regular-font-weight;
+  font-size: $text-m-regular-font-size;
+  line-height: $text-m-regular-line-height;
+  letter-spacing: $text-m-regular-letter-spacing;
+}
+
+@mixin typography-text-l {
+  @include typography-text;
+  font-family: $text-l-regular-font-family;
+  font-weight: $text-l-regular-font-weight;
+  font-size: $text-l-regular-font-size;
+  line-height: $text-l-regular-line-height;
+  letter-spacing: $text-l-regular-letter-spacing;
+}
+
+@mixin typography-text-l-bold {
+  @include typography-text;
+  font-family: $text-l-bold-font-family;
+  font-weight: $text-l-bold-font-weight;
+  font-size: $text-l-bold-font-size;
+  line-height: $text-l-bold-line-height;
+  letter-spacing: $text-l-bold-letter-spacing;
+}
+
+@mixin typography-link {
+  font-feature-settings: 'liga' off, 'clig' off;
+  font-style: normal;
+}
+
+@mixin typography-link-m {
+  @include typography-link;
+  font-family: $text-m-regular-font-family;
+  font-weight: $text-m-regular-font-weight;
+  font-size: $text-m-regular-font-size;
+  line-height: $text-m-regular-line-height;
+  letter-spacing: $text-m-regular-letter-spacing;
+}
+
+@mixin typography-radio-button {
+  font-feature-settings: 'liga' off, 'clig' off;
+  font-style: normal;
+}
+
+@mixin typography-radio-button-l {
+  @include typography-radio-button;
+  font-family: $text-l-regular-font-family;
+  font-size: $text-l-regular-font-size;
+  font-weight: $text-l-regular-font-weight;
+  line-height: $text-l-regular-line-height;
+  letter-spacing: $text-l-regular-letter-spacing;
+}
+
+@mixin typography-heading {
+  font-feature-settings: "liga" off, "clig" off;
+  font-style: normal;
+}
+
+@mixin typography-heading-xs {
+  @include typography-heading;
+  font-family: $heading-xs-semibold-font-family;
+  font-weight: $heading-xs-semibold-font-weight;
+  font-size: $heading-xs-semibold-font-size;
+  line-height: $heading-xs-semibold-line-height;
+  letter-spacing: $heading-xs-semibold-letter-spacing;
+}
+
+@mixin typography-heading-s {
+  @include typography-heading;
+  font-family: $heading-s-semibold-font-family;
+  font-weight: $heading-s-semibold-font-weight;
+  font-size: $heading-s-semibold-font-size;
+  line-height: $heading-s-semibold-line-height;
+  letter-spacing: $heading-s-semibold-letter-spacing;
+}
+
+@mixin typography-heading-m {
+  @include typography-heading;
+  font-family: $heading-m-semibold-font-family;
+  font-weight: $heading-m-semibold-font-weight;
+  font-size: $heading-m-semibold-font-size;
+  line-height: $heading-m-semibold-line-height;
+  letter-spacing: $heading-m-semibold-letter-spacing;
+}
+
+@mixin typography-heading-l {
+  @include typography-heading;
+  font-family: $heading-l-semibold-font-family;
+  font-weight: $heading-l-semibold-font-weight;
+  font-size: $heading-l-semibold-font-size;
+  line-height: $heading-l-semibold-line-height;
+  letter-spacing: $heading-l-semibold-letter-spacing;
+}
+
+@mixin typography-heading-xl {
+  @include typography-heading;
+  font-family: $heading-xl-semibold-font-family;
+  font-weight: $heading-xl-semibold-font-weight;
+  font-size: $heading-xl-semibold-font-size;
+  line-height: $heading-xl-semibold-line-height;
+  letter-spacing: $heading-xl-semibold-letter-spacing;
+}
+
+@mixin typography-checkbox-error {
+  @include typography-text-s;
+  font-weight: $text-s-bold-font-weight;
+}
+
+@mixin typography-tooltip {
+  font-feature-settings: "liga" off, "clig" off;
+  font-style: normal;
+}
+
+@mixin typography-tooltip-label {
+  @include typography-tooltip;
+  font-family: $text-m-regular-font-family;
+  font-weight: $text-m-regular-font-weight;
+  font-size: $text-m-regular-font-size;
+  line-height: $text-m-regular-line-height;
+  letter-spacing: $text-m-regular-letter-spacing;
+}
+
+@mixin typography-storybook-title {
+  font-feature-settings: "liga" off, "clig" off;
+  font-style: normal;
+  font-family: $heading-3xl-semibold-font-family;
+  font-weight: $heading-3xl-semibold-font-weight;
+  font-size: $heading-2xl-semibold-font-size;
+  line-height: $heading-xl-semibold-line-height;
+}
+
+@mixin typography-storybook-subtitle {
+  font-feature-settings: "liga" off, "clig" off;
+  font-style: normal;
+  font-family: $heading-4xl-semibold-font-family;
+  font-weight: $heading-m-semibold-font-weight;
+  font-size: $heading-m-semibold-font-size;
+  line-height: $heading-m-semibold-line-height;
+}
+
+@mixin typography-storybook-header-content {
+  font-feature-settings: "liga" off, "clig" off;
+  font-style: normal;
+  font-family: $text-xl-regular-font-family;
+  font-weight: $text-xl-regular-font-weight;
+  font-size: $text-xl-regular-font-size;
+  line-height: $text-xl-regular-line-height;
+}
+
+@mixin typography-storybook-header-xs {
+  font-feature-settings: "liga" off, "clig" off;
+  font-style: normal;
+  font-family: $heading-xs-semibold-font-family;
+  font-weight: $heading-xs-semibold-font-weight;
+  font-size: $heading-xs-semibold-font-size;
+  line-height: $heading-xs-semibold-line-height;
+  letter-spacing: $heading-xs-semibold-letter-spacing;
+}
+
+@mixin typography-storybook-header-s {
+  font-feature-settings: "liga" off, "clig" off;
+  font-style: normal;
+  font-family: $heading-s-semibold-font-family;
+  font-weight: $heading-s-semibold-font-weight;
+  font-size: $heading-s-semibold-font-size;
+  line-height: $heading-s-semibold-line-height;
+  letter-spacing: $heading-s-semibold-letter-spacing;
+}
+
+@mixin typography-split-button {
+  font-feature-settings: "liga" off, "clig" off;
+  font-style: normal;
+}
+
+@mixin typography-split-button-s {
+  @include typography-split-button;
+  font-family: $button-s-semibold-font-family;
+  font-weight: $button-s-semibold-font-weight;
+  font-size: $button-s-semibold-font-size;
+  line-height: $button-s-semibold-line-height;
+  letter-spacing: $button-s-semibold-letter-spacing;
+}
+
+@mixin typography-split-button-m {
+  @include typography-split-button;
+  font-family: $button-m-semibold-font-family;
+  font-weight: $button-m-semibold-font-weight;
+  font-size: $button-m-semibold-font-size;
+  line-height: $button-m-semibold-line-height;
+  letter-spacing: $button-m-semibold-letter-spacing;
+}
+
+@mixin typography-split-button-l {
+  @include typography-split-button;
+  font-family: $button-l-semibold-font-family;
+  font-weight: $button-l-semibold-font-weight;
+  font-size: $button-l-semibold-font-size;
+  line-height: $button-l-semibold-line-height;
+  letter-spacing: $button-l-semibold-letter-spacing;
+}
+
+@mixin typography-text-input {
+  font-feature-settings: "liga" off, "clig" off;
+  font-style: normal;
+}
+
+@mixin typography-text-input-m {
+  @include typography-text-input;
+  font-family: $text-m-regular-font-family;
+  font-weight: $text-m-regular-font-weight;
+  font-size: $text-m-regular-font-size;
+  line-height: $text-m-regular-line-height;
+  letter-spacing: $text-m-regular-letter-spacing;
+}
+
+@mixin typography-text-input-tertiary-regular {
+  @include typography-text-input;
+  font-family: $text-s-regular-font-family;
+  font-weight: $text-s-regular-font-weight;
+  font-size: $text-s-regular-font-size;
+  line-height: $text-s-regular-line-height;
+  letter-spacing: $text-s-regular-letter-spacing;
+}
+
+@mixin typography-text-input-s-bold {
+  @include typography-text-input;
+  font-family: $text-s-bold-font-family;
+  font-weight: $text-s-bold-font-weight;
+  font-size: $text-s-bold-font-size;
+  line-height: $text-s-bold-line-height;
+  letter-spacing: $text-s-bold-letter-spacing;
+}
+
+@mixin typography-text-s-regular {
+  font-family: $text-s-regular-font-family;
+  font-size: $text-s-regular-font-size;
+  font-weight: $text-s-regular-font-weight;
+  line-height: $text-s-regular-line-height;
+  letter-spacing: $text-s-regular-letter-spacing;
+}
+
+@mixin typography-text-m-regular {
+  font-family: $text-m-regular-font-family;
+  font-size: $text-m-regular-font-size;
+  font-weight: $text-m-regular-font-weight;
+  line-height: $text-m-regular-line-height;
+  letter-spacing: $text-m-regular-letter-spacing;
+}

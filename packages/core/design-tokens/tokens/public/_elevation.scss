@@ -1,0 +1,154 @@
+@use "../private/shadows" as *;
+
+@mixin neutral-inner-shadow {
+  box-shadow: inset $inner-shadow-key-position-x $inner-shadow-key-position-y $inner-shadow-key-blur $inner-shadow-key-spread var(--elevation-shadow-key);
+}
+
+@mixin elevation-neutral-inner-shadow {
+  @include neutral-inner-shadow;
+  background: linear-gradient(0deg, var(--elevation-surface-inner-shadow) 0%, var(--elevation-surface-inner-shadow) 100%);
+}
+
+@mixin neutral-shadow-1 {
+  box-shadow: $shadow-1-key-position-x $shadow-1-key-position-y $shadow-1-key-blur $shadow-1-key-spread var(--elevation-shadow-key),
+    $ambient-shadow-position-x $ambient-shadow-position-y $ambient-shadow-blur $ambient-shadow-spread var(--elevation-shadow-ambient);
+}
+
+@mixin elevation-neutral-shadow-1 {
+  @include neutral-shadow-1;
+  background: linear-gradient(0deg, var(--elevation-surface-shadow-1) 0%, var(--elevation-surface-shadow-1) 100%);
+}
+
+@mixin neutral-shadow-2 {
+  box-shadow: $shadow-2-key-position-x $shadow-2-key-position-y $shadow-2-key-blur $shadow-2-key-spread var(--elevation-shadow-key),
+    $ambient-shadow-position-x $ambient-shadow-position-y $ambient-shadow-blur $ambient-shadow-spread var(--elevation-shadow-ambient);
+}
+
+@mixin elevation-neutral-shadow-2 {
+  @include neutral-shadow-2;
+  background: linear-gradient(0deg, var(--elevation-surface-shadow-2) 0%, var(--elevation-surface-shadow-2) 100%);
+}
+
+@mixin neutral-drop-shadow-2 {
+  filter:
+    drop-shadow($shadow-2-key-position-x $shadow-2-key-position-y $shadow-2-key-blur var(--elevation-shadow-key)) drop-shadow($ambient-shadow-position-x $ambient-shadow-position-y $ambient-shadow-blur var(--elevation-shadow-ambient));
+}
+
+@mixin elevation-neutral-drop-shadow-2 {
+  @include neutral-drop-shadow-2;
+  background: linear-gradient(0deg, var(--elevation-surface-shadow-2) 0%, var(--elevation-surface-shadow-2) 100%);
+}
+
+@mixin neutral-shadow-3 {
+  box-shadow: $shadow-3-key-position-x $shadow-3-key-position-y $shadow-3-key-blur $shadow-3-key-spread var(--elevation-shadow-key),
+    $ambient-shadow-position-x $ambient-shadow-position-y $ambient-shadow-blur $ambient-shadow-spread var(--elevation-shadow-ambient);
+}
+
+@mixin elevation-neutral-shadow-3 {
+  @include neutral-shadow-3;
+  background: linear-gradient(0deg, var(--elevation-surface-shadow-3) 0%, var(--elevation-surface-shadow-3) 100%);
+}
+
+@mixin neutral-shadow-4 {
+  box-shadow: $shadow-4-key-position-x $shadow-4-key-position-y $shadow-4-key-blur $shadow-4-key-spread var(--elevation-shadow-key),
+    $ambient-shadow-position-x $ambient-shadow-position-y $ambient-shadow-blur $ambient-shadow-spread var(--elevation-shadow-ambient);
+}
+
+@mixin elevation-neutral-shadow-4 {
+  @include neutral-shadow-4;
+  background: linear-gradient(0deg, var(--elevation-surface-shadow-4) 0%, var(--elevation-surface-shadow-4) 100%);
+}
+
+@mixin neutral-shadow-5 {
+  box-shadow: $shadow-5-key-position-x $shadow-5-key-position-y $shadow-5-key-blur $shadow-5-key-spread var(--elevation-shadow-key-darker),
+    $ambient-shadow-darker-position-x $ambient-shadow-darker-position-y $ambient-shadow-darker-blur $ambient-shadow-darker-spread var(--elevation-shadow-ambient-darker);
+}
+
+@mixin elevation-neutral-shadow-5 {
+  @include neutral-shadow-5;
+  background: linear-gradient(0deg, var(--elevation-surface-shadow-5) 0%, var(--elevation-surface-shadow-5) 100%);
+}
+
+@mixin neutral-shadow-6 {
+  box-shadow: $shadow-6-key-position-x $shadow-6-key-position-y $shadow-6-key-blur $shadow-6-key-spread var(--elevation-shadow-key-darker),
+    $ambient-shadow-darker-position-x $ambient-shadow-darker-position-y $ambient-shadow-darker-blur $ambient-shadow-darker-spread var(--elevation-shadow-ambient-darker);
+}
+
+@mixin elevation-neutral-shadow-6 {
+  @include neutral-shadow-6;
+  background: linear-gradient(0deg, var(--elevation-surface-shadow-6) 0%, var(--elevation-surface-shadow-6) 100%);
+}
+
+@mixin brand-inner-shadow {
+  box-shadow: inset $inner-shadow-key-position-x $inner-shadow-key-position-y $inner-shadow-key-blur $inner-shadow-key-spread var(--elevation-shadow-key-brand);
+}
+
+@mixin elevation-brand-inner-shadow {
+  @include brand-inner-shadow;
+}
+
+@mixin brand-shadow-1 {
+  box-shadow:
+    $shadow-1-key-position-x $shadow-1-key-position-y $shadow-1-key-blur $shadow-1-key-spread var(--elevation-shadow-key-brand),
+    $ambient-shadow-position-x $ambient-shadow-position-y $ambient-shadow-blur $ambient-shadow-spread var(--elevation-shadow-ambient-brand);
+}
+
+@mixin elevation-brand-shadow-1 {
+  @include brand-shadow-1;
+  background: linear-gradient(0deg, var(--elevation-surface-shadow-1) 0%, var(--elevation-surface-shadow-1) 100%);
+}
+
+@mixin brand-shadow-2 {
+  box-shadow:
+    $shadow-2-key-position-x $shadow-2-key-position-y $shadow-2-key-blur $shadow-2-key-spread var(--elevation-shadow-key-brand),
+    $ambient-shadow-position-x $ambient-shadow-position-y $ambient-shadow-blur $ambient-shadow-spread var(--elevation-shadow-ambient-brand);
+}
+
+@mixin elevation-brand-shadow-2 {
+  @include brand-shadow-2;
+  background: linear-gradient(0deg, var(--elevation-surface-shadow-2) 0%, var(--elevation-surface-shadow-2) 100%);
+}
+
+@mixin brand-shadow-3 {
+  box-shadow:
+    $shadow-3-key-position-x $shadow-3-key-position-y $shadow-3-key-blur $shadow-3-key-spread var(--elevation-shadow-key-brand),
+    $ambient-shadow-position-x $ambient-shadow-position-y $ambient-shadow-blur $ambient-shadow-spread var(--elevation-shadow-ambient-brand);
+}
+
+@mixin elevation-brand-shadow-3 {
+  @include brand-shadow-3;
+  background: linear-gradient(0deg, var(--elevation-surface-shadow-3) 0%, var(--elevation-surface-shadow-3) 100%);
+}
+
+@mixin brand-shadow-4 {
+  box-shadow:
+    $shadow-4-key-position-x $shadow-4-key-position-y $shadow-4-key-blur $shadow-4-key-spread var(--elevation-shadow-key-brand),
+    $ambient-shadow-position-x $ambient-shadow-position-y $ambient-shadow-blur $ambient-shadow-spread var(--elevation-shadow-ambient-brand);
+}
+
+@mixin elevation-brand-shadow-4 {
+  @include brand-shadow-4;
+  background: linear-gradient(0deg, var(--elevation-surface-shadow-4) 0%, var(--elevation-surface-shadow-4) 100%);
+}
+
+@mixin brand-shadow-5 {
+  box-shadow:
+    $shadow-5-key-position-x $shadow-5-key-position-y $shadow-5-key-blur $shadow-5-key-spread var(--elevation-shadow-key-brand),
+    $ambient-shadow-darker-position-x $ambient-shadow-darker-position-y $ambient-shadow-darker-blur $ambient-shadow-darker-spread var(--elevation-shadow-ambient-brand);
+}
+
+@mixin elevation-brand-shadow-5 {
+  @include brand-shadow-5;
+  background: linear-gradient(0deg, var(--elevation-surface-shadow-5) 0%, var(--elevation-surface-shadow-5) 100%);
+}
+
+@mixin brand-shadow-6 {
+  box-shadow:
+    $shadow-6-key-position-x $shadow-6-key-position-y $shadow-6-key-blur $shadow-6-key-spread var(--elevation-shadow-key-brand),
+    $ambient-shadow-darker-position-x $ambient-shadow-darker-position-y $ambient-shadow-darker-blur $ambient-shadow-darker-spread var(--elevation-shadow-ambient-brand);
+}
+
+@mixin elevation-brand-shadow-6 {
+  @include brand-shadow-6;
+  background: linear-gradient(0deg, var(--elevation-surface-shadow-6) 0%, var(--elevation-surface-shadow-6) 100%);
+}
