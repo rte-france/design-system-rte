@@ -113,7 +113,7 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
 
     this.dropdownService.openMenu(menuId);
 
-    this.assignItems();
+    this.assignInputs();
     this.positionDropdownMenu(this.rteDropdownPosition());
     this.addClickOutsideListener();
 
@@ -136,9 +136,11 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
     this.destroyRef.onDestroy(() => dropdownStateSubscription.unsubscribe());
   }
 
-  private assignItems(): void {
+  private assignInputs(): void {
     if (this.dropdownMenuRef) {
       this.dropdownMenuRef.setInput("items", this.menu()?.items());
+      this.dropdownMenuRef.setInput("headerTemplate", this.menu()?.headerDirective()?.templateRef);
+      this.dropdownMenuRef.setInput("footerTemplate", this.menu()?.footerDirective()?.templateRef);
     }
   }
 
