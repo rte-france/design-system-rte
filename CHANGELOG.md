@@ -2,6 +2,21 @@
 
 # Angular
 
+## 1.0.2
+
+### Badge
+
+#### Patch Changes
+
+- set valid position value for xs badge
+
+### Other
+
+#### Patch Changes
+
+- Updated dependencies [38d9ec6]
+- @design-system-rte/core@1.2.0
+
 ## 1.0.1
 
 ### Docs
@@ -180,6 +195,21 @@
 - @design-system-rte/core@0.20.0
 # React
 
+## 1.1.1
+
+### Badge
+
+#### Patch Changes
+
+- set valid position value for xs badge
+
+### Other
+
+#### Patch Changes
+
+- Updated dependencies [38d9ec6]
+- @design-system-rte/core@1.2.0
+
 ## 1.1.0
 
 ### Docs
@@ -353,6 +383,17 @@
 - @design-system-rte/core@0.21.0
 # Core
 
+## 1.2.0
+
+### Badge
+
+#### Minor Changes
+
+- use IconSize constant and add xs value
+
+### Other
+
+
 ## 1.1.0
 
 ### Core
@@ -396,42 +437,6 @@
 
 - remove show icon props + remove top and left radius corner
 - update design
-
-### Other
-
-
-## 0.21.0
-
-### Docs
-
-#### Minor Changes
-
-- create subcomponent for pages
-
-### Card
-
-#### Minor Changes
-
-- mutualize testing common logic
-- add card component
-
-### Side Navigation
-
-#### Minor Changes
-
-- add Divider support for navItems & navMenus
-- add Badge support
-- add footer items
-- add NavItem selection for SideNav
-- correct accesibility standards for ul and li items
-- add Nested Menus to SideNav
-- implement simple side nav from base side nav
-
-### Tooltip
-
-#### Minor Changes
-
-- add customizable gap
 
 ### Other
 
