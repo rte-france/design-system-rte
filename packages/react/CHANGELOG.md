@@ -1,5 +1,15 @@
 # @design-system-rte/react
 
+## 1.1.1
+
+### Patch Changes
+
+- 88a14d9: ## Changes
+  - (Badge) set valid position value for xs badge
+
+- Updated dependencies [38d9ec6]
+  - @design-system-rte/core@1.2.0
+
 ## 1.1.0
 
 ### Minor Changes
