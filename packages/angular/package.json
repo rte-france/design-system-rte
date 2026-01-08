@@ -51,8 +51,6 @@
     "typescript": "~5.4.2"
   },
   "dependencies": {
-    "@babel/preset-typescript": "^7.27.1",
-    "common-path-prefix": "^3.0.0",
-    "fd-package-json": "^1.2.0"
+    "@babel/preset-typescript": "^7.27.1"
   }
 }
