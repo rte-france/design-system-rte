@@ -1,5 +1,12 @@
 # @design-system-rte/core
 
+## 1.2.0
+
+### Minor Changes
+
+- 38d9ec6: ## Changes
+  - (Badge) use IconSize constant and add xs value
+
 ## 1.1.0
 
 ### Minor Changes
