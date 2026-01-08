@@ -16,4 +16,5 @@ export interface BadgeHolderProps {
   badgeContent?: BadgeContent;
   badgeIcon?: string;
   badgeType?: BadgeType;
+  badgeSize?: BadgeSize;
 }
