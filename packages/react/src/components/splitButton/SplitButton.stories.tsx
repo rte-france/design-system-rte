@@ -40,6 +40,28 @@ const meta = {
       description: "Nom de l’icône à afficher",
       defaultValue: "",
     },
+    badgeContent: {
+      control: "select",
+      options: ["number", "icon", "empty"],
+    },
+    badgeType: {
+      control: "select",
+      options: ["brand", "neutral", "indicator"],
+    },
+    badgeIcon: {
+      control: "select",
+      options: ["", ...RegularIconIds, ...TogglableIconIds].sort((a, b) => a.localeCompare(b)),
+    },
+    showBadge: {
+      control: "boolean",
+    },
+    badgeCount: {
+      control: "number",
+    },
+    badgeSize: {
+      control: "select",
+      options: ["xs", "s", "m", "l"],
+    },
   },
   args: { onClick: fn() },
 } satisfies Meta<typeof SplitButton>;
