@@ -1,11 +1,16 @@
+import { BadgeContent, BadgeSize, BadgeType } from "@design-system-rte/core/components/badge/badge.interface";
 import { DropdownProps } from "@design-system-rte/core/components/dropdown/dropdown.interface";
 import { TESTING_DOWN_KEY, TESTING_UP_KEY } from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
 import { Meta, StoryObj } from "@storybook/react";
 import { expect, userEvent, waitFor, within } from "@storybook/test";
 import { useState } from "react";
 
+import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../../icon/IconMap";
 import { Dropdown } from "../Dropdown";
 import { DropdownItem } from "../dropdownItem/DropdownItem";
+
+const RegularIconIds = Object.keys(RegularIconsList);
+const TogglableIconIds = Object.keys(TogglableIconsList);
 
 const meta: Meta<typeof Dropdown> = {
   title: "Composants/Dropdown (développement en cours)",
@@ -96,7 +101,7 @@ const DropdownTemplate = (args: DropdownProps) => {
 };
 
 export const Default: Story = {
-  args: {},
+  args: { dropdownId: "storybook-dropdown" },
   render: (args) => {
     return (
       <>
@@ -107,8 +112,45 @@ export const Default: Story = {
   },
 };
 
-export const WithBadge: Story = {
-  args: {},
+export const WithBadge: StoryObj<{
+  badgeContent?: BadgeContent;
+  badgeType?: BadgeType;
+  badgeIcon: string;
+  showBadge: boolean;
+  badgeCount: number;
+  badgeSize?: BadgeSize;
+}> = {
+  args: {
+    badgeContent: "number",
+    badgeType: "indicator",
+    badgeIcon: "settings",
+    showBadge: true,
+    badgeCount: 5,
+  },
+  argTypes: {
+    badgeContent: {
+      control: "select",
+      options: ["number", "icon", "empty"],
+    },
+    badgeType: {
+      control: "select",
+      options: ["brand", "neutral", "indicator"],
+    },
+    badgeIcon: {
+      control: "select",
+      options: ["", ...RegularIconIds, ...TogglableIconIds].sort((a, b) => a.localeCompare(b)),
+    },
+    showBadge: {
+      control: "boolean",
+    },
+    badgeCount: {
+      control: "number",
+    },
+    badgeSize: {
+      control: "select",
+      options: ["xs", "s", "m", "l"],
+    },
+  },
   render: (args) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -126,7 +168,7 @@ export const WithBadge: Story = {
           }}
         >
           <Dropdown
-            {...args}
+            dropdownId="storybook-dropdown-with-badge"
             onClose={() => {
               setIsOpen(false);
             }}
@@ -141,10 +183,12 @@ export const WithBadge: Story = {
             <DropdownItem
               label="Messages"
               leftIcon="mail"
-              badgeCount={5}
-              badgeContent="number"
-              badgeType="indicator"
-              showBadge={true}
+              badgeCount={args.badgeCount}
+              badgeContent={args.badgeContent}
+              badgeType={args.badgeType}
+              showBadge={args.showBadge}
+              badgeIcon={args.badgeIcon}
+              badgeSize={args.badgeSize}
             />
             <DropdownItem label="Username" leftIcon="user-circle" link="/username" />
           </Dropdown>
