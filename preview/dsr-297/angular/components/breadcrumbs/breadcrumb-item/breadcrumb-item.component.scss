@@ -1,0 +1,46 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+.rte-breadcrumb-item {
+  display: inline-flex;
+  align-items: center;
+  opacity: 0;
+  animation: fadeIn 150ms forwards;
+
+  @include typography-text-m-regular;
+
+  rte-link {
+    ::ng-deep {
+
+      a,
+      a.subtle {
+        color: var(--content-tertiary) !important;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+  }
+
+  a {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &:last-child {
+    cursor: default;
+    color: var(--content-primary);
+  }
+
+  :focus-visible {
+    outline: 1px solid var(--border-brand-focused);
+    outline-offset: $radius-s;
+    border-radius: $radius-s;
+  }
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
