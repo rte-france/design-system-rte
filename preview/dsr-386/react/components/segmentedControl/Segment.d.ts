@@ -2,5 +2,5 @@ import { SegmentProps as CoreSegmentProps } from '../../../../core/components/se
 interface SegmentProps extends CoreSegmentProps {
     onClick?: (event: React.MouseEvent<HTMLDivElement> | React.KeyboardEvent<HTMLDivElement>) => void;
 }
-declare const Segment: ({ id, icon, label, position, isSelected, onClick, badgeCount, badgeContent, badgeIcon, badgeType, showBadge, ...props }: SegmentProps) => import("react/jsx-runtime").JSX.Element;
+declare const Segment: ({ id, icon, label, position, isSelected, onClick, badgeCount, badgeContent, badgeIcon, badgeType, badgeSize, showBadge, ...props }: SegmentProps) => import("react/jsx-runtime").JSX.Element;
 export default Segment;
