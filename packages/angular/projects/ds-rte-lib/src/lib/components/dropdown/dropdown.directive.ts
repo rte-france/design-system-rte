@@ -93,7 +93,7 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
     effect(() => {
       const menu = this.menu();
       if (this.dropdownMenuRef && menu) {
-        this.assignItems();
+        this.assignInputs();
       }
     });
 
@@ -165,8 +165,7 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
 
     this.dropdownService.openMenu(menuId);
 
-    this.assignItems();
-    this.assignWidth();
+    this.assignInputs();
     this.positionDropdownMenu(this.rteDropdownPosition());
     this.addClickOutsideListener();
 
@@ -189,11 +188,15 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
     this.destroyRef.onDestroy(() => dropdownStateSubscription.unsubscribe());
   }
 
-  private assignItems(): void {
+  private assignInputs(): void {
     if (this.dropdownMenuRef) {
       const items = this.menu()?.items() ?? [];
       this.dropdownMenuRef.setInput("items", items);
+      this.dropdownMenuRef.setInput("headerTemplate", this.menu()?.headerDirective()?.templateRef);
+      this.dropdownMenuRef.setInput("footerTemplate", this.menu()?.footerDirective()?.templateRef);
     }
+
+    this.assignWidth();
   }
 
   private assignWidth(): void {
