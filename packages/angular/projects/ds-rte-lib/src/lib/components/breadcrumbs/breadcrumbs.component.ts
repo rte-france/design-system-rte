@@ -35,6 +35,7 @@ export class BreadcrumbsComponent {
   readonly badgeIcon = input<string>();
   readonly badgeType = input<BadgeProps["badgeType"]>();
   readonly showBadge = input<boolean>(false);
+  readonly badgeSize = input<BadgeProps["size"]>("s");
 
   readonly truncatedItems = computed<BreadcrumbsTruncatedItems | null>(() => {
     if (shouldTruncateBreadcrumbs(this.items())) {

@@ -28,7 +28,7 @@ const BreadcrumbItem = ({ item, isLast, breadcrumbItemMaxWidth }: BreadcrumbProp
     computeIsEllipsisActive();
   }, [breadcrumbItemMaxWidth]);
 
-  const { showBadge, badgeContent, badgeCount, badgeIcon, badgeType } = item;
+  const { showBadge, badgeContent, badgeCount, badgeIcon, badgeType, badgeSize } = item;
   const shouldDisplayBadge = coreShouldDisplayBadge({ showBadge: !!showBadge, badgeContent, badgeCount, badgeIcon });
 
   return (
@@ -57,7 +57,13 @@ const BreadcrumbItem = ({ item, isLast, breadcrumbItemMaxWidth }: BreadcrumbProp
                 {item.label}
               </a>
               {shouldDisplayBadge && (
-                <Badge count={badgeCount} content={badgeContent} icon={badgeIcon} badgeType={badgeType} />
+                <Badge
+                  count={badgeCount}
+                  content={badgeContent}
+                  icon={badgeIcon}
+                  badgeType={badgeType}
+                  size={badgeSize}
+                />
               )}
             </Tooltip>
           ) : (

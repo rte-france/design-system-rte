@@ -7,8 +7,12 @@ import { Meta, StoryObj } from "@storybook/react";
 import { expect, userEvent, waitFor, within } from "@storybook/test";
 
 import { focusElementBeforeComponent } from "../../../.storybook/testing/testing.utils";
+import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../icon/IconMap";
 
 import Breadcrumbs from "./Breadcrumbs";
+
+const RegularIconIds = Object.keys(RegularIconsList);
+const TogglableIconIds = Object.keys(TogglableIconsList);
 
 const meta = {
   title: "Composants/Breadcrumbs",
@@ -23,6 +27,28 @@ const meta = {
     },
     breadcrumbItemMaxWidth: {
       control: "number",
+    },
+    badgeContent: {
+      control: "select",
+      options: ["number", "icon", "empty"],
+    },
+    badgeType: {
+      control: "select",
+      options: ["brand", "neutral", "indicator"],
+    },
+    badgeIcon: {
+      control: "select",
+      options: ["", ...RegularIconIds, ...TogglableIconIds].sort((a, b) => a.localeCompare(b)),
+    },
+    showBadge: {
+      control: "boolean",
+    },
+    badgeCount: {
+      control: "number",
+    },
+    badgeSize: {
+      control: "select",
+      options: ["xs", "s", "m", "l"],
     },
   },
 } satisfies Meta<typeof Breadcrumbs>;
