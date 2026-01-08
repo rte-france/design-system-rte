@@ -1,5 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, input, signal, OnInit, OnDestroy } from "@angular/core";
+import { BadgeContent, BadgeSize, BadgeType } from "@design-system-rte/core/components/badge/badge.interface";
+import { shouldDisplayBadge } from "@design-system-rte/core/components/badge/badge.utils";
 import { Alignment, Position } from "@design-system-rte/core/components/common/common-types";
 import {
   splitButtonLeftIconSize,
@@ -36,6 +38,12 @@ export class SplitButtonComponent implements OnInit, OnDestroy {
   readonly disabled = input(false);
   readonly ariaLabelRight = input<string>();
   readonly options = input<SplitButtonItemProps[]>([]);
+  readonly badgeType = input<BadgeType>();
+  readonly showBadge = input<boolean>(false);
+  readonly badgeContent = input<BadgeContent>();
+  readonly badgeCount = input<number | undefined>(undefined);
+  readonly badgeIcon = input<RegularIconIdKey | TogglableIconIdKey>("notification");
+  readonly badgeSize = input<BadgeSize>("m");
 
   readonly splitButtonLeftIconSize = computed(() => splitButtonLeftIconSize[this.size()]);
   readonly splitButtonRightIconSize = computed(() => splitButtonRightIconSize[this.size()]);
@@ -49,18 +57,13 @@ export class SplitButtonComponent implements OnInit, OnDestroy {
     return this.position().split("-")[1] as Alignment;
   });
 
-  readonly hasBadge = computed(() => {
-    console.log(
-      "Checking for badges in options:",
-      this.options().some((option) => option.showBadge),
-    );
-    return this.options().some((option) => option.showBadge);
-  });
-
-  readonly badgeCount = computed(() =>
-    this.hasBadge()
-      ? this.options().reduce((acc, option) => acc + (option.badgeCount ? option.badgeCount : 0), 0)
-      : undefined,
+  readonly hasBadge = computed(() =>
+    shouldDisplayBadge({
+      showBadge: !!this.showBadge(),
+      badgeContent: this.badgeContent(),
+      badgeCount: this.badgeCount(),
+      badgeIcon: this.badgeIcon(),
+    }),
   );
 
   handleClickOutside(event: MouseEvent): void {

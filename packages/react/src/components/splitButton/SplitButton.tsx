@@ -50,6 +50,7 @@ const SplitButton = forwardRef<HTMLElement | HTMLButtonElement, SplitButtonProps
       badgeIcon,
       badgeType,
       badgeCount,
+      badgeSize,
       ...props
     }: SplitButtonProps,
     ref,
@@ -112,7 +113,7 @@ const SplitButton = forwardRef<HTMLElement | HTMLButtonElement, SplitButtonProps
           alignment={internalAlignment}
           trigger={
             shouldDisplayBadge({ showBadge: !!showBadge, badgeContent, badgeCount, badgeIcon }) ? (
-              <Badge count={badgeCount} content={badgeContent} badgeType={badgeType} icon={badgeIcon}>
+              <Badge count={badgeCount} content={badgeContent} badgeType={badgeType} icon={badgeIcon} size={badgeSize}>
                 <button
                   type="button"
                   aria-haspopup="menu"
