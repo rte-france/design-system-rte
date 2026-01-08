@@ -57,7 +57,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: |
-            ./core/css
+            ./packages/core/css
           key: build-core-${{ hashFiles('package-lock.json') }}-${{ github.sha }}
 
   quality-react:
