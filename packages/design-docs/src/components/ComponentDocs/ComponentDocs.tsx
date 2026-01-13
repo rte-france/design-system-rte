@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 
 import Header from "../Header/Header";
 
@@ -10,9 +10,9 @@ import "./ComponentDocs.scss";
 
 interface ComponentDocsProps {
   title: string;
-  description?: React.ReactNode;
+  description?: ReactNode;
   linkFigma?: string;
-  linkGithub?: string | { angular?: string; react?: string };
+  linkGithub?: { angular?: string; react?: string };
   disponibility?: {
     design?: {
       figma?: boolean;
@@ -34,8 +34,8 @@ interface ComponentDocsProps {
     defaultValue: string;
     dependance: string;
   }[];
-  guidelines?: React.ReactNode;
-  accessibility?: React.ReactNode;
+  guidelines?: ReactNode;
+  accessibility?: ReactNode;
 }
 
 const ComponentDocs = ({
@@ -51,42 +51,34 @@ const ComponentDocs = ({
 }: ComponentDocsProps) => {
   const contextFramework = useFrameworkContext().framework;
 
-  const [framework, setFramework] = useState<"angular" | "react">(() => {
-    if (typeof document !== "undefined") {
-      const frameworkAttr = document.documentElement.getAttribute("data-storybook-framework");
-      if (frameworkAttr === "angular") {
-        return "angular";
-      }
+  function detectFramework(): "angular" | "react" {
+    const pathname = window.location.pathname;
+    if (pathname.includes("/angular/")) {
+      return "angular";
     }
+    if (pathname.includes("/react/")) {
+      return "react";
+    }
+
+    const port = window.location.port;
+    if (port === "7007") {
+      return "angular";
+    }
+    if (port === "7008") {
+      return "react";
+    }
+
     return contextFramework;
-  });
+  }
+
+  const [framework, setFramework] = useState<"angular" | "react">(detectFramework);
 
   useEffect(() => {
-    if (typeof document !== "undefined") {
-      const frameworkAttr = document.documentElement.getAttribute("data-storybook-framework");
-      if (frameworkAttr === "angular") {
-        setFramework("angular");
-      } else if (frameworkAttr !== "angular") {
-        setFramework(contextFramework);
-      }
-    } else {
-      setFramework(contextFramework);
-    }
+    const detectedFramework = detectFramework();
+    setFramework(detectedFramework);
   }, [contextFramework]);
 
-  let resolvedLinkGithub: string | undefined;
-
-  if (typeof linkGithub === "string") {
-    resolvedLinkGithub = linkGithub;
-  } else if (linkGithub && typeof linkGithub === "object") {
-    if (framework === "angular" && linkGithub.angular) {
-      resolvedLinkGithub = linkGithub.angular;
-    } else if (framework === "react" && linkGithub.react) {
-      resolvedLinkGithub = linkGithub.react;
-    } else {
-      resolvedLinkGithub = linkGithub.angular || linkGithub.react;
-    }
-  }
+  const resolvedLinkGithub: string = linkGithub?.[framework] || "";
 
   return (
     <div className="rte-component-docs">

@@ -1,0 +1,12 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+.sbdocs {
+  .badge.option-wrapper {
+    .option-table.animations {
+      ul {
+        margin: 0
+      }
+    }
+  }
+}
+

@@ -1,11 +1,11 @@
-import React from "react";
+import { ReactNode } from "react";
 
 import Accordion from "../../../../design-docs/src/components/Accordion/Accordion";
 import "./Usage.scss";
 
 export interface UsageProps {
   image?: string;
-  contentStandards?: React.ReactNode;
+  contentStandards?: ReactNode;
 }
 
 const Usage = ({ image, contentStandards }: UsageProps) => {

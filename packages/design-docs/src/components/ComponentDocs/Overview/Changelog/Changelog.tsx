@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 
 import AccordionIconToggle from "../../../AccordionIconToggle/AccordionIconToggle";
 import Tag from "../Tag/Tag";
@@ -10,7 +10,7 @@ interface ChangelogProps {
 }
 
 const Changelog = ({ updates }: ChangelogProps) => {
-  const [openStates, setOpenStates] = React.useState<{ [key: string]: boolean }>({});
+  const [openStates, setOpenStates] = useState<{ [key: string]: boolean }>({});
 
   function handleToggle(version: string) {
     setOpenStates((prev) => ({

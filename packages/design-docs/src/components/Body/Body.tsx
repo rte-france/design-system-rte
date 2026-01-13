@@ -1,9 +1,8 @@
-import React from "react";
-
+import { ReactNode } from "react";
 import "./Body.scss";
 
 export interface BodyProps {
-  children?: React.ReactNode;
+  children?: ReactNode;
 }
 
 const Body = ({ children }: BodyProps) => {
