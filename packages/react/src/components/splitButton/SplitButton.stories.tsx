@@ -40,6 +40,28 @@ const meta = {
       description: "Nom de l’icône à afficher",
       defaultValue: "",
     },
+    badgeContent: {
+      control: "select",
+      options: ["number", "icon", "empty"],
+    },
+    badgeType: {
+      control: "select",
+      options: ["brand", "neutral", "indicator"],
+    },
+    badgeIcon: {
+      control: "select",
+      options: ["", ...RegularIconIds, ...TogglableIconIds].sort((a, b) => a.localeCompare(b)),
+    },
+    showBadge: {
+      control: "boolean",
+    },
+    badgeCount: {
+      control: "number",
+    },
+    badgeSize: {
+      control: "select",
+      options: ["xs", "s", "m", "l"],
+    },
   },
   args: { onClick: fn() },
 } satisfies Meta<typeof SplitButton>;
@@ -120,6 +142,38 @@ export const Position: Story = {
   ),
   args: {
     ...Default.args,
+  },
+};
+
+export const WithBadge: Story = {
+  args: {
+    ...Default.args,
+    showBadge: true,
+    badgeContent: "empty",
+    badgeType: "indicator",
+    badgeIcon: "star",
+    badgeCount: 7,
+    options: [
+      {
+        id: "option-1",
+        label: "Option 1",
+        onClick: () => console.log("Option 1 clicked"),
+        showBadge: true,
+        badgeCount: 2,
+        badgeContent: "number",
+        badgeType: "indicator",
+      },
+      { id: "option-2", label: "Option 2", onClick: () => console.log("Option 2 clicked") },
+      {
+        id: "option-3",
+        label: "Option 3",
+        onClick: () => console.log("Option 3 clicked"),
+        showBadge: true,
+        badgeCount: 5,
+        badgeContent: "number",
+        badgeType: "indicator",
+      },
+    ],
   },
 };
 

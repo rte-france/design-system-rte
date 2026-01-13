@@ -8,7 +8,11 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { fn, userEvent, within, expect } from "@storybook/test";
 import { useState } from "react";
 
+import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../../icon/IconMap";
 import SegmentedControl from "../SegmentedControl";
+
+const RegularIconIds = Object.keys(RegularIconsList);
+const TogglableIconIds = Object.keys(TogglableIconsList);
 
 const meta = {
   title: "Composants/SegmentedControl/SegmentedControl",
@@ -21,6 +25,28 @@ const meta = {
       table: {
         type: { summary: "SegmentProps[]" },
         defaultValue: { summary: "[]" },
+      },
+      badgeContent: {
+        control: "select",
+        options: ["number", "icon", "empty"],
+      },
+      badgeType: {
+        control: "select",
+        options: ["brand", "neutral", "indicator"],
+      },
+      badgeIcon: {
+        control: "select",
+        options: ["", ...RegularIconIds, ...TogglableIconIds].sort((a, b) => a.localeCompare(b)),
+      },
+      showBadge: {
+        control: "boolean",
+      },
+      badgeCount: {
+        control: "number",
+      },
+      badgeSize: {
+        control: "select",
+        options: ["xs", "s", "m", "l"],
       },
     },
   },
@@ -124,6 +150,37 @@ export const Icons: Story = {
 
     return (
       <div style={{ width: "420px" }}>
+        <SegmentedControl options={args.options} onChange={handleOnChange} selectedSegment={selected} />
+      </div>
+    );
+  },
+};
+
+export const WithBadge: Story = {
+  args: {
+    options: [
+      { label: "Option 1", id: "option1" },
+      {
+        label: "Option 2",
+        id: "option2",
+        showBadge: true,
+        badgeContent: "number",
+        badgeCount: 5,
+        badgeType: "indicator",
+      },
+    ],
+    onChange: fn(),
+  },
+
+  render: (args) => {
+    const [selected, setSelected] = useState("option1");
+
+    const handleOnChange = (id: string) => {
+      setSelected(id);
+    };
+
+    return (
+      <div style={{ width: "380px" }}>
         <SegmentedControl options={args.options} onChange={handleOnChange} selectedSegment={selected} />
       </div>
     );

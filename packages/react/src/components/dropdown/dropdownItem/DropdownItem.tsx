@@ -1,3 +1,4 @@
+import { shouldDisplayBadge } from "@design-system-rte/core/components/badge/badge.utils";
 import { DropdownItemProps as CoreDropdownItemProps } from "@design-system-rte/core/components/dropdown/dropdown.interface";
 import { DropdownManager } from "@design-system-rte/core/components/dropdown/DropdownManager";
 import {
@@ -11,6 +12,7 @@ import {
 import { useContext } from "react";
 
 import { useActiveKeyboard } from "../../../hooks/useActiveKeyboard";
+import Badge from "../../badge/Badge";
 import Divider from "../../divider/Divider";
 import Icon from "../../icon/Icon";
 import { DropdownParentContext } from "../context/DropdownContext";
@@ -33,6 +35,12 @@ export const DropdownItem = ({
   hasSeparator,
   hasIndent,
   children,
+  badgeCount,
+  badgeContent,
+  badgeIcon,
+  badgeType,
+  badgeSize,
+  showBadge,
   onClick,
   ...props
 }: DropdownItemProps) => {
@@ -179,6 +187,9 @@ export const DropdownItem = ({
           <span style={{ flex: "2" }}>{label}</span>
         )}
         {trailingText && <div>{trailingText}</div>}
+        {shouldDisplayBadge({ showBadge: !!showBadge, badgeContent, badgeCount, badgeIcon }) && (
+          <Badge count={badgeCount} content={badgeContent} icon={badgeIcon} badgeType={badgeType} size={badgeSize} />
+        )}
       </li>
       {hasSeparator && (
         <div className={styles["dropdown-divider"]}>

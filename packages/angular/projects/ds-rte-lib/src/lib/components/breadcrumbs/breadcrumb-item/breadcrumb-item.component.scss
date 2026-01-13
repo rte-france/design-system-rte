@@ -5,6 +5,7 @@
   align-items: center;
   opacity: 0;
   animation: fadeIn 150ms forwards;
+  gap: $positive-spacing_050;
 
   @include typography-text-m-regular;
 
