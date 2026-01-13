@@ -1,3 +1,4 @@
+import { CSSProperties } from "react";
 import "./Table.scss";
 
 type ColumnSizeConfig = number | "auto" | "flex" | { min?: number; max?: number; width?: number };
@@ -10,7 +11,7 @@ interface TableProps {
   columnWidths?: ColumnSizeConfig[];
 }
 
-function getColumnStyle(width: ColumnSizeConfig): React.CSSProperties {
+function getColumnStyle(width: ColumnSizeConfig): CSSProperties {
   if (typeof width === "number") {
     return { width: `${width}px` };
   }
@@ -18,7 +19,7 @@ function getColumnStyle(width: ColumnSizeConfig): React.CSSProperties {
     return {};
   }
   if (typeof width === "object") {
-    const style: React.CSSProperties = {};
+    const style: CSSProperties = {};
     if (width.width !== undefined) {
       style.width = `${width.width}px`;
     }
@@ -43,7 +44,7 @@ function getColumnClassName(width: ColumnSizeConfig): string {
   return "";
 }
 
-function getCellStyle(width: ColumnSizeConfig): React.CSSProperties {
+function getCellStyle(width: ColumnSizeConfig): CSSProperties {
   if (typeof width === "object" && width.min !== undefined) {
     return { minWidth: `${width.min}px` };
   }

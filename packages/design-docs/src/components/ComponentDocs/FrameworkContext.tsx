@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from "react";
+import { createContext, ReactNode, useContext } from "react";
 
 interface FrameworkContextValue {
   framework: "angular" | "react";
@@ -13,7 +13,7 @@ export function useFrameworkContext(): FrameworkContextValue {
 
 interface FrameworkProviderProps {
   framework: "angular" | "react";
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 export function FrameworkProvider({ framework, children }: FrameworkProviderProps) {

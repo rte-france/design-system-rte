@@ -1,8 +1,8 @@
-import React from "react";
+import { HTMLAttributes } from "react";
 
 import "./Tag.scss";
 
-interface TagProps extends React.HTMLAttributes<HTMLDivElement> {
+interface TagProps extends HTMLAttributes<HTMLDivElement> {
   tagType?: "status" | "decorative";
   status?: "success" | "information" | "warning" | "alert";
   color?: string;

@@ -1,9 +1,8 @@
-import React from "react";
-
+import { ReactNode } from "react";
 import "./UsageCard.scss";
 
 interface UsageCardProps {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 const UsageCard = ({ children }: UsageCardProps) => {

@@ -75,6 +75,9 @@ const preview: Preview = {
         locales: "fr-FR",
       },
     },
+    composed: {
+      remoteId: "react",
+    },
   },
 };
 
