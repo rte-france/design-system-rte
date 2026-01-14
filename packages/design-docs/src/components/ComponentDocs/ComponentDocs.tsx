@@ -34,6 +34,7 @@ interface ComponentDocsProps {
     defaultValue: string;
     dependance: string;
   }[];
+  optionsContent?: ReactNode;
   guidelines?: ReactNode;
   accessibility?: ReactNode;
 }
@@ -46,6 +47,7 @@ const ComponentDocs = ({
   disponibility,
   changelog,
   options,
+  optionsContent,
   guidelines,
   accessibility,
 }: ComponentDocsProps) => {
@@ -88,7 +90,12 @@ const ComponentDocs = ({
 
       <Tabs>
         <div className="rte-component-docs-overview">
-          <Overview disponibility={disponibility} changelog={changelog} options={options} />
+          <Overview
+            disponibility={disponibility}
+            changelog={changelog}
+            options={options}
+            optionsContent={optionsContent}
+          />
         </div>
 
         <div className="rte-component-docs-guidelines">{guidelines}</div>

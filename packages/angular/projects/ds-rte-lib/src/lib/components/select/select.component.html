@@ -38,7 +38,6 @@
     [rteDropdownId]="'dropdown_select_' + id()"
     [rteDropdownPosition]="dropdownPosition()"
     [rteDropdownOffset]="selectDropdownOffset"
-    [rteDroprownTriggerToggle]="true"
     [rteDropdownWidth]="selectWidth()"
     (menuEvent)="handleOnClickItem($event.id)"
     (clickedOutside)="handleOnClickOutside()"
@@ -74,11 +73,11 @@
             variant="neutral"
             class="rte-select-icon-button clear-icon"
             [disabled]="disabled()"
-            (click)="handleOnClickClearButton($event)"
+            (clickEvent)="handleOnClickClearButton($event)"
           />
           <rte-icon
+            class="trigger-icon trigger-icon-{{ isActive() ? 'up' : 'down' }}"
             variant="neutral"
-            class="trigger-icon"
             [name]="isActive() ? 'arrow-chevron-up' : 'arrow-chevron-down'"
           />
         </div>

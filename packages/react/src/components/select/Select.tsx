@@ -162,6 +162,7 @@ const Select = forwardRef<HTMLDivElement, coreSelectProps>(
                       )}
                       <Icon
                         name={isActive ? "arrow-chevron-up" : "arrow-chevron-down"}
+                        data-testid="trigger-icon"
                         className={styles["trigger-icon"]}
                       />
                     </div>
