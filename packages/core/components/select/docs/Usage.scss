@@ -1,0 +1,7 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+.sbdocs {
+  .subtitle {
+    @include typography-text-l-bold;
+  }
+}

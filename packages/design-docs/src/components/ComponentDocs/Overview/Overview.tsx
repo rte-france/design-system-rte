@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 import Heading from "../../Heading/Heading";
 
 import Changelog from "./Changelog/Changelog";
@@ -28,9 +30,10 @@ interface OverviewProps {
     defaultValue: string;
     dependance: string;
   }[];
+  optionsContent?: ReactNode;
 }
 
-const Overview = ({ disponibility, changelog, options }: OverviewProps) => {
+const Overview = ({ disponibility, changelog, options, optionsContent }: OverviewProps) => {
   return (
     <div className="rte-overview">
       <div className="rte-overview-top">
@@ -52,7 +55,7 @@ const Overview = ({ disponibility, changelog, options }: OverviewProps) => {
           <Heading level={2} id="options">
             Options
           </Heading>
-          <Options options={options} />
+          <Options options={options}>{optionsContent}</Options>
         </div>
       )}
     </div>

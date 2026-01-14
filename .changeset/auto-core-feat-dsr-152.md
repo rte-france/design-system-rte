@@ -4,6 +4,7 @@
   
   ## Changes
 
+- (Select) add new documentation
 - (Assistive-text) add width props
 - (Select) improve style
 - (Assistive-text) add angular component

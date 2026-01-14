@@ -154,7 +154,7 @@ export class SelectComponent {
     }
   }
 
-  handleOnClickClearButton(event: Event) {
+  handleOnClickClearButton(event: Event): void {
     if (this.readOnly() || this.disabled()) {
       return;
     }

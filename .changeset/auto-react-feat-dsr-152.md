@@ -4,6 +4,8 @@
   
   ## Changes
 
+- (Select) add new documentation
+- (Text Input) move AssistiveText & RequiredIndicator to base component of Text Input
 - (Assistive-text) add width props
 - (Select) improve style
 - (Assistive-text) add angular component
