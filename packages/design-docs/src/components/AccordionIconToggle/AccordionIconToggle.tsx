@@ -1,4 +1,5 @@
-import Icon from "../../../../react/src/components/icon/Icon";
+import Icon from "../Icon/Icon";
+
 interface AccordionIconToggleProps {
   isAccordionOpen: boolean;
 }

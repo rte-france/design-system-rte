@@ -1,11 +1,11 @@
-import React from "react";
+import { ReactNode } from "react";
 import "./Heading.scss";
 
 interface HeadingProps {
   id: string;
   level: number;
   hasAnchor?: boolean;
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 const Heading = ({ id, level, hasAnchor = true, children }: HeadingProps) => {

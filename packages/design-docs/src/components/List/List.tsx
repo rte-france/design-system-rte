@@ -1,7 +1,8 @@
+import { ReactNode } from "react";
 import "./List.scss";
 
 interface ListProps {
-  children?: React.ReactNode;
+  children?: ReactNode;
 }
 
 const List = ({ children }: ListProps) => {

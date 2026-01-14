@@ -1,8 +1,8 @@
-import { Tag } from "@design-system-rte/react";
-import React from "react";
+import { useState } from "react";
 
 import AccordionIconToggle from "../AccordionIconToggle/AccordionIconToggle";
 import Heading from "../Heading/Heading";
+import Tag from "../Tag/Tag";
 
 import "./LastUpdate.scss";
 
@@ -11,7 +11,7 @@ interface LastUpdateProps {
 }
 
 const LastUpdate = ({ updates }: LastUpdateProps) => {
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <>
       <Heading id="last-update" level={2}>

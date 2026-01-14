@@ -1,4 +1,4 @@
-import React from "react";
+import { ReactNode } from "react";
 
 import figma from "../../img/figma.png";
 import github from "../../img/github.png";
@@ -9,7 +9,7 @@ interface HeaderComponentProps {
   title: string;
   linkFigma?: string;
   linkGithub?: string;
-  children?: React.ReactNode;
+  children?: ReactNode;
 }
 
 const HeaderComponent = ({ title, linkFigma, linkGithub, children }: HeaderComponentProps) => {

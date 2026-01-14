@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import AccordionIconToggle from "../../../AccordionIconToggle/AccordionIconToggle";
-import Tag from "../Tag/Tag";
+import Tag from "../../../Tag/Tag";
 
 import "./Changelog.scss";
 
