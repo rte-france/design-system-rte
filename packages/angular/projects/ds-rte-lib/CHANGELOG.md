@@ -1,5 +1,34 @@
 # @design-system-rte/angular
 
+## 1.1.0
+
+### Minor Changes
+
+- 2cff3de: ## Changes
+  - (Searchbar) add new documentation
+  - (Searchbar) add new placeholder text for disabled input
+  - (Icon Button) show icon in disabled state button
+  - (Text Input) correct disabled display
+  - (Searchbar) change component structure so input inner border reacts correctly to focus & assistive text takes all the width of its container
+  - (Text Input) correct placeholder exposition and handling
+  - (Text Input) add missing output signals after base-text-input refactor
+  - (Searchbar) add searchbar base functionality
+
+- 29e0462: ## Changes
+  - (Design Docs) correct sub-storybook context detection
+  - (Design Docs) add guideline page
+
+### Patch Changes
+
+- 88a14d9: ## Changes
+  - (Badge) set valid position value for xs badge
+
+- Updated dependencies [921ffd7]
+- Updated dependencies [38d9ec6]
+- Updated dependencies [2cff3de]
+- Updated dependencies [29e0462]
+  - @design-system-rte/core@1.2.0
+
 ## 1.0.1
 
 ### Patch Changes

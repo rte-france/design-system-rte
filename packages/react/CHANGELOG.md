@@ -1,5 +1,36 @@
 # @design-system-rte/react
 
+## 1.2.0
+
+### Minor Changes
+
+- 2cff3de: ## Changes
+  - (Searchbar) add new documentation
+  - (Searchbar) add new placeholder text for disabled input
+  - (Text Input) correct disabled display
+  - (Searchbar) correct inner input not losing focus when clearing is value
+  - (Text Input) hide input value when input is disabled
+  - (Searchbar) change component structure so input inner border reacts correctly to focus & assistive text takes all the width of its container
+  - (Text Input) correct placeholder exposition and handling
+  - (Searchbar) add searchbar base functionality
+
+- 29e0462: ## Changes
+  - (Design Docs) correct sub-storybook context detection
+  - (Design Docs) add guideline page
+  - (Storybook) add breadcrumbs - overview page
+  - (Storybook) add new tab of options, heading, availability and LastUpdate component
+
+### Patch Changes
+
+- 88a14d9: ## Changes
+  - (Badge) set valid position value for xs badge
+
+- Updated dependencies [921ffd7]
+- Updated dependencies [38d9ec6]
+- Updated dependencies [2cff3de]
+- Updated dependencies [29e0462]
+  - @design-system-rte/core@1.2.0
+
 ## 1.1.0
 
 ### Minor Changes
