@@ -7,3 +7,5 @@
 - (Design Docs) correct sub-storybook context detection
 - (Angular Storybook) correct font resolutions from assets retrieved from core during webpack build
 - (Design Docs) add guideline page
+- (Badge) add new Badge docs
+- (Breadcrumbs) add new Breadcrumbs docs

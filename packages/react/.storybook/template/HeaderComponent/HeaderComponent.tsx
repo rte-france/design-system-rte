@@ -20,13 +20,13 @@ const HeaderComponent = ({ title, linkFigma, linkGithub }: HeaderComponentProps)
           {linkFigma && (
             <div className={style.storybook_link_container}>
               <img src={Figma} alt="Figma" className={style.storybook_logo} />
-              <Link label="Figma" href={linkFigma} target="_blank" />
+              <Link label="Figma" href={linkFigma} target="_blank" externalLink={true} />
             </div>
           )}
           {linkGithub && (
             <div className={style.storybook_link_container}>
               <img src={Github} alt="GitHub" className={style.storybook_logo} />
-              <Link label="GitHub" href={linkGithub} target="_blank" />
+              <Link label="GitHub" href={linkGithub} target="_blank" externalLink={true} />
             </div>
           )}
         </div>

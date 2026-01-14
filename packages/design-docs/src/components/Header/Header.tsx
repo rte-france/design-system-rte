@@ -15,20 +15,26 @@ interface HeaderComponentProps {
 const HeaderComponent = ({ title, linkFigma, linkGithub, children }: HeaderComponentProps) => {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-      <header className="rte-header">
-        <div className="rte-header_content">
+      <header className="rte-header-docs">
+        <div className="rte-header-docs_content">
           <h1 className="rte-title">{title}</h1>
           <div className="rte-links">
             {linkFigma && (
               <div className="rte-link_container">
                 <img src={figma} alt="Lien du Figma" className="rte-logo" />
-                <a href={linkFigma}> Figma </a>
+                <a href={linkFigma} target="_blank">
+                  {" "}
+                  Figma{" "}
+                </a>
               </div>
             )}
             {linkGithub && (
               <div className="rte-link_container">
                 <img src={github} alt="Lien du GitHub" className="rte-logo" />
-                <a href={linkGithub}> GitHub </a>
+                <a href={linkGithub} target="_blank">
+                  {" "}
+                  GitHub{" "}
+                </a>
               </div>
             )}
           </div>
