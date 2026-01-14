@@ -6,7 +6,7 @@ import { useState } from "react";
 import Select from "../Select";
 
 const meta = {
-  title: "Composants/Select",
+  title: "Composants/Select/Select",
   component: Select,
   tags: ["autodocs"],
   argTypes: {
