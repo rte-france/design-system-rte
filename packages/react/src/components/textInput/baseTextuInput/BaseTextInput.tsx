@@ -14,9 +14,10 @@ import {
   useState,
 } from "react";
 
+import AssistiveText from "../../assistivetext/AssistiveText";
 import Icon from "../../icon/Icon";
 import IconButton from "../../iconButton/IconButton";
-import Link from "../../link/Link";
+import RequiredIndicator from "../../requiredindicator/RequiredIndicator";
 import { concatClassNames } from "../../utils";
 
 import style from "./BaseTextInput.module.scss";
@@ -152,20 +153,6 @@ const BaseTextInput = forwardRef<HTMLInputElement, BaseTextInputProps>(
       return showRightIcon && !!rightIconAction;
     };
 
-    const requiredLabelRequirementTemplate = showLabelRequirement ? (
-      <span className={style.requiredText}>(obligatoire)</span>
-    ) : (
-      <span className={style.requiredIconContainer}>
-        <Icon name="asterisk" size={8} />
-      </span>
-    );
-
-    const optionalLabelRequirementTemplate = showLabelRequirement ? (
-      <span className={style.requiredText}>(optionnel)</span>
-    ) : null;
-
-    const labelRequirementTemplate = required ? requiredLabelRequirementTemplate : optionalLabelRequirementTemplate;
-
     return (
       <div
         className={style.container}
@@ -181,7 +168,7 @@ const BaseTextInput = forwardRef<HTMLInputElement, BaseTextInputProps>(
                 {" "}
                 {label}{" "}
               </label>
-              {labelRequirementTemplate}
+              <RequiredIndicator required={required} showLabelRequirement={showLabelRequirement} />
             </div>
             {displayCounter && labelPosition === "top" && (
               <p className={style.inputCounter} data-testid="input-counter">
@@ -248,22 +235,7 @@ const BaseTextInput = forwardRef<HTMLInputElement, BaseTextInputProps>(
             {rightSlot && <div className={style.rightSlot}>{rightSlot}</div>}
           </div>
           {assistiveTextLabel && (
-            <div className={style.assistiveText}>
-              {showAssistiveIcon && assistiveAppearance === "error" && (
-                <Icon name="error" appearance="outlined" className={style.assistiveIconError} size={12} />
-              )}
-              {showAssistiveIcon && assistiveAppearance === "success" && (
-                <Icon name="check" appearance="outlined" className={style.assistiveIconSucces} size={12} />
-              )}
-              {assistiveAppearance === "link" ? (
-                <Link label={assistiveTextLabel} />
-              ) : (
-                <p className={style.assistiveLabel} data-appearance={assistiveAppearance}>
-                  {" "}
-                  {assistiveTextLabel}{" "}
-                </p>
-              )}
-            </div>
+            <AssistiveText label={assistiveTextLabel} appearance={assistiveAppearance} showIcon={showAssistiveIcon} />
           )}
         </div>
         {displayCounter && labelPosition == "side" && (
