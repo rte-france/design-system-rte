@@ -1,7 +1,7 @@
 @use '@design-system-rte/core/design-tokens/main.scss' as *;
 
-.rte-header {
-  .rte-header_content {
+.rte-header-docs {
+  .rte-header-docs_content {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -35,7 +35,7 @@
     }
   }
 
-  .rte-header_content_text {
+  .rte-header-docs_content_text {
     @include typography-storybook-header-content;
     color: #21272A;
     display: flex;

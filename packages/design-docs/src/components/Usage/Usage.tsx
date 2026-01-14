@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-import Accordion from "../../../../design-docs/src/components/Accordion/Accordion";
+import Accordion from "../Accordion/Accordion";
 import "./Usage.scss";
 
 export interface UsageProps {
