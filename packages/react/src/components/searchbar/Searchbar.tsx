@@ -126,7 +126,7 @@ const Searchbar = forwardRef<HTMLInputElement, SearchbarProps>(
           onSearch?.(value);
         }
       },
-      [onSearch],
+      [onSearch, value],
     );
 
     const handleClear = useCallback(() => {
@@ -163,6 +163,7 @@ const Searchbar = forwardRef<HTMLInputElement, SearchbarProps>(
         compactSpacing,
         placeholder,
         appearanceConfig.showLeftIcon,
+        props,
       ],
     );
 
