@@ -1,5 +1,11 @@
 @use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
 
+.rte-options-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: $positive-spacing_200;
+}
+
 .rte-options {
   margin: 0;
   width: 100%;
@@ -67,5 +73,11 @@
       }
     }
   }
+}
+
+.rte-options-children {
+  display: flex;
+  flex-direction: column;
+  gap: $positive-spacing_200;
 }
 

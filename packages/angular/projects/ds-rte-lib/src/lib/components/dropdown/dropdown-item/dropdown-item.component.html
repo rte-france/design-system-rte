@@ -5,7 +5,7 @@
     role="menuitem"
     tabindex="0"
     [attr.data-disabled]="item()?.disabled"
-    [attr.aria-disabled]="item()?.disabled"
+    [attr.data-active]="item()?.selected"
     (click)="handleClick($event)"
     (keydown)="handleKeyDown($event)"
   >
