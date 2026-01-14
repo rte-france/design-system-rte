@@ -12,7 +12,7 @@ import { DropdownItem } from "../../dropdown/dropdownItem/DropdownItem";
 import Searchbar from "../Searchbar";
 
 const meta = {
-  title: "Composants/Searchbar",
+  title: "Composants/Searchbar/Searchbar",
   component: Searchbar,
   tags: ["autodocs"],
   argTypes: {
@@ -77,7 +77,7 @@ export const WithDropdown: Story = {
       return () => {
         input?.removeEventListener("focus", handleFocus);
       };
-    }, [options.length]);
+    }, [options.length, isOpen]);
 
     function handleChange(value: string | undefined) {
       setSearchValue(value ?? "");
