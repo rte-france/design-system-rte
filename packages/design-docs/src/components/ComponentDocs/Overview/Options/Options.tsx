@@ -1,5 +1,3 @@
-import React from "react";
-
 import "./Options.scss";
 
 interface OptionsProps {

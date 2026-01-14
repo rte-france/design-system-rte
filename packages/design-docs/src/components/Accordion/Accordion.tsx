@@ -1,4 +1,4 @@
-import React from "react";
+import { ReactNode, useState } from "react";
 
 import AccordionIconToggle from "../AccordionIconToggle/AccordionIconToggle";
 
@@ -7,11 +7,11 @@ import "./Accordion.scss";
 export interface AccordionProps {
   title: string;
   id?: string;
-  children?: React.ReactNode;
+  children?: ReactNode;
 }
 
 const Accordion = ({ title, id, children }: AccordionProps) => {
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div className="rte-accordion">
