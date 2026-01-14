@@ -16,11 +16,7 @@
   (mouseout)="handleMouseOut()"
   (keydown)="handleKeydown()"
 >
-  <rte-icon
-    *ngIf="option()?.icon"
-    [name]="option()?.icon || ''"
-    [appearance]="isSelected() ? 'filled' : 'outlined'"
-  />
+  <rte-icon *ngIf="option()?.icon" [name]="option()?.icon || ''" [appearance]="isSelected() ? 'filled' : 'outlined'" />
   <span *ngIf="option()?.label">{{ option()?.label }}</span>
   <rte-badge
     *ngIf="displayBadge(option()!)"

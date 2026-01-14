@@ -5,20 +5,13 @@
     class="rte-modal-container"
     [attr.aria-modal]="true"
     [attr.aria-labelledby]="id() + '-modal-title'"
-    [attr.aria-describedby]="
-      description() ? id() + '-modal-desc' : ariaDescribedby()
-    "
+    [attr.aria-describedby]="description() ? id() + '-modal-desc' : ariaDescribedby()"
     [attr.data-size]="size()"
     [attr.data-open]="isOpen()"
   >
     <div class="rte-modal-header">
       <div class="rte-modal-header-text">
-        <rte-icon
-          *ngIf="icon()"
-          [name]="icon() ?? ''"
-          [size]="iconSize()"
-          [appearance]="iconAppearance()"
-        />
+        <rte-icon *ngIf="icon()" [name]="icon() ?? ''" [size]="iconSize()" [appearance]="iconAppearance()" />
         <h2 class="rte-modal-title" [id]="id() + '-modal-title'">
           {{ title() }}
         </h2>
@@ -29,7 +22,7 @@
           class="close-icon"
           variant="neutral"
           [ariaLabel]="'Close modal ' + id()"
-          (click)="onClose()"
+          (clickEvent)="onClose()"
         />
       </div>
       <rte-divider />

@@ -25,11 +25,6 @@
     {{ actionLabel() }}
   </button>
   <div *ngIf="closable()" class="rte-banner-close-icon">
-    <rte-icon-button
-      name="close"
-      variant="neutral"
-      ariaLabel="close banner"
-      (click)="closeBanner()"
-    />
+    <rte-icon-button name="close" variant="neutral" ariaLabel="close banner" (clickEvent)="closeBanner()" />
   </div>
 </section>

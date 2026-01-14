@@ -15,15 +15,17 @@
       <div class="popoverContent">{{ content() }}</div>
     </div>
     <div class="popoverButtonContainer">
-      <button *ngIf="secondaryButtonLabel()"
+      <button
+        *ngIf="secondaryButtonLabel()"
         rteButton
         rteButtonVariant="secondary"
         (click)="handleClickSecondaryButton()"
-      >{{ secondaryButtonLabel() }}</button>
-      <button rteButton
-        rteButtonVariant="primary"
-        (click)="handleClickPrimaryButton()"
-      >{{ primaryButtonLabel() }}</button>
+      >
+        {{ secondaryButtonLabel() }}
+      </button>
+      <button rteButton rteButtonVariant="primary" (click)="handleClickPrimaryButton()">
+        {{ primaryButtonLabel() }}
+      </button>
     </div>
   </div>
 </div>

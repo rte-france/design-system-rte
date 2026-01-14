@@ -8,11 +8,7 @@
     type="button"
     [disabled]="disabled()"
   >
-    <rte-icon
-      *ngIf="icon()"
-      [name]="icon()!"
-      [size]="splitButtonLeftIconSize()"
-    />
+    <rte-icon *ngIf="icon()" [name]="icon()!" [size]="splitButtonLeftIconSize()" />
     <p class="split-button-label size-{{ size() }}">
       {{ label() }}
     </p>
@@ -42,10 +38,7 @@
       (keydown)="handleKeyDownOnRightButton($event)"
     >
       <div class="split-button-right-icon-container">
-        <rte-icon
-          name="arrow-chevron-down"
-          [size]="splitButtonRightIconSize()"
-        />
+        <rte-icon name="arrow-chevron-down" [size]="splitButtonRightIconSize()" />
       </div>
     </button>
     <rte-dropdown-menu [items]="options()" />

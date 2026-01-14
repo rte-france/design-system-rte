@@ -48,7 +48,7 @@ export const Default: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const radioButton = canvas.getByRole("radio");
+    const radioButton = canvas.getByRole("radio", { name: /radio button/i });
     await userEvent.click(radioButton);
     expect(radioButton).toBeChecked();
   },

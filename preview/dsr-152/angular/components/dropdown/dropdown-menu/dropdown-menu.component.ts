@@ -26,11 +26,13 @@ export class DropdownMenuComponent {
 
   readonly items = input<DropdownItemConfig[]>([]);
   readonly menuId = input<string>();
+
+  readonly itemEvent = output<{ event: Event; id: string }>();
+
+  readonly widthStyle = computed(() => (this.width() !== undefined ? `${this.width()}px` : undefined));
   readonly isOpen = input<boolean>(false);
   readonly width = input<string | null>(null);
   readonly closingMenu = output<void>();
-
-  readonly itemEvent = output<{ event: Event; id: string }>();
 
   readonly menuStyle = computed(() => {
     return this.width() ? { width: this.width() + "px" } : {};

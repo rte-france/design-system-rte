@@ -1,33 +1,69 @@
-<div class="container" [attr.data-label-position]="labelPosition()"> 
-  <label *ngIf="label() && labelPosition() === 'side'" [attr.data-label-position]="labelPosition()" [attr.id]="labelId()" [attr.for]="id()">{{label()}}<span *ngIf="required() || showLabelRequirement()" class="requirement-indicator" aria-hidden="true" [ngClass]="{'required': required(), 'show-label-requirement': showLabelRequirement() }">{{requirementIndicatorValue()}}</span></label>
+<div class="container" [attr.data-label-position]="labelPosition()">
+  <label
+    *ngIf="label() && labelPosition() === 'side'"
+    [attr.data-label-position]="labelPosition()"
+    [attr.id]="labelId()"
+    [attr.for]="id()"
+    >{{ label()
+    }}<span
+      *ngIf="required() || showLabelRequirement()"
+      class="requirement-indicator"
+      aria-hidden="true"
+      [ngClass]="{ required: required(), 'show-label-requirement': showLabelRequirement() }"
+      >{{ requirementIndicatorValue() }}</span
+    ></label
+  >
   <div class="top-position-container" [attr.data-label-position]="labelPosition()">
     <div class="header-container" [attr.data-label-position]="labelPosition()">
-      <label *ngIf="label() && labelPosition() === 'top'" [attr.id]="labelId()" [attr.for]="id()">{{label()}}<span *ngIf="required() || showLabelRequirement()" class="requirement-indicator" aria-hidden="true" [ngClass]="{'required': required(), 'show-label-requirement': showLabelRequirement() }">{{requirementIndicatorValue()}}</span></label>
+      <label *ngIf="label() && labelPosition() === 'top'" [attr.id]="labelId()" [attr.for]="id()"
+        >{{ label()
+        }}<span
+          *ngIf="required() || showLabelRequirement()"
+          class="requirement-indicator"
+          aria-hidden="true"
+          [ngClass]="{ required: required(), 'show-label-requirement': showLabelRequirement() }"
+          >{{ requirementIndicatorValue() }}</span
+        ></label
+      >
       <span *ngIf="isCounterVisible()" class="character-counter">{{ characterCount }}/{{ maxLength() }}</span>
     </div>
     <div class="textarea-container" [attr.data-label-position]="labelPosition()">
       <textarea
-      #textarea
-      class="textarea {{ assistiveTextAppearance() }}"
-      [class.resizeable]="resizeable()"
-      [attr.id]="id()"
-      [attr.name]="name()"
-      [attr.aria-labelledby]="labelId() || ariaLabelledby()"
-      [attr.required]="required() || null"
-      [attr.maxLength]="maxLength() !== undefined ? maxLength() : null"
-      [attr.disabled]="disabled() || null"
-      [attr.readonly]="readOnly() || null"
-      [value]="value() !== undefined ? value() : null"
-      [defaultValue]="defaultValue() !== undefined ? defaultValue() : null"
-      [attr.rows]="rows()"
-      (input)="onInput($event)"
-      (blur)="onBlur($event)"
+        #textarea
+        class="textarea {{ assistiveTextAppearance() }}"
+        [class.resizeable]="resizeable()"
+        [attr.id]="id()"
+        [attr.name]="name()"
+        [attr.aria-labelledby]="labelId() || ariaLabelledby()"
+        [attr.required]="required() || null"
+        [attr.maxLength]="maxLength() !== undefined ? maxLength() : null"
+        [attr.disabled]="disabled() || null"
+        [attr.readonly]="readOnly() || null"
+        [value]="value() !== undefined ? value() : null"
+        [defaultValue]="defaultValue() !== undefined ? defaultValue() : null"
+        [attr.rows]="rows()"
+        (input)="onInput($event)"
+        (blur)="onBlur($event)"
       ></textarea>
-      <rte-link *ngIf="isAssistiveTextLinkVisible()" class="assistive-text-link" [externalLink]="true" [href]="assistiveTextLink() || ''" [label]="assistiveTextLabel() || ''">
+      <rte-link
+        *ngIf="isAssistiveTextLinkVisible()"
+        class="assistive-text-link"
+        [externalLink]="true"
+        [href]="assistiveTextLink() || ''"
+        [label]="assistiveTextLabel() || ''"
+      >
       </rte-link>
-      <div *ngIf="assistiveTextAppearance() !== 'link'" class="assistive-text {{ assistiveTextAppearance() }}" [ngClass]="{'disabled' : disabled()}">
+      <div
+        *ngIf="assistiveTextAppearance() !== 'link'"
+        class="assistive-text {{ assistiveTextAppearance() }}"
+        [ngClass]="{ disabled: disabled() }"
+      >
         <rte-icon *ngIf="assistiveTextAppearance() === 'error'" name="error" [size]="assistiveTextIconSize"></rte-icon>
-        <rte-icon *ngIf="assistiveTextAppearance() === 'success'" name="check-circle" [size]="assistiveTextIconSize"></rte-icon>
+        <rte-icon
+          *ngIf="assistiveTextAppearance() === 'success'"
+          name="check-circle"
+          [size]="assistiveTextIconSize"
+        ></rte-icon>
         <span>{{ assistiveTextLabel() }}</span>
       </div>
     </div>
