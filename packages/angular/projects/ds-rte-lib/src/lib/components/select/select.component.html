@@ -19,11 +19,7 @@
   >
 
   <div class="rte-select-header" [attr.data-label-position]="labelPosition()">
-    <label
-      *ngIf="label() && labelPosition() === 'top'"
-      class="rte-select-label"
-      [attr.id]="labelId()"
-      [attr.for]="id()"
+    <label *ngIf="label() && labelPosition() === 'top'" class="rte-select-label" [attr.id]="labelId()" [attr.for]="id()"
       >{{ label()
       }}<span
         *ngIf="required() || showLabelRequirement()"
@@ -67,11 +63,7 @@
       (dropdownKeyDown)="handleOnKeyDownTrigger($event)"
     >
       <div class="rte-select-content">
-        <rte-icon
-          *ngIf="shouldDisplayErrorIcon()"
-          name="error"
-          class="error-icon"
-        />
+        <rte-icon *ngIf="shouldDisplayErrorIcon()" name="error" class="error-icon" />
         <div class="rte-select-value">
           <span>{{ currentOptionLabel() }}</span>
         </div>

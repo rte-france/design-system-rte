@@ -34,7 +34,6 @@ export class DropdownMenuComponent {
   readonly width = input<string | null>(null);
   readonly closingMenu = output<void>();
 
-
   readonly menuStyle = computed(() => {
     return this.width() ? { width: this.width() + "px" } : {};
   });
