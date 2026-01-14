@@ -1,15 +1,14 @@
 <div
-  class="card card-{{cardType()}}"
+  class="card card-{{ cardType() }}"
   [style.width]="cardWidth()"
   [attr.disabled]="disabled()"
   [attr.aria-label]="ariaLabel()"
   [attr.aria-labelledby]="ariaLabelledby()"
   [attr.aria-role]="ariaRole()"
-  [ngClass]="{'clickable': clickable()}"
+  [ngClass]="{ clickable: clickable() }"
   [tabIndex]="tabIndex()"
   (click)="onClick()"
   (keydown)="onKeyDown($event)"
 >
-  <ng-content/>
+  <ng-content />
 </div>
-

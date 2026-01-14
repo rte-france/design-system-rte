@@ -1,7 +1,7 @@
 @use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
 
 .rte-banner {
-  @include elevation-neutral-shadow-4;
+  @include elevation-neutral-shadow-2;
   display: flex;
   padding: $positive-spacing_200;
   gap: $positive-spacing_200;

@@ -1,9 +1,9 @@
 @use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
 
 :host {
-    opacity: 0;
-    display: none;
-    position: absolute;
+  opacity: 0;
+  display: none;
+  position: absolute;
 }
 
 .rte-dropdown-menu {
@@ -28,8 +28,7 @@
     &.open {
       transition: opacity 150ms ease-in-out;
     }
-  
-  
+
     .rte-dropdown-items {
       width: 100%;
       padding: $positive-spacing_0;
@@ -39,4 +38,4 @@
         list-style: none;
       }
     }
-  }
+}

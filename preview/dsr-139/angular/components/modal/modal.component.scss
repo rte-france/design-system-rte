@@ -16,7 +16,7 @@
 }
 
 .rte-modal-container {
-  @include elevation-neutral-shadow-4;
+  @include elevation-neutral-shadow-3;
   border: none;
   box-sizing: border-box;
   position: absolute;
@@ -49,10 +49,12 @@
 
   &[data-size='l'] {
     width: 1168px;
+    border-radius: $radius-l;
   }
 
   &[data-size='xl'] {
     width: 1328px;
+    border-radius: $radius-xl;
   }
 
   .rte-modal-header {

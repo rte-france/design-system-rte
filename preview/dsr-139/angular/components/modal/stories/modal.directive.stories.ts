@@ -6,6 +6,7 @@ import {
 import { Meta, StoryObj, moduleMetadata } from "@storybook/angular";
 import { userEvent, waitFor, within, expect, fn } from "@storybook/test";
 
+import { focusElementBeforeComponent } from "../../../../../../../.storybook/testing/testing.utils";
 import { ButtonComponent } from "../../button/button.component";
 import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../../icon/icon-map";
 import { TextareaComponent } from "../../textarea/textarea.component";
@@ -327,9 +328,8 @@ export const KeyboardInteraction: Story = {
   }),
 
   play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    const button = canvas.getByText("Open Modal");
-    button.focus();
+    focusElementBeforeComponent(canvasElement);
+
     await userEvent.tab();
     await userEvent.keyboard(TESTING_SPACE_KEY);
 

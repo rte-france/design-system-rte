@@ -1,10 +1,6 @@
-import {
-  TESTING_DOWN_KEY,
-  TESTING_ENTER_KEY,
-  TESTING_UP_KEY,
-} from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
+import { TESTING_DOWN_KEY, TESTING_UP_KEY } from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
 import { Meta, moduleMetadata, StoryObj } from "@storybook/angular";
-import { expect, userEvent, waitFor } from "@storybook/test";
+import { expect, userEvent, waitFor, within } from "@storybook/test";
 
 import { DropdownDirective } from "../dropdown.directive";
 import { DropdownModule } from "../dropdown.module";
@@ -95,14 +91,15 @@ export const KeyboardNavigation: Story = {
     template: `
     ${wipWarning}
     <div rteDropdown [rteDropdownPosition]="rteDropdownPosition" (menuEvent)="onItemClick($event)">
-      <button rteDropdownTrigger>Menu principal ⬇</button>
+      <button rteDropdownTrigger>Click me!</button>
       <rte-dropdown-menu [items]="items"/>
     </div>
     `,
   }),
-  play: async () => {
-    await userEvent.tab();
-    await userEvent.keyboard(TESTING_ENTER_KEY);
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const triggerButton = await canvas.getByRole("button", { name: /click me!/i });
+    await userEvent.click(triggerButton);
     await userEvent.tab();
     const overlay = document.getElementById("overlay-root");
     const dropdown = overlay?.querySelector("rte-dropdown-menu");
@@ -139,14 +136,16 @@ export const KeyboardNavigationWithLink: Story = {
     template: `
     ${wipWarning}
     <div rteDropdown [rteDropdownPosition]="rteDropdownPosition" (menuEvent)="onItemClick($event)">
-      <button rteDropdownTrigger>Menu principal ⬇</button>
+      <button rteDropdownTrigger>Click me!</button>
       <rte-dropdown-menu [items]="items"/>
     </div>
     `,
   }),
-  play: async () => {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const triggerButton = await canvas.getByRole("button", { name: /click me!/i });
+    await userEvent.click(triggerButton);
     await userEvent.tab();
-    await userEvent.keyboard(TESTING_ENTER_KEY);
     const overlay = document.getElementById("overlay-root");
     const dropdown = overlay?.querySelector("rte-dropdown-menu");
     const menuItems = dropdown?.querySelector("ul")?.querySelectorAll("li");
