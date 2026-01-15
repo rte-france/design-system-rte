@@ -30,16 +30,20 @@ jobs:
         id: latest_tag
         run: |
           echo "tag=$(npm run -s tag:latest)" >> $GITHUB_OUTPUT
-      
+
       - name: Checkout latest release tag
         run: |
           git checkout "${{ steps.latest_tag.outputs.tag }}"
-        
+
       - name: Generate icons
         run: npm run generate:icons
 
       - name: Build React Package
         working-directory: packages/react
+        run: npm run build
+
+      - name: Build Core Package
+        working-directory: packages/core
         run: npm run build
 
       - name: Build Design Docs Storybook
