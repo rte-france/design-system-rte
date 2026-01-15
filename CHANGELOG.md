@@ -2,6 +2,54 @@
 
 # Angular
 
+## 1.1.0
+
+### Searchbar
+
+#### Minor Changes
+
+- add new documentation
+- add new placeholder text for disabled input
+- change component structure so input inner border reacts correctly to focus & assistive text takes all the width of its container
+- add searchbar base functionality
+
+### Icon Button
+
+#### Minor Changes
+
+- show icon in disabled state button
+
+### Text Input
+
+#### Minor Changes
+
+- correct disabled display
+- correct placeholder exposition and handling
+- add missing output signals after base-text-input refactor
+
+### Design Docs
+
+#### Minor Changes
+
+- correct sub-storybook context detection
+- add guideline page
+
+### Badge
+
+#### Patch Changes
+
+- set valid position value for xs badge
+
+### Other
+
+#### Patch Changes
+
+- Updated dependencies [921ffd7]
+- Updated dependencies [38d9ec6]
+- Updated dependencies [2cff3de]
+- Updated dependencies [29e0462]
+- @design-system-rte/core@1.2.0
+
 ## 1.0.1
 
 ### Docs
@@ -148,37 +196,57 @@
 - Updated dependencies [8bca3e1]
 - Updated dependencies [4a444d4]
 - @design-system-rte/core@0.21.0
+# React
 
-## 0.16.0
+## 1.2.0
 
-### Modal
-
-#### Minor Changes
-
-- unset scroll behavior on unmount
-- add support for filled / outlined appearance for title icon
-- add angular component
-
-### Angular
+### Searchbar
 
 #### Minor Changes
 
-- add focus trap service
+- add new documentation
+- add new placeholder text for disabled input
+- correct inner input not losing focus when clearing is value
+- change component structure so input inner border reacts correctly to focus & assistive text takes all the width of its container
+- add searchbar base functionality
 
-### Icon-button
+### Text Input
 
 #### Minor Changes
 
-- add badge to component
+- correct disabled display
+- hide input value when input is disabled
+- correct placeholder exposition and handling
+
+### Design Docs
+
+#### Minor Changes
+
+- correct sub-storybook context detection
+- add guideline page
+
+### Storybook
+
+#### Minor Changes
+
+- add breadcrumbs - overview page
+- add new tab of options, heading, availability and LastUpdate component
+
+### Badge
+
+#### Patch Changes
+
+- set valid position value for xs badge
 
 ### Other
 
 #### Patch Changes
 
-- Updated dependencies [a7d75ed]
-- Updated dependencies [cc64a7f]
-- @design-system-rte/core@0.20.0
-# React
+- Updated dependencies [921ffd7]
+- Updated dependencies [38d9ec6]
+- Updated dependencies [2cff3de]
+- Updated dependencies [29e0462]
+- @design-system-rte/core@1.2.0
 
 ## 1.1.0
 
@@ -296,62 +364,63 @@
 - Updated dependencies [f3d1179]
 - Updated dependencies [b779f76]
 - @design-system-rte/core@0.22.0
+# Core
 
-## 0.16.0
+## 1.2.0
 
-### Card
-
-#### Minor Changes
-
-- add keyboard handling
-- add card to public api of packages and test in apps
-- mutualize testing common logic
-- add accesibility options
-- add active pseudo-state
-- add focus ring for keyboard selection
-- add card component
-
-### Side Navigation
+### Design-tokens
 
 #### Minor Changes
 
-- : add missing props to useContentHeight detection
-- add Divider support for navItems & navMenus
-- add Badge support
-- add footer items
-- add Tooltip to SideNav
-- correct accesibility standards for ul and li items
-- add Nested Menus to SideNav
-- implement simple side nav from base side nav
+- update script to generate tokens with the new architecture
 
-### Divider
+### Core
 
 #### Minor Changes
 
-- correct horizontal display
+- extract scripts out of design-tokens folder
+- change global architecture for design tokens
 
-### Tooltip
+### Badge
 
 #### Minor Changes
 
-- add customizable gap
+- use IconSize constant and add xs value
 
-### Tag
+### Searchbar
 
-#### Patch Changes
+#### Minor Changes
 
-- update text color + apply new background-color tokens
+- add new documentation
+- change component structure so input inner border reacts correctly to focus & assistive text takes all the width of its container
+- add searchbar base functionality
+
+### Text Input
+
+#### Minor Changes
+
+- correct placeholder exposition and handling
+
+### Design Docs
+
+#### Minor Changes
+
+- correct sub-storybook context detection
+
+### Angular Storybook
+
+#### Minor Changes
+
+- correct font resolutions from assets retrieved from core during webpack build
+
+### Storybook
+
+#### Minor Changes
+
+- add breadcrumbs - overview page
 
 ### Other
 
-#### Patch Changes
-
-- remove react and react dom from dependencies
-- Updated dependencies [f22d3ee]
-- Updated dependencies [8bca3e1]
-- Updated dependencies [4a444d4]
-- @design-system-rte/core@0.21.0
-# Core
 
 ## 1.1.0
 
@@ -399,43 +468,43 @@
 
 ### Other
 
+# Design Docs
 
-## 0.21.0
+## 1.2.0
 
-### Docs
-
-#### Minor Changes
-
-- create subcomponent for pages
-
-### Card
+### Design Docs
 
 #### Minor Changes
 
-- mutualize testing common logic
-- add card component
+- correct sub-storybook context detection
+- add guideline page
 
-### Side Navigation
-
-#### Minor Changes
-
-- add Divider support for navItems & navMenus
-- add Badge support
-- add footer items
-- add NavItem selection for SideNav
-- correct accesibility standards for ul and li items
-- add Nested Menus to SideNav
-- implement simple side nav from base side nav
-
-### Tooltip
+### Angular Storybook
 
 #### Minor Changes
 
-- add customizable gap
+- correct font resolutions from assets retrieved from core during webpack build
+
+### Badge
+
+#### Minor Changes
+
+- add new Badge docs
+
+### Breadcrumbs
+
+#### Minor Changes
+
+- add new Breadcrumbs docs
 
 ### Other
 
-# Design Docs
+#### Patch Changes
+
+- Updated dependencies [88a14d9]
+- Updated dependencies [2cff3de]
+- Updated dependencies [29e0462]
+- @design-system-rte/react@1.2.0
 
 ## 1.1.0
 
@@ -526,20 +595,3 @@
 
 ### Other
 
-
-## 0.9.0
-
-### Docs
-
-#### Minor Changes
-
-- update last update accordion icon
-- add spacing page
-- create subcomponent for pages
-- refacto architecture for Introduction page
-
-### Other
-
-#### Patch Changes
-
-- correct sidenav display when no stories are provided to a section

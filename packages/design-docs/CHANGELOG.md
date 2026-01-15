@@ -1,5 +1,23 @@
 # @design-system-rte/design-docs
 
+## 1.2.0
+
+### Minor Changes
+
+- 29e0462: ## Changes
+  - (Design Docs) correct sub-storybook context detection
+  - (Angular Storybook) correct font resolutions from assets retrieved from core during webpack build
+  - (Design Docs) add guideline page
+  - (Badge) add new Badge docs
+  - (Breadcrumbs) add new Breadcrumbs docs
+
+### Patch Changes
+
+- Updated dependencies [88a14d9]
+- Updated dependencies [2cff3de]
+- Updated dependencies [29e0462]
+  - @design-system-rte/react@1.2.0
+
 ## 1.1.0
 
 ### Minor Changes
