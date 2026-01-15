@@ -1,0 +1,16 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+.stepper {
+  display: flex;
+  flex-direction: row;
+  gap: $positive-spacing_075;
+  align-items: start;
+  padding: 0;
+  margin: 0;
+  width: auto;
+
+  &[data-orientation='vertical'] {
+    flex-direction: column;
+    height: 100%;
+  }
+}
