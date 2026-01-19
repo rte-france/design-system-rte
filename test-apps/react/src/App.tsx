@@ -20,6 +20,7 @@ import {
   Toast,
   ToastQueueProvider,
   Select,
+  Stepper,
 } from "@design-system-rte/react";
 import "./App.css";
 import { useState } from "react";
@@ -33,6 +34,8 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeItem, setActiveItem] = useState("home");
   const [isErrorOpen, setIsErrorOpen] = useState(false);
+
+  const [activeStepperStepId, setActiveStepperStepId] = useState("2");
 
   const handleIconButtonToggleClick = () => {
     setIsIconButtonToggleSelected(!isIconButtonToggleSelected);
@@ -130,6 +133,20 @@ function App() {
     },
   ];
 
+  const allClickableSteps = [
+    {
+      id: "1",
+      name: "Étape 1",
+      completionState: "complete",
+      onClick: () => setActiveStepperStepId("1"),
+      clickableCompleteStep: true,
+    },
+    { id: "2", name: "Étape 2", completionState: "incomplete", onClick: () => setActiveStepperStepId("2") },
+    { id: "3", name: "Étape 3", completionState: "unvisited", onClick: () => setActiveStepperStepId("3") },
+    { id: "4", name: "Étape 4", completionState: "unvisited", onClick: () => setActiveStepperStepId("4") },
+    { id: "5", name: "Étape 5", completionState: "unvisited", onClick: () => setActiveStepperStepId("5") },
+  ];
+
   return (
     <SideNav
       headerConfig={headerConfig}
@@ -141,6 +158,13 @@ function App() {
     >
       <div>
         <div>
+          <div>
+            <h3>Stepper</h3>
+            <div style={{ width: "600px", margin: "0 auto" }}>
+              <Stepper steps={allClickableSteps} activeStepId={activeStepperStepId} />
+            </div>
+          </div>
+          <Divider />
           <h3>Card</h3>
           <div style={{ display: "flex", flexDirection: "column", gap: "16px", alignItems: "flex-start" }}>
             <Card size="m" cardType="default">

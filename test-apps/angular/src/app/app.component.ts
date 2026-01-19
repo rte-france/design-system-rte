@@ -22,8 +22,10 @@ import {
   CardComponent,
   ToastService,
   SelectComponent,
+  StepperComponent,
 } from "@design-system-rte/angular";
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
+import { Step } from "@design-system-rte/core/components/stepper/stepper.interface";
 
 @Component({
   selector: "app-root",
@@ -50,6 +52,7 @@ import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-it
     SideNavComponent,
     CardComponent,
     SelectComponent,
+    StepperComponent,
   ],
   providers: [ToastService],
   templateUrl: "./app.component.html",
@@ -62,6 +65,8 @@ export class AppComponent {
   private currentOpenedToastId = "";
 
   readonly inputValue = signal("Hello");
+
+  readonly activeStepId = signal("1");
 
   handleInputChange(value: string) {
     this.inputValue.set(value);
@@ -214,5 +219,20 @@ export class AppComponent {
     { value: "option1", label: "Option 1" },
     { value: "option2", label: "Option 2" },
     { value: "option3", label: "Option 3" },
+  ];
+  readonly allClickableSteps: Step[] = [
+    {
+      id: "1",
+      name: "Étape 1",
+      completionState: "complete",
+      onClick: () => this.activeStepId.set("1"),
+      clickableCompleteStep: true,
+    },
+    { id: "2", name: "Étape 2", completionState: "incomplete", onClick: () => this.activeStepId.set("2") },
+    { id: "3", name: "Étape 3", completionState: "unvisited", onClick: () => this.activeStepId.set("3") },
+    { id: "4", name: "Étape 4", completionState: "unvisited", onClick: () => this.activeStepId.set("4") },
+    { id: "5", name: "Étape 5", completionState: "unvisited", onClick: () => this.activeStepId.set("5") },
+    { id: "6", name: "Étape 6", completionState: "unvisited", onClick: () => this.activeStepId.set("6") },
+    { id: "7", name: "Étape 7", completionState: "unvisited", onClick: () => this.activeStepId.set("7") },
   ];
 }

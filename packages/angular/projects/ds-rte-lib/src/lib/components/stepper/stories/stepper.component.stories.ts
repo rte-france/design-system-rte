@@ -1,4 +1,4 @@
-import type { Step } from "@design-system-rte/core/components/stepper/stepper.interface";
+import { Step } from "@design-system-rte/core/components/stepper/stepper.interface";
 import {
   TESTING_ARROW_LEFT_KEY,
   TESTING_ARROW_RIGHT_KEY,
