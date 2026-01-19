@@ -1,0 +1,40 @@
+<nav aria-label="Stepper Navigation" style="width: 100%; height: 100%">
+  <ol class="rte-stepper" [attr.data-orientation]="orientation()">
+    <ng-container *ngFor="let step of steps(); let index = index">
+      <li
+        #step
+        class="rte-stepper-item"
+        [attr.data-completion-state]="step.completionState"
+        [attr.aria-current]="isStepActive(step.id) ? 'step' : undefined"
+        [attr.data-active]="isStepActive(step.id)"
+        [attr.data-orientation]="orientation()"
+        [attr.data-clickable]="isStepClickable(step)"
+        (keydown)="handleKeyDown($event)"
+        (keyup)="handleKeyUp($event)"
+      >
+        <button class="rte-stepper-button" type="button" (click)="handleStepClick(step)">
+          @if (step.completionState === "complete" && !isStepActive(step.id)) {
+            <div class="rte-stepper-complete-indicator">
+              <rte-icon name="check" aria-hidden="true" [size]="iconSize['m']" />
+            </div>
+          } @else {
+            <div class="rte-stepper-number" [attr.data-completion-state]="step.completionState">
+              <span>{{ index + 1 }}</span>
+            </div>
+          }
+          <span class="rte-stepper-name">{{ step.name }}</span>
+        </button>
+      </li>
+      <ng-container *ngIf="index < steps().length - 1">
+        <div style="width: 100%; height: 100%">
+          <div
+            class="rte-step-separator"
+            role="separator"
+            [attr.data-orientation]="orientation()"
+            [attr.data-complete]="step.completionState === 'complete'"
+          ></div>
+        </div>
+      </ng-container>
+    </ng-container>
+  </ol>
+</nav>

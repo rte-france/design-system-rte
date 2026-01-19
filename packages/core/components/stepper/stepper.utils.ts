@@ -1,6 +1,7 @@
 import { FOCUSABLE_ELEMENTS_QUERY } from "../../constants/dom/dom.constants";
 
 export const focusNextStepElement = (currentFocusSteppedIndex: number, allSteps: HTMLElement[]) => {
+  console.log("focusNextStep called");
   let nextIndex = currentFocusSteppedIndex === allSteps.length - 1 ? 0 : currentFocusSteppedIndex + 1;
 
   while (allSteps[nextIndex]?.getAttribute("aria-disabled") === "true") {
