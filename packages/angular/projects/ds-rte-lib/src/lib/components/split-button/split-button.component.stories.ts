@@ -331,6 +331,7 @@ export const WithBadge: Story = {
         badgeCount: 2,
         badgeContent: "number",
         badgeType: "indicator",
+        badgeSize: "m",
       },
       { id: "option-2", label: "Option 2" },
       {
@@ -340,6 +341,7 @@ export const WithBadge: Story = {
         badgeCount: 5,
         badgeContent: "number",
         badgeType: "indicator",
+        badgeSize: "m",
       },
     ],
   },

@@ -173,6 +173,7 @@ export const WithBadge: Story = {
         badgeContent: "number",
         badgeCount: 5,
         badgeType: "indicator",
+        badgeSize: "m",
       },
     ],
     selectedSegment: "option1",
