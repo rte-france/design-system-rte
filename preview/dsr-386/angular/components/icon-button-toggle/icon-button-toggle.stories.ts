@@ -79,8 +79,8 @@ export const Default: Story = {
         [type]="'${args.type}'"
         [variant]="'${args.variant}'"
         [defaultSelected]="${args.defaultSelected}"
+        [ariaLabel]="'${args.ariaLabel}'"
         (click)="click()"
-        [ariaLabel]="ariaLabel"
       />
     `,
   }),
