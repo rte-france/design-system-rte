@@ -1,8 +1,8 @@
-import { Direction } from "../../common/common-types";
+import { Direction } from "../common/common-types";
 
 export type STEP_COMPLETION_STATE = "unvisited" | "incomplete" | "complete";
 
-interface Step {
+export interface Step {
   id: string;
   name: string;
   completionState: STEP_COMPLETION_STATE;

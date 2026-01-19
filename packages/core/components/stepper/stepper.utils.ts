@@ -1,4 +1,4 @@
-import { FOCUSABLE_ELEMENTS_QUERY } from "../../constants/dom/dom.constants";
+import { FOCUSABLE_ELEMENTS_QUERY } from "@design-system-rte/core/constants/dom/dom.constants";
 
 export const focusNextStepElement = (currentFocusSteppedIndex: number, allSteps: HTMLElement[]) => {
   console.log("focusNextStep called");
