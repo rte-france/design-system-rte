@@ -174,6 +174,7 @@ export const WithBadge: StoryObj<BreadcrumbsComponent> = {
         badgeContent: "number",
         badgeType: "indicator",
         badgeCount: 5,
+        badgeSize: "m",
       },
       { label: "Electronics", link: "/products/electronics" },
       {
