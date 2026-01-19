@@ -6,10 +6,9 @@ import {
 import { Meta, StoryObj } from "@storybook/react";
 import { expect, userEvent, waitFor, within } from "@storybook/test";
 
-import { focusElementBeforeComponent } from "../../../.storybook/testing/testing.utils";
-import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../icon/IconMap";
-
-import Breadcrumbs from "./Breadcrumbs";
+import { focusElementBeforeComponent } from "../../../../.storybook/testing/testing.utils";
+import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../../icon/IconMap";
+import Breadcrumbs from "../Breadcrumbs";
 
 const RegularIconIds = Object.keys(RegularIconsList);
 const TogglableIconIds = Object.keys(TogglableIconsList);
