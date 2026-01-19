@@ -156,7 +156,7 @@ export const WithFilteredOptions: Story = {
         return [];
       }
       return allOptions.filter((option) => option.toLowerCase().includes(searchValue.toLowerCase()));
-    }, [searchValue]);
+    }, [searchValue, allOptions]);
 
     useEffect(() => {
       if (wrapperRef.current) {
@@ -235,7 +235,7 @@ export const KeyboardNavigationWithFilteredOptions: Story = {
         return [];
       }
       return allOptions.filter((option) => option.toLowerCase().includes(searchValue.toLowerCase()));
-    }, [searchValue]);
+    }, [searchValue, allOptions]);
 
     useEffect(() => {
       if (wrapperRef.current) {
@@ -348,7 +348,7 @@ export const KeyboardNavigationAndSearch: Story = {
         return [];
       }
       return allOptions.filter((option) => option.toLowerCase().includes(searchValue.toLowerCase()));
-    }, [searchValue]);
+    }, [searchValue, allOptions]);
 
     useEffect(() => {
       if (wrapperRef.current) {
