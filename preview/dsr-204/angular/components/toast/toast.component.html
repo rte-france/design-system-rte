@@ -24,7 +24,7 @@
       name="close"
       [attr.data-testid]="'toast-close-button'"
       [variant]="type() === 'neutral' ? 'reverse' : 'neutral'"
-      (click)="clickCloseButton()"
+      (clickEvent)="clickCloseButton()"
     />
   }
 </div>
