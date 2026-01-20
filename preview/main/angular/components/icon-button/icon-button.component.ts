@@ -48,7 +48,6 @@ export class IconButtonComponent {
   });
 
   onClick(event: MouseEvent | KeyboardEvent): void {
-    event.stopPropagation();
     this.clickEvent.emit(event);
   }
 }
