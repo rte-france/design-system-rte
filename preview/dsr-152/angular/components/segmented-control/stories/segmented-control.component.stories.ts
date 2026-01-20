@@ -7,7 +7,11 @@ import {
 import { Meta, StoryObj } from "@storybook/angular";
 import { userEvent, within, expect } from "@storybook/test";
 
+import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../../icon/icon-map";
 import { SegmentedControlComponent } from "../segmented-control.component";
+
+const RegularIconIds = Object.keys(RegularIconsList);
+const TogglableIconIds = Object.keys(TogglableIconsList);
 
 const meta: Meta<SegmentedControlComponent> = {
   title: "Composants/SegmentedControl/SegmentedControl",
@@ -20,6 +24,28 @@ const meta: Meta<SegmentedControlComponent> = {
       table: {
         type: { summary: "SegmentProps[]" },
         defaultValue: { summary: "[]" },
+      },
+      badgeContent: {
+        control: "select",
+        options: ["number", "icon", "empty"],
+      },
+      badgeType: {
+        control: "select",
+        options: ["brand", "neutral", "indicator"],
+      },
+      badgeIcon: {
+        control: "select",
+        options: ["", ...RegularIconIds, ...TogglableIconIds].sort((a, b) => a.localeCompare(b)),
+      },
+      showBadge: {
+        control: "boolean",
+      },
+      badgeCount: {
+        control: "number",
+      },
+      badgeSize: {
+        control: "select",
+        options: ["xs", "s", "m", "l"],
       },
     },
   },
@@ -126,6 +152,41 @@ export const Icons: Story = {
     },
     template: `
     <div style="width: 420px">
+      <rte-segmented-control
+        [options]="options"
+        [selectedSegment]="selectedSegment"
+        (change)="change($event)"
+        />
+    </div>
+    `,
+  }),
+};
+
+export const WithBadge: Story = {
+  args: {
+    options: [
+      { label: "Option 1", id: "option1" },
+      {
+        label: "Option 2",
+        id: "option2",
+        showBadge: true,
+        badgeContent: "number",
+        badgeCount: 5,
+        badgeType: "indicator",
+        badgeSize: "m",
+      },
+    ],
+    selectedSegment: "option1",
+  },
+  render: (args) => ({
+    props: {
+      ...args,
+      change(id: string) {
+        this["selectedSegment"] = id;
+      },
+    },
+    template: `
+    <div style="width: 380px">
       <rte-segmented-control
         [options]="options"
         [selectedSegment]="selectedSegment"

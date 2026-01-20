@@ -15,9 +15,17 @@
         variant="neutral"
         aria-label="More items"
         data-testid="show-more"
-        dropdownTrigger
         tabindex="-1"
         [compactSpacing]="true"
+      />
+      <rte-badge
+        *ngIf="shouldDisplayBadge()"
+        [count]="badgeCount()"
+        [simpleBadge]="true"
+        [badgeContent]="badgeContent()!"
+        [icon]="badgeIcon()!"
+        [badgeType]="badgeType()!"
+        [badgeSize]="badgeSize()!"
       />
       <rte-dropdown-menu [items]="truncatedItems()?.truncated ?? []" />
     </span>

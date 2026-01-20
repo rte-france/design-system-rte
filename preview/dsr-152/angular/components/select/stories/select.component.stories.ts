@@ -1,7 +1,11 @@
-import { TESTING_ENTER_KEY } from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
+import {
+  TESTING_DOWN_KEY,
+  TESTING_ENTER_KEY,
+} from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
 import type { Meta, StoryObj } from "@storybook/angular";
 import { fn, userEvent, within, expect } from "@storybook/test";
 
+import { focusElementBeforeComponent } from "../../../../../../../.storybook/testing/testing.utils";
 import { SelectComponent } from "../select.component";
 
 const meta: Meta<SelectComponent> = {
@@ -249,25 +253,28 @@ export const KeyboardInteraction: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const select = canvas.getByRole("combobox");
+    focusElementBeforeComponent(canvasElement);
     await userEvent.tab();
     expect(select).toHaveFocus();
     await userEvent.keyboard(TESTING_ENTER_KEY);
-    await userEvent.keyboard("{ArrowDown}");
+    await userEvent.tab();
+    await userEvent.keyboard(TESTING_DOWN_KEY);
     await userEvent.keyboard(TESTING_ENTER_KEY);
     expect(select).toHaveTextContent("Option 2");
 
-    const buttons = select.querySelectorAll("button");
+    const clearButton = select.querySelector("rte-icon-button.clear-icon button");
+    const toggleIcon = select.querySelector("rte-icon.trigger-icon-down");
 
-    const clearButton = buttons[0];
-    const toggleButton = buttons[1];
-
-    await userEvent.click(clearButton);
+    await userEvent.click(clearButton!);
     expect(select).toHaveTextContent("");
 
-    await userEvent.click(toggleButton);
+    await userEvent.click(toggleIcon!);
 
-    await userEvent.keyboard("{ArrowDown}");
-    await userEvent.keyboard("{ArrowDown}");
+    await userEvent.tab();
+    await userEvent.tab();
+
+    await userEvent.keyboard(TESTING_DOWN_KEY);
+    await userEvent.keyboard(TESTING_DOWN_KEY);
     await userEvent.keyboard(TESTING_ENTER_KEY);
     expect(select).toHaveTextContent("Option 3");
   },
