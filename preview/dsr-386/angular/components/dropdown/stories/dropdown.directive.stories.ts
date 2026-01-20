@@ -1,7 +1,7 @@
 import { BadgeContent, BadgeSize, BadgeType } from "@design-system-rte/core/components/badge/badge.interface";
 import { TESTING_DOWN_KEY, TESTING_UP_KEY } from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
 import { Meta, moduleMetadata, StoryObj } from "@storybook/angular";
-import { expect, userEvent, waitFor, within } from "@storybook/test";
+import { expect, userEvent, within } from "@storybook/test";
 
 import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../../icon/icon-map";
 import { DropdownDirective } from "../dropdown.directive";
@@ -187,6 +187,7 @@ export const KeyboardNavigation: Story = {
     const menuItems = dropdown?.querySelector("ul")?.querySelectorAll("li");
     expect(dropdown).toBeInTheDocument();
     expect(menuItems?.[0]).toHaveFocus();
+    await userEvent.tab();
     await userEvent.keyboard(TESTING_DOWN_KEY);
     expect(menuItems?.[1]).toHaveFocus();
     await userEvent.keyboard(TESTING_UP_KEY);
@@ -232,10 +233,9 @@ export const KeyboardNavigationWithLink: Story = {
     const overlay = document.getElementById("overlay-root");
     const dropdown = overlay?.querySelector("rte-dropdown-menu");
     const menuItems = dropdown?.querySelector("ul")?.querySelectorAll("li");
-    await waitFor(() => {
-      expect(dropdown).toBeInTheDocument();
-      expect(menuItems?.[0]).toHaveFocus();
-    });
+    expect(dropdown).toBeInTheDocument();
+    expect(menuItems?.[0]).toHaveFocus();
+    await userEvent.tab();
     await userEvent.keyboard(TESTING_DOWN_KEY);
     expect(menuItems?.[1]).toHaveFocus();
     await userEvent.keyboard(TESTING_UP_KEY);
