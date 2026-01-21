@@ -39,7 +39,16 @@ const Stepper = forwardRef<HTMLElement, StepperProps>(
       [ref],
     );
 
-    const handleKeyUp = (event: React.KeyboardEvent) => {
+    const handleKeyDown = (event: React.KeyboardEvent) => {
+      if (event.key === TAB_KEY) {
+        event.preventDefault();
+        if (event.shiftKey) {
+          focusPreviousNotStepElement(stepperItemStyles.stepButton, stepperRef.current!);
+        } else {
+          focusNextNotStepElement(stepperItemStyles.stepButton, stepperRef.current!);
+        }
+      }
+
       if ([ARROW_LEFT_KEY, ARROW_RIGHT_KEY, ARROW_UP_KEY, ARROW_DOWN_KEY].includes(event.key)) {
         event.preventDefault();
         event.stopPropagation();
@@ -78,20 +87,6 @@ const Stepper = forwardRef<HTMLElement, StepperProps>(
       }
     };
 
-    const handleKeyDown = (event: React.KeyboardEvent) => {
-      if (event.key === TAB_KEY) {
-        event.preventDefault();
-        if (event.shiftKey) {
-          focusPreviousNotStepElement(stepperItemStyles.stepButton, stepperRef.current!);
-        } else {
-          focusNextNotStepElement(stepperItemStyles.stepButton, stepperRef.current!);
-        }
-      }
-      if ([ARROW_LEFT_KEY, ARROW_RIGHT_KEY, ARROW_UP_KEY, ARROW_DOWN_KEY].includes(event.key)) {
-        event.preventDefault();
-      }
-    };
-
     if (steps.length < 2 || steps.length > 7) {
       console.warn("Stepper component requires between 2 and 7 steps to function properly.");
       return null;
@@ -109,7 +104,6 @@ const Stepper = forwardRef<HTMLElement, StepperProps>(
                 completionState={step.completionState}
                 orientation={orientation}
                 onKeyDown={handleKeyDown}
-                onKeyUp={handleKeyUp}
                 onClick={step.onClick}
                 isActive={step.id === activeStepId}
                 clickableCompleteStep={step.clickableCompleteStep}
