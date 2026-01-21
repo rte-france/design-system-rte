@@ -4,4 +4,5 @@
   
   ## Changes
 
+- (Dropdown) correct input synchronization from template component to directive
 - (Dropdown) add complex menu to angular
