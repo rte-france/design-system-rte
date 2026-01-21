@@ -22,6 +22,7 @@ import {
   CardComponent,
   ToastService,
   SelectComponent,
+  TabComponent,
 } from "@design-system-rte/angular";
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
 
@@ -50,6 +51,7 @@ import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-it
     SideNavComponent,
     CardComponent,
     SelectComponent,
+    TabComponent,
   ],
   providers: [ToastService],
   templateUrl: "./app.component.html",
@@ -215,4 +217,16 @@ export class AppComponent {
     { value: "option2", label: "Option 2" },
     { value: "option3", label: "Option 3" },
   ];
+
+  readonly tabOptions = [
+    { id: "tab-1", label: "Onglet 1", panelId: "panel-1" },
+    { id: "tab-2", label: "Onglet 2", panelId: "panel-2" },
+    { id: "tab-3", label: "Onglet 3", panelId: "panel-3" },
+  ];
+
+  selectedTabId = signal("tab-1");
+
+  onTabChange(tabId: string): void {
+    this.selectedTabId.set(tabId);
+  }
 }
