@@ -90,10 +90,8 @@ export class StepperComponent implements AfterViewInit, OnDestroy {
   }
 
   handleStepClick(step: StepperProps["steps"][number]) {
-    console.log("handleStepClick called");
     if (this.isStepClickable(step) && !this.isStepActive(step.id) && step.onClick) {
       step.onClick();
-      console.log("clickStep emitted");
       this.clickStep.emit(step);
     }
   }
@@ -156,7 +154,6 @@ export class StepperComponent implements AfterViewInit, OnDestroy {
   };
 
   private focusCurrentStepElement() {
-    console.log("focusCurrentStepElement called");
     if (this.lastKeydown === "Tab") {
       const selectedStepElement = this.stepRefs()
         .find((segment) => segment.nativeElement.querySelector('[aria-current="step"] button'))
