@@ -1,5 +1,6 @@
 import { IconSize } from "@design-system-rte/core/components/icon/icon.constants";
 import { StepperItemProps as coreStepperItemProps } from "@design-system-rte/core/components/stepper/stepper.interface";
+import { isStepClickable } from "@design-system-rte/core/components/stepper/stepper.utils";
 import { useRef } from "react";
 
 import Icon from "../../icon/Icon";
@@ -18,7 +19,7 @@ const StepperItem = ({
   completionState = "unvisited",
   orientation = "horizontal",
   onClick,
-  clickableCompleteStep,
+  clickableCompleteStep = false,
   isActive,
   ...props
 }: StepperItemProps) => {
@@ -26,11 +27,7 @@ const StepperItem = ({
 
   useFocusCurrentStep(ref);
 
-  const clickable =
-    onClick &&
-    ((completionState === "complete" && clickableCompleteStep) ||
-      completionState === "unvisited" ||
-      completionState === "incomplete");
+  const clickable = onClick && isStepClickable({ completionState, clickableCompleteStep });
 
   const focusable = clickable || isActive;
 
