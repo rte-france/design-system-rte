@@ -1,7 +1,6 @@
 import { FOCUSABLE_ELEMENTS_QUERY } from "@design-system-rte/core/constants/dom/dom.constants";
 
 export const focusNextStepElement = (currentFocusSteppedIndex: number, allSteps: HTMLElement[]) => {
-  console.log("focusNextStep called");
   let nextIndex = currentFocusSteppedIndex === allSteps.length - 1 ? 0 : currentFocusSteppedIndex + 1;
 
   while (allSteps[nextIndex]?.getAttribute("aria-disabled") === "true") {
@@ -59,7 +58,6 @@ export const focusPreviousNotStepElement = (classCriteria: string, parent: HTMLE
   let previousIndex =
     currentActiveSegmentElementIndex === 0 ? allFocusableElement.length - 1 : currentActiveSegmentElementIndex - 1;
   while (allFocusableElement[previousIndex]?.classList.contains(classCriteria)) {
-    console.log(allFocusableElement[previousIndex]);
     if (parent?.contains(allFocusableElement[previousIndex])) {
       if (previousIndex === 0) {
         previousIndex = allFocusableElement.length - 1;
