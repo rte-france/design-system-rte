@@ -12,13 +12,13 @@ import {
   ARROW_UP_KEY,
   ENTER_KEY,
   ESCAPE_KEY,
-  SPACE_KEY,
   TAB_KEY,
 } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 import { useEffect, useState, useRef, useCallback, forwardRef, useContext } from "react";
 
 import { useActiveKeyboard } from "../../hooks/useActiveKeyboard";
 import useAnimatedMount from "../../hooks/useAnimatedMount";
+import Divider from "../divider/Divider";
 import { Overlay } from "../overlay/Overlay";
 import { concatClassNames } from "../utils";
 
@@ -30,6 +30,8 @@ import { useDropdownState } from "./hooks/useDropdownState";
 
 interface DropdownProps extends CoreDropdownProps, React.HTMLAttributes<HTMLDivElement> {
   trigger: React.ReactNode;
+  header?: React.ReactNode;
+  footer?: React.ReactNode;
 }
 
 export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
@@ -48,6 +50,8 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
       offset = 0,
       alignment = "start",
       autofocus = true,
+      header,
+      footer,
       ...props
     },
     ref,
@@ -123,7 +127,7 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
     const { onKeyDown, onKeyUp } = useActiveKeyboard<HTMLDivElement>(
       { onKeyUp: handleKeyUp, onKeyDown: handleKeyDown },
       {
-        interactiveKeyCodes: [SPACE_KEY, ENTER_KEY, TAB_KEY, ARROW_DOWN_KEY, ARROW_UP_KEY, ESCAPE_KEY],
+        interactiveKeyCodes: [ENTER_KEY, TAB_KEY, ARROW_DOWN_KEY, ARROW_UP_KEY, ESCAPE_KEY],
       },
     );
 
@@ -219,9 +223,23 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
               onKeyUp={onKeyUp}
               onKeyDown={onKeyDown}
             >
-              <ul className={styles["dropdown-items"]} role="menu">
-                {children}
-              </ul>
+              {header && (
+                <div className={concatClassNames(styles["dropdown-menu-header"], "rte-dropdown-menu-header")}>
+                  {header}
+                  <Divider />
+                </div>
+              )}
+              <div className={concatClassNames(styles["dropdown-menu-content"], "rte-dropdown-menu-content")}>
+                <ul className={styles["dropdown-items"]} role="menu">
+                  {children}
+                </ul>
+              </div>
+              {footer && (
+                <div className={concatClassNames(styles["dropdown-menu-footer"], "rte-dropdown-menu-footer")}>
+                  <Divider />
+                  {footer}
+                </div>
+              )}
             </div>
           </Overlay>
         )}

@@ -5,6 +5,7 @@ import { Meta, StoryObj } from "@storybook/react";
 import { expect, userEvent, waitFor, within } from "@storybook/test";
 import { useState } from "react";
 
+import Button from "../../button/Button";
 import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../../icon/IconMap";
 import { Dropdown } from "../Dropdown";
 import { DropdownItem } from "../dropdownItem/DropdownItem";
@@ -281,5 +282,344 @@ export const KeyboardNavigationWithLink: Story = {
     expect(menuItems?.[1]).toHaveFocus();
     await userEvent.keyboard(TESTING_UP_KEY);
     expect(menuItems?.[0]).toHaveFocus();
+  },
+};
+
+const MOCKUP_ITEMS = [
+  { label: "Messages", leftIcon: "mail", hasSeparator: true },
+  { label: "Actions", leftIcon: "settings" },
+  { label: "Help", leftIcon: "help" },
+  { label: "More information", leftIcon: "info", hasSeparator: true },
+  { label: "First option", hasIndent: true },
+  { label: "Second option", hasIndent: true },
+  { label: "Third option", hasSeparator: true, hasIndent: true },
+  { label: "Username", leftIcon: "user-circle", disabled: true },
+];
+
+export const WithProjectedHeaderAndFooter: Story = {
+  args: {
+    ...Default.args,
+  },
+  render: (args) => {
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+
+    return (
+      <>
+        <WipWarning />
+        <div
+          style={{
+            position: "relative",
+            width: "800px",
+            height: "200px",
+            display: "flex",
+            justifyContent: "space-between",
+            gap: "500px",
+          }}
+        >
+          <Dropdown
+            {...args}
+            onClose={() => {
+              setIsOpen(false);
+            }}
+            trigger={
+              <button onClick={() => setIsOpen(true)} style={{ color: "black" }}>
+                Menu with Header/Footer ⬇
+              </button>
+            }
+            style={{ width: "250px" }}
+            isOpen={isOpen}
+            header={<div style={{ padding: "8px 16px", fontWeight: "bold" }}>Dropdown Header</div>}
+            footer={<div style={{ padding: "8px 16px", fontWeight: "bold" }}>Dropdown Footer</div>}
+          >
+            {MOCKUP_ITEMS.map((item, index) => (
+              <DropdownItem
+                key={index}
+                label={item.label}
+                leftIcon={item.leftIcon}
+                hasSeparator={item.hasSeparator}
+                hasIndent={item.hasIndent}
+                disabled={item.disabled}
+                onClick={() => console.log("click")}
+              />
+            ))}
+          </Dropdown>
+        </div>
+      </>
+    );
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const triggerButton = await canvas.getByRole("button", { name: /menu with header\/footer/i });
+    await userEvent.click(triggerButton);
+
+    const overlay = document.getElementById("overlay-root");
+    let dropdown!: Element;
+
+    await waitFor(() => {
+      const found = overlay?.querySelector("[data-dropdown-id]");
+      expect(found).toBeInTheDocument();
+      if (!found) {
+        throw new Error("Dropdown not found");
+      }
+      dropdown = found;
+      return found;
+    });
+
+    const headerSection = dropdown.querySelector(".rte-dropdown-menu-header");
+    const footerSection = dropdown.querySelector(".rte-dropdown-menu-footer");
+
+    expect(headerSection).toBeInTheDocument();
+    expect(footerSection).toBeInTheDocument();
+
+    const headerContent = headerSection?.textContent?.trim();
+    const footerContent = footerSection?.textContent?.trim();
+
+    expect(headerContent).toContain("Dropdown Header");
+    expect(footerContent).toContain("Dropdown Footer");
+  },
+};
+
+export const WithFilterableHeader: Story = {
+  args: {
+    ...Default.args,
+  },
+  render: (args) => {
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [filterValue, setFilterValue] = useState<string>("");
+    const allItems = [
+      { label: "Messages", leftIcon: "mail", hasSeparator: true },
+      { label: "Actions", leftIcon: "settings" },
+      { label: "Help", leftIcon: "help" },
+    ];
+    const [filteredItems, setFilteredItems] = useState(allItems);
+
+    function handleFilterChange(event: React.ChangeEvent<HTMLInputElement>) {
+      const filter = event.target.value.toLowerCase();
+      setFilterValue(event.target.value);
+      if (!filter) {
+        setFilteredItems(allItems);
+      } else {
+        setFilteredItems(allItems.filter((item) => item.label.toLowerCase().includes(filter)));
+      }
+    }
+
+    return (
+      <>
+        <WipWarning />
+        <div
+          style={{
+            position: "relative",
+            width: "800px",
+            height: "200px",
+            display: "flex",
+            justifyContent: "space-between",
+            gap: "500px",
+          }}
+        >
+          <Dropdown
+            {...args}
+            onClose={() => {
+              setIsOpen(false);
+            }}
+            trigger={
+              <button onClick={() => setIsOpen(true)} style={{ color: "black" }}>
+                Filterable Menu ⬇
+              </button>
+            }
+            style={{ width: "250px" }}
+            isOpen={isOpen}
+            header={
+              <div style={{ padding: "8px 16px" }}>
+                <input
+                  type="text"
+                  placeholder="Filter items..."
+                  value={filterValue}
+                  onChange={handleFilterChange}
+                  style={{
+                    width: "100%",
+                    padding: "8px",
+                    border: "1px solid #ccc",
+                    borderRadius: "4px",
+                    boxSizing: "border-box",
+                  }}
+                />
+              </div>
+            }
+          >
+            {filteredItems.map((item, index) => (
+              <DropdownItem
+                key={index}
+                label={item.label}
+                leftIcon={item.leftIcon}
+                hasSeparator={item.hasSeparator}
+                onClick={() => console.log("click")}
+              />
+            ))}
+          </Dropdown>
+        </div>
+      </>
+    );
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const triggerButton = await canvas.getByRole("button", { name: /filterable menu/i });
+    await userEvent.click(triggerButton);
+
+    const overlay = document.getElementById("overlay-root");
+    let dropdown!: Element;
+
+    await waitFor(() => {
+      const found = overlay?.querySelector("[data-dropdown-id]");
+      expect(found).toBeInTheDocument();
+      if (!found) {
+        throw new Error("Dropdown not found");
+      }
+      dropdown = found;
+      return found;
+    });
+
+    const headerSection = dropdown.querySelector(".rte-dropdown-menu-header");
+    expect(headerSection).toBeInTheDocument();
+
+    const filterInput = headerSection?.querySelector("input") as HTMLInputElement;
+    expect(filterInput).toBeInTheDocument();
+
+    await userEvent.type(filterInput, "Help");
+    await waitFor(() => {
+      const menuItems = dropdown.querySelector("ul")?.querySelectorAll("li");
+      expect(menuItems?.length).toBe(1);
+    });
+  },
+};
+
+export const WithAddItemFooter: Story = {
+  args: {
+    ...Default.args,
+  },
+  render: (args) => {
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [newItemLabel, setNewItemLabel] = useState<string>("");
+    const initialItems: Array<{ label: string; leftIcon?: string; hasSeparator?: boolean }> = [
+      { label: "Messages", leftIcon: "mail", hasSeparator: true },
+      { label: "Actions", leftIcon: "settings" },
+      { label: "Help", leftIcon: "help" },
+    ];
+    const [menuItems, setMenuItems] = useState(initialItems);
+
+    function handleNewItemLabelChange(event: React.ChangeEvent<HTMLInputElement>) {
+      setNewItemLabel(event.target.value);
+    }
+
+    function handleAddItem() {
+      const label = newItemLabel.trim();
+      if (label) {
+        setMenuItems([...menuItems, { label }]);
+        setNewItemLabel("");
+      }
+    }
+
+    function handleAddItemKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        handleAddItem();
+      }
+    }
+
+    return (
+      <>
+        <WipWarning />
+        <div
+          style={{
+            position: "relative",
+            width: "800px",
+            height: "200px",
+            display: "flex",
+            justifyContent: "space-between",
+            gap: "500px",
+          }}
+        >
+          <Dropdown
+            {...args}
+            onClose={() => {
+              setIsOpen(false);
+            }}
+            trigger={
+              <button onClick={() => setIsOpen(true)} style={{ color: "black" }}>
+                Menu with Add Item Footer ⬇
+              </button>
+            }
+            style={{ width: "400px" }}
+            isOpen={isOpen}
+            footer={
+              <div style={{ padding: "8px 16px", display: "flex", gap: "8px" }}>
+                <input
+                  type="text"
+                  placeholder="Add new item..."
+                  value={newItemLabel}
+                  onChange={handleNewItemLabelChange}
+                  onKeyDown={handleAddItemKeyDown}
+                  style={{
+                    flex: 1,
+                    padding: "8px",
+                    border: "1px solid #ccc",
+                    borderRadius: "4px",
+                    boxSizing: "border-box",
+                  }}
+                />
+                <Button variant="primary" size="m" type="button" onClick={handleAddItem} label="Add" />
+              </div>
+            }
+          >
+            {menuItems.map((item, index) => (
+              <DropdownItem
+                key={index}
+                label={item.label}
+                leftIcon={item.leftIcon}
+                hasSeparator={item.hasSeparator}
+                onClick={() => console.log("click")}
+              />
+            ))}
+          </Dropdown>
+        </div>
+      </>
+    );
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const triggerButton = await canvas.getByRole("button", { name: /menu with add item footer/i });
+    await userEvent.click(triggerButton);
+
+    const overlay = document.getElementById("overlay-root");
+    let dropdown!: Element;
+
+    await waitFor(() => {
+      const found = overlay?.querySelector("[data-dropdown-id]");
+      expect(found).toBeInTheDocument();
+      if (!found) {
+        throw new Error("Dropdown not found");
+      }
+      dropdown = found;
+      return found;
+    });
+
+    const footerSection = dropdown.querySelector(".rte-dropdown-menu-footer");
+    expect(footerSection).toBeInTheDocument();
+
+    const addItemInput = footerSection?.querySelector("input") as HTMLInputElement;
+    const addButton = footerSection?.querySelector("button") as HTMLButtonElement;
+
+    expect(addItemInput).toBeInTheDocument();
+    expect(addButton).toBeInTheDocument();
+
+    const initialItemCount = dropdown.querySelector("ul")?.querySelectorAll("li").length || 0;
+
+    await userEvent.type(addItemInput, "New Item");
+    await userEvent.click(addButton);
+
+    await waitFor(() => {
+      const menuItems = dropdown.querySelector("ul")?.querySelectorAll("li");
+      expect(menuItems?.length).toBe(initialItemCount + 1);
+      expect(menuItems?.[menuItems.length - 1]?.textContent).toContain("New Item");
+    });
   },
 };
