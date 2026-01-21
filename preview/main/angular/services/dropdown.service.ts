@@ -47,7 +47,6 @@ export class DropdownService {
 
   reset(): void {
     this.state$.next(this.initialState);
-    console.log("🔵 Dropdown Service - State Reset");
   }
 
   handleKeyboardInput(key: string, options: KeyboardHandlingOptions): void {

@@ -18,6 +18,7 @@ import { default as RadioButton } from './components/radioButton/RadioButton.tsx
 import { default as RadioButtonGroup } from './components/radioButtonGroup/RadioButtonGroup.tsx';
 import { default as Searchbar } from './components/searchbar/Searchbar.tsx';
 import { default as SegmentedControl } from './components/segmentedControl/SegmentedControl.tsx';
+import { default as Select } from './components/select/Select.tsx';
 import { default as BaseSideNav } from './components/sideNav/baseSideNav/BaseSideNav.tsx';
 import { default as SideNav } from './components/sideNav/SideNav.tsx';
 import { default as SplitButton } from './components/splitButton/SplitButton.tsx';
@@ -28,4 +29,4 @@ import { default as BaseTextInput } from './components/textInput/baseTextuInput/
 import { default as Toast } from './components/toast/Toast.tsx';
 import { default as ToastQueueProvider } from './components/toast/toastQueue/ToastQueueProvider.tsx';
 import { default as Tooltip } from './components/tooltip/Tooltip.tsx';
-export { Button, Grid, Checkbox, CheckboxGroup, Link, RadioButton, RadioButtonGroup, Icon, IconButton, IconButtonToggle, SplitButton, Tooltip, BaseTextInput as TextInput, Chip, Badge, Textarea, Divider, Switch, SegmentedControl, Breadcrumbs, Banner, Popover, Modal, SideNav, BaseSideNav, Card, Toast, ToastQueueProvider, Tag, Searchbar, };
+export { Button, Grid, Checkbox, CheckboxGroup, Link, RadioButton, RadioButtonGroup, Icon, IconButton, IconButtonToggle, SplitButton, Tooltip, BaseTextInput as TextInput, Chip, Badge, Textarea, Divider, Switch, SegmentedControl, Breadcrumbs, Banner, Popover, Modal, SideNav, BaseSideNav, Card, Toast, ToastQueueProvider, Tag, Searchbar, Select, };

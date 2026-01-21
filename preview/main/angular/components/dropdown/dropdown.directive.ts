@@ -12,11 +12,13 @@ import {
   OnDestroy,
   output,
   Renderer2,
+  signal,
   ViewContainerRef,
 } from "@angular/core";
 import { waitForNextFrame } from "@design-system-rte/core/common/animation";
 import { Alignment } from "@design-system-rte/core/common/common-types";
 import { Position } from "@design-system-rte/core/components/common/common-types";
+import { DROPDOWN_ANIMATION_DURATION } from "@design-system-rte/core/components/dropdown/dropdown.constants";
 import {
   getAutoAlignment,
   getAutoPlacementDropdown,
@@ -45,16 +47,17 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
   readonly trigger = contentChild(DropdownTriggerDirective);
   readonly menu = contentChild(DropdownMenuComponent);
 
+  readonly rteDropdownId = input<string | undefined>(undefined);
   readonly rteDropdownPosition = input<Position>("bottom");
   readonly rteDropdownAlignment = input<Alignment>("start");
   readonly rteDropdownIsOpen = input<boolean>(false);
   readonly rteDropdownOffset = input<number>(0);
-  readonly rteDropdownWidth = input<number | undefined>(undefined);
   readonly rteDropdownAutofocus = input<boolean>(true);
   readonly rteDropdownAutoOpen = input<boolean>(true);
+  readonly rteDropdownWidth = input<number | null>(null);
 
-  readonly dropdownId = `dropdown_${++DropdownDirective.idCounter}`;
   readonly menuEvent = output<{ event: Event; id: string }>();
+  readonly dropdownId = `dropdown_${++DropdownDirective.idCounter}`;
 
   readonly overlayService = inject(OverlayService);
   readonly dropdownService = inject(DropdownService);
@@ -64,6 +67,11 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
   readonly hostElement: HTMLElement;
   readonly destroyRef = inject(DestroyRef);
   readonly cdr = inject(ChangeDetectorRef);
+
+  readonly clickedOutside = output<void>();
+  readonly closedDropdown = output<void>();
+
+  readonly isActive = signal(false);
 
   constructor() {
     this.hostElement = this.elementRef.nativeElement;
@@ -118,6 +126,7 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
 
   onMenuEvent(event: { event: Event; id: string }): void {
     this.menuEvent.emit(event);
+    this.isActive.set(false);
     this.dropdownService.closeAllMenus();
   }
 
@@ -130,6 +139,16 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
       this.trigger()?.dropdownKeyDown.subscribe((event: KeyboardEvent) => {
         this.onTriggerKeyEvent(event);
       });
+
+      this.trigger()?.dropdownTriggerClearContent.subscribe(() => {
+        this.closeDropdown();
+      });
+      this.trigger()?.dropdownTriggerOpenDropdown.subscribe(() => {
+        this.showDropdownMenu();
+      });
+      this.trigger()?.dropdownTriggerCloseDropdown.subscribe(() => {
+        this.closeDropdown();
+      });
     }
   }
 
@@ -140,7 +159,7 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
 
     this.dropdownMenuRef = this.overlayService.create(DropdownMenuComponent, this.viewContainerRef);
 
-    const menuId = this.dropdownId;
+    const menuId = this.rteDropdownId() || this.dropdownId;
 
     this.dropdownMenuRef.setInput("menuId", menuId);
 
@@ -180,6 +199,8 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
   private assignWidth(): void {
     if (this.dropdownMenuRef && this.rteDropdownWidth() !== undefined) {
       this.dropdownMenuRef.setInput("width", this.rteDropdownWidth());
+
+      waitForNextFrame(() => this.dropdownMenuRef?.setInput("isOpen", true));
     }
   }
 
@@ -230,6 +251,7 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
 
     if (!clickedInTrigger) {
       this.closeDropdown();
+      this.clickedOutside.emit();
     }
   };
 
@@ -242,6 +264,11 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
   }
 
   private closeDropdown(): void {
-    this.dropdownService.closeAllMenus();
+    this.dropdownMenuRef?.setInput("isOpen", false);
+    this.isActive.set(false);
+
+    setTimeout(() => {
+      this.dropdownService.closeAllMenus();
+    }, DROPDOWN_ANIMATION_DURATION);
   }
 }
