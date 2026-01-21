@@ -1,104 +1,27 @@
-<div
-  class="container {{labelPosition()}}"
-  [ngClass]="{'error': error()}"
-  [style.width]="width()"
->
-  <ng-container *ngIf="label()">
-    <div class="text">
-      <div class="label-container">
-        <label class="input-label" [id]="'input-label-' + id" [for]="id()">
-          {{ label() }}
-        </label>
-        <ng-container *ngIf="required()">
-          <ng-container *ngIf="showLabelRequirement(); else requiredIcon">
-            <span class="required-text">(obligatoire)</span>
-          </ng-container>
-          <ng-template #requiredIcon>
-            <span class="required-icon-container">
-              <rte-icon name="asterisk" [size]="8" />
-            </span>
-          </ng-template>
-        </ng-container>
-        <ng-container *ngIf="!required() && showLabelRequirement()">
-          <span class="required-text">(optionnel)</span>
-        </ng-container>
-      </div>
-      <ng-container *ngIf="displayCounter() && labelPosition() === 'top'">
-        <p class="input-counter" data-testid="input-counter">
-          {{ characterCount() }}/{{ maxLength() }}
-        </p>
-      </ng-container>
-    </div>
-  </ng-container>
-
-  <div class="input-container">
-    <div
-      class="input {{labelPosition()}}"
-      [ngClass]="{'disabled': disabled(), 'read-only': readOnly()}"
-    >
-      <div class="input-bar" [ngClass]="{'with-left-icon': displayedLeftIcon(), 'with-right-icon': rightIconAction()}">
-        <ng-container *ngIf="displayedLeftIcon()">
-          <rte-icon
-            appearance="outlined"
-            class="left-icon"
-            aria-hidden="true"
-            [name]="displayedLeftIcon()!"
-          />
-        </ng-container>
-
-        <input
-          #inputRef
-          class="input-field"
-          [id]="id()"
-          [ngClass]="{'error': error()}"
-          [attr.aria-label]="ariaLabel()"
-          [attr.aria-labelledby]="ariaLabelledby()"
-          [attr.aria-required]="ariaRequired()"
-          [type]="isHiddenInput() ? 'password' : 'text'"
-          [maxLength]="maxLength()"
-          [disabled]="disabled()"
-          [readOnly]="readOnly()"
-          [value]="internalValue()"
-          (input)="handleChange($event)"
-        />
-
-        <ng-container *ngIf="shouldShowRightIcon()">
-          <rte-icon-button
-            appearance="outlined"
-            variant="transparent"
-            class="right-icon"
-            data-testid="right-icon"
-            [name]="rightIconName() || 'close'"
-            [ariaLabel]="rightIconAriaLabel()"
-            (click)="onRightIconClickHandler()"
-          />
-        </ng-container>
-      </div>
-    </div>
-
-    <ng-container *ngIf="assistiveTextLabel()">
-      <div class="assistive-text">
-        <ng-container *ngIf="showAssistiveIcon() && assistiveAppearance() === 'error'">
-          <rte-icon name="error" appearance="outlined" class="assistive-icon-error" [size]="12" />
-        </ng-container>
-        <ng-container *ngIf="showAssistiveIcon() && assistiveAppearance() === 'success'">
-          <rte-icon name="check" appearance="outlined" class="assistive-icon-success" [size]="12" />
-        </ng-container>
-        <ng-container *ngIf="assistiveAppearance() === 'link'; else assistiveLabel">
-          <rte-link [label]="assistiveTextLabel()" />
-        </ng-container>
-        <ng-template #assistiveLabel>
-          <p class="assistive-label" [ngClass]="assistiveAppearance()">
-            {{ assistiveTextLabel() }}
-          </p>
-        </ng-template>
-      </div>
-    </ng-container>
-  </div>
-
-  <ng-container *ngIf="displayCounter() && labelPosition() === 'side'">
-    <p class="input-counter" data-testid="input-counter">
-      {{ characterCount() }}/{{ maxLength() }}
-    </p>
-  </ng-container>
-</div>
+<rte-base-text-input
+  [id]="id()"
+  [label]="label()"
+  [labelPosition]="labelPosition()"
+  [required]="required()"
+  [showCounter]="showCounter()"
+  [value]="value()"
+  [leftIcon]="leftIcon()"
+  [showRightIcon]="showRightIcon()"
+  [rightIconAction]="rightIconAction()"
+  [showLabelRequirement]="showLabelRequirement()"
+  [assistiveAppearance]="assistiveAppearance()"
+  [showAssistiveIcon]="showAssistiveIcon()"
+  [assistiveTextLabel]="assistiveTextLabel()"
+  [error]="error()"
+  [maxLength]="maxLength()"
+  [disabled]="disabled()"
+  [readOnly]="readOnly()"
+  [width]="width()"
+  [ariaLabel]="ariaLabel()"
+  [ariaRequired]="ariaRequired()"
+  [ariaLabelledby]="ariaLabelledby()"
+  [customStyle]="customStyle()"
+  [autocomplete]="autocomplete()"
+  (valueChange)="valueChange.emit($event)"
+  (rightIconClick)="rightIconClick.emit()"
+/>

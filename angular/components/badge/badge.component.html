@@ -4,12 +4,7 @@
   [attr.data-simple-badge]="simpleBadge()"
   [ngClass]="{ hidden: !showBadge(), 'count-overflow': countOverflow() }"
 >
-  <rte-icon
-    *ngIf="showIcon()"
-    class="badge-icon"
-    [name]="icon()"
-    [size]="iconSize()!"
-  />
+  <rte-icon *ngIf="showIcon()" class="badge-icon" [name]="icon()!" [size]="iconSize()!" />
   <span *ngIf="showText()" class="badge-text">
     {{ displayCount() }}
   </span>

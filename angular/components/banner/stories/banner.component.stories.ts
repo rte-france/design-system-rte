@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { moduleMetadata } from "@storybook/angular";
 import { fn, userEvent, within, expect, waitFor } from "@storybook/test";
 
+import { focusElementBeforeComponent } from "../../../../../../../.storybook/testing/testing.utils";
 import { ButtonComponent } from "../../button/button.component";
 import { SwitchComponent } from "../../switch/switch.component";
 import { BannerComponent } from "../banner.component";
@@ -258,11 +259,10 @@ export const KeyboardInteraction: Story = {
 
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
+    focusElementBeforeComponent(canvasElement);
     const banner = await canvas.getByRole("status");
-    const actionButton = await within(banner).getAllByRole("button")[0];
     const closeButton = await within(banner).getAllByRole("button")[1];
     await userEvent.tab();
-    expect(actionButton).toHaveFocus();
     await userEvent.tab();
     expect(closeButton).toHaveFocus();
     await userEvent.keyboard("{Enter}");

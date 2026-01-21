@@ -3,34 +3,42 @@
   <ng-container *ngFor="let option of options(); let idx = index">
     <div class="rte-segment-container" [attr.data-position]="getSegmentPosition(idx)">
       <div
-      #segment
-      role="radio"
-      class="rte-segment"
-      tabindex="0"
-      [attr.data-id]="option.id"
-      [attr.data-segment-type]="option.icon ?  'icon' : 'label'"
-      [class.selected]="isSegmentSelected(option.id)"
-      [attr.aria-checked]="isSegmentSelected(option.id)"
-      [attr.aria-label]="option.label"
-      (click)="selectSegment(option.id)"
-      (keydown)="handleKeyDown($event)"
-      (keyup)="handleKeyUp($event)"
+        #segment
+        role="radio"
+        class="rte-segment"
+        tabindex="0"
+        [attr.data-id]="option.id"
+        [attr.data-segment-type]="option.icon ? 'icon' : 'label'"
+        [class.selected]="isSegmentSelected(option.id)"
+        [attr.aria-checked]="isSegmentSelected(option.id)"
+        [attr.aria-label]="option.label"
+        (click)="selectSegment(option.id)"
+        (keydown)="handleKeyDown($event)"
+        (keyup)="handleKeyUp($event)"
       >
-      <rte-icon
-          *ngIf="isSegmentSelected(option.id)"
-          name="check-small"
-          class="rte-selected-icon"
-          [size]="24"
-      />
-      <div class="rte-segment-content">
-        <ng-container *ngIf="option.icon; else label">
-          <rte-icon [name]="option.icon" [size]="24" [appearance]="isSegmentSelected(option.id) ? 'filled' : 'outlined' "></rte-icon>
-        </ng-container>
-        <ng-template #label>
-          <span class="rte-segment-label">{{ option.label }}</span>
-        </ng-template>
+        <rte-icon *ngIf="isSegmentSelected(option.id)" name="check-small" class="rte-selected-icon" [size]="24" />
+        <div class="rte-segment-content">
+          <ng-container *ngIf="option.icon; else label">
+            <rte-icon
+              [name]="option.icon"
+              [size]="24"
+              [appearance]="isSegmentSelected(option.id) ? 'filled' : 'outlined'"
+            ></rte-icon>
+          </ng-container>
+          <ng-template #label>
+            <span class="rte-segment-label">{{ option.label }}</span>
+          </ng-template>
+        </div>
+        <rte-badge
+          *ngIf="shouldDisplayBadge(option)"
+          [count]="option.badgeCount"
+          [badgeContent]="option.badgeContent!"
+          [icon]="option.badgeIcon!"
+          [badgeType]="option.badgeType!"
+          [simpleBadge]="true"
+          [badgeSize]="option.badgeSize!"
+        ></rte-badge>
       </div>
     </div>
-  </div>
   </ng-container>
 </div>

@@ -1,6 +1,8 @@
 import { Meta, StoryObj } from "@storybook/angular";
 import { within, userEvent, expect, waitFor } from "@storybook/test";
 
+import { focusElementBeforeComponent } from "../../../../../../.storybook/testing/testing.utils";
+
 import { TooltipDirective } from "./tooltip.directive";
 
 const meta: Meta<TooltipDirective> = {
@@ -209,6 +211,7 @@ export const KeyboardInteraction: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const tooltipTrigger = canvas.queryByText("Hover Me!");
+    focusElementBeforeComponent(canvasElement);
     await userEvent.tab();
     const tooltip = within(document.body).getByRole("tooltip");
     expect(tooltipTrigger).toHaveFocus();

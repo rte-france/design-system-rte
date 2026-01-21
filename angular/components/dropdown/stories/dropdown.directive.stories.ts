@@ -1,13 +1,14 @@
-import {
-  TESTING_DOWN_KEY,
-  TESTING_ENTER_KEY,
-  TESTING_UP_KEY,
-} from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
+import { BadgeContent, BadgeSize, BadgeType } from "@design-system-rte/core/components/badge/badge.interface";
+import { TESTING_DOWN_KEY, TESTING_UP_KEY } from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
 import { Meta, moduleMetadata, StoryObj } from "@storybook/angular";
-import { expect, userEvent, waitFor } from "@storybook/test";
+import { expect, userEvent, within } from "@storybook/test";
 
+import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../../icon/icon-map";
 import { DropdownDirective } from "../dropdown.directive";
 import { DropdownModule } from "../dropdown.module";
+
+const RegularIconIds = Object.keys(RegularIconsList);
+const TogglableIconIds = Object.keys(TogglableIconsList);
 
 const MOCKUP_ITEMS = [
   { label: "Messages", leftIcon: "mail", hasSeparator: true },
@@ -75,6 +76,80 @@ export const Default: Story = {
   }),
 };
 
+export const WithBadge: StoryObj<{
+  badgeContent?: BadgeContent;
+  badgeType?: BadgeType;
+  badgeIcon: string;
+  showBadge: boolean;
+  badgeCount: number;
+  badgeSize?: BadgeSize;
+}> = {
+  args: {
+    badgeContent: "empty" as BadgeContent,
+    badgeType: "indicator" as BadgeType,
+    badgeIcon: "settings",
+    showBadge: true,
+    badgeCount: 56,
+    badgeSize: "m" as BadgeSize,
+  },
+  argTypes: {
+    badgeContent: {
+      control: "select",
+      options: ["number", "icon", "empty"],
+    },
+    badgeType: {
+      control: "select",
+      options: ["brand", "neutral", "indicator"],
+    },
+    badgeIcon: {
+      control: "select",
+      options: ["", ...RegularIconIds, ...TogglableIconIds].sort((a, b) => a.localeCompare(b)),
+    },
+    showBadge: {
+      control: "boolean",
+    },
+    badgeCount: {
+      control: "number",
+    },
+    badgeSize: {
+      control: "select",
+      options: ["xs", "s", "m", "l"],
+    },
+  },
+  decorators: [
+    moduleMetadata({
+      imports: [DropdownModule],
+    }),
+  ],
+  render: (args) => ({
+    props: {
+      ...args,
+      items: [
+        ...MOCKUP_ITEMS,
+        {
+          label: "Notifications",
+          leftIcon: "notification",
+          badgeCount: 4,
+          badgeType: args.badgeType,
+          showBadge: args.showBadge,
+          badgeContent: args.badgeContent,
+          badgeSize: args.badgeSize,
+        },
+      ],
+      onItemClick: (event: { event: Event; id: string }) => {
+        console.log("Item clicked:", event);
+      },
+    },
+    template: `
+    ${wipWarning}
+    <div rteDropdown [rteDropdownPosition]="rteDropdownPosition" (menuEvent)="onItemClick($event)">
+      <button rteDropdownTrigger>Menu principal ⬇</button>
+      <rte-dropdown-menu [items]="items"/>
+    </div>
+    `,
+  }),
+};
+
 export const KeyboardNavigation: Story = {
   decorators: [
     moduleMetadata({
@@ -95,20 +170,24 @@ export const KeyboardNavigation: Story = {
     template: `
     ${wipWarning}
     <div rteDropdown [rteDropdownPosition]="rteDropdownPosition" (menuEvent)="onItemClick($event)">
-      <button rteDropdownTrigger>Menu principal ⬇</button>
+      <button rteDropdownTrigger>Click me!</button>
       <rte-dropdown-menu [items]="items"/>
     </div>
     `,
   }),
-  play: async () => {
-    await userEvent.tab();
-    await userEvent.keyboard(TESTING_ENTER_KEY);
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const triggerButton = await canvas.getByRole("button", {
+      name: /click me!/i,
+    });
+    await userEvent.click(triggerButton);
     await userEvent.tab();
     const overlay = document.getElementById("overlay-root");
     const dropdown = overlay?.querySelector("rte-dropdown-menu");
     const menuItems = dropdown?.querySelector("ul")?.querySelectorAll("li");
     expect(dropdown).toBeInTheDocument();
     expect(menuItems?.[0]).toHaveFocus();
+    await userEvent.tab();
     await userEvent.keyboard(TESTING_DOWN_KEY);
     expect(menuItems?.[1]).toHaveFocus();
     await userEvent.keyboard(TESTING_UP_KEY);
@@ -139,21 +218,24 @@ export const KeyboardNavigationWithLink: Story = {
     template: `
     ${wipWarning}
     <div rteDropdown [rteDropdownPosition]="rteDropdownPosition" (menuEvent)="onItemClick($event)">
-      <button rteDropdownTrigger>Menu principal ⬇</button>
+      <button rteDropdownTrigger>Click me!</button>
       <rte-dropdown-menu [items]="items"/>
     </div>
     `,
   }),
-  play: async () => {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const triggerButton = await canvas.getByRole("button", {
+      name: /click me!/i,
+    });
+    await userEvent.click(triggerButton);
     await userEvent.tab();
-    await userEvent.keyboard(TESTING_ENTER_KEY);
     const overlay = document.getElementById("overlay-root");
     const dropdown = overlay?.querySelector("rte-dropdown-menu");
     const menuItems = dropdown?.querySelector("ul")?.querySelectorAll("li");
-    await waitFor(() => {
-      expect(dropdown).toBeInTheDocument();
-      expect(menuItems?.[0]).toHaveFocus();
-    });
+    expect(dropdown).toBeInTheDocument();
+    expect(menuItems?.[0]).toHaveFocus();
+    await userEvent.tab();
     await userEvent.keyboard(TESTING_DOWN_KEY);
     expect(menuItems?.[1]).toHaveFocus();
     await userEvent.keyboard(TESTING_UP_KEY);

@@ -8,11 +8,7 @@
     type="button"
     [disabled]="disabled()"
   >
-    <rte-icon
-      *ngIf="icon()"
-      [name]="icon()!"
-      [size]="splitButtonLeftIconSize()"
-    />
+    <rte-icon *ngIf="icon()" [name]="icon()!" [size]="splitButtonLeftIconSize()" />
     <p class="split-button-label size-{{ size() }}">
       {{ label() }}
     </p>
@@ -27,27 +23,49 @@
     [rteDropdownAlignment]="internalAlignment()"
     [attr.data-testid]="'Menu container'"
   >
-    <button
-      class="split-button-right size-{{ size() }}"
-      rteDropdownTrigger
-      data-testid="Menu button"
-      type="button"
-      aria-haspopup="menu"
-      [rteDropdownTriggerActivateWithArrowDown]="true"
-      [attr.data-expanded]="isOpen()"
-      [attr.aria-expanded]="isOpen()"
-      [attr.aria-label]="ariaLabelRight()"
-      [disabled]="disabled()"
-      (click)="isOpen.set(true)"
-      (keydown)="handleKeyDownOnRightButton($event)"
-    >
-      <div class="split-button-right-icon-container">
-        <rte-icon
-          name="arrow-chevron-down"
-          [size]="splitButtonRightIconSize()"
-        />
-      </div>
-    </button>
+    @if (hasBadge()) {
+      <button
+        class="split-button-right size-{{ size() }}"
+        rteBadge
+        rteDropdownTrigger
+        data-testid="Menu button"
+        type="button"
+        aria-haspopup="menu"
+        [rteBadgeType]="badgeType()!"
+        [rteBadgeContent]="badgeContent()!"
+        [rteBadgeCount]="badgeCount()"
+        [rteDropdownTriggerActivateWithArrowDown]="true"
+        [attr.data-expanded]="isOpen()"
+        [attr.aria-expanded]="isOpen()"
+        [attr.aria-label]="ariaLabelRight()"
+        [disabled]="disabled()"
+        (click)="isOpen.set(true)"
+        (keydown)="handleKeyDownOnRightButton($event)"
+      >
+        <div class="split-button-right-icon-container">
+          <rte-icon name="arrow-chevron-down" [size]="splitButtonRightIconSize()" />
+        </div>
+      </button>
+    } @else {
+      <button
+        class="split-button-right size-{{ size() }}"
+        rteDropdownTrigger
+        data-testid="Menu button"
+        type="button"
+        aria-haspopup="menu"
+        [rteDropdownTriggerActivateWithArrowDown]="true"
+        [attr.data-expanded]="isOpen()"
+        [attr.aria-expanded]="isOpen()"
+        [attr.aria-label]="ariaLabelRight()"
+        [disabled]="disabled()"
+        (click)="isOpen.set(true)"
+        (keydown)="handleKeyDownOnRightButton($event)"
+      >
+        <div class="split-button-right-icon-container">
+          <rte-icon name="arrow-chevron-down" [size]="splitButtonRightIconSize()" />
+        </div>
+      </button>
+    }
     <rte-dropdown-menu [items]="options()" />
   </div>
 </div>

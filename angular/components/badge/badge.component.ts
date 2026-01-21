@@ -28,7 +28,10 @@ export class BadgeComponent {
   readonly icon = input<string>("notification");
   readonly simpleBadge = input<boolean>(false);
 
-  readonly isValidIconName = computed(() => isValidIconName(this.icon()));
+  readonly isValidIconName = computed(() => {
+    const icon = this.icon();
+    return isValidIconName(icon!);
+  });
 
   readonly showIcon = computed(() =>
     getShowIcon({

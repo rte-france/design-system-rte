@@ -1,31 +1,33 @@
 <div class="rte-breadcrumb-item">
   @if (isLast()) {
     @if (isEllipsisActive()) {
-      <div
-        [rteTooltip]="item()!.label"
-        [rteTooltipPosition]="'bottom'"
-        [style]="tooltipTriggerStyle()"
-      >
-        <a
-          role="link"
-          aria-current="page"
-          tabindex="-1"
-          [attr.aria-label]="item()!.label"
-          [style]="linkStyle()"
-        >
+      <div [rteTooltip]="item()!.label" [rteTooltipPosition]="'bottom'" [style]="tooltipTriggerStyle()">
+        <a role="link" aria-current="page" tabindex="-1" [attr.aria-label]="item()!.label" [style]="linkStyle()">
           {{ item()!.label }}
         </a>
       </div>
+      <rte-badge
+        *ngIf="shouldDisplayBadge()"
+        [count]="item()!.badgeCount"
+        [badgeContent]="item()!.badgeContent!"
+        [icon]="item()!.badgeIcon!"
+        [badgeType]="item()!.badgeType!"
+        [simpleBadge]="true"
+        [badgeSize]="item()!.badgeSize!"
+      />
     } @else {
-      <a
-        role="link"
-        aria-current="page"
-        tabindex="0"
-        [attr.aria-label]="item()!.label"
-        [style]="linkStyle()"
-      >
+      <a role="link" aria-current="page" tabindex="0" [attr.aria-label]="item()!.label" [style]="linkStyle()">
         {{ item()!.label }}
       </a>
+      <rte-badge
+        *ngIf="shouldDisplayBadge()"
+        [count]="item()!.badgeCount"
+        [badgeContent]="item()!.badgeContent!"
+        [icon]="item()!.badgeIcon!"
+        [badgeType]="item()!.badgeType!"
+        [simpleBadge]="true"
+        [badgeSize]="item()!.badgeSize!"
+      />
     }
   } @else {
     @if (isEllipsisActive()) {
@@ -36,19 +38,27 @@
         [style.overflow]="'unset'"
         [rteTooltipShouldFocusTrigger]="false"
       >
-        <rte-link
-          [href]="item()!.link"
-          [label]="item()!.label"
-          [subtle]="true"
-          [maxWidth]="breadcrumbItemMaxWidth()"
-        />
+        <rte-link [href]="item()!.link" [label]="item()!.label" [subtle]="true" [maxWidth]="breadcrumbItemMaxWidth()" />
       </div>
+      <rte-badge
+        *ngIf="shouldDisplayBadge()"
+        [count]="item()!.badgeCount"
+        [badgeContent]="item()!.badgeContent!"
+        [icon]="item()!.badgeIcon!"
+        [badgeType]="item()!.badgeType!"
+        [simpleBadge]="true"
+        [badgeSize]="item()!.badgeSize!"
+      />
     } @else {
-      <rte-link
-        [href]="item()!.link"
-        [label]="item()!.label"
-        [subtle]="true"
-        [maxWidth]="breadcrumbItemMaxWidth()"
+      <rte-link [href]="item()!.link" [label]="item()!.label" [subtle]="true" [maxWidth]="breadcrumbItemMaxWidth()" />
+      <rte-badge
+        *ngIf="shouldDisplayBadge()"
+        [count]="item()!.badgeCount"
+        [badgeContent]="item()!.badgeContent!"
+        [icon]="item()!.badgeIcon!"
+        [badgeType]="item()!.badgeType!"
+        [simpleBadge]="true"
+        [badgeSize]="item()!.badgeSize!"
       />
     }
   }
