@@ -125,7 +125,7 @@ export const Sizes: Story = {
   },
 };
 
-export const withCustomContent: Story = {
+export const WithCustomContent: Story = {
   args: {
     ...Default.args,
     id: "modal-2",

@@ -116,7 +116,7 @@ export const Truncated: Story = {
   },
 };
 
-export const maxWidthBreadcrumbItem: Story = {
+export const MaxWidthBreadcrumbItem: Story = {
   args: {
     ...Default.args,
     breadcrumbItemMaxWidth: 50,
