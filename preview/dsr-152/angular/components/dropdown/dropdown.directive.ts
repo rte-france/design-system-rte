@@ -54,7 +54,6 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
   readonly rteDropdownOffset = input<number>(0);
   readonly rteDropdownAutofocus = input<boolean>(true);
   readonly rteDropdownAutoOpen = input<boolean>(true);
-  readonly rteDroprownTriggerToggle = input<boolean>(false);
   readonly rteDropdownWidth = input<number | null>(null);
 
   readonly menuEvent = output<{ event: Event; id: string }>();
