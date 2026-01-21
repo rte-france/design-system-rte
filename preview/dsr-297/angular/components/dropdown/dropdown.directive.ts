@@ -2,6 +2,7 @@ import {
   AfterContentInit,
   ChangeDetectorRef,
   ComponentRef,
+  computed,
   contentChild,
   DestroyRef,
   Directive,
@@ -73,6 +74,19 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
 
   readonly isActive = signal(false);
 
+  readonly menuInputs = computed(() => {
+    const menu = this.menu();
+    if (!menu) {
+      return null;
+    }
+    return {
+      items: menu.items(),
+      headerTemplate: menu.headerDirective()?.templateRef,
+      footerTemplate: menu.footerDirective()?.templateRef,
+      width: menu.width(),
+    };
+  });
+
   constructor() {
     this.hostElement = this.elementRef.nativeElement;
 
@@ -91,13 +105,11 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
     });
 
     effect(() => {
-      const menu = this.menu();
-      if (this.dropdownMenuRef && menu) {
+      const inputs = this.menuInputs();
+      if (this.dropdownMenuRef && inputs) {
         this.assignInputs();
       }
     });
-
-    effect(() => this.assignWidth());
   }
 
   dropdownMenuRef: ComponentRef<DropdownMenuComponent> | null = null;
@@ -200,9 +212,9 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
   }
 
   private assignWidth(): void {
-    if (this.dropdownMenuRef && this.rteDropdownWidth() !== undefined) {
-      this.dropdownMenuRef.setInput("width", this.rteDropdownWidth());
-
+    const width = this.menuInputs()?.width ?? this.rteDropdownWidth();
+    if (this.dropdownMenuRef && width !== undefined && width !== null) {
+      this.dropdownMenuRef.setInput("width", width);
       waitForNextFrame(() => this.dropdownMenuRef?.setInput("isOpen", true));
     }
   }
@@ -251,8 +263,9 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
     }
 
     const clickedInTrigger = this.hostElement.contains(target);
+    const clickedInMenu = this.dropdownMenuRef?.location.nativeElement.contains(target);
 
-    if (!clickedInTrigger) {
+    if (!clickedInTrigger && !clickedInMenu) {
       this.closeDropdown();
       this.clickedOutside.emit();
     }
