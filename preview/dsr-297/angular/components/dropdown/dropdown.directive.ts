@@ -212,10 +212,16 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
   }
 
   private assignWidth(): void {
+    if (!this.dropdownMenuRef) {
+      return;
+    }
+
     const width = this.menuInputs()?.width ?? this.rteDropdownWidth();
-    if (this.dropdownMenuRef && width !== undefined && width !== null) {
+    if (width !== undefined && width !== null) {
       this.dropdownMenuRef.setInput("width", width);
       waitForNextFrame(() => this.dropdownMenuRef?.setInput("isOpen", true));
+    } else {
+      this.dropdownMenuRef.setInput("isOpen", true);
     }
   }
 
