@@ -5,7 +5,6 @@ import {
   ElementRef,
   input,
   output,
-  viewChildren,
   AfterViewInit,
   OnDestroy,
   inject,
@@ -43,7 +42,6 @@ export class StepperComponent implements AfterViewInit, OnDestroy {
   readonly steps = input<StepperProps["steps"]>([]);
   readonly activeStepId = input<string>();
   readonly orientation = input<StepperProps["orientation"]>("horizontal");
-  readonly stepRefs = viewChildren<ElementRef<HTMLLIElement>>("step");
 
   readonly iconSize = IconSize;
 
@@ -53,24 +51,10 @@ export class StepperComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     window.addEventListener("keydown", this.onGlobalKeyDown.bind(this));
-
-    this.stepRefs().forEach((stepElement) => {
-      const stepButton = stepElement.nativeElement.querySelector("button");
-      if (stepButton) {
-        stepButton.addEventListener("focus", this.focusCurrentStepElement.bind(this));
-      }
-    });
   }
 
   ngOnDestroy() {
     window.removeEventListener("keydown", this.onGlobalKeyDown.bind(this));
-
-    this.stepRefs().forEach((stepElement) => {
-      const stepButton = stepElement.nativeElement.querySelector("button");
-      if (stepButton) {
-        stepButton.addEventListener("focus", this.focusCurrentStepElement.bind(this));
-      }
-    });
   }
 
   isStepActive(id: string): boolean {
@@ -97,7 +81,16 @@ export class StepperComponent implements AfterViewInit, OnDestroy {
       this.clickStep.emit(step);
     }
   }
-  handleKeyUp = (event: KeyboardEvent) => {
+
+  handleKeyDown(event: KeyboardEvent) {
+    if (event.key === TAB_KEY) {
+      event.preventDefault();
+      if (event.shiftKey) {
+        focusPreviousNotStepElement(segmentClass, this.stepperRef.nativeElement);
+      } else {
+        focusNextNotStepElement(segmentClass, this.stepperRef.nativeElement);
+      }
+    }
     if ([ARROW_LEFT_KEY, ARROW_RIGHT_KEY, ARROW_UP_KEY, ARROW_DOWN_KEY].includes(event.key)) {
       event.preventDefault();
       event.stopPropagation();
@@ -134,19 +127,6 @@ export class StepperComponent implements AfterViewInit, OnDestroy {
         }
       }
     }
-  };
-
-  handleKeyDown(event: KeyboardEvent) {
-    if (event.key === TAB_KEY) {
-      event.preventDefault();
-    }
-    if (event.key === TAB_KEY) {
-      if (event.shiftKey) {
-        focusPreviousNotStepElement(segmentClass, this.stepperRef.nativeElement);
-      } else {
-        focusNextNotStepElement(segmentClass, this.stepperRef.nativeElement);
-      }
-    }
   }
 
   private lastKeydown: string | null = null;
@@ -154,15 +134,4 @@ export class StepperComponent implements AfterViewInit, OnDestroy {
   private onGlobalKeyDown = (event: KeyboardEvent) => {
     this.lastKeydown = event.key;
   };
-
-  private focusCurrentStepElement() {
-    if (this.lastKeydown === "Tab") {
-      const selectedStepElement = this.stepRefs()
-        .find((segment) => segment.nativeElement.querySelector('[aria-current="step"] button'))
-        ?.nativeElement.querySelector("button") as HTMLElement;
-      if (selectedStepElement) {
-        selectedStepElement.focus();
-      }
-    }
-  }
 }

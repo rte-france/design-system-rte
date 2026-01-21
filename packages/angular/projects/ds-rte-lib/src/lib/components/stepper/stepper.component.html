@@ -10,9 +10,14 @@
         [attr.data-orientation]="orientation()"
         [attr.data-clickable]="isStepClickable(step)"
         (keydown)="handleKeyDown($event)"
-        (keyup)="handleKeyUp($event)"
       >
-        <button class="rte-stepper-button" type="button" (click)="handleStepClick(step)">
+        <button
+          class="rte-stepper-button"
+          type="button"
+          [attr.tabindex]="isStepActive(step.id) ? 0 : -1"
+          [attr.disabled]="isStepFocusable(step) ? undefined : true"
+          (click)="handleStepClick(step)"
+        >
           @if (step.completionState === "complete" && !isStepActive(step.id)) {
             <div class="rte-stepper-complete-indicator">
               <rte-icon name="check" aria-hidden="true" [size]="iconSize['m']" />

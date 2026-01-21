@@ -4,7 +4,6 @@ import { isStepClickable } from "@design-system-rte/core/components/stepper/step
 import { useRef } from "react";
 
 import Icon from "../../icon/Icon";
-import useFocusCurrentStep from "../hooks/useFocusCurrentStep";
 
 import styles from "./StepperItem.module.scss";
 
@@ -24,8 +23,6 @@ const StepperItem = ({
   ...props
 }: StepperItemProps) => {
   const ref = useRef<HTMLLIElement>(null);
-
-  useFocusCurrentStep(ref);
 
   const clickable = onClick && isStepClickable({ completionState, clickableCompleteStep });
 
@@ -48,7 +45,13 @@ const StepperItem = ({
       data-active={isActive}
       {...props}
     >
-      <button className={styles.stepButton} type="button" onClick={handleOnClick} disabled={!focusable}>
+      <button
+        className={styles.stepButton}
+        type="button"
+        onClick={handleOnClick}
+        disabled={!focusable}
+        tabIndex={isActive ? 0 : -1}
+      >
         {completionState === "complete" && !isActive ? (
           <div className={styles.stepCompleteIndicator}>
             <Icon name="check" size={IconSize["m"]} aria-hidden="true" />
