@@ -50,7 +50,7 @@ export class DropdownMenuComponent {
   readonly closingMenu = output<void>();
 
   readonly menuStyle = computed(() => {
-    return this.width() ? { width: this.width() + "px" } : {};
+    return this.width() ? { width: this.width() + "px", "max-width": this.width() + "px" } : {};
   });
 
   readonly headerDirective = contentChild(DropdownMenuHeaderDirective);
