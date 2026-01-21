@@ -24,6 +24,7 @@ import BaseSideNav from "./components/sideNav/baseSideNav/BaseSideNav.tsx";
 import SideNav from "./components/sideNav/SideNav.tsx";
 import SplitButton from "./components/splitButton/SplitButton.tsx";
 import Switch from "./components/switch/Switch.tsx";
+import Tab from "./components/tab/Tab.tsx";
 import Tag from "./components/tag/Tag.tsx";
 import Textarea from "./components/textarea/Textarea.tsx";
 import BaseTextInput from "./components/textInput/baseTextuInput/BaseTextInput.tsx";
@@ -61,6 +62,7 @@ export {
   Toast,
   ToastQueueProvider,
   Tag,
+  Tab,
   Searchbar,
   Select,
 };

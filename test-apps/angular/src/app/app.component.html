@@ -6,96 +6,16 @@
   [appearance]="'brand'"
   (itemClicked)="handleItemClick($event)"
 >
-  <rte-banner
-    type="info"
-    message="This is an info banner"
-    [closable]="true"
-    title="Info Banner mzlfkzlekfme"
-    [isOpen]="isInfoBannerVisible()"
-  ></rte-banner>
-  <rte-banner
-    type="error"
-    message="This is an alert banner"
-    [closable]="true"
-    title="Alert Banner"
-    [isOpen]="isAlertBannerVisible()"
-  ></rte-banner>
-  <button
-    rteButton
-    [disabled]="false"
-    ariaLabel="Home"
-    ariaLabelledBy="home"
-    buttonType="button"
-    (click)="toggleAlertBanner()"
-  >
-    Toggle alert banner
-  </button>
-  <button
-    rteButton
-    [disabled]="false"
-    ariaLabel="Home"
-    ariaLabelledBy="home"
-    buttonType="button"
-    (click)="toggleInfoBanner()"
-  >
-    Toggle info banner
-  </button>
-  <hr />
-  <button
-    rteButton
-    [disabled]="false"
-    icon="home"
-    ariaLabel="Home"
-    ariaLabelledBy="home"
-    buttonType="button"
-  >
-    Button
-  </button>
-
-  <rte-icon name="home" />
-
-  <hr />
-
-  <rte-split-button label="Split Button" [options]="rteSplitButtonOptions" />
-
-  <hr />
-
-  <rte-icon-button-toggle
-    name="home"
-    [selected]="selected()"
-    (click)="onClick($event)"
-  />
-
-  <hr />
-
-  <span rteTooltip="Tooltip">Tooltip</span>
-
-  <hr />
-
-  <rte-text-input
-    label="Text Input"
-    [value]="inputValue()"
-    (valueChange)="handleInputChange($event)"
-  />
-  <h4>The input is : {{ inputValue() }}</h4>
-  <hr />
-  <rte-chip label="Chip Label" type="single"></rte-chip>
-  <hr />
-
-  <p
-    style="display: inline-block; background-color: bisque"
-    rteBadge
-    [rteBadgeCount]="1"
-  ></p>
   <div content>
+    <rte-tab [options]="tabOptions" [selectedTabId]="selectedTabId()" (change)="onTabChange($event)"></rte-tab>
+    <div style="height: 16px">
+      <p>Content for {{ selectedTabId() }}</p>
+    </div>
     <rte-card>
       <div style="padding: 16px">
-        <h4 style="margin: 0 0 12px 0; font-size: 18px; font-weight: 600">
-          Default Card
-        </h4>
+        <h4 style="margin: 0 0 12px 0; font-size: 18px; font-weight: 600">Default Card</h4>
         <p style="margin: 0; color: #666; line-height: 1.5">
-          This is a default card with medium size. It uses elevation shadow
-          styling.
+          This is a default card with medium size. It uses elevation shadow styling.
         </p>
       </div>
     </rte-card>
@@ -134,14 +54,7 @@
       Toggle info banner
     </button>
     <hr />
-    <button
-      rteButton
-      [disabled]="false"
-      icon="home"
-      ariaLabel="Home"
-      ariaLabelledBy="home"
-      buttonType="button"
-    >
+    <button rteButton [disabled]="false" icon="home" ariaLabel="Home" ariaLabelledBy="home" buttonType="button">
       Button
     </button>
 
@@ -153,11 +66,7 @@
 
     <hr />
 
-    <rte-icon-button-toggle
-      name="home"
-      [selected]="selected()"
-      (click)="onClick($event)"
-    />
+    <rte-icon-button-toggle name="home" [selected]="selected()" (click)="onClick($event)" />
 
     <hr />
 
@@ -165,23 +74,13 @@
 
     <hr />
 
-    <rte-text-input
-      label="Text Input"
-      [value]="inputValue()"
-      (valueChange)="handleInputChange($event)"
-    />
+    <rte-text-input label="Text Input" [value]="inputValue()" (valueChange)="handleInputChange($event)" />
     <h4>The input is : {{ inputValue() }}</h4>
     <hr />
     <rte-chip label="Chip Label" type="single"></rte-chip>
     <hr />
 
-    <p
-      style="display: inline-block; background-color: bisque"
-      rteBadge
-      [rteBadgeCount]="1"
-    >
-      A badge host
-    </p>
+    <p style="display: inline-block; background-color: bisque" rteBadge [rteBadgeCount]="1">A badge host</p>
     <hr />
     <rte-textarea
       label="Enter text"
@@ -208,19 +107,8 @@
 
     <hr />
 
-    <rte-switch
-      label="Switch"
-      [disabled]="false"
-      [readOnly]="false"
-      [appearance]="'brand'"
-    />
-    <rte-switch
-      label="Switch ReadOnly"
-      [disabled]="false"
-      [readOnly]="true"
-      [appearance]="'brand'"
-      [showIcon]="true"
-    />
+    <rte-switch label="Switch" [disabled]="false" [readOnly]="false" [appearance]="'brand'" />
+    <rte-switch label="Switch ReadOnly" [disabled]="false" [readOnly]="true" [appearance]="'brand'" [showIcon]="true" />
     <rte-switch
       label="Switch disabled"
       [disabled]="true"
@@ -260,39 +148,19 @@
       [rteModalTitle]="'Modal title'"
       [rteModalDescription]="'This is a description for the modal.'"
     >
-      <button rteButton rteButtonVariant="primary" rteModalTrigger>
-        Open Modal
-      </button>
+      <button rteButton rteButtonVariant="primary" rteModalTrigger>Open Modal</button>
       <ng-template #primaryButton>
-        <button
-          rteButton
-          rteButtonVariant="primary"
-          (click)="handleModalPrimaryClick()"
-        >
-          Continue
-        </button>
+        <button rteButton rteButtonVariant="primary" (click)="handleModalPrimaryClick()">Continue</button>
       </ng-template>
       <ng-template #secondaryButton>
-        <button
-          rteButton
-          rteButtonVariant="neutral"
-          (click)="handleModalSecondaryClick()"
-        >
-          Cancel
-        </button>
+        <button rteButton rteButtonVariant="neutral" (click)="handleModalSecondaryClick()">Cancel</button>
       </ng-template>
       <rte-divider />
       <div>
-        <button rteButton rteButtonVariant="neutral" (click)="toggleToast()">
-          Toggle Toast
-        </button>
+        <button rteButton rteButtonVariant="neutral" (click)="toggleToast()">Toggle Toast</button>
       </div>
       <rte-divider />
-      <rte-select
-        label="Select an option"
-        [options]="selectOptions"
-        [showResetButton]="true"
-      />
+      <rte-select label="Select an option" [options]="selectOptions" [showResetButton]="true" />
     </div>
   </div>
 </rte-side-nav>

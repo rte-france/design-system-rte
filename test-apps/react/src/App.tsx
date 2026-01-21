@@ -22,6 +22,7 @@ import {
   Select,
 } from "@design-system-rte/react";
 import "./App.css";
+import { Tab } from "@design-system-rte/react";
 import { useState } from "react";
 
 function App() {
@@ -130,6 +131,18 @@ function App() {
     },
   ];
 
+  const [selectedTab, setSelectedTab] = useState("tab-1");
+
+  const handleTabClick = (tabId: string) => {
+    setSelectedTab(tabId);
+  };
+
+  const tabs = [
+    { id: "tab-1", label: "Onglet 1", panelId: "panel-1" },
+    { id: "tab-2", label: "Onglet 2", panelId: "panel-2" },
+    { id: "tab-3", label: "Onglet 3", panelId: "panel-3" },
+  ];
+
   return (
     <SideNav
       headerConfig={headerConfig}
@@ -140,6 +153,23 @@ function App() {
       activeItem={activeItem}
     >
       <div>
+        <div>
+          <h3>Tab</h3>
+          <Tab options={tabs} selectedTabId={selectedTab} onChange={handleTabClick} />
+          <div style={{ height: "50px", border: "1px solid #ccc", padding: "8px", marginTop: "16px" }}>
+            {tabs.map((tab) => (
+              <div
+                key={tab.id}
+                role="tabpanel"
+                id={tab.panelId}
+                aria-labelledby={tab.id}
+                hidden={selectedTab !== tab.id}
+              >
+                Contenu onglet {tab.label}
+              </div>
+            ))}
+          </div>
+        </div>
         <div>
           <h3>Card</h3>
           <div style={{ display: "flex", flexDirection: "column", gap: "16px", alignItems: "flex-start" }}>
