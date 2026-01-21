@@ -17,6 +17,7 @@ import {
   focusNextStepElement,
   focusPreviousNotStepElement,
   focusPreviousStepElement,
+  isStepClickable as coreIsStepClickable,
 } from "@design-system-rte/core/components/stepper/stepper.utils";
 import {
   ARROW_DOWN_KEY,
@@ -79,9 +80,10 @@ export class StepperComponent implements AfterViewInit, OnDestroy {
   isStepClickable(step: StepperProps["steps"][number]): boolean {
     return (
       !!step.onClick &&
-      ((step.completionState === "complete" && step.clickableCompleteStep) ||
-        step.completionState === "unvisited" ||
-        step.completionState === "incomplete")
+      coreIsStepClickable({
+        completionState: step.completionState,
+        clickableCompleteStep: step.clickableCompleteStep || false,
+      })
     );
   }
 
@@ -90,10 +92,8 @@ export class StepperComponent implements AfterViewInit, OnDestroy {
   }
 
   handleStepClick(step: StepperProps["steps"][number]) {
-    console.log("handleStepClick called");
     if (this.isStepClickable(step) && !this.isStepActive(step.id) && step.onClick) {
       step.onClick();
-      console.log("clickStep emitted");
       this.clickStep.emit(step);
     }
   }
@@ -156,7 +156,6 @@ export class StepperComponent implements AfterViewInit, OnDestroy {
   };
 
   private focusCurrentStepElement() {
-    console.log("focusCurrentStepElement called");
     if (this.lastKeydown === "Tab") {
       const selectedStepElement = this.stepRefs()
         .find((segment) => segment.nativeElement.querySelector('[aria-current="step"] button'))

@@ -29,6 +29,15 @@
             <span class="rte-segment-label">{{ option.label }}</span>
           </ng-template>
         </div>
+        <rte-badge
+          *ngIf="shouldDisplayBadge(option)"
+          [count]="option.badgeCount"
+          [badgeContent]="option.badgeContent!"
+          [icon]="option.badgeIcon!"
+          [badgeType]="option.badgeType!"
+          [simpleBadge]="true"
+          [badgeSize]="option.badgeSize!"
+        ></rte-badge>
       </div>
     </div>
   </ng-container>
