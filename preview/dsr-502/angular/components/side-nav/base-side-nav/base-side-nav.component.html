@@ -1,0 +1,22 @@
+<div class="side-nav-container">
+  <nav class="side-nav" [ngClass]="{ collapsed: collapsed(), appearance: appearance() }" [style.min-width]="minWidth()">
+    @if (showHeader()) {
+      <div class="side-nav-header">
+        <ng-content select="[side-nav-header]"></ng-content>
+      </div>
+    }
+
+    <div class="side-nav-body">
+      <ng-content select="[side-nav-body]"></ng-content>
+    </div>
+
+    @if (showFooter()) {
+      <div class="side-nav-footer">
+        <ng-content select="[side-nav-footer]"></ng-content>
+      </div>
+    }
+  </nav>
+  <div #contentRef class="side-nav-content">
+    <ng-content select="[side-nav-content]"></ng-content>
+  </div>
+</div>
