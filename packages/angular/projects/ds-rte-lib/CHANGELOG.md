@@ -1,5 +1,79 @@
 # @design-system-rte/angular
 
+## 1.1.0
+
+### Minor Changes
+
+- 8c512ea: ## Changes
+  - (Select) add new documentation
+  - (Text Input) move AssistiveText & RequiredIndicator to base component of Text Input
+  - (Assistive-text) add width props
+  - (Select) improve style
+  - (Assistive-text) add angular component
+  - (Select) set positionning
+  - (Select) harmonise readonly and disable behavior + add stories scenario
+  - (Select) label style
+  - (Dropdown) allow correct escape dismissing
+  - (Select) Add angular component
+  - extract required indicator in a component
+
+- f5946ce: ## Changes
+  - (Breadcrumbs) Add Badge
+  - (Badge) add utils function to check if it should display badge
+  - (Dropdown) handle icon props in badge
+  - (Dropdown) add Badge
+
+- 0dbb025: ## Changes
+  - (Split-button) Add badge
+  - (Core) use parameter object for shouldDisplayBadge utils
+  - (Segmented Control) add badge
+  - (Breadcrumbs) Add Badge
+  - (Badge) add utils function to check if it should display badge
+  - (Dropdown) handle icon props in badge
+  - (Dropdown) add Badge
+
+- c6867f7: ## Changes
+  - (Segmented Control) add badge
+  - (Badge) add utils function to check if it should display badge
+  - (Dropdown) handle icon props in badge
+  - (Dropdown) add Badge
+
+- 251ae74: ## Changes
+  - (Split-button) Add badge
+  - (Badge) add utils function to check if it should display badge
+  - (Dropdown) handle icon props in badge
+  - (Dropdown) add Badge
+
+- 2cff3de: ## Changes
+  - (Searchbar) add new documentation
+  - (Searchbar) add new placeholder text for disabled input
+  - (Icon Button) show icon in disabled state button
+  - (Text Input) correct disabled display
+  - (Searchbar) change component structure so input inner border reacts correctly to focus & assistive text takes all the width of its container
+  - (Text Input) correct placeholder exposition and handling
+  - (Text Input) add missing output signals after base-text-input refactor
+  - (Searchbar) add searchbar base functionality
+
+- 29e0462: ## Changes
+  - (Design Docs) correct sub-storybook context detection
+  - (Design Docs) add guideline page
+
+### Patch Changes
+
+- 88a14d9: ## Changes
+  - (Badge) set valid position value for xs badge
+
+- Updated dependencies [8c512ea]
+- Updated dependencies [921ffd7]
+- Updated dependencies [f5946ce]
+- Updated dependencies [0dbb025]
+- Updated dependencies [c6867f7]
+- Updated dependencies [251ae74]
+- Updated dependencies [38d9ec6]
+- Updated dependencies [2cff3de]
+- Updated dependencies [29e0462]
+  - @design-system-rte/core@1.2.0
+
 ## 1.0.1
 
 ### Patch Changes

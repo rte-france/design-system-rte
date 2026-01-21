@@ -1,5 +1,69 @@
 # @design-system-rte/core
 
+## 1.2.0
+
+### Minor Changes
+
+- 8c512ea: ## Changes
+  - (Select) add new documentation
+  - (Assistive-text) add width props
+  - (Select) improve style
+  - (Assistive-text) add angular component
+  - (Select) harmonise readonly and disable behavior + add stories scenario
+  - (Select) Add angular component
+  - extract common input props
+  - (Dropdown) add selected state to simple dropdown item
+  - extract required indicator in a component
+
+- 921ffd7: ## Changes
+  - (Design-tokens) update script to generate tokens with the new architecture
+  - (Core) extract scripts out of design-tokens folder
+  - (Core) change global architecture for design tokens
+
+- f5946ce: ## Changes
+  - (Breadcrumbs) Add Badge
+  - add angular missing dependencies
+  - (Badge) add utils function to check if it should display badge
+  - (Core) add badge holder interface to use
+  - (Dropdown) add Badge
+
+- 0dbb025: ## Changes
+  - (Split-button) Add badge
+  - (Core) use parameter object for shouldDisplayBadge utils
+  - (Segmented Control) add badge
+  - (Breadcrumbs) Add Badge
+  - add angular missing dependencies
+  - (Badge) add utils function to check if it should display badge
+  - (Core) add badge holder interface to use
+  - (Dropdown) add Badge
+
+- c6867f7: ## Changes
+  - (Segmented Control) add badge
+  - add angular missing dependencies
+  - (Badge) add utils function to check if it should display badge
+  - (Core) add badge holder interface to use
+  - (Dropdown) add Badge
+
+- 251ae74: ## Changes
+  - (Split-button) Add badge
+  - (Badge) add utils function to check if it should display badge
+  - (Core) add badge holder interface to use
+  - (Dropdown) add Badge
+
+- 38d9ec6: ## Changes
+  - (Badge) use IconSize constant and add xs value
+
+- 2cff3de: ## Changes
+  - (Searchbar) add new documentation
+  - (Searchbar) change component structure so input inner border reacts correctly to focus & assistive text takes all the width of its container
+  - (Text Input) correct placeholder exposition and handling
+  - (Searchbar) add searchbar base functionality
+
+- 29e0462: ## Changes
+  - (Design Docs) correct sub-storybook context detection
+  - (Angular Storybook) correct font resolutions from assets retrieved from core during webpack build
+  - (Storybook) add breadcrumbs - overview page
+
 ## 1.1.0
 
 ### Minor Changes
