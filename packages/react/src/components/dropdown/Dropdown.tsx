@@ -7,6 +7,7 @@ import {
   getAutoPlacementDropdown,
   getCoordinates,
 } from "@design-system-rte/core/components/utils/auto-placement";
+import { FOCUSABLE_BUTTONS_QUERY } from "@design-system-rte/core/constants/dom/dom.constants";
 import {
   ARROW_DOWN_KEY,
   ARROW_UP_KEY,
@@ -109,6 +110,12 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
     const handleKeyUp = (e: React.KeyboardEvent<HTMLDivElement>) => {
       if (e.key === ESCAPE_KEY) {
         closeDropdown();
+        const buttonTrigger = triggerRef.current?.querySelectorAll(FOCUSABLE_BUTTONS_QUERY)[0] as HTMLElement;
+        if (buttonTrigger) {
+          buttonTrigger.focus();
+        } else {
+          triggerRef.current?.focus();
+        }
       }
     };
 
