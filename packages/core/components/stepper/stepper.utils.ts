@@ -70,3 +70,12 @@ export const focusPreviousNotStepElement = (classCriteria: string, parent: HTMLE
   }
   allFocusableElement[previousIndex].focus();
 };
+
+export const isStepClickable = (stepConfig: { completionState: string; clickableCompleteStep: boolean }) => {
+  const { completionState, clickableCompleteStep } = stepConfig;
+  return (
+    (completionState === "complete" && clickableCompleteStep) ||
+    completionState === "unvisited" ||
+    completionState === "incomplete"
+  );
+};
