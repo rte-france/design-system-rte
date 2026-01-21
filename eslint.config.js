@@ -2,6 +2,7 @@ import js from "@eslint/js";
 import { defineConfig } from "eslint/config";
 import importPlugin from "eslint-plugin-import";
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
+import storybookPlugin from "eslint-plugin-storybook";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 
@@ -9,6 +10,7 @@ export default defineConfig(
   js.configs.recommended,
   tseslint.configs.recommended,
   eslintPluginPrettierRecommended,
+  storybookPlugin.configs["flat/recommended"],
   {
     ignores: ["**/dist", "**/storybook-static", "./dist", "./test-apps/angular/.angular"],
   },
