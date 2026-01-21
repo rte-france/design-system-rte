@@ -17,7 +17,7 @@
         opacity: canScrollBackward() ? '1' : '0',
         'pointer-events': canScrollBackward() ? 'auto' : 'none',
       }"
-      (click)="scrollBackward()"
+      (clickEvent)="scrollBackward()"
     />
     <div
       #tabList
@@ -78,7 +78,7 @@
         opacity: canScrollForward() ? '1' : '0',
         'pointer-events': canScrollForward() ? 'auto' : 'none',
       }"
-      (click)="scrollForward()"
+      (clickEvent)="scrollForward()"
     />
   </div>
   <div

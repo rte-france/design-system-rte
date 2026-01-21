@@ -5,16 +5,20 @@ import {
   contentChild,
   DestroyRef,
   Directive,
+  effect,
   ElementRef,
   inject,
   input,
   OnDestroy,
   output,
   Renderer2,
+  signal,
   ViewContainerRef,
 } from "@angular/core";
+import { waitForNextFrame } from "@design-system-rte/core/common/animation";
 import { Alignment } from "@design-system-rte/core/common/common-types";
 import { Position } from "@design-system-rte/core/components/common/common-types";
+import { DROPDOWN_ANIMATION_DURATION } from "@design-system-rte/core/components/dropdown/dropdown.constants";
 import {
   getAutoAlignment,
   getAutoPlacementDropdown,
@@ -43,13 +47,17 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
   readonly trigger = contentChild(DropdownTriggerDirective);
   readonly menu = contentChild(DropdownMenuComponent);
 
+  readonly rteDropdownId = input<string | undefined>(undefined);
   readonly rteDropdownPosition = input<Position>("bottom");
   readonly rteDropdownAlignment = input<Alignment>("start");
   readonly rteDropdownIsOpen = input<boolean>(false);
   readonly rteDropdownOffset = input<number>(0);
+  readonly rteDropdownAutofocus = input<boolean>(true);
+  readonly rteDropdownAutoOpen = input<boolean>(true);
+  readonly rteDropdownWidth = input<number | null>(null);
 
-  readonly dropdownId = `dropdown_${++DropdownDirective.idCounter}`;
   readonly menuEvent = output<{ event: Event; id: string }>();
+  readonly dropdownId = `dropdown_${++DropdownDirective.idCounter}`;
 
   readonly overlayService = inject(OverlayService);
   readonly dropdownService = inject(DropdownService);
@@ -60,14 +68,47 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
   readonly destroyRef = inject(DestroyRef);
   readonly cdr = inject(ChangeDetectorRef);
 
+  readonly clickedOutside = output<void>();
+  readonly closedDropdown = output<void>();
+
+  readonly isActive = signal(false);
+
   constructor() {
     this.hostElement = this.elementRef.nativeElement;
+
+    effect(() => {
+      const isOpen = this.rteDropdownIsOpen();
+      if (isOpen) {
+        if (!this.dropdownMenuRef) {
+          this.showDropdownMenu();
+          if (this.rteDropdownAutofocus()) {
+            waitForNextFrame(() => focusDropdownFirstElement(this.dropdownId));
+          }
+        }
+      } else if (this.dropdownMenuRef) {
+        this.dropdownService.closeAllMenus();
+      }
+    });
+
+    effect(() => {
+      const menu = this.menu();
+      if (this.dropdownMenuRef && menu) {
+        this.assignInputs();
+      }
+    });
+
+    effect(() => this.assignWidth());
   }
 
   dropdownMenuRef: ComponentRef<DropdownMenuComponent> | null = null;
 
   onTrigger(): void {
-    this.showDropdownMenu();
+    if (this.rteDropdownAutoOpen()) {
+      this.showDropdownMenu();
+    }
+    if (this.rteDropdownAutofocus()) {
+      waitForNextFrame(() => focusDropdownFirstElement(this.dropdownId));
+    }
   }
 
   onTriggerKeyEvent(event: KeyboardEvent): void {
@@ -77,14 +118,15 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
       (event.key === ARROW_DOWN_KEY && this.trigger()?.rteDropdownTriggerActivateWithArrowDown())
     ) {
       this.showDropdownMenu();
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => focusDropdownFirstElement(this.dropdownId));
-      });
+      if (this.rteDropdownAutofocus()) {
+        waitForNextFrame(() => focusDropdownFirstElement(this.dropdownId));
+      }
     }
   }
 
   onMenuEvent(event: { event: Event; id: string }): void {
     this.menuEvent.emit(event);
+    this.isActive.set(false);
     this.dropdownService.closeAllMenus();
   }
 
@@ -97,6 +139,16 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
       this.trigger()?.dropdownKeyDown.subscribe((event: KeyboardEvent) => {
         this.onTriggerKeyEvent(event);
       });
+
+      this.trigger()?.dropdownTriggerClearContent.subscribe(() => {
+        this.closeDropdown();
+      });
+      this.trigger()?.dropdownTriggerOpenDropdown.subscribe(() => {
+        this.showDropdownMenu();
+      });
+      this.trigger()?.dropdownTriggerCloseDropdown.subscribe(() => {
+        this.closeDropdown();
+      });
     }
   }
 
@@ -107,7 +159,7 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
 
     this.dropdownMenuRef = this.overlayService.create(DropdownMenuComponent, this.viewContainerRef);
 
-    const menuId = this.dropdownId;
+    const menuId = this.rteDropdownId() || this.dropdownId;
 
     this.dropdownMenuRef.setInput("menuId", menuId);
 
@@ -138,9 +190,20 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
 
   private assignInputs(): void {
     if (this.dropdownMenuRef) {
-      this.dropdownMenuRef.setInput("items", this.menu()?.items());
+      const items = this.menu()?.items() ?? [];
+      this.dropdownMenuRef.setInput("items", items);
       this.dropdownMenuRef.setInput("headerTemplate", this.menu()?.headerDirective()?.templateRef);
       this.dropdownMenuRef.setInput("footerTemplate", this.menu()?.footerDirective()?.templateRef);
+    }
+
+    this.assignWidth();
+  }
+
+  private assignWidth(): void {
+    if (this.dropdownMenuRef && this.rteDropdownWidth() !== undefined) {
+      this.dropdownMenuRef.setInput("width", this.rteDropdownWidth());
+
+      waitForNextFrame(() => this.dropdownMenuRef?.setInput("isOpen", true));
     }
   }
 
@@ -191,6 +254,7 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
 
     if (!clickedInTrigger) {
       this.closeDropdown();
+      this.clickedOutside.emit();
     }
   };
 
@@ -203,6 +267,11 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
   }
 
   private closeDropdown(): void {
-    this.dropdownService.closeAllMenus();
+    this.dropdownMenuRef?.setInput("isOpen", false);
+    this.isActive.set(false);
+
+    setTimeout(() => {
+      this.dropdownService.closeAllMenus();
+    }, DROPDOWN_ANIMATION_DURATION);
   }
 }

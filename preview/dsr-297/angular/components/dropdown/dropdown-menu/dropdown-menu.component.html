@@ -1,4 +1,4 @@
-<div class="rte-dropdown-menu">
+<div class="rte-dropdown-menu {{ isOpen() ? 'open' : 'closed' }}" [ngStyle]="menuStyle()">
   @if (hasHeaderContent()) {
     <div class="rte-dropdown-menu-header">
       @if (headerTemplate() || headerDirective()?.templateRef) {

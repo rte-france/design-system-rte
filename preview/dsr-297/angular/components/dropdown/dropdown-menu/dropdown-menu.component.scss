@@ -1,13 +1,13 @@
 @use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
 
 :host {
-  opacity: 0;
   display: none;
   position: absolute;
 }
 
 .rte-dropdown-menu {
-  @include elevation-neutral-shadow-2;
+  opacity: 0;
+  @include elevation-neutral-shadow-4;
   background-color: var(--background-default);
   position: absolute;
   top: 0;
@@ -38,7 +38,7 @@
   }
 
   &.open {
-    transition: opacity 150ms ease-in-out;
+    opacity: 1;
   }
 
 
