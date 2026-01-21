@@ -1,0 +1,197 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+.rte-stepper {
+  display: flex;
+  flex-direction: row;
+  gap: $positive-spacing_075;
+  align-items: start;
+  padding: 0;
+  margin: 0;
+  width: auto;
+
+  &[data-orientation='vertical'] {
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .rte-stepper-item {
+    display: flex;
+    width: 100%;
+    flex: 1 0 0;
+
+    .rte-stepper-button {
+      all: unset;
+      display: flex;
+      flex-direction: column;
+      gap: $positive-spacing_150;
+      align-items: center;
+
+      &:focus-visible {
+
+        .rte-stepper-number,
+        .rte-stepper-complete-indicator {
+          outline: 2px solid var(--border-brand-focused);
+          outline-offset: $positive-spacing_050;
+        }
+      }
+
+      .rte-stepper-complete-indicator {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: $icon-xl;
+        height: $icon-xl;
+        border-radius: $radius-pill;
+        background-color: var(--background-brand-default);
+        border: $width-s solid var(--border-brand-default);
+        color: var(--content-primary-inverse);
+      }
+
+      .rte-stepper-number {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: $icon-xl;
+        height: $icon-xl;
+        border-radius: $radius-pill;
+        border: $width-s solid var(--border-secondary);
+
+        span {
+          @include typography-text-l-bold;
+          color: var(--content-tertiary);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+
+      .rte-stepper-name {
+        @include typography-text-s-regular;
+        color: var(--content-tertiary);
+        text-align: center;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        position: relative;
+      }
+    }
+
+    &:hover {
+      &[data-clickable="true"] {
+        &[data-active="false"] {
+
+          cursor: pointer;
+
+        }
+      }
+
+      &[data-clickable="true"] {
+        &[data-active="false"] {
+
+          &[data-completion-state="unvisited"] {
+
+            .rte-stepper-number {
+              border-color: var(--border-primary);
+            }
+
+            .rte-stepper-complete-indicator {
+              background-color: var(--background-brand-hover);
+              border: $width-s solid var(--background-brand-hover);
+            }
+          }
+
+          &[data-completion-state="incomplete"] {
+
+            .rte-stepper-number {
+              span {
+                background-color: var(--background-brand-hover);
+              }
+            }
+          }
+
+          &[data-completion-state="complete"] {
+
+            .rte-stepper-complete-indicator {
+              background-color: var(--background-brand-hover);
+              border: $width-s solid var(--background-brand-hover);
+            }
+          }
+        }
+      }
+
+
+    }
+
+    &[data-completion-state="incomplete"] {
+      &[data-active="false"] {
+
+        .rte-stepper-number {
+          border: $width-s solid var(--border-brand-default);
+
+          span {
+            color: var(--content-primary-inverse);
+            border: solid $width-s var(--brand-default);
+            border-radius: $radius-pill;
+            background-color: var(--background-brand-default);
+            width: 28px;
+            height: 28px;
+
+          }
+        }
+      }
+
+      .rte-stepper-name {
+        @include typography-text-s-regular;
+      }
+    }
+
+    &[data-active="true"] {
+      .rte-stepper-button {
+        .rte-stepper-number {
+          border: $width-s solid var(--border-brand-default);
+
+          span {
+            color: var(--content-brand-default);
+          }
+        }
+      }
+
+      .rte-stepper-name {
+        @include typography-text-s-regular;
+        color: var(--content-primary);
+      }
+    }
+
+    &[data-orientation="vertical"] {
+      flex-direction: row;
+
+      .rte-stepper-button {
+        flex-direction: row;
+
+        .rte-stepper-name {
+          text-align: left;
+        }
+      }
+    }
+  }
+
+  .rte-step-separator {
+    width: 100%;
+    border-radius: $radius-pill;
+    height: 4px;
+    margin-top: $positive-spacing_200;
+    background-color: var(--border-secondary);
+    flex: 1 1 auto;
+
+    &[data-complete="true"] {
+      background-color: var(--border-brand-default);
+    }
+
+    &[data-orientation='vertical'] {
+      width: 4px;
+      height: 100%;
+      margin-left: $positive-spacing_200;
+      margin-top: 0;
+    }
+  }
+}

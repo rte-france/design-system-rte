@@ -1,0 +1,21 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+.stepSeparator {
+  width: 100%;
+  border-radius: $radius-pill;
+  height: 4px;
+  margin-top: $positive-spacing_200;
+  background-color: var(--border-secondary);
+  flex: 1 1 auto;
+
+  &[data-complete="true"] {
+    background-color: var(--border-brand-default);
+  }
+
+  &[data-orientation='vertical'] {
+    width: 4px;
+    height: 100%;
+    margin-left: $positive-spacing_200;
+    margin-top: 0;
+  }
+}

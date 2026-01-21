@@ -23,6 +23,7 @@ import Select from "./components/select/Select.tsx";
 import BaseSideNav from "./components/sideNav/baseSideNav/BaseSideNav.tsx";
 import SideNav from "./components/sideNav/SideNav.tsx";
 import SplitButton from "./components/splitButton/SplitButton.tsx";
+import Stepper from "./components/stepper/Stepper.tsx";
 import Switch from "./components/switch/Switch.tsx";
 import Tag from "./components/tag/Tag.tsx";
 import Textarea from "./components/textarea/Textarea.tsx";
@@ -56,6 +57,7 @@ export {
   Popover,
   Modal,
   SideNav,
+  Stepper,
   BaseSideNav,
   Card,
   Toast,
