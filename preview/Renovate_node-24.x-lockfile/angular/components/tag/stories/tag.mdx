@@ -1,0 +1,161 @@
+import { Meta } from "@storybook/blocks";
+
+import Tabs from "../../../../../../../../design-docs/src/components/ComponentDocs/Tabs/Tabs";
+import HeaderComponent from "../../../../../../../.storybook/template/HeaderComponent/HeaderComponent";
+import IconTitle from "../../../../../../../.storybook/template/IconTitle/IconTitle";
+
+import TagTypes from "../../../../../../../../core/components/tag/stories/img/TagTypes.svg"
+import TagTaille from "../../../../../../../../core/components/tag/stories/img/TagTaille.svg"
+import TagStatus from "../../../../../../../../core/components/tag/stories/img/TagStatus.svg"
+import TagStructure from "../../../../../../../../core/components/tag/stories/img/TagStructure.svg"
+import TagTableOfOptions from "../../../../../../../../core/components/tag/stories/img/TagTableOfOptions.svg"
+import TagLayout from "../../../../../../../../core/components/tag/stories/img/TagLayout.svg"
+import TagAccessibility from "../../../../../../../../core/components/tag/stories/img/TagAccessibility.png"
+
+import "../../../../../../../.storybook/template/style/police.css";
+
+<Meta title="Composants/Tag" />
+
+<HeaderComponent title="Tag" linkFigma="https://www.figma.com/design/Wiy8uWsWjoagf95lOmPXNU/01.0-Design-System-RTE---WEB?node-id=1744-1406&p=f&m=dev" linkGithub="https://github.com/rte-france/design-system-rte/tree/main/packages/angular/projects/ds-rte-lib/src/lib/components/tag"  />
+
+<p className="no-margin-bottom"> Le composant Tag est un élément <b>non-interactif</b> utilisé pour afficher un <b>statut</b>, une <b>catégorie</b>, ou une <b>information contextuelle</b> associée à un élément de l’interface (fichier, utilisateur, carte, ligne de tableau…). </p>
+<p className="no-margin-top"> Contrairement au Chip, il ne peut pas être cliqué ni supprimé. Il est purement <b>informatif</b>.</p>
+
+<Tabs>
+
+<div className="Overview">
+
+        <h2 className="h2" id="Introduction" style={{border:"none", fontFamily:"Nunito", color:"#2964A0"}}> Introduction </h2>
+
+<h3 className="h3" id="gherkin" style={{fontFamily:"Nunito"}}> Gherkin </h3>
+<ul>
+    <li> En tant qu’utilisateur consultant une information,</li>
+    <li> Je souhaite voir des Tags qui m’indiquent un état ou une catégorie,</li>
+    <li> Afin de mieux comprendre le contexte d’un élément affiché (ex : état "En cours", catégorie "Énergie", niveau "Urgent").</li>
+</ul>
+
+        <h3 className="h3" id="definition" style={{fontFamily:"Nunito"}}> Définition </h3>
+
+        <p> Le composant Tag est un élément <b>non-interactif</b> utilisé pour afficher un <b>statut</b>, une <b>catégorie</b>, ou une <b>information contextuelle</b> associée à un élément de l’interface (fichier, utilisateur, carte, ligne de tableau…). </p>
+<p> Contrairement au Chip, il ne peut pas être cliqué ni supprimé. Il est purement <b>informatif</b>.</p>
+
+<h3 className="h3" id="types" style={{fontFamily:"Nunito"}}> Types </h3>
+<p> Composant générique pouvant être utilisé par toutes les équipes de la DSIT.</p>
+
+</div>
+
+<div className="Guidelines">
+
+        <h2 id="guidelines" className="h2" style={{border:"none", fontFamily:"Nunito", color:"#2964A0"}} > Usages </h2>
+
+        <h3 id="usage-examples" className="h3" style={{fontFamily:"Nunito"}}> Usages Guidelines : </h3>
+
+        <p>Les principales règles qui entourent l'utilisation du composant :</p>
+
+        <p className="no-margin-bottom">Utiliser un Tag pour indiquer un état ou une catégorie</p>
+        <p className="light-gray no-margin-top">Le Tag doit toujours représenter une <b>information contextuelle statique</b> : état ("En cours", "Fermé"), priorité ("Urgent"), type ("PDF").</p>
+
+        <p className="no-margin-bottom">Ne jamais rendre un Tag interactif</p>
+        <p className="light-gray no-margin-top">Si un clic est attendu (ex : pour filtrer ou supprimer), utiliser un Chip à la place. Le Tag est <b>purement informatif.</b></p>
+
+        <p className="no-margin-bottom">Éviter les phrases longues</p>
+        <p className="light-gray no-margin-top">Les Tags doivent être courts (1 à 2 mots). Pas de phrases ni de ponctuation.</p>
+
+        <p className="no-margin-bottom">Utiliser une couleur pour hiérarchiser les statuts</p>
+        <p className="light-gray no-margin-top">Les couleurs servent à renforcer la hiérarchie visuelle (ex : vert = validé, rouge = erreur). Ne pas utiliser de couleur sans signification métier.</p>
+
+        <p className="no-margin-bottom">Ne pas empiler trop de Tags</p>
+        <p className="light-gray no-margin-top">Afficher un maximum de 2 à 3 Tags par élément. En cas de dépassement, utiliser un overflow ("+2 autres").</p>
+
+        <h3 id="content-standards" className="h3" style={{fontFamily:"Nunito"}}> Content Standards : </h3>
+
+        <p>Quels sont les standards de contenu ? (UX Writing)</p>
+
+        <p className="no-margin-bottom">Label</p>
+        <p className="light-gray no-margin-top">Court, clair, 1 à 2 mots max. Majuscule initiale sans ponctuation.<br />
+        Ex : "En cours", "Urgent", "Facturé"</p>
+
+        <p className="no-margin-bottom">Icône</p>
+        <p className="light-gray no-margin-top">Uniquement décorative ou symbolique. Elle ne remplace jamais le texte.</p>
+
+        <h2 id="options" className="h2" style={{border:"none", fontFamily:"Nunito", color:"#2964A0"}} > Options </h2>
+
+        <p> Les options comprennent les états et différentes formes que peut prendre le composant. Elles incluent : Les états, les variants, les tailles, les éléments modifiables qui composent le composant, etc. <br />
+        → Ils n’incluent pas les “Behaviors” qui correspondent à comment le composant réagit.</p>
+
+        <h3 id="tag-types" className="h3" style={{fontFamily:"Nunito"}}> Tag Types </h3>
+    <img src={TagTypes} alt="Exemples des différents types de tags disponibles" />
+
+        <h3 id="status" className="h3" style={{fontFamily:"Nunito"}}> Status </h3>
+        <p> Uniquement pour les tags avec tagType = status </p>
+    <img src={TagStatus} alt="Illustration des statuts possibles pour le tag" />
+
+        <h3 id="taille" className="h3" style={{fontFamily:"Nunito"}}> Taille : </h3>
+        <p> Le Tag existe en deux tailles : </p>
+    <img src={TagTaille} alt="Illustration des tailles disponibles pour le tag" />
+
+        <h3 id="structure" className="h3" style={{fontFamily:"Nunito"}}> Structure </h3>
+        <p> Le <b>tag</b> est composé de plusieurs éléments : </p>
+    <img src={TagStructure} alt="Schéma de la structure du composant tag" />
+
+        <ol>
+            <li>Un <b>champ de saisie (container)</b></li>
+            <li>Une <b>icône</b></li>
+            <li>Un <b>label personnalisable</b></li>
+        </ol>
+
+        <h3 id="text-options" className="h3" style={{fontFamily:"Nunito"}}> Text Options </h3>
+        <p> Texte associé au champ de recherche, sous le champ de remplissage, explicitant plus en détail la valeur demandée à l'utilisateur (contraintes, format, instructions, etc.) </p>
+
+        <p><b>Label</b></p>
+        <p className="light-gray no-margin-top"><b>Contenu principal du tag, indiquant l'action à réaliser.</b><br />
+        Le contenu du label peut être modifié.<br />
+        Le label ne peut pas être désactivé pour générer un tag"Icon only".</p>
+
+        <h3 id="boolean-properties" className="h3" style={{fontFamily:"Nunito"}}> Boolean Properties </h3>
+        <p><b>showLeftIcon</b></p>
+        <p className="light-gray no-margin-top">Affiche ou masque l'icône qui se situe à gauche du label</p>
+
+        <h3 id="other-components" className="h3" style={{fontFamily:"Nunito"}}> Other Components </h3>
+        <p><b>Icon</b></p>
+        <p className="light-gray no-margin-top"><b>Elément graphique optionnel pouvant accompagner le label</b><br />
+        Peut être positionné à gauche. N'est modifiable que si tagType = decorative</p>
+
+        <h3 id="table-of-options" className="h3" style={{fontFamily:"Nunito"}}> Table of Options </h3>
+        <p className="light-gray"> Tous les éléments modifiables sont inscrit dans le tableau. On y renseigne le nom de la propriété et les choix qui s’offrent aux développeurs.</p>
+    <img src={TagTableOfOptions} alt="Tableau des propriétés et options du tag" />
+
+        <h2 id="Behaviors" className="h2" style={{border:"none", fontFamily:"Nunito", color:"#2964A0"}} > Behaviors </h2>
+
+        <h3 id="focus" className="h3" style={{fontFamily:"Nunito"}}> Focus </h3>
+        <p> ❌ Aucun focus possible (pas interactif) </p>
+
+        <h3 id="layout" className="h3" style={{fontFamily:"Nunito"}}> Layout </h3>
+    <img src={TagLayout} alt="Exemple de disposition et positionnement des tags" />
+
+        <h3 id="animations" className="h3" style={{fontFamily:"Nunito"}}> Animations </h3>
+        <ul>
+           <li> ❌ Aucun comportement animé ou interactif </li>
+           <li> (Aucun hover/focus/suppression) </li>
+        </ul>
+
+        <h3 id="keyboard-interactions" className="h3" style={{fontFamily:"Nunito"}}> Keyboard Interactions </h3>
+        <p> ❌ Aucun : Tag non focusable, non supprimable, non cliquable </p>
+
+        <h3 id="placement" className="h3" style={{fontFamily:"Nunito"}}> Placement </h3>
+        <ul>
+            <li>Utilisation typique dans les cartes, tableaux, listes, badges de statut</li>
+            <li>Peut être utilisé dans un titre secondaire ou dans un coin d’un composant parent</li>
+        </ul>
+
+</div>
+
+<div className="Accessibilité">
+
+<h2 className="h2" id="accessibility-testing-status" style={{border:"none", fontFamily:"Nunito", color:"#2964A0"}}> Accessibility Testing Status </h2>
+<p> Voici les tests à effectuer pour vérifier l’accessibilité de chaque catégorie : </p>
+<img src={TagAccessibility} alt="Checklist des tests d’accessibilité pour le tag" />
+
+</div>
+
+</Tabs>

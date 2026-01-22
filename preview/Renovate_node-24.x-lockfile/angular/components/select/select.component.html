@@ -1,0 +1,96 @@
+<div class="rte-select-container" [attr.data-label-position]="labelPosition()">
+  <label
+    *ngIf="label() && labelPosition() === 'side'"
+    class="rte-select-label"
+    [attr.data-label-position]="labelPosition()"
+    [attr.id]="labelId()"
+    [attr.for]="id()"
+    >{{ label()
+    }}<span
+      *ngIf="required() || showLabelRequirement()"
+      class="requirement-indicator"
+      aria-hidden="true"
+      [ngClass]="{
+        required: required(),
+        'show-label-requirement': showLabelRequirement(),
+      }"
+      >{{ requirementIndicatorValue() }}</span
+    ></label
+  >
+
+  <div class="rte-select-header" [attr.data-label-position]="labelPosition()">
+    <label *ngIf="label() && labelPosition() === 'top'" class="rte-select-label" [attr.id]="labelId()" [attr.for]="id()"
+      >{{ label()
+      }}<span
+        *ngIf="required() || showLabelRequirement()"
+        class="requirement-indicator"
+        aria-hidden="true"
+        [ngClass]="{
+          required: required(),
+          'show-label-requirement': showLabelRequirement(),
+        }"
+        >{{ requirementIndicatorValue() }}</span
+      ></label
+    >
+  </div>
+  <div
+    rteDropdown
+    [rteDropdownId]="'dropdown_select_' + id()"
+    [rteDropdownPosition]="dropdownPosition()"
+    [rteDropdownOffset]="selectDropdownOffset"
+    [rteDropdownWidth]="selectWidth()"
+    (menuEvent)="handleOnClickItem($event.id)"
+    (clickedOutside)="handleOnClickOutside()"
+    (closedDropdown)="handleOnClosingDropdown()"
+  >
+    <div
+      #selectRef
+      rteDropdownTrigger
+      class="rte-select-wrapper"
+      [attr.tabIndex]="disabled() || readOnly() ? -1 : 0"
+      [attr.role]="'combobox'"
+      [attr.data-error]="isError()"
+      [attr.data-disabled]="disabled()"
+      [attr.data-read-only]="readOnly()"
+      [attr.aria-disabled]="disabled()"
+      [attr.aria-readonly]="readOnly()"
+      [attr.aria-labelledby]="labelId()"
+      [attr.aria-expanded]="isActive()"
+      [attr.data-active]="isActive()"
+      [ngStyle]="{ width: computedWidth() }"
+      (dropdownTriggered)="handleOnClickTrigger()"
+      (dropdownKeyDown)="handleOnKeyDownTrigger($event)"
+    >
+      <div class="rte-select-content">
+        <rte-icon *ngIf="shouldDisplayErrorIcon()" name="error" class="error-icon" />
+        <div class="rte-select-value">
+          <span>{{ currentOptionLabel() }}</span>
+        </div>
+        <div #buttonsContainerRef class="rte-select-right-icons">
+          <rte-icon-button
+            *ngIf="shouldDisplayClearButton()"
+            name="cancel"
+            variant="neutral"
+            class="rte-select-icon-button clear-icon"
+            [disabled]="disabled()"
+            (clickEvent)="handleOnClickClearButton($event)"
+          />
+          <rte-icon
+            class="trigger-icon trigger-icon-{{ isActive() ? 'up' : 'down' }}"
+            variant="neutral"
+            [name]="isActive() ? 'arrow-chevron-up' : 'arrow-chevron-down'"
+          />
+        </div>
+      </div>
+    </div>
+    <rte-dropdown-menu [items]="formattedOptions()" />
+    <rte-assistive-text
+      *ngIf="assistiveTextLabel()"
+      [label]="assistiveTextLabel()"
+      [appearance]="isError() ? 'error' : assistiveTextAppearance()!"
+      [showIcon]="showAssistiveIcon()"
+      [href]="assistiveTextLink()"
+      [width]="width()"
+    />
+  </div>
+</div>
