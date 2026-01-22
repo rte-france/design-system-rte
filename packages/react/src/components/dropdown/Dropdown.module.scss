@@ -40,15 +40,9 @@
     transition: opacity 150ms ease-in-out;
   }
 
-  .dropdown-menu-header {
-    width: 100%;
-  }
-
-  .dropdown-menu-content {
-    width: 100%;
-  }
-
-  .dropdown-menu-footer {
+  &-menu-header,
+  &-menu-content,
+  &-menu-footer {
     width: 100%;
   }
 

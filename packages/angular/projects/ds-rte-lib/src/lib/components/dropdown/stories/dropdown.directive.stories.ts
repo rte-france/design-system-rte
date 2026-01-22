@@ -484,10 +484,17 @@ export const WithAddItemFooter: Story = {
     const initialItemCount = dropdown?.querySelector("ul")?.querySelectorAll("li").length || 0;
 
     await userEvent.type(addItemInput, "New Item");
+
+    await waitFor(() => {
+      expect(addItemInput.value).toBe("New Item");
+    });
+
     await userEvent.click(addButton);
 
     await waitFor(() => {
-      const menuItems = dropdown?.querySelector("ul")?.querySelectorAll("li");
+      const overlay = document.getElementById("overlay-root");
+      const currentDropdown = overlay?.querySelector("rte-dropdown-menu");
+      const menuItems = currentDropdown?.querySelector("ul")?.querySelectorAll("li");
       expect(menuItems?.length).toBe(initialItemCount + 1);
       expect(menuItems?.[menuItems.length - 1]?.textContent).toContain("New Item");
     });
