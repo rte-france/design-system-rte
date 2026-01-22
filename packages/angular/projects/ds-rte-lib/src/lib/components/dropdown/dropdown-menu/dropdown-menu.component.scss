@@ -25,14 +25,8 @@
   overflow-x: hidden;
   overflow-y: auto;
 
-  &-header {
-    width: 100%;
-  }
-
-  &-content {
-    width: 100%;
-  }
-
+  &-header,
+  &-content,
   &-footer {
     width: 100%;
   }
