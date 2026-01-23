@@ -186,6 +186,7 @@ export const KeyboardNavigation: Story = {
     const dropdown = overlay?.querySelector("rte-dropdown-menu");
     const menuItems = dropdown?.querySelector("ul")?.querySelectorAll("li");
     expect(dropdown).toBeInTheDocument();
+    await userEvent.tab();
     expect(menuItems?.[0]).toHaveFocus();
     await userEvent.keyboard(TESTING_DOWN_KEY);
     expect(menuItems?.[1]).toHaveFocus();
