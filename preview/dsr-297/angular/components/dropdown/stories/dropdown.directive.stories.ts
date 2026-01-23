@@ -492,10 +492,13 @@ export const WithAddItemFooter: Story = {
     await userEvent.type(addItemInput, "New Item");
     await userEvent.click(addButton);
 
-    await waitFor(() => {
-      const menuItems = dropdown.querySelector("ul")?.querySelectorAll("li");
-      expect(menuItems?.length).toBe(initialItemCount + 1);
-      expect(menuItems?.[menuItems.length - 1]?.textContent).toContain("New Item");
-    });
+    await waitFor(
+      () => {
+        const menuItems = dropdown.querySelector("ul")?.querySelectorAll("li");
+        expect(menuItems?.length).toBe(initialItemCount + 1);
+        expect(menuItems?.[menuItems.length - 1]?.textContent).toContain("New Item");
+      },
+      { timeout: 300 },
+    );
   },
 };
