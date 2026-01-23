@@ -1,0 +1,244 @@
+import { BadgeContent, BadgeSize, BadgeType } from "@design-system-rte/core/components/badge/badge.interface";
+import { TESTING_DOWN_KEY, TESTING_UP_KEY } from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
+import { Meta, moduleMetadata, StoryObj } from "@storybook/angular";
+import { expect, userEvent, within } from "@storybook/test";
+
+import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../../icon/icon-map";
+import { DropdownDirective } from "../dropdown.directive";
+import { DropdownModule } from "../dropdown.module";
+
+const RegularIconIds = Object.keys(RegularIconsList);
+const TogglableIconIds = Object.keys(TogglableIconsList);
+
+const MOCKUP_ITEMS = [
+  { label: "Messages", leftIcon: "mail", hasSeparator: true },
+  { label: "Actions", leftIcon: "settings" },
+  { label: "Help", leftIcon: "help" },
+  { label: "More information", leftIcon: "info", hasSeparator: true },
+  { label: "First option", hasIndent: true },
+  { label: "Second option", hasIndent: true },
+  { label: "Third option", hasSeparator: true, hasIndent: true },
+  { label: "Username", leftIcon: "user-circle", disabled: true },
+];
+
+const wipWarning = `
+<div>
+  <span style="font-family: sans-serif; margin-bottom: 16px; border: 1px solid #F4922B; padding: 8px; border-radius: 5px; background-color: #FAFFC1; margin: 0;">
+    Ce composant est en cours de développement et n'est pas encore disponible
+  </span>
+</div>
+<br/>
+`;
+
+const meta: Meta<DropdownDirective> = {
+  title: "Composants/Dropdown (développement en cours)",
+  id: "Dropdown",
+  component: DropdownDirective,
+  tags: ["autodocs"],
+  argTypes: {
+    rteDropdownPosition: {
+      control: "select",
+      options: ["top", "bottom", "left", "right"],
+      defaultValue: "bottom",
+    },
+  },
+  parameters: {
+    layout: "centered",
+  },
+};
+export default meta;
+type Story = StoryObj<DropdownDirective>;
+
+export const Default: Story = {
+  decorators: [
+    moduleMetadata({
+      imports: [DropdownModule],
+    }),
+  ],
+  args: {
+    rteDropdownPosition: "bottom",
+  },
+  render: (args) => ({
+    props: {
+      ...args,
+      items: MOCKUP_ITEMS,
+      onItemClick: (event: { event: Event; id: string }) => {
+        console.log("Item clicked:", event);
+      },
+    },
+    template: `
+    ${wipWarning}
+    <div rteDropdown [rteDropdownPosition]="rteDropdownPosition" (menuEvent)="onItemClick($event)">
+      <button rteDropdownTrigger>Menu principal ⬇</button>
+      <rte-dropdown-menu [items]="items"/>
+    </div>
+    `,
+  }),
+};
+
+export const WithBadge: StoryObj<{
+  badgeContent?: BadgeContent;
+  badgeType?: BadgeType;
+  badgeIcon: string;
+  showBadge: boolean;
+  badgeCount: number;
+  badgeSize?: BadgeSize;
+}> = {
+  args: {
+    badgeContent: "empty" as BadgeContent,
+    badgeType: "indicator" as BadgeType,
+    badgeIcon: "settings",
+    showBadge: true,
+    badgeCount: 56,
+    badgeSize: "m" as BadgeSize,
+  },
+  argTypes: {
+    badgeContent: {
+      control: "select",
+      options: ["number", "icon", "empty"],
+    },
+    badgeType: {
+      control: "select",
+      options: ["brand", "neutral", "indicator"],
+    },
+    badgeIcon: {
+      control: "select",
+      options: ["", ...RegularIconIds, ...TogglableIconIds].sort((a, b) => a.localeCompare(b)),
+    },
+    showBadge: {
+      control: "boolean",
+    },
+    badgeCount: {
+      control: "number",
+    },
+    badgeSize: {
+      control: "select",
+      options: ["xs", "s", "m", "l"],
+    },
+  },
+  decorators: [
+    moduleMetadata({
+      imports: [DropdownModule],
+    }),
+  ],
+  render: (args) => ({
+    props: {
+      ...args,
+      items: [
+        ...MOCKUP_ITEMS,
+        {
+          label: "Notifications",
+          leftIcon: "notification",
+          badgeCount: 4,
+          badgeType: args.badgeType,
+          showBadge: args.showBadge,
+          badgeContent: args.badgeContent,
+          badgeSize: args.badgeSize,
+        },
+      ],
+      onItemClick: (event: { event: Event; id: string }) => {
+        console.log("Item clicked:", event);
+      },
+    },
+    template: `
+    ${wipWarning}
+    <div rteDropdown [rteDropdownPosition]="rteDropdownPosition" (menuEvent)="onItemClick($event)">
+      <button rteDropdownTrigger>Menu principal ⬇</button>
+      <rte-dropdown-menu [items]="items"/>
+    </div>
+    `,
+  }),
+};
+
+export const KeyboardNavigation: Story = {
+  decorators: [
+    moduleMetadata({
+      imports: [DropdownModule],
+    }),
+  ],
+  args: {
+    rteDropdownPosition: "bottom",
+  },
+  render: (args) => ({
+    props: {
+      ...args,
+      items: MOCKUP_ITEMS,
+      onItemClick: (event: { event: Event; id: string }) => {
+        console.log("Item clicked:", event);
+      },
+    },
+    template: `
+    ${wipWarning}
+    <div rteDropdown [rteDropdownPosition]="rteDropdownPosition" (menuEvent)="onItemClick($event)">
+      <button rteDropdownTrigger>Click me!</button>
+      <rte-dropdown-menu [items]="items"/>
+    </div>
+    `,
+  }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const triggerButton = await canvas.getByRole("button", {
+      name: /click me!/i,
+    });
+    await userEvent.click(triggerButton);
+    await userEvent.tab();
+    const overlay = document.getElementById("overlay-root");
+    const dropdown = overlay?.querySelector("rte-dropdown-menu");
+    const menuItems = dropdown?.querySelector("ul")?.querySelectorAll("li");
+    expect(dropdown).toBeInTheDocument();
+    expect(menuItems?.[0]).toHaveFocus();
+    await userEvent.tab();
+    await userEvent.keyboard(TESTING_DOWN_KEY);
+    expect(menuItems?.[1]).toHaveFocus();
+    await userEvent.keyboard(TESTING_UP_KEY);
+    expect(menuItems?.[0]).toHaveFocus();
+  },
+};
+
+export const KeyboardNavigationWithLink: Story = {
+  decorators: [
+    moduleMetadata({
+      imports: [DropdownModule],
+    }),
+  ],
+  args: {
+    rteDropdownPosition: "bottom",
+  },
+  render: (args) => ({
+    props: {
+      ...args,
+      items: [
+        { label: "Messages", leftIcon: "mail", link: "/messages" },
+        { label: "Username", leftIcon: "user-circle", link: "/username" },
+      ],
+      onItemClick: (event: { event: Event; id: string }) => {
+        console.log("Item clicked:", event);
+      },
+    },
+    template: `
+    ${wipWarning}
+    <div rteDropdown [rteDropdownPosition]="rteDropdownPosition" (menuEvent)="onItemClick($event)">
+      <button rteDropdownTrigger>Click me!</button>
+      <rte-dropdown-menu [items]="items"/>
+    </div>
+    `,
+  }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const triggerButton = await canvas.getByRole("button", {
+      name: /click me!/i,
+    });
+    await userEvent.click(triggerButton);
+    await userEvent.tab();
+    const overlay = document.getElementById("overlay-root");
+    const dropdown = overlay?.querySelector("rte-dropdown-menu");
+    const menuItems = dropdown?.querySelector("ul")?.querySelectorAll("li");
+    expect(dropdown).toBeInTheDocument();
+    expect(menuItems?.[0]).toHaveFocus();
+    await userEvent.tab();
+    await userEvent.keyboard(TESTING_DOWN_KEY);
+    expect(menuItems?.[1]).toHaveFocus();
+    await userEvent.keyboard(TESTING_UP_KEY);
+    expect(menuItems?.[0]).toHaveFocus();
+  },
+};
