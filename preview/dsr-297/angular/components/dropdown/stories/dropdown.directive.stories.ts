@@ -182,13 +182,11 @@ export const KeyboardNavigation: Story = {
       name: /click me!/i,
     });
     await userEvent.click(triggerButton);
-    await userEvent.tab();
     const overlay = document.getElementById("overlay-root");
     const dropdown = overlay?.querySelector("rte-dropdown-menu");
     const menuItems = dropdown?.querySelector("ul")?.querySelectorAll("li");
     expect(dropdown).toBeInTheDocument();
     expect(menuItems?.[0]).toHaveFocus();
-    await userEvent.tab();
     await userEvent.keyboard(TESTING_DOWN_KEY);
     expect(menuItems?.[1]).toHaveFocus();
     await userEvent.keyboard(TESTING_UP_KEY);
@@ -197,7 +195,6 @@ export const KeyboardNavigation: Story = {
 };
 
 export const KeyboardNavigationWithLink: Story = {
-  tags: ["failing", "link"],
   decorators: [
     moduleMetadata({
       imports: [DropdownModule],
@@ -390,7 +387,6 @@ export const WithFilterableHeader: Story = {
 };
 
 export const WithAddItemFooter: Story = {
-  tags: ["failing", "addItem"],
   decorators: [
     moduleMetadata({
       imports: [DropdownModule, ButtonComponent],
