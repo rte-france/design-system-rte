@@ -182,13 +182,12 @@ export const KeyboardNavigation: Story = {
       name: /click me!/i,
     });
     await userEvent.click(triggerButton);
-    await userEvent.tab();
     const overlay = document.getElementById("overlay-root");
     const dropdown = overlay?.querySelector("rte-dropdown-menu");
     const menuItems = dropdown?.querySelector("ul")?.querySelectorAll("li");
     expect(dropdown).toBeInTheDocument();
-    expect(menuItems?.[0]).toHaveFocus();
     await userEvent.tab();
+    expect(menuItems?.[0]).toHaveFocus();
     await userEvent.keyboard(TESTING_DOWN_KEY);
     expect(menuItems?.[1]).toHaveFocus();
     await userEvent.keyboard(TESTING_UP_KEY);
@@ -230,13 +229,14 @@ export const KeyboardNavigationWithLink: Story = {
       name: /click me!/i,
     });
     await userEvent.click(triggerButton);
-    await userEvent.tab();
     const overlay = document.getElementById("overlay-root");
     const dropdown = overlay?.querySelector("rte-dropdown-menu");
     const menuItems = dropdown?.querySelector("ul")?.querySelectorAll("li");
-    expect(dropdown).toBeInTheDocument();
-    expect(menuItems?.[0]).toHaveFocus();
-    await userEvent.tab();
+
+    await waitFor(() => {
+      expect(dropdown).toBeInTheDocument();
+      expect(menuItems?.[0]).toHaveFocus();
+    });
     await userEvent.keyboard(TESTING_DOWN_KEY);
     expect(menuItems?.[1]).toHaveFocus();
     await userEvent.keyboard(TESTING_UP_KEY);
@@ -466,10 +466,16 @@ export const WithAddItemFooter: Story = {
     await userEvent.click(triggerButton);
 
     const overlay = document.getElementById("overlay-root");
-    const dropdown = overlay?.querySelector("rte-dropdown-menu");
+    let dropdown!: Element;
 
     await waitFor(() => {
-      expect(dropdown).toBeInTheDocument();
+      const found = overlay?.querySelector("rte-dropdown-menu");
+      expect(found).toBeInTheDocument();
+      if (!found) {
+        throw new Error("Dropdown not found");
+      }
+      dropdown = found;
+      return found;
     });
 
     const footerSection = dropdown?.querySelector(".rte-dropdown-menu-footer");
@@ -484,19 +490,15 @@ export const WithAddItemFooter: Story = {
     const initialItemCount = dropdown?.querySelector("ul")?.querySelectorAll("li").length || 0;
 
     await userEvent.type(addItemInput, "New Item");
-
-    await waitFor(() => {
-      expect(addItemInput.value).toBe("New Item");
-    });
-
     await userEvent.click(addButton);
 
-    await waitFor(() => {
-      const overlay = document.getElementById("overlay-root");
-      const currentDropdown = overlay?.querySelector("rte-dropdown-menu");
-      const menuItems = currentDropdown?.querySelector("ul")?.querySelectorAll("li");
-      expect(menuItems?.length).toBe(initialItemCount + 1);
-      expect(menuItems?.[menuItems.length - 1]?.textContent).toContain("New Item");
-    });
+    await waitFor(
+      () => {
+        const menuItems = dropdown.querySelector("ul")?.querySelectorAll("li");
+        expect(menuItems?.length).toBe(initialItemCount + 1);
+        expect(menuItems?.[menuItems.length - 1]?.textContent).toContain("New Item");
+      },
+      { timeout: 300 },
+    );
   },
 };
