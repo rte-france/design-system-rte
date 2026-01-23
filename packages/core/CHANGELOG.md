@@ -1,5 +1,12 @@
 # @design-system-rte/core
 
+## 1.2.1
+
+### Patch Changes
+
+- 1f8e40c: ## Changes
+  - (Core) add valid alias path for badge utils import
+
 ## 1.2.0
 
 ### Minor Changes

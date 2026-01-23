@@ -1,5 +1,24 @@
 # @design-system-rte/angular
 
+## 1.2.0
+
+### Minor Changes
+
+- 4b395b4: ## Changes
+  - (Dropdown) correct input synchronization from template component to directive
+  - (Dropdown) add complex menu to angular
+
+- c35f153: ## Changes
+  - (Toast) enable autodismiss functionality
+
+- 1f8e40c: ## Changes
+  - (Tab) export component to public api
+
+### Patch Changes
+
+- Updated dependencies [1f8e40c]
+  - @design-system-rte/core@1.2.1
+
 ## 1.1.0
 
 ### Minor Changes
