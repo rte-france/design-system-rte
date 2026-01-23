@@ -1,5 +1,23 @@
 # @design-system-rte/react
 
+## 1.3.0
+
+### Minor Changes
+
+- f542e37: ## Changes
+  - (Dropdown) add complex menu to react
+
+- c35f153: ## Changes
+  - (Toast) enable autodismiss functionality
+
+- 1f8e40c: ## Changes
+  - (Tab) export component to public api
+
+### Patch Changes
+
+- Updated dependencies [1f8e40c]
+  - @design-system-rte/core@1.2.1
+
 ## 1.2.0
 
 ### Minor Changes
