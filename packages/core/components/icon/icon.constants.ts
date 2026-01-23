@@ -1,4 +1,4 @@
-import { Size } from "../common/common-types";
+import { Size } from "@design-system-rte/core/components/common/common-types";
 
 export const IconSize: Record<Size, number> = {
   xs: 12,
