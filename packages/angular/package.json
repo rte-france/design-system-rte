@@ -18,11 +18,11 @@
     "generate-icons": "mkdir -p projects/ds-rte-lib/src/lib/assets/icons && cp -R ../core/assets/icons projects/ds-rte-lib/src/lib/assets && node ./projects/ds-rte-lib/generateIconMap.js"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^18.2.14",
-    "@angular/cli": "^18.2.21",
-    "@angular/compiler-cli": "^18.2.14",
-    "@angular/forms": "^18.2.14",
-    "@angular/platform-browser-dynamic": "^18.2.14",
+    "@angular-devkit/build-angular": "^21.1.1",
+    "@angular/cli": "^21.1.1",
+    "@angular/compiler-cli": "^21.1.1",
+    "@angular/forms": "^21.1.1",
+    "@angular/platform-browser-dynamic": "^21.1.1",
     "@babel/core": "^7.27.4",
     "@babel/plugin-proposal-decorators": "^7.28.0",
     "@babel/preset-env": "^7.27.2",
