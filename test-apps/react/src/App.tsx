@@ -20,6 +20,7 @@ import {
   Toast,
   ToastQueueProvider,
   Select,
+  Loader,
 } from "@design-system-rte/react";
 import "./App.css";
 import { Tab } from "@design-system-rte/react";
@@ -397,6 +398,7 @@ function App() {
           />
         </ToastQueueProvider>
       </div>
+      <Loader />
     </SideNav>
   );
 }

@@ -1,4 +1,4 @@
-import { LoaderSize } from "./loader.interface";
+import { LoaderSize } from "@design-system-rte/core/components/loader/loader.interface";
 
 export const loaderSize: Record<LoaderSize, number> = {
   small: 16,
