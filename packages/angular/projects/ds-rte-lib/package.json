@@ -8,11 +8,14 @@
   },
   "peerDependencies": {
     "@angular/common": "^18.2.14",
-    "@angular/core": "^18.2.14"
+    "@angular/core": "^18.2.14",
+    "@design-system-rte/core": "^1.2.1"
   },
   "dependencies": {
-    "@design-system-rte/core": "^1.2.1",
     "tslib": "^2.3.0"
+  },
+  "devDependencies": {
+    "@design-system-rte/core": "^1.2.1"
   },
   "sideEffects": false,
   "private": false

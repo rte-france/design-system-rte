@@ -9,6 +9,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "publish": "npm publish ./dist/lib --access public",
+    "publish:rc": "npm publish ./dist/lib --access public --tag rc",
     "build:publish": "npm run build && npm run publish",
     "storybook": "ng run ds-rte-lib:storybook --port 7007",
     "build-storybook": "ng run ds-rte-lib:build-storybook --output-dir ../design-docs/storybook-static/angular --config-dir .storybook",
