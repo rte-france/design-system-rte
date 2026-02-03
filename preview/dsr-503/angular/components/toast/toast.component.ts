@@ -1,6 +1,16 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component, input, computed, signal, output } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  input,
+  computed,
+  signal,
+  output,
+  SimpleChanges,
+  OnChanges,
+} from "@angular/core";
 import { IconSize, IconTypeMap } from "@design-system-rte/core/components/icon/icon.constants";
+import { ToastDurationMap } from "@design-system-rte/core/components/toast/toast.constants";
 import { ToastProps, ToastType } from "@design-system-rte/core/components/toast/toast.interface";
 
 import { ButtonComponent } from "../button/button.component";
@@ -15,7 +25,7 @@ import { IconButtonComponent } from "../icon-button/icon-button.component";
   styleUrl: "./toast.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ToastComponent {
+export class ToastComponent implements OnChanges {
   readonly id = input<string>("");
   readonly message = input<string>("");
   readonly type = input<ToastType>("info");
@@ -34,7 +44,6 @@ export class ToastComponent {
   readonly close = output<void>();
 
   readonly displayCustomIcon = computed(() => {
-    console.log("iconName", this.iconName());
     return this.showLeftIcon() && !!this.iconName();
   });
 
@@ -46,6 +55,20 @@ export class ToastComponent {
     return this.showActionButton() && this.actionButtonLabel() && !!this.onActionButtonClick();
   });
 
+  readonly shouldAutoDismiss = computed(() => {
+    return this.isOpen() && this.autoDismiss() && (!this.actionButtonLabel() || !this.showActionButton());
+  });
+
+  readonly timer = signal<ReturnType<typeof setTimeout> | null>(null);
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes["isOpen"]) {
+      if (this.shouldAutoDismiss()) {
+        this.startTimer();
+      }
+    }
+  }
+
   onClickActionButton(): void {
     const action = this.onActionButtonClick();
     if (action) {
@@ -53,8 +76,40 @@ export class ToastComponent {
     }
   }
 
+  handleMouseEnter(): void {
+    if (this.timer()) {
+      this.stopTimer();
+    }
+  }
+
+  handleMouseLeave(): void {
+    if (this.shouldAutoDismiss()) {
+      this.startTimer();
+    }
+  }
+
   clickCloseButton(): void {
     this.close.emit();
+  }
+
+  startTimer(): void {
+    this.stopTimer();
+    const duration = this.duration();
+    if (duration) {
+      const timerId = setTimeout(() => {
+        this.close.emit();
+        this.stopTimer();
+      }, ToastDurationMap[duration]);
+      this.timer.set(timerId);
+    }
+  }
+
+  stopTimer(): void {
+    const timer = this.timer();
+    if (timer) {
+      clearTimeout(timer);
+      this.timer.set(null);
+    }
   }
 
   readonly position = computed(() => this.placement()?.split("-")[0]);
