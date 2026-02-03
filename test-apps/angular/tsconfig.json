@@ -23,8 +23,12 @@
       "dom"
     ],
     "paths": {
-      "@design-system-rte/angular": ["../../dist/packages/angular"],
-      "@design-system-rte/angular/*": ["../../dist/packages/angular/*"]
+      "@design-system-rte/angular": [
+        "../../dist/packages/angular"
+      ],
+      "@design-system-rte/angular/*": [
+        "../../dist/packages/angular/*"
+      ]
     }
   },
   "angularCompilerOptions": {

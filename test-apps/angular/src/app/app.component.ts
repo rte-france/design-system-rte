@@ -23,6 +23,7 @@ import {
   ToastService,
   SelectComponent,
   TabComponent,
+  LoaderComponent,
 } from "@design-system-rte/angular";
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
 
@@ -52,6 +53,7 @@ import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-it
     CardComponent,
     SelectComponent,
     TabComponent,
+    LoaderComponent,
   ],
   providers: [ToastService],
   templateUrl: "./app.component.html",

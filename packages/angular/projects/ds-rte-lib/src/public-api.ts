@@ -11,6 +11,7 @@ export * from "./lib/components/tooltip/tooltip.directive";
 export * from "./lib/components/split-button/split-button.component";
 export * from "./lib/components/icon-button/icon-button.component";
 export * from "./lib/components/icon-button-toggle/icon-button-toggle.component";
+export * from "./lib/components/loader/loader.component";
 export * from "./lib/components/text-input/text-input.component";
 export * from "./lib/components/chip/chip.component";
 export * from "./lib/components/badge/badge.directive";
