@@ -69,7 +69,19 @@ const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
       </>
     );
 
-    const listItem = (
+    const listItem = link ? (
+      <a
+        id={id}
+        aria-label={label}
+        className={style.navItemContainer}
+        data-collapsed={collapsed}
+        data-appearance={appearance}
+        data-nested={isNested}
+        href={link}
+      >
+        {labelContent}
+      </a>
+    ) : (
       <div
         id={id}
         className={style.navItemContainer}
@@ -89,10 +101,9 @@ const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
         {...props}
       >
         <NavContentWrapper
-          link={link}
           label={label}
           tabIndex={tabIndex}
-          onKeyDown={link ? undefined : onKeyDown}
+          onKeyDown={onKeyDown}
           onFocus={handleFocus}
           onBlur={handleBlur}
           styleType="item"

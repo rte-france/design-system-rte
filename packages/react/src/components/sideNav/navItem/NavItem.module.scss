@@ -4,7 +4,7 @@
     @include typography-button-m;
     width: 100%;
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     gap: $positive-spacing_100;
     padding: $positive-spacing_100 $positive-spacing_075;
     border-radius: $radius-s;
@@ -15,8 +15,20 @@
     border-left: $width-s solid transparent;
     color: var(--content-brand-navigation-default);
 
+    &:link,
+    &:visited {
+        text-decoration: none;
+        color: inherit;
+
+        &:hover {
+            text-decoration: none;
+            color: inherit;
+        }
+    }
+
     &[data-appearance='neutral'] {
         color: var(--content-secondary);
+
         &:hover {
             background: var(--background-neutral-navigation-hover);
             color: var(--content-primary);
@@ -30,6 +42,7 @@
         &[data-nested='true'] {
             border-radius: 0 $radius-s $radius-s 0;
             border-left: $width-xs solid var(--border-divider);
+
             &[data-active='true'] {
                 border-left: $width-xs solid var(--border-brand-navigation-active);
             }
@@ -53,6 +66,12 @@
         }
     }
 
+    .navItemLeft {
+        display: flex;
+        align-items: center;
+        gap: $positive-spacing_100;
+    }
+
     .navItem {
         display: flex;
         padding: 0;
@@ -63,22 +82,6 @@
         outline: none;
         justify-content: space-between;
 
-        &:link,
-        &:visited {
-            text-decoration: none;
-            color: inherit;
-            &:hover {
-                text-decoration: none;
-                color: inherit;
-            }
-        }
-
-        .navItemLeft {
-            display: flex;
-            align-items: center;
-            gap: $positive-spacing_100;
-        }
-    
         .navItemRight {
             display: flex;
             align-items: center;
@@ -86,6 +89,7 @@
         }
     }
 
+    &:focus-visible,
     &[data-focused='true'] {
         outline: 1px solid var(--border-brand-focused);
         outline-offset: 0;
@@ -95,6 +99,7 @@
         padding: $positive-spacing_100 $positive-spacing_150;
         justify-content: center;
         border-left: none;
+        gap: 0;
 
         .navItem {
             justify-content: center;
@@ -104,7 +109,7 @@
 
     &[data-nested='true'] {
         @include typography-button-s;
-        
+
         border-radius: 0 $radius-s $radius-s 0;
         border-left: $width-xs solid var(--border-brand-navigation-divider);
         padding: $positive-spacing_050 $positive-spacing_100;
