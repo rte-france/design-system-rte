@@ -1,0 +1,110 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+.rte-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  background-color: rgba(32, 31, 31, 0.5);
+  transition: opacity 150ms ease-out;
+
+  &[data-open='true'] {
+    opacity: 1;
+  }
+}
+
+.rte-modal-container {
+  @include elevation-neutral-shadow-3;
+  border: none;
+  box-sizing: border-box;
+  position: absolute;
+  max-height: 90vh;
+  top: 50%;
+  transform: translateY(-50%) scale(0.98);
+  display: flex;
+  width: 496px;
+  padding: $positive-spacing_300;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: $positive-spacing_300;
+  background-color: var(--background-default);
+  border-radius: $radius-m;
+  opacity: 0;
+  transition: opacity 150ms ease-in, transform 150ms ease-in;
+
+  &[data-open='true'] {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+  }
+
+  &[data-size='s'] {
+    width: 656px;
+  }
+
+  &[data-size='m'] {
+    width: 936px;
+  }
+
+  &[data-size='l'] {
+    width: 1168px;
+    border-radius: $radius-l;
+  }
+
+  &[data-size='xl'] {
+    width: 1328px;
+    border-radius: $radius-xl;
+  }
+
+  .rte-modal-header {
+    display: flex;
+    flex-direction: column;
+    gap: $positive-spacing_100;
+    width: 100%;
+    flex: 0 0 auto;
+
+    .rte-modal-header-text {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: $positive-spacing_100;
+
+      .rte-modal-title {
+        @include typography-heading-m;
+        margin: 0;
+        overflow: hidden;
+        color: var(--content-primary);
+        text-overflow: ellipsis;
+        flex: 1 1 0;
+      }
+    }
+  }
+
+  .rte-modal-content {
+    display: flex;
+    padding: 1px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $positive-spacing_200;
+    color: var(--content-secondary);
+    width: 100%;
+    overflow: auto;
+
+    .rte-modal-content-description {
+      @include typography-text-m;
+      margin: 0;
+      color: var(--content-secondary);
+    }
+  }
+
+  .rte-modal-footer {
+    display: flex;
+    padding: $positive-spacing_0;
+    justify-content: flex-end;
+    align-items: center;
+    gap: $positive-spacing_300;
+    align-self: stretch;
+    flex: 0 0 auto;
+  }
+}
