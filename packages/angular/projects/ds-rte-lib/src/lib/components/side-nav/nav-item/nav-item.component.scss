@@ -15,8 +15,20 @@
   border-left: $width-s solid transparent;
   color: var(--content-brand-navigation-default);
 
+  &:link,
+  &:visited {
+    text-decoration: none;
+    color: inherit;
+
+    &:hover {
+      text-decoration: none;
+      color: inherit;
+    }
+  }
+
   &.neutral {
     color: var(--content-secondary);
+
     &:hover {
       background: var(--background-neutral-navigation-hover);
       color: var(--content-primary);
@@ -30,6 +42,7 @@
     &.nested {
       border-radius: 0 $radius-s $radius-s 0;
       border-left: $width-xs solid var(--border-divider);
+
       &.active {
         border-left: $width-xs solid var(--border-brand-navigation-active);
       }
@@ -67,6 +80,7 @@
     &:visited {
       text-decoration: none;
       color: inherit;
+
       &:hover {
         text-decoration: none;
         color: inherit;
@@ -113,5 +127,9 @@
       @include neutral-inner-shadow;
     }
   }
-}
 
+  &:focus-visible {
+    outline: 1px solid var(--border-brand-focused);
+    outline-offset: 0;
+  }
+}
