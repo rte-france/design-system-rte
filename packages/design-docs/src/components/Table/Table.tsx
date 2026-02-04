@@ -112,7 +112,12 @@ const Table = ({ options, columnWidths: columnSizeConfigs }: TableProps) => {
                 } else {
                   return (
                     <td key={cellIndex} style={cellStyle}>
-                      {cell}
+                      {cell.split("\n").map((line, lineIndex) => (
+                        <span key={lineIndex}>
+                          {line}
+                          {lineIndex < cell.split("\n").length - 1 && <br />}
+                        </span>
+                      ))}
                     </td>
                   );
                 }
