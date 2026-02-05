@@ -18,7 +18,7 @@
     "generate-icons": "mkdir -p projects/ds-rte-lib/src/lib/assets/icons && cp -R ../core/assets/icons projects/ds-rte-lib/src/lib/assets && node ./projects/ds-rte-lib/generateIconMap.js"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^18.2.14",
+    "@angular-devkit/build-angular": "^21.1.2",
     "@angular/cli": "^18.2.21",
     "@angular/compiler-cli": "^18.2.14",
     "@angular/forms": "^18.2.14",
