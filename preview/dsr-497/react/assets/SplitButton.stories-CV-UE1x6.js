@@ -1,0 +1,115 @@
+import{j as e}from"./jsx-runtime-Cf8x2fCZ.js";import{E as R,b as le}from"./keyboard.constants-BverKK8B.js";import{f as te,w as be,u as y,e as _,a as he}from"./index-BfPN6pki.js";import{f as we}from"./testing.utils-CYMf4Aux.js";import{I as B,R as ye,T as Be}from"./Icon-DjEid3Hw.js";import{s as ke,B as xe}from"./Badge-CQk6fGHb.js";import{r as u}from"./index-G8LIXM5I.js";import{D as Ce,a as Se}from"./DropdownItem-tp_XGkkM.js";import{c as je}from"./index-DSdvzt-y.js";import"./index-yBjzXJbu.js";import"./_commonjsHelpers-CqkleIqs.js";import"./useActiveKeyboard-DaOmFJe_.js";import"./Divider-cNGLKJiC.js";import"./auto-placement-C6RxYMtA.js";import"./useAnimatedMount-_zPBpYOt.js";import"./Overlay-CQ0GhNxd.js";import"./index-CFcDIoS3.js";import"./index-BO2TEXkE.js";const Oe={s:16,m:20,l:24},T={s:20,m:24,l:28},Ie="_splitButtonContainer_906zy_1",ze="_splitButtonLeft_906zy_26",Re="_splitButtonLabel_906zy_44",_e="_splitButtonDivider_906zy_128",Te="_splitButtonRight_906zy_139",De="_splitButtonRightIconContainer_906zy_232",i={splitButtonContainer:Ie,splitButtonLeft:ze,splitButtonLabel:Re,splitButtonDivider:_e,splitButtonRight:Te,splitButtonRightIconContainer:De},t=u.forwardRef(({appearance:a="primary",size:n="m",label:b,compactSpacing:h=!1,position:ne="bottom-start",className:re,icon:k,onClick:ie,disabled:s,ariaLabelRight:x,options:oe,showBadge:ue,badgeContent:C,badgeIcon:S,badgeType:se,badgeCount:j,badgeSize:me,...w},ce)=>{const[o,m]=u.useState(!1),O=u.useRef(null),pe=u.useRef(null),de=u.useRef(null),[ve,ge]=ne.split("-"),I=l=>{[R].includes(l.key)&&l.preventDefault()},z=l=>{[R,le].includes(l.key)&&m(!0)};return e.jsxs("div",{className:je(i.splitButtonContainer,re),"data-size":n,"data-compact-spacing":h,ref:ce,children:[e.jsxs("button",{type:"button",className:i.splitButtonLeft,"data-appearance":a,"data-size":n,onClick:ie,disabled:s,"data-testid":"Main action button",...w,ref:pe,children:[k&&e.jsx(B,{name:k,size:Oe[n]}),e.jsx("p",{"data-size":n,className:i.splitButtonLabel,children:b})]}),e.jsx("div",{className:i.splitButtonDivider,"data-appearance":a,"data-disabled":s}),e.jsx(Ce,{ref:de,autoClose:!0,dropdownId:"tab-dropdown",onClose:()=>m(!1),offset:0,"data-testid":"Menu container",position:ve,alignment:ge,trigger:ke({showBadge:!!ue,badgeContent:C,badgeCount:j,badgeIcon:S})?e.jsx(xe,{count:j,content:C,badgeType:se,icon:S,size:me,children:e.jsx("button",{type:"button","aria-haspopup":"menu","aria-expanded":o,"aria-label":x,className:i.splitButtonRight,"data-active":o,"data-compact-spacing":h,"data-appearance":a,"data-size":n,"data-testid":"Menu button",disabled:s,onClick:()=>m(!0),onKeyDown:I,onKeyUp:z,...w,ref:O,children:e.jsx("div",{className:i.splitButtonRightIconContainer,children:e.jsx(B,{name:"arrow-chevron-down",size:T[n]})})})}):e.jsx("button",{type:"button","aria-haspopup":"menu","aria-expanded":o,"aria-label":x,className:i.splitButtonRight,"data-active":o,"data-compact-spacing":h,"data-appearance":a,"data-size":n,"data-testid":"Menu button",disabled:s,onClick:()=>m(!0),onKeyDown:I,onKeyUp:z,...w,ref:O,children:e.jsx("div",{className:i.splitButtonRightIconContainer,children:e.jsx(B,{name:"arrow-chevron-down",size:T[n]})})}),isOpen:o,children:oe.map((l,fe)=>e.jsx(Se,{id:l.id,label:l.label,onClick:l.onClick,disabled:l.disabled,leftIcon:l.icon,badgeContent:l.badgeContent,badgeIcon:l.badgeIcon,badgeType:l.badgeType,showBadge:l.showBadge,badgeCount:l.badgeCount},`${l.id}-dropdown-${fe}`))})]})});t.__docgenInfo={description:"",methods:[],displayName:"SplitButton",props:{onClick:{required:!1,tsType:{name:"signature",type:"function",raw:"(e: MouseEvent<HTMLButtonElement>) => void",signature:{arguments:[{type:{name:"MouseEvent",elements:[{name:"HTMLButtonElement"}],raw:"MouseEvent<HTMLButtonElement>"},name:"e"}],return:{name:"void"}}},description:""},icon:{required:!1,tsType:{name:"union",raw:"keyof typeof RegularIcons | keyof typeof TogglableIcons",elements:[{name:"union",raw:"keyof typeof RegularIcons",elements:[{name:"literal",value:"add"},{name:"literal",value:'"alt-route"'},{name:"literal",value:"apps"},{name:"literal",value:'"arrow-alt-down"'},{name:"literal",value:'"arrow-alt-down-left"'},{name:"literal",value:'"arrow-alt-down-right"'},{name:"literal",value:'"arrow-alt-left"'},{name:"literal",value:'"arrow-alt-right"'},{name:"literal",value:'"arrow-alt-up"'},{name:"literal",value:'"arrow-alt-up-left"'},{name:"literal",value:'"arrow-alt-up-right"'},{name:"literal",value:'"arrow-angle-down-left"'},{name:"literal",value:'"arrow-angle-down-right"'},{name:"literal",value:'"arrow-angle-up-left"'},{name:"literal",value:'"arrow-angle-up-right"'},{name:"literal",value:'"arrow-chevron-down"'},{name:"literal",value:'"arrow-chevron-left"'},{name:"literal",value:'"arrow-chevron-right"'},{name:"literal",value:'"arrow-chevron-up"'},{name:"literal",value:'"arrow-double-down"'},{name:"literal",value:'"arrow-double-left"'},{name:"literal",value:'"arrow-double-right"'},{name:"literal",value:'"arrow-double-up"'},{name:"literal",value:'"arrow-down"'},{name:"literal",value:'"arrow-down-left"'},{name:"literal",value:'"arrow-down-right"'},{name:"literal",value:'"arrow-drop-down"'},{name:"literal",value:'"arrow-drop-up"'},{name:"literal",value:'"arrow-left"'},{name:"literal",value:'"arrow-right"'},{name:"literal",value:'"arrow-up"'},{name:"literal",value:'"arrow-up-left"'},{name:"literal",value:'"arrow-up-right"'},{name:"literal",value:"asterisk"},{name:"literal",value:'"attach-file"'},{name:"literal",value:'"battery-alt-empty"'},{name:"literal",value:'"battery-alt-full"'},{name:"literal",value:'"battery-charging"'},{name:"literal",value:'"battery-empty"'},{name:"literal",value:'"battery-full"'},{name:"literal",value:"bluetooth"},{name:"literal",value:'"bluetooth-off"'},{name:"literal",value:'"chart-bar"'},{name:"literal",value:'"chart-bar-stacked"'},{name:"literal",value:"check"},{name:"literal",value:'"check-indeterminate"'},{name:"literal",value:'"check-small"'},{name:"literal",value:'"checkbox-empty"'},{name:"literal",value:"close"},{name:"literal",value:"compare"},{name:"literal",value:'"copy-all"'},{name:"literal",value:'"crisis-alert"'},{name:"literal",value:"cut"},{name:"literal",value:"download"},{name:"literal",value:'"download-done"'},{name:"literal",value:'"drag-handle"'},{name:"literal",value:'"drag-indicator"'},{name:"literal",value:"exclamation"},{name:"literal",value:'"explore-travel"'},{name:"literal",value:'"external-link"'},{name:"literal",value:"filter"},{name:"literal",value:'"filter-off"'},{name:"literal",value:'"first-page"'},{name:"literal",value:"forward"},{name:"literal",value:"fullscreen"},{name:"literal",value:'"fullscreen-exit"'},{name:"literal",value:"history"},{name:"literal",value:'"hourglass-empty"'},{name:"literal",value:'"info-i"'},{name:"literal",value:"language"},{name:"literal",value:'"last-page"'},{name:"literal",value:"link"},{name:"literal",value:'"link-off"'},{name:"literal",value:"list"},{name:"literal",value:'"location-disabled"'},{name:"literal",value:"login"},{name:"literal",value:"logout"},{name:"literal",value:"menu"},{name:"literal",value:'"menu-open"'},{name:"literal",value:"monitoring"},{name:"literal",value:'"more-down"'},{name:"literal",value:'"more-horiz"'},{name:"literal",value:'"more-up"'},{name:"literal",value:'"more-vert"'},{name:"literal",value:"ohm"},{name:"literal",value:'"open-in-full"'},{name:"literal",value:"paste"},{name:"literal",value:'"play-pause"'},{name:"literal",value:'"power-input"'},{name:"literal",value:'"power-plug"'},{name:"literal",value:'"power-settings"'},{name:"literal",value:'"priority-high"'},{name:"literal",value:"public"},{name:"literal",value:"publish"},{name:"literal",value:'"question-mark"'},{name:"literal",value:"radar"},{name:"literal",value:'"radio-button-empty"'},{name:"literal",value:"redo"},{name:"literal",value:"reload"},{name:"literal",value:"remove"},{name:"literal",value:"reply"},{name:"literal",value:'"reply-all"'},{name:"literal",value:"route"},{name:"literal",value:"search"},{name:"literal",value:'"side-navigation"'},{name:"literal",value:"sort"},{name:"literal",value:'"support-agent"'},{name:"literal",value:"timeline"},{name:"literal",value:'"trending-down"'},{name:"literal",value:'"trending-flat"'},{name:"literal",value:'"trending-up"'},{name:"literal",value:"tune"},{name:"literal",value:"undo"},{name:"literal",value:"upload"},{name:"literal",value:"water"},{name:"literal",value:'"water-alt"'},{name:"literal",value:"wifi"},{name:"literal",value:'"wifi-off"'},{name:"literal",value:"windmill"},{name:"literal",value:'"zoom-in"'},{name:"literal",value:'"zoom-out"'}]},{name:"union",raw:"keyof typeof TogglableIcons",elements:[{name:"literal",value:'"add-circle"'},{name:"literal",value:'"admin-panel-settings"'},{name:"literal",value:"analytics"},{name:"literal",value:"archive"},{name:"literal",value:'"arrow-circle-chevron-down"'},{name:"literal",value:'"arrow-circle-chevron-left"'},{name:"literal",value:'"arrow-circle-chevron-right"'},{name:"literal",value:'"arrow-circle-chevron-up"'},{name:"literal",value:'"arrow-circle-down"'},{name:"literal",value:'"arrow-circle-left"'},{name:"literal",value:'"arrow-circle-right"'},{name:"literal",value:'"arrow-circle-up"'},{name:"literal",value:"article"},{name:"literal",value:'"assignment-complete"'},{name:"literal",value:"assignment"},{name:"literal",value:'"battery-alert"'},{name:"literal",value:'"battery-charging-full"'},{name:"literal",value:'"bolt-alt-circle"'},{name:"literal",value:'"bolt-alt"'},{name:"literal",value:'"bolt-circle"'},{name:"literal",value:"bolt"},{name:"literal",value:"bookmark"},{name:"literal",value:"bookmarks"},{name:"literal",value:"build"},{name:"literal",value:'"calendar-available"'},{name:"literal",value:'"calendar-busy"'},{name:"literal",value:'"calendar-month"'},{name:"literal",value:'"calendar-today"'},{name:"literal",value:"call"},{name:"literal",value:"cancel"},{name:"literal",value:"category"},{name:"literal",value:'"chart-add"'},{name:"literal",value:'"chart-area"'},{name:"literal",value:'"chart-pie"'},{name:"literal",value:'"chart-table"'},{name:"literal",value:'"chat-alt"'},{name:"literal",value:'"chat-alt-unread"'},{name:"literal",value:"chat"},{name:"literal",value:'"chat-unread"'},{name:"literal",value:'"check-circle"'},{name:"literal",value:"checkbox"},{name:"literal",value:'"checkbox-indeterminate"'},{name:"literal",value:"clock"},{name:"literal",value:'"cloud-download"'},{name:"literal",value:"cloud"},{name:"literal",value:'"cloud-off"'},{name:"literal",value:'"cloud-upload"'},{name:"literal",value:'"comment-add"'},{name:"literal",value:"comment"},{name:"literal",value:"copy"},{name:"literal",value:"dangerous"},{name:"literal",value:"dashboard"},{name:"literal",value:"database"},{name:"literal",value:"delete"},{name:"literal",value:"desktop"},{name:"literal",value:"devices"},{name:"literal",value:"draft"},{name:"literal",value:"eco"},{name:"literal",value:"edit"},{name:"literal",value:'"electric-meter"'},{name:"literal",value:"error"},{name:"literal",value:"explore"},{name:"literal",value:'"explore-off"'},{name:"literal",value:'"fast-forward"'},{name:"literal",value:'"fast-rewind"'},{name:"literal",value:"feedback"},{name:"literal",value:'"file-copy"'},{name:"literal",value:'"file-download"'},{name:"literal",value:'"file-upload"'},{name:"literal",value:'"filter-alt"'},{name:"literal",value:'"filter-alt-off"'},{name:"literal",value:"fire"},{name:"literal",value:'"fit-screen"'},{name:"literal",value:"flag"},{name:"literal",value:"flash"},{name:"literal",value:'"flash-off"'},{name:"literal",value:'"folder-add"'},{name:"literal",value:"folder"},{name:"literal",value:'"folder-move"'},{name:"literal",value:'"folder-open"'},{name:"literal",value:'"folder-shared"'},{name:"literal",value:"forum"},{name:"literal",value:'"group-add"'},{name:"literal",value:"group"},{name:"literal",value:"groups"},{name:"literal",value:"headphones"},{name:"literal",value:"heart"},{name:"literal",value:"help"},{name:"literal",value:"home"},{name:"literal",value:"hourglass"},{name:"literal",value:'"image-broken"'},{name:"literal",value:"image"},{name:"literal",value:'"image-gallery"'},{name:"literal",value:"inbox"},{name:"literal",value:"info"},{name:"literal",value:"keep"},{name:"literal",value:'"keep-off"'},{name:"literal",value:"label"},{name:"literal",value:"laptop"},{name:"literal",value:'"left-panel-close"'},{name:"literal",value:'"left-panel-open"'},{name:"literal",value:'"light-off"'},{name:"literal",value:'"lightbulb-alt"'},{name:"literal",value:'"lightbulb-circle"'},{name:"literal",value:"lightbulb"},{name:"literal",value:'"list-alt"'},{name:"literal",value:'"location-me"'},{name:"literal",value:'"location-off"'},{name:"literal",value:'"location-on"'},{name:"literal",value:"lock"},{name:"literal",value:'"lock-open"'},{name:"literal",value:'"lock-open-right"'},{name:"literal",value:"mail"},{name:"literal",value:'"mail-unread"'},{name:"literal",value:"map"},{name:"literal",value:"mic"},{name:"literal",value:'"mic-off"'},{name:"literal",value:'"mode-dark"'},{name:"literal",value:'"mode-light"'},{name:"literal",value:"notification"},{name:"literal",value:'"notification-important"'},{name:"literal",value:'"notification-off"'},{name:"literal",value:'"notification-unread"'},{name:"literal",value:"palette"},{name:"literal",value:'"pause-circle"'},{name:"literal",value:"pause"},{name:"literal",value:'"photo-camera"'},{name:"literal",value:'"play-circle"'},{name:"literal",value:"play"},{name:"literal",value:"power"},{name:"literal",value:'"power-off"'},{name:"literal",value:'"power-plug-connect"'},{name:"literal",value:'"power-settings-circle"'},{name:"literal",value:'"power-solar"'},{name:"literal",value:'"power-switch"'},{name:"literal",value:'"power-wind"'},{name:"literal",value:"print"},{name:"literal",value:'"right-panel-close"'},{name:"literal",value:'"right-panel-open"'},{name:"literal",value:"save"},{name:"literal",value:"send"},{name:"literal",value:"settings"},{name:"literal",value:"share"},{name:"literal",value:'"skip-next"'},{name:"literal",value:'"skip-previous"'},{name:"literal",value:"smartphone"},{name:"literal",value:"star"},{name:"literal",value:'"sticky-note"'},{name:"literal",value:'"stop-circle"'},{name:"literal",value:"stop"},{name:"literal",value:"subtitles"},{name:"literal",value:'"text-snippet"'},{name:"literal",value:'"trash-restore"'},{name:"literal",value:"unarchive"},{name:"literal",value:'"user-add"'},{name:"literal",value:'"user-circle"'},{name:"literal",value:"user"},{name:"literal",value:'"user-settings"'},{name:"literal",value:"verified"},{name:"literal",value:'"video-camera"'},{name:"literal",value:'"video-camera-off"'},{name:"literal",value:'"video-gallery"'},{name:"literal",value:'"view-agenda"'},{name:"literal",value:'"view-column"'},{name:"literal",value:'"view-grid"'},{name:"literal",value:'"view-kanban"'},{name:"literal",value:'"view-module"'},{name:"literal",value:'"view-timeline"'},{name:"literal",value:'"visibility-hide"'},{name:"literal",value:'"visibility-show"'},{name:"literal",value:'"volume-down"'},{name:"literal",value:'"volume-mute"'},{name:"literal",value:'"volume-off"'},{name:"literal",value:'"volume-up"'},{name:"literal",value:"warning"},{name:"literal",value:"waterdrop"}]}]},description:""},options:{required:!0,tsType:{name:"Array",elements:[{name:"SplitButtonOption"}],raw:"SplitButtonOption[]"},description:""},appearance:{defaultValue:{value:'"primary"',computed:!1},required:!1},size:{defaultValue:{value:'"m"',computed:!1},required:!1},compactSpacing:{defaultValue:{value:"false",computed:!1},required:!1},position:{defaultValue:{value:'"bottom-start"',computed:!1},required:!1}},composes:["Omit"]};const D=Object.keys(ye),E=Object.keys(Be),ea={title:"Composants/SplitButton",id:"SplitButton",component:t,tags:["autodocs"],argTypes:{appearance:{control:"select",options:["primary","secondary"]},size:{control:"select",options:["s","m","l"]},compactSpacing:{control:"boolean"},position:{control:"select",options:["bottom-start","bottom-end","top-start","top-end"]},disabled:{control:"boolean"},icon:{control:"select",options:["",...D,...E].sort((a,n)=>a.localeCompare(n)),description:"Nom de l’icône à afficher",defaultValue:""},badgeContent:{control:"select",options:["number","icon","empty"]},badgeType:{control:"select",options:["brand","neutral","indicator"]},badgeIcon:{control:"select",options:["",...D,...E].sort((a,n)=>a.localeCompare(n))},showBadge:{control:"boolean"},badgeCount:{control:"number"},badgeSize:{control:"select",options:["xs","s","m","l"]}},args:{onClick:te()}},Ee=te(),Le=[{id:"option-1",label:"Option 1",onClick:()=>console.log("Option 1 clicked")},{id:"option-2",label:"Option 2",onClick:()=>console.log("Option 2 clicked")},{id:"option-3",label:"Option 3",onClick:()=>console.log("Option 3 clicked")}],r={args:{appearance:"primary",label:"Button Label",compactSpacing:!1,position:"bottom-start",disabled:!1,ariaLabelRight:"Open menu",onClick:Ee(),options:Le},render:a=>e.jsx(t,{...a})},c={render:a=>e.jsxs("div",{style:{display:"flex",gap:16},children:[e.jsx(t,{...a,appearance:"primary"}),e.jsx(t,{...a,appearance:"secondary"})]}),args:{...r.args}},p={render:a=>e.jsxs("div",{style:{display:"flex",gap:16},children:[e.jsx(t,{...a,size:"s"}),e.jsx(t,{...a,size:"m"}),e.jsx(t,{...a,size:"l"})]}),args:{...r.args}},d={render:a=>e.jsxs("div",{style:{display:"flex",gap:16},children:[e.jsx(t,{...a,size:"s",compactSpacing:!0}),e.jsx(t,{...a,size:"m",compactSpacing:!0}),e.jsx(t,{...a,size:"l",compactSpacing:!0})]}),args:{...r.args}},v={render:a=>e.jsx("div",{style:{display:"flex",justifyContent:"center",alignItems:"center",minHeight:600},children:e.jsxs("div",{style:{display:"grid",gridTemplateColumns:"2fr 2fr",gap:24},children:[e.jsx(t,{...a,position:"top-end"}),e.jsx(t,{...a,position:"top-start"}),e.jsx(t,{...a,position:"bottom-end"}),e.jsx(t,{...a,position:"bottom-start"})]})}),args:{...r.args}},g={args:{...r.args,showBadge:!0,badgeContent:"empty",badgeType:"indicator",badgeIcon:"star",badgeCount:7,options:[{id:"option-1",label:"Option 1",onClick:()=>console.log("Option 1 clicked"),showBadge:!0,badgeCount:2,badgeContent:"number",badgeType:"indicator"},{id:"option-2",label:"Option 2",onClick:()=>console.log("Option 2 clicked")},{id:"option-3",label:"Option 3",onClick:()=>console.log("Option 3 clicked"),showBadge:!0,badgeCount:5,badgeContent:"number",badgeType:"indicator"}]}},f={args:{...r.args},play:async({canvasElement:a})=>{const b=be(a).getByTestId("Menu button");we(a),await y.tab(),await y.tab(),_(b).toHaveFocus(),await y.keyboard(`{${le}}`),await he(()=>_(document.body.querySelector('[data-testid = "Menu container"]')).toBeVisible())}};var L,M,N;r.parameters={...r.parameters,docs:{...(L=r.parameters)==null?void 0:L.docs,source:{originalSource:`{
+  args: {
+    appearance: "primary",
+    label: "Button Label",
+    compactSpacing: false,
+    position: "bottom-start",
+    disabled: false,
+    ariaLabelRight: "Open menu",
+    onClick: mockFn(),
+    options: defaultOptions
+  },
+  render: args => <SplitButton {...args} />
+}`,...(N=(M=r.parameters)==null?void 0:M.docs)==null?void 0:N.source}}};var K,q,H;c.parameters={...c.parameters,docs:{...(K=c.parameters)==null?void 0:K.docs,source:{originalSource:`{
+  render: args => <div style={{
+    display: "flex",
+    gap: 16
+  }}>
+      <SplitButton {...args} appearance="primary" />
+      <SplitButton {...args} appearance="secondary" />
+    </div>,
+  args: {
+    ...Default.args
+  }
+}`,...(H=(q=c.parameters)==null?void 0:q.docs)==null?void 0:H.source}}};var V,A,F;p.parameters={...p.parameters,docs:{...(V=p.parameters)==null?void 0:V.docs,source:{originalSource:`{
+  render: args => <div style={{
+    display: "flex",
+    gap: 16
+  }}>
+      <SplitButton {...args} size="s" />
+      <SplitButton {...args} size="m" />
+      <SplitButton {...args} size="l" />
+    </div>,
+  args: {
+    ...Default.args
+  }
+}`,...(F=(A=p.parameters)==null?void 0:A.docs)==null?void 0:F.source}}};var W,$,P;d.parameters={...d.parameters,docs:{...(W=d.parameters)==null?void 0:W.docs,source:{originalSource:`{
+  render: args => <div style={{
+    display: "flex",
+    gap: 16
+  }}>
+      <SplitButton {...args} size="s" compactSpacing={true} />
+      <SplitButton {...args} size="m" compactSpacing={true} />
+      <SplitButton {...args} size="l" compactSpacing={true} />
+    </div>,
+  args: {
+    ...Default.args
+  }
+}`,...(P=($=d.parameters)==null?void 0:$.docs)==null?void 0:P.source}}};var U,Y,G;v.parameters={...v.parameters,docs:{...(U=v.parameters)==null?void 0:U.docs,source:{originalSource:`{
+  render: args => <div style={{
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    minHeight: 600
+  }}>
+      <div style={{
+      display: "grid",
+      gridTemplateColumns: "2fr 2fr",
+      gap: 24
+    }}>
+        <SplitButton {...args} position="top-end" />
+        <SplitButton {...args} position="top-start" />
+        <SplitButton {...args} position="bottom-end" />
+        <SplitButton {...args} position="bottom-start" />
+      </div>
+    </div>,
+  args: {
+    ...Default.args
+  }
+}`,...(G=(Y=v.parameters)==null?void 0:Y.docs)==null?void 0:G.source}}};var J,Q,X;g.parameters={...g.parameters,docs:{...(J=g.parameters)==null?void 0:J.docs,source:{originalSource:`{
+  args: {
+    ...Default.args,
+    showBadge: true,
+    badgeContent: "empty",
+    badgeType: "indicator",
+    badgeIcon: "star",
+    badgeCount: 7,
+    options: [{
+      id: "option-1",
+      label: "Option 1",
+      onClick: () => console.log("Option 1 clicked"),
+      showBadge: true,
+      badgeCount: 2,
+      badgeContent: "number",
+      badgeType: "indicator"
+    }, {
+      id: "option-2",
+      label: "Option 2",
+      onClick: () => console.log("Option 2 clicked")
+    }, {
+      id: "option-3",
+      label: "Option 3",
+      onClick: () => console.log("Option 3 clicked"),
+      showBadge: true,
+      badgeCount: 5,
+      badgeContent: "number",
+      badgeType: "indicator"
+    }]
+  }
+}`,...(X=(Q=g.parameters)==null?void 0:Q.docs)==null?void 0:X.source}}};var Z,ee,ae;f.parameters={...f.parameters,docs:{...(Z=f.parameters)==null?void 0:Z.docs,source:{originalSource:`{
+  args: {
+    ...Default.args
+  },
+  play: async ({
+    canvasElement
+  }) => {
+    const canvas = within(canvasElement);
+    const button = canvas.getByTestId("Menu button");
+    focusElementBeforeComponent(canvasElement);
+    await userEvent.tab();
+    await userEvent.tab();
+    expect(button).toHaveFocus();
+    await userEvent.keyboard(\`{\${ARROW_DOWN_KEY}}\`);
+    await waitFor(() => expect(document.body.querySelector('[data-testid = "Menu container"]')).toBeVisible());
+  }
+}`,...(ae=(ee=f.parameters)==null?void 0:ee.docs)==null?void 0:ae.source}}};const aa=["Default","Appearance","Size","CompactSpacing","Position","WithBadge","KeyboardInteraction"];export{c as Appearance,d as CompactSpacing,r as Default,f as KeyboardInteraction,v as Position,p as Size,g as WithBadge,aa as __namedExportsOrder,ea as default};
