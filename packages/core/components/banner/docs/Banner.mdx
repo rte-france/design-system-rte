@@ -1,0 +1,116 @@
+import { Meta } from "@storybook/blocks";
+
+import ComponentDocs from "../../../../design-docs/src/components/ComponentDocs/ComponentDocs";
+import DocsSection from "../../../../design-docs/src/components/DocsSection/DocsSection";
+import Accordion from "../../../../design-docs/src/components/Accordion/Accordion";
+import Gerkin from "../../../../design-docs/src/components/Guideline/Gerkin/Gerkin";
+import Paragraph from "../../../../design-docs/src/components/Paragraph/Paragraph";
+import Usage from "./Usage";
+import Options from "./Options";
+import Behaviors from "./Behaviors";
+import AccessibilityTable from "./AccessibilityTable";
+
+<Meta title="Composants/Banner" />
+
+<ComponentDocs
+  title="Banner"
+  description={
+    <Paragraph>
+      La Banner affiche <b>un message important de manière proéminente</b>, souvent en haut ou au‑dessus d’une section.
+      Elle peut inclure une icône, un titre, une description et éventuellement un bouton ou une action de fermeture.
+    </Paragraph>
+  }
+  linkFigma="https://www.figma.com/design/Oe33roVZDpZNXWlEn25Z7x/02.0-Storybook?node-id=1782-4441&m=dev"
+  linkGithub={{
+    react: "https://github.com/rte-france/design-system-rte/tree/main/packages/react/src/components/banner",
+    angular:
+      "https://github.com/rte-france/design-system-rte/tree/main/packages/angular/projects/ds-rte-lib/src/lib/components/banner",
+  }}
+  disponibility={{
+    design: {
+      figma: true,
+      guidelines: true,
+    },
+    code: {
+      react: true,
+      angular: true,
+    },
+  }}
+  changelog={[
+    {
+      version: "1.0.0",
+      date: "04 Décembre 2025",
+      changes: ["Livraison du composant"],
+    },
+  ]}
+  options={[
+    { property: "bannerType", value: "info / error / success / warning", defaultValue: "info", dependance: "-" },
+    { property: "showTitle", value: "true / false", defaultValue: "true", dependance: "-" },
+    { property: "title", value: "text", defaultValue: "-", dependance: "-" },
+    { property: "message", value: "text", defaultValue: "-", dependance: "-" },
+    { property: "showButton", value: "true / false", defaultValue: "true", dependance: "-" },
+    { property: "isCloseable", value: "true / false", defaultValue: "true", dependance: "-" },
+    {
+      property: <span className="rte-option-dev">position</span>,
+      value: "overlay / push",
+      defaultValue: "push",
+      dependance: "-",
+    },
+    {
+      property: "Mode",
+      value: "bleu-iceberg_light / bleu-iceberg_dark / violet_light / violet_dark / vert-foret_light / vert-foret_dark",
+      defaultValue: "bleu-iceberg_light",
+      dependance: "-",
+    },
+  ]}
+  optionsContent={
+    <p className="rte-option-dev-caption">
+      <span
+        className="rte-option-dev-square"
+        style={{
+          display: "inline-block",
+          width: 10,
+          height: 10,
+          background: "var(--content-success-default)",
+          borderRadius: 2,
+          marginRight: 8,
+        }}
+      />
+      = propriété spécifique aux développeurs
+    </p>
+  }
+  guidelines={
+    <>
+      <DocsSection>
+        <p>
+          <i>Composant générique pouvant être utilisé par toutes les équipes de la DSIT.</i>
+        </p>
+        <Gerkin>
+          <ul>
+            <li>En tant qu'utilisateur,</li>
+            <li>
+              Je souhaite <b>être informé d’un état ou message important dans l’interface,</b>
+            </li>
+            <li>
+              Afin <b> pouvoir y réagir ou simplement en prendre connaissance.</b>
+            </li>
+          </ul>
+        </Gerkin>
+      </DocsSection>
+      <DocsSection>
+        <Usage />
+      </DocsSection>
+      <DocsSection>
+        <Options />
+      </DocsSection>
+      <DocsSection>
+        <Behaviors />
+      </DocsSection>
+    </>
+  }
+  accessibility={
+    <Accordion title="Accessibility Testing Status">
+      <AccessibilityTable />
+    </Accordion>
+  }
+/>

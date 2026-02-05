@@ -11,6 +11,8 @@
       .usage {
         display: flex;
         gap: $positive-spacing_200;
+        justify-content: center;
+        align-items: center;
 
         .section {
           display: flex;
@@ -175,4 +177,3 @@
     }
   }
 }
-
