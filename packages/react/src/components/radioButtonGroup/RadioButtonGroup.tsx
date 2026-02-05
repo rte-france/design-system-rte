@@ -29,7 +29,11 @@ const RadioButtonGroup = forwardRef<HTMLDivElement, RadioButtonGroupProps>(
     ref,
   ) => {
     if (disabled && error) {
-      return;
+      console.warn(
+        "RadioButtonGroup cannot be both disabled and in an error state. Please choose one state or the other.",
+      );
+
+      return null;
     }
 
     return (
