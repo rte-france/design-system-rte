@@ -1,8 +1,9 @@
 <div
   class="rte-toast {{ type() }} {{ position() }} {{ alignment() }}"
   role="status"
-  ref="{ref}"
   [ngClass]="{ open: isOpen() }"
+  (mouseenter)="handleMouseEnter()"
+  (mouseleave)="handleMouseLeave()"
 >
   <div class="rte-toast-content">
     @if (displayLeftIcon()) {
