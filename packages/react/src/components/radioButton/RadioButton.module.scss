@@ -1,135 +1,210 @@
-@use '@design-system-rte/core/design-tokens/main.scss' as *;
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
 
 .radioButtonContainer {
     display: flex;
-    padding-right: --positive-spacing_050;
     align-items: center;
     gap: $positive-spacing_150;
-}
-
-.radioButton {
-    appearance: none;
-    display: flex;
-    width: 16px;
-    height: 16px;
-    padding: $positive-spacing_0;
-    justify-content: center;
-    align-items: center;
-    border-radius: $radius-pill;
-    border: $width-xs solid var(--content-tertiary);
-    background: var(--background-default);
-    position: relative;
     cursor: pointer;
-    transition: box-shadow 0.3s ease-in-out;
-    margin: 0;
 
-    &::before {
-        content: '';
-        width: 10px;
-        height: 10px;
-        border-radius: $radius-pill;
-        background: var(--content-brand-default);
-        opacity: $opacity-0;
+    &[data-read-only='true'] {
+        cursor: default;
     }
 
-    &::after {
-        content: '';
-        width: calc(100% + 8px);
-        height: calc(100% + 8px);
-        border-radius: $radius-s;
-        border: $width-xs solid var(--content-primary);
+    &[data-disabled='true'] {
+        cursor: not-allowed;
+    }
+
+    .radioButton {
+        cursor: pointer;
+        appearance: none;
         position: absolute;
-        z-index: -1;
-        opacity: $opacity-0;
-    }
-
-    &[data-error='true'] {
-        border: $width-xs solid var(--content-danger-default);
+        display: flex;
+        width: 28px;
+        height: 16px;
+        padding: $positive-spacing_0;
+        justify-content: center;
+        border-radius: $radius-pill;
         transition: box-shadow 0.3s ease-in-out;
+        margin: 0;
+        z-index: 1;
 
-        &:checked {
-            border: $width-xs solid var(--content-danger-default);
+        &[data-error='true'] {
+            transition: box-shadow 0.3s ease-in-out;
+
+            &+.radioButtonBackground {
+                .radioButtonOuter {
+                    border: $width-xs solid var(--content-danger-default);
+                }
+            }
+
+            &:checked {
+                &+.radioButtonBackground {
+                    .radioButtonOuter {
+                        border: $width-xs solid var(--content-danger-default);
+                    }
+
+                    .radioButtonInner {
+                        background: var(--content-danger-default);
+                    }
+                }
+            }
+
+            &:hover {
+                &+.radioButtonBackground {
+                    .radioButtonOuter {
+                        transition: box-shadow 0.15s ease-in-out;
+                        @include hover-box-shadow(var(--background-hover-opacity-50));
+                    }
+                }
+
+                &:checked {
+                    &+.radioButtonBackground {
+                        .radioButtonOuter {
+                            @include hover-box-shadow(var(--background-danger-hover-opacity-20));
+                        }
+                    }
+                }
+            }
         }
 
-        &::before {
-            background: var(--content-danger-default);
+        &[data-read-only='true'] {
+            cursor: default;
+            pointer-events: none;
+
+            &:checked {
+                &+.radioButtonBackground {
+                    .radioButtonOuter {
+                        border: $width-xs solid var(--content-tertiary);
+                    }
+
+                    .radioButtonInner {
+                        background: var(--content-tertiary);
+                    }
+                }
+            }
+
+            &[data-error='true'] {
+                &+.radioButtonBackground {
+                    .radioButtonOuter {
+                        border: $width-xs solid var(--content-danger-default);
+                    }
+                }
+            }
         }
 
         &:hover {
-            transition: box-shadow 0.15s ease-in-out;
-            @include hover-box-shadow(var(--background-hover-opacity-50));
+            &+.radioButtonBackground {
+                .radioButtonOuter {
+                    transition: box-shadow 0.15s ease-in-out;
+                    @include hover-box-shadow(var(--background-hover-opacity-50));
+                }
+            }
 
             &:checked {
-                @include hover-box-shadow(var(--background-danger-hover-opacity-20));
+                &+.radioButtonBackground {
+                    .radioButtonOuter {
+                        @include hover-box-shadow(var(--background-brand-hover-opacity-20));
+                    }
+                }
+            }
+
+            &:disabled {
+                &+.radioButtonBackground {
+                    .radioButtonOuter {
+                        box-shadow: none;
+                    }
+                }
+            }
+        }
+
+        &:checked {
+            &+.radioButtonBackground {
+                .radioButtonOuter {
+                    border: $width-xs solid var(--content-brand-default);
+                }
+
+                .radioButtonInner {
+                    opacity: $opacity-100;
+                }
+            }
+        }
+
+        &:disabled {
+            cursor: not-allowed;
+
+            &+.radioButtonBackground {
+                .radioButtonOuter {
+                    border: $width-xs solid var(--content-disabled);
+                }
+
+                .radioButtonInner {
+                    background: var(--content-disabled);
+                }
+            }
+        }
+
+        &:focus-visible {
+            outline: none;
+
+            &::after {
+                border-radius: $radius-s;
+                content: '';
+                position: absolute;
+                top: -4px;
+                left: -4px;
+                width: 24px;
+                height: 24px;
+                outline: 1px solid var(--border-brand-focused);
             }
         }
     }
 
-    &[data-read-only='true'] {
-        pointer-events: none;
-        cursor: default;
+    .radioButtonBackground {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        box-sizing: content-box;
+        position: relative;
 
-        &::before {
-            background: var(--content-tertiary);
+        .radioButtonOuter,
+        .radioButtonInner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: $radius-pill;
+            box-sizing: border-box;
         }
 
-        &:checked {
+        .radioButtonOuter {
             border: $width-xs solid var(--content-tertiary);
+            box-shadow: none;
         }
 
-        &[data-error='true'] {
-            border: $width-xs solid var(--content-danger-default);
-        }
-    }
-
-    &:focus-visible {
-        outline: none;
-
-        &::after {
-            opacity: $opacity-100;
+        .radioButtonInner {
+            background: var(--content-brand-default);
+            transform: scale(0.6);
+            opacity: $opacity-0;
         }
     }
 
-    &:checked {
-        border: $width-xs solid var(--content-brand-default);
-    }
+    .radioButtonLabel {
+        @include typography-radio-button-l;
+        color: var(--content-primary);
 
-    &:checked::before {
-        opacity: $opacity-100;
-    }
-
-    &:hover {
-        @include hover-box-shadow(var(--background-hover-opacity-50));
-
-        &:checked {
-            @include hover-box-shadow(var(--background-brand-hover-opacity-20));
+        &:hover {
+            cursor: pointer;
         }
-    }
 
-    &:disabled {
-        pointer-events: none;
-        background: var(--background-disabled);
-        border: $width-xs solid var(--content-disabled);
-        cursor: not-allowed;
-
-        &::before {
-            background: var(--content-disabled);
+        &[data-read-only='true'] {
+            pointer-events: none;
+            color: var(--content-tertiary);
         }
-    }
-}
 
-.radioButtonLabel {
-    @include typography-radio-button-l;
-    color: var(--content-primary);
-
-    &[data-read-only='true'] {
-        pointer-events: none;
-        cursor: default;
-        color: var(--content-tertiary);
-    }
-
-    &[data-disabled='true'] {
-        pointer-events: none;
-        color: var(--content-disabled);
+        &[data-disabled='true'] {
+            cursor: not-allowed;
+            color: var(--content-disabled);
+        }
     }
 }

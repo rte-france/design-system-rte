@@ -14,11 +14,12 @@ const RadioButton = forwardRef<HTMLInputElement, RadioButtonProps>(
     ref,
   ) => {
     if (disabled && error) {
-      return;
+      console.warn("RadioButton cannot be both disabled and in an error state. Please choose one state or the other.");
+      return null;
     }
 
     return (
-      <div className={style.radioButtonContainer}>
+      <div className={style.radioButtonContainer} data-disabled={disabled} data-read-only={readOnly} data-error={error}>
         <input
           ref={ref}
           type="radio"
@@ -32,6 +33,15 @@ const RadioButton = forwardRef<HTMLInputElement, RadioButtonProps>(
           data-read-only={readOnly}
           {...props}
         />
+        <div
+          className={style.radioButtonBackground}
+          data-disabled={disabled}
+          data-error={error}
+          data-read-only={readOnly}
+        >
+          <div className={style.radioButtonOuter}></div>
+          <div className={style.radioButtonInner}></div>
+        </div>
         {showLabel && (
           <label
             htmlFor={label}
