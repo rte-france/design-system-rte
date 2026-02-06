@@ -199,7 +199,6 @@
 
         &[data-read-only='true'] {
             pointer-events: none;
-            cursor: not-allowed;
             color: var(--content-tertiary);
         }
 
