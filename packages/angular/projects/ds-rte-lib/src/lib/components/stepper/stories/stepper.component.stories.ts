@@ -350,6 +350,9 @@ export const KeyboardNavigation: Story = {
   render: (args) => ({
     props: {
       ...args,
+      changeStep(step: Step) {
+        this["activeStepId"] = this["steps"].find((s: Step) => s.id === step.id).id;
+      },
     },
     template: `
     <div style="width: 700px">
@@ -357,6 +360,7 @@ export const KeyboardNavigation: Story = {
         [steps]="steps"
         [orientation]="orientation"
         [activeStepId]="activeStepId"
+        (clickStep)="changeStep($event)"
       />
     </div>
     `,

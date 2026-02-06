@@ -268,11 +268,21 @@ export const KeyboardNavigation: Story = {
     activeStepId: "3",
   },
 
-  render: (args) => (
-    <div style={{ width: "700px" }}>
-      <Stepper {...args} />
-    </div>
-  ),
+  render: (args) => {
+    const [activeStepId, setActiveStepId] = useState<string>(args.activeStepId!);
+
+    const steps = args.steps.map((step) => ({
+      ...step,
+      onClick: () => setActiveStepId(step.id),
+      clickableCompleteStep: true,
+    }));
+    console.log("steps", steps);
+    return (
+      <div style={{ width: "700px" }}>
+        <Stepper {...args} steps={steps} activeStepId={activeStepId} />
+      </div>
+    );
+  },
 
   play: async ({ canvasElement }) => {
     const canvas = await within(canvasElement);
