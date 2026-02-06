@@ -2,6 +2,7 @@ import {
   AfterContentInit,
   ChangeDetectorRef,
   ComponentRef,
+  computed,
   contentChild,
   DestroyRef,
   Directive,
@@ -74,6 +75,19 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
 
   readonly isActive = signal(false);
 
+  readonly menuInputs = computed(() => {
+    const menu = this.menu();
+    if (!menu) {
+      return null;
+    }
+    return {
+      items: menu.items(),
+      headerTemplate: menu.headerDirective()?.templateRef,
+      footerTemplate: menu.footerDirective()?.templateRef,
+      width: menu.width(),
+    };
+  });
+
   constructor() {
     this.hostElement = this.elementRef.nativeElement;
 
@@ -92,13 +106,11 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
     });
 
     effect(() => {
-      const menu = this.menu();
-      if (this.dropdownMenuRef && menu) {
-        this.assignItems();
+      const inputs = this.menuInputs();
+      if (this.dropdownMenuRef && inputs) {
+        this.assignInputs();
       }
     });
-
-    effect(() => this.assignWidth());
   }
 
   dropdownMenuRef: ComponentRef<DropdownMenuComponent> | null = null;
@@ -166,8 +178,7 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
 
     this.dropdownService.openMenu(menuId);
 
-    this.assignItems();
-    this.assignWidth();
+    this.assignInputs();
     this.positionDropdownMenu(this.rteDropdownPosition());
     this.addClickOutsideListener();
 
@@ -198,18 +209,28 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
     this.destroyRef.onDestroy(() => dropdownStateSubscription.unsubscribe());
   }
 
-  private assignItems(): void {
+  private assignInputs(): void {
     if (this.dropdownMenuRef) {
       const items = this.menu()?.items() ?? [];
       this.dropdownMenuRef.setInput("items", items);
+      this.dropdownMenuRef.setInput("headerTemplate", this.menu()?.headerDirective()?.templateRef);
+      this.dropdownMenuRef.setInput("footerTemplate", this.menu()?.footerDirective()?.templateRef);
     }
+
+    this.assignWidth();
   }
 
   private assignWidth(): void {
-    if (this.dropdownMenuRef && this.rteDropdownWidth() !== undefined) {
-      this.dropdownMenuRef.setInput("width", this.rteDropdownWidth());
+    if (!this.dropdownMenuRef) {
+      return;
+    }
 
+    const width = this.menuInputs()?.width ?? this.rteDropdownWidth();
+    if (width !== undefined && width !== null) {
+      this.dropdownMenuRef.setInput("width", width);
       waitForNextFrame(() => this.dropdownMenuRef?.setInput("isOpen", true));
+    } else {
+      this.dropdownMenuRef.setInput("isOpen", true);
     }
   }
 
@@ -257,8 +278,9 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
     }
 
     const clickedInTrigger = this.hostElement.contains(target);
+    const clickedInMenu = this.dropdownMenuRef?.location.nativeElement.contains(target);
 
-    if (!clickedInTrigger) {
+    if (!clickedInTrigger && !clickedInMenu) {
       this.closeDropdown();
       this.clickedOutside.emit();
     }

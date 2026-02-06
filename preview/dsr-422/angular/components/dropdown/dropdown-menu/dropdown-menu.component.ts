@@ -1,5 +1,16 @@
 import { CommonModule } from "@angular/common";
-import { Component, computed, ElementRef, HostListener, inject, input, output } from "@angular/core";
+import {
+  Component,
+  computed,
+  contentChild,
+  ElementRef,
+  HostListener,
+  inject,
+  input,
+  output,
+  TemplateRef,
+  viewChild,
+} from "@angular/core";
 import {
   ARROW_DOWN_KEY,
   ARROW_LEFT_KEY,
@@ -10,11 +21,15 @@ import {
 } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
 import { DropdownService } from "../../../services/dropdown.service";
+import { DividerComponent } from "../../divider/divider.component";
 import { DropdownItemComponent, DropdownItemConfig } from "../dropdown-item/dropdown-item.component";
+
+import { DropdownMenuFooterDirective } from "./dropdown-menu-footer.directive";
+import { DropdownMenuHeaderDirective } from "./dropdown-menu-header.directive";
 
 @Component({
   selector: "rte-dropdown-menu",
-  imports: [CommonModule, DropdownItemComponent],
+  imports: [CommonModule, DropdownItemComponent, DividerComponent],
   standalone: true,
   templateUrl: "./dropdown-menu.component.html",
   styleUrl: "./dropdown-menu.component.scss",
@@ -35,7 +50,28 @@ export class DropdownMenuComponent {
   readonly closingMenu = output<void>();
 
   readonly menuStyle = computed(() => {
-    return this.width() ? { width: this.width() + "px" } : {};
+    return this.width() ? { width: this.width() + "px", "max-width": this.width() + "px" } : {};
+  });
+
+  readonly headerDirective = contentChild(DropdownMenuHeaderDirective);
+  readonly footerDirective = contentChild(DropdownMenuFooterDirective);
+
+  readonly headerTemplate = input<TemplateRef<HTMLElement> | undefined>(undefined);
+  readonly footerTemplate = input<TemplateRef<HTMLElement> | undefined>(undefined);
+
+  readonly headerContentRef = viewChild<ElementRef<HTMLElement>>("headerContent");
+  readonly footerContentRef = viewChild<ElementRef<HTMLElement>>("footerContent");
+
+  readonly hasHeaderContent = computed(() => {
+    const hasTemplate = !!this.headerTemplate();
+    const hasProjectedContent = !!this.headerContentRef()?.nativeElement?.children.length;
+    return hasTemplate || hasProjectedContent;
+  });
+
+  readonly hasFooterContent = computed(() => {
+    const hasTemplate = !!this.footerTemplate();
+    const hasProjectedContent = !!this.footerContentRef()?.nativeElement?.children.length;
+    return hasTemplate || hasProjectedContent;
   });
 
   getChildMenuId(itemIndex: number): string {
