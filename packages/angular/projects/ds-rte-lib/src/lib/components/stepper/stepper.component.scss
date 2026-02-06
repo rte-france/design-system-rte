@@ -154,11 +154,11 @@
             color: var(--content-brand-default);
           }
         }
-      }
 
-      .rte-stepper-name {
-        @include typography-text-s-regular;
-        color: var(--content-primary);
+        .rte-stepper-name {
+          @include typography-text-s-regular;
+          color: var(--content-primary);
+        }
       }
     }
 
