@@ -6,7 +6,7 @@ import { focusElementBeforeComponent } from "../../../.storybook/testing/testing
 import Link from "./Link";
 
 const meta = {
-  title: "Composants/Link",
+  title: "Composants/Link/Link",
   component: Link,
   tags: ["autodocs"],
   argTypes: {
