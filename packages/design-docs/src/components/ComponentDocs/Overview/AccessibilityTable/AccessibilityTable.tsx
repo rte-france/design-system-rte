@@ -23,7 +23,7 @@ const AccessibilityTable = ({ data }: AccessibilityTableProps) => {
         <thead>
           <tr>
             <th scope="col">Catégorie</th>
-            <th scope="col">Critère d&apos;accessibilité</th>
+            <th scope="col">Critère d’accessibilité</th>
             <th scope="col">Résultat attendu</th>
             <th scope="col">Méthode de test</th>
           </tr>

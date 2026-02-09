@@ -4,9 +4,9 @@
   .rte-stories.table-wrapper {
     border: 1px solid var(--border-tertiary);
     border-radius: 8px;
-    overflow: clip;
+    overflow: auto;
 
-      table.rte-stories-table {
+    table.rte-stories-table {
       margin: 0;
       width: 100%;
       border-collapse: separate;

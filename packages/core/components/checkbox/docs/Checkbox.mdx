@@ -1,0 +1,105 @@
+import { Meta } from "@storybook/blocks";
+
+import ComponentDocs from "../../../../design-docs/src/components/ComponentDocs/ComponentDocs";
+import DocsSection from "../../../../design-docs/src/components/DocsSection/DocsSection";
+import Accordion from "../../../../design-docs/src/components/Accordion/Accordion";
+import Gerkin from "../../../../design-docs/src/components/Guideline/Gerkin/Gerkin";
+import Paragraph from "../../../../design-docs/src/components/Paragraph/Paragraph";
+import Usage from "./Usage";
+import Options from "./Options";
+import Behaviors from "./Behaviors";
+import AccessibilityTable from "./AccessibilityTable";
+import SchemaTreeviewDecision from "./assets/SchemaTreeviewDecision.svg";
+
+<Meta title="Composants/Checkbox" />
+
+<ComponentDocs
+  title="Checkbox"
+  description={
+    <Paragraph>
+      Une checkbox est un élément interactif d’une interface utilisateur qui permet aux utilisateurs d’effectuer de
+      valider/d'approuver/de choisir un élément. Elle est représentée par un carré aux bords arrondis qu'il est possible
+      de cocher. Un label textuel, une description voire une erreur peuvent y être associé.
+    </Paragraph>
+  }
+  linkFigma="https://www.figma.com/design/Oe33roVZDpZNXWlEn25Z7x/02.0-Storybook?node-id=1166-18757&m=dev"
+  linkGithub={{
+    react: "https://github.com/rte-france/design-system-rte/tree/main/packages/react/src/components/checkbox",
+    angular:
+      "https://github.com/rte-france/design-system-rte/tree/main/packages/angular/projects/ds-rte-lib/src/lib/components/checkbox",
+  }}
+  disponibility={{
+    design: {
+      figma: true,
+      guidelines: true,
+    },
+    code: {
+      react: true,
+      angular: true,
+    },
+  }}
+  changelog={[
+    {
+      version: "1.0.0",
+      date: "04 Décembre 2025",
+      changes: ["Livraison du composant"],
+    },
+  ]}
+  options={[
+    { property: "interactionState", value: "enabled / hover / disabled", defaultValue: "enabled", dependance: "-" },
+    { property: "selectionState", value: "unselected / selected", defaultValue: "unselected", dependance: "-" },
+    { property: "error", value: "True / False", defaultValue: "False", dependance: "-" },
+    { property: "readOnly", value: "text", defaultValue: "False", dependance: "-" },
+    { property: "label", value: "True / False", defaultValue: "-", dependance: "showLabel = True" },
+    { property: "showLabel", value: "True / False", defaultValue: "True", dependance: "-" },
+    {
+      property: "Mode",
+      value: "text",
+      defaultValue: "-",
+      dependance: "showDescription = true / showLabel = True",
+    },
+    { property: "showDescription", value: "True / False", defaultValue: "True", dependance: "showLabel = True" },
+    { property: "errorMessage", value: "text", defaultValue: "-", dependance: "error = True" },
+    {
+      property: "Mode",
+      value: "bleu-iceberg-light / bleu-iceberg-dark / violet-light / violet-dark / vert-foret-light / vert-foret-dark",
+      defaultValue: "bleu-iceberg-light",
+      dependance: "-",
+    },
+  ]}
+  guidelines={
+    <>
+      <DocsSection>
+        <p>
+          <i>Composant générique pouvant être utilisé par toutes les équipes de la DSIT.</i>
+        </p>
+        <Gerkin>
+          <ul>
+            <li>En tant qu’utilisateur ;</li>
+            <li>
+              Je souhaite avoir à disposition des <b>Checkbox</b> ;
+            </li>
+            <li>
+              Afin de pouvoir <b>transmettre mon avis/choix</b> face aux questions que l’on me pause.
+            </li>
+          </ul>
+        </Gerkin>
+        <img src={SchemaTreeviewDecision} alt="Schéma d’arbre de décision pour le choix entre différents composants" />
+      </DocsSection>
+      <DocsSection>
+        <Usage />
+      </DocsSection>
+      <DocsSection>
+        <Options />
+      </DocsSection>
+      <DocsSection>
+        <Behaviors />
+      </DocsSection>
+    </>
+  }
+  accessibility={
+    <Accordion title="Accessibility Testing Status">
+      <AccessibilityTable />
+    </Accordion>
+  }
+/>
