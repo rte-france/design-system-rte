@@ -1,0 +1,31 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+.sbdocs {
+  .button.option-wrapper {
+    display: flex;
+    gap: $positive-spacing_200;
+    padding: $positive-spacing_200 0;
+    width: 100%;
+
+    .option-header {
+      border-radius: $radius-s;
+      background: var(--background-disabled);
+      padding: $positive-spacing_200;
+
+      p {
+        margin: 0;
+        @include typography-text-l;
+      }
+    }
+
+    .option-table {
+      padding: 0 $positive-spacing_200;
+    }
+
+    .option-paragraph {
+      margin: 0 0 $positive-spacing_150 0;
+      @include typography-text-l;
+      color: var(--content-secondary);
+    }
+  }
+}
