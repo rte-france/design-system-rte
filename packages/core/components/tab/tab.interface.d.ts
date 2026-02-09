@@ -1,5 +1,3 @@
-import { DropdownItemConfig } from "../dropdown/dropdown-item/dropdown-item.component";
-
 export type TabAlignment = "start" | "center";
 
 export interface TabProps {
@@ -13,7 +11,7 @@ export interface TabProps {
   inverted?: boolean;
 }
 
-export interface TabItemProps extends DropdownItemConfig {
+export interface TabItemProps {
   id: string;
   panelId: string;
   label?: string;

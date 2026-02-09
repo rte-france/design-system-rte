@@ -3,9 +3,6 @@ import { BadgeHolderProps } from "../badge/badge.interface";
 export type SplitButtonAppearance = "primary" | "secondary";
 export type SplitButtonSize = "s" | "m" | "l";
 export type SplitButtonPosition = "bottom-start" | "bottom-end" | "top-start" | "top-end";
-export type SplitButtonAppearance = "primary" | "secondary";
-export type SplitButtonSize = "s" | "m" | "l";
-export type SplitButtonPosition = "bottom-start" | "bottom-end" | "top-start" | "top-end";
 
 export interface SplitButtonProps extends BadgeHolderProps {
   appearance?: SplitButtonAppearance;

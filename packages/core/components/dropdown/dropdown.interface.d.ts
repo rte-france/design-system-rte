@@ -12,7 +12,6 @@ export interface DropdownProps {
   isOpen?: boolean;
   offset?: number;
   autofocus?: boolean;
-  autoOpen?: boolean;
 }
 
 export interface DropdownItemProps extends BadgeHolderProps {
