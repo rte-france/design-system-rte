@@ -28,7 +28,7 @@ const checkboxAccessibilityData: AccessibilityCategory[] = [
     ],
   },
   {
-    category: "Lecture par un lecteur d’écran 🖱️",
+    category: "Lecture par un lecteur d’écran 🔊",
     criteria: [
       {
         criterion: "Annonce correcte",
