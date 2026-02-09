@@ -10,7 +10,7 @@ import {
   Renderer2,
   ViewContainerRef,
 } from "@angular/core";
-import { Position } from "@design-system-rte/core/common/common-types";
+import { Position } from "@design-system-rte/core/components/common/common-types";
 import { TOOLTIP_FADE_OUT_DURATION, TOOLTIP_GAP } from "@design-system-rte/core/components/tooltip/tooltip.constants";
 import { getTooltipGap } from "@design-system-rte/core/components/tooltip/tooltip.utils";
 import { getAutoPlacement, getCoordinates } from "@design-system-rte/core/components/utils/auto-placement";

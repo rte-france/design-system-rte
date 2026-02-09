@@ -1,4 +1,4 @@
-import { shouldDisplayBadge } from "@design-system-rte/core/components/badge/badge.utils.ts";
+import { shouldDisplayBadge } from "@design-system-rte/core/components/badge/badge.utils";
 import { BREADCRUMBS_DEFAULT_ARIA_LABEL } from "@design-system-rte/core/components/breadcrumbs/breadcrumbs.constants";
 import { BreadcrumbsProps as BreadcrumbsPropsCore } from "@design-system-rte/core/components/breadcrumbs/breadcrumbs.interface";
 import {

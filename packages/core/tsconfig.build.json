@@ -1,0 +1,28 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "declaration": true,
+    "declarationMap": true,
+    "outDir": "./dist",
+    "rootDir": ".",
+    "module": "ESNext",
+    "target": "ES2020",
+    "moduleResolution": "Node"
+  },
+  "include": [
+    "index.ts",
+    "common/**/*.ts",
+    "components/**/*.ts",
+    "components/**/*.tsx",
+    "constants/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "**/docs/**",
+    "**/stories/**",
+    "scripts",
+    "css-theme-generator.ts",
+    "css-font-generator.ts"
+  ]
+}
