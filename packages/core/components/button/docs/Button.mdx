@@ -1,0 +1,97 @@
+import { Meta } from "@storybook/blocks";
+
+import ComponentDocs from "../../../../design-docs/src/components/ComponentDocs/ComponentDocs";
+import DocsSection from "../../../../design-docs/src/components/DocsSection/DocsSection";
+import Accordion from "../../../../design-docs/src/components/Accordion/Accordion";
+import Paragraph from "../../../../design-docs/src/components/Paragraph/Paragraph";
+import Usage from "./Usage";
+import Options from "./Options";
+import Behaviors from "./Behaviors";
+import AccessibilityTable from "./AccessibilityTable";
+
+<Meta title="Composants/Button" />
+
+<ComponentDocs
+  title="Button"
+  description={
+    <Paragraph>
+      Le <b>Button</b> est un composant interactif permettant d’effectuer une action au sein d’une interface. <br />
+      Il peut contenir un texte, une icône ou les deux. <br />
+      Les boutons sont utilisés pour confirmer, annuler, valider, envoyer, naviguer ou exécuter toute autre commande
+      liée à l’expérience utilisateur.
+    </Paragraph>
+  }
+  linkFigma="https://www.figma.com/design/Oe33roVZDpZNXWlEn25Z7x/02.0-Storybook?node-id=863-32210&m=dev"
+  linkGithub={{
+    react: "https://github.com/rte-france/design-system-rte/tree/main/packages/react/src/components/button",
+    angular:
+      "https://github.com/rte-france/design-system-rte/tree/main/packages/angular/projects/ds-rte-lib/src/lib/components/button",
+  }}
+  disponibility={{
+    design: {
+      figma: true,
+      guidelines: true,
+    },
+    code: {
+      react: true,
+      angular: true,
+    },
+  }}
+  changelog={[
+    {
+      version: "1.0.0",
+      date: "04 Décembre 2025",
+      changes: ["Livraison du composant"],
+    },
+  ]}
+  options={[
+    {
+      property: "interactionState",
+      value: "enabled / hover / active / focus / disabled",
+      defaultValue: "enabled",
+      dependance: "-",
+    },
+    {
+      property: "appearance",
+      value: "primary / secondary / text / transparent / danger",
+      defaultValue: "primary",
+      dependance: "-",
+    },
+    { property: "size", value: "S / M / L", defaultValue: "M", dependance: "-" },
+    { property: "label", value: "text", defaultValue: "-", dependance: "-" },
+    { property: "showLeftIcon", value: "True / False", defaultValue: "False", dependance: "-" },
+    { property: "leftIcon", value: "icon", defaultValue: "-", dependance: "showLeftIcon = True" },
+    { property: "showRightIcon", value: "True / False", defaultValue: "False", dependance: "-" },
+    { property: "rightIcon", value: "icon", defaultValue: "-", dependance: "showRightIcon = True" },
+    { property: "showBadge", value: "True / False", defaultValue: "False", dependance: "-" },
+    {
+      property: "Mode",
+      value: "bleu-iceberg-light / bleu-iceberg-dark / violet-light / violet-dark / vert-foret-light / vert-foret-dark",
+      defaultValue: "bleu-iceberg-light",
+      dependance: "-",
+    },
+  ]}
+  guidelines={
+    <>
+      <DocsSection>
+        <p>
+          <i>Composant générique pouvant être utilisé par toutes les équipes de la DSIT.</i>
+        </p>
+      </DocsSection>
+      <DocsSection>
+        <Usage />
+      </DocsSection>
+      <DocsSection>
+        <Options />
+      </DocsSection>
+      <DocsSection>
+        <Behaviors />
+      </DocsSection>
+    </>
+  }
+  accessibility={
+    <Accordion title="Accessibility Testing Status">
+      <AccessibilityTable />
+    </Accordion>
+  }
+/>
