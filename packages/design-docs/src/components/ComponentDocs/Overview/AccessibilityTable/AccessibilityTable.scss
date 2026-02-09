@@ -3,7 +3,7 @@
 .rte-accessibility-table {
   border: 1px solid var(--border-tertiary);
   border-radius: $radius-m;
-  overflow: clip;
+  overflow: auto;
 
   .rte-accessibility-table-content {
     margin: 0;
@@ -33,6 +33,7 @@
       vertical-align: top;
 
       tr {
+
         th,
         td {
           border: none;
@@ -66,6 +67,7 @@
       }
 
       tr[data-is-last-row="true"]:not([data-is-last-category="true"]) {
+
         th,
         td {
           border-bottom: 1px solid var(--border-divider);
@@ -75,6 +77,7 @@
       }
 
       tr[data-is-last-category="true"][data-is-last-row="true"] {
+
         th,
         td {
           border-bottom: none;
@@ -85,4 +88,3 @@
     }
   }
 }
-
