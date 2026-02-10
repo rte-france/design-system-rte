@@ -55,10 +55,22 @@ const Options = () => {
 const typesOptions = {
   headers: ["Type", "Purpose"],
   lines: [
-    ["info", ""],
-    ["success", ""],
-    ["warning", ""],
-    ["error", ""],
+    [
+      "info",
+      "Utilisé pour informer l’utilisateur d’un message contextuel ou général, sans indiquer une erreur ni nécessiter d’action corrective immédiate.",
+    ],
+    [
+      "error",
+      "Utilisé pour alerter l’utilisateur d’une erreur survenue ou d’un échec empêchant la poursuite normale du parcours, et peut nécessiter une action corrective.",
+    ],
+    [
+      "success",
+      "Sert à confirmer qu’une action ou un processus s’est déroulé avec succès, en fournissant un retour positif et explicite à l’utilisateur.",
+    ],
+    [
+      "warning",
+      "Signale une situation potentiellement problématique ou une information importante à prendre en compte, sans bloquer l’utilisateur ni indiquer une erreur avérée.",
+    ],
   ],
 };
 
