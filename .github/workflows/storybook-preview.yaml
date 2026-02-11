@@ -35,12 +35,12 @@ jobs:
       - name: Generate icons
         run: npm run generate:icons
 
-      - name: Build React Package
-        working-directory: packages/react
-        run: npm run build
-
       - name: Build Core Package
         working-directory: packages/core
+        run: npm run build
+
+      - name: Build React Package
+        working-directory: packages/react
         run: npm run build
 
       - name: Build Design Docs Storybook
