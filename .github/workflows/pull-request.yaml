@@ -70,6 +70,7 @@ jobs:
         with:
           path: |
             ./packages/core/css
+            ./packages/core/dist
           key: build-core-${{ hashFiles('package-lock.json') }}-${{ github.sha }}
 
   quality-react:
@@ -109,6 +110,7 @@ jobs:
         with:
           path: |
             ./packages/core/css
+            ./packages/core/dist
           key: build-core-${{ hashFiles('package-lock.json') }}-${{ github.sha }}
 
       - name: Lint
@@ -160,6 +162,7 @@ jobs:
         with:
           path: |
             ./packages/core/css
+            ./packages/core/dist
           key: build-core-${{ hashFiles('package-lock.json') }}-${{ github.sha }}
 
       - name: Lint
