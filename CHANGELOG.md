@@ -2,6 +2,60 @@
 
 # Angular
 
+## 2.0.0
+
+### Stepper
+
+#### Minor Changes
+
+- make steps clickable inkeyboard interaction stories
+- set active step label with primary color on angular
+- use keydown event only
+- use utils function to determine clickable state of a step
+- remove log
+- export component to public api
+- add Angular component
+
+### Dropdown
+
+#### Minor Changes
+
+- focus back trigger on closing it with escape input
+
+### Radio-button
+
+#### Patch Changes
+
+- remove unnecessary cursor style
+- rewrite radio button structure to prevent visual deformation on checked state
+
+### Angular
+
+#### Patch Changes
+
+- correct dependency nesting between angular and core from @design-system-rte
+
+### Sidenav
+
+#### Patch Changes
+
+- allow all clicking area for nav item
+
+### Loader
+
+#### Patch Changes
+
+- export loader component
+
+### Other
+
+#### Patch Changes
+
+- Updated dependencies [c58b706]
+- Updated dependencies [d01f3a4]
+- Updated dependencies [a77bb52]
+- @design-system-rte/core@1.3.0
+
 ## 1.2.0
 
 ### Dropdown
@@ -153,107 +207,53 @@
 - Updated dependencies [2cff3de]
 - Updated dependencies [29e0462]
 - @design-system-rte/core@1.2.0
+# React
 
-## 1.0.1
+## 1.4.0
 
-### Docs
+### Stepper
 
-#### Patch Changes
+#### Minor Changes
 
-- update test to take theme-selector component into account
-- order toast stories
-
-### Popover
-
-#### Patch Changes
-
-- update shadows
-
-### Modal
-
-#### Patch Changes
-
-- update shadows
-- increase border radius for size L and XL
+- make steps clickable inkeyboard interaction stories
+- use keydown event only
+- use utils function to determine clickable state of a step
+- export component to public api
+- Add React component
 
 ### Dropdown
 
-#### Patch Changes
+#### Minor Changes
 
-- update shadows
+- focus back trigger on closing it with escape input
 
-### Card
-
-#### Patch Changes
-
-- update shadows
-
-### Banner
+### Radio-button
 
 #### Patch Changes
 
-- update shadows
+- remove unnecessary cursor style
+- rewrite radio button structure to prevent visual deformation on checked state
+
+### Sidenav
+
+#### Patch Changes
+
+- allow all clicking area for nav item
+
+### Loader
+
+#### Patch Changes
+
+- export loader component
 
 ### Other
 
 #### Patch Changes
 
-- better export of module to access style and component
-- update precommit hook
-- improve prettier integration
-- Updated dependencies [aa4024c]
-- Updated dependencies [ddb8b02]
-- @design-system-rte/core@1.1.0
-
-## 1.0.0
-
-### Public Release
-
-#### Major Changes
-
-- Public Release
-
-### Toast
-
-#### Minor Changes
-
-- set correct padding value
-- extract getToastPriority logic to core + use computed to display actionButton + add custom icon to input
-- add to angular test app
-- add angular component
-
-### Button
-
-#### Minor Changes
-
-- set correct position to badge
-- decouple rteBadge from rteButton component but keep Badge capacities in Button
-- add badge
-
-### Banner
-
-#### Minor Changes
-
-- remove show icon props + remove top and left radius corner
-- update design
-
-### Tag
-
-#### Patch Changes
-
-- force icon for status tag type
-- set right color for label and icon on success / information / alert variant
-
-### Other
-
-#### Patch Changes
-
-- Updated dependencies [90fd2b4]
-- Updated dependencies [1b87a18]
-- Updated dependencies [f3d1179]
-- Updated dependencies [b779f76]
-- @design-system-rte/core@0.22.0
-# React
+- Updated dependencies [c58b706]
+- Updated dependencies [d01f3a4]
+- Updated dependencies [a77bb52]
+- @design-system-rte/core@1.3.0
 
 ## 1.3.0
 
@@ -420,72 +420,34 @@
 - Updated dependencies [2cff3de]
 - Updated dependencies [29e0462]
 - @design-system-rte/core@1.2.0
+# Core
 
-## 1.1.0
+## 1.3.0
 
-### Docs
+### Stepper
 
 #### Minor Changes
 
-- update test to take theme-selector component into account
-- harmonise stories layout
-- move theme and mode switcher to component page
-
-#### Patch Changes
-
-- order toast stories
+- use utils function to determine clickable state of a step
+- remove log
+- export component to public api
+- add Angular component
+- Add React component
 
 ### Core
 
-#### Minor Changes
+#### Patch Changes
 
-- add Nunito font to serve to react and angular package
+- set valid path for icon constants import
 
-### Popover
+### Loader
 
 #### Patch Changes
 
-- update shadows
-
-### Modal
-
-#### Patch Changes
-
-- update shadows
-- increase border radius for size L and XL
-
-### Dropdown
-
-#### Patch Changes
-
-- update shadows
-
-### Card
-
-#### Patch Changes
-
-- prevent click action on disabled or not clickable state
-- update shadows
-
-### Banner
-
-#### Patch Changes
-
-- update shadows
+- export loader component
 
 ### Other
 
-#### Minor Changes
-
-- better export of module to access style and component
-
-#### Patch Changes
-
-- upgrade @storybook/addon-essentials and @storybook/addon-interactions packages
-- Updated dependencies [aa4024c]
-- Updated dependencies [ddb8b02]
-- @design-system-rte/core@1.1.0
-# Core
 
 ## 1.2.1
 
@@ -625,41 +587,6 @@
 
 - add Nunito font to serve to react and angular package
 - add elevation mixins
-
-### Other
-
-
-## 1.0.0
-
-### Public Release
-
-#### Major Changes
-
-- Public Release
-
-### Toast
-
-#### Minor Changes
-
-- extract getToastPriority logic to core + use computed to display actionButton + add custom icon to input
-- add angular component
-- add spacing from viewport + handle warning case in priority + add leftIcon and action button display boolean
-- add priority queue management
-- add basic react component
-
-### Button
-
-#### Minor Changes
-
-- set correct position to badge
-- add badge
-
-### Banner
-
-#### Minor Changes
-
-- remove show icon props + remove top and left radius corner
-- update design
 
 ### Other
 
