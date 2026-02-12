@@ -16,8 +16,8 @@ import {
   signal,
   ViewContainerRef,
 } from "@angular/core";
+import { Alignment, Position } from "@design-system-rte/core";
 import { waitForNextFrame } from "@design-system-rte/core/common/animation";
-import { Alignment, Position } from "@design-system-rte/core/components/common/common-types";
 import { DROPDOWN_ANIMATION_DURATION } from "@design-system-rte/core/components/dropdown/dropdown.constants";
 import {
   getAutoAlignment,
