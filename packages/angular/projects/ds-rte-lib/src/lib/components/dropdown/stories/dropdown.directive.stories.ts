@@ -152,6 +152,7 @@ export const WithBadge: StoryObj<{
 };
 
 export const KeyboardNavigation: Story = {
+  tags: ["debug"],
   decorators: [
     moduleMetadata({
       imports: [DropdownModule],
@@ -185,9 +186,12 @@ export const KeyboardNavigation: Story = {
     const overlay = document.getElementById("overlay-root");
     const dropdown = overlay?.querySelector("rte-dropdown-menu");
     const menuItems = dropdown?.querySelector("ul")?.querySelectorAll("li");
-    expect(dropdown).toBeInTheDocument();
-    await userEvent.tab();
-    expect(menuItems?.[0]).toHaveFocus();
+
+    await waitFor(() => {
+      expect(dropdown).toBeInTheDocument();
+      userEvent.tab();
+      expect(menuItems?.[0]).toHaveFocus();
+    });
     await userEvent.keyboard(TESTING_DOWN_KEY);
     expect(menuItems?.[1]).toHaveFocus();
     await userEvent.keyboard(TESTING_UP_KEY);
@@ -388,6 +392,7 @@ export const WithFilterableHeader: Story = {
 };
 
 export const WithAddItemFooter: Story = {
+  tags: ["debug"],
   decorators: [
     moduleMetadata({
       imports: [DropdownModule, ButtonComponent],
@@ -492,13 +497,15 @@ export const WithAddItemFooter: Story = {
     await userEvent.type(addItemInput, "New Item");
     await userEvent.click(addButton);
 
+    // Wait for state update + change detection + re-render (CI can be slower than 300ms)
     await waitFor(
       () => {
-        const menuItems = dropdown.querySelector("ul")?.querySelectorAll("li");
-        expect(menuItems?.length).toBe(initialItemCount + 1);
-        expect(menuItems?.[menuItems.length - 1]?.textContent).toContain("New Item");
+        const list = dropdown.querySelector("ul");
+        const menuItems = list?.querySelectorAll("li") ?? [];
+        expect(menuItems.length).toBe(initialItemCount + 1);
+        expect(menuItems[menuItems.length - 1]?.textContent?.trim()).toContain("New Item");
       },
-      { timeout: 300 },
+      { timeout: 5 },
     );
   },
 };

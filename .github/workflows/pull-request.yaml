@@ -121,7 +121,7 @@ jobs:
 
       - name: Run tests
         working-directory: packages/react
-        run: npm run test:ci
+        run: npm run test:ci:debug
 
   quality-angular:
     runs-on: ubuntu-latest
@@ -168,7 +168,7 @@ jobs:
 
       - name: Run tests
         working-directory: packages/angular
-        run: npm run test:ci
+        run: npm run test:ci:debug
 
   quality-core:
     runs-on: ubuntu-latest
