@@ -5,6 +5,5 @@ export interface SwitchProps {
   showLabel?: boolean;
   showIcon?: boolean;
   label?: string;
-  showIcon?: boolean;
   checked?: boolean;
 }

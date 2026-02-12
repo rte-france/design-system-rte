@@ -29,7 +29,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref,
   ) => {
-    const shouldDisplayBadge = (badgeCount > 0 && badgeContent === "number") || (badgeContent === "icon" && badgeIcon);
+    const shouldDisplayBadge =
+      (badgeCount && badgeCount > 0 && badgeContent === "number") || (badgeContent === "icon" && badgeIcon);
 
     if (shouldDisplayBadge) {
       return (

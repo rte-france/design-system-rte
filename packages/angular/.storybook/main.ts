@@ -11,7 +11,7 @@ const config: StorybookConfig = {
   stories: [
     "../projects/ds-rte-lib/src/**/*.mdx",
     "../projects/ds-rte-lib/src/**/*.stories.@(js|jsx|mjs|ts|tsx)",
-    "../../core/components/**/docs/**/*.mdx",
+    "../../design-docs/component-docs/**/docs/**/*.mdx",
   ],
   addons: [
     getAbsolutePath("@storybook/addon-essentials"),
@@ -73,12 +73,13 @@ const config: StorybookConfig = {
             typeof ruleSetRule.loader === "string" &&
             ruleSetRule.loader.includes("@ngtools/webpack")
           ) {
-            // Exclude core, design-docs, and react packages from Angular compiler
+            // Exclude core, design-docs (src + component-docs), and react packages from Angular compiler
             const originalExclude = ruleSetRule.exclude || [];
             ruleSetRule.exclude = [
               ...(Array.isArray(originalExclude) ? originalExclude : [originalExclude]),
               /core\/components/,
               /design-docs\/src\/components/,
+              /design-docs\/component-docs/,
             ].filter(Boolean);
           }
         }
@@ -107,7 +108,7 @@ const config: StorybookConfig = {
       },
       {
         test: /\.(ts|tsx)$/,
-        include: [/core\/components/, /design-docs\/src\/components/],
+        include: [/core\/components/, /design-docs\/src\/components/, /design-docs\/component-docs/],
         use: {
           loader: "babel-loader",
           options: {
