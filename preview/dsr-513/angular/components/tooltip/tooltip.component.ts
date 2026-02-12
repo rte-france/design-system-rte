@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { Component, input } from "@angular/core";
-import { Alignment, Position } from "@design-system-rte/core/components/common/common-types";
+import { Alignment, Position } from "@design-system-rte/core";
 
 @Component({
   selector: "rte-tooltip",
