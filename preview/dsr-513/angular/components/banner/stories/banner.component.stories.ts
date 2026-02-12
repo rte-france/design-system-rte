@@ -8,7 +8,7 @@ import { SwitchComponent } from "../../switch/switch.component";
 import { BannerComponent } from "../banner.component";
 
 const meta: Meta<BannerComponent> = {
-  title: "Composants/Banner",
+  title: "Composants/Banner/Banner",
   component: BannerComponent,
   tags: ["autodocs"],
   argTypes: {
