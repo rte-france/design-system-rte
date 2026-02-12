@@ -1,0 +1,127 @@
+import { Meta } from "@storybook/blocks";
+
+import ComponentDocs from "../../../src/components/ComponentDocs/ComponentDocs";
+import DocsSection from "../../../src/components/DocsSection/DocsSection";
+import Accordion from "../../../src/components/Accordion/Accordion";
+import Gerkin from "../../../src/components/Guideline/Gerkin/Gerkin";
+import Paragraph from "../../../src/components/Paragraph/Paragraph";
+import Usage from "./Usage";
+import Options from "./Options";
+import Behaviors from "./Behaviors";
+import AccessibilityTable from "./AccessibilityTable";
+
+<Meta title="Composants/Badge" />
+
+<ComponentDocs
+  title="Badge"
+  description={
+    <Paragraph>
+      Le Badge est un élément visuel compact qui permet d'afficher <b>une valeur numérique, symbolique ou indicative.</b> Il sert notamment à signaler un nombre de messages, de notifications, d'éléments à lire, ou encore une simple présence d'activité.
+      <br/>
+      Le Badge est <b>souvent positionné en superposition</b> sur une icône, un bouton ou une miniature.
+    </Paragraph>
+  }
+  linkFigma="https://www.figma.com/design/Oe33roVZDpZNXWlEn25Z7x/02.0-Storybook?node-id=691-30146&p=f&m=dev"
+  linkGithub={{
+    react: "https://github.com/rte-france/design-system-rte/tree/main/packages/react/src/components/badge",
+    angular: "https://github.com/rte-france/design-system-rte/tree/main/packages/angular/projects/ds-rte-lib/src/lib/components/badge"
+  }}
+  disponibility={{
+    design: {
+      figma: true,
+      guidelines: true,
+    },
+    code: {
+      react: true,
+      angular: true,
+    },
+  }}
+  changelog={[
+    {
+      version: "1.0.0",
+      date: "04 Décembre 2025",
+      changes: ["Livraison du composant"],
+    },
+  ]}
+  options={[
+    {
+      property: "badgeType",
+      value: "brand / neutral / indicator",
+      defaultValue: "brand",
+      dependance: "-",
+    },
+    {
+      property: "size",
+      value: "XS / S / M / L",
+      defaultValue: "S",
+      dependance: "-",
+    },
+    {
+      property: "showContent",
+      value: "True / False",
+      defaultValue: "True",
+      dependance: "-",
+    },
+    {
+      property: "content",
+      value: "number / icon",
+      defaultValue: "number",
+      dependance: "size ≠ XS or S",
+    },
+    {
+      property: "count",
+      value: "number",
+      defaultValue: "42",
+      dependance: "size ≠ XS or S",
+    },
+    {
+      property: "icon",
+      value: "any of existing icon",
+      defaultValue: "settings icon",
+      dependance: "badge content appearance = icon",
+    },
+    {
+      property: "mode",
+      value: "bleu-iceberg_light / bleu-iceberg_dark / violet_light / violet_dark / vert-foret_light / vert-foret_dark",
+      defaultValue: "bleu-iceberg_light",
+      dependance: "-",
+    },
+  ]}
+  guidelines={
+    <>
+      <DocsSection>
+        <p>
+          <i>Composant générique pouvant être utilisé par toutes les équipes de la DSIT.</i>
+        </p>
+        <Gerkin>
+          <ul>
+            <li>
+              En tant qu'utilisateur <b>d'une interface</b>,
+            </li>
+            <li>
+              Je souhaite <b>visualiser une quantité ou une notification associée à un élément</b>,
+            </li>
+            <li>
+              Afin d'<b>être informé de l'activité ou du statut sans avoir à interagir</b>.
+            </li>
+          </ul>
+        </Gerkin>
+      </DocsSection>
+      <DocsSection>
+        <Usage />
+      </DocsSection>
+      <DocsSection>
+        <Options />
+      </DocsSection>
+      <DocsSection>
+        <Behaviors />
+      </DocsSection>
+    </>
+  }
+  accessibility={
+    <Accordion title="Accessibility Testing Status">
+      <AccessibilityTable />
+    </Accordion>
+  }
+/>
+
