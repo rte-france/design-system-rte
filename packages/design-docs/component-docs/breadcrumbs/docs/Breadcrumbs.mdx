@@ -1,0 +1,104 @@
+import { Meta } from "@storybook/blocks";
+
+import ComponentDocs from "../../../src/components/ComponentDocs/ComponentDocs";
+import DocsSection from "../../../src/components/DocsSection/DocsSection";
+import Accordion from "../../../src/components/Accordion/Accordion";
+import Gerkin from "../../../src/components/Guideline/Gerkin/Gerkin";
+import Paragraph from "../../../src/components/Paragraph/Paragraph";
+import Usage from "./Usage";
+import Options from "./Options";
+import Behaviors from "./Behaviors";
+import AccessibilityTable from "./AccessibilityTable";
+
+<Meta title="Composants/Breadcrumbs" />
+
+<ComponentDocs
+  title="Breadcrumbs"
+  description={
+    <Paragraph>Le composant <b>Breadcrumb</b> (ou fil d'Ariane) permet d'indiquer visuellement le chemin de navigation jusqu'à la page en cours. Il facilite la compréhension de la hiérarchie de l'interface et offre un accès rapide aux pages parentes. Il se base sur le composant Link pour tous les comportements de navigation, de focus et d'accessibilité.</Paragraph>
+  }
+  linkFigma="https://www.figma.com/design/Wiy8uWsWjoagf95lOmPXNU/01.0-Design-System-RTE---WEB?node-id=2620-7306&p=f&m=dev"
+  linkGithub={{
+    react: "https://github.com/rte-france/design-system-rte/tree/main/packages/react/src/components/breadcrumbs",
+    angular: "https://github.com/rte-france/design-system-rte/tree/main/packages/angular/projects/ds-rte-lib/src/lib/components/breadcrumbs"
+  }}
+  disponibility={{
+    design: {
+      figma: true,
+      guidelines: true,
+    },
+    code: {
+      react: true,
+      angular: true,
+    },
+  }}
+  changelog={[
+    {
+      version: "1.0.0",
+      date: "04 Décembre 2025",
+      changes: ["Livraison du composant"],
+    },
+  ]}
+  options={[
+    {
+      property: "numberOfPages",
+      value: "1 / 2 / 3 / 3+",
+      defaultValue: "2",
+      dependance: "-",
+    },
+    {
+      property: "activePageLabel",
+      value: "Text",
+      defaultValue: "Active page",
+      dependance: "-",
+    },
+    {
+      property: "showBadge",
+      value: "True / False",
+      defaultValue: "False",
+      dependance: "-",
+    },
+    {
+      property: "mode",
+      value: "bleu-iceberg_light / bleu-iceberg_dark / violet_light / violet_dark / vert-foret_light / vert-foret_dark",
+      defaultValue: "bleu-iceberg_light",
+      dependance: "-",
+    },
+  ]}
+  guidelines={
+    <>
+      <DocsSection>
+        <p>
+          <i>Composant générique pouvant être utilisé par toutes les équipes de la DSIT.</i>
+        </p>
+        <Gerkin>
+          <ul>
+            <li>
+              En tant qu'utilisateur <b>naviguant sur une interface</b>,
+            </li>
+            <li>
+              Je souhaite <b>visualiser clairement ma position dans l'arborescence du site ou de l'application</b>,
+            </li>
+            <li>
+              Afin de <b>comprendre le contexte de la page actuelle et revenir facilement à un niveau supérieur si besoin</b>.
+            </li>
+          </ul>
+        </Gerkin>
+      </DocsSection>
+      <DocsSection>
+        <Usage />
+      </DocsSection>
+      <DocsSection>
+        <Options />
+      </DocsSection>
+      <DocsSection>
+        <Behaviors />
+      </DocsSection>
+    </>
+  }
+  accessibility={
+    <Accordion title="Accessibility Testing Status">
+      <AccessibilityTable />
+    </Accordion>
+  }
+/>
