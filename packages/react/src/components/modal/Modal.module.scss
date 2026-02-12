@@ -33,6 +33,7 @@
   border-radius: $radius-m;
   opacity: 0;
   transition: opacity 150ms ease-in, transform 150ms ease-in;
+  margin: auto;
 
   &[data-open='true'] {
     opacity: 1;
