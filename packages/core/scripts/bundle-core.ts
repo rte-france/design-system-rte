@@ -1,11 +1,6 @@
-#!/usr/bin/env node
-/**
- * Build script for @design-system-rte/core
- * Compiles TypeScript to JS + .d.ts, copies assets, and creates the dist package.
- */
-import { execSync } from "child_process";
-import fs from "fs";
-import path from "path";
+import { execSync } from "node:child_process";
+import fs from "node:fs";
+import path from "node:path";
 
 const packageRoot = path.resolve(__dirname, "..");
 const distDir = path.join(packageRoot, "dist");

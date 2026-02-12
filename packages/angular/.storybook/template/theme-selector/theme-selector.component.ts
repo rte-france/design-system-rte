@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, signal } from "@angular/core";
-import { Mode, Theme } from "@design-system-rte/core/components/common/common-types";
+import { Mode, Theme } from "@design-system-rte/core";
 
 import { ChipComponent } from "../../../projects/ds-rte-lib/src/lib/components/chip/chip.component";
 import { IconButtonComponent } from "../../../projects/ds-rte-lib/src/lib/components/icon-button/icon-button.component";
