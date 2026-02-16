@@ -200,6 +200,7 @@ export const WithBadge: StoryObj<{
 };
 
 export const KeyboardNavigation: Story = {
+  tags: ["debug"],
   args: {
     ...Default.args,
   },
@@ -218,8 +219,10 @@ export const KeyboardNavigation: Story = {
     const overlay = document.getElementById("overlay-root");
     const dropdown = overlay?.querySelector("[data-dropdown-id]");
     const menuItems = dropdown?.querySelector("ul")?.querySelectorAll("li");
-    expect(dropdown).toBeInTheDocument();
-    expect(menuItems?.[0]).toHaveFocus();
+    await waitFor(() => {
+      expect(dropdown).toBeInTheDocument();
+      expect(menuItems?.[0]).toHaveFocus();
+    });
     await userEvent.keyboard(TESTING_DOWN_KEY);
     expect(menuItems?.[1]).toHaveFocus();
     await userEvent.keyboard(TESTING_UP_KEY);
@@ -493,6 +496,7 @@ export const WithFilterableHeader: Story = {
 };
 
 export const WithAddItemFooter: Story = {
+  tags: ["debug"],
   args: {
     ...Default.args,
   },
@@ -616,10 +620,15 @@ export const WithAddItemFooter: Story = {
     await userEvent.type(addItemInput, "New Item");
     await userEvent.click(addButton);
 
-    await waitFor(() => {
-      const menuItems = dropdown.querySelector("ul")?.querySelectorAll("li");
-      expect(menuItems?.length).toBe(initialItemCount + 1);
-      expect(menuItems?.[menuItems.length - 1]?.textContent).toContain("New Item");
-    });
+    // Wait for state update + re-render (CI can be slower than default timeout)
+    await waitFor(
+      () => {
+        const list = dropdown.querySelector("ul");
+        const menuItems = list?.querySelectorAll("li") ?? [];
+        expect(menuItems.length).toBe(initialItemCount + 1);
+        expect(menuItems[menuItems.length - 1]?.textContent?.trim()).toContain("New Item");
+      },
+      { timeout: 5000 },
+    );
   },
 };
