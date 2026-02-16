@@ -4,6 +4,7 @@ import {
   computed,
   contentChild,
   ElementRef,
+  forwardRef,
   HostListener,
   inject,
   input,
@@ -29,7 +30,7 @@ import { DropdownMenuHeaderDirective } from "./dropdown-menu-header.directive";
 
 @Component({
   selector: "rte-dropdown-menu",
-  imports: [CommonModule, DropdownItemComponent, DividerComponent],
+  imports: [CommonModule, forwardRef(() => DropdownItemComponent), DividerComponent],
   standalone: true,
   templateUrl: "./dropdown-menu.component.html",
   styleUrl: "./dropdown-menu.component.scss",

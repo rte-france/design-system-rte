@@ -10,18 +10,34 @@ import { DropdownModule } from "../dropdown.module";
 
 const RegularIconIds = Object.keys(RegularIconsList);
 const TogglableIconIds = Object.keys(TogglableIconsList);
-
 const MOCKUP_ITEMS = [
-  { label: "Messages", leftIcon: "mail", hasSeparator: true },
-  { label: "Actions", leftIcon: "settings" },
-  { label: "Help", leftIcon: "help" },
-  { label: "More information", leftIcon: "info", hasSeparator: true },
-  { label: "First option", hasIndent: true },
-  { label: "Second option", hasIndent: true },
-  { label: "Third option", hasSeparator: true, hasIndent: true },
-  { label: "Username", leftIcon: "user-circle", disabled: true },
+  { id: "message", label: "Messages", leftIcon: "mail", hasSeparator: true },
+  {
+    id: "actions",
+    label: "Actions",
+    leftIcon: "settings",
+    sub: [
+      {
+        id: "edit",
+        label: "Edit",
+        leftIcon: "edit",
+        sub: [
+          { id: "cut", label: "Cut", leftIcon: "cut", trailingText: "Ctrl+X" },
+          { id: "copy", label: "Copy", leftIcon: "copy", trailingText: "Ctrl+C" },
+          { id: "paste", label: "Paste", leftIcon: "paste", trailingText: "Ctrl+V" },
+        ],
+      },
+      { id: "archive", label: "Archive", leftIcon: "archive" },
+      { id: "delete", label: "Delete", leftIcon: "delete" },
+    ],
+  },
+  { id: "help", label: "Help", leftIcon: "help" },
+  { id: "more-info", label: "More information", leftIcon: "info", hasSeparator: true },
+  { id: "first-option", label: "First option", hasIndent: true },
+  { id: "second-option", label: "Second option", hasIndent: true },
+  { id: "third-option", label: "Third option", hasSeparator: true, hasIndent: true },
+  { id: "username", label: "Username", leftIcon: "user-circle", disabled: true },
 ];
-
 const wipWarning = `
 <div>
   <span style="font-family: sans-serif; margin-bottom: 16px; border: 1px solid #F4922B; padding: 8px; border-radius: 5px; background-color: #FAFFC1; margin: 0;">

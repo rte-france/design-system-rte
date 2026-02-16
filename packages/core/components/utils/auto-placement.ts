@@ -106,7 +106,7 @@ export const getAutoAlignment = (
     end:
       position === "top" || position === "bottom"
         ? triggerRect.right >= castedRect.width
-        : window.innerHeight - triggerRect.bottom >= castedRect.height,
+        : triggerRect.bottom >= castedRect.height,
     start:
       position === "top" || position === "bottom"
         ? window.innerWidth - triggerRect.left >= castedRect.width
