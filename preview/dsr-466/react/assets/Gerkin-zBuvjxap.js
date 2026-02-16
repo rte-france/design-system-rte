@@ -1,1 +1,0 @@
-import{j as s}from"./jsx-runtime-Cf8x2fCZ.js";const i=({children:e})=>s.jsx("div",{className:"gerkin-container",children:e});i.__docgenInfo={description:"",methods:[],displayName:"Gerkin",props:{children:{required:!1,tsType:{name:"ReactNode"},description:""}}};export{i as G};
