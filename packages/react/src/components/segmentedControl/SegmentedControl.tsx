@@ -16,7 +16,7 @@ interface SegmentedControlProps
 }
 
 const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps>(
-  ({ options, onChange, selectedSegment, ...props }, ref) => {
+  ({ options, onChange, selectedSegment, appearance = "brand", ...props }, ref) => {
     const containerRef: MutableRefObject<HTMLDivElement | null> = useRef<HTMLDivElement>(null);
     const sliderStyle = useSelectedIndicatorPosition(containerRef, selectedSegment);
 
@@ -43,7 +43,11 @@ const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps>(
       >
         <span
           className={style["segment-selected-indicator"]}
-          style={{ left: sliderStyle.left, top: sliderStyle.top, width: sliderStyle.width }}
+          style={{
+            left: sliderStyle.left,
+            top: sliderStyle.top,
+            width: sliderStyle.width,
+          }}
         />
         {options.map((option, index) => (
           <Segment
@@ -51,6 +55,7 @@ const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps>(
             position={getSegmentPosition(index, options.length)}
             onClick={handleOnClick}
             isSelected={selectedSegment === option.id}
+            appearance={appearance}
             {...option}
           />
         ))}

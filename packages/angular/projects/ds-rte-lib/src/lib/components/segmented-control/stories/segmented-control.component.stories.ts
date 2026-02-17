@@ -25,6 +25,10 @@ const meta: Meta<SegmentedControlComponent> = {
         type: { summary: "SegmentProps[]" },
         defaultValue: { summary: "[]" },
       },
+      appearance: {
+        control: "select",
+        options: ["brand", "neutral"],
+      },
       badgeContent: {
         control: "select",
         options: ["number", "icon", "empty"],
@@ -61,6 +65,7 @@ export const Default: Story = {
       { label: "Option 3", id: "option3" },
     ],
     selectedSegment: "option1",
+    appearance: "brand",
   },
   render: (args) => ({
     props: {
@@ -74,6 +79,7 @@ export const Default: Story = {
       <rte-segmented-control
         [options]="options"
         [selectedSegment]="selectedSegment"
+        [appearance]="appearance"
         (change)="change($event)"
         />
     </div>
@@ -107,6 +113,42 @@ export const Default: Story = {
   },
 };
 
+export const Appearance: Story = {
+  args: {
+    options: [
+      { label: "Option 1", id: "option1" },
+      { label: "Option 2", id: "option2" },
+      { label: "Option 3", id: "option3" },
+    ],
+    selectedSegment: "option1",
+    appearance: "brand",
+  },
+  render: (args) => ({
+    props: {
+      ...args,
+      change(id: string) {
+        this["selectedSegment"] = id;
+      },
+    },
+    template: `
+    <div style="width: 420px; display: flex; flex-direction: column; gap: 20px" data-testid="segmented-control-story">
+      <rte-segmented-control
+        [options]="options"
+        [selectedSegment]="selectedSegment"
+        [appearance]="appearance"
+        (change)="change($event)"
+        />
+      <rte-segmented-control
+        [options]="options"
+        [selectedSegment]="selectedSegment"
+        [appearance]="'neutral'"
+        (change)="change($event)"
+        />
+    </div>
+    `,
+  }),
+};
+
 export const TwoOptions: Story = {
   args: {
     options: [
@@ -114,6 +156,7 @@ export const TwoOptions: Story = {
       { label: "Option 2", id: "option2" },
     ],
     selectedSegment: "option1",
+    appearance: "brand",
   },
   render: (args) => ({
     props: {
@@ -127,6 +170,7 @@ export const TwoOptions: Story = {
       <rte-segmented-control
         [options]="options"
         [selectedSegment]="selectedSegment"
+        [appearance]="appearance"
         (change)="change($event)"
         />
     </div>
@@ -142,6 +186,7 @@ export const Icons: Story = {
       { id: "grid", icon: "view-grid", label: "Vue grille" },
     ],
     selectedSegment: "agenda",
+    appearance: "brand",
   },
   render: (args) => ({
     props: {
@@ -155,6 +200,7 @@ export const Icons: Story = {
       <rte-segmented-control
         [options]="options"
         [selectedSegment]="selectedSegment"
+        [appearance]="appearance"
         (change)="change($event)"
         />
     </div>
@@ -176,6 +222,7 @@ export const WithBadge: Story = {
         badgeSize: "m",
       },
     ],
+    appearance: "brand",
     selectedSegment: "option1",
   },
   render: (args) => ({
@@ -190,6 +237,7 @@ export const WithBadge: Story = {
       <rte-segmented-control
         [options]="options"
         [selectedSegment]="selectedSegment"
+        [appearance]="appearance"
         (change)="change($event)"
         />
     </div>

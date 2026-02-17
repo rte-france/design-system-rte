@@ -55,6 +55,7 @@ export class SegmentedControlComponent implements OnChanges, AfterViewInit, OnDe
   readonly selectedSegment = input<string>();
   readonly ariaLabel = input<string>();
   readonly ariaLabelledBy = input<string>();
+  readonly appearance = input<"brand" | "neutral">("brand");
 
   readonly segmentRefs = viewChildren<ElementRef<HTMLDivElement>>("segment");
 
