@@ -18,6 +18,7 @@ const useSelectedIndicatorPosition = (
   const updateIndicator = useCallback(() => {
     if (!containerRef.current) return;
     const node = containerRef.current.querySelector(`#${selectedId}`) as HTMLElement | undefined;
+    console.log(node);
 
     if (node && node?.getAttribute("data-disabled") !== "true") {
       if (position === "bottom") {
@@ -30,6 +31,7 @@ const useSelectedIndicatorPosition = (
           width: 2,
         });
       } else {
+        console.log(node.offsetLeft, node.offsetTop, node.offsetWidth);
         setIndicatorStyle({ left: node.offsetLeft, top: node.offsetTop, width: node.offsetWidth });
       }
     }

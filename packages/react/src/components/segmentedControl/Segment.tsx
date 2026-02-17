@@ -40,6 +40,7 @@ const Segment = ({
   badgeType,
   badgeSize,
   showBadge,
+  appearance,
   ...props
 }: SegmentProps) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -99,7 +100,7 @@ const Segment = ({
   };
 
   return (
-    <div className={style["segment-container"]} data-position={position} {...props}>
+    <div className={style["segment-container"]} data-position={position} {...props} data-appearance={appearance}>
       <div
         id={id}
         role="radio"
