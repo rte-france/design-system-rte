@@ -1,10 +1,22 @@
-<div *ngIf="isValidOptions()" class="rte-segmented-control" role="radiogroup" [attr.aria-label]="ariaLabel()">
-  <span class="rte-segment-selected-indicator" [ngStyle]="segmentSelectedIndicatorStyle()"></span>
+<div
+  *ngIf="isValidOptions()"
+  class="rte-segmented-control"
+  role="radiogroup"
+  [attr.aria-label]="ariaLabel()"
+  [attr.data-number-of-segments]="options().length"
+  [attr.data-compact-spacing]="compactSpacing()"
+>
+  <span
+    class="rte-segment-selected-indicator"
+    [ngStyle]="segmentSelectedIndicatorStyle()"
+    [attr.data-compact-spacing]="compactSpacing()"
+  ></span>
   <ng-container *ngFor="let option of options(); let idx = index">
     <div
       class="rte-segment-container"
       [attr.data-position]="getSegmentPosition(idx)"
       [attr.data-appearance]="appearance()"
+      [attr.data-compact-spacing]="compactSpacing()"
     >
       <div
         #segment
@@ -13,6 +25,7 @@
         tabindex="0"
         [attr.data-id]="option.id"
         [attr.data-segment-type]="option.icon ? 'icon' : 'label'"
+        [attr.data-compact-spacing]="compactSpacing()"
         [class.selected]="isSegmentSelected(option.id)"
         [attr.aria-checked]="isSegmentSelected(option.id)"
         [attr.aria-label]="option.label"
@@ -25,7 +38,7 @@
           <ng-container *ngIf="option.icon; else label">
             <rte-icon
               [name]="option.icon"
-              [size]="24"
+              [size]="compactSpacing() ? 20 : 24"
               [appearance]="isSegmentSelected(option.id) ? 'filled' : 'outlined'"
             ></rte-icon>
           </ng-container>
