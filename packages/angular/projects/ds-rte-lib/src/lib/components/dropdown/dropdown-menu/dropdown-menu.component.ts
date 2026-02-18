@@ -58,6 +58,7 @@ export class DropdownMenuComponent implements OnDestroy {
   readonly menuId = input<string>();
 
   readonly itemEvent = output<{ event: Event; id: string; item?: DropdownItemConfig }>();
+  readonly itemChangeEvent = output<{ event: Event; id: string }>();
 
   readonly widthStyle = computed(() => (this.width() !== undefined ? `${this.width()}px` : undefined));
   readonly isOpen = input<boolean>(false);
@@ -147,6 +148,10 @@ export class DropdownMenuComponent implements OnDestroy {
     });
 
     onCreated({ componentRef, hostElement });
+  }
+
+  handleItemChangeEvent(itemChangeEvent: { event: Event; id: string }): void {
+    this.itemChangeEvent.emit(itemChangeEvent);
   }
 
   ngOnDestroy(): void {

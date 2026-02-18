@@ -1,3 +1,4 @@
+import { signal } from "@angular/core";
 import {
   TESTING_DOWN_KEY,
   TESTING_ENTER_KEY,
@@ -46,6 +47,13 @@ const meta: Meta<SelectComponent> = {
     options: { control: "object" },
     isError: { control: "boolean" },
     showResetButton: { control: "boolean" },
+    multiple: { control: "boolean" },
+    withSelectAll: { control: "boolean" },
+    optionToDisplay: {
+      control: "select",
+      options: ["first-selected", "last-selected", "highest-selected"],
+      description: "Option to display when multiple options are selected",
+    },
   },
 };
 
@@ -67,8 +75,8 @@ export const Default: Story = {
     required: false,
     value: "",
     showLabelRequirement: false,
-    valueChange: (event: Event) => {
-      mockFn(event);
+    valueChange: (value: string) => {
+      mockFn(value);
     },
     options: [
       { value: "option-1", label: "Option 1" },
@@ -80,6 +88,9 @@ export const Default: Story = {
     disabled: false,
     showResetButton: false,
     showAssistiveIcon: false,
+    multiple: false,
+    withSelectAll: false,
+    optionToDisplay: "first-selected",
   },
   render: (args) => ({
     props: { ...args },
@@ -219,6 +230,95 @@ export const Disabled: Story = {
     focusElementBeforeComponent(canvasElement);
     await userEvent.tab();
     expect(select).not.toHaveFocus();
+  },
+};
+
+export const Multiple: Story = {
+  args: {
+    ...Default.args,
+    multiple: true,
+    value: [],
+    withSelectAll: true,
+  },
+  render: (args) => {
+    const options = args.options;
+
+    const values = signal<string[] | undefined>(undefined);
+    const displayedValues = signal("");
+
+    function handleChange(value: string) {
+      const valuesArray = values();
+      if (value === "select-all") {
+        if (valuesArray) {
+          if (valuesArray.length === options.length) {
+            values.set([]);
+            displayedValues.set("");
+          } else {
+            values.set(options.map((option) => option.value));
+            displayedValues.set(options.map((option) => option.label).join(", "));
+          }
+        } else {
+          values.set(options.map((option) => option.value));
+          displayedValues.set(options.map((option) => option.label).join(", "));
+        }
+      } else {
+        if (valuesArray) {
+          if (valuesArray.includes(value)) {
+            valuesArray.splice(valuesArray.indexOf(value), 1);
+          } else {
+            valuesArray.push(value);
+          }
+          values.set(valuesArray);
+          displayedValues.set(
+            options
+              .filter((option) => values()?.includes(option.value))
+              .map((option) => option.label)
+              .join(", "),
+          );
+        } else {
+          values.set([value]);
+          const selectedOption = options.find((option) => option.value === value);
+          displayedValues.set(selectedOption ? selectedOption.label : "");
+        }
+      }
+    }
+
+    return {
+      props: {
+        ...args,
+        handleChange,
+        values,
+        displayedValues,
+      },
+      template: `
+    <div style="width: 350px">
+      <rte-select
+        [id]="id"
+        [label]="label"
+        [labelId]="labelId"
+        [labelPosition]="labelPosition"
+        [assistiveTextLabel]="assistiveTextLabel"
+        [assistiveTextLink]="assistiveTextLink"
+        [assistiveTextAppearance]="assistiveTextAppearance"
+        [required]="required"
+        [showLabelRequirement]="showLabelRequirement"
+        [readOnly]="readOnly"
+        [value]="value"
+        [disabled]="disabled"
+        [options]="options"
+        (valueChange)="handleChange($event)"
+        [showResetButton]="showResetButton"
+        [showAssistiveIcon]="showAssistiveIcon"
+        [multiple]="multiple"
+        [withSelectAll]="withSelectAll"
+        [optionToDisplay]="optionToDisplay"
+        />
+        <span style="font-family: Arial; color: var(--content-primary);">
+          Selected values : {{ displayedValues() }}
+        </span>
+    </div>
+    `,
+    };
   },
 };
 

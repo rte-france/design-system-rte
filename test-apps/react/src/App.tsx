@@ -161,6 +161,40 @@ function App() {
     { id: "5", name: "Étape 5", completionState: "unvisited", onClick: () => setActiveStepperStepId("5") },
   ];
 
+  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+
+  const selectOptions = [
+    { value: "label-1", label: "Label 1" },
+    { value: "label-2", label: "Label 2" },
+    { value: "label-3", label: "Label 3" },
+  ];
+
+  const handleOnChange = (value: string) => {
+    console.log("Selected values:", value);
+    if (value === "select-all") {
+      console.log("Select all option clicked");
+      if (selectedOptions.length === selectOptions.length) {
+        setSelectedOptions([]);
+      } else {
+        setSelectedOptions(selectOptions.map((option) => option.value));
+      }
+      return;
+    }
+    if (selectedOptions.includes(value)) {
+      console.log("Value already selected, removing it from selection");
+      const newSelectedOptions = selectedOptions.filter((option) => option !== value);
+      setSelectedOptions(newSelectedOptions);
+      console.log(newSelectedOptions);
+    } else {
+      console.log("Value not selected, adding it to selection");
+      const newSelectedOptions = [...selectedOptions, value];
+      setSelectedOptions(newSelectedOptions);
+      console.log(newSelectedOptions);
+    }
+    // const selected = selectOptions.filter((option) => value.includes(option.value));
+    // setSelectedOptions(selected.map((option) => option.value));
+    console.log(selectedOptions);
+  };
   return (
     <SideNav
       headerConfig={headerConfig}
@@ -187,6 +221,15 @@ function App() {
               </div>
             ))}
           </div>
+        </div>
+        <div>
+          <h3>Select</h3>
+          <Select options={selectOptions} value={selectedOptions} onChange={handleOnChange} multiple />
+          <span>
+            Selected values :{" "}
+            {selectedOptions.length > 0 ? selectedOptions.map((option) => option).join(", ") : "No value"}
+            {/* {selectedOptions ? selectOptions.find((option) => option.value === selectedOptions)?.label : "No value"} */}
+          </span>
         </div>
         <div>
           <div>
@@ -343,11 +386,7 @@ function App() {
           <div>
             <h3>Segmented Control</h3>
             <SegmentedControl
-              options={[
-                { id: "label-1", label: "Label 1" },
-                { id: "label-2", label: "Label 2" },
-                { id: "label-3", label: "Label 3" },
-              ]}
+              options={selectOptions}
               selected={segmentedControlValue}
               onClick={handleSegmentedControlClick}
             />
@@ -391,15 +430,7 @@ function App() {
         </div>
 
         <Divider />
-        <div>
-          <Select
-            options={[
-              { value: "option1", label: "Option 1" },
-              { value: "option2", label: "Option 2" },
-              { value: "option3", label: "Option 3" },
-            ]}
-          />
-        </div>
+        <div></div>
         <Divider />
         <Button
           label="Toggle error toast"

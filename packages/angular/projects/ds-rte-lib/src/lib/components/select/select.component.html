@@ -40,6 +40,7 @@
     [rteDropdownOffset]="selectDropdownOffset"
     [rteDropdownWidth]="selectWidth()"
     (menuEvent)="handleOnClickItem($event.id)"
+    (menuChangeEvent)="handleOnClickItem($event.id)"
     (clickedOutside)="handleOnClickOutside()"
     (closedDropdown)="handleOnClosingDropdown()"
   >
@@ -57,14 +58,33 @@
       [attr.aria-labelledby]="labelId()"
       [attr.aria-expanded]="isActive()"
       [attr.data-active]="isActive()"
-      [ngStyle]="{ width: computedWidth() }"
       (dropdownTriggered)="handleOnClickTrigger()"
       (dropdownKeyDown)="handleOnKeyDownTrigger($event)"
     >
       <div class="rte-select-content">
         <rte-icon *ngIf="shouldDisplayErrorIcon()" name="error" class="error-icon" />
+
         <div class="rte-select-value">
-          <span>{{ currentOptionLabel() }}</span>
+          @if (this.multiple() && currentDisplayedOption()) {
+            <div class="rte-select-multiple-values">
+              <rte-chip
+                type="input"
+                [label]="currentDisplayedOption()!.label"
+                (close)="handleOnCloseChip($event, currentDisplayedOption()!.value)"
+              />
+              <rte-badge
+                *ngIf="internalValue()!.length > 1"
+                content="number"
+                badgeType="brand"
+                size="m"
+                [count]="internalValue()!.length - 1"
+                [withPlusSign]="true"
+                [simpleBadge]="true"
+              />
+            </div>
+          } @else {
+            <span>{{ currentDisplayedOption()?.label }}</span>
+          }
         </div>
         <div #buttonsContainerRef class="rte-select-right-icons">
           <rte-icon-button
@@ -83,14 +103,13 @@
         </div>
       </div>
     </div>
-    <rte-dropdown-menu [items]="formattedOptions()" />
+    <rte-dropdown-menu [items]="optionsFormatted()" />
     <rte-assistive-text
       *ngIf="assistiveTextLabel()"
       [label]="assistiveTextLabel()"
       [appearance]="isError() ? 'error' : assistiveTextAppearance()!"
       [showIcon]="showAssistiveIcon()"
       [href]="assistiveTextLink()"
-      [width]="width()"
     />
   </div>
 </div>
