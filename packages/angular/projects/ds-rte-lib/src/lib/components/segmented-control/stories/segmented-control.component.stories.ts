@@ -51,6 +51,9 @@ const meta: Meta<SegmentedControlComponent> = {
         control: "select",
         options: ["xs", "s", "m", "l"],
       },
+      compactSpacing: {
+        control: "boolean",
+      },
     },
   },
 };
@@ -66,6 +69,7 @@ export const Default: Story = {
     ],
     selectedSegment: "option1",
     appearance: "brand",
+    compactSpacing: false,
   },
   render: (args) => ({
     props: {
@@ -80,6 +84,7 @@ export const Default: Story = {
         [options]="options"
         [selectedSegment]="selectedSegment"
         [appearance]="appearance"
+        [compactSpacing]="compactSpacing"
         (change)="change($event)"
         />
     </div>
@@ -115,13 +120,7 @@ export const Default: Story = {
 
 export const Appearance: Story = {
   args: {
-    options: [
-      { label: "Option 1", id: "option1" },
-      { label: "Option 2", id: "option2" },
-      { label: "Option 3", id: "option3" },
-    ],
-    selectedSegment: "option1",
-    appearance: "brand",
+    ...Default.args,
   },
   render: (args) => ({
     props: {
@@ -136,12 +135,47 @@ export const Appearance: Story = {
         [options]="options"
         [selectedSegment]="selectedSegment"
         [appearance]="appearance"
+        [compactSpacing]="compactSpacing"
         (change)="change($event)"
         />
       <rte-segmented-control
         [options]="options"
         [selectedSegment]="selectedSegment"
         [appearance]="'neutral'"
+        [compactSpacing]="compactSpacing"
+        (change)="change($event)"
+        />
+    </div>
+    `,
+  }),
+};
+
+export const CompactSpacing: Story = {
+  args: {
+    ...Default.args,
+    compactSpacing: true,
+  },
+  render: (args) => ({
+    props: {
+      ...args,
+      change(id: string) {
+        this["selectedSegment"] = id;
+      },
+    },
+    template: `
+    <div style="width: 420px; display: flex; flex-direction: column; gap: 20px" data-testid="segmented-control-story">
+      <rte-segmented-control
+        [options]="options"
+        [selectedSegment]="selectedSegment"
+        [appearance]="appearance"
+        [compactSpacing]="compactSpacing"
+        (change)="change($event)"
+        />
+        <rte-segmented-control
+        [options]="options"
+        [selectedSegment]="selectedSegment"
+        [appearance]="'neutral'"
+        [compactSpacing]="compactSpacing"
         (change)="change($event)"
         />
     </div>
@@ -151,12 +185,11 @@ export const Appearance: Story = {
 
 export const TwoOptions: Story = {
   args: {
+    ...Default.args,
     options: [
       { label: "Option 1", id: "option1" },
       { label: "Option 2", id: "option2" },
     ],
-    selectedSegment: "option1",
-    appearance: "brand",
   },
   render: (args) => ({
     props: {
@@ -171,6 +204,7 @@ export const TwoOptions: Story = {
         [options]="options"
         [selectedSegment]="selectedSegment"
         [appearance]="appearance"
+        [compactSpacing]="compactSpacing"
         (change)="change($event)"
         />
     </div>
@@ -180,13 +214,13 @@ export const TwoOptions: Story = {
 
 export const Icons: Story = {
   args: {
+    ...Default.args,
     options: [
       { id: "agenda", icon: "view-agenda", label: "Vue agenda" },
       { id: "column", icon: "view-column", label: "Vue colonne" },
       { id: "grid", icon: "view-grid", label: "Vue grille" },
     ],
     selectedSegment: "agenda",
-    appearance: "brand",
   },
   render: (args) => ({
     props: {
@@ -201,6 +235,7 @@ export const Icons: Story = {
         [options]="options"
         [selectedSegment]="selectedSegment"
         [appearance]="appearance"
+        [compactSpacing]="compactSpacing"
         (change)="change($event)"
         />
     </div>
@@ -210,6 +245,7 @@ export const Icons: Story = {
 
 export const WithBadge: Story = {
   args: {
+    ...Default.args,
     options: [
       { label: "Option 1", id: "option1" },
       {
@@ -222,8 +258,6 @@ export const WithBadge: Story = {
         badgeSize: "m",
       },
     ],
-    appearance: "brand",
-    selectedSegment: "option1",
   },
   render: (args) => ({
     props: {
@@ -238,6 +272,7 @@ export const WithBadge: Story = {
         [options]="options"
         [selectedSegment]="selectedSegment"
         [appearance]="appearance"
+        [compactSpacing]="compactSpacing"
         (change)="change($event)"
         />
     </div>

@@ -16,7 +16,7 @@ interface SegmentedControlProps
 }
 
 const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps>(
-  ({ options, onChange, selectedSegment, appearance = "brand", ...props }, ref) => {
+  ({ options, onChange, selectedSegment, appearance = "brand", compactSpacing = false, ...props }, ref) => {
     const containerRef: MutableRefObject<HTMLDivElement | null> = useRef<HTMLDivElement>(null);
     const sliderStyle = useSelectedIndicatorPosition(containerRef, selectedSegment);
 
@@ -39,10 +39,13 @@ const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps>(
         }}
         role="radiogroup"
         className={style["segmented-control"]}
+        data-compact-spacing={compactSpacing}
+        data-number-of-segments={options.length}
         {...props}
       >
         <span
           className={style["segment-selected-indicator"]}
+          data-compact-spacing={compactSpacing}
           style={{
             left: sliderStyle.left,
             top: sliderStyle.top,
@@ -56,6 +59,7 @@ const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps>(
             onClick={handleOnClick}
             isSelected={selectedSegment === option.id}
             appearance={appearance}
+            isCompact={compactSpacing}
             {...option}
           />
         ))}

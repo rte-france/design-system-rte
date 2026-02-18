@@ -4,10 +4,17 @@
   display: flex;
   min-width: 168px;
   max-width: 720px;
-  height: 40px;
 
   &[data-number-of-segments="3"] {
     min-width: 256px;
+  }
+
+  &[data-compact-spacing="true"] {
+    min-width: 80px;
+
+    &[data-number-of-segments="3"] {
+      min-width: 128px;
+    }
   }
 }
 
@@ -18,6 +25,10 @@
   background: var(--background-default);
   border-radius: $radius-pill;
   transition: left 0.2s ease-out, width 0.2s ease-out;
+
+  &[data-compact-spacing="true"] {
+    height: 24px;
+  }
 }
 
 .rte-segment-container {
@@ -29,7 +40,13 @@
   align-items: center;
   flex: 1 0 0;
   overflow: hidden;
-  min-height: 28px;
+  height: 40px;
+  box-sizing: border-box;
+
+  &[data-compact-spacing="true"] {
+    height: 32px;
+    padding: 0px $positive-spacing_025;
+  }
 
   &[data-appearance="neutral"] {
     border-top: $width-xs solid var(--border-tertiary);
@@ -56,7 +73,14 @@
       color: var(--content-secondary);
 
       &.selected {
-        color: var(--content-primary);
+        .rte-segment-content {
+          color: var(--content-primary);
+        }
+
+        .rte-segment-label,
+        .rte-selected-icon {
+          color: var(--content-primary);
+        }
       }
 
       &:hover {
@@ -67,7 +91,6 @@
       }
     }
   }
-
 
   &[data-position="left"] {
     border-radius: $radius-pill $radius-none $radius-none $radius-pill;
@@ -89,13 +112,25 @@
   border-radius: $radius-pill ;
   color: var(--content-primary-inverse);
   flex: 1 1 auto;
-  overflow: hidden;
   width: 100%;
   z-index: 0;
+  height: 32px;
+  box-sizing: border-box;
+
+  &[data-compact-spacing="true"] {
+    padding: 0 $positive-spacing_100;
+    height: 24px;
+
+    .rte-segment-content {
+      .rte-segment-label {
+        @include typography-button-m;
+      }
+    }
+  }
 
   &:focus-visible {
     outline: $width-xs solid var(--border-inverse);
-    outline-offset: -2px;
+    outline-offset: 0px;
   }
 
   &.selected {
@@ -104,6 +139,7 @@
 
     &:focus-visible {
       outline: $width-xs solid var(--border-brand-focused);
+      outline-offset: -2px;
     }
   }
 
@@ -112,10 +148,6 @@
       background: var(--background-brand-hover);
       cursor: pointer;
     }
-  }
-
-  &[data-segment-type="icon"] {
-    padding: $positive-spacing_050;
   }
 
   .rte-segment-content {

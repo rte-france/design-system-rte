@@ -52,6 +52,9 @@ const meta = {
         control: "select",
         options: ["xs", "s", "m", "l"],
       },
+      compactSpacing: {
+        control: "boolean",
+      },
     },
   },
   args: { onClick: fn(), appearance: "brand" },
@@ -69,6 +72,7 @@ export const Default: Story = {
     ],
     onChange: fn(),
     appearance: "brand",
+    compactSpacing: false,
   },
 
   render: (args) => {
@@ -115,6 +119,31 @@ export const Default: Story = {
 export const Appearance: Story = {
   args: {
     ...Default.args,
+  },
+
+  render: (args) => {
+    const [selected, setSelected] = useState("option1");
+
+    const handleOnChange = (id: string) => {
+      setSelected(id);
+    };
+
+    return (
+      <div
+        style={{ width: "420px", display: "flex", gap: "20px", flexDirection: "column" }}
+        data-testid="segmented-control-story"
+      >
+        <SegmentedControl {...args} onChange={handleOnChange} selectedSegment={selected} />
+        <SegmentedControl {...args} onChange={handleOnChange} selectedSegment={selected} appearance="neutral" />
+      </div>
+    );
+  },
+};
+
+export const CompactSpacing: Story = {
+  args: {
+    ...Default.args,
+    compactSpacing: true,
   },
 
   render: (args) => {

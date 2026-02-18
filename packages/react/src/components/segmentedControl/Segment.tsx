@@ -41,6 +41,7 @@ const Segment = ({
   badgeSize,
   showBadge,
   appearance,
+  isCompact,
   ...props
 }: SegmentProps) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -100,7 +101,13 @@ const Segment = ({
   };
 
   return (
-    <div className={style["segment-container"]} data-position={position} {...props} data-appearance={appearance}>
+    <div
+      className={style["segment-container"]}
+      data-position={position}
+      {...props}
+      data-appearance={appearance}
+      data-compact-spacing={isCompact}
+    >
       <div
         id={id}
         role="radio"
@@ -109,6 +116,7 @@ const Segment = ({
         className={style.segment}
         data-segment-type={icon ? "icon" : "label"}
         data-selected={isSelected}
+        data-compact-spacing={isCompact}
         onKeyDown={onKeyDown}
         onKeyUp={onKeyUp}
         onBlur={onBlur}
@@ -119,7 +127,7 @@ const Segment = ({
         {isSelected && <Icon name="check-small" appearance="filled" size={24} className={style["selected-icon"]} />}
         <div className={style["segment-content"]}>
           {icon ? (
-            <Icon name={icon} appearance={isSelected ? "filled" : "outlined"} size={24} />
+            <Icon name={icon} appearance={isSelected ? "filled" : "outlined"} size={isCompact ? 20 : 24} />
           ) : (
             <span className={style["segment-label"]}>{label}</span>
           )}

@@ -4,10 +4,17 @@
   display: flex;
   min-width: 168px;
   max-width: 720px;
-  height: 40px;
 
   &[data-number-of-segments="3"] {
     min-width: 256px;
+  }
+
+  &[data-compact-spacing="true"] {
+    min-width: 80px;
+
+    &[data-number-of-segments="3"] {
+      min-width: 128px;
+    }
   }
 }
 
@@ -18,6 +25,10 @@
   background: var(--background-default);
   border-radius: $radius-pill;
   transition: left 0.2s ease-out, width 0.2s ease-out;
+
+  &[data-compact-spacing="true"] {
+    height: 24px;
+  }
 }
 
 .segment-container {
@@ -28,8 +39,13 @@
   padding: $positive-spacing_050 $positive-spacing_025;
   align-items: center;
   flex: 1 0 0;
-  overflow: hidden;
-  min-height: 28px;
+  height: 40px;
+  box-sizing: border-box;
+
+  &[data-compact-spacing="true"] {
+    height: 32px;
+    padding: 0px $positive-spacing_025;
+  }
 
   &[data-appearance="neutral"] {
     border-top: $width-xs solid var(--border-tertiary);
@@ -56,7 +72,15 @@
       color: var(--content-secondary);
 
       &[data-selected="true"] {
-        color: var(--content-primary);
+        .segment-content {
+          color: var(--content-primary);
+        }
+
+        .segment-label,
+        .selected-icon {
+
+          color: var(--content-primary);
+        }
       }
 
       &:hover {
@@ -91,10 +115,22 @@
   overflow: hidden;
   width: 100%;
   z-index: 0;
+  height: 32px;
+  box-sizing: border-box;
+
+  &[data-compact-spacing="true"] {
+    padding: 0 $positive-spacing_100;
+    height: 24px;
+
+    .segment-content {
+      .segment-label {
+        @include typography-button-m;
+      }
+    }
+  }
 
   &:focus-visible {
     outline: $width-xs solid var(--border-inverse);
-    outline-offset: -2px;
   }
 
   &[data-selected="true"] {
@@ -103,6 +139,7 @@
 
     &:focus-visible {
       outline: $width-xs solid var(--border-brand-focused);
+      outline-offset: -2px;
     }
   }
 
@@ -111,10 +148,6 @@
       background: var(--background-brand-hover);
       cursor: pointer;
     }
-  }
-
-  &[data-segment-type="icon"] {
-    padding: $positive-spacing_050;
   }
 
   .segment-content {
