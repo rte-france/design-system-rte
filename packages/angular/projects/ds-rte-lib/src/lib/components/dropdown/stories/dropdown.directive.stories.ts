@@ -183,15 +183,22 @@ export const KeyboardNavigation: Story = {
       name: /click me!/i,
     });
     await userEvent.click(triggerButton);
-    const overlay = document.getElementById("overlay-root");
-    const dropdown = overlay?.querySelector("rte-dropdown-menu");
-    const menuItems = dropdown?.querySelector("ul")?.querySelectorAll("li");
 
-    await waitFor(() => {
-      expect(dropdown).toBeInTheDocument();
-      userEvent.tab();
-      expect(menuItems?.[0]).toHaveFocus();
-    });
+    const overlay = document.getElementById("overlay-root");
+    let menuItems: NodeListOf<Element> | undefined;
+
+    await waitFor(
+      () => {
+        const found = overlay?.querySelector("rte-dropdown-menu");
+        expect(found).toBeInTheDocument();
+        if (!found) throw new Error("Dropdown not found");
+        menuItems = found.querySelector("ul")?.querySelectorAll("li");
+        expect(menuItems?.length).toBeGreaterThan(0);
+        expect(menuItems?.[0]).toHaveFocus();
+      },
+      { timeout: 500 },
+    );
+
     await userEvent.keyboard(TESTING_DOWN_KEY);
     expect(menuItems?.[1]).toHaveFocus();
     await userEvent.keyboard(TESTING_UP_KEY);
@@ -371,11 +378,18 @@ export const WithFilterableHeader: Story = {
     await userEvent.click(triggerButton);
 
     const overlay = document.getElementById("overlay-root");
-    const dropdown = overlay?.querySelector("rte-dropdown-menu");
+    let dropdown!: Element;
 
-    await waitFor(() => {
-      expect(dropdown).toBeInTheDocument();
-    });
+    await waitFor(
+      () => {
+        const found = overlay?.querySelector("rte-dropdown-menu");
+        expect(found).toBeInTheDocument();
+        if (!found) throw new Error("Dropdown not found");
+        dropdown = found;
+        return found;
+      },
+      { timeout: 500 },
+    );
 
     const headerSection = dropdown?.querySelector(".rte-dropdown-menu-header");
     expect(headerSection).toBeInTheDocument();
@@ -384,10 +398,13 @@ export const WithFilterableHeader: Story = {
     expect(filterInput).toBeInTheDocument();
 
     await userEvent.type(filterInput, "Help");
-    await waitFor(() => {
-      const menuItems = dropdown?.querySelector("ul")?.querySelectorAll("li");
-      expect(menuItems?.length).toBe(1);
-    });
+    await waitFor(
+      () => {
+        const menuItems = dropdown?.querySelector("ul")?.querySelectorAll("li");
+        expect(menuItems?.length).toBe(1);
+      },
+      { timeout: 500 },
+    );
   },
 };
 
@@ -473,15 +490,18 @@ export const WithAddItemFooter: Story = {
     const overlay = document.getElementById("overlay-root");
     let dropdown!: Element;
 
-    await waitFor(() => {
-      const found = overlay?.querySelector("rte-dropdown-menu");
-      expect(found).toBeInTheDocument();
-      if (!found) {
-        throw new Error("Dropdown not found");
-      }
-      dropdown = found;
-      return found;
-    });
+    await waitFor(
+      () => {
+        const found = overlay?.querySelector("rte-dropdown-menu");
+        expect(found).toBeInTheDocument();
+        if (!found) {
+          throw new Error("Dropdown not found");
+        }
+        dropdown = found;
+        return found;
+      },
+      { timeout: 500 },
+    );
 
     const footerSection = dropdown?.querySelector(".rte-dropdown-menu-footer");
     expect(footerSection).toBeInTheDocument();
@@ -497,7 +517,6 @@ export const WithAddItemFooter: Story = {
     await userEvent.type(addItemInput, "New Item");
     await userEvent.click(addButton);
 
-    // Wait for state update + change detection + re-render (CI can be slower than 300ms)
     await waitFor(
       () => {
         const list = dropdown.querySelector("ul");
@@ -505,7 +524,7 @@ export const WithAddItemFooter: Story = {
         expect(menuItems.length).toBe(initialItemCount + 1);
         expect(menuItems[menuItems.length - 1]?.textContent?.trim()).toContain("New Item");
       },
-      { timeout: 5 },
+      { timeout: 500 },
     );
   },
 };

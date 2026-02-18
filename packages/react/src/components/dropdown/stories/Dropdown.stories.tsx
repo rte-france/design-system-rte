@@ -216,13 +216,22 @@ export const KeyboardNavigation: Story = {
     const canvas = within(canvasElement);
     const triggerButton = await canvas.getByRole("button", { name: /click me!/i });
     await userEvent.click(triggerButton);
+
     const overlay = document.getElementById("overlay-root");
-    const dropdown = overlay?.querySelector("[data-dropdown-id]");
-    const menuItems = dropdown?.querySelector("ul")?.querySelectorAll("li");
-    await waitFor(() => {
-      expect(dropdown).toBeInTheDocument();
-      expect(menuItems?.[0]).toHaveFocus();
-    });
+    let menuItems: NodeListOf<Element> | undefined;
+
+    await waitFor(
+      () => {
+        const found = overlay?.querySelector("[data-dropdown-id]");
+        expect(found).toBeInTheDocument();
+        if (!found) throw new Error("Dropdown not found");
+        menuItems = found.querySelector("ul")?.querySelectorAll("li");
+        expect(menuItems?.length).toBeGreaterThan(0);
+        expect(menuItems?.[0]).toHaveFocus();
+      },
+      { timeout: 500 },
+    );
+
     await userEvent.keyboard(TESTING_DOWN_KEY);
     expect(menuItems?.[1]).toHaveFocus();
     await userEvent.keyboard(TESTING_UP_KEY);
