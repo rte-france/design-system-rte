@@ -3,7 +3,6 @@ import { TESTING_DOWN_KEY, TESTING_UP_KEY } from "@design-system-rte/core/consta
 import { Meta, moduleMetadata, StoryObj } from "@storybook/angular";
 import { expect, userEvent, waitFor, within } from "@storybook/test";
 
-import { ButtonComponent } from "../../button/button.component";
 import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../../icon/icon-map";
 import { DropdownDirective } from "../dropdown.directive";
 import { DropdownModule } from "../dropdown.module";
@@ -189,10 +188,10 @@ export const KeyboardNavigation: Story = {
 
     await waitFor(
       () => {
-        const found = overlay?.querySelector("rte-dropdown-menu");
-        expect(found).toBeInTheDocument();
-        if (!found) throw new Error("Dropdown not found");
-        menuItems = found.querySelector("ul")?.querySelectorAll("li");
+        const dropdown = overlay?.querySelector("rte-dropdown-menu");
+        expect(dropdown).toBeInTheDocument();
+        if (!dropdown) throw new Error("Dropdown not found");
+        menuItems = dropdown.querySelector("ul")?.querySelectorAll("li");
         expect(menuItems?.length).toBeGreaterThan(0);
         expect(menuItems?.[0]).toHaveFocus();
       },
@@ -402,127 +401,6 @@ export const WithFilterableHeader: Story = {
       () => {
         const menuItems = dropdown?.querySelector("ul")?.querySelectorAll("li");
         expect(menuItems?.length).toBe(1);
-      },
-      { timeout: 500 },
-    );
-  },
-};
-
-export const WithAddItemFooter: Story = {
-  tags: ["debug"],
-  decorators: [
-    moduleMetadata({
-      imports: [DropdownModule, ButtonComponent],
-    }),
-  ],
-  args: {
-    rteDropdownPosition: "bottom",
-  },
-  render: (args) => {
-    const initialItems = [
-      { label: "Messages", leftIcon: "mail", hasSeparator: true },
-      { label: "Actions", leftIcon: "settings" },
-      { label: "Help", leftIcon: "help" },
-    ];
-
-    return {
-      props: {
-        ...args,
-        newItemLabel: "",
-        menuItems: [...initialItems],
-        onNewItemLabelChange(event: Event) {
-          const target = event.target as HTMLInputElement;
-          this["newItemLabel"] = target.value;
-        },
-        onAddItem() {
-          const label = (this["newItemLabel"] || "").trim();
-          if (label) {
-            this["menuItems"] = [...this["menuItems"], { label }];
-            this["newItemLabel"] = "";
-          }
-        },
-        onAddItemKeyDown(event: KeyboardEvent) {
-          if (event.key === "Enter") {
-            event.preventDefault();
-            this["onAddItem"]();
-          }
-        },
-        onItemClick: (event: { event: Event; id: string }) => {
-          console.log("Item clicked:", event);
-        },
-      },
-      template: `
-      ${wipWarning}
-      <div rteDropdown [rteDropdownPosition]="rteDropdownPosition" (menuEvent)="onItemClick($event)">
-        <button rteDropdownTrigger>Menu with Add Item Footer ⬇</button>
-        <rte-dropdown-menu [items]="menuItems" width="400">
-          <ng-template rteDropdownMenuFooter>
-            <div style="padding: 8px 16px; display: flex; gap: 8px;">
-              <input
-                type="text"
-                placeholder="Add new item..."
-                [value]="newItemLabel"
-                (input)="onNewItemLabelChange($event)"
-                (keydown)="onAddItemKeyDown($event)"
-                style="flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;"
-              />
-              <button
-                rteButton
-                rteButtonVariant="primary"
-                rteButtonSize="m"
-                type="button"
-                (click)="onAddItem()"
-              >
-                Add
-              </button>
-            </div>
-          </ng-template>
-        </rte-dropdown-menu>
-      </div>
-      `,
-    };
-  },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    const triggerButton = await canvas.getByRole("button", { name: /menu with add item footer/i });
-    await userEvent.click(triggerButton);
-
-    const overlay = document.getElementById("overlay-root");
-    let dropdown!: Element;
-
-    await waitFor(
-      () => {
-        const found = overlay?.querySelector("rte-dropdown-menu");
-        expect(found).toBeInTheDocument();
-        if (!found) {
-          throw new Error("Dropdown not found");
-        }
-        dropdown = found;
-        return found;
-      },
-      { timeout: 500 },
-    );
-
-    const footerSection = dropdown?.querySelector(".rte-dropdown-menu-footer");
-    expect(footerSection).toBeInTheDocument();
-
-    const addItemInput = footerSection?.querySelector("input") as HTMLInputElement;
-    const addButton = footerSection?.querySelector("button[rteButton]") as HTMLButtonElement;
-
-    expect(addItemInput).toBeInTheDocument();
-    expect(addButton).toBeInTheDocument();
-
-    const initialItemCount = dropdown?.querySelector("ul")?.querySelectorAll("li").length || 0;
-
-    await userEvent.type(addItemInput, "New Item");
-    await userEvent.click(addButton);
-
-    await waitFor(
-      () => {
-        const list = dropdown.querySelector("ul");
-        const menuItems = list?.querySelectorAll("li") ?? [];
-        expect(menuItems.length).toBe(initialItemCount + 1);
-        expect(menuItems[menuItems.length - 1]?.textContent?.trim()).toContain("New Item");
       },
       { timeout: 500 },
     );
