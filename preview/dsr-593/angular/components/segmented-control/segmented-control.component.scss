@@ -1,0 +1,174 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+.rte-segmented-control {
+  display: flex;
+  min-width: 168px;
+  max-width: 720px;
+
+  &[data-number-of-segments="3"] {
+    min-width: 256px;
+  }
+
+  &[data-compact-spacing="true"] {
+    min-width: 80px;
+
+    &[data-number-of-segments="3"] {
+      min-width: 128px;
+    }
+  }
+}
+
+.rte-segment-selected-indicator {
+  position: absolute;
+  top: 4px;
+  height: 32px;
+  background: var(--background-default);
+  border-radius: $radius-pill;
+  transition: left 0.2s ease-out, width 0.2s ease-out;
+
+  &[data-compact-spacing="true"] {
+    height: 24px;
+  }
+}
+
+.rte-segment-container {
+  display: flex;
+  border-top: $width-xs solid var(--border-inverse);
+  border-bottom: $width-xs solid var(--border-inverse);
+  background: var(--background-brand-default);
+  padding: $positive-spacing_050 $positive-spacing_025;
+  align-items: center;
+  flex: 1 0 0;
+  overflow: hidden;
+  height: 40px;
+  box-sizing: border-box;
+
+  &[data-compact-spacing="true"] {
+    height: 32px;
+    padding: 0px $positive-spacing_025;
+  }
+
+  &[data-appearance="neutral"] {
+    border-top: $width-xs solid var(--border-tertiary);
+    border-bottom: $width-xs solid var(--border-tertiary);
+    background: var(--background-neutral-regular-default);
+
+    &[data-position="left"] {
+      border-radius: $radius-pill $radius-none $radius-none $radius-pill;
+      border-left: $width-xs solid var(--border-tertiary);
+      padding-left: $positive-spacing_050;
+    }
+
+    &[data-position="right"] {
+      border-radius: $radius-none $radius-pill $radius-pill $radius-none;
+      border-right: $width-xs solid var(--border-tertiary);
+      padding-right: $positive-spacing_050;
+    }
+
+    .rte-segment-label {
+      color: var(--content-secondary);
+    }
+
+    .rte-segment {
+      color: var(--content-secondary);
+
+      &.selected {
+        .rte-segment-content {
+          color: var(--content-primary);
+        }
+
+        .rte-segment-label,
+        .rte-selected-icon {
+          color: var(--content-primary);
+        }
+      }
+
+      &:hover {
+        &:not(.selected) {
+          background: var(--background-neutral-regular-hover);
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  &[data-position="left"] {
+    border-radius: $radius-pill $radius-none $radius-none $radius-pill;
+    border-left: $width-xs solid var(--border-inverse);
+    padding-left: $positive-spacing_050;
+  }
+
+  &[data-position="right"] {
+    border-radius: $radius-none $radius-pill $radius-pill $radius-none;
+    border-right: $width-xs solid var(--border-inverse);
+    padding-right: $positive-spacing_050;
+  }
+}
+
+.rte-segment {
+  display: flex;
+  padding: $positive-spacing_025 $positive-spacing_100;
+  align-items: center;
+  border-radius: $radius-pill ;
+  color: var(--content-primary-inverse);
+  flex: 1 1 auto;
+  overflow: hidden;
+  width: 100%;
+  z-index: 0;
+  height: 32px;
+  box-sizing: border-box;
+
+  &[data-compact-spacing="true"] {
+    padding: 0 $positive-spacing_100;
+    height: 24px;
+
+    .rte-segment-content {
+      .rte-segment-label {
+        @include typography-button-m;
+      }
+    }
+  }
+
+  &:focus-visible {
+    outline: $width-xs solid var(--border-inverse);
+    outline-offset: 0px;
+  }
+
+  &.selected {
+    transition: color 0.2s ease-out;
+    color: var(--content-brand-default);
+
+    &:focus-visible {
+      outline: $width-xs solid var(--border-brand-focused);
+      outline-offset: -2px;
+    }
+  }
+
+  &:hover {
+    &:not(.selected) {
+      background: var(--background-brand-hover);
+      cursor: pointer;
+    }
+  }
+
+  .rte-segment-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    overflow: hidden;
+
+    .rte-segment-label {
+      @include typography-button-l;
+      padding: $positive-spacing_0 $positive-spacing_050;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  .rte-selected-icon {
+    min-width: 24px;
+    min-height: 24px;
+  }
+}
