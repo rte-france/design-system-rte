@@ -27,7 +27,7 @@
     padding: $positive-spacing_025 $positive-spacing_100;
     color: var(--content-secondary);
     max-width: 300px;
-    justify-content: space-between;
+    align-items: center;
     white-space: normal;
     overflow-wrap: normal;
     word-break: normal;
@@ -173,6 +173,12 @@
           overflow: hidden;
           white-space: nowrap;
         }
+
+        .select-multiple-values {
+          display: flex;
+          align-items: center;
+          gap: $positive-spacing_100;
+        }
       }
 
       .select-right-icons {
@@ -184,6 +190,15 @@
           padding: 0;
           height: 20px;
           width: 20px;
+          color: var(--content-secondary);
+
+          &:hover {
+            color: var(--content-primary);
+          }
+
+          &:active {
+            color: var(--content-tertiary);
+          }
 
           &:focus-visible {
             outline: 1px solid var(--border-brand-focused);

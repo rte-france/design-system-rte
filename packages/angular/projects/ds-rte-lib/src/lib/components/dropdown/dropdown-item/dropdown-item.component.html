@@ -9,6 +9,16 @@
     (click)="handleClick($event)"
     (keydown)="handleKeyDown($event)"
   >
+    <rte-checkbox
+      *ngIf="item()?.hasCheckbox"
+      [label]="item()?.label ?? ''"
+      [id]="menuId() + ':' + item()?.id"
+      [checked]="item()?.selected ?? false"
+      [disabled]="item()?.disabled ?? false"
+      [showLabel]="false"
+      [indeterminate]="item()?.isIndeterminate ?? false"
+      (change)="handleChange($event)"
+    ></rte-checkbox>
     <span *ngIf="item()?.hasIndent && !item()?.leftIcon" style="width: 20px"></span>
     <rte-icon *ngIf="item()?.leftIcon" [name]="item()?.leftIcon ?? ''" />
     <ng-container [ngSwitch]="!!item()?.link">

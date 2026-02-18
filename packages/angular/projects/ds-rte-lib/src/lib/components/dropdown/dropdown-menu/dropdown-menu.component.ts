@@ -43,6 +43,7 @@ export class DropdownMenuComponent {
   readonly menuId = input<string>();
 
   readonly itemEvent = output<{ event: Event; id: string }>();
+  readonly itemChangeEvent = output<{ event: Event; id: string }>();
 
   readonly widthStyle = computed(() => (this.width() !== undefined ? `${this.width()}px` : undefined));
   readonly isOpen = input<boolean>(false);
@@ -80,6 +81,10 @@ export class DropdownMenuComponent {
 
   handleItemEvent(itemEvent: { event: Event; id: string }): void {
     this.itemEvent.emit(itemEvent);
+  }
+
+  handleItemChangeEvent(itemChangeEvent: { event: Event; id: string }): void {
+    this.itemChangeEvent.emit(itemChangeEvent);
   }
 
   @HostListener("keydown", ["$event"])

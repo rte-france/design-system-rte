@@ -1,13 +1,15 @@
 import {
-  MIN_SELECT_WIDTH,
   SELECT_DROPDOWN_OFFSET,
   THRESHOLD_BOTTOM_POSITION,
 } from "@design-system-rte/core/components/select/select.constants";
 import { SelectProps as coreSelectProps } from "@design-system-rte/core/components/select/select.interface";
+import { getSelectedOption } from "@design-system-rte/core/components/select/select.utils";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 import { forwardRef, useRef, useState } from "react";
 
 import AssistiveText from "../assistivetext/AssistiveText";
+import Badge from "../badge/Badge";
+import Chip from "../chip/Chip";
 import { Dropdown } from "../dropdown/Dropdown";
 import { DropdownItem } from "../dropdown/dropdownItem/DropdownItem";
 import Icon from "../icon/Icon";
@@ -17,7 +19,23 @@ import { concatClassNames } from "../utils";
 
 import styles from "./Select.module.scss";
 
-const Select = forwardRef<HTMLDivElement, coreSelectProps>(
+interface SingleSelectProps extends Omit<coreSelectProps, "value"> {
+  multiple?: false;
+  value?: string;
+  header?: React.ReactNode;
+  footer?: React.ReactNode;
+}
+
+interface MultiSelectProps extends Omit<coreSelectProps, "value"> {
+  multiple: true;
+  value?: string[];
+  header?: React.ReactNode;
+  footer?: React.ReactNode;
+}
+
+export type SelectProps = SingleSelectProps | MultiSelectProps;
+
+const Select = forwardRef<HTMLDivElement, SelectProps>(
   (
     {
       id,
@@ -38,11 +56,15 @@ const Select = forwardRef<HTMLDivElement, coreSelectProps>(
       disabled,
       readonly,
       showResetButton,
-      width = MIN_SELECT_WIDTH,
+      multiple,
+      withSelectAll = true,
+      optionToDisplay = "highest-selected",
+      header,
+      footer,
     },
     ref,
   ) => {
-    const [internalValue, setInternalValue] = useState(value || "");
+    const [internalValue, setInternalValue] = useState<string | string[]>(value || (multiple ? [] : ""));
 
     const [isActive, setIsActive] = useState(false);
 
@@ -57,9 +79,13 @@ const Select = forwardRef<HTMLDivElement, coreSelectProps>(
       }
     };
 
-    const shouldDisplayClearButton = showResetButton && !!internalValue && !readonly && !disabled;
+    const shouldDisplayClearButton =
+      showResetButton &&
+      (multiple ? Array.isArray(internalValue) && internalValue.length > 0 : !!internalValue) &&
+      !readonly &&
+      !disabled;
 
-    const currentOptionLabel = options.find((option) => option.value === internalValue)?.label;
+    const selectedOptionToDisplay = getSelectedOption(optionToDisplay, options, internalValue);
 
     const shouldDisplayErrorIcon = isError && !disabled && !readonly;
 
@@ -94,16 +120,58 @@ const Select = forwardRef<HTMLDivElement, coreSelectProps>(
 
     const handleOnClear = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       e.stopPropagation();
-      handleOnChange("");
-      onClear?.();
+      if (multiple) {
+        setInternalValue([]);
+        onClear?.();
+      } else {
+        handleOnChange("");
+        onClear?.();
+      }
       selectRef.current?.focus();
     };
 
+    const handleClearChip = (
+      event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLButtonElement>,
+      valueToClear: string,
+    ) => {
+      event.stopPropagation();
+      if (multiple) {
+        setInternalValue((prevValue) => {
+          if (Array.isArray(prevValue)) {
+            const newValue = prevValue.filter((value) => value !== valueToClear);
+
+            return newValue;
+          }
+          return prevValue;
+        });
+        onChange?.(valueToClear);
+      }
+    };
+
     const handleOnChange = (newValue: string) => {
+      if (multiple) {
+        const newArrayValue = Array.isArray(internalValue) ? [...internalValue] : [];
+        const valueIndex = newArrayValue.indexOf(newValue);
+        if (valueIndex > -1) {
+          newArrayValue.splice(valueIndex, 1);
+        } else {
+          newArrayValue.push(newValue);
+        }
+        setInternalValue(newArrayValue);
+        onChange?.(newValue);
+        return;
+      }
       setInternalValue(newValue);
       onChange?.(newValue);
       setIsActive(false);
     };
+
+    if ((Array.isArray(internalValue) && !multiple) || (!Array.isArray(internalValue) && multiple)) {
+      console.warn(
+        "Value type does not match the 'multiple' prop. Please check the value provided to the Select component.",
+      );
+      return;
+    }
 
     return (
       <>
@@ -128,6 +196,7 @@ const Select = forwardRef<HTMLDivElement, coreSelectProps>(
                 setIsActive(false);
               }}
               offset={SELECT_DROPDOWN_OFFSET}
+              autoClose={!multiple}
               trigger={
                 <div
                   ref={selectRefCallback}
@@ -143,12 +212,36 @@ const Select = forwardRef<HTMLDivElement, coreSelectProps>(
                   tabIndex={disabled || readonly ? -1 : 0}
                   onClick={handleOnClick}
                   onKeyDown={handleKeyDown}
-                  style={{ width: width }}
                 >
                   <div className={styles["select-content"]}>
                     {shouldDisplayErrorIcon && <Icon name="error" className={styles["error-icon"]} />}
                     <div className={styles["select-value"]}>
-                      <span>{currentOptionLabel}</span>
+                      {selectedOptionToDisplay && (
+                        <>
+                          {multiple ? (
+                            <div className={styles["select-multiple-values"]}>
+                              <Chip
+                                id={id + "-chip"}
+                                label={selectedOptionToDisplay.label}
+                                compactSpacing
+                                type="input"
+                                onClose={(e) => handleClearChip(e, selectedOptionToDisplay.value)}
+                              />
+                              {internalValue.length > 1 && (
+                                <Badge
+                                  count={internalValue.length - 1}
+                                  content={"number"}
+                                  badgeType={"brand"}
+                                  size={"m"}
+                                  withPlusSign={true}
+                                />
+                              )}
+                            </div>
+                          ) : (
+                            <span>{selectedOptionToDisplay.label}</span>
+                          )}
+                        </>
+                      )}
                     </div>
                     <div className={styles["select-right-icons"]}>
                       {shouldDisplayClearButton && (
@@ -169,18 +262,41 @@ const Select = forwardRef<HTMLDivElement, coreSelectProps>(
                   </div>
                 </div>
               }
+              header={header}
+              footer={footer}
               isOpen={isActive}
               position={computeDropdownPosition()}
             >
-              {options.length === 0 && <DropdownItem label="No options available" onClick={() => {}} />}
+              {options.length === 0 && <DropdownItem label="No options available" />}
+              {withSelectAll && multiple && options.length > 0 && (
+                <DropdownItem
+                  label="Sélectionner tout"
+                  isSelected={Array.isArray(internalValue) && internalValue.length === options.length}
+                  isIndeterminate={
+                    Array.isArray(internalValue) && internalValue.length > 0 && internalValue.length < options.length
+                  }
+                  onClick={() => {
+                    if (Array.isArray(internalValue) && internalValue.length === options.length) {
+                      setInternalValue([]);
+                    } else {
+                      const allValues = options.map((option) => option.value);
+                      setInternalValue(allValues);
+                    }
+                    onChange?.("select-all");
+                  }}
+                  hasCheckbox
+                  hasSeparator
+                />
+              )}
               {options.map(({ value, label }, index) => (
                 <DropdownItem
                   key={index + value}
                   label={label}
-                  isSelected={value === internalValue}
+                  isSelected={multiple ? internalValue.includes(value) : internalValue === value}
                   onClick={() => {
                     handleOnChange(value);
                   }}
+                  hasCheckbox={multiple}
                 />
               ))}
             </Dropdown>
@@ -191,7 +307,6 @@ const Select = forwardRef<HTMLDivElement, coreSelectProps>(
                 appearance={isError ? "error" : assistiveAppearance}
                 showIcon={showAssistiveIcon}
                 href={assistiveTextLink}
-                width={width}
               />
             )}
           </div>

@@ -14,7 +14,11 @@
   <div class="rte-dropdown-menu-content">
     <ul class="rte-dropdown-items" role="menu" [attr.aria-activedescendant]="menuId()">
       @for (item of items(); track item.label; let i = $index) {
-        <rte-dropdown-item [item]="item" (itemEvent)="handleItemEvent($event)" />
+        <rte-dropdown-item
+          [item]="item"
+          (itemEvent)="handleItemEvent($event)"
+          (itemChangeEvent)="handleItemChangeEvent($event)"
+        />
       }
     </ul>
   </div>
