@@ -27,7 +27,10 @@
 
 .container {
   display: flex;
-  gap: $positive-spacing-150;
+
+  &[data-show-label='true'] {
+    gap: $positive-spacing-150;
+  }
 
   .checkbox {
     appearance: none;

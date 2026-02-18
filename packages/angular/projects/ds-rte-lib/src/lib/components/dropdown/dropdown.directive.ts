@@ -72,6 +72,8 @@ export class DropdownDirective implements AfterContentInit {
   readonly clickedOutside = output<void>();
   readonly closedDropdown = output<void>();
 
+  readonly menuChangeEvent = output<{ event: Event; id: string }>();
+
   readonly isActive = signal(false);
 
   readonly menuInputs = computed(() => {
@@ -155,6 +157,10 @@ export class DropdownDirective implements AfterContentInit {
     }
   }
 
+  onMenuChangeEvent(event: { event: Event; id: string }): void {
+    this.menuEvent.emit(event);
+  }
+
   ngAfterContentInit(): void {
     const trigger = this.trigger();
     if (!trigger) return;
@@ -191,6 +197,10 @@ export class DropdownDirective implements AfterContentInit {
     this.itemEventSubscription = this.dropdownMenuRef.instance.itemEvent.subscribe(
       (event: { event: Event; id: string; item?: DropdownItemConfig }) => this.onMenuEvent(event),
     );
+
+    this.dropdownMenuRef.instance.itemChangeEvent.subscribe((event: { event: Event; id: string }) => {
+      this.onMenuChangeEvent(event);
+    });
 
     const dropdownStateSubscription = this.dropdownService.state$.subscribe((state) => {
       if (state === null) {

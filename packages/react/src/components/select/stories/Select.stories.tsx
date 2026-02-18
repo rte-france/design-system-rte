@@ -31,6 +31,12 @@ const meta = {
     disabled: { control: "boolean" },
     readonly: { control: "boolean" },
     showResetButton: { control: "boolean" },
+    multiple: { control: "boolean" },
+    withSelectAll: { control: "boolean" },
+    optionToDisplay: {
+      control: { type: "select" },
+      options: ["first-selected", "last-selected", "highest-selected"],
+    },
   },
 } satisfies Meta<typeof Select>;
 
@@ -54,6 +60,8 @@ export const Default: Story = {
     disabled: false,
     readonly: false,
     showResetButton: false,
+    withSelectAll: false,
+    optionToDisplay: "first-selected",
   },
   render: (args) => {
     const [selectedOption, setSelectedOption] = useState<{ label: string; value: string }>();
@@ -64,7 +72,7 @@ export const Default: Story = {
 
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "16px", width: "280px" }}>
-        <Select {...args} onChange={handleOnChange} value={selectedOption?.value} />
+        <Select {...args} onChange={handleOnChange} value={selectedOption?.value} multiple={false} />
         <span style={{ fontFamily: "Arial", color: "var(--content-primary)" }}>
           Selected value : {selectedOption?.label || "No value"}
         </span>
@@ -81,13 +89,15 @@ export const Error: Story = {
   render: (args) => {
     const [selectedOption, setSelectedOption] = useState<{ label: string; value: string }>();
 
-    const handleOnChange = (value: string) => {
-      setSelectedOption(args.options.find((option) => option.value === value));
+    const handleOnChange = (value: string | string[]) => {
+      if (typeof value === "string") {
+        setSelectedOption(args.options.find((option) => option.value === value));
+      }
     };
 
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "16px", width: "280px" }}>
-        <Select {...args} onChange={handleOnChange} value={selectedOption?.value} />
+        <Select {...args} onChange={handleOnChange} value={selectedOption?.value} multiple={false} />
         <span style={{ fontFamily: "Arial", color: "var(--content-primary)" }}>
           Selected value : {selectedOption?.label || "No value"}
         </span>
@@ -105,12 +115,14 @@ export const ReadOnly: Story = {
     const [selectedOption, setSelectedOption] = useState<{ label: string; value: string }>();
 
     const handleOnChange = (value: string) => {
-      setSelectedOption(args.options.find((option) => option.value === value));
+      if (typeof value === "string") {
+        setSelectedOption(args.options.find((option) => option.value === value));
+      }
     };
 
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "16px", width: "280px" }}>
-        <Select {...args} onChange={handleOnChange} value={selectedOption?.value} />
+        <Select {...args} onChange={handleOnChange} value={selectedOption?.value} multiple={false} />
         <span style={{ fontFamily: "Arial", color: "var(--content-primary)" }}>
           Selected value : {selectedOption?.label || "No value"}
         </span>
@@ -134,13 +146,14 @@ export const Disabled: Story = {
   render: (args) => {
     const [selectedOption, setSelectedOption] = useState<{ label: string; value: string }>();
 
-    const handleOnChange = (value: string) => {
-      setSelectedOption(args.options.find((option) => option.value === value));
+    const handleOnChange = (value: string | string[]) => {
+      const stringValue = Array.isArray(value) ? value[0] : value;
+      setSelectedOption(args.options.find((option) => option.value === stringValue));
     };
 
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "16px", width: "280px" }}>
-        <Select {...args} onChange={handleOnChange} value={selectedOption?.value} />
+        <Select {...args} onChange={handleOnChange} value={selectedOption?.value} multiple={false} />
         <span style={{ fontFamily: "Arial", color: "var(--content-primary)" }}>
           Selected value : {selectedOption?.label || "No value"}
         </span>
@@ -156,6 +169,44 @@ export const Disabled: Story = {
   },
 };
 
+export const Multiple: Story = {
+  args: {
+    ...Default.args,
+    withSelectAll: true,
+  },
+  render: (args) => {
+    const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+
+    const handleOnChange = (value: string) => {
+      if (value === "select-all") {
+        if (selectedOptions.length === args.options.length) {
+          setSelectedOptions([]);
+        } else {
+          setSelectedOptions(args.options.map((option) => option.value));
+        }
+        return;
+      }
+      if (selectedOptions) {
+        if (selectedOptions.includes(value)) {
+          setSelectedOptions(selectedOptions.filter((option) => option !== value));
+        } else {
+          setSelectedOptions([...selectedOptions, value]);
+        }
+      }
+    };
+
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: "16px", width: "280px" }}>
+        <Select {...args} onChange={handleOnChange} value={selectedOptions} multiple={true} />
+        <span style={{ fontFamily: "Arial", color: "var(--content-primary)" }}>
+          Selected values :{" "}
+          {selectedOptions.length > 0 ? selectedOptions.map((option) => option).join(", ") : "No value"}
+        </span>
+      </div>
+    );
+  },
+};
+
 export const KeyboardInteraction: Story = {
   args: {
     ...Default.args,
@@ -164,13 +215,14 @@ export const KeyboardInteraction: Story = {
   render: (args) => {
     const [selectedOption, setSelectedOption] = useState<{ label: string; value: string }>();
 
-    const handleOnChange = (value: string) => {
-      setSelectedOption(args.options.find((option) => option.value === value));
+    const handleOnChange = (value: string | string[]) => {
+      const stringValue = Array.isArray(value) ? value[0] : value;
+      setSelectedOption(args.options.find((option) => option.value === stringValue));
     };
 
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "16px", width: "280px" }}>
-        <Select {...args} onChange={handleOnChange} value={selectedOption?.value} />
+        <Select {...args} onChange={handleOnChange} value={selectedOption?.value} multiple={false} />
         <span style={{ fontFamily: "Arial", color: "var(--content-primary)" }}>
           Selected value : {selectedOption?.label || "No value"}
         </span>
