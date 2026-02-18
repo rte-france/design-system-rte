@@ -5,4 +5,5 @@ export interface SelectProps extends InputProps {
   options: { value: string; label: string }[];
   showResetButton?: boolean;
   width?: number;
+  multiple?: boolean;
 }

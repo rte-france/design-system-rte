@@ -156,6 +156,39 @@ export const Disabled: Story = {
   },
 };
 
+export const Multiple: Story = {
+  args: {
+    ...Default.args,
+    multiple: true,
+  },
+  render: (args) => {
+    const [selectedOptions, setSelectedOptions] = useState<{ label: string; value: string }[]>([]);
+
+    const handleOnChange = (value: string) => {
+      const option = args.options.find((option) => option.value === value);
+      if (option) {
+        setSelectedOptions((prevSelectedOptions) => {
+          if (prevSelectedOptions.some((selectedOption) => selectedOption.value === value)) {
+            return prevSelectedOptions.filter((selectedOption) => selectedOption.value !== value);
+          } else {
+            return [...prevSelectedOptions, option];
+          }
+        });
+      }
+    };
+
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: "16px", width: "280px" }}>
+        <Select {...args} onChange={handleOnChange} value={selectedOptions.map((option) => option.value)} />
+        <span style={{ fontFamily: "Arial", color: "var(--content-primary)" }}>
+          Selected values :{" "}
+          {selectedOptions.length > 0 ? selectedOptions.map((option) => option.label).join(", ") : "No value"}
+        </span>
+      </div>
+    );
+  },
+};
+
 export const KeyboardInteraction: Story = {
   args: {
     ...Default.args,

@@ -8,6 +8,7 @@ export interface BadgeProps {
   content?: BadgeContent;
   count?: number;
   icon?: string;
+  withPlusSign?: boolean;
 }
 
 export interface BadgeHolderProps {

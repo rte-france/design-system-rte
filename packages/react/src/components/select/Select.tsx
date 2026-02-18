@@ -1,5 +1,4 @@
 import {
-  MIN_SELECT_WIDTH,
   SELECT_DROPDOWN_OFFSET,
   THRESHOLD_BOTTOM_POSITION,
 } from "@design-system-rte/core/components/select/select.constants";
@@ -8,6 +7,8 @@ import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard
 import { forwardRef, useRef, useState } from "react";
 
 import AssistiveText from "../assistivetext/AssistiveText";
+import Badge from "../badge/Badge";
+import Chip from "../chip/Chip";
 import { Dropdown } from "../dropdown/Dropdown";
 import { DropdownItem } from "../dropdown/dropdownItem/DropdownItem";
 import Icon from "../icon/Icon";
@@ -38,11 +39,11 @@ const Select = forwardRef<HTMLDivElement, coreSelectProps>(
       disabled,
       readonly,
       showResetButton,
-      width = MIN_SELECT_WIDTH,
+      multiple,
     },
     ref,
   ) => {
-    const [internalValue, setInternalValue] = useState(value || "");
+    const [internalValue, setInternalValue] = useState(value || "" || [""]);
 
     const [isActive, setIsActive] = useState(false);
 
@@ -59,7 +60,9 @@ const Select = forwardRef<HTMLDivElement, coreSelectProps>(
 
     const shouldDisplayClearButton = showResetButton && !!internalValue && !readonly && !disabled;
 
-    const currentOptionLabel = options.find((option) => option.value === internalValue)?.label;
+    const optionLabelToDisplay = multiple
+      ? options.find((option) => option.value === internalValue[0])?.label
+      : options.find((option) => option.value === internalValue)?.label;
 
     const shouldDisplayErrorIcon = isError && !disabled && !readonly;
 
@@ -99,7 +102,31 @@ const Select = forwardRef<HTMLDivElement, coreSelectProps>(
       selectRef.current?.focus();
     };
 
+    const handleClearChip = (valueToClear: string) => {
+      setInternalValue((prevValue) => {
+        if (Array.isArray(prevValue)) {
+          const newValue = prevValue.filter((value) => value !== valueToClear);
+          onChange?.(valueToClear);
+          return newValue;
+        }
+        return prevValue;
+      });
+    };
+
     const handleOnChange = (newValue: string) => {
+      if (multiple) {
+        const newArrayValue = Array.isArray(internalValue) ? [...internalValue] : [];
+        const valueIndex = newArrayValue.indexOf(newValue);
+        if (valueIndex > -1) {
+          newArrayValue.splice(valueIndex, 1);
+        } else {
+          newArrayValue.push(newValue);
+        }
+        setInternalValue(newArrayValue);
+        console.log(newArrayValue);
+        onChange?.(newValue);
+        return;
+      }
       setInternalValue(newValue);
       onChange?.(newValue);
       setIsActive(false);
@@ -128,6 +155,7 @@ const Select = forwardRef<HTMLDivElement, coreSelectProps>(
                 setIsActive(false);
               }}
               offset={SELECT_DROPDOWN_OFFSET}
+              autoClose={!multiple}
               trigger={
                 <div
                   ref={selectRefCallback}
@@ -143,12 +171,34 @@ const Select = forwardRef<HTMLDivElement, coreSelectProps>(
                   tabIndex={disabled || readonly ? -1 : 0}
                   onClick={handleOnClick}
                   onKeyDown={handleKeyDown}
-                  style={{ width: width }}
                 >
                   <div className={styles["select-content"]}>
                     {shouldDisplayErrorIcon && <Icon name="error" className={styles["error-icon"]} />}
                     <div className={styles["select-value"]}>
-                      <span>{currentOptionLabel}</span>
+                      {multiple ? (
+                        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                          <Chip
+                            id={id + "-chip"}
+                            label={optionLabelToDisplay || ""}
+                            compactSpacing
+                            type="input"
+                            onClose={() => handleClearChip(optionLabelToDisplay || "")}
+                          />
+                          {internalValue.length > 1 && (
+                            <>
+                              <Badge
+                                count={internalValue.length - 1}
+                                content={"number"}
+                                badgeType={"brand"}
+                                size={"m"}
+                                withPlusSign={true}
+                              />
+                            </>
+                          )}
+                        </div>
+                      ) : (
+                        <span>{optionLabelToDisplay}</span>
+                      )}
                     </div>
                     <div className={styles["select-right-icons"]}>
                       {shouldDisplayClearButton && (
@@ -172,15 +222,16 @@ const Select = forwardRef<HTMLDivElement, coreSelectProps>(
               isOpen={isActive}
               position={computeDropdownPosition()}
             >
-              {options.length === 0 && <DropdownItem label="No options available" onClick={() => {}} />}
+              {options.length === 0 && <DropdownItem label="No options available" />}
               {options.map(({ value, label }, index) => (
                 <DropdownItem
                   key={index + value}
                   label={label}
-                  isSelected={value === internalValue}
+                  isSelected={multiple ? internalValue.includes(value) : internalValue === value}
                   onClick={() => {
                     handleOnChange(value);
                   }}
+                  hasCheckbox={multiple}
                 />
               ))}
             </Dropdown>
@@ -191,7 +242,6 @@ const Select = forwardRef<HTMLDivElement, coreSelectProps>(
                 appearance={isError ? "error" : assistiveAppearance}
                 showIcon={showAssistiveIcon}
                 href={assistiveTextLink}
-                width={width}
               />
             )}
           </div>

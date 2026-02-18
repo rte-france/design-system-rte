@@ -61,6 +61,12 @@ export const Chip = forwardRef<HTMLSpanElement, ChipProps>(
 
     const isCheckable = type === "single" || type === "multi";
 
+    const handleOnClose = (event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLButtonElement>) => {
+      if (type !== "input") return;
+      console.log("Chip onClose triggered for label:", label);
+      onClose?.(event);
+    };
+
     return (
       <span
         id={id}
@@ -104,7 +110,7 @@ export const Chip = forwardRef<HTMLSpanElement, ChipProps>(
             id={id + "-delete-button"}
             type="button"
             className={styles["chip-close-button"]}
-            onClick={onClose}
+            onClick={handleOnClose}
             disabled={disabled}
             aria-label={`Supprimer ${label}`}
             value={label}

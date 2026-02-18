@@ -13,6 +13,7 @@ import { useContext } from "react";
 
 import { useActiveKeyboard } from "../../../hooks/useActiveKeyboard";
 import Badge from "../../badge/Badge";
+import Checkbox from "../../checkbox/Checkbox";
 import Divider from "../../divider/Divider";
 import Icon from "../../icon/Icon";
 import { DropdownParentContext } from "../context/DropdownContext";
@@ -43,6 +44,7 @@ export const DropdownItem = ({
   showBadge,
   isSelected,
   onClick,
+  hasCheckbox,
   ...props
 }: DropdownItemProps) => {
   const { dropdownId, autoClose, closeRoot } = useContext(DropdownParentContext) || {};
@@ -179,6 +181,7 @@ export const DropdownItem = ({
         tabIndex={0}
         {...props}
       >
+        {hasCheckbox && <Checkbox id={dropdownId + "-checkbox"} label={label || ""} checked={isSelected} />}
         {hasIndent && !leftIcon && <span style={{ width: "20px" }} />}
         {leftIcon && <Icon name={leftIcon} className={styles["dropdown-item-icon"]} />}
         {link ? (
