@@ -1,0 +1,193 @@
+import { Meta } from "@storybook/blocks";
+
+import Tabs from "../../../../../../../../design-docs/src/components/ComponentDocs/Tabs/Tabs";
+import HeaderComponent from "../../../../../../../.storybook/template/HeaderComponent/HeaderComponent";
+import IconTitle from "../../../../../../../.storybook/template/IconTitle/IconTitle";
+
+import TextInputAccessibility from "../../../../../../../../core/components/text-input/stories/img/TextInputAccessibility.png";
+import TextInputBooleanOptions from "../../../../../../../../core/components/text-input/stories/img/TextInputBooleanOptions.svg";
+import TextInputDoDont from "../../../../../../../../core/components/text-input/stories/img/TextInputDoDont.svg";
+import TextInputKeyboardInteractions from "../../../../../../../../core/components/text-input/stories/img/TextInputKeyboardInteractions.svg";
+import TextInputLabelPosition from "../../../../../../../../core/components/text-input/stories/img/TextInputLabelPosition.svg";
+import TextInputLayout from "../../../../../../../../core/components/text-input/stories/img/TextInputLayout.svg";
+import TextInputPosition from "../../../../../../../../core/components/text-input/stories/img/TextInputPosition.svg";
+import TextInputPrecisions from "../../../../../../../../core/components/text-input/stories/img/TextInputPrecisions.png";
+import TextInputRequiredIndicator from "../../../../../../../../core/components/text-input/stories/img/TextInputRequiredIndicator.svg";
+import TextInputStructure from "../../../../../../../../core/components/text-input/stories/img/TextInputStructure.svg";
+import TextInputTableOfOptions from "../../../../../../../../core/components/text-input/stories/img/TextInputTableOfOptions.svg";
+import TextInputTextOptions from "../../../../../../../../core/components/text-input/stories/img/TextInputTextOptions.svg";
+
+import "../../../../../../../.storybook/template/style/police.css";
+
+<Meta title="Composants/TextInput" />
+
+<HeaderComponent title="TextInput" linkFigma="https://www.figma.com/design/Wiy8uWsWjoagf95lOmPXNU/01.0-Design-System-RTE---WEB?node-id=1744-1406&p=f&m=dev" linkGithub="https://github.com/rte-france/design-system-rte/tree/main/packages/angular/projects/ds-rte-lib/src/lib/components/text-input"  />
+
+<p className="no-margin-bottom">
+    Le <b>champ de saisie (Text Input)</b> permet aux utilisateurs d’<b>entrer une courte information textuelle dans une interface</b>, comme un nom, un e-mail ou un mot-clé. Il peut contenir un label, une aide contextuelle, des icônes (début et/ou fin), un message d’erreur, ainsi que des états d’interaction visuelle.
+</p>
+
+<Tabs>
+    <div className="Overview">
+        <h2 className="h2" id="Introduction" style={{border:"none", fontFamily:"Nunito", color:"#2964A0"}}> Introduction </h2>
+
+        <h3 className="h3" id="gherkin" style={{fontFamily:"Nunito"}}> Gherkin : </h3>
+        <ul>
+            <li>En tant qu’<b>utilisateur remplissant un formulaire</b>,</li>
+            <li>Je souhaite pouvoir <b>saisir librement une information textuelle dans un champ prévu à cet effet</b>,</li>
+            <li>Afin de <b>transmettre une donnée conforme à l’objectif attendu (nom, email, etc.)</b>.</li>
+        </ul>
+
+        <h3 className="h3" id="definition" style={{fontFamily:"Nunito"}}> Définition : </h3>
+        <p>
+            Le champ de saisie (Text Input) permet aux utilisateurs d’entrer une courte information textuelle dans une interface, comme un nom, un e-mail ou un mot-clé. Il peut contenir un label, une aide contextuelle, des icônes (début et/ou fin), un message d’erreur, ainsi que des états d’interaction visuelle.
+        </p>
+
+        <h3 className="h3" id="types" style={{fontFamily:"Nunito"}}> Type : </h3>
+        <p>
+            Composant générique pouvant être utilisé par toutes les équipes de la DSIT.
+        </p>
+    </div>
+
+<div className="Guidelines">
+
+        <h2 id="guidelines" className="h2" style={{border:"none", fontFamily:"Nunito", color:"#2964A0"}} > Usages </h2>
+
+        <IconTitle id="préconisation" icon="heart_outlined" title="Préconisation" />
+
+        <p>Les principales règles qui entourent l'utilisation du composant :</p>
+
+        <p className="no-margin-bottom">Utiliser un label visible</p>
+        <p className="light-gray no-margin-top">Le champ doit toujours être accompagné d’un label pour la compréhension et l’accessibilité. Dans les rares cas où le contexte est suffisant et où un expert en accessibilité a examiné le design, le label peut être omis. Les champs de saisie sans étiquette visible doivent toujours comporter un aria label en HTML (selon le contexte "aria-label" ou "aria-labelledby").</p>
+
+        <p className="no-margin-bottom">Utilisez le texte d’aide pour afficher des conseils, des mises en forme et des exigences</p>
+        <ul className="light-gray no-margin-top">
+            <li> <p className="light-gray">Description générale du champ de saisie</p></li>
+            <li> <p className="light-gray">Indications sur le type d’informations à saisir</p></li>
+            <li> <p className="light-gray">Exemples ou exigences spécifiques en matière de formatage</p></li>
+            <li> <p className="light-gray no-margin-top">Le message du texte d’aide ne doit pas se contenter de répéter les mêmes informations que celles contenues dans le label. Ne pas ajouter de texte d’aide s’il n’est pas réellement pertinent ou significatif pour l’utilisateur. </p></li>
+        </ul>
+
+        <p className="no-margin-bottom">Fournir un message d’erreur explicite et qui donne une solution</p>
+        <p className="light-gray no-margin-top">Rédigez des messages d’erreur en guidant l’utilisateur et en lui montrant une solution : il ne faut pas se contenter d’indiquer ce qui ne va pas, en laissant l’utilisateur deviner comment résoudre le problème.</p>
+
+        <p className="no-margin-bottom">Ne pas utiliser de texte "placeholder"</p>
+        <ul className="light-gray no-margin-top">
+            <li> <p className="light-gray">À la place, utilisez le texte d’aide pour communiquer des instructions, des exigences ou pour montrer des exemples de formatage.</p></li>
+            <li> <p className="light-gray">Un texte faisant office de placeholder dans le champ de texte pose plusieurs problèmes :</p></li>
+            <li> <p className="light-gray">Les informations contenues dans un placeholder ne sont pas accessibles.</p></li>
+            <li> <p className="light-gray">Une fois qu’une valeur est saisie, le placeholder n’est plus visible.</p></li>
+            <li> <p className="light-gray">Si l’utilisateur utilise un remplisseur de formulaires automatique, il n’obtiendra jamais les informations contenues dans le placeholder.</p></li>
+            <li> <p className="light-gray">La présence simultanée d’un placeholder et d’un texte d’aide est redondante et distrayante, surtout s’ils communiquent la même chose.</p></li>
+        </ul>
+
+        <p className="no-margin-bottom">Remplacer le texte d’aide par le texte d’erreur</p>
+        <p className="light-gray no-margin-top">Lorsqu’un champ de texte contient déjà un texte d’aide et qu’une erreur se produit, le texte d’aide est remplacé par le texte d’erreur. Une fois l’erreur résolue, la description du texte d’aide réapparaît sous le champ.
+        Le texte d’aide explique l’exigence ou ajoute un contexte supplémentaire sur la manière de compléter l’entrée avec succès.<br/>
+        Le texte d’erreur indique à l’utilisateur comment corriger l’erreur en reformulant les exigences de l’entrée ou en décrivant l’interaction nécessaire.<br/>
+        Veillez à ce que le texte d’aide et le texte d’erreur contiennent les mêmes informations essentielles afin qu’elles ne soient pas perdues si l’un remplace l’autre (par exemple, les exigences en matière de mot de passe).</p>
+
+        <p className="no-margin-bottom">Limiter la longueur du champ à son usage</p>
+        <p className="light-gray no-margin-top">Adapter la taille visuelle du champ au type de contenu attendu (ex : code postal # adresse).</p>
+
+        <p className="no-margin-bottom">Éviter de désactiver sans explication</p>
+        <p className="light-gray no-margin-top">Si un champ est désactivé ou en lecture seule, expliquer pourquoi (tooltip ou message adjacent).</p>
+
+        <p className="no-margin-bottom">Marquer la minorité des champs de texte d’un formulaire</p>
+        <p className="light-gray no-margin-top no-margin-bottom">Dans un même formulaire, marquer uniquement les champs obligatoires ou seulement les champs facultatifs, selon l’option la moins présente dans l’ensemble du formulaire.<br/>Exemple :<br/></p>
+        <ul className="light-gray no-margin-top">
+            <li> <p className="light-gray">Si la plupart des champs sont facultatifs, seuls les champs obligatoires doivent être marqués d’un astérisque, ou accompagnés de la mention ("obligatoire").</p></li>
+            <li> <p className="light-gray">Si la plupart des champs sont obligatoires, seuls les champs facultatifs doivent être accompagnés de la mention ("facultatif"). Un astérisque ne doit jamais être utilisé pour indiquer qu’un champ est facultatif.</p></li>
+        </ul>
+
+    <img src={TextInputDoDont} alt="Bonnes et mauvaises pratiques pour l’utilisation du champ de saisie" />
+
+        <h3 id="content-standards" className="h3" style={{fontFamily:"Nunito"}}> Content Standards : </h3>
+        <p>Quels sont les standards de contenu ? (UX Writing)</p>
+
+        <p className="no-margin-bottom">Label</p>
+        <p className="light-gray no-margin-top">Concis, informatif (ex : "Nom", "E-mail"). Majuscule en début de label et pas de ponctuation.</p>
+
+        <p className="no-margin-bottom">Erreur</p>
+        <p className="light-gray no-margin-top">Le texte d'erreur doit être rédigé en une ou deux phrases courtes et complètes, de manière claire et directe, avec un langage clair, tourné vers l’action. Les phrases doivent être terminées par un point et jamais par un point d'exclamation.</p>
+
+        <h2 id="options" className="h2" style={{border:"none", fontFamily:"Nunito", color:"#2964A0"}} > Options </h2>
+        <p> Les options comprennent les états et différentes formes que peut prendre le composant. Elles incluent : Les états, les variants, les tailles, les éléments modifiables qui composent le composant, etc. <br />
+        → Ils n’incluent pas les “Behaviors” qui correspondent à comment le composant réagit.</p>
+
+        <h3 id="position" className="h3" style={{fontFamily:"Nunito"}}> Position </h3>
+        <p className="light-gray no-margin-top">Définit la direction principale d’ouverture par rapport à l’élément ciblé.</p>
+    <img src={TextInputPosition} alt="Positionnement du champ de saisie par rapport à l’élément ciblé" />
+
+        <h3 id="taille" className="h3" style={{fontFamily:"Nunito"}}> Taille : </h3>
+        <p> Le text input n'existe qu'en <b>une seule taille</b>, mais avec <b>deux variants</b>.<br />
+        Le text input n’a <b>qu’une seule hauteur</b> (largeur variable) : <b>32 pixels de haut</b></p>
+
+        <h3 id="label-position" className="h3" style={{fontFamily:"Nunito"}}> Label Position </h3>
+    <img src={TextInputLabelPosition} alt="Positions possibles du label pour le champ de saisie" />
+
+        <h3 id="required-indicator"  className="h3" style={{fontFamily:"Nunito"}}> Required Indicator : </h3>
+        <p className="light-gray no-margin-top">Permet de choisir la façon d'indiquer que le champ est obligatoire.</p>
+    <img src={TextInputRequiredIndicator} alt="Indicateurs pour signaler qu’un champ est obligatoire" />
+
+        <h3 id="boolean-options" className="h3" style={{fontFamily:"Nunito"}}> Boolean Options </h3>
+    <img src={TextInputBooleanOptions} alt="Options booléennes disponibles pour le champ de saisie" />
+
+        <h3 id="precisions" className="h3" style={{fontFamily:"Nunito"}}> Précisions : différence readOnly / disabled </h3>
+    <img src={TextInputPrecisions} alt="Différences entre les états readOnly et disabled du champ de saisie" />
+
+        <h3 id="structure" className="h3" style={{fontFamily:"Nunito"}}> Structure </h3>
+        <p> Le <b>text input</b> est composé de plusieurs éléments : </p>
+    <img src={TextInputStructure} alt="Structure et éléments constitutifs du champ de saisie" />
+        <ol>
+            <li>Un <b>container</b></li>
+            <li>Un <b>label + required</b> (optional)</li>
+            <li><b>Assistive text</b> (optional)</li>
+            <li>Un <b>compteur de caractères</b> (optional)</li>
+        </ol>
+
+        <h3 id="text-options" className="h3" style={{fontFamily:"Nunito"}}> Text Options </h3>
+    <img src={TextInputTextOptions} alt="Options de texte disponibles pour le champ de saisie" />
+
+        <h3 id="table-of-options" className="h3" style={{fontFamily:"Nunito"}}> Table of Options </h3>
+        <p className="light-gray no-margin-top">Tous les éléments modifiables sont inscrit dans le tableau. On y renseigne le nom de la propriété et les choix qui s’offrent aux développeurs.</p>
+    <img src={TextInputTableOfOptions} alt="Tableau des options modifiables du champ de saisie" />
+
+        <h2 id="Behaviors" className="h2" style={{border:"none", fontFamily:"Nunito", color:"#2964A0"}} > Behaviors </h2>
+
+        <h3 id="focus" className="h3" style={{fontFamily:"Nunito"}}> Focus </h3>
+
+        <ul>
+        <li><b>Affichage d’un anneau de focus visible</b></li>
+        <li><b>Activation via TAB (pas le clic souris)</b></li>
+        <li><b>Le label est toujours sélectionnable par le focus, qu'importe son état, visible ou non.</b></li>
+        </ul>
+
+        <h3 id="layout" className="h3" style={{fontFamily:"Nunito"}}> Layout </h3>
+    <img src={TextInputLayout} alt="Exemple de disposition du champ de saisie" />
+
+        <h3 id="animations" className="h3" style={{fontFamily:"Nunito"}}> Animations </h3>
+        <p className="no-margin-bottom"><b>Erreur</b></p>
+        <p className="light-gray no-margin-bottom no-margin-top"><b>Apparition du message + bordure + teinte du champ</b></p>
+        <p className="light-gray no-margin-bottom no-margin-top"><b>Délais</b> : ~200ms</p>
+        <p className="light-gray no-margin-top"><b>Modifiable</b> : Oui</p>
+
+        <h3 id="keyboard-interactions" className="h3" style={{fontFamily:"Nunito"}}> Keyboard Interactions </h3>
+    <img src={TextInputKeyboardInteractions} alt="Interactions clavier possibles avec le champ de saisie" />
+
+        <h3 id="placement" className="h3" style={{fontFamily:"Nunito"}}> Placement </h3>
+        <ul>
+        <li><b>Label au-dessus (même s’il est masqué visuellement) ou sur la gauche</b></li>
+        <li><b>Message d’aide ou d’erreur toujours en dessous du champ</b></li>
+        </ul>
+    </div>
+
+<div className="Accessibilité">
+
+    <h2 className="h2" id="accessibility-testing-status" style={{border:"none", fontFamily:"Nunito", color:"#2964A0"}}> Accessibility Testing Status </h2>
+<p> Voici les tests à effectuer pour vérifier l’accessibilité de chaque catégorie : </p>
+    <img src={TextInputAccessibility} alt="Checklist des tests d’accessibilité pour le champ de saisie" />
+
+</div>
+
+</Tabs>
