@@ -10,7 +10,7 @@ export interface BaseTextInputProps {
   showCounter?: boolean;
   value?: string;
   defaultValue?: string;
-  leftIcon?: RegularIconIdKey | TogglableIconIdKey;
+  leftIcon?: string;
   showRightIcon?: boolean;
   rightIconAction?: RightIconAction;
   rightIconSize?: import("../button/common/common-button").ButtonSize;

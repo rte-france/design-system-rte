@@ -10,10 +10,9 @@ import {
   Renderer2,
   ViewContainerRef,
 } from "@angular/core";
-import { Position } from "@design-system-rte/core/common/common-types";
+import { getAutoPlacement, getCoordinates, Position } from "@design-system-rte/core";
 import { TOOLTIP_FADE_OUT_DURATION, TOOLTIP_GAP } from "@design-system-rte/core/components/tooltip/tooltip.constants";
 import { getTooltipGap } from "@design-system-rte/core/components/tooltip/tooltip.utils";
-import { getAutoPlacement, getCoordinates } from "@design-system-rte/core/components/utils/auto-placement";
 import { FOCUSABLE_ELEMENTS_QUERY } from "@design-system-rte/core/constants/dom/dom.constants";
 
 import { OverlayService } from "../../services/overlay.service";

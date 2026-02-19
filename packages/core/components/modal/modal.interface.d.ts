@@ -6,5 +6,5 @@ export interface ModalProps {
   icon?: string;
   iconAppearance?: "outlined" | "filled";
   description?: string;
-  size?: import("./common/common-types").Size;
+  size?: import("../common/common-types").Size;
 }

@@ -1,6 +1,6 @@
-import { execSync } from "child_process";
-import fs from "fs";
-import path from "path";
+import { execSync } from "node:child_process";
+import fs from "node:fs";
+import path from "node:path";
 import { fileURLToPath } from "url";
 
 import { copyDirectoryRecursive, cleanDirectory } from "./directory-helper.js";
@@ -55,14 +55,17 @@ function copyBundlesToDist(packages) {
 }
 
 function copyCoreToDist() {
-  const packageRoot = path.resolve(__dirname, `../packages/core`);
+  const coreDistDir = path.resolve(__dirname, `../packages/core/dist`);
   const outputDir = path.join(distDir, "core");
 
-  console.log(`📁 Copying core source files to ${outputDir}`);
-  fs.mkdirSync(outputDir, { recursive: true });
+  if (!fs.existsSync(coreDistDir)) {
+    console.error(`❌ Core dist not found at ${coreDistDir}. Run core build first.`);
+    return;
+  }
 
-  const exclude = ["node_modules", "dist", "test", ".DS_Store", "scripts"];
-  copyDirectoryRecursive(packageRoot, outputDir, exclude);
+  console.log(`📁 Copying core build output to ${outputDir}`);
+  fs.mkdirSync(outputDir, { recursive: true });
+  copyDirectoryRecursive(coreDistDir, outputDir);
 
   console.log(`✅ core copied to ${outputDir}`);
 }
