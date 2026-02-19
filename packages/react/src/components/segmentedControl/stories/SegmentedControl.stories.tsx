@@ -26,6 +26,10 @@ const meta = {
         type: { summary: "SegmentProps[]" },
         defaultValue: { summary: "[]" },
       },
+      appearance: {
+        control: "select",
+        options: ["brand", "neutral"],
+      },
       badgeContent: {
         control: "select",
         options: ["number", "icon", "empty"],
@@ -48,9 +52,12 @@ const meta = {
         control: "select",
         options: ["xs", "s", "m", "l"],
       },
+      compactSpacing: {
+        control: "boolean",
+      },
     },
   },
-  args: { onClick: fn() },
+  args: { onClick: fn(), appearance: "brand" },
 } satisfies Meta<typeof SegmentedControl>;
 
 export default meta;
@@ -64,6 +71,8 @@ export const Default: Story = {
       { label: "Option 3", id: "option3" },
     ],
     onChange: fn(),
+    appearance: "brand",
+    compactSpacing: false,
   },
 
   render: (args) => {
@@ -75,7 +84,7 @@ export const Default: Story = {
 
     return (
       <div style={{ width: "420px" }} data-testid="segmented-control-story">
-        <SegmentedControl options={args.options} onChange={handleOnChange} selectedSegment={selected} />
+        <SegmentedControl {...args} onChange={handleOnChange} selectedSegment={selected} />
       </div>
     );
   },
@@ -107,8 +116,58 @@ export const Default: Story = {
   },
 };
 
+export const Appearance: Story = {
+  args: {
+    ...Default.args,
+  },
+
+  render: (args) => {
+    const [selected, setSelected] = useState("option1");
+
+    const handleOnChange = (id: string) => {
+      setSelected(id);
+    };
+
+    return (
+      <div
+        style={{ width: "420px", display: "flex", gap: "20px", flexDirection: "column" }}
+        data-testid="segmented-control-story"
+      >
+        <SegmentedControl {...args} onChange={handleOnChange} selectedSegment={selected} />
+        <SegmentedControl {...args} onChange={handleOnChange} selectedSegment={selected} appearance="neutral" />
+      </div>
+    );
+  },
+};
+
+export const CompactSpacing: Story = {
+  args: {
+    ...Default.args,
+    compactSpacing: true,
+  },
+
+  render: (args) => {
+    const [selected, setSelected] = useState("option1");
+
+    const handleOnChange = (id: string) => {
+      setSelected(id);
+    };
+
+    return (
+      <div
+        style={{ width: "420px", display: "flex", gap: "20px", flexDirection: "column" }}
+        data-testid="segmented-control-story"
+      >
+        <SegmentedControl {...args} onChange={handleOnChange} selectedSegment={selected} />
+        <SegmentedControl {...args} onChange={handleOnChange} selectedSegment={selected} appearance="neutral" />
+      </div>
+    );
+  },
+};
+
 export const TwoOptions: Story = {
   args: {
+    ...Default.args,
     options: [
       { label: "Option 1", id: "option1" },
       { label: "Option 2", id: "option2" },
@@ -125,7 +184,7 @@ export const TwoOptions: Story = {
 
     return (
       <div style={{ width: "420px" }}>
-        <SegmentedControl options={args.options} onChange={handleOnChange} selectedSegment={selected} />
+        <SegmentedControl {...args} onChange={handleOnChange} selectedSegment={selected} />
       </div>
     );
   },
@@ -133,6 +192,7 @@ export const TwoOptions: Story = {
 
 export const Icons: Story = {
   args: {
+    ...Default.args,
     options: [
       { id: "agenda", icon: "view-agenda", label: "Vue agenda" },
       { id: "column", icon: "view-column", label: "Vue colonne" },
@@ -150,7 +210,7 @@ export const Icons: Story = {
 
     return (
       <div style={{ width: "420px" }}>
-        <SegmentedControl options={args.options} onChange={handleOnChange} selectedSegment={selected} />
+        <SegmentedControl {...args} onChange={handleOnChange} selectedSegment={selected} />
       </div>
     );
   },
@@ -158,6 +218,7 @@ export const Icons: Story = {
 
 export const WithBadge: Story = {
   args: {
+    ...Default.args,
     options: [
       { label: "Option 1", id: "option1" },
       {
@@ -181,7 +242,7 @@ export const WithBadge: Story = {
 
     return (
       <div style={{ width: "380px" }}>
-        <SegmentedControl options={args.options} onChange={handleOnChange} selectedSegment={selected} />
+        <SegmentedControl {...args} onChange={handleOnChange} selectedSegment={selected} />
       </div>
     );
   },
