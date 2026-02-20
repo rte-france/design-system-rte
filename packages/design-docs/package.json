@@ -32,7 +32,7 @@
     "playwright": "^1.51.1",
     "prop-types": "^15.8.1",
     "storybook": "^8.6.7",
-    "vitest": "^3.0.9"
+    "vitest": "^4.0.18"
   },
   "dependencies": {
     "@design-system-rte/react": "^1.2.0",
