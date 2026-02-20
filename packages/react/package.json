@@ -25,9 +25,7 @@
     "storybook": "storybook dev -p 7008",
     "build-storybook": "storybook build -o ../design-docs/storybook-static/react",
     "test:ci": "npx playwright install && npx start-server-and-test storybook http://localhost:7008 test",
-    "test:ci:debug": "npx playwright install && npx start-server-and-test storybook http://localhost:7008 test:debug",
     "test": "test-storybook --url http://localhost:7008 --failOnConsole --maxWorkers=2 --testTimeout=30000",
-    "test:debug": "test-storybook --url http://localhost:7008 --failOnConsole --maxWorkers=2 --testTimeout=30000 --includeTags=debug",
     "test:watch": "test-storybook --url http://localhost:7008 --watch",
     "prepublishOnly": "npm run generate-icons && npm run build",
     "generate:component": "node scripts/generate-component.js"

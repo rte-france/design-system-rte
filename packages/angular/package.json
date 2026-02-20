@@ -14,9 +14,7 @@
     "storybook": "ng run ds-rte-lib:storybook --port 7007",
     "build-storybook": "ng run ds-rte-lib:build-storybook --output-dir ../design-docs/storybook-static/angular --config-dir .storybook",
     "test:ci": "npx playwright install && npx start-server-and-test storybook http://localhost:7007 test",
-    "test:ci:debug": "npx playwright install && npx start-server-and-test storybook http://localhost:7007 test:debug",
     "test": "test-storybook --url http://localhost:7007 --failOnConsole --maxWorkers=2",
-    "test:debug": "test-storybook --url http://localhost:7007 --failOnConsole --maxWorkers=2 --testTimeout=5000",
     "test:watch": "test-storybook --url http://localhost:7007 --watch",
     "generate-icons": "mkdir -p projects/ds-rte-lib/src/lib/assets/icons && cp -R ../core/assets/icons projects/ds-rte-lib/src/lib/assets && node ./projects/ds-rte-lib/generateIconMap.js"
   },

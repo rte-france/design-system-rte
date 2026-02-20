@@ -199,7 +199,6 @@ export const WithBadge: StoryObj<{
 };
 
 export const KeyboardNavigation: Story = {
-  tags: ["debug"],
   args: {
     ...Default.args,
   },
