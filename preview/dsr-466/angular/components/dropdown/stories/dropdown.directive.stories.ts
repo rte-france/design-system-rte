@@ -151,7 +151,6 @@ export const WithBadge: StoryObj<{
 };
 
 export const KeyboardNavigation: Story = {
-  tags: ["debug"],
   decorators: [
     moduleMetadata({
       imports: [DropdownModule],
