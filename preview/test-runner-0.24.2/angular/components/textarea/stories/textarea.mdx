@@ -1,0 +1,204 @@
+import { Meta } from "@storybook/blocks";
+
+import Tabs from "../../../../../../../../design-docs/src/components/ComponentDocs/Tabs/Tabs";
+import HeaderComponent from "../../../../../../../.storybook/template/HeaderComponent/HeaderComponent";
+import IconTitle from "../../../../../../../.storybook/template/IconTitle/IconTitle";
+
+import TextAreaAccessibility from "../../../../../../../../core/components/textarea/stories/img/TextAreaAccessibility.png";
+import TextAreaBooleanOption from "../../../../../../../../core/components/textarea/stories/img/TextAreaBooleanOption.svg";
+import TextAreaDoDont from "../../../../../../../../core/components/textarea/stories/img/TextAreaDoDont.svg";
+import TextAreaKeyboardInteractions from "../../../../../../../../core/components/textarea/stories/img/TextAreaKeyboardInteractions.svg";
+import TextAreaLabelPosition from "../../../../../../../../core/components/textarea/stories/img/TextAreaLabelPosition.svg";
+import TextAreaLayout from "../../../../../../../../core/components/textarea/stories/img/TextAreaLayout.svg";
+import TextAreaPosition from "../../../../../../../../core/components/textarea/stories/img/TextAreaPosition.svg";
+import TextAreaPrecisions from "../../../../../../../../core/components/textarea/stories/img/TextAreaPrecisions.png";
+import TextAreaRequiredIndicator from "../../../../../../../../core/components/textarea/stories/img/TextAreaRequiredIndicator.svg";
+import TextAreaStructure from "../../../../../../../../core/components/textarea/stories/img/TextAreaStructure.svg";
+import TextAreaTableOfOptions from "../../../../../../../../core/components/textarea/stories/img/TextAreaTableOfOptions.svg";
+import TextAreaTextOptions from "../../../../../../../../core/components/textarea/stories/img/TextAreaTextOptions.svg";
+
+import "../../../../../../../.storybook/template/style/police.css";
+
+<Meta title="Composants/Textarea" />
+
+<HeaderComponent title="Textarea" linkFigma="https://www.figma.com/design/Wiy8uWsWjoagf95lOmPXNU/01.0-Design-System-RTE---WEB?node-id=1247-2659&p=f&m=dev" linkGithub="https://github.com/rte-france/design-system-rte/tree/main/packages/angular/projects/ds-rte-lib/src/lib/components/textarea"  />
+
+<p className="no-margin-bottom">
+    <b>Le champ de saisie multiligne</b> (Text Area) permet à l’utilisateur de saisir un texte plus long sur plusieurs lignes, par exemple une description, un message ou un retour utilisateur. Il peut être accompagné d’un label, d’une aide contextuelle, d’un message d’erreur, d’un compteur de caractères, et comporte les mêmes états d’interaction que le champ de saisie simple.
+</p>
+
+<Tabs>
+
+<div className="Overview">
+
+    <h2 className="h2" id="Introduction" style={{border:"none", fontFamily:"Nunito", color:"#2964A0"}}> Introduction </h2>
+
+    <h3 className="h3" id="gherkin" style={{fontFamily:"Nunito"}}> Gherkin </h3>
+    <ul>
+        <li>En tant qu’utilisateur remplissant un <b>formulaire</b>,</li>
+        <li>Je souhaite pouvoir <b>saisir un texte long</b> dans un champ prévu à cet effet,</li>
+        <li>Afin de <b>transmettre une information détaillée</b>, comme un commentaire ou une description</li>
+    </ul>
+
+    <h3 className="h3" id="definition" style={{fontFamily:"Nunito"}}> Définition </h3>
+    <p><b>Le champ de saisie multiligne</b> (Text Area) permet à l’utilisateur de saisir un texte plus long sur plusieurs lignes, par exemple une description, un message ou un retour utilisateur. Il peut être accompagné d’un label, d’une aide contextuelle, d’un message d’erreur, d’un compteur de caractères, et comporte les mêmes états d’interaction que le champ de saisie simple.</p>
+
+    <h3 className="h3" id="types" style={{fontFamily:"Nunito"}}> Type </h3>
+    <p>Composant générique pouvant être utilisé par toutes les équipes de la DSIT.</p>
+
+</div>
+
+<div className="Guidelines">
+
+    <h2 id="guidelines" className="h2" style={{border:"none", fontFamily:"Nunito", color:"#2964A0"}} > Usages </h2>
+
+    <IconTitle id="préconisation" icon="heart_outlined" title="Préconisation" />
+
+    <p>Les principales règles qui entourent l'utilisation du composant :</p>
+
+    <p className="no-margin-bottom">Utiliser un label visible</p>
+    <p className="light-gray no-margin-top">Le champ doit toujours être accompagné d’un label pour la compréhension et l’accessibilité. Dans les rares cas où le contexte est suffisant et où un expert en accessibilité a examiné le design, le label peut être omis. Ces champs de texte sans étiquette visible doivent toujours comporter un aria label en HTML (selon le contexte "aria-label" ou "aria-labelledby").</p>
+
+    <p className="no-margin-bottom">Utilisez le texte d’aide pour afficher des conseils, des mises en forme et des exigences</p>
+    <ul className="light-gray no-margin-top">
+        <li><p className="light-gray">Description générale du champ de saisie</p></li>
+        <li><p className="light-gray">Indications sur le type d’informations à saisir</p></li>
+        <li><p className="light-gray">Exemples ou exigences spécifiques en matière de formatage</p></li>
+        <li><p className="light-gray">Le message du texte d’aide ne doit pas se contenter de répéter les mêmes informations que celles contenues dans le label. Ne pas ajouter de texte d’aide s’il n’est pas réellement pertinent ou significatif pour l’utilisateur.</p></li>
+    </ul>
+
+    <p className="no-margin-bottom">Fournir un message d’erreur explicite et qui donne une solution</p>
+    <p className="light-gray no-margin-top">Rédigez des messages d’erreur en guidant l’utilisateur et en lui montrant une solution : il ne faut pas se contenter d’indiquer ce qui ne va pas, en laissant l’utilisateur deviner comment résoudre le problème.</p>
+
+    <p className="no-margin-bottom">Ne pas utiliser de texte "placeholder"</p>
+    <ul className="light-gray no-margin-top">
+        <li><p className="light-gray">À la place, utiliser le texte d’aide pour communiquer des instructions, des exigences ou pour montrer des exemples de formatage.</p></li>
+        <li><p className="light-gray">Un texte faisant office de placeholder dans le champ de texte pose plusieurs problèmes :</p></li>
+        <li><p className="light-gray">Les informations contenues dans un placeholder ne sont pas accessibles.</p></li>
+        <li><p className="light-gray">Une fois qu’une valeur est saisie, le placeholder n’est plus visible.</p></li>
+        <li><p className="light-gray">Si l’utilisateur utilise un remplisseur de formulaires automatique, il n’obtiendra jamais les informations contenues dans le placeholder.</p></li>
+        <li><p className="light-gray">La présence simultanée d’un placeholder et d’un texte d’aide est redondante et distrayante, surtout s’ils communiquent la même chose.</p></li>
+    </ul>
+
+    <p className="no-margin-bottom">Remplacer le texte d’aide par le texte d’erreur</p>
+    <p className="light-gray no-margin-top">Lorsqu’un champ de texte contient déjà un texte d’aide et qu’une erreur se produit, le texte d’aide est remplacé par le texte d’erreur. Une fois l’erreur résolue, la description du texte d’aide réapparaît sous le champ.</p>
+    <ul className="light-gray no-margin-top">
+        <li><p className="light-gray">Le texte d’aide explique l’exigence ou ajoute un contexte supplémentaire sur la manière de compléter l’entrée avec succès.</p></li>
+        <li><p className="light-gray">Le texte d’erreur indique à l’utilisateur comment corriger l’erreur en reformulant les exigences de l’entrée ou en décrivant l’interaction nécessaire.</p></li>
+        <li><p className="light-gray">Veillez à ce que le texte d’aide et le texte d’erreur contiennent les mêmes informations essentielles afin qu’elles ne soient pas perdues si l’un remplace l’autre (par exemple, les exigences en matière de mot de passe).</p></li>
+    </ul>
+
+    <p className="no-margin-bottom">Limiter la hauteur visible du champ</p>
+    <p className="light-gray no-margin-top">Fixer un nombre de lignes visibles cohérent avec l’usage (ex : 3 lignes pour une remarque courte). Ne pas afficher un champ géant si 1 seule phrase est attendue.</p>
+
+    <p className="no-margin-bottom">Éviter de désactiver sans explication</p>
+    <p className="light-gray no-margin-top">Si le champ est désactivé ou en lecture seule, expliquer pourquoi (tooltip ou message adjacent).</p>
+
+    <p className="no-margin-bottom">Marquer la minorité des champs de texte d’un formulaire</p>
+    <p className="light-gray no-margin-top">Dans un même formulaire, marquer seulement les champs obligatoires ou seulement les champs facultatifs, selon l’option la moins présente dans l’ensemble du formulaire.</p>
+    <p className="light-gray no-margin-top">Exemple :</p>
+    <ul className="light-gray no-margin-top">
+        <li><p className="light-gray">Si la plupart des champs sont facultatifs, seuls les champs obligatoires doivent être marqués d’un astérisque, ou accompagnés de la mention "(obligatoire)".</p></li>
+        <li><p className="light-gray">La réciproque : si la plupart des champs sont obligatoires, seuls les champs facultatifs doivent être accompagnés de la mention "(facultatif)". Un astérisque ne doit jamais être utilisé pour indiquer qu’un champ est facultatif.</p></li>
+    </ul>
+
+    <p className="no-margin-bottom">Limiter le nombre de caractères {}</p>
+    <p className="light-gray no-margin-top">Utiliser un maxLength quand une limite est imposée, et afficher un compteur si utile.</p>
+
+    <img src={TextAreaDoDont} alt="Bonnes et mauvaises pratiques pour la zone de texte" />
+
+    <h3 id="content-standards" className="h3" style={{fontFamily:"Nunito"}}> Content Standards </h3>
+
+    <p>Quels sont les standards de contenu ? (UX Writing)</p>
+
+    <p className="no-margin-bottom">Label</p>
+    <p className="light-gray no-margin-top">Concis, informatif (ex : "Nom", "E-mail"). Majuscule en début de label et pas de ponctuation.</p>
+
+    <p className="no-margin-bottom">Erreur</p>
+    <p className="light-gray no-margin-top">ULe texte d'erreur doit être rédigé en une ou deux phrases courtes et complètes, de manière claire et directe, avec un langage clair, tourné vers l’action. Les phrases doivent être terminées par un point et jamais par un point d'exclamation.</p>
+
+    <h2 id="options" className="h2" style={{border:"none", fontFamily:"Nunito", color:"#2964A0"}} > Options </h2>
+    <p> Les options comprennent les états et différentes formes que peut prendre le composant. Elles incluent : Les états, les variants, les tailles, les éléments modifiables qui composent le composant, etc. <br />
+    → Ils n’incluent pas les “Behaviors” qui correspondent à comment le composant réagit.</p>
+
+    <h3 id="position-label" className="h3" style={{fontFamily:"Nunito"}}> Position Label </h3>
+    <p className="light-gray no-margin-top">LDéfinit la direction principale d’ouverture par rapport à l’élément ciblé.</p>
+    <img src={TextAreaPosition} alt="Exemples de position du label pour la zone de texte" />
+
+    <h3 id="taille" className="h3" style={{fontFamily:"Nunito"}}> Taille </h3>
+    <ul>
+        <li><b>Une seule largeur</b> (100% de son conteneur par défaut)</li>
+        <li><b>Hauteur automatique</b> selon le contenu ou définie par défaut (ex : 3 lignes)</li>
+        <li>Peut-être redimensionnable ou non en hauteur uniquement (option)</li>
+    </ul>
+
+    <h3 id="label-position" className="h3" style={{fontFamily:"Nunito"}}> Label Position </h3>
+    <img src={TextAreaLabelPosition} alt="Illustration de la position du label pour la zone de texte" />
+
+    <h3 id="required-indicator" className="h3" style={{fontFamily:"Nunito"}}> Required Indicator </h3>
+    <p className="light-gray no-margin-top">Permet de choisir la façon d'indiquer que le champ est obligatoire.</p>
+    <img src={TextAreaRequiredIndicator} alt="Indicateur de champ requis pour la zone de texte" />
+
+    <h3 id="boolean-options" className="h3" style={{fontFamily:"Nunito"}}> Boolean Options </h3>
+    <img src={TextAreaBooleanOption} alt="Options booléennes pour la zone de texte" />
+
+    <h3 id="precisions" className="h3" style={{fontFamily:"Nunito"}}> Précisions : différence readOnly / disabled </h3>
+    <img src={TextAreaPrecisions} alt="Précisions et conseils pour la saisie dans la zone de texte" />
+
+    <h3 id="structure" className="h3" style={{fontFamily:"Nunito"}}> Structure </h3>
+    <p> Le <b>Textarea</b> est composé de plusieurs éléments : </p>
+    <img src={TextAreaStructure} alt="Schéma de la structure du composant zone de texte" />
+    <ol>
+        <li><b>Un container</b></li>
+        <li>Un <b>label + required</b> (optional)</li>
+        <li>Un <b>compteur de caractères</b> (optional)</li>
+        <li>Une <b>scrollbar</b></li>
+        <li>Une <b>icône : resize handler</b></li>
+    </ol>
+
+    <h3 id="text-options" className="h3" style={{fontFamily:"Nunito"}}> Text Options </h3>
+    <img src={TextAreaTextOptions} alt="Options de texte pour le contenu de la zone de texte" />
+
+    <h3 id="table-of-options" className="h3" style={{fontFamily:"Nunito"}}> Table of Options </h3>
+    <p className="light-gray no-margin-top">Tous les éléments modifiables sont inscrit dans le tableau. On y renseigne le nom de la propriété et les choix qui s’offrent aux développeurs.</p>
+    <img src={TextAreaTableOfOptions} alt="Tableau des propriétés et options de la zone de texte" />
+
+    <h2 id="Behaviors" className="h2" style={{border:"none", fontFamily:"Nunito", color:"#2964A0"}} > Behaviors </h2>
+
+    <h3 id="focus" className="h3" style={{fontFamily:"Nunito"}}> Focus </h3>
+        <ul>
+        <li><b>Affichage d’un anneau de focus visible</b></li>
+        <li><b>Activation via TAB (pas le clic souris)</b></li>
+        <li><b>Le label est toujours sélectionnable par le focus, qu'importe son état, visible ou non.</b></li>
+        </ul>
+
+        <h3 id="layout" className="h3" style={{fontFamily:"Nunito"}}> Layout </h3>
+    <img src={TextAreaLayout} alt="Exemple de disposition et positionnement de la zone de texte" />
+
+        <h3 id="animations" className="h3" style={{fontFamily:"Nunito"}}> Animations </h3>
+        <p className="no-margin-top no-margin-bottom"> Erreur </p>
+        <p className="light-gray no-margin-top no-margin-bottom"> <b>Apparition du message + bordure + teinte du champ</b></p>
+        <p className="light-gray no-margin-top no-margin-bottom"> <b> Délais </b>: ~200ms </p>
+        <p className="light-gray no-margin-top no-margin-bottom"> <b>Modifiable</b> : Oui </p>
+
+        <h3 id="keyboard-interactions" className="h3" style={{fontFamily:"Nunito"}}> Keyboard Interactions </h3>
+    <img src={TextAreaKeyboardInteractions} alt="Illustration des interactions clavier pour la zone de texte" />
+
+        <h3 id="placement" className="h3" style={{fontFamily:"Nunito"}}> Placement </h3>
+        <ul>
+            <li><b>Label au-dessus (même s’il est masqué visuellement) ou sur la gauche</b></li>
+            <li><b>Message d’aide ou d’erreur toujours en dessous du champ</b></li>
+        </ul>
+
+
+</div>
+
+<div className="Accessibilité">
+
+<h2 className="h2" id="accessibility-testing-status" style={{border:"none", fontFamily:"Nunito", color:"#2964A0"}}> Accessibility Testing Status </h2>
+<p> Voici les tests à effectuer pour vérifier l’accessibilité de chaque catégorie : </p>
+<img src={TextAreaAccessibility} alt="Checklist des tests d’accessibilité pour la zone de texte" />
+
+</div>
+
+</Tabs>
