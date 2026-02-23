@@ -1,0 +1,135 @@
+@use '@design-system-rte/core/design-tokens/main.scss' as *;
+
+.nav-item-container {
+  @include typography-button-m;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  gap: $positive-spacing_100;
+  padding: $positive-spacing_100 $positive-spacing_075;
+  border-radius: $radius-s;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  align-items: center;
+  box-sizing: border-box;
+  border-left: $width-s solid transparent;
+  color: var(--content-brand-navigation-default);
+
+  &:link,
+  &:visited {
+    text-decoration: none;
+    color: inherit;
+
+    &:hover {
+      text-decoration: none;
+      color: inherit;
+    }
+  }
+
+  &.neutral {
+    color: var(--content-secondary);
+
+    &:hover {
+      background: var(--background-neutral-navigation-hover);
+      color: var(--content-primary);
+    }
+
+    &.active {
+      @include elevation-neutral-inner-shadow;
+      color: var(--content-brand-pressed);
+    }
+
+    &.nested {
+      border-radius: 0 $radius-s $radius-s 0;
+      border-left: $width-xs solid var(--border-divider);
+
+      &.active {
+        border-left: $width-xs solid var(--border-brand-navigation-active);
+      }
+    }
+  }
+
+  &:hover {
+    background: var(--background-brand-navigation-hover);
+    color: var(--content-brand-navigation-hover);
+  }
+
+  &.active {
+    background: var(--background-brand-navigation-pressed);
+    border-left: $width-s solid var(--border-brand-navigation-divider);
+    color: var(--content-primary-inverse);
+  }
+
+  &:active {
+    &.focused {
+      outline: none;
+    }
+  }
+
+  .nav-item {
+    display: flex;
+    padding: 0;
+    align-items: center;
+    gap: $positive-spacing_100;
+    flex: 1 0 0;
+    user-select: none;
+    outline: none;
+    justify-content: space-between;
+
+    &:link,
+    &:visited {
+      text-decoration: none;
+      color: inherit;
+
+      &:hover {
+        text-decoration: none;
+        color: inherit;
+      }
+    }
+
+    .nav-item-left {
+      display: flex;
+      align-items: center;
+      gap: $positive-spacing_100;
+    }
+
+    .nav-item-right {
+      display: flex;
+      align-items: center;
+      gap: $positive-spacing_050;
+    }
+  }
+
+  &.focused {
+    outline: 1px solid var(--border-brand-focused);
+    outline-offset: 0;
+  }
+
+  &.collapsed {
+    padding: $positive-spacing_100 $positive-spacing_150;
+    justify-content: center;
+    border-left: none;
+
+    .nav-item {
+      justify-content: center;
+      gap: 0;
+    }
+  }
+
+  &.nested {
+    @include typography-button-s;
+
+    border-radius: 0 $radius-s $radius-s 0;
+    border-left: $width-xs solid var(--border-brand-navigation-divider);
+    padding: $positive-spacing_050 $positive-spacing_100;
+
+    &.active {
+      @include neutral-inner-shadow;
+    }
+  }
+
+  &:focus-visible {
+    outline: 1px solid var(--border-brand-focused);
+    outline-offset: 0;
+  }
+}
