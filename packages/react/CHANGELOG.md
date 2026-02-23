@@ -1,5 +1,43 @@
 # @design-system-rte/react
 
+## 1.4.0
+
+### Minor Changes
+
+- c58b706: ## Changes
+  - (Stepper) make steps clickable inkeyboard interaction stories
+  - (Stepper) use keydown event only
+  - (Stepper) use utils function to determine clickable state of a step
+  - (Stepper) export component to public api
+  - (Stepper) Add React component
+
+- 86e9f78: ## Changes
+  - (Dropdown) focus back trigger on closing it with escape input
+
+### Patch Changes
+
+- 82f6ad2: ## Changes
+  - (Radio-button) remove unnecessary cursor style
+  - (Radio-button) rewrite radio button structure to prevent visual deformation on checked state
+
+- add84d3: ## Changes
+  - (Modal) set explicit margin auto to prevent overriding and keep it centered
+
+- 7247510: ## Changes
+  - (Sidenav) allow all clicking area for nav item
+
+- 40b7bf8: ## Changes
+  - (Core) expose a public API for component interfaces and utils
+
+- a77bb52: ## Changes
+  - (Loader) export loader component
+
+- Updated dependencies [c58b706]
+- Updated dependencies [d01f3a4]
+- Updated dependencies [40b7bf8]
+- Updated dependencies [a77bb52]
+  - @design-system-rte/core@1.3.0
+
 ## 1.3.0
 
 ### Minor Changes

@@ -1,6 +1,6 @@
 {
   "name": "@design-system-rte/react",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "type": "module",
   "module": "./dist/react-package.js",
   "main": "./dist/react-package.js",
@@ -35,7 +35,7 @@
   "license": "Apache-2.0",
   "description": "",
   "dependencies": {
-    "@design-system-rte/core": "^1.2.1",
+    "@design-system-rte/core": "^1.3.0",
     "clsx": "^2.1.1",
     "sass": "^1.85.1"
   },
