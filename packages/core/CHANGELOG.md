@@ -1,5 +1,12 @@
 # @design-system-rte/core
 
+## 1.3.1
+
+### Patch Changes
+
+- 3953387: ## Changes
+  - (Stepper) add component to public api of Core
+
 ## 1.3.0
 
 ### Minor Changes
