@@ -1,0 +1,33 @@
+<div class="rte-dropdown-menu {{ isOpen() ? 'open' : 'closed' }}" [ngStyle]="menuStyle()">
+  @if (hasHeaderContent()) {
+    <div class="rte-dropdown-menu-header">
+      @if (headerTemplate() || headerDirective()?.templateRef) {
+        <ng-container [ngTemplateOutlet]="(headerTemplate() || headerDirective()?.templateRef) ?? null"></ng-container>
+      } @else {
+        <div #headerContent>
+          <ng-content select="[dropdown-menu-header]"></ng-content>
+        </div>
+      }
+      <rte-divider />
+    </div>
+  }
+  <div class="rte-dropdown-menu-content">
+    <ul class="rte-dropdown-items" role="menu" [attr.aria-activedescendant]="menuId()">
+      @for (item of items(); track item.label; let i = $index) {
+        <rte-dropdown-item [item]="item" (itemEvent)="handleItemEvent($event)" />
+      }
+    </ul>
+  </div>
+  @if (hasFooterContent()) {
+    <div class="rte-dropdown-menu-footer">
+      <rte-divider />
+      @if (footerTemplate() || footerDirective()?.templateRef) {
+        <ng-container [ngTemplateOutlet]="(footerTemplate() || footerDirective()?.templateRef) ?? null"></ng-container>
+      } @else {
+        <div #footerContent>
+          <ng-content select="[dropdown-menu-footer]"></ng-content>
+        </div>
+      }
+    </div>
+  }
+</div>
