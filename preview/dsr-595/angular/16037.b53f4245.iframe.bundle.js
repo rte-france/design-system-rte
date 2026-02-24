@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_design_system_rte_angular_builder=self.webpackChunk_design_system_rte_angular_builder||[]).push([[16037],{"./projects/ds-rte-lib/src/lib/assets/icons/right_panel_open_filled.svg"(module,__unused_webpack_exports,__webpack_require__){module.exports=__webpack_require__.p+"static/media/right_panel_open_filled.5b8de1ba.svg"}}]);
