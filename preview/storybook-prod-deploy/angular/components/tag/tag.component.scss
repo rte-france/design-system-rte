@@ -1,0 +1,90 @@
+@use '@design-system-rte/core/design-tokens/main.scss' as *;
+
+.rte-tag {
+    height: 32px;
+    display: inline-flex;
+    padding: $positive-spacing_050 $positive-spacing_075;
+    justify-content: center;
+    align-items: center;
+    gap: $positive-spacing_0;
+    border-radius: $radius-s;
+    text-wrap: nowrap;
+
+    &[data-compact-spacing="true"] {
+        padding: $positive-spacing_0 $positive-spacing_075;
+        height: 24px;
+    }
+
+    .tag-label {
+        padding: $positive-spacing_0 $positive-spacing_075;
+        @include typography-text-l;
+        color: var(--content-status);
+
+        &[data-compact-spacing="true"] {
+            @include typography-text-m
+        }
+    }
+
+    &[data-tag-type="status"] {
+
+        &[data-status="success"],
+        &[data-status="information"],
+        &[data-status="alert"] {
+            color: var(--content-primary-inverse);
+        }
+
+        $status-colors: (
+            success: --background-success-default,
+            information: --background-info-default,
+            warning: --background-warning-default,
+            alert: --background-danger-default
+        );
+
+    @each $name, $var in $status-colors {
+        &[data-status="#{$name}"] {
+            background-color: var(#{$var});
+        }
+    }
+}
+
+&[data-tag-type="decorative"] {
+
+    $decorative-colors: (
+        brand: --background-brand-default,
+        neutral: --decorative-neutral,
+        azur: --decorative-bleu-iceberg,
+        jade: --decorative-vert-foret,
+        lavande: --decorative-violet,
+        ciel: --decorative-bleu-rte,
+        nuage: --decorative-bleu-digital,
+        givre: --decorative-marine,
+        brume: --decorative-bleu-petrole,
+        glacier: --decorative-bleu-cyan,
+        turquoise: --decorative-vert,
+        anis: --decorative-vert-indications,
+        menthe: --decorative-vert-digital,
+        citronnelle: --decorative-jaune,
+        sable: --decorative-jaune-ocre,
+        abricot: --decorative-jaune-indications,
+        coral: --decorative-saumon,
+        rose: --decorative-rose-digital,
+        petale: --decorative-fuschia,
+        quartz: --decorative-rouge-indication,
+        cendre: --decorative-taupe
+    );
+
+@each $name, $var in $decorative-colors {
+    &[data-color="#{'' + $name}"] {
+        background-color: var(#{$var});
+    }
+}
+
+&[data-color="brand"] {
+    color: var(--content-primary-inverse);
+
+    .tag-label {
+        color: var(--content-primary-inverse);
+    }
+}
+}
+}
