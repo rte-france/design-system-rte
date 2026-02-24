@@ -39,3 +39,4 @@ export * from "./components/textarea";
 export * from "./components/toast";
 export * from "./components/tooltip";
 export * from "./components/utils";
+export * from "./components/stepper";
