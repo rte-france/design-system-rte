@@ -2,7 +2,7 @@
 
 # Angular
 
-## 2.0.0
+## 1.3.0
 
 ### Stepper
 
@@ -12,7 +12,6 @@
 - set active step label with primary color on angular
 - use keydown event only
 - use utils function to determine clickable state of a step
-- remove log
 - export component to public api
 - add Angular component
 
@@ -133,12 +132,6 @@
 - allow correct escape dismissing
 - handle icon props in badge
 - add Badge
-- handle icon props in badge
-- add Badge
-- handle icon props in badge
-- add Badge
-- handle icon props in badge
-- add Badge
 
 ### Breadcrumbs
 
@@ -152,9 +145,6 @@
 #### Minor Changes
 
 - add utils function to check if it should display badge
-- add utils function to check if it should display badge
-- add utils function to check if it should display badge
-- add utils function to check if it should display badge
 
 #### Patch Changes
 
@@ -164,7 +154,6 @@
 
 #### Minor Changes
 
-- Add badge
 - Add badge
 
 ### Core
@@ -177,7 +166,6 @@
 
 #### Minor Changes
 
-- add badge
 - add badge
 
 ### Searchbar
@@ -352,18 +340,11 @@
 - add selected state to simple dropdown item
 - handle icon props in badge
 - add Badge
-- handle icon props in badge
-- add Badge
-- handle icon props in badge
-- add Badge
-- handle icon props in badge
-- add Badge
 
 ### Breadcrumbs
 
 #### Minor Changes
 
-- Add Badge
 - Add Badge
 
 ### Badge
@@ -385,22 +366,17 @@
 
 - add badge holder interface to use
 - use parameter object for shouldDisplayBadge utils
-- add badge holder interface to use
-- add badge holder interface to use
-- add badge holder interface to use
 
 ### Split-button
 
 #### Minor Changes
 
 - Add badge
-- Add badge
 
 ### Segmented Control
 
 #### Minor Changes
 
-- add badge
 - add badge
 
 ### Searchbar
@@ -512,9 +488,6 @@
 
 - add selected state to simple dropdown item
 - add Badge
-- add Badge
-- add Badge
-- add Badge
 
 ### Design-tokens
 
@@ -530,24 +503,17 @@
 - change global architecture for design tokens
 - add badge holder interface to use
 - use parameter object for shouldDisplayBadge utils
-- add badge holder interface to use
-- add badge holder interface to use
-- add badge holder interface to use
 
 ### Breadcrumbs
 
 #### Minor Changes
 
 - Add Badge
-- Add Badge
 
 ### Badge
 
 #### Minor Changes
 
-- add utils function to check if it should display badge
-- add utils function to check if it should display badge
-- add utils function to check if it should display badge
 - add utils function to check if it should display badge
 - use IconSize constant and add xs value
 
@@ -556,13 +522,11 @@
 #### Minor Changes
 
 - Add badge
-- Add badge
 
 ### Segmented Control
 
 #### Minor Changes
 
-- add badge
 - add badge
 
 ### Searchbar
@@ -603,8 +567,6 @@
 
 - extract common input props
 - extract required indicator in a component
-- add angular missing dependencies
-- add angular missing dependencies
 - add angular missing dependencies
 
 ## 1.1.0
