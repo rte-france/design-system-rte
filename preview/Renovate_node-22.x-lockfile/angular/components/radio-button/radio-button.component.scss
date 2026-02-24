@@ -1,0 +1,210 @@
+@use '@design-system-rte/core/design-tokens/main.scss' as *;
+
+.rte-radio-button-container {
+    display: flex;
+    align-items: center;
+    gap: $positive-spacing_150;
+    cursor: pointer;
+
+    &.read-only {
+        cursor: default;
+    }
+
+    &.disabled {
+        cursor: not-allowed;
+    }
+
+    .rte-radio-button {
+        cursor: pointer;
+        appearance: none;
+        position: absolute;
+        display: flex;
+        width: 28px;
+        height: 16px;
+        padding: $positive-spacing_0;
+        justify-content: center;
+        border-radius: $radius-pill;
+        transition: box-shadow 0.3s ease-in-out;
+        margin: 0;
+        z-index: 1;
+
+        &.error {
+            transition: box-shadow 0.3s ease-in-out;
+
+            &+.rte-radio-button-background {
+                .rte-radio-button-outer {
+                    border: $width-xs solid var(--content-danger-default);
+                }
+            }
+
+            &:checked {
+                &+.rte-radio-button-background {
+                    .rte-radio-button-outer {
+                        border: $width-xs solid var(--content-danger-default);
+                    }
+
+                    .rte-radio-button-inner {
+                        background: var(--content-danger-default);
+                    }
+                }
+            }
+
+            &:hover {
+                &+.rte-radio-button-background {
+                    .rte-radio-button-outer {
+                        transition: box-shadow 0.15s ease-in-out;
+                        @include hover-box-shadow(var(--background-hover-opacity-50));
+                    }
+                }
+
+                &:checked {
+                    &+.rte-radio-button-background {
+                        .rte-radio-button-outer {
+                            @include hover-box-shadow(var(--background-danger-hover-opacity-20));
+                        }
+                    }
+                }
+            }
+        }
+
+        &.read-only {
+            cursor: default;
+            pointer-events: none;
+
+            &:checked {
+                &+.rte-radio-button-background {
+                    .rte-radio-button-outer {
+                        border: $width-xs solid var(--content-tertiary);
+                    }
+
+                    .rte-radio-button-inner {
+                        background: var(--content-tertiary);
+                    }
+                }
+            }
+
+            &.error {
+                &+.rte-radio-button-background {
+                    .rte-radio-button-outer {
+                        border: $width-xs solid var(--content-danger-default);
+                    }
+                }
+            }
+        }
+
+        &:hover {
+            &+.rte-radio-button-background {
+                .rte-radio-button-outer {
+                    transition: box-shadow 0.15s ease-in-out;
+                    @include hover-box-shadow(var(--background-hover-opacity-50));
+                }
+            }
+
+            &:checked {
+                &+.rte-radio-button-background {
+                    .rte-radio-button-outer {
+                        @include hover-box-shadow(var(--background-brand-hover-opacity-20));
+                    }
+                }
+            }
+
+            &:disabled {
+                &+.rte-radio-button-background {
+                    .rte-radio-button-outer {
+                        box-shadow: none;
+                    }
+                }
+            }
+        }
+
+        &:checked {
+            &+.rte-radio-button-background {
+                .rte-radio-button-outer {
+                    border: $width-xs solid var(--content-brand-default);
+                }
+
+                .rte-radio-button-inner {
+                    opacity: $opacity-100;
+                }
+            }
+        }
+
+        &:disabled {
+            cursor: not-allowed;
+
+            &+.rte-radio-button-background {
+                .rte-radio-button-outer {
+                    border: $width-xs solid var(--content-disabled);
+                }
+
+                .rte-radio-button-inner {
+                    background: var(--content-disabled);
+                }
+            }
+        }
+
+        &:focus-visible {
+            outline: none;
+
+            &::after {
+                border-radius: $radius-s;
+                content: '';
+                position: absolute;
+                top: -4px;
+                left: -4px;
+                width: 24px;
+                height: 24px;
+                outline: 1px solid var(--border-brand-focused);
+            }
+        }
+    }
+
+    .rte-radio-button-background {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        box-sizing: content-box;
+        position: relative;
+
+        .rte-radio-button-outer,
+        .rte-radio-button-inner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: $radius-pill;
+            box-sizing: border-box;
+        }
+
+        .rte-radio-button-outer {
+            border: $width-xs solid var(--content-tertiary);
+            box-shadow: none;
+        }
+
+        .rte-radio-button-inner {
+            background: var(--content-brand-default);
+            transform: scale(0.6);
+            opacity: $opacity-0;
+        }
+    }
+
+    .rte-radio-button-label {
+        @include typography-radio-button-l;
+        color: var(--content-primary);
+
+        &:hover {
+            cursor: pointer;
+        }
+
+        &.read-only {
+            pointer-events: none;
+            color: var(--content-tertiary);
+        }
+
+        &.disabled {
+            cursor: not-allowed;
+            color: var(--content-disabled);
+        }
+    }
+}
