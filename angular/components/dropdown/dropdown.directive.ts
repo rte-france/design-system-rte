@@ -16,15 +16,15 @@ import {
   signal,
   ViewContainerRef,
 } from "@angular/core";
+import { Alignment, Position } from "@design-system-rte/core";
 import { waitForNextFrame } from "@design-system-rte/core/common/animation";
-import { Alignment } from "@design-system-rte/core/common/common-types";
-import { Position } from "@design-system-rte/core/components/common/common-types";
 import { DROPDOWN_ANIMATION_DURATION } from "@design-system-rte/core/components/dropdown/dropdown.constants";
 import {
   getAutoAlignment,
   getAutoPlacementDropdown,
   getCoordinates,
 } from "@design-system-rte/core/components/utils/auto-placement";
+import { FOCUSABLE_BUTTONS_QUERY } from "@design-system-rte/core/constants/dom/dom.constants";
 import { ARROW_DOWN_KEY, ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
 import { DropdownService } from "../../services/dropdown.service";
@@ -193,6 +193,14 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
 
           this.removeClickOutsideListener();
           dropdownStateSubscription.unsubscribe();
+          const buttonTrigger = this.trigger()?.elementRef.nativeElement.querySelectorAll(
+            FOCUSABLE_BUTTONS_QUERY,
+          )[0] as HTMLElement;
+          if (buttonTrigger) {
+            buttonTrigger.focus();
+          } else {
+            this.trigger()?.elementRef.nativeElement.focus();
+          }
         }
       }
     });
