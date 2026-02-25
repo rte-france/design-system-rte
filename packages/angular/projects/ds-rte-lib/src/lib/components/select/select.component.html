@@ -103,7 +103,38 @@
         </div>
       </div>
     </div>
-    <rte-dropdown-menu [items]="optionsFormatted()" />
+    <rte-dropdown-menu [items]="optionsFormatted()">
+      @if (hasHeaderContent()) {
+        <ng-template rteDropdownMenuHeader>
+          <div #headerContent>
+            @if (headerTemplate() || headerDirective()?.templateRef) {
+              <ng-container
+                [ngTemplateOutlet]="(headerTemplate() || headerDirective()?.templateRef) ?? null"
+              ></ng-container>
+            } @else {
+              <div #headerContent>
+                <ng-content select="[select-header]"></ng-content>
+              </div>
+            }
+          </div>
+        </ng-template>
+      }
+      @if (hasFooterContent()) {
+        <ng-template rteDropdownMenuFooter>
+          <div #footerContent>
+            @if (footerTemplate() || footerDirective()?.templateRef) {
+              <ng-container
+                [ngTemplateOutlet]="(footerTemplate() || footerDirective()?.templateRef) ?? null"
+              ></ng-container>
+            } @else {
+              <div #footerContent>
+                <ng-content select="[select-footer]"></ng-content>
+              </div>
+            }
+          </div>
+        </ng-template>
+      }
+    </rte-dropdown-menu>
     <rte-assistive-text
       *ngIf="assistiveTextLabel()"
       [label]="assistiveTextLabel()"

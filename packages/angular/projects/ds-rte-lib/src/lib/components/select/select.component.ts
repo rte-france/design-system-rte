@@ -9,6 +9,8 @@ import {
   ElementRef,
   ChangeDetectionStrategy,
   AfterViewInit,
+  contentChild,
+  TemplateRef,
 } from "@angular/core";
 import { NG_VALUE_ACCESSOR } from "@angular/forms";
 import { REQUIREMENT_INDICATOR_VALUE } from "@design-system-rte/core/components/required-indicator/required-indicator.constant";
@@ -27,6 +29,9 @@ import { DropdownModule } from "../dropdown";
 import { DropdownItemConfig } from "../dropdown/dropdown-item/dropdown-item.component";
 import { IconComponent } from "../icon/icon.component";
 import { IconButtonComponent } from "../icon-button/icon-button.component";
+
+import { SelectFooterDirective } from "./select-footer.directive";
+import { SelectHeaderDirective } from "./select-header.directive";
 
 @Component({
   selector: "rte-select",
@@ -78,6 +83,27 @@ export class SelectComponent implements AfterViewInit {
   readonly buttonsContainerRef = viewChild<ElementRef<HTMLElement>>("buttonsContainerRef");
 
   readonly selectDropdownOffset = SELECT_DROPDOWN_OFFSET;
+
+  readonly headerDirective = contentChild(SelectHeaderDirective);
+  readonly footerDirective = contentChild(SelectFooterDirective);
+
+  readonly headerTemplate = input<TemplateRef<HTMLElement> | undefined>(undefined);
+  readonly footerTemplate = input<TemplateRef<HTMLElement> | undefined>(undefined);
+
+  readonly headerContentRef = viewChild<ElementRef<HTMLElement>>("headerContent");
+  readonly footerContentRef = viewChild<ElementRef<HTMLElement>>("footerContent");
+
+  readonly hasHeaderContent = computed(() => {
+    const hasTemplate = this.headerDirective()?.templateRef || !!this.headerTemplate();
+    const hasProjectedContent = !!this.headerContentRef()?.nativeElement?.children.length;
+    return hasTemplate || hasProjectedContent;
+  });
+
+  readonly hasFooterContent = computed(() => {
+    const hasTemplate = this.footerDirective()?.templateRef || !!this.footerTemplate();
+    const hasProjectedContent = !!this.footerContentRef()?.nativeElement?.children.length;
+    return hasTemplate || hasProjectedContent;
+  });
 
   readonly clearButton = computed(() => {
     return this.buttonsContainerRef()?.nativeElement.querySelector(
