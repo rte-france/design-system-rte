@@ -9,6 +9,8 @@ import {
   ElementRef,
   ChangeDetectionStrategy,
   AfterViewInit,
+  contentChild,
+  TemplateRef,
 } from "@angular/core";
 import { NG_VALUE_ACCESSOR } from "@angular/forms";
 import { REQUIREMENT_INDICATOR_VALUE } from "@design-system-rte/core/components/required-indicator/required-indicator.constant";
@@ -17,6 +19,7 @@ import {
   THRESHOLD_BOTTOM_POSITION,
 } from "@design-system-rte/core/components/select/select.constants";
 import { SelectProps } from "@design-system-rte/core/components/select/select.interface";
+import { getSelectedOption } from "@design-system-rte/core/components/select/select.utils";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
 import { AssistiveTextComponent } from "../assistive-text/assistive-text.component";
@@ -26,6 +29,9 @@ import { DropdownModule } from "../dropdown";
 import { DropdownItemConfig } from "../dropdown/dropdown-item/dropdown-item.component";
 import { IconComponent } from "../icon/icon.component";
 import { IconButtonComponent } from "../icon-button/icon-button.component";
+
+import { SelectFooterDirective } from "./select-footer.directive";
+import { SelectHeaderDirective } from "./select-header.directive";
 
 @Component({
   selector: "rte-select",
@@ -78,6 +84,27 @@ export class SelectComponent implements AfterViewInit {
 
   readonly selectDropdownOffset = SELECT_DROPDOWN_OFFSET;
 
+  readonly headerDirective = contentChild(SelectHeaderDirective);
+  readonly footerDirective = contentChild(SelectFooterDirective);
+
+  readonly headerTemplate = input<TemplateRef<HTMLElement> | undefined>(undefined);
+  readonly footerTemplate = input<TemplateRef<HTMLElement> | undefined>(undefined);
+
+  readonly headerContentRef = viewChild<ElementRef<HTMLElement>>("headerContent");
+  readonly footerContentRef = viewChild<ElementRef<HTMLElement>>("footerContent");
+
+  readonly hasHeaderContent = computed(() => {
+    const hasTemplate = this.headerDirective()?.templateRef || !!this.headerTemplate();
+    const hasProjectedContent = !!this.headerContentRef()?.nativeElement?.children.length;
+    return hasTemplate || hasProjectedContent;
+  });
+
+  readonly hasFooterContent = computed(() => {
+    const hasTemplate = this.footerDirective()?.templateRef || !!this.footerTemplate();
+    const hasProjectedContent = !!this.footerContentRef()?.nativeElement?.children.length;
+    return hasTemplate || hasProjectedContent;
+  });
+
   readonly clearButton = computed(() => {
     return this.buttonsContainerRef()?.nativeElement.querySelector(
       ".rte-icon-button.clear-button",
@@ -114,7 +141,9 @@ export class SelectComponent implements AfterViewInit {
 
   readonly valueChange = output<string>();
 
-  readonly currentDisplayedOption = signal(this.getSelectedOption());
+  readonly currentDisplayedOption = signal(
+    getSelectedOption(this.optionToDisplay() || "first-selected", this.options(), this.internalValue()!),
+  );
 
   readonly shouldDisplayClearButton = signal(false);
 
@@ -184,7 +213,9 @@ export class SelectComponent implements AfterViewInit {
           this.internalValue.set(valuesArray);
           this.regenerateOptionsFormatted();
           this.valueChange.emit(value);
-          this.currentDisplayedOption.set(this.getSelectedOption());
+          this.currentDisplayedOption.set(
+            getSelectedOption(this.optionToDisplay() || "first-selected", this.options(), this.internalValue()!),
+          );
           this.computeShouldDisplayClearButton();
         }
       }
@@ -236,7 +267,9 @@ export class SelectComponent implements AfterViewInit {
     this.regenerateOptionsFormatted();
 
     this.valueChange.emit(value);
-    this.currentDisplayedOption.set(this.getSelectedOption());
+    this.currentDisplayedOption.set(
+      getSelectedOption(this.optionToDisplay() || "first-selected", this.options(), this.internalValue()!),
+    );
     this.computeShouldDisplayClearButton();
     this.selectRef()?.nativeElement.focus();
   }
@@ -247,24 +280,6 @@ export class SelectComponent implements AfterViewInit {
 
   handleOnClickOutside() {
     this.isActive.set(false);
-  }
-
-  getSelectedOption() {
-    const internalValue = this.internalValue();
-    if (internalValue) {
-      if (this.multiple()) {
-        switch (this.optionToDisplay()) {
-          case "first-selected":
-            return this.options().find((option) => option.value === internalValue[0]);
-          case "last-selected":
-            return this.options().find((option) => option.value === internalValue[internalValue.length - 1]);
-          default:
-            return this.options().find((option) => internalValue.includes(option.value));
-        }
-      }
-      return this.options().find((option) => option.value === internalValue);
-    }
-    return undefined;
   }
 
   private toggleDropdown() {
@@ -286,7 +301,9 @@ export class SelectComponent implements AfterViewInit {
     this.valueChange.emit("select-all");
     this.selectRef()?.nativeElement.dispatchEvent(new Event("clearContent"));
     this.regenerateOptionsFormatted();
-    this.currentDisplayedOption.set(this.getSelectedOption());
+    this.currentDisplayedOption.set(
+      getSelectedOption(this.optionToDisplay() || "first-selected", this.options(), this.internalValue()!),
+    );
     this.computeShouldDisplayClearButton();
   }
 
