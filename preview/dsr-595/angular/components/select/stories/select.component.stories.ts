@@ -75,8 +75,8 @@ export const Default: Story = {
     required: false,
     value: "",
     showLabelRequirement: false,
-    valueChange: (event: Event) => {
-      mockFn(event);
+    valueChange: (value: string) => {
+      mockFn(value);
     },
     options: [
       { value: "option-1", label: "Option 1" },
@@ -246,26 +246,41 @@ export const Multiple: Story = {
     const values = signal<string[] | undefined>(undefined);
     const displayedValues = signal("");
 
-    function handleChange(event: Event) {
-      console.log({ event });
-      const value = (event as CustomEvent).detail.target.value;
+    function handleChange(value: string) {
       const valuesArray = values();
-      if (valuesArray) {
-        if (valuesArray.includes(value)) {
-          valuesArray.splice(valuesArray.indexOf(value), 1);
+      if (value === "select-all") {
+        if (valuesArray) {
+          if (valuesArray.length === options.length) {
+            values.set([]);
+            displayedValues.set("");
+          } else {
+            values.set(options.map((option) => option.value));
+            displayedValues.set(options.map((option) => option.label).join(", "));
+          }
         } else {
-          valuesArray.push(value);
+          values.set(options.map((option) => option.value));
+          displayedValues.set(options.map((option) => option.label).join(", "));
         }
-        values.set(valuesArray);
       } else {
-        values.set([value]);
+        if (valuesArray) {
+          if (valuesArray.includes(value)) {
+            valuesArray.splice(valuesArray.indexOf(value), 1);
+          } else {
+            valuesArray.push(value);
+          }
+          values.set(valuesArray);
+          displayedValues.set(
+            options
+              .filter((option) => values()?.includes(option.value))
+              .map((option) => option.label)
+              .join(", "),
+          );
+        } else {
+          values.set([value]);
+          const selectedOption = options.find((option) => option.value === value);
+          displayedValues.set(selectedOption ? selectedOption.label : "");
+        }
       }
-      displayedValues.set(
-        options
-          .filter((option) => values()?.includes(option.value))
-          .map((option) => option.label)
-          .join(", "),
-      );
     }
 
     return {

@@ -112,9 +112,9 @@ export class SelectComponent implements AfterViewInit {
       : REQUIREMENT_INDICATOR_VALUE.optional,
   );
 
-  readonly valueChange = output<Event>();
+  readonly valueChange = output<string>();
 
-  readonly currentOptionLabel = signal(this.getCurrentOptionLabel());
+  readonly currentDisplayedOption = signal(this.getSelectedOption());
 
   readonly shouldDisplayClearButton = signal(false);
 
@@ -168,10 +168,7 @@ export class SelectComponent implements AfterViewInit {
     }
   }
 
-  handleOnCloseChip(event: Event, label: string) {
-    const option = this.options().find((opt) => opt.label === label);
-    const value = option?.value;
-    console.log(value);
+  handleOnCloseChip(event: Event, value: string) {
     event.stopPropagation();
     if (this.readOnly() || this.disabled()) {
       return;
@@ -186,12 +183,8 @@ export class SelectComponent implements AfterViewInit {
           valuesArray.splice(valueIndex, 1);
           this.internalValue.set(valuesArray);
           this.regenerateOptionsFormatted();
-          const event = new CustomEvent<{ target: { value: string } }>("change", {
-            bubbles: true,
-            detail: { target: { value: value } },
-          });
-          this.valueChange.emit(event);
-          this.currentOptionLabel.set(this.getCurrentOptionLabel());
+          this.valueChange.emit(value);
+          this.currentDisplayedOption.set(this.getSelectedOption());
           this.computeShouldDisplayClearButton();
         }
       }
@@ -206,13 +199,13 @@ export class SelectComponent implements AfterViewInit {
     this.clearSelection();
   }
 
-  handleOnClickItem(id: string) {
+  handleOnClickItem(value: string) {
     if (this.readOnly() || this.disabled()) {
       return;
     }
 
     if (this.multiple()) {
-      if (id === "select-all") {
+      if (value === "select-all") {
         if (this.areAllOptionsSelected()) {
           this.internalValue.set([]);
         } else {
@@ -222,33 +215,28 @@ export class SelectComponent implements AfterViewInit {
       } else {
         const currentValue = this.internalValue();
         if (currentValue === undefined) {
-          this.internalValue.set([id]);
+          this.internalValue.set([value]);
         } else {
           if (Array.isArray(currentValue)) {
             const valuesArray = currentValue;
-            const valueIndex = valuesArray.indexOf(id);
+            const valueIndex = valuesArray.indexOf(value);
             if (valueIndex > -1) {
               valuesArray.splice(valueIndex, 1);
             } else {
-              valuesArray.push(id);
+              valuesArray.push(value);
             }
-            console.log("Updated values array after click:", valuesArray);
             this.internalValue.set(valuesArray);
-            console.log("this.internalValue:", this.internalValue());
           }
         }
       }
     } else {
-      this.internalValue.set(id);
+      this.internalValue.set(value);
       this.isActive.set(!this.isActive());
     }
     this.regenerateOptionsFormatted();
-    const event = new CustomEvent<{ target: { value: string } }>("change", {
-      bubbles: true,
-      detail: { target: { value: id } },
-    });
-    this.valueChange.emit(event);
-    this.currentOptionLabel.set(this.getCurrentOptionLabel());
+
+    this.valueChange.emit(value);
+    this.currentDisplayedOption.set(this.getSelectedOption());
     this.computeShouldDisplayClearButton();
     this.selectRef()?.nativeElement.focus();
   }
@@ -261,21 +249,20 @@ export class SelectComponent implements AfterViewInit {
     this.isActive.set(false);
   }
 
-  getCurrentOptionLabel(): string | undefined {
+  getSelectedOption() {
     const internalValue = this.internalValue();
-    console.log({ internalValue });
     if (internalValue) {
       if (this.multiple()) {
         switch (this.optionToDisplay()) {
           case "first-selected":
-            return this.options().find((option) => option.value === internalValue[0])?.label;
+            return this.options().find((option) => option.value === internalValue[0]);
           case "last-selected":
-            return this.options().find((option) => option.value === internalValue[internalValue.length - 1])?.label;
+            return this.options().find((option) => option.value === internalValue[internalValue.length - 1]);
           default:
-            return this.options().find((option) => internalValue.includes(option.value))?.label;
+            return this.options().find((option) => internalValue.includes(option.value));
         }
       }
-      return this.options().find((option) => option.value === internalValue)?.label;
+      return this.options().find((option) => option.value === internalValue);
     }
     return undefined;
   }
@@ -293,19 +280,13 @@ export class SelectComponent implements AfterViewInit {
     if (!this.multiple()) {
       this.internalValue.set("");
     } else {
-      console.log("Clearing selection. Previous value:", this.internalValue());
       this.internalValue.set([]);
     }
-    console.log("Selection cleared. Current value:", this.internalValue());
     this.isActive.set(false);
-    const event = new CustomEvent<{ target: { value: string } }>("change", {
-      bubbles: true,
-      detail: { target: { value: "select-all" } },
-    });
-    this.valueChange.emit(event);
+    this.valueChange.emit("select-all");
     this.selectRef()?.nativeElement.dispatchEvent(new Event("clearContent"));
     this.regenerateOptionsFormatted();
-    this.currentOptionLabel.set(this.getCurrentOptionLabel());
+    this.currentDisplayedOption.set(this.getSelectedOption());
     this.computeShouldDisplayClearButton();
   }
 

@@ -65,12 +65,12 @@
         <rte-icon *ngIf="shouldDisplayErrorIcon()" name="error" class="error-icon" />
 
         <div class="rte-select-value">
-          @if (this.multiple() && currentOptionLabel()) {
+          @if (this.multiple() && currentDisplayedOption()) {
             <div class="rte-select-multiple-values">
               <rte-chip
                 type="input"
-                [label]="currentOptionLabel()!"
-                (close)="handleOnCloseChip($event, currentOptionLabel()!)"
+                [label]="currentDisplayedOption()!.label"
+                (close)="handleOnCloseChip($event, currentDisplayedOption()!.value)"
               />
               <rte-badge
                 *ngIf="internalValue()!.length > 1"
@@ -83,7 +83,7 @@
               />
             </div>
           } @else {
-            <span>{{ currentOptionLabel() }}</span>
+            <span>{{ currentDisplayedOption()?.label }}</span>
           }
         </div>
         <div #buttonsContainerRef class="rte-select-right-icons">
