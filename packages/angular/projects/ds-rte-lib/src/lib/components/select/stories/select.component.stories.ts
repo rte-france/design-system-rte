@@ -4,9 +4,12 @@ import {
   TESTING_ENTER_KEY,
 } from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
 import type { Meta, StoryObj } from "@storybook/angular";
+import { moduleMetadata } from "@storybook/angular";
 import { fn, userEvent, within, expect } from "@storybook/test";
 
 import { focusElementBeforeComponent } from "../../../../../../../.storybook/testing/testing.utils";
+import { SelectFooterDirective } from "../select-footer.directive";
+import { SelectHeaderDirective } from "../select-header.directive";
 import { SelectComponent } from "../select.component";
 
 const meta: Meta<SelectComponent> = {
@@ -55,6 +58,11 @@ const meta: Meta<SelectComponent> = {
       description: "Option to display when multiple options are selected",
     },
   },
+  decorators: [
+    moduleMetadata({
+      imports: [SelectHeaderDirective, SelectFooterDirective],
+    }),
+  ],
 };
 
 export default meta;
