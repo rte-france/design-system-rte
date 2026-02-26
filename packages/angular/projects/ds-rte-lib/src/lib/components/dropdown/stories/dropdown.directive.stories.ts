@@ -14,10 +14,12 @@ const MOCKUP_ITEMS = [
   { label: "Messages", leftIcon: "mail", hasSeparator: true },
   { label: "Actions", leftIcon: "settings" },
   { label: "Help", leftIcon: "help" },
-  { label: "More information", leftIcon: "info", hasSeparator: true },
-  { label: "First option", hasIndent: true },
-  { label: "Second option", hasIndent: true },
-  { label: "Third option", hasSeparator: true, hasIndent: true },
+  {
+    label: "More information",
+    leftIcon: "info",
+    hasSeparator: true,
+    children: [{ label: "First option" }, { label: "Second option" }, { label: "Third option", hasSeparator: true }],
+  },
   { label: "Username", leftIcon: "user-circle", disabled: true },
 ];
 
@@ -309,6 +311,52 @@ export const WithProjectedHeaderAndFooter: Story = {
     expect(headerContent).toContain("Dropdown Header");
     expect(footerContent).toContain("Dropdown Footer");
   },
+};
+
+const NESTED_ITEMS_MULTI_LEVEL = [
+  { label: "Messages", leftIcon: "mail", hasSeparator: true },
+  { label: "Actions", leftIcon: "settings" },
+  {
+    label: "Edit",
+    leftIcon: "edit",
+    children: [
+      { label: "Cut" },
+      { label: "Copy" },
+      {
+        label: "Paste",
+        children: [{ label: "Paste as plain text" }, { label: "Paste with formatting" }],
+      },
+    ],
+  },
+  { label: "Help", leftIcon: "help" },
+  { label: "Username", leftIcon: "user-circle", disabled: true },
+];
+
+export const WithNestedItems: Story = {
+  decorators: [
+    moduleMetadata({
+      imports: [DropdownModule],
+    }),
+  ],
+  args: {
+    rteDropdownPosition: "bottom",
+  },
+  render: (args) => ({
+    props: {
+      ...args,
+      items: NESTED_ITEMS_MULTI_LEVEL,
+      onItemClick: (event: { event: Event; id: string }) => {
+        console.log("Item clicked:", event);
+      },
+    },
+    template: `
+    ${wipWarning}
+    <div rteDropdown [rteDropdownPosition]="rteDropdownPosition" (menuEvent)="onItemClick($event)">
+      <button rteDropdownTrigger>Menu with nested items ⬇</button>
+      <rte-dropdown-menu [items]="items"/>
+    </div>
+    `,
+  }),
 };
 
 export const WithFilterableHeader: Story = {
