@@ -30,6 +30,7 @@ import { ARROW_DOWN_KEY, ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/co
 import { DropdownService } from "../../services/dropdown.service";
 import { OverlayService } from "../../services/overlay.service";
 
+import { DropdownItemConfig } from "./dropdown-item/dropdown-item.component";
 import { DropdownMenuComponent } from "./dropdown-menu/dropdown-menu.component";
 import { DropdownTriggerDirective } from "./dropdown-trigger/dropdown-trigger.directive";
 import { focusDropdownFirstElement } from "./dropdown.utils";
@@ -57,7 +58,7 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
   readonly rteDropdownAutoOpen = input<boolean>(true);
   readonly rteDropdownWidth = input<number | null>(null);
 
-  readonly menuEvent = output<{ event: Event; id: string }>();
+  readonly menuEvent = output<{ event: Event; id: string; item?: DropdownItemConfig }>();
   readonly dropdownId = `dropdown_${++DropdownDirective.idCounter}`;
 
   readonly overlayService = inject(OverlayService);
@@ -136,10 +137,12 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
     }
   }
 
-  onMenuEvent(event: { event: Event; id: string }): void {
+  onMenuEvent(event: { event: Event; id: string; item?: DropdownItemConfig }): void {
     this.menuEvent.emit(event);
-    this.isActive.set(false);
-    this.dropdownService.closeAllMenus();
+    if (!event.item?.children?.length) {
+      this.isActive.set(false);
+      this.dropdownService.closeAllMenus();
+    }
   }
 
   ngAfterContentInit(): void {
@@ -181,9 +184,11 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
     this.positionDropdownMenu(this.rteDropdownPosition());
     this.addClickOutsideListener();
 
-    this.dropdownMenuRef.instance.itemEvent.subscribe((event: { event: Event; id: string }) => {
-      this.onMenuEvent(event);
-    });
+    this.dropdownMenuRef.instance.itemEvent.subscribe(
+      (event: { event: Event; id: string; item?: DropdownItemConfig }) => {
+        this.onMenuEvent(event);
+      },
+    );
 
     const dropdownStateSubscription = this.dropdownService.state$.subscribe((state) => {
       if (state === null) {
@@ -271,18 +276,14 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
   private readonly handleClickOutside = (event: MouseEvent): void => {
     const target = event.target as Element;
 
-    const isMenuItemClick = target.closest(".rte-dropdown-item") !== null;
-    if (isMenuItemClick) {
+    const clickedInTrigger = this.hostElement.contains(target);
+    const clickedInAnyMenu = target.closest(".rte-dropdown-menu") !== null;
+    if (clickedInTrigger || clickedInAnyMenu) {
       return;
     }
 
-    const clickedInTrigger = this.hostElement.contains(target);
-    const clickedInMenu = this.dropdownMenuRef?.location.nativeElement.contains(target);
-
-    if (!clickedInTrigger && !clickedInMenu) {
-      this.closeDropdown();
-      this.clickedOutside.emit();
-    }
+    this.closeDropdown();
+    this.clickedOutside.emit();
   };
 
   private addClickOutsideListener(): void {
