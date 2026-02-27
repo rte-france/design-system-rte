@@ -277,8 +277,9 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
     const target = event.target as Element;
 
     const clickedInTrigger = this.hostElement.contains(target);
-    const clickedInAnyMenu = target.closest(".rte-dropdown-menu") !== null;
-    if (clickedInTrigger || clickedInAnyMenu) {
+    const dropdownMenuElement = this.dropdownMenuRef?.location.nativeElement as HTMLElement | undefined;
+    const clickedInThisMenu = dropdownMenuElement ? dropdownMenuElement.contains(target) : false;
+    if (clickedInTrigger || clickedInThisMenu) {
       return;
     }
 

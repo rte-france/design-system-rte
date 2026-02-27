@@ -105,8 +105,8 @@ export class DropdownMenuComponent {
       const activeElement = document.activeElement as HTMLElement;
       const items = this.items();
       const itemComponents = this.itemComponents();
-      const focusedIndex = itemComponents.findIndex(
-        (itemComponent) => itemComponent.elementRef?.nativeElement?.contains(activeElement),
+      const focusedIndex = itemComponents.findIndex((itemComponent) =>
+        itemComponent.elementRef?.nativeElement?.contains(activeElement),
       );
       if (focusedIndex >= 0 && items[focusedIndex]?.children?.length) {
         itemComponents[focusedIndex].openSubMenuForKeyboard();
