@@ -105,9 +105,7 @@ export class DropdownMenuComponent {
       const activeElement = document.activeElement as HTMLElement;
       const items = this.items();
       const itemComponents = this.itemComponents();
-      const focusedIndex = itemComponents.findIndex((itemComponent) =>
-        itemComponent.elementRef?.nativeElement?.contains(activeElement),
-      );
+      const focusedIndex = itemComponents.findIndex((comp) => comp.elementRef?.nativeElement?.contains(activeElement));
       if (focusedIndex >= 0 && items[focusedIndex]?.children?.length) {
         itemComponents[focusedIndex].openSubMenuForKeyboard();
         return;
@@ -115,8 +113,8 @@ export class DropdownMenuComponent {
     }
 
     if (event.key === ARROW_LEFT_KEY) {
-      const activeElement = document.activeElement as HTMLElement;
-      const currentMenu = activeElement?.closest("[data-menu-id]") as HTMLElement;
+      const activeEl = document.activeElement as HTMLElement;
+      const currentMenu = activeEl?.closest("[data-menu-id]") as HTMLElement;
       const currentMenuId = currentMenu?.getAttribute("data-menu-id");
       if (currentMenuId) {
         focusParentDropdownFirstElement(currentMenuId);
