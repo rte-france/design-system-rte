@@ -33,7 +33,7 @@ export class DropdownManager {
 
   static getParentDropdownId(id: string) {
     const parts = id.split("-");
-    if (parts.length <= 2) return null;
+    if (parts.length < 2) return null;
     parts.pop();
     return parts.join("-");
   }

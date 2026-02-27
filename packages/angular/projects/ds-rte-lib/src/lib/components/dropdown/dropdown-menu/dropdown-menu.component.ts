@@ -12,10 +12,10 @@ import {
   viewChild,
   viewChildren,
 } from "@angular/core";
+import { DropdownManager } from "@design-system-rte/core/components/dropdown/DropdownManager";
 import {
   ARROW_DOWN_KEY,
   ARROW_LEFT_KEY,
-  ARROW_RIGHT_KEY,
   ARROW_UP_KEY,
   ESCAPE_KEY,
   TAB_KEY,
@@ -91,7 +91,7 @@ export class DropdownMenuComponent {
       return;
     }
 
-    if ([ARROW_UP_KEY, ARROW_DOWN_KEY, ARROW_LEFT_KEY, ARROW_RIGHT_KEY, TAB_KEY].includes(event.key)) {
+    if ([ARROW_UP_KEY, ARROW_DOWN_KEY, ARROW_LEFT_KEY, TAB_KEY].includes(event.key)) {
       event.preventDefault();
     }
 
@@ -101,25 +101,21 @@ export class DropdownMenuComponent {
 
     const menuId = this.menuId() as string;
 
-    if (event.key === ARROW_RIGHT_KEY) {
-      const activeElement = document.activeElement as HTMLElement;
-      const items = this.items();
-      const itemComponents = this.itemComponents();
-      const focusedIndex = itemComponents.findIndex((itemComponent) =>
-        itemComponent.elementRef?.nativeElement?.contains(activeElement),
-      );
-      if (focusedIndex >= 0 && items[focusedIndex]?.children?.length) {
-        itemComponents[focusedIndex].openSubMenuForKeyboard();
-        return;
-      }
-    }
-
     if (event.key === ARROW_LEFT_KEY) {
       const activeElement = document.activeElement as HTMLElement;
       const currentMenu = activeElement?.closest("[data-menu-id]") as HTMLElement;
       const currentMenuId = currentMenu?.getAttribute("data-menu-id");
       if (currentMenuId) {
         focusParentDropdownFirstElement(currentMenuId);
+        return;
+      }
+    }
+
+    if (event.key === TAB_KEY && event.shiftKey) {
+      const parentMenuId = DropdownManager.getParentDropdownId(menuId);
+      if (parentMenuId) {
+        focusParentDropdownFirstElement(menuId);
+        this.closingMenu.emit();
         return;
       }
     }
