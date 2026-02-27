@@ -70,6 +70,7 @@ export class DropdownItemComponent implements OnDestroy {
   private subMenuRef: import("@angular/core").ComponentRef<DropdownMenuComponent> | null = null;
   private closeSubMenuTimeout: ReturnType<typeof setTimeout> | null = null;
   private subMenuSubscriptions: (() => void)[] = [];
+  private dropdownManagerUnsubscribe: (() => void) | null = null;
 
   readonly hasChildren = computed(() => (this.item()?.children?.length ?? 0) > 0);
   readonly childDropdownId = computed(() => {
@@ -182,12 +183,12 @@ export class DropdownItemComponent implements OnDestroy {
     this.subMenuRef.setInput("menuId", childId);
     this.subMenuRef.setInput("isOpen", true);
 
-    const unsubscribe = DropdownManager.subscribe(childId, () => this.destroySubMenu());
-    this.destroyRef.onDestroy(() => unsubscribe());
+    this.dropdownManagerUnsubscribe = DropdownManager.subscribe(childId, () => this.destroySubMenu());
+    this.destroyRef.onDestroy(() => this.dropdownManagerUnsubscribe?.());
 
     const itemSub = this.subMenuRef.instance.itemEvent.subscribe(
-      (ev: { event: Event; id: string; item?: DropdownItemConfig }) => {
-        this.itemEvent.emit({ ...ev, item: ev.item });
+      (emittedItemEvent: { event: Event; id: string; item?: DropdownItemConfig }) => {
+        this.itemEvent.emit({ ...emittedItemEvent, item: emittedItemEvent.item });
       },
     );
     const closeSub = this.subMenuRef.instance.closingMenu.subscribe(() => {
@@ -198,34 +199,72 @@ export class DropdownItemComponent implements OnDestroy {
       closeSub.unsubscribe();
     });
 
-    const hostEl = this.subMenuRef.location.nativeElement as HTMLElement;
-    hostEl.addEventListener("mouseenter", this.boundHandleSubMenuMouseEnter);
-    hostEl.addEventListener("mouseleave", this.boundHandleSubMenuMouseLeave);
+    const hostElement = this.subMenuRef.location.nativeElement as HTMLElement;
+    hostElement.addEventListener("mouseenter", this.boundHandleSubMenuMouseEnter);
+    hostElement.addEventListener("mouseleave", this.boundHandleSubMenuMouseLeave);
 
-    waitForLayoutAndPosition();
+    this.positionSubMenuAfterLayout();
     this.subMenuOpen = true;
     this.cdr.markForCheck();
+  }
 
-    const self = this;
-    function waitForLayoutAndPosition() {
-      requestAnimationFrame(() => {
-        if (!self.subMenuRef) return;
-        const triggerEl = self.elementRef.nativeElement.querySelector("li.rte-dropdown-item") as HTMLElement;
-        const menuEl = self.subMenuRef.location.nativeElement.querySelector(".rte-dropdown-menu") as HTMLElement;
-        if (!triggerEl || !menuEl) return;
+  private positionSubMenuAfterLayout(): void {
+    requestAnimationFrame(() => {
+      try {
+        if (!this.subMenuRef || !this.elementRef || !this.elementRef.nativeElement) {
+          return;
+        }
 
-        const position = getAutoPlacementDropdown(triggerEl, menuEl, "right", SUB_MENU_OFFSET, true);
-        const alignment = getAutoAlignment(triggerEl, menuEl, position);
-        const coords = getCoordinates(position, triggerEl, menuEl, SUB_MENU_OFFSET, alignment);
+        const triggerElement = this.elementRef.nativeElement.querySelector(
+          "li.rte-dropdown-item",
+        ) as HTMLElement | null;
 
-        const hostEl = self.subMenuRef.location.nativeElement as HTMLElement;
-        self.renderer.setStyle(hostEl, "display", "block");
-        self.renderer.setStyle(hostEl, "position", "absolute");
-        self.renderer.setStyle(hostEl, "top", `${coords.top}px`);
-        self.renderer.setStyle(hostEl, "left", `${coords.left}px`);
-        self.renderer.setStyle(hostEl, "opacity", "1");
-      });
-    }
+        const subMenuHost = this.subMenuRef.location?.nativeElement as HTMLElement | null;
+        const menuElement = subMenuHost?.querySelector(
+          ".rte-dropdown-menu",
+        ) as HTMLElement | null;
+
+        if (!triggerElement || !menuElement) {
+          if (typeof console !== "undefined" && typeof console.warn === "function") {
+            console.warn(
+              "[DropdownItemComponent] Unable to position submenu: required DOM elements not found.",
+            );
+          }
+          return;
+        }
+
+        const position = getAutoPlacementDropdown(
+          triggerElement,
+          menuElement,
+          "right",
+          SUB_MENU_OFFSET,
+          true,
+        );
+        const alignment = getAutoAlignment(triggerElement, menuElement, position);
+        const coords = getCoordinates(
+          position,
+          triggerElement,
+          menuElement,
+          SUB_MENU_OFFSET,
+          alignment,
+        );
+
+        const hostElement = subMenuHost;
+        if (!hostElement) {
+          return;
+        }
+
+        this.renderer.setStyle(hostElement, "display", "block");
+        this.renderer.setStyle(hostElement, "position", "absolute");
+        this.renderer.setStyle(hostElement, "top", `${coords.top}px`);
+        this.renderer.setStyle(hostElement, "left", `${coords.left}px`);
+        this.renderer.setStyle(hostElement, "opacity", "1");
+      } catch (error) {
+        if (typeof console !== "undefined" && typeof console.error === "function") {
+          console.error("[DropdownItemComponent] Error while positioning submenu:", error);
+        }
+      }
+    });
   }
 
   private scheduleCloseSubMenu(): void {
@@ -248,13 +287,15 @@ export class DropdownItemComponent implements OnDestroy {
 
   private destroySubMenu(): void {
     this.cancelCloseSubMenu();
-    this.subMenuSubscriptions.forEach((unsub) => unsub());
+    this.subMenuSubscriptions.forEach((unsubscribe) => unsubscribe());
     this.subMenuSubscriptions = [];
     if (this.subMenuRef) {
-      const hostEl = this.subMenuRef.location.nativeElement as HTMLElement;
-      hostEl.removeEventListener("mouseenter", this.boundHandleSubMenuMouseEnter);
-      hostEl.removeEventListener("mouseleave", this.boundHandleSubMenuMouseLeave);
+      const hostElement = this.subMenuRef.location.nativeElement as HTMLElement;
+      hostElement.removeEventListener("mouseenter", this.boundHandleSubMenuMouseEnter);
+      hostElement.removeEventListener("mouseleave", this.boundHandleSubMenuMouseLeave);
       const childId = this.childDropdownId();
+      this.dropdownManagerUnsubscribe?.();
+      this.dropdownManagerUnsubscribe = null;
       if (childId) DropdownManager.close(childId);
       this.subMenuRef.destroy();
       this.subMenuRef = null;
