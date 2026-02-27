@@ -236,34 +236,18 @@ export class DropdownItemComponent implements OnDestroy {
         ) as HTMLElement | null;
 
         const subMenuHost = this.subMenuRef.location?.nativeElement as HTMLElement | null;
-        const menuElement = subMenuHost?.querySelector(
-          ".rte-dropdown-menu",
-        ) as HTMLElement | null;
+        const menuElement = subMenuHost?.querySelector(".rte-dropdown-menu") as HTMLElement | null;
 
         if (!triggerElement || !menuElement) {
           if (typeof console !== "undefined" && typeof console.warn === "function") {
-            console.warn(
-              "[DropdownItemComponent] Unable to position submenu: required DOM elements not found.",
-            );
+            console.warn("[DropdownItemComponent] Unable to position submenu: required DOM elements not found.");
           }
           return;
         }
 
-        const position = getAutoPlacementDropdown(
-          triggerElement,
-          menuElement,
-          "right",
-          SUB_MENU_OFFSET,
-          true,
-        );
+        const position = getAutoPlacementDropdown(triggerElement, menuElement, "right", SUB_MENU_OFFSET, true);
         const alignment = getAutoAlignment(triggerElement, menuElement, position);
-        const coords = getCoordinates(
-          position,
-          triggerElement,
-          menuElement,
-          SUB_MENU_OFFSET,
-          alignment,
-        );
+        const coords = getCoordinates(position, triggerElement, menuElement, SUB_MENU_OFFSET, alignment);
 
         const hostElement = subMenuHost;
         if (!hostElement) {

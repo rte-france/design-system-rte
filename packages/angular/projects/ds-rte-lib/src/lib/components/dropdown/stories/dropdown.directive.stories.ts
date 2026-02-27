@@ -380,7 +380,6 @@ export const WithNestedItems: Story = {
       { timeout: 500 },
     );
 
-    // Open first-level nested menu ("Edit")
     const topLevelItems = Array.from(dropdown.querySelectorAll("li"));
     const editItem = topLevelItems.find((item) => item.textContent?.trim().includes("Edit"));
     expect(editItem).toBeInTheDocument();
@@ -389,38 +388,44 @@ export const WithNestedItems: Story = {
     }
     await userEvent.click(editItem);
 
-    // Wait for the "Edit" submenu to show an item "Paste"
-    let pasteItem: Element | undefined;
+    let editSubmenu!: Element;
     await waitFor(
       () => {
-        const nestedItems = Array.from(editItem.querySelectorAll("li"));
-        pasteItem = nestedItems.find((item) => item.textContent?.trim().includes("Paste"));
-        expect(pasteItem).toBeInTheDocument();
-        return pasteItem;
+        const submenu = overlay?.querySelector('[data-menu-id$="-Edit"]');
+        expect(submenu).toBeInTheDocument();
+        if (!submenu) {
+          throw new Error("Edit submenu not found");
+        }
+        editSubmenu = submenu;
+        return submenu;
       },
       { timeout: 500 },
     );
 
+    const editSubmenuItems = Array.from(editSubmenu.querySelectorAll("li"));
+    const pasteItem = editSubmenuItems.find((item) => item.textContent?.trim().includes("Paste"));
+    expect(pasteItem).toBeInTheDocument();
     if (!pasteItem) {
       throw new Error('Nested menu item "Paste" not found');
     }
 
-    // Open second-level nested menu from "Paste" via hover
     await userEvent.hover(pasteItem);
 
     await waitFor(
       () => {
-        const secondLevelItems = Array.from(pasteItem!.querySelectorAll("li"));
-        const pastePlain = secondLevelItems.find((item) =>
-          item.textContent?.trim().includes("Paste as plain text"),
-        );
+        const pasteSubmenu = overlay?.querySelector('[data-menu-id$="-Edit-Paste"]');
+        expect(pasteSubmenu).toBeInTheDocument();
+        if (!pasteSubmenu) {
+          throw new Error("Paste submenu not found");
+        }
+        const secondLevelItems = Array.from(pasteSubmenu.querySelectorAll("li"));
+        const pastePlain = secondLevelItems.find((item) => item.textContent?.trim().includes("Paste as plain text"));
         expect(pastePlain).toBeInTheDocument();
         return pastePlain;
       },
       { timeout: 500 },
     );
 
-    // Close the menu with keyboard (Escape) and ensure it disappears
     await userEvent.keyboard("{Escape}");
     await waitFor(
       () => {
