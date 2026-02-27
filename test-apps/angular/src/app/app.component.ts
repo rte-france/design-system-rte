@@ -25,6 +25,7 @@ import {
   TabComponent,
   LoaderComponent,
   StepperComponent,
+  DropdownModule,
 } from "@design-system-rte/angular";
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
 import { Step } from "@design-system-rte/core/components/stepper/stepper.interface";
@@ -57,6 +58,7 @@ import { Step } from "@design-system-rte/core/components/stepper/stepper.interfa
     TabComponent,
     LoaderComponent,
     StepperComponent,
+    DropdownModule,
   ],
   providers: [ToastService],
   templateUrl: "./app.component.html",
@@ -232,6 +234,19 @@ export class AppComponent {
   ];
 
   selectedTabId = signal("tab-1");
+
+  readonly dropdownItems = [
+    { label: "Edit", leftIcon: "edit" },
+    { label: "Duplicate", leftIcon: "copy" },
+    { label: "Share", leftIcon: "share", hasSeparator: true },
+    { label: "Delete", leftIcon: "delete" },
+  ];
+
+  selectedDropdownItem = signal<string | null>(null);
+
+  onDropdownItemClick(event: { event: Event; id: string }): void {
+    this.selectedDropdownItem.set(event.id);
+  }
 
   onTabChange(tabId: string): void {
     this.selectedTabId.set(tabId);

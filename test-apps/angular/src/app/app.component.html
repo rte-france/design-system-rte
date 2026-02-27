@@ -11,6 +11,14 @@
     <div style="height: 16px">
       <p>Content for {{ selectedTabId() }}</p>
     </div>
+    <div rteDropdown (menuEvent)="onDropdownItemClick($event)">
+      <button rteDropdownTrigger rteButton buttonType="button">Dropdown</button>
+      <rte-dropdown-menu [items]="dropdownItems" />
+    </div>
+    @if (selectedDropdownItem()) {
+      <span style="margin-left: 8px">Selected: {{ selectedDropdownItem() }}</span>
+    }
+    <hr />
     <rte-card>
       <div style="padding: 16px">
         <h4 style="margin: 0 0 12px 0; font-size: 18px; font-weight: 600">Default Card</h4>
