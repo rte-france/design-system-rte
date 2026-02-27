@@ -33,14 +33,16 @@ export class DropdownManager {
 
   static getParentDropdownId(id: string) {
     const parts = id.split("-");
-    if (parts.length <= 2) return null;
+    if (parts.length < 2) return null;
     parts.pop();
     return parts.join("-");
   }
 
-  static closeSubMenus(parentId: string) {
+  static closeSubMenus(parentId: string, excludeId?: string) {
     const dropdownsCurrentlyOpened = Object.keys(globalDropdownState);
-    const dropdownsToClose = dropdownsCurrentlyOpened.filter((id) => id.startsWith(parentId) && id !== parentId);
+    const dropdownsToClose = dropdownsCurrentlyOpened.filter(
+      (id) => id.startsWith(parentId) && id !== parentId && id !== excludeId,
+    );
     dropdownsToClose.forEach((dropdown) => DropdownManager.close(dropdown));
   }
 

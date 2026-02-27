@@ -5,9 +5,12 @@
     role="menuitem"
     tabindex="0"
     [attr.data-disabled]="item()?.disabled"
-    [attr.data-active]="item()?.selected"
+    [attr.data-active]="hasChildren() ? subMenuOpen : item()?.selected"
     (click)="handleClick($event)"
     (keydown)="handleKeyDown($event)"
+    (mouseenter)="handleMouseEnter()"
+    (mouseleave)="handleMouseLeave()"
+    (focus)="handleFocus()"
   >
     <span *ngIf="item()?.hasIndent && !item()?.leftIcon" style="width: 20px"></span>
     <rte-icon *ngIf="item()?.leftIcon" [name]="item()?.leftIcon ?? ''" />
@@ -17,6 +20,7 @@
       </a>
       <span *ngSwitchDefault style="flex: 2">{{ item()?.label }}</span>
     </ng-container>
+    <rte-icon *ngIf="hasChildren()" name="arrow-chevron-right" />
     <div *ngIf="item()?.trailingText">{{ item()?.trailingText }}</div>
     <rte-badge
       *ngIf="shouldDisplayBadge()"
