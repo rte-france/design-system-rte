@@ -125,11 +125,14 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
   }
 
   onTriggerKeyEvent(event: KeyboardEvent): void {
-    if (
+    const shouldOpen =
       event.key === SPACE_KEY ||
       event.key === ENTER_KEY ||
-      (event.key === ARROW_DOWN_KEY && this.trigger()?.rteDropdownTriggerActivateWithArrowDown())
-    ) {
+      (event.key === ARROW_DOWN_KEY && this.trigger()?.rteDropdownTriggerActivateWithArrowDown());
+
+    if (shouldOpen) {
+      event.preventDefault();
+      event.stopPropagation();
       this.showDropdownMenu();
       if (this.rteDropdownAutofocus()) {
         waitForNextFrame(() => focusDropdownFirstElement(this.dropdownId));
