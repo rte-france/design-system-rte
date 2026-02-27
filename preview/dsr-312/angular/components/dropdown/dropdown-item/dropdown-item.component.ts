@@ -134,8 +134,9 @@ export class DropdownItemComponent implements OnDestroy {
   handleMouseEnter(): void {
     if (this.item()?.disabled || !this.hasChildren()) return;
     const menuId = this.menuId();
+    const childId = this.childDropdownId();
     if (menuId) {
-      DropdownManager.closeSubMenus(menuId);
+      DropdownManager.closeSubMenus(menuId, childId);
       this.openSubMenu();
     }
   }
@@ -143,8 +144,9 @@ export class DropdownItemComponent implements OnDestroy {
   handleFocus(): void {
     if (this.item()?.disabled || !this.hasChildren()) return;
     const menuId = this.menuId();
+    const childId = this.childDropdownId();
     if (menuId) {
-      DropdownManager.closeSubMenus(menuId);
+      DropdownManager.closeSubMenus(menuId, childId);
       this.openSubMenu();
     }
   }
@@ -158,8 +160,22 @@ export class DropdownItemComponent implements OnDestroy {
     this.cancelCloseSubMenu();
   }
 
-  handleSubMenuMouseLeave(): void {
+  handleSubMenuMouseLeave(mouseEvent: MouseEvent): void {
+    if (this.isPointerOverDescendantSubMenu(mouseEvent.relatedTarget)) return;
     this.scheduleCloseSubMenu();
+  }
+
+  private isPointerOverDescendantSubMenu(target: EventTarget | null): boolean {
+    if (!(target instanceof Node)) return false;
+    const childId = this.childDropdownId();
+    if (!childId) return false;
+    const descendantMenuPrefix = `${childId}-`;
+    const closestMenu =
+      (target as Node).nodeType === Node.ELEMENT_NODE
+        ? (target as Element).closest("[data-menu-id]")
+        : (target as Node).parentElement?.closest("[data-menu-id]");
+    const menuId = closestMenu?.getAttribute("data-menu-id");
+    return !!menuId?.startsWith(descendantMenuPrefix);
   }
 
   openSubMenuForKeyboard(): void {
@@ -267,7 +283,7 @@ export class DropdownItemComponent implements OnDestroy {
   }
 
   private boundHandleSubMenuMouseEnter = (): void => this.handleSubMenuMouseEnter();
-  private boundHandleSubMenuMouseLeave = (): void => this.handleSubMenuMouseLeave();
+  private boundHandleSubMenuMouseLeave = (mouseEvent: MouseEvent): void => this.handleSubMenuMouseLeave(mouseEvent);
 
   private destroySubMenu(): void {
     this.cancelCloseSubMenu();
