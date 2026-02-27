@@ -16,10 +16,9 @@ import {
   signal,
   ViewContainerRef,
 } from "@angular/core";
+import { Alignment, Position } from "@design-system-rte/core";
 import { waitForNextFrame } from "@design-system-rte/core/common/animation";
-import { Alignment } from "@design-system-rte/core/common/common-types";
-import { Position } from "@design-system-rte/core/components/common/common-types";
-// import { DROPDOWN_ANIMATION_DURATION } from "@design-system-rte/core/components/dropdown/dropdown.constants";
+import { DROPDOWN_ANIMATION_DURATION } from "@design-system-rte/core/components/dropdown/dropdown.constants";
 import {
   getAutoAlignment,
   getAutoPlacementDropdown,
@@ -31,6 +30,7 @@ import { ARROW_DOWN_KEY, ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/co
 import { DropdownService } from "../../services/dropdown.service";
 import { OverlayService } from "../../services/overlay.service";
 
+import { DropdownItemConfig } from "./dropdown-item/dropdown-item.component";
 import { DropdownMenuComponent } from "./dropdown-menu/dropdown-menu.component";
 import { DropdownTriggerDirective } from "./dropdown-trigger/dropdown-trigger.directive";
 import { focusDropdownFirstElement } from "./dropdown.utils";
@@ -50,16 +50,15 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
   readonly menu = contentChild(DropdownMenuComponent);
 
   readonly rteDropdownId = input<string | undefined>(undefined);
-  readonly rteDropdownPosition = input<Position>("auto");
-  readonly rteDropdownAlignment = input<Alignment | null>(null);
+  readonly rteDropdownPosition = input<Position>("bottom");
+  readonly rteDropdownAlignment = input<Alignment>("start");
   readonly rteDropdownIsOpen = input<boolean>(false);
   readonly rteDropdownOffset = input<number>(0);
   readonly rteDropdownAutofocus = input<boolean>(true);
   readonly rteDropdownAutoOpen = input<boolean>(true);
   readonly rteDropdownWidth = input<number | null>(null);
-  readonly rteDropdownHasParent = input<boolean>(false);
 
-  readonly menuEvent = output<{ event: Event; id: string }>();
+  readonly menuEvent = output<{ event: Event; id: string; item?: DropdownItemConfig }>();
   readonly dropdownId = `dropdown_${++DropdownDirective.idCounter}`;
 
   readonly overlayService = inject(OverlayService);
@@ -138,10 +137,12 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
     }
   }
 
-  onMenuEvent(event: { event: Event; id: string }): void {
+  onMenuEvent(event: { event: Event; id: string; item?: DropdownItemConfig }): void {
     this.menuEvent.emit(event);
-    this.isActive.set(false);
-    this.dropdownService.closeAllMenus();
+    if (!event.item?.children?.length) {
+      this.isActive.set(false);
+      this.dropdownService.closeAllMenus();
+    }
   }
 
   ngAfterContentInit(): void {
@@ -152,10 +153,6 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
 
       this.trigger()?.dropdownKeyDown.subscribe((event: KeyboardEvent) => {
         this.onTriggerKeyEvent(event);
-      });
-
-      this.trigger()?.dropdownTriggeredHover.subscribe(() => {
-        this.onTrigger();
       });
 
       this.trigger()?.dropdownTriggerClearContent.subscribe(() => {
@@ -186,13 +183,12 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
     this.assignInputs();
     this.positionDropdownMenu(this.rteDropdownPosition());
     this.addClickOutsideListener();
-    this.addHoverOutsideListener();
-    this.dropdownMenuRef.instance.itemEvent.subscribe((event: { event: Event; id: string }) => {
-      this.onMenuEvent(event);
-    });
-    this.dropdownMenuRef.instance.closingMenu.subscribe(() => {
-      this.closeDropdown();
-    });
+
+    this.dropdownMenuRef.instance.itemEvent.subscribe(
+      (event: { event: Event; id: string; item?: DropdownItemConfig }) => {
+        this.onMenuEvent(event);
+      },
+    );
 
     const dropdownStateSubscription = this.dropdownService.state$.subscribe((state) => {
       if (state === null) {
@@ -245,28 +241,19 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
   private positionDropdownMenu(position: Position = "bottom"): void {
     if (this.dropdownMenuRef && this.trigger()) {
       const dropdownMenuElement = this.dropdownMenuRef.location.nativeElement;
-      const dropdownMenuContentElement = dropdownMenuElement.children[0] as HTMLElement;
       const triggerElement = this.trigger()?.elementRef.nativeElement;
 
       if (triggerElement) {
         this.renderer.setStyle(dropdownMenuElement, "display", "block");
         this.cdr.detectChanges();
         const computedPosition: Exclude<Position, "auto"> =
-          position === "auto"
-            ? getAutoPlacementDropdown(
-                triggerElement,
-                dropdownMenuContentElement,
-                "bottom",
-                0,
-                this.rteDropdownHasParent(),
-              )
-            : position;
+          position === "auto" ? getAutoPlacementDropdown(triggerElement, dropdownMenuElement, "bottom") : position;
         const autoAlignment =
-          this.rteDropdownAlignment() ?? getAutoAlignment(triggerElement, dropdownMenuContentElement, computedPosition);
+          this.rteDropdownAlignment() ?? getAutoAlignment(triggerElement, dropdownMenuElement, computedPosition);
         const computedCoordinates = getCoordinates(
           computedPosition,
           triggerElement,
-          dropdownMenuContentElement,
+          dropdownMenuElement.children[0],
           this.rteDropdownOffset(),
           autoAlignment,
         );
@@ -281,7 +268,6 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.removeClickOutsideListener();
-    this.removeHoverOutsideListener();
     if (this.dropdownMenuRef) {
       this.dropdownMenuRef.destroy();
     }
@@ -290,41 +276,14 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
   private readonly handleClickOutside = (event: MouseEvent): void => {
     const target = event.target as Element;
 
-    const isMenuItemClick = target.closest(".rte-dropdown-item") !== null;
-    if (isMenuItemClick) {
+    const clickedInTrigger = this.hostElement.contains(target);
+    const clickedInAnyMenu = target.closest(".rte-dropdown-menu") !== null;
+    if (clickedInTrigger || clickedInAnyMenu) {
       return;
     }
 
-    const clickedInTrigger = this.hostElement.contains(target);
-    const clickedInMenu = this.dropdownMenuRef?.location.nativeElement.contains(target);
-
-    if (!clickedInTrigger && !clickedInMenu) {
-      this.closeDropdown();
-      this.clickedOutside.emit();
-    }
-  };
-
-  private readonly handleHoverOutside = (event: MouseEvent): void => {
-    const target = event.target as Element;
-    // console.log(target);
-
-    // const isMenuItemClick = target.closest(".rte-dropdown-item") !== null;
-    // if (isMenuItemClick) {
-    //   return;
-    // }
-    console.log(this.hostElement);
-    const hoveredInTrigger = this.hostElement.contains(target);
-    const hoveredInMenu = this.dropdownMenuRef?.location.nativeElement.contains(target);
-    const subMenu = target.closest(".rte-dropdown-menu")?.parentElement?.getAttribute("data-menu-id");
-    const hoveredInSubMenu =
-      target.closest(".rte-dropdown-menu")?.parentElement?.getAttribute("data-menu-id")?.includes(this.dropdownId) ??
-      false;
-    console.log("Submenu id : ", subMenu);
-    if (!hoveredInTrigger && !hoveredInMenu && !hoveredInSubMenu) {
-      console.log("Must close submenu on hover out with id: ", subMenu);
-      this.closeDropdown();
-      // this.clickedOutside.emit();
-    }
+    this.closeDropdown();
+    this.clickedOutside.emit();
   };
 
   private addClickOutsideListener(): void {
@@ -335,21 +294,12 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
     document.removeEventListener("mousedown", this.handleClickOutside);
   }
 
-  private addHoverOutsideListener(): void {
-    document.addEventListener("mouseout", this.handleHoverOutside);
-  }
-  private removeHoverOutsideListener(): void {
-    document.removeEventListener("mouseout", this.handleHoverOutside);
-  }
-
-  closeDropdown(): void {
+  private closeDropdown(): void {
     this.dropdownMenuRef?.setInput("isOpen", false);
     this.isActive.set(false);
 
-    // this.dropdownService.closeSubMenu(this.dropdownId);
-
-    // setTimeout(() => {
-    //   this.dropdownService.closeAllMenus();
-    // }, DROPDOWN_ANIMATION_DURATION);
+    setTimeout(() => {
+      this.dropdownService.closeAllMenus();
+    }, DROPDOWN_ANIMATION_DURATION);
   }
 }

@@ -4,13 +4,13 @@ import {
   computed,
   contentChild,
   ElementRef,
-  forwardRef,
   HostListener,
   inject,
   input,
   output,
   TemplateRef,
   viewChild,
+  viewChildren,
 } from "@angular/core";
 import {
   ARROW_DOWN_KEY,
@@ -24,13 +24,14 @@ import {
 import { DropdownService } from "../../../services/dropdown.service";
 import { DividerComponent } from "../../divider/divider.component";
 import { DropdownItemComponent, DropdownItemConfig } from "../dropdown-item/dropdown-item.component";
+import { focusParentDropdownFirstElement } from "../dropdown.utils";
 
 import { DropdownMenuFooterDirective } from "./dropdown-menu-footer.directive";
 import { DropdownMenuHeaderDirective } from "./dropdown-menu-header.directive";
 
 @Component({
   selector: "rte-dropdown-menu",
-  imports: [CommonModule, forwardRef(() => DropdownItemComponent), DividerComponent],
+  imports: [CommonModule, DropdownItemComponent, DividerComponent],
   standalone: true,
   templateUrl: "./dropdown-menu.component.html",
   styleUrl: "./dropdown-menu.component.scss",
@@ -43,7 +44,7 @@ export class DropdownMenuComponent {
   readonly items = input<DropdownItemConfig[]>([]);
   readonly menuId = input<string>();
 
-  readonly itemEvent = output<{ event: Event; id: string }>();
+  readonly itemEvent = output<{ event: Event; id: string; item?: DropdownItemConfig }>();
 
   readonly widthStyle = computed(() => (this.width() !== undefined ? `${this.width()}px` : undefined));
   readonly isOpen = input<boolean>(false);
@@ -62,6 +63,7 @@ export class DropdownMenuComponent {
 
   readonly headerContentRef = viewChild<ElementRef<HTMLElement>>("headerContent");
   readonly footerContentRef = viewChild<ElementRef<HTMLElement>>("footerContent");
+  readonly itemComponents = viewChildren(DropdownItemComponent);
 
   readonly hasHeaderContent = computed(() => {
     const hasTemplate = !!this.headerTemplate();
@@ -79,7 +81,7 @@ export class DropdownMenuComponent {
     return `${this.menuId()}:${itemIndex + 1}`;
   }
 
-  handleItemEvent(itemEvent: { event: Event; id: string }): void {
+  handleItemEvent(itemEvent: { event: Event; id: string; item?: DropdownItemConfig }): void {
     this.itemEvent.emit(itemEvent);
   }
 
@@ -98,6 +100,30 @@ export class DropdownMenuComponent {
     }
 
     const menuId = this.menuId() as string;
+
+    if (event.key === ARROW_RIGHT_KEY) {
+      const activeElement = document.activeElement as HTMLElement;
+      const items = this.items();
+      const itemComponents = this.itemComponents();
+      const focusedIndex = itemComponents.findIndex((itemComponent) =>
+        itemComponent.elementRef?.nativeElement?.contains(activeElement),
+      );
+      if (focusedIndex >= 0 && items[focusedIndex]?.children?.length) {
+        itemComponents[focusedIndex].openSubMenuForKeyboard();
+        return;
+      }
+    }
+
+    if (event.key === ARROW_LEFT_KEY) {
+      const activeElement = document.activeElement as HTMLElement;
+      const currentMenu = activeElement?.closest("[data-menu-id]") as HTMLElement;
+      const currentMenuId = currentMenu?.getAttribute("data-menu-id");
+      if (currentMenuId) {
+        focusParentDropdownFirstElement(currentMenuId);
+        return;
+      }
+    }
+
     this.dropdownService.handleKeyboardInput(event.key, {
       menuElement: this.elementRef,
       menuId,

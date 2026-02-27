@@ -9,13 +9,9 @@ export class DropdownTriggerDirective {
 
   readonly rteDropdownTriggerActivateWithArrowDown = input<boolean>(false);
 
-  readonly rteDropdownTriggerActivateWithMouseEnter = input<boolean>(false);
-
   readonly dropdownKeyDown = output<KeyboardEvent>();
 
   readonly dropdownTriggered = output<Event>();
-
-  readonly dropdownTriggeredHover = output<Event>();
 
   readonly dropdownTriggerFocus = output<Event>();
 
@@ -28,13 +24,6 @@ export class DropdownTriggerDirective {
   @HostListener("click", ["$event"])
   onDropdownTriggered(event: Event): void {
     this.dropdownTriggered.emit(event);
-  }
-
-  @HostListener("mouseenter", ["$event"])
-  onDropdownTriggerHover(event: Event): void {
-    if (this.rteDropdownTriggerActivateWithMouseEnter()) {
-      this.dropdownTriggeredHover.emit(event);
-    }
   }
 
   @HostListener("focus", ["$event"])

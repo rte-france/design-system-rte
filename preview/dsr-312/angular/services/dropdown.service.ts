@@ -37,16 +37,6 @@ export class DropdownService {
     });
   }
 
-  closeSubMenu(): void {
-    const currentState = this.state$.getValue();
-    console.log("Closing submenu, current state:", currentState);
-    if (currentState) {
-      this.state$.next({
-        activeMenuId: "",
-      });
-    }
-  }
-
   closeAllMenus(): void {
     this.state$.next(null);
   }
