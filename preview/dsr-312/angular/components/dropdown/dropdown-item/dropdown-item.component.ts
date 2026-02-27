@@ -210,21 +210,44 @@ export class DropdownItemComponent implements OnDestroy {
 
   private positionSubMenuAfterLayout(): void {
     requestAnimationFrame(() => {
-      if (!this.subMenuRef) return;
-      const triggerElement = this.elementRef.nativeElement.querySelector("li.rte-dropdown-item") as HTMLElement;
-      const menuElement = this.subMenuRef.location.nativeElement.querySelector(".rte-dropdown-menu") as HTMLElement;
-      if (!triggerElement || !menuElement) return;
+      try {
+        if (!this.subMenuRef || !this.elementRef || !this.elementRef.nativeElement) {
+          return;
+        }
 
-      const position = getAutoPlacementDropdown(triggerElement, menuElement, "right", SUB_MENU_OFFSET, true);
-      const alignment = getAutoAlignment(triggerElement, menuElement, position);
-      const coords = getCoordinates(position, triggerElement, menuElement, SUB_MENU_OFFSET, alignment);
+        const triggerElement = this.elementRef.nativeElement.querySelector(
+          "li.rte-dropdown-item",
+        ) as HTMLElement | null;
 
-      const hostElement = this.subMenuRef.location.nativeElement as HTMLElement;
-      this.renderer.setStyle(hostElement, "display", "block");
-      this.renderer.setStyle(hostElement, "position", "absolute");
-      this.renderer.setStyle(hostElement, "top", `${coords.top}px`);
-      this.renderer.setStyle(hostElement, "left", `${coords.left}px`);
-      this.renderer.setStyle(hostElement, "opacity", "1");
+        const subMenuHost = this.subMenuRef.location?.nativeElement as HTMLElement | null;
+        const menuElement = subMenuHost?.querySelector(".rte-dropdown-menu") as HTMLElement | null;
+
+        if (!triggerElement || !menuElement) {
+          if (typeof console !== "undefined" && typeof console.warn === "function") {
+            console.warn("[DropdownItemComponent] Unable to position submenu: required DOM elements not found.");
+          }
+          return;
+        }
+
+        const position = getAutoPlacementDropdown(triggerElement, menuElement, "right", SUB_MENU_OFFSET, true);
+        const alignment = getAutoAlignment(triggerElement, menuElement, position);
+        const coords = getCoordinates(position, triggerElement, menuElement, SUB_MENU_OFFSET, alignment);
+
+        const hostElement = subMenuHost;
+        if (!hostElement) {
+          return;
+        }
+
+        this.renderer.setStyle(hostElement, "display", "block");
+        this.renderer.setStyle(hostElement, "position", "absolute");
+        this.renderer.setStyle(hostElement, "top", `${coords.top}px`);
+        this.renderer.setStyle(hostElement, "left", `${coords.left}px`);
+        this.renderer.setStyle(hostElement, "opacity", "1");
+      } catch (error) {
+        if (typeof console !== "undefined" && typeof console.error === "function") {
+          console.error("[DropdownItemComponent] Error while positioning submenu:", error);
+        }
+      }
     });
   }
 
