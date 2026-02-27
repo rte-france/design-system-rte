@@ -111,23 +111,29 @@ export class DropdownItemComponent implements OnDestroy {
   handleKeyDown(event: KeyboardEvent): void {
     event.preventDefault();
 
-    if ([SPACE_KEY, ENTER_KEY].includes(event.key)) {
-      if (this.item()?.link) {
-        const link = (event.target as HTMLElement).closest("li")?.querySelector("a");
-        link?.click();
-      } else if (this.hasChildren()) {
+    if (this.item()?.link && [SPACE_KEY, ENTER_KEY].includes(event.key)) {
+      const link = (event.target as HTMLElement).closest("li")?.querySelector("a");
+      link?.click();
+      return;
+    }
+
+    if (this.hasChildren()) {
+      if (event.key === SPACE_KEY) {
         this.openSubMenu();
         const childId = this.childDropdownId();
         if (childId) {
           setTimeout(() => focusDropdownFirstElement(childId), 0);
         }
-      } else {
-        this.itemEvent.emit({
-          event,
-          id: this.item()?.id || this.item()?.label || "",
-          item: this.item(),
-        });
       }
+      return;
+    }
+
+    if ([SPACE_KEY, ENTER_KEY].includes(event.key)) {
+      this.itemEvent.emit({
+        event,
+        id: this.item()?.id || this.item()?.label || "",
+        item: this.item(),
+      });
     }
   }
 
@@ -147,7 +153,6 @@ export class DropdownItemComponent implements OnDestroy {
     const childId = this.childDropdownId();
     if (menuId) {
       DropdownManager.closeSubMenus(menuId, childId);
-      this.openSubMenu();
     }
   }
 
