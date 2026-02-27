@@ -359,6 +359,77 @@ export const WithNestedItems: Story = {
     </div>
     `,
   }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const triggerButton = await canvas.getByRole("button", { name: /menu with nested items/i });
+    await userEvent.click(triggerButton);
+
+    const overlay = document.getElementById("overlay-root");
+    let dropdown!: Element;
+
+    await waitFor(
+      () => {
+        const found = overlay?.querySelector("rte-dropdown-menu");
+        expect(found).toBeInTheDocument();
+        if (!found) {
+          throw new Error("Dropdown not found");
+        }
+        dropdown = found;
+        return found;
+      },
+      { timeout: 500 },
+    );
+
+    // Open first-level nested menu ("Edit")
+    const topLevelItems = Array.from(dropdown.querySelectorAll("li"));
+    const editItem = topLevelItems.find((item) => item.textContent?.trim().includes("Edit"));
+    expect(editItem).toBeInTheDocument();
+    if (!editItem) {
+      throw new Error('Top-level menu item "Edit" not found');
+    }
+    await userEvent.click(editItem);
+
+    // Wait for the "Edit" submenu to show an item "Paste"
+    let pasteItem: Element | undefined;
+    await waitFor(
+      () => {
+        const nestedItems = Array.from(editItem.querySelectorAll("li"));
+        pasteItem = nestedItems.find((item) => item.textContent?.trim().includes("Paste"));
+        expect(pasteItem).toBeInTheDocument();
+        return pasteItem;
+      },
+      { timeout: 500 },
+    );
+
+    if (!pasteItem) {
+      throw new Error('Nested menu item "Paste" not found');
+    }
+
+    // Open second-level nested menu from "Paste" via hover
+    await userEvent.hover(pasteItem);
+
+    await waitFor(
+      () => {
+        const secondLevelItems = Array.from(pasteItem!.querySelectorAll("li"));
+        const pastePlain = secondLevelItems.find((item) =>
+          item.textContent?.trim().includes("Paste as plain text"),
+        );
+        expect(pastePlain).toBeInTheDocument();
+        return pastePlain;
+      },
+      { timeout: 500 },
+    );
+
+    // Close the menu with keyboard (Escape) and ensure it disappears
+    await userEvent.keyboard("{Escape}");
+    await waitFor(
+      () => {
+        const stillPresent = overlay?.querySelector("rte-dropdown-menu");
+        expect(stillPresent).not.toBeInTheDocument();
+      },
+      { timeout: 500 },
+    );
+  },
 };
 
 export const WithFilterableHeader: Story = {
