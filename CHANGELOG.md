@@ -2,6 +2,28 @@
 
 # Angular
 
+## 2.0.0
+
+### Segmented-control
+
+#### Minor Changes
+
+- add compact spacing variant
+- add neutral appearance + modify height
+
+### Dropdown
+
+#### Patch Changes
+
+- add angular dropdown to public api
+
+### Other
+
+#### Patch Changes
+
+- Updated dependencies [c477d66]
+- @design-system-rte/core@1.4.0
+
 ## 1.3.0
 
 ### Stepper
@@ -96,119 +118,23 @@
 
 - Updated dependencies [1f8e40c]
 - @design-system-rte/core@1.2.1
+# React
 
-## 1.1.0
+## 1.5.0
 
-### Select
-
-#### Minor Changes
-
-- add new documentation
-- improve style
-- set positionning
-- harmonise readonly and disable behavior + add stories scenario
-- label style
-- Add angular component
-
-### Text Input
+### Segmented-control
 
 #### Minor Changes
 
-- move AssistiveText & RequiredIndicator to base component of Text Input
-- correct disabled display
-- correct placeholder exposition and handling
-- add missing output signals after base-text-input refactor
-
-### Assistive-text
-
-#### Minor Changes
-
-- add width props
-- add angular component
-
-### Dropdown
-
-#### Minor Changes
-
-- allow correct escape dismissing
-- handle icon props in badge
-- add Badge
-
-### Breadcrumbs
-
-#### Minor Changes
-
-- Add Badge
-
-### Badge
-
-#### Minor Changes
-
-- add utils function to check if it should display badge
-
-#### Patch Changes
-
-- set valid position value for xs badge
-
-### Split-button
-
-#### Minor Changes
-
-- Add badge
-
-### Core
-
-#### Minor Changes
-
-- use parameter object for shouldDisplayBadge utils
-
-### Segmented Control
-
-#### Minor Changes
-
-- add badge
-
-### Searchbar
-
-#### Minor Changes
-
-- add new documentation
-- add new placeholder text for disabled input
-- change component structure so input inner border reacts correctly to focus & assistive text takes all the width of its container
-- add searchbar base functionality
-
-### Icon Button
-
-#### Minor Changes
-
-- show icon in disabled state button
-
-### Design Docs
-
-#### Minor Changes
-
-- correct sub-storybook context detection
-- add guideline page
+- add compact spacing variant
+- add neutral appearance + modify height
 
 ### Other
 
-#### Minor Changes
-
-- extract required indicator in a component
-
 #### Patch Changes
 
-- Updated dependencies [8c512ea]
-- Updated dependencies [921ffd7]
-- Updated dependencies [f5946ce]
-- Updated dependencies [0dbb025]
-- Updated dependencies [c6867f7]
-- Updated dependencies [251ae74]
-- Updated dependencies [38d9ec6]
-- Updated dependencies [2cff3de]
-- Updated dependencies [29e0462]
-- @design-system-rte/core@1.2.0
-# React
+- Updated dependencies [c477d66]
+- @design-system-rte/core@1.4.0
 
 ## 1.4.0
 
@@ -295,131 +221,19 @@
 
 - Updated dependencies [1f8e40c]
 - @design-system-rte/core@1.2.1
+# Core
 
-## 1.2.0
+## 1.4.0
 
-### Select
-
-#### Minor Changes
-
-- add new documentation
-- improve style
-- set positionning
-- harmonise readonly and disable behavior + add stories scenario
-- fix error variant on react component
-- Add angular component
-- add react component
-
-### Text Input
+### Segmented-control
 
 #### Minor Changes
 
-- move AssistiveText & RequiredIndicator to base component of Text Input
-- extract assistive text in a component
-- correct disabled display
-- hide input value when input is disabled
-- correct placeholder exposition and handling
-
-### Assistive-text
-
-#### Minor Changes
-
-- add width props
-- add angular component
-
-### Link
-
-#### Minor Changes
-
-- harmonise appearance
-
-### Dropdown
-
-#### Minor Changes
-
-- add selected state to simple dropdown item
-- handle icon props in badge
-- add Badge
-
-### Breadcrumbs
-
-#### Minor Changes
-
-- Add Badge
-
-### Badge
-
-#### Minor Changes
-
-- add utils function to check if it should display badge
-
-#### Patch Changes
-
-- set valid position value for xs badge
-
-### Core
-
-#### Minor Changes
-
-- add badge holder interface to use
-- use parameter object for shouldDisplayBadge utils
-
-### Split-button
-
-#### Minor Changes
-
-- Add badge
-
-### Segmented Control
-
-#### Minor Changes
-
-- add badge
-
-### Searchbar
-
-#### Minor Changes
-
-- add new documentation
-- add new placeholder text for disabled input
-- correct inner input not losing focus when clearing is value
-- change component structure so input inner border reacts correctly to focus & assistive text takes all the width of its container
-- add searchbar base functionality
-
-### Design Docs
-
-#### Minor Changes
-
-- correct sub-storybook context detection
-- add guideline page
-
-### Storybook
-
-#### Minor Changes
-
-- add breadcrumbs - overview page
-- add new tab of options, heading, availability and LastUpdate component
+- add compact spacing variant
+- add neutral appearance + modify height
 
 ### Other
 
-#### Minor Changes
-
-- extract common input props
-- extract required indicator in a component
-
-#### Patch Changes
-
-- Updated dependencies [8c512ea]
-- Updated dependencies [921ffd7]
-- Updated dependencies [f5946ce]
-- Updated dependencies [0dbb025]
-- Updated dependencies [c6867f7]
-- Updated dependencies [251ae74]
-- Updated dependencies [38d9ec6]
-- Updated dependencies [2cff3de]
-- Updated dependencies [29e0462]
-- @design-system-rte/core@1.2.0
-# Core
 
 ## 1.3.1
 
@@ -496,6 +310,9 @@
 
 - add selected state to simple dropdown item
 - add Badge
+- add Badge
+- add Badge
+- add Badge
 
 ### Design-tokens
 
@@ -511,17 +328,24 @@
 - change global architecture for design tokens
 - add badge holder interface to use
 - use parameter object for shouldDisplayBadge utils
+- add badge holder interface to use
+- add badge holder interface to use
+- add badge holder interface to use
 
 ### Breadcrumbs
 
 #### Minor Changes
 
 - Add Badge
+- Add Badge
 
 ### Badge
 
 #### Minor Changes
 
+- add utils function to check if it should display badge
+- add utils function to check if it should display badge
+- add utils function to check if it should display badge
 - add utils function to check if it should display badge
 - use IconSize constant and add xs value
 
@@ -530,11 +354,13 @@
 #### Minor Changes
 
 - Add badge
+- Add badge
 
 ### Segmented Control
 
 #### Minor Changes
 
+- add badge
 - add badge
 
 ### Searchbar
@@ -578,18 +404,6 @@
 - add angular missing dependencies
 - add angular missing dependencies
 - add angular missing dependencies
-
-## 1.1.0
-
-### Core
-
-#### Minor Changes
-
-- add Nunito font to serve to react and angular package
-- add elevation mixins
-
-### Other
-
 # Design Docs
 
 ## 1.2.0

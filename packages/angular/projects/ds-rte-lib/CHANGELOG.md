@@ -1,5 +1,21 @@
 # @design-system-rte/angular
 
+## 2.0.0
+
+### Minor Changes
+
+- c477d66: ## Changes
+  - (Segmented-control) add compact spacing variant
+  - (Segmented-control) add neutral appearance + modify height
+
+### Patch Changes
+
+- 3cd5985: ## Changes
+  - (Dropdown) add angular dropdown to public api
+
+- Updated dependencies [c477d66]
+  - @design-system-rte/core@1.4.0
+
 ## 1.3.0
 
 ### Minor Changes
