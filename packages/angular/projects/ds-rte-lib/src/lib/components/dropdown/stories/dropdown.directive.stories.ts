@@ -105,7 +105,7 @@ export const WithBadge: StoryObj<{
     },
     badgeIcon: {
       control: "select",
-      options: ["", ...RegularIconIds, ...TogglableIconIds].sort((a, b) => a.localeCompare(b)),
+      options: ["", ...RegularIconIds, ...TogglableIconIds].sort((firstIconId, secondIconId) => firstIconId.localeCompare(secondIconId)),
     },
     showBadge: {
       control: "boolean",
