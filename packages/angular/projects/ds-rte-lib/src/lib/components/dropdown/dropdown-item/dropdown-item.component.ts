@@ -70,6 +70,7 @@ export class DropdownItemComponent implements OnDestroy {
   private subMenuRef: import("@angular/core").ComponentRef<DropdownMenuComponent> | null = null;
   private closeSubMenuTimeout: ReturnType<typeof setTimeout> | null = null;
   private subMenuSubscriptions: (() => void)[] = [];
+  private dropdownManagerUnsubscribe: (() => void) | null = null;
 
   readonly hasChildren = computed(() => (this.item()?.children?.length ?? 0) > 0);
   readonly childDropdownId = computed(() => {
@@ -182,8 +183,8 @@ export class DropdownItemComponent implements OnDestroy {
     this.subMenuRef.setInput("menuId", childId);
     this.subMenuRef.setInput("isOpen", true);
 
-    const unsubscribe = DropdownManager.subscribe(childId, () => this.destroySubMenu());
-    this.destroyRef.onDestroy(() => unsubscribe());
+    this.dropdownManagerUnsubscribe = DropdownManager.subscribe(childId, () => this.destroySubMenu());
+    this.destroyRef.onDestroy(() => this.dropdownManagerUnsubscribe?.());
 
     const itemSub = this.subMenuRef.instance.itemEvent.subscribe(
       (ev: { event: Event; id: string; item?: DropdownItemConfig }) => {
@@ -255,6 +256,8 @@ export class DropdownItemComponent implements OnDestroy {
       hostEl.removeEventListener("mouseenter", this.boundHandleSubMenuMouseEnter);
       hostEl.removeEventListener("mouseleave", this.boundHandleSubMenuMouseLeave);
       const childId = this.childDropdownId();
+      this.dropdownManagerUnsubscribe?.();
+      this.dropdownManagerUnsubscribe = null;
       if (childId) DropdownManager.close(childId);
       this.subMenuRef.destroy();
       this.subMenuRef = null;
