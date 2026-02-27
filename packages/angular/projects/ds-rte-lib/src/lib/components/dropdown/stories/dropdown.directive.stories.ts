@@ -359,6 +359,82 @@ export const WithNestedItems: Story = {
     </div>
     `,
   }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const triggerButton = await canvas.getByRole("button", { name: /menu with nested items/i });
+    await userEvent.click(triggerButton);
+
+    const overlay = document.getElementById("overlay-root");
+    let dropdown!: Element;
+
+    await waitFor(
+      () => {
+        const found = overlay?.querySelector("rte-dropdown-menu");
+        expect(found).toBeInTheDocument();
+        if (!found) {
+          throw new Error("Dropdown not found");
+        }
+        dropdown = found;
+        return found;
+      },
+      { timeout: 500 },
+    );
+
+    const topLevelItems = Array.from(dropdown.querySelectorAll("li"));
+    const editItem = topLevelItems.find((item) => item.textContent?.trim().includes("Edit"));
+    expect(editItem).toBeInTheDocument();
+    if (!editItem) {
+      throw new Error('Top-level menu item "Edit" not found');
+    }
+    await userEvent.click(editItem);
+
+    let editSubmenu!: Element;
+    await waitFor(
+      () => {
+        const submenu = overlay?.querySelector('[data-menu-id$="-Edit"]');
+        expect(submenu).toBeInTheDocument();
+        if (!submenu) {
+          throw new Error("Edit submenu not found");
+        }
+        editSubmenu = submenu;
+        return submenu;
+      },
+      { timeout: 500 },
+    );
+
+    const editSubmenuItems = Array.from(editSubmenu.querySelectorAll("li"));
+    const pasteItem = editSubmenuItems.find((item) => item.textContent?.trim().includes("Paste"));
+    expect(pasteItem).toBeInTheDocument();
+    if (!pasteItem) {
+      throw new Error('Nested menu item "Paste" not found');
+    }
+
+    await userEvent.hover(pasteItem);
+
+    await waitFor(
+      () => {
+        const pasteSubmenu = overlay?.querySelector('[data-menu-id$="-Edit-Paste"]');
+        expect(pasteSubmenu).toBeInTheDocument();
+        if (!pasteSubmenu) {
+          throw new Error("Paste submenu not found");
+        }
+        const secondLevelItems = Array.from(pasteSubmenu.querySelectorAll("li"));
+        const pastePlain = secondLevelItems.find((item) => item.textContent?.trim().includes("Paste as plain text"));
+        expect(pastePlain).toBeInTheDocument();
+        return pastePlain;
+      },
+      { timeout: 500 },
+    );
+
+    await userEvent.keyboard("{Escape}");
+    await waitFor(
+      () => {
+        const stillPresent = overlay?.querySelector("rte-dropdown-menu");
+        expect(stillPresent).not.toBeInTheDocument();
+      },
+      { timeout: 500 },
+    );
+  },
 };
 
 export const WithFilterableHeader: Story = {
