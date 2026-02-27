@@ -1,5 +1,18 @@
 # @design-system-rte/react
 
+## 1.5.0
+
+### Minor Changes
+
+- c477d66: ## Changes
+  - (Segmented-control) add compact spacing variant
+  - (Segmented-control) add neutral appearance + modify height
+
+### Patch Changes
+
+- Updated dependencies [c477d66]
+  - @design-system-rte/core@1.4.0
+
 ## 1.4.0
 
 ### Minor Changes

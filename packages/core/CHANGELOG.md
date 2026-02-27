@@ -1,5 +1,13 @@
 # @design-system-rte/core
 
+## 1.4.0
+
+### Minor Changes
+
+- c477d66: ## Changes
+  - (Segmented-control) add compact spacing variant
+  - (Segmented-control) add neutral appearance + modify height
+
 ## 1.3.1
 
 ### Patch Changes
