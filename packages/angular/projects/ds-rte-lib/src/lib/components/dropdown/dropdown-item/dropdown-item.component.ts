@@ -5,6 +5,7 @@ import { DropdownItemProps } from "@design-system-rte/core/components/dropdown/d
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
 import { BadgeComponent } from "../../badge/badge.component";
+import { CheckboxComponent } from "../../checkbox/checkbox.component";
 import { DividerComponent } from "../../divider/divider.component";
 import { IconComponent } from "../../icon/icon.component";
 
@@ -23,7 +24,7 @@ export interface DropdownItemConfig extends Omit<DropdownItemProps, "onClick"> {
 
 @Component({
   selector: "rte-dropdown-item",
-  imports: [CommonModule, IconComponent, DividerComponent, BadgeComponent],
+  imports: [CommonModule, IconComponent, DividerComponent, BadgeComponent, CheckboxComponent],
   standalone: true,
   templateUrl: "./dropdown-item.component.html",
   styleUrl: "./dropdown-item.component.scss",
@@ -32,6 +33,7 @@ export class DropdownItemComponent {
   readonly item = input<DropdownItemConfig>();
   readonly menuId = input<string>();
   readonly itemEvent = output<{ event: Event; id: string }>();
+  readonly itemChangeEvent = output<{ event: Event; id: string }>();
 
   readonly shouldDisplayBadge = computed(() => {
     const item = this.item();
@@ -49,7 +51,23 @@ export class DropdownItemComponent {
       event.stopPropagation();
       return;
     }
-    this.itemEvent.emit({
+    if (this.item()?.hasCheckbox) {
+      this.itemChangeEvent.emit({
+        event,
+        id: this.item()?.id || this.item()?.label || "",
+      });
+      return;
+    } else {
+      this.itemEvent.emit({
+        event,
+        id: this.item()?.id || this.item()?.label || "",
+      });
+    }
+  }
+
+  handleChange(event: Event): void {
+    event.stopPropagation();
+    this.itemChangeEvent.emit({
       event,
       id: this.item()?.id || this.item()?.label || "",
     });

@@ -61,6 +61,11 @@ export const Chip = forwardRef<HTMLSpanElement, ChipProps>(
 
     const isCheckable = type === "single" || type === "multi";
 
+    const handleOnClose = (event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLButtonElement>) => {
+      if (type !== "input") return;
+      onClose?.(event);
+    };
+
     return (
       <span
         id={id}
@@ -72,7 +77,7 @@ export const Chip = forwardRef<HTMLSpanElement, ChipProps>(
         data-compact-spacing={compactSpacing}
         data-type={type}
         onClick={onClick}
-        tabIndex={0}
+        tabIndex={type === "input" ? -1 : 0}
         onKeyDown={onKeyDown}
         onKeyUp={onKeyUp}
         onBlur={onBlur}
@@ -104,7 +109,7 @@ export const Chip = forwardRef<HTMLSpanElement, ChipProps>(
             id={id + "-delete-button"}
             type="button"
             className={styles["chip-close-button"]}
-            onClick={onClose}
+            onClick={handleOnClose}
             disabled={disabled}
             aria-label={`Supprimer ${label}`}
             value={label}

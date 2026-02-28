@@ -13,6 +13,7 @@ import { useContext } from "react";
 
 import { useActiveKeyboard } from "../../../hooks/useActiveKeyboard";
 import Badge from "../../badge/Badge";
+import Checkbox from "../../checkbox/Checkbox";
 import Divider from "../../divider/Divider";
 import Icon from "../../icon/Icon";
 import { DropdownParentContext } from "../context/DropdownContext";
@@ -42,7 +43,9 @@ export const DropdownItem = ({
   badgeSize,
   showBadge,
   isSelected,
+  isIndeterminate,
   onClick,
+  hasCheckbox,
   ...props
 }: DropdownItemProps) => {
   const { dropdownId, autoClose, closeRoot } = useContext(DropdownParentContext) || {};
@@ -73,6 +76,14 @@ export const DropdownItem = ({
     }
     if (autoClose && closeRoot) {
       closeRoot();
+    }
+  };
+
+  const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.stopPropagation();
+    if (disabled) return;
+    if (onClick) {
+      onClick(event as unknown as React.MouseEvent<HTMLLIElement>);
     }
   };
 
@@ -179,6 +190,16 @@ export const DropdownItem = ({
         tabIndex={0}
         {...props}
       >
+        {hasCheckbox && (
+          <Checkbox
+            id={dropdownId + ":" + label}
+            label={label || ""}
+            checked={isSelected}
+            showLabel={false}
+            indeterminate={isIndeterminate}
+            onChange={handleOnChange}
+          />
+        )}
         {hasIndent && !leftIcon && <span style={{ width: "20px" }} />}
         {leftIcon && <Icon name={leftIcon} className={styles["dropdown-item-icon"]} />}
         {link ? (

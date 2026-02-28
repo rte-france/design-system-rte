@@ -10,7 +10,7 @@ interface CheckboxProps extends CoreCheckboxProps, Omit<React.InputHTMLAttribute
 const Checkbox = ({
   id,
   label,
-  showLabel,
+  showLabel = true,
   disabled,
   description,
   error,
@@ -35,7 +35,7 @@ const Checkbox = ({
     }
   };
   return (
-    <div className={styles["container"]}>
+    <div className={styles["container"]} data-show-label={showLabel}>
       <input
         type="checkbox"
         id={id}
