@@ -22,7 +22,6 @@ import {
 } from "@design-system-rte/core/components/utils/auto-placement";
 import {
   ARROW_DOWN_KEY,
-  ARROW_LEFT_KEY,
   ARROW_UP_KEY,
   ESCAPE_KEY,
   TAB_KEY,
@@ -170,7 +169,7 @@ export class DropdownMenuComponent implements OnDestroy {
       return;
     }
 
-    if ([ARROW_UP_KEY, ARROW_DOWN_KEY, ARROW_LEFT_KEY, TAB_KEY].includes(event.key)) {
+    if ([ARROW_UP_KEY, ARROW_DOWN_KEY, TAB_KEY].includes(event.key)) {
       event.preventDefault();
     }
 
@@ -179,27 +178,6 @@ export class DropdownMenuComponent implements OnDestroy {
     }
 
     const menuId = this.menuId() as string;
-
-    if (event.key === ARROW_RIGHT_KEY) {
-      const activeElement = document.activeElement as HTMLElement;
-      const items = this.items();
-      const itemComponents = this.itemComponents();
-      const focusedIndex = itemComponents.findIndex((comp) => comp.elementRef?.nativeElement?.contains(activeElement));
-      if (focusedIndex >= 0 && items[focusedIndex]?.children?.length) {
-        itemComponents[focusedIndex].openSubMenuForKeyboard();
-        return;
-      }
-    }
-
-    if (event.key === ARROW_LEFT_KEY) {
-      const activeEl = document.activeElement as HTMLElement;
-      const currentMenu = activeEl?.closest("[data-menu-id]") as HTMLElement;
-      const currentMenuId = currentMenu?.getAttribute("data-menu-id");
-      if (currentMenuId) {
-        focusParentDropdownFirstElement(currentMenuId);
-        return;
-      }
-    }
 
     if (event.key === TAB_KEY && event.shiftKey) {
       const parentMenuId = DropdownManager.getParentDropdownId(menuId);

@@ -1,5 +1,15 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectorRef, Component, computed, ElementRef, inject, input, OnDestroy, output } from "@angular/core";
+import {
+  ChangeDetectorRef,
+  Component,
+  computed,
+  ElementRef,
+  inject,
+  input,
+  OnDestroy,
+  output,
+  signal,
+} from "@angular/core";
 import { shouldDisplayBadge } from "@design-system-rte/core/components/badge/badge.utils";
 import { DropdownManager } from "@design-system-rte/core/components/dropdown/DropdownManager";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
@@ -30,7 +40,8 @@ export class DropdownItemComponent implements OnDestroy {
   readonly itemEvent = output<{ event: Event; id: string; item?: DropdownItemConfig }>();
   readonly submenuRequest = output<SubmenuRequestEvent>();
 
-  subMenuOpen = false;
+  readonly subMenuOpen = signal<boolean>(false);
+
   private subMenuRef: import("@angular/core").ComponentRef<unknown> | null = null;
   private closeSubMenuTimeout: ReturnType<typeof setTimeout> | null = null;
   private subMenuSubscriptions: (() => void)[] = [];
@@ -206,7 +217,7 @@ export class DropdownItemComponent implements OnDestroy {
     hostElement.addEventListener("mouseenter", this.boundHandleSubMenuMouseEnter);
     hostElement.addEventListener("mouseleave", this.boundHandleSubMenuMouseLeave);
 
-    this.subMenuOpen = true;
+    this.subMenuOpen.set(true);
     this.cdr.markForCheck();
   }
 
@@ -225,8 +236,9 @@ export class DropdownItemComponent implements OnDestroy {
     }
   }
 
-  private boundHandleSubMenuMouseEnter = (): void => this.handleSubMenuMouseEnter();
-  private boundHandleSubMenuMouseLeave = (mouseEvent: MouseEvent): void => this.handleSubMenuMouseLeave(mouseEvent);
+  private readonly boundHandleSubMenuMouseEnter = (): void => this.handleSubMenuMouseEnter();
+  private readonly boundHandleSubMenuMouseLeave = (mouseEvent: MouseEvent): void =>
+    this.handleSubMenuMouseLeave(mouseEvent);
 
   private destroySubMenu(): void {
     this.cancelCloseSubMenu();
@@ -243,7 +255,7 @@ export class DropdownItemComponent implements OnDestroy {
       this.subMenuRef.destroy();
       this.subMenuRef = null;
     }
-    this.subMenuOpen = false;
+    this.subMenuOpen.set(false);
     this.cdr.markForCheck();
   }
 
