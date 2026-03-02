@@ -74,6 +74,10 @@
     &[data-clickable="true"] {
       &[data-active="false"] {
 
+        .stepName {
+          color: var(--content-secondary);
+        }
+
         &[data-completion-state="unvisited"] {
 
           .stepNumber {
