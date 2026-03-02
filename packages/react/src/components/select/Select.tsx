@@ -159,11 +159,11 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
         }
         setInternalValue(newArrayValue);
         onChange?.(newValue);
-        return;
+      } else {
+        setInternalValue(newValue);
+        onChange?.(newValue);
+        setIsActive(false);
       }
-      setInternalValue(newValue);
-      onChange?.(newValue);
-      setIsActive(false);
     };
 
     if ((Array.isArray(internalValue) && !multiple) || (!Array.isArray(internalValue) && multiple)) {
