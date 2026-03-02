@@ -1,51 +1,18 @@
 import { CommonModule } from "@angular/common";
-import {
-  ChangeDetectorRef,
-  Component,
-  computed,
-  DestroyRef,
-  ElementRef,
-  EventEmitter,
-  inject,
-  input,
-  OnDestroy,
-  output,
-  Renderer2,
-  ViewContainerRef,
-} from "@angular/core";
+import { ChangeDetectorRef, Component, computed, ElementRef, inject, input, OnDestroy, output } from "@angular/core";
 import { shouldDisplayBadge } from "@design-system-rte/core/components/badge/badge.utils";
-import { DropdownItemProps } from "@design-system-rte/core/components/dropdown/dropdown.interface";
 import { DropdownManager } from "@design-system-rte/core/components/dropdown/DropdownManager";
-import {
-  getAutoAlignment,
-  getAutoPlacementDropdown,
-  getCoordinates,
-} from "@design-system-rte/core/components/utils/auto-placement";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
-import { OverlayService } from "../../../services/overlay.service";
 import { BadgeComponent } from "../../badge/badge.component";
 import { DividerComponent } from "../../divider/divider.component";
 import { IconComponent } from "../../icon/icon.component";
-import { DropdownMenuComponent } from "../dropdown-menu/dropdown-menu.component";
+import { DropdownItemConfig, SubmenuCreatedResult, SubmenuRequestEvent } from "../dropdown.types";
 import { focusDropdownFirstElement } from "../dropdown.utils";
 
-export interface DropdownItemConfig extends Omit<DropdownItemProps, "onClick"> {
-  id?: string;
-  selected?: boolean;
-  label: string;
-  leftIcon?: string;
-  trailingText?: string;
-  disabled?: boolean;
-  hasSeparator?: boolean;
-  hasIndent?: boolean;
-  link?: string;
-  click?: EventEmitter<Event>;
-  children?: DropdownItemConfig[];
-}
+export type { DropdownItemConfig };
 
 const SUB_MENU_CLOSE_DELAY_MS = 300;
-const SUB_MENU_OFFSET = 4;
 
 @Component({
   selector: "rte-dropdown-item",
@@ -55,19 +22,16 @@ const SUB_MENU_OFFSET = 4;
   styleUrl: "./dropdown-item.component.scss",
 })
 export class DropdownItemComponent implements OnDestroy {
-  private readonly overlayService = inject(OverlayService);
-  private readonly viewContainerRef = inject(ViewContainerRef);
   readonly elementRef = inject(ElementRef);
-  private readonly renderer = inject(Renderer2);
   private readonly cdr = inject(ChangeDetectorRef);
-  private readonly destroyRef = inject(DestroyRef);
 
   readonly item = input<DropdownItemConfig>();
   readonly menuId = input<string>();
   readonly itemEvent = output<{ event: Event; id: string; item?: DropdownItemConfig }>();
+  readonly submenuRequest = output<SubmenuRequestEvent>();
 
   subMenuOpen = false;
-  private subMenuRef: import("@angular/core").ComponentRef<DropdownMenuComponent> | null = null;
+  private subMenuRef: import("@angular/core").ComponentRef<unknown> | null = null;
   private closeSubMenuTimeout: ReturnType<typeof setTimeout> | null = null;
   private subMenuSubscriptions: (() => void)[] = [];
   private dropdownManagerUnsubscribe: (() => void) | null = null;
@@ -197,22 +161,41 @@ export class DropdownItemComponent implements OnDestroy {
     const childId = this.childDropdownId();
     if (!children?.length || !childId) return;
 
+    const triggerElement = this.elementRef.nativeElement.querySelector("li.rte-dropdown-item") as HTMLElement | null;
+    if (!triggerElement) return;
+
     DropdownManager.open(childId);
 
-    this.subMenuRef = this.overlayService.create(DropdownMenuComponent, this.viewContainerRef);
-    this.subMenuRef.setInput("items", children);
-    this.subMenuRef.setInput("menuId", childId);
-    this.subMenuRef.setInput("isOpen", true);
+    this.submenuRequest.emit({
+      children,
+      childId,
+      triggerElement,
+      onCreated: (result) => this.wireSubmenu(result),
+    });
+  }
 
-    this.dropdownManagerUnsubscribe = DropdownManager.subscribe(childId, () => this.destroySubMenu());
-    this.destroyRef.onDestroy(() => this.dropdownManagerUnsubscribe?.());
+  private wireSubmenu(result: SubmenuCreatedResult): void {
+    if (this.subMenuRef) return;
+    this.subMenuRef = result.componentRef;
+    const hostElement = result.hostElement;
+    const childId = this.childDropdownId();
 
-    const itemSub = this.subMenuRef.instance.itemEvent.subscribe(
+    this.dropdownManagerUnsubscribe = DropdownManager.subscribe(childId ?? "", () => this.destroySubMenu());
+
+    const menuInstance = this.subMenuRef.instance as {
+      itemEvent: {
+        subscribe: (callback: (event: { event: Event; id: string; item?: DropdownItemConfig }) => void) => {
+          unsubscribe: () => void;
+        };
+      };
+      closingMenu: { subscribe: (callback: () => void) => { unsubscribe: () => void } };
+    };
+    const itemSub = menuInstance.itemEvent.subscribe(
       (emittedItemEvent: { event: Event; id: string; item?: DropdownItemConfig }) => {
         this.itemEvent.emit({ ...emittedItemEvent, item: emittedItemEvent.item });
       },
     );
-    const closeSub = this.subMenuRef.instance.closingMenu.subscribe(() => {
+    const closeSub = menuInstance.closingMenu.subscribe(() => {
       this.destroySubMenu();
     });
     this.subMenuSubscriptions.push(() => {
@@ -220,56 +203,11 @@ export class DropdownItemComponent implements OnDestroy {
       closeSub.unsubscribe();
     });
 
-    const hostElement = this.subMenuRef.location.nativeElement as HTMLElement;
     hostElement.addEventListener("mouseenter", this.boundHandleSubMenuMouseEnter);
     hostElement.addEventListener("mouseleave", this.boundHandleSubMenuMouseLeave);
 
-    this.positionSubMenuAfterLayout();
     this.subMenuOpen = true;
     this.cdr.markForCheck();
-  }
-
-  private positionSubMenuAfterLayout(): void {
-    requestAnimationFrame(() => {
-      try {
-        if (!this.subMenuRef || !this.elementRef || !this.elementRef.nativeElement) {
-          return;
-        }
-
-        const triggerElement = this.elementRef.nativeElement.querySelector(
-          "li.rte-dropdown-item",
-        ) as HTMLElement | null;
-
-        const subMenuHost = this.subMenuRef.location?.nativeElement as HTMLElement | null;
-        const menuElement = subMenuHost?.querySelector(".rte-dropdown-menu") as HTMLElement | null;
-
-        if (!triggerElement || !menuElement) {
-          if (typeof console !== "undefined" && typeof console.warn === "function") {
-            console.warn("[DropdownItemComponent] Unable to position submenu: required DOM elements not found.");
-          }
-          return;
-        }
-
-        const position = getAutoPlacementDropdown(triggerElement, menuElement, "right", SUB_MENU_OFFSET, true);
-        const alignment = getAutoAlignment(triggerElement, menuElement, position);
-        const coords = getCoordinates(position, triggerElement, menuElement, SUB_MENU_OFFSET, alignment);
-
-        const hostElement = subMenuHost;
-        if (!hostElement) {
-          return;
-        }
-
-        this.renderer.setStyle(hostElement, "display", "block");
-        this.renderer.setStyle(hostElement, "position", "absolute");
-        this.renderer.setStyle(hostElement, "top", `${coords.top}px`);
-        this.renderer.setStyle(hostElement, "left", `${coords.left}px`);
-        this.renderer.setStyle(hostElement, "opacity", "1");
-      } catch (error) {
-        if (typeof console !== "undefined" && typeof console.error === "function") {
-          console.error("[DropdownItemComponent] Error while positioning submenu:", error);
-        }
-      }
-    });
   }
 
   private scheduleCloseSubMenu(): void {

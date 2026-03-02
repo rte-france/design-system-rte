@@ -7,12 +7,19 @@ import {
   HostListener,
   inject,
   input,
+  OnDestroy,
   output,
   TemplateRef,
+  ViewContainerRef,
   viewChild,
   viewChildren,
 } from "@angular/core";
 import { DropdownManager } from "@design-system-rte/core/components/dropdown/DropdownManager";
+import {
+  getAutoAlignment,
+  getAutoPlacementDropdown,
+  getCoordinates,
+} from "@design-system-rte/core/components/utils/auto-placement";
 import {
   ARROW_DOWN_KEY,
   ARROW_LEFT_KEY,
@@ -22,8 +29,10 @@ import {
 } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
 import { DropdownService } from "../../../services/dropdown.service";
+import { OverlayService } from "../../../services/overlay.service";
 import { DividerComponent } from "../../divider/divider.component";
-import { DropdownItemComponent, DropdownItemConfig } from "../dropdown-item/dropdown-item.component";
+import { DropdownItemComponent } from "../dropdown-item/dropdown-item.component";
+import { DropdownItemConfig, SubmenuRequestEvent } from "../dropdown.types";
 import { focusParentDropdownFirstElement } from "../dropdown.utils";
 
 import { DropdownMenuFooterDirective } from "./dropdown-menu-footer.directive";
@@ -37,9 +46,13 @@ import { DropdownMenuHeaderDirective } from "./dropdown-menu-header.directive";
   styleUrl: "./dropdown-menu.component.scss",
   host: { "[attr.data-menu-id]": "menuId()" },
 })
-export class DropdownMenuComponent {
+export class DropdownMenuComponent implements OnDestroy {
+  private static readonly SUB_MENU_OFFSET = 4;
   private readonly elementRef = inject(ElementRef);
+  private pendingPositioningFrameId: number | null = null;
   private readonly dropdownService = inject(DropdownService);
+  private readonly overlayService = inject(OverlayService);
+  private readonly viewContainerRef = inject(ViewContainerRef);
 
   readonly items = input<DropdownItemConfig[]>([]);
   readonly menuId = input<string>();
@@ -83,6 +96,72 @@ export class DropdownMenuComponent {
 
   handleItemEvent(itemEvent: { event: Event; id: string; item?: DropdownItemConfig }): void {
     this.itemEvent.emit(itemEvent);
+  }
+
+  handleSubmenuRequest(event: SubmenuRequestEvent): void {
+    const { children, childId, triggerElement, onCreated } = event;
+
+    const componentRef = this.overlayService.create(DropdownMenuComponent, this.viewContainerRef);
+    componentRef.setInput("items", children);
+    componentRef.setInput("menuId", childId);
+    componentRef.setInput("isOpen", true);
+
+    const hostElement = componentRef.location.nativeElement as HTMLElement;
+
+    this.cancelPendingPositioningFrame();
+    this.pendingPositioningFrameId = requestAnimationFrame(() => {
+      this.pendingPositioningFrameId = null;
+      try {
+        const subMenuHost = componentRef.location?.nativeElement as HTMLElement | null;
+        const menuElement = subMenuHost?.querySelector(".rte-dropdown-menu") as HTMLElement | null;
+
+        if (!triggerElement || !menuElement) {
+          if (typeof console !== "undefined" && typeof console.warn === "function") {
+            console.warn("[DropdownMenuComponent] Unable to position submenu: required DOM elements not found.");
+          }
+          return;
+        }
+
+        const position = getAutoPlacementDropdown(
+          triggerElement,
+          menuElement,
+          "right",
+          DropdownMenuComponent.SUB_MENU_OFFSET,
+          true,
+        );
+        const alignment = getAutoAlignment(triggerElement, menuElement, position);
+        const coords = getCoordinates(
+          position,
+          triggerElement,
+          menuElement,
+          DropdownMenuComponent.SUB_MENU_OFFSET,
+          alignment,
+        );
+
+        hostElement.style.display = "block";
+        hostElement.style.position = "absolute";
+        hostElement.style.top = `${coords.top}px`;
+        hostElement.style.left = `${coords.left}px`;
+        hostElement.style.opacity = "1";
+      } catch (error) {
+        if (typeof console !== "undefined" && typeof console.error === "function") {
+          console.error("[DropdownMenuComponent] Error while positioning submenu:", error);
+        }
+      }
+    });
+
+    onCreated({ componentRef, hostElement });
+  }
+
+  ngOnDestroy(): void {
+    this.cancelPendingPositioningFrame();
+  }
+
+  private cancelPendingPositioningFrame(): void {
+    if (this.pendingPositioningFrameId !== null) {
+      cancelAnimationFrame(this.pendingPositioningFrameId);
+      this.pendingPositioningFrameId = null;
+    }
   }
 
   @HostListener("keydown", ["$event"])
