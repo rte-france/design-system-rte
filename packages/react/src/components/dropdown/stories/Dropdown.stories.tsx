@@ -13,7 +13,7 @@ const RegularIconIds = Object.keys(RegularIconsList);
 const TogglableIconIds = Object.keys(TogglableIconsList);
 
 const meta: Meta<typeof Dropdown> = {
-  title: "Composants/Dropdown (développement en cours)",
+  title: "Composants/Dropdown",
   id: "Dropdown",
   tags: ["autodocs"],
   component: Dropdown,
@@ -29,29 +29,6 @@ const meta: Meta<typeof Dropdown> = {
 export default meta;
 
 type Story = StoryObj<typeof Dropdown>;
-
-const WipWarning = () => {
-  return (
-    <>
-      <div>
-        <span
-          style={{
-            fontFamily: "sans-serif",
-            marginBottom: 16,
-            border: "1px solid #F4922B",
-            padding: 8,
-            borderRadius: 5,
-            backgroundColor: "#FAFFC1",
-            margin: 0,
-          }}
-        >
-          Ce composant est en cours de développement et n'est pas encore disponible
-        </span>
-      </div>
-      <br />
-    </>
-  );
-};
 
 const DropdownTemplate = (args: DropdownProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -105,7 +82,6 @@ export const Default: Story = {
   render: (args) => {
     return (
       <>
-        <WipWarning />
         <DropdownTemplate {...args} />
       </>
     );
@@ -156,7 +132,6 @@ export const WithBadge: StoryObj<{
 
     return (
       <>
-        <WipWarning />
         <div
           style={{
             position: "relative",
@@ -205,7 +180,6 @@ export const KeyboardNavigation: Story = {
   render: (args) => {
     return (
       <>
-        <WipWarning />
         <DropdownTemplate {...args} />
       </>
     );
@@ -246,7 +220,6 @@ export const KeyboardNavigationWithLink: Story = {
 
     return (
       <>
-        <WipWarning />
         <div
           style={{
             position: "relative",
@@ -315,7 +288,6 @@ export const WithProjectedHeaderAndFooter: Story = {
 
     return (
       <>
-        <WipWarning />
         <div
           style={{
             position: "relative",
@@ -415,7 +387,6 @@ export const WithFilterableHeader: Story = {
 
     return (
       <>
-        <WipWarning />
         <div
           style={{
             position: "relative",

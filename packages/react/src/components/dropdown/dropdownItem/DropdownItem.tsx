@@ -76,21 +76,29 @@ export const DropdownItem = ({
     }
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLLIElement>) => {
-    if ([SPACE_KEY, ENTER_KEY].includes(e.key)) {
+  const handleLinkKeyDown = (event: React.KeyboardEvent<HTMLLIElement>) => {
+    const linkElement = event.currentTarget.querySelector("a");
+    if (linkElement) {
+      linkElement.click();
+    }
+  };
+
+  const handleNonLinkKeyDown = (event: React.KeyboardEvent<HTMLLIElement>) => {
+    if (disabled) return;
+    if (onClick) {
+      handleOnClick(event as unknown as React.KeyboardEvent<HTMLLIElement>);
+    }
+    if (children) {
+      open();
+    }
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLLIElement>) => {
+    if ([SPACE_KEY, ENTER_KEY].includes(event.key)) {
       if (link) {
-        const linkElement = e.currentTarget.querySelector("a");
-        if (linkElement) {
-          linkElement.click();
-        }
+        handleLinkKeyDown(event);
       } else {
-        if (disabled) return;
-        if (onClick) {
-          handleOnClick(e as unknown as React.KeyboardEvent<HTMLLIElement>);
-        }
-        if (children) {
-          open();
-        }
+        handleNonLinkKeyDown(event);
       }
     }
   };
@@ -129,6 +137,8 @@ export const DropdownItem = ({
               data-active={isOpen}
               data-disabled={disabled}
               role="menuitem"
+              aria-haspopup={!!children}
+              aria-expanded={!!children && isOpen}
               onMouseOver={handleMouseOver}
               onKeyUp={onKeyUp}
               onKeyDown={onKeyDown}
