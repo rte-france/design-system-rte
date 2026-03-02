@@ -30,9 +30,9 @@ import { ARROW_DOWN_KEY, ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/co
 import { DropdownService } from "../../services/dropdown.service";
 import { OverlayService } from "../../services/overlay.service";
 
-import { DropdownItemConfig } from "./dropdown-item/dropdown-item.component";
 import { DropdownMenuComponent } from "./dropdown-menu/dropdown-menu.component";
 import { DropdownTriggerDirective } from "./dropdown-trigger/dropdown-trigger.directive";
+import { DropdownItemConfig } from "./dropdown.types";
 import { focusDropdownFirstElement } from "./dropdown.utils";
 
 @Directive({
@@ -114,6 +114,8 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
   }
 
   dropdownMenuRef: ComponentRef<DropdownMenuComponent> | null = null;
+  private readonly triggerSubscriptions: Array<{ unsubscribe: () => void }> = [];
+  private itemEventSubscription: { unsubscribe: () => void } | null = null;
 
   onTrigger(): void {
     if (this.rteDropdownAutoOpen()) {
@@ -150,29 +152,24 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
 
   ngAfterContentInit(): void {
     if (this.trigger()) {
-      this.trigger()?.dropdownTriggered.subscribe(() => {
-        this.onTrigger();
-      });
-
-      this.trigger()?.dropdownKeyDown.subscribe((event: KeyboardEvent) => {
-        this.onTriggerKeyEvent(event);
-      });
-
-      this.trigger()?.dropdownTriggerClearContent.subscribe(() => {
-        this.closeDropdown();
-      });
-      this.trigger()?.dropdownTriggerOpenDropdown.subscribe(() => {
-        this.showDropdownMenu();
-      });
-      this.trigger()?.dropdownTriggerCloseDropdown.subscribe(() => {
-        this.closeDropdown();
-      });
+      const addTriggerSubscription = (subscription: { unsubscribe: () => void } | undefined) => {
+        if (subscription) this.triggerSubscriptions.push(subscription);
+      };
+      addTriggerSubscription(this.trigger()?.dropdownTriggered.subscribe(() => this.onTrigger()));
+      addTriggerSubscription(
+        this.trigger()?.dropdownKeyDown.subscribe((event: KeyboardEvent) => this.onTriggerKeyEvent(event)),
+      );
+      addTriggerSubscription(this.trigger()?.dropdownTriggerClearContent.subscribe(() => this.closeDropdown()));
+      addTriggerSubscription(this.trigger()?.dropdownTriggerOpenDropdown.subscribe(() => this.showDropdownMenu()));
+      addTriggerSubscription(this.trigger()?.dropdownTriggerCloseDropdown.subscribe(() => this.closeDropdown()));
     }
   }
 
   showDropdownMenu(): void {
+    this.unsubscribeItemEvent();
     if (this.dropdownMenuRef) {
       this.dropdownMenuRef.destroy();
+      this.dropdownMenuRef = null;
     }
 
     this.dropdownMenuRef = this.overlayService.create(DropdownMenuComponent, this.viewContainerRef);
@@ -187,15 +184,14 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
     this.positionDropdownMenu(this.rteDropdownPosition());
     this.addClickOutsideListener();
 
-    this.dropdownMenuRef.instance.itemEvent.subscribe(
-      (event: { event: Event; id: string; item?: DropdownItemConfig }) => {
-        this.onMenuEvent(event);
-      },
+    this.itemEventSubscription = this.dropdownMenuRef.instance.itemEvent.subscribe(
+      (event: { event: Event; id: string; item?: DropdownItemConfig }) => this.onMenuEvent(event),
     );
 
     const dropdownStateSubscription = this.dropdownService.state$.subscribe((state) => {
       if (state === null) {
         if (this.dropdownMenuRef) {
+          this.unsubscribeItemEvent();
           this.dropdownMenuRef.destroy();
           this.dropdownMenuRef = null;
 
@@ -270,10 +266,18 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.triggerSubscriptions.forEach((subscription) => subscription.unsubscribe());
+    this.unsubscribeItemEvent();
     this.removeClickOutsideListener();
     if (this.dropdownMenuRef) {
       this.dropdownMenuRef.destroy();
+      this.dropdownMenuRef = null;
     }
+  }
+
+  private unsubscribeItemEvent(): void {
+    this.itemEventSubscription?.unsubscribe();
+    this.itemEventSubscription = null;
   }
 
   private readonly handleClickOutside = (event: MouseEvent): void => {
