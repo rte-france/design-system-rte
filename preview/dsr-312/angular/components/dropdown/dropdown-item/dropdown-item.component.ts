@@ -236,8 +236,9 @@ export class DropdownItemComponent implements OnDestroy {
     }
   }
 
-  private boundHandleSubMenuMouseEnter = (): void => this.handleSubMenuMouseEnter();
-  private boundHandleSubMenuMouseLeave = (mouseEvent: MouseEvent): void => this.handleSubMenuMouseLeave(mouseEvent);
+  private readonly boundHandleSubMenuMouseEnter = (): void => this.handleSubMenuMouseEnter();
+  private readonly boundHandleSubMenuMouseLeave = (mouseEvent: MouseEvent): void =>
+    this.handleSubMenuMouseLeave(mouseEvent);
 
   private destroySubMenu(): void {
     this.cancelCloseSubMenu();
