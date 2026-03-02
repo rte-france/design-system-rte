@@ -10,7 +10,6 @@ import {
   ElementRef,
   inject,
   input,
-  OnDestroy,
   output,
   Renderer2,
   signal,
@@ -43,7 +42,7 @@ import { focusDropdownFirstElement } from "./dropdown.utils";
   },
   standalone: true,
 })
-export class DropdownDirective implements AfterContentInit, OnDestroy {
+export class DropdownDirective implements AfterContentInit {
   private static idCounter = 0;
 
   readonly trigger = contentChild(DropdownTriggerDirective);
@@ -91,6 +90,13 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
   constructor() {
     this.hostElement = this.elementRef.nativeElement;
 
+    this.destroyRef.onDestroy(() => {
+      this.unsubscribeItemEvent();
+      this.removeClickOutsideListener();
+      this.dropdownMenuRef?.destroy();
+      this.dropdownMenuRef = null;
+    });
+
     effect(() => {
       const isOpen = this.rteDropdownIsOpen();
       if (isOpen) {
@@ -114,7 +120,6 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
   }
 
   dropdownMenuRef: ComponentRef<DropdownMenuComponent> | null = null;
-  private readonly triggerSubscriptions: Array<{ unsubscribe: () => void }> = [];
   private itemEventSubscription: { unsubscribe: () => void } | null = null;
 
   onTrigger(): void {
@@ -151,18 +156,17 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
   }
 
   ngAfterContentInit(): void {
-    if (this.trigger()) {
-      const addTriggerSubscription = (subscription: { unsubscribe: () => void } | undefined) => {
-        if (subscription) this.triggerSubscriptions.push(subscription);
-      };
-      addTriggerSubscription(this.trigger()?.dropdownTriggered.subscribe(() => this.onTrigger()));
-      addTriggerSubscription(
-        this.trigger()?.dropdownKeyDown.subscribe((event: KeyboardEvent) => this.onTriggerKeyEvent(event)),
-      );
-      addTriggerSubscription(this.trigger()?.dropdownTriggerClearContent.subscribe(() => this.closeDropdown()));
-      addTriggerSubscription(this.trigger()?.dropdownTriggerOpenDropdown.subscribe(() => this.showDropdownMenu()));
-      addTriggerSubscription(this.trigger()?.dropdownTriggerCloseDropdown.subscribe(() => this.closeDropdown()));
-    }
+    const trigger = this.trigger();
+    if (!trigger) return;
+
+    const triggerSubscriptions = [
+      trigger.dropdownTriggered.subscribe(() => this.onTrigger()),
+      trigger.dropdownKeyDown.subscribe((event: KeyboardEvent) => this.onTriggerKeyEvent(event)),
+      trigger.dropdownTriggerClearContent.subscribe(() => this.closeDropdown()),
+      trigger.dropdownTriggerOpenDropdown.subscribe(() => this.showDropdownMenu()),
+      trigger.dropdownTriggerCloseDropdown.subscribe(() => this.closeDropdown()),
+    ];
+    this.destroyRef.onDestroy(() => triggerSubscriptions.forEach((subscription) => subscription.unsubscribe()));
   }
 
   showDropdownMenu(): void {
@@ -262,16 +266,6 @@ export class DropdownDirective implements AfterContentInit, OnDestroy {
 
         this.renderer.setStyle(dropdownMenuElement, "opacity", "1");
       }
-    }
-  }
-
-  ngOnDestroy(): void {
-    this.triggerSubscriptions.forEach((subscription) => subscription.unsubscribe());
-    this.unsubscribeItemEvent();
-    this.removeClickOutsideListener();
-    if (this.dropdownMenuRef) {
-      this.dropdownMenuRef.destroy();
-      this.dropdownMenuRef = null;
     }
   }
 
