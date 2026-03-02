@@ -165,11 +165,7 @@ export class SelectComponent implements AfterViewInit {
   }
 
   areAllOptionsSelected(): boolean {
-    const currentValue = this.internalValue();
-    if (this.multiple() && currentValue && Array.isArray(currentValue)) {
-      return this.options().every((option) => currentValue.includes(option.value));
-    }
-    return false;
+    return this.multiple() && this.options().every((option) => this.internalValue()?.includes(option.value));
   }
 
   handleOnClickTrigger() {
@@ -206,11 +202,10 @@ export class SelectComponent implements AfterViewInit {
     if (this.multiple() && value) {
       const currentValue = this.internalValue();
       if (currentValue && Array.isArray(currentValue)) {
-        const valuesArray = currentValue;
-        const valueIndex = valuesArray.indexOf(value);
+        const valueIndex = currentValue.indexOf(value);
         if (valueIndex > -1) {
-          valuesArray.splice(valueIndex, 1);
-          this.internalValue.set(valuesArray);
+          currentValue.splice(valueIndex, 1);
+          this.internalValue.set(currentValue);
           this.regenerateOptionsFormatted();
           this.valueChange.emit(value);
           this.currentDisplayedOption.set(
@@ -237,28 +232,9 @@ export class SelectComponent implements AfterViewInit {
 
     if (this.multiple()) {
       if (value === "select-all") {
-        if (this.areAllOptionsSelected()) {
-          this.internalValue.set([]);
-        } else {
-          this.internalValue.set(this.options().map((option) => option.value));
-        }
-        this.regenerateOptionsFormatted();
+        this.clickedSelectAll();
       } else {
-        const currentValue = this.internalValue();
-        if (currentValue === undefined) {
-          this.internalValue.set([value]);
-        } else {
-          if (Array.isArray(currentValue)) {
-            const valuesArray = currentValue;
-            const valueIndex = valuesArray.indexOf(value);
-            if (valueIndex > -1) {
-              valuesArray.splice(valueIndex, 1);
-            } else {
-              valuesArray.push(value);
-            }
-            this.internalValue.set(valuesArray);
-          }
-        }
+        this.clickedSelectItemMultiple(value);
       }
     } else {
       this.internalValue.set(value);
@@ -319,23 +295,11 @@ export class SelectComponent implements AfterViewInit {
           isIndeterminate:
             this.options().some((option) => this.isSelected(option.value)) && !this.areAllOptionsSelected(),
         },
-        ...this.options().map(({ value, label }) => ({
-          id: value,
-          label: label,
-          selected: this.isSelected(value),
-          hasCheckbox: this.multiple(),
-        })),
+        ...this.options().map((option) => this.mapOptionToDropdownItemConfig(option)),
       ]);
     } else {
       this.optionsFormatted.set(
-        this.options().map(({ value, label }) => ({
-          id: value,
-          value: value,
-          label: label,
-          selected: this.isSelected(value),
-          hasCheckbox: this.multiple(),
-          hasSeparator: false,
-        })),
+        this.options().map((option) => ({ ...this.mapOptionToDropdownItemConfig(option), hasSeparator: false })),
       );
     }
   }
@@ -358,5 +322,41 @@ export class SelectComponent implements AfterViewInit {
         : !!this.internalValue()) &&
       !this.disabled();
     this.shouldDisplayClearButton.set(shouldDisplay);
+  }
+
+  private clickedSelectAll() {
+    if (this.areAllOptionsSelected()) {
+      this.internalValue.set([]);
+    } else {
+      this.internalValue.set(this.options().map((option) => option.value));
+    }
+  }
+
+  private clickedSelectItemMultiple(value: string) {
+    const currentValue = this.internalValue();
+    if (currentValue === undefined) {
+      this.internalValue.set([value]);
+    } else {
+      if (Array.isArray(currentValue)) {
+        const valuesArray = currentValue;
+        const valueIndex = valuesArray.indexOf(value);
+        if (valueIndex > -1) {
+          valuesArray.splice(valueIndex, 1);
+        } else {
+          valuesArray.push(value);
+        }
+        this.internalValue.set(valuesArray);
+      }
+    }
+  }
+
+  private mapOptionToDropdownItemConfig(option: { value: string; label: string }): DropdownItemConfig {
+    const { value, label } = option;
+    return {
+      id: value,
+      label: label,
+      selected: this.isSelected(value),
+      hasCheckbox: this.multiple(),
+    };
   }
 }
