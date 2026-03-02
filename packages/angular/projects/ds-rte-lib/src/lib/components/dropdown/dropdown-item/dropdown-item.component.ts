@@ -55,7 +55,7 @@ export class DropdownItemComponent implements OnDestroy {
     return menuId && label ? `${menuId}-${label.replace(/\s+/g, "")}` : "";
   });
 
-  readonly itemChangeEvent = output<{ event: Event; id: string }>();
+  readonly itemChangeEvent = output<{ event: Event; id: string; item?: DropdownItemConfig }>();
 
   readonly shouldDisplayBadge = computed(() => {
     const item = this.item();
