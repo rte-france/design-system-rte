@@ -1,5 +1,42 @@
 # @design-system-rte/angular
 
+## 2.0.0
+
+### Minor Changes
+
+- c477d66: ## Changes
+  - (Segmented-control) add compact spacing variant
+  - (Segmented-control) add neutral appearance + modify height
+
+- 0d80052: ## Changes
+  - (Dropdown) add missing aria attributes for dropdown item (haspopup & expanded)
+  - (Dropdown) resolve circular dependency between menu & item when handling nested menus
+  - (Dropdown) correct keyboard back navigation
+  - (Drodpown) correct hovering of nested items closing ancestors in angular implementation
+  - (Dropdown) add nesting to Angular dropdown component
+
+### Patch Changes
+
+- f44783f: ## Changes
+  - (Tab) replace bold style on hovering and selected tab with different shade of color
+  - (Stepper) add missing step name color on hover
+
+- 96e4c7a: ## Changes
+  - (Dropdown) standardize mouseLeave dropdown submenu behavior in Angular to imatch React's one
+
+- 078428e: ## Changes
+  - (Tag) use span to display label and allow aria-label attribute
+
+- 3cd5985: ## Changes
+  - (Dropdown) add angular dropdown to public api
+
+- 9622be7: ## Changes
+  - (Sidenav) add base-side-nav to Angular's public API
+
+- Updated dependencies [c477d66]
+- Updated dependencies [0d80052]
+  - @design-system-rte/core@1.4.0
+
 ## 1.3.0
 
 ### Minor Changes

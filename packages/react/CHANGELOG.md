@@ -1,5 +1,29 @@
 # @design-system-rte/react
 
+## 1.5.0
+
+### Minor Changes
+
+- c477d66: ## Changes
+  - (Segmented-control) add compact spacing variant
+  - (Segmented-control) add neutral appearance + modify height
+
+### Patch Changes
+
+- f44783f: ## Changes
+  - (Tab) replace bold style on hovering and selected tab with different shade of color
+  - (Stepper) add missing step name color on hover
+
+- 0d80052: ## Changes
+  - (Dropdown) add missing aria attributes for dropdown item (haspopup & expanded)
+
+- 078428e: ## Changes
+  - (Tag) use span to display label and allow aria-label attribute
+
+- Updated dependencies [c477d66]
+- Updated dependencies [0d80052]
+  - @design-system-rte/core@1.4.0
+
 ## 1.4.0
 
 ### Minor Changes
