@@ -42,9 +42,9 @@ const Tag = forwardRef<HTMLDivElement, TagProps>(
           <Icon name={iconName} size={16} />
         )}
         {label && (
-          <label className={style["tag-label"]} data-compact-spacing={compactSpacing}>
+          <span className={style["tag-label"]} data-compact-spacing={compactSpacing}>
             {label}
-          </label>
+          </span>
         )}
       </div>
     );
