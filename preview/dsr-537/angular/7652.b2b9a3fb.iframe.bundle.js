@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_design_system_rte_angular_builder=self.webpackChunk_design_system_rte_angular_builder||[]).push([[7652],{"./projects/ds-rte-lib/src/lib/assets/icons/trash_restore_outlined.svg"(module,__unused_webpack_exports,__webpack_require__){module.exports=__webpack_require__.p+"static/media/trash_restore_outlined.a4f80806.svg"}}]);
