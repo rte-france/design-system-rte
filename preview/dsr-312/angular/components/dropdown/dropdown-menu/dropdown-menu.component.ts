@@ -120,13 +120,13 @@ export class DropdownMenuComponent implements OnDestroy {
           return;
         }
 
-        const position = getAutoPlacementDropdown(
-          triggerElement,
-          menuElement,
-          "right",
-          DropdownMenuComponent.SUB_MENU_OFFSET,
-          true,
-        );
+        const position = getAutoPlacementDropdown({
+          hostElement: triggerElement,
+          castedElement: menuElement,
+          defaultPosition: "right",
+          offset: DropdownMenuComponent.SUB_MENU_OFFSET,
+          hasDropdownParent: true,
+        });
         const alignment = getAutoAlignment(triggerElement, menuElement, position);
         const coords = getCoordinates(
           position,
