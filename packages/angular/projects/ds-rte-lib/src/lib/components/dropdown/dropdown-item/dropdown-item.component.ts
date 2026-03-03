@@ -140,24 +140,6 @@ export class DropdownItemComponent implements OnDestroy {
     this.cancelCloseSubMenu();
   }
 
-  handleSubMenuMouseLeave(mouseEvent: MouseEvent): void {
-    if (this.isPointerOverDescendantSubMenu(mouseEvent.relatedTarget)) return;
-    this.scheduleCloseSubMenu();
-  }
-
-  private isPointerOverDescendantSubMenu(target: EventTarget | null): boolean {
-    if (!(target instanceof Node)) return false;
-    const childId = this.childDropdownId();
-    if (!childId) return false;
-    const descendantMenuPrefix = `${childId}-`;
-    const closestMenu =
-      (target as Node).nodeType === Node.ELEMENT_NODE
-        ? (target as Element).closest("[data-menu-id]")
-        : (target as Node).parentElement?.closest("[data-menu-id]");
-    const menuId = closestMenu?.getAttribute("data-menu-id");
-    return !!menuId?.startsWith(descendantMenuPrefix);
-  }
-
   openSubMenuForKeyboard(): void {
     this.openSubMenu();
     const childId = this.childDropdownId();
@@ -215,7 +197,6 @@ export class DropdownItemComponent implements OnDestroy {
     });
 
     hostElement.addEventListener("mouseenter", this.boundHandleSubMenuMouseEnter);
-    hostElement.addEventListener("mouseleave", this.boundHandleSubMenuMouseLeave);
 
     this.subMenuOpen.set(true);
     this.cdr.markForCheck();
@@ -237,8 +218,6 @@ export class DropdownItemComponent implements OnDestroy {
   }
 
   private readonly boundHandleSubMenuMouseEnter = (): void => this.handleSubMenuMouseEnter();
-  private readonly boundHandleSubMenuMouseLeave = (mouseEvent: MouseEvent): void =>
-    this.handleSubMenuMouseLeave(mouseEvent);
 
   private destroySubMenu(): void {
     this.cancelCloseSubMenu();
@@ -247,7 +226,6 @@ export class DropdownItemComponent implements OnDestroy {
     if (this.subMenuRef) {
       const hostElement = this.subMenuRef.location.nativeElement as HTMLElement;
       hostElement.removeEventListener("mouseenter", this.boundHandleSubMenuMouseEnter);
-      hostElement.removeEventListener("mouseleave", this.boundHandleSubMenuMouseLeave);
       const childId = this.childDropdownId();
       this.dropdownManagerUnsubscribe?.();
       this.dropdownManagerUnsubscribe = null;
