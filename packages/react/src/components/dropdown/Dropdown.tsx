@@ -157,7 +157,13 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
 
     const positionChildDropdown = useCallback(
       (triggerElement: HTMLDivElement, dropdownElement: HTMLDivElement) => {
-        const computedPosition = getAutoPlacementDropdown(triggerElement, dropdownElement, "right", offset, true);
+        const computedPosition = getAutoPlacementDropdown({
+          hostElement: triggerElement,
+          castedElement: dropdownElement,
+          defaultPosition: "right",
+          offset,
+          hasDropdownParent: true,
+        });
         const autoAlignment = getAutoAlignment(triggerElement!, dropdownElement!, computedPosition);
         const computedCoordinates = getCoordinates(
           computedPosition,
@@ -176,7 +182,13 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
     const positionDropdown = useCallback(
       (triggerElement: HTMLDivElement, dropdownElement: HTMLDivElement, position: Position, alignment: Alignment) => {
         const computedPosition =
-          position === "auto" ? getAutoPlacementDropdown(triggerElement!, dropdownElement!, "bottom") : position;
+          position === "auto"
+            ? getAutoPlacementDropdown({
+                hostElement: triggerElement!,
+                castedElement: dropdownElement!,
+                defaultPosition: "bottom",
+              })
+            : position;
         const autoAlignment = alignment ?? getAutoAlignment(triggerElement!, dropdownElement!, computedPosition);
         const computedCoordinates = getCoordinates(
           computedPosition,

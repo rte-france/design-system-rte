@@ -250,7 +250,13 @@ export class DropdownDirective implements AfterContentInit {
         this.renderer.setStyle(dropdownMenuElement, "display", "block");
         this.cdr.detectChanges();
         const computedPosition: Exclude<Position, "auto"> =
-          position === "auto" ? getAutoPlacementDropdown(triggerElement, dropdownMenuElement, "bottom") : position;
+          position === "auto"
+            ? getAutoPlacementDropdown({
+                hostElement: triggerElement,
+                castedElement: dropdownMenuElement,
+                defaultPosition: "bottom",
+              })
+            : position;
         const autoAlignment =
           this.rteDropdownAlignment() ?? getAutoAlignment(triggerElement, dropdownMenuElement, computedPosition);
         const computedCoordinates = getCoordinates(
