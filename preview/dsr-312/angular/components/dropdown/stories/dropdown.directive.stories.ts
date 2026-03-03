@@ -23,17 +23,8 @@ const MOCKUP_ITEMS = [
   { label: "Username", leftIcon: "user-circle", disabled: true },
 ];
 
-const wipWarning = `
-<div>
-  <span style="font-family: sans-serif; margin-bottom: 16px; border: 1px solid #F4922B; padding: 8px; border-radius: 5px; background-color: #FAFFC1; margin: 0;">
-    Ce composant est en cours de développement et n'est pas encore disponible
-  </span>
-</div>
-<br/>
-`;
-
 const meta: Meta<DropdownDirective> = {
-  title: "Composants/Dropdown (développement en cours)",
+  title: "Composants/Dropdown",
   id: "Dropdown",
   component: DropdownDirective,
   tags: ["autodocs"],
@@ -69,7 +60,6 @@ export const Default: Story = {
       },
     },
     template: `
-    ${wipWarning}
     <div rteDropdown [rteDropdownPosition]="rteDropdownPosition" (menuEvent)="onItemClick($event)">
       <button rteDropdownTrigger>Menu principal ⬇</button>
       <rte-dropdown-menu [items]="items"/>
@@ -145,7 +135,6 @@ export const WithBadge: StoryObj<{
       },
     },
     template: `
-    ${wipWarning}
     <div rteDropdown [rteDropdownPosition]="rteDropdownPosition" (menuEvent)="onItemClick($event)">
       <button rteDropdownTrigger>Menu principal ⬇</button>
       <rte-dropdown-menu [items]="items"/>
@@ -172,7 +161,6 @@ export const KeyboardNavigation: Story = {
       },
     },
     template: `
-    ${wipWarning}
     <div rteDropdown [rteDropdownPosition]="rteDropdownPosition" (menuEvent)="onItemClick($event)">
       <button rteDropdownTrigger>Click me!</button>
       <rte-dropdown-menu [items]="items"/>
@@ -229,7 +217,6 @@ export const KeyboardNavigationWithLink: Story = {
       },
     },
     template: `
-    ${wipWarning}
     <div rteDropdown [rteDropdownPosition]="rteDropdownPosition" (menuEvent)="onItemClick($event)">
       <button rteDropdownTrigger>Click me!</button>
       <rte-dropdown-menu [items]="items"/>
@@ -275,7 +262,6 @@ export const WithProjectedHeaderAndFooter: Story = {
       },
     },
     template: `
-    ${wipWarning}
     <div rteDropdown [rteDropdownPosition]="rteDropdownPosition" (menuEvent)="onItemClick($event)">
       <button rteDropdownTrigger>Menu with Header/Footer ⬇</button>
       <rte-dropdown-menu [items]="items">
@@ -352,7 +338,6 @@ export const WithNestedItems: Story = {
       },
     },
     template: `
-    ${wipWarning}
     <div rteDropdown [rteDropdownPosition]="rteDropdownPosition" (menuEvent)="onItemClick($event)">
       <button rteDropdownTrigger>Menu with nested items ⬇</button>
       <rte-dropdown-menu [items]="items"/>
@@ -476,7 +461,7 @@ export const WithFilterableHeader: Story = {
         },
       },
       template: `
-      ${wipWarning}
+
       <div rteDropdown [rteDropdownPosition]="rteDropdownPosition" (menuEvent)="onItemClick($event)">
         <button rteDropdownTrigger>Filterable Menu ⬇</button>
         <rte-dropdown-menu [items]="filteredItems">
