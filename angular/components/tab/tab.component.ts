@@ -26,7 +26,7 @@ import {
 
 import { BadgeComponent } from "../badge/badge.component";
 import { DropdownModule } from "../dropdown";
-import { DropdownItemConfig } from "../dropdown/dropdown-item/dropdown-item.component";
+import { DropdownItemConfig } from "../dropdown/dropdown.types";
 import { IconComponent } from "../icon/icon.component";
 import { IconButtonComponent } from "../icon-button/icon-button.component";
 

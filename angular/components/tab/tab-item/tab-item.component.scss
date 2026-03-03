@@ -13,7 +13,7 @@
   align-items: center;
   gap: $positive-spacing_150;
   background: transparent;
-  color: var(--content-secondary);
+  color: var(--content-tertiary);
   cursor: pointer;
   border: none;
   text-align: left;
@@ -24,6 +24,11 @@
 
   &[data-inverted='true'] {
     color: var(--content-primary-inverse);
+
+    &:hover,
+    &[data-selected='true'] {
+      color: var(--content-primary-inverse);
+    }
   }
 
   &[data-direction='vertical'] {
@@ -35,11 +40,12 @@
     visibility: hidden;
   }
 
-  &[data-selected='true'],
   &:hover {
-    &:not([data-disabled='true']) {
-      @include typography-text-m-bold;
-    }
+    color: var(--content-secondary);
+  }
+
+  &[data-selected='true'] {
+    color: var(--content-primary);
   }
 
   &[data-disabled='true'] {
