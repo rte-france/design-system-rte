@@ -1,5 +1,13 @@
 import { Alignment, Position } from "../common/common-types";
 
+export interface DropdownAutoPlacementConfig {
+  hostElement: HTMLElement;
+  castedElement: Element;
+  defaultPosition: Exclude<Position, "auto">;
+  offset?: number;
+  hasDropdownParent?: boolean;
+}
+
 export const getAutoPlacement = (
   hostElement: HTMLElement,
   castedElement: Element,
@@ -42,13 +50,9 @@ export const getAutoPlacement = (
   return defaultPosition;
 };
 
-export const getAutoPlacementDropdown = (
-  hostElement: HTMLElement,
-  castedElement: Element,
-  defaultPosition: Exclude<Position, "auto">,
-  offset: number = 0,
-  hasDropdownParent: boolean = false,
-): Exclude<Position, "auto"> => {
+export const getAutoPlacementDropdown = (config: DropdownAutoPlacementConfig): Exclude<Position, "auto"> => {
+  const { hostElement, castedElement, defaultPosition, offset = 0, hasDropdownParent = false } = config;
+
   const triggerRect = hostElement.getBoundingClientRect();
   const elementRect = castedElement.getBoundingClientRect();
   const sides = {

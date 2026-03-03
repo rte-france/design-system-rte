@@ -14,7 +14,8 @@
     "common/**/*.ts",
     "components/**/*.ts",
     "components/**/*.tsx",
-    "constants/**/*.ts"
+    "constants/**/*.ts",
+    "utils/**/*.ts"
   ],
   "exclude": [
     "node_modules",
