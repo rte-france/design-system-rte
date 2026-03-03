@@ -26,6 +26,7 @@ import {
   ESCAPE_KEY,
   TAB_KEY,
 } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
+import { logError, logWarn } from "@design-system-rte/core/utils/log-handlers";
 
 import { DropdownService } from "../../../services/dropdown.service";
 import { OverlayService } from "../../../services/overlay.service";
@@ -115,9 +116,7 @@ export class DropdownMenuComponent implements OnDestroy {
         const menuElement = subMenuHost?.querySelector(".rte-dropdown-menu") as HTMLElement | null;
 
         if (!triggerElement || !menuElement) {
-          if (typeof console !== "undefined" && typeof console.warn === "function") {
-            console.warn("[DropdownMenuComponent] Unable to position submenu: required DOM elements not found.");
-          }
+          logWarn("DropdownMenuComponent", "Unable to position submenu: required DOM elements not found.");
           return;
         }
 
@@ -143,9 +142,7 @@ export class DropdownMenuComponent implements OnDestroy {
         hostElement.style.left = `${coords.left}px`;
         hostElement.style.opacity = "1";
       } catch (error) {
-        if (typeof console !== "undefined" && typeof console.error === "function") {
-          console.error("[DropdownMenuComponent] Error while positioning submenu:", error);
-        }
+        logError("DropdownMenuComponent", "Error while positioning submenu:", error);
       }
     });
 
