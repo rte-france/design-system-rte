@@ -7,8 +7,8 @@ import {
 import { Meta, moduleMetadata, StoryObj } from "@storybook/angular";
 import { expect, userEvent, waitFor, within } from "@storybook/test";
 
-import { DropdownItemConfig } from "../../dropdown/dropdown-item/dropdown-item.component";
 import { DropdownModule } from "../../dropdown/dropdown.module";
+import { DropdownItemConfig } from "../../dropdown/dropdown.types";
 import { SearchbarComponent } from "../searchbar.component";
 
 @Component({
