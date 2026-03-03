@@ -27,6 +27,7 @@ export * from "./lib/components/modal/modal-trigger/modal-trigger.directive";
 export * from "./lib/components/modal/modal.directive";
 export * from "./lib/components/modal/modal.module";
 export * from "./lib/components/searchbar/searchbar.component";
+export * from "./lib/components/side-nav/base-side-nav/base-side-nav.component";
 export * from "./lib/components/side-nav/side-nav.component";
 export * from "./lib/components/stepper/stepper.component";
 export * from "./lib/components/toast/toast.component";
