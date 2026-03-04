@@ -22,7 +22,6 @@
       [disabled]="item()?.disabled ?? false"
       [showLabel]="false"
       [indeterminate]="item()?.isIndeterminate ?? false"
-      (change)="handleChange($event)"
     ></rte-checkbox>
     <span *ngIf="item()?.hasIndent && !item()?.leftIcon" style="width: 20px"></span>
     <rte-icon *ngIf="item()?.leftIcon" [name]="item()?.leftIcon ?? ''" />

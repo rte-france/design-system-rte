@@ -56,6 +56,7 @@ export class DropdownDirective implements AfterContentInit {
   readonly rteDropdownAutofocus = input<boolean>(true);
   readonly rteDropdownAutoOpen = input<boolean>(true);
   readonly rteDropdownWidth = input<number | null>(null);
+  readonly rteCloseOnItemClick = input<boolean>(true);
 
   readonly menuEvent = output<{ event: Event; id: string; item?: DropdownItemConfig }>();
   readonly dropdownId = `dropdown_${++DropdownDirective.idCounter}`;
@@ -151,7 +152,7 @@ export class DropdownDirective implements AfterContentInit {
 
   onMenuEvent(event: { event: Event; id: string; item?: DropdownItemConfig }): void {
     this.menuEvent.emit(event);
-    if (!event.item?.children?.length) {
+    if (!event.item?.children?.length && this.rteCloseOnItemClick()) {
       this.isActive.set(false);
       this.dropdownService.closeAllMenus();
     }
@@ -197,10 +198,6 @@ export class DropdownDirective implements AfterContentInit {
     this.itemEventSubscription = this.dropdownMenuRef.instance.itemEvent.subscribe(
       (event: { event: Event; id: string; item?: DropdownItemConfig }) => this.onMenuEvent(event),
     );
-
-    this.dropdownMenuRef.instance.itemChangeEvent.subscribe((event: { event: Event; id: string }) => {
-      this.onMenuChangeEvent(event);
-    });
 
     const dropdownStateSubscription = this.dropdownService.state$.subscribe((state) => {
       if (state === null) {
