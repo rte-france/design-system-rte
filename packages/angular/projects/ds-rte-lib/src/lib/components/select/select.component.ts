@@ -288,7 +288,7 @@ export class SelectComponent implements AfterViewInit {
       this.optionsFormatted.set([
         {
           id: "select-all",
-          label: "Select All",
+          label: "Sélectionner tout",
           selected: this.areAllOptionsSelected(),
           hasCheckbox: true,
           hasSeparator: true,
