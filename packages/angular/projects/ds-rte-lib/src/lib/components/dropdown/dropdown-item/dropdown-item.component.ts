@@ -55,8 +55,6 @@ export class DropdownItemComponent implements OnDestroy {
     return menuId && label ? `${menuId}-${label.replace(/\s+/g, "")}` : "";
   });
 
-  readonly itemChangeEvent = output<{ event: Event; id: string; item?: DropdownItemConfig }>();
-
   readonly shouldDisplayBadge = computed(() => {
     const item = this.item();
     return shouldDisplayBadge({
@@ -80,27 +78,6 @@ export class DropdownItemComponent implements OnDestroy {
       return;
     }
     this.itemEvent.emit({
-      event,
-      id: this.item()?.id || this.item()?.label || "",
-      item: this.item(),
-    });
-    if (this.item()?.hasCheckbox) {
-      this.itemChangeEvent.emit({
-        event,
-        id: this.item()?.id || this.item()?.label || "",
-      });
-      return;
-    } else {
-      this.itemEvent.emit({
-        event,
-        id: this.item()?.id || this.item()?.label || "",
-      });
-    }
-  }
-
-  handleChange(event: Event): void {
-    event.stopPropagation();
-    this.itemChangeEvent.emit({
       event,
       id: this.item()?.id || this.item()?.label || "",
       item: this.item(),

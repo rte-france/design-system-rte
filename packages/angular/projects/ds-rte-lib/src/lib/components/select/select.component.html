@@ -39,6 +39,7 @@
     [rteDropdownPosition]="dropdownPosition()"
     [rteDropdownOffset]="selectDropdownOffset"
     [rteDropdownWidth]="selectWidth()"
+    [rteCloseOnItemClick]="multiple() ? false : true"
     (menuEvent)="handleOnClickItem($event.id)"
     (menuChangeEvent)="handleOnClickItem($event.id)"
     (clickedOutside)="handleOnClickOutside()"
