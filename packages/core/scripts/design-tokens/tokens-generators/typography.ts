@@ -46,7 +46,7 @@ function extractFromTypographyWeight(
     const typographyToken = weightObj[typographyTokenName];
     const rawTypographyTokenValue =
       typeof typographyToken.$value === "string"
-        ? typographyToken.$value.split("Type.desktop.")[1]
+        ? typographyToken.$value.split("Type.Value.")[1]
         : typographyToken.$value;
     const typographyTokenValue =
       typeof rawTypographyTokenValue === "string"

@@ -41,7 +41,7 @@ export function extractColors(variables: ColorToken, mode: ColorMode): string {
     const categoryTokens = variables[category];
     if ((categoryTokens as ColorTokenValue).$value) {
       const sanitizedCategory = category.replace(/ /g, "-");
-      scss += extractTokenValue(categoryTokens as ColorTokenValue, mode, [sanitizedCategory]);
+      scss += extractTokenValue(categoryTokens as ColorTokenValue, [sanitizedCategory]);
     } else {
       scss += processSubTokens(categoryTokens as Record<string, ColorTokenValue>, mode, category, [category]);
     }
@@ -80,8 +80,8 @@ export function generateThemesFile() {
   generateScssFile(scss, filePath);
 }
 
-function extractTokenValue(token: ColorTokenValue, mode: ColorMode, path: string[]): string {
-  const tokenValue = buildColorsScssVariableValue(token.$value, mode);
+function extractTokenValue(token: ColorTokenValue, path: string[]): string {
+  const tokenValue = buildColorsScssVariableValue(token.$value);
   if (rawColorCategories.includes(path[0])) {
     return buildColorScssVariable(path, `${tokenValue}`);
   } else {
@@ -99,7 +99,7 @@ function processSubTokens(
   for (const subCategory in tokens) {
     const token = tokens[subCategory];
     if (token.$value) {
-      scss += extractTokenValue(token, mode, [...path, subCategory]);
+      scss += extractTokenValue(token, [...path, subCategory]);
     } else {
       scss += processSubTokens(token as unknown as Record<string, ColorTokenValue>, mode, category, [
         ...path,
@@ -114,8 +114,8 @@ function buildColorScssVariable(variableName: string[], value: string): string {
   return `${INDENT.repeat(1)}"${variableName.join("-")}": ${value},\n`.toLowerCase();
 }
 
-function buildColorsScssVariableValue(rawValue: string, mode: ColorMode): string {
-  const value = rawValue.split(`.${mode}.`)[1];
+function buildColorsScssVariableValue(rawValue: string): string {
+  const value = rawValue.split(".HEX Value.")[1];
   return value ? value.replace(/\./g, "-") : rawValue;
 }
 
