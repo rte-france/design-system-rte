@@ -22,6 +22,7 @@ export class TagComponent {
   readonly label = input<string>("");
   readonly showLeftIcon = input<boolean>(false);
   readonly iconName = input<RegularIconIdKey | TogglableIconIdKey>();
+  readonly ariaLabel = input<string>();
 
   readonly computedIconName = computed(() => {
     if (this.tagType() === "status") {
