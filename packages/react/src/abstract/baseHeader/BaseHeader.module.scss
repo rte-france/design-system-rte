@@ -1,0 +1,25 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+.base-header {
+  display: flex;
+  flex-direction: column;
+  gap: $positive-spacing_100;
+  width: 100%;
+  flex: 0 0 auto;
+
+  .base-header-text {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: $positive-spacing_100;
+
+    .base-header-title {
+      @include typography-heading-m;
+      margin: 0;
+      overflow: hidden;
+      color: var(--content-primary);
+      text-overflow: ellipsis;
+      flex: 1 1 0;
+    }
+  }
+}
