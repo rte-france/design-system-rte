@@ -22,6 +22,7 @@ import {
   Select,
   Loader,
   Stepper,
+  Drawer,
 } from "@design-system-rte/react";
 import "./App.css";
 import { Tab } from "@design-system-rte/react";
@@ -161,6 +162,8 @@ function App() {
     { id: "5", name: "Étape 5", completionState: "unvisited", onClick: () => setActiveStepperStepId("5") },
   ];
 
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
   return (
     <SideNav
       headerConfig={headerConfig}
@@ -170,6 +173,20 @@ function App() {
       appearance="brand"
       activeItem={activeItem}
     >
+      <div style={{ height: "200px" }}>
+        <Drawer
+          title="Example Responsive Drawer"
+          isOpen={isDrawerOpen}
+          onClose={() => setIsDrawerOpen(false)}
+          drawerContent={<span>Contenu du drawer</span>}
+          position={"responsive"}
+          width="400px"
+        >
+          <Button label="Open drawer" onClick={() => setIsDrawerOpen(true)}></Button>
+          <div>This is some content</div>
+        </Drawer>
+      </div>
+
       <div>
         <div>
           <h3>Tab</h3>
