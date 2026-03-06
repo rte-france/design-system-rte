@@ -1,7 +1,9 @@
-import { DividerProps } from "@design-system-rte/core/components/divider/divider.interface";
+import { DividerProps as coreDividerProps } from "@design-system-rte/core/components/divider/divider.interface";
 import { forwardRef } from "react";
 
 import style from "./Divider.module.scss";
+
+interface DividerProps extends coreDividerProps, Omit<React.HTMLAttributes<HTMLDivElement>, "role"> {}
 
 const Divider = forwardRef<HTMLDivElement, DividerProps>(
   ({ orientation = "horizontal", thickness = "light", appearance = "default", endPoint = "round", ...props }, ref) => {
