@@ -1,0 +1,11 @@
+ @use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+ .base-footer {
+   display: flex;
+   padding: $positive-spacing_0;
+   justify-content: flex-end;
+   align-items: center;
+   gap: $positive-spacing_300;
+   align-self: stretch;
+   flex: 0 0 auto;
+ }
