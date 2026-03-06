@@ -37,7 +37,7 @@
     "@storybook/angular": "~8.6.0",
     "@storybook/blocks": "~8.6.0",
     "@storybook/test": "~8.6.0",
-    "@storybook/test-runner": "^0.23.0",
+    "@storybook/test-runner": "^0.24.2",
     "@types/jasmine": "~5.1.0",
     "angular-eslint": "^19.6.0",
     "babel-loader": "^10.0.0",
