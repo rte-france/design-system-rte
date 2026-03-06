@@ -14,24 +14,17 @@ const MOCKUP_ITEMS = [
   { label: "Messages", leftIcon: "mail", hasSeparator: true },
   { label: "Actions", leftIcon: "settings" },
   { label: "Help", leftIcon: "help" },
-  { label: "More information", leftIcon: "info", hasSeparator: true },
-  { label: "First option", hasIndent: true },
-  { label: "Second option", hasIndent: true },
-  { label: "Third option", hasSeparator: true, hasIndent: true },
+  {
+    label: "More information",
+    leftIcon: "info",
+    hasSeparator: true,
+    children: [{ label: "First option" }, { label: "Second option" }, { label: "Third option", hasSeparator: true }],
+  },
   { label: "Username", leftIcon: "user-circle", disabled: true },
 ];
 
-const wipWarning = `
-<div>
-  <span style="font-family: sans-serif; margin-bottom: 16px; border: 1px solid #F4922B; padding: 8px; border-radius: 5px; background-color: #FAFFC1; margin: 0;">
-    Ce composant est en cours de développement et n'est pas encore disponible
-  </span>
-</div>
-<br/>
-`;
-
 const meta: Meta<DropdownDirective> = {
-  title: "Composants/Dropdown (développement en cours)",
+  title: "Composants/Dropdown",
   id: "Dropdown",
   component: DropdownDirective,
   tags: ["autodocs"],
@@ -67,7 +60,6 @@ export const Default: Story = {
       },
     },
     template: `
-    ${wipWarning}
     <div rteDropdown [rteDropdownPosition]="rteDropdownPosition" (menuEvent)="onItemClick($event)">
       <button rteDropdownTrigger>Menu principal ⬇</button>
       <rte-dropdown-menu [items]="items"/>
@@ -103,7 +95,9 @@ export const WithBadge: StoryObj<{
     },
     badgeIcon: {
       control: "select",
-      options: ["", ...RegularIconIds, ...TogglableIconIds].sort((a, b) => a.localeCompare(b)),
+      options: ["", ...RegularIconIds, ...TogglableIconIds].sort((firstIconId, secondIconId) =>
+        firstIconId.localeCompare(secondIconId),
+      ),
     },
     showBadge: {
       control: "boolean",
@@ -141,7 +135,6 @@ export const WithBadge: StoryObj<{
       },
     },
     template: `
-    ${wipWarning}
     <div rteDropdown [rteDropdownPosition]="rteDropdownPosition" (menuEvent)="onItemClick($event)">
       <button rteDropdownTrigger>Menu principal ⬇</button>
       <rte-dropdown-menu [items]="items"/>
@@ -168,7 +161,6 @@ export const KeyboardNavigation: Story = {
       },
     },
     template: `
-    ${wipWarning}
     <div rteDropdown [rteDropdownPosition]="rteDropdownPosition" (menuEvent)="onItemClick($event)">
       <button rteDropdownTrigger>Click me!</button>
       <rte-dropdown-menu [items]="items"/>
@@ -225,7 +217,6 @@ export const KeyboardNavigationWithLink: Story = {
       },
     },
     template: `
-    ${wipWarning}
     <div rteDropdown [rteDropdownPosition]="rteDropdownPosition" (menuEvent)="onItemClick($event)">
       <button rteDropdownTrigger>Click me!</button>
       <rte-dropdown-menu [items]="items"/>
@@ -271,7 +262,6 @@ export const WithProjectedHeaderAndFooter: Story = {
       },
     },
     template: `
-    ${wipWarning}
     <div rteDropdown [rteDropdownPosition]="rteDropdownPosition" (menuEvent)="onItemClick($event)">
       <button rteDropdownTrigger>Menu with Header/Footer ⬇</button>
       <rte-dropdown-menu [items]="items">
@@ -308,6 +298,127 @@ export const WithProjectedHeaderAndFooter: Story = {
 
     expect(headerContent).toContain("Dropdown Header");
     expect(footerContent).toContain("Dropdown Footer");
+  },
+};
+
+const NESTED_ITEMS_MULTI_LEVEL = [
+  { label: "Messages", leftIcon: "mail", hasSeparator: true },
+  { label: "Actions", leftIcon: "settings" },
+  {
+    label: "Edit",
+    leftIcon: "edit",
+    children: [
+      { label: "Cut" },
+      { label: "Copy" },
+      {
+        label: "Paste",
+        children: [{ label: "Paste as plain text" }, { label: "Paste with formatting" }],
+      },
+    ],
+  },
+  { label: "Help", leftIcon: "help" },
+  { label: "Username", leftIcon: "user-circle", disabled: true },
+];
+
+export const WithNestedItems: Story = {
+  decorators: [
+    moduleMetadata({
+      imports: [DropdownModule],
+    }),
+  ],
+  args: {
+    rteDropdownPosition: "bottom",
+  },
+  render: (args) => ({
+    props: {
+      ...args,
+      items: NESTED_ITEMS_MULTI_LEVEL,
+      onItemClick: (event: { event: Event; id: string }) => {
+        console.log("Item clicked:", event);
+      },
+    },
+    template: `
+    <div rteDropdown [rteDropdownPosition]="rteDropdownPosition" (menuEvent)="onItemClick($event)">
+      <button rteDropdownTrigger>Menu with nested items ⬇</button>
+      <rte-dropdown-menu [items]="items"/>
+    </div>
+    `,
+  }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const triggerButton = await canvas.getByRole("button", { name: /menu with nested items/i });
+    await userEvent.click(triggerButton);
+
+    const overlay = document.getElementById("overlay-root");
+    let dropdown!: Element;
+
+    await waitFor(
+      () => {
+        const found = overlay?.querySelector("rte-dropdown-menu");
+        expect(found).toBeInTheDocument();
+        if (!found) {
+          throw new Error("Dropdown not found");
+        }
+        dropdown = found;
+        return found;
+      },
+      { timeout: 500 },
+    );
+
+    const topLevelItems = Array.from(dropdown.querySelectorAll("li"));
+    const editItem = topLevelItems.find((item) => item.textContent?.trim().includes("Edit"));
+    expect(editItem).toBeInTheDocument();
+    if (!editItem) {
+      throw new Error('Top-level menu item "Edit" not found');
+    }
+    await userEvent.click(editItem);
+
+    let editSubmenu!: Element;
+    await waitFor(
+      () => {
+        const submenu = overlay?.querySelector('[data-menu-id$="-Edit"]');
+        expect(submenu).toBeInTheDocument();
+        if (!submenu) {
+          throw new Error("Edit submenu not found");
+        }
+        editSubmenu = submenu;
+        return submenu;
+      },
+      { timeout: 500 },
+    );
+
+    const editSubmenuItems = Array.from(editSubmenu.querySelectorAll("li"));
+    const pasteItem = editSubmenuItems.find((item) => item.textContent?.trim().includes("Paste"));
+    expect(pasteItem).toBeInTheDocument();
+    if (!pasteItem) {
+      throw new Error('Nested menu item "Paste" not found');
+    }
+
+    await userEvent.hover(pasteItem);
+
+    await waitFor(
+      () => {
+        const pasteSubmenu = overlay?.querySelector('[data-menu-id$="-Edit-Paste"]');
+        expect(pasteSubmenu).toBeInTheDocument();
+        if (!pasteSubmenu) {
+          throw new Error("Paste submenu not found");
+        }
+        const secondLevelItems = Array.from(pasteSubmenu.querySelectorAll("li"));
+        const pastePlain = secondLevelItems.find((item) => item.textContent?.trim().includes("Paste as plain text"));
+        expect(pastePlain).toBeInTheDocument();
+        return pastePlain;
+      },
+      { timeout: 500 },
+    );
+
+    await userEvent.keyboard("{Escape}");
+    await waitFor(
+      () => {
+        const stillPresent = overlay?.querySelector("rte-dropdown-menu");
+        expect(stillPresent).not.toBeInTheDocument();
+      },
+      { timeout: 500 },
+    );
   },
 };
 
@@ -350,7 +461,7 @@ export const WithFilterableHeader: Story = {
         },
       },
       template: `
-      ${wipWarning}
+
       <div rteDropdown [rteDropdownPosition]="rteDropdownPosition" (menuEvent)="onItemClick($event)">
         <button rteDropdownTrigger>Filterable Menu ⬇</button>
         <rte-dropdown-menu [items]="filteredItems">
