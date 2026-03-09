@@ -278,17 +278,6 @@
 - @design-system-rte/core@1.3.0
 # Core
 
-## 1.5.1
-
-### Core
-
-#### Patch Changes
-
-- correct core/utils integration with angular package
-
-### Other
-
-
 ## 1.5.0
 
 ### Select
@@ -296,6 +285,10 @@
 #### Minor Changes
 
 - add support for multiple selection
+
+#### Patch Changes
+
+- correct core/utils integration with angular package
 
 ### Other
 
