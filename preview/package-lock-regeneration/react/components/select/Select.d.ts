@@ -12,5 +12,5 @@ interface MultiSelectProps extends Omit<coreSelectProps, "value"> {
     footer?: React.ReactNode;
 }
 export type SelectProps = SingleSelectProps | MultiSelectProps;
-declare const Select: import('../../../node_modules/react').ForwardRefExoticComponent<SelectProps & import('../../../node_modules/react').RefAttributes<HTMLDivElement>>;
+declare const Select: import('../../../../../node_modules/react').ForwardRefExoticComponent<SelectProps & import('../../../../../node_modules/react').RefAttributes<HTMLDivElement>>;
 export default Select;

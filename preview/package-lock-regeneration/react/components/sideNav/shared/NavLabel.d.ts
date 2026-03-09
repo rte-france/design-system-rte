@@ -1,4 +1,4 @@
-import { ReactNode } from '../../../../node_modules/react';
+import { ReactNode } from '../../../../../../node_modules/react';
 interface NavLabelProps {
     icon?: string;
     showIcon?: boolean;

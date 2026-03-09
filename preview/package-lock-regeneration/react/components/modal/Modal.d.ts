@@ -9,5 +9,5 @@ interface ModalProps extends coreModalProps, Omit<React.HTMLAttributes<HTMLDialo
     primaryButton: DSButtonElement;
     secondaryButton?: DSButtonElement;
 }
-declare const Modal: import('../../../node_modules/react').ForwardRefExoticComponent<ModalProps & import('../../../node_modules/react').RefAttributes<HTMLDialogElement>>;
+declare const Modal: import('../../../../../node_modules/react').ForwardRefExoticComponent<ModalProps & import('../../../../../node_modules/react').RefAttributes<HTMLDialogElement>>;
 export default Modal;

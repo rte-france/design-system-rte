@@ -1,5 +1,5 @@
 import { SwitchProps as CoreSwitchProps } from '../../../../core/components/switch/switch.interface';
-import { InputHTMLAttributes } from '../../../node_modules/react';
+import { InputHTMLAttributes } from '../../../../../node_modules/react';
 interface SwitchProps extends CoreSwitchProps, InputHTMLAttributes<HTMLInputElement> {
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
