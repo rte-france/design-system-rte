@@ -1,5 +1,12 @@
 # @design-system-rte/core
 
+## 1.5.1
+
+### Patch Changes
+
+- ed9f13e: ## Changes
+  - (Core) correct core/utils integration with angular package
+
 ## 1.5.0
 
 ### Minor Changes
