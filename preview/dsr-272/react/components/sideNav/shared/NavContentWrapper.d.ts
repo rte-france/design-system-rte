@@ -1,4 +1,4 @@
-import { ReactNode, KeyboardEvent } from '../../../../node_modules/react';
+import { ReactNode, KeyboardEvent } from '../../../../../../node_modules/react';
 interface NavContentWrapperProps {
     link?: string;
     label: string;

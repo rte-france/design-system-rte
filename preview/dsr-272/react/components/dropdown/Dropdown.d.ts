@@ -4,5 +4,5 @@ interface DropdownProps extends CoreDropdownProps, React.HTMLAttributes<HTMLDivE
     header?: React.ReactNode;
     footer?: React.ReactNode;
 }
-export declare const Dropdown: import('../../../node_modules/react').ForwardRefExoticComponent<DropdownProps & import('../../../node_modules/react').RefAttributes<HTMLDivElement>>;
+export declare const Dropdown: import('../../../../../node_modules/react').ForwardRefExoticComponent<DropdownProps & import('../../../../../node_modules/react').RefAttributes<HTMLDivElement>>;
 export {};
