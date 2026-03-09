@@ -86,9 +86,11 @@ function main(): void {
     ...packageJson,
     main: "index.js",
     types: "index.d.ts",
-    files: ["common", "components", "constants", "index.js", "index.d.ts", "design-tokens", "assets", "css"],
+    files: ["common", "components", "constants", "utils", "index.js", "index.d.ts", "design-tokens", "assets", "css"],
     exports: {
       ".": { types: "./index.d.ts", default: "./index.js" },
+      "./utils": { types: "./utils/index.d.ts", default: "./utils/index.js" },
+      "./utils/*": { types: "./utils/*.d.ts", default: "./utils/*.js" },
       "./design-tokens/*": "./design-tokens/*",
       "./assets/*": "./assets/*",
       "./css/*": "./css/*",
