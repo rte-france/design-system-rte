@@ -11,7 +11,7 @@
     'has-children': isParent(),
   }"
 >
-  <div class="treeview-item-row" [style.padding-inline-start.px]="indentationPx()">
+  <div class="treeview-item-row">
     @if (hasCheckbox()) {
       <div class="treeview-item-checkbox" (click)="handleCheckboxClick($event)">
         <rte-checkbox
@@ -22,6 +22,15 @@
           [checked]="isSelected()"
         />
       </div>
+    } @else {
+      <div class="treeview-item-checkbox-spacer"></div>
+    }
+    @for (borderType of connectorBorderTypes(); track $index) {
+      <div
+        class="treeview-item-border"
+        [class.treeview-item-border-vertical]="borderType === 'vertical'"
+        [class.treeview-item-border-corner]="borderType === 'corner'"
+      ></div>
     }
     @if (isParent()) {
       <button
@@ -35,11 +44,12 @@
         <rte-icon [name]="isOpenSignal() ? 'arrow-chevron-down' : 'arrow-chevron-right'" [size]="16" />
       </button>
     }
-    @if (hasIcon() && icon()) {
+    @if (hasIcon() && icon() && !isCompact()) {
       <rte-icon class="treeview-item-icon" [name]="icon()!" [size]="16" />
     }
     <div
       class="treeview-item-content"
+      [class.treeview-item-content-compact]="isCompact()"
       [attr.tabindex]="0"
       [attr.role]="link() ? undefined : 'button'"
       (click)="handleContentClick()"
@@ -72,7 +82,7 @@
   @if (isParent()) {
     <ul class="treeview-item-children" role="group" [class.treeview-item-children-open]="isOpenSignal()">
       @if (hasDataDrivenChildren()) {
-        @for (child of items(); track child.id || child.labelText) {
+        @for (child of items(); track child.id || child.labelText; let childIndex = $index) {
           <rte-treeview-item
             [id]="child.id"
             [labelText]="child.labelText"
@@ -90,6 +100,7 @@
             [items]="child.items ?? []"
             [badge]="child.badge"
             [depth]="effectiveDepth() + 1"
+            [isLastChild]="childIndex === items().length - 1"
             (itemClick)="itemClick.emit($event)"
             (openChange)="openChange.emit($event)"
             (selectionChange)="selectionChange.emit($event)"

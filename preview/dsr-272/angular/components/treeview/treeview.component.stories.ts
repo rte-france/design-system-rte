@@ -170,3 +170,122 @@ export const WithSelectionChange: Story = {
     },
   }),
 };
+
+const deepNestingData: TreeviewItemProps[] = [
+  {
+    id: "root",
+    labelText: "Root",
+    hasIcon: true,
+    icon: "folder",
+    isOpen: true,
+    items: [
+      {
+        id: "level1",
+        labelText: "Level 1",
+        hasIcon: true,
+        icon: "folder",
+        isOpen: true,
+        items: [
+          {
+            id: "level2",
+            labelText: "Level 2",
+            hasIcon: true,
+            icon: "folder",
+            isOpen: true,
+            items: [
+              {
+                id: "level3",
+                labelText: "Level 3",
+                hasIcon: true,
+                icon: "folder",
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+];
+
+export const Compact: Story = {
+  render: () => ({
+    props: {
+      items: fileExplorerChildren,
+    },
+    template: `
+      <rte-treeview>
+        <rte-treeview-item
+          [items]="items"
+          labelText="Images"
+          [isOpen]="true"
+          [isCompact]="true"
+        />
+      </rte-treeview>
+    `,
+    moduleMetadata: {
+      imports: [TreeviewComponent, TreeviewItemComponent],
+    },
+  }),
+};
+
+export const DeepNesting: Story = {
+  render: () => ({
+    props: {
+      items: deepNestingData,
+    },
+    template: `
+      <rte-treeview>
+        @for (item of items; track item.id) {
+          <rte-treeview-item
+            [id]="item.id"
+            [labelText]="item.labelText"
+            [icon]="item.icon"
+            [hasIcon]="item.hasIcon"
+            [isOpen]="item.isOpen"
+            [items]="item.items ?? []"
+          />
+        }
+      </rte-treeview>
+    `,
+    moduleMetadata: {
+      imports: [TreeviewComponent, TreeviewItemComponent],
+    },
+  }),
+};
+
+export const SelectedState: Story = {
+  render: () => ({
+    props: {
+      items: [
+        {
+          id: "child1",
+          labelText: "Child 1",
+          hasCheckbox: true,
+        },
+        {
+          id: "child2",
+          labelText: "Child 2 (selected)",
+          hasCheckbox: true,
+          isSelected: true,
+        },
+        {
+          id: "child3",
+          labelText: "Child 3",
+          hasCheckbox: true,
+        },
+      ],
+    },
+    template: `
+      <rte-treeview>
+        <rte-treeview-item
+          [items]="items"
+          labelText="Parent"
+          [isOpen]="true"
+        />
+      </rte-treeview>
+    `,
+    moduleMetadata: {
+      imports: [TreeviewComponent, TreeviewItemComponent],
+    },
+  }),
+};

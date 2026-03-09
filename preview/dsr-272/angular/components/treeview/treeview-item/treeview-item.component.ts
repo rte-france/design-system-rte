@@ -60,8 +60,10 @@ export class TreeviewItemComponent implements AfterViewInit {
   readonly badge = input<BadgeProps | undefined>();
   readonly id = input<string | undefined>();
   readonly depth = input<number | undefined>(undefined);
+  readonly isLastChild = input<boolean | undefined>(undefined);
 
   readonly isOpenSignal = signal<boolean>(false);
+  readonly isLastChildSignal = signal<boolean>(true);
 
   readonly itemClick = output<string | undefined>();
   readonly openChange = output<TreeviewOpenChangeEvent>();
@@ -99,6 +101,22 @@ export class TreeviewItemComponent implements AfterViewInit {
 
   readonly checkboxId = computed(() => `treeview-checkbox-${this.id() ?? this.labelText()}-${this.effectiveDepth()}`);
 
+  readonly resolvedIsLastChild = computed(() => this.isLastChild() ?? this.isLastChildSignal());
+
+  readonly connectorBorderTypes = computed(() => {
+    const depth = this.effectiveDepth();
+    const isLast = this.resolvedIsLastChild();
+    const types: Array<"vertical" | "corner"> = [];
+    for (let index = 0; index < depth; index++) {
+      types.push(index === depth - 1 && isLast ? "corner" : "vertical");
+    }
+    return types;
+  });
+
+  setLastChild(value: boolean): void {
+    this.isLastChildSignal.set(value);
+  }
+
   constructor() {
     effect(
       () => {
@@ -110,13 +128,22 @@ export class TreeviewItemComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.updateHasProjectedChildren();
+    this.updateLastChildFlags();
     this.treeviewItemComponent().forEach(() => {
       effect(
         () => {
           this.updateHasProjectedChildren();
+          this.updateLastChildFlags();
         },
         { allowSignalWrites: true },
       );
+    });
+  }
+
+  private updateLastChildFlags(): void {
+    const children = this.treeviewItemComponent();
+    children.forEach((child, index) => {
+      child.setLastChild(index === children.length - 1);
     });
   }
 
