@@ -1,0 +1,31 @@
+<div
+  #root
+  class="rte-popover"
+  role="dialog"
+  aria-modal="true"
+  [attr.data-arrow]="arrow()"
+  [attr.data-position]="position()"
+  [attr.data-alignment]="alignment()"
+  [attr.data-open]="isOpen()"
+  [style]="{ top: coordinates().top + 'px', left: coordinates().left + 'px' }"
+>
+  <div class="popoverInner">
+    <div class="popoverContentContainer">
+      <div *ngIf="title" class="popoverTitle">{{ title() }}</div>
+      <div class="popoverContent">{{ content() }}</div>
+    </div>
+    <div class="popoverButtonContainer">
+      <button
+        *ngIf="secondaryButtonLabel()"
+        rteButton
+        rteButtonVariant="secondary"
+        (click)="handleClickSecondaryButton()"
+      >
+        {{ secondaryButtonLabel() }}
+      </button>
+      <button rteButton rteButtonVariant="primary" (click)="handleClickPrimaryButton()">
+        {{ primaryButtonLabel() }}
+      </button>
+    </div>
+  </div>
+</div>
