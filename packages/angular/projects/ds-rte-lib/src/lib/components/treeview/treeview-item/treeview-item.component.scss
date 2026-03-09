@@ -1,3 +1,4 @@
+@use 'sass:math';
 @use '@design-system-rte/core/design-tokens/main.scss' as *;
 
 :host {
@@ -15,9 +16,9 @@
 .treeview-item-row {
   display: flex;
   align-items: center;
-  gap: $positive-spacing_100;
-  min-height: 44px;
-  padding: $positive-spacing_050 $positive-spacing_100;
+  gap: $positive-spacing_050;
+  min-height: 32px;
+  padding: $positive-spacing_025 $positive-spacing_050;
   border-radius: $radius-s;
   cursor: pointer;
   transition: background-color 120ms;
@@ -39,8 +40,8 @@
 }
 
 .treeview-item.compact .treeview-item-row {
-  min-height: 36px;
-  padding: $positive-spacing_025 $positive-spacing_075;
+  min-height: 24px;
+  padding: $positive-spacing_025 $positive-spacing_050;
 }
 
 .treeview-item.selected .treeview-item-row {
@@ -60,15 +61,65 @@
   align-items: center;
 }
 
+.treeview-item-checkbox-spacer {
+  flex-shrink: 0;
+  width: $positive-spacing_200;
+  min-width: $positive-spacing_200;
+}
+
+.treeview-item-border {
+  flex-shrink: 0;
+  width: $positive-spacing_200;
+  min-width: $positive-spacing_200;
+  display: flex;
+  align-items: stretch;
+  position: relative;
+
+  &.treeview-item-border-vertical {
+    &::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: $width-xs;
+      margin-left: math.div(-$width-xs, 2);
+      background: var(--border-tertiary);
+    }
+  }
+
+  &.treeview-item-border-corner {
+    &::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      bottom: 0;
+      width: $width-xs;
+      margin-left: math.div(-$width-xs, 2);
+      background: var(--border-tertiary);
+    }
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 50%;
+      height: $width-xs;
+      width: 50%;
+      background: var(--border-tertiary);
+    }
+  }
+}
+
 .treeview-item-chevron {
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: $positive-spacing_025;
-  background: transparent;
+  background: var(--background-neutral-regular-default);
   border: none;
-  border-radius: $radius-s;
+  border-radius: $radius-xs;
   cursor: pointer;
   color: inherit;
 
@@ -90,10 +141,14 @@
   flex: 1;
   display: flex;
   align-items: center;
-  gap: $positive-spacing_100;
+  gap: $positive-spacing_050;
   min-width: 0;
-  @include typography-button-m;
-  color: var(--content-brand-navigation-default);
+  @include typography-button-s;
+  color: var(--content-secondary);
+
+  &.treeview-item-content-compact {
+    padding-left: $positive-spacing_100;
+  }
 }
 
 .treeview-item.disabled .treeview-item-content {
