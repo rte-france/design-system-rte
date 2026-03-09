@@ -1,5 +1,19 @@
 # @design-system-rte/react
 
+## 1.6.0
+
+### Minor Changes
+
+- 39623c1: ## Changes
+  - (Select) rewrite conditions + extract in sub function
+  - (Select) add support for multiple selection
+  - (Chip) remove focus for type input
+
+### Patch Changes
+
+- Updated dependencies [39623c1]
+  - @design-system-rte/core@1.5.0
+
 ## 1.5.0
 
 ### Minor Changes

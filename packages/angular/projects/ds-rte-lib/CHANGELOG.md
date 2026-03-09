@@ -1,5 +1,21 @@
 # @design-system-rte/angular
 
+## 2.0.0
+
+### Minor Changes
+
+- 39623c1: ## Changes
+  - (Select) add valid label for Select all + allow selection on clicking on the checkbox for select item
+  - (Select) rewrite conditions + extract in sub function
+  - (Select) add support for header and footer on angular
+  - (Select) add support for multiple selection
+  - (Chip) remove focus for type input
+
+### Patch Changes
+
+- Updated dependencies [39623c1]
+  - @design-system-rte/core@1.5.0
+
 ## 1.4.0
 
 ### Minor Changes
