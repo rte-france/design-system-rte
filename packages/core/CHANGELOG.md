@@ -1,5 +1,12 @@
 # @design-system-rte/core
 
+## 1.5.0
+
+### Minor Changes
+
+- 39623c1: ## Changes
+  - (Select) add support for multiple selection
+
 ## 1.4.0
 
 ### Minor Changes
