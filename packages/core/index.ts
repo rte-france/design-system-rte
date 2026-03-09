@@ -37,6 +37,7 @@ export * from "./components/tag";
 export * from "./components/text-input";
 export * from "./components/textarea";
 export * from "./components/toast";
+export * from "./components/treeview";
 export * from "./components/tooltip";
 export * from "./components/utils";
 export * from "./components/stepper";
