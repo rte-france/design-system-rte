@@ -2,6 +2,30 @@
 
 # Angular
 
+## 2.0.0
+
+### Select
+
+#### Minor Changes
+
+- add valid label for Select all + allow selection on clicking on the checkbox for select item
+- rewrite conditions + extract in sub function
+- add support for header and footer on angular
+- add support for multiple selection
+
+### Chip
+
+#### Minor Changes
+
+- remove focus for type input
+
+### Other
+
+#### Patch Changes
+
+- Updated dependencies [39623c1]
+- @design-system-rte/core@1.5.0
+
 ## 1.4.0
 
 ### Segmented-control
@@ -129,35 +153,29 @@
 - Updated dependencies [40b7bf8]
 - Updated dependencies [a77bb52]
 - @design-system-rte/core@1.3.0
+# React
 
-## 1.2.0
+## 1.6.0
 
-### Dropdown
-
-#### Minor Changes
-
-- correct input synchronization from template component to directive
-- add complex menu to angular
-
-### Toast
+### Select
 
 #### Minor Changes
 
-- enable autodismiss functionality
+- rewrite conditions + extract in sub function
+- add support for multiple selection
 
-### Tab
+### Chip
 
 #### Minor Changes
 
-- export component to public api
+- remove focus for type input
 
 ### Other
 
 #### Patch Changes
 
-- Updated dependencies [1f8e40c]
-- @design-system-rte/core@1.2.1
-# React
+- Updated dependencies [39623c1]
+- @design-system-rte/core@1.5.0
 
 ## 1.5.0
 
@@ -258,34 +276,18 @@
 - Updated dependencies [40b7bf8]
 - Updated dependencies [a77bb52]
 - @design-system-rte/core@1.3.0
+# Core
 
-## 1.3.0
+## 1.5.0
 
-### Dropdown
-
-#### Minor Changes
-
-- add complex menu to react
-
-### Toast
+### Select
 
 #### Minor Changes
 
-- enable autodismiss functionality
-
-### Tab
-
-#### Minor Changes
-
-- export component to public api
+- add support for multiple selection
 
 ### Other
 
-#### Patch Changes
-
-- Updated dependencies [1f8e40c]
-- @design-system-rte/core@1.2.1
-# Core
 
 ## 1.4.0
 
@@ -350,136 +352,6 @@
 
 ### Other
 
-
-## 1.2.1
-
-### Core
-
-#### Patch Changes
-
-- add valid alias path for badge utils import
-
-### Other
-
-
-## 1.2.0
-
-### Select
-
-#### Minor Changes
-
-- add new documentation
-- improve style
-- harmonise readonly and disable behavior + add stories scenario
-- Add angular component
-
-### Assistive-text
-
-#### Minor Changes
-
-- add width props
-- add angular component
-
-### Dropdown
-
-#### Minor Changes
-
-- add selected state to simple dropdown item
-- add Badge
-- add Badge
-- add Badge
-- add Badge
-
-### Design-tokens
-
-#### Minor Changes
-
-- update script to generate tokens with the new architecture
-
-### Core
-
-#### Minor Changes
-
-- extract scripts out of design-tokens folder
-- change global architecture for design tokens
-- add badge holder interface to use
-- use parameter object for shouldDisplayBadge utils
-- add badge holder interface to use
-- add badge holder interface to use
-- add badge holder interface to use
-
-### Breadcrumbs
-
-#### Minor Changes
-
-- Add Badge
-- Add Badge
-
-### Badge
-
-#### Minor Changes
-
-- add utils function to check if it should display badge
-- add utils function to check if it should display badge
-- add utils function to check if it should display badge
-- add utils function to check if it should display badge
-- use IconSize constant and add xs value
-
-### Split-button
-
-#### Minor Changes
-
-- Add badge
-- Add badge
-
-### Segmented Control
-
-#### Minor Changes
-
-- add badge
-- add badge
-
-### Searchbar
-
-#### Minor Changes
-
-- add new documentation
-- change component structure so input inner border reacts correctly to focus & assistive text takes all the width of its container
-- add searchbar base functionality
-
-### Text Input
-
-#### Minor Changes
-
-- correct placeholder exposition and handling
-
-### Design Docs
-
-#### Minor Changes
-
-- correct sub-storybook context detection
-
-### Angular Storybook
-
-#### Minor Changes
-
-- correct font resolutions from assets retrieved from core during webpack build
-
-### Storybook
-
-#### Minor Changes
-
-- add breadcrumbs - overview page
-
-### Other
-
-#### Minor Changes
-
-- extract common input props
-- extract required indicator in a component
-- add angular missing dependencies
-- add angular missing dependencies
-- add angular missing dependencies
 # Design Docs
 
 ## 1.2.0
