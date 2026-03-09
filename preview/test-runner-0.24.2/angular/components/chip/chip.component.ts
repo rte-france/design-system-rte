@@ -31,6 +31,8 @@ export class ChipComponent {
   readonly isCheckable = computed(() => this.type() === "single" || this.type() === "multi");
   readonly role = computed(() => CHIP_TYPE_TO_ARIA_ROLE_MAP[this.type()] || null);
 
+  readonly isFocusable = computed(() => this.type() !== "input");
+
   onClick(event: Event) {
     event.stopPropagation();
     if (!this.disabled()) {

@@ -4,5 +4,5 @@ interface IconButtonProps extends Omit<CoreIconButtonProps, "disabled" | "name">
     name: RegularIconIdKey | TogglableIconIdKey;
     onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
-declare const IconButton: import('../../../../../node_modules/react').ForwardRefExoticComponent<IconButtonProps & import('../../../../../node_modules/react').RefAttributes<HTMLButtonElement>>;
+declare const IconButton: import('../../../node_modules/react').ForwardRefExoticComponent<IconButtonProps & import('../../../node_modules/react').RefAttributes<HTMLButtonElement>>;
 export default IconButton;

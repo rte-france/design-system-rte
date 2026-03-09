@@ -5,10 +5,24 @@
     role="menuitem"
     tabindex="0"
     [attr.data-disabled]="item()?.disabled"
-    [attr.data-active]="item()?.selected"
+    [attr.data-active]="hasChildren() ? subMenuOpen() : item()?.selected"
+    [attr.aria-haspopup]="hasChildren() ? 'menu' : null"
+    [attr.aria-expanded]="hasChildren() ? subMenuOpen() : null"
     (click)="handleClick($event)"
     (keydown)="handleKeyDown($event)"
+    (mouseenter)="handleMouseEnter()"
+    (mouseleave)="handleMouseLeave()"
+    (focus)="handleFocus()"
   >
+    <rte-checkbox
+      *ngIf="item()?.hasCheckbox"
+      [label]="item()?.label ?? ''"
+      [id]="menuId() + ':' + item()?.id"
+      [checked]="item()?.selected ?? false"
+      [disabled]="item()?.disabled ?? false"
+      [showLabel]="false"
+      [indeterminate]="item()?.isIndeterminate ?? false"
+    ></rte-checkbox>
     <span *ngIf="item()?.hasIndent && !item()?.leftIcon" style="width: 20px"></span>
     <rte-icon *ngIf="item()?.leftIcon" [name]="item()?.leftIcon ?? ''" />
     <ng-container [ngSwitch]="!!item()?.link">
@@ -17,6 +31,7 @@
       </a>
       <span *ngSwitchDefault style="flex: 2">{{ item()?.label }}</span>
     </ng-container>
+    <rte-icon *ngIf="hasChildren()" name="arrow-chevron-right" />
     <div *ngIf="item()?.trailingText">{{ item()?.trailingText }}</div>
     <rte-badge
       *ngIf="shouldDisplayBadge()"

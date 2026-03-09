@@ -26,10 +26,10 @@
     display: flex;
     padding: $positive-spacing_025 $positive-spacing_100;
     color: var(--content-secondary);
-    justify-content: space-between;
     white-space: normal;
     overflow-wrap: normal;
     word-break: normal;
+    align-items: center;
 
     .requirement-indicator {
       margin-left: $positive-spacing_025;
@@ -186,6 +186,12 @@
           overflow: hidden;
           white-space: nowrap;
         }
+
+        .rte-select-multiple-values {
+          display: flex;
+          align-items: center;
+          gap: $positive-spacing_100;
+        }
       }
 
       .rte-select-right-icons {
@@ -198,6 +204,15 @@
             padding: 0;
             height: 20px;
             width: 20px;
+            color: var(--content-secondary);
+
+            &:hover {
+              color: var(--content-primary);
+            }
+
+            &:active {
+              color: var(--content-tertiary);
+            }
 
             &:focus-visible {
               outline: 1px solid var(--border-brand-focused);
