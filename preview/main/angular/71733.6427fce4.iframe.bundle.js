@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunk_design_system_rte_angular_builder=self.webpackChunk_design_system_rte_angular_builder||[]).push([[71733],{"./projects/ds-rte-lib/src/lib/assets/icons/cancel_outlined.svg":(module,__unused_webpack_exports,__webpack_require__)=>{module.exports=__webpack_require__.p+"static/media/cancel_outlined.57c4ecaf.svg"}}]);
