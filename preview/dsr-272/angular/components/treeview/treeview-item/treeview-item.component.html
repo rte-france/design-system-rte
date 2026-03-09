@@ -1,0 +1,103 @@
+<li
+  class="treeview-item"
+  [attr.role]="'treeitem'"
+  [attr.aria-level]="effectiveDepth() + 1"
+  [attr.aria-expanded]="isParent() ? isOpenSignal() : undefined"
+  [attr.aria-selected]="isSelected()"
+  [ngClass]="{
+    compact: isCompact(),
+    selected: isSelected(),
+    disabled: disabled(),
+    'has-children': isParent(),
+  }"
+>
+  <div class="treeview-item-row" [style.padding-inline-start.px]="indentationPx()">
+    @if (hasCheckbox()) {
+      <div class="treeview-item-checkbox" (click)="handleCheckboxClick($event)">
+        <rte-checkbox
+          [id]="checkboxId()"
+          [label]="labelText()"
+          [showLabel]="false"
+          [disabled]="disabled()"
+          [checked]="isSelected()"
+        />
+      </div>
+    }
+    @if (isParent()) {
+      <button
+        type="button"
+        class="treeview-item-chevron"
+        [attr.aria-label]="isOpenSignal() ? 'Replier' : 'Déplier'"
+        [disabled]="disabled()"
+        (click)="toggleOpen(); $event.stopPropagation()"
+        (keydown)="handleChevronKeyDown($event)"
+      >
+        <rte-icon [name]="isOpenSignal() ? 'arrow-chevron-down' : 'arrow-chevron-right'" [size]="16" />
+      </button>
+    }
+    @if (hasIcon() && icon()) {
+      <rte-icon class="treeview-item-icon" [name]="icon()!" [size]="16" />
+    }
+    <div
+      class="treeview-item-content"
+      [attr.tabindex]="0"
+      [attr.role]="link() ? undefined : 'button'"
+      (click)="handleContentClick()"
+      (keydown)="handleContentKeyDown($event)"
+    >
+      @if (link()) {
+        <a class="treeview-item-label" [href]="link()!" (click)="$event.stopPropagation()">
+          {{ labelText() }}
+        </a>
+      } @else {
+        <span class="treeview-item-label">{{ labelText() }}</span>
+      }
+      @if (hasBadge() && badge()) {
+        <rte-badge
+          [badgeType]="badge()!.badgeType ?? 'brand'"
+          [badgeSize]="badge()!.size ?? 'm'"
+          [badgeContent]="badge()!.content ?? 'number'"
+          [count]="badge()!.count"
+          [icon]="badge()!.icon ?? 'notification'"
+          [simpleBadge]="true"
+        />
+      }
+    </div>
+    @if (hasAction()) {
+      <div class="treeview-item-action" (click)="$event.stopPropagation()">
+        <ng-content select="[rteTreeviewItemAction]" />
+      </div>
+    }
+  </div>
+  @if (isParent()) {
+    <ul class="treeview-item-children" role="group" [class.treeview-item-children-open]="isOpenSignal()">
+      @if (hasDataDrivenChildren()) {
+        @for (child of items(); track child.id || child.labelText) {
+          <rte-treeview-item
+            [id]="child.id"
+            [labelText]="child.labelText"
+            [icon]="child.icon"
+            [link]="child.link"
+            [disabled]="child.disabled ?? false"
+            [isCompact]="child.isCompact ?? isCompact()"
+            [hasCheckbox]="child.hasCheckbox ?? hasCheckbox()"
+            [isSelected]="child.isSelected ?? false"
+            [isOpen]="child.isOpen ?? false"
+            [hasIcon]="child.hasIcon ?? hasIcon()"
+            [hasAction]="child.hasAction ?? hasAction()"
+            [hasBadge]="child.hasBadge ?? false"
+            [newLine]="child.newLine ?? false"
+            [items]="child.items ?? []"
+            [badge]="child.badge"
+            [depth]="effectiveDepth() + 1"
+            (itemClick)="itemClick.emit($event)"
+            (openChange)="openChange.emit($event)"
+            (selectionChange)="selectionChange.emit($event)"
+          />
+        }
+      } @else {
+        <ng-content />
+      }
+    </ul>
+  }
+</li>

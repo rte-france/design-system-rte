@@ -1,0 +1,143 @@
+@use '@design-system-rte/core/design-tokens/main.scss' as *;
+
+:host {
+  display: contents;
+}
+
+.treeview-item {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.treeview-item-row {
+  display: flex;
+  align-items: center;
+  gap: $positive-spacing_100;
+  min-height: 44px;
+  padding: $positive-spacing_050 $positive-spacing_100;
+  border-radius: $radius-s;
+  cursor: pointer;
+  transition: background-color 120ms;
+  box-sizing: border-box;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+
+  &:hover {
+    background: var(--background-brand-navigation-hover);
+  }
+
+  &:focus-visible {
+    outline: 1px solid var(--border-brand-focused);
+    outline-offset: 0;
+    border-radius: $radius-s;
+  }
+}
+
+.treeview-item.compact .treeview-item-row {
+  min-height: 36px;
+  padding: $positive-spacing_025 $positive-spacing_075;
+}
+
+.treeview-item.selected .treeview-item-row {
+  background: var(--background-brand-navigation-pressed);
+  color: var(--content-primary-inverse);
+}
+
+.treeview-item.disabled .treeview-item-row {
+  cursor: not-allowed;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.treeview-item-checkbox {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.treeview-item-chevron {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $positive-spacing_025;
+  background: transparent;
+  border: none;
+  border-radius: $radius-s;
+  cursor: pointer;
+  color: inherit;
+
+  &:hover {
+    background: var(--background-neutral-navigation-hover);
+  }
+
+  &:focus-visible {
+    outline: 1px solid var(--border-brand-focused);
+    outline-offset: 0;
+  }
+}
+
+.treeview-item-icon {
+  flex-shrink: 0;
+}
+
+.treeview-item-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: $positive-spacing_100;
+  min-width: 0;
+  @include typography-button-m;
+  color: var(--content-brand-navigation-default);
+}
+
+.treeview-item.disabled .treeview-item-content {
+  color: inherit;
+}
+
+.treeview-item-label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  &:link,
+  &:visited {
+    text-decoration: none;
+    color: inherit;
+
+    &:hover {
+      text-decoration: none;
+      color: inherit;
+    }
+  }
+}
+
+.treeview-item-action {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.treeview-item-children {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 140ms ease-out;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+
+  &.treeview-item-children-open {
+    max-height: 2000px;
+  }
+}
