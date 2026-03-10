@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunk_design_system_rte_angular_builder=self.webpackChunk_design_system_rte_angular_builder||[]).push([[39604],{"./projects/ds-rte-lib/src/lib/assets/icons/undo.svg":(module,__unused_webpack_exports,__webpack_require__)=>{module.exports=__webpack_require__.p+"static/media/undo.48385d78.svg"}}]);

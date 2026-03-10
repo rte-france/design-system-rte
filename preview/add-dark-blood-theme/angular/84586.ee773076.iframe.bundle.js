@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunk_design_system_rte_angular_builder=self.webpackChunk_design_system_rte_angular_builder||[]).push([[84586],{"./projects/ds-rte-lib/src/lib/assets/icons/user_settings_outlined.svg":(module,__unused_webpack_exports,__webpack_require__)=>{module.exports=__webpack_require__.p+"static/media/user_settings_outlined.17256dab.svg"}}]);
