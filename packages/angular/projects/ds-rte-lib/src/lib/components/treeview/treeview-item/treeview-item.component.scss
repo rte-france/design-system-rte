@@ -1,4 +1,3 @@
-@use 'sass:math';
 @use '@design-system-rte/core/design-tokens/main.scss' as *;
 
 :host {
@@ -11,54 +10,77 @@
   margin: 0;
   padding: 0;
   list-style: none;
+  min-height: 32px;
 }
 
 .treeview-item-row {
   display: flex;
   align-items: center;
-  gap: $positive-spacing_050;
   min-height: 32px;
-  padding: $positive-spacing_025 $positive-spacing_050;
   border-radius: $radius-s;
   cursor: pointer;
+  box-sizing: border-box;
+}
+
+.treeview-item-main-content:focus-within {
+  outline: 1px solid var(--border-brand-focused);
+  outline-offset: 0;
+  border-radius: $radius-s;
+}
+
+.treeview-item.compact .treeview-item-row {
+  min-height: 24px;
+}
+
+.treeview-item.disabled .treeview-item-row {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.treeview-item-main-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: $positive-spacing_050;
+  min-width: 0;
+  padding: $positive-spacing_025 $positive-spacing_050;
+  border-radius: $radius-s;
   transition: background-color 120ms;
   box-sizing: border-box;
 
   @media (prefers-reduced-motion: reduce) {
     transition: none;
   }
-
-  &:hover {
-    background: var(--background-brand-navigation-hover);
-  }
-
-  &:focus-visible {
-    outline: 1px solid var(--border-brand-focused);
-    outline-offset: 0;
-    border-radius: $radius-s;
-  }
 }
 
-.treeview-item.compact .treeview-item-row {
-  min-height: 24px;
-  padding: $positive-spacing_025 $positive-spacing_050;
+.treeview-item-row:hover .treeview-item-main-content {
+  background: var(--background-hover);
 }
 
-.treeview-item.selected .treeview-item-row {
-  background: var(--background-brand-navigation-pressed);
+.treeview-item.selected .treeview-item-main-content {
+  background: var(--background-brand-default);
   color: var(--content-primary-inverse);
 }
 
-.treeview-item.disabled .treeview-item-row {
-  cursor: not-allowed;
-  opacity: 0.5;
-  pointer-events: none;
+.treeview-item.selected .treeview-item-row:hover .treeview-item-main-content {
+  background: var(--background-brand-hover);
+}
+
+.treeview-item.disabled .treeview-item-main-content {
+  background: var(--background-disabled);
 }
 
 .treeview-item-checkbox {
   flex-shrink: 0;
   display: flex;
   align-items: center;
+  justify-content: center;
+  width: $positive-spacing_200;
+  min-width: $positive-spacing_200;
+
+  ::ng-deep .rte-checkbox {
+    margin: 0;
+  }
 }
 
 .treeview-item-checkbox-spacer {
@@ -71,44 +93,22 @@
   flex-shrink: 0;
   width: $positive-spacing_200;
   min-width: $positive-spacing_200;
-  display: flex;
-  align-items: stretch;
-  position: relative;
+  height: 32px;
+  align-self: stretch;
+  display: block;
 
-  &.treeview-item-border-vertical {
-    &::before {
-      content: "";
-      position: absolute;
-      left: 50%;
-      top: 0;
-      bottom: 0;
-      width: $width-xs;
-      margin-left: math.div(-$width-xs, 2);
-      background: var(--border-tertiary);
-    }
+  .treeview-item-border-path {
+    stroke: var(--border-tertiary);
+    stroke-width: $width-xs;
   }
 
-  &.treeview-item-border-corner {
-    &::before {
-      content: "";
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      bottom: 0;
-      width: $width-xs;
-      margin-left: math.div(-$width-xs, 2);
-      background: var(--border-tertiary);
-    }
-    &::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 50%;
-      height: $width-xs;
-      width: 50%;
-      background: var(--border-tertiary);
-    }
+  &.treeview-item-border-dashed .treeview-item-border-path {
+    stroke-dasharray: 2 2;
   }
+}
+
+.treeview-item.compact .treeview-item-border {
+  height: 24px;
 }
 
 .treeview-item-chevron {
@@ -116,7 +116,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: $positive-spacing_025;
+  width: $positive-spacing_200;
+  min-width: $positive-spacing_200;
+  height: $positive-spacing_200;
+  padding: 0;
   background: var(--background-neutral-regular-default);
   border: none;
   border-radius: $radius-xs;
@@ -131,6 +134,12 @@
     outline: 1px solid var(--border-brand-focused);
     outline-offset: 0;
   }
+}
+
+.treeview-item-chevron-spacer {
+  flex-shrink: 0;
+  width: $positive-spacing_200;
+  min-width: $positive-spacing_200;
 }
 
 .treeview-item-icon {
@@ -151,8 +160,14 @@
   }
 }
 
-.treeview-item.disabled .treeview-item-content {
-  color: inherit;
+.treeview-item.selected .treeview-item-content,
+.treeview-item.selected .treeview-item-icon {
+  color: var(--content-primary-inverse);
+}
+
+.treeview-item.disabled .treeview-item-content,
+.treeview-item.disabled .treeview-item-icon {
+  color: var(--content-disabled);
 }
 
 .treeview-item-label {
@@ -172,12 +187,6 @@
       color: inherit;
     }
   }
-}
-
-.treeview-item-action {
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
 }
 
 .treeview-item-children {
