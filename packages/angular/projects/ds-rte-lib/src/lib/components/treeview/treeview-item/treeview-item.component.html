@@ -9,6 +9,7 @@
     selected: isSelected(),
     disabled: disabled(),
     'has-children': isParent(),
+    'dotted-line': dottedLine(),
   }"
 >
   <div class="treeview-item-row">
@@ -26,11 +27,33 @@
       <div class="treeview-item-checkbox-spacer"></div>
     }
     @for (borderType of connectorBorderTypes(); track $index) {
-      <div
+      <svg
         class="treeview-item-border"
-        [class.treeview-item-border-vertical]="borderType === 'vertical'"
-        [class.treeview-item-border-corner]="borderType === 'corner'"
-      ></div>
+        width="16"
+        height="32"
+        viewBox="0 0 16 32"
+        fill="none"
+        aria-hidden="true"
+        [class.treeview-item-border-dashed]="dottedLine()"
+      >
+        @switch (borderType) {
+          @case ("vertical") {
+            <path d="M8 32L8 0" class="treeview-item-border-path" />
+          }
+          @case ("branch") {
+            <path d="M8 32L8 0" class="treeview-item-border-path" />
+            <line x1="8" y1="15.5" x2="16" y2="15.5" class="treeview-item-border-path" />
+          }
+          @case ("corner") {
+            <path d="M8 16L8 0" class="treeview-item-border-path" />
+            <line x1="8" y1="15.5" x2="16" y2="15.5" class="treeview-item-border-path" />
+          }
+          @case ("horizontal") {
+            <line x1="0" y1="15.5" x2="16" y2="15.5" class="treeview-item-border-path" />
+          }
+          @case ("spacer") {}
+        }
+      </svg>
     }
     @if (isParent()) {
       <button
@@ -44,70 +67,64 @@
         <rte-icon [name]="isOpenSignal() ? 'arrow-chevron-down' : 'arrow-chevron-right'" [size]="16" />
       </button>
     }
-    @if (hasIcon() && icon() && !isCompact()) {
-      <rte-icon class="treeview-item-icon" [name]="icon()!" [size]="16" />
-    }
-    <div
-      class="treeview-item-content"
-      [class.treeview-item-content-compact]="isCompact()"
-      [attr.tabindex]="0"
-      [attr.role]="link() ? undefined : 'button'"
-      (click)="handleContentClick()"
-      (keydown)="handleContentKeyDown($event)"
-    >
-      @if (link()) {
-        <a class="treeview-item-label" [href]="link()!" (click)="$event.stopPropagation()">
-          {{ labelText() }}
-        </a>
-      } @else {
-        <span class="treeview-item-label">{{ labelText() }}</span>
+    <div class="treeview-item-main-content">
+      @if (hasIcon() && icon() && !isCompact()) {
+        <rte-icon class="treeview-item-icon" [name]="icon()!" [size]="16" />
       }
-      @if (hasBadge() && badge()) {
-        <rte-badge
-          [badgeType]="badge()!.badgeType ?? 'brand'"
-          [badgeSize]="badge()!.size ?? 'm'"
-          [badgeContent]="badge()!.content ?? 'number'"
-          [count]="badge()!.count"
-          [icon]="badge()!.icon ?? 'notification'"
-          [simpleBadge]="true"
-        />
-      }
-    </div>
-    @if (hasAction()) {
-      <div class="treeview-item-action" (click)="$event.stopPropagation()">
-        <ng-content select="[rteTreeviewItemAction]" />
+      <div
+        class="treeview-item-content"
+        [class.treeview-item-content-compact]="isCompact()"
+        [attr.tabindex]="0"
+        [attr.role]="link() ? undefined : 'button'"
+        (click)="handleContentClick()"
+        (keydown)="handleContentKeyDown($event)"
+      >
+        @if (link()) {
+          <a class="treeview-item-label" [href]="link()!" (click)="$event.stopPropagation()">
+            {{ labelText() }}
+          </a>
+        } @else {
+          <span class="treeview-item-label">{{ labelText() }}</span>
+        }
+        @if (hasBadge() && badge()) {
+          <rte-badge
+            [badgeType]="badge()!.badgeType ?? 'brand'"
+            [badgeSize]="badge()!.size ?? 'm'"
+            [badgeContent]="badge()!.content ?? 'number'"
+            [count]="badge()!.count"
+            [icon]="badge()!.icon ?? 'notification'"
+            [simpleBadge]="true"
+          />
+        }
       </div>
-    }
+    </div>
   </div>
   @if (isParent()) {
     <ul class="treeview-item-children" role="group" [class.treeview-item-children-open]="isOpenSignal()">
-      @if (hasDataDrivenChildren()) {
-        @for (child of items(); track child.id || child.labelText; let childIndex = $index) {
-          <rte-treeview-item
-            [id]="child.id"
-            [labelText]="child.labelText"
-            [icon]="child.icon"
-            [link]="child.link"
-            [disabled]="child.disabled ?? false"
-            [isCompact]="child.isCompact ?? isCompact()"
-            [hasCheckbox]="child.hasCheckbox ?? hasCheckbox()"
-            [isSelected]="child.isSelected ?? false"
-            [isOpen]="child.isOpen ?? false"
-            [hasIcon]="child.hasIcon ?? hasIcon()"
-            [hasAction]="child.hasAction ?? hasAction()"
-            [hasBadge]="child.hasBadge ?? false"
-            [newLine]="child.newLine ?? false"
-            [items]="child.items ?? []"
-            [badge]="child.badge"
-            [depth]="effectiveDepth() + 1"
-            [isLastChild]="childIndex === items().length - 1"
-            (itemClick)="itemClick.emit($event)"
-            (openChange)="openChange.emit($event)"
-            (selectionChange)="selectionChange.emit($event)"
-          />
-        }
-      } @else {
-        <ng-content />
+      @for (child of items(); track trackChild(child); let childIndex = $index) {
+        <rte-treeview-item
+          [id]="child.id"
+          [labelText]="child.labelText"
+          [icon]="child.icon"
+          [link]="child.link"
+          [disabled]="child.disabled ?? false"
+          [isCompact]="child.isCompact ?? isCompact()"
+          [hasCheckbox]="child.hasCheckbox ?? hasCheckbox()"
+          [isSelected]="child.isSelected ?? false"
+          [isOpen]="child.isOpen ?? false"
+          [hasIcon]="child.hasIcon ?? hasIcon()"
+          [hasBadge]="child.hasBadge ?? false"
+          [newLine]="child.newLine ?? false"
+          [dottedLine]="child.dottedLine ?? dottedLine()"
+          [items]="child.items ?? []"
+          [badge]="child.badge"
+          [depth]="effectiveDepth() + 1"
+          [isLastChild]="childIndex === items().length - 1"
+          [borderTypes]="getChildBorderTypes(childIndex === items().length - 1)"
+          (itemClick)="itemClick.emit($event)"
+          (openChange)="openChange.emit($event)"
+          (selectionChange)="selectionChange.emit($event)"
+        />
       }
     </ul>
   }

@@ -13,7 +13,6 @@ export interface TreeviewItemProps {
   isSelected?: boolean;
   isOpen?: boolean;
   hasIcon?: boolean;
-  hasAction?: boolean;
   hasBadge?: boolean;
   newLine?: boolean;
   items?: TreeviewItemProps[];
