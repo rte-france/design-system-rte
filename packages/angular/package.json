@@ -28,7 +28,7 @@
     "@babel/plugin-proposal-decorators": "^7.28.0",
     "@babel/preset-env": "^7.27.2",
     "@babel/preset-react": "^7.27.1",
-    "@chromatic-com/storybook": "^3.2.6",
+    "@chromatic-com/storybook": "^5.0.1",
     "@compodoc/compodoc": "^1.1.26",
     "@storybook/addon-a11y": "~8.6.0",
     "@storybook/addon-docs": "~8.6.0",
