@@ -289,3 +289,78 @@ export const SelectedState: Story = {
     },
   }),
 };
+
+const lastChildWithChildrenData: TreeviewItemProps[] = [
+  {
+    id: "first",
+    labelText: "First",
+    hasIcon: true,
+    icon: "folder",
+  },
+  {
+    id: "last",
+    labelText: "Last (has children)",
+    hasIcon: true,
+    icon: "folder",
+    isOpen: true,
+    items: [
+      {
+        id: "grandchild",
+        labelText: "Grandchild",
+        hasIcon: true,
+        icon: "folder",
+      },
+    ],
+  },
+];
+
+export const AncestorSpacer: Story = {
+  render: () => ({
+    props: {
+      items: lastChildWithChildrenData,
+    },
+    template: `
+      <rte-treeview>
+        @for (item of items; track item.id) {
+          <rte-treeview-item
+            [id]="item.id"
+            [labelText]="item.labelText"
+            [icon]="item.icon"
+            [hasIcon]="item.hasIcon"
+            [isOpen]="item.isOpen"
+            [items]="item.items ?? []"
+          />
+        }
+      </rte-treeview>
+    `,
+    moduleMetadata: {
+      imports: [TreeviewComponent, TreeviewItemComponent],
+    },
+  }),
+};
+
+export const DottedLine: Story = {
+  render: () => ({
+    props: {
+      items: navigationData,
+    },
+    template: `
+      <rte-treeview>
+        @for (item of items; track item.id) {
+          <rte-treeview-item
+            [id]="item.id"
+            [labelText]="item.labelText"
+            [icon]="item.icon"
+            [hasIcon]="item.hasIcon"
+            [isOpen]="item.isOpen"
+            [items]="item.items ?? []"
+            [dottedLine]="true"
+          />
+        }
+      </rte-treeview>
+    `,
+    moduleMetadata: {
+      imports: [TreeviewComponent, TreeviewItemComponent],
+    },
+  }),
+};

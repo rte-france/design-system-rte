@@ -9,6 +9,7 @@
     selected: isSelected(),
     disabled: disabled(),
     'has-children': isParent(),
+    'dotted-line': dottedLine() || dottedLineSignal(),
   }"
 >
   <div class="treeview-item-row">
@@ -30,6 +31,7 @@
         class="treeview-item-border"
         [class.treeview-item-border-vertical]="borderType === 'vertical'"
         [class.treeview-item-border-corner]="borderType === 'corner'"
+        [class.treeview-item-border-none]="borderType === 'none'"
       ></div>
     }
     @if (isParent()) {
@@ -44,40 +46,42 @@
         <rte-icon [name]="isOpenSignal() ? 'arrow-chevron-down' : 'arrow-chevron-right'" [size]="16" />
       </button>
     }
-    @if (hasIcon() && icon() && !isCompact()) {
-      <rte-icon class="treeview-item-icon" [name]="icon()!" [size]="16" />
-    }
-    <div
-      class="treeview-item-content"
-      [class.treeview-item-content-compact]="isCompact()"
-      [attr.tabindex]="0"
-      [attr.role]="link() ? undefined : 'button'"
-      (click)="handleContentClick()"
-      (keydown)="handleContentKeyDown($event)"
-    >
-      @if (link()) {
-        <a class="treeview-item-label" [href]="link()!" (click)="$event.stopPropagation()">
-          {{ labelText() }}
-        </a>
-      } @else {
-        <span class="treeview-item-label">{{ labelText() }}</span>
+    <div class="treeview-item-main-content">
+      @if (hasIcon() && icon() && !isCompact()) {
+        <rte-icon class="treeview-item-icon" [name]="icon()!" [size]="16" />
       }
-      @if (hasBadge() && badge()) {
-        <rte-badge
-          [badgeType]="badge()!.badgeType ?? 'brand'"
-          [badgeSize]="badge()!.size ?? 'm'"
-          [badgeContent]="badge()!.content ?? 'number'"
-          [count]="badge()!.count"
-          [icon]="badge()!.icon ?? 'notification'"
-          [simpleBadge]="true"
-        />
+      <div
+        class="treeview-item-content"
+        [class.treeview-item-content-compact]="isCompact()"
+        [attr.tabindex]="0"
+        [attr.role]="link() ? undefined : 'button'"
+        (click)="handleContentClick()"
+        (keydown)="handleContentKeyDown($event)"
+      >
+        @if (link()) {
+          <a class="treeview-item-label" [href]="link()!" (click)="$event.stopPropagation()">
+            {{ labelText() }}
+          </a>
+        } @else {
+          <span class="treeview-item-label">{{ labelText() }}</span>
+        }
+        @if (hasBadge() && badge()) {
+          <rte-badge
+            [badgeType]="badge()!.badgeType ?? 'brand'"
+            [badgeSize]="badge()!.size ?? 'm'"
+            [badgeContent]="badge()!.content ?? 'number'"
+            [count]="badge()!.count"
+            [icon]="badge()!.icon ?? 'notification'"
+            [simpleBadge]="true"
+          />
+        }
+      </div>
+      @if (hasAction()) {
+        <div class="treeview-item-action" (click)="$event.stopPropagation()">
+          <ng-content select="[rteTreeviewItemAction]" />
+        </div>
       }
     </div>
-    @if (hasAction()) {
-      <div class="treeview-item-action" (click)="$event.stopPropagation()">
-        <ng-content select="[rteTreeviewItemAction]" />
-      </div>
-    }
   </div>
   @if (isParent()) {
     <ul class="treeview-item-children" role="group" [class.treeview-item-children-open]="isOpenSignal()">
@@ -97,10 +101,12 @@
             [hasAction]="child.hasAction ?? hasAction()"
             [hasBadge]="child.hasBadge ?? false"
             [newLine]="child.newLine ?? false"
+            [dottedLine]="child.dottedLine ?? dottedLine()"
             [items]="child.items ?? []"
             [badge]="child.badge"
             [depth]="effectiveDepth() + 1"
             [isLastChild]="childIndex === items().length - 1"
+            [depthSpacer]="getChildDepthSpacer(childIndex === items().length - 1)"
             (itemClick)="itemClick.emit($event)"
             (openChange)="openChange.emit($event)"
             (selectionChange)="selectionChange.emit($event)"

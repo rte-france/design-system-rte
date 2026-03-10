@@ -15,9 +15,11 @@ import {
 } from "@angular/core";
 import { BadgeProps } from "@design-system-rte/core/components/badge/badge.interface";
 import type { TreeviewItemProps } from "@design-system-rte/core/components/treeview/treeview-item.interface";
+import type { TreeviewSpacerType } from "@design-system-rte/core/components/treeview/treeview.constants";
 import {
   TREEVIEW_INDENTATION_COMPACT_PX,
   TREEVIEW_INDENTATION_STEP_PX,
+  updateSpacerForAncestor,
 } from "@design-system-rte/core/components/treeview/treeview.constants";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
@@ -56,11 +58,15 @@ export class TreeviewItemComponent implements AfterViewInit {
   readonly hasAction = input<boolean>(false);
   readonly hasBadge = input<boolean>(false);
   readonly newLine = input<boolean>(false);
+  readonly dottedLine = input<boolean>(false);
+  readonly dottedLineSignal = signal<boolean>(false);
   readonly items = input<TreeviewItemProps[]>([]);
   readonly badge = input<BadgeProps | undefined>();
   readonly id = input<string | undefined>();
   readonly depth = input<number | undefined>(undefined);
   readonly isLastChild = input<boolean | undefined>(undefined);
+  readonly depthSpacer = input<TreeviewSpacerType[]>([]);
+  readonly depthSpacerSignal = signal<TreeviewSpacerType[]>([]);
 
   readonly isOpenSignal = signal<boolean>(false);
   readonly isLastChildSignal = signal<boolean>(true);
@@ -103,18 +109,43 @@ export class TreeviewItemComponent implements AfterViewInit {
 
   readonly resolvedIsLastChild = computed(() => this.isLastChild() ?? this.isLastChildSignal());
 
+  readonly resolvedDepthSpacer = computed(() => {
+    const inputSpacer = this.depthSpacer();
+    const signalSpacer = this.depthSpacerSignal();
+    return inputSpacer.length > 0 ? inputSpacer : signalSpacer;
+  });
+
   readonly connectorBorderTypes = computed(() => {
-    const depth = this.effectiveDepth();
+    const spacer = this.resolvedDepthSpacer();
     const isLast = this.resolvedIsLastChild();
-    const types: Array<"vertical" | "corner"> = [];
-    for (let index = 0; index < depth; index++) {
-      types.push(index === depth - 1 && isLast ? "corner" : "vertical");
+    const types: Array<"vertical" | "corner" | "none"> = [];
+    for (let index = 0; index < spacer.length; index++) {
+      const isLastSpacer = index === spacer.length - 1;
+      types.push(isLastSpacer ? spacer[index] : updateSpacerForAncestor(spacer[index]));
+    }
+    const depth = this.effectiveDepth();
+    if (depth > 0) {
+      const currentLevelType: TreeviewSpacerType = isLast ? "corner" : "vertical";
+      types.push(currentLevelType);
     }
     return types;
   });
 
   setLastChild(value: boolean): void {
     this.isLastChildSignal.set(value);
+  }
+
+  setDepthSpacer(value: TreeviewSpacerType[]): void {
+    this.depthSpacerSignal.set(value);
+  }
+
+  setDottedLine(value: boolean): void {
+    this.dottedLineSignal.set(value);
+  }
+
+  getChildDepthSpacer(isLastChild: boolean): TreeviewSpacerType[] {
+    const nextType: TreeviewSpacerType = isLastChild ? "corner" : "vertical";
+    return [...this.resolvedDepthSpacer(), nextType];
   }
 
   constructor() {
@@ -142,8 +173,12 @@ export class TreeviewItemComponent implements AfterViewInit {
 
   private updateLastChildFlags(): void {
     const children = this.treeviewItemComponent();
+    const dotted = this.dottedLine() || this.dottedLineSignal();
     children.forEach((child, index) => {
-      child.setLastChild(index === children.length - 1);
+      const isLast = index === children.length - 1;
+      child.setLastChild(isLast);
+      child.setDepthSpacer(this.getChildDepthSpacer(isLast));
+      child.setDottedLine(dotted);
     });
   }
 

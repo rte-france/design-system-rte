@@ -21,22 +21,14 @@
   padding: $positive-spacing_025 $positive-spacing_050;
   border-radius: $radius-s;
   cursor: pointer;
-  transition: background-color 120ms;
   box-sizing: border-box;
 
-  @media (prefers-reduced-motion: reduce) {
-    transition: none;
-  }
+}
 
-  &:hover {
-    background: var(--background-brand-navigation-hover);
-  }
-
-  &:focus-visible {
-    outline: 1px solid var(--border-brand-focused);
-    outline-offset: 0;
-    border-radius: $radius-s;
-  }
+.treeview-item-main-content:focus-within {
+  outline: 1px solid var(--border-brand-focused);
+  outline-offset: 0;
+  border-radius: $radius-s;
 }
 
 .treeview-item.compact .treeview-item-row {
@@ -44,15 +36,42 @@
   padding: $positive-spacing_025 $positive-spacing_050;
 }
 
-.treeview-item.selected .treeview-item-row {
-  background: var(--background-brand-navigation-pressed);
+.treeview-item.disabled .treeview-item-row {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.treeview-item-main-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: $positive-spacing_050;
+  min-width: 0;
+  padding: $positive-spacing_050;
+  border-radius: $radius-s;
+  transition: background-color 120ms;
+  box-sizing: border-box;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.treeview-item-row:hover .treeview-item-main-content {
+  background: var(--background-hover);
+}
+
+.treeview-item.selected .treeview-item-main-content {
+  background: var(--background-brand-default);
   color: var(--content-primary-inverse);
 }
 
-.treeview-item.disabled .treeview-item-row {
-  cursor: not-allowed;
-  opacity: 0.5;
-  pointer-events: none;
+.treeview-item.selected .treeview-item-row:hover .treeview-item-main-content {
+  background: var(--background-brand-hover);
+}
+
+.treeview-item.disabled .treeview-item-main-content {
+  background: var(--background-disabled);
 }
 
 .treeview-item-checkbox {
@@ -109,6 +128,30 @@
       background: var(--border-tertiary);
     }
   }
+
+  &.treeview-item-border-none {
+    /* Empty spacer for ancestor columns where path went through last child */
+  }
+}
+
+:host(.dotted-line) .treeview-item-border.treeview-item-border-vertical::before {
+  background: transparent;
+  border-left: $width-xs dashed var(--border-tertiary);
+  width: 0;
+  margin-left: math.div(-$width-xs, 2);
+}
+
+:host(.dotted-line) .treeview-item-border.treeview-item-border-corner::before {
+  background: transparent;
+  border-left: $width-xs dashed var(--border-tertiary);
+  width: 0;
+  margin-left: math.div(-$width-xs, 2);
+}
+
+:host(.dotted-line) .treeview-item-border.treeview-item-border-corner::after {
+  background: transparent;
+  border-top: $width-xs dashed var(--border-tertiary);
+  height: 0;
 }
 
 .treeview-item-chevron {
@@ -151,8 +194,14 @@
   }
 }
 
-.treeview-item.disabled .treeview-item-content {
-  color: inherit;
+.treeview-item.selected .treeview-item-content,
+.treeview-item.selected .treeview-item-icon {
+  color: var(--content-primary-inverse);
+}
+
+.treeview-item.disabled .treeview-item-content,
+.treeview-item.disabled .treeview-item-icon {
+  color: var(--content-disabled);
 }
 
 .treeview-item-label {
