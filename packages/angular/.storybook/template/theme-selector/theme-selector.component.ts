@@ -18,6 +18,7 @@ export class ThemeSelectorComponent {
     { id: "bleu_iceberg", label: "Bleu Iceberg" },
     { id: "violet", label: "Violet" },
     { id: "vert_foret", label: "Vert Forêt" },
+    { id: "dark_blood", label: "Dark Blood" },
   ];
 
   readonly selectedTheme = signal<Theme>("bleu_iceberg");

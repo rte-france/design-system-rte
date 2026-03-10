@@ -6,6 +6,7 @@ export enum ColorTheme {
   BLEU_ICEBERG = "bleu-iceberg",
   VIOLET = "violet",
   VERT_FORET = "vert-foret",
+  DARK_BLOOD = "dark-blood",
 }
 
 export enum ColorMode {
@@ -15,6 +16,8 @@ export enum ColorMode {
   VIOLET_DARK = "violet-dark",
   VERT_FORET_LIGHT = "vert-foret-light",
   VERT_FORET_DARK = "vert-foret-dark",
+  DARK_BLOOD_LIGHT = "dark-blood-light",
+  DARK_BLOOD_DARK = "dark-blood-dark",
 }
 
 export interface ColorTokenValue {

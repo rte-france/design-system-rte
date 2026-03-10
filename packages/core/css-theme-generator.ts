@@ -3,7 +3,7 @@ import path from "path";
 
 import sass from "sass";
 
-const themes = ["bleu_iceberg", "violet", "vert_foret"];
+const themes = ["bleu_iceberg", "violet", "vert_foret", "dark_blood"];
 
 const outputDir = path.resolve(__dirname, "css");
 

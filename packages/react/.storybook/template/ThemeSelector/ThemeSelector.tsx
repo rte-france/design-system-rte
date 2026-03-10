@@ -13,7 +13,7 @@ const ThemeSelector = () => {
     setCurrentMode(mode);
   };
 
-  const switchTheme = (theme: "bleu_iceberg" | "vert_foret" | "violet") => {
+  const switchTheme = (theme: "bleu_iceberg" | "vert_foret" | "violet" | "dark_blood") => {
     document.querySelector("html")?.setAttribute("data-theme", theme);
     setCurrentTheme(theme);
   };
@@ -22,10 +22,11 @@ const ThemeSelector = () => {
     { id: "bleu_iceberg", label: "Bleu Iceberg" },
     { id: "violet", label: "Violet" },
     { id: "vert_foret", label: "Vert Forêt" },
+    { id: "dark_blood", label: "Dark Blood" },
   ];
 
   const handleClick = (event: React.MouseEvent<HTMLSpanElement> | React.KeyboardEvent<HTMLSpanElement>) => {
-    const clickedChipId = event.currentTarget.id as "bleu_iceberg" | "vert_foret" | "violet";
+    const clickedChipId = event.currentTarget.id as "bleu_iceberg" | "vert_foret" | "violet" | "dark_blood";
     switchTheme(clickedChipId);
   };
 

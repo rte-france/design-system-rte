@@ -44,12 +44,20 @@ describe("tokens-generator", () => {
     const writeSpy = vi.spyOn(fs, "writeFileSync");
     generateThemeIndexScssFile();
     expect(writeSpy).toHaveBeenCalledWith(
-      expect.stringContaining("themes/_main.scss"),
+      expect.stringContaining("themes/base/_index.scss"),
       expect.stringContaining('@forward "bleu-iceberg-light";'),
     );
     expect(writeSpy).toHaveBeenCalledWith(
-      expect.stringContaining("themes/_main.scss"),
+      expect.stringContaining("themes/base/_index.scss"),
       expect.stringContaining('@forward "vert-foret-dark";'),
+    );
+    expect(writeSpy).toHaveBeenCalledWith(
+      expect.stringContaining("themes/base/_index.scss"),
+      expect.stringContaining('@forward "dark-blood-light";'),
+    );
+    expect(writeSpy).toHaveBeenCalledWith(
+      expect.stringContaining("themes/base/_index.scss"),
+      expect.stringContaining('@forward "dark-blood-dark";'),
     );
   });
 

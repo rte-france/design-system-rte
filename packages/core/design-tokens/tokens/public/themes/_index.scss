@@ -14,9 +14,14 @@ $vert-foret: (
   "light": $vert-foret-light,
   "dark": $vert-foret-dark,
 );
+$dark-blood: (
+  "light": $dark-blood-light,
+  "dark": $dark-blood-dark,
+);
 
 $themes: (
   "bleu_iceberg": $bleu-iceberg,
   "violet": $violet,
   "vert_foret": $vert-foret,
+  "dark_blood": $dark-blood,
 );
