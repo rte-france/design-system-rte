@@ -1,0 +1,124 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+.rte-tab-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  &[data-direction='vertical'] {
+    flex-direction: row;
+    height: 100%;
+  }
+}
+
+.rte-tab {
+  position: relative;
+  display: flex;
+  height: 100%;
+  gap: $positive-spacing_300;
+  justify-content: flex-start;
+  padding-bottom: 2px;
+  margin-bottom: -2px;
+  margin-left: -2px;
+  scrollbar-width: none;
+  width: 100%;
+  padding-top: 2px;
+  padding-left: 2px;
+  align-items: center;
+
+  &[data-direction='horizontal'] {
+    overflow-x: scroll;
+
+    &[data-overflow-type='dropdown'] {
+      overflow: hidden;
+      margin-left: 0;
+    }
+  }
+
+  &[data-direction='vertical'] {
+    flex-direction: column;
+    border-bottom: none;
+    gap: $positive-spacing_050;
+    height: 100%;
+    padding-right: 2px;
+    margin-left: -2px;
+    width: max-content;
+    align-items: start;
+    margin-bottom: 0px;
+
+    .rte-tab-selected-indicator {
+      width: 2px;
+      transition: top 0.2s ease, height 0.2s ease;
+    }
+  }
+
+  &[data-alignment='center'] {
+    justify-content: center
+  }
+
+  .rte-tab-selected-indicator {
+    position: absolute;
+    bottom: 0;
+    height: 2px;
+    background: var(--background-brand-selected-default);
+    transition: left 0.2s ease, width 0.2s ease;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .rte-tab-separator {
+    width: $positive-spacing_300;
+    flex-shrink: 0;
+  }
+}
+
+.rte-tab-border-horizontal {
+  background-color: var(--background-neutral-regular-default);
+  position: relative;
+  height: 2px;
+
+  &[data-compact-spacing='true'] {
+    &[data-scrollable='true'] {
+      bottom: 5px;
+    }
+  }
+
+  &[data-direction='vertical'] {
+    display: none;
+  }
+}
+
+.rte-tab-border-vertical {
+  background-color: var(--background-neutral-regular-default);
+  position: relative;
+  width: 2px;
+
+  &[data-direction='horizontal'] {
+    display: none;
+  }
+}
+
+.rte-tab-dropdown-button {
+  @include typography-text-m-bold;
+  color: var(--content-secondary);
+  width: max-content;
+  display: flex;
+  align-items: center;
+  gap: $positive-spacing_150;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin: $positive-spacing_150;
+
+  &:focus-visible {
+    outline: 2px solid var(--border-brand-focused);
+    outline-offset: 12px;
+    z-index: $level-0 + 1;
+  }
+
+  &[data-inverted='true'] {
+    color: var(--content-primary-inverse);
+  }
+
+}
