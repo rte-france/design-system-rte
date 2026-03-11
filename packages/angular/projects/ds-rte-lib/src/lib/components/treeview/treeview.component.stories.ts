@@ -364,3 +364,82 @@ export const DottedLine: Story = {
     },
   }),
 };
+
+const connectorLinesVerificationData: TreeviewItemProps[] = [
+  {
+    id: "root",
+    labelText: "Root",
+    hasIcon: true,
+    icon: "folder",
+    isOpen: true,
+    items: [
+      {
+        id: "first",
+        labelText: "First (branch/T-shape)",
+        hasIcon: true,
+        icon: "folder",
+        isOpen: true,
+        items: [
+          {
+            id: "first-1",
+            labelText: "First-1 (branch)",
+            hasIcon: true,
+            icon: "folder",
+          },
+          {
+            id: "first-2",
+            labelText: "First-2 (corner/L-shape)",
+            hasIcon: true,
+            icon: "folder",
+          },
+        ],
+      },
+      {
+        id: "middle",
+        labelText: "Middle (branch/T-shape)",
+        hasIcon: true,
+        icon: "folder",
+        isOpen: true,
+        items: [
+          {
+            id: "middle-1",
+            labelText: "Middle-1 (corner/L-shape)",
+            hasIcon: true,
+            icon: "folder",
+          },
+        ],
+      },
+      {
+        id: "last",
+        labelText: "Last (corner/L-shape)",
+        hasIcon: true,
+        icon: "folder",
+      },
+    ],
+  },
+];
+
+export const ConnectorLinesVerification: Story = {
+  render: () => ({
+    props: {
+      items: connectorLinesVerificationData,
+    },
+    template: `
+      <rte-treeview>
+        @for (item of items; track item.id) {
+          <rte-treeview-item
+            [id]="item.id"
+            [labelText]="item.labelText"
+            [icon]="item.icon"
+            [hasIcon]="item.hasIcon"
+            [isOpen]="item.isOpen"
+            [items]="item.items ?? []"
+          />
+        }
+      </rte-treeview>
+    `,
+    moduleMetadata: {
+      imports: [TreeviewComponent, TreeviewItemComponent],
+    },
+  }),
+};

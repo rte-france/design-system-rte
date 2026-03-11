@@ -27,12 +27,34 @@
       <div class="treeview-item-checkbox-spacer"></div>
     }
     @for (borderType of connectorBorderTypes(); track $index) {
-      <div
+      <svg
         class="treeview-item-border"
-        [class.treeview-item-border-vertical]="borderType === 'vertical'"
-        [class.treeview-item-border-corner]="borderType === 'corner'"
-        [class.treeview-item-border-none]="borderType === 'none'"
-      ></div>
+        [class.treeview-item-border-dashed]="dottedLine() || dottedLineSignal()"
+        width="16"
+        height="32"
+        viewBox="0 0 16 32"
+        fill="none"
+        aria-hidden="true"
+      >
+        @switch (borderType) {
+          @case ('vertical') {
+            <path d="M8 32L8 0" class="treeview-item-border-path" />
+          }
+          @case ('branch') {
+            <path d="M8 32L8 0" class="treeview-item-border-path" />
+            <line x1="8" y1="15.5" x2="16" y2="15.5" class="treeview-item-border-path" />
+          }
+          @case ('corner') {
+            <path d="M8 16L8 0" class="treeview-item-border-path" />
+            <line x1="8" y1="15.5" x2="16" y2="15.5" class="treeview-item-border-path" />
+          }
+          @case ('horizontal') {
+            <line x1="0" y1="15.5" x2="16" y2="15.5" class="treeview-item-border-path" />
+          }
+          @case ('spacer') {
+          }
+        }
+      </svg>
     }
     @if (isParent()) {
       <button

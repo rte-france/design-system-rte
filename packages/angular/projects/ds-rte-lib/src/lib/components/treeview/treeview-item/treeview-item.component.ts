@@ -117,16 +117,20 @@ export class TreeviewItemComponent implements AfterViewInit {
 
   readonly connectorBorderTypes = computed(() => {
     const spacer = this.resolvedDepthSpacer();
-    const isLast = this.resolvedIsLastChild();
-    const types: Array<"vertical" | "corner" | "none"> = [];
+    const depth = this.effectiveDepth();
+    const types: Array<"vertical" | "corner" | "branch" | "spacer" | "horizontal"> = [];
     for (let index = 0; index < spacer.length; index++) {
       const isLastSpacer = index === spacer.length - 1;
       types.push(isLastSpacer ? spacer[index] : updateSpacerForAncestor(spacer[index]));
     }
-    const depth = this.effectiveDepth();
-    if (depth > 0) {
-      const currentLevelType: TreeviewSpacerType = isLast ? "corner" : "vertical";
-      types.push(currentLevelType);
+    const hasSpacerFromAncestor = types.includes("spacer");
+    if (depth >= 2 && !hasSpacerFromAncestor && types.length > 1) {
+      const lastType = types.pop()!;
+      types.push("spacer");
+      types.push(lastType);
+    }
+    if (depth > 0 && types.length > 0) {
+      types.push("horizontal");
     }
     return types;
   });
@@ -144,7 +148,7 @@ export class TreeviewItemComponent implements AfterViewInit {
   }
 
   getChildDepthSpacer(isLastChild: boolean): TreeviewSpacerType[] {
-    const nextType: TreeviewSpacerType = isLastChild ? "corner" : "vertical";
+    const nextType: TreeviewSpacerType = isLastChild ? "corner" : "branch";
     return [...this.resolvedDepthSpacer(), nextType];
   }
 

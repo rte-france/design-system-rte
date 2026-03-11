@@ -10,8 +10,8 @@ export const TREEVIEW_ROW_HEIGHT_PX = 32;
 
 export const TREEVIEW_ROW_HEIGHT_COMPACT_PX = 24;
 
-export type TreeviewSpacerType = "vertical" | "corner";
+export type TreeviewSpacerType = "vertical" | "corner" | "branch";
 
-export function updateSpacerForAncestor(type: TreeviewSpacerType): "vertical" | "none" {
-  return type === "corner" ? "none" : "vertical";
+export function updateSpacerForAncestor(type: TreeviewSpacerType): "vertical" | "spacer" {
+  return type === "corner" ? "spacer" : "vertical";
 }
