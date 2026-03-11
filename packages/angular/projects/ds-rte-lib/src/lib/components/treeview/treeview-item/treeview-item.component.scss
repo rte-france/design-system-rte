@@ -10,6 +10,7 @@
   margin: 0;
   padding: 0;
   list-style: none;
+  min-height: 32px;
 }
 
 .treeview-item-row {
@@ -186,12 +187,6 @@
       color: inherit;
     }
   }
-}
-
-.treeview-item-action {
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
 }
 
 .treeview-item-children {

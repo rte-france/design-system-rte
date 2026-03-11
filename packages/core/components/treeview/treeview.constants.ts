@@ -1,3 +1,5 @@
+import type { TreeviewBorderType } from "./treeview-item.interface";
+
 export const TREEVIEW_EXPAND_COLLAPSE_DURATION_MS = 140;
 
 export const TREEVIEW_INDENTATION_STEP_PX = 16;
@@ -10,8 +12,6 @@ export const TREEVIEW_ROW_HEIGHT_PX = 32;
 
 export const TREEVIEW_ROW_HEIGHT_COMPACT_PX = 24;
 
-export type TreeviewSpacerType = "vertical" | "corner" | "branch";
-
-export function updateSpacerForAncestor(type: TreeviewSpacerType): "vertical" | "spacer" {
+export function updateSpacerForAncestor(type: TreeviewBorderType): TreeviewBorderType {
   return type === "corner" ? "spacer" : "vertical";
 }

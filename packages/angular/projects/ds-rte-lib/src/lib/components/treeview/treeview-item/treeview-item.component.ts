@@ -1,11 +1,8 @@
 import { CommonModule } from "@angular/common";
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   computed,
-  contentChildren,
-  DestroyRef,
   effect,
   inject,
   input,
@@ -14,8 +11,10 @@ import {
   Signal,
 } from "@angular/core";
 import { BadgeProps } from "@design-system-rte/core/components/badge/badge.interface";
-import type { TreeviewItemProps } from "@design-system-rte/core/components/treeview/treeview-item.interface";
-import type { TreeviewSpacerType } from "@design-system-rte/core/components/treeview/treeview.constants";
+import {
+  TreeviewBorderType,
+  TreeviewItemProps,
+} from "@design-system-rte/core/components/treeview/treeview-item.interface";
 import {
   TREEVIEW_INDENTATION_COMPACT_PX,
   TREEVIEW_INDENTATION_STEP_PX,
@@ -45,7 +44,7 @@ export interface TreeviewSelectionChangeEvent {
   styleUrl: "./treeview-item.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TreeviewItemComponent implements AfterViewInit {
+export class TreeviewItemComponent {
   readonly labelText = input.required<string>();
   readonly icon = input<string | undefined>();
   readonly link = input<string | undefined>();
@@ -55,36 +54,25 @@ export class TreeviewItemComponent implements AfterViewInit {
   readonly isSelected = input<boolean>(false);
   readonly isOpen = input<boolean>(false);
   readonly hasIcon = input<boolean>(false);
-  readonly hasAction = input<boolean>(false);
   readonly hasBadge = input<boolean>(false);
   readonly newLine = input<boolean>(false);
   readonly dottedLine = input<boolean>(false);
-  readonly dottedLineSignal = signal<boolean>(false);
   readonly items = input<TreeviewItemProps[]>([]);
   readonly badge = input<BadgeProps | undefined>();
   readonly id = input<string | undefined>();
   readonly depth = input<number | undefined>(undefined);
   readonly isLastChild = input<boolean | undefined>(undefined);
-  readonly depthSpacer = input<TreeviewSpacerType[]>([]);
-  readonly depthSpacerSignal = signal<TreeviewSpacerType[]>([]);
+  readonly borderTypes = input<TreeviewBorderType[]>([]);
 
   readonly isOpenSignal = signal<boolean>(false);
-  readonly isLastChildSignal = signal<boolean>(true);
 
   readonly itemClick = output<string | undefined>();
   readonly openChange = output<TreeviewOpenChangeEvent>();
   readonly selectionChange = output<TreeviewSelectionChangeEvent>();
 
-  private readonly treeviewItemComponent = contentChildren(TreeviewItemComponent, { descendants: false });
-
   private readonly parentItem = inject(TreeviewItemComponent, { optional: true, skipSelf: true });
-  private readonly destroyRef = inject(DestroyRef);
 
-  readonly hasProjectedChildrenSignal = signal(false);
-
-  readonly hasDataDrivenChildren = computed(() => (this.items()?.length ?? 0) > 0);
-
-  readonly hasChildren = computed(() => this.hasDataDrivenChildren() || this.hasProjectedChildrenSignal());
+  readonly hasChildren = computed(() => (this.items()?.length ?? 0) > 0);
 
   readonly isLeaf = computed(() => !this.hasChildren());
 
@@ -107,18 +95,17 @@ export class TreeviewItemComponent implements AfterViewInit {
 
   readonly checkboxId = computed(() => `treeview-checkbox-${this.id() ?? this.labelText()}-${this.effectiveDepth()}`);
 
-  readonly resolvedIsLastChild = computed(() => this.isLastChild() ?? this.isLastChildSignal());
+  readonly resolvedIsLastChild = computed(() => this.isLastChild() ?? true);
 
-  readonly resolvedDepthSpacer = computed(() => {
-    const inputSpacer = this.depthSpacer();
-    const signalSpacer = this.depthSpacerSignal();
-    return inputSpacer.length > 0 ? inputSpacer : signalSpacer;
+  readonly resolvedBoderTypes = computed(() => {
+    const inputBorderTypes = this.borderTypes();
+    return inputBorderTypes.length > 0 ? inputBorderTypes : [];
   });
 
   readonly connectorBorderTypes = computed(() => {
-    const spacer = this.resolvedDepthSpacer();
+    const spacer = this.resolvedBoderTypes();
     const depth = this.effectiveDepth();
-    const types: Array<"vertical" | "corner" | "branch" | "spacer" | "horizontal"> = [];
+    const types: Array<TreeviewBorderType> = [];
     for (let index = 0; index < spacer.length; index++) {
       const isLastSpacer = index === spacer.length - 1;
       types.push(isLastSpacer ? spacer[index] : updateSpacerForAncestor(spacer[index]));
@@ -135,21 +122,9 @@ export class TreeviewItemComponent implements AfterViewInit {
     return types;
   });
 
-  setLastChild(value: boolean): void {
-    this.isLastChildSignal.set(value);
-  }
-
-  setDepthSpacer(value: TreeviewSpacerType[]): void {
-    this.depthSpacerSignal.set(value);
-  }
-
-  setDottedLine(value: boolean): void {
-    this.dottedLineSignal.set(value);
-  }
-
-  getChildDepthSpacer(isLastChild: boolean): TreeviewSpacerType[] {
-    const nextType: TreeviewSpacerType = isLastChild ? "corner" : "branch";
-    return [...this.resolvedDepthSpacer(), nextType];
+  getChildBorderTypes(isLastChild: boolean): TreeviewBorderType[] {
+    const nextType: TreeviewBorderType = isLastChild ? "corner" : "branch";
+    return [...this.resolvedBoderTypes(), nextType];
   }
 
   constructor() {
@@ -159,35 +134,6 @@ export class TreeviewItemComponent implements AfterViewInit {
       },
       { allowSignalWrites: true },
     );
-  }
-
-  ngAfterViewInit(): void {
-    this.updateHasProjectedChildren();
-    this.updateLastChildFlags();
-    this.treeviewItemComponent().forEach(() => {
-      effect(
-        () => {
-          this.updateHasProjectedChildren();
-          this.updateLastChildFlags();
-        },
-        { allowSignalWrites: true },
-      );
-    });
-  }
-
-  private updateLastChildFlags(): void {
-    const children = this.treeviewItemComponent();
-    const dotted = this.dottedLine() || this.dottedLineSignal();
-    children.forEach((child, index) => {
-      const isLast = index === children.length - 1;
-      child.setLastChild(isLast);
-      child.setDepthSpacer(this.getChildDepthSpacer(isLast));
-      child.setDottedLine(dotted);
-    });
-  }
-
-  private updateHasProjectedChildren(): void {
-    this.hasProjectedChildrenSignal.set(this.treeviewItemComponent()?.length > 0);
   }
 
   toggleOpen(): void {
@@ -226,5 +172,9 @@ export class TreeviewItemComponent implements AfterViewInit {
       return;
     }
     this.selectionChange.emit({ id: this.id(), selected: !this.isSelected() });
+  }
+
+  trackChild(child: TreeviewItemProps): string {
+    return child.id ?? child.labelText;
   }
 }
