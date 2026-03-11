@@ -1,0 +1,29 @@
+@use '@design-system-rte/core/design-tokens/main.scss' as *;
+
+:host {
+  display: block;
+  flex-shrink: 0;
+  width: $positive-spacing_200;
+  min-width: $positive-spacing_200;
+  height: 32px;
+  align-self: stretch;
+}
+
+:host-context(.treeview-item.compact) {
+  height: 24px;
+}
+
+.treeview-item-border {
+  display: block;
+  width: 100%;
+  height: 100%;
+
+  .treeview-item-border-path {
+    stroke: var(--border-tertiary);
+    stroke-width: $width-xs;
+  }
+
+  &.treeview-item-border-dashed .treeview-item-border-path {
+    stroke-dasharray: 2 2;
+  }
+}
