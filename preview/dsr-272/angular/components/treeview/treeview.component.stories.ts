@@ -1,10 +1,7 @@
 import type { TreeviewItemProps } from "@design-system-rte/core/components/treeview/treeview-item.interface";
 import { Meta, StoryObj } from "@storybook/angular";
 
-import { IconButtonComponent } from "../icon-button/icon-button.component";
-
 import { TreeviewItemComponent } from "./treeview-item/treeview-item.component";
-import { TreeviewItemActionDirective } from "./treeview-item-action.directive";
 import { TreeviewComponent } from "./treeview.component";
 
 const meta: Meta<TreeviewComponent> = {
@@ -28,7 +25,6 @@ const fileExplorerChildren: TreeviewItemProps[] = [
         labelText: "Sun",
         hasCheckbox: true,
         isSelected: true,
-        hasAction: true,
       },
     ],
   },
@@ -78,41 +74,12 @@ const navigationData: TreeviewItemProps[] = [
   },
 ];
 
-export const TemplateComposition: Story = {
-  render: () => ({
-    template: `
-      <rte-treeview>
-        <rte-treeview-item labelText="Images" [isOpen]="true">
-          <rte-treeview-item labelText="Summer 82" [hasCheckbox]="true" [isOpen]="true">
-            <rte-treeview-item labelText="Sun" [hasCheckbox]="true" [isSelected]="true" [hasAction]="true">
-              <button rteTreeviewItemAction type="button" aria-label="Actions">
-                <rte-icon-button name="more-vert" size="s" />
-              </button>
-            </rte-treeview-item>
-          </rte-treeview-item>
-        </rte-treeview-item>
-      </rte-treeview>
-    `,
-    moduleMetadata: {
-      imports: [TreeviewComponent, TreeviewItemComponent, IconButtonComponent, TreeviewItemActionDirective],
-    },
-  }),
-};
-
 export const DataDriven: Story = {
   render: () => ({
     props: {
-      items: fileExplorerChildren,
+      items: [{ labelText: "Images", isOpen: true, items: fileExplorerChildren }],
     },
-    template: `
-      <rte-treeview>
-        <rte-treeview-item
-          [items]="items"
-          labelText="Images"
-          [isOpen]="true"
-        />
-      </rte-treeview>
-    `,
+    template: `<rte-treeview [items]="items" />`,
     moduleMetadata: {
       imports: [TreeviewComponent, TreeviewItemComponent],
     },
@@ -124,23 +91,7 @@ export const NavigationExample: Story = {
     props: {
       items: navigationData,
     },
-    template: `
-      <rte-treeview>
-        @for (item of items; track item.id) {
-          <rte-treeview-item
-            [id]="item.id"
-            [labelText]="item.labelText"
-            [icon]="item.icon"
-            [link]="item.link"
-            [hasIcon]="item.hasIcon"
-            [hasCheckbox]="item.hasCheckbox"
-            [isSelected]="item.isSelected"
-            [isOpen]="item.isOpen"
-            [items]="item.items ?? []"
-          />
-        }
-      </rte-treeview>
-    `,
+    template: `<rte-treeview [items]="items" />`,
     moduleMetadata: {
       imports: [TreeviewComponent, TreeviewItemComponent],
     },
@@ -150,21 +101,12 @@ export const NavigationExample: Story = {
 export const WithSelectionChange: Story = {
   render: () => ({
     props: {
-      items: fileExplorerChildren,
+      items: [{ labelText: "Images", isOpen: true, items: fileExplorerChildren }],
       onSelectionChange: (event: { id: string | undefined; selected: boolean }) => {
         console.log("selectionChange", event);
       },
     },
-    template: `
-      <rte-treeview>
-        <rte-treeview-item
-          [items]="items"
-          labelText="Images"
-          [isOpen]="true"
-          (selectionChange)="onSelectionChange($event)"
-        />
-      </rte-treeview>
-    `,
+    template: `<rte-treeview [items]="items" (selectionChange)="onSelectionChange($event)" />`,
     moduleMetadata: {
       imports: [TreeviewComponent, TreeviewItemComponent],
     },
@@ -210,18 +152,9 @@ const deepNestingData: TreeviewItemProps[] = [
 export const Compact: Story = {
   render: () => ({
     props: {
-      items: fileExplorerChildren,
+      items: [{ labelText: "Images", isOpen: true, isCompact: true, items: fileExplorerChildren }],
     },
-    template: `
-      <rte-treeview>
-        <rte-treeview-item
-          [items]="items"
-          labelText="Images"
-          [isOpen]="true"
-          [isCompact]="true"
-        />
-      </rte-treeview>
-    `,
+    template: `<rte-treeview [items]="items" [isCompact]="true" />`,
     moduleMetadata: {
       imports: [TreeviewComponent, TreeviewItemComponent],
     },
@@ -233,20 +166,7 @@ export const DeepNesting: Story = {
     props: {
       items: deepNestingData,
     },
-    template: `
-      <rte-treeview>
-        @for (item of items; track item.id) {
-          <rte-treeview-item
-            [id]="item.id"
-            [labelText]="item.labelText"
-            [icon]="item.icon"
-            [hasIcon]="item.hasIcon"
-            [isOpen]="item.isOpen"
-            [items]="item.items ?? []"
-          />
-        }
-      </rte-treeview>
-    `,
+    template: `<rte-treeview [items]="items"/>`,
     moduleMetadata: {
       imports: [TreeviewComponent, TreeviewItemComponent],
     },
@@ -258,32 +178,131 @@ export const SelectedState: Story = {
     props: {
       items: [
         {
-          id: "child1",
-          labelText: "Child 1",
-          hasCheckbox: true,
-        },
-        {
-          id: "child2",
-          labelText: "Child 2 (selected)",
-          hasCheckbox: true,
-          isSelected: true,
-        },
-        {
-          id: "child3",
-          labelText: "Child 3",
-          hasCheckbox: true,
+          labelText: "Parent",
+          isOpen: true,
+          items: [
+            { id: "child1", labelText: "Child 1", hasCheckbox: true },
+            { id: "child2", labelText: "Child 2 (selected)", hasCheckbox: true, isSelected: true },
+            { id: "child3", labelText: "Child 3", hasCheckbox: true },
+          ],
         },
       ],
     },
-    template: `
-      <rte-treeview>
-        <rte-treeview-item
-          [items]="items"
-          labelText="Parent"
-          [isOpen]="true"
-        />
-      </rte-treeview>
-    `,
+    template: `<rte-treeview [items]="items" />`,
+    moduleMetadata: {
+      imports: [TreeviewComponent, TreeviewItemComponent],
+    },
+  }),
+};
+
+const lastChildWithChildrenData: TreeviewItemProps[] = [
+  {
+    id: "first",
+    labelText: "First",
+    hasIcon: true,
+    icon: "folder",
+  },
+  {
+    id: "last",
+    labelText: "Last (has children)",
+    hasIcon: true,
+    icon: "folder",
+    isOpen: true,
+    items: [
+      {
+        id: "grandchild",
+        labelText: "Grandchild",
+        hasIcon: true,
+        icon: "folder",
+      },
+    ],
+  },
+];
+
+export const AncestorSpacer: Story = {
+  render: () => ({
+    props: {
+      items: lastChildWithChildrenData,
+    },
+    template: `<rte-treeview [items]="items" />`,
+    moduleMetadata: {
+      imports: [TreeviewComponent, TreeviewItemComponent],
+    },
+  }),
+};
+
+export const DottedLine: Story = {
+  render: () => ({
+    props: {
+      items: navigationData,
+    },
+    template: `<rte-treeview [items]="items" [dottedLine]="true" />`,
+    moduleMetadata: {
+      imports: [TreeviewComponent, TreeviewItemComponent],
+    },
+  }),
+};
+
+const connectorLinesVerificationData: TreeviewItemProps[] = [
+  {
+    id: "root",
+    labelText: "Root",
+    hasIcon: true,
+    icon: "folder",
+    isOpen: true,
+    items: [
+      {
+        id: "first",
+        labelText: "First (branch/T-shape)",
+        hasIcon: true,
+        icon: "folder",
+        isOpen: true,
+        items: [
+          {
+            id: "first-1",
+            labelText: "First-1 (branch)",
+            hasIcon: true,
+            icon: "folder",
+          },
+          {
+            id: "first-2",
+            labelText: "First-2 (corner/L-shape)",
+            hasIcon: true,
+            icon: "folder",
+          },
+        ],
+      },
+      {
+        id: "middle",
+        labelText: "Middle (branch/T-shape)",
+        hasIcon: true,
+        icon: "folder",
+        isOpen: true,
+        items: [
+          {
+            id: "middle-1",
+            labelText: "Middle-1 (corner/L-shape)",
+            hasIcon: true,
+            icon: "folder",
+          },
+        ],
+      },
+      {
+        id: "last",
+        labelText: "Last (corner/L-shape)",
+        hasIcon: true,
+        icon: "folder",
+      },
+    ],
+  },
+];
+
+export const ConnectorLinesVerification: Story = {
+  render: () => ({
+    props: {
+      items: connectorLinesVerificationData,
+    },
+    template: `<rte-treeview [items]="items" />`,
     moduleMetadata: {
       imports: [TreeviewComponent, TreeviewItemComponent],
     },
