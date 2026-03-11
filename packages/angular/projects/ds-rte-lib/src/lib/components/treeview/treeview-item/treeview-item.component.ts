@@ -26,6 +26,8 @@ import { BadgeComponent } from "../../badge/badge.component";
 import { CheckboxComponent } from "../../checkbox/checkbox.component";
 import { IconComponent } from "../../icon/icon.component";
 
+import { TreeviewItemBorderComponent } from "./treeview-item-border/treeview-item-border.component";
+
 export interface TreeviewOpenChangeEvent {
   id: string | undefined;
   open: boolean;
@@ -38,7 +40,7 @@ export interface TreeviewSelectionChangeEvent {
 
 @Component({
   selector: "rte-treeview-item",
-  imports: [CommonModule, CheckboxComponent, IconComponent, BadgeComponent],
+  imports: [CommonModule, CheckboxComponent, IconComponent, BadgeComponent, TreeviewItemBorderComponent],
   standalone: true,
   templateUrl: "./treeview-item.component.html",
   styleUrl: "./treeview-item.component.scss",
@@ -74,10 +76,6 @@ export class TreeviewItemComponent {
 
   readonly hasChildren = computed(() => (this.items()?.length ?? 0) > 0);
 
-  readonly isLeaf = computed(() => !this.hasChildren());
-
-  readonly isParent = computed(() => !this.isLeaf());
-
   readonly effectiveDepth: Signal<number> = computed(() => {
     const depthInput = this.depth();
     if (depthInput !== undefined) {
@@ -97,34 +95,32 @@ export class TreeviewItemComponent {
 
   readonly resolvedIsLastChild = computed(() => this.isLastChild() ?? true);
 
-  readonly resolvedBoderTypes = computed(() => {
+  readonly resolvedBorderTypes = computed(() => {
     const inputBorderTypes = this.borderTypes();
     return inputBorderTypes.length > 0 ? inputBorderTypes : [];
   });
 
   readonly connectorBorderTypes = computed(() => {
-    const spacer = this.resolvedBoderTypes();
-    const depth = this.effectiveDepth();
-    const types: Array<TreeviewBorderType> = [];
-    for (let index = 0; index < spacer.length; index++) {
-      const isLastSpacer = index === spacer.length - 1;
-      types.push(isLastSpacer ? spacer[index] : updateSpacerForAncestor(spacer[index]));
+    if (this.isCompact()) {
+      return Array(this.effectiveDepth()).fill("spacer");
+    } else {
+      const currentBorders = this.resolvedBorderTypes();
+      const depth = this.effectiveDepth();
+      const outputBorders: Array<TreeviewBorderType> = [];
+      for (let index = 0; index < currentBorders.length; index++) {
+        const isLastSpacer = index === currentBorders.length - 1;
+        outputBorders.push(isLastSpacer ? currentBorders[index] : updateSpacerForAncestor(currentBorders[index]));
+      }
+      if (depth && outputBorders.length && !this.hasChildren()) {
+        outputBorders.push("horizontal");
+      }
+      return outputBorders;
     }
-    const hasSpacerFromAncestor = types.includes("spacer");
-    if (depth >= 2 && !hasSpacerFromAncestor && types.length > 1) {
-      const lastType = types.pop()!;
-      types.push("spacer");
-      types.push(lastType);
-    }
-    if (depth > 0 && types.length > 0) {
-      types.push("horizontal");
-    }
-    return types;
   });
 
   getChildBorderTypes(isLastChild: boolean): TreeviewBorderType[] {
     const nextType: TreeviewBorderType = isLastChild ? "corner" : "branch";
-    return [...this.resolvedBoderTypes(), nextType];
+    return [...this.resolvedBorderTypes(), nextType];
   }
 
   constructor() {
@@ -137,7 +133,7 @@ export class TreeviewItemComponent {
   }
 
   toggleOpen(): void {
-    if (!this.isParent() || this.disabled()) {
+    if (!this.hasChildren() || this.disabled()) {
       return;
     }
     const newOpen = !this.isOpenSignal();

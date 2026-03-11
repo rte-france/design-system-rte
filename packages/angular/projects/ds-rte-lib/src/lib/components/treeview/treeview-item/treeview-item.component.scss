@@ -43,14 +43,44 @@
   align-items: center;
   gap: $positive-spacing_050;
   min-width: 0;
-  padding: $positive-spacing_025 $positive-spacing_050;
+  padding: $positive-spacing_050;
   border-radius: $radius-s;
   transition: background-color 120ms;
   box-sizing: border-box;
+  margin: 0 $positive-spacing_050;
 
   @media (prefers-reduced-motion: reduce) {
     transition: none;
   }
+}
+
+.treeview-item.is-expanded {
+  &:not(.compact) {
+    > .treeview-item-row > .treeview-item-chevron::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: $width-xs;
+      height: calc(#{$positive-spacing_200} / 2);
+      background: var(--border-tertiary);
+      transform: translateX(-50%) translateY(100%);
+    }
+  }
+}
+
+.treeview-item.is-expanded:not(.compact).dotted-line > .treeview-item-row > .treeview-item-chevron::after {
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--border-tertiary) 0,
+    var(--border-tertiary) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+}
+
+.treeview-item.is-expanded.compact > .treeview-item-row > .treeview-item-chevron::after {
+  height: calc(#{$positive-spacing_200} / 4);
 }
 
 .treeview-item-row:hover .treeview-item-main-content {
@@ -75,40 +105,22 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: $positive-spacing_200;
   min-width: $positive-spacing_200;
 
-  ::ng-deep .rte-checkbox {
-    margin: 0;
+  ::ng-deep {
+    .rte-checkbox {
+      margin: 0;
+    }
+    .rte-checkbox-container {
+      gap: $positive-spacing_050;
+    }
   }
 }
 
 .treeview-item-checkbox-spacer {
   flex-shrink: 0;
-  width: $positive-spacing_200;
-  min-width: $positive-spacing_200;
-}
-
-.treeview-item-border {
-  flex-shrink: 0;
-  width: $positive-spacing_200;
-  min-width: $positive-spacing_200;
-  height: 32px;
-  align-self: stretch;
-  display: block;
-
-  .treeview-item-border-path {
-    stroke: var(--border-tertiary);
-    stroke-width: $width-xs;
-  }
-
-  &.treeview-item-border-dashed .treeview-item-border-path {
-    stroke-dasharray: 2 2;
-  }
-}
-
-.treeview-item.compact .treeview-item-border {
-  height: 24px;
+  width: $positive-spacing_250;
+  min-width: $positive-spacing_250;
 }
 
 .treeview-item-chevron {
@@ -125,6 +137,7 @@
   border-radius: $radius-xs;
   cursor: pointer;
   color: inherit;
+  position: relative;
 
   &:hover {
     background: var(--background-neutral-navigation-hover);
