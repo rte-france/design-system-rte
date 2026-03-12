@@ -1,6 +1,8 @@
 <div class="treeview" role="tree">
   @for (item of items(); track itemTrack(item); let itemIndex = $index) {
     <rte-treeview-item
+      [treeId]="id()"
+      [nodePath]="[itemIndex]"
       [id]="item.id"
       [labelText]="item.labelText"
       [icon]="item.icon"
@@ -9,7 +11,6 @@
       [isCompact]="item.isCompact ?? isCompact()"
       [hasCheckbox]="item.hasCheckbox ?? false"
       [isChecked]="item.isChecked"
-      [isSelected]="item.isSelected ?? false"
       [isOpen]="item.isOpen ?? false"
       [hasIcon]="item.hasIcon ?? false"
       [hasBadge]="item.hasBadge ?? false"

@@ -2,6 +2,8 @@ import { BadgeProps } from "../badge/badge.interface";
 
 export type TreeviewBorderType = "vertical" | "branch" | "corner" | "horizontal" | "spacer";
 
+export type TreeviewNodePath = number[];
+
 export interface TreeviewItemProps {
   id?: string;
   labelText: string;
@@ -11,7 +13,6 @@ export interface TreeviewItemProps {
   isCompact?: boolean;
   hasCheckbox?: boolean;
   isChecked?: boolean;
-  isSelected?: boolean;
   isOpen?: boolean;
   hasIcon?: boolean;
   hasBadge?: boolean;

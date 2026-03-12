@@ -1,4 +1,4 @@
-import type { TreeviewBorderType, TreeviewItemProps } from "./treeview-item.interface";
+import type { TreeviewBorderType, TreeviewItemProps, TreeviewNodePath } from "./treeview-item.interface";
 import { TREEVIEW_INDENTATION_COMPACT_PX, TREEVIEW_INDENTATION_STEP_PX } from "./treeview.constants";
 
 export function hasChildren(items: TreeviewItemProps[] | undefined): boolean {
@@ -35,20 +35,12 @@ export function computeConnectorBorderTypes(config: ComputeBorderTypesConfig): T
   return outputBorders;
 }
 
-export function updateBorderTypeForAncestor(type: TreeviewBorderType): TreeviewBorderType {
-  return type === "corner" ? "spacer" : "vertical";
-}
-
 export function getChildBorderTypes(
   resolvedBorderTypes: TreeviewBorderType[],
   isLastChild: boolean,
 ): TreeviewBorderType[] {
   const nextType: TreeviewBorderType = isLastChild ? "corner" : "branch";
   return [...resolvedBorderTypes, nextType];
-}
-
-export function computeCheckboxId(id: string | undefined, labelText: string, depth: number): string {
-  return `treeview-checkbox-${id ?? labelText}-${depth}`;
 }
 
 export function isItemSelected(itemId: string | undefined, selectedId: string | undefined): boolean {
@@ -72,4 +64,53 @@ export function mergeChildItemWithParent(
     isCompact: child.isCompact ?? parent.isCompact,
     dottedLine: child.dottedLine ?? parent.dottedLine,
   };
+}
+
+export function computeCheckboxId(baseId: string): string {
+  return `treeview-checkbox-${baseId}`;
+}
+
+export function updateBorderTypeForAncestor(type: TreeviewBorderType): TreeviewBorderType {
+  return type === "corner" ? "spacer" : "vertical";
+}
+
+export interface BuildTreeviewNodeIdParams {
+  treeId: string;
+  path: TreeviewNodePath;
+  itemId?: string;
+}
+
+export function buildTreeviewNodeId({ treeId, path, itemId }: BuildTreeviewNodeIdParams): string {
+  const pathPart = path.join("-");
+  const base = `${treeId}__${pathPart}`;
+  return itemId ? `${base}__${itemId}` : base;
+}
+
+export function parsePathString(pathString: string): number[] {
+  if (!pathString.trim()) {
+    return [];
+  }
+  return pathString
+    .split("-")
+    .map((segment) => parseInt(segment.trim(), 10))
+    .filter((index) => !Number.isNaN(index) && index >= 0);
+}
+
+export function getNodeAtPath(
+  items: TreeviewItemProps[],
+  pathIndices: TreeviewNodePath,
+): TreeviewItemProps | undefined {
+  if (pathIndices.length === 0 || items.length === 0) {
+    return undefined;
+  }
+  const [headIndex, ...restIndices] = pathIndices;
+  const node = items[headIndex];
+  if (node === undefined) {
+    return undefined;
+  }
+  if (restIndices.length === 0) {
+    return node;
+  }
+  const children = node.items ?? [];
+  return getNodeAtPath(children, restIndices);
 }
