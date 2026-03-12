@@ -23,11 +23,11 @@ export interface TreeviewItemProps {
 }
 
 export interface TreeviewOpenChangeEvent {
-  id: string | undefined;
+  id: string;
   open: boolean;
 }
 
 export interface TreeviewSelectionChangeEvent {
-  id: string | undefined;
+  id: string;
   selected: boolean;
 }

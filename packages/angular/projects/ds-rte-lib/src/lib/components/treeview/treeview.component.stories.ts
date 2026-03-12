@@ -242,7 +242,7 @@ const lastChildWithChildrenData: TreeviewItemProps[] = [
   },
 ];
 
-export const AncestorSpacer: Story = {
+export const AncestorBorder: Story = {
   render: () => ({
     props: {
       items: lastChildWithChildrenData,

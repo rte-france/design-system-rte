@@ -1,9 +1,5 @@
 import type { TreeviewBorderType, TreeviewItemProps } from "./treeview-item.interface";
-import {
-  TREEVIEW_INDENTATION_COMPACT_PX,
-  TREEVIEW_INDENTATION_STEP_PX,
-  updateSpacerForAncestor,
-} from "./treeview.constants";
+import { TREEVIEW_INDENTATION_COMPACT_PX, TREEVIEW_INDENTATION_STEP_PX } from "./treeview.constants";
 
 export function hasChildren(items: TreeviewItemProps[] | undefined): boolean {
   return (items?.length ?? 0) > 0;
@@ -14,27 +10,33 @@ export function computeIndentationPx(depth: number, isCompact: boolean): number 
   return depth * step;
 }
 
-export interface BorderTypesConfig {
+export interface ComputeBorderTypesConfig {
   depth?: number;
   isCompact?: boolean;
   resolvedBorderTypes?: TreeviewBorderType[];
   hasChildren?: boolean;
 }
 
-export function computeConnectorBorderTypes(params: BorderTypesConfig): TreeviewBorderType[] {
-  const { depth, isCompact, resolvedBorderTypes = [], hasChildren } = params;
+export function computeConnectorBorderTypes(config: ComputeBorderTypesConfig): TreeviewBorderType[] {
+  const { depth, isCompact, resolvedBorderTypes = [], hasChildren } = config;
   if (isCompact) {
     return Array(depth).fill("spacer");
   }
   const outputBorders: TreeviewBorderType[] = [];
   for (let index = 0; index < resolvedBorderTypes.length; index++) {
-    const isLastSpacer = index === resolvedBorderTypes.length - 1;
-    outputBorders.push(isLastSpacer ? resolvedBorderTypes[index] : updateSpacerForAncestor(resolvedBorderTypes[index]));
+    const isLastBorder = index === resolvedBorderTypes.length - 1;
+    outputBorders.push(
+      isLastBorder ? resolvedBorderTypes[index] : updateBorderTypeForAncestor(resolvedBorderTypes[index]),
+    );
   }
   if (depth && outputBorders.length && !hasChildren) {
     outputBorders.push("horizontal");
   }
   return outputBorders;
+}
+
+export function updateBorderTypeForAncestor(type: TreeviewBorderType): TreeviewBorderType {
+  return type === "corner" ? "spacer" : "vertical";
 }
 
 export function getChildBorderTypes(
