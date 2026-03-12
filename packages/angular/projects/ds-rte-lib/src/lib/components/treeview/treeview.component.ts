@@ -4,7 +4,7 @@ import {
   TreeviewItemProps,
   TreeviewOpenChangeEvent,
   TreeviewSelectionChangeEvent,
-} from "@design-system-rte/core/components/treeview/treeview-item.interface";
+} from "@design-system-rte/core/components/treeview";
 
 import { TreeviewItemComponent } from "./treeview-item/treeview-item.component";
 import { TreeviewSelectionService } from "./treeview-selection.service";
@@ -23,6 +23,8 @@ export class TreeviewComponent {
   readonly dottedLine = input<boolean>(false);
   readonly items = input<TreeviewItemProps[]>([]);
   readonly selectedId = input<string | undefined>(undefined);
+  readonly selectedPath = input<string | undefined>(undefined);
+  readonly id = input<string>("treeview");
   readonly itemClick = output<string | undefined>();
   readonly openChange = output<TreeviewOpenChangeEvent>();
   readonly selectionChange = output<TreeviewSelectionChangeEvent>();
@@ -34,6 +36,17 @@ export class TreeviewComponent {
       () => {
         const id = this.selectedId();
         this.selectionService.select(id);
+        this.selectionChange.emit({ id, selected: true });
+      },
+      { allowSignalWrites: true },
+    );
+    effect(
+      () => {
+        const pathString = this.selectedPath();
+        const currentItems = this.items();
+        if (pathString != null && pathString !== "" && currentItems.length > 0) {
+          this.selectionService.selectByNodePath(pathString, currentItems);
+        }
       },
       { allowSignalWrites: true },
     );

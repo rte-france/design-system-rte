@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, input } from "@angular/core";
-import { SvgConfig } from "@design-system-rte/core/common/svg";
-import { TREEVIEW_BORDER_SVG_MAP, TreeviewBorderType } from "@design-system-rte/core/components/treeview";
+import type { SvgConfig } from "@design-system-rte/core/common/svg";
+import { TREEVIEW_BORDER_SVG_MAP } from "@design-system-rte/core/components/treeview";
+import type { TreeviewBorderType } from "@design-system-rte/core/components/treeview/treeview-item.interface";
 
 @Component({
   selector: "rte-treeview-item-border",
