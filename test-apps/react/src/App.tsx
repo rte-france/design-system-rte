@@ -26,6 +26,7 @@ import {
   Stepper,
   Tab,
   Drawer,
+  Avatar,
 } from "@design-system-rte/react";
 import "./App.css";
 import { useState } from "react";
@@ -672,6 +673,15 @@ function App() {
           </ToastQueueProvider>
           <Loader />
           <Treeview items={baseNavigationData} onItemClick={(id) => console.log("Clicked item id:", id)} />
+          <Avatar
+            layout="icon"
+            type="user"
+            status="available"
+            size={32}
+            onClick={() => {
+              alert("Clicked on avatar");
+            }}
+          />
         </div>
       </Drawer>
     </SideNav>
