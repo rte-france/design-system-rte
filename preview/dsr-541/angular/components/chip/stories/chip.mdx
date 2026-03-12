@@ -1,0 +1,214 @@
+import { Meta } from "@storybook/blocks";
+
+import Tabs from "../../../../../../../../design-docs/src/components/ComponentDocs/Tabs/Tabs";
+import HeaderComponent from "../../../../../../../.storybook/template/HeaderComponent/HeaderComponent";
+import IconTitle from "../../../../../../../.storybook/template/IconTitle/IconTitle";
+
+import ChipsTypes from "../../../../../../../../design-docs/component-docs/chip/stories/img/ChipsTypes.svg"
+import ChipsTaille from "../../../../../../../../design-docs/component-docs/chip/stories/img/ChipsTaille.svg"
+import ChipsStructure from "../../../../../../../../design-docs/component-docs/chip/stories/img/ChipsStructure.svg"
+import ChipsTableOfOptions from "../../../../../../../../design-docs/component-docs/chip/stories/img/ChipsTableOfOptions.svg"
+import ChipsLayout from "../../../../../../../../design-docs/component-docs/chip/stories/img/ChipsLayout.svg"
+import ChipsInteractionsStates from "../../../../../../../../design-docs/component-docs/chip/stories/img/ChipsInteractionsStates.svg"
+import ChipsKeyboardInteractions from "../../../../../../../../design-docs/component-docs/chip/stories/img/ChipsKeyboardInteractions.svg"
+import ChipsAccessibility from "../../../../../../../../design-docs/component-docs/chip/stories/img/ChipsAccessibility.png"
+
+import "../../../../../../../.storybook/template/style/police.css";
+
+<Meta title="Composants/Chip" />
+
+<HeaderComponent title="Chip" linkFigma="https://www.figma.com/design/Wiy8uWsWjoagf95lOmPXNU/01.0-Design-System-RTE---WEB?node-id=1704-2263&p=f&m=dev" linkGithub="https://github.com/rte-france/design-system-rte/tree/main/packages/angular/projects/ds-rte-lib/src/lib/components/chip"  />
+
+<p className="no-margin-bottom"> Le composant Chip est un élément interactif compact utilisé pour représenter une option sélectionnable, un filtre ou une entrée utilisateur. Il est conçu pour des interactions légères, rapides et accessibles. </p>
+<p className="no-margin-top"> Contrairement aux badges ou tags, les chips permettent une <b>interaction directe</b> : sélection, désélection ou suppression.</p>
+
+<Tabs>
+
+<div className="Overview">
+
+    <h2 className="h2" id="Introduction" style={{border:"none", fontFamily:"Nunito", color:"#2964A0"}}> Introduction </h2>
+
+<h3 className="h3" id="gherkin" style={{fontFamily:"Nunito"}}> Gherkin : </h3>
+<ul>
+    <li> En tant qu'utilisateur filtrant une liste de résultats,</li>
+    <li> Je souhaite pouvoir sélectionner ou désélectionner plusieurs options via des chips,</li>
+    <li> Afin d'affiner les données affichées sans recharger la page.</li>
+</ul>
+
+<ul>
+    <li> En tant qu'utilisateur devant choisir une seule option parmi plusieurs,</li>
+    <li> Je souhaite pouvoir sélectionner un chip unique,</li>
+    <li> Afin de confirmer mon choix sans ambiguïté.</li>
+</ul>
+
+<ul>
+    <li> En tant qu'utilisateur remplissant un champ avec des éléments multiples,</li>
+    <li> Je souhaite voir chaque élément apparaître sous forme de chip suppressible,</li>
+    <li> Afin de modifier mon entrée facilement sans ressaisir l'ensemble.</li>
+</ul>
+
+<h3 className="h3" id="definition" style={{fontFamily:"Nunito"}}> Définition : </h3>
+<p> Le composant Chip est un élément interactif compact utilisé pour représenter une option sélectionnable, un filtre ou une entrée utilisateur. Il est conçu pour des interactions légères, rapides et accessibles. Contrairement aux badges ou tags, les chips permettent une <b>interaction directe</b> : sélection, désélection ou suppression.</p>
+
+<h3 className="h3" id="types" style={{fontFamily:"Nunito"}}> Type : </h3>
+<p> Composant générique pouvant être utilisé par toutes les équipes de la DSIT.</p>
+
+</div>
+
+<div className="Guidelines">
+
+        <h2 id="guidelines" className="h2" style={{border:"none", fontFamily:"Nunito", color:"#2964A0"}} > Usages </h2>
+
+        <h3 id="usage-examples" className="h3" style={{fontFamily:"Nunito"}}> Usages Guidelines : </h3>
+
+        <p>Les principales règles qui entourent l'utilisation du composant :</p>
+
+        <p className="no-margin-bottom">Limiter les chips aux interactions</p>
+        <p className="light-gray no-margin-top">Les chips doivent toujours être interactifs. Si une information est purement informative, utiliser un Tag à la place.</p>
+
+        <p className="no-margin-bottom">Distinguer clairement le type d’interaction</p>
+        <p className="light-gray no-margin-top">Les chips peuvent fonctionner comme :</p>
+        <ul>
+            <li>des <b>cases à cocher</b> (multi-sélection)</li>
+            <li>des <b>boutons radio</b> (choix unique)</li>
+            <li>des <b>éléments de saisie</b> (avec suppression)</li>
+        </ul>
+        <p className="light-gray no-margin-top">Le design doit refléter la logique de sélection.</p>
+
+        <p className="no-margin-bottom">Éviter les chips actions</p>
+        <p className="light-gray no-margin-top">Les chips ne doivent pas déclencher des actions (ex : télécharger, envoyer). Pour cela, utiliser un bouton classique.</p>
+
+        <p className="no-margin-bottom">Favoriser des libellés courts et explicites</p>
+        <p className="light-gray no-margin-top">Un chip doit tenir sur une ligne, avec un texte concis (max. 2 mots idéalement). Éviter les phrases longues ou ambiguës.</p>
+
+        <p className="no-margin-bottom">Limiter le scroll horizontal</p>
+        <p className="light-gray no-margin-top">Grouper les chips par ligne ou catégorie. Le scroll horizontal sur mobile doit être justifié par le contexte.</p>
+
+        <p className="no-margin-bottom">Grouper les chips par usage</p>
+        <p className="light-gray no-margin-top">Ne pas mélanger des chips de sélection et des chips d’entrée libre. Chaque groupe doit avoir un comportement homogène.</p>
+
+        <p className="no-margin-bottom">Afficher les chips suppressibles dans un champ uniquement</p>
+        <p className="light-gray no-margin-top">Les chips avec croix de suppression doivent être réservées aux contextes de saisie utilisateur.</p>
+
+        <h3 id="content-standards" className="h3" style={{fontFamily:"Nunito"}}> Content Standards </h3>
+
+        <p>Quels sont les standards du contenu ? (UX Writing)</p>
+
+        <p className="no-margin-bottom">Label</p>
+        <p className="light-gray no-margin-top"> ✓ Court, explicite (ex : "PDF", "Urgent", "Design")<br />
+        ✓ Une majuscule initiale, pas de point ni ponctuation</p>
+
+        <p className="no-margin-bottom">Étiquette de suppression (aria-label)</p>
+        <p className="light-gray no-margin-top">✓ "[Supprimer] + label du chip", ex. : "Supprimer PDF"<br />
+        ✓ Jamais juste "Supprimer"</p>
+
+        <h2 id="options" className="h2" style={{border:"none", fontFamily:"Nunito", color:"#2964A0"}} > Options </h2>
+
+        <p> Les options comprennent les états et différentes formes que peut prendre le composant. Elles incluent : Les états, les variants, les tailles, les éléments modifiables qui composent le composant, etc. <br />
+        → Ils n’incluent pas les “Behaviors” qui correspondent à comment le composant réagit.</p>
+
+        <h3 id="chips-types" className="h3" style={{fontFamily:"Nunito"}}> Chips Types </h3>
+    <img src={ChipsTypes} alt="Exemples des différents types de chips disponibles" />
+
+        <h3 id="interaction-states" className="h3" style={{fontFamily:"Nunito"}}> Interaction States </h3>
+    <img src={ChipsInteractionsStates} alt="Illustration des différents états d'interaction des chips" />
+
+        <h3 id="taille" className="h3" style={{fontFamily:"Nunito"}}> Taille : </h3>
+        <p> Le Chip existe en deux tailles : </p>
+    <img src={ChipsTaille} alt="Illustration des différentes tailles de chip" />
+
+        <h3 id="structure" className="h3" style={{fontFamily:"Nunito"}}> Structure </h3>
+        <p> Le <b>chip</b> est composé de plusieurs éléments : </p>
+    <img src={ChipsStructure} alt="Schéma de la structure du composant chip" />
+        <ol>
+            <li>Un <b>champ de saisie (container)</b></li>
+            <li>Une <b>icône</b></li>
+            <li>Un <b>label personnalisable</b> (par défaut : " ?? ")</li>
+        </ol>
+
+        <h3 id="text-options" className="h3" style={{fontFamily:"Nunito"}}> Text Options </h3>
+        <p><b>Label</b></p>
+        <p className="light-gray no-margin-top"><b>Contenu principal du chip, indiquant l'action à réaliser.</b><br />
+        Le contenu du label peut être modifié.</p>
+
+        <h3 id="boolean-properties" className="h3" style={{fontFamily:"Nunito"}}> Boolean Properties </h3>
+
+        <p><b>Selected</b></p>
+        <p className="light-gray no-margin-top"><b>Indique si le chip est sélectionné</b></p>
+
+        <p><b>Compact Spacing</b></p>
+        <p className="light-gray no-margin-top"><b>Active la taille compacte</b></p>
+
+        <h3 id="table-of-options" className="h3" style={{fontFamily:"Nunito"}}> Table of Options </h3>
+        <p className="light-gray"> Tous les éléments modifiables sont inscrit dans le tableau. On y renseigne le nom de la propriété et les choix qui s’offrent aux développeurs.</p>
+    <img src={ChipsTableOfOptions} alt="Tableau des propriétés et options du chip" />
+
+        <h2 id="Behaviors" className="h2" style={{border:"none", fontFamily:"Nunito", color:"#2964A0"}} > Behaviors </h2>
+
+        <h3 id="Focus" className="h3" style={{fontFamily:"Nunito"}}> Focus </h3>
+        <ul>
+        <li>Chaque chip peut recevoir le focus via TAB.</li>
+        <li>L’état de focus est clairement visible via un contour.</li>
+        <li>Le focus est priorisé sur la chip entière, puis sur l’icône de suppression si elle est activée.</li>
+        <li>Le composant doit éviter tout double focus visuel (ex : chip + croix).</li>
+        </ul>
+
+        <h3 id="layout" className="h3" style={{fontFamily:"Nunito"}}> Layout </h3>
+    <img src={ChipsLayout} alt="Exemple de disposition et positionnement des chips" />
+
+        <h3 id="animations" className="h3" style={{fontFamily:"Nunito"}}> Animations </h3>
+        <p className="no-margin-bottom"><b>Selection</b></p>
+        <p className="light-gray no-margin-top no-margin-bottom"> <b>Transition de fond ou d’icône (ex : coche qui apparaît). </b></p>
+        <p className="light-gray no-margin-top no-margin-bottom"> <b>Délais</b> : ~200ms </p>
+        <p className="light-gray no-margin-top no-margin-bottom"> <b>Modifiable</b> : Oui </p>
+
+        <p className="no-margin-bottom"><b>Suppression</b></p>
+        <p className="light-gray no-margin-top no-margin-bottom">Disparition fluide de la chip (fade + shrink).</p>
+        <p className="light-gray no-margin-top no-margin-bottom"> <b>Délais</b> : ~250ms </p>
+        <p className="light-gray no-margin-top no-margin-bottom"> <b>Modifiable</b> : Oui </p>
+
+        <h3 id="interactions" className="h3" style={{fontFamily:"Nunito"}}> Interactions </h3>
+
+        <p className="no-margin-bottom"> <b>Survol souris</b> </p>
+        <p className="light-gray no-margin-top"> La chip affiche un changement de fond. </p>
+
+        <p className="no-margin-bottom"> <b>Selection</b> </p>
+        <ul>
+          <li className="light-gray"> En multi-sélection : coche</li>
+          <li className="light-gray"> En choix unique : la chip sélectionnée a un visuel distinct</li>
+        </ul>
+
+        <p className="no-margin-bottom"> <b>Suppression</b> </p>
+        <p className="light-gray no-margin-top"> Changement visuel autour de l’icône “X” au hover </p>
+
+        <p className="no-margin-bottom"> <b>Disabled</b> </p>
+        <p className="light-gray no-margin-top"> Fond et texte grisés, curseur not-allowed </p>
+
+        <h3 id="keyboard-interactions" className="h3" style={{fontFamily:"Nunito"}}> Keyboard Interactions </h3>
+    <img src={ChipsKeyboardInteractions} alt="Illustration des interactions clavier pour les chips" />
+
+        <h3 id="safezone" className="h3" style={{fontFamily:"Nunito"}}> Safezone </h3>
+        <ul>
+        <li>Minimum de <b>8px de padding horizontal</b> à l’intérieur du chip</li>
+        <li>Zone cliquable de l’icône de suppression : <b>au moins 24x24px</b></li>
+        <li>L’ensemble du chip (texte + icône) est cliquable sauf mention contraire</li>
+        </ul>
+
+        <h3 id="placement" className="h3" style={{fontFamily:"Nunito"}}> Placement </h3>
+        <ul>
+           <li> Les chips sont généralement <b>présentées en groupe</b>, alignées à gauche</li>
+           <li> Dans un formulaire, elles sont regroupées sous un <b>label commun</b></li>
+           <li> Les input-chips sont <b>encapsulées dans un champ</b> et se placent <b>avant le curseur de saisie</b></li>
+           <li> Les chips peuvent être regroupées dans des sections scrollables en horizontal (mobile)</li>
+        </ul>
+</div>
+
+<div className="Accessibilité">
+
+        <h2 id="accessibilityTestingStatus" className="h2" style={{border:"none", fontFamily:"Nunito", color:"#2964A0"}} > Accessibility Testing Status </h2>
+        <p>Voici les tests à effectuer pour vérifier l’accessibilité de chaque catégorie :</p>
+    <img src={ChipsAccessibility} alt="Checklist des tests d’accessibilité pour le chip" />
+
+</div>
+
+</Tabs>

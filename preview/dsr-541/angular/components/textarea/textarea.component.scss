@@ -1,0 +1,175 @@
+@use '@design-system-rte/core/design-tokens/main.scss' as *;
+
+:host {
+  width: 100%;
+}
+
+.container {
+  width: 100%;
+
+  &[data-label-position='side'] {
+    display: flex;
+    flex-direction: row;
+  }
+}
+
+.top-position-container {
+  @include typography-text-m;
+  display: flex;
+  height: 100%;
+  padding: $positive-spacing_0;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: $positive-spacing_0;
+  flex-shrink: 0;
+  border-radius: $radius-none;
+  opacity: $opacity-100;
+  width: 100%;
+
+  &[data-label-position='side'] {
+    flex-grow: 1;
+  }
+
+  .header-container {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding: $positive-spacing_025 $positive-spacing_100;
+    box-sizing: border-box;
+    gap: $positive-spacing_100;
+
+    &[data-label-position='side'] {
+      padding: 0;
+      justify-content: flex-end;
+    }
+  }
+
+  .textarea-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: flex-start;
+
+    .textarea {
+      @include elevation-neutral-inner-shadow;
+      @include typography-text-m;
+      color: var(--content-primary);
+      min-height: 70px;
+      padding: $positive-spacing_100 $positive-spacing_200 $positive-spacing_100 $positive-spacing_200;
+      width: 100%;
+      min-width: 140px;
+      border-radius: $radius-m;
+      border: 1px solid var(--border-secondary);
+      opacity: $opacity-100;
+      background-color: var(--background-default);
+      resize: none;
+      box-sizing: border-box;
+
+      @media (min-width: $breakpoints-m) {
+        min-height: 56px;
+        min-width: 112px;
+        max-width: 1100px;
+      }
+
+      &:focus-visible,
+      &:active {
+        outline: none;
+
+        &:not(:disabled) {
+          outline: $width-xs solid var(--border-brand-default);
+          border: $width-xs solid var(--border-brand-default);
+        }
+      }
+
+      &.error {
+        &:not(:disabled) {
+          outline: $width-xs solid var(--border-danger);
+          border: $width-xs solid var(--border-danger)
+        }
+      }
+
+      &.resizeable {
+        resize: vertical;
+      }
+
+      &:disabled,
+      &:read-only {
+        cursor: not-allowed;
+        background-color: var(--background-disabled);
+      }
+
+      &:disabled {
+        resize: none;
+      }
+
+      &:read-only {
+        color: var(--content-secondary);
+      }
+    }
+
+    .assistive-text-link {
+      padding: $positive-spacing_050 $positive-spacing_100;
+    }
+
+    .assistive-text {
+      @include typography-text-s-bold;
+      display: flex;
+      padding: $positive-spacing_050 $positive-spacing_100;
+      color: var(--content-tertiary);
+      gap: $positive-spacing_050;
+
+      &.error {
+        &:not(.disabled) {
+          color: var(--content-danger-default);
+        }
+      }
+
+      &.success {
+        color: var(--content-success-default);
+      }
+    }
+  }
+}
+
+.character-counter {
+  @include typography-text-s;
+  color: var(--content-tertiary);
+}
+
+label {
+  @include typography-text-m;
+  color: var(--content-secondary);
+  max-width: 300px;
+  justify-content: space-between;
+  white-space: normal;
+  overflow-wrap: normal;
+  word-break: normal;
+
+  &[data-label-position='side'] {
+    padding: $positive-spacing_300 $positive-spacing_100;
+    align-items: flex-start;
+    gap: $positive-spacing_0;
+    align-self: stretch;
+  }
+
+  .requirement-indicator {
+    margin-left: $positive-spacing_025;
+
+    &.show-label-requirement {
+      @include typography-text-s;
+      color: var(--content-tertiary);
+
+      &:not(.required) {
+        font-style: italic;
+      }
+    }
+
+    &:not(.show-label-requirement) {
+      &.required {
+        color: var(--content-danger-default);
+      }
+    }
+  }
+}
