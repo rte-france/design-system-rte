@@ -143,6 +143,15 @@
   font-style: normal;
 }
 
+@mixin typography-heading-2xs {
+  @include typography-heading;
+  font-family: $heading-2xs-semibold-font-family;
+  font-weight: $heading-2xs-semibold-font-weight;
+  font-size: $heading-2xs-semibold-font-size;
+  line-height: $heading-2xs-semibold-line-height;
+  letter-spacing: $heading-2xs-semibold-letter-spacing;
+}
+
 @mixin typography-heading-xs {
   @include typography-heading;
   font-family: $heading-xs-semibold-font-family;
@@ -186,6 +195,15 @@
   font-size: $heading-xl-semibold-font-size;
   line-height: $heading-xl-semibold-line-height;
   letter-spacing: $heading-xl-semibold-letter-spacing;
+}
+
+@mixin typography-heading-2xl {
+  @include typography-heading;
+  font-family: $heading-2xl-semibold-font-family;
+  font-weight: $heading-2xl-semibold-font-weight;
+  font-size: $heading-2xl-semibold-font-size;
+  line-height: $heading-2xl-semibold-line-height;
+  letter-spacing: $heading-2xl-semibold-letter-spacing;
 }
 
 @mixin typography-checkbox-error {
