@@ -83,16 +83,16 @@
   height: calc(#{$positive-spacing_200} / 4);
 }
 
-.treeview-item-row:hover .treeview-item-main-content {
+.treeview-item-row .treeview-item-main-content:hover {
   background: var(--background-hover);
 }
 
-.treeview-item.selected .treeview-item-main-content {
+.treeview-item.selected > .treeview-item-row > .treeview-item-main-content {
   background: var(--background-brand-default);
   color: var(--content-primary-inverse);
 }
 
-.treeview-item.selected .treeview-item-row:hover .treeview-item-main-content {
+.treeview-item.selected > .treeview-item-row:hover > .treeview-item-main-content {
   background: var(--background-brand-hover);
 }
 
@@ -173,8 +173,8 @@
   }
 }
 
-.treeview-item.selected .treeview-item-content,
-.treeview-item.selected .treeview-item-icon {
+.treeview-item.selected > .treeview-item-row .treeview-item-content,
+.treeview-item.selected > .treeview-item-row .treeview-item-icon {
   color: var(--content-primary-inverse);
 }
 

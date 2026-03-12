@@ -10,6 +10,7 @@ export interface TreeviewItemProps {
   disabled?: boolean;
   isCompact?: boolean;
   hasCheckbox?: boolean;
+  isChecked?: boolean;
   isSelected?: boolean;
   isOpen?: boolean;
   hasIcon?: boolean;
@@ -19,4 +20,14 @@ export interface TreeviewItemProps {
   badge?: BadgeProps;
   borderType?: TreeviewBorderType;
   dottedLine?: boolean;
+}
+
+export interface TreeviewOpenChangeEvent {
+  id: string | undefined;
+  open: boolean;
+}
+
+export interface TreeviewSelectionChangeEvent {
+  id: string | undefined;
+  selected: boolean;
 }
