@@ -190,16 +190,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 
-  &:link,
-  &:visited {
-    text-decoration: none;
-    color: inherit;
-
-    &:hover {
-      text-decoration: none;
-      color: inherit;
-    }
-  }
+  color: inherit;
 }
 
 .treeview-item-children {
