@@ -2,14 +2,14 @@
   class="treeview-item"
   role="treeitem"
   [attr.aria-level]="effectiveDepth() + 1"
-  [attr.aria-expanded]="isParent() ? isOpenSignal() : undefined"
+  [attr.aria-expanded]="hasChildren() ? isOpenSignal() : undefined"
   [attr.aria-selected]="isSelected()"
   [ngClass]="{
     compact: isCompact(),
     selected: isSelected(),
     disabled: disabled(),
-    'has-children': isParent(),
-    'is-expanded': isParent() && isOpenSignal(),
+    'has-children': hasChildren(),
+    'is-expanded': hasChildren() && isOpenSignal(),
     'dotted-line': dottedLine(),
   }"
 >
@@ -30,7 +30,7 @@
     @for (borderType of connectorBorderTypes(); track $index) {
       <rte-treeview-item-border [borderType]="borderType" [dottedLine]="dottedLine()" />
     }
-    @if (isParent()) {
+    @if (hasChildren()) {
       <button
         type="button"
         class="treeview-item-chevron"
@@ -74,7 +74,7 @@
       </div>
     </div>
   </div>
-  @if (isParent()) {
+  @if (hasChildren()) {
     <ul class="treeview-item-children" role="group" [class.treeview-item-children-open]="isOpenSignal()">
       @for (child of items(); track trackChild(child); let childIndex = $index) {
         <rte-treeview-item

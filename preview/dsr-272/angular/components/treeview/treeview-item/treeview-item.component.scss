@@ -56,20 +56,20 @@
 
 .treeview-item.is-expanded {
   &:not(.compact) {
-    .treeview-item-chevron::after {
+    > .treeview-item-row > .treeview-item-chevron::after {
       content: '';
       position: absolute;
       bottom: 0;
       left: 50%;
       width: $width-xs;
       height: calc(#{$positive-spacing_200} / 2);
-      background: var(--border-tertiary); 
+      background: var(--border-tertiary);
       transform: translateX(-50%) translateY(100%);
     }
   }
 }
 
-.treeview-item.is-expanded:not(.compact).dotted-line .treeview-item-chevron::after {
+.treeview-item.is-expanded:not(.compact).dotted-line > .treeview-item-row > .treeview-item-chevron::after {
   background: repeating-linear-gradient(
     to bottom,
     var(--border-tertiary) 0,
@@ -79,7 +79,7 @@
   );
 }
 
-.treeview-item.is-expanded.compact .treeview-item-chevron::after {
+.treeview-item.is-expanded.compact > .treeview-item-row > .treeview-item-chevron::after {
   height: calc(#{$positive-spacing_200} / 4);
 }
 

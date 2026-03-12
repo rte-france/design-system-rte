@@ -76,10 +76,6 @@ export class TreeviewItemComponent {
 
   readonly hasChildren = computed(() => (this.items()?.length ?? 0) > 0);
 
-  readonly isLeaf = computed(() => !this.hasChildren());
-
-  readonly isParent = computed(() => !this.isLeaf());
-
   readonly effectiveDepth: Signal<number> = computed(() => {
     const depthInput = this.depth();
     if (depthInput !== undefined) {
@@ -115,7 +111,7 @@ export class TreeviewItemComponent {
         const isLastSpacer = index === currentBorders.length - 1;
         outputBorders.push(isLastSpacer ? currentBorders[index] : updateSpacerForAncestor(currentBorders[index]));
       }
-      if (depth && outputBorders.length && this.isLeaf()) {
+      if (depth && outputBorders.length && !this.hasChildren()) {
         outputBorders.push("horizontal");
       }
       return outputBorders;
@@ -137,7 +133,7 @@ export class TreeviewItemComponent {
   }
 
   toggleOpen(): void {
-    if (!this.isParent() || this.disabled()) {
+    if (!this.hasChildren() || this.disabled()) {
       return;
     }
     const newOpen = !this.isOpenSignal();
