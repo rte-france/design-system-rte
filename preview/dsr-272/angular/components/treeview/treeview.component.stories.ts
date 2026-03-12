@@ -98,6 +98,29 @@ export const NavigationExample: Story = {
   }),
 };
 
+export const WithContentClickSelection: Story = {
+  render: () => ({
+    props: {
+      items: navigationData,
+      onSelectionChange: (event: { id: string | undefined; selected: boolean }) => {
+        console.log("selectionChange", event);
+      },
+    },
+    template: `<rte-treeview [items]="items" (selectionChange)="onSelectionChange($event)" />`,
+    moduleMetadata: {
+      imports: [TreeviewComponent, TreeviewItemComponent],
+    },
+  }),
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Click on any item's main content to select it. Only one item can be selected at a time; selecting another deselects the previous.",
+      },
+    },
+  },
+};
+
 export const WithSelectionChange: Story = {
   render: () => ({
     props: {

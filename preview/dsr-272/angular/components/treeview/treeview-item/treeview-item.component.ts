@@ -14,29 +14,27 @@ import { BadgeProps } from "@design-system-rte/core/components/badge/badge.inter
 import {
   TreeviewBorderType,
   TreeviewItemProps,
+  TreeviewOpenChangeEvent,
+  TreeviewSelectionChangeEvent,
 } from "@design-system-rte/core/components/treeview/treeview-item.interface";
 import {
-  TREEVIEW_INDENTATION_COMPACT_PX,
-  TREEVIEW_INDENTATION_STEP_PX,
-  updateSpacerForAncestor,
-} from "@design-system-rte/core/components/treeview/treeview.constants";
+  canToggleOpen,
+  computeCheckboxId,
+  computeConnectorBorderTypes,
+  getChildBorderTypes,
+  getTreeviewItemKey,
+  hasChildren as hasChildrenUtil,
+  isItemSelected,
+  computeIndentationPx,
+} from "@design-system-rte/core/components/treeview/treeview.utils";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
 import { BadgeComponent } from "../../badge/badge.component";
 import { CheckboxComponent } from "../../checkbox/checkbox.component";
 import { IconComponent } from "../../icon/icon.component";
+import { TreeviewSelectionService } from "../treeview-selection.service";
 
 import { TreeviewItemBorderComponent } from "./treeview-item-border/treeview-item-border.component";
-
-export interface TreeviewOpenChangeEvent {
-  id: string | undefined;
-  open: boolean;
-}
-
-export interface TreeviewSelectionChangeEvent {
-  id: string | undefined;
-  selected: boolean;
-}
 
 @Component({
   selector: "rte-treeview-item",
@@ -54,6 +52,7 @@ export class TreeviewItemComponent {
   readonly isCompact = input<boolean>(false);
   readonly hasCheckbox = input<boolean>(false);
   readonly isSelected = input<boolean>(false);
+  readonly isChecked = input<boolean | undefined>(undefined);
   readonly isOpen = input<boolean>(false);
   readonly hasIcon = input<boolean>(false);
   readonly hasBadge = input<boolean>(false);
@@ -73,8 +72,17 @@ export class TreeviewItemComponent {
   readonly selectionChange = output<TreeviewSelectionChangeEvent>();
 
   private readonly parentItem = inject(TreeviewItemComponent, { optional: true, skipSelf: true });
+  private readonly selectionService = inject(TreeviewSelectionService, { optional: true });
 
-  readonly hasChildren = computed(() => (this.items()?.length ?? 0) > 0);
+  readonly hasChildren = computed(() => hasChildrenUtil(this.items()));
+
+  readonly effectiveIsSelected = computed(() => {
+    const service = this.selectionService;
+    if (service) {
+      return isItemSelected(this.id(), service.selectedId());
+    }
+    return this.isSelected();
+  });
 
   readonly effectiveDepth: Signal<number> = computed(() => {
     const depthInput = this.depth();
@@ -85,13 +93,9 @@ export class TreeviewItemComponent {
     return parent ? parent.effectiveDepth() + 1 : 0;
   });
 
-  readonly indentationPx = computed(() => {
-    const depthValue = this.effectiveDepth();
-    const step = this.isCompact() ? TREEVIEW_INDENTATION_COMPACT_PX : TREEVIEW_INDENTATION_STEP_PX;
-    return depthValue * step;
-  });
+  readonly indentationPx = computed(() => computeIndentationPx(this.effectiveDepth(), this.isCompact()));
 
-  readonly checkboxId = computed(() => `treeview-checkbox-${this.id() ?? this.labelText()}-${this.effectiveDepth()}`);
+  readonly checkboxId = computed(() => computeCheckboxId(this.id(), this.labelText(), this.effectiveDepth()));
 
   readonly resolvedIsLastChild = computed(() => this.isLastChild() ?? true);
 
@@ -100,27 +104,17 @@ export class TreeviewItemComponent {
     return inputBorderTypes.length > 0 ? inputBorderTypes : [];
   });
 
-  readonly connectorBorderTypes = computed(() => {
-    if (this.isCompact()) {
-      return Array(this.effectiveDepth()).fill("spacer");
-    } else {
-      const currentBorders = this.resolvedBorderTypes();
-      const depth = this.effectiveDepth();
-      const outputBorders: Array<TreeviewBorderType> = [];
-      for (let index = 0; index < currentBorders.length; index++) {
-        const isLastSpacer = index === currentBorders.length - 1;
-        outputBorders.push(isLastSpacer ? currentBorders[index] : updateSpacerForAncestor(currentBorders[index]));
-      }
-      if (depth && outputBorders.length && !this.hasChildren()) {
-        outputBorders.push("horizontal");
-      }
-      return outputBorders;
-    }
-  });
+  readonly connectorBorderTypes = computed(() =>
+    computeConnectorBorderTypes({
+      depth: this.effectiveDepth(),
+      isCompact: this.isCompact(),
+      resolvedBorderTypes: this.resolvedBorderTypes(),
+      hasChildren: this.hasChildren(),
+    }),
+  );
 
   getChildBorderTypes(isLastChild: boolean): TreeviewBorderType[] {
-    const nextType: TreeviewBorderType = isLastChild ? "corner" : "branch";
-    return [...this.resolvedBorderTypes(), nextType];
+    return getChildBorderTypes(this.resolvedBorderTypes(), isLastChild);
   }
 
   constructor() {
@@ -133,7 +127,7 @@ export class TreeviewItemComponent {
   }
 
   toggleOpen(): void {
-    if (!this.hasChildren() || this.disabled()) {
+    if (!canToggleOpen(this.hasChildren(), this.disabled())) {
       return;
     }
     const newOpen = !this.isOpenSignal();
@@ -144,6 +138,11 @@ export class TreeviewItemComponent {
   handleContentClick(): void {
     if (this.disabled()) {
       return;
+    }
+    const service = this.selectionService;
+    if (service) {
+      service.select(this.id());
+      this.selectionChange.emit({ id: this.id(), selected: true });
     }
     this.itemClick.emit(this.id());
   }
@@ -167,10 +166,11 @@ export class TreeviewItemComponent {
     if (this.disabled()) {
       return;
     }
-    this.selectionChange.emit({ id: this.id(), selected: !this.isSelected() });
+    const currentChecked = this.isChecked() ?? this.isSelected();
+    this.selectionChange.emit({ id: this.id(), selected: !currentChecked });
   }
 
   trackChild(child: TreeviewItemProps): string {
-    return child.id ?? child.labelText;
+    return getTreeviewItemKey(child);
   }
 }

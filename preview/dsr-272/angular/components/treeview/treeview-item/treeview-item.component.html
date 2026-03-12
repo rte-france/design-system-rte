@@ -3,10 +3,10 @@
   role="treeitem"
   [attr.aria-level]="effectiveDepth() + 1"
   [attr.aria-expanded]="hasChildren() ? isOpenSignal() : undefined"
-  [attr.aria-selected]="isSelected()"
+  [attr.aria-selected]="effectiveIsSelected()"
   [ngClass]="{
     compact: isCompact(),
-    selected: isSelected(),
+    selected: effectiveIsSelected(),
     disabled: disabled(),
     'has-children': hasChildren(),
     'is-expanded': hasChildren() && isOpenSignal(),
@@ -21,7 +21,7 @@
           [label]="labelText()"
           [showLabel]="false"
           [disabled]="disabled()"
-          [checked]="isSelected()"
+          [checked]="hasCheckbox() ? (isChecked() ?? isSelected()) : effectiveIsSelected()"
         />
       </div>
     } @else {
@@ -85,6 +85,7 @@
           [disabled]="child.disabled ?? false"
           [isCompact]="child.isCompact ?? isCompact()"
           [hasCheckbox]="child.hasCheckbox ?? hasCheckbox()"
+          [isChecked]="child.isChecked"
           [isSelected]="child.isSelected ?? false"
           [isOpen]="child.isOpen ?? false"
           [hasIcon]="child.hasIcon ?? hasIcon()"
