@@ -28,7 +28,6 @@ import {
   getTreeviewItemKey,
   hasChildren as hasChildrenUtil,
   isItemSelected,
-  computeIndentationPx,
 } from "@design-system-rte/core/components/treeview/treeview.utils";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
@@ -52,7 +51,6 @@ export class TreeviewItemComponent {
   readonly nodePath = input<TreeviewNodePath>([]);
   readonly labelText = input.required<string>();
   readonly icon = input<string | undefined>();
-  readonly link = input<string | undefined>();
   readonly disabled = input<boolean>(false);
   readonly isCompact = input<boolean>(false);
   readonly hasCheckbox = input<boolean>(false);
@@ -80,8 +78,10 @@ export class TreeviewItemComponent {
 
   readonly hasChildren = computed(() => hasChildrenUtil(this.items()));
 
+  readonly itemId = computed(() => this.id() ?? this.labelText());
+
   readonly isSelected = computed(
-    () => this.selectionService && !!isItemSelected(this.id(), this.selectionService.selectedId()),
+    () => this.selectionService && !!isItemSelected(this.itemId(), this.selectionService.selectedId()),
   );
 
   readonly effectiveDepth: Signal<number> = computed(() => {
@@ -93,13 +93,11 @@ export class TreeviewItemComponent {
     return parent ? parent.effectiveDepth() + 1 : 0;
   });
 
-  readonly indentationPx = computed(() => computeIndentationPx(this.effectiveDepth(), this.isCompact()));
-
   readonly nodeUid = computed(() =>
     buildTreeviewNodeId({
       treeId: this.treeId(),
       path: this.nodePath(),
-      itemId: this.id(),
+      itemId: this.itemId(),
     } as BuildTreeviewNodeIdParams),
   );
 
@@ -140,7 +138,7 @@ export class TreeviewItemComponent {
     }
     const newOpen = !this.isOpenSignal();
     this.isOpenSignal.set(newOpen);
-    this.openChange.emit({ id: this.id() ?? "", open: newOpen });
+    this.openChange.emit({ id: this.itemId(), open: newOpen });
   }
 
   handleContentClick(): void {
@@ -149,11 +147,11 @@ export class TreeviewItemComponent {
     }
     const service = this.selectionService;
     if (service) {
-      const itemId = this.id() ?? "";
-      service.select(itemId);
-      this.selectionChange.emit({ id: itemId, selected: true });
+      const currentItemId = this.itemId();
+      service.select(currentItemId);
+      this.selectionChange.emit({ id: currentItemId, selected: true });
     }
-    this.itemClick.emit(this.id());
+    this.itemClick.emit(this.itemId());
   }
 
   handleChevronKeyDown(event: KeyboardEvent): void {
@@ -176,7 +174,7 @@ export class TreeviewItemComponent {
       return;
     }
     const currentChecked = this.isChecked() ?? this.isSelected();
-    this.selectionChange.emit({ id: this.id() ?? "", selected: !currentChecked });
+    this.selectionChange.emit({ id: this.itemId(), selected: !currentChecked });
   }
 
   trackChild(child: TreeviewItemProps): string {

@@ -35,7 +35,6 @@ const navigationData: TreeviewItemProps[] = [
     labelText: "Home",
     icon: "home",
     hasIcon: true,
-    link: "#",
   },
   {
     id: "documents",
