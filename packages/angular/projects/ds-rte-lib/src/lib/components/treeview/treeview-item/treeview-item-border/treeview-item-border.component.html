@@ -1,0 +1,23 @@
+<svg
+  class="treeview-item-border"
+  fill="none"
+  aria-hidden="true"
+  [attr.width]="svgConfig().width"
+  [attr.height]="svgConfig().height"
+  [attr.viewBox]="svgConfig().viewBox"
+  [class.treeview-item-border-dashed]="dottedLine()"
+>
+  @for (element of svgConfig().elements; track $index) {
+    @if (element.kind === "path") {
+      <path class="treeview-item-border-path" [attr.d]="element.d" />
+    } @else {
+      <line
+        class="treeview-item-border-path"
+        [attr.x1]="element.x1"
+        [attr.y1]="element.y1"
+        [attr.x2]="element.x2"
+        [attr.y2]="element.y2"
+      />
+    }
+  }
+</svg>

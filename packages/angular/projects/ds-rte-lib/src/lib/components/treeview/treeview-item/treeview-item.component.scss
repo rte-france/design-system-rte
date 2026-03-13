@@ -1,0 +1,223 @@
+@use '@design-system-rte/core/design-tokens/main.scss' as *;
+
+:host {
+  display: contents;
+}
+
+.treeview-item {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  min-height: 32px;
+}
+
+.treeview-item-row {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+  border-radius: $radius-s;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.treeview-item-main-content:focus-within {
+  outline: 1px solid var(--border-brand-focused);
+  outline-offset: 0;
+  border-radius: $radius-s;
+}
+
+.treeview-item.compact .treeview-item-row {
+  min-height: 24px;
+}
+
+.treeview-item.disabled .treeview-item-row {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.treeview-item-main-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: $positive-spacing_050;
+  min-width: 0;
+  padding: $positive-spacing_050;
+  border-radius: $radius-s;
+  transition: background-color 120ms;
+  box-sizing: border-box;
+  margin: 0 $positive-spacing_050;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.treeview-item.is-expanded {
+  &:not(.compact) {
+    > .treeview-item-row > .treeview-item-chevron::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: $width-xs;
+      height: calc(#{$positive-spacing_200} / 2);
+      background: var(--border-tertiary);
+      transform: translateX(-50%) translateY(100%);
+    }
+  }
+}
+
+.treeview-item.is-expanded:not(.compact).dotted-line > .treeview-item-row > .treeview-item-chevron::after {
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--border-tertiary) 0,
+    var(--border-tertiary) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+}
+
+.treeview-item.is-expanded.compact > .treeview-item-row > .treeview-item-chevron::after {
+  height: calc(#{$positive-spacing_200} / 4);
+}
+
+.treeview-item-row .treeview-item-main-content:hover {
+  background: var(--background-hover);
+}
+
+.treeview-item.selected > .treeview-item-row > .treeview-item-main-content {
+  background: var(--background-brand-default);
+  color: var(--content-primary-inverse);
+}
+
+.treeview-item.selected > .treeview-item-row:hover > .treeview-item-main-content {
+  background: var(--background-brand-hover);
+}
+
+.treeview-item.disabled .treeview-item-main-content {
+  background: var(--background-disabled);
+}
+
+.treeview-item-checkbox {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: $positive-spacing_200;
+  visibility: hidden;
+  cursor: pointer;
+
+  :host-context(.has-checked-items) &,
+  .treeview-item-row:hover &,
+  .treeview-item-row:focus-within & {
+    visibility: visible;
+  }
+
+  ::ng-deep {
+    .rte-checkbox {
+      margin: 0;
+    }
+    .rte-checkbox-container,
+    .rte-checkbox-container * {
+      pointer-events: none;
+    }
+    .rte-checkbox-container {
+      gap: $positive-spacing_050;
+    }
+  }
+}
+
+.treeview-item-checkbox-spacer {
+  flex-shrink: 0;
+  width: $positive-spacing_250;
+  min-width: $positive-spacing_250;
+}
+
+.treeview-item-chevron {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: $positive-spacing_200;
+  min-width: $positive-spacing_200;
+  height: $positive-spacing_200;
+  padding: 0;
+  background: var(--background-neutral-regular-default);
+  border: none;
+  border-radius: $radius-xs;
+  cursor: pointer;
+  color: inherit;
+  position: relative;
+
+  &:hover {
+    background: var(--background-neutral-navigation-hover);
+  }
+
+  &:focus-visible {
+    outline: 1px solid var(--border-brand-focused);
+    outline-offset: 0;
+  }
+}
+
+.treeview-item-chevron-spacer {
+  flex-shrink: 0;
+  width: $positive-spacing_200;
+  min-width: $positive-spacing_200;
+}
+
+.treeview-item-icon {
+  flex-shrink: 0;
+}
+
+.treeview-item-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: $positive-spacing_050;
+  min-width: 0;
+  @include typography-button-s;
+  color: var(--content-secondary);
+
+  &.treeview-item-content-compact {
+    padding-left: $positive-spacing_100;
+  }
+}
+
+.treeview-item.selected > .treeview-item-row .treeview-item-content,
+.treeview-item.selected > .treeview-item-row .treeview-item-icon {
+  color: var(--content-primary-inverse);
+}
+
+.treeview-item.disabled .treeview-item-content,
+.treeview-item.disabled .treeview-item-icon {
+  color: var(--content-disabled);
+}
+
+.treeview-item-label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  color: inherit;
+}
+
+.treeview-item-children {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 140ms ease-out;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+
+  &.treeview-item-children-open {
+    max-height: 2000px;
+  }
+}
