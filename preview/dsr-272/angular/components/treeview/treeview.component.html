@@ -1,4 +1,4 @@
-<ul class="treeview" role="tree">
+<ul class="treeview" role="tree" [class.has-checked-items]="hasCheckedItems()">
   @for (item of items(); track itemTrack(item); let itemIndex = $index) {
     <rte-treeview-item
       [treeId]="id()"
@@ -8,8 +8,7 @@
       [icon]="item.icon"
       [disabled]="item.disabled ?? false"
       [isCompact]="item.isCompact ?? isCompact()"
-      [hasCheckbox]="item.hasCheckbox ?? false"
-      [isChecked]="item.isChecked"
+      [hasCheckbox]="item.hasCheckbox ?? hasCheckbox()"
       [isOpen]="item.isOpen ?? false"
       [hasIcon]="item.hasIcon ?? false"
       [hasBadge]="item.hasBadge ?? false"
