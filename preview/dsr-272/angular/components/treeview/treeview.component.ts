@@ -4,7 +4,7 @@ import {
   TreeviewItemProps,
   TreeviewOpenChangeEvent,
   TreeviewSelectionChangeEvent,
-} from "@design-system-rte/core/components/treeview/treeview-item.interface";
+} from "@design-system-rte/core/components/treeview";
 
 import { TreeviewItemComponent } from "./treeview-item/treeview-item.component";
 import { TreeviewSelectionService } from "./treeview-selection.service";
@@ -36,6 +36,7 @@ export class TreeviewComponent {
       () => {
         const id = this.selectedId();
         this.selectionService.select(id);
+        this.selectionChange.emit({ id, selected: true });
       },
       { allowSignalWrites: true },
     );

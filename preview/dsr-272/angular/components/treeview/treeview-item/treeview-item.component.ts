@@ -15,7 +15,6 @@ import {
   TreeviewBorderType,
   TreeviewItemProps,
   TreeviewOpenChangeEvent,
-  TreeviewSelectionChangeEvent,
   TreeviewNodePath,
 } from "@design-system-rte/core/components/treeview/treeview-item.interface";
 import {
@@ -71,7 +70,6 @@ export class TreeviewItemComponent {
 
   readonly itemClick = output<string | undefined>();
   readonly openChange = output<TreeviewOpenChangeEvent>();
-  readonly selectionChange = output<TreeviewSelectionChangeEvent>();
 
   private readonly parentItem = inject(TreeviewItemComponent, { optional: true, skipSelf: true });
   private readonly selectionService = inject(TreeviewSelectionService, { optional: true });
@@ -102,8 +100,6 @@ export class TreeviewItemComponent {
   );
 
   readonly checkboxId = computed(() => computeCheckboxId(this.nodeUid()));
-
-  readonly resolvedIsLastChild = computed(() => this.isLastChild() ?? true);
 
   readonly resolvedBorderTypes = computed(() => {
     const inputBorderTypes = this.borderTypes();
@@ -149,7 +145,6 @@ export class TreeviewItemComponent {
     if (service) {
       const currentItemId = this.itemId();
       service.select(currentItemId);
-      this.selectionChange.emit({ id: currentItemId, selected: true });
     }
     this.itemClick.emit(this.itemId());
   }
@@ -173,8 +168,6 @@ export class TreeviewItemComponent {
     if (this.disabled()) {
       return;
     }
-    const currentChecked = this.isChecked() ?? this.isSelected();
-    this.selectionChange.emit({ id: this.itemId(), selected: !currentChecked });
   }
 
   trackChild(child: TreeviewItemProps): string {
