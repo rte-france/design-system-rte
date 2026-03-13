@@ -106,10 +106,22 @@
   align-items: center;
   justify-content: center;
   min-width: $positive-spacing_200;
+  visibility: hidden;
+  cursor: pointer;
+
+  :host-context(.has-checked-items) &,
+  .treeview-item-row:hover &,
+  .treeview-item-row:focus-within & {
+    visibility: visible;
+  }
 
   ::ng-deep {
     .rte-checkbox {
       margin: 0;
+    }
+    .rte-checkbox-container,
+    .rte-checkbox-container * {
+      pointer-events: none;
     }
     .rte-checkbox-container {
       gap: $positive-spacing_050;

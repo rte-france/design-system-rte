@@ -49,6 +49,59 @@ export function getTreeviewItemKey(item: TreeviewItemProps): string {
   return item.id ?? item.labelText;
 }
 
+export function getItemId(item: TreeviewItemProps): string {
+  return item.id ?? item.labelText;
+}
+
+export function getDescendantIds(item: TreeviewItemProps): string[] {
+  const ids: string[] = [getItemId(item)];
+  const children = item.items ?? [];
+  for (const child of children) {
+    ids.push(...getDescendantIds(child));
+  }
+  return ids;
+}
+
+export function computeCheckedIdsAfterToggle(
+  currentChecked: ReadonlySet<string>,
+  node: TreeviewItemProps,
+): Set<string> {
+  const descendantIds = getDescendantIds(node);
+  const checkedCount = descendantIds.filter((id) => currentChecked.has(id)).length;
+  const shouldUncheck = checkedCount > 0;
+  const next = new Set(currentChecked);
+  if (shouldUncheck) {
+    descendantIds.forEach((id) => next.delete(id));
+  } else {
+    descendantIds.forEach((id) => next.add(id));
+  }
+  return next;
+}
+
+export function isNodeIndeterminate(node: TreeviewItemProps, checkedIds: ReadonlySet<string>): boolean {
+  const descendantIds = getDescendantIds(node);
+  const checkedCount = descendantIds.filter((id) => checkedIds.has(id)).length;
+  return checkedCount > 0 && checkedCount < descendantIds.length;
+}
+
+export function allDescendantsChecked(node: TreeviewItemProps, checkedIds: ReadonlySet<string>): boolean {
+  const descendantIds = getDescendantIds(node);
+  return descendantIds.length > 0 && descendantIds.every((id) => checkedIds.has(id));
+}
+
+export function findNodeById(items: TreeviewItemProps[], itemId: string): TreeviewItemProps | undefined {
+  for (const item of items) {
+    if (getItemId(item) === itemId) {
+      return item;
+    }
+    const found = findNodeById(item.items ?? [], itemId);
+    if (found) {
+      return found;
+    }
+  }
+  return undefined;
+}
+
 export function mergeChildItemWithParent(
   child: TreeviewItemProps,
   parent: Partial<Pick<TreeviewItemProps, "isCompact" | "dottedLine">>,
