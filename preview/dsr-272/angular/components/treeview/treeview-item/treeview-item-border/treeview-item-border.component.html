@@ -1,27 +1,23 @@
 <svg
   class="treeview-item-border"
-  width="16"
-  height="32"
-  viewBox="0 0 16 32"
   fill="none"
   aria-hidden="true"
+  [attr.width]="svgConfig().width"
+  [attr.height]="svgConfig().height"
+  [attr.viewBox]="svgConfig().viewBox"
   [class.treeview-item-border-dashed]="dottedLine()"
 >
-  @switch (borderType()) {
-    @case ("vertical") {
-      <path d="M8 32L8 0" class="treeview-item-border-path" />
+  @for (element of svgConfig().elements; track $index) {
+    @if (element.kind === "path") {
+      <path class="treeview-item-border-path" [attr.d]="element.d" />
+    } @else {
+      <line
+        class="treeview-item-border-path"
+        [attr.x1]="element.x1"
+        [attr.y1]="element.y1"
+        [attr.x2]="element.x2"
+        [attr.y2]="element.y2"
+      />
     }
-    @case ("branch") {
-      <path d="M8 32L8 0" class="treeview-item-border-path" />
-      <line x1="8" y1="15.5" x2="16" y2="15.5" class="treeview-item-border-path" />
-    }
-    @case ("corner") {
-      <path d="M8 16L8 0" class="treeview-item-border-path" />
-      <line x1="8" y1="15.5" x2="16" y2="15.5" class="treeview-item-border-path" />
-    }
-    @case ("horizontal") {
-      <line x1="0" y1="15.5" x2="16" y2="15.5" class="treeview-item-border-path" />
-    }
-    @case ("spacer") {}
   }
 </svg>

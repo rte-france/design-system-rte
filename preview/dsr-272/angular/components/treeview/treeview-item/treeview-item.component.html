@@ -3,10 +3,10 @@
   role="treeitem"
   [attr.aria-level]="effectiveDepth() + 1"
   [attr.aria-expanded]="hasChildren() ? isOpenSignal() : undefined"
-  [attr.aria-selected]="effectiveIsSelected()"
+  [attr.aria-selected]="isSelected()"
   [ngClass]="{
     compact: isCompact(),
-    selected: effectiveIsSelected(),
+    selected: isSelected(),
     disabled: disabled(),
     'has-children': hasChildren(),
     'is-expanded': hasChildren() && isOpenSignal(),
@@ -21,7 +21,7 @@
           [label]="labelText()"
           [showLabel]="false"
           [disabled]="disabled()"
-          [checked]="hasCheckbox() ? (isChecked() ?? isSelected()) : effectiveIsSelected()"
+          [checked]="!!(hasCheckbox() ? (isChecked() ?? isSelected()) : isSelected())"
         />
       </div>
     } @else {
@@ -42,7 +42,7 @@
         <rte-icon [name]="isOpenSignal() ? 'arrow-chevron-down' : 'arrow-chevron-right'" [size]="16" />
       </button>
     }
-    <div class="treeview-item-main-content">
+    <div class="treeview-item-main-content" (keydown)="handleContentKeyDown($event)" (click)="handleContentClick()">
       @if (hasIcon() && icon() && !isCompact()) {
         <rte-icon class="treeview-item-icon" [name]="icon()!" [size]="16" />
       }
@@ -51,8 +51,6 @@
         [class.treeview-item-content-compact]="isCompact()"
         [attr.tabindex]="0"
         [attr.role]="link() ? undefined : 'button'"
-        (click)="handleContentClick()"
-        (keydown)="handleContentKeyDown($event)"
       >
         @if (link()) {
           <a class="treeview-item-label" [href]="link()!" (click)="$event.stopPropagation()">
@@ -78,6 +76,8 @@
     <ul class="treeview-item-children" role="group" [class.treeview-item-children-open]="isOpenSignal()">
       @for (child of items(); track trackChild(child); let childIndex = $index) {
         <rte-treeview-item
+          [treeId]="treeId()"
+          [nodePath]="[childIndex]"
           [id]="child.id"
           [labelText]="child.labelText"
           [icon]="child.icon"
@@ -86,7 +86,6 @@
           [isCompact]="child.isCompact ?? isCompact()"
           [hasCheckbox]="child.hasCheckbox ?? hasCheckbox()"
           [isChecked]="child.isChecked"
-          [isSelected]="child.isSelected ?? false"
           [isOpen]="child.isOpen ?? false"
           [hasIcon]="child.hasIcon ?? hasIcon()"
           [hasBadge]="child.hasBadge ?? false"
