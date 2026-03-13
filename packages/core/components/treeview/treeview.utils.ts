@@ -1,13 +1,7 @@
 import type { TreeviewBorderType, TreeviewItemProps, TreeviewNodePath } from "./treeview-item.interface";
-import { TREEVIEW_INDENTATION_COMPACT_PX, TREEVIEW_INDENTATION_STEP_PX } from "./treeview.constants";
 
 export function hasChildren(items: TreeviewItemProps[] | undefined): boolean {
   return (items?.length ?? 0) > 0;
-}
-
-export function computeIndentationPx(depth: number, isCompact: boolean): number {
-  const step = isCompact ? TREEVIEW_INDENTATION_COMPACT_PX : TREEVIEW_INDENTATION_STEP_PX;
-  return depth * step;
 }
 
 export interface ComputeBorderTypesConfig {
@@ -18,7 +12,7 @@ export interface ComputeBorderTypesConfig {
 }
 
 export function computeConnectorBorderTypes(config: ComputeBorderTypesConfig): TreeviewBorderType[] {
-  const { depth, isCompact, resolvedBorderTypes = [], hasChildren } = config;
+  const { depth = 0, isCompact, resolvedBorderTypes = [], hasChildren } = config;
   if (isCompact) {
     return Array(depth).fill("spacer");
   }

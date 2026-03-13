@@ -8,7 +8,6 @@ export interface TreeviewItemProps {
   id?: string;
   labelText: string;
   icon?: string;
-  link?: string;
   disabled?: boolean;
   isCompact?: boolean;
   hasCheckbox?: boolean;
@@ -29,6 +28,6 @@ export interface TreeviewOpenChangeEvent {
 }
 
 export interface TreeviewSelectionChangeEvent {
-  id: string;
+  id?: string;
   selected: boolean;
 }

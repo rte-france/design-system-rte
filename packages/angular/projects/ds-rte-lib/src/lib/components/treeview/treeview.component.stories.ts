@@ -35,7 +35,6 @@ const navigationData: TreeviewItemProps[] = [
     labelText: "Home",
     icon: "home",
     hasIcon: true,
-    link: "#",
   },
   {
     id: "documents",
@@ -71,55 +70,6 @@ const navigationData: TreeviewItemProps[] = [
     ],
   },
 ];
-
-export const DataDriven: Story = {
-  render: () => ({
-    props: {
-      items: [{ labelText: "Images", isOpen: true, items: fileExplorerChildren }],
-      selectedId: "sun",
-    },
-    template: `<rte-treeview id="treeview-data-driven" [items]="items" [selectedId]="selectedId" />`,
-    moduleMetadata: {
-      imports: [TreeviewComponent, TreeviewItemComponent],
-    },
-  }),
-};
-
-export const NavigationExample: Story = {
-  render: () => ({
-    props: {
-      items: navigationData,
-      selectedId: "project-b",
-    },
-    template: `<rte-treeview id="treeview-navigation-example" [items]="items" [selectedId]="selectedId" />`,
-    moduleMetadata: {
-      imports: [TreeviewComponent, TreeviewItemComponent],
-    },
-  }),
-};
-
-export const WithContentClickSelection: Story = {
-  render: () => ({
-    props: {
-      items: navigationData,
-      onSelectionChange: (event: { id: string | undefined; selected: boolean }) => {
-        console.log("selectionChange", event);
-      },
-    },
-    template: `<rte-treeview id="treeview-with-content-click-selection" [items]="items" (selectionChange)="onSelectionChange($event)" />`,
-    moduleMetadata: {
-      imports: [TreeviewComponent, TreeviewItemComponent],
-    },
-  }),
-  parameters: {
-    docs: {
-      description: {
-        story:
-          "Click on any item's main content to select it. Only one item can be selected at a time; selecting another deselects the previous.",
-      },
-    },
-  },
-};
 
 export const WithSelectionChange: Story = {
   render: () => ({
@@ -243,18 +193,6 @@ const lastChildWithChildrenData: TreeviewItemProps[] = [
   },
 ];
 
-export const AncestorBorder: Story = {
-  render: () => ({
-    props: {
-      items: lastChildWithChildrenData,
-    },
-    template: `<rte-treeview id="treeview-ancestor-border" [items]="items" />`,
-    moduleMetadata: {
-      imports: [TreeviewComponent, TreeviewItemComponent],
-    },
-  }),
-};
-
 export const DottedLine: Story = {
   render: () => ({
     props: {
@@ -333,28 +271,7 @@ export const ConnectorLinesVerification: Story = {
   }),
 };
 
-export const SelectByNodePathLast: Story = {
-  render: () => ({
-    props: {
-      items: connectorLinesVerificationData,
-      selectedPath: "0-2",
-    },
-    template: `<rte-treeview id="treeview-select-by-path-last" [items]="items" [selectedPath]="selectedPath" />`,
-    moduleMetadata: {
-      imports: [TreeviewComponent, TreeviewItemComponent],
-    },
-  }),
-  parameters: {
-    docs: {
-      description: {
-        story:
-          'Selection by node path: "0-2" selects the third child of root (Last). Path is 0-based indices from root.',
-      },
-    },
-  },
-};
-
-export const SelectByNodePathMiddle1: Story = {
+export const SelectByNodePath: Story = {
   render: () => ({
     props: {
       items: connectorLinesVerificationData,

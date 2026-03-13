@@ -46,19 +46,8 @@
       @if (hasIcon() && icon() && !isCompact()) {
         <rte-icon class="treeview-item-icon" [name]="icon()!" [size]="16" />
       }
-      <div
-        class="treeview-item-content"
-        [class.treeview-item-content-compact]="isCompact()"
-        [attr.tabindex]="0"
-        [attr.role]="link() ? undefined : 'button'"
-      >
-        @if (link()) {
-          <a class="treeview-item-label" [href]="link()!" (click)="$event.stopPropagation()">
-            {{ labelText() }}
-          </a>
-        } @else {
-          <span class="treeview-item-label">{{ labelText() }}</span>
-        }
+      <div class="treeview-item-content" [class.treeview-item-content-compact]="isCompact()" [attr.tabindex]="0">
+        <span class="treeview-item-label">{{ labelText() }}</span>
         @if (hasBadge() && badge()) {
           <rte-badge
             [badgeType]="badge()!.badgeType ?? 'brand'"
@@ -77,11 +66,10 @@
       @for (child of items(); track trackChild(child); let childIndex = $index) {
         <rte-treeview-item
           [treeId]="treeId()"
-          [nodePath]="[childIndex]"
+          [nodePath]="nodePath().concat(childIndex)"
           [id]="child.id"
           [labelText]="child.labelText"
           [icon]="child.icon"
-          [link]="child.link"
           [disabled]="child.disabled ?? false"
           [isCompact]="child.isCompact ?? isCompact()"
           [hasCheckbox]="child.hasCheckbox ?? hasCheckbox()"
@@ -98,7 +86,6 @@
           [borderTypes]="getChildBorderTypes(childIndex === items().length - 1)"
           (itemClick)="itemClick.emit($event)"
           (openChange)="openChange.emit($event)"
-          (selectionChange)="selectionChange.emit($event)"
         />
       }
     </ul>

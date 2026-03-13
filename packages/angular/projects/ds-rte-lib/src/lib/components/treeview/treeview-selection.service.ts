@@ -13,7 +13,7 @@ export class TreeviewSelectionService {
   selectByNodePath(pathString: string, items: TreeviewItemProps[]): void {
     const pathIndices = parsePathString(pathString);
     const node = getNodeAtPath(items, pathIndices);
-    const id = node?.id;
+    const id = node?.id ?? node?.labelText;
     this.select(id);
   }
 }

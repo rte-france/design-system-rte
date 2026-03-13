@@ -73,27 +73,6 @@ export class AppComponent {
   readonly toastService = inject(ToastService);
   private currentOpenedToastId = "";
 
-  // #region agent log
-  constructor() {
-    fetch("http://127.0.0.1:7359/ingest/37e8ffb3-c975-4087-8dd2-2cdfad6427d4", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Debug-Session-Id": "3c9163",
-      },
-      body: JSON.stringify({
-        sessionId: "3c9163",
-        runId: "pre-fix",
-        hypothesisId: "H1",
-        location: "test-apps/angular/src/app/app.component.ts:76",
-        message: "AppComponent initialized",
-        data: {},
-        timestamp: Date.now(),
-      }),
-    }).catch(() => {});
-  }
-  // #endregion agent log
-
   readonly inputValue = signal("Hello");
 
   readonly activeStepId = signal("1");
