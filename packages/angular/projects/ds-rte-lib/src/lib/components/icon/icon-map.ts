@@ -52,6 +52,7 @@ export const RegularIcons = {
   "check-small": "check_small",
   "checkbox-empty": "checkbox_empty",
   close: "close",
+  company: "company",
   compare: "compare",
   "copy-all": "copy_all",
   "crisis-alert": "crisis_alert",

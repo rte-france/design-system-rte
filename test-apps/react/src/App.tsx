@@ -22,6 +22,7 @@ import {
   Select,
   Loader,
   Stepper,
+  Avatar,
 } from "@design-system-rte/react";
 import "./App.css";
 import { Tab } from "@design-system-rte/react";
@@ -454,6 +455,16 @@ function App() {
         </ToastQueueProvider>
       </div>
       <Loader />
+
+      <Avatar
+        layout="icon"
+        type="user"
+        status="available"
+        size={32}
+        onClick={() => {
+          alert("Clicked on avatar");
+        }}
+      />
     </SideNav>
   );
 }
