@@ -18,6 +18,7 @@ import {
   TreeviewNodePath,
 } from "@design-system-rte/core/components/treeview/treeview-item.interface";
 import {
+  allDescendantsChecked,
   BuildTreeviewNodeIdParams,
   buildTreeviewNodeId,
   canToggleOpen,
@@ -27,12 +28,14 @@ import {
   getTreeviewItemKey,
   hasChildren as hasChildrenUtil,
   isItemSelected,
+  isNodeIndeterminate,
 } from "@design-system-rte/core/components/treeview/treeview.utils";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
 import { BadgeComponent } from "../../badge/badge.component";
 import { CheckboxComponent } from "../../checkbox/checkbox.component";
 import { IconComponent } from "../../icon/icon.component";
+import { TreeviewCheckService } from "../treeview-check.service";
 import { TreeviewSelectionService } from "../treeview-selection.service";
 
 import { TreeviewItemBorderComponent } from "./treeview-item-border/treeview-item-border.component";
@@ -53,7 +56,6 @@ export class TreeviewItemComponent {
   readonly disabled = input<boolean>(false);
   readonly isCompact = input<boolean>(false);
   readonly hasCheckbox = input<boolean>(false);
-  readonly isChecked = input<boolean | undefined>(undefined);
   readonly isOpen = input<boolean>(false);
   readonly hasIcon = input<boolean>(false);
   readonly hasBadge = input<boolean>(false);
@@ -73,8 +75,22 @@ export class TreeviewItemComponent {
 
   private readonly parentItem = inject(TreeviewItemComponent, { optional: true, skipSelf: true });
   private readonly selectionService = inject(TreeviewSelectionService, { optional: true });
+  private readonly checkService = inject(TreeviewCheckService, { optional: true });
 
   readonly hasChildren = computed(() => hasChildrenUtil(this.items()));
+
+  readonly isChecked = computed(() => {
+    const ids = this.checkService?.checkedIds() ?? new Set();
+    const node = { id: this.id(), labelText: this.labelText(), items: this.items() };
+    return ids.has(this.itemId()) || allDescendantsChecked(node, ids);
+  });
+
+  readonly isIndeterminate = computed(() =>
+    isNodeIndeterminate(
+      { id: this.id(), labelText: this.labelText(), items: this.items() },
+      this.checkService?.checkedIds() ?? new Set(),
+    ),
+  );
 
   readonly itemId = computed(() => this.id() ?? this.labelText());
 
@@ -164,9 +180,22 @@ export class TreeviewItemComponent {
   }
 
   handleCheckboxClick(event: Event): void {
+    event.preventDefault();
     event.stopPropagation();
     if (this.disabled()) {
       return;
+    }
+    this.checkService?.toggleChecked({
+      id: this.id(),
+      labelText: this.labelText(),
+      items: this.items(),
+    });
+  }
+
+  handleCheckboxKeydown(event: KeyboardEvent): void {
+    if ([SPACE_KEY, ENTER_KEY].includes(event.key)) {
+      event.preventDefault();
+      this.handleCheckboxClick(event);
     }
   }
 

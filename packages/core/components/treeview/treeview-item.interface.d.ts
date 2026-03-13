@@ -11,7 +11,6 @@ export interface TreeviewItemProps {
   disabled?: boolean;
   isCompact?: boolean;
   hasCheckbox?: boolean;
-  isChecked?: boolean;
   isOpen?: boolean;
   hasIcon?: boolean;
   hasBadge?: boolean;

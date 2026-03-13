@@ -1,11 +1,21 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component, effect, inject, input, output } from "@angular/core";
 import {
-  TreeviewItemProps,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  computed,
+  effect,
+  inject,
+  input,
+  output,
+} from "@angular/core";
+import {
+  type TreeviewItemProps,
   TreeviewOpenChangeEvent,
   TreeviewSelectionChangeEvent,
 } from "@design-system-rte/core/components/treeview";
 
+import { TreeviewCheckService } from "./treeview-check.service";
 import { TreeviewItemComponent } from "./treeview-item/treeview-item.component";
 import { TreeviewSelectionService } from "./treeview-selection.service";
 
@@ -16,11 +26,12 @@ import { TreeviewSelectionService } from "./treeview-selection.service";
   templateUrl: "./treeview.component.html",
   styleUrl: "./treeview.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [TreeviewSelectionService],
+  providers: [TreeviewSelectionService, TreeviewCheckService],
 })
 export class TreeviewComponent {
   readonly isCompact = input<boolean>(false);
   readonly dottedLine = input<boolean>(false);
+  readonly hasCheckbox = input<boolean>(false);
   readonly items = input<TreeviewItemProps[]>([]);
   readonly selectedId = input<string | undefined>(undefined);
   readonly selectedPath = input<string | undefined>(undefined);
@@ -28,8 +39,14 @@ export class TreeviewComponent {
   readonly itemClick = output<string | undefined>();
   readonly openChange = output<TreeviewOpenChangeEvent>();
   readonly selectionChange = output<TreeviewSelectionChangeEvent>();
+  readonly checkedIdsChange = output<ReadonlySet<string>>();
 
   readonly selectionService = inject(TreeviewSelectionService);
+  readonly checkService = inject(TreeviewCheckService);
+
+  private cdr = inject(ChangeDetectorRef);
+
+  readonly hasCheckedItems = computed(() => this.hasCheckbox() && this.checkService.checkedIds().size > 0);
 
   constructor() {
     effect(
@@ -47,6 +64,14 @@ export class TreeviewComponent {
         if (pathString != null && pathString !== "" && currentItems.length > 0) {
           this.selectionService.selectByNodePath(pathString, currentItems);
         }
+      },
+      { allowSignalWrites: true },
+    );
+    effect(
+      () => {
+        const ids = this.checkService.checkedIds();
+        this.checkedIdsChange.emit(ids);
+        this.cdr.markForCheck();
       },
       { allowSignalWrites: true },
     );

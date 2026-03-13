@@ -1,6 +1,7 @@
 <li
   class="treeview-item"
   role="treeitem"
+  [attr.data-item-id]="itemId()"
   [attr.aria-level]="effectiveDepth() + 1"
   [attr.aria-expanded]="hasChildren() ? isOpenSignal() : undefined"
   [attr.aria-selected]="isSelected()"
@@ -15,13 +16,21 @@
 >
   <div class="treeview-item-row">
     @if (hasCheckbox()) {
-      <div class="treeview-item-checkbox" (click)="handleCheckboxClick($event)">
+      <div
+        class="treeview-item-checkbox"
+        role="checkbox"
+        [attr.aria-checked]="isChecked() ? 'true' : isIndeterminate() ? 'mixed' : 'false'"
+        [attr.aria-label]="labelText()"
+        (click)="handleCheckboxClick($event)"
+        (keydown)="handleCheckboxKeydown($event)"
+      >
         <rte-checkbox
           [id]="checkboxId()"
           [label]="labelText()"
           [showLabel]="false"
           [disabled]="disabled()"
-          [checked]="!!(hasCheckbox() ? (isChecked() ?? isSelected()) : isSelected())"
+          [checked]="isChecked()"
+          [indeterminate]="isIndeterminate()"
         />
       </div>
     } @else {
@@ -73,7 +82,6 @@
           [disabled]="child.disabled ?? false"
           [isCompact]="child.isCompact ?? isCompact()"
           [hasCheckbox]="child.hasCheckbox ?? hasCheckbox()"
-          [isChecked]="child.isChecked"
           [isOpen]="child.isOpen ?? false"
           [hasIcon]="child.hasIcon ?? hasIcon()"
           [hasBadge]="child.hasBadge ?? false"
