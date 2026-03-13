@@ -1,3 +1,3 @@
 export * from "./animation";
-export * from "./svg";
+export type * from "./svg";
 export * from "../components/common/common-types";

@@ -94,6 +94,10 @@ function main(): void {
       "./design-tokens/*": "./design-tokens/*",
       "./assets/*": "./assets/*",
       "./css/*": "./css/*",
+      "./components/*": {
+        types: "./components/*/index.d.ts",
+        default: "./components/*/index.js",
+      },
       "./*": { types: "./*.d.ts", default: "./*.js" },
       "./package.json": "./package.json",
     },

@@ -19,6 +19,7 @@ import {
   PopoverDirective,
   ModalModule,
   SideNavComponent,
+  TreeviewComponent,
   CardComponent,
   ToastService,
   SelectComponent,
@@ -29,6 +30,7 @@ import {
 } from "@design-system-rte/angular";
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
 import { Step } from "@design-system-rte/core/components/stepper/stepper.interface";
+import { TreeviewItemProps } from "@design-system-rte/core/components/treeview";
 
 @Component({
   selector: "app-root",
@@ -53,6 +55,7 @@ import { Step } from "@design-system-rte/core/components/stepper/stepper.interfa
     PopoverDirective,
     ModalModule,
     SideNavComponent,
+    TreeviewComponent,
     CardComponent,
     SelectComponent,
     TabComponent,
@@ -69,6 +72,27 @@ export class AppComponent {
 
   readonly toastService = inject(ToastService);
   private currentOpenedToastId = "";
+
+  // #region agent log
+  constructor() {
+    fetch("http://127.0.0.1:7359/ingest/37e8ffb3-c975-4087-8dd2-2cdfad6427d4", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Debug-Session-Id": "3c9163",
+      },
+      body: JSON.stringify({
+        sessionId: "3c9163",
+        runId: "pre-fix",
+        hypothesisId: "H1",
+        location: "test-apps/angular/src/app/app.component.ts:76",
+        message: "AppComponent initialized",
+        data: {},
+        timestamp: Date.now(),
+      }),
+    }).catch(() => {});
+  }
+  // #endregion agent log
 
   readonly inputValue = signal("Hello");
 
@@ -120,6 +144,28 @@ export class AppComponent {
     { label: "Products", link: "/products" },
     { label: "Electronics", link: "/products/electronics" },
     { label: "Smartphones", link: "/products/electronics/smartphones" },
+  ];
+
+  readonly treeItems: TreeviewItemProps[] = [
+    {
+      id: "root-1",
+      labelText: "Root item 1",
+      isOpen: true,
+      items: [
+        {
+          id: "child-1",
+          labelText: "Child item 1",
+        },
+        {
+          id: "child-2",
+          labelText: "Child item 2",
+        },
+      ],
+    },
+    {
+      id: "root-2",
+      labelText: "Root item 2",
+    },
   ];
 
   handleModalPrimaryClick() {
