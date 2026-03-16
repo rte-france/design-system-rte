@@ -19,6 +19,17 @@ export interface TreeviewItemProps {
   badge?: BadgeProps;
   borderType?: TreeviewBorderType;
   dottedLine?: boolean;
+  actionIcon?: string;
+  actionMenuItems?: TreeviewActionMenuItem[];
+}
+
+export interface TreeviewActionMenuItem {
+  id?: string;
+  label: string;
+  leftIcon?: string;
+  disabled?: boolean;
+  hasSeparator?: boolean;
+  children?: TreeviewActionMenuItem[];
 }
 
 export interface TreeviewOpenChangeEvent {

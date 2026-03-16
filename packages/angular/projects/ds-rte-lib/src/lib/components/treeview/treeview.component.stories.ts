@@ -1,4 +1,7 @@
-import type { TreeviewItemProps } from "@design-system-rte/core";
+import type {
+  TreeviewActionMenuItem,
+  TreeviewItemProps,
+} from "@design-system-rte/core/components/treeview/treeview-item.interface";
 import { Meta, StoryObj } from "@storybook/angular";
 import { expect, userEvent, within } from "@storybook/test";
 
@@ -18,13 +21,11 @@ const fileExplorerChildren: TreeviewItemProps[] = [
   {
     id: "summer82",
     labelText: "Summer 82",
-    hasCheckbox: true,
     isOpen: true,
     items: [
       {
         id: "sun",
         labelText: "Sun",
-        hasCheckbox: true,
       },
     ],
   },
@@ -53,12 +54,10 @@ const navigationData: TreeviewItemProps[] = [
           {
             id: "project-a",
             labelText: "Project A",
-            hasCheckbox: true,
           },
           {
             id: "project-b",
             labelText: "Project B",
-            hasCheckbox: true,
           },
         ],
       },
@@ -126,9 +125,9 @@ const deepNestingData: TreeviewItemProps[] = [
 export const Compact: Story = {
   render: () => ({
     props: {
-      items: [{ labelText: "Images", isOpen: true, isCompact: true, items: fileExplorerChildren }],
+      items: [{ labelText: "Images", isOpen: true, items: fileExplorerChildren }],
     },
-    template: `<rte-treeview id="treeview-compact" [items]="items" [isCompact]="true" />`,
+    template: `<rte-treeview id="treeview-compact" [items]="items" [hasCheckbox]="true" [isCompact]="true"/>`,
     moduleMetadata: {
       imports: [TreeviewComponent, TreeviewItemComponent],
     },
@@ -347,6 +346,146 @@ export const ConnectorLinesPreselected: Story = {
       description: {
         story:
           "Same structure as Connector Lines Verification with first-2 selected and its path open (root, first expanded). Middle is closed.",
+      },
+    },
+  },
+};
+
+const actionMenuItems: TreeviewActionMenuItem[] = [
+  { label: "Edit", leftIcon: "edit", hasSeparator: true },
+  { label: "Duplicate", leftIcon: "copy" },
+  { label: "Delete", leftIcon: "delete", hasSeparator: true },
+  { label: "Rename", leftIcon: "edit" },
+];
+
+const actionIconDropdownData: TreeviewItemProps[] = [
+  {
+    id: "documents",
+    labelText: "Documents",
+    icon: "folder",
+    hasIcon: true,
+    actionIcon: "more-horiz",
+    actionMenuItems,
+    isOpen: true,
+    items: [
+      {
+        id: "work",
+        labelText: "Work",
+        icon: "folder",
+        hasIcon: true,
+        actionIcon: "more-horiz",
+        actionMenuItems,
+        items: [
+          {
+            id: "project-a",
+            labelText: "Project A",
+            actionIcon: "more-horiz",
+            actionMenuItems,
+          },
+          {
+            id: "project-b",
+            labelText: "Project B",
+            actionIcon: "more-horiz",
+            actionMenuItems,
+          },
+        ],
+      },
+      {
+        id: "personal",
+        labelText: "Personal",
+        icon: "folder",
+        hasIcon: true,
+        actionIcon: "more-horiz",
+        actionMenuItems,
+      },
+    ],
+  },
+];
+
+export const WithActionIconAndDropdown: Story = {
+  render: () => ({
+    props: {
+      items: actionIconDropdownData,
+      onActionIconClick: (event: { itemId: string; event: Event }) => {
+        console.log("actionIconClick", event);
+      },
+    },
+    template: `
+      <rte-treeview
+        id="treeview-action-icon-dropdown"
+        [items]="items"
+        (actionIconClick)="onActionIconClick($event)"
+      />
+    `,
+    moduleMetadata: {
+      imports: [TreeviewComponent, TreeviewItemComponent],
+    },
+  }),
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Each item has an action icon (more-horiz) that opens a dropdown menu with Edit, Duplicate, Delete, and Rename options. Click the icon to show or hide the menu.",
+      },
+    },
+  },
+};
+
+const actionIconCustomBehaviorData: TreeviewItemProps[] = [
+  {
+    id: "documents",
+    labelText: "Documents",
+    icon: "folder",
+    hasIcon: true,
+    actionIcon: "info-i",
+    isOpen: true,
+    items: [
+      {
+        id: "work",
+        labelText: "Work",
+        icon: "folder",
+        hasIcon: true,
+        actionIcon: "info-i",
+        items: [
+          { id: "project-a", labelText: "Project A", actionIcon: "info-i" },
+          { id: "project-b", labelText: "Project B", actionIcon: "info-i" },
+        ],
+      },
+      {
+        id: "personal",
+        labelText: "Personal",
+        icon: "folder",
+        hasIcon: true,
+        actionIcon: "info-i",
+      },
+    ],
+  },
+];
+
+export const WithActionIconCustomBehavior: Story = {
+  render: () => ({
+    props: {
+      items: actionIconCustomBehaviorData,
+      onActionIconClick: (event: { itemId: string; event: Event }) => {
+        window.alert(`Action clicked for item: ${event.itemId}`);
+      },
+    },
+    template: `
+      <rte-treeview
+        id="treeview-action-icon-custom-behavior"
+        [items]="items"
+        (actionIconClick)="onActionIconClick($event)"
+      />
+    `,
+    moduleMetadata: {
+      imports: [TreeviewComponent, TreeviewItemComponent],
+    },
+  }),
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Each item has an info icon without a built-in dropdown. The consumer handles the click via actionIconClick and implements custom behavior (e.g. an alert).",
       },
     },
   },

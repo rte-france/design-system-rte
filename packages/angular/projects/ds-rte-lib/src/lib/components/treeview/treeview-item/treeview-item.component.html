@@ -68,6 +68,33 @@
           />
         }
       </div>
+      @if (actionIcon()) {
+        @if (actionMenuItems() && actionMenuItems()!.length > 0) {
+          <div class="treeview-item-action" rteDropdown (click)="$event.stopPropagation()">
+            <button
+              type="button"
+              class="treeview-item-action-button"
+              rteDropdownTrigger
+              [attr.aria-label]="'Actions pour ' + labelText()"
+              [disabled]="disabled()"
+            >
+              <rte-icon [name]="actionIcon()!" [size]="16" />
+            </button>
+            <rte-dropdown-menu [items]="actionMenuItems()!" />
+          </div>
+        } @else {
+          <button
+            type="button"
+            class="treeview-item-action-button"
+            [attr.aria-label]="'Actions pour ' + labelText()"
+            [disabled]="disabled()"
+            (click)="handleActionIconClick($event)"
+            (keydown)="handleActionIconKeyDown($event)"
+          >
+            <rte-icon [name]="actionIcon()!" [size]="16" />
+          </button>
+        }
+      }
     </div>
   </div>
   @if (hasChildren()) {
@@ -90,11 +117,14 @@
           [dottedLine]="child.dottedLine ?? dottedLine()"
           [items]="child.items ?? []"
           [badge]="child.badge"
+          [actionIcon]="child.actionIcon"
+          [actionMenuItems]="child.actionMenuItems"
           [depth]="effectiveDepth() + 1"
           [isLastChild]="childIndex === items().length - 1"
           [borderTypes]="getChildBorderTypes(childIndex === items().length - 1)"
           (itemClick)="itemClick.emit($event)"
           (openChange)="openChange.emit($event)"
+          (actionIconClick)="actionIconClick.emit($event)"
         />
       }
     </ul>
