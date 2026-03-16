@@ -5,9 +5,16 @@ import { computeCheckedIdsAfterToggle } from "@design-system-rte/core/components
 @Injectable()
 export class TreeviewCheckService {
   readonly checkedIds = signal<Set<string>>(new Set());
+  private readonly rootItems = signal<TreeviewItemProps[]>([]);
 
-  toggleChecked(node: TreeviewItemProps): void {
-    const next = computeCheckedIdsAfterToggle(this.checkedIds(), node);
+  setRootItems(items: TreeviewItemProps[]): void {
+    this.rootItems.set(items);
+  }
+
+  toggleChecked(node: TreeviewItemProps, rootItemsOverride?: TreeviewItemProps[]): void {
+    const current = this.checkedIds();
+    const rootItems = rootItemsOverride ?? this.rootItems();
+    const next = computeCheckedIdsAfterToggle(current, node, rootItems);
     this.checkedIds.set(next);
   }
 }

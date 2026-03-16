@@ -62,31 +62,92 @@ export function getDescendantIds(item: TreeviewItemProps): string[] {
   return ids;
 }
 
+function isNodeChecked(node: TreeviewItemProps, checkedIds: ReadonlySet<string>): boolean {
+  const nodeHasChildren = hasChildren(node.items);
+  return allDescendantsChecked(node, checkedIds) || (checkedIds.has(getItemId(node)) && !nodeHasChildren);
+}
+
+function addFullyCheckedAncestors(next: Set<string>, items: TreeviewItemProps[]): void {
+  for (const item of items) {
+    if (hasChildren(item.items)) {
+      addFullyCheckedAncestors(next, item.items!);
+    }
+    const itemId = getItemId(item);
+    if (!hasChildren(item.items)) continue;
+    const childDescendantIds = getDescendantIds(item).slice(1);
+    const allChildrenInSet = childDescendantIds.every((id) => next.has(id));
+    if (allChildrenInSet) {
+      next.add(itemId);
+    }
+  }
+}
+
+function removeOrphanedRecursive(next: Set<string>, items: TreeviewItemProps[]): void {
+  for (const item of items) {
+    if (hasChildren(item.items)) {
+      removeOrphanedRecursive(next, item.items!);
+    }
+    const itemId = getItemId(item);
+    if (!next.has(itemId) || !hasChildren(item.items)) continue;
+    const childDescendantIds = getDescendantIds(item).slice(1);
+    const anyChildInSet = childDescendantIds.some((id) => next.has(id));
+    if (!anyChildInSet) {
+      next.delete(itemId);
+    }
+  }
+}
+
+export function removeOrphanedParentIds(checkedIds: ReadonlySet<string>, items: TreeviewItemProps[]): Set<string> {
+  const next = new Set(checkedIds);
+  removeOrphanedRecursive(next, items);
+  return next;
+}
+
 export function computeCheckedIdsAfterToggle(
   currentChecked: ReadonlySet<string>,
   node: TreeviewItemProps,
+  rootItems?: TreeviewItemProps[],
 ): Set<string> {
   const descendantIds = getDescendantIds(node);
-  const checkedCount = descendantIds.filter((id) => currentChecked.has(id)).length;
-  const shouldUncheck = checkedCount > 0;
   const next = new Set(currentChecked);
-  if (shouldUncheck) {
-    descendantIds.forEach((id) => next.delete(id));
+  const nodeId = getItemId(node);
+  if (descendantIds.length > 0) {
+    if (isNodeChecked(node, currentChecked)) {
+      descendantIds.forEach((id) => next.delete(id));
+    } else {
+      descendantIds.forEach((id) => next.add(id));
+      if (rootItems && rootItems.length > 0) {
+        addFullyCheckedAncestors(next, rootItems);
+      }
+    }
   } else {
-    descendantIds.forEach((id) => next.add(id));
+    if (currentChecked.has(nodeId)) {
+      next.delete(nodeId);
+    } else {
+      next.add(nodeId);
+      if (rootItems && rootItems.length > 0) {
+        addFullyCheckedAncestors(next, rootItems);
+      }
+    }
+  }
+  if (rootItems && rootItems.length > 0) {
+    return removeOrphanedParentIds(next, rootItems);
   }
   return next;
 }
 
 export function isNodeIndeterminate(node: TreeviewItemProps, checkedIds: ReadonlySet<string>): boolean {
   const descendantIds = getDescendantIds(node);
-  const checkedCount = descendantIds.filter((id) => checkedIds.has(id)).length;
-  return checkedCount > 0 && checkedCount < descendantIds.length;
+  const childDescendantIds = descendantIds.slice(1);
+  if (childDescendantIds.length === 0) return false;
+  const checkedCount = childDescendantIds.filter((id) => checkedIds.has(id)).length;
+  return checkedCount > 0 && checkedCount < childDescendantIds.length;
 }
 
 export function allDescendantsChecked(node: TreeviewItemProps, checkedIds: ReadonlySet<string>): boolean {
   const descendantIds = getDescendantIds(node);
-  return descendantIds.length > 0 && descendantIds.every((id) => checkedIds.has(id));
+  const childDescendantIds = descendantIds.slice(1);
+  return childDescendantIds.length > 0 && childDescendantIds.every((id) => checkedIds.has(id));
 }
 
 export function findNodeById(items: TreeviewItemProps[], itemId: string): TreeviewItemProps | undefined {

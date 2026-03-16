@@ -1,6 +1,5 @@
 import { Injectable, signal } from "@angular/core";
-import type { TreeviewItemProps } from "@design-system-rte/core/components/treeview/treeview-item.interface";
-import { getNodeAtPath, parsePathString } from "@design-system-rte/core/components/treeview/treeview.utils";
+import { getNodeAtPath, parsePathString, TreeviewItemProps } from "@design-system-rte/core/components/treeview";
 
 @Injectable()
 export class TreeviewSelectionService {

@@ -74,6 +74,7 @@
     <ul class="treeview-item-children" role="group" [class.treeview-item-children-open]="isOpenSignal()">
       @for (child of items(); track trackChild(child); let childIndex = $index) {
         <rte-treeview-item
+          [rootItems]="rootItems()"
           [treeId]="treeId()"
           [nodePath]="nodePath().concat(childIndex)"
           [id]="child.id"

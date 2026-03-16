@@ -1,4 +1,4 @@
-import type { TreeviewItemProps } from "@design-system-rte/core/components/treeview/treeview-item.interface";
+import type { TreeviewItemProps } from "@design-system-rte/core";
 import { Meta, StoryObj } from "@storybook/angular";
 import { expect, userEvent, within } from "@storybook/test";
 
@@ -472,11 +472,25 @@ export const CheckboxCascade: Story = {
 
 const checkboxScenarioLabels = ["Nesting 1", "Nesting 2a", "Nesting 2b", "Nesting 3a", "Nesting 3b", "Nesting 3c"];
 
+const checkboxScenarioLabelToId: Record<string, string> = {
+  "Nesting 1": "nesting-1",
+  "Nesting 2a": "nesting-2a",
+  "Nesting 2b": "nesting-2b",
+  "Nesting 3a": "nesting-3a",
+  "Nesting 3b": "nesting-3b",
+  "Nesting 3c": "nesting-3c",
+};
+
 function getTreeitemByLabel(canvas: ReturnType<typeof within>, label: string): HTMLElement {
+  const dataItemId = checkboxScenarioLabelToId[label];
+  if (dataItemId) {
+    const tree = canvas.getByTestId("treeview-checkbox-scenario");
+    const element = tree.querySelector(`[data-item-id="${dataItemId}"]`) as HTMLElement;
+    if (element) return element;
+  }
   const matches = canvas.getAllByRole("treeitem", { name: new RegExp(label, "i") });
-  if (matches.length === 1) return matches[0];
   const leaf = matches.find((element: HTMLElement) => !element.querySelector('[role="treeitem"]'));
-  return leaf ?? matches[0];
+  return matches.length === 1 ? matches[0] : (leaf ?? matches[0]);
 }
 
 function getCheckboxInTreeitem(treeitem: HTMLElement): HTMLElement {
@@ -553,8 +567,8 @@ export const CheckboxScenario2ClickNesting3cIndeterminateChain: Story = {
     const canvas = within(canvasElement);
     await clickCheckbox(canvas, "Nesting 3c");
     expectChecked(canvas, "Nesting 3c");
+    expectChecked(canvas, "Nesting 2b");
     expectIndeterminate(canvas, "Nesting 1");
-    expectIndeterminate(canvas, "Nesting 2b");
     expectUnchecked(canvas, "Nesting 2a");
     expectUnchecked(canvas, "Nesting 3a");
     expectUnchecked(canvas, "Nesting 3b");
@@ -563,7 +577,7 @@ export const CheckboxScenario2ClickNesting3cIndeterminateChain: Story = {
     docs: {
       description: {
         story:
-          "2. Click Nesting 3c. Nesting 3c checked, Nesting 1 indeterminate, Nesting 2b indeterminate. Others unchecked.",
+          "2. Click Nesting 3c. Nesting 3c and Nesting 2b checked (all descendants of 2b checked). Nesting 1 indeterminate. Others unchecked.",
       },
     },
   },
@@ -642,6 +656,217 @@ export const CheckboxScenario5ClickNesting1ToggleAll: Story = {
       description: {
         story:
           "5. Click Nesting 1. Verify everything is checked. Click Nesting 1 again. Verify everything is unchecked.",
+      },
+    },
+  },
+};
+
+export const CheckboxScenario6ParentCheckedWhenAllDescendantsChecked: Story = {
+  render: () => ({
+    props: { items: checkboxCascadeData },
+    template: checkboxScenarioTemplate,
+    moduleMetadata: { imports: [TreeviewComponent, TreeviewItemComponent] },
+  }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await clickCheckbox(canvas, "Nesting 3a");
+    await clickCheckbox(canvas, "Nesting 3b");
+    expectChecked(canvas, "Nesting 2a");
+    expectChecked(canvas, "Nesting 3a");
+    expectChecked(canvas, "Nesting 3b");
+    expectIndeterminate(canvas, "Nesting 1");
+    expectUnchecked(canvas, "Nesting 2b");
+    expectUnchecked(canvas, "Nesting 3c");
+
+    await clickCheckbox(canvas, "Nesting 3c");
+    expectChecked(canvas, "Nesting 2b");
+    expectChecked(canvas, "Nesting 3c");
+    expectChecked(canvas, "Nesting 1");
+    for (const label of checkboxScenarioLabels) {
+      expectChecked(canvas, label);
+    }
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "6. When Nesting 3a and Nesting 3b are selected, Nesting 2a passes from indeterminate to checked. When Nesting 3c is selected, Nesting 2b is checked and Nesting 1 is checked (cascade adds parents to the set).",
+      },
+    },
+  },
+};
+
+export const CheckboxScenario7UncheckChildUpdatesParent: Story = {
+  render: () => ({
+    props: { items: checkboxCascadeData },
+    template: checkboxScenarioTemplate,
+    moduleMetadata: { imports: [TreeviewComponent, TreeviewItemComponent] },
+  }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    await clickCheckbox(canvas, "Nesting 3c");
+    expectChecked(canvas, "Nesting 2b");
+    expectChecked(canvas, "Nesting 3c");
+
+    await clickCheckbox(canvas, "Nesting 3c");
+    expectUnchecked(canvas, "Nesting 2b");
+    expectUnchecked(canvas, "Nesting 3c");
+
+    await clickCheckbox(canvas, "Nesting 3a");
+    await clickCheckbox(canvas, "Nesting 3b");
+    expectChecked(canvas, "Nesting 2a");
+    expectChecked(canvas, "Nesting 3a");
+    expectChecked(canvas, "Nesting 3b");
+
+    await clickCheckbox(canvas, "Nesting 3b");
+    expectIndeterminate(canvas, "Nesting 2a");
+    expectChecked(canvas, "Nesting 3a");
+    expectUnchecked(canvas, "Nesting 3b");
+
+    await clickCheckbox(canvas, "Nesting 3a");
+    expectUnchecked(canvas, "Nesting 2a");
+    expectUnchecked(canvas, "Nesting 3a");
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "7. Unchecking a child updates the parent: if Nesting 2b is checked because Nesting 3c is checked, unchecking Nesting 3c puts Nesting 2b unchecked. Unchecking one of multiple checked children puts the parent indeterminate.",
+      },
+    },
+  },
+};
+
+export const CheckboxScenario8UncheckAllChildrenUnchecksParent: Story = {
+  render: () => ({
+    props: { items: checkboxCascadeData },
+    template: checkboxScenarioTemplate,
+    moduleMetadata: { imports: [TreeviewComponent, TreeviewItemComponent] },
+  }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    await clickCheckbox(canvas, "Nesting 3c");
+    expectChecked(canvas, "Nesting 2b");
+    expectChecked(canvas, "Nesting 3c");
+
+    await clickCheckbox(canvas, "Nesting 3c");
+    expectUnchecked(canvas, "Nesting 2b");
+    expectUnchecked(canvas, "Nesting 3c");
+
+    await clickCheckbox(canvas, "Nesting 3a");
+    await clickCheckbox(canvas, "Nesting 3b");
+    expectChecked(canvas, "Nesting 2a");
+    expectChecked(canvas, "Nesting 3a");
+    expectChecked(canvas, "Nesting 3b");
+
+    await clickCheckbox(canvas, "Nesting 3a");
+    await clickCheckbox(canvas, "Nesting 3b");
+    expectUnchecked(canvas, "Nesting 2a");
+    expectUnchecked(canvas, "Nesting 3a");
+    expectUnchecked(canvas, "Nesting 3b");
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "8. Unchecking all children of a parent unchecks the parent. Unchecking Nesting 3c unchecks Nesting 2b. Unchecking Nesting 3a and Nesting 3b unchecks Nesting 2a.",
+      },
+    },
+  },
+};
+
+export const CheckboxScenario8bCheckRightThenLeftCascadesToRoot: Story = {
+  render: () => ({
+    props: { items: checkboxCascadeData },
+    template: checkboxScenarioTemplate,
+    moduleMetadata: { imports: [TreeviewComponent, TreeviewItemComponent] },
+  }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    await clickCheckbox(canvas, "Nesting 3c");
+    expectChecked(canvas, "Nesting 2b");
+    expectChecked(canvas, "Nesting 3c");
+    expectIndeterminate(canvas, "Nesting 1");
+
+    await clickCheckbox(canvas, "Nesting 3a");
+    await clickCheckbox(canvas, "Nesting 3b");
+    expectChecked(canvas, "Nesting 2a");
+    expectChecked(canvas, "Nesting 3a");
+    expectChecked(canvas, "Nesting 3b");
+    expectChecked(canvas, "Nesting 1");
+    for (const label of checkboxScenarioLabels) {
+      expectChecked(canvas, label);
+    }
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "8b. Check Nesting 3c (checks Nesting 2b, indeterminates Nesting 1). Then check Nesting 3a and Nesting 3b (checks Nesting 2a, then Nesting 1 since all its children are now selected).",
+      },
+    },
+  },
+};
+
+export const CheckboxScenario9ParentCheckedFromChildrenThenUncheckCascades: Story = {
+  render: () => ({
+    props: { items: checkboxCascadeData },
+    template: checkboxScenarioTemplate,
+    moduleMetadata: { imports: [TreeviewComponent, TreeviewItemComponent] },
+  }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    await clickCheckbox(canvas, "Nesting 3a");
+    await clickCheckbox(canvas, "Nesting 3b");
+    expectChecked(canvas, "Nesting 2a");
+    expectChecked(canvas, "Nesting 3a");
+    expectChecked(canvas, "Nesting 3b");
+
+    await clickCheckbox(canvas, "Nesting 2a");
+    expectUnchecked(canvas, "Nesting 2a");
+    expectUnchecked(canvas, "Nesting 3a");
+    expectUnchecked(canvas, "Nesting 3b");
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "9. Check Nesting 3a and Nesting 3b. Nesting 2a becomes checked (cascade adds it to the set). Click Nesting 2a to uncheck it and all its children.",
+      },
+    },
+  },
+};
+
+export const CheckboxScenario10CheckParentCascadesUncheckChildrenUnchecksParent: Story = {
+  render: () => ({
+    props: { items: checkboxCascadeData },
+    template: checkboxScenarioTemplate,
+    moduleMetadata: { imports: [TreeviewComponent, TreeviewItemComponent] },
+  }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    await clickCheckbox(canvas, "Nesting 2a");
+    expectChecked(canvas, "Nesting 2a");
+    expectChecked(canvas, "Nesting 3a");
+    expectChecked(canvas, "Nesting 3b");
+
+    await clickCheckbox(canvas, "Nesting 3a");
+    await clickCheckbox(canvas, "Nesting 3b");
+    expectUnchecked(canvas, "Nesting 1");
+    expectUnchecked(canvas, "Nesting 2a");
+    expectUnchecked(canvas, "Nesting 3a");
+    expectUnchecked(canvas, "Nesting 3b");
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "10. Checking Nesting 2a cascades to Nesting 3a and Nesting 3b. Unchecking Nesting 3a and Nesting 3b sets Nesting 2a to unchecked. Nesting 1 is unchecked at the end.",
       },
     },
   },

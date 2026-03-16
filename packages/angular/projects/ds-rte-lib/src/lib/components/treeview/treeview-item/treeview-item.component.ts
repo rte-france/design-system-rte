@@ -62,6 +62,7 @@ export class TreeviewItemComponent {
   readonly newLine = input<boolean>(false);
   readonly dottedLine = input<boolean>(false);
   readonly items = input<TreeviewItemProps[]>([]);
+  readonly rootItems = input<TreeviewItemProps[] | undefined>(undefined);
   readonly badge = input<BadgeProps | undefined>();
   readonly id = input<string | undefined>();
   readonly depth = input<number | undefined>(undefined);
@@ -81,16 +82,16 @@ export class TreeviewItemComponent {
 
   readonly isChecked = computed(() => {
     const ids = this.checkService?.checkedIds() ?? new Set();
-    const node = { id: this.id(), labelText: this.labelText(), items: this.items() };
-    return ids.has(this.itemId()) || allDescendantsChecked(node, ids);
+    const node = { id: this.itemId(), labelText: this.labelText(), items: this.items() };
+    const hasChildren = hasChildrenUtil(this.items());
+    return allDescendantsChecked(node, ids) || (ids.has(this.itemId()) && !hasChildren);
   });
 
-  readonly isIndeterminate = computed(() =>
-    isNodeIndeterminate(
-      { id: this.id(), labelText: this.labelText(), items: this.items() },
-      this.checkService?.checkedIds() ?? new Set(),
-    ),
-  );
+  readonly isIndeterminate = computed(() => {
+    const ids = this.checkService?.checkedIds() ?? new Set();
+    const node = { id: this.itemId(), labelText: this.labelText(), items: this.items() };
+    return isNodeIndeterminate(node, ids);
+  });
 
   readonly itemId = computed(() => this.id() ?? this.labelText());
 
@@ -185,11 +186,10 @@ export class TreeviewItemComponent {
     if (this.disabled()) {
       return;
     }
-    this.checkService?.toggleChecked({
-      id: this.id(),
-      labelText: this.labelText(),
-      items: this.items(),
-    });
+    this.checkService?.toggleChecked(
+      { id: this.itemId(), labelText: this.labelText(), items: this.items() },
+      this.rootItems(),
+    );
   }
 
   handleCheckboxKeydown(event: KeyboardEvent): void {
