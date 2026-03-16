@@ -38,6 +38,7 @@ export class TreeviewComponent {
   readonly id = input<string>("treeview");
   readonly itemClick = output<string | undefined>();
   readonly openChange = output<TreeviewOpenChangeEvent>();
+  readonly actionIconClick = output<{ itemId: string; event: Event }>();
   readonly selectionChange = output<TreeviewSelectionChangeEvent>();
   readonly checkedIdsChange = output<ReadonlySet<string>>();
 

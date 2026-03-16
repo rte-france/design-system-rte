@@ -34,6 +34,10 @@ import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard
 
 import { BadgeComponent } from "../../badge/badge.component";
 import { CheckboxComponent } from "../../checkbox/checkbox.component";
+import { DropdownMenuComponent } from "../../dropdown/dropdown-menu/dropdown-menu.component";
+import { DropdownTriggerDirective } from "../../dropdown/dropdown-trigger/dropdown-trigger.directive";
+import { DropdownDirective } from "../../dropdown/dropdown.directive";
+import { DropdownItemConfig } from "../../dropdown/dropdown.types";
 import { IconComponent } from "../../icon/icon.component";
 import { TreeviewCheckService } from "../treeview-check.service";
 import { TreeviewSelectionService } from "../treeview-selection.service";
@@ -42,7 +46,16 @@ import { TreeviewItemBorderComponent } from "./treeview-item-border/treeview-ite
 
 @Component({
   selector: "rte-treeview-item",
-  imports: [CommonModule, CheckboxComponent, IconComponent, BadgeComponent, TreeviewItemBorderComponent],
+  imports: [
+    CommonModule,
+    CheckboxComponent,
+    IconComponent,
+    BadgeComponent,
+    TreeviewItemBorderComponent,
+    DropdownDirective,
+    DropdownTriggerDirective,
+    DropdownMenuComponent,
+  ],
   standalone: true,
   templateUrl: "./treeview-item.component.html",
   styleUrl: "./treeview-item.component.scss",
@@ -68,11 +81,14 @@ export class TreeviewItemComponent {
   readonly depth = input<number | undefined>(undefined);
   readonly isLastChild = input<boolean | undefined>(undefined);
   readonly borderTypes = input<TreeviewBorderType[]>([]);
+  readonly actionIcon = input<string | undefined>();
+  readonly actionMenuItems = input<DropdownItemConfig[] | undefined>();
 
   readonly isOpenSignal = signal<boolean>(false);
 
   readonly itemClick = output<string | undefined>();
   readonly openChange = output<TreeviewOpenChangeEvent>();
+  readonly actionIconClick = output<{ itemId: string; event: Event }>();
 
   private readonly parentItem = inject(TreeviewItemComponent, { optional: true, skipSelf: true });
   private readonly selectionService = inject(TreeviewSelectionService, { optional: true });
@@ -196,6 +212,22 @@ export class TreeviewItemComponent {
     if ([SPACE_KEY, ENTER_KEY].includes(event.key)) {
       event.preventDefault();
       this.handleCheckboxClick(event);
+    }
+  }
+
+  handleActionIconClick(event: Event): void {
+    event.stopPropagation();
+    if (this.disabled()) {
+      return;
+    }
+    this.actionIconClick.emit({ itemId: this.itemId(), event });
+  }
+
+  handleActionIconKeyDown(event: KeyboardEvent): void {
+    if ([SPACE_KEY, ENTER_KEY].includes(event.key)) {
+      event.preventDefault();
+      event.stopPropagation();
+      this.handleActionIconClick(event);
     }
   }
 
