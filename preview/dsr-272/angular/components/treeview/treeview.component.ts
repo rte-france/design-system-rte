@@ -75,6 +75,12 @@ export class TreeviewComponent {
       },
       { allowSignalWrites: true },
     );
+    effect(
+      () => {
+        this.checkService.setRootItems(this.items());
+      },
+      { allowSignalWrites: true },
+    );
   }
 
   itemTrack(item: TreeviewItemProps): string {
