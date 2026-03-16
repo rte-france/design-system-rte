@@ -82,14 +82,14 @@ export class TreeviewItemComponent {
 
   readonly isChecked = computed(() => {
     const ids = this.checkService?.checkedIds() ?? new Set();
-    const node = { id: this.id(), labelText: this.labelText(), items: this.items() };
+    const node = { id: this.itemId(), labelText: this.labelText(), items: this.items() };
     const hasChildren = hasChildrenUtil(this.items());
     return allDescendantsChecked(node, ids) || (ids.has(this.itemId()) && !hasChildren);
   });
 
   readonly isIndeterminate = computed(() => {
     const ids = this.checkService?.checkedIds() ?? new Set();
-    const node = { id: this.id(), labelText: this.labelText(), items: this.items() };
+    const node = { id: this.itemId(), labelText: this.labelText(), items: this.items() };
     return isNodeIndeterminate(node, ids);
   });
 
@@ -187,7 +187,7 @@ export class TreeviewItemComponent {
       return;
     }
     this.checkService?.toggleChecked(
-      { id: this.id(), labelText: this.labelText(), items: this.items() },
+      { id: this.itemId(), labelText: this.labelText(), items: this.items() },
       this.rootItems(),
     );
   }

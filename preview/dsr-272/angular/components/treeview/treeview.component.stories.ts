@@ -1,4 +1,4 @@
-import type { TreeviewItemProps } from "@design-system-rte/core/components/treeview/treeview-item.interface";
+import type { TreeviewItemProps } from "@design-system-rte/core";
 import { Meta, StoryObj } from "@storybook/angular";
 import { expect, userEvent, within } from "@storybook/test";
 
