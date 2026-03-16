@@ -1,6 +1,13 @@
+@use '@design-system-rte/core/design-tokens/main.scss' as *;
+
 .treeview {
   display: flex;
   flex-direction: column;
+  gap: $positive-spacing_100;
   margin: 0;
   padding: 0;
+
+  &.compact {
+    gap: $positive-spacing_050;
+  }
 }

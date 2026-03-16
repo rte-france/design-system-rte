@@ -44,3 +44,38 @@ export const TREEVIEW_BORDER_SVG_MAP: Record<TreeviewBorderType, SvgConfig> = {
     elements: [],
   },
 };
+
+const baseBorderSvgConfigCompact: Pick<SvgConfig, "viewBox" | "width" | "height"> = {
+  viewBox: "0 0 16 24",
+  width: TREEVIEW_BORDER_WIDTH_PX,
+  height: TREEVIEW_ROW_HEIGHT_COMPACT_PX,
+};
+
+export const TREEVIEW_BORDER_SVG_MAP_COMPACT: Record<TreeviewBorderType, SvgConfig> = {
+  vertical: {
+    ...baseBorderSvgConfigCompact,
+    elements: [{ kind: "path", d: "M8 24L8 0" }],
+  },
+  branch: {
+    ...baseBorderSvgConfigCompact,
+    elements: [
+      { kind: "path", d: "M8 24L8 0" },
+      { kind: "line", x1: 8, y1: 11.5, x2: 16, y2: 11.5 },
+    ],
+  },
+  corner: {
+    ...baseBorderSvgConfigCompact,
+    elements: [
+      { kind: "path", d: "M8 12L8 0" },
+      { kind: "line", x1: 8, y1: 11.5, x2: 16, y2: 11.5 },
+    ],
+  },
+  horizontal: {
+    ...baseBorderSvgConfigCompact,
+    elements: [{ kind: "line", x1: 0, y1: 11.5, x2: 16, y2: 11.5 }],
+  },
+  spacer: {
+    ...baseBorderSvgConfigCompact,
+    elements: [],
+  },
+};
