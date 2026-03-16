@@ -37,7 +37,7 @@
       <div class="treeview-item-checkbox-spacer"></div>
     }
     @for (borderType of connectorBorderTypes(); track $index) {
-      <rte-treeview-item-border [borderType]="borderType" [dottedLine]="dottedLine()" />
+      <rte-treeview-item-border [borderType]="borderType" [dottedLine]="dottedLine()" [isCompact]="isCompact()" />
     }
     @if (hasChildren()) {
       <button
