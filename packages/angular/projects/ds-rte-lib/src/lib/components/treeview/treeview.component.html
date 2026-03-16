@@ -1,6 +1,7 @@
 <ul class="treeview" role="tree" [class.has-checked-items]="hasCheckedItems()">
   @for (item of items(); track itemTrack(item); let itemIndex = $index) {
     <rte-treeview-item
+      [rootItems]="items()"
       [treeId]="id()"
       [nodePath]="[itemIndex]"
       [id]="item.id"
