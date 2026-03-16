@@ -22,9 +22,8 @@
   box-sizing: border-box;
 }
 
-.treeview-item-main-content:focus-within {
-  outline: 1px solid var(--border-brand-focused);
-  outline-offset: 0;
+.treeview-item-main-content:focus-within:not(:has(.treeview-item-action-button:focus)) {
+  box-shadow: 0 0 0 1px var(--border-brand-focused);
   border-radius: $radius-s;
 }
 
@@ -167,6 +166,43 @@
   min-width: $positive-spacing_200;
 }
 
+.treeview-item-action {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: $positive-spacing_050;
+}
+
+.treeview-item-action-button {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: $positive-spacing_200;
+  height: $positive-spacing_200;
+  padding: 0 $positive-spacing_050;
+  background: transparent;
+  border: none;
+  border-radius: $radius-xs;
+  cursor: pointer;
+  color: inherit;
+
+  &:hover {
+    background: transparent;
+  }
+
+  &:focus {
+    outline: 1px solid var(--border-brand-focused);
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
 .treeview-item-icon {
   flex-shrink: 0;
 }
@@ -179,6 +215,14 @@
   min-width: 0;
   @include typography-button-s;
   color: var(--content-secondary);
+
+  &:focus {
+    outline: none;
+  }
+
+  &:focus-visible {
+    outline: none;
+  }
 
   &.treeview-item-content-compact {
     padding-left: $positive-spacing_100;
