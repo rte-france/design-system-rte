@@ -27,6 +27,14 @@
   border-radius: $radius-s;
 }
 
+.treeview-item.compact {
+  min-height: 24px;
+
+  .treeview-item-main-content {
+    height: 20px;
+  }
+}
+
 .treeview-item.compact .treeview-item-row {
   min-height: 24px;
 }
@@ -53,6 +61,10 @@
   }
 }
 
+.treeview-item.compact .treeview-item-main-content {
+  padding: $positive-spacing_025 $positive-spacing_050;
+}
+
 .treeview-item.is-expanded {
   &:not(.compact) {
     > .treeview-item-row > .treeview-item-chevron::after {
@@ -76,10 +88,6 @@
     transparent 2px,
     transparent 4px
   );
-}
-
-.treeview-item.is-expanded.compact > .treeview-item-row > .treeview-item-chevron::after {
-  height: calc(#{$positive-spacing_200} / 4);
 }
 
 .treeview-item-row .treeview-item-main-content:hover {
@@ -152,6 +160,19 @@
 
   &:hover {
     background: var(--background-neutral-navigation-hover);
+  }
+
+  &:focus-visible {
+    outline: 1px solid var(--border-brand-focused);
+    outline-offset: 0;
+  }
+}
+
+.treeview-item.compact .treeview-item-chevron {
+  background: transparent;
+
+  &:hover {
+    background: transparent;
   }
 
   &:focus-visible {
@@ -250,6 +271,9 @@
 }
 
 .treeview-item-children {
+  display: flex;
+  flex-direction: column;
+  gap: $positive-spacing_100;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -263,5 +287,10 @@
 
   &.treeview-item-children-open {
     max-height: 2000px;
+    overflow: visible;
   }
+}
+
+.treeview-item.compact .treeview-item-children {
+  gap: $positive-spacing_050;
 }
