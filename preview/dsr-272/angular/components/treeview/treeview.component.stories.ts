@@ -21,13 +21,11 @@ const fileExplorerChildren: TreeviewItemProps[] = [
   {
     id: "summer82",
     labelText: "Summer 82",
-    hasCheckbox: true,
     isOpen: true,
     items: [
       {
         id: "sun",
         labelText: "Sun",
-        hasCheckbox: true,
       },
     ],
   },
@@ -56,12 +54,10 @@ const navigationData: TreeviewItemProps[] = [
           {
             id: "project-a",
             labelText: "Project A",
-            hasCheckbox: true,
           },
           {
             id: "project-b",
             labelText: "Project B",
-            hasCheckbox: true,
           },
         ],
       },
@@ -129,9 +125,9 @@ const deepNestingData: TreeviewItemProps[] = [
 export const Compact: Story = {
   render: () => ({
     props: {
-      items: [{ labelText: "Images", isOpen: true, isCompact: true, items: fileExplorerChildren }],
+      items: [{ labelText: "Images", isOpen: true, items: fileExplorerChildren }],
     },
-    template: `<rte-treeview id="treeview-compact" [items]="items" [isCompact]="true" />`,
+    template: `<rte-treeview id="treeview-compact" [items]="items" [hasCheckbox]="true" [isCompact]="true"/>`,
     moduleMetadata: {
       imports: [TreeviewComponent, TreeviewItemComponent],
     },
