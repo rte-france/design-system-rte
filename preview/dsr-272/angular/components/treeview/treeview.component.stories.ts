@@ -17,27 +17,10 @@ const meta: Meta<TreeviewComponent> = {
 export default meta;
 type Story = StoryObj<TreeviewComponent>;
 
-const fileExplorerChildren: TreeviewItemProps[] = [
-  {
-    id: "summer82",
-    labelText: "Summer 82",
-    isOpen: true,
-    items: [
-      {
-        id: "sun",
-        labelText: "Sun",
-      },
-    ],
-  },
-];
+const singleItemData: TreeviewItemProps[] = [{ id: "root", labelText: "Single item", hasIcon: true, icon: "folder" }];
 
-const navigationData: TreeviewItemProps[] = [
-  {
-    id: "home",
-    labelText: "Home",
-    icon: "home",
-    hasIcon: true,
-  },
+const baseNavigationData: TreeviewItemProps[] = [
+  { id: "home", labelText: "Home", icon: "home", hasIcon: true },
   {
     id: "documents",
     labelText: "Documents",
@@ -51,81 +34,46 @@ const navigationData: TreeviewItemProps[] = [
         icon: "folder",
         hasIcon: true,
         items: [
-          {
-            id: "project-a",
-            labelText: "Project A",
-          },
-          {
-            id: "project-b",
-            labelText: "Project B",
-          },
+          { id: "project-a", labelText: "Project A" },
+          { id: "project-b", labelText: "Project B" },
         ],
       },
-      {
-        id: "personal",
-        labelText: "Personal",
-        icon: "folder",
-        hasIcon: true,
-      },
+      { id: "personal", labelText: "Personal", icon: "folder", hasIcon: true },
     ],
   },
 ];
 
-export const WithSelectionChange: Story = {
+function withActionIcon(
+  items: TreeviewItemProps[],
+  actionIcon: string,
+  actionMenuItems?: TreeviewActionMenuItem[],
+): TreeviewItemProps[] {
+  return items.map((item) => ({
+    ...item,
+    actionIcon,
+    ...(actionMenuItems && { actionMenuItems }),
+    ...(item.items && { items: withActionIcon(item.items, actionIcon, actionMenuItems) }),
+  }));
+}
+
+const navigationData = baseNavigationData;
+
+export const SingleItem: Story = {
   render: () => ({
     props: {
-      items: [{ labelText: "Images", isOpen: true, items: fileExplorerChildren }],
-      onSelectionChange: (event: { id: string | undefined; selected: boolean }) => {
-        console.log("selectionChange", event);
-      },
+      items: singleItemData,
     },
-    template: `<rte-treeview id="treeview-with-selection-change" [items]="items" [hasCheckbox]="true" (selectionChange)="onSelectionChange($event)" />`,
+    template: `<rte-treeview id="treeview-single-item" [items]="items" />`,
     moduleMetadata: {
       imports: [TreeviewComponent, TreeviewItemComponent],
     },
   }),
 };
 
-const deepNestingData: TreeviewItemProps[] = [
-  {
-    id: "root",
-    labelText: "Root",
-    hasIcon: true,
-    icon: "folder",
-    isOpen: true,
-    items: [
-      {
-        id: "level1",
-        labelText: "Level 1",
-        hasIcon: true,
-        icon: "folder",
-        isOpen: true,
-        items: [
-          {
-            id: "level2",
-            labelText: "Level 2",
-            hasIcon: true,
-            icon: "folder",
-            isOpen: true,
-            items: [
-              {
-                id: "level3",
-                labelText: "Level 3",
-                hasIcon: true,
-                icon: "folder",
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  },
-];
-
 export const Compact: Story = {
   render: () => ({
     props: {
-      items: [{ labelText: "Images", isOpen: true, items: fileExplorerChildren }],
+      items: navigationData,
     },
     template: `<rte-treeview id="treeview-compact" [items]="items" [hasCheckbox]="true" [isCompact]="true"/>`,
     moduleMetadata: {
@@ -134,35 +82,47 @@ export const Compact: Story = {
   }),
 };
 
-export const DeepNesting: Story = {
-  render: () => ({
-    props: {
-      items: deepNestingData,
-    },
-    template: `<rte-treeview id="treeview-deep-nesting" [items]="items"/>`,
-    moduleMetadata: {
-      imports: [TreeviewComponent, TreeviewItemComponent],
-    },
-  }),
-};
-
-export const SelectedState: Story = {
-  render: () => ({
-    props: {
+function createConnectorLinesData(options: { middleOpen?: boolean } = {}): TreeviewItemProps[] {
+  const { middleOpen = true } = options;
+  return [
+    {
+      id: "root",
+      labelText: "Root",
+      hasIcon: true,
+      icon: "folder",
+      isOpen: true,
       items: [
         {
-          labelText: "Parent",
+          id: "first",
+          labelText: "First (branch/T-shape)",
+          hasIcon: true,
+          icon: "folder",
           isOpen: true,
           items: [
-            { id: "child1", labelText: "Child 1", hasCheckbox: true },
-            { id: "child2", labelText: "Child 2 (selected)", hasCheckbox: true },
-            { id: "child3", labelText: "Child 3", hasCheckbox: true },
+            { id: "first-1", labelText: "First-1 (branch)", hasIcon: true, icon: "folder" },
+            { id: "first-2", labelText: "First-2 (corner/L-shape)", hasIcon: true, icon: "folder" },
           ],
         },
+        {
+          id: "middle",
+          labelText: "Middle (branch/T-shape)",
+          hasIcon: true,
+          icon: "folder",
+          isOpen: middleOpen,
+          items: [{ id: "middle-1", labelText: "Middle-1 (corner/L-shape)", hasIcon: true, icon: "folder" }],
+        },
+        { id: "last", labelText: "Last (corner/L-shape)", hasIcon: true, icon: "folder" },
       ],
-      selectedId: "child2",
     },
-    template: `<rte-treeview id="treeview-selected-state" [items]="items" [selectedId]="selectedId" [hasCheckbox]="true" />`,
+  ];
+}
+
+export const NestedItems: Story = {
+  render: () => ({
+    props: {
+      items: createConnectorLinesData({ middleOpen: true }),
+    },
+    template: `<rte-treeview id="treeview-nested-items" [items]="items" />`,
     moduleMetadata: {
       imports: [TreeviewComponent, TreeviewItemComponent],
     },
@@ -171,7 +131,7 @@ export const SelectedState: Story = {
     docs: {
       description: {
         story:
-          "Selection (highlight) is independent from check state. Child 2 is selected (highlighted) but no items are checked.",
+          "Nested structure with branch/T-shape and corner/L-shape connector lines. Demonstrates correct rendering of multi-level hierarchy.",
       },
     },
   },
@@ -189,154 +149,13 @@ export const DottedLine: Story = {
   }),
 };
 
-const connectorLinesVerificationData: TreeviewItemProps[] = [
-  {
-    id: "root",
-    labelText: "Root",
-    hasIcon: true,
-    icon: "folder",
-    isOpen: true,
-    items: [
-      {
-        id: "first",
-        labelText: "First (branch/T-shape)",
-        hasIcon: true,
-        icon: "folder",
-        isOpen: true,
-        items: [
-          {
-            id: "first-1",
-            labelText: "First-1 (branch)",
-            hasIcon: true,
-            icon: "folder",
-          },
-          {
-            id: "first-2",
-            labelText: "First-2 (corner/L-shape)",
-            hasIcon: true,
-            icon: "folder",
-          },
-        ],
-      },
-      {
-        id: "middle",
-        labelText: "Middle (branch/T-shape)",
-        hasIcon: true,
-        icon: "folder",
-        isOpen: true,
-        items: [
-          {
-            id: "middle-1",
-            labelText: "Middle-1 (corner/L-shape)",
-            hasIcon: true,
-            icon: "folder",
-          },
-        ],
-      },
-      {
-        id: "last",
-        labelText: "Last (corner/L-shape)",
-        hasIcon: true,
-        icon: "folder",
-      },
-    ],
-  },
-];
-
-export const ConnectorLinesVerification: Story = {
+export const PreSelectedState: Story = {
   render: () => ({
     props: {
-      items: connectorLinesVerificationData,
-    },
-    template: `<rte-treeview id="treeview-connector-lines-verification" [items]="items" />`,
-    moduleMetadata: {
-      imports: [TreeviewComponent, TreeviewItemComponent],
-    },
-  }),
-};
-
-export const SelectByNodePath: Story = {
-  render: () => ({
-    props: {
-      items: connectorLinesVerificationData,
-      selectedPath: "0-1-0",
-    },
-    template: `<rte-treeview id="treeview-select-by-path-middle1" [items]="items" [selectedPath]="selectedPath" />`,
-    moduleMetadata: {
-      imports: [TreeviewComponent, TreeviewItemComponent],
-    },
-  }),
-  parameters: {
-    docs: {
-      description: {
-        story:
-          'Selection by node path: "0-1-0" selects root (0) → Middle (1) → Middle-1 (0). Use selectedPath input to select by index path.',
-      },
-    },
-  },
-};
-
-const connectorLinesPreselectedData: TreeviewItemProps[] = [
-  {
-    id: "root",
-    labelText: "Root",
-    hasIcon: true,
-    icon: "folder",
-    isOpen: true,
-    items: [
-      {
-        id: "first",
-        labelText: "First (branch/T-shape)",
-        hasIcon: true,
-        icon: "folder",
-        isOpen: true,
-        items: [
-          {
-            id: "first-1",
-            labelText: "First-1 (branch)",
-            hasIcon: true,
-            icon: "folder",
-          },
-          {
-            id: "first-2",
-            labelText: "First-2 (corner/L-shape)",
-            hasIcon: true,
-            icon: "folder",
-          },
-        ],
-      },
-      {
-        id: "middle",
-        labelText: "Middle (branch/T-shape)",
-        hasIcon: true,
-        icon: "folder",
-        isOpen: false,
-        items: [
-          {
-            id: "middle-1",
-            labelText: "Middle-1 (corner/L-shape)",
-            hasIcon: true,
-            icon: "folder",
-          },
-        ],
-      },
-      {
-        id: "last",
-        labelText: "Last (corner/L-shape)",
-        hasIcon: true,
-        icon: "folder",
-      },
-    ],
-  },
-];
-
-export const ConnectorLinesPreselected: Story = {
-  render: () => ({
-    props: {
-      items: connectorLinesPreselectedData,
+      items: createConnectorLinesData({ middleOpen: false }),
       selectedId: "first-2",
     },
-    template: `<rte-treeview id="treeview-connector-lines-preselected" [items]="items" [selectedId]="selectedId" />`,
+    template: `<rte-treeview id="treeview-preselected-state" [items]="items" [selectedId]="selectedId" />`,
     moduleMetadata: {
       imports: [TreeviewComponent, TreeviewItemComponent],
     },
@@ -345,7 +164,76 @@ export const ConnectorLinesPreselected: Story = {
     docs: {
       description: {
         story:
-          "Same structure as Connector Lines Verification with first-2 selected and its path open (root, first expanded). Middle is closed.",
+          "Item first-2 is preselected (highlighted). Selection is independent from check state. Use selectedPath input as alternative to select by index path (e.g. '0-1-0').",
+      },
+    },
+  },
+};
+
+function createSelectionTrees(prefix: string): TreeviewItemProps[] {
+  return [
+    {
+      id: `${prefix}-a`,
+      labelText: `${prefix} A`,
+      icon: "folder",
+      hasIcon: true,
+      isOpen: true,
+      items: [
+        { id: `${prefix}-a1`, labelText: `${prefix} A1`, icon: "folder", hasIcon: true },
+        { id: `${prefix}-a2`, labelText: `${prefix} A2`, icon: "folder", hasIcon: true },
+      ],
+    },
+    {
+      id: `${prefix}-b`,
+      labelText: `${prefix} B`,
+      icon: "folder",
+      hasIcon: true,
+      items: [{ id: `${prefix}-b1`, labelText: `${prefix} B1`, icon: "folder", hasIcon: true }],
+    },
+  ];
+}
+
+function clickTreeItem(canvas: ReturnType<typeof within>, label: string): Promise<void> {
+  const treeitem = canvas.getByRole("treeitem", { name: new RegExp(label, "i") });
+  const mainContent = treeitem.querySelector(".treeview-item-main-content") as HTMLElement;
+  return userEvent.click(mainContent);
+}
+
+function expectTreeItemSelected(canvas: ReturnType<typeof within>, label: string): void {
+  const treeitem = canvas.getByRole("treeitem", { name: new RegExp(label, "i") });
+  expect(treeitem.getAttribute("aria-selected")).toBe("true");
+}
+
+function expectTreeItemNotSelected(canvas: ReturnType<typeof within>, label: string): void {
+  const treeitem = canvas.getByRole("treeitem", { name: new RegExp(label, "i") });
+  expect(treeitem.getAttribute("aria-selected")).toBe("false");
+}
+
+export const SelectionExclusive: Story = {
+  render: () => ({
+    props: {
+      items: navigationData,
+    },
+    template: `<rte-treeview id="treeview-selection-exclusive" data-testid="treeview-selection-exclusive" [items]="items" />`,
+    moduleMetadata: {
+      imports: [TreeviewComponent, TreeviewItemComponent],
+    },
+  }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    await clickTreeItem(canvas, "Home");
+    expectTreeItemSelected(canvas, "Home");
+
+    await clickTreeItem(canvas, "Documents");
+    expectTreeItemNotSelected(canvas, "Home");
+    expectTreeItemSelected(canvas, "Documents");
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Selection is exclusive: clicking an item selects it; clicking another item deselects the first and selects the new one.",
       },
     },
   },
@@ -358,51 +246,9 @@ const actionMenuItems: TreeviewActionMenuItem[] = [
   { label: "Rename", leftIcon: "edit" },
 ];
 
-const actionIconDropdownData: TreeviewItemProps[] = [
-  {
-    id: "documents",
-    labelText: "Documents",
-    icon: "folder",
-    hasIcon: true,
-    actionIcon: "more-horiz",
-    actionMenuItems,
-    isOpen: true,
-    items: [
-      {
-        id: "work",
-        labelText: "Work",
-        icon: "folder",
-        hasIcon: true,
-        actionIcon: "more-horiz",
-        actionMenuItems,
-        items: [
-          {
-            id: "project-a",
-            labelText: "Project A",
-            actionIcon: "more-horiz",
-            actionMenuItems,
-          },
-          {
-            id: "project-b",
-            labelText: "Project B",
-            actionIcon: "more-horiz",
-            actionMenuItems,
-          },
-        ],
-      },
-      {
-        id: "personal",
-        labelText: "Personal",
-        icon: "folder",
-        hasIcon: true,
-        actionIcon: "more-horiz",
-        actionMenuItems,
-      },
-    ],
-  },
-];
+const actionIconDropdownData = withActionIcon(baseNavigationData, "more-horiz", actionMenuItems);
 
-export const WithActionIconAndDropdown: Story = {
+export const ActionIconDropdown: Story = {
   render: () => ({
     props: {
       items: actionIconDropdownData,
@@ -431,38 +277,9 @@ export const WithActionIconAndDropdown: Story = {
   },
 };
 
-const actionIconCustomBehaviorData: TreeviewItemProps[] = [
-  {
-    id: "documents",
-    labelText: "Documents",
-    icon: "folder",
-    hasIcon: true,
-    actionIcon: "info-i",
-    isOpen: true,
-    items: [
-      {
-        id: "work",
-        labelText: "Work",
-        icon: "folder",
-        hasIcon: true,
-        actionIcon: "info-i",
-        items: [
-          { id: "project-a", labelText: "Project A", actionIcon: "info-i" },
-          { id: "project-b", labelText: "Project B", actionIcon: "info-i" },
-        ],
-      },
-      {
-        id: "personal",
-        labelText: "Personal",
-        icon: "folder",
-        hasIcon: true,
-        actionIcon: "info-i",
-      },
-    ],
-  },
-];
+const actionIconCustomBehaviorData = withActionIcon(baseNavigationData, "info-i");
 
-export const WithActionIconCustomBehavior: Story = {
+export const ActionIconCustomBehavior: Story = {
   render: () => ({
     props: {
       items: actionIconCustomBehaviorData,
@@ -491,53 +308,11 @@ export const WithActionIconCustomBehavior: Story = {
   },
 };
 
-const leftTreeData: TreeviewItemProps[] = [
-  {
-    id: "left-a",
-    labelText: "Left A",
-    icon: "folder",
-    hasIcon: true,
-    isOpen: true,
-    items: [
-      { id: "left-a1", labelText: "Left A1", icon: "folder", hasIcon: true },
-      { id: "left-a2", labelText: "Left A2", icon: "folder", hasIcon: true },
-    ],
-  },
-  {
-    id: "left-b",
-    labelText: "Left B",
-    icon: "folder",
-    hasIcon: true,
-    items: [{ id: "left-b1", labelText: "Left B1", icon: "folder", hasIcon: true }],
-  },
-];
-
-const rightTreeData: TreeviewItemProps[] = [
-  {
-    id: "right-a",
-    labelText: "Right A",
-    icon: "folder",
-    hasIcon: true,
-    isOpen: true,
-    items: [
-      { id: "right-a1", labelText: "Right A1", icon: "folder", hasIcon: true },
-      { id: "right-a2", labelText: "Right A2", icon: "folder", hasIcon: true },
-    ],
-  },
-  {
-    id: "right-b",
-    labelText: "Right B",
-    icon: "folder",
-    hasIcon: true,
-    items: [{ id: "right-b1", labelText: "Right B1", icon: "folder", hasIcon: true }],
-  },
-];
-
-export const TwoTreeviewsSelectionIndependence: Story = {
+export const SelectionIndependence: Story = {
   render: () => ({
     props: {
-      leftItems: leftTreeData,
-      rightItems: rightTreeData,
+      leftItems: createSelectionTrees("left"),
+      rightItems: createSelectionTrees("right"),
     },
     template: `
       <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
@@ -590,12 +365,12 @@ const checkboxCascadeData: TreeviewItemProps[] = [
   },
 ];
 
-export const CheckboxCascade: Story = {
+export const CheckboxNesting: Story = {
   render: () => ({
     props: {
       items: checkboxCascadeData,
     },
-    template: `<rte-treeview id="treeview-checkbox-cascade" [items]="items" [hasCheckbox]="true" />`,
+    template: `<rte-treeview id="treeview-checkbox-nesting" [items]="items" [hasCheckbox]="true" />`,
     moduleMetadata: {
       imports: [TreeviewComponent, TreeviewItemComponent],
     },
@@ -603,7 +378,8 @@ export const CheckboxCascade: Story = {
   parameters: {
     docs: {
       description: {
-        story: "Checking a parent checks all its descendants at every nesting level (1, 2, 3). Unchecking removes all.",
+        story:
+          "Checkboxes with nested hierarchy. Checking a parent checks all descendants. Checkboxes are hidden by default; hover or focus to reveal. Once any item is checked, all become visible. When hasCheckbox is false, a spacer preserves layout alignment. Use checkedIdsChange to receive the set of checked ids.",
       },
     },
   },
@@ -674,80 +450,7 @@ const checkboxScenarioTemplate = `
   />
 `;
 
-export const CheckboxScenario1ClickNesting1AllChecked: Story = {
-  render: () => ({
-    props: { items: checkboxCascadeData },
-    template: checkboxScenarioTemplate,
-    moduleMetadata: { imports: [TreeviewComponent, TreeviewItemComponent] },
-  }),
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    await clickCheckbox(canvas, "Nesting 1");
-    for (const label of checkboxScenarioLabels) {
-      expectChecked(canvas, label);
-    }
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: "1. Click Nesting 1. All items should be checked.",
-      },
-    },
-  },
-};
-
-export const CheckboxScenario2ClickNesting3cIndeterminateChain: Story = {
-  render: () => ({
-    props: { items: checkboxCascadeData },
-    template: checkboxScenarioTemplate,
-    moduleMetadata: { imports: [TreeviewComponent, TreeviewItemComponent] },
-  }),
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    await clickCheckbox(canvas, "Nesting 3c");
-    expectChecked(canvas, "Nesting 3c");
-    expectChecked(canvas, "Nesting 2b");
-    expectIndeterminate(canvas, "Nesting 1");
-    expectUnchecked(canvas, "Nesting 2a");
-    expectUnchecked(canvas, "Nesting 3a");
-    expectUnchecked(canvas, "Nesting 3b");
-  },
-  parameters: {
-    docs: {
-      description: {
-        story:
-          "2. Click Nesting 3c. Nesting 3c and Nesting 2b checked (all descendants of 2b checked). Nesting 1 indeterminate. Others unchecked.",
-      },
-    },
-  },
-};
-
-export const CheckboxScenario3ClickNesting3cThenNesting1AllChecked: Story = {
-  render: () => ({
-    props: { items: checkboxCascadeData },
-    template: checkboxScenarioTemplate,
-    moduleMetadata: { imports: [TreeviewComponent, TreeviewItemComponent] },
-  }),
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    await clickCheckbox(canvas, "Nesting 3c");
-    expectIndeterminate(canvas, "Nesting 1");
-    await clickCheckbox(canvas, "Nesting 1");
-    for (const label of checkboxScenarioLabels) {
-      expectChecked(canvas, label);
-    }
-  },
-  parameters: {
-    docs: {
-      description: {
-        story:
-          "3. Click Nesting 3c. Then click Nesting 1. Nesting 1 passes from indeterminate to checked. All elements checked.",
-      },
-    },
-  },
-};
-
-export const CheckboxScenario4ClickNesting3bIndeterminateChain: Story = {
+export const CheckboxIndeterminate: Story = {
   render: () => ({
     props: { items: checkboxCascadeData },
     template: checkboxScenarioTemplate,
@@ -762,18 +465,26 @@ export const CheckboxScenario4ClickNesting3bIndeterminateChain: Story = {
     expectUnchecked(canvas, "Nesting 2b");
     expectUnchecked(canvas, "Nesting 3a");
     expectUnchecked(canvas, "Nesting 3c");
+
+    await clickCheckbox(canvas, "Nesting 3c");
+    expectChecked(canvas, "Nesting 3c");
+    expectChecked(canvas, "Nesting 3b");
+    expectChecked(canvas, "Nesting 2b");
+    expectIndeterminate(canvas, "Nesting 1");
+    expectIndeterminate(canvas, "Nesting 2a");
+    expectUnchecked(canvas, "Nesting 3a");
   },
   parameters: {
     docs: {
       description: {
         story:
-          "4. Click Nesting 3b. Nesting 3b checked, Nesting 2a indeterminate, Nesting 1 indeterminate. Others unchecked.",
+          "Click leaf Nesting 3b: parent Nesting 2a and root Nesting 1 become indeterminate. Click sibling Nesting 3c: Nesting 2b checked, Nesting 1 still indeterminate.",
       },
     },
   },
 };
 
-export const CheckboxScenario5ClickNesting1ToggleAll: Story = {
+export const CheckboxCascadeChecked: Story = {
   render: () => ({
     props: { items: checkboxCascadeData },
     template: checkboxScenarioTemplate,
@@ -781,6 +492,51 @@ export const CheckboxScenario5ClickNesting1ToggleAll: Story = {
   }),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
+
+    await clickCheckbox(canvas, "Nesting 1");
+    for (const label of checkboxScenarioLabels) {
+      expectChecked(canvas, label);
+    }
+
+    await clickCheckbox(canvas, "Nesting 1");
+    for (const label of checkboxScenarioLabels) {
+      expectUnchecked(canvas, label);
+    }
+
+    await clickCheckbox(canvas, "Nesting 3c");
+    expectChecked(canvas, "Nesting 2b");
+    expectChecked(canvas, "Nesting 3c");
+    expectIndeterminate(canvas, "Nesting 1");
+
+    await clickCheckbox(canvas, "Nesting 3a");
+    await clickCheckbox(canvas, "Nesting 3b");
+    expectChecked(canvas, "Nesting 2a");
+    expectChecked(canvas, "Nesting 3a");
+    expectChecked(canvas, "Nesting 3b");
+    expectChecked(canvas, "Nesting 1");
+    for (const label of checkboxScenarioLabels) {
+      expectChecked(canvas, label);
+    }
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Parent-to-children: click Nesting 1 to check all. Children-to-parent: check Nesting 3c then Nesting 3a and Nesting 3b to auto-check Nesting 2a and Nesting 1.",
+      },
+    },
+  },
+};
+
+export const CheckboxCascadeUnchecked: Story = {
+  render: () => ({
+    props: { items: checkboxCascadeData },
+    template: checkboxScenarioTemplate,
+    moduleMetadata: { imports: [TreeviewComponent, TreeviewItemComponent] },
+  }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
     await clickCheckbox(canvas, "Nesting 1");
     for (const label of checkboxScenarioLabels) {
       expectChecked(canvas, label);
@@ -789,205 +545,6 @@ export const CheckboxScenario5ClickNesting1ToggleAll: Story = {
     for (const label of checkboxScenarioLabels) {
       expectUnchecked(canvas, label);
     }
-  },
-  parameters: {
-    docs: {
-      description: {
-        story:
-          "5. Click Nesting 1. Verify everything is checked. Click Nesting 1 again. Verify everything is unchecked.",
-      },
-    },
-  },
-};
-
-export const CheckboxScenario6ParentCheckedWhenAllDescendantsChecked: Story = {
-  render: () => ({
-    props: { items: checkboxCascadeData },
-    template: checkboxScenarioTemplate,
-    moduleMetadata: { imports: [TreeviewComponent, TreeviewItemComponent] },
-  }),
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    await clickCheckbox(canvas, "Nesting 3a");
-    await clickCheckbox(canvas, "Nesting 3b");
-    expectChecked(canvas, "Nesting 2a");
-    expectChecked(canvas, "Nesting 3a");
-    expectChecked(canvas, "Nesting 3b");
-    expectIndeterminate(canvas, "Nesting 1");
-    expectUnchecked(canvas, "Nesting 2b");
-    expectUnchecked(canvas, "Nesting 3c");
-
-    await clickCheckbox(canvas, "Nesting 3c");
-    expectChecked(canvas, "Nesting 2b");
-    expectChecked(canvas, "Nesting 3c");
-    expectChecked(canvas, "Nesting 1");
-    for (const label of checkboxScenarioLabels) {
-      expectChecked(canvas, label);
-    }
-  },
-  parameters: {
-    docs: {
-      description: {
-        story:
-          "6. When Nesting 3a and Nesting 3b are selected, Nesting 2a passes from indeterminate to checked. When Nesting 3c is selected, Nesting 2b is checked and Nesting 1 is checked (cascade adds parents to the set).",
-      },
-    },
-  },
-};
-
-export const CheckboxScenario7UncheckChildUpdatesParent: Story = {
-  render: () => ({
-    props: { items: checkboxCascadeData },
-    template: checkboxScenarioTemplate,
-    moduleMetadata: { imports: [TreeviewComponent, TreeviewItemComponent] },
-  }),
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-
-    await clickCheckbox(canvas, "Nesting 3c");
-    expectChecked(canvas, "Nesting 2b");
-    expectChecked(canvas, "Nesting 3c");
-
-    await clickCheckbox(canvas, "Nesting 3c");
-    expectUnchecked(canvas, "Nesting 2b");
-    expectUnchecked(canvas, "Nesting 3c");
-
-    await clickCheckbox(canvas, "Nesting 3a");
-    await clickCheckbox(canvas, "Nesting 3b");
-    expectChecked(canvas, "Nesting 2a");
-    expectChecked(canvas, "Nesting 3a");
-    expectChecked(canvas, "Nesting 3b");
-
-    await clickCheckbox(canvas, "Nesting 3b");
-    expectIndeterminate(canvas, "Nesting 2a");
-    expectChecked(canvas, "Nesting 3a");
-    expectUnchecked(canvas, "Nesting 3b");
-
-    await clickCheckbox(canvas, "Nesting 3a");
-    expectUnchecked(canvas, "Nesting 2a");
-    expectUnchecked(canvas, "Nesting 3a");
-  },
-  parameters: {
-    docs: {
-      description: {
-        story:
-          "7. Unchecking a child updates the parent: if Nesting 2b is checked because Nesting 3c is checked, unchecking Nesting 3c puts Nesting 2b unchecked. Unchecking one of multiple checked children puts the parent indeterminate.",
-      },
-    },
-  },
-};
-
-export const CheckboxScenario8UncheckAllChildrenUnchecksParent: Story = {
-  render: () => ({
-    props: { items: checkboxCascadeData },
-    template: checkboxScenarioTemplate,
-    moduleMetadata: { imports: [TreeviewComponent, TreeviewItemComponent] },
-  }),
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-
-    await clickCheckbox(canvas, "Nesting 3c");
-    expectChecked(canvas, "Nesting 2b");
-    expectChecked(canvas, "Nesting 3c");
-
-    await clickCheckbox(canvas, "Nesting 3c");
-    expectUnchecked(canvas, "Nesting 2b");
-    expectUnchecked(canvas, "Nesting 3c");
-
-    await clickCheckbox(canvas, "Nesting 3a");
-    await clickCheckbox(canvas, "Nesting 3b");
-    expectChecked(canvas, "Nesting 2a");
-    expectChecked(canvas, "Nesting 3a");
-    expectChecked(canvas, "Nesting 3b");
-
-    await clickCheckbox(canvas, "Nesting 3a");
-    await clickCheckbox(canvas, "Nesting 3b");
-    expectUnchecked(canvas, "Nesting 2a");
-    expectUnchecked(canvas, "Nesting 3a");
-    expectUnchecked(canvas, "Nesting 3b");
-  },
-  parameters: {
-    docs: {
-      description: {
-        story:
-          "8. Unchecking all children of a parent unchecks the parent. Unchecking Nesting 3c unchecks Nesting 2b. Unchecking Nesting 3a and Nesting 3b unchecks Nesting 2a.",
-      },
-    },
-  },
-};
-
-export const CheckboxScenario8bCheckRightThenLeftCascadesToRoot: Story = {
-  render: () => ({
-    props: { items: checkboxCascadeData },
-    template: checkboxScenarioTemplate,
-    moduleMetadata: { imports: [TreeviewComponent, TreeviewItemComponent] },
-  }),
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-
-    await clickCheckbox(canvas, "Nesting 3c");
-    expectChecked(canvas, "Nesting 2b");
-    expectChecked(canvas, "Nesting 3c");
-    expectIndeterminate(canvas, "Nesting 1");
-
-    await clickCheckbox(canvas, "Nesting 3a");
-    await clickCheckbox(canvas, "Nesting 3b");
-    expectChecked(canvas, "Nesting 2a");
-    expectChecked(canvas, "Nesting 3a");
-    expectChecked(canvas, "Nesting 3b");
-    expectChecked(canvas, "Nesting 1");
-    for (const label of checkboxScenarioLabels) {
-      expectChecked(canvas, label);
-    }
-  },
-  parameters: {
-    docs: {
-      description: {
-        story:
-          "8b. Check Nesting 3c (checks Nesting 2b, indeterminates Nesting 1). Then check Nesting 3a and Nesting 3b (checks Nesting 2a, then Nesting 1 since all its children are now selected).",
-      },
-    },
-  },
-};
-
-export const CheckboxScenario9ParentCheckedFromChildrenThenUncheckCascades: Story = {
-  render: () => ({
-    props: { items: checkboxCascadeData },
-    template: checkboxScenarioTemplate,
-    moduleMetadata: { imports: [TreeviewComponent, TreeviewItemComponent] },
-  }),
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-
-    await clickCheckbox(canvas, "Nesting 3a");
-    await clickCheckbox(canvas, "Nesting 3b");
-    expectChecked(canvas, "Nesting 2a");
-    expectChecked(canvas, "Nesting 3a");
-    expectChecked(canvas, "Nesting 3b");
-
-    await clickCheckbox(canvas, "Nesting 2a");
-    expectUnchecked(canvas, "Nesting 2a");
-    expectUnchecked(canvas, "Nesting 3a");
-    expectUnchecked(canvas, "Nesting 3b");
-  },
-  parameters: {
-    docs: {
-      description: {
-        story:
-          "9. Check Nesting 3a and Nesting 3b. Nesting 2a becomes checked (cascade adds it to the set). Click Nesting 2a to uncheck it and all its children.",
-      },
-    },
-  },
-};
-
-export const CheckboxScenario10CheckParentCascadesUncheckChildrenUnchecksParent: Story = {
-  render: () => ({
-    props: { items: checkboxCascadeData },
-    template: checkboxScenarioTemplate,
-    moduleMetadata: { imports: [TreeviewComponent, TreeviewItemComponent] },
-  }),
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
 
     await clickCheckbox(canvas, "Nesting 2a");
     expectChecked(canvas, "Nesting 2a");
@@ -1005,68 +562,7 @@ export const CheckboxScenario10CheckParentCascadesUncheckChildrenUnchecksParent:
     docs: {
       description: {
         story:
-          "10. Checking Nesting 2a cascades to Nesting 3a and Nesting 3b. Unchecking Nesting 3a and Nesting 3b sets Nesting 2a to unchecked. Nesting 1 is unchecked at the end.",
-      },
-    },
-  },
-};
-
-export const CheckboxCheckedIdsChange: Story = {
-  render: () => ({
-    props: {
-      items: checkboxCascadeData,
-      onCheckedIdsChange: (ids: ReadonlySet<string>) => {
-        console.log("checkedIdsChange", Array.from(ids));
-      },
-    },
-    template: `<rte-treeview id="treeview-checked-ids" [items]="items" [hasCheckbox]="true" (checkedIdsChange)="onCheckedIdsChange($event)" />`,
-    moduleMetadata: {
-      imports: [TreeviewComponent, TreeviewItemComponent],
-    },
-  }),
-  parameters: {
-    docs: {
-      description: {
-        story: "checkedIdsChange emits the set of checked item ids when the user toggles checkboxes.",
-      },
-    },
-  },
-};
-
-export const CheckboxVisibility: Story = {
-  render: () => ({
-    props: {
-      items: checkboxCascadeData,
-    },
-    template: `<rte-treeview id="treeview-checkbox-visibility" [items]="items" [hasCheckbox]="true" />`,
-    moduleMetadata: {
-      imports: [TreeviewComponent, TreeviewItemComponent],
-    },
-  }),
-  parameters: {
-    docs: {
-      description: {
-        story:
-          "Checkboxes are hidden by default. Hover or focus an item to reveal. Once any item is checked, all checkboxes become visible.",
-      },
-    },
-  },
-};
-
-export const WithoutCheckboxSpacer: Story = {
-  render: () => ({
-    props: {
-      items: checkboxCascadeData,
-    },
-    template: `<rte-treeview id="treeview-no-checkbox" [items]="items" />`,
-    moduleMetadata: {
-      imports: [TreeviewComponent, TreeviewItemComponent],
-    },
-  }),
-  parameters: {
-    docs: {
-      description: {
-        story: "When hasCheckbox is false, a spacer is shown to preserve layout alignment.",
+          "Toggle parent off: all unchecked. Check Nesting 2a (cascades to 3a, 3b), then uncheck 3a and 3b: Nesting 2a and descendants unchecked.",
       },
     },
   },
