@@ -12,7 +12,6 @@ export interface TreeviewItemProps {
   isOpen?: boolean;
   hasIcon?: boolean;
   hasBadge?: boolean;
-  newLine?: boolean;
   items?: TreeviewItemProps[];
   borderType?: TreeviewBorderType;
   dottedLine?: boolean;

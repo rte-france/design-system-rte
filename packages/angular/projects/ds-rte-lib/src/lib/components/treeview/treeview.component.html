@@ -1,4 +1,5 @@
 <ul
+  #treeRef
   class="treeview"
   role="tree"
   [class.compact]="isCompact()"
@@ -6,7 +7,8 @@
   [class.has-nested-items]="hasNestedItems()"
 >
   @for (item of items(); track itemTrack(item); let itemIndex = $index) {
-    <rte-treeview-item
+    <li
+      rteTreeviewItem
       [rootItems]="items()"
       [treeId]="id()"
       [nodePath]="[itemIndex]"
@@ -19,7 +21,6 @@
       [isOpen]="item.isOpen ?? false"
       [hasIcon]="item.hasIcon ?? false"
       [hasBadge]="item.hasBadge ?? false"
-      [newLine]="item.newLine ?? false"
       [dottedLine]="item.dottedLine ?? dottedLine()"
       [items]="item.items ?? []"
       [actionIcon]="item.actionIcon"
@@ -28,6 +29,6 @@
       (itemClick)="itemClick.emit($event)"
       (openChange)="openChange.emit($event)"
       (actionIconClick)="actionIconClick.emit($event)"
-    />
+    ></li>
   }
 </ul>

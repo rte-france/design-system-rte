@@ -4,6 +4,7 @@ import {
   Component,
   computed,
   effect,
+  HostBinding,
   inject,
   input,
   output,
@@ -44,7 +45,7 @@ import { TreeviewSelectionService } from "../treeview-selection.service";
 import { TreeviewItemBorderComponent } from "./treeview-item-border/treeview-item-border.component";
 
 @Component({
-  selector: "rte-treeview-item",
+  selector: "li[rteTreeviewItem]",
   imports: [
     CommonModule,
     CheckboxComponent,
@@ -61,6 +62,36 @@ import { TreeviewItemBorderComponent } from "./treeview-item-border/treeview-ite
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TreeviewItemComponent {
+  @HostBinding("class") get hostClasses(): string {
+    const classes = ["treeview-item"];
+    if (this.isCompact()) classes.push("compact");
+    if (this.isSelected()) classes.push("selected");
+    if (this.disabled()) classes.push("disabled");
+    if (this.hasChildren()) classes.push("has-children");
+    if (this.hasChildren() && this.isOpenSignal()) classes.push("is-expanded");
+    if (this.dottedLine()) classes.push("dotted-line");
+    if (this.effectiveDepth() === 0) classes.push("root-depth");
+    return classes.join(" ");
+  }
+
+  @HostBinding("attr.role") readonly role = "treeitem";
+
+  @HostBinding("attr.data-item-id") get dataItemId(): string {
+    return this.itemId();
+  }
+
+  @HostBinding("attr.aria-level") get ariaLevel(): number {
+    return this.effectiveDepth() + 1;
+  }
+
+  @HostBinding("attr.aria-expanded") get ariaExpanded(): boolean | undefined {
+    return this.hasChildren() ? this.isOpenSignal() : undefined;
+  }
+
+  @HostBinding("attr.aria-selected") get ariaSelected(): boolean {
+    return !!this.isSelected();
+  }
+
   readonly treeId = input.required<string>();
   readonly nodePath = input<TreeviewNodePath>([]);
   readonly labelText = input.required<string>();
@@ -71,7 +102,6 @@ export class TreeviewItemComponent {
   readonly isOpen = input<boolean>(false);
   readonly hasIcon = input<boolean>(false);
   readonly hasBadge = input<boolean>(false);
-  readonly newLine = input<boolean>(false);
   readonly dottedLine = input<boolean>(false);
   readonly items = input<TreeviewItemProps[]>([]);
   readonly rootItems = input<TreeviewItemProps[] | undefined>(undefined);
