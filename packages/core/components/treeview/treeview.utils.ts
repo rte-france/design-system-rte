@@ -4,6 +4,14 @@ export function hasChildren(items: TreeviewItemProps[] | undefined): boolean {
   return (items?.length ?? 0) > 0;
 }
 
+export function hasNestedItemsInTree(items: TreeviewItemProps[] | undefined): boolean {
+  if (!items?.length) return false;
+  return items.some((item) => {
+    if (hasChildren(item.items)) return true;
+    return hasNestedItemsInTree(item.items);
+  });
+}
+
 export interface ComputeBorderTypesConfig {
   depth?: number;
   isCompact?: boolean;

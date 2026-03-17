@@ -17,7 +17,7 @@ const meta: Meta<TreeviewComponent> = {
 export default meta;
 type Story = StoryObj<TreeviewComponent>;
 
-const singleItemData: TreeviewItemProps[] = [{ id: "root", labelText: "Single item", hasIcon: true, icon: "folder" }];
+const singleItemData: TreeviewItemProps[] = [{ id: "root", labelText: "Single item" }];
 
 const baseNavigationData: TreeviewItemProps[] = [
   { id: "home", labelText: "Home", icon: "home", hasIcon: true },
@@ -99,8 +99,21 @@ function createConnectorLinesData(options: { middleOpen?: boolean } = {}): Treev
           icon: "folder",
           isOpen: true,
           items: [
-            { id: "first-1", labelText: "First-1 (branch)", hasIcon: true, icon: "folder" },
-            { id: "first-2", labelText: "First-2 (corner/L-shape)", hasIcon: true, icon: "folder" },
+            {
+              id: "first-1",
+              labelText: "First-1 (branch)",
+              hasIcon: true,
+              icon: "folder",
+              isOpen: true,
+            },
+            {
+              id: "first-2",
+              labelText: "First-2 (corner/L-shape)",
+              hasIcon: true,
+              icon: "folder",
+              isOpen: true,
+              items: [{ id: "first-2-a", labelText: "First-2-a (level 4)", hasIcon: true, icon: "folder" }],
+            },
           ],
         },
         {
@@ -131,7 +144,7 @@ export const NestedItems: Story = {
     docs: {
       description: {
         story:
-          "Nested structure with branch/T-shape and corner/L-shape connector lines. Demonstrates correct rendering of multi-level hierarchy.",
+          "Nested structure with 4 levels of depth. Demonstrates branch/T-shape and corner/L-shape connector lines across multi-level hierarchy.",
       },
     },
   },

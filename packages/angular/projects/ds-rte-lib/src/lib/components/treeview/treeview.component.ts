@@ -13,6 +13,7 @@ import {
   type TreeviewItemProps,
   TreeviewOpenChangeEvent,
   TreeviewSelectionChangeEvent,
+  hasNestedItemsInTree,
 } from "@design-system-rte/core/components/treeview";
 
 import { TreeviewCheckService } from "./treeview-check.service";
@@ -48,6 +49,8 @@ export class TreeviewComponent {
   private cdr = inject(ChangeDetectorRef);
 
   readonly hasCheckedItems = computed(() => this.hasCheckbox() && this.checkService.checkedIds().size > 0);
+
+  readonly hasNestedItems = computed(() => hasNestedItemsInTree(this.items()));
 
   constructor() {
     effect(

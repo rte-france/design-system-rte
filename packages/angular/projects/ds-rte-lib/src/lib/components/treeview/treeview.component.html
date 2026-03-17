@@ -1,4 +1,10 @@
-<ul class="treeview" role="tree" [class.compact]="isCompact()" [class.has-checked-items]="hasCheckedItems()">
+<ul
+  class="treeview"
+  role="tree"
+  [class.compact]="isCompact()"
+  [class.has-checked-items]="hasCheckedItems()"
+  [class.has-nested-items]="hasNestedItems()"
+>
   @for (item of items(); track itemTrack(item); let itemIndex = $index) {
     <rte-treeview-item
       [rootItems]="items()"
