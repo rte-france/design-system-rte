@@ -1,4 +1,5 @@
 import "./styles.d.ts";
+import Accordion from "./components/accordion/Accordion.tsx";
 import Badge from "./components/badge/Badge.tsx";
 import Banner from "./components/banner/Banner.tsx";
 import Breadcrumbs from "./components/breadcrumbs/Breadcrumbs.tsx";
@@ -35,6 +36,7 @@ import ToastQueueProvider from "./components/toast/toastQueue/ToastQueueProvider
 import Tooltip from "./components/tooltip/Tooltip.tsx";
 
 export {
+  Accordion,
   Button,
   Grid,
   Checkbox,
