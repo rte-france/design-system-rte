@@ -1,0 +1,31 @@
+<div class="rte-checkbox-container">
+  <input
+    type="checkbox"
+    class="rte-checkbox"
+    [id]="id()"
+    [value]="value()"
+    [ngClass]="{ error: error(), 'read-only': readOnly() }"
+    [disabled]="disabled()"
+    [indeterminate]="indeterminate()"
+    [checked]="checked()"
+    (keydown)="onKeydown($event)"
+  />
+  <rte-icon class="rte-checkbox-icons rte-checkbox-icon-selected" name="check-small" [size]="16" />
+  <rte-icon class="rte-checkbox-icons rte-checkbox-icon-indeterminated" name="check-indeterminate" [size]="16" />
+  <div class="rte-checkbox-text-container">
+    <label
+      *ngIf="showLabel()"
+      class="rte-checkbox-label"
+      [for]="id()"
+      [ngClass]="{
+        error: error(),
+        'read-only': readOnly(),
+        disabled: disabled(),
+      }"
+    >
+      {{ label() }}
+    </label>
+    <p class="rte-checkbox-description">{{ description() }}</p>
+    <p *ngIf="error() && errorMessage()" class="rte-checkbox-error">{{ errorMessage() }}</p>
+  </div>
+</div>
