@@ -1,0 +1,126 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+@mixin disabled {
+  background: var(--background-disabled);
+  color: var(--content-disabled);
+  cursor: not-allowed;
+}
+
+.accordion {
+  background: linear-gradient(0deg, var(--elevation-surface-shadow-2) 0%, var(--elevation-surface-shadow-2) 100%);
+  background: var(--background-default);
+  width: 100%;
+  inline-size: 100%;
+}
+
+.accordion-summary-container {
+  text-align: left;
+  display: flex;
+  padding: $positive-spacing_100 0;
+  flex-direction: column;
+  align-items: flex-start;
+  color: var(--content-brand-default);
+  height: 48px;
+  border: none;
+  background: none;
+  width: 100%;
+
+  &:focus-visible {
+    outline: 1px solid var(--border-brand-focused);
+    outline-offset: 4px;
+  }
+
+
+  &:hover {
+    color: var(--content-brand-hover);
+    background: var(--background-default);
+    cursor: pointer;
+  }
+
+  &:disabled {
+    @include disabled;
+  }
+
+  &[data-appearance='neutral'] {
+    color: var(--content-primary);
+
+    &:disabled {
+      @include disabled;
+    }
+  }
+
+  &[data-compact-spacing='true'] {
+    padding: 0;
+    height: 32px;
+
+    &:disabled {
+      @include disabled;
+    }
+  }
+
+  &[data-size='large'] {
+    height: 60px;
+
+    &[data-compact-spacing='true'] {
+      height: 48px;
+    }
+  }
+
+
+
+  .accordion-summary {
+    width: 100%;
+    display: flex;
+    padding: $positive-spacing_025 $positive-spacing_050;
+    align-items: center;
+    gap: $positive-spacing_100;
+    align-self: stretch;
+    box-sizing: border-box;
+
+    .accordion-chevron {
+      transition: transform .11s cubic-bezier(0, 0, .38, .9) allow-discrete;
+
+      &[data-animating='true'] {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+
+  .accordion-title {
+    flex: 1 1 auto;
+    @include typography-heading-s;
+
+    &[data-size='large'] {
+      @include typography-heading-l;
+    }
+  }
+}
+
+.accordion-content-container {
+  border-block-end: solid 1px var(--border-divider);
+}
+
+.accordion-content {
+  padding: 0 $positive-spacing_100;
+  transform: translateY(-10px);
+
+  overflow: hidden;
+  opacity: 0;
+  transition: all .12s cubic-bezier(0, 0, .38, .9) allow-discrete;
+
+  &[data-animating='true'] {
+    padding: $positive-spacing_200 $positive-spacing_100;
+    opacity: 1;
+    overflow: visible;
+    transform: translateY(0);
+  }
+
+
+
+
+  &[data-disabled='true'] {
+    background: var(--background-disabled);
+    color: var(--content-disabled);
+  }
+}

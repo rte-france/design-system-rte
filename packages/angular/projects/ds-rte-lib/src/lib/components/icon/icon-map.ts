@@ -5,6 +5,7 @@ import { isValidIconName as isValidIconNameShared } from "@design-system-rte/cor
 export const RegularIcons = {
   add: "add",
   "alt-route": "alt_route",
+  appartment: "appartment",
   apps: "apps",
   "arrow-alt-down": "arrow_alt_down",
   "arrow-alt-down-left": "arrow_alt_down_left",
@@ -52,6 +53,7 @@ export const RegularIcons = {
   "check-small": "check_small",
   "checkbox-empty": "checkbox_empty",
   close: "close",
+  company: "company",
   compare: "compare",
   "copy-all": "copy_all",
   "crisis-alert": "crisis_alert",
