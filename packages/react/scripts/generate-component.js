@@ -37,7 +37,7 @@ export default ${componentName};
 import ${componentName} from "../${componentName}";
 
 const meta = {
-  title: "${componentName}",
+  title: "Composants/${componentName}",
   component: ${componentName},
 } satisfies Meta<typeof ${componentName}>;
 
