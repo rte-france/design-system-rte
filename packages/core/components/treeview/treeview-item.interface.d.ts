@@ -1,5 +1,3 @@
-import { BadgeProps } from "../badge/badge.interface";
-
 export type TreeviewBorderType = "vertical" | "branch" | "corner" | "horizontal" | "spacer";
 
 export type TreeviewNodePath = number[];
@@ -16,7 +14,6 @@ export interface TreeviewItemProps {
   hasBadge?: boolean;
   newLine?: boolean;
   items?: TreeviewItemProps[];
-  badge?: BadgeProps;
   borderType?: TreeviewBorderType;
   dottedLine?: boolean;
   actionIcon?: string;

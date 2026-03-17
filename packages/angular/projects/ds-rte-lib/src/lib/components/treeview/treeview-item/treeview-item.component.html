@@ -60,17 +60,12 @@
           }
           <div class="treeview-item-content" [class.treeview-item-content-compact]="isCompact()" [attr.tabindex]="0">
             <span class="treeview-item-label">{{ labelText() }}</span>
-            @if (hasBadge() && badge()) {
-              <rte-badge
-                [badgeType]="badge()!.badgeType ?? 'brand'"
-                [badgeSize]="badge()!.size ?? 'm'"
-                [badgeContent]="badge()!.content ?? 'number'"
-                [count]="badge()!.count"
-                [icon]="badge()!.icon ?? 'notification'"
-                [simpleBadge]="true"
-              />
-            }
           </div>
+          @if (hasBadge()) {
+            <span class="treeview-item-badge">
+              <rte-badge badgeType="indicator" badgeContent="empty" badgeSize="s" [simpleBadge]="true" />
+            </span>
+          }
           @if (actionIcon()) {
             @if (actionMenuItems() && actionMenuItems()!.length > 0) {
               <div class="treeview-item-action" rteDropdown (click)="$event.stopPropagation()">
@@ -121,7 +116,6 @@
           [newLine]="child.newLine ?? false"
           [dottedLine]="child.dottedLine ?? dottedLine()"
           [items]="child.items ?? []"
-          [badge]="child.badge"
           [actionIcon]="child.actionIcon"
           [actionMenuItems]="child.actionMenuItems"
           [depth]="effectiveDepth() + 1"

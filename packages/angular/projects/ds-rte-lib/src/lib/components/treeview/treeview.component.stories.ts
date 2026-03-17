@@ -2,7 +2,7 @@ import type {
   TreeviewActionMenuItem,
   TreeviewItemProps,
 } from "@design-system-rte/core/components/treeview/treeview-item.interface";
-import { Meta, StoryObj } from "@storybook/angular";
+import { componentWrapperDecorator, Meta, StoryObj } from "@storybook/angular";
 import { expect, userEvent, within } from "@storybook/test";
 
 import { TreeviewItemComponent } from "./treeview-item/treeview-item.component";
@@ -12,6 +12,7 @@ const meta: Meta<TreeviewComponent> = {
   title: "Composants/Treeview",
   component: TreeviewComponent,
   tags: ["autodocs"],
+  decorators: [componentWrapperDecorator((story) => `<div style="min-width: 200px">${story}</div>`)],
 };
 
 export default meta;
@@ -316,6 +317,38 @@ export const ActionIconCustomBehavior: Story = {
       description: {
         story:
           "Each item has an info icon without a built-in dropdown. The consumer handles the click via actionIconClick and implements custom behavior (e.g. an alert).",
+      },
+    },
+  },
+};
+
+const badgeData: TreeviewItemProps[] = [
+  {
+    id: "settings",
+    labelText: "Label",
+    icon: "settings",
+    hasIcon: true,
+    hasBadge: true,
+    actionIcon: "more-horiz",
+    actionMenuItems: actionMenuItems,
+  },
+];
+
+export const Badge: Story = {
+  render: () => ({
+    props: {
+      items: badgeData,
+    },
+    template: `<rte-treeview id="treeview-badge" [items]="items" />`,
+    moduleMetadata: {
+      imports: [TreeviewComponent, TreeviewItemComponent],
+    },
+  }),
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Item with a red indicator badge (size S) between the label and the action icon. The badge is a fixed design: no configuration options.",
       },
     },
   },
