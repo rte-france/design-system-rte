@@ -3,11 +3,18 @@
 .treeview {
   display: flex;
   flex-direction: column;
-  gap: $positive-spacing_100;
   margin: 0;
   padding: 0;
 
-  &.compact {
-    gap: $positive-spacing_050;
+  &.has-nested-items {
+    --treeview-root-indent: 16px;
+  }
+
+  > rte-treeview-item:not(:first-child) > .treeview-item {
+    padding-top: $positive-spacing_100;
+  }
+
+  &.compact > rte-treeview-item:not(:first-child) > .treeview-item {
+    padding-top: $positive-spacing_050;
   }
 }

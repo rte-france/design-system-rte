@@ -4,6 +4,9 @@
   display: contents;
 }
 
+$row-gap: $positive-spacing_050;
+$icon-size: $positive-spacing_200;
+
 .treeview-item {
   display: flex;
   flex-direction: column;
@@ -11,100 +14,146 @@
   padding: 0;
   list-style: none;
   min-height: 32px;
+
+  &.root-depth:not(.has-children) .treeview-item-borders-container {
+    padding-left: var(--treeview-root-indent, 0);
+  }
+
+  &.compact {
+    min-height: 24px;
+
+    .treeview-item-row {
+      min-height: 24px;
+    }
+
+    .treeview-item-main-content {
+      height: 20px;
+      padding: $positive-spacing_025 $positive-spacing_050;
+    }
+
+    .treeview-item-chevron {
+      background: transparent;
+
+      &:hover {
+        background: transparent;
+      }
+
+      &:focus-visible {
+        outline: 1px solid var(--border-brand-focused);
+        outline-offset: 0;
+      }
+    }
+  }
+
+  &.disabled {
+    .treeview-item-row {
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    .treeview-item-main-content {
+      background: var(--background-disabled);
+    }
+
+    .treeview-item-content,
+    .treeview-item-icon {
+      color: var(--content-disabled);
+    }
+  }
+
+  &.selected > .treeview-item-row {
+    .treeview-item-main-content {
+      background: var(--background-brand-default);
+      color: var(--content-primary-inverse);
+    }
+
+    .treeview-item-content,
+    .treeview-item-icon {
+      color: var(--content-primary-inverse);
+    }
+
+    &:hover .treeview-item-main-content {
+      background: var(--background-brand-hover);
+    }
+  }
+
+  &.is-expanded:not(.compact) > .treeview-item-row .treeview-item-chevron::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: $width-xs;
+    height: calc(#{$positive-spacing_200} / 2);
+    background: var(--border-tertiary);
+    transform: translateX(-50%) translateY(100%);
+  }
+
+  &.is-expanded:not(.compact).dotted-line > .treeview-item-row .treeview-item-chevron::after {
+    background: repeating-linear-gradient(
+      to bottom,
+      var(--border-tertiary) 0,
+      var(--border-tertiary) 2px,
+      transparent 2px,
+      transparent 4px
+    );
+  }
 }
 
 .treeview-item-row {
   display: flex;
   align-items: center;
+  gap: $row-gap;
   min-height: 32px;
   border-radius: $radius-s;
   cursor: pointer;
   box-sizing: border-box;
-}
 
-.treeview-item-main-content:focus-within:not(:has(.treeview-item-action-button:focus)) {
-  box-shadow: 0 0 0 1px var(--border-brand-focused);
-  border-radius: $radius-s;
-}
-
-.treeview-item.compact {
-  min-height: 24px;
-
-  .treeview-item-main-content {
-    height: 20px;
+  .treeview-item-main-content:hover {
+    background: var(--background-hover);
   }
 }
 
-.treeview-item.compact .treeview-item-row {
-  min-height: 24px;
+.treeview-item-borders-and-content {
+  display: flex;
+  align-items: center;
+  gap: $row-gap;
+  flex: 1;
+  min-width: 0;
 }
 
-.treeview-item.disabled .treeview-item-row {
-  cursor: not-allowed;
-  pointer-events: none;
+.treeview-item-borders-container {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.treeview-item-content-wrapper {
+  display: flex;
+  align-items: center;
+  gap: $row-gap;
+  flex: 1;
+  min-width: 0;
 }
 
 .treeview-item-main-content {
   flex: 1;
   display: flex;
   align-items: center;
-  gap: $positive-spacing_050;
+  gap: $row-gap;
   min-width: 0;
-  padding: $positive-spacing_050;
+  padding: $row-gap;
   border-radius: $radius-s;
   transition: background-color 120ms;
   box-sizing: border-box;
-  margin: 0 $positive-spacing_050;
 
   @media (prefers-reduced-motion: reduce) {
     transition: none;
   }
-}
 
-.treeview-item.compact .treeview-item-main-content {
-  padding: $positive-spacing_025 $positive-spacing_050;
-}
-
-.treeview-item.is-expanded {
-  &:not(.compact) {
-    > .treeview-item-row > .treeview-item-chevron::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      width: $width-xs;
-      height: calc(#{$positive-spacing_200} / 2);
-      background: var(--border-tertiary);
-      transform: translateX(-50%) translateY(100%);
-    }
+  &:focus-within:not(:has(.treeview-item-action-button:focus)) {
+    box-shadow: 0 0 0 1px var(--border-brand-focused);
+    border-radius: $radius-s;
   }
-}
-
-.treeview-item.is-expanded:not(.compact).dotted-line > .treeview-item-row > .treeview-item-chevron::after {
-  background: repeating-linear-gradient(
-    to bottom,
-    var(--border-tertiary) 0,
-    var(--border-tertiary) 2px,
-    transparent 2px,
-    transparent 4px
-  );
-}
-
-.treeview-item-row .treeview-item-main-content:hover {
-  background: var(--background-hover);
-}
-
-.treeview-item.selected > .treeview-item-row > .treeview-item-main-content {
-  background: var(--background-brand-default);
-  color: var(--content-primary-inverse);
-}
-
-.treeview-item.selected > .treeview-item-row:hover > .treeview-item-main-content {
-  background: var(--background-brand-hover);
-}
-
-.treeview-item.disabled .treeview-item-main-content {
-  background: var(--background-disabled);
 }
 
 .treeview-item-checkbox {
@@ -112,7 +161,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: $positive-spacing_200;
+  min-width: $icon-size;
   visibility: hidden;
   cursor: pointer;
 
@@ -131,7 +180,7 @@
       pointer-events: none;
     }
     .rte-checkbox-container {
-      gap: $positive-spacing_050;
+      gap: $row-gap;
     }
   }
 }
@@ -147,9 +196,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: $positive-spacing_200;
-  min-width: $positive-spacing_200;
-  height: $positive-spacing_200;
+  width: $icon-size;
+  min-width: $icon-size;
+  height: $icon-size;
   padding: 0;
   background: var(--background-neutral-regular-default);
   border: none;
@@ -168,23 +217,10 @@
   }
 }
 
-.treeview-item.compact .treeview-item-chevron {
-  background: transparent;
-
-  &:hover {
-    background: transparent;
-  }
-
-  &:focus-visible {
-    outline: 1px solid var(--border-brand-focused);
-    outline-offset: 0;
-  }
-}
-
 .treeview-item-chevron-spacer {
   flex-shrink: 0;
-  width: $positive-spacing_200;
-  min-width: $positive-spacing_200;
+  width: $icon-size;
+  min-width: $icon-size;
 }
 
 .treeview-item-action {
@@ -192,7 +228,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: $positive-spacing_050;
+  margin-left: $row-gap;
 }
 
 .treeview-item-action-button {
@@ -200,9 +236,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: $positive-spacing_200;
-  height: $positive-spacing_200;
-  padding: 0 $positive-spacing_050;
+  min-width: $icon-size;
+  height: $icon-size;
+  padding: 0 $row-gap;
   background: transparent;
   border: none;
   border-radius: $radius-xs;
@@ -232,32 +268,15 @@
   flex: 1;
   display: flex;
   align-items: center;
-  gap: $positive-spacing_050;
+  gap: $row-gap;
   min-width: 0;
   @include typography-button-s;
   color: var(--content-secondary);
 
-  &:focus {
-    outline: none;
-  }
-
+  &:focus,
   &:focus-visible {
     outline: none;
   }
-
-  &.treeview-item-content-compact {
-    padding-left: $positive-spacing_100;
-  }
-}
-
-.treeview-item.selected > .treeview-item-row .treeview-item-content,
-.treeview-item.selected > .treeview-item-row .treeview-item-icon {
-  color: var(--content-primary-inverse);
-}
-
-.treeview-item.disabled .treeview-item-content,
-.treeview-item.disabled .treeview-item-icon {
-  color: var(--content-disabled);
 }
 
 .treeview-item-label {
@@ -266,14 +285,12 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-
   color: inherit;
 }
 
 .treeview-item-children {
   display: flex;
   flex-direction: column;
-  gap: $positive-spacing_100;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -289,8 +306,4 @@
     max-height: 2000px;
     overflow: visible;
   }
-}
-
-.treeview-item.compact .treeview-item-children {
-  gap: $positive-spacing_050;
 }
