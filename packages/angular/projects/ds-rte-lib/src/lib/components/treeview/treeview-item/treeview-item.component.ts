@@ -10,7 +10,6 @@ import {
   signal,
   Signal,
 } from "@angular/core";
-import { BadgeProps } from "@design-system-rte/core/components/badge/badge.interface";
 import {
   TreeviewBorderType,
   TreeviewItemProps,
@@ -76,7 +75,6 @@ export class TreeviewItemComponent {
   readonly dottedLine = input<boolean>(false);
   readonly items = input<TreeviewItemProps[]>([]);
   readonly rootItems = input<TreeviewItemProps[] | undefined>(undefined);
-  readonly badge = input<BadgeProps | undefined>();
   readonly id = input<string | undefined>();
   readonly depth = input<number | undefined>(undefined);
   readonly isLastChild = input<boolean | undefined>(undefined);
