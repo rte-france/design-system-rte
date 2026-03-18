@@ -52,6 +52,16 @@ const meta = {
       options: ["brand", "neutral", "indicator"],
       description: "Type de badge",
     },
+    icon: {
+      control: "select",
+      options: [...RegularIconIds, ...TogglableIconIds].sort((a, b) => a.localeCompare(b)),
+      description: "Nom de l’icône à afficher sur le bouton",
+    },
+    iconAppearance: {
+      control: "select",
+      options: ["filled", "outlined"],
+      description: "Apparence de l’icône du bouton",
+    },
   },
   args: { onClick: fn() },
 } satisfies Meta<typeof Button>;
@@ -98,6 +108,14 @@ export const Sizing: Story = {
     expect(smallButton.clientHeight).toBe(24);
     expect(mediumButton.clientHeight).toBe(32);
     expect(largeButton.clientHeight).toBe(40);
+  },
+};
+
+export const WithIcon: Story = {
+  args: {
+    ...Default.args,
+    icon: "add",
+    label: "Button with Icon",
   },
 };
 

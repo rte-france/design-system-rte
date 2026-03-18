@@ -2,6 +2,7 @@ import { BadgeHolderProps } from "../badge/badge.interface";
 
 export type ButtonIconPosition = "left" | "right";
 export type ButtonType = "button" | "submit" | "reset";
+export type ButtonIconAppearance = "filled" | "outlined";
 
 export interface ButtonProps extends BadgeHolderProps {
   label: string;
@@ -9,4 +10,6 @@ export interface ButtonProps extends BadgeHolderProps {
   size?: import("./common/common-button").ButtonSize;
   disabled?: boolean;
   iconPosition?: ButtonIconPosition;
+  icon?: string;
+  iconAppearance?: ButtonIconAppearance;
 }

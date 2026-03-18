@@ -25,8 +25,8 @@ import { IconService, RegularIconIdKey, TogglableIconIdKey } from "./icon.servic
 })
 export class IconComponent {
   readonly name = input.required<string>();
-  readonly size = input(20);
-  readonly color = input("currentColor");
+  readonly size = input<number>(20);
+  readonly color = input<string>();
   readonly classes = input("");
   readonly appearance = input<"outlined" | "filled">();
   destroyRef = inject(DestroyRef);
@@ -39,23 +39,25 @@ export class IconComponent {
   private cdr = inject(ChangeDetectorRef);
 
   constructor() {
-    effect(() => {
-      this.setSvgContent(this.name(), this.color());
-    });
+    effect(
+      () => {
+        this.setSvgContent(this.name(), this.size(), this.appearance(), this.color());
+      },
+      { allowSignalWrites: true },
+    );
   }
 
-  private setSvgContent(svgName: string, color?: string) {
-    const svgFile = this.iconService.getSvg(
-      svgName as RegularIconIdKey | TogglableIconIdKey,
-      this.appearance() || "outlined",
-    );
+  private setSvgContent(
+    svgName: string,
+    size: number,
+    appearance: "outlined" | "filled" | undefined,
+    color: string | undefined,
+  ) {
+    const svgFile = this.iconService.getSvg(svgName as RegularIconIdKey | TogglableIconIdKey, appearance || "outlined");
 
     svgFile.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((res) => {
-      const size = this.size();
-      const svgWithSize = res.replace(
-        /<svg([^>]*)>/,
-        `<svg$1 width="${size}" height="${size}" color="${color || "currentColor"}">`,
-      );
+      const svgWithSize = res.replace(/<svg([^>]*)>/, `<svg$1 width="${size}" height="${size}" color="${color}">`);
+
       this.svgContent = this.sanitizer.bypassSecurityTrustHtml(svgWithSize);
       this.cdr.markForCheck();
     });
