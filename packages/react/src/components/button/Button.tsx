@@ -1,8 +1,12 @@
 import { ButtonProps as CoreButtonProps } from "@design-system-rte/core/components/button/button.interface";
-import { ButtonBadgeSizeMapping } from "@design-system-rte/core/components/button/common/common-button.constants";
+import {
+  ButtonBadgeSizeMapping,
+  ButtonIconSize,
+} from "@design-system-rte/core/components/button/common/common-button.constants";
 import { forwardRef } from "react";
 
 import Badge from "../badge/Badge";
+import Icon from "../icon/Icon";
 import { concatClassNames } from "../utils";
 
 import style from "./Button.module.scss";
@@ -25,6 +29,9 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       badgeCount,
       badgeType,
       badgeIcon,
+      iconPosition = "left",
+      icon,
+      iconAppearance,
       ...props
     },
     ref,
@@ -50,9 +57,13 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             onClick={onClick}
             {...props}
           >
+            {icon && iconPosition === "left" && <Icon name={icon} size={ButtonIconSize[size]} className={style.icon} />}
             <span data-size={size} className={style.label}>
               {label}
             </span>
+            {icon && iconPosition === "right" && (
+              <Icon name={icon} size={ButtonIconSize[size]} className={style.icon} />
+            )}
           </button>
         </Badge>
       );
@@ -67,9 +78,15 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           onClick={onClick}
           {...props}
         >
+          {icon && iconPosition === "left" && (
+            <Icon name={icon} size={ButtonIconSize[size]} className={style.icon} appearance={iconAppearance} />
+          )}
           <span data-size={size} className={style.label}>
             {label}
           </span>
+          {icon && iconPosition === "right" && (
+            <Icon name={icon} size={ButtonIconSize[size]} className={style.icon} appearance={iconAppearance} />
+          )}
         </button>
       );
     }
