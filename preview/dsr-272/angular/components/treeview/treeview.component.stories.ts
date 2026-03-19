@@ -625,6 +625,7 @@ const keyboardNavigationData: TreeviewItemProps[] = [
         isOpen: true,
         hasCheckbox: true,
         actionIcon: "info-i",
+        hasBadge: true,
         items: [
           {
             id: "file",

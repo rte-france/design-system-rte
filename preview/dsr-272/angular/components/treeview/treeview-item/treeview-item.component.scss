@@ -111,10 +111,6 @@ $icon-size: $positive-spacing_200;
   }
 }
 
-.treeview-item-borders-and-content {
-
-}
-
 .treeview-item-borders-container {
   display: flex;
   align-items: center;
@@ -255,7 +251,7 @@ $icon-size: $positive-spacing_200;
     outline-offset: 0;
   }
 
-  :host-context(.selected) & {
+  :host(.selected) & {
     &:focus-visible {
       outline-color: var(--border-inverse);
     }
