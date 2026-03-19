@@ -60,7 +60,12 @@
       }
       @if (actionIcon()) {
         @if (actionMenuItems() && actionMenuItems()!.length > 0) {
-          <div class="treeview-item-action" rteDropdown (click)="$event.stopPropagation()">
+          <div
+            class="treeview-item-action"
+            rteDropdown
+            (menuEvent)="handleActionMenuClick($event)"
+            (click)="$event.stopPropagation()"
+          >
             <button
               type="button"
               class="treeview-item-action-button"
@@ -119,6 +124,7 @@
         (itemClick)="itemClick.emit($event)"
         (openChange)="openChange.emit($event)"
         (actionIconClick)="actionIconClick.emit($event)"
+        (actionMenuClick)="actionMenuClick.emit($event)"
       ></li>
     }
   </ul>
