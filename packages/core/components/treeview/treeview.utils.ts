@@ -1,4 +1,150 @@
 import type { TreeviewBorderType, TreeviewItemProps, TreeviewNodePath } from "./treeview-item.interface";
+import { TREEVIEW_FOCUSABLE_ATTRIBUTE, TREEVIEW_FOCUSABLE_ORDER } from "./treeview.constants";
+
+export interface TreeviewVisibleRow {
+  rowElement: HTMLElement;
+  focusables: HTMLElement[];
+}
+
+export interface TreeviewFocusPosition {
+  rowIndex: number;
+  focusableIndex: number;
+}
+
+export function getVisibleFocusableRows(treeElement: HTMLElement): TreeviewVisibleRow[] {
+  const treeitems = Array.from(treeElement.querySelectorAll<HTMLElement>("li.treeview-item[role='treeitem']"));
+
+  return treeitems
+    .filter(isTreeitemVisible)
+    .map((treeitem) => ({ rowElement: treeitem, focusables: getFocusablesForRow(treeitem) }));
+}
+
+export function isTreeitemVisible(treeitem: HTMLElement): boolean {
+  let current: HTMLElement | null = treeitem;
+
+  while (current) {
+    const parentElement = current.parentElement as HTMLElement | null;
+    if (!parentElement) {
+      break;
+    }
+
+    if (
+      parentElement.classList.contains("treeview-item-children") &&
+      !parentElement.classList.contains("treeview-item-children-open")
+    ) {
+      return false;
+    }
+
+    current = parentElement;
+  }
+
+  return true;
+}
+
+export function getFocusablesForRow(treeitem: HTMLElement): HTMLElement[] {
+  return TREEVIEW_FOCUSABLE_ORDER.map((type) =>
+    treeitem.querySelector<HTMLElement>(`[${TREEVIEW_FOCUSABLE_ATTRIBUTE}="${type}"]`),
+  ).filter((element): element is HTMLElement => element !== null);
+}
+
+export function isTreeviewFocusable(element: HTMLElement): boolean {
+  return element.hasAttribute(TREEVIEW_FOCUSABLE_ATTRIBUTE);
+}
+
+export function isTreeitemDisabled(element: HTMLElement): boolean {
+  const treeitem = element.closest("li.treeview-item");
+  return !!treeitem?.classList.contains("disabled");
+}
+
+export function findFocusedPosition(rows: TreeviewVisibleRow[], target: HTMLElement): TreeviewFocusPosition {
+  const defaultPosition: TreeviewFocusPosition = { rowIndex: -1, focusableIndex: -1 };
+  const found = rows
+    .map((row, rowIndex) => ({
+      rowIndex,
+      focusableIndex: row.focusables.indexOf(target),
+    }))
+    .find((result) => result.focusableIndex !== -1);
+
+  return found ?? defaultPosition;
+}
+
+export function getContentOrFirstFocusable(row: TreeviewVisibleRow): HTMLElement | null {
+  const content = row.focusables.find((element) => element.getAttribute(TREEVIEW_FOCUSABLE_ATTRIBUTE) === "content");
+  if (content && !isTreeitemDisabled(content)) {
+    return content;
+  }
+  const firstEnabled = row.focusables.find((element) => !isTreeitemDisabled(element));
+  return firstEnabled ?? null;
+}
+
+export function getNextFocusTarget(
+  rows: TreeviewVisibleRow[],
+  current: TreeviewFocusPosition,
+  direction: -1 | 1,
+  isVertical: boolean,
+): TreeviewFocusPosition | null {
+  if (isVertical) {
+    let targetRowIndex = current.rowIndex + direction;
+
+    while (targetRowIndex >= 0 && targetRowIndex < rows.length) {
+      const targetRow = rows[targetRowIndex];
+      const isTargetDisabled = targetRow.rowElement.classList.contains("disabled");
+
+      if (!isTargetDisabled) {
+        const contentOrFirst = getContentOrFirstFocusable(targetRow);
+        return contentOrFirst
+          ? {
+              rowIndex: targetRowIndex,
+              focusableIndex: targetRow.focusables.indexOf(contentOrFirst),
+            }
+          : null;
+      }
+
+      targetRowIndex += direction;
+    }
+
+    return null;
+  }
+
+  const row = rows[current.rowIndex];
+  if (!row) return null;
+
+  let targetFocusableIndex = current.focusableIndex + direction;
+
+  while (targetFocusableIndex >= 0 && targetFocusableIndex < row.focusables.length) {
+    const candidate = row.focusables[targetFocusableIndex];
+
+    if (!isTreeitemDisabled(candidate)) {
+      return { rowIndex: current.rowIndex, focusableIndex: targetFocusableIndex };
+    }
+
+    targetFocusableIndex += direction;
+  }
+
+  return null;
+}
+
+export function getFocusableElementsFromTreeview(treeElement: HTMLElement): HTMLElement[] {
+  return Array.from(treeElement.querySelectorAll<HTMLElement>(`[${TREEVIEW_FOCUSABLE_ATTRIBUTE}]`));
+}
+
+export function setMovingTabindex(treeElement: HTMLElement, focusedElement: HTMLElement): void {
+  getFocusableElementsFromTreeview(treeElement).forEach((element) =>
+    element.setAttribute("tabindex", element === focusedElement ? "0" : "-1"),
+  );
+}
+
+export function resetMovingTabIndex(treeElement: HTMLElement): void {
+  getFocusableElementsFromTreeview(treeElement).forEach((element) => element.setAttribute("tabindex", "-1"));
+
+  const rows = getVisibleFocusableRows(treeElement);
+  if (rows.length) {
+    const firstContent = getContentOrFirstFocusable(rows[0]);
+    if (firstContent) {
+      firstContent.setAttribute("tabindex", "0");
+    }
+  }
+}
 
 export function hasChildren(items: TreeviewItemProps[] | undefined): boolean {
   return (items?.length ?? 0) > 0;

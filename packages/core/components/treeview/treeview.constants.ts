@@ -2,6 +2,10 @@ import type { SvgConfig } from "../../common/svg";
 
 import type { TreeviewBorderType } from "./treeview-item.interface";
 
+export const TREEVIEW_FOCUSABLE_ATTRIBUTE = "data-treeview-focusable";
+
+export const TREEVIEW_FOCUSABLE_ORDER = ["checkbox", "chevron", "content", "action"] as const;
+
 export const TREEVIEW_EXPAND_COLLAPSE_DURATION_MS = 140;
 
 export const TREEVIEW_BORDER_WIDTH_PX = 16;

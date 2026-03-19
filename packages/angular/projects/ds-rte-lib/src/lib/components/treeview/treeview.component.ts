@@ -20,6 +20,8 @@ import {
   hasNestedItemsInTree,
 } from "@design-system-rte/core/components/treeview";
 
+import { DropdownItemConfig } from "../dropdown/dropdown.types";
+
 import { TreeviewCheckService } from "./treeview-check.service";
 import { TreeviewItemComponent } from "./treeview-item/treeview-item.component";
 import { TreeviewKeyboardService } from "./treeview-keyboard.service";
@@ -47,6 +49,13 @@ export class TreeviewComponent implements AfterViewInit {
   readonly itemClick = output<string | undefined>();
   readonly openChange = output<TreeviewOpenChangeEvent>();
   readonly actionIconClick = output<{ itemId: string; event: Event }>();
+  readonly actionMenuClick = output<{
+    itemId: string;
+    menuItemId: string;
+    menuItemLabel: string;
+    event: Event;
+    item?: DropdownItemConfig;
+  }>();
   readonly selectionChange = output<TreeviewSelectionChangeEvent>();
   readonly checkedIdsChange = output<ReadonlySet<string>>();
 
