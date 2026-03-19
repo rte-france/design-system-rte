@@ -105,9 +105,7 @@ export class TreeviewComponent implements AfterViewInit {
     this.keyboardService.initialize(treeElement);
 
     const handleKeyDown = (event: KeyboardEvent): void => {
-      if (this.keyboardService.handleKeyDown(event, treeElement)) {
-        event.preventDefault();
-      }
+      this.keyboardService.handleKeyDown(event, treeElement);
     };
 
     const handleFocusIn = (event: FocusEvent): void => {

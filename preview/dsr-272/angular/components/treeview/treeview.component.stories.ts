@@ -617,7 +617,25 @@ const keyboardNavigationData: TreeviewItemProps[] = [
     hasCheckbox: true,
     actionIcon: "info-i",
     items: [
-      { id: "file", labelText: "File", icon: "file-copy", hasIcon: true, hasCheckbox: true, actionIcon: "info-i" },
+      {
+        id: "subfolder",
+        labelText: "Subfolder",
+        icon: "folder",
+        hasIcon: true,
+        isOpen: true,
+        hasCheckbox: true,
+        actionIcon: "info-i",
+        items: [
+          {
+            id: "file",
+            labelText: "File",
+            icon: "file-copy",
+            hasIcon: true,
+            hasCheckbox: true,
+            actionIcon: "info-i",
+          },
+        ],
+      },
     ],
   },
 ];
@@ -650,6 +668,18 @@ function expectFocusedElement(
 
 function expectFocusedContent(canvas: ReturnType<typeof within>, itemId: string): void {
   expectFocusedElement(canvas, itemId, "content");
+}
+
+function expectTreeItemSelectedById(canvas: ReturnType<typeof within>, itemId: string): void {
+  const treeitem = getTreeitemByDataId(canvas, itemId);
+  expect(treeitem.getAttribute("aria-selected")).toBe("true");
+}
+
+function expectCheckedById(canvas: ReturnType<typeof within>, itemId: string): void {
+  const treeitem = getTreeitemByDataId(canvas, itemId);
+  const input = getCheckboxInput(treeitem);
+  expect(input.checked).toBe(true);
+  expect(input.indeterminate).toBe(false);
 }
 
 export const KeyboardNavigation: Story = {
@@ -689,10 +719,16 @@ export const KeyboardNavigation: Story = {
     expectFocusedContent(canvas, "folder");
 
     await userEvent.keyboard(TESTING_DOWN_KEY);
+    expectFocusedContent(canvas, "subfolder");
+
+    await userEvent.keyboard(TESTING_DOWN_KEY);
     expectFocusedContent(canvas, "file");
 
     await userEvent.keyboard(TESTING_DOWN_KEY);
     expectFocusedContent(canvas, "file");
+
+    await userEvent.keyboard(TESTING_UP_KEY);
+    expectFocusedContent(canvas, "subfolder");
 
     await userEvent.keyboard(TESTING_UP_KEY);
     expectFocusedContent(canvas, "folder");
@@ -725,7 +761,7 @@ export const KeyboardNavigation: Story = {
     expectFocusedElement(canvas, "folder", "content");
 
     await userEvent.keyboard(TESTING_SPACE_KEY);
-    expectTreeItemSelected(canvas, "Folder");
+    expectTreeItemSelectedById(canvas, "folder");
 
     await userEvent.keyboard(TESTING_ARROW_LEFT_KEY);
     expectFocusedElement(canvas, "folder", "chevron");
@@ -739,7 +775,7 @@ export const KeyboardNavigation: Story = {
     await userEvent.keyboard(TESTING_ARROW_LEFT_KEY);
     expectFocusedElement(canvas, "folder", "checkbox");
     await userEvent.keyboard(TESTING_SPACE_KEY);
-    expectChecked(canvas, "Folder");
+    expectCheckedById(canvas, "folder");
 
     await userEvent.keyboard(TESTING_ARROW_RIGHT_KEY);
     expectFocusedElement(canvas, "folder", "chevron");
