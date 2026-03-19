@@ -1,13 +1,17 @@
 import { CommonModule } from "@angular/common";
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   computed,
+  DestroyRef,
   effect,
+  ElementRef,
   inject,
   input,
   output,
+  viewChild,
 } from "@angular/core";
 import {
   type TreeviewItemProps,
@@ -18,6 +22,7 @@ import {
 
 import { TreeviewCheckService } from "./treeview-check.service";
 import { TreeviewItemComponent } from "./treeview-item/treeview-item.component";
+import { TreeviewKeyboardService } from "./treeview-keyboard.service";
 import { TreeviewSelectionService } from "./treeview-selection.service";
 
 @Component({
@@ -27,9 +32,11 @@ import { TreeviewSelectionService } from "./treeview-selection.service";
   templateUrl: "./treeview.component.html",
   styleUrl: "./treeview.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [TreeviewSelectionService, TreeviewCheckService],
+  providers: [TreeviewSelectionService, TreeviewCheckService, TreeviewKeyboardService],
 })
-export class TreeviewComponent {
+export class TreeviewComponent implements AfterViewInit {
+  readonly treeRef = viewChild<ElementRef<HTMLElement>>("treeRef");
+
   readonly isCompact = input<boolean>(false);
   readonly dottedLine = input<boolean>(false);
   readonly hasCheckbox = input<boolean>(false);
@@ -47,6 +54,8 @@ export class TreeviewComponent {
   readonly checkService = inject(TreeviewCheckService);
 
   private cdr = inject(ChangeDetectorRef);
+  private keyboardService = inject(TreeviewKeyboardService);
+  private destroyRef = inject(DestroyRef);
 
   readonly hasCheckedItems = computed(() => this.hasCheckbox() && this.checkService.checkedIds().size > 0);
 
@@ -85,6 +94,43 @@ export class TreeviewComponent {
       },
       { allowSignalWrites: true },
     );
+  }
+
+  private setupKeyboardListeners(): void {
+    const treeElement = this.treeRef()?.nativeElement;
+    if (!treeElement) {
+      return;
+    }
+
+    this.keyboardService.initialize(treeElement);
+
+    const handleKeyDown = (event: KeyboardEvent): void => {
+      if (this.keyboardService.handleKeyDown(event, treeElement)) {
+        event.preventDefault();
+      }
+    };
+
+    const handleFocusIn = (event: FocusEvent): void => {
+      this.keyboardService.onFocusIn(treeElement, event);
+    };
+
+    const handleFocusOut = (event: FocusEvent): void => {
+      this.keyboardService.onFocusOut(treeElement, event);
+    };
+
+    treeElement.addEventListener("keydown", handleKeyDown, true);
+    treeElement.addEventListener("focusin", handleFocusIn);
+    treeElement.addEventListener("focusout", handleFocusOut);
+
+    this.destroyRef.onDestroy(() => {
+      treeElement.removeEventListener("keydown", handleKeyDown, true);
+      treeElement.removeEventListener("focusin", handleFocusIn);
+      treeElement.removeEventListener("focusout", handleFocusOut);
+    });
+  }
+
+  ngAfterViewInit(): void {
+    this.setupKeyboardListeners();
   }
 
   itemTrack(item: TreeviewItemProps): string {

@@ -613,3 +613,162 @@ export const CheckboxCascadeUnchecked: Story = {
     },
   },
 };
+
+const keyboardNavigationData: TreeviewItemProps[] = [
+  {
+    id: "folder",
+    labelText: "Folder",
+    icon: "folder",
+    hasIcon: true,
+    isOpen: true,
+    hasCheckbox: true,
+    actionIcon: "info-i",
+    items: [
+      { id: "file", labelText: "File", icon: "file-copy", hasIcon: true, hasCheckbox: true, actionIcon: "info-i" },
+    ],
+  },
+];
+
+function getTreeitemByDataId(canvas: ReturnType<typeof within>, itemId: string): HTMLElement {
+  const tree = canvas.getByTestId("treeview-keyboard-nav");
+  const element = tree.querySelector(`[data-item-id="${itemId}"]`) as HTMLElement;
+  if (!element) throw new Error(`Treeitem with data-item-id="${itemId}" not found`);
+  return element;
+}
+
+function getFocusableInTreeitem(
+  treeitem: HTMLElement,
+  type: "checkbox" | "chevron" | "content" | "action",
+): HTMLElement {
+  const element = treeitem.querySelector(`[data-treeview-focusable="${type}"]`) as HTMLElement;
+  if (!element) throw new Error(`Focusable "${type}" not found in treeitem`);
+  return element;
+}
+
+function expectFocusedElement(
+  canvas: ReturnType<typeof within>,
+  itemId: string,
+  focusableType: "checkbox" | "chevron" | "content" | "action",
+): void {
+  const treeitem = getTreeitemByDataId(canvas, itemId);
+  const expected = getFocusableInTreeitem(treeitem, focusableType);
+  expect(document.activeElement).toBe(expected);
+}
+
+function expectFocusedContent(canvas: ReturnType<typeof within>, itemId: string): void {
+  expectFocusedElement(canvas, itemId, "content");
+}
+
+export const KeyboardNavigation: Story = {
+  render: () => ({
+    props: {
+      items: keyboardNavigationData,
+      onActionIconClick: (event: { itemId: string; event: Event }) => {
+        (window as unknown as { lastActionIconClick?: string }).lastActionIconClick = event.itemId;
+      },
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 1rem; min-width: 280px;">
+        <button type="button" data-testid="before-tree">Before tree</button>
+        <rte-treeview
+          id="treeview-keyboard-nav"
+          data-testid="treeview-keyboard-nav"
+          [items]="items"
+          [hasCheckbox]="true"
+          (actionIconClick)="onActionIconClick($event)"
+        />
+        <button type="button" data-testid="after-tree">After tree</button>
+      </div>
+    `,
+    moduleMetadata: {
+      imports: [TreeviewComponent, TreeviewItemComponent],
+    },
+  }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const beforeTree = canvas.getByTestId("before-tree");
+    const afterTree = canvas.getByTestId("after-tree");
+
+    await userEvent.click(beforeTree);
+    expect(beforeTree).toHaveFocus();
+
+    await userEvent.tab();
+    expectFocusedContent(canvas, "folder");
+
+    await userEvent.keyboard("{ArrowDown}");
+    expectFocusedContent(canvas, "file");
+
+    await userEvent.keyboard("{ArrowDown}");
+    expectFocusedContent(canvas, "file");
+
+    await userEvent.keyboard("{ArrowUp}");
+    expectFocusedContent(canvas, "folder");
+
+    await userEvent.keyboard("{ArrowUp}");
+    expectFocusedContent(canvas, "folder");
+
+    await userEvent.keyboard("{ArrowLeft}");
+    expectFocusedElement(canvas, "folder", "chevron");
+
+    await userEvent.keyboard("{ArrowLeft}");
+    expectFocusedElement(canvas, "folder", "checkbox");
+
+    await userEvent.keyboard("{ArrowLeft}");
+    expectFocusedElement(canvas, "folder", "checkbox");
+
+    await userEvent.keyboard("{ArrowRight}");
+    expectFocusedElement(canvas, "folder", "chevron");
+
+    await userEvent.keyboard("{ArrowRight}");
+    expectFocusedElement(canvas, "folder", "content");
+
+    await userEvent.keyboard("{ArrowRight}");
+    expectFocusedElement(canvas, "folder", "action");
+
+    await userEvent.keyboard("{ArrowRight}");
+    expectFocusedElement(canvas, "folder", "action");
+
+    await userEvent.keyboard("{ArrowLeft}");
+    expectFocusedElement(canvas, "folder", "content");
+
+    await userEvent.keyboard(" ");
+    expectTreeItemSelected(canvas, "Folder");
+
+    await userEvent.keyboard("{ArrowLeft}");
+    expectFocusedElement(canvas, "folder", "chevron");
+    await userEvent.keyboard(" ");
+    const folderTreeitem = getTreeitemByDataId(canvas, "folder");
+    expect(folderTreeitem.getAttribute("aria-expanded")).toBe("false");
+
+    await userEvent.keyboard(" ");
+    expect(folderTreeitem.getAttribute("aria-expanded")).toBe("true");
+
+    await userEvent.keyboard("{ArrowLeft}");
+    expectFocusedElement(canvas, "folder", "checkbox");
+    await userEvent.keyboard(" ");
+    expectChecked(canvas, "Folder");
+
+    await userEvent.keyboard("{ArrowRight}");
+    expectFocusedElement(canvas, "folder", "chevron");
+    await userEvent.keyboard("{ArrowRight}");
+    expectFocusedElement(canvas, "folder", "content");
+    await userEvent.keyboard("{ArrowRight}");
+    expectFocusedElement(canvas, "folder", "action");
+    await userEvent.keyboard(" ");
+    expect((window as unknown as { lastActionIconClick?: string }).lastActionIconClick).toBe("folder");
+
+    await userEvent.tab();
+    expect(afterTree).toHaveFocus();
+
+    await userEvent.tab({ shift: true });
+    expectFocusedContent(canvas, "folder");
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Keyboard navigation: Tab enters tree (first content focused). ArrowUp/Down move between rows (stay at boundaries). ArrowLeft/Right move within row (checkbox→chevron→content→action). Space on content selects, on chevron expands/collapses, on checkbox toggles, on action emits. Tab exits; re-entry focuses first item.",
+      },
+    },
+  },
+};

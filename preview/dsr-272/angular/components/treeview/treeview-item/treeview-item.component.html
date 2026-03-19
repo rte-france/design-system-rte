@@ -20,6 +20,8 @@
       <div
         class="treeview-item-checkbox"
         role="checkbox"
+        data-treeview-focusable="checkbox"
+        tabindex="-1"
         [attr.aria-checked]="isChecked() ? 'true' : isIndeterminate() ? 'mixed' : 'false'"
         [attr.aria-label]="labelText()"
         (click)="handleCheckboxClick($event)"
@@ -29,6 +31,7 @@
           [id]="checkboxId()"
           [label]="labelText()"
           [showLabel]="false"
+          [tabindex]="-1"
           [disabled]="disabled()"
           [checked]="isChecked()"
           [indeterminate]="isIndeterminate()"
@@ -44,6 +47,8 @@
           <button
             type="button"
             class="treeview-item-chevron"
+            data-treeview-focusable="chevron"
+            tabindex="-1"
             [attr.aria-label]="isOpenSignal() ? 'Replier' : 'Déplier'"
             [disabled]="disabled()"
             (click)="toggleOpen(); $event.stopPropagation()"
@@ -58,7 +63,12 @@
           @if (hasIcon() && icon() && !isCompact()) {
             <rte-icon class="treeview-item-icon" [name]="icon()!" [size]="16" />
           }
-          <div class="treeview-item-content" [class.treeview-item-content-compact]="isCompact()" [attr.tabindex]="0">
+          <div
+            class="treeview-item-content"
+            data-treeview-focusable="content"
+            tabindex="-1"
+            [class.treeview-item-content-compact]="isCompact()"
+          >
             <span class="treeview-item-label">{{ labelText() }}</span>
           </div>
           @if (hasBadge()) {
@@ -72,6 +82,8 @@
                 <button
                   type="button"
                   class="treeview-item-action-button"
+                  data-treeview-focusable="action"
+                  tabindex="-1"
                   rteDropdownTrigger
                   [attr.aria-label]="'Actions pour ' + labelText()"
                   [disabled]="disabled()"
@@ -84,6 +96,8 @@
               <button
                 type="button"
                 class="treeview-item-action-button"
+                data-treeview-focusable="action"
+                tabindex="-1"
                 [attr.aria-label]="'Actions pour ' + labelText()"
                 [disabled]="disabled()"
                 (click)="handleActionIconClick($event)"

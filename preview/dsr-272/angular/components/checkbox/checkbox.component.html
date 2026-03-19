@@ -4,6 +4,7 @@
     class="rte-checkbox"
     [id]="id()"
     [value]="value()"
+    [attr.tabindex]="tabindex()"
     [ngClass]="{ error: error(), 'read-only': readOnly() }"
     [disabled]="disabled()"
     [indeterminate]="indeterminate()"
