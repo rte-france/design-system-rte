@@ -56,14 +56,14 @@ export const RegularIcons: Story = {
     name: "add",
     size: 20,
   },
-  render: () => (
+  render: (args) => (
     <div style={{ display: "flex", flexDirection: "column", flexWrap: "wrap", gap: "10px", height: "700px" }}>
       {RegularIconIds.map((iconName) => (
         <div
           key={iconName}
           style={{ display: "flex", alignItems: "center", gap: "5px", border: "1px solid #ccc", padding: "5px" }}
         >
-          <Icon key={iconName} name={iconName as keyof typeof RegularIconsList} color="#000000" aria-label={iconName} />
+          <Icon {...args} key={iconName} name={iconName as keyof typeof RegularIconsList} aria-label={iconName} />
           <span>{iconName}</span>
         </div>
       ))}
@@ -76,23 +76,18 @@ export const TogglableIcons: Story = {
     name: "add",
     size: 20,
   },
-  render: () => (
+  render: (args) => (
     <div style={{ display: "flex", flexDirection: "column", flexWrap: "wrap", gap: "10px", height: "700px" }}>
       {TogglableIconIds.map((iconName) => (
         <div
           key={iconName}
           style={{ display: "flex", alignItems: "center", gap: "5px", border: "1px solid #ccc", padding: "5px" }}
         >
+          <Icon {...args} key={iconName} name={iconName as keyof typeof TogglableIconsList} aria-label={iconName} />
           <Icon
-            key={iconName}
+            {...args}
             name={iconName as keyof typeof TogglableIconsList}
-            color="#000000"
-            aria-label={iconName}
-          />
-          <Icon
             key={`${iconName}-filled`}
-            name={iconName as keyof typeof TogglableIconsList}
-            color="#000000"
             appearance="filled"
             aria-label={`${iconName}-filled`}
           />
