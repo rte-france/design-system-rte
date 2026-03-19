@@ -15,7 +15,8 @@
     "components/**/*.ts",
     "components/**/*.tsx",
     "constants/**/*.ts",
-    "utils/**/*.ts"
+    "utils/**/*.ts",
+    "*.d.ts"
   ],
   "exclude": [
     "node_modules",

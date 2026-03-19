@@ -47,3 +47,4 @@ export * from "./lib/components/dropdown/dropdown-item/dropdown-item.component";
 export * from "./lib/components/dropdown/dropdown-menu/dropdown-menu-header.directive";
 export * from "./lib/components/dropdown/dropdown-menu/dropdown-menu-footer.directive";
 export * from "./lib/components/dropdown/dropdown.module";
+export * from "./lib/components/avatar/avatar.component";
