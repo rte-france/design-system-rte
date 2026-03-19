@@ -2,6 +2,13 @@ import type {
   TreeviewActionMenuItem,
   TreeviewItemProps,
 } from "@design-system-rte/core/components/treeview/treeview-item.interface";
+import {
+  TESTING_ARROW_LEFT_KEY,
+  TESTING_ARROW_RIGHT_KEY,
+  TESTING_DOWN_KEY,
+  TESTING_SPACE_KEY,
+  TESTING_UP_KEY,
+} from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
 import { componentWrapperDecorator, Meta, StoryObj } from "@storybook/angular";
 import { expect, userEvent, within } from "@storybook/test";
 
@@ -17,8 +24,6 @@ const meta: Meta<TreeviewComponent> = {
 
 export default meta;
 type Story = StoryObj<TreeviewComponent>;
-
-const singleItemData: TreeviewItemProps[] = [{ id: "root", labelText: "Single item" }];
 
 const baseNavigationData: TreeviewItemProps[] = [
   { id: "home", labelText: "Home", icon: "home", hasIcon: true },
@@ -58,30 +63,6 @@ function withActionIcon(
 }
 
 const navigationData = baseNavigationData;
-
-export const SingleItem: Story = {
-  render: () => ({
-    props: {
-      items: singleItemData,
-    },
-    template: `<rte-treeview id="treeview-single-item" [items]="items" />`,
-    moduleMetadata: {
-      imports: [TreeviewComponent, TreeviewItemComponent],
-    },
-  }),
-};
-
-export const Compact: Story = {
-  render: () => ({
-    props: {
-      items: navigationData,
-    },
-    template: `<rte-treeview id="treeview-compact" [items]="items" [hasCheckbox]="true" [isCompact]="true"/>`,
-    moduleMetadata: {
-      imports: [TreeviewComponent, TreeviewItemComponent],
-    },
-  }),
-};
 
 function createConnectorLinesData(options: { middleOpen?: boolean } = {}): TreeviewItemProps[] {
   const { middleOpen = true } = options;
@@ -149,6 +130,18 @@ export const NestedItems: Story = {
       },
     },
   },
+};
+
+export const Compact: Story = {
+  render: () => ({
+    props: {
+      items: navigationData,
+    },
+    template: `<rte-treeview id="treeview-compact" [items]="items" [hasCheckbox]="true" [isCompact]="true"/>`,
+    moduleMetadata: {
+      imports: [TreeviewComponent, TreeviewItemComponent],
+    },
+  }),
 };
 
 export const DottedLine: Story = {
@@ -695,66 +688,66 @@ export const KeyboardNavigation: Story = {
     await userEvent.tab();
     expectFocusedContent(canvas, "folder");
 
-    await userEvent.keyboard("{ArrowDown}");
+    await userEvent.keyboard(TESTING_DOWN_KEY);
     expectFocusedContent(canvas, "file");
 
-    await userEvent.keyboard("{ArrowDown}");
+    await userEvent.keyboard(TESTING_DOWN_KEY);
     expectFocusedContent(canvas, "file");
 
-    await userEvent.keyboard("{ArrowUp}");
+    await userEvent.keyboard(TESTING_UP_KEY);
     expectFocusedContent(canvas, "folder");
 
-    await userEvent.keyboard("{ArrowUp}");
+    await userEvent.keyboard(TESTING_UP_KEY);
     expectFocusedContent(canvas, "folder");
 
-    await userEvent.keyboard("{ArrowLeft}");
+    await userEvent.keyboard(TESTING_ARROW_LEFT_KEY);
     expectFocusedElement(canvas, "folder", "chevron");
 
-    await userEvent.keyboard("{ArrowLeft}");
+    await userEvent.keyboard(TESTING_ARROW_LEFT_KEY);
     expectFocusedElement(canvas, "folder", "checkbox");
 
-    await userEvent.keyboard("{ArrowLeft}");
+    await userEvent.keyboard(TESTING_ARROW_LEFT_KEY);
     expectFocusedElement(canvas, "folder", "checkbox");
 
-    await userEvent.keyboard("{ArrowRight}");
+    await userEvent.keyboard(TESTING_ARROW_RIGHT_KEY);
     expectFocusedElement(canvas, "folder", "chevron");
 
-    await userEvent.keyboard("{ArrowRight}");
+    await userEvent.keyboard(TESTING_ARROW_RIGHT_KEY);
     expectFocusedElement(canvas, "folder", "content");
 
-    await userEvent.keyboard("{ArrowRight}");
+    await userEvent.keyboard(TESTING_ARROW_RIGHT_KEY);
     expectFocusedElement(canvas, "folder", "action");
 
-    await userEvent.keyboard("{ArrowRight}");
+    await userEvent.keyboard(TESTING_ARROW_RIGHT_KEY);
     expectFocusedElement(canvas, "folder", "action");
 
-    await userEvent.keyboard("{ArrowLeft}");
+    await userEvent.keyboard(TESTING_ARROW_LEFT_KEY);
     expectFocusedElement(canvas, "folder", "content");
 
-    await userEvent.keyboard(" ");
+    await userEvent.keyboard(TESTING_SPACE_KEY);
     expectTreeItemSelected(canvas, "Folder");
 
-    await userEvent.keyboard("{ArrowLeft}");
+    await userEvent.keyboard(TESTING_ARROW_LEFT_KEY);
     expectFocusedElement(canvas, "folder", "chevron");
-    await userEvent.keyboard(" ");
+    await userEvent.keyboard(TESTING_SPACE_KEY);
     const folderTreeitem = getTreeitemByDataId(canvas, "folder");
     expect(folderTreeitem.getAttribute("aria-expanded")).toBe("false");
 
-    await userEvent.keyboard(" ");
+    await userEvent.keyboard(TESTING_SPACE_KEY);
     expect(folderTreeitem.getAttribute("aria-expanded")).toBe("true");
 
-    await userEvent.keyboard("{ArrowLeft}");
+    await userEvent.keyboard(TESTING_ARROW_LEFT_KEY);
     expectFocusedElement(canvas, "folder", "checkbox");
-    await userEvent.keyboard(" ");
+    await userEvent.keyboard(TESTING_SPACE_KEY);
     expectChecked(canvas, "Folder");
 
-    await userEvent.keyboard("{ArrowRight}");
+    await userEvent.keyboard(TESTING_ARROW_RIGHT_KEY);
     expectFocusedElement(canvas, "folder", "chevron");
-    await userEvent.keyboard("{ArrowRight}");
+    await userEvent.keyboard(TESTING_ARROW_RIGHT_KEY);
     expectFocusedElement(canvas, "folder", "content");
-    await userEvent.keyboard("{ArrowRight}");
+    await userEvent.keyboard(TESTING_ARROW_RIGHT_KEY);
     expectFocusedElement(canvas, "folder", "action");
-    await userEvent.keyboard(" ");
+    await userEvent.keyboard(TESTING_SPACE_KEY);
     expect((window as unknown as { lastActionIconClick?: string }).lastActionIconClick).toBe("folder");
 
     await userEvent.tab();

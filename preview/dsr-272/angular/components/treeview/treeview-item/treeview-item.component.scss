@@ -1,13 +1,9 @@
 @use '@design-system-rte/core/design-tokens/main.scss' as *;
 
-:host {
-  display: contents;
-}
-
 $row-gap: $positive-spacing_050;
 $icon-size: $positive-spacing_200;
 
-.treeview-item {
+:host {
   display: flex;
   flex-direction: column;
   margin: 0;
@@ -107,6 +103,8 @@ $icon-size: $positive-spacing_200;
   border-radius: $radius-s;
   cursor: pointer;
   box-sizing: border-box;
+  flex: 1;
+  min-width: 0;
 
   .treeview-item-main-content:hover {
     background: var(--background-hover);
@@ -114,11 +112,7 @@ $icon-size: $positive-spacing_200;
 }
 
 .treeview-item-borders-and-content {
-  display: flex;
-  align-items: center;
-  gap: $row-gap;
-  flex: 1;
-  min-width: 0;
+
 }
 
 .treeview-item-borders-container {
@@ -261,7 +255,7 @@ $icon-size: $positive-spacing_200;
     outline-offset: 0;
   }
 
-  .treeview-item.selected & {
+  :host-context(.selected) & {
     &:focus-visible {
       outline-color: var(--border-inverse);
     }

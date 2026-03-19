@@ -7,7 +7,8 @@
   [class.has-nested-items]="hasNestedItems()"
 >
   @for (item of items(); track itemTrack(item); let itemIndex = $index) {
-    <rte-treeview-item
+    <li
+      rteTreeviewItem
       [rootItems]="items()"
       [treeId]="id()"
       [nodePath]="[itemIndex]"
@@ -29,6 +30,6 @@
       (itemClick)="itemClick.emit($event)"
       (openChange)="openChange.emit($event)"
       (actionIconClick)="actionIconClick.emit($event)"
-    />
+    ></li>
   }
 </ul>

@@ -10,11 +10,11 @@
     --treeview-root-indent: 16px;
   }
 
-  > rte-treeview-item:not(:first-child) > .treeview-item {
+  > li[rteTreeviewItem]:not(:first-child) {
     padding-top: $positive-spacing_100;
   }
 
-  &.compact > rte-treeview-item:not(:first-child) > .treeview-item {
+  &.compact > li[rteTreeviewItem]:not(:first-child) {
     padding-top: $positive-spacing_050;
   }
 }
