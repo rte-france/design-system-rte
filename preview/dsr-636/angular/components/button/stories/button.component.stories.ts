@@ -27,18 +27,6 @@ const meta: Meta<ButtonComponent> = {
       control: "select",
       options: ["s", "m", "l"],
     },
-    rteButtonIcon: {
-      control: "select",
-      options: [...RegularIconIds, ...TogglableIconIds],
-    },
-    rteButtonIconPosition: {
-      control: "select",
-      options: ["left", "right"],
-    },
-    rteButtonIconAppearance: {
-      control: "select",
-      options: ["filled", "outlined"],
-    },
   },
 };
 
@@ -51,9 +39,6 @@ export const Default: Story = {
   args: {
     rteButtonVariant: "primary",
     rteButtonSize: "m",
-    rteButtonIcon: "add",
-    rteButtonIconPosition: "left",
-    rteButtonIconAppearance: "filled",
   },
   render: (args) => ({
     props: { ...args, click: mockFn },
@@ -61,9 +46,6 @@ export const Default: Story = {
     <button rteButton
       [rteButtonVariant]="rteButtonVariant"
       [rteButtonSize]="rteButtonSize"
-      [rteButtonIcon]="rteButtonIcon"
-      [rteButtonIconPosition]="rteButtonIconPosition"
-      [rteButtonIconAppearance]="rteButtonIconAppearance"
       data-testid="button"
       (click)="click()"
     >Button</button>

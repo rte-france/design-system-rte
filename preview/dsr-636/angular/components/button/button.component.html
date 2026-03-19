@@ -1,10 +1,4 @@
-@if (rteButtonIcon() && rteButtonIconPosition() === "left") {
-  <rte-icon [name]="rteButtonIcon()!" [appearance]="rteButtonIconAppearance()"></rte-icon>
-}
 <span class="rte-button-label">
   <ng-content />
   <!-- Le badge est géré par BadgeDirective attachée via hostDirectives -->
 </span>
-@if (rteButtonIcon() && rteButtonIconPosition() === "right") {
-  <rte-icon [name]="rteButtonIcon()!" [appearance]="rteButtonIconAppearance()"></rte-icon>
-}
