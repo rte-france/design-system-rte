@@ -15,6 +15,45 @@ import Icon from "../icon/Icon";
 
 import styles from "./Avatar.module.scss";
 
+const BaseAvatar = ({ size, type, colorType, decorativeColor, layout, initials, imgSrc, alt, status }: AvatarProps) => (
+  <>
+    <div
+      className={styles["avatar"]}
+      data-size={size}
+      data-avatar-type={type}
+      data-color={colorType}
+      style={{
+        backgroundColor: computeBackgroundColor(layout!, colorType!, decorativeColor),
+        maskImage: computeMaskImage(size!, !!status),
+      }}
+    >
+      {layout === "initials" ? (
+        <span className={styles["initials"]} data-size={size}>
+          {initials}
+        </span>
+      ) : layout === "icon" ? (
+        <>
+          <Icon
+            name={type === "user" ? "user" : "company"}
+            size={IconSizeMap[size!]}
+            color={computeIconColor(colorType!)}
+          />
+        </>
+      ) : (
+        <img src={imgSrc} alt={alt} className={styles["avatar-image"]} />
+      )}
+    </div>
+    {status && (
+      <img
+        src={StatusIndicatorIconMap[status!]}
+        alt={`Avatar indicator with status ${status}`}
+        className={styles["status-indicator"]}
+        style={{ width: StatusIndicatorSizeMap[size!], height: StatusIndicatorSizeMap[size!] }}
+      />
+    )}
+  </>
+);
+
 const Avatar = forwardRef<HTMLDivElement | HTMLButtonElement, AvatarProps>(
   (
     {
@@ -44,44 +83,17 @@ const Avatar = forwardRef<HTMLDivElement | HTMLButtonElement, AvatarProps>(
       return null;
     }
 
-    const BaseAvatar = () => (
-      <>
-        <div
-          className={styles["avatar"]}
-          data-size={size}
-          data-avatar-type={type}
-          data-color={colorType}
-          style={{
-            backgroundColor: computeBackgroundColor(layout, colorType, decorativeColor),
-            maskImage: computeMaskImage(size!, !!status),
-          }}
-        >
-          {layout === "initials" ? (
-            <span className={styles["initials"]} data-size={size}>
-              {initials}
-            </span>
-          ) : layout === "icon" ? (
-            <>
-              <Icon
-                name={type === "user" ? "user" : "company"}
-                size={IconSizeMap[size!]}
-                color={computeIconColor(colorType!, decorativeColor)}
-              />
-            </>
-          ) : (
-            <img src={imgSrc} alt={alt} className={styles["avatar-image"]} />
-          )}
-        </div>
-        {status && (
-          <img
-            src={StatusIndicatorIconMap[status!]}
-            alt={`Avatar indicator with status ${status}`}
-            className={styles["status-indicator"]}
-            style={{ width: StatusIndicatorSizeMap[size!], height: StatusIndicatorSizeMap[size!] }}
-          />
-        )}
-      </>
-    );
+    const baseAvatarProps = {
+      size,
+      type,
+      colorType,
+      decorativeColor,
+      layout,
+      initials,
+      imgSrc,
+      alt,
+      status,
+    };
 
     return (
       <>
@@ -97,7 +109,7 @@ const Avatar = forwardRef<HTMLDivElement | HTMLButtonElement, AvatarProps>(
             style={{ width: size, height: size }}
             ref={ref as React.Ref<HTMLButtonElement>}
           >
-            <BaseAvatar />
+            <BaseAvatar {...baseAvatarProps} />
           </button>
         ) : (
           <div
@@ -107,7 +119,7 @@ const Avatar = forwardRef<HTMLDivElement | HTMLButtonElement, AvatarProps>(
             style={{ width: size, height: size }}
             ref={ref as React.Ref<HTMLDivElement>}
           >
-            <BaseAvatar />
+            <BaseAvatar {...baseAvatarProps} />
           </div>
         )}
       </>

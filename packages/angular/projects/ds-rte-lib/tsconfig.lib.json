@@ -12,9 +12,10 @@
   "exclude": [
     "**/*.spec.ts"
   ],
-  "files": ["typings.d.ts"],
+  "files": [
+    "types.d.ts"
+  ],
   "include": [
-    "src/**/*.ts",
-    "src/types.d.ts"
+    "src/**/*.ts"
   ]
 }
