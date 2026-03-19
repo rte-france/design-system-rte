@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunk_design_system_rte_angular_builder=self.webpackChunk_design_system_rte_angular_builder||[]).push([[34229],{"./projects/ds-rte-lib/src/lib/assets/icons/send_outlined.svg":(module,__unused_webpack_exports,__webpack_require__)=>{module.exports=__webpack_require__.p+"static/media/send_outlined.c3d36528.svg"}}]);
