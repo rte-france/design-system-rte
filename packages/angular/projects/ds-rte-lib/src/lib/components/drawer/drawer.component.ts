@@ -17,6 +17,12 @@ import {
   untracked,
   viewChild,
 } from "@angular/core";
+import {
+  DRAWER_PADDING,
+  DRAWER_TRANSITION_DURATION,
+  shouldUseDrawerDefaultFooter,
+  shouldUseDrawerDefaultHeader,
+} from "@design-system-rte/core";
 import type { DrawerPosition } from "@design-system-rte/core/components/drawer/drawer.interface";
 import { IconSize } from "@design-system-rte/core/components/icon/icon.constants";
 
@@ -67,15 +73,18 @@ export class DrawerComponent implements OnDestroy {
   readonly isAnimating = signal(false);
   readonly shouldRenderModalLayer = signal(false);
 
-  readonly shouldDisplayDefaultHeader = computed(() => !this.drawerHeader() && !!this.title());
-  readonly shouldDisplayDefaultFooter = computed(() => !this.drawerFooter() && !!this.primaryButtonLabel());
+  readonly shouldDisplayDefaultHeader = computed(() =>
+    shouldUseDrawerDefaultHeader(!!this.drawerHeader(), this.title()),
+  );
+  readonly shouldDisplayDefaultFooter = computed(() =>
+    shouldUseDrawerDefaultFooter(!!this.drawerFooter(), this.primaryButtonLabel()),
+  );
 
   readonly panelWidthPx = signal(0);
 
   readonly collapsibleToggleTransform = computed(() => {
     const widthPx = this.panelWidthPx();
-    const padding = 4;
-    return this.isAnimating() ? `translateX(-${widthPx + padding}px)` : "none";
+    return this.isAnimating() ? `translateX(-${widthPx + DRAWER_PADDING}px)` : "none";
   });
 
   readonly responsiveDividerTransform = computed(() => {
@@ -106,11 +115,29 @@ export class DrawerComponent implements OnDestroy {
         if (!modal) {
           if (open) {
             this.isAnimating.set(false);
-            requestAnimationFrame(() => {
-              requestAnimationFrame(() => this.isAnimating.set(true));
+            untracked(() => {
+              requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                  this.isAnimating.set(true);
+                  afterNextRender(
+                    () => {
+                      const native = this.drawerPanelResponsive()?.nativeElement;
+                      if (native && !this.focusTrapActive) {
+                        this.focusTrap.activate(native);
+                        this.focusTrapActive = true;
+                      }
+                    },
+                    { injector: this.injector },
+                  );
+                });
+              });
             });
           } else {
             this.isAnimating.set(false);
+            if (this.focusTrapActive) {
+              this.focusTrap.deactivate();
+              this.focusTrapActive = false;
+            }
           }
           return;
         }
@@ -145,7 +172,7 @@ export class DrawerComponent implements OnDestroy {
           if (this.shouldRenderModalLayer()) {
             setTimeout(() => {
               this.shouldRenderModalLayer.set(false);
-            }, 240);
+            }, DRAWER_TRANSITION_DURATION);
           }
         }
       },
