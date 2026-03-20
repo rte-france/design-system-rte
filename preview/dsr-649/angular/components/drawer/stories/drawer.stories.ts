@@ -93,7 +93,7 @@ export const Default: Story = {
     const canvas = within(canvasElement);
     const openButton = await canvas.getByRole("button", { name: "Open drawer" });
     await userEvent.click(openButton);
-    const drawer = within(document.body).getByRole("dialog");
+    const drawer = await within(document.body).findByRole("dialog");
     expect(drawer).toBeInTheDocument();
   },
 };
@@ -150,7 +150,7 @@ export const Responsive: Story = {
     const canvas = within(canvasElement);
     const openButton = await canvas.getByRole("button", { name: "Open drawer" });
     await userEvent.click(openButton);
-    const drawer = canvas.getByRole("region");
+    const drawer = await canvas.findByRole("region");
     expect(drawer).toBeInTheDocument();
   },
 };
