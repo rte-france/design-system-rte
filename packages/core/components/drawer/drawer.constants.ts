@@ -1,0 +1,2 @@
+export const DRAWER_TRANSITION_DURATION = 240;
+export const DRAWER_PADDING = 4;

@@ -1,7 +1,32 @@
 @use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
 
+:host-context(.rte-drawer-host--responsive-layout) {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
 .rte-drawer-root {
   position: relative;
+
+  &[data-position='responsive'] {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    .drawer-responsive-container {
+      flex: 1 1 auto;
+      min-height: 0;
+      height: auto;
+      position: relative;
+      overflow-x: clip;
+    }
+  }
 }
 
 .rte-drawer-modal-host-layer {
@@ -34,12 +59,6 @@
   &[data-open='true'] {
     opacity: 1;
   }
-}
-
-.drawer-responsive-container {
-  position: relative;
-  overflow-x: clip;
-  height: 100%;
 }
 
 .drawer-responsive-divider-wrap {
@@ -81,7 +100,7 @@
     transition: transform 240ms ease-out;
     flex: 0 0 auto;
     height: 100%;
-    max-height: 100vh;
+    max-height: 100%;
     background: transparent;
 
     &[data-open='true'] {
@@ -167,6 +186,7 @@
 
 .drawer-children {
   box-sizing: border-box;
+  min-height: 0;
 }
 
 .drawer-toggle--floating,

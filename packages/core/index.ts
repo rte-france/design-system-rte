@@ -16,6 +16,7 @@ export * from "./components/checkbox";
 export * from "./components/checkbox-group";
 export * from "./components/chip";
 export * from "./components/divider";
+export * from "./components/drawer";
 export * from "./components/dropdown";
 export * from "./components/grid";
 export * from "./components/icon";
