@@ -144,18 +144,6 @@ export const Compact: Story = {
   }),
 };
 
-export const DottedLine: Story = {
-  render: () => ({
-    props: {
-      items: navigationData,
-    },
-    template: `<rte-treeview id="treeview-dotted-line" [items]="items" [dottedLine]="true" />`,
-    moduleMetadata: {
-      imports: [TreeviewComponent, TreeviewItemComponent],
-    },
-  }),
-};
-
 export const PreSelectedState: Story = {
   render: () => ({
     props: {

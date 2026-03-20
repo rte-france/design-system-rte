@@ -5,7 +5,6 @@
   [attr.width]="svgConfig().width"
   [attr.height]="svgConfig().height"
   [attr.viewBox]="svgConfig().viewBox"
-  [class.treeview-item-border-dashed]="dottedLine()"
 >
   @for (element of svgConfig().elements; track $index) {
     @if (element.kind === "path") {

@@ -14,7 +14,6 @@ export interface TreeviewItemProps {
   hasBadge?: boolean;
   items?: TreeviewItemProps[];
   borderType?: TreeviewBorderType;
-  dottedLine?: boolean;
   actionIcon?: string;
   actionMenuItems?: TreeviewActionMenuItem[];
 }

@@ -319,12 +319,11 @@ export function findNodeById(items: TreeviewItemProps[], itemId: string): Treevi
 
 export function mergeChildItemWithParent(
   child: TreeviewItemProps,
-  parent: Partial<Pick<TreeviewItemProps, "isCompact" | "dottedLine">>,
+  parent: Partial<Pick<TreeviewItemProps, "isCompact">>,
 ): TreeviewItemProps {
   return {
     ...child,
     isCompact: child.isCompact ?? parent.isCompact,
-    dottedLine: child.dottedLine ?? parent.dottedLine,
   };
 }
 
