@@ -4,6 +4,7 @@
   
   ## Changes
 
+- (Treeview) remove dottedLine because of functionality deprecation
 - (Treeview) correct item menu behavior
 - (Treeview) add keyboard navigation system
 - (Treeview) implement Badge

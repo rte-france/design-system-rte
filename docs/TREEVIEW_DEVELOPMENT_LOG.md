@@ -14,6 +14,7 @@
 6. [File Map](#6-file-map)
 7. [Development Context & Challenges](#7-development-context--challenges)
 8. [Summary](#8-summary)
+9. [Dotted-line variant removed (product)](#9-dotted-line-variant-removed-product)
 
 ---
 
@@ -27,7 +28,6 @@ The **Treeview** is a hierarchical navigation component that displays expandable
 - **Multi-check** — checkboxes with parent/child cascade and indeterminate state
 - **Connector lines** — branch/T-shape and corner/L-shape for visual hierarchy
 - **Compact mode** — reduced row height and simplified connectors
-- **Dotted line variant** — alternative connector style
 
 ---
 
@@ -62,7 +62,7 @@ Services are **provided at the tree level** (`TreeviewComponent`), so each tree 
 
 ### 2.3 Data Flow
 
-- **Inputs:** `items`, `selectedId`, `selectedPath`, `hasCheckbox`, `isCompact`, `dottedLine`, etc.
+- **Inputs:** `items`, `selectedId`, `selectedPath`, `hasCheckbox`, `isCompact`, etc.
 - **Effects:** Sync `selectedId` / `selectedPath` into `TreeviewSelectionService`; sync `checkedIds` to `checkedIdsChange` output; sync `items` into `TreeviewCheckService`.
 - **Outputs:** `itemClick`, `openChange`, `actionIconClick`, `actionMenuClick`, `selectionChange`, `checkedIdsChange`.
 
@@ -87,7 +87,6 @@ Services are **provided at the tree level** (`TreeviewComponent`), so each tree 
 ### 3.3 TreeviewItemBorderComponent
 
 - Renders SVG connectors from `TREEVIEW_BORDER_SVG_MAP` (or compact variant).
-- Supports `dottedLine` for dashed stroke.
 
 ### 3.4 Core Utilities (`@design-system-rte/core`)
 
@@ -106,7 +105,6 @@ Stories document the evolution and validation of the component.
 |-------|---------|
 | **NestedItems** | 4-level hierarchy; branch/T-shape and corner/L-shape connectors. |
 | **Compact** | Reduced row height, checkbox mode. |
-| **DottedLine** | Dashed connector variant. |
 | **Badge** | Red indicator badge between label and action icon. |
 
 ### 4.2 Selection
@@ -158,9 +156,9 @@ Stories document the evolution and validation of the component.
 
 ### 5.2 API Shape
 
-- **Inputs:** `items`, `selectedId`, `selectedPath`, `hasCheckbox`, `isCompact`, `dottedLine`, `id`, per-item overrides.
+- **Inputs:** `items`, `selectedId`, `selectedPath`, `hasCheckbox`, `isCompact`, `id`, per-item overrides.
 - **Outputs:** `itemClick`, `openChange`, `actionIconClick`, `actionMenuClick`, `selectionChange`, `checkedIdsChange`.
-- **Per-item props:** `TreeviewItemProps` — `id`, `labelText`, `icon`, `disabled`, `isCompact`, `hasCheckbox`, `isOpen`, `hasIcon`, `hasBadge`, `items`, `dottedLine`, `actionIcon`, `actionMenuItems`.
+- **Per-item props:** `TreeviewItemProps` — `id`, `labelText`, `icon`, `disabled`, `isCompact`, `hasCheckbox`, `isOpen`, `hasIcon`, `hasBadge`, `items`, `actionIcon`, `actionMenuItems`.
 
 ### 5.3 Accessibility
 
@@ -239,7 +237,23 @@ The treeview is a **recursive, service-driven** component with:
 - **Path-based** and **id-based** selection
 - **Cascading checkboxes** with indeterminate state
 - **Four focusable zones** per row for granular keyboard control
-- **SVG connector lines** with normal and dotted variants
+- **SVG connector lines** (solid stroke)
 - **Compact mode** for dense layouts
 
 Stories validate visual states, selection, checkbox cascade, actions, and keyboard navigation. The implementation aligns with the design system tokens and integrates with existing components (Checkbox, Icon, Badge, Dropdown). The planning process in `.cursor/plans/` guided the architecture and resolved performance, Figma alignment, and separation-of-concerns challenges.
+
+---
+
+## 9. Dotted-line variant removed (product)
+
+**Management deprecated the dotted-line / dashed connector option** for product reasons: the design system no longer offers an alternate “dotted” tree connector style, and maintaining it increased API surface and visual divergence without a committed use case.
+
+**Removed from the implementation:**
+
+- Root input `dottedLine` on `TreeviewComponent`
+- Per-item `dottedLine` on `TreeviewItemProps`
+- Dashed SVG stroke (`stroke-dasharray`) on `TreeviewItemBorderComponent`
+- Host class `dotted-line` and chevron stem styling that repeated the connector as a dashed gradient
+- Storybook story **DottedLine**
+
+Connectors are now always rendered with the standard solid line treatment. Consumers who previously bound `[dottedLine]="true"` should remove those bindings; the property is no longer part of the public API.
