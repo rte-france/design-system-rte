@@ -1,10 +1,14 @@
 import {
   AfterContentInit,
+  afterNextRender,
   ComponentRef,
   contentChild,
   Directive,
   ElementRef,
+  HostBinding,
+  HostListener,
   inject,
+  Injector,
   input,
   OnDestroy,
   TemplateRef,
@@ -15,7 +19,6 @@ import { ESCAPE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.
 
 import { OverlayService } from "../../services/overlay.service";
 
-import { DrawerTriggerDirective } from "./drawer-trigger/drawer-trigger.directive";
 import { DrawerComponent } from "./drawer.component";
 
 @Directive({
@@ -31,8 +34,8 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
   private readonly elementRef = inject(ElementRef);
   private readonly viewContainerRef = inject(ViewContainerRef);
   private readonly overlayService = inject(OverlayService);
+  private readonly injector = inject(Injector);
 
-  readonly trigger = contentChild(DrawerTriggerDirective);
   readonly drawerContent = contentChild.required<TemplateRef<unknown>>("drawerContent");
   readonly drawerHeader = contentChild<TemplateRef<unknown>>("drawerHeader");
   readonly drawerFooter = contentChild<TemplateRef<unknown>>("drawerFooter");
@@ -55,19 +58,82 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
   private readonly onMouseDown = (mouseEvent: MouseEvent) => this.handleClickAway(mouseEvent);
   private readonly onKeyDown = (keyboardEvent: KeyboardEvent) => this.handleKeydown(keyboardEvent);
 
+  @HostBinding("class.rte-drawer-host--responsive-layout")
+  protected get isResponsiveLayoutHost(): boolean {
+    return this.rteDrawerPosition() === "responsive";
+  }
+
+  @HostBinding("style.display")
+  protected get responsiveHostDisplay(): string | undefined {
+    return this.rteDrawerPosition() === "responsive" ? "flex" : undefined;
+  }
+
+  @HostBinding("style.flex-direction")
+  protected get responsiveHostFlexDirection(): string | undefined {
+    return this.rteDrawerPosition() === "responsive" ? "column" : undefined;
+  }
+
+  @HostBinding("style.min-height")
+  protected get responsiveHostMinHeight(): string | undefined {
+    return this.rteDrawerPosition() === "responsive" ? "0" : undefined;
+  }
+
+  @HostBinding("style.box-sizing")
+  protected get responsiveHostBoxSizing(): string | undefined {
+    return this.rteDrawerPosition() === "responsive" ? "border-box" : undefined;
+  }
+
+  private static readonly responsiveShellMountMaxAttempts = 12;
+
+  constructor() {
+    this.tryScheduleResponsiveShellMount(DrawerDirective.responsiveShellMountMaxAttempts);
+  }
+
+  private tryScheduleResponsiveShellMount(attemptsRemaining: number): void {
+    afterNextRender(
+      () => {
+        if (this.rteDrawerPosition() !== "responsive" || this.drawerCompRef) {
+          return;
+        }
+        if (this.validateForOpen()) {
+          this.mountDrawer();
+          const mountedRef = this.drawerCompRef as ComponentRef<DrawerComponent> | null;
+          if (mountedRef === null) {
+            return;
+          }
+          this.isDrawerOpen = false;
+          this.syncInputsToDrawer();
+          mountedRef.setInput("isOpen", false);
+          return;
+        }
+        if (attemptsRemaining > 1) {
+          this.tryScheduleResponsiveShellMount(attemptsRemaining - 1);
+        } else {
+          console.warn(
+            "Drawer: responsive shell could not mount after multiple attempts (content queries may still be empty).",
+          );
+        }
+      },
+      { injector: this.injector },
+    );
+  }
+
   ngAfterContentInit(): void {
     document.addEventListener("mousedown", this.onMouseDown);
     document.addEventListener("keydown", this.onKeyDown);
+  }
 
-    const triggerDirective = this.trigger();
-    if (!triggerDirective) {
-      console.warn("Drawer: rteDrawerTrigger is required.");
+  @HostListener("click", ["$event"])
+  onHostClick(clickEvent: MouseEvent): void {
+    const target = clickEvent.target;
+    if (!(target instanceof Node)) {
       return;
     }
-
-    triggerDirective.drawerTriggerClicked.subscribe(() => {
-      this.openDrawer();
-    });
+    const triggerElement = target instanceof Element ? target.closest("[data-rte-drawer-trigger]") : null;
+    if (!triggerElement || !this.elementRef.nativeElement.contains(triggerElement)) {
+      return;
+    }
+    this.openDrawer();
   }
 
   ngOnDestroy(): void {
@@ -140,6 +206,7 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
     } else {
       this.drawerCompRef = this.viewContainerRef.createComponent(DrawerComponent);
       this.usedOverlay = false;
+      this.elementRef.nativeElement.appendChild(this.drawerCompRef.location.nativeElement);
     }
 
     this.drawerCompRef.instance.closed.subscribe(() => {

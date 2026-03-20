@@ -106,11 +106,29 @@ export class DrawerComponent implements OnDestroy {
         if (!modal) {
           if (open) {
             this.isAnimating.set(false);
-            requestAnimationFrame(() => {
-              requestAnimationFrame(() => this.isAnimating.set(true));
+            untracked(() => {
+              requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                  this.isAnimating.set(true);
+                  afterNextRender(
+                    () => {
+                      const native = this.drawerPanelResponsive()?.nativeElement;
+                      if (native && !this.focusTrapActive) {
+                        this.focusTrap.activate(native);
+                        this.focusTrapActive = true;
+                      }
+                    },
+                    { injector: this.injector },
+                  );
+                });
+              });
             });
           } else {
             this.isAnimating.set(false);
+            if (this.focusTrapActive) {
+              this.focusTrap.deactivate();
+              this.focusTrapActive = false;
+            }
           }
           return;
         }
