@@ -1,4 +1,4 @@
-type DrawerPosition = "modal" | "responsive";
+export type DrawerPosition = "modal" | "responsive";
 
 export interface DrawerProps {
   id: string;
