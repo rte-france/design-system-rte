@@ -51,6 +51,7 @@
         #drawerPanelResponsive
         class="drawer"
         data-drawer-panel
+        data-testid="drawer-responsive-panel"
         role="region"
         [attr.data-open]="isAnimating() ? 'true' : 'false'"
         [attr.data-position]="pos"
@@ -67,7 +68,7 @@
         class="drawer-children"
         [attr.data-open]="isAnimating() ? 'true' : 'false'"
         [style.marginRight]="responsiveMainMarginRight()"
-        [style.maxHeight]="isAnimating() ? '100vh' : undefined"
+        [style.maxHeight]="isAnimating() ? '100%' : undefined"
         [style.overflowY]="isAnimating() ? 'auto' : undefined"
         [style.height]="'100%'"
         [style.transition]="'margin-right 240ms ease-out'"

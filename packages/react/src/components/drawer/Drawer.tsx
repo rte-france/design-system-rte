@@ -1,3 +1,10 @@
+import {
+  getDrawerConfigurationIssues,
+  DRAWER_PADDING,
+  DRAWER_TRANSITION_DURATION,
+  shouldUseDrawerDefaultFooter,
+  shouldUseDrawerDefaultHeader,
+} from "@design-system-rte/core";
 import { DrawerProps as coreDrawerProps } from "@design-system-rte/core/components/drawer/drawer.interface";
 import { computeTransform } from "@design-system-rte/core/components/drawer/drawer.utils";
 import { RefObject, useRef } from "react";
@@ -228,7 +235,7 @@ const Drawer = ({
   isClosable = true,
   ...props
 }: DrawerProps) => {
-  const { shouldRender, isAnimating } = useAnimatedMount(isOpen, 240);
+  const { shouldRender, isAnimating } = useAnimatedMount(isOpen, DRAWER_TRANSITION_DURATION);
   const drawerRef = useRef<HTMLDivElement | null>(null);
   const iconToggleOpenContainerRef = useRef<HTMLButtonElement | null>(null);
   const iconToggleCloseContainerRef = useRef<HTMLButtonElement | null>(null);
@@ -239,27 +246,19 @@ const Drawer = ({
   useKeydownEscape(closeOnEscape ? onClose : () => {});
   useFocusTrap(drawerRef.current!, shouldRender);
 
-  const shouldDisplayDefaultHeader = header === undefined && title;
-  const shouldDisplayDefaultFooter = footer === undefined && primaryButtonLabel;
-  if (!shouldDisplayDefaultHeader && !header) {
-    console.warn("Drawer: You must provide either a title or a custom header.");
-    return null;
-  }
+  const shouldDisplayDefaultHeader = shouldUseDrawerDefaultHeader(header, title);
+  const shouldDisplayDefaultFooter = shouldUseDrawerDefaultFooter(footer, primaryButtonLabel);
 
-  if (position === "responsive" && !children) {
-    console.warn(
-      "Drawer: You should provide your content as children when using responsive position to avoid empty space next to the drawer.",
-    );
-    return null;
-  }
-
-  if (!footer && !primaryButtonLabel) {
-    console.warn("Drawer: You must provide either a primaryButtonLabel or a custom footer.");
-    return null;
-  }
-
-  if (position === "modal" && children) {
-    console.warn("Drawer: You should not provide children when using modal position. ");
+  const configurationIssues = getDrawerConfigurationIssues({
+    hasCustomHeader: header !== undefined,
+    hasTitle: !!title,
+    hasCustomFooter: footer !== undefined,
+    hasPrimaryButtonLabel: !!primaryButtonLabel,
+    position,
+    hasMainContent: !!children,
+  });
+  if (configurationIssues) {
+    console.warn(configurationIssues);
     return null;
   }
 
@@ -318,7 +317,7 @@ const Drawer = ({
                   right: 4,
                   transition: "transform 240ms ease-out",
                   opacity: isAnimating ? 0 : 1,
-                  transform: computeTransform(PADDING),
+                  transform: computeTransform(DRAWER_PADDING),
                 }}
                 name="right-panel-open"
                 size="l"
