@@ -4,6 +4,7 @@ import {
   ComponentRef,
   contentChild,
   Directive,
+  effect,
   ElementRef,
   HostBinding,
   HostListener,
@@ -11,10 +12,12 @@ import {
   Injector,
   input,
   OnDestroy,
+  signal,
   TemplateRef,
+  untracked,
   ViewContainerRef,
 } from "@angular/core";
-import { DRAWER_TRANSITION_DURATION, getDrawerConfigurationIssues } from "@design-system-rte/core";
+import { DRAWER_TRANSITION_DURATION, getDrawerConfigurationIssues, waitForNextFrame } from "@design-system-rte/core";
 import type { DrawerPosition } from "@design-system-rte/core/components/drawer/drawer.interface";
 import { ESCAPE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
@@ -24,13 +27,14 @@ import { DrawerComponent } from "./drawer.component";
 
 @Directive({
   selector: "[rteDrawer]",
+  exportAs: "rteDrawer",
   standalone: true,
 })
 export class DrawerDirective implements AfterContentInit, OnDestroy {
   private drawerCompRef: ComponentRef<DrawerComponent> | null = null;
   private drawerPanelElement: HTMLElement | null = null;
   private usedOverlay = false;
-  private isDrawerOpen = false;
+  private isOpenProvided = false;
 
   private readonly elementRef = inject(ElementRef);
   private readonly viewContainerRef = inject(ViewContainerRef);
@@ -40,9 +44,10 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
   readonly drawerContent = contentChild.required<TemplateRef<unknown>>("drawerContent");
   readonly drawerHeader = contentChild<TemplateRef<unknown>>("drawerHeader");
   readonly drawerFooter = contentChild<TemplateRef<unknown>>("drawerFooter");
-  readonly drawerMainContent = contentChild<TemplateRef<unknown>>("drawerMainContent");
+  readonly drawerContextContent = contentChild<TemplateRef<unknown>>("drawerContextContent");
 
   readonly rteDrawerId = input.required<string>();
+  readonly rteDrawerIsOpen = input<boolean>(false);
   readonly rteDrawerTitle = input<string>();
   readonly rteDrawerIcon = input<string>();
   readonly rteDrawerIconAppearance = input<"outlined" | "filled">("outlined");
@@ -55,6 +60,8 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
   readonly rteDrawerFixedHeader = input<boolean>(false);
   readonly rteDrawerCloseOnEscape = input<boolean>(false);
   readonly rteDrawerIsClosable = input<boolean>(true);
+
+  private readonly effectiveOpen = signal(false);
 
   private readonly onMouseDown = (mouseEvent: MouseEvent) => this.handleClickAway(mouseEvent);
   private readonly onKeyDown = (keyboardEvent: KeyboardEvent) => this.handleKeydown(keyboardEvent);
@@ -87,10 +94,46 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
   private static readonly responsiveShellMountMaxAttempts = 12;
 
   constructor() {
-    this.tryScheduleResponsiveShellMount(DrawerDirective.responsiveShellMountMaxAttempts);
+    this.scheduleResponsiveShellMount(DrawerDirective.responsiveShellMountMaxAttempts);
+
+    effect(() => {
+      this.rteDrawerIsOpen();
+      untracked(() => {
+        if (this.isOpenProvided) {
+          return;
+        }
+        this.effectiveOpen.set(this.rteDrawerIsOpen());
+        this.isOpenProvided = true;
+      });
+    });
+
+    effect(
+      () => {
+        const open = this.effectiveOpen();
+        untracked(() => {
+          if (open) {
+            this.runOpenTransition();
+          } else {
+            this.runCloseTransition();
+          }
+        });
+      },
+      { allowSignalWrites: true },
+    );
   }
 
-  private tryScheduleResponsiveShellMount(attemptsRemaining: number): void {
+  open(): void {
+    if (!this.validateForOpen()) {
+      return;
+    }
+    this.effectiveOpen.set(true);
+  }
+
+  close(): void {
+    this.effectiveOpen.set(false);
+  }
+
+  private scheduleResponsiveShellMount(attemptsRemaining: number): void {
     afterNextRender(
       () => {
         if (this.rteDrawerPosition() !== "responsive" || this.drawerCompRef) {
@@ -102,13 +145,12 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
           if (mountedRef === null) {
             return;
           }
-          this.isDrawerOpen = false;
           this.syncInputsToDrawer();
           mountedRef.setInput("isOpen", false);
           return;
         }
         if (attemptsRemaining > 1) {
-          this.tryScheduleResponsiveShellMount(attemptsRemaining - 1);
+          this.scheduleResponsiveShellMount(attemptsRemaining - 1);
         } else {
           console.warn(
             "Drawer: responsive shell could not mount after multiple attempts (content queries may still be empty).",
@@ -134,7 +176,7 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
     if (!triggerElement || !this.elementRef.nativeElement.contains(triggerElement)) {
       return;
     }
-    this.openDrawer();
+    this.open();
   }
 
   ngOnDestroy(): void {
@@ -143,8 +185,9 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
     this.teardownDrawer();
   }
 
-  private openDrawer(): void {
+  private runOpenTransition(): void {
     if (!this.validateForOpen()) {
+      this.close();
       return;
     }
 
@@ -152,15 +195,16 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
       this.mountDrawer();
     }
 
-    this.isDrawerOpen = true;
+    if (!this.drawerCompRef) {
+      return;
+    }
+
     this.syncInputsToDrawer();
     this.refreshDrawerPanelElement();
 
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        this.drawerCompRef?.setInput("isOpen", true);
-        this.refreshDrawerPanelElement();
-      });
+    waitForNextFrame(() => {
+      this.drawerCompRef?.setInput("isOpen", true);
+      this.refreshDrawerPanelElement();
     });
 
     if (this.rteDrawerPosition() === "modal" && this.rteDrawerIsCollapsible()) {
@@ -168,24 +212,11 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
     }
   }
 
-  private handleClosed(): void {
-    this.closeDrawer();
-  }
-
-  private handleToggle(): void {
-    this.isDrawerOpen = !this.isDrawerOpen;
-    this.drawerCompRef?.setInput("isOpen", this.isDrawerOpen);
-    if (this.rteDrawerPosition() === "modal" && this.rteDrawerIsCollapsible()) {
-      document.body.style.overflow = this.isDrawerOpen ? "hidden" : "";
-    }
-  }
-
-  private closeDrawer(): void {
+  private runCloseTransition(): void {
     if (!this.drawerCompRef) {
       return;
     }
 
-    this.isDrawerOpen = false;
     this.drawerCompRef.setInput("isOpen", false);
 
     const keepMounted = this.rteDrawerIsCollapsible() || this.rteDrawerPosition() === "responsive";
@@ -194,6 +225,14 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
     } else if (this.rteDrawerPosition() === "modal" && this.rteDrawerIsCollapsible()) {
       document.body.style.overflow = "";
     }
+  }
+
+  private handleClosed(): void {
+    this.close();
+  }
+
+  private handleToggle(): void {
+    this.effectiveOpen.update((current) => !current);
   }
 
   private mountDrawer(): void {
@@ -228,7 +267,6 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
       this.usedOverlay = false;
     }
     document.body.style.overflow = "";
-    this.isDrawerOpen = false;
     this.drawerPanelElement = null;
   }
 
@@ -255,7 +293,7 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
     componentRef.setInput("drawerContent", this.drawerContent());
     componentRef.setInput("drawerHeader", this.drawerHeader() ?? null);
     componentRef.setInput("drawerFooter", this.drawerFooter() ?? null);
-    componentRef.setInput("drawerMainContent", this.drawerMainContent() ?? null);
+    componentRef.setInput("drawerContextContent", this.drawerContextContent() ?? null);
   }
 
   private refreshDrawerPanelElement(): void {
@@ -270,7 +308,7 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
       hasCustomFooter: !!this.drawerFooter(),
       hasPrimaryButtonLabel: !!this.rteDrawerPrimaryButtonLabel(),
       position: this.rteDrawerPosition(),
-      hasMainContent: !!this.drawerMainContent(),
+      hasMainContent: !!this.drawerContextContent(),
     });
     if (issues) {
       console.warn(issues);
@@ -280,17 +318,17 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
   }
 
   private handleKeydown(keyboardEvent: KeyboardEvent): void {
-    if (!this.isDrawerOpen) {
+    if (!this.effectiveOpen()) {
       return;
     }
     if (keyboardEvent.key === ESCAPE_KEY && this.rteDrawerCloseOnEscape()) {
       keyboardEvent.preventDefault();
-      this.closeDrawer();
+      this.close();
     }
   }
 
   private handleClickAway(mouseEvent: MouseEvent): void {
-    if (!this.isDrawerOpen) {
+    if (!this.effectiveOpen()) {
       return;
     }
     if (this.rteDrawerPosition() !== "modal") {
@@ -309,6 +347,6 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
       return;
     }
 
-    this.closeDrawer();
+    this.close();
   }
 }
