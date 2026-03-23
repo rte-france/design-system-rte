@@ -1,5 +1,6 @@
+import { TESTING_ESCAPE_KEY } from "@design-system-rte/core";
 import { Meta, StoryObj, moduleMetadata } from "@storybook/angular";
-import { expect, userEvent, within } from "@storybook/test";
+import { expect, userEvent, waitFor, within } from "@storybook/test";
 
 import { focusElementBeforeComponent } from "../../../../../../../.storybook/testing/testing.utils";
 import { ButtonComponent } from "../../button/button.component";
@@ -11,40 +12,71 @@ import { DrawerModule } from "../drawer.module";
 const RegularIconIds = Object.keys(RegularIconsList);
 const TogglableIconIds = Object.keys(TogglableIconsList);
 
-const drawerDocsDescription = `
-Use \`rteDrawer\` on a host element with \`#drawerContent\` (required). For **responsive** mode, add \`#drawerMainContent\` and set \`rteDrawerPosition\` to \`responsive\`.
+const drawerModalModeDoc = `
+### Modal (\`"modal"\`, default)
 
-**Responsive layout:** the host must define a **height** (e.g. inline \`height: 500px\`) or sit in a flex parent with a definite size so the drawer and main column share the box. The directive applies a column flex layout on the host and **moves** the created \`rte-drawer\` **inside** that host (Angular’s default dynamic insert would leave it as a sibling and break the “one bordered context” layout). Main column + drawer panel both live inside the same host, like React’s single \`drawer-responsive-container\`.
+\`\`\`html
+<div
+  rteDrawer
+  rteDrawerId="settings-drawer"
+  rteDrawerTitle="Settings"
+  rteDrawerPrimaryButtonLabel="Save"
+  rteDrawerPosition="modal"
+>
+  <button type="button" rteButton rteButtonVariant="primary" rteDrawerTrigger>Open</button>
+  <ng-template #drawerContent>
+    <p>Panel body.</p>
+  </ng-template>
+</div>
+\`\`\`
+`;
 
-**Trigger:** use \`rteDrawerTrigger\` on a control inside or beside the templates; clicks are handled via event delegation (\`data-rte-drawer-trigger\`).
+const drawerResponsiveModeDoc = `
+### Responsive (\`"responsive"\`)
 
-**vs React:** drawer panel \`max-height\` uses \`100%\` of the responsive shell (React uses \`100vh\` in one place) so embedded Storybook frames size correctly.
-
-**Focus:** responsive mode uses the same focus trap as modal when open (parity with React \`useFocusTrap\`).
-
-When the design specification (Google Doc) is available, validate: roles, 240ms animation, inline vs modal layout, and focus behavior against this API.
-`.trim();
+\`\`\`html
+<div
+  rteDrawer
+  rteDrawerId="details-drawer"
+  rteDrawerTitle="Details"
+  rteDrawerPrimaryButtonLabel="OK"
+  rteDrawerPosition="responsive"
+>
+  <ng-template #drawerContent>
+    <p>Drawer panel.</p>
+  </ng-template>
+  <ng-template #drawerContextContent>
+    <div>
+      <button type="button" rteButton rteButtonVariant="primary" rteDrawerTrigger>Open</button>
+      <p>Main area next to the panel.</p>
+    </div>
+  </ng-template>
+</div>
+\`\`\`
+`;
 
 const meta: Meta<DrawerDirective> = {
   title: "Composants/Drawer",
   component: DrawerDirective,
   tags: ["autodocs"],
-  parameters: {
-    docs: {
-      description: {
-        component: drawerDocsDescription,
-      },
-    },
-  },
   argTypes: {
     rteDrawerId: { control: "text", description: "Drawer id (required)" },
+    rteDrawerIsOpen: {
+      control: "boolean",
+      description: "Initial open only (applied once); use #drawerHost open()/close() or trigger afterward",
+    },
     rteDrawerTitle: { control: "text", description: "Title when using default header" },
     rteDrawerIcon: {
       control: "select",
       options: ["", ...RegularIconIds, ...TogglableIconIds].sort((a, b) => a.localeCompare(b)),
     },
     rteDrawerIconAppearance: { control: "select", options: ["outlined", "filled"] },
-    rteDrawerPosition: { control: "select", options: ["modal", "responsive"] },
+    rteDrawerPosition: {
+      control: "select",
+      options: ["modal", "responsive"],
+      description:
+        "modal: overlay dialog (default); use #drawerContent only. responsive: panel + #drawerContextContent inside the host; set host height. See Modal and Responsive stories for examples.",
+    },
     rteDrawerWidth: { control: "text" },
     rteDrawerCloseOnOverlayClick: { control: "boolean" },
     rteDrawerPrimaryButtonLabel: { control: "text" },
@@ -119,6 +151,136 @@ export const Default: Story = {
   },
 };
 
+export const Modal: Story = {
+  name: "Modal",
+  decorators: [
+    moduleMetadata({
+      imports: [DrawerModule, ButtonComponent],
+    }),
+  ],
+  args: {
+    ...Default.args,
+    rteDrawerId: "modal-drawer",
+    rteDrawerTitle: "Modal drawer",
+  },
+  render: Default.render,
+  play: Default.play,
+  parameters: {
+    docs: {
+      description: {
+        story: `In **modal** position (default), the drawer opens as an overlay. Provide \`#drawerContent\` only; options such as overlay click and Escape apply as configured.
+
+${drawerModalModeDoc.trim()}`,
+      },
+    },
+  },
+};
+
+export const CloseOnEscape: Story = {
+  decorators: [
+    moduleMetadata({
+      imports: [DrawerModule, ButtonComponent],
+    }),
+  ],
+  args: {
+    ...Default.args,
+    rteDrawerId: "drawer-close-on-escape",
+    rteDrawerTitle: "Close on Escape",
+    rteDrawerCloseOnEscape: true,
+    rteDrawerCloseOnOverlayClick: false,
+  },
+  render: (args) => ({
+    props: args,
+    template: `<div
+      rteDrawer
+      [rteDrawerId]="rteDrawerId"
+      [rteDrawerTitle]="rteDrawerTitle"
+      [rteDrawerIcon]="rteDrawerIcon"
+      [rteDrawerIconAppearance]="rteDrawerIconAppearance"
+      [rteDrawerPosition]="rteDrawerPosition"
+      [rteDrawerWidth]="rteDrawerWidth"
+      [rteDrawerCloseOnOverlayClick]="rteDrawerCloseOnOverlayClick"
+      [rteDrawerPrimaryButtonLabel]="rteDrawerPrimaryButtonLabel"
+      [rteDrawerSecondaryButtonLabel]="rteDrawerSecondaryButtonLabel"
+      [rteDrawerIsCollapsible]="rteDrawerIsCollapsible"
+      [rteDrawerFixedHeader]="rteDrawerFixedHeader"
+      [rteDrawerCloseOnEscape]="rteDrawerCloseOnEscape"
+      [rteDrawerIsClosable]="rteDrawerIsClosable"
+    >
+      <button rteButton rteButtonVariant="primary" rteDrawerTrigger>Open drawer</button>
+      <ng-template #drawerContent>
+        <span style="font-family: arial; font-size: 14px; line-height: 20px; color: var(--content-primary)">
+          ${loremShort}
+        </span>
+      </ng-template>
+    </div>`,
+  }),
+  play: async ({ canvasElement }) => {
+    focusElementBeforeComponent(canvasElement);
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole("button", { name: "Open drawer" }));
+    const dialog = await within(document.body).findByRole("dialog");
+    expect(dialog).toBeInTheDocument();
+    await userEvent.keyboard(TESTING_ESCAPE_KEY);
+    await waitFor(() => {
+      expect(within(document.body).queryByRole("dialog")).not.toBeInTheDocument();
+    });
+  },
+};
+
+export const CloseOnOverlayClick: Story = {
+  decorators: [
+    moduleMetadata({
+      imports: [DrawerModule, ButtonComponent],
+    }),
+  ],
+  args: {
+    ...Default.args,
+    rteDrawerId: "drawer-close-on-overlay-click",
+    rteDrawerTitle: "Close on overlay click",
+    rteDrawerCloseOnEscape: false,
+    rteDrawerCloseOnOverlayClick: true,
+  },
+  render: (args) => ({
+    props: args,
+    template: `<div
+      rteDrawer
+      [rteDrawerId]="rteDrawerId"
+      [rteDrawerTitle]="rteDrawerTitle"
+      [rteDrawerIcon]="rteDrawerIcon"
+      [rteDrawerIconAppearance]="rteDrawerIconAppearance"
+      [rteDrawerPosition]="rteDrawerPosition"
+      [rteDrawerWidth]="rteDrawerWidth"
+      [rteDrawerCloseOnOverlayClick]="rteDrawerCloseOnOverlayClick"
+      [rteDrawerPrimaryButtonLabel]="rteDrawerPrimaryButtonLabel"
+      [rteDrawerSecondaryButtonLabel]="rteDrawerSecondaryButtonLabel"
+      [rteDrawerIsCollapsible]="rteDrawerIsCollapsible"
+      [rteDrawerFixedHeader]="rteDrawerFixedHeader"
+      [rteDrawerCloseOnEscape]="rteDrawerCloseOnEscape"
+      [rteDrawerIsClosable]="rteDrawerIsClosable"
+    >
+      <button rteButton rteButtonVariant="primary" rteDrawerTrigger>Open drawer</button>
+      <ng-template #drawerContent>
+        <span style="font-family: arial; font-size: 14px; line-height: 20px; color: var(--content-primary)">
+          ${loremShort}
+        </span>
+      </ng-template>
+    </div>`,
+  }),
+  play: async ({ canvasElement }) => {
+    focusElementBeforeComponent(canvasElement);
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole("button", { name: "Open drawer" }));
+    const dialog = await within(document.body).findByRole("dialog");
+    const backdropElement = dialog.previousElementSibling;
+    expect(backdropElement).not.toBeNull();
+    await userEvent.click(backdropElement as HTMLElement);
+    await waitFor(() => {
+      expect(within(document.body).queryByRole("dialog")).not.toBeInTheDocument();
+    });
+  },
+};
+
 export const Responsive: Story = {
   decorators: [
     moduleMetadata({
@@ -128,8 +290,9 @@ export const Responsive: Story = {
   parameters: {
     docs: {
       description: {
-        story:
-          "Responsive drawer stays inside the bordered host: main column (`#drawerMainContent`) and panel side-by-side. The host uses a fixed height so the flex layout can resolve.",
+        story: `In **responsive** position, the panel sits beside the main area inside the host. Provide \`#drawerContent\` and \`#drawerContextContent\`, and give the host a bounded height.
+
+${drawerResponsiveModeDoc.trim()}`,
       },
     },
   },
@@ -164,7 +327,7 @@ export const Responsive: Story = {
           ${loremShort}
         </span>
       </ng-template>
-      <ng-template #drawerMainContent>
+      <ng-template #drawerContextContent>
         <div style="height: 100%; display: flex; flex-direction: column; gap: 16px; padding: 16px">
           <button rteButton rteButtonVariant="primary" rteDrawerTrigger>Open drawer</button>
           <span style="font-family: arial; font-size: 14px; line-height: 20px; color: var(--content-primary)">
@@ -195,15 +358,12 @@ export const CustomHeaderFooter: Story = {
     ...Default.args,
     rteDrawerId: "custom-header-footer-drawer",
     rteDrawerCloseOnEscape: true,
-    rteDrawerTitle: undefined,
-    rteDrawerPrimaryButtonLabel: undefined,
-    rteDrawerSecondaryButtonLabel: undefined,
-    rteDrawerIcon: undefined,
   },
   render: (args) => ({
     props: args,
     template: `<div
       rteDrawer
+      #drawerHost="rteDrawer"
       [rteDrawerId]="rteDrawerId"
       [rteDrawerTitle]="rteDrawerTitle"
       [rteDrawerIcon]="rteDrawerIcon"
@@ -234,6 +394,7 @@ export const CustomHeaderFooter: Story = {
             size="m"
             variant="neutral"
             ariaLabel="Close drawer"
+            (clickEvent)="drawerHost.close()"
           />
         </div>
       </ng-template>

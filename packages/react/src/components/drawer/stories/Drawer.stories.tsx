@@ -1,3 +1,4 @@
+import { TESTING_ESCAPE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
 import type { Meta, StoryObj } from "@storybook/react";
 import { userEvent, within, expect, waitFor } from "@storybook/test";
 import { useState } from "react";
@@ -16,6 +17,7 @@ const meta = {
     icon: { control: "text" },
     iconAppearance: { control: "select", options: ["outlined", "filled"] },
     closeOnOverlayClick: { control: "boolean" },
+    closeOnEscape: { control: "boolean" },
     primaryButtonLabel: { control: "text" },
     secondaryButtonLabel: { control: "text" },
     isCollapsible: { control: "boolean" },
@@ -177,6 +179,65 @@ export const Responsive: Story = {
     await waitFor(() => {
       const drawer = canvas.getByRole("region");
       expect(drawer).toBeInTheDocument();
+    });
+  },
+};
+
+export const CloseOnEscape: Story = {
+  args: {
+    ...Default.args,
+    id: "drawer-close-on-escape",
+    title: "Close on Escape",
+    closeOnEscape: true,
+    position: "modal",
+  },
+  render: Default.render,
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Modal drawer with **closeOnEscape** enabled (spec: close on Esc). Press Escape to dismiss without using the header close control.",
+      },
+    },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole("button", { name: "Open drawer" }));
+    const dialog = within(document.body).getByRole("dialog");
+    expect(dialog).toBeInTheDocument();
+    await userEvent.keyboard(TESTING_ESCAPE_KEY);
+    await waitFor(() => {
+      expect(within(document.body).queryByRole("dialog")).not.toBeInTheDocument();
+    });
+  },
+};
+
+export const CloseOnOverlayClick: Story = {
+  args: {
+    ...Default.args,
+    id: "drawer-close-on-overlay-click",
+    title: "Close on overlay click",
+    closeOnOverlayClick: true,
+    position: "modal",
+  },
+  render: Default.render,
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Modal drawer with **closeOnOverlayClick** enabled. Clicking the backdrop (outside the panel) dismisses the drawer. Only applies when **position** is `modal`.",
+      },
+    },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole("button", { name: "Open drawer" }));
+    const dialog = within(document.body).getByRole("dialog");
+    const backdropElement = dialog.previousElementSibling;
+    expect(backdropElement).not.toBeNull();
+    await userEvent.click(backdropElement as HTMLElement);
+    await waitFor(() => {
+      expect(within(document.body).queryByRole("dialog")).not.toBeInTheDocument();
     });
   },
 };
