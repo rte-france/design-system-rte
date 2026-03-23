@@ -23,8 +23,8 @@ import {
   shouldUseDrawerDefaultFooter,
   shouldUseDrawerDefaultHeader,
   waitForNextFrame,
+  DrawerPosition,
 } from "@design-system-rte/core";
-import type { DrawerPosition } from "@design-system-rte/core/components/drawer/drawer.interface";
 import { IconSize } from "@design-system-rte/core/components/icon/icon.constants";
 
 import { FocusTrapService } from "../../services/focus-trap.service";
@@ -98,6 +98,11 @@ export class DrawerComponent implements OnDestroy {
   readonly collapsibleToggleIconName = computed(() =>
     this.isOpen() ? ("right-panel-close" as const) : ("right-panel-open" as const),
   );
+
+  readonly collapsibleToggleAriaLabel = computed(() => {
+    const verb = this.isOpen() ? "Close" : "Open";
+    return `${verb} drawer ${this.id()}`;
+  });
 
   readonly responsiveMainMarginRight = computed(() => (this.isAnimating() ? (this.width() ?? "0") : "0"));
 

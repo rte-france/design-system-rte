@@ -5,11 +5,11 @@
 >
   @if (isCollapsible() && modal) {
     <rte-icon-button
-      ariaLabel="Close drawer {{ id() }}"
       class="drawer-toggle drawer-toggle--floating"
-      name="right-panel-open"
       size="l"
       variant="primary"
+      [ariaLabel]="collapsibleToggleAriaLabel()"
+      [name]="collapsibleToggleIconName()"
       [customStyle]="{
         position: 'absolute',
         top: '24px',
@@ -24,11 +24,11 @@
     <div class="drawer-responsive-container">
       @if (isCollapsible()) {
         <rte-icon-button
-          ariaLabel="Close drawer {{ id() }}"
           class="drawer-toggle drawer-toggle--responsive-floating"
-          name="right-panel-open"
           size="l"
           variant="primary"
+          [ariaLabel]="collapsibleToggleAriaLabel()"
+          [name]="collapsibleToggleIconName()"
           [customStyle]="{
             position: 'absolute',
             top: '24px',
@@ -111,10 +111,10 @@
 <ng-template #headerBlock>
   @if (isCollapsible()) {
     <rte-icon-button
-      ariaLabel="Close drawer {{ id() }}"
       class="drawer-toggle"
       size="l"
       variant="primary"
+      [ariaLabel]="collapsibleToggleAriaLabel()"
       [name]="collapsibleToggleIconName()"
       [customStyle]="{ transform: collapsibleToggleTransform() }"
       (clickEvent)="onClickToggle()"
