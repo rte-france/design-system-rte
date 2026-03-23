@@ -1,3 +1,4 @@
+import type { TreeviewItemProps } from "@design-system-rte/core";
 import {
   Button,
   Icon,
@@ -19,12 +20,13 @@ import {
   Card,
   Toast,
   ToastQueueProvider,
+  Treeview,
   Select,
   Loader,
   Stepper,
+  Tab,
 } from "@design-system-rte/react";
 import "./App.css";
-import { Tab } from "@design-system-rte/react";
 import { useState } from "react";
 
 function App() {
@@ -36,6 +38,30 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeItem, setActiveItem] = useState("home");
   const [isErrorOpen, setIsErrorOpen] = useState(false);
+
+  const baseNavigationData: TreeviewItemProps[] = [
+    { id: "home", labelText: "Home", icon: "home", hasIcon: true },
+    {
+      id: "documents",
+      labelText: "Documents",
+      icon: "folder",
+      hasIcon: true,
+      isOpen: true,
+      items: [
+        {
+          id: "work",
+          labelText: "Work",
+          icon: "folder",
+          hasIcon: true,
+          items: [
+            { id: "project-a", labelText: "Project A" },
+            { id: "project-b", labelText: "Project B" },
+          ],
+        },
+        { id: "personal", labelText: "Personal", icon: "folder", hasIcon: true },
+      ],
+    },
+  ];
 
   const [activeStepperStepId, setActiveStepperStepId] = useState("2");
 
@@ -454,6 +480,7 @@ function App() {
         </ToastQueueProvider>
       </div>
       <Loader />
+      <Treeview items={baseNavigationData} onItemClick={(id) => console.log("Clicked item id:", id)} />
     </SideNav>
   );
 }

@@ -71,6 +71,8 @@ export const DropdownItem = ({
 
   const handleOnClick = (event: React.MouseEvent<HTMLLIElement> | React.KeyboardEvent<HTMLLIElement>) => {
     if (disabled) return;
+    event.stopPropagation();
+    event.preventDefault();
     if (onClick) {
       onClick(event);
     }

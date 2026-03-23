@@ -33,6 +33,7 @@ import BaseTextInput from "./components/textInput/baseTextuInput/BaseTextInput.t
 import Toast from "./components/toast/Toast.tsx";
 import ToastQueueProvider from "./components/toast/toastQueue/ToastQueueProvider.tsx";
 import Tooltip from "./components/tooltip/Tooltip.tsx";
+import Treeview from "./components/treeview/Treeview.tsx";
 
 export {
   Button,
@@ -67,6 +68,7 @@ export {
   ToastQueueProvider,
   Tag,
   Tab,
+  Treeview,
   Searchbar,
   Select,
 };

@@ -13,11 +13,13 @@ export interface TreeviewItemProps {
   hasIcon?: boolean;
   hasBadge?: boolean;
   items?: TreeviewItemProps[];
-  borderType?: TreeviewBorderType;
+  borderTypes?: TreeviewBorderType[];
   actionIcon?: string;
   actionMenuItems?: TreeviewActionMenuItem[];
+  depth?: number;
+  treeId?: string;
+  onActionIconClick?: (itemId: string) => void;
 }
-
 export interface TreeviewActionMenuItem {
   id?: string;
   label: string;
@@ -25,6 +27,7 @@ export interface TreeviewActionMenuItem {
   disabled?: boolean;
   hasSeparator?: boolean;
   children?: TreeviewActionMenuItem[];
+  onClick?: () => void;
 }
 
 export interface TreeviewOpenChangeEvent {
