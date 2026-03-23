@@ -64,6 +64,7 @@
 .drawer-responsive-divider-wrap {
   position: absolute;
   right: 0;
+  transition: transform 240ms ease-out;
 }
 
 .drawer {
@@ -187,6 +188,8 @@
 .drawer-children {
   box-sizing: border-box;
   min-height: 0;
+  height: 100%;
+  transition: margin-right 240ms ease-out;
 }
 
 .drawer-toggle--floating,
