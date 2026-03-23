@@ -34,7 +34,7 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
   private drawerCompRef: ComponentRef<DrawerComponent> | null = null;
   private drawerPanelElement: HTMLElement | null = null;
   private usedOverlay = false;
-  private appliedInitialOpenFromRteDrawerIsOpenInput = false;
+  private isOpenProvided = false;
 
   private readonly elementRef = inject(ElementRef);
   private readonly viewContainerRef = inject(ViewContainerRef);
@@ -94,16 +94,16 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
   private static readonly responsiveShellMountMaxAttempts = 12;
 
   constructor() {
-    this.tryScheduleResponsiveShellMount(DrawerDirective.responsiveShellMountMaxAttempts);
+    this.scheduleResponsiveShellMount(DrawerDirective.responsiveShellMountMaxAttempts);
 
     effect(() => {
       this.rteDrawerIsOpen();
       untracked(() => {
-        if (this.appliedInitialOpenFromRteDrawerIsOpenInput) {
+        if (this.isOpenProvided) {
           return;
         }
         this.effectiveOpen.set(this.rteDrawerIsOpen());
-        this.appliedInitialOpenFromRteDrawerIsOpenInput = true;
+        this.isOpenProvided = true;
       });
     });
 
@@ -133,7 +133,7 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
     this.effectiveOpen.set(false);
   }
 
-  private tryScheduleResponsiveShellMount(attemptsRemaining: number): void {
+  private scheduleResponsiveShellMount(attemptsRemaining: number): void {
     afterNextRender(
       () => {
         if (this.rteDrawerPosition() !== "responsive" || this.drawerCompRef) {
@@ -150,7 +150,7 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
           return;
         }
         if (attemptsRemaining > 1) {
-          this.tryScheduleResponsiveShellMount(attemptsRemaining - 1);
+          this.scheduleResponsiveShellMount(attemptsRemaining - 1);
         } else {
           console.warn(
             "Drawer: responsive shell could not mount after multiple attempts (content queries may still be empty).",
