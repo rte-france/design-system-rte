@@ -60,7 +60,7 @@ export class DrawerComponent implements OnDestroy {
   readonly drawerContent = input<TemplateRef<unknown> | null>(null);
   readonly drawerHeader = input<TemplateRef<unknown> | null>(null);
   readonly drawerFooter = input<TemplateRef<unknown> | null>(null);
-  readonly drawerMainContent = input<TemplateRef<unknown> | null>(null);
+  readonly drawerContextContent = input<TemplateRef<unknown> | null>(null);
 
   readonly closed = output<void>();
   readonly clickToggle = output<void>();

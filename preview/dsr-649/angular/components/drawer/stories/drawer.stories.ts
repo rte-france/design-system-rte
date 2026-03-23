@@ -12,10 +12,70 @@ import { DrawerModule } from "../drawer.module";
 const RegularIconIds = Object.keys(RegularIconsList);
 const TogglableIconIds = Object.keys(TogglableIconsList);
 
+const drawerModalModeDoc = `
+### Modal (\`"modal"\`, default)
+
+\`\`\`html
+<div
+  rteDrawer
+  rteDrawerId="settings-drawer"
+  rteDrawerTitle="Settings"
+  rteDrawerPrimaryButtonLabel="Save"
+  rteDrawerPosition="modal"
+>
+  <button type="button" rteButton rteButtonVariant="primary" rteDrawerTrigger>Open</button>
+  <ng-template #drawerContent>
+    <p>Panel body.</p>
+  </ng-template>
+</div>
+\`\`\`
+`;
+
+const drawerResponsiveModeDoc = `
+### Responsive (\`"responsive"\`)
+
+\`\`\`html
+<div
+  rteDrawer
+  rteDrawerId="details-drawer"
+  rteDrawerTitle="Details"
+  rteDrawerPrimaryButtonLabel="OK"
+  rteDrawerPosition="responsive"
+>
+  <ng-template #drawerContent>
+    <p>Drawer panel.</p>
+  </ng-template>
+  <ng-template #drawerContextContent>
+    <div>
+      <button type="button" rteButton rteButtonVariant="primary" rteDrawerTrigger>Open</button>
+      <p>Main area next to the panel.</p>
+    </div>
+  </ng-template>
+</div>
+\`\`\`
+`;
+
+const drawerPositionModesDoc = `
+## Modal & Responsive (\`rteDrawerPosition\`)
+
+The directive supports two layouts. They differ in **where the panel is mounted**, **templates you must provide**, and **which options apply**.
+
+${drawerModalModeDoc}
+
+${drawerResponsiveModeDoc}
+`;
+
 const meta: Meta<DrawerDirective> = {
   title: "Composants/Drawer",
   component: DrawerDirective,
   tags: ["autodocs"],
+  parameters: {
+    docs: {
+      description: {
+        component: drawerPositionModesDoc,
+      },
+    },
+  },
   argTypes: {
     rteDrawerId: { control: "text", description: "Drawer id (required)" },
     rteDrawerIsOpen: {
@@ -28,7 +88,12 @@ const meta: Meta<DrawerDirective> = {
       options: ["", ...RegularIconIds, ...TogglableIconIds].sort((a, b) => a.localeCompare(b)),
     },
     rteDrawerIconAppearance: { control: "select", options: ["outlined", "filled"] },
-    rteDrawerPosition: { control: "select", options: ["modal", "responsive"] },
+    rteDrawerPosition: {
+      control: "select",
+      options: ["modal", "responsive"],
+      description:
+        "modal: overlay dialog (default); use #drawerContent only. responsive: panel + #drawerMainContent inside the host; set host height. See Docs intro for examples.",
+    },
     rteDrawerWidth: { control: "text" },
     rteDrawerCloseOnOverlayClick: { control: "boolean" },
     rteDrawerPrimaryButtonLabel: { control: "text" },
@@ -103,6 +168,29 @@ export const Default: Story = {
   },
 };
 
+export const Modal: Story = {
+  name: "Modal",
+  decorators: [
+    moduleMetadata({
+      imports: [DrawerModule, ButtonComponent],
+    }),
+  ],
+  args: {
+    ...Default.args,
+    rteDrawerId: "modal-drawer",
+    rteDrawerTitle: "Modal drawer",
+  },
+  render: Default.render,
+  play: Default.play,
+  parameters: {
+    docs: {
+      description: {
+        story: drawerModalModeDoc.trim(),
+      },
+    },
+  },
+};
+
 export const CloseOnEscape: Story = {
   decorators: [
     moduleMetadata({
@@ -142,14 +230,6 @@ export const CloseOnEscape: Story = {
       </ng-template>
     </div>`,
   }),
-  parameters: {
-    docs: {
-      description: {
-        story:
-          "Modal drawer with **rteDrawerCloseOnEscape** enabled (spec: close on Esc). Escape closes the drawer without using the header close control.",
-      },
-    },
-  },
   play: async ({ canvasElement }) => {
     focusElementBeforeComponent(canvasElement);
     const canvas = within(canvasElement);
@@ -202,14 +282,6 @@ export const CloseOnOverlayClick: Story = {
       </ng-template>
     </div>`,
   }),
-  parameters: {
-    docs: {
-      description: {
-        story:
-          "Modal drawer with **rteDrawerCloseOnOverlayClick** enabled. A mousedown on the backdrop (outside the panel and outside the host) closes the drawer. Only applies when **rteDrawerPosition** is `modal`.",
-      },
-    },
-  },
   play: async ({ canvasElement }) => {
     focusElementBeforeComponent(canvasElement);
     const canvas = within(canvasElement);
@@ -233,8 +305,7 @@ export const Responsive: Story = {
   parameters: {
     docs: {
       description: {
-        story:
-          "Responsive drawer stays inside the bordered host: main column (`#drawerMainContent`) and panel side-by-side. The host uses a fixed height so the flex layout can resolve.",
+        story: drawerResponsiveModeDoc.trim(),
       },
     },
   },

@@ -44,7 +44,7 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
   readonly drawerContent = contentChild.required<TemplateRef<unknown>>("drawerContent");
   readonly drawerHeader = contentChild<TemplateRef<unknown>>("drawerHeader");
   readonly drawerFooter = contentChild<TemplateRef<unknown>>("drawerFooter");
-  readonly drawerMainContent = contentChild<TemplateRef<unknown>>("drawerMainContent");
+  readonly drawerContextContent = contentChild<TemplateRef<unknown>>("drawerMainContent");
 
   readonly rteDrawerId = input.required<string>();
   readonly rteDrawerIsOpen = input<boolean>(false);
@@ -187,7 +187,7 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
 
   private runOpenTransition(): void {
     if (!this.validateForOpen()) {
-      this.effectiveOpen.set(false);
+      this.close();
       return;
     }
 
@@ -295,7 +295,7 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
     componentRef.setInput("drawerContent", this.drawerContent());
     componentRef.setInput("drawerHeader", this.drawerHeader() ?? null);
     componentRef.setInput("drawerFooter", this.drawerFooter() ?? null);
-    componentRef.setInput("drawerMainContent", this.drawerMainContent() ?? null);
+    componentRef.setInput("drawerContextContent", this.drawerContextContent() ?? null);
   }
 
   private refreshDrawerPanelElement(): void {
@@ -310,7 +310,7 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
       hasCustomFooter: !!this.drawerFooter(),
       hasPrimaryButtonLabel: !!this.rteDrawerPrimaryButtonLabel(),
       position: this.rteDrawerPosition(),
-      hasMainContent: !!this.drawerMainContent(),
+      hasMainContent: !!this.drawerContextContent(),
     });
     if (issues) {
       console.warn(issues);
@@ -325,7 +325,7 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
     }
     if (keyboardEvent.key === ESCAPE_KEY && this.rteDrawerCloseOnEscape()) {
       keyboardEvent.preventDefault();
-      this.effectiveOpen.set(false);
+      this.close();
     }
   }
 
