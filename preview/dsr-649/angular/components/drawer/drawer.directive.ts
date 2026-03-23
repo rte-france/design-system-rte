@@ -14,6 +14,7 @@ import {
   TemplateRef,
   ViewContainerRef,
 } from "@angular/core";
+import { DRAWER_TRANSITION_DURATION, getDrawerConfigurationIssues } from "@design-system-rte/core";
 import type { DrawerPosition } from "@design-system-rte/core/components/drawer/drawer.interface";
 import { ESCAPE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
@@ -189,7 +190,7 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
 
     const keepMounted = this.rteDrawerIsCollapsible() || this.rteDrawerPosition() === "responsive";
     if (!keepMounted) {
-      setTimeout(() => this.teardownDrawer(), 240);
+      setTimeout(() => this.teardownDrawer(), DRAWER_TRANSITION_DURATION);
     } else if (this.rteDrawerPosition() === "modal" && this.rteDrawerIsCollapsible()) {
       document.body.style.overflow = "";
     }
@@ -263,33 +264,18 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
   }
 
   private validateForOpen(): boolean {
-    const hasHeaderTemplate = !!this.drawerHeader();
-    const hasTitle = !!this.rteDrawerTitle();
-    if (!hasHeaderTemplate && !hasTitle) {
-      console.warn("Drawer: You must provide either a title or a custom header.");
+    const issues = getDrawerConfigurationIssues({
+      hasCustomHeader: !!this.drawerHeader(),
+      hasTitle: !!this.rteDrawerTitle(),
+      hasCustomFooter: !!this.drawerFooter(),
+      hasPrimaryButtonLabel: !!this.rteDrawerPrimaryButtonLabel(),
+      position: this.rteDrawerPosition(),
+      hasMainContent: !!this.drawerMainContent(),
+    });
+    if (issues) {
+      console.warn(issues);
       return false;
     }
-
-    const hasFooterTemplate = !!this.drawerFooter();
-    const hasPrimaryLabel = !!this.rteDrawerPrimaryButtonLabel();
-    if (!hasFooterTemplate && !hasPrimaryLabel) {
-      console.warn("Drawer: You must provide either a primaryButtonLabel or a custom footer.");
-      return false;
-    }
-
-    const position = this.rteDrawerPosition();
-    if (position === "responsive" && !this.drawerMainContent()) {
-      console.warn(
-        "Drawer: You should provide your content as children when using responsive position to avoid empty space next to the drawer.",
-      );
-      return false;
-    }
-
-    if (position === "modal" && this.drawerMainContent()) {
-      console.warn("Drawer: You should not provide children when using modal position.");
-      return false;
-    }
-
     return true;
   }
 
