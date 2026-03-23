@@ -27,6 +27,7 @@ export class BadgeComponent {
   readonly count = input<number | undefined>();
   readonly icon = input<string>("notification");
   readonly simpleBadge = input<boolean>(false);
+  readonly withPlusSign = input<boolean>(false);
 
   readonly isValidIconName = computed(() => {
     const icon = this.icon();
@@ -61,4 +62,8 @@ export class BadgeComponent {
       iconSize: this.iconSize(),
     }),
   );
+
+  readonly badgeText = computed(() => {
+    return `${this.withPlusSign() && this.count() && this.count()! > 0 ? "+" : ""}${this.displayCount()}`;
+  });
 }

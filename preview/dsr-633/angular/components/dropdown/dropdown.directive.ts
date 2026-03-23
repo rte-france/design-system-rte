@@ -56,6 +56,7 @@ export class DropdownDirective implements AfterContentInit {
   readonly rteDropdownAutofocus = input<boolean>(true);
   readonly rteDropdownAutoOpen = input<boolean>(true);
   readonly rteDropdownWidth = input<number | null>(null);
+  readonly rteCloseOnItemClick = input<boolean>(true);
 
   readonly menuEvent = output<{ event: Event; id: string; item?: DropdownItemConfig }>();
   readonly dropdownId = `dropdown_${++DropdownDirective.idCounter}`;
@@ -71,6 +72,8 @@ export class DropdownDirective implements AfterContentInit {
 
   readonly clickedOutside = output<void>();
   readonly closedDropdown = output<void>();
+
+  readonly menuChangeEvent = output<{ event: Event; id: string }>();
 
   readonly isActive = signal(false);
 
@@ -149,10 +152,14 @@ export class DropdownDirective implements AfterContentInit {
 
   onMenuEvent(event: { event: Event; id: string; item?: DropdownItemConfig }): void {
     this.menuEvent.emit(event);
-    if (!event.item?.children?.length) {
+    if (!event.item?.children?.length && this.rteCloseOnItemClick()) {
       this.isActive.set(false);
       this.dropdownService.closeAllMenus();
     }
+  }
+
+  onMenuChangeEvent(event: { event: Event; id: string }): void {
+    this.menuEvent.emit(event);
   }
 
   ngAfterContentInit(): void {

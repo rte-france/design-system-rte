@@ -1,6 +1,6 @@
 <span
   class="chip"
-  tabindex="0"
+  [tabindex]="isFocusable() ? 0 : -1"
   [attr.role]="role()"
   [attr.data-selected]="isCheckable() ? selected() : null"
   [attr.data-disabled]="disabled()"

@@ -15,6 +15,7 @@ import { DropdownManager } from "@design-system-rte/core/components/dropdown/Dro
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
 import { BadgeComponent } from "../../badge/badge.component";
+import { CheckboxComponent } from "../../checkbox/checkbox.component";
 import { DividerComponent } from "../../divider/divider.component";
 import { IconComponent } from "../../icon/icon.component";
 import { DropdownItemConfig, SubmenuCreatedResult, SubmenuRequestEvent } from "../dropdown.types";
@@ -26,7 +27,7 @@ const SUB_MENU_CLOSE_DELAY_MS = 300;
 
 @Component({
   selector: "rte-dropdown-item",
-  imports: [CommonModule, IconComponent, DividerComponent, BadgeComponent],
+  imports: [CommonModule, IconComponent, DividerComponent, BadgeComponent, CheckboxComponent],
   standalone: true,
   templateUrl: "./dropdown-item.component.html",
   styleUrl: "./dropdown-item.component.scss",
