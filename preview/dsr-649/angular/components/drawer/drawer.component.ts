@@ -22,6 +22,7 @@ import {
   DRAWER_TRANSITION_DURATION,
   shouldUseDrawerDefaultFooter,
   shouldUseDrawerDefaultHeader,
+  waitForNextFrame,
 } from "@design-system-rte/core";
 import type { DrawerPosition } from "@design-system-rte/core/components/drawer/drawer.interface";
 import { IconSize } from "@design-system-rte/core/components/icon/icon.constants";
@@ -110,70 +111,12 @@ export class DrawerComponent implements OnDestroy {
     effect(
       () => {
         const open = this.isOpen();
-        const modal = this.position() === "modal";
-
-        if (!modal) {
-          if (open) {
-            this.isAnimating.set(false);
-            untracked(() => {
-              requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                  this.isAnimating.set(true);
-                  afterNextRender(
-                    () => {
-                      const native = this.drawerPanelResponsive()?.nativeElement;
-                      if (native && !this.focusTrapActive) {
-                        this.focusTrap.activate(native);
-                        this.focusTrapActive = true;
-                      }
-                    },
-                    { injector: this.injector },
-                  );
-                });
-              });
-            });
-          } else {
-            this.isAnimating.set(false);
-            if (this.focusTrapActive) {
-              this.focusTrap.deactivate();
-              this.focusTrapActive = false;
-            }
-          }
-          return;
-        }
+        const usesModalLayer = this.position() === "modal";
 
         if (open) {
-          this.shouldRenderModalLayer.set(true);
-          this.isAnimating.set(false);
-          untracked(() => {
-            requestAnimationFrame(() => {
-              requestAnimationFrame(() => {
-                this.isAnimating.set(true);
-                afterNextRender(
-                  () => {
-                    const native =
-                      this.drawerPanelModal()?.nativeElement ?? this.drawerPanelResponsive()?.nativeElement;
-                    if (native && !this.focusTrapActive) {
-                      this.focusTrap.activate(native);
-                      this.focusTrapActive = true;
-                    }
-                  },
-                  { injector: this.injector },
-                );
-              });
-            });
-          });
+          this.handleDrawerOpen(usesModalLayer);
         } else {
-          this.isAnimating.set(false);
-          if (this.focusTrapActive) {
-            this.focusTrap.deactivate();
-            this.focusTrapActive = false;
-          }
-          if (this.shouldRenderModalLayer()) {
-            setTimeout(() => {
-              this.shouldRenderModalLayer.set(false);
-            }, DRAWER_TRANSITION_DURATION);
-          }
+          this.handleDrawerClose(usesModalLayer);
         }
       },
       { allowSignalWrites: true },
@@ -210,6 +153,51 @@ export class DrawerComponent implements OnDestroy {
         this.focusTrapActive = false;
       }
     });
+  }
+
+  private activateFocusTrapForPanel(resolvePanel: () => HTMLElement | undefined): void {
+    afterNextRender(
+      () => {
+        const panelElement = resolvePanel();
+        if (panelElement && !this.focusTrapActive) {
+          this.focusTrap.activate(panelElement);
+          this.focusTrapActive = true;
+        }
+      },
+      { injector: this.injector },
+    );
+  }
+
+  private handleDrawerOpen(usesModalLayer: boolean): void {
+    if (usesModalLayer) {
+      this.shouldRenderModalLayer.set(true);
+    }
+    this.isAnimating.set(false);
+    const resolvePanel = () => {
+      if (usesModalLayer) {
+        return this.drawerPanelModal()?.nativeElement ?? this.drawerPanelResponsive()?.nativeElement;
+      }
+      return this.drawerPanelResponsive()?.nativeElement;
+    };
+    untracked(() => {
+      waitForNextFrame(() => {
+        this.isAnimating.set(true);
+        this.activateFocusTrapForPanel(resolvePanel);
+      });
+    });
+  }
+
+  private handleDrawerClose(usesModalLayer: boolean): void {
+    this.isAnimating.set(false);
+    if (this.focusTrapActive) {
+      this.focusTrap.deactivate();
+      this.focusTrapActive = false;
+    }
+    if (usesModalLayer && this.shouldRenderModalLayer()) {
+      setTimeout(() => {
+        this.shouldRenderModalLayer.set(false);
+      }, DRAWER_TRANSITION_DURATION);
+    }
   }
 
   onClose(): void {

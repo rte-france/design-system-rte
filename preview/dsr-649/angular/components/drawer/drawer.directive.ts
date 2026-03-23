@@ -17,7 +17,7 @@ import {
   untracked,
   ViewContainerRef,
 } from "@angular/core";
-import { DRAWER_TRANSITION_DURATION, getDrawerConfigurationIssues } from "@design-system-rte/core";
+import { DRAWER_TRANSITION_DURATION, getDrawerConfigurationIssues, waitForNextFrame } from "@design-system-rte/core";
 import type { DrawerPosition } from "@design-system-rte/core/components/drawer/drawer.interface";
 import { ESCAPE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
@@ -202,11 +202,9 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
     this.syncInputsToDrawer();
     this.refreshDrawerPanelElement();
 
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        this.drawerCompRef?.setInput("isOpen", true);
-        this.refreshDrawerPanelElement();
-      });
+    waitForNextFrame(() => {
+      this.drawerCompRef?.setInput("isOpen", true);
+      this.refreshDrawerPanelElement();
     });
 
     if (this.rteDrawerPosition() === "modal" && this.rteDrawerIsCollapsible()) {
