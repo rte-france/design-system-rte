@@ -1,15 +1,15 @@
-@let pos = position();
-@let responsive = pos === "responsive";
-@let modal = pos === "modal";
-
-<div class="rte-drawer-root" [class.rte-drawer-modal-host-layer]="modal && modalHostMode()" [attr.data-position]="pos">
+<div
+  class="rte-drawer-root"
+  [class.rte-drawer-modal-host-layer]="modal && modalHostMode()"
+  [attr.data-position]="position()"
+>
   @if (isCollapsible() && modal) {
     <rte-icon-button
+      ariaLabel="Close drawer {{ id() }}"
       class="drawer-toggle drawer-toggle--floating"
-      [name]="'right-panel-open'"
-      [size]="'l'"
-      [variant]="'primary'"
-      [ariaLabel]="'Close drawer ' + id()"
+      name="right-panel-open"
+      size="l"
+      variant="primary"
       [customStyle]="{
         position: 'absolute',
         top: '24px',
@@ -20,15 +20,15 @@
     />
   }
 
-  @if (responsive) {
+  @if (position() === "responsive") {
     <div class="drawer-responsive-container">
       @if (isCollapsible()) {
         <rte-icon-button
+          ariaLabel="Close drawer {{ id() }}"
           class="drawer-toggle drawer-toggle--responsive-floating"
-          [name]="'right-panel-open'"
-          [size]="'l'"
-          [variant]="'primary'"
-          [ariaLabel]="'Close drawer ' + id()"
+          name="right-panel-open"
+          size="l"
+          variant="primary"
           [customStyle]="{
             position: 'absolute',
             top: '24px',
@@ -43,7 +43,6 @@
         class="drawer-responsive-divider-wrap"
         [style.visibility]="isAnimating() ? 'visible' : 'hidden'"
         [style.transform]="responsiveDividerTransform()"
-        [style.transition]="'transform 240ms ease-out'"
       >
         <rte-divider orientation="vertical" />
       </div>
@@ -54,7 +53,7 @@
         data-testid="drawer-responsive-panel"
         role="region"
         [attr.data-open]="isAnimating() ? 'true' : 'false'"
-        [attr.data-position]="pos"
+        [attr.data-position]="position()"
         [attr.data-fixed-header]="fixedHeader() ? 'true' : 'false'"
         [attr.aria-labelledby]="id() + '-drawer-title'"
         [style.width]="width()"
@@ -70,15 +69,13 @@
         [style.marginRight]="responsiveMainMarginRight()"
         [style.maxHeight]="isAnimating() ? '100%' : undefined"
         [style.overflowY]="isAnimating() ? 'auto' : undefined"
-        [style.height]="'100%'"
-        [style.transition]="'margin-right 240ms ease-out'"
       >
-        <ng-container *ngTemplateOutlet="drawerMainContent() ?? null" />
+        <ng-container *ngTemplateOutlet="drawerContextContent() ?? null" />
       </div>
     </div>
   }
 
-  @if (modal && shouldRenderModalLayer()) {
+  @if (position() === "modal" && shouldRenderModalLayer()) {
     <div class="rte-drawer-modal-layer">
       <div class="rte-drawer-backdrop" [attr.data-open]="isAnimating() ? 'true' : 'false'"></div>
       <div
@@ -114,12 +111,12 @@
 <ng-template #headerBlock>
   @if (isCollapsible()) {
     <rte-icon-button
+      ariaLabel="Close drawer {{ id() }}"
       class="drawer-toggle"
+      size="l"
+      variant="primary"
       [name]="collapsibleToggleIconName()"
-      [size]="'l'"
-      [variant]="'primary'"
       [customStyle]="{ transform: collapsibleToggleTransform() }"
-      [ariaLabel]="'Close drawer ' + id()"
       (clickEvent)="onClickToggle()"
     />
   }
@@ -129,17 +126,17 @@
         @if (icon()) {
           <rte-icon [name]="icon() ?? ''" [size]="iconSize()" [appearance]="iconAppearance()" />
         }
-        <h2 class="rte-drawer-base-header-title" [id]="id() + '-drawer-title'">
+        <h2 id="{{ id() }}-drawer-title" class="rte-drawer-base-header-title">
           {{ title() }}
         </h2>
         @if (isClosable()) {
           <rte-icon-button
+            ariaLabel="Close drawer {{ id() }}"
             data-testid="drawer-close-button"
             name="close"
             size="l"
             class="rte-drawer-close-icon"
             variant="neutral"
-            [ariaLabel]="'Close drawer ' + id()"
             (clickEvent)="onClose()"
           />
         }

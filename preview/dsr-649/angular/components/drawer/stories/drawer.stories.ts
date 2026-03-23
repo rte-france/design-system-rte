@@ -92,7 +92,7 @@ const meta: Meta<DrawerDirective> = {
       control: "select",
       options: ["modal", "responsive"],
       description:
-        "modal: overlay dialog (default); use #drawerContent only. responsive: panel + #drawerMainContent inside the host; set host height. See Docs intro for examples.",
+        "modal: overlay dialog (default); use #drawerContent only. responsive: panel + #drawerContextContent inside the host; set host height. See Docs intro for examples.",
     },
     rteDrawerWidth: { control: "text" },
     rteDrawerCloseOnOverlayClick: { control: "boolean" },
@@ -340,7 +340,7 @@ export const Responsive: Story = {
           ${loremShort}
         </span>
       </ng-template>
-      <ng-template #drawerMainContent>
+      <ng-template #drawerContextContent>
         <div style="height: 100%; display: flex; flex-direction: column; gap: 16px; padding: 16px">
           <button rteButton rteButtonVariant="primary" rteDrawerTrigger>Open drawer</button>
           <span style="font-family: arial; font-size: 14px; line-height: 20px; color: var(--content-primary)">

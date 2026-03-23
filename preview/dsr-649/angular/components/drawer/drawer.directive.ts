@@ -44,7 +44,7 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
   readonly drawerContent = contentChild.required<TemplateRef<unknown>>("drawerContent");
   readonly drawerHeader = contentChild<TemplateRef<unknown>>("drawerHeader");
   readonly drawerFooter = contentChild<TemplateRef<unknown>>("drawerFooter");
-  readonly drawerContextContent = contentChild<TemplateRef<unknown>>("drawerMainContent");
+  readonly drawerContextContent = contentChild<TemplateRef<unknown>>("drawerContextContent");
 
   readonly rteDrawerId = input.required<string>();
   readonly rteDrawerIsOpen = input<boolean>(false);
