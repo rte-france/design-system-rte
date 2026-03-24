@@ -116,6 +116,16 @@ export const NestedItems: Story = {
   render: () => ({
     props: {
       items: createConnectorLinesData({ middleOpen: true }),
+      // items: [
+      //   {
+      //     id: "root",
+      //     labelText: "Root",
+      //     hasIcon: true,
+      //     icon: "folder",
+      //     isOpen: true,
+      //     items: [],
+      //   },
+      // ],
     },
     template: `<rte-treeview id="treeview-nested-items" [items]="items" />`,
     moduleMetadata: {
