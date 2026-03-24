@@ -7,6 +7,14 @@
   (itemClicked)="handleItemClick($event)"
 >
   <div content>
+    <div style="width: 400px; background: #c7dbf0; padding: 16px">
+      <rte-accordion icon="power-wind" appearance="brand" alignement="right" size="small">
+        <p style="margin: 0; font-family: Arial">
+          Base accordion case in Angular test app to validate library integration with host applications.
+        </p>
+      </rte-accordion>
+    </div>
+    <hr />
     <rte-tab [options]="tabOptions" [selectedTabId]="selectedTabId()" (change)="onTabChange($event)"></rte-tab>
     <div style="height: 16px">
       <p>Content for {{ selectedTabId() }}</p>

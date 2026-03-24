@@ -1,6 +1,7 @@
 import { Component, computed, output, signal, inject } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
 import {
+  AccordionComponent,
   ButtonComponent,
   IconComponent,
   SplitButtonComponent,
@@ -35,6 +36,7 @@ import { Step } from "@design-system-rte/core/components/stepper/stepper.interfa
   standalone: true,
   imports: [
     RouterOutlet,
+    AccordionComponent,
     ButtonComponent,
     IconComponent,
     SplitButtonComponent,
