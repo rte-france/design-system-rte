@@ -1,0 +1,45 @@
+<div
+  class="switch-container appearance-{{ appearance() }}"
+  [ngClass]="{
+    disabled: disabled(),
+    'read-only': readOnly(),
+    checked: isChecked(),
+  }"
+  (click)="handleClick($event)"
+>
+  <input
+    type="checkbox"
+    role="switch"
+    class="switch"
+    [attr.aria-checked]="isChecked()"
+    [attr.aria-label]="label()"
+    [attr.aria-disabled]="disabled()"
+    [attr.aria-readonly]="readOnly()"
+    [ariaLabel]="label()"
+    [name]="label()"
+    [ngClass]="{
+      disabled: disabled(),
+      'read-only': readOnly(),
+      checked: isChecked(),
+    }"
+    [style.min-height.px]="switchHeight"
+    [style.min-width.px]="switchWidth"
+    [disabled]="disabled()"
+    [checked]="isChecked()"
+  />
+  <div class="switch-icon-check" [ngClass]="{ checked: isChecked() }" (click)="handleClick($event)">
+    @if (showIcon()) {
+      <rte-icon
+        class="icon"
+        [name]="isChecked() ? 'check' : 'close'"
+        [size]="16"
+        (click)="handleClick($event)"
+      ></rte-icon>
+    }
+  </div>
+  @if (showLabel() && label()) {
+    <label class="switch-label" [for]="label()">
+      {{ label() }}
+    </label>
+  }
+</div>
