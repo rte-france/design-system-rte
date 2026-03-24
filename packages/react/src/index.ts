@@ -1,6 +1,6 @@
 import "./styles.d.ts";
-import Avatar from "./components/avatar/Avatar.tsx";
 import Accordion from "./components/accordion/Accordion.tsx";
+import Avatar from "./components/avatar/Avatar.tsx";
 import Badge from "./components/badge/Badge.tsx";
 import Banner from "./components/banner/Banner.tsx";
 import Breadcrumbs from "./components/breadcrumbs/Breadcrumbs.tsx";
