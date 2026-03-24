@@ -105,6 +105,9 @@ jobs:
             ./packages/angular/projects/ds-rte-lib/src/lib/assets/icons
           key: icons-${{ hashFiles('package-lock.json') }}-${{ github.sha }}
 
+      - name: Regenerate icon maps
+        run: node packages/react/generateIconMap.js
+
       - name: Restore cache build core
         uses: actions/cache@v4
         with:
@@ -156,6 +159,9 @@ jobs:
             ./packages/react/src/components/icon/generated
             ./packages/angular/projects/ds-rte-lib/src/lib/assets/icons
           key: icons-${{ hashFiles('package-lock.json') }}-${{ github.sha }}
+
+      - name: Regenerate icon maps
+        run: node packages/react/generateIconMap.js
 
       - name: Restore cache build core
         uses: actions/cache@v4

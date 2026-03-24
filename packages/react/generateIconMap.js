@@ -66,11 +66,19 @@ function generateImportsIconsMap() {
   return string;
 }
 
+function isValidIdentifier(name) {
+  return /^[a-zA-Z_$][a-zA-Z0-9_$]*$/.test(name);
+}
+
+function formatKey(name) {
+  return isValidIdentifier(name) ? name : `"${name}"`;
+}
+
 function generateRegularIconsMap() {
   let string = `export const RegularIcons = {\n`;
   regularIcons.forEach((iconName) => {
     const snakeCaseName = iconName.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
-    string += `  "${snakeCaseName}": ${iconName},\n`;
+    string += `  ${formatKey(snakeCaseName)}: ${iconName},\n`;
   });
   string += `};\n\n`;
   return string;
@@ -83,7 +91,7 @@ function generateTogglableIconsMap() {
       .replace(/([a-z0-9])([A-Z])/g, "$1-$2")
       .replace(/([A-Z])([A-Z][a-z])/g, "$1-$2")
       .toLowerCase();
-    string += `  "${snakeCaseName}": [${iconName}Outlined, ${iconName}Filled],\n`;
+    string += `  ${formatKey(snakeCaseName)}: [${iconName}Outlined, ${iconName}Filled],\n`;
   });
   string += `};\n`;
   return string;
