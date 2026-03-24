@@ -1,2 +1,2 @@
-export * from "./accordion.interface";
+export * from "./accordion.constants";
 export type * from "./accordion.interface";

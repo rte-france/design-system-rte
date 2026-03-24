@@ -1,6 +1,7 @@
 import { Component, computed, output, signal, inject } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
 import {
+  AccordionComponent,
   ButtonComponent,
   IconComponent,
   SplitButtonComponent,
@@ -37,6 +38,7 @@ import { TreeviewItemProps } from "@design-system-rte/core/components/treeview";
   standalone: true,
   imports: [
     RouterOutlet,
+    AccordionComponent,
     ButtonComponent,
     IconComponent,
     SplitButtonComponent,
