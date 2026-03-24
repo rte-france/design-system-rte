@@ -40,7 +40,6 @@ export class TreeviewComponent implements AfterViewInit {
   readonly treeRef = viewChild<ElementRef<HTMLElement>>("treeRef");
 
   readonly isCompact = input<boolean>(false);
-  readonly dottedLine = input<boolean>(false);
   readonly hasCheckbox = input<boolean>(false);
   readonly items = input<TreeviewItemProps[]>([]);
   readonly selectedId = input<string | undefined>(undefined);

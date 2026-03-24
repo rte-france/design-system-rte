@@ -83,14 +83,6 @@ $icon-size: $positive-spacing_200;
     background: var(--border-tertiary);
     transform: translateX(-50%) translateY(100%);
   }
-
-  &.is-expanded:not(.compact).dotted-line>.treeview-item-row .treeview-item-chevron::after {
-    background: repeating-linear-gradient(to bottom,
-        var(--border-tertiary) 0,
-        var(--border-tertiary) 2px,
-        transparent 2px,
-        transparent 4px);
-  }
 }
 
 .treeview-item-row {

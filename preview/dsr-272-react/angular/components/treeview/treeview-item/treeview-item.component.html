@@ -23,7 +23,7 @@
   }
   <div class="treeview-item-borders-container">
     @for (borderType of connectorBorderTypes(); track $index) {
-      <rte-treeview-item-border [borderType]="borderType" [dottedLine]="dottedLine()" [isCompact]="isCompact()" />
+      <rte-treeview-item-border [borderType]="borderType" [isCompact]="isCompact()" />
     }
     @if (hasChildren()) {
       <button
@@ -114,7 +114,6 @@
         [isOpen]="child.isOpen ?? false"
         [hasIcon]="child.hasIcon ?? hasIcon()"
         [hasBadge]="child.hasBadge ?? false"
-        [dottedLine]="child.dottedLine ?? dottedLine()"
         [items]="child.items ?? []"
         [actionIcon]="child.actionIcon"
         [actionMenuItems]="child.actionMenuItems"

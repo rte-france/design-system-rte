@@ -69,7 +69,6 @@ export class TreeviewItemComponent {
     if (this.disabled()) classes.push("disabled");
     if (this.hasChildren()) classes.push("has-children");
     if (this.hasChildren() && this.isOpenSignal()) classes.push("is-expanded");
-    if (this.dottedLine()) classes.push("dotted-line");
     if (this.effectiveDepth() === 0) classes.push("root-depth");
     return classes.join(" ");
   }
@@ -102,7 +101,6 @@ export class TreeviewItemComponent {
   readonly isOpen = input<boolean>(false);
   readonly hasIcon = input<boolean>(false);
   readonly hasBadge = input<boolean>(false);
-  readonly dottedLine = input<boolean>(false);
   readonly items = input<TreeviewItemProps[]>([]);
   readonly rootItems = input<TreeviewItemProps[] | undefined>(undefined);
   readonly id = input<string | undefined>();

@@ -12,7 +12,6 @@ import type { TreeviewBorderType } from "@design-system-rte/core/components/tree
 })
 export class TreeviewItemBorderComponent {
   readonly borderType = input.required<TreeviewBorderType>();
-  readonly dottedLine = input<boolean>(false);
   readonly isCompact = input<boolean>(false);
 
   readonly svgConfig = computed<SvgConfig>(() => {

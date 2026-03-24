@@ -116,16 +116,6 @@ export const NestedItems: Story = {
   render: () => ({
     props: {
       items: createConnectorLinesData({ middleOpen: true }),
-      // items: [
-      //   {
-      //     id: "root",
-      //     labelText: "Root",
-      //     hasIcon: true,
-      //     icon: "folder",
-      //     isOpen: true,
-      //     items: [],
-      //   },
-      // ],
     },
     template: `<rte-treeview id="treeview-nested-items" [items]="items" />`,
     moduleMetadata: {
@@ -148,18 +138,6 @@ export const Compact: Story = {
       items: navigationData,
     },
     template: `<rte-treeview id="treeview-compact" [items]="items" [hasCheckbox]="true" [isCompact]="true"/>`,
-    moduleMetadata: {
-      imports: [TreeviewComponent, TreeviewItemComponent],
-    },
-  }),
-};
-
-export const DottedLine: Story = {
-  render: () => ({
-    props: {
-      items: navigationData,
-    },
-    template: `<rte-treeview id="treeview-dotted-line" [items]="items" [dottedLine]="true" />`,
     moduleMetadata: {
       imports: [TreeviewComponent, TreeviewItemComponent],
     },

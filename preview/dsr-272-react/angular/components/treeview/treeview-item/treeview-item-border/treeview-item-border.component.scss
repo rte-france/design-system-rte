@@ -22,8 +22,4 @@
     stroke: var(--border-tertiary);
     stroke-width: $width-xs;
   }
-
-  &.treeview-item-border-dashed .treeview-item-border-path {
-    stroke-dasharray: 2 2;
-  }
 }
