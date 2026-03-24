@@ -55,27 +55,10 @@ const drawerResponsiveModeDoc = `
 \`\`\`
 `;
 
-const drawerPositionModesDoc = `
-## Modal & Responsive (\`rteDrawerPosition\`)
-
-The directive supports two layouts. They differ in **where the panel is mounted**, **templates you must provide**, and **which options apply**.
-
-${drawerModalModeDoc}
-
-${drawerResponsiveModeDoc}
-`;
-
 const meta: Meta<DrawerDirective> = {
   title: "Composants/Drawer",
   component: DrawerDirective,
   tags: ["autodocs"],
-  parameters: {
-    docs: {
-      description: {
-        component: drawerPositionModesDoc,
-      },
-    },
-  },
   argTypes: {
     rteDrawerId: { control: "text", description: "Drawer id (required)" },
     rteDrawerIsOpen: {
@@ -92,7 +75,7 @@ const meta: Meta<DrawerDirective> = {
       control: "select",
       options: ["modal", "responsive"],
       description:
-        "modal: overlay dialog (default); use #drawerContent only. responsive: panel + #drawerContextContent inside the host; set host height. See Docs intro for examples.",
+        "modal: overlay dialog (default); use #drawerContent only. responsive: panel + #drawerContextContent inside the host; set host height. See Modal and Responsive stories for examples.",
     },
     rteDrawerWidth: { control: "text" },
     rteDrawerCloseOnOverlayClick: { control: "boolean" },
@@ -185,7 +168,9 @@ export const Modal: Story = {
   parameters: {
     docs: {
       description: {
-        story: drawerModalModeDoc.trim(),
+        story: `In **modal** position (default), the drawer opens as an overlay. Provide \`#drawerContent\` only; options such as overlay click and Escape apply as configured.
+
+${drawerModalModeDoc.trim()}`,
       },
     },
   },
@@ -305,7 +290,9 @@ export const Responsive: Story = {
   parameters: {
     docs: {
       description: {
-        story: drawerResponsiveModeDoc.trim(),
+        story: `In **responsive** position, the panel sits beside the main area inside the host. Provide \`#drawerContent\` and \`#drawerContextContent\`, and give the host a bounded height.
+
+${drawerResponsiveModeDoc.trim()}`,
       },
     },
   },
