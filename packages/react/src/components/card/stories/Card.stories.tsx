@@ -1,6 +1,6 @@
 import {
   cardStoryArgTypes,
-  sizeExamples,
+  widthExamples,
   cardTypeExamples,
   defaultStoryArgs,
   clickableStoryArgs,
@@ -43,12 +43,12 @@ export const Default: Story = {
   },
 };
 
-export const Sizes: Story = {
+export const Widths: Story = {
   args: defaultStoryArgs,
   render: (args) => (
     <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-      {sizeExamples.map((example) => (
-        <Card key={example.size} {...args} size={example.size}>
+      {widthExamples.map((example) => (
+        <Card key={example.width} {...args} width={example.width}>
           <div style={{ padding: "16px" }}>
             <h3 style={{ margin: "0 0 8px 0", fontSize: "16px", fontWeight: "600" }}>{example.label}</h3>
             <p style={{ margin: "0", color: "#666", fontSize: "14px" }}>{example.width}</p>

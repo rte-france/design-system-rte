@@ -1,4 +1,4 @@
-import { cardSize } from "@design-system-rte/core/components/card/card.constats";
+import { DEFAULT_CARD_WIDTH } from "@design-system-rte/core/components/card/card.constants";
 import { CardProps as CardPropsCore } from "@design-system-rte/core/components/card/card.interface";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 import { HTMLAttributes, forwardRef, KeyboardEvent } from "react";
@@ -12,7 +12,18 @@ interface CardProps extends CardPropsCore, Omit<HTMLAttributes<HTMLDivElement>, 
 }
 
 const Card = forwardRef<HTMLDivElement, CardProps>(
-  ({ size = "m", cardType = "default", clickable = false, disabled = false, children, onClick, ...props }, ref) => {
+  (
+    {
+      width = DEFAULT_CARD_WIDTH,
+      cardType = "default",
+      clickable = false,
+      disabled = false,
+      children,
+      onClick,
+      ...props
+    },
+    ref,
+  ) => {
     const keyboardHandler = (event: KeyboardEvent<HTMLDivElement>) => {
       if (!disabled && clickable && (event.key === SPACE_KEY || event.key === ENTER_KEY)) {
         event.preventDefault();
@@ -37,7 +48,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
       <div
         ref={ref}
         className={styles.card}
-        style={{ width: cardSize[size] }}
+        style={{ width }}
         data-card-type={cardType}
         data-clickable={clickable}
         data-disabled={disabled}

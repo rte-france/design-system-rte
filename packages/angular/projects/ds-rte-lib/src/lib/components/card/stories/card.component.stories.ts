@@ -1,6 +1,6 @@
 import {
   cardStoryArgTypes,
-  sizeExamples,
+  widthExamples,
   cardTypeExamples,
   defaultStoryArgs,
   clickableStoryArgs,
@@ -43,7 +43,7 @@ export const Default: Story = {
     props: args,
     template: `
       <rte-card
-        [size]="size"
+        [width]="width"
         [cardType]="cardType"
         [clickable]="clickable"
         [disabled]="disabled"
@@ -55,11 +55,11 @@ export const Default: Story = {
   }),
 };
 
-function generateSizesTemplate(examples: typeof sizeExamples): string {
+function generateWidthsTemplate(examples: typeof widthExamples): string {
   return examples
     .map(
       (example) => `
-        <rte-card size="${example.size}" [cardType]="cardType" [clickable]="clickable" [disabled]="disabled">
+        <rte-card width="${example.width}" [cardType]="cardType" [clickable]="clickable" [disabled]="disabled">
           <div style="padding: 16px;">
             <h3 style="margin: 0 0 8px 0; font-size: 16px; font-weight: 600;">${example.label}</h3>
             <p style="margin: 0; color: #666; font-size: 14px;">${example.width}</p>
@@ -69,12 +69,12 @@ function generateSizesTemplate(examples: typeof sizeExamples): string {
     .join("");
 }
 
-export const Sizes: Story = {
+export const Widths: Story = {
   render: (args) => ({
     props: args,
     template: `
       <div style="display: flex; flex-direction: column; gap: 16px;">
-        ${generateSizesTemplate(sizeExamples)}
+        ${generateWidthsTemplate(widthExamples)}
       </div>
     `,
   }),
@@ -84,7 +84,7 @@ function generateCardTypesTemplate(examples: typeof cardTypeExamples): string {
   return examples
     .map(
       (example) => `
-        <rte-card size="m" cardType="${example.cardType}" [clickable]="clickable" [disabled]="disabled">
+        <rte-card width="480px" cardType="${example.cardType}" [clickable]="clickable" [disabled]="disabled">
           <div style="padding: 16px;">
             <h3 style="margin: 0 0 8px 0; font-size: 18px; font-weight: 600;">${example.title}</h3>
             <p style="margin: 0; color: #666; line-height: 1.5;">
@@ -119,7 +119,7 @@ export const Clickable: Story = {
     },
     template: `
       <rte-card
-        [size]="size"
+        [width]="width"
         [cardType]="cardType"
         [clickable]="clickable"
         [disabled]="disabled"
@@ -160,7 +160,7 @@ export const Disabled: Story = {
     template: `
       <div style="display: flex; flex-direction: column; gap: 16px;">
         <rte-card
-          size="m"
+          width="480px"
           cardType="default"
           [clickable]="true"
           [disabled]="true"
@@ -174,7 +174,7 @@ export const Disabled: Story = {
           </div>
         </rte-card>
         <rte-card
-          size="m"
+          width="480px"
           cardType="outlined"
           [clickable]="true"
           [disabled]="true"
@@ -220,7 +220,7 @@ export const WithButtons: Story = {
     },
     template: `
       <div style="display: flex; flex-direction: column; gap: 16px;">
-        <rte-card [size]="size" [cardType]="cardType" [clickable]="clickable" [disabled]="disabled">
+        <rte-card [width]="width" [cardType]="cardType" [clickable]="clickable" [disabled]="disabled">
           <div style="padding: 16px;">
             <h3 style="margin: 0 0 12px 0; font-size: 18px; font-weight: 600;">Primary Button</h3>
             <p style="margin: 0 0 16px 0; color: #666; line-height: 1.5;">
@@ -231,7 +231,7 @@ export const WithButtons: Story = {
             </button>
           </div>
         </rte-card>
-        <rte-card [size]="size" [cardType]="cardType" [clickable]="clickable" [disabled]="disabled">
+        <rte-card [width]="width" [cardType]="cardType" [clickable]="clickable" [disabled]="disabled">
           <div style="padding: 16px;">
             <h3 style="margin: 0 0 12px 0; font-size: 18px; font-weight: 600;">Secondary Button</h3>
             <p style="margin: 0 0 16px 0; color: #666; line-height: 1.5;">
@@ -242,7 +242,7 @@ export const WithButtons: Story = {
             </button>
           </div>
         </rte-card>
-        <rte-card [size]="size" [cardType]="cardType" [clickable]="clickable" [disabled]="disabled">
+        <rte-card [width]="width" [cardType]="cardType" [clickable]="clickable" [disabled]="disabled">
           <div style="padding: 16px;">
             <h3 style="margin: 0 0 12px 0; font-size: 18px; font-weight: 600;">Multiple Buttons</h3>
             <p style="margin: 0 0 16px 0; color: #666; line-height: 1.5;">
@@ -284,7 +284,7 @@ export const ClickableWithContent: Story = {
     },
     template: `
       <rte-card
-        [size]="size"
+        [width]="width"
         [cardType]="cardType"
         [clickable]="clickable"
         [disabled]="disabled"
