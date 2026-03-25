@@ -18,6 +18,7 @@ export declare const RegularIcons: {
     "arrow-chevron-left": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
     "arrow-chevron-right": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
     "arrow-chevron-up": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
+    "arrow-compare": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
     "arrow-double-down": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
     "arrow-double-left": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
     "arrow-double-right": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
@@ -48,6 +49,7 @@ export declare const RegularIcons: {
     "check-small": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
     "checkbox-empty": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
     close: ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
+    company: ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
     compare: ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
     "copy-all": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
     "crisis-alert": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
@@ -106,6 +108,8 @@ export declare const RegularIcons: {
     "side-navigation": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
     sort: ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
     "support-agent": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
+    "swap-horiz": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
+    "swap-vert": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
     timeline: ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
     "trending-down": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
     "trending-flat": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
@@ -171,6 +175,7 @@ export declare const TogglableIcons: {
     "cloud-upload": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     "comment-add": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     comment: (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
+    contact: (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     copy: (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     dangerous: (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     dashboard: (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
@@ -185,6 +190,7 @@ export declare const TogglableIcons: {
     error: (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     explore: (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     "explore-off": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
+    "export-xls": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     "fast-forward": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     "fast-rewind": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     feedback: (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
@@ -207,6 +213,7 @@ export declare const TogglableIcons: {
     "group-add": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     group: (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     groups: (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
+    handshake: (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     headphones: (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     heart: (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     help: (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
