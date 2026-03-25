@@ -53,6 +53,14 @@ export class AvatarComponent {
     return StatusIndicatorSizeMap[this.size()] || StatusIndicatorSizeMap[32];
   });
 
+  readonly isValidAvatar = computed(() => {
+    return (
+      (this.layout() === "initials" && !!this.initials() && this.initials()!.length <= 2) ||
+      (this.layout() === "image" && this.imgSrc()) ||
+      this.layout() === "icon"
+    );
+  });
+
   handleClick(e: MouseEvent) {
     if (this.isInteractive()) {
       this.avatarClick.emit(e);

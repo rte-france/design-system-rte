@@ -14,7 +14,7 @@
 }
 
 <ng-template #baseAvatar>
-  <div class="rte-avatar__container" [style.width]="size() + 'px'" [style.height]="size() + 'px'">
+  <div *ngIf="isValidAvatar()" [style.width]="size() + 'px'" [style.height]="size() + 'px'">
     <div
       class="rte-avatar"
       [attr.data-size]="size()"

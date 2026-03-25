@@ -5,6 +5,7 @@ import { AvatarStatus } from "@design-system-rte/core/components/avatar/avatar.i
   selector: "rte-status",
   standalone: true,
   templateUrl: "./status.component.html",
+  styleUrl: "./status.component.scss",
 })
 export class StatusComponent {
   readonly status = input<AvatarStatus>();
