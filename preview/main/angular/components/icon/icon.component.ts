@@ -40,11 +40,11 @@ export class IconComponent {
 
   constructor() {
     effect(() => {
-      this.setSvgContent(this.name());
+      this.setSvgContent(this.name(), this.color());
     });
   }
 
-  private setSvgContent(svgName: string) {
+  private setSvgContent(svgName: string, color?: string) {
     const svgFile = this.iconService.getSvg(
       svgName as RegularIconIdKey | TogglableIconIdKey,
       this.appearance() || "outlined",
@@ -52,8 +52,10 @@ export class IconComponent {
 
     svgFile.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((res) => {
       const size = this.size();
-      const svgWithSize = res.replace(/<svg([^>]*)>/, `<svg$1 width="${size}" height="${size}">`);
-
+      const svgWithSize = res.replace(
+        /<svg([^>]*)>/,
+        `<svg$1 width="${size}" height="${size}" color="${color || "currentColor"}">`,
+      );
       this.svgContent = this.sanitizer.bypassSecurityTrustHtml(svgWithSize);
       this.cdr.markForCheck();
     });
