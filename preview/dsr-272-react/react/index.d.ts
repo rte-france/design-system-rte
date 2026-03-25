@@ -32,4 +32,5 @@ import { default as BaseTextInput } from './components/textInput/baseTextuInput/
 import { default as Toast } from './components/toast/Toast.tsx';
 import { default as ToastQueueProvider } from './components/toast/toastQueue/ToastQueueProvider.tsx';
 import { default as Tooltip } from './components/tooltip/Tooltip.tsx';
-export { Button, Grid, Checkbox, CheckboxGroup, Link, RadioButton, RadioButtonGroup, Icon, IconButton, IconButtonToggle, Loader, SplitButton, Tooltip, BaseTextInput as TextInput, Chip, Badge, Textarea, Divider, Switch, SegmentedControl, Breadcrumbs, Banner, Popover, Modal, SideNav, Stepper, BaseSideNav, Card, Toast, ToastQueueProvider, Tag, Tab, Searchbar, Select, };
+import { default as Treeview } from './components/treeview/Treeview.tsx';
+export { Button, Grid, Checkbox, CheckboxGroup, Link, RadioButton, RadioButtonGroup, Icon, IconButton, IconButtonToggle, Loader, SplitButton, Tooltip, BaseTextInput as TextInput, Chip, Badge, Textarea, Divider, Switch, SegmentedControl, Breadcrumbs, Banner, Popover, Modal, SideNav, Stepper, BaseSideNav, Card, Toast, ToastQueueProvider, Tag, Tab, Treeview, Searchbar, Select, };
