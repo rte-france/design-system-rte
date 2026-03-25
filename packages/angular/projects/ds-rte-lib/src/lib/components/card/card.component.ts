@@ -1,8 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, input, output } from "@angular/core";
-import { cardSize } from "@design-system-rte/core/components/card/card.constats";
+import { DEFAULT_CARD_WIDTH } from "@design-system-rte/core/components/card/card.constats";
 import { CardType } from "@design-system-rte/core/components/card/card.interface";
-import { Size } from "@design-system-rte/core/components/common/common-types";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
 @Component({
@@ -14,7 +13,7 @@ import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CardComponent {
-  readonly size = input<Size>("m");
+  readonly width = input<string>(DEFAULT_CARD_WIDTH);
   readonly cardType = input<CardType>("default");
   readonly clickable = input<boolean>(false);
   readonly disabled = input<boolean>(false);
@@ -24,8 +23,6 @@ export class CardComponent {
   readonly ariaRole = input<string | undefined>(undefined);
 
   readonly cardClicked = output<void>();
-
-  readonly cardWidth = computed(() => `${cardSize[this.size()]}px`);
 
   readonly tabIndex = computed(() => (this.clickable() ? 0 : -1));
 

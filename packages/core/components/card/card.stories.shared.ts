@@ -1,11 +1,9 @@
-import type { Size } from "../common/common-types";
-
 import type { CardType } from "./card.interface";
+import { DEFAULT_CARD_WIDTH } from "./card.constats";
 
 export interface CardStoryArgTypes {
-  size: {
-    control: "select";
-    options: Size[];
+  width: {
+    control: "text";
     description: string;
   };
   cardType: {
@@ -24,10 +22,9 @@ export interface CardStoryArgTypes {
 }
 
 export const cardStoryArgTypes: CardStoryArgTypes = {
-  size: {
-    control: "select",
-    options: ["xs", "s", "m", "l", "xl"],
-    description: "Size of the card",
+  width: {
+    control: "text",
+    description: "Width of the card (e.g. '480px', '50%'). Defaults to 480px.",
   },
   cardType: {
     control: "select",
@@ -44,18 +41,17 @@ export const cardStoryArgTypes: CardStoryArgTypes = {
   },
 };
 
-export interface SizeExample {
-  size: Size;
+export interface WidthExample {
   label: string;
   width: string;
 }
 
-export const sizeExamples: SizeExample[] = [
-  { size: "xs", label: "Extra Small (xs)", width: "240px width" },
-  { size: "s", label: "Small (s)", width: "360px width" },
-  { size: "m", label: "Medium (m)", width: "480px width" },
-  { size: "l", label: "Large (l)", width: "600px width" },
-  { size: "xl", label: "Extra Large (xl)", width: "720px width" },
+export const widthExamples: WidthExample[] = [
+  { label: "Extra Small", width: "240px" },
+  { label: "Small", width: "360px" },
+  { label: "Medium", width: "480px" },
+  { label: "Large", width: "600px" },
+  { label: "Extra Large", width: "720px" },
 ];
 
 export interface CardTypeExample {
@@ -78,14 +74,14 @@ export const cardTypeExamples: CardTypeExample[] = [
 ];
 
 export interface DefaultStoryArgs {
-  size: Size;
+  width: string;
   cardType: CardType;
   clickable: boolean;
   disabled: boolean;
 }
 
 export const defaultStoryArgs: DefaultStoryArgs = {
-  size: "m",
+  width: DEFAULT_CARD_WIDTH,
   cardType: "default",
   clickable: false,
   disabled: false,
