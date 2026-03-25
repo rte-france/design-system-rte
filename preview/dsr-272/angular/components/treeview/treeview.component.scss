@@ -1,4 +1,4 @@
-@use '@design-system-rte/core/design-tokens/main.scss' as *;
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
 
 .treeview {
   display: flex;
@@ -10,11 +10,11 @@
     --treeview-root-indent: 16px;
   }
 
-  > li[rteTreeviewItem]:not(:first-child) {
+  >li[rteTreeviewItem]:not(:first-child) {
     padding-top: $positive-spacing_100;
   }
 
-  &.compact > li[rteTreeviewItem]:not(:first-child) {
+  &.compact>li[rteTreeviewItem]:not(:first-child) {
     padding-top: $positive-spacing_050;
   }
 }

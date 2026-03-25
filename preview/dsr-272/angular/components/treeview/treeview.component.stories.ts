@@ -116,6 +116,16 @@ export const NestedItems: Story = {
   render: () => ({
     props: {
       items: createConnectorLinesData({ middleOpen: true }),
+      // items: [
+      //   {
+      //     id: "root",
+      //     labelText: "Root",
+      //     hasIcon: true,
+      //     icon: "folder",
+      //     isOpen: true,
+      //     items: [],
+      //   },
+      // ],
     },
     template: `<rte-treeview id="treeview-nested-items" [items]="items" />`,
     moduleMetadata: {
@@ -247,9 +257,6 @@ export const ActionIconDropdown: Story = {
   render: () => ({
     props: {
       items: actionIconDropdownData,
-      onActionIconClick: (event: { itemId: string; event: Event }) => {
-        console.log("actionIconClick", event);
-      },
     },
     template: `
       <rte-treeview

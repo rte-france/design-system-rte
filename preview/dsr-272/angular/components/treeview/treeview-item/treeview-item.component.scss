@@ -57,7 +57,7 @@ $icon-size: $positive-spacing_200;
     }
   }
 
-  &.selected > .treeview-item-row {
+  &.selected>.treeview-item-row {
     .treeview-item-main-content {
       background: var(--background-brand-default);
       color: var(--content-primary-inverse);
@@ -73,7 +73,7 @@ $icon-size: $positive-spacing_200;
     }
   }
 
-  &.is-expanded:not(.compact) > .treeview-item-row .treeview-item-chevron::after {
+  &.is-expanded:not(.compact)>.treeview-item-row .treeview-item-chevron::after {
     content: '';
     position: absolute;
     bottom: 0;
@@ -145,7 +145,7 @@ $icon-size: $positive-spacing_200;
   visibility: hidden;
   cursor: pointer;
   border-radius: $radius-xs;
-  
+
 
   :host-context(.has-checked-items) &,
   .treeview-item-row:hover &,
@@ -162,10 +162,12 @@ $icon-size: $positive-spacing_200;
     .rte-checkbox {
       margin: 0;
     }
+
     .rte-checkbox-container,
     .rte-checkbox-container * {
       pointer-events: none;
     }
+
     .rte-checkbox-container {
       padding: 0 $row-gap;
       gap: 0;
