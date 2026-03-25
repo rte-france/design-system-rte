@@ -1,0 +1,174 @@
+<div
+  class="rte-drawer-root"
+  [class.rte-drawer-modal-host-layer]="modal && modalHostMode()"
+  [attr.data-position]="position()"
+>
+  @if (isCollapsible() && modal) {
+    <rte-icon-button
+      class="drawer-toggle drawer-toggle--floating"
+      size="l"
+      variant="primary"
+      [ariaLabel]="collapsibleToggleAriaLabel()"
+      [name]="collapsibleToggleIconName()"
+      [customStyle]="{
+        position: 'absolute',
+        top: '24px',
+        right: '4px',
+        opacity: floatingToggleOpacity().toString(),
+      }"
+      (clickEvent)="onClickToggle()"
+    />
+  }
+
+  @if (position() === "responsive") {
+    <div class="drawer-responsive-container">
+      @if (isCollapsible()) {
+        <rte-icon-button
+          class="drawer-toggle drawer-toggle--responsive-floating"
+          size="l"
+          variant="primary"
+          [ariaLabel]="collapsibleToggleAriaLabel()"
+          [name]="collapsibleToggleIconName()"
+          [customStyle]="{
+            position: 'absolute',
+            top: '24px',
+            right: '4px',
+            opacity: isAnimating() ? '0' : '1',
+            transform: collapsibleToggleTransform(),
+          }"
+          (clickEvent)="onClickToggle()"
+        />
+      }
+      <div
+        class="drawer-responsive-divider-wrap"
+        [style.visibility]="isAnimating() ? 'visible' : 'hidden'"
+        [style.transform]="responsiveDividerTransform()"
+      >
+        <rte-divider orientation="vertical" />
+      </div>
+      <div
+        #drawerPanelResponsive
+        class="drawer"
+        data-drawer-panel
+        data-testid="drawer-responsive-panel"
+        role="region"
+        [attr.data-open]="isAnimating() ? 'true' : 'false'"
+        [attr.data-position]="position()"
+        [attr.data-fixed-header]="fixedHeader() ? 'true' : 'false'"
+        [attr.aria-labelledby]="id() + '-drawer-title'"
+        [style.width]="width()"
+        [style.transform]="isAnimating() ? 'none' : 'translateX(' + (width() ?? '100%') + ')'"
+        [style.visibility]="isAnimating() ? 'visible' : 'hidden'"
+      >
+        <ng-container *ngTemplateOutlet="headerAndContent" />
+        <ng-container *ngTemplateOutlet="footerBlock" />
+      </div>
+      <div
+        class="drawer-children"
+        [attr.data-open]="isAnimating() ? 'true' : 'false'"
+        [style.marginRight]="responsiveMainMarginRight()"
+        [style.maxHeight]="isAnimating() ? '100%' : undefined"
+        [style.overflowY]="isAnimating() ? 'auto' : undefined"
+      >
+        <ng-container *ngTemplateOutlet="drawerContextContent() ?? null" />
+      </div>
+    </div>
+  }
+
+  @if (position() === "modal" && shouldRenderModalLayer()) {
+    <div class="rte-drawer-modal-layer">
+      <div class="rte-drawer-backdrop" [attr.data-open]="isAnimating() ? 'true' : 'false'"></div>
+      <div
+        #drawerPanelModal
+        class="drawer"
+        data-drawer-panel
+        role="dialog"
+        aria-modal="true"
+        [attr.data-open]="isAnimating() ? 'true' : 'false'"
+        [attr.data-fixed-header]="fixedHeader() ? 'true' : 'false'"
+        [attr.aria-labelledby]="id() + '-drawer-title'"
+        [style.width]="width()"
+      >
+        <ng-container *ngTemplateOutlet="headerAndContent" />
+        <ng-container *ngTemplateOutlet="footerBlock" />
+      </div>
+    </div>
+  }
+</div>
+
+<ng-template #headerAndContent>
+  @if (fixedHeader()) {
+    <ng-container *ngTemplateOutlet="headerBlock" />
+    <ng-container *ngTemplateOutlet="contentBlock" />
+  } @else {
+    <div class="drawer-header-content">
+      <ng-container *ngTemplateOutlet="headerBlock" />
+      <ng-container *ngTemplateOutlet="contentBlock" />
+    </div>
+  }
+</ng-template>
+
+<ng-template #headerBlock>
+  @if (isCollapsible()) {
+    <rte-icon-button
+      class="drawer-toggle"
+      size="l"
+      variant="primary"
+      [ariaLabel]="collapsibleToggleAriaLabel()"
+      [name]="collapsibleToggleIconName()"
+      [customStyle]="{ transform: collapsibleToggleTransform() }"
+      (clickEvent)="onClickToggle()"
+    />
+  }
+  @if (shouldDisplayDefaultHeader()) {
+    <div class="rte-drawer-base-header">
+      <div class="rte-drawer-base-header-text">
+        @if (icon()) {
+          <rte-icon [name]="icon() ?? ''" [size]="iconSize()" [appearance]="iconAppearance()" />
+        }
+        <h2 id="{{ id() }}-drawer-title" class="rte-drawer-base-header-title">
+          {{ title() }}
+        </h2>
+        @if (isClosable()) {
+          <rte-icon-button
+            ariaLabel="Close drawer {{ id() }}"
+            data-testid="drawer-close-button"
+            name="close"
+            size="l"
+            class="rte-drawer-close-icon"
+            variant="neutral"
+            (clickEvent)="onClose()"
+          />
+        }
+      </div>
+      <rte-divider />
+    </div>
+  } @else {
+    <ng-container *ngTemplateOutlet="drawerHeader() ?? null" />
+  }
+</ng-template>
+
+<ng-template #contentBlock>
+  <div class="drawer-content" tabindex="-1" [attr.data-fixed-header]="fixedHeader() ? 'true' : 'false'">
+    <ng-container *ngTemplateOutlet="drawerContent() ?? null" />
+  </div>
+</ng-template>
+
+<ng-template #footerBlock>
+  <div class="drawer-footer" [attr.data-fixed-header]="fixedHeader() ? 'true' : 'false'">
+    @if (shouldDisplayDefaultFooter()) {
+      <div class="rte-drawer-base-footer">
+        @if (secondaryButtonLabel()) {
+          <button rteButton rteButtonVariant="neutral">
+            {{ secondaryButtonLabel() }}
+          </button>
+        }
+        <button rteButton rteButtonVariant="primary">
+          {{ primaryButtonLabel() }}
+        </button>
+      </div>
+    } @else {
+      <ng-container *ngTemplateOutlet="drawerFooter() ?? null" />
+    }
+  </div>
+</ng-template>
