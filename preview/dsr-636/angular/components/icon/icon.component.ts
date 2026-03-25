@@ -25,7 +25,7 @@ import { IconService, RegularIconIdKey, TogglableIconIdKey } from "./icon.servic
 })
 export class IconComponent {
   readonly name = input.required<string>();
-  readonly size = input(20);
+  readonly size = input<number>(20);
   readonly color = input("currentColor");
   readonly classes = input("");
   readonly appearance = input<"outlined" | "filled">();
@@ -39,19 +39,18 @@ export class IconComponent {
   private cdr = inject(ChangeDetectorRef);
 
   constructor() {
-    effect(() => {
-      this.setSvgContent(this.name());
-    });
+    effect(
+      () => {
+        this.setSvgContent(this.name(), this.size(), this.appearance());
+      },
+      { allowSignalWrites: true },
+    );
   }
 
-  private setSvgContent(svgName: string) {
-    const svgFile = this.iconService.getSvg(
-      svgName as RegularIconIdKey | TogglableIconIdKey,
-      this.appearance() || "outlined",
-    );
+  private setSvgContent(svgName: string, size: number, appearance: "outlined" | "filled" | undefined) {
+    const svgFile = this.iconService.getSvg(svgName as RegularIconIdKey | TogglableIconIdKey, appearance || "outlined");
 
     svgFile.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((res) => {
-      const size = this.size();
       const svgWithSize = res.replace(/<svg([^>]*)>/, `<svg$1 width="${size}" height="${size}">`);
 
       this.svgContent = this.sanitizer.bypassSecurityTrustHtml(svgWithSize);
