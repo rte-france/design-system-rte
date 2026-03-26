@@ -1,0 +1,141 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+.rte-datepicker-menu {
+  @include typography-text-m;
+
+  width: 340px;
+  padding: $positive-spacing_100;
+  display: flex;
+  flex-direction: column;
+  gap: $positive-spacing_100;
+
+  background-color: var(--background-default);
+  border-radius: $radius-s;
+}
+
+.rte-datepicker-menu-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $positive-spacing_050;
+
+  .nav-left,
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: $positive-spacing_050;
+  }
+
+  .nav-button {
+    ::ng-deep .rte-icon-button {
+      width: 32px;
+      height: 32px;
+      color: var(--content-secondary);
+
+      &:hover {
+        color: var(--content-primary);
+      }
+
+      &:focus-visible {
+        outline: 1px solid var(--border-brand-focused);
+        border-radius: $radius-xs;
+        outline-offset: 3px;
+      }
+    }
+  }
+
+  .month-label {
+    flex: 1;
+    height: 32px;
+    text-transform: capitalize;
+    background: transparent;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    color: var(--content-primary);
+    @include typography-text-m-bold;
+  }
+}
+
+.rte-datepicker-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: $positive-spacing_050;
+  padding-bottom: $positive-spacing_050;
+  border-bottom: 1px solid var(--border-secondary);
+
+  .weekday {
+    text-align: center;
+    @include typography-text-s;
+    color: var(--content-secondary);
+  }
+}
+
+.rte-datepicker-day-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: $positive-spacing_050;
+}
+
+.day-cell {
+  @include typography-text-m;
+
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 0;
+  background: transparent;
+  color: var(--content-primary);
+  cursor: pointer;
+  transition: background-color 120ms;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+
+  &[data-active="true"] {
+    outline: 2px solid var(--border-brand-focused);
+    outline-offset: 2px;
+  }
+
+  &[data-cell-type="prev/next"] {
+    color: var(--content-tertiary);
+  }
+
+  &[data-cell-type="today"] {
+    box-shadow: 0 0 0 2px var(--border-brand-default) inset;
+  }
+
+  &[data-cell-type="selected"] {
+    background: var(--background-brand-default);
+    color: var(--content-primary-inverse);
+  }
+
+  &:hover:not(:disabled):not([data-cell-type="selected"]) {
+    background: var(--background-hover);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    color: var(--content-disabled);
+  }
+}
+
+.rte-datepicker-month-grid,
+.rte-datepicker-year-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.month-cell,
+.year-cell {
+  height: 44px;
+}
+
+.rte-datepicker-menu-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: $positive-spacing_100;
+}
+
