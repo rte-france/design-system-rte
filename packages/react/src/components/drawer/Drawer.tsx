@@ -331,7 +331,7 @@ const Drawer = ({
               style={{
                 position: "absolute",
                 right: "0px",
-                transition: "none",
+                transition: "transform 240ms ease-out",
                 visibility: isAnimating ? "visible" : "hidden",
                 transform: computeTransform(),
               }}
