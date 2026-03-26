@@ -50,6 +50,7 @@ export const Default: Story = {
 };
 
 export const RegularIcons: Story = {
+  args: { ...Default.args },
   render: (args) => ({
     props: { ...args, iconNames: RegularIconIds },
     template: `
@@ -57,6 +58,7 @@ export const RegularIcons: Story = {
       <div *ngFor="let iconName of iconNames" style="display: flex; align-items: center; gap: 5px; border: 1px solid #ccc; padding: 5px">
         <rte-icon
           [name]="iconName"
+          [color]="color"
         />
       <span>{{iconName}}</span>
       </div>
@@ -72,9 +74,11 @@ export const TogglableIcons: Story = {
       <div *ngFor="let iconName of iconNames" style="display: flex; align-items: center; gap: 5px; border: 1px solid #ccc; padding: 5px">
         <rte-icon
           [name]="iconName"
+          [color]="color"
         />
          <rte-icon
           [name]="iconName"
+          [color]="color"
           appearance="filled"
         />
       <span>{{iconName}}</span>
