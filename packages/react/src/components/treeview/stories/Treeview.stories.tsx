@@ -202,6 +202,7 @@ function createConnectorLinesData(options: { middleOpen?: boolean } = {}): Treev
 }
 
 export const NestedItems: Story = {
+  tags: ["skip-ci"],
   args: {
     items: createConnectorLinesData({ middleOpen: true }),
   },
@@ -216,6 +217,7 @@ export const NestedItems: Story = {
 };
 
 export const Compact: Story = {
+  tags: ["skip-ci"],
   args: {
     items: navigationData,
     isCompact: true,

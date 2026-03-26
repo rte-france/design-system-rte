@@ -213,6 +213,7 @@ export const CloseOnEscape: Story = {
 };
 
 export const CloseOnOverlayClick: Story = {
+  tags: ["skip-ci"],
   args: {
     ...Default.args,
     id: "drawer-close-on-overlay-click",

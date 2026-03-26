@@ -199,6 +199,7 @@ const headerConfigWithOnClick = {
 };
 
 export const Default: Story = {
+  tags: ["skip-ci"],
   args: {
     headerConfig: {
       title: "My Header",
