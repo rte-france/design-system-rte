@@ -1,4 +1,6 @@
+import { registerLocaleData } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
+import localeFr from "@angular/common/locales/fr";
 import { importProvidersFrom } from "@angular/core";
 import { setCompodocJson } from "@storybook/addon-docs/angular";
 import { applicationConfig, type Preview, componentWrapperDecorator, moduleMetadata } from "@storybook/angular";
@@ -9,6 +11,8 @@ import docJson from "../documentation.json";
 
 import { ThemeSelectorComponent } from "./template/theme-selector/theme-selector.component";
 setCompodocJson(docJson);
+
+registerLocaleData(localeFr);
 
 const decorators = [
   applicationConfig({
