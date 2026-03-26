@@ -13,6 +13,7 @@
         .input-container {
             height: 24px;
             min-height: 24px;
+
             .input {
                 .input-bar {
                     .input-field {
@@ -22,6 +23,7 @@
                 }
             }
         }
+
         .rte-icon-button {
             ::ng-deep {
                 button {
