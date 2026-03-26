@@ -1,9 +1,5 @@
-<div
-  class="rte-drawer-root"
-  [class.rte-drawer-modal-host-layer]="modal && modalHostMode()"
-  [attr.data-position]="position()"
->
-  @if (isCollapsible() && modal) {
+<div class="rte-drawer-root" [class.rte-drawer-modal-host-layer]="modalHostMode()" [attr.data-position]="position()">
+  @if (isCollapsible()) {
     <rte-icon-button
       class="drawer-toggle drawer-toggle--floating"
       size="l"

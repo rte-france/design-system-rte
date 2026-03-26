@@ -152,7 +152,6 @@ export const Default: Story = {
 };
 
 export const Modal: Story = {
-  name: "Modal",
   decorators: [
     moduleMetadata({
       imports: [DrawerModule, ButtonComponent],
