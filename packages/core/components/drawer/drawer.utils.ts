@@ -9,6 +9,11 @@ export interface DrawerValidationInput {
   hasMainContent: boolean;
 }
 
+interface ValidationRule {
+  condition: (input: DrawerValidationInput) => boolean;
+  issue: string;
+}
+
 const CONFIGURATION_ISSUES = {
   MISSING_HEADER_OR_TITLE: "Drawer: You must provide either a title or a custom header.",
   MISSING_FOOTER_OR_PRIMARY: "Drawer: You must provide either a primaryButtonLabel or a custom footer.",
@@ -17,19 +22,27 @@ const CONFIGURATION_ISSUES = {
   MODAL_MUST_NOT_HAVE_MAIN_CONTENT: "Drawer: You should not provide children when using modal position.",
 } as const;
 
+const VALIDATION_RULES: ValidationRule[] = [
+  {
+    condition: (input) => !input.hasCustomHeader && !input.hasTitle,
+    issue: CONFIGURATION_ISSUES.MISSING_HEADER_OR_TITLE,
+  },
+  {
+    condition: (input) => !input.hasCustomFooter && !input.hasPrimaryButtonLabel,
+    issue: CONFIGURATION_ISSUES.MISSING_FOOTER_OR_PRIMARY,
+  },
+  {
+    condition: (input) => input.position === "responsive" && !input.hasMainContent,
+    issue: CONFIGURATION_ISSUES.RESPONSIVE_NEEDS_MAIN_CONTENT,
+  },
+  {
+    condition: (input) => input.position === "modal" && input.hasMainContent,
+    issue: CONFIGURATION_ISSUES.MODAL_MUST_NOT_HAVE_MAIN_CONTENT,
+  },
+];
+
 export function getDrawerConfigurationIssues(input: DrawerValidationInput): string | undefined {
-  if (!input.hasCustomHeader && !input.hasTitle) {
-    return CONFIGURATION_ISSUES.MISSING_HEADER_OR_TITLE;
-  }
-  if (!input.hasCustomFooter && !input.hasPrimaryButtonLabel) {
-    return CONFIGURATION_ISSUES.MISSING_FOOTER_OR_PRIMARY;
-  }
-  if (input.position === "responsive" && !input.hasMainContent) {
-    return CONFIGURATION_ISSUES.RESPONSIVE_NEEDS_MAIN_CONTENT;
-  }
-  if (input.position === "modal" && input.hasMainContent) {
-    return CONFIGURATION_ISSUES.MODAL_MUST_NOT_HAVE_MAIN_CONTENT;
-  }
+  return VALIDATION_RULES.find(({ condition }) => condition(input))?.issue;
 }
 
 export function shouldUseDrawerDefaultHeader(header: unknown | null, title?: string): boolean {
