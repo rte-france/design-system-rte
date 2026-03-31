@@ -1,0 +1,66 @@
+<div
+  rteDropdown
+  [rteDropdownPosition]="'bottom'"
+  [rteDropdownAlignment]="'start'"
+  [rteDropdownAutoOpen]="false"
+  [rteDropdownAutofocus]="false"
+  [rteDropdownIsOpen]="isOpen()"
+  [rteDropdownWidth]="dropdownWidth()"
+  [rteCloseOnItemClick]="false"
+  (clickedOutside)="onClickedOutside()"
+  (closedDropdown)="onClosedDropdown()"
+>
+  <div #inputRootRef>
+    <rte-base-text-input
+      [id]="id()"
+      [label]="hasLabel() ? labelText() : ''"
+      [labelPosition]="labelPosition()"
+      [placeholder]="''"
+      [required]="required()"
+      [showLabelRequirement]="isRequiredOptional() ? showLabelRequirement() : false"
+      [assistiveTextLabel]="hasAssistiveText() ? assistiveTextLabel() : ''"
+      [assistiveAppearance]="isError() ? 'error' : assistiveTextAppearance()"
+      [showAssistiveIcon]="showAssistiveIcon()"
+      [value]="textValue()"
+      [error]="isError()"
+      [disabled]="isDisabled()"
+      [readOnly]="isReadOnly()"
+      [showRightIcon]="false"
+      (valueChange)="onInputValueChange($event)"
+      (focusin)="onInputFocused()"
+    >
+      <ng-container baseTextInputRightSlot>
+        <rte-icon-button
+          rteDropdownTrigger
+          variant="neutral"
+          name="calendar-month"
+          ariaLabel="Ouvrir le calendrier"
+          [disabled]="isDisabled() || isReadOnly()"
+          (dropdownTriggered)="onCalendarIconTriggered()"
+          (keydown)="onCalendarKeyDown($event)"
+        />
+      </ng-container>
+    </rte-base-text-input>
+  </div>
+
+  <rte-dropdown-menu [items]="[]">
+    <ng-template rteDropdownMenuHeader>
+      <rte-datepicker-menu
+        [calendarType]="calendarType()"
+        [viewDate]="viewDate()"
+        [selectedDate]="selectedDate()"
+        [pendingDate]="pendingDate()"
+        [minDate]="minDate()"
+        [maxDate]="maxDate()"
+        [disabledDate]="disabledDate()"
+        [locale]="locale()"
+        (keydown)="$event.stopPropagation()"
+        (dateSelected)="onMenuDateSelected($event)"
+        (dateHovered)="onMenuViewDateChanged($event)"
+        (calendarTypeChange)="onMenuCalendarTypeChange($event)"
+        (cancel)="onCancel()"
+        (confirm)="onConfirm()"
+      />
+    </ng-template>
+  </rte-dropdown-menu>
+</div>

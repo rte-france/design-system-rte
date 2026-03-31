@@ -1,0 +1,114 @@
+<div class="rte-datepicker-menu" (keydown)="onKeyDownGrid($event)">
+  <div class="rte-datepicker-menu-header">
+    <div class="nav-left">
+      <rte-icon-button
+        class="nav-button"
+        variant="neutral"
+        appearance="outlined"
+        size="s"
+        name="arrow-double-left"
+        ariaLabel="Année précédente"
+        (clickEvent)="goToPreviousYear()"
+      />
+      <rte-icon-button
+        class="nav-button"
+        variant="neutral"
+        appearance="outlined"
+        size="s"
+        name="arrow-chevron-left"
+        ariaLabel="Mois précédent"
+        (clickEvent)="goToPreviousMonth()"
+      />
+    </div>
+
+    <button type="button" class="month-label" [attr.aria-label]="monthLabel()" (click)="setCalendarType('month')">
+      {{ monthLabel() }}
+    </button>
+
+    <div class="nav-right">
+      <rte-icon-button
+        class="nav-button"
+        variant="neutral"
+        appearance="outlined"
+        size="s"
+        name="arrow-chevron-right"
+        ariaLabel="Mois suivant"
+        (clickEvent)="goToNextMonth()"
+      />
+      <rte-icon-button
+        class="nav-button"
+        variant="neutral"
+        appearance="outlined"
+        size="s"
+        name="arrow-double-right"
+        ariaLabel="Année suivante"
+        (clickEvent)="goToNextYear()"
+      />
+    </div>
+  </div>
+
+  @if (calendarType() === "day") {
+    <div class="rte-datepicker-weekdays" aria-hidden="true">
+      @for (weekdayLabel of weekdayLabels(); track weekdayLabel) {
+        <div class="weekday">{{ weekdayLabel }}</div>
+      }
+    </div>
+
+    <div class="rte-datepicker-day-grid" role="grid" aria-label="Calendrier">
+      @for (cell of dayCells(); track cell.date.toISOString()) {
+        <button
+          type="button"
+          class="day-cell"
+          [attr.data-cell-type]="cell.cellType"
+          [attr.data-active]="cell.date.toDateString() === activeDate().toDateString()"
+          [attr.tabIndex]="cell.date.toDateString() === activeDate().toDateString() ? 0 : -1"
+          [disabled]="cell.isDisabled"
+          [attr.aria-label]="cell.date | date: 'fullDate' : undefined : locale()"
+          (click)="onClickDay(cell.date, cell.isDisabled)"
+          (focus)="setActiveDate(cell.date)"
+        >
+          {{ cell.label }}
+        </button>
+      }
+    </div>
+  } @else if (calendarType() === "month") {
+    <div class="rte-datepicker-month-grid" role="grid" aria-label="Mois">
+      @for (cell of monthCells(); track cell.monthIndex) {
+        <button
+          type="button"
+          class="month-cell"
+          [attr.data-selected]="cell.isSelected"
+          [attr.data-current]="cell.isCurrent"
+          [disabled]="cell.isDisabled"
+          (click)="onClickMonth(cell.monthIndex, cell.isDisabled)"
+        >
+          {{ cell.label }}
+        </button>
+      }
+    </div>
+  } @else {
+    <div class="rte-datepicker-year-grid" role="grid" aria-label="Années">
+      @for (cell of yearCells(); track cell.year) {
+        <button
+          type="button"
+          class="year-cell"
+          [attr.data-selected]="cell.isSelected"
+          [attr.data-current]="cell.isCurrent"
+          [disabled]="cell.isDisabled"
+          (click)="onClickYear(cell.year, cell.isDisabled)"
+        >
+          {{ cell.label }}
+        </button>
+      }
+    </div>
+  }
+
+  <div class="rte-datepicker-menu-actions">
+    <button type="button" rteButton rteButtonVariant="secondary" rteButtonSize="m" (click)="cancel.emit()">
+      Annuler
+    </button>
+    <button type="button" rteButton rteButtonVariant="primary" rteButtonSize="m" (click)="confirm.emit()">
+      Confirmer
+    </button>
+  </div>
+</div>
