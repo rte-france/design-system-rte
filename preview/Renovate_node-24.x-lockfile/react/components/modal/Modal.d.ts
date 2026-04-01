@@ -1,6 +1,5 @@
 import { ModalProps as coreModalProps } from '../../../../core/components/modal/modal.interface';
-import { default as Button } from '../button/Button';
-type DSButtonElement = React.ReactElement<React.ComponentProps<typeof Button>, typeof Button>;
+import { DSButtonElement } from '../../abstract/baseFooter/BaseFooter';
 interface ModalProps extends coreModalProps, Omit<React.HTMLAttributes<HTMLDialogElement>, "id" | "title"> {
     onClose: () => void;
     closeOnOverlayClick?: boolean;
