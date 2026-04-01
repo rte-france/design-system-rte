@@ -11,7 +11,8 @@
   (closedDropdown)="onClosedDropdown()"
 >
   <div #inputRootRef>
-    <rte-base-text-input
+    <rte-base-input
+      rteDropdownTrigger
       [id]="id()"
       [label]="hasLabel() ? labelText() : ''"
       [labelPosition]="labelPosition()"
@@ -25,22 +26,13 @@
       [error]="isError()"
       [disabled]="isDisabled()"
       [readOnly]="isReadOnly()"
-      [showRightIcon]="false"
+      [rightIcon]="'calendar-month'"
+      [rightIconAriaLabel]="'Ouvrir le calendrier'"
       (valueChange)="onInputValueChange($event)"
+      (rightIconClick)="onCalendarIconTriggered()"
       (focusin)="onInputFocused()"
     >
-      <ng-container baseTextInputRightSlot>
-        <rte-icon-button
-          rteDropdownTrigger
-          variant="neutral"
-          name="calendar-month"
-          ariaLabel="Ouvrir le calendrier"
-          [disabled]="isDisabled() || isReadOnly()"
-          (dropdownTriggered)="onCalendarIconTriggered()"
-          (keydown)="onCalendarKeyDown($event)"
-        />
-      </ng-container>
-    </rte-base-text-input>
+    </rte-base-input>
   </div>
 
   <rte-dropdown-menu [items]="[]">

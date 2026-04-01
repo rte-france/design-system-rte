@@ -18,15 +18,14 @@ import { ESCAPE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.
 
 import { FocusTrapService } from "../../services/focus-trap.service";
 import { DropdownModule } from "../dropdown";
-import { IconButtonComponent } from "../icon-button/icon-button.component";
-import { BaseTextInputComponent } from "../text-input/base-text-input/base-text-input.component";
+import { BaseInputComponent } from "../input/base-input/base-input.component";
 
 import { DatepickerMenuComponent } from "./datepicker-menu/datepicker-menu.component";
 import { DatepickerCalendarType, formatFrenchDate, maskFrenchDateInput, parseFrenchDate } from "./datepicker.utils";
 
 @Component({
   selector: "rte-datepicker",
-  imports: [CommonModule, DropdownModule, BaseTextInputComponent, IconButtonComponent, DatepickerMenuComponent],
+  imports: [CommonModule, DropdownModule, BaseInputComponent, DatepickerMenuComponent],
   standalone: true,
   templateUrl: "./datepicker.component.html",
   styleUrl: "./datepicker.component.scss",
