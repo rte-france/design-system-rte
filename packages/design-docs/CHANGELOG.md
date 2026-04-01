@@ -1,5 +1,22 @@
 # @design-system-rte/design-docs
 
+## 1.2.1
+
+### Patch Changes
+
+- c868656: ## Changes
+  - add Template D → Évolution Dev to Jira templates section
+  - update intro text to reflect 4 contribution types including Évolution Dev
+
+- Updated dependencies [d7726a1]
+- Updated dependencies [ea178db]
+- Updated dependencies [4fbabfe]
+- Updated dependencies [c855acb]
+- Updated dependencies [16fed7b]
+- Updated dependencies [94b9002]
+- Updated dependencies [b6fdcfd]
+  - @design-system-rte/react@1.7.0
+
 ## 1.2.0
 
 ### Minor Changes

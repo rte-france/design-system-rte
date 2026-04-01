@@ -1,5 +1,48 @@
 # @design-system-rte/react
 
+## 1.7.0
+
+### Minor Changes
+
+- d7726a1: ## Changes
+  - (Icon) add new icons - arrow_compare - company - contact (filled/outlined) - export_xls (filled/outlined) - handshake (filled/outlined) - swap_horiz - swap_vert
+  - (Icon) add support for dynamic color change
+
+- ea178db: ## Changes
+  - (Accordion) add react component
+
+- 4fbabfe: ## Changes
+  - (Treeview) add react component
+
+- c855acb: ## Changes
+  - (Avatar) add angular component
+  - (Avatar) add react component
+  - (Core) add company icon
+
+- 16fed7b: ## Changes
+  - (Drawer) add React component
+
+- 94b9002: ## Changes
+  - (Card) replace size prop with width prop
+
+- b6fdcfd: ## Changes
+  - (Button) add icon support
+
+### Patch Changes
+
+- Updated dependencies [d7726a1]
+- Updated dependencies [ea178db]
+- Updated dependencies [4fbabfe]
+- Updated dependencies [c855acb]
+- Updated dependencies [16fed7b]
+- Updated dependencies [94b9002]
+- Updated dependencies [b6fdcfd]
+- Updated dependencies [a311cc5]
+- Updated dependencies [5416f65]
+- Updated dependencies [c9d4077]
+- Updated dependencies [e667319]
+  - @design-system-rte/core@1.6.0
+
 ## 1.6.0
 
 ### Minor Changes
