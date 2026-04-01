@@ -55,6 +55,32 @@ function copyDtsOnlyFiles(): void {
   walk(path.join(packageRoot, "constants"));
 }
 
+function copyComponentAssets(): void {
+  const componentsRoot = path.join(packageRoot, "components");
+
+  function walk(dir: string): void {
+    if (!fs.existsSync(dir)) return;
+    for (const item of fs.readdirSync(dir)) {
+      if (["docs", "stories", "node_modules"].includes(item)) continue;
+
+      const fullPath = path.join(dir, item);
+      const stat = fs.statSync(fullPath);
+      if (!stat.isDirectory()) continue;
+
+      if (item === "assets") {
+        const relativePath = path.relative(packageRoot, fullPath);
+        const destPath = path.join(distDir, relativePath);
+        copyRecursive(fullPath, destPath);
+        continue;
+      }
+
+      walk(fullPath);
+    }
+  }
+
+  walk(componentsRoot);
+}
+
 function main(): void {
   console.log("📦 Building @design-system-rte/core...\n");
 
@@ -75,6 +101,7 @@ function main(): void {
   console.log("3/4 Copying design-tokens, assets, css...");
   copyRecursive(path.join(packageRoot, "design-tokens"), path.join(distDir, "design-tokens"));
   copyRecursive(path.join(packageRoot, "assets"), path.join(distDir, "assets"));
+  copyComponentAssets();
   if (fs.existsSync(path.join(packageRoot, "css"))) {
     copyRecursive(path.join(packageRoot, "css"), path.join(distDir, "css"));
   }
