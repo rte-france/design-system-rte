@@ -84,6 +84,7 @@ export class DropdownDirective implements AfterContentInit {
     }
     return {
       items: menu.items(),
+      bodyTemplate: menu.bodyDirective()?.templateRef,
       headerTemplate: menu.headerDirective()?.templateRef,
       footerTemplate: menu.footerDirective()?.templateRef,
       width: menu.width(),
@@ -227,6 +228,7 @@ export class DropdownDirective implements AfterContentInit {
     if (this.dropdownMenuRef) {
       const items = this.menu()?.items() ?? [];
       this.dropdownMenuRef.setInput("items", items);
+      this.dropdownMenuRef.setInput("bodyTemplate", this.menu()?.bodyDirective()?.templateRef);
       this.dropdownMenuRef.setInput("headerTemplate", this.menu()?.headerDirective()?.templateRef);
       this.dropdownMenuRef.setInput("footerTemplate", this.menu()?.footerDirective()?.templateRef);
     }
