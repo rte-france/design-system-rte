@@ -12,16 +12,20 @@
     </div>
   }
   <div class="rte-dropdown-menu-content">
-    <ul class="rte-dropdown-items" role="menu" [attr.aria-activedescendant]="menuId()">
-      @for (item of items(); track item.label; let i = $index) {
-        <rte-dropdown-item
-          [item]="item"
-          [menuId]="menuId()"
-          (itemEvent)="handleItemEvent($event)"
-          (submenuRequest)="handleSubmenuRequest($event)"
-        />
-      }
-    </ul>
+    @if (hasBodyContent()) {
+      <ng-container [ngTemplateOutlet]="(bodyTemplate() || bodyDirective()?.templateRef) ?? null"></ng-container>
+    } @else {
+      <ul class="rte-dropdown-items" role="menu" [attr.aria-activedescendant]="menuId()">
+        @for (item of items(); track item.label; let i = $index) {
+          <rte-dropdown-item
+            [item]="item"
+            [menuId]="menuId()"
+            (itemEvent)="handleItemEvent($event)"
+            (submenuRequest)="handleSubmenuRequest($event)"
+          />
+        }
+      </ul>
+    }
   </div>
   @if (hasFooterContent()) {
     <div class="rte-dropdown-menu-footer">
