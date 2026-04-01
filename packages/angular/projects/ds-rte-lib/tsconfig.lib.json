@@ -4,6 +4,7 @@
   "compilerOptions": {
     "outDir": "../../out-tsc/lib",
     "declaration": true,
+    "allowArbitraryExtensions": true,
     "types": []
   },
   "angularCompilerOptions": {
@@ -12,10 +13,9 @@
   "exclude": [
     "**/*.spec.ts"
   ],
-  "files": [
-    "types.d.ts"
-  ],
+  "files": ["types.d.ts"],
   "include": [
-    "src/**/*.ts"
+    "src/**/*.ts",
+    "types.d.ts"
   ]
 }
