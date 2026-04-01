@@ -1,7 +1,7 @@
 @use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
 
 .trigger {
-  cursor: pointer;
+  cursor: inherit;
   height: fit-content;
   display: grid;
 
