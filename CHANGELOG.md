@@ -2,7 +2,7 @@
 
 # Angular
 
-## 2.0.0
+## 1.6.0
 
 ### Icon
 
@@ -15,14 +15,12 @@
 
 #### Minor Changes
 
-- add react component
 - add Angular component
 
 ### Treeview
 
 #### Minor Changes
 
-- add react component
 - correct item menu behavior
 - add keyboard navigation system
 - implement Badge
@@ -36,25 +34,12 @@
 - add proper treeview-item styles
 - set base structure for Treeview in Angular
 - remove dottedLine because of functionality deprecation
-- correct item menu behavior
-- add keyboard navigation system
-- implement Badge
-- correct template for nested items & the connector border system
-- correct compact version rendering
-- add action button and dropdown menu interaction
-- correct cascading checkbox system behavior
-- add checkbox system
-- add selection system to define selection exclusively
-- stabilize border & connector system
-- add proper treeview-item styles
-- set base structure for Treeview in Angular
 
 ### Avatar
 
 #### Minor Changes
 
 - add angular component
-- add react component
 
 ### Core
 
@@ -210,7 +195,6 @@
 
 #### Minor Changes
 
-- add angular component
 - add react component
 
 ### Core
