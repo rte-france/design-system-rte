@@ -127,3 +127,36 @@ export const OpenSelectConfirm: Story = {
     });
   },
 };
+
+export const OpenFocusAndEsc: Story = {
+  name: "Open focuses grid + ESC closes",
+  render: Default.render,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const calendarButton = canvas.getByRole("button", { name: /ouvrir le calendrier/i });
+
+    await userEvent.click(calendarButton);
+
+    await waitFor(() => {
+      const overlay = document.getElementById("overlay-root");
+      const menu = overlay?.querySelector("rte-datepicker-menu");
+      expect(menu).toBeInTheDocument();
+    });
+
+    const overlay = document.getElementById("overlay-root") as HTMLElement;
+    const activeDayButton = overlay.querySelector(
+      'rte-datepicker-menu .day-cell[tabindex="0"]',
+    ) as HTMLButtonElement | null;
+    expect(activeDayButton).toBeInTheDocument();
+    expect(activeDayButton).toHaveFocus();
+
+    await userEvent.keyboard("{Escape}");
+
+    await waitFor(() => {
+      const menu = overlay.querySelector("rte-datepicker-menu");
+      expect(menu).not.toBeInTheDocument();
+    });
+
+    expect(calendarButton).toHaveFocus();
+  },
+};

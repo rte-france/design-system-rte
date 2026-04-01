@@ -25,7 +25,7 @@ export interface DatepickerYearCell {
   readonly isSelected: boolean;
 }
 
-export function maskFrenchDateInput(value: string): string {
+export function maskDateInput(value: string): string {
   const digitsOnly = value.replace(/\D/g, "").slice(0, 8);
   const day = digitsOnly.slice(0, 2);
   const month = digitsOnly.slice(2, 4);
@@ -40,14 +40,14 @@ export function maskFrenchDateInput(value: string): string {
   return `${day}/${month}/${year}`;
 }
 
-export function formatFrenchDate(date: Date): string {
+export function formathDate(date: Date): string {
   const day = `${date.getDate()}`.padStart(2, "0");
   const month = `${date.getMonth() + 1}`.padStart(2, "0");
   const year = `${date.getFullYear()}`.padStart(4, "0");
   return `${day}/${month}/${year}`;
 }
 
-export function parseFrenchDate(value: string): Date | null {
+export function parseDate(value: string): Date | null {
   const trimmedValue = value.trim();
   if (trimmedValue.length === 0) {
     return null;
@@ -155,13 +155,14 @@ export function buildDayGrid(params: {
     const isCurrentMonth = cellDate.getMonth() === viewDate.getMonth();
     const isSelected = !!selectedDate && isSameDay(cellDate, selectedDate);
     const isToday = isSameDay(cellDate, today);
-    const cellType: DatepickerDayCellType = !isCurrentMonth
-      ? "prev/next"
-      : isSelected
-        ? "selected"
-        : isToday
-          ? "today"
-          : "default";
+    let cellType: DatepickerDayCellType = "default";
+    if (!isCurrentMonth) {
+      cellType = "prev/next";
+    } else if (isSelected) {
+      cellType = "selected";
+    } else if (isToday) {
+      cellType = "today";
+    }
 
     return {
       date: cellDate,

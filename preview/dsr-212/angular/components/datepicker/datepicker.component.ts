@@ -21,7 +21,7 @@ import { DropdownModule } from "../dropdown";
 import { BaseInputComponent } from "../input/base-input/base-input.component";
 
 import { DatepickerMenuComponent } from "./datepicker-menu/datepicker-menu.component";
-import { DatepickerCalendarType, formatFrenchDate, maskFrenchDateInput, parseFrenchDate } from "./datepicker.utils";
+import { DatepickerCalendarType, formathDate, maskDateInput, parseDate } from "./datepicker.utils";
 
 @Component({
   selector: "rte-datepicker",
@@ -81,6 +81,11 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
   readonly isReadOnly = computed(() => ["readOnly"].includes(this.interactionState()));
   readonly isError = computed(() => ["error"].includes(this.interactionState()));
 
+  readonly calendarButtonAriaLabel = computed(() => {
+    const selectedDate = this.selectedDate();
+    return selectedDate ? `Changer la date, ${formathDate(selectedDate)}` : "Ouvrir le calendrier";
+  });
+
   private onTouched: () => void = () => {};
   private onChange: (value: Date | null) => void = () => {};
   private readonly focusTrapService = inject(FocusTrapService);
@@ -102,6 +107,12 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
             const menuElement = overlayRoot?.querySelector("rte-datepicker-menu") as HTMLElement | null;
             if (menuElement) {
               this.focusTrapService.activate(menuElement);
+              waitForNextFrame(() => {
+                const activeGridCell = menuElement.querySelector(
+                  '.day-cell[tabindex="0"]:not([disabled])',
+                ) as HTMLButtonElement | null;
+                activeGridCell?.focus();
+              });
             }
           });
         } else {
@@ -123,7 +134,7 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
     this.selectedDate.set(value);
     this.pendingDate.set(value);
     this.viewDate.set(value ?? new Date());
-    this.textValue.set(value ? formatFrenchDate(value) : "");
+    this.textValue.set(value ? formathDate(value) : "");
   }
 
   registerOnChange(fn: (value: Date | null) => void): void {
@@ -149,10 +160,10 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
       return;
     }
 
-    const masked = maskFrenchDateInput(value);
+    const masked = maskDateInput(value);
     this.textValue.set(masked);
 
-    const parsed = parseFrenchDate(masked);
+    const parsed = parseDate(masked);
     if (parsed) {
       this.pendingDate.set(parsed);
       this.selectedDate.set(parsed);
@@ -183,6 +194,11 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
     this.calendarType.set("day");
   }
 
+  onDismiss(): void {
+    this.pendingDate.set(this.selectedDate());
+    this.isOpen.set(false);
+  }
+
   onCalendarKeyDown(event: KeyboardEvent): void {
     if (event.key === ESCAPE_KEY) {
       event.preventDefault();
@@ -193,7 +209,7 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
 
   onMenuDateSelected(date: Date): void {
     this.pendingDate.set(date);
-    this.textValue.set(formatFrenchDate(date));
+    this.textValue.set(formathDate(date));
   }
 
   onMenuViewDateChanged(date: Date): void {

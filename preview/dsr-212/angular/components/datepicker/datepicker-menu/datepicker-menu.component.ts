@@ -1,10 +1,11 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component, computed, input, output, signal } from "@angular/core";
+import { ChangeDetectionStrategy, Component, computed, HostListener, input, output, signal } from "@angular/core";
 import {
   ARROW_DOWN_KEY,
   ARROW_LEFT_KEY,
   ARROW_RIGHT_KEY,
   ARROW_UP_KEY,
+  ESCAPE_KEY,
   ENTER_KEY,
   SPACE_KEY,
 } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
@@ -18,7 +19,7 @@ import {
   buildMonthGrid,
   buildYearGrid,
   DatepickerCalendarType,
-  formatFrenchDate,
+  formathDate,
   getMonthLabel,
   getWeekdayShortLabels,
   isSameDay,
@@ -50,6 +51,7 @@ export class DatepickerMenuComponent {
 
   readonly cancel = output<void>();
   readonly confirm = output<void>();
+  readonly dismiss = output<void>();
 
   readonly weekdayLabels = computed(() => getWeekdayShortLabels(this.locale()));
   readonly monthLabel = computed(() => getMonthLabel(this.viewDate(), this.locale()));
@@ -89,7 +91,7 @@ export class DatepickerMenuComponent {
 
   readonly activeDateLabel = computed(() => {
     const selectedDate = this.pendingDate() ?? this.selectedDate();
-    return selectedDate ? formatFrenchDate(selectedDate) : "";
+    return selectedDate ? formathDate(selectedDate) : "";
   });
 
   goToPreviousYear(): void {
@@ -148,11 +150,22 @@ export class DatepickerMenuComponent {
     this.setCalendarType("month");
   }
 
+  @HostListener("keydown", ["$event"])
+  onHostKeyDown(event: KeyboardEvent): void {
+    this.onKeyDownGrid(event);
+  }
+
   onKeyDownGrid(event: KeyboardEvent): void {
     if (!event.key) {
       return;
     }
     event.stopPropagation();
+
+    if (event.key === ESCAPE_KEY) {
+      event.preventDefault();
+      this.dismiss.emit();
+      return;
+    }
 
     if ([ENTER_KEY, SPACE_KEY].includes(event.key)) {
       event.preventDefault();
