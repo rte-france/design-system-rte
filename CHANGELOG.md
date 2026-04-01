@@ -302,6 +302,12 @@
 - @design-system-rte/core@1.4.0
 # Core
 
+## 1.6.4
+
+### Other
+
+ - fix assets exports from inner components
+
 ## 1.6.1
 
 ### Other
