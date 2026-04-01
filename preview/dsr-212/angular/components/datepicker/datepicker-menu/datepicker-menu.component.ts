@@ -19,7 +19,7 @@ import {
   buildMonthGrid,
   buildYearGrid,
   DatepickerCalendarType,
-  formathDate,
+  formatDate,
   getMonthLabel,
   getWeekdayShortLabels,
   isSameDay,
@@ -91,7 +91,7 @@ export class DatepickerMenuComponent {
 
   readonly activeDateLabel = computed(() => {
     const selectedDate = this.pendingDate() ?? this.selectedDate();
-    return selectedDate ? formathDate(selectedDate) : "";
+    return selectedDate ? formatDate(selectedDate) : "";
   });
 
   goToPreviousYear(): void {

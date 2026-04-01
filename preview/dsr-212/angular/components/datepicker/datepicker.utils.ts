@@ -25,6 +25,22 @@ export interface DatepickerYearCell {
   readonly isSelected: boolean;
 }
 
+function getTodayStart(): Date {
+  return startOfDay(new Date());
+}
+
+function startOfMonth(date: Date): Date {
+  return new Date(date.getFullYear(), date.getMonth(), 1);
+}
+
+function getMondayBasedWeekdayIndex(date: Date): number {
+  return (date.getDay() + 6) % 7;
+}
+
+function isSameMonth(first: Date, second: Date): boolean {
+  return first.getFullYear() === second.getFullYear() && first.getMonth() === second.getMonth();
+}
+
 export function maskDateInput(value: string): string {
   const digitsOnly = value.replace(/\D/g, "").slice(0, 8);
   const day = digitsOnly.slice(0, 2);
@@ -40,7 +56,7 @@ export function maskDateInput(value: string): string {
   return `${day}/${month}/${year}`;
 }
 
-export function formathDate(date: Date): string {
+export function formatDate(date: Date): string {
   const day = `${date.getDate()}`.padStart(2, "0");
   const month = `${date.getMonth() + 1}`.padStart(2, "0");
   const year = `${date.getFullYear()}`.padStart(4, "0");
@@ -53,26 +69,26 @@ export function parseDate(value: string): Date | null {
     return null;
   }
 
-  const match = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(trimmedValue);
-  if (!match) {
+  const datePartsMatch = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(trimmedValue);
+  if (!datePartsMatch) {
     return null;
   }
 
-  const day = Number(match[1]);
-  const month = Number(match[2]);
-  const year = Number(match[3]);
+  const day = Number(datePartsMatch[1]);
+  const month = Number(datePartsMatch[2]);
+  const year = Number(datePartsMatch[3]);
 
   if (month < 1 || month > 12) {
     return null;
   }
 
   const date = new Date(year, month - 1, day);
-  const isSame =
+  const isValidParsedDate =
     date.getFullYear() === year &&
     date.getMonth() === month - 1 &&
     date.getDate() === day &&
     !Number.isNaN(date.valueOf());
-  return isSame ? date : null;
+  return isValidParsedDate ? date : null;
 }
 
 export function isSameDay(first: Date, second: Date): boolean {
@@ -127,7 +143,7 @@ export function getMonthLabel(date: Date, locale: string = "fr-FR"): string {
 }
 
 export function getWeekdayShortLabels(locale: string = "fr-FR"): string[] {
-  const monday = new Date(2021, 0, 4); // Monday
+  const monday = new Date(2021, 0, 4);
   return Array.from({ length: 7 }).map((_, index) => {
     const day = addDays(monday, index);
     const label = new Intl.DateTimeFormat(locale, { weekday: "short" }).format(day);
@@ -144,17 +160,18 @@ export function buildDayGrid(params: {
 }): DatepickerDayCell[] {
   const { viewDate, selectedDate, minDate, maxDate, disabledDate } = params;
 
-  const firstOfMonth = new Date(viewDate.getFullYear(), viewDate.getMonth(), 1);
-  const firstDayOfWeek = (firstOfMonth.getDay() + 6) % 7; // Monday=0 ... Sunday=6
-  const gridStart = addDays(firstOfMonth, -firstDayOfWeek);
+  const firstMonthDay = startOfMonth(viewDate);
+  const leadingDaysFromPreviousMonth = getMondayBasedWeekdayIndex(firstMonthDay);
+  const gridStart = addDays(firstMonthDay, -leadingDaysFromPreviousMonth);
 
-  const today = startOfDay(new Date());
+  const today = getTodayStart();
 
   return Array.from({ length: 42 }).map((_, index) => {
     const cellDate = addDays(gridStart, index);
-    const isCurrentMonth = cellDate.getMonth() === viewDate.getMonth();
+    const isCurrentMonth = isSameMonth(cellDate, viewDate);
     const isSelected = !!selectedDate && isSameDay(cellDate, selectedDate);
     const isToday = isSameDay(cellDate, today);
+
     let cellType: DatepickerDayCellType = "default";
     if (!isCurrentMonth) {
       cellType = "prev/next";
@@ -182,8 +199,8 @@ export function buildMonthGrid(params: {
   locale?: string;
 }): DatepickerMonthCell[] {
   const { viewDate, selectedDate, minDate, maxDate, disabledDate, locale = "fr-FR" } = params;
-  const selectedMonthDate = selectedDate ? new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1) : null;
-  const nowMonthDate = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+  const selectedMonthDate = selectedDate ? startOfMonth(selectedDate) : null;
+  const currentMonthDate = startOfMonth(new Date());
 
   return Array.from({ length: 12 }).map((_, monthIndex) => {
     const cellDate = new Date(viewDate.getFullYear(), monthIndex, 1);
@@ -191,7 +208,7 @@ export function buildMonthGrid(params: {
       monthIndex,
       label: new Intl.DateTimeFormat(locale, { month: "long" }).format(cellDate),
       isDisabled: isDateDisabled({ date: cellDate, minDate, maxDate, disabledDate }),
-      isCurrent: cellDate.getTime() === nowMonthDate.getTime(),
+      isCurrent: cellDate.getTime() === currentMonthDate.getTime(),
       isSelected: !!selectedMonthDate && cellDate.getTime() === selectedMonthDate.getTime(),
     };
   });
@@ -205,7 +222,7 @@ export function buildYearGrid(params: {
   disabledDate?: (date: Date) => boolean;
 }): DatepickerYearCell[] {
   const { viewDate, selectedDate, minDate, maxDate, disabledDate } = params;
-  const currentYear = new Date().getFullYear();
+  const currentYear = getTodayStart().getFullYear();
   const selectedYear = selectedDate?.getFullYear() ?? null;
   const startYear = viewDate.getFullYear() - 7;
 

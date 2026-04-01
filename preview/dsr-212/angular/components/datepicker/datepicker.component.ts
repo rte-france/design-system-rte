@@ -21,7 +21,7 @@ import { DropdownModule } from "../dropdown";
 import { BaseInputComponent } from "../input/base-input/base-input.component";
 
 import { DatepickerMenuComponent } from "./datepicker-menu/datepicker-menu.component";
-import { DatepickerCalendarType, formathDate, maskDateInput, parseDate } from "./datepicker.utils";
+import { DatepickerCalendarType, formatDate, maskDateInput, parseDate } from "./datepicker.utils";
 
 @Component({
   selector: "rte-datepicker",
@@ -83,7 +83,7 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
 
   readonly calendarButtonAriaLabel = computed(() => {
     const selectedDate = this.selectedDate();
-    return selectedDate ? `Changer la date, ${formathDate(selectedDate)}` : "Ouvrir le calendrier";
+    return selectedDate ? `Changer la date, ${formatDate(selectedDate)}` : "Ouvrir le calendrier";
   });
 
   private onTouched: () => void = () => {};
@@ -134,7 +134,7 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
     this.selectedDate.set(value);
     this.pendingDate.set(value);
     this.viewDate.set(value ?? new Date());
-    this.textValue.set(value ? formathDate(value) : "");
+    this.textValue.set(value ? formatDate(value) : "");
   }
 
   registerOnChange(fn: (value: Date | null) => void): void {
@@ -209,7 +209,7 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
 
   onMenuDateSelected(date: Date): void {
     this.pendingDate.set(date);
-    this.textValue.set(formathDate(date));
+    this.textValue.set(formatDate(date));
   }
 
   onMenuViewDateChanged(date: Date): void {
