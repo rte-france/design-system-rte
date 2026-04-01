@@ -302,6 +302,14 @@
 - @design-system-rte/core@1.4.0
 # Core
 
+## 1.6.1
+
+### Other
+
+#### Patch Changes
+
+- add missing Avatar export in index
+
 ## 1.6.0
 
 ### Icon
