@@ -2,6 +2,103 @@
 
 # Angular
 
+## 2.0.0
+
+### Icon
+
+#### Minor Changes
+
+- add new icons - arrow_compare - company - contact  - export_xls  - handshake  - swap_horiz - swap_vert
+- add support for dynamic color change
+
+### Accordion
+
+#### Minor Changes
+
+- add react component
+- add Angular component
+
+### Treeview
+
+#### Minor Changes
+
+- add react component
+- correct item menu behavior
+- add keyboard navigation system
+- implement Badge
+- correct template for nested items & the connector border system
+- correct compact version rendering
+- add action button and dropdown menu interaction
+- correct cascading checkbox system behavior
+- add checkbox system
+- add selection system to define selection exclusively
+- stabilize border & connector system
+- add proper treeview-item styles
+- set base structure for Treeview in Angular
+- remove dottedLine because of functionality deprecation
+- correct item menu behavior
+- add keyboard navigation system
+- implement Badge
+- correct template for nested items & the connector border system
+- correct compact version rendering
+- add action button and dropdown menu interaction
+- correct cascading checkbox system behavior
+- add checkbox system
+- add selection system to define selection exclusively
+- stabilize border & connector system
+- add proper treeview-item styles
+- set base structure for Treeview in Angular
+
+### Avatar
+
+#### Minor Changes
+
+- add angular component
+- add react component
+
+### Core
+
+#### Minor Changes
+
+- add company icon
+
+### Card
+
+#### Minor Changes
+
+- replace size prop with width prop
+
+### Button
+
+#### Minor Changes
+
+- add icon support
+
+### Drawer
+
+#### Minor Changes
+
+- correct Angular's Drawer custom close behavior
+- correct responsive Drawer behavior
+- add Angular component
+
+### Other
+
+#### Patch Changes
+
+- Updated dependencies [d7726a1]
+- Updated dependencies [ea178db]
+- Updated dependencies [4fbabfe]
+- Updated dependencies [c855acb]
+- Updated dependencies [16fed7b]
+- Updated dependencies [94b9002]
+- Updated dependencies [b6fdcfd]
+- Updated dependencies [a311cc5]
+- Updated dependencies [5416f65]
+- Updated dependencies [c9d4077]
+- Updated dependencies [e667319]
+- @design-system-rte/core@1.6.0
+
 ## 1.5.0
 
 ### Select
@@ -86,74 +183,76 @@
 - Updated dependencies [c477d66]
 - Updated dependencies [0d80052]
 - @design-system-rte/core@1.4.0
+# React
 
-## 1.3.0
+## 1.7.0
 
-### Stepper
-
-#### Minor Changes
-
-- make steps clickable inkeyboard interaction stories
-- set active step label with primary color on angular
-- use keydown event only
-- use utils function to determine clickable state of a step
-- remove log
-- export component to public api
-- add Angular component
-
-### Dropdown
+### Icon
 
 #### Minor Changes
 
-- focus back trigger on closing it with escape input
+- add new icons - arrow_compare - company - contact  - export_xls  - handshake  - swap_horiz - swap_vert
+- add support for dynamic color change
 
-### Radio-button
+### Accordion
 
-#### Patch Changes
+#### Minor Changes
 
-- remove unnecessary cursor style
-- rewrite radio button structure to prevent visual deformation on checked state
+- add react component
 
-### Modal
+### Treeview
 
-#### Patch Changes
+#### Minor Changes
 
-- set explicit margin auto to prevent overriding and keep it centered
+- add react component
 
-### Angular
+### Avatar
 
-#### Patch Changes
+#### Minor Changes
 
-- correct dependency nesting between angular and core from @design-system-rte
-
-### Sidenav
-
-#### Patch Changes
-
-- allow all clicking area for nav item
+- add angular component
+- add react component
 
 ### Core
 
-#### Patch Changes
+#### Minor Changes
 
-- expose a public API for component interfaces and utils
+- add company icon
 
-### Loader
+### Drawer
 
-#### Patch Changes
+#### Minor Changes
 
-- export loader component
+- add React component
+
+### Card
+
+#### Minor Changes
+
+- replace size prop with width prop
+
+### Button
+
+#### Minor Changes
+
+- add icon support
 
 ### Other
 
 #### Patch Changes
 
-- Updated dependencies [c58b706]
-- Updated dependencies [d01f3a4]
-- Updated dependencies [40b7bf8]
-- Updated dependencies [a77bb52]
-- @design-system-rte/core@1.3.0
-# React
+- Updated dependencies [d7726a1]
+- Updated dependencies [ea178db]
+- Updated dependencies [4fbabfe]
+- Updated dependencies [c855acb]
+- Updated dependencies [16fed7b]
+- Updated dependencies [94b9002]
+- Updated dependencies [b6fdcfd]
+- Updated dependencies [a311cc5]
+- Updated dependencies [5416f65]
+- Updated dependencies [c9d4077]
+- Updated dependencies [e667319]
+- @design-system-rte/core@1.6.0
 
 ## 1.6.0
 
@@ -217,66 +316,95 @@
 - Updated dependencies [c477d66]
 - Updated dependencies [0d80052]
 - @design-system-rte/core@1.4.0
+# Core
 
-## 1.4.0
+## 1.6.0
 
-### Stepper
-
-#### Minor Changes
-
-- make steps clickable inkeyboard interaction stories
-- use keydown event only
-- use utils function to determine clickable state of a step
-- export component to public api
-- Add React component
-
-### Dropdown
+### Icon
 
 #### Minor Changes
 
-- focus back trigger on closing it with escape input
+- add new icons - arrow_compare - company - contact  - export_xls  - handshake  - swap_horiz - swap_vert
 
-### Radio-button
+### Accordion
 
-#### Patch Changes
+#### Minor Changes
 
-- remove unnecessary cursor style
-- rewrite radio button structure to prevent visual deformation on checked state
+- add react component
+- add Angular component
 
-### Modal
+### Treeview
 
-#### Patch Changes
+#### Minor Changes
 
-- set explicit margin auto to prevent overriding and keep it centered
+- add react component
+- correct item menu behavior
+- add keyboard navigation system
+- implement Badge
+- correct template for nested items & the connector border system
+- correct compact version rendering
+- add action button and dropdown menu interaction
+- correct cascading checkbox system behavior
+- add checkbox system
+- add selection system to define selection exclusively
+- stabilize border & connector system
+- add proper treeview-item styles
+- set base structure for Treeview in Angular
+- remove dottedLine because of functionality deprecation
+- correct item menu behavior
+- add keyboard navigation system
+- implement Badge
+- correct template for nested items & the connector border system
+- correct compact version rendering
+- add action button and dropdown menu interaction
+- correct cascading checkbox system behavior
+- add checkbox system
+- add selection system to define selection exclusively
+- stabilize border & connector system
+- add proper treeview-item styles
+- set base structure for Treeview in Angular
 
-### Sidenav
+### Avatar
 
-#### Patch Changes
+#### Minor Changes
 
-- allow all clicking area for nav item
+- add angular component
+- add react component
 
 ### Core
 
-#### Patch Changes
+#### Minor Changes
 
-- expose a public API for component interfaces and utils
+- add company icon
 
-### Loader
+### Drawer
 
-#### Patch Changes
+#### Minor Changes
 
-- export loader component
+- add React component
+- correct responsive Drawer behavior
+- add Angular component
+
+### Card
+
+#### Minor Changes
+
+- replace size prop with width prop
+
+### Button
+
+#### Minor Changes
+
+- add icon support
+
+### Tokens
+
+#### Minor Changes
+
+- update Design Tokens
 
 ### Other
 
-#### Patch Changes
-
-- Updated dependencies [c58b706]
-- Updated dependencies [d01f3a4]
-- Updated dependencies [40b7bf8]
-- Updated dependencies [a77bb52]
-- @design-system-rte/core@1.3.0
-# Core
 
 ## 1.5.0
 
@@ -285,6 +413,8 @@
 #### Minor Changes
 
 - add support for multiple selection
+
+### Core
 
 #### Patch Changes
 
@@ -316,47 +446,22 @@
 
 ### Other
 
-
-## 1.3.1
-
-### Stepper
-
-#### Patch Changes
-
-- add component to public api of Core
-
-### Other
-
-
-## 1.3.0
-
-### Stepper
-
-#### Minor Changes
-
-- use utils function to determine clickable state of a step
-- remove log
-- export component to public api
-- add Angular component
-- Add React component
-
-### Core
-
-#### Patch Changes
-
-- set valid path for icon constants import
-- expose a public API for component interfaces and utils
-- repair missing and duplicated interfaces and constants
-
-### Loader
-
-#### Patch Changes
-
-- export loader component
-
-### Other
-
 # Design Docs
+
+## 1.2.1
+
+#### Patch Changes
+
+- add Template D → Évolution Dev to Jira templates section
+- update intro text to reflect 4 contribution types including Évolution Dev
+- Updated dependencies [d7726a1]
+- Updated dependencies [ea178db]
+- Updated dependencies [4fbabfe]
+- Updated dependencies [c855acb]
+- Updated dependencies [16fed7b]
+- Updated dependencies [94b9002]
+- Updated dependencies [b6fdcfd]
+- @design-system-rte/react@1.7.0
 
 ## 1.2.0
 
