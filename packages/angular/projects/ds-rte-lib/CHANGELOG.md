@@ -1,5 +1,80 @@
 # @design-system-rte/angular
 
+## 2.0.0
+
+### Minor Changes
+
+- d7726a1: ## Changes
+  - (Icon) add new icons - arrow_compare - company - contact (filled/outlined) - export_xls (filled/outlined) - handshake (filled/outlined) - swap_horiz - swap_vert
+  - (Icon) add support for dynamic color change
+
+- ea178db: ## Changes
+  - (Accordion) add react component
+
+- 4fbabfe: ## Changes
+  - (Treeview) add react component
+  - (Treeview) correct item menu behavior
+  - (Treeview) add keyboard navigation system
+  - (Treeview) implement Badge
+  - (Treeview) correct template for nested items & the connector border system
+  - (Treeview) correct compact version rendering
+  - (Treeview) add action button and dropdown menu interaction
+  - (Treeview) correct cascading checkbox system behavior
+  - (Treeview) add checkbox system
+  - (Treeview) add selection system to define selection exclusively (as opposed to checkbox behavior)
+  - (Treeview) stabilize border & connector system
+  - (Treeview) add proper treeview-item styles
+  - (Treeview) set base structure for Treeview in Angular
+
+- c855acb: ## Changes
+  - (Avatar) add angular component
+  - (Avatar) add react component
+  - (Core) add company icon
+
+- 94b9002: ## Changes
+  - (Card) replace size prop with width prop
+
+- b6fdcfd: ## Changes
+  - (Button) add icon support
+
+- a311cc5: ## Changes
+  - (Treeview) remove dottedLine because of functionality deprecation
+  - (Treeview) correct item menu behavior
+  - (Treeview) add keyboard navigation system
+  - (Treeview) implement Badge
+  - (Treeview) correct template for nested items & the connector border system
+  - (Treeview) correct compact version rendering
+  - (Treeview) add action button and dropdown menu interaction
+  - (Treeview) correct cascading checkbox system behavior
+  - (Treeview) add checkbox system
+  - (Treeview) add selection system to define selection exclusively (as opposed to checkbox behavior)
+  - (Treeview) stabilize border & connector system
+  - (Treeview) add proper treeview-item styles
+  - (Treeview) set base structure for Treeview in Angular
+
+- 5416f65: ## Changes
+  - (Drawer) correct Angular's Drawer custom close behavior
+  - (Drawer) correct responsive Drawer behavior
+  - (Drawer) add Angular component
+
+- c9d4077: ## Changes
+  - (Accordion) add Angular component
+
+### Patch Changes
+
+- Updated dependencies [d7726a1]
+- Updated dependencies [ea178db]
+- Updated dependencies [4fbabfe]
+- Updated dependencies [c855acb]
+- Updated dependencies [16fed7b]
+- Updated dependencies [94b9002]
+- Updated dependencies [b6fdcfd]
+- Updated dependencies [a311cc5]
+- Updated dependencies [5416f65]
+- Updated dependencies [c9d4077]
+- Updated dependencies [e667319]
+  - @design-system-rte/core@1.6.0
+
 ## 1.5.0
 
 ### Minor Changes
