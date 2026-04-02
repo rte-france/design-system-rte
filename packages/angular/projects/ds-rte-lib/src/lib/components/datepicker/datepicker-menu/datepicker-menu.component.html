@@ -1,64 +1,120 @@
 <div class="rte-datepicker-menu" role="dialog" aria-modal="true" aria-label="Choisir une date">
   <div class="rte-datepicker-menu-header">
     <div class="nav-left">
-      <rte-icon-button
-        class="nav-button"
-        variant="neutral"
-        appearance="outlined"
-        size="s"
-        name="arrow-double-left"
-        ariaLabel="Année précédente"
-        [tabIndex]="tabIndexForDayKeyboardOrder()"
-        [attr.data-datepicker-tab]="datepickerTabData.navPrevYear"
-        (clickEvent)="goToPreviousYear()"
-      />
-      <rte-icon-button
-        class="nav-button"
-        variant="neutral"
-        appearance="outlined"
-        size="s"
-        name="arrow-chevron-left"
-        ariaLabel="Mois précédent"
-        [tabIndex]="tabIndexForDayKeyboardOrder()"
-        [attr.data-datepicker-tab]="datepickerTabData.navPrevMonth"
-        (clickEvent)="goToPreviousMonth()"
-      />
+      @if (calendarType() === "day") {
+        <rte-icon-button
+          class="nav-button"
+          variant="neutral"
+          appearance="outlined"
+          size="s"
+          name="arrow-double-left"
+          ariaLabel="Année précédente"
+          [tabIndex]="tabIndexForKeyboardOrder()"
+          [attr.data-datepicker-tab]="datepickerTabData.navPrevYear"
+          (clickEvent)="goToDayNavigation('prevYear')"
+        />
+        <rte-icon-button
+          class="nav-button"
+          variant="neutral"
+          appearance="outlined"
+          size="s"
+          name="arrow-chevron-left"
+          ariaLabel="Mois précédent"
+          [tabIndex]="tabIndexForKeyboardOrder()"
+          [attr.data-datepicker-tab]="datepickerTabData.navPrevMonth"
+          (clickEvent)="goToDayNavigation('prevMonth')"
+        />
+      } @else if (calendarType() === "month") {
+        <rte-icon-button
+          class="nav-button"
+          variant="neutral"
+          appearance="outlined"
+          size="s"
+          name="arrow-chevron-left"
+          ariaLabel="Année précédente"
+          [tabIndex]="tabIndexForKeyboardOrder()"
+          [attr.data-datepicker-tab]="datepickerTabData.navPrevCompact"
+          (clickEvent)="goToCompactNavigation('previous')"
+        />
+      } @else {
+        <rte-icon-button
+          class="nav-button"
+          variant="neutral"
+          appearance="outlined"
+          size="s"
+          name="arrow-chevron-left"
+          ariaLabel="Décennie précédente"
+          [tabIndex]="tabIndexForKeyboardOrder()"
+          [attr.data-datepicker-tab]="datepickerTabData.navPrevCompact"
+          (clickEvent)="goToCompactNavigation('previous')"
+        />
+      }
     </div>
 
-    <button
-      type="button"
-      class="month-label"
-      [attr.aria-label]="monthLabel()"
-      [attr.tabindex]="tabIndexForDayKeyboardOrder() ?? null"
-      [attr.data-datepicker-tab]="datepickerTabData.monthLabel"
-      (click)="setCalendarType('month')"
-    >
-      {{ monthLabel() }}
-    </button>
+    @if (calendarType() === "year") {
+      <span class="month-label month-label-static" [attr.aria-label]="headerTitle()">{{ headerTitle() }}</span>
+    } @else {
+      <button
+        type="button"
+        class="month-label"
+        [attr.aria-label]="headerTitle()"
+        [attr.tabindex]="tabIndexForKeyboardOrder()"
+        [attr.data-datepicker-tab]="datepickerTabData.monthLabel"
+        (click)="onHeaderLabelClick()"
+      >
+        {{ headerTitle() }}
+      </button>
+    }
 
     <div class="nav-right">
-      <rte-icon-button
-        class="nav-button"
-        variant="neutral"
-        appearance="outlined"
-        size="s"
-        name="arrow-chevron-right"
-        ariaLabel="Mois suivant"
-        [tabIndex]="tabIndexForDayKeyboardOrder()"
-        [attr.data-datepicker-tab]="datepickerTabData.navNextMonth"
-        (clickEvent)="goToNextMonth()"
-      />
-      <rte-icon-button
-        class="nav-button"
-        variant="neutral"
-        appearance="outlined"
-        size="s"
-        name="arrow-double-right"
-        ariaLabel="Année suivante"
-        [tabIndex]="tabIndexForDayKeyboardOrder()"
-        [attr.data-datepicker-tab]="datepickerTabData.navNextYear"
-        (clickEvent)="goToNextYear()"
-      />
+      @if (calendarType() === "day") {
+        <rte-icon-button
+          class="nav-button"
+          variant="neutral"
+          appearance="outlined"
+          size="s"
+          name="arrow-chevron-right"
+          ariaLabel="Mois suivant"
+          [tabIndex]="tabIndexForKeyboardOrder()"
+          [attr.data-datepicker-tab]="datepickerTabData.navNextMonth"
+          (clickEvent)="goToDayNavigation('nextMonth')"
+        />
+        <rte-icon-button
+          class="nav-button"
+          variant="neutral"
+          appearance="outlined"
+          size="s"
+          name="arrow-double-right"
+          ariaLabel="Année suivante"
+          [tabIndex]="tabIndexForKeyboardOrder()"
+          [attr.data-datepicker-tab]="datepickerTabData.navNextYear"
+          (clickEvent)="goToDayNavigation('nextYear')"
+        />
+      } @else if (calendarType() === "month") {
+        <rte-icon-button
+          class="nav-button"
+          variant="neutral"
+          appearance="outlined"
+          size="s"
+          name="arrow-chevron-right"
+          ariaLabel="Année suivante"
+          [tabIndex]="tabIndexForKeyboardOrder()"
+          [attr.data-datepicker-tab]="datepickerTabData.navNextCompact"
+          (clickEvent)="goToCompactNavigation('next')"
+        />
+      } @else {
+        <rte-icon-button
+          class="nav-button"
+          variant="neutral"
+          appearance="outlined"
+          size="s"
+          name="arrow-chevron-right"
+          ariaLabel="Décennie suivante"
+          [tabIndex]="tabIndexForKeyboardOrder()"
+          [attr.data-datepicker-tab]="datepickerTabData.navNextCompact"
+          (clickEvent)="goToCompactNavigation('next')"
+        />
+      }
     </div>
   </div>
 
@@ -74,11 +130,14 @@
         <button
           type="button"
           class="day-cell"
+          role="gridcell"
+          [attr.aria-selected]="isDayCellSelected(cell.date)"
+          [attr.aria-current]="isDayCellToday(cell.date) ? 'date' : null"
           [attr.data-cell-type]="cell.cellType"
           [attr.data-datepicker-active]="
             calendarType() === 'day' && cell.date.toDateString() === activeDate().toDateString() ? 'true' : null
           "
-          [attr.tabindex]="tabIndexForDayKeyboardOrder() ?? null"
+          [attr.tabindex]="tabIndexForKeyboardOrder()"
           [disabled]="cell.isDisabled"
           [attr.aria-label]="cell.date | date: 'fullDate' : undefined : locale()"
           (click)="onClickDay(cell.date, cell.isDisabled)"
@@ -94,10 +153,20 @@
         <button
           type="button"
           class="month-cell"
+          role="gridcell"
+          [attr.aria-selected]="cell.isSelected"
+          [attr.aria-current]="cell.isCurrent ? 'date' : null"
+          [attr.data-datepicker-active]="
+            cell.monthIndex === activeDate().getMonth() && viewDate().getFullYear() === activeDate().getFullYear()
+              ? 'true'
+              : null
+          "
           [attr.data-selected]="cell.isSelected"
           [attr.data-current]="cell.isCurrent"
+          [attr.tabindex]="tabIndexForKeyboardOrder()"
           [disabled]="cell.isDisabled"
           (click)="onClickMonth(cell.monthIndex, cell.isDisabled)"
+          (focus)="onMonthCellFocused(cell.monthIndex)"
         >
           {{ cell.label }}
         </button>
@@ -109,10 +178,16 @@
         <button
           type="button"
           class="year-cell"
+          role="gridcell"
+          [attr.aria-selected]="cell.isSelected"
+          [attr.aria-current]="cell.isCurrent ? 'date' : null"
+          [attr.data-datepicker-active]="cell.year === activeDate().getFullYear() ? 'true' : null"
           [attr.data-selected]="cell.isSelected"
           [attr.data-current]="cell.isCurrent"
+          [attr.tabindex]="tabIndexForKeyboardOrder()"
           [disabled]="cell.isDisabled"
           (click)="onClickYear(cell.year, cell.isDisabled)"
+          (focus)="onYearCellFocused(cell.year)"
         >
           {{ cell.label }}
         </button>
@@ -126,7 +201,7 @@
       rteButton
       rteButtonVariant="secondary"
       rteButtonSize="m"
-      [attr.tabindex]="tabIndexForDayKeyboardOrder() ?? null"
+      [attr.tabindex]="tabIndexForKeyboardOrder()"
       [attr.data-datepicker-tab]="datepickerTabData.cancel"
       (click)="cancel.emit()"
     >
@@ -137,7 +212,7 @@
       rteButton
       rteButtonVariant="primary"
       rteButtonSize="m"
-      [attr.tabindex]="tabIndexForDayKeyboardOrder() ?? null"
+      [attr.tabindex]="tabIndexForKeyboardOrder()"
       [attr.data-datepicker-tab]="datepickerTabData.confirm"
       (click)="confirm.emit()"
     >
