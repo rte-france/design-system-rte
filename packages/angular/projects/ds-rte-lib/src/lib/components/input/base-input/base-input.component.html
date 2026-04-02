@@ -68,7 +68,8 @@
             [compactSpacing]="true"
             [name]="computedRightIconName()!"
             [ariaLabel]="computedRightIconAriaLabel()"
-            (clickEvent)="onRightIconClickHandler()"
+            (clickEvent)="onRightIconClickHandler($event)"
+            (keydown)="onRightIconKeyDownHandler($event)"
           />
         </ng-container>
       </div>
