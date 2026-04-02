@@ -6,7 +6,7 @@
   <ng-container *ngIf="label()">
     <div class="text">
       <div class="label-container">
-        <label class="input-label" [id]="'input-label-' + id" [for]="id()">
+        <label id="input-label-{{ id() }}" class="input-label" [for]="id()">
           {{ label() }}
         </label>
         <ng-container *ngIf="required()">
@@ -33,7 +33,7 @@
     <div class="input {{ labelPosition() }}" [ngClass]="{ disabled: disabled(), 'read-only': readOnly() }">
       <div
         class="input-bar"
-        [ngClass]="{ 'with-left-icon': displayedLeftIcon(), 'with-right-icon': computedRightIconName() }"
+        [ngClass]="{ 'with-left-icon': displayedLeftIcon(), 'with-right-icon': shouldShowRightIcon() }"
       >
         <ng-container *ngIf="displayedLeftIcon()">
           <rte-icon appearance="outlined" class="left-icon" aria-hidden="true" [name]="displayedLeftIcon()!" />
@@ -56,6 +56,7 @@
           [placeholder]="placeholder()"
           [attr.autocomplete]="autocomplete()"
           (input)="handleChange($event)"
+          (blur)="inputBlur.emit()"
         />
 
         <ng-container *ngIf="shouldShowRightIcon()">

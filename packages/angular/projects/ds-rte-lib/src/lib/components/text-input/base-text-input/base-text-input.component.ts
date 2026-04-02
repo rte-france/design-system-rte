@@ -26,9 +26,7 @@ export class BaseTextInputComponent extends BaseInputComponent {
     effect(
       () => {
         if (this.visibilityIcons()) {
-          if (this.rightIconAction() === "visibilityOn") {
-            this.isHiddenInput.set(true);
-          }
+          this.isHiddenInput.set(this.rightIconAction() === "visibilityOn");
         } else {
           this.isHiddenInput.set(false);
         }

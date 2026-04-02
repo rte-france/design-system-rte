@@ -14,22 +14,24 @@ import {
 } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { waitForNextFrame } from "@design-system-rte/core/common/animation";
-import { ENTER_KEY, ESCAPE_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
+import {
+  buildDayGrid,
+  type DatepickerCalendarType,
+  formatDate,
+  isDateDisabled,
+  maskDateInput,
+  parseDate,
+  resolveInitialCalendarDay,
+  startOfDay,
+} from "@design-system-rte/core/components/datepicker";
+import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
 import { FocusTrapService } from "../../services/focus-trap.service";
 import { DropdownModule } from "../dropdown";
 import { BaseInputComponent } from "../input/base-input/base-input.component";
 
 import { DatepickerMenuComponent } from "./datepicker-menu/datepicker-menu.component";
-import {
-  buildDayGrid,
-  collectDatepickerDayTabOrder,
-  DatepickerCalendarType,
-  formatDate,
-  maskDateInput,
-  parseDate,
-  resolveInitialCalendarDay,
-} from "./datepicker.utils";
+import { DatepickerMenuService } from "./datepicker-menu.service";
 
 @Component({
   selector: "rte-datepicker",
@@ -39,6 +41,7 @@ import {
   styleUrl: "./datepicker.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
+    DatepickerMenuService,
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: DatepickerComponent,
@@ -90,7 +93,9 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
 
   private wasDatepickerOpen = false;
 
-  readonly isDisabled = computed(() => ["disabled"].includes(this.interactionState()));
+  private readonly formDisabled = signal(false);
+
+  readonly isDisabled = computed(() => ["disabled"].includes(this.interactionState()) || this.formDisabled());
   readonly isReadOnly = computed(() => ["readOnly"].includes(this.interactionState()));
   readonly isError = computed(() => ["error"].includes(this.interactionState()));
 
@@ -102,6 +107,7 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
   private onTouched: () => void = () => {};
   private onChange: (value: Date | null) => void = () => {};
   private readonly focusTrapService = inject(FocusTrapService);
+  private readonly datepickerMenuService = inject(DatepickerMenuService);
 
   constructor() {
     effect(
@@ -144,24 +150,18 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
           this.focusTrapService.deactivate();
           return;
         }
-
         waitForNextFrame(() => {
-          waitForNextFrame(() => {
-            const overlayRoot = document.getElementById("overlay-root");
-            const menuHost = overlayRoot?.querySelector("rte-datepicker-menu") as HTMLElement | null;
-            if (!menuHost) {
-              return;
-            }
+          const overlayRoot = document.getElementById("overlay-root");
+          const menuHost = overlayRoot?.querySelector("rte-datepicker-menu") as HTMLElement | null;
+          if (!menuHost) {
+            return;
+          }
 
-            this.focusTrapService.deactivate();
-            if (calendarType === "day") {
-              this.focusTrapService.activate(menuHost, {
-                getOrderedFocusables: () => collectDatepickerDayTabOrder(menuHost),
-                initialFocusIndex: 0,
-              });
-            } else {
-              this.focusTrapService.activate(menuHost);
-            }
+          this.focusTrapService.deactivate();
+          this.focusTrapService.activate(menuHost, {
+            getOrderedFocusables: () =>
+              this.datepickerMenuService.collectDatepickerMenuTabOrder(menuHost, calendarType),
+            initialFocusIndex: 0,
           });
         });
       },
@@ -192,12 +192,13 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
   }
 
   setDisabledState(isDisabled: boolean): void {
+    this.formDisabled.set(isDisabled);
     if (isDisabled) {
       this.isOpen.set(false);
     }
   }
 
-  onInputFocused(): void {
+  onInputBlurred(): void {
     this.onTouched();
   }
 
@@ -211,11 +212,22 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
 
     const parsed = parseDate(masked);
     if (parsed) {
-      this.pendingDate.set(parsed);
-      this.selectedDate.set(parsed);
-      this.viewDate.set(parsed);
-      this.onChange(parsed);
-      this.valueChange.emit(parsed);
+      const normalized = startOfDay(parsed);
+      if (
+        isDateDisabled({
+          date: normalized,
+          minDate: this.minDate(),
+          maxDate: this.maxDate(),
+          disabledDate: this.disabledDate(),
+        })
+      ) {
+        return;
+      }
+      this.pendingDate.set(normalized);
+      this.selectedDate.set(normalized);
+      this.viewDate.set(normalized);
+      this.onChange(normalized);
+      this.valueChange.emit(normalized);
     } else if (masked.length === 0) {
       this.pendingDate.set(null);
       this.selectedDate.set(null);
@@ -241,6 +253,7 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
   }
 
   onClickedOutside(): void {
+    this.calendarType.set("day");
     this.isOpen.set(false);
   }
 
@@ -251,15 +264,8 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
 
   onDismiss(): void {
     this.pendingDate.set(this.selectedDate());
+    this.calendarType.set("day");
     this.isOpen.set(false);
-  }
-
-  onCalendarKeyDown(event: KeyboardEvent): void {
-    if (event.key === ESCAPE_KEY) {
-      event.preventDefault();
-      event.stopPropagation();
-      this.isOpen.set(false);
-    }
   }
 
   onMenuDateSelected(date: Date): void {
@@ -281,6 +287,7 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
     this.textValue.set("");
     this.onChange(null);
     this.valueChange.emit(null);
+    this.calendarType.set("day");
     this.isOpen.set(false);
   }
 
@@ -289,6 +296,7 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
     this.selectedDate.set(date);
     this.onChange(date);
     this.valueChange.emit(date);
+    this.calendarType.set("day");
     this.isOpen.set(false);
   }
 }
