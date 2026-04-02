@@ -1,36 +1,83 @@
-export type DatepickerCalendarType = "day" | "month" | "year";
+import {
+  ARROW_DOWN_KEY,
+  ARROW_LEFT_KEY,
+  ARROW_RIGHT_KEY,
+  ARROW_UP_KEY,
+} from "../../constants/keyboard/keyboard.constants";
 
-export type DatepickerDayCellType = "default" | "today" | "selected" | "prev/next" | "empty";
+import {
+  DATEPICKER_MENU_REST_TAB_KEYS_COMPACT,
+  DATEPICKER_MENU_REST_TAB_KEYS_DAY,
+  type DatepickerTabDataKey,
+} from "./datepicker.constants";
+import type {
+  DatepickerCalendarType,
+  DatepickerDayCell,
+  DatepickerDayCellType,
+  DatepickerMonthCell,
+  DatepickerYearCell,
+  NavigateViewDateParams,
+} from "./datepicker.interface";
 
-export interface DatepickerDayCell {
-  readonly date: Date;
-  readonly label: string;
-  readonly cellType: DatepickerDayCellType;
-  readonly isDisabled: boolean;
+export function getDatepickerMenuRestTabKeysInOrder(
+  calendarType: DatepickerCalendarType,
+): readonly DatepickerTabDataKey[] {
+  if (calendarType === "day") {
+    return DATEPICKER_MENU_REST_TAB_KEYS_DAY;
+  }
+  return DATEPICKER_MENU_REST_TAB_KEYS_COMPACT;
 }
 
-export interface DatepickerMonthCell {
-  readonly monthIndex: number;
-  readonly label: string;
-  readonly isDisabled: boolean;
-  readonly isCurrent: boolean;
-  readonly isSelected: boolean;
-}
-
-export interface DatepickerYearCell {
-  readonly year: number;
-  readonly label: string;
-  readonly isDisabled: boolean;
-  readonly isCurrent: boolean;
-  readonly isSelected: boolean;
-}
-
-function getTodayStart(): Date {
-  return startOfDay(new Date());
+export function resolveDatepickerMenuFocusableElement(element: HTMLElement): HTMLElement {
+  if (element.tagName === "BUTTON") {
+    return element;
+  }
+  const innerButton = element.querySelector("button");
+  if (innerButton instanceof HTMLElement) {
+    return innerButton;
+  }
+  return element;
 }
 
 function startOfMonth(date: Date): Date {
   return new Date(date.getFullYear(), date.getMonth(), 1);
+}
+
+function endOfMonth(date: Date): Date {
+  return new Date(date.getFullYear(), date.getMonth() + 1, 0);
+}
+
+function monthHasSelectableDay(params: {
+  year: number;
+  monthIndex: number;
+  minDate?: Date;
+  maxDate?: Date;
+  disabledDate?: (date: Date) => boolean;
+}): boolean {
+  const { year, monthIndex, minDate, maxDate, disabledDate } = params;
+  const lastDay = endOfMonth(new Date(year, monthIndex, 1)).getDate();
+  for (let day = 1; day <= lastDay; day++) {
+    const date = startOfDay(new Date(year, monthIndex, day));
+    if (!isDateDisabled({ date, minDate, maxDate, disabledDate })) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function yearHasSelectableDay(params: {
+  year: number;
+  minDate?: Date;
+  maxDate?: Date;
+  disabledDate?: (date: Date) => boolean;
+}): boolean {
+  const { year, minDate, maxDate, disabledDate } = params;
+  for (let monthIndex = 0; monthIndex < 12; monthIndex++) {
+    if (monthHasSelectableDay({ year, monthIndex, minDate, maxDate, disabledDate })) {
+      return true;
+    }
+  }
+  return false;
 }
 
 function getMondayBasedWeekdayIndex(date: Date): number {
@@ -121,6 +168,43 @@ export function addMonths(date: Date, amount: number): Date {
   return new Date(date.getFullYear(), date.getMonth() + amount, 1);
 }
 
+export function addYears(date: Date, amount: number): Date {
+  return new Date(date.getFullYear() + amount, date.getMonth(), 1);
+}
+
+export function getDecadeStartYear(year: number): number {
+  return Math.floor(year / 10) * 10;
+}
+
+export function navigateViewDate(params: NavigateViewDateParams): Date {
+  const { viewDate, calendarType } = params;
+  if (calendarType === "day") {
+    const action = params.dayAction;
+    if (!action) {
+      return viewDate;
+    }
+    if (["prevYear", "nextYear"].includes(action)) {
+      return addMonths(viewDate, action === "prevYear" ? -12 : 12);
+    }
+    return addMonths(viewDate, action === "prevMonth" ? -1 : 1);
+  }
+  if (calendarType === "month") {
+    const step = params.compactStep;
+    if (!step) {
+      return viewDate;
+    }
+    return addYears(viewDate, step === "previous" ? -1 : 1);
+  }
+  if (calendarType === "year") {
+    const step = params.compactStep;
+    if (!step) {
+      return viewDate;
+    }
+    return addYears(viewDate, step === "previous" ? -10 : 10);
+  }
+  return viewDate;
+}
+
 export function isDateDisabled(params: {
   date: Date;
   minDate?: Date;
@@ -142,6 +226,16 @@ export function getMonthLabel(date: Date, locale: string = "fr-FR"): string {
   return new Intl.DateTimeFormat(locale, { month: "long", year: "numeric" }).format(date);
 }
 
+export function getYearLabel(date: Date, locale: string = "fr-FR"): string {
+  return new Intl.DateTimeFormat(locale, { year: "numeric" }).format(date);
+}
+
+export function getDecadeRangeLabel(date: Date): string {
+  const decadeStart = getDecadeStartYear(date.getFullYear());
+  const decadeEnd = decadeStart + 9;
+  return `${decadeStart} – ${decadeEnd}`;
+}
+
 export function getWeekdayShortLabels(locale: string = "fr-FR"): string[] {
   const monday = new Date(2021, 0, 4);
   return Array.from({ length: 7 }).map((_, index) => {
@@ -157,7 +251,7 @@ export function resolveInitialCalendarDay(params: {
   dayCells: DatepickerDayCell[];
 }): Date {
   const { pendingDate, selectedDate, dayCells } = params;
-  const candidate = startOfDay(pendingDate ?? selectedDate ?? getTodayStart());
+  const candidate = startOfDay(pendingDate ?? selectedDate ?? new Date());
 
   const matchInGrid = dayCells.find((cell) => isSameDay(cell.date, candidate));
   if (matchInGrid && !matchInGrid.isDisabled) {
@@ -208,48 +302,6 @@ export function getDayCellIndexForDate(dayCells: DatepickerDayCell[], date: Date
   return dayCells.findIndex((cell) => isSameDay(cell.date, date));
 }
 
-export const DATEPICKER_TAB_DATA = {
-  cancel: "cancel",
-  confirm: "confirm",
-  navPrevYear: "nav-prev-year",
-  navPrevMonth: "nav-prev-month",
-  monthLabel: "month-label",
-  navNextMonth: "nav-next-month",
-  navNextYear: "nav-next-year",
-} as const;
-
-function resolveDatepickerMenuFocusableElement(element: HTMLElement): HTMLElement {
-  if (element.tagName === "BUTTON") {
-    return element;
-  }
-  const innerButton = element.querySelector("button");
-  if (innerButton instanceof HTMLElement) {
-    return innerButton;
-  }
-  return element;
-}
-
-export function collectDatepickerDayTabOrder(menuHost: HTMLElement): HTMLElement[] {
-  const activeCell = menuHost.querySelector(
-    '.rte-datepicker-day-grid .day-cell[data-datepicker-active="true"]:not([disabled])',
-  ) as HTMLElement | null;
-  const rest = [
-    menuHost.querySelector(`[data-datepicker-tab="${DATEPICKER_TAB_DATA.cancel}"]`),
-    menuHost.querySelector(`[data-datepicker-tab="${DATEPICKER_TAB_DATA.confirm}"]`),
-    menuHost.querySelector(`[data-datepicker-tab="${DATEPICKER_TAB_DATA.navPrevYear}"]`),
-    menuHost.querySelector(`[data-datepicker-tab="${DATEPICKER_TAB_DATA.navPrevMonth}"]`),
-    menuHost.querySelector(`[data-datepicker-tab="${DATEPICKER_TAB_DATA.monthLabel}"]`),
-    menuHost.querySelector(`[data-datepicker-tab="${DATEPICKER_TAB_DATA.navNextMonth}"]`),
-    menuHost.querySelector(`[data-datepicker-tab="${DATEPICKER_TAB_DATA.navNextYear}"]`),
-  ]
-    .filter((element): element is HTMLElement => element instanceof HTMLElement)
-    .map(resolveDatepickerMenuFocusableElement);
-  if (activeCell) {
-    return [activeCell, ...rest];
-  }
-  return rest;
-}
-
 export function buildDayGrid(params: {
   viewDate: Date;
   selectedDate: Date | null;
@@ -263,7 +315,7 @@ export function buildDayGrid(params: {
   const leadingDaysFromPreviousMonth = getMondayBasedWeekdayIndex(firstMonthDay);
   const gridStart = addDays(firstMonthDay, -leadingDaysFromPreviousMonth);
 
-  const today = getTodayStart();
+  const today = startOfDay(new Date());
 
   return Array.from({ length: 42 }).map((_, index) => {
     const cellDate = addDays(gridStart, index);
@@ -301,12 +353,13 @@ export function buildMonthGrid(params: {
   const selectedMonthDate = selectedDate ? startOfMonth(selectedDate) : null;
   const currentMonthDate = startOfMonth(new Date());
 
+  const year = viewDate.getFullYear();
   return Array.from({ length: 12 }).map((_, monthIndex) => {
-    const cellDate = new Date(viewDate.getFullYear(), monthIndex, 1);
+    const cellDate = new Date(year, monthIndex, 1);
     return {
       monthIndex,
       label: new Intl.DateTimeFormat(locale, { month: "long" }).format(cellDate),
-      isDisabled: isDateDisabled({ date: cellDate, minDate, maxDate, disabledDate }),
+      isDisabled: !monthHasSelectableDay({ year, monthIndex, minDate, maxDate, disabledDate }),
       isCurrent: cellDate.getTime() === currentMonthDate.getTime(),
       isSelected: !!selectedMonthDate && cellDate.getTime() === selectedMonthDate.getTime(),
     };
@@ -321,19 +374,42 @@ export function buildYearGrid(params: {
   disabledDate?: (date: Date) => boolean;
 }): DatepickerYearCell[] {
   const { viewDate, selectedDate, minDate, maxDate, disabledDate } = params;
-  const currentYear = getTodayStart().getFullYear();
+  const currentYear = new Date().getFullYear();
   const selectedYear = selectedDate?.getFullYear() ?? null;
-  const startYear = viewDate.getFullYear() - 7;
+  const startYear = getDecadeStartYear(viewDate.getFullYear());
 
-  return Array.from({ length: 16 }).map((_, index) => {
+  return Array.from({ length: 10 }).map((_, index) => {
     const year = startYear + index;
-    const cellDate = new Date(year, 0, 1);
     return {
       year,
       label: `${year}`,
-      isDisabled: isDateDisabled({ date: cellDate, minDate, maxDate, disabledDate }),
+      isDisabled: !yearHasSelectableDay({ year, minDate, maxDate, disabledDate }),
       isCurrent: year === currentYear,
       isSelected: selectedYear === year,
     };
   });
+}
+
+export function getNextGridCellIndex(params: {
+  currentIndex: number;
+  key: string;
+  columnCount: number;
+  cellCount: number;
+}): number | null {
+  const { currentIndex, key, columnCount, cellCount } = params;
+  if (key === ARROW_LEFT_KEY) {
+    return currentIndex > 0 ? currentIndex - 1 : null;
+  }
+  if (key === ARROW_RIGHT_KEY) {
+    return currentIndex < cellCount - 1 ? currentIndex + 1 : null;
+  }
+  if (key === ARROW_UP_KEY) {
+    const nextIndex = currentIndex - columnCount;
+    return nextIndex >= 0 ? nextIndex : null;
+  }
+  if (key === ARROW_DOWN_KEY) {
+    const nextIndex = currentIndex + columnCount;
+    return nextIndex < cellCount ? nextIndex : null;
+  }
+  return null;
 }

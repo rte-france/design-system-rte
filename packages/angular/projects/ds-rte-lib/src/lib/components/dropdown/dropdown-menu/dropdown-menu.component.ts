@@ -174,12 +174,16 @@ export class DropdownMenuComponent implements OnDestroy {
       return;
     }
 
-    if ([ARROW_UP_KEY, ARROW_DOWN_KEY, TAB_KEY].includes(event.key)) {
-      event.preventDefault();
-    }
-
     if (event.key === ESCAPE_KEY) {
       this.closingMenu.emit();
+    }
+
+    if (this.hasBodyContent()) {
+      return;
+    }
+
+    if ([ARROW_UP_KEY, ARROW_DOWN_KEY, TAB_KEY].includes(event.key)) {
+      event.preventDefault();
     }
 
     const menuId = this.menuId() as string;

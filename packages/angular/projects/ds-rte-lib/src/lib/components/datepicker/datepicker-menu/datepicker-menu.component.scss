@@ -55,6 +55,11 @@
     color: var(--content-primary);
     @include typography-text-m-bold;
   }
+
+  .month-label-static {
+    cursor: default;
+    text-align: center;
+  }
 }
 
 .rte-datepicker-weekdays {
@@ -93,7 +98,7 @@
     transition: none;
   }
 
-  &[data-active="true"] {
+  &[data-datepicker-active="true"] {
     outline: 2px solid var(--border-brand-focused);
     outline-offset: 2px;
   }
