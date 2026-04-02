@@ -48,6 +48,7 @@ export class BaseInputComponent {
   readonly inputType = input<"text" | "password">("text");
 
   readonly valueChange = output<string>();
+  readonly inputBlur = output<void>();
   readonly rightIconClick = output<MouseEvent | KeyboardEvent>();
   readonly rightIconKeydown = output<KeyboardEvent>();
 
