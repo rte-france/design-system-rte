@@ -48,7 +48,8 @@ export class BaseInputComponent {
   readonly inputType = input<"text" | "password">("text");
 
   readonly valueChange = output<string>();
-  readonly rightIconClick = output<void>();
+  readonly rightIconClick = output<MouseEvent | KeyboardEvent>();
+  readonly rightIconKeydown = output<KeyboardEvent>();
 
   readonly characterCount = signal<number>(this.internalValue().length);
   readonly displayedLeftIcon = computed(() => (this.error() ? "error" : this.leftIcon()));
@@ -84,9 +85,13 @@ export class BaseInputComponent {
     this.valueChange.emit(newValue);
   }
 
-  onRightIconClickHandler(): void {
-    this.rightIconClick.emit();
+  onRightIconClickHandler(event: MouseEvent | KeyboardEvent): void {
+    this.rightIconClick.emit(event);
     this.handleRightIconClick();
+  }
+
+  onRightIconKeyDownHandler(event: KeyboardEvent): void {
+    this.rightIconKeydown.emit(event);
   }
 
   protected computeInputType(): "text" | "password" {

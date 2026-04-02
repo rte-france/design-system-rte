@@ -14,7 +14,7 @@ import {
 } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { waitForNextFrame } from "@design-system-rte/core/common/animation";
-import { ESCAPE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
+import { ENTER_KEY, ESCAPE_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
 import { FocusTrapService } from "../../services/focus-trap.service";
 import { DropdownModule } from "../dropdown";
@@ -178,10 +178,19 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
     }
   }
 
-  onCalendarIconTriggered(): void {
+  onCalendarIconTriggered(event: MouseEvent | KeyboardEvent): void {
     if (this.isReadOnly() || this.isDisabled()) {
       return;
     }
+
+    if (event instanceof KeyboardEvent) {
+      const isValidOpenKey = [ENTER_KEY, SPACE_KEY].includes(event.key);
+      if (!isValidOpenKey) {
+        return;
+      }
+      event.preventDefault();
+    }
+
     this.isOpen.set(true);
   }
 

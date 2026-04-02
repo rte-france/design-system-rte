@@ -1,12 +1,11 @@
 <div
   rteDropdown
-  [rteDropdownPosition]="'bottom'"
-  [rteDropdownAlignment]="'start'"
+  rteDropdownPosition="bottom"
+  [rteDropdownAlignment]="start"
   [rteDropdownAutoOpen]="false"
-  [rteDropdownAutofocus]="false"
+  [rteDropdownAutofocus]="true"
   [rteDropdownIsOpen]="isOpen()"
   [rteDropdownWidth]="dropdownWidth()"
-  [rteCloseOnItemClick]="false"
   (clickedOutside)="onClickedOutside()"
   (closedDropdown)="onClosedDropdown()"
 >
@@ -16,7 +15,6 @@
       [id]="id()"
       [label]="hasLabel() ? labelText() : ''"
       [labelPosition]="labelPosition()"
-      [placeholder]="''"
       [required]="required()"
       [showLabelRequirement]="isRequiredOptional() ? showLabelRequirement() : false"
       [assistiveTextLabel]="hasAssistiveText() ? assistiveTextLabel() : ''"
@@ -29,14 +27,15 @@
       [rightIcon]="'calendar-month'"
       [rightIconAriaLabel]="calendarButtonAriaLabel()"
       (valueChange)="onInputValueChange($event)"
-      (rightIconClick)="onCalendarIconTriggered()"
+      (rightIconClick)="onCalendarIconTriggered($event)"
+      (rightIconKeydown)="onCalendarIconTriggered($event)"
       (focusin)="onInputFocused()"
     >
     </rte-base-input>
   </div>
 
-  <rte-dropdown-menu [items]="[]">
-    <ng-template rteDropdownMenuHeader>
+  <rte-dropdown-menu>
+    <ng-template rteDropdownMenuBody>
       <rte-datepicker-menu
         [calendarType]="calendarType()"
         [viewDate]="viewDate()"
