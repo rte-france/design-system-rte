@@ -13,24 +13,12 @@ import {
 } from "@angular/core";
 import { waitForNextFrame } from "@design-system-rte/core/common/animation";
 import {
-  ARROW_DOWN_KEY,
-  ARROW_LEFT_KEY,
-  ARROW_RIGHT_KEY,
-  ARROW_UP_KEY,
-  ESCAPE_KEY,
-  ENTER_KEY,
-  SPACE_KEY,
-} from "@design-system-rte/core/constants/keyboard/keyboard.constants";
-
-import { ButtonComponent } from "../../button/button.component";
-import { IconButtonComponent } from "../../icon-button/icon-button.component";
-import {
   buildDayGrid,
   buildMonthGrid,
   buildYearGrid,
-  DatepickerCalendarType,
-  DatepickerCompactNavStep,
-  DatepickerDayNavAction,
+  type DatepickerCalendarType,
+  type DatepickerCompactNavStep,
+  type DatepickerDayNavAction,
   DATEPICKER_TAB_DATA,
   formatDate,
   getDayCellIndexForDate,
@@ -42,7 +30,19 @@ import {
   getYearLabel,
   navigateViewDate,
   isSameDay,
-} from "../datepicker.utils";
+} from "@design-system-rte/core/components/datepicker";
+import {
+  ARROW_DOWN_KEY,
+  ARROW_LEFT_KEY,
+  ARROW_RIGHT_KEY,
+  ARROW_UP_KEY,
+  ESCAPE_KEY,
+  ENTER_KEY,
+  SPACE_KEY,
+} from "@design-system-rte/core/constants/keyboard/keyboard.constants";
+
+import { ButtonComponent } from "../../button/button.component";
+import { IconButtonComponent } from "../../icon-button/icon-button.component";
 
 @Component({
   selector: "rte-datepicker-menu",

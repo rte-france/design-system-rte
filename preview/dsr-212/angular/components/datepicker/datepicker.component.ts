@@ -14,6 +14,14 @@ import {
 } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { waitForNextFrame } from "@design-system-rte/core/common/animation";
+import {
+  buildDayGrid,
+  type DatepickerCalendarType,
+  formatDate,
+  maskDateInput,
+  parseDate,
+  resolveInitialCalendarDay,
+} from "@design-system-rte/core/components/datepicker";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
 import { FocusTrapService } from "../../services/focus-trap.service";
@@ -21,15 +29,7 @@ import { DropdownModule } from "../dropdown";
 import { BaseInputComponent } from "../input/base-input/base-input.component";
 
 import { DatepickerMenuComponent } from "./datepicker-menu/datepicker-menu.component";
-import {
-  buildDayGrid,
-  collectDatepickerMenuTabOrder,
-  DatepickerCalendarType,
-  formatDate,
-  maskDateInput,
-  parseDate,
-  resolveInitialCalendarDay,
-} from "./datepicker.utils";
+import { DatepickerMenuService } from "./datepicker-menu.service";
 
 @Component({
   selector: "rte-datepicker",
@@ -39,6 +39,7 @@ import {
   styleUrl: "./datepicker.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
+    DatepickerMenuService,
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: DatepickerComponent,
@@ -104,6 +105,7 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
   private onTouched: () => void = () => {};
   private onChange: (value: Date | null) => void = () => {};
   private readonly focusTrapService = inject(FocusTrapService);
+  private readonly datepickerMenuService = inject(DatepickerMenuService);
 
   constructor() {
     effect(
@@ -157,7 +159,8 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
 
             this.focusTrapService.deactivate();
             this.focusTrapService.activate(menuHost, {
-              getOrderedFocusables: () => collectDatepickerMenuTabOrder(menuHost, calendarType),
+              getOrderedFocusables: () =>
+                this.datepickerMenuService.collectDatepickerMenuTabOrder(menuHost, calendarType),
               initialFocusIndex: 0,
             });
           });
