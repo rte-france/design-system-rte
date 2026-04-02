@@ -1,5 +1,17 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component, computed, HostListener, input, output, signal } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  ElementRef,
+  HostListener,
+  inject,
+  input,
+  output,
+  signal,
+} from "@angular/core";
+import { waitForNextFrame } from "@design-system-rte/core/common/animation";
 import {
   ARROW_DOWN_KEY,
   ARROW_LEFT_KEY,
@@ -14,12 +26,13 @@ import { ButtonComponent } from "../../button/button.component";
 import { IconButtonComponent } from "../../icon-button/icon-button.component";
 import {
   addMonths,
-  addDays,
   buildDayGrid,
   buildMonthGrid,
   buildYearGrid,
   DatepickerCalendarType,
+  DATEPICKER_TAB_DATA,
   formatDate,
+  getDayCellIndexForDate,
   getMonthLabel,
   getWeekdayShortLabels,
   isSameDay,
@@ -34,6 +47,8 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DatepickerMenuComponent {
+  private readonly elementRef = inject(ElementRef<HTMLElement>);
+
   readonly calendarType = input<DatepickerCalendarType>("day");
   readonly locale = input<string>("fr-FR");
 
@@ -44,6 +59,9 @@ export class DatepickerMenuComponent {
   readonly minDate = input<Date | undefined>(undefined);
   readonly maxDate = input<Date | undefined>(undefined);
   readonly disabledDate = input<((date: Date) => boolean) | undefined>(undefined);
+
+  readonly focusSessionId = input(0);
+  readonly initialActiveDate = input<Date | null>(null);
 
   readonly dateHovered = output<Date>();
   readonly dateSelected = output<Date>();
@@ -93,6 +111,23 @@ export class DatepickerMenuComponent {
     const selectedDate = this.pendingDate() ?? this.selectedDate();
     return selectedDate ? formatDate(selectedDate) : "";
   });
+
+  readonly tabIndexForDayKeyboardOrder = computed(() => (this.calendarType() === "day" ? -1 : undefined));
+
+  readonly datepickerTabData = DATEPICKER_TAB_DATA;
+
+  constructor() {
+    effect(
+      () => {
+        this.focusSessionId();
+        const initial = this.initialActiveDate();
+        if (initial != null) {
+          this.activeDate.set(initial);
+        }
+      },
+      { allowSignalWrites: true },
+    );
+  }
 
   goToPreviousYear(): void {
     const nextDate = addMonths(this.viewDate(), -12);
@@ -152,20 +187,26 @@ export class DatepickerMenuComponent {
 
   @HostListener("keydown", ["$event"])
   onHostKeyDown(event: KeyboardEvent): void {
-    this.onKeyDownGrid(event);
-  }
-
-  onKeyDownGrid(event: KeyboardEvent): void {
     if (!event.key) {
       return;
     }
-    event.stopPropagation();
 
     if (event.key === ESCAPE_KEY) {
       event.preventDefault();
+      event.stopPropagation();
       this.dismiss.emit();
       return;
     }
+
+    if (this.calendarType() !== "day") {
+      return;
+    }
+
+    if (!this.isEventTargetDayGridCell(event.target)) {
+      return;
+    }
+
+    event.stopPropagation();
 
     if ([ENTER_KEY, SPACE_KEY].includes(event.key)) {
       event.preventDefault();
@@ -177,21 +218,53 @@ export class DatepickerMenuComponent {
       return;
     }
 
-    if (this.calendarType() !== "day") {
-      return;
-    }
-
     const navigationKeys = [ARROW_LEFT_KEY, ARROW_RIGHT_KEY, ARROW_UP_KEY, ARROW_DOWN_KEY];
     if (!navigationKeys.includes(event.key)) {
       return;
     }
 
     event.preventDefault();
+    this.moveActiveDayByArrowKey(event.key);
+  }
 
-    const delta =
-      event.key === ARROW_LEFT_KEY ? -1 : event.key === ARROW_RIGHT_KEY ? 1 : event.key === ARROW_UP_KEY ? -7 : 7;
+  private isEventTargetDayGridCell(target: EventTarget | null): boolean {
+    if (!(target instanceof HTMLElement)) {
+      return false;
+    }
+    return target.matches("button.day-cell") && target.closest(".rte-datepicker-day-grid") !== null;
+  }
 
-    const nextActive = addDays(this.activeDate(), delta);
-    this.activeDate.set(nextActive);
+  private moveActiveDayByArrowKey(key: string): void {
+    const cells = this.dayCells();
+    const currentIndex = getDayCellIndexForDate(cells, this.activeDate());
+    if (currentIndex < 0) {
+      return;
+    }
+
+    const delta = key === ARROW_LEFT_KEY ? -1 : key === ARROW_RIGHT_KEY ? 1 : key === ARROW_UP_KEY ? -7 : 7;
+    const stride = Math.abs(delta) === 7 ? 7 : 1;
+    const direction = delta > 0 ? 1 : -1;
+
+    let nextIndex = currentIndex + delta;
+    while (nextIndex >= 0 && nextIndex < cells.length && cells[nextIndex].isDisabled) {
+      nextIndex += direction * stride;
+    }
+
+    if (nextIndex < 0 || nextIndex >= cells.length) {
+      return;
+    }
+
+    this.activeDate.set(cells[nextIndex].date);
+    this.queueFocusActiveDayCell();
+  }
+
+  private queueFocusActiveDayCell(): void {
+    waitForNextFrame(() => {
+      const root = this.elementRef.nativeElement;
+      const button = root.querySelector(
+        '.rte-datepicker-day-grid .day-cell[data-datepicker-active="true"]:not([disabled])',
+      ) as HTMLElement | null;
+      button?.focus();
+    });
   }
 }
