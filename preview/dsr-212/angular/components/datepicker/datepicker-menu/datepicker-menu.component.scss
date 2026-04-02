@@ -98,7 +98,7 @@
     transition: none;
   }
 
-  &[data-active="true"] {
+  &[data-datepicker-active="true"] {
     outline: 2px solid var(--border-brand-focused);
     outline-offset: 2px;
   }

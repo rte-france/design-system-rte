@@ -14,7 +14,7 @@ import {
 } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { waitForNextFrame } from "@design-system-rte/core/common/animation";
-import { ENTER_KEY, ESCAPE_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
+import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
 import { FocusTrapService } from "../../services/focus-trap.service";
 import { DropdownModule } from "../dropdown";
@@ -90,7 +90,9 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
 
   private wasDatepickerOpen = false;
 
-  readonly isDisabled = computed(() => ["disabled"].includes(this.interactionState()));
+  private readonly formDisabled = signal(false);
+
+  readonly isDisabled = computed(() => ["disabled"].includes(this.interactionState()) || this.formDisabled());
   readonly isReadOnly = computed(() => ["readOnly"].includes(this.interactionState()));
   readonly isError = computed(() => ["error"].includes(this.interactionState()));
 
@@ -188,12 +190,13 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
   }
 
   setDisabledState(isDisabled: boolean): void {
+    this.formDisabled.set(isDisabled);
     if (isDisabled) {
       this.isOpen.set(false);
     }
   }
 
-  onInputFocused(): void {
+  onInputBlurred(): void {
     this.onTouched();
   }
 
@@ -250,15 +253,6 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
     this.pendingDate.set(this.selectedDate());
     this.calendarType.set("day");
     this.isOpen.set(false);
-  }
-
-  onCalendarKeyDown(event: KeyboardEvent): void {
-    if (event.key === ESCAPE_KEY) {
-      event.preventDefault();
-      event.stopPropagation();
-      this.calendarType.set("day");
-      this.isOpen.set(false);
-    }
   }
 
   onMenuDateSelected(date: Date): void {
