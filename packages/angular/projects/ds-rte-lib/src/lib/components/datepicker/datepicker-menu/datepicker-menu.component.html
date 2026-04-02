@@ -8,6 +8,8 @@
         size="s"
         name="arrow-double-left"
         ariaLabel="Année précédente"
+        [tabIndex]="tabIndexForDayKeyboardOrder()"
+        [attr.data-datepicker-tab]="datepickerTabData.navPrevYear"
         (clickEvent)="goToPreviousYear()"
       />
       <rte-icon-button
@@ -17,11 +19,20 @@
         size="s"
         name="arrow-chevron-left"
         ariaLabel="Mois précédent"
+        [tabIndex]="tabIndexForDayKeyboardOrder()"
+        [attr.data-datepicker-tab]="datepickerTabData.navPrevMonth"
         (clickEvent)="goToPreviousMonth()"
       />
     </div>
 
-    <button type="button" class="month-label" [attr.aria-label]="monthLabel()" (click)="setCalendarType('month')">
+    <button
+      type="button"
+      class="month-label"
+      [attr.aria-label]="monthLabel()"
+      [attr.tabindex]="tabIndexForDayKeyboardOrder() ?? null"
+      [attr.data-datepicker-tab]="datepickerTabData.monthLabel"
+      (click)="setCalendarType('month')"
+    >
       {{ monthLabel() }}
     </button>
 
@@ -33,6 +44,8 @@
         size="s"
         name="arrow-chevron-right"
         ariaLabel="Mois suivant"
+        [tabIndex]="tabIndexForDayKeyboardOrder()"
+        [attr.data-datepicker-tab]="datepickerTabData.navNextMonth"
         (clickEvent)="goToNextMonth()"
       />
       <rte-icon-button
@@ -42,6 +55,8 @@
         size="s"
         name="arrow-double-right"
         ariaLabel="Année suivante"
+        [tabIndex]="tabIndexForDayKeyboardOrder()"
+        [attr.data-datepicker-tab]="datepickerTabData.navNextYear"
         (clickEvent)="goToNextYear()"
       />
     </div>
@@ -60,8 +75,10 @@
           type="button"
           class="day-cell"
           [attr.data-cell-type]="cell.cellType"
-          [attr.data-active]="cell.date.toDateString() === activeDate().toDateString()"
-          [attr.tabIndex]="cell.date.toDateString() === activeDate().toDateString() ? 0 : -1"
+          [attr.data-datepicker-active]="
+            calendarType() === 'day' && cell.date.toDateString() === activeDate().toDateString() ? 'true' : null
+          "
+          [attr.tabindex]="tabIndexForDayKeyboardOrder() ?? null"
           [disabled]="cell.isDisabled"
           [attr.aria-label]="cell.date | date: 'fullDate' : undefined : locale()"
           (click)="onClickDay(cell.date, cell.isDisabled)"
@@ -104,10 +121,26 @@
   }
 
   <div class="rte-datepicker-menu-actions">
-    <button type="button" rteButton rteButtonVariant="secondary" rteButtonSize="m" (click)="cancel.emit()">
+    <button
+      type="button"
+      rteButton
+      rteButtonVariant="secondary"
+      rteButtonSize="m"
+      [attr.tabindex]="tabIndexForDayKeyboardOrder() ?? null"
+      [attr.data-datepicker-tab]="datepickerTabData.cancel"
+      (click)="cancel.emit()"
+    >
       Annuler
     </button>
-    <button type="button" rteButton rteButtonVariant="primary" rteButtonSize="m" (click)="confirm.emit()">
+    <button
+      type="button"
+      rteButton
+      rteButtonVariant="primary"
+      rteButtonSize="m"
+      [attr.tabindex]="tabIndexForDayKeyboardOrder() ?? null"
+      [attr.data-datepicker-tab]="datepickerTabData.confirm"
+      (click)="confirm.emit()"
+    >
       Confirmer
     </button>
   </div>

@@ -21,7 +21,15 @@ import { DropdownModule } from "../dropdown";
 import { BaseInputComponent } from "../input/base-input/base-input.component";
 
 import { DatepickerMenuComponent } from "./datepicker-menu/datepicker-menu.component";
-import { DatepickerCalendarType, formatDate, maskDateInput, parseDate } from "./datepicker.utils";
+import {
+  buildDayGrid,
+  collectDatepickerDayTabOrder,
+  DatepickerCalendarType,
+  formatDate,
+  maskDateInput,
+  parseDate,
+  resolveInitialCalendarDay,
+} from "./datepicker.utils";
 
 @Component({
   selector: "rte-datepicker",
@@ -77,6 +85,11 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
 
   readonly textValue = signal<string>("");
 
+  readonly menuInitialActiveDate = signal<Date | null>(null);
+  readonly menuFocusSessionId = signal(0);
+
+  private wasDatepickerOpen = false;
+
   readonly isDisabled = computed(() => ["disabled"].includes(this.interactionState()));
   readonly isReadOnly = computed(() => ["readOnly"].includes(this.interactionState()));
   readonly isError = computed(() => ["error"].includes(this.interactionState()));
@@ -101,23 +114,56 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
     effect(
       () => {
         const open = this.isOpen();
-        if (open) {
+        if (open && !this.wasDatepickerOpen) {
+          const dayCells = buildDayGrid({
+            viewDate: this.viewDate(),
+            selectedDate: this.pendingDate() ?? this.selectedDate(),
+            minDate: this.minDate(),
+            maxDate: this.maxDate(),
+            disabledDate: this.disabledDate(),
+          });
+          const resolved = resolveInitialCalendarDay({
+            pendingDate: this.pendingDate(),
+            selectedDate: this.selectedDate(),
+            dayCells,
+          });
+          this.menuInitialActiveDate.set(resolved);
+          this.menuFocusSessionId.update((value) => value + 1);
+        }
+        this.wasDatepickerOpen = open;
+      },
+      { allowSignalWrites: true },
+    );
+
+    effect(
+      () => {
+        const open = this.isOpen();
+        const calendarType = this.calendarType();
+
+        if (!open) {
+          this.focusTrapService.deactivate();
+          return;
+        }
+
+        waitForNextFrame(() => {
           waitForNextFrame(() => {
             const overlayRoot = document.getElementById("overlay-root");
-            const menuElement = overlayRoot?.querySelector("rte-datepicker-menu") as HTMLElement | null;
-            if (menuElement) {
-              this.focusTrapService.activate(menuElement);
-              waitForNextFrame(() => {
-                const activeGridCell = menuElement.querySelector(
-                  '.day-cell[tabindex="0"]:not([disabled])',
-                ) as HTMLButtonElement | null;
-                activeGridCell?.focus();
+            const menuHost = overlayRoot?.querySelector("rte-datepicker-menu") as HTMLElement | null;
+            if (!menuHost) {
+              return;
+            }
+
+            this.focusTrapService.deactivate();
+            if (calendarType === "day") {
+              this.focusTrapService.activate(menuHost, {
+                getOrderedFocusables: () => collectDatepickerDayTabOrder(menuHost),
+                initialFocusIndex: 0,
               });
+            } else {
+              this.focusTrapService.activate(menuHost);
             }
           });
-        } else {
-          this.focusTrapService.deactivate();
-        }
+        });
       },
       { allowSignalWrites: true },
     );

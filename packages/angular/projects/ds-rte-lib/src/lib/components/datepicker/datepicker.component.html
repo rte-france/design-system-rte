@@ -1,7 +1,7 @@
 <div
   rteDropdown
   rteDropdownPosition="bottom"
-  [rteDropdownAlignment]="start"
+  rteDropdownAlignment="start"
   [rteDropdownAutoOpen]="false"
   [rteDropdownAutofocus]="true"
   [rteDropdownIsOpen]="isOpen()"
@@ -12,6 +12,7 @@
   <div #inputRootRef>
     <rte-base-input
       rteDropdownTrigger
+      rightIcon="calendar-month"
       [id]="id()"
       [label]="hasLabel() ? labelText() : ''"
       [labelPosition]="labelPosition()"
@@ -24,7 +25,6 @@
       [error]="isError()"
       [disabled]="isDisabled()"
       [readOnly]="isReadOnly()"
-      [rightIcon]="'calendar-month'"
       [rightIconAriaLabel]="calendarButtonAriaLabel()"
       (valueChange)="onInputValueChange($event)"
       (rightIconClick)="onCalendarIconTriggered($event)"
@@ -45,6 +45,8 @@
         [maxDate]="maxDate()"
         [disabledDate]="disabledDate()"
         [locale]="locale()"
+        [focusSessionId]="menuFocusSessionId()"
+        [initialActiveDate]="menuInitialActiveDate()"
         (dismiss)="onDismiss()"
         (dateSelected)="onMenuDateSelected($event)"
         (dateHovered)="onMenuViewDateChanged($event)"

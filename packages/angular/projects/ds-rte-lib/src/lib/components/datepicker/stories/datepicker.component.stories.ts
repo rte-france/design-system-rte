@@ -138,25 +138,119 @@ export const OpenFocusAndEsc: Story = {
     await userEvent.click(calendarButton);
 
     await waitFor(() => {
+      const overlayRoot = document.getElementById("overlay-root");
+      expect(overlayRoot?.querySelector("rte-datepicker-menu")).toBeInTheDocument();
+    });
+
+    const overlay = document.getElementById("overlay-root") as HTMLElement;
+
+    await waitFor(() => {
+      const activeDayButton = overlay.querySelector(
+        'rte-datepicker-menu .day-cell[data-datepicker-active="true"]',
+      ) as HTMLButtonElement | null;
+      expect(activeDayButton).toBeInTheDocument();
+      expect(activeDayButton).toHaveFocus();
+    });
+
+    await userEvent.keyboard("{Escape}");
+
+    await waitFor(() => {
+      expect(overlay.querySelector("rte-datepicker-menu")).not.toBeInTheDocument();
+    });
+
+    await waitFor(() => {
+      expect(calendarButton).toHaveFocus();
+    });
+  },
+};
+
+export const OpenTabAnnulerConfirmerNavPrevYear: Story = {
+  name: "Open + Tab: Annuler → Confirmer → année précédente",
+  render: Default.render,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const calendarButton = canvas.getByRole("button", { name: /ouvrir le calendrier/i });
+
+    await userEvent.click(calendarButton);
+
+    await waitFor(() => {
+      const overlayRoot = document.getElementById("overlay-root");
+      expect(overlayRoot?.querySelector("rte-datepicker-menu")).toBeInTheDocument();
+    });
+
+    const overlay = document.getElementById("overlay-root") as HTMLElement;
+
+    await waitFor(() => {
+      const activeDayButton = overlay.querySelector(
+        'rte-datepicker-menu .day-cell[data-datepicker-active="true"]',
+      ) as HTMLButtonElement | null;
+      expect(activeDayButton).toBeInTheDocument();
+      expect(activeDayButton).toHaveFocus();
+    });
+
+    await userEvent.tab();
+    await waitFor(() => {
+      expect(within(overlay).getByRole("button", { name: /^annuler$/i })).toHaveFocus();
+    });
+
+    await userEvent.tab();
+    await waitFor(() => {
+      expect(within(overlay).getByRole("button", { name: /^confirmer$/i })).toHaveFocus();
+    });
+
+    await userEvent.tab();
+    await waitFor(() => {
+      expect(within(overlay).getByRole("button", { name: /année précédente/i })).toHaveFocus();
+    });
+  },
+};
+
+export const KeyboardTabOrderAndArrows: Story = {
+  name: "Keyboard: tab order + arrows scoped to grid",
+  render: Default.render,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const calendarButton = canvas.getByRole("button", { name: /ouvrir le calendrier/i });
+
+    await userEvent.click(calendarButton);
+
+    await waitFor(() => {
       const overlay = document.getElementById("overlay-root");
       const menu = overlay?.querySelector("rte-datepicker-menu");
       expect(menu).toBeInTheDocument();
     });
 
     const overlay = document.getElementById("overlay-root") as HTMLElement;
-    const activeDayButton = overlay.querySelector(
-      'rte-datepicker-menu .day-cell[tabindex="0"]',
-    ) as HTMLButtonElement | null;
-    expect(activeDayButton).toBeInTheDocument();
-    expect(activeDayButton).toHaveFocus();
-
-    await userEvent.keyboard("{Escape}");
-
     await waitFor(() => {
-      const menu = overlay.querySelector("rte-datepicker-menu");
-      expect(menu).not.toBeInTheDocument();
+      const active = overlay.querySelector(
+        'rte-datepicker-menu .day-cell[data-datepicker-active="true"]',
+      ) as HTMLButtonElement | null;
+      expect(active).toBeInTheDocument();
+      expect(active).toHaveFocus();
     });
 
-    expect(calendarButton).toHaveFocus();
+    const activeDayButton = overlay.querySelector(
+      'rte-datepicker-menu .day-cell[data-datepicker-active="true"]',
+    ) as HTMLButtonElement | null;
+
+    await userEvent.tab();
+    const cancelButton = within(overlay).getByRole("button", { name: /^annuler$/i });
+    expect(cancelButton).toHaveFocus();
+
+    await userEvent.keyboard("{ArrowDown}");
+    expect(cancelButton).toHaveFocus();
+
+    await userEvent.tab({ shift: true });
+    expect(activeDayButton).toHaveFocus();
+
+    await userEvent.keyboard("{ArrowRight}");
+    await waitFor(() => {
+      const nextActive = overlay.querySelector(
+        'rte-datepicker-menu .day-cell[data-datepicker-active="true"]',
+      ) as HTMLButtonElement | null;
+      expect(nextActive).toBeInTheDocument();
+      expect(nextActive).toHaveFocus();
+      expect(nextActive).not.toBe(activeDayButton);
+    });
   },
 };
