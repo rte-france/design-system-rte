@@ -1,5 +1,11 @@
 export type DatepickerCalendarType = "day" | "month" | "year";
 
+/** Header navigation in day (month) view: double + single chevrons. */
+export type DatepickerDayNavAction = "prevYear" | "prevMonth" | "nextMonth" | "nextYear";
+
+/** Header navigation in month or year (decade) view: two chevrons only. */
+export type DatepickerCompactNavStep = "previous" | "next";
+
 export type DatepickerDayCellType = "default" | "today" | "selected" | "prev/next" | "empty";
 
 export interface DatepickerDayCell {
@@ -121,6 +127,48 @@ export function addMonths(date: Date, amount: number): Date {
   return new Date(date.getFullYear(), date.getMonth() + amount, 1);
 }
 
+export function addYears(date: Date, amount: number): Date {
+  return new Date(date.getFullYear() + amount, date.getMonth(), 1);
+}
+
+export function getDecadeStartYear(year: number): number {
+  return Math.floor(year / 10) * 10;
+}
+
+export function navigateViewDate(params: {
+  viewDate: Date;
+  calendarType: DatepickerCalendarType;
+  dayAction?: DatepickerDayNavAction;
+  compactStep?: DatepickerCompactNavStep;
+}): Date {
+  const { viewDate, calendarType } = params;
+  if (calendarType === "day") {
+    const action = params.dayAction;
+    if (!action) {
+      return viewDate;
+    }
+    if (["prevYear", "nextYear"].includes(action)) {
+      return addMonths(viewDate, action === "prevYear" ? -12 : 12);
+    }
+    return addMonths(viewDate, action === "prevMonth" ? -1 : 1);
+  }
+  if (calendarType === "month") {
+    const step = params.compactStep;
+    if (!step) {
+      return viewDate;
+    }
+    return addYears(viewDate, step === "previous" ? -1 : 1);
+  }
+  if (calendarType === "year") {
+    const step = params.compactStep;
+    if (!step) {
+      return viewDate;
+    }
+    return addYears(viewDate, step === "previous" ? -10 : 10);
+  }
+  return viewDate;
+}
+
 export function isDateDisabled(params: {
   date: Date;
   minDate?: Date;
@@ -140,6 +188,16 @@ export function isDateDisabled(params: {
 
 export function getMonthLabel(date: Date, locale: string = "fr-FR"): string {
   return new Intl.DateTimeFormat(locale, { month: "long", year: "numeric" }).format(date);
+}
+
+export function getYearLabel(date: Date, locale: string = "fr-FR"): string {
+  return new Intl.DateTimeFormat(locale, { year: "numeric" }).format(date);
+}
+
+export function getDecadeRangeLabel(date: Date): string {
+  const decadeStart = getDecadeStartYear(date.getFullYear());
+  const decadeEnd = decadeStart + 9;
+  return `${decadeStart} – ${decadeEnd}`;
 }
 
 export function getWeekdayShortLabels(locale: string = "fr-FR"): string[] {
@@ -216,6 +274,8 @@ export const DATEPICKER_TAB_DATA = {
   monthLabel: "month-label",
   navNextMonth: "nav-next-month",
   navNextYear: "nav-next-year",
+  navPrevCompact: "nav-prev-compact",
+  navNextCompact: "nav-next-compact",
 } as const;
 
 function resolveDatepickerMenuFocusableElement(element: HTMLElement): HTMLElement {
@@ -229,25 +289,50 @@ function resolveDatepickerMenuFocusableElement(element: HTMLElement): HTMLElemen
   return element;
 }
 
-export function collectDatepickerDayTabOrder(menuHost: HTMLElement): HTMLElement[] {
-  const activeCell = menuHost.querySelector(
-    '.rte-datepicker-day-grid .day-cell[data-datepicker-active="true"]:not([disabled])',
-  ) as HTMLElement | null;
-  const rest = [
-    menuHost.querySelector(`[data-datepicker-tab="${DATEPICKER_TAB_DATA.cancel}"]`),
-    menuHost.querySelector(`[data-datepicker-tab="${DATEPICKER_TAB_DATA.confirm}"]`),
-    menuHost.querySelector(`[data-datepicker-tab="${DATEPICKER_TAB_DATA.navPrevYear}"]`),
-    menuHost.querySelector(`[data-datepicker-tab="${DATEPICKER_TAB_DATA.navPrevMonth}"]`),
-    menuHost.querySelector(`[data-datepicker-tab="${DATEPICKER_TAB_DATA.monthLabel}"]`),
-    menuHost.querySelector(`[data-datepicker-tab="${DATEPICKER_TAB_DATA.navNextMonth}"]`),
-    menuHost.querySelector(`[data-datepicker-tab="${DATEPICKER_TAB_DATA.navNextYear}"]`),
-  ]
+export function collectDatepickerMenuTabOrder(
+  menuHost: HTMLElement,
+  calendarType: DatepickerCalendarType,
+): HTMLElement[] {
+  const activeCellSelector =
+    calendarType === "day"
+      ? '.rte-datepicker-day-grid .day-cell[data-datepicker-active="true"]:not([disabled])'
+      : calendarType === "month"
+        ? '.rte-datepicker-month-grid .month-cell[data-datepicker-active="true"]:not([disabled])'
+        : '.rte-datepicker-year-grid .year-cell[data-datepicker-active="true"]:not([disabled])';
+
+  const activeCell = menuHost.querySelector(activeCellSelector) as HTMLElement | null;
+
+  const rest =
+    calendarType === "day"
+      ? [
+          menuHost.querySelector(`[data-datepicker-tab="${DATEPICKER_TAB_DATA.cancel}"]`),
+          menuHost.querySelector(`[data-datepicker-tab="${DATEPICKER_TAB_DATA.confirm}"]`),
+          menuHost.querySelector(`[data-datepicker-tab="${DATEPICKER_TAB_DATA.navPrevYear}"]`),
+          menuHost.querySelector(`[data-datepicker-tab="${DATEPICKER_TAB_DATA.navPrevMonth}"]`),
+          menuHost.querySelector(`[data-datepicker-tab="${DATEPICKER_TAB_DATA.monthLabel}"]`),
+          menuHost.querySelector(`[data-datepicker-tab="${DATEPICKER_TAB_DATA.navNextMonth}"]`),
+          menuHost.querySelector(`[data-datepicker-tab="${DATEPICKER_TAB_DATA.navNextYear}"]`),
+        ]
+      : [
+          menuHost.querySelector(`[data-datepicker-tab="${DATEPICKER_TAB_DATA.cancel}"]`),
+          menuHost.querySelector(`[data-datepicker-tab="${DATEPICKER_TAB_DATA.confirm}"]`),
+          menuHost.querySelector(`[data-datepicker-tab="${DATEPICKER_TAB_DATA.navPrevCompact}"]`),
+          menuHost.querySelector(`[data-datepicker-tab="${DATEPICKER_TAB_DATA.navNextCompact}"]`),
+          menuHost.querySelector(`[data-datepicker-tab="${DATEPICKER_TAB_DATA.monthLabel}"]`),
+        ];
+
+  const focusables = rest
     .filter((element): element is HTMLElement => element instanceof HTMLElement)
     .map(resolveDatepickerMenuFocusableElement);
   if (activeCell) {
-    return [activeCell, ...rest];
+    return [activeCell, ...focusables];
   }
-  return rest;
+  return focusables;
+}
+
+/** @deprecated Use collectDatepickerMenuTabOrder(menuHost, "day"). */
+export function collectDatepickerDayTabOrder(menuHost: HTMLElement): HTMLElement[] {
+  return collectDatepickerMenuTabOrder(menuHost, "day");
 }
 
 export function buildDayGrid(params: {
@@ -323,9 +408,9 @@ export function buildYearGrid(params: {
   const { viewDate, selectedDate, minDate, maxDate, disabledDate } = params;
   const currentYear = getTodayStart().getFullYear();
   const selectedYear = selectedDate?.getFullYear() ?? null;
-  const startYear = viewDate.getFullYear() - 7;
+  const startYear = getDecadeStartYear(viewDate.getFullYear());
 
-  return Array.from({ length: 16 }).map((_, index) => {
+  return Array.from({ length: 10 }).map((_, index) => {
     const year = startYear + index;
     const cellDate = new Date(year, 0, 1);
     return {
@@ -336,4 +421,28 @@ export function buildYearGrid(params: {
       isSelected: selectedYear === year,
     };
   });
+}
+
+export function getNextGridCellIndex(params: {
+  currentIndex: number;
+  key: string;
+  columnCount: number;
+  cellCount: number;
+}): number | null {
+  const { currentIndex, key, columnCount, cellCount } = params;
+  if (key === "ArrowLeft") {
+    return currentIndex > 0 ? currentIndex - 1 : null;
+  }
+  if (key === "ArrowRight") {
+    return currentIndex < cellCount - 1 ? currentIndex + 1 : null;
+  }
+  if (key === "ArrowUp") {
+    const nextIndex = currentIndex - columnCount;
+    return nextIndex >= 0 ? nextIndex : null;
+  }
+  if (key === "ArrowDown") {
+    const nextIndex = currentIndex + columnCount;
+    return nextIndex < cellCount ? nextIndex : null;
+  }
+  return null;
 }

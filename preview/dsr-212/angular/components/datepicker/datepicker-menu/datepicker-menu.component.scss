@@ -55,6 +55,11 @@
     color: var(--content-primary);
     @include typography-text-m-bold;
   }
+
+  .month-label-static {
+    cursor: default;
+    text-align: center;
+  }
 }
 
 .rte-datepicker-weekdays {

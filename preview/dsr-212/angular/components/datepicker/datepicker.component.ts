@@ -23,7 +23,7 @@ import { BaseInputComponent } from "../input/base-input/base-input.component";
 import { DatepickerMenuComponent } from "./datepicker-menu/datepicker-menu.component";
 import {
   buildDayGrid,
-  collectDatepickerDayTabOrder,
+  collectDatepickerMenuTabOrder,
   DatepickerCalendarType,
   formatDate,
   maskDateInput,
@@ -154,14 +154,10 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
             }
 
             this.focusTrapService.deactivate();
-            if (calendarType === "day") {
-              this.focusTrapService.activate(menuHost, {
-                getOrderedFocusables: () => collectDatepickerDayTabOrder(menuHost),
-                initialFocusIndex: 0,
-              });
-            } else {
-              this.focusTrapService.activate(menuHost);
-            }
+            this.focusTrapService.activate(menuHost, {
+              getOrderedFocusables: () => collectDatepickerMenuTabOrder(menuHost, calendarType),
+              initialFocusIndex: 0,
+            });
           });
         });
       },
@@ -241,6 +237,7 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
   }
 
   onClickedOutside(): void {
+    this.calendarType.set("day");
     this.isOpen.set(false);
   }
 
@@ -251,6 +248,7 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
 
   onDismiss(): void {
     this.pendingDate.set(this.selectedDate());
+    this.calendarType.set("day");
     this.isOpen.set(false);
   }
 
@@ -258,6 +256,7 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
     if (event.key === ESCAPE_KEY) {
       event.preventDefault();
       event.stopPropagation();
+      this.calendarType.set("day");
       this.isOpen.set(false);
     }
   }
@@ -281,6 +280,7 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
     this.textValue.set("");
     this.onChange(null);
     this.valueChange.emit(null);
+    this.calendarType.set("day");
     this.isOpen.set(false);
   }
 
@@ -289,6 +289,7 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
     this.selectedDate.set(date);
     this.onChange(date);
     this.valueChange.emit(date);
+    this.calendarType.set("day");
     this.isOpen.set(false);
   }
 }

@@ -205,6 +205,60 @@ export const OpenTabAnnulerConfirmerNavPrevYear: Story = {
   },
 };
 
+export const ViewModesFourVsTwoNavAndGrids: Story = {
+  name: "View modes: day grid + 4 nav → month grid + 2 nav → decade + 2 nav",
+  render: Default.render,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole("button", { name: /ouvrir le calendrier/i }));
+
+    await waitFor(() => {
+      const overlayRoot = document.getElementById("overlay-root");
+      expect(overlayRoot?.querySelector("rte-datepicker-menu")).toBeInTheDocument();
+    });
+
+    const overlay = document.getElementById("overlay-root") as HTMLElement;
+    const menuOverlay = within(overlay);
+
+    expect(menuOverlay.getByRole("button", { name: /année précédente/i })).toBeInTheDocument();
+    expect(menuOverlay.getByRole("button", { name: /mois précédent/i })).toBeInTheDocument();
+    expect(menuOverlay.getByRole("button", { name: /mois suivant/i })).toBeInTheDocument();
+    expect(menuOverlay.getByRole("button", { name: /année suivante/i })).toBeInTheDocument();
+    expect(overlay.querySelector(".rte-datepicker-day-grid")).toBeInTheDocument();
+
+    const dayHeaderLabel = overlay.querySelector('[data-datepicker-tab="month-label"]') as HTMLButtonElement | null;
+    expect(dayHeaderLabel).toBeTruthy();
+    await userEvent.click(dayHeaderLabel!);
+
+    await waitFor(() => {
+      expect(overlay.querySelector(".rte-datepicker-month-grid")).toBeInTheDocument();
+    });
+
+    expect(overlay.querySelector(".rte-datepicker-day-grid")).not.toBeInTheDocument();
+    expect(menuOverlay.queryAllByRole("button", { name: /année précédente/i })).toHaveLength(1);
+    expect(menuOverlay.queryAllByRole("button", { name: /année suivante/i })).toHaveLength(1);
+    expect(menuOverlay.queryByRole("button", { name: /mois précédent/i })).not.toBeInTheDocument();
+    expect(menuOverlay.queryByRole("button", { name: /mois suivant/i })).not.toBeInTheDocument();
+
+    const yearHeaderLabel = overlay.querySelector('[data-datepicker-tab="month-label"]') as HTMLButtonElement | null;
+    expect(yearHeaderLabel).toBeTruthy();
+    await userEvent.click(yearHeaderLabel!);
+
+    await waitFor(() => {
+      expect(overlay.querySelector(".rte-datepicker-year-grid")).toBeInTheDocument();
+    });
+
+    expect(overlay.querySelector(".rte-datepicker-month-grid")).not.toBeInTheDocument();
+    expect(menuOverlay.getByRole("button", { name: /décennie précédente/i })).toBeInTheDocument();
+    expect(menuOverlay.getByRole("button", { name: /décennie suivante/i })).toBeInTheDocument();
+    expect(overlay.querySelector(".month-label-static")).toBeInTheDocument();
+    expect(overlay.querySelector('[data-datepicker-tab="month-label"]')).not.toBeInTheDocument();
+
+    const yearCells = overlay.querySelectorAll("rte-datepicker-menu .year-cell");
+    expect(yearCells.length).toBe(10);
+  },
+};
+
 export const KeyboardTabOrderAndArrows: Story = {
   name: "Keyboard: tab order + arrows scoped to grid",
   render: Default.render,
