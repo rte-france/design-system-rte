@@ -4,6 +4,8 @@ import { expect, userEvent, waitFor, within } from "@storybook/test";
 import { focusElementBeforeComponent } from "../../../../../../../.storybook/testing/testing.utils";
 import { DatepickerComponent } from "../datepicker.component";
 
+const calendarTriggerAccessibleName = /ouvrir le calendrier|changer la date/i;
+
 const meta: Meta<DatepickerComponent> = {
   title: "Composants/Datepicker/Datepicker",
   component: DatepickerComponent,
@@ -12,7 +14,7 @@ const meta: Meta<DatepickerComponent> = {
     docs: {
       description: {
         component:
-          "Single-date Datepicker.\n\nHandoff note for React:\n- Keep the same state model: `isOpen`, `calendarType` (`day|month|year`), `viewDate`, `selectedDate`, `pendingDate`.\n- Display format is fixed to `jj/mm/aaaa` with automatic separators (no dynamic parsing/formatting).\n- Keyboard behavior follows W3C APG datepicker dialog guidance for grid navigation (arrows move, Enter/Space select) and ESC closes.",
+          "Single-date Datepicker with a segmented DD/MM/YYYY field (MUI-style blocks).\n\nField: focus lands on the day block; Left/Right move between day, month, and year; digits only; Up/Down apply defaults (day/month → 1, year → current year; Down on day uses last day of month when month/year are known, else 31).\n\nCalendar: opening while the text is not a valid complete date resets the view to the current month and picks an initial day via the same rules as an empty field.\n\nHandoff note for React:\n- Keep the same state model: `isOpen`, `calendarType` (`day|month|year`), `viewDate`, `selectedDate`, `pendingDate`.\n- Display format is fixed to DD/MM/YYYY.\n- Keyboard behavior for the overlay grid follows W3C APG datepicker dialog guidance (arrows move, Enter/Space select) and ESC closes.",
       },
     },
   },
@@ -90,12 +92,13 @@ export const Disabled: Story = {
   render: Default.render,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const input = canvasElement.querySelector("input") as HTMLInputElement | null;
-    expect(input).toBeInTheDocument();
+    const field = canvasElement.querySelector(".segmented-date-field") as HTMLElement | null;
+    expect(field).toBeInTheDocument();
+    expect(field).toHaveAttribute("tabindex", "-1");
     focusElementBeforeComponent(canvasElement);
     await userEvent.tab();
     await userEvent.tab();
-    expect(canvas.getByRole("button", { name: /ouvrir le calendrier/i })).not.toHaveFocus();
+    expect(canvas.queryByTestId("right-icon")).not.toBeInTheDocument();
   },
 };
 
@@ -104,7 +107,7 @@ export const OpenSelectConfirm: Story = {
   render: Default.render,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const calendarButton = canvas.getByRole("button", { name: /ouvrir le calendrier/i });
+    const calendarButton = canvas.getByRole("button", { name: calendarTriggerAccessibleName });
     await userEvent.click(calendarButton);
 
     await waitFor(() => {
@@ -133,7 +136,7 @@ export const OpenFocusAndEsc: Story = {
   render: Default.render,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const calendarButton = canvas.getByRole("button", { name: /ouvrir le calendrier/i });
+    const calendarButton = canvas.getByRole("button", { name: calendarTriggerAccessibleName });
 
     await userEvent.click(calendarButton);
 
@@ -169,7 +172,7 @@ export const OpenTabAnnulerConfirmerNavPrevYear: Story = {
   render: Default.render,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const calendarButton = canvas.getByRole("button", { name: /ouvrir le calendrier/i });
+    const calendarButton = canvas.getByRole("button", { name: calendarTriggerAccessibleName });
 
     await userEvent.click(calendarButton);
 
@@ -210,7 +213,7 @@ export const ViewModesFourVsTwoNavAndGrids: Story = {
   render: Default.render,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    await userEvent.click(canvas.getByRole("button", { name: /ouvrir le calendrier/i }));
+    await userEvent.click(canvas.getByRole("button", { name: calendarTriggerAccessibleName }));
 
     await waitFor(() => {
       const overlayRoot = document.getElementById("overlay-root");
@@ -259,12 +262,117 @@ export const ViewModesFourVsTwoNavAndGrids: Story = {
   },
 };
 
+export const SegmentedFieldBlockNavigation: Story = {
+  name: "Segmented field: Left/Right moves active block",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Focus the date field (role=group), press ArrowRight twice: the highlighted block moves from day → month → year.",
+      },
+    },
+  },
+  render: Default.render,
+  play: async ({ canvasElement }) => {
+    const field = within(canvasElement).getByRole("group");
+    field.focus();
+    expect(canvasElement.querySelector(".segment--active")?.textContent?.trim()).toBe("DD");
+
+    await userEvent.keyboard("{ArrowRight}");
+    await waitFor(() => {
+      expect(canvasElement.querySelector(".segment--active")?.textContent?.trim()).toBe("MM");
+    });
+
+    await userEvent.keyboard("{ArrowRight}");
+    await waitFor(() => {
+      expect(canvasElement.querySelector(".segment--active")?.textContent?.trim()).toBe("YYYY");
+    });
+  },
+};
+
+export const OpenCalendarWithInvalidPartialInput: Story = {
+  name: "Open calendar: invalid partial input uses default month",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "With only partial digits (not a valid DD/MM/YYYY), opening the calendar shows the current month; the active day is resolved like an empty picker.",
+      },
+    },
+  },
+  render: Default.render,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const field = canvas.getByRole("group");
+    field.focus();
+    await userEvent.keyboard("12");
+
+    const calendarButton = canvas.getByRole("button", { name: calendarTriggerAccessibleName });
+    await userEvent.click(calendarButton);
+
+    await waitFor(() => {
+      const overlay = document.getElementById("overlay-root");
+      expect(overlay?.querySelector("rte-datepicker-menu")).toBeInTheDocument();
+    });
+  },
+};
+
+export const TypeFullDateThenOpenCalendarShowsThatDate: Story = {
+  name: "Type 13021992 then open calendar → February 13, 1992",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Click the segmented field, enter digits 13021992 (DD/MM/YYYY → 13/02/1992), then open the calendar. The header must show February 1992 (locale fr-FR) and the active day cell must be 13.",
+      },
+    },
+  },
+  render: Default.render,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const field = canvas.getByRole("group");
+    await userEvent.click(field);
+    field.focus();
+
+    await userEvent.keyboard("13021992");
+
+    await waitFor(() => {
+      const segmented = canvasElement.querySelector(".segmented-date-field");
+      const compact = segmented?.textContent?.replace(/\s/g, "") ?? "";
+      expect(compact).toContain("13");
+      expect(compact).toContain("02");
+      expect(compact).toContain("1992");
+    });
+
+    const calendarButton = canvas.getByRole("button", { name: calendarTriggerAccessibleName });
+    await userEvent.click(calendarButton);
+
+    await waitFor(() => {
+      const overlay = document.getElementById("overlay-root");
+      expect(overlay?.querySelector("rte-datepicker-menu")).toBeInTheDocument();
+    });
+
+    const overlay = document.getElementById("overlay-root") as HTMLElement;
+    const monthHeader = overlay.querySelector('[data-datepicker-tab="month-label"]') as HTMLElement | null;
+    expect(monthHeader).toBeTruthy();
+    expect(monthHeader?.textContent ?? "").toMatch(/février/i);
+    expect(monthHeader?.textContent ?? "").toContain("1992");
+
+    await waitFor(() => {
+      const activeDay = overlay.querySelector(
+        'rte-datepicker-menu .day-cell[data-datepicker-active="true"]',
+      ) as HTMLElement | null;
+      expect(activeDay?.textContent?.trim()).toBe("13");
+    });
+  },
+};
+
 export const KeyboardTabOrderAndArrows: Story = {
   name: "Keyboard: tab order + arrows scoped to grid",
   render: Default.render,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const calendarButton = canvas.getByRole("button", { name: /ouvrir le calendrier/i });
+    const calendarButton = canvas.getByRole("button", { name: calendarTriggerAccessibleName });
 
     await userEvent.click(calendarButton);
 

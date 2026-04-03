@@ -39,25 +39,39 @@
           <rte-icon appearance="outlined" class="left-icon" aria-hidden="true" [name]="displayedLeftIcon()!" />
         </ng-container>
 
-        <input
-          #inputRef
-          class="input-field"
-          [id]="id()"
-          [ngClass]="{ error: error(), highlighted: highlighted() }"
-          [ngStyle]="customStyle()"
-          [attr.aria-label]="ariaLabel()"
-          [attr.aria-labelledby]="ariaLabelledby()"
-          [attr.aria-required]="ariaRequired()"
-          [type]="computedInputType()"
-          [maxLength]="maxLength()"
-          [disabled]="disabled()"
-          [readOnly]="readOnly()"
-          [value]="internalValue()"
-          [placeholder]="placeholder()"
-          [attr.autocomplete]="autocomplete()"
-          (input)="handleChange($event)"
-          (blur)="inputBlur.emit()"
-        />
+        @if (showProjectedShell()) {
+          <div
+            class="input-field input-field--projected"
+            [ngClass]="{
+              error: error(),
+              highlighted: highlighted(),
+              'input-field--disabled': disabled(),
+              'input-field--read-only': readOnly(),
+            }"
+          >
+            <ng-content select="[rteBaseInputControl]"></ng-content>
+          </div>
+        } @else {
+          <input
+            #inputRef
+            class="input-field"
+            [id]="id()"
+            [ngClass]="{ error: error(), highlighted: highlighted() }"
+            [ngStyle]="customStyle()"
+            [attr.aria-label]="ariaLabel()"
+            [attr.aria-labelledby]="ariaLabelledby()"
+            [attr.aria-required]="ariaRequired()"
+            [type]="computedInputType()"
+            [maxLength]="maxLength()"
+            [disabled]="disabled()"
+            [readOnly]="readOnly()"
+            [value]="internalValue()"
+            [placeholder]="placeholder()"
+            [attr.autocomplete]="autocomplete()"
+            (input)="handleChange($event)"
+            (blur)="inputBlur.emit()"
+          />
+        }
 
         <ng-container *ngIf="shouldShowRightIcon()">
           <rte-icon-button
@@ -81,7 +95,7 @@
     </div>
 
     <ng-container *ngIf="assistiveTextLabel()">
-      <div class="assistive-text">
+      <div class="assistive-text" [attr.id]="assistiveTextId() ?? null">
         <ng-container *ngIf="showAssistiveIcon() && assistiveAppearance() === 'error'">
           <rte-icon name="error" appearance="outlined" class="assistive-icon-error" [size]="12" />
         </ng-container>
