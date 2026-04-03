@@ -57,6 +57,8 @@ export class BaseInputComponent {
   readonly autocomplete = input<string>("");
   readonly highlighted = input<boolean>(false);
   readonly inputType = input<"text" | "password">("text");
+  /** When false, the label does not set `for` (use with custom controls that are not labelable elements, e.g. role=group). */
+  readonly associateLabelWithControlId = input<boolean>(true);
 
   readonly valueChange = output<string>();
   readonly inputBlur = output<void>();
