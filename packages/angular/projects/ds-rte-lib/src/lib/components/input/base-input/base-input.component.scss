@@ -167,7 +167,7 @@
                     border: $width-xs solid var(--border-secondary);
                     padding: $positive-spacing-050 $positive-spacing-200;
                     background: linear-gradient(0deg, var(--elevation-surface-inner-shadow) 0%, var(--elevation-surface-inner-shadow) 100%), var(--background-default);
-                    transition: border 200ms, outline 200ms;
+                    transition: border 200ms, outline 200ms, box-shadow 200ms;
                     color: var(--content-primary);
                     @include neutral-inner-shadow;
 
@@ -214,6 +214,32 @@
                         display: flex;
                         align-items: center;
                         cursor: text;
+
+                        &:focus-within:not(.error),
+                        &:focus:not(.error),
+                        &:active:not(.error),
+                        &.highlighted:not(.error) {
+                            outline: none;
+                            border-color: var(--border-brand-default);
+                            box-shadow: inset 0 1px 4px 0 var(--elevation-shadow-key),
+                                inset 0 0 0 1px var(--border-brand-default);
+                        }
+
+                        &.error {
+                            outline: none;
+                            border-color: var(--border-danger);
+                            box-shadow: inset 0 1px 4px 0 var(--elevation-shadow-key),
+                                inset 0 0 0 1px var(--border-danger);
+
+                            &:focus-within,
+                            &:focus,
+                            &:active,
+                            &.highlighted {
+                                border-color: var(--border-danger);
+                                box-shadow: inset 0 1px 4px 0 var(--elevation-shadow-key),
+                                    inset 0 0 0 1px var(--border-danger);
+                            }
+                        }
                     }
 
                     &.input-field--projected.input-field--disabled {
