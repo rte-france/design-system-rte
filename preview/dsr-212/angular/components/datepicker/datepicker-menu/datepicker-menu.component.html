@@ -130,6 +130,9 @@
         <button
           type="button"
           class="day-cell"
+          role="gridcell"
+          [attr.aria-selected]="isDayCellSelected(cell.date)"
+          [attr.aria-current]="isDayCellToday(cell.date) ? 'date' : null"
           [attr.data-cell-type]="cell.cellType"
           [attr.data-datepicker-active]="
             calendarType() === 'day' && cell.date.toDateString() === activeDate().toDateString() ? 'true' : null
@@ -150,6 +153,9 @@
         <button
           type="button"
           class="month-cell"
+          role="gridcell"
+          [attr.aria-selected]="cell.isSelected"
+          [attr.aria-current]="cell.isCurrent ? 'date' : null"
           [attr.data-datepicker-active]="
             cell.monthIndex === activeDate().getMonth() && viewDate().getFullYear() === activeDate().getFullYear()
               ? 'true'
@@ -172,6 +178,9 @@
         <button
           type="button"
           class="year-cell"
+          role="gridcell"
+          [attr.aria-selected]="cell.isSelected"
+          [attr.aria-current]="cell.isCurrent ? 'date' : null"
           [attr.data-datepicker-active]="cell.year === activeDate().getFullYear() ? 'true' : null"
           [attr.data-selected]="cell.isSelected"
           [attr.data-current]="cell.isCurrent"

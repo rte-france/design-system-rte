@@ -18,9 +18,11 @@ import {
   buildDayGrid,
   type DatepickerCalendarType,
   formatDate,
+  isDateDisabled,
   maskDateInput,
   parseDate,
   resolveInitialCalendarDay,
+  startOfDay,
 } from "@design-system-rte/core/components/datepicker";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
@@ -148,21 +150,18 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
           this.focusTrapService.deactivate();
           return;
         }
-
         waitForNextFrame(() => {
-          waitForNextFrame(() => {
-            const overlayRoot = document.getElementById("overlay-root");
-            const menuHost = overlayRoot?.querySelector("rte-datepicker-menu") as HTMLElement | null;
-            if (!menuHost) {
-              return;
-            }
+          const overlayRoot = document.getElementById("overlay-root");
+          const menuHost = overlayRoot?.querySelector("rte-datepicker-menu") as HTMLElement | null;
+          if (!menuHost) {
+            return;
+          }
 
-            this.focusTrapService.deactivate();
-            this.focusTrapService.activate(menuHost, {
-              getOrderedFocusables: () =>
-                this.datepickerMenuService.collectDatepickerMenuTabOrder(menuHost, calendarType),
-              initialFocusIndex: 0,
-            });
+          this.focusTrapService.deactivate();
+          this.focusTrapService.activate(menuHost, {
+            getOrderedFocusables: () =>
+              this.datepickerMenuService.collectDatepickerMenuTabOrder(menuHost, calendarType),
+            initialFocusIndex: 0,
           });
         });
       },
@@ -213,11 +212,22 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
 
     const parsed = parseDate(masked);
     if (parsed) {
-      this.pendingDate.set(parsed);
-      this.selectedDate.set(parsed);
-      this.viewDate.set(parsed);
-      this.onChange(parsed);
-      this.valueChange.emit(parsed);
+      const normalized = startOfDay(parsed);
+      if (
+        isDateDisabled({
+          date: normalized,
+          minDate: this.minDate(),
+          maxDate: this.maxDate(),
+          disabledDate: this.disabledDate(),
+        })
+      ) {
+        return;
+      }
+      this.pendingDate.set(normalized);
+      this.selectedDate.set(normalized);
+      this.viewDate.set(normalized);
+      this.onChange(normalized);
+      this.valueChange.emit(normalized);
     } else if (masked.length === 0) {
       this.pendingDate.set(null);
       this.selectedDate.set(null);

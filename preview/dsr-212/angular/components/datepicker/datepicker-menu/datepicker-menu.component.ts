@@ -198,6 +198,15 @@ export class DatepickerMenuComponent {
     this.calendarTypeChange.emit(type);
   }
 
+  isDayCellSelected(date: Date): boolean {
+    const selected = this.pendingDate() ?? this.selectedDate();
+    return selected !== null && isSameDay(date, selected);
+  }
+
+  isDayCellToday(date: Date): boolean {
+    return isSameDay(date, new Date());
+  }
+
   onHeaderLabelClick(): void {
     const type = this.calendarType();
     if (type === "day") {

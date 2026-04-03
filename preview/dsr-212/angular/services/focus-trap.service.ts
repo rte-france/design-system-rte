@@ -13,7 +13,6 @@ export class FocusTrapService {
   private renderer: Renderer2;
   private activeTrapElement: HTMLElement | null = null;
   private previouslyFocusedElement: HTMLElement | null = null;
-  private focusable: HTMLElement[] = [];
   private getOrderedFocusables: (() => HTMLElement[]) | null = null;
   private initialFocusIndex = 0;
 
@@ -29,8 +28,6 @@ export class FocusTrapService {
     this.activeTrapElement = element;
     this.getOrderedFocusables = options?.getOrderedFocusables ?? null;
     this.initialFocusIndex = options?.initialFocusIndex ?? 0;
-
-    this.focusable = this.getFocusableList();
 
     this.focusInitialElement();
 

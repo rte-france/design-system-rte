@@ -18,14 +18,15 @@ const DATEPICKER_MENU_GRID_SELECTORS = {
 } as const;
 
 function buildActiveDatepickerCellSelector(calendarType: DatepickerCalendarType): string {
-  const grid = DATEPICKER_MENU_GRID_SELECTORS;
+  const { dayGrid, dayCell, monthGrid, monthCell, yearGrid, yearCell, activeCell, notDisabled } =
+    DATEPICKER_MENU_GRID_SELECTORS;
   if (calendarType === "day") {
-    return `${grid.dayGrid} ${grid.dayCell}${grid.activeCell}${grid.notDisabled}`;
+    return `${dayGrid} ${dayCell}${activeCell}${notDisabled}`;
   }
   if (calendarType === "month") {
-    return `${grid.monthGrid} ${grid.monthCell}${grid.activeCell}${grid.notDisabled}`;
+    return `${monthGrid} ${monthCell}${activeCell}${notDisabled}`;
   }
-  return `${grid.yearGrid} ${grid.yearCell}${grid.activeCell}${grid.notDisabled}`;
+  return `${yearGrid} ${yearCell}${activeCell}${notDisabled}`;
 }
 
 @Injectable()
