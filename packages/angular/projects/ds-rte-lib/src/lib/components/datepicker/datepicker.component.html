@@ -1,4 +1,5 @@
 <div
+  class="rte-datepicker"
   rteDropdown
   rteDropdownPosition="bottom"
   rteDropdownAlignment="start"
@@ -10,14 +11,16 @@
   (closedDropdown)="onClosedDropdown()"
 >
   <div #inputRootRef>
-    <rte-base-input
+    <rte-datepicker-segmented-field
       rteDropdownTrigger
       rightIcon="calendar-month"
       [id]="id()"
-      [label]="hasLabel() ? labelText() : ''"
+      [hasLabel]="hasLabel()"
+      [label]="labelText()"
       [labelPosition]="labelPosition()"
       [required]="required()"
       [showLabelRequirement]="isRequiredOptional() ? showLabelRequirement() : false"
+      [hasAssistiveText]="hasAssistiveText()"
       [assistiveTextLabel]="hasAssistiveText() ? assistiveTextLabel() : ''"
       [assistiveAppearance]="isError() ? 'error' : assistiveTextAppearance()"
       [showAssistiveIcon]="showAssistiveIcon()"
@@ -31,7 +34,7 @@
       (rightIconKeydown)="onCalendarIconTriggered($event)"
       (inputBlur)="onInputBlurred()"
     >
-    </rte-base-input>
+    </rte-datepicker-segmented-field>
   </div>
 
   <rte-dropdown-menu>
