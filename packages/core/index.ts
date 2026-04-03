@@ -47,3 +47,4 @@ export * from "./components/accordion";
 export * from "./components/avatar";
 export * from "./utils";
 export * from "./components/file-upload";
+export * from "./components/timepicker";
