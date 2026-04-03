@@ -27,7 +27,7 @@
                 button {
                     height: 24px;
                     width: 24px;
-                    padding: 0 $positive-spacing-025;    
+                    padding: 0 $positive-spacing-025;
                 }
             }
         }
@@ -117,6 +117,7 @@
                 display: flex;
                 align-items: center;
                 flex: 1;
+                min-width: 0;
 
                 &.with-left-icon {
                     .input-field {
@@ -180,6 +181,11 @@
                         border-color: var(--border-brand-default);
                     }
 
+                    &:focus-within {
+                        outline: 1px solid var(--border-brand-default);
+                        border-color: var(--border-brand-default);
+                    }
+
                     &:active {
                         outline: 1px solid var(--border-brand-default);
                         border-color: var(--border-brand-default)
@@ -200,6 +206,28 @@
 
                     &::placeholder {
                         color: var(--content-tertiary);
+                    }
+
+                    &.input-field--projected {
+                        flex: 1;
+                        min-width: 0;
+                        display: flex;
+                        align-items: center;
+                        cursor: text;
+                    }
+
+                    &.input-field--projected.input-field--disabled {
+                        border-color: var(--border-disabled);
+                        background: linear-gradient(0deg, var(--elevation-surface-inner-shadow) 0%, var(--elevation-surface-inner-shadow) 100%), var(--background-disabled);
+                        cursor: not-allowed;
+                        box-shadow: none;
+                    }
+
+                    &.input-field--projected.input-field--read-only {
+                        border-color: var(--border-disabled);
+                        background: linear-gradient(0deg, var(--elevation-surface-inner-shadow) 0%, var(--elevation-surface-inner-shadow) 100%), var(--background-disabled);
+                        cursor: default;
+                        box-shadow: none;
                     }
 
                 }
@@ -259,4 +287,3 @@
     @include typography-text-s-regular;
     margin-block: $positive-spacing-0;
 }
-

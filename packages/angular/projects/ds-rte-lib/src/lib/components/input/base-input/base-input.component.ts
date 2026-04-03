@@ -1,14 +1,24 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component, computed, effect, input, output, signal } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  contentChild,
+  effect,
+  input,
+  output,
+  signal,
+} from "@angular/core";
 
 import { IconComponent } from "../../icon/icon.component";
 import { RegularIconIdKey, TogglableIconIdKey } from "../../icon/icon.service";
 import { IconButtonComponent } from "../../icon-button/icon-button.component";
 import { LinkComponent } from "../../link/link.component";
+import { RteBaseInputControlDirective } from "../rte-base-input-control.directive";
 
 @Component({
   selector: "rte-base-input",
-  imports: [CommonModule, IconComponent, IconButtonComponent, LinkComponent],
+  imports: [CommonModule, IconComponent, IconButtonComponent, LinkComponent, RteBaseInputControlDirective],
   standalone: true,
   templateUrl: "./base-input.component.html",
   styleUrl: "./base-input.component.scss",
@@ -33,6 +43,7 @@ export class BaseInputComponent {
   readonly assistiveAppearance = input<"description" | "error" | "success" | "link">("description");
   readonly showAssistiveIcon = input<boolean>(false);
   readonly assistiveTextLabel = input<string>("");
+  readonly assistiveTextId = input<string | null>(null);
   readonly error = input<boolean>(false);
   readonly maxLength = input<number>(150);
   readonly disabled = input<boolean>(false);
@@ -61,9 +72,24 @@ export class BaseInputComponent {
   readonly computedRightIconAriaLabel = computed(() => this.computeRightIconAriaLabel());
   readonly shouldShowRightIcon = computed(() => this.computeShouldShowRightIcon());
 
+  readonly projectedControl = contentChild(RteBaseInputControlDirective);
+
+  private readonly projectedControlLatch = signal(false);
+
+  readonly showProjectedShell = computed(() => this.projectedControl() !== undefined || this.projectedControlLatch());
+
   private lastParentValue = this.value();
 
   constructor() {
+    effect(
+      () => {
+        if (this.projectedControl()) {
+          this.projectedControlLatch.set(true);
+        }
+      },
+      { allowSignalWrites: true },
+    );
+
     effect(
       () => {
         const parentValue = this.value();

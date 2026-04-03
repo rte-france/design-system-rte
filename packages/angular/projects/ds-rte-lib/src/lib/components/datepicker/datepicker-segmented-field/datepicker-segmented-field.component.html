@@ -1,0 +1,72 @@
+<rte-base-input
+  [id]="id()"
+  [label]="hasLabel() ? label() : ''"
+  [labelPosition]="labelPosition()"
+  [required]="required()"
+  [showCounter]="showCounter()"
+  [showLabelRequirement]="showLabelRequirement()"
+  [assistiveAppearance]="assistiveAppearance()"
+  [showAssistiveIcon]="showAssistiveIcon()"
+  [assistiveTextLabel]="hasAssistiveText() ? assistiveTextLabel() : ''"
+  [assistiveTextId]="assistiveTextId()"
+  [error]="error()"
+  [maxLength]="maxLength()"
+  [disabled]="disabled()"
+  [readOnly]="readOnly()"
+  [width]="width()"
+  [compactSpacing]="compactSpacing()"
+  [leftIcon]="leftIcon()"
+  [showRightIcon]="showRightIcon()"
+  [rightIcon]="computedRightIconName()"
+  [rightIconAriaLabel]="computedRightIconAriaLabel()"
+  (rightIconClick)="onRightIconClickHandler($event)"
+  (rightIconKeydown)="onRightIconKeyDownHandler($event)"
+>
+  <div
+    #controlRef
+    rteBaseInputControl
+    class="segmented-date-field"
+    role="group"
+    [id]="id()"
+    [ngClass]="{
+      'segmented-date-field--read-only': readOnly(),
+    }"
+    [attr.aria-label]="ariaLabel()"
+    [attr.aria-labelledby]="labelElementId()"
+    [attr.aria-required]="ariaRequired()"
+    [attr.aria-describedby]="assistiveTextId()"
+    [attr.tabindex]="disabled() ? -1 : 0"
+    [attr.aria-disabled]="disabled() ? true : null"
+    (keydown)="onControlKeydown($event)"
+    (focus)="onControlFocus()"
+    (blur)="onControlBlur()"
+    (paste)="onPaste($event)"
+  >
+    <span
+      class="segment"
+      [class.segment--active]="isSegmentActive('day')"
+      [class.segment--muted]="segmentedState().dayDigits.length === 0"
+      (click)="selectSegment('day')"
+    >
+      {{ dayDisplay() }}
+    </span>
+    <span class="segment-separator" aria-hidden="true">/</span>
+    <span
+      class="segment"
+      [class.segment--active]="isSegmentActive('month')"
+      [class.segment--muted]="segmentedState().monthDigits.length === 0"
+      (click)="selectSegment('month')"
+    >
+      {{ monthDisplay() }}
+    </span>
+    <span class="segment-separator" aria-hidden="true">/</span>
+    <span
+      class="segment"
+      [class.segment--active]="isSegmentActive('year')"
+      [class.segment--muted]="segmentedState().yearDigits.length === 0"
+      (click)="selectSegment('year')"
+    >
+      {{ yearDisplay() }}
+    </span>
+  </div>
+</rte-base-input>
