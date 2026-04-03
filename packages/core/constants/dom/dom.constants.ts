@@ -1,5 +1,5 @@
 export const FOCUSABLE_ELEMENTS = [
-  "button",
+  'button:not([tabindex="-1"])',
   "a[href]",
   "input",
   "select",
