@@ -23,5 +23,5 @@
   [customStyle]="customStyle()"
   [autocomplete]="autocomplete()"
   (valueChange)="valueChange.emit($event)"
-  (rightIconClick)="rightIconClick.emit()"
+  (rightIconClick)="rightIconClick.emit($event)"
 />
