@@ -19,6 +19,92 @@ import type {
   NavigateViewDateParams,
 } from "./datepicker.interface";
 
+const DD_MM_YYYY_EMPTY_SLOT_MARKER = "\u200b";
+
+export interface DdMmYyyyDigitParts {
+  dayDigits: string;
+  monthDigits: string;
+  yearDigits: string;
+}
+
+function stripDdMmYyyySegmentPart(part: string): string {
+  return part.split(DD_MM_YYYY_EMPTY_SLOT_MARKER).join("").replace(/\D/g, "");
+}
+
+function parseDdMmYyyyTwoSlashParts(dayPart: string, secondPart: string): DdMmYyyyDigitParts {
+  const dayDigits = stripDdMmYyyySegmentPart(dayPart).slice(0, 2);
+  const rest = stripDdMmYyyySegmentPart(secondPart).slice(0, 4);
+  if (rest.length > 2) {
+    return { dayDigits, monthDigits: "", yearDigits: rest };
+  }
+  if (rest.length === 1 || rest.length === 2) {
+    const monthNum = Number.parseInt(rest, 10);
+    if (!Number.isNaN(monthNum) && (monthNum < 1 || monthNum > 12)) {
+      return { dayDigits, monthDigits: "", yearDigits: rest };
+    }
+  }
+  return { dayDigits, monthDigits: rest.slice(0, 2), yearDigits: "" };
+}
+
+function encodeDdMmYyyyDoubleSlashBoundaries(masked: string): string {
+  let result = masked;
+  while (result.includes("//")) {
+    result = result.replace("//", `/${DD_MM_YYYY_EMPTY_SLOT_MARKER}/`);
+  }
+  return result;
+}
+
+export function parseDdMmYyyyMaskedString(value: string): DdMmYyyyDigitParts {
+  const trimmed = value.trim();
+  if (trimmed.includes("/")) {
+    const rawParts = trimmed.split("/");
+    if (rawParts.length === 2) {
+      return parseDdMmYyyyTwoSlashParts(rawParts[0] ?? "", rawParts[1] ?? "");
+    }
+    return {
+      dayDigits: stripDdMmYyyySegmentPart(rawParts[0] ?? "").slice(0, 2),
+      monthDigits: stripDdMmYyyySegmentPart(rawParts[1] ?? "").slice(0, 2),
+      yearDigits: stripDdMmYyyySegmentPart(rawParts[2] ?? "").slice(0, 4),
+    };
+  }
+  const digitsOnly = trimmed.replace(/\D/g, "").slice(0, 8);
+  return {
+    dayDigits: digitsOnly.slice(0, 2),
+    monthDigits: digitsOnly.slice(2, 4),
+    yearDigits: digitsOnly.slice(4, 8),
+  };
+}
+
+export function buildMaskedDdMmYyyyFromDigitParts(parts: DdMmYyyyDigitParts): string {
+  const { dayDigits, monthDigits, yearDigits } = parts;
+  const hasDay = dayDigits.length > 0;
+  const hasMonth = monthDigits.length > 0;
+  const hasYear = yearDigits.length > 0;
+
+  if (!hasDay && !hasMonth && !hasYear) {
+    return "";
+  }
+  if (hasDay && !hasMonth && !hasYear) {
+    return dayDigits;
+  }
+  if (!hasDay && hasMonth && !hasYear) {
+    return `/${monthDigits}`;
+  }
+  if (!hasDay && !hasMonth && hasYear) {
+    return encodeDdMmYyyyDoubleSlashBoundaries(`//${yearDigits}`);
+  }
+  if (hasDay && hasMonth && !hasYear) {
+    return `${dayDigits}/${monthDigits}`;
+  }
+  if (hasDay && !hasMonth && hasYear) {
+    return encodeDdMmYyyyDoubleSlashBoundaries(`${dayDigits}//${yearDigits}`);
+  }
+  if (!hasDay && hasMonth && hasYear) {
+    return `/${monthDigits}/${yearDigits}`;
+  }
+  return encodeDdMmYyyyDoubleSlashBoundaries(`${dayDigits}/${monthDigits}/${yearDigits}`);
+}
+
 export function getDatepickerMenuRestTabKeysInOrder(
   calendarType: DatepickerCalendarType,
 ): readonly DatepickerTabDataKey[] {
@@ -89,18 +175,8 @@ function isSameMonth(first: Date, second: Date): boolean {
 }
 
 export function maskDateInput(value: string): string {
-  const digitsOnly = value.replace(/\D/g, "").slice(0, 8);
-  const day = digitsOnly.slice(0, 2);
-  const month = digitsOnly.slice(2, 4);
-  const year = digitsOnly.slice(4, 8);
-
-  if (digitsOnly.length <= 2) {
-    return day;
-  }
-  if (digitsOnly.length <= 4) {
-    return `${day}/${month}`;
-  }
-  return `${day}/${month}/${year}`;
+  const parts = parseDdMmYyyyMaskedString(value);
+  return buildMaskedDdMmYyyyFromDigitParts(parts);
 }
 
 export function formatDate(date: Date): string {
