@@ -28,14 +28,14 @@ import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard
 
 import { FocusTrapService } from "../../services/focus-trap.service";
 import { DropdownModule } from "../dropdown";
-import { BaseInputComponent } from "../input/base-input/base-input.component";
 
 import { DatepickerMenuComponent } from "./datepicker-menu/datepicker-menu.component";
 import { DatepickerMenuService } from "./datepicker-menu.service";
+import { DatepickerSegmentedFieldComponent } from "./datepicker-segmented-field/datepicker-segmented-field.component";
 
 @Component({
   selector: "rte-datepicker",
-  imports: [CommonModule, DropdownModule, BaseInputComponent, DatepickerMenuComponent],
+  imports: [CommonModule, DropdownModule, DatepickerSegmentedFieldComponent, DatepickerMenuComponent],
   standalone: true,
   templateUrl: "./datepicker.component.html",
   styleUrl: "./datepicker.component.scss",
@@ -121,16 +121,38 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
       () => {
         const open = this.isOpen();
         if (open && !this.wasDatepickerOpen) {
+          const trimmedText = this.textValue().trim();
+          const parsedFromField = trimmedText.length > 0 ? parseDate(trimmedText) : null;
+          const parsedNormalized = parsedFromField ? startOfDay(parsedFromField) : null;
+          const isParsedUsable =
+            parsedNormalized !== null &&
+            !isDateDisabled({
+              date: parsedNormalized,
+              minDate: this.minDate(),
+              maxDate: this.maxDate(),
+              disabledDate: this.disabledDate(),
+            });
+
+          let viewDateForGrid = this.viewDate();
+          let pendingForMenu: Date | null = null;
+
+          if (isParsedUsable && parsedNormalized) {
+            pendingForMenu = parsedNormalized;
+          } else {
+            viewDateForGrid = new Date();
+            this.viewDate.set(viewDateForGrid);
+          }
+
           const dayCells = buildDayGrid({
-            viewDate: this.viewDate(),
-            selectedDate: this.pendingDate() ?? this.selectedDate(),
+            viewDate: viewDateForGrid,
+            selectedDate: pendingForMenu,
             minDate: this.minDate(),
             maxDate: this.maxDate(),
             disabledDate: this.disabledDate(),
           });
           const resolved = resolveInitialCalendarDay({
-            pendingDate: this.pendingDate(),
-            selectedDate: this.selectedDate(),
+            pendingDate: pendingForMenu,
+            selectedDate: pendingForMenu,
             dayCells,
           });
           this.menuInitialActiveDate.set(resolved);
@@ -210,7 +232,7 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
     const masked = maskDateInput(value);
     this.textValue.set(masked);
 
-    const parsed = parseDate(masked);
+    const parsed = parseDate(masked.trim());
     if (parsed) {
       const normalized = startOfDay(parsed);
       if (
