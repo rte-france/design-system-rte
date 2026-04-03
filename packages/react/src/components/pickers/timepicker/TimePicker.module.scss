@@ -1,0 +1,25 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+$height: 32px;
+$width: 176px;
+
+.rte-time-picker-label {
+  @include typography-text-m;
+  display: flex;
+  padding: $positive-spacing_025 $positive-spacing_100;
+  color: var(--content-secondary);
+  max-width: 300px;
+  align-items: center;
+  white-space: normal;
+  overflow-wrap: normal;
+  word-break: normal;
+
+}
+
+.rte-time-picker-dropdown {
+  display: inline-flex;
+  align-items: center;
+  gap: $positive-spacing_050;
+  min-width: $width;
+  justify-content: center;
+}
