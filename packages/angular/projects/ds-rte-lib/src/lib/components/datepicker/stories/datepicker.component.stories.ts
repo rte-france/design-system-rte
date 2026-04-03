@@ -6,6 +6,10 @@ import { DatepickerComponent } from "../datepicker.component";
 
 const calendarTriggerAccessibleName = /ouvrir le calendrier|changer la date/i;
 
+function normalizedSegmentedDateText(root: Element | null | undefined): string {
+  return (root?.textContent ?? "").replace(/[\s\u200b]/g, "");
+}
+
 const meta: Meta<DatepickerComponent> = {
   title: "Composants/Datepicker/Datepicker",
   component: DatepickerComponent,
@@ -14,7 +18,7 @@ const meta: Meta<DatepickerComponent> = {
     docs: {
       description: {
         component:
-          "Single-date Datepicker with a segmented DD/MM/YYYY field (MUI-style blocks).\n\nField: focus lands on the day block; Left/Right move between day, month, and year; digits only; Up/Down apply defaults (day/month → 1, year → current year; Down on day uses last day of month when month/year are known, else 31).\n\nCalendar: opening while the text is not a valid complete date resets the view to the current month and picks an initial day via the same rules as an empty field.\n\nHandoff note for React:\n- Keep the same state model: `isOpen`, `calendarType` (`day|month|year`), `viewDate`, `selectedDate`, `pendingDate`.\n- Display format is fixed to DD/MM/YYYY.\n- Keyboard behavior for the overlay grid follows W3C APG datepicker dialog guidance (arrows move, Enter/Space select) and ESC closes.",
+          "Single-date Datepicker with a segmented DD/MM/YYYY field (MUI-style blocks).\n\nField: focus lands on the day block; Left/Right move between day, month, and year; digits apply to the active section even when earlier sections are empty (out-of-order editing, aligned with MUI Date Field–style sections); Backspace/Delete clear the whole active section (placeholders DD, MM, YYYY); Up/Down apply defaults (day/month → 1, year → current year; Down on day uses last day of month when month/year are known, else 31).\n\nCalendar: opening while the text is not a valid complete date resets the view to the current month and picks an initial day via the same rules as an empty field.\n\nHandoff note for React:\n- Keep the same state model: `isOpen`, `calendarType` (`day|month|year`), `viewDate`, `selectedDate`, `pendingDate`.\n- Display format is fixed to DD/MM/YYYY.\n- Keyboard behavior for the overlay grid follows W3C APG datepicker dialog guidance (arrows move, Enter/Space select) and ESC closes.",
       },
     },
   },
@@ -262,6 +266,150 @@ export const ViewModesFourVsTwoNavAndGrids: Story = {
   },
 };
 
+export const SegmentedFieldType13InDayKeepsFocus: Story = {
+  name: "Segmented field: 1 then 3 in day → 13 (focus stays on field)",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Regression: typing two digits into the day block without losing focus (MUI-style section editing). After 13, focus must remain on the date field group.",
+      },
+    },
+  },
+  render: Default.render,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const field = canvas.getByRole("group");
+    field.focus();
+    expect(field).toHaveFocus();
+
+    await userEvent.keyboard("13");
+
+    await waitFor(() => {
+      const segmented = canvasElement.querySelector(".segmented-date-field");
+      const compact = segmented?.textContent?.replace(/\s/g, "") ?? "";
+      expect(compact.startsWith("13")).toBe(true);
+    });
+
+    expect(field).toHaveFocus();
+  },
+};
+
+export const SegmentedFieldPartialDayThenYearDigitsStayInYear: Story = {
+  name: "Segmented field: partial day then year digits (stay in year)",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Type one day digit, move to year with arrows, type two year digits: day stays partial, year shows those digits, active block remains year (no jump back to day).",
+      },
+    },
+  },
+  render: Default.render,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const field = canvas.getByRole("group");
+    await userEvent.click(field);
+    field.focus();
+
+    await userEvent.keyboard("2");
+    await waitFor(() => {
+      const daySegment = canvasElement.querySelectorAll(".segment")[0];
+      expect(normalizedSegmentedDateText(daySegment)).toMatch(/^2D$/);
+    });
+
+    await userEvent.keyboard("{ArrowRight}{ArrowRight}");
+    await waitFor(() => {
+      const yearSegment = canvasElement.querySelectorAll(".segment")[2];
+      expect(yearSegment?.classList.contains("segment--active")).toBe(true);
+      expect(normalizedSegmentedDateText(yearSegment)).toMatch(/^Y{4}$/);
+    });
+
+    await userEvent.keyboard("13");
+
+    await waitFor(() => {
+      const segments = canvasElement.querySelectorAll(".segment");
+      expect(normalizedSegmentedDateText(segments[0])).toMatch(/^2D$/);
+      expect(normalizedSegmentedDateText(segments[1])).toMatch(/^MM$/);
+      expect(normalizedSegmentedDateText(segments[2])).toContain("13");
+    });
+
+    await waitFor(() => {
+      const segments = canvasElement.querySelectorAll(".segment");
+      expect(segments[2]?.classList.contains("segment--active")).toBe(true);
+    });
+
+    expect(field).toHaveFocus();
+  },
+};
+
+export const SegmentedFieldTypeYearWithoutDayOrMonth: Story = {
+  name: "Segmented field: year section only (no day/month)",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Move focus to the year block with arrows, type a year while day/month are still empty: digits stay in the year section (value uses leading slashes, e.g. //1992).",
+      },
+    },
+  },
+  render: Default.render,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const field = canvas.getByRole("group");
+    field.focus();
+
+    await userEvent.keyboard("{ArrowRight}{ArrowRight}");
+    await waitFor(() => {
+      expect(normalizedSegmentedDateText(canvasElement.querySelector(".segment--active"))).toMatch(/^Y{4}$/);
+    });
+
+    await userEvent.keyboard("1992");
+
+    await waitFor(
+      () => {
+        const segments = canvasElement.querySelectorAll(".segment");
+        expect(segments.length).toBe(3);
+        expect(normalizedSegmentedDateText(segments[0])).toMatch(/^DD$/);
+        expect(normalizedSegmentedDateText(segments[1])).toMatch(/^MM$/);
+        expect(normalizedSegmentedDateText(segments[2])).toContain("1992");
+      },
+      { timeout: 5000 },
+    );
+
+    expect(field).toHaveFocus();
+  },
+};
+
+export const SegmentedFieldBackspaceClearsActiveSection: Story = {
+  name: "Segmented field: Backspace clears active section",
+  parameters: {
+    docs: {
+      description: {
+        story: "Type one digit in the day block, then Backspace: the day section is fully cleared and shows DD again.",
+      },
+    },
+  },
+  render: Default.render,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const field = canvas.getByRole("group");
+    field.focus();
+
+    await userEvent.keyboard("1");
+    await waitFor(() => {
+      expect(canvasElement.querySelector(".segment--active")?.textContent?.trim()).toBe("1D");
+    });
+
+    await userEvent.keyboard("{Backspace}");
+    await waitFor(() => {
+      expect(canvasElement.querySelector(".segment--active")?.textContent?.trim()).toBe("DD");
+    });
+
+    expect(field).toHaveFocus();
+  },
+};
+
 export const SegmentedFieldBlockNavigation: Story = {
   name: "Segmented field: Left/Right moves active block",
   parameters: {
@@ -323,7 +471,7 @@ export const TypeFullDateThenOpenCalendarShowsThatDate: Story = {
     docs: {
       description: {
         story:
-          "Click the segmented field, enter digits 13021992 (DD/MM/YYYY → 13/02/1992), then open the calendar. The header must show February 1992 (locale fr-FR) and the active day cell must be 13.",
+          "Click the segmented field, type each digit separately (1, 3, 0, 2, 1, 9, 9, 2 for DD/MM/YYYY → 13/02/1992), then open the calendar. The header must show February 1992 (locale fr-FR) and the active day cell must be 13.",
       },
     },
   },
@@ -334,15 +482,20 @@ export const TypeFullDateThenOpenCalendarShowsThatDate: Story = {
     await userEvent.click(field);
     field.focus();
 
-    await userEvent.keyboard("13021992");
+    for (const digit of "13021992") {
+      await userEvent.keyboard(digit);
+    }
 
-    await waitFor(() => {
-      const segmented = canvasElement.querySelector(".segmented-date-field");
-      const compact = segmented?.textContent?.replace(/\s/g, "") ?? "";
-      expect(compact).toContain("13");
-      expect(compact).toContain("02");
-      expect(compact).toContain("1992");
-    });
+    await waitFor(
+      () => {
+        const segmented = canvasElement.querySelector(".segmented-date-field");
+        const compact = normalizedSegmentedDateText(segmented);
+        expect(compact).toContain("13");
+        expect(compact).toContain("02");
+        expect(compact).toContain("1992");
+      },
+      { timeout: 5000 },
+    );
 
     const calendarButton = canvas.getByRole("button", { name: calendarTriggerAccessibleName });
     await userEvent.click(calendarButton);

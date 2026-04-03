@@ -8,13 +8,17 @@ import {
   input,
   output,
   signal,
+  untracked,
   viewChild,
 } from "@angular/core";
 import {
+  applySegmentLeaveWhenChangingActiveSegment,
   buildDigitsOnlyFromState,
   buildMaskedDdMmYyyyFromState,
   createEmptySegmentedDateFieldState,
+  firstIncompleteSegmentForState,
   reduceSegmentedDateFieldKey,
+  resetIncompleteSegmentsOnBlur,
   segmentedStateFromDdMmYyyyString,
   shouldPreventDefaultSegmentedKey,
   type SegmentedDateActiveSegment,
@@ -69,6 +73,8 @@ export class DatepickerSegmentedFieldComponent {
 
   readonly segmentedState = signal<SegmentedDateFieldState>(createEmptySegmentedDateFieldState());
 
+  private readonly controlHasFocus = signal(false);
+
   readonly controlRef = viewChild<ElementRef<HTMLElement>>("controlRef");
 
   readonly computedRightIconName = computed(() => this.rightIcon());
@@ -88,22 +94,30 @@ export class DatepickerSegmentedFieldComponent {
     effect(
       () => {
         const externalValue = this.value();
-        const fromState = buildMaskedDdMmYyyyFromState(this.segmentedState());
-        if (externalValue === fromState) {
-          return;
-        }
-        const previous = this.segmentedState();
-        const next = segmentedStateFromDdMmYyyyString(externalValue);
-        const previousDigits = buildDigitsOnlyFromState(previous);
-        const nextDigits = buildDigitsOnlyFromState(next);
-        const preserveActiveSegment = previousDigits.length > 0 && previousDigits === nextDigits;
-        this.segmentedState.set(preserveActiveSegment ? { ...next, activeSegment: previous.activeSegment } : next);
+        untracked(() => {
+          const previous = this.segmentedState();
+          const fromState = buildMaskedDdMmYyyyFromState(previous);
+          if (externalValue === fromState) {
+            return;
+          }
+          const next = segmentedStateFromDdMmYyyyString(externalValue);
+          const segmentsMatch =
+            previous.dayDigits === next.dayDigits &&
+            previous.monthDigits === next.monthDigits &&
+            previous.yearDigits === next.yearDigits;
+          if (segmentsMatch) {
+            this.segmentedState.set({ ...next, activeSegment: previous.activeSegment });
+            return;
+          }
+          this.segmentedState.set(next);
+        });
       },
       { allowSignalWrites: true },
     );
   }
 
   onControlFocus(): void {
+    this.controlHasFocus.set(true);
     this.segmentedState.update((current) => {
       if (buildDigitsOnlyFromState(current).length > 0) {
         return current;
@@ -113,6 +127,14 @@ export class DatepickerSegmentedFieldComponent {
   }
 
   onControlBlur(): void {
+    this.controlHasFocus.set(false);
+    const beforeMask = buildMaskedDdMmYyyyFromState(this.segmentedState());
+    const afterBlur = resetIncompleteSegmentsOnBlur(this.segmentedState());
+    this.segmentedState.set(afterBlur);
+    const afterMask = buildMaskedDdMmYyyyFromState(afterBlur);
+    if (beforeMask !== afterMask) {
+      this.valueChange.emit(afterMask);
+    }
     this.inputBlur.emit();
   }
 
@@ -131,8 +153,10 @@ export class DatepickerSegmentedFieldComponent {
     if (shouldPreventDefaultSegmentedKey(event.key)) {
       event.preventDefault();
     }
+    event.stopPropagation();
     this.segmentedState.set(next);
     this.valueChange.emit(buildMaskedDdMmYyyyFromState(next));
+    this.scheduleFocusRestoreIfNeeded();
   }
 
   onPaste(event: ClipboardEvent): void {
@@ -140,18 +164,29 @@ export class DatepickerSegmentedFieldComponent {
       return;
     }
     event.preventDefault();
+    event.stopPropagation();
     const pasted = event.clipboardData?.getData("text") ?? "";
     const digitsOnly = pasted.replace(/\D/g, "").slice(0, 8);
-    const next = segmentedStateFromDdMmYyyyString(digitsOnly);
+    const parsed = segmentedStateFromDdMmYyyyString(digitsOnly);
+    const next: SegmentedDateFieldState = {
+      ...parsed,
+      activeSegment: firstIncompleteSegmentForState(parsed),
+    };
     this.segmentedState.set(next);
     this.valueChange.emit(buildMaskedDdMmYyyyFromState(next));
+    this.scheduleFocusRestoreIfNeeded();
   }
 
   selectSegment(segment: SegmentedDateActiveSegment): void {
     if (this.readOnly() || this.disabled()) {
       return;
     }
-    this.segmentedState.update((current) => ({ ...current, activeSegment: segment }));
+    const beforeMask = buildMaskedDdMmYyyyFromState(this.segmentedState());
+    this.segmentedState.update((current) => applySegmentLeaveWhenChangingActiveSegment(current, segment));
+    const afterMask = buildMaskedDdMmYyyyFromState(this.segmentedState());
+    if (beforeMask !== afterMask) {
+      this.valueChange.emit(afterMask);
+    }
     this.controlRef()?.nativeElement.focus();
   }
 
@@ -172,5 +207,20 @@ export class DatepickerSegmentedFieldComponent {
 
   onRightIconKeyDownHandler(event: KeyboardEvent): void {
     this.rightIconKeydown.emit(event);
+  }
+
+  private scheduleFocusRestoreIfNeeded(): void {
+    const host = this.controlRef()?.nativeElement;
+    if (!host) {
+      return;
+    }
+    queueMicrotask(() => {
+      if (!this.controlHasFocus()) {
+        return;
+      }
+      if (document.activeElement !== host) {
+        host.focus();
+      }
+    });
   }
 }
