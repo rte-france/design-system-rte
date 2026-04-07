@@ -4,4 +4,5 @@
   
   ## Changes
 
+- (Timepicker) improve general logic and fix typos
 - (Timepicker) add react component

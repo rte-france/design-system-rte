@@ -40,13 +40,15 @@ const TimePickerDigit = forwardRef<HTMLInputElement, TimePickerDigitProps>(
               className={styles["rte-time-picker-segment-controls-button"]}
               onClick={handleOnClickIncrease}
               tabIndex={-1}
+              type="button"
+              aria-label={`Increase ${unit === "h" ? "hours" : unit === "m" ? "minutes" : "seconds"} value`}
             >
               <Icon name="arrow-chevron-up" appearance="outlined" size={24} />
             </button>
             <input
               ref={ref}
               type="text"
-              value={value || "00"}
+              value={value ?? "00"}
               onChange={onChange}
               onKeyDown={handleOnKeyDown}
               className={styles["rte-time-picker-segment-input"]}
@@ -56,6 +58,8 @@ const TimePickerDigit = forwardRef<HTMLInputElement, TimePickerDigitProps>(
               className={styles["rte-time-picker-segment-controls-button"]}
               onClick={handleOnClickDecrease}
               tabIndex={-1}
+              type="button"
+              aria-label={`Decrease ${unit === "h" ? "hours" : unit === "m" ? "minutes" : "seconds"} value`}
             >
               <Icon name="arrow-chevron-down" appearance="outlined" size={24} />
             </button>

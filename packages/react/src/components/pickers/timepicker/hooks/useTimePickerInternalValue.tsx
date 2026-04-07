@@ -1,9 +1,11 @@
 import {
   DEFAULT_TIME_INPUT_VALUE,
   TIME_SEGMENT_MAX_VALUE,
+  TIME_SEGMENT_MIN_VALUE,
 } from "@design-system-rte/core/components/timepicker/timepicker.constants";
 import { TimeFormat, TimeSegmentEnum } from "@design-system-rte/core/components/timepicker/timepicker.interface.d";
 import {
+  formatNumberToDigitValue,
   getDecreasedValueWithBounds,
   getIncreasedValueWithBounds,
 } from "@design-system-rte/core/components/timepicker/timepicker.utils";
@@ -48,12 +50,16 @@ const useTimePickerInternalValue = (
 
   const increaseValue = useCallback(
     (segment: TimeSegmentEnum, increment: number) => {
-      const val = getIncreasedValueWithBounds(
-        Number(internalTimeValue[segment]),
-        TIME_SEGMENT_MAX_VALUE[segment],
-        increment,
-      );
-      updateTimeSegment(segment, val);
+      if (internalTimeValue[segment] === "") {
+        updateTimeSegment(segment, formatNumberToDigitValue(TIME_SEGMENT_MIN_VALUE));
+      } else {
+        const val = getIncreasedValueWithBounds(
+          Number(internalTimeValue[segment]),
+          TIME_SEGMENT_MAX_VALUE[segment],
+          increment,
+        );
+        updateTimeSegment(segment, val);
+      }
     },
     [internalTimeValue],
   );
