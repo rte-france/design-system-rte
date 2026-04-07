@@ -2,28 +2,22 @@ import { TIME_SEGMENT_MIN_VALUE, TIME_SEGMENT_ORDER } from "./timepicker.constan
 import { TimeFormat, TimeSegmentEnum } from "./timepicker.interface.d";
 
 export const getIncreasedValueWithBounds = (current: number, max: number, increment: number): string => {
-  if (current !== undefined && current !== null) {
-    const temp = current + increment;
-    if (temp >= max) {
-      return formatNumberToDigitValue(TIME_SEGMENT_MIN_VALUE);
-    } else {
-      return formatNumberToDigitValue(temp);
-    }
-  } else {
-    return formatNumberToDigitValue(TIME_SEGMENT_MIN_VALUE);
-  }
+  const normalizedCurrent = isNaN(current) ? TIME_SEGMENT_MIN_VALUE : current;
+
+  const temp = normalizedCurrent + increment;
+  const normalizedTemp = temp > max ? TIME_SEGMENT_MIN_VALUE : temp;
+
+  return formatNumberToDigitValue(normalizedTemp);
 };
 
 export const getDecreasedValueWithBounds = (current: number, max: number, decrement: number): string => {
-  if (current !== undefined && current !== null) {
-    const temp = current - decrement;
-    if (temp < 0) {
-      return formatNumberToDigitValue(max - decrement);
-    } else {
-      return formatNumberToDigitValue(temp);
-    }
+  const normalizedCurrent = isNaN(current) ? TIME_SEGMENT_MIN_VALUE : current;
+  const temp = normalizedCurrent - decrement;
+
+  if (temp < 0) {
+    return formatNumberToDigitValue(max);
   } else {
-    return formatNumberToDigitValue(max - decrement);
+    return formatNumberToDigitValue(temp);
   }
 };
 
