@@ -15,6 +15,7 @@ interface BaseInputPickerProps extends BaseInput {
   onMouseUp?: () => void;
   onOpenPicker?: () => void;
   ariaLabelledBy?: string;
+  openButtonAriaLabel?: string;
 }
 
 const BaseInputPicker = ({
@@ -32,6 +33,7 @@ const BaseInputPicker = ({
   ariaLabelledBy,
   isError,
   disabled,
+  openButtonAriaLabel,
 }: BaseInputPickerProps) => {
   const canInteractWithPicker = !disabled && !readOnly;
   const canBeFocused = !disabled && !readOnly && isFocused;
@@ -57,14 +59,14 @@ const BaseInputPicker = ({
           value={value}
           onFocus={canInteractWithPicker ? onFocus : undefined}
           onKeyDown={canInteractWithPicker ? onKeyDown : undefined}
-          onChange={onChange}
           onMouseUp={canInteractWithPicker ? onMouseUp : undefined}
           disabled={disabled}
+          onChange={onChange}
         />
         <button
           onClick={canInteractWithPicker ? onOpenPicker : undefined}
           className={styles["rte-base-input-picker-button"]}
-          aria-label="Open time picker"
+          aria-label={openButtonAriaLabel ?? "Open picker"}
           disabled={disabled}
         >
           <Icon

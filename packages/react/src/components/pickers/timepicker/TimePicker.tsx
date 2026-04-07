@@ -5,21 +5,16 @@ import {
   ARROW_UP_KEY,
   BACKSPACE_KEY,
   DELETE_KEY,
-} from "@design-system-rte/core";
-import {
   TIME_SEGMENT_MAX_FIRST_DIGIT,
   TIME_SEGMENT_MAX_VALUE,
   TIME_SEGMENT_ORDER,
-} from "@design-system-rte/core/components/timepicker/timepicker.constants";
-import { TimeSegmentEnum } from "@design-system-rte/core/components/timepicker/timepicker.interface.d";
-import { TimePickerProps as coreTimePickerProps } from "@design-system-rte/core/components/timepicker/timepicker.interface.d";
-import {
   buildDisplayValue,
   canSwitchToNextSegment,
   computeTimeSegmentRanges,
   formatNumberToDigitValue,
   getPrevSegment,
-} from "@design-system-rte/core/components/timepicker/timepicker.utils";
+} from "@design-system-rte/core";
+import type { TimePickerProps as coreTimePickerProps } from "@design-system-rte/core";
 import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
 
 import { useFocusTrap } from "../../../hooks/useFocusTrap";
@@ -35,6 +30,7 @@ import styles from "./TimePicker.module.scss";
 import TimePickerDigit from "./timepickerDigit/TimePickerDigit";
 
 const numberRegex = /^\d*$/;
+const [HOURS_SEGMENT, MINUTES_SEGMENT, SECONDS_SEGMENT] = TIME_SEGMENT_ORDER;
 
 interface TimePickerProps
   extends
@@ -73,7 +69,7 @@ const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
     const timePickerRef = useRef<HTMLDivElement | null>(null);
     const timePickerInputRef = useRef<HTMLInputElement | null>(null);
 
-    const { timePickerDrodownElement, timePickerDropdownRef } = useTimePickerDropdown(isOpen);
+    const { timePickerDropdownElement, timePickerDropdownRef } = useTimePickerDropdown(isOpen);
 
     const {
       moveToNextSegment,
@@ -102,7 +98,7 @@ const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
       secondIncrement,
     });
 
-    useFocusTrap(timePickerDrodownElement!, isOpen);
+    useFocusTrap(timePickerDropdownElement!, isOpen);
     const displayValue = buildDisplayValue(internalTimeValue, activeTimeSegment);
 
     const shouldOpenDropdown = isOpen && !disabled;
@@ -117,18 +113,13 @@ const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
     };
 
     const isCurrentSegmentReadOnly = () => {
-      if (activeTimeSegment === TimeSegmentEnum.HOURS) {
+      if (activeTimeSegment === HOURS_SEGMENT) {
         return isHourReadOnly;
-      } else if (activeTimeSegment === TimeSegmentEnum.MINUTES) {
+      } else if (activeTimeSegment === MINUTES_SEGMENT) {
         return isMinuteReadOnly;
       } else {
         return isSecondReadOnly;
       }
-    };
-
-    const handleOnChange = () => {
-      if (isCurrentSegmentReadOnly()) return;
-      onChange?.(internalTimeValue);
     };
 
     const handleOnKeyDownSeconds = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -213,7 +204,7 @@ const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
         const currentActiveTimeSegmentValue = internalTimeValue[activeTimeSegment];
 
         if (currentActiveTimeSegmentValue.length >= 2) {
-          modifiyCurrentSegmentValue(currentActiveTimeSegmentValue, formatNumberToDigitValue(Number(key)));
+          modifyCurrentSegmentValue(currentActiveTimeSegmentValue, formatNumberToDigitValue(Number(key)));
         } else {
           const next = currentActiveTimeSegmentValue + key;
           const maxFirstDigit = TIME_SEGMENT_MAX_FIRST_DIGIT[activeTimeSegment];
@@ -244,7 +235,7 @@ const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
       }
     };
 
-    const modifiyCurrentSegmentValue = (currentActiveTimeSegmentValue: string, key: string) => {
+    const modifyCurrentSegmentValue = (currentActiveTimeSegmentValue: string, key: string) => {
       const currentTimeSegmentStartIndex = computeTimeSegmentRanges(internalTimeValue)[activeTimeSegment][0];
       const cursorPos = timePickerInputRef.current?.selectionStart ?? 0;
       const positionInSegment = cursorPos - currentTimeSegmentStartIndex;
@@ -277,12 +268,12 @@ const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
       const currentCursorPosition = timePickerInputRef.current?.selectionStart ?? 0;
       const ranges = computeTimeSegmentRanges(internalTimeValue);
       const endIndex = 1;
-      if (currentCursorPosition <= ranges[TimeSegmentEnum.HOURS][endIndex]) {
-        setActiveTimeSegment(TimeSegmentEnum.HOURS);
-      } else if (currentCursorPosition <= ranges[TimeSegmentEnum.MINUTES][endIndex]) {
-        setActiveTimeSegment(TimeSegmentEnum.MINUTES);
+      if (currentCursorPosition <= ranges[HOURS_SEGMENT][endIndex]) {
+        setActiveTimeSegment(HOURS_SEGMENT);
+      } else if (currentCursorPosition <= ranges[MINUTES_SEGMENT][endIndex]) {
+        setActiveTimeSegment(MINUTES_SEGMENT);
       } else {
-        setActiveTimeSegment(TimeSegmentEnum.SECONDS);
+        setActiveTimeSegment(SECONDS_SEGMENT);
       }
     };
 
@@ -304,10 +295,11 @@ const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
     const initializeDisplayValueFromTimePickerValue = () => {
       Object.values(internalTimeValue).forEach((val, index) => {
         const segment = TIME_SEGMENT_ORDER[index];
-        if (val === "") {
+        const normalizedVal = Number(val);
+        if (isNaN(normalizedVal)) {
           updateTimeSegment(segment, formatNumberToDigitValue(0));
         } else {
-          updateTimeSegment(segment, formatNumberToDigitValue(Number(val)));
+          updateTimeSegment(segment, formatNumberToDigitValue(normalizedVal));
         }
       });
     };
@@ -335,6 +327,10 @@ const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
       selectActiveSegment();
     }, [selectActiveSegment]);
 
+    useEffect(() => {
+      onChange?.(internalTimeValue);
+    }, [internalTimeValue, onChange]);
+
     if (readOnly && (internalTimeValue.hh === "" || internalTimeValue.mm === "" || internalTimeValue.ss === "")) {
       console.warn(
         "TimePicker is in readOnly mode but the value is not fully set. Please provide a value with all segments (hh, mm, ss) set to non-empty values to avoid unexpected behavior.",
@@ -353,14 +349,14 @@ const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
       <>
         <div className={styles["rte-time-picker-header"]}>
           {showLabel && (
-            <label htmlFor={id} id={labelId ?? label} className={styles["rte-time-picker-label"]}>
+            <label htmlFor={id} id={labelId} className={styles["rte-time-picker-label"]}>
               {label}
               <RequiredIndicator required={required} showLabelRequirement={showLabelRequirement} />
             </label>
           )}
         </div>
         <BaseDropdown
-          dropdownId="time-picker-dropdown"
+          dropdownId={id ? `${id}-dropdown` : undefined}
           isList={false}
           onClose={handleOnCloseTimePicker}
           offset={8}
@@ -369,9 +365,9 @@ const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
             <BaseInputPicker
               id={id}
               ariaLabelledBy={labelId}
+              aria-label={showLabel ? undefined : label}
               value={displayValue}
               readOnly={readOnly}
-              onChange={handleOnChange}
               onFocus={handleOnFocus}
               onKeyDown={handleOnKeyDown}
               onMouseUp={handleOnMouseUp}
@@ -385,6 +381,8 @@ const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
               assistiveTextLink={assistiveTextLink}
               isError={isError}
               disabled={disabled}
+              onChange={() => {}}
+              openButtonAriaLabel="Open time picker dropdown"
             />
           }
           isOpen={shouldOpenDropdown}

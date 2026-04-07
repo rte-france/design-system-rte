@@ -1,7 +1,7 @@
 import { BadgeHolderProps } from "../badge/badge.interface";
 
 export interface DropdownProps {
-  dropdownId: string;
+  dropdownId?: string;
   hasParent?: boolean;
   disabled?: boolean;
   position?: import("../common/common-types").Position;

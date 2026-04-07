@@ -124,12 +124,10 @@ export const BaseDropdown = forwardRef<HTMLDivElement, BaseDropdownProps>(
     };
 
     const handleOnKeyDownTrigger = (e: React.KeyboardEvent<HTMLDivElement>) => {
-      if (isList) {
-        if (e.key === TAB_KEY) {
-          if (dropdownElement === null) return;
-          e.preventDefault();
-          focusNextElement(dropdownElement);
-        }
+      if (isList && e.key === TAB_KEY) {
+        if (dropdownElement === null) return;
+        e.preventDefault();
+        focusNextElement(dropdownElement);
       }
     };
 
