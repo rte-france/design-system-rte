@@ -19,6 +19,7 @@ import IconButtonToggle from "./components/iconButtonToggle/IconButtonToggle.tsx
 import Link from "./components/link/Link.tsx";
 import Loader from "./components/loader/Loader.tsx";
 import Modal from "./components/modal/Modal.tsx";
+import TimePicker from "./components/pickers/timepicker/TimePicker.tsx";
 import Popover from "./components/popover/Popover.tsx";
 import RadioButton from "./components/radioButton/RadioButton.tsx";
 import RadioButtonGroup from "./components/radioButtonGroup/RadioButtonGroup.tsx";
@@ -75,6 +76,7 @@ export {
   ToastQueueProvider,
   Tag,
   Tab,
+  TimePicker,
   Treeview,
   Searchbar,
   Select,

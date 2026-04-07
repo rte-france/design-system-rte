@@ -1,4 +1,4 @@
-import type { TreeviewItemProps } from "@design-system-rte/core";
+import type { TimeFormat, TreeviewItemProps } from "@design-system-rte/core";
 import {
   Button,
   Icon,
@@ -28,6 +28,7 @@ import {
   Drawer,
   Avatar,
   FileUpload,
+  TimePicker,
 } from "@design-system-rte/react";
 import "./App.css";
 import { useState } from "react";
@@ -41,6 +42,7 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeItem, setActiveItem] = useState("home");
   const [isErrorOpen, setIsErrorOpen] = useState(false);
+  const [timepickerValue, setTimepickerValue] = useState<TimeFormat>({ hh: "", mm: "", ss: "" });
 
   const baseNavigationData: TreeviewItemProps[] = [
     { id: "home", labelText: "Home", icon: "home", hasIcon: true },
@@ -690,6 +692,13 @@ function App() {
             buttonLabel="Sélectionner un ou plusieurs fichiers"
             multiple={true}
           />
+          <div>
+            <h3>TimePicker</h3>
+            <TimePicker id="time-picker" value={timepickerValue} onChange={setTimepickerValue} />
+            <p style={{ marginTop: "1rem" }}>
+              Selected time value: {`${timepickerValue.hh}:${timepickerValue.mm}:${timepickerValue.ss}`}
+            </p>
+          </div>
         </div>
       </Drawer>
     </SideNav>

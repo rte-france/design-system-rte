@@ -10,6 +10,7 @@ import TimePicker from "../TimePicker";
 const meta = {
   title: "Composants/TimePicker/TimePicker",
   component: TimePicker,
+  tags: ["autodocs"],
   argTypes: {
     assistiveAppearance: {
       options: ["description", "success", "error"],
@@ -25,6 +26,7 @@ export const Default: Story = {
   args: {
     id: "time-picker",
     label: "Label",
+    labelId: "time-picker-label",
     showLabel: true,
     required: true,
     showLabelRequirement: true,
@@ -43,7 +45,11 @@ export const Default: Story = {
   render: (args) => {
     const [value, setValue] = useState<TimeFormat>({ hh: "", mm: "", ss: "" });
 
-    return <TimePicker {...args} id="time-picker" value={value} onChange={setValue} />;
+    return (
+      <>
+        <TimePicker {...args} id="time-picker" value={value} onChange={setValue} />
+      </>
+    );
   },
 };
 
