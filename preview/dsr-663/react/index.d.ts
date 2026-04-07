@@ -17,6 +17,7 @@ import { default as IconButtonToggle } from './components/iconButtonToggle/IconB
 import { default as Link } from './components/link/Link.tsx';
 import { default as Loader } from './components/loader/Loader.tsx';
 import { default as Modal } from './components/modal/Modal.tsx';
+import { default as TimePicker } from './components/pickers/timepicker/TimePicker.tsx';
 import { default as Popover } from './components/popover/Popover.tsx';
 import { default as RadioButton } from './components/radioButton/RadioButton.tsx';
 import { default as RadioButtonGroup } from './components/radioButtonGroup/RadioButtonGroup.tsx';
@@ -36,4 +37,4 @@ import { default as Toast } from './components/toast/Toast.tsx';
 import { default as ToastQueueProvider } from './components/toast/toastQueue/ToastQueueProvider.tsx';
 import { default as Tooltip } from './components/tooltip/Tooltip.tsx';
 import { default as Treeview } from './components/treeview/Treeview.tsx';
-export { Avatar, Accordion, Button, Grid, Checkbox, CheckboxGroup, Link, RadioButton, RadioButtonGroup, Icon, IconButton, IconButtonToggle, Loader, SplitButton, Tooltip, BaseTextInput as TextInput, Chip, Badge, Textarea, Divider, Drawer, Switch, SegmentedControl, Breadcrumbs, Banner, Popover, Modal, SideNav, Stepper, BaseSideNav, Card, Toast, ToastQueueProvider, Tag, Tab, Treeview, Searchbar, Select, };
+export { Avatar, Accordion, Button, Grid, Checkbox, CheckboxGroup, Link, RadioButton, RadioButtonGroup, Icon, IconButton, IconButtonToggle, Loader, SplitButton, Tooltip, BaseTextInput as TextInput, Chip, Badge, Textarea, Divider, Drawer, Switch, SegmentedControl, Breadcrumbs, Banner, Popover, Modal, SideNav, Stepper, BaseSideNav, Card, Toast, ToastQueueProvider, Tag, Tab, TimePicker, Treeview, Searchbar, Select, };
