@@ -6,7 +6,11 @@
   <ng-container *ngIf="label()">
     <div class="text">
       <div class="label-container">
-        <label id="input-label-{{ id() }}" class="input-label" [for]="id()">
+        <label
+          id="input-label-{{ id() }}"
+          class="input-label"
+          [attr.for]="associateLabelWithControlId() && id() ? id() : null"
+        >
           {{ label() }}
         </label>
         <ng-container *ngIf="required()">
