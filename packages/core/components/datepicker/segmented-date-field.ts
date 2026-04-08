@@ -31,6 +31,21 @@ const SEGMENT_LENGTH: Record<SegmentedDateActiveSegment, number> = {
   year: 4,
 };
 
+export function getSegmentDisplayText(
+  digits: string,
+  segment: SegmentedDateActiveSegment,
+  emptyPlaceholder: string,
+): string {
+  if (!digits?.length) {
+    return emptyPlaceholder;
+  }
+  const maxLength = SEGMENT_LENGTH[segment];
+  if (digits.length < maxLength) {
+    return digits.padStart(maxLength, "0");
+  }
+  return digits;
+}
+
 export function createEmptySegmentedDateFieldState(): SegmentedDateFieldState {
   return {
     dayDigits: "",
@@ -120,7 +135,7 @@ function isYearDigitsCompleteValid(yearDigits: string): boolean {
     return false;
   }
   const yearNum = Number.parseInt(yearDigits, 10);
-  return !Number.isNaN(yearNum) && yearNum >= 1000 && yearNum <= 9999;
+  return !Number.isNaN(yearNum) && yearNum >= 1 && yearNum <= 9999;
 }
 
 function isDayDigitsCompleteValid(dayDigits: string, monthDigits: string, yearDigits: string): boolean {
@@ -166,6 +181,14 @@ function clearSegmentDigits(
   return { ...state, yearDigits: "" };
 }
 
+function padSegmentDigitsToWidth(digits: string, segment: SegmentedDateActiveSegment): string {
+  const maxLength = SEGMENT_LENGTH[segment];
+  if (digits.length && digits.length < maxLength) {
+    return digits.padStart(maxLength, "0");
+  }
+  return digits;
+}
+
 export function applySegmentLeaveWhenChangingActiveSegment(
   state: SegmentedDateFieldState,
   nextActiveSegment: SegmentedDateActiveSegment,
@@ -174,15 +197,39 @@ export function applySegmentLeaveWhenChangingActiveSegment(
     return state;
   }
   const segmentLeaving = state.activeSegment;
-  let nextState = state;
-  if (!isSegmentCompleteValid(segmentLeaving, state)) {
-    nextState = clearSegmentDigits(state, segmentLeaving);
+  let nextState: SegmentedDateFieldState = { ...state };
+  let rawDigits = "";
+  const { dayDigits, monthDigits, yearDigits } = state;
+  if (segmentLeaving === "day") {
+    rawDigits = dayDigits;
+  } else if (segmentLeaving === "month") {
+    rawDigits = monthDigits;
+  } else {
+    rawDigits = yearDigits;
+  }
+  const paddedDigits = padSegmentDigitsToWidth(rawDigits, segmentLeaving);
+  if (paddedDigits !== rawDigits) {
+    if (segmentLeaving === "day") {
+      nextState = { ...nextState, dayDigits: paddedDigits };
+    } else if (segmentLeaving === "month") {
+      nextState = { ...nextState, monthDigits: paddedDigits };
+    } else {
+      nextState = { ...nextState, yearDigits: paddedDigits };
+    }
+  }
+  if (!isSegmentCompleteValid(segmentLeaving, nextState)) {
+    nextState = clearSegmentDigits(nextState, segmentLeaving);
   }
   return { ...nextState, activeSegment: nextActiveSegment };
 }
 
 export function resetIncompleteSegmentsOnBlur(state: SegmentedDateFieldState): SegmentedDateFieldState {
-  let next: SegmentedDateFieldState = { ...state };
+  let next: SegmentedDateFieldState = {
+    ...state,
+    dayDigits: padSegmentDigitsToWidth(state.dayDigits, "day"),
+    monthDigits: padSegmentDigitsToWidth(state.monthDigits, "month"),
+    yearDigits: padSegmentDigitsToWidth(state.yearDigits, "year"),
+  };
   if (!isSegmentCompleteValid("day", next)) {
     next = { ...next, dayDigits: "" };
   }

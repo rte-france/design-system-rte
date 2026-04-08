@@ -17,6 +17,7 @@ import {
   buildMaskedDdMmYyyyFromState,
   createEmptySegmentedDateFieldState,
   firstIncompleteSegmentForState,
+  getSegmentDisplayText,
   reduceSegmentedDateFieldKey,
   resetIncompleteSegmentsOnBlur,
   segmentedStateFromDdMmYyyyString,
@@ -76,13 +77,16 @@ export class DatepickerSegmentedFieldComponent {
   private readonly controlHasFocus = signal(false);
 
   readonly controlRef = viewChild<ElementRef<HTMLElement>>("controlRef");
+  private readonly daySegmentRef = viewChild<ElementRef<HTMLElement>>("daySegment");
+  private readonly monthSegmentRef = viewChild<ElementRef<HTMLElement>>("monthSegment");
+  private readonly yearSegmentRef = viewChild<ElementRef<HTMLElement>>("yearSegment");
 
   readonly computedRightIconName = computed(() => this.rightIcon());
   readonly computedRightIconAriaLabel = computed(() => this.rightIconAriaLabel());
 
-  readonly dayDisplay = computed(() => this.formatSegmentVisual(this.segmentedState().dayDigits, "DD"));
-  readonly monthDisplay = computed(() => this.formatSegmentVisual(this.segmentedState().monthDigits, "MM"));
-  readonly yearDisplay = computed(() => this.formatSegmentVisual(this.segmentedState().yearDigits, "YYYY"));
+  readonly dayDisplay = computed(() => getSegmentDisplayText(this.segmentedState().dayDigits, "day", "DD"));
+  readonly monthDisplay = computed(() => getSegmentDisplayText(this.segmentedState().monthDigits, "month", "MM"));
+  readonly yearDisplay = computed(() => getSegmentDisplayText(this.segmentedState().yearDigits, "year", "YYYY"));
 
   readonly assistiveTextId = computed(() =>
     this.hasAssistiveText() && this.assistiveTextLabel() ? `assistive-${this.id() ?? "datepicker-field"}` : null,
@@ -114,6 +118,16 @@ export class DatepickerSegmentedFieldComponent {
       },
       { allowSignalWrites: true },
     );
+
+    effect(() => {
+      this.segmentedState();
+      if (!this.controlHasFocus() || this.disabled() || this.readOnly()) {
+        return;
+      }
+      untracked(() => {
+        this.scheduleNativeSelectionOfActiveSegment();
+      });
+    });
   }
 
   onControlFocus(): void {
@@ -128,6 +142,7 @@ export class DatepickerSegmentedFieldComponent {
 
   onControlBlur(): void {
     this.controlHasFocus.set(false);
+    globalThis.getSelection()?.removeAllRanges();
     const beforeMask = buildMaskedDdMmYyyyFromState(this.segmentedState());
     const afterBlur = resetIncompleteSegmentsOnBlur(this.segmentedState());
     this.segmentedState.set(afterBlur);
@@ -188,17 +203,11 @@ export class DatepickerSegmentedFieldComponent {
       this.valueChange.emit(afterMask);
     }
     this.controlRef()?.nativeElement.focus();
+    this.scheduleNativeSelectionOfActiveSegment();
   }
 
   isSegmentActive(segment: SegmentedDateActiveSegment): boolean {
     return this.segmentedState().activeSegment === segment;
-  }
-
-  private formatSegmentVisual(digits: string, placeholder: string): string {
-    if (digits.length === 0) {
-      return placeholder;
-    }
-    return digits + placeholder.slice(digits.length);
   }
 
   onRightIconClickHandler(event: MouseEvent | KeyboardEvent): void {
@@ -222,5 +231,39 @@ export class DatepickerSegmentedFieldComponent {
         host.focus();
       }
     });
+  }
+
+  private scheduleNativeSelectionOfActiveSegment(): void {
+    queueMicrotask(() => {
+      requestAnimationFrame(() => {
+        this.applyNativeSelectionToActiveSegment();
+      });
+    });
+  }
+
+  private applyNativeSelectionToActiveSegment(): void {
+    const host = this.getActiveSegmentHostElement();
+    if (!host) {
+      return;
+    }
+    const selection = globalThis.getSelection();
+    if (!selection) {
+      return;
+    }
+    const range = document.createRange();
+    range.selectNodeContents(host);
+    selection.removeAllRanges();
+    selection.addRange(range);
+  }
+
+  private getActiveSegmentHostElement(): HTMLElement | null {
+    const activeSegment = this.segmentedState().activeSegment;
+    if (activeSegment === "day") {
+      return this.daySegmentRef()?.nativeElement ?? null;
+    }
+    if (activeSegment === "month") {
+      return this.monthSegmentRef()?.nativeElement ?? null;
+    }
+    return this.yearSegmentRef()?.nativeElement ?? null;
   }
 }

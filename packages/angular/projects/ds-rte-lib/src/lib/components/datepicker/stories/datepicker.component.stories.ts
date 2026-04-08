@@ -18,7 +18,7 @@ const meta: Meta<DatepickerComponent> = {
     docs: {
       description: {
         component:
-          "Single-date Datepicker with a segmented DD/MM/YYYY field (MUI-style blocks).\n\nField: focus lands on the day block; Left/Right move between day, month, and year; digits apply to the active section even when earlier sections are empty (out-of-order editing, aligned with MUI Date Field–style sections); Backspace/Delete clear the whole active section (placeholders DD, MM, YYYY); Up/Down apply defaults (day/month → 1, year → current year; Down on day uses last day of month when month/year are known, else 31).\n\nCalendar: opening while the text is not a valid complete date resets the view to the current month and picks an initial day via the same rules as an empty field.\n\nHandoff note for React:\n- Keep the same state model: `isOpen`, `calendarType` (`day|month|year`), `viewDate`, `selectedDate`, `pendingDate`.\n- Display format is fixed to DD/MM/YYYY.\n- Keyboard behavior for the overlay grid follows W3C APG datepicker dialog guidance (arrows move, Enter/Space select) and ESC closes.",
+          "Single-date Datepicker with a segmented DD/MM/YYYY field (MUI-style blocks).\n\nField: focus lands on the day block; Left/Right move between day, month, and year; digits apply to the active section even when earlier sections are empty (out-of-order editing, aligned with MUI Date Field–style sections); Backspace/Delete clear the whole active section (placeholders DD, MM, YYYY); Up/Down apply defaults (day/month → 1, year → current year; Down on day uses last day of month when month/year are known, else 31). Incomplete segments are left-padded with zeros when moving to another segment or leaving the field (day/month to two digits, year to four); segments that stay invalid after padding are cleared. While typing, partial segments are shown with the same leading-zero padding (e.g. day `1` appears as `01`, month `3` as `03`).\n\nCalendar: opening while the text is not a valid complete date resets the view to the current month and picks an initial day via the same rules as an empty field.\n\nHandoff note for React:\n- Keep the same state model: `isOpen`, `calendarType` (`day|month|year`), `viewDate`, `selectedDate`, `pendingDate`.\n- Display format is fixed to DD/MM/YYYY.\n- Keyboard behavior for the overlay grid follows W3C APG datepicker dialog guidance (arrows move, Enter/Space select) and ESC closes.",
       },
     },
   },
@@ -315,7 +315,7 @@ export const SegmentedFieldPartialDayThenYearDigitsStayInYear: Story = {
     await userEvent.keyboard("2");
     await waitFor(() => {
       const daySegment = canvasElement.querySelectorAll(".segment")[0];
-      expect(normalizedSegmentedDateText(daySegment)).toMatch(/^2D$/);
+      expect(normalizedSegmentedDateText(daySegment)).toMatch(/^02$/);
     });
 
     await userEvent.keyboard("{ArrowRight}{ArrowRight}");
@@ -329,7 +329,7 @@ export const SegmentedFieldPartialDayThenYearDigitsStayInYear: Story = {
 
     await waitFor(() => {
       const segments = canvasElement.querySelectorAll(".segment");
-      expect(normalizedSegmentedDateText(segments[0])).toMatch(/^2D$/);
+      expect(normalizedSegmentedDateText(segments[0])).toMatch(/^02$/);
       expect(normalizedSegmentedDateText(segments[1])).toMatch(/^MM$/);
       expect(normalizedSegmentedDateText(segments[2])).toContain("13");
     });
@@ -398,7 +398,7 @@ export const SegmentedFieldBackspaceClearsActiveSection: Story = {
 
     await userEvent.keyboard("1");
     await waitFor(() => {
-      expect(canvasElement.querySelector(".segment--active")?.textContent?.trim()).toBe("1D");
+      expect(canvasElement.querySelector(".segment--active")?.textContent?.trim()).toBe("01");
     });
 
     await userEvent.keyboard("{Backspace}");
