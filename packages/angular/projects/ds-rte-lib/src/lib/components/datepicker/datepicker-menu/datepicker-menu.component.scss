@@ -3,7 +3,9 @@
 .rte-datepicker-menu {
   @include typography-text-m;
 
-  width: 340px;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 248px;
   padding: $positive-spacing_100;
   display: flex;
   flex-direction: column;
@@ -64,7 +66,7 @@
 
 .rte-datepicker-weekdays {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: $positive-spacing_050;
   padding-bottom: $positive-spacing_050;
   border-bottom: 1px solid var(--border-secondary);
@@ -78,15 +80,19 @@
 
 .rte-datepicker-day-grid {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: $positive-spacing_050;
 }
 
 .day-cell {
   @include typography-text-m;
 
-  width: 44px;
-  height: 44px;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 44px;
+  aspect-ratio: 1;
+  height: auto;
+  justify-self: center;
   border-radius: 999px;
   border: 0;
   background: transparent;

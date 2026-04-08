@@ -50,11 +50,7 @@ const meta: Meta<DatepickerComponent> = {
 export default meta;
 type Story = StoryObj<DatepickerComponent>;
 
-export const Default: Story = {
-  render: (args) => ({
-    props: { ...args },
-    template: `
-      <div style="width: 320px">
+const datepickerStoryInnerTemplate = `
         <rte-datepicker
           [id]="id"
           [hasLabel]="hasLabel"
@@ -70,7 +66,50 @@ export const Default: Story = {
           [showAssistiveIcon]="showAssistiveIcon"
           (valueChange)="valueChange($event)"
           (openedChange)="openedChange($event)"
-        />
+        />`;
+
+export const Default: Story = {
+  render: (args) => ({
+    props: { ...args },
+    template: `
+      <div style="width: 500px">
+        ${datepickerStoryInnerTemplate}
+      </div>
+    `,
+  }),
+};
+
+export const LayoutMinWidth248: Story = {
+  name: "Layout: 248px column (ensemble minimum)",
+  render: (args) => ({
+    props: { ...args },
+    template: `
+      <div style="width: 248px">
+        ${datepickerStoryInnerTemplate}
+      </div>
+    `,
+  }),
+};
+
+export const LayoutWidth400: Story = {
+  name: "Layout: 400px column",
+  render: (args) => ({
+    props: { ...args },
+    template: `
+      <div style="width: 400px">
+        ${datepickerStoryInnerTemplate}
+      </div>
+    `,
+  }),
+};
+
+export const LayoutFullWidthInWideParent: Story = {
+  name: "Layout: full width in wide container",
+  render: (args) => ({
+    props: { ...args },
+    template: `
+      <div style="width: 100%; max-width: 720px">
+        ${datepickerStoryInnerTemplate}
       </div>
     `,
   }),

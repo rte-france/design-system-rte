@@ -26,7 +26,6 @@ import {
   type SegmentedDateFieldState,
 } from "@design-system-rte/core/components/datepicker";
 
-import { RegularIconIdKey, TogglableIconIdKey } from "../../icon/icon.service";
 import { BaseInputComponent } from "../../input/base-input/base-input.component";
 import { RteBaseInputControlDirective } from "../../input/rte-base-input-control.directive";
 
@@ -48,23 +47,15 @@ export class DatepickerSegmentedFieldComponent {
   readonly showAssistiveIcon = input<boolean>(false);
   readonly assistiveTextLabel = input<string>("");
   readonly error = input<boolean>(false);
-  readonly maxLength = input<number>(10);
   readonly disabled = input<boolean>(false);
   readonly readOnly = input<boolean>(false);
-  readonly width = input<string>("300px");
-  readonly compactSpacing = input<boolean>(false);
   readonly ariaLabel = input<string>("");
-  readonly ariaLabelledby = input<string>("");
+  readonly ariaLabelledby = input<string | null>(null);
   readonly ariaRequired = input<boolean>(false);
-  readonly highlighted = input<boolean>(false);
   readonly hasLabel = input<boolean>(true);
   readonly hasAssistiveText = input<boolean>(false);
-  readonly showCounter = input<boolean>(false);
 
   readonly value = input<string>("");
-  readonly leftIcon = input<RegularIconIdKey | TogglableIconIdKey | null>(null);
-  readonly showRightIcon = input<boolean>(true);
-  readonly rightIcon = input<RegularIconIdKey | TogglableIconIdKey | null>(null);
   readonly rightIconAriaLabel = input<string>("");
 
   readonly valueChange = output<string>();
@@ -81,9 +72,6 @@ export class DatepickerSegmentedFieldComponent {
   private readonly monthSegmentRef = viewChild<ElementRef<HTMLElement>>("monthSegment");
   private readonly yearSegmentRef = viewChild<ElementRef<HTMLElement>>("yearSegment");
 
-  readonly computedRightIconName = computed(() => this.rightIcon());
-  readonly computedRightIconAriaLabel = computed(() => this.rightIconAriaLabel());
-
   readonly dayDisplay = computed(() => getSegmentDisplayText(this.segmentedState().dayDigits, "day", "DD"));
   readonly monthDisplay = computed(() => getSegmentDisplayText(this.segmentedState().monthDigits, "month", "MM"));
   readonly yearDisplay = computed(() => getSegmentDisplayText(this.segmentedState().yearDigits, "year", "YYYY"));
@@ -91,8 +79,6 @@ export class DatepickerSegmentedFieldComponent {
   readonly assistiveTextId = computed(() =>
     this.hasAssistiveText() && this.assistiveTextLabel() ? `assistive-${this.id() ?? "datepicker-field"}` : null,
   );
-
-  readonly labelElementId = computed(() => (this.hasLabel() && this.id() ? `input-label-${this.id()}` : null));
 
   constructor() {
     effect(

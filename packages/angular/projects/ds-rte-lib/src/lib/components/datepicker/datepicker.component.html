@@ -10,32 +10,31 @@
   (clickedOutside)="onClickedOutside()"
   (closedDropdown)="onClosedDropdown()"
 >
-  <div #inputRootRef>
-    <rte-datepicker-segmented-field
-      rteDropdownTrigger
-      rightIcon="calendar-month"
-      [id]="id()"
-      [hasLabel]="hasLabel()"
-      [label]="labelText()"
-      [labelPosition]="labelPosition()"
-      [required]="required()"
-      [showLabelRequirement]="isRequiredOptional() ? showLabelRequirement() : false"
-      [hasAssistiveText]="hasAssistiveText()"
-      [assistiveTextLabel]="hasAssistiveText() ? assistiveTextLabel() : ''"
-      [assistiveAppearance]="isError() ? 'error' : assistiveTextAppearance()"
-      [showAssistiveIcon]="showAssistiveIcon()"
-      [value]="textValue()"
-      [error]="isError()"
-      [disabled]="isDisabled()"
-      [readOnly]="isReadOnly()"
-      [rightIconAriaLabel]="calendarButtonAriaLabel()"
-      (valueChange)="onInputValueChange($event)"
-      (rightIconClick)="onCalendarIconTriggered($event)"
-      (rightIconKeydown)="onCalendarIconTriggered($event)"
-      (inputBlur)="onInputBlurred()"
-    >
-    </rte-datepicker-segmented-field>
-  </div>
+  <rte-datepicker-segmented-field
+    rteDropdownTrigger
+    [id]="id()"
+    [hasLabel]="hasLabel()"
+    [label]="labelText()"
+    [labelPosition]="labelPosition()"
+    [required]="required()"
+    [showLabelRequirement]="isRequiredOptional() ? showLabelRequirement() : false"
+    [hasAssistiveText]="hasAssistiveText()"
+    [assistiveTextLabel]="hasAssistiveText() ? assistiveTextLabel() : ''"
+    [assistiveAppearance]="isError() ? 'error' : assistiveTextAppearance()"
+    [showAssistiveIcon]="showAssistiveIcon()"
+    [ariaLabel]="fieldAriaLabel()"
+    [ariaLabelledby]="segmentedFieldAriaLabelledby()"
+    [ariaRequired]="required()"
+    [value]="textValue()"
+    [error]="isError()"
+    [disabled]="isDisabled()"
+    [readOnly]="isReadOnly()"
+    [rightIconAriaLabel]="calendarButtonAriaLabel()"
+    (valueChange)="onInputValueChange($event)"
+    (rightIconClick)="onCalendarIconTriggered($event)"
+    (rightIconKeydown)="onCalendarIconTriggered($event)"
+    (inputBlur)="onInputBlurred()"
+  />
 
   <rte-dropdown-menu>
     <ng-template rteDropdownMenuBody>
