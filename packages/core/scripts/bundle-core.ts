@@ -81,6 +81,32 @@ function copyComponentAssets(): void {
   walk(componentsRoot);
 }
 
+function buildComponentBarrelExports(componentsDistDir: string): Record<string, { types: string; default: string }> {
+  const barrelExports: Record<string, { types: string; default: string }> = {};
+  if (!fs.existsSync(componentsDistDir)) {
+    return barrelExports;
+  }
+
+  const componentNames = fs.readdirSync(componentsDistDir).sort((left, right) => left.localeCompare(right, "en"));
+  for (const componentName of componentNames) {
+    const componentPath = path.join(componentsDistDir, componentName);
+    if (!fs.statSync(componentPath).isDirectory()) {
+      continue;
+    }
+    const indexJsPath = path.join(componentPath, "index.js");
+    if (!fs.existsSync(indexJsPath)) {
+      continue;
+    }
+    const exportKey = `./components/${componentName}`;
+    barrelExports[exportKey] = {
+      types: `./components/${componentName}/index.d.ts`,
+      default: `./components/${componentName}/index.js`,
+    };
+  }
+
+  return barrelExports;
+}
+
 function main(): void {
   console.log("📦 Building @design-system-rte/core...\n");
 
@@ -109,6 +135,7 @@ function main(): void {
   // 4. Create dist package.json
   console.log("4/4 Creating dist package.json...");
   const packageJson = JSON.parse(fs.readFileSync(path.join(packageRoot, "package.json"), "utf8"));
+  const componentBarrelExports = buildComponentBarrelExports(path.join(distDir, "components"));
   const distPackageJson = {
     ...packageJson,
     main: "index.js",
@@ -121,10 +148,7 @@ function main(): void {
       "./design-tokens/*": "./design-tokens/*",
       "./assets/*": "./assets/*",
       "./css/*": "./css/*",
-      "./components/*": {
-        types: "./components/*/index.d.ts",
-        default: "./components/*/index.js",
-      },
+      ...componentBarrelExports,
       "./*": { types: "./*.d.ts", default: "./*.js" },
       "./package.json": "./package.json",
     },

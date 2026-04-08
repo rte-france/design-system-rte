@@ -1,4 +1,4 @@
-import DecorativeColor from "../common/common-types";
+import type { DecorativeColor } from "../common/common-types";
 
 export type AvatarSize = 24 | 28 | 32 | 36 | 40 | 48 | 56 | 64 | 72 | 96 | 120;
 export type AvatarColorType = "neutral" | "brand" | "decorative";
