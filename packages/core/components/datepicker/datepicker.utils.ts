@@ -39,7 +39,7 @@ function parseDdMmYyyyTwoSlashParts(dayPart: string, secondPart: string): DdMmYy
   }
   if (rest.length === 1 || rest.length === 2) {
     const monthNum = Number.parseInt(rest, 10);
-    if (!Number.isNaN(monthNum) && (monthNum < 1 || monthNum > 12)) {
+    if (!Number.isNaN(monthNum) && monthNum > 12) {
       return { dayDigits, monthDigits: "", yearDigits: rest };
     }
   }

@@ -209,14 +209,7 @@ export class DropdownDirective implements AfterContentInit {
 
           this.removeClickOutsideListener();
           dropdownStateSubscription.unsubscribe();
-          const buttonTrigger = this.trigger()?.elementRef.nativeElement.querySelectorAll(
-            FOCUSABLE_BUTTONS_QUERY,
-          )[0] as HTMLElement;
-          if (buttonTrigger) {
-            buttonTrigger.focus();
-          } else {
-            this.trigger()?.elementRef.nativeElement.focus();
-          }
+          this.focusTriggerElementAfterMenuClosed();
         }
       }
     });
@@ -282,6 +275,24 @@ export class DropdownDirective implements AfterContentInit {
         this.renderer.setStyle(dropdownMenuElement, "opacity", "1");
       }
     }
+  }
+
+  private focusTriggerElementAfterMenuClosed(): void {
+    const triggerElement = this.trigger()?.elementRef.nativeElement as HTMLElement | undefined;
+    if (!triggerElement) {
+      return;
+    }
+    const focusable = Array.from(triggerElement.querySelectorAll<HTMLElement>(FOCUSABLE_BUTTONS_QUERY));
+    if (focusable.length === 0) {
+      triggerElement.focus();
+      return;
+    }
+    const explicitButtons = focusable.filter((element) => {
+      return element.tagName === "BUTTON" || element.getAttribute("role") === "button";
+    });
+    const target =
+      explicitButtons.length > 0 ? explicitButtons[explicitButtons.length - 1] : focusable[focusable.length - 1];
+    target.focus();
   }
 
   private unsubscribeItemEvent(): void {
