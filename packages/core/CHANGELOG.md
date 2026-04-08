@@ -1,5 +1,12 @@
 # @design-system-rte/core
 
+## 1.6.5
+
+### Patch Changes
+
+- f398154: ## Changes
+  - (Core) correct exposition of inner export statements so Angular builder compiles correctly
+
 ## 1.6.0
 
 ### Minor Changes
