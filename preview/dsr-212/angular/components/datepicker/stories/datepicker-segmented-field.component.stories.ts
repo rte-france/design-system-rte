@@ -109,8 +109,8 @@ export const ArrowRightFromYearNoOp: Story = {
   },
 };
 
-export const NavigateRightClearsIncompleteDay: Story = {
-  name: "Clavier: → depuis le jour incomplet efface le jour (placeholder DD)",
+export const NavigateRightPadsIncompleteDay: Story = {
+  name: "Clavier: → depuis le jour incomplet complète avec zéros (01/MM/YYYY)",
   render: () => ({}),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -120,14 +120,14 @@ export const NavigateRightClearsIncompleteDay: Story = {
     await userEvent.keyboard("1");
     await userEvent.keyboard("{ArrowRight}");
     await waitFor(() => {
-      expect(normalizedSegmentedDateText(segmented)).toMatch(/^DD\/MM\/YYYY$/);
+      expect(normalizedSegmentedDateText(segmented)).toMatch(/^01\/MM\/YYYY$/);
     });
     expect(activeSegmentIndex(segmented)).toBe(1);
   },
 };
 
-export const BlurResetsIncompleteSegments: Story = {
-  name: "Blur: segment incomplet revient au placeholder (DD/MM/YYYY)",
+export const BlurPadsIncompleteDaySegment: Story = {
+  name: "Blur: jour incomplet complété avec zéros (01/MM/YYYY)",
   render: () => ({}),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -137,7 +137,25 @@ export const BlurResetsIncompleteSegments: Story = {
     await userEvent.keyboard("1");
     await userEvent.tab();
     await waitFor(() => {
-      expect(normalizedSegmentedDateText(segmented)).toMatch(/^DD\/MM\/YYYY$/);
+      expect(normalizedSegmentedDateText(segmented)).toMatch(/^01\/MM\/YYYY$/);
+    });
+  },
+};
+
+export const BlurPadsPartialYearToFourDigits: Story = {
+  name: "Blur: année partielle 123 → 0123 (DD/MM/0123)",
+  render: () => ({}),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const field = canvas.getByRole("group");
+    const segmented = canvasElement.querySelector(".segmented-date-field");
+    field.focus();
+    await userEvent.keyboard("{ArrowRight}");
+    await userEvent.keyboard("{ArrowRight}");
+    await userEvent.keyboard("123");
+    await userEvent.tab();
+    await waitFor(() => {
+      expect(normalizedSegmentedDateText(segmented)).toMatch(/^DD\/MM\/0123$/);
     });
   },
 };
@@ -157,7 +175,7 @@ export const CompleteDayThenAdvanceToMonth: Story = {
     });
     await userEvent.keyboard("0");
     await waitFor(() => {
-      expect(normalizedSegmentedDateText(segmented)).toMatch(/^15\/0M\/YYYY$/);
+      expect(normalizedSegmentedDateText(segmented)).toMatch(/^15\/00\/YYYY$/);
     });
   },
 };
@@ -194,7 +212,7 @@ export const ArrowDownOnEmptyDaySetsToMaxDay: Story = {
 };
 
 export const DigitOnFulfilledDayRestartsSegment: Story = {
-  name: "Clavier: chiffre sur jour déjà rempli redémarre le jour (13 → 1D)",
+  name: "Clavier: chiffre sur jour déjà rempli redémarre le jour (13 → 01)",
   render: () => ({}),
   play: async ({ canvasElement }) => {
     const field = within(canvasElement).getByRole("group");
@@ -209,7 +227,7 @@ export const DigitOnFulfilledDayRestartsSegment: Story = {
     expect(daySegment?.classList.contains("segment--active")).toBe(true);
     await userEvent.keyboard("1");
     await waitFor(() => {
-      expect(normalizedSegmentedDateText(segmented)).toMatch(/^1D\/MM\/YYYY$/);
+      expect(normalizedSegmentedDateText(segmented)).toMatch(/^01\/MM\/YYYY$/);
     });
   },
 };
