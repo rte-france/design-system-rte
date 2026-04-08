@@ -3,6 +3,7 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   ElementRef,
   computed,
   effect,
@@ -10,7 +11,6 @@ import {
   input,
   output,
   signal,
-  viewChild,
 } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { waitForNextFrame } from "@design-system-rte/core/common/animation";
@@ -64,6 +64,9 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
   readonly assistiveTextAppearance = input<"description" | "error">("description");
   readonly showAssistiveIcon = input<boolean>(false);
 
+  readonly fieldAriaLabel = input<string>("");
+  readonly fieldAriaLabelledby = input<string>("");
+
   readonly interactionState = input<
     "enabled" | "hover" | "activeInput" | "activeMenu" | "error" | "disabled" | "readOnly"
   >("enabled");
@@ -77,7 +80,6 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
   readonly openedChange = output<boolean>();
 
   readonly dropdownWidth = signal<number | null>(null);
-  readonly inputRootRef = viewChild<ElementRef<HTMLElement>>("inputRootRef");
 
   readonly isOpen = signal(false);
   readonly calendarType = signal<DatepickerCalendarType>("day");
@@ -104,10 +106,21 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
     return selectedDate ? `Changer la date, ${formatDate(selectedDate)}` : "Ouvrir le calendrier";
   });
 
+  readonly segmentedFieldAriaLabelledby = computed(() => {
+    const explicit = this.fieldAriaLabelledby();
+    if (explicit !== "") {
+      return explicit;
+    }
+    return this.hasLabel() && this.id() ? `input-label-${this.id()}` : null;
+  });
+
   private onTouched: () => void = () => {};
   private onChange: (value: Date | null) => void = () => {};
   private readonly focusTrapService = inject(FocusTrapService);
   private readonly datepickerMenuService = inject(DatepickerMenuService);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly elementRef = inject(ElementRef<HTMLElement>);
+  private resizeObserver: ResizeObserver | null = null;
 
   constructor() {
     effect(
@@ -189,13 +202,49 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
       },
       { allowSignalWrites: true },
     );
+
+    effect(
+      () => {
+        if (!this.isOpen()) {
+          return;
+        }
+        waitForNextFrame(() => {
+          this.syncDropdownWidthFromInputBar();
+        });
+      },
+      { allowSignalWrites: true },
+    );
   }
 
   ngAfterViewInit(): void {
-    const rootElement = this.inputRootRef()?.nativeElement;
-    if (rootElement) {
-      this.dropdownWidth.set(rootElement.getBoundingClientRect().width);
+    const inputBarElement = this.getInputBarElement();
+    if (!inputBarElement) {
+      return;
     }
+
+    this.syncDropdownWidthFromInputBar();
+
+    this.resizeObserver = new ResizeObserver(() => {
+      this.syncDropdownWidthFromInputBar();
+    });
+    this.resizeObserver.observe(inputBarElement);
+
+    this.destroyRef.onDestroy(() => {
+      this.resizeObserver?.disconnect();
+      this.resizeObserver = null;
+    });
+  }
+
+  private getInputBarElement(): HTMLElement | null {
+    return this.elementRef.nativeElement.querySelector(".rte-datepicker .input-bar");
+  }
+
+  private syncDropdownWidthFromInputBar(): void {
+    const inputBarElement = this.getInputBarElement();
+    if (!inputBarElement) {
+      return;
+    }
+    this.dropdownWidth.set(Math.round(inputBarElement.getBoundingClientRect().width));
   }
 
   writeValue(value: Date | null): void {
@@ -271,6 +320,7 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
       event.preventDefault();
     }
 
+    this.syncDropdownWidthFromInputBar();
     this.isOpen.set(true);
   }
 
