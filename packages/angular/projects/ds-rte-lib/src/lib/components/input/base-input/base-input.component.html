@@ -9,7 +9,7 @@
         <label
           id="input-label-{{ id() }}"
           class="input-label"
-          [attr.for]="associateLabelWithControlId() && id() ? id() : null"
+          [attr.for]="useLabelForAttribute() && id() ? id() : null"
         >
           {{ label() }}
         </label>
