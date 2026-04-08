@@ -91,6 +91,20 @@ export class DropdownDirective implements AfterContentInit {
     };
   });
 
+  dropdownMenuRef: ComponentRef<DropdownMenuComponent> | null = null;
+  private itemEventSubscription: { unsubscribe: () => void } | null = null;
+  private viewportResizeFrameId: number | null = null;
+
+  private readonly onViewportOrWindowResize = (): void => {
+    if (this.viewportResizeFrameId !== null) {
+      cancelAnimationFrame(this.viewportResizeFrameId);
+    }
+    this.viewportResizeFrameId = requestAnimationFrame(() => {
+      this.viewportResizeFrameId = null;
+      this.scheduleOverlayLayoutSync();
+    });
+  };
+
   constructor() {
     this.hostElement = this.elementRef.nativeElement;
 
@@ -117,14 +131,51 @@ export class DropdownDirective implements AfterContentInit {
 
     effect(() => {
       const inputs = this.menuInputs();
+      const isOpen = this.rteDropdownIsOpen();
       if (this.dropdownMenuRef && inputs) {
         this.assignInputs();
+        if (isOpen) {
+          waitForNextFrame(() => {
+            if (!this.dropdownMenuRef || !this.rteDropdownIsOpen()) {
+              return;
+            }
+            this.positionDropdownMenu(this.rteDropdownPosition());
+          });
+        }
+      }
+    });
+
+    this.registerViewportResizeRepositionHandling();
+  }
+
+  private registerViewportResizeRepositionHandling(): void {
+    if (typeof window === "undefined") {
+      return;
+    }
+    window.addEventListener("resize", this.onViewportOrWindowResize);
+    window.visualViewport?.addEventListener("resize", this.onViewportOrWindowResize);
+    this.destroyRef.onDestroy(() => {
+      window.removeEventListener("resize", this.onViewportOrWindowResize);
+      window.visualViewport?.removeEventListener("resize", this.onViewportOrWindowResize);
+      if (this.viewportResizeFrameId !== null) {
+        cancelAnimationFrame(this.viewportResizeFrameId);
+        this.viewportResizeFrameId = null;
       }
     });
   }
 
-  dropdownMenuRef: ComponentRef<DropdownMenuComponent> | null = null;
-  private itemEventSubscription: { unsubscribe: () => void } | null = null;
+  private scheduleOverlayLayoutSync(): void {
+    if (!this.dropdownMenuRef || !this.rteDropdownIsOpen()) {
+      return;
+    }
+    this.assignInputs();
+    waitForNextFrame(() => {
+      if (!this.dropdownMenuRef || !this.rteDropdownIsOpen()) {
+        return;
+      }
+      this.positionDropdownMenu(this.rteDropdownPosition());
+    });
+  }
 
   onTrigger(): void {
     if (this.rteDropdownAutoOpen()) {
