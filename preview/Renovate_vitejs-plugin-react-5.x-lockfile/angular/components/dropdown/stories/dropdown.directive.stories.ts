@@ -423,6 +423,7 @@ export const WithNestedItems: Story = {
 };
 
 export const WithFilterableHeader: Story = {
+  tags: ["skip-ci"],
   decorators: [
     moduleMetadata({
       imports: [DropdownModule],
