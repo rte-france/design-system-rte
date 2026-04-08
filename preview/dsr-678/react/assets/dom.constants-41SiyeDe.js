@@ -1,0 +1,1 @@
+const n=["button","a[href]","input","select","textarea","details",'[tabindex]:not([tabindex="-1"])'],a=n.map(t=>t+":not([disabled]):not([aria-hidden])").join(","),e=["button",'[role="button"]','[tabindex]:not([tabindex="-1"])'].map(t=>t+":not([disabled]):not([aria-hidden])").join(",");export{a as F,e as a};
