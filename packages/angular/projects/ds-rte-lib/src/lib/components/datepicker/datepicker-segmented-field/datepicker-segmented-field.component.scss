@@ -32,13 +32,12 @@
     color: var(--content-primary);
     user-select: none;
 
-    &--muted {
-        color: var(--content-tertiary);
+    &--active {
+        user-select: text;
     }
 
-    &--active {
-        background: var(--background-brand-unselected-default);
-        color: var(--content-primary);
+    &--muted {
+        color: var(--content-tertiary);
     }
 }
 
