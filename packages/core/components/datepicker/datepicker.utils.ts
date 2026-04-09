@@ -138,13 +138,13 @@ function monthHasSelectableDay(params: {
   monthIndex: number;
   minDate?: Date;
   maxDate?: Date;
-  disabledDate?: (date: Date) => boolean;
+  disabledDates?: readonly Date[];
 }): boolean {
-  const { year, monthIndex, minDate, maxDate, disabledDate } = params;
+  const { year, monthIndex, minDate, maxDate, disabledDates } = params;
   const lastDay = endOfMonth(new Date(year, monthIndex, 1)).getDate();
   for (let day = 1; day <= lastDay; day++) {
     const date = startOfDay(new Date(year, monthIndex, day));
-    if (!isDateDisabled({ date, minDate, maxDate, disabledDate })) {
+    if (!isDateDisabled({ date, minDate, maxDate, disabledDates })) {
       return true;
     }
   }
@@ -155,11 +155,11 @@ function yearHasSelectableDay(params: {
   year: number;
   minDate?: Date;
   maxDate?: Date;
-  disabledDate?: (date: Date) => boolean;
+  disabledDates?: readonly Date[];
 }): boolean {
-  const { year, minDate, maxDate, disabledDate } = params;
+  const { year, minDate, maxDate, disabledDates } = params;
   for (let monthIndex = 0; monthIndex < 12; monthIndex++) {
-    if (monthHasSelectableDay({ year, monthIndex, minDate, maxDate, disabledDate })) {
+    if (monthHasSelectableDay({ year, monthIndex, minDate, maxDate, disabledDates })) {
       return true;
     }
   }
@@ -281,13 +281,20 @@ export function navigateViewDate(params: NavigateViewDateParams): Date {
   return viewDate;
 }
 
+function isCalendarDayInDisabledDates(currentDay: Date, disabledDates?: readonly Date[]): boolean {
+  if (!disabledDates || disabledDates.length === 0) {
+    return false;
+  }
+  return disabledDates.some((forbidden) => isSameDay(currentDay, startOfDay(forbidden)));
+}
+
 export function isDateDisabled(params: {
   date: Date;
   minDate?: Date;
   maxDate?: Date;
-  disabledDate?: (date: Date) => boolean;
+  disabledDates?: readonly Date[];
 }): boolean {
-  const { date, minDate, maxDate, disabledDate } = params;
+  const { date, minDate, maxDate, disabledDates } = params;
   const currentDay = startOfDay(date);
   if (minDate && isBeforeDay(currentDay, minDate)) {
     return true;
@@ -295,7 +302,7 @@ export function isDateDisabled(params: {
   if (maxDate && isAfterDay(currentDay, maxDate)) {
     return true;
   }
-  return disabledDate ? disabledDate(currentDay) : false;
+  return isCalendarDayInDisabledDates(currentDay, disabledDates);
 }
 
 export function getMonthLabel(date: Date, locale: string = "fr-FR"): string {
@@ -383,9 +390,9 @@ export function buildDayGrid(params: {
   selectedDate: Date | null;
   minDate?: Date;
   maxDate?: Date;
-  disabledDate?: (date: Date) => boolean;
+  disabledDates?: readonly Date[];
 }): DatepickerDayCell[] {
-  const { viewDate, selectedDate, minDate, maxDate, disabledDate } = params;
+  const { viewDate, selectedDate, minDate, maxDate, disabledDates } = params;
 
   const firstMonthDay = startOfMonth(viewDate);
   const leadingDaysFromPreviousMonth = getMondayBasedWeekdayIndex(firstMonthDay);
@@ -412,7 +419,7 @@ export function buildDayGrid(params: {
       date: cellDate,
       label: `${cellDate.getDate()}`,
       cellType,
-      isDisabled: isDateDisabled({ date: cellDate, minDate, maxDate, disabledDate }),
+      isDisabled: isDateDisabled({ date: cellDate, minDate, maxDate, disabledDates }),
     };
   });
 }
@@ -422,10 +429,10 @@ export function buildMonthGrid(params: {
   selectedDate: Date | null;
   minDate?: Date;
   maxDate?: Date;
-  disabledDate?: (date: Date) => boolean;
+  disabledDates?: readonly Date[];
   locale?: string;
 }): DatepickerMonthCell[] {
-  const { viewDate, selectedDate, minDate, maxDate, disabledDate, locale = "fr-FR" } = params;
+  const { viewDate, selectedDate, minDate, maxDate, disabledDates, locale = "fr-FR" } = params;
   const selectedMonthDate = selectedDate ? startOfMonth(selectedDate) : null;
   const currentMonthDate = startOfMonth(new Date());
 
@@ -435,7 +442,7 @@ export function buildMonthGrid(params: {
     return {
       monthIndex,
       label: new Intl.DateTimeFormat(locale, { month: "long" }).format(cellDate),
-      isDisabled: !monthHasSelectableDay({ year, monthIndex, minDate, maxDate, disabledDate }),
+      isDisabled: !monthHasSelectableDay({ year, monthIndex, minDate, maxDate, disabledDates }),
       isCurrent: cellDate.getTime() === currentMonthDate.getTime(),
       isSelected: !!selectedMonthDate && cellDate.getTime() === selectedMonthDate.getTime(),
     };
@@ -447,9 +454,9 @@ export function buildYearGrid(params: {
   selectedDate: Date | null;
   minDate?: Date;
   maxDate?: Date;
-  disabledDate?: (date: Date) => boolean;
+  disabledDates?: readonly Date[];
 }): DatepickerYearCell[] {
-  const { viewDate, selectedDate, minDate, maxDate, disabledDate } = params;
+  const { viewDate, selectedDate, minDate, maxDate, disabledDates } = params;
   const currentYear = new Date().getFullYear();
   const selectedYear = selectedDate?.getFullYear() ?? null;
   const startYear = getDecadeStartYear(viewDate.getFullYear());
@@ -459,7 +466,7 @@ export function buildYearGrid(params: {
     return {
       year,
       label: `${year}`,
-      isDisabled: !yearHasSelectableDay({ year, minDate, maxDate, disabledDate }),
+      isDisabled: !yearHasSelectableDay({ year, minDate, maxDate, disabledDates }),
       isCurrent: year === currentYear,
       isSelected: selectedYear === year,
     };
