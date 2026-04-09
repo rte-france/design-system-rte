@@ -438,7 +438,7 @@ export class DatepickerMenuComponent {
       return;
     }
 
-    const columnCount = 4;
+    const columnCount = 3;
     const cellCount = cells.length;
 
     let nextIndex = getNextGridCellIndex({
@@ -476,7 +476,7 @@ export class DatepickerMenuComponent {
       return;
     }
 
-    const columnCount = 4;
+    const columnCount = 3;
     const cellCount = cells.length;
 
     let nextIndex = getNextGridCellIndex({
