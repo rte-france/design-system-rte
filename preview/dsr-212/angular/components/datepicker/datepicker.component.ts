@@ -59,6 +59,8 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
   readonly required = input<boolean>(false);
   readonly showLabelRequirement = input<boolean>(false);
 
+  readonly width = input<string>("248px");
+
   readonly hasAssistiveText = input<boolean>(false);
   readonly assistiveTextLabel = input<string>("");
   readonly assistiveTextAppearance = input<"description" | "error">("description");
@@ -73,7 +75,7 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
 
   readonly minDate = input<Date | undefined>(undefined);
   readonly maxDate = input<Date | undefined>(undefined);
-  readonly disabledDate = input<((date: Date) => boolean) | undefined>(undefined);
+  readonly disabledDates = input<readonly Date[]>([]);
   readonly locale = input<string>("fr-FR");
 
   readonly valueChange = output<Date | null>();
@@ -143,7 +145,7 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
               date: parsedNormalized,
               minDate: this.minDate(),
               maxDate: this.maxDate(),
-              disabledDate: this.disabledDate(),
+              disabledDates: this.disabledDates(),
             });
 
           let viewDateForGrid = this.viewDate();
@@ -161,7 +163,7 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
             selectedDate: pendingForMenu,
             minDate: this.minDate(),
             maxDate: this.maxDate(),
-            disabledDate: this.disabledDate(),
+            disabledDates: this.disabledDates(),
           });
           const resolved = resolveInitialCalendarDay({
             pendingDate: pendingForMenu,
@@ -289,7 +291,7 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
           date: normalized,
           minDate: this.minDate(),
           maxDate: this.maxDate(),
-          disabledDate: this.disabledDate(),
+          disabledDates: this.disabledDates(),
         })
       ) {
         return;
