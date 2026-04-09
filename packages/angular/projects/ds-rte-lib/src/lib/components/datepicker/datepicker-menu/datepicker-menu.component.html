@@ -1,4 +1,10 @@
-<div class="rte-datepicker-menu" role="dialog" aria-modal="true" aria-label="Choisir une date">
+<div
+  class="rte-datepicker-menu"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Choisir une date"
+  [class.rte-datepicker-menu--month]="calendarType() === 'month'"
+>
   <div class="rte-datepicker-menu-header">
     <div class="nav-left">
       @if (calendarType() === "day") {
@@ -149,7 +155,13 @@
       }
     </div>
   } @else if (calendarType() === "month") {
-    <div class="rte-datepicker-month-grid" role="grid" aria-label="Mois">
+    <p class="rte-datepicker-view-instruction" id="rte-datepicker-month-instruction">Sélectionner un mois</p>
+    <div
+      class="rte-datepicker-month-grid"
+      role="grid"
+      aria-label="Mois"
+      aria-describedby="rte-datepicker-month-instruction"
+    >
       @for (cell of monthCells(); track cell.monthIndex) {
         <button
           type="button"
@@ -169,7 +181,7 @@
           (click)="onClickMonth(cell.monthIndex, cell.isDisabled)"
           (focus)="onMonthCellFocused(cell.monthIndex)"
         >
-          {{ cell.label }}
+          <span class="month-cell__label">{{ cell.label }}</span>
         </button>
       }
     </div>
