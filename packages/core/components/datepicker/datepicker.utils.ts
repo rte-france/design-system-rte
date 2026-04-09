@@ -234,6 +234,16 @@ export function startOfDay(date: Date): Date {
   return new Date(date.getFullYear(), date.getMonth(), date.getDate());
 }
 
+export function getLastDayOfMonth(year: number, monthIndex: number): number {
+  return new Date(year, monthIndex + 1, 0).getDate();
+}
+
+export function projectDayToMonthAnchor(desiredDayOfMonth: number, year: number, monthIndex: number): Date {
+  const lastDayInMonth = getLastDayOfMonth(year, monthIndex);
+  const dayClampedToMonth = Math.min(Math.max(desiredDayOfMonth, 1), lastDayInMonth);
+  return startOfDay(new Date(year, monthIndex, dayClampedToMonth));
+}
+
 export function addDays(date: Date, amount: number): Date {
   const nextDate = new Date(date);
   nextDate.setDate(nextDate.getDate() + amount);

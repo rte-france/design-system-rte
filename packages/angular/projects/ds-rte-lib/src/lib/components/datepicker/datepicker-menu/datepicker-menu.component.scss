@@ -22,6 +22,7 @@
   justify-content: space-between;
   gap: $positive-spacing_050;
   padding: 0 $positive-spacing_050;
+  @include typography-heading-xs;
 
   .nav-left,
   .nav-right {
@@ -316,5 +317,6 @@
   display: flex;
   justify-content: flex-end;
   gap: $positive-spacing_100;
+  padding: $positive-spacing_050 $positive-spacing_150;
 }
 

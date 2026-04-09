@@ -120,7 +120,7 @@
 
   @if (calendarType() === "day") {
     <div class="rte-datepicker-weekdays" aria-hidden="true">
-      @for (weekdayLabel of weekdayLabels(); track weekdayLabel) {
+      @for (weekdayLabel of weekdayLabels(); track $index) {
         <div class="weekday">{{ weekdayLabel }}</div>
       }
     </div>
