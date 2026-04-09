@@ -16,6 +16,11 @@
   border-radius: $radius-s;
 }
 
+.rte-datepicker-menu--month .rte-datepicker-menu-header {
+  border-bottom: 1px solid var(--border-secondary);
+  padding-bottom: $positive-spacing_050;
+}
+
 .rte-datepicker-menu-header {
   display: flex;
   align-items: center;
@@ -143,8 +148,8 @@
     content: "";
     display: block;
     position: absolute;
-    width: 40px;
-    height: 40px;
+    width: 28px;
+    height: 28px;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
@@ -173,7 +178,6 @@
 
     .day-cell__surface {
       border-color: var(--border-brand-default);
-      background-color: var(--background-brand-unselected-default);
     }
   }
 
@@ -248,25 +252,140 @@
   }
 }
 
+.rte-datepicker-view-instruction {
+  @include typography-text-m;
+
+  margin: 0;
+  padding: 0 $positive-spacing_150;
+  text-align: center;
+  color: var(--content-tertiary);
+}
+
 .rte-datepicker-month-grid,
 .rte-datepicker-year-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: $positive-spacing_150;
+  padding: 0 $positive-spacing_150;
 }
 
-.month-cell,
-.year-cell {
+.month-cell {
   @include typography-text-m;
 
+  position: relative;
   box-sizing: border-box;
-  height: 44px;
+  min-width: 0;
+  height: $positive-spacing_400;
+  min-height: $positive-spacing_400;
   border-radius: 999px;
   border: 2px solid transparent;
   background: transparent;
   color: var(--content-primary);
   cursor: pointer;
-  transition: background-color 120ms;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 $positive-spacing_050;
+  transition:
+    background-color 120ms,
+    border-color 120ms,
+    color 120ms;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:focus-visible {
+    outline: none;
+  }
+
+  .month-cell__label {
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-transform: capitalize;
+  }
+
+  &[data-selected="true"] {
+    @include typography-text-m-bold;
+    color: var(--content-primary-inverse);
+    background: var(--background-brand-selected-default);
+    border-color: var(--border-brand-default);
+  }
+
+  &[data-current="true"]:not([data-selected="true"]) {
+    @include typography-text-m-bold;
+    color: var(--content-brand-default);
+    border-color: var(--border-brand-default);
+  }
+
+  &:hover:not(:disabled) {
+    &[data-selected="true"] {
+      background: var(--background-brand-selected-hover);
+    }
+
+    &[data-current="true"]:not([data-selected="true"]) {
+      color: var(--content-brand-hover);
+      border-color: var(--border-brand-default);
+    }
+
+    &:not([data-selected="true"]):not([data-current="true"]) {
+      background: var(--background-hover);
+    }
+  }
+
+  &[data-datepicker-active="true"]:not(:disabled) {
+    &[data-selected="true"] {
+      background: var(--background-brand-selected-hover);
+    }
+
+    &[data-current="true"]:not([data-selected="true"]) {
+      color: var(--content-brand-hover);
+      background-color: var(--background-brand-unselected-hover);
+      border-color: var(--border-brand-default);
+    }
+
+    &:not([data-selected="true"]):not([data-current="true"]) {
+      background: var(--background-hover);
+    }
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    color: var(--content-disabled);
+
+    &[data-current="true"] {
+      color: var(--content-disabled);
+      border-color: var(--border-disabled);
+      background-color: transparent;
+    }
+  }
+}
+
+.year-cell {
+  @include typography-text-m;
+
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: $positive-spacing_400;
+  min-height: $positive-spacing_400;
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background: transparent;
+  color: var(--content-primary);
+  cursor: pointer;
+  transition:
+    background-color 120ms,
+    border-color 120ms,
+    color 120ms;
 
   @media (prefers-reduced-motion: reduce) {
     transition: none;
@@ -287,12 +406,24 @@
     border-color: var(--border-brand-default);
   }
 
+  &[data-current="true"]:not([data-selected="true"]) {
+    @include typography-text-m-bold;
+    color: var(--content-brand-default);
+    border-color: var(--border-brand-default);
+  }
+
   &:hover:not(:disabled) {
     &[data-selected="true"] {
       background: var(--background-brand-selected-hover);
     }
 
-    &:not([data-selected="true"]) {
+    &[data-current="true"]:not([data-selected="true"]) {
+      color: var(--content-brand-hover);
+      background-color: var(--background-brand-unselected-hover);
+      border-color: var(--border-brand-default);
+    }
+
+    &:not([data-selected="true"]):not([data-current="true"]) {
       background: var(--background-hover);
     }
   }
@@ -302,7 +433,13 @@
       background: var(--background-brand-selected-hover);
     }
 
-    &:not([data-selected="true"]) {
+    &[data-current="true"]:not([data-selected="true"]) {
+      color: var(--content-brand-hover);
+      background-color: var(--background-brand-unselected-hover);
+      border-color: var(--border-brand-default);
+    }
+
+    &:not([data-selected="true"]):not([data-current="true"]) {
       background: var(--background-hover);
     }
   }
@@ -310,6 +447,12 @@
   &:disabled {
     cursor: not-allowed;
     color: var(--content-disabled);
+
+    &[data-current="true"] {
+      color: var(--content-disabled);
+      border-color: var(--border-disabled);
+      background-color: transparent;
+    }
   }
 }
 
