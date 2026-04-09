@@ -23,9 +23,9 @@ export const DATEPICKER_MENU_REST_TAB_KEYS_DAY = [
 ] as const satisfies readonly DatepickerTabDataKey[];
 
 export const DATEPICKER_MENU_REST_TAB_KEYS_COMPACT = [
+  "navPrevCompact",
+  "monthLabel",
+  "navNextCompact",
   "cancel",
   "confirm",
-  "navPrevCompact",
-  "navNextCompact",
-  "monthLabel",
 ] as const satisfies readonly DatepickerTabDataKey[];
