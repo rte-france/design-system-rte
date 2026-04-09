@@ -115,6 +115,19 @@ export const Default: Story = {
   }),
 };
 
+export const CalendarChromeFigmaLayout: Story = {
+  name: "Calendar chrome: Figma layout (header, weekdays, actions)",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Open the calendar to verify [DSR-212](https://www.figma.com/design/LT6IgkMTd2mNThuHeT6GHE/DSR-212---Date-Picker--single---Myriam-?node-id=13717-4347): **Heading XS** for the month title; **single-letter** weekday labels (locale-aware); **full-width** divider under the weekday row; nav **icon buttons** neutral, size **s**, **filled** icons; **Annuler** / **Confirmer** as **transparent** buttons size **s** (brand text); menu surface with **neutral shadow 2** and subtle border.",
+      },
+    },
+  },
+  render: Default.render,
+};
+
 export const LayoutMinWidth248: Story = {
   name: "Layout: 248px column (minimum width)",
   render: (args) => ({
@@ -393,6 +406,54 @@ export const OpenFocusAndEsc: Story = {
     await waitFor(() => {
       expect(calendarButton).toHaveFocus();
     });
+  },
+};
+
+export const KeyboardFocusedDayMatchesHoverStyle: Story = {
+  name: "Day grid: keyboard focus matches hover surface",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Figma: the roving keyboard focus (`data-datepicker-active`) uses the same surface as `:hover` for each cell type—default and adjacent-month cells use `--background-hover` (not a focus ring). This story samples hover on a default day cell, then focuses the same cell and compares computed `backgroundColor` on `.day-cell__surface`.",
+      },
+    },
+  },
+  render: Default.render,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole("button", { name: calendarTriggerAccessibleName }));
+
+    await waitFor(() => {
+      expect(document.getElementById("overlay-root")?.querySelector("rte-datepicker-menu")).toBeInTheDocument();
+    });
+
+    const overlay = document.getElementById("overlay-root") as HTMLElement;
+    const defaultCell = Array.from(overlay.querySelectorAll(".rte-datepicker-day-grid .day-cell")).find(
+      (element) => element.getAttribute("data-cell-type") === "default" && element.getAttribute("disabled") === null,
+    ) as HTMLElement | undefined;
+
+    if (!defaultCell) {
+      throw new globalThis.Error("Expected a default day cell in the grid.");
+    }
+
+    const surface = defaultCell.querySelector(".day-cell__surface");
+    if (!surface) {
+      throw new globalThis.Error("Expected .day-cell__surface in the day cell.");
+    }
+
+    await userEvent.hover(defaultCell);
+    const hoverBackground = window.getComputedStyle(surface).backgroundColor;
+    await userEvent.unhover(defaultCell);
+
+    await userEvent.click(defaultCell);
+
+    await waitFor(() => {
+      expect(defaultCell).toHaveFocus();
+      expect(defaultCell.getAttribute("data-datepicker-active")).toBe("true");
+    });
+
+    expect(window.getComputedStyle(surface).backgroundColor).toBe(hoverBackground);
   },
 };
 

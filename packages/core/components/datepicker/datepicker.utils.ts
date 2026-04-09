@@ -324,7 +324,8 @@ export function getWeekdayShortLabels(locale: string = "fr-FR"): string[] {
   return Array.from({ length: 7 }).map((_, index) => {
     const day = addDays(monday, index);
     const label = new Intl.DateTimeFormat(locale, { weekday: "short" }).format(day);
-    return label.charAt(0).toUpperCase() + label.slice(1);
+    const firstLetter = label.trim().charAt(0);
+    return firstLetter.toLocaleUpperCase(locale);
   });
 }
 
