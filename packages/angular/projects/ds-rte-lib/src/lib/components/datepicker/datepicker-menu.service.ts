@@ -1,7 +1,10 @@
 import { Injectable } from "@angular/core";
 import {
+  DATEPICKER_MENU_FOOTER_TAB_KEYS,
+  DATEPICKER_MENU_HEADER_TAB_KEYS_COMPACT,
   DATEPICKER_TAB_DATA,
   type DatepickerCalendarType,
+  type DatepickerTabDataKey,
   getDatepickerMenuRestTabKeysInOrder,
   resolveDatepickerMenuFocusableElement,
 } from "@design-system-rte/core/components/datepicker";
@@ -29,23 +32,53 @@ function buildActiveDatepickerCellSelector(calendarType: DatepickerCalendarType)
   return `${yearGrid} ${yearCell}${activeCell}${notDisabled}`;
 }
 
+function resolveTabDataKeysToFocusables(
+  menuHost: HTMLElement,
+  tabDataKeys: readonly DatepickerTabDataKey[],
+): HTMLElement[] {
+  return tabDataKeys
+    .map((tabDataKey) => menuHost.querySelector(`[data-datepicker-tab="${DATEPICKER_TAB_DATA[tabDataKey]}"]`))
+    .filter((element): element is HTMLElement => element instanceof HTMLElement)
+    .map(resolveDatepickerMenuFocusableElement);
+}
+
 @Injectable()
 export class DatepickerMenuService {
   collectDatepickerMenuTabOrder(menuHost: HTMLElement, calendarType: DatepickerCalendarType): HTMLElement[] {
     const activeCellSelector = buildActiveDatepickerCellSelector(calendarType);
     const activeCell = menuHost.querySelector(activeCellSelector) as HTMLElement | null;
 
-    const tabKeys = getDatepickerMenuRestTabKeysInOrder(calendarType);
-    const rest = tabKeys.map((tabDataKey) =>
-      menuHost.querySelector(`[data-datepicker-tab="${DATEPICKER_TAB_DATA[tabDataKey]}"]`),
-    );
-
-    const focusables = rest
-      .filter((element): element is HTMLElement => element instanceof HTMLElement)
-      .map(resolveDatepickerMenuFocusableElement);
-    if (activeCell) {
-      return [activeCell, ...focusables];
+    if (calendarType === "day") {
+      const tabKeys = getDatepickerMenuRestTabKeysInOrder(calendarType);
+      const rest = resolveTabDataKeysToFocusables(menuHost, tabKeys);
+      if (activeCell) {
+        return [activeCell, ...rest];
+      }
+      return rest;
     }
-    return focusables;
+
+    const headerFocusables = resolveTabDataKeysToFocusables(menuHost, DATEPICKER_MENU_HEADER_TAB_KEYS_COMPACT);
+    const footerFocusables = resolveTabDataKeysToFocusables(menuHost, DATEPICKER_MENU_FOOTER_TAB_KEYS);
+    if (activeCell) {
+      return [...headerFocusables, activeCell, ...footerFocusables];
+    }
+    return [...headerFocusables, ...footerFocusables];
+  }
+
+  getInitialFocusIndexForMenu(
+    menuHost: HTMLElement,
+    calendarType: DatepickerCalendarType,
+    orderedFocusables: HTMLElement[],
+  ): number {
+    if (calendarType === "day") {
+      return 0;
+    }
+    const activeCellSelector = buildActiveDatepickerCellSelector(calendarType);
+    const activeCell = menuHost.querySelector(activeCellSelector) as HTMLElement | null;
+    if (!activeCell) {
+      return 0;
+    }
+    const index = orderedFocusables.indexOf(activeCell);
+    return index >= 0 ? index : 0;
   }
 }
