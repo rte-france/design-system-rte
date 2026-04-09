@@ -22,10 +22,15 @@ export const DATEPICKER_MENU_REST_TAB_KEYS_DAY = [
   "navNextYear",
 ] as const satisfies readonly DatepickerTabDataKey[];
 
-export const DATEPICKER_MENU_REST_TAB_KEYS_COMPACT = [
+export const DATEPICKER_MENU_HEADER_TAB_KEYS_COMPACT = [
   "navPrevCompact",
   "monthLabel",
   "navNextCompact",
-  "cancel",
-  "confirm",
+] as const satisfies readonly DatepickerTabDataKey[];
+
+export const DATEPICKER_MENU_FOOTER_TAB_KEYS = ["cancel", "confirm"] as const satisfies readonly DatepickerTabDataKey[];
+
+export const DATEPICKER_MENU_REST_TAB_KEYS_COMPACT = [
+  ...DATEPICKER_MENU_HEADER_TAB_KEYS_COMPACT,
+  ...DATEPICKER_MENU_FOOTER_TAB_KEYS,
 ] as const satisfies readonly DatepickerTabDataKey[];

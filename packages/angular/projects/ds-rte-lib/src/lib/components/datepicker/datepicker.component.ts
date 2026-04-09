@@ -163,10 +163,16 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
           }
 
           this.focusTrapService.deactivate();
+          const orderedFocusables = this.datepickerMenuService.collectDatepickerMenuTabOrder(menuHost, calendarType);
+          const initialFocusIndex = this.datepickerMenuService.getInitialFocusIndexForMenu(
+            menuHost,
+            calendarType,
+            orderedFocusables,
+          );
           this.focusTrapService.activate(menuHost, {
             getOrderedFocusables: () =>
               this.datepickerMenuService.collectDatepickerMenuTabOrder(menuHost, calendarType),
-            initialFocusIndex: 0,
+            initialFocusIndex,
           });
         });
       },
@@ -241,6 +247,8 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
 
     if (isParsedUsable && parsedNormalized) {
       pendingResolvedForMenu = parsedNormalized;
+      viewDateForGrid = this.startOfCalendarMonth(parsedNormalized);
+      this.viewDate.set(viewDateForGrid);
     } else {
       viewDateForGrid = new Date();
       this.viewDate.set(viewDateForGrid);
