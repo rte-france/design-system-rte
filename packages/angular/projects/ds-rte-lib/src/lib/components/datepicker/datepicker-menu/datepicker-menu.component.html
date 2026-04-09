@@ -5,7 +5,7 @@
         <rte-icon-button
           class="nav-button"
           variant="neutral"
-          appearance="outlined"
+          appearance="filled"
           size="s"
           name="arrow-double-left"
           ariaLabel="Année précédente"
@@ -16,7 +16,7 @@
         <rte-icon-button
           class="nav-button"
           variant="neutral"
-          appearance="outlined"
+          appearance="filled"
           size="s"
           name="arrow-chevron-left"
           ariaLabel="Mois précédent"
@@ -28,7 +28,7 @@
         <rte-icon-button
           class="nav-button"
           variant="neutral"
-          appearance="outlined"
+          appearance="filled"
           size="s"
           name="arrow-chevron-left"
           ariaLabel="Année précédente"
@@ -40,7 +40,7 @@
         <rte-icon-button
           class="nav-button"
           variant="neutral"
-          appearance="outlined"
+          appearance="filled"
           size="s"
           name="arrow-chevron-left"
           ariaLabel="Décennie précédente"
@@ -71,7 +71,7 @@
         <rte-icon-button
           class="nav-button"
           variant="neutral"
-          appearance="outlined"
+          appearance="filled"
           size="s"
           name="arrow-chevron-right"
           ariaLabel="Mois suivant"
@@ -82,7 +82,7 @@
         <rte-icon-button
           class="nav-button"
           variant="neutral"
-          appearance="outlined"
+          appearance="filled"
           size="s"
           name="arrow-double-right"
           ariaLabel="Année suivante"
@@ -94,7 +94,7 @@
         <rte-icon-button
           class="nav-button"
           variant="neutral"
-          appearance="outlined"
+          appearance="filled"
           size="s"
           name="arrow-chevron-right"
           ariaLabel="Année suivante"
@@ -106,7 +106,7 @@
         <rte-icon-button
           class="nav-button"
           variant="neutral"
-          appearance="outlined"
+          appearance="filled"
           size="s"
           name="arrow-chevron-right"
           ariaLabel="Décennie suivante"
@@ -143,7 +143,8 @@
           (click)="onClickDay(cell.date, cell.isDisabled)"
           (focus)="setActiveDate(cell.date)"
         >
-          {{ cell.label }}
+          <span class="day-cell__surface" aria-hidden="true"></span>
+          <span class="day-cell__label">{{ cell.label }}</span>
         </button>
       }
     </div>
@@ -199,8 +200,8 @@
     <button
       type="button"
       rteButton
-      rteButtonVariant="secondary"
-      rteButtonSize="m"
+      rteButtonVariant="transparent"
+      rteButtonSize="s"
       [attr.tabindex]="tabIndexForKeyboardOrder()"
       [attr.data-datepicker-tab]="datepickerTabData.cancel"
       (click)="cancel.emit()"
@@ -210,8 +211,8 @@
     <button
       type="button"
       rteButton
-      rteButtonVariant="primary"
-      rteButtonSize="m"
+      rteButtonVariant="transparent"
+      rteButtonSize="s"
       [attr.tabindex]="tabIndexForKeyboardOrder()"
       [attr.data-datepicker-tab]="datepickerTabData.confirm"
       (click)="confirm.emit()"
