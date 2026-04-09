@@ -7,6 +7,7 @@
   [rteDropdownAutofocus]="true"
   [rteDropdownIsOpen]="isOpen()"
   [rteDropdownWidth]="dropdownWidth()"
+  [style.width]="width()"
   (clickedOutside)="onClickedOutside()"
   (closedDropdown)="onClosedDropdown()"
 >
@@ -45,7 +46,7 @@
         [pendingDate]="pendingDate()"
         [minDate]="minDate()"
         [maxDate]="maxDate()"
-        [disabledDate]="disabledDate()"
+        [disabledDates]="disabledDates()"
         [locale]="locale()"
         [focusSessionId]="menuFocusSessionId()"
         [initialActiveDate]="menuInitialActiveDate()"
