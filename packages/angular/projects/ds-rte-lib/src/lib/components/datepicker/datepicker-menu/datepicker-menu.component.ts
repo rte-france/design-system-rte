@@ -64,7 +64,7 @@ export class DatepickerMenuComponent {
 
   readonly minDate = input<Date | undefined>(undefined);
   readonly maxDate = input<Date | undefined>(undefined);
-  readonly disabledDate = input<((date: Date) => boolean) | undefined>(undefined);
+  readonly disabledDates = input<readonly Date[]>([]);
 
   readonly focusSessionId = input(0);
   readonly initialActiveDate = input<Date | null>(null);
@@ -97,7 +97,7 @@ export class DatepickerMenuComponent {
       selectedDate: this.pendingDate() ?? this.selectedDate(),
       minDate: this.minDate(),
       maxDate: this.maxDate(),
-      disabledDate: this.disabledDate(),
+      disabledDates: this.disabledDates(),
     }),
   );
 
@@ -107,7 +107,7 @@ export class DatepickerMenuComponent {
       selectedDate: this.pendingDate() ?? this.selectedDate(),
       minDate: this.minDate(),
       maxDate: this.maxDate(),
-      disabledDate: this.disabledDate(),
+      disabledDates: this.disabledDates(),
       locale: this.locale(),
     }),
   );
@@ -118,7 +118,7 @@ export class DatepickerMenuComponent {
       selectedDate: this.pendingDate() ?? this.selectedDate(),
       minDate: this.minDate(),
       maxDate: this.maxDate(),
-      disabledDate: this.disabledDate(),
+      disabledDates: this.disabledDates(),
     }),
   );
 
