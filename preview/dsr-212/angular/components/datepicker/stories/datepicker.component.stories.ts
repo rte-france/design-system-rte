@@ -866,6 +866,53 @@ export const KeyboardTabOrderAndArrows: Story = {
   },
 };
 
+export const KeyboardMonthViewTabHeaderGridActions: Story = {
+  name: "Keyboard: month view Tab order header → grid → actions",
+  render: Default.render,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole("button", { name: calendarTriggerAccessibleName }));
+
+    await waitFor(() => {
+      const overlayRoot = document.getElementById("overlay-root");
+      expect(overlayRoot?.querySelector("rte-datepicker-menu")).toBeInTheDocument();
+    });
+
+    const overlay = document.getElementById("overlay-root") as HTMLElement;
+    const dayHeaderLabel = overlay.querySelector('[data-datepicker-tab="month-label"]') as HTMLButtonElement | null;
+    expect(dayHeaderLabel).toBeTruthy();
+    await userEvent.click(dayHeaderLabel!);
+
+    await waitFor(() => {
+      expect(overlay.querySelector(".rte-datepicker-month-grid")).toBeInTheDocument();
+    });
+
+    const activeMonthCell = overlay.querySelector(
+      "rte-datepicker-menu .month-cell[data-datepicker-active='true']:not([disabled])",
+    ) as HTMLButtonElement | null;
+    expect(activeMonthCell).toBeTruthy();
+
+    await waitFor(() => {
+      expect(activeMonthCell).toHaveFocus();
+    });
+
+    await userEvent.tab();
+    await waitFor(() => {
+      expect(within(overlay).getByRole("button", { name: /^annuler$/i })).toHaveFocus();
+    });
+
+    await userEvent.tab({ shift: true });
+    expect(activeMonthCell).toHaveFocus();
+
+    const nextYearNav = within(overlay).getByRole("button", { name: /année suivante/i });
+    await userEvent.tab({ shift: true });
+    expect(nextYearNav).toHaveFocus();
+
+    await userEvent.tab();
+    expect(activeMonthCell).toHaveFocus();
+  },
+};
+
 export const MonthNavigationProjectsAnchorDay: Story = {
   name: "Day grid: month nav projects anchor day (Jan 31 → Feb → March)",
   parameters: {
