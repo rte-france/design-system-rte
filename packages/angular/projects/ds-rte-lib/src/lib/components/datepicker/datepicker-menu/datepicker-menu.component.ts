@@ -13,6 +13,7 @@ import {
 } from "@angular/core";
 import { waitForNextFrame } from "@design-system-rte/core/common/animation";
 import {
+  addDays,
   buildDayGrid,
   buildMonthGrid,
   buildYearGrid,
@@ -28,8 +29,10 @@ import {
   getNextGridCellIndex,
   getWeekdayShortLabels,
   getYearLabel,
+  isDateDisabled,
   navigateViewDate,
   isSameDay,
+  startOfDay,
 } from "@design-system-rte/core/components/datepicker";
 import {
   ARROW_DOWN_KEY,
@@ -71,6 +74,7 @@ export class DatepickerMenuComponent {
 
   readonly dateHovered = output<Date>();
   readonly dateSelected = output<Date>();
+  readonly dateKeyboardNavigate = output<Date>();
   readonly calendarTypeChange = output<DatepickerCalendarType>();
 
   readonly cancel = output<void>();
@@ -405,11 +409,25 @@ export class DatepickerMenuComponent {
     }
 
     if (nextIndex < 0 || nextIndex >= cells.length) {
+      const targetDay = startOfDay(addDays(this.activeDate(), delta));
+      if (this.isDayDisabledInCalendar(targetDay)) {
+        return;
+      }
+      this.dateKeyboardNavigate.emit(targetDay);
       return;
     }
 
     this.activeDate.set(cells[nextIndex].date);
     this.queueFocusActiveDayCell();
+  }
+
+  private isDayDisabledInCalendar(date: Date): boolean {
+    return isDateDisabled({
+      date,
+      minDate: this.minDate(),
+      maxDate: this.maxDate(),
+      disabledDates: this.disabledDates(),
+    });
   }
 
   private moveActiveMonthByArrowKey(key: string): void {
