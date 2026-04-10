@@ -21,6 +21,7 @@ import {
   type DatepickerCompactNavStep,
   type DatepickerDayNavAction,
   DATEPICKER_TAB_DATA,
+  DATEPICKER_YEAR_GRID_PAGE_SIZE,
   formatDate,
   getDayCellIndexForDate,
   getDecadeRangeLabel,
@@ -45,11 +46,12 @@ import {
 } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
 import { ButtonComponent } from "../../button/button.component";
+import { DividerComponent } from "../../divider/divider.component";
 import { IconButtonComponent } from "../../icon-button/icon-button.component";
 
 @Component({
   selector: "rte-datepicker-menu",
-  imports: [CommonModule, IconButtonComponent, ButtonComponent],
+  imports: [CommonModule, IconButtonComponent, ButtonComponent, DividerComponent],
   standalone: true,
   templateUrl: "./datepicker-menu.component.html",
   styleUrl: "./datepicker-menu.component.scss",
@@ -172,7 +174,7 @@ export class DatepickerMenuComponent {
         }
         const decadeStart = getDecadeStartYear(view.getFullYear());
         const year = this.activeDate().getFullYear();
-        if (year < decadeStart || year > decadeStart + 9) {
+        if (year < decadeStart || year > decadeStart + DATEPICKER_YEAR_GRID_PAGE_SIZE - 1) {
           this.activeDate.set(new Date(decadeStart, 0, 1));
         }
       },

@@ -552,13 +552,14 @@ export const ViewModesFourVsTwoNavAndGrids: Story = {
     });
 
     expect(overlay.querySelector(".rte-datepicker-month-grid")).not.toBeInTheDocument();
+    expect(menuOverlay.getByText("Sélectionner une année")).toBeInTheDocument();
     expect(menuOverlay.getByRole("button", { name: /décennie précédente/i })).toBeInTheDocument();
     expect(menuOverlay.getByRole("button", { name: /décennie suivante/i })).toBeInTheDocument();
     expect(overlay.querySelector(".month-label-static")).toBeInTheDocument();
     expect(overlay.querySelector('[data-datepicker-tab="month-label"]')).not.toBeInTheDocument();
 
     const yearCells = overlay.querySelectorAll("rte-datepicker-menu .year-cell");
-    expect(yearCells.length).toBe(10);
+    expect(yearCells.length).toBe(11);
   },
 };
 
