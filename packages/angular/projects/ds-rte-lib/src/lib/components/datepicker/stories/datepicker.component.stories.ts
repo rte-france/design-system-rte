@@ -131,6 +131,7 @@ const meta: Meta<DatepickerComponent> = {
     showAssistiveIcon: false,
     locale: "fr-FR",
     disabledDates: [],
+    hasActions: true,
   },
 };
 
@@ -155,6 +156,7 @@ const datepickerStoryInnerTemplate = `
           [maxDate]="maxDate"
           [locale]="locale"
           [disabledDates]="disabledDates"
+          [hasActions]="hasActions"
           (valueChange)="valueChange($event)"
           (openedChange)="openedChange($event)"
         />`;
@@ -1684,5 +1686,165 @@ export const KeyboardGridMonthPageDoesNotChangePendingSelection: Story = {
     expect(compactAfterKeyboard).toContain("07");
     expect(compactAfterKeyboard).toContain("09");
     expect(compactAfterKeyboard).toContain("2019");
+  },
+};
+
+const datepickerStoryWithOutsideClickTargetTemplate = `
+  <div style="width: 500px; display: flex; flex-direction: column; gap: 16px">
+    ${datepickerStoryInnerTemplate}
+    <button type="button">Outside</button>
+  </div>
+`;
+
+export const HasActionsFalseImmediateCommit: Story = {
+  name: "hasActions false: day click commits, closes menu, no footer",
+  args: { hasActions: false },
+  render: (args) => ({
+    props: { ...args },
+    template: `
+      <div style="width: 500px">
+        ${datepickerStoryInnerTemplate}
+      </div>
+    `,
+  }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await typeJuneFifteen2024(canvasElement);
+    await userEvent.click(canvas.getByRole("button", { name: calendarTriggerAccessibleName }));
+
+    await waitFor(() => {
+      const overlayRoot = document.getElementById("overlay-root");
+      expect(overlayRoot?.querySelector("rte-datepicker-menu")).toBeInTheDocument();
+    });
+
+    const overlay = document.getElementById("overlay-root") as HTMLElement;
+    expect(within(overlay).queryByRole("button", { name: /confirmer/i })).not.toBeInTheDocument();
+
+    const day20 = dayCellButtonJune2024(overlay, 20);
+    expect(day20).toBeTruthy();
+    await userEvent.click(day20!);
+
+    await waitFor(() => {
+      expect(overlay.querySelector("rte-datepicker-menu")).not.toBeInTheDocument();
+    });
+
+    const segmented = canvasElement.querySelector(".segmented-date-field");
+    const compact = normalizedSegmentedDateText(segmented);
+    expect(compact).toContain("20");
+    expect(compact).toContain("06");
+    expect(compact).toContain("2024");
+  },
+};
+
+export const ClickOutsideDiscardsPendingSelection: Story = {
+  name: "hasActions true: click outside restores field to committed date",
+  render: (args) => ({
+    props: { ...args },
+    template: datepickerStoryWithOutsideClickTargetTemplate,
+  }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await typeJuneFifteen2024(canvasElement);
+    await userEvent.click(canvas.getByRole("button", { name: calendarTriggerAccessibleName }));
+
+    await waitFor(() => {
+      expect(document.getElementById("overlay-root")?.querySelector("rte-datepicker-menu")).toBeInTheDocument();
+    });
+
+    const overlay = document.getElementById("overlay-root") as HTMLElement;
+    const day20 = dayCellButtonJune2024(overlay, 20);
+    expect(day20).toBeTruthy();
+    await userEvent.click(day20!);
+
+    const segmentedBeforeOutside = canvasElement.querySelector(".segmented-date-field");
+    const compactBeforeOutside = normalizedSegmentedDateText(segmentedBeforeOutside);
+    expect(compactBeforeOutside).toContain("15");
+    expect(compactBeforeOutside).toContain("06");
+
+    await userEvent.click(canvas.getByRole("button", { name: /^outside$/i }));
+
+    await waitFor(() => {
+      expect(document.getElementById("overlay-root")?.querySelector("rte-datepicker-menu")).not.toBeInTheDocument();
+    });
+
+    const segmentedAfter = canvasElement.querySelector(".segmented-date-field");
+    const compactAfter = normalizedSegmentedDateText(segmentedAfter);
+    expect(compactAfter).toContain("15");
+    expect(compactAfter).toContain("06");
+    expect(compactAfter).toContain("2024");
+  },
+};
+
+export const EscapeAfterGridPickRestoresCommittedSegments: Story = {
+  name: "hasActions true: Escape after grid pick restores committed date in field",
+  render: Default.render,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await typeJuneFifteen2024(canvasElement);
+    await userEvent.click(canvas.getByRole("button", { name: calendarTriggerAccessibleName }));
+
+    await waitFor(() => {
+      expect(document.getElementById("overlay-root")?.querySelector("rte-datepicker-menu")).toBeInTheDocument();
+    });
+
+    const overlay = document.getElementById("overlay-root") as HTMLElement;
+    const day20 = dayCellButtonJune2024(overlay, 20);
+    expect(day20).toBeTruthy();
+    await userEvent.click(day20!);
+
+    const segmentedBeforeEsc = canvasElement.querySelector(".segmented-date-field");
+    const compactBeforeEsc = normalizedSegmentedDateText(segmentedBeforeEsc);
+    expect(compactBeforeEsc).toContain("15");
+    expect(compactBeforeEsc).toContain("06");
+
+    day20!.focus();
+    await userEvent.keyboard("{Escape}");
+
+    await waitFor(() => {
+      expect(document.getElementById("overlay-root")?.querySelector("rte-datepicker-menu")).not.toBeInTheDocument();
+    });
+
+    const segmentedAfter = canvasElement.querySelector(".segmented-date-field");
+    const compactAfter = normalizedSegmentedDateText(segmentedAfter);
+    expect(compactAfter).toContain("15");
+    expect(compactAfter).toContain("06");
+    expect(compactAfter).toContain("2024");
+  },
+};
+
+export const ClickSegmentedFieldClosesMenu: Story = {
+  name: "Click segmented field while menu open closes calendar (restores draft)",
+  render: Default.render,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await typeJuneFifteen2024(canvasElement);
+    await userEvent.click(canvas.getByRole("button", { name: calendarTriggerAccessibleName }));
+
+    await waitFor(() => {
+      expect(document.getElementById("overlay-root")?.querySelector("rte-datepicker-menu")).toBeInTheDocument();
+    });
+
+    const overlay = document.getElementById("overlay-root") as HTMLElement;
+    const day20 = dayCellButtonJune2024(overlay, 20);
+    expect(day20).toBeTruthy();
+    await userEvent.click(day20!);
+
+    const segmentedBeforeFieldClick = canvasElement.querySelector(".segmented-date-field");
+    const compactBeforeFieldClick = normalizedSegmentedDateText(segmentedBeforeFieldClick);
+    expect(compactBeforeFieldClick).toContain("15");
+    expect(compactBeforeFieldClick).toContain("06");
+
+    const field = canvas.getByRole("group");
+    await userEvent.click(field);
+
+    await waitFor(() => {
+      expect(document.getElementById("overlay-root")?.querySelector("rte-datepicker-menu")).not.toBeInTheDocument();
+    });
+
+    const segmentedAfter = canvasElement.querySelector(".segmented-date-field");
+    const compactAfter = normalizedSegmentedDateText(segmentedAfter);
+    expect(compactAfter).toContain("15");
+    expect(compactAfter).toContain("06");
+    expect(compactAfter).toContain("2024");
   },
 };
