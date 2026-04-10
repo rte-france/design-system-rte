@@ -27,6 +27,7 @@ import {
   Tab,
   Drawer,
   Avatar,
+  FileUpload,
 } from "@design-system-rte/react";
 import "./App.css";
 import { useState } from "react";
@@ -681,6 +682,13 @@ function App() {
             onClick={() => {
               alert("Clicked on avatar");
             }}
+          />
+          <h3>File Upload</h3>
+          <FileUpload
+            id="file-upload-1"
+            label="Upload your files"
+            buttonLabel="Sélectionner un ou plusieurs fichiers"
+            multiple={true}
           />
         </div>
       </Drawer>

@@ -11,6 +11,7 @@ import CheckboxGroup from "./components/checkboxGroup/CheckboxGroup.tsx";
 import Chip from "./components/chip/Chip.tsx";
 import Divider from "./components/divider/Divider.tsx";
 import Drawer from "./components/drawer/Drawer.tsx";
+import FileUpload from "./components/fileupload/FileUpload.tsx";
 import Grid from "./components/grid/Grid.tsx";
 import Icon from "./components/icon/Icon.tsx";
 import IconButton from "./components/iconButton/IconButton.tsx";
@@ -77,4 +78,5 @@ export {
   Treeview,
   Searchbar,
   Select,
+  FileUpload,
 };
