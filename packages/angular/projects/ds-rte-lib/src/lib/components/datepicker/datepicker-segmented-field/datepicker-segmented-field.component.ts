@@ -62,6 +62,7 @@ export class DatepickerSegmentedFieldComponent {
   readonly inputBlur = output<void>();
   readonly rightIconClick = output<MouseEvent | KeyboardEvent>();
   readonly rightIconKeydown = output<KeyboardEvent>();
+  readonly segmentedControlClick = output<void>();
 
   readonly segmentedState = signal<SegmentedDateFieldState>(createEmptySegmentedDateFieldState());
 
@@ -114,6 +115,10 @@ export class DatepickerSegmentedFieldComponent {
         this.scheduleNativeSelectionOfActiveSegment();
       });
     });
+  }
+
+  onSegmentedControlClick(): void {
+    this.segmentedControlClick.emit();
   }
 
   onControlFocus(): void {

@@ -73,6 +73,7 @@ export class DatepickerMenuComponent {
 
   readonly focusSessionId = input(0);
   readonly initialActiveDate = input<Date | null>(null);
+  readonly hasActions = input(true);
 
   readonly navigateViewFromHeaderControls = output<Date>();
   readonly navigateViewFromStructurePick = output<Date>();

@@ -216,28 +216,30 @@
     </div>
   }
 
-  <div class="rte-datepicker-menu-actions">
-    <button
-      type="button"
-      rteButton
-      rteButtonVariant="transparent"
-      rteButtonSize="s"
-      [attr.tabindex]="tabIndexForKeyboardOrder()"
-      [attr.data-datepicker-tab]="datepickerTabData.cancel"
-      (click)="cancel.emit()"
-    >
-      Annuler
-    </button>
-    <button
-      type="button"
-      rteButton
-      rteButtonVariant="transparent"
-      rteButtonSize="s"
-      [attr.tabindex]="tabIndexForKeyboardOrder()"
-      [attr.data-datepicker-tab]="datepickerTabData.confirm"
-      (click)="confirm.emit()"
-    >
-      Confirmer
-    </button>
-  </div>
+  @if (hasActions()) {
+    <div class="rte-datepicker-menu-actions">
+      <button
+        type="button"
+        rteButton
+        rteButtonVariant="transparent"
+        rteButtonSize="s"
+        [attr.tabindex]="tabIndexForKeyboardOrder()"
+        [attr.data-datepicker-tab]="datepickerTabData.cancel"
+        (click)="cancel.emit()"
+      >
+        Annuler
+      </button>
+      <button
+        type="button"
+        rteButton
+        rteButtonVariant="transparent"
+        rteButtonSize="s"
+        [attr.tabindex]="tabIndexForKeyboardOrder()"
+        [attr.data-datepicker-tab]="datepickerTabData.confirm"
+        (click)="confirm.emit()"
+      >
+        Confirmer
+      </button>
+    </div>
+  }
 </div>
