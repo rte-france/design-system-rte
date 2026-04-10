@@ -74,7 +74,8 @@ export class DatepickerMenuComponent {
   readonly focusSessionId = input(0);
   readonly initialActiveDate = input<Date | null>(null);
 
-  readonly dateHovered = output<Date>();
+  readonly navigateViewFromHeaderControls = output<Date>();
+  readonly navigateViewFromStructurePick = output<Date>();
   readonly dateSelected = output<Date>();
   readonly dateKeyboardNavigate = output<Date>();
   readonly calendarTypeChange = output<DatepickerCalendarType>();
@@ -180,6 +181,42 @@ export class DatepickerMenuComponent {
       },
       { allowSignalWrites: true },
     );
+
+    effect(
+      () => {
+        if (this.calendarType() !== "day") {
+          return;
+        }
+        this.dayCells();
+        this.activeDate();
+        this.initialActiveDate();
+        this.synchronizeActiveDateWithDayGrid();
+      },
+      { allowSignalWrites: true },
+    );
+  }
+
+  private synchronizeActiveDateWithDayGrid(): void {
+    if (this.calendarType() !== "day") {
+      return;
+    }
+    const cells = this.dayCells();
+    const currentActive = this.activeDate();
+    if (getDayCellIndexForDate(cells, currentActive) >= 0) {
+      return;
+    }
+    const initial = this.initialActiveDate();
+    if (initial != null) {
+      const cellForInitial = cells.find((cell) => isSameDay(cell.date, initial));
+      if (cellForInitial && !cellForInitial.isDisabled) {
+        this.activeDate.set(cellForInitial.date);
+        return;
+      }
+    }
+    const firstEnabled = cells.find((cell) => !cell.isDisabled);
+    if (firstEnabled) {
+      this.activeDate.set(firstEnabled.date);
+    }
   }
 
   goToDayNavigation(action: DatepickerDayNavAction): void {
@@ -188,7 +225,7 @@ export class DatepickerMenuComponent {
       calendarType: "day",
       dayAction: action,
     });
-    this.dateHovered.emit(nextDate);
+    this.navigateViewFromHeaderControls.emit(nextDate);
   }
 
   goToCompactNavigation(step: DatepickerCompactNavStep): void {
@@ -197,7 +234,7 @@ export class DatepickerMenuComponent {
       calendarType: this.calendarType(),
       compactStep: step,
     });
-    this.dateHovered.emit(nextDate);
+    this.navigateViewFromHeaderControls.emit(nextDate);
   }
 
   setCalendarType(type: DatepickerCalendarType): void {
@@ -253,7 +290,7 @@ export class DatepickerMenuComponent {
     }
     const nextDate = new Date(this.viewDate().getFullYear(), monthIndex, 1);
     this.activeDate.set(nextDate);
-    this.dateHovered.emit(nextDate);
+    this.navigateViewFromStructurePick.emit(nextDate);
     this.setCalendarType("day");
   }
 
@@ -264,7 +301,7 @@ export class DatepickerMenuComponent {
     const reference = this.pendingDate() ?? this.selectedDate() ?? this.viewDate();
     const nextDate = new Date(year, reference.getMonth(), 1);
     this.activeDate.set(nextDate);
-    this.dateHovered.emit(nextDate);
+    this.navigateViewFromStructurePick.emit(nextDate);
     this.setCalendarType("month");
   }
 
@@ -304,6 +341,7 @@ export class DatepickerMenuComponent {
 
     if ([ENTER_KEY, SPACE_KEY].includes(event.key)) {
       event.preventDefault();
+      this.synchronizeActiveDateWithDayGrid();
       const current = this.activeDate();
       const dayCell = this.dayCells().find((cell) => isSameDay(cell.date, current));
       if (dayCell && !dayCell.isDisabled) {
@@ -395,6 +433,7 @@ export class DatepickerMenuComponent {
   }
 
   private moveActiveDayByArrowKey(key: string): void {
+    this.synchronizeActiveDateWithDayGrid();
     const cells = this.dayCells();
     const currentIndex = getDayCellIndexForDate(cells, this.activeDate());
     if (currentIndex < 0) {
@@ -416,6 +455,7 @@ export class DatepickerMenuComponent {
         return;
       }
       this.dateKeyboardNavigate.emit(targetDay);
+      this.queueFocusActiveDayCell();
       return;
     }
 
