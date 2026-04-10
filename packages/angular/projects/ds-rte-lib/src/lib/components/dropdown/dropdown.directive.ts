@@ -180,14 +180,14 @@ export class DropdownDirective implements AfterContentInit {
   onTrigger(): void {
     if (this.rteDropdownAutoOpen()) {
       this.showDropdownMenu();
-    }
-    if (this.rteDropdownAutofocus() && this.rteDropdownIsOpen()) {
-      waitForNextFrame(() => {
-        if (!this.rteDropdownIsOpen()) {
-          return;
-        }
-        focusDropdownFirstElement(this.dropdownId);
-      });
+      if (this.rteDropdownAutofocus()) {
+        waitForNextFrame(() => {
+          if (!this.dropdownMenuRef) {
+            return;
+          }
+          focusDropdownFirstElement(this.dropdownId);
+        });
+      }
     }
   }
 

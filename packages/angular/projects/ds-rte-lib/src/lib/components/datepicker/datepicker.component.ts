@@ -15,15 +15,18 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { waitForNextFrame } from "@design-system-rte/core/common/animation";
 import {
-  buildDayGrid,
-  type DatepickerCalendarType,
+  alignViewDateToSelectedMonthIfNeeded,
+  applyDatepickerTextInputChange,
+  buildRestoreCommittedDatepickerFieldState,
   formatDate,
-  isDateDisabled,
-  maskDateInput,
-  parseDate,
-  projectDayToMonthAnchor,
-  resolveInitialCalendarDay,
-  startOfDay,
+  getDayOfMonthOrNull,
+  normalizeDatepickerMenuSelectionDate,
+  resolveDatepickerMenuKeyboardDayNavigation,
+  resolveDatepickerMenuOpenState,
+  startOfMonth,
+  tryProjectPendingDateToViewMonth,
+  type DatepickerCalendarType,
+  type DatepickerDisabledConstraints,
 } from "@design-system-rte/core/components/datepicker";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
@@ -224,72 +227,42 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
     this.dropdownWidth.set(Math.round(inputBarElement.getBoundingClientRect().width));
   }
 
-  private isDateDisabledForPicker(date: Date): boolean {
-    return isDateDisabled({
-      date,
+  private pickerConstraints(): DatepickerDisabledConstraints {
+    return {
       minDate: this.minDate(),
       maxDate: this.maxDate(),
       disabledDates: this.disabledDates(),
-    });
-  }
-
-  private dayOfMonthFromNullableDate(date: Date | null): number | null {
-    return date?.getDate() ?? null;
+    };
   }
 
   private restoreCommittedDateToFieldAndPending(): void {
-    const committed = this.selectedDate();
-    this.pendingDate.set(committed);
-    this.textValue.set(committed ? formatDate(committed) : "");
+    const fieldState = buildRestoreCommittedDatepickerFieldState({
+      selectedDate: this.selectedDate(),
+    });
+    this.pendingDate.set(fieldState.pendingDate);
+    this.textValue.set(fieldState.textValue);
   }
 
   private applyStateWhenMenuOpens(): void {
-    const trimmedText = this.textValue().trim();
-    const parsedFromField = trimmedText.length > 0 ? parseDate(trimmedText) : null;
-    const parsedNormalized = parsedFromField ? startOfDay(parsedFromField) : null;
-    const isParsedUsable = parsedNormalized !== null && !this.isDateDisabledForPicker(parsedNormalized);
-
-    let viewDateForGrid = this.viewDate();
-    let pendingResolvedForMenu: Date | null = null;
-
-    if (isParsedUsable && parsedNormalized) {
-      pendingResolvedForMenu = parsedNormalized;
-      viewDateForGrid = this.startOfCalendarMonth(parsedNormalized);
-      this.viewDate.set(viewDateForGrid);
-    } else {
-      viewDateForGrid = new Date();
-      this.viewDate.set(viewDateForGrid);
-    }
-
-    const dayCells = buildDayGrid({
-      viewDate: viewDateForGrid,
-      selectedDate: pendingResolvedForMenu,
-      minDate: this.minDate(),
-      maxDate: this.maxDate(),
-      disabledDates: this.disabledDates(),
+    const openState = resolveDatepickerMenuOpenState({
+      textValue: this.textValue(),
+      constraints: this.pickerConstraints(),
+      pendingDate: this.pendingDate(),
+      selectedDate: this.selectedDate(),
     });
-    const resolvedInitialActiveDay = resolveInitialCalendarDay({
-      pendingDate: pendingResolvedForMenu,
-      selectedDate: pendingResolvedForMenu,
-      dayCells,
-    });
-    this.menuInitialActiveDate.set(resolvedInitialActiveDay);
+    this.viewDate.set(openState.viewDate);
+    this.menuInitialActiveDate.set(openState.menuInitialActiveDate);
     this.menuFocusSessionId.update((sessionId) => sessionId + 1);
-    this.syncMonthNavigationAnchorFromOpenContext(pendingResolvedForMenu);
-  }
-
-  private syncMonthNavigationAnchorFromOpenContext(pendingResolvedForMenu: Date | null): void {
-    const anchorDay = (pendingResolvedForMenu ?? this.pendingDate() ?? this.selectedDate())?.getDate() ?? null;
-    this.monthNavigationAnchorDay.set(anchorDay);
+    this.monthNavigationAnchorDay.set(openState.monthNavigationAnchorDay);
   }
 
   private syncPendingDateToViewMonthProjection(viewDate: Date): void {
-    const anchorDay = this.monthNavigationAnchorDay();
-    if (anchorDay === null) {
-      return;
-    }
-    const projectedDate = projectDayToMonthAnchor(anchorDay, viewDate.getFullYear(), viewDate.getMonth());
-    if (this.isDateDisabledForPicker(projectedDate)) {
+    const projectedDate = tryProjectPendingDateToViewMonth({
+      anchorDay: this.monthNavigationAnchorDay(),
+      viewDate,
+      constraints: this.pickerConstraints(),
+    });
+    if (projectedDate === null) {
       return;
     }
     this.pendingDate.set(projectedDate);
@@ -302,7 +275,7 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
     this.pendingDate.set(value);
     this.viewDate.set(value ?? new Date());
     this.textValue.set(value ? formatDate(value) : "");
-    this.monthNavigationAnchorDay.set(this.dayOfMonthFromNullableDate(value));
+    this.monthNavigationAnchorDay.set(getDayOfMonthOrNull(value));
   }
 
   registerOnChange(fn: (value: Date | null) => void): void {
@@ -329,22 +302,23 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
       return;
     }
 
-    const masked = maskDateInput(value);
-    this.textValue.set(masked);
+    const result = applyDatepickerTextInputChange({
+      rawValue: value,
+      constraints: this.pickerConstraints(),
+    });
+    this.textValue.set(result.maskedValue);
 
-    const parsed = parseDate(masked.trim());
-    if (parsed) {
-      const normalized = startOfDay(parsed);
-      if (this.isDateDisabledForPicker(normalized)) {
-        return;
-      }
-      this.pendingDate.set(normalized);
-      this.selectedDate.set(normalized);
-      this.viewDate.set(normalized);
-      this.monthNavigationAnchorDay.set(normalized.getDate());
-      this.onChange(normalized);
-      this.valueChange.emit(normalized);
-    } else if (masked.length === 0) {
+    if (result.outcome === "committed") {
+      this.pendingDate.set(result.date);
+      this.selectedDate.set(result.date);
+      this.viewDate.set(result.date);
+      this.monthNavigationAnchorDay.set(result.monthAnchorDay);
+      this.onChange(result.date);
+      this.valueChange.emit(result.date);
+      return;
+    }
+
+    if (result.outcome === "cleared") {
       this.pendingDate.set(null);
       this.selectedDate.set(null);
       this.monthNavigationAnchorDay.set(null);
@@ -397,12 +371,15 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
   }
 
   onMenuDateSelected(date: Date): void {
-    const normalized = startOfDay(date);
-    if (this.isDateDisabledForPicker(normalized)) {
+    const normalized = normalizeDatepickerMenuSelectionDate({
+      date,
+      constraints: this.pickerConstraints(),
+    });
+    if (normalized === null) {
       return;
     }
     this.monthNavigationAnchorDay.set(normalized.getDate());
-    this.alignViewMonthToSelectedDateIfNeeded(normalized);
+    this.viewDate.set(alignViewDateToSelectedMonthIfNeeded({ viewDate: this.viewDate(), selectedDate: normalized }));
 
     if (!this.hasActions()) {
       this.pendingDate.set(normalized);
@@ -418,35 +395,26 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
     this.pendingDate.set(normalized);
   }
 
-  private startOfCalendarMonth(date: Date): Date {
-    return new Date(date.getFullYear(), date.getMonth(), 1);
-  }
-
-  private alignViewMonthToSelectedDateIfNeeded(selectedDate: Date): void {
-    const viewMonthStart = this.startOfCalendarMonth(this.viewDate());
-    const selectedMonthStart = this.startOfCalendarMonth(selectedDate);
-    if (viewMonthStart.getTime() !== selectedMonthStart.getTime()) {
-      this.viewDate.set(selectedMonthStart);
-    }
-  }
-
   onMenuNavigateViewFromHeaderControls(date: Date): void {
-    const monthStart = this.startOfCalendarMonth(date);
+    const monthStart = startOfMonth(date);
     this.viewDate.set(monthStart);
     this.syncPendingDateToViewMonthProjection(monthStart);
   }
 
   onMenuNavigateViewFromStructurePick(date: Date): void {
-    this.viewDate.set(this.startOfCalendarMonth(date));
+    this.viewDate.set(startOfMonth(date));
   }
 
   onMenuKeyboardNavigateToDay(focusTargetDay: Date): void {
-    const normalized = startOfDay(focusTargetDay);
-    if (this.isDateDisabledForPicker(normalized)) {
+    const navigation = resolveDatepickerMenuKeyboardDayNavigation({
+      focusTargetDay,
+      constraints: this.pickerConstraints(),
+    });
+    if (navigation === null) {
       return;
     }
-    this.viewDate.set(this.startOfCalendarMonth(normalized));
-    this.menuInitialActiveDate.set(normalized);
+    this.viewDate.set(navigation.viewDate);
+    this.menuInitialActiveDate.set(navigation.menuInitialActiveDate);
     this.menuFocusSessionId.update((sessionId) => sessionId + 1);
   }
 
@@ -469,7 +437,7 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
     const confirmedDate = this.pendingDate();
     this.selectedDate.set(confirmedDate);
     this.textValue.set(confirmedDate ? formatDate(confirmedDate) : "");
-    this.monthNavigationAnchorDay.set(this.dayOfMonthFromNullableDate(confirmedDate));
+    this.monthNavigationAnchorDay.set(getDayOfMonthOrNull(confirmedDate));
     this.onChange(confirmedDate);
     this.valueChange.emit(confirmedDate);
     this.calendarType.set("day");

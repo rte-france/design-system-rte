@@ -35,3 +35,25 @@ export interface NavigateViewDateParams {
   dayAction?: DatepickerDayNavAction;
   compactStep?: DatepickerCompactNavStep;
 }
+
+export interface DatepickerDisabledConstraints {
+  minDate?: Date;
+  maxDate?: Date;
+  disabledDates?: readonly Date[];
+}
+
+export type DatepickerTextInputApplyResult =
+  | {
+      outcome: "committed";
+      date: Date;
+      monthAnchorDay: number;
+      maskedValue: string;
+    }
+  | {
+      outcome: "cleared";
+      maskedValue: string;
+    }
+  | {
+      outcome: "partial";
+      maskedValue: string;
+    };
