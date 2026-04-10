@@ -31,6 +31,51 @@ function dayCellButtonJune2024(overlay: HTMLElement, dayOfMonth: number): HTMLBu
   return null;
 }
 
+function dayGridMonthHeaderText(overlay: HTMLElement): string {
+  const header = overlay.querySelector('[data-datepicker-tab="month-label"]') as HTMLElement | null;
+  return header?.textContent ?? "";
+}
+
+function activeDayCellLabelText(overlay: HTMLElement): string {
+  const cell = overlay.querySelector(
+    '.rte-datepicker-day-grid .day-cell[data-datepicker-active="true"]:not([disabled])',
+  ) as HTMLButtonElement | null;
+  return cell?.textContent?.trim() ?? "";
+}
+
+async function focusActiveDayCellForArrowNavigation(overlay: HTMLElement): Promise<void> {
+  await waitFor(() => {
+    const cell = overlay.querySelector(
+      '.rte-datepicker-day-grid .day-cell[data-datepicker-active="true"]:not([disabled])',
+    ) as HTMLButtonElement | null;
+    expect(cell).toBeTruthy();
+    cell!.focus();
+    expect(cell).toHaveFocus();
+  });
+}
+
+async function arrowRightUntilMonthHeaderMatches(overlay: HTMLElement, monthPattern: RegExp): Promise<void> {
+  for (let step = 0; step < 60; step++) {
+    if (monthPattern.test(dayGridMonthHeaderText(overlay))) {
+      return;
+    }
+    await focusActiveDayCellForArrowNavigation(overlay);
+    await userEvent.keyboard("{ArrowRight}");
+  }
+  throw new globalThis.Error(`Month header did not match ${monthPattern} within the step budget.`);
+}
+
+async function arrowLeftUntilMonthHeaderMatches(overlay: HTMLElement, monthPattern: RegExp): Promise<void> {
+  for (let step = 0; step < 60; step++) {
+    if (monthPattern.test(dayGridMonthHeaderText(overlay))) {
+      return;
+    }
+    await focusActiveDayCellForArrowNavigation(overlay);
+    await userEvent.keyboard("{ArrowLeft}");
+  }
+  throw new globalThis.Error(`Month header did not match ${monthPattern} within the step budget.`);
+}
+
 async function typeJuneFifteen2024(canvasElement: HTMLElement): Promise<void> {
   const canvas = within(canvasElement);
   const field = canvas.getByRole("group");
@@ -1025,6 +1070,338 @@ export const MonthNavigationProjectsAnchorDayLeapYear: Story = {
   },
 };
 
+export const DayGridMinimumRowsFourWeekFebruary2021: Story = {
+  name: "Day grid: minimum rows (February 2021 → 28 day cells)",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "The day grid uses the minimum number of full weeks needed to show every day of the month (Monday-first). February 2021 starts on a Monday and has 28 days → 4 rows, 28 cells.",
+      },
+    },
+  },
+  render: Default.render,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const field = canvas.getByRole("group");
+    await userEvent.click(field);
+    field.focus();
+    for (const digit of "15022021") {
+      await userEvent.keyboard(digit);
+    }
+    await waitFor(
+      () => {
+        const segmented = canvasElement.querySelector(".segmented-date-field");
+        const compact = normalizedSegmentedDateText(segmented);
+        expect(compact).toContain("2021");
+      },
+      { timeout: 5000 },
+    );
+
+    await userEvent.click(canvas.getByRole("button", { name: calendarTriggerAccessibleName }));
+
+    await waitFor(() => {
+      expect(document.getElementById("overlay-root")?.querySelector("rte-datepicker-menu")).toBeInTheDocument();
+    });
+
+    const overlay = document.getElementById("overlay-root") as HTMLElement;
+    const monthHeader = overlay.querySelector('[data-datepicker-tab="month-label"]') as HTMLElement | null;
+    expect(monthHeader?.textContent ?? "").toMatch(/février/i);
+    expect(monthHeader?.textContent ?? "").toContain("2021");
+
+    const dayCells = overlay.querySelectorAll(".rte-datepicker-day-grid .day-cell");
+    expect(dayCells.length).toBe(28);
+  },
+};
+
+export const DayGridMinimumRowsSixWeekMarch2026: Story = {
+  name: "Day grid: minimum rows (March 2026 → 42 day cells)",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "A 31-day month that starts on Sunday needs six rows (leading offset 6 + 31 days → 42 cells). March 2026 matches that case.",
+      },
+    },
+  },
+  render: Default.render,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const field = canvas.getByRole("group");
+    await userEvent.click(field);
+    field.focus();
+    for (const digit of "15032026") {
+      await userEvent.keyboard(digit);
+    }
+    await waitFor(
+      () => {
+        const segmented = canvasElement.querySelector(".segmented-date-field");
+        const compact = normalizedSegmentedDateText(segmented);
+        expect(compact).toContain("2026");
+      },
+      { timeout: 5000 },
+    );
+
+    await userEvent.click(canvas.getByRole("button", { name: calendarTriggerAccessibleName }));
+
+    await waitFor(() => {
+      expect(document.getElementById("overlay-root")?.querySelector("rte-datepicker-menu")).toBeInTheDocument();
+    });
+
+    const overlay = document.getElementById("overlay-root") as HTMLElement;
+    const monthHeader = overlay.querySelector('[data-datepicker-tab="month-label"]') as HTMLElement | null;
+    expect(monthHeader?.textContent ?? "").toMatch(/mars/i);
+    expect(monthHeader?.textContent ?? "").toContain("2026");
+
+    const dayCells = overlay.querySelectorAll(".rte-datepicker-day-grid .day-cell");
+    expect(dayCells.length).toBe(42);
+  },
+};
+
+export const DayGridMarch2026StaysSixRowsWhenPendingApril: Story = {
+  name: "Day grid: March 2026 stays 6 rows when pending date is in April",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Regression: the grid must use only the weeks needed for the viewed month (here March 2026 → 42 cells). Pending selection in the next month (10/04/2026) must not add an extra row.",
+      },
+    },
+  },
+  render: Default.render,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const field = canvas.getByRole("group");
+    await userEvent.click(field);
+    field.focus();
+    for (const digit of "10042026") {
+      await userEvent.keyboard(digit);
+    }
+    await waitFor(
+      () => {
+        const segmented = canvasElement.querySelector(".segmented-date-field");
+        const compact = normalizedSegmentedDateText(segmented);
+        expect(compact).toContain("2026");
+      },
+      { timeout: 5000 },
+    );
+
+    await userEvent.click(canvas.getByRole("button", { name: calendarTriggerAccessibleName }));
+
+    await waitFor(() => {
+      expect(document.getElementById("overlay-root")?.querySelector("rte-datepicker-menu")).toBeInTheDocument();
+    });
+
+    const overlay = document.getElementById("overlay-root") as HTMLElement;
+    expect(dayGridMonthHeaderText(overlay)).toMatch(/avril/i);
+
+    await arrowLeftUntilMonthHeaderMatches(overlay, /mars/i);
+    expect(dayGridMonthHeaderText(overlay)).toContain("2026");
+
+    const dayCells = overlay.querySelectorAll(".rte-datepicker-day-grid .day-cell");
+    expect(dayCells.length).toBe(42);
+  },
+};
+
+export const DayGridKeyboardMay2026ToJuneStillNavigable: Story = {
+  name: "Day grid: keyboard Mai → Juin 2026 keeps ArrowRight working",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Regression: after paging from May to June with ArrowRight (keyboard month boundary), roving focus must resync to the new grid so the next arrow moves the active day (not a silent no-op).",
+      },
+    },
+  },
+  render: Default.render,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const field = canvas.getByRole("group");
+    await userEvent.click(field);
+    field.focus();
+    for (const digit of "15052026") {
+      await userEvent.keyboard(digit);
+    }
+    await waitFor(
+      () => {
+        const segmented = canvasElement.querySelector(".segmented-date-field");
+        const compact = normalizedSegmentedDateText(segmented);
+        expect(compact).toContain("2026");
+      },
+      { timeout: 5000 },
+    );
+
+    await userEvent.click(canvas.getByRole("button", { name: calendarTriggerAccessibleName }));
+
+    await waitFor(() => {
+      expect(document.getElementById("overlay-root")?.querySelector("rte-datepicker-menu")).toBeInTheDocument();
+    });
+
+    const overlay = document.getElementById("overlay-root") as HTMLElement;
+    expect(dayGridMonthHeaderText(overlay)).toMatch(/mai/i);
+
+    await arrowRightUntilMonthHeaderMatches(overlay, /juin/i);
+    expect(dayGridMonthHeaderText(overlay)).toContain("2026");
+
+    await waitFor(() => {
+      expect(activeDayCellLabelText(overlay)).toBe("1");
+    });
+
+    await waitFor(() => {
+      const activeButton = overlay.querySelector(
+        '.rte-datepicker-day-grid .day-cell[data-datepicker-active="true"]:not([disabled])',
+      ) as HTMLButtonElement | null;
+      expect(activeButton).toHaveFocus();
+    });
+
+    await userEvent.keyboard("{ArrowRight}");
+
+    await waitFor(() => {
+      expect(dayGridMonthHeaderText(overlay)).toMatch(/juin/i);
+      expect(activeDayCellLabelText(overlay)).toBe("2");
+    });
+  },
+};
+
+export const DayGridMonthNavUpdatesDayCellCount: Story = {
+  name: "Day grid: month chevron updates day cell count (28 → 35)",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Regression: after opening a four-week month, moving to the next month must rebuild the grid with the correct cell count (February 2021 →28, March 2021 → 35).",
+      },
+    },
+  },
+  render: Default.render,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const field = canvas.getByRole("group");
+    await userEvent.click(field);
+    field.focus();
+    for (const digit of "01022021") {
+      await userEvent.keyboard(digit);
+    }
+    await waitFor(
+      () => {
+        const segmented = canvasElement.querySelector(".segmented-date-field");
+        const compact = normalizedSegmentedDateText(segmented);
+        expect(compact).toContain("2021");
+      },
+      { timeout: 5000 },
+    );
+
+    await userEvent.click(canvas.getByRole("button", { name: calendarTriggerAccessibleName }));
+
+    await waitFor(() => {
+      expect(document.getElementById("overlay-root")?.querySelector("rte-datepicker-menu")).toBeInTheDocument();
+    });
+
+    const overlay = document.getElementById("overlay-root") as HTMLElement;
+    expect(overlay.querySelectorAll(".rte-datepicker-day-grid .day-cell").length).toBe(28);
+
+    await userEvent.click(within(overlay).getByRole("button", { name: /mois suivant/i }));
+
+    await waitFor(() => {
+      const monthHeader = overlay.querySelector('[data-datepicker-tab="month-label"]') as HTMLElement | null;
+      expect(monthHeader?.textContent ?? "").toMatch(/mars/i);
+      expect(monthHeader?.textContent ?? "").toContain("2021");
+    });
+
+    expect(overlay.querySelectorAll(".rte-datepicker-day-grid .day-cell").length).toBe(35);
+  },
+};
+
+export const DayGridKeyboardFebruaryToMarchArrowsStillMove: Story = {
+  name: "Day grid: Feb 2021 ArrowRight to March, then arrows move focus",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Type 15/02/2021, open the calendar, move with ArrowRight across the grid until the header shows March, then confirm ArrowRight, ArrowLeft, ArrowDown, and ArrowUp still move the active day and keep focus on the grid.",
+      },
+    },
+  },
+  render: Default.render,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const field = canvas.getByRole("group");
+    await userEvent.click(field);
+    field.focus();
+    for (const digit of "15022021") {
+      await userEvent.keyboard(digit);
+    }
+    await waitFor(
+      () => {
+        const segmented = canvasElement.querySelector(".segmented-date-field");
+        const compact = normalizedSegmentedDateText(segmented);
+        expect(compact).toContain("2021");
+      },
+      { timeout: 5000 },
+    );
+
+    await userEvent.click(canvas.getByRole("button", { name: calendarTriggerAccessibleName }));
+
+    await waitFor(() => {
+      expect(document.getElementById("overlay-root")?.querySelector("rte-datepicker-menu")).toBeInTheDocument();
+    });
+
+    const overlay = document.getElementById("overlay-root") as HTMLElement;
+    expect(dayGridMonthHeaderText(overlay)).toMatch(/février/i);
+
+    await arrowRightUntilMonthHeaderMatches(overlay, /mars/i);
+    expect(dayGridMonthHeaderText(overlay)).toContain("2021");
+
+    let guard = 0;
+    while (activeDayCellLabelText(overlay) !== "10" && guard < 20) {
+      await focusActiveDayCellForArrowNavigation(overlay);
+      await userEvent.keyboard("{ArrowRight}");
+      guard += 1;
+    }
+    expect(activeDayCellLabelText(overlay)).toBe("10");
+
+    await focusActiveDayCellForArrowNavigation(overlay);
+    await userEvent.keyboard("{ArrowRight}");
+    await waitFor(() => {
+      expect(dayGridMonthHeaderText(overlay)).toMatch(/mars/i);
+      expect(activeDayCellLabelText(overlay)).toBe("11");
+    });
+    await waitFor(() => {
+      const cell = overlay.querySelector(
+        '.rte-datepicker-day-grid .day-cell[data-datepicker-active="true"]:not([disabled])',
+      ) as HTMLButtonElement | null;
+      expect(cell).toHaveFocus();
+    });
+
+    await focusActiveDayCellForArrowNavigation(overlay);
+    await userEvent.keyboard("{ArrowLeft}");
+    await waitFor(() => {
+      expect(dayGridMonthHeaderText(overlay)).toMatch(/mars/i);
+      expect(activeDayCellLabelText(overlay)).toBe("10");
+    });
+
+    await focusActiveDayCellForArrowNavigation(overlay);
+    await userEvent.keyboard("{ArrowDown}");
+    await waitFor(() => {
+      expect(dayGridMonthHeaderText(overlay)).toMatch(/mars/i);
+      expect(activeDayCellLabelText(overlay)).toBe("17");
+    });
+
+    await focusActiveDayCellForArrowNavigation(overlay);
+    await userEvent.keyboard("{ArrowUp}");
+    await waitFor(() => {
+      expect(dayGridMonthHeaderText(overlay)).toMatch(/mars/i);
+      expect(activeDayCellLabelText(overlay)).toBe("10");
+    });
+    await waitFor(() => {
+      const cell = overlay.querySelector(
+        '.rte-datepicker-day-grid .day-cell[data-datepicker-active="true"]:not([disabled])',
+      ) as HTMLButtonElement | null;
+      expect(cell).toHaveFocus();
+    });
+  },
+};
+
 export const SelectingAdjacentMonthDaySwitchesCalendarView: Story = {
   name: "Day grid: selecting a prev/next month day switches the view to that month",
   parameters: {
@@ -1088,7 +1465,7 @@ export const DayGridArrowLeftAtFirstCellGoesToPreviousMonth: Story = {
     docs: {
       description: {
         story:
-          "With September 2019 open, the first cell is August 26. ArrowLeft moves to August 2019 and focuses August 25. Keyboard month paging does not change the pending selection (7 September stays selected); the header chevrons still drive anchor-based date projection.",
+          "With September 2019 open, the first cell is August 26. ArrowLeft moves to August 2019 and focuses August 25. Keyboard month paging does not change the pending selection (7 September stays selected—assert via the field, not a grid cell, because a minimal August grid may not include 7 September). The header chevrons still drive anchor-based date projection.",
       },
     },
   },
@@ -1145,8 +1522,11 @@ export const DayGridArrowLeftAtFirstCellGoesToPreviousMonth: Story = {
       expect(activeAugust25?.getAttribute("data-datepicker-active")).toBe("true");
     });
 
-    const september7CellAfterKeyboard = dayCellMatchingAriaLabel(overlay, /\b7\s+septembre.*2019/i);
-    expect(september7CellAfterKeyboard?.getAttribute("aria-selected")).toBe("true");
+    const segmentedAfterLeft = canvasElement.querySelector(".segmented-date-field");
+    const compactAfterLeft = normalizedSegmentedDateText(segmentedAfterLeft);
+    expect(compactAfterLeft).toContain("07");
+    expect(compactAfterLeft).toContain("09");
+    expect(compactAfterLeft).toContain("2019");
   },
 };
 
@@ -1299,7 +1679,10 @@ export const KeyboardGridMonthPageDoesNotChangePendingSelection: Story = {
       expect(monthHeader?.textContent ?? "").toMatch(/août/i);
     });
 
-    const sept7AfterKeyboard = dayCellMatchingAriaLabel(overlayAgain, /\b7\s+septembre.*2019/i);
-    expect(sept7AfterKeyboard?.getAttribute("aria-selected")).toBe("true");
+    const segmentedAfterKeyboard = canvasElement.querySelector(".segmented-date-field");
+    const compactAfterKeyboard = normalizedSegmentedDateText(segmentedAfterKeyboard);
+    expect(compactAfterKeyboard).toContain("07");
+    expect(compactAfterKeyboard).toContain("09");
+    expect(compactAfterKeyboard).toContain("2019");
   },
 };
