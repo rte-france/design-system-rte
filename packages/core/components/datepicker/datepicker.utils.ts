@@ -15,7 +15,9 @@ import type {
   DatepickerCalendarType,
   DatepickerDayCell,
   DatepickerDayCellType,
+  DatepickerDisabledConstraints,
   DatepickerMonthCell,
+  DatepickerTextInputApplyResult,
   DatepickerYearCell,
   NavigateViewDateParams,
 } from "./datepicker.interface";
@@ -126,7 +128,7 @@ export function resolveDatepickerMenuFocusableElement(element: HTMLElement): HTM
   return element;
 }
 
-function startOfMonth(date: Date): Date {
+export function startOfMonth(date: Date): Date {
   return new Date(date.getFullYear(), date.getMonth(), 1);
 }
 
@@ -516,4 +518,147 @@ export function getNextGridCellIndex(params: {
     return nextIndex < cellCount ? nextIndex : null;
   }
   return null;
+}
+
+export function getDayOfMonthOrNull(date: Date | null): number | null {
+  return date?.getDate() ?? null;
+}
+
+export function resolveDatepickerMenuOpenState(params: {
+  textValue: string;
+  constraints: DatepickerDisabledConstraints;
+  pendingDate: Date | null;
+  selectedDate: Date | null;
+  fallbackViewDate?: Date;
+}): {
+  viewDate: Date;
+  pendingForMenu: Date | null;
+  menuInitialActiveDate: Date;
+  monthNavigationAnchorDay: number | null;
+} {
+  const { textValue, constraints, pendingDate, selectedDate } = params;
+  const fallbackViewDate = params.fallbackViewDate ?? new Date();
+  const trimmedText = textValue.trim();
+  const parsedFromField = trimmedText.length > 0 ? parseDate(trimmedText) : null;
+  const parsedNormalized = parsedFromField ? startOfDay(parsedFromField) : null;
+  const isParsedUsable = parsedNormalized !== null && !isDateDisabled({ date: parsedNormalized, ...constraints });
+
+  let viewDateForGrid: Date;
+  let pendingForMenu: Date | null;
+
+  if (isParsedUsable && parsedNormalized) {
+    pendingForMenu = parsedNormalized;
+    viewDateForGrid = startOfMonth(parsedNormalized);
+  } else {
+    pendingForMenu = null;
+    viewDateForGrid = fallbackViewDate;
+  }
+
+  const dayCells = buildDayGrid({
+    viewDate: viewDateForGrid,
+    selectedDate: pendingForMenu,
+    ...constraints,
+  });
+  const menuInitialActiveDate = resolveInitialCalendarDay({
+    pendingDate: pendingForMenu,
+    selectedDate: pendingForMenu,
+    dayCells,
+  });
+  const monthNavigationAnchorDay = getDayOfMonthOrNull(pendingForMenu ?? pendingDate ?? selectedDate);
+
+  return {
+    viewDate: viewDateForGrid,
+    pendingForMenu,
+    menuInitialActiveDate,
+    monthNavigationAnchorDay,
+  };
+}
+
+export function applyDatepickerTextInputChange(params: {
+  rawValue: string;
+  constraints: DatepickerDisabledConstraints;
+}): DatepickerTextInputApplyResult {
+  const masked = maskDateInput(params.rawValue);
+  const trimmed = masked.trim();
+  const parsed = trimmed.length > 0 ? parseDate(trimmed) : null;
+
+  if (parsed) {
+    const normalized = startOfDay(parsed);
+    if (isDateDisabled({ date: normalized, ...params.constraints })) {
+      return { outcome: "partial", maskedValue: masked };
+    }
+    return {
+      outcome: "committed",
+      date: normalized,
+      monthAnchorDay: normalized.getDate(),
+      maskedValue: masked,
+    };
+  }
+
+  if (masked.length === 0) {
+    return { outcome: "cleared", maskedValue: masked };
+  }
+
+  return { outcome: "partial", maskedValue: masked };
+}
+
+export function tryProjectPendingDateToViewMonth(params: {
+  anchorDay: number | null;
+  viewDate: Date;
+  constraints: DatepickerDisabledConstraints;
+}): Date | null {
+  const { anchorDay, viewDate, constraints } = params;
+  if (anchorDay === null) {
+    return null;
+  }
+  const projectedDate = projectDayToMonthAnchor(anchorDay, viewDate.getFullYear(), viewDate.getMonth());
+  if (isDateDisabled({ date: projectedDate, ...constraints })) {
+    return null;
+  }
+  return projectedDate;
+}
+
+export function normalizeDatepickerMenuSelectionDate(params: {
+  date: Date;
+  constraints: DatepickerDisabledConstraints;
+}): Date | null {
+  const normalized = startOfDay(params.date);
+  if (isDateDisabled({ date: normalized, ...params.constraints })) {
+    return null;
+  }
+  return normalized;
+}
+
+export function resolveDatepickerMenuKeyboardDayNavigation(params: {
+  focusTargetDay: Date;
+  constraints: DatepickerDisabledConstraints;
+}): { viewDate: Date; menuInitialActiveDate: Date } | null {
+  const normalized = startOfDay(params.focusTargetDay);
+  if (isDateDisabled({ date: normalized, ...params.constraints })) {
+    return null;
+  }
+  return {
+    viewDate: startOfMonth(normalized),
+    menuInitialActiveDate: normalized,
+  };
+}
+
+export function buildRestoreCommittedDatepickerFieldState(params: { selectedDate: Date | null }): {
+  pendingDate: Date | null;
+  textValue: string;
+} {
+  const { selectedDate } = params;
+  return {
+    pendingDate: selectedDate,
+    textValue: selectedDate ? formatDate(selectedDate) : "",
+  };
+}
+
+export function alignViewDateToSelectedMonthIfNeeded(params: { viewDate: Date; selectedDate: Date }): Date {
+  const viewMonthStart = startOfMonth(params.viewDate);
+  const selectedMonthStart = startOfMonth(params.selectedDate);
+  if (viewMonthStart.getTime() === selectedMonthStart.getTime()) {
+    return params.viewDate;
+  }
+  return selectedMonthStart;
 }
