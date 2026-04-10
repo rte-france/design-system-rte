@@ -1,0 +1,1 @@
+const R=" ",t="Enter",E="ArrowLeft",s="ArrowRight",_="ArrowUp",o="ArrowDown",T=[E,s,_,o],A="{ }",n=`{${_}}`,a=`{${o}}`,c=`{${s}}`,K=`{${E}}`;export{T as A,t as E,R as S,A as T,_ as a,o as b,E as c,s as d,a as e,n as f,K as g,c as h};
