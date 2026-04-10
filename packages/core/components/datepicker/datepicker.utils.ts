@@ -8,6 +8,7 @@ import {
 import {
   DATEPICKER_MENU_REST_TAB_KEYS_COMPACT,
   DATEPICKER_MENU_REST_TAB_KEYS_DAY,
+  DATEPICKER_YEAR_GRID_PAGE_SIZE,
   type DatepickerTabDataKey,
 } from "./datepicker.constants";
 import type {
@@ -286,7 +287,8 @@ export function navigateViewDate(params: NavigateViewDateParams): Date {
     if (!step) {
       return viewDate;
     }
-    return addYears(viewDate, step === "previous" ? -10 : 10);
+    const yearStep = DATEPICKER_YEAR_GRID_PAGE_SIZE;
+    return addYears(viewDate, step === "previous" ? -yearStep : yearStep);
   }
   return viewDate;
 }
@@ -325,7 +327,7 @@ export function getYearLabel(date: Date, locale: string = "fr-FR"): string {
 
 export function getDecadeRangeLabel(date: Date): string {
   const decadeStart = getDecadeStartYear(date.getFullYear());
-  const decadeEnd = decadeStart + 9;
+  const decadeEnd = decadeStart + DATEPICKER_YEAR_GRID_PAGE_SIZE - 1;
   return `${decadeStart} – ${decadeEnd}`;
 }
 
@@ -472,7 +474,7 @@ export function buildYearGrid(params: {
   const selectedYear = selectedDate?.getFullYear() ?? null;
   const startYear = getDecadeStartYear(viewDate.getFullYear());
 
-  return Array.from({ length: 10 }).map((_, index) => {
+  return Array.from({ length: DATEPICKER_YEAR_GRID_PAGE_SIZE }).map((_, index) => {
     const year = startYear + index;
     return {
       year,
