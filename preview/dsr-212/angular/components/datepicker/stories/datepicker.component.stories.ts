@@ -1155,7 +1155,7 @@ export const DayGridArrowRightAtLastCellGoesToNextMonth: Story = {
     docs: {
       description: {
         story:
-          "With September 2019 open, ArrowRight from the last visible day moves the view to the next month and focuses the following calendar day. Pending selection stays on 7 September while keyboard focus moves.",
+          "With September 2019 open, ArrowRight from the last visible day moves the view to the next month and focuses the following calendar day. Pending selection stays on 7 September (asserted via the segmented field); that day is not necessarily a rendered grid cell while October is open.",
       },
     },
   },
@@ -1214,8 +1214,11 @@ export const DayGridArrowRightAtLastCellGoesToNextMonth: Story = {
       expect(activeAfterRight?.getAttribute("aria-label") ?? "").toMatch(/octobre.*2019/i);
     });
 
-    const september7AfterRight = dayCellMatchingAriaLabel(overlay, /\b7\s+septembre.*2019/i);
-    expect(september7AfterRight?.getAttribute("aria-selected")).toBe("true");
+    const segmentedAfterRight = canvasElement.querySelector(".segmented-date-field");
+    const compactAfterRight = normalizedSegmentedDateText(segmentedAfterRight);
+    expect(compactAfterRight).toContain("07");
+    expect(compactAfterRight).toContain("09");
+    expect(compactAfterRight).toContain("2019");
   },
 };
 

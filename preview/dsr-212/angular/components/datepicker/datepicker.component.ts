@@ -247,6 +247,8 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
 
     if (isParsedUsable && parsedNormalized) {
       pendingResolvedForMenu = parsedNormalized;
+      viewDateForGrid = this.startOfCalendarMonth(parsedNormalized);
+      this.viewDate.set(viewDateForGrid);
     } else {
       viewDateForGrid = new Date();
       this.viewDate.set(viewDateForGrid);
