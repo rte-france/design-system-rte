@@ -1,3 +1,5 @@
+export const DATEPICKER_YEAR_GRID_PAGE_SIZE = 11;
+
 export const DATEPICKER_TAB_DATA = {
   cancel: "cancel",
   confirm: "confirm",
