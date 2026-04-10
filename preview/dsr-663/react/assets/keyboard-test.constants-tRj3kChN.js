@@ -1,1 +1,0 @@
-const t=" ",T="Enter",R="Backspace",a="Delete",s="ArrowLeft",_="ArrowRight",E="ArrowUp",o="ArrowDown",c=[s,_,E,o],n="{ }",A=`{${T}}`,K=`{${E}}`,Y=`{${o}}`,S=`{${_}}`,N=`{${s}}`,r=`{${E}}`;export{E as A,R as B,a as D,T as E,t as S,n as T,o as a,s as b,_ as c,S as d,A as e,r as f,c as g,Y as h,K as i,N as j};
