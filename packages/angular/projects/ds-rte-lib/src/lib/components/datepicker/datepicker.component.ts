@@ -398,9 +398,14 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
     }
   }
 
-  onMenuViewDateChanged(viewDate: Date): void {
-    this.viewDate.set(viewDate);
-    this.syncPendingDateToViewMonthProjection(viewDate);
+  onMenuNavigateViewFromHeaderControls(date: Date): void {
+    const monthStart = this.startOfCalendarMonth(date);
+    this.viewDate.set(monthStart);
+    this.syncPendingDateToViewMonthProjection(monthStart);
+  }
+
+  onMenuNavigateViewFromStructurePick(date: Date): void {
+    this.viewDate.set(this.startOfCalendarMonth(date));
   }
 
   onMenuKeyboardNavigateToDay(focusTargetDay: Date): void {
