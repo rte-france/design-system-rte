@@ -39,6 +39,7 @@
     [attr.tabindex]="disabled() ? -1 : 0"
     [attr.aria-disabled]="disabled() ? true : null"
     (keydown)="onControlKeydown($event)"
+    (click)="onSegmentedControlClick()"
     (focus)="onControlFocus()"
     (blur)="onControlBlur()"
     (paste)="onPaste($event)"

@@ -34,6 +34,7 @@
     (valueChange)="onInputValueChange($event)"
     (rightIconClick)="onCalendarIconTriggered($event)"
     (rightIconKeydown)="onCalendarIconTriggered($event)"
+    (segmentedControlClick)="onSegmentedControlClicked()"
     (inputBlur)="onInputBlurred()"
   />
 
@@ -48,6 +49,7 @@
         [maxDate]="maxDate()"
         [disabledDates]="disabledDates()"
         [locale]="locale()"
+        [hasActions]="hasActions()"
         [focusSessionId]="menuFocusSessionId()"
         [initialActiveDate]="menuInitialActiveDate()"
         (dismiss)="onDismiss()"
