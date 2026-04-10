@@ -398,6 +398,13 @@ export function getDayCellIndexForDate(dayCells: DatepickerDayCell[], date: Date
   return dayCells.findIndex((cell) => isSameDay(cell.date, date));
 }
 
+export function getDayGridCellCountForViewMonth(viewDate: Date): number {
+  const firstMonthDay = startOfMonth(viewDate);
+  const leadingDaysFromPreviousMonth = getMondayBasedWeekdayIndex(firstMonthDay);
+  const daysInMonth = getLastDayOfMonth(viewDate.getFullYear(), viewDate.getMonth());
+  return Math.ceil((leadingDaysFromPreviousMonth + daysInMonth) / 7) * 7;
+}
+
 export function buildDayGrid(params: {
   viewDate: Date;
   selectedDate: Date | null;
@@ -410,10 +417,11 @@ export function buildDayGrid(params: {
   const firstMonthDay = startOfMonth(viewDate);
   const leadingDaysFromPreviousMonth = getMondayBasedWeekdayIndex(firstMonthDay);
   const gridStart = addDays(firstMonthDay, -leadingDaysFromPreviousMonth);
+  const cellCount = getDayGridCellCountForViewMonth(viewDate);
 
   const today = startOfDay(new Date());
 
-  return Array.from({ length: 42 }).map((_, index) => {
+  return Array.from({ length: cellCount }).map((_, index) => {
     const cellDate = addDays(gridStart, index);
     const isCurrentMonth = isSameMonth(cellDate, viewDate);
     const isSelected = !!selectedDate && isSameDay(cellDate, selectedDate);
