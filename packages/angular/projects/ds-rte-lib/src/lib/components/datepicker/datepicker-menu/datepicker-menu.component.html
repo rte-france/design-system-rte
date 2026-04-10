@@ -1,10 +1,4 @@
-<div
-  class="rte-datepicker-menu"
-  role="dialog"
-  aria-modal="true"
-  aria-label="Choisir une date"
-  [class.rte-datepicker-menu--month]="calendarType() === 'month'"
->
+<div class="rte-datepicker-menu" role="dialog" aria-modal="true" aria-label="Choisir une date">
   <div class="rte-datepicker-menu-header">
     <div class="nav-left">
       @if (calendarType() === "day") {
@@ -131,6 +125,8 @@
       }
     </div>
 
+    <rte-divider appearance="brand" />
+
     <div class="rte-datepicker-day-grid" role="grid" aria-label="Calendrier">
       @for (cell of dayCells(); track cell.date.toISOString()) {
         <button
@@ -155,7 +151,10 @@
       }
     </div>
   } @else if (calendarType() === "month") {
+    <rte-divider appearance="brand" />
+
     <p class="rte-datepicker-view-instruction" id="rte-datepicker-month-instruction">Sélectionner un mois</p>
+
     <div
       class="rte-datepicker-month-grid"
       role="grid"
@@ -186,7 +185,16 @@
       }
     </div>
   } @else {
-    <div class="rte-datepicker-year-grid" role="grid" aria-label="Années">
+    <rte-divider appearance="brand" />
+
+    <p class="rte-datepicker-view-instruction" id="rte-datepicker-year-instruction">Sélectionner une année</p>
+
+    <div
+      class="rte-datepicker-year-grid"
+      role="grid"
+      aria-label="Années"
+      aria-describedby="rte-datepicker-year-instruction"
+    >
       @for (cell of yearCells(); track cell.year) {
         <button
           type="button"
