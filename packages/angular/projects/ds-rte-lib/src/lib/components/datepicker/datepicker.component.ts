@@ -18,7 +18,11 @@ import {
   alignViewDateToSelectedMonthIfNeeded,
   applyDatepickerTextInputChange,
   buildRestoreCommittedDatepickerFieldState,
+  DATEPICKER_DEFAULT_CALENDAR_TYPE,
+  DATEPICKER_DEFAULT_LOCALE,
+  DATEPICKER_DEFAULT_WIDTH,
   formatDate,
+  getDatepickerCalendarButtonAriaLabel,
   getDayOfMonthOrNull,
   normalizeDatepickerMenuSelectionDate,
   resolveDatepickerMenuKeyboardDayNavigation,
@@ -57,7 +61,6 @@ import { DatepickerSegmentedFieldComponent } from "./datepicker-segmented-field/
 })
 export class DatepickerComponent implements ControlValueAccessor, AfterViewInit {
   readonly id = input<string>();
-  readonly name = input<string>();
   readonly labelText = input<string>("Label");
   readonly hasLabel = input<boolean>(true);
   readonly labelPosition = input<"top" | "side">("top");
@@ -65,7 +68,7 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
   readonly required = input<boolean>(false);
   readonly showLabelRequirement = input<boolean>(false);
 
-  readonly width = input<string>("248px");
+  readonly width = input<string>(DATEPICKER_DEFAULT_WIDTH);
 
   readonly hasAssistiveText = input<boolean>(false);
   readonly assistiveTextLabel = input<string>("");
@@ -75,14 +78,14 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
   readonly fieldAriaLabel = input<string>("");
   readonly fieldAriaLabelledby = input<string>("");
 
-  readonly interactionState = input<
-    "enabled" | "hover" | "activeInput" | "activeMenu" | "error" | "disabled" | "readOnly"
-  >("enabled");
+  readonly disabled = input<boolean>(false);
+  readonly readOnly = input<boolean>(false);
+  readonly error = input<boolean>(false);
 
   readonly minDate = input<Date | undefined>(undefined);
   readonly maxDate = input<Date | undefined>(undefined);
   readonly disabledDates = input<readonly Date[]>([]);
-  readonly locale = input<string>("fr-FR");
+  readonly locale = input<string>(DATEPICKER_DEFAULT_LOCALE);
   readonly hasActions = input(true);
 
   readonly valueChange = output<Date | null>();
@@ -91,7 +94,7 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
   readonly dropdownWidth = signal<number | null>(null);
 
   readonly isOpen = signal(false);
-  readonly calendarType = signal<DatepickerCalendarType>("day");
+  readonly calendarType = signal<DatepickerCalendarType>(DATEPICKER_DEFAULT_CALENDAR_TYPE);
 
   readonly selectedDate = signal<Date | null>(null);
   readonly pendingDate = signal<Date | null>(null);
@@ -108,14 +111,10 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
 
   private readonly formDisabled = signal(false);
 
-  readonly isDisabled = computed(() => ["disabled"].includes(this.interactionState()) || this.formDisabled());
-  readonly isReadOnly = computed(() => ["readOnly"].includes(this.interactionState()));
-  readonly isError = computed(() => ["error"].includes(this.interactionState()));
+  readonly isDisabled = computed(() => this.disabled() || this.formDisabled());
+  readonly isError = computed(() => this.error());
 
-  readonly calendarButtonAriaLabel = computed(() => {
-    const selectedDate = this.selectedDate();
-    return selectedDate ? `Changer la date, ${formatDate(selectedDate)}` : "Ouvrir le calendrier";
-  });
+  readonly calendarButtonAriaLabel = computed(() => getDatepickerCalendarButtonAriaLabel(this.selectedDate()));
 
   readonly segmentedFieldAriaLabelledby = computed(() => {
     const explicit = this.fieldAriaLabelledby();
@@ -303,7 +302,7 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
   }
 
   onInputValueChange(value: string): void {
-    if (this.isReadOnly() || this.isDisabled()) {
+    if (this.readOnly() || this.isDisabled()) {
       return;
     }
 
@@ -333,7 +332,7 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
   }
 
   onCalendarIconTriggered(event: MouseEvent | KeyboardEvent): void {
-    if (this.isReadOnly() || this.isDisabled()) {
+    if (this.readOnly() || this.isDisabled()) {
       return;
     }
 
@@ -354,24 +353,24 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
       return;
     }
     this.restoreCommittedDateToFieldAndPending();
-    this.calendarType.set("day");
+    this.calendarType.set(DATEPICKER_DEFAULT_CALENDAR_TYPE);
     this.isOpen.set(false);
   }
 
   onClickedOutside(): void {
     this.restoreCommittedDateToFieldAndPending();
-    this.calendarType.set("day");
+    this.calendarType.set(DATEPICKER_DEFAULT_CALENDAR_TYPE);
     this.isOpen.set(false);
   }
 
   onClosedDropdown(): void {
     this.isOpen.set(false);
-    this.calendarType.set("day");
+    this.calendarType.set(DATEPICKER_DEFAULT_CALENDAR_TYPE);
   }
 
   onDismiss(): void {
     this.restoreCommittedDateToFieldAndPending();
-    this.calendarType.set("day");
+    this.calendarType.set(DATEPICKER_DEFAULT_CALENDAR_TYPE);
     this.isOpen.set(false);
   }
 
@@ -392,7 +391,7 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
       this.textValue.set(formatDate(normalized));
       this.onChange(normalized);
       this.valueChange.emit(normalized);
-      this.calendarType.set("day");
+      this.calendarType.set(DATEPICKER_DEFAULT_CALENDAR_TYPE);
       this.isOpen.set(false);
       return;
     }
@@ -415,7 +414,7 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
     const constraints = this.pickerConstraints();
     const calendarType = this.calendarType();
     let navigation: { viewDate: Date; menuInitialActiveDate: Date } | null = null;
-    if (calendarType === "day") {
+    if (calendarType === DATEPICKER_DEFAULT_CALENDAR_TYPE) {
       navigation = resolveDatepickerMenuKeyboardDayNavigation({
         focusTargetDay: focusTarget,
         constraints,
@@ -445,7 +444,7 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
 
   onCancel(): void {
     this.restoreCommittedDateToFieldAndPending();
-    this.calendarType.set("day");
+    this.calendarType.set(DATEPICKER_DEFAULT_CALENDAR_TYPE);
     this.isOpen.set(false);
   }
 
@@ -456,7 +455,7 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
     this.monthNavigationAnchorDay.set(getDayOfMonthOrNull(confirmedDate));
     this.onChange(confirmedDate);
     this.valueChange.emit(confirmedDate);
-    this.calendarType.set("day");
+    this.calendarType.set(DATEPICKER_DEFAULT_CALENDAR_TYPE);
     this.isOpen.set(false);
   }
 }
