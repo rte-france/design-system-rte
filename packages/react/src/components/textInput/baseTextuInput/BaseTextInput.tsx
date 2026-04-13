@@ -227,6 +227,7 @@ const BaseTextInput = forwardRef<HTMLInputElement, BaseTextInputProps>(
                   compactSpacing={true}
                   className={style.rightIcon}
                   aria-label={rightIconAriaLabel}
+                  disabled={disabled}
                   onClick={onRightIconClickHandler}
                   data-testid="right-icon"
                 />

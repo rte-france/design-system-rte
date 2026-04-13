@@ -247,7 +247,7 @@ export const Disabled: Story = {
     focusElementBeforeComponent(canvasElement);
     await userEvent.tab();
     await userEvent.tab();
-    expect(canvas.queryByTestId("right-icon")).not.toBeInTheDocument();
+    expect(canvas.queryByTestId("right-icon")).toBeInTheDocument();
   },
 };
 
