@@ -35,7 +35,10 @@
 
   <div class="input-container">
     <div class="input {{ labelPosition() }}" [ngClass]="{ disabled: disabled(), 'read-only': readOnly() }">
-      <div class="input-bar" [ngClass]="{ 'with-left-icon': displayedLeftIcon(), 'with-right-icon': shouldShowRightIcon() }">
+      <div
+        class="input-bar"
+        [ngClass]="{ 'with-left-icon': displayedLeftIcon(), 'with-right-icon': shouldShowRightIcon() }"
+      >
         <ng-container *ngIf="displayedLeftIcon()">
           <rte-icon appearance="outlined" class="left-icon" aria-hidden="true" [name]="displayedLeftIcon()!" />
         </ng-container>
