@@ -19,6 +19,7 @@ const FileUpload = ({
   disabled = false,
   assistiveTextLabel,
   assistiveAppearance = "description",
+  showAssistiveText = true,
   showAssistiveIcon,
   assistiveTextLink,
   isError,
@@ -39,7 +40,8 @@ const FileUpload = ({
   const [selectedFiles, setSelectedFiles] = useState<File[] | null>(null);
   const [loadingFiles, setLoadingFiles] = useState<Set<File>>(new Set());
 
-  const shouldDisplayAssistiveText = assistiveTextLabel && assistiveAppearance && errorFilesMap?.length === 0;
+  const shouldDisplayAssistiveText =
+    showAssistiveText && assistiveTextLabel && assistiveAppearance && errorFilesMap?.length === 0;
 
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files || []);

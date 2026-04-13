@@ -4,7 +4,7 @@ import {
   formatFileSize,
   getStringWidthFromContext,
 } from "@design-system-rte/core/components/file-upload/file-upload.util";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import AssistiveText from "../../assistivetext/AssistiveText";
 import Icon from "../../icon/Icon";
@@ -25,7 +25,7 @@ const FileItem = ({ file, removeFile, isError, errorMessage, compact, isLoading 
 
   const [hasEllipsis, setHasEllipsis] = useState(false);
 
-  const truncateFileName = (fileName: string): string => {
+  const truncateFileName = useCallback((fileName: string): string => {
     const availableWidth = getAvailableWidth();
     const ellipsis = "...";
     const { baseName, fileType } = extractFileNameParts(fileName);
@@ -69,7 +69,7 @@ const FileItem = ({ file, removeFile, isError, errorMessage, compact, isLoading 
         return `${startStr}${ellipsis}${endStr}${fileType}`;
       }
     }
-  };
+  }, []);
 
   const getAvailableWidth = () => {
     const fileNameElement = fileNameRef.current;
@@ -106,7 +106,7 @@ const FileItem = ({ file, removeFile, isError, errorMessage, compact, isLoading 
     const truncated = truncateFileName(file.name);
     setHasEllipsis(truncated !== file.name);
     setTruncatedFileName(truncated);
-  }, [file]);
+  }, [file, truncateFileName]);
 
   return (
     <>

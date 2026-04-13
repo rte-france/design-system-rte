@@ -67,6 +67,27 @@ export const WithError: Story = {
     isError: true,
     assistiveTextLabel: "Veuillez sélectionner un fichier avant de soumettre.",
   },
+
+  render: (args) => {
+    const [files, setFiles] = useState<File[]>([]);
+    const handleChange = (newFiles: File[]) => {
+      setFiles(newFiles);
+    };
+
+    const handleRemovingFile = (file: File) => {
+      setFiles((prev) => prev.filter((f) => f !== file));
+    };
+
+    return (
+      <FileUpload
+        {...args}
+        onChange={handleChange}
+        onRemovingFile={handleRemovingFile}
+        isError={files.length === 0}
+        showAssistiveText={files.length === 0}
+      />
+    );
+  },
 };
 
 export const WithoutLabel: Story = {
