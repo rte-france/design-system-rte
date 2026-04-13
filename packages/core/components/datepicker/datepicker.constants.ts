@@ -1,3 +1,15 @@
+import type { DatepickerCalendarType } from "./datepicker.interface";
+
+export const DATEPICKER_DEFAULT_WIDTH = "248px";
+
+export const DATEPICKER_DEFAULT_LOCALE = "fr-FR";
+
+export const DATEPICKER_DEFAULT_CALENDAR_TYPE = "day" as const satisfies DatepickerCalendarType;
+
+export const DATEPICKER_ARIA_OPEN_CALENDAR = "Ouvrir le calendrier";
+
+export const DATEPICKER_ARIA_CHANGE_DATE_PREFIX = "Changer la date, ";
+
 export const DATEPICKER_YEAR_GRID_PAGE_SIZE = 11;
 
 export const DATEPICKER_TAB_DATA = {
