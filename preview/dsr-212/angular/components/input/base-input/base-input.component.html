@@ -85,6 +85,7 @@
             class="right-icon"
             data-testid="right-icon"
             [compactSpacing]="true"
+            [disabled]="disabled()"
             [name]="computedRightIconName()!"
             [ariaLabel]="computedRightIconAriaLabel()"
             (clickEvent)="onRightIconClickHandler($event)"
