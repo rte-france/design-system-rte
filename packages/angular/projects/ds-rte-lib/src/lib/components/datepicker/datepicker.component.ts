@@ -270,6 +270,9 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
     this.pendingDate.set(projectedDate);
     this.menuInitialActiveDate.set(projectedDate);
     this.menuFocusSessionId.update((sessionId) => sessionId + 1);
+    if (this.hasActions()) {
+      this.textValue.set(formatDate(projectedDate));
+    }
   }
 
   writeValue(value: Date | null): void {
@@ -395,6 +398,7 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
     }
 
     this.pendingDate.set(normalized);
+    this.textValue.set(formatDate(normalized));
   }
 
   onMenuNavigateViewFromHeaderControls(date: Date): void {
@@ -440,12 +444,7 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
   }
 
   onCancel(): void {
-    this.pendingDate.set(null);
-    this.selectedDate.set(null);
-    this.textValue.set("");
-    this.monthNavigationAnchorDay.set(null);
-    this.onChange(null);
-    this.valueChange.emit(null);
+    this.restoreCommittedDateToFieldAndPending();
     this.calendarType.set("day");
     this.isOpen.set(false);
   }
