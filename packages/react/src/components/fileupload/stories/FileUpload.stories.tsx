@@ -6,6 +6,7 @@ import FileUpload from "../FileUpload";
 const meta = {
   title: "Composants/FileUpload",
   component: FileUpload,
+  tags: ["autodocs"],
 } satisfies Meta<typeof FileUpload>;
 
 export default meta;
