@@ -9,9 +9,9 @@ import {
 
 import {
   buildMaskedDdMmYyyyFromDigitParts,
-  formatDate,
   parseDate,
   parseDdMmYyyyMaskedString,
+  getLastDayOfMonth,
 } from "./datepicker.utils";
 
 export type SegmentedDateActiveSegment = "day" | "month" | "year";
@@ -30,6 +30,28 @@ const SEGMENT_LENGTH: Record<SegmentedDateActiveSegment, number> = {
   month: 2,
   year: 4,
 };
+
+const SEGMENT_DIGITS_KEY: Record<
+  SegmentedDateActiveSegment,
+  keyof Pick<SegmentedDateFieldState, "dayDigits" | "monthDigits" | "yearDigits">
+> = {
+  day: "dayDigits",
+  month: "monthDigits",
+  year: "yearDigits",
+};
+
+function readSegmentDigits(state: SegmentedDateFieldState, segment: SegmentedDateActiveSegment): string {
+  return state[SEGMENT_DIGITS_KEY[segment]];
+}
+
+function withSegmentDigits(
+  state: SegmentedDateFieldState,
+  segment: SegmentedDateActiveSegment,
+  digits: string,
+): SegmentedDateFieldState {
+  const key = SEGMENT_DIGITS_KEY[segment];
+  return { ...state, [key]: digits };
+}
 
 export function getSegmentDisplayText(
   digits: string,
@@ -106,17 +128,13 @@ function clampDigits(raw: string, maxLength: number): string {
   return raw.replace(/\D/g, "").slice(0, maxLength);
 }
 
-function daysInMonth(year: number, monthIndexZeroBased: number): number {
-  return new Date(year, monthIndexZeroBased + 1, 0).getDate();
-}
-
 function getMaxDayForDaySegment(state: SegmentedDateFieldState): number {
   const { monthDigits, yearDigits } = state;
   if (monthDigits.length === 2 && yearDigits.length === 4) {
     const monthNum = Number.parseInt(monthDigits, 10);
     const yearNum = Number.parseInt(yearDigits, 10);
     if (!Number.isNaN(monthNum) && monthNum >= 1 && monthNum <= 12 && !Number.isNaN(yearNum)) {
-      return daysInMonth(yearNum, monthNum - 1);
+      return getLastDayOfMonth(yearNum, monthNum - 1);
     }
   }
   return 31;
@@ -152,7 +170,7 @@ function isDayDigitsCompleteValid(dayDigits: string, monthDigits: string, yearDi
     if (Number.isNaN(monthNum) || monthNum < 1 || monthNum > 12 || Number.isNaN(yearNum)) {
       return true;
     }
-    const maxDay = daysInMonth(yearNum, monthNum - 1);
+    const maxDay = getLastDayOfMonth(yearNum, monthNum - 1);
     return dayNum >= 1 && dayNum <= maxDay;
   }
   return true;
@@ -172,13 +190,7 @@ function clearSegmentDigits(
   state: SegmentedDateFieldState,
   segment: SegmentedDateActiveSegment,
 ): SegmentedDateFieldState {
-  if (segment === "day") {
-    return { ...state, dayDigits: "" };
-  }
-  if (segment === "month") {
-    return { ...state, monthDigits: "" };
-  }
-  return { ...state, yearDigits: "" };
+  return withSegmentDigits(state, segment, "");
 }
 
 function padSegmentDigitsToWidth(digits: string, segment: SegmentedDateActiveSegment): string {
@@ -198,24 +210,10 @@ export function applySegmentLeaveWhenChangingActiveSegment(
   }
   const segmentLeaving = state.activeSegment;
   let nextState: SegmentedDateFieldState = { ...state };
-  let rawDigits = "";
-  const { dayDigits, monthDigits, yearDigits } = state;
-  if (segmentLeaving === "day") {
-    rawDigits = dayDigits;
-  } else if (segmentLeaving === "month") {
-    rawDigits = monthDigits;
-  } else {
-    rawDigits = yearDigits;
-  }
+  const rawDigits = readSegmentDigits(state, segmentLeaving);
   const paddedDigits = padSegmentDigitsToWidth(rawDigits, segmentLeaving);
   if (paddedDigits !== rawDigits) {
-    if (segmentLeaving === "day") {
-      nextState = { ...nextState, dayDigits: paddedDigits };
-    } else if (segmentLeaving === "month") {
-      nextState = { ...nextState, monthDigits: paddedDigits };
-    } else {
-      nextState = { ...nextState, yearDigits: paddedDigits };
-    }
+    nextState = withSegmentDigits(nextState, segmentLeaving, paddedDigits);
   }
   if (!isSegmentCompleteValid(segmentLeaving, nextState)) {
     nextState = clearSegmentDigits(nextState, segmentLeaving);
@@ -257,34 +255,11 @@ export function firstIncompleteSegmentForState(state: SegmentedDateFieldState): 
 
 function appendDigitToSegment(state: SegmentedDateFieldState, digit: string): SegmentedDateFieldState {
   const segment = state.activeSegment;
-  let { dayDigits, monthDigits, yearDigits } = state;
-
-  const setSegment = (segmentType: SegmentedDateActiveSegment, value: string): void => {
-    if (segmentType === "day") {
-      dayDigits = value;
-    } else if (segmentType === "month") {
-      monthDigits = value;
-    } else {
-      yearDigits = value;
-    }
-  };
-
-  const getSegment = (segmentType: SegmentedDateActiveSegment): string => {
-    if (segmentType === "day") {
-      return dayDigits;
-    }
-    if (segmentType === "month") {
-      return monthDigits;
-    }
-    return yearDigits;
-  };
-
   const maxLength = SEGMENT_LENGTH[segment];
-  const current = getSegment(segment);
+  const current = readSegmentDigits(state, segment);
 
   if (current.length >= maxLength) {
-    setSegment(segment, digit);
-    return { dayDigits, monthDigits, yearDigits, activeSegment: segment };
+    return { ...withSegmentDigits(state, segment, digit), activeSegment: segment };
   }
 
   const nextValue = `${current}${digit}`;
@@ -300,7 +275,7 @@ function appendDigitToSegment(state: SegmentedDateFieldState, digit: string): Se
       return state;
     }
   }
-  setSegment(segment, nextValue);
+
   let activeSegment = segment;
   if (nextValue.length >= maxLength && segment !== "year") {
     const advanced = nextSegment(segment);
@@ -308,7 +283,7 @@ function appendDigitToSegment(state: SegmentedDateFieldState, digit: string): Se
       activeSegment = advanced;
     }
   }
-  return { dayDigits, monthDigits, yearDigits, activeSegment };
+  return { ...withSegmentDigits(state, segment, nextValue), activeSegment };
 }
 
 function moveActiveSegmentClamped(state: SegmentedDateFieldState, delta: number): SegmentedDateFieldState {
@@ -348,13 +323,16 @@ function stepYearDigits(yearDigits: string, delta: number): string {
   return clampDigits(String(next), 4);
 }
 
+function withDayDigitsClampedToMonth(state: SegmentedDateFieldState, dayNumber: number): SegmentedDateFieldState {
+  const maxDay = getMaxDayForDaySegment(state);
+  const clamped = Math.max(1, Math.min(maxDay, dayNumber));
+  return { ...state, dayDigits: String(clamped).padStart(2, "0") };
+}
+
 function applyArrowUp(state: SegmentedDateFieldState): SegmentedDateFieldState {
   if (state.activeSegment === "day") {
-    const maxDay = getMaxDayForDaySegment(state);
     const value = state.dayDigits.length ? Number.parseInt(state.dayDigits, 10) : 0;
-    let nextNum = value + 1;
-    nextNum = Math.max(1, Math.min(maxDay, nextNum));
-    return { ...state, dayDigits: String(nextNum).padStart(2, "0") };
+    return withDayDigitsClampedToMonth(state, value + 1);
   }
   if (state.activeSegment === "month") {
     return { ...state, monthDigits: stepMonthDigits(state.monthDigits, 1) };
@@ -364,14 +342,11 @@ function applyArrowUp(state: SegmentedDateFieldState): SegmentedDateFieldState {
 
 function applyArrowDown(state: SegmentedDateFieldState): SegmentedDateFieldState {
   if (state.activeSegment === "day") {
-    const maxDay = getMaxDayForDaySegment(state);
     let value = state.dayDigits.length ? Number.parseInt(state.dayDigits, 10) : 0;
     if (value === 0 && state.dayDigits.length === 0) {
-      value = maxDay + 1;
+      value = getMaxDayForDaySegment(state) + 1;
     }
-    let nextNum = value - 1;
-    nextNum = Math.max(1, Math.min(maxDay, nextNum));
-    return { ...state, dayDigits: String(nextNum).padStart(2, "0") };
+    return withDayDigitsClampedToMonth(state, value - 1);
   }
   if (state.activeSegment === "month") {
     return { ...state, monthDigits: stepMonthDigits(state.monthDigits, -1) };
@@ -380,14 +355,7 @@ function applyArrowDown(state: SegmentedDateFieldState): SegmentedDateFieldState
 }
 
 function emptyActiveSegment(state: SegmentedDateFieldState): SegmentedDateFieldState {
-  const segment = state.activeSegment;
-  if (segment === "day") {
-    return { ...state, dayDigits: "" };
-  }
-  if (segment === "month") {
-    return { ...state, monthDigits: "" };
-  }
-  return { ...state, yearDigits: "" };
+  return withSegmentDigits(state, state.activeSegment, "");
 }
 
 export interface ReduceSegmentedDateFieldKeyParams {
@@ -433,8 +401,4 @@ export function shouldPreventDefaultSegmentedKey(key: string): boolean {
     return true;
   }
   return false;
-}
-
-export function formatDdMmYyyyFromValidDate(date: Date): string {
-  return formatDate(date);
 }

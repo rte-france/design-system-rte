@@ -6,6 +6,9 @@ import {
 } from "../../constants/keyboard/keyboard.constants";
 
 import {
+  DATEPICKER_ARIA_CHANGE_DATE_PREFIX,
+  DATEPICKER_ARIA_OPEN_CALENDAR,
+  DATEPICKER_DEFAULT_LOCALE,
   DATEPICKER_MENU_REST_TAB_KEYS_COMPACT,
   DATEPICKER_MENU_REST_TAB_KEYS_DAY,
   DATEPICKER_YEAR_GRID_PAGE_SIZE,
@@ -189,6 +192,13 @@ export function formatDate(date: Date): string {
   return `${day}/${month}/${year}`;
 }
 
+export function getDatepickerCalendarButtonAriaLabel(selectedDate: Date | null): string {
+  if (selectedDate === null) {
+    return DATEPICKER_ARIA_OPEN_CALENDAR;
+  }
+  return `${DATEPICKER_ARIA_CHANGE_DATE_PREFIX}${formatDate(selectedDate)}`;
+}
+
 export function parseDate(value: string): Date | null {
   const trimmedValue = value.trim();
   if (trimmedValue.length === 0) {
@@ -319,11 +329,11 @@ export function isDateDisabled(params: {
   return isCalendarDayInDisabledDates(currentDay, disabledDates);
 }
 
-export function getMonthLabel(date: Date, locale: string = "fr-FR"): string {
+export function getMonthLabel(date: Date, locale: string = DATEPICKER_DEFAULT_LOCALE): string {
   return new Intl.DateTimeFormat(locale, { month: "long", year: "numeric" }).format(date);
 }
 
-export function getYearLabel(date: Date, locale: string = "fr-FR"): string {
+export function getYearLabel(date: Date, locale: string = DATEPICKER_DEFAULT_LOCALE): string {
   return new Intl.DateTimeFormat(locale, { year: "numeric" }).format(date);
 }
 
@@ -333,7 +343,7 @@ export function getDecadeRangeLabel(date: Date): string {
   return `${decadeStart} – ${decadeEnd}`;
 }
 
-export function getWeekdayShortLabels(locale: string = "fr-FR"): string[] {
+export function getWeekdayShortLabels(locale: string = DATEPICKER_DEFAULT_LOCALE): string[] {
   const monday = new Date(2021, 0, 4);
   return Array.from({ length: 7 }).map((_, index) => {
     const day = addDays(monday, index);
@@ -351,33 +361,31 @@ export function resolveInitialCalendarDay(params: {
   const { pendingDate, selectedDate, dayCells } = params;
   const candidate = startOfDay(pendingDate ?? selectedDate ?? new Date());
 
-  const matchInGrid = dayCells.find((cell) => isSameDay(cell.date, candidate));
-  if (matchInGrid && !matchInGrid.isDisabled) {
-    return matchInGrid.date;
-  }
-
-  if (matchInGrid?.isDisabled) {
-    const resolved = findNextEnabledFromIndex(dayCells, dayCells.indexOf(matchInGrid));
-    if (resolved) {
-      return resolved.date;
-    }
+  const fromCandidate = resolveEnabledDateForPreferredDay(dayCells, candidate);
+  if (fromCandidate !== null) {
+    return fromCandidate;
   }
 
   const today = startOfDay(new Date());
-  const todayCell = dayCells.find((cell) => isSameDay(cell.date, today));
-  if (todayCell && !todayCell.isDisabled) {
-    return todayCell.date;
-  }
-
-  if (todayCell?.isDisabled) {
-    const resolved = findNextEnabledFromIndex(dayCells, dayCells.indexOf(todayCell));
-    if (resolved) {
-      return resolved.date;
-    }
+  const fromToday = resolveEnabledDateForPreferredDay(dayCells, today);
+  if (fromToday !== null) {
+    return fromToday;
   }
 
   const firstEnabled = dayCells.find((cell) => !cell.isDisabled);
   return firstEnabled ? firstEnabled.date : candidate;
+}
+
+function resolveEnabledDateForPreferredDay(dayCells: DatepickerDayCell[], day: Date): Date | null {
+  const match = dayCells.find((cell) => isSameDay(cell.date, day));
+  if (!match) {
+    return null;
+  }
+  if (!match.isDisabled) {
+    return match.date;
+  }
+  const resolved = findNextEnabledFromIndex(dayCells, dayCells.indexOf(match));
+  return resolved ? resolved.date : null;
 }
 
 function findNextEnabledFromIndex(dayCells: DatepickerDayCell[], startIndex: number): DatepickerDayCell | undefined {
@@ -455,7 +463,7 @@ export function buildMonthGrid(params: {
   disabledDates?: readonly Date[];
   locale?: string;
 }): DatepickerMonthCell[] {
-  const { viewDate, selectedDate, minDate, maxDate, disabledDates, locale = "fr-FR" } = params;
+  const { viewDate, selectedDate, minDate, maxDate, disabledDates, locale = DATEPICKER_DEFAULT_LOCALE } = params;
   const selectedMonthDate = selectedDate ? startOfMonth(selectedDate) : null;
   const currentMonthDate = startOfMonth(new Date());
 
@@ -520,24 +528,26 @@ export function getNextGridCellIndex(params: {
   return null;
 }
 
-export function getDayGridArrowDelta(key: string): number {
-  const DELTA: Record<string, number> = {
-    [ARROW_LEFT_KEY]: -1,
-    [ARROW_RIGHT_KEY]: 1,
-    [ARROW_UP_KEY]: -7,
-    [ARROW_DOWN_KEY]: 7,
-  };
-  return DELTA[key] ?? 0;
-}
+export type DatepickerGridArrowLayout = "day" | "monthYear";
 
-export function getMonthYearGridArrowDelta(key: string): number {
-  const DELTA: Record<string, number> = {
-    [ARROW_LEFT_KEY]: -1,
-    [ARROW_RIGHT_KEY]: 1,
-    [ARROW_UP_KEY]: -3,
-    [ARROW_DOWN_KEY]: 3,
-  };
-  return DELTA[key] ?? 0;
+const ARROW_KEY_TO_COLUMN_DELTA: Record<string, number> = {
+  [ARROW_LEFT_KEY]: -1,
+  [ARROW_RIGHT_KEY]: 1,
+};
+
+const DATEPICKER_GRID_VERTICAL_STEP: Record<DatepickerGridArrowLayout, number> = {
+  day: 7,
+  monthYear: 3,
+};
+
+export function getDatepickerGridArrowDelta(key: string, layout: DatepickerGridArrowLayout): number {
+  if (key === ARROW_UP_KEY) {
+    return -DATEPICKER_GRID_VERTICAL_STEP[layout];
+  }
+  if (key === ARROW_DOWN_KEY) {
+    return DATEPICKER_GRID_VERTICAL_STEP[layout];
+  }
+  return ARROW_KEY_TO_COLUMN_DELTA[key] ?? 0;
 }
 
 export function getDayOfMonthOrNull(date: Date | null): number | null {

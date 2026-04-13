@@ -51,6 +51,16 @@
     cursor: pointer;
     color: var(--content-primary);
     text-align: center;
+
+    &:focus {
+      outline: none;
+    }
+
+    &:focus-visible {
+      outline: 1px solid var(--border-brand-focused);
+      border-radius: $radius-xs;
+      outline-offset: 0;
+    }
   }
 
   .month-label-static {
