@@ -22,6 +22,8 @@ import {
   getDayOfMonthOrNull,
   normalizeDatepickerMenuSelectionDate,
   resolveDatepickerMenuKeyboardDayNavigation,
+  resolveDatepickerMenuKeyboardMonthNavigation,
+  resolveDatepickerMenuKeyboardYearNavigation,
   resolveDatepickerMenuOpenState,
   startOfMonth,
   tryProjectPendingDateToViewMonth,
@@ -405,11 +407,26 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
     this.viewDate.set(startOfMonth(date));
   }
 
-  onMenuKeyboardNavigateToDay(focusTargetDay: Date): void {
-    const navigation = resolveDatepickerMenuKeyboardDayNavigation({
-      focusTargetDay,
-      constraints: this.pickerConstraints(),
-    });
+  onMenuKeyboardNavigate(focusTarget: Date): void {
+    const constraints = this.pickerConstraints();
+    const calendarType = this.calendarType();
+    let navigation: { viewDate: Date; menuInitialActiveDate: Date } | null = null;
+    if (calendarType === "day") {
+      navigation = resolveDatepickerMenuKeyboardDayNavigation({
+        focusTargetDay: focusTarget,
+        constraints,
+      });
+    } else if (calendarType === "month") {
+      navigation = resolveDatepickerMenuKeyboardMonthNavigation({
+        focusTargetMonthStart: focusTarget,
+        constraints,
+      });
+    } else {
+      navigation = resolveDatepickerMenuKeyboardYearNavigation({
+        focusTargetYear: focusTarget.getFullYear(),
+        constraints,
+      });
+    }
     if (navigation === null) {
       return;
     }
