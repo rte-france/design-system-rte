@@ -54,6 +54,17 @@ async function focusActiveDayCellForArrowNavigation(overlay: HTMLElement): Promi
   });
 }
 
+async function focusActiveMonthCellForArrowNavigation(overlay: HTMLElement): Promise<void> {
+  await waitFor(() => {
+    const cell = overlay.querySelector(
+      'rte-datepicker-menu .month-cell[data-datepicker-active="true"]:not([disabled])',
+    ) as HTMLButtonElement | null;
+    expect(cell).toBeTruthy();
+    cell!.focus();
+    expect(cell).toHaveFocus();
+  });
+}
+
 async function arrowRightUntilMonthHeaderMatches(overlay: HTMLElement, monthPattern: RegExp): Promise<void> {
   for (let step = 0; step < 60; step++) {
     if (monthPattern.test(dayGridMonthHeaderText(overlay))) {
@@ -958,6 +969,311 @@ export const KeyboardMonthViewTabHeaderGridActions: Story = {
 
     await userEvent.tab();
     expect(activeMonthCell).toHaveFocus();
+  },
+};
+
+async function openMonthGridOverlay(canvasElement: HTMLElement): Promise<HTMLElement> {
+  const canvas = within(canvasElement);
+  await userEvent.click(canvas.getByRole("button", { name: calendarTriggerAccessibleName }));
+  await waitFor(() => {
+    expect(document.getElementById("overlay-root")?.querySelector("rte-datepicker-menu")).toBeInTheDocument();
+  });
+  const overlay = document.getElementById("overlay-root") as HTMLElement;
+  const dayHeaderLabel = overlay.querySelector('[data-datepicker-tab="month-label"]') as HTMLButtonElement | null;
+  expect(dayHeaderLabel).toBeTruthy();
+  await userEvent.click(dayHeaderLabel!);
+  await waitFor(() => {
+    expect(overlay.querySelector(".rte-datepicker-month-grid")).toBeInTheDocument();
+  });
+  return overlay;
+}
+
+async function openYearGridOverlay(canvasElement: HTMLElement): Promise<HTMLElement> {
+  const overlay = await openMonthGridOverlay(canvasElement);
+  const monthHeaderLabel = overlay.querySelector('[data-datepicker-tab="month-label"]') as HTMLButtonElement | null;
+  expect(monthHeaderLabel).toBeTruthy();
+  await userEvent.click(monthHeaderLabel!);
+  await waitFor(() => {
+    expect(overlay.querySelector(".rte-datepicker-year-grid")).toBeInTheDocument();
+  });
+  return overlay;
+}
+
+export const MonthGridArrowLeftFromJanuaryGoesToPreviousYear: Story = {
+  name: "Month grid: ArrowLeft from January opens previous year (December)",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Month keyboard paging changes the header year when leaving the 12-month page. Pending selection stays on the field date (15/01/2024).",
+      },
+    },
+  },
+  render: Default.render,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const field = canvas.getByRole("group");
+    await userEvent.click(field);
+    field.focus();
+    for (const digit of "15012024") {
+      await userEvent.keyboard(digit);
+    }
+    await waitFor(
+      () => {
+        const segmented = canvasElement.querySelector(".segmented-date-field");
+        expect(normalizedSegmentedDateText(segmented)).toContain("2024");
+      },
+      { timeout: 5000 },
+    );
+
+    const overlay = await openMonthGridOverlay(canvasElement);
+    await focusActiveMonthCellForArrowNavigation(overlay);
+    await waitFor(() => {
+      const active = overlay.querySelector(
+        "rte-datepicker-menu .month-cell[data-datepicker-active='true']",
+      ) as HTMLElement | null;
+      expect(active?.textContent ?? "").toMatch(/janvier/i);
+    });
+
+    await userEvent.keyboard("{ArrowLeft}");
+
+    await waitFor(() => {
+      const yearHeader = overlay.querySelector('[data-datepicker-tab="month-label"]') as HTMLElement | null;
+      expect(yearHeader?.textContent ?? "").toContain("2023");
+      const active = overlay.querySelector(
+        "rte-datepicker-menu .month-cell[data-datepicker-active='true']",
+      ) as HTMLElement | null;
+      expect(active?.textContent ?? "").toMatch(/décembre/i);
+    });
+
+    const segmentedAfter = canvasElement.querySelector(".segmented-date-field");
+    const compactAfter = normalizedSegmentedDateText(segmentedAfter);
+    expect(compactAfter).toContain("15");
+    expect(compactAfter).toContain("01");
+    expect(compactAfter).toContain("2024");
+  },
+};
+
+export const MonthGridArrowRightFromDecemberGoesToNextYear: Story = {
+  name: "Month grid: ArrowRight from December opens next year (January)",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "ArrowRight from December crosses to January of the next year. Pending selection unchanged on the field.",
+      },
+    },
+  },
+  render: Default.render,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const field = canvas.getByRole("group");
+    await userEvent.click(field);
+    field.focus();
+    for (const digit of "15122024") {
+      await userEvent.keyboard(digit);
+    }
+    await waitFor(
+      () => {
+        const segmented = canvasElement.querySelector(".segmented-date-field");
+        expect(normalizedSegmentedDateText(segmented)).toContain("2024");
+      },
+      { timeout: 5000 },
+    );
+
+    const overlay = await openMonthGridOverlay(canvasElement);
+    await focusActiveMonthCellForArrowNavigation(overlay);
+    await waitFor(() => {
+      const active = overlay.querySelector(
+        "rte-datepicker-menu .month-cell[data-datepicker-active='true']",
+      ) as HTMLElement | null;
+      expect(active?.textContent ?? "").toMatch(/décembre/i);
+    });
+
+    await userEvent.keyboard("{ArrowRight}");
+
+    await waitFor(() => {
+      const yearHeader = overlay.querySelector('[data-datepicker-tab="month-label"]') as HTMLElement | null;
+      expect(yearHeader?.textContent ?? "").toContain("2025");
+      const active = overlay.querySelector(
+        "rte-datepicker-menu .month-cell[data-datepicker-active='true']",
+      ) as HTMLElement | null;
+      expect(active?.textContent ?? "").toMatch(/janvier/i);
+    });
+
+    const segmentedAfter = canvasElement.querySelector(".segmented-date-field");
+    const compactAfter = normalizedSegmentedDateText(segmentedAfter);
+    expect(compactAfter).toContain("15");
+    expect(compactAfter).toContain("12");
+    expect(compactAfter).toContain("2024");
+  },
+};
+
+export const MonthGridArrowUpFromJanuaryGoesToOctoberPreviousYear: Story = {
+  name: "Month grid: ArrowUp from January opens October previous year",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Vertical keyboard paging leaves the year page the same way as horizontal: January + ArrowUp targets October of the previous year (calendar −3 months).",
+      },
+    },
+  },
+  render: Default.render,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const field = canvas.getByRole("group");
+    await userEvent.click(field);
+    field.focus();
+    for (const digit of "15012024") {
+      await userEvent.keyboard(digit);
+    }
+    await waitFor(
+      () => {
+        const segmented = canvasElement.querySelector(".segmented-date-field");
+        expect(normalizedSegmentedDateText(segmented)).toContain("2024");
+      },
+      { timeout: 5000 },
+    );
+
+    const overlay = await openMonthGridOverlay(canvasElement);
+    await focusActiveMonthCellForArrowNavigation(overlay);
+    await waitFor(() => {
+      const active = overlay.querySelector(
+        "rte-datepicker-menu .month-cell[data-datepicker-active='true']",
+      ) as HTMLElement | null;
+      expect(active?.textContent ?? "").toMatch(/janvier/i);
+    });
+
+    await userEvent.keyboard("{ArrowUp}");
+
+    await waitFor(() => {
+      const yearHeader = overlay.querySelector('[data-datepicker-tab="month-label"]') as HTMLElement | null;
+      expect(yearHeader?.textContent ?? "").toContain("2023");
+      const active = overlay.querySelector(
+        "rte-datepicker-menu .month-cell[data-datepicker-active='true']",
+      ) as HTMLElement | null;
+      expect(active?.textContent ?? "").toMatch(/octobre/i);
+    });
+
+    const segmentedAfter = canvasElement.querySelector(".segmented-date-field");
+    expect(normalizedSegmentedDateText(segmentedAfter)).toContain("2024");
+  },
+};
+
+export const YearGridArrowLeftFromFirstVisibleYearPagesDecade: Story = {
+  name: "Year grid: ArrowLeft from first visible year opens previous decade window",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Year keyboard paging crosses out of the visible year list and rebuilds the grid for the decade that contains the target year. Field date stays committed.",
+      },
+    },
+  },
+  render: Default.render,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const field = canvas.getByRole("group");
+    await userEvent.click(field);
+    field.focus();
+    for (const digit of "15062024") {
+      await userEvent.keyboard(digit);
+    }
+    await waitFor(
+      () => {
+        const segmented = canvasElement.querySelector(".segmented-date-field");
+        expect(normalizedSegmentedDateText(segmented)).toContain("2024");
+      },
+      { timeout: 5000 },
+    );
+
+    const overlay = await openYearGridOverlay(canvasElement);
+    await waitFor(() => {
+      const rangeLabel = overlay.querySelector(".month-label-static") as HTMLElement | null;
+      expect(rangeLabel?.textContent ?? "").toMatch(/2020\s*[–-]\s*2030/);
+    });
+
+    const year2020Cell = Array.from(overlay.querySelectorAll("rte-datepicker-menu .year-cell")).find((button) =>
+      /^2020$/.test((button.textContent ?? "").trim()),
+    ) as HTMLButtonElement | undefined;
+    expect(year2020Cell).toBeTruthy();
+    year2020Cell!.focus();
+    await waitFor(() => {
+      expect(year2020Cell).toHaveFocus();
+    });
+
+    await userEvent.keyboard("{ArrowLeft}");
+
+    await waitFor(() => {
+      const rangeLabel = overlay.querySelector(".month-label-static") as HTMLElement | null;
+      expect(rangeLabel?.textContent ?? "").toMatch(/2010\s*[–-]\s*2020/);
+      const active = overlay.querySelector(
+        "rte-datepicker-menu .year-cell[data-datepicker-active='true']",
+      ) as HTMLElement | null;
+      expect((active?.textContent ?? "").trim()).toBe("2019");
+    });
+
+    const segmentedAfter = canvasElement.querySelector(".segmented-date-field");
+    expect(normalizedSegmentedDateText(segmentedAfter)).toContain("2024");
+  },
+};
+
+export const YearGridArrowRightFromLastVisibleYearPagesDecade: Story = {
+  name: "Year grid: ArrowRight from last visible year opens next decade window",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "ArrowRight from the last year in the grid (e.g. 2030) moves to 2031 and the header decade advances to include that year range.",
+      },
+    },
+  },
+  render: Default.render,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const field = canvas.getByRole("group");
+    await userEvent.click(field);
+    field.focus();
+    for (const digit of "15062024") {
+      await userEvent.keyboard(digit);
+    }
+    await waitFor(
+      () => {
+        const segmented = canvasElement.querySelector(".segmented-date-field");
+        expect(normalizedSegmentedDateText(segmented)).toContain("2024");
+      },
+      { timeout: 5000 },
+    );
+
+    const overlay = await openYearGridOverlay(canvasElement);
+    await waitFor(() => {
+      const rangeLabel = overlay.querySelector(".month-label-static") as HTMLElement | null;
+      expect(rangeLabel?.textContent ?? "").toMatch(/2020\s*[–-]\s*2030/);
+    });
+
+    const year2030Cell = Array.from(overlay.querySelectorAll("rte-datepicker-menu .year-cell")).find((button) =>
+      /^2030$/.test((button.textContent ?? "").trim()),
+    ) as HTMLButtonElement | undefined;
+    expect(year2030Cell).toBeTruthy();
+    year2030Cell!.focus();
+    await waitFor(() => {
+      expect(year2030Cell).toHaveFocus();
+    });
+
+    await userEvent.keyboard("{ArrowRight}");
+
+    await waitFor(() => {
+      const rangeLabel = overlay.querySelector(".month-label-static") as HTMLElement | null;
+      expect(rangeLabel?.textContent ?? "").toMatch(/2030\s*[–-]\s*2040/);
+      const active = overlay.querySelector(
+        "rte-datepicker-menu .year-cell[data-datepicker-active='true']",
+      ) as HTMLElement | null;
+      expect((active?.textContent ?? "").trim()).toBe("2031");
+    });
+
+    const segmentedAfter = canvasElement.querySelector(".segmented-date-field");
+    expect(normalizedSegmentedDateText(segmentedAfter)).toContain("2024");
   },
 };
 
