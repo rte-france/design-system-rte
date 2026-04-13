@@ -114,7 +114,7 @@ const meta: Meta<DatepickerComponent> = {
     docs: {
       description: {
         component:
-          "Single-date Datepicker with a segmented DD/MM/YYYY field (MUI-style blocks). Default story `locale` is `fr-FR` (French labels in the overlay and calendar button names in interaction tests).\n\nField: focus lands on the day block; Left/Right move between day, month, and year; digits apply to the active section even when earlier sections are empty (out-of-order editing, aligned with MUI Date Field–style sections); Backspace/Delete clear the whole active section (placeholders DD, MM, YYYY); Up/Down apply defaults (day/month → 1, year → current year; Down on day uses last day of month when month/year are known, else 31). Incomplete segments are left-padded with zeros when moving to another segment or leaving the field (day/month to two digits, year to four); segments that stay invalid after padding are cleared. While typing, partial segments are shown with the same leading-zero padding (e.g. day `1` appears as `01`, month `3` as `03`).\n\nCalendar: opening while the text is not a valid complete date resets the view to the current month and picks an initial day via the same rules as an empty field.\n\nHandoff note for React:\n- Keep the same state model: `isOpen`, `calendarType` (`day|month|year`), `viewDate`, `selectedDate`, `pendingDate`.\n- Display format is fixed to DD/MM/YYYY.\n- Keyboard behavior for the overlay grid follows W3C APG datepicker dialog guidance (arrows move, Enter/Space select) and ESC closes.",
+          "Single-date Datepicker with a segmented DD/MM/YYYY field (MUI-style blocks). Default story `locale` is `fr-FR` (French labels in the overlay and calendar button names in interaction tests).\n\nField: focus lands on the day block; Left/Right move between day, month, and year; digits apply to the active section even when earlier sections are empty (out-of-order editing, aligned with MUI Date Field–style sections); Backspace/Delete clear the whole active section (placeholders DD, MM, YYYY); Up/Down apply defaults (day/month → 1, year → current year; Down on day uses last day of month when month/year are known, else 31). Incomplete segments are left-padded with zeros when moving to another segment or leaving the field (day/month to two digits, year to four); segments that stay invalid after padding are cleared. While typing, partial segments are shown with the same leading-zero padding (e.g. day `1` appears as `01`, month `3` as `03`).\n\nCalendar: while the overlay is open (with Annuler/Confirmer), the segmented field mirrors the pending calendar selection; closing without confirming (Escape, outside click, Annuler, or clicking the field) restores the committed value. Opening while the text is not a valid complete date resets the view to the current month and picks an initial day via the same rules as an empty field.\n\nHandoff note for React:\n- Keep the same state model: `isOpen`, `calendarType` (`day|month|year`), `viewDate`, `selectedDate`, `pendingDate`.\n- Display format is fixed to DD/MM/YYYY.\n- Keyboard behavior for the overlay grid follows W3C APG datepicker dialog guidance (arrows move, Enter/Space select) and ESC closes.",
       },
     },
   },
@@ -2074,7 +2074,7 @@ export const ClickOutsideDiscardsPendingSelection: Story = {
 
     const segmentedBeforeOutside = canvasElement.querySelector(".segmented-date-field");
     const compactBeforeOutside = normalizedSegmentedDateText(segmentedBeforeOutside);
-    expect(compactBeforeOutside).toContain("15");
+    expect(compactBeforeOutside).toContain("20");
     expect(compactBeforeOutside).toContain("06");
 
     await userEvent.click(canvas.getByRole("button", { name: /^outside$/i }));
@@ -2110,11 +2110,47 @@ export const EscapeAfterGridPickRestoresCommittedSegments: Story = {
 
     const segmentedBeforeEsc = canvasElement.querySelector(".segmented-date-field");
     const compactBeforeEsc = normalizedSegmentedDateText(segmentedBeforeEsc);
-    expect(compactBeforeEsc).toContain("15");
+    expect(compactBeforeEsc).toContain("20");
     expect(compactBeforeEsc).toContain("06");
 
     day20!.focus();
     await userEvent.keyboard("{Escape}");
+
+    await waitFor(() => {
+      expect(document.getElementById("overlay-root")?.querySelector("rte-datepicker-menu")).not.toBeInTheDocument();
+    });
+
+    const segmentedAfter = canvasElement.querySelector(".segmented-date-field");
+    const compactAfter = normalizedSegmentedDateText(segmentedAfter);
+    expect(compactAfter).toContain("15");
+    expect(compactAfter).toContain("06");
+    expect(compactAfter).toContain("2024");
+  },
+};
+
+export const CancelAfterGridPickRestoresCommittedSegments: Story = {
+  name: "hasActions true: Annuler after grid pick restores committed date in field",
+  render: Default.render,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await typeJuneFifteen2024(canvasElement);
+    await userEvent.click(canvas.getByRole("button", { name: calendarTriggerAccessibleName }));
+
+    await waitFor(() => {
+      expect(document.getElementById("overlay-root")?.querySelector("rte-datepicker-menu")).toBeInTheDocument();
+    });
+
+    const overlay = document.getElementById("overlay-root") as HTMLElement;
+    const day20 = dayCellButtonJune2024(overlay, 20);
+    expect(day20).toBeTruthy();
+    await userEvent.click(day20!);
+
+    const segmentedBeforeCancel = canvasElement.querySelector(".segmented-date-field");
+    const compactBeforeCancel = normalizedSegmentedDateText(segmentedBeforeCancel);
+    expect(compactBeforeCancel).toContain("20");
+    expect(compactBeforeCancel).toContain("06");
+
+    await userEvent.click(within(overlay).getByRole("button", { name: /^annuler$/i }));
 
     await waitFor(() => {
       expect(document.getElementById("overlay-root")?.querySelector("rte-datepicker-menu")).not.toBeInTheDocument();
@@ -2147,7 +2183,7 @@ export const ClickSegmentedFieldClosesMenu: Story = {
 
     const segmentedBeforeFieldClick = canvasElement.querySelector(".segmented-date-field");
     const compactBeforeFieldClick = normalizedSegmentedDateText(segmentedBeforeFieldClick);
-    expect(compactBeforeFieldClick).toContain("15");
+    expect(compactBeforeFieldClick).toContain("20");
     expect(compactBeforeFieldClick).toContain("06");
 
     const field = canvas.getByRole("group");
