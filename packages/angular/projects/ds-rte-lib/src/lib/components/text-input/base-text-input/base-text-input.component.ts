@@ -13,7 +13,7 @@ import { LinkComponent } from "../../link/link.component";
   imports: [CommonModule, IconComponent, IconButtonComponent, LinkComponent, RteBaseInputControlDirective],
   standalone: true,
   templateUrl: "../../input/base-input/base-input.component.html",
-  styleUrl: "./base-text-input.component.scss",
+  styleUrl: "../../input/base-input/base-input.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BaseTextInputComponent extends BaseInputComponent {
@@ -60,6 +60,17 @@ export class BaseTextInputComponent extends BaseInputComponent {
     return "";
   }
 
+  protected override handleRightIconClick(): void {
+    if (this.rightIconAction() === "clean") {
+      this.internalValue.set("");
+      this.valueChange.emit("");
+      this.characterCount.set(0);
+    }
+    if (this.visibilityIcons()) {
+      this.isHiddenInput.set(!this.isHiddenInput());
+    }
+  }
+
   protected override computeShouldShowRightIcon(): boolean {
     if (this.readOnly() || this.disabled()) {
       return false;
@@ -71,16 +82,5 @@ export class BaseTextInputComponent extends BaseInputComponent {
       return !!this.internalValue()?.length;
     }
     return this.visibilityIcons();
-  }
-
-  protected override handleRightIconClick(): void {
-    if (this.rightIconAction() === "clean") {
-      this.internalValue.set("");
-      this.valueChange.emit("");
-      this.characterCount.set(0);
-    }
-    if (this.visibilityIcons()) {
-      this.isHiddenInput.set(!this.isHiddenInput());
-    }
   }
 }
