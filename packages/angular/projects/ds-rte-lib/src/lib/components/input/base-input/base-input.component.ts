@@ -68,10 +68,11 @@ export class BaseInputComponent {
   readonly displayedLeftIcon = computed(() => (this.error() ? "error" : this.leftIcon()));
   readonly displayCounter = computed(() => this.showCounter() && typeof this.maxLength() === "number");
 
+  readonly shouldShowRightIcon = computed(() => this.computeShouldShowRightIcon());
+
   readonly computedInputType = computed(() => this.computeInputType());
   readonly computedRightIconName = computed(() => this.computeRightIconName());
   readonly computedRightIconAriaLabel = computed(() => this.computeRightIconAriaLabel());
-  readonly shouldShowRightIcon = computed(() => this.computeShouldShowRightIcon());
 
   readonly projectedControl = contentChild(RteBaseInputControlDirective);
 
@@ -134,15 +135,9 @@ export class BaseInputComponent {
     return this.rightIconAriaLabel();
   }
 
-  protected computeShouldShowRightIcon(): boolean {
-    if (this.readOnly() || this.disabled()) {
-      return false;
-    }
-    if (!this.showRightIcon()) {
-      return false;
-    }
-    return !!this.computedRightIconName();
-  }
-
   protected handleRightIconClick(): void {}
+
+  protected computeShouldShowRightIcon(): boolean {
+    return this.showRightIcon();
+  }
 }
