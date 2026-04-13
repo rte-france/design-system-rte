@@ -14,6 +14,7 @@ import {
 import { waitForNextFrame } from "@design-system-rte/core/common/animation";
 import {
   addDays,
+  addMonths,
   buildDayGrid,
   buildMonthGrid,
   buildYearGrid,
@@ -24,9 +25,11 @@ import {
   DATEPICKER_YEAR_GRID_PAGE_SIZE,
   formatDate,
   getDayCellIndexForDate,
+  getDayGridArrowDelta,
   getDecadeRangeLabel,
   getDecadeStartYear,
   getMonthLabel,
+  getMonthYearGridArrowDelta,
   getNextGridCellIndex,
   getWeekdayShortLabels,
   getYearLabel,
@@ -441,7 +444,7 @@ export class DatepickerMenuComponent {
       return;
     }
 
-    const delta = key === ARROW_LEFT_KEY ? -1 : key === ARROW_RIGHT_KEY ? 1 : key === ARROW_UP_KEY ? -7 : 7;
+    const delta = getDayGridArrowDelta(key);
     const stride = Math.abs(delta) === 7 ? 7 : 1;
     const direction = delta > 0 ? 1 : -1;
 
@@ -481,6 +484,15 @@ export class DatepickerMenuComponent {
       return;
     }
 
+    const deltaMonths = getMonthYearGridArrowDelta(key);
+    const targetMonthStart = addMonths(this.activeDate(), deltaMonths);
+
+    if (targetMonthStart.getFullYear() !== this.viewDate().getFullYear()) {
+      this.dateKeyboardNavigate.emit(targetMonthStart);
+      this.queueFocusActiveMonthCell();
+      return;
+    }
+
     const columnCount = 3;
     const cellCount = cells.length;
 
@@ -516,6 +528,16 @@ export class DatepickerMenuComponent {
     const currentYear = this.activeDate().getFullYear();
     const currentIndex = cells.findIndex((cell) => cell.year === currentYear);
     if (currentIndex < 0) {
+      return;
+    }
+
+    const deltaYears = getMonthYearGridArrowDelta(key);
+    const targetYear = currentYear + deltaYears;
+
+    const visibleYears = cells.map((cell) => cell.year);
+    if (!visibleYears.includes(targetYear)) {
+      this.dateKeyboardNavigate.emit(new Date(targetYear, 0, 1));
+      this.queueFocusActiveYearCell();
       return;
     }
 

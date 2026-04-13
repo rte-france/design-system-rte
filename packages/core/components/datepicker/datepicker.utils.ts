@@ -520,6 +520,26 @@ export function getNextGridCellIndex(params: {
   return null;
 }
 
+export function getDayGridArrowDelta(key: string): number {
+  const DELTA: Record<string, number> = {
+    [ARROW_LEFT_KEY]: -1,
+    [ARROW_RIGHT_KEY]: 1,
+    [ARROW_UP_KEY]: -7,
+    [ARROW_DOWN_KEY]: 7,
+  };
+  return DELTA[key] ?? 0;
+}
+
+export function getMonthYearGridArrowDelta(key: string): number {
+  const DELTA: Record<string, number> = {
+    [ARROW_LEFT_KEY]: -1,
+    [ARROW_RIGHT_KEY]: 1,
+    [ARROW_UP_KEY]: -3,
+    [ARROW_DOWN_KEY]: 3,
+  };
+  return DELTA[key] ?? 0;
+}
+
 export function getDayOfMonthOrNull(date: Date | null): number | null {
   return date?.getDate() ?? null;
 }
@@ -640,6 +660,45 @@ export function resolveDatepickerMenuKeyboardDayNavigation(params: {
   return {
     viewDate: startOfMonth(normalized),
     menuInitialActiveDate: normalized,
+  };
+}
+
+export function resolveDatepickerMenuKeyboardMonthNavigation(params: {
+  focusTargetMonthStart: Date;
+  constraints: DatepickerDisabledConstraints;
+}): { viewDate: Date; menuInitialActiveDate: Date } | null {
+  const monthStart = startOfMonth(params.focusTargetMonthStart);
+  if (
+    !monthHasSelectableDay({
+      year: monthStart.getFullYear(),
+      monthIndex: monthStart.getMonth(),
+      ...params.constraints,
+    })
+  ) {
+    return null;
+  }
+  return {
+    viewDate: monthStart,
+    menuInitialActiveDate: monthStart,
+  };
+}
+
+export function resolveDatepickerMenuKeyboardYearNavigation(params: {
+  focusTargetYear: number;
+  constraints: DatepickerDisabledConstraints;
+}): { viewDate: Date; menuInitialActiveDate: Date } | null {
+  if (
+    !yearHasSelectableDay({
+      year: params.focusTargetYear,
+      ...params.constraints,
+    })
+  ) {
+    return null;
+  }
+  const monthStart = new Date(params.focusTargetYear, 0, 1);
+  return {
+    viewDate: monthStart,
+    menuInitialActiveDate: monthStart,
   };
 }
 
