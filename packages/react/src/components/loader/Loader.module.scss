@@ -7,13 +7,16 @@
     flex-direction: row;
     align-items: center;
     padding: $positive-spacing_050;
-    gap: $positive-spacing_100;
     animation: fade-in 150ms linear;
 
     &[data-label-position='under'] {
         flex-direction: column;
         padding: $positive-spacing_0;
-        gap: $positive-spacing_100;
+
+        .label {
+            margin-left: 0;
+            margin-top: $positive-spacing_050;
+        }
     }
 
     .svgLoader {
@@ -22,6 +25,7 @@
 
     .label {
 
+        margin-left: $positive-spacing_100;
         color: var(--content-brand-default);
         word-wrap: break-word;
 
@@ -58,10 +62,11 @@
 }
 
 @keyframes fade-in {
-    from{
-        opacity:0
+    from {
+        opacity: 0
     }
-    to{
-        opacity:1
+
+    to {
+        opacity: 1
     }
 }
