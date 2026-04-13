@@ -36,6 +36,8 @@
     [attr.aria-labelledby]="ariaLabelledby()"
     [attr.aria-required]="ariaRequired()"
     [attr.aria-describedby]="assistiveTextId()"
+    [attr.aria-description]="ariaDescriptionForSegmentedGroup()"
+    [attr.aria-activedescendant]="ariaActiveDescendantForSegmentedGroup()"
     [attr.tabindex]="disabled() ? -1 : 0"
     [attr.aria-disabled]="disabled() ? true : null"
     (keydown)="onControlKeydown($event)"
@@ -47,6 +49,8 @@
     <span
       #daySegment
       class="segment"
+      [attr.id]="segmentElementId('day')"
+      [attr.aria-hidden]="segmentAriaHidden('day') ? true : null"
       [class.segment--active]="isSegmentActive('day')"
       [class.segment--muted]="segmentedState().dayDigits.length === 0"
       (click)="selectSegment('day')"
@@ -57,6 +61,8 @@
     <span
       #monthSegment
       class="segment"
+      [attr.id]="segmentElementId('month')"
+      [attr.aria-hidden]="segmentAriaHidden('month') ? true : null"
       [class.segment--active]="isSegmentActive('month')"
       [class.segment--muted]="segmentedState().monthDigits.length === 0"
       (click)="selectSegment('month')"
@@ -67,6 +73,8 @@
     <span
       #yearSegment
       class="segment"
+      [attr.id]="segmentElementId('year')"
+      [attr.aria-hidden]="segmentAriaHidden('year') ? true : null"
       [class.segment--active]="isSegmentActive('year')"
       [class.segment--muted]="segmentedState().yearDigits.length === 0"
       (click)="selectSegment('year')"

@@ -250,10 +250,6 @@ export class DatepickerMenuComponent {
     return selected !== null && isSameDay(date, selected);
   }
 
-  isDayCellToday(date: Date): boolean {
-    return isSameDay(date, new Date());
-  }
-
   onHeaderLabelClick(): void {
     const type = this.calendarType();
     if (type === "day") {

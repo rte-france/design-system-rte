@@ -17,6 +17,7 @@ import {
   buildMaskedDdMmYyyyFromState,
   createEmptySegmentedDateFieldState,
   firstIncompleteSegmentForState,
+  getParsedDateFromState,
   getSegmentDisplayText,
   reduceSegmentedDateFieldKey,
   resetIncompleteSegmentsOnBlur,
@@ -56,6 +57,7 @@ export class DatepickerSegmentedFieldComponent {
   readonly hasAssistiveText = input<boolean>(false);
 
   readonly value = input<string>("");
+  readonly locale = input<string>("fr-FR");
   readonly rightIconAriaLabel = input<string>("");
 
   readonly valueChange = output<string>();
@@ -67,6 +69,7 @@ export class DatepickerSegmentedFieldComponent {
   readonly segmentedState = signal<SegmentedDateFieldState>(createEmptySegmentedDateFieldState());
 
   private readonly controlHasFocus = signal(false);
+  private readonly segmentA11yInteractionStarted = signal(false);
 
   readonly controlRef = viewChild<ElementRef<HTMLElement>>("controlRef");
   private readonly daySegmentRef = viewChild<ElementRef<HTMLElement>>("daySegment");
@@ -80,6 +83,42 @@ export class DatepickerSegmentedFieldComponent {
   readonly assistiveTextId = computed(() =>
     this.hasAssistiveText() && this.assistiveTextLabel() ? `assistive-${this.id() ?? "datepicker-field"}` : null,
   );
+
+  private readonly fulfilledParsedDate = computed(() => getParsedDateFromState(this.segmentedState()));
+
+  readonly isFulfilledDate = computed(() => this.fulfilledParsedDate() !== null);
+
+  readonly segmentA11yIntroFulfilled = computed(
+    () => this.controlHasFocus() && !this.disabled() && this.isFulfilledDate() && !this.segmentA11yInteractionStarted(),
+  );
+
+  readonly ariaDescriptionForSegmentedGroup = computed(() => {
+    if (!this.segmentA11yIntroFulfilled()) {
+      return null;
+    }
+    const date = this.fulfilledParsedDate();
+    if (!date) {
+      return null;
+    }
+    return new Intl.DateTimeFormat(this.locale(), { dateStyle: "long" }).format(date);
+  });
+
+  readonly ariaActiveDescendantForSegmentedGroup = computed((): string | null => {
+    const controlDoesNotHaveFocusOrIsDisabled = !this.controlHasFocus() || this.disabled();
+    const segmentA11yIntroIsFulfilled = this.segmentA11yIntroFulfilled();
+    const dateIsNotFulfilledAndA11yNotStarted = !this.isFulfilledDate() && !this.segmentA11yInteractionStarted();
+    const isReadOnly = this.readOnly();
+
+    if (
+      controlDoesNotHaveFocusOrIsDisabled ||
+      segmentA11yIntroIsFulfilled ||
+      dateIsNotFulfilledAndA11yNotStarted ||
+      isReadOnly
+    ) {
+      return null;
+    }
+    return this.segmentElementId(this.segmentedState().activeSegment);
+  });
 
   constructor() {
     effect(
@@ -133,6 +172,7 @@ export class DatepickerSegmentedFieldComponent {
 
   onControlBlur(): void {
     this.controlHasFocus.set(false);
+    this.segmentA11yInteractionStarted.set(false);
     globalThis.getSelection()?.removeAllRanges();
     const beforeMask = buildMaskedDdMmYyyyFromState(this.segmentedState());
     const afterBlur = resetIncompleteSegmentsOnBlur(this.segmentedState());
@@ -156,6 +196,7 @@ export class DatepickerSegmentedFieldComponent {
     if (next === null) {
       return;
     }
+    this.segmentA11yInteractionStarted.set(true);
     if (shouldPreventDefaultSegmentedKey(event.key)) {
       event.preventDefault();
     }
@@ -171,6 +212,7 @@ export class DatepickerSegmentedFieldComponent {
     }
     event.preventDefault();
     event.stopPropagation();
+    this.segmentA11yInteractionStarted.set(true);
     const pasted = event.clipboardData?.getData("text") ?? "";
     const digitsOnly = pasted.replace(/\D/g, "").slice(0, 8);
     const parsed = segmentedStateFromDdMmYyyyString(digitsOnly);
@@ -187,6 +229,7 @@ export class DatepickerSegmentedFieldComponent {
     if (this.readOnly() || this.disabled()) {
       return;
     }
+    this.segmentA11yInteractionStarted.set(true);
     const beforeMask = buildMaskedDdMmYyyyFromState(this.segmentedState());
     this.segmentedState.update((current) => applySegmentLeaveWhenChangingActiveSegment(current, segment));
     const afterMask = buildMaskedDdMmYyyyFromState(this.segmentedState());
@@ -199,6 +242,26 @@ export class DatepickerSegmentedFieldComponent {
 
   isSegmentActive(segment: SegmentedDateActiveSegment): boolean {
     return this.segmentedState().activeSegment === segment;
+  }
+
+  segmentElementId(segment: SegmentedDateActiveSegment): string {
+    return `${this.id() ?? "datepicker-field"}-segment-${segment}`;
+  }
+
+  segmentAriaHidden(segment: SegmentedDateActiveSegment): boolean {
+    if (!this.controlHasFocus() || this.disabled()) {
+      return false;
+    }
+    if (this.segmentA11yIntroFulfilled()) {
+      return true;
+    }
+    if (this.readOnly()) {
+      return false;
+    }
+    if (!this.isFulfilledDate() && !this.segmentA11yInteractionStarted()) {
+      return true;
+    }
+    return this.segmentedState().activeSegment !== segment;
   }
 
   onRightIconClickHandler(event: MouseEvent | KeyboardEvent): void {

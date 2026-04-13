@@ -10,10 +10,28 @@ function normalizedSegmentedDateText(root: Element | null | undefined): string {
   return (root?.textContent ?? "").replace(/[\s\u200b]/g, "");
 }
 
-function dayCellMatchingAriaLabel(overlay: HTMLElement, labelPattern: RegExp): HTMLButtonElement | null {
+function dayCellVisibleLabelText(cell: Element): string {
+  return cell.querySelector(".day-cell__label")?.textContent?.trim() ?? "";
+}
+
+type DayGridMonthRelation = "current-month" | "leading-or-trailing";
+
+function findDayGridCellButton(
+  overlay: HTMLElement,
+  dayOfMonth: number,
+  relation: DayGridMonthRelation,
+): HTMLButtonElement | null {
+  const dayString = String(dayOfMonth);
   for (const cell of Array.from(overlay.querySelectorAll(".rte-datepicker-day-grid .day-cell"))) {
-    const label = cell.getAttribute("aria-label");
-    if (label && labelPattern.test(label)) {
+    if (dayCellVisibleLabelText(cell) !== dayString) {
+      continue;
+    }
+    const cellType = cell.getAttribute("data-cell-type");
+    const isAdjacentMonth = cellType === "prev/next";
+    if (relation === "leading-or-trailing" && isAdjacentMonth) {
+      return cell as HTMLButtonElement;
+    }
+    if (relation === "current-month" && !isAdjacentMonth) {
       return cell as HTMLButtonElement;
     }
   }
@@ -21,14 +39,10 @@ function dayCellMatchingAriaLabel(overlay: HTMLElement, labelPattern: RegExp): H
 }
 
 function dayCellButtonJune2024(overlay: HTMLElement, dayOfMonth: number): HTMLButtonElement | null {
-  const pattern = new RegExp(`\\b${dayOfMonth}\\s+juin\\s+2024`, "i");
-  for (const cell of Array.from(overlay.querySelectorAll(".rte-datepicker-day-grid .day-cell"))) {
-    const label = cell.getAttribute("aria-label");
-    if (label && pattern.test(label)) {
-      return cell as HTMLButtonElement;
-    }
-  }
-  return null;
+  const header = dayGridMonthHeaderText(overlay);
+  expect(header.toLowerCase()).toMatch(/juin/i);
+  expect(header).toContain("2024");
+  return findDayGridCellButton(overlay, dayOfMonth, "current-month");
 }
 
 function dayGridMonthHeaderText(overlay: HTMLElement): string {
@@ -181,6 +195,63 @@ export const Default: Story = {
       </div>
     `,
   }),
+};
+
+export const SegmentedFieldAriaIncompleteIdleOnFocus: Story = {
+  name: "A11y: incomplete field hides segment text from SR on focus",
+  render: Default.render,
+  play: async ({ canvasElement }) => {
+    const field = within(canvasElement).getByRole("group") as HTMLElement;
+    field.focus();
+    expect(field.getAttribute("aria-description")).toBeNull();
+    expect(field.getAttribute("aria-activedescendant")).toBeNull();
+    const segments = canvasElement.querySelectorAll(".segmented-date-field .segment");
+    expect(segments.length).toBe(3);
+    for (const segment of Array.from(segments)) {
+      expect(segment.getAttribute("aria-hidden")).toBe("true");
+    }
+  },
+};
+
+export const SegmentedFieldAriaFulfilledIntroAndActivedescendant: Story = {
+  name: "A11y: fulfilled date uses description then activedescendant after navigation",
+  render: Default.render,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const field = canvas.getByRole("group") as HTMLElement;
+    field.focus();
+    for (const digit of "07092019") {
+      await userEvent.keyboard(digit);
+    }
+    await waitFor(
+      () => {
+        const segmented = canvasElement.querySelector(".segmented-date-field");
+        expect(normalizedSegmentedDateText(segmented)).toContain("2019");
+      },
+      { timeout: 5000 },
+    );
+    field.blur();
+    field.focus();
+    await waitFor(() => {
+      const description = field.getAttribute("aria-description");
+      expect(description).toBeTruthy();
+      expect(description!.toLowerCase()).toMatch(/septembre|2019/);
+    });
+    expect(field.getAttribute("aria-activedescendant")).toBeNull();
+    const segmentsBeforeArrow = canvasElement.querySelectorAll(".segmented-date-field .segment");
+    for (const segment of Array.from(segmentsBeforeArrow)) {
+      expect(segment.getAttribute("aria-hidden")).toBe("true");
+    }
+
+    // After typing, the caret is on the year segment; ArrowRight is clamped there, so move to month with ArrowLeft.
+    await userEvent.keyboard("{ArrowLeft}");
+    await waitFor(() => {
+      expect(field.getAttribute("aria-description")).toBeNull();
+      expect(field.getAttribute("aria-activedescendant")).toBe("datepicker-segment-month");
+    });
+    const monthSegment = canvasElement.querySelector("#datepicker-segment-month");
+    expect(monthSegment?.getAttribute("aria-hidden")).toBeNull();
+  },
 };
 
 export const CalendarChromeFigmaLayout: Story = {
@@ -1318,7 +1389,7 @@ export const MonthNavigationProjectsAnchorDay: Story = {
     await userEvent.click(nextMonthButton);
 
     await waitFor(() => {
-      const feb28 = dayCellMatchingAriaLabel(overlay, /\b28\b.*février.*2025/i);
+      const feb28 = findDayGridCellButton(overlay, 28, "current-month");
       expect(feb28).toBeTruthy();
       expect(feb28?.getAttribute("aria-selected")).toBe("true");
     });
@@ -1326,7 +1397,7 @@ export const MonthNavigationProjectsAnchorDay: Story = {
     await userEvent.click(nextMonthButton);
 
     await waitFor(() => {
-      const mar31 = dayCellMatchingAriaLabel(overlay, /\b31\b.*mars.*2025/i);
+      const mar31 = findDayGridCellButton(overlay, 31, "current-month");
       expect(mar31).toBeTruthy();
       expect(mar31?.getAttribute("aria-selected")).toBe("true");
     });
@@ -1373,7 +1444,7 @@ export const MonthNavigationProjectsAnchorDayLeapYear: Story = {
     await userEvent.click(nextMonthButton);
 
     await waitFor(() => {
-      const feb29 = dayCellMatchingAriaLabel(overlay, /\b29\b.*février.*2024/i);
+      const feb29 = findDayGridCellButton(overlay, 29, "current-month");
       expect(feb29).toBeTruthy();
       expect(feb29?.getAttribute("aria-selected")).toBe("true");
     });
@@ -1381,7 +1452,7 @@ export const MonthNavigationProjectsAnchorDayLeapYear: Story = {
     await userEvent.click(nextMonthButton);
 
     await waitFor(() => {
-      const mar31 = dayCellMatchingAriaLabel(overlay, /\b31\b.*mars.*2024/i);
+      const mar31 = findDayGridCellButton(overlay, 31, "current-month");
       expect(mar31).toBeTruthy();
       expect(mar31?.getAttribute("aria-selected")).toBe("true");
     });
@@ -1758,7 +1829,7 @@ export const SelectingAdjacentMonthDaySwitchesCalendarView: Story = {
     const monthHeaderBefore = overlay.querySelector('[data-datepicker-tab="month-label"]') as HTMLElement | null;
     expect(monthHeaderBefore?.textContent ?? "").toMatch(/mars/i);
 
-    const february26Cell = dayCellMatchingAriaLabel(overlay, /\b26\b.*février.*2025/i);
+    const february26Cell = findDayGridCellButton(overlay, 26, "leading-or-trailing");
     if (!february26Cell) {
       throw new globalThis.Error("Expected February 26 2025 to appear in the March 2025 grid.");
     }
@@ -1771,7 +1842,7 @@ export const SelectingAdjacentMonthDaySwitchesCalendarView: Story = {
     });
 
     await waitFor(() => {
-      const selectedFeb26 = dayCellMatchingAriaLabel(overlay, /\b26\b.*février.*2025/i);
+      const selectedFeb26 = findDayGridCellButton(overlay, 26, "current-month");
       expect(selectedFeb26?.getAttribute("aria-selected")).toBe("true");
     });
   },
@@ -1816,13 +1887,13 @@ export const DayGridArrowLeftAtFirstCellGoesToPreviousMonth: Story = {
       (overlay.querySelector('[data-datepicker-tab="month-label"]') as HTMLElement | null)?.textContent ?? "",
     ).toMatch(/septembre/i);
 
-    const september7Cell = dayCellMatchingAriaLabel(overlay, /\b7\s+septembre.*2019/i);
+    const september7Cell = findDayGridCellButton(overlay, 7, "current-month");
     if (!september7Cell) {
       throw new globalThis.Error("Expected 7 September 2019 in the grid.");
     }
     expect(september7Cell.getAttribute("aria-selected")).toBe("true");
 
-    const august26Cell = dayCellMatchingAriaLabel(overlay, /\b26\b.*août.*2019/i);
+    const august26Cell = findDayGridCellButton(overlay, 26, "leading-or-trailing");
     if (!august26Cell) {
       throw new globalThis.Error("Expected August 26 2019 in the September 2019 grid.");
     }
@@ -1836,7 +1907,7 @@ export const DayGridArrowLeftAtFirstCellGoesToPreviousMonth: Story = {
     });
 
     await waitFor(() => {
-      const activeAugust25 = dayCellMatchingAriaLabel(overlay, /\b25\b.*août.*2019/i);
+      const activeAugust25 = findDayGridCellButton(overlay, 25, "current-month");
       expect(activeAugust25?.getAttribute("data-datepicker-active")).toBe("true");
     });
 
@@ -1883,7 +1954,7 @@ export const DayGridArrowRightAtLastCellGoesToNextMonth: Story = {
     });
 
     const overlay = document.getElementById("overlay-root") as HTMLElement;
-    const september7BeforeRight = dayCellMatchingAriaLabel(overlay, /\b7\s+septembre.*2019/i);
+    const september7BeforeRight = findDayGridCellButton(overlay, 7, "current-month");
     if (!september7BeforeRight) {
       throw new globalThis.Error("Expected 7 September 2019 in the grid.");
     }
@@ -1910,7 +1981,7 @@ export const DayGridArrowRightAtLastCellGoesToNextMonth: Story = {
         '.rte-datepicker-day-grid .day-cell[data-datepicker-active="true"]',
       ) as HTMLButtonElement | null;
       expect(activeAfterRight?.textContent?.trim()).toBe("7");
-      expect(activeAfterRight?.getAttribute("aria-label") ?? "").toMatch(/octobre.*2019/i);
+      expect(activeAfterRight?.hasAttribute("aria-label")).toBe(false);
     });
 
     const segmentedAfterRight = canvasElement.querySelector(".segmented-date-field");
@@ -1967,7 +2038,7 @@ export const KeyboardGridMonthPageDoesNotChangePendingSelection: Story = {
       expect(monthHeaderAfterChevron?.textContent ?? "").toMatch(/octobre/i);
     });
 
-    const sept7AfterChevron = dayCellMatchingAriaLabel(overlay, /\b7\s+septembre.*2019/i);
+    const sept7AfterChevron = findDayGridCellButton(overlay, 7, "leading-or-trailing");
     expect(sept7AfterChevron?.getAttribute("aria-selected")).not.toBe("true");
 
     await userEvent.keyboard("{Escape}");
@@ -1982,10 +2053,10 @@ export const KeyboardGridMonthPageDoesNotChangePendingSelection: Story = {
     });
 
     const overlayAgain = document.getElementById("overlay-root") as HTMLElement;
-    const sept7Open = dayCellMatchingAriaLabel(overlayAgain, /\b7\s+septembre.*2019/i);
+    const sept7Open = findDayGridCellButton(overlayAgain, 7, "current-month");
     expect(sept7Open?.getAttribute("aria-selected")).toBe("true");
 
-    const august26Cell = dayCellMatchingAriaLabel(overlayAgain, /\b26\b.*août.*2019/i);
+    const august26Cell = findDayGridCellButton(overlayAgain, 26, "leading-or-trailing");
     if (!august26Cell) {
       throw new globalThis.Error("Expected August 26 2019 in the September 2019 grid.");
     }
