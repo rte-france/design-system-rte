@@ -1,8 +1,17 @@
+import { formatDate } from "@design-system-rte/core/components/datepicker";
 import type { Meta, StoryObj } from "@storybook/angular";
 import { expect, userEvent, waitFor, within } from "@storybook/test";
 
 import { focusElementBeforeComponent } from "../../../../../../../.storybook/testing/testing.utils";
 import { DatepickerComponent } from "../datepicker.component";
+
+function logDatepickerValueChangeDEBUG(source: string, value: Date | null): void {
+  console.log(`DEBUG datepicker valueChange [${source}]`, {
+    value,
+    iso: value?.toISOString() ?? null,
+    ddMmYyyy: value ? formatDate(value) : null,
+  });
+}
 
 const calendarTriggerAccessibleName = /ouvrir le calendrier|changer la date/i;
 
@@ -195,6 +204,125 @@ export const Default: Story = {
       </div>
     `,
   }),
+};
+
+export const DebugLogValueFromSegmentedField: Story = {
+  name: "DEBUG: console.log valueChange when completing date in segmented field",
+  tags: ["skip-ci"],
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Open the browser console. Each `valueChange` from the datepicker is logged (mask updates on every digit; the last log with a non-null `value` is the fulfilled valid date). The play function types `15/06/2024`.",
+      },
+    },
+  },
+  render: (args) => ({
+    props: {
+      ...args,
+      debugLogValue: (value: Date | null) => {
+        logDatepickerValueChangeDEBUG("segmented field", value);
+        args.valueChange?.(value);
+      },
+    },
+    template: `
+      <div style="width: 500px">
+        <rte-datepicker
+          [id]="id"
+          [hasLabel]="hasLabel"
+          [labelText]="labelText"
+          [labelPosition]="labelPosition"
+          [interactionState]="interactionState"
+          [isRequiredOptional]="isRequiredOptional"
+          [required]="required"
+          [showLabelRequirement]="showLabelRequirement"
+          [hasAssistiveText]="hasAssistiveText"
+          [assistiveTextLabel]="assistiveTextLabel"
+          [assistiveTextAppearance]="assistiveTextAppearance"
+          [showAssistiveIcon]="showAssistiveIcon"
+          [minDate]="minDate"
+          [maxDate]="maxDate"
+          [locale]="locale"
+          [disabledDates]="disabledDates"
+          [hasActions]="hasActions"
+          (valueChange)="debugLogValue($event)"
+          (openedChange)="openedChange($event)"
+        />
+      </div>
+    `,
+  }),
+  play: async ({ canvasElement }) => {
+    await typeJuneFifteen2024(canvasElement);
+  },
+};
+
+export const DebugLogValueFromMenuConfirm: Story = {
+  name: "DEBUG: console.log valueChange when confirming date in calendar menu",
+  tags: ["skip-ci"],
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Open the browser console. After you pick a day and click **Confirmer**, `valueChange` is logged with the committed `Date`. The play function mirrors **Open + select + confirm**.",
+      },
+    },
+  },
+  render: (args) => ({
+    props: {
+      ...args,
+      debugLogValue: (value: Date | null) => {
+        logDatepickerValueChangeDEBUG("menu confirm", value);
+        args.valueChange?.(value);
+      },
+    },
+    template: `
+      <div style="width: 500px">
+        <rte-datepicker
+          [id]="id"
+          [hasLabel]="hasLabel"
+          [labelText]="labelText"
+          [labelPosition]="labelPosition"
+          [interactionState]="interactionState"
+          [isRequiredOptional]="isRequiredOptional"
+          [required]="required"
+          [showLabelRequirement]="showLabelRequirement"
+          [hasAssistiveText]="hasAssistiveText"
+          [assistiveTextLabel]="assistiveTextLabel"
+          [assistiveTextAppearance]="assistiveTextAppearance"
+          [showAssistiveIcon]="showAssistiveIcon"
+          [minDate]="minDate"
+          [maxDate]="maxDate"
+          [locale]="locale"
+          [disabledDates]="disabledDates"
+          [hasActions]="hasActions"
+          (valueChange)="debugLogValue($event)"
+          (openedChange)="openedChange($event)"
+        />
+      </div>
+    `,
+  }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const calendarButton = canvas.getByRole("button", { name: calendarTriggerAccessibleName });
+    await userEvent.click(calendarButton);
+
+    await waitFor(() => {
+      const overlay = document.getElementById("overlay-root");
+      expect(overlay?.querySelector("rte-datepicker-menu")).toBeInTheDocument();
+    });
+
+    const overlay = document.getElementById("overlay-root") as HTMLElement;
+    const dayButtons = overlay.querySelectorAll("rte-datepicker-menu .day-cell");
+    expect(dayButtons.length).toBeGreaterThan(0);
+
+    await userEvent.click(dayButtons[10] as HTMLElement);
+    const confirmButton = within(overlay).getByRole("button", { name: /confirmer/i });
+    await userEvent.click(confirmButton);
+
+    await waitFor(() => {
+      expect(overlay.querySelector("rte-datepicker-menu")).not.toBeInTheDocument();
+    });
+  },
 };
 
 export const SegmentedFieldAriaIncompleteIdleOnFocus: Story = {
