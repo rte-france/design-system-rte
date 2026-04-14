@@ -142,10 +142,6 @@ const meta: Meta<DatepickerComponent> = {
     },
   },
   argTypes: {
-    interactionState: {
-      control: "select",
-      options: ["enabled", "hover", "activeInput", "activeMenu", "error", "disabled", "readOnly"],
-    },
     labelPosition: { control: "select", options: ["top", "side"] },
     valueChange: { action: "value changed" },
     openedChange: { action: "opened changed" },
@@ -155,7 +151,9 @@ const meta: Meta<DatepickerComponent> = {
     hasLabel: true,
     labelText: "Label",
     labelPosition: "top",
-    interactionState: "enabled",
+    disabled: false,
+    readOnly: false,
+    error: false,
     isRequiredOptional: false,
     required: false,
     showLabelRequirement: false,
@@ -178,7 +176,9 @@ const datepickerStoryInnerTemplate = `
           [hasLabel]="hasLabel"
           [labelText]="labelText"
           [labelPosition]="labelPosition"
-          [interactionState]="interactionState"
+          [disabled]="disabled"
+          [readOnly]="readOnly"
+          [error]="error"
           [isRequiredOptional]="isRequiredOptional"
           [required]="required"
           [showLabelRequirement]="showLabelRequirement"
@@ -232,7 +232,9 @@ export const DebugLogValueFromSegmentedField: Story = {
           [hasLabel]="hasLabel"
           [labelText]="labelText"
           [labelPosition]="labelPosition"
-          [interactionState]="interactionState"
+          [disabled]="disabled"
+          [readOnly]="readOnly"
+          [error]="error"
           [isRequiredOptional]="isRequiredOptional"
           [required]="required"
           [showLabelRequirement]="showLabelRequirement"
@@ -282,7 +284,9 @@ export const DebugLogValueFromMenuConfirm: Story = {
           [hasLabel]="hasLabel"
           [labelText]="labelText"
           [labelPosition]="labelPosition"
-          [interactionState]="interactionState"
+          [disabled]="disabled"
+          [readOnly]="readOnly"
+          [error]="error"
           [isRequiredOptional]="isRequiredOptional"
           [required]="required"
           [showLabelRequirement]="showLabelRequirement"
@@ -434,7 +438,7 @@ export const LayoutFullWidthInWideParent: Story = {
 export const Error: Story = {
   args: {
     ...Default.args,
-    interactionState: "error",
+    error: true,
     hasAssistiveText: true,
     assistiveTextLabel: "Error message",
     assistiveTextAppearance: "error",
@@ -446,7 +450,7 @@ export const Error: Story = {
 export const Disabled: Story = {
   args: {
     ...Default.args,
-    interactionState: "disabled",
+    disabled: true,
   },
   render: Default.render,
   play: async ({ canvasElement }) => {
