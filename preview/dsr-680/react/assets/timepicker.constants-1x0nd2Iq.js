@@ -1,0 +1,1 @@
+var S=(E=>(E.HOURS="hh",E.MINUTES="mm",E.SECONDS="ss",E))(S||{});const M=[S.HOURS,S.MINUTES,S.SECONDS],N={[S.HOURS]:23,[S.MINUTES]:59,[S.SECONDS]:59},T={[S.HOURS]:2,[S.MINUTES]:5,[S.SECONDS]:5};export{S as T,M as a,T as b,N as c};
