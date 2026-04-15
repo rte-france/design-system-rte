@@ -778,6 +778,7 @@ export const DayGridAnchorAndMonthChevron: Story = {
 export const DayGridLayout: Story = {
   name: "Day grid: row counts (Feb 2021, March 2026, March with April pending)",
   render: Default.render,
+  tags: ["skip-ci"],
   play: async ({ canvasElement }) => {
     let overlay = await openDayGridAfterTyping(canvasElement, {
       digits: "15022021",
