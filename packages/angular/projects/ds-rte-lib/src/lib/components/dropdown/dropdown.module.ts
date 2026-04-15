@@ -17,6 +17,7 @@ import { DropdownDirective } from "./dropdown.directive";
     DropdownMenuBodyDirective,
     DropdownMenuHeaderDirective,
     DropdownMenuFooterDirective,
+    DropdownMenuBodyDirective,
   ],
   exports: [
     DropdownDirective,
@@ -26,6 +27,7 @@ import { DropdownDirective } from "./dropdown.directive";
     DropdownMenuBodyDirective,
     DropdownMenuHeaderDirective,
     DropdownMenuFooterDirective,
+    DropdownMenuBodyDirective,
   ],
 })
 export class DropdownModule {}

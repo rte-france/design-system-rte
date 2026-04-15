@@ -1,4 +1,4 @@
-import { TimeSegmentEnum } from "@design-system-rte/core/components/timepicker/timepicker.interface.d";
+import { TimeSegmentEnum } from "@design-system-rte/core/components/timepicker/timepicker.interface";
 import { getNextSegment, getPrevSegment } from "@design-system-rte/core/components/timepicker/timepicker.utils";
 import { useCallback, useState } from "react";
 
