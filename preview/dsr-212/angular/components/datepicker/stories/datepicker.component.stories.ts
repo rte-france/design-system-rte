@@ -13,6 +13,7 @@ import {
   dayGridMonthHeaderText,
   ensureDatepickerMenuClosed,
   findDayGridCellButton,
+  getStoryOverlayRoot,
   normalizedSegmentedDateText,
   openDayGridAfterTyping,
   openDayPickerOverlay,
@@ -132,7 +133,7 @@ const calendarConstraintsTemplate = `
             [id]="'constraint-min'"
             ${datepickerStoryFieldBindings}
             [minDate]="constraintStoryMinJune152024"
-            [hasActions]="hasActions"
+          [hasActions]="hasActions"
           />
         </section>
         <section data-constraint-root="max">
@@ -166,7 +167,7 @@ const pendingVersusCommittedTemplate = `
       <div style="width: 500px; display: flex; flex-direction: column; gap: 24px">
         <div data-pending-root="immediate">
           ${rteDatepickerWithPickerId("pending-immediate", `[hasActions]="false"`)}
-        </div>
+      </div>
         <div data-pending-root="restore">
           ${rteDatepickerWithPickerId("pending-restore")}
           <button type="button">Outside</button>
@@ -395,7 +396,7 @@ export const CalendarConstraints: Story = {
     expect(day10).toBeDisabled();
     expect(day15).toBeTruthy();
     expect(day15).not.toBeDisabled();
-    await ensureDatepickerMenuClosed();
+    await ensureDatepickerMenuClosed(canvasElement);
 
     const phaseMax = constraintHost("max");
     const overlayMax = await typeJuneFifteenAndOpenDayGridOverlay(phaseMax);
@@ -405,7 +406,7 @@ export const CalendarConstraints: Story = {
     expect(day25).not.toBeDisabled();
     expect(day30).toBeTruthy();
     expect(day30).toBeDisabled();
-    await ensureDatepickerMenuClosed();
+    await ensureDatepickerMenuClosed(canvasElement);
 
     const phaseRange = constraintHost("range");
     const overlayRange = await typeJuneFifteenAndOpenDayGridOverlay(phaseRange);
@@ -418,7 +419,7 @@ export const CalendarConstraints: Story = {
     expect(day20Range).not.toBeDisabled();
     expect(day30Range).toBeTruthy();
     expect(day30Range).toBeDisabled();
-    await ensureDatepickerMenuClosed();
+    await ensureDatepickerMenuClosed(canvasElement);
 
     const phaseDisabled = constraintHost("disabled");
     const overlayDisabled = await typeJuneFifteenAndOpenDayGridOverlay(phaseDisabled);
@@ -446,10 +447,10 @@ export const SmokeOpenMenuFlows: Story = {
 
     await userEvent.click(calendarButton);
     await waitFor(() => {
-      const overlay = document.getElementById("overlay-root");
+      const overlay = getStoryOverlayRoot(canvasElement);
       expect(overlay?.querySelector("rte-datepicker-menu")).toBeInTheDocument();
     });
-    let overlay = document.getElementById("overlay-root") as HTMLElement;
+    let overlay = getStoryOverlayRoot(canvasElement) as HTMLElement;
     const dayButtons = overlay.querySelectorAll("rte-datepicker-menu .day-cell");
     expect(dayButtons.length).toBeGreaterThan(0);
     await userEvent.click(dayButtons[10] as HTMLElement);
@@ -460,9 +461,9 @@ export const SmokeOpenMenuFlows: Story = {
 
     await userEvent.click(calendarButton);
     await waitFor(() => {
-      expect(document.getElementById("overlay-root")?.querySelector("rte-datepicker-menu")).toBeInTheDocument();
+      expect(getStoryOverlayRoot(canvasElement)?.querySelector("rte-datepicker-menu")).toBeInTheDocument();
     });
-    overlay = document.getElementById("overlay-root") as HTMLElement;
+    overlay = getStoryOverlayRoot(canvasElement) as HTMLElement;
     await waitFor(() => {
       const activeDayButton = overlay.querySelector(
         'rte-datepicker-menu .day-cell[data-datepicker-active="true"]',
@@ -489,9 +490,9 @@ export const OverlayChromeAndTabOrder: Story = {
 
     await userEvent.click(calendarButton);
     await waitFor(() => {
-      expect(document.getElementById("overlay-root")?.querySelector("rte-datepicker-menu")).toBeInTheDocument();
+      expect(getStoryOverlayRoot(canvasElement)?.querySelector("rte-datepicker-menu")).toBeInTheDocument();
     });
-    let overlay = document.getElementById("overlay-root") as HTMLElement;
+    let overlay = getStoryOverlayRoot(canvasElement) as HTMLElement;
     await waitFor(() => {
       const activeDayButton = overlay.querySelector(
         'rte-datepicker-menu .day-cell[data-datepicker-active="true"]',
@@ -511,13 +512,13 @@ export const OverlayChromeAndTabOrder: Story = {
     await waitFor(() => {
       expect(within(overlay).getByRole("button", { name: /année précédente/i })).toHaveFocus();
     });
-    await ensureDatepickerMenuClosed();
+    await ensureDatepickerMenuClosed(canvasElement);
 
     await userEvent.click(calendarButton);
     await waitFor(() => {
-      expect(document.getElementById("overlay-root")?.querySelector("rte-datepicker-menu")).toBeInTheDocument();
+      expect(getStoryOverlayRoot(canvasElement)?.querySelector("rte-datepicker-menu")).toBeInTheDocument();
     });
-    overlay = document.getElementById("overlay-root") as HTMLElement;
+    overlay = getStoryOverlayRoot(canvasElement) as HTMLElement;
     const menuOverlay = within(overlay);
     expect(menuOverlay.getByRole("button", { name: /année précédente/i })).toBeInTheDocument();
     expect(menuOverlay.getByRole("button", { name: /mois précédent/i })).toBeInTheDocument();
@@ -548,13 +549,13 @@ export const OverlayChromeAndTabOrder: Story = {
     expect(overlay.querySelector(".month-label-static")).toBeInTheDocument();
     expect(overlay.querySelector('[data-datepicker-tab="month-label"]')).not.toBeInTheDocument();
     expect(overlay.querySelectorAll("rte-datepicker-menu .year-cell").length).toBe(11);
-    await ensureDatepickerMenuClosed();
+    await ensureDatepickerMenuClosed(canvasElement);
 
     await userEvent.click(calendarButton);
     await waitFor(() => {
-      expect(document.getElementById("overlay-root")?.querySelector("rte-datepicker-menu")).toBeInTheDocument();
+      expect(getStoryOverlayRoot(canvasElement)?.querySelector("rte-datepicker-menu")).toBeInTheDocument();
     });
-    overlay = document.getElementById("overlay-root") as HTMLElement;
+    overlay = getStoryOverlayRoot(canvasElement) as HTMLElement;
     await waitFor(() => {
       const active = overlay.querySelector(
         'rte-datepicker-menu .day-cell[data-datepicker-active="true"]',
@@ -581,13 +582,13 @@ export const OverlayChromeAndTabOrder: Story = {
       expect(nextActive).toHaveFocus();
       expect(nextActive).not.toBe(activeDayButton);
     });
-    await ensureDatepickerMenuClosed();
+    await ensureDatepickerMenuClosed(canvasElement);
 
     await userEvent.click(calendarButton);
     await waitFor(() => {
-      expect(document.getElementById("overlay-root")?.querySelector("rte-datepicker-menu")).toBeInTheDocument();
+      expect(getStoryOverlayRoot(canvasElement)?.querySelector("rte-datepicker-menu")).toBeInTheDocument();
     });
-    overlay = document.getElementById("overlay-root") as HTMLElement;
+    overlay = getStoryOverlayRoot(canvasElement) as HTMLElement;
     const monthHeaderButton = overlay.querySelector('[data-datepicker-tab="month-label"]') as HTMLButtonElement | null;
     expect(monthHeaderButton).toBeTruthy();
     await userEvent.click(monthHeaderButton!);
@@ -633,9 +634,9 @@ export const OpenCalendarAndHeaderSync: Story = {
     await userEvent.keyboard("12");
     await userEvent.click(partialCanvas.getByRole("button", { name: calendarTriggerAccessibleName }));
     await waitFor(() => {
-      expect(document.getElementById("overlay-root")?.querySelector("rte-datepicker-menu")).toBeInTheDocument();
+      expect(getStoryOverlayRoot(canvasElement)?.querySelector("rte-datepicker-menu")).toBeInTheDocument();
     });
-    await ensureDatepickerMenuClosed();
+    await ensureDatepickerMenuClosed(canvasElement);
 
     await typeSegmentedDdMmYyyyDigits(fullRoot, "13021992", ["13", "02", "1992"]);
     const overlay = await openDayPickerOverlay(fullRoot);
@@ -665,7 +666,7 @@ export const MonthGridKeyboardNavigation: Story = {
       expectActiveMonthAfter: /décembre/i,
       segmentedFinalContains: ["15", "01", "2024"],
     });
-    await ensureDatepickerMenuClosed();
+    await ensureDatepickerMenuClosed(canvasElement);
     await playMonthGridKeyboardScenario(canvasElement, {
       typedDigits: "15122024",
       segmentedWaitContains: ["2024"],
@@ -675,7 +676,7 @@ export const MonthGridKeyboardNavigation: Story = {
       expectActiveMonthAfter: /janvier/i,
       segmentedFinalContains: ["15", "12", "2024"],
     });
-    await ensureDatepickerMenuClosed();
+    await ensureDatepickerMenuClosed(canvasElement);
     await playMonthGridKeyboardScenario(canvasElement, {
       typedDigits: "15012024",
       segmentedWaitContains: ["2024"],
@@ -701,7 +702,7 @@ export const YearGridKeyboardNavigation: Story = {
       expectDecadeAfterPattern: /2010\s*[–-]\s*2020/,
       expectActiveYearTrimmed: "2019",
     });
-    await ensureDatepickerMenuClosed();
+    await ensureDatepickerMenuClosed(canvasElement);
     await playYearGridKeyboardScenario(canvasElement, {
       typedDigits: "15062024",
       segmentedWaitContains: ["2024"],
@@ -735,7 +736,7 @@ export const DayGridAnchorAndMonthChevron: Story = {
       expect(mar31).toBeTruthy();
       expect(mar31?.getAttribute("aria-selected")).toBe("true");
     });
-    await ensureDatepickerMenuClosed();
+    await ensureDatepickerMenuClosed(canvasElement);
 
     overlay = await openDayGridAfterTyping(canvasElement, {
       digits: "31012024",
@@ -754,7 +755,7 @@ export const DayGridAnchorAndMonthChevron: Story = {
       expect(mar31Leap).toBeTruthy();
       expect(mar31Leap?.getAttribute("aria-selected")).toBe("true");
     });
-    await ensureDatepickerMenuClosed();
+    await ensureDatepickerMenuClosed(canvasElement);
 
     overlay = await openDayGridAfterTyping(canvasElement, {
       digits: "01022021",
@@ -785,7 +786,7 @@ export const DayGridLayout: Story = {
       },
     });
     expect(overlay.querySelectorAll(".rte-datepicker-day-grid .day-cell").length).toBe(28);
-    await ensureDatepickerMenuClosed();
+    await ensureDatepickerMenuClosed(canvasElement);
 
     overlay = await openDayGridAfterTyping(canvasElement, {
       digits: "15032026",
@@ -797,7 +798,7 @@ export const DayGridLayout: Story = {
       },
     });
     expect(overlay.querySelectorAll(".rte-datepicker-day-grid .day-cell").length).toBe(42);
-    await ensureDatepickerMenuClosed();
+    await ensureDatepickerMenuClosed(canvasElement);
 
     overlay = await openDayGridAfterTyping(canvasElement, {
       digits: "10042026",
@@ -840,7 +841,7 @@ export const DayGridKeyboardAndBoundaries: Story = {
       expect(dayGridMonthHeaderText(overlay)).toMatch(/juin/i);
       expect(activeDayCellLabelText(overlay)).toBe("2");
     });
-    await ensureDatepickerMenuClosed();
+    await ensureDatepickerMenuClosed(canvasElement);
 
     overlay = await openDayGridAfterTyping(canvasElement, {
       digits: "01032025",
@@ -862,7 +863,7 @@ export const DayGridKeyboardAndBoundaries: Story = {
       const selectedFeb26 = findDayGridCellButton(overlay, 26, "current-month");
       expect(selectedFeb26?.getAttribute("aria-selected")).toBe("true");
     });
-    await ensureDatepickerMenuClosed();
+    await ensureDatepickerMenuClosed(canvasElement);
 
     overlay = await openDayGridAfterTyping(canvasElement, {
       digits: "07092019",
@@ -898,7 +899,7 @@ export const DayGridKeyboardAndBoundaries: Story = {
     expect(compactField).toContain("07");
     expect(compactField).toContain("09");
     expect(compactField).toContain("2019");
-    await ensureDatepickerMenuClosed();
+    await ensureDatepickerMenuClosed(canvasElement);
 
     overlay = await openDayGridAfterTyping(canvasElement, {
       digits: "07092019",
@@ -940,7 +941,7 @@ export const DayGridKeyboardAndBoundaries: Story = {
     expect(compactField).toContain("07");
     expect(compactField).toContain("09");
     expect(compactField).toContain("2019");
-    await ensureDatepickerMenuClosed();
+    await ensureDatepickerMenuClosed(canvasElement);
 
     overlay = await openDayGridAfterTyping(canvasElement, {
       digits: "07092019",
@@ -958,13 +959,13 @@ export const DayGridKeyboardAndBoundaries: Story = {
     expect(sept7AfterChevron?.getAttribute("aria-selected")).not.toBe("true");
     await userEvent.keyboard("{Escape}");
     await waitFor(() => {
-      expect(document.getElementById("overlay-root")?.querySelector("rte-datepicker-menu")).not.toBeInTheDocument();
+      expect(getStoryOverlayRoot(canvasElement)?.querySelector("rte-datepicker-menu")).not.toBeInTheDocument();
     });
     await userEvent.click(canvas.getByRole("button", { name: calendarTriggerAccessibleName }));
     await waitFor(() => {
-      expect(document.getElementById("overlay-root")?.querySelector("rte-datepicker-menu")).toBeInTheDocument();
+      expect(getStoryOverlayRoot(canvasElement)?.querySelector("rte-datepicker-menu")).toBeInTheDocument();
     });
-    const overlayAgain = document.getElementById("overlay-root") as HTMLElement;
+    const overlayAgain = getStoryOverlayRoot(canvasElement) as HTMLElement;
     const sept7Open = findDayGridCellButton(overlayAgain, 7, "current-month");
     expect(sept7Open?.getAttribute("aria-selected")).toBe("true");
     const august26Again = findDayGridCellButton(overlayAgain, 26, "leading-or-trailing");
@@ -982,7 +983,7 @@ export const DayGridKeyboardAndBoundaries: Story = {
     expect(compactField).toContain("07");
     expect(compactField).toContain("09");
     expect(compactField).toContain("2019");
-    await ensureDatepickerMenuClosed();
+    await ensureDatepickerMenuClosed(canvasElement);
   },
 };
 
@@ -1021,7 +1022,7 @@ export const PendingVersusCommitted: Story = {
     expect(normalizedSegmentedDateText(segmentedBefore)).toContain("20");
     await userEvent.click(restoreCanvas.getByRole("button", { name: /^outside$/i }));
     await waitFor(() => {
-      expect(document.getElementById("overlay-root")?.querySelector("rte-datepicker-menu")).not.toBeInTheDocument();
+      expect(getStoryOverlayRoot(canvasElement)?.querySelector("rte-datepicker-menu")).not.toBeInTheDocument();
     });
     let segmentedAfter = restoreRoot.querySelector(".segmented-date-field");
     let compactAfter = normalizedSegmentedDateText(segmentedAfter);
@@ -1038,7 +1039,7 @@ export const PendingVersusCommitted: Story = {
     day20!.focus();
     await userEvent.keyboard("{Escape}");
     await waitFor(() => {
-      expect(document.getElementById("overlay-root")?.querySelector("rte-datepicker-menu")).not.toBeInTheDocument();
+      expect(getStoryOverlayRoot(canvasElement)?.querySelector("rte-datepicker-menu")).not.toBeInTheDocument();
     });
     segmentedAfter = restoreRoot.querySelector(".segmented-date-field");
     compactAfter = normalizedSegmentedDateText(segmentedAfter);
@@ -1052,7 +1053,7 @@ export const PendingVersusCommitted: Story = {
     await userEvent.click(day20!);
     await userEvent.click(within(overlay).getByRole("button", { name: /^annuler$/i }));
     await waitFor(() => {
-      expect(document.getElementById("overlay-root")?.querySelector("rte-datepicker-menu")).not.toBeInTheDocument();
+      expect(getStoryOverlayRoot(canvasElement)?.querySelector("rte-datepicker-menu")).not.toBeInTheDocument();
     });
     segmentedAfter = restoreRoot.querySelector(".segmented-date-field");
     compactAfter = normalizedSegmentedDateText(segmentedAfter);
@@ -1068,7 +1069,7 @@ export const PendingVersusCommitted: Story = {
     expect(normalizedSegmentedDateText(segmentedBefore)).toContain("20");
     await userEvent.click(restoreCanvas.getByRole("group"));
     await waitFor(() => {
-      expect(document.getElementById("overlay-root")?.querySelector("rte-datepicker-menu")).not.toBeInTheDocument();
+      expect(getStoryOverlayRoot(canvasElement)?.querySelector("rte-datepicker-menu")).not.toBeInTheDocument();
     });
     segmentedAfter = restoreRoot.querySelector(".segmented-date-field");
     compactAfter = normalizedSegmentedDateText(segmentedAfter);

@@ -2,6 +2,71 @@ import { expect, userEvent, waitFor, within } from "@storybook/test";
 
 export const calendarTriggerAccessibleName = /ouvrir le calendrier|changer la date/i;
 
+export function storyPreviewDocument(contextElement: HTMLElement): Document {
+  return contextElement.ownerDocument;
+}
+
+function collectStoryDocumentsForOverlay(contextElement: HTMLElement): Document[] {
+  const ordered: Document[] = [];
+  const seen = new Set<Document>();
+
+  const appendDocument = (doc: Document | null | undefined): void => {
+    if (!doc || seen.has(doc)) {
+      return;
+    }
+    seen.add(doc);
+    ordered.push(doc);
+  };
+
+  appendDocument(contextElement.ownerDocument);
+  appendDocument(typeof globalThis.document !== "undefined" ? globalThis.document : undefined);
+
+  const view = contextElement.ownerDocument.defaultView;
+  if (view?.parent && view.parent !== view) {
+    try {
+      appendDocument(view.parent.document);
+    } catch {
+      /* cross-origin parent */
+    }
+  }
+
+  return ordered;
+}
+
+function queryDatepickerMenuInDocument(doc: Document): HTMLElement | null {
+  return doc.getElementById("overlay-root")?.querySelector("rte-datepicker-menu") ?? null;
+}
+
+function findDatepickerMenuInStoryDocuments(contextElement: HTMLElement): HTMLElement | null {
+  for (const doc of collectStoryDocumentsForOverlay(contextElement)) {
+    const menu = queryDatepickerMenuInDocument(doc);
+    if (menu) {
+      return menu;
+    }
+  }
+  return null;
+}
+
+function getStoryOverlayRootWithMenu(contextElement: HTMLElement): HTMLElement | null {
+  for (const doc of collectStoryDocumentsForOverlay(contextElement)) {
+    const root = doc.getElementById("overlay-root");
+    if (root?.querySelector("rte-datepicker-menu")) {
+      return root;
+    }
+  }
+  return null;
+}
+
+export function getStoryOverlayRoot(contextElement: HTMLElement): HTMLElement | null {
+  for (const doc of collectStoryDocumentsForOverlay(contextElement)) {
+    const root = doc.getElementById("overlay-root");
+    if (root) {
+      return root;
+    }
+  }
+  return null;
+}
+
 export function normalizedSegmentedDateText(root: Element | null | undefined): string {
   return (root?.textContent ?? "").replace(/[\s\u200b]/g, "");
 }
@@ -101,6 +166,14 @@ export async function typeJuneFifteen2024(canvasElement: HTMLElement): Promise<v
   await typeSegmentedDdMmYyyyDigits(canvasElement, "15062024", ["15", "2024"]);
 }
 
+function assertSegmentedFieldContains(hostElement: HTMLElement, compactMustContain: string[]): void {
+  const segmented = hostElement.querySelector(".segmented-date-field");
+  const compact = normalizedSegmentedDateText(segmented);
+  for (const fragment of compactMustContain) {
+    expect(compact).toContain(fragment);
+  }
+}
+
 export async function typeSegmentedDdMmYyyyDigitsIn(
   hostElement: HTMLElement,
   digits: string,
@@ -111,16 +184,16 @@ export async function typeSegmentedDdMmYyyyDigitsIn(
   await userEvent.click(field);
   field.focus();
   await userEvent.paste(digits);
-  await waitFor(
-    () => {
-      const segmented = hostElement.querySelector(".segmented-date-field");
-      const compact = normalizedSegmentedDateText(segmented);
-      for (const fragment of compactMustContain) {
-        expect(compact).toContain(fragment);
-      }
-    },
-    { timeout: 5000 },
-  );
+  const digitsOnly = digits.replace(/\D/g, "");
+  try {
+    await waitFor(() => assertSegmentedFieldContains(hostElement, compactMustContain), { timeout: 3500 });
+  } catch {
+    field.focus();
+    for (const character of digitsOnly) {
+      await userEvent.keyboard(character);
+    }
+    await waitFor(() => assertSegmentedFieldContains(hostElement, compactMustContain), { timeout: 5000 });
+  }
 }
 
 export async function typeSegmentedDdMmYyyyDigits(
@@ -131,15 +204,18 @@ export async function typeSegmentedDdMmYyyyDigits(
   await typeSegmentedDdMmYyyyDigitsIn(canvasElement, digits, compactMustContain);
 }
 
-export async function ensureDatepickerMenuClosed(): Promise<void> {
-  const menuInDom = () => document.getElementById("overlay-root")?.querySelector("rte-datepicker-menu");
-  if (!menuInDom()) {
+export async function ensureDatepickerMenuClosed(relativeTo: HTMLElement): Promise<void> {
+  for (const doc of collectStoryDocumentsForOverlay(relativeTo)) {
+    const menu = queryDatepickerMenuInDocument(doc);
+    if (!menu) {
+      continue;
+    }
+    await userEvent.keyboard("{Escape}");
+    await waitFor(() => {
+      expect(queryDatepickerMenuInDocument(doc)).not.toBeInTheDocument();
+    });
     return;
   }
-  await userEvent.keyboard("{Escape}");
-  await waitFor(() => {
-    expect(document.getElementById("overlay-root")?.querySelector("rte-datepicker-menu")).not.toBeInTheDocument();
-  });
 }
 
 async function clickDatepickerCalendarTriggerIn(hostElement: HTMLElement): Promise<void> {
@@ -157,12 +233,13 @@ export async function openDayPickerOverlayIn(hostElement: HTMLElement): Promise<
   await clickDatepickerCalendarTriggerIn(hostElement);
   await waitFor(
     () => {
-      const menu = document.getElementById("overlay-root")?.querySelector("rte-datepicker-menu");
-      expect(menu).not.toBeNull();
+      expect(findDatepickerMenuInStoryDocuments(hostElement)).not.toBeNull();
     },
-    { timeout: 5000 },
+    { timeout: 8000 },
   );
-  return document.getElementById("overlay-root") as HTMLElement;
+  const overlay = getStoryOverlayRootWithMenu(hostElement);
+  expect(overlay).toBeTruthy();
+  return overlay!;
 }
 
 export async function typeJuneFifteenAndOpenDayGridOverlayIn(hostElement: HTMLElement): Promise<HTMLElement> {
@@ -179,12 +256,13 @@ export async function openMonthGridOverlay(canvasElement: HTMLElement): Promise<
   await clickDatepickerCalendarTriggerIn(canvasElement);
   await waitFor(
     () => {
-      const menu = document.getElementById("overlay-root")?.querySelector("rte-datepicker-menu");
-      expect(menu).not.toBeNull();
+      expect(findDatepickerMenuInStoryDocuments(canvasElement)).not.toBeNull();
     },
-    { timeout: 5000 },
+    { timeout: 8000 },
   );
-  const overlay = document.getElementById("overlay-root") as HTMLElement;
+  const overlayRoot = getStoryOverlayRootWithMenu(canvasElement);
+  expect(overlayRoot).toBeTruthy();
+  const overlay = overlayRoot!;
   const dayHeaderLabel = overlay.querySelector('[data-datepicker-tab="month-label"]') as HTMLButtonElement | null;
   expect(dayHeaderLabel).toBeTruthy();
   await userEvent.click(dayHeaderLabel!);

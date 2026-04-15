@@ -61,7 +61,6 @@ import { DatepickerSegmentedFieldComponent } from "./datepicker-segmented-field/
 })
 export class DatepickerComponent implements ControlValueAccessor, AfterViewInit {
   readonly id = input<string>();
-  readonly name = input<string>();
   readonly labelText = input<string>("Label");
   readonly hasLabel = input<boolean>(true);
   readonly labelPosition = input<"top" | "side">("top");
@@ -113,7 +112,6 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
   private readonly formDisabled = signal(false);
 
   readonly isDisabled = computed(() => this.disabled() || this.formDisabled());
-  readonly isReadOnly = computed(() => this.readOnly());
   readonly isError = computed(() => this.error());
 
   readonly calendarButtonAriaLabel = computed(() => getDatepickerCalendarButtonAriaLabel(this.selectedDate()));
@@ -304,7 +302,7 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
   }
 
   onInputValueChange(value: string): void {
-    if (this.isReadOnly() || this.isDisabled()) {
+    if (this.readOnly() || this.isDisabled()) {
       return;
     }
 
@@ -334,7 +332,7 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
   }
 
   onCalendarIconTriggered(event: MouseEvent | KeyboardEvent): void {
-    if (this.isReadOnly() || this.isDisabled()) {
+    if (this.readOnly() || this.isDisabled()) {
       return;
     }
 

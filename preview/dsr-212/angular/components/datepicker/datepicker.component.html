@@ -1,10 +1,7 @@
 <div
   class="rte-datepicker"
   rteDropdown
-  rteDropdownPosition="bottom"
-  rteDropdownAlignment="start"
   [rteDropdownAutoOpen]="false"
-  [rteDropdownAutofocus]="true"
   [rteDropdownIsOpen]="isOpen()"
   [rteDropdownWidth]="dropdownWidth()"
   [style.width]="width()"
@@ -30,7 +27,7 @@
     [value]="textValue()"
     [error]="isError()"
     [disabled]="isDisabled()"
-    [readOnly]="isReadOnly()"
+    [readOnly]="readOnly()"
     [rightIconAriaLabel]="calendarButtonAriaLabel()"
     (valueChange)="onInputValueChange($event)"
     (rightIconClick)="onCalendarIconTriggered($event)"

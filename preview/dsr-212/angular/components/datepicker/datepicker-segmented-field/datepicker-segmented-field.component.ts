@@ -104,16 +104,13 @@ export class DatepickerSegmentedFieldComponent {
   });
 
   readonly ariaActiveDescendantForSegmentedGroup = computed((): string | null => {
-    const controlDoesNotHaveFocusOrIsDisabled = !this.controlHasFocus() || this.disabled();
-    const segmentA11yIntroIsFulfilled = this.segmentA11yIntroFulfilled();
-    const dateIsNotFulfilledAndA11yNotStarted = !this.isFulfilledDate() && !this.segmentA11yInteractionStarted();
-    const isReadOnly = this.readOnly();
-
     if (
-      controlDoesNotHaveFocusOrIsDisabled ||
-      segmentA11yIntroIsFulfilled ||
-      dateIsNotFulfilledAndA11yNotStarted ||
-      isReadOnly
+      !this.controlHasFocus() ||
+      this.disabled() ||
+      this.segmentA11yIntroFulfilled() ||
+      !this.isFulfilledDate() ||
+      !this.segmentA11yInteractionStarted() ||
+      this.readOnly()
     ) {
       return null;
     }
