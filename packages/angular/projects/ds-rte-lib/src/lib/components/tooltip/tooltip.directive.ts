@@ -92,7 +92,6 @@ export class TooltipDirective implements AfterViewInit, OnDestroy {
 
     this.tooltipRef = this.overlayService.create(TooltipComponent, this.viewContainerRef);
     this.assignDirectiveToComponent();
-    this.positionTooltip();
   }
 
   private assignDirectiveToComponent(): void {
@@ -108,18 +107,25 @@ export class TooltipDirective implements AfterViewInit, OnDestroy {
       this.tooltipRef.setInput("position", position);
       this.tooltipRef.setInput("alignment", this.rteTooltipAlignment());
       this.tooltipRef.setInput("arrow", this.rteTooltipArrow());
+
+      requestAnimationFrame(() => this.positionTooltip());
     }
   }
 
   private positionTooltip(): void {
     if (this.tooltipRef) {
-      const tooltipElement = this.tooltipRef.location.nativeElement;
+      const tooltipElement = this.tooltipRef.location.nativeElement as HTMLElement;
       const gap = getTooltipGap(this.rteTooltipArrow(), this.rteTooltipGap());
-      const positions = getCoordinates(this.tooltipRef.instance.position(), this.hostElement, tooltipElement, gap);
+      const computedCoordinates = getCoordinates(
+        this.tooltipRef.instance.position(),
+        this.hostElement,
+        tooltipElement,
+        gap,
+      );
 
       this.renderer.setStyle(this.hostElement, "position", "relative");
-      this.renderer.setStyle(tooltipElement, "top", `${positions.top}px`);
-      this.renderer.setStyle(tooltipElement, "left", `${positions.left}px`);
+      this.renderer.setStyle(tooltipElement, "top", `${computedCoordinates.top}px`);
+      this.renderer.setStyle(tooltipElement, "left", `${computedCoordinates.left}px`);
     }
   }
 
