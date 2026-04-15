@@ -1,4 +1,4 @@
-import { BaseInput } from "../base-input/base-input.interface";
+import type { BaseInput } from "../base-input/base-input.interface";
 
 export interface TimeFormat {
   hh: string;

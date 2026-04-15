@@ -84,9 +84,9 @@ export class DropdownDirective implements AfterContentInit {
     }
     return {
       items: menu.items(),
-      bodyTemplate: menu.bodyDirective()?.templateRef,
       headerTemplate: menu.headerDirective()?.templateRef,
       footerTemplate: menu.footerDirective()?.templateRef,
+      bodyTemplate: menu.bodyDirective()?.templateRef,
       width: menu.width(),
     };
   });
@@ -192,6 +192,10 @@ export class DropdownDirective implements AfterContentInit {
   }
 
   onTriggerKeyEvent(event: KeyboardEvent): void {
+    if (!this.rteDropdownAutoOpen()) {
+      return;
+    }
+
     const shouldOpen =
       event.key === SPACE_KEY ||
       event.key === ENTER_KEY ||

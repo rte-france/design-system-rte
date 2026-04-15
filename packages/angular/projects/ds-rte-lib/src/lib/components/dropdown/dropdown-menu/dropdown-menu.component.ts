@@ -79,6 +79,7 @@ export class DropdownMenuComponent implements OnDestroy {
 
   readonly headerContentRef = viewChild<ElementRef<HTMLElement>>("headerContent");
   readonly footerContentRef = viewChild<ElementRef<HTMLElement>>("footerContent");
+  readonly bodyContentRef = viewChild<ElementRef<HTMLElement>>("bodyContent");
   readonly itemComponents = viewChildren(DropdownItemComponent);
 
   readonly hasHeaderContent = computed(() => {
@@ -94,7 +95,10 @@ export class DropdownMenuComponent implements OnDestroy {
   });
 
   readonly hasBodyContent = computed(() => {
-    return !!(this.bodyTemplate() || this.bodyDirective()?.templateRef);
+    const hasTemplate = !!this.bodyTemplate();
+    const hasDirectiveTemplate = !!this.bodyDirective()?.templateRef;
+    const hasProjectedContent = !!this.bodyContentRef()?.nativeElement?.children.length;
+    return hasTemplate || hasDirectiveTemplate || hasProjectedContent;
   });
 
   getChildMenuId(itemIndex: number): string {
@@ -174,19 +178,26 @@ export class DropdownMenuComponent implements OnDestroy {
       return;
     }
 
-    if (event.key === ESCAPE_KEY) {
-      this.closingMenu.emit();
-    }
+    const menuId = this.menuId() as string;
 
     if (this.hasBodyContent()) {
+      if (event.key === ESCAPE_KEY) {
+        this.closingMenu.emit();
+        this.dropdownService.handleKeyboardInput(event.key, {
+          menuElement: this.elementRef,
+          menuId,
+        });
+      }
       return;
+    }
+
+    if (event.key === ESCAPE_KEY) {
+      this.closingMenu.emit();
     }
 
     if ([ARROW_UP_KEY, ARROW_DOWN_KEY, TAB_KEY].includes(event.key)) {
       event.preventDefault();
     }
-
-    const menuId = this.menuId() as string;
 
     if (event.key === TAB_KEY && event.shiftKey) {
       const parentMenuId = DropdownManager.getParentDropdownId(menuId);

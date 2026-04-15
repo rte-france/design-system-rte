@@ -1,0 +1,108 @@
+@if (shouldRender()) {
+  <div class="rte-time-picker-header">
+    @if (showLabel()) {
+      <label class="rte-time-picker-label" [attr.id]="labelId()" [attr.for]="id()">
+        {{ label() }}
+        @if (required() || showLabelRequirement()) {
+          <span
+            class="requirement-indicator"
+            aria-hidden="true"
+            [ngClass]="{
+              required: required(),
+              'show-label-requirement': showLabelRequirement(),
+            }"
+            >{{ requirementIndicatorValue() }}</span
+          >
+        }
+      </label>
+    }
+  </div>
+  <div
+    rteDropdown
+    [rteDropdownId]="dropdownMenuId()"
+    [rteDropdownIsOpen]="isPanelOpen()"
+    [rteDropdownAutoOpen]="false"
+    [rteDropdownAutofocus]="false"
+    [rteDropdownOffset]="8"
+    [rteDropdownWidth]="pickerDropdownWidth()"
+    [rteCloseOnItemClick]="false"
+    (clickedOutside)="handleDropdownClickedOutside()"
+  >
+    <div
+      #pickerRef
+      class="rte-base-input-picker"
+      tabindex="-1"
+      rteDropdownTrigger
+      [attr.data-focused]="canShowFocusedOutline() ? true : undefined"
+      [attr.data-is-error]="isError() || undefined"
+      [attr.data-is-disabled]="isEffectivelyDisabled() || undefined"
+      [attr.data-is-read-only]="readOnly() || undefined"
+      (click)="onPickerShellClick()"
+      (dropdownTriggered)="onPickerDropdownTriggered($event)"
+      (dropdownKeyDown)="onPickerDropdownKeydown($event)"
+    >
+      <input
+        #pickerInput
+        class="rte-base-input-picker-input"
+        [attr.id]="id()"
+        [attr.aria-labelledby]="labelId() || undefined"
+        [attr.aria-label]="showLabel() ? undefined : label()"
+        [value]="displayValue()"
+        [readOnly]="readOnly()"
+        [disabled]="isEffectivelyDisabled()"
+        (focus)="onMainInputFocus()"
+        (blur)="onMainInputBlur($event)"
+        (keydown)="onMainInputKeydown($event)"
+        (mouseup)="onMainInputMouseup()"
+      />
+      <button
+        type="button"
+        class="rte-base-input-picker-button"
+        aria-label="Open time picker dropdown"
+        [disabled]="isEffectivelyDisabled()"
+      >
+        <rte-icon
+          name="clock"
+          appearance="outlined"
+          class="rte-base-input-picker-icon"
+          aria-hidden="true"
+          [attr.data-is-focused]="canShowFocusedOutline() || undefined"
+          [attr.data-is-error]="isError() || undefined"
+          [attr.data-is-disabled]="isEffectivelyDisabled() || undefined"
+        />
+      </button>
+    </div>
+    <rte-dropdown-menu [items]="[]">
+      <ng-template rteDropdownMenuBody>
+        <rte-time-picker-menu
+          [hours]="internalTimeValue().hh"
+          [minutes]="internalTimeValue().mm"
+          [seconds]="internalTimeValue().ss"
+          [isHourReadOnly]="isHourReadOnly()"
+          [isMinuteReadOnly]="isMinuteReadOnly()"
+          [isSecondReadOnly]="isSecondReadOnly()"
+          (hoursValueChange)="onMenuHoursValueChange($event)"
+          (minutesValueChange)="onMenuMinutesValueChange($event)"
+          (secondsValueChange)="onMenuSecondsValueChange($event)"
+          (hoursKeydown)="onKeydownHours($event)"
+          (minutesKeydown)="onKeydownMinutes($event)"
+          (secondsKeydown)="onKeydownSeconds($event)"
+          (hoursIncrement)="increaseHours()"
+          (hoursDecrement)="decreaseHours()"
+          (minutesIncrement)="increaseMinutes()"
+          (minutesDecrement)="decreaseMinutes()"
+          (secondsIncrement)="increaseSeconds()"
+          (secondsDecrement)="decreaseSeconds()"
+        />
+      </ng-template>
+    </rte-dropdown-menu>
+  </div>
+  @if (assistiveTextLabel() && !isPanelOpen()) {
+    <rte-assistive-text
+      [label]="assistiveTextLabel()!"
+      [appearance]="isError() ? 'error' : (assistiveAppearance() ?? 'description')"
+      [showIcon]="showAssistiveIcon()"
+      [href]="assistiveTextLink()"
+    />
+  }
+}

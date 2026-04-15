@@ -1,10 +1,11 @@
 import { inject, Injectable, Renderer2, RendererFactory2 } from "@angular/core";
 import { FOCUSABLE_ELEMENTS_QUERY } from "@design-system-rte/core/constants/dom/dom.constants";
 
-export interface FocusTrapActivateOptions {
+export type FocusTrapOptions = {
   getOrderedFocusables?: () => HTMLElement[];
   initialFocusIndex?: number;
-}
+  restoreFocusTo?: HTMLElement | null;
+};
 
 @Injectable({ providedIn: "root" })
 export class FocusTrapService {
@@ -12,22 +13,24 @@ export class FocusTrapService {
   private tabKeydownCaptureUnlisten?: () => void;
   private renderer: Renderer2;
   private activeTrapElement: HTMLElement | null = null;
-  private previouslyFocusedElement: HTMLElement | null = null;
+  private restoreFocusToElement: HTMLElement | null = null;
   private getOrderedFocusables: (() => HTMLElement[]) | null = null;
   private initialFocusIndex = 0;
 
-  private rendererFactory = inject(RendererFactory2);
+  private readonly rendererFactory = inject(RendererFactory2);
 
   constructor() {
     this.renderer = this.rendererFactory.createRenderer(null, null);
   }
 
-  activate(element: HTMLElement, options?: FocusTrapActivateOptions) {
-    this.previouslyFocusedElement = document.activeElement as HTMLElement;
+  activate(element: HTMLElement, options: FocusTrapOptions = {}): void {
+    this.teardown({ shouldRestoreFocus: false });
+
+    this.restoreFocusToElement = options.restoreFocusTo ?? (document.activeElement as HTMLElement | null);
 
     this.activeTrapElement = element;
-    this.getOrderedFocusables = options?.getOrderedFocusables ?? null;
-    this.initialFocusIndex = options?.initialFocusIndex ?? 0;
+    this.getOrderedFocusables = options.getOrderedFocusables ?? null;
+    this.initialFocusIndex = options.initialFocusIndex ?? 0;
 
     this.focusInitialElement();
 
@@ -50,68 +53,66 @@ export class FocusTrapService {
     });
   }
 
-  deactivate() {
-    if (this.keyUnlisten) this.keyUnlisten();
+  deactivate(): void {
+    this.teardown({ shouldRestoreFocus: true });
+  }
+
+  private teardown(parameters: { shouldRestoreFocus: boolean }): void {
+    const { shouldRestoreFocus } = parameters;
+
+    if (this.keyUnlisten) {
+      this.keyUnlisten();
+    }
     this.keyUnlisten = undefined;
 
     if (this.tabKeydownCaptureUnlisten) {
       this.tabKeydownCaptureUnlisten();
-      this.tabKeydownCaptureUnlisten = undefined;
     }
+    this.tabKeydownCaptureUnlisten = undefined;
 
-    this.getOrderedFocusables = null;
-
-    if (this.previouslyFocusedElement) {
-      this.previouslyFocusedElement.focus();
+    if (shouldRestoreFocus && this.activeTrapElement && this.restoreFocusToElement) {
+      this.restoreFocusToElement.focus();
     }
 
     this.activeTrapElement = null;
+    this.restoreFocusToElement = null;
+    this.getOrderedFocusables = null;
+    this.initialFocusIndex = 0;
   }
 
-  private focusInitialElement() {
+  private focusInitialElement(): void {
     const focusable = this.getFocusableList();
     if (focusable.length === 0) {
       return;
     }
-    const index = Math.min(Math.max(this.initialFocusIndex, 0), focusable.length - 1);
-    focusable[index]?.focus();
+
+    const initialIndex = Math.min(Math.max(this.initialFocusIndex, 0), focusable.length - 1);
+    focusable[initialIndex]?.focus();
   }
 
-  private handleTab(event: KeyboardEvent) {
+  private handleTab(event: KeyboardEvent): void {
     const focusable = this.getFocusableList();
     if (!this.activeTrapElement || focusable.length === 0) {
       return;
     }
 
-    const current = document.activeElement as HTMLElement;
+    const current = document.activeElement as HTMLElement | null;
+    const currentIndex = current ? focusable.indexOf(current) : -1;
 
-    if (this.getOrderedFocusables) {
-      const currentIndex = focusable.indexOf(current);
-      if (currentIndex === -1) {
-        event.preventDefault();
-        focusable[0]?.focus();
-        return;
-      }
+    if (currentIndex === -1) {
+      const fallbackTarget = event.shiftKey ? focusable[focusable.length - 1] : focusable[0];
+      fallbackTarget?.focus();
       event.preventDefault();
-      const nextIndex = this.getNextIndexInOrderedCycle({
-        currentIndex,
-        focusableLength: focusable.length,
-        shiftKey: event.shiftKey,
-      });
-      focusable[nextIndex].focus();
       return;
     }
 
-    const first = focusable[0];
-    const last = focusable[focusable.length - 1];
-
-    if (event.shiftKey && current === first) {
-      last.focus();
-      event.preventDefault();
-    } else if (!event.shiftKey && current === last) {
-      first.focus();
-      event.preventDefault();
-    }
+    const nextIndex = this.getNextIndexInOrderedCycle({
+      currentIndex,
+      focusableLength: focusable.length,
+      shiftKey: event.shiftKey,
+    });
+    focusable[nextIndex]?.focus();
+    event.preventDefault();
   }
 
   private getNextIndexInOrderedCycle(parameters: {
