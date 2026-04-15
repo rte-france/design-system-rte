@@ -1,4 +1,4 @@
-import { TimeFormat, TimeSegmentEnum } from "./timepicker.interface.d";
+import { TimeFormat, TimeSegmentEnum } from "./timepicker.interface";
 
 export const TIME_SEGMENT_MIN_VALUE = 0;
 
