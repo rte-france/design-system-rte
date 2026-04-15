@@ -49,7 +49,6 @@ export class FileUploadComponent implements AfterViewInit, OnDestroy {
   readonly errorFilesMap = input<string[]>([]);
   readonly onUploadFile = input<(file: File) => Promise<void>>();
 
-  readonly elementRef = viewChild<ElementRef<HTMLElement>>("fileUploadRef");
   readonly inputRef = viewChild<ElementRef<HTMLInputElement>>("inputRef");
   readonly buttonRef = viewChild("buttonRef", { read: ElementRef });
 
@@ -114,6 +113,7 @@ export class FileUploadComponent implements AfterViewInit, OnDestroy {
   handleOnChange(event: Event): void {
     const fileInput = event.target as HTMLInputElement;
     const files = Array.from(fileInput.files || []);
+    fileInput.value = "";
     this.selectedFiles.set(files);
     this.filesChange.emit(files);
 

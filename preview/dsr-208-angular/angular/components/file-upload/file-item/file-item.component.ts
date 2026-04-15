@@ -8,7 +8,6 @@ import {
   ElementRef,
   inject,
   input,
-  OnDestroy,
   output,
   signal,
   viewChild,
@@ -40,7 +39,7 @@ import { TooltipDirective } from "../../tooltip/tooltip.directive";
   styleUrl: "./file-item.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FileItemComponent implements AfterViewInit, OnDestroy {
+export class FileItemComponent implements AfterViewInit {
   readonly file = input.required<File>();
   readonly isError = input<boolean>(false);
   readonly errorMessage = input<string>();
@@ -57,7 +56,6 @@ export class FileItemComponent implements AfterViewInit, OnDestroy {
   readonly hasEllipsis = signal<boolean>(false);
 
   private readonly cdr = inject(ChangeDetectorRef);
-  private resizeObserver?: ResizeObserver;
   private isViewInitialized = false;
 
   readonly formatFileSize = formatFileSize;
@@ -79,10 +77,6 @@ export class FileItemComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     this.isViewInitialized = true;
     this.updateTruncation();
-  }
-
-  ngOnDestroy(): void {
-    this.resizeObserver?.disconnect();
   }
 
   onRemove(): void {

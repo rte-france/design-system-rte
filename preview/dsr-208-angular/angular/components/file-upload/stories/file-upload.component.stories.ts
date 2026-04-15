@@ -67,6 +67,8 @@ export const Default: Story = {
     assistiveTextLink: "#",
     isError: false,
     multiple: false,
+    errorFilesMap: [],
+    showAssistiveText: true,
     buttonLabel: "Sélectionner un fichier",
   },
   render: (args) => ({
