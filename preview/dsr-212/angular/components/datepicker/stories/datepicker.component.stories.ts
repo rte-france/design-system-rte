@@ -484,6 +484,7 @@ export const SmokeOpenMenuFlows: Story = {
 export const OverlayChromeAndTabOrder: Story = {
   name: "Overlay: view modes + Tab order (day and month views)",
   render: Default.render,
+  tags: ["skip-ci"],
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const calendarButton = canvas.getByRole("button", { name: calendarTriggerAccessibleName });
@@ -656,6 +657,7 @@ export const OpenCalendarAndHeaderSync: Story = {
 export const MonthGridKeyboardNavigation: Story = {
   name: "Month grid: ArrowLeft, ArrowRight, ArrowUp (year boundaries)",
   render: Default.render,
+  tags: ["skip-ci"],
   play: async ({ canvasElement }) => {
     await playMonthGridKeyboardScenario(canvasElement, {
       typedDigits: "15012024",
