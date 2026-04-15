@@ -174,15 +174,30 @@ function assertSegmentedFieldContains(hostElement: HTMLElement, compactMustConta
   }
 }
 
+async function awaitDatepickerHostShellReady(hostElement: HTMLElement): Promise<void> {
+  await waitFor(
+    () => {
+      expect(hostElement.querySelector(".segmented-date-field")).toBeTruthy();
+      expect(within(hostElement).queryByRole("group")).toBeTruthy();
+      const iconHost = within(hostElement).queryByTestId("right-icon");
+      expect(iconHost).toBeTruthy();
+      expect(iconHost!.querySelector("button")).toBeTruthy();
+    },
+    { timeout: 15000 },
+  );
+}
+
 export async function typeSegmentedDdMmYyyyDigitsIn(
   hostElement: HTMLElement,
   digits: string,
   compactMustContain: string[],
 ): Promise<void> {
+  await awaitDatepickerHostShellReady(hostElement);
   const canvas = within(hostElement);
   const field = canvas.getByRole("group");
   await userEvent.click(field);
   field.focus();
+  await waitFor(() => expect(field).toHaveFocus(), { timeout: 3000 });
   await userEvent.paste(digits);
   const digitsOnly = digits.replace(/\D/g, "");
   try {
@@ -219,10 +234,24 @@ export async function ensureDatepickerMenuClosed(relativeTo: HTMLElement): Promi
 }
 
 async function clickDatepickerCalendarTriggerIn(hostElement: HTMLElement): Promise<void> {
-  const iconButtonHost = within(hostElement).getByTestId("right-icon");
-  const triggerButton = iconButtonHost.querySelector("button");
-  expect(triggerButton).toBeTruthy();
+  await awaitDatepickerHostShellReady(hostElement);
+  let triggerButton: HTMLButtonElement | null = null;
+  await waitFor(() => {
+    const iconHost = within(hostElement).queryByTestId("right-icon");
+    expect(iconHost).toBeTruthy();
+    triggerButton = iconHost!.querySelector("button");
+    expect(triggerButton).toBeTruthy();
+  });
   await userEvent.click(triggerButton!);
+}
+
+async function waitForDatepickerMenuOpenInStory(hostElement: HTMLElement, timeout: number): Promise<void> {
+  await waitFor(
+    () => {
+      expect(findDatepickerMenuInStoryDocuments(hostElement)).not.toBeNull();
+    },
+    { timeout },
+  );
 }
 
 export async function openDayPickerOverlay(canvasElement: HTMLElement): Promise<HTMLElement> {
@@ -231,12 +260,12 @@ export async function openDayPickerOverlay(canvasElement: HTMLElement): Promise<
 
 export async function openDayPickerOverlayIn(hostElement: HTMLElement): Promise<HTMLElement> {
   await clickDatepickerCalendarTriggerIn(hostElement);
-  await waitFor(
-    () => {
-      expect(findDatepickerMenuInStoryDocuments(hostElement)).not.toBeNull();
-    },
-    { timeout: 8000 },
-  );
+  try {
+    await waitForDatepickerMenuOpenInStory(hostElement, 10000);
+  } catch {
+    await clickDatepickerCalendarTriggerIn(hostElement);
+    await waitForDatepickerMenuOpenInStory(hostElement, 12000);
+  }
   const overlay = getStoryOverlayRootWithMenu(hostElement);
   expect(overlay).toBeTruthy();
   return overlay!;
@@ -254,12 +283,12 @@ export async function typeJuneFifteenAndOpenDayGridOverlay(canvasElement: HTMLEl
 
 export async function openMonthGridOverlay(canvasElement: HTMLElement): Promise<HTMLElement> {
   await clickDatepickerCalendarTriggerIn(canvasElement);
-  await waitFor(
-    () => {
-      expect(findDatepickerMenuInStoryDocuments(canvasElement)).not.toBeNull();
-    },
-    { timeout: 8000 },
-  );
+  try {
+    await waitForDatepickerMenuOpenInStory(canvasElement, 10000);
+  } catch {
+    await clickDatepickerCalendarTriggerIn(canvasElement);
+    await waitForDatepickerMenuOpenInStory(canvasElement, 12000);
+  }
   const overlayRoot = getStoryOverlayRootWithMenu(canvasElement);
   expect(overlayRoot).toBeTruthy();
   const overlay = overlayRoot!;

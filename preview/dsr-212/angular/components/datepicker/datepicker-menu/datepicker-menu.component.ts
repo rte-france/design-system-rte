@@ -24,12 +24,11 @@ import {
   DATEPICKER_TAB_DATA,
   DATEPICKER_YEAR_GRID_PAGE_SIZE,
   formatDate,
+  getDatepickerGridArrowDelta,
   getDayCellIndexForDate,
-  getDayGridArrowDelta,
   getDecadeRangeLabel,
   getDecadeStartYear,
   getMonthLabel,
-  getMonthYearGridArrowDelta,
   getNextGridCellIndex,
   getWeekdayShortLabels,
   getYearLabel,
@@ -440,7 +439,7 @@ export class DatepickerMenuComponent {
       return;
     }
 
-    const delta = getDayGridArrowDelta(key);
+    const delta = getDatepickerGridArrowDelta(key, "day");
     const stride = Math.abs(delta) === 7 ? 7 : 1;
     const direction = delta > 0 ? 1 : -1;
 
@@ -480,7 +479,7 @@ export class DatepickerMenuComponent {
       return;
     }
 
-    const deltaMonths = getMonthYearGridArrowDelta(key);
+    const deltaMonths = getDatepickerGridArrowDelta(key, "monthYear");
     const targetMonthStart = addMonths(this.activeDate(), deltaMonths);
 
     if (targetMonthStart.getFullYear() !== this.viewDate().getFullYear()) {
@@ -527,7 +526,7 @@ export class DatepickerMenuComponent {
       return;
     }
 
-    const deltaYears = getMonthYearGridArrowDelta(key);
+    const deltaYears = getDatepickerGridArrowDelta(key, "monthYear");
     const targetYear = currentYear + deltaYears;
 
     const visibleYears = cells.map((cell) => cell.year);
