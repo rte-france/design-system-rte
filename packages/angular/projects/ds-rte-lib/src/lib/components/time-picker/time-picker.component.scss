@@ -1,0 +1,151 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+$height: 32px;
+$width: 176px;
+
+.rte-time-picker-label {
+  @include typography-text-m;
+  display: flex;
+  padding: $positive-spacing_025 $positive-spacing_100;
+  color: var(--content-secondary);
+  max-width: 300px;
+  align-items: center;
+  white-space: normal;
+  overflow-wrap: normal;
+  word-break: normal;
+
+  .requirement-indicator {
+    margin-left: $positive-spacing_025;
+
+    &.show-label-requirement {
+      @include typography-text-s;
+      color: var(--content-tertiary);
+
+      &:not(.required) {
+        font-style: italic;
+      }
+    }
+
+    &:not(.show-label-requirement) {
+      &.required {
+        color: var(--content-danger-default);
+      }
+    }
+  }
+}
+
+.rte-base-input-picker {
+  box-sizing: border-box;
+  display: flex;
+  min-height: $height;
+  max-height: $height;
+  min-width: $width;
+  max-width: $width;
+  padding: $positive-spacing_050 $positive-spacing_100;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+  border-radius: $radius-s;
+  border: $width-xs solid var(--border-secondary);
+  @include neutral-inner-shadow;
+
+  &:hover {
+    border: $width-xs solid var(--border-primary);
+  }
+
+  &[data-focused="true"] {
+    border: $width-xs solid var(--border-brand-default);
+    outline: $width-xs solid var(--border-brand-default);
+  }
+
+  &[data-is-error="true"] {
+    border: $width-xs solid var(--border-danger);
+    outline: $width-xs solid var(--border-danger);
+  }
+
+  &[data-is-disabled="true"] {
+    background-color: var(--background-disabled);
+    border: $width-xs solid var(--border-disabled);
+    cursor: not-allowed;
+
+    .rte-base-input-picker-input {
+      color: var(--content-disabled);
+
+      &:hover {
+        cursor: not-allowed;
+      }
+    }
+
+    .rte-base-input-picker-button {
+      cursor: not-allowed;
+
+      .rte-base-input-picker-icon {
+        color: var(--content-disabled);
+      }
+    }
+  }
+
+  &[data-is-read-only="true"] {
+    background-color: var(--background-disabled);
+    border: $width-xs solid var(--border-disabled);
+
+    &:hover {
+      cursor: default;
+    }
+
+    .rte-base-input-picker-input {
+      background-color: var(--background-disabled);
+      color: var(--content-secondary);
+
+      &:hover {
+        cursor: default;
+      }
+    }
+
+    .rte-base-input-picker-button {
+      cursor: default;
+    }
+  }
+
+  .rte-base-input-picker-input {
+    display: flex;
+    height: 100%;
+    padding: 0 $positive-spacing_100;
+    align-items: center;
+    flex: 1 0 0;
+    border: none;
+    width: 100%;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .rte-base-input-picker-button {
+    display: flex;
+    background: none;
+    border: none;
+    margin: 0;
+    padding: 0;
+    border-radius: $radius-s;
+
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: $width-xs solid var(--border-brand-focused);
+      outline-offset: 2px;
+    }
+
+    .rte-base-input-picker-icon {
+      color: var(--content-tertiary);
+
+      &[data-is-focused="true"] {
+        color: var(--content-brand-default);
+      }
+
+      &[data-is-error="true"] {
+        color: var(--content-danger-default);
+      }
+    }
+  }
+}

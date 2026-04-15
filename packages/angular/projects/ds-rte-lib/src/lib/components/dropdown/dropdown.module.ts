@@ -1,6 +1,7 @@
 import { NgModule } from "@angular/core";
 
 import { DropdownItemComponent } from "./dropdown-item/dropdown-item.component";
+import { DropdownMenuBodyDirective } from "./dropdown-menu/dropdown-menu-body.directive";
 import { DropdownMenuFooterDirective } from "./dropdown-menu/dropdown-menu-footer.directive";
 import { DropdownMenuHeaderDirective } from "./dropdown-menu/dropdown-menu-header.directive";
 import { DropdownMenuComponent } from "./dropdown-menu/dropdown-menu.component";
@@ -15,6 +16,7 @@ import { DropdownDirective } from "./dropdown.directive";
     DropdownItemComponent,
     DropdownMenuHeaderDirective,
     DropdownMenuFooterDirective,
+    DropdownMenuBodyDirective,
   ],
   exports: [
     DropdownDirective,
@@ -23,6 +25,7 @@ import { DropdownDirective } from "./dropdown.directive";
     DropdownItemComponent,
     DropdownMenuHeaderDirective,
     DropdownMenuFooterDirective,
+    DropdownMenuBodyDirective,
   ],
 })
 export class DropdownModule {}
