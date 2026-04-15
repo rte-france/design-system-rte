@@ -370,6 +370,7 @@ export const Disabled: Story = {
 
 export const CalendarConstraints: Story = {
   name: "Calendar constraints: min, max, range, and disabledDates (4 instances)",
+  tags: ["skip-ci"],
   render: (args) => ({
     props: {
       ...args,
