@@ -1,5 +1,4 @@
 @use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
-@use '@design-system-rte/core/design-tokens/tokens/public/elevation' as rte-elevation;
 
 .rte-datepicker-menu {
   @include typography-text-m;
