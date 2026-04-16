@@ -1,7 +1,7 @@
 import { TextInputProps as CoreTextInputProps } from "@design-system-rte/core/components/text-input/text-input.interface";
 import { forwardRef, InputHTMLAttributes } from "react";
 
-import BaseTextInput from "./baseTextuInput/BaseTextInput";
+import BaseTextInput from "./baseTextInput/BaseTextInput";
 
 interface TextInputProps
   extends

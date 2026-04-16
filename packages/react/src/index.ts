@@ -32,7 +32,7 @@ import Switch from "./components/switch/Switch.tsx";
 import Tab from "./components/tab/Tab.tsx";
 import Tag from "./components/tag/Tag.tsx";
 import Textarea from "./components/textarea/Textarea.tsx";
-import BaseTextInput from "./components/textInput/baseTextuInput/BaseTextInput.tsx";
+import BaseTextInput from "./components/textInput/baseTextInput/BaseTextInput.tsx";
 import Toast from "./components/toast/Toast.tsx";
 import ToastQueueProvider from "./components/toast/toastQueue/ToastQueueProvider.tsx";
 import Tooltip from "./components/tooltip/Tooltip.tsx";
