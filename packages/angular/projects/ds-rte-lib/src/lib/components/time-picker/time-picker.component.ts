@@ -18,6 +18,9 @@ import { waitForNextFrame } from "@design-system-rte/core/common/animation";
 import { REQUIREMENT_INDICATOR_VALUE } from "@design-system-rte/core/components/required-indicator/required-indicator.constant";
 import {
   DEFAULT_TIME_INPUT_VALUE,
+  TIME_PICKER_WARN_ERROR_WITHOUT_ASSISTIVE_TEXT,
+  TIME_PICKER_WARN_READ_ONLY_INCOMPLETE_VALUE,
+  TIME_SEGMENT_MAX_FIRST_DIGIT,
   TIME_SEGMENT_MAX_VALUE,
   TIME_SEGMENT_MIN_VALUE,
   TIME_SEGMENT_ORDER,
@@ -54,12 +57,6 @@ import { DropdownDirective } from "../dropdown/dropdown.directive";
 import { IconComponent } from "../icon/icon.component";
 
 import { TimePickerMenuComponent } from "./time-picker-menu/time-picker-menu.component";
-
-const TIME_SEGMENT_MAX_FIRST_DIGIT: Record<TimeSegmentEnum, number> = {
-  [TimeSegmentEnum.HOURS]: 2,
-  [TimeSegmentEnum.MINUTES]: 5,
-  [TimeSegmentEnum.SECONDS]: 5,
-};
 
 const [HOURS_SEGMENT, MINUTES_SEGMENT] = TIME_SEGMENT_ORDER;
 
@@ -127,26 +124,26 @@ export class TimePickerComponent implements ControlValueAccessor {
 
   readonly isEffectivelyDisabled = computed(() => this.disabled() || this.disabledFromControl());
 
-  readonly requirementIndicatorValue = computed(() =>
-    this.required()
-      ? this.showLabelRequirement()
-        ? REQUIREMENT_INDICATOR_VALUE.required
-        : REQUIREMENT_INDICATOR_VALUE.requiredIcon
-      : REQUIREMENT_INDICATOR_VALUE.optional,
-  );
+  readonly requirementIndicatorValue = computed(() => {
+    const required = this.required();
+    const showLabelRequirement = this.showLabelRequirement();
+    if (!required) {
+      return REQUIREMENT_INDICATOR_VALUE.optional;
+    }
+    if (showLabelRequirement) {
+      return REQUIREMENT_INDICATOR_VALUE.required;
+    }
+    return REQUIREMENT_INDICATOR_VALUE.requiredIcon;
+  });
 
   readonly shouldRender = computed(() => {
     const timeValue = this.internalTimeValue();
     if (this.readOnly() && (timeValue.hh === "" || timeValue.mm === "" || timeValue.ss === "")) {
-      console.warn(
-        "TimePicker is in readOnly mode but the value is not fully set. Please provide a value with all segments (hh, mm, ss) set to non-empty values to avoid unexpected behavior.",
-      );
+      console.warn(TIME_PICKER_WARN_READ_ONLY_INCOMPLETE_VALUE);
       return false;
     }
     if (this.isError() && !this.assistiveTextLabel()) {
-      console.warn(
-        "TimePicker is in error state but no assistiveTextLabel is provided. Please provide assistive text to explain the error.",
-      );
+      console.warn(TIME_PICKER_WARN_ERROR_WITHOUT_ASSISTIVE_TEXT);
       return false;
     }
     return true;
@@ -374,7 +371,7 @@ export class TimePickerComponent implements ControlValueAccessor {
   }
 
   private handleFunctionKey(key: string): void {
-    if (key === BACKSPACE_KEY || key === DELETE_KEY) {
+    if ([BACKSPACE_KEY, DELETE_KEY].includes(key)) {
       this.handleDeleteSegmentValue();
     } else if (key === ARROW_LEFT_KEY) {
       this.moveToPreviousSegment();
@@ -384,10 +381,8 @@ export class TimePickerComponent implements ControlValueAccessor {
         this.moveToNextSegment();
         this.scheduleSelectionRangeForSegment(this.activeTimeSegment());
       }
-    } else if (key === ARROW_UP_KEY) {
-      this.adjustActiveSegmentByArrow(1);
-    } else if (key === ARROW_DOWN_KEY) {
-      this.adjustActiveSegmentByArrow(-1);
+    } else if ([ARROW_UP_KEY, ARROW_DOWN_KEY].includes(key)) {
+      this.adjustActiveSegmentByArrow(key === ARROW_UP_KEY ? 1 : -1);
     }
   }
 
@@ -455,10 +450,10 @@ export class TimePickerComponent implements ControlValueAccessor {
 
   private isCurrentSegmentReadOnly(): boolean {
     const activeSegment = this.activeTimeSegment();
-    if (activeSegment === HOURS_SEGMENT) {
+    if (activeSegment === TimeSegmentEnum.HOURS) {
       return this.isHourReadOnly();
     }
-    if (activeSegment === MINUTES_SEGMENT) {
+    if (activeSegment === TimeSegmentEnum.MINUTES) {
       return this.isMinuteReadOnly();
     }
     return this.isSecondReadOnly();
@@ -473,20 +468,16 @@ export class TimePickerComponent implements ControlValueAccessor {
   }
 
   private scheduleSelectionRangeForSegment(segment: TimeSegmentEnum): void {
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        const range = computeTimeSegmentRanges(this.internalTimeValue())[segment];
-        this.pickerInputRef()?.nativeElement.setSelectionRange(range[0], range[1]);
-      });
+    waitForNextFrame(() => {
+      const range = computeTimeSegmentRanges(this.internalTimeValue())[segment];
+      this.pickerInputRef()?.nativeElement.setSelectionRange(range[0], range[1]);
     });
   }
 
   private scheduleSelectActiveSegment(): void {
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        const range = computeTimeSegmentRanges(this.internalTimeValue())[this.activeTimeSegment()];
-        this.pickerInputRef()?.nativeElement.setSelectionRange(range[0], range[1]);
-      });
+    waitForNextFrame(() => {
+      const range = computeTimeSegmentRanges(this.internalTimeValue())[this.activeTimeSegment()];
+      this.pickerInputRef()?.nativeElement.setSelectionRange(range[0], range[1]);
     });
   }
 
