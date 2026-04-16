@@ -1,6 +1,5 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, input, output } from "@angular/core";
-import { TimeSegmentEnum } from "@design-system-rte/core/components/timepicker/timepicker.interface";
 
 import { IconComponent } from "../../icon/icon.component";
 
@@ -32,20 +31,6 @@ export class TimePickerMenuComponent {
   readonly minutesDecrement = output<void>();
   readonly secondsIncrement = output<void>();
   readonly secondsDecrement = output<void>();
-
-  readonly menuHoursSegment = TimeSegmentEnum.HOURS;
-  readonly menuMinutesSegment = TimeSegmentEnum.MINUTES;
-  readonly menuSecondsSegment = TimeSegmentEnum.SECONDS;
-
-  menuSegmentUnitAriaNoun(segment: TimeSegmentEnum): string {
-    if (segment === TimeSegmentEnum.HOURS) {
-      return "hours";
-    }
-    if (segment === TimeSegmentEnum.MINUTES) {
-      return "minutes";
-    }
-    return "seconds";
-  }
 
   onHoursInput(event: Event): void {
     this.hoursValueChange.emit((event.target as HTMLInputElement).value);
