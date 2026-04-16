@@ -76,9 +76,9 @@ export class DatepickerSegmentedFieldComponent {
   private readonly monthSegmentRef = viewChild<ElementRef<HTMLElement>>("monthSegment");
   private readonly yearSegmentRef = viewChild<ElementRef<HTMLElement>>("yearSegment");
 
-  readonly dayDisplay = computed(() => getSegmentDisplayText(this.segmentedState().dayDigits, "day", "DD"));
-  readonly monthDisplay = computed(() => getSegmentDisplayText(this.segmentedState().monthDigits, "month", "MM"));
-  readonly yearDisplay = computed(() => getSegmentDisplayText(this.segmentedState().yearDigits, "year", "YYYY"));
+  readonly dayDisplay = computed(() => getSegmentDisplayText(this.segmentedState().dayDigits, "day", "jj"));
+  readonly monthDisplay = computed(() => getSegmentDisplayText(this.segmentedState().monthDigits, "month", "mm"));
+  readonly yearDisplay = computed(() => getSegmentDisplayText(this.segmentedState().yearDigits, "year", "aaaa"));
 
   readonly assistiveTextId = computed(() =>
     this.hasAssistiveText() && this.assistiveTextLabel() ? `assistive-${this.id() ?? "datepicker-field"}` : null,

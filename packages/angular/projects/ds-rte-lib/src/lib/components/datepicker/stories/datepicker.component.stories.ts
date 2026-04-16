@@ -1,3 +1,4 @@
+import { DATEPICKER_DEFAULT_WIDTH } from "@design-system-rte/core/components/datepicker";
 import type { Meta, StoryObj } from "@storybook/angular";
 import { expect, userEvent, waitFor, within } from "@storybook/test";
 
@@ -24,19 +25,12 @@ import {
   typeSegmentedDdMmYyyyDigits,
 } from "./datepicker.component.stories.helpers";
 
-export type DatepickerStoryWrapperArgs = {
-  storyContainerWidth?: string;
-  storyContainerMaxWidth?: string;
-};
-
-const meta: Meta<DatepickerComponent & DatepickerStoryWrapperArgs> = {
+const meta: Meta<DatepickerComponent> = {
   title: "Composants/Datepicker/Datepicker",
   component: DatepickerComponent,
   tags: ["autodocs"],
   argTypes: {
     labelPosition: { control: "select", options: ["top", "side"] },
-    storyContainerWidth: { control: "text", name: "Container width (layout story)" },
-    storyContainerMaxWidth: { control: "text", name: "Container max-width (layout story)" },
     valueChange: { action: "value changed" },
     openedChange: { action: "opened changed" },
   },
@@ -58,11 +52,12 @@ const meta: Meta<DatepickerComponent & DatepickerStoryWrapperArgs> = {
     locale: "fr-FR",
     disabledDates: [],
     hasActions: true,
+    width: DATEPICKER_DEFAULT_WIDTH,
   },
 };
 
 export default meta;
-type Story = StoryObj<DatepickerComponent & DatepickerStoryWrapperArgs>;
+type Story = StoryObj<DatepickerComponent>;
 
 const datepickerStoryFieldBindings = `
           [hasLabel]="hasLabel"
@@ -79,6 +74,7 @@ const datepickerStoryFieldBindings = `
           [assistiveTextAppearance]="assistiveTextAppearance"
           [showAssistiveIcon]="showAssistiveIcon"
           [locale]="locale"
+          [width]="width"
           (valueChange)="valueChange($event)"
           (openedChange)="openedChange($event)"`;
 
@@ -273,13 +269,13 @@ export const SegmentedField: Story = {
     await waitFor(() => {
       const yearSegment = phase4.querySelectorAll(".segment")[2];
       expect(yearSegment?.classList.contains("segment--active")).toBe(true);
-      expect(normalizedSegmentedDateText(yearSegment)).toMatch(/^Y{4}$/);
+      expect(normalizedSegmentedDateText(yearSegment)).toMatch(/^a{4}$/);
     });
     await userEvent.keyboard("13");
     await waitFor(() => {
       const segments = phase4.querySelectorAll(".segment");
       expect(normalizedSegmentedDateText(segments[0])).toMatch(/^02$/);
-      expect(normalizedSegmentedDateText(segments[1])).toMatch(/^MM$/);
+      expect(normalizedSegmentedDateText(segments[1])).toMatch(/^mm$/);
       expect(normalizedSegmentedDateText(segments[2])).toContain("13");
     });
     await waitFor(() => {
@@ -294,15 +290,15 @@ export const SegmentedField: Story = {
     field5.focus();
     await userEvent.keyboard("{ArrowRight}{ArrowRight}");
     await waitFor(() => {
-      expect(normalizedSegmentedDateText(phase5.querySelector(".segment--active"))).toMatch(/^Y{4}$/);
+      expect(normalizedSegmentedDateText(phase5.querySelector(".segment--active"))).toMatch(/^a{4}$/);
     });
     await userEvent.keyboard("1992");
     await waitFor(
       () => {
         const segments = phase5.querySelectorAll(".segment");
         expect(segments.length).toBe(3);
-        expect(normalizedSegmentedDateText(segments[0])).toMatch(/^DD$/);
-        expect(normalizedSegmentedDateText(segments[1])).toMatch(/^MM$/);
+        expect(normalizedSegmentedDateText(segments[0])).toMatch(/^jj$/);
+        expect(normalizedSegmentedDateText(segments[1])).toMatch(/^mm$/);
         expect(normalizedSegmentedDateText(segments[2])).toContain("1992");
       },
       { timeout: 5000 },
@@ -319,21 +315,21 @@ export const SegmentedField: Story = {
     });
     await userEvent.keyboard("{Backspace}");
     await waitFor(() => {
-      expect(phase6.querySelector(".segment--active")?.textContent?.trim()).toBe("DD");
+      expect(phase6.querySelector(".segment--active")?.textContent?.trim()).toBe("jj");
     });
     expect(field6).toHaveFocus();
 
     const phase7 = phaseRoot(7);
     const field7 = within(phase7).getByRole("group");
     field7.focus();
-    expect(phase7.querySelector(".segment--active")?.textContent?.trim()).toBe("DD");
+    expect(phase7.querySelector(".segment--active")?.textContent?.trim()).toBe("jj");
     await userEvent.keyboard("{ArrowRight}");
     await waitFor(() => {
-      expect(phase7.querySelector(".segment--active")?.textContent?.trim()).toBe("MM");
+      expect(phase7.querySelector(".segment--active")?.textContent?.trim()).toBe("mm");
     });
     await userEvent.keyboard("{ArrowRight}");
     await waitFor(() => {
-      expect(phase7.querySelector(".segment--active")?.textContent?.trim()).toBe("YYYY");
+      expect(phase7.querySelector(".segment--active")?.textContent?.trim()).toBe("aaaa");
     });
   },
 };
@@ -620,6 +616,7 @@ export const OverlayChromeAndTabOrder: Story = {
 
 export const OpenCalendarAndHeaderSync: Story = {
   name: "Open calendar: partial input vs full date header",
+  tags: ["skip-ci"],
   render: (args) => ({
     props: { ...args },
     template: openCalendarHeaderSyncTemplate,

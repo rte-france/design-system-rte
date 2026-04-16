@@ -166,7 +166,6 @@
                     border-radius: $radius-s;
                     border: $width-xs solid var(--border-secondary);
                     padding: $positive-spacing-050 $positive-spacing-200;
-                    background: linear-gradient(0deg, var(--elevation-surface-inner-shadow) 0%, var(--elevation-surface-inner-shadow) 100%), var(--background-default);
                     transition: border 200ms, outline 200ms, box-shadow 200ms;
                     color: var(--content-primary);
                     @include neutral-inner-shadow;
@@ -191,8 +190,7 @@
                         border-color: var(--border-brand-default)
                     }
 
-                    &:disabled,
-                    &:read-only {
+                    &:disabled {
                         border-color: var(--border-disabled);
                         background: linear-gradient(0deg, var(--elevation-surface-inner-shadow) 0%, var(--elevation-surface-inner-shadow) 100%), var(--background-disabled);
                         cursor: not-allowed;
@@ -256,6 +254,13 @@
                         box-shadow: none;
                     }
 
+                }
+
+                input.input-field[readonly] {
+                    border-color: var(--border-disabled);
+                    background: linear-gradient(0deg, var(--elevation-surface-inner-shadow) 0%, var(--elevation-surface-inner-shadow) 100%), var(--background-disabled);
+                    cursor: not-allowed;
+                    box-shadow: none;
                 }
 
             }
