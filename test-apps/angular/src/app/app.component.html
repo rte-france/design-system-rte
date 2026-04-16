@@ -96,6 +96,26 @@
     <rte-text-input label="Text Input" [value]="inputValue()" (valueChange)="handleInputChange($event)" />
     <h4>The input is : {{ inputValue() }}</h4>
     <hr />
+    <section style="max-width: 360px">
+      <h4 style="margin: 0 0 12px 0; font-size: 18px; font-weight: 600">Time picker</h4>
+      <p style="margin: 0 0 12px 0; color: #666; line-height: 1.5; font-size: 14px">
+        Bundled library smoke test: dropdown, focus trap, and segment inputs.
+      </p>
+      <rte-time-picker
+        id="integration-time-picker"
+        labelId="integration-time-picker-label"
+        label="Appointment time"
+        [showLabel]="true"
+        assistiveTextLabel="24-hour format."
+        assistiveAppearance="description"
+        [value]="timePickerValue()"
+        (valueChange)="onTimePickerValueChange($event)"
+      />
+      <p style="margin: 12px 0 0 0; font-family: monospace; font-size: 13px; color: #333">
+        segments: {{ timePickerValue().hh }} / {{ timePickerValue().mm }} / {{ timePickerValue().ss }}
+      </p>
+    </section>
+    <hr />
     <rte-chip label="Chip Label" type="single"></rte-chip>
     <hr />
 

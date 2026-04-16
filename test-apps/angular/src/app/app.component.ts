@@ -28,9 +28,11 @@ import {
   LoaderComponent,
   StepperComponent,
   DropdownModule,
+  TimePickerComponent,
 } from "@design-system-rte/angular";
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
 import { Step } from "@design-system-rte/core/components/stepper/stepper.interface";
+import type { TimeFormat } from "@design-system-rte/core/components/timepicker/timepicker.interface";
 import { TreeviewItemProps } from "@design-system-rte/core/components/treeview";
 
 @Component({
@@ -64,6 +66,7 @@ import { TreeviewItemProps } from "@design-system-rte/core/components/treeview";
     LoaderComponent,
     StepperComponent,
     DropdownModule,
+    TimePickerComponent,
   ],
   providers: [ToastService],
   templateUrl: "./app.component.html",
@@ -77,7 +80,13 @@ export class AppComponent {
 
   readonly inputValue = signal("Hello");
 
+  readonly timePickerValue = signal<TimeFormat>({ hh: "", mm: "", ss: "" });
+
   readonly activeStepId = signal("1");
+
+  onTimePickerValueChange(time: TimeFormat): void {
+    this.timePickerValue.set({ hh: time.hh, mm: time.mm, ss: time.ss });
+  }
 
   handleInputChange(value: string) {
     this.inputValue.set(value);

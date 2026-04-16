@@ -5,6 +5,8 @@ import {
   ARROW_UP_KEY,
   BACKSPACE_KEY,
   DELETE_KEY,
+  TIME_PICKER_WARN_ERROR_WITHOUT_ASSISTIVE_TEXT,
+  TIME_PICKER_WARN_READ_ONLY_INCOMPLETE_VALUE,
   TIME_SEGMENT_MAX_FIRST_DIGIT,
   TIME_SEGMENT_MAX_VALUE,
   TIME_SEGMENT_ORDER,
@@ -332,16 +334,12 @@ const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
     }, [internalTimeValue, onChange]);
 
     if (readOnly && (internalTimeValue.hh === "" || internalTimeValue.mm === "" || internalTimeValue.ss === "")) {
-      console.warn(
-        "TimePicker is in readOnly mode but the value is not fully set. Please provide a value with all segments (hh, mm, ss) set to non-empty values to avoid unexpected behavior.",
-      );
+      console.warn(TIME_PICKER_WARN_READ_ONLY_INCOMPLETE_VALUE);
       return null;
     }
 
     if (isError && !assistiveTextLabel) {
-      console.warn(
-        "TimePicker is in error state but no assistiveTextLabel is provided. Please provide assistive text to explain the error.",
-      );
+      console.warn(TIME_PICKER_WARN_ERROR_WITHOUT_ASSISTIVE_TEXT);
       return null;
     }
 
