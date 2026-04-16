@@ -23,7 +23,7 @@ import {
 } from "react";
 
 import IconButton from "../iconButton/IconButton";
-import BaseTextInput from "../textInput/baseTextuInput/BaseTextInput";
+import BaseTextInput from "../textInput/baseTextInput/BaseTextInput";
 
 import styles from "./Searchbar.module.scss";
 
