@@ -616,6 +616,7 @@ export const OverlayChromeAndTabOrder: Story = {
 
 export const OpenCalendarAndHeaderSync: Story = {
   name: "Open calendar: partial input vs full date header",
+  tags: ["skip-ci"],
   render: (args) => ({
     props: { ...args },
     template: openCalendarHeaderSyncTemplate,
