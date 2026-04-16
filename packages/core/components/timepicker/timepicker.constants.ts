@@ -35,3 +35,9 @@ export const TIME_SEGMENT_MAX_FIRST_DIGIT: Record<TimeSegmentEnum, number> = {
   [TimeSegmentEnum.MINUTES]: 5,
   [TimeSegmentEnum.SECONDS]: 5,
 };
+
+export const TIME_PICKER_WARN_READ_ONLY_INCOMPLETE_VALUE =
+  "TimePicker is in readOnly mode but the value is not fully set. Please provide a value with all segments (hh, mm, ss) set to non-empty values to avoid unexpected behavior.";
+
+export const TIME_PICKER_WARN_ERROR_WITHOUT_ASSISTIVE_TEXT =
+  "TimePicker is in error state but no assistiveTextLabel is provided. Please provide assistive text to explain the error.";
