@@ -156,6 +156,24 @@
                     }
                 }
 
+                &:has(.input-field--projected) .right-icon {
+                    color: var(--content-tertiary);
+
+                    ::ng-deep button.rte-icon-button.neutral:not(:disabled) .rte-icon-container {
+                        color: var(--content-tertiary);
+                    }
+
+                    ::ng-deep button.rte-icon-button.neutral:not(:disabled):hover .rte-icon-container {
+                        color: var(--content-tertiary);
+                    }
+                }
+
+                &:has(.input-field--projected.error) .right-icon {
+                    ::ng-deep button.rte-icon-button.neutral:not(:disabled) .rte-icon-container {
+                        color: var(--content-danger-default);
+                    }
+                }
+
                 .input-field {
                     box-sizing: border-box;
                     appearance: none;
@@ -263,6 +281,30 @@
                     box-shadow: none;
                 }
 
+            }
+
+            &:not(.read-only) .input-bar:has(.input-field--projected:not(.error)):focus-within .right-icon {
+                ::ng-deep button.rte-icon-button.neutral:not(:disabled) .rte-icon-container {
+                    color: var(--content-brand-default);
+                }
+            }
+
+            &:not(.read-only) .input-bar:has(.input-field--projected.highlighted:not(.error)) .right-icon {
+                ::ng-deep button.rte-icon-button.neutral:not(:disabled) .rte-icon-container {
+                    color: var(--content-brand-default);
+                }
+            }
+
+            &.read-only .input-bar:has(.input-field--projected) .right-icon {
+                color: var(--content-tertiary);
+
+                ::ng-deep button.rte-icon-button.neutral:not(:disabled) .rte-icon-container {
+                    color: var(--content-tertiary);
+                }
+
+                ::ng-deep button.rte-icon-button.neutral:not(:disabled):hover .rte-icon-container {
+                    color: var(--content-tertiary);
+                }
             }
 
             .right-slot {
