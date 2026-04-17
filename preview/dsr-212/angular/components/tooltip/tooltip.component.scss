@@ -1,12 +1,11 @@
 @use '@design-system-rte/core/design-tokens/main.scss' as *;
 
+$max-width: 160px;
 $max-height: 40px;
 
 :host {
     position: absolute;
     transition: opacity 150ms ease-out;
-    max-height: $max-height;
-
     &:not(:hover) {
         transition: opacity 100ms ease-in;
     }
@@ -16,6 +15,8 @@ $max-height: 40px;
     color: var(--content-primary-inverse);
     text-align: center;
     z-index: 1;
+    max-width: $max-width;
+    max-height: $max-height;
     padding-block: $positive-spacing_050;
     padding-inline: $positive-spacing_200;
     border-radius: $radius-s;
@@ -24,6 +25,16 @@ $max-height: 40px;
     &-label {
         @include typography-tooltip-label;
         width: fit-content;
+    }
+
+    &.top,
+    &.bottom {
+        transform: translateX(-50%);
+    }
+
+    &.left,
+    &.right {
+        transform: translateY(-50%);
     }
 
     &.top {
