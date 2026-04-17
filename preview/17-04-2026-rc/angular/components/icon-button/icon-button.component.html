@@ -8,6 +8,7 @@
     [disabled]="disabled()"
     [attr.aria-label]="ariaLabel()"
     [attr.aria-labelledby]="ariaLabelledBy()"
+    [attr.tabindex]="tabIndex() !== undefined ? tabIndex() : null"
     [type]="type()"
     [rteBadgeType]="badgeType()!"
     [rteBadgeSize]="size()"
@@ -27,6 +28,7 @@
     [disabled]="disabled()"
     [attr.aria-label]="ariaLabel()"
     [attr.aria-labelledby]="ariaLabelledBy()"
+    [attr.tabindex]="tabIndex() !== undefined ? tabIndex() : null"
     [type]="type()"
     (click)="onClick($event)"
   >

@@ -35,6 +35,7 @@ import { DropdownItemComponent } from "../dropdown-item/dropdown-item.component"
 import { DropdownItemConfig, SubmenuRequestEvent } from "../dropdown.types";
 import { focusParentDropdownFirstElement } from "../dropdown.utils";
 
+import { DropdownMenuBodyDirective } from "./dropdown-menu-body.directive";
 import { DropdownMenuFooterDirective } from "./dropdown-menu-footer.directive";
 import { DropdownMenuHeaderDirective } from "./dropdown-menu-header.directive";
 
@@ -70,9 +71,11 @@ export class DropdownMenuComponent implements OnDestroy {
 
   readonly headerDirective = contentChild(DropdownMenuHeaderDirective);
   readonly footerDirective = contentChild(DropdownMenuFooterDirective);
+  readonly bodyDirective = contentChild(DropdownMenuBodyDirective);
 
   readonly headerTemplate = input<TemplateRef<HTMLElement> | undefined>(undefined);
   readonly footerTemplate = input<TemplateRef<HTMLElement> | undefined>(undefined);
+  readonly bodyTemplate = input<TemplateRef<HTMLElement> | undefined>(undefined);
 
   readonly headerContentRef = viewChild<ElementRef<HTMLElement>>("headerContent");
   readonly footerContentRef = viewChild<ElementRef<HTMLElement>>("footerContent");
@@ -90,6 +93,10 @@ export class DropdownMenuComponent implements OnDestroy {
     return hasTemplate || hasProjectedContent;
   });
 
+  readonly hasBodyContent = computed(() => {
+    return !!(this.bodyTemplate() || this.bodyDirective()?.templateRef);
+  });
+
   getChildMenuId(itemIndex: number): string {
     return `${this.menuId()}:${itemIndex + 1}`;
   }
@@ -103,6 +110,7 @@ export class DropdownMenuComponent implements OnDestroy {
 
     const componentRef = this.overlayService.create(DropdownMenuComponent, this.viewContainerRef);
     componentRef.setInput("items", children);
+    componentRef.setInput("bodyTemplate", this.bodyTemplate());
     componentRef.setInput("menuId", childId);
     componentRef.setInput("isOpen", true);
 
@@ -166,12 +174,16 @@ export class DropdownMenuComponent implements OnDestroy {
       return;
     }
 
-    if ([ARROW_UP_KEY, ARROW_DOWN_KEY, TAB_KEY].includes(event.key)) {
-      event.preventDefault();
-    }
-
     if (event.key === ESCAPE_KEY) {
       this.closingMenu.emit();
+    }
+
+    if (this.hasBodyContent()) {
+      return;
+    }
+
+    if ([ARROW_UP_KEY, ARROW_DOWN_KEY, TAB_KEY].includes(event.key)) {
+      event.preventDefault();
     }
 
     const menuId = this.menuId() as string;
