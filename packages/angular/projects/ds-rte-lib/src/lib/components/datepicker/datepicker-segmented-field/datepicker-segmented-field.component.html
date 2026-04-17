@@ -1,5 +1,6 @@
 <rte-base-input
   rightIcon="calendar-month"
+  rightIconSize="m"
   [id]="id()"
   [useLabelForAttribute]="false"
   [label]="hasLabel() ? label() : ''"
@@ -14,6 +15,7 @@
   [maxLength]="10"
   [disabled]="disabled()"
   [readOnly]="readOnly()"
+  [highlighted]="highlighted()"
   [width]="'100%'"
   [rightIconAriaLabel]="rightIconAriaLabel()"
   (rightIconClick)="onRightIconClickHandler($event)"
