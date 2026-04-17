@@ -50,6 +50,7 @@ export class DatepickerSegmentedFieldComponent {
   readonly error = input<boolean>(false);
   readonly disabled = input<boolean>(false);
   readonly readOnly = input<boolean>(false);
+  readonly highlighted = input<boolean>(false);
   readonly ariaLabel = input<string>("");
   readonly ariaLabelledby = input<string | null>(null);
   readonly ariaRequired = input<boolean>(false);
