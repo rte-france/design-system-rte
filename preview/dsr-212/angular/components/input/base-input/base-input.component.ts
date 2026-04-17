@@ -9,6 +9,7 @@ import {
   output,
   signal,
 } from "@angular/core";
+import { ButtonSize } from "@design-system-rte/core";
 
 import { IconComponent } from "../../icon/icon.component";
 import { RegularIconIdKey, TogglableIconIdKey } from "../../icon/icon.service";
@@ -38,6 +39,7 @@ export class BaseInputComponent {
   readonly showRightIcon = input<boolean>(true);
   readonly rightIcon = input<RegularIconIdKey | TogglableIconIdKey | null>(null);
   readonly rightIconAriaLabel = input<string>("");
+  readonly rightIconSize = input<Exclude<ButtonSize, "l">>("s");
 
   readonly showLabelRequirement = input<boolean>(false);
   readonly assistiveAppearance = input<"description" | "error" | "success" | "link">("description");
