@@ -27,9 +27,10 @@ export const formatNumberToDigitValue = (value: number): string => {
 
 export const computeTimeSegmentRanges = (vals: TimeFormat): Record<TimeSegmentEnum, [number, number]> => {
   const hourValueLength = vals[TimeSegmentEnum.HOURS].toString().length;
-  const minuteValueStartIndex = hourValueLength + 1;
+  const dividerLength = 3;
+  const minuteValueStartIndex = hourValueLength + dividerLength;
   const minuteValueLength = vals[TimeSegmentEnum.MINUTES].toString().length;
-  const secondValueStartIndex = minuteValueStartIndex + minuteValueLength + 1;
+  const secondValueStartIndex = minuteValueStartIndex + minuteValueLength + dividerLength;
 
   return {
     [TimeSegmentEnum.HOURS]: [0, hourValueLength],
@@ -59,10 +60,10 @@ export const canSwitchToNextSegment = (vals: Record<TimeSegmentEnum, string>, se
 export const buildDisplayValue = (vals: Record<TimeSegmentEnum, string>, activeSegment: TimeSegmentEnum): string => {
   let result = vals[TimeSegmentEnum.HOURS];
   if (activeSegment !== TimeSegmentEnum.HOURS || vals[TimeSegmentEnum.MINUTES]) {
-    result += ":" + vals[TimeSegmentEnum.MINUTES];
+    result += " : " + vals[TimeSegmentEnum.MINUTES];
   }
   if (activeSegment === TimeSegmentEnum.SECONDS || vals[TimeSegmentEnum.SECONDS]) {
-    result += ":" + vals[TimeSegmentEnum.SECONDS];
+    result += " : " + vals[TimeSegmentEnum.SECONDS];
   }
   return result;
 };
