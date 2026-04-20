@@ -50,14 +50,7 @@ const FileUpload = ({
 
     if (onUpload) {
       files.forEach((file) => {
-        setLoadingFiles((prev) => new Set(prev).add(file));
-        onUpload(file).finally(() => {
-          setLoadingFiles((prev) => {
-            const next = new Set(prev);
-            next.delete(file);
-            return next;
-          });
-        });
+        handleUploadFile(file);
       });
     }
   };
@@ -80,6 +73,17 @@ const FileUpload = ({
         onChange?.(newFiles);
       }
     }
+  };
+
+  const handleUploadFile = (file: File) => {
+    setLoadingFiles((prev) => new Set(prev).add(file));
+    onUpload!(file).finally(() => {
+      setLoadingFiles((prev) => {
+        const next = new Set(prev);
+        next.delete(file);
+        return next;
+      });
+    });
   };
 
   return (
