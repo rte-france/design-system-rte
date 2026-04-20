@@ -51,6 +51,7 @@ const TimePickerDigit = forwardRef<HTMLInputElement, TimePickerDigitProps>(
               value={value ?? "00"}
               onChange={onChange}
               onKeyDown={handleOnKeyDown}
+              tabIndex={readOnly ? -1 : 0}
               className={styles["rte-time-picker-segment-input"]}
               readOnly={readOnly}
             />
