@@ -113,14 +113,14 @@ export const WithIncrement: Story = {
     await userEvent.tab();
     await userEvent.tab();
     await userEvent.keyboard(TESTING_ENTER_KEY);
-    expect(input.value).toBe("00:00:00");
+    expect(input.value).toBe("00 : 00 : 00");
 
     await userEvent.tab();
     await userEvent.keyboard(TESTING_ARROW_UP_KEY);
-    expect(input.value).toBe("00:15:00");
+    expect(input.value).toBe("00 : 15 : 00");
 
     await userEvent.keyboard(TESTING_ARROW_UP_KEY);
-    expect(input.value).toBe("00:30:00");
+    expect(input.value).toBe("00 : 30 : 00");
   },
 };
 
@@ -135,26 +135,26 @@ export const KeyboardInteractions: Story = {
     const input = canvasElement.querySelector("input") as HTMLInputElement;
     await userEvent.tab();
     await userEvent.keyboard("a");
-    expect(input.value).toBe("12:30:45");
+    expect(input.value).toBe("12 : 30 : 45");
 
     await userEvent.keyboard(TESTING_ARROW_RIGHT_KEY);
     await userEvent.keyboard("3");
-    expect(input.value).toBe("12:03:45");
+    expect(input.value).toBe("12 : 03 : 45");
 
     await userEvent.keyboard("2");
-    expect(input.value).toBe("12:32:45");
+    expect(input.value).toBe("12 : 32 : 45");
 
     await userEvent.keyboard(TESTING_ARROW_RIGHT_KEY);
     await userEvent.keyboard("2");
-    expect(input.value).toBe("12:32:02");
+    expect(input.value).toBe("12 : 32 : 02");
 
     await userEvent.tab();
     await userEvent.keyboard(TESTING_ENTER_KEY);
     await userEvent.keyboard(TESTING_ARROW_UP_KEY);
-    expect(input.value).toBe("13:32:02");
+    expect(input.value).toBe("13 : 32 : 02");
 
     await userEvent.tab();
     await userEvent.keyboard(TESTING_ARROW_UP_KEY);
-    expect(input.value).toBe("13:33:02");
+    expect(input.value).toBe("13 : 33 : 02");
   },
 };
