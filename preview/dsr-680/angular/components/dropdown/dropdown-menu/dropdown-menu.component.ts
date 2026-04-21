@@ -35,6 +35,7 @@ import { DropdownItemComponent } from "../dropdown-item/dropdown-item.component"
 import { DropdownItemConfig, SubmenuRequestEvent } from "../dropdown.types";
 import { focusParentDropdownFirstElement } from "../dropdown.utils";
 
+import { DropdownMenuBodyDirective } from "./dropdown-menu-body.directive";
 import { DropdownMenuFooterDirective } from "./dropdown-menu-footer.directive";
 import { DropdownMenuHeaderDirective } from "./dropdown-menu-header.directive";
 
@@ -70,12 +71,15 @@ export class DropdownMenuComponent implements OnDestroy {
 
   readonly headerDirective = contentChild(DropdownMenuHeaderDirective);
   readonly footerDirective = contentChild(DropdownMenuFooterDirective);
+  readonly bodyDirective = contentChild(DropdownMenuBodyDirective);
 
   readonly headerTemplate = input<TemplateRef<HTMLElement> | undefined>(undefined);
   readonly footerTemplate = input<TemplateRef<HTMLElement> | undefined>(undefined);
+  readonly bodyTemplate = input<TemplateRef<HTMLElement> | undefined>(undefined);
 
   readonly headerContentRef = viewChild<ElementRef<HTMLElement>>("headerContent");
   readonly footerContentRef = viewChild<ElementRef<HTMLElement>>("footerContent");
+  readonly bodyContentRef = viewChild<ElementRef<HTMLElement>>("bodyContent");
   readonly itemComponents = viewChildren(DropdownItemComponent);
 
   readonly hasHeaderContent = computed(() => {
@@ -88,6 +92,13 @@ export class DropdownMenuComponent implements OnDestroy {
     const hasTemplate = !!this.footerTemplate();
     const hasProjectedContent = !!this.footerContentRef()?.nativeElement?.children.length;
     return hasTemplate || hasProjectedContent;
+  });
+
+  readonly hasBodyContent = computed(() => {
+    const hasTemplate = !!this.bodyTemplate();
+    const hasDirectiveTemplate = !!this.bodyDirective()?.templateRef;
+    const hasProjectedContent = !!this.bodyContentRef()?.nativeElement?.children.length;
+    return hasTemplate || hasDirectiveTemplate || hasProjectedContent;
   });
 
   getChildMenuId(itemIndex: number): string {
@@ -163,6 +174,17 @@ export class DropdownMenuComponent implements OnDestroy {
   @HostListener("keydown", ["$event"])
   onKeyDown(event: KeyboardEvent): void {
     if (!event.target || !this.menuId()) {
+      return;
+    }
+
+    if (this.hasBodyContent()) {
+      if (event.key === ESCAPE_KEY) {
+        this.closingMenu.emit();
+        this.dropdownService.handleKeyboardInput(event.key, {
+          menuElement: this.elementRef,
+          menuId: this.menuId() as string,
+        });
+      }
       return;
     }
 
