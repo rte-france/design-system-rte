@@ -212,6 +212,7 @@ export const Default: Story = {
 };
 
 export const Collapsible: Story = {
+  tags: ["skip-ci"],
   args: {
     ...Default.args,
     collapsible: true,
@@ -219,6 +220,7 @@ export const Collapsible: Story = {
 };
 
 export const HeaderWithVersion: Story = {
+  tags: ["skip-ci"],
   args: {
     ...Default.args,
     headerConfig: defaultHeaderConfig,

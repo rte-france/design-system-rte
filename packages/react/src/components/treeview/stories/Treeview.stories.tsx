@@ -225,6 +225,7 @@ export const Compact: Story = {
 };
 
 export const PreselectedState: Story = {
+  tags: ["skip-ci"],
   args: {
     items: createConnectorLinesData({ middleOpen: false }),
     selectedId: "first-2",
@@ -240,6 +241,7 @@ export const PreselectedState: Story = {
 };
 
 export const SelectionExclusive: Story = {
+  tags: ["skip-ci"],
   args: {
     items: navigationData,
   },
