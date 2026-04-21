@@ -220,7 +220,7 @@ export const WithIncrement: Story = {
     await userEvent.tab();
     await userEvent.tab();
     await userEvent.keyboard(TESTING_ENTER_KEY);
-    expect(mainInput.value).toBe("00:00:00");
+    expect(mainInput.value).toBe("00 : 00 : 00");
 
     const menuSelector = '[data-menu-id="time_picker_time-picker"]';
     await waitFor(() => {
@@ -241,10 +241,10 @@ export const WithIncrement: Story = {
     expect(document.activeElement).toBe(segmentInputs[1]);
 
     await userEvent.keyboard(TESTING_ARROW_UP_KEY);
-    expect(mainInput.value).toBe("00:15:00");
+    expect(mainInput.value).toBe("00 : 15 : 00");
 
     await userEvent.keyboard(TESTING_ARROW_UP_KEY);
-    expect(mainInput.value).toBe("00:30:00");
+    expect(mainInput.value).toBe("00 : 30 : 00");
   },
 };
 
@@ -297,18 +297,18 @@ export const KeyboardInteractions: Story = {
     expect(input).toBeTruthy();
     await userEvent.tab();
     await userEvent.keyboard("a");
-    expect(input.value).toBe("12:30:45");
+    expect(input.value).toBe("12 : 30 : 45");
 
     await userEvent.keyboard(TESTING_ARROW_RIGHT_KEY);
     await userEvent.keyboard("3");
-    expect(input.value).toBe("12:03:45");
+    expect(input.value).toBe("12 : 03 : 45");
 
     await userEvent.keyboard("2");
-    expect(input.value).toBe("12:32:45");
+    expect(input.value).toBe("12 : 32 : 45");
 
     await userEvent.keyboard(TESTING_ARROW_RIGHT_KEY);
     await userEvent.keyboard("2");
-    expect(input.value).toBe("12:32:02");
+    expect(input.value).toBe("12 : 32 : 02");
 
     const menuSelectorKb = '[data-menu-id="time_picker_time-picker"]';
 
@@ -323,7 +323,7 @@ export const KeyboardInteractions: Story = {
       expect(document.activeElement).toBe(segments[0]);
     });
     await userEvent.keyboard(TESTING_ARROW_UP_KEY);
-    expect(input.value).toBe("13:32:02");
+    expect(input.value).toBe("13 : 32 : 02");
 
     await userEvent.tab();
     const menuHostAfterTab = document.querySelector(menuSelectorKb)!;
@@ -332,6 +332,6 @@ export const KeyboardInteractions: Story = {
     ) as NodeListOf<HTMLInputElement>;
     expect(document.activeElement).toBe(segmentsAfterTab[1]);
     await userEvent.keyboard(TESTING_ARROW_UP_KEY);
-    expect(input.value).toBe("13:33:02");
+    expect(input.value).toBe("13 : 33 : 02");
   },
 };
