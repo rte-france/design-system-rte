@@ -32,7 +32,7 @@ import { default as Switch } from './components/switch/Switch.tsx';
 import { default as Tab } from './components/tab/Tab.tsx';
 import { default as Tag } from './components/tag/Tag.tsx';
 import { default as Textarea } from './components/textarea/Textarea.tsx';
-import { default as BaseTextInput } from './components/textInput/baseTextuInput/BaseTextInput.tsx';
+import { default as BaseTextInput } from './components/textInput/baseTextInput/BaseTextInput.tsx';
 import { default as Toast } from './components/toast/Toast.tsx';
 import { default as ToastQueueProvider } from './components/toast/toastQueue/ToastQueueProvider.tsx';
 import { default as Tooltip } from './components/tooltip/Tooltip.tsx';
