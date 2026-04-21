@@ -1,5 +1,26 @@
 # @design-system-rte/core
 
+## 1.7.0
+
+### Minor Changes
+
+- 6469a9e: ## Changes
+  - (File-upload) allow hiding assistive text
+  - (File-upload) add react component
+
+- a6d573a: ## Changes
+  - (File-upload) allow hiding assistive text
+  - (File-upload) add react component
+
+- 3b5b20a: ## Changes
+  - (Datepicker) add a11y support for segmented field and datepicker-menu
+  - (Datepicker) add keyboard page switch navigation for month and year calendar views
+  - (Dropdown) correct autofocus behavior
+  - (Datepicker) add min, max and disable dates features
+  - (Datepicker) add keyboard navigation and controls for segmented-date-field
+  - (Datepicker) add segmented-date-field inner component
+  - (Datepicker) handle different views (day/month/year) navigations
+
 ## 1.6.5
 
 ### Patch Changes

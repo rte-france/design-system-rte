@@ -1,5 +1,32 @@
 # @design-system-rte/react
 
+## 1.8.0
+
+### Minor Changes
+
+- 6469a9e: ## Changes
+  - (File-upload) allow hiding assistive text
+  - (File-upload) add missing autodocs tag to story
+  - add id generation function
+  - (Loader) remove gap when there is no label
+  - (File-upload) add react component
+  - (Tooltip) react - remove max width
+
+- a6d573a: ## Changes
+  - (File-upload) allow hiding assistive text
+  - (File-upload) add missing autodocs tag to story
+  - add id generation function
+  - (Loader) remove gap when there is no label
+  - (File-upload) add react component
+  - (Tooltip) react - remove max width
+
+### Patch Changes
+
+- Updated dependencies [6469a9e]
+- Updated dependencies [a6d573a]
+- Updated dependencies [3b5b20a]
+  - @design-system-rte/core@1.7.0
+
 ## 1.7.0
 
 ### Minor Changes

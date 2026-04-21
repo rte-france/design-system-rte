@@ -4,6 +4,38 @@
 
 ### Minor Changes
 
+- 6469a9e: ## Changes
+  - (File-upload) add angular component
+  - (Tooltip) remove max width + fix positionning on angular component
+
+- 3b5b20a: ## Changes
+  - (Datepicker) set segmented-field placeholder values to jj/mm/aaaa
+  - (Datepicker) add a11y support for segmented field and datepicker-menu
+  - (Datepicker) add keyboard page switch navigation for month and year calendar views
+  - (Input) correct rightIcon not showing in disabled and readonly inputs
+  - (Datepicker )introduce hasAction boolean option to control calendar behavior
+  - (Datepicker) add min, max and disable dates features
+  - (Datepicker) add keyboard navigation and controls for segmented-date-field
+  - (Input) correct display for projected inputs
+  - (Datepicker) add segmented-date-field inner component
+  - (Datepicker) handle different views (day/month/year) navigations
+  - (Dropdown) add custom body capacities for Datepicker implementation and Searchbar requirements
+  - (Datepicker) add base Datepicker structure
+
+### Patch Changes
+
+- e5d8a77: ## Changes
+  - (Accordion) add missing title input signal
+
+- Updated dependencies [6469a9e]
+- Updated dependencies [a6d573a]
+- Updated dependencies [3b5b20a]
+  - @design-system-rte/core@1.7.0
+
+## 2.0.0
+
+### Minor Changes
+
 - d7726a1: ## Changes
   - (Icon) add new icons - arrow_compare - company - contact (filled/outlined) - export_xls (filled/outlined) - handshake (filled/outlined) - swap_horiz - swap_vert
   - (Icon) add support for dynamic color change
