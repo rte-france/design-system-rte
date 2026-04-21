@@ -1,4 +1,4 @@
-import type { DatepickerCalendarType } from "./datepicker.interface";
+import { type DatepickerCalendarType } from "./datepicker.interface.d";
 
 export const DATEPICKER_DEFAULT_WIDTH = "248px";
 
@@ -26,6 +26,12 @@ export const DATEPICKER_TAB_DATA = {
 
 export type DatepickerTabDataKey = keyof typeof DATEPICKER_TAB_DATA;
 
+export enum DateSegmentEnum {
+  DAY = "DD",
+  MONTH = "MM",
+  YEAR = "YYYY",
+}
+
 export const DATEPICKER_MENU_REST_TAB_KEYS_DAY = [
   "cancel",
   "confirm",
@@ -48,3 +54,23 @@ export const DATEPICKER_MENU_REST_TAB_KEYS_COMPACT = [
   ...DATEPICKER_MENU_HEADER_TAB_KEYS_COMPACT,
   ...DATEPICKER_MENU_FOOTER_TAB_KEYS,
 ] as const satisfies readonly DatepickerTabDataKey[];
+
+export const DATE_SEGMENTS_ORDER: DateSegmentEnum[] = [
+  DateSegmentEnum.DAY,
+  DateSegmentEnum.MONTH,
+  DateSegmentEnum.YEAR,
+];
+
+export const DATE_SEGMENT_MIN_VALUE: number = 1;
+
+export const DATE_SEGMENT_MAX_VALUE: Record<DateSegmentEnum, number> = {
+  [DateSegmentEnum.DAY]: 31,
+  [DateSegmentEnum.MONTH]: 12,
+  [DateSegmentEnum.YEAR]: 9999,
+};
+
+export const DATE_SEGMENT_MAX_FIRST_DIGIT: Record<DateSegmentEnum, number> = {
+  [DateSegmentEnum.DAY]: 3,
+  [DateSegmentEnum.MONTH]: 1,
+  [DateSegmentEnum.YEAR]: 9,
+};

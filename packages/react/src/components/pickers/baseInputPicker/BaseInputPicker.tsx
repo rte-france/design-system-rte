@@ -7,6 +7,7 @@ import styles from "./BaseInputPicker.module.scss";
 interface BaseInputPickerProps extends BaseInput {
   value?: string;
   onChange?: () => void;
+  icon?: string;
   isFocused?: boolean;
   pickerInputRef?: React.RefObject<HTMLInputElement> | ((element: HTMLInputElement) => void);
   pickerRef?: React.RefObject<HTMLDivElement>;
@@ -22,6 +23,7 @@ const BaseInputPicker = ({
   id,
   value,
   readOnly,
+  icon = "clock",
   onChange,
   onFocus,
   onKeyDown,
@@ -36,7 +38,7 @@ const BaseInputPicker = ({
   openButtonAriaLabel,
 }: BaseInputPickerProps) => {
   const canInteractWithPicker = !disabled && !readOnly;
-  const canBeFocused = !disabled && !readOnly && isFocused;
+  const canBeFocused = canInteractWithPicker && isFocused;
 
   return (
     <>
@@ -60,6 +62,9 @@ const BaseInputPicker = ({
           onFocus={canInteractWithPicker ? onFocus : undefined}
           onKeyDown={canInteractWithPicker ? onKeyDown : undefined}
           onMouseUp={canInteractWithPicker ? onMouseUp : undefined}
+          onKeyUp={(e) => {
+            e.preventDefault();
+          }}
           disabled={disabled}
           onChange={onChange}
         />
@@ -70,7 +75,7 @@ const BaseInputPicker = ({
           disabled={disabled}
         >
           <Icon
-            name="clock"
+            name={icon}
             appearance="outlined"
             className={styles["rte-base-input-picker-icon"]}
             aria-hidden="true"
