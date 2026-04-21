@@ -2,7 +2,7 @@
 
 # Angular
 
-## 1.6.0
+## 2.0.0
 
 ### Icon
 
@@ -15,12 +15,18 @@
 
 #### Minor Changes
 
+- add react component
 - add Angular component
+
+#### Patch Changes
+
+- add missing title input signal
 
 ### Treeview
 
 #### Minor Changes
 
+- add react component
 - correct item menu behavior
 - add keyboard navigation system
 - implement Badge
@@ -34,12 +40,25 @@
 - add proper treeview-item styles
 - set base structure for Treeview in Angular
 - remove dottedLine because of functionality deprecation
+- correct item menu behavior
+- add keyboard navigation system
+- implement Badge
+- correct template for nested items & the connector border system
+- correct compact version rendering
+- add action button and dropdown menu interaction
+- correct cascading checkbox system behavior
+- add checkbox system
+- add selection system to define selection exclusively
+- stabilize border & connector system
+- add proper treeview-item styles
+- set base structure for Treeview in Angular
 
 ### Avatar
 
 #### Minor Changes
 
 - add angular component
+- add react component
 
 ### Core
 
@@ -71,6 +90,10 @@
 
 #### Patch Changes
 
+- Updated dependencies [6469a9e]
+- Updated dependencies [a6d573a]
+- Updated dependencies [3b5b20a]
+- @design-system-rte/core@1.7.0
 - Updated dependencies [d7726a1]
 - Updated dependencies [ea178db]
 - Updated dependencies [4fbabfe]
@@ -170,6 +193,47 @@
 - @design-system-rte/core@1.4.0
 # React
 
+## 1.8.0
+
+### File-upload
+
+#### Minor Changes
+
+- allow hiding assistive text
+- add missing autodocs tag to story
+- add react component
+- allow hiding assistive text
+- add missing autodocs tag to story
+- add react component
+
+### Loader
+
+#### Minor Changes
+
+- remove gap when there is no label
+- remove gap when there is no label
+
+### Tooltip
+
+#### Minor Changes
+
+- react - remove max width
+- react - remove max width
+
+### Other
+
+#### Minor Changes
+
+- add id generation function
+- add id generation function
+
+#### Patch Changes
+
+- Updated dependencies [6469a9e]
+- Updated dependencies [a6d573a]
+- Updated dependencies [3b5b20a]
+- @design-system-rte/core@1.7.0
+
 ## 1.7.0
 
 ### Icon
@@ -195,6 +259,7 @@
 
 #### Minor Changes
 
+- add angular component
 - add react component
 
 ### Core
@@ -259,48 +324,38 @@
 
 - Updated dependencies [39623c1]
 - @design-system-rte/core@1.5.0
+# Core
 
-## 1.5.0
+## 1.7.0
 
-### Segmented-control
+### File-upload
 
 #### Minor Changes
 
-- add compact spacing variant
-- add neutral appearance + modify height
+- allow hiding assistive text
+- add react component
+- allow hiding assistive text
+- add react component
 
-### Tab
+### Datepicker
 
-#### Patch Changes
+#### Minor Changes
 
-- replace bold style on hovering and selected tab with different shade of color
-
-### Stepper
-
-#### Patch Changes
-
-- add missing step name color on hover
+- add a11y support for segmented field and datepicker-menu
+- add keyboard page switch navigation for month and year calendar views
+- add min, max and disable dates features
+- add keyboard navigation and controls for segmented-date-field
+- add segmented-date-field inner component
+- handle different views  navigations
 
 ### Dropdown
 
-#### Patch Changes
+#### Minor Changes
 
-- add missing aria attributes for dropdown item
-
-### Tag
-
-#### Patch Changes
-
-- use span to display label and allow aria-label attribute
+- correct autofocus behavior
 
 ### Other
 
-#### Patch Changes
-
-- Updated dependencies [c477d66]
-- Updated dependencies [0d80052]
-- @design-system-rte/core@1.4.0
-# Core
 
 ## 1.6.5
 
@@ -312,19 +367,6 @@
 
 ### Other
 
-## 1.6.4
-
-### Other
-
- - fix assets exports from inner components
-
-## 1.6.1
-
-### Other
-
-#### Patch Changes
-
-- add missing Avatar export in index
 
 ## 1.6.0
 
@@ -427,30 +469,6 @@
 #### Patch Changes
 
 - correct core/utils integration with angular package
-
-### Other
-
-
-## 1.4.0
-
-### Segmented-control
-
-#### Minor Changes
-
-- add compact spacing variant
-- add neutral appearance + modify height
-
-### Dropdown
-
-#### Patch Changes
-
-- correct keyboard back navigation
-
-### Drodpown
-
-#### Patch Changes
-
-- correct hovering of nested items closing ancestors in angular implementation
 
 ### Other
 
