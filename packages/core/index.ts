@@ -20,6 +20,7 @@ export * from "./components/datepicker";
 export * from "./components/drawer";
 export * from "./components/dropdown";
 export * from "./components/grid";
+export * from "./components/header";
 export * from "./components/icon";
 export * from "./components/link";
 export * from "./components/loader";
