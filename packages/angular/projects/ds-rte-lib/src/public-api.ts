@@ -54,3 +54,5 @@ export * from "./lib/components/file-upload/file-upload.component";
 export * from "./lib/components/file-upload/file-item/file-item.component";
 export * from "./lib/components/datepicker/datepicker.component";
 export * from "./lib/components/time-picker/time-picker.component";
+export * from "./lib/components/header/header.component";
+export * from "./lib/components/header/header-right.directive";
