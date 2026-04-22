@@ -114,6 +114,7 @@ export class DropdownMenuComponent implements OnDestroy {
 
     const componentRef = this.overlayService.create(DropdownMenuComponent, this.viewContainerRef);
     componentRef.setInput("items", children);
+    componentRef.setInput("bodyTemplate", this.bodyTemplate());
     componentRef.setInput("menuId", childId);
     componentRef.setInput("isOpen", true);
 
@@ -190,10 +191,6 @@ export class DropdownMenuComponent implements OnDestroy {
 
     if ([ARROW_UP_KEY, ARROW_DOWN_KEY, TAB_KEY].includes(event.key)) {
       event.preventDefault();
-    }
-
-    if (event.key === ESCAPE_KEY) {
-      this.closingMenu.emit();
     }
 
     const menuId = this.menuId() as string;

@@ -20,7 +20,7 @@
       @if (icon(); as iconName) {
         <rte-icon [name]="iconName" [size]="iconPixelSize()" />
       }
-      <span class="rte-accordion-title size-{{ size() }}">Accordion title</span>
+      <span class="rte-accordion-title size-{{ size() }}">{{ title() }}</span>
       @if (alignement() === "right") {
         <rte-icon
           class="rte-accordion-chevron"

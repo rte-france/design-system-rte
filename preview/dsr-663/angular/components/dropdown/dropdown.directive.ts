@@ -84,12 +84,26 @@ export class DropdownDirective implements AfterContentInit {
     }
     return {
       items: menu.items(),
+      bodyTemplate: menu.bodyDirective()?.templateRef,
       headerTemplate: menu.headerDirective()?.templateRef,
       footerTemplate: menu.footerDirective()?.templateRef,
-      bodyTemplate: menu.bodyDirective()?.templateRef,
       width: menu.width(),
     };
   });
+
+  dropdownMenuRef: ComponentRef<DropdownMenuComponent> | null = null;
+  private itemEventSubscription: { unsubscribe: () => void } | null = null;
+  private viewportResizeFrameId: number | null = null;
+
+  private readonly onViewportOrWindowResize = (): void => {
+    if (this.viewportResizeFrameId !== null) {
+      cancelAnimationFrame(this.viewportResizeFrameId);
+    }
+    this.viewportResizeFrameId = requestAnimationFrame(() => {
+      this.viewportResizeFrameId = null;
+      this.scheduleOverlayLayoutSync();
+    });
+  };
 
   constructor() {
     this.hostElement = this.elementRef.nativeElement;
@@ -117,21 +131,63 @@ export class DropdownDirective implements AfterContentInit {
 
     effect(() => {
       const inputs = this.menuInputs();
+      const isOpen = this.rteDropdownIsOpen();
       if (this.dropdownMenuRef && inputs) {
         this.assignInputs();
+        if (isOpen) {
+          waitForNextFrame(() => {
+            if (!this.dropdownMenuRef || !this.rteDropdownIsOpen()) {
+              return;
+            }
+            this.positionDropdownMenu(this.rteDropdownPosition());
+          });
+        }
+      }
+    });
+
+    this.registerViewportResizeRepositionHandling();
+  }
+
+  private registerViewportResizeRepositionHandling(): void {
+    if (typeof window === "undefined") {
+      return;
+    }
+    window.addEventListener("resize", this.onViewportOrWindowResize);
+    window.visualViewport?.addEventListener("resize", this.onViewportOrWindowResize);
+    this.destroyRef.onDestroy(() => {
+      window.removeEventListener("resize", this.onViewportOrWindowResize);
+      window.visualViewport?.removeEventListener("resize", this.onViewportOrWindowResize);
+      if (this.viewportResizeFrameId !== null) {
+        cancelAnimationFrame(this.viewportResizeFrameId);
+        this.viewportResizeFrameId = null;
       }
     });
   }
 
-  dropdownMenuRef: ComponentRef<DropdownMenuComponent> | null = null;
-  private itemEventSubscription: { unsubscribe: () => void } | null = null;
+  private scheduleOverlayLayoutSync(): void {
+    if (!this.dropdownMenuRef || !this.rteDropdownIsOpen()) {
+      return;
+    }
+    this.assignInputs();
+    waitForNextFrame(() => {
+      if (!this.dropdownMenuRef || !this.rteDropdownIsOpen()) {
+        return;
+      }
+      this.positionDropdownMenu(this.rteDropdownPosition());
+    });
+  }
 
   onTrigger(): void {
     if (this.rteDropdownAutoOpen()) {
       this.showDropdownMenu();
-    }
-    if (this.rteDropdownAutofocus()) {
-      waitForNextFrame(() => focusDropdownFirstElement(this.dropdownId));
+      if (this.rteDropdownAutofocus()) {
+        waitForNextFrame(() => {
+          if (!this.dropdownMenuRef) {
+            return;
+          }
+          focusDropdownFirstElement(this.dropdownId);
+        });
+      }
     }
   }
 
@@ -213,14 +269,7 @@ export class DropdownDirective implements AfterContentInit {
 
           this.removeClickOutsideListener();
           dropdownStateSubscription.unsubscribe();
-          const buttonTrigger = this.trigger()?.elementRef.nativeElement.querySelectorAll(
-            FOCUSABLE_BUTTONS_QUERY,
-          )[0] as HTMLElement;
-          if (buttonTrigger) {
-            buttonTrigger.focus();
-          } else {
-            this.trigger()?.elementRef.nativeElement.focus();
-          }
+          this.focusTriggerElementAfterMenuClosed();
         }
       }
     });
@@ -232,6 +281,7 @@ export class DropdownDirective implements AfterContentInit {
     if (this.dropdownMenuRef) {
       const items = this.menu()?.items() ?? [];
       this.dropdownMenuRef.setInput("items", items);
+      this.dropdownMenuRef.setInput("bodyTemplate", this.menu()?.bodyDirective()?.templateRef);
       this.dropdownMenuRef.setInput("headerTemplate", this.menu()?.headerDirective()?.templateRef);
       this.dropdownMenuRef.setInput("footerTemplate", this.menu()?.footerDirective()?.templateRef);
       this.dropdownMenuRef.setInput("bodyTemplate", this.menu()?.bodyDirective()?.templateRef);
@@ -286,6 +336,24 @@ export class DropdownDirective implements AfterContentInit {
         this.renderer.setStyle(dropdownMenuElement, "opacity", "1");
       }
     }
+  }
+
+  private focusTriggerElementAfterMenuClosed(): void {
+    const triggerElement = this.trigger()?.elementRef.nativeElement as HTMLElement | undefined;
+    if (!triggerElement) {
+      return;
+    }
+    const focusable = Array.from(triggerElement.querySelectorAll<HTMLElement>(FOCUSABLE_BUTTONS_QUERY));
+    if (focusable.length === 0) {
+      triggerElement.focus();
+      return;
+    }
+    const explicitButtons = focusable.filter((element) => {
+      return element.tagName === "BUTTON" || element.getAttribute("role") === "button";
+    });
+    const target =
+      explicitButtons.length > 0 ? explicitButtons[explicitButtons.length - 1] : focusable[focusable.length - 1];
+    target.focus();
   }
 
   private unsubscribeItemEvent(): void {
