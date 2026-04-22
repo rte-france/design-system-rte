@@ -8,10 +8,6 @@
   - (File-upload) allow hiding assistive text
   - (File-upload) add react component
 
-- a6d573a: ## Changes
-  - (File-upload) allow hiding assistive text
-  - (File-upload) add react component
-
 - 3b5b20a: ## Changes
   - (Datepicker) add a11y support for segmented field and datepicker-menu
   - (Datepicker) add keyboard page switch navigation for month and year calendar views

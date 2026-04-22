@@ -2,7 +2,63 @@
 
 # Angular
 
-## 2.0.0
+## 1.7.0
+
+### File-upload
+
+#### Minor Changes
+
+- add angular component
+
+### Tooltip
+
+#### Minor Changes
+
+- remove max width + fix positionning on angular component
+
+### Datepicker
+
+#### Minor Changes
+
+- set segmented-field placeholder values to jj/mm/aaaa
+- add a11y support for segmented field and datepicker-menu
+- add keyboard page switch navigation for month and year calendar views
+- introduce hasAction boolean option to control calendar behavior
+- add min, max and disable dates features
+- add keyboard navigation and controls for segmented-date-field
+- add segmented-date-field inner component
+- handle different views  navigations
+- add base Datepicker structure
+
+### Input
+
+#### Minor Changes
+
+- correct rightIcon not showing in disabled and readonly inputs
+- correct display for projected inputs
+
+### Dropdown
+
+#### Minor Changes
+
+- add custom body capacities for Datepicker implementation and Searchbar requirements
+
+### Accordion
+
+#### Patch Changes
+
+- add missing title input signal
+
+### Other
+
+#### Patch Changes
+
+- Updated dependencies [6469a9e]
+- Updated dependencies [a6d573a]
+- Updated dependencies [3b5b20a]
+- @design-system-rte/core@1.7.0
+
+## 1.6.0
 
 ### Icon
 
@@ -17,10 +73,6 @@
 
 - add react component
 - add Angular component
-
-#### Patch Changes
-
-- add missing title input signal
 
 ### Treeview
 
@@ -90,10 +142,6 @@
 
 #### Patch Changes
 
-- Updated dependencies [6469a9e]
-- Updated dependencies [a6d573a]
-- Updated dependencies [3b5b20a]
-- @design-system-rte/core@1.7.0
 - Updated dependencies [d7726a1]
 - Updated dependencies [ea178db]
 - Updated dependencies [4fbabfe]
@@ -130,67 +178,6 @@
 
 - Updated dependencies [39623c1]
 - @design-system-rte/core@1.5.0
-
-## 1.4.0
-
-### Segmented-control
-
-#### Minor Changes
-
-- add compact spacing variant
-- add neutral appearance + modify height
-
-### Dropdown
-
-#### Minor Changes
-
-- add missing aria attributes for dropdown item
-- resolve circular dependency between menu & item when handling nested menus
-- correct keyboard back navigation
-- add nesting to Angular dropdown component
-
-#### Patch Changes
-
-- standardize mouseLeave dropdown submenu behavior in Angular to imatch React's one
-- add angular dropdown to public api
-
-### Drodpown
-
-#### Minor Changes
-
-- correct hovering of nested items closing ancestors in angular implementation
-
-### Tab
-
-#### Patch Changes
-
-- replace bold style on hovering and selected tab with different shade of color
-
-### Stepper
-
-#### Patch Changes
-
-- add missing step name color on hover
-
-### Tag
-
-#### Patch Changes
-
-- use span to display label and allow aria-label attribute
-
-### Sidenav
-
-#### Patch Changes
-
-- add base-side-nav to Angular's public API
-
-### Other
-
-#### Patch Changes
-
-- Updated dependencies [c477d66]
-- Updated dependencies [0d80052]
-- @design-system-rte/core@1.4.0
 # React
 
 ## 1.8.0
@@ -332,8 +319,6 @@
 
 #### Minor Changes
 
-- allow hiding assistive text
-- add react component
 - allow hiding assistive text
 - add react component
 

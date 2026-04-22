@@ -1,6 +1,6 @@
 # @design-system-rte/angular
 
-## 2.0.0
+## 1.7.0
 
 ### Minor Changes
 
@@ -13,7 +13,7 @@
   - (Datepicker) add a11y support for segmented field and datepicker-menu
   - (Datepicker) add keyboard page switch navigation for month and year calendar views
   - (Input) correct rightIcon not showing in disabled and readonly inputs
-  - (Datepicker )introduce hasAction boolean option to control calendar behavior
+  - (Datepicker) introduce hasAction boolean option to control calendar behavior
   - (Datepicker) add min, max and disable dates features
   - (Datepicker) add keyboard navigation and controls for segmented-date-field
   - (Input) correct display for projected inputs
@@ -32,7 +32,7 @@
 - Updated dependencies [3b5b20a]
   - @design-system-rte/core@1.7.0
 
-## 2.0.0
+## 1.6.0
 
 ### Minor Changes
 
