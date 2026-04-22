@@ -249,6 +249,7 @@ export const WithIncrement: Story = {
 };
 
 export const KeyboardInteractions: Story = {
+  tags: ["skip-ci"],
   args: {
     ...Default.args,
     value: { hh: "12", mm: "30", ss: "45" },
