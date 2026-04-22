@@ -301,6 +301,54 @@ export const WithProjectedHeaderAndFooter: Story = {
   },
 };
 
+export const WithCustomBody: Story = {
+  decorators: [
+    moduleMetadata({
+      imports: [DropdownModule],
+    }),
+  ],
+  args: {
+    rteDropdownPosition: "bottom",
+  },
+  render: (args) => ({
+    props: {
+      ...args,
+      onItemClick: (event: { event: Event; id: string }) => {
+        console.log("Item clicked:", event);
+      },
+    },
+    template: `
+    <div rteDropdown [rteDropdownPosition]="rteDropdownPosition" (menuEvent)="onItemClick($event)">
+      <button rteDropdownTrigger>Menu with custom body ⬇</button>
+      <rte-dropdown-menu>
+        <ng-template rteDropdownMenuBody>
+          <div style="padding: 12px 16px;">
+            <div style="font-weight: 600;">Custom body</div>
+            <div style="opacity: 0.8;">Any placeholder can go here.</div>
+          </div>
+        </ng-template>
+      </rte-dropdown-menu>
+    </div>
+    `,
+  }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const triggerButton = await canvas.getByRole("button", { name: /menu with custom body/i });
+    await userEvent.click(triggerButton);
+
+    const overlay = document.getElementById("overlay-root");
+    const dropdown = overlay?.querySelector("rte-dropdown-menu");
+
+    await waitFor(() => {
+      expect(dropdown).toBeInTheDocument();
+    });
+
+    const bodyContent = dropdown?.querySelector(".rte-dropdown-menu-content")?.textContent?.trim();
+    expect(bodyContent).toContain("Custom body");
+    expect(bodyContent).toContain("Any placeholder can go here.");
+  },
+};
+
 const NESTED_ITEMS_MULTI_LEVEL = [
   { label: "Messages", leftIcon: "mail", hasSeparator: true },
   { label: "Actions", leftIcon: "settings" },

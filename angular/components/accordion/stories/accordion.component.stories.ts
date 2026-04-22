@@ -13,6 +13,7 @@ import { AccordionComponent } from "../accordion.component";
   template: `
     <div style="width: 400px; background: #c7dbf0; padding: 16px; overflow: scroll; height: 200px;">
       <rte-accordion
+        title="Accordion title"
         alignement="right"
         appearance="brand"
         [compactSpacing]="false"
@@ -28,6 +29,7 @@ import { AccordionComponent } from "../accordion.component";
         </p>
       </rte-accordion>
       <rte-accordion
+        title="Accordion title"
         alignement="right"
         appearance="brand"
         [compactSpacing]="false"
@@ -105,6 +107,7 @@ type Story = StoryObj<AccordionComponent>;
 export const Default: Story = {
   args: {
     alignement: "right",
+    title: "Accordion title",
     icon: "power-wind",
     disabled: false,
     appearance: "brand",
@@ -117,6 +120,7 @@ export const Default: Story = {
       <div style="width: 400px; background: #c7dbf0; padding: 16px">
         <rte-accordion
           [alignement]="alignement"
+          [title]="title"
           [appearance]="appearance"
           [compactSpacing]="compactSpacing"
           [disabled]="disabled"
@@ -133,6 +137,7 @@ export const Default: Story = {
           [compactSpacing]="compactSpacing"
           [disabled]="disabled"
           [icon]="icon"
+          [title]="title"
           [size]="size"
           (clicked)="clicked($event)"
           (isOpenChange)="isOpenChange($event)"
@@ -167,6 +172,7 @@ export const Brand: Story = {
           <rte-accordion
             [alignement]="alignement"
             [appearance]="appearance"
+            [title]="title"
             [compactSpacing]="compactSpacing"
             [disabled]="disabled"
             [icon]="icon"
@@ -179,6 +185,7 @@ export const Brand: Story = {
           <rte-accordion
             alignement="left"
             [appearance]="appearance"
+            [title]="title"
             [compactSpacing]="compactSpacing"
             [disabled]="disabled"
             [icon]="icon"
@@ -193,6 +200,7 @@ export const Brand: Story = {
           <rte-accordion
             alignement="left"
             [appearance]="appearance"
+            [title]="title"
             [compactSpacing]="compactSpacing"
             [disabled]="disabled"
             [icon]="icon"
@@ -205,6 +213,7 @@ export const Brand: Story = {
           <rte-accordion
             alignement="right"
             [appearance]="appearance"
+            [title]="title"
             [compactSpacing]="compactSpacing"
             [disabled]="disabled"
             [icon]="icon"
@@ -242,6 +251,7 @@ export const Compact: Story = {
             <rte-accordion
               [alignement]="alignement"
               [appearance]="appearance"
+              [title]="title"
               [compactSpacing]="compactSpacing"
               [disabled]="disabled"
               [icon]="icon"
@@ -254,6 +264,7 @@ export const Compact: Story = {
             <rte-accordion
               alignement="left"
               [appearance]="appearance"
+              [title]="title"
               [compactSpacing]="compactSpacing"
               [disabled]="disabled"
               [icon]="icon"
@@ -268,6 +279,7 @@ export const Compact: Story = {
             <rte-accordion
               alignement="left"
               [appearance]="appearance"
+              [title]="title"
               [compactSpacing]="compactSpacing"
               [disabled]="disabled"
               [icon]="icon"
@@ -280,6 +292,7 @@ export const Compact: Story = {
             <rte-accordion
               alignement="right"
               [appearance]="appearance"
+              [title]="title"
               [compactSpacing]="compactSpacing"
               [disabled]="disabled"
               [icon]="icon"
@@ -296,6 +309,7 @@ export const Compact: Story = {
             <rte-accordion
               appearance="neutral"
               [alignement]="alignement"
+              [title]="title"
               [compactSpacing]="compactSpacing"
               [disabled]="disabled"
               [icon]="icon"
@@ -308,6 +322,7 @@ export const Compact: Story = {
             <rte-accordion
               alignement="left"
               appearance="neutral"
+              [title]="title"
               [compactSpacing]="compactSpacing"
               [disabled]="disabled"
               [icon]="icon"
@@ -322,6 +337,7 @@ export const Compact: Story = {
             <rte-accordion
               alignement="left"
               appearance="neutral"
+              [title]="title"
               [compactSpacing]="compactSpacing"
               [disabled]="disabled"
               [icon]="icon"
@@ -334,6 +350,7 @@ export const Compact: Story = {
             <rte-accordion
               alignement="right"
               appearance="neutral"
+              [title]="title"
               [compactSpacing]="compactSpacing"
               [disabled]="disabled"
               [icon]="icon"
@@ -364,6 +381,7 @@ export const Disabled: Story = {
             <rte-accordion
               [alignement]="alignement"
               [appearance]="appearance"
+              [title]="title"
               [compactSpacing]="compactSpacing"
               [disabled]="disabled"
               [icon]="icon"
@@ -376,6 +394,7 @@ export const Disabled: Story = {
             <rte-accordion
               alignement="left"
               [appearance]="appearance"
+              [title]="title"
               [compactSpacing]="compactSpacing"
               [disabled]="disabled"
               [icon]="icon"
@@ -390,6 +409,7 @@ export const Disabled: Story = {
             <rte-accordion
               alignement="left"
               [appearance]="appearance"
+              [title]="title"
               [compactSpacing]="compactSpacing"
               [disabled]="disabled"
               [icon]="icon"
@@ -402,6 +422,7 @@ export const Disabled: Story = {
             <rte-accordion
               alignement="right"
               [appearance]="appearance"
+              [title]="title"
               [compactSpacing]="compactSpacing"
               [disabled]="disabled"
               [icon]="icon"
@@ -416,6 +437,7 @@ export const Disabled: Story = {
         <div style="background: #c7dbf0; padding: 16px; display: flex; flex-direction: column">
           <div style="width: 400px">
             <rte-accordion
+              [title]="title"
               [compactSpacing]="true"
               [alignement]="alignement"
               [appearance]="appearance"
@@ -429,6 +451,7 @@ export const Disabled: Story = {
             </rte-accordion>
             <rte-accordion
               alignement="left"
+              [title]="title"
               [compactSpacing]="true"
               [appearance]="appearance"
               [disabled]="disabled"
@@ -443,6 +466,7 @@ export const Disabled: Story = {
           <div style="width: 400px">
             <rte-accordion
               alignement="left"
+              [title]="title"
               [compactSpacing]="true"
               [appearance]="appearance"
               [disabled]="disabled"
@@ -455,6 +479,7 @@ export const Disabled: Story = {
             </rte-accordion>
             <rte-accordion
               alignement="right"
+              [title]="title"
               [compactSpacing]="true"
               [appearance]="appearance"
               [disabled]="disabled"
