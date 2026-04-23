@@ -345,8 +345,8 @@ export class TimePickerComponent implements ControlValueAccessor {
       this.scheduleSelectActiveSegment();
       return;
     }
+    event.preventDefault();
     if (this.isCurrentSegmentReadOnly()) {
-      event.preventDefault();
       this.scheduleSelectActiveSegment();
       return;
     }
@@ -381,32 +381,6 @@ export class TimePickerComponent implements ControlValueAccessor {
         this.moveToNextSegment();
         this.scheduleSelectionRangeForSegment(this.activeTimeSegment());
       }
-    } else if ([ARROW_UP_KEY, ARROW_DOWN_KEY].includes(key)) {
-      this.adjustActiveSegmentByArrow(key === ARROW_UP_KEY ? 1 : -1);
-    }
-  }
-
-  private adjustActiveSegmentByArrow(direction: 1 | -1): void {
-    if (this.isCurrentSegmentReadOnly()) {
-      return;
-    }
-    const activeSegment = this.activeTimeSegment();
-    if (activeSegment === TimeSegmentEnum.HOURS) {
-      if (direction === 1) {
-        this.increaseHours();
-      } else {
-        this.decreaseHours();
-      }
-    } else if (activeSegment === TimeSegmentEnum.MINUTES) {
-      if (direction === 1) {
-        this.increaseMinutes();
-      } else {
-        this.decreaseMinutes();
-      }
-    } else if (direction === 1) {
-      this.increaseSeconds();
-    } else {
-      this.decreaseSeconds();
     }
   }
 
