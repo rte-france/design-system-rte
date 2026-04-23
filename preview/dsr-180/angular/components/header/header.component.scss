@@ -33,13 +33,8 @@
   justify-content: space-between;
   padding: 0 $positive-spacing_200;
   gap: $positive-spacing_200;
-  background: var(--background-neutral-default);
-  border-bottom: 1px solid var(--border-neutral-muted);
-
-  .rte-header[data-appearance='brand'] & {
-    background: var(--background-brand-default);
-    border-bottom-color: var(--border-brand-muted);
-  }
+  background: var(--background-default);
+  border-bottom: 1px solid var(--border-divider);
 
   .rte-header[data-compact='true'] & {
     height: 64px;
@@ -57,21 +52,18 @@
   align-items: center;
   gap: $positive-spacing_100;
   text-decoration: none;
-  color: var(--text-neutral-default);
-
-  .rte-header[data-appearance='brand'] & {
-    color: var(--text-brand-contrast);
-  }
+  color: var(--content-secondary);
 }
 
 .rte-header-logo {
   width: 24px;
   height: 24px;
   flex: 0 0 auto;
+  border-radius: $radius-s;
 }
 
 .rte-header-app-name {
-  font: var(--typography-heading-xs-semibold);
+  @include typography-heading-xs;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -100,19 +92,19 @@
 
 .rte-header-nav-link {
   text-decoration: none;
-  color: var(--text-neutral-default);
-  font: var(--typography-body-m-regular);
-  padding: $positive-spacing_100 $positive-spacing_100;
+  color: var(--content-brand-default);
+  @include typography-button-s;
+  padding: $positive-spacing_025 $positive-spacing_100;
   border-radius: $radius-s;
-
-  .rte-header[data-appearance='brand'] & {
-    color: var(--text-brand-contrast);
-  }
 
   &:focus-visible {
     outline: 2px solid var(--border-brand-default);
     outline-offset: 2px;
   }
+}
+
+.rte-header-nav-item[data-active='true'] .rte-header-nav-link {
+  font-weight: $button-s-semibold-font-weight;
 }
 
 .rte-header-nav-item[data-disabled='true'] .rte-header-nav-link {
@@ -124,7 +116,7 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: $positive-spacing_150;
+  gap: $positive-spacing_250;
   flex: 0 0 auto;
   min-width: 0;
 }
@@ -132,7 +124,24 @@
 .rte-header-icon-buttons {
   display: flex;
   align-items: center;
-  gap: $positive-spacing_100;
+  gap: $positive-spacing_025;
+}
+
+.rte-header-icon-button-wrapper {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  rte-badge {
+    position: absolute;
+  }
+}
+
+.rte-header-action-button-icon {
+  margin-right: $positive-spacing_075;
 }
 
 .rte-header-right-slot {
@@ -160,12 +169,7 @@
   display: flex;
   align-items: center;
   padding: 0 $positive-spacing_200;
-  background: var(--background-neutral-default);
-  border-bottom: 1px solid var(--border-neutral-muted);
-
-  .rte-header[data-appearance='brand'] & {
-    background: var(--background-brand-default);
-    border-bottom-color: var(--border-brand-muted);
-  }
+  background: var(--background-default);
+  border-bottom: 1px solid var(--border-divider);
 }
 

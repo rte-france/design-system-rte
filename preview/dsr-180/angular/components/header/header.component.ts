@@ -35,8 +35,10 @@ import {
 import { ESCAPE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
 import { AvatarComponent } from "../avatar/avatar.component";
+import { BadgeComponent } from "../badge/badge.component";
 import { BreadcrumbsComponent } from "../breadcrumbs/breadcrumbs.component";
 import { ButtonComponent } from "../button/button.component";
+import { IconComponent } from "../icon/icon.component";
 import { IconButtonComponent } from "../icon-button/icon-button.component";
 import { SearchbarComponent } from "../searchbar/searchbar.component";
 
@@ -53,6 +55,8 @@ const DEFAULT_SEARCHBAR_ID = "rte-header-searchbar";
     ButtonComponent,
     SearchbarComponent,
     AvatarComponent,
+    BadgeComponent,
+    IconComponent,
     BreadcrumbsComponent,
     HeaderRightDirective,
   ],

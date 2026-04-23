@@ -7,12 +7,19 @@ import { HeaderComponent } from "../header.component";
 
 const navigationItems: HeaderNavigationItem[] = [
   { id: "home", label: "Accueil", href: "/" },
-  { id: "dashboard", label: "tableau de bord", href: "/dashboard" },
+  { id: "dashboard", label: "tableau de bord", href: "/dashboard", active: true },
   { id: "docs", label: "documentation", href: "/docs" },
 ];
 
 const iconButtons: HeaderIconButtonConfig[] = [
-  { id: "notifications", iconName: "notifications", ariaLabel: "Notifications" },
+  {
+    id: "notifications",
+    iconName: "notifications",
+    ariaLabel: "Notifications",
+    badge: { count: 1, type: "indicator", size: "l" },
+  },
+  { id: "map", iconName: "map", ariaLabel: "Carte" },
+  { id: "info", iconName: "info", ariaLabel: "Informations" },
   { id: "settings", iconName: "settings", ariaLabel: "Paramètres" },
 ];
 
@@ -52,13 +59,13 @@ export const Default: Story = {
     hasSubHeader: true,
     leftSectionType: "default",
     hasLogo: true,
-    applicationName: "Mon application",
+    applicationName: "Nom de l'application",
     logoSrc: "https://placehold.co/24x24/png",
     navigationItems,
     hasSearchbar: true,
     searchbarProps: { id: "header-search", label: "Rechercher" },
     hasActionButton: true,
-    actionButton: { label: "Partager" },
+    actionButton: { label: "Partager", iconName: "share" },
     hasIconButtons: true,
     iconButtons,
     hasAvatar: true,
@@ -110,6 +117,26 @@ export const NeutralCompact: Story = {
     ...Default.args,
     appearance: "neutral",
     isCompact: true,
+  },
+};
+
+export const Figma_14955_8083: Story = {
+  args: {
+    ...Default.args,
+    appearance: "brand",
+    isCompact: false,
+    hasMidSection: true,
+    midSectionType: "empty",
+    navigationItems: [],
+    iconButtons,
+    breadcrumbs: {
+      ariaLabel: "Fil d'Ariane",
+      items: [
+        { label: "This is a link", link: "/" },
+        { label: "This is a link", link: "/section" },
+        { label: "Active page", link: "/section/page-active" },
+      ],
+    },
   },
 };
 
