@@ -254,7 +254,8 @@ export function getLastDayOfMonth(year: number, monthIndex: number): number {
 export function projectDayToMonthAnchor(desiredDayOfMonth: number, year: number, monthIndex: number): Date {
   const lastDayInMonth = getLastDayOfMonth(year, monthIndex);
   const dayClampedToMonth = Math.min(Math.max(desiredDayOfMonth, 1), lastDayInMonth);
-  return startOfDay(new Date(year, monthIndex, dayClampedToMonth));
+  const projectedDate = startOfDay(new Date(year, monthIndex, dayClampedToMonth));
+  return projectedDate;
 }
 
 export function addDays(date: Date, amount: number): Date {
@@ -594,6 +595,7 @@ export function resolveDatepickerMenuOpenState(params: {
     selectedDate: pendingForMenu,
     dayCells,
   });
+
   const monthNavigationAnchorDay = getDayOfMonthOrNull(pendingForMenu ?? pendingDate ?? selectedDate);
 
   return {
@@ -730,4 +732,12 @@ export function alignViewDateToSelectedMonthIfNeeded(params: { viewDate: Date; s
     return params.viewDate;
   }
   return selectedMonthStart;
+}
+
+export function findClosestEnabledDate(initialDate: Date, constraints: DatepickerDisabledConstraints): Date | null {
+  let newPotentialDate = addDays(initialDate, 1);
+  while (isDateDisabled({ date: newPotentialDate, ...constraints })) {
+    newPotentialDate = addDays(newPotentialDate, 1);
+  }
+  return newPotentialDate;
 }

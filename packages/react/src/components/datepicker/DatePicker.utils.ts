@@ -6,17 +6,21 @@ export const getPrevSegment = (seg: DateSegmentEnum): DateSegmentEnum =>
   DATE_SEGMENTS_ORDER[Math.max(DATE_SEGMENTS_ORDER.indexOf(seg) - 1, 0)];
 
 export const getIncreasedValueWithBounds = (current: number, max: number, increment: number): number => {
-  const normalizedCurrent = isNaN(current) ? DATE_SEGMENT_MIN_VALUE : current;
+  if (isNaN(current)) {
+    return DATE_SEGMENT_MIN_VALUE;
+  } else {
+    const temp = current + increment;
+    const normalizedTemp = temp > max ? DATE_SEGMENT_MIN_VALUE : temp;
 
-  const temp = normalizedCurrent + increment;
-  const normalizedTemp = temp > max ? DATE_SEGMENT_MIN_VALUE : temp;
-
-  return normalizedTemp;
+    return normalizedTemp;
+  }
 };
 
 export const getDecreasedValueWithBounds = (current: number, max: number, decrement: number): number => {
-  const normalizedCurrent = isNaN(current) ? DATE_SEGMENT_MIN_VALUE : current;
-  const temp = normalizedCurrent - decrement;
+  if (isNaN(current)) {
+    return max;
+  }
+  const temp = current - decrement;
 
   if (temp < DATE_SEGMENT_MIN_VALUE) {
     return max;

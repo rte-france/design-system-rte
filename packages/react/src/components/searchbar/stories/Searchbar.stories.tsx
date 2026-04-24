@@ -131,20 +131,23 @@ export const WithDropdown: Story = {
 
 export const WithFilteredOptions: Story = {
   render: (args) => {
-    const allOptions = [
-      "Apple",
-      "Apple2",
-      "Banana",
-      "Banana2",
-      "Cherry",
-      "Date",
-      "Elderberry",
-      "Fig",
-      "Grape",
-      "Honeydew",
-      "Kiwi",
-      "Lemon",
-    ];
+    const allOptions = useMemo(
+      () => [
+        "Apple",
+        "Apple2",
+        "Banana",
+        "Banana2",
+        "Cherry",
+        "Date",
+        "Elderberry",
+        "Fig",
+        "Grape",
+        "Honeydew",
+        "Kiwi",
+        "Lemon",
+      ],
+      [],
+    );
 
     const [searchValue, setSearchValue] = useState("");
     const [isOpen, setIsOpen] = useState(false);
@@ -223,7 +226,7 @@ export const WithFilteredOptions: Story = {
 
 export const KeyboardNavigationWithFilteredOptions: Story = {
   render: (args) => {
-    const allOptions = ["Apple", "Apple2"];
+    const allOptions = useMemo(() => ["Apple", "Apple2"], []);
 
     const [searchValue, setSearchValue] = useState("");
     const [isOpen, setIsOpen] = useState(false);
@@ -336,7 +339,7 @@ export const KeyboardNavigationWithFilteredOptions: Story = {
 
 export const KeyboardNavigationAndSearch: Story = {
   render: (args) => {
-    const allOptions = ["Apple", "Apple2"];
+    const allOptions = useMemo(() => ["Apple", "Apple2"], []);
 
     const [searchValue, setSearchValue] = useState("");
     const [isOpen, setIsOpen] = useState(false);

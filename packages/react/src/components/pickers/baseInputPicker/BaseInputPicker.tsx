@@ -17,6 +17,7 @@ interface BaseInputPickerProps extends BaseInput {
   onOpenPicker?: () => void;
   ariaLabelledBy?: string;
   openButtonAriaLabel?: string;
+  fixedWidth?: boolean;
 }
 
 const BaseInputPicker = ({
@@ -36,6 +37,7 @@ const BaseInputPicker = ({
   isError,
   disabled,
   openButtonAriaLabel,
+  fixedWidth = true,
 }: BaseInputPickerProps) => {
   const canInteractWithPicker = !disabled && !readOnly;
   const canBeFocused = canInteractWithPicker && isFocused;
@@ -51,7 +53,9 @@ const BaseInputPicker = ({
         data-is-error={isError || undefined}
         data-is-disabled={disabled || undefined}
         data-is-read-only={readOnly || undefined}
+        data-fixed-width={fixedWidth || undefined}
       >
+        {isError && <Icon name="error" className={styles["error-icon"]} />}
         <input
           id={id}
           aria-labelledby={ariaLabelledBy}
@@ -73,6 +77,7 @@ const BaseInputPicker = ({
           className={styles["rte-base-input-picker-button"]}
           aria-label={openButtonAriaLabel ?? "Open picker"}
           disabled={disabled}
+          tabIndex={canBeFocused ? 0 : -1}
         >
           <Icon
             name={icon}
