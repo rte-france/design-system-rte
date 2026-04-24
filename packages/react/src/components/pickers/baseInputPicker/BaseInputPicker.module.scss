@@ -79,11 +79,12 @@ $width: 176px;
   .rte-base-input-picker-input {
     display: flex;
     height: 100%;
-    padding: 0 $positive-spacing_100;
     align-items: center;
     flex: 1 0 0;
     border: none;
     width: 100%;
+    background: transparent;
+    color: var(--content-primary);
 
     &:focus {
       outline: none;

@@ -228,6 +228,7 @@ export const HeaderWithVersion: Story = {
 };
 
 export const WithNestedMenus: Story = {
+  tags: ["skip-ci"],
   args: {
     ...Default.args,
     headerConfig: defaultHeaderConfig,

@@ -29,6 +29,7 @@
     margin: 0;
     padding: 0;
     cursor: pointer;
+    color: var(--content-primary);
 
     &:focus {
       outline: none;
@@ -49,6 +50,8 @@
   padding: $positive-spacing_050 $positive-spacing_050;
   justify-content: center;
   align-items: center;
+  background: transparent;
+  color: var(--content-primary);
 
   border-radius: $radius-s;
   border: $width-xs solid var(--border-secondary);
