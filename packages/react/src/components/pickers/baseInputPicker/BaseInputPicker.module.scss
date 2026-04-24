@@ -9,7 +9,6 @@ $width: 176px;
   min-height: $height;
   max-height: $height;
   min-width: $width;
-  max-width: $width;
   padding: $positive-spacing_050 $positive-spacing_100;
   justify-content: space-between;
   align-items: center;
@@ -17,6 +16,15 @@ $width: 176px;
   border-radius: $radius-s;
   border: $width-xs solid var(--border-secondary);
   @include neutral-inner-shadow;
+
+  .error-icon {
+    padding: 0;
+    color: var(--content-danger-default);
+  }
+
+  &[data-fixed-width="true"] {
+    max-width: $width;
+  }
 
   &:hover {
     cursor: text;
@@ -80,15 +88,15 @@ $width: 176px;
   .rte-base-input-picker-input {
     display: flex;
     height: 100%;
-    <<<<<<< HEAD=======padding: 0 $positive-spacing_100;
-    >>>>>>>cc22fa27f (feat(datepicker): react - add basic date input picker) align-items: center;
+    padding: 0 $positive-spacing_100;
+    align-items: center;
     flex: 1 0 0;
     border: none;
     width: 100%;
-    <<<<<<< HEAD background: transparent;
+    background: transparent;
     color: var(--content-primary);
 
-    =======>>>>>>>cc22fa27f (feat(datepicker): react - add basic date input picker) &:focus {
+    &:focus {
       outline: none;
     }
   }

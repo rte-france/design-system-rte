@@ -29,6 +29,7 @@ import {
   Avatar,
   FileUpload,
   TimePicker,
+  DatePicker,
 } from "@design-system-rte/react";
 import "./App.css";
 import { useState } from "react";
@@ -227,6 +228,12 @@ function App() {
     console.log(selectedOptions);
   };
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  const [date, setDate] = useState<Date | null>(null);
+
+  const onChange = (newDate: Date | null) => {
+    setDate(newDate);
+  };
 
   return (
     <SideNav
@@ -697,6 +704,20 @@ function App() {
             <TimePicker id="time-picker" value={timepickerValue} onChange={setTimepickerValue} />
             <p style={{ marginTop: "1rem" }}>
               Selected time value: {`${timepickerValue.hh}:${timepickerValue.mm}:${timepickerValue.ss}`}
+            </p>
+          </div>
+          <div>
+            <h3>DatePicker</h3>
+            <DatePicker
+              id="date-picker"
+              label="Select a date"
+              labelId="date-picker-label"
+              value={date}
+              onChange={onChange}
+            />
+            <p style={{ marginTop: "1rem" }}>
+              Selected date value:{" "}
+              {date ? new Intl.DateTimeFormat(navigator.language, { dateStyle: "long" }).format(date) : "aucune"}
             </p>
           </div>
         </div>

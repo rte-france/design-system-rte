@@ -1,3 +1,5 @@
+import { InputProps } from "../common/input-props";
+
 export type DatepickerCalendarType = "day" | "month" | "year";
 
 export type DatepickerDayNavAction = "prevYear" | "prevMonth" | "nextMonth" | "nextYear";
@@ -57,3 +59,12 @@ export type DatepickerTextInputApplyResult =
       outcome: "partial";
       maskedValue: string;
     };
+
+export interface DatepickerProps extends DatepickerDisabledConstraints, InputProps {
+  value: Date | null;
+  onChange?: (newDate: Date | null) => void;
+  onValidate?: () => void;
+  onCancel?: () => void;
+  isError?: boolean;
+  hasAction?: boolean;
+}

@@ -1,2 +1,15 @@
 @use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
-// Styles for DatePicker will go here.
+
+.rte-date-picker {
+  .rte-date-picker-header {
+    display: flex;
+    flex-direction: column;
+
+    label {
+      @include typography-text-m;
+      padding: $positive-spacing_025 $positive-spacing_100;
+      color: var(--content-secondary);
+    }
+  }
+
+}

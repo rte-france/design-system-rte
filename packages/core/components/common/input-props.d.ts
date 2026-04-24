@@ -4,6 +4,7 @@ export interface InputProps {
   id: string;
   label: string;
   labelPosition?: "top" | "side";
+  labelId?: string;
   required?: boolean;
   value?: string;
   defaultValue?: string;

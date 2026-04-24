@@ -9,6 +9,7 @@ import Card from "./components/card/Card.tsx";
 import Checkbox from "./components/checkbox/Checkbox.tsx";
 import CheckboxGroup from "./components/checkboxGroup/CheckboxGroup.tsx";
 import Chip from "./components/chip/Chip.tsx";
+import DatePicker from "./components/datepicker/DatePicker.tsx";
 import Divider from "./components/divider/Divider.tsx";
 import Drawer from "./components/drawer/Drawer.tsx";
 import FileUpload from "./components/fileupload/FileUpload.tsx";
@@ -81,4 +82,5 @@ export {
   Searchbar,
   Select,
   FileUpload,
+  DatePicker,
 };
