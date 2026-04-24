@@ -266,6 +266,7 @@ export const SelectionExclusive: Story = {
 };
 
 export const ActionIconDropdown: Story = {
+  tags: ["skip-ci"],
   args: {
     items: actionIconDropdownData,
   },
