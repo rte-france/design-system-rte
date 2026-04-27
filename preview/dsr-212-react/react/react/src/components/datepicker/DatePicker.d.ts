@@ -1,13 +1,5 @@
-interface DatePickerProps {
-    value: Date | null;
-    disabled?: boolean;
-    onChange?: (newDate: Date | null) => void;
-    onValidate?: () => void;
-    onCancel?: () => void;
-    hasAction?: boolean;
-    minDate?: Date;
-    maxDate?: Date;
-    disabledDates?: Date[];
+import { DatepickerProps as CoreDatePickerProps } from '../../../../core/components/datepicker/datepicker.interface';
+interface DatepickerProps extends CoreDatePickerProps, Omit<React.HTMLAttributes<HTMLDivElement>, "id" | "onChange" | "defaultValue"> {
 }
-declare const DatePicker: ({ disabled, value, onChange, hasAction, onCancel, onValidate, minDate, maxDate, disabledDates, }: DatePickerProps) => import("react/jsx-runtime").JSX.Element;
+declare const DatePicker: import('../../../../../node_modules/react').ForwardRefExoticComponent<DatepickerProps & import('../../../../../node_modules/react').RefAttributes<HTMLDivElement>>;
 export default DatePicker;
