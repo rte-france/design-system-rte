@@ -74,11 +74,18 @@
   min-width: 0;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  gap: $positive-spacing_200;
 
   @media (max-width: 1023px) {
     display: none;
   }
+}
+
+.rte-header-search {
+  flex: 0 1 420px;
+  min-width: 220px;
+  max-width: 520px;
 }
 
 .rte-header-nav-list {
