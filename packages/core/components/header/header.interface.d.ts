@@ -4,7 +4,6 @@ import type { RegularIconIdKey, TogglableIconIdKey } from "../icon/icon.interfac
 
 export type HeaderAppearance = "brand" | "neutral";
 
-export type HeaderLeftSectionType = "default" | "placeholder";
 export type HeaderMidSectionType = "navigation" | "empty";
 
 export interface HeaderProps {
@@ -24,8 +23,7 @@ export interface HeaderSubHeaderConfig {
   items?: BreadcrumbItemProps[];
 }
 
-export interface HeaderLeftSectionProps {
-  type?: HeaderLeftSectionType;
+export interface HeaderLeftSectionConfig {
   hasLogo?: boolean;
   applicationName?: string;
   logoSrc?: string;

@@ -6,21 +6,17 @@
   [attr.data-compact]="isCompact()"
   [attr.data-sticky]="isSticky()"
   [attr.data-visible]="isVisible()"
+  [attr.data-has-subheader]="shouldRenderSubheader()"
 >
   <div class="rte-header-main">
     @if (hasLeftSection()) {
       <div class="rte-header-left">
-        @if (leftSectionType() === "default") {
-          <a class="rte-header-home" [href]="homeLink()" [attr.aria-label]="computedHomeAriaLabel()">
-            @if (hasLogo() && logoSrc()) {
-              <img class="rte-header-logo" alt="" aria-hidden="true" [src]="logoSrc()!" />
-            }
-            <span class="rte-header-app-name">{{ applicationName() }}</span>
-          </a>
-        } @else {
-          <div class="rte-header-left-placeholder">
+        @if (shouldRenderProjectedLeftSection()) {
+          <div class="rte-header-left-slot">
             <ng-content select="[rteHeaderLeft]"></ng-content>
           </div>
+        } @else if (shouldRenderInternalLeftSection()) {
+          <rte-header-left-section [config]="computedLeftSectionConfig()" />
         }
       </div>
     }
@@ -58,13 +54,13 @@
         @if (isDesktop()) {
           @if (hasSearchbar()) {
             <rte-searchbar
-              appearance="secondary"
               [id]="searchbarProps()?.id || 'rte-header-searchbar'"
               [label]="searchbarProps()?.label || 'Rechercher'"
               [disabled]="searchbarProps()?.disabled ?? false"
               [showResetButton]="searchbarProps()?.showResetButton ?? true"
               [value]="searchbarProps()?.value || ''"
               [assistiveText]="searchbarProps()?.assistiveText || ''"
+              [appearance]="desktopSearchbarAppearance()"
               [compactSpacing]="isCompact()"
             />
           }
@@ -73,14 +69,12 @@
             <button
               rteButton
               type="button"
-              [rteButtonSize]="'m'"
-              [rteButtonVariant]="'primary'"
+              [rteButtonSize]="actionButtonSize()"
+              [rteButtonVariant]="actionButtonVariant()"
               [disabled]="actionButton()!.disabled ?? false"
+              [rteButtonIcon]="actionButton()!.iconName!"
               (click)="handleActionButtonClick()"
             >
-              @if (actionButton()!.iconName) {
-                <rte-icon class="rte-header-action-button-icon" size="m" [name]="actionButton()!.iconName!" />
-              }
               {{ actionButton()!.label }}
             </button>
           }
@@ -99,8 +93,8 @@
                   }
                   <rte-icon-button
                     size="m"
-                    variant="neutral"
                     appearance="outlined"
+                    [variant]="rightSectionIconButtonsVariant()"
                     [name]="button.iconName"
                     [ariaLabel]="button.ariaLabel"
                     [disabled]="button.disabled ?? false"
@@ -137,21 +131,21 @@
                   <rte-icon-button
                     #mobileSearchButtonRef
                     size="m"
-                    variant="neutral"
                     appearance="outlined"
                     name="search"
+                    [variant]="rightSectionIconButtonsVariant()"
                     [ariaLabel]="mobileSearchButtonAriaLabel()"
                     (clickEvent)="openMobileSearch()"
                   />
                 } @else {
                   <rte-searchbar
-                    appearance="secondary"
                     [id]="searchbarProps()?.id || 'rte-header-searchbar'"
                     [label]="searchbarProps()?.label || 'Rechercher'"
                     [disabled]="searchbarProps()?.disabled ?? false"
                     [showResetButton]="searchbarProps()?.showResetButton ?? true"
                     [value]="searchbarProps()?.value || ''"
                     [assistiveText]="searchbarProps()?.assistiveText || ''"
+                    [appearance]="'secondary'"
                     [compactSpacing]="isCompact()"
                   />
                 }
@@ -160,8 +154,8 @@
 
             <rte-icon-button
               size="m"
-              variant="neutral"
               appearance="outlined"
+              [variant]="rightSectionIconButtonsVariant()"
               [name]="mobileMenuButton()?.iconName ?? 'menu'"
               [ariaLabel]="mobileMenuButton()?.ariaLabel ?? 'Menu'"
               [disabled]="mobileMenuButton()?.disabled ?? false"
