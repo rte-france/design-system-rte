@@ -29,7 +29,7 @@
       @if (shouldRenderMidSection()) {
         <nav class="rte-header-nav" [attr.aria-label]="navigationAriaLabel()">
           <ul class="rte-header-nav-list">
-            @for (item of navigationItems(); track item.id ?? item.href) {
+            @for (item of navigationItems(); track item.id || item.href) {
               <li
                 class="rte-header-nav-item"
                 [attr.data-disabled]="item.disabled"
@@ -87,7 +87,7 @@
 
           @if (hasIconButtons() && iconButtons()?.length) {
             <div class="rte-header-icon-buttons" role="group">
-              @for (button of iconButtons()!; track button.id ?? button.ariaLabel) {
+              @for (button of iconButtons()!; track button.id || button.ariaLabel) {
                 <div class="rte-header-icon-button-wrapper">
                   @if (button.badge?.count) {
                     <rte-badge
@@ -176,7 +176,7 @@
   @if (shouldRenderSubheader()) {
     <div class="rte-header-subheader" [style.height.px]="subheaderHeightPx()">
       <nav class="rte-header-breadcrumbs" [attr.aria-label]="breadcrumbsAriaLabel()">
-        <rte-breadcrumbs [items]="breadcrumbsItems()" [ariaLabel]="breadcrumbsAriaLabel()" />
+        <rte-breadcrumbs [items]="subHeaderConfig()?.items ?? []" [ariaLabel]="breadcrumbsAriaLabel()" />
       </nav>
     </div>
   }

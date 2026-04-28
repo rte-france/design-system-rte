@@ -7,6 +7,32 @@ export type HeaderAppearance = "brand" | "neutral";
 export type HeaderLeftSectionType = "default" | "placeholder";
 export type HeaderMidSectionType = "navigation" | "empty";
 
+export interface HeaderProps {
+  appearance?: HeaderAppearance;
+  isCompact?: boolean;
+  isSearchActive?: boolean;
+  hasLeftSection?: boolean;
+  hasRightSection?: boolean;
+  subHeaderConfig?: HeaderSubHeaderConfig;
+  hasSubHeader?: boolean;
+  isSticky?: boolean;
+  showAtScrollUp?: boolean;
+}
+
+export interface HeaderSubHeaderConfig {
+  ariaLabel?: string;
+  items?: BreadcrumbItemProps[];
+}
+
+export interface HeaderLeftSectionProps {
+  type?: HeaderLeftSectionType;
+  hasLogo?: boolean;
+  applicationName?: string;
+  logoSrc?: string;
+  homeLink?: string;
+  homeAriaLabel?: string;
+}
+
 export interface HeaderNavigationItem {
   id?: string;
   label: string;
@@ -51,10 +77,4 @@ export interface HeaderSearchbarConfig {
   showResetButton?: boolean;
   value?: string;
   assistiveText?: string;
-}
-
-export interface HeaderBreadcrumbsConfig {
-  ariaLabel?: string;
-  items?: BreadcrumbItemProps[];
-  numberOfPages?: 1 | 2 | 3 | "3+";
 }
