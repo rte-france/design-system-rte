@@ -58,7 +58,6 @@
         @if (isDesktop()) {
           @if (hasSearchbar()) {
             <rte-searchbar
-              appearance="secondary"
               [id]="searchbarProps()?.id || 'rte-header-searchbar'"
               [label]="searchbarProps()?.label || 'Rechercher'"
               [disabled]="searchbarProps()?.disabled ?? false"
@@ -73,7 +72,7 @@
             <button
               rteButton
               type="button"
-              [rteButtonSize]="'m'"
+              [rteButtonSize]="actionButtonSize()"
               [rteButtonVariant]="'primary'"
               [disabled]="actionButton()!.disabled ?? false"
               [rteButtonIcon]="actionButton()!.iconName!"
@@ -143,7 +142,6 @@
                   />
                 } @else {
                   <rte-searchbar
-                    appearance="secondary"
                     [id]="searchbarProps()?.id || 'rte-header-searchbar'"
                     [label]="searchbarProps()?.label || 'Rechercher'"
                     [disabled]="searchbarProps()?.disabled ?? false"

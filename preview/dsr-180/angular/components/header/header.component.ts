@@ -150,6 +150,10 @@ export class HeaderComponent {
     return this.isCompact() ? HEADER_SUBHEADER_HEIGHT_COMPACT_PX : HEADER_SUBHEADER_HEIGHT_PX;
   });
 
+  readonly actionButtonSize = computed(() => {
+    return this.isCompact() ? "s" : "m";
+  });
+
   readonly mobileSearchTransitionMs = HEADER_MOBILE_SEARCH_TRANSITION_MS;
 
   private scrollState: ScrollDirectionState = { lastScrollY: 0, lastDirection: "up" };
