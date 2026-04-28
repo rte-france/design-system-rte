@@ -13,9 +13,9 @@ const navigationItems: HeaderNavigationItem[] = [
 
 const iconButtons: HeaderIconButtonConfig[] = [
   {
-    id: "notifications",
-    iconName: "notifications",
-    ariaLabel: "Notifications",
+    id: "notification",
+    iconName: "notification",
+    ariaLabel: "Notification",
     badge: { count: 1, type: "indicator", size: "l" },
   },
   { id: "map", iconName: "map", ariaLabel: "Carte" },
@@ -141,6 +141,112 @@ export const BreadcrumbsDebug: Story = {
     midSectionType: "empty",
     navigationItems: [],
     subHeaderConfig: debugBreadcrumbsConfig,
+  },
+};
+
+export const StickyDebug: Story = {
+  args: {
+    ...Default.args,
+    isSticky: true,
+    showAtScrollUp: false,
+    subHeaderConfig: debugBreadcrumbsConfig,
+  },
+  render: (args) => {
+    return {
+      props: { ...args },
+      template: `
+        <div style="height: 240vh">
+          <rte-header
+            [appearance]="appearance"
+            [isCompact]="isCompact"
+            [isSticky]="isSticky"
+            [showAtScrollUp]="showAtScrollUp"
+            [hasLeftSection]="hasLeftSection"
+            [hasMidSection]="hasMidSection"
+            [hasRightSection]="hasRightSection"
+            [hasSubHeader]="hasSubHeader"
+            [leftSectionType]="leftSectionType"
+            [hasLogo]="hasLogo"
+            [applicationName]="applicationName"
+            [logoSrc]="logoSrc"
+            [navigationItems]="navigationItems"
+            [hasSearchbar]="hasSearchbar"
+            [searchbarProps]="searchbarProps"
+            [hasActionButton]="hasActionButton"
+            [actionButton]="actionButton"
+            [hasIconButtons]="hasIconButtons"
+            [iconButtons]="iconButtons"
+            [hasAvatar]="hasAvatar"
+            [avatarProps]="avatarProps"
+            [subHeaderConfig]="subHeaderConfig"
+          />
+
+          <div style="padding: 24px; max-width: 900px; margin: 0 auto">
+            <div style="display: grid; gap: 12px">
+              <h2 style="margin: 0">Sticky debug</h2>
+              <p style="margin: 0">
+                Scroll this page. With <strong>isSticky=true</strong>, the header should remain pinned to the top of the
+                viewport.
+              </p>
+              <div style="height: 180vh; border-radius: 12px; background: rgba(0,0,0,0.04)"></div>
+            </div>
+          </div>
+        </div>
+      `,
+    };
+  },
+};
+
+export const ShowAtScrollUpDebug: Story = {
+  args: {
+    ...Default.args,
+    isSticky: true,
+    showAtScrollUp: true,
+    subHeaderConfig: debugBreadcrumbsConfig,
+  },
+  render: (args) => {
+    return {
+      props: { ...args },
+      template: `
+        <div style="height: 260vh">
+          <rte-header
+            [appearance]="appearance"
+            [isCompact]="isCompact"
+            [isSticky]="isSticky"
+            [showAtScrollUp]="showAtScrollUp"
+            [hasLeftSection]="hasLeftSection"
+            [hasMidSection]="hasMidSection"
+            [hasRightSection]="hasRightSection"
+            [hasSubHeader]="hasSubHeader"
+            [leftSectionType]="leftSectionType"
+            [hasLogo]="hasLogo"
+            [applicationName]="applicationName"
+            [logoSrc]="logoSrc"
+            [navigationItems]="navigationItems"
+            [hasSearchbar]="hasSearchbar"
+            [searchbarProps]="searchbarProps"
+            [hasActionButton]="hasActionButton"
+            [actionButton]="actionButton"
+            [hasIconButtons]="hasIconButtons"
+            [iconButtons]="iconButtons"
+            [hasAvatar]="hasAvatar"
+            [avatarProps]="avatarProps"
+            [subHeaderConfig]="subHeaderConfig"
+          />
+
+          <div style="padding: 24px; max-width: 900px; margin: 0 auto">
+            <div style="display: grid; gap: 12px">
+              <h2 style="margin: 0">Scroll-up behavior debug</h2>
+              <p style="margin: 0">
+                Scroll down: the header should hide. Scroll up: it should reappear. (Requires
+                <strong>isSticky=true</strong> and <strong>showAtScrollUp=true</strong>.)
+              </p>
+              <div style="height: 200vh; border-radius: 12px; background: rgba(0,0,0,0.04)"></div>
+            </div>
+          </div>
+        </div>
+      `,
+    };
   },
 };
 

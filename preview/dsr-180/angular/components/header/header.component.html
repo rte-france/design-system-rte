@@ -76,11 +76,9 @@
               [rteButtonSize]="'m'"
               [rteButtonVariant]="'primary'"
               [disabled]="actionButton()!.disabled ?? false"
+              [rteButtonIcon]="actionButton()!.iconName!"
               (click)="handleActionButtonClick()"
             >
-              @if (actionButton()!.iconName) {
-                <rte-icon class="rte-header-action-button-icon" size="m" [name]="actionButton()!.iconName!" />
-              }
               {{ actionButton()!.label }}
             </button>
           }
