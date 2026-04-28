@@ -23,6 +23,20 @@ const iconButtons: HeaderIconButtonConfig[] = [
   { id: "settings", iconName: "settings", ariaLabel: "Paramètres" },
 ];
 
+const debugBreadcrumbsConfig = {
+  ariaLabel: "Fil d'Ariane",
+  items: [
+    { label: "Accueil", link: "/" },
+    { label: "Espace de travail", link: "/workspace" },
+    { label: "Équipe — Région Île-de-France", link: "/workspace/team/idf" },
+    { label: "Paramétrage avancé & configurations", link: "/workspace/team/idf/settings/advanced" },
+    {
+      label: "Page active avec un libellé très long pour tester les débordements",
+      link: "/workspace/team/idf/settings/advanced/active",
+    },
+  ],
+};
+
 const meta: Meta<HeaderComponent> = {
   title: "Composants/Header/Header",
   component: HeaderComponent,
@@ -70,7 +84,7 @@ export const Default: Story = {
     iconButtons,
     hasAvatar: true,
     avatarProps: { alt: "Profil", initials: "GA", isInteractive: true },
-    breadcrumbs: {
+    subHeaderConfig: {
       ariaLabel: "Fil d'Ariane",
       items: [
         { label: "Accueil", link: "/" },
@@ -105,7 +119,7 @@ export const Default: Story = {
           [iconButtons]="iconButtons"
           [hasAvatar]="hasAvatar"
           [avatarProps]="avatarProps"
-          [breadcrumbs]="breadcrumbs"
+          [subHeaderConfig]="subHeaderConfig"
         />
       `,
     };
@@ -120,6 +134,16 @@ export const NeutralCompact: Story = {
   },
 };
 
+export const BreadcrumbsDebug: Story = {
+  args: {
+    ...Default.args,
+    hasMidSection: true,
+    midSectionType: "empty",
+    navigationItems: [],
+    subHeaderConfig: debugBreadcrumbsConfig,
+  },
+};
+
 export const Figma_14955_8083: Story = {
   args: {
     ...Default.args,
@@ -129,7 +153,7 @@ export const Figma_14955_8083: Story = {
     midSectionType: "empty",
     navigationItems: [],
     iconButtons,
-    breadcrumbs: {
+    subHeaderConfig: {
       ariaLabel: "Fil d'Ariane",
       items: [
         { label: "This is a link", link: "/" },
@@ -157,7 +181,6 @@ export const WithRightSlot: Story = {
           [actionButton]="actionButton"
           [iconButtons]="iconButtons"
           [avatarProps]="avatarProps"
-          [breadcrumbs]="breadcrumbs"
         >
           <div rteHeaderRight style="width: 40px; height: 40px; background: rgba(0,0,0,0.08); border-radius: 8px"></div>
         </rte-header>

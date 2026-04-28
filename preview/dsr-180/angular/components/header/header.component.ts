@@ -20,11 +20,11 @@ import {
   HEADER_MOBILE_SEARCH_TRANSITION_MS,
   HEADER_SUBHEADER_HEIGHT_COMPACT_PX,
   HEADER_SUBHEADER_HEIGHT_PX,
+  HeaderSubHeaderConfig,
   resolveScrollDirection,
   type HeaderActionButtonConfig,
   type HeaderAppearance,
   type HeaderAvatarConfig,
-  type HeaderBreadcrumbsConfig,
   type HeaderIconButtonConfig,
   type HeaderLeftSectionType,
   type HeaderMidSectionType,
@@ -73,6 +73,7 @@ export class HeaderComponent {
   readonly hasLeftSection = input<boolean>(true);
   readonly hasRightSection = input<boolean>(true);
   readonly hasSubHeader = input<boolean>(true);
+  readonly subHeaderConfig = input<HeaderSubHeaderConfig | undefined>(undefined);
 
   readonly isSticky = input<boolean>(false);
   readonly showAtScrollUp = input<boolean>(false);
@@ -107,8 +108,6 @@ export class HeaderComponent {
   readonly isSearchActive = input<boolean>(false);
   readonly isSearchActiveChange = output<boolean>();
 
-  readonly breadcrumbs = input<HeaderBreadcrumbsConfig | undefined>(undefined);
-
   readonly navigationItemClick = output<string | undefined>();
   readonly actionButtonClick = output<void>();
   readonly iconButtonClick = output<string | undefined>();
@@ -138,14 +137,14 @@ export class HeaderComponent {
   });
 
   readonly shouldRenderSubheader = computed(() => {
-    return this.hasSubHeader() && (this.breadcrumbs()?.items?.length || 0) > 0;
+    return this.hasSubHeader() && !!this.subHeaderConfig()?.items?.length;
   });
 
   readonly breadcrumbsAriaLabel = computed(
-    () => this.breadcrumbs()?.ariaLabel || HEADER_DEFAULT_BREADCRUMBS_ARIA_LABEL,
+    () => this.subHeaderConfig()?.ariaLabel || HEADER_DEFAULT_BREADCRUMBS_ARIA_LABEL,
   );
 
-  readonly breadcrumbsItems = computed(() => this.breadcrumbs()?.items || []);
+  readonly breadcrumbsItems = computed(() => this.subHeaderConfig()?.items || []);
 
   readonly subheaderHeightPx = computed(() => {
     return this.isCompact() ? HEADER_SUBHEADER_HEIGHT_COMPACT_PX : HEADER_SUBHEADER_HEIGHT_PX;
