@@ -1,6 +1,7 @@
 import {
   DATE_SEGMENT_MAX_VALUE,
   DATE_SEGMENTS_ORDER,
+  DatepickerDisabledConstraints,
   DateSegmentEnum,
   DdMmYyyyDigitParts,
   isDateDisabled,
@@ -40,6 +41,11 @@ const buildInternalValue = (
   } else {
     const date = new Date(1, month - 1, day);
     date.setFullYear(year);
+    const isValidConstructedDate =
+      date.getDate() === day && date.getMonth() + 1 === month && date.getFullYear() === year;
+    if (!isValidConstructedDate) {
+      return null;
+    }
     if (!isDateDisabled({ date, minDate, maxDate, disabledDates })) {
       return date;
     } else {
@@ -69,9 +75,7 @@ const buildDateFromState = (dateState: DdMmYyyyDigitParts): Date | null => {
 
 const useDatePickerInternalValue = (
   value: Date | null,
-  minDate?: Date,
-  maxDate?: Date,
-  disabledDates?: readonly Date[],
+  { minDate, maxDate, disabledDates }: DatepickerDisabledConstraints,
 ) => {
   const [dateState, setDateState] = useState<DdMmYyyyDigitParts>({
     dayDigits: value ? formatNumberToParseSegmentValue(value.getDate(), DateSegmentEnum.DAY) : "",

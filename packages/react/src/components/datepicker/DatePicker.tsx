@@ -74,7 +74,11 @@ const DatePicker = forwardRef<HTMLDivElement, DatepickerProps>(
       displayValue,
       dateState,
       updateDisplayedDate,
-    } = useDatePickerInternalValue(value, minDate, maxDate, disabledDates);
+    } = useDatePickerInternalValue(value, {
+      minDate,
+      maxDate,
+      disabledDates,
+    });
 
     const { moveToNextSegment, moveToPreviousSegment, setActiveDateSegment, activeDateSegment } =
       useNavigateBetweenDateSegment();
