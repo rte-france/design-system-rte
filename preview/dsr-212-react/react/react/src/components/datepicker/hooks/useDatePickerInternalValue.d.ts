@@ -1,5 +1,5 @@
-import { DateSegmentEnum, DdMmYyyyDigitParts } from '../../../../../core';
-declare const useDatePickerInternalValue: (value: Date | null, minDate?: Date, maxDate?: Date, disabledDates?: readonly Date[]) => {
+import { DatepickerDisabledConstraints, DateSegmentEnum, DdMmYyyyDigitParts } from '../../../../../core';
+declare const useDatePickerInternalValue: (value: Date | null, { minDate, maxDate, disabledDates }: DatepickerDisabledConstraints) => {
     dateState: DdMmYyyyDigitParts;
     internalValue: Date | null;
     increaseActiveSegmentValue: (segment: DateSegmentEnum) => void;
