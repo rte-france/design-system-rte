@@ -5,6 +5,7 @@ import {
   DestroyRef,
   ElementRef,
   computed,
+  contentChild,
   effect,
   inject,
   input,
@@ -12,8 +13,8 @@ import {
   signal,
   viewChild,
 } from "@angular/core";
+import { type ButtonVariant } from "@design-system-rte/core/components/button/common/common-button";
 import {
-  buildHeaderHomeAriaLabel,
   HEADER_DEFAULT_BREADCRUMBS_ARIA_LABEL,
   HEADER_DEFAULT_NAV_ARIA_LABEL,
   HEADER_DESKTOP_BREAKPOINT_PX,
@@ -26,12 +27,13 @@ import {
   type HeaderAppearance,
   type HeaderAvatarConfig,
   type HeaderIconButtonConfig,
-  type HeaderLeftSectionType,
+  type HeaderLeftSectionConfig,
   type HeaderMidSectionType,
   type HeaderNavigationItem,
   type HeaderSearchbarConfig,
   type ScrollDirectionState,
 } from "@design-system-rte/core/components/header";
+import { type SearchBarAppearance } from "@design-system-rte/core/components/searchbar/searchbar.interface";
 import { ESCAPE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
 import { AvatarComponent } from "../avatar/avatar.component";
@@ -42,6 +44,8 @@ import { IconComponent } from "../icon/icon.component";
 import { IconButtonComponent } from "../icon-button/icon-button.component";
 import { SearchbarComponent } from "../searchbar/searchbar.component";
 
+import { HeaderLeftSectionComponent } from "./header-left-section/header-left-section.component";
+import { HeaderLeftDirective } from "./header-left.directive";
 import { HeaderRightDirective } from "./header-right.directive";
 
 const DEFAULT_HOME_LINK = "/";
@@ -58,6 +62,7 @@ const DEFAULT_SEARCHBAR_ID = "rte-header-searchbar";
     BadgeComponent,
     IconComponent,
     BreadcrumbsComponent,
+    HeaderLeftSectionComponent,
     HeaderRightDirective,
   ],
   standalone: true,
@@ -78,7 +83,6 @@ export class HeaderComponent {
   readonly isSticky = input<boolean>(false);
   readonly showAtScrollUp = input<boolean>(false);
 
-  readonly leftSectionType = input<HeaderLeftSectionType>("default");
   readonly hasLogo = input<boolean>(true);
   readonly applicationName = input<string>("");
   readonly logoSrc = input<string | undefined>(undefined);
@@ -120,16 +124,22 @@ export class HeaderComponent {
   readonly isDesktop = signal<boolean>(true);
   readonly isVisible = signal<boolean>(true);
 
-  readonly computedHomeAriaLabel = computed(() => {
-    const explicitLabel = this.homeAriaLabel();
-    if (explicitLabel) {
-      return explicitLabel;
-    }
-    const applicationName = this.applicationName();
-    if (!applicationName) {
-      return "Accueil";
-    }
-    return buildHeaderHomeAriaLabel(applicationName);
+  private readonly projectedLeftSection = contentChild(HeaderLeftDirective);
+
+  readonly shouldRenderProjectedLeftSection = computed(() => !!this.projectedLeftSection());
+
+  readonly computedLeftSectionConfig = computed<HeaderLeftSectionConfig | undefined>(() => {
+    return {
+      hasLogo: this.hasLogo(),
+      applicationName: this.applicationName(),
+      logoSrc: this.logoSrc(),
+      homeLink: this.homeLink(),
+      homeAriaLabel: this.homeAriaLabel(),
+    };
+  });
+
+  readonly shouldRenderInternalLeftSection = computed(() => {
+    return !this.shouldRenderProjectedLeftSection() && !!this.computedLeftSectionConfig();
   });
 
   readonly shouldRenderMidSection = computed(() => {
@@ -150,7 +160,23 @@ export class HeaderComponent {
     return this.isCompact() ? HEADER_SUBHEADER_HEIGHT_COMPACT_PX : HEADER_SUBHEADER_HEIGHT_PX;
   });
 
+  readonly actionButtonSize = computed(() => {
+    return this.isCompact() ? "s" : "m";
+  });
+
   readonly mobileSearchTransitionMs = HEADER_MOBILE_SEARCH_TRANSITION_MS;
+
+  readonly desktopSearchbarAppearance = computed<SearchBarAppearance>(() => {
+    return this.appearance() === "neutral" ? "secondary" : "primary";
+  });
+
+  readonly actionButtonVariant = computed<ButtonVariant>(() => {
+    return this.appearance() === "neutral" ? "neutral" : "primary";
+  });
+
+  readonly rightSectionIconButtonsVariant = computed<ButtonVariant>(() => {
+    return this.appearance() === "neutral" ? "neutral" : "text";
+  });
 
   private scrollState: ScrollDirectionState = { lastScrollY: 0, lastDirection: "up" };
 

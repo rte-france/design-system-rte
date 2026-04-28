@@ -3,6 +3,7 @@ import type { HeaderIconButtonConfig, HeaderNavigationItem } from "@design-syste
 import { Meta, moduleMetadata, StoryObj } from "@storybook/angular";
 import { userEvent, within } from "@storybook/test";
 
+import { HeaderLeftDirective } from "../header-left.directive";
 import { HeaderComponent } from "../header.component";
 
 const navigationItems: HeaderNavigationItem[] = [
@@ -13,9 +14,9 @@ const navigationItems: HeaderNavigationItem[] = [
 
 const iconButtons: HeaderIconButtonConfig[] = [
   {
-    id: "notifications",
-    iconName: "notifications",
-    ariaLabel: "Notifications",
+    id: "notification",
+    iconName: "notification",
+    ariaLabel: "Notification",
     badge: { count: 1, type: "indicator", size: "l" },
   },
   { id: "map", iconName: "map", ariaLabel: "Carte" },
@@ -43,7 +44,7 @@ const meta: Meta<HeaderComponent> = {
   tags: ["autodocs"],
   decorators: [
     moduleMetadata({
-      imports: [HeaderComponent],
+      imports: [HeaderComponent, HeaderLeftDirective],
     }),
   ],
   argTypes: {
@@ -59,7 +60,7 @@ const meta: Meta<HeaderComponent> = {
 };
 
 export default meta;
-type Story = StoryObj<HeaderComponent>;
+type Story = StoryObj;
 
 export const Default: Story = {
   args: {
@@ -71,10 +72,10 @@ export const Default: Story = {
     hasMidSection: true,
     hasRightSection: true,
     hasSubHeader: true,
-    leftSectionType: "default",
     hasLogo: true,
     applicationName: "Nom de l'application",
     logoSrc: "https://placehold.co/24x24/png",
+    homeLink: "/",
     navigationItems,
     hasSearchbar: true,
     searchbarProps: { id: "header-search", label: "Rechercher" },
@@ -106,10 +107,10 @@ export const Default: Story = {
           [hasMidSection]="hasMidSection"
           [hasRightSection]="hasRightSection"
           [hasSubHeader]="hasSubHeader"
-          [leftSectionType]="leftSectionType"
           [hasLogo]="hasLogo"
           [applicationName]="applicationName"
           [logoSrc]="logoSrc"
+          [homeLink]="homeLink"
           [navigationItems]="navigationItems"
           [hasSearchbar]="hasSearchbar"
           [searchbarProps]="searchbarProps"
@@ -144,23 +145,109 @@ export const BreadcrumbsDebug: Story = {
   },
 };
 
-export const Figma_14955_8083: Story = {
+export const StickyDebug: Story = {
   args: {
     ...Default.args,
-    appearance: "brand",
-    isCompact: false,
-    hasMidSection: true,
-    midSectionType: "empty",
-    navigationItems: [],
-    iconButtons,
-    subHeaderConfig: {
-      ariaLabel: "Fil d'Ariane",
-      items: [
-        { label: "This is a link", link: "/" },
-        { label: "This is a link", link: "/section" },
-        { label: "Active page", link: "/section/page-active" },
-      ],
-    },
+    isSticky: true,
+    showAtScrollUp: false,
+    subHeaderConfig: debugBreadcrumbsConfig,
+  },
+  render: (args) => {
+    return {
+      props: { ...args },
+      template: `
+        <div style="height: 240vh">
+          <rte-header
+            [appearance]="appearance"
+            [isCompact]="isCompact"
+            [isSticky]="isSticky"
+            [showAtScrollUp]="showAtScrollUp"
+            [hasLeftSection]="hasLeftSection"
+            [hasMidSection]="hasMidSection"
+            [hasRightSection]="hasRightSection"
+            [hasSubHeader]="hasSubHeader"
+            [hasLogo]="hasLogo"
+            [applicationName]="applicationName"
+            [logoSrc]="logoSrc"
+            [homeLink]="homeLink"
+            [navigationItems]="navigationItems"
+            [hasSearchbar]="hasSearchbar"
+            [searchbarProps]="searchbarProps"
+            [hasActionButton]="hasActionButton"
+            [actionButton]="actionButton"
+            [hasIconButtons]="hasIconButtons"
+            [iconButtons]="iconButtons"
+            [hasAvatar]="hasAvatar"
+            [avatarProps]="avatarProps"
+            [subHeaderConfig]="subHeaderConfig"
+          />
+
+          <div style="padding: 24px; max-width: 900px; margin: 0 auto">
+            <div style="display: grid; gap: 12px">
+              <h2 style="margin: 0">Sticky debug</h2>
+              <p style="margin: 0">
+                Scroll this page. With <strong>isSticky=true</strong>, the header should remain pinned to the top of the
+                viewport.
+              </p>
+              <div style="height: 180vh; border-radius: 12px; background: rgba(0,0,0,0.04)"></div>
+            </div>
+          </div>
+        </div>
+      `,
+    };
+  },
+};
+
+export const ShowAtScrollUpDebug: Story = {
+  args: {
+    ...Default.args,
+    isSticky: true,
+    showAtScrollUp: true,
+    subHeaderConfig: debugBreadcrumbsConfig,
+  },
+  render: (args) => {
+    return {
+      props: { ...args },
+      template: `
+        <div style="height: 260vh">
+          <rte-header
+            [appearance]="appearance"
+            [isCompact]="isCompact"
+            [isSticky]="isSticky"
+            [showAtScrollUp]="showAtScrollUp"
+            [hasLeftSection]="hasLeftSection"
+            [hasMidSection]="hasMidSection"
+            [hasRightSection]="hasRightSection"
+            [hasSubHeader]="hasSubHeader"
+            [hasLogo]="hasLogo"
+            [applicationName]="applicationName"
+            [logoSrc]="logoSrc"
+            [homeLink]="homeLink"
+            [navigationItems]="navigationItems"
+            [hasSearchbar]="hasSearchbar"
+            [searchbarProps]="searchbarProps"
+            [hasActionButton]="hasActionButton"
+            [actionButton]="actionButton"
+            [hasIconButtons]="hasIconButtons"
+            [iconButtons]="iconButtons"
+            [hasAvatar]="hasAvatar"
+            [avatarProps]="avatarProps"
+            [subHeaderConfig]="subHeaderConfig"
+          />
+
+          <div style="padding: 24px; max-width: 900px; margin: 0 auto">
+            <div style="display: grid; gap: 12px">
+              <h2 style="margin: 0">Scroll-up behavior debug</h2>
+              <p style="margin: 0">
+                Scroll down: the header should hide. Scroll up: it should reappear. (Requires
+                <strong>isSticky=true</strong> and <strong>showAtScrollUp=true</strong>.)
+              </p>
+              <div style="height: 200vh; border-radius: 12px; background: rgba(0,0,0,0.04)"></div>
+            </div>
+          </div>
+        </div>
+      `,
+    };
   },
 };
 
@@ -174,8 +261,10 @@ export const WithRightSlot: Story = {
       template: `
         <rte-header
           [appearance]="appearance"
+          [hasLogo]="hasLogo"
           [applicationName]="applicationName"
           [logoSrc]="logoSrc"
+          [homeLink]="homeLink"
           [navigationItems]="navigationItems"
           [searchbarProps]="searchbarProps"
           [actionButton]="actionButton"
@@ -183,6 +272,34 @@ export const WithRightSlot: Story = {
           [avatarProps]="avatarProps"
         >
           <div rteHeaderRight style="width: 40px; height: 40px; background: rgba(0,0,0,0.08); border-radius: 8px"></div>
+        </rte-header>
+      `,
+    };
+  },
+};
+
+export const WithLeftSlot: Story = {
+  args: {
+    ...Default.args,
+    hasLogo: false,
+    applicationName: "",
+    logoSrc: undefined,
+  },
+  render: (args) => {
+    return {
+      props: { ...args },
+      template: `
+        <rte-header
+          [appearance]="appearance"
+          [navigationItems]="navigationItems"
+          [searchbarProps]="searchbarProps"
+          [actionButton]="actionButton"
+          [iconButtons]="iconButtons"
+          [avatarProps]="avatarProps"
+        >
+          <div rteHeaderLeft style="display:flex; align-items:center; gap: 8px;">
+            <strong style="white-space: nowrap">Left slot</strong>
+          </div>
         </rte-header>
       `,
     };
@@ -214,8 +331,10 @@ export const MobileSearchInteraction: Story = {
         <div style="height: 200vh; padding-top: 8px">
           <rte-header
             [appearance]="appearance"
+            [hasLogo]="hasLogo"
             [applicationName]="applicationName"
             [logoSrc]="logoSrc"
+            [homeLink]="homeLink"
             [navigationItems]="navigationItems"
             [hasSearchbar]="true"
             [searchbarProps]="searchbarProps"

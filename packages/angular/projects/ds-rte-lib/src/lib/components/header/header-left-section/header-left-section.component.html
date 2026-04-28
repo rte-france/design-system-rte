@@ -1,0 +1,9 @@
+<a class="rte-header-home" [href]="computedHomeLink()" [attr.aria-label]="computedHomeAriaLabel()">
+  @if (shouldRenderLogo()) {
+    <img class="rte-header-logo" alt="" aria-hidden="true" [src]="computedLogoSrc()" />
+  }
+
+  @if (shouldRenderApplicationName()) {
+    <span class="rte-header-app-name">{{ computedApplicationName() }}</span>
+  }
+</a>
