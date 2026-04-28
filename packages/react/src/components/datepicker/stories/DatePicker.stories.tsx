@@ -16,7 +16,7 @@ import DatePicker from "../DatePicker";
 import { calendarTriggerAccessibleName, getDropdown, normalizedDateInputValue } from "./DatePicker.stories.util";
 
 const meta = {
-  title: "Composants/DatePicker",
+  title: "Composants/DatePicker/DatePicker",
   component: DatePicker,
   tags: ["autodocs"],
 } satisfies Meta<typeof DatePicker>;
@@ -33,6 +33,7 @@ export const Default: Story = {
     assistiveTextLabel: "Assistive text",
     showAssistiveIcon: true,
     readonly: false,
+    hasAction: true,
   },
 
   render: (args) => {
