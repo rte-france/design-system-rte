@@ -34,7 +34,6 @@
   padding: 0 $positive-spacing_200;
   gap: $positive-spacing_200;
   background: var(--background-default);
-  border-bottom: 1px solid var(--border-divider);
 
   .rte-header[data-compact='true'] & {
     height: 64px;
@@ -128,6 +127,10 @@
   }
 }
 
+.rte-header[data-appearance='neutral'] .rte-header-nav-link {
+  color: var(--content-primary);
+}
+
 .rte-header-nav-item[data-active='true'] .rte-header-nav-link {
   font-weight: $button-s-semibold-font-weight;
 }
@@ -195,6 +198,5 @@
   align-items: center;
   padding: 0 $positive-spacing_200;
   background: var(--background-default);
-  border-bottom: 1px solid var(--border-divider);
 }
 

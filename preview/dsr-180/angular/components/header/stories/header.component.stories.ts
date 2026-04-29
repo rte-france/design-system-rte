@@ -251,26 +251,6 @@ export const ShowAtScrollUpDebug: Story = {
   },
 };
 
-export const Figma_14955_8083: Story = {
-  args: {
-    ...Default.args,
-    appearance: "brand",
-    isCompact: false,
-    hasMidSection: true,
-    midSectionType: "empty",
-    navigationItems: [],
-    iconButtons,
-    subHeaderConfig: {
-      ariaLabel: "Fil d'Ariane",
-      items: [
-        { label: "This is a link", link: "/" },
-        { label: "This is a link", link: "/section" },
-        { label: "Active page", link: "/section/page-active" },
-      ],
-    },
-  },
-};
-
 export const WithRightSlot: Story = {
   args: {
     ...Default.args,

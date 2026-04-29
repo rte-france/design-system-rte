@@ -13,6 +13,7 @@ import {
   signal,
   viewChild,
 } from "@angular/core";
+import { type ButtonVariant } from "@design-system-rte/core/components/button/common/common-button";
 import {
   HEADER_DEFAULT_BREADCRUMBS_ARIA_LABEL,
   HEADER_DEFAULT_NAV_ARIA_LABEL,
@@ -32,6 +33,7 @@ import {
   type HeaderSearchbarConfig,
   type ScrollDirectionState,
 } from "@design-system-rte/core/components/header";
+import { type SearchBarAppearance } from "@design-system-rte/core/components/searchbar/searchbar.interface";
 import { ESCAPE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
 import { AvatarComponent } from "../avatar/avatar.component";
@@ -163,6 +165,18 @@ export class HeaderComponent {
   });
 
   readonly mobileSearchTransitionMs = HEADER_MOBILE_SEARCH_TRANSITION_MS;
+
+  readonly desktopSearchbarAppearance = computed<SearchBarAppearance>(() => {
+    return this.appearance() === "neutral" ? "secondary" : "primary";
+  });
+
+  readonly actionButtonVariant = computed<ButtonVariant>(() => {
+    return this.appearance() === "neutral" ? "neutral" : "primary";
+  });
+
+  readonly rightSectionIconButtonsVariant = computed<ButtonVariant>(() => {
+    return this.appearance() === "neutral" ? "neutral" : "text";
+  });
 
   private scrollState: ScrollDirectionState = { lastScrollY: 0, lastDirection: "up" };
 

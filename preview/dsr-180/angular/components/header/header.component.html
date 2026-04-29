@@ -6,6 +6,7 @@
   [attr.data-compact]="isCompact()"
   [attr.data-sticky]="isSticky()"
   [attr.data-visible]="isVisible()"
+  [attr.data-has-subheader]="shouldRenderSubheader()"
 >
   <div class="rte-header-main">
     @if (hasLeftSection()) {
@@ -59,6 +60,7 @@
               [showResetButton]="searchbarProps()?.showResetButton ?? true"
               [value]="searchbarProps()?.value || ''"
               [assistiveText]="searchbarProps()?.assistiveText || ''"
+              [appearance]="desktopSearchbarAppearance()"
               [compactSpacing]="isCompact()"
             />
           }
@@ -68,7 +70,7 @@
               rteButton
               type="button"
               [rteButtonSize]="actionButtonSize()"
-              [rteButtonVariant]="'primary'"
+              [rteButtonVariant]="actionButtonVariant()"
               [disabled]="actionButton()!.disabled ?? false"
               [rteButtonIcon]="actionButton()!.iconName!"
               (click)="handleActionButtonClick()"
@@ -91,8 +93,8 @@
                   }
                   <rte-icon-button
                     size="m"
-                    variant="neutral"
                     appearance="outlined"
+                    [variant]="rightSectionIconButtonsVariant()"
                     [name]="button.iconName"
                     [ariaLabel]="button.ariaLabel"
                     [disabled]="button.disabled ?? false"
@@ -129,9 +131,9 @@
                   <rte-icon-button
                     #mobileSearchButtonRef
                     size="m"
-                    variant="neutral"
                     appearance="outlined"
                     name="search"
+                    [variant]="rightSectionIconButtonsVariant()"
                     [ariaLabel]="mobileSearchButtonAriaLabel()"
                     (clickEvent)="openMobileSearch()"
                   />
@@ -143,6 +145,7 @@
                     [showResetButton]="searchbarProps()?.showResetButton ?? true"
                     [value]="searchbarProps()?.value || ''"
                     [assistiveText]="searchbarProps()?.assistiveText || ''"
+                    [appearance]="'secondary'"
                     [compactSpacing]="isCompact()"
                   />
                 }
@@ -151,8 +154,8 @@
 
             <rte-icon-button
               size="m"
-              variant="neutral"
               appearance="outlined"
+              [variant]="rightSectionIconButtonsVariant()"
               [name]="mobileMenuButton()?.iconName ?? 'menu'"
               [ariaLabel]="mobileMenuButton()?.ariaLabel ?? 'Menu'"
               [disabled]="mobileMenuButton()?.disabled ?? false"
