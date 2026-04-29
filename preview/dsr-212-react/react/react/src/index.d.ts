@@ -8,7 +8,6 @@ import { default as Card } from './components/card/Card.tsx';
 import { default as Checkbox } from './components/checkbox/Checkbox.tsx';
 import { default as CheckboxGroup } from './components/checkboxGroup/CheckboxGroup.tsx';
 import { default as Chip } from './components/chip/Chip.tsx';
-import { default as DatePicker } from './components/datepicker/DatePicker.tsx';
 import { default as Divider } from './components/divider/Divider.tsx';
 import { default as Drawer } from './components/drawer/Drawer.tsx';
 import { default as FileUpload } from './components/fileupload/FileUpload.tsx';
@@ -19,6 +18,7 @@ import { default as IconButtonToggle } from './components/iconButtonToggle/IconB
 import { default as Link } from './components/link/Link.tsx';
 import { default as Loader } from './components/loader/Loader.tsx';
 import { default as Modal } from './components/modal/Modal.tsx';
+import { default as DatePicker } from './components/pickers/datepicker/DatePicker.tsx';
 import { default as TimePicker } from './components/pickers/timepicker/TimePicker.tsx';
 import { default as Popover } from './components/popover/Popover.tsx';
 import { default as RadioButton } from './components/radioButton/RadioButton.tsx';
