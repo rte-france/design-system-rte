@@ -45,6 +45,24 @@
   display: flex;
   align-items: center;
   min-width: 0;
+
+  &:has([rteHeaderLeft]) {
+    .rte-header-home {
+      display: none;
+    }
+  }
+
+  &:not(:has([rteHeaderLeft])) {
+    .rte-header-left-slot {
+      display: none;
+    }
+  }
+}
+
+.rte-header-left-slot {
+  display: flex;
+  align-items: center;
+  min-width: 0;
 }
 
 .rte-header-home {

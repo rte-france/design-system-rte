@@ -1,0 +1,36 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+:host {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.rte-header-home {
+  display: inline-flex;
+  align-items: center;
+  gap: $positive-spacing_100;
+  min-width: 0;
+  text-decoration: none;
+  color: var(--content-secondary);
+
+  &:focus-visible {
+    outline: 2px solid var(--border-brand-default);
+    outline-offset: 2px;
+    border-radius: $radius-s;
+  }
+}
+
+.rte-header-logo {
+  width: 24px;
+  height: 24px;
+  flex: 0 0 auto;
+  border-radius: $radius-s;
+}
+
+.rte-header-app-name {
+  @include typography-heading-xs;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

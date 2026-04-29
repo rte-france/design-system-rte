@@ -10,17 +10,12 @@
   <div class="rte-header-main">
     @if (hasLeftSection()) {
       <div class="rte-header-left">
-        @if (leftSectionType() === "default") {
-          <a class="rte-header-home" [href]="homeLink()" [attr.aria-label]="computedHomeAriaLabel()">
-            @if (hasLogo() && logoSrc()) {
-              <img class="rte-header-logo" alt="" aria-hidden="true" [src]="logoSrc()!" />
-            }
-            <span class="rte-header-app-name">{{ applicationName() }}</span>
-          </a>
-        } @else {
-          <div class="rte-header-left-placeholder">
+        @if (shouldRenderProjectedLeftSection()) {
+          <div class="rte-header-left-slot">
             <ng-content select="[rteHeaderLeft]"></ng-content>
           </div>
+        } @else if (shouldRenderInternalLeftSection()) {
+          <rte-header-left-section [config]="computedLeftSectionConfig()" />
         }
       </div>
     }

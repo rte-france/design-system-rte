@@ -3,6 +3,7 @@ import type { HeaderIconButtonConfig, HeaderNavigationItem } from "@design-syste
 import { Meta, moduleMetadata, StoryObj } from "@storybook/angular";
 import { userEvent, within } from "@storybook/test";
 
+import { HeaderLeftDirective } from "../header-left.directive";
 import { HeaderComponent } from "../header.component";
 
 const navigationItems: HeaderNavigationItem[] = [
@@ -43,7 +44,7 @@ const meta: Meta<HeaderComponent> = {
   tags: ["autodocs"],
   decorators: [
     moduleMetadata({
-      imports: [HeaderComponent],
+      imports: [HeaderComponent, HeaderLeftDirective],
     }),
   ],
   argTypes: {
@@ -59,7 +60,7 @@ const meta: Meta<HeaderComponent> = {
 };
 
 export default meta;
-type Story = StoryObj<HeaderComponent>;
+type Story = StoryObj;
 
 export const Default: Story = {
   args: {
@@ -71,10 +72,10 @@ export const Default: Story = {
     hasMidSection: true,
     hasRightSection: true,
     hasSubHeader: true,
-    leftSectionType: "default",
     hasLogo: true,
     applicationName: "Nom de l'application",
     logoSrc: "https://placehold.co/24x24/png",
+    homeLink: "/",
     navigationItems,
     hasSearchbar: true,
     searchbarProps: { id: "header-search", label: "Rechercher" },
@@ -106,10 +107,10 @@ export const Default: Story = {
           [hasMidSection]="hasMidSection"
           [hasRightSection]="hasRightSection"
           [hasSubHeader]="hasSubHeader"
-          [leftSectionType]="leftSectionType"
           [hasLogo]="hasLogo"
           [applicationName]="applicationName"
           [logoSrc]="logoSrc"
+          [homeLink]="homeLink"
           [navigationItems]="navigationItems"
           [hasSearchbar]="hasSearchbar"
           [searchbarProps]="searchbarProps"
@@ -165,10 +166,10 @@ export const StickyDebug: Story = {
             [hasMidSection]="hasMidSection"
             [hasRightSection]="hasRightSection"
             [hasSubHeader]="hasSubHeader"
-            [leftSectionType]="leftSectionType"
             [hasLogo]="hasLogo"
             [applicationName]="applicationName"
             [logoSrc]="logoSrc"
+            [homeLink]="homeLink"
             [navigationItems]="navigationItems"
             [hasSearchbar]="hasSearchbar"
             [searchbarProps]="searchbarProps"
@@ -218,10 +219,10 @@ export const ShowAtScrollUpDebug: Story = {
             [hasMidSection]="hasMidSection"
             [hasRightSection]="hasRightSection"
             [hasSubHeader]="hasSubHeader"
-            [leftSectionType]="leftSectionType"
             [hasLogo]="hasLogo"
             [applicationName]="applicationName"
             [logoSrc]="logoSrc"
+            [homeLink]="homeLink"
             [navigationItems]="navigationItems"
             [hasSearchbar]="hasSearchbar"
             [searchbarProps]="searchbarProps"
@@ -280,8 +281,10 @@ export const WithRightSlot: Story = {
       template: `
         <rte-header
           [appearance]="appearance"
+          [hasLogo]="hasLogo"
           [applicationName]="applicationName"
           [logoSrc]="logoSrc"
+          [homeLink]="homeLink"
           [navigationItems]="navigationItems"
           [searchbarProps]="searchbarProps"
           [actionButton]="actionButton"
@@ -289,6 +292,34 @@ export const WithRightSlot: Story = {
           [avatarProps]="avatarProps"
         >
           <div rteHeaderRight style="width: 40px; height: 40px; background: rgba(0,0,0,0.08); border-radius: 8px"></div>
+        </rte-header>
+      `,
+    };
+  },
+};
+
+export const WithLeftSlot: Story = {
+  args: {
+    ...Default.args,
+    hasLogo: false,
+    applicationName: "",
+    logoSrc: undefined,
+  },
+  render: (args) => {
+    return {
+      props: { ...args },
+      template: `
+        <rte-header
+          [appearance]="appearance"
+          [navigationItems]="navigationItems"
+          [searchbarProps]="searchbarProps"
+          [actionButton]="actionButton"
+          [iconButtons]="iconButtons"
+          [avatarProps]="avatarProps"
+        >
+          <div rteHeaderLeft style="display:flex; align-items:center; gap: 8px;">
+            <strong style="white-space: nowrap">Left slot</strong>
+          </div>
         </rte-header>
       `,
     };
@@ -320,8 +351,10 @@ export const MobileSearchInteraction: Story = {
         <div style="height: 200vh; padding-top: 8px">
           <rte-header
             [appearance]="appearance"
+            [hasLogo]="hasLogo"
             [applicationName]="applicationName"
             [logoSrc]="logoSrc"
+            [homeLink]="homeLink"
             [navigationItems]="navigationItems"
             [hasSearchbar]="true"
             [searchbarProps]="searchbarProps"
