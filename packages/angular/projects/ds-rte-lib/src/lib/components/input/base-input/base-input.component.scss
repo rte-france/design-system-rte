@@ -144,17 +144,10 @@
                     right: $positive-spacing-100;
                     color: var(--content-secondary);
 
-                    &:focus {
-                        outline: none;
-                    }
-
-                    &:focus-visible {
+                    ::ng-deep button.rte-icon-button:focus-visible {
                         outline: $width-xs solid var(--border-brand-focused);
-                        border-radius: $radius-m;
-
-                        &::after {
-                            display: none;
-                        }
+                        outline-offset: 2px;
+                        border-radius: $radius-s;
                     }
                 }
 
