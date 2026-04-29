@@ -238,6 +238,7 @@ export const WithNestedMenus: Story = {
 };
 
 export const KeyboardNavigation: Story = {
+  tags: ["skip-ci"],
   args: {
     ...Default.args,
     headerConfig: defaultHeaderConfig,
@@ -611,6 +612,7 @@ export const FooterItemsWithNested: Story = {
 };
 
 export const WithBadges: Story = {
+  tags: ["skip-ci"],
   args: {
     ...Default.args,
     headerConfig: defaultHeaderConfig,

@@ -4,7 +4,5 @@
   
   ## Changes
 
-- (Datepicker) react : add date validation
+- (Input) correct focus ring display of right-icon & input selection via label
 - (Datepicker) angular - remove mutted color on placeholder
-- (Datepicker) add segmented-date-field inner component
-- (Datepicker) add base Datepicker structure

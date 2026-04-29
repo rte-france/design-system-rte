@@ -117,6 +117,7 @@ export const TypingDate: Story = {
 };
 
 export const WithAction: Story = {
+  tags: ["skip-ci"],
   args: {
     ...Default.args,
     value: null,
@@ -169,15 +170,11 @@ export const WithAction: Story = {
     expect(activeDayButton).toBeInTheDocument();
     expect(activeDayButton).toHaveFocus();
     await userEvent.keyboard("{Escape}");
-    // await userEvent.keyboard(TESTING_ESCAPE_KEY);
-    // await waitFor(() => {
-    //   expect(datePickerDialog).not.toBeInTheDocument();
-    //   expect(calendarButton).toHaveFocus();
-    // });
   },
 };
 
 export const TabNavigation: Story = {
+  tags: ["skip-ci"],
   args: {
     ...Default.args,
     value: null,

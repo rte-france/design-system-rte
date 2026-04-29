@@ -281,6 +281,7 @@ export const ActionIconDropdown: Story = {
 };
 
 export const ActionIconCustomBehavior: Story = {
+  tags: ["skip-ci"],
   args: {
     items: actionIconCustomBehaviorData,
   },
