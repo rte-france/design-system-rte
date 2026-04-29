@@ -15,10 +15,10 @@ import {
 import { DatepickerProps as CoreDatePickerProps } from "@design-system-rte/core/components/datepicker/datepicker.interface";
 import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
 
-import AssistiveText from "../assistivetext/AssistiveText";
-import { BaseDropdown } from "../dropdown/BaseDropdown";
-import BaseInputPicker from "../pickers/baseInputPicker/BaseInputPicker";
-import RequiredIndicator from "../requiredindicator/RequiredIndicator";
+import AssistiveText from "../../assistivetext/AssistiveText";
+import { BaseDropdown } from "../../dropdown/BaseDropdown";
+import RequiredIndicator from "../../requiredindicator/RequiredIndicator";
+import BaseInputPicker from "../baseInputPicker/BaseInputPicker";
 
 import styles from "./DatePicker.module.scss";
 import { computeDateSegmentRanges, formatNumberToParseSegmentValue } from "./DatePicker.utils";

@@ -172,11 +172,11 @@ function yearHasSelectableDay(params: {
   return false;
 }
 
-function getMondayBasedWeekdayIndex(date: Date): number {
+export function getMondayBasedWeekdayIndex(date: Date): number {
   return (date.getDay() + 6) % 7;
 }
 
-function isSameMonth(first: Date, second: Date): boolean {
+export function isSameMonth(first: Date, second: Date): boolean {
   return first.getFullYear() === second.getFullYear() && first.getMonth() === second.getMonth();
 }
 

@@ -10,7 +10,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { userEvent, expect, within, waitFor } from "@storybook/test";
 import { useState } from "react";
 
-import { focusElementBeforeComponent } from "../../../../.storybook/testing/testing.utils";
+import { focusElementBeforeComponent } from "../../../../../.storybook/testing/testing.utils";
 import DatePicker from "../DatePicker";
 
 import { calendarTriggerAccessibleName, getDropdown, normalizedDateInputValue } from "./DatePicker.stories.util";

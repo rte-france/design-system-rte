@@ -9,7 +9,6 @@ import Card from "./components/card/Card.tsx";
 import Checkbox from "./components/checkbox/Checkbox.tsx";
 import CheckboxGroup from "./components/checkboxGroup/CheckboxGroup.tsx";
 import Chip from "./components/chip/Chip.tsx";
-import DatePicker from "./components/datepicker/DatePicker.tsx";
 import Divider from "./components/divider/Divider.tsx";
 import Drawer from "./components/drawer/Drawer.tsx";
 import FileUpload from "./components/fileupload/FileUpload.tsx";
@@ -20,6 +19,7 @@ import IconButtonToggle from "./components/iconButtonToggle/IconButtonToggle.tsx
 import Link from "./components/link/Link.tsx";
 import Loader from "./components/loader/Loader.tsx";
 import Modal from "./components/modal/Modal.tsx";
+import DatePicker from "./components/pickers/datepicker/DatePicker.tsx";
 import TimePicker from "./components/pickers/timepicker/TimePicker.tsx";
 import Popover from "./components/popover/Popover.tsx";
 import RadioButton from "./components/radioButton/RadioButton.tsx";
