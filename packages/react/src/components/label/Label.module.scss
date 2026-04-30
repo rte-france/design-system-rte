@@ -1,0 +1,7 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+.rte-label {
+  @include typography-text-m;
+  padding: $positive-spacing_025 $positive-spacing_100;
+  color: var(--content-secondary);
+}
