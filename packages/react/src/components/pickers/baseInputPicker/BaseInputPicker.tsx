@@ -4,7 +4,7 @@ import Icon from "../../icon/Icon";
 
 import styles from "./BaseInputPicker.module.scss";
 
-interface BaseInputPickerProps extends BaseInput {
+export interface BaseInputPickerProps extends BaseInput {
   value?: string;
   onChange?: () => void;
   icon?: string;
@@ -13,8 +13,10 @@ interface BaseInputPickerProps extends BaseInput {
   pickerRef?: React.RefObject<HTMLDivElement>;
   onFocus?: () => void;
   onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
-  onMouseUp?: () => void;
+  onMouseUp?: (event: React.MouseEvent<HTMLInputElement>) => void;
+  onMouseDown?: () => void;
   onOpenPicker?: () => void;
+  onBlur?: () => void;
   ariaLabelledBy?: string;
   openButtonAriaLabel?: string;
   fixedWidth?: boolean;
@@ -29,7 +31,9 @@ const BaseInputPicker = ({
   onFocus,
   onKeyDown,
   onMouseUp,
+  onMouseDown,
   onOpenPicker,
+  onBlur,
   isFocused,
   pickerInputRef,
   pickerRef,
@@ -66,6 +70,8 @@ const BaseInputPicker = ({
           onFocus={canInteractWithPicker ? onFocus : undefined}
           onKeyDown={canInteractWithPicker ? onKeyDown : undefined}
           onMouseUp={canInteractWithPicker ? onMouseUp : undefined}
+          onMouseDown={canInteractWithPicker ? onMouseDown : undefined}
+          onBlur={canInteractWithPicker ? onBlur : undefined}
           onKeyUp={(e) => {
             e.preventDefault();
           }}
