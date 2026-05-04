@@ -8,8 +8,77 @@ on:
 permissions: read-all
 
 jobs:
+  detect-affected:
+    name: Detect affected packages
+    runs-on: ubuntu-latest
+    outputs:
+      core: ${{ steps.detect.outputs.core }}
+      react: ${{ steps.detect.outputs.react }}
+      angular: ${{ steps.detect.outputs.angular }}
+      isChangesetReleaseMerge: ${{ steps.detect.outputs.isChangesetReleaseMerge }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect changed files and derive flags
+        id: detect
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          baseSha="${{ github.event.before }}"
+          headSha="${{ github.sha }}"
+
+          changedFiles="$(git diff --name-only "$baseSha" "$headSha")"
+
+          echo "Changed files:"
+          echo "$changedFiles"
+
+          latestCommitMessage="$(git log -1 --pretty=%B)"
+          echo "Latest commit message:"
+          echo "$latestCommitMessage"
+
+          isChangesetReleaseMerge="false"
+          if echo "$latestCommitMessage" | grep -qiF 'changeset-release/'; then
+            isChangesetReleaseMerge="true"
+          fi
+
+          coreChanged="false"
+          reactChanged="false"
+          angularChanged="false"
+
+          if echo "$changedFiles" | grep -qE '^packages/core/'; then
+            coreChanged="true"
+          fi
+          if echo "$changedFiles" | grep -qE '^packages/react/'; then
+            reactChanged="true"
+          fi
+          if echo "$changedFiles" | grep -qE '^packages/angular/'; then
+            angularChanged="true"
+          fi
+
+          core="$coreChanged"
+          react="$reactChanged"
+          angular="$angularChanged"
+
+          if [[ "$coreChanged" == "true" ]]; then
+            react="true"
+            angular="true"
+          fi
+          if [[ "$reactChanged" == "true" || "$angularChanged" == "true" ]]; then
+            core="true"
+          fi
+
+          echo "core=$core" >> "$GITHUB_OUTPUT"
+          echo "react=$react" >> "$GITHUB_OUTPUT"
+          echo "angular=$angular" >> "$GITHUB_OUTPUT"
+          echo "isChangesetReleaseMerge=$isChangesetReleaseMerge" >> "$GITHUB_OUTPUT"
+
   global-install:
     runs-on: ubuntu-latest
+    needs: detect-affected
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -46,6 +115,7 @@ jobs:
           key: icons-${{ hashFiles('package-lock.json') }}-${{ github.sha }}
 
       - name: Generate icons
+        if: ${{ needs.detect-affected.outputs.react == 'true' || needs.detect-affected.outputs.angular == 'true' }}
         run: npm run generate:icons
 
       - name: Build Core Package
@@ -63,7 +133,8 @@ jobs:
 
   quality-react:
     runs-on: ubuntu-latest
-    needs: global-install
+    needs: [detect-affected, global-install]
+    if: ${{ needs.detect-affected.outputs.isChangesetReleaseMerge != 'true' && needs.detect-affected.outputs.react == 'true' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -116,7 +187,8 @@ jobs:
 
   build-react:
     runs-on: ubuntu-latest
-    needs: quality-react
+    needs: [detect-affected, quality-react]
+    if: ${{ needs.detect-affected.outputs.isChangesetReleaseMerge != 'true' && needs.detect-affected.outputs.react == 'true' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -176,7 +248,8 @@ jobs:
 
   quality-angular:
     runs-on: ubuntu-latest
-    needs: global-install
+    needs: [detect-affected, global-install]
+    if: ${{ needs.detect-affected.outputs.isChangesetReleaseMerge != 'true' && needs.detect-affected.outputs.angular == 'true' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -243,7 +316,8 @@ jobs:
 
   build-angular:
     runs-on: ubuntu-latest
-    needs: quality-angular
+    needs: [detect-affected, quality-angular]
+    if: ${{ needs.detect-affected.outputs.isChangesetReleaseMerge != 'true' && needs.detect-affected.outputs.angular == 'true' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -279,8 +353,17 @@ jobs:
         run: npm run build
 
   prepare-release:
-    needs: [build-react, build-angular]
+    needs: [detect-affected, global-install, quality-react, build-react, quality-angular, build-angular]
     runs-on: ubuntu-latest
+    if: >-
+      ${{
+        always() &&
+        needs.detect-affected.outputs.isChangesetReleaseMerge != 'true' &&
+        contains(fromJSON('["success","skipped"]'), needs.quality-react.result) &&
+        contains(fromJSON('["success","skipped"]'), needs.build-react.result) &&
+        contains(fromJSON('["success","skipped"]'), needs.quality-angular.result) &&
+        contains(fromJSON('["success","skipped"]'), needs.build-angular.result)
+      }}
     permissions:
       contents: write
       pull-requests: write
