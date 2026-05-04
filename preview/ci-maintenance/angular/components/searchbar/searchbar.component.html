@@ -1,0 +1,41 @@
+<div class="searchbar-container" role="search" [ngClass]="appearance()">
+  <div
+    class="text-input-wrapper"
+    [attr.data-disabled]="disabled()"
+    (focusin)="handleFocusIn()"
+    (focusout)="handleFocusOut($event)"
+  >
+    <rte-base-text-input
+      rightIconAction="clean"
+      autocomplete="off"
+      [id]="id() ?? ''"
+      [placeholder]="placeholder()"
+      [disabled]="disabled()"
+      [value]="value()"
+      [showRightIcon]="showResetButton()"
+      [assistiveTextLabel]="assistiveText()"
+      [compactSpacing]="compactSpacing()"
+      [leftIcon]="appearanceConfig().showLeftIcon ? 'search' : null"
+      [customStyle]="textInputStyles()"
+      [highlighted]="hasFocusWithin()"
+      (valueChange)="handleChange($event)"
+      (rightIconClick)="handleClear()"
+    >
+      @if (appearanceConfig().showSearchButton) {
+        <rte-icon-button
+          baseTextInputRightSlot
+          name="search"
+          size="m"
+          variant="primary"
+          appearance="filled"
+          class="search-button"
+          [ariaLabel]="label()"
+          [disabled]="disabled()"
+          [compactSpacing]="compactSpacing()"
+          [customStyle]="searchButtonStyles()"
+          (clickEvent)="handleSearch()"
+        />
+      }
+    </rte-base-text-input>
+  </div>
+</div>
