@@ -15,7 +15,7 @@ import { IconComponent } from "../icon/icon.component";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ButtonComponent {
-  readonly rteButtonVariant = input<ButtonVariant>("primary");
+  readonly rteButtonVariant = input<ButtonVariant>("secondary");
   readonly rteButtonSize = input<ButtonSize>("m");
   readonly rteBadgeCount = input<number>();
   readonly rteBadgeContent = input<BadgeContent>();
