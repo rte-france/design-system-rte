@@ -12,4 +12,5 @@ export interface ButtonProps extends BadgeHolderProps {
   iconPosition?: ButtonIconPosition;
   icon?: string;
   iconAppearance?: ButtonIconAppearance;
+  testProperty?: string;
 }
