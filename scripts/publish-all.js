@@ -6,39 +6,65 @@ import { fileURLToPath } from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const rootDir = resolve(__dirname, "..");
 const angularPackagePath = resolve(rootDir, "packages/angular/projects/ds-rte-lib/package.json");
+const corePackagePath = resolve(rootDir, "packages/core/package.json");
+const coreDistPath = resolve(rootDir, "packages/core/dist");
 
 function run(cmd, options = {}) {
   console.log(`\n$ ${cmd}`);
   execSync(cmd, { stdio: "inherit", cwd: rootDir, ...options });
 }
 
-function readAngularPackage() {
-  const packageContent = fs.readFileSync(angularPackagePath, "utf8");
+function readPackageJson(packageJsonPath) {
+  const packageContent = fs.readFileSync(packageJsonPath, "utf8");
   return JSON.parse(packageContent);
 }
 
-function writeAngularPackage(packageData) {
-  fs.writeFileSync(angularPackagePath, JSON.stringify(packageData, null, 2));
+function writePackageJson(packageJsonPath, packageData) {
+  fs.writeFileSync(packageJsonPath, JSON.stringify(packageData, null, 2));
 }
 
-function temporarilyMarkAngularAsPrivate() {
-  const angularPkg = readAngularPackage();
-  const originallyPrivate = angularPkg.private === true;
+function temporarilyMarkPrivate(packageJsonPath) {
+  const packageData = readPackageJson(packageJsonPath);
+  const hadPrivateKey = Object.prototype.hasOwnProperty.call(packageData, "private");
+  const originalPrivateValue = packageData.private;
 
-  angularPkg.private = true;
-  writeAngularPackage(angularPkg);
+  packageData.private = true;
+  writePackageJson(packageJsonPath, packageData);
 
-  return originallyPrivate;
+  return { hadPrivateKey, originalPrivateValue };
 }
 
-function restoreAngularPackagePrivacy(originallyPrivate) {
-  const angularPkg = readAngularPackage();
-  angularPkg.private = originallyPrivate;
-  writeAngularPackage(angularPkg);
+function restorePackagePrivacy(packageJsonPath, originalPrivacyState) {
+  const packageData = readPackageJson(packageJsonPath);
+  if (originalPrivacyState.hadPrivateKey) {
+    packageData.private = originalPrivacyState.originalPrivateValue;
+  } else {
+    delete packageData.private;
+  }
+  writePackageJson(packageJsonPath, packageData);
 }
 
 function publishWithChangeset() {
   run(`changeset publish`);
+}
+
+function buildCoreLibrary() {
+  console.log("\n🚀 Building @design-system-rte/core...");
+  run("npm --prefix packages/core run build");
+}
+
+function validateCoreDistPackage() {
+  const packageJsonPath = resolve(coreDistPath, "package.json");
+
+  if (!fs.existsSync(packageJsonPath)) {
+    console.error("❌ package.json not found in packages/core/dist.");
+    process.exit(1);
+  }
+}
+
+function publishCorePackage() {
+  run("npm publish --access public", { cwd: coreDistPath });
+  console.log("\n✅ Core package published successfully.");
 }
 
 function buildAngularLibrary() {
@@ -63,13 +89,19 @@ function publishAngularPackage() {
 }
 
 async function publishAllPackages() {
-  const originallyPrivate = temporarilyMarkAngularAsPrivate();
+  const angularOriginalPrivacyState = temporarilyMarkPrivate(angularPackagePath);
+  const coreOriginalPrivacyState = temporarilyMarkPrivate(corePackagePath);
 
   try {
     publishWithChangeset();
   } finally {
-    restoreAngularPackagePrivacy(originallyPrivate);
+    restorePackagePrivacy(angularPackagePath, angularOriginalPrivacyState);
+    restorePackagePrivacy(corePackagePath, coreOriginalPrivacyState);
   }
+
+  buildCoreLibrary();
+  validateCoreDistPackage();
+  publishCorePackage();
 
   buildAngularLibrary();
   validateAngularDistPackage();
