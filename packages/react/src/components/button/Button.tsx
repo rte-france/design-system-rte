@@ -21,7 +21,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     {
       size = "m",
       label,
-      variant = "primary",
+      variant = "secondary",
       className = "",
       onClick,
       type = "button",
