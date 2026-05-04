@@ -1,5 +1,17 @@
 # @design-system-rte/core
 
+## 1.8.0
+
+### Minor Changes
+
+- 5cb6e5d: ## Changes
+  - (Dropdown) correct menu elevation in Angular implementation
+  - (Timepicker) set base Angular implementation
+  - (Timepicker) react - remove focus on readonly digit
+  - (Timepicker) react - add missing space between time segment value
+  - (Timepicker) improve general logic and fix typos
+  - (Timepicker) add react component
+
 ## 1.7.0
 
 ### Minor Changes

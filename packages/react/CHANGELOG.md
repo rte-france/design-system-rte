@@ -1,5 +1,22 @@
 # @design-system-rte/react
 
+## 1.9.0
+
+### Minor Changes
+
+- 5cb6e5d: ## Changes
+  - (Input) correct display & colors in dark mode
+  - (Timepicker) react - remove focus on readonly digit
+  - (Timepicker) react - add missing space between time segment value
+  - (Timepicker) improve general logic and fix typos
+  - (Timepicker) add react component
+  - (Dropdown) extract baseDropdown component to add flexibility
+
+### Patch Changes
+
+- Updated dependencies [5cb6e5d]
+  - @design-system-rte/core@1.8.0
+
 ## 1.8.0
 
 ### Minor Changes
