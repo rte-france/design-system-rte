@@ -8,8 +8,390 @@ on:
 permissions: read-all
 
 jobs:
-  prepare-release:
+  detect-affected:
+    name: Detect affected packages (main)
     runs-on: ubuntu-latest
+    outputs:
+      core: ${{ steps.detect.outputs.core }}
+      react: ${{ steps.detect.outputs.react }}
+      angular: ${{ steps.detect.outputs.angular }}
+      isHotfixMerge: ${{ steps.detect.outputs.isHotfixMerge }}
+      isChangesetReleaseMerge: ${{ steps.detect.outputs.isChangesetReleaseMerge }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect changed files and merge classification
+        id: detect
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPOSITORY: ${{ github.repository }}
+          BEFORE_SHA: ${{ github.event.before }}
+          AFTER_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+
+          changedFiles="$(git diff --name-only "$BEFORE_SHA" "$AFTER_SHA")"
+
+          echo "Changed files:"
+          echo "$changedFiles"
+
+          prHeadRef="$(gh api \
+            -H "Accept: application/vnd.github+json" \
+            "/repos/${REPOSITORY}/commits/${AFTER_SHA}/pulls" \
+            --jq '.[0].head.ref // ""' || true)"
+
+          echo "Associated PR head ref: ${prHeadRef:-<none>}"
+
+          isHotfixMerge="false"
+          if [[ "${prHeadRef}" == hotfix/* ]]; then
+            isHotfixMerge="true"
+          fi
+
+          isChangesetReleaseMerge="false"
+          if [[ "${prHeadRef}" == changeset-release/* ]]; then
+            isChangesetReleaseMerge="true"
+          fi
+
+          coreChanged="false"
+          reactChanged="false"
+          angularChanged="false"
+
+          if echo "$changedFiles" | grep -qE '^packages/core/'; then
+            coreChanged="true"
+          fi
+          if echo "$changedFiles" | grep -qE '^packages/react/'; then
+            reactChanged="true"
+          fi
+          if echo "$changedFiles" | grep -qE '^packages/angular/'; then
+            angularChanged="true"
+          fi
+
+          core="$coreChanged"
+          react="$reactChanged"
+          angular="$angularChanged"
+
+          if [[ "$coreChanged" == "true" ]]; then
+            react="true"
+            angular="true"
+          fi
+          if [[ "$reactChanged" == "true" || "$angularChanged" == "true" ]]; then
+            core="true"
+          fi
+
+          echo "core=$core" >> "$GITHUB_OUTPUT"
+          echo "react=$react" >> "$GITHUB_OUTPUT"
+          echo "angular=$angular" >> "$GITHUB_OUTPUT"
+          echo "isHotfixMerge=$isHotfixMerge" >> "$GITHUB_OUTPUT"
+          echo "isChangesetReleaseMerge=$isChangesetReleaseMerge" >> "$GITHUB_OUTPUT"
+
+  global-install:
+    runs-on: ubuntu-latest
+    needs: detect-affected
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Cache node_modules and Vite cache
+        id: cache-packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./node_modules
+            ./packages/react/node_modules
+            ./packages/react/.vite
+            ./packages/angular/node_modules
+            ./packages/angular/.vite
+          key: deps-node20-main-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            deps-node20-main-
+
+      - name: Install dependencies
+        run: npm ci --prefer-offline
+
+      - name: Cache icons
+        id: cache-icons
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./packages/react/src/components/icon/generated
+            ./packages/angular/projects/ds-rte-lib/src/lib/assets/icons
+          key: icons-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            icons-
+
+      - name: Generate icons
+        if: ${{ needs.detect-affected.outputs.react == 'true' || needs.detect-affected.outputs.angular == 'true' }}
+        run: npm run generate:icons
+
+      - name: Build Core Package
+        working-directory: packages/core
+        run: npm run build
+
+      - name: Cache Build Core
+        id: cache-build-core
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./packages/core/css
+            ./packages/core/dist
+          key: build-core-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            build-core-
+
+  build-react:
+    runs-on: ubuntu-latest
+    needs: [detect-affected, global-install]
+    if: ${{ needs.detect-affected.outputs.react == 'true' && needs.detect-affected.outputs.isHotfixMerge != 'true' && needs.detect-affected.outputs.isChangesetReleaseMerge != 'true' }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Restore cache node_modules and Vite cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./node_modules
+            ./packages/react/node_modules
+            ./packages/react/.vite
+            ./packages/angular/node_modules
+            ./packages/angular/.vite
+          key: deps-node20-main-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            deps-node20-main-
+
+      - name: Restore cache icons
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./packages/react/src/components/icon/generated
+            ./packages/angular/projects/ds-rte-lib/src/lib/assets/icons
+          key: icons-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            icons-
+
+      - name: Restore cache build core
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./packages/core/css
+            ./packages/core/dist
+          key: build-core-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            build-core-
+
+      - name: Build React Package
+        working-directory: packages/react
+        run: npm run build
+
+      - name: Save react build cache
+        uses: actions/cache/save@v4
+        with:
+          path: ./packages/react/dist
+          key: react-build-${{ hashFiles('packages/react/src/**', 'packages/react/package.json') }}
+
+  quality-react:
+    runs-on: ubuntu-latest
+    needs: build-react
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Restore cache node_modules and Vite cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./node_modules
+            ./packages/react/node_modules
+            ./packages/react/.vite
+            ./packages/angular/node_modules
+            ./packages/angular/.vite
+          key: deps-node20-main-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            deps-node20-main-
+
+      - name: Restore cache icons
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./packages/react/src/components/icon/generated
+            ./packages/angular/projects/ds-rte-lib/src/lib/assets/icons
+          key: icons-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            icons-
+
+      - name: Restore cache build core
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./packages/core/css
+            ./packages/core/dist
+          key: build-core-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            build-core-
+
+      - name: Restore react build cache
+        uses: actions/cache/restore@v4
+        with:
+          path: ./packages/react/dist
+          key: react-build-${{ hashFiles('packages/react/src/**', 'packages/react/package.json') }}
+
+      - name: Lint
+        working-directory: packages/react
+        run: npm run lint:fix
+
+      - name: Run tests
+        working-directory: packages/react
+        run: npm run test:ci
+
+  build-angular:
+    runs-on: ubuntu-latest
+    needs: [detect-affected, global-install]
+    if: ${{ needs.detect-affected.outputs.angular == 'true' && needs.detect-affected.outputs.isHotfixMerge != 'true' && needs.detect-affected.outputs.isChangesetReleaseMerge != 'true' }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Restore cache node_modules and Vite cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./node_modules
+            ./packages/react/node_modules
+            ./packages/react/.vite
+            ./packages/angular/node_modules
+            ./packages/angular/.vite
+          key: deps-node20-main-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            deps-node20-main-
+
+      - name: Restore cache icons
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./packages/react/src/components/icon/generated
+            ./packages/angular/projects/ds-rte-lib/src/lib/assets/icons
+          key: icons-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            icons-
+
+      - name: Restore cache build core
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./packages/core/css
+            ./packages/core/dist
+          key: build-core-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            build-core-
+
+      - name: Build Angular Package
+        working-directory: packages/angular
+        run: npm run build
+
+      - name: Save angular build cache
+        uses: actions/cache/save@v4
+        with:
+          path: ./packages/angular/dist
+          key: angular-build-${{ hashFiles('packages/angular/projects/**', 'packages/angular/package.json') }}
+
+  quality-angular:
+    runs-on: ubuntu-latest
+    needs: build-angular
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Restore cache node_modules and Vite cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./node_modules
+            ./packages/react/node_modules
+            ./packages/react/.vite
+            ./packages/angular/node_modules
+            ./packages/angular/.vite
+          key: deps-node20-main-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            deps-node20-main-
+
+      - name: Restore cache icons
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./packages/react/src/components/icon/generated
+            ./packages/angular/projects/ds-rte-lib/src/lib/assets/icons
+          key: icons-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            icons-
+
+      - name: Restore cache build core
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./packages/core/css
+            ./packages/core/dist
+          key: build-core-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            build-core-
+
+      - name: Restore angular build cache
+        uses: actions/cache/restore@v4
+        with:
+          path: ./packages/angular/dist
+          key: angular-build-${{ hashFiles('packages/angular/projects/**', 'packages/angular/package.json') }}
+
+      - name: Lint
+        working-directory: packages/angular
+        run: npm run lint:fix
+
+      - name: Run tests
+        working-directory: packages/angular
+        run: npm run test:ci
+        env:
+          NODE_OPTIONS: "--max-old-space-size=4096"
+
+  prepare-release:
+    needs: [detect-affected, global-install, build-react, quality-react, build-angular, quality-angular]
+    runs-on: ubuntu-latest
+    if: >-
+      ${{
+        always() &&
+        needs.detect-affected.outputs.isChangesetReleaseMerge != 'true' &&
+        needs.detect-affected.outputs.isHotfixMerge != 'true' &&
+        contains(fromJSON('["success","skipped"]'), needs.build-react.result) &&
+        contains(fromJSON('["success","skipped"]'), needs.quality-react.result) &&
+        contains(fromJSON('["success","skipped"]'), needs.build-angular.result) &&
+        contains(fromJSON('["success","skipped"]'), needs.quality-angular.result)
+      }}
     permissions:
       contents: write
       pull-requests: write
