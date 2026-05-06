@@ -192,6 +192,10 @@ export class DropdownDirective implements AfterContentInit {
   }
 
   onTriggerKeyEvent(event: KeyboardEvent): void {
+    if (!this.rteDropdownAutoOpen()) {
+      return;
+    }
+
     const shouldOpen =
       event.key === SPACE_KEY ||
       event.key === ENTER_KEY ||
@@ -280,6 +284,7 @@ export class DropdownDirective implements AfterContentInit {
       this.dropdownMenuRef.setInput("bodyTemplate", this.menu()?.bodyDirective()?.templateRef);
       this.dropdownMenuRef.setInput("headerTemplate", this.menu()?.headerDirective()?.templateRef);
       this.dropdownMenuRef.setInput("footerTemplate", this.menu()?.footerDirective()?.templateRef);
+      this.dropdownMenuRef.setInput("bodyTemplate", this.menu()?.bodyDirective()?.templateRef);
     }
 
     this.assignWidth();

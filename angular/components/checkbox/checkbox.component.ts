@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component, input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, effect, input, output, signal } from "@angular/core";
 
 import { IconComponent } from "../icon/icon.component";
 
@@ -24,6 +24,38 @@ export class CheckboxComponent {
   readonly readOnly = input(false);
   readonly checked = input(false);
   readonly tabindex = input<string | number | undefined>(undefined);
+
+  readonly checkedChange = output<boolean>();
+
+  readonly internalChecked = signal<boolean>(false);
+
+  constructor() {
+    effect(
+      () => {
+        this.internalChecked.set(this.checked());
+      },
+      { allowSignalWrites: true },
+    );
+  }
+
+  onClick(event: MouseEvent) {
+    if (this.readOnly()) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  }
+
+  onChange(event: Event) {
+    if (this.readOnly() || this.disabled()) {
+      event.preventDefault();
+      event.stopPropagation();
+      return;
+    }
+    const inputElement = event.target as HTMLInputElement | null;
+    const isChecked = !!inputElement?.checked;
+    this.internalChecked.set(isChecked);
+    this.checkedChange.emit(isChecked);
+  }
 
   onKeydown(event: KeyboardEvent) {
     if (event.code === "Space") {

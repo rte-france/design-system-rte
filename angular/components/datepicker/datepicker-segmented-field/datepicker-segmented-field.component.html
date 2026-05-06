@@ -50,7 +50,6 @@
       [attr.id]="segmentElementId('day')"
       [attr.aria-hidden]="segmentAriaHidden('day') ? true : null"
       [class.segment--active]="isSegmentActive('day')"
-      [class.segment--muted]="segmentedState().dayDigits.length === 0"
       (click)="selectSegment('day')"
     >
       {{ dayDisplay() }}
@@ -62,7 +61,6 @@
       [attr.id]="segmentElementId('month')"
       [attr.aria-hidden]="segmentAriaHidden('month') ? true : null"
       [class.segment--active]="isSegmentActive('month')"
-      [class.segment--muted]="segmentedState().monthDigits.length === 0"
       (click)="selectSegment('month')"
     >
       {{ monthDisplay() }}
@@ -74,7 +72,6 @@
       [attr.id]="segmentElementId('year')"
       [attr.aria-hidden]="segmentAriaHidden('year') ? true : null"
       [class.segment--active]="isSegmentActive('year')"
-      [class.segment--muted]="segmentedState().yearDigits.length === 0"
       (click)="selectSegment('year')"
     >
       {{ yearDisplay() }}
