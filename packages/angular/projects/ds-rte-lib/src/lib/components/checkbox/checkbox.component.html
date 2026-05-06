@@ -8,7 +8,9 @@
     [ngClass]="{ error: error(), 'read-only': readOnly() }"
     [disabled]="disabled()"
     [indeterminate]="indeterminate()"
-    [checked]="checked()"
+    [checked]="internalChecked()"
+    (click)="onClick($event)"
+    (change)="onChange($event)"
     (keydown)="onKeydown($event)"
   />
   <rte-icon class="rte-checkbox-icons rte-checkbox-icon-selected" name="check-small" [size]="16" />
