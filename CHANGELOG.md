@@ -2,6 +2,49 @@
 
 # Angular
 
+## 2.0.0
+
+### Input
+
+#### Minor Changes
+
+- correct focus ring display of right-icon & input selection via label
+- correct display & colors in dark mode
+
+### Datepicker
+
+#### Minor Changes
+
+- angular - remove mutted color on placeholder
+
+### Timepicker
+
+#### Minor Changes
+
+- remove up/down keyboard controls from main input segments
+- remove focus on readonly digit
+- set base Angular implementation
+
+### Dropdown
+
+#### Minor Changes
+
+- correct menu elevation in Angular implementation
+
+### Checkbox
+
+#### Patch Changes
+
+- add missing output signal for change
+
+### Other
+
+#### Patch Changes
+
+- Updated dependencies [ad4c602]
+- Updated dependencies [5cb6e5d]
+- @design-system-rte/core@1.8.0
+
 ## 1.7.0
 
 ### File-upload
@@ -154,31 +197,50 @@
 - Updated dependencies [c9d4077]
 - Updated dependencies [e667319]
 - @design-system-rte/core@1.6.0
+# React
 
-## 1.5.0
+## 1.9.0
 
-### Select
-
-#### Minor Changes
-
-- add valid label for Select all + allow selection on clicking on the checkbox for select item
-- rewrite conditions + extract in sub function
-- add support for header and footer on angular
-- add support for multiple selection
-
-### Chip
+### Datepicker
 
 #### Minor Changes
 
-- remove focus for type input
+- react - move component to picker folder
+- react - add calendar picker
+- react - add basic date input picker
+
+### Input
+
+#### Minor Changes
+
+- correct display & colors in dark mode
+
+### Timepicker
+
+#### Minor Changes
+
+- react - remove focus on readonly digit
+- react - add missing space between time segment value
+- improve general logic and fix typos
+- add react component
+
+### Dropdown
+
+#### Minor Changes
+
+- extract baseDropdown component to add flexibility
 
 ### Other
 
+#### Minor Changes
+
+- improve story file generation with autodocs tag
+
 #### Patch Changes
 
-- Updated dependencies [39623c1]
-- @design-system-rte/core@1.5.0
-# React
+- Updated dependencies [ad4c602]
+- Updated dependencies [5cb6e5d]
+- @design-system-rte/core@1.8.0
 
 ## 1.8.0
 
@@ -289,29 +351,36 @@
 - Updated dependencies [c9d4077]
 - Updated dependencies [e667319]
 - @design-system-rte/core@1.6.0
+# Core
 
-## 1.6.0
+## 1.8.0
 
-### Select
-
-#### Minor Changes
-
-- rewrite conditions + extract in sub function
-- add support for multiple selection
-
-### Chip
+### Datepicker
 
 #### Minor Changes
 
-- remove focus for type input
+- react - move component to picker folder
+- react - add calendar picker
+- react - add basic date input picker
+
+### Dropdown
+
+#### Minor Changes
+
+- correct menu elevation in Angular implementation
+
+### Timepicker
+
+#### Minor Changes
+
+- set base Angular implementation
+- react - remove focus on readonly digit
+- react - add missing space between time segment value
+- improve general logic and fix typos
+- add react component
 
 ### Other
 
-#### Patch Changes
-
-- Updated dependencies [39623c1]
-- @design-system-rte/core@1.5.0
-# Core
 
 ## 1.7.0
 
@@ -437,23 +506,6 @@
 #### Minor Changes
 
 - update Design Tokens
-
-### Other
-
-
-## 1.5.0
-
-### Select
-
-#### Minor Changes
-
-- add support for multiple selection
-
-### Core
-
-#### Patch Changes
-
-- correct core/utils integration with angular package
 
 ### Other
 
