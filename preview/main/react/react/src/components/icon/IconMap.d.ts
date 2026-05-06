@@ -64,6 +64,10 @@ export declare const RegularIcons: {
     filter: ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
     "filter-off": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
     "first-page": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
+    "format-align-center": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
+    "format-align-justify": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
+    "format-align-left": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
+    "format-align-right": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
     forward: ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
     fullscreen: ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
     "fullscreen-exit": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
@@ -187,6 +191,7 @@ export declare const TogglableIcons: {
     eco: (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     edit: (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     "electric-meter": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
+    eraser: (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     error: (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     explore: (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     "explore-off": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
@@ -234,6 +239,7 @@ export declare const TogglableIcons: {
     "lightbulb-alt": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     "lightbulb-circle": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     lightbulb: (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
+    "linked-services": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     "list-alt": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     "location-me": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     "location-off": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
