@@ -3,11 +3,13 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  ElementRef,
   contentChild,
   effect,
   input,
   output,
   signal,
+  viewChild,
 } from "@angular/core";
 import { ButtonSize } from "@design-system-rte/core";
 
@@ -76,11 +78,25 @@ export class BaseInputComponent {
   readonly computedRightIconName = computed(() => this.computeRightIconName());
   readonly computedRightIconAriaLabel = computed(() => this.computeRightIconAriaLabel());
 
+  readonly inputRef = viewChild<ElementRef<HTMLInputElement>>("inputRef");
+
   readonly projectedControl = contentChild(RteBaseInputControlDirective);
+  readonly projectedControlElementRef = contentChild(RteBaseInputControlDirective, { read: ElementRef<HTMLElement> });
 
   private readonly projectedControlLatch = signal(false);
 
   readonly showProjectedShell = computed(() => this.projectedControl() !== undefined || this.projectedControlLatch());
+
+  readonly computedAriaLabelledby = computed(() => {
+    const explicit = this.ariaLabelledby();
+    if (explicit !== "") {
+      return explicit;
+    }
+    if (this.label() && this.id()) {
+      return `input-label-${this.id()}`;
+    }
+    return null;
+  });
 
   private lastParentValue = this.value();
 
@@ -141,5 +157,24 @@ export class BaseInputComponent {
 
   protected computeShouldShowRightIcon(): boolean {
     return this.showRightIcon();
+  }
+
+  onLabelClick(event: MouseEvent): void {
+    if (this.disabled()) {
+      return;
+    }
+
+    const canUseNativeLabelFocus = this.useLabelForAttribute() && !this.showProjectedShell() && !!this.id();
+    if (canUseNativeLabelFocus) {
+      return;
+    }
+
+    event.preventDefault();
+
+    const focusTarget = this.showProjectedShell()
+      ? this.projectedControlElementRef()?.nativeElement
+      : this.inputRef()?.nativeElement;
+
+    focusTarget?.focus();
   }
 }
