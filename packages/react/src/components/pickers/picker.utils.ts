@@ -5,7 +5,7 @@ export const getNextSegment = (seg: DateSegmentEnum): DateSegmentEnum =>
 export const getPrevSegment = (seg: DateSegmentEnum): DateSegmentEnum =>
   DATE_SEGMENTS_ORDER[Math.max(DATE_SEGMENTS_ORDER.indexOf(seg) - 1, 0)];
 
-export const getIncreasedValueWithBounds = (current: number, max: number, increment: number): number => {
+export const getIncreasedValueWithBounds = (current: number, max: number, increment: number = 1): number => {
   if (isNaN(current)) {
     return DATE_SEGMENT_MIN_VALUE;
   } else {
@@ -16,7 +16,7 @@ export const getIncreasedValueWithBounds = (current: number, max: number, increm
   }
 };
 
-export const getDecreasedValueWithBounds = (current: number, max: number, decrement: number): number => {
+export const getDecreasedValueWithBounds = (current: number, max: number, decrement: number = 1): number => {
   if (isNaN(current)) {
     return max;
   }

@@ -4,6 +4,7 @@ import {
   DatepickerDisabledConstraints,
   DateSegmentEnum,
   DdMmYyyyDigitParts,
+  getLastDayOfMonth,
   isDateDisabled,
 } from "@design-system-rte/core";
 import { useEffect, useMemo, useState } from "react";
@@ -12,9 +13,9 @@ import {
   formatNumberToParseSegmentValue,
   getDecreasedValueWithBounds,
   getIncreasedValueWithBounds,
-} from "../DatePicker.utils";
+} from "../picker.utils";
 
-const [DAY, MONTH] = DATE_SEGMENTS_ORDER;
+const [DAY, MONTH, YEAR] = DATE_SEGMENTS_ORDER;
 
 const placeholderDisplayValue = "jj / mm / aaaa";
 
@@ -39,10 +40,11 @@ const buildInternalValue = (
   if (day === null || month === null || year === null) {
     return null;
   } else {
-    const date = new Date(1, month - 1, day);
-    date.setFullYear(year);
+    const date = new Date();
+    date.setFullYear(year, month - 1, day);
     const isValidConstructedDate =
       date.getDate() === day && date.getMonth() + 1 === month && date.getFullYear() === year;
+
     if (!isValidConstructedDate) {
       return null;
     }
@@ -62,8 +64,8 @@ const buildDateFromState = (dateState: DdMmYyyyDigitParts): Date | null => {
   if (day === null || month === null || year === null) {
     return null;
   } else {
-    const date = new Date(1, month - 1, day);
-    date.setFullYear(year);
+    const date = new Date();
+    date.setFullYear(year, month - 1, day);
     const isValidConstructedDate =
       date.getDate() === day && date.getMonth() + 1 === month && date.getFullYear() === year;
     if (!isValidConstructedDate) {
@@ -99,14 +101,14 @@ const useDatePickerInternalValue = (
   };
 
   const modifyActiveSegmentValue = (segment: DateSegmentEnum, direction: "increase" | "decrease") => {
-    const max = DATE_SEGMENT_MAX_VALUE[segment];
+    const max = getMaxDayForSegment(segment);
     const segmentName = segment === DAY ? "day" : segment === MONTH ? "month" : "year";
-    const currentSegmentValue = displayValue.split("/")[DATE_SEGMENTS_ORDER.indexOf(segment)];
+    const initialValue = getInitialSegmentValue(segment);
 
     const modifiedValue =
       direction === "increase"
-        ? getIncreasedValueWithBounds(Number(currentSegmentValue), max, 1)
-        : getDecreasedValueWithBounds(Number(currentSegmentValue), max, 1);
+        ? getIncreasedValueWithBounds(initialValue, max)
+        : getDecreasedValueWithBounds(initialValue, max);
     const formattedModifiedValue = formatNumberToParseSegmentValue(modifiedValue, segment);
     const newPotentialDateState = {
       ...dateState,
@@ -184,6 +186,30 @@ const useDatePickerInternalValue = (
       setDisplayValue(buildDisplayValue(state));
     } else {
       setDisplayValue(placeholderDisplayValue);
+    }
+  };
+
+  const getMaxDayForSegment = (segment: DateSegmentEnum): number => {
+    if (segment === YEAR) {
+      return DATE_SEGMENT_MAX_VALUE[DateSegmentEnum.YEAR];
+    } else {
+      const yearNum = Number.parseInt(dateState.yearDigits, 10);
+      const monthNum = Number.parseInt(dateState.monthDigits, 10);
+      const lastDayOfMonth = getLastDayOfMonth(yearNum, monthNum - 1);
+
+      if (!Number.isNaN(monthNum) && monthNum >= 1 && monthNum <= 12 && !Number.isNaN(yearNum)) {
+        return Math.max(1, Math.min(lastDayOfMonth, DATE_SEGMENT_MAX_VALUE[segment]));
+      }
+    }
+    return 31;
+  };
+
+  const getInitialSegmentValue = (segment: DateSegmentEnum): number => {
+    const currentSegmentValue = displayValue.split("/")[DATE_SEGMENTS_ORDER.indexOf(segment)];
+    if (segment === YEAR && dateState.yearDigits.length === 0) {
+      return new Date().getFullYear();
+    } else {
+      return Number(currentSegmentValue);
     }
   };
 

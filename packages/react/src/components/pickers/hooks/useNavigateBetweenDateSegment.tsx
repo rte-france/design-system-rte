@@ -1,7 +1,7 @@
 import { DateSegmentEnum } from "@design-system-rte/core";
 import { useCallback, useState } from "react";
 
-import { getNextSegment, getPrevSegment } from "../DatePicker.utils";
+import { getNextSegment, getPrevSegment } from "../picker.utils";
 
 export const useNavigateBetweenDateSegment = (): {
   moveToNextSegment: () => void;
