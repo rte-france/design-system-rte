@@ -11,10 +11,18 @@
       <rte-divider />
     </div>
   }
-  <div class="rte-dropdown-menu-content">
-    @if (hasBodyContent()) {
-      <ng-container [ngTemplateOutlet]="(bodyTemplate() || bodyDirective()?.templateRef) ?? null"></ng-container>
-    } @else {
+  @if (hasBodyContent()) {
+    <div class="rte-dropdown-menu-content">
+      @if (bodyTemplate() || bodyDirective()?.templateRef) {
+        <ng-container [ngTemplateOutlet]="(bodyTemplate() || bodyDirective()?.templateRef) ?? null"></ng-container>
+      } @else {
+        <div #bodyContent>
+          <ng-content select="[dropdown-menu-body]"></ng-content>
+        </div>
+      }
+    </div>
+  } @else {
+    <div class="rte-dropdown-menu-content">
       <ul class="rte-dropdown-items" role="menu" [attr.aria-activedescendant]="menuId()">
         @for (item of items(); track item.label; let i = $index) {
           <rte-dropdown-item
@@ -25,8 +33,8 @@
           />
         }
       </ul>
-    }
-  </div>
+    </div>
+  }
   @if (hasFooterContent()) {
     <div class="rte-dropdown-menu-footer">
       <rte-divider />

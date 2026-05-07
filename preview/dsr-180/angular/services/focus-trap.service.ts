@@ -2,6 +2,7 @@ import { inject, Injectable, Renderer2, RendererFactory2 } from "@angular/core";
 import { FOCUSABLE_ELEMENTS_QUERY } from "@design-system-rte/core/constants/dom/dom.constants";
 
 export interface FocusTrapActivateOptions {
+  restoreFocusTo?: HTMLElement | null;
   getOrderedFocusables?: () => HTMLElement[];
   initialFocusIndex?: number;
 }
@@ -16,14 +17,19 @@ export class FocusTrapService {
   private getOrderedFocusables: (() => HTMLElement[]) | null = null;
   private initialFocusIndex = 0;
 
-  private rendererFactory = inject(RendererFactory2);
+  private readonly rendererFactory = inject(RendererFactory2);
 
   constructor() {
     this.renderer = this.rendererFactory.createRenderer(null, null);
   }
 
-  activate(element: HTMLElement, options?: FocusTrapActivateOptions) {
-    this.previouslyFocusedElement = document.activeElement as HTMLElement;
+  activate(element: HTMLElement, options?: FocusTrapActivateOptions): void {
+    this.detachKeyListeners();
+
+    this.previouslyFocusedElement =
+      options?.restoreFocusTo !== undefined && options.restoreFocusTo !== null
+        ? options.restoreFocusTo
+        : (document.activeElement as HTMLElement);
 
     this.activeTrapElement = element;
     this.getOrderedFocusables = options?.getOrderedFocusables ?? null;
@@ -50,14 +56,8 @@ export class FocusTrapService {
     });
   }
 
-  deactivate() {
-    if (this.keyUnlisten) this.keyUnlisten();
-    this.keyUnlisten = undefined;
-
-    if (this.tabKeydownCaptureUnlisten) {
-      this.tabKeydownCaptureUnlisten();
-      this.tabKeydownCaptureUnlisten = undefined;
-    }
+  deactivate(): void {
+    this.detachKeyListeners();
 
     this.getOrderedFocusables = null;
 
@@ -66,9 +66,22 @@ export class FocusTrapService {
     }
 
     this.activeTrapElement = null;
+    this.previouslyFocusedElement = null;
   }
 
-  private focusInitialElement() {
+  private detachKeyListeners(): void {
+    if (this.keyUnlisten) {
+      this.keyUnlisten();
+      this.keyUnlisten = undefined;
+    }
+
+    if (this.tabKeydownCaptureUnlisten) {
+      this.tabKeydownCaptureUnlisten();
+      this.tabKeydownCaptureUnlisten = undefined;
+    }
+  }
+
+  private focusInitialElement(): void {
     const focusable = this.getFocusableList();
     if (focusable.length === 0) {
       return;
@@ -77,7 +90,7 @@ export class FocusTrapService {
     focusable[index]?.focus();
   }
 
-  private handleTab(event: KeyboardEvent) {
+  private handleTab(event: KeyboardEvent): void {
     const focusable = this.getFocusableList();
     if (!this.activeTrapElement || focusable.length === 0) {
       return;
