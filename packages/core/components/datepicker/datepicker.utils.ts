@@ -4,6 +4,7 @@ import {
   ARROW_RIGHT_KEY,
   ARROW_UP_KEY,
 } from "../../constants/keyboard/keyboard.constants";
+import { isSameDay, isSameMonth } from "../pickers";
 
 import {
   DATEPICKER_ARIA_CHANGE_DATE_PREFIX,
@@ -227,14 +228,6 @@ export function parseDate(value: string): Date | null {
   return isValidParsedDate ? date : null;
 }
 
-export function isSameDay(first: Date, second: Date): boolean {
-  return (
-    first.getFullYear() === second.getFullYear() &&
-    first.getMonth() === second.getMonth() &&
-    first.getDate() === second.getDate()
-  );
-}
-
 export function isBeforeDay(first: Date, second: Date): boolean {
   return startOfDay(first).valueOf() < startOfDay(second).valueOf();
 }
@@ -403,10 +396,6 @@ function findNextEnabledFromIndex(dayCells: DatepickerDayCell[], startIndex: num
     }
   }
   return undefined;
-}
-
-export function getDayCellIndexForDate(dayCells: DatepickerDayCell[], date: Date): number {
-  return dayCells.findIndex((cell) => isSameDay(cell.date, date));
 }
 
 export function getDayGridCellCountForViewMonth(viewDate: Date): number {
