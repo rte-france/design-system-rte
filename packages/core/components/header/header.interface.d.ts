@@ -1,5 +1,6 @@
 import type { AvatarSize } from "../avatar/avatar.interface";
 import type { BreadcrumbItemProps } from "../breadcrumbs/breadcrumbs.interface";
+import { IconButtonProps } from "../button";
 import type { RegularIconIdKey, TogglableIconIdKey } from "../icon/icon.interface";
 
 export type HeaderAppearance = "brand" | "neutral";
@@ -31,6 +32,14 @@ export interface HeaderLeftSectionConfig {
   homeAriaLabel?: string;
 }
 
+export interface HeaderRightSectionConfig {
+  hasSearchbar?: boolean;
+  hasActionButton?: boolean;
+  hasIconButtons?: boolean;
+  iconButtons?: IconButtonProps[];
+  hasAvatar?: boolean;
+}
+
 export interface HeaderNavigationItem {
   id?: string;
   label: string;
@@ -46,18 +55,12 @@ export interface HeaderActionButtonConfig {
   disabled?: boolean;
 }
 
-export interface HeaderIconButtonBadgeConfig {
-  count?: number;
-  type?: "indicator" | "brand" | "neutral";
-  size?: "m" | "l";
-}
-
 export interface HeaderIconButtonConfig {
   id?: string;
   iconName: RegularIconIdKey | TogglableIconIdKey;
   ariaLabel: string;
   disabled?: boolean;
-  badge?: HeaderIconButtonBadgeConfig;
+  badge?: BadgeProps;
 }
 
 export interface HeaderAvatarConfig {
@@ -66,13 +69,4 @@ export interface HeaderAvatarConfig {
   initials?: string;
   size?: AvatarSize;
   isInteractive?: boolean;
-}
-
-export interface HeaderSearchbarConfig {
-  id?: string;
-  label?: string;
-  disabled?: boolean;
-  showResetButton?: boolean;
-  value?: string;
-  assistiveText?: string;
 }

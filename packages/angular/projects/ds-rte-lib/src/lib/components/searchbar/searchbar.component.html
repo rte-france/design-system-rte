@@ -1,4 +1,4 @@
-<div class="searchbar-container" role="search" [ngClass]="appearance()">
+<div class="searchbar-container" role="search" [ngClass]="appearance()" [style.width]="width()">
   <div
     class="text-input-wrapper"
     [attr.data-disabled]="disabled()"
@@ -8,6 +8,7 @@
     <rte-base-text-input
       rightIconAction="clean"
       autocomplete="off"
+      width="100%"
       [id]="id() ?? ''"
       [placeholder]="placeholder()"
       [disabled]="disabled()"
