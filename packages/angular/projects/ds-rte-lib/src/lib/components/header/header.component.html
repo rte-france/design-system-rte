@@ -9,49 +9,49 @@
   [attr.data-has-subheader]="shouldRenderSubheader()"
 >
   <div class="rte-header-main">
-    @if (hasLeftSection()) {
-      <div class="rte-header-left">
-        @if (shouldRenderProjectedLeftSection()) {
-          <div class="rte-header-left-slot">
-            <ng-content select="[rteHeaderLeft]"></ng-content>
-          </div>
-        } @else if (shouldRenderInternalLeftSection()) {
-          <rte-header-left-section [config]="computedLeftSectionConfig()" />
+    @if (isDesktop()) {
+      @if (hasLeftSection()) {
+        <div class="rte-header-left">
+          @if (shouldRenderProjectedLeftSection()) {
+            <div class="rte-header-left-slot">
+              <ng-content select="[rteHeaderLeft]"></ng-content>
+            </div>
+          } @else {
+            <rte-header-left-section [config]="computedLeftSectionConfig()" />
+          }
+        </div>
+      }
+
+      <div class="rte-header-mid">
+        @if (shouldRenderMidSection()) {
+          <nav class="rte-header-nav" [attr.aria-label]="navigationAriaLabel()">
+            <ul class="rte-header-nav-list">
+              @for (item of navigationItems(); track item.id || item.href) {
+                <li
+                  class="rte-header-nav-item"
+                  [attr.data-disabled]="item.disabled"
+                  [attr.data-active]="item.active ?? null"
+                >
+                  <a
+                    class="rte-header-nav-link"
+                    [href]="item.href"
+                    [attr.aria-label]="item.ariaLabel"
+                    [attr.aria-disabled]="item.disabled ? 'true' : null"
+                    [attr.aria-current]="item.active ? 'page' : null"
+                    [attr.tabindex]="item.disabled ? -1 : null"
+                    (click)="handleNavigationItemClick(item, $event)"
+                  >
+                    {{ item.label }}
+                  </a>
+                </li>
+              }
+            </ul>
+          </nav>
         }
       </div>
-    }
 
-    <div class="rte-header-mid">
-      @if (shouldRenderMidSection()) {
-        <nav class="rte-header-nav" [attr.aria-label]="navigationAriaLabel()">
-          <ul class="rte-header-nav-list">
-            @for (item of navigationItems(); track item.id || item.href) {
-              <li
-                class="rte-header-nav-item"
-                [attr.data-disabled]="item.disabled"
-                [attr.data-active]="item.active ?? null"
-              >
-                <a
-                  class="rte-header-nav-link"
-                  [href]="item.href"
-                  [attr.aria-label]="item.ariaLabel"
-                  [attr.aria-disabled]="item.disabled ? 'true' : null"
-                  [attr.aria-current]="item.active ? 'page' : null"
-                  [attr.tabindex]="item.disabled ? -1 : null"
-                  (click)="handleNavigationItemClick(item, $event)"
-                >
-                  {{ item.label }}
-                </a>
-              </li>
-            }
-          </ul>
-        </nav>
-      }
-    </div>
-
-    @if (hasRightSection()) {
-      <div class="rte-header-right">
-        @if (isDesktop()) {
+      @if (hasRightSection()) {
+        <div class="rte-header-right">
           @if (hasSearchbar()) {
             <rte-searchbar
               [id]="searchbarProps()?.id || 'rte-header-searchbar'"
@@ -60,7 +60,7 @@
               [showResetButton]="searchbarProps()?.showResetButton ?? true"
               [value]="searchbarProps()?.value || ''"
               [assistiveText]="searchbarProps()?.assistiveText || ''"
-              [appearance]="desktopSearchbarAppearance()"
+              [appearance]="searchbarAppearance()"
               [compactSpacing]="isCompact()"
             />
           }
@@ -83,21 +83,17 @@
             <div class="rte-header-icon-buttons" role="group">
               @for (button of iconButtons()!; track button.id || button.ariaLabel) {
                 <div class="rte-header-icon-button-wrapper">
-                  @if (button.badge?.count) {
-                    <rte-badge
-                      badgeContent="number"
-                      [badgeType]="button.badge?.type ?? 'indicator'"
-                      [badgeSize]="button.badge?.size ?? 'l'"
-                      [count]="button.badge?.count"
-                    />
-                  }
                   <rte-icon-button
-                    size="m"
                     appearance="outlined"
+                    [size]="iconButtonSize()"
                     [variant]="rightSectionIconButtonsVariant()"
                     [name]="button.iconName"
                     [ariaLabel]="button.ariaLabel"
                     [disabled]="button.disabled ?? false"
+                    [badgeCount]="button.badge?.count"
+                    [badgeContent]="button.badge?.count ? 'number' : undefined"
+                    [badgeType]="button.badge?.type ?? 'indicator'"
+                    [badgeSize]="button.badge?.count ? badgeSize() : undefined"
                     (clickEvent)="handleIconButtonClick(button)"
                   />
                 </div>
@@ -119,51 +115,27 @@
           <div class="rte-header-right-slot">
             <ng-content select="[rteHeaderRight]"></ng-content>
           </div>
-        } @else {
-          <div class="rte-header-mobile-right" (keydown)="handleMobileSearchKeyDown($event)">
-            @if (hasSearchbar()) {
-              <div
-                class="rte-header-mobile-search"
-                [attr.data-active]="isSearchActive()"
-                [style.--search-transition-ms]="mobileSearchTransitionMs"
-              >
-                @if (!isSearchActive()) {
-                  <rte-icon-button
-                    #mobileSearchButtonRef
-                    size="m"
-                    appearance="outlined"
-                    name="search"
-                    [variant]="rightSectionIconButtonsVariant()"
-                    [ariaLabel]="mobileSearchButtonAriaLabel()"
-                    (clickEvent)="openMobileSearch()"
-                  />
-                } @else {
-                  <rte-searchbar
-                    [id]="searchbarProps()?.id || 'rte-header-searchbar'"
-                    [label]="searchbarProps()?.label || 'Rechercher'"
-                    [disabled]="searchbarProps()?.disabled ?? false"
-                    [showResetButton]="searchbarProps()?.showResetButton ?? true"
-                    [value]="searchbarProps()?.value || ''"
-                    [assistiveText]="searchbarProps()?.assistiveText || ''"
-                    [appearance]="'secondary'"
-                    [compactSpacing]="isCompact()"
-                  />
-                }
-              </div>
-            }
-
-            <rte-icon-button
-              size="m"
-              appearance="outlined"
-              [variant]="rightSectionIconButtonsVariant()"
-              [name]="mobileMenuButton()?.iconName ?? 'menu'"
-              [ariaLabel]="mobileMenuButton()?.ariaLabel ?? 'Menu'"
-              [disabled]="mobileMenuButton()?.disabled ?? false"
-              (clickEvent)="handleMobileMenuClick()"
-            />
-          </div>
-        }
-      </div>
+        </div>
+      }
+    } @else {
+      <rte-header-mobile
+        [appearance]="appearance()"
+        [isCompact]="isCompact()"
+        [hasLeftSection]="hasLeftSection()"
+        [hasRightSection]="hasRightSection()"
+        [hasLogo]="hasLogo()"
+        [applicationName]="applicationName()"
+        [logoSrc]="logoSrc()"
+        [homeLink]="homeLink()"
+        [homeAriaLabel]="homeAriaLabel()"
+        [hasSearchbar]="hasSearchbar()"
+        [searchbarProps]="searchbarProps()"
+        [mobileSearchButtonAriaLabel]="mobileSearchButtonAriaLabel()"
+        [mobileMenuButton]="mobileMenuButton()"
+        [isSearchActive]="effectiveIsSearchActive()"
+        (isSearchActiveChange)="handleIsSearchActiveChange($event)"
+        (mobileMenuClick)="handleMobileMenuClick()"
+      />
     }
   </div>
 

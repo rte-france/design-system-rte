@@ -1,8 +1,9 @@
 import { signal } from "@angular/core";
 import type { HeaderIconButtonConfig, HeaderNavigationItem } from "@design-system-rte/core/components/header";
 import { Meta, moduleMetadata, StoryObj } from "@storybook/angular";
-import { userEvent, within } from "@storybook/test";
+import { expect, userEvent, waitFor, within } from "@storybook/test";
 
+import headerStoryRteLogoUrl from "../../../../../../../../design-docs/src/img/rte.png";
 import { HeaderLeftDirective } from "../header-left.directive";
 import { HeaderComponent } from "../header.component";
 
@@ -42,6 +43,9 @@ const meta: Meta<HeaderComponent> = {
   title: "Composants/Header/Header",
   component: HeaderComponent,
   tags: ["autodocs"],
+  parameters: {
+    layout: "fullscreen",
+  },
   decorators: [
     moduleMetadata({
       imports: [HeaderComponent, HeaderLeftDirective],
@@ -62,6 +66,26 @@ const meta: Meta<HeaderComponent> = {
 export default meta;
 type Story = StoryObj;
 
+function assertHeaderMobileSearchShellState(canvasElement: HTMLElement, expectedState: "open" | "closed"): void {
+  const mobileRoot = canvasElement.querySelector(".rte-header-mobile");
+  expect(mobileRoot).not.toBeNull();
+  expect(mobileRoot).toHaveAttribute("data-search-state", expectedState);
+}
+
+function assertHeaderApplicationNameScreenReaderHidden(
+  canvasElement: HTMLElement,
+  shouldBeHiddenFromAccessibilityTree: boolean,
+): void {
+  const banner = canvasElement.querySelector('[role="banner"]');
+  expect(banner).not.toBeNull();
+  const appName = within(banner as HTMLElement).getByText("Nom de l'application");
+  if (shouldBeHiddenFromAccessibilityTree) {
+    expect(appName).toHaveAttribute("aria-hidden", "true");
+  } else {
+    expect(appName).not.toHaveAttribute("aria-hidden", "true");
+  }
+}
+
 export const Default: Story = {
   args: {
     appearance: "brand",
@@ -74,7 +98,7 @@ export const Default: Story = {
     hasSubHeader: true,
     hasLogo: true,
     applicationName: "Nom de l'application",
-    logoSrc: "https://placehold.co/24x24/png",
+    logoSrc: headerStoryRteLogoUrl,
     homeLink: "/",
     navigationItems,
     hasSearchbar: true,
@@ -311,6 +335,7 @@ export const MobileSearchInteraction: Story = {
     ...Default.args,
     isCompact: false,
   },
+  tags: ["mobile-header-search"],
   parameters: {
     viewport: { defaultViewport: "mobile1" },
   },
@@ -331,6 +356,8 @@ export const MobileSearchInteraction: Story = {
         <div style="height: 200vh; padding-top: 8px">
           <rte-header
             [appearance]="appearance"
+            [hasLeftSection]="hasLeftSection"
+            [hasRightSection]="hasRightSection"
             [hasLogo]="hasLogo"
             [applicationName]="applicationName"
             [logoSrc]="logoSrc"
@@ -342,13 +369,127 @@ export const MobileSearchInteraction: Story = {
             [isSearchActive]="isSearchActive()"
             (isSearchActiveChange)="handleIsSearchActiveChange($event)"
           />
+
+          <div style="padding: 12px 16px; font-family: monospace">
+            isSearchActive: <strong>{{ isSearchActive() }}</strong>
+          </div>
         </div>
       `,
     };
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const searchButton = canvas.getByRole("button", { name: "Rechercher" });
-    await userEvent.click(searchButton);
+    const header = canvas.getByRole("banner");
+
+    await waitFor(() => {
+      expect(within(header).getByText("Nom de l'application")).toBeVisible();
+      expect(within(header).queryByRole("search")).toBeNull();
+      assertHeaderMobileSearchShellState(canvasElement, "closed");
+    });
+
+    const openSearchButton = within(header).getByRole("button", { name: "Rechercher" });
+    await userEvent.click(openSearchButton);
+
+    await waitFor(() => {
+      expect(within(header).getByRole("search")).toBeVisible();
+      assertHeaderApplicationNameScreenReaderHidden(canvasElement, true);
+      assertHeaderMobileSearchShellState(canvasElement, "open");
+    });
+
+    const searchInput = within(header).getByRole("textbox");
+    await userEvent.type(searchInput, "abc");
+    await userEvent.click(canvas.getByText("isSearchActive:"));
+
+    await waitFor(() => {
+      expect(within(header).getByText("Nom de l'application")).toBeVisible();
+      expect(within(header).queryByRole("search")).toBeNull();
+      assertHeaderApplicationNameScreenReaderHidden(canvasElement, false);
+      assertHeaderMobileSearchShellState(canvasElement, "closed");
+    });
+  },
+};
+
+export const MobileSearchActiveDebug: Story = {
+  args: {
+    ...Default.args,
+    isCompact: false,
+  },
+  tags: ["mobile-header-search"],
+  parameters: {
+    viewport: { defaultViewport: "mobile1" },
+  },
+  render: (args) => {
+    const isSearchActive = signal(false);
+
+    function handleIsSearchActiveChange(nextValue: boolean): void {
+      isSearchActive.set(nextValue);
+    }
+
+    return {
+      props: {
+        ...args,
+        isSearchActive,
+        handleIsSearchActiveChange,
+      },
+      template: `
+        <div style="height: 140vh; padding-top: 8px">
+          <rte-header
+            [appearance]="appearance"
+            [hasLeftSection]="hasLeftSection"
+            [hasRightSection]="hasRightSection"
+            [hasLogo]="hasLogo"
+            [applicationName]="applicationName"
+            [logoSrc]="logoSrc"
+            [homeLink]="homeLink"
+            [navigationItems]="navigationItems"
+            [hasSearchbar]="true"
+            [searchbarProps]="searchbarProps"
+            [mobileSearchButtonAriaLabel]="'Rechercher'"
+            [isSearchActive]="isSearchActive()"
+            (isSearchActiveChange)="handleIsSearchActiveChange($event)"
+          />
+
+          <div style="padding: 12px 16px; font-family: monospace">
+            <div>Expected:</div>
+            <ul style="margin: 8px 0 0; padding-left: 18px">
+              <li>isSearchActive=false → app name visible, searchbar hidden</li>
+              <li>isSearchActive=true → app name hidden, searchbar visible</li>
+            </ul>
+            <div style="margin-top: 8px">
+              isSearchActive: <strong>{{ isSearchActive() }}</strong>
+            </div>
+          </div>
+        </div>
+      `,
+    };
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const header = canvas.getByRole("banner");
+
+    await waitFor(() => {
+      expect(within(header).getByText("Nom de l'application")).toBeVisible();
+      expect(within(header).queryByRole("search")).toBeNull();
+      assertHeaderMobileSearchShellState(canvasElement, "closed");
+    });
+
+    await userEvent.click(within(header).getByRole("button", { name: "Rechercher" }));
+
+    await waitFor(() => {
+      expect(within(header).getByRole("search")).toBeVisible();
+      assertHeaderApplicationNameScreenReaderHidden(canvasElement, true);
+      assertHeaderMobileSearchShellState(canvasElement, "open");
+    });
+
+    const searchInput = within(header).getByRole("textbox");
+    await userEvent.click(searchInput);
+    await userEvent.keyboard("{Escape}");
+
+    await waitFor(() => {
+      expect(within(header).getByText("Nom de l'application")).toBeVisible();
+      expect(within(header).queryByRole("search")).toBeNull();
+      assertHeaderApplicationNameScreenReaderHidden(canvasElement, false);
+      assertHeaderMobileSearchShellState(canvasElement, "closed");
+    });
   },
 };

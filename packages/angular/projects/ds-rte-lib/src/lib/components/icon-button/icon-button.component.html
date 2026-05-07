@@ -11,7 +11,7 @@
     [attr.tabindex]="tabIndex() !== undefined ? tabIndex() : null"
     [type]="type()"
     [rteBadgeType]="badgeType()!"
-    [rteBadgeSize]="size()"
+    [rteBadgeSize]="rteBadgeSizeForDirective()"
     [rteBadgeContent]="size() === 's' ? 'empty' : badgeContent()!"
     [rteBadgeCount]="badgeCount()!"
     [rteBadgeIcon]="badgeIcon()!"

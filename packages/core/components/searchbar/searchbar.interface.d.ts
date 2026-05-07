@@ -5,6 +5,7 @@ export interface SearchBarProps {
   appearance?: SearchBarAppearance;
   compactSpacing?: boolean;
   label?: string;
+  disabled?: boolean;
   showResetButton?: boolean;
   assistiveText?: string;
   value?: string;

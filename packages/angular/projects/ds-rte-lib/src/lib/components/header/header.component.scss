@@ -34,6 +34,7 @@
   padding: 0 $positive-spacing_200;
   gap: $positive-spacing_200;
   background: var(--background-default);
+  width: 100%;
 
   .rte-header[data-compact='true'] & {
     height: 64px;
@@ -153,6 +154,14 @@
   display: flex;
   align-items: center;
   gap: $positive-spacing_025;
+  ::ng-deep {
+    rte-icon-button {
+      .rte-icon-button {
+        background: transparent;
+      }
+    }
+  }
+  
 }
 
 .rte-header-icon-button-wrapper {
@@ -162,10 +171,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
-  rte-badge {
-    position: absolute;
-  }
 }
 
 .rte-header-action-button-icon {
@@ -175,21 +180,6 @@
 .rte-header-right-slot {
   display: flex;
   align-items: center;
-}
-
-.rte-header-mobile-right {
-  display: flex;
-  align-items: center;
-  gap: $positive-spacing_100;
-}
-
-.rte-header-mobile-search {
-  display: flex;
-  align-items: center;
-
-  &[data-active='true'] {
-    width: min(70vw, 420px);
-  }
 }
 
 .rte-header-subheader {
