@@ -13,12 +13,11 @@ import {
   signal,
   viewChild,
 } from "@angular/core";
-import { type ButtonVariant } from "@design-system-rte/core/components/button/common/common-button";
+import { ButtonSize, type ButtonVariant } from "@design-system-rte/core/components/button/common/common-button";
 import {
   HEADER_DEFAULT_BREADCRUMBS_ARIA_LABEL,
   HEADER_DEFAULT_NAV_ARIA_LABEL,
   HEADER_DESKTOP_BREAKPOINT_PX,
-  HEADER_MOBILE_SEARCH_TRANSITION_MS,
   HEADER_SUBHEADER_HEIGHT_COMPACT_PX,
   HEADER_SUBHEADER_HEIGHT_PX,
   HeaderSubHeaderConfig,
@@ -30,11 +29,9 @@ import {
   type HeaderLeftSectionConfig,
   type HeaderMidSectionType,
   type HeaderNavigationItem,
-  type HeaderSearchbarConfig,
   type ScrollDirectionState,
 } from "@design-system-rte/core/components/header";
-import { type SearchBarAppearance } from "@design-system-rte/core/components/searchbar/searchbar.interface";
-import { ESCAPE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
+import { SearchBarAppearance, SearchBarProps } from "@design-system-rte/core/components/searchbar";
 
 import { AvatarComponent } from "../avatar/avatar.component";
 import { BadgeComponent } from "../badge/badge.component";
@@ -46,10 +43,10 @@ import { SearchbarComponent } from "../searchbar/searchbar.component";
 
 import { HeaderLeftSectionComponent } from "./header-left-section/header-left-section.component";
 import { HeaderLeftDirective } from "./header-left.directive";
+import { HeaderMobileComponent } from "./header-mobile/header-mobile.component";
 import { HeaderRightDirective } from "./header-right.directive";
 
 const DEFAULT_HOME_LINK = "/";
-const DEFAULT_SEARCHBAR_ID = "rte-header-searchbar";
 
 @Component({
   selector: "rte-header",
@@ -62,6 +59,7 @@ const DEFAULT_SEARCHBAR_ID = "rte-header-searchbar";
     BadgeComponent,
     IconComponent,
     BreadcrumbsComponent,
+    HeaderMobileComponent,
     HeaderLeftSectionComponent,
     HeaderRightDirective,
   ],
@@ -95,7 +93,7 @@ export class HeaderComponent {
   readonly navigationItems = input<HeaderNavigationItem[]>([]);
 
   readonly hasSearchbar = input<boolean>(true);
-  readonly searchbarProps = input<HeaderSearchbarConfig | undefined>(undefined);
+  readonly searchbarProps = input<SearchBarProps | undefined>(undefined);
 
   readonly hasActionButton = input<boolean>(true);
   readonly actionButton = input<HeaderActionButtonConfig | undefined>(undefined);
@@ -112,6 +110,11 @@ export class HeaderComponent {
   readonly isSearchActive = input<boolean>(false);
   readonly isSearchActiveChange = output<boolean>();
 
+  private readonly internalIsSearchActive = signal<boolean>(false);
+  private readonly lastSeenExternalIsSearchActive = signal<boolean>(false);
+
+  readonly effectiveIsSearchActive = computed(() => this.internalIsSearchActive());
+
   readonly navigationItemClick = output<string | undefined>();
   readonly actionButtonClick = output<void>();
   readonly iconButtonClick = output<string | undefined>();
@@ -119,7 +122,6 @@ export class HeaderComponent {
   readonly mobileMenuClick = output<void>();
 
   readonly headerRootRef = viewChild<ElementRef<HTMLElement>>("headerRootRef");
-  readonly mobileSearchButtonRef = viewChild<ElementRef<HTMLButtonElement>>("mobileSearchButtonRef");
 
   readonly isDesktop = signal<boolean>(true);
   readonly isVisible = signal<boolean>(true);
@@ -136,10 +138,6 @@ export class HeaderComponent {
       homeLink: this.homeLink(),
       homeAriaLabel: this.homeAriaLabel(),
     };
-  });
-
-  readonly shouldRenderInternalLeftSection = computed(() => {
-    return !this.shouldRenderProjectedLeftSection() && !!this.computedLeftSectionConfig();
   });
 
   readonly shouldRenderMidSection = computed(() => {
@@ -160,13 +158,11 @@ export class HeaderComponent {
     return this.isCompact() ? HEADER_SUBHEADER_HEIGHT_COMPACT_PX : HEADER_SUBHEADER_HEIGHT_PX;
   });
 
-  readonly actionButtonSize = computed(() => {
+  readonly actionButtonSize = computed<Exclude<ButtonSize, "l">>(() => {
     return this.isCompact() ? "s" : "m";
   });
 
-  readonly mobileSearchTransitionMs = HEADER_MOBILE_SEARCH_TRANSITION_MS;
-
-  readonly desktopSearchbarAppearance = computed<SearchBarAppearance>(() => {
+  readonly searchbarAppearance = computed<SearchBarAppearance>(() => {
     return this.appearance() === "neutral" ? "secondary" : "primary";
   });
 
@@ -181,9 +177,24 @@ export class HeaderComponent {
   private scrollState: ScrollDirectionState = { lastScrollY: 0, lastDirection: "up" };
 
   constructor() {
+    this.internalIsSearchActive.set(this.isSearchActive());
+    this.lastSeenExternalIsSearchActive.set(this.isSearchActive());
+
     effect(
       () => {
         this.syncViewportMode();
+      },
+      { allowSignalWrites: true },
+    );
+
+    effect(
+      () => {
+        const nextExternal = this.isSearchActive();
+        if (nextExternal === this.lastSeenExternalIsSearchActive()) {
+          return;
+        }
+        this.lastSeenExternalIsSearchActive.set(nextExternal);
+        this.internalIsSearchActive.set(nextExternal);
       },
       { allowSignalWrites: true },
     );
@@ -198,8 +209,8 @@ export class HeaderComponent {
     effect(
       () => {
         if (this.isDesktop()) {
-          if (this.isSearchActive()) {
-            this.isSearchActiveChange.emit(false);
+          if (this.effectiveIsSearchActive()) {
+            this.handleIsSearchActiveChange(false);
           }
         }
       },
@@ -208,8 +219,8 @@ export class HeaderComponent {
 
     effect(
       () => {
-        if (!this.isDesktop() && this.isSearchActive()) {
-          this.focusSearchInput();
+        if (!this.isDesktop() && this.effectiveIsSearchActive()) {
+          return;
         }
       },
       { allowSignalWrites: true },
@@ -281,34 +292,8 @@ export class HeaderComponent {
     this.mobileMenuClick.emit();
   }
 
-  openMobileSearch(): void {
-    if (this.isDesktop()) {
-      return;
-    }
-    this.isSearchActiveChange.emit(true);
-  }
-
-  closeMobileSearch(): void {
-    if (this.isDesktop()) {
-      return;
-    }
-    this.isSearchActiveChange.emit(false);
-    this.mobileSearchButtonRef()?.nativeElement.focus();
-  }
-
-  handleMobileSearchKeyDown(event: KeyboardEvent): void {
-    if (event.key === ESCAPE_KEY) {
-      event.preventDefault();
-      event.stopPropagation();
-      this.closeMobileSearch();
-    }
-  }
-
-  private focusSearchInput(): void {
-    const searchbarId = this.searchbarProps()?.id || DEFAULT_SEARCHBAR_ID;
-    const inputEl = document.getElementById(searchbarId) as HTMLInputElement | null;
-    if (inputEl) {
-      inputEl.focus();
-    }
+  handleIsSearchActiveChange(nextValue: boolean): void {
+    this.internalIsSearchActive.set(nextValue);
+    this.isSearchActiveChange.emit(nextValue);
   }
 }

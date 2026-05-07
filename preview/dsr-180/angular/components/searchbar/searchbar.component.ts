@@ -30,6 +30,7 @@ export class SearchbarComponent {
   readonly compactSpacing = input<boolean>(false);
   readonly value = input<string>("");
   readonly assistiveText = input<string>("");
+  readonly width = input<string>("fit-content");
 
   readonly valueChange = output<string>();
   readonly searchEvent = output<string | undefined>();

@@ -1,0 +1,69 @@
+<div
+  #rootRef
+  class="rte-header-mobile"
+  [attr.data-appearance]="appearance()"
+  [attr.data-compact]="isCompact()"
+  [attr.data-search-state]="isSearchActive() ? 'open' : 'closed'"
+  [attr.data-has-logo]="shouldRenderLogo() ? 'true' : null"
+  [attr.data-has-searchbar]="hasSearchbar() ? 'true' : null"
+  (keydown)="handleRootKeyDown($event)"
+>
+  @if (hasLeftSection()) {
+    <div class="left-section">
+      <a class="rte-header-home" [href]="homeLink()" [attr.aria-label]="computedHomeAriaLabel()">
+        @if (shouldRenderLogo()) {
+          <img class="rte-header-logo" alt="" aria-hidden="true" [src]="logoSrc()" />
+        }
+
+        <span class="rte-header-app-name" [attr.aria-hidden]="isSearchActive() ? 'true' : null">
+          {{ applicationName() }}
+        </span>
+      </a>
+
+      <div class="right-section-placeholder" [style.width]="rightSectionWidth()"></div>
+    </div>
+  }
+
+  @if (hasRightSection()) {
+    <div class="right-section" [class.expanded]="isSearchActive()">
+      @if (hasSearchbar()) {
+        <div class="rte-header-mobile-search-wrapper" [style.width]="isSearchActive() ? 'calc(100% - 40px)' : '80px'">
+          @if (isSearchActive()) {
+            <rte-searchbar
+              [id]="searchbarProps()?.id || 'rte-header-searchbar'"
+              [label]="searchbarProps()?.label || 'Rechercher'"
+              [disabled]="searchbarProps()?.disabled ?? false"
+              [showResetButton]="searchbarProps()?.showResetButton ?? true"
+              [value]="searchbarProps()?.value || ''"
+              [assistiveText]="searchbarProps()?.assistiveText || ''"
+              [appearance]="appearance() === 'neutral' ? 'secondary' : 'primary'"
+              [compactSpacing]="isCompact()"
+              [width]="isSearchActive() ? 'calc(100% - 40px)' : '80px'"
+            />
+          } @else {
+            <div class="rte-header-mobile-search">
+              <rte-icon-button
+                #mobileSearchButtonRef
+                size="m"
+                appearance="outlined"
+                name="search"
+                variant="text"
+                [ariaLabel]="mobileSearchButtonAriaLabel()"
+                (clickEvent)="openMobileSearch()"
+              />
+            </div>
+          }
+        </div>
+      }
+
+      <rte-icon-button
+        size="l"
+        variant="neutral"
+        [name]="mobileMenuButton()?.iconName ?? 'menu'"
+        [ariaLabel]="mobileMenuButton()?.ariaLabel ?? 'Menu'"
+        [disabled]="mobileMenuButton()?.disabled ?? false"
+        (clickEvent)="handleMobileMenuClick()"
+      />
+    </div>
+  }
+</div>

@@ -177,21 +177,6 @@
   align-items: center;
 }
 
-.rte-header-mobile-right {
-  display: flex;
-  align-items: center;
-  gap: $positive-spacing_100;
-}
-
-.rte-header-mobile-search {
-  display: flex;
-  align-items: center;
-
-  &[data-active='true'] {
-    width: min(70vw, 420px);
-  }
-}
-
 .rte-header-subheader {
   width: 100%;
   display: flex;

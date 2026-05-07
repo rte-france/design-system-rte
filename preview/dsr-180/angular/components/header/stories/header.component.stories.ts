@@ -1,7 +1,7 @@
 import { signal } from "@angular/core";
 import type { HeaderIconButtonConfig, HeaderNavigationItem } from "@design-system-rte/core/components/header";
 import { Meta, moduleMetadata, StoryObj } from "@storybook/angular";
-import { userEvent, within } from "@storybook/test";
+import { expect, userEvent, waitFor, within } from "@storybook/test";
 
 import { HeaderLeftDirective } from "../header-left.directive";
 import { HeaderComponent } from "../header.component";
@@ -42,6 +42,9 @@ const meta: Meta<HeaderComponent> = {
   title: "Composants/Header/Header",
   component: HeaderComponent,
   tags: ["autodocs"],
+  parameters: {
+    layout: "fullscreen",
+  },
   decorators: [
     moduleMetadata({
       imports: [HeaderComponent, HeaderLeftDirective],
@@ -311,6 +314,7 @@ export const MobileSearchInteraction: Story = {
     ...Default.args,
     isCompact: false,
   },
+  tags: ["mobile-header-search"],
   parameters: {
     viewport: { defaultViewport: "mobile1" },
   },
@@ -342,13 +346,112 @@ export const MobileSearchInteraction: Story = {
             [isSearchActive]="isSearchActive()"
             (isSearchActiveChange)="handleIsSearchActiveChange($event)"
           />
+
+          <div style="padding: 12px 16px; font-family: monospace">
+            isSearchActive: <strong>{{ isSearchActive() }}</strong>
+          </div>
         </div>
       `,
     };
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const searchButton = canvas.getByRole("button", { name: "Rechercher" });
-    await userEvent.click(searchButton);
+    await waitFor(() => {
+      expect(canvas.getByText("Nom de l'application")).toBeVisible();
+      expect(canvas.queryByRole("search")).toBeNull();
+    });
+
+    const openSearchButton = canvas.getByRole("button", { name: "Rechercher" });
+    await userEvent.click(openSearchButton);
+
+    await waitFor(() => {
+      expect(canvas.getByRole("search")).toBeVisible();
+      expect(canvas.getByText("Nom de l'application")).not.toBeVisible();
+    });
+
+    const searchInput = canvas.getByRole("textbox");
+    await userEvent.type(searchInput, "abc");
+    await userEvent.click(canvas.getByText("isSearchActive:"));
+
+    await waitFor(() => {
+      expect(canvas.getByText("Nom de l'application")).toBeVisible();
+      expect(canvas.queryByRole("search")).toBeNull();
+    });
+  },
+};
+
+export const MobileSearchActiveDebug: Story = {
+  args: {
+    ...Default.args,
+    isCompact: false,
+  },
+  tags: ["mobile-header-search"],
+  parameters: {
+    viewport: { defaultViewport: "mobile1" },
+  },
+  render: (args) => {
+    const isSearchActive = signal(false);
+
+    function handleIsSearchActiveChange(nextValue: boolean): void {
+      isSearchActive.set(nextValue);
+    }
+
+    return {
+      props: {
+        ...args,
+        isSearchActive,
+        handleIsSearchActiveChange,
+      },
+      template: `
+        <div style="height: 140vh; padding-top: 8px">
+          <rte-header
+            [appearance]="appearance"
+            [hasLogo]="hasLogo"
+            [applicationName]="applicationName"
+            [logoSrc]="logoSrc"
+            [homeLink]="homeLink"
+            [navigationItems]="navigationItems"
+            [hasSearchbar]="true"
+            [searchbarProps]="searchbarProps"
+            [mobileSearchButtonAriaLabel]="'Rechercher'"
+            [isSearchActive]="isSearchActive()"
+            (isSearchActiveChange)="handleIsSearchActiveChange($event)"
+          />
+
+          <div style="padding: 12px 16px; font-family: monospace">
+            <div>Expected:</div>
+            <ul style="margin: 8px 0 0; padding-left: 18px">
+              <li>isSearchActive=false → app name visible, searchbar hidden</li>
+              <li>isSearchActive=true → app name hidden, searchbar visible</li>
+            </ul>
+            <div style="margin-top: 8px">
+              isSearchActive: <strong>{{ isSearchActive() }}</strong>
+            </div>
+          </div>
+        </div>
+      `,
+    };
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    await waitFor(() => {
+      expect(canvas.getByText("Nom de l'application")).toBeVisible();
+      expect(canvas.queryByRole("search")).toBeNull();
+    });
+
+    await userEvent.click(canvas.getByRole("button", { name: "Rechercher" }));
+
+    await waitFor(() => {
+      expect(canvas.getByRole("search")).toBeVisible();
+      expect(canvas.getByText("Nom de l'application")).not.toBeVisible();
+    });
+
+    await userEvent.keyboard("{Escape}");
+
+    await waitFor(() => {
+      expect(canvas.getByText("Nom de l'application")).toBeVisible();
+      expect(canvas.queryByRole("search")).toBeNull();
+    });
   },
 };
