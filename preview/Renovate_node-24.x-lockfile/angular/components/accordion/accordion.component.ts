@@ -28,6 +28,7 @@ export class AccordionComponent {
   private static nextFallbackId = 0;
 
   readonly id = input<string | undefined>(undefined);
+  readonly title = input<string>();
   readonly appearance = input<AccordionProps["appearance"]>("brand");
   readonly alignement = input<AccordionProps["alignement"]>("right");
   readonly compactSpacing = input(false);
