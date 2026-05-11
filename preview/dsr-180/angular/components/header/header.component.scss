@@ -34,6 +34,7 @@
   padding: 0 $positive-spacing_200;
   gap: $positive-spacing_200;
   background: var(--background-default);
+  width: 100%;
 
   .rte-header[data-compact='true'] & {
     height: 64px;

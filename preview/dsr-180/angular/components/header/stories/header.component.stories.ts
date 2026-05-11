@@ -3,6 +3,7 @@ import type { HeaderIconButtonConfig, HeaderNavigationItem } from "@design-syste
 import { Meta, moduleMetadata, StoryObj } from "@storybook/angular";
 import { expect, userEvent, waitFor, within } from "@storybook/test";
 
+import headerStoryRteLogoUrl from "../../../../../../../../design-docs/src/img/rte.png";
 import { HeaderLeftDirective } from "../header-left.directive";
 import { HeaderComponent } from "../header.component";
 
@@ -76,8 +77,8 @@ export const Default: Story = {
     hasRightSection: true,
     hasSubHeader: true,
     hasLogo: true,
-    applicationName: "Nom de l'application",
-    logoSrc: "https://placehold.co/24x24/png",
+    applicationName: "Nom de l'application très très long",
+    logoSrc: headerStoryRteLogoUrl,
     homeLink: "/",
     navigationItems,
     hasSearchbar: true,

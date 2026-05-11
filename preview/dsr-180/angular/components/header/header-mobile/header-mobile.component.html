@@ -20,16 +20,17 @@
         </span>
       </a>
 
-      <div class="right-section-placeholder" [style.width]="rightSectionWidth()"></div>
+      <div class="right-section-placeholder" [style.width]="rightSectionPlaceholderWidth()"></div>
     </div>
   }
 
   @if (hasRightSection()) {
-    <div class="right-section" [class.expanded]="isSearchActive()">
+    <div class="right-section" [class.expanded]="isSearchActive()" [style.width]="rightSectionWidth()">
       @if (hasSearchbar()) {
-        <div class="rte-header-mobile-search-wrapper" [style.width]="isSearchActive() ? 'calc(100% - 40px)' : '80px'">
-          @if (isSearchActive()) {
+        <div class="search-action">
+          @if (shouldRenderSearchbar()) {
             <rte-searchbar
+              width="100%"
               [id]="searchbarProps()?.id || 'rte-header-searchbar'"
               [label]="searchbarProps()?.label || 'Rechercher'"
               [disabled]="searchbarProps()?.disabled ?? false"
@@ -38,20 +39,17 @@
               [assistiveText]="searchbarProps()?.assistiveText || ''"
               [appearance]="appearance() === 'neutral' ? 'secondary' : 'primary'"
               [compactSpacing]="isCompact()"
-              [width]="isSearchActive() ? 'calc(100% - 40px)' : '80px'"
             />
           } @else {
-            <div class="rte-header-mobile-search">
-              <rte-icon-button
-                #mobileSearchButtonRef
-                size="m"
-                appearance="outlined"
-                name="search"
-                variant="text"
-                [ariaLabel]="mobileSearchButtonAriaLabel()"
-                (clickEvent)="openMobileSearch()"
-              />
-            </div>
+            <rte-icon-button
+              #mobileSearchButtonRef
+              size="m"
+              appearance="outlined"
+              name="search"
+              variant="text"
+              [ariaLabel]="mobileSearchButtonAriaLabel()"
+              (clickEvent)="openMobileSearch()"
+            />
           }
         </div>
       }

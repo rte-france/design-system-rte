@@ -10,6 +10,7 @@ import {
   inject,
   input,
   output,
+  signal,
   viewChild,
   afterNextRender,
 } from "@angular/core";
@@ -22,6 +23,7 @@ import { SearchbarComponent } from "../../searchbar/searchbar.component";
 
 const DEFAULT_HOME_LINK = "/";
 const DEFAULT_SEARCHBAR_ID = "rte-header-searchbar";
+const SEARCH_COLLAPSE_TRANSITION_MS = 150;
 
 @Component({
   selector: "rte-header-mobile",
@@ -60,6 +62,9 @@ export class HeaderMobileComponent {
   readonly rootRef = viewChild<ElementRef<HTMLElement>>("rootRef");
 
   private outsidePointerDownCleanup: (() => void) | null = null;
+  private collapseTransitionTimer: ReturnType<typeof setTimeout> | null = null;
+
+  readonly shouldRenderSearchbar = signal<boolean>(this.isSearchActive());
 
   readonly shouldRenderLogo = computed(() => this.hasLogo() && !!this.logoSrc());
 
@@ -67,17 +72,23 @@ export class HeaderMobileComponent {
     return this.homeAriaLabel() ?? buildHeaderHomeAriaLabel(this.applicationName());
   });
 
-  readonly rightSectionWidth = computed(() => (this.isSearchActive() ? "calc(100% - 40px)" : "80px"));
+  readonly rightSectionPlaceholderWidth = computed(() => (this.hasRightSection() ? "80px" : "0"));
+  readonly rightSectionWidth = computed(() => (this.isSearchActive() ? "calc(100% - 32px)" : "80px"));
 
   constructor() {
     effect(
       () => {
         if (!this.hasSearchbar()) {
           this.teardownOutsideCloseListener();
+          this.clearCollapseTransitionTimer();
+          this.shouldRenderSearchbar.set(false);
           return;
         }
 
-        if (this.isSearchActive()) {
+        const isActive = this.isSearchActive();
+        this.syncSearchbarRenderState(isActive);
+
+        if (isActive) {
           this.ensureOutsideCloseListener();
           afterNextRender(
             () => {
@@ -92,6 +103,10 @@ export class HeaderMobileComponent {
       },
       { allowSignalWrites: true },
     );
+
+    this.destroyRef.onDestroy(() => {
+      this.clearCollapseTransitionTimer();
+    });
   }
 
   handleRootKeyDown(event: KeyboardEvent): void {
@@ -115,9 +130,9 @@ export class HeaderMobileComponent {
 
   emitCloseMobileSearch(): void {
     this.isSearchActiveChange.emit(false);
-    queueMicrotask(() => {
+    setTimeout(() => {
       this.mobileSearchButtonRef()?.nativeElement.focus();
-    });
+    }, SEARCH_COLLAPSE_TRANSITION_MS);
   }
 
   handleMobileMenuClick(): void {
@@ -156,6 +171,26 @@ export class HeaderMobileComponent {
 
   private teardownOutsideCloseListener(): void {
     this.outsidePointerDownCleanup?.();
+  }
+
+  private syncSearchbarRenderState(isActive: boolean): void {
+    this.clearCollapseTransitionTimer();
+    if (isActive) {
+      this.shouldRenderSearchbar.set(true);
+      return;
+    }
+    this.collapseTransitionTimer = setTimeout(() => {
+      this.shouldRenderSearchbar.set(false);
+      this.collapseTransitionTimer = null;
+    }, SEARCH_COLLAPSE_TRANSITION_MS);
+  }
+
+  private clearCollapseTransitionTimer(): void {
+    if (this.collapseTransitionTimer === null) {
+      return;
+    }
+    clearTimeout(this.collapseTransitionTimer);
+    this.collapseTransitionTimer = null;
   }
 
   private focusSearchInput(): void {
