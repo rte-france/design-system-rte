@@ -122,7 +122,7 @@ export class HeaderComponent {
 
   readonly headerRootRef = viewChild<ElementRef<HTMLElement>>("headerRootRef");
 
-  readonly isDesktop = signal<boolean>(true);
+  readonly isDesktop = signal<boolean>(HeaderComponent.readIsDesktopFromWindow());
   readonly isVisible = signal<boolean>(true);
 
   private readonly projectedLeftSection = contentChild(HeaderLeftDirective);
@@ -161,6 +161,10 @@ export class HeaderComponent {
     return this.isCompact() ? "s" : "m";
   });
 
+  readonly iconButtonSize = computed<ButtonSize>(() => {
+    return this.isCompact() ? "m" : "l";
+  });
+
   readonly badgeSize = computed<BadgeSize>(() => {
     return this.isCompact() ? "m" : "l";
   });
@@ -178,6 +182,17 @@ export class HeaderComponent {
   });
 
   private scrollState: ScrollDirectionState = { lastScrollY: 0, lastDirection: "up" };
+
+  private static readIsDesktopFromWindow(): boolean {
+    if (typeof globalThis === "undefined") {
+      return true;
+    }
+    const windowReference = (globalThis as { window?: Window }).window;
+    if (!windowReference || typeof windowReference.innerWidth !== "number") {
+      return true;
+    }
+    return windowReference.innerWidth >= HEADER_DESKTOP_BREAKPOINT_PX;
+  }
 
   constructor() {
     this.internalIsSearchActive.set(this.isSearchActive());

@@ -84,8 +84,8 @@
               @for (button of iconButtons()!; track button.id || button.ariaLabel) {
                 <div class="rte-header-icon-button-wrapper">
                   <rte-icon-button
-                    size="m"
                     appearance="outlined"
+                    [size]="iconButtonSize()"
                     [variant]="rightSectionIconButtonsVariant()"
                     [name]="button.iconName"
                     [ariaLabel]="button.ariaLabel"
