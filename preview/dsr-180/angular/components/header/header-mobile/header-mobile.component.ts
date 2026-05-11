@@ -195,9 +195,9 @@ export class HeaderMobileComponent {
 
   private focusSearchInput(): void {
     const searchbarId = this.searchbarProps()?.id || DEFAULT_SEARCHBAR_ID;
-    const inputEl = document.getElementById(searchbarId) as HTMLInputElement | null;
-    if (inputEl) {
-      inputEl.focus();
+    const inputElement = document.getElementById(searchbarId) as HTMLInputElement | null;
+    if (inputElement) {
+      inputElement.focus();
     }
   }
 }
