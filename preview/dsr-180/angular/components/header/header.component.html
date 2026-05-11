@@ -83,14 +83,6 @@
             <div class="rte-header-icon-buttons" role="group">
               @for (button of iconButtons()!; track button.id || button.ariaLabel) {
                 <div class="rte-header-icon-button-wrapper">
-                  @if (button.badge?.count) {
-                    <rte-badge
-                      badgeContent="number"
-                      [badgeType]="button.badge?.type ?? 'indicator'"
-                      [badgeSize]="button.badge?.size ?? 'l'"
-                      [count]="button.badge?.count"
-                    />
-                  }
                   <rte-icon-button
                     size="m"
                     appearance="outlined"
@@ -98,6 +90,10 @@
                     [name]="button.iconName"
                     [ariaLabel]="button.ariaLabel"
                     [disabled]="button.disabled ?? false"
+                    [badgeCount]="button.badge?.count"
+                    [badgeContent]="button.badge?.count ? 'number' : undefined"
+                    [badgeType]="button.badge?.type ?? 'indicator'"
+                    [badgeSize]="button.badge?.count ? badgeSize() : undefined"
                     (clickEvent)="handleIconButtonClick(button)"
                   />
                 </div>

@@ -13,6 +13,7 @@ import {
   signal,
   viewChild,
 } from "@angular/core";
+import { BadgeSize } from "@design-system-rte/core/components/badge/badge.interface";
 import { ButtonSize, type ButtonVariant } from "@design-system-rte/core/components/button/common/common-button";
 import {
   HEADER_DEFAULT_BREADCRUMBS_ARIA_LABEL,
@@ -34,7 +35,6 @@ import {
 import { SearchBarAppearance, SearchBarProps } from "@design-system-rte/core/components/searchbar";
 
 import { AvatarComponent } from "../avatar/avatar.component";
-import { BadgeComponent } from "../badge/badge.component";
 import { BreadcrumbsComponent } from "../breadcrumbs/breadcrumbs.component";
 import { ButtonComponent } from "../button/button.component";
 import { IconComponent } from "../icon/icon.component";
@@ -56,7 +56,6 @@ const DEFAULT_HOME_LINK = "/";
     ButtonComponent,
     SearchbarComponent,
     AvatarComponent,
-    BadgeComponent,
     IconComponent,
     BreadcrumbsComponent,
     HeaderMobileComponent,
@@ -160,6 +159,10 @@ export class HeaderComponent {
 
   readonly actionButtonSize = computed<Exclude<ButtonSize, "l">>(() => {
     return this.isCompact() ? "s" : "m";
+  });
+
+  readonly badgeSize = computed<BadgeSize>(() => {
+    return this.isCompact() ? "m" : "l";
   });
 
   readonly searchbarAppearance = computed<SearchBarAppearance>(() => {

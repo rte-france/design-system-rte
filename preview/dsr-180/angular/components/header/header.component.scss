@@ -154,6 +154,14 @@
   display: flex;
   align-items: center;
   gap: $positive-spacing_025;
+  ::ng-deep {
+    rte-icon-button {
+      .rte-icon-button {
+        background: transparent;
+      }
+    }
+  }
+  
 }
 
 .rte-header-icon-button-wrapper {
@@ -163,10 +171,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
-  rte-badge {
-    position: absolute;
-  }
 }
 
 .rte-header-action-button-icon {
