@@ -56,3 +56,4 @@ export * from "./lib/components/datepicker/datepicker.component";
 export * from "./lib/components/time-picker/time-picker.component";
 export * from "./lib/components/header/header.component";
 export * from "./lib/components/header/header-right.directive";
+export * from "./lib/components/header/header-mobile-menu.directive";

@@ -4,7 +4,9 @@ import { Meta, moduleMetadata, StoryObj } from "@storybook/angular";
 import { expect, userEvent, waitFor, within } from "@storybook/test";
 
 import headerStoryRteLogoUrl from "../../../../../../../../design-docs/src/img/rte.png";
+import type { DropdownItemConfig } from "../../dropdown/dropdown.types";
 import { HeaderLeftDirective } from "../header-left.directive";
+import { HeaderMobileMenuDirective } from "../header-mobile-menu.directive";
 import { HeaderComponent } from "../header.component";
 
 const navigationItems: HeaderNavigationItem[] = [
@@ -39,6 +41,12 @@ const debugBreadcrumbsConfig = {
   ],
 };
 
+const mobileMenuItems: DropdownItemConfig[] = [
+  { id: "profile", label: "Profil" },
+  { id: "settings", label: "Paramètres" },
+  { id: "logout", label: "Déconnexion" },
+];
+
 const meta: Meta<HeaderComponent> = {
   title: "Composants/Header/Header",
   component: HeaderComponent,
@@ -48,7 +56,7 @@ const meta: Meta<HeaderComponent> = {
   },
   decorators: [
     moduleMetadata({
-      imports: [HeaderComponent, HeaderLeftDirective],
+      imports: [HeaderComponent, HeaderLeftDirective, HeaderMobileMenuDirective],
     }),
   ],
   argTypes: {
@@ -490,6 +498,154 @@ export const MobileSearchActiveDebug: Story = {
       expect(within(header).queryByRole("search")).toBeNull();
       assertHeaderApplicationNameScreenReaderHidden(canvasElement, false);
       assertHeaderMobileSearchShellState(canvasElement, "closed");
+    });
+  },
+};
+
+export const MobileMenuItemsDropdown: Story = {
+  args: {
+    ...Default.args,
+    mobileMenuItems,
+  },
+  parameters: {
+    viewport: { defaultViewport: "mobile1" },
+  },
+  render: (args) => {
+    const lastMenuEventId = signal<string | null>(null);
+
+    function handleMobileMenuItemEvent(event: { id: string }): void {
+      lastMenuEventId.set(event.id);
+    }
+
+    return {
+      props: {
+        ...args,
+        lastMenuEventId,
+        handleMobileMenuItemEvent,
+      },
+      template: `
+        <div style="height: 140vh; padding-top: 8px">
+          <rte-header
+            [appearance]="appearance"
+            [hasLeftSection]="hasLeftSection"
+            [hasRightSection]="hasRightSection"
+            [hasLogo]="hasLogo"
+            [applicationName]="applicationName"
+            [logoSrc]="logoSrc"
+            [homeLink]="homeLink"
+            [navigationItems]="navigationItems"
+            [hasSearchbar]="true"
+            [searchbarProps]="searchbarProps"
+            [mobileMenuItems]="mobileMenuItems"
+            (mobileMenuItemEvent)="handleMobileMenuItemEvent($event)"
+          />
+
+          <div style="padding: 12px 16px; font-family: monospace">
+            lastMenuEventId: <strong>{{ lastMenuEventId() }}</strong>
+          </div>
+        </div>
+      `,
+    };
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const body = within(canvasElement.ownerDocument.body);
+    const header = canvas.getByRole("banner");
+
+    await userEvent.click(within(header).getByRole("button", { name: "Menu" }));
+
+    await waitFor(() => {
+      expect(within(header).getByRole("button", { name: "Menu" })).toHaveAttribute("aria-expanded", "true");
+    });
+
+    await waitFor(() => {
+      expect(body.getAllByRole("menuitem").length).toBeGreaterThan(0);
+    });
+
+    const menuItems = body.getAllByRole("menuitem");
+    const profileItem = menuItems.find((menuItem) => (menuItem.textContent || "").includes("Profil"));
+    expect(profileItem).toBeTruthy();
+    await userEvent.click(profileItem as HTMLElement);
+
+    await waitFor(() => {
+      expect(canvas.getByText("lastMenuEventId:")).toBeVisible();
+      expect(canvas.getByText("profile")).toBeVisible();
+      expect(within(header).getByRole("button", { name: "Menu" })).toHaveAttribute("aria-expanded", "false");
+    });
+  },
+};
+
+export const MobileMenuProjectionDropdown: Story = {
+  args: {
+    ...Default.args,
+  },
+  parameters: {
+    viewport: { defaultViewport: "mobile1" },
+  },
+  render: (args) => {
+    const lastProjectionClick = signal<string | null>(null);
+
+    function handleProjectionClick(id: string): void {
+      lastProjectionClick.set(id);
+    }
+
+    return {
+      props: {
+        ...args,
+        lastProjectionClick,
+        handleProjectionClick,
+      },
+      template: `
+        <div style="height: 140vh; padding-top: 8px">
+          <rte-header
+            [appearance]="appearance"
+            [hasLeftSection]="hasLeftSection"
+            [hasRightSection]="hasRightSection"
+            [hasLogo]="hasLogo"
+            [applicationName]="applicationName"
+            [logoSrc]="logoSrc"
+            [homeLink]="homeLink"
+            [navigationItems]="navigationItems"
+            [hasSearchbar]="true"
+            [searchbarProps]="searchbarProps"
+          >
+            <div rteHeaderMobileMenu style="display: grid; gap: 8px; padding: 8px;">
+              <button type="button" role="menuitem" (click)="handleProjectionClick('account')">Compte</button>
+              <button type="button" role="menuitem" (click)="handleProjectionClick('help')">Aide</button>
+            </div>
+          </rte-header>
+
+          <div style="padding: 12px 16px; font-family: monospace">
+            lastProjectionClick: <strong>{{ lastProjectionClick() }}</strong>
+          </div>
+        </div>
+      `,
+    };
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const body = within(canvasElement.ownerDocument.body);
+    const header = canvas.getByRole("banner");
+
+    await userEvent.click(within(header).getByRole("button", { name: "Menu" }));
+
+    await waitFor(() => {
+      expect(within(header).getByRole("button", { name: "Menu" })).toHaveAttribute("aria-expanded", "true");
+    });
+
+    await waitFor(() => {
+      expect(body.getAllByRole("menuitem").length).toBeGreaterThan(0);
+    });
+
+    const menuItems = body.getAllByRole("menuitem");
+    const accountItem = menuItems.find((menuItem) => (menuItem.textContent || "").includes("Compte"));
+    expect(accountItem).toBeTruthy();
+    await userEvent.click(accountItem as HTMLElement);
+
+    await waitFor(() => {
+      expect(canvas.getByText("lastProjectionClick:")).toBeVisible();
+      expect(canvas.getByText("account")).toBeVisible();
+      expect(within(header).getByRole("button", { name: "Menu" })).toHaveAttribute("aria-expanded", "false");
     });
   },
 };

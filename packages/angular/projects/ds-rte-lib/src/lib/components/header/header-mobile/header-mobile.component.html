@@ -54,14 +54,50 @@
         </div>
       }
 
-      <rte-icon-button
-        size="l"
-        variant="neutral"
-        [name]="mobileMenuButton()?.iconName ?? 'menu'"
-        [ariaLabel]="mobileMenuButton()?.ariaLabel ?? 'Menu'"
-        [disabled]="mobileMenuButton()?.disabled ?? false"
-        (clickEvent)="handleMobileMenuClick()"
-      />
+      @if (isDropdownMenuEnabled()) {
+        <div
+          class="mobile-menu"
+          rteDropdown
+          [rteDropdownAutoOpen]="false"
+          [rteDropdownIsOpen]="isMobileMenuOpen()"
+          [rteDropdownAlignment]="'end'"
+          (clickedOutside)="closeMobileMenu()"
+          (menuEvent)="handleMobileMenuEvent($event)"
+        >
+          <rte-icon-button
+            rteDropdownTrigger
+            size="l"
+            variant="neutral"
+            ariaHaspopup="menu"
+            [name]="mobileMenuButton()?.iconName ?? 'menu'"
+            [ariaLabel]="mobileMenuButton()?.ariaLabel ?? 'Menu'"
+            [disabled]="mobileMenuButton()?.disabled ?? false"
+            [ariaExpanded]="isMobileMenuOpen()"
+            (clickEvent)="handleMobileMenuClick()"
+          />
+
+          @if (hasProjectedMobileMenu()) {
+            <rte-dropdown-menu>
+              <ng-template rteDropdownMenuBody>
+                <div dropdown-menu-body (click)="closeMobileMenu()">
+                  <ng-content></ng-content>
+                </div>
+              </ng-template>
+            </rte-dropdown-menu>
+          } @else {
+            <rte-dropdown-menu [items]="mobileMenuItems()" />
+          }
+        </div>
+      } @else {
+        <rte-icon-button
+          size="l"
+          variant="neutral"
+          [name]="mobileMenuButton()?.iconName ?? 'menu'"
+          [ariaLabel]="mobileMenuButton()?.ariaLabel ?? 'Menu'"
+          [disabled]="mobileMenuButton()?.disabled ?? false"
+          (clickEvent)="handleMobileMenuClick()"
+        />
+      }
     </div>
   }
 </div>
