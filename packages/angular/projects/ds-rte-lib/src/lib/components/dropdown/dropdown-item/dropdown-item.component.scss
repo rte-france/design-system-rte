@@ -11,18 +11,11 @@
   align-self: stretch;
   cursor: pointer;
   box-sizing: border-box;
-  min-width: 0;
 
-  span,
-  a {
+  span {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-  }
-
-  a {
-    color: inherit;
-    text-decoration: none;
   }
 
   &:hover {

@@ -2,6 +2,7 @@ import { Component, computed, output, signal, inject } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
 import {
   AccordionComponent,
+  HeaderComponent,
   ButtonComponent,
   IconComponent,
   SplitButtonComponent,
@@ -30,6 +31,13 @@ import {
   DropdownModule,
   TimePickerComponent,
 } from "@design-system-rte/angular";
+import type {
+  HeaderActionButtonConfig,
+  HeaderAvatarConfig,
+  HeaderIconButtonConfig,
+  HeaderNavigationItem,
+  HeaderSubHeaderConfig,
+} from "@design-system-rte/core/components/header";
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
 import { Step } from "@design-system-rte/core/components/stepper/stepper.interface";
 import type { TimeFormat } from "@design-system-rte/core/components/timepicker/timepicker.interface";
@@ -40,6 +48,7 @@ import { TreeviewItemProps } from "@design-system-rte/core/components/treeview";
   standalone: true,
   imports: [
     RouterOutlet,
+    HeaderComponent,
     AccordionComponent,
     ButtonComponent,
     IconComponent,
@@ -181,6 +190,63 @@ export class AppComponent {
     icon: "home",
     link: "/",
   };
+
+  readonly headerSubHeaderConfig: HeaderSubHeaderConfig = {
+    ariaLabel: "Fil d'Ariane",
+    items: this.breadcrumbItems,
+  };
+
+  readonly activeHeaderNavigationItemId = signal<string>("home");
+
+  readonly baseHeaderNavigationItems: HeaderNavigationItem[] = [
+    { id: "home", label: "Home", href: "/" },
+    { id: "components", label: "Components", href: "/components" },
+    { id: "tokens", label: "Tokens", href: "/tokens" },
+    { id: "guidelines", label: "Guidelines", href: "/guidelines" },
+  ];
+
+  readonly headerNavigationItems = computed<HeaderNavigationItem[]>(() => {
+    const activeId = this.activeHeaderNavigationItemId();
+    return this.baseHeaderNavigationItems.map((item) => ({
+      ...item,
+      active: item.id === activeId,
+    }));
+  });
+
+  readonly headerActionButton: HeaderActionButtonConfig = {
+    label: "New",
+    iconName: "home",
+  };
+
+  readonly headerIconButtons: HeaderIconButtonConfig[] = [
+    { id: "notifications", iconName: "home", ariaLabel: "Notifications", badge: { count: 2 } },
+    { id: "settings", iconName: "settings", ariaLabel: "Settings" },
+  ];
+
+  readonly headerAvatar: HeaderAvatarConfig = {
+    initials: "DS",
+    alt: "Design System",
+    isInteractive: true,
+  };
+
+  handleHeaderNavigationItemClick(itemId: string | undefined): void {
+    if (!itemId) {
+      return;
+    }
+    this.activeHeaderNavigationItemId.set(itemId);
+  }
+
+  handleHeaderActionButtonClick(): void {
+    console.log("Header action button clicked");
+  }
+
+  handleHeaderIconButtonClick(buttonId: string | undefined): void {
+    console.log("Header icon button clicked", buttonId);
+  }
+
+  handleHeaderAvatarClick(): void {
+    console.log("Header avatar clicked");
+  }
 
   readonly baseNavigationItems: NavItemProps[] = [
     { id: "home", label: "Home", icon: "home", showIcon: true },

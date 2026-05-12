@@ -2,7 +2,6 @@ import { CommonModule } from "@angular/common";
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   computed,
   ElementRef,
@@ -25,7 +24,6 @@ type SideNavSize = "s" | "m" | "l";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BaseSideNavComponent implements AfterViewInit, OnDestroy {
-  private readonly cdr = inject(ChangeDetectorRef);
   private readonly elementRef = inject(ElementRef<HTMLElement>);
 
   readonly contentRef = viewChild<ElementRef<HTMLDivElement>>("contentRef");

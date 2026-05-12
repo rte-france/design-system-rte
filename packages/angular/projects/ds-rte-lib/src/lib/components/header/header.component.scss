@@ -27,24 +27,26 @@
 }
 
 .rte-header-main {
-  height: 80px;
+  height: 96px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 $positive-spacing_200;
-  gap: $positive-spacing_200;
+  padding: 0;
+
   background: var(--background-default);
   width: 100%;
+  box-sizing: border-box;
 
   .rte-header[data-compact='true'] & {
     height: 64px;
   }
+
 }
 
 .rte-header-left {
   display: flex;
   align-items: center;
-  min-width: 0;
+  padding: 0 $positive-spacing_200 0 $positive-spacing_100;
 
   &:has([rteHeaderLeft]) {
     .rte-header-home {
@@ -62,53 +64,19 @@
 .rte-header-left-slot {
   display: flex;
   align-items: center;
-  min-width: 0;
-}
-
-.rte-header-home {
-  display: inline-flex;
-  align-items: center;
-  gap: $positive-spacing_100;
-  text-decoration: none;
-  color: var(--content-secondary);
-}
-
-.rte-header-logo {
-  width: 24px;
-  height: 24px;
-  flex: 0 0 auto;
-  border-radius: $radius-s;
-}
-
-.rte-header-app-name {
-  @include typography-heading-xs;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .rte-header-mid {
   flex: 1 1 auto;
-  min-width: 0;
   display: flex;
   align-items: center;
   justify-content: flex-start;
   gap: $positive-spacing_200;
-
-  @media (max-width: 1023px) {
-    display: none;
-  }
-}
-
-.rte-header-search {
-  flex: 0 1 420px;
-  min-width: 220px;
-  max-width: 520px;
+  padding: 0 $positive-spacing_250;
 }
 
 .rte-header-nav {
   flex: 1 1 auto;
-  min-width: 0;
 }
 
 .rte-header-nav-list {
@@ -118,12 +86,10 @@
   list-style: none;
   padding: 0;
   margin: 0;
-  min-width: 0;
   max-width: 100%;
 }
 
 .rte-header-nav-item {
-  min-width: 0;
   flex: 0 1 auto;
 }
 
@@ -140,7 +106,7 @@
   text-overflow: ellipsis;
 
   &:focus-visible {
-    outline: 2px solid var(--border-brand-default);
+    outline: 1px solid var(--border-brand-focused);
     outline-offset: 2px;
   }
 }
@@ -163,8 +129,8 @@
   align-items: center;
   justify-content: flex-end;
   gap: $positive-spacing_250;
+  padding: 0 $positive-spacing_200;
   flex: 0 0 auto;
-  min-width: 0;
 }
 
 .rte-header-icon-buttons {
@@ -178,7 +144,6 @@
       }
     }
   }
-  
 }
 
 .rte-header-icon-button-wrapper {
@@ -205,5 +170,9 @@
   align-items: center;
   padding: 0 $positive-spacing_200;
   background: var(--background-default);
+  box-sizing: border-box;
+  height: 48px;
+  &.compact {
+    height: 24px;
+  }
 }
-

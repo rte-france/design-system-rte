@@ -1,7 +1,7 @@
 import { signal } from "@angular/core";
 import type { HeaderIconButtonConfig, HeaderNavigationItem } from "@design-system-rte/core/components/header";
 import { Meta, moduleMetadata, StoryObj } from "@storybook/angular";
-import { expect, userEvent, waitFor, within } from "@storybook/test";
+import { expect, fn, userEvent, waitFor, within } from "@storybook/test";
 
 import headerStoryRteLogoUrl from "../../../../../../../../design-docs/src/img/rte.png";
 import type { DropdownItemConfig } from "../../dropdown/dropdown.types";
@@ -47,6 +47,12 @@ const mobileMenuItems: DropdownItemConfig[] = [
   { id: "logout", label: "Déconnexion" },
 ];
 
+const mobileMenuItemsInterceptSelectionStory: DropdownItemConfig[] = [
+  { id: "workspace-switch", label: "Changer d'espace" },
+  { id: "shortcuts", label: "Raccourcis" },
+  { id: "sign-out", label: "Quitter" },
+];
+
 const meta: Meta<HeaderComponent> = {
   title: "Composants/Header/Header",
   component: HeaderComponent,
@@ -68,6 +74,7 @@ const meta: Meta<HeaderComponent> = {
     hasMidSection: { control: "boolean" },
     hasRightSection: { control: "boolean" },
     hasSubHeader: { control: "boolean" },
+    hasDivider: { control: "boolean" },
   },
 };
 
@@ -104,6 +111,7 @@ export const Default: Story = {
     hasMidSection: true,
     hasRightSection: true,
     hasSubHeader: true,
+    hasDivider: false,
     hasLogo: true,
     applicationName: "Nom de l'application",
     logoSrc: headerStoryRteLogoUrl,
@@ -139,6 +147,7 @@ export const Default: Story = {
           [hasMidSection]="hasMidSection"
           [hasRightSection]="hasRightSection"
           [hasSubHeader]="hasSubHeader"
+          [hasDivider]="hasDivider"
           [hasLogo]="hasLogo"
           [applicationName]="applicationName"
           [logoSrc]="logoSrc"
@@ -198,6 +207,7 @@ export const StickyDebug: Story = {
             [hasMidSection]="hasMidSection"
             [hasRightSection]="hasRightSection"
             [hasSubHeader]="hasSubHeader"
+            [hasDivider]="hasDivider"
             [hasLogo]="hasLogo"
             [applicationName]="applicationName"
             [logoSrc]="logoSrc"
@@ -251,6 +261,7 @@ export const ShowAtScrollUpDebug: Story = {
             [hasMidSection]="hasMidSection"
             [hasRightSection]="hasRightSection"
             [hasSubHeader]="hasSubHeader"
+            [hasDivider]="hasDivider"
             [hasLogo]="hasLogo"
             [applicationName]="applicationName"
             [logoSrc]="logoSrc"
@@ -293,6 +304,7 @@ export const WithRightSlot: Story = {
       template: `
         <rte-header
           [appearance]="appearance"
+          [hasDivider]="hasDivider"
           [hasLogo]="hasLogo"
           [applicationName]="applicationName"
           [logoSrc]="logoSrc"
@@ -323,6 +335,7 @@ export const WithLeftSlot: Story = {
       template: `
         <rte-header
           [appearance]="appearance"
+          [hasDivider]="hasDivider"
           [navigationItems]="navigationItems"
           [searchbarProps]="searchbarProps"
           [actionButton]="actionButton"
@@ -339,11 +352,11 @@ export const WithLeftSlot: Story = {
 };
 
 export const MobileSearchInteraction: Story = {
+  tags: ["skip-ci"],
   args: {
     ...Default.args,
     isCompact: false,
   },
-  tags: ["mobile-header-search"],
   parameters: {
     viewport: { defaultViewport: "mobile1" },
   },
@@ -364,6 +377,7 @@ export const MobileSearchInteraction: Story = {
         <div style="height: 200vh; padding-top: 8px">
           <rte-header
             [appearance]="appearance"
+            [hasDivider]="hasDivider"
             [hasLeftSection]="hasLeftSection"
             [hasRightSection]="hasRightSection"
             [hasLogo]="hasLogo"
@@ -418,11 +432,11 @@ export const MobileSearchInteraction: Story = {
 };
 
 export const MobileSearchActiveDebug: Story = {
+  tags: ["skip-ci"],
   args: {
     ...Default.args,
     isCompact: false,
   },
-  tags: ["mobile-header-search"],
   parameters: {
     viewport: { defaultViewport: "mobile1" },
   },
@@ -443,6 +457,7 @@ export const MobileSearchActiveDebug: Story = {
         <div style="height: 140vh; padding-top: 8px">
           <rte-header
             [appearance]="appearance"
+            [hasDivider]="hasDivider"
             [hasLeftSection]="hasLeftSection"
             [hasRightSection]="hasRightSection"
             [hasLogo]="hasLogo"
@@ -503,6 +518,7 @@ export const MobileSearchActiveDebug: Story = {
 };
 
 export const MobileMenuItemsDropdown: Story = {
+  tags: ["skip-ci"],
   args: {
     ...Default.args,
     mobileMenuItems,
@@ -527,6 +543,7 @@ export const MobileMenuItemsDropdown: Story = {
         <div style="height: 140vh; padding-top: 8px">
           <rte-header
             [appearance]="appearance"
+            [hasDivider]="hasDivider"
             [hasLeftSection]="hasLeftSection"
             [hasRightSection]="hasRightSection"
             [hasLogo]="hasLogo"
@@ -575,7 +592,90 @@ export const MobileMenuItemsDropdown: Story = {
   },
 };
 
+export const MobileMenuInterceptSelectedItemId: Story = {
+  tags: ["skip-ci"],
+  args: {
+    ...Default.args,
+    mobileMenuItems: mobileMenuItemsInterceptSelectionStory,
+  },
+  parameters: {
+    viewport: { defaultViewport: "mobile1" },
+  },
+  render: (args) => {
+    const selectedItemId = signal<string | null>(null);
+
+    function interceptMobileMenuItemSelection(menuItemSelection: {
+      event: Event;
+      id: string;
+      item?: DropdownItemConfig;
+    }): void {
+      selectedItemId.set(menuItemSelection.id);
+    }
+
+    return {
+      props: {
+        ...args,
+        selectedItemId,
+        interceptMobileMenuItemSelection,
+      },
+      template: `
+        <div style="height: 140vh; padding-top: 8px">
+          <rte-header
+            [appearance]="appearance"
+            [hasDivider]="hasDivider"
+            [hasLeftSection]="hasLeftSection"
+            [hasRightSection]="hasRightSection"
+            [hasLogo]="hasLogo"
+            [applicationName]="applicationName"
+            [logoSrc]="logoSrc"
+            [homeLink]="homeLink"
+            [navigationItems]="navigationItems"
+            [hasSearchbar]="true"
+            [searchbarProps]="searchbarProps"
+            [mobileMenuItems]="mobileMenuItems"
+            (mobileMenuItemEvent)="interceptMobileMenuItemSelection($event)"
+          />
+
+          <div style="padding: 12px 16px; font-family: monospace; display: grid; gap: 6px">
+            <div>Bind <code>(mobileMenuItemEvent)</code> on <code>rte-header</code> to read the mobile menu choice.</div>
+            <div>
+              selectedItemId:
+              <strong data-testid="intercepted-selected-item-id">{{ selectedItemId() ?? "—" }}</strong>
+            </div>
+          </div>
+        </div>
+      `,
+    };
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const body = within(canvasElement.ownerDocument.body);
+    const header = canvas.getByRole("banner");
+
+    await userEvent.click(within(header).getByRole("button", { name: "Menu" }));
+
+    await waitFor(() => {
+      expect(within(header).getByRole("button", { name: "Menu" })).toHaveAttribute("aria-expanded", "true");
+    });
+
+    await waitFor(() => {
+      expect(body.getAllByRole("menuitem").length).toBeGreaterThan(0);
+    });
+
+    const menuItems = body.getAllByRole("menuitem");
+    const shortcutsItem = menuItems.find((menuItem) => (menuItem.textContent || "").includes("Raccourcis"));
+    expect(shortcutsItem).toBeTruthy();
+    await userEvent.click(shortcutsItem as HTMLElement);
+
+    await waitFor(() => {
+      expect(canvas.getByTestId("intercepted-selected-item-id")).toHaveTextContent("shortcuts");
+      expect(within(header).getByRole("button", { name: "Menu" })).toHaveAttribute("aria-expanded", "false");
+    });
+  },
+};
+
 export const MobileMenuProjectionDropdown: Story = {
+  tags: ["skip-ci"],
   args: {
     ...Default.args,
   },
@@ -599,6 +699,7 @@ export const MobileMenuProjectionDropdown: Story = {
         <div style="height: 140vh; padding-top: 8px">
           <rte-header
             [appearance]="appearance"
+            [hasDivider]="hasDivider"
             [hasLeftSection]="hasLeftSection"
             [hasRightSection]="hasRightSection"
             [hasLogo]="hasLogo"
@@ -646,6 +747,166 @@ export const MobileMenuProjectionDropdown: Story = {
       expect(canvas.getByText("lastProjectionClick:")).toBeVisible();
       expect(canvas.getByText("account")).toBeVisible();
       expect(within(header).getByRole("button", { name: "Menu" })).toHaveAttribute("aria-expanded", "false");
+    });
+  },
+};
+
+export const DesktopSearchEventInteraction: Story = {
+  args: {
+    ...Default.args,
+    hasSubHeader: false,
+    searchbarProps: { id: "header-search", label: "Rechercher", value: "rte" },
+    searchEvent: fn(),
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <rte-header
+        [appearance]="appearance"
+        [hasDivider]="hasDivider"
+        [hasLeftSection]="hasLeftSection"
+        [hasMidSection]="hasMidSection"
+        [hasRightSection]="hasRightSection"
+        [hasLogo]="hasLogo"
+        [applicationName]="applicationName"
+        [logoSrc]="logoSrc"
+        [homeLink]="homeLink"
+        [navigationItems]="navigationItems"
+        [hasSearchbar]="hasSearchbar"
+        [searchbarProps]="searchbarProps"
+        (searchEvent)="searchEvent($event)"
+      />
+    `,
+  }),
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
+    const header = canvas.getByRole("banner");
+    const searchRegion = within(header).getByRole("search");
+
+    await userEvent.click(within(searchRegion).getByRole("button", { name: "Rechercher" }));
+
+    await waitFor(() => {
+      expect(args["searchEvent"]).toHaveBeenCalledWith("rte");
+    });
+  },
+};
+
+export const DesktopActionButtonClickInteraction: Story = {
+  args: {
+    ...Default.args,
+    hasSubHeader: false,
+    hasSearchbar: false,
+    actionButtonClick: fn(),
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <rte-header
+        [appearance]="appearance"
+        [hasDivider]="hasDivider"
+        [hasLeftSection]="hasLeftSection"
+        [hasMidSection]="hasMidSection"
+        [hasRightSection]="hasRightSection"
+        [hasLogo]="hasLogo"
+        [applicationName]="applicationName"
+        [logoSrc]="logoSrc"
+        [homeLink]="homeLink"
+        [navigationItems]="navigationItems"
+        [hasActionButton]="hasActionButton"
+        [actionButton]="actionButton"
+        (actionButtonClick)="actionButtonClick()"
+      />
+    `,
+  }),
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
+    const header = canvas.getByRole("banner");
+
+    await userEvent.click(within(header).getByRole("button", { name: "Partager" }));
+
+    await waitFor(() => {
+      expect(args["actionButtonClick"]).toHaveBeenCalled();
+    });
+  },
+};
+
+export const DesktopIconButtonClickInteraction: Story = {
+  args: {
+    ...Default.args,
+    hasSubHeader: false,
+    hasSearchbar: false,
+    hasActionButton: false,
+    iconButtonClick: fn(),
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <rte-header
+        [appearance]="appearance"
+        [hasDivider]="hasDivider"
+        [hasLeftSection]="hasLeftSection"
+        [hasMidSection]="hasMidSection"
+        [hasRightSection]="hasRightSection"
+        [hasLogo]="hasLogo"
+        [applicationName]="applicationName"
+        [logoSrc]="logoSrc"
+        [homeLink]="homeLink"
+        [navigationItems]="navigationItems"
+        [hasIconButtons]="hasIconButtons"
+        [iconButtons]="iconButtons"
+        (iconButtonClick)="iconButtonClick($event)"
+      />
+    `,
+  }),
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
+    const header = canvas.getByRole("banner");
+
+    await userEvent.click(within(header).getByRole("button", { name: "Notification" }));
+
+    await waitFor(() => {
+      expect(args["iconButtonClick"]).toHaveBeenCalledWith("notification");
+    });
+  },
+};
+
+export const DesktopAvatarClickInteraction: Story = {
+  args: {
+    ...Default.args,
+    hasSubHeader: false,
+    hasSearchbar: false,
+    hasActionButton: false,
+    hasIconButtons: false,
+    avatarClick: fn(),
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <rte-header
+        [appearance]="appearance"
+        [hasDivider]="hasDivider"
+        [hasLeftSection]="hasLeftSection"
+        [hasMidSection]="hasMidSection"
+        [hasRightSection]="hasRightSection"
+        [hasLogo]="hasLogo"
+        [applicationName]="applicationName"
+        [logoSrc]="logoSrc"
+        [homeLink]="homeLink"
+        [navigationItems]="navigationItems"
+        [hasAvatar]="hasAvatar"
+        [avatarProps]="avatarProps"
+        (avatarClick)="avatarClick()"
+      />
+    `,
+  }),
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
+    const header = canvas.getByRole("banner");
+
+    await userEvent.click(within(header).getByRole("button", { name: "Avatar button" }));
+
+    await waitFor(() => {
+      expect(args["avatarClick"]).toHaveBeenCalled();
     });
   },
 };

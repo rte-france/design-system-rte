@@ -13,24 +13,30 @@
     display: flex;
     width: 100%;
     align-items: center;
+    padding: 0 $positive-spacing_200 0 $positive-spacing_100;
     
     .rte-header-home {
       display: flex;
       align-items: center;
       gap: $positive-spacing_100;
-      min-width: 0;
       text-decoration: none;
       color: var(--content-secondary);
 
+      &:focus-visible {
+        border-radius: $radius-s;
+        outline: 1px solid var(--border-brand-focused);
+        outline-offset: 4px;
+      }
+
       .rte-header-logo {
-        width: 24px;
-        height: 24px;
+        width: 28px;
+        height: 28px;
         flex: 0 0 auto;
         border-radius: $radius-s;
       }
   
       .rte-header-app-name {
-        @include typography-heading-xs;
+        @include typography-heading-s;
       }
     }
   }

@@ -1,20 +1,18 @@
 <header
-  #headerRootRef
   class="rte-header"
   role="banner"
   [attr.data-appearance]="appearance()"
   [attr.data-compact]="isCompact()"
   [attr.data-sticky]="isSticky()"
   [attr.data-visible]="isVisible()"
-  [attr.data-has-subheader]="shouldRenderSubheader()"
 >
   <div class="rte-header-main">
     @if (isDesktop()) {
       @if (hasLeftSection()) {
         <div class="rte-header-left">
-          @if (shouldRenderProjectedLeftSection()) {
+          @if (projectedLeftSection()) {
             <div class="rte-header-left-slot">
-              <ng-content select="[rteHeaderLeft]"></ng-content>
+              <ng-content select="[rteHeaderLeft]" />
             </div>
           } @else {
             <rte-header-left-section [config]="computedLeftSectionConfig()" />
@@ -23,31 +21,29 @@
       }
 
       <div class="rte-header-mid">
-        @if (shouldRenderMidSection()) {
-          <nav class="rte-header-nav" [attr.aria-label]="navigationAriaLabel()">
-            <ul class="rte-header-nav-list">
-              @for (item of navigationItems(); track item.id || item.href) {
-                <li
-                  class="rte-header-nav-item"
-                  [attr.data-disabled]="item.disabled"
-                  [attr.data-active]="item.active ?? null"
+        <nav class="rte-header-nav" [attr.aria-label]="navigationAriaLabel()">
+          <ul class="rte-header-nav-list">
+            @for (item of navigationItems(); track item.id || item.href) {
+              <li
+                class="rte-header-nav-item"
+                [attr.data-disabled]="item.disabled"
+                [attr.data-active]="item.active ?? null"
+              >
+                <a
+                  class="rte-header-nav-link"
+                  [href]="item.href"
+                  [attr.aria-label]="item.ariaLabel || item.label"
+                  [attr.aria-disabled]="item.disabled ? 'true' : null"
+                  [attr.aria-current]="item.active ? 'page' : null"
+                  [attr.tabindex]="item.disabled ? -1 : null"
+                  (click)="handleNavigationItemClick(item, $event)"
                 >
-                  <a
-                    class="rte-header-nav-link"
-                    [href]="item.href"
-                    [attr.aria-label]="item.ariaLabel || item.label"
-                    [attr.aria-disabled]="item.disabled ? 'true' : null"
-                    [attr.aria-current]="item.active ? 'page' : null"
-                    [attr.tabindex]="item.disabled ? -1 : null"
-                    (click)="handleNavigationItemClick(item, $event)"
-                  >
-                    {{ item.label }}
-                  </a>
-                </li>
-              }
-            </ul>
-          </nav>
-        }
+                  {{ item.label }}
+                </a>
+              </li>
+            }
+          </ul>
+        </nav>
       </div>
 
       @if (hasRightSection()) {
@@ -62,6 +58,7 @@
               [assistiveText]="searchbarProps()?.assistiveText || ''"
               [appearance]="searchbarAppearance()"
               [compactSpacing]="isCompact()"
+              (searchEvent)="handleSearchEvent($event)"
             />
           }
 
@@ -113,7 +110,7 @@
           }
 
           <div class="rte-header-right-slot">
-            <ng-content select="[rteHeaderRight]"></ng-content>
+            <ng-content select="[rteHeaderRight]" />
           </div>
         </div>
       }
@@ -133,8 +130,8 @@
         [mobileSearchButtonAriaLabel]="mobileSearchButtonAriaLabel()"
         [mobileMenuButton]="mobileMenuButton()"
         [mobileMenuItems]="mobileMenuItems()"
-        [hasProjectedMobileMenu]="shouldRenderProjectedMobileMenu()"
-        [isSearchActive]="effectiveIsSearchActive()"
+        [hasProjectedMobileMenu]="!!projectedMobileMenu()"
+        [isSearchActive]="internalIsSearchActive()"
         (isSearchActiveChange)="handleIsSearchActiveChange($event)"
         (mobileMenuClick)="handleMobileMenuClick()"
         (mobileMenuItemEvent)="handleMobileMenuItemEvent($event)"
@@ -144,8 +141,12 @@
     }
   </div>
 
+  @if (hasDivider()) {
+    <rte-divider />
+  }
+
   @if (shouldRenderSubheader()) {
-    <div class="rte-header-subheader" [style.height.px]="subheaderHeightPx()">
+    <div class="rte-header-subheader" [ngClass]="{ compact: isCompact() }">
       <nav class="rte-header-breadcrumbs" [attr.aria-label]="breadcrumbsAriaLabel()">
         <rte-breadcrumbs [items]="subHeaderConfig()?.items ?? []" [ariaLabel]="breadcrumbsAriaLabel()" />
       </nav>
