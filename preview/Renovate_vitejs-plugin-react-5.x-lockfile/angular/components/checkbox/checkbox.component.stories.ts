@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/angular";
-import { userEvent, within, expect } from "@storybook/test";
+import { expect, userEvent, within } from "@storybook/test";
 
 import { focusElementBeforeComponent } from "../../../../../../.storybook/testing/testing.utils";
 
@@ -126,5 +126,50 @@ export const KeyboardInteractions: Story = {
     await userEvent.keyboard(`{ }`);
     expect(checkbox).toBeChecked();
     checkbox.blur();
+  },
+};
+
+export const CheckedChangeOutput: Story = {
+  args: {
+    ...Default.args,
+    checked: false,
+  },
+  render: (args) => ({
+    props: {
+      ...args,
+      lastCheckedChange: null as boolean | null,
+      onCheckedChange: function onCheckedChange(isChecked: boolean) {
+        this["lastCheckedChange"] = isChecked;
+      },
+    },
+    template: `
+      <div style="display: grid; gap: 12px;">
+        <rte-checkbox
+          [id]="id"
+          [label]="label"
+          [value]="value"
+          [indeterminate]="indeterminate"
+          [description]="description"
+          [showLabel]="showLabel"
+          [disabled]="disabled"
+          [error]="error"
+          [errorMessage]="errorMessage"
+          [readOnly]="readOnly"
+          [checked]="checked"
+          [tabindex]="tabindex"
+          (checkedChange)="onCheckedChange($event)"
+        />
+        <div data-testid="checked">lastCheckedChange={{ lastCheckedChange }}</div>
+      </div>
+    `,
+  }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const checkbox = canvas.getByRole("checkbox");
+    const checked = canvas.getByTestId("checked");
+
+    expect(checked).toHaveTextContent("lastCheckedChange=");
+    await userEvent.click(checkbox);
+    expect(checked).toHaveTextContent("lastCheckedChange=true");
   },
 };
