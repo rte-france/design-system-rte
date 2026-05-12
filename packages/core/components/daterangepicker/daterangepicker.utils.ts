@@ -4,6 +4,9 @@ import { getMondayBasedWeekdayIndex, isSameDay, isSameMonth } from "../pickers";
 
 import { DaterangepickerDayCell } from "./daterangepicker.interface";
 
+export const START_INPUT = "start";
+export const END_INPUT = "end";
+
 export function buildDayRangeGrid(params: {
   viewDate: Date;
   selectedDates: [Date | null, Date | null] | null;
@@ -23,10 +26,11 @@ export function buildDayRangeGrid(params: {
   return Array.from({ length: cellCount }).map((_, index) => {
     const cellDate = addDays(gridStart, index);
     const isCurrentMonth = isSameMonth(cellDate, viewDate);
-    const isSelected =
-      !!selectedDates &&
-      ((selectedDates[0] && isSameDay(cellDate, selectedDates[0])) ||
-        (selectedDates[1] && isSameDay(cellDate, selectedDates[1])));
+
+    const isFirstSelectedDate = selectedDates && selectedDates[0] && isSameDay(cellDate, selectedDates[0]);
+    const isSecondSelectedDate = selectedDates && selectedDates[1] && isSameDay(cellDate, selectedDates[1]);
+    const isSelected = isFirstSelectedDate || isSecondSelectedDate;
+
     const isToday = isSameDay(cellDate, today);
 
     const inRange = isDateInRange(cellDate, selectedDates);

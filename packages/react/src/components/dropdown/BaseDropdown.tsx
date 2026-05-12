@@ -32,6 +32,7 @@ export interface BaseDropdownProps extends CoreDropdownProps, React.HTMLAttribut
   header?: React.ReactNode;
   footer?: React.ReactNode;
   isList?: boolean;
+  hasMaxWidth?: boolean;
 }
 
 export const BaseDropdown = forwardRef<HTMLDivElement, BaseDropdownProps>(
@@ -53,6 +54,7 @@ export const BaseDropdown = forwardRef<HTMLDivElement, BaseDropdownProps>(
       header,
       footer,
       isList = true,
+      hasMaxWidth = true,
       ...props
     },
     ref,
@@ -222,6 +224,7 @@ export const BaseDropdown = forwardRef<HTMLDivElement, BaseDropdownProps>(
           <Overlay>
             <div
               className={concatClassNames(styles.dropdown, className)}
+              data-has-max-width={hasMaxWidth || undefined}
               data-dropdown-id={autoId}
               data-position={autoPosition}
               data-open={isAnimating || undefined}

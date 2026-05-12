@@ -6,6 +6,7 @@ import {
   DdMmYyyyDigitParts,
   getLastDayOfMonth,
   isDateDisabled,
+  normalizeDate,
 } from "@design-system-rte/core";
 import { useEffect, useMemo, useState } from "react";
 
@@ -23,7 +24,6 @@ const buildDisplayValue = (dateState: DdMmYyyyDigitParts): string => {
   const day = dateState.dayDigits || "jj";
   const month = dateState.monthDigits || "mm";
   const year = dateState.yearDigits || "aaaa";
-
   return `${day} / ${month} / ${year}`;
 };
 
@@ -49,7 +49,7 @@ const buildInternalValue = (
       return null;
     }
     if (!isDateDisabled({ date, minDate, maxDate, disabledDates })) {
-      return date;
+      return normalizeDate(date);
     } else {
       return null;
     }
@@ -104,21 +104,22 @@ const useDatePickerInternalValue = (
     const max = getMaxDayForSegment(segment);
     const segmentName = segment === DAY ? "day" : segment === MONTH ? "month" : "year";
     const initialValue = getInitialSegmentValue(segment);
-
     const modifiedValue =
       direction === "increase"
         ? getIncreasedValueWithBounds(initialValue, max)
         : getDecreasedValueWithBounds(initialValue, max);
     const formattedModifiedValue = formatNumberToParseSegmentValue(modifiedValue, segment);
+
     const newPotentialDateState = {
       ...dateState,
       [`${segmentName}Digits`]: formattedModifiedValue,
     } as DdMmYyyyDigitParts;
-    const newDate = buildDateFromState(newPotentialDateState);
-    if (!newDate) {
+    const newPotentialDate = buildDateFromState(newPotentialDateState);
+    if (!newPotentialDate) {
       updateDateSegment(segment, formattedModifiedValue);
+      setDisplayValue(buildDisplayValue(newPotentialDateState));
     } else {
-      if (!isDateDisabled({ date: newDate, minDate, maxDate, disabledDates })) {
+      if (!isDateDisabled({ date: newPotentialDate, minDate, maxDate, disabledDates })) {
         setDateState(newPotentialDateState);
       }
     }
@@ -182,7 +183,6 @@ const useDatePickerInternalValue = (
         monthDigits: formatNumberToParseSegmentValue(date.getMonth() + 1, DateSegmentEnum.MONTH),
         yearDigits: formatNumberToParseSegmentValue(date.getFullYear(), DateSegmentEnum.YEAR),
       } as DdMmYyyyDigitParts;
-
       setDisplayValue(buildDisplayValue(state));
     } else {
       setDisplayValue(placeholderDisplayValue);

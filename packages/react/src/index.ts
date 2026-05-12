@@ -22,6 +22,7 @@ import Link from "./components/link/Link.tsx";
 import Loader from "./components/loader/Loader.tsx";
 import Modal from "./components/modal/Modal.tsx";
 import DatePicker from "./components/pickers/datepicker/DatePicker.tsx";
+import DateRangePicker from "./components/pickers/daterangepicker/DateRangePicker.tsx";
 import TimePicker from "./components/pickers/timepicker/TimePicker.tsx";
 import Popover from "./components/popover/Popover.tsx";
 import RadioButton from "./components/radioButton/RadioButton.tsx";
@@ -87,4 +88,5 @@ export {
   DatePicker,
   Dropdown,
   DropdownItem,
+  DateRangePicker,
 };

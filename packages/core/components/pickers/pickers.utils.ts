@@ -20,3 +20,13 @@ export function isSameDay(first: Date, second: Date): boolean {
     first.getDate() === second.getDate()
   );
 }
+
+export function areSameRange(a: [Date | null, Date | null], b: [Date | null, Date | null]): boolean {
+  return !!a[0] && !!a[1] && !!b[0] && !!b[1] && isSameDay(a[0], b[0]) && isSameDay(a[1], b[1]);
+}
+
+export function normalizeDate(date: Date): Date {
+  const normalizedDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  normalizedDate.setHours(0, 0, 0, 0);
+  return normalizedDate;
+}

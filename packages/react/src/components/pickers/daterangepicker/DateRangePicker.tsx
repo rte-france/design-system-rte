@@ -1,32 +1,24 @@
 import {
-  ARROW_DOWN_KEY,
-  ARROW_LEFT_KEY,
-  ARROW_RIGHT_KEY,
-  ARROW_UP_KEY,
-  BACKSPACE_KEY,
-  DATE_SEGMENT_MAX_VALUE,
+  areSameRange,
   DATE_SEGMENTS_ORDER,
+  DateRangePickerProps,
   DateSegmentEnum,
-  DELETE_KEY,
+  normalizeDate,
   waitForNextFrame,
 } from "@design-system-rte/core";
-import { InputProps } from "@design-system-rte/core/components/common/input-props";
 import { useCallback, useEffect, useRef, useState } from "react";
 
+import { BaseDropdown } from "../../../components/dropdown/BaseDropdown";
+import AssistiveText from "../../assistivetext/AssistiveText";
 import Icon from "../../icon/Icon";
 import Label from "../../label/Label";
-import BaseInputPicker from "../baseInputPicker/BaseInputPicker";
-import { computeDateSegmentRanges, formatNumberToParseSegmentValue } from "../datepicker/DatePicker.utils";
-import useDatePickerInternalValue from "../datepicker/hooks/useDatePickerInternalValue";
-import { useNavigateBetweenDateSegment } from "../datepicker/hooks/useNavigateBetweenDateSegment";
+import useDatePickerInternalValue from "../hooks/useDatePickerInternalValue";
+import { useNavigateBetweenDateSegment } from "../hooks/useNavigateBetweenDateSegment";
+import { computeDateSegmentRanges } from "../picker.utils";
 
 import styles from "./DateRangePicker.module.scss";
-
-interface DateRangePickerProps extends Omit<InputProps, "value" | "onChange"> {
-  id: string;
-  value: [Date | null, Date | null] | null;
-  onChange?: (value: [Date | null, Date | null] | null) => void;
-}
+import DateRangePickerMenu from "./dateRangePickerMenu/DateRangePickerMenu";
+import DateRangeInput from "./inputs/DateRangeInput";
 
 const START_INPUT = "start";
 const END_INPUT = "end";
@@ -34,8 +26,6 @@ const END_INPUT = "end";
 type DateRangeInputType = typeof START_INPUT | typeof END_INPUT;
 
 const [DAY, MONTH, YEAR] = DATE_SEGMENTS_ORDER;
-
-const numberRegex = /^\d*$/;
 
 const DateRangePicker = ({
   id,
@@ -45,8 +35,22 @@ const DateRangePicker = ({
   showLabelRequirement = false,
   value,
   onChange,
+  hasAction = false,
+  onValidate,
+  onCancel,
+  minDate,
+  maxDate,
+  disabledDates,
+  disabled = false,
+  assistiveTextLabel,
+  assistiveAppearance = "description",
+  showAssistiveIcon = false,
+  assistiveTextLink,
+  isError = false,
+  readonly = false,
 }: DateRangePickerProps) => {
   const [isFocused, setIsFocused] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const skipNextFocusRef = useRef(false);
   const activeInputRef = useRef<"start" | "end">("start");
@@ -54,31 +58,55 @@ const DateRangePicker = ({
 
   const dateInputStartRef = useRef<HTMLInputElement | null>(null);
   const dateInputEndRef = useRef<HTMLInputElement | null>(null);
+  const inputsRef = useRef<HTMLDivElement | null>(null);
+  const onChangeRef = useRef(onChange);
 
-  const [internalValue, setInternalValue] = useState<[Date | null, Date | null] | null>(value);
+  const shouldDisplayAssistiveText = assistiveTextLabel && !isDropdownOpen;
+
+  useEffect(() => {
+    onChangeRef.current = onChange;
+  }, [onChange]);
+
+  const [internalRange, setInternalRange] = useState<[Date | null, Date | null]>(value ?? [null, null]);
+  const internalRangeRef = useRef<[Date | null, Date | null]>(
+    value ? [value[0] ? normalizeDate(value[0]!) : null, value[1] ? normalizeDate(value[1]!) : null] : [null, null],
+  );
 
   const {
-    dateState: startDateState,
-    internalValue: internalStartDate,
-    increaseActiveSegmentValue: increaseStartDateSegmentValue,
-    decreaseActiveSegmentValue: decreaseStartDateSegmentValue,
-    resetActiveSegmentValue: resetStartDateSegmentValue,
-    updateDateSegment: updateStartDateSegment,
-    updateFullDate: updateStartFullDate,
-    displayValue: startDisplayValue,
-    updateDisplayedDate: updateStartDisplayedDate,
-  } = useDatePickerInternalValue(value ? value[0] : null, {});
+    dateState: dateStateStart,
+    internalValue: internalValueStart,
+    increaseActiveSegmentValue: increaseActiveSegmentValueStart,
+    decreaseActiveSegmentValue: decreaseActiveSegmentValueStart,
+    resetActiveSegmentValue: resetActiveSegmentValueStart,
+    updateDateSegment: updateDateSegmentStart,
+    updateFullDate: updateFullDateStart,
+    displayValue: displayValueStart,
+    updateDisplayedDate: updateDisplayedDateStart,
+  } = useDatePickerInternalValue(internalRangeRef.current[0] ? normalizeDate(internalRangeRef.current[0]) : null, {
+    minDate,
+    maxDate,
+    disabledDates,
+  });
+
   const {
-    dateState: endDateState,
-    internalValue: internalEndDate,
-    increaseActiveSegmentValue: increaseEndDateSegmentValue,
-    decreaseActiveSegmentValue: decreaseEndDateSegmentValue,
-    resetActiveSegmentValue: resetEndDateSegmentValue,
-    updateDateSegment: updateEndDateSegment,
-    updateFullDate: updateEndFullDate,
-    displayValue: endDisplayValue,
-    updateDisplayedDate: updateEndDisplayedDate,
-  } = useDatePickerInternalValue(value ? value[1] : null, {});
+    dateState: dateStateEnd,
+    internalValue: internalValueEnd,
+    increaseActiveSegmentValue: increaseActiveSegmentValueEnd,
+    decreaseActiveSegmentValue: decreaseActiveSegmentValueEnd,
+    resetActiveSegmentValue: resetActiveSegmentValueEnd,
+    updateDateSegment: updateDateSegmentEnd,
+    updateFullDate: updateFullDateEnd,
+    displayValue: displayValueEnd,
+    updateDisplayedDate: updateDisplayedDateEnd,
+  } = useDatePickerInternalValue(internalRangeRef.current[1] ? normalizeDate(internalRangeRef.current[1]) : null, {
+    minDate,
+    maxDate,
+    disabledDates,
+  });
+
+  const [selectionMode, setSelectionMode] = useState<"start" | "end">("start");
+
+  const [initialValue, setInitialValue] = useState<[Date | null, Date | null] | null>(value);
 
   const {
     moveToNextSegment,
@@ -90,17 +118,8 @@ const DateRangePicker = ({
   const setCurrentActiveInput = (input: DateRangeInputType) => {
     activeInputRef.current = input;
   };
-
-  const getCurrentActiveInput = () => {
-    return activeInputRef.current;
-  };
-
   const setCurrentModifiedSegment = (segment: DateSegmentEnum | null) => {
     activeModifiedSegmentRef.current = segment;
-  };
-
-  const getCurrentModifiedSegment = () => {
-    return activeModifiedSegmentRef.current;
   };
 
   const shouldSkipNextFocus = () => {
@@ -138,146 +157,16 @@ const DateRangePicker = ({
     setCurrentModifiedSegment(null);
   };
 
-  const handleOnKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    const key = event.key;
-    selectActiveSegment(activeSegment);
-
-    if ([ARROW_UP_KEY, ARROW_DOWN_KEY, ARROW_LEFT_KEY, ARROW_RIGHT_KEY, BACKSPACE_KEY, DELETE_KEY].includes(key)) {
-      event.preventDefault();
-      handleFunctionKey(key);
-      return;
-    }
-
-    if (numberRegex.test(key)) {
-      handleDigitInput(key);
-    } else {
-      return;
-    }
-  };
-
-  const handleDigitInput = (key: string) => {
-    const segmentName = activeSegment === DAY ? "day" : activeSegment === MONTH ? "month" : "year";
-    const currentSegmentValue =
-      getCurrentActiveInput() === START_INPUT
-        ? startDateState[`${segmentName}Digits`]
-        : endDateState[`${segmentName}Digits`];
-    if (activeSegment === YEAR) {
-      updateYearSegmentInput(currentSegmentValue, key);
-    } else {
-      handleDayAndMonthSegmentInput(currentSegmentValue, key);
-    }
-  };
-
-  const updateYearSegmentInput = (currentSegmentValue: string, key: string) => {
-    const numberOfLeadingZeros = Array.from(currentSegmentValue).findIndex((digit) => digit !== "0");
-    if (getCurrentModifiedSegment() === YEAR) {
-      const newValue = currentSegmentValue.slice(numberOfLeadingZeros) + key;
-      const clamped = formatNumberToParseSegmentValue(
-        Math.min(Number(newValue), DATE_SEGMENT_MAX_VALUE[DateSegmentEnum.YEAR]),
-        DateSegmentEnum.YEAR,
-      );
-      if (getCurrentActiveInput() === START_INPUT) {
-        updateStartDateSegment(DateSegmentEnum.YEAR, clamped);
-      } else {
-        updateEndDateSegment(DateSegmentEnum.YEAR, clamped);
-      }
-    } else {
-      setCurrentModifiedSegment(DateSegmentEnum.YEAR);
-      const newVal = formatNumberToParseSegmentValue(Number(key), DateSegmentEnum.YEAR);
-      if (getCurrentActiveInput() === START_INPUT) {
-        updateStartDateSegment(DateSegmentEnum.YEAR, newVal);
-      } else {
-        updateEndDateSegment(DateSegmentEnum.YEAR, newVal);
-      }
-    }
-  };
-
-  const handleDayAndMonthSegmentInput = (currentSegmentValue: string, key: string) => {
-    if (activeSegment === MONTH) {
-      if (getCurrentModifiedSegment() === MONTH) {
-        const newValue = currentSegmentValue + key;
-        const clamped = formatNumberToParseSegmentValue(
-          Math.min(Number(newValue), DATE_SEGMENT_MAX_VALUE[DateSegmentEnum.MONTH]),
-          DateSegmentEnum.MONTH,
-        );
-        if (getCurrentActiveInput() === START_INPUT) {
-          updateStartDateSegment(DateSegmentEnum.MONTH, clamped);
-        } else {
-          updateEndDateSegment(DateSegmentEnum.MONTH, clamped);
-        }
-      } else {
-        setCurrentModifiedSegment(DateSegmentEnum.MONTH);
-        const newVal = formatNumberToParseSegmentValue(Number(key), DateSegmentEnum.MONTH);
-        if (getCurrentActiveInput() === START_INPUT) {
-          updateStartDateSegment(DateSegmentEnum.MONTH, newVal);
-        } else {
-          updateEndDateSegment(DateSegmentEnum.MONTH, newVal);
-        }
-      }
-    } else {
-      if (getCurrentModifiedSegment() === DAY) {
-        const newValue = currentSegmentValue + key;
-        const clamped = formatNumberToParseSegmentValue(
-          Math.min(Number(newValue), DATE_SEGMENT_MAX_VALUE[DateSegmentEnum.DAY]),
-          DateSegmentEnum.DAY,
-        );
-        if (getCurrentActiveInput() === START_INPUT) {
-          updateStartDateSegment(DateSegmentEnum.DAY, clamped);
-        } else {
-          updateEndDateSegment(DateSegmentEnum.DAY, clamped);
-        }
-      } else {
-        setCurrentModifiedSegment(DateSegmentEnum.DAY);
-        const newVal = formatNumberToParseSegmentValue(Number(key), DateSegmentEnum.DAY);
-        if (getCurrentActiveInput() === START_INPUT) {
-          updateStartDateSegment(DateSegmentEnum.DAY, newVal);
-        } else {
-          updateEndDateSegment(DateSegmentEnum.DAY, newVal);
-        }
-      }
-    }
-  };
-
-  const handleFunctionKey = (key: string) => {
-    if ([ARROW_LEFT_KEY, ARROW_RIGHT_KEY].includes(key)) {
-      activeModifiedSegmentRef.current = null;
-      if (key === ARROW_RIGHT_KEY) {
-        moveToNextSegment();
-      } else {
-        moveToPreviousSegment();
-      }
-    } else if ([ARROW_UP_KEY, ARROW_DOWN_KEY].includes(key)) {
-      if (key === ARROW_UP_KEY) {
-        if (activeInputRef.current === START_INPUT) {
-          increaseStartDateSegmentValue(activeSegment);
-        } else {
-          increaseEndDateSegmentValue(activeSegment);
-        }
-      } else {
-        if (activeInputRef.current === START_INPUT) {
-          decreaseStartDateSegmentValue(activeSegment);
-        } else {
-          decreaseEndDateSegmentValue(activeSegment);
-        }
-      }
-    } else {
-      if (activeInputRef.current === START_INPUT) {
-        resetStartDateSegmentValue(activeSegment);
-      } else {
-        resetEndDateSegmentValue(activeSegment);
-      }
-      return;
-    }
-  };
-
   const handleOnMouseDownStart = () => {
     setCurrentActiveInput(START_INPUT);
-    skipNextFocusRef.current = true;
+    setShouldSkipNextFocus(true);
+    setIsDropdownOpen(false);
   };
 
   const handleOnMouseDownEnd = () => {
     setCurrentActiveInput(END_INPUT);
-    skipNextFocusRef.current = true;
+    setShouldSkipNextFocus(true);
+    setIsDropdownOpen(false);
   };
 
   const handleOnMouseUp = () => {
@@ -322,54 +211,241 @@ const DateRangePicker = ({
     [activeSegment, setActiveSegment],
   );
 
+  const emitRangeChange = useCallback(
+    (nextRange: [Date | null, Date | null]) => {
+      const currentRange = internalRangeRef.current;
+      if (areSameRange(currentRange, nextRange)) {
+        return;
+      }
+      internalRangeRef.current = nextRange;
+      setInternalRange(nextRange);
+      updateDisplayedDateEnd(nextRange[1]);
+      updateDisplayedDateStart(nextRange[0]);
+
+      onChangeRef.current?.(nextRange);
+    },
+    [updateDisplayedDateEnd, updateDisplayedDateStart],
+  );
+
+  const handleOnChange = (date: Date | null) => {
+    if (!date) return;
+
+    if (selectionMode === "start") {
+      const nextRange: [Date | null, Date | null] = [date, null];
+      setSelectionMode("end");
+      emitRangeChange(nextRange);
+    } else {
+      const [startDate] = internalRangeRef.current;
+
+      if (startDate && date < startDate) {
+        emitRangeChange([date, null]);
+      } else {
+        const nextRange: [Date | null, Date | null] = [startDate, date];
+        setSelectionMode("start");
+        emitRangeChange(nextRange);
+        if (!hasAction) {
+          setInitialValue(nextRange);
+          validate();
+        }
+      }
+    }
+  };
+
+  const handleOnChangeStartInput = useCallback((newDate: Date | null) => {
+    const normalizedDate = newDate ? normalizeDate(newDate) : null;
+    const currentRange = internalRangeRef.current;
+    const nextRange: [Date | null, Date | null] = [normalizedDate, currentRange[1]];
+
+    if (areSameRange(currentRange, nextRange)) {
+      return;
+    }
+
+    internalRangeRef.current = nextRange;
+    setInternalRange(nextRange);
+    onChangeRef.current?.(nextRange);
+  }, []);
+
+  const handleOnChangeEndInput = useCallback((newDate: Date | null) => {
+    const normalizedDate = newDate ? normalizeDate(newDate) : null;
+    const currentRange = internalRangeRef.current;
+    const nextRange: [Date | null, Date | null] = [currentRange[0], normalizedDate];
+
+    if (areSameRange(currentRange, nextRange)) {
+      return;
+    }
+
+    internalRangeRef.current = nextRange;
+    setInternalRange(nextRange);
+    onChangeRef.current?.(nextRange);
+  }, []);
+
+  const handleOnKeyDownInput = () => {
+    selectActiveSegment(activeSegment);
+  };
+
+  const handleOnClose = () => {
+    setIsDropdownOpen(false);
+    setIsFocused(false);
+    setActiveSegment(DAY);
+    setSelectionMode("start");
+    setCurrentModifiedSegment(null);
+  };
+
+  const handleOnCancel = () => {
+    const nextRange: [Date | null, Date | null] = initialValue ?? [null, null];
+    internalRangeRef.current = nextRange;
+    setInternalRange(nextRange);
+    onChangeRef.current?.(nextRange);
+    onCancel?.();
+    handleOnClose();
+    updateDisplayedDateStart(nextRange[0]);
+    updateDisplayedDateEnd(nextRange[1]);
+  };
+
+  const handleOnValidate = () => {
+    setInitialValue(internalRange);
+    updateFullDateStart(internalRange[0]);
+    updateFullDateEnd(internalRange[1]);
+    validate();
+  };
+
+  const validate = () => {
+    onValidate?.();
+    handleOnClose();
+  };
+
+  useEffect(() => {
+    internalRangeRef.current = internalRange;
+  }, [internalRange]);
+
+  useEffect(() => {
+    const nextRange: [Date | null, Date | null] = value
+      ? [value[0] ? normalizeDate(value[0]) : null, value[1] ? normalizeDate(value[1]) : null]
+      : [null, null];
+
+    if (areSameRange(internalRangeRef.current, nextRange)) {
+      return;
+    }
+
+    internalRangeRef.current = nextRange;
+    setInternalRange(nextRange);
+  }, [value]);
+
   useEffect(() => {
     selectActiveSegment(activeSegment);
   }, [activeSegment, selectActiveSegment]);
 
   useEffect(() => {
-    let newInternalValue: [Date | null, Date | null] | null = internalValue;
-    newInternalValue = [internalStartDate, internalValue ? internalValue[1] : null];
-    setInternalValue(newInternalValue);
-    onChange?.(newInternalValue);
-  }, [internalStartDate]);
-
-  useEffect(() => {
-    let newInternalValue: [Date | null, Date | null] | null = internalValue;
-    newInternalValue = [internalValue ? internalValue[0] : null, internalEndDate];
-    setInternalValue(newInternalValue);
-    onChange?.(newInternalValue);
-  }, [internalEndDate]);
+    if (isDropdownOpen) {
+      if (value && value[0] && !value[1]) {
+        setSelectionMode("end");
+      }
+    }
+  }, [isDropdownOpen, value, updateDisplayedDateEnd, updateDisplayedDateStart]);
 
   return (
     <div className={styles["date-range-picker"]}>
       <Label id={labelId} label={label} required={required} showLabelRequirement={showLabelRequirement} htmlFor={id} />
-      <div className={styles["date-range-picker-inputs"]}>
-        <BaseInputPicker
-          id={`${id}-start`}
-          pickerInputRef={dateInputStartRef}
-          isFocused={isFocused}
-          onKeyDown={handleOnKeyDown}
-          onMouseDown={handleOnMouseDownStart}
-          onMouseUp={handleOnMouseUp}
-          onFocus={handleOnFocusStart}
-          onBlur={handleOnBlur}
-          value={startDisplayValue}
-          icon="calendar-month"
+      <BaseDropdown
+        style={{ width: inputsRef.current?.offsetWidth }}
+        isList={false}
+        isOpen={isDropdownOpen}
+        onClose={handleOnClose}
+        offset={8}
+        hasMaxWidth={false}
+        trigger={
+          <div className={styles["date-range-picker-inputs"]} ref={inputsRef}>
+            <DateRangeInput
+              id={`${id}-start-input`}
+              pickerInputRef={dateInputStartRef}
+              isFocused={isFocused}
+              onKeyDown={handleOnKeyDownInput}
+              onMouseDown={handleOnMouseDownStart}
+              onMouseUp={handleOnMouseUp}
+              onFocus={handleOnFocusStart}
+              onBlur={handleOnBlur}
+              value={internalValueStart ?? null}
+              moveToNextSegment={moveToNextSegment}
+              moveToPreviousSegment={moveToPreviousSegment}
+              onChange={handleOnChangeStartInput}
+              activeSegment={activeSegment}
+              onOpenPicker={() => {
+                setIsDropdownOpen(!isDropdownOpen);
+              }}
+              minDate={minDate}
+              maxDate={maxDate}
+              disabledDates={disabledDates}
+              disabled={disabled}
+              dateState={dateStateStart}
+              internalValue={internalValueStart}
+              increaseActiveSegmentValue={increaseActiveSegmentValueStart}
+              decreaseActiveSegmentValue={decreaseActiveSegmentValueStart}
+              resetActiveSegmentValue={resetActiveSegmentValueStart}
+              updateDateSegment={updateDateSegmentStart}
+              updateFullDate={updateFullDateStart}
+              displayValue={displayValueStart}
+              isError={isError}
+              readonly={readonly}
+            />
+            <Icon name="arrow-double-right" size={20} />
+            <DateRangeInput
+              id={`${id}-end-input`}
+              pickerInputRef={dateInputEndRef}
+              isFocused={isFocused}
+              onKeyDown={handleOnKeyDownInput}
+              onMouseDown={handleOnMouseDownEnd}
+              onMouseUp={handleOnMouseUp}
+              onFocus={handleOnFocusEnd}
+              onBlur={handleOnBlur}
+              value={internalValueEnd ?? null}
+              moveToNextSegment={moveToNextSegment}
+              moveToPreviousSegment={moveToPreviousSegment}
+              onChange={handleOnChangeEndInput}
+              activeSegment={activeSegment}
+              onOpenPicker={() => {
+                setIsDropdownOpen(!isDropdownOpen);
+              }}
+              minDate={minDate}
+              maxDate={maxDate}
+              disabledDates={disabledDates}
+              disabled={disabled}
+              dateState={dateStateEnd}
+              internalValue={internalValueEnd}
+              increaseActiveSegmentValue={increaseActiveSegmentValueEnd}
+              decreaseActiveSegmentValue={decreaseActiveSegmentValueEnd}
+              resetActiveSegmentValue={resetActiveSegmentValueEnd}
+              updateDateSegment={updateDateSegmentEnd}
+              updateFullDate={updateFullDateEnd}
+              displayValue={displayValueEnd}
+              isError={isError}
+              readonly={readonly}
+            />
+          </div>
+        }
+        position="bottom"
+      >
+        <DateRangePickerMenu
+          onValidate={handleOnValidate}
+          onCancel={handleOnCancel}
+          minDate={minDate}
+          maxDate={maxDate}
+          disabledDates={disabledDates}
+          isOpen={isDropdownOpen}
+          currentValue={internalRange}
+          onChange={handleOnChange}
+          hasAction={hasAction}
+          selectionMode={selectionMode}
+          setInitialValue={(date) => setInitialValue(date)}
         />
-        <Icon name="arrow-double-right" size={20} />
-        <BaseInputPicker
-          id={`${id}-end`}
-          pickerInputRef={dateInputEndRef}
-          isFocused={isFocused}
-          onKeyDown={handleOnKeyDown}
-          onMouseDown={handleOnMouseDownEnd}
-          onMouseUp={handleOnMouseUp}
-          onFocus={handleOnFocusEnd}
-          onBlur={handleOnBlur}
-          value={endDisplayValue}
-          icon="calendar-month"
+      </BaseDropdown>
+      {shouldDisplayAssistiveText && (
+        <AssistiveText
+          label={assistiveTextLabel}
+          appearance={isError ? "error" : assistiveAppearance}
+          showIcon={showAssistiveIcon}
+          href={assistiveTextLink}
         />
-      </div>
+      )}
     </div>
   );
 };
