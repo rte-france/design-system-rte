@@ -35,6 +35,7 @@
   gap: $positive-spacing_200;
   background: var(--background-default);
   width: 100%;
+  box-sizing: border-box;
 
   .rte-header[data-compact='true'] & {
     height: 64px;
@@ -205,5 +206,6 @@
   align-items: center;
   padding: 0 $positive-spacing_200;
   background: var(--background-default);
+  box-sizing: border-box;
 }
 

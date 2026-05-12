@@ -43,6 +43,7 @@ export class BadgeDirective implements OnInit, OnChanges, OnDestroy {
     this.assignDirectiveToComponent();
     this.appendComponentToHost();
     this.renderer.setStyle(this.hostElement, "position", "relative");
+    this.renderer.setStyle(this.hostElement, "z-index", "1");
   }
 
   ngOnChanges(): void {

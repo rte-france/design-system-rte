@@ -47,6 +47,12 @@ const mobileMenuItems: DropdownItemConfig[] = [
   { id: "logout", label: "Déconnexion" },
 ];
 
+const mobileMenuItemsInterceptSelectionStory: DropdownItemConfig[] = [
+  { id: "workspace-switch", label: "Changer d'espace" },
+  { id: "shortcuts", label: "Raccourcis" },
+  { id: "sign-out", label: "Quitter" },
+];
+
 const meta: Meta<HeaderComponent> = {
   title: "Composants/Header/Header",
   component: HeaderComponent,
@@ -570,6 +576,86 @@ export const MobileMenuItemsDropdown: Story = {
     await waitFor(() => {
       expect(canvas.getByText("lastMenuEventId:")).toBeVisible();
       expect(canvas.getByText("profile")).toBeVisible();
+      expect(within(header).getByRole("button", { name: "Menu" })).toHaveAttribute("aria-expanded", "false");
+    });
+  },
+};
+
+export const MobileMenuInterceptSelectedItemId: Story = {
+  args: {
+    ...Default.args,
+    mobileMenuItems: mobileMenuItemsInterceptSelectionStory,
+  },
+  parameters: {
+    viewport: { defaultViewport: "mobile1" },
+  },
+  render: (args) => {
+    const selectedItemId = signal<string | null>(null);
+
+    function interceptMobileMenuItemSelection(menuItemSelection: {
+      event: Event;
+      id: string;
+      item?: DropdownItemConfig;
+    }): void {
+      selectedItemId.set(menuItemSelection.id);
+    }
+
+    return {
+      props: {
+        ...args,
+        selectedItemId,
+        interceptMobileMenuItemSelection,
+      },
+      template: `
+        <div style="height: 140vh; padding-top: 8px">
+          <rte-header
+            [appearance]="appearance"
+            [hasLeftSection]="hasLeftSection"
+            [hasRightSection]="hasRightSection"
+            [hasLogo]="hasLogo"
+            [applicationName]="applicationName"
+            [logoSrc]="logoSrc"
+            [homeLink]="homeLink"
+            [navigationItems]="navigationItems"
+            [hasSearchbar]="true"
+            [searchbarProps]="searchbarProps"
+            [mobileMenuItems]="mobileMenuItems"
+            (mobileMenuItemEvent)="interceptMobileMenuItemSelection($event)"
+          />
+
+          <div style="padding: 12px 16px; font-family: monospace; display: grid; gap: 6px">
+            <div>Bind <code>(mobileMenuItemEvent)</code> on <code>rte-header</code> to read the mobile menu choice.</div>
+            <div>
+              selectedItemId:
+              <strong data-testid="intercepted-selected-item-id">{{ selectedItemId() ?? "—" }}</strong>
+            </div>
+          </div>
+        </div>
+      `,
+    };
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const body = within(canvasElement.ownerDocument.body);
+    const header = canvas.getByRole("banner");
+
+    await userEvent.click(within(header).getByRole("button", { name: "Menu" }));
+
+    await waitFor(() => {
+      expect(within(header).getByRole("button", { name: "Menu" })).toHaveAttribute("aria-expanded", "true");
+    });
+
+    await waitFor(() => {
+      expect(body.getAllByRole("menuitem").length).toBeGreaterThan(0);
+    });
+
+    const menuItems = body.getAllByRole("menuitem");
+    const shortcutsItem = menuItems.find((menuItem) => (menuItem.textContent || "").includes("Raccourcis"));
+    expect(shortcutsItem).toBeTruthy();
+    await userEvent.click(shortcutsItem as HTMLElement);
+
+    await waitFor(() => {
+      expect(canvas.getByTestId("intercepted-selected-item-id")).toHaveTextContent("shortcuts");
       expect(within(header).getByRole("button", { name: "Menu" })).toHaveAttribute("aria-expanded", "false");
     });
   },
