@@ -5,8 +5,6 @@ import type { RegularIconIdKey, TogglableIconIdKey } from "../icon/icon.interfac
 
 export type HeaderAppearance = "brand" | "neutral";
 
-export type HeaderMidSectionType = "navigation" | "empty";
-
 export interface HeaderProps {
   appearance?: HeaderAppearance;
   isCompact?: boolean;

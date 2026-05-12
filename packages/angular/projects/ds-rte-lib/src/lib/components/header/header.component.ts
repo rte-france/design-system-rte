@@ -3,7 +3,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
-  ElementRef,
   computed,
   contentChild,
   effect,
@@ -11,7 +10,6 @@ import {
   input,
   output,
   signal,
-  viewChild,
 } from "@angular/core";
 import { BadgeSize } from "@design-system-rte/core/components/badge/badge.interface";
 import { ButtonSize, type ButtonVariant } from "@design-system-rte/core/components/button/common/common-button";
@@ -19,8 +17,6 @@ import {
   HEADER_DEFAULT_BREADCRUMBS_ARIA_LABEL,
   HEADER_DEFAULT_NAV_ARIA_LABEL,
   HEADER_DESKTOP_BREAKPOINT_PX,
-  HEADER_SUBHEADER_HEIGHT_COMPACT_PX,
-  HEADER_SUBHEADER_HEIGHT_PX,
   HeaderSubHeaderConfig,
   resolveScrollDirection,
   type HeaderActionButtonConfig,
@@ -28,7 +24,6 @@ import {
   type HeaderAvatarConfig,
   type HeaderIconButtonConfig,
   type HeaderLeftSectionConfig,
-  type HeaderMidSectionType,
   type HeaderNavigationItem,
   type ScrollDirectionState,
 } from "@design-system-rte/core/components/header";
@@ -37,6 +32,7 @@ import { SearchBarAppearance, SearchBarProps } from "@design-system-rte/core/com
 import { AvatarComponent } from "../avatar/avatar.component";
 import { BreadcrumbsComponent } from "../breadcrumbs/breadcrumbs.component";
 import { ButtonComponent } from "../button/button.component";
+import { DividerComponent } from "../divider/divider.component";
 import type { DropdownItemConfig } from "../dropdown/dropdown.types";
 import { IconComponent } from "../icon/icon.component";
 import { IconButtonComponent } from "../icon-button/icon-button.component";
@@ -63,6 +59,7 @@ const DEFAULT_HOME_LINK = "/";
     HeaderMobileComponent,
     HeaderLeftSectionComponent,
     HeaderRightDirective,
+    DividerComponent,
   ],
   standalone: true,
   templateUrl: "./header.component.html",
@@ -89,7 +86,6 @@ export class HeaderComponent {
   readonly homeAriaLabel = input<string | undefined>(undefined);
 
   readonly hasMidSection = input<boolean>(true);
-  readonly midSectionType = input<HeaderMidSectionType>("navigation");
   readonly navigationAriaLabel = input<string>(HEADER_DEFAULT_NAV_ARIA_LABEL);
   readonly navigationItems = input<HeaderNavigationItem[]>([]);
 
@@ -112,28 +108,24 @@ export class HeaderComponent {
   readonly isSearchActive = input<boolean>(false);
   readonly isSearchActiveChange = output<boolean>();
 
-  private readonly internalIsSearchActive = signal<boolean>(false);
+  readonly hasDivider = input<boolean>(false);
+
+  readonly internalIsSearchActive = signal<boolean>(false);
   private readonly lastSeenExternalIsSearchActive = signal<boolean>(false);
 
-  readonly effectiveIsSearchActive = computed(() => this.internalIsSearchActive());
-
   readonly navigationItemClick = output<string | undefined>();
+  readonly searchEvent = output<string | undefined>();
   readonly actionButtonClick = output<void>();
   readonly iconButtonClick = output<string | undefined>();
   readonly avatarClick = output<void>();
   readonly mobileMenuClick = output<void>();
   readonly mobileMenuItemEvent = output<{ event: Event; id: string; item?: DropdownItemConfig }>();
 
-  readonly headerRootRef = viewChild<ElementRef<HTMLElement>>("headerRootRef");
-
   readonly isDesktop = signal<boolean>(HeaderComponent.readIsDesktopFromWindow());
   readonly isVisible = signal<boolean>(true);
 
-  private readonly projectedLeftSection = contentChild(HeaderLeftDirective);
-  private readonly projectedMobileMenu = contentChild(HeaderMobileMenuDirective);
-
-  readonly shouldRenderProjectedLeftSection = computed(() => !!this.projectedLeftSection());
-  readonly shouldRenderProjectedMobileMenu = computed(() => !!this.projectedMobileMenu());
+  readonly projectedLeftSection = contentChild(HeaderLeftDirective);
+  readonly projectedMobileMenu = contentChild(HeaderMobileMenuDirective);
 
   readonly computedLeftSectionConfig = computed<HeaderLeftSectionConfig | undefined>(() => {
     return {
@@ -145,47 +137,29 @@ export class HeaderComponent {
     };
   });
 
-  readonly shouldRenderMidSection = computed(() => {
-    return this.isDesktop() && this.hasMidSection() && this.midSectionType() === "navigation";
-  });
-
-  readonly shouldRenderSubheader = computed(() => {
-    return this.hasSubHeader() && !!this.subHeaderConfig()?.items?.length;
-  });
+  readonly shouldRenderSubheader = computed(() => this.hasSubHeader() && !!this.subHeaderConfig()?.items?.length);
 
   readonly breadcrumbsAriaLabel = computed(
     () => this.subHeaderConfig()?.ariaLabel || HEADER_DEFAULT_BREADCRUMBS_ARIA_LABEL,
   );
 
-  readonly breadcrumbsItems = computed(() => this.subHeaderConfig()?.items || []);
+  readonly actionButtonSize = computed<Exclude<ButtonSize, "l">>(() => (this.isCompact() ? "s" : "m"));
 
-  readonly subheaderHeightPx = computed(() => {
-    return this.isCompact() ? HEADER_SUBHEADER_HEIGHT_COMPACT_PX : HEADER_SUBHEADER_HEIGHT_PX;
-  });
+  readonly iconButtonSize = computed<ButtonSize>(() => (this.isCompact() ? "m" : "l"));
 
-  readonly actionButtonSize = computed<Exclude<ButtonSize, "l">>(() => {
-    return this.isCompact() ? "s" : "m";
-  });
+  readonly badgeSize = computed<BadgeSize>(() => (this.isCompact() ? "m" : "l"));
 
-  readonly iconButtonSize = computed<ButtonSize>(() => {
-    return this.isCompact() ? "m" : "l";
-  });
+  readonly searchbarAppearance = computed<SearchBarAppearance>(() =>
+    this.appearance() === "neutral" ? "secondary" : "primary",
+  );
 
-  readonly badgeSize = computed<BadgeSize>(() => {
-    return this.isCompact() ? "m" : "l";
-  });
+  readonly actionButtonVariant = computed<ButtonVariant>(() =>
+    this.appearance() === "neutral" ? "neutral" : "primary",
+  );
 
-  readonly searchbarAppearance = computed<SearchBarAppearance>(() => {
-    return this.appearance() === "neutral" ? "secondary" : "primary";
-  });
-
-  readonly actionButtonVariant = computed<ButtonVariant>(() => {
-    return this.appearance() === "neutral" ? "neutral" : "primary";
-  });
-
-  readonly rightSectionIconButtonsVariant = computed<ButtonVariant>(() => {
-    return this.appearance() === "neutral" ? "neutral" : "text";
-  });
+  readonly rightSectionIconButtonsVariant = computed<ButtonVariant>(() =>
+    this.appearance() === "neutral" ? "neutral" : "text",
+  );
 
   private scrollState: ScrollDirectionState = { lastScrollY: 0, lastDirection: "up" };
 
@@ -224,8 +198,9 @@ export class HeaderComponent {
     );
 
     effect(
-      () => {
-        this.setupScrollBehavior();
+      (onCleanup) => {
+        const teardown = this.setupScrollBehavior();
+        onCleanup(teardown);
       },
       { allowSignalWrites: true },
     );
@@ -233,18 +208,9 @@ export class HeaderComponent {
     effect(
       () => {
         if (this.isDesktop()) {
-          if (this.effectiveIsSearchActive()) {
+          if (this.internalIsSearchActive()) {
             this.handleIsSearchActiveChange(false);
           }
-        }
-      },
-      { allowSignalWrites: true },
-    );
-
-    effect(
-      () => {
-        if (!this.isDesktop() && this.effectiveIsSearchActive()) {
-          return;
         }
       },
       { allowSignalWrites: true },
@@ -263,7 +229,7 @@ export class HeaderComponent {
     });
   }
 
-  private setupScrollBehavior(): void {
+  private setupScrollBehavior(): () => void {
     const isSticky = this.isSticky();
     const showAtScrollUp = this.showAtScrollUp();
 
@@ -271,7 +237,7 @@ export class HeaderComponent {
     this.scrollState = { lastScrollY: window.scrollY || 0, lastDirection: "up" };
 
     if (!isSticky || !showAtScrollUp) {
-      return;
+      return () => {};
     }
 
     const onScroll = (): void => {
@@ -287,9 +253,7 @@ export class HeaderComponent {
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
-    this.destroyRef.onDestroy(() => {
-      window.removeEventListener("scroll", onScroll);
-    });
+    return () => window.removeEventListener("scroll", onScroll);
   }
 
   handleNavigationItemClick(item: HeaderNavigationItem, event: MouseEvent): void {
@@ -298,6 +262,10 @@ export class HeaderComponent {
       return;
     }
     this.navigationItemClick.emit(item.id || item.label);
+  }
+
+  handleSearchEvent(value: string | undefined): void {
+    this.searchEvent.emit(value);
   }
 
   handleActionButtonClick(): void {

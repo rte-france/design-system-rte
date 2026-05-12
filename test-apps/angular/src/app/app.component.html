@@ -7,6 +7,21 @@
   (itemClicked)="handleItemClick($event)"
 >
   <div content>
+    <rte-header
+      appearance="brand"
+      [isSticky]="true"
+      [showAtScrollUp]="true"
+      [applicationName]="'Design System RTE'"
+      [navigationItems]="headerNavigationItems()"
+      [subHeaderConfig]="headerSubHeaderConfig"
+      [actionButton]="headerActionButton"
+      [iconButtons]="headerIconButtons"
+      [avatarProps]="headerAvatar"
+      (navigationItemClick)="handleHeaderNavigationItemClick($event)"
+      (actionButtonClick)="handleHeaderActionButtonClick()"
+      (iconButtonClick)="handleHeaderIconButtonClick($event)"
+      (avatarClick)="handleHeaderAvatarClick()"
+    />
     <div style="width: 400px; background: #c7dbf0; padding: 16px">
       <rte-accordion icon="power-wind" appearance="brand" alignement="right" size="small">
         <p style="margin: 0; font-family: Arial">
@@ -147,7 +162,13 @@
     <hr />
 
     <rte-switch label="Switch" [disabled]="false" [readOnly]="false" [appearance]="'brand'" />
-    <rte-switch label="Switch ReadOnly" [disabled]="false" [readOnly]="true" [appearance]="'brand'" [showIcon]="true" />
+    <rte-switch
+      label="Switch ReadOnly"
+      [disabled]="false"
+      [readOnly]="true"
+      [appearance]="'brand'"
+      [showIcon]="true"
+    />
     <rte-switch
       label="Switch disabled"
       [disabled]="true"
