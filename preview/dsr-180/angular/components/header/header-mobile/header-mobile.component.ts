@@ -18,6 +18,11 @@ import { SearchBarProps } from "@design-system-rte/core";
 import { buildHeaderHomeAriaLabel, type HeaderIconButtonConfig } from "@design-system-rte/core/components/header";
 import { ESCAPE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
+import { DropdownMenuBodyDirective } from "../../dropdown/dropdown-menu/dropdown-menu-body.directive";
+import { DropdownMenuComponent } from "../../dropdown/dropdown-menu/dropdown-menu.component";
+import { DropdownTriggerDirective } from "../../dropdown/dropdown-trigger/dropdown-trigger.directive";
+import { DropdownDirective } from "../../dropdown/dropdown.directive";
+import type { DropdownItemConfig } from "../../dropdown/dropdown.types";
 import { IconButtonComponent } from "../../icon-button/icon-button.component";
 import { SearchbarComponent } from "../../searchbar/searchbar.component";
 
@@ -27,7 +32,15 @@ const SEARCH_COLLAPSE_TRANSITION_MS = 150;
 
 @Component({
   selector: "rte-header-mobile",
-  imports: [CommonModule, IconButtonComponent, SearchbarComponent],
+  imports: [
+    CommonModule,
+    IconButtonComponent,
+    SearchbarComponent,
+    DropdownDirective,
+    DropdownMenuComponent,
+    DropdownMenuBodyDirective,
+    DropdownTriggerDirective,
+  ],
   standalone: true,
   templateUrl: "./header-mobile.component.html",
   styleUrl: "./header-mobile.component.scss",
@@ -53,10 +66,13 @@ export class HeaderMobileComponent {
   readonly mobileSearchButtonAriaLabel = input<string>("Rechercher");
 
   readonly mobileMenuButton = input<HeaderIconButtonConfig | undefined>(undefined);
+  readonly mobileMenuItems = input<DropdownItemConfig[]>([]);
+  readonly hasProjectedMobileMenu = input<boolean>(false);
 
   readonly isSearchActive = input<boolean>(false);
   readonly isSearchActiveChange = output<boolean>();
   readonly mobileMenuClick = output<void>();
+  readonly mobileMenuItemEvent = output<{ event: Event; id: string; item?: DropdownItemConfig }>();
 
   readonly mobileSearchButtonRef = viewChild<ElementRef<HTMLButtonElement>>("mobileSearchButtonRef");
   readonly rootRef = viewChild<ElementRef<HTMLElement>>("rootRef");
@@ -65,8 +81,12 @@ export class HeaderMobileComponent {
   private collapseTransitionTimer: ReturnType<typeof setTimeout> | null = null;
 
   readonly shouldRenderSearchbar = signal<boolean>(this.isSearchActive());
+  readonly isMobileMenuOpen = signal<boolean>(false);
 
   readonly shouldRenderLogo = computed(() => this.hasLogo() && !!this.logoSrc());
+  readonly isDropdownMenuEnabled = computed(() => {
+    return this.hasProjectedMobileMenu() || this.mobileMenuItems().length > 0;
+  });
 
   readonly computedHomeAriaLabel = computed(() => {
     return this.homeAriaLabel() ?? buildHeaderHomeAriaLabel(this.applicationName());
@@ -89,6 +109,7 @@ export class HeaderMobileComponent {
         this.syncSearchbarRenderState(isActive);
 
         if (isActive) {
+          this.closeMobileMenu();
           this.ensureOutsideCloseListener();
           afterNextRender(
             () => {
@@ -113,12 +134,17 @@ export class HeaderMobileComponent {
     if (event.key !== ESCAPE_KEY) {
       return;
     }
-    if (!this.isSearchActive()) {
+    if (this.isSearchActive()) {
+      event.preventDefault();
+      event.stopPropagation();
+      this.emitCloseMobileSearch();
       return;
     }
-    event.preventDefault();
-    event.stopPropagation();
-    this.emitCloseMobileSearch();
+    if (this.isDropdownMenuEnabled() && this.isMobileMenuOpen()) {
+      event.preventDefault();
+      event.stopPropagation();
+      this.closeMobileMenu();
+    }
   }
 
   openMobileSearch(): void {
@@ -136,7 +162,20 @@ export class HeaderMobileComponent {
   }
 
   handleMobileMenuClick(): void {
-    this.mobileMenuClick.emit();
+    if (!this.isDropdownMenuEnabled()) {
+      this.mobileMenuClick.emit();
+      return;
+    }
+    this.isMobileMenuOpen.set(!this.isMobileMenuOpen());
+  }
+
+  handleMobileMenuEvent(event: { event: Event; id: string; item?: DropdownItemConfig }): void {
+    this.mobileMenuItemEvent.emit(event);
+    this.closeMobileMenu();
+  }
+
+  closeMobileMenu(): void {
+    this.isMobileMenuOpen.set(false);
   }
 
   private ensureOutsideCloseListener(): void {
