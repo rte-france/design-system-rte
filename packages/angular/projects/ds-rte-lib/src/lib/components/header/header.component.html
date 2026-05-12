@@ -35,7 +35,7 @@
                   <a
                     class="rte-header-nav-link"
                     [href]="item.href"
-                    [attr.aria-label]="item.ariaLabel"
+                    [attr.aria-label]="item.ariaLabel || item.label"
                     [attr.aria-disabled]="item.disabled ? 'true' : null"
                     [attr.aria-current]="item.active ? 'page' : null"
                     [attr.tabindex]="item.disabled ? -1 : null"
@@ -132,10 +132,15 @@
         [searchbarProps]="searchbarProps()"
         [mobileSearchButtonAriaLabel]="mobileSearchButtonAriaLabel()"
         [mobileMenuButton]="mobileMenuButton()"
+        [mobileMenuItems]="mobileMenuItems()"
+        [hasProjectedMobileMenu]="shouldRenderProjectedMobileMenu()"
         [isSearchActive]="effectiveIsSearchActive()"
         (isSearchActiveChange)="handleIsSearchActiveChange($event)"
         (mobileMenuClick)="handleMobileMenuClick()"
-      />
+        (mobileMenuItemEvent)="handleMobileMenuItemEvent($event)"
+      >
+        <ng-content select="[rteHeaderMobileMenu]" />
+      </rte-header-mobile>
     }
   </div>
 

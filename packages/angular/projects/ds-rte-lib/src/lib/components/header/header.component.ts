@@ -37,6 +37,7 @@ import { SearchBarAppearance, SearchBarProps } from "@design-system-rte/core/com
 import { AvatarComponent } from "../avatar/avatar.component";
 import { BreadcrumbsComponent } from "../breadcrumbs/breadcrumbs.component";
 import { ButtonComponent } from "../button/button.component";
+import type { DropdownItemConfig } from "../dropdown/dropdown.types";
 import { IconComponent } from "../icon/icon.component";
 import { IconButtonComponent } from "../icon-button/icon-button.component";
 import { SearchbarComponent } from "../searchbar/searchbar.component";
@@ -44,6 +45,7 @@ import { SearchbarComponent } from "../searchbar/searchbar.component";
 import { HeaderLeftSectionComponent } from "./header-left-section/header-left-section.component";
 import { HeaderLeftDirective } from "./header-left.directive";
 import { HeaderMobileComponent } from "./header-mobile/header-mobile.component";
+import { HeaderMobileMenuDirective } from "./header-mobile-menu.directive";
 import { HeaderRightDirective } from "./header-right.directive";
 
 const DEFAULT_HOME_LINK = "/";
@@ -104,6 +106,7 @@ export class HeaderComponent {
   readonly avatarProps = input<HeaderAvatarConfig | undefined>(undefined);
 
   readonly mobileMenuButton = input<HeaderIconButtonConfig | undefined>(undefined);
+  readonly mobileMenuItems = input<DropdownItemConfig[]>([]);
   readonly mobileSearchButtonAriaLabel = input<string>("Rechercher");
 
   readonly isSearchActive = input<boolean>(false);
@@ -119,6 +122,7 @@ export class HeaderComponent {
   readonly iconButtonClick = output<string | undefined>();
   readonly avatarClick = output<void>();
   readonly mobileMenuClick = output<void>();
+  readonly mobileMenuItemEvent = output<{ event: Event; id: string; item?: DropdownItemConfig }>();
 
   readonly headerRootRef = viewChild<ElementRef<HTMLElement>>("headerRootRef");
 
@@ -126,8 +130,10 @@ export class HeaderComponent {
   readonly isVisible = signal<boolean>(true);
 
   private readonly projectedLeftSection = contentChild(HeaderLeftDirective);
+  private readonly projectedMobileMenu = contentChild(HeaderMobileMenuDirective);
 
   readonly shouldRenderProjectedLeftSection = computed(() => !!this.projectedLeftSection());
+  readonly shouldRenderProjectedMobileMenu = computed(() => !!this.projectedMobileMenu());
 
   readonly computedLeftSectionConfig = computed<HeaderLeftSectionConfig | undefined>(() => {
     return {
@@ -308,6 +314,10 @@ export class HeaderComponent {
 
   handleMobileMenuClick(): void {
     this.mobileMenuClick.emit();
+  }
+
+  handleMobileMenuItemEvent(event: { event: Event; id: string; item?: DropdownItemConfig }): void {
+    this.mobileMenuItemEvent.emit(event);
   }
 
   handleIsSearchActiveChange(nextValue: boolean): void {
