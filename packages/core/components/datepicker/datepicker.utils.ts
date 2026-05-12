@@ -4,7 +4,7 @@ import {
   ARROW_RIGHT_KEY,
   ARROW_UP_KEY,
 } from "../../constants/keyboard/keyboard.constants";
-import { isSameDay, isSameMonth } from "../pickers";
+import { getMondayBasedWeekdayIndex, isSameDay, isSameMonth, normalizeDate } from "../pickers";
 
 import {
   DATEPICKER_ARIA_CHANGE_DATE_PREFIX,
@@ -173,14 +173,6 @@ function yearHasSelectableDay(params: {
   return false;
 }
 
-export function getMondayBasedWeekdayIndex(date: Date): number {
-  return (date.getDay() + 6) % 7;
-}
-
-export function isSameMonth(first: Date, second: Date): boolean {
-  return first.getFullYear() === second.getFullYear() && first.getMonth() === second.getMonth();
-}
-
 export function maskDateInput(value: string): string {
   const parts = parseDdMmYyyyMaskedString(value);
   return buildMaskedDdMmYyyyFromDigitParts(parts);
@@ -237,7 +229,7 @@ export function isAfterDay(first: Date, second: Date): boolean {
 }
 
 export function startOfDay(date: Date): Date {
-  return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  return normalizeDate(date);
 }
 
 export function getLastDayOfMonth(year: number, monthIndex: number): number {

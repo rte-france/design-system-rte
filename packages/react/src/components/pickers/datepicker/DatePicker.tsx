@@ -19,12 +19,12 @@ import AssistiveText from "../../assistivetext/AssistiveText";
 import { BaseDropdown } from "../../dropdown/BaseDropdown";
 import RequiredIndicator from "../../requiredindicator/RequiredIndicator";
 import BaseInputPicker from "../baseInputPicker/BaseInputPicker";
+import useDatePickerInternalValue from "../hooks/useDatePickerInternalValue";
+import { useNavigateBetweenDateSegment } from "../hooks/useNavigateBetweenDateSegment";
+import { computeDateSegmentRanges, formatNumberToParseSegmentValue } from "../picker.utils";
 
 import styles from "./DatePicker.module.scss";
-import { computeDateSegmentRanges, formatNumberToParseSegmentValue } from "./DatePicker.utils";
 import DatePickerMenu from "./datePickerMenu/DatePickerMenu";
-import useDatePickerInternalValue from "./hooks/useDatePickerInternalValue";
-import { useNavigateBetweenDateSegment } from "./hooks/useNavigateBetweenDateSegment";
 
 const numberRegex = /^\d*$/;
 
