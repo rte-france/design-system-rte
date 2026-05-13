@@ -129,7 +129,7 @@
         [mobileSearchButtonAriaLabel]="mobileSearchButtonAriaLabel()"
         [mobileMenuButton]="mobileMenuButton()"
         [mobileMenuItems]="mobileMenuItems()"
-        [hasProjectedMobileMenu]="shouldRenderProjectedMobileMenu()"
+        [hasProjectedMobileMenu]="!!projectedMobileMenu()"
         [isSearchActive]="internalIsSearchActive()"
         (isSearchActiveChange)="handleIsSearchActiveChange($event)"
         (mobileMenuClick)="handleMobileMenuClick()"

@@ -129,6 +129,7 @@ export class HeaderMobileComponent {
     );
 
     this.destroyRef.onDestroy(() => {
+      this.teardownOutsideCloseListener();
       this.clearCollapseTransitionTimer();
     });
   }
@@ -205,10 +206,6 @@ export class HeaderMobileComponent {
       document.removeEventListener("pointerdown", handler, { capture: true } as AddEventListenerOptions);
       this.outsidePointerDownCleanup = null;
     };
-
-    this.destroyRef.onDestroy(() => {
-      this.teardownOutsideCloseListener();
-    });
   }
 
   private teardownOutsideCloseListener(): void {

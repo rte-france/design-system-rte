@@ -12,11 +12,11 @@
     [attr.aria-haspopup]="ariaHaspopup()"
     [attr.tabindex]="tabIndex() !== undefined ? tabIndex() : null"
     [type]="type()"
-    [rteBadgeType]="badgeType()!"
-    [rteBadgeSize]="badgeSize()!"
-    [rteBadgeContent]="size() === 's' ? 'empty' : badgeContent()!"
-    [rteBadgeCount]="badgeCount()!"
-    [rteBadgeIcon]="badgeIcon()!"
+    [rteBadgeType]="badgeType() ?? 'brand'"
+    [rteBadgeSize]="badgeSize() ?? 'm'"
+    [rteBadgeContent]="size() === 's' ? 'empty' : (badgeContent() ?? 'number')"
+    [rteBadgeCount]="badgeCount()"
+    [rteBadgeIcon]="badgeIcon()"
     (click)="onClick($event)"
   >
     <rte-icon [name]="name()" [appearance]="appearance()" [size]="buttonIconSize()" />

@@ -106,7 +106,7 @@ export class HeaderComponent {
   readonly isSearchActive = input<boolean>(false);
   readonly isSearchActiveChange = output<boolean>();
 
-  private readonly internalIsSearchActive = signal<boolean>(false);
+  readonly internalIsSearchActive = signal<boolean>(false);
   private readonly lastSeenExternalIsSearchActive = signal<boolean>(false);
 
   readonly navigationItemClick = output<string | undefined>();
@@ -119,11 +119,8 @@ export class HeaderComponent {
   readonly isDesktop = signal<boolean>(HeaderComponent.readIsDesktopFromWindow());
   readonly isVisible = signal<boolean>(true);
 
-  private readonly projectedLeftSection = contentChild(HeaderLeftDirective);
-  private readonly projectedMobileMenu = contentChild(HeaderMobileMenuDirective);
-
-  readonly shouldRenderProjectedLeftSection = computed(() => !!this.projectedLeftSection());
-  readonly shouldRenderProjectedMobileMenu = computed(() => !!this.projectedMobileMenu());
+  readonly projectedLeftSection = contentChild(HeaderLeftDirective);
+  readonly projectedMobileMenu = contentChild(HeaderMobileMenuDirective);
 
   readonly computedLeftSectionConfig = computed<HeaderLeftSectionConfig | undefined>(() => {
     return {
@@ -196,8 +193,9 @@ export class HeaderComponent {
     );
 
     effect(
-      () => {
-        this.setupScrollBehavior();
+      (onCleanup) => {
+        const teardown = this.setupScrollBehavior();
+        onCleanup(teardown);
       },
       { allowSignalWrites: true },
     );
@@ -208,15 +206,6 @@ export class HeaderComponent {
           if (this.internalIsSearchActive()) {
             this.handleIsSearchActiveChange(false);
           }
-        }
-      },
-      { allowSignalWrites: true },
-    );
-
-    effect(
-      () => {
-        if (!this.isDesktop() && this.internalIsSearchActive()) {
-          return;
         }
       },
       { allowSignalWrites: true },
@@ -235,7 +224,7 @@ export class HeaderComponent {
     });
   }
 
-  private setupScrollBehavior(): void {
+  private setupScrollBehavior(): () => void {
     const isSticky = this.isSticky();
     const showAtScrollUp = this.showAtScrollUp();
 
@@ -243,7 +232,7 @@ export class HeaderComponent {
     this.scrollState = { lastScrollY: window.scrollY || 0, lastDirection: "up" };
 
     if (!isSticky || !showAtScrollUp) {
-      return;
+      return () => {};
     }
 
     const onScroll = (): void => {
@@ -259,9 +248,7 @@ export class HeaderComponent {
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
-    this.destroyRef.onDestroy(() => {
-      window.removeEventListener("scroll", onScroll);
-    });
+    return () => window.removeEventListener("scroll", onScroll);
   }
 
   handleNavigationItemClick(item: HeaderNavigationItem, event: MouseEvent): void {
