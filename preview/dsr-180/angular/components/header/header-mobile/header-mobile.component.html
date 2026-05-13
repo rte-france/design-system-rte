@@ -1,13 +1,4 @@
-<div
-  #rootRef
-  class="rte-header-mobile"
-  [attr.data-appearance]="appearance()"
-  [attr.data-compact]="isCompact()"
-  [attr.data-search-state]="isSearchActive() ? 'open' : 'closed'"
-  [attr.data-has-logo]="shouldRenderLogo() ? 'true' : null"
-  [attr.data-has-searchbar]="hasSearchbar() ? 'true' : null"
-  (keydown)="handleRootKeyDown($event)"
->
+<div #rootRef class="rte-header-mobile" [attr.data-search-state]="searchState()" (keydown)="handleRootKeyDown($event)">
   @if (hasLeftSection()) {
     <div class="left-section">
       <a class="rte-header-home" [href]="homeLink()" [attr.aria-label]="computedHomeAriaLabel()">
@@ -37,7 +28,7 @@
               [showResetButton]="searchbarProps()?.showResetButton ?? true"
               [value]="searchbarProps()?.value || ''"
               [assistiveText]="searchbarProps()?.assistiveText || ''"
-              [appearance]="appearance() === 'neutral' ? 'secondary' : 'primary'"
+              [appearance]="searchbarAppearance()"
               [compactSpacing]="isCompact()"
             />
           } @else {
@@ -58,9 +49,9 @@
         <div
           class="mobile-menu"
           rteDropdown
+          rteDropdownAlignment="end"
           [rteDropdownAutoOpen]="false"
           [rteDropdownIsOpen]="isMobileMenuOpen()"
-          [rteDropdownAlignment]="'end'"
           (clickedOutside)="closeMobileMenu()"
           (menuEvent)="handleMobileMenuEvent($event)"
         >
@@ -80,7 +71,7 @@
             <rte-dropdown-menu>
               <ng-template rteDropdownMenuBody>
                 <div dropdown-menu-body (click)="closeMobileMenu()">
-                  <ng-content></ng-content>
+                  <ng-content />
                 </div>
               </ng-template>
             </rte-dropdown-menu>

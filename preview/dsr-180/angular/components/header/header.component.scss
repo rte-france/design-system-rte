@@ -45,7 +45,6 @@
 .rte-header-left {
   display: flex;
   align-items: center;
-  min-width: 0;
 
   &:has([rteHeaderLeft]) {
     .rte-header-home {
@@ -63,7 +62,6 @@
 .rte-header-left-slot {
   display: flex;
   align-items: center;
-  min-width: 0;
 }
 
 .rte-header-home {
@@ -90,26 +88,14 @@
 
 .rte-header-mid {
   flex: 1 1 auto;
-  min-width: 0;
   display: flex;
   align-items: center;
   justify-content: flex-start;
   gap: $positive-spacing_200;
-
-  @media (max-width: 1023px) {
-    display: none;
-  }
-}
-
-.rte-header-search {
-  flex: 0 1 420px;
-  min-width: 220px;
-  max-width: 520px;
 }
 
 .rte-header-nav {
   flex: 1 1 auto;
-  min-width: 0;
 }
 
 .rte-header-nav-list {
@@ -119,12 +105,10 @@
   list-style: none;
   padding: 0;
   margin: 0;
-  min-width: 0;
   max-width: 100%;
 }
 
 .rte-header-nav-item {
-  min-width: 0;
   flex: 0 1 auto;
 }
 
@@ -141,7 +125,7 @@
   text-overflow: ellipsis;
 
   &:focus-visible {
-    outline: 2px solid var(--border-brand-default);
+    outline: 1px solid var(--border-brand-focused);
     outline-offset: 2px;
   }
 }
@@ -165,7 +149,6 @@
   justify-content: flex-end;
   gap: $positive-spacing_250;
   flex: 0 0 auto;
-  min-width: 0;
 }
 
 .rte-header-icon-buttons {
@@ -179,7 +162,6 @@
       }
     }
   }
-  
 }
 
 .rte-header-icon-button-wrapper {
@@ -207,5 +189,9 @@
   padding: 0 $positive-spacing_200;
   background: var(--background-default);
   box-sizing: border-box;
+  height: 48px;
+  &.compact {
+    height: 24px;
+  }
 }
 

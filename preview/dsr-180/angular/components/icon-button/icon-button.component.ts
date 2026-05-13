@@ -40,14 +40,6 @@ export class IconButtonComponent {
 
   readonly buttonIconSize = computed(() => ButtonIconSize[this.size()]);
 
-  readonly rteBadgeSizeForDirective = computed((): BadgeSize => {
-    const explicitBadgeSize = this.badgeSize();
-    if (explicitBadgeSize) {
-      return explicitBadgeSize;
-    }
-    return this.size() as BadgeSize;
-  });
-
   readonly isValidIconName = computed(() => isValidIconName(this.name()));
 
   readonly clickEvent = output<MouseEvent | KeyboardEvent>();

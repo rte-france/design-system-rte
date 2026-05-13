@@ -14,7 +14,7 @@ import {
   viewChild,
   afterNextRender,
 } from "@angular/core";
-import { SearchBarProps } from "@design-system-rte/core";
+import { SearchBarAppearance, SearchBarProps } from "@design-system-rte/core";
 import { buildHeaderHomeAriaLabel, type HeaderIconButtonConfig } from "@design-system-rte/core/components/header";
 import { ESCAPE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
@@ -28,7 +28,7 @@ import { SearchbarComponent } from "../../searchbar/searchbar.component";
 
 const DEFAULT_HOME_LINK = "/";
 const DEFAULT_SEARCHBAR_ID = "rte-header-searchbar";
-const SEARCH_COLLAPSE_TRANSITION_MS = 150;
+const SEARCH_COLLAPSE_TRANSITION_MS = 200;
 
 @Component({
   selector: "rte-header-mobile",
@@ -84,16 +84,19 @@ export class HeaderMobileComponent {
   readonly isMobileMenuOpen = signal<boolean>(false);
 
   readonly shouldRenderLogo = computed(() => this.hasLogo() && !!this.logoSrc());
-  readonly isDropdownMenuEnabled = computed(() => {
-    return this.hasProjectedMobileMenu() || this.mobileMenuItems().length > 0;
-  });
+  readonly isDropdownMenuEnabled = computed(() => this.hasProjectedMobileMenu() || !!this.mobileMenuItems().length);
 
-  readonly computedHomeAriaLabel = computed(() => {
-    return this.homeAriaLabel() ?? buildHeaderHomeAriaLabel(this.applicationName());
-  });
+  readonly computedHomeAriaLabel = computed(
+    () => this.homeAriaLabel() ?? buildHeaderHomeAriaLabel(this.applicationName()),
+  );
 
   readonly rightSectionPlaceholderWidth = computed(() => (this.hasRightSection() ? "80px" : "0"));
   readonly rightSectionWidth = computed(() => (this.isSearchActive() ? "calc(100% - 32px)" : "80px"));
+
+  readonly searchbarAppearance = computed<SearchBarAppearance>(() =>
+    this.appearance() === "neutral" ? "secondary" : "primary",
+  );
+  readonly searchState = computed<"open" | "closed">(() => (this.isSearchActive() ? "open" : "closed"));
 
   constructor() {
     effect(

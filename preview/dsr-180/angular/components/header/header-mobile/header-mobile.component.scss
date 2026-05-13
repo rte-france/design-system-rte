@@ -18,9 +18,14 @@
       display: flex;
       align-items: center;
       gap: $positive-spacing_100;
-      min-width: 0;
       text-decoration: none;
       color: var(--content-secondary);
+
+      &:focus-visible {
+        border-radius: $radius-s;
+        outline: 1px solid var(--border-brand-focused);
+        outline-offset: 4px;
+      }
 
       .rte-header-logo {
         width: 24px;

@@ -13,15 +13,14 @@ const DEFAULT_HOME_LINK = "/";
 export class HeaderLeftSectionComponent {
   readonly config = input<HeaderLeftSectionConfig | undefined>(undefined);
 
-  readonly computedLogo = computed(() => this.config()?.hasLogo ?? true);
-  readonly computedApplicationName = computed(() => this.config()?.applicationName ?? "");
-  readonly computedLogoSrc = computed(() => this.config()?.logoSrc);
-  readonly computedHomeLink = computed(() => this.config()?.homeLink ?? DEFAULT_HOME_LINK);
+  readonly hasLogo = computed(() => this.config()?.hasLogo ?? true);
+  readonly applicationName = computed(() => this.config()?.applicationName ?? "");
+  readonly logoSrc = computed(() => this.config()?.logoSrc);
+  readonly homeLink = computed(() => this.config()?.homeLink ?? DEFAULT_HOME_LINK);
 
-  readonly computedHomeAriaLabel = computed(() => {
-    return this.config()?.homeAriaLabel ?? buildHeaderHomeAriaLabel(this.computedApplicationName());
+  readonly homeAriaLabel = computed(() => {
+    return this.config()?.homeAriaLabel ?? buildHeaderHomeAriaLabel(this.applicationName());
   });
 
-  readonly shouldRenderLogo = computed(() => this.computedLogo() && !!this.computedLogoSrc());
-  readonly shouldRenderApplicationName = computed(() => !!this.computedApplicationName());
+  readonly shouldRenderLogo = computed(() => this.hasLogo() && !!this.logoSrc());
 }

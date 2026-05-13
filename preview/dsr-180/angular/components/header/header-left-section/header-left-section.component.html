@@ -1,9 +1,9 @@
-<a class="rte-header-home" [href]="computedHomeLink()" [attr.aria-label]="computedHomeAriaLabel()">
+<a class="rte-header-home" [href]="homeLink()" [attr.aria-label]="homeAriaLabel()">
   @if (shouldRenderLogo()) {
-    <img class="rte-header-logo" alt="" aria-hidden="true" [src]="computedLogoSrc()" />
+    <img class="rte-header-logo" alt="" aria-hidden="true" [src]="logoSrc()" />
   }
 
-  @if (shouldRenderApplicationName()) {
-    <span class="rte-header-app-name">{{ computedApplicationName() }}</span>
+  @if (applicationName()) {
+    <span class="rte-header-app-name">{{ applicationName() }}</span>
   }
 </a>
