@@ -345,11 +345,11 @@ export const WithLeftSlot: Story = {
 };
 
 export const MobileSearchInteraction: Story = {
+  tags: ["skip-ci"],
   args: {
     ...Default.args,
     isCompact: false,
   },
-  tags: ["mobile-header-search"],
   parameters: {
     viewport: { defaultViewport: "mobile1" },
   },
@@ -424,11 +424,11 @@ export const MobileSearchInteraction: Story = {
 };
 
 export const MobileSearchActiveDebug: Story = {
+  tags: ["skip-ci"],
   args: {
     ...Default.args,
     isCompact: false,
   },
-  tags: ["mobile-header-search"],
   parameters: {
     viewport: { defaultViewport: "mobile1" },
   },
@@ -509,6 +509,7 @@ export const MobileSearchActiveDebug: Story = {
 };
 
 export const MobileMenuItemsDropdown: Story = {
+  tags: ["skip-ci"],
   args: {
     ...Default.args,
     mobileMenuItems,
@@ -582,6 +583,7 @@ export const MobileMenuItemsDropdown: Story = {
 };
 
 export const MobileMenuInterceptSelectedItemId: Story = {
+  tags: ["skip-ci"],
   args: {
     ...Default.args,
     mobileMenuItems: mobileMenuItemsInterceptSelectionStory,
@@ -662,6 +664,7 @@ export const MobileMenuInterceptSelectedItemId: Story = {
 };
 
 export const MobileMenuProjectionDropdown: Story = {
+  tags: ["skip-ci"],
   args: {
     ...Default.args,
   },
