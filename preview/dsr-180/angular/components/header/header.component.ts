@@ -114,6 +114,7 @@ export class HeaderComponent {
   private readonly lastSeenExternalIsSearchActive = signal<boolean>(false);
 
   readonly navigationItemClick = output<string | undefined>();
+  readonly searchEvent = output<string | undefined>();
   readonly actionButtonClick = output<void>();
   readonly iconButtonClick = output<string | undefined>();
   readonly avatarClick = output<void>();
@@ -261,6 +262,10 @@ export class HeaderComponent {
       return;
     }
     this.navigationItemClick.emit(item.id || item.label);
+  }
+
+  handleSearchEvent(value: string | undefined): void {
+    this.searchEvent.emit(value);
   }
 
   handleActionButtonClick(): void {

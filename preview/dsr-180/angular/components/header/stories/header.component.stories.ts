@@ -1,7 +1,7 @@
 import { signal } from "@angular/core";
 import type { HeaderIconButtonConfig, HeaderNavigationItem } from "@design-system-rte/core/components/header";
 import { Meta, moduleMetadata, StoryObj } from "@storybook/angular";
-import { expect, userEvent, waitFor, within } from "@storybook/test";
+import { expect, fn, userEvent, waitFor, within } from "@storybook/test";
 
 import headerStoryRteLogoUrl from "../../../../../../../../design-docs/src/img/rte.png";
 import type { DropdownItemConfig } from "../../dropdown/dropdown.types";
@@ -747,6 +747,166 @@ export const MobileMenuProjectionDropdown: Story = {
       expect(canvas.getByText("lastProjectionClick:")).toBeVisible();
       expect(canvas.getByText("account")).toBeVisible();
       expect(within(header).getByRole("button", { name: "Menu" })).toHaveAttribute("aria-expanded", "false");
+    });
+  },
+};
+
+export const DesktopSearchEventInteraction: Story = {
+  args: {
+    ...Default.args,
+    hasSubHeader: false,
+    searchbarProps: { id: "header-search", label: "Rechercher", value: "rte" },
+    searchEvent: fn(),
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <rte-header
+        [appearance]="appearance"
+        [hasDivider]="hasDivider"
+        [hasLeftSection]="hasLeftSection"
+        [hasMidSection]="hasMidSection"
+        [hasRightSection]="hasRightSection"
+        [hasLogo]="hasLogo"
+        [applicationName]="applicationName"
+        [logoSrc]="logoSrc"
+        [homeLink]="homeLink"
+        [navigationItems]="navigationItems"
+        [hasSearchbar]="hasSearchbar"
+        [searchbarProps]="searchbarProps"
+        (searchEvent)="searchEvent($event)"
+      />
+    `,
+  }),
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
+    const header = canvas.getByRole("banner");
+    const searchRegion = within(header).getByRole("search");
+
+    await userEvent.click(within(searchRegion).getByRole("button", { name: "Rechercher" }));
+
+    await waitFor(() => {
+      expect(args["searchEvent"]).toHaveBeenCalledWith("rte");
+    });
+  },
+};
+
+export const DesktopActionButtonClickInteraction: Story = {
+  args: {
+    ...Default.args,
+    hasSubHeader: false,
+    hasSearchbar: false,
+    actionButtonClick: fn(),
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <rte-header
+        [appearance]="appearance"
+        [hasDivider]="hasDivider"
+        [hasLeftSection]="hasLeftSection"
+        [hasMidSection]="hasMidSection"
+        [hasRightSection]="hasRightSection"
+        [hasLogo]="hasLogo"
+        [applicationName]="applicationName"
+        [logoSrc]="logoSrc"
+        [homeLink]="homeLink"
+        [navigationItems]="navigationItems"
+        [hasActionButton]="hasActionButton"
+        [actionButton]="actionButton"
+        (actionButtonClick)="actionButtonClick()"
+      />
+    `,
+  }),
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
+    const header = canvas.getByRole("banner");
+
+    await userEvent.click(within(header).getByRole("button", { name: "Partager" }));
+
+    await waitFor(() => {
+      expect(args["actionButtonClick"]).toHaveBeenCalled();
+    });
+  },
+};
+
+export const DesktopIconButtonClickInteraction: Story = {
+  args: {
+    ...Default.args,
+    hasSubHeader: false,
+    hasSearchbar: false,
+    hasActionButton: false,
+    iconButtonClick: fn(),
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <rte-header
+        [appearance]="appearance"
+        [hasDivider]="hasDivider"
+        [hasLeftSection]="hasLeftSection"
+        [hasMidSection]="hasMidSection"
+        [hasRightSection]="hasRightSection"
+        [hasLogo]="hasLogo"
+        [applicationName]="applicationName"
+        [logoSrc]="logoSrc"
+        [homeLink]="homeLink"
+        [navigationItems]="navigationItems"
+        [hasIconButtons]="hasIconButtons"
+        [iconButtons]="iconButtons"
+        (iconButtonClick)="iconButtonClick($event)"
+      />
+    `,
+  }),
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
+    const header = canvas.getByRole("banner");
+
+    await userEvent.click(within(header).getByRole("button", { name: "Notification" }));
+
+    await waitFor(() => {
+      expect(args["iconButtonClick"]).toHaveBeenCalledWith("notification");
+    });
+  },
+};
+
+export const DesktopAvatarClickInteraction: Story = {
+  args: {
+    ...Default.args,
+    hasSubHeader: false,
+    hasSearchbar: false,
+    hasActionButton: false,
+    hasIconButtons: false,
+    avatarClick: fn(),
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <rte-header
+        [appearance]="appearance"
+        [hasDivider]="hasDivider"
+        [hasLeftSection]="hasLeftSection"
+        [hasMidSection]="hasMidSection"
+        [hasRightSection]="hasRightSection"
+        [hasLogo]="hasLogo"
+        [applicationName]="applicationName"
+        [logoSrc]="logoSrc"
+        [homeLink]="homeLink"
+        [navigationItems]="navigationItems"
+        [hasAvatar]="hasAvatar"
+        [avatarProps]="avatarProps"
+        (avatarClick)="avatarClick()"
+      />
+    `,
+  }),
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
+    const header = canvas.getByRole("banner");
+
+    await userEvent.click(within(header).getByRole("button", { name: "Avatar button" }));
+
+    await waitFor(() => {
+      expect(args["avatarClick"]).toHaveBeenCalled();
     });
   },
 };

@@ -58,6 +58,7 @@
               [assistiveText]="searchbarProps()?.assistiveText || ''"
               [appearance]="searchbarAppearance()"
               [compactSpacing]="isCompact()"
+              (searchEvent)="handleSearchEvent($event)"
             />
           }
 
