@@ -8,6 +8,7 @@ interface DateRangePickerProps extends Omit<InputProps, "value" | "onChange"> {
     onCancel?: () => void;
     minDate?: Date;
     maxDate?: Date;
+    disabledDates?: Date[];
 }
-declare const DateRangePicker: ({ id, label, labelId, required, showLabelRequirement, value, onChange, hasAction, onValidate, onCancel, minDate, maxDate, }: DateRangePickerProps) => import("react/jsx-runtime").JSX.Element;
+declare const DateRangePicker: ({ id, label, labelId, required, showLabelRequirement, value, onChange, hasAction, onValidate, onCancel, minDate, maxDate, disabledDates, disabled, assistiveTextLabel, assistiveAppearance, showAssistiveIcon, assistiveTextLink, isError, }: DateRangePickerProps) => import("react/jsx-runtime").JSX.Element;
 export default DateRangePicker;

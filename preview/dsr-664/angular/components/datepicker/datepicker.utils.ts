@@ -1,24 +1,19 @@
 import {
+  addDays,
   DatepickerDayCell,
   DatepickerDayCellType,
   DatepickerMonthCell,
   DatepickerYearCell,
+  isAfterDay,
+  isBeforeDay,
+  isSameDay,
+  startOfDay,
+  startOfMonth,
 } from "@design-system-rte/core";
+import { getMondayBasedWeekdayIndex, isSameMonth } from "@design-system-rte/core";
 
 function getTodayStart(): Date {
   return startOfDay(new Date());
-}
-
-function startOfMonth(date: Date): Date {
-  return new Date(date.getFullYear(), date.getMonth(), 1);
-}
-
-function getMondayBasedWeekdayIndex(date: Date): number {
-  return (date.getDay() + 6) % 7;
-}
-
-function isSameMonth(first: Date, second: Date): boolean {
-  return first.getFullYear() === second.getFullYear() && first.getMonth() === second.getMonth();
 }
 
 export function maskDateInput(value: string): string {
@@ -34,71 +29,6 @@ export function maskDateInput(value: string): string {
     return `${day}/${month}`;
   }
   return `${day}/${month}/${year}`;
-}
-
-export function formatDate(date: Date): string {
-  const day = `${date.getDate()}`.padStart(2, "0");
-  const month = `${date.getMonth() + 1}`.padStart(2, "0");
-  const year = `${date.getFullYear()}`.padStart(4, "0");
-  return `${day}/${month}/${year}`;
-}
-
-export function parseDate(value: string): Date | null {
-  const trimmedValue = value.trim();
-  if (trimmedValue.length === 0) {
-    return null;
-  }
-
-  const datePartsMatch = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(trimmedValue);
-  if (!datePartsMatch) {
-    return null;
-  }
-
-  const day = Number(datePartsMatch[1]);
-  const month = Number(datePartsMatch[2]);
-  const year = Number(datePartsMatch[3]);
-
-  if (month < 1 || month > 12) {
-    return null;
-  }
-
-  const date = new Date(year, month - 1, day);
-  const isValidParsedDate =
-    date.getFullYear() === year &&
-    date.getMonth() === month - 1 &&
-    date.getDate() === day &&
-    !Number.isNaN(date.valueOf());
-  return isValidParsedDate ? date : null;
-}
-
-export function isSameDay(first: Date, second: Date): boolean {
-  return (
-    first.getFullYear() === second.getFullYear() &&
-    first.getMonth() === second.getMonth() &&
-    first.getDate() === second.getDate()
-  );
-}
-
-export function isBeforeDay(first: Date, second: Date): boolean {
-  return startOfDay(first).valueOf() < startOfDay(second).valueOf();
-}
-
-export function isAfterDay(first: Date, second: Date): boolean {
-  return startOfDay(first).valueOf() > startOfDay(second).valueOf();
-}
-
-export function startOfDay(date: Date): Date {
-  return new Date(date.getFullYear(), date.getMonth(), date.getDate());
-}
-
-export function addDays(date: Date, amount: number): Date {
-  const nextDate = new Date(date);
-  nextDate.setDate(nextDate.getDate() + amount);
-  return nextDate;
-}
-
-export function addMonths(date: Date, amount: number): Date {
-  return new Date(date.getFullYear(), date.getMonth() + amount, 1);
 }
 
 export function isDateDisabled(params: {

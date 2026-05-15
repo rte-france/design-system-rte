@@ -7,10 +7,9 @@ interface DateRangePickerMenuProps {
     minDate?: Date;
     maxDate?: Date;
     disabledDates?: readonly Date[];
-    onChangeStartDate?: (date: Date | null) => void;
-    onChangeEndDate?: (date: Date | null) => void;
     onChange?: (date: Date | null) => void;
     selectionMode?: "start" | "end";
+    setInitialValue?: (date: [Date | null, Date | null]) => void;
 }
-declare const DateRangePickerMenu: ({ isOpen, currentValue, hasAction, onValidate, onCancel, minDate, maxDate, disabledDates, onChange, selectionMode, }: DateRangePickerMenuProps) => import("react/jsx-runtime").JSX.Element;
+declare const DateRangePickerMenu: ({ isOpen, currentValue, hasAction, onValidate, onCancel, minDate, maxDate, disabledDates, onChange, selectionMode, setInitialValue, }: DateRangePickerMenuProps) => import("react/jsx-runtime").JSX.Element;
 export default DateRangePickerMenu;
