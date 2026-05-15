@@ -10,6 +10,7 @@
   align-items: center;
   gap: $positive-spacing_100;
   text-decoration: none;
+  padding: 0 $positive-spacing_100;
   color: var(--content-secondary);
 
   &:focus-visible {
@@ -20,14 +21,14 @@
 }
 
 .rte-header-logo {
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   flex: 0 0 auto;
   border-radius: $radius-s;
 }
 
 .rte-header-app-name {
-  @include typography-heading-xs;
+  @include typography-heading-s;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

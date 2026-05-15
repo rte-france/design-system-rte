@@ -140,6 +140,10 @@
     }
   </div>
 
+  @if (hasDivider()) {
+    <rte-divider />
+  }
+
   @if (shouldRenderSubheader()) {
     <div class="rte-header-subheader" [ngClass]="{ compact: isCompact() }">
       <nav class="rte-header-breadcrumbs" [attr.aria-label]="breadcrumbsAriaLabel()">

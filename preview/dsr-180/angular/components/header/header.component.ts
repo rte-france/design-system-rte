@@ -32,6 +32,7 @@ import { SearchBarAppearance, SearchBarProps } from "@design-system-rte/core/com
 import { AvatarComponent } from "../avatar/avatar.component";
 import { BreadcrumbsComponent } from "../breadcrumbs/breadcrumbs.component";
 import { ButtonComponent } from "../button/button.component";
+import { DividerComponent } from "../divider/divider.component";
 import type { DropdownItemConfig } from "../dropdown/dropdown.types";
 import { IconComponent } from "../icon/icon.component";
 import { IconButtonComponent } from "../icon-button/icon-button.component";
@@ -58,6 +59,7 @@ const DEFAULT_HOME_LINK = "/";
     HeaderMobileComponent,
     HeaderLeftSectionComponent,
     HeaderRightDirective,
+    DividerComponent,
   ],
   standalone: true,
   templateUrl: "./header.component.html",
@@ -105,6 +107,8 @@ export class HeaderComponent {
 
   readonly isSearchActive = input<boolean>(false);
   readonly isSearchActiveChange = output<boolean>();
+
+  readonly hasDivider = input<boolean>(false);
 
   readonly internalIsSearchActive = signal<boolean>(false);
   private readonly lastSeenExternalIsSearchActive = signal<boolean>(false);

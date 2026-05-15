@@ -74,6 +74,7 @@ const meta: Meta<HeaderComponent> = {
     hasMidSection: { control: "boolean" },
     hasRightSection: { control: "boolean" },
     hasSubHeader: { control: "boolean" },
+    hasDivider: { control: "boolean" },
   },
 };
 
@@ -110,6 +111,7 @@ export const Default: Story = {
     hasMidSection: true,
     hasRightSection: true,
     hasSubHeader: true,
+    hasDivider: false,
     hasLogo: true,
     applicationName: "Nom de l'application",
     logoSrc: headerStoryRteLogoUrl,
@@ -145,6 +147,7 @@ export const Default: Story = {
           [hasMidSection]="hasMidSection"
           [hasRightSection]="hasRightSection"
           [hasSubHeader]="hasSubHeader"
+          [hasDivider]="hasDivider"
           [hasLogo]="hasLogo"
           [applicationName]="applicationName"
           [logoSrc]="logoSrc"
@@ -204,6 +207,7 @@ export const StickyDebug: Story = {
             [hasMidSection]="hasMidSection"
             [hasRightSection]="hasRightSection"
             [hasSubHeader]="hasSubHeader"
+            [hasDivider]="hasDivider"
             [hasLogo]="hasLogo"
             [applicationName]="applicationName"
             [logoSrc]="logoSrc"
@@ -257,6 +261,7 @@ export const ShowAtScrollUpDebug: Story = {
             [hasMidSection]="hasMidSection"
             [hasRightSection]="hasRightSection"
             [hasSubHeader]="hasSubHeader"
+            [hasDivider]="hasDivider"
             [hasLogo]="hasLogo"
             [applicationName]="applicationName"
             [logoSrc]="logoSrc"
@@ -299,6 +304,7 @@ export const WithRightSlot: Story = {
       template: `
         <rte-header
           [appearance]="appearance"
+          [hasDivider]="hasDivider"
           [hasLogo]="hasLogo"
           [applicationName]="applicationName"
           [logoSrc]="logoSrc"
@@ -329,6 +335,7 @@ export const WithLeftSlot: Story = {
       template: `
         <rte-header
           [appearance]="appearance"
+          [hasDivider]="hasDivider"
           [navigationItems]="navigationItems"
           [searchbarProps]="searchbarProps"
           [actionButton]="actionButton"
@@ -370,6 +377,7 @@ export const MobileSearchInteraction: Story = {
         <div style="height: 200vh; padding-top: 8px">
           <rte-header
             [appearance]="appearance"
+            [hasDivider]="hasDivider"
             [hasLeftSection]="hasLeftSection"
             [hasRightSection]="hasRightSection"
             [hasLogo]="hasLogo"
@@ -449,6 +457,7 @@ export const MobileSearchActiveDebug: Story = {
         <div style="height: 140vh; padding-top: 8px">
           <rte-header
             [appearance]="appearance"
+            [hasDivider]="hasDivider"
             [hasLeftSection]="hasLeftSection"
             [hasRightSection]="hasRightSection"
             [hasLogo]="hasLogo"
@@ -534,6 +543,7 @@ export const MobileMenuItemsDropdown: Story = {
         <div style="height: 140vh; padding-top: 8px">
           <rte-header
             [appearance]="appearance"
+            [hasDivider]="hasDivider"
             [hasLeftSection]="hasLeftSection"
             [hasRightSection]="hasRightSection"
             [hasLogo]="hasLogo"
@@ -612,6 +622,7 @@ export const MobileMenuInterceptSelectedItemId: Story = {
         <div style="height: 140vh; padding-top: 8px">
           <rte-header
             [appearance]="appearance"
+            [hasDivider]="hasDivider"
             [hasLeftSection]="hasLeftSection"
             [hasRightSection]="hasRightSection"
             [hasLogo]="hasLogo"
@@ -688,6 +699,7 @@ export const MobileMenuProjectionDropdown: Story = {
         <div style="height: 140vh; padding-top: 8px">
           <rte-header
             [appearance]="appearance"
+            [hasDivider]="hasDivider"
             [hasLeftSection]="hasLeftSection"
             [hasRightSection]="hasRightSection"
             [hasLogo]="hasLogo"

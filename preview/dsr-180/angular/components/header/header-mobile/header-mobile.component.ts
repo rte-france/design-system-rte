@@ -90,8 +90,8 @@ export class HeaderMobileComponent {
     () => this.homeAriaLabel() ?? buildHeaderHomeAriaLabel(this.applicationName()),
   );
 
-  readonly rightSectionPlaceholderWidth = computed(() => (this.hasRightSection() ? "80px" : "0"));
-  readonly rightSectionWidth = computed(() => (this.isSearchActive() ? "calc(100% - 32px)" : "80px"));
+  readonly rightSectionPlaceholderWidth = computed(() => (this.hasRightSection() ? "112px" : "0"));
+  readonly rightSectionWidth = computed(() => (this.isSearchActive() ? "calc(100% - 40px)" : "80px"));
 
   readonly searchbarAppearance = computed<SearchBarAppearance>(() =>
     this.appearance() === "neutral" ? "secondary" : "primary",

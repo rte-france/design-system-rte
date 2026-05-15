@@ -27,12 +27,12 @@
 }
 
 .rte-header-main {
-  height: 80px;
+  height: 96px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 $positive-spacing_200;
-  gap: $positive-spacing_200;
+  padding: 0;
+
   background: var(--background-default);
   width: 100%;
   box-sizing: border-box;
@@ -40,11 +40,13 @@
   .rte-header[data-compact='true'] & {
     height: 64px;
   }
+
 }
 
 .rte-header-left {
   display: flex;
   align-items: center;
+  padding: 0 $positive-spacing_200 0 $positive-spacing_100;
 
   &:has([rteHeaderLeft]) {
     .rte-header-home {
@@ -64,34 +66,13 @@
   align-items: center;
 }
 
-.rte-header-home {
-  display: inline-flex;
-  align-items: center;
-  gap: $positive-spacing_100;
-  text-decoration: none;
-  color: var(--content-secondary);
-}
-
-.rte-header-logo {
-  width: 24px;
-  height: 24px;
-  flex: 0 0 auto;
-  border-radius: $radius-s;
-}
-
-.rte-header-app-name {
-  @include typography-heading-xs;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
 .rte-header-mid {
   flex: 1 1 auto;
   display: flex;
   align-items: center;
   justify-content: flex-start;
   gap: $positive-spacing_200;
+  padding: 0 $positive-spacing_250;
 }
 
 .rte-header-nav {
@@ -148,6 +129,7 @@
   align-items: center;
   justify-content: flex-end;
   gap: $positive-spacing_250;
+  padding: 0 $positive-spacing_200;
   flex: 0 0 auto;
 }
 
@@ -194,4 +176,3 @@
     height: 24px;
   }
 }
-
