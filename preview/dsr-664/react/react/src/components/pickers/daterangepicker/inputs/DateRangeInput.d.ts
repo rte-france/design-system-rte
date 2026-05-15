@@ -17,6 +17,8 @@ interface DateRangeInputProps extends Omit<BaseInputPickerProps, "value" | "onCh
     updateDateSegment: (segment: DateSegmentEnum, value: string) => void;
     updateFullDate: (date: Date | null) => void;
     displayValue: string;
+    isError?: boolean;
+    readonly?: boolean;
 }
-declare const DateRangeInput: ({ id, pickerInputRef, isFocused, onKeyDown, onMouseDown, onMouseUp, onFocus, onBlur, value, onChange, activeSegment, moveToNextSegment, moveToPreviousSegment, onOpenPicker, disabled, dateState, internalValue, increaseActiveSegmentValue, decreaseActiveSegmentValue, resetActiveSegmentValue, updateDateSegment, displayValue, }: DateRangeInputProps) => import("react/jsx-runtime").JSX.Element;
+declare const DateRangeInput: ({ id, pickerInputRef, isFocused, onKeyDown, onMouseDown, onMouseUp, onFocus, onBlur, value, onChange, activeSegment, moveToNextSegment, moveToPreviousSegment, onOpenPicker, disabled, dateState, internalValue, increaseActiveSegmentValue, decreaseActiveSegmentValue, resetActiveSegmentValue, updateDateSegment, displayValue, isError, readonly, }: DateRangeInputProps) => import("react/jsx-runtime").JSX.Element;
 export default DateRangeInput;
