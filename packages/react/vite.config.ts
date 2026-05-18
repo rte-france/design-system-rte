@@ -17,7 +17,7 @@ export default defineConfig({
       include: ["src/index.ts", "src/components"],
       exclude: ["**/*.stories.*", "**/*.styled.ts"],
       insertTypesEntry: true,
-      tsconfigPath: "./tsconfig.app.json",
+      tsconfigPath: "./tsconfig.dts.json",
     }),
   ],
   build: {
