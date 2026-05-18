@@ -10,6 +10,7 @@
           id="input-label-{{ id() }}"
           class="input-label"
           [attr.for]="useLabelForAttribute() && id() ? id() : null"
+          (click)="onLabelClick($event)"
         >
           {{ label() }}
         </label>
@@ -63,7 +64,7 @@
             [ngClass]="{ error: error(), highlighted: highlighted() }"
             [ngStyle]="customStyle()"
             [attr.aria-label]="ariaLabel()"
-            [attr.aria-labelledby]="ariaLabelledby()"
+            [attr.aria-labelledby]="computedAriaLabelledby()"
             [attr.aria-required]="ariaRequired()"
             [type]="computedInputType()"
             [maxLength]="maxLength()"
