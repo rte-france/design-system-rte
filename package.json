@@ -59,6 +59,8 @@
     "husky": "^9.1.7",
     "prettier": "^3.5.3",
     "prettier-eslint": "^16.4.2",
-    "tsx": "^4.20.6"
+    "tsx": "^4.20.6",
+    "@figma/code-connect": "^1.4.5",
+    "figma": "^0.0.1"
   }
 }
