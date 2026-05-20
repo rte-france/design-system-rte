@@ -9,6 +9,7 @@
       "skipLibCheck": true,
       "strict": false
     },
-    "include": ["**/*.ts"]
+    "include": ["**/*.ts"],
+    "exclude": ["**/*.figma.ts"]
   }
   
