@@ -101,6 +101,15 @@ function assertHeaderApplicationNameScreenReaderHidden(
   }
 }
 
+function assertHeaderApplicationNameVisuallyHidden(header: HTMLElement, shouldBeHidden: boolean): void {
+  const appName = within(header).getByText("Nom de l'application");
+  if (shouldBeHidden) {
+    expect(appName).not.toBeVisible();
+  } else {
+    expect(appName).toBeVisible();
+  }
+}
+
 export const Default: Story = {
   args: {
     appearance: "brand",
@@ -358,7 +367,7 @@ export const MobileSearchInteraction: Story = {
     isCompact: false,
   },
   parameters: {
-    viewport: { defaultViewport: "mobile1" },
+    viewport: { defaultViewport: "mobile2" },
   },
   render: (args) => {
     const isSearchActive = signal(false);
@@ -414,6 +423,7 @@ export const MobileSearchInteraction: Story = {
 
     await waitFor(() => {
       expect(within(header).getByRole("search")).toBeVisible();
+      assertHeaderApplicationNameVisuallyHidden(header, true);
       assertHeaderApplicationNameScreenReaderHidden(canvasElement, true);
       assertHeaderMobileSearchShellState(canvasElement, "open");
     });
@@ -438,7 +448,7 @@ export const MobileSearchActiveDebug: Story = {
     isCompact: false,
   },
   parameters: {
-    viewport: { defaultViewport: "mobile1" },
+    viewport: { defaultViewport: "mobile2" },
   },
   render: (args) => {
     const isSearchActive = signal(false);
@@ -500,6 +510,7 @@ export const MobileSearchActiveDebug: Story = {
 
     await waitFor(() => {
       expect(within(header).getByRole("search")).toBeVisible();
+      assertHeaderApplicationNameVisuallyHidden(header, true);
       assertHeaderApplicationNameScreenReaderHidden(canvasElement, true);
       assertHeaderMobileSearchShellState(canvasElement, "open");
     });
@@ -517,6 +528,38 @@ export const MobileSearchActiveDebug: Story = {
   },
 };
 
+export const MobileLongApplicationName: Story = {
+  args: {
+    ...Default.args,
+    applicationName:
+      "Nom de l'application avec un libellé très long pour vérifier la troncature entre le logo et le menu",
+    hasMidSection: false,
+    hasSubHeader: false,
+    hasDivider: false,
+    mobileMenuItems,
+  },
+  parameters: {
+    viewport: { defaultViewport: "mobile2" },
+  },
+  render: (args) => ({
+    props: { ...args },
+    template: `
+      <rte-header
+        [appearance]="appearance"
+        [hasLeftSection]="hasLeftSection"
+        [hasRightSection]="hasRightSection"
+        [hasLogo]="hasLogo"
+        [applicationName]="applicationName"
+        [logoSrc]="logoSrc"
+        [homeLink]="homeLink"
+        [hasSearchbar]="hasSearchbar"
+        [searchbarProps]="searchbarProps"
+        [mobileMenuItems]="mobileMenuItems"
+      />
+    `,
+  }),
+};
+
 export const MobileMenuItemsDropdown: Story = {
   tags: ["skip-ci"],
   args: {
@@ -524,7 +567,7 @@ export const MobileMenuItemsDropdown: Story = {
     mobileMenuItems,
   },
   parameters: {
-    viewport: { defaultViewport: "mobile1" },
+    viewport: { defaultViewport: "mobile2" },
   },
   render: (args) => {
     const lastMenuEventId = signal<string | null>(null);
@@ -599,7 +642,7 @@ export const MobileMenuInterceptSelectedItemId: Story = {
     mobileMenuItems: mobileMenuItemsInterceptSelectionStory,
   },
   parameters: {
-    viewport: { defaultViewport: "mobile1" },
+    viewport: { defaultViewport: "mobile2" },
   },
   render: (args) => {
     const selectedItemId = signal<string | null>(null);
@@ -680,7 +723,7 @@ export const MobileMenuProjectionDropdown: Story = {
     ...Default.args,
   },
   parameters: {
-    viewport: { defaultViewport: "mobile1" },
+    viewport: { defaultViewport: "mobile2" },
   },
   render: (args) => {
     const lastProjectionClick = signal<string | null>(null);

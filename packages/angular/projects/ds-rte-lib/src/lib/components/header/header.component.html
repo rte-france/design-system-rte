@@ -20,31 +20,33 @@
         </div>
       }
 
-      <div class="rte-header-mid">
-        <nav class="rte-header-nav" [attr.aria-label]="navigationAriaLabel()">
-          <ul class="rte-header-nav-list">
-            @for (item of navigationItems(); track item.id || item.href) {
-              <li
-                class="rte-header-nav-item"
-                [attr.data-disabled]="item.disabled"
-                [attr.data-active]="item.active ?? null"
-              >
-                <a
-                  class="rte-header-nav-link"
-                  [href]="item.href"
-                  [attr.aria-label]="item.ariaLabel || item.label"
-                  [attr.aria-disabled]="item.disabled ? 'true' : null"
-                  [attr.aria-current]="item.active ? 'page' : null"
-                  [attr.tabindex]="item.disabled ? -1 : null"
-                  (click)="handleNavigationItemClick(item, $event)"
+      @if (hasMidSection()) {
+        <div class="rte-header-mid">
+          <nav class="rte-header-nav" [attr.aria-label]="navigationAriaLabel()">
+            <ul class="rte-header-nav-list">
+              @for (item of navigationItems(); track item.id || item.href) {
+                <li
+                  class="rte-header-nav-item"
+                  [attr.data-disabled]="item.disabled"
+                  [attr.data-active]="item.active ?? null"
                 >
-                  {{ item.label }}
-                </a>
-              </li>
-            }
-          </ul>
-        </nav>
-      </div>
+                  <a
+                    class="rte-header-nav-link"
+                    [href]="item.href"
+                    [attr.aria-label]="item.ariaLabel || item.label"
+                    [attr.aria-disabled]="item.disabled ? 'true' : null"
+                    [attr.aria-current]="item.active ? 'page' : null"
+                    [attr.tabindex]="item.disabled ? -1 : null"
+                    (click)="handleNavigationItemClick(item, $event)"
+                  >
+                    {{ item.label }}
+                  </a>
+                </li>
+              }
+            </ul>
+          </nav>
+        </div>
+      }
 
       @if (hasRightSection()) {
         <div class="rte-header-right">
