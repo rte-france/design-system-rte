@@ -1,0 +1,8 @@
+{
+  "codeConnect": {
+    "include": ["packages/angular/projects/ds-rte-lib/src/**/*.figma.ts"],
+    "parser": "html",
+    "label": "Angular",
+    "language": "html"
+  }
+}
