@@ -5,6 +5,7 @@ import {
   DestroyRef,
   ElementRef,
   Injector,
+  afterNextRender,
   computed,
   effect,
   inject,
@@ -12,10 +13,13 @@ import {
   output,
   signal,
   viewChild,
-  afterNextRender,
 } from "@angular/core";
 import { SearchBarAppearance, SearchBarProps } from "@design-system-rte/core";
-import { buildHeaderHomeAriaLabel, type HeaderIconButtonConfig } from "@design-system-rte/core/components/header";
+import {
+  HEADER_MOBILE_SEARCH_TRANSITION_MS,
+  buildHeaderHomeAriaLabel,
+  type HeaderIconButtonConfig,
+} from "@design-system-rte/core/components/header";
 import { ESCAPE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
 import { DropdownMenuBodyDirective } from "../../dropdown/dropdown-menu/dropdown-menu-body.directive";
@@ -28,7 +32,7 @@ import { SearchbarComponent } from "../../searchbar/searchbar.component";
 
 const DEFAULT_HOME_LINK = "/";
 const DEFAULT_SEARCHBAR_ID = "rte-header-searchbar";
-const SEARCH_COLLAPSE_TRANSITION_MS = 200;
+const MOBILE_SEARCH_TRIGGER_SIZE_PX = 32;
 
 @Component({
   selector: "rte-header-mobile",
@@ -74,13 +78,16 @@ export class HeaderMobileComponent {
   readonly mobileMenuClick = output<void>();
   readonly mobileMenuItemEvent = output<{ event: Event; id: string; item?: DropdownItemConfig }>();
 
-  readonly mobileSearchButtonRef = viewChild<ElementRef<HTMLButtonElement>>("mobileSearchButtonRef");
+  readonly mobileSearchButtonRef = viewChild("mobileSearchButtonRef", { read: ElementRef<HTMLElement> });
   readonly rootRef = viewChild<ElementRef<HTMLElement>>("rootRef");
 
   private outsidePointerDownCleanup: (() => void) | null = null;
   private collapseTransitionTimer: ReturnType<typeof setTimeout> | null = null;
+  private collapsingFieldElement: HTMLElement | null = null;
 
-  readonly shouldRenderSearchbar = signal<boolean>(this.isSearchActive());
+  readonly shouldRenderSearchbar = signal<boolean>(false);
+  readonly isSearchExpanded = signal<boolean>(false);
+  readonly isSearchCollapsing = signal<boolean>(false);
   readonly isMobileMenuOpen = signal<boolean>(false);
 
   readonly shouldRenderLogo = computed(() => this.hasLogo() && !!this.logoSrc());
@@ -90,13 +97,10 @@ export class HeaderMobileComponent {
     () => this.homeAriaLabel() ?? buildHeaderHomeAriaLabel(this.applicationName()),
   );
 
-  readonly rightSectionPlaceholderWidth = computed(() => (this.hasRightSection() ? "112px" : "0"));
-  readonly rightSectionWidth = computed(() => (this.isSearchActive() ? "calc(100% - 40px)" : "80px"));
-
   readonly searchbarAppearance = computed<SearchBarAppearance>(() =>
     this.appearance() === "neutral" ? "secondary" : "primary",
   );
-  readonly searchState = computed<"open" | "closed">(() => (this.isSearchActive() ? "open" : "closed"));
+  readonly searchState = computed<"open" | "closed">(() => (this.isSearchExpanded() ? "open" : "closed"));
 
   constructor() {
     effect(
@@ -105,21 +109,17 @@ export class HeaderMobileComponent {
           this.teardownOutsideCloseListener();
           this.clearCollapseTransitionTimer();
           this.shouldRenderSearchbar.set(false);
+          this.isSearchExpanded.set(false);
+          this.isSearchCollapsing.set(false);
           return;
         }
 
         const isActive = this.isSearchActive();
-        this.syncSearchbarRenderState(isActive);
+        this.syncSearchVisualState(isActive);
 
         if (isActive) {
           this.closeMobileMenu();
           this.ensureOutsideCloseListener();
-          afterNextRender(
-            () => {
-              this.focusSearchInput();
-            },
-            { injector: this.injector },
-          );
           return;
         }
 
@@ -160,9 +160,6 @@ export class HeaderMobileComponent {
 
   emitCloseMobileSearch(): void {
     this.isSearchActiveChange.emit(false);
-    setTimeout(() => {
-      this.mobileSearchButtonRef()?.nativeElement.focus();
-    }, SEARCH_COLLAPSE_TRANSITION_MS);
   }
 
   handleMobileMenuClick(): void {
@@ -212,16 +209,154 @@ export class HeaderMobileComponent {
     this.outsidePointerDownCleanup?.();
   }
 
-  private syncSearchbarRenderState(isActive: boolean): void {
+  private syncSearchVisualState(isActive: boolean): void {
     this.clearCollapseTransitionTimer();
+
     if (isActive) {
+      this.clearCollapsingFieldInlineStyles();
+      this.isSearchCollapsing.set(false);
       this.shouldRenderSearchbar.set(true);
+      this.isSearchExpanded.set(false);
+      this.scheduleSearchExpandAnimation();
       return;
     }
+
+    this.isSearchCollapsing.set(true);
+    this.scheduleSearchCollapseAnimation();
+  }
+
+  private scheduleSearchExpandAnimation(): void {
+    afterNextRender(
+      () => {
+        if (!this.isSearchActive()) {
+          return;
+        }
+
+        const fieldElement = this.rootRef()?.nativeElement.querySelector(".search-action__field") as HTMLElement | null;
+
+        fieldElement?.getBoundingClientRect();
+
+        requestAnimationFrame(() => {
+          if (!this.isSearchActive()) {
+            return;
+          }
+          this.isSearchExpanded.set(true);
+          this.scheduleSearchInputFocusAfterExpand(fieldElement);
+        });
+      },
+      { injector: this.injector },
+    );
+  }
+
+  private scheduleSearchInputFocusAfterExpand(fieldElement: HTMLElement | null): void {
+    if (!fieldElement) {
+      afterNextRender(
+        () => {
+          if (!this.isSearchActive() || !this.isSearchExpanded()) {
+            return;
+          }
+          this.focusSearchInput();
+        },
+        { injector: this.injector },
+      );
+      return;
+    }
+
+    const handleTransitionEnd = (event: TransitionEvent): void => {
+      if (event.target !== fieldElement || event.propertyName !== "width") {
+        return;
+      }
+      fieldElement.removeEventListener("transitionend", handleTransitionEnd);
+      this.focusSearchInput();
+    };
+
+    fieldElement.addEventListener("transitionend", handleTransitionEnd);
+    setTimeout(() => {
+      fieldElement.removeEventListener("transitionend", handleTransitionEnd);
+      if (!this.isSearchActive() || !this.isSearchExpanded()) {
+        return;
+      }
+      this.focusSearchInput();
+    }, HEADER_MOBILE_SEARCH_TRANSITION_MS);
+  }
+
+  private scheduleSearchCollapseAnimation(): void {
+    this.blurSearchInput();
+
+    afterNextRender(
+      () => {
+        if (this.isSearchActive()) {
+          return;
+        }
+
+        const fieldElement = this.rootRef()?.nativeElement.querySelector(".search-action__field") as HTMLElement | null;
+
+        if (!fieldElement) {
+          this.completeSearchCollapse();
+          return;
+        }
+
+        this.collapsingFieldElement = fieldElement;
+        const searchActionElement = fieldElement.parentElement;
+        const containerWidthPx = searchActionElement?.getBoundingClientRect().width ?? 0;
+        const expandedWidthPx = Math.min(fieldElement.getBoundingClientRect().width, containerWidthPx);
+
+        fieldElement.style.maxWidth = "100%";
+        fieldElement.style.transition = `width ${HEADER_MOBILE_SEARCH_TRANSITION_MS}ms ease`;
+        fieldElement.style.width = `${expandedWidthPx}px`;
+        fieldElement.getBoundingClientRect();
+
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            if (this.isSearchActive()) {
+              this.clearCollapsingFieldInlineStyles();
+              return;
+            }
+            this.isSearchExpanded.set(false);
+            fieldElement.style.width = `${MOBILE_SEARCH_TRIGGER_SIZE_PX}px`;
+            this.listenForSearchCollapseEnd(fieldElement);
+          });
+        });
+      },
+      { injector: this.injector },
+    );
+  }
+
+  private listenForSearchCollapseEnd(fieldElement: HTMLElement): void {
+    const handleTransitionEnd = (event: TransitionEvent): void => {
+      if (event.target !== fieldElement || event.propertyName !== "width") {
+        return;
+      }
+      fieldElement.removeEventListener("transitionend", handleTransitionEnd);
+      this.completeSearchCollapse();
+    };
+
+    fieldElement.addEventListener("transitionend", handleTransitionEnd);
     this.collapseTransitionTimer = setTimeout(() => {
-      this.shouldRenderSearchbar.set(false);
-      this.collapseTransitionTimer = null;
-    }, SEARCH_COLLAPSE_TRANSITION_MS);
+      fieldElement.removeEventListener("transitionend", handleTransitionEnd);
+      this.completeSearchCollapse();
+    }, HEADER_MOBILE_SEARCH_TRANSITION_MS);
+  }
+
+  private completeSearchCollapse(): void {
+    if (this.isSearchActive()) {
+      return;
+    }
+    this.clearCollapseTransitionTimer();
+    this.clearCollapsingFieldInlineStyles();
+    this.shouldRenderSearchbar.set(false);
+    this.isSearchCollapsing.set(false);
+    this.focusMobileSearchButton();
+  }
+
+  private clearCollapsingFieldInlineStyles(): void {
+    if (!this.collapsingFieldElement) {
+      return;
+    }
+    this.collapsingFieldElement.style.width = "";
+    this.collapsingFieldElement.style.maxWidth = "";
+    this.collapsingFieldElement.style.transition = "";
+    this.collapsingFieldElement = null;
   }
 
   private clearCollapseTransitionTimer(): void {
@@ -232,11 +367,40 @@ export class HeaderMobileComponent {
     this.collapseTransitionTimer = null;
   }
 
-  private focusSearchInput(): void {
-    const searchbarId = this.searchbarProps()?.id || DEFAULT_SEARCHBAR_ID;
-    const inputElement = document.getElementById(searchbarId) as HTMLInputElement | null;
-    if (inputElement) {
-      inputElement.focus();
+  private blurSearchInput(): void {
+    const rootElement = this.rootRef()?.nativeElement;
+    if (!rootElement) {
+      return;
     }
+
+    const searchbarId = this.searchbarProps()?.id || DEFAULT_SEARCHBAR_ID;
+    const inputById = rootElement.querySelector(`#${CSS.escape(searchbarId)}`) as HTMLInputElement | null;
+    const inputElement =
+      inputById ?? (rootElement.querySelector(".search-action__field input") as HTMLInputElement | null);
+
+    inputElement?.blur();
+  }
+
+  private focusSearchInput(): void {
+    const rootElement = this.rootRef()?.nativeElement;
+    if (!rootElement) {
+      return;
+    }
+
+    const searchbarId = this.searchbarProps()?.id || DEFAULT_SEARCHBAR_ID;
+    const inputById = rootElement.querySelector(`#${CSS.escape(searchbarId)}`) as HTMLInputElement | null;
+    const inputElement =
+      inputById ?? (rootElement.querySelector(".search-action__field input") as HTMLInputElement | null);
+
+    inputElement?.focus({ preventScroll: true });
+  }
+
+  private focusMobileSearchButton(): void {
+    const hostElement = this.mobileSearchButtonRef()?.nativeElement;
+    if (!hostElement) {
+      return;
+    }
+    const buttonElement = hostElement.querySelector("button") as HTMLButtonElement | null;
+    buttonElement?.focus();
   }
 }
