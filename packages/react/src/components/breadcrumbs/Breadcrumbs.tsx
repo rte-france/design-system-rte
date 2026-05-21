@@ -8,8 +8,8 @@ import {
 import { forwardRef, useState, Fragment } from "react";
 
 import Badge from "../badge/Badge.tsx";
-import { Dropdown } from "../dropdown/Dropdown";
-import { DropdownItem } from "../dropdown/dropdownItem/DropdownItem";
+import Dropdown from "../dropdown/Dropdown";
+import DropdownItem from "../dropdown/dropdownItem/DropdownItem";
 import IconButton from "../iconButton/IconButton";
 import { concatClassNames } from "../utils";
 

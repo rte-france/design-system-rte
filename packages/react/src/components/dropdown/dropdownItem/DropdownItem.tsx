@@ -17,7 +17,7 @@ import Checkbox from "../../checkbox/Checkbox";
 import Divider from "../../divider/Divider";
 import Icon from "../../icon/Icon";
 import { DropdownParentContext } from "../context/DropdownContext";
-import { Dropdown } from "../Dropdown";
+import Dropdown from "../Dropdown";
 import { focusDropdownFirstElement, focusParentDropdownFirstElement } from "../DropdownUtils";
 import { useDropdownState } from "../hooks/useDropdownState";
 
@@ -27,7 +27,7 @@ interface DropdownItemProps extends Omit<CoreDropdownItemProps, "onClick">, Reac
   onClick?: (event: React.MouseEvent<HTMLLIElement> | React.KeyboardEvent<HTMLLIElement>) => void;
 }
 
-export const DropdownItem = ({
+const DropdownItem = ({
   label,
   link,
   leftIcon,
@@ -234,3 +234,5 @@ export const DropdownItem = ({
     </>
   );
 };
+
+export default DropdownItem;

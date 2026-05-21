@@ -14,8 +14,8 @@ import {
 
 import useSelectedIndicatorPosition from "../../hooks/useSelectedIndicatorPosition";
 import Badge from "../badge/Badge";
-import { Dropdown } from "../dropdown/Dropdown";
-import { DropdownItem } from "../dropdown/dropdownItem/DropdownItem";
+import Dropdown from "../dropdown/Dropdown";
+import DropdownItem from "../dropdown/dropdownItem/DropdownItem";
 import Icon from "../icon/Icon";
 import IconButton from "../iconButton/IconButton";
 

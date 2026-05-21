@@ -12,8 +12,8 @@ import { ARROW_DOWN_KEY, ENTER_KEY } from "@design-system-rte/core/constants/key
 import { ButtonHTMLAttributes, ForwardedRef, forwardRef, KeyboardEvent, MouseEvent, useRef, useState } from "react";
 
 import Badge from "../badge/Badge";
-import { Dropdown } from "../dropdown/Dropdown";
-import { DropdownItem } from "../dropdown/dropdownItem/DropdownItem";
+import Dropdown from "../dropdown/Dropdown";
+import DropdownItem from "../dropdown/dropdownItem/DropdownItem";
 import Icon from "../icon/Icon";
 import { RegularIcons, TogglableIcons } from "../icon/IconMap";
 import { concatClassNames } from "../utils";

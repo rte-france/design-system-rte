@@ -13,8 +13,8 @@ import { useState } from "react";
 
 import Badge from "../../badge/Badge";
 import Checkbox from "../../checkbox/Checkbox";
-import { Dropdown } from "../../dropdown/Dropdown";
-import { DropdownItem } from "../../dropdown/dropdownItem/DropdownItem";
+import Dropdown from "../../dropdown/Dropdown";
+import DropdownItem from "../../dropdown/dropdownItem/DropdownItem";
 import Icon from "../../icon/Icon";
 import { concatClassNames } from "../../utils";
 import TreeviewItemBorder from "../treeviewItemBorder/TreeviewItemBorder";

@@ -6,8 +6,8 @@ import { expect, userEvent, waitFor, within } from "@storybook/test";
 import { useState } from "react";
 
 import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../../icon/IconMap";
-import { Dropdown } from "../Dropdown";
-import { DropdownItem } from "../dropdownItem/DropdownItem";
+import Dropdown from "../Dropdown";
+import DropdownItem from "../dropdownItem/DropdownItem";
 
 const RegularIconIds = Object.keys(RegularIconsList);
 const TogglableIconIds = Object.keys(TogglableIconsList);
