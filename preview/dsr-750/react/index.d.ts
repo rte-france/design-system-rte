@@ -10,6 +10,8 @@ import { default as CheckboxGroup } from './components/checkboxGroup/CheckboxGro
 import { default as Chip } from './components/chip/Chip.tsx';
 import { default as Divider } from './components/divider/Divider.tsx';
 import { default as Drawer } from './components/drawer/Drawer.tsx';
+import { default as Dropdown } from './components/dropdown/Dropdown.tsx';
+import { default as DropdownItem } from './components/dropdown/dropdownItem/DropdownItem.tsx';
 import { default as FileUpload } from './components/fileupload/FileUpload.tsx';
 import { default as Grid } from './components/grid/Grid.tsx';
 import { default as Icon } from './components/icon/Icon.tsx';
@@ -39,4 +41,4 @@ import { default as Toast } from './components/toast/Toast.tsx';
 import { default as ToastQueueProvider } from './components/toast/toastQueue/ToastQueueProvider.tsx';
 import { default as Tooltip } from './components/tooltip/Tooltip.tsx';
 import { default as Treeview } from './components/treeview/Treeview.tsx';
-export { Avatar, Accordion, Button, Grid, Checkbox, CheckboxGroup, Link, RadioButton, RadioButtonGroup, Icon, IconButton, IconButtonToggle, Loader, SplitButton, Tooltip, BaseTextInput as TextInput, Chip, Badge, Textarea, Divider, Drawer, Switch, SegmentedControl, Breadcrumbs, Banner, Popover, Modal, SideNav, Stepper, BaseSideNav, Card, Toast, ToastQueueProvider, Tag, Tab, TimePicker, Treeview, Searchbar, Select, FileUpload, DatePicker, };
+export { Avatar, Accordion, Button, Grid, Checkbox, CheckboxGroup, Link, RadioButton, RadioButtonGroup, Icon, IconButton, IconButtonToggle, Loader, SplitButton, Tooltip, BaseTextInput as TextInput, Chip, Badge, Textarea, Divider, Drawer, Switch, SegmentedControl, Breadcrumbs, Banner, Popover, Modal, SideNav, Stepper, BaseSideNav, Card, Toast, ToastQueueProvider, Tag, Tab, TimePicker, Treeview, Searchbar, Select, FileUpload, DatePicker, Dropdown, DropdownItem, };
