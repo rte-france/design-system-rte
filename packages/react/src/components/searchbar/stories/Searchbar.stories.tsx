@@ -7,8 +7,8 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { expect, userEvent, waitFor, within } from "@storybook/test";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-import { Dropdown } from "../../dropdown/Dropdown";
-import { DropdownItem } from "../../dropdown/dropdownItem/DropdownItem";
+import Dropdown from "../../dropdown/Dropdown";
+import DropdownItem from "../../dropdown/dropdownItem/DropdownItem";
 import Searchbar from "../Searchbar";
 
 const meta = {

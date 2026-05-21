@@ -11,6 +11,8 @@ import CheckboxGroup from "./components/checkboxGroup/CheckboxGroup.tsx";
 import Chip from "./components/chip/Chip.tsx";
 import Divider from "./components/divider/Divider.tsx";
 import Drawer from "./components/drawer/Drawer.tsx";
+import Dropdown from "./components/dropdown/Dropdown.tsx";
+import DropdownItem from "./components/dropdown/dropdownItem/DropdownItem.tsx";
 import FileUpload from "./components/fileupload/FileUpload.tsx";
 import Grid from "./components/grid/Grid.tsx";
 import Icon from "./components/icon/Icon.tsx";
@@ -83,4 +85,6 @@ export {
   Select,
   FileUpload,
   DatePicker,
+  Dropdown,
+  DropdownItem,
 };
