@@ -1,0 +1,35 @@
+<div
+  *ngIf="isDisplayed()"
+  class="rte-radio-button-container"
+  [ngClass]="{ 'read-only': readOnly(), disabled: disabled() }"
+>
+  <input
+    type="radio"
+    class="rte-radio-button"
+    [id]="label()"
+    [value]="label()"
+    [size]="labelSize"
+    [name]="groupName()"
+    [ngClass]="{ error: error(), 'read-only': readOnly() }"
+    [disabled]="disabled()"
+  />
+  <div
+    class="rte-radio-button-background"
+    [ngClass]="{ error: error(), 'read-only': readOnly(), disabled: disabled() }"
+  >
+    <div class="rte-radio-button-outer"></div>
+    <div class="rte-radio-button-inner"></div>
+  </div>
+  <label
+    *ngIf="showLabel()"
+    class="rte-radio-button-label"
+    [for]="label()"
+    [ngClass]="{
+      error: error(),
+      'read-only': readOnly(),
+      disabled: disabled(),
+    }"
+  >
+    {{ label() }}
+  </label>
+</div>
