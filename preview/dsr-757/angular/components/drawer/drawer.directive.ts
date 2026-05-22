@@ -11,6 +11,7 @@ import {
   inject,
   Injector,
   input,
+  output,
   OnDestroy,
   signal,
   TemplateRef,
@@ -35,6 +36,8 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
   private drawerPanelElement: HTMLElement | null = null;
   private usedOverlay = false;
   private isOpenProvided = false;
+  private subPrimaryButton?: { unsubscribe(): void };
+  private subSecondaryButton?: { unsubscribe(): void };
 
   private readonly elementRef = inject(ElementRef);
   private readonly viewContainerRef = inject(ViewContainerRef);
@@ -60,6 +63,9 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
   readonly rteDrawerFixedHeader = input<boolean>(false);
   readonly rteDrawerCloseOnEscape = input<boolean>(false);
   readonly rteDrawerIsClosable = input<boolean>(true);
+
+  readonly rteDrawerOnPrimary = output<void>();
+  readonly rteDrawerOnSecondary = output<void>();
 
   private readonly effectiveOpen = signal(false);
 
@@ -249,6 +255,14 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
       this.elementRef.nativeElement.appendChild(this.drawerCompRef.location.nativeElement);
     }
 
+    this.subPrimaryButton?.unsubscribe();
+    this.subSecondaryButton?.unsubscribe();
+    this.subPrimaryButton = this.drawerCompRef.instance.clickPrimaryButton.subscribe(() => {
+      this.rteDrawerOnPrimary.emit();
+    });
+    this.subSecondaryButton = this.drawerCompRef.instance.clickSecondaryButton.subscribe(() => {
+      this.rteDrawerOnSecondary.emit();
+    });
     this.drawerCompRef.instance.closed.subscribe(() => {
       this.handleClosed();
     });
@@ -258,6 +272,10 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
   }
 
   private teardownDrawer(): void {
+    this.subPrimaryButton?.unsubscribe();
+    this.subSecondaryButton?.unsubscribe();
+    this.subPrimaryButton = undefined;
+    this.subSecondaryButton = undefined;
     if (this.drawerCompRef) {
       this.drawerCompRef.destroy();
       this.drawerCompRef = null;
