@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunk_design_system_rte_angular_builder=self.webpackChunk_design_system_rte_angular_builder||[]).push([[71502],{"./projects/ds-rte-lib/src/lib/assets/icons/mail_filled.svg":(module,__unused_webpack_exports,__webpack_require__)=>{module.exports=__webpack_require__.p+"static/media/mail_filled.1f635d47.svg"}}]);
