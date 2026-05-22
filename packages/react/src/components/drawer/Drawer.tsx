@@ -193,18 +193,26 @@ const Footer = ({
   primaryButtonLabel,
   secondaryButtonLabel,
   footer,
+  onClickPrimaryButton,
+  onClickSecondaryButton,
 }: {
   fixedHeader?: boolean;
   shouldDisplayDefaultFooter: boolean;
   primaryButtonLabel?: string;
   secondaryButtonLabel?: string;
   footer?: React.ReactNode | React.ReactNode[];
+  onClickPrimaryButton?: () => void;
+  onClickSecondaryButton?: () => void;
 }) => (
   <div className={styles["drawer-footer"]} data-fixed-header={fixedHeader}>
     {shouldDisplayDefaultFooter ? (
       <BaseFooter
-        primaryButton={<Button label={primaryButtonLabel!} variant="primary" />}
-        secondaryButton={secondaryButtonLabel ? <Button label={secondaryButtonLabel} variant="secondary" /> : undefined}
+        primaryButton={<Button label={primaryButtonLabel!} variant="primary" onClick={onClickPrimaryButton} />}
+        secondaryButton={
+          secondaryButtonLabel ? (
+            <Button label={secondaryButtonLabel} variant="secondary" onClick={onClickSecondaryButton} />
+          ) : undefined
+        }
       />
     ) : (
       footer && <>{footer}</>
@@ -233,6 +241,8 @@ const Drawer = ({
   fixedHeader,
   closeOnEscape = false,
   isClosable = true,
+  onClickPrimaryButton,
+  onClickSecondaryButton,
   ...props
 }: DrawerProps) => {
   const { shouldRender, isAnimating } = useAnimatedMount(isOpen, DRAWER_TRANSITION_DURATION);
@@ -301,6 +311,8 @@ const Drawer = ({
     primaryButtonLabel,
     secondaryButtonLabel,
     footer,
+    onClickPrimaryButton,
+    onClickSecondaryButton,
   };
 
   return (

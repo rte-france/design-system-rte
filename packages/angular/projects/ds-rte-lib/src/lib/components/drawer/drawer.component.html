@@ -155,11 +155,11 @@
     @if (shouldDisplayDefaultFooter()) {
       <div class="rte-drawer-base-footer">
         @if (secondaryButtonLabel()) {
-          <button rteButton rteButtonVariant="neutral">
+          <button rteButton rteButtonVariant="neutral" (click)="handleClickSecondaryButton()">
             {{ secondaryButtonLabel() }}
           </button>
         }
-        <button rteButton rteButtonVariant="primary">
+        <button rteButton rteButtonVariant="primary" (click)="handleClickPrimaryButton()">
           {{ primaryButtonLabel() }}
         </button>
       </div>
