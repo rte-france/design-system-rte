@@ -1,6 +1,6 @@
 import { TESTING_ESCAPE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
 import type { Meta, StoryObj } from "@storybook/react";
-import { userEvent, within, expect, waitFor } from "@storybook/test";
+import { fn, userEvent, within, expect, waitFor } from "@storybook/test";
 import { useState } from "react";
 
 import Button from "../../button/Button";
@@ -23,6 +23,8 @@ const meta = {
     isCollapsible: { control: "boolean" },
     position: { control: "select", options: ["modal", "responsive"] },
     fixedHeader: { control: "boolean" },
+    onClickPrimaryButton: { action: "primary click", control: false },
+    onClickSecondaryButton: { action: "secondary click", control: false },
   },
 } satisfies Meta<typeof Drawer>;
 
@@ -49,6 +51,8 @@ export const Default: Story = {
     onClickToggle() {
       console.log("Toggle drawer");
     },
+    onClickPrimaryButton: fn(),
+    onClickSecondaryButton: fn(),
     content: (
       <span style={{ fontFamily: "arial", fontSize: "14px", lineHeight: "20px", color: "var(--content-primary)" }}>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum quis urna lacus. Praesent tempor nisl non
@@ -82,20 +86,42 @@ export const Default: Story = {
     const handleOnClickToggle = () => {
       setIsOpen((prev) => !prev);
     };
+
+    const handleClickPrimaryButton = () => {
+      args.onClickPrimaryButton?.();
+      setIsOpen(false);
+    };
+
     return (
       <>
         <Button label="Open drawer" onClick={() => setIsOpen(true)}></Button>
-        <Drawer {...args} isOpen={isOpen} onClose={() => setIsOpen(false)} onClickToggle={handleOnClickToggle} />
+        <Drawer
+          {...args}
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          onClickToggle={handleOnClickToggle}
+          onClickPrimaryButton={handleClickPrimaryButton}
+        />
       </>
     );
   },
 
-  play: async ({ canvasElement }) => {
+  play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
     const openButton = await canvas.getByRole("button", { name: "Open drawer" });
     await userEvent.click(openButton);
     const drawer = within(document.body).getByRole("dialog");
     expect(drawer).toBeInTheDocument();
+
+    await userEvent.click(within(drawer).getByRole("button", { name: "Cancel" }));
+    expect(args.onClickSecondaryButton).toHaveBeenCalled();
+    expect(drawer).toBeInTheDocument();
+
+    await userEvent.click(within(drawer).getByRole("button", { name: "Confirm" }));
+    expect(args.onClickPrimaryButton).toHaveBeenCalled();
+    await waitFor(() => {
+      expect(within(document.body).queryByRole("dialog")).not.toBeInTheDocument();
+    });
   },
 };
 export const Responsive: Story = {
@@ -113,6 +139,12 @@ export const Responsive: Story = {
     const handleOnClickToggle = () => {
       setIsOpen((prev) => !prev);
     };
+
+    const handleClickPrimaryButton = () => {
+      args.onClickPrimaryButton?.();
+      setIsOpen(false);
+    };
+
     return (
       <div style={{ border: "1px solid #ccc", width: "600px", height: "500px" }}>
         <Drawer
@@ -120,6 +152,7 @@ export const Responsive: Story = {
           isOpen={isOpen}
           onClose={() => setIsOpen(false)}
           onClickToggle={handleOnClickToggle}
+          onClickPrimaryButton={handleClickPrimaryButton}
           content={
             <span
               style={{ fontFamily: "arial", fontSize: "14px", lineHeight: "20px", color: "var(--content-primary)" }}
@@ -172,13 +205,26 @@ export const Responsive: Story = {
       </div>
     );
   },
-  play: async ({ canvasElement }) => {
+  play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
     const openButton = await canvas.getByRole("button", { name: "Open drawer" });
     await userEvent.click(openButton);
+    const drawer = await waitFor(() => {
+      const panel = canvas.getByRole("region");
+      expect(panel).toHaveAttribute("data-position", "responsive");
+      expect(panel).toHaveAttribute("data-open", "true");
+      expect(within(panel).getByRole("heading", { name: "Responsive Drawer" })).toBeInTheDocument();
+      return panel;
+    });
+
+    await userEvent.click(within(drawer).getByRole("button", { name: "Cancel" }));
+    expect(args.onClickSecondaryButton).toHaveBeenCalled();
+    expect(drawer).toHaveAttribute("data-open", "true");
+
+    await userEvent.click(within(drawer).getByRole("button", { name: "Confirm" }));
+    expect(args.onClickPrimaryButton).toHaveBeenCalled();
     await waitFor(() => {
-      const drawer = canvas.getByRole("region");
-      expect(drawer).toBeInTheDocument();
+      expect(drawer).toHaveAttribute("data-open", "false");
     });
   },
 };

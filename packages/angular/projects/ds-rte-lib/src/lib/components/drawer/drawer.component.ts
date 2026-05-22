@@ -65,6 +65,8 @@ export class DrawerComponent implements OnDestroy {
 
   readonly closed = output<void>();
   readonly clickToggle = output<void>();
+  readonly clickPrimaryButton = output<void>();
+  readonly clickSecondaryButton = output<void>();
 
   readonly iconSize = signal(IconSize["xl"]);
 
@@ -211,6 +213,14 @@ export class DrawerComponent implements OnDestroy {
 
   onClickToggle(): void {
     this.clickToggle.emit();
+  }
+
+  handleClickPrimaryButton(): void {
+    this.clickPrimaryButton.emit();
+  }
+
+  handleClickSecondaryButton(): void {
+    this.clickSecondaryButton.emit();
   }
 
   ngOnDestroy(): void {

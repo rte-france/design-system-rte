@@ -1,6 +1,6 @@
 import { TESTING_ESCAPE_KEY } from "@design-system-rte/core";
 import { Meta, StoryObj, moduleMetadata } from "@storybook/angular";
-import { expect, userEvent, waitFor, within } from "@storybook/test";
+import { expect, fn, userEvent, waitFor, within } from "@storybook/test";
 
 import { focusElementBeforeComponent } from "../../../../../../../.storybook/testing/testing.utils";
 import { ButtonComponent } from "../../button/button.component";
@@ -18,10 +18,14 @@ const drawerModalModeDoc = `
 \`\`\`html
 <div
   rteDrawer
+  #drawerHost="rteDrawer"
   rteDrawerId="settings-drawer"
   rteDrawerTitle="Settings"
   rteDrawerPrimaryButtonLabel="Save"
+  rteDrawerSecondaryButtonLabel="Cancel"
   rteDrawerPosition="modal"
+  (rteDrawerOnPrimary)="onSave()"
+  (rteDrawerOnSecondary)="drawerHost.close()"
 >
   <button type="button" rteButton rteButtonVariant="primary" rteDrawerTrigger>Open</button>
   <ng-template #drawerContent>
@@ -37,10 +41,12 @@ const drawerResponsiveModeDoc = `
 \`\`\`html
 <div
   rteDrawer
+  #drawerHost="rteDrawer"
   rteDrawerId="details-drawer"
   rteDrawerTitle="Details"
   rteDrawerPrimaryButtonLabel="OK"
   rteDrawerPosition="responsive"
+  (rteDrawerOnPrimary)="onConfirm(); drawerHost.close()"
 >
   <ng-template #drawerContent>
     <p>Drawer panel.</p>
@@ -85,6 +91,8 @@ const meta: Meta<DrawerDirective> = {
     rteDrawerFixedHeader: { control: "boolean" },
     rteDrawerCloseOnEscape: { control: "boolean" },
     rteDrawerIsClosable: { control: "boolean" },
+    rteDrawerOnPrimary: { action: "primary click", control: false },
+    rteDrawerOnSecondary: { action: "secondary click", control: false },
   },
 };
 
@@ -114,11 +122,14 @@ export const Default: Story = {
     rteDrawerFixedHeader: true,
     rteDrawerCloseOnEscape: false,
     rteDrawerIsClosable: true,
+    rteDrawerOnPrimary: fn(),
+    rteDrawerOnSecondary: fn(),
   },
   render: (args) => ({
     props: args,
     template: `<div
       rteDrawer
+      #drawerHost="rteDrawer"
       [rteDrawerId]="rteDrawerId"
       [rteDrawerTitle]="rteDrawerTitle"
       [rteDrawerIcon]="rteDrawerIcon"
@@ -132,6 +143,8 @@ export const Default: Story = {
       [rteDrawerFixedHeader]="rteDrawerFixedHeader"
       [rteDrawerCloseOnEscape]="rteDrawerCloseOnEscape"
       [rteDrawerIsClosable]="rteDrawerIsClosable"
+      (rteDrawerOnPrimary)="rteDrawerOnPrimary(); drawerHost.close()"
+      (rteDrawerOnSecondary)="rteDrawerOnSecondary()"
     >
       <button rteButton rteButtonVariant="primary" rteDrawerTrigger>Open drawer</button>
       <ng-template #drawerContent>
@@ -141,13 +154,24 @@ export const Default: Story = {
       </ng-template>
     </div>`,
   }),
-  play: async ({ canvasElement }) => {
+  play: async ({ canvasElement, args }) => {
     focusElementBeforeComponent(canvasElement);
     const canvas = within(canvasElement);
     const openButton = await canvas.getByRole("button", { name: "Open drawer" });
     await userEvent.click(openButton);
     const drawer = await within(document.body).findByRole("dialog");
     expect(drawer).toBeInTheDocument();
+
+    const drawerBody = within(drawer);
+    await userEvent.click(drawerBody.getByRole("button", { name: "Cancel" }));
+    expect(args.rteDrawerOnSecondary).toHaveBeenCalled();
+    expect(drawer).toBeInTheDocument();
+
+    await userEvent.click(drawerBody.getByRole("button", { name: "Confirm" }));
+    expect(args.rteDrawerOnPrimary).toHaveBeenCalled();
+    await waitFor(() => {
+      expect(within(document.body).queryByRole("dialog")).not.toBeInTheDocument();
+    });
   },
 };
 
@@ -306,7 +330,10 @@ ${drawerResponsiveModeDoc.trim()}`,
   },
   render: (args) => ({
     props: args,
-    template: `<div style="border: 1px solid #ccc; width: 600px; height: 500px" rteDrawer
+    template: `<div
+      style="border: 1px solid #ccc; width: 600px; height: 500px"
+      rteDrawer
+      #drawerHost="rteDrawer"
       [rteDrawerId]="rteDrawerId"
       [rteDrawerTitle]="rteDrawerTitle"
       [rteDrawerIcon]="rteDrawerIcon"
@@ -320,6 +347,8 @@ ${drawerResponsiveModeDoc.trim()}`,
       [rteDrawerFixedHeader]="rteDrawerFixedHeader"
       [rteDrawerCloseOnEscape]="rteDrawerCloseOnEscape"
       [rteDrawerIsClosable]="rteDrawerIsClosable"
+      (rteDrawerOnPrimary)="rteDrawerOnPrimary(); drawerHost.close()"
+      (rteDrawerOnSecondary)="rteDrawerOnSecondary()"
     >
       <ng-template #drawerContent>
         <span style="font-family: arial; font-size: 14px; line-height: 20px; color: var(--content-primary)">
@@ -336,7 +365,7 @@ ${drawerResponsiveModeDoc.trim()}`,
       </ng-template>
     </div>`,
   }),
-  play: async ({ canvasElement }) => {
+  play: async ({ canvasElement, args }) => {
     focusElementBeforeComponent(canvasElement);
     const canvas = within(canvasElement);
     const openButton = await canvas.getByRole("button", { name: "Open drawer" });
@@ -344,6 +373,18 @@ ${drawerResponsiveModeDoc.trim()}`,
     const drawer = await canvas.findByRole("region", { name: /Responsive Drawer/i }, { timeout: 5000 });
     expect(drawer).toBeInTheDocument();
     expect(drawer).toHaveAttribute("data-testid", "drawer-responsive-panel");
+    expect(drawer).toHaveAttribute("data-open", "true");
+
+    const drawerBody = within(drawer);
+    await userEvent.click(drawerBody.getByRole("button", { name: "Cancel" }));
+    expect(args.rteDrawerOnSecondary).toHaveBeenCalled();
+    expect(drawer).toHaveAttribute("data-open", "true");
+
+    await userEvent.click(drawerBody.getByRole("button", { name: "Confirm" }));
+    expect(args.rteDrawerOnPrimary).toHaveBeenCalled();
+    await waitFor(() => {
+      expect(drawer).toHaveAttribute("data-open", "false");
+    });
   },
 };
 
