@@ -347,8 +347,8 @@ ${drawerResponsiveModeDoc.trim()}`,
       [rteDrawerFixedHeader]="rteDrawerFixedHeader"
       [rteDrawerCloseOnEscape]="rteDrawerCloseOnEscape"
       [rteDrawerIsClosable]="rteDrawerIsClosable"
-      (clickPrimaryButton)="clickPrimaryButton(); drawerHost.close()"
-      (clickSecondaryButton)="clickSecondaryButton()"
+      (rteDrawerOnPrimary)="rteDrawerOnPrimary(); drawerHost.close()"
+      (rteDrawerOnSecondary)="rteDrawerOnSecondary()"
     >
       <ng-template #drawerContent>
         <span style="font-family: arial; font-size: 14px; line-height: 20px; color: var(--content-primary)">
