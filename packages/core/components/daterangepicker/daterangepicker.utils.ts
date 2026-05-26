@@ -27,8 +27,8 @@ export function buildDayRangeGrid(params: {
     const cellDate = addDays(gridStart, index);
     const isCurrentMonth = isSameMonth(cellDate, viewDate);
 
-    const isFirstSelectedDate = selectedDates && selectedDates[0] && isSameDay(cellDate, selectedDates[0]);
-    const isSecondSelectedDate = selectedDates && selectedDates[1] && isSameDay(cellDate, selectedDates[1]);
+    const isFirstSelectedDate = !!selectedDates?.[0] && isSameDay(cellDate, selectedDates[0]);
+    const isSecondSelectedDate = !!selectedDates?.[1] && isSameDay(cellDate, selectedDates[1]);
     const isSelected = isFirstSelectedDate || isSecondSelectedDate;
 
     const isToday = isSameDay(cellDate, today);

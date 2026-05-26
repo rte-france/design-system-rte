@@ -18,6 +18,7 @@ export interface BaseInputPickerProps extends BaseInput {
   onOpenPicker?: () => void;
   onBlur?: () => void;
   ariaLabelledBy?: string;
+  ariaDescribedBy?: string;
   openButtonAriaLabel?: string;
   fixedWidth?: boolean;
 }
@@ -38,6 +39,7 @@ const BaseInputPicker = ({
   pickerInputRef,
   pickerRef,
   ariaLabelledBy,
+  ariaDescribedBy,
   isError,
   disabled,
   openButtonAriaLabel,
@@ -63,6 +65,7 @@ const BaseInputPicker = ({
         <input
           id={id}
           aria-labelledby={ariaLabelledBy}
+          aria-describedby={ariaDescribedBy}
           readOnly={readOnly}
           ref={pickerInputRef}
           className={styles["rte-base-input-picker-input"]}

@@ -81,11 +81,11 @@ const DateRangePickerMenu = ({
   const [pendingDate, setPendingDate] = useState<[Date | null, Date | null] | null>(null);
 
   const startDate = useMemo(() => {
-    return pendingDate ? pendingDate[0] : localCurrentValue ? localCurrentValue[0] : null;
+    return pendingDate?.[0] || localCurrentValue?.[0] || null;
   }, [pendingDate, localCurrentValue]);
 
   const endDate = useMemo(() => {
-    return pendingDate ? pendingDate[1] : localCurrentValue ? localCurrentValue[1] : null;
+    return pendingDate?.[1] || localCurrentValue?.[1] || null;
   }, [pendingDate, localCurrentValue]);
 
   useFocusTrap(datePickerMenuRef.current!, isOpen, false);
@@ -597,13 +597,7 @@ const DateRangePickerMenu = ({
     onValidate?.();
   };
 
-  const tabIndexForDayCell = (cellDate: Date, activeDate: Date): number => {
-    if (isSameDay(cellDate, activeDate)) {
-      return 0;
-    } else {
-      return -1;
-    }
-  };
+  const tabIndexForDayCell = (cellDate: Date, activeDate: Date): number => (isSameDay(cellDate, activeDate) ? 0 : -1);
 
   const tabIndexForMonthCell = (monthIndex: number): number => {
     if (monthIndex === activeDate.getMonth()) {
@@ -668,7 +662,7 @@ const DateRangePickerMenu = ({
     const applyInitialStateOnOpen = () => {
       queueFocusActiveDayCell();
       setInitialValue?.(localCurrentValue ?? [null, null]);
-      if (localCurrentValue && localCurrentValue[0] && !localCurrentValue[1]) {
+      if (localCurrentValue?.[0] && !localCurrentValue?.[1]) {
         setHasPendingRange(true);
         setPendingDate([localCurrentValue[0], null]);
       }
