@@ -60,8 +60,15 @@ const DateRangePicker = ({
   const dateInputEndRef = useRef<HTMLInputElement | null>(null);
   const inputsRef = useRef<HTMLDivElement | null>(null);
   const onChangeRef = useRef(onChange);
+  const groupLabelId = labelId ?? `${id}-label`;
+  const startInputLabelId = `${id}-start-label`;
+  const endInputLabelId = `${id}-end-label`;
+  const assistiveTextId = `${id}-assistive-text`;
 
   const shouldDisplayAssistiveText = assistiveTextLabel && !isDropdownOpen;
+  const startInputAriaLabelledBy = `${groupLabelId} ${startInputLabelId}`;
+  const endInputAriaLabelledBy = `${groupLabelId} ${endInputLabelId}`;
+  const inputAriaDescribedBy = shouldDisplayAssistiveText ? assistiveTextId : undefined;
 
   useEffect(() => {
     onChangeRef.current = onChange;
@@ -221,10 +228,12 @@ const DateRangePicker = ({
       setInternalRange(nextRange);
       updateDisplayedDateEnd(nextRange[1]);
       updateDisplayedDateStart(nextRange[0]);
+      updateFullDateStart(nextRange[0]);
+      updateFullDateEnd(nextRange[1]);
 
       onChangeRef.current?.(nextRange);
     },
-    [updateDisplayedDateEnd, updateDisplayedDateStart],
+    [updateDisplayedDateEnd, updateDisplayedDateStart, updateFullDateEnd, updateFullDateStart],
   );
 
   const handleOnChange = (date: Date | null) => {
@@ -300,6 +309,8 @@ const DateRangePicker = ({
     handleOnClose();
     updateDisplayedDateStart(nextRange[0]);
     updateDisplayedDateEnd(nextRange[1]);
+    updateFullDateStart(nextRange[0]);
+    updateFullDateEnd(nextRange[1]);
   };
 
   const handleOnValidate = () => {
@@ -345,7 +356,7 @@ const DateRangePicker = ({
 
   return (
     <div className={styles["date-range-picker"]}>
-      <Label id={labelId} label={label} required={required} showLabelRequirement={showLabelRequirement} htmlFor={id} />
+      <Label id={groupLabelId} label={label} required={required} showLabelRequirement={showLabelRequirement} />
       <BaseDropdown
         style={{ width: inputsRef.current?.offsetWidth }}
         isList={false}
@@ -354,7 +365,15 @@ const DateRangePicker = ({
         offset={8}
         hasMaxWidth={false}
         trigger={
-          <div className={styles["date-range-picker-inputs"]} ref={inputsRef}>
+          <div
+            className={styles["date-range-picker-inputs"]}
+            ref={inputsRef}
+            role="group"
+            aria-labelledby={groupLabelId}
+          >
+            <span id={startInputLabelId} className={styles["visually-hidden"]}>
+              Date de debut
+            </span>
             <DateRangeInput
               id={`${id}-start-input`}
               pickerInputRef={dateInputStartRef}
@@ -384,10 +403,16 @@ const DateRangePicker = ({
               updateDateSegment={updateDateSegmentStart}
               updateFullDate={updateFullDateStart}
               displayValue={displayValueStart}
+              ariaLabelledBy={startInputAriaLabelledBy}
+              ariaDescribedBy={inputAriaDescribedBy}
+              openButtonAriaLabel="Ouvrir le sélecteur de date de début"
               isError={isError}
               readonly={readonly}
             />
             <Icon name="arrow-double-right" size={20} />
+            <span id={endInputLabelId} className={styles["visually-hidden"]}>
+              Date de fin
+            </span>
             <DateRangeInput
               id={`${id}-end-input`}
               pickerInputRef={dateInputEndRef}
@@ -417,6 +442,9 @@ const DateRangePicker = ({
               updateDateSegment={updateDateSegmentEnd}
               updateFullDate={updateFullDateEnd}
               displayValue={displayValueEnd}
+              ariaLabelledBy={endInputAriaLabelledBy}
+              ariaDescribedBy={inputAriaDescribedBy}
+              openButtonAriaLabel="Ouvrir le sélecteur de date de fin"
               isError={isError}
               readonly={readonly}
             />
@@ -439,12 +467,14 @@ const DateRangePicker = ({
         />
       </BaseDropdown>
       {shouldDisplayAssistiveText && (
-        <AssistiveText
-          label={assistiveTextLabel}
-          appearance={isError ? "error" : assistiveAppearance}
-          showIcon={showAssistiveIcon}
-          href={assistiveTextLink}
-        />
+        <div id={assistiveTextId}>
+          <AssistiveText
+            label={assistiveTextLabel}
+            appearance={isError ? "error" : assistiveAppearance}
+            showIcon={showAssistiveIcon}
+            href={assistiveTextLink}
+          />
+        </div>
       )}
     </div>
   );

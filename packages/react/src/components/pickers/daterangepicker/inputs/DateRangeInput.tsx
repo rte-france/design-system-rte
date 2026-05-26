@@ -62,6 +62,9 @@ const DateRangeInput = ({
   onMouseUp,
   onFocus,
   onBlur,
+  ariaLabelledBy,
+  ariaDescribedBy,
+  openButtonAriaLabel,
   value,
   onChange,
   activeSegment,
@@ -213,7 +216,7 @@ const DateRangeInput = ({
 
   return (
     <BaseInputPicker
-      id={`${id}-start`}
+      id={`${id}`}
       pickerInputRef={pickerInputRef}
       isFocused={isFocused}
       onKeyDown={handleOnKeyDown}
@@ -226,6 +229,9 @@ const DateRangeInput = ({
       onOpenPicker={onOpenPicker}
       fixedWidth={false}
       onChange={() => {}}
+      ariaLabelledBy={ariaLabelledBy}
+      ariaDescribedBy={ariaDescribedBy}
+      openButtonAriaLabel={openButtonAriaLabel}
       disabled={disabled}
       isError={isError}
       readOnly={readonly}

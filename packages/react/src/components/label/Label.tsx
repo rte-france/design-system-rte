@@ -16,7 +16,7 @@ const Label = ({
   showLabelRequirement?: boolean;
 }) => {
   return (
-    <label htmlFor={htmlFor ?? id} className={styles["rte-label"]}>
+    <label id={id} htmlFor={htmlFor} className={styles["rte-label"]}>
       {label}
       <RequiredIndicator required={required} showLabelRequirement={showLabelRequirement} />
     </label>

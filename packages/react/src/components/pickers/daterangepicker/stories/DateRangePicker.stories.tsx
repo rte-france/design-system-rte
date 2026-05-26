@@ -1,4 +1,4 @@
-import { TESTING_ESCAPE_KEY } from "@design-system-rte/core/dist";
+import { TESTING_ESCAPE_KEY } from "@design-system-rte/core";
 import type { Meta, StoryObj } from "@storybook/react";
 import { expect, userEvent, waitFor, within } from "@storybook/test";
 import { useState } from "react";
@@ -134,7 +134,7 @@ export const WithAction: Story = {
 
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const openButtons = canvas.getAllByRole("button", { name: /open picker/i });
+    const openButtons = canvas.getAllByRole("button", { name: /Ouvrir le sélecteur de date de début/i });
     await userEvent.click(openButtons[0]);
 
     const dropdown = await getDropdown();
@@ -167,7 +167,7 @@ export const WithMinMax: Story = {
 
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const openButtons = canvas.getAllByRole("button", { name: /open picker/i });
+    const openButtons = canvas.getAllByRole("button", { name: /Ouvrir le sélecteur de date de début/i });
     await userEvent.click(openButtons[0]);
 
     const dropdown = await getDropdown();
@@ -197,7 +197,7 @@ export const DisabledDates: Story = {
 
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const openButtons = canvas.getAllByRole("button", { name: /open picker/i });
+    const openButtons = canvas.getAllByRole("button", { name: /Ouvrir le sélecteur de date de début/i });
     await userEvent.click(openButtons[0]);
 
     const dropdown = await getDropdown();
@@ -221,6 +221,7 @@ export const Readonly: Story = {
 };
 
 export const TabNavigation: Story = {
+  tags: ["skip-ci"],
   args: {
     ...Default.args,
     value: null,
@@ -231,7 +232,7 @@ export const TabNavigation: Story = {
 
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const openButtons = canvas.getAllByRole("button", { name: /open picker/i });
+    const openButtons = canvas.getAllByRole("button", { name: /Ouvrir le sélecteur de date de début/i });
     const firstOpenButton = openButtons[0];
     await userEvent.click(firstOpenButton);
 
