@@ -26,7 +26,6 @@ export function areSameRange(a: [Date | null, Date | null], b: [Date | null, Dat
 }
 
 export function normalizeDate(date: Date): Date {
-  const normalizedDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-  normalizedDate.setHours(0, 0, 0, 0);
-  return normalizedDate;
+  date.setHours(0, 0, 0, 0);
+  return date;
 }

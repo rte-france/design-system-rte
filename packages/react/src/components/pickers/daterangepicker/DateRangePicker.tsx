@@ -51,6 +51,7 @@ const DateRangePicker = ({
 }: DateRangePickerProps) => {
   const [isFocused, setIsFocused] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [hasPendingChanges, setHasPendingChanges] = useState(false);
 
   const skipNextFocusRef = useRef(false);
   const activeInputRef = useRef<"start" | "end">("start");
@@ -162,6 +163,9 @@ const DateRangePicker = ({
     setIsFocused(false);
     setShouldSkipNextFocus(false);
     setCurrentModifiedSegment(null);
+    if (hasAction && hasPendingChanges) {
+      cancel();
+    }
   };
 
   const handleOnMouseDownStart = () => {
@@ -220,6 +224,9 @@ const DateRangePicker = ({
 
   const emitRangeChange = useCallback(
     (nextRange: [Date | null, Date | null]) => {
+      if (hasAction && isDropdownOpen) {
+        setHasPendingChanges(true);
+      }
       const currentRange = internalRangeRef.current;
       if (areSameRange(currentRange, nextRange)) {
         return;
@@ -233,7 +240,14 @@ const DateRangePicker = ({
 
       onChangeRef.current?.(nextRange);
     },
-    [updateDisplayedDateEnd, updateDisplayedDateStart, updateFullDateEnd, updateFullDateStart],
+    [
+      updateDisplayedDateEnd,
+      updateDisplayedDateStart,
+      updateFullDateEnd,
+      updateFullDateStart,
+      hasAction,
+      isDropdownOpen,
+    ],
   );
 
   const handleOnChange = (date: Date | null) => {
@@ -250,7 +264,6 @@ const DateRangePicker = ({
         emitRangeChange([date, null]);
       } else {
         const nextRange: [Date | null, Date | null] = [startDate, date];
-        setSelectionMode("start");
         emitRangeChange(nextRange);
         if (!hasAction) {
           setInitialValue(nextRange);
@@ -271,6 +284,9 @@ const DateRangePicker = ({
 
     internalRangeRef.current = nextRange;
     setInternalRange(nextRange);
+
+    console.log("Emitting range change from start input", { nextRange });
+
     onChangeRef.current?.(nextRange);
   }, []);
 
@@ -285,6 +301,7 @@ const DateRangePicker = ({
 
     internalRangeRef.current = nextRange;
     setInternalRange(nextRange);
+
     onChangeRef.current?.(nextRange);
   }, []);
 
@@ -293,24 +310,16 @@ const DateRangePicker = ({
   };
 
   const handleOnClose = () => {
-    setIsDropdownOpen(false);
-    setIsFocused(false);
-    setActiveSegment(DAY);
-    setSelectionMode("start");
-    setCurrentModifiedSegment(null);
+    if (isDropdownOpen && hasPendingChanges && hasAction) {
+      handleOnCancel();
+      return;
+    }
+    close();
   };
 
   const handleOnCancel = () => {
-    const nextRange: [Date | null, Date | null] = initialValue ?? [null, null];
-    internalRangeRef.current = nextRange;
-    setInternalRange(nextRange);
-    onChangeRef.current?.(nextRange);
-    onCancel?.();
-    handleOnClose();
-    updateDisplayedDateStart(nextRange[0]);
-    updateDisplayedDateEnd(nextRange[1]);
-    updateFullDateStart(nextRange[0]);
-    updateFullDateEnd(nextRange[1]);
+    cancel();
+    close();
   };
 
   const handleOnValidate = () => {
@@ -322,7 +331,29 @@ const DateRangePicker = ({
 
   const validate = () => {
     onValidate?.();
-    handleOnClose();
+    setHasPendingChanges(false);
+    close();
+  };
+
+  const close = () => {
+    setIsDropdownOpen(false);
+    setIsFocused(false);
+    setActiveSegment(DAY);
+    setSelectionMode("start");
+    setCurrentModifiedSegment(null);
+  };
+
+  const cancel = () => {
+    const nextRange: [Date | null, Date | null] = initialValue ?? [null, null];
+    internalRangeRef.current = nextRange;
+    setInternalRange(nextRange);
+    onChangeRef.current?.(nextRange);
+    onCancel?.();
+    setHasPendingChanges(false);
+    updateDisplayedDateStart(nextRange[0]);
+    updateDisplayedDateEnd(nextRange[1]);
+    updateFullDateStart(nextRange[0]);
+    updateFullDateEnd(nextRange[1]);
   };
 
   useEffect(() => {
@@ -390,6 +421,8 @@ const DateRangePicker = ({
               activeSegment={activeSegment}
               onOpenPicker={() => {
                 setIsDropdownOpen(!isDropdownOpen);
+                setSelectionMode("start");
+                activeInputRef.current = START_INPUT;
               }}
               minDate={minDate}
               maxDate={maxDate}
@@ -429,6 +462,8 @@ const DateRangePicker = ({
               activeSegment={activeSegment}
               onOpenPicker={() => {
                 setIsDropdownOpen(!isDropdownOpen);
+                activeInputRef.current = END_INPUT;
+                setSelectionMode("end");
               }}
               minDate={minDate}
               maxDate={maxDate}
