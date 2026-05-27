@@ -148,29 +148,6 @@
     @media (prefers-reduced-motion: reduce) {
       transition: none;
     }
-
-
-
-    // &::before {
-    //   position: inherit;
-    //   content: "";
-    //   height: 100%;
-    //   width: 100%;
-    //   box-sizing: border-box;
-    //   left: 0;
-    //   background-color: var(--background-brand-unselected-default);
-    // }
-
-    // &::before {
-    //   position: inherit;
-    //   content: "";
-    //   height: 32px;
-    //   width: 100%;
-    //   box-sizing: border-box;
-    //   left: 2px;
-    //   top: -2px;
-    //   background-color: var(--background-brand-unselected-default);
-    // }
   }
 
   &:focus {
@@ -228,6 +205,16 @@
           &[data-position="end-cell"],
           &[data-position="end-line"] {
             display: none;
+          }
+        }
+
+        &[data-in-range="true"] {
+          .rte-date-rangepicker-link {
+
+            &[data-position="end-cell"],
+            &[data-position="end-line"] {
+              display: block;
+            }
           }
         }
       }
@@ -302,6 +289,16 @@
               display: none;
             }
           }
+
+          &[data-in-range="true"] {
+            .rte-date-rangepicker-link {
+
+              &[data-position="end-cell"],
+              &[data-position="end-line"] {
+                display: block;
+              }
+            }
+          }
         }
       }
     }
@@ -310,22 +307,6 @@
   }
 
   &[data-datepicker-active="true"]:not(:disabled) {
-    &[data-cell-type="selected"] {
-
-      .day-cell__surface {
-        background-color: var(--background-brand-selected-hover);
-      }
-
-      // &[data-first-in-preview="true"] {
-      //   .rte-date-rangepicker-link {
-
-      //     &[data-position="end-cell"],
-      //     &[data-position="end-line"] {
-      //       display: none;
-      //     }
-      //   }
-      // }
-    }
 
     &[data-cell-type="today"] {
       color: var(--content-brand-hover);
@@ -475,6 +456,16 @@
 
         &[data-position="end-cell"],
         &[data-position="end-line"] {
+          display: none;
+        }
+      }
+    }
+
+    &[data-first-in-range="true"] {
+      .rte-date-rangepicker-link {
+
+        &[data-position="start-cell"],
+        &[data-position="start-line"] {
           display: none;
         }
       }

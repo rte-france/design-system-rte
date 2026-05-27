@@ -192,6 +192,8 @@ const DateRangePickerMenu = ({
 
     setViewDate(normalizedDate);
 
+    setHasPendingRange(true);
+
     if (!hasAction) {
       if (selectionMode === "start") {
         setHasPendingRange(true);
@@ -210,14 +212,22 @@ const DateRangePickerMenu = ({
       onChange?.(normalizedDate);
     } else {
       if (selectionMode === "start") {
-        setHasPendingRange(true);
         setPendingDate([normalizedDate, null]);
       } else {
-        if (pendingDate && normalizedDate < pendingDate[0]!) {
-          setPendingDate([normalizedDate, null]);
+        if (pendingDate) {
+          if (normalizedDate < pendingDate[0]!) {
+            setPendingDate([normalizedDate, null]);
+          } else {
+            setPendingDate([pendingDate[0], normalizedDate]);
+          }
         } else {
-          setHasPendingRange(false);
-          setPendingDate([pendingDate ? pendingDate[0] : null, normalizedDate]);
+          if (localCurrentValue) {
+            if (normalizedDate >= localCurrentValue[0]!) {
+              setPendingDate([localCurrentValue[0], normalizedDate]);
+            } else {
+              setPendingDate([normalizedDate, null]);
+            }
+          }
         }
       }
       setActiveDate(normalizedDate);
@@ -503,7 +513,13 @@ const DateRangePickerMenu = ({
       return false;
     }
     if (selectionMode === "end") {
-      return false;
+      if (hoveredDate) {
+        if (hoveredDate < startDate) {
+          return date >= startDate && date <= endDate;
+        } else {
+          return false;
+        }
+      }
     }
     return date >= startDate && date <= endDate;
   };
@@ -535,16 +551,40 @@ const DateRangePickerMenu = ({
         return date >= pendingStart && date <= hoveredDate;
       }
       if (pendingEnd && pendingStart) {
+        if (hoveredDate && selectionMode === "end") {
+          if (hoveredDate === date && date === pendingEnd) {
+            return false;
+          }
+          if (hoveredDate >= pendingStart) {
+            return date >= pendingStart && date <= hoveredDate;
+          }
+        }
         return date >= pendingStart && date <= pendingEnd;
       }
       return false;
+    }
+    if (selectionMode === "end" && startDate && hoveredDate) {
+      if (date >= startDate && date <= hoveredDate) {
+        return true;
+      }
     }
     return false;
   };
 
   const isDateLastInPreviewRange = (date: Date): boolean => {
-    if (hoveredDate && !isDateFirstInRange(hoveredDate)) {
-      return date.toDateString() === hoveredDate.toDateString();
+    if (hoveredDate) {
+      if (date.toDateString() === hoveredDate.toDateString()) {
+        return true;
+      } else {
+        if (hasPendingRange) {
+          if (pendingDate) {
+            if (pendingDate[1]! <= hoveredDate) {
+              return false;
+            }
+            return pendingDate[1] ? date.toDateString() === pendingDate[1].toDateString() : false;
+          }
+        }
+      }
     }
     if (hasPendingRange) {
       if (pendingDate) {
@@ -558,6 +598,11 @@ const DateRangePickerMenu = ({
     if (hasPendingRange) {
       if (pendingDate) {
         return pendingDate[0] ? date.toDateString() === pendingDate[0].toDateString() : false;
+      }
+    }
+    if (selectionMode === "end") {
+      if (isSameDay(date, startDate!) && hoveredDate) {
+        return true;
       }
     }
     return false;
@@ -594,6 +639,8 @@ const DateRangePickerMenu = ({
   };
 
   const handleOnClickValidate = () => {
+    setHasPendingRange(false);
+    setLocalCurrentValue([pendingDate ? pendingDate[0] : null, pendingDate ? pendingDate[1] : null]);
     onValidate?.();
   };
 
@@ -641,36 +688,26 @@ const DateRangePickerMenu = ({
     setActiveDate(navigation.menuInitialActiveDate);
   };
 
-  const handleOnBlur = (event: React.FocusEvent) => {
-    const root = datePickerMenuRef.current;
-    if (!root) {
-      return;
-    }
-    const relatedTarget = event.relatedTarget as HTMLElement | null;
-    if (relatedTarget && root.contains(relatedTarget)) {
-      return;
-    }
-
-    onCancel?.();
-  };
-
   const handleOnCancel = () => {
     onCancel?.();
   };
 
   useEffect(() => {
+    setLocalCurrentValue(currentValue);
+  }, [currentValue]);
+
+  useEffect(() => {
     const applyInitialStateOnOpen = () => {
       queueFocusActiveDayCell();
-      setInitialValue?.(localCurrentValue ?? [null, null]);
-      if (localCurrentValue?.[0] && !localCurrentValue?.[1]) {
+      if (currentValue?.[0] && !currentValue?.[1]) {
         setHasPendingRange(true);
-        setPendingDate([localCurrentValue[0], null]);
+        setPendingDate([currentValue[0], null]);
       }
     };
     if (isOpen) {
       applyInitialStateOnOpen();
     }
-  }, [isOpen, setInitialValue, localCurrentValue]);
+  }, [isOpen, currentValue, setInitialValue]);
 
   useEffect(() => {
     const synchronizeActiveDateWithDayGrid = () => {
@@ -724,7 +761,6 @@ const DateRangePickerMenu = ({
       aria-modal="true"
       aria-label="Choisir une date"
       onKeyDown={handleOnKeyDown}
-      onBlur={handleOnBlur}
     >
       <div className={styles["rte-datepicker-dropdown-header"]}>
         <div className={styles["nav-left"]}>

@@ -111,6 +111,7 @@ const DateRangeInput = ({
     }
 
     if (numberRegex.test(key)) {
+      event.preventDefault();
       handleDigitInput(key);
     } else {
       return;
@@ -138,6 +139,7 @@ const DateRangeInput = ({
       const maxValue = DATE_SEGMENT_MAX_VALUE[DateSegmentEnum.YEAR];
       const clamped = formatNumberToParseSegmentValue(Math.min(Number(newValue), maxValue), DateSegmentEnum.YEAR);
 
+      console.log({ newValue, maxValue, clamped });
       updateDateSegment(DateSegmentEnum.YEAR, clamped);
     } else {
       setCurrentModifiedSegment(DateSegmentEnum.YEAR);
@@ -203,6 +205,7 @@ const DateRangeInput = ({
 
   useEffect(() => {
     if (internalValue === null && !isDateStateEmpty(dateState)) {
+      onChangeRef.current?.(internalValue);
       return;
     }
 
