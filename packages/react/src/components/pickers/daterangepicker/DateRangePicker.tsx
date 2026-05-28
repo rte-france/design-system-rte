@@ -265,6 +265,7 @@ const DateRangePicker = ({
       } else {
         const nextRange: [Date | null, Date | null] = [startDate, date];
         emitRangeChange(nextRange);
+        setSelectionMode("start");
         if (!hasAction) {
           setInitialValue(nextRange);
           validate();
@@ -284,8 +285,6 @@ const DateRangePicker = ({
 
     internalRangeRef.current = nextRange;
     setInternalRange(nextRange);
-
-    console.log("Emitting range change from start input", { nextRange });
 
     onChangeRef.current?.(nextRange);
   }, []);

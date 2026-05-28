@@ -572,37 +572,26 @@ const DateRangePickerMenu = ({
   };
 
   const isDateLastInPreviewRange = (date: Date): boolean => {
-    if (hoveredDate) {
-      if (date.toDateString() === hoveredDate.toDateString()) {
-        return true;
-      } else {
-        if (hasPendingRange) {
-          if (pendingDate) {
-            if (pendingDate[1]! <= hoveredDate) {
-              return false;
-            }
-            return pendingDate[1] ? date.toDateString() === pendingDate[1].toDateString() : false;
-          }
-        }
+    if (selectionMode === "start") {
+      if (pendingDate && pendingDate[1]) {
+        return date.toDateString() === pendingDate[1].toDateString();
       }
-    }
-    if (hasPendingRange) {
-      if (pendingDate) {
-        return pendingDate[1] ? date.toDateString() === pendingDate[1].toDateString() : false;
+    } else {
+      if (hoveredDate) {
+        return date.toDateString() === hoveredDate.toDateString();
       }
     }
     return false;
   };
 
   const isDateFirstInPreviewRange = (date: Date): boolean => {
-    if (hasPendingRange) {
-      if (pendingDate) {
-        return pendingDate[0] ? date.toDateString() === pendingDate[0].toDateString() : false;
+    if (selectionMode === "start") {
+      if (hoveredDate) {
+        return date.toDateString() === hoveredDate.toDateString();
       }
-    }
-    if (selectionMode === "end") {
-      if (isSameDay(date, startDate!) && hoveredDate) {
-        return true;
+    } else {
+      if (pendingDate && pendingDate[0]) {
+        return date.toDateString() === pendingDate[0].toDateString();
       }
     }
     return false;
