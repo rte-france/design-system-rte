@@ -240,6 +240,36 @@
               display: none;
             }
           }
+
+          &[data-first-in-range="true"] {
+            .rte-date-rangepicker-link {
+
+              &[data-position="end-cell"],
+              &[data-position="end-line"] {
+                display: block;
+              }
+            }
+          }
+
+          &[data-last-in-range="true"] {
+            .rte-date-rangepicker-link {
+
+              &[data-position="start-cell"],
+              &[data-position="start-line"] {
+                display: block;
+              }
+            }
+          }
+
+          &[data-last-in-preview="true"] {
+            .rte-date-rangepicker-link {
+
+              &[data-position="end-cell"],
+              &[data-position="end-line"] {
+                display: none;
+              }
+            }
+          }
         }
       }
 
@@ -334,6 +364,11 @@
         }
       }
     }
+
+    .day-cell__surface {
+      background-color: var(--background-brand-selected-hover);
+    }
+
   }
 
   &:disabled {
