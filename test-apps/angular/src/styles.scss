@@ -2,3 +2,8 @@
 @use "@design-system-rte/core/design-tokens/fonts" as *;
 
 @include theme-selector('bleu_iceberg', 'light');
+
+html,
+body {
+  margin: 0;
+}

@@ -1,31 +1,5 @@
 @use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
 
-.sideNavContainer {
-    min-height: 100vh;
-    height: 100vh;
-}
-
-.sideNavContent {
-    flex: 0 1 auto;
-    align-self: flex-start;
-}
-
-.sideNav {
-    min-height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    gap: $positive-spacing_0;
-    overflow: hidden;
-    box-sizing: border-box;
-    border-radius: 0;
-    transition: min-width 300ms;
-    position: relative;
-    border-right: 1px solid var(--border-brand-navigation-divider);
-}
-
 .sideNavHeaderContainer {
     display: flex;
     padding: $positive-spacing_050;

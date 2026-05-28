@@ -31,6 +31,13 @@ const meta = {
   id: "SideNav",
   component: SideNav,
   tags: ["autodocs"],
+  decorators: [
+    (Story) => (
+      <div style={{ height: "600px", width: "100%", display: "flex" }}>
+        <Story />
+      </div>
+    ),
+  ],
   argTypes: {
     collapsible: { control: "boolean" },
     size: { control: "select", options: ["s", "m", "l"] },

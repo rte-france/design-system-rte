@@ -1,15 +1,5 @@
 import { CommonModule } from "@angular/common";
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  ElementRef,
-  inject,
-  input,
-  OnDestroy,
-  viewChild,
-} from "@angular/core";
+import { ChangeDetectionStrategy, Component, computed, input } from "@angular/core";
 import { sideNavCollapsedSize, sideNavPanelSize } from "@design-system-rte/core/components/side-nav/side-nav.constants";
 import { SideNavAppearance } from "@design-system-rte/core/components/side-nav/side-nav.interface";
 
@@ -23,11 +13,7 @@ type SideNavSize = "s" | "m" | "l";
   styleUrl: "./base-side-nav.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BaseSideNavComponent implements AfterViewInit, OnDestroy {
-  private readonly elementRef = inject(ElementRef<HTMLElement>);
-
-  readonly contentRef = viewChild<ElementRef<HTMLDivElement>>("contentRef");
-
+export class BaseSideNavComponent {
   private readonly collapsedSize = sideNavCollapsedSize;
   private readonly panelSize = sideNavPanelSize;
 
@@ -40,49 +26,4 @@ export class BaseSideNavComponent implements AfterViewInit, OnDestroy {
   readonly minWidth = computed<string>(() => {
     return this.collapsed() ? `${this.collapsedSize}px` : `${this.panelSize[this.size()]}px`;
   });
-
-  private resizeObserver?: ResizeObserver;
-  private resizeHandler?: () => void;
-
-  ngAfterViewInit(): void {
-    this.setupResizeObserver();
-  }
-
-  ngOnDestroy(): void {
-    this.cleanupResizeObserver();
-  }
-
-  private setupResizeObserver(): void {
-    const containerEl = this.elementRef.nativeElement;
-    const contentEl = this.contentRef()?.nativeElement;
-    if (!containerEl || !contentEl) {
-      return;
-    }
-
-    const setHeightVar = (): void => {
-      const height = contentEl.offsetHeight;
-      containerEl.style.setProperty("--content-height", `${height}px`);
-    };
-
-    this.resizeHandler = setHeightVar;
-    setHeightVar();
-
-    this.resizeObserver = new ResizeObserver(() => {
-      setHeightVar();
-    });
-    this.resizeObserver.observe(contentEl);
-
-    window.addEventListener("resize", setHeightVar);
-  }
-
-  private cleanupResizeObserver(): void {
-    if (this.resizeObserver) {
-      this.resizeObserver.disconnect();
-      this.resizeObserver = undefined;
-    }
-    if (this.resizeHandler) {
-      window.removeEventListener("resize", this.resizeHandler);
-      this.resizeHandler = undefined;
-    }
-  }
 }

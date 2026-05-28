@@ -1,9 +1,8 @@
 import { sideNavCollapsedSize, sideNavPanelSize } from "@design-system-rte/core/components/side-nav/side-nav.constants";
 import { BaseSideNavProps as CoreSideNavProps } from "@design-system-rte/core/components/side-nav/side-nav.interface";
-import { forwardRef, ReactNode, useRef } from "react";
+import { forwardRef, ReactNode } from "react";
 
 import style from "./BaseSideNav.module.scss";
-import useContentHeight from "./hooks/useContentHeight";
 
 interface BaseSideNavProps
   extends Partial<Omit<CoreSideNavProps, "items">>, Omit<React.HTMLAttributes<HTMLDivElement>, "content"> {
@@ -25,17 +24,15 @@ const BaseSideNav = forwardRef<HTMLElement | HTMLDivElement, BaseSideNavProps>(
       children,
       appearance = "brand",
       collapsed,
+      className,
       ...props
     },
     ref,
   ) => {
-    const containerRef = useRef<HTMLDivElement>(null);
-    const contentRef = useRef<HTMLDivElement>(null);
-
-    useContentHeight(containerRef, contentRef, children);
+    const containerClassName = [style.sideNavContainer, className].filter(Boolean).join(" ");
 
     return (
-      <div ref={containerRef} className={style.sideNavContainer} {...props}>
+      <div className={containerClassName} {...props}>
         <nav
           ref={ref}
           className={style.sideNav}
@@ -50,11 +47,7 @@ const BaseSideNav = forwardRef<HTMLElement | HTMLDivElement, BaseSideNavProps>(
           {showFooter && footer && <div className={style.sideNavFooter}>{footer}</div>}
         </nav>
 
-        {children && (
-          <div ref={contentRef} className={style.sideNavContent}>
-            {children}
-          </div>
-        )}
+        {children && <div className={style.sideNavContent}>{children}</div>}
       </div>
     );
   },

@@ -7,6 +7,13 @@ const meta = {
   id: "BaseSideNav",
   component: BaseSideNav,
   tags: ["autodocs"],
+  decorators: [
+    (Story) => (
+      <div style={{ height: "600px", width: "100%", display: "flex" }}>
+        <Story />
+      </div>
+    ),
+  ],
   argTypes: {
     size: { control: "select", options: ["s", "m", "l"] },
     showHeader: { control: "boolean" },
