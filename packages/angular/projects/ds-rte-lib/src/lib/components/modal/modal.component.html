@@ -1,5 +1,5 @@
 <div class="rte-modal-wrapper">
-  <div class="rte-modal-backdrop" [attr.data-open]="isOpen()"></div>
+  <div class="rte-modal-backdrop" [attr.data-open]="isOpen()" (click)="handleClickBackdrop()"></div>
   <dialog
     #modal
     class="rte-modal-container"

@@ -5,7 +5,6 @@ import Backdrop from "../../abstract/backdrop/Backdrop";
 import BaseFooter, { DSButtonElement } from "../../abstract/baseFooter/BaseFooter";
 import BaseHeader from "../../abstract/baseHeader/BaseHeader";
 import useAnimatedMount from "../../hooks/useAnimatedMount";
-import { useClickAway } from "../../hooks/useClickAway";
 import { useFocusTrap } from "../../hooks/useFocusTrap";
 import { useKeydownEscape } from "../../hooks/useKeydownEscape";
 import { Overlay } from "../overlay/Overlay";
@@ -54,15 +53,20 @@ const Modal = forwardRef<HTMLDialogElement, ModalProps>(
       [ref],
     );
 
-    useClickAway(closeOnOverlayClick ? onClose : () => {}, modalElement!);
     useKeydownEscape(onClose);
     useFocusTrap(modalElement!, shouldRender);
+
+    const handleOnClickBackdrop = () => {
+      if (closeOnOverlayClick) {
+        onClose();
+      }
+    };
 
     return (
       <>
         {shouldRender && (
           <Overlay freezeNavigation={true}>
-            <Backdrop isAnimating={isAnimating} />
+            <Backdrop isAnimating={isAnimating} onClick={handleOnClickBackdrop} />
             <dialog
               ref={modalCallbackRef}
               className={concatClassNames(styles["modal-container"], className)}

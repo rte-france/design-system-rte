@@ -9,6 +9,7 @@ import { userEvent, waitFor, within, expect, fn } from "@storybook/test";
 import { focusElementBeforeComponent } from "../../../../../../../.storybook/testing/testing.utils";
 import { ButtonComponent } from "../../button/button.component";
 import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../../icon/icon-map";
+import { SelectComponent } from "../../select/select.component";
 import { TextareaComponent } from "../../textarea/textarea.component";
 import { ModalDirective } from "../modal.directive";
 import { ModalModule } from "../modal.module";
@@ -274,6 +275,70 @@ export const WithCustomContent: Story = {
                 </ng-template>
                 <ng-template #customContent>
                   <rte-textarea resizeable="true" />
+                </ng-template>
+              </div>
+      `,
+  }),
+};
+
+export const WithOverlayComponent: Story = {
+  decorators: [
+    moduleMetadata({
+      imports: [ModalModule, ButtonComponent, TextareaComponent, SelectComponent],
+    }),
+  ],
+  args: {
+    ...Default.args,
+    rteModalId: "modal-2",
+    rteModalTitle: "Préciser le motif du refus",
+    rteModalDescription:
+      "En motivant votre refus, vous aidez votre collaborateur à mieux identifier comment corriger sa demande.",
+    rteModalAriaDescribedby: undefined,
+    rteModalSize: "m",
+  },
+  render: (args) => ({
+    props: {
+      ...args,
+      handlePrimaryClick: () => console.log("Primary button clicked"),
+      handleSecondaryClick: () => console.log("Secondary button clicked"),
+      change: (value: string) => {
+        mockFn(value);
+      },
+      options: [
+        { value: "option-1", label: "Option 1" },
+        { value: "option-2", label: "Option 2" },
+        { value: "option-3", label: "Option 3" },
+      ],
+    },
+    declarations: [ModalDirective],
+    template: `<div
+                rteModal
+                [rteModalId]="rteModalId"
+                [rteModalIconAppearance]="rteModalIconAppearance"
+                [rteModalTitle]="rteModalTitle"
+                [rteModalDescription]="rteModalDescription"
+                [rteModalSize]="rteModalSize"
+                [rteModalIcon]="rteModalIcon"
+                [rteModalAriaDescribedby]="rteModalAriaDescribedby"
+                [rteModalCloseOnClickOutside]="rteModalCloseOnClickOutside"
+                >
+                <button rteButton rteButtonVariant="primary" rteModalTrigger>Open Modal</button>
+                <ng-template #primaryButton>
+                  <button rteButton rteButtonVariant="primary"(click)="handlePrimaryClick()">Continue</button>
+                </ng-template>
+                <ng-template #secondaryButton>
+                  <button rteButton rteButtonVariant="neutral" (click)="handleSecondaryClick()">Cancel</button>
+                </ng-template>
+                <ng-template #customContent>
+                <rte-select
+                  id="my-select"
+                  label="Sélectionner une option"
+                  [labelId]="'label-for-select'"
+                  [value]="value"
+                  [disabled]="disabled"
+                  [options]="options"
+                  (change)="change($event)"
+                />
                 </ng-template>
               </div>
       `,
