@@ -9,6 +9,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#000000"
         },
         "black-50": {
@@ -16,6 +17,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "rgba(0, 0, 0, 0.50)"
         },
         "white": {
@@ -23,6 +25,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#ffffff"
         },
         "white-50": {
@@ -30,6 +33,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "rgba(255, 255, 255, 0.50)"
         }
       },
@@ -39,6 +43,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#f4f5f4"
         },
         "50": {
@@ -46,6 +51,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#ebebea"
         },
         "100": {
@@ -53,6 +59,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#e1e1e0"
         },
         "150": {
@@ -60,6 +67,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#d7d6d5"
         },
         "200": {
@@ -67,6 +75,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#cdcccb"
         },
         "250": {
@@ -74,6 +83,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#c2c1c0"
         },
         "300": {
@@ -81,6 +91,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#b7b7b6"
         },
         "350": {
@@ -88,6 +99,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#acacab"
         },
         "400": {
@@ -95,6 +107,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#a1a1a0"
         },
         "450": {
@@ -102,6 +115,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#969695"
         },
         "500": {
@@ -109,6 +123,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#8b8a8a"
         },
         "550": {
@@ -116,6 +131,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#7f7e7e"
         },
         "600": {
@@ -123,6 +139,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#737272"
         },
         "650": {
@@ -130,6 +147,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#666665"
         },
         "700": {
@@ -137,6 +155,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#595958"
         },
         "750": {
@@ -144,6 +163,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#4c4c4b"
         },
         "800": {
@@ -151,6 +171,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#3e3e3d"
         },
         "850": {
@@ -158,6 +179,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#302f2f"
         },
         "900": {
@@ -165,6 +187,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#201f1f"
         },
         "950": {
@@ -172,6 +195,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#0d0c0c"
         }
       },
@@ -181,6 +205,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#f8fdff"
         },
         "50": {
@@ -188,6 +213,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#f0fbff"
         },
         "100": {
@@ -195,6 +221,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#e0f5fe"
         },
         "200": {
@@ -202,6 +229,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#b9edfe"
         },
         "300": {
@@ -209,6 +237,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#7ce1fd"
         },
         "400": {
@@ -216,6 +245,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#36d3fa"
         },
         "500": {
@@ -223,6 +253,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#0cbdeb"
         },
         "600": {
@@ -230,6 +261,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#00a6d9"
         },
         "700": {
@@ -237,6 +269,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#017aa3"
         },
         "800": {
@@ -244,6 +277,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#066686"
         },
         "900": {
@@ -251,6 +285,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#0b556f"
         },
         "950": {
@@ -258,6 +293,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#07364a"
         }
       },
@@ -267,6 +303,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#f7faff"
         },
         "50": {
@@ -274,6 +311,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#eef7ff"
         },
         "100": {
@@ -281,6 +319,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#d8ebff"
         },
         "200": {
@@ -288,6 +327,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#baddff"
         },
         "300": {
@@ -295,6 +335,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#8ac8ff"
         },
         "400": {
@@ -302,6 +343,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#53aaff"
         },
         "500": {
@@ -309,6 +351,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#2b86ff"
         },
         "600": {
@@ -316,6 +359,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#1465fc"
         },
         "700": {
@@ -323,6 +367,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#0d4fea"
         },
         "800": {
@@ -330,6 +375,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#123fbb"
         },
         "900": {
@@ -337,6 +383,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#153b93"
         },
         "950": {
@@ -344,6 +391,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#122559"
         }
       },
@@ -353,6 +401,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#f7f9fc"
         },
         "50": {
@@ -360,6 +409,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#f3f6fc"
         },
         "100": {
@@ -367,6 +417,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#e7edf7"
         },
         "200": {
@@ -374,6 +425,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#c9d8ee"
         },
         "300": {
@@ -381,6 +433,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#9ab9df"
         },
         "400": {
@@ -388,6 +441,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#6494cc"
         },
         "500": {
@@ -395,6 +449,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#3d70ad"
         },
         "600": {
@@ -402,6 +457,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#2f5d9a"
         },
         "700": {
@@ -409,6 +465,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#274a7d"
         },
         "800": {
@@ -416,6 +473,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#244068"
         },
         "900": {
@@ -423,6 +481,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#233857"
         },
         "950": {
@@ -430,6 +489,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#17243a"
         }
       },
@@ -439,6 +499,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#f9fbfd"
         },
         "50": {
@@ -446,6 +507,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#f3f6fc"
         },
         "100": {
@@ -453,6 +515,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#e6eef8"
         },
         "200": {
@@ -460,6 +523,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#c7dbf0"
         },
         "300": {
@@ -467,6 +531,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#96bde3"
         },
         "400": {
@@ -474,6 +539,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#5e9ad2"
         },
         "500": {
@@ -481,6 +547,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#397ebe"
         },
         "600": {
@@ -488,6 +555,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#2964a0"
         },
         "700": {
@@ -495,6 +563,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#225082"
         },
         "800": {
@@ -502,6 +571,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#214770"
         },
         "900": {
@@ -509,6 +579,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#1f3b5b"
         },
         "950": {
@@ -516,6 +587,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#15253c"
         }
       },
@@ -525,6 +597,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#fbfcfd"
         },
         "50": {
@@ -532,6 +605,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#f2f8f9"
         },
         "100": {
@@ -539,6 +613,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#deecef"
         },
         "200": {
@@ -546,6 +621,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#c1dae0"
         },
         "300": {
@@ -553,6 +629,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#95bfcb"
         },
         "400": {
@@ -560,6 +637,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#639cad"
         },
         "500": {
@@ -567,6 +645,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#478093"
         },
         "600": {
@@ -574,6 +653,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#3e6a7c"
         },
         "700": {
@@ -581,6 +661,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#375867"
         },
         "800": {
@@ -588,6 +669,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#334a57"
         },
         "900": {
@@ -595,6 +677,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#2e404b"
         },
         "950": {
@@ -602,6 +685,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#10181d"
         }
       },
@@ -611,6 +695,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#f9feff"
         },
         "50": {
@@ -618,6 +703,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#edfdfe"
         },
         "100": {
@@ -625,6 +711,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#d1f9fc"
         },
         "200": {
@@ -632,6 +719,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#a9f2f8"
         },
         "300": {
@@ -639,6 +727,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#6ee6f2"
         },
         "400": {
@@ -646,6 +735,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#2bd0e5"
         },
         "500": {
@@ -653,6 +743,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#0fb3cb"
         },
         "600": {
@@ -660,6 +751,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#108faa"
         },
         "700": {
@@ -667,6 +759,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#14738a"
         },
         "800": {
@@ -674,6 +767,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#195e71"
         },
         "900": {
@@ -681,6 +775,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#1a4d5f"
         },
         "950": {
@@ -688,6 +783,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#0c3949"
         }
       },
@@ -697,6 +793,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#f5fcfa"
         },
         "50": {
@@ -704,6 +801,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#effaf6"
         },
         "100": {
@@ -711,6 +809,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#d7f4e6"
         },
         "200": {
@@ -718,6 +817,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#b3e7d1"
         },
         "300": {
@@ -725,6 +825,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#81d4b7"
         },
         "400": {
@@ -732,6 +833,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#4dba97"
         },
         "500": {
@@ -739,6 +841,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#2a9f7d"
         },
         "600": {
@@ -746,6 +849,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#1b8065"
         },
         "700": {
@@ -753,6 +857,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#176b57"
         },
         "800": {
@@ -760,6 +865,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#145143"
         },
         "900": {
@@ -767,6 +873,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#114338"
         },
         "950": {
@@ -774,6 +881,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#082620"
         }
       },
@@ -783,6 +891,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#f5fffe"
         },
         "50": {
@@ -790,6 +899,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#effefb"
         },
         "100": {
@@ -797,6 +907,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#c7fff4"
         },
         "200": {
@@ -804,6 +915,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#90ffe8"
         },
         "300": {
@@ -811,6 +923,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#51f7dc"
         },
         "400": {
@@ -818,6 +931,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#1de4ca"
         },
         "500": {
@@ -825,6 +939,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#04c8b1"
         },
         "600": {
@@ -832,6 +947,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#009e8f"
         },
         "700": {
@@ -839,6 +955,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#058075"
         },
         "800": {
@@ -846,6 +963,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#0a655e"
         },
         "900": {
@@ -853,6 +971,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#0d544f"
         },
         "950": {
@@ -860,6 +979,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#003332"
         }
       },
@@ -869,6 +989,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#fdfef8"
         },
         "50": {
@@ -876,6 +997,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#fafce9"
         },
         "100": {
@@ -883,6 +1005,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#f3f8cf"
         },
         "200": {
@@ -890,6 +1013,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#e6f2a4"
         },
         "300": {
@@ -897,6 +1021,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#d3e86e"
         },
         "400": {
@@ -904,6 +1029,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#bed942"
         },
         "500": {
@@ -911,6 +1037,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#a4c424"
         },
         "600": {
@@ -918,6 +1045,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#7c9818"
         },
         "700": {
@@ -925,6 +1053,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#5e7417"
         },
         "800": {
@@ -932,6 +1061,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#4b5c18"
         },
         "900": {
@@ -939,6 +1069,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#404e19"
         },
         "950": {
@@ -946,6 +1077,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#212b08"
         }
       },
@@ -955,6 +1087,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#f7fffb"
         },
         "50": {
@@ -962,6 +1095,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#effef6"
         },
         "100": {
@@ -969,6 +1103,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#d9ffec"
         },
         "200": {
@@ -976,6 +1111,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#b5fdd9"
         },
         "300": {
@@ -983,6 +1119,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#65f8b0"
         },
         "400": {
@@ -990,6 +1127,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#3cec96"
         },
         "500": {
@@ -997,6 +1135,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#12d577"
         },
         "600": {
@@ -1004,6 +1143,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#09b05f"
         },
         "700": {
@@ -1011,6 +1151,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#0b8a4d"
         },
         "800": {
@@ -1018,6 +1159,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#0e6d40"
         },
         "900": {
@@ -1025,6 +1167,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#0e5937"
         },
         "950": {
@@ -1032,6 +1175,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#01321c"
         }
       },
@@ -1041,6 +1185,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#fffef5"
         },
         "50": {
@@ -1048,6 +1193,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#feffe7"
         },
         "100": {
@@ -1055,6 +1201,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#faffc1"
         },
         "200": {
@@ -1062,6 +1209,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#faff86"
         },
         "300": {
@@ -1069,6 +1217,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#ffff41"
         },
         "400": {
@@ -1076,6 +1225,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#fff30d"
         },
         "500": {
@@ -1083,6 +1233,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#ffe500"
         },
         "600": {
@@ -1090,6 +1241,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#d1aa00"
         },
         "700": {
@@ -1097,6 +1249,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#a67a02"
         },
         "800": {
@@ -1104,6 +1257,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#895f0a"
         },
         "900": {
@@ -1111,6 +1265,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#744d0f"
         },
         "950": {
@@ -1118,6 +1273,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#442904"
         }
       },
@@ -1127,6 +1283,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#fefcf8"
         },
         "50": {
@@ -1134,6 +1291,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#fcf9ea"
         },
         "100": {
@@ -1141,6 +1299,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#faefc7"
         },
         "200": {
@@ -1148,6 +1307,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#f5de93"
         },
         "300": {
@@ -1155,6 +1315,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#efc655"
         },
         "400": {
@@ -1162,6 +1323,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#ebb53d"
         },
         "500": {
@@ -1169,6 +1331,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#d99519"
         },
         "600": {
@@ -1176,6 +1339,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#bb7313"
         },
         "700": {
@@ -1183,6 +1347,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#955213"
         },
         "800": {
@@ -1190,6 +1355,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#7c4117"
         },
         "900": {
@@ -1197,6 +1363,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#6a3619"
         },
         "950": {
@@ -1204,6 +1371,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#3d1c0b"
         }
       },
@@ -1213,6 +1381,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#fffbf7"
         },
         "50": {
@@ -1220,6 +1389,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#fef7ec"
         },
         "100": {
@@ -1227,6 +1397,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#fce7c9"
         },
         "200": {
@@ -1234,6 +1405,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#f9ce8e"
         },
         "300": {
@@ -1241,6 +1413,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#f6ab4d"
         },
         "400": {
@@ -1248,6 +1421,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#f4922b"
         },
         "500": {
@@ -1255,6 +1429,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#ed6e13"
         },
         "600": {
@@ -1262,6 +1437,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#d24e0d"
         },
         "700": {
@@ -1269,6 +1445,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#ae330f"
         },
         "800": {
@@ -1276,6 +1453,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#8e2712"
         },
         "900": {
@@ -1283,6 +1461,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#752112"
         },
         "950": {
@@ -1290,6 +1469,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#430e05"
         }
       },
@@ -1299,6 +1479,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#fef9f7"
         },
         "50": {
@@ -1306,6 +1487,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#fef4f2"
         },
         "100": {
@@ -1313,6 +1495,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#fde8e3"
         },
         "200": {
@@ -1320,6 +1503,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#fcd5cc"
         },
         "300": {
@@ -1327,6 +1511,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#f9b7a8"
         },
         "400": {
@@ -1334,6 +1519,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#f48d75"
         },
         "500": {
@@ -1341,6 +1527,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#ec775c"
         },
         "600": {
@@ -1348,6 +1535,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#d64c2c"
         },
         "700": {
@@ -1355,6 +1543,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#b43d21"
         },
         "800": {
@@ -1362,6 +1551,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#95351f"
         },
         "900": {
@@ -1369,6 +1559,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#7c3120"
         },
         "950": {
@@ -1376,6 +1567,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#43160c"
         }
       },
@@ -1385,6 +1577,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#fff7f8"
         },
         "50": {
@@ -1392,6 +1585,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#fff1f2"
         },
         "100": {
@@ -1399,6 +1593,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#ffe3e5"
         },
         "200": {
@@ -1406,6 +1601,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#ffccd1"
         },
         "300": {
@@ -1413,6 +1609,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#ffa1ab"
         },
         "400": {
@@ -1420,6 +1617,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#ff546a"
         },
         "500": {
@@ -1427,6 +1625,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#f93a58"
         },
         "600": {
@@ -1434,6 +1633,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#e71742"
         },
         "700": {
@@ -1441,6 +1641,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#c30d36"
         },
         "800": {
@@ -1448,6 +1649,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#a30e35"
         },
         "900": {
@@ -1455,6 +1657,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#8b1034"
         },
         "950": {
@@ -1462,6 +1665,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#4e0317"
         }
       },
@@ -1471,6 +1675,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#fff8fa"
         },
         "50": {
@@ -1478,6 +1683,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#fff0f3"
         },
         "100": {
@@ -1485,6 +1691,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#ffe1e9"
         },
         "200": {
@@ -1492,6 +1699,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#ffc8d8"
         },
         "300": {
@@ -1499,6 +1707,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#ff9bb8"
         },
         "400": {
@@ -1506,6 +1715,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#ff6394"
         },
         "500": {
@@ -1513,6 +1723,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#ff2c74"
         },
         "600": {
@@ -1520,6 +1731,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#f60862"
         },
         "700": {
@@ -1527,6 +1739,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#dc0059"
         },
         "800": {
@@ -1534,6 +1747,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#ae034d"
         },
         "900": {
@@ -1541,6 +1755,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#940749"
         },
         "950": {
@@ -1548,6 +1763,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#530023"
         }
       },
@@ -1557,6 +1773,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#fef8fa"
         },
         "50": {
@@ -1564,6 +1781,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#fff1f2"
         },
         "100": {
@@ -1571,6 +1789,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#ffe4e6"
         },
         "200": {
@@ -1578,6 +1797,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#fdced4"
         },
         "300": {
@@ -1585,6 +1805,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#fca5af"
         },
         "400": {
@@ -1592,6 +1813,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#f97385"
         },
         "500": {
@@ -1599,6 +1821,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#f14662"
         },
         "600": {
@@ -1606,6 +1829,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#de2048"
         },
         "700": {
@@ -1613,6 +1837,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#c81640"
         },
         "800": {
@@ -1620,6 +1845,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#9d1439"
         },
         "900": {
@@ -1627,6 +1853,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#861537"
         },
         "950": {
@@ -1634,6 +1861,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#4b0618"
         }
       },
@@ -1643,6 +1871,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#fbfbfb"
         },
         "50": {
@@ -1650,6 +1879,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#f8f7f8"
         },
         "100": {
@@ -1657,6 +1887,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#f3f0f2"
         },
         "200": {
@@ -1664,6 +1895,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#e7e3e6"
         },
         "300": {
@@ -1671,6 +1903,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#d4cdd2"
         },
         "400": {
@@ -1678,6 +1911,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#b9adb5"
         },
         "500": {
@@ -1685,6 +1919,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#a2929c"
         },
         "600": {
@@ -1692,6 +1927,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#8a7883"
         },
         "700": {
@@ -1699,6 +1935,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#73636c"
         },
         "800": {
@@ -1706,6 +1943,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#61535b"
         },
         "900": {
@@ -1713,6 +1951,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#574c52"
         },
         "950": {
@@ -1720,6 +1959,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#2f282c"
         }
       },
@@ -1729,6 +1969,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#fcfbfd"
         },
         "50": {
@@ -1736,6 +1977,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#f9f7fc"
         },
         "100": {
@@ -1743,6 +1985,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#f3eff8"
         },
         "200": {
@@ -1750,6 +1993,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#e6def0"
         },
         "300": {
@@ -1757,6 +2001,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#d2c3e4"
         },
         "400": {
@@ -1764,6 +2009,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#b89fd3"
         },
         "500": {
@@ -1771,6 +2017,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#9979bc"
         },
         "600": {
@@ -1778,6 +2025,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#7d5a9f"
         },
         "700": {
@@ -1785,6 +2033,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#674883"
         },
         "800": {
@@ -1792,6 +2041,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#563c6c"
         },
         "900": {
@@ -1799,6 +2049,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#4a355a"
         },
         "950": {
@@ -1806,6 +2057,7 @@
           "$scopes": [
             "ALL_SCOPES"
           ],
+          "$description": "",
           "$value": "#2b1a38"
         }
       }
@@ -1821,6 +2073,7 @@
           "$scopes": [
             "FONT_FAMILY"
           ],
+          "$description": "",
           "$value": "Nunito"
         },
         "arial": {
@@ -1828,6 +2081,7 @@
           "$scopes": [
             "FONT_FAMILY"
           ],
+          "$description": "",
           "$value": "Arial"
         }
       },
@@ -1837,6 +2091,7 @@
           "$scopes": [
             "FONT_WEIGHT"
           ],
+          "$description": "",
           "$value": 300
         },
         "regular": {
@@ -1844,6 +2099,7 @@
           "$scopes": [
             "FONT_WEIGHT"
           ],
+          "$description": "",
           "$value": 400
         },
         "semibold": {
@@ -1851,6 +2107,7 @@
           "$scopes": [
             "FONT_WEIGHT"
           ],
+          "$description": "",
           "$value": 600
         },
         "bold": {
@@ -1858,6 +2115,7 @@
           "$scopes": [
             "FONT_WEIGHT"
           ],
+          "$description": "",
           "$value": 700
         }
       },
@@ -1867,6 +2125,7 @@
           "$scopes": [
             "FONT_SIZE"
           ],
+          "$description": "",
           "$value": 10
         },
         "M": {
@@ -1874,6 +2133,7 @@
           "$scopes": [
             "FONT_SIZE"
           ],
+          "$description": "",
           "$value": 12
         },
         "L": {
@@ -1881,6 +2141,7 @@
           "$scopes": [
             "FONT_SIZE"
           ],
+          "$description": "",
           "$value": 14
         },
         "XL": {
@@ -1888,6 +2149,7 @@
           "$scopes": [
             "FONT_SIZE"
           ],
+          "$description": "",
           "$value": 16
         },
         "2XL": {
@@ -1895,6 +2157,7 @@
           "$scopes": [
             "FONT_SIZE"
           ],
+          "$description": "",
           "$value": 20
         },
         "3XL": {
@@ -1902,6 +2165,7 @@
           "$scopes": [
             "FONT_SIZE"
           ],
+          "$description": "",
           "$value": 24
         },
         "4XL": {
@@ -1909,6 +2173,7 @@
           "$scopes": [
             "FONT_SIZE"
           ],
+          "$description": "",
           "$value": 28
         },
         "5XL": {
@@ -1916,6 +2181,7 @@
           "$scopes": [
             "FONT_SIZE"
           ],
+          "$description": "",
           "$value": 32
         },
         "6XL": {
@@ -1923,6 +2189,7 @@
           "$scopes": [
             "FONT_SIZE"
           ],
+          "$description": "",
           "$value": 40
         },
         "7XL": {
@@ -1930,6 +2197,7 @@
           "$scopes": [
             "FONT_SIZE"
           ],
+          "$description": "",
           "$value": 48
         },
         "8XL": {
@@ -1937,6 +2205,7 @@
           "$scopes": [
             "FONT_SIZE"
           ],
+          "$description": "",
           "$value": 56
         },
         "9XL": {
@@ -1944,6 +2213,7 @@
           "$scopes": [
             "FONT_SIZE"
           ],
+          "$description": "",
           "$value": 68
         },
         "10XL": {
@@ -1951,6 +2221,7 @@
           "$scopes": [
             "FONT_SIZE"
           ],
+          "$description": "",
           "$value": 80
         }
       },
@@ -1960,6 +2231,7 @@
           "$scopes": [
             "LINE_HEIGHT"
           ],
+          "$description": "",
           "$value": 14
         },
         "M": {
@@ -1967,6 +2239,7 @@
           "$scopes": [
             "LINE_HEIGHT"
           ],
+          "$description": "",
           "$value": 16
         },
         "L": {
@@ -1974,6 +2247,7 @@
           "$scopes": [
             "LINE_HEIGHT"
           ],
+          "$description": "",
           "$value": 20
         },
         "XL": {
@@ -1981,6 +2255,7 @@
           "$scopes": [
             "LINE_HEIGHT"
           ],
+          "$description": "",
           "$value": 24
         },
         "2XL": {
@@ -1988,6 +2263,7 @@
           "$scopes": [
             "LINE_HEIGHT"
           ],
+          "$description": "",
           "$value": 28
         },
         "3XL": {
@@ -1995,6 +2271,7 @@
           "$scopes": [
             "LINE_HEIGHT"
           ],
+          "$description": "",
           "$value": 32
         },
         "4XL": {
@@ -2002,6 +2279,7 @@
           "$scopes": [
             "LINE_HEIGHT"
           ],
+          "$description": "",
           "$value": 36
         },
         "5XL": {
@@ -2009,6 +2287,7 @@
           "$scopes": [
             "LINE_HEIGHT"
           ],
+          "$description": "",
           "$value": 40
         },
         "6XL": {
@@ -2016,6 +2295,7 @@
           "$scopes": [
             "LINE_HEIGHT"
           ],
+          "$description": "",
           "$value": 48
         },
         "7XL": {
@@ -2023,6 +2303,7 @@
           "$scopes": [
             "LINE_HEIGHT"
           ],
+          "$description": "",
           "$value": 56
         },
         "8XL": {
@@ -2030,6 +2311,7 @@
           "$scopes": [
             "LINE_HEIGHT"
           ],
+          "$description": "",
           "$value": 64
         },
         "9XL": {
@@ -2037,6 +2319,7 @@
           "$scopes": [
             "LINE_HEIGHT"
           ],
+          "$description": "",
           "$value": 80
         },
         "10XL": {
@@ -2044,6 +2327,7 @@
           "$scopes": [
             "LINE_HEIGHT"
           ],
+          "$description": "",
           "$value": 92
         }
       },
@@ -2053,6 +2337,7 @@
           "$scopes": [
             "LETTER_SPACING"
           ],
+          "$description": "",
           "$value": 0
         },
         "S": {
@@ -2060,6 +2345,7 @@
           "$scopes": [
             "LETTER_SPACING"
           ],
+          "$description": "",
           "$value": -0.5
         },
         "XS": {
@@ -2067,6 +2353,7 @@
           "$scopes": [
             "LETTER_SPACING"
           ],
+          "$description": "",
           "$value": -1
         }
       }

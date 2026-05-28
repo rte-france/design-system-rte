@@ -182,7 +182,7 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
         size={size}
         collapsed={isCollapsed}
         appearance={appearance}
-        style={{ minHeight: "100vh" }}
+        className={style.sideNavContainer}
         header={
           <div className={style.sideNavHeaderContainer}>
             <div className={style.sideNavHeader} data-collapsed={isCollapsed} data-appearance={appearance}>

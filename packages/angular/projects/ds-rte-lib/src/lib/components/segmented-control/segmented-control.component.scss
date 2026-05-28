@@ -4,6 +4,7 @@
   display: flex;
   min-width: 168px;
   max-width: 720px;
+  position: relative;
 
   &[data-number-of-segments="3"] {
     min-width: 256px;

@@ -1,7 +1,7 @@
 @use '@design-system-rte/core/design-tokens/main.scss' as *;
 
 .side-nav-container {
-    height: auto;
+    height: 100vh;
     padding: $positive-spacing_0;
     position: relative;
     display: flex;
@@ -12,6 +12,7 @@
 .side-nav-content {
     flex: 1 1 auto;
     min-width: 0;
+    height: 100%;
     overflow-y: auto;
 }
 
@@ -26,7 +27,7 @@
     border-radius: 0;
     transition: min-width 300ms;
     color: var(--content-brand-navigation-default);
-    max-height: var(--content-height);
+    height: 100%;
 
     &.neutral {
         background-color: var(--background-neutral-navigation-default);
