@@ -10,7 +10,7 @@ export class GridDirective {
 
   @HostBinding("class")
   get hostClasses(): string {
-    return "grid";
+    return "rte-grid";
   }
 
   @HostBinding("attr.data-gridtype")

@@ -43,16 +43,25 @@ const preview: Preview = {
   },
   decorators: [
     ...decorators,
-    componentWrapperDecorator((story) => {
-      return `
+    componentWrapperDecorator(
+      (story) => {
+        return `
           <div style="padding: 16px 16px 80px 50px; background-color: var(--background-default); width: auto; height: 100%; display: flex; flex-direction: column; gap: 96px;">
             <rte-theme-selector/>
-            <div style="margin: auto;">
+            <div [style.margin]="isGridStory ? '0' : 'auto'">
               ${story}
             </div>
           </div>
         `;
-    }),
+      },
+      ({ title }) => {
+        const isGridStory = title?.includes("/Grid") === true;
+
+        return {
+          isGridStory,
+        };
+      },
+    ),
   ],
 };
 
