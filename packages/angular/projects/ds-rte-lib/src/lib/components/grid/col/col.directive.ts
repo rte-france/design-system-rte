@@ -15,7 +15,7 @@ export class ColDirective {
   @HostBinding("class")
   get colClasses(): string {
     return [
-      "col",
+      "rte-col",
       this.generateColumnClass("col-xxs", this.xxs()),
       this.generateColumnClass("col-xs", this.xs()),
       this.generateColumnClass("col-s", this.s()),
@@ -30,6 +30,6 @@ export class ColDirective {
   constructor() {}
 
   private generateColumnClass(prefix: string, size?: number): string {
-    return size ? `${prefix}-${size}` : "";
+    return size ? `rte-${prefix}-${size}` : "";
   }
 }

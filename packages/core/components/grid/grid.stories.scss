@@ -6,8 +6,8 @@
   background-color: $jaune-indications-200;
   outline: 1px dashed $jaune-indications-400;
 
-  .grid {
-    .col {
+  .rte-grid {
+    .rte-col {
       @include typography-text-l;
       background-color: #FFFFFF;
       box-shadow: 0 0 0 1px $jaune-indications-400;

@@ -15,10 +15,10 @@ interface ColProps extends CoreColProps, Omit<React.HTMLAttributes<HTMLDivElemen
 }
 
 const Col = ({ children, className, xxs, xs, s, m, l, xl, ...props }: ColProps) => {
-  const generateColumnClass = (prefix: string, size?: number) => (size ? `${prefix}-${size}` : "");
+  const generateColumnClass = (prefix: string, size?: number) => (size ? `rte-${prefix}-${size}` : "");
 
   const colClasses = concatClassNames(
-    "col",
+    "rte-col",
     generateColumnClass("col-xxs", xxs),
     generateColumnClass("col-xs", xs),
     generateColumnClass("col-s", s),
@@ -36,7 +36,7 @@ const Col = ({ children, className, xxs, xs, s, m, l, xl, ...props }: ColProps) 
 };
 
 const Grid = ({ gridType = "fluid", className, children }: GridProps) => {
-  const gridClasses = concatClassNames("grid", className);
+  const gridClasses = concatClassNames("rte-grid", className);
 
   return (
     <div className={gridClasses} data-gridtype={gridType}>

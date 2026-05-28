@@ -14,6 +14,8 @@ export const decorators: Preview["decorators"] = [
     const [globals] = useGlobals();
     const framework = (globals?.framework as "angular" | "react") || "react";
 
+    const isGridComponent = context?.kind?.includes("Grid");
+
     return (
       <FrameworkProvider framework={framework}>
         <div
@@ -30,7 +32,7 @@ export const decorators: Preview["decorators"] = [
           <ThemeSelector />
           <div
             style={{
-              margin: "auto",
+              margin: isGridComponent ? "0" : "auto",
             }}
           >
             <Story {...context} />
