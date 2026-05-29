@@ -97,6 +97,7 @@ export class ToastService {
       onlyToast.setInput("isOpen", false);
       this.waitExitAnimation(onlyToast, () => {
         onlyToast.destroy();
+        this.overlayService.destroy();
       });
       return;
     }

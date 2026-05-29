@@ -401,7 +401,7 @@ const Drawer = ({
             />
           )}
           {shouldRender && (
-            <Overlay freezeNavigation={true}>
+            <Overlay>
               <Backdrop isAnimating={isAnimating} />
               <div
                 ref={drawerRef}

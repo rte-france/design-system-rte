@@ -11,6 +11,7 @@ import { useKeydownEscape } from "../../hooks/useKeydownEscape";
 import { Overlay } from "../overlay/Overlay";
 import { concatClassNames } from "../utils";
 
+import useFreezeNavigation from "./hooks/useFreezeNavigation";
 import styles from "./Modal.module.scss";
 
 interface ModalProps extends coreModalProps, Omit<React.HTMLAttributes<HTMLDialogElement>, "id" | "title"> {
@@ -57,11 +58,12 @@ const Modal = forwardRef<HTMLDialogElement, ModalProps>(
     useClickAway(closeOnOverlayClick ? onClose : () => {}, modalElement!);
     useKeydownEscape(onClose);
     useFocusTrap(modalElement!, shouldRender);
+    useFreezeNavigation(isOpen);
 
     return (
       <>
         {shouldRender && (
-          <Overlay freezeNavigation={true}>
+          <Overlay>
             <Backdrop isAnimating={isAnimating} />
             <dialog
               ref={modalCallbackRef}

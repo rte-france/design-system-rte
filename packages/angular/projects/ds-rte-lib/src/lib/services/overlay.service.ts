@@ -8,7 +8,7 @@ export class OverlayService {
 
   constructor() {}
 
-  private getOverlayRoot(freezeNavigation: boolean): HTMLElement {
+  private getOverlayRoot(): HTMLElement {
     if (!this.overlayRoot) {
       this.overlayRoot = document.getElementById("overlay-root") as HTMLElement;
 
@@ -16,16 +16,6 @@ export class OverlayService {
         this.overlayRoot = document.createElement("div");
         this.overlayRoot.id = "overlay-root";
         this.overlayRoot.tabIndex = -1;
-        if (freezeNavigation) {
-          this.isNavigationFrozen = true;
-          this.overlayRoot.style.position = "fixed";
-          this.overlayRoot.style.width = "100%";
-          this.overlayRoot.style.height = "100%";
-          this.overlayRoot.style.top = "0";
-          this.overlayRoot.style.left = "0";
-          this.overlayRoot.style.zIndex = "999";
-          document.body.style.overflow = "hidden";
-        }
         document.body.appendChild(this.overlayRoot);
       }
     }
@@ -33,11 +23,17 @@ export class OverlayService {
   }
 
   createWithoutAppend<T>(component: Type<T>, viewContainer: ViewContainerRef): ComponentRef<T> {
-    return viewContainer.createComponent(component);
+    const componentRef = viewContainer.createComponent(component);
+    const originalDestroy = componentRef.destroy.bind(componentRef);
+    componentRef.destroy = () => {
+      this.activeOverlays.delete(componentRef);
+      originalDestroy();
+    };
+    return componentRef;
   }
 
-  create<T>(component: Type<T>, viewContainer: ViewContainerRef, freezeNavigation: boolean = false): ComponentRef<T> {
-    const root = this.getOverlayRoot(freezeNavigation);
+  create<T>(component: Type<T>, viewContainer: ViewContainerRef): ComponentRef<T> {
+    const root = this.getOverlayRoot();
 
     const componentRef = viewContainer.createComponent(component);
 
@@ -54,16 +50,13 @@ export class OverlayService {
   }
 
   addToOverlay<T>(componentRef: ComponentRef<T>): void {
-    const root = this.getOverlayRoot(this.isNavigationFrozen);
+    const root = this.getOverlayRoot();
     root.appendChild(componentRef.location.nativeElement);
     this.activeOverlays.add(componentRef);
   }
 
   destroy() {
     if (this.activeOverlays.size === 0) {
-      if (this.isNavigationFrozen) {
-        document.body.style.overflow = "unset";
-      }
       this.overlayRoot?.remove();
       this.overlayRoot = undefined;
     }

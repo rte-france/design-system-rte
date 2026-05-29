@@ -13,7 +13,7 @@ export const useFocusTrap = <TElement extends HTMLElement>(
     }
     const focusable = containerElement.querySelectorAll(FOCUSABLE_ELEMENTS_QUERY) as NodeListOf<HTMLElement>;
 
-    if (shouldFocusFirst && focusable.length > 0) (focusable[0] as HTMLElement).focus();
+    if (shouldFocusFirst && focusable.length > 0) (focusable[0] as HTMLElement).focus({ preventScroll: true });
 
     const handleKeyDown = (event: KeyboardEvent) => {
       const focusable = containerElement.querySelectorAll(FOCUSABLE_ELEMENTS_QUERY) as NodeListOf<HTMLElement>;

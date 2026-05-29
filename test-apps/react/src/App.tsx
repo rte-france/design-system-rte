@@ -79,10 +79,8 @@ function App() {
     setInputValue(value);
   };
 
-  const handleSegmentedControlClick = (
-    event: React.MouseEvent<HTMLDivElement> | React.KeyboardEvent<HTMLDivElement>,
-  ) => {
-    const newValue = event.currentTarget.getAttribute("id") || "";
+  const handleSegmentedControlClick = (id: string) => {
+    const newValue = id;
     setSegmentedControlValue(newValue);
   };
 
@@ -609,8 +607,8 @@ function App() {
                   { id: "label-2", label: "Label 2" },
                   { id: "label-3", label: "Label 3" },
                 ]}
-                selected={segmentedControlValue}
-                onClick={handleSegmentedControlClick}
+                selectedSegment={segmentedControlValue}
+                onChange={handleSegmentedControlClick}
               />
             </div>
             <hr />
