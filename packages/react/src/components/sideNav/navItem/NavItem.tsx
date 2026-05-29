@@ -19,10 +19,10 @@ const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
     {
       id,
       icon,
-      showIcon = true,
+      hasLeadingIcon = true,
       onClick,
       label,
-      collapsed,
+      isCollapsed,
       link,
       isNested,
       parentMenuOpen,
@@ -54,15 +54,15 @@ const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
         <div className={style.navItemLeft}>
           <NavLabel
             icon={icon}
-            showIcon={showIcon}
+            hasLeadingIcon={hasLeadingIcon}
             label={label}
-            collapsed={collapsed}
+            isCollapsed={isCollapsed}
             isNested={isNested}
             styleType="item"
           />
         </div>
         <div className={style.navItemRight}>
-          {!collapsed && badge && (
+          {!isCollapsed && badge && (
             <Badge badgeType={badge.badgeType} size={badge.size} content={badge.content} count={badge.count} />
           )}
         </div>
@@ -74,7 +74,7 @@ const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
         id={id}
         aria-label={label}
         className={style.navItemContainer}
-        data-collapsed={collapsed}
+        data-collapsed={isCollapsed}
         data-appearance={appearance}
         data-nested={isNested}
         href={link}
@@ -85,7 +85,7 @@ const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
       <div
         id={id}
         className={style.navItemContainer}
-        data-collapsed={collapsed}
+        data-collapsed={isCollapsed}
         data-appearance={appearance}
         data-nested={isNested}
         data-active={active}
@@ -114,7 +114,7 @@ const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
     );
 
     return (
-      <NavTooltipWrapper label={label} collapsed={collapsed}>
+      <NavTooltipWrapper label={label} isCollapsed={isCollapsed}>
         {listItem}
       </NavTooltipWrapper>
     );

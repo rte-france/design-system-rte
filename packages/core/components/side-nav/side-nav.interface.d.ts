@@ -4,6 +4,8 @@ export type SideNavSize = "s" | "m" | "l";
 
 export type SideNavAppearance = "neutral" | "brand";
 
+export type SideNavContrast = "low" | "high";
+
 export interface SideNavHeaderConfig {
   icon?: string;
   title: string;
@@ -24,8 +26,9 @@ export interface SideNavProps extends BaseSideNavProps {
 
 export interface BaseSideNavProps {
   appearance?: SideNavAppearance;
+  contrast?: SideNavContrast;
   size?: SideNavSize;
-  collapsed?: boolean;
+  isCollapsed?: boolean;
   showHeader?: boolean;
   showFooter?: boolean;
   showScrollbar?: boolean;

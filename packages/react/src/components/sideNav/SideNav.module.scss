@@ -8,9 +8,9 @@
     align-items: flex-start;
     flex-shrink: 0;
     align-self: stretch;
-    height: 120px;
-    min-height: 120px;
-    max-height: 120px;
+    height: 80px;
+    min-height: 80px;
+    max-height: 80px;
 
     &[data-collapsed='true'] {
         align-items: center;
@@ -28,7 +28,7 @@
     gap: $positive-spacing_050;
     flex: 1 0 0;
     align-self: stretch;
-    height: 120px;
+    height: 80px;
     transition: opacity 300ms;
 
     &[data-collapsed='true'] {
@@ -45,20 +45,9 @@
             flex-grow: 0;
             gap: 0;
             align-self: auto;
+
             .sideNavHeaderTitle {
                 gap: 0;
-            }
-        }
-    }
-
-    &[data-appearance='neutral'] {
-        .sideNavHeaderTitleContainer {
-            &[href],
-            &[role="button"] {
-                &:hover {
-                    background: var(--background-neutral-navigation-hover);
-                    @include neutral-shadow-1;
-                }
             }
         }
     }
@@ -72,15 +61,15 @@
         align-self: stretch;
         text-decoration: none;
         color: inherit;
+        height: 32px;
 
         &[href],
         &[role="button"] {
             cursor: pointer;
 
             &:hover {
-                border-radius: $radius-s;
                 opacity: $opacity-100;
-                background: var(--background-brand-navigation-hover);
+                background: var(--rte-side-nav-item-bg-hover);
             }
         }
 
@@ -97,15 +86,14 @@
                 align-items: center;
                 flex: 1 0 0;
                 align-self: stretch;
-                color: var(--content-brand-navigation-default);
+                color: var(--rte-side-nav-item-label);
                 text-align: center;
                 user-select: none;
-                border-radius: $radius-s;
-                background: var(--background-brand-navigation-pressed);
+                background: var(--rte-side-nav-item-bg-pressed);
                 min-width: 24px;
                 height: 24px;
             }
-    
+
             h1 {
                 @include typography-heading-xs;
                 user-select: none;

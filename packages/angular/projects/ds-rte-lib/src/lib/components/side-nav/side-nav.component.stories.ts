@@ -37,7 +37,8 @@ const meta: Meta<SideNavComponent> = {
     collapsible: { control: "boolean" },
     size: { control: "select", options: ["s", "m", "l"] },
     appearance: { control: "select", options: ["neutral", "brand"] },
-    collapsed: { control: "boolean" },
+    contrast: { control: "select", options: ["low", "high"] },
+    isCollapsed: { control: "boolean" },
   },
 };
 
@@ -76,7 +77,7 @@ const PageContent = `
 `;
 
 const baseNavItem = {
-  showIcon: true,
+  hasLeadingIcon: true,
 };
 
 const baseBadge = {
@@ -191,27 +192,27 @@ const navigationItemsWithDividers: NavItemProps[] = [
     ...baseNavItems[1],
     items: [
       { id: "overview", label: "Overview" },
-      { id: "reports", label: "Reports", showDivider: true },
+      { id: "reports", label: "Reports", hasDivider: true },
       { id: "analytics-nested", label: "Analytics", icon: "analytics" },
     ],
   },
-  { ...baseNavItems[2], showDivider: true },
+  { ...baseNavItems[2], hasDivider: true },
   { ...baseNavItem, id: "reports", label: "Reports", icon: "info" },
   {
     ...baseNavItems[3],
-    showDivider: true,
+    hasDivider: true,
     items: [
       { id: "general", label: "General" },
-      { id: "privacy", label: "Privacy", showDivider: true },
+      { id: "privacy", label: "Privacy", hasDivider: true },
       { id: "notifications", label: "Notifications" },
       {
         id: "advanced",
         label: "Advanced",
         icon: "settings",
-        showDivider: true,
+        hasDivider: true,
         items: [
           { id: "security", label: "Security" },
-          { id: "api-keys", label: "API Keys", showDivider: true },
+          { id: "api-keys", label: "API Keys", hasDivider: true },
           { id: "integrations", label: "Integrations" },
         ],
       },
@@ -245,8 +246,9 @@ const defaultRender = (args: StoryArgs) => ({
       [collapsible]="collapsible"
       [headerConfig]="headerConfig"
       [appearance]="appearance"
+      [contrast]="contrast"
       [items]="items"
-      [collapsed]="collapsed"
+      [isCollapsed]="isCollapsed"
       [footerItems]="footerItems">
       <div content>${PageContent}</div>
     </rte-side-nav>
@@ -309,8 +311,9 @@ const keyboardNavigationRender = (args: StoryArgs) => ({
       [collapsible]="collapsible"
       [headerConfig]="headerConfig"
       [appearance]="appearance"
+      [contrast]="contrast"
       [items]="items"
-      [collapsed]="collapsed">
+      [isCollapsed]="isCollapsed">
       <div content>${PageContent}</div>
     </rte-side-nav>
   `,
@@ -533,7 +536,7 @@ export const CollapsedTooltip: Story = {
     headerConfig: defaultHeaderConfig,
     items: navigationItems,
     collapsible: true,
-    collapsed: true,
+    isCollapsed: true,
   },
   render: defaultRender,
   play: async ({ canvasElement, step }) => {
@@ -581,7 +584,7 @@ export const CollapsedTooltipWithNested: Story = {
     headerConfig: defaultHeaderConfig,
     items: navigationItemsWithNested,
     collapsible: true,
-    collapsed: true,
+    isCollapsed: true,
   },
   render: defaultRender,
   play: async ({ canvasElement, step }) => {
@@ -642,8 +645,9 @@ export const ActiveItemState: Story = {
           [collapsible]="collapsible"
           [headerConfig]="headerConfig"
           [appearance]="appearance"
+          [contrast]="contrast"
           [items]="items()"
-          [collapsed]="collapsed"
+          [isCollapsed]="isCollapsed"
           (itemClicked)="handleItemClick($event)">
           <div content>${PageContent}</div>
         </rte-side-nav>

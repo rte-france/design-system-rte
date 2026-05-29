@@ -4,12 +4,12 @@ import Tooltip from "../../tooltip/Tooltip";
 
 interface NavTooltipWrapperProps {
   label: string;
-  collapsed?: boolean;
+  isCollapsed?: boolean;
   children: ReactNode;
 }
 
-function NavTooltipWrapper({ label, collapsed, children }: NavTooltipWrapperProps): ReactNode {
-  if (collapsed && label) {
+function NavTooltipWrapper({ label, isCollapsed, children }: NavTooltipWrapperProps): ReactNode {
+  if (isCollapsed && label) {
     return (
       <Tooltip
         label={label}

@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, effect, input, output, signal } from "@angular/core";
-import { dividerAppearanceBySideNavAppearance } from "@design-system-rte/core";
-import { SideNavAppearance, SideNavHeaderConfig } from "@design-system-rte/core";
+import { getDividerAppearanceBySideNavTheme } from "@design-system-rte/core";
+import { SideNavAppearance, SideNavContrast, SideNavHeaderConfig } from "@design-system-rte/core";
 import { DividerAppearance } from "@design-system-rte/core/components/divider/divider.interface";
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
 import { NavMenuProps } from "@design-system-rte/core/components/side-nav/nav-menu/nav-menu.interface";
@@ -30,10 +30,11 @@ export class SideNavComponent {
   readonly headerConfig = input<SideNavHeaderConfig | undefined>();
   readonly items = input<NavItemProps[]>([]);
   readonly footerItems = input<NavItemProps[] | undefined>();
-  readonly collapsed = input<boolean>(false);
+  readonly isCollapsed = input<boolean>(false);
   readonly appearance = input<SideNavAppearance>("brand");
+  readonly contrast = input<SideNavContrast>("high");
 
-  readonly isCollapsed = signal<boolean>(false);
+  readonly collapsedState = signal<boolean>(false);
   readonly shouldShowTitle = signal<boolean>(true);
 
   readonly itemClicked = output<string>();
@@ -43,7 +44,7 @@ export class SideNavComponent {
   constructor() {
     effect(
       () => {
-        this.isCollapsed.set(this.collapsed());
+        this.collapsedState.set(this.isCollapsed());
       },
       { allowSignalWrites: true },
     );
@@ -55,7 +56,7 @@ export class SideNavComponent {
           this.titleTimeoutId = null;
         }
 
-        if (this.isCollapsed()) {
+        if (this.collapsedState()) {
           this.shouldShowTitle.set(false);
         } else {
           this.titleTimeoutId = setTimeout(() => {
@@ -69,11 +70,11 @@ export class SideNavComponent {
   }
 
   readonly collapseIcon = computed<string>(() => {
-    return this.isCollapsed() ? "arrow-double-right" : "arrow-double-left";
+    return this.collapsedState() ? "arrow-double-right" : "arrow-double-left";
   });
 
   readonly dividerAppearance = computed<DividerAppearance>(() => {
-    return dividerAppearanceBySideNavAppearance[this.appearance()];
+    return getDividerAppearanceBySideNavTheme(this.appearance(), this.contrast());
   });
 
   handleHeaderKeyDown(event: KeyboardEvent): void {
@@ -106,20 +107,20 @@ export class SideNavComponent {
   }
 
   handleMenuOpenChange(event: NavMenuOpenChangeEvent): void {
-    const targetMenu = this.items().find((item) => item.id === event.id);
+    const targetMenu = this.items().find((item) => item.id === event.id || item.label === event.id);
     if (targetMenu) {
       (targetMenu as NavMenuProps).open = event.open;
     }
   }
 
   handleFooterMenuOpenChange(event: NavMenuOpenChangeEvent): void {
-    const targetMenu = this.footerItems()?.find((item) => item.id === event.id);
+    const targetMenu = this.footerItems()?.find((item) => item.id === event.id || item.label === event.id);
     if (targetMenu) {
       (targetMenu as NavMenuProps).open = event.open;
     }
   }
 
   handleCollapseClick(): void {
-    this.isCollapsed.set(!this.isCollapsed());
+    this.collapsedState.set(!this.collapsedState());
   }
 }

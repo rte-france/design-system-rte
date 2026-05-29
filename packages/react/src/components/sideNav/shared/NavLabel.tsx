@@ -7,21 +7,28 @@ import navMenuStyle from "../navMenu/NavMenu.module.scss";
 
 interface NavLabelProps {
   icon?: string;
-  showIcon?: boolean;
+  hasLeadingIcon?: boolean;
   label: string;
-  collapsed?: boolean;
+  isCollapsed?: boolean;
   isNested?: boolean;
   styleType?: "item" | "menu";
 }
 
-function NavLabel({ icon, showIcon = true, label, collapsed, isNested, styleType = "item" }: NavLabelProps): ReactNode {
-  const iconSize = getNavItemLabelIconSize(isNested, collapsed);
+function NavLabel({
+  icon,
+  hasLeadingIcon = true,
+  label,
+  isCollapsed,
+  isNested,
+  styleType = "item",
+}: NavLabelProps): ReactNode {
+  const iconSize = getNavItemLabelIconSize(isNested, isCollapsed);
   const style = styleType === "menu" ? navMenuStyle : navItemStyle;
 
   return (
     <>
-      {showIcon && icon && <Icon name={icon} className={style.icon} size={iconSize} />}
-      {collapsed ? null : <span>{label}</span>}
+      {hasLeadingIcon && icon && <Icon name={icon} className={style.icon} size={iconSize} />}
+      {isCollapsed ? null : <span>{label}</span>}
     </>
   );
 }
