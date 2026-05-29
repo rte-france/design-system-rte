@@ -24,7 +24,7 @@ const meta: Meta<BaseSideNavComponent> = {
       control: "select",
       options: ["low", "high"],
     },
-    collapsed: {
+    isCollapsed: {
       control: "boolean",
       description: "Whether the side navigation is collapsed",
     },
@@ -65,7 +65,7 @@ const PageContent = `
 export const BodyOnly: Story = {
   args: {
     size: "m",
-    collapsed: false,
+    isCollapsed: false,
     showHeader: false,
     showFooter: false,
     appearance: "brand",
@@ -75,7 +75,7 @@ export const BodyOnly: Story = {
     template: `
       <rte-base-side-nav
         [size]="size"
-        [collapsed]="collapsed"
+        [isCollapsed]="isCollapsed"
         [showHeader]="showHeader"
         [showFooter]="showFooter"
         [appearance]="appearance"
@@ -90,7 +90,7 @@ export const BodyOnly: Story = {
 export const HeaderWithBody: Story = {
   args: {
     size: "m",
-    collapsed: false,
+    isCollapsed: false,
     showHeader: true,
     showFooter: false,
   },
@@ -99,7 +99,7 @@ export const HeaderWithBody: Story = {
     template: `
       <rte-base-side-nav
         [size]="size"
-        [collapsed]="collapsed"
+        [isCollapsed]="isCollapsed"
         [showHeader]="showHeader"
         [showFooter]="showFooter"
         [appearance]="appearance"
@@ -117,7 +117,7 @@ export const HeaderWithBody: Story = {
 export const BodyWithFooter: Story = {
   args: {
     size: "m",
-    collapsed: false,
+    isCollapsed: false,
     showHeader: false,
     showFooter: true,
   },
@@ -126,7 +126,7 @@ export const BodyWithFooter: Story = {
     template: `
       <rte-base-side-nav
         [size]="size"
-        [collapsed]="collapsed"
+        [isCollapsed]="isCollapsed"
         [showHeader]="showHeader"
         [showFooter]="showFooter"
         [appearance]="appearance"
@@ -144,7 +144,7 @@ export const BodyWithFooter: Story = {
 export const HeaderBodyFooter: Story = {
   args: {
     size: "m",
-    collapsed: false,
+    isCollapsed: false,
     showHeader: true,
     showFooter: true,
   },
@@ -153,7 +153,7 @@ export const HeaderBodyFooter: Story = {
     template: `
       <rte-base-side-nav
         [size]="size"
-        [collapsed]="collapsed"
+        [isCollapsed]="isCollapsed"
         [showHeader]="showHeader"
         [showFooter]="showFooter"
         [appearance]="appearance"
@@ -175,7 +175,7 @@ export const ColoredSections: Story = {
   args: {
     size: "m",
     appearance: "brand",
-    collapsed: false,
+    isCollapsed: false,
     showHeader: true,
     showFooter: true,
   },
@@ -184,7 +184,7 @@ export const ColoredSections: Story = {
     template: `
       <rte-base-side-nav
         [size]="size"
-        [collapsed]="collapsed"
+        [isCollapsed]="isCollapsed"
         [showHeader]="showHeader"
         [showFooter]="showFooter"
         [appearance]="appearance"

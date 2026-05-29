@@ -1,4 +1,4 @@
-@if (collapsed() && label()) {
+@if (isCollapsed() && label()) {
   @if (link()) {
     <a
       class="nav-item-container {{ appearance() }}"
@@ -6,7 +6,7 @@
       rteTooltipPosition="right"
       rteTooltipAlignment="center"
       [id]="id()"
-      [ngClass]="{ collapsed: collapsed(), nested: isNested(), active: active(), focused: focused() }"
+      [ngClass]="{ collapsed: isCollapsed(), nested: isNested(), active: active(), focused: focused() }"
       [attr.role]="role()"
       [rteTooltip]="label()"
       [rteTooltipArrow]="false"
@@ -24,7 +24,7 @@
       rteTooltipPosition="right"
       rteTooltipAlignment="center"
       [id]="id()"
-      [ngClass]="{ collapsed: collapsed(), nested: isNested(), active: active(), focused: focused() }"
+      [ngClass]="{ collapsed: isCollapsed(), nested: isNested(), active: active(), focused: focused() }"
       [attr.role]="role()"
       [rteTooltip]="label()"
       [rteTooltipArrow]="false"
@@ -39,7 +39,7 @@
     <a
       class="nav-item-container {{ appearance() }}"
       [id]="id()"
-      [ngClass]="{ collapsed: collapsed(), nested: isNested(), active: active(), focused: focused() }"
+      [ngClass]="{ collapsed: isCollapsed(), nested: isNested(), active: active(), focused: focused() }"
       [attr.role]="role()"
       [href]="link()!"
     >
@@ -49,7 +49,7 @@
     <div
       class="nav-item-container {{ appearance() }}"
       [id]="id()"
-      [ngClass]="{ collapsed: collapsed(), nested: isNested(), active: active(), focused: focused() }"
+      [ngClass]="{ collapsed: isCollapsed(), nested: isNested(), active: active(), focused: focused() }"
       [attr.role]="role()"
     >
       <ng-container [ngTemplateOutlet]="contentTemplate" />
@@ -68,10 +68,10 @@
     (blur)="handleBlur()"
   >
     <div class="nav-item-left">
-      @if (showIcon() && icon()) {
+      @if (hasLeadingIcon() && icon()) {
         <rte-icon class="icon" [name]="icon()!" [size]="iconSize()" />
       }
-      @if (!collapsed()) {
+      @if (!isCollapsed()) {
         <span>{{ label() }}</span>
       }
     </div>

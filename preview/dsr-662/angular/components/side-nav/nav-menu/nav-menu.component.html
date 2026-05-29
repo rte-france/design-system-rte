@@ -1,11 +1,11 @@
-@if (collapsed() && label()) {
+@if (isCollapsed() && label()) {
   <li
     class="nav-menu-container {{ appearance() }}"
     rteTooltip
     rteTooltipPosition="right"
     rteTooltipAlignment="center"
     [rteTooltipGap]="12"
-    [ngClass]="{ collapsed: collapsed(), open: open(), nested: isNested() }"
+    [ngClass]="{ collapsed: isCollapsed(), open: open(), nested: isNested() }"
     [rteTooltip]="label()"
     [rteTooltipArrow]="false"
     [rteTooltipShouldFocusTrigger]="false"
@@ -16,7 +16,7 @@
 } @else {
   <li
     class="nav-menu-container {{ appearance() }}"
-    [ngClass]="{ collapsed: collapsed(), open: open(), nested: isNested() }"
+    [ngClass]="{ collapsed: isCollapsed(), open: open(), nested: isNested() }"
   >
     <ng-container [ngTemplateOutlet]="menuContentTemplate"></ng-container>
     <ng-container [ngTemplateOutlet]="nestedMenuTemplate"></ng-container>
@@ -33,10 +33,10 @@
       (click)="toggleMenu()"
     >
       <div class="menu-content-left">
-        @if (showIcon() && icon()) {
+        @if (hasLeadingIcon() && icon()) {
           <rte-icon class="icon" [name]="icon()!" [size]="iconSize()" />
         }
-        @if (!collapsed()) {
+        @if (!isCollapsed()) {
           <span>{{ label() }}</span>
         }
       </div>
@@ -51,7 +51,7 @@
             [simpleBadge]="true"
           />
         }
-        @if (shouldShowMenu() && showMenuIcon()) {
+        @if (shouldShowMenu() && hasMenuIcon()) {
           <rte-icon name="arrow-chevron-right" class="menu-icon" [ngClass]="{ 'menu-icon-open': open() }" />
         }
       </div>
@@ -65,10 +65,10 @@
       (keydown)="handleKeyDown($event)"
     >
       <div class="menu-content-left">
-        @if (showIcon() && icon()) {
+        @if (hasLeadingIcon() && icon()) {
           <rte-icon class="icon" [name]="icon()!" [size]="iconSize()" />
         }
-        @if (!collapsed()) {
+        @if (!isCollapsed()) {
           <span>{{ label() }}</span>
         }
       </div>
@@ -83,7 +83,7 @@
             [simpleBadge]="true"
           />
         }
-        @if (shouldShowMenu() && showMenuIcon()) {
+        @if (shouldShowMenu() && hasMenuIcon()) {
           <rte-icon name="arrow-chevron-right" class="menu-icon" [ngClass]="{ 'menu-icon-open': open() }" />
         }
       </div>
@@ -101,16 +101,16 @@
               [id]="item.id"
               [label]="item.label"
               [icon]="item.icon"
-              [showIcon]="item.showIcon ?? true"
-              [collapsed]="collapsed()"
+              [hasLeadingIcon]="item.hasLeadingIcon ?? true"
+              [isCollapsed]="isCollapsed()"
               [link]="item.link"
               [items]="item.items || []"
-              [showMenuIcon]="showMenuIcon()"
+              [hasMenuIcon]="hasMenuIcon()"
               [isNested]="true"
               [open]="item.open"
               [parentMenuOpen]="open()"
               [appearance]="appearance()"
-              [showDivider]="item.showDivider!"
+              [hasDivider]="item.hasDivider!"
               [badge]="item.badge"
               (itemClick)="handleMenuClick($event)"
               (openChange)="handleMenuOpenChange($event)"
@@ -121,18 +121,18 @@
                 [id]="item.id"
                 [label]="item.label"
                 [icon]="item.icon"
-                [showIcon]="item.showIcon ?? true"
-                [collapsed]="collapsed()"
+                [hasLeadingIcon]="item.hasLeadingIcon ?? true"
+                [isCollapsed]="isCollapsed()"
                 [link]="item.link"
                 [isNested]="true"
                 [parentMenuOpen]="open()"
                 [appearance]="appearance()"
-                [showDivider]="item.showDivider!"
+                [hasDivider]="item.hasDivider!"
                 [badge]="item.badge"
                 (itemClick)="itemClick.emit($event)"
               />
             </li>
-            @if (item.showDivider) {
+            @if (item.hasDivider) {
               <rte-divider [appearance]="dividerAppearance()" />
             }
           }
@@ -142,6 +142,6 @@
   }
 </ng-template>
 
-@if (showDivider()) {
+@if (hasDivider()) {
   <rte-divider [appearance]="dividerAppearance()" />
 }

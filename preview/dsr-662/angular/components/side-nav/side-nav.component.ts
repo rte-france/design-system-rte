@@ -30,11 +30,11 @@ export class SideNavComponent {
   readonly headerConfig = input<SideNavHeaderConfig | undefined>();
   readonly items = input<NavItemProps[]>([]);
   readonly footerItems = input<NavItemProps[] | undefined>();
-  readonly collapsed = input<boolean>(false);
+  readonly isCollapsed = input<boolean>(false);
   readonly appearance = input<SideNavAppearance>("brand");
   readonly contrast = input<SideNavContrast>("high");
 
-  readonly isCollapsed = signal<boolean>(false);
+  readonly collapsedState = signal<boolean>(false);
   readonly shouldShowTitle = signal<boolean>(true);
 
   readonly itemClicked = output<string>();
@@ -44,7 +44,7 @@ export class SideNavComponent {
   constructor() {
     effect(
       () => {
-        this.isCollapsed.set(this.collapsed());
+        this.collapsedState.set(this.isCollapsed());
       },
       { allowSignalWrites: true },
     );
@@ -56,7 +56,7 @@ export class SideNavComponent {
           this.titleTimeoutId = null;
         }
 
-        if (this.isCollapsed()) {
+        if (this.collapsedState()) {
           this.shouldShowTitle.set(false);
         } else {
           this.titleTimeoutId = setTimeout(() => {
@@ -70,7 +70,7 @@ export class SideNavComponent {
   }
 
   readonly collapseIcon = computed<string>(() => {
-    return this.isCollapsed() ? "arrow-double-right" : "arrow-double-left";
+    return this.collapsedState() ? "arrow-double-right" : "arrow-double-left";
   });
 
   readonly dividerAppearance = computed<DividerAppearance>(() => {
@@ -121,6 +121,6 @@ export class SideNavComponent {
   }
 
   handleCollapseClick(): void {
-    this.isCollapsed.set(!this.isCollapsed());
+    this.collapsedState.set(!this.collapsedState());
   }
 }

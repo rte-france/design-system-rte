@@ -20,11 +20,11 @@ export class BaseSideNavComponent {
   readonly size = input<SideNavSize>("m");
   readonly appearance = input<SideNavAppearance>("brand");
   readonly contrast = input<SideNavContrast>("high");
-  readonly collapsed = input<boolean>(false);
+  readonly isCollapsed = input<boolean>(false);
   readonly showHeader = input<boolean>(true);
   readonly showFooter = input<boolean>(true);
 
   readonly minWidth = computed<string>(() => {
-    return this.collapsed() ? `${this.collapsedSize}px` : `${this.panelSize[this.size()]}px`;
+    return this.isCollapsed() ? `${this.collapsedSize}px` : `${this.panelSize[this.size()]}px`;
   });
 }
