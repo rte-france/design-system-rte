@@ -75,6 +75,7 @@ const Searchbar = forwardRef<HTMLInputElement, SearchbarProps>(
       value,
       assistiveText,
       style: customInputStyle,
+      width,
       ...props
     }: SearchbarProps,
     ref,
@@ -182,6 +183,7 @@ const Searchbar = forwardRef<HTMLInputElement, SearchbarProps>(
         <div ref={wrapperRef} className={styles.textInputWrapper} data-disabled={disabled}>
           <BaseTextInput
             id={id ?? ""}
+            width={width}
             {...textInputProps}
             style={textInputStyles}
             highlighted={hasFocusWithin}
