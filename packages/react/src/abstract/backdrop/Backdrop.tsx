@@ -2,6 +2,7 @@ import styles from "./Backdrop.module.scss";
 
 interface BackdropProps {
   isAnimating: boolean;
+  isFreezingNavigation?: boolean;
 }
 
 const Backdrop = ({ isAnimating }: BackdropProps) => {

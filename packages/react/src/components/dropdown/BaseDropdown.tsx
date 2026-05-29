@@ -118,9 +118,9 @@ export const BaseDropdown = forwardRef<HTMLDivElement, BaseDropdownProps>(
         closeDropdown();
         const buttonTrigger = triggerRef.current?.querySelectorAll(FOCUSABLE_BUTTONS_QUERY)[0] as HTMLElement;
         if (buttonTrigger) {
-          buttonTrigger.focus();
+          buttonTrigger.focus({ preventScroll: true });
         } else {
-          triggerRef.current?.focus();
+          triggerRef.current?.focus({ preventScroll: true });
         }
       }
     };

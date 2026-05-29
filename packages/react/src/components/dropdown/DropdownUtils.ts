@@ -6,9 +6,9 @@ export const focusNextElement = (dropdown: HTMLElement) => {
 
   if (activeElementIndex < menuItems.length - 1) {
     const nextElement = menuItems[activeElementIndex + 1];
-    nextElement.focus();
+    nextElement.focus({ preventScroll: true });
   } else {
-    menuItems[0]?.focus();
+    menuItems[0]?.focus({ preventScroll: true });
   }
 };
 
@@ -18,9 +18,9 @@ export const focusPreviousElement = (dropdown: HTMLElement) => {
 
   if (activeElementIndex > 0) {
     const previousElement = menuItems[activeElementIndex - 1];
-    previousElement.focus();
+    previousElement.focus({ preventScroll: true });
   } else {
-    menuItems[menuItems.length - 1]?.focus();
+    menuItems[menuItems.length - 1]?.focus({ preventScroll: true });
   }
 };
 
@@ -30,7 +30,7 @@ export const focusDropdownFirstElement = (dropdownId: string) => {
   const childDropdown = document.querySelector(`[data-dropdown-id='${safeDropdownId}']`);
   if (childDropdown) {
     const allChildDropdownElement = childDropdown?.querySelectorAll<HTMLElement>('li[role="menuitem"]');
-    allChildDropdownElement[0]?.focus();
+    allChildDropdownElement[0]?.focus({ preventScroll: true });
   }
 };
 
@@ -39,7 +39,7 @@ export const focusParentDropdownFirstElement = (dropdownId: string) => {
   const safeParentDropdownId = parentDropdownId ? CSS.escape(parentDropdownId) : null;
   if (!safeParentDropdownId) return;
   const parentDropdown = document.querySelector(`[data-dropdown-id='${safeParentDropdownId}']`);
-  parentDropdown?.querySelector<HTMLElement>("[data-active=true]")?.focus();
+  parentDropdown?.querySelector<HTMLElement>("[data-active=true]")?.focus({ preventScroll: true });
 };
 
 const getDropdownMenuItems = (dropdown: HTMLElement) => {
