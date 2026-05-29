@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, effect, input, output, signal } from "@angular/core";
-import { dividerAppearanceBySideNavAppearance } from "@design-system-rte/core";
-import { SideNavAppearance, SideNavHeaderConfig } from "@design-system-rte/core";
+import { getDividerAppearanceBySideNavTheme } from "@design-system-rte/core";
+import { SideNavAppearance, SideNavContrast, SideNavHeaderConfig } from "@design-system-rte/core";
 import { DividerAppearance } from "@design-system-rte/core/components/divider/divider.interface";
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
 import { NavMenuProps } from "@design-system-rte/core/components/side-nav/nav-menu/nav-menu.interface";
@@ -32,6 +32,7 @@ export class SideNavComponent {
   readonly footerItems = input<NavItemProps[] | undefined>();
   readonly collapsed = input<boolean>(false);
   readonly appearance = input<SideNavAppearance>("brand");
+  readonly contrast = input<SideNavContrast>("high");
 
   readonly isCollapsed = signal<boolean>(false);
   readonly shouldShowTitle = signal<boolean>(true);
@@ -73,7 +74,7 @@ export class SideNavComponent {
   });
 
   readonly dividerAppearance = computed<DividerAppearance>(() => {
-    return dividerAppearanceBySideNavAppearance[this.appearance()];
+    return getDividerAppearanceBySideNavTheme(this.appearance(), this.contrast());
   });
 
   handleHeaderKeyDown(event: KeyboardEvent): void {

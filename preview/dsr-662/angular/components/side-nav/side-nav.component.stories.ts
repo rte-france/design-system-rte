@@ -37,6 +37,7 @@ const meta: Meta<SideNavComponent> = {
     collapsible: { control: "boolean" },
     size: { control: "select", options: ["s", "m", "l"] },
     appearance: { control: "select", options: ["neutral", "brand"] },
+    contrast: { control: "select", options: ["low", "high"] },
     collapsed: { control: "boolean" },
   },
 };
@@ -245,6 +246,7 @@ const defaultRender = (args: StoryArgs) => ({
       [collapsible]="collapsible"
       [headerConfig]="headerConfig"
       [appearance]="appearance"
+      [contrast]="contrast"
       [items]="items"
       [collapsed]="collapsed"
       [footerItems]="footerItems">
@@ -309,6 +311,7 @@ const keyboardNavigationRender = (args: StoryArgs) => ({
       [collapsible]="collapsible"
       [headerConfig]="headerConfig"
       [appearance]="appearance"
+      [contrast]="contrast"
       [items]="items"
       [collapsed]="collapsed">
       <div content>${PageContent}</div>
@@ -642,6 +645,7 @@ export const ActiveItemState: Story = {
           [collapsible]="collapsible"
           [headerConfig]="headerConfig"
           [appearance]="appearance"
+          [contrast]="contrast"
           [items]="items()"
           [collapsed]="collapsed"
           (itemClicked)="handleItemClick($event)">

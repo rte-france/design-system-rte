@@ -1,9 +1,5 @@
 @use '@design-system-rte/core/design-tokens/main.scss' as *;
 
-:host {
-  display: contents;
-}
-
 .nav-menu-container {
   width: 100%;
   display: flex;
@@ -12,27 +8,6 @@
   border-radius: $radius-s;
   transition: background-color 300ms;
   box-sizing: border-box;
-
-  &.neutral {
-    .nav-menu {
-      color: var(--content-secondary);
-
-      &:hover {
-        background: var(--background-neutral-navigation-hover);
-        color: var(--content-primary);
-      }
-      &.focused {
-        outline: none;
-      }
-    }
-
-    &.nested {
-      .nav-menu {
-        border-radius: 0 $radius-s $radius-s 0;
-        border-left: $width-xs solid var(--border-divider);
-      }
-    }
-  }
 
   .nav-menu {
     @include typography-button-m;
@@ -46,8 +21,8 @@
     width: 100%;
     box-sizing: border-box;
     cursor: pointer;
-    border-left: $width-s solid transparent;
-    color: var(--content-brand-navigation-default);
+    border-left: $width-m solid transparent;
+    color: var(--rte-side-nav-item-label);
 
     .menu-content-left {
       display: flex;
@@ -63,13 +38,14 @@
 
     &:hover {
       border-radius: $radius-s;
-      background: var(--background-brand-navigation-hover);
-      color: var(--content-brand-navigation-hover);
+      background: var(--rte-side-nav-item-bg-hover);
+      color: var(--rte-side-nav-item-label);
     }
 
     &:link {
       text-decoration: none;
       color: inherit;
+
       &:hover {
         text-decoration: none;
         color: inherit;
@@ -87,7 +63,6 @@
     .nav-menu {
       padding: $positive-spacing_100 $positive-spacing_150;
       justify-content: center;
-      gap: 0;
       border-left: none;
     }
   }
@@ -96,7 +71,7 @@
     .nav-menu {
       @include typography-button-s;
       border-radius: 0 $radius-s $radius-s 0;
-      border-left: $width-xs solid var(--border-brand-navigation-divider);
+      border-left: $width-xs solid var(--rte-side-nav-item-border-hierarchy);
       padding: $positive-spacing_050 $positive-spacing_100;
     }
   }
@@ -105,10 +80,10 @@
     flex-shrink: 0;
     transition: transform 200ms;
     margin-left: auto;
-  }
 
-  .menu-icon-open {
-    transform: rotate(90deg);
+    &.open {
+      transform: rotate(90deg);
+    }
   }
 
   .nested-menu {
@@ -121,7 +96,7 @@
     padding-left: $positive-spacing_200;
     gap: 0;
 
-    &.nested-menu-open {
+    &.open {
       max-height: 1000px;
       padding-top: $positive-spacing_050;
       padding-bottom: $positive-spacing_050;
@@ -132,4 +107,3 @@
     flex-shrink: 0;
   }
 }
-
