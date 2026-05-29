@@ -144,8 +144,6 @@ jobs:
             ./packages/core/css
             ./packages/core/dist
           key: build-core-${{ hashFiles('package-lock.json') }}-${{ github.sha }}
-          restore-keys: |
-            build-core-
 
   build-react:
     runs-on: ubuntu-latest
