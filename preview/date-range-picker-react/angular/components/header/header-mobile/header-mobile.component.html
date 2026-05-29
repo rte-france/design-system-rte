@@ -1,0 +1,103 @@
+<div #rootRef class="rte-header-mobile" [attr.data-search-state]="searchState()" (keydown)="handleRootKeyDown($event)">
+  @if (hasLeftSection() && shouldRenderLogo()) {
+    <div class="left-section">
+      <a class="rte-header-home" [href]="homeLink()" [attr.aria-label]="computedHomeAriaLabel()">
+        <img class="rte-header-logo" alt="" aria-hidden="true" [src]="logoSrc()" />
+      </a>
+    </div>
+  }
+
+  <div class="mid-section">
+    @if (applicationName()) {
+      <span class="rte-header-app-name" [attr.aria-hidden]="isSearchExpanded() ? 'true' : null">
+        {{ applicationName() }}
+      </span>
+    }
+
+    @if (hasSearchbar() && hasRightSection()) {
+      <div
+        class="search-action"
+        [class.is-expanded]="isSearchExpanded()"
+        [class.is-collapsing]="isSearchCollapsing()"
+        [class.has-search-field]="shouldRenderSearchbar()"
+      >
+        <rte-icon-button
+          #mobileSearchButtonRef
+          class="search-action__trigger"
+          size="m"
+          appearance="outlined"
+          name="search"
+          variant="text"
+          [ariaLabel]="mobileSearchButtonAriaLabel()"
+          [attr.aria-hidden]="shouldRenderSearchbar() ? 'true' : null"
+          [attr.tabindex]="shouldRenderSearchbar() ? -1 : null"
+          (clickEvent)="openMobileSearch()"
+        />
+        @if (shouldRenderSearchbar()) {
+          <div class="search-action__field" [attr.aria-hidden]="isSearchExpanded() ? null : 'true'">
+            <rte-searchbar
+              width="100%"
+              [id]="searchbarProps()?.id || 'rte-header-searchbar'"
+              [label]="searchbarProps()?.label || 'Rechercher'"
+              [disabled]="searchbarProps()?.disabled ?? false"
+              [showResetButton]="searchbarProps()?.showResetButton ?? true"
+              [value]="searchbarProps()?.value || ''"
+              [assistiveText]="searchbarProps()?.assistiveText || ''"
+              [appearance]="searchbarAppearance()"
+              [compactSpacing]="isCompact()"
+            />
+          </div>
+        }
+      </div>
+    }
+  </div>
+
+  @if (hasRightSection()) {
+    <div class="right-section">
+      @if (isDropdownMenuEnabled()) {
+        <div
+          class="mobile-menu"
+          rteDropdown
+          rteDropdownAlignment="end"
+          [rteDropdownAutoOpen]="false"
+          [rteDropdownIsOpen]="isMobileMenuOpen()"
+          (clickedOutside)="closeMobileMenu()"
+          (menuEvent)="handleMobileMenuEvent($event)"
+        >
+          <rte-icon-button
+            rteDropdownTrigger
+            size="l"
+            variant="neutral"
+            ariaHaspopup="menu"
+            [name]="mobileMenuButton()?.iconName ?? 'menu'"
+            [ariaLabel]="mobileMenuButton()?.ariaLabel ?? 'Menu'"
+            [disabled]="mobileMenuButton()?.disabled ?? false"
+            [ariaExpanded]="isMobileMenuOpen()"
+            (clickEvent)="handleMobileMenuClick()"
+          />
+
+          @if (hasProjectedMobileMenu()) {
+            <rte-dropdown-menu>
+              <ng-template rteDropdownMenuBody>
+                <div dropdown-menu-body (click)="closeMobileMenu()">
+                  <ng-content />
+                </div>
+              </ng-template>
+            </rte-dropdown-menu>
+          } @else {
+            <rte-dropdown-menu [items]="mobileMenuItems()" />
+          }
+        </div>
+      } @else {
+        <rte-icon-button
+          size="l"
+          variant="neutral"
+          [name]="mobileMenuButton()?.iconName ?? 'menu'"
+          [ariaLabel]="mobileMenuButton()?.ariaLabel ?? 'Menu'"
+          [disabled]="mobileMenuButton()?.disabled ?? false"
+          (clickEvent)="handleMobileMenuClick()"
+        />
+      }
+    </div>
+  }
+</div>
