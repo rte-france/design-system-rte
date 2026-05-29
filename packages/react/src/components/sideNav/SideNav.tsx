@@ -1,5 +1,5 @@
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
-import { dividerAppearanceBySideNavAppearance } from "@design-system-rte/core/components/side-nav/side-nav.constants";
+import { getDividerAppearanceBySideNavTheme } from "@design-system-rte/core/components/side-nav/side-nav.constants";
 import { SideNavProps as CoreSideNavProps } from "@design-system-rte/core/components/side-nav/side-nav.interface";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 import { forwardRef, Fragment, ReactNode, useEffect, useState } from "react";
@@ -29,22 +29,23 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
       headerConfig,
       items,
       footerItems,
-      collapsed,
+      isCollapsed: controlledIsCollapsed,
       defaultCollapsed = false,
       onCollapsedChange,
       appearance = "brand",
+      contrast = "high",
       activeItem,
     }: SideNavProps,
     ref,
   ) => {
-    const [isCollapsed, setIsCollapsed] = useState(collapsed ?? defaultCollapsed);
+    const [isCollapsed, setIsCollapsed] = useState(controlledIsCollapsed ?? defaultCollapsed);
     const [shouldShowTitle, setShouldShowTitle] = useState(true);
 
     useEffect(() => {
-      if (collapsed !== undefined) {
-        setIsCollapsed(collapsed);
+      if (controlledIsCollapsed !== undefined) {
+        setIsCollapsed(controlledIsCollapsed);
       }
-    }, [collapsed]);
+    }, [controlledIsCollapsed]);
 
     useEffect(() => {
       if (isCollapsed) {
@@ -59,7 +60,7 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
 
     const collapseSideNav = () => {
       const newCollapsed = !isCollapsed;
-      if (collapsed === undefined) {
+      if (controlledIsCollapsed === undefined) {
         setIsCollapsed(newCollapsed);
       }
       onCollapsedChange?.(newCollapsed);
@@ -67,7 +68,7 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
 
     const collapseIcon = isCollapsed ? "arrow-double-right" : "arrow-double-left";
 
-    const dividerAppearance = dividerAppearanceBySideNavAppearance[appearance];
+    const dividerAppearance = getDividerAppearanceBySideNavTheme(appearance, contrast);
 
     const handleHeaderKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
       if ([SPACE_KEY, ENTER_KEY].includes(e.key)) {
@@ -142,13 +143,14 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
                   badge={item.badge}
                   label={item.label}
                   icon={item.icon}
-                  showIcon={item.showIcon}
-                  collapsed={isCollapsed}
+                  hasLeadingIcon={item.hasLeadingIcon}
+                  isCollapsed={isCollapsed}
                   link={item.link}
                   onClick={item.onClick}
                   items={item.items || []}
                   appearance={appearance}
-                  showDivider={item.showDivider}
+                  contrast={contrast}
+                  hasDivider={item.hasDivider}
                 />
               );
             }
@@ -160,15 +162,15 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
                     badge={item.badge}
                     label={item.label}
                     icon={item.icon}
-                    showIcon={item.showIcon}
-                    collapsed={isCollapsed}
+                    hasLeadingIcon={item.hasLeadingIcon}
+                    isCollapsed={isCollapsed}
                     link={item.link}
                     onClick={item.onClick}
                     appearance={appearance}
                     active={item.id === activeItem && !!activeItem}
                   />
                 </li>
-                {item.showDivider && <Divider appearance={dividerAppearance} />}
+                {item.hasDivider && <Divider appearance={dividerAppearance} />}
               </Fragment>
             );
           })}
@@ -180,8 +182,9 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
       <BaseSideNav
         ref={ref}
         size={size}
-        collapsed={isCollapsed}
+        isCollapsed={isCollapsed}
         appearance={appearance}
+        contrast={contrast}
         className={style.sideNavContainer}
         header={
           <div className={style.sideNavHeaderContainer}>
@@ -206,8 +209,8 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
                     <NavItem
                       id="collapse-button"
                       icon={collapseIcon}
-                      showIcon={true}
-                      collapsed={isCollapsed}
+                      hasLeadingIcon={true}
+                      isCollapsed={isCollapsed}
                       onClick={collapseSideNav}
                       label={isCollapsed ? "Ouvrir le menu" : "Réduire le menu"}
                       appearance={appearance}

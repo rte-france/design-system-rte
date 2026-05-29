@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, input } from "@angular/core";
 import { sideNavCollapsedSize, sideNavPanelSize } from "@design-system-rte/core/components/side-nav/side-nav.constants";
-import { SideNavAppearance } from "@design-system-rte/core/components/side-nav/side-nav.interface";
+import { SideNavAppearance, SideNavContrast } from "@design-system-rte/core/components/side-nav/side-nav.interface";
 
 type SideNavSize = "s" | "m" | "l";
 
@@ -19,11 +19,12 @@ export class BaseSideNavComponent {
 
   readonly size = input<SideNavSize>("m");
   readonly appearance = input<SideNavAppearance>("brand");
-  readonly collapsed = input<boolean>(false);
+  readonly contrast = input<SideNavContrast>("high");
+  readonly isCollapsed = input<boolean>(false);
   readonly showHeader = input<boolean>(true);
   readonly showFooter = input<boolean>(true);
 
   readonly minWidth = computed<string>(() => {
-    return this.collapsed() ? `${this.collapsedSize}px` : `${this.panelSize[this.size()]}px`;
+    return this.isCollapsed() ? `${this.collapsedSize}px` : `${this.panelSize[this.size()]}px`;
   });
 }

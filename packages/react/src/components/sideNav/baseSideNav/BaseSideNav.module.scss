@@ -5,7 +5,7 @@
   padding: $positive-spacing_0;
   position: relative;
   display: flex;
-  align-items: stretch; 
+  align-items: stretch;
   flex: 1;
 }
 
@@ -17,24 +17,59 @@
 }
 
 .sideNav {
-  background-color: var(--background-brand-navigation-default);
+  --rte-side-nav-shell-bg: var(--background-brand-bold-default);
+  --rte-side-nav-shell-content: var(--content-primary-inverse);
+  --rte-side-nav-item-bg-hover: var(--background-brand-bold-hover);
+  --rte-side-nav-item-bg-pressed: var(--background-brand-bold-pressed);
+  --rte-side-nav-item-label: var(--content-primary-inverse);
+  --rte-side-nav-item-label-disabled: var(--content-disabled);
+  --rte-side-nav-item-border-active: var(--border-inverse);
+  --rte-side-nav-item-border-hierarchy: var(--border-inverse);
 
+  &[data-appearance='brand'][data-contrast='low'] {
+    --rte-side-nav-shell-bg: var(--background-brand-subtle-default);
+    --rte-side-nav-shell-content: var(--content-secondary);
+    --rte-side-nav-item-bg-hover: var(--background-brand-subtle-hover);
+    --rte-side-nav-item-bg-pressed: var(--background-brand-subtle-pressed);
+    --rte-side-nav-item-label: var(--content-secondary);
+    --rte-side-nav-item-label-disabled: var(--content-disabled);
+    --rte-side-nav-item-border-active: var(--border-brand-default);
+    --rte-side-nav-item-border-hierarchy: var(--border-brand-default);
+  }
+
+  &[data-appearance='neutral'][data-contrast='low'] {
+    --rte-side-nav-shell-bg: var(--background-neutral-subtle-default);
+    --rte-side-nav-shell-content: var(--content-secondary);
+    --rte-side-nav-item-bg-hover: var(--background-neutral-subtle-hover);
+    --rte-side-nav-item-bg-pressed: var(--background-neutral-subtle-pressed);
+    --rte-side-nav-item-label: var(--content-secondary);
+    --rte-side-nav-item-label-disabled: var(--content-disabled);
+    --rte-side-nav-item-border-active: var(--border-primary);
+    --rte-side-nav-item-border-hierarchy: var(--border-primary);
+  }
+
+  &[data-appearance='neutral'][data-contrast='high'] {
+    --rte-side-nav-shell-bg: var(--background-neutral-bold-default);
+    --rte-side-nav-shell-content: var(--content-primary-inverse);
+    --rte-side-nav-item-bg-hover: var(--background-neutral-bold-hover);
+    --rte-side-nav-item-bg-pressed: var(--background-neutral-bold-pressed);
+    --rte-side-nav-item-label: var(--content-primary-inverse);
+    --rte-side-nav-item-label-disabled: var(--content-disabled);
+    --rte-side-nav-item-border-active: var(--border-inverse);
+    --rte-side-nav-item-border-hierarchy: var(--border-inverse);
+  }
+
+  background-color: var(--rte-side-nav-shell-bg);
   flex: 0 0 auto;
   align-self: stretch;
-
   display: flex;
   flex-direction: column;
   gap: $positive-spacing_0;
   box-sizing: border-box;
   border-radius: 0;
   transition: min-width 300ms;
-  color: var(--content-brand-navigation-default);
+  color: var(--rte-side-nav-shell-content);
   height: 100%;
-
-  &[data-appearance='neutral'] {
-    background-color: var(--background-neutral-navigation-default);
-    color: var(--content-secondary);
-  }
 }
 
 .sideNavHeader {

@@ -4,10 +4,10 @@ import { useState } from "react";
 
 function createCollapsedStateDecorator(): Decorator {
   return function CollapsedStateDecorator(Story, context) {
-    const [collapsed, setCollapsed] = useState(context.args.collapsed ?? true);
+    const [isCollapsed, setIsCollapsed] = useState(context.args.isCollapsed ?? true);
     return (
       <div>
-        <Story args={{ ...context.args, collapsed, onCollapsedChange: setCollapsed }} />
+        <Story args={{ ...context.args, isCollapsed, onCollapsedChange: setIsCollapsed }} />
       </div>
     );
   };

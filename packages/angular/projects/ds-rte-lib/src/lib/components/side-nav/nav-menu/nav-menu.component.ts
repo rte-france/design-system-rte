@@ -4,8 +4,8 @@ import { BadgeProps } from "@design-system-rte/core/components/badge/badge.inter
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
 import { getNavItemLabelIconSize } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.utils";
 import { NavMenuProps } from "@design-system-rte/core/components/side-nav/nav-menu/nav-menu.interface";
-import { dividerAppearanceBySideNavAppearance } from "@design-system-rte/core/components/side-nav/side-nav.constants";
-import { SideNavAppearance } from "@design-system-rte/core/components/side-nav/side-nav.interface";
+import { getDividerAppearanceBySideNavTheme } from "@design-system-rte/core/components/side-nav/side-nav.constants";
+import { SideNavAppearance, SideNavContrast } from "@design-system-rte/core/components/side-nav/side-nav.interface";
 import { ENTER_KEY, ESCAPE_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
 import { BadgeComponent } from "../../badge/badge.component";
@@ -34,18 +34,19 @@ export interface NavMenuOpenChangeEvent {
 export class NavMenuComponent {
   readonly id = input<string | undefined>();
   readonly icon = input<string | undefined>();
-  readonly showIcon = input<boolean>(true);
+  readonly hasLeadingIcon = input<boolean>(true);
   readonly label = input.required<string>();
-  readonly collapsed = input<boolean>(false);
+  readonly isCollapsed = input<boolean>(false);
   readonly link = input<string | undefined>();
   readonly items = input.required<NavItemProps[]>();
   readonly open = input<boolean | undefined>(false);
-  readonly showMenuIcon = input<boolean>(true);
+  readonly hasMenuIcon = input<boolean>(true);
   readonly isNested = input<boolean>(false);
   readonly parentMenuOpen = input<boolean | undefined>();
   readonly appearance = input<SideNavAppearance>("brand");
+  readonly contrast = input<SideNavContrast>("high");
   readonly badge = input<BadgeProps | undefined>();
-  readonly showDivider = input<boolean>(false);
+  readonly hasDivider = input<boolean>(false);
 
   readonly itemClick = output<string>();
   readonly openChange = output<NavMenuOpenChangeEvent>();
@@ -62,13 +63,13 @@ export class NavMenuComponent {
   }
 
   readonly hasNestedItems = computed<boolean>(() => !!this.items().length);
-  readonly shouldShowMenu = computed<boolean>(() => !this.collapsed() && this.hasNestedItems());
+  readonly shouldShowMenu = computed<boolean>(() => !this.isCollapsed() && this.hasNestedItems());
   readonly tabIndex = computed<number>(() => getNavTabIndex(this.parentMenuOpen()));
 
-  readonly dividerAppearance = computed(() => dividerAppearanceBySideNavAppearance[this.appearance()]);
+  readonly dividerAppearance = computed(() => getDividerAppearanceBySideNavTheme(this.appearance(), this.contrast()));
 
   readonly iconSize = computed<number>(() => {
-    return getNavItemLabelIconSize(this.isNested(), this.collapsed());
+    return getNavItemLabelIconSize(this.isNested(), this.isCollapsed());
   });
 
   toggleMenu(): void {
@@ -97,7 +98,7 @@ export class NavMenuComponent {
   }
 
   handleMenuOpenChange(event: NavMenuOpenChangeEvent): void {
-    const targetMenu = this.items().find((item) => item.id === event.id);
+    const targetMenu = this.items().find((item) => item.id === event.id || item.label === event.id);
     if (targetMenu) {
       (targetMenu as NavMenuProps).open = event.open;
     }

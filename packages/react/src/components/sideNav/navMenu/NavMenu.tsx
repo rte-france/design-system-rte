@@ -1,6 +1,6 @@
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
 import { NavMenuProps as CoreNavMenuProps } from "@design-system-rte/core/components/side-nav/nav-menu/nav-menu.interface";
-import { dividerAppearanceBySideNavAppearance } from "@design-system-rte/core/components/side-nav/side-nav.constants";
+import { getDividerAppearanceBySideNavTheme } from "@design-system-rte/core/components/side-nav/side-nav.constants";
 import { forwardRef, Fragment, HTMLAttributes, ReactNode, useState } from "react";
 
 import Badge from "../../badge/Badge";
@@ -25,23 +25,25 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
   (
     {
       icon,
-      showIcon = true,
+      hasLeadingIcon = true,
       onClick,
       label,
-      collapsed,
+      isCollapsed,
       link,
       items = [],
       open: controlledOpen,
-      showMenuIcon = true,
+      hasMenuIcon = true,
       isNested,
       parentMenuOpen,
       appearance = "brand",
+      contrast = "high",
       badge,
-      showDivider,
+      hasDivider,
       ...props
     }: NavMenuProps,
     ref,
   ) => {
+    const dividerAppearance = getDividerAppearanceBySideNavTheme(appearance, contrast);
     const [internalOpen, setInternalOpen] = useState(false);
     const isOpen = controlledOpen !== undefined ? controlledOpen : internalOpen;
     const isControlled = controlledOpen !== undefined;
@@ -69,12 +71,12 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
     });
 
     const hasNestedItems = items.length;
-    const shouldShowMenu = !collapsed && hasNestedItems;
+    const shouldShowMenu = !isCollapsed && hasNestedItems;
     const nestedItemsParentMenuOpen = isOpen;
     const tabIndex = getNavTabIndex(parentMenuOpen);
 
     const chevronIcon =
-      shouldShowMenu && showMenuIcon ? (
+      shouldShowMenu && hasMenuIcon ? (
         <Icon name="arrow-chevron-right" className={style.menuIcon} data-open={isOpen} />
       ) : null;
 
@@ -83,15 +85,15 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
         <div className={style.menuContentLeft}>
           <NavLabel
             icon={icon}
-            showIcon={showIcon}
+            hasLeadingIcon={hasLeadingIcon}
             label={label}
-            collapsed={collapsed}
+            isCollapsed={isCollapsed}
             isNested={isNested}
             styleType="menu"
           />
         </div>
         <div className={style.menuContentRight}>
-          {!collapsed && badge && (
+          {!isCollapsed && badge && (
             <Badge badgeType={badge.badgeType} size={badge.size} content={badge.content} count={badge.count} />
           )}
           {chevronIcon}
@@ -102,7 +104,7 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
     const listItem = (
       <li
         className={style.navMenuContainer}
-        data-collapsed={collapsed}
+        data-collapsed={isCollapsed}
         data-appearance={appearance}
         data-nested={isNested}
         data-open={isOpen}
@@ -129,16 +131,17 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
                     key={item.id || item.label}
                     label={item.label}
                     icon={item.icon}
-                    showIcon={item.showIcon}
-                    collapsed={collapsed}
+                    hasLeadingIcon={item.hasLeadingIcon}
+                    isCollapsed={isCollapsed}
                     link={item.link}
                     onClick={item.onClick}
                     items={item.items || []}
-                    showMenuIcon={showMenuIcon}
-                    showDivider={item.showDivider}
+                    hasMenuIcon={hasMenuIcon}
+                    hasDivider={item.hasDivider}
                     isNested={true}
                     parentMenuOpen={nestedItemsParentMenuOpen}
                     appearance={appearance}
+                    contrast={contrast}
                     badge={item.badge}
                   />
                 );
@@ -149,8 +152,8 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
                     <NavItem
                       label={item.label}
                       icon={item.icon}
-                      showIcon={item.showIcon}
-                      collapsed={collapsed}
+                      hasLeadingIcon={item.hasLeadingIcon}
+                      isCollapsed={isCollapsed}
                       link={item.link}
                       onClick={item.onClick}
                       isNested={true}
@@ -159,7 +162,7 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
                       badge={item.badge}
                     />
                   </li>
-                  {item.showDivider && <Divider appearance={dividerAppearanceBySideNavAppearance[appearance]} />}
+                  {item.hasDivider && <Divider appearance={dividerAppearance} />}
                 </Fragment>
               );
             })}
@@ -169,7 +172,7 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
     );
 
     const wrappedListItem = (
-      <NavTooltipWrapper label={label} collapsed={collapsed}>
+      <NavTooltipWrapper label={label} isCollapsed={isCollapsed}>
         {listItem}
       </NavTooltipWrapper>
     );
@@ -177,7 +180,7 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
     return (
       <>
         {wrappedListItem}
-        {showDivider && <Divider appearance={dividerAppearanceBySideNavAppearance[appearance]} />}
+        {hasDivider && <Divider appearance={dividerAppearance} />}
       </>
     );
   },
