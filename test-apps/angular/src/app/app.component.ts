@@ -250,11 +250,11 @@ export class AppComponent {
   }
 
   readonly baseNavigationItems: NavItemProps[] = [
-    { id: "home", label: "Home", icon: "home", showIcon: true },
-    { id: "dashboard", label: "Dashboard", icon: "dashboard", showIcon: true },
-    { id: "analytics", label: "Analytics", icon: "analytics", showIcon: true },
-    { id: "settings", label: "Settings", icon: "settings", showIcon: true },
-    { id: "profile", label: "Profile", icon: "user", showIcon: true, link: "/profile" },
+    { id: "home", label: "Home", icon: "home", hasLeadingIcon: true },
+    { id: "dashboard", label: "Dashboard", icon: "dashboard", hasLeadingIcon: true },
+    { id: "analytics", label: "Analytics", icon: "analytics", hasLeadingIcon: true },
+    { id: "settings", label: "Settings", icon: "settings", hasLeadingIcon: true },
+    { id: "profile", label: "Profile", icon: "user", hasLeadingIcon: true, link: "/profile" },
   ];
 
   readonly navigationItems = computed<NavItemProps[]>(() => {
@@ -272,20 +272,20 @@ export class AppComponent {
       id: "footer-settings",
       label: "Settings",
       icon: "settings",
-      showIcon: true,
+      hasLeadingIcon: true,
     },
     {
       id: "footer-help",
       label: "Help & Support",
       icon: "help",
-      showIcon: true,
+      hasLeadingIcon: true,
       link: "/help",
     },
     {
       id: "footer-account",
       label: "Account",
       icon: "user",
-      showIcon: true,
+      hasLeadingIcon: true,
       items: [
         { id: "footer-profile", label: "Profile", link: "/profile" },
         { id: "footer-preferences", label: "Preferences" },

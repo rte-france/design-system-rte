@@ -7,7 +7,6 @@
     justify-content: space-between;
     gap: $positive-spacing_100;
     padding: $positive-spacing_100 $positive-spacing_075;
-    border-radius: $radius-s;
     cursor: pointer;
     transition: background-color 0.3s ease;
     align-items: center;
@@ -87,7 +86,6 @@
     &[data-nested='true'] {
         @include typography-button-s;
 
-        border-radius: 0 $radius-s $radius-s 0;
         border-left: $width-xs solid var(--rte-side-nav-item-border-hierarchy);
         padding: $positive-spacing_050 $positive-spacing_100;
 

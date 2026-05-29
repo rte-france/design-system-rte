@@ -107,27 +107,33 @@ function App() {
   };
 
   const navigationItems = [
-    { id: "home", label: "Home", icon: "home", showIcon: true, onClick: () => setActiveItem("home") },
+    { id: "home", label: "Home", icon: "home", hasLeadingIcon: true, onClick: () => setActiveItem("home") },
     {
       id: "dashboard",
       label: "Dashboard",
       icon: "dashboard",
-      showIcon: true,
+      hasLeadingIcon: true,
       onClick: () => setActiveItem("dashboard"),
     },
     {
       id: "analytics",
       label: "Analytics",
       icon: "analytics",
-      showIcon: true,
+      hasLeadingIcon: true,
       onClick: () => setActiveItem("analytics"),
     },
-    { id: "settings", label: "Settings", icon: "settings", showIcon: true, onClick: () => setActiveItem("settings") },
+    {
+      id: "settings",
+      label: "Settings",
+      icon: "settings",
+      hasLeadingIcon: true,
+      onClick: () => setActiveItem("settings"),
+    },
     {
       id: "profile",
       label: "Profile",
       icon: "user",
-      showIcon: true,
+      hasLeadingIcon: true,
       link: "/profile",
       onClick: () => setActiveItem("profile"),
     },
@@ -138,7 +144,7 @@ function App() {
       id: "footer-settings",
       label: "Settings",
       icon: "settings",
-      showIcon: true,
+      hasLeadingIcon: true,
       onClick: () => {
         console.log("Footer Settings clicked");
         setActiveItem("footer-settings");
@@ -148,7 +154,7 @@ function App() {
       id: "footer-help",
       label: "Help & Support",
       icon: "help",
-      showIcon: true,
+      hasLeadingIcon: true,
       link: "/help",
       onClick: () => setActiveItem("footer-help"),
     },
@@ -156,7 +162,7 @@ function App() {
       id: "footer-account",
       label: "Account",
       icon: "user",
-      showIcon: true,
+      hasLeadingIcon: true,
       items: [
         { id: "footer-profile", label: "Profile", link: "/profile" },
         { id: "footer-preferences", label: "Preferences" },

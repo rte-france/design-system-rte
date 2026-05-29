@@ -6,9 +6,9 @@ export interface NavItemProps {
   appearance?: SideNavAppearance;
   label: string;
   icon?: string;
-  showIcon?: boolean;
-  showBadge?: boolean;
-  collapsed?: boolean;
+  hasLeadingIcon?: boolean;
+  hasBadge?: boolean;
+  isCollapsed?: boolean;
   link?: string;
   onClick?: () => void;
   items?: NavItemProps[];
@@ -16,5 +16,5 @@ export interface NavItemProps {
   isNested?: boolean;
   parentMenuOpen?: boolean;
   badge?: BadgeProps;
-  showDivider?: boolean;
+  hasDivider?: boolean;
 }

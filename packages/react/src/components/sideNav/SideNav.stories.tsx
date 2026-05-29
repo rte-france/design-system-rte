@@ -43,7 +43,7 @@ const meta = {
     size: { control: "select", options: ["s", "m", "l"] },
     appearance: { control: "select", options: ["neutral", "brand"] },
     contrast: { control: "select", options: ["low", "high"] },
-    collapsed: { control: "boolean" },
+    isCollapsed: { control: "boolean" },
     activeItem: { control: "text" },
   },
   render: (args) => (
@@ -55,7 +55,7 @@ const meta = {
       contrast={args.contrast}
       items={args.items}
       footerItems={args.footerItems}
-      collapsed={args.collapsed}
+      isCollapsed={args.isCollapsed}
       activeItem={args.activeItem}
       onCollapsedChange={args.onCollapsedChange}
     >
@@ -97,7 +97,7 @@ const PageContent = (
 );
 
 const baseNavItem = {
-  showIcon: true,
+  hasLeadingIcon: true,
 };
 
 const baseBadge = {
@@ -461,7 +461,7 @@ export const CollapsedTooltip: Story = {
     headerConfig: defaultHeaderConfig,
     items: navigationItems,
     collapsible: true,
-    collapsed: true,
+    isCollapsed: true,
   },
   decorators: [createCollapsedStateDecorator()],
   play: async ({ canvasElement, step }) => {
@@ -507,7 +507,7 @@ export const CollapsedTooltipWithNested: Story = {
     headerConfig: defaultHeaderConfig,
     items: navigationItemsWithNested,
     collapsible: true,
-    collapsed: true,
+    isCollapsed: true,
   },
   decorators: [createCollapsedStateDecorator()],
   play: async ({ canvasElement, step }) => {
@@ -634,24 +634,24 @@ const navigationItemsWithDividers: NavItemProps[] = [
   baseNavItems[0],
   {
     ...baseNavItems[1],
-    items: [{ label: "Overview" }, { label: "Reports", showDivider: true }, { label: "Analytics", icon: "analytics" }],
+    items: [{ label: "Overview" }, { label: "Reports", hasDivider: true }, { label: "Analytics", icon: "analytics" }],
   },
-  { ...baseNavItems[2], showDivider: true },
+  { ...baseNavItems[2], hasDivider: true },
   { ...baseNavItem, id: "reports", label: "Reports", icon: "info" },
   {
     ...baseNavItems[3],
-    showDivider: true,
+    hasDivider: true,
     items: [
       { label: "General" },
-      { label: "Privacy", showDivider: true },
+      { label: "Privacy", hasDivider: true },
       { label: "Notifications", icon: "notifications" },
       {
         label: "Advanced",
         icon: "settings",
-        showDivider: true,
+        hasDivider: true,
         items: [
           { label: "Security" },
-          { label: "API Keys", icon: "api-keys", showDivider: true },
+          { label: "API Keys", icon: "api-keys", hasDivider: true },
           { label: "Integrations", icon: "integrations" },
         ],
       },

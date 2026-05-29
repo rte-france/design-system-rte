@@ -24,9 +24,9 @@ function getNavTabIndex(parentMenuOpen?: boolean): number {
 export class NavItemComponent {
   readonly id = input<string | undefined>();
   readonly icon = input<string | undefined>();
-  readonly showIcon = input<boolean>(true);
+  readonly hasLeadingIcon = input<boolean>(true);
   readonly label = input.required<string>();
-  readonly collapsed = input<boolean>(false);
+  readonly isCollapsed = input<boolean>(false);
   readonly link = input<string | undefined>();
   readonly appearance = input<SideNavAppearance>("brand");
   readonly active = input<boolean>(false);
@@ -34,7 +34,7 @@ export class NavItemComponent {
   readonly isNested = input<boolean>(false);
   readonly parentMenuOpen = input<boolean | undefined>();
   readonly role = input<string | undefined>();
-  readonly showDivider = input<boolean>(false);
+  readonly hasDivider = input<boolean>(false);
 
   readonly focused = signal<boolean>(false);
   readonly tabIndex = computed<number>(() => getNavTabIndex(this.parentMenuOpen()));
@@ -42,7 +42,7 @@ export class NavItemComponent {
   readonly itemClick = output<string>();
 
   readonly iconSize = computed<number>(() => {
-    return getNavItemLabelIconSize(this.isNested(), this.collapsed());
+    return getNavItemLabelIconSize(this.isNested(), this.isCollapsed());
   });
 
   handleClick(event: Event): void {

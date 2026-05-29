@@ -29,7 +29,7 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
       headerConfig,
       items,
       footerItems,
-      collapsed,
+      isCollapsed: controlledIsCollapsed,
       defaultCollapsed = false,
       onCollapsedChange,
       appearance = "brand",
@@ -38,14 +38,14 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
     }: SideNavProps,
     ref,
   ) => {
-    const [isCollapsed, setIsCollapsed] = useState(collapsed ?? defaultCollapsed);
+    const [isCollapsed, setIsCollapsed] = useState(controlledIsCollapsed ?? defaultCollapsed);
     const [shouldShowTitle, setShouldShowTitle] = useState(true);
 
     useEffect(() => {
-      if (collapsed !== undefined) {
-        setIsCollapsed(collapsed);
+      if (controlledIsCollapsed !== undefined) {
+        setIsCollapsed(controlledIsCollapsed);
       }
-    }, [collapsed]);
+    }, [controlledIsCollapsed]);
 
     useEffect(() => {
       if (isCollapsed) {
@@ -60,7 +60,7 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
 
     const collapseSideNav = () => {
       const newCollapsed = !isCollapsed;
-      if (collapsed === undefined) {
+      if (controlledIsCollapsed === undefined) {
         setIsCollapsed(newCollapsed);
       }
       onCollapsedChange?.(newCollapsed);
@@ -143,14 +143,14 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
                   badge={item.badge}
                   label={item.label}
                   icon={item.icon}
-                  showIcon={item.showIcon}
-                  collapsed={isCollapsed}
+                  hasLeadingIcon={item.hasLeadingIcon}
+                  isCollapsed={isCollapsed}
                   link={item.link}
                   onClick={item.onClick}
                   items={item.items || []}
                   appearance={appearance}
                   contrast={contrast}
-                  showDivider={item.showDivider}
+                  hasDivider={item.hasDivider}
                 />
               );
             }
@@ -162,15 +162,15 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
                     badge={item.badge}
                     label={item.label}
                     icon={item.icon}
-                    showIcon={item.showIcon}
-                    collapsed={isCollapsed}
+                    hasLeadingIcon={item.hasLeadingIcon}
+                    isCollapsed={isCollapsed}
                     link={item.link}
                     onClick={item.onClick}
                     appearance={appearance}
                     active={item.id === activeItem && !!activeItem}
                   />
                 </li>
-                {item.showDivider && <Divider appearance={dividerAppearance} />}
+                {item.hasDivider && <Divider appearance={dividerAppearance} />}
               </Fragment>
             );
           })}
@@ -182,7 +182,7 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
       <BaseSideNav
         ref={ref}
         size={size}
-        collapsed={isCollapsed}
+        isCollapsed={isCollapsed}
         appearance={appearance}
         contrast={contrast}
         className={style.sideNavContainer}
@@ -209,8 +209,8 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
                     <NavItem
                       id="collapse-button"
                       icon={collapseIcon}
-                      showIcon={true}
-                      collapsed={isCollapsed}
+                      hasLeadingIcon={true}
+                      isCollapsed={isCollapsed}
                       onClick={collapseSideNav}
                       label={isCollapsed ? "Ouvrir le menu" : "Réduire le menu"}
                       appearance={appearance}

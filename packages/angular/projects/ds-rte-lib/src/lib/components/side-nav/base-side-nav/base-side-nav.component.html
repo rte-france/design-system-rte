@@ -1,7 +1,7 @@
 <div class="side-nav-container">
   <nav
     class="side-nav"
-    [ngClass]="{ collapsed: collapsed() }"
+    [ngClass]="{ collapsed: isCollapsed() }"
     [attr.data-appearance]="appearance()"
     [attr.data-contrast]="contrast()"
     [style.min-width]="minWidth()"

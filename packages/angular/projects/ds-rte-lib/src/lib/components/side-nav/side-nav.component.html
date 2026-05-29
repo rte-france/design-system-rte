@@ -1,7 +1,7 @@
-<rte-base-side-nav [size]="size()" [collapsed]="isCollapsed()" [appearance]="appearance()" [contrast]="contrast()">
+<rte-base-side-nav [size]="size()" [isCollapsed]="collapsedState()" [appearance]="appearance()" [contrast]="contrast()">
   <div side-nav-header>
     <div class="side-nav-header-container">
-      <div class="side-nav-header {{ appearance() }}" [ngClass]="{ collapsed: isCollapsed() }">
+      <div class="side-nav-header {{ appearance() }}" [ngClass]="{ collapsed: collapsedState() }">
         @if (headerConfig()?.link) {
           <a
             class="side-nav-header-title-container"
@@ -11,7 +11,7 @@
           >
             <div class="side-nav-header-title">
               <div class="side-nav-header-identifier">{{ headerConfig()?.identifier }}</div>
-              @if (!isCollapsed()) {
+              @if (!collapsedState()) {
                 <h1 [ngClass]="{ hidden: !shouldShowTitle() }">{{ headerConfig()?.title }}</h1>
               }
             </div>
@@ -27,7 +27,7 @@
           >
             <div class="side-nav-header-title">
               <div class="side-nav-header-identifier">{{ headerConfig()?.identifier }}</div>
-              @if (!isCollapsed()) {
+              @if (!collapsedState()) {
                 <h1 [ngClass]="{ hidden: !shouldShowTitle() }">{{ headerConfig()?.title }}</h1>
               }
             </div>
@@ -36,7 +36,7 @@
           <div class="side-nav-header-title-container">
             <div class="side-nav-header-title">
               <div class="side-nav-header-identifier">{{ headerConfig()?.identifier }}</div>
-              @if (!isCollapsed()) {
+              @if (!collapsedState()) {
                 <h1 [ngClass]="{ hidden: !shouldShowTitle() }">{{ headerConfig()?.title }}</h1>
               }
             </div>
@@ -58,15 +58,15 @@
               [id]="item.id"
               [label]="item.label"
               [icon]="item.icon"
-              [showIcon]="item.showIcon ?? true"
-              [collapsed]="isCollapsed()"
+              [hasLeadingIcon]="item.hasLeadingIcon ?? true"
+              [isCollapsed]="collapsedState()"
               [link]="item.link"
               [open]="item.open"
               [items]="item.items || []"
               [appearance]="appearance()"
               [contrast]="contrast()"
               [badge]="item.badge"
-              [showDivider]="item.showDivider!"
+              [hasDivider]="item.hasDivider!"
               (openChange)="handleMenuOpenChange($event)"
             />
           } @else {
@@ -75,8 +75,8 @@
                 [id]="item.id"
                 [label]="item.label"
                 [icon]="item.icon"
-                [showIcon]="item.showIcon ?? true"
-                [collapsed]="isCollapsed()"
+                [hasLeadingIcon]="item.hasLeadingIcon ?? true"
+                [isCollapsed]="collapsedState()"
                 [link]="item.link"
                 [appearance]="appearance()"
                 [active]="item.active ?? false"
@@ -84,7 +84,7 @@
                 (itemClick)="handleItemClick(item.id || item.label)"
               ></rte-nav-item>
             </li>
-            @if (item.showDivider) {
+            @if (item.hasDivider) {
               <rte-divider [appearance]="dividerAppearance()" />
             }
           }
@@ -104,15 +104,15 @@
                     [id]="item.id"
                     [label]="item.label"
                     [icon]="item.icon"
-                    [showIcon]="item.showIcon ?? true"
-                    [collapsed]="isCollapsed()"
+                    [hasLeadingIcon]="item.hasLeadingIcon ?? true"
+                    [isCollapsed]="collapsedState()"
                     [link]="item.link"
                     [open]="item.open"
                     [items]="item.items || []"
                     [appearance]="appearance()"
                     [contrast]="contrast()"
                     [badge]="item.badge"
-                    [showDivider]="item.showDivider!"
+                    [hasDivider]="item.hasDivider!"
                     (openChange)="handleFooterMenuOpenChange($event)"
                   />
                 } @else {
@@ -121,8 +121,8 @@
                       [id]="item.id"
                       [label]="item.label"
                       [icon]="item.icon"
-                      [showIcon]="item.showIcon ?? true"
-                      [collapsed]="isCollapsed()"
+                      [hasLeadingIcon]="item.hasLeadingIcon ?? true"
+                      [isCollapsed]="collapsedState()"
                       [link]="item.link"
                       [appearance]="appearance()"
                       [active]="item.active ?? false"
@@ -130,7 +130,7 @@
                       (itemClick)="handleFooterItemClick(item.id || item.label)"
                     ></rte-nav-item>
                   </li>
-                  @if (item.showDivider) {
+                  @if (item.hasDivider) {
                     <rte-divider [appearance]="dividerAppearance()" />
                   }
                 }
@@ -145,9 +145,9 @@
               <ul>
                 <li>
                   <rte-nav-item
-                    [label]="isCollapsed() ? 'Ouvrir le menu' : 'Réduire le menu'"
+                    [label]="collapsedState() ? 'Ouvrir le menu' : 'Réduire le menu'"
                     [icon]="collapseIcon()"
-                    [collapsed]="isCollapsed()"
+                    [isCollapsed]="collapsedState()"
                     [appearance]="appearance()"
                     (itemClick)="handleCollapseClick()"
                   />

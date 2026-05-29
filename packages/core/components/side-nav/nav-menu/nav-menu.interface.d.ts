@@ -5,5 +5,5 @@ export interface NavMenuProps extends NavItemProps {
   contrast?: SideNavContrast;
   items: NavItemProps[];
   open?: boolean;
-  showMenuIcon?: boolean;
+  hasMenuIcon?: boolean;
 }

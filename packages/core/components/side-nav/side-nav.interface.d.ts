@@ -28,7 +28,7 @@ export interface BaseSideNavProps {
   appearance?: SideNavAppearance;
   contrast?: SideNavContrast;
   size?: SideNavSize;
-  collapsed?: boolean;
+  isCollapsed?: boolean;
   showHeader?: boolean;
   showFooter?: boolean;
   showScrollbar?: boolean;
