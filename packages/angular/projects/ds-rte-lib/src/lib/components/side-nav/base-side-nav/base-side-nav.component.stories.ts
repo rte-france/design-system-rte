@@ -20,6 +20,10 @@ const meta: Meta<BaseSideNavComponent> = {
       options: ["neutral", "brand"],
       description: "Appearance of the side navigation",
     },
+    contrast: {
+      control: "select",
+      options: ["low", "high"],
+    },
     collapsed: {
       control: "boolean",
       description: "Whether the side navigation is collapsed",
@@ -74,7 +78,8 @@ export const BodyOnly: Story = {
         [collapsed]="collapsed"
         [showHeader]="showHeader"
         [showFooter]="showFooter"
-        [appearance]="appearance">
+        [appearance]="appearance"
+        [contrast]="contrast">
         <div side-nav-body>${SimpleBody}</div>
         <div side-nav-content>${PageContent}</div>
       </rte-base-side-nav>
@@ -97,7 +102,8 @@ export const HeaderWithBody: Story = {
         [collapsed]="collapsed"
         [showHeader]="showHeader"
         [showFooter]="showFooter"
-        [appearance]="appearance">
+        [appearance]="appearance"
+        [contrast]="contrast">
         <div side-nav-header>
           <div style="font-weight: 600; font-size: 0.875rem;">Menu</div>
         </div>
@@ -123,7 +129,8 @@ export const BodyWithFooter: Story = {
         [collapsed]="collapsed"
         [showHeader]="showHeader"
         [showFooter]="showFooter"
-        [appearance]="appearance">
+        [appearance]="appearance"
+        [contrast]="contrast">
         <div side-nav-body>${SimpleBody}</div>
         <div side-nav-footer>
           <div style="font-size: 0.75rem; color: #666;">Footer</div>
@@ -149,7 +156,8 @@ export const HeaderBodyFooter: Story = {
         [collapsed]="collapsed"
         [showHeader]="showHeader"
         [showFooter]="showFooter"
-        [appearance]="appearance">
+        [appearance]="appearance"
+        [contrast]="contrast">
         <div side-nav-header>
           <div style="font-weight: 600; font-size: 0.875rem;">Navigation</div>
         </div>
@@ -179,7 +187,8 @@ export const ColoredSections: Story = {
         [collapsed]="collapsed"
         [showHeader]="showHeader"
         [showFooter]="showFooter"
-        [appearance]="appearance">
+        [appearance]="appearance"
+        [contrast]="contrast">
         <div side-nav-header style="font-weight: 600; color: #000; padding: 1rem; background-color: #E8F4F8; box-sizing: border-box;">
           📍 Header Section
         </div>

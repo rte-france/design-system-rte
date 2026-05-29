@@ -42,6 +42,7 @@ const meta = {
     collapsible: { control: "boolean" },
     size: { control: "select", options: ["s", "m", "l"] },
     appearance: { control: "select", options: ["neutral", "brand"] },
+    contrast: { control: "select", options: ["low", "high"] },
     collapsed: { control: "boolean" },
     activeItem: { control: "text" },
   },
@@ -51,6 +52,7 @@ const meta = {
       collapsible={args.collapsible}
       headerConfig={args.headerConfig}
       appearance={args.appearance}
+      contrast={args.contrast}
       items={args.items}
       footerItems={args.footerItems}
       collapsed={args.collapsed}

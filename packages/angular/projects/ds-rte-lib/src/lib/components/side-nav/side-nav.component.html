@@ -1,4 +1,4 @@
-<rte-base-side-nav [size]="size()" [collapsed]="isCollapsed()" [appearance]="appearance()">
+<rte-base-side-nav [size]="size()" [collapsed]="isCollapsed()" [appearance]="appearance()" [contrast]="contrast()">
   <div side-nav-header>
     <div class="side-nav-header-container">
       <div class="side-nav-header {{ appearance() }}" [ngClass]="{ collapsed: isCollapsed() }">
@@ -64,6 +64,7 @@
               [open]="item.open"
               [items]="item.items || []"
               [appearance]="appearance()"
+              [contrast]="contrast()"
               [badge]="item.badge"
               [showDivider]="item.showDivider!"
               (openChange)="handleMenuOpenChange($event)"
@@ -109,6 +110,7 @@
                     [open]="item.open"
                     [items]="item.items || []"
                     [appearance]="appearance()"
+                    [contrast]="contrast()"
                     [badge]="item.badge"
                     [showDivider]="item.showDivider!"
                     (openChange)="handleFooterMenuOpenChange($event)"

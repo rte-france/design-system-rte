@@ -45,20 +45,9 @@
             flex-grow: 0;
             gap: 0;
             align-self: auto;
+
             .sideNavHeaderTitle {
                 gap: 0;
-            }
-        }
-    }
-
-    &[data-appearance='neutral'] {
-        .sideNavHeaderTitleContainer {
-            &[href],
-            &[role="button"] {
-                &:hover {
-                    background: var(--background-neutral-navigation-hover);
-                    @include neutral-shadow-1;
-                }
             }
         }
     }
@@ -80,7 +69,7 @@
             &:hover {
                 border-radius: $radius-s;
                 opacity: $opacity-100;
-                background: var(--background-brand-navigation-hover);
+                background: var(--rte-side-nav-item-bg-hover);
             }
         }
 
@@ -97,15 +86,15 @@
                 align-items: center;
                 flex: 1 0 0;
                 align-self: stretch;
-                color: var(--content-brand-navigation-default);
+                color: var(--rte-side-nav-item-label);
                 text-align: center;
                 user-select: none;
                 border-radius: $radius-s;
-                background: var(--background-brand-navigation-pressed);
+                background: var(--rte-side-nav-item-bg-pressed);
                 min-width: 24px;
                 height: 24px;
             }
-    
+
             h1 {
                 @include typography-heading-xs;
                 user-select: none;

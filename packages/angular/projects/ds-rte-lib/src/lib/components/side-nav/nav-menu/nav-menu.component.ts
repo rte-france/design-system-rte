@@ -4,8 +4,8 @@ import { BadgeProps } from "@design-system-rte/core/components/badge/badge.inter
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
 import { getNavItemLabelIconSize } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.utils";
 import { NavMenuProps } from "@design-system-rte/core/components/side-nav/nav-menu/nav-menu.interface";
-import { dividerAppearanceBySideNavAppearance } from "@design-system-rte/core/components/side-nav/side-nav.constants";
-import { SideNavAppearance } from "@design-system-rte/core/components/side-nav/side-nav.interface";
+import { getDividerAppearanceBySideNavTheme } from "@design-system-rte/core/components/side-nav/side-nav.constants";
+import { SideNavAppearance, SideNavContrast } from "@design-system-rte/core/components/side-nav/side-nav.interface";
 import { ENTER_KEY, ESCAPE_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
 import { BadgeComponent } from "../../badge/badge.component";
@@ -44,6 +44,7 @@ export class NavMenuComponent {
   readonly isNested = input<boolean>(false);
   readonly parentMenuOpen = input<boolean | undefined>();
   readonly appearance = input<SideNavAppearance>("brand");
+  readonly contrast = input<SideNavContrast>("high");
   readonly badge = input<BadgeProps | undefined>();
   readonly showDivider = input<boolean>(false);
 
@@ -65,7 +66,7 @@ export class NavMenuComponent {
   readonly shouldShowMenu = computed<boolean>(() => !this.collapsed() && this.hasNestedItems());
   readonly tabIndex = computed<number>(() => getNavTabIndex(this.parentMenuOpen()));
 
-  readonly dividerAppearance = computed(() => dividerAppearanceBySideNavAppearance[this.appearance()]);
+  readonly dividerAppearance = computed(() => getDividerAppearanceBySideNavTheme(this.appearance(), this.contrast()));
 
   readonly iconSize = computed<number>(() => {
     return getNavItemLabelIconSize(this.isNested(), this.collapsed());

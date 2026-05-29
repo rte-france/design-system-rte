@@ -12,8 +12,8 @@
   transition: background-color 0.3s ease;
   align-items: center;
   box-sizing: border-box;
-  border-left: $width-s solid transparent;
-  color: var(--content-brand-navigation-default);
+  border-left: $width-m solid transparent;
+  color: var(--rte-side-nav-item-label);
 
   &:link,
   &:visited {
@@ -26,38 +26,15 @@
     }
   }
 
-  &.neutral {
-    color: var(--content-secondary);
-
-    &:hover {
-      background: var(--background-neutral-navigation-hover);
-      color: var(--content-primary);
-    }
-
-    &.active {
-      @include elevation-neutral-inner-shadow;
-      color: var(--content-brand-pressed);
-    }
-
-    &.nested {
-      border-radius: 0 $radius-s $radius-s 0;
-      border-left: $width-xs solid var(--border-divider);
-
-      &.active {
-        border-left: $width-xs solid var(--border-brand-navigation-active);
-      }
-    }
-  }
-
   &:hover {
-    background: var(--background-brand-navigation-hover);
-    color: var(--content-brand-navigation-hover);
+    background: var(--rte-side-nav-item-bg-hover);
+    color: var(--rte-side-nav-item-label);
   }
 
   &.active {
-    background: var(--background-brand-navigation-pressed);
-    border-left: $width-s solid var(--border-brand-navigation-divider);
-    color: var(--content-primary-inverse);
+    background: var(--rte-side-nav-item-bg-pressed);
+    border-left: $width-m solid var(--rte-side-nav-item-border-active);
+    color: var(--rte-side-nav-item-label);
   }
 
   &:active {
@@ -120,11 +97,11 @@
     @include typography-button-s;
 
     border-radius: 0 $radius-s $radius-s 0;
-    border-left: $width-xs solid var(--border-brand-navigation-divider);
+    border-left: $width-xs solid var(--rte-side-nav-item-border-hierarchy);
     padding: $positive-spacing_050 $positive-spacing_100;
 
     &.active {
-      @include neutral-inner-shadow;
+      border-left: $width-m solid var(--rte-side-nav-item-border-active);
     }
   }
 

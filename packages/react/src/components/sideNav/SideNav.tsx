@@ -1,5 +1,5 @@
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
-import { dividerAppearanceBySideNavAppearance } from "@design-system-rte/core/components/side-nav/side-nav.constants";
+import { getDividerAppearanceBySideNavTheme } from "@design-system-rte/core/components/side-nav/side-nav.constants";
 import { SideNavProps as CoreSideNavProps } from "@design-system-rte/core/components/side-nav/side-nav.interface";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 import { forwardRef, Fragment, ReactNode, useEffect, useState } from "react";
@@ -33,6 +33,7 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
       defaultCollapsed = false,
       onCollapsedChange,
       appearance = "brand",
+      contrast = "high",
       activeItem,
     }: SideNavProps,
     ref,
@@ -67,7 +68,7 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
 
     const collapseIcon = isCollapsed ? "arrow-double-right" : "arrow-double-left";
 
-    const dividerAppearance = dividerAppearanceBySideNavAppearance[appearance];
+    const dividerAppearance = getDividerAppearanceBySideNavTheme(appearance, contrast);
 
     const handleHeaderKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
       if ([SPACE_KEY, ENTER_KEY].includes(e.key)) {
@@ -148,6 +149,7 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
                   onClick={item.onClick}
                   items={item.items || []}
                   appearance={appearance}
+                  contrast={contrast}
                   showDivider={item.showDivider}
                 />
               );
@@ -182,6 +184,7 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
         size={size}
         collapsed={isCollapsed}
         appearance={appearance}
+        contrast={contrast}
         className={style.sideNavContainer}
         header={
           <div className={style.sideNavHeaderContainer}>

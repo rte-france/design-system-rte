@@ -23,6 +23,7 @@ const BaseSideNav = forwardRef<HTMLElement | HTMLDivElement, BaseSideNavProps>(
       showFooter = true,
       children,
       appearance = "brand",
+      contrast = "high",
       collapsed,
       className,
       ...props
@@ -38,6 +39,7 @@ const BaseSideNav = forwardRef<HTMLElement | HTMLDivElement, BaseSideNavProps>(
           className={style.sideNav}
           data-collapsed={collapsed}
           data-appearance={appearance}
+          data-contrast={contrast}
           style={{
             minWidth: collapsed ? sideNavCollapsedSize : sideNavPanelSize[size],
           }}

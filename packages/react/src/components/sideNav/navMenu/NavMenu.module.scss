@@ -9,28 +9,6 @@
     transition: background-color 300ms;
     box-sizing: border-box;
 
-    &[data-appearance='neutral'] {
-        .navMenu {
-            color: var(--content-secondary);
-
-            &:hover {
-                background: var(--background-neutral-navigation-hover);
-                color: var(--content-primary);
-            }
-            &[data-focused='true'] {
-                outline: none;
-            }
-        }
-
-        &[data-nested='true'] {
-            .navMenu {
-                border-radius: 0 $radius-s $radius-s 0;
-                border-left: $width-xs solid var(--border-divider);
-            }
-            
-        }
-    }
-
     .navMenu {
         @include typography-button-m;
         display: flex;
@@ -43,8 +21,8 @@
         width: 100%;
         box-sizing: border-box;
         cursor: pointer;
-        border-left: $width-s solid transparent;
-        color: var(--content-brand-navigation-default);
+        border-left: $width-m solid transparent;
+        color: var(--rte-side-nav-item-label);
 
         .menuContentLeft {
             display: flex;
@@ -60,13 +38,14 @@
 
         &:hover {
             border-radius: $radius-s;
-            background: var(--background-brand-navigation-hover);
-            color: var(--content-brand-navigation-hover);
+            background: var(--rte-side-nav-item-bg-hover);
+            color: var(--rte-side-nav-item-label);
         }
 
         &:link {
             text-decoration: none;
             color: inherit;
+
             &:hover {
                 text-decoration: none;
                 color: inherit;
@@ -77,6 +56,10 @@
             outline: 1px solid var(--border-brand-focused);
             outline-offset: 0;
             border-radius: $radius-s;
+        }
+
+        &[data-focused='true'] {
+            outline: none;
         }
     }
 
@@ -93,7 +76,7 @@
         .navMenu {
             @include typography-button-s;
             border-radius: 0 $radius-s $radius-s 0;
-            border-left: $width-xs solid var(--border-brand-navigation-divider);
+            border-left: $width-xs solid var(--rte-side-nav-item-border-hierarchy);
             padding: $positive-spacing_050 $positive-spacing_100;
         }
     }
@@ -129,4 +112,3 @@
         flex-shrink: 0;
     }
 }
-

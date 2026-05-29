@@ -1,6 +1,6 @@
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
 import { NavMenuProps as CoreNavMenuProps } from "@design-system-rte/core/components/side-nav/nav-menu/nav-menu.interface";
-import { dividerAppearanceBySideNavAppearance } from "@design-system-rte/core/components/side-nav/side-nav.constants";
+import { getDividerAppearanceBySideNavTheme } from "@design-system-rte/core/components/side-nav/side-nav.constants";
 import { forwardRef, Fragment, HTMLAttributes, ReactNode, useState } from "react";
 
 import Badge from "../../badge/Badge";
@@ -36,12 +36,14 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
       isNested,
       parentMenuOpen,
       appearance = "brand",
+      contrast = "high",
       badge,
       showDivider,
       ...props
     }: NavMenuProps,
     ref,
   ) => {
+    const dividerAppearance = getDividerAppearanceBySideNavTheme(appearance, contrast);
     const [internalOpen, setInternalOpen] = useState(false);
     const isOpen = controlledOpen !== undefined ? controlledOpen : internalOpen;
     const isControlled = controlledOpen !== undefined;
@@ -139,6 +141,7 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
                     isNested={true}
                     parentMenuOpen={nestedItemsParentMenuOpen}
                     appearance={appearance}
+                    contrast={contrast}
                     badge={item.badge}
                   />
                 );
@@ -159,7 +162,7 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
                       badge={item.badge}
                     />
                   </li>
-                  {item.showDivider && <Divider appearance={dividerAppearanceBySideNavAppearance[appearance]} />}
+                  {item.showDivider && <Divider appearance={dividerAppearance} />}
                 </Fragment>
               );
             })}
@@ -177,7 +180,7 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
     return (
       <>
         {wrappedListItem}
-        {showDivider && <Divider appearance={dividerAppearanceBySideNavAppearance[appearance]} />}
+        {showDivider && <Divider appearance={dividerAppearance} />}
       </>
     );
   },
