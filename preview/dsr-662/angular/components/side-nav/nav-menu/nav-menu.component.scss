@@ -5,7 +5,6 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  border-radius: $radius-s;
   transition: background-color 300ms;
   box-sizing: border-box;
 
@@ -37,7 +36,6 @@
     }
 
     &:hover {
-      border-radius: $radius-s;
       background: var(--rte-side-nav-item-bg-hover);
       color: var(--rte-side-nav-item-label);
     }
@@ -80,10 +78,10 @@
     flex-shrink: 0;
     transition: transform 200ms;
     margin-left: auto;
+  }
 
-    &.open {
-      transform: rotate(90deg);
-    }
+  .menu-icon-open {
+    transform: rotate(90deg);
   }
 
   .nested-menu {
@@ -96,7 +94,7 @@
     padding-left: $positive-spacing_200;
     gap: 0;
 
-    &.open {
+    &.nested-menu-open {
       max-height: 1000px;
       padding-top: $positive-spacing_050;
       padding-bottom: $positive-spacing_050;

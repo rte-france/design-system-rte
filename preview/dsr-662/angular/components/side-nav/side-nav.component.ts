@@ -107,14 +107,14 @@ export class SideNavComponent {
   }
 
   handleMenuOpenChange(event: NavMenuOpenChangeEvent): void {
-    const targetMenu = this.items().find((item) => item.id === event.id);
+    const targetMenu = this.items().find((item) => item.id === event.id || item.label === event.id);
     if (targetMenu) {
       (targetMenu as NavMenuProps).open = event.open;
     }
   }
 
   handleFooterMenuOpenChange(event: NavMenuOpenChangeEvent): void {
-    const targetMenu = this.footerItems()?.find((item) => item.id === event.id);
+    const targetMenu = this.footerItems()?.find((item) => item.id === event.id || item.label === event.id);
     if (targetMenu) {
       (targetMenu as NavMenuProps).open = event.open;
     }
