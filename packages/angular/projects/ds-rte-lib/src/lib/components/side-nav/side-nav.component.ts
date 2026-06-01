@@ -4,6 +4,7 @@ import { getDividerAppearanceBySideNavTheme } from "@design-system-rte/core";
 import { SideNavAppearance, SideNavContrast, SideNavHeaderConfig } from "@design-system-rte/core";
 import { DividerAppearance } from "@design-system-rte/core/components/divider/divider.interface";
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
+import { setNavMenuOpenById } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.utils";
 import { NavMenuProps } from "@design-system-rte/core/components/side-nav/nav-menu/nav-menu.interface";
 import { SideNavSize } from "@design-system-rte/core/components/side-nav/side-nav.interface";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
@@ -107,16 +108,13 @@ export class SideNavComponent {
   }
 
   handleMenuOpenChange(event: NavMenuOpenChangeEvent): void {
-    const targetMenu = this.items().find((item) => item.id === event.id || item.label === event.id);
-    if (targetMenu) {
-      (targetMenu as NavMenuProps).open = event.open;
-    }
+    setNavMenuOpenById(this.items(), event.id, event.open);
   }
 
   handleFooterMenuOpenChange(event: NavMenuOpenChangeEvent): void {
-    const targetMenu = this.footerItems()?.find((item) => item.id === event.id || item.label === event.id);
-    if (targetMenu) {
-      (targetMenu as NavMenuProps).open = event.open;
+    const footerItems = this.footerItems();
+    if (footerItems) {
+      setNavMenuOpenById(footerItems, event.id, event.open);
     }
   }
 

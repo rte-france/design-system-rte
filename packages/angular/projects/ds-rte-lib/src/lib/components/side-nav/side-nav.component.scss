@@ -3,15 +3,21 @@
 .side-nav-header-container {
     display: flex;
     box-sizing: border-box;
-    padding: $positive-spacing_050;
+    padding: $positive-spacing_025 $positive-spacing_100;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
     flex-shrink: 0;
     align-self: stretch;
-    height: 80px;
-    min-height: 80px;
-    max-height: 80px;
+    height: 96px;
+    min-height: 96px;
+    max-height: 96px;
+
+    &[data-compact='true'] {
+        height: 60px;
+        min-height: 60px;
+        max-height: 60px;
+    }
 
     &.collapsed {
         align-items: center;
@@ -23,14 +29,18 @@
 .side-nav-header {
     display: flex;
     position: relative;
-    padding: $positive-spacing_250 $positive-spacing_100;
     flex-direction: column;
+    justify-content: center;
     align-items: flex-start;
     gap: $positive-spacing_050;
     flex: 1 0 0;
     align-self: stretch;
-    height: 80px;
+    height: 96px;
     transition: opacity 300ms;
+
+    &[data-compact='true'] {
+        height: 60px;
+    }
 
     &.collapsed {
         padding: $positive-spacing_100;
@@ -62,7 +72,7 @@
         align-self: stretch;
         text-decoration: none;
         color: inherit;
-        height: 32px;
+        max-height: 32px;
 
         &[href],
         &[role="button"] {
