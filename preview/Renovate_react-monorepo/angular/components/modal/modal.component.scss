@@ -9,6 +9,8 @@
   opacity: 0;
   background-color: rgba(32, 31, 31, 0.5);
   transition: opacity 150ms ease-out;
+  z-index: $level-1;
+  overflow: hidden;
 
   &[data-open='true'] {
     opacity: 1;
@@ -19,7 +21,7 @@
   @include elevation-neutral-shadow-3;
   border: none;
   box-sizing: border-box;
-  position: absolute;
+  position: fixed;
   max-height: 90vh;
   top: 50%;
   transform: translateY(-50%) scale(0.98);
@@ -34,6 +36,7 @@
   opacity: 0;
   transition: opacity 150ms ease-in, transform 150ms ease-in;
   margin: auto;
+  z-index: $level-1 + 1;
 
   &[data-open='true'] {
     opacity: 1;
