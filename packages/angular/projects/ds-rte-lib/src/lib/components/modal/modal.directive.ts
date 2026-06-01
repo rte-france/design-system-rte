@@ -3,7 +3,6 @@ import {
   ComponentRef,
   contentChild,
   Directive,
-  ElementRef,
   inject,
   input,
   OnDestroy,
@@ -24,10 +23,8 @@ import { ModalComponent } from "./modal.component";
 })
 export class ModalDirective implements AfterContentInit, OnDestroy {
   private modalCompRef: ComponentRef<ModalComponent> | null = null;
-  private hostElement: HTMLElement;
   private overlayService: OverlayService;
 
-  private elementRef = inject(ElementRef);
   private viewContainerRef = inject(ViewContainerRef);
 
   readonly trigger = contentChild(ModalTriggerDirective);
@@ -48,12 +45,10 @@ export class ModalDirective implements AfterContentInit, OnDestroy {
 
   private modalElement: HTMLElement | null = null;
 
-  private onMouseDown = (e: MouseEvent) => this.handleClickAway(e);
   private onKeyDown = (e: KeyboardEvent) => this.handleKeydown(e);
 
   constructor() {
     this.overlayService = inject(OverlayService);
-    this.hostElement = this.elementRef.nativeElement;
   }
 
   onTrigger(): void {
@@ -61,7 +56,6 @@ export class ModalDirective implements AfterContentInit, OnDestroy {
   }
 
   ngAfterContentInit() {
-    document.addEventListener("mousedown", this.onMouseDown);
     document.addEventListener("keydown", this.onKeyDown);
     if (this.trigger()) {
       this.trigger()?.modalTriggerClicked.subscribe(() => {
@@ -114,20 +108,12 @@ export class ModalDirective implements AfterContentInit, OnDestroy {
       this.modalCompRef.setInput("primaryButton", this.primaryButton());
       this.modalCompRef.setInput("secondaryButton", this.secondaryButton());
       this.modalCompRef.setInput("customContent", this.customContent());
+      this.modalCompRef.setInput("closeOnClickOutside", this.rteModalCloseOnClickOutside());
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           this.modalCompRef?.setInput("isOpen", true);
         });
       });
-    }
-  }
-
-  private handleClickAway(event: MouseEvent) {
-    const elements = [this.hostElement, this.modalElement] as HTMLElement[];
-    if (elements.some((element) => !element)) return;
-    const shouldIgnore = elements.some((element) => element.contains(event.target as Node));
-    if (!shouldIgnore && this.rteModalCloseOnClickOutside()) {
-      this.closeModal();
     }
   }
 

@@ -10,6 +10,7 @@ import { useState } from "react";
 import { focusElementBeforeComponent } from "../../../../.storybook/testing/testing.utils";
 import Button from "../../button/Button";
 import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../../icon/IconMap";
+import Select from "../../select/Select";
 import Textarea from "../../textarea/Textarea";
 import Modal from "../Modal";
 
@@ -147,6 +148,54 @@ export const WithCustomContent: Story = {
       <>
         <Button variant="primary" label="Open Modal" onClick={() => setIsOpen(true)} />
         <Modal {...args} isOpen={args.isOpen || isOpen} onClose={() => setIsOpen(false)} />
+      </>
+    );
+  },
+};
+
+export const WithOverlayComponent: Story = {
+  args: {
+    ...Default.args,
+    id: "modal-2",
+    onClose: () => {},
+    isOpen: false,
+    title: "Préciser le motif du refus",
+    description:
+      "En motivant votre refus, vous aidez votre collaborateur à mieux identifier comment corriger sa demande.",
+    primaryButton: <Button variant="primary" label="Envoyer" />,
+    secondaryButton: <Button variant="neutral" label="Annuler" />,
+    size: "m",
+    closeOnOverlayClick: true,
+  },
+
+  render: (args) => {
+    const [isOpen, setIsOpen] = useState(args.isOpen);
+    const [selectedOption, setSelectedOption] = useState<{ label: string; value: string }>();
+
+    const handleOnChange = (value: string) => {
+      console.log("Selected value:", value);
+      setSelectedOption(options.find((option) => option.value === value));
+    };
+
+    const options = [
+      { value: "option-1", label: "Option 1" },
+      { value: "option-2", label: "Option 2" },
+      { value: "option-3", label: "Option 3" },
+    ];
+
+    return (
+      <>
+        <Button variant="primary" label="Open Modal" onClick={() => setIsOpen(true)} />
+        <Modal {...args} isOpen={args.isOpen || isOpen} onClose={() => setIsOpen(false)}>
+          <Select
+            id="my-select"
+            label="Select an option"
+            options={options}
+            onChange={handleOnChange}
+            value={selectedOption?.value}
+            multiple={false}
+          />
+        </Modal>
       </>
     );
   },
