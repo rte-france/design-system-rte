@@ -97,6 +97,7 @@
 
     border-left: $width-xs solid var(--rte-side-nav-item-border-hierarchy);
     padding: $positive-spacing_050 $positive-spacing_100;
+    transition: border-left 0.2s ease;
 
     &.active {
       border-left: $width-m solid var(--rte-side-nav-item-border-active);

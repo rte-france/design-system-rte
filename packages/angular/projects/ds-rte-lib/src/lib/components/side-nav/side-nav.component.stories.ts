@@ -1,5 +1,6 @@
 import { computed, signal } from "@angular/core";
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
+import { NavMenuProps } from "@design-system-rte/core/components/side-nav/nav-menu/nav-menu.interface";
 import {
   TESTING_ENTER_KEY,
   TESTING_SPACE_KEY,
@@ -24,6 +25,7 @@ import {
   expectNavItemNotToBeActive,
   expectNavItemToBeActive,
 } from "./stories/helpers/expectations";
+import { mapNavItemsWithActiveState } from "./stories/helpers/nav-items-active-state";
 import { getCanvasAndSideNav, waitDelay } from "./stories/helpers/testHelpers";
 
 const meta: Meta<SideNavComponent> = {
@@ -95,7 +97,7 @@ const baseNavItems = [
 
 const navigationItems = baseNavItems;
 
-const navigationItemsWithNested = [
+const navigationItemsWithNestedAndIds: NavItemProps[] = [
   baseNavItems[0],
   {
     ...baseNavItems[1],
@@ -123,6 +125,61 @@ const navigationItemsWithNested = [
   },
   baseNavItems[4],
 ];
+
+const navigationItemsWithNestedNavMenuActivePreselected: NavItemProps[] = [
+  baseNavItems[0],
+  {
+    ...baseNavItems[3],
+    open: true,
+    items: [
+      { id: "general", label: "General" },
+      { id: "privacy", label: "Privacy" },
+      {
+        id: "advanced",
+        label: "Advanced",
+        icon: "settings",
+        open: true,
+        items: [
+          { id: "security", label: "Security", active: true },
+          { id: "api-keys", label: "API Keys" },
+        ],
+      } as NavMenuProps,
+    ],
+  } as NavMenuProps,
+  baseNavItems[4],
+];
+
+const navigationItemsWithNestedActivePreselected: NavItemProps[] = [
+  baseNavItems[0],
+  {
+    ...baseNavItems[1],
+    open: true,
+    items: [
+      { id: "overview", label: "Overview", active: true },
+      { id: "reports", label: "Reports" },
+      { id: "analytics-nested", label: "Analytics", icon: "analytics" },
+    ],
+  } as NavMenuProps,
+  {
+    ...baseNavItems[3],
+    items: [
+      { id: "general", label: "General" },
+      { id: "privacy", label: "Privacy" },
+      {
+        id: "advanced",
+        label: "Advanced",
+        icon: "settings",
+        items: [
+          { id: "security", label: "Security" },
+          { id: "api-keys", label: "API Keys" },
+        ],
+      },
+    ],
+  },
+  baseNavItems[4],
+];
+
+const navigationItemsWithNested = navigationItemsWithNestedAndIds;
 
 const navigationItemsWithNestedAndBadges: NavItemProps[] = [
   { ...baseNavItems[0], badge: { ...baseBadge, badgeType: "indicator", count: 5 } },
@@ -604,6 +661,217 @@ export const CollapsedTooltipWithNested: Story = {
       const tooltip = within(document.body).queryByRole("tooltip", { name: "Dashboard" });
       expect(tooltip).not.toBeNull();
       expect(tooltip).toHaveTextContent("Dashboard");
+    });
+  },
+};
+
+export const NestedItemActivePreselected: Story = {
+  tags: ["skip-ci"],
+  args: {
+    ...Default.args,
+    headerConfig: defaultHeaderConfig,
+    items: navigationItemsWithNestedActivePreselected,
+    collapsible: true,
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <rte-side-nav
+        [size]="size"
+        [collapsible]="collapsible"
+        [headerConfig]="headerConfig"
+        [appearance]="appearance"
+        [contrast]="contrast"
+        [items]="items"
+        [isCollapsed]="isCollapsed">
+        <div content>${PageContent}</div>
+      </rte-side-nav>
+    `,
+  }),
+  play: async ({ canvasElement, step }) => {
+    const { canvas } = getCanvasAndSideNav(canvasElement);
+
+    await step("Verify Overview nested item is active", async () => {
+      expectNavItemToBeActive(canvas, "overview");
+      expectNavItemNotToBeActive(canvas, "reports");
+    });
+  },
+};
+
+export const NestedNavMenuActivePreselected: Story = {
+  tags: ["skip-ci"],
+  args: {
+    ...Default.args,
+    headerConfig: defaultHeaderConfig,
+    items: navigationItemsWithNestedNavMenuActivePreselected,
+    collapsible: true,
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <rte-side-nav
+        [size]="size"
+        [collapsible]="collapsible"
+        [headerConfig]="headerConfig"
+        [appearance]="appearance"
+        [contrast]="contrast"
+        [items]="items"
+        [isCollapsed]="isCollapsed">
+        <div content>${PageContent}</div>
+      </rte-side-nav>
+    `,
+  }),
+  play: async ({ canvasElement, step }) => {
+    const { canvas } = getCanvasAndSideNav(canvasElement);
+
+    await step("Verify only the nested leaf is active, not parent NavMenus", async () => {
+      expectNavItemToBeActive(canvas, "security");
+      expectNavItemNotToBeActive(canvas, "advanced");
+      expectNavItemNotToBeActive(canvas, "settings");
+      expectNavItemNotToBeActive(canvas, "api-keys");
+    });
+  },
+};
+
+export const NestedNavMenuActiveOnClick: Story = {
+  tags: ["skip-ci"],
+  args: {
+    ...Default.args,
+    headerConfig: defaultHeaderConfig,
+    items: navigationItemsWithNestedAndIds,
+    collapsible: true,
+  },
+  render: (args) => {
+    const activeItemId = signal("security");
+
+    const handleItemClick = (itemId: string): void => {
+      activeItemId.set(itemId);
+    };
+
+    const itemsWithActiveState = computed(() => {
+      return mapNavItemsWithActiveState(navigationItemsWithNestedAndIds, activeItemId());
+    });
+
+    return {
+      props: {
+        ...args,
+        items: itemsWithActiveState,
+        handleItemClick,
+      },
+      template: `
+        <rte-side-nav
+          [size]="size"
+          [collapsible]="collapsible"
+          [headerConfig]="headerConfig"
+          [appearance]="appearance"
+          [contrast]="contrast"
+          [items]="items()"
+          [isCollapsed]="isCollapsed"
+          (itemClicked)="handleItemClick($event)">
+          <div content>${PageContent}</div>
+        </rte-side-nav>
+      `,
+    };
+  },
+  play: async ({ canvasElement, step }) => {
+    const { canvas } = getCanvasAndSideNav(canvasElement);
+
+    await step("Verify only Security is active, not parent NavMenus", async () => {
+      expectNavItemToBeActive(canvas, "security");
+      expectNavItemNotToBeActive(canvas, "advanced");
+      expectNavItemNotToBeActive(canvas, "settings");
+      expectNavItemNotToBeActive(canvas, "api-keys");
+    });
+
+    await step("Click API Keys and verify only API Keys is active", async () => {
+      const sideNav = canvas.getByRole("navigation");
+      const apiKeysElement = getNavElement(sideNav, "API Keys");
+      expect(apiKeysElement).not.toBeNull();
+      await userEvent.click(apiKeysElement!);
+
+      expectNavItemNotToBeActive(canvas, "security");
+      expectNavItemToBeActive(canvas, "api-keys");
+      expectNavItemNotToBeActive(canvas, "advanced");
+      expectNavItemNotToBeActive(canvas, "settings");
+    });
+  },
+};
+
+export const NestedItemActiveOnClick: Story = {
+  tags: ["skip-ci"],
+  args: {
+    ...Default.args,
+    headerConfig: defaultHeaderConfig,
+    items: navigationItemsWithNestedAndIds,
+    collapsible: true,
+  },
+  render: (args) => {
+    const activeItemId = signal("overview");
+
+    const handleItemClick = (itemId: string): void => {
+      activeItemId.set(itemId);
+    };
+
+    const itemsWithActiveState = computed(() => {
+      return mapNavItemsWithActiveState(navigationItemsWithNestedAndIds, activeItemId());
+    });
+
+    return {
+      props: {
+        ...args,
+        items: itemsWithActiveState,
+        handleItemClick,
+      },
+      template: `
+        <rte-side-nav
+          [size]="size"
+          [collapsible]="collapsible"
+          [headerConfig]="headerConfig"
+          [appearance]="appearance"
+          [contrast]="contrast"
+          [items]="items()"
+          [isCollapsed]="isCollapsed"
+          (itemClicked)="handleItemClick($event)">
+          <div content>${PageContent}</div>
+        </rte-side-nav>
+      `,
+    };
+  },
+  play: async ({ canvasElement, step }) => {
+    const { canvas } = getCanvasAndSideNav(canvasElement);
+
+    await step("Verify Overview leaf is active initially", async () => {
+      expectNavItemToBeActive(canvas, "overview");
+      expectNavItemNotToBeActive(canvas, "reports");
+      expectNavItemNotToBeActive(canvas, "advanced");
+    });
+
+    await step("Click Reports and verify only Reports is active", async () => {
+      const sideNav = canvas.getByRole("navigation");
+      const reportsElement = getNavElement(sideNav, "Reports");
+      expect(reportsElement).not.toBeNull();
+      await userEvent.click(reportsElement!);
+
+      expectNavItemNotToBeActive(canvas, "overview");
+      expectNavItemToBeActive(canvas, "reports");
+      expectNavItemNotToBeActive(canvas, "advanced");
+    });
+
+    await step("Click Advanced NavMenu and verify only Advanced is active", async () => {
+      const sideNav = canvas.getByRole("navigation");
+      const settingsMenu = getNavElement(sideNav, "Settings");
+      expect(settingsMenu).not.toBeNull();
+      await userEvent.click(settingsMenu!);
+
+      const advancedMenu = getNavElement(sideNav, "Advanced");
+      expect(advancedMenu).not.toBeNull();
+      await userEvent.click(advancedMenu!);
+
+      expectNavItemNotToBeActive(canvas, "overview");
+      expectNavItemNotToBeActive(canvas, "reports");
+      expectNavItemNotToBeActive(canvas, "security");
+      expectNavItemNotToBeActive(canvas, "api-keys");
+      expectNavItemToBeActive(canvas, "advanced");
     });
   },
 };

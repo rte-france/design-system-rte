@@ -1,4 +1,5 @@
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
+import { NavMenuProps } from "@design-system-rte/core/components/side-nav/nav-menu/nav-menu.interface";
 import { getDividerAppearanceBySideNavTheme } from "@design-system-rte/core/components/side-nav/side-nav.constants";
 import { SideNavProps as CoreSideNavProps } from "@design-system-rte/core/components/side-nav/side-nav.interface";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
@@ -140,6 +141,7 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
               return (
                 <NavMenu
                   key={item.id}
+                  id={item.id}
                   badge={item.badge}
                   label={item.label}
                   icon={item.icon}
@@ -148,6 +150,8 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
                   link={item.link}
                   onClick={item.onClick}
                   items={item.items || []}
+                  open={(item as NavMenuProps).open}
+                  active={item.active}
                   appearance={appearance}
                   contrast={contrast}
                   hasDivider={item.hasDivider}

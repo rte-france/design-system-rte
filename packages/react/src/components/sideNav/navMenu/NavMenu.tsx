@@ -1,5 +1,6 @@
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
 import { NavMenuProps as CoreNavMenuProps } from "@design-system-rte/core/components/side-nav/nav-menu/nav-menu.interface";
+import type { NavMenuProps as CoreNavMenuItemProps } from "@design-system-rte/core/components/side-nav/nav-menu/nav-menu.interface";
 import { getDividerAppearanceBySideNavTheme } from "@design-system-rte/core/components/side-nav/side-nav.constants";
 import { forwardRef, Fragment, HTMLAttributes, ReactNode, useState } from "react";
 
@@ -24,6 +25,7 @@ interface NavMenuProps extends CoreNavMenuProps, Omit<HTMLAttributes<HTMLLIEleme
 const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
   (
     {
+      id,
       icon,
       hasLeadingIcon = true,
       onClick,
@@ -39,6 +41,7 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
       contrast = "high",
       badge,
       hasDivider,
+      active,
       ...props
     }: NavMenuProps,
     ref,
@@ -49,11 +52,11 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
     const isControlled = controlledOpen !== undefined;
 
     function toggleMenu() {
-      if (!isControlled) {
-        setInternalOpen(!internalOpen);
-      }
       if (onClick) {
         onClick();
+      }
+      if (!isControlled) {
+        setInternalOpen(!internalOpen);
       }
     }
 
@@ -103,11 +106,13 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
 
     const listItem = (
       <li
+        id={id}
         className={style.navMenuContainer}
         data-collapsed={isCollapsed}
         data-appearance={appearance}
         data-nested={isNested}
         data-open={isOpen}
+        data-active={active}
         ref={ref}
         {...props}
       >
@@ -129,6 +134,7 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
                 return (
                   <NavMenu
                     key={item.id || item.label}
+                    id={item.id}
                     label={item.label}
                     icon={item.icon}
                     hasLeadingIcon={item.hasLeadingIcon}
@@ -136,6 +142,8 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
                     link={item.link}
                     onClick={item.onClick}
                     items={item.items || []}
+                    open={(item as CoreNavMenuItemProps).open}
+                    active={item.active}
                     hasMenuIcon={hasMenuIcon}
                     hasDivider={item.hasDivider}
                     isNested={true}
@@ -150,6 +158,7 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
                 <Fragment key={item.id || item.label}>
                   <li>
                     <NavItem
+                      id={item.id}
                       label={item.label}
                       icon={item.icon}
                       hasLeadingIcon={item.hasLeadingIcon}
@@ -159,6 +168,7 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
                       isNested={true}
                       parentMenuOpen={nestedItemsParentMenuOpen}
                       appearance={appearance}
+                      active={item.active}
                       badge={item.badge}
                     />
                   </li>

@@ -62,11 +62,13 @@
               [isCollapsed]="collapsedState()"
               [link]="item.link"
               [open]="item.open"
+              [active]="item.active ?? false"
               [items]="item.items || []"
               [appearance]="appearance()"
               [contrast]="contrast()"
               [badge]="item.badge"
               [hasDivider]="item.hasDivider!"
+              (itemClick)="handleItemClick($event)"
               (openChange)="handleMenuOpenChange($event)"
             />
           } @else {
@@ -108,11 +110,13 @@
                     [isCollapsed]="collapsedState()"
                     [link]="item.link"
                     [open]="item.open"
+                    [active]="item.active ?? false"
                     [items]="item.items || []"
                     [appearance]="appearance()"
                     [contrast]="contrast()"
                     [badge]="item.badge"
                     [hasDivider]="item.hasDivider!"
+                    (itemClick)="handleFooterItemClick($event)"
                     (openChange)="handleFooterMenuOpenChange($event)"
                   />
                 } @else {
