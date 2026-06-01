@@ -2,6 +2,75 @@
 
 # Angular
 
+## 2.0.0
+
+### Datepicker
+
+#### Minor Changes
+
+- react : add date validation
+- angular - remove mutted color on placeholder
+- add segmented-date-field inner component
+- add base Datepicker structure
+
+### Date Range Picker
+
+#### Minor Changes
+
+- react - handle all behavior
+- extract common method and hooks into pickers folder
+
+### Searchbar
+
+#### Minor Changes
+
+- allow customized width
+
+### Grid
+
+#### Minor Changes
+
+- add rte-\* prefix to css class
+
+### Header
+
+#### Minor Changes
+
+- correct nav items layering when items contains a badge
+- add Dropdown menu capacities to mobile menu
+- add header-mobile to support UI for small devices
+- correct subheader rendering & display
+- add Header component
+
+### Dropdown
+
+#### Minor Changes
+
+- correct dropdown-item display when handling link elements
+
+### Overlay
+
+#### Patch Changes
+
+- add navigation freezing only on modal and prevent auto scroll
+
+### Drawer
+
+#### Patch Changes
+
+- add output events for primary & secondary buttons in footer
+
+### Other
+
+#### Patch Changes
+
+- Updated dependencies [b4e910a]
+- Updated dependencies [0687530]
+- Updated dependencies [1964611]
+- Updated dependencies [319a507]
+- Updated dependencies [b7d1755]
+- @design-system-rte/core@1.9.0
+
 ## 1.8.0
 
 ### Input
@@ -100,104 +169,72 @@
 - Updated dependencies [a6d573a]
 - Updated dependencies [3b5b20a]
 - @design-system-rte/core@1.7.0
+# React
 
-## 1.6.0
+## 1.10.0
 
-### Icon
-
-#### Minor Changes
-
-- add new icons - arrow_compare - company - contact  - export_xls  - handshake  - swap_horiz - swap_vert
-- add support for dynamic color change
-
-### Accordion
+### Datepicker
 
 #### Minor Changes
 
-- add react component
-- add Angular component
+- react - move component to picker folder
+- react - add calendar picker
+- react - add basic date input picker
 
-### Treeview
-
-#### Minor Changes
-
-- add react component
-- correct item menu behavior
-- add keyboard navigation system
-- implement Badge
-- correct template for nested items & the connector border system
-- correct compact version rendering
-- add action button and dropdown menu interaction
-- correct cascading checkbox system behavior
-- add checkbox system
-- add selection system to define selection exclusively
-- stabilize border & connector system
-- add proper treeview-item styles
-- set base structure for Treeview in Angular
-- remove dottedLine because of functionality deprecation
-- correct item menu behavior
-- add keyboard navigation system
-- implement Badge
-- correct template for nested items & the connector border system
-- correct compact version rendering
-- add action button and dropdown menu interaction
-- correct cascading checkbox system behavior
-- add checkbox system
-- add selection system to define selection exclusively
-- stabilize border & connector system
-- add proper treeview-item styles
-- set base structure for Treeview in Angular
-
-### Avatar
+### Date Range Picker
 
 #### Minor Changes
 
-- add angular component
+- react - handle ending date selection
+- react - better handle acessibility label feature + improve code syntax
+- react - handle all behavior
+- extract common method and hooks into pickers folder
 - add react component
 
-### Core
+### Searchbar
 
 #### Minor Changes
 
-- add company icon
+- allow customized width
 
-### Card
-
-#### Minor Changes
-
-- replace size prop with width prop
-
-### Button
+### Grid
 
 #### Minor Changes
 
-- add icon support
+- add rte-\* prefix to css class
 
-### Drawer
-
-#### Minor Changes
-
-- correct Angular's Drawer custom close behavior
-- correct responsive Drawer behavior
-- add Angular component
-
-### Other
+### Overlay
 
 #### Patch Changes
 
-- Updated dependencies [d7726a1]
-- Updated dependencies [ea178db]
-- Updated dependencies [4fbabfe]
-- Updated dependencies [c855acb]
-- Updated dependencies [16fed7b]
-- Updated dependencies [94b9002]
-- Updated dependencies [b6fdcfd]
-- Updated dependencies [a311cc5]
-- Updated dependencies [5416f65]
-- Updated dependencies [c9d4077]
-- Updated dependencies [e667319]
-- @design-system-rte/core@1.6.0
-# React
+- add navigation freezing only on modal and prevent auto scroll
+
+### Drawer
+
+#### Patch Changes
+
+- add output events for primary & secondary buttons in footer
+
+### Dropdown
+
+#### Patch Changes
+
+- add missing export statements in index file
+
+### Other
+
+#### Minor Changes
+
+- improve story file generation with autodocs tag
+
+#### Patch Changes
+
+- Updated dependencies [b4e910a]
+- Updated dependencies [0687530]
+- Updated dependencies [1964611]
+- Updated dependencies [319a507]
+- Updated dependencies [b7d1755]
+- @design-system-rte/core@1.9.0
 
 ## 1.9.0
 
@@ -282,76 +319,53 @@
 - Updated dependencies [a6d573a]
 - Updated dependencies [3b5b20a]
 - @design-system-rte/core@1.7.0
+# Core
 
-## 1.7.0
+## 1.9.0
 
-### Icon
-
-#### Minor Changes
-
-- add new icons - arrow_compare - company - contact  - export_xls  - handshake  - swap_horiz - swap_vert
-- add support for dynamic color change
-
-### Accordion
+### Date Range Picker
 
 #### Minor Changes
 
-- add react component
+- react - better handle acessibility label feature + improve code syntax
+- react - handle all behavior
+- extract common method and hooks into pickers folder
 
-### Treeview
-
-#### Minor Changes
-
-- add react component
-
-### Avatar
+### Grid
 
 #### Minor Changes
 
-- add angular component
-- add react component
+- add rte-\* prefix to css class
 
 ### Core
 
 #### Minor Changes
 
-- add company icon
+- add new color tokens
+
+### Header
+
+#### Minor Changes
+
+- correct nav items layering when items contains a badge
+- add header-mobile to support UI for small devices
+- correct subheader rendering & display
+- add Header component
+
+### Dropdown
+
+#### Minor Changes
+
+- correct dropdown-item display when handling link elements
 
 ### Drawer
 
-#### Minor Changes
+#### Patch Changes
 
-- add React component
-
-### Card
-
-#### Minor Changes
-
-- replace size prop with width prop
-
-### Button
-
-#### Minor Changes
-
-- add icon support
+- add output events for primary & secondary buttons in footer
 
 ### Other
 
-#### Patch Changes
-
-- Updated dependencies [d7726a1]
-- Updated dependencies [ea178db]
-- Updated dependencies [4fbabfe]
-- Updated dependencies [c855acb]
-- Updated dependencies [16fed7b]
-- Updated dependencies [94b9002]
-- Updated dependencies [b6fdcfd]
-- Updated dependencies [a311cc5]
-- Updated dependencies [5416f65]
-- Updated dependencies [c9d4077]
-- Updated dependencies [e667319]
-- @design-system-rte/core@1.6.0
-# Core
 
 ## 1.8.0
 
@@ -407,105 +421,6 @@
 #### Minor Changes
 
 - correct autofocus behavior
-
-### Other
-
-
-## 1.6.5
-
-### Core
-
-#### Patch Changes
-
-- correct exposition of inner export statements so Angular builder compiles correctly
-
-### Other
-
-
-## 1.6.0
-
-### Icon
-
-#### Minor Changes
-
-- add new icons - arrow_compare - company - contact  - export_xls  - handshake  - swap_horiz - swap_vert
-
-### Accordion
-
-#### Minor Changes
-
-- add react component
-- add Angular component
-
-### Treeview
-
-#### Minor Changes
-
-- add react component
-- correct item menu behavior
-- add keyboard navigation system
-- implement Badge
-- correct template for nested items & the connector border system
-- correct compact version rendering
-- add action button and dropdown menu interaction
-- correct cascading checkbox system behavior
-- add checkbox system
-- add selection system to define selection exclusively
-- stabilize border & connector system
-- add proper treeview-item styles
-- set base structure for Treeview in Angular
-- remove dottedLine because of functionality deprecation
-- correct item menu behavior
-- add keyboard navigation system
-- implement Badge
-- correct template for nested items & the connector border system
-- correct compact version rendering
-- add action button and dropdown menu interaction
-- correct cascading checkbox system behavior
-- add checkbox system
-- add selection system to define selection exclusively
-- stabilize border & connector system
-- add proper treeview-item styles
-- set base structure for Treeview in Angular
-
-### Avatar
-
-#### Minor Changes
-
-- add angular component
-- add react component
-
-### Core
-
-#### Minor Changes
-
-- add company icon
-
-### Drawer
-
-#### Minor Changes
-
-- add React component
-- correct responsive Drawer behavior
-- add Angular component
-
-### Card
-
-#### Minor Changes
-
-- replace size prop with width prop
-
-### Button
-
-#### Minor Changes
-
-- add icon support
-
-### Tokens
-
-#### Minor Changes
-
-- update Design Tokens
 
 ### Other
 
