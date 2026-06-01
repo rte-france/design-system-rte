@@ -1,5 +1,48 @@
 # @design-system-rte/angular
 
+## 2.0.0
+
+### Minor Changes
+
+- fe8d9af: ## Changes
+  - (Datepicker) react : add date validation
+  - (Datepicker) angular - remove mutted color on placeholder
+  - (Datepicker) add segmented-date-field inner component
+  - (Datepicker) add base Datepicker structure
+
+- b4e910a: ## Changes
+  - (Date Range Picker) react - handle all behavior
+  - (Date Range Picker) extract common method and hooks into pickers folder
+
+- 873f0cd: ## Changes
+  - (Searchbar) allow customized width
+
+- 0687530: ## Changes
+  - (Grid) add rte-\* prefix to css class
+
+- 319a507: ## Changes
+  - (Header) correct nav items layering when items contains a badge
+  - (Header) add Dropdown menu capacities to mobile menu
+  - (Header) add header-mobile to support UI for small devices
+  - (Dropdown) correct dropdown-item display when handling link elements
+  - (Header) correct subheader rendering & display
+  - (Header) add Header component
+
+### Patch Changes
+
+- 3fe2deb: ## Changes
+  - (Overlay) add navigation freezing only on modal and prevent auto scroll
+
+- b7d1755: ## Changes
+  - (Drawer) add output events for primary & secondary buttons in footer
+
+- Updated dependencies [b4e910a]
+- Updated dependencies [0687530]
+- Updated dependencies [1964611]
+- Updated dependencies [319a507]
+- Updated dependencies [b7d1755]
+  - @design-system-rte/core@1.9.0
+
 ## 1.8.0
 
 ### Minor Changes

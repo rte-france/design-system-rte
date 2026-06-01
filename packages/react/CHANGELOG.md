@@ -1,5 +1,46 @@
 # @design-system-rte/react
 
+## 1.10.0
+
+### Minor Changes
+
+- fe8d9af: ## Changes
+  - (Datepicker) react - move component to picker folder
+  - (Datepicker) react - add calendar picker
+  - (Datepicker) react - add basic date input picker
+  - improve story file generation with autodocs tag
+
+- b4e910a: ## Changes
+  - (Date Range Picker) react - handle ending date selection
+  - (Date Range Picker) react - better handle acessibility label feature + improve code syntax
+  - (Date Range Picker) react - handle all behavior
+  - (Date Range Picker) extract common method and hooks into pickers folder
+  - (Date Range Picker) add react component
+
+- 873f0cd: ## Changes
+  - (Searchbar) allow customized width
+
+- 0687530: ## Changes
+  - (Grid) add rte-\* prefix to css class
+
+### Patch Changes
+
+- 3fe2deb: ## Changes
+  - (Overlay) add navigation freezing only on modal and prevent auto scroll
+
+- b7d1755: ## Changes
+  - (Drawer) add output events for primary & secondary buttons in footer
+
+- 97305ae: ## Changes
+  - (Dropdown) add missing export statements in index file
+
+- Updated dependencies [b4e910a]
+- Updated dependencies [0687530]
+- Updated dependencies [1964611]
+- Updated dependencies [319a507]
+- Updated dependencies [b7d1755]
+  - @design-system-rte/core@1.9.0
+
 ## 1.9.0
 
 ### Minor Changes

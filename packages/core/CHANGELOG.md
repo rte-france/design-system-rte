@@ -1,5 +1,32 @@
 # @design-system-rte/core
 
+## 1.9.0
+
+### Minor Changes
+
+- b4e910a: ## Changes
+  - (Date Range Picker) react - better handle acessibility label feature + improve code syntax
+  - (Date Range Picker) react - handle all behavior
+  - (Date Range Picker) extract common method and hooks into pickers folder
+
+- 0687530: ## Changes
+  - (Grid) add rte-\* prefix to css class
+
+- 1964611: ## Changes
+  - (Core) add new color tokens
+
+- 319a507: ## Changes
+  - (Header) correct nav items layering when items contains a badge
+  - (Header) add header-mobile to support UI for small devices
+  - (Dropdown) correct dropdown-item display when handling link elements
+  - (Header) correct subheader rendering & display
+  - (Header) add Header component
+
+### Patch Changes
+
+- b7d1755: ## Changes
+  - (Drawer) add output events for primary & secondary buttons in footer
+
 ## 1.8.0
 
 ### Minor Changes
