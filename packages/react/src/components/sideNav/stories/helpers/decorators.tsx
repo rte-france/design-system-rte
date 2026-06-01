@@ -1,6 +1,8 @@
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
 import { Decorator } from "@storybook/react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+
+import { mapNavItemsWithActiveState } from "./navItemsActiveState";
 
 function createCollapsedStateDecorator(): Decorator {
   return function CollapsedStateDecorator(Story, context) {
@@ -31,4 +33,16 @@ function createActiveItemStateDecorator(navigationItems: NavItemProps[]): Decora
   };
 }
 
-export { createCollapsedStateDecorator, createActiveItemStateDecorator };
+function createNestedActiveItemStateDecorator(navigationItems: NavItemProps[], initialActiveId: string): Decorator {
+  return function NestedActiveItemStateDecorator(Story, context) {
+    const [activeItemId, setActiveItemId] = useState(initialActiveId);
+    const itemsWithActiveState = useMemo(
+      () => mapNavItemsWithActiveState(navigationItems, activeItemId, setActiveItemId),
+      [activeItemId, navigationItems],
+    );
+
+    return <Story args={{ ...context.args, items: itemsWithActiveState }} />;
+  };
+}
+
+export { createCollapsedStateDecorator, createActiveItemStateDecorator, createNestedActiveItemStateDecorator };
