@@ -4,5 +4,6 @@ export interface BaseDropdownProps extends CoreDropdownProps, React.HTMLAttribut
     header?: React.ReactNode;
     footer?: React.ReactNode;
     isList?: boolean;
+    hasMaxWidth?: boolean;
 }
 export declare const BaseDropdown: import('../../../../../node_modules/react').ForwardRefExoticComponent<BaseDropdownProps & import('../../../../../node_modules/react').RefAttributes<HTMLDivElement>>;
