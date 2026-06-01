@@ -191,12 +191,19 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
         contrast={contrast}
         className={style.sideNavContainer}
         header={
-          <div className={style.sideNavHeaderContainer}>
-            <div className={style.sideNavHeader} data-collapsed={isCollapsed} data-appearance={appearance}>
+          <div className={style.sideNavHeaderContainer} data-compact={headerConfig?.isCompact ?? false}>
+            <div
+              className={style.sideNavHeader}
+              data-collapsed={isCollapsed}
+              data-appearance={appearance}
+              data-compact={headerConfig?.isCompact ?? false}
+            >
               {headerTitle}
-              <div className={style.sideNavHeaderVersion} data-hidden={!shouldShowTitle}>
-                <span>{headerConfig?.version}</span>
-              </div>
+              {!headerConfig?.isCompact && (
+                <div className={style.sideNavHeaderVersion} data-hidden={!shouldShowTitle}>
+                  <span>{headerConfig?.version}</span>
+                </div>
+              )}
             </div>
             <Divider appearance={dividerAppearance} />
           </div>

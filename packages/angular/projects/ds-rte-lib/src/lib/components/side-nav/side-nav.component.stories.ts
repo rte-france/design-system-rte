@@ -343,6 +343,14 @@ export const HeaderWithVersion: Story = {
   render: defaultRender,
 };
 
+export const HeaderCompact: Story = {
+  args: {
+    ...Default.args,
+    headerConfig: { ...defaultHeaderConfig, isCompact: true },
+  },
+  render: defaultRender,
+};
+
 export const WithNestedMenus: Story = {
   args: {
     ...Default.args,

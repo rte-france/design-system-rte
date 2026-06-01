@@ -34,6 +34,7 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
       link,
       items = [],
       open: controlledOpen,
+      onOpenChange,
       hasMenuIcon = true,
       isNested,
       parentMenuOpen,
@@ -52,16 +53,24 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
     const isControlled = controlledOpen !== undefined;
 
     function toggleMenu() {
+      const nextOpen = !isOpen;
       if (onClick) {
         onClick();
       }
-      if (!isControlled) {
-        setInternalOpen(!internalOpen);
+      if (isControlled) {
+        onOpenChange?.(nextOpen);
+      } else {
+        setInternalOpen(nextOpen);
       }
     }
 
     function handleEscape() {
-      if (isOpen && !isControlled) {
+      if (!isOpen) {
+        return;
+      }
+      if (isControlled) {
+        onOpenChange?.(false);
+      } else {
         setInternalOpen(false);
       }
     }
@@ -83,6 +92,8 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
         <Icon name="arrow-chevron-right" className={style.menuIcon} data-open={isOpen} />
       ) : null;
 
+    const showMenuContentRight = !isCollapsed && (!!badge || !!chevronIcon);
+
     const menuContent = (
       <>
         <div className={style.menuContentLeft}>
@@ -95,12 +106,14 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
             styleType="menu"
           />
         </div>
-        <div className={style.menuContentRight}>
-          {!isCollapsed && badge && (
-            <Badge badgeType={badge.badgeType} size={badge.size} content={badge.content} count={badge.count} />
-          )}
-          {chevronIcon}
-        </div>
+        {showMenuContentRight && (
+          <div className={style.menuContentRight}>
+            {badge && (
+              <Badge badgeType={badge.badgeType} size={badge.size} content={badge.content} count={badge.count} />
+            )}
+            {chevronIcon}
+          </div>
+        )}
       </>
     );
 
@@ -143,6 +156,7 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
                     onClick={item.onClick}
                     items={item.items || []}
                     open={(item as CoreNavMenuItemProps).open}
+                    onOpenChange={(item as CoreNavMenuItemProps).onOpenChange}
                     active={item.active}
                     hasMenuIcon={hasMenuIcon}
                     hasDivider={item.hasDivider}

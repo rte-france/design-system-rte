@@ -14,6 +14,7 @@ export interface SideNavHeaderConfig {
   link?: string | null;
   onClick?: () => void;
   ariaLabel?: string;
+  isCompact?: boolean;
 }
 
 export interface SideNavProps extends BaseSideNavProps {

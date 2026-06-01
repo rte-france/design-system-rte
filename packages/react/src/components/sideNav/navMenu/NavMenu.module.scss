@@ -75,6 +75,11 @@
             justify-content: center;
             gap: 0;
             border-left: none;
+
+            .menuContentLeft {
+                flex: 1 0 0;
+                justify-content: center;
+            }
         }
     }
 
@@ -94,7 +99,7 @@
         }
     }
 
-    .menuIcon {
+    &:not([data-collapsed='true']) .menuIcon {
         flex-shrink: 0;
         transition: transform 200ms;
         margin-left: auto;

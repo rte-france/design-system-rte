@@ -2,7 +2,10 @@ import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, effect, input, output } from "@angular/core";
 import { BadgeProps } from "@design-system-rte/core/components/badge/badge.interface";
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
-import { getNavItemLabelIconSize } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.utils";
+import {
+  getNavItemLabelIconSize,
+  setNavMenuOpenById,
+} from "@design-system-rte/core/components/side-nav/nav-item/nav-item.utils";
 import { NavMenuProps } from "@design-system-rte/core/components/side-nav/nav-menu/nav-menu.interface";
 import { getDividerAppearanceBySideNavTheme } from "@design-system-rte/core/components/side-nav/side-nav.constants";
 import { SideNavAppearance, SideNavContrast } from "@design-system-rte/core/components/side-nav/side-nav.interface";
@@ -76,11 +79,7 @@ export class NavMenuComponent {
   toggleMenu(): void {
     const menuId = this.id() || this.label();
     this.itemClick.emit(menuId);
-    if (!this.open()) {
-      this.openChange.emit({ id: menuId, open: true });
-    } else if (this.active()) {
-      this.openChange.emit({ id: menuId, open: false });
-    }
+    this.openChange.emit({ id: menuId, open: !this.open() });
   }
 
   handleEscape(): void {
@@ -105,10 +104,7 @@ export class NavMenuComponent {
   }
 
   handleMenuOpenChange(event: NavMenuOpenChangeEvent): void {
-    const targetMenu = this.items().find((item) => item.id === event.id || item.label === event.id);
-    if (targetMenu) {
-      (targetMenu as NavMenuProps).open = event.open;
-    }
+    setNavMenuOpenById(this.items(), event.id, event.open);
   }
 
   handleMenuClick(itemId: string): void {

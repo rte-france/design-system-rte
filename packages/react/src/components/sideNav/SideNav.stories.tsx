@@ -323,6 +323,14 @@ export const HeaderWithVersion: Story = {
   },
 };
 
+export const HeaderCompact: Story = {
+  tags: ["skip-ci"],
+  args: {
+    ...Default.args,
+    headerConfig: { ...defaultHeaderConfig, isCompact: true },
+  },
+};
+
 export const WithNestedMenus: Story = {
   tags: ["skip-ci"],
   args: {

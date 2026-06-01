@@ -6,4 +6,5 @@ export interface NavMenuProps extends NavItemProps {
   items: NavItemProps[];
   open?: boolean;
   hasMenuIcon?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }

@@ -42,21 +42,23 @@
           <span>{{ label() }}</span>
         }
       </div>
-      <div class="menu-content-right">
-        @if (badge()) {
-          <rte-badge
-            [badgeType]="badge()!.badgeType || 'brand'"
-            [badgeSize]="badge()!.size || 'm'"
-            [badgeContent]="badge()!.content || 'number'"
-            [count]="badge()!.count"
-            [icon]="badge()!.icon || 'notification'"
-            [simpleBadge]="true"
-          />
-        }
-        @if (shouldShowMenu() && hasMenuIcon()) {
-          <rte-icon name="arrow-chevron-right" class="menu-icon" [ngClass]="{ 'menu-icon-open': open() }" />
-        }
-      </div>
+      @if (!isCollapsed()) {
+        <div class="menu-content-right">
+          @if (badge()) {
+            <rte-badge
+              [badgeType]="badge()!.badgeType || 'brand'"
+              [badgeSize]="badge()!.size || 'm'"
+              [badgeContent]="badge()!.content || 'number'"
+              [count]="badge()!.count"
+              [icon]="badge()!.icon || 'notification'"
+              [simpleBadge]="true"
+            />
+          }
+          @if (shouldShowMenu() && hasMenuIcon()) {
+            <rte-icon name="arrow-chevron-right" class="menu-icon" [ngClass]="{ 'menu-icon-open': open() }" />
+          }
+        </div>
+      }
     </a>
   } @else {
     <span
@@ -74,21 +76,23 @@
           <span>{{ label() }}</span>
         }
       </div>
-      <div class="menu-content-right">
-        @if (badge()) {
-          <rte-badge
-            [badgeType]="badge()!.badgeType || 'brand'"
-            [badgeSize]="badge()!.size || 'm'"
-            [badgeContent]="badge()!.content || 'number'"
-            [count]="badge()!.count"
-            [icon]="badge()!.icon || 'notification'"
-            [simpleBadge]="true"
-          />
-        }
-        @if (shouldShowMenu() && hasMenuIcon()) {
-          <rte-icon name="arrow-chevron-right" class="menu-icon" [ngClass]="{ 'menu-icon-open': open() }" />
-        }
-      </div>
+      @if (!isCollapsed()) {
+        <div class="menu-content-right">
+          @if (badge()) {
+            <rte-badge
+              [badgeType]="badge()!.badgeType || 'brand'"
+              [badgeSize]="badge()!.size || 'm'"
+              [badgeContent]="badge()!.content || 'number'"
+              [count]="badge()!.count"
+              [icon]="badge()!.icon || 'notification'"
+              [simpleBadge]="true"
+            />
+          }
+          @if (shouldShowMenu() && hasMenuIcon()) {
+            <rte-icon name="arrow-chevron-right" class="menu-icon" [ngClass]="{ 'menu-icon-open': open() }" />
+          }
+        </div>
+      }
     </span>
   }
 </ng-template>
