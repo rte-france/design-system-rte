@@ -47,6 +47,7 @@ export class NavMenuComponent {
   readonly contrast = input<SideNavContrast>("high");
   readonly badge = input<BadgeProps | undefined>();
   readonly hasDivider = input<boolean>(false);
+  readonly active = input<boolean>(false);
 
   readonly itemClick = output<string>();
   readonly openChange = output<NavMenuOpenChangeEvent>();
@@ -73,7 +74,13 @@ export class NavMenuComponent {
   });
 
   toggleMenu(): void {
-    this.openChange.emit({ id: this.id() || this.label(), open: !this.open() });
+    const menuId = this.id() || this.label();
+    this.itemClick.emit(menuId);
+    if (!this.open()) {
+      this.openChange.emit({ id: menuId, open: true });
+    } else if (this.active()) {
+      this.openChange.emit({ id: menuId, open: false });
+    }
   }
 
   handleEscape(): void {
