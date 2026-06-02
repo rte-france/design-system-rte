@@ -1,4 +1,4 @@
-import type { DatepickerCalendarType } from "./datepicker.interface.d";
+import type { DatepickerCalendarType } from "./datepicker.interface";
 
 export const DATEPICKER_DEFAULT_WIDTH = "248px";
 

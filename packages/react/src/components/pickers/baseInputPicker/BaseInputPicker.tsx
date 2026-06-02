@@ -1,11 +1,10 @@
-import { BaseInput } from "@design-system-rte/core/components/base-input/base-input.interface";
+import type { BaseInputProps } from "@design-system-rte/core/components/common/input/input.interface";
 
 import Icon from "../../icon/Icon";
 
 import styles from "./BaseInputPicker.module.scss";
 
-export interface BaseInputPickerProps extends BaseInput {
-  value?: string;
+export interface BaseInputPickerProps extends BaseInputProps<string> {
   onChange?: () => void;
   icon?: string;
   isFocused?: boolean;

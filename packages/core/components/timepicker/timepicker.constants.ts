@@ -1,4 +1,10 @@
-import { TimeFormat, TimeSegmentEnum } from "./timepicker.interface";
+import type { TimeFormat } from "./timepicker.interface";
+
+export enum TimeSegmentEnum {
+  HOURS = "hh",
+  MINUTES = "mm",
+  SECONDS = "ss",
+}
 
 export const TIME_SEGMENT_MIN_VALUE = 0;
 

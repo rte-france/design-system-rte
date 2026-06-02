@@ -1,7 +1,7 @@
 import type { AvatarSize } from "../avatar/avatar.interface";
+import type { BadgeProps } from "../badge/badge.interface";
 import type { BreadcrumbItemProps } from "../breadcrumbs/breadcrumbs.interface";
 import { IconButtonProps } from "../button";
-import type { RegularIconIdKey, TogglableIconIdKey } from "../icon/icon.interface";
 
 export type HeaderAppearance = "brand" | "neutral";
 
@@ -49,13 +49,13 @@ export interface HeaderNavigationItem {
 
 export interface HeaderActionButtonConfig {
   label: string;
-  iconName?: RegularIconIdKey | TogglableIconIdKey;
+  iconName?: string;
   disabled?: boolean;
 }
 
-export interface HeaderIconButtonConfig {
+export interface HeaderIconButtonConfig<TIconName = string> {
   id?: string;
-  iconName: RegularIconIdKey | TogglableIconIdKey;
+  iconName: TIconName;
   ariaLabel: string;
   disabled?: boolean;
   badge?: BadgeProps;

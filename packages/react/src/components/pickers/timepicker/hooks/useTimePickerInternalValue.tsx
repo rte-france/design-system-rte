@@ -3,7 +3,8 @@ import {
   TIME_SEGMENT_MAX_VALUE,
   TIME_SEGMENT_MIN_VALUE,
 } from "@design-system-rte/core/components/timepicker/timepicker.constants";
-import { TimeFormat, TimeSegmentEnum } from "@design-system-rte/core/components/timepicker/timepicker.interface";
+import { TimeSegmentEnum } from "@design-system-rte/core/components/timepicker/timepicker.constants";
+import type { TimeFormat } from "@design-system-rte/core/components/timepicker/timepicker.interface";
 import {
   formatNumberToDigitValue,
   getDecreasedValueWithBounds,

@@ -1,4 +1,4 @@
-import { InputProps } from "../common/input-props";
+import type { InputProps } from "../common/input/input.interface";
 
 export type DatepickerCalendarType = "day" | "month" | "year";
 
@@ -60,7 +60,7 @@ export type DatepickerTextInputApplyResult =
       maskedValue: string;
     };
 
-export interface DatepickerProps extends DatepickerDisabledConstraints, InputProps {
+export interface DatepickerProps extends DatepickerDisabledConstraints, InputProps<Date | null> {
   value: Date | null;
   onChange?: (newDate: Date | null) => void;
   onValidate?: () => void;
