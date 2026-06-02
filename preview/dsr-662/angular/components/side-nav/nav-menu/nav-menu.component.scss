@@ -21,6 +21,7 @@
     box-sizing: border-box;
     cursor: pointer;
     border-left: $width-m solid transparent;
+    transition: border-left 0.2s ease;
     color: var(--rte-side-nav-item-label);
 
     .menu-content-left {
