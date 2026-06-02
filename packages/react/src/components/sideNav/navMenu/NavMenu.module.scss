@@ -22,6 +22,7 @@
         cursor: pointer;
         border-left: $width-m solid transparent;
         color: var(--rte-side-nav-item-label);
+        transition: border-left 0.2s ease;
 
         .menuContentLeft {
             display: flex;
