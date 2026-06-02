@@ -91,7 +91,7 @@
                     [disabled]="button.disabled ?? false"
                     [badgeCount]="button.badge?.count"
                     [badgeContent]="button.badge?.count ? 'number' : undefined"
-                    [badgeType]="button.badge?.type ?? 'indicator'"
+                    [badgeType]="button.badge?.badgeType ?? 'indicator'"
                     [badgeSize]="button.badge?.count ? badgeSize() : undefined"
                     (clickEvent)="handleIconButtonClick(button)"
                   />

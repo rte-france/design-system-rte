@@ -1,6 +1,5 @@
-import { BaseInput } from '../../../../../core/components/base-input/base-input.interface';
-export interface BaseInputPickerProps extends BaseInput {
-    value?: string;
+import { BaseInputProps } from '../../../../../core/components/common/input/input.interface';
+export interface BaseInputPickerProps extends BaseInputProps<string> {
     onChange?: () => void;
     icon?: string;
     isFocused?: boolean;
