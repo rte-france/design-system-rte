@@ -1,5 +1,5 @@
 import { TESTING_ARROW_RIGHT_KEY, TESTING_ARROW_UP_KEY, TESTING_ENTER_KEY } from "@design-system-rte/core";
-import { TimeFormat } from "@design-system-rte/core/components/timepicker/timepicker.interface";
+import type { TimeFormat } from "@design-system-rte/core/components/timepicker/timepicker.interface";
 import type { Meta, StoryObj } from "@storybook/react";
 import { userEvent, expect } from "@storybook/test";
 import { useState } from "react";

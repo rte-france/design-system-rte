@@ -1,5 +1,5 @@
-import { TIME_SEGMENT_MIN_VALUE, TIME_SEGMENT_ORDER } from "./timepicker.constants";
-import { TimeFormat, TimeSegmentEnum } from "./timepicker.interface";
+import { TIME_SEGMENT_MIN_VALUE, TIME_SEGMENT_ORDER, TimeSegmentEnum } from "./timepicker.constants";
+import type { TimeFormat } from "./timepicker.interface";
 
 export const getIncreasedValueWithBounds = (current: number, max: number, increment: number): string => {
   const normalizedCurrent = isNaN(current) ? TIME_SEGMENT_MIN_VALUE : current;

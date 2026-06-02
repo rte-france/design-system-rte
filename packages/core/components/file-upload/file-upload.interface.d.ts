@@ -1,4 +1,4 @@
-import { InputProps } from "../common/input-props";
+import { InputProps } from "../common/input/input.interface";
 
 export interface FileUploadProps extends Omit<InputProps, "value" | "onChange"> {
   id: string;

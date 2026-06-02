@@ -1,4 +1,4 @@
-import { InputProps } from "../common/input-props";
+import { InputProps } from "../common/input/input.interface";
 
 export type OptionToDisplay = "first-selected" | "last-selected" | "highest-selected";
 

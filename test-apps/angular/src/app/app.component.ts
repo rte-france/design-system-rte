@@ -31,6 +31,7 @@ import {
   DropdownModule,
   TimePickerComponent,
 } from "@design-system-rte/angular";
+import { RegularIconIdKey, TogglableIconIdKey } from "@design-system-rte/angular/lib/components/icon/icon.service";
 import type {
   HeaderActionButtonConfig,
   HeaderAvatarConfig,
@@ -84,7 +85,7 @@ import { TreeviewItemProps } from "@design-system-rte/core/components/treeview";
 export class AppComponent {
   title = "angular";
 
-  readonly toastService = inject(ToastService);
+  readonly toastService: ToastService = inject(ToastService);
   private currentOpenedToastId = "";
 
   readonly inputValue = signal("Hello");
@@ -218,7 +219,7 @@ export class AppComponent {
     iconName: "home",
   };
 
-  readonly headerIconButtons: HeaderIconButtonConfig[] = [
+  readonly headerIconButtons: HeaderIconButtonConfig<RegularIconIdKey | TogglableIconIdKey>[] = [
     { id: "notifications", iconName: "home", ariaLabel: "Notifications", badge: { count: 2 } },
     { id: "settings", iconName: "settings", ariaLabel: "Settings" },
   ];

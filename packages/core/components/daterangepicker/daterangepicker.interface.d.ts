@@ -1,4 +1,4 @@
-import { InputProps } from "../input";
+import type { InputProps } from "../common/input/input.interface";
 
 import { START_INPUT, END_INPUT } from "./daterangepicker.utils";
 
@@ -14,10 +14,12 @@ export interface DaterangepickerDayCell {
 
 export type DateRangeInputType = typeof START_INPUT | typeof END_INPUT;
 
-export interface DateRangePickerProps extends Omit<InputProps, "value" | "onChange"> {
+export type DateRangePickerValue = [Date | null, Date | null] | null;
+
+export interface DateRangePickerProps extends InputProps<DateRangePickerValue> {
   id: string;
-  value: [Date | null, Date | null] | null;
-  onChange?: (value: [Date | null, Date | null] | null) => void;
+  value: DateRangePickerValue;
+  onChange?: (value: DateRangePickerValue) => void;
   hasAction?: boolean;
   onValidate?: () => void;
   onCancel?: () => void;
