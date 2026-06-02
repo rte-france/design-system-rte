@@ -35,6 +35,7 @@ import { ButtonComponent } from "../button/button.component";
 import { DividerComponent } from "../divider/divider.component";
 import type { DropdownItemConfig } from "../dropdown/dropdown.types";
 import { IconComponent } from "../icon/icon.component";
+import { RegularIconIdKey, TogglableIconIdKey } from "../icon/icon.service";
 import { IconButtonComponent } from "../icon-button/icon-button.component";
 import { SearchbarComponent } from "../searchbar/searchbar.component";
 
@@ -96,12 +97,14 @@ export class HeaderComponent {
   readonly actionButton = input<HeaderActionButtonConfig | undefined>(undefined);
 
   readonly hasIconButtons = input<boolean>(true);
-  readonly iconButtons = input<HeaderIconButtonConfig[] | undefined>(undefined);
+  readonly iconButtons = input<HeaderIconButtonConfig<RegularIconIdKey | TogglableIconIdKey>[] | undefined>(undefined);
 
   readonly hasAvatar = input<boolean>(true);
   readonly avatarProps = input<HeaderAvatarConfig | undefined>(undefined);
 
-  readonly mobileMenuButton = input<HeaderIconButtonConfig | undefined>(undefined);
+  readonly mobileMenuButton = input<HeaderIconButtonConfig<RegularIconIdKey | TogglableIconIdKey> | undefined>(
+    undefined,
+  );
   readonly mobileMenuItems = input<DropdownItemConfig[]>([]);
   readonly mobileSearchButtonAriaLabel = input<string>("Rechercher");
 

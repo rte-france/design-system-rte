@@ -92,7 +92,7 @@
         <rte-icon-button
           size="l"
           variant="neutral"
-          [name]="mobileMenuButton()?.iconName ?? 'menu'"
+          [name]="$any(mobileMenuButton()?.iconName ?? 'menu')"
           [ariaLabel]="mobileMenuButton()?.ariaLabel ?? 'Menu'"
           [disabled]="mobileMenuButton()?.disabled ?? false"
           (clickEvent)="handleMobileMenuClick()"
