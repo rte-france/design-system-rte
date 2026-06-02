@@ -14,12 +14,12 @@ import {
   signal,
   viewChild,
 } from "@angular/core";
-import { SearchBarAppearance, SearchBarProps } from "@design-system-rte/core";
 import {
   HEADER_MOBILE_SEARCH_TRANSITION_MS,
   buildHeaderHomeAriaLabel,
   type HeaderIconButtonConfig,
 } from "@design-system-rte/core/components/header";
+import { SearchBarAppearance, SearchBarProps } from "@design-system-rte/core/components/searchbar";
 import { ESCAPE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
 import { DropdownMenuBodyDirective } from "../../dropdown/dropdown-menu/dropdown-menu-body.directive";

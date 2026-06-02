@@ -24,8 +24,9 @@ import {
   TIME_SEGMENT_MAX_VALUE,
   TIME_SEGMENT_MIN_VALUE,
   TIME_SEGMENT_ORDER,
+  TimeSegmentEnum,
 } from "@design-system-rte/core/components/timepicker/timepicker.constants";
-import { TimeFormat, TimeSegmentEnum } from "@design-system-rte/core/components/timepicker/timepicker.interface";
+import type { TimeFormat } from "@design-system-rte/core/components/timepicker/timepicker.interface";
 import {
   buildDisplayValue,
   canSwitchToNextSegment,
