@@ -117,6 +117,7 @@
               [active]="item.active ?? false"
               [parentMenuOpen]="open()"
               [appearance]="appearance()"
+              [contrast]="contrast()"
               [hasDivider]="item.hasDivider!"
               [badge]="item.badge"
               (itemClick)="itemClick.emit($event)"
