@@ -1,0 +1,125 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+.rte-header-mobile {
+  width: 100%;
+  display: flex;
+  max-width: 100%;
+  align-items: center;
+  gap: $positive-spacing_100;
+
+  .rte-header-left {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    padding-left: 8px;
+
+
+
+    .rte-header-home {
+      display: inline-flex;
+      align-items: center;
+      gap: $positive-spacing_100;
+      text-decoration: none;
+      color: var(--content-secondary);
+
+      .rte-header-logo {
+        width: 28px;
+        height: 28px;
+        flex: 0 0 auto;
+        border-radius: $radius-s;
+      }
+
+      &:focus-visible {
+        border-radius: $radius-s;
+        outline: 1px solid var(--border-brand-focused);
+        outline-offset: 4px;
+      }
+    }
+  }
+
+  .rte-header-middle {
+    flex: 1 1 0;
+    max-width: 100%;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: center;
+    isolation: isolate;
+
+
+    .rte-header-app-name {
+      @include typography-heading-s;
+      opacity: 1;
+      white-space: nowrap;
+      padding-inline-end: 64px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      grid-column: 1;
+      grid-row: 1;
+      z-index: 0;
+      display: block;
+      max-width: 100%;
+      visibility: visible;
+      transition: opacity 150ms, visibility 150ms allow-discrete;
+
+      &[data-is-searchbar-expanded='true'] {
+        opacity: 0;
+        visibility: hidden;
+      }
+    }
+
+    .rte-header-search {
+      position: relative;
+      grid-column: 1;
+      grid-row: 1;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      width: 100%;
+      height: 32px;
+
+      .rte-searchbar-container {
+        visibility: hidden;
+        opacity: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 0%;
+
+        &[data-is-searchbar-expanded='true'] {
+          transition: opacity 300ms ease, width 150ms ease, visibility 150ms ease allow-discrete;
+          width: 100%;
+          transform: translateX(0%);
+          visibility: visible;
+          opacity: 1;
+          right: 0;
+        }
+
+        &[data-is-searchbar-expanded='false'] {
+          right: 86px;
+          transition: opacity 150ms ease-out
+        }
+      }
+
+      .rte-search-icon-container {
+        position: relative;
+        z-index: 2;
+        flex: 0 0 auto;
+        transition: opacity 150ms, visibility 150ms;
+
+        &[data-is-searchbar-expanded='true'] {
+          visibility: hidden;
+          opacity: 0;
+        }
+      }
+    }
+  }
+
+  .rte-header-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: $positive-spacing_250;
+    flex: 0 0 auto;
+  }
+}

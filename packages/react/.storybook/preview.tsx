@@ -14,13 +14,14 @@ export const decorators: Preview["decorators"] = [
     const [globals] = useGlobals();
     const framework = (globals?.framework as "angular" | "react") || "react";
 
-    const isGridComponent = context?.kind?.includes("Grid");
+    const noAutoMarginStoriesIds = ["composants-grid", "composants-header"];
+
+    const hasAutoMargins = !noAutoMarginStoriesIds.some((id) => context?.id?.includes(id));
 
     return (
       <FrameworkProvider framework={framework}>
         <div
           style={{
-            padding: "16px 16px 80px 50px",
             backgroundColor: "var(--background-default)",
             width: "auto",
             height: "100%",
@@ -29,10 +30,16 @@ export const decorators: Preview["decorators"] = [
             gap: "96px",
           }}
         >
-          <ThemeSelector />
           <div
             style={{
-              margin: isGridComponent ? "0" : "auto",
+              padding: "16px 16px 80px 50px",
+            }}
+          >
+            <ThemeSelector />
+          </div>
+          <div
+            style={{
+              margin: hasAutoMargins ? "auto" : "0",
             }}
           >
             <Story {...context} />

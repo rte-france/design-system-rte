@@ -193,7 +193,7 @@ const BaseTextInput = forwardRef<HTMLInputElement, BaseTextInputProps>(
             data-disabled={disabled}
             data-read-only={readOnly}
           >
-            <div className={computedInputBarClassName}>
+            <div className={computedInputBarClassName} data-compact-spacing={compactSpacing}>
               {computedLeftIcon && (
                 <Icon
                   name={computedLeftIcon}
