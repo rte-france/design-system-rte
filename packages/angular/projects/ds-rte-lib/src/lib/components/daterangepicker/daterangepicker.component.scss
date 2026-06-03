@@ -1,0 +1,81 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+$range-field-width: 176px;
+
+.rte-daterangepicker {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: $positive-spacing_0;
+  min-width: 248px;
+}
+
+.rte-daterangepicker-header {
+  width: 100%;
+}
+
+.rte-daterangepicker-label {
+  @include typography-text-m;
+
+  display: flex;
+  padding: $positive-spacing_025 $positive-spacing_100;
+  color: var(--content-secondary);
+  align-items: center;
+  white-space: normal;
+
+  .requirement-indicator {
+    margin-left: $positive-spacing_025;
+
+    &.show-label-requirement {
+      @include typography-text-s;
+      color: var(--content-tertiary);
+
+      &:not(.required) {
+        font-style: italic;
+      }
+    }
+
+    &:not(.show-label-requirement) {
+      &.required {
+        color: var(--content-danger-default);
+      }
+    }
+  }
+}
+
+.rte-daterangepicker-dropdown {
+  display: block;
+  width: fit-content;
+}
+
+.rte-daterangepicker-inputs {
+  display: flex;
+  gap: $positive-spacing_050;
+  align-items: center;
+  width: fit-content;
+
+  rte-datepicker-segmented-field {
+    flex: 0 0 $range-field-width;
+    width: $range-field-width;
+    max-width: $range-field-width;
+  }
+}
+
+.rte-daterangepicker-separator {
+  flex-shrink: 0;
+  align-self: center;
+  color: var(--content-primary);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
