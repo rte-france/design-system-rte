@@ -103,70 +103,77 @@ function App() {
     title: "Design System",
     version: "V1.0.0",
     icon: "home",
-    link: "/",
+    route: "/",
   };
 
   const navigationItems = [
-    { id: "home", label: "Home", icon: "home", hasLeadingIcon: true, onClick: () => setActiveItem("home") },
+    { kind: "link" as const, id: "home", label: "Home", icon: "home", hasLeadingIcon: true, route: "/home" },
     {
+      kind: "link" as const,
       id: "dashboard",
       label: "Dashboard",
       icon: "dashboard",
       hasLeadingIcon: true,
-      onClick: () => setActiveItem("dashboard"),
+      route: "/dashboard",
     },
     {
+      kind: "link" as const,
       id: "analytics",
       label: "Analytics",
       icon: "analytics",
       hasLeadingIcon: true,
-      onClick: () => setActiveItem("analytics"),
+      route: "/analytics",
     },
     {
+      kind: "link" as const,
       id: "settings",
       label: "Settings",
       icon: "settings",
       hasLeadingIcon: true,
-      onClick: () => setActiveItem("settings"),
+      route: "/settings",
     },
     {
+      kind: "link" as const,
       id: "profile",
       label: "Profile",
       icon: "user",
       hasLeadingIcon: true,
-      link: "/profile",
-      onClick: () => setActiveItem("profile"),
+      route: "/profile",
     },
   ];
 
   const footerItems = [
     {
+      kind: "link" as const,
       id: "footer-settings",
       label: "Settings",
       icon: "settings",
       hasLeadingIcon: true,
-      onClick: () => {
-        console.log("Footer Settings clicked");
-        setActiveItem("footer-settings");
-      },
+      route: "/settings",
     },
     {
+      kind: "link" as const,
       id: "footer-help",
       label: "Help & Support",
       icon: "help",
       hasLeadingIcon: true,
-      link: "/help",
-      onClick: () => setActiveItem("footer-help"),
+      route: "/help",
     },
     {
+      kind: "group" as const,
       id: "footer-account",
       label: "Account",
       icon: "user",
       hasLeadingIcon: true,
       items: [
-        { id: "footer-profile", label: "Profile", link: "/profile" },
-        { id: "footer-preferences", label: "Preferences" },
-        { id: "footer-logout", label: "Logout", onClick: () => console.log("Logout clicked") },
+        { kind: "link" as const, id: "footer-profile", label: "Profile", route: "/profile", icon: "user" },
+        { kind: "link" as const, id: "footer-preferences", label: "Preferences", route: "/preferences" },
+        {
+          kind: "action" as const,
+          id: "footer-logout",
+          label: "Logout",
+          onClick: () => console.log("Logout clicked"),
+        },
       ],
     },
   ];
@@ -247,6 +254,13 @@ function App() {
       collapsible={true}
       appearance="brand"
       activeItem={activeItem}
+      onNavigate={(route) => {
+        const matchedItem = navigationItems.find((item) => item.route === route);
+        if (matchedItem?.id) {
+          setActiveItem(matchedItem.id);
+        }
+      }}
+      onItemClicked={setActiveItem}
     >
       <Drawer
         title="Example Responsive Drawer"

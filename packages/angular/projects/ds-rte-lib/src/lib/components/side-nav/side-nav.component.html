@@ -6,10 +6,26 @@
         [ngClass]="{ collapsed: collapsedState() }"
         [attr.data-compact]="headerConfig()?.isCompact ?? false"
       >
-        @if (headerConfig()?.link) {
+        @if (headerIsInternalRoute()) {
           <a
             class="side-nav-header-title-container"
-            [href]="headerConfig()!.link!"
+            [routerLink]="headerRoute()!"
+            [attr.aria-label]="headerConfig()?.ariaLabel"
+            (click)="handleHeaderClick()"
+          >
+            <div class="side-nav-header-title">
+              <div class="side-nav-header-identifier">{{ headerConfig()?.identifier }}</div>
+              @if (!collapsedState()) {
+                <h1 [ngClass]="{ hidden: !shouldShowTitle() }">{{ headerConfig()?.title }}</h1>
+              }
+            </div>
+          </a>
+        } @else if (headerRoute() && headerConfig()?.external) {
+          <a
+            class="side-nav-header-title-container"
+            target="_blank"
+            rel="noopener noreferrer"
+            [href]="headerRoute()!"
             [attr.aria-label]="headerConfig()?.ariaLabel"
             (click)="handleHeaderClick()"
           >
@@ -21,10 +37,9 @@
             </div>
           </a>
         } @else if (headerConfig()?.onClick) {
-          <div
+          <button
+            type="button"
             class="side-nav-header-title-container"
-            tabindex="0"
-            role="button"
             [attr.aria-label]="headerConfig()?.ariaLabel"
             (click)="handleHeaderClick()"
             (keydown)="handleHeaderKeyDown($event)"
@@ -35,7 +50,7 @@
                 <h1 [ngClass]="{ hidden: !shouldShowTitle() }">{{ headerConfig()?.title }}</h1>
               }
             </div>
-          </div>
+          </button>
         } @else {
           <div class="side-nav-header-title-container">
             <div class="side-nav-header-title">
@@ -58,39 +73,60 @@
   <div side-nav-body>
     <div class="side-nav-body">
       <ul>
-        @for (item of items(); track item.label) {
-          @if (hasNestedItems(item)) {
+        @for (item of items(); track item.id || item.label) {
+          @if (isNavGroup(item)) {
             <rte-nav-menu
               [id]="item.id"
               [label]="item.label"
               [icon]="item.icon"
               [hasLeadingIcon]="item.hasLeadingIcon ?? true"
               [isCollapsed]="collapsedState()"
-              [link]="item.link"
+              [route]="item.route"
+              [external]="item.external ?? false"
               [open]="item.open"
               [active]="item.active ?? false"
-              [items]="item.items || []"
+              [items]="item.items"
               [appearance]="appearance()"
               [contrast]="contrast()"
               [badge]="item.badge"
-              [hasDivider]="item.hasDivider!"
+              [hasDivider]="item.hasDivider ?? false"
               (itemClick)="handleItemClick($event)"
               (openChange)="handleMenuOpenChange($event)"
             />
-          } @else {
+          } @else if (isNavLink(item)) {
             <li>
               <rte-nav-item
+                kind="link"
                 [id]="item.id"
                 [label]="item.label"
                 [icon]="item.icon"
                 [hasLeadingIcon]="item.hasLeadingIcon ?? true"
                 [isCollapsed]="collapsedState()"
-                [link]="item.link"
+                [route]="item.route"
+                [external]="item.external ?? false"
                 [appearance]="appearance()"
                 [active]="item.active ?? false"
                 [badge]="item.badge"
                 (itemClick)="handleItemClick(item.id || item.label)"
-              ></rte-nav-item>
+              />
+            </li>
+            @if (item.hasDivider) {
+              <rte-divider [appearance]="dividerAppearance()" />
+            }
+          } @else if (isNavAction(item)) {
+            <li>
+              <rte-nav-item
+                kind="action"
+                [id]="item.id"
+                [label]="item.label"
+                [icon]="item.icon"
+                [hasLeadingIcon]="item.hasLeadingIcon ?? true"
+                [isCollapsed]="collapsedState()"
+                [appearance]="appearance()"
+                [active]="item.active ?? false"
+                [badge]="item.badge"
+                (itemClick)="handleItemActivate(item, item.id || item.label)"
+              />
             </li>
             @if (item.hasDivider) {
               <rte-divider [appearance]="dividerAppearance()" />
@@ -107,38 +143,59 @@
           <div class="side-nav-footer-items">
             <ul>
               @for (item of footerItems()!; track item.id || item.label) {
-                @if (hasNestedItems(item)) {
+                @if (isNavGroup(item)) {
                   <rte-nav-menu
                     [id]="item.id"
                     [label]="item.label"
                     [icon]="item.icon"
                     [hasLeadingIcon]="item.hasLeadingIcon ?? true"
                     [isCollapsed]="collapsedState()"
-                    [link]="item.link"
+                    [route]="item.route"
+                    [external]="item.external ?? false"
                     [open]="item.open"
                     [active]="item.active ?? false"
-                    [items]="item.items || []"
+                    [items]="item.items"
                     [appearance]="appearance()"
                     [contrast]="contrast()"
                     [badge]="item.badge"
-                    [hasDivider]="item.hasDivider!"
-                    (itemClick)="handleFooterItemClick($event)"
+                    [hasDivider]="item.hasDivider ?? false"
+                    (itemClick)="handleItemClick($event)"
                     (openChange)="handleFooterMenuOpenChange($event)"
                   />
-                } @else {
+                } @else if (isNavLink(item)) {
                   <li>
                     <rte-nav-item
+                      kind="link"
                       [id]="item.id"
                       [label]="item.label"
                       [icon]="item.icon"
                       [hasLeadingIcon]="item.hasLeadingIcon ?? true"
                       [isCollapsed]="collapsedState()"
-                      [link]="item.link"
+                      [route]="item.route"
+                      [external]="item.external ?? false"
                       [appearance]="appearance()"
                       [active]="item.active ?? false"
                       [badge]="item.badge"
-                      (itemClick)="handleFooterItemClick(item.id || item.label)"
-                    ></rte-nav-item>
+                      (itemClick)="handleItemClick(item.id || item.label)"
+                    />
+                  </li>
+                  @if (item.hasDivider) {
+                    <rte-divider [appearance]="dividerAppearance()" />
+                  }
+                } @else if (isNavAction(item)) {
+                  <li>
+                    <rte-nav-item
+                      kind="action"
+                      [id]="item.id"
+                      [label]="item.label"
+                      [icon]="item.icon"
+                      [hasLeadingIcon]="item.hasLeadingIcon ?? true"
+                      [isCollapsed]="collapsedState()"
+                      [appearance]="appearance()"
+                      [active]="item.active ?? false"
+                      [badge]="item.badge"
+                      (itemClick)="handleItemActivate(item, item.id || item.label)"
+                    />
                   </li>
                   @if (item.hasDivider) {
                     <rte-divider [appearance]="dividerAppearance()" />
@@ -155,6 +212,7 @@
               <ul>
                 <li>
                   <rte-nav-item
+                    kind="action"
                     [label]="collapsedState() ? 'Ouvrir le menu' : 'Réduire le menu'"
                     [icon]="collapseIcon()"
                     [isCollapsed]="collapsedState()"

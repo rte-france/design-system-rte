@@ -11,8 +11,8 @@
     [rteTooltipArrow]="false"
     [rteTooltipShouldFocusTrigger]="false"
   >
-    <ng-container [ngTemplateOutlet]="menuContentTemplate"></ng-container>
-    <ng-container [ngTemplateOutlet]="nestedMenuTemplate"></ng-container>
+    <ng-container [ngTemplateOutlet]="menuContentTemplate" />
+    <ng-container [ngTemplateOutlet]="nestedMenuTemplate" />
   </li>
 } @else {
   <li
@@ -20,124 +20,173 @@
     [id]="id()"
     [ngClass]="{ collapsed: isCollapsed(), open: open(), nested: isNested(), active: active() }"
   >
-    <ng-container [ngTemplateOutlet]="menuContentTemplate"></ng-container>
-    <ng-container [ngTemplateOutlet]="nestedMenuTemplate"></ng-container>
+    <ng-container [ngTemplateOutlet]="menuContentTemplate" />
+    <ng-container [ngTemplateOutlet]="nestedMenuTemplate" />
   </li>
 }
 
 <ng-template #menuContentTemplate>
-  @if (link()) {
-    <a
-      class="nav-menu"
-      [href]="link()!"
-      [attr.tabindex]="tabIndex()"
-      [attr.aria-label]="label()"
-      (click)="toggleMenu()"
-    >
-      <div class="menu-content-left">
-        @if (hasLeadingIcon() && icon()) {
-          <rte-icon class="icon" [name]="icon()!" [size]="iconSize()" />
-        }
-        @if (!isCollapsed()) {
-          <span>{{ label() }}</span>
-        }
-      </div>
-      @if (!isCollapsed()) {
-        <div class="menu-content-right">
-          @if (badge()) {
-            <rte-badge
-              [badgeType]="badge()!.badgeType || 'brand'"
-              [badgeSize]="badge()!.size || 'm'"
-              [badgeContent]="badge()!.content || 'number'"
-              [count]="badge()!.count"
-              [icon]="badge()!.icon || 'notification'"
-              [simpleBadge]="true"
-            />
-          }
-          @if (shouldShowMenu() && hasMenuIcon()) {
-            <rte-icon name="arrow-chevron-right" class="menu-icon" [ngClass]="{ 'menu-icon-open': open() }" />
-          }
-        </div>
+  @if (hasRoute()) {
+    <div class="nav-menu nav-menu-split">
+      @if (isInternalRoute()) {
+        <a
+          class="nav-menu-label"
+          routerLinkActive="active"
+          [routerLink]="route()!"
+          [attr.aria-label]="label()"
+          (click)="handleLabelNavigateClick()"
+        >
+          <ng-container [ngTemplateOutlet]="menuLabelContentTemplate" />
+        </a>
+      } @else {
+        <a
+          class="nav-menu-label"
+          target="_blank"
+          rel="noopener noreferrer"
+          [href]="route()!"
+          [attr.aria-label]="label()"
+          (click)="handleLabelNavigateClick()"
+        >
+          <ng-container [ngTemplateOutlet]="menuLabelContentTemplate" />
+        </a>
       }
-    </a>
+      @if (!isCollapsed() && shouldShowMenu() && hasMenuIcon()) {
+        <button
+          type="button"
+          class="nav-menu-chevron"
+          [attr.aria-expanded]="open()"
+          [attr.aria-controls]="nestedMenuId()"
+          [attr.aria-label]="'Toggle ' + label() + ' submenu'"
+          (click)="handleChevronClick($event)"
+          (keydown)="handleChevronKeyDown($event)"
+        >
+          <rte-icon name="arrow-chevron-right" class="menu-icon" [ngClass]="{ 'menu-icon-open': open() }" />
+        </button>
+      }
+    </div>
   } @else {
-    <span
+    <button
+      type="button"
       class="nav-menu"
       [attr.tabindex]="tabIndex()"
+      [attr.aria-expanded]="shouldShowMenu() ? open() : null"
+      [attr.aria-controls]="shouldShowMenu() ? nestedMenuId() : null"
       [attr.aria-label]="label()"
       (click)="toggleMenu()"
-      (keydown)="handleKeyDown($event)"
+      (keydown)="handleDisclosureKeyDown($event)"
     >
-      <div class="menu-content-left">
-        @if (hasLeadingIcon() && icon()) {
-          <rte-icon class="icon" [name]="icon()!" [size]="iconSize()" />
-        }
-        @if (!isCollapsed()) {
-          <span>{{ label() }}</span>
-        }
-      </div>
-      @if (!isCollapsed()) {
+      <ng-container [ngTemplateOutlet]="menuLabelContentTemplate" />
+      @if (!isCollapsed() && shouldShowMenu() && hasMenuIcon()) {
         <div class="menu-content-right">
-          @if (badge()) {
-            <rte-badge
-              [badgeType]="badge()!.badgeType || 'brand'"
-              [badgeSize]="badge()!.size || 'm'"
-              [badgeContent]="badge()!.content || 'number'"
-              [count]="badge()!.count"
-              [icon]="badge()!.icon || 'notification'"
-              [simpleBadge]="true"
-            />
-          }
-          @if (shouldShowMenu() && hasMenuIcon()) {
-            <rte-icon name="arrow-chevron-right" class="menu-icon" [ngClass]="{ 'menu-icon-open': open() }" />
-          }
+          <rte-icon name="arrow-chevron-right" class="menu-icon" [ngClass]="{ 'menu-icon-open': open() }" />
         </div>
       }
-    </span>
+    </button>
+  }
+</ng-template>
+
+<ng-template #menuLabelContentTemplate>
+  <div class="menu-content-left">
+    @if (hasLeadingIcon() && icon()) {
+      <rte-icon class="icon" [name]="icon()!" [size]="iconSize()" />
+    }
+    @if (!isCollapsed()) {
+      <span>{{ label() }}</span>
+    }
+  </div>
+  @if (!isCollapsed() && hasRoute() && badge()) {
+    <div class="menu-content-right">
+      <rte-badge
+        [badgeType]="badge()!.badgeType || 'brand'"
+        [badgeSize]="badge()!.size || 'm'"
+        [badgeContent]="badge()!.content || 'number'"
+        [count]="badge()!.count"
+        [icon]="badge()!.icon || 'notification'"
+        [simpleBadge]="true"
+      />
+    </div>
+  }
+  @if (!isCollapsed() && !hasRoute()) {
+    <div class="menu-content-right">
+      @if (badge()) {
+        <rte-badge
+          [badgeType]="badge()!.badgeType || 'brand'"
+          [badgeSize]="badge()!.size || 'm'"
+          [badgeContent]="badge()!.content || 'number'"
+          [count]="badge()!.count"
+          [icon]="badge()!.icon || 'notification'"
+          [simpleBadge]="true"
+        />
+      }
+    </div>
   }
 </ng-template>
 
 <ng-template #nestedMenuTemplate>
   @if (shouldShowMenu()) {
-    <ul class="nested-menu" [ngClass]="{ 'nested-menu-open': open() }">
+    <ul class="nested-menu" [id]="nestedMenuId()" [ngClass]="{ 'nested-menu-open': open() }">
       @if (open()) {
         @for (item of items(); track item.id || item.label) {
-          @if (hasNestedItemsForItem(item)) {
+          @if (isNavGroup(item)) {
             <rte-nav-menu
               [id]="item.id"
               [label]="item.label"
               [icon]="item.icon"
               [hasLeadingIcon]="item.hasLeadingIcon ?? true"
               [isCollapsed]="isCollapsed()"
-              [link]="item.link"
-              [items]="item.items || []"
+              [route]="item.route"
+              [external]="item.external ?? false"
+              [items]="item.items"
               [hasMenuIcon]="hasMenuIcon()"
               [isNested]="true"
               [open]="item.open"
               [active]="item.active ?? false"
               [parentMenuOpen]="open()"
               [appearance]="appearance()"
-              [hasDivider]="item.hasDivider!"
+              [hasDivider]="item.hasDivider ?? false"
               [badge]="item.badge"
               (itemClick)="itemClick.emit($event)"
               (openChange)="handleMenuOpenChange($event)"
             />
-          } @else {
+          } @else if (isNavLink(item)) {
             <li>
               <rte-nav-item
+                kind="link"
                 [id]="item.id"
                 [label]="item.label"
                 [icon]="item.icon"
                 [hasLeadingIcon]="item.hasLeadingIcon ?? true"
                 [isCollapsed]="isCollapsed()"
-                [link]="item.link"
+                [route]="item.route"
+                [external]="item.external ?? false"
                 [isNested]="true"
                 [parentMenuOpen]="open()"
                 [appearance]="appearance()"
                 [active]="item.active ?? false"
-                [hasDivider]="item.hasDivider!"
+                [hasDivider]="item.hasDivider ?? false"
                 [badge]="item.badge"
-                (itemClick)="itemClick.emit($event)"
+                (itemClick)="handleNestedItemClick($event)"
+              />
+            </li>
+            @if (item.hasDivider) {
+              <rte-divider [appearance]="dividerAppearance()" />
+            }
+          } @else if (isNavAction(item)) {
+            <li>
+              <rte-nav-item
+                kind="action"
+                [id]="item.id"
+                [label]="item.label"
+                [icon]="item.icon"
+                [hasLeadingIcon]="item.hasLeadingIcon ?? true"
+                [isCollapsed]="isCollapsed()"
+                [isNested]="true"
+                [parentMenuOpen]="open()"
+                [appearance]="appearance()"
+                [active]="item.active ?? false"
+                [hasDivider]="item.hasDivider ?? false"
+                [badge]="item.badge"
+                (itemClick)="handleNestedItemClick($event)"
               />
             </li>
             @if (item.hasDivider) {

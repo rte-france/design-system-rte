@@ -1,5 +1,9 @@
-import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
-import { NavMenuProps } from "@design-system-rte/core/components/side-nav/nav-menu/nav-menu.interface";
+import {
+  isNavAction,
+  isNavGroup,
+  isNavLink,
+} from "@design-system-rte/core/components/side-nav/nav-item/nav-item.guards";
+import type { NavItem } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
 import { getDividerAppearanceBySideNavTheme } from "@design-system-rte/core/components/side-nav/side-nav.constants";
 import { SideNavProps as CoreSideNavProps } from "@design-system-rte/core/components/side-nav/side-nav.interface";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
@@ -11,12 +15,16 @@ import Divider from "../divider/Divider";
 import BaseSideNav from "./baseSideNav/BaseSideNav";
 import NavItem from "./navItem/NavItem";
 import NavMenu from "./navMenu/NavMenu";
+import NavLinkShell, { NavLinkRenderer } from "./shared/NavLinkShell";
 import style from "./SideNav.module.scss";
 
 interface SideNavProps extends Partial<CoreSideNavProps>, Omit<React.HTMLAttributes<HTMLDivElement>, "content"> {
   children?: ReactNode;
   defaultCollapsed?: boolean;
   onCollapsedChange?: (collapsed: boolean) => void;
+  onNavigate?: (route: string) => void;
+  renderLink?: NavLinkRenderer;
+  onItemClicked?: (itemId: string) => void;
 }
 
 const TRANSITION_DURATION = 300;
@@ -36,6 +44,9 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
       appearance = "brand",
       contrast = "high",
       activeItem,
+      onNavigate,
+      renderLink,
+      onItemClicked,
     }: SideNavProps,
     ref,
   ) => {
@@ -71,16 +82,16 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
 
     const dividerAppearance = getDividerAppearanceBySideNavTheme(appearance, contrast);
 
-    const handleHeaderKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-      if ([SPACE_KEY, ENTER_KEY].includes(e.key)) {
-        e.preventDefault();
+    const handleHeaderKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
+      if ([SPACE_KEY, ENTER_KEY].includes(event.key)) {
+        event.preventDefault();
         if (headerConfig?.onClick) {
           headerConfig.onClick();
         }
       }
     };
 
-    const { onKeyDown: headerOnKeyDown } = useActiveKeyboard<HTMLDivElement>(
+    const { onKeyDown: headerOnKeyDown } = useActiveKeyboard<HTMLButtonElement>(
       { onKeyDown: handleHeaderKeyDown },
       {
         interactiveKeyCodes: [SPACE_KEY, ENTER_KEY],
@@ -95,88 +106,144 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
     );
 
     const ariaLabel = headerConfig?.ariaLabel;
+    const headerRoute =
+      headerConfig?.route === null || headerConfig?.route === undefined || headerConfig?.route === ""
+        ? undefined
+        : headerConfig.route;
 
-    const headerTitleLink = (
-      <a
-        href={headerConfig?.link ?? ""}
-        className={style.sideNavHeaderTitleContainer}
-        onClick={headerConfig?.onClick}
-        aria-label={ariaLabel}
-      >
-        {headerTitleContent}
-      </a>
-    );
+    let headerTitle: ReactNode;
 
-    const clickableHeaderTitle = (
-      <div
-        className={style.sideNavHeaderTitleContainer}
-        tabIndex={0}
-        onClick={headerConfig?.onClick}
-        onKeyDown={headerOnKeyDown}
-        role="button"
-        aria-label={ariaLabel}
-      >
-        {headerTitleContent}
-      </div>
-    );
+    if (headerRoute && !headerConfig?.external) {
+      headerTitle = (
+        <NavLinkShell
+          route={headerRoute}
+          label={headerConfig?.title ?? ""}
+          className={style.sideNavHeaderTitleContainer}
+          onNavigate={onNavigate}
+          renderLink={renderLink}
+          onClick={
+            headerConfig?.onClick
+              ? () => {
+                  headerConfig.onClick?.();
+                }
+              : undefined
+          }
+        >
+          {headerTitleContent}
+        </NavLinkShell>
+      );
+    } else if (headerRoute && headerConfig?.external) {
+      headerTitle = (
+        <NavLinkShell
+          route={headerRoute}
+          label={headerConfig?.title ?? ""}
+          external={true}
+          className={style.sideNavHeaderTitleContainer}
+          onClick={
+            headerConfig?.onClick
+              ? () => {
+                  headerConfig.onClick?.();
+                }
+              : undefined
+          }
+        >
+          {headerTitleContent}
+        </NavLinkShell>
+      );
+    } else if (headerConfig?.onClick) {
+      headerTitle = (
+        <button
+          type="button"
+          className={style.sideNavHeaderTitleContainer}
+          onClick={headerConfig.onClick}
+          onKeyDown={headerOnKeyDown}
+          aria-label={ariaLabel}
+        >
+          {headerTitleContent}
+        </button>
+      );
+    } else {
+      headerTitle = <div className={style.sideNavHeaderTitleContainer}>{headerTitleContent}</div>;
+    }
 
-    const headerTitle = headerConfig?.link ? (
-      headerTitleLink
-    ) : headerConfig?.onClick ? (
-      clickableHeaderTitle
-    ) : (
-      <div className={style.sideNavHeaderTitleContainer}>{headerTitleContent}</div>
-    );
+    function handleItemActivate(item: NavItem, itemId: string): void {
+      if (isNavAction(item)) {
+        item.onClick();
+      }
+      onItemClicked?.(itemId);
+    }
 
-    function renderNavItems(itemsToRender: NavItemProps[] | undefined) {
+    function renderNavItems(itemsToRender: NavItem[] | undefined) {
       if (!itemsToRender?.length) {
         return null;
       }
 
       return (
         <ul>
-          {itemsToRender.map((item: NavItemProps) => {
-            const hasNestedItems = item.items?.length;
-            if (hasNestedItems) {
+          {itemsToRender.map((item: NavItem) => {
+            if (isNavGroup(item)) {
               return (
                 <NavMenu
-                  key={item.id}
-                  id={item.id}
-                  badge={item.badge}
-                  label={item.label}
-                  icon={item.icon}
-                  hasLeadingIcon={item.hasLeadingIcon}
+                  key={item.id || item.label}
+                  {...item}
                   isCollapsed={isCollapsed}
-                  link={item.link}
-                  onClick={item.onClick}
-                  items={item.items || []}
-                  open={(item as NavMenuProps).open}
-                  active={item.active}
                   appearance={appearance}
                   contrast={contrast}
-                  hasDivider={item.hasDivider}
+                  onNavigate={onNavigate}
+                  renderLink={renderLink}
+                  onItemClick={(itemId) => {
+                    onItemClicked?.(itemId);
+                  }}
                 />
               );
             }
-            return (
-              <Fragment key={item.id}>
-                <li>
-                  <NavItem
-                    id={item.id}
-                    badge={item.badge}
-                    label={item.label}
-                    icon={item.icon}
-                    hasLeadingIcon={item.hasLeadingIcon}
-                    isCollapsed={isCollapsed}
-                    link={item.link}
-                    onClick={item.onClick}
-                    appearance={appearance}
-                    active={item.id === activeItem && !!activeItem}
-                  />
-                </li>
-                {item.hasDivider && <Divider appearance={dividerAppearance} />}
-              </Fragment>
-            );
+            if (isNavLink(item)) {
+              return (
+                <Fragment key={item.id || item.label}>
+                  <li>
+                    <NavItem
+                      id={item.id}
+                      kind="link"
+                      badge={item.badge}
+                      label={item.label}
+                      icon={item.icon}
+                      hasLeadingIcon={item.hasLeadingIcon}
+                      isCollapsed={isCollapsed}
+                      route={item.route}
+                      external={item.external}
+                      appearance={appearance}
+                      active={item.active ?? (item.id === activeItem && !!activeItem)}
+                      onNavigate={onNavigate}
+                      renderLink={renderLink}
+                      onClick={() => handleItemActivate(item, item.id || item.label)}
+                    />
+                  </li>
+                  {item.hasDivider && <Divider appearance={dividerAppearance} />}
+                </Fragment>
+              );
+            }
+            if (isNavAction(item)) {
+              return (
+                <Fragment key={item.id || item.label}>
+                  <li>
+                    <NavItem
+                      id={item.id}
+                      kind="action"
+                      badge={item.badge}
+                      label={item.label}
+                      icon={item.icon}
+                      hasLeadingIcon={item.hasLeadingIcon}
+                      isCollapsed={isCollapsed}
+                      appearance={appearance}
+                      active={item.active ?? (item.id === activeItem && !!activeItem)}
+                      onClick={() => handleItemActivate(item, item.id || item.label)}
+                    />
+                  </li>
+                  {item.hasDivider && <Divider appearance={dividerAppearance} />}
+                </Fragment>
+              );
+            }
+            return null;
           })}
         </ul>
       );
@@ -219,6 +286,7 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
                   <div className={style.collapsibleSection}>
                     <NavItem
                       id="collapse-button"
+                      kind="action"
                       icon={collapseIcon}
                       hasLeadingIcon={true}
                       isCollapsed={isCollapsed}
@@ -241,3 +309,4 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
 );
 
 export default SideNav;
+export type { NavLinkRenderer, NavLinkRenderProps } from "./shared/NavLinkShell";

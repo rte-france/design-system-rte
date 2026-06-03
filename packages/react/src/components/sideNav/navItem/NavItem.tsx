@@ -1,41 +1,66 @@
-import { NavItemProps as CoreNavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
+import { BadgeProps } from "@design-system-rte/core/components/badge/badge.interface";
+import { SideNavAppearance } from "@design-system-rte/core/components/side-nav/side-nav.interface";
 import { ForwardedRef, forwardRef, HTMLAttributes, ReactNode, useRef } from "react";
 
 import Badge from "../../badge/Badge";
-import NavContentWrapper from "../shared/NavContentWrapper";
 import NavLabel from "../shared/NavLabel";
+import NavLinkShell from "../shared/NavLinkShell";
+import type { NavLinkRenderer } from "../shared/NavLinkShell";
 import NavTooltipWrapper from "../shared/NavTooltipWrapper";
 import { getNavTabIndex } from "../shared/navUtils";
 import useNavKeyboard from "../shared/useNavKeyboard";
 
 import style from "./NavItem.module.scss";
 
-interface NavItemProps extends CoreNavItemProps, Omit<HTMLAttributes<HTMLDivElement>, "onClick" | "id"> {
+export type NavItemComponentKind = "link" | "action";
+
+interface NavItemProps extends Omit<HTMLAttributes<HTMLDivElement>, "onClick" | "id"> {
   children?: ReactNode;
+  id?: string;
+  kind?: NavItemComponentKind;
+  icon?: string;
+  hasLeadingIcon?: boolean;
+  label: string;
+  isCollapsed?: boolean;
+  route?: string;
+  external?: boolean;
+  onClick?: () => void;
+  isNested?: boolean;
+  parentMenuOpen?: boolean;
+  appearance?: SideNavAppearance;
+  active?: boolean;
+  badge?: BadgeProps;
+  onNavigate?: (route: string) => void;
+  renderLink?: NavLinkRenderer;
 }
 
 const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
   (
     {
       id,
+      kind = "action",
       icon,
       hasLeadingIcon = true,
       onClick,
       label,
       isCollapsed,
-      link,
+      route,
+      external = false,
       isNested,
       parentMenuOpen,
       appearance = "brand",
       active,
       badge,
+      onNavigate,
+      renderLink,
       ...props
     }: NavItemProps,
     ref: ForwardedRef<HTMLDivElement>,
   ) => {
     const listItemRef = useRef<HTMLDivElement | null>(null);
+    const isLink = kind === "link" && !!route;
 
-    const { onKeyDown } = useNavKeyboard<HTMLSpanElement>({
+    const { onKeyDown } = useNavKeyboard<HTMLButtonElement>({
       onEnterOrSpace: onClick,
     });
 
@@ -69,49 +94,66 @@ const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
       </>
     );
 
-    const listItem = link ? (
-      <a
-        id={id}
-        aria-label={label}
-        className={style.navItemContainer}
-        data-collapsed={isCollapsed}
-        data-appearance={appearance}
-        data-nested={isNested}
-        href={link}
-      >
-        {labelContent}
-      </a>
-    ) : (
-      <div
-        id={id}
-        className={style.navItemContainer}
-        data-collapsed={isCollapsed}
-        data-appearance={appearance}
-        data-nested={isNested}
-        data-active={active}
-        onClick={onClick}
-        ref={(node) => {
-          listItemRef.current = node;
-          if (typeof ref === "function") {
-            ref(node);
-          } else if (ref && "current" in ref) {
-            (ref as { current: HTMLDivElement | null }).current = node;
-          }
-        }}
-        {...props}
-      >
-        <NavContentWrapper
+    const containerClassName = style.navItemContainer;
+    const containerDataProps = {
+      "data-collapsed": isCollapsed,
+      "data-appearance": appearance,
+      "data-nested": isNested,
+      "data-active": active,
+    };
+
+    let listItem: ReactNode;
+
+    if (isLink) {
+      listItem = (
+        <NavLinkShell
+          route={route!}
           label={label}
+          active={active}
+          external={external}
+          className={containerClassName}
+          onNavigate={onNavigate}
+          renderLink={renderLink}
+          onClick={
+            onClick
+              ? () => {
+                  onClick();
+                }
+              : undefined
+          }
+        >
+          <span id={id} {...containerDataProps} aria-hidden="true">
+            {labelContent}
+          </span>
+        </NavLinkShell>
+      );
+    } else {
+      listItem = (
+        <button
+          type="button"
+          id={id}
+          className={containerClassName}
+          {...containerDataProps}
           tabIndex={tabIndex}
+          aria-label={label}
+          onClick={onClick}
           onKeyDown={onKeyDown}
           onFocus={handleFocus}
           onBlur={handleBlur}
-          styleType="item"
+          ref={(node) => {
+            listItemRef.current = node as unknown as HTMLDivElement;
+            if (typeof ref === "function") {
+              ref(node as unknown as HTMLDivElement);
+            } else if (ref && "current" in ref) {
+              (ref as { current: HTMLDivElement | null }).current = node as unknown as HTMLDivElement;
+            }
+          }}
+          {...(props as object)}
         >
           {labelContent}
-        </NavContentWrapper>
-      </div>
-    );
+        </button>
+      );
+    }
 
     return (
       <NavTooltipWrapper label={label} isCollapsed={isCollapsed}>

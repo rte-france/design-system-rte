@@ -8,10 +8,73 @@
   transition: background-color 300ms;
   box-sizing: border-box;
 
-  .nav-menu {
+  .nav-menu-split {
+    @include typography-button-m;
+    display: flex;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0;
+    align-items: stretch;
+    border-left: $width-m solid transparent;
+    color: var(--rte-side-nav-item-label);
+
+    .nav-menu-label {
+      @include typography-button-m;
+      display: flex;
+      flex: 1;
+      min-width: 0;
+      padding: $positive-spacing_100 $positive-spacing_075;
+      align-items: center;
+      gap: $positive-spacing_100;
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+      border-left: $width-m solid transparent;
+      box-sizing: border-box;
+
+      &:hover {
+        background: var(--rte-side-nav-item-bg-hover);
+      }
+    }
+
+    .nav-menu-chevron {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: $positive-spacing_100 $positive-spacing_075;
+      margin: 0;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      color: inherit;
+      appearance: none;
+
+      &:hover {
+        background: var(--rte-side-nav-item-bg-hover);
+      }
+
+      &:focus-visible {
+        outline: 1px solid var(--border-brand-focused);
+        outline-offset: 0;
+        border-radius: $radius-s;
+      }
+    }
+  }
+
+  .nav-menu:not(.nav-menu-split) {
     @include typography-button-m;
     display: flex;
     padding: $positive-spacing_100 $positive-spacing_075;
+
+    &:is(button) {
+      margin: 0;
+      width: 100%;
+      border: none;
+      background: transparent;
+      font: inherit;
+      text-align: inherit;
+      appearance: none;
+    }
     align-items: center;
     gap: $positive-spacing_100;
     flex: 1 0 0;

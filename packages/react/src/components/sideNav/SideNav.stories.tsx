@@ -1,5 +1,3 @@
-import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
-import { NavMenuProps } from "@design-system-rte/core/components/side-nav/nav-menu/nav-menu.interface";
 import {
   TESTING_ENTER_KEY,
   TESTING_SPACE_KEY,
@@ -14,6 +12,7 @@ import {
   createActiveItemStateDecorator,
   createCollapsedStateDecorator,
   createNestedActiveItemStateDecorator,
+  createOnNavigateDecorator,
 } from "./stories/helpers/decorators";
 import {
   getFooterNavElement,
@@ -29,6 +28,20 @@ import {
   expectNavItemNotToBeActive,
   expectNavItemToBeActive,
 } from "./stories/helpers/expectations";
+import {
+  defaultHeaderConfig,
+  footerItems,
+  headerConfigWithOnClick,
+  headerConfigWithRoute,
+  navigationItems,
+  navigationItemsWithDividers,
+  navigationItemsWithLinkableSettingsGroup,
+  navigationItemsWithNested,
+  navigationItemsWithNestedActivePreselected,
+  navigationItemsWithNestedAndBadges,
+  navigationItemsWithNestedAndIds,
+  navigationItemsWithNestedNavMenuActivePreselected,
+} from "./stories/helpers/nav-items.fixtures";
 import { getCanvasAndSideNav, waitForTooltip } from "./stories/helpers/testHelpers";
 
 const meta = {
@@ -37,6 +50,7 @@ const meta = {
   component: SideNav,
   tags: ["autodocs"],
   decorators: [
+    createOnNavigateDecorator(),
     (Story) => (
       <div style={{ height: "600px", width: "100%", display: "flex" }}>
         <Story />
@@ -63,6 +77,9 @@ const meta = {
       isCollapsed={args.isCollapsed}
       activeItem={args.activeItem}
       onCollapsedChange={args.onCollapsedChange}
+      onNavigate={args.onNavigate}
+      onItemClicked={args.onItemClicked}
+      renderLink={args.renderLink}
     >
       {PageContent}
     </SideNav>
@@ -101,199 +118,6 @@ const PageContent = (
   </div>
 );
 
-const baseNavItem = {
-  hasLeadingIcon: true,
-};
-
-const baseBadge = {
-  size: "m" as const,
-  content: "number" as const,
-};
-
-const baseNavItems = [
-  { ...baseNavItem, id: "home", label: "Home", icon: "home" },
-  { ...baseNavItem, id: "dashboard", label: "Dashboard", icon: "dashboard" },
-  { ...baseNavItem, id: "analytics", label: "Analytics", icon: "analytics" },
-  { ...baseNavItem, id: "settings", label: "Settings", icon: "settings" },
-  { ...baseNavItem, id: "profile", label: "Profile", icon: "user", link: "/profile" },
-];
-
-const navigationItems = baseNavItems;
-
-const navigationItemsWithNestedAndIds: NavItemProps[] = [
-  baseNavItems[0],
-  {
-    ...baseNavItems[1],
-    items: [
-      { id: "overview", label: "Overview" },
-      { id: "reports", label: "Reports" },
-      { id: "analytics-nested", label: "Analytics", icon: "analytics" },
-    ],
-  },
-  {
-    ...baseNavItems[3],
-    items: [
-      { id: "general", label: "General" },
-      { id: "privacy", label: "Privacy" },
-      {
-        id: "advanced",
-        label: "Advanced",
-        icon: "settings",
-        items: [
-          { id: "security", label: "Security" },
-          { id: "api-keys", label: "API Keys" },
-        ],
-      },
-    ],
-  },
-  baseNavItems[4],
-];
-
-const navigationItemsWithNestedNavMenuActivePreselected: NavItemProps[] = [
-  baseNavItems[0],
-  {
-    ...baseNavItems[3],
-    open: true,
-    items: [
-      { id: "general", label: "General" },
-      { id: "privacy", label: "Privacy" },
-      {
-        id: "advanced",
-        label: "Advanced",
-        icon: "settings",
-        open: true,
-        items: [
-          { id: "security", label: "Security", active: true },
-          { id: "api-keys", label: "API Keys" },
-        ],
-      } as NavMenuProps,
-    ],
-  } as NavMenuProps,
-  baseNavItems[4],
-];
-
-const navigationItemsWithNestedActivePreselected: NavItemProps[] = [
-  baseNavItems[0],
-  {
-    ...baseNavItems[1],
-    open: true,
-    items: [
-      { id: "overview", label: "Overview", active: true },
-      { id: "reports", label: "Reports" },
-      { id: "analytics-nested", label: "Analytics", icon: "analytics" },
-    ],
-  } as NavMenuProps,
-  {
-    ...baseNavItems[3],
-    items: [
-      { id: "general", label: "General" },
-      { id: "privacy", label: "Privacy" },
-      {
-        id: "advanced",
-        label: "Advanced",
-        icon: "settings",
-        items: [
-          { id: "security", label: "Security" },
-          { id: "api-keys", label: "API Keys" },
-        ],
-      },
-    ],
-  },
-  baseNavItems[4],
-];
-
-const navigationItemsWithNested = [
-  baseNavItems[0],
-  {
-    ...baseNavItems[1],
-    items: [{ label: "Overview" }, { label: "Reports" }, { label: "Analytics", icon: "analytics" }],
-  },
-  {
-    ...baseNavItems[3],
-    items: [
-      { label: "General" },
-      { label: "Privacy" },
-      {
-        label: "Advanced",
-        icon: "settings",
-        items: [{ label: "Security" }, { label: "API Keys" }],
-      },
-    ],
-  },
-  baseNavItems[4],
-];
-
-const navigationItemsWithNestedAndBadges: NavItemProps[] = [
-  { ...baseNavItems[0], badge: { ...baseBadge, badgeType: "indicator", count: 5 } },
-  {
-    ...baseNavItems[1],
-    badge: { ...baseBadge, badgeType: "indicator", count: 3 },
-    items: [
-      { label: "Overview", badge: { ...baseBadge, badgeType: "brand", count: 2 } },
-      { label: "Reports" },
-      { label: "Analytics", icon: "analytics", badge: { ...baseBadge, badgeType: "indicator", count: 12 } },
-    ],
-  },
-  {
-    ...baseNavItems[3],
-    items: [
-      { label: "General" },
-      { label: "Privacy", badge: { ...baseBadge, badgeType: "brand", count: 1 } },
-      {
-        label: "Advanced",
-        icon: "settings",
-        badge: { ...baseBadge, badgeType: "indicator", count: 7 },
-        items: [
-          { label: "Security", badge: { ...baseBadge, badgeType: "indicator", count: 99 } },
-          { label: "API Keys" },
-        ],
-      },
-    ],
-  },
-  { ...baseNavItems[4], badge: { ...baseBadge, badgeType: "brand", count: 8 } },
-];
-
-const footerItems: NavItemProps[] = [
-  {
-    ...baseNavItem,
-    id: "footer-settings",
-    label: "Settings",
-    icon: "settings",
-    onClick: () => {
-      console.log("Footer Settings clicked");
-    },
-  },
-  { ...baseNavItem, id: "footer-help", label: "Help & Support", icon: "help", link: "/help" },
-  {
-    ...baseNavItem,
-    id: "footer-account",
-    label: "Account",
-    icon: "user",
-    items: [
-      { id: "footer-profile", label: "Profile", link: "/profile", icon: "user" },
-      { id: "footer-preferences", label: "Preferences", icon: "preferences" },
-      { id: "footer-logout", label: "Logout", onClick: () => console.log("Logout clicked"), icon: "logout" },
-    ],
-  },
-];
-
-const defaultHeaderConfig = {
-  identifier: "MA",
-  title: "My Application",
-  version: "V1.2.3",
-  icon: "home",
-  link: "/",
-};
-
-const headerConfigWithLink = { ...defaultHeaderConfig };
-
-const headerConfigWithOnClick = {
-  ...defaultHeaderConfig,
-  onClick: () => {
-    console.log("Header clicked");
-  },
-};
-
 export const Default: Story = {
   tags: ["skip-ci"],
   args: {
@@ -301,7 +125,7 @@ export const Default: Story = {
       title: "My Header",
       icon: "home",
       identifier: "MA",
-      link: "/my-application",
+      route: "/my-application",
     },
     items: navigationItems,
   },
@@ -337,6 +161,16 @@ export const WithNestedMenus: Story = {
     ...Default.args,
     headerConfig: defaultHeaderConfig,
     items: navigationItemsWithNested,
+    collapsible: true,
+  },
+};
+
+export const LinkableSettingsGroup: Story = {
+  tags: ["skip-ci"],
+  args: {
+    ...Default.args,
+    headerConfig: defaultHeaderConfig,
+    items: navigationItemsWithLinkableSettingsGroup,
     collapsible: true,
   },
 };
@@ -480,7 +314,7 @@ export const KeyboardNavigation: Story = {
 export const HeaderClickability: Story = {
   args: {
     ...Default.args,
-    headerConfig: { ...defaultHeaderConfig, link: null },
+    headerConfig: { ...defaultHeaderConfig, route: null },
     collapsible: true,
   },
   play: async ({ canvasElement, step }) => {
@@ -497,20 +331,19 @@ export const HeaderClickability: Story = {
   },
 };
 
-export const HeaderWithLink: Story = {
+export const HeaderWithRoute: Story = {
   args: {
     ...Default.args,
-    headerConfig: headerConfigWithLink,
+    headerConfig: headerConfigWithRoute,
     collapsible: true,
   },
   play: async ({ canvasElement, step }) => {
     const { sideNav } = getCanvasAndSideNav(canvasElement);
 
-    await step("Verify header is a link when link prop is provided", async () => {
+    await step("Verify header is a link when route prop is provided", async () => {
       const headerTitleContainer = getHeaderTitleContainer(sideNav);
       expect(headerTitleContainer).not.toBeNull();
       expect(headerTitleContainer?.tagName).toBe("A");
-      expect(headerTitleContainer).toHaveAttribute("href", "/");
       expect(headerTitleContainer).toHaveStyle({ cursor: "pointer" });
     });
 
@@ -525,7 +358,7 @@ export const HeaderWithLink: Story = {
 export const HeaderWithOnClick: Story = {
   args: {
     ...Default.args,
-    headerConfig: { ...headerConfigWithOnClick, link: null },
+    headerConfig: headerConfigWithOnClick,
     collapsible: true,
   },
   play: async ({ canvasElement, step }) => {
@@ -534,7 +367,7 @@ export const HeaderWithOnClick: Story = {
     await step("Verify header is clickable button when onClick is provided", async () => {
       const headerTitleContainer = getHeaderTitleContainer(sideNav);
       expect(headerTitleContainer).not.toBeNull();
-      expect(headerTitleContainer?.tagName).toBe("DIV");
+      expect(headerTitleContainer?.tagName).toBe("BUTTON");
       await userEvent.click(headerTitleContainer!);
       expect(headerTitleContainer).toHaveStyle({ cursor: "pointer" });
     });
@@ -841,36 +674,6 @@ export const WithBadges: Story = {
     collapsible: true,
   },
 };
-
-const navigationItemsWithDividers: NavItemProps[] = [
-  baseNavItems[0],
-  {
-    ...baseNavItems[1],
-    items: [{ label: "Overview" }, { label: "Reports", hasDivider: true }, { label: "Analytics", icon: "analytics" }],
-  },
-  { ...baseNavItems[2], hasDivider: true },
-  { ...baseNavItem, id: "reports", label: "Reports", icon: "info" },
-  {
-    ...baseNavItems[3],
-    hasDivider: true,
-    items: [
-      { label: "General" },
-      { label: "Privacy", hasDivider: true },
-      { label: "Notifications", icon: "notifications" },
-      {
-        label: "Advanced",
-        icon: "settings",
-        hasDivider: true,
-        items: [
-          { label: "Security" },
-          { label: "API Keys", icon: "api-keys", hasDivider: true },
-          { label: "Integrations", icon: "integrations" },
-        ],
-      },
-    ],
-  },
-  baseNavItems[4],
-];
 
 export const WithDividers: Story = {
   args: {

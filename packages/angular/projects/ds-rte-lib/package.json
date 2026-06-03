@@ -9,12 +9,16 @@
   "peerDependencies": {
     "@angular/common": "^18.2.14",
     "@angular/core": "^18.2.14",
+    "@angular/router": "^18.2.14",
     "@design-system-rte/core": "^1.8.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"
   },
   "devDependencies": {
+    "@angular/common": "^18.2.14",
+    "@angular/core": "^18.2.14",
+    "@angular/router": "^18.2.14",
     "@design-system-rte/core": "^1.8.0"
   },
   "sideEffects": false,

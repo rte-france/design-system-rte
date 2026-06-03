@@ -1,11 +1,16 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, effect, input, output, signal } from "@angular/core";
+import { RouterLink, RouterLinkActive } from "@angular/router";
 import { getDividerAppearanceBySideNavTheme } from "@design-system-rte/core";
 import { SideNavAppearance, SideNavContrast, SideNavHeaderConfig } from "@design-system-rte/core";
 import { DividerAppearance } from "@design-system-rte/core/components/divider/divider.interface";
-import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
+import {
+  isNavAction,
+  isNavGroup,
+  isNavLink,
+} from "@design-system-rte/core/components/side-nav/nav-item/nav-item.guards";
+import type { NavItem } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
 import { setNavMenuOpenById } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.utils";
-import { NavMenuProps } from "@design-system-rte/core/components/side-nav/nav-menu/nav-menu.interface";
 import { SideNavSize } from "@design-system-rte/core/components/side-nav/side-nav.interface";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
@@ -19,7 +24,15 @@ const TRANSITION_DURATION = 300;
 
 @Component({
   selector: "rte-side-nav",
-  imports: [CommonModule, BaseSideNavComponent, DividerComponent, NavItemComponent, NavMenuComponent],
+  imports: [
+    CommonModule,
+    RouterLink,
+    RouterLinkActive,
+    BaseSideNavComponent,
+    DividerComponent,
+    NavItemComponent,
+    NavMenuComponent,
+  ],
   standalone: true,
   templateUrl: "./side-nav.component.html",
   styleUrl: "./side-nav.component.scss",
@@ -29,8 +42,8 @@ export class SideNavComponent {
   readonly size = input<SideNavSize>("m" as SideNavSize);
   readonly collapsible = input<boolean>(false);
   readonly headerConfig = input<SideNavHeaderConfig | undefined>();
-  readonly items = input<NavItemProps[]>([]);
-  readonly footerItems = input<NavItemProps[] | undefined>();
+  readonly items = input<NavItem[]>([]);
+  readonly footerItems = input<NavItem[] | undefined>();
   readonly isCollapsed = input<boolean>(false);
   readonly appearance = input<SideNavAppearance>("brand");
   readonly contrast = input<SideNavContrast>("high");
@@ -39,6 +52,10 @@ export class SideNavComponent {
   readonly shouldShowTitle = signal<boolean>(true);
 
   readonly itemClicked = output<string>();
+
+  readonly isNavGroup = isNavGroup;
+  readonly isNavLink = isNavLink;
+  readonly isNavAction = isNavAction;
 
   private titleTimeoutId: ReturnType<typeof setTimeout> | null = null;
 
@@ -78,6 +95,19 @@ export class SideNavComponent {
     return getDividerAppearanceBySideNavTheme(this.appearance(), this.contrast());
   });
 
+  readonly headerRoute = computed<string | undefined>(() => {
+    const config = this.headerConfig();
+    const route = config?.route;
+    if (route === null || route === undefined || route === "") {
+      return undefined;
+    }
+    return route;
+  });
+
+  readonly headerIsInternalRoute = computed<boolean>(() => {
+    return !!this.headerRoute() && !this.headerConfig()?.external;
+  });
+
   handleHeaderKeyDown(event: KeyboardEvent): void {
     if ([SPACE_KEY, ENTER_KEY].includes(event.key)) {
       event.preventDefault();
@@ -95,15 +125,14 @@ export class SideNavComponent {
     }
   }
 
-  hasNestedItems(item: NavItemProps): item is NavMenuProps {
-    return !!item.items?.length;
-  }
-
-  handleItemClick(itemId: string): void {
+  handleItemActivate(item: NavItem, itemId: string): void {
+    if (isNavAction(item)) {
+      item.onClick();
+    }
     this.itemClicked.emit(itemId);
   }
 
-  handleFooterItemClick(itemId: string): void {
+  handleItemClick(itemId: string): void {
     this.itemClicked.emit(itemId);
   }
 

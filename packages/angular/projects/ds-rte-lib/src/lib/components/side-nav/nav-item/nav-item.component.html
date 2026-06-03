@@ -1,5 +1,49 @@
 @if (isCollapsed() && label()) {
-  @if (link()) {
+  @if (isInternalLink()) {
+    <a
+      class="nav-item-container {{ appearance() }}"
+      rteTooltip
+      rteTooltipPosition="right"
+      rteTooltipAlignment="center"
+      routerLinkActive="active"
+      [id]="id()"
+      [ngClass]="{ collapsed: isCollapsed(), nested: isNested(), active: active(), focused: focused() }"
+      [attr.role]="role()"
+      [rteTooltip]="label()"
+      [rteTooltipArrow]="false"
+      [rteTooltipGap]="12"
+      [rteTooltipShouldFocusTrigger]="true"
+      [routerLink]="route()!"
+      [attr.aria-label]="label()"
+      (click)="itemClick.emit(id() || label())"
+      (focus)="handleFocus()"
+      (blur)="handleBlur()"
+    >
+      <ng-container [ngTemplateOutlet]="contentTemplate" />
+    </a>
+  } @else if (isLink() && external()) {
+    <a
+      class="nav-item-container {{ appearance() }}"
+      rteTooltip
+      rteTooltipPosition="right"
+      rteTooltipAlignment="center"
+      target="_blank"
+      rel="noopener noreferrer"
+      [id]="id()"
+      [ngClass]="{ collapsed: isCollapsed(), nested: isNested(), active: active(), focused: focused() }"
+      [attr.role]="role()"
+      [rteTooltip]="label()"
+      [rteTooltipArrow]="false"
+      [rteTooltipGap]="12"
+      [rteTooltipShouldFocusTrigger]="true"
+      [href]="route()!"
+      [attr.aria-label]="label()"
+      (focus)="handleFocus()"
+      (blur)="handleBlur()"
+    >
+      <ng-container [ngTemplateOutlet]="contentTemplate" />
+    </a>
+  } @else if (isLink()) {
     <a
       class="nav-item-container {{ appearance() }}"
       rteTooltip
@@ -12,14 +56,17 @@
       [rteTooltipArrow]="false"
       [rteTooltipGap]="12"
       [rteTooltipShouldFocusTrigger]="true"
-      [href]="link()!"
+      [href]="route()!"
       [attr.aria-label]="label()"
+      (focus)="handleFocus()"
+      (blur)="handleBlur()"
     >
       <ng-container [ngTemplateOutlet]="contentTemplate" />
     </a>
   } @else {
-    <div
+    <button
       class="nav-item-container {{ appearance() }}"
+      type="button"
       rteTooltip
       rteTooltipPosition="right"
       rteTooltipAlignment="center"
@@ -30,43 +77,81 @@
       [rteTooltipArrow]="false"
       [rteTooltipGap]="12"
       [rteTooltipShouldFocusTrigger]="false"
+      [attr.aria-label]="label()"
+      [attr.tabindex]="tabIndex()"
+      (click)="handleActionClick($event)"
+      (keydown)="handleActionKeyDown($event)"
+      (focus)="handleFocus()"
+      (blur)="handleBlur()"
     >
       <ng-container [ngTemplateOutlet]="contentTemplate" />
-    </div>
+    </button>
   }
 } @else {
-  @if (link()) {
+  @if (isInternalLink()) {
+    <a
+      class="nav-item-container {{ appearance() }}"
+      routerLinkActive="active"
+      [id]="id()"
+      [ngClass]="{ collapsed: isCollapsed(), nested: isNested(), active: active(), focused: focused() }"
+      [attr.role]="role()"
+      [routerLink]="route()!"
+      [attr.aria-label]="label()"
+      (click)="itemClick.emit(id() || label())"
+      (focus)="handleFocus()"
+      (blur)="handleBlur()"
+    >
+      <ng-container [ngTemplateOutlet]="contentTemplate" />
+    </a>
+  } @else if (isLink() && external()) {
+    <a
+      class="nav-item-container {{ appearance() }}"
+      target="_blank"
+      rel="noopener noreferrer"
+      [id]="id()"
+      [ngClass]="{ collapsed: isCollapsed(), nested: isNested(), active: active(), focused: focused() }"
+      [attr.role]="role()"
+      [href]="route()!"
+      [attr.aria-label]="label()"
+      (focus)="handleFocus()"
+      (blur)="handleBlur()"
+    >
+      <ng-container [ngTemplateOutlet]="contentTemplate" />
+    </a>
+  } @else if (isLink()) {
     <a
       class="nav-item-container {{ appearance() }}"
       [id]="id()"
       [ngClass]="{ collapsed: isCollapsed(), nested: isNested(), active: active(), focused: focused() }"
       [attr.role]="role()"
-      [href]="link()!"
+      [href]="route()!"
+      [attr.aria-label]="label()"
+      (focus)="handleFocus()"
+      (blur)="handleBlur()"
     >
       <ng-container [ngTemplateOutlet]="contentTemplate" />
     </a>
   } @else {
-    <div
+    <button
       class="nav-item-container {{ appearance() }}"
+      type="button"
       [id]="id()"
       [ngClass]="{ collapsed: isCollapsed(), nested: isNested(), active: active(), focused: focused() }"
       [attr.role]="role()"
+      [attr.aria-label]="label()"
+      [attr.tabindex]="tabIndex()"
+      (click)="handleActionClick($event)"
+      (keydown)="handleActionKeyDown($event)"
+      (focus)="handleFocus()"
+      (blur)="handleBlur()"
     >
       <ng-container [ngTemplateOutlet]="contentTemplate" />
-    </div>
+    </button>
   }
 }
 
 <ng-template #contentTemplate>
-  <span
-    class="nav-item"
-    [attr.tabindex]="link() ? undefined : tabIndex()"
-    [attr.aria-label]="label()"
-    (click)="handleClick($event)"
-    (keydown)="handleKeyDown($event)"
-    (focus)="handleFocus()"
-    (blur)="handleBlur()"
-  >
+  <span class="nav-item" [attr.aria-hidden]="true">
     <div class="nav-item-left">
       @if (hasLeadingIcon() && icon()) {
         <rte-icon class="icon" [name]="icon()!" [size]="iconSize()" />

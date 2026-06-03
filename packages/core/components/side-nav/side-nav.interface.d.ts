@@ -1,4 +1,4 @@
-import { NavItemProps } from "./nav-item/nav-item.interface";
+import { NavItem } from "./nav-item/nav-item.interface";
 
 export type SideNavSize = "s" | "m" | "l";
 
@@ -11,7 +11,8 @@ export interface SideNavHeaderConfig {
   title: string;
   version?: string;
   identifier?: string;
-  link?: string | null;
+  route?: string | null;
+  external?: boolean;
   onClick?: () => void;
   ariaLabel?: string;
   isCompact?: boolean;
@@ -19,8 +20,8 @@ export interface SideNavHeaderConfig {
 
 export interface SideNavProps extends BaseSideNavProps {
   collapsible?: boolean;
-  items: NavItemProps[];
-  footerItems?: NavItemProps[];
+  items: NavItem[];
+  footerItems?: NavItem[];
   activeItem?: string;
   headerConfig: SideNavHeaderConfig;
 }

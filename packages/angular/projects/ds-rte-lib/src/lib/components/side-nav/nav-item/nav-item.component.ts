@@ -1,5 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, input, output, signal } from "@angular/core";
+import { RouterLink, RouterLinkActive } from "@angular/router";
 import { BadgeProps } from "@design-system-rte/core/components/badge/badge.interface";
 import { getNavItemLabelIconSize } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.utils";
 import { SideNavAppearance } from "@design-system-rte/core/components/side-nav/side-nav.interface";
@@ -13,9 +14,11 @@ function getNavTabIndex(parentMenuOpen?: boolean): number {
   return parentMenuOpen === false ? -1 : 0;
 }
 
+export type NavItemComponentKind = "link" | "action";
+
 @Component({
   selector: "rte-nav-item",
-  imports: [CommonModule, IconComponent, BadgeComponent, TooltipDirective],
+  imports: [CommonModule, RouterLink, RouterLinkActive, IconComponent, BadgeComponent, TooltipDirective],
   standalone: true,
   templateUrl: "./nav-item.component.html",
   styleUrl: "./nav-item.component.scss",
@@ -23,11 +26,13 @@ function getNavTabIndex(parentMenuOpen?: boolean): number {
 })
 export class NavItemComponent {
   readonly id = input<string | undefined>();
+  readonly kind = input<NavItemComponentKind>("action");
   readonly icon = input<string | undefined>();
   readonly hasLeadingIcon = input<boolean>(true);
   readonly label = input.required<string>();
   readonly isCollapsed = input<boolean>(false);
-  readonly link = input<string | undefined>();
+  readonly route = input<string | undefined>();
+  readonly external = input<boolean>(false);
   readonly appearance = input<SideNavAppearance>("brand");
   readonly active = input<boolean>(false);
   readonly badge = input<BadgeProps | undefined>();
@@ -38,6 +43,8 @@ export class NavItemComponent {
 
   readonly focused = signal<boolean>(false);
   readonly tabIndex = computed<number>(() => getNavTabIndex(this.parentMenuOpen()));
+  readonly isLink = computed<boolean>(() => this.kind() === "link" && !!this.route());
+  readonly isInternalLink = computed<boolean>(() => this.isLink() && !this.external());
 
   readonly itemClick = output<string>();
 
@@ -45,12 +52,12 @@ export class NavItemComponent {
     return getNavItemLabelIconSize(this.isNested(), this.isCollapsed());
   });
 
-  handleClick(event: Event): void {
+  handleActionClick(event: Event): void {
     event.stopPropagation();
     this.itemClick.emit(this.id() || this.label());
   }
 
-  handleKeyDown(event: KeyboardEvent): void {
+  handleActionKeyDown(event: KeyboardEvent): void {
     if ([SPACE_KEY, ENTER_KEY].includes(event.key)) {
       event.preventDefault();
       this.itemClick.emit(this.id() || this.label());

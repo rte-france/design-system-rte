@@ -4,6 +4,15 @@
   @include typography-button-m;
   width: 100%;
   display: flex;
+
+  &:is(button) {
+    margin: 0;
+    border: none;
+    background: transparent;
+    font: inherit;
+    text-align: inherit;
+    appearance: none;
+  }
   justify-content: flex-start;
   gap: $positive-spacing_100;
   cursor: pointer;

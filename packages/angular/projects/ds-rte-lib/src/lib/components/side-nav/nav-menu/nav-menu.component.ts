@@ -1,12 +1,17 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, effect, input, output } from "@angular/core";
+import { RouterLink, RouterLinkActive } from "@angular/router";
 import { BadgeProps } from "@design-system-rte/core/components/badge/badge.interface";
-import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
+import {
+  isNavAction,
+  isNavGroup,
+  isNavLink,
+} from "@design-system-rte/core/components/side-nav/nav-item/nav-item.guards";
+import type { NavItem } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
 import {
   getNavItemLabelIconSize,
   setNavMenuOpenById,
 } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.utils";
-import { NavMenuProps } from "@design-system-rte/core/components/side-nav/nav-menu/nav-menu.interface";
 import { getDividerAppearanceBySideNavTheme } from "@design-system-rte/core/components/side-nav/side-nav.constants";
 import { SideNavAppearance, SideNavContrast } from "@design-system-rte/core/components/side-nav/side-nav.interface";
 import { ENTER_KEY, ESCAPE_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
@@ -28,7 +33,16 @@ export interface NavMenuOpenChangeEvent {
 
 @Component({
   selector: "rte-nav-menu",
-  imports: [CommonModule, IconComponent, BadgeComponent, DividerComponent, NavItemComponent, TooltipDirective],
+  imports: [
+    CommonModule,
+    RouterLink,
+    RouterLinkActive,
+    IconComponent,
+    BadgeComponent,
+    DividerComponent,
+    NavItemComponent,
+    TooltipDirective,
+  ],
   standalone: true,
   templateUrl: "./nav-menu.component.html",
   styleUrl: "./nav-menu.component.scss",
@@ -40,8 +54,9 @@ export class NavMenuComponent {
   readonly hasLeadingIcon = input<boolean>(true);
   readonly label = input.required<string>();
   readonly isCollapsed = input<boolean>(false);
-  readonly link = input<string | undefined>();
-  readonly items = input.required<NavItemProps[]>();
+  readonly route = input<string | undefined>();
+  readonly external = input<boolean>(false);
+  readonly items = input.required<NavItem[]>();
   readonly open = input<boolean | undefined>(false);
   readonly hasMenuIcon = input<boolean>(true);
   readonly isNested = input<boolean>(false);
@@ -55,6 +70,10 @@ export class NavMenuComponent {
   readonly itemClick = output<string>();
   readonly openChange = output<NavMenuOpenChangeEvent>();
 
+  readonly isNavLink = isNavLink;
+  readonly isNavGroup = isNavGroup;
+  readonly isNavAction = isNavAction;
+
   constructor() {
     effect(
       () => {
@@ -66,10 +85,13 @@ export class NavMenuComponent {
     );
   }
 
+  readonly menuId = computed<string>(() => this.id() || this.label());
+  readonly nestedMenuId = computed<string>(() => `nested-menu-${this.menuId()}`);
+  readonly hasRoute = computed<boolean>(() => !!this.route());
+  readonly isInternalRoute = computed<boolean>(() => this.hasRoute() && !this.external());
   readonly hasNestedItems = computed<boolean>(() => !!this.items().length);
   readonly shouldShowMenu = computed<boolean>(() => !this.isCollapsed() && this.hasNestedItems());
   readonly tabIndex = computed<number>(() => getNavTabIndex(this.parentMenuOpen()));
-
   readonly dividerAppearance = computed(() => getDividerAppearanceBySideNavTheme(this.appearance(), this.contrast()));
 
   readonly iconSize = computed<number>(() => {
@@ -77,18 +99,41 @@ export class NavMenuComponent {
   });
 
   toggleMenu(): void {
-    const menuId = this.id() || this.label();
+    const menuId = this.menuId();
     this.itemClick.emit(menuId);
     this.openChange.emit({ id: menuId, open: !this.open() });
   }
 
-  handleEscape(): void {
-    if (this.open()) {
-      this.closeMenu();
+  openMenu(): void {
+    const menuId = this.menuId();
+    if (!this.open()) {
+      this.openChange.emit({ id: menuId, open: true });
     }
   }
 
-  handleKeyDown(event: KeyboardEvent): void {
+  handleLabelNavigateClick(): void {
+    this.itemClick.emit(this.menuId());
+    this.openMenu();
+  }
+
+  handleChevronClick(event: Event): void {
+    event.stopPropagation();
+    this.toggleMenu();
+  }
+
+  handleChevronKeyDown(event: KeyboardEvent): void {
+    if ([SPACE_KEY, ENTER_KEY].includes(event.key)) {
+      event.preventDefault();
+      event.stopPropagation();
+      this.toggleMenu();
+    }
+    if (event.key === ESCAPE_KEY) {
+      event.preventDefault();
+      this.handleEscape();
+    }
+  }
+
+  handleDisclosureKeyDown(event: KeyboardEvent): void {
     if ([SPACE_KEY, ENTER_KEY].includes(event.key)) {
       event.preventDefault();
       this.toggleMenu();
@@ -99,22 +144,25 @@ export class NavMenuComponent {
     }
   }
 
-  hasNestedItemsForItem(item: NavItemProps): item is NavMenuProps {
-    return !!item.items?.length;
+  handleEscape(): void {
+    if (this.open()) {
+      this.closeMenu();
+    }
   }
 
   handleMenuOpenChange(event: NavMenuOpenChangeEvent): void {
     setNavMenuOpenById(this.items(), event.id, event.open);
   }
 
-  handleMenuClick(itemId: string): void {
-    const item = this.items().find((i) => i.id === itemId || i.label === itemId);
-    if (item?.onClick) {
+  handleNestedItemClick(itemId: string): void {
+    const item = this.items().find((navItem) => navItem.id === itemId || navItem.label === itemId);
+    if (item && isNavAction(item)) {
       item.onClick();
     }
+    this.itemClick.emit(itemId);
   }
 
   private closeMenu(): void {
-    this.openChange.emit({ id: this.id() || this.label(), open: false });
+    this.openChange.emit({ id: this.menuId(), open: false });
   }
 }

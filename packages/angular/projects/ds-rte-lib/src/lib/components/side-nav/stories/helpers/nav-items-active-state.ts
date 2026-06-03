@@ -1,32 +1,36 @@
-import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
-import { NavMenuProps } from "@design-system-rte/core/components/side-nav/nav-menu/nav-menu.interface";
+import { isNavGroup } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.guards";
+import type { NavItem } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
 
-function hasActiveDescendant(items: NavItemProps[], activeId: string): boolean {
+function hasActiveDescendant(items: NavItem[], activeId: string): boolean {
   return items.some((item) => {
     if (item.id === activeId) {
       return true;
     }
-    if (item.items?.length) {
+    if (isNavGroup(item)) {
       return hasActiveDescendant(item.items, activeId);
     }
     return false;
   });
 }
 
-function mapNavItemsWithActiveState(items: NavItemProps[], activeId: string): NavItemProps[] {
+function mapNavItemsWithActiveState(items: NavItem[], activeId: string): NavItem[] {
   return items.map((item) => {
-    const childItems = item.items?.length ? mapNavItemsWithActiveState(item.items, activeId) : undefined;
-    const hasChildren = !!childItems?.length;
-    const isLeafActive = !hasChildren && item.id === activeId;
-    const isMenuActive = hasChildren && item.id === activeId;
-    const menuItem = item as NavMenuProps;
-    const shouldOpenMenu = hasChildren && (item.id === activeId || hasActiveDescendant(item.items!, activeId));
+    if (isNavGroup(item)) {
+      const childItems = mapNavItemsWithActiveState(item.items, activeId);
+      const isMenuActive = item.id === activeId;
+      const shouldOpenMenu = item.id === activeId || hasActiveDescendant(item.items, activeId);
+
+      return {
+        ...item,
+        active: isMenuActive,
+        open: shouldOpenMenu ? true : item.open,
+        items: childItems,
+      };
+    }
 
     return {
       ...item,
-      active: isLeafActive || isMenuActive,
-      open: shouldOpenMenu ? true : menuItem.open,
-      items: childItems,
+      active: item.id === activeId,
     };
   });
 }

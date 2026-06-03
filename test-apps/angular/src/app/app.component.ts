@@ -39,7 +39,7 @@ import type {
   HeaderNavigationItem,
   HeaderSubHeaderConfig,
 } from "@design-system-rte/core/components/header";
-import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
+import type { NavItem } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
 import { Step } from "@design-system-rte/core/components/stepper/stepper.interface";
 import type { TimeFormat } from "@design-system-rte/core/components/timepicker/timepicker.interface";
 import { TreeviewItemProps } from "@design-system-rte/core/components/treeview";
@@ -189,7 +189,7 @@ export class AppComponent {
     title: "Design System",
     version: "V1.0.0",
     icon: "home",
-    link: "/",
+    route: "/",
   };
 
   readonly headerSubHeaderConfig: HeaderSubHeaderConfig = {
@@ -249,52 +249,86 @@ export class AppComponent {
     console.log("Header avatar clicked");
   }
 
-  readonly baseNavigationItems: NavItemProps[] = [
-    { id: "home", label: "Home", icon: "home", hasLeadingIcon: true },
-    { id: "dashboard", label: "Dashboard", icon: "dashboard", hasLeadingIcon: true },
-    { id: "analytics", label: "Analytics", icon: "analytics", hasLeadingIcon: true },
-    { id: "settings", label: "Settings", icon: "settings", hasLeadingIcon: true },
-    { id: "profile", label: "Profile", icon: "user", hasLeadingIcon: true, link: "/profile" },
+  readonly baseNavigationItems: NavItem[] = [
+    { kind: "link", id: "home", label: "Home", icon: "home", hasLeadingIcon: true, route: "/home" },
+    {
+      kind: "link",
+      id: "dashboard",
+      label: "Dashboard",
+      icon: "dashboard",
+      hasLeadingIcon: true,
+      route: "/dashboard",
+    },
+    {
+      kind: "link",
+      id: "analytics",
+      label: "Analytics",
+      icon: "analytics",
+      hasLeadingIcon: true,
+      route: "/analytics",
+    },
+    {
+      kind: "link",
+      id: "settings",
+      label: "Settings",
+      icon: "settings",
+      hasLeadingIcon: true,
+      route: "/settings",
+    },
+    {
+      kind: "link",
+      id: "profile",
+      label: "Profile",
+      icon: "user",
+      hasLeadingIcon: true,
+      route: "/profile",
+    },
   ];
 
-  readonly navigationItems = computed<NavItemProps[]>(() => {
+  readonly navigationItems = computed<NavItem[]>(() => {
     return this.baseNavigationItems.map((item) => ({
       ...item,
       active: item.id === this.activeItem(),
-      onClick: () => {
-        this.activeItem.set(item.id || "");
-      },
     }));
   });
 
-  readonly baseFooterItems: NavItemProps[] = [
+  readonly baseFooterItems: NavItem[] = [
     {
+      kind: "link",
       id: "footer-settings",
       label: "Settings",
       icon: "settings",
       hasLeadingIcon: true,
+      route: "/settings",
     },
     {
+      kind: "link",
       id: "footer-help",
       label: "Help & Support",
       icon: "help",
       hasLeadingIcon: true,
-      link: "/help",
+      route: "/help",
     },
     {
+      kind: "group",
       id: "footer-account",
       label: "Account",
       icon: "user",
       hasLeadingIcon: true,
       items: [
-        { id: "footer-profile", label: "Profile", link: "/profile" },
-        { id: "footer-preferences", label: "Preferences" },
-        { id: "footer-logout", label: "Logout", onClick: () => console.log("Logout clicked") },
+        { kind: "link", id: "footer-profile", label: "Profile", route: "/profile", icon: "user" },
+        { kind: "link", id: "footer-preferences", label: "Preferences", route: "/preferences" },
+        {
+          kind: "action",
+          id: "footer-logout",
+          label: "Logout",
+          onClick: () => console.log("Logout clicked"),
+        },
       ],
     },
   ];
 
-  readonly footerItems = computed<NavItemProps[]>(() => {
+  readonly footerItems = computed<NavItem[]>(() => {
     return this.baseFooterItems.map((item) => ({
       ...item,
       active: item.id === this.activeItem(),

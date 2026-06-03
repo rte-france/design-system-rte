@@ -1,6 +1,4 @@
 import { computed, signal } from "@angular/core";
-import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
-import { NavMenuProps } from "@design-system-rte/core/components/side-nav/nav-menu/nav-menu.interface";
 import {
   TESTING_ENTER_KEY,
   TESTING_SPACE_KEY,
@@ -26,6 +24,22 @@ import {
   expectNavItemToBeActive,
 } from "./stories/helpers/expectations";
 import { mapNavItemsWithActiveState } from "./stories/helpers/nav-items-active-state";
+import {
+  deepCloneNavItems,
+  defaultHeaderConfig,
+  footerItems,
+  headerConfigWithOnClick,
+  headerConfigWithRoute,
+  navigationItems,
+  navigationItemsWithDividers,
+  navigationItemsWithLinkableSettingsGroup,
+  navigationItemsWithNested,
+  navigationItemsWithNestedActivePreselected,
+  navigationItemsWithNestedAndBadges,
+  navigationItemsWithNestedAndIds,
+  navigationItemsWithNestedNavMenuActivePreselected,
+} from "./stories/helpers/nav-items.fixtures";
+import { sideNavStoryRouterConfig } from "./stories/helpers/storybook-router";
 import { getCanvasAndSideNav, waitDelay } from "./stories/helpers/testHelpers";
 
 const meta: Meta<SideNavComponent> = {
@@ -33,6 +47,7 @@ const meta: Meta<SideNavComponent> = {
   component: SideNavComponent,
   tags: ["autodocs"],
   decorators: [
+    sideNavStoryRouterConfig,
     componentWrapperDecorator((story) => `<div style="height: 600px; width: 100%; display: flex;">${story}</div>`),
   ],
   argTypes: {
@@ -78,223 +93,6 @@ const PageContent = `
   </div>
 `;
 
-const baseNavItem = {
-  hasLeadingIcon: true,
-};
-
-const baseBadge = {
-  size: "m" as const,
-  content: "number" as const,
-};
-
-const baseNavItems = [
-  { ...baseNavItem, id: "home", label: "Home", icon: "home" },
-  { ...baseNavItem, id: "dashboard", label: "Dashboard", icon: "dashboard" },
-  { ...baseNavItem, id: "analytics", label: "Analytics", icon: "analytics" },
-  { ...baseNavItem, id: "settings", label: "Settings", icon: "settings" },
-  { ...baseNavItem, id: "profile", label: "Profile", icon: "user", link: "/profile" },
-];
-
-const navigationItems = baseNavItems;
-
-const navigationItemsWithNestedAndIds: NavItemProps[] = [
-  baseNavItems[0],
-  {
-    ...baseNavItems[1],
-    items: [
-      { id: "overview", label: "Overview" },
-      { id: "reports", label: "Reports" },
-      { id: "analytics-nested", label: "Analytics", icon: "analytics" },
-    ],
-  },
-  {
-    ...baseNavItems[3],
-    items: [
-      { id: "general", label: "General" },
-      { id: "privacy", label: "Privacy" },
-      {
-        id: "advanced",
-        label: "Advanced",
-        icon: "settings",
-        items: [
-          { id: "security", label: "Security" },
-          { id: "api-keys", label: "API Keys" },
-        ],
-      },
-    ],
-  },
-  baseNavItems[4],
-];
-
-const navigationItemsWithNestedNavMenuActivePreselected: NavItemProps[] = [
-  baseNavItems[0],
-  {
-    ...baseNavItems[3],
-    open: true,
-    items: [
-      { id: "general", label: "General" },
-      { id: "privacy", label: "Privacy" },
-      {
-        id: "advanced",
-        label: "Advanced",
-        icon: "settings",
-        open: true,
-        items: [
-          { id: "security", label: "Security", active: true },
-          { id: "api-keys", label: "API Keys" },
-        ],
-      } as NavMenuProps,
-    ],
-  } as NavMenuProps,
-  baseNavItems[4],
-];
-
-const navigationItemsWithNestedActivePreselected: NavItemProps[] = [
-  baseNavItems[0],
-  {
-    ...baseNavItems[1],
-    open: true,
-    items: [
-      { id: "overview", label: "Overview", active: true },
-      { id: "reports", label: "Reports" },
-      { id: "analytics-nested", label: "Analytics", icon: "analytics" },
-    ],
-  } as NavMenuProps,
-  {
-    ...baseNavItems[3],
-    items: [
-      { id: "general", label: "General" },
-      { id: "privacy", label: "Privacy" },
-      {
-        id: "advanced",
-        label: "Advanced",
-        icon: "settings",
-        items: [
-          { id: "security", label: "Security" },
-          { id: "api-keys", label: "API Keys" },
-        ],
-      },
-    ],
-  },
-  baseNavItems[4],
-];
-
-const navigationItemsWithNested = navigationItemsWithNestedAndIds;
-
-const navigationItemsWithNestedAndBadges: NavItemProps[] = [
-  { ...baseNavItems[0], badge: { ...baseBadge, badgeType: "indicator", count: 5 } },
-  {
-    ...baseNavItems[1],
-    badge: { ...baseBadge, badgeType: "indicator", count: 3 },
-    items: [
-      { id: "overview", label: "Overview", badge: { ...baseBadge, badgeType: "brand", count: 2 } },
-      { id: "reports", label: "Reports" },
-      {
-        id: "analytics-nested",
-        label: "Analytics",
-        icon: "analytics",
-        badge: { ...baseBadge, badgeType: "indicator", count: 12 },
-      },
-    ],
-  },
-  {
-    ...baseNavItems[3],
-    items: [
-      { id: "general", label: "General" },
-      { id: "privacy", label: "Privacy", icon: "privacy", badge: { ...baseBadge, badgeType: "brand", count: 1 } },
-      {
-        id: "advanced",
-        label: "Advanced",
-        icon: "settings",
-        badge: { ...baseBadge, badgeType: "indicator", count: 7 },
-        items: [
-          {
-            id: "security",
-            label: "Security",
-            icon: "security",
-            badge: { ...baseBadge, badgeType: "indicator", count: 99 },
-          },
-          { id: "api-keys", label: "API Keys" },
-        ],
-      },
-    ],
-  },
-  { ...baseNavItems[4], badge: { ...baseBadge, badgeType: "brand", count: 8 } },
-];
-
-const footerItems: NavItemProps[] = [
-  {
-    ...baseNavItem,
-    id: "footer-settings",
-    label: "Settings",
-    icon: "settings",
-  },
-  { ...baseNavItem, id: "footer-help", label: "Help & Support", icon: "help", link: "/help" },
-  {
-    ...baseNavItem,
-    id: "footer-account",
-    label: "Account",
-    icon: "user",
-    items: [
-      { id: "footer-profile", label: "Profile", link: "/profile", icon: "user" },
-      { id: "footer-preferences", label: "Preferences" },
-      { id: "footer-logout", label: "Logout", onClick: () => console.log("Logout clicked") },
-    ],
-  },
-];
-
-const navigationItemsWithDividers: NavItemProps[] = [
-  baseNavItems[0],
-  {
-    ...baseNavItems[1],
-    items: [
-      { id: "overview", label: "Overview" },
-      { id: "reports", label: "Reports", hasDivider: true },
-      { id: "analytics-nested", label: "Analytics", icon: "analytics" },
-    ],
-  },
-  { ...baseNavItems[2], hasDivider: true },
-  { ...baseNavItem, id: "reports", label: "Reports", icon: "info" },
-  {
-    ...baseNavItems[3],
-    hasDivider: true,
-    items: [
-      { id: "general", label: "General" },
-      { id: "privacy", label: "Privacy", hasDivider: true },
-      { id: "notifications", label: "Notifications" },
-      {
-        id: "advanced",
-        label: "Advanced",
-        icon: "settings",
-        hasDivider: true,
-        items: [
-          { id: "security", label: "Security" },
-          { id: "api-keys", label: "API Keys", hasDivider: true },
-          { id: "integrations", label: "Integrations" },
-        ],
-      },
-    ],
-  },
-  baseNavItems[4],
-];
-
-const defaultHeaderConfig = {
-  identifier: "MA",
-  title: "My Application",
-  version: "V1.2.3",
-  icon: "home",
-  link: "/",
-};
-
-const headerConfigWithLink = { ...defaultHeaderConfig };
-
-const headerConfigWithOnClick = {
-  ...defaultHeaderConfig,
-  onClick: () => {
-    console.log("Header clicked");
-  },
-};
-
 const defaultRender = (args: StoryArgs) => ({
   props: args,
   template: `
@@ -318,7 +116,7 @@ export const Default: Story = {
       title: "My Header",
       icon: "home",
       identifier: "MA",
-      link: "/my-application",
+      route: "/my-application",
     },
     appearance: "brand",
     size: "m",
@@ -361,9 +159,15 @@ export const WithNestedMenus: Story = {
   render: defaultRender,
 };
 
-function deepCloneNavItems(items: NavItemProps[]): NavItemProps[] {
-  return JSON.parse(JSON.stringify(items));
-}
+export const LinkableSettingsGroup: Story = {
+  args: {
+    ...Default.args,
+    headerConfig: defaultHeaderConfig,
+    items: navigationItemsWithLinkableSettingsGroup,
+    collapsible: true,
+  },
+  render: defaultRender,
+};
 
 const keyboardNavigationRender = (args: StoryArgs) => ({
   props: {
@@ -522,7 +326,7 @@ export const KeyboardNavigation: Story = {
 export const HeaderClickability: Story = {
   args: {
     ...Default.args,
-    headerConfig: { ...defaultHeaderConfig, link: null },
+    headerConfig: { ...defaultHeaderConfig, route: null },
     collapsible: true,
   },
   render: defaultRender,
@@ -540,21 +344,20 @@ export const HeaderClickability: Story = {
   },
 };
 
-export const HeaderWithLink: Story = {
+export const HeaderWithRoute: Story = {
   args: {
     ...Default.args,
-    headerConfig: headerConfigWithLink,
+    headerConfig: headerConfigWithRoute,
     collapsible: true,
   },
   render: defaultRender,
   play: async ({ canvasElement, step }) => {
     const { sideNav } = getCanvasAndSideNav(canvasElement);
 
-    await step("Verify header is a link when link prop is provided", async () => {
+    await step("Verify header is a link when route prop is provided", async () => {
       const headerTitleContainer = getHeaderTitleContainer(sideNav);
       expect(headerTitleContainer).not.toBeNull();
       expect(headerTitleContainer?.tagName).toBe("A");
-      expect(headerTitleContainer).toHaveAttribute("href", "/");
       expect(headerTitleContainer).toHaveStyle({ cursor: "pointer" });
     });
 
@@ -569,7 +372,7 @@ export const HeaderWithLink: Story = {
 export const HeaderWithOnClick: Story = {
   args: {
     ...Default.args,
-    headerConfig: { ...headerConfigWithOnClick, link: null },
+    headerConfig: headerConfigWithOnClick,
     collapsible: true,
   },
   render: defaultRender,
@@ -579,7 +382,7 @@ export const HeaderWithOnClick: Story = {
     await step("Verify header is clickable button when onClick is provided", async () => {
       const headerTitleContainer = getHeaderTitleContainer(sideNav);
       expect(headerTitleContainer).not.toBeNull();
-      expect(headerTitleContainer?.tagName).toBe("DIV");
+      expect(headerTitleContainer?.tagName).toBe("BUTTON");
       await userEvent.click(headerTitleContainer!);
       expect(headerTitleContainer).toHaveStyle({ cursor: "pointer" });
     });
@@ -902,11 +705,7 @@ export const ActiveItemState: Story = {
     };
 
     const itemsWithActiveState = computed(() => {
-      return args.items.map((item: NavItemProps) => ({
-        ...item,
-        active: item.id === activeItemId(),
-        link: undefined,
-      }));
+      return mapNavItemsWithActiveState(args.items ?? [], activeItemId());
     });
 
     return {

@@ -1,10 +1,7 @@
-import { NavItemProps } from "../nav-item/nav-item.interface";
+import { NavGroupItem } from "../nav-item/nav-item.interface";
 import { SideNavContrast } from "../side-nav.interface";
 
-export interface NavMenuProps extends NavItemProps {
+export interface NavMenuComponentProps extends NavGroupItem {
   contrast?: SideNavContrast;
-  items: NavItemProps[];
-  open?: boolean;
-  hasMenuIcon?: boolean;
   onOpenChange?: (open: boolean) => void;
 }
