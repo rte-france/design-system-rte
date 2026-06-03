@@ -1,0 +1,117 @@
+<div class="rte-daterangepicker" [style.width]="width()">
+  @if (hasLabel()) {
+    <div class="rte-daterangepicker-header">
+      <label class="rte-daterangepicker-label" [attr.id]="groupLabelId()">
+        {{ labelText() }}
+        @if (required() || showLabelRequirement()) {
+          <span
+            class="requirement-indicator"
+            aria-hidden="true"
+            [class.required]="required()"
+            [class.show-label-requirement]="showLabelRequirement()"
+            >{{ requirementIndicatorValue() }}</span
+          >
+        }
+      </label>
+    </div>
+  }
+
+  <div
+    class="rte-daterangepicker-dropdown"
+    rteDropdown
+    [rteDropdownAutoOpen]="false"
+    [rteDropdownIsOpen]="isOpen()"
+    [rteDropdownWidth]="dropdownWidth()"
+    [rteDropdownOffset]="8"
+    (clickedOutside)="onClickedOutside()"
+    (closedDropdown)="onClosedDropdown()"
+  >
+    <div
+      class="rte-daterangepicker-inputs"
+      rteDropdownTrigger
+      role="group"
+      [attr.aria-labelledby]="groupAriaLabelledby()"
+    >
+      <span class="visually-hidden" [id]="startInputLabelId()">Date de début</span>
+      <rte-datepicker-segmented-field
+        [id]="startFieldId()"
+        [hasLabel]="false"
+        [hasAssistiveText]="false"
+        [width]="rangeFieldWidth"
+        [describedBy]="fieldDescribedBy()"
+        [ariaLabelledby]="startFieldAriaLabelledby()"
+        [ariaRequired]="required()"
+        [locale]="locale()"
+        [value]="textValueStart()"
+        [error]="isError()"
+        [disabled]="isDisabled()"
+        [readOnly]="readOnly()"
+        [highlighted]="isOpen() && activeInput() === 'start'"
+        [rightIconAriaLabel]="startCalendarButtonAriaLabel()"
+        (valueChange)="onStartInputValueChange($event)"
+        (rightIconClick)="onStartCalendarIconTriggered($event)"
+        (rightIconKeydown)="onStartCalendarIconTriggered($event)"
+        (segmentedControlClick)="onSegmentedControlClicked()"
+        (inputBlur)="onInputBlurred()"
+      />
+      <rte-icon class="rte-daterangepicker-separator" name="arrow-double-right" size="20" />
+      <span class="visually-hidden" [id]="endInputLabelId()">Date de fin</span>
+      <rte-datepicker-segmented-field
+        [id]="endFieldId()"
+        [hasLabel]="false"
+        [hasAssistiveText]="false"
+        [width]="rangeFieldWidth"
+        [describedBy]="fieldDescribedBy()"
+        [ariaLabelledby]="endFieldAriaLabelledby()"
+        [ariaRequired]="required()"
+        [locale]="locale()"
+        [value]="textValueEnd()"
+        [error]="isError()"
+        [disabled]="isDisabled()"
+        [readOnly]="readOnly()"
+        [highlighted]="isOpen() && activeInput() === 'end'"
+        [rightIconAriaLabel]="endCalendarButtonAriaLabel()"
+        (valueChange)="onEndInputValueChange($event)"
+        (rightIconClick)="onEndCalendarIconTriggered($event)"
+        (rightIconKeydown)="onEndCalendarIconTriggered($event)"
+        (segmentedControlClick)="onSegmentedControlClicked()"
+        (inputBlur)="onInputBlurred()"
+      />
+    </div>
+
+    <rte-dropdown-menu>
+      <ng-template rteDropdownMenuBody>
+        <rte-daterangepicker-menu
+          [calendarType]="calendarType()"
+          [viewDate]="viewDate()"
+          [selectedDates]="menuDisplayRange()"
+          [selectionMode]="selectionMode()"
+          [minDate]="minDate()"
+          [maxDate]="maxDate()"
+          [disabledDates]="disabledDates()"
+          [locale]="locale()"
+          [hasActions]="hasActions()"
+          [focusSessionId]="menuFocusSessionId()"
+          [initialActiveDate]="menuInitialActiveDate()"
+          (dismiss)="onDismiss()"
+          (dateSelected)="onMenuDateSelected($event)"
+          (navigateViewFromHeaderControls)="onMenuNavigateViewFromHeaderControls($event)"
+          (navigateViewFromStructurePick)="onMenuNavigateViewFromStructurePick($event)"
+          (dateKeyboardNavigate)="onMenuKeyboardNavigate($event)"
+          (calendarTypeChange)="onMenuCalendarTypeChange($event)"
+          (cancel)="onCancel()"
+          (confirm)="onConfirm()"
+        />
+      </ng-template>
+    </rte-dropdown-menu>
+  </div>
+
+  @if (showAssistiveOnHost()) {
+    <rte-assistive-text
+      [attr.id]="fieldDescribedBy()"
+      [label]="assistiveTextLabel()"
+      [appearance]="isError() ? 'error' : assistiveTextAppearance()"
+      [showIcon]="showAssistiveIcon()"
+    />
+  }
+</div>
