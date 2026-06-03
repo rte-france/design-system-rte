@@ -1,0 +1,115 @@
+@use '@design-system-rte/core/design-tokens/main.scss' as *;
+
+.nav-item-container {
+  @include typography-button-m;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  gap: $positive-spacing_100;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  align-items: center;
+  box-sizing: border-box;
+  border-left: $width-m solid transparent;
+  color: var(--rte-side-nav-item-label);
+  transition: border-left 0.2s ease;
+
+  &:link,
+  &:visited {
+    text-decoration: none;
+    color: inherit;
+
+    &:hover {
+      text-decoration: none;
+      color: inherit;
+    }
+  }
+
+  &:hover {
+    background: var(--rte-side-nav-item-bg-hover);
+    color: var(--rte-side-nav-item-label);
+  }
+
+  &.active {
+    background: var(--rte-side-nav-item-bg-pressed);
+    border-left: $width-m solid var(--rte-side-nav-item-border-active);
+    color: var(--rte-side-nav-item-label);
+  }
+
+  &:active {
+    &.focused {
+      outline: none;
+    }
+  }
+
+  .nav-item {
+    display: flex;
+    width: 100%;
+    padding: $positive-spacing_100 $positive-spacing_075;
+    align-items: center;
+    gap: $positive-spacing_100;
+    flex: 1 0 0;
+    user-select: none;
+    outline: none;
+    justify-content: space-between;
+
+    &:link,
+    &:visited {
+      text-decoration: none;
+      color: inherit;
+
+      &:hover {
+        text-decoration: none;
+        color: inherit;
+      }
+    }
+
+    .nav-item-left {
+      display: flex;
+      align-items: center;
+      gap: $positive-spacing_100;
+    }
+
+    .nav-item-right {
+      display: flex;
+      align-items: center;
+      gap: $positive-spacing_050;
+    }
+  }
+
+  &.focused {
+    outline: 1px solid var(--border-brand-focused);
+    outline-offset: 0;
+  }
+
+  &.collapsed {
+    justify-content: center;
+    border-left: none;
+
+    .nav-item {
+      padding: $positive-spacing_100 $positive-spacing_150;
+      justify-content: center;
+      gap: 0;
+    }
+  }
+
+  &.nested {
+    @include typography-button-s;
+
+    border-left: $width-xs solid var(--rte-side-nav-item-border-hierarchy);
+    transition: border-left 0.2s ease;
+
+    .nav-item {
+      padding: $positive-spacing_050 $positive-spacing_100;
+    }
+
+    &.active {
+      border-left: $width-m solid var(--rte-side-nav-item-border-active);
+    }
+  }
+
+  &:focus-visible {
+    outline: 1px solid var(--border-brand-focused);
+    outline-offset: 0;
+  }
+}
