@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { expect, userEvent, waitFor, within } from "@storybook/test";
+import { expect, fn, userEvent, waitFor, within } from "@storybook/test";
 import { useState } from "react";
 
 import headerStoryRteLogoUrl from "../../../../../design-docs/src/img/rte.png";
@@ -25,11 +25,12 @@ export const Default: Story = {
     appearance: "brand",
     hasDivider: false,
     hasAvatar: true,
-    actionButton: { label: "Action", iconName: "add" },
+    hasSearchbar: true,
+    actionButton: { label: "Partager", iconName: "share" },
     iconButtons: [
       {
         iconName: "notification",
-        ariaLabel: "Notifications",
+        ariaLabel: "Notification",
         badge: { count: 3, badgeType: "indicator", size: "s", content: "number" },
       },
       {
@@ -336,6 +337,51 @@ export const MobileMenuContent: Story = {
         />
       </>
     );
+  },
+};
+
+export const DesktopInteraction: Story = {
+  args: {
+    ...Default.args,
+    searchbarProps: {
+      label: "Rechercher",
+      assistiveText: "Rechercher dans l'application",
+      value: "rte",
+      onSearch: fn(),
+    },
+    onActionButtonClick: fn(),
+    onIconButtonClick: fn(),
+    onClickAvatar: fn(),
+  },
+
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
+    const header = canvas.getByRole("banner");
+    const searchRegion = within(header).getByRole("search");
+
+    await userEvent.click(within(searchRegion).getByRole("button", { name: "Rechercher" }));
+
+    await waitFor(() => {
+      expect(args.searchbarProps?.onSearch).toHaveBeenCalledWith("rte");
+    });
+
+    await userEvent.click(within(header).getByRole("button", { name: "Partager" }));
+
+    await waitFor(() => {
+      expect(args.onActionButtonClick).toHaveBeenCalled();
+    });
+
+    await userEvent.click(within(header).getByRole("button", { name: "Notification" }));
+
+    await waitFor(() => {
+      expect(args.onIconButtonClick).toHaveBeenCalledWith("notification");
+    });
+
+    await userEvent.click(within(header).getByRole("button", { name: "Avatar button" }));
+
+    await waitFor(() => {
+      expect(args.onClickAvatar).toHaveBeenCalled();
+    });
   },
 };
 

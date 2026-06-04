@@ -68,7 +68,7 @@ const Avatar = forwardRef<HTMLDivElement | HTMLButtonElement, AvatarProps>(
       colorType = "neutral",
       decorativeColor,
       onClick,
-      "aria-label": ariaLabel,
+      "aria-label": ariaLabel = "Avatar button",
     }: AvatarProps,
     ref,
   ) => {
