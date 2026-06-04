@@ -45,6 +45,8 @@ interface HeaderProps {
   showAtScrollUp?: boolean;
   homeLink?: string;
   mobileSearchButtonAriaLabel?: string;
+  onActionButtonClick?: () => void;
+  onIconButtonClick?: (iconName: string) => void;
   onSearchActiveChange?: (isActive: boolean) => void;
   mobileMenuContent?: React.ReactNode;
   onMobileMenuClick?: () => void;
@@ -85,6 +87,8 @@ const Header = ({
   mobileMenuItems,
   onMobileMenuClose,
   mobileMenuIconProps,
+  onActionButtonClick,
+  onIconButtonClick,
 }: HeaderProps) => {
   const { isMobile } = useBreakpoints();
 
@@ -182,6 +186,7 @@ const Header = ({
                     disabled={actionButton.disabled}
                     size={compactSpacing ? "s" : "m"}
                     variant={appearance === "brand" ? "primary" : "neutral"}
+                    onClick={onActionButtonClick}
                   />
                 )}
                 {hasIconButtons && (
@@ -198,6 +203,7 @@ const Header = ({
                           badgeContent={iconButton.badge?.content}
                           badgeIcon={iconButton.badge?.icon}
                           badgeType={iconButton.badge?.badgeType}
+                          onClick={() => onIconButtonClick?.(iconButton.iconName)}
                         />
                       </div>
                     ))}
