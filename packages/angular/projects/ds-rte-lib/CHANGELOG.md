@@ -1,17 +1,15 @@
 # @design-system-rte/angular
 
-## 2.0.0
+## 1.9.0
 
 ### Minor Changes
 
 - fe8d9af: ## Changes
-  - (Datepicker) react : add date validation
   - (Datepicker) angular - remove mutted color on placeholder
   - (Datepicker) add segmented-date-field inner component
   - (Datepicker) add base Datepicker structure
 
 - b4e910a: ## Changes
-  - (Date Range Picker) react - handle all behavior
   - (Date Range Picker) extract common method and hooks into pickers folder
 
 - 873f0cd: ## Changes

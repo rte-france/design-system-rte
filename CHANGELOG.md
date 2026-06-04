@@ -2,13 +2,12 @@
 
 # Angular
 
-## 2.0.0
+## 1.9.0
 
 ### Datepicker
 
 #### Minor Changes
 
-- react : add date validation
 - angular - remove mutted color on placeholder
 - add segmented-date-field inner component
 - add base Datepicker structure
@@ -17,7 +16,6 @@
 
 #### Minor Changes
 
-- react - handle all behavior
 - extract common method and hooks into pickers folder
 
 ### Searchbar
