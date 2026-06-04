@@ -49,7 +49,7 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
   ) => {
     const dividerAppearance = getDividerAppearanceBySideNavTheme(appearance, contrast);
     const [internalOpen, setInternalOpen] = useState(false);
-    const isOpen = controlledOpen !== undefined ? controlledOpen : internalOpen;
+    const isOpen = controlledOpen ?? internalOpen;
     const isControlled = controlledOpen !== undefined;
 
     function toggleMenu() {

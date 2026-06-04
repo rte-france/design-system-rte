@@ -1,12 +1,16 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, effect, input, output, signal } from "@angular/core";
-import { getDividerAppearanceBySideNavTheme } from "@design-system-rte/core";
-import { SideNavAppearance, SideNavContrast, SideNavHeaderConfig } from "@design-system-rte/core";
 import { DividerAppearance } from "@design-system-rte/core/components/divider/divider.interface";
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
 import { setNavMenuOpenById } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.utils";
 import { NavMenuProps } from "@design-system-rte/core/components/side-nav/nav-menu/nav-menu.interface";
-import { SideNavSize } from "@design-system-rte/core/components/side-nav/side-nav.interface";
+import { getDividerAppearanceBySideNavTheme } from "@design-system-rte/core/components/side-nav/side-nav.constants";
+import {
+  SideNavAppearance,
+  SideNavContrast,
+  SideNavHeaderConfig,
+  SideNavSize,
+} from "@design-system-rte/core/components/side-nav/side-nav.interface";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
 import { DividerComponent } from "../divider/divider.component";

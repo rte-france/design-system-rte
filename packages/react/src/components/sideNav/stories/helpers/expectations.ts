@@ -1,5 +1,4 @@
-import { expect, waitFor } from "@storybook/test";
-import { within } from "@storybook/test";
+import { expect, waitFor, within } from "@storybook/test";
 
 import { getNavElement, getNavItemContainer } from "./elementFinders";
 
