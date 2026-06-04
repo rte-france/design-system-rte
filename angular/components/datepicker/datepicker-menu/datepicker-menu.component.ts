@@ -11,6 +11,7 @@ import {
   output,
   signal,
 } from "@angular/core";
+import { getDayCellIndexForDate, isSameDay } from "@design-system-rte/core";
 import { waitForNextFrame } from "@design-system-rte/core/common/animation";
 import {
   addDays,
@@ -25,7 +26,6 @@ import {
   DATEPICKER_YEAR_GRID_PAGE_SIZE,
   formatDate,
   getDatepickerGridArrowDelta,
-  getDayCellIndexForDate,
   getDecadeRangeLabel,
   getDecadeStartYear,
   getMonthLabel,
@@ -34,7 +34,6 @@ import {
   getYearLabel,
   isDateDisabled,
   navigateViewDate,
-  isSameDay,
   startOfDay,
 } from "@design-system-rte/core/components/datepicker";
 import {

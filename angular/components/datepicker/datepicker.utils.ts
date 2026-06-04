@@ -10,7 +10,7 @@ import {
   startOfDay,
   startOfMonth,
 } from "@design-system-rte/core";
-import { getMondayBasedWeekdayIndex, isSameMonth } from "@design-system-rte/core/components/datepicker";
+import { getMondayBasedWeekdayIndex, isSameMonth } from "@design-system-rte/core";
 
 function getTodayStart(): Date {
   return startOfDay(new Date());
