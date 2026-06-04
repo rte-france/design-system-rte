@@ -8,12 +8,11 @@
     gap: $positive-spacing_100;
     padding: $positive-spacing_100 $positive-spacing_075;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, border-left 0.2s ease;
     align-items: center;
     box-sizing: border-box;
     border-left: $width-m solid transparent;
     color: var(--rte-side-nav-item-label);
-    transition: border-left 0.2s ease;
 
     &:link,
     &:visited {
