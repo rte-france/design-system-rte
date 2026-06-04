@@ -84,7 +84,7 @@ export class ModalDirective implements AfterContentInit, OnDestroy {
       return;
     }
 
-    this.modalCompRef = this.overlayService.create(ModalComponent, this.viewContainerRef, true);
+    this.modalCompRef = this.overlayService.create(ModalComponent, this.viewContainerRef);
 
     this.modalCompRef?.instance.closeModal.subscribe(() => {
       this.closeModal();
@@ -93,6 +93,7 @@ export class ModalDirective implements AfterContentInit, OnDestroy {
     this.modalElement = this.modalCompRef?.location.nativeElement.children[0].children[1];
 
     this.assignInputsValues();
+    document.body.style.overflow = "hidden";
   }
 
   private handleKeydown(event: KeyboardEvent) {
@@ -144,6 +145,7 @@ export class ModalDirective implements AfterContentInit, OnDestroy {
       this.modalCompRef.destroy();
       this.modalCompRef = null;
       this.overlayService.destroy();
+      document.body.style.overflow = "unset";
     }
   }
 }

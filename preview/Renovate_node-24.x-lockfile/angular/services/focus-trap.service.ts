@@ -87,7 +87,7 @@ export class FocusTrapService {
       return;
     }
     const index = Math.min(Math.max(this.initialFocusIndex, 0), focusable.length - 1);
-    focusable[index]?.focus();
+    focusable[index]?.focus({ preventScroll: true });
   }
 
   private handleTab(event: KeyboardEvent): void {

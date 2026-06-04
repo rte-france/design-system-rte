@@ -1,6 +1,5 @@
-import { BaseInput } from '../../../../../core/components/base-input/base-input.interface';
-interface BaseInputPickerProps extends BaseInput {
-    value?: string;
+import { BaseInputProps } from '../../../../../core/components/common/input/input.interface';
+export interface BaseInputPickerProps extends BaseInputProps<string> {
     onChange?: () => void;
     icon?: string;
     isFocused?: boolean;
@@ -8,11 +7,14 @@ interface BaseInputPickerProps extends BaseInput {
     pickerRef?: React.RefObject<HTMLDivElement>;
     onFocus?: () => void;
     onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
-    onMouseUp?: () => void;
+    onMouseUp?: (event: React.MouseEvent<HTMLInputElement>) => void;
+    onMouseDown?: () => void;
     onOpenPicker?: () => void;
+    onBlur?: () => void;
     ariaLabelledBy?: string;
+    ariaDescribedBy?: string;
     openButtonAriaLabel?: string;
     fixedWidth?: boolean;
 }
-declare const BaseInputPicker: ({ id, value, readOnly, icon, onChange, onFocus, onKeyDown, onMouseUp, onOpenPicker, isFocused, pickerInputRef, pickerRef, ariaLabelledBy, isError, disabled, openButtonAriaLabel, fixedWidth, }: BaseInputPickerProps) => import("react/jsx-runtime").JSX.Element;
+declare const BaseInputPicker: ({ id, value, readOnly, icon, onChange, onFocus, onKeyDown, onMouseUp, onMouseDown, onOpenPicker, onBlur, isFocused, pickerInputRef, pickerRef, ariaLabelledBy, ariaDescribedBy, isError, disabled, openButtonAriaLabel, fixedWidth, }: BaseInputPickerProps) => import("react/jsx-runtime").JSX.Element;
 export default BaseInputPicker;
