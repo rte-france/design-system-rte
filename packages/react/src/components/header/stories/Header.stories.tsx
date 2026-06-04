@@ -51,7 +51,13 @@ export const Default: Story = {
       { label: "Tableau de bord", href: "/dashboard", active: true },
       { label: "Documentation", href: "/documentation", disabled: true },
     ],
-    avatarProps: { alt: "Profil", initials: "JR", isInteractive: true, layout: "initials", colorType: "brand" },
+    avatarProps: {
+      alt: "Profil",
+      initials: "JD",
+      layout: "initials",
+      colorType: "brand",
+      status: "available",
+    },
     subHeaderConfig: {
       items: [
         { label: "Accueil", link: "/" },
@@ -351,7 +357,10 @@ export const DesktopInteraction: Story = {
     },
     onActionButtonClick: fn(),
     onIconButtonClick: fn(),
-    onClickAvatar: fn(),
+    avatarProps: {
+      ...Default.args?.avatarProps,
+      onClick: fn(),
+    },
   },
 
   play: async ({ args, canvasElement }) => {
@@ -380,7 +389,7 @@ export const DesktopInteraction: Story = {
     await userEvent.click(within(header).getByRole("button", { name: "Avatar button" }));
 
     await waitFor(() => {
-      expect(args.onClickAvatar).toHaveBeenCalled();
+      expect(args.avatarProps?.onClick).toHaveBeenCalled();
     });
   },
 };

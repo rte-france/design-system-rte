@@ -1,5 +1,6 @@
 import { Alignment, DropdownItemProps, HeaderIconButtonConfig, Position } from "@design-system-rte/core";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+import { RegularIconIdKey, TogglableIconIdKey } from "src/components/icon/Icon";
 
 import useAnimatedMount from "../../../hooks/useAnimatedMount";
 import { useClickAway } from "../../../hooks/useClickAway";
@@ -13,6 +14,7 @@ import { concatClassNames } from "../../utils";
 import styles from "./HeaderMobile.module.scss";
 
 interface HeaderMobileProps {
+  homeLink?: string;
   logoSrc?: string;
   applicationName?: string;
   compactSpacing?: boolean;
@@ -23,17 +25,19 @@ interface HeaderMobileProps {
   leftSectionContent?: React.ReactNode;
   middleSectionContent?: React.ReactNode;
   rightSectionContent?: React.ReactNode;
-  mobileSearchButtonAriaLabel: string;
+  mobileSearchButtonAriaLabel?: string;
   onSearchActiveChange?: (isActive: boolean) => void;
-  mobileMenuContent: React.ReactNode;
+  mobileMenuContent?: React.ReactNode;
   onMobileMenuClick?: () => void;
   isMobileMenuOpen?: boolean;
   mobileMenuItems?: DropdownItemProps[];
   onMobileMenuClose?: () => void;
-  mobileMenuIconProps?: HeaderIconButtonConfig;
+  mobileMenuIconProps?: HeaderIconButtonConfig<RegularIconIdKey | TogglableIconIdKey>;
+  hasSearchbar?: boolean;
 }
 
 const HeaderMobile = ({
+  homeLink,
   hasLeftSection,
   leftSectionContent,
   logoSrc,
@@ -48,14 +52,26 @@ const HeaderMobile = ({
   mobileMenuItems,
   onMobileMenuClose,
   mobileMenuIconProps,
+  hasSearchbar,
 }: HeaderMobileProps) => {
   const [isSearchbarExpanded, setIsSearchbarExpanded] = useState(false);
   const headerRef = useRef<HTMLDivElement>(null);
+  const searchbarRef = useRef<HTMLInputElement>(null);
 
   useClickAway(() => {
-    setIsSearchbarExpanded(false);
-    onSearchActiveChange?.(false);
+    setIsSearchbarExpanded((prev) => {
+      if (!prev) return prev;
+      onSearchActiveChange?.(false);
+      return false;
+    });
   }, headerRef.current!);
+
+  useEffect(() => {
+    if (!isSearchbarExpanded) return;
+    if (searchbarRef.current) {
+      searchbarRef.current.focus();
+    }
+  }, [isSearchbarExpanded]);
 
   const { isAnimating: isSearchbarExpandedAnimating } = useAnimatedMount(isSearchbarExpanded, 200);
 
@@ -90,7 +106,7 @@ const HeaderMobile = ({
           leftSectionContent || (
             <>
               {logoSrc && (
-                <a href="/" aria-label="Home" className={styles["rte-header-home"]}>
+                <a href={homeLink} aria-label="Home" className={styles["rte-header-home"]}>
                   <img src={logoSrc} alt="Logo" className={styles["rte-header-logo"]} />
                 </a>
               )}
@@ -111,34 +127,40 @@ const HeaderMobile = ({
           </span>
         )}
 
-        <div className={styles["rte-header-search"]}>
-          <div
-            className={styles["rte-search-icon-container"]}
-            data-is-searchbar-expanded={isSearchbarExpandedAnimating}
-          >
-            <IconButton
-              role="button"
-              name="search"
-              variant="text"
-              onClick={() => {
-                setIsSearchbarExpanded((prev) => {
-                  const newState = !prev;
-                  onSearchActiveChange?.(newState);
-                  return newState;
-                });
-              }}
-              compactSpacing={compactSpacing}
-              aria-label={mobileSearchButtonAriaLabel}
-            />
+        {hasSearchbar && (
+          <div className={styles["rte-header-search"]}>
+            <div
+              className={styles["rte-search-icon-container"]}
+              data-is-searchbar-expanded={isSearchbarExpandedAnimating}
+            >
+              <IconButton
+                role="button"
+                name="search"
+                variant="text"
+                onClick={() => {
+                  setIsSearchbarExpanded((prev) => {
+                    const newState = !prev;
+                    onSearchActiveChange?.(newState);
+                    return newState;
+                  });
+                }}
+                compactSpacing={compactSpacing}
+                aria-label={mobileSearchButtonAriaLabel}
+              />
+            </div>
+            <div
+              className={styles["rte-searchbar-container"]}
+              data-is-searchbar-expanded={isSearchbarExpandedAnimating}
+            >
+              <Searchbar
+                ref={searchbarRef}
+                compactSpacing={compactSpacing}
+                appearance={appearance === "brand" ? "primary" : "secondary"}
+                width={"100%"}
+              />
+            </div>
           </div>
-          <div className={styles["rte-searchbar-container"]} data-is-searchbar-expanded={isSearchbarExpandedAnimating}>
-            <Searchbar
-              compactSpacing={compactSpacing}
-              appearance={appearance === "brand" ? "primary" : "secondary"}
-              width={"100%"}
-            />
-          </div>
-        </div>
+        )}
       </div>
       <div className={styles["rte-header-right"]}>
         {mobileMenuContent ? (
