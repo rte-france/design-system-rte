@@ -8,10 +8,13 @@ interface TextInputProps
     CoreTextInputProps,
     Omit<InputHTMLAttributes<HTMLInputElement>, "id" | "onChange" | "value" | "defaultValue" | "placeholder"> {
   onChange?: (value: string) => void;
+  onEnterKeyDown?: (value: string) => void;
 }
 
-const TextInput = forwardRef<HTMLInputElement, TextInputProps>(({ id, ...props }: TextInputProps, ref) => {
-  return <BaseTextInput id={id} {...props} ref={ref} placeholder={undefined} />;
-});
+const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
+  ({ id, onEnterKeyDown, ...props }: TextInputProps, ref) => {
+    return <BaseTextInput id={id} {...props} ref={ref} placeholder={undefined} onEnterKeyDown={onEnterKeyDown} />;
+  },
+);
 
 export default TextInput;
