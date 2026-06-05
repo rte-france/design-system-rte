@@ -26,6 +26,7 @@
   }
 
   &[data-tag-type="status"] {
+
     &[data-status="success"],
     &[data-status="information"],
     &[data-status="alert"] {
@@ -39,50 +40,70 @@
       alert: --background-danger-default
     );
 
-    @each $name, $var in $status-colors {
-      &[data-status="#{$name}"] {
-        background-color: var(#{$var});
-      }
+  @each $name, $var in $status-colors {
+    &[data-status="#{$name}"] {
+      background-color: var(#{$var});
     }
   }
+}
 
-  &[data-tag-type="decorative"] {
-    $decorative-colors: (
-      brand: --background-brand-default,
-      neutral: --decorative-neutral,
-      azur: --decorative-bleu-iceberg,
-      jade: --decorative-vert-foret,
-      lavande: --decorative-violet,
-      ciel: --decorative-bleu-rte,
-      nuage: --decorative-bleu-digital,
-      givre: --decorative-marine,
-      brume: --decorative-bleu-petrole,
-      glacier: --decorative-bleu-cyan,
-      turquoise: --decorative-vert,
-      anis: --decorative-vert-indications,
-      menthe: --decorative-vert-digital,
-      citronnelle: --decorative-jaune,
-      sable: --decorative-jaune-ocre,
-      abricot: --decorative-jaune-indications,
-      coral: --decorative-saumon,
-      rose: --decorative-rose-digital,
-      petale: --decorative-fuschia,
-      quartz: --decorative-rouge-indication,
-      cendre: --decorative-taupe
-    );
+&[data-tag-type="decorative"] {
+  $decorative-colors: (
+    brand: --background-brand-default,
+    neutral: --decorative-neutral,
+    neutral-bold: --decorative-neutral-bold,
+    bleu-iceberg: --decorative-bleu-iceberg,
+    bleu-iceberg-bold: --decorative-bleu-iceberg-bold,
+    vert-foret: --decorative-vert-foret,
+    vert-foret-bold: --decorative-vert-foret-bold,
+    violet: --decorative-violet,
+    violet-bold: --decorative-violet-bold,
+    bleu-rte: --decorative-bleu-rte,
+    bleu-rte-bold: --decorative-bleu-rte-bold,
+    bleu-digital: --decorative-bleu-digital,
+    bleu-digital-bold: --decorative-bleu-digital-bold,
+    marine: --decorative-marine,
+    marine-bold: --decorative-marine-bold,
+    bleu-petrole: --decorative-bleu-petrole,
+    bleu-petrole-bold: --decorative-bleu-petrole-bold,
+    bleu-cyan: --decorative-bleu-cyan,
+    bleu-cyan-bold: --decorative-bleu-cyan-bold,
+    vert: --decorative-vert,
+    vert-bold: --decorative-vert-bold,
+    vert-indications: --decorative-vert-indications,
+    vert-indications-bold: --decorative-vert-indications-bold,
+    vert-digital: --decorative-vert-digital,
+    vert-digital-bold: --decorative-vert-digital-bold,
+    jaune: --decorative-jaune,
+    jaune-bold: --decorative-jaune-bold,
+    jaune-ocre: --decorative-jaune-ocre,
+    jaune-ocre-bold: --decorative-jaune-ocre-bold,
+    jaune-indications: --decorative-jaune-indications,
+    jaune-indications-bold: --decorative-jaune-indications-bold,
+    saumon: --decorative-saumon,
+    saumon-bold: --decorative-saumon-bold,
+    rose: --decorative-rose-digital,
+    rose-bold: --decorative-rose-digital-bold,
+    fuschia: --decorative-fuschia,
+    fuschia-bold: --decorative-fuschia-bold,
+    rouge-indication: --decorative-rouge-indication,
+    rouge-indication-bold: --decorative-rouge-indication-bold,
+    taupe: --decorative-taupe,
+    taupe-bold: --decorative-taupe-bold
+  );
 
-    @each $name, $var in $decorative-colors {
-      &[data-color="#{'' + $name}"] {
-        background-color: var(#{$var});
-      }
-    }
-
-    &[data-color="brand"] {
-      color: var(--content-primary-inverse);
-
-      .rte-tag-label {
-        color: var(--content-primary-inverse);
-      }
-    }
+@each $name, $var in $decorative-colors {
+  &[data-color="#{'' + $name}"] {
+    background-color: var(#{$var});
   }
+}
+
+&[data-color="brand"] {
+  color: var(--content-primary-inverse);
+
+  .rte-tag-label {
+    color: var(--content-primary-inverse);
+  }
+}
+}
 }
