@@ -64,6 +64,7 @@ export class BaseInputComponent {
   readonly useLabelForAttribute = input<boolean>(true);
 
   readonly valueChange = output<string>();
+  readonly enterKeyDown = output<string>();
   readonly inputBlur = output<void>();
   readonly rightIconClick = output<MouseEvent | KeyboardEvent>();
   readonly rightIconKeydown = output<KeyboardEvent>();
@@ -157,6 +158,12 @@ export class BaseInputComponent {
 
   protected computeShouldShowRightIcon(): boolean {
     return this.showRightIcon();
+  }
+
+  handleKeyDown(event: KeyboardEvent): void {
+    if (event.key === "Enter") {
+      this.enterKeyDown.emit(this.internalValue());
+    }
   }
 
   onLabelClick(event: MouseEvent): void {

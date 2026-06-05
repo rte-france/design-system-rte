@@ -72,6 +72,7 @@
             [attr.autocomplete]="autocomplete()"
             (input)="handleChange($event)"
             (blur)="inputBlur.emit()"
+            (keydown)="handleKeyDown($event)"
           />
         }
 

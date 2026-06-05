@@ -1,6 +1,6 @@
 import { SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 import { Meta, StoryObj } from "@storybook/angular";
-import { expect, userEvent, waitFor, within } from "@storybook/test";
+import { expect, fn, userEvent, waitFor, within } from "@storybook/test";
 
 import { focusElementBeforeComponent } from "../../../../../../../.storybook/testing/testing.utils";
 import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../../icon/icon-map";
@@ -272,6 +272,26 @@ export const RightIconClean: Story = {
     await userEvent.keyboard(SPACE_KEY);
     expect(textInput).toHaveValue("");
     expect(rightIcon).not.toBeInTheDocument();
+  },
+};
+
+export const EnterKey: Story = {
+  args: {
+    ...Default.args,
+    enterKeyDown: fn(),
+  },
+  render: (args) => ({
+    props: args,
+    template: `<rte-text-input [label]="label" data-testid="input" (enterKeyDown)="enterKeyDown($event)"></rte-text-input>`,
+  }),
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
+    const textInput = canvas.getByTestId("input").querySelector("input");
+    await userEvent.type(textInput!, "Hello");
+    await userEvent.keyboard("{Enter}");
+    await waitFor(() => {
+      expect(args["enterKeyDown"]).toHaveBeenCalledWith("Hello");
+    });
   },
 };
 

@@ -2,8 +2,10 @@ import { TextInputProps } from "@design-system-rte/core/components/text-input/te
 import { SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 import { Meta, StoryObj } from "@storybook/react";
 import { fn, within, userEvent, expect, waitFor } from "@storybook/test";
+import { useState } from "react";
 
 import { focusElementBeforeComponent } from "../../../../.storybook/testing/testing.utils";
+import Button from "../../button/Button";
 import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../../icon/IconMap";
 import TextInput from "../TextInput";
 
@@ -304,6 +306,40 @@ export const KeyboardRightIconClean: Story = {
     await userEvent.tab();
     await userEvent.keyboard(SPACE_KEY);
     expect(textInput).toHaveValue("");
+  },
+};
+
+export const EnterKeyDown: Story = {
+  args: {
+    ...Default.args,
+    onEnterKeyDown: mockFn,
+  } as TextInputProps,
+  render: (args) => {
+    const [isEnterPressed, setIsEnterPressed] = useState(false);
+
+    const handleEnterKeyDown = (value: string) => {
+      mockFn(value);
+      setIsEnterPressed(true);
+    };
+
+    return (
+      <>
+        <TextInput data-testid="input" {...args} onEnterKeyDown={handleEnterKeyDown} />
+        {isEnterPressed && (
+          <>
+            <p data-testid="enter-pressed">Enter key was pressed!</p>
+            <Button label="Reset" variant="secondary" onClick={() => setIsEnterPressed(false)} />
+          </>
+        )}
+      </>
+    );
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const textInput = canvas.getByTestId("input");
+    await userEvent.type(textInput, "Hello");
+    await userEvent.keyboard("{Enter}");
+    expect(mockFn).toHaveBeenCalledWith("Hello");
   },
 };
 

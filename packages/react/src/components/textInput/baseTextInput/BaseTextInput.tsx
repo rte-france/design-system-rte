@@ -30,6 +30,7 @@ interface BaseTextInputProps
   rightSlot?: ReactNode;
   inputStyle?: CSSProperties;
   highlighted?: boolean;
+  onEnterKeyDown?: (value: string) => void;
 }
 
 const BaseTextInput = forwardRef<HTMLInputElement, BaseTextInputProps>(
@@ -59,6 +60,7 @@ const BaseTextInput = forwardRef<HTMLInputElement, BaseTextInputProps>(
       placeholder,
       rightSlot,
       highlighted,
+      onEnterKeyDown,
       ...props
     }: BaseTextInputProps,
     ref,
@@ -153,6 +155,12 @@ const BaseTextInput = forwardRef<HTMLInputElement, BaseTextInputProps>(
       return showRightIcon && !!rightIconAction;
     };
 
+    const handleOnKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+      if (event.key === "Enter" && onEnterKeyDown) {
+        onEnterKeyDown(inputValue);
+      }
+    };
+
     return (
       <div
         className={style.container}
@@ -215,6 +223,7 @@ const BaseTextInput = forwardRef<HTMLInputElement, BaseTextInputProps>(
                 readOnly={readOnly}
                 value={disabled ? "" : inputValue}
                 placeholder={placeholder}
+                onKeyDown={handleOnKeyDown}
                 {...props}
               />
 
