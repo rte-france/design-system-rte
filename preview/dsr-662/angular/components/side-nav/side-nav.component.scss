@@ -70,6 +70,7 @@
         gap: $positive-spacing_100;
         flex: 1 0 0;
         align-self: stretch;
+        overflow: hidden;
         text-decoration: none;
         color: inherit;
         max-height: 32px;
@@ -88,6 +89,7 @@
             display: flex;
             align-items: center;
             gap: $positive-spacing_100;
+            overflow: hidden;
 
             .side-nav-header-identifier {
                 @include typography-text-s-bold;
@@ -110,6 +112,9 @@
                 user-select: none;
                 align-self: stretch;
                 margin: 0;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
                 transition: opacity 300ms;
 
                 &.hidden {
