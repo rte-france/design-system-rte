@@ -20,7 +20,7 @@ const iconButtons: HeaderIconButtonConfig[] = [
     id: "notification",
     iconName: "notification",
     ariaLabel: "Notification",
-    badge: { count: 1, type: "indicator", size: "l" },
+    badge: { count: 1, badgeType: "indicator", size: "l" },
   },
   { id: "map", iconName: "map", ariaLabel: "Carte" },
   { id: "info", iconName: "info", ariaLabel: "Informations" },
