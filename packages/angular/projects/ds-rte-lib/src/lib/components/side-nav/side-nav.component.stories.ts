@@ -1,6 +1,7 @@
 import { computed, signal } from "@angular/core";
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
 import { NavMenuProps } from "@design-system-rte/core/components/side-nav/nav-menu/nav-menu.interface";
+import { sideNavPanelSize } from "@design-system-rte/core/components/side-nav/side-nav.constants";
 import {
   TESTING_ENTER_KEY,
   TESTING_SPACE_KEY,
@@ -286,6 +287,9 @@ const defaultHeaderConfig = {
   link: "/",
 };
 
+const longApplicationTitle =
+  "My Application With An Extremely Long Name That Should Not Expand The Side Navigation Panel";
+
 const headerConfigWithLink = { ...defaultHeaderConfig };
 
 const headerConfigWithOnClick = {
@@ -349,6 +353,29 @@ export const HeaderCompact: Story = {
     headerConfig: { ...defaultHeaderConfig, isCompact: true },
   },
   render: defaultRender,
+};
+
+export const HeaderWithLongTitle: Story = {
+  args: {
+    ...Default.args,
+    headerConfig: { ...defaultHeaderConfig, title: longApplicationTitle },
+    size: "m",
+  },
+  render: defaultRender,
+  play: async ({ canvasElement, step }) => {
+    const { sideNav } = getCanvasAndSideNav(canvasElement);
+
+    await step("Side nav keeps the fixed M panel width with a long application title", async () => {
+      expect(sideNav.offsetWidth).toBe(sideNavPanelSize.m);
+    });
+
+    await step("Title is truncated with an ellipsis within the header area", async () => {
+      const title = sideNav.querySelector(".side-nav-header h1") as HTMLElement;
+      expect(title).not.toBeNull();
+      expect(getComputedStyle(title).textOverflow).toBe("ellipsis");
+      expect(title.scrollWidth).toBeGreaterThan(title.clientWidth);
+    });
+  },
 };
 
 export const WithNestedMenus: Story = {
