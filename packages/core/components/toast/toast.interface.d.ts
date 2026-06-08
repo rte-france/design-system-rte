@@ -2,7 +2,7 @@ export type ToastType = "info" | "success" | "warning" | "error" | "neutral";
 
 export type ToastDuration = "short" | "medium" | "long";
 
-export type ToastPlacement = "top-right" | "top-left" | "bottom-right" | "bottom-left" | "bottom-center";
+export type ToastPlacement = "top-right" | "top-left" | "top-center" | "bottom-right" | "bottom-left" | "bottom-center";
 
 export interface ToastProps {
   message: string;

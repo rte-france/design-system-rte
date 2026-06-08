@@ -19,7 +19,7 @@ const meta = {
     type: { control: "select", options: ["info", "success", "warning", "error", "neutral"] },
     placement: {
       control: "select",
-      options: ["top-right", "top-left", "bottom-right", "bottom-left", "bottom-center"],
+      options: ["top-right", "top-left", "top-center", "bottom-right", "bottom-left", "bottom-center"],
     },
     closable: { control: "boolean" },
     isOpen: { control: "boolean" },
