@@ -32,6 +32,7 @@ export const Chip = forwardRef<HTMLSpanElement, ChipProps>(
       className = "",
       compactSpacing = false,
       onClose,
+      appearance = "brand",
       ...props
     },
     ref,
@@ -76,6 +77,7 @@ export const Chip = forwardRef<HTMLSpanElement, ChipProps>(
         data-disabled={disabled}
         data-compact-spacing={compactSpacing}
         data-type={type}
+        data-appearance={appearance}
         onClick={onClick}
         tabIndex={type === "input" ? -1 : 0}
         onKeyDown={onKeyDown}
@@ -114,6 +116,7 @@ export const Chip = forwardRef<HTMLSpanElement, ChipProps>(
             aria-label={`Supprimer ${label}`}
             value={label}
             ref={deleteButtonRef}
+            data-appearance={appearance}
           >
             <Icon className={styles["chip-close-button--icon"]} name="close" />
           </button>
