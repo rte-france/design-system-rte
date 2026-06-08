@@ -42,6 +42,7 @@ const BaseSideNav = forwardRef<HTMLElement | HTMLDivElement, BaseSideNavProps>(
           data-contrast={contrast}
           style={{
             minWidth: isCollapsed ? sideNavCollapsedSize : sideNavPanelSize[size],
+            maxWidth: isCollapsed ? sideNavCollapsedSize : sideNavPanelSize[size],
           }}
         >
           {showHeader && header && <div className={style.sideNavHeader}>{header}</div>}
