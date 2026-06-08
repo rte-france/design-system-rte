@@ -1,4 +1,5 @@
 import { DropdownItemProps, HeaderIconButtonConfig } from '../../../../../core';
+import { RegularIconIdKey, TogglableIconIdKey } from 'src/components/icon/Icon';
 interface HeaderMobileProps {
     homeLink?: string;
     logoSrc?: string;
@@ -18,7 +19,7 @@ interface HeaderMobileProps {
     isMobileMenuOpen?: boolean;
     mobileMenuItems?: DropdownItemProps[];
     onMobileMenuClose?: () => void;
-    mobileMenuIconProps?: HeaderIconButtonConfig;
+    mobileMenuIconProps?: HeaderIconButtonConfig<RegularIconIdKey | TogglableIconIdKey>;
     hasSearchbar?: boolean;
 }
 declare const HeaderMobile: ({ homeLink, hasLeftSection, leftSectionContent, logoSrc, applicationName, compactSpacing, appearance, mobileSearchButtonAriaLabel, onSearchActiveChange, mobileMenuContent, onMobileMenuClick, isMobileMenuOpen, mobileMenuItems, onMobileMenuClose, mobileMenuIconProps, hasSearchbar, }: HeaderMobileProps) => import("react/jsx-runtime").JSX.Element;
