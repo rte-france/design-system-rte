@@ -34,6 +34,12 @@ const meta = {
       description: "Type of the chip",
       defaultValue: "single",
     },
+    appearance: {
+      control: "select",
+      options: ["brand", "neutral"],
+      description: "Appearance of the chip",
+      defaultValue: "brand",
+    },
   },
   args: { onClick: fn() },
 } satisfies Meta<typeof Chip>;
@@ -75,23 +81,48 @@ export const SingleSelect: Story = {
 
     return (
       <>
-        <div style={{ display: "flex", gap: "10px" }} role="radiogroup" data-testid="test-chip-group">
-          {options.map(({ id, label }) => (
-            <Chip
-              id={id}
-              key={id}
-              label={label}
-              selected={selectedChip === id}
-              onClick={handleClick}
-              type="single"
-              compactSpacing={args.compactSpacing}
-              className="chip"
-            />
-          ))}
-        </div>
-        <p style={{ fontFamily: "Arial, sans-serif" }}>
+        <p style={{ fontFamily: "Arial, sans-serif", marginTop: "20px" }}>
           Chip sélectionnée: {options.find((option) => option.id === selectedChip)?.label || "Aucune"}
         </p>
+        <div style={{ display: "flex", gap: "30px", flexDirection: "column" }}>
+          <div>
+            <p style={{ fontFamily: "arial" }}>Appearance: brand</p>
+            <div style={{ display: "flex", gap: "10px" }} role="radiogroup" data-testid="test-chip-group">
+              {options.map(({ id, label }) => (
+                <Chip
+                  id={id}
+                  key={id}
+                  label={label}
+                  selected={selectedChip === id}
+                  onClick={handleClick}
+                  type="single"
+                  compactSpacing={args.compactSpacing}
+                  className="chip"
+                  disabled={args.disabled}
+                />
+              ))}
+            </div>
+          </div>
+          <div>
+            <p style={{ fontFamily: "arial" }}>Appearance: neutral</p>
+            <div style={{ display: "flex", gap: "10px" }} role="radiogroup" data-testid="test-chip-group-neutral">
+              {options.map(({ id, label }) => (
+                <Chip
+                  id={id}
+                  key={id}
+                  label={label}
+                  selected={selectedChip === id}
+                  onClick={handleClick}
+                  type="single"
+                  compactSpacing={args.compactSpacing}
+                  className="chip"
+                  appearance="neutral"
+                  disabled={args.disabled}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
       </>
     );
   },
@@ -140,26 +171,50 @@ export const MultiSelect: Story = {
 
     return (
       <>
-        <div style={{ display: "flex", gap: "10px" }} role="group">
-          {options.map(({ id, label }) => (
-            <Chip
-              id={id}
-              key={id}
-              label={label}
-              selected={selectedChips.includes(id)}
-              onClick={handleClick}
-              type="multi"
-              compactSpacing={args.compactSpacing}
-            />
-          ))}
-        </div>
-        <p style={{ fontFamily: "Arial, sans-serif" }}>
+        <p style={{ fontFamily: "Arial, sans-serif", marginTop: "20px" }}>
           Chip(s) sélectionnée(s):{" "}
           {options
             .filter((option) => selectedChips.includes(option.id))
             .map((option) => option.label)
             .join(", ")}
         </p>
+        <div style={{ display: "flex", gap: "30px", flexDirection: "column" }}>
+          <div>
+            <p style={{ fontFamily: "arial" }}>Appearance: brand</p>
+            <div style={{ display: "flex", gap: "10px" }} role="group">
+              {options.map(({ id, label }) => (
+                <Chip
+                  id={id}
+                  key={id}
+                  label={label}
+                  selected={selectedChips.includes(id)}
+                  onClick={handleClick}
+                  type="multi"
+                  compactSpacing={args.compactSpacing}
+                  disabled={args.disabled}
+                />
+              ))}
+            </div>
+          </div>
+          <div>
+            <p style={{ fontFamily: "arial" }}>Appearance: neutral</p>
+            <div style={{ display: "flex", gap: "10px" }} role="group">
+              {options.map(({ id, label }) => (
+                <Chip
+                  id={id}
+                  key={id}
+                  label={label}
+                  selected={selectedChips.includes(id)}
+                  onClick={handleClick}
+                  type="multi"
+                  compactSpacing={args.compactSpacing}
+                  appearance="neutral"
+                  disabled={args.disabled}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
       </>
     );
   },
@@ -190,7 +245,7 @@ export const Input: Story = {
     ...Default.args,
     type: "input",
   },
-  render: () => {
+  render: (args) => {
     const [inputValue, setInputValue] = useState("");
     const [chipsValue, setChipsValue] = useState<string[]>([]);
 
@@ -232,21 +287,44 @@ export const Input: Story = {
 
           <Button label="Ajouter" onClick={handleAddChip}></Button>
         </div>
-        {chipsValue.length > 0 && (
-          <div style={{ display: "flex", gap: "10px" }} role="listbox" aria-label="Chips list">
-            {chipsValue.map((value, index) => (
-              <Chip
-                id={`chip-${index}-${value}`}
-                key={index + value}
-                label={value}
-                selected={false}
-                disabled={false}
-                type="input"
-                onClose={handleRemoveChip}
-              />
-            ))}
-          </div>
-        )}
+        <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+          {chipsValue.length > 0 && (
+            <div
+              style={{ display: "flex", gap: "10px" }}
+              role="listbox"
+              aria-label="Chips list"
+              data-testid="chips-list"
+            >
+              {chipsValue.map((value, index) => (
+                <Chip
+                  id={`chip-${index}-${value}`}
+                  key={index + value}
+                  label={value}
+                  selected={false}
+                  disabled={args.disabled}
+                  type="input"
+                  onClose={handleRemoveChip}
+                />
+              ))}
+            </div>
+          )}
+          {chipsValue.length > 0 && (
+            <div style={{ display: "flex", gap: "10px" }} role="listbox" aria-label="Chips list">
+              {chipsValue.map((value, index) => (
+                <Chip
+                  id={`chip-${index}-${value}`}
+                  key={index + value}
+                  label={value}
+                  selected={false}
+                  disabled={args.disabled}
+                  type="input"
+                  onClose={handleRemoveChip}
+                  appearance="neutral"
+                />
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     );
   },
@@ -260,7 +338,9 @@ export const Input: Story = {
     await userEvent.type(input, "Another Chip");
     await userEvent.keyboard(TESTING_ENTER_KEY);
 
-    const allChipsList = canvas.getAllByRole("option");
+    const allChipsList = canvas
+      .getByTestId("chips-list")
+      .querySelectorAll("[role='option']") as NodeListOf<HTMLElement>;
 
     expect(allChipsList).toHaveLength(2);
 
@@ -268,32 +348,45 @@ export const Input: Story = {
 
     await userEvent.click(closeButton);
 
-    const remainingChips = canvas.getAllByRole("option");
+    const remainingChips = canvas
+      .getByTestId("chips-list")
+      .querySelectorAll("[role='option']") as NodeListOf<HTMLElement>;
 
     expect(remainingChips).toHaveLength(1);
 
     await userEvent.type(input, "More Chip");
     await userEvent.keyboard(TESTING_ENTER_KEY);
 
-    const newRemainingChips = canvas.getAllByRole("option");
+    const newRemainingChips = canvas
+      .getByTestId("chips-list")
+      .querySelectorAll("[role='option']") as NodeListOf<HTMLElement>;
+
     expect(newRemainingChips).toHaveLength(2);
 
     newRemainingChips[0].focus();
     await userEvent.tab();
     await userEvent.keyboard(TESTING_ENTER_KEY);
 
-    expect(canvas.getAllByRole("option")).toHaveLength(1);
+    expect(
+      canvas.getByTestId("chips-list").querySelectorAll("[role='option']") as NodeListOf<HTMLElement>,
+    ).toHaveLength(1);
 
     await userEvent.type(input, "Last Chip");
     await userEvent.keyboard(TESTING_ENTER_KEY);
 
-    expect(canvas.getAllByRole("option")).toHaveLength(2);
+    expect(
+      canvas.getByTestId("chips-list").querySelectorAll("[role='option']") as NodeListOf<HTMLElement>,
+    ).toHaveLength(2);
 
-    const lastChip = canvas.getAllByRole("option")[1];
+    const lastChip = (
+      canvas.getByTestId("chips-list").querySelectorAll("[role='option']") as NodeListOf<HTMLElement>
+    )[1];
     lastChip.focus();
     await userEvent.tab();
     await userEvent.keyboard(TESTING_SPACE_KEY);
 
-    expect(canvas.getAllByRole("option")).toHaveLength(1);
+    expect(
+      canvas.getByTestId("chips-list").querySelectorAll("[role='option']") as NodeListOf<HTMLElement>,
+    ).toHaveLength(1);
   },
 };
