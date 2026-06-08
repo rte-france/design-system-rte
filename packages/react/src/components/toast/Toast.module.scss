@@ -1,5 +1,23 @@
 @use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
 
+@mixin open-vertical-transition {
+  &[data-open='true'] {
+    opacity: 1;
+
+    transform: translate(-50%, 0);
+  }
+}
+
+@mixin alignment-center($top: 10px) {
+  &[data-alignment='center'] {
+    left: 50%;
+
+    transform: translate(-50%, $top);
+
+    @include open-vertical-transition;
+  }
+}
+
 .toast {
   @include elevation-neutral-shadow-2;
   display: flex;
@@ -25,22 +43,14 @@
 
   &[data-position='top'] {
     top: $positive-spacing_150;
+
+    @include alignment-center(-10px);
   }
 
   &[data-position='bottom'] {
     bottom: $positive-spacing_150;
 
-    &[data-alignment='center'] {
-      left: 50%;
-
-      transform: translate(-50%, 10px);
-
-      &[data-open='true'] {
-        opacity: 1;
-
-        transform: translate(-50%, 0);
-      }
-    }
+    @include alignment-center(10px);
   }
 
   &[data-alignment='left'] {
