@@ -78,9 +78,11 @@ const Modal = forwardRef<HTMLDialogElement, ModalProps>(
 
               {(description || children) && (
                 <div className={styles["modal-content"]}>
-                  <p className={styles["modal-content-description"]} id={`${id}-modal-desc`}>
-                    {description}
-                  </p>
+                  {description && (
+                    <p className={styles["modal-content-description"]} id={`${id}-modal-desc`}>
+                      {description}
+                    </p>
+                  )}
                   {children}
                 </div>
               )}
