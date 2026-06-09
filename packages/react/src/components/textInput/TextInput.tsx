@@ -12,8 +12,17 @@ interface TextInputProps
 }
 
 const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
-  ({ id, onEnterKeyDown, ...props }: TextInputProps, ref) => {
-    return <BaseTextInput id={id} {...props} ref={ref} placeholder={undefined} onEnterKeyDown={onEnterKeyDown} />;
+  ({ id, onEnterKeyDown, width = "300px", ...props }: TextInputProps, ref) => {
+    return (
+      <BaseTextInput
+        id={id}
+        {...props}
+        ref={ref}
+        placeholder={undefined}
+        onEnterKeyDown={onEnterKeyDown}
+        width={width}
+      />
+    );
   },
 );
 

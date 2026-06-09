@@ -56,6 +56,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatepickerProps>(
       assistiveAppearance = "description",
       showAssistiveIcon = false,
       assistiveTextLink,
+      width = "248px",
     }: DatepickerProps,
     ref,
   ) => {
@@ -253,7 +254,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatepickerProps>(
     }, [activeDateSegment, selectActiveSegment]);
 
     return (
-      <div className={styles["rte-date-picker"]} style={{ minWidth: "248px" }} ref={ref}>
+      <div className={styles["rte-date-picker"]} style={{ minWidth: "248px", width }} ref={ref}>
         <div className={styles["rte-date-picker-header"]}>
           <label htmlFor={id} id={labelId ?? label} className={styles["rte-datepicker-label"]}>
             {label}

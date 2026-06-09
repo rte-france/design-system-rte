@@ -101,6 +101,14 @@ export class BaseInputComponent {
 
   private lastParentValue = this.value();
 
+  readonly computedWidth = computed(() => {
+    const width = this.width().toString();
+    if (width.includes("px") || width.includes("%") || width.includes("em") || width.includes("rem")) {
+      return width;
+    }
+    return `${this.width()}px`;
+  });
+
   constructor() {
     effect(
       () => {
