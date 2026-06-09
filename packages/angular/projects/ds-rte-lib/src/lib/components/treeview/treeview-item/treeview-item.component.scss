@@ -194,8 +194,9 @@ $icon-size: $positive-spacing_200;
   border: none;
   border-radius: $radius-xs;
   cursor: pointer;
-  color: inherit;
   position: relative;
+  color: var(--content-secondary);
+
 
   &:hover {
     background: var(--background-neutral-navigation-hover);
@@ -257,6 +258,7 @@ $icon-size: $positive-spacing_200;
 
 .treeview-item-icon {
   flex-shrink: 0;
+  color: var(--content-secondary);
 }
 
 .treeview-item-content {

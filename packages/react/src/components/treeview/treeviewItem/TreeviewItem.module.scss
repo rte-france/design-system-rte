@@ -188,7 +188,7 @@ $icon-size: $positive-spacing_200;
   border: none;
   border-radius: $radius-xs;
   cursor: pointer;
-  color: inherit;
+  color: var(--content-secondary);
   position: relative;
 
   &:hover {
@@ -251,6 +251,7 @@ $icon-size: $positive-spacing_200;
 
 .rte-treeview-item-icon {
   flex-shrink: 0;
+  color: var(--content-secondary);
 }
 
 .rte-treeview-item-content {
