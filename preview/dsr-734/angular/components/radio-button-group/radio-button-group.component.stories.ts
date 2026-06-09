@@ -179,4 +179,10 @@ export const InitialValueSelected: Story = {
       `,
     };
   },
+
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const radioButton = canvas.getByLabelText("Option 2");
+    expect(radioButton).toBeChecked();
+  },
 };
