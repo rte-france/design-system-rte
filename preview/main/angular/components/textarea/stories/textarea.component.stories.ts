@@ -72,11 +72,11 @@ export const Default: Story = {
     showLabelRequirement: false,
     showCounter: false,
     change: mockFn,
+    width: "400px",
   },
   render: (args) => ({
     props: { ...args },
     template: `
-    <div style="width: 350px">
       <rte-textarea
         [id]="'${args.id}'"
         [label]="'${args.label}'"
@@ -91,12 +91,12 @@ export const Default: Story = {
         [required]=${args.required}
         [showLabelRequirement]=${args.showLabelRequirement}
         [readOnly]=${args.readOnly}
+        [width]="'${args.width}'"
         [value]="'${args.value}'"
         [rows]=${args.rows}
         [disabled]=${args.disabled}
         (change)="args.change($event)"
         />
-    </div>
     `,
   }),
 };

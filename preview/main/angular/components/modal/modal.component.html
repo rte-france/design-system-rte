@@ -27,11 +27,11 @@
       </div>
       <rte-divider />
     </div>
-    <div *ngIf="description()" class="rte-modal-content">
-      <p class="rte-modal-content-description" [id]="id() + '-modal-desc'">
+    <div *ngIf="description() || customContent()" class="rte-modal-content">
+      <p *ngIf="description()" class="rte-modal-content-description" [id]="id() + '-modal-desc'">
         {{ description() }}
       </p>
-      <ng-container [ngTemplateOutlet]="customContent()"></ng-container>
+      <ng-container *ngIf="customContent()" [ngTemplateOutlet]="customContent()"></ng-container>
     </div>
     <div class="rte-modal-footer">
       <ng-container [ngTemplateOutlet]="secondaryButton()"></ng-container>

@@ -1,4 +1,4 @@
-<div class="container" [attr.data-label-position]="labelPosition()">
+<div class="container" [attr.data-label-position]="labelPosition()" [style]="'width : ' + computedWidth()">
   <label
     *ngIf="label() && labelPosition() === 'side'"
     [attr.data-label-position]="labelPosition()"

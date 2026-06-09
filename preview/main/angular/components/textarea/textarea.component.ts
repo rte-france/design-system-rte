@@ -45,6 +45,15 @@ export class TextareaComponent {
   readonly rows = input<number>(3);
   readonly defaultValue = input<string | undefined>(undefined);
   readonly showCounter = input<boolean>(false);
+  readonly width = input<string | number>("350px");
+
+  readonly computedWidth = computed(() => {
+    const width = this.width().toString();
+    if (width.includes("px") || width.includes("%") || width.includes("em") || width.includes("rem")) {
+      return width;
+    }
+    return `${this.width()}px`;
+  });
 
   readonly assistiveTextIconSize = TEXTAREA_ICON_SIZE;
 

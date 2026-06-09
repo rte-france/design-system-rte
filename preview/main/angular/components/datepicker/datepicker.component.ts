@@ -124,6 +124,14 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
     return this.hasLabel() && this.id() ? `input-label-${this.id()}` : null;
   });
 
+  readonly computedWidth = computed(() => {
+    const width = this.width();
+    if (width.includes("px") || width.includes("%") || width.includes("em") || width.includes("rem")) {
+      return width;
+    }
+    return `${width}px`;
+  });
+
   private onTouched: () => void = () => {};
   private onChange: (value: Date | null) => void = () => {};
   private readonly focusTrapService = inject(FocusTrapService);
