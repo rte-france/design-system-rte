@@ -3,7 +3,7 @@ import { NavMenuProps } from "@design-system-rte/core/components/side-nav/nav-me
 import { getDividerAppearanceBySideNavTheme } from "@design-system-rte/core/components/side-nav/side-nav.constants";
 import { SideNavProps as CoreSideNavProps } from "@design-system-rte/core/components/side-nav/side-nav.interface";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
-import { forwardRef, Fragment, ReactNode, useEffect, useMemo, useState } from "react";
+import { forwardRef, Fragment, ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 
 import { useActiveKeyboard } from "../../hooks/useActiveKeyboard";
 import Divider from "../divider/Divider";
@@ -42,6 +42,26 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
   ) => {
     const [isCollapsed, setIsCollapsed] = useState(controlledIsCollapsed ?? defaultCollapsed);
     const [shouldShowTitle, setShouldShowTitle] = useState(true);
+    const [menuOpenOverrides, setMenuOpenOverrides] = useState<Record<string, boolean>>({});
+
+    const handleMenuOpenChange = useCallback((menuId: string, open: boolean) => {
+      setMenuOpenOverrides((previous) => ({ ...previous, [menuId]: open }));
+    }, []);
+
+    const resolveMenuOpen = useCallback(
+      (item: NavItemProps): boolean | undefined => {
+        if (item.id && item.id in menuOpenOverrides) {
+          return menuOpenOverrides[item.id];
+        }
+
+        return (item as NavMenuProps).open;
+      },
+      [menuOpenOverrides],
+    );
+
+    useEffect(() => {
+      setMenuOpenOverrides({});
+    }, [items]);
 
     useEffect(() => {
       if (controlledIsCollapsed !== undefined) {
@@ -162,7 +182,9 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
                   link={item.link}
                   onClick={item.onClick}
                   items={item.items || []}
-                  open={(item as NavMenuProps).open}
+                  open={resolveMenuOpen(item)}
+                  onMenuOpenChange={handleMenuOpenChange}
+                  getMenuOpen={resolveMenuOpen}
                   active={item.active}
                   appearance={appearance}
                   contrast={contrast}
@@ -183,7 +205,7 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
                     link={item.link}
                     onClick={item.onClick}
                     appearance={appearance}
-                    active={item.id === activeItem && !!activeItem}
+                    active={item.active ?? (item.id === activeItem && !!activeItem)}
                   />
                 </li>
                 {item.hasDivider && <Divider appearance={dividerAppearance} />}

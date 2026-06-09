@@ -21,6 +21,8 @@ interface NavMenuProps extends CoreNavMenuProps, Omit<HTMLAttributes<HTMLLIEleme
   children?: ReactNode;
   isNested?: boolean;
   parentMenuOpen?: boolean;
+  onMenuOpenChange?: (menuId: string, open: boolean) => void;
+  getMenuOpen?: (item: NavItemProps) => boolean | undefined;
 }
 
 const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
@@ -44,6 +46,8 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
       badge,
       hasDivider,
       active,
+      onMenuOpenChange,
+      getMenuOpen,
       ...props
     }: NavMenuProps,
     ref,
@@ -55,9 +59,17 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
 
     function toggleMenu() {
       const nextOpen = !isOpen;
+      const menuId = id || label;
+
       if (onClick) {
         onClick();
       }
+
+      if (menuId && onMenuOpenChange) {
+        onMenuOpenChange(menuId, nextOpen);
+        return;
+      }
+
       if (isControlled) {
         onOpenChange?.(nextOpen);
       } else {
@@ -69,6 +81,14 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
       if (!isOpen) {
         return;
       }
+
+      const menuId = id || label;
+
+      if (menuId && onMenuOpenChange) {
+        onMenuOpenChange(menuId, false);
+        return;
+      }
+
       if (isControlled) {
         onOpenChange?.(false);
       } else {
@@ -157,8 +177,10 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
                     link={item.link}
                     onClick={item.onClick}
                     items={item.items || []}
-                    open={(item as CoreNavMenuItemProps).open}
+                    open={getMenuOpen ? getMenuOpen(item) : (item as CoreNavMenuItemProps).open}
                     onOpenChange={(item as CoreNavMenuItemProps).onOpenChange}
+                    onMenuOpenChange={onMenuOpenChange}
+                    getMenuOpen={getMenuOpen}
                     active={item.active}
                     hasMenuIcon={hasMenuIcon}
                     hasDivider={item.hasDivider}

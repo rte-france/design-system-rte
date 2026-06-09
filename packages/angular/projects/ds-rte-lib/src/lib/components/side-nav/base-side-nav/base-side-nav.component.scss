@@ -25,6 +25,7 @@
     --rte-side-nav-item-label-disabled: var(--content-disabled);
     --rte-side-nav-item-border-active: var(--border-inverse);
     --rte-side-nav-item-border-hierarchy: var(--border-inverse);
+    --rte-side-nav-item-border-focus: var(--border-inverse);
 
     &[data-appearance='brand'][data-contrast='low'] {
         --rte-side-nav-shell-bg: var(--background-brand-subtle-default);
@@ -35,6 +36,7 @@
         --rte-side-nav-item-label-disabled: var(--content-disabled);
         --rte-side-nav-item-border-active: var(--border-brand-default);
         --rte-side-nav-item-border-hierarchy: var(--border-brand-default);
+        --rte-side-nav-item-border-focus: var(--border-brand-focused);
     }
 
     &[data-appearance='neutral'][data-contrast='low'] {
@@ -46,6 +48,7 @@
         --rte-side-nav-item-label-disabled: var(--content-disabled);
         --rte-side-nav-item-border-active: var(--border-primary);
         --rte-side-nav-item-border-hierarchy: var(--border-primary);
+        --rte-side-nav-item-border-focus: var(--border-brand-focused);
     }
 
     &[data-appearance='neutral'][data-contrast='high'] {
@@ -57,6 +60,7 @@
         --rte-side-nav-item-label-disabled: var(--content-disabled);
         --rte-side-nav-item-border-active: var(--border-inverse);
         --rte-side-nav-item-border-hierarchy: var(--border-inverse);
+        --rte-side-nav-item-border-focus: var(--border-inverse);
     }
 
     background-color: var(--rte-side-nav-shell-bg);
