@@ -1,6 +1,9 @@
 export interface RadioButtonGroupProps {
   groupName: string;
-  items: string[];
+  items: {
+    label: string;
+    value: string;
+  }[];
   direction?: import("../common/common-types").Direction;
   showItemsLabel?: boolean;
   groupTitle?: string;
@@ -11,4 +14,6 @@ export interface RadioButtonGroupProps {
   error?: boolean;
   disabled?: boolean;
   readOnly?: boolean;
+  onValueChange?: (value: string) => void;
+  selectedValue?: string;
 }

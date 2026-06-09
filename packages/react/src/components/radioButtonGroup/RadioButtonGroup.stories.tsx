@@ -1,5 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { userEvent, within, expect } from "@storybook/test";
+import { useState } from "react";
 
 import RadioButtonGroup from "./RadioButtonGroup";
 
@@ -79,7 +80,11 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     groupName: "radio-group",
-    items: ["Option 1", "Option 2", "Option 3"],
+    items: [
+      { label: "Option 1", value: "option1" },
+      { label: "Option 2", value: "option2" },
+      { label: "Option 3", value: "option3" },
+    ],
     direction: "horizontal",
     showItemsLabel: true,
     groupTitle: "Radio Button Group Title",
@@ -155,5 +160,36 @@ export const Directions: Story = {
         <RadioButtonGroup {...args} direction="vertical" groupName="vertical" />
       </div>
     );
+  },
+};
+
+export const InitialValueSelected: Story = {
+  args: {
+    ...Default.args,
+    selectedValue: "option2",
+  },
+
+  render: (args) => {
+    const [selectedValue, setSelectedValue] = useState(args.selectedValue);
+    const selectedLabel = args.items.find((item) => item.value === selectedValue)?.label || "";
+
+    return (
+      <>
+        <div style={{ display: "flex", gap: 8 }}>
+          <RadioButtonGroup
+            {...args}
+            onValueChange={(value) => setSelectedValue(value)}
+            selectedValue={selectedValue}
+          />
+        </div>
+        <p>Selected Value: {selectedLabel} </p>
+      </>
+    );
+  },
+
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const radioButton = canvas.getByRole("radio", { name: "Option 2" });
+    expect(radioButton).toBeChecked();
   },
 };

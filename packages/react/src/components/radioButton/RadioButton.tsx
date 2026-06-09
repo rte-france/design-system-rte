@@ -6,11 +6,23 @@ import { concatClassNames } from "../utils";
 
 import style from "./RadioButton.module.scss";
 
-interface RadioButtonProps extends CoreRadioButtonProps, React.InputHTMLAttributes<HTMLInputElement> {}
+interface RadioButtonProps extends CoreRadioButtonProps, Omit<React.InputHTMLAttributes<HTMLInputElement>, "value"> {}
 
 const RadioButton = forwardRef<HTMLInputElement, RadioButtonProps>(
   (
-    { label, groupName, showLabel = true, disabled = false, error = false, readOnly = false, className = "", ...props },
+    {
+      label,
+      groupName,
+      showLabel = true,
+      disabled = false,
+      error = false,
+      readOnly = false,
+      className = "",
+      onChange,
+      value,
+      isChecked,
+      ...props
+    },
     ref,
   ) => {
     if (disabled && error) {
@@ -18,19 +30,32 @@ const RadioButton = forwardRef<HTMLInputElement, RadioButtonProps>(
       return null;
     }
 
+    const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      if (disabled || readOnly) {
+        return;
+      }
+
+      console.log(event.target.value);
+      if (onChange) {
+        onChange(event);
+      }
+    };
+
     return (
       <div className={style.radioButtonContainer} data-disabled={disabled} data-read-only={readOnly} data-error={error}>
         <input
           ref={ref}
           type="radio"
-          id={label}
-          value={label}
+          id={value}
+          value={value}
           size={labelSize}
           name={groupName}
           className={concatClassNames(style.radioButton, className)}
           disabled={disabled}
           data-error={error}
           data-read-only={readOnly}
+          onChange={handleOnChange}
+          checked={isChecked}
           {...props}
         />
         <div
@@ -44,7 +69,7 @@ const RadioButton = forwardRef<HTMLInputElement, RadioButtonProps>(
         </div>
         {showLabel && (
           <label
-            htmlFor={label}
+            htmlFor={value}
             className={concatClassNames(style.radioButtonLabel, className)}
             data-disabled={disabled}
             data-error={error}

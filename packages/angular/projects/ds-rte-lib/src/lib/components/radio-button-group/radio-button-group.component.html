@@ -23,12 +23,15 @@
   >
     <ng-container *ngFor="let item of items()">
       <rte-radio-button
-        [label]="item"
+        [label]="item.label"
         [groupName]="groupName()"
         [showLabel]="showItemsLabel()"
         [disabled]="disabled()"
         [error]="error()"
         [readOnly]="readOnly()"
+        [value]="item.value"
+        [isChecked]="item.value === internalSelectedValue()"
+        (changeEvent)="onChange(item.value)"
       />
     </ng-container>
   </div>
