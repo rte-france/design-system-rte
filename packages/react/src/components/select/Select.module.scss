@@ -35,6 +35,7 @@
 
   .select-wrapper {
     @include elevation-neutral-inner-shadow;
+    background-color: var(--background-default);
     display: flex;
     min-width: 112px;
     min-height: 32px;
