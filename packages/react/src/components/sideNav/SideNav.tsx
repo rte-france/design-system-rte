@@ -3,7 +3,7 @@ import { NavMenuProps } from "@design-system-rte/core/components/side-nav/nav-me
 import { getDividerAppearanceBySideNavTheme } from "@design-system-rte/core/components/side-nav/side-nav.constants";
 import { SideNavProps as CoreSideNavProps } from "@design-system-rte/core/components/side-nav/side-nav.interface";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
-import { forwardRef, Fragment, ReactNode, useEffect, useState } from "react";
+import { forwardRef, Fragment, ReactNode, useEffect, useMemo, useState } from "react";
 
 import { useActiveKeyboard } from "../../hooks/useActiveKeyboard";
 import Divider from "../divider/Divider";
@@ -11,6 +11,7 @@ import Divider from "../divider/Divider";
 import BaseSideNav from "./baseSideNav/BaseSideNav";
 import NavItem from "./navItem/NavItem";
 import NavMenu from "./navMenu/NavMenu";
+import NavTooltipWrapper from "./shared/NavTooltipWrapper";
 import style from "./SideNav.module.scss";
 
 interface SideNavProps extends Partial<CoreSideNavProps>, Omit<React.HTMLAttributes<HTMLDivElement>, "content"> {
@@ -128,6 +129,17 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
       <div className={style.sideNavHeaderTitleContainer}>{headerTitleContent}</div>
     );
 
+    const headerTooltip = useMemo(
+      () => headerConfig?.tooltip ?? headerConfig?.title ?? "",
+      [headerConfig?.tooltip, headerConfig?.title],
+    );
+
+    const headerTitleWithTooltip = (
+      <NavTooltipWrapper label={headerTooltip} isCollapsed={isCollapsed}>
+        {headerTitle}
+      </NavTooltipWrapper>
+    );
+
     function renderNavItems(itemsToRender: NavItemProps[] | undefined) {
       if (!itemsToRender?.length) {
         return null;
@@ -201,7 +213,7 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
               data-appearance={appearance}
               data-compact={headerConfig?.isCompact ?? false}
             >
-              {headerTitle}
+              {headerTitleWithTooltip}
               {!headerConfig?.isCompact && (
                 <div className={style.sideNavHeaderVersion} data-hidden={!shouldShowTitle}>
                   <span>{headerConfig?.version}</span>

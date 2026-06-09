@@ -14,6 +14,7 @@ import {
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
 import { DividerComponent } from "../divider/divider.component";
+import { TooltipDirective } from "../tooltip/tooltip.directive";
 
 import { BaseSideNavComponent } from "./base-side-nav/base-side-nav.component";
 import { NavItemComponent } from "./nav-item/nav-item.component";
@@ -23,7 +24,7 @@ const TRANSITION_DURATION = 300;
 
 @Component({
   selector: "rte-side-nav",
-  imports: [CommonModule, BaseSideNavComponent, DividerComponent, NavItemComponent, NavMenuComponent],
+  imports: [CommonModule, BaseSideNavComponent, DividerComponent, NavItemComponent, NavMenuComponent, TooltipDirective],
   standalone: true,
   templateUrl: "./side-nav.component.html",
   styleUrl: "./side-nav.component.scss",
@@ -80,6 +81,11 @@ export class SideNavComponent {
 
   readonly dividerAppearance = computed<DividerAppearance>(() => {
     return getDividerAppearanceBySideNavTheme(this.appearance(), this.contrast());
+  });
+
+  readonly headerTooltip = computed<string>(() => {
+    const config = this.headerConfig();
+    return config?.tooltip ?? config?.title ?? "";
   });
 
   handleHeaderKeyDown(event: KeyboardEvent): void {
