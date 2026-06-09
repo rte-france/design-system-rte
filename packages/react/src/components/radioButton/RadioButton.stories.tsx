@@ -42,6 +42,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     label: "Radio Button",
+    value: "radio-button",
     groupName: "radio-group",
     showLabel: true,
     disabled: false,
@@ -64,7 +65,7 @@ export const Disabled: Story = {
   render: (args) => {
     return (
       <div style={{ display: "flex", gap: 8 }}>
-        <RadioButton {...args} label="Disabled" disabled={true} />
+        <RadioButton {...args} label="Disabled" value="disabled-radio-button" disabled={true} />
       </div>
     );
   },
@@ -78,7 +79,7 @@ export const ReadOnly: Story = {
   render: (args) => {
     return (
       <div style={{ display: "flex", gap: 8 }}>
-        <RadioButton {...args} label="Read Only" readOnly={true} />
+        <RadioButton {...args} label="Read Only" value="readonly-radio-button" readOnly={true} />
       </div>
     );
   },
@@ -91,8 +92,28 @@ export const Error: Story = {
   render: (args) => {
     return (
       <div style={{ display: "flex", gap: 8 }}>
-        <RadioButton {...args} label="Error" error={true} />
+        <RadioButton {...args} label="Error" value="error-radio-button" error={true} />
       </div>
     );
+  },
+};
+
+export const InitialChecked: Story = {
+  args: {
+    ...Default.args,
+    groupName: "initial-checked-radio-group",
+    isChecked: true,
+  },
+  render: (args) => {
+    return (
+      <div style={{ display: "flex", gap: 8 }}>
+        <RadioButton {...args} label="Initially Checked" value="initial-checked-radio-button" />
+      </div>
+    );
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const radioButton = canvas.getByRole("radio", { name: "Initially Checked" });
+    expect(radioButton).toBeChecked();
   },
 };
