@@ -905,6 +905,42 @@ export const WithBadges: Story = {
   },
 };
 
+export const CollapsedWithBadges: Story = {
+  args: {
+    ...WithBadges.args,
+    isCollapsed: true,
+  },
+  decorators: [createCollapsedStateDecorator()],
+  play: async ({ canvasElement, step }) => {
+    const { sideNav } = getCanvasAndSideNav(canvasElement);
+
+    await step("Collapsed nav items show xs indicator dot on icon", async () => {
+      const homeElement = getNavElementInCollapsedState(sideNav, 0);
+      expect(homeElement).not.toBeNull();
+
+      const collapsedBadge = homeElement?.querySelector('[data-size="xs"]');
+      expect(collapsedBadge).not.toBeNull();
+      expect(collapsedBadge).toHaveAttribute("data-badge-type", "indicator");
+      expect(collapsedBadge?.textContent?.trim()).toBe("");
+    });
+
+    await step("Collapsed nav items do not show numeric badge in right column", async () => {
+      const homeElement = getNavElementInCollapsedState(sideNav, 0);
+      expect(homeElement?.querySelector('[data-simple-badge="true"]')).toBeNull();
+    });
+
+    await step("Collapsed menu items show xs indicator dot on icon", async () => {
+      const dashboardMenu = getNavElementInCollapsedState(sideNav, 1);
+      expect(dashboardMenu).not.toBeNull();
+
+      const collapsedBadge = dashboardMenu?.querySelector('[data-size="xs"]');
+      expect(collapsedBadge).not.toBeNull();
+      expect(collapsedBadge).toHaveAttribute("data-badge-type", "indicator");
+      expect(collapsedBadge?.textContent?.trim()).toBe("");
+    });
+  },
+};
+
 const navigationItemsWithDividers: NavItemProps[] = [
   baseNavItems[0],
   {

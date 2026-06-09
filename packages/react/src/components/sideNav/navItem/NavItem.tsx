@@ -1,4 +1,5 @@
 import { NavItemProps as CoreNavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
+import { shouldDisplaySideNavBadge } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.utils";
 import { ForwardedRef, forwardRef, HTMLAttributes, ReactNode, useRef } from "react";
 
 import Badge from "../../badge/Badge";
@@ -59,10 +60,11 @@ const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
             isCollapsed={isCollapsed}
             isNested={isNested}
             styleType="item"
+            badge={badge}
           />
         </div>
         <div className={style.navItemRight}>
-          {!isCollapsed && badge && (
+          {!isCollapsed && badge && shouldDisplaySideNavBadge(badge) && (
             <Badge badgeType={badge.badgeType} size={badge.size} content={badge.content} count={badge.count} />
           )}
         </div>

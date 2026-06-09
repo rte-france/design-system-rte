@@ -1,4 +1,5 @@
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
+import { shouldDisplaySideNavBadge } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.utils";
 import { NavMenuProps as CoreNavMenuProps } from "@design-system-rte/core/components/side-nav/nav-menu/nav-menu.interface";
 import type { NavMenuProps as CoreNavMenuItemProps } from "@design-system-rte/core/components/side-nav/nav-menu/nav-menu.interface";
 import { getDividerAppearanceBySideNavTheme } from "@design-system-rte/core/components/side-nav/side-nav.constants";
@@ -92,7 +93,7 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
         <Icon name="arrow-chevron-right" className={style.menuIcon} data-open={isOpen} />
       ) : null;
 
-    const showMenuContentRight = !isCollapsed && (!!badge || !!chevronIcon);
+    const showMenuContentRight = !isCollapsed && (shouldDisplaySideNavBadge(badge) || !!chevronIcon);
 
     const menuContent = (
       <>
@@ -104,11 +105,12 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
             isCollapsed={isCollapsed}
             isNested={isNested}
             styleType="menu"
+            badge={badge}
           />
         </div>
         {showMenuContentRight && (
           <div className={style.menuContentRight}>
-            {badge && (
+            {badge && shouldDisplaySideNavBadge(badge) && (
               <Badge badgeType={badge.badgeType} size={badge.size} content={badge.content} count={badge.count} />
             )}
             {chevronIcon}

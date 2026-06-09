@@ -1088,6 +1088,43 @@ export const WithBadges: Story = {
   render: defaultRender,
 };
 
+export const CollapsedWithBadges: Story = {
+  args: {
+    ...WithBadges.args,
+    isCollapsed: true,
+  },
+  render: defaultRender,
+  play: async ({ canvasElement, step }) => {
+    const { sideNav } = getCanvasAndSideNav(canvasElement);
+
+    await step("Collapsed nav items show xs indicator dot on icon", async () => {
+      const homeElement = getNavElementInCollapsedState(sideNav, 0);
+      expect(homeElement).not.toBeNull();
+
+      const collapsedBadge = homeElement?.querySelector(".badge.size-xs");
+      expect(collapsedBadge).not.toBeNull();
+      expect(collapsedBadge).toHaveClass("type-indicator");
+      expect(collapsedBadge?.querySelector(".badge-text")).toBeNull();
+    });
+
+    await step("Collapsed nav items do not show numeric badge in right column", async () => {
+      const homeElement = getNavElementInCollapsedState(sideNav, 0);
+      const navItemRight = homeElement?.querySelector(".nav-item-right");
+      expect(navItemRight?.querySelector(".badge")).toBeNull();
+    });
+
+    await step("Collapsed menu items show xs indicator dot on icon", async () => {
+      const dashboardMenu = getNavElementInCollapsedState(sideNav, 1);
+      expect(dashboardMenu).not.toBeNull();
+
+      const collapsedBadge = dashboardMenu?.querySelector(".badge.size-xs");
+      expect(collapsedBadge).not.toBeNull();
+      expect(collapsedBadge).toHaveClass("type-indicator");
+      expect(collapsedBadge?.querySelector(".badge-text")).toBeNull();
+    });
+  },
+};
+
 export const WithDividers: Story = {
   args: {
     ...Default.args,

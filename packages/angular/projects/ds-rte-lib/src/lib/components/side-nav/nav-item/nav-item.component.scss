@@ -67,6 +67,11 @@
       display: flex;
       align-items: center;
       gap: $positive-spacing_100;
+
+      .nav-item-icon-badge-host {
+        display: inline-flex;
+        position: relative;
+      }
     }
 
     .nav-item-right {
