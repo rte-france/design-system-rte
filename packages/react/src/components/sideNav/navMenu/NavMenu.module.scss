@@ -51,15 +51,6 @@
             }
         }
 
-        &:focus-visible {
-            outline: 1px solid var(--border-brand-focused);
-            outline-offset: 0;
-            border-radius: $radius-s;
-        }
-
-        &[data-focused='true'] {
-            outline: none;
-        }
     }
 
     &[data-active='true'] {
@@ -87,7 +78,7 @@
     &[data-nested='true'] {
         .navMenu {
             @include typography-button-s;
-            border-radius: 0 $radius-s $radius-s 0;
+            border-radius: 0;
             border-left: $width-xs solid var(--rte-side-nav-item-border-hierarchy);
             padding: $positive-spacing_050 $positive-spacing_100;
             transition: border-left 0.2s ease;
@@ -98,6 +89,28 @@
                 border-left: $width-m solid var(--rte-side-nav-item-border-active);
             }
         }
+    }
+
+    .navMenu:focus-visible,
+    &[data-active='true'] .navMenu:focus-visible,
+    &[data-nested='true'] .navMenu:focus-visible,
+    &[data-nested='true'][data-active='true'] .navMenu:focus-visible {
+        outline: none;
+        background: var(--rte-side-nav-item-bg-hover);
+        border-radius: 0;
+        box-shadow:
+            inset 0 $width-xs 0 0 var(--rte-side-nav-item-border-focus),
+            inset 0 calc(-1 * #{$width-xs}) 0 0 var(--rte-side-nav-item-border-focus),
+            inset calc(-1 * #{$width-xs}) 0 0 0 var(--rte-side-nav-item-border-focus);
+    }
+
+    &:not([data-active='true']) .navMenu:focus-visible,
+    &[data-nested='true']:not([data-active='true']) .navMenu:focus-visible {
+        border-left-color: var(--rte-side-nav-item-border-focus);
+    }
+
+    &[data-collapsed='true'] .navMenu:focus-visible {
+        box-shadow: inset 0 0 0 $width-xs var(--rte-side-nav-item-border-focus);
     }
 
     &:not([data-collapsed='true']) .menuIcon {
@@ -122,6 +135,7 @@
 
         &[data-open='true'] {
             max-height: 1000px;
+            overflow: visible;
             padding-top: $positive-spacing_050;
             padding-bottom: $positive-spacing_050;
         }

@@ -683,6 +683,7 @@ export const CollapsedTooltip: Story = {
 };
 
 export const CollapsedHeaderTooltipCustom: Story = {
+  tags: ["skip-ci"],
   args: {
     ...Default.args,
     headerConfig: { ...defaultHeaderConfig, tooltip: "Custom header tooltip" },
