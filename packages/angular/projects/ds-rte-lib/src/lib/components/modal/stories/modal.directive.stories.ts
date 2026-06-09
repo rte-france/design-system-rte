@@ -259,7 +259,6 @@ export const WithCustomContent: Story = {
                 [rteModalId]="rteModalId"
                 [rteModalIconAppearance]="rteModalIconAppearance"
                 [rteModalTitle]="rteModalTitle"
-                [rteModalDescription]="rteModalDescription"
                 [rteModalSize]="rteModalSize"
                 [rteModalIcon]="rteModalIcon"
                 [rteModalAriaDescribedby]="rteModalAriaDescribedby"
