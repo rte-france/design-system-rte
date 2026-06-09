@@ -588,6 +588,18 @@ export const CollapsedTooltip: Story = {
   play: async ({ canvasElement, step }) => {
     const { sideNav } = getCanvasAndSideNav(canvasElement);
 
+    await step("Verify header tooltip falls back to title when collapsed", async () => {
+      const headerTitleContainer = getHeaderTitleContainer(sideNav);
+      expect(headerTitleContainer).not.toBeNull();
+
+      headerTitleContainer?.focus();
+      await waitForTooltip();
+
+      const headerTooltip = within(document.body).queryByRole("tooltip", { name: "My Application" });
+      expect(headerTooltip).not.toBeNull();
+      expect(headerTooltip).toHaveTextContent("My Application");
+    });
+
     await step("Verify tooltips appear when tabbing to navigation items", async () => {
       const homeElement = getNavElementInCollapsedState(sideNav, 0);
       expect(homeElement).not.toBeNull();
@@ -618,6 +630,31 @@ export const CollapsedTooltip: Story = {
       const tooltip = within(document.body).queryByRole("tooltip", { name: "Profile" });
       expect(tooltip).not.toBeNull();
       expect(tooltip).toHaveTextContent("Profile");
+    });
+  },
+};
+
+export const CollapsedHeaderTooltipCustom: Story = {
+  args: {
+    ...Default.args,
+    headerConfig: { ...defaultHeaderConfig, tooltip: "Custom header tooltip" },
+    collapsible: true,
+    isCollapsed: true,
+  },
+  decorators: [createCollapsedStateDecorator()],
+  play: async ({ canvasElement, step }) => {
+    const { sideNav } = getCanvasAndSideNav(canvasElement);
+
+    await step("Verify header tooltip uses custom tooltip value when collapsed", async () => {
+      const headerTitleContainer = getHeaderTitleContainer(sideNav);
+      expect(headerTitleContainer).not.toBeNull();
+
+      headerTitleContainer?.focus();
+      await waitForTooltip();
+
+      const headerTooltip = within(document.body).queryByRole("tooltip", { name: "Custom header tooltip" });
+      expect(headerTooltip).not.toBeNull();
+      expect(headerTooltip).toHaveTextContent("Custom header tooltip");
     });
   },
 };
