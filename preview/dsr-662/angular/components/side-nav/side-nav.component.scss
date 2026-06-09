@@ -84,6 +84,13 @@
             }
         }
 
+        &:focus-visible {
+            outline: none;
+            box-shadow: inset 0 0 0 $width-xs var(--rte-side-nav-item-border-focus);
+            background: var(--rte-side-nav-item-bg-hover);
+            border-radius: 0;
+        }
+
         .side-nav-header-title {
             display: flex;
             align-items: center;
@@ -158,7 +165,6 @@
     align-items: flex-start;
     gap: $positive-spacing_100;
     flex: 1 0 0;
-    overflow-x: hidden;
     overflow-y: auto;
     width: 100%;
     box-sizing: border-box;

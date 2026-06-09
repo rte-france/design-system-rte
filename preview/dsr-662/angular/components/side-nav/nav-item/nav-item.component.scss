@@ -38,6 +38,7 @@
   &:active {
     &.focused {
       outline: none;
+      box-shadow: none;
     }
   }
 
@@ -81,11 +82,6 @@
     }
   }
 
-  &.focused {
-    outline: 1px solid var(--border-brand-focused);
-    outline-offset: 0;
-  }
-
   &.collapsed {
     justify-content: center;
     border-left: none;
@@ -112,8 +108,29 @@
     }
   }
 
-  &:focus-visible {
-    outline: 1px solid var(--border-brand-focused);
-    outline-offset: 0;
+  &.focused,
+  &:focus-visible,
+  &.nested.focused,
+  &.nested:focus-visible {
+    outline: none;
+    background: var(--rte-side-nav-item-bg-hover);
+    border-radius: 0;
+    box-shadow:
+      inset 0 $width-xs 0 0 var(--rte-side-nav-item-border-focus),
+      inset 0 calc(-1 * #{$width-xs}) 0 0 var(--rte-side-nav-item-border-focus),
+      inset calc(-1 * #{$width-xs}) 0 0 0 var(--rte-side-nav-item-border-focus);
   }
+
+  &.focused:not(.active),
+  &:focus-visible:not(.active),
+  &.nested.focused:not(.active),
+  &.nested:focus-visible:not(.active) {
+    border-left-color: var(--rte-side-nav-item-border-focus);
+  }
+
+  &.collapsed.focused,
+  &.collapsed:focus-visible {
+    box-shadow: inset 0 0 0 $width-xs var(--rte-side-nav-item-border-focus);
+  }
+
 }
