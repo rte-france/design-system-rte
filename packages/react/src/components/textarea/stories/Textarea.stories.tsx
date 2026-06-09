@@ -73,11 +73,7 @@ export const Default: Story = {
     rows: 3,
   },
   render: (args) => {
-    return (
-      <div style={{ width: "350px" }}>
-        <Textarea {...args} />
-      </div>
-    );
+    return <Textarea {...args} />;
   },
 };
 
@@ -87,11 +83,7 @@ export const CharacterCount: Story = {
     maxLength: 10,
   },
   render: (args) => {
-    return (
-      <div style={{ width: "350px" }}>
-        <Textarea {...args} />
-      </div>
-    );
+    return <Textarea {...args} />;
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -110,11 +102,7 @@ export const Error: Story = {
     assistiveTextAppearance: "error",
   },
   render: (args) => {
-    return (
-      <div style={{ width: "350px" }}>
-        <Textarea {...args} />
-      </div>
-    );
+    return <Textarea {...args} />;
   },
 };
 
@@ -125,11 +113,7 @@ export const ReadOnly: Story = {
     value: "This is a read-only textarea.",
   },
   render: (args) => {
-    return (
-      <div style={{ width: "350px" }}>
-        <Textarea {...args} />
-      </div>
-    );
+    return <Textarea {...args} />;
   },
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
@@ -149,11 +133,7 @@ export const Disabled: Story = {
     disabled: true,
   },
   render: (args) => {
-    return (
-      <div style={{ width: "350px" }}>
-        <Textarea {...args} />
-      </div>
-    );
+    return <Textarea {...args} />;
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -168,11 +148,7 @@ export const KeyboardInteraction: Story = {
     ...Default.args,
   },
   render: (args) => {
-    return (
-      <div style={{ width: "350px" }}>
-        <Textarea {...args} />
-      </div>
-    );
+    return <Textarea {...args} />;
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);

@@ -61,6 +61,7 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
       optionToDisplay = "highest-selected",
       header,
       footer,
+      width = "350px",
     },
     ref,
   ) => {
@@ -175,7 +176,7 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
 
     return (
       <>
-        <div className={styles["select-container"]} data-label-position={labelPosition}>
+        <div className={styles["select-container"]} data-label-position={labelPosition} style={{ width }}>
           {showLabel && labelPosition === "side" && (
             <label htmlFor={id} id={label} className={styles["select-label"]}>
               {label}
@@ -190,13 +191,14 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
               </label>
             )}
             <Dropdown
-              style={{ width: selectRef.current?.offsetWidth }}
+              style={{ width }}
               dropdownId={id + "-dropdown"}
               onClose={() => {
                 setIsActive(false);
               }}
               offset={SELECT_DROPDOWN_OFFSET}
               autoClose={!multiple}
+              hasMaxWidth={false}
               trigger={
                 <div
                   ref={selectRefCallback}

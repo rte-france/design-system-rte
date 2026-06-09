@@ -71,7 +71,7 @@ export const Default: Story = {
     };
 
     return (
-      <div style={{ display: "flex", flexDirection: "column", gap: "16px", width: "280px" }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
         <Select {...args} onChange={handleOnChange} value={selectedOption?.value} multiple={false} />
         <span style={{ fontFamily: "Arial", color: "var(--content-primary)" }}>
           Selected value : {selectedOption?.label || "No value"}
@@ -96,7 +96,7 @@ export const Error: Story = {
     };
 
     return (
-      <div style={{ display: "flex", flexDirection: "column", gap: "16px", width: "280px" }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
         <Select {...args} onChange={handleOnChange} value={selectedOption?.value} multiple={false} />
         <span style={{ fontFamily: "Arial", color: "var(--content-primary)" }}>
           Selected value : {selectedOption?.label || "No value"}
@@ -121,7 +121,7 @@ export const ReadOnly: Story = {
     };
 
     return (
-      <div style={{ display: "flex", flexDirection: "column", gap: "16px", width: "280px" }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
         <Select {...args} onChange={handleOnChange} value={selectedOption?.value} multiple={false} />
         <span style={{ fontFamily: "Arial", color: "var(--content-primary)" }}>
           Selected value : {selectedOption?.label || "No value"}
@@ -152,7 +152,7 @@ export const Disabled: Story = {
     };
 
     return (
-      <div style={{ display: "flex", flexDirection: "column", gap: "16px", width: "280px" }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
         <Select {...args} onChange={handleOnChange} value={selectedOption?.value} multiple={false} />
         <span style={{ fontFamily: "Arial", color: "var(--content-primary)" }}>
           Selected value : {selectedOption?.label || "No value"}
@@ -196,7 +196,7 @@ export const Multiple: Story = {
     };
 
     return (
-      <div style={{ display: "flex", flexDirection: "column", gap: "16px", width: "280px" }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
         <Select {...args} onChange={handleOnChange} value={selectedOptions} multiple={true} />
         <span style={{ fontFamily: "Arial", color: "var(--content-primary)" }}>
           Selected values :{" "}
@@ -221,7 +221,7 @@ export const KeyboardInteraction: Story = {
     };
 
     return (
-      <div style={{ display: "flex", flexDirection: "column", gap: "16px", width: "280px" }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
         <Select {...args} onChange={handleOnChange} value={selectedOption?.value} multiple={false} />
         <span style={{ fontFamily: "Arial", color: "var(--content-primary)" }}>
           Selected value : {selectedOption?.label || "No value"}

@@ -8,6 +8,7 @@ export interface TextareaProps {
   labelPosition?: TextareaLabelPosition;
   required?: boolean;
   showLabelRequirement?: boolean;
+  width?: string | number;
   resizeable?: boolean;
   showCounter?: boolean;
   value?: string;

@@ -67,4 +67,5 @@ export interface DatepickerProps extends DatepickerDisabledConstraints, InputPro
   onCancel?: () => void;
   isError?: boolean;
   hasAction?: boolean;
+  width?: string | number;
 }
