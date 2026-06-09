@@ -90,7 +90,7 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
     const headerTitleContent = (
       <div className={style.sideNavHeaderTitle}>
         <div className={style.sideNavHeaderIdentifier}>{headerConfig?.identifier}</div>
-        {isCollapsed ? "" : <h1 data-hidden={!shouldShowTitle}>{headerConfig?.title}</h1>}
+        {!isCollapsed && <h1 data-hidden={!shouldShowTitle}>{headerConfig?.title}</h1>}
       </div>
     );
 
@@ -190,7 +190,11 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
         appearance={appearance}
         contrast={contrast}
         header={
-          <div className={style.sideNavHeaderContainer} data-compact={headerConfig?.isCompact ?? false}>
+          <div
+            className={style.sideNavHeaderContainer}
+            data-compact={headerConfig?.isCompact ?? false}
+            data-collapsed={isCollapsed}
+          >
             <div
               className={style.sideNavHeader}
               data-collapsed={isCollapsed}

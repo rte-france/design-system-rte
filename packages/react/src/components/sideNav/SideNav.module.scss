@@ -2,7 +2,8 @@
 
 .sideNavHeaderContainer {
     display: flex;
-    padding: $positive-spacing_050;
+    box-sizing: border-box;
+    padding: $positive-spacing_025 $positive-spacing_100;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
@@ -20,44 +21,42 @@
 
     &[data-collapsed='true'] {
         align-items: center;
-        justify-content: center;
-        padding: $positive-spacing_050;
     }
 }
 
 .sideNavHeader {
     display: flex;
     position: relative;
-    padding: $positive-spacing_250 $positive-spacing_100;
     flex-direction: column;
+    justify-content: center;
     align-items: flex-start;
     gap: $positive-spacing_050;
     flex: 1 0 0;
     align-self: stretch;
-    height: 96px;
     transition: opacity 300ms;
 
-    &[data-compact='true'] {
-        height: 60px;
-    }
-
     &[data-collapsed='true'] {
-        padding: $positive-spacing_100;
+        padding: $positive-spacing_0;
         justify-content: center;
         align-items: center;
         flex: 1 0 0;
         align-self: stretch;
 
         .sideNavHeaderTitleContainer {
-            padding: $positive-spacing_100;
+            padding: $positive-spacing_050;
             justify-content: center;
             align-items: center;
-            flex-grow: 0;
+            flex: 0 0 auto;
             gap: 0;
             align-self: auto;
 
             .sideNavHeaderTitle {
                 gap: 0;
+            }
+
+            .sideNavHeaderIdentifier {
+                flex: 0 0 auto;
+                border-radius: $radius-s;
             }
         }
     }
@@ -72,7 +71,8 @@
         overflow: hidden;
         text-decoration: none;
         color: inherit;
-        height: 32px;
+        max-height: 32px;
+        transition: background 0.3s ease;
 
         &[href],
         &[role="button"] {

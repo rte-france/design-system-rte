@@ -1,10 +1,12 @@
 <rte-base-side-nav [size]="size()" [isCollapsed]="collapsedState()" [appearance]="appearance()" [contrast]="contrast()">
   <div side-nav-header>
-    <div class="side-nav-header-container" [attr.data-compact]="headerConfig()?.isCompact ?? false">
+    <div
+      class="side-nav-header-container"
+      [ngClass]="{ collapsed: collapsedState(), compact: headerConfig()?.isCompact ?? false }"
+    >
       <div
         class="side-nav-header {{ appearance() }}"
-        [ngClass]="{ collapsed: collapsedState() }"
-        [attr.data-compact]="headerConfig()?.isCompact ?? false"
+        [ngClass]="{ collapsed: collapsedState(), compact: headerConfig()?.isCompact ?? false }"
       >
         @if (headerConfig()?.link) {
           <a
