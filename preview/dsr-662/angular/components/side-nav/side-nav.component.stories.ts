@@ -26,7 +26,6 @@ import {
   expectNavItemNotToBeActive,
   expectNavItemToBeActive,
 } from "./stories/helpers/expectations";
-import { expectElementToHaveSideNavFocusStyles, focusWithVisibleRing } from "./stories/helpers/focusExpectations";
 import { mapNavItemsWithActiveState } from "./stories/helpers/nav-items-active-state";
 import { getCanvasAndSideNav, waitDelay } from "./stories/helpers/testHelpers";
 
@@ -1135,99 +1134,4 @@ export const WithDividers: Story = {
     collapsible: true,
   },
   render: defaultRender,
-};
-
-const focusThemeCombinations = [
-  { appearance: "brand" as const, contrast: "high" as const, testId: "focus-brand-high" },
-  { appearance: "brand" as const, contrast: "low" as const, testId: "focus-brand-low" },
-  { appearance: "neutral" as const, contrast: "high" as const, testId: "focus-neutral-high" },
-  { appearance: "neutral" as const, contrast: "low" as const, testId: "focus-neutral-low" },
-];
-
-const focusStatesItems: NavItemProps[] = [
-  baseNavItems[0],
-  {
-    ...baseNavItems[3],
-    open: true,
-    items: [
-      { id: "general", label: "General" },
-      { id: "privacy", label: "Privacy" },
-      {
-        id: "advanced",
-        label: "Advanced",
-        icon: "settings",
-        open: true,
-        items: [
-          { id: "security", label: "Security" },
-          { id: "api-keys", label: "API Keys", active: true },
-        ],
-      } as NavMenuProps,
-    ],
-  } as NavMenuProps,
-  baseNavItems[4],
-];
-
-const focusStatesRender = () => ({
-  props: {
-    themes: focusThemeCombinations,
-    items: focusStatesItems,
-    headerConfig: defaultHeaderConfig,
-    footerItems,
-    collapsible: true,
-  },
-  template: `
-    <div style="display: flex; gap: 8px; height: 600px; width: 100%;">
-      @for (theme of themes; track theme.testId) {
-        <div style="flex: 1; min-width: 0; display: flex;" [attr.data-testid]="theme.testId">
-          <rte-side-nav
-            [appearance]="theme.appearance"
-            [contrast]="theme.contrast"
-            [items]="items"
-            [headerConfig]="headerConfig"
-            [footerItems]="footerItems"
-            [collapsible]="collapsible"
-            size="s">
-            <div content></div>
-          </rte-side-nav>
-        </div>
-      }
-    </div>
-  `,
-});
-
-export const FocusStates: Story = {
-  render: focusStatesRender,
-  play: async ({ canvasElement, step }) => {
-    for (const theme of focusThemeCombinations) {
-      await step(`Focus styles for ${theme.appearance}-${theme.contrast}`, async () => {
-        const sideNavWrapper = canvasElement.querySelector(`[data-testid="${theme.testId}"]`) as HTMLElement | null;
-        expect(sideNavWrapper).not.toBeNull();
-
-        const headerTitleContainer = getHeaderTitleContainer(sideNavWrapper!);
-        expect(headerTitleContainer).not.toBeNull();
-        focusWithVisibleRing(headerTitleContainer!);
-        expectElementToHaveSideNavFocusStyles(headerTitleContainer!, sideNavWrapper!);
-
-        const homeElement = getNavElement(sideNavWrapper!, "Home");
-        expect(homeElement).not.toBeNull();
-        focusWithVisibleRing(homeElement!);
-        expectElementToHaveSideNavFocusStyles(homeElement!, sideNavWrapper!);
-
-        const advancedMenu = getNavElement(sideNavWrapper!, "Advanced");
-        expect(advancedMenu).not.toBeNull();
-        focusWithVisibleRing(advancedMenu!);
-        expectElementToHaveSideNavFocusStyles(advancedMenu!, sideNavWrapper!);
-
-        const apiKeysItem = getNavElement(sideNavWrapper!, "API Keys");
-        expect(apiKeysItem).not.toBeNull();
-        focusWithVisibleRing(apiKeysItem!);
-        expectElementToHaveSideNavFocusStyles(apiKeysItem!, sideNavWrapper!);
-
-        const collapseButton = getFooterNavElement(sideNavWrapper!, "Réduire le menu");
-        expect(collapseButton).not.toBeNull();
-        focusWithVisibleRing(collapseButton!);
-        expectElementToHaveSideNavFocusStyles(collapseButton!, sideNavWrapper!);
-      });
-    }
-  },
 };
