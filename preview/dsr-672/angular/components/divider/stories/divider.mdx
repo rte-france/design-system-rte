@@ -1,0 +1,103 @@
+import { Meta } from "@storybook/blocks";
+
+import Tabs from "../../../../../../../../design-docs/src/components/ComponentDocs/Tabs/Tabs";
+import HeaderComponent from "../../../../../../../.storybook/template/HeaderComponent/HeaderComponent";
+import IconTitle from "../../../../../../../.storybook/template/IconTitle/IconTitle";
+
+import DividerAccessibility from "../../../../../../../../design-docs/component-docs/divider/stories/img/DividerAccessibility.png"
+import DividerBehaviors from "../../../../../../../../design-docs/component-docs/divider/stories/img/DividerBehaviors.svg"
+import DividerOrientation from "../../../../../../../../design-docs/component-docs/divider/stories/img/DividerOrientation.svg"
+import DividerStructure from "../../../../../../../../design-docs/component-docs/divider/stories/img/DividerStructure.png"
+import DividerTableOfOptions from "../../../../../../../../design-docs/component-docs/divider/stories/img/DividerTableOfOptions.svg"
+import DividerThickness from "../../../../../../../../design-docs/component-docs/divider/stories/img/DividerThickness.svg"
+
+import "../../../../../../../.storybook/template/style/police.css";
+
+<Meta title="Composants/Divider" />
+
+<HeaderComponent title="Divider" linkFigma="https://www.figma.com/design/Wiy8uWsWjoagf95lOmPXNU/01.0-Design-System-RTE---WEB?node-id=2051-3093&p=f&m=dev" linkGithub="https://github.com/rte-france/design-system-rte/tree/main/packages/angular/projects/ds-rte-lib/src/lib/components/divider" />
+
+<p className="no-margin-bottom">
+    Un <b>Divider</b> (ou séparateur) est un composant graphique utilisé pour <b>délimiter visuellement des sections</b> dans une interface. Il peut être <b>horizontal ou vertical</b>, et sert à organiser l’information de manière lisible sans perturber l’expérience utilisateur. Il est purement décoratif et <b>non interactif</b>.
+</p>
+
+<Tabs>
+
+    <div className="Overview">
+
+        <h2 className="h2" id="Introduction" style={{border:"none", fontFamily:"Nunito", color:"#2964A0"}}> Introduction </h2>
+
+        <h3 className="h3" id="gherkin" style={{fontFamily:"Nunito"}}> Gherkin : </h3>
+        <ul>
+            <li>En tant qu’utilisateur <b>parcourant une interface,</b></li>
+            <li>Je souhaite <b>percevoir une séparation claire entre différentes zones de contenu</b>,</li>
+            <li>Afin de <b>mieux comprendre la structure visuelle et hiérarchique de la page</b>.</li>
+        </ul>
+
+        <h3 className="h3" id="definition" style={{fontFamily:"Nunito"}}> Définition : </h3>
+        <p>
+            Un <b>Divider</b> (ou séparateur) est un composant graphique utilisé pour <b>délimiter visuellement des sections dans une interface</b>. Il peut être <b>horizontal ou vertical</b>, et sert à organiser l’information de manière lisible sans perturber l’expérience utilisateur. Il est purement décoratif et <b>non interactif</b>.
+        </p>
+
+        <h3 className="h3" id="types" style={{fontFamily:"Nunito"}}> Type : </h3>
+        <p>
+            Composant générique pouvant être utilisé par toutes les équipes de la DSIT.
+        </p>
+
+    </div>
+
+    <div className="Guidelines">
+
+        <h2 id="guidelines" className="h2" style={{border:"none", fontFamily:"Nunito", color:"#2964A0"}} > Usages </h2>
+
+        <IconTitle id="préconisation" icon="heart_outlined" title="Préconisation" />
+
+        <p> Les principales règles qui entourent l'utilisation du composant :</p>
+
+        <p className="no-margin-bottom">Utiliser pour séparer des sections visuellement distinctes</p>
+        <p className="light-gray no-margin-top">Comme des blocs de contenu, des titres, des cartes ou des groupes de champs.</p>
+
+        <p className="no-margin-bottom">Éviter de multiplier les dividers</p>
+        <p className="light-gray no-margin-top">Une hiérarchie claire de l'interface peut parfois suffire</p>
+
+        <p className="no-margin-bottom">Ne pas utiliser comme remplacement d’un espacement</p>
+        <p className="light-gray no-margin-top">Il ne remplace pas un padding ou un margin</p>
+
+        <p className="no-margin-bottom">Ne jamais rendre interactif</p>
+        <p className="light-gray no-margin-top">Il ne doit pas capter le focus ou répondre au clic</p>
+
+        <h2 id="Options" className="h2" style={{border:"none", fontFamily:"Nunito", color:"#2964A0"}} > Options </h2>
+        <p> Les options comprennent les états et différentes formes que peut prendre le composant. Elles incluent : Les états, les variants, les tailles, les éléments modifiables qui composent le composant, etc.<br />
+→ Ils n’incluent pas les “Behaviors” qui correspondent à comment le composant réagit.</p>
+
+    <h3 id="orientation" className="h3" style={{fontFamily:"Nunito"}}> Orientation </h3>
+    <img src={DividerOrientation} alt="Illustration des orientations possibles du séparateur (horizontal, vertical)" />
+
+    <h3 id="thickness" className="h3" style={{fontFamily:"Nunito"}}> Thickness </h3>
+    <img src={DividerThickness} alt="Exemples des épaisseurs disponibles pour le séparateur" />
+
+    <h3 id="structure" className="h3" style={{fontFamily:"Nunito"}}> Structure </h3>
+    <p> Le <b>Divider</b> est composé d'<b>un seul élément</b>, un stroke gris </p>
+    <img src={DividerStructure} alt="Schéma de la structure du composant Divider" />
+
+    <h3 id="table-of-options" className="h3" style={{fontFamily:"Nunito"}}> Table of Options </h3>
+    <img src={DividerTableOfOptions} alt="Tableau des propriétés et options du Divider" />
+
+    <h2 id="behaviors" className="h2" style={{border:"none", fontFamily:"Nunito", color:"#2964A0"}} > Behaviors </h2>
+    
+    <h3 id="autre-contextuel" className="h3" style={{fontFamily:"Nunito"}}> Autre / contextuel </h3>
+    <img src={DividerBehaviors} alt="Exemples de comportements contextuels du séparateur" />
+
+    </div>
+
+    <div className="Accessibility">
+
+        <h2 id="accessibilityTestingOverview" className="h2" style={{border:"none", fontFamily:"Nunito", color:"#2964A0"}} > Accessibility Testing Overview </h2>
+
+        <p> Voici les tests à effectuer pour vérifier l’accessibilité de chaque catégorie : </p>
+    <img src={DividerAccessibility} alt="Checklist des tests d’accessibilité pour le Divider" />
+
+
+</div>
+
+</Tabs>
