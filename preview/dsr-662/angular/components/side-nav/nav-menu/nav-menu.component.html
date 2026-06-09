@@ -25,6 +25,24 @@
   </li>
 }
 
+<ng-template #menuIconTemplate>
+  @if (hasLeadingIcon() && icon()) {
+    @if (shouldShowCollapsedBadge()) {
+      <span
+        class="nav-item-icon-badge-host"
+        rteBadge
+        rteBadgeSize="xs"
+        rteBadgeContent="empty"
+        [rteBadgeType]="collapsedBadgeType()"
+      >
+        <rte-icon class="icon" [name]="icon()!" [size]="iconSize()" />
+      </span>
+    } @else {
+      <rte-icon class="icon" [name]="icon()!" [size]="iconSize()" />
+    }
+  }
+</ng-template>
+
 <ng-template #menuContentTemplate>
   @if (link()) {
     <a
@@ -35,16 +53,14 @@
       (click)="toggleMenu()"
     >
       <div class="menu-content-left">
-        @if (hasLeadingIcon() && icon()) {
-          <rte-icon class="icon" [name]="icon()!" [size]="iconSize()" />
-        }
+        <ng-container *ngTemplateOutlet="menuIconTemplate" />
         @if (!isCollapsed()) {
           <span>{{ label() }}</span>
         }
       </div>
       @if (!isCollapsed()) {
         <div class="menu-content-right">
-          @if (badge()) {
+          @if (shouldShowExpandedBadge()) {
             <rte-badge
               [badgeType]="badge()!.badgeType || 'brand'"
               [badgeSize]="badge()!.size || 'm'"
@@ -69,16 +85,14 @@
       (keydown)="handleKeyDown($event)"
     >
       <div class="menu-content-left">
-        @if (hasLeadingIcon() && icon()) {
-          <rte-icon class="icon" [name]="icon()!" [size]="iconSize()" />
-        }
+        <ng-container *ngTemplateOutlet="menuIconTemplate" />
         @if (!isCollapsed()) {
           <span>{{ label() }}</span>
         }
       </div>
       @if (!isCollapsed()) {
         <div class="menu-content-right">
-          @if (badge()) {
+          @if (shouldShowExpandedBadge()) {
             <rte-badge
               [badgeType]="badge()!.badgeType || 'brand'"
               [badgeSize]="badge()!.size || 'm'"

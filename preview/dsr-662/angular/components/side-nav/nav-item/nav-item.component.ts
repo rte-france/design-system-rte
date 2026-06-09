@@ -1,11 +1,16 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, input, output, signal } from "@angular/core";
 import { BadgeProps } from "@design-system-rte/core/components/badge/badge.interface";
-import { getNavItemLabelIconSize } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.utils";
+import {
+  getCollapsedSideNavBadgeType,
+  getNavItemLabelIconSize,
+  shouldDisplaySideNavBadge,
+} from "@design-system-rte/core/components/side-nav/nav-item/nav-item.utils";
 import { SideNavAppearance } from "@design-system-rte/core/components/side-nav/side-nav.interface";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
 import { BadgeComponent } from "../../badge/badge.component";
+import { BadgeDirective } from "../../badge/badge.directive";
 import { IconComponent } from "../../icon/icon.component";
 import { TooltipDirective } from "../../tooltip/tooltip.directive";
 
@@ -15,7 +20,7 @@ function getNavTabIndex(parentMenuOpen?: boolean): number {
 
 @Component({
   selector: "rte-nav-item",
-  imports: [CommonModule, IconComponent, BadgeComponent, TooltipDirective],
+  imports: [CommonModule, IconComponent, BadgeComponent, BadgeDirective, TooltipDirective],
   standalone: true,
   templateUrl: "./nav-item.component.html",
   styleUrl: "./nav-item.component.scss",
@@ -43,6 +48,18 @@ export class NavItemComponent {
 
   readonly iconSize = computed<number>(() => {
     return getNavItemLabelIconSize(this.isNested(), this.isCollapsed());
+  });
+
+  readonly shouldShowExpandedBadge = computed<boolean>(() => {
+    return !this.isCollapsed() && shouldDisplaySideNavBadge(this.badge());
+  });
+
+  readonly shouldShowCollapsedBadge = computed<boolean>(() => {
+    return this.isCollapsed() && shouldDisplaySideNavBadge(this.badge());
+  });
+
+  readonly collapsedBadgeType = computed(() => {
+    return getCollapsedSideNavBadgeType(this.badge()!);
   });
 
   handleClick(event: Event): void {

@@ -69,14 +69,26 @@
   >
     <div class="nav-item-left">
       @if (hasLeadingIcon() && icon()) {
-        <rte-icon class="icon" [name]="icon()!" [size]="iconSize()" />
+        @if (shouldShowCollapsedBadge()) {
+          <span
+            class="nav-item-icon-badge-host"
+            rteBadge
+            rteBadgeSize="xs"
+            rteBadgeContent="empty"
+            [rteBadgeType]="collapsedBadgeType()"
+          >
+            <rte-icon class="icon" [name]="icon()!" [size]="iconSize()" />
+          </span>
+        } @else {
+          <rte-icon class="icon" [name]="icon()!" [size]="iconSize()" />
+        }
       }
       @if (!isCollapsed()) {
         <span>{{ label() }}</span>
       }
     </div>
     <div class="nav-item-right">
-      @if (badge()) {
+      @if (shouldShowExpandedBadge()) {
         <rte-badge
           [badgeType]="badge()!.badgeType || 'brand'"
           [badgeSize]="badge()!.size || 'm'"

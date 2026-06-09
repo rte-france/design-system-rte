@@ -3,8 +3,10 @@ import { ChangeDetectionStrategy, Component, computed, effect, input, output } f
 import { BadgeProps } from "@design-system-rte/core/components/badge/badge.interface";
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
 import {
+  getCollapsedSideNavBadgeType,
   getNavItemLabelIconSize,
   setNavMenuOpenById,
+  shouldDisplaySideNavBadge,
 } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.utils";
 import { NavMenuProps } from "@design-system-rte/core/components/side-nav/nav-menu/nav-menu.interface";
 import { getDividerAppearanceBySideNavTheme } from "@design-system-rte/core/components/side-nav/side-nav.constants";
@@ -12,6 +14,7 @@ import { SideNavAppearance, SideNavContrast } from "@design-system-rte/core/comp
 import { ENTER_KEY, ESCAPE_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
 import { BadgeComponent } from "../../badge/badge.component";
+import { BadgeDirective } from "../../badge/badge.directive";
 import { DividerComponent } from "../../divider/divider.component";
 import { IconComponent } from "../../icon/icon.component";
 import { TooltipDirective } from "../../tooltip/tooltip.directive";
@@ -28,7 +31,15 @@ export interface NavMenuOpenChangeEvent {
 
 @Component({
   selector: "rte-nav-menu",
-  imports: [CommonModule, IconComponent, BadgeComponent, DividerComponent, NavItemComponent, TooltipDirective],
+  imports: [
+    CommonModule,
+    IconComponent,
+    BadgeComponent,
+    BadgeDirective,
+    DividerComponent,
+    NavItemComponent,
+    TooltipDirective,
+  ],
   standalone: true,
   templateUrl: "./nav-menu.component.html",
   styleUrl: "./nav-menu.component.scss",
@@ -74,6 +85,18 @@ export class NavMenuComponent {
 
   readonly iconSize = computed<number>(() => {
     return getNavItemLabelIconSize(this.isNested(), this.isCollapsed());
+  });
+
+  readonly shouldShowExpandedBadge = computed<boolean>(() => {
+    return !this.isCollapsed() && shouldDisplaySideNavBadge(this.badge());
+  });
+
+  readonly shouldShowCollapsedBadge = computed<boolean>(() => {
+    return this.isCollapsed() && shouldDisplaySideNavBadge(this.badge());
+  });
+
+  readonly collapsedBadgeType = computed(() => {
+    return getCollapsedSideNavBadgeType(this.badge()!);
   });
 
   toggleMenu(): void {
