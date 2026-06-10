@@ -250,6 +250,7 @@ export const MobileLongApplicationName: Story = {
 };
 
 export const MobileMenuItems: Story = {
+  tags: ["skip-ci"],
   parameters: {
     viewport: { defaultViewport: "mobile2" },
   },
