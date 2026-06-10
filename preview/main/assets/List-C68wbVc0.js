@@ -1,1 +1,0 @@
-import{j as e}from"./index-C4WHEdWa.js";const o=({children:s})=>e.jsx("ul",{className:"colors-list",children:s});o.__docgenInfo={description:"",methods:[],displayName:"List",props:{children:{required:!1,tsType:{name:"ReactNode"},description:""}}};export{o as L};
