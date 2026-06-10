@@ -1,5 +1,7 @@
 import { computed, signal } from "@angular/core";
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
+import { NavMenuProps } from "@design-system-rte/core/components/side-nav/nav-menu/nav-menu.interface";
+import { sideNavPanelSize } from "@design-system-rte/core/components/side-nav/side-nav.constants";
 import {
   TESTING_ENTER_KEY,
   TESTING_SPACE_KEY,
@@ -24,6 +26,7 @@ import {
   expectNavItemNotToBeActive,
   expectNavItemToBeActive,
 } from "./stories/helpers/expectations";
+import { mapNavItemsWithActiveState } from "./stories/helpers/nav-items-active-state";
 import { getCanvasAndSideNav, waitDelay } from "./stories/helpers/testHelpers";
 
 const meta: Meta<SideNavComponent> = {
@@ -37,7 +40,8 @@ const meta: Meta<SideNavComponent> = {
     collapsible: { control: "boolean" },
     size: { control: "select", options: ["s", "m", "l"] },
     appearance: { control: "select", options: ["neutral", "brand"] },
-    collapsed: { control: "boolean" },
+    contrast: { control: "select", options: ["low", "high"] },
+    isCollapsed: { control: "boolean" },
   },
 };
 
@@ -76,7 +80,7 @@ const PageContent = `
 `;
 
 const baseNavItem = {
-  showIcon: true,
+  hasLeadingIcon: true,
 };
 
 const baseBadge = {
@@ -94,7 +98,7 @@ const baseNavItems = [
 
 const navigationItems = baseNavItems;
 
-const navigationItemsWithNested = [
+const navigationItemsWithNestedAndIds: NavItemProps[] = [
   baseNavItems[0],
   {
     ...baseNavItems[1],
@@ -122,6 +126,61 @@ const navigationItemsWithNested = [
   },
   baseNavItems[4],
 ];
+
+const navigationItemsWithNestedNavMenuActivePreselected: NavItemProps[] = [
+  baseNavItems[0],
+  {
+    ...baseNavItems[3],
+    open: true,
+    items: [
+      { id: "general", label: "General" },
+      { id: "privacy", label: "Privacy" },
+      {
+        id: "advanced",
+        label: "Advanced",
+        icon: "settings",
+        open: true,
+        items: [
+          { id: "security", label: "Security", active: true },
+          { id: "api-keys", label: "API Keys" },
+        ],
+      } as NavMenuProps,
+    ],
+  } as NavMenuProps,
+  baseNavItems[4],
+];
+
+const navigationItemsWithNestedActivePreselected: NavItemProps[] = [
+  baseNavItems[0],
+  {
+    ...baseNavItems[1],
+    open: true,
+    items: [
+      { id: "overview", label: "Overview", active: true },
+      { id: "reports", label: "Reports" },
+      { id: "analytics-nested", label: "Analytics", icon: "analytics" },
+    ],
+  } as NavMenuProps,
+  {
+    ...baseNavItems[3],
+    items: [
+      { id: "general", label: "General" },
+      { id: "privacy", label: "Privacy" },
+      {
+        id: "advanced",
+        label: "Advanced",
+        icon: "settings",
+        items: [
+          { id: "security", label: "Security" },
+          { id: "api-keys", label: "API Keys" },
+        ],
+      },
+    ],
+  },
+  baseNavItems[4],
+];
+
+const navigationItemsWithNested = navigationItemsWithNestedAndIds;
 
 const navigationItemsWithNestedAndBadges: NavItemProps[] = [
   { ...baseNavItems[0], badge: { ...baseBadge, badgeType: "indicator", count: 5 } },
@@ -191,27 +250,27 @@ const navigationItemsWithDividers: NavItemProps[] = [
     ...baseNavItems[1],
     items: [
       { id: "overview", label: "Overview" },
-      { id: "reports", label: "Reports", showDivider: true },
+      { id: "reports", label: "Reports", hasDivider: true },
       { id: "analytics-nested", label: "Analytics", icon: "analytics" },
     ],
   },
-  { ...baseNavItems[2], showDivider: true },
+  { ...baseNavItems[2], hasDivider: true },
   { ...baseNavItem, id: "reports", label: "Reports", icon: "info" },
   {
     ...baseNavItems[3],
-    showDivider: true,
+    hasDivider: true,
     items: [
       { id: "general", label: "General" },
-      { id: "privacy", label: "Privacy", showDivider: true },
+      { id: "privacy", label: "Privacy", hasDivider: true },
       { id: "notifications", label: "Notifications" },
       {
         id: "advanced",
         label: "Advanced",
         icon: "settings",
-        showDivider: true,
+        hasDivider: true,
         items: [
           { id: "security", label: "Security" },
-          { id: "api-keys", label: "API Keys", showDivider: true },
+          { id: "api-keys", label: "API Keys", hasDivider: true },
           { id: "integrations", label: "Integrations" },
         ],
       },
@@ -227,6 +286,9 @@ const defaultHeaderConfig = {
   icon: "home",
   link: "/",
 };
+
+const longApplicationTitle =
+  "My Application With An Extremely Long Name That Should Not Expand The Side Navigation Panel";
 
 const headerConfigWithLink = { ...defaultHeaderConfig };
 
@@ -245,8 +307,9 @@ const defaultRender = (args: StoryArgs) => ({
       [collapsible]="collapsible"
       [headerConfig]="headerConfig"
       [appearance]="appearance"
+      [contrast]="contrast"
       [items]="items"
-      [collapsed]="collapsed"
+      [isCollapsed]="isCollapsed"
       [footerItems]="footerItems">
       <div content>${PageContent}</div>
     </rte-side-nav>
@@ -284,6 +347,37 @@ export const HeaderWithVersion: Story = {
   render: defaultRender,
 };
 
+export const HeaderCompact: Story = {
+  args: {
+    ...Default.args,
+    headerConfig: { ...defaultHeaderConfig, isCompact: true },
+  },
+  render: defaultRender,
+};
+
+export const HeaderWithLongTitle: Story = {
+  args: {
+    ...Default.args,
+    headerConfig: { ...defaultHeaderConfig, title: longApplicationTitle },
+    size: "m",
+  },
+  render: defaultRender,
+  play: async ({ canvasElement, step }) => {
+    const { sideNav } = getCanvasAndSideNav(canvasElement);
+
+    await step("Side nav keeps the fixed M panel width with a long application title", async () => {
+      expect(sideNav.offsetWidth).toBe(sideNavPanelSize.m);
+    });
+
+    await step("Title is truncated with an ellipsis within the header area", async () => {
+      const title = sideNav.querySelector(".side-nav-header h1") as HTMLElement;
+      expect(title).not.toBeNull();
+      expect(getComputedStyle(title).textOverflow).toBe("ellipsis");
+      expect(title.scrollWidth).toBeGreaterThan(title.clientWidth);
+    });
+  },
+};
+
 export const WithNestedMenus: Story = {
   args: {
     ...Default.args,
@@ -309,8 +403,9 @@ const keyboardNavigationRender = (args: StoryArgs) => ({
       [collapsible]="collapsible"
       [headerConfig]="headerConfig"
       [appearance]="appearance"
+      [contrast]="contrast"
       [items]="items"
-      [collapsed]="collapsed">
+      [isCollapsed]="isCollapsed">
       <div content>${PageContent}</div>
     </rte-side-nav>
   `,
@@ -533,11 +628,23 @@ export const CollapsedTooltip: Story = {
     headerConfig: defaultHeaderConfig,
     items: navigationItems,
     collapsible: true,
-    collapsed: true,
+    isCollapsed: true,
   },
   render: defaultRender,
   play: async ({ canvasElement, step }) => {
     const { sideNav } = getCanvasAndSideNav(canvasElement);
+
+    await step("Verify header tooltip falls back to title when collapsed", async () => {
+      const headerTitleContainer = getHeaderTitleContainer(sideNav);
+      expect(headerTitleContainer).not.toBeNull();
+
+      headerTitleContainer?.focus();
+      await waitDelay();
+
+      const headerTooltip = within(document.body).queryByRole("tooltip", { name: "My Application" });
+      expect(headerTooltip).not.toBeNull();
+      expect(headerTooltip).toHaveTextContent("My Application");
+    });
 
     await step("Verify tooltips appear when tabbing to navigation items", async () => {
       const homeElement = getNavElementInCollapsedState(sideNav, 0);
@@ -575,13 +682,39 @@ export const CollapsedTooltip: Story = {
   },
 };
 
+export const CollapsedHeaderTooltipCustom: Story = {
+  tags: ["skip-ci"],
+  args: {
+    ...Default.args,
+    headerConfig: { ...defaultHeaderConfig, tooltip: "Custom header tooltip" },
+    collapsible: true,
+    isCollapsed: true,
+  },
+  render: defaultRender,
+  play: async ({ canvasElement, step }) => {
+    const { sideNav } = getCanvasAndSideNav(canvasElement);
+
+    await step("Verify header tooltip uses custom tooltip value when collapsed", async () => {
+      const headerTitleContainer = getHeaderTitleContainer(sideNav);
+      expect(headerTitleContainer).not.toBeNull();
+
+      headerTitleContainer?.focus();
+      await waitDelay();
+
+      const headerTooltip = within(document.body).queryByRole("tooltip", { name: "Custom header tooltip" });
+      expect(headerTooltip).not.toBeNull();
+      expect(headerTooltip).toHaveTextContent("Custom header tooltip");
+    });
+  },
+};
+
 export const CollapsedTooltipWithNested: Story = {
   args: {
     ...Default.args,
     headerConfig: defaultHeaderConfig,
     items: navigationItemsWithNested,
     collapsible: true,
-    collapsed: true,
+    isCollapsed: true,
   },
   render: defaultRender,
   play: async ({ canvasElement, step }) => {
@@ -601,6 +734,217 @@ export const CollapsedTooltipWithNested: Story = {
       const tooltip = within(document.body).queryByRole("tooltip", { name: "Dashboard" });
       expect(tooltip).not.toBeNull();
       expect(tooltip).toHaveTextContent("Dashboard");
+    });
+  },
+};
+
+export const NestedItemActivePreselected: Story = {
+  tags: ["skip-ci"],
+  args: {
+    ...Default.args,
+    headerConfig: defaultHeaderConfig,
+    items: navigationItemsWithNestedActivePreselected,
+    collapsible: true,
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <rte-side-nav
+        [size]="size"
+        [collapsible]="collapsible"
+        [headerConfig]="headerConfig"
+        [appearance]="appearance"
+        [contrast]="contrast"
+        [items]="items"
+        [isCollapsed]="isCollapsed">
+        <div content>${PageContent}</div>
+      </rte-side-nav>
+    `,
+  }),
+  play: async ({ canvasElement, step }) => {
+    const { canvas } = getCanvasAndSideNav(canvasElement);
+
+    await step("Verify Overview nested item is active", async () => {
+      expectNavItemToBeActive(canvas, "overview");
+      expectNavItemNotToBeActive(canvas, "reports");
+    });
+  },
+};
+
+export const NestedNavMenuActivePreselected: Story = {
+  tags: ["skip-ci"],
+  args: {
+    ...Default.args,
+    headerConfig: defaultHeaderConfig,
+    items: navigationItemsWithNestedNavMenuActivePreselected,
+    collapsible: true,
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <rte-side-nav
+        [size]="size"
+        [collapsible]="collapsible"
+        [headerConfig]="headerConfig"
+        [appearance]="appearance"
+        [contrast]="contrast"
+        [items]="items"
+        [isCollapsed]="isCollapsed">
+        <div content>${PageContent}</div>
+      </rte-side-nav>
+    `,
+  }),
+  play: async ({ canvasElement, step }) => {
+    const { canvas } = getCanvasAndSideNav(canvasElement);
+
+    await step("Verify only the nested leaf is active, not parent NavMenus", async () => {
+      expectNavItemToBeActive(canvas, "security");
+      expectNavItemNotToBeActive(canvas, "advanced");
+      expectNavItemNotToBeActive(canvas, "settings");
+      expectNavItemNotToBeActive(canvas, "api-keys");
+    });
+  },
+};
+
+export const NestedNavMenuActiveOnClick: Story = {
+  tags: ["skip-ci"],
+  args: {
+    ...Default.args,
+    headerConfig: defaultHeaderConfig,
+    items: navigationItemsWithNestedAndIds,
+    collapsible: true,
+  },
+  render: (args) => {
+    const activeItemId = signal("security");
+
+    const handleItemClick = (itemId: string): void => {
+      activeItemId.set(itemId);
+    };
+
+    const itemsWithActiveState = computed(() => {
+      return mapNavItemsWithActiveState(navigationItemsWithNestedAndIds, activeItemId());
+    });
+
+    return {
+      props: {
+        ...args,
+        items: itemsWithActiveState,
+        handleItemClick,
+      },
+      template: `
+        <rte-side-nav
+          [size]="size"
+          [collapsible]="collapsible"
+          [headerConfig]="headerConfig"
+          [appearance]="appearance"
+          [contrast]="contrast"
+          [items]="items()"
+          [isCollapsed]="isCollapsed"
+          (itemClicked)="handleItemClick($event)">
+          <div content>${PageContent}</div>
+        </rte-side-nav>
+      `,
+    };
+  },
+  play: async ({ canvasElement, step }) => {
+    const { canvas } = getCanvasAndSideNav(canvasElement);
+
+    await step("Verify only Security is active, not parent NavMenus", async () => {
+      expectNavItemToBeActive(canvas, "security");
+      expectNavItemNotToBeActive(canvas, "advanced");
+      expectNavItemNotToBeActive(canvas, "settings");
+      expectNavItemNotToBeActive(canvas, "api-keys");
+    });
+
+    await step("Click API Keys and verify only API Keys is active", async () => {
+      const sideNav = canvas.getByRole("navigation");
+      const apiKeysElement = getNavElement(sideNav, "API Keys");
+      expect(apiKeysElement).not.toBeNull();
+      await userEvent.click(apiKeysElement!);
+
+      expectNavItemNotToBeActive(canvas, "security");
+      expectNavItemToBeActive(canvas, "api-keys");
+      expectNavItemNotToBeActive(canvas, "advanced");
+      expectNavItemNotToBeActive(canvas, "settings");
+    });
+  },
+};
+
+export const NestedItemActiveOnClick: Story = {
+  tags: ["skip-ci"],
+  args: {
+    ...Default.args,
+    headerConfig: defaultHeaderConfig,
+    items: navigationItemsWithNestedAndIds,
+    collapsible: true,
+  },
+  render: (args) => {
+    const activeItemId = signal("overview");
+
+    const handleItemClick = (itemId: string): void => {
+      activeItemId.set(itemId);
+    };
+
+    const itemsWithActiveState = computed(() => {
+      return mapNavItemsWithActiveState(navigationItemsWithNestedAndIds, activeItemId());
+    });
+
+    return {
+      props: {
+        ...args,
+        items: itemsWithActiveState,
+        handleItemClick,
+      },
+      template: `
+        <rte-side-nav
+          [size]="size"
+          [collapsible]="collapsible"
+          [headerConfig]="headerConfig"
+          [appearance]="appearance"
+          [contrast]="contrast"
+          [items]="items()"
+          [isCollapsed]="isCollapsed"
+          (itemClicked)="handleItemClick($event)">
+          <div content>${PageContent}</div>
+        </rte-side-nav>
+      `,
+    };
+  },
+  play: async ({ canvasElement, step }) => {
+    const { canvas } = getCanvasAndSideNav(canvasElement);
+
+    await step("Verify Overview leaf is active initially", async () => {
+      expectNavItemToBeActive(canvas, "overview");
+      expectNavItemNotToBeActive(canvas, "reports");
+      expectNavItemNotToBeActive(canvas, "advanced");
+    });
+
+    await step("Click Reports and verify only Reports is active", async () => {
+      const sideNav = canvas.getByRole("navigation");
+      const reportsElement = getNavElement(sideNav, "Reports");
+      expect(reportsElement).not.toBeNull();
+      await userEvent.click(reportsElement!);
+
+      expectNavItemNotToBeActive(canvas, "overview");
+      expectNavItemToBeActive(canvas, "reports");
+      expectNavItemNotToBeActive(canvas, "advanced");
+    });
+
+    await step("Click Advanced NavMenu and verify only Advanced is active", async () => {
+      const sideNav = canvas.getByRole("navigation");
+      const settingsMenu = getNavElement(sideNav, "Settings");
+      expect(settingsMenu).not.toBeNull();
+      await userEvent.click(settingsMenu!);
+
+      const advancedMenu = getNavElement(sideNav, "Advanced");
+      expect(advancedMenu).not.toBeNull();
+      await userEvent.click(advancedMenu!);
+
+      expectNavItemNotToBeActive(canvas, "overview");
+      expectNavItemNotToBeActive(canvas, "reports");
+      expectNavItemNotToBeActive(canvas, "security");
+      expectNavItemNotToBeActive(canvas, "api-keys");
+      expectNavItemToBeActive(canvas, "advanced");
     });
   },
 };
@@ -642,8 +986,9 @@ export const ActiveItemState: Story = {
           [collapsible]="collapsible"
           [headerConfig]="headerConfig"
           [appearance]="appearance"
+          [contrast]="contrast"
           [items]="items()"
-          [collapsed]="collapsed"
+          [isCollapsed]="isCollapsed"
           (itemClicked)="handleItemClick($event)">
           <div content>${PageContent}</div>
         </rte-side-nav>
@@ -742,6 +1087,43 @@ export const WithBadges: Story = {
     collapsible: true,
   },
   render: defaultRender,
+};
+
+export const CollapsedWithBadges: Story = {
+  args: {
+    ...WithBadges.args,
+    isCollapsed: true,
+  },
+  render: defaultRender,
+  play: async ({ canvasElement, step }) => {
+    const { sideNav } = getCanvasAndSideNav(canvasElement);
+
+    await step("Collapsed nav items show xs indicator dot on icon", async () => {
+      const homeElement = getNavElementInCollapsedState(sideNav, 0);
+      expect(homeElement).not.toBeNull();
+
+      const collapsedBadge = homeElement?.querySelector(".badge.size-xs");
+      expect(collapsedBadge).not.toBeNull();
+      expect(collapsedBadge).toHaveClass("type-indicator");
+      expect(collapsedBadge?.querySelector(".badge-text")).toBeNull();
+    });
+
+    await step("Collapsed nav items do not show numeric badge in right column", async () => {
+      const homeElement = getNavElementInCollapsedState(sideNav, 0);
+      const navItemRight = homeElement?.querySelector(".nav-item-right");
+      expect(navItemRight?.querySelector(".badge")).toBeNull();
+    });
+
+    await step("Collapsed menu items show xs indicator dot on icon", async () => {
+      const dashboardMenu = getNavElementInCollapsedState(sideNav, 1);
+      expect(dashboardMenu).not.toBeNull();
+
+      const collapsedBadge = dashboardMenu?.querySelector(".badge.size-xs");
+      expect(collapsedBadge).not.toBeNull();
+      expect(collapsedBadge).toHaveClass("type-indicator");
+      expect(collapsedBadge?.querySelector(".badge-text")).toBeNull();
+    });
+  },
 };
 
 export const WithDividers: Story = {
