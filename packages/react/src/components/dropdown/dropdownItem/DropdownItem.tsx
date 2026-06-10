@@ -70,18 +70,22 @@ const DropdownItem = ({
   }
 
   const handleOnClick = (event: React.MouseEvent<HTMLLIElement> | React.KeyboardEvent<HTMLLIElement>) => {
-    if (disabled) return;
     event.stopPropagation();
-    event.preventDefault();
+    if (disabled) return;
     if (onClick) {
+      event.preventDefault();
       onClick(event);
+    } else {
+      if (link) {
+        handleOnClickLink(event);
+      }
     }
     if (autoClose && closeRoot) {
       closeRoot();
     }
   };
 
-  const handleLinkKeyDown = (event: React.KeyboardEvent<HTMLLIElement>) => {
+  const handleOnClickLink = (event: React.MouseEvent<HTMLLIElement> | React.KeyboardEvent<HTMLLIElement>) => {
     const linkElement = event.currentTarget.querySelector("a");
     if (linkElement) {
       linkElement.click();
@@ -101,7 +105,7 @@ const DropdownItem = ({
   const handleKeyDown = (event: React.KeyboardEvent<HTMLLIElement>) => {
     if ([SPACE_KEY, ENTER_KEY].includes(event.key)) {
       if (link) {
-        handleLinkKeyDown(event);
+        handleOnClickLink(event);
       } else {
         handleNonLinkKeyDown(event);
       }
