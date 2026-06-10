@@ -19,6 +19,7 @@ import { useKeydownEscape } from "../../hooks/useKeydownEscape";
 import Button from "../button/Button";
 import Divider from "../divider/Divider";
 import IconButton from "../iconButton/IconButton";
+import useFreezeNavigation from "../modal/hooks/useFreezeNavigation";
 import { Overlay } from "../overlay/Overlay";
 
 import styles from "./Drawer.module.scss";
@@ -255,6 +256,7 @@ const Drawer = ({
   useClickAway(closeOnOverlayClick && position === "modal" ? onClose : () => {}, drawerRef.current!);
   useKeydownEscape(closeOnEscape ? onClose : () => {});
   useFocusTrap(drawerRef.current!, shouldRender);
+  useFreezeNavigation(position === "modal" && isOpen);
 
   const shouldDisplayDefaultHeader = shouldUseDrawerDefaultHeader(header, title);
   const shouldDisplayDefaultFooter = shouldUseDrawerDefaultFooter(footer, primaryButtonLabel);
