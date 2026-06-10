@@ -4,6 +4,7 @@
   
   ## Changes
 
+- (Header) add missing padding on link
 - (Header) add missing padding on mobile
 - (Header) react - extract interface + fix review comments
 - (Header) react add interaction stories
