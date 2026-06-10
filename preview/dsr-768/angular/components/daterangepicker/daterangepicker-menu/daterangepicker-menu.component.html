@@ -128,41 +128,59 @@
     <rte-divider appearance="brand" />
 
     <div class="rte-datepicker-day-grid" role="grid" aria-label="Calendrier">
-      @for (cell of dayCells(); track cell.date.toISOString(); let index = $index) {
-        <button
-          type="button"
-          class="day-cell"
-          role="gridcell"
-          [attr.aria-selected]="cell.cellType === 'selected' ? true : null"
-          [attr.data-cell-type]="cell.cellType"
-          [attr.data-datepicker-active]="
-            calendarType() === 'day' && cell.date.toDateString() === activeDate().toDateString() ? 'true' : null
-          "
-          [attr.data-in-range]="isDateInRange(cell.date) ? 'true' : null"
-          [attr.data-in-preview]="isDateInPreviewRange(cell.date) ? 'true' : null"
-          [attr.data-first-in-preview]="isDateFirstInPreviewRange(cell.date) ? 'true' : null"
-          [attr.data-last-in-preview]="isDateLastInPreviewRange(cell.date) ? 'true' : null"
-          [attr.data-first-in-range]="isDateFirstInRange(cell.date) ? 'true' : null"
-          [attr.data-last-in-range]="isDateLastInRange(cell.date) ? 'true' : null"
-          [attr.tabindex]="tabIndexForKeyboardOrder()"
-          [disabled]="cell.isDisabled"
-          (click)="onClickDay(cell.date, cell.isDisabled)"
-          (focus)="setActiveDate(cell.date)"
-          (mouseenter)="onDayCellMouseEnter(cell.date)"
-          (mouseleave)="onDayCellMouseLeave()"
-        >
-          @if (index % 7 === 0) {
-            <div class="rte-date-rangepicker-link" data-position="start-line"></div>
-          }
-          <div class="rte-date-rangepicker-link" data-position="start-cell"></div>
-          <span class="day-cell__surface" aria-hidden="true"></span>
-          <span class="day-cell__label">{{ cell.label }}</span>
-          <div class="rte-date-rangepicker-link" data-position="end-cell"></div>
-          @if (index % 7 === 6) {
-            <div class="rte-date-rangepicker-link" data-position="end-line"></div>
-          }
-        </button>
-      }
+      <div class="rte-datepicker-day-grid__range-links" aria-hidden="true">
+        @for (cell of dayCells(); track cell.date.toISOString(); let index = $index) {
+          <div
+            class="day-cell-range-links"
+            [attr.data-cell-type]="cell.cellType"
+            [attr.data-in-range]="isDateInRange(cell.date) ? 'true' : null"
+            [attr.data-in-preview]="isDateInPreviewRange(cell.date) ? 'true' : null"
+            [attr.data-first-in-preview]="isDateFirstInPreviewRange(cell.date) ? 'true' : null"
+            [attr.data-last-in-preview]="isDateLastInPreviewRange(cell.date) ? 'true' : null"
+            [attr.data-first-in-range]="isDateFirstInRange(cell.date) ? 'true' : null"
+            [attr.data-last-in-range]="isDateLastInRange(cell.date) ? 'true' : null"
+            [attr.data-day-hovered]="hoveredDate()?.toDateString() === cell.date.toDateString() ? 'true' : null"
+          >
+            @if (index % 7 === 0) {
+              <div class="rte-date-rangepicker-link" data-position="start-line"></div>
+            }
+            <div class="rte-date-rangepicker-link" data-position="start-cell"></div>
+            <div class="rte-date-rangepicker-link" data-position="end-cell"></div>
+            @if (index % 7 === 6) {
+              <div class="rte-date-rangepicker-link" data-position="end-line"></div>
+            }
+          </div>
+        }
+      </div>
+      <div class="rte-datepicker-day-grid__cells">
+        @for (cell of dayCells(); track cell.date.toISOString()) {
+          <button
+            type="button"
+            class="day-cell"
+            role="gridcell"
+            [attr.aria-selected]="cell.cellType === 'selected' ? true : null"
+            [attr.data-cell-type]="cell.cellType"
+            [attr.data-datepicker-active]="
+              calendarType() === 'day' && cell.date.toDateString() === activeDate().toDateString() ? 'true' : null
+            "
+            [attr.data-in-range]="isDateInRange(cell.date) ? 'true' : null"
+            [attr.data-in-preview]="isDateInPreviewRange(cell.date) ? 'true' : null"
+            [attr.data-first-in-preview]="isDateFirstInPreviewRange(cell.date) ? 'true' : null"
+            [attr.data-last-in-preview]="isDateLastInPreviewRange(cell.date) ? 'true' : null"
+            [attr.data-first-in-range]="isDateFirstInRange(cell.date) ? 'true' : null"
+            [attr.data-last-in-range]="isDateLastInRange(cell.date) ? 'true' : null"
+            [attr.tabindex]="tabIndexForKeyboardOrder()"
+            [disabled]="cell.isDisabled"
+            (click)="onClickDay(cell.date, cell.isDisabled)"
+            (focus)="setActiveDate(cell.date)"
+            (mouseenter)="onDayCellMouseEnter(cell.date)"
+            (mouseleave)="onDayCellMouseLeave()"
+          >
+            <span class="day-cell__surface" aria-hidden="true"></span>
+            <span class="day-cell__label">{{ cell.label }}</span>
+          </button>
+        }
+      </div>
     </div>
   } @else if (calendarType() === "month") {
     <rte-divider appearance="brand" />
