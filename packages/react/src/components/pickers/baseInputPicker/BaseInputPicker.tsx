@@ -86,6 +86,7 @@ const BaseInputPicker = ({
           aria-label={openButtonAriaLabel ?? "Open picker"}
           disabled={disabled}
           tabIndex={canBeFocused ? 0 : -1}
+          type="button"
         >
           <Icon
             name={icon}
