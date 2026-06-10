@@ -1,6 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, input, output } from "@angular/core";
 import { CHIP_TYPE_TO_ARIA_ROLE_MAP } from "@design-system-rte/core/components/chip/chip.constants";
+import { ChipAppearance } from "@design-system-rte/core/components/chip/chip.interface";
 import {
   BACKSPACE_KEY,
   DELETE_KEY,
@@ -25,7 +26,8 @@ export class ChipComponent {
   readonly disabled = input<boolean>(false);
   readonly type = input<"single" | "multi" | "input">("single");
   readonly compactSpacing = input<boolean>(false);
-  readonly click = output<Event>();
+  readonly appearance = input<ChipAppearance>("brand");
+  readonly clickChip = output<Event>();
   readonly close = output<Event>();
 
   readonly isCheckable = computed(() => this.type() === "single" || this.type() === "multi");
@@ -36,7 +38,7 @@ export class ChipComponent {
   onClick(event: Event) {
     event.stopPropagation();
     if (!this.disabled()) {
-      this.click.emit(event);
+      this.clickChip.emit(event);
     }
   }
 

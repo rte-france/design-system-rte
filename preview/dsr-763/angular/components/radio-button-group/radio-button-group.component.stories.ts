@@ -1,3 +1,4 @@
+import { computed, signal } from "@angular/core";
 import { Meta, StoryObj } from "@storybook/angular";
 import { userEvent, within, expect } from "@storybook/test";
 
@@ -14,7 +15,11 @@ const meta: Meta<RadioButtonGroupComponent> = {
     },
     items: {
       control: "object",
-      defaultValue: ["Option 1", "Option 2", "Option 3"],
+      defaultValue: [
+        { label: "Option 1", value: "option1" },
+        { label: "Option 2", value: "option2" },
+        { label: "Option 3", value: "option3" },
+      ],
     },
     direction: {
       control: "select",
@@ -65,7 +70,11 @@ type Story = StoryObj<RadioButtonGroupComponent>;
 export const Default: Story = {
   args: {
     groupName: "group1",
-    items: ["Option 1", "Option 2", "Option 3"],
+    items: [
+      { label: "Option 1", value: "option1" },
+      { label: "Option 2", value: "option2" },
+      { label: "Option 3", value: "option3" },
+    ],
     direction: "horizontal",
     showItemsLabel: true,
     groupTitle: "Radio Button Group Title",
@@ -122,5 +131,58 @@ export const Horizontal: Story = {
     ...Default.args,
     groupName: "horizontal-radio-group",
     direction: "horizontal",
+  },
+};
+
+export const InitialValueSelected: Story = {
+  args: {
+    ...Default.args,
+    selectedValue: "option2",
+  },
+
+  render: (args) => {
+    const selectedValue = signal(args.selectedValue);
+
+    const valueChange = (value: string) => {
+      selectedValue.set(value);
+    };
+
+    const selectedLabel = computed(() => args.items.find((item) => item.value === selectedValue())?.label || "None");
+
+    return {
+      props: {
+        ...args,
+        valueChange,
+        selectedValue,
+        selectedLabel,
+      },
+      template: `
+      <div style="display: flex; gap: 8px;">
+      <rte-radio-button-group
+      [groupName]="groupName"
+      [items]="items"
+      [direction]="direction"
+      [showItemsLabel]="showItemsLabel"
+      [groupTitle]="groupTitle"
+      [showGroupTitle]="showGroupTitle"
+      [groupHelpText]="groupHelpText"
+      [showHelpText]="showHelpText"
+      [errorMessage]="errorMessage"
+      [error]="error"
+      [disabled]="disabled"
+      [readOnly]="readOnly"
+      [selectedValue]="selectedValue()"
+      (changeEvent)="valueChange($event)"
+      />
+      </div>
+      <p>Selected Value: {{ selectedLabel() }}</p>
+      `,
+    };
+  },
+
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const radioButton = canvas.getByLabelText("Option 2");
+    expect(radioButton).toBeChecked();
   },
 };

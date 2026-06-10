@@ -5,6 +5,7 @@ interface BaseTextInputProps extends CoreTextInputProps, Omit<InputHTMLAttribute
     rightSlot?: ReactNode;
     inputStyle?: CSSProperties;
     highlighted?: boolean;
+    onEnterKeyDown?: (value: string) => void;
 }
 declare const BaseTextInput: import('../../../../../../node_modules/react').ForwardRefExoticComponent<BaseTextInputProps & import('../../../../../../node_modules/react').RefAttributes<HTMLInputElement>>;
 export default BaseTextInput;

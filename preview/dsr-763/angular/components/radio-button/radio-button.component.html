@@ -6,12 +6,14 @@
   <input
     type="radio"
     class="rte-radio-button"
-    [id]="label()"
-    [value]="label()"
+    [id]="value()"
+    [value]="value()"
     [size]="labelSize"
     [name]="groupName()"
     [ngClass]="{ error: error(), 'read-only': readOnly() }"
     [disabled]="disabled()"
+    [checked]="isChecked()"
+    (change)="onChange()"
   />
   <div
     class="rte-radio-button-background"
@@ -23,7 +25,7 @@
   <label
     *ngIf="showLabel()"
     class="rte-radio-button-label"
-    [for]="label()"
+    [for]="value()"
     [ngClass]="{
       error: error(),
       'read-only': readOnly(),
