@@ -6,6 +6,7 @@
   max-width: 100%;
   align-items: center;
   gap: $positive-spacing_100;
+  padding-left: $positive-spacing_100;
 
   .rte-header-left {
     flex: 0 0 auto;
@@ -60,6 +61,7 @@
       max-width: 100%;
       visibility: visible;
       transition: opacity 150ms, visibility 150ms allow-discrete;
+      color: var(--content-secondary);
 
       &[data-is-searchbar-expanded='true'] {
         opacity: 0;
@@ -80,7 +82,7 @@
 
 
       .rte-searchbar-container {
-        visibility: visible;
+        visibility: hidden;
         opacity: 0;
         position: absolute;
         right: 0;

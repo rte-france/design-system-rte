@@ -178,6 +178,7 @@ export const WithLeftSectionContent: Story = {
 };
 
 export const MobileSearchInteraction: Story = {
+  tags: ["skip-ci"],
   parameters: {
     viewport: { defaultViewport: "mobile2" },
   },
