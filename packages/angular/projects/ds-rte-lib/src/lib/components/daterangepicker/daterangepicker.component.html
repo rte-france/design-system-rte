@@ -20,6 +20,7 @@
     class="rte-daterangepicker-dropdown"
     rteDropdown
     [rteDropdownAutoOpen]="false"
+    [rteDropdownAutofocus]="false"
     [rteDropdownIsOpen]="isOpen()"
     [rteDropdownWidth]="dropdownWidth()"
     [rteDropdownOffset]="8"
@@ -31,6 +32,8 @@
       rteDropdownTrigger
       role="group"
       [attr.aria-labelledby]="groupAriaLabelledby()"
+      (focusin)="onInputsGroupFocusIn($event)"
+      (focusout)="onInputsGroupFocusOut($event)"
     >
       <span class="visually-hidden" [id]="startInputLabelId()">Date de début</span>
       <rte-datepicker-segmented-field
@@ -46,7 +49,7 @@
         [error]="isError()"
         [disabled]="isDisabled()"
         [readOnly]="readOnly()"
-        [highlighted]="isOpen() && activeInput() === 'start'"
+        [highlighted]="inputsHighlighted()"
         [rightIconAriaLabel]="startCalendarButtonAriaLabel()"
         (valueChange)="onStartInputValueChange($event)"
         (rightIconClick)="onStartCalendarIconTriggered($event)"
@@ -69,7 +72,7 @@
         [error]="isError()"
         [disabled]="isDisabled()"
         [readOnly]="readOnly()"
-        [highlighted]="isOpen() && activeInput() === 'end'"
+        [highlighted]="inputsHighlighted()"
         [rightIconAriaLabel]="endCalendarButtonAriaLabel()"
         (valueChange)="onEndInputValueChange($event)"
         (rightIconClick)="onEndCalendarIconTriggered($event)"
