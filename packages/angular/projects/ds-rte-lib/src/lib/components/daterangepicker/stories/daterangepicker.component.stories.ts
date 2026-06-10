@@ -325,7 +325,6 @@ export const TabNavigation: Story = {
   render: buildRender([new Date(2026, 4, 10), new Date(2026, 4, 18)]),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const openButton = canvas.getByRole("button", { name: /Ouvrir le sélecteur de date de début/i });
     const dropdown = await openDaterangepickerOverlay(canvasElement);
     expect(dropdown.querySelector("[role='dialog']")).toBeInTheDocument();
 
@@ -348,7 +347,9 @@ export const TabNavigation: Story = {
 
     await waitFor(() => {
       expect(dropdown.querySelector("[role='dialog']")).not.toBeInTheDocument();
-      expect(openButton).toHaveFocus();
+    });
+    await waitFor(() => {
+      expect(canvas.getByRole("button", { name: /Ouvrir le sélecteur de date de début/i })).toHaveFocus();
     });
   },
 };
