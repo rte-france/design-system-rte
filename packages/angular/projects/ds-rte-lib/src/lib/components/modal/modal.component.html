@@ -1,5 +1,10 @@
 <div class="rte-modal-wrapper">
-  <div class="rte-modal-backdrop" [attr.data-open]="isOpen()"></div>
+  <div
+    class="rte-modal-backdrop"
+    [attr.data-open]="isOpen()"
+    [attr.data-interactive]="!!closeOnClickOutside()"
+    (click)="handleClickBackdrop()"
+  ></div>
   <dialog
     #modal
     class="rte-modal-container"

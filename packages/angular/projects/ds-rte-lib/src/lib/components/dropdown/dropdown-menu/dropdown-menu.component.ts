@@ -55,6 +55,7 @@ export class DropdownMenuComponent implements OnDestroy {
   private readonly overlayService = inject(OverlayService);
   private readonly viewContainerRef = inject(ViewContainerRef);
 
+  readonly isInParentWithOverlay = input<boolean>(false);
   readonly items = input<DropdownItemConfig[]>([]);
   readonly menuId = input<string>();
 
@@ -99,6 +100,10 @@ export class DropdownMenuComponent implements OnDestroy {
     const hasDirectiveTemplate = !!this.bodyDirective()?.templateRef;
     const hasProjectedContent = !!this.bodyContentRef()?.nativeElement?.children.length;
     return hasTemplate || hasDirectiveTemplate || hasProjectedContent;
+  });
+
+  readonly overlayLayerLevel = computed(() => {
+    return this.isInParentWithOverlay() ? "high" : "low";
   });
 
   getChildMenuId(itemIndex: number): string {

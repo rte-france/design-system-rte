@@ -1,4 +1,8 @@
-<div class="rte-dropdown-menu {{ isOpen() ? 'open' : 'closed' }}" [ngStyle]="menuStyle()">
+<div
+  class="rte-dropdown-menu {{ isOpen() ? 'open' : 'closed' }}"
+  [ngStyle]="menuStyle()"
+  [attr.data-overlay-level]="overlayLayerLevel()"
+>
   @if (hasHeaderContent()) {
     <div class="rte-dropdown-menu-header">
       @if (headerTemplate() || headerDirective()?.templateRef) {

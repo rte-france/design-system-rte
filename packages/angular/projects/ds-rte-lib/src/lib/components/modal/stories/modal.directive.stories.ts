@@ -9,6 +9,8 @@ import { userEvent, waitFor, within, expect, fn } from "@storybook/test";
 import { focusElementBeforeComponent } from "../../../../../../../.storybook/testing/testing.utils";
 import { ButtonComponent } from "../../button/button.component";
 import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../../icon/icon-map";
+import { PopoverDirective } from "../../popover/popover.directive";
+import { SelectComponent } from "../../select/select.component";
 import { TextareaComponent } from "../../textarea/textarea.component";
 import { ModalDirective } from "../modal.directive";
 import { ModalModule } from "../modal.module";
@@ -269,7 +271,7 @@ export const Sizes: Story = {
 export const WithCustomContent: Story = {
   decorators: [
     moduleMetadata({
-      imports: [ModalModule, ButtonComponent, TextareaComponent],
+      imports: [ModalModule, ButtonComponent, TextareaComponent, SelectComponent, PopoverDirective],
     }),
   ],
   args: {
@@ -308,6 +310,16 @@ export const WithCustomContent: Story = {
                 </ng-template>
                 <ng-template #customContent>
                   <rte-textarea resizeable="true" />
+                  <rte-select [options]="[{ label: 'Option 1', value: 'option1' }, { label: 'Option 2', value: 'option2' }]" />
+                  <p 
+                  rtePopover
+                  [rtePopoverContent]="'Blabla'"
+                  [rtePopoverPosition]= "'auto'"
+                  [rtePopoverAlignment]= "'center'"
+                  [rtePopoverPrimaryButtonLabel]= "'Close'"
+                  [rtePopoverSecondaryButtonLabel]= "'Cancel'"
+                  [rtePopoverTitle]= "'Popover Title'"  
+                  style="margin-top= 12px;">En motivant votre refus, vous aidez votre collaborateur à mieux identifier comment corriger sa demande.</p>
                 </ng-template>
               </div>
       `,
