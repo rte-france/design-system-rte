@@ -15,6 +15,7 @@ import Dropdown from "./components/dropdown/Dropdown.tsx";
 import DropdownItem from "./components/dropdown/dropdownItem/DropdownItem.tsx";
 import FileUpload from "./components/fileupload/FileUpload.tsx";
 import Grid from "./components/grid/Grid.tsx";
+import Header from "./components/header/Header.tsx";
 import Icon from "./components/icon/Icon.tsx";
 import IconButton from "./components/iconButton/IconButton.tsx";
 import IconButtonToggle from "./components/iconButtonToggle/IconButtonToggle.tsx";
@@ -89,4 +90,5 @@ export {
   Dropdown,
   DropdownItem,
   DateRangePicker,
+  Header,
 };

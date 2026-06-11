@@ -4,6 +4,7 @@
   
   ## Changes
 
+- (Header) react - export component
 - (Header) add missing padding on link
 - (Header) add missing padding on mobile
 - (Header) react - extract interface + fix review comments
