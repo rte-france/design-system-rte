@@ -24,6 +24,10 @@
   position: absolute;
   right: 0;
 
+  &[data-position="modal"] {
+    z-index: $backdrop + 1;
+  }
+
   &[data-fixed-header='false'] {
     padding: $positive-spacing_300 $positive-spacing_100 $positive-spacing_300 $positive-spacing_300;
   }

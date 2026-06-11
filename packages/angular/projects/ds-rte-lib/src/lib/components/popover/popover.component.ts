@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, ElementRef, inject, input, output, AfterViewInit, OnDestroy } from "@angular/core";
+import { Component, ElementRef, inject, input, output, AfterViewInit, OnDestroy, computed } from "@angular/core";
 import { PopoverAlignment, PopoverPosition } from "@design-system-rte/core/components/popover/popover.interface";
 
 import { FocusTrapService } from "../../services/focus-trap.service";
@@ -22,6 +22,7 @@ export class PopoverComponent implements AfterViewInit, OnDestroy {
   readonly secondaryButtonLabel = input<string>();
   readonly isOpen = input<boolean>(false);
   readonly coordinates = input<{ top: number; left: number }>({ top: 0, left: 0 });
+  readonly isInParentWithOverlay = input<boolean>(false);
 
   readonly clickPrimaryButton = output<void>();
   readonly clickSecondaryButton = output<void>();
@@ -29,6 +30,8 @@ export class PopoverComponent implements AfterViewInit, OnDestroy {
   private elementRef = inject(ElementRef);
 
   private focusTrap = inject(FocusTrapService);
+
+  readonly overlayLayerLevel = computed(() => (this.isInParentWithOverlay() ? "high" : "low"));
 
   constructor() {}
 

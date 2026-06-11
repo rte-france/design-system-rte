@@ -58,7 +58,6 @@
   }
 
   &:focus-visible {
-    z-index: 1;
     outline: 2px solid var(--border-brand-focused);
   }
 }
@@ -76,5 +75,4 @@
   opacity: 0;
   transition: left 0.2s ease,
   width 0.2s ease;
-  z-index: $level-1;
 }

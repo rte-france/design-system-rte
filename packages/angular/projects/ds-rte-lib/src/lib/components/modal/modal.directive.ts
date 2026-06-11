@@ -49,7 +49,6 @@ export class ModalDirective implements AfterContentInit, OnDestroy {
 
   private modalElement: HTMLElement | null = null;
 
-  private onMouseDown = (e: MouseEvent) => this.handleClickAway(e);
   private onKeyDown = (e: KeyboardEvent) => this.handleKeydown(e);
 
   constructor() {
@@ -62,7 +61,6 @@ export class ModalDirective implements AfterContentInit, OnDestroy {
   }
 
   ngAfterContentInit() {
-    document.addEventListener("mousedown", this.onMouseDown);
     document.addEventListener("keydown", this.onKeyDown);
     if (this.trigger()) {
       this.trigger()?.modalTriggerClicked.subscribe(() => {
@@ -124,6 +122,7 @@ export class ModalDirective implements AfterContentInit, OnDestroy {
       this.modalCompRef.setInput("primaryButton", this.primaryButton());
       this.modalCompRef.setInput("secondaryButton", this.secondaryButton());
       this.modalCompRef.setInput("customContent", this.customContent());
+      this.modalCompRef.setInput("closeOnClickOutside", this.rteModalCloseOnClickOutside());
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           this.modalCompRef?.setInput("isOpen", true);
@@ -132,12 +131,11 @@ export class ModalDirective implements AfterContentInit, OnDestroy {
     }
   }
 
-  private handleClickAway(event: MouseEvent) {
-    const elements = [this.hostElement, this.modalElement] as HTMLElement[];
-    if (elements.some((element) => !element)) return;
-    const shouldIgnore = elements.some((element) => element.contains(event.target as Node));
-    if (!shouldIgnore && this.rteModalCloseOnClickOutside()) {
-      this.close();
+  private closeModal(): void {
+    if (this.modalCompRef) {
+      this.modalCompRef.setInput("isOpen", false);
+
+      setTimeout(() => this.destroyModal(), 200);
     }
   }
 

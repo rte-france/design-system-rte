@@ -1,4 +1,4 @@
-@use '@design-system-rte/core/design-tokens/main.scss' as *;
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
 
 .tooltip-trigger {
     position: relative;
@@ -17,8 +17,12 @@
     color: var(--content-primary-inverse);
     opacity: 0;
     text-align: center;
-    z-index: 1;
+    z-index: $level-1;
     max-height: 40px;
+
+    &[data-overlay-level='high'] {
+        z-index: $backdrop + 1;
+    }
 
     .tooltipLabel {
         @include typography-tooltip-label;

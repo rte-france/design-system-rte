@@ -17,6 +17,8 @@ import {
 import { useEffect, useState, useRef, useCallback, forwardRef, useContext } from "react";
 
 import useAnimatedMount from "../../hooks/useAnimatedMount";
+import useGetOverlayLayerLevel from "../../hooks/useGetOverlayLayerLevel";
+import { useScrollEvent } from "../../hooks/useScrollEvent";
 import Divider from "../divider/Divider";
 import { Overlay } from "../overlay/Overlay";
 import { concatClassNames } from "../utils";
@@ -27,12 +29,15 @@ import { DropdownContextProvider } from "./context/DropdownContextProvider";
 import { focusDropdownFirstElement, focusNextElement, focusPreviousElement } from "./DropdownUtils";
 import { useDropdownState } from "./hooks/useDropdownState";
 
+export type OverlayPriority = "low" | "high";
+
 export interface BaseDropdownProps extends CoreDropdownProps, React.HTMLAttributes<HTMLDivElement> {
   trigger: React.ReactNode;
   header?: React.ReactNode;
   footer?: React.ReactNode;
   isList?: boolean;
   hasMaxWidth?: boolean;
+  overlayLevel?: OverlayPriority;
 }
 
 export const BaseDropdown = forwardRef<HTMLDivElement, BaseDropdownProps>(
@@ -55,6 +60,7 @@ export const BaseDropdown = forwardRef<HTMLDivElement, BaseDropdownProps>(
       footer,
       isList = true,
       hasMaxWidth = true,
+      overlayLevel,
       ...props
     },
     ref,
@@ -70,6 +76,8 @@ export const BaseDropdown = forwardRef<HTMLDivElement, BaseDropdownProps>(
     const [coordinates, setCoordinates] = useState<{ top: number; left: number }>({ top: 500, left: 500 });
 
     const { shouldRender, isAnimating } = useAnimatedMount(isOpen, DROPDOWN_ANIMATION_DURATION);
+
+    const overlayLayerLevel = useGetOverlayLayerLevel(triggerElement, overlayLevel);
 
     const dropdownCallbackRef = useCallback(
       (node: HTMLDivElement | null) => {
@@ -111,10 +119,17 @@ export const BaseDropdown = forwardRef<HTMLDivElement, BaseDropdownProps>(
           focusPreviousElement(dropdownElement);
         }
       }
+      if (e.key === ESCAPE_KEY) {
+        e.stopPropagation();
+        e.preventDefault();
+      }
     };
 
     const handleKeyUp = (e: React.KeyboardEvent<HTMLDivElement>) => {
       if (e.key === ESCAPE_KEY) {
+        console.log("escape");
+        e.stopPropagation();
+        e.preventDefault();
         closeDropdown();
         const buttonTrigger = triggerRef.current?.querySelectorAll(FOCUSABLE_BUTTONS_QUERY)[0] as HTMLElement;
         if (buttonTrigger) {
@@ -199,6 +214,11 @@ export const BaseDropdown = forwardRef<HTMLDivElement, BaseDropdownProps>(
       [offset],
     );
 
+    useScrollEvent(() => {
+      if (!triggerElement || !dropdownElement) return;
+      positionDropdown(triggerElement, dropdownElement, position, alignment);
+    });
+
     useEffect(() => {
       if (!triggerElement || !dropdownElement) return;
       if (hasParent) {
@@ -228,6 +248,7 @@ export const BaseDropdown = forwardRef<HTMLDivElement, BaseDropdownProps>(
               data-dropdown-id={autoId}
               data-position={autoPosition}
               data-open={isAnimating || undefined}
+              data-overlay-level={overlayLayerLevel}
               {...props}
               style={{
                 ...style,

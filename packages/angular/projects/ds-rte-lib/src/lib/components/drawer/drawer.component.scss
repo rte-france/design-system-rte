@@ -32,7 +32,7 @@
 .rte-drawer-modal-host-layer {
   position: fixed;
   inset: 0;
-  z-index: 999;
+  z-index: $backdrop + 1;
   pointer-events: none;
 
   .drawer-toggle--floating {

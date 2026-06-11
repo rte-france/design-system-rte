@@ -1,4 +1,4 @@
-@use '@design-system-rte/core/design-tokens/main.scss' as *;
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
 
 .rte-popoverTrigger {
   position: relative;
@@ -18,11 +18,15 @@
   background-color: var(--background-default);
   transition: opacity 150ms ease-out;
   opacity: 0;
-  z-index: 1000;
+  z-index: $level-1;
   min-width: 320px;
   max-width: 600px;
   width: fit-content;
   height: fit-content;
+
+  &[data-overlay-level="high"] {
+    z-index: $backdrop + 1;
+  }
 
   .popoverInner {
     display: flex;
