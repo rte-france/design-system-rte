@@ -1,11 +1,11 @@
+import { waitForNextFrame } from "@design-system-rte/core/common/animation";
+import { DATE_SEGMENTS_ORDER, DateSegmentEnum } from "@design-system-rte/core/components/datepicker";
 import {
-  areSameRange,
-  DATE_SEGMENTS_ORDER,
+  DATERANGEPICKER_DEFAULT_WIDTH,
+  DATERANGEPICKER_MIN_WIDTH,
   DateRangePickerProps,
-  DateSegmentEnum,
-  normalizeDate,
-  waitForNextFrame,
-} from "@design-system-rte/core";
+} from "@design-system-rte/core/components/daterangepicker";
+import { normalizeDate, areSameRange } from "@design-system-rte/core/components/pickers";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { BaseDropdown } from "../../../components/dropdown/BaseDropdown";
@@ -48,10 +48,12 @@ const DateRangePicker = ({
   assistiveTextLink,
   isError = false,
   readonly = false,
+  width = DATERANGEPICKER_DEFAULT_WIDTH,
 }: DateRangePickerProps) => {
   const [isFocused, setIsFocused] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [hasPendingChanges, setHasPendingChanges] = useState(false);
+  const [inputsWidth, setInputsWidth] = useState<number | undefined>(undefined);
 
   const skipNextFocusRef = useRef(false);
   const activeInputRef = useRef<"start" | "end">("start");
@@ -384,122 +386,149 @@ const DateRangePicker = ({
     }
   }, [isDropdownOpen, value, updateDisplayedDateEnd, updateDisplayedDateStart]);
 
+  useEffect(() => {
+    const inputsElement = inputsRef.current;
+    if (!inputsElement) {
+      return;
+    }
+
+    const syncInputsWidth = (): void => {
+      setInputsWidth(Math.round(inputsElement.getBoundingClientRect().width));
+    };
+
+    syncInputsWidth();
+
+    const resizeObserver = new ResizeObserver(syncInputsWidth);
+    resizeObserver.observe(inputsElement);
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, [width]);
+
   return (
-    <div className={styles["date-range-picker"]}>
+    <div className={styles["date-range-picker"]} style={{ width, minWidth: DATERANGEPICKER_MIN_WIDTH }}>
       <Label id={groupLabelId} label={label} required={required} showLabelRequirement={showLabelRequirement} />
-      <BaseDropdown
-        style={{ width: inputsRef.current?.offsetWidth }}
-        isList={false}
-        isOpen={isDropdownOpen}
-        onClose={handleOnClose}
-        offset={8}
-        hasMaxWidth={false}
-        trigger={
-          <div
-            className={styles["date-range-picker-inputs"]}
-            ref={inputsRef}
-            role="group"
-            aria-labelledby={groupLabelId}
-          >
-            <span id={startInputLabelId} className={styles["visually-hidden"]}>
-              Date de debut
-            </span>
-            <DateRangeInput
-              id={`${id}-start-input`}
-              pickerInputRef={dateInputStartRef}
-              isFocused={isFocused}
-              onKeyDown={handleOnKeyDownInput}
-              onMouseDown={handleOnMouseDownStart}
-              onMouseUp={handleOnMouseUp}
-              onFocus={handleOnFocusStart}
-              onBlur={handleOnBlur}
-              value={internalValueStart ?? null}
-              moveToNextSegment={moveToNextSegment}
-              moveToPreviousSegment={moveToPreviousSegment}
-              onChange={handleOnChangeStartInput}
-              activeSegment={activeSegment}
-              onOpenPicker={() => {
-                setIsDropdownOpen(!isDropdownOpen);
-                setSelectionMode("start");
-                activeInputRef.current = START_INPUT;
-              }}
-              minDate={minDate}
-              maxDate={maxDate}
-              disabledDates={disabledDates}
-              disabled={disabled}
-              dateState={dateStateStart}
-              internalValue={internalValueStart}
-              increaseActiveSegmentValue={increaseActiveSegmentValueStart}
-              decreaseActiveSegmentValue={decreaseActiveSegmentValueStart}
-              resetActiveSegmentValue={resetActiveSegmentValueStart}
-              updateDateSegment={updateDateSegmentStart}
-              updateFullDate={updateFullDateStart}
-              displayValue={displayValueStart}
-              ariaLabelledBy={startInputAriaLabelledBy}
-              ariaDescribedBy={inputAriaDescribedBy}
-              openButtonAriaLabel="Ouvrir le sélecteur de date de début"
-              isError={isError}
-              readonly={readonly}
-            />
-            <Icon name="arrow-double-right" size={20} />
-            <span id={endInputLabelId} className={styles["visually-hidden"]}>
-              Date de fin
-            </span>
-            <DateRangeInput
-              id={`${id}-end-input`}
-              pickerInputRef={dateInputEndRef}
-              isFocused={isFocused}
-              onKeyDown={handleOnKeyDownInput}
-              onMouseDown={handleOnMouseDownEnd}
-              onMouseUp={handleOnMouseUp}
-              onFocus={handleOnFocusEnd}
-              onBlur={handleOnBlur}
-              value={internalValueEnd ?? null}
-              moveToNextSegment={moveToNextSegment}
-              moveToPreviousSegment={moveToPreviousSegment}
-              onChange={handleOnChangeEndInput}
-              activeSegment={activeSegment}
-              onOpenPicker={() => {
-                setIsDropdownOpen(!isDropdownOpen);
-                activeInputRef.current = END_INPUT;
-                setSelectionMode("end");
-              }}
-              minDate={minDate}
-              maxDate={maxDate}
-              disabledDates={disabledDates}
-              disabled={disabled}
-              dateState={dateStateEnd}
-              internalValue={internalValueEnd}
-              increaseActiveSegmentValue={increaseActiveSegmentValueEnd}
-              decreaseActiveSegmentValue={decreaseActiveSegmentValueEnd}
-              resetActiveSegmentValue={resetActiveSegmentValueEnd}
-              updateDateSegment={updateDateSegmentEnd}
-              updateFullDate={updateFullDateEnd}
-              displayValue={displayValueEnd}
-              ariaLabelledBy={endInputAriaLabelledBy}
-              ariaDescribedBy={inputAriaDescribedBy}
-              openButtonAriaLabel="Ouvrir le sélecteur de date de fin"
-              isError={isError}
-              readonly={readonly}
-            />
-          </div>
-        }
-        position="bottom"
-      >
-        <DateRangePickerMenu
-          onValidate={handleOnValidate}
-          onCancel={handleOnCancel}
-          minDate={minDate}
-          maxDate={maxDate}
-          disabledDates={disabledDates}
+      <div className={styles["date-range-picker-dropdown"]}>
+        <BaseDropdown
+          style={{ width: inputsWidth }}
+          isList={false}
           isOpen={isDropdownOpen}
-          currentValue={internalRange}
-          onChange={handleOnChange}
-          hasAction={hasAction}
-          selectionMode={selectionMode}
-          setInitialValue={(date) => setInitialValue(date)}
-        />
-      </BaseDropdown>
+          onClose={handleOnClose}
+          offset={8}
+          hasMaxWidth={false}
+          autofocus={false}
+          trigger={
+            <div
+              className={styles["date-range-picker-inputs"]}
+              ref={inputsRef}
+              role="group"
+              aria-labelledby={groupLabelId}
+            >
+              <span id={startInputLabelId} className={styles["visually-hidden"]}>
+                Date de début
+              </span>
+              <div className={styles["date-range-picker-field"]}>
+                <DateRangeInput
+                  id={`${id}-start-input`}
+                  pickerInputRef={dateInputStartRef}
+                  isFocused={isFocused}
+                  onKeyDown={handleOnKeyDownInput}
+                  onMouseDown={handleOnMouseDownStart}
+                  onMouseUp={handleOnMouseUp}
+                  onFocus={handleOnFocusStart}
+                  onBlur={handleOnBlur}
+                  value={internalValueStart ?? null}
+                  moveToNextSegment={moveToNextSegment}
+                  moveToPreviousSegment={moveToPreviousSegment}
+                  onChange={handleOnChangeStartInput}
+                  activeSegment={activeSegment}
+                  onOpenPicker={() => {
+                    setIsDropdownOpen(!isDropdownOpen);
+                    setSelectionMode("start");
+                    activeInputRef.current = START_INPUT;
+                  }}
+                  minDate={minDate}
+                  maxDate={maxDate}
+                  disabledDates={disabledDates}
+                  disabled={disabled}
+                  dateState={dateStateStart}
+                  internalValue={internalValueStart}
+                  increaseActiveSegmentValue={increaseActiveSegmentValueStart}
+                  decreaseActiveSegmentValue={decreaseActiveSegmentValueStart}
+                  resetActiveSegmentValue={resetActiveSegmentValueStart}
+                  updateDateSegment={updateDateSegmentStart}
+                  updateFullDate={updateFullDateStart}
+                  displayValue={displayValueStart}
+                  ariaLabelledBy={startInputAriaLabelledBy}
+                  ariaDescribedBy={inputAriaDescribedBy}
+                  openButtonAriaLabel="Ouvrir le sélecteur de date de début"
+                  isError={isError}
+                  readonly={readonly}
+                />
+              </div>
+              <Icon className={styles["date-range-picker-separator"]} name="arrow-double-right" size={20} />
+              <span id={endInputLabelId} className={styles["visually-hidden"]}>
+                Date de fin
+              </span>
+              <div className={styles["date-range-picker-field"]}>
+                <DateRangeInput
+                  id={`${id}-end-input`}
+                  pickerInputRef={dateInputEndRef}
+                  isFocused={isFocused}
+                  onKeyDown={handleOnKeyDownInput}
+                  onMouseDown={handleOnMouseDownEnd}
+                  onMouseUp={handleOnMouseUp}
+                  onFocus={handleOnFocusEnd}
+                  onBlur={handleOnBlur}
+                  value={internalValueEnd ?? null}
+                  moveToNextSegment={moveToNextSegment}
+                  moveToPreviousSegment={moveToPreviousSegment}
+                  onChange={handleOnChangeEndInput}
+                  activeSegment={activeSegment}
+                  onOpenPicker={() => {
+                    setIsDropdownOpen(!isDropdownOpen);
+                    activeInputRef.current = END_INPUT;
+                    setSelectionMode("end");
+                  }}
+                  minDate={minDate}
+                  maxDate={maxDate}
+                  disabledDates={disabledDates}
+                  disabled={disabled}
+                  dateState={dateStateEnd}
+                  internalValue={internalValueEnd}
+                  increaseActiveSegmentValue={increaseActiveSegmentValueEnd}
+                  decreaseActiveSegmentValue={decreaseActiveSegmentValueEnd}
+                  resetActiveSegmentValue={resetActiveSegmentValueEnd}
+                  updateDateSegment={updateDateSegmentEnd}
+                  updateFullDate={updateFullDateEnd}
+                  displayValue={displayValueEnd}
+                  ariaLabelledBy={endInputAriaLabelledBy}
+                  ariaDescribedBy={inputAriaDescribedBy}
+                  openButtonAriaLabel="Ouvrir le sélecteur de date de fin"
+                  isError={isError}
+                  readonly={readonly}
+                />
+              </div>
+            </div>
+          }
+          position="bottom"
+        >
+          <DateRangePickerMenu
+            onValidate={handleOnValidate}
+            onCancel={handleOnCancel}
+            minDate={minDate}
+            maxDate={maxDate}
+            disabledDates={disabledDates}
+            isOpen={isDropdownOpen}
+            currentValue={internalRange}
+            onChange={handleOnChange}
+            hasAction={hasAction}
+            selectionMode={selectionMode}
+            setInitialValue={(date) => setInitialValue(date)}
+          />
+        </BaseDropdown>
+      </div>
       {shouldDisplayAssistiveText && (
         <div id={assistiveTextId}>
           <AssistiveText

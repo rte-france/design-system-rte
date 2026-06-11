@@ -1,6 +1,6 @@
 @use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
 
-.rte-datepicker-dropdown {
+.rte-daterangepicker-menu {
   @include typography-text-m;
 
   box-sizing: border-box;
@@ -15,7 +15,7 @@
   border-radius: $radius-s;
 }
 
-.rte-datepicker-dropdown-header {
+.rte-daterangepicker-menu-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -28,13 +28,13 @@
     display: flex;
     align-items: center;
     gap: $positive-spacing_050;
+  }
 
-    button {
-      &:focus-visible {
-        outline: 1px solid var(--border-brand-focused);
-        border-radius: $radius-xs;
-        outline-offset: 0;
-      }
+  .nav-button {
+    ::ng-deep .rte-icon-button:focus-visible {
+      outline: 1px solid var(--border-brand-focused);
+      border-radius: $radius-xs;
+      outline-offset: 0;
     }
   }
 
@@ -368,6 +368,7 @@
   @include typography-text-m;
 
   position: relative;
+  isolation: isolate;
   box-sizing: border-box;
   width: 40px;
   height: 40px;
@@ -387,9 +388,6 @@
   transition: color 120ms;
   appearance: none;
 
-  @media (prefers-reduced-motion: reduce) {
-    transition: none;
-  }
 
   .day-cell__label {
     position: relative;
@@ -405,7 +403,7 @@
     transform: translate(-50%, -50%);
     border-radius: 999px;
     box-sizing: border-box;
-    z-index: 2;
+    z-index: 1;
     pointer-events: none;
     border: 2px solid transparent;
     background-color: transparent;
@@ -416,6 +414,22 @@
     @media (prefers-reduced-motion: reduce) {
       transition: none;
     }
+  }
+
+  &::after {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 999px;
+    box-sizing: border-box;
+    z-index: 0;
+    pointer-events: none;
+    background-color: transparent;
   }
 
   &:focus {
@@ -459,6 +473,7 @@
     }
   }
 
+
   &:hover:not(:disabled) {
     &[data-cell-type="selected"] {
       .day-cell__surface {
@@ -494,6 +509,10 @@
   }
 
   &[data-datepicker-active="true"]:not(:disabled) {
+    &[data-cell-type="selected"] .day-cell__surface {
+      background-color: var(--background-brand-selected-hover);
+    }
+
     &[data-cell-type="today"] {
       color: var(--content-brand-hover);
 
@@ -508,6 +527,7 @@
     }
 
     &:not([data-cell-type="selected"]):not([data-cell-type="today"]) {
+
       .day-cell__surface {
         background-color: var(--background-hover, #ebebea);
       }
@@ -518,10 +538,6 @@
           background-color: var(--background-brand-unselected-hover);
         }
       }
-    }
-
-    .day-cell__surface {
-      background-color: var(--background-brand-selected-hover);
     }
   }
 
@@ -538,6 +554,7 @@
       }
     }
   }
+
 }
 
 
@@ -606,6 +623,7 @@
     color: var(--content-primary-inverse);
     background: var(--background-brand-selected-default);
     border-color: var(--border-brand-default);
+    z-index: 1;
   }
 
   &[data-current="true"]:not([data-selected="true"]) {
@@ -746,7 +764,7 @@
 }
 
 
-.rte-datepicker-dropdown-actions {
+.rte-daterangepicker-menu-actions {
   display: flex;
   justify-content: flex-end;
   gap: $positive-spacing_100;

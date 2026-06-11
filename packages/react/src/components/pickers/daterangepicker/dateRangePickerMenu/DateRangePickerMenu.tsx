@@ -35,12 +35,15 @@ import {
 } from "@design-system-rte/core";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-import { useFocusTrap } from "../../../../hooks/useFocusTrap";
 import Button from "../../../button/Button";
 import Divider from "../../../divider/Divider";
 import IconButton from "../../../iconButton/IconButton";
 import { concatClassNames } from "../../../utils";
 import useActiveDate from "../../hooks/useActiveDate";
+import {
+  DATEPICKER_KEYBOARD_ORDER_TAB_INDEX,
+  useDatepickerMenuFocusTrap,
+} from "../../hooks/useDatepickerMenuFocusTrap";
 
 import styles from "./DateRangePickerMenu.module.scss";
 
@@ -88,7 +91,7 @@ const DateRangePickerMenu = ({
     return pendingDate?.[1] || localCurrentValue?.[1] || null;
   }, [pendingDate, localCurrentValue]);
 
-  useFocusTrap(datePickerMenuRef.current!, isOpen, false);
+  useDatepickerMenuFocusTrap(datePickerMenuRef, isOpen, calendarType);
 
   const { viewDate, setViewDate, getNextDateForDayNavigation, getNextDateForCompactNavigation } = useActiveDate(
     startDate ? (startDate ?? new Date()) : new Date(),
@@ -687,7 +690,6 @@ const DateRangePickerMenu = ({
 
   useEffect(() => {
     const applyInitialStateOnOpen = () => {
-      queueFocusActiveDayCell();
       if (currentValue?.[0] && !currentValue?.[1]) {
         setHasPendingRange(true);
         setPendingDate([currentValue[0], null]);
@@ -695,8 +697,15 @@ const DateRangePickerMenu = ({
     };
     if (isOpen) {
       applyInitialStateOnOpen();
+      if (calendarType === DateSegmentEnum.DAY) {
+        queueFocusActiveDayCell();
+      } else if (calendarType === DateSegmentEnum.MONTH) {
+        queueFocusActiveMonthCell();
+      } else {
+        queueFocusActiveYearCell();
+      }
     }
-  }, [isOpen, currentValue, setInitialValue]);
+  }, [isOpen, currentValue, setInitialValue, calendarType]);
 
   useEffect(() => {
     const synchronizeActiveDateWithDayGrid = () => {
@@ -760,6 +769,7 @@ const DateRangePickerMenu = ({
                 variant="neutral"
                 size="s"
                 aria-label="Année précédente"
+                tabIndex={DATEPICKER_KEYBOARD_ORDER_TAB_INDEX}
                 data-datepicker-tab={DATEPICKER_TAB_DATA.navPrevYear}
                 onClick={() => handleNavigateDay("prevYear")}
               />
@@ -768,6 +778,7 @@ const DateRangePickerMenu = ({
                 variant="neutral"
                 size="s"
                 aria-label="Mois précédent"
+                tabIndex={DATEPICKER_KEYBOARD_ORDER_TAB_INDEX}
                 data-datepicker-tab={DATEPICKER_TAB_DATA.navPrevMonth}
                 onClick={() => handleNavigateDay("prevMonth")}
               />
@@ -778,6 +789,7 @@ const DateRangePickerMenu = ({
               variant="neutral"
               size="s"
               aria-label="Année précédente"
+              tabIndex={DATEPICKER_KEYBOARD_ORDER_TAB_INDEX}
               data-datepicker-tab={DATEPICKER_TAB_DATA.navPrevCompact}
               onClick={() => handleNavigateCompact("previous", "month")}
             />
@@ -787,6 +799,7 @@ const DateRangePickerMenu = ({
               variant="neutral"
               size="s"
               aria-label="Décennie précédente"
+              tabIndex={DATEPICKER_KEYBOARD_ORDER_TAB_INDEX}
               data-datepicker-tab={DATEPICKER_TAB_DATA.navPrevCompact}
               onClick={() => handleNavigateCompact("previous", "year")}
             />
@@ -800,6 +813,7 @@ const DateRangePickerMenu = ({
             className={styles["month-label"]}
             onClick={handleOnClickHeaderLabel}
             aria-label={`Changer de vue, ${headerTitle} , appuyer pour voir les ${calendarType === DateSegmentEnum.DAY ? "mois" : "années"}`}
+            tabIndex={DATEPICKER_KEYBOARD_ORDER_TAB_INDEX}
             data-datepicker-tab={DATEPICKER_TAB_DATA.monthLabel}
           >
             {headerTitle}
@@ -814,6 +828,7 @@ const DateRangePickerMenu = ({
                 variant="neutral"
                 size="s"
                 aria-label="Mois suivant"
+                tabIndex={DATEPICKER_KEYBOARD_ORDER_TAB_INDEX}
                 data-datepicker-tab={DATEPICKER_TAB_DATA.navNextMonth}
                 onClick={() => handleNavigateDay("nextMonth")}
               />
@@ -822,6 +837,7 @@ const DateRangePickerMenu = ({
                 variant="neutral"
                 size="s"
                 aria-label="Année suivante"
+                tabIndex={DATEPICKER_KEYBOARD_ORDER_TAB_INDEX}
                 data-datepicker-tab={DATEPICKER_TAB_DATA.navNextYear}
                 onClick={() => handleNavigateDay("nextYear")}
               />
@@ -832,6 +848,7 @@ const DateRangePickerMenu = ({
               variant="neutral"
               size="s"
               aria-label="Année suivante"
+              tabIndex={DATEPICKER_KEYBOARD_ORDER_TAB_INDEX}
               data-datepicker-tab={DATEPICKER_TAB_DATA.navNextCompact}
               onClick={() => handleNavigateCompact("next", "month")}
             />
@@ -841,6 +858,7 @@ const DateRangePickerMenu = ({
               variant="neutral"
               size="s"
               aria-label="Décennie suivante"
+              tabIndex={DATEPICKER_KEYBOARD_ORDER_TAB_INDEX}
               data-datepicker-tab={DATEPICKER_TAB_DATA.navNextCompact}
               onClick={() => handleNavigateCompact("next", "year")}
             />
@@ -864,40 +882,57 @@ const DateRangePickerMenu = ({
             role="grid"
             aria-label="Calendrier"
           >
-            {dayCells.map((cell, index) => (
-              <button
-                type="button"
-                key={cell.date.toISOString()}
-                className={concatClassNames(styles["day-cell"], "day-cell")}
-                role="gridcell"
-                onMouseEnter={() => handleOnMouseEnterDayCell(cell.date)}
-                onMouseLeave={() => handleOnMouseLeaveDayCell()}
-                onClick={() => handleOnClickDayCell(cell.date)}
-                aria-selected={cell.cellType === "selected" || undefined}
-                tabIndex={tabIndexForDayCell(cell.date, activeDate)}
-                disabled={cell.isDisabled}
-                data-cell-type={cell.cellType}
-                data-datepicker-active={activeDate?.toDateString() === cell.date.toDateString() || undefined}
-                data-index={index}
-                data-in-range={isDateInRange(cell.date) || undefined}
-                data-in-preview={isDateInPreviewRange(cell.date) || undefined}
-                data-first-in-preview={isDateFirstInPreviewRange(cell.date) || undefined}
-                data-last-in-preview={isDateLastInPreviewRange(cell.date) || undefined}
-                data-first-in-range={isDateFirstInRange(cell.date) || undefined}
-                data-last-in-range={isDateLastInRange(cell.date) || undefined}
-              >
-                {index % 7 === 0 && (
-                  <div className={styles["rte-date-rangepicker-link"]} data-position="start-line"></div>
-                )}
-                <div className={styles["rte-date-rangepicker-link"]} data-position="start-cell"></div>
-                <span className={styles["day-cell__surface"]} aria-hidden="true"></span>
-                <span className={styles["day-cell__label"]}>{cell.label}</span>
-                <div className={styles["rte-date-rangepicker-link"]} data-position="end-cell"></div>
-                {index % 7 === 6 && (
-                  <div className={styles["rte-date-rangepicker-link"]} data-position="end-line"></div>
-                )}
-              </button>
-            ))}
+            <div className={styles["rte-datepicker-day-grid__range-links"]} aria-hidden="true">
+              {dayCells.map((cell, index) => (
+                <div
+                  key={cell.date.toISOString()}
+                  className={styles["day-cell-range-links"]}
+                  data-cell-type={cell.cellType}
+                  data-in-range={isDateInRange(cell.date) || undefined}
+                  data-in-preview={isDateInPreviewRange(cell.date) || undefined}
+                  data-first-in-preview={isDateFirstInPreviewRange(cell.date) || undefined}
+                  data-last-in-preview={isDateLastInPreviewRange(cell.date) || undefined}
+                  data-first-in-range={isDateFirstInRange(cell.date) || undefined}
+                  data-last-in-range={isDateLastInRange(cell.date) || undefined}
+                  data-day-hovered={hoveredDate?.toDateString() === cell.date.toDateString() || undefined}
+                >
+                  {index % 7 === 0 && (
+                    <div className={styles["rte-date-rangepicker-link"]} data-position="start-line" />
+                  )}
+                  <div className={styles["rte-date-rangepicker-link"]} data-position="start-cell" />
+                  <div className={styles["rte-date-rangepicker-link"]} data-position="end-cell" />
+                  {index % 7 === 6 && <div className={styles["rte-date-rangepicker-link"]} data-position="end-line" />}
+                </div>
+              ))}
+            </div>
+            <div className={styles["rte-datepicker-day-grid__cells"]}>
+              {dayCells.map((cell, index) => (
+                <button
+                  type="button"
+                  key={cell.date.toISOString()}
+                  className={concatClassNames(styles["day-cell"], "day-cell")}
+                  role="gridcell"
+                  onMouseEnter={() => handleOnMouseEnterDayCell(cell.date)}
+                  onMouseLeave={() => handleOnMouseLeaveDayCell()}
+                  onClick={() => handleOnClickDayCell(cell.date)}
+                  aria-selected={cell.cellType === "selected" || undefined}
+                  tabIndex={tabIndexForDayCell(cell.date, activeDate)}
+                  disabled={cell.isDisabled}
+                  data-cell-type={cell.cellType}
+                  data-datepicker-active={activeDate?.toDateString() === cell.date.toDateString() || undefined}
+                  data-index={index}
+                  data-in-range={isDateInRange(cell.date) || undefined}
+                  data-in-preview={isDateInPreviewRange(cell.date) || undefined}
+                  data-first-in-preview={isDateFirstInPreviewRange(cell.date) || undefined}
+                  data-last-in-preview={isDateLastInPreviewRange(cell.date) || undefined}
+                  data-first-in-range={isDateFirstInRange(cell.date) || undefined}
+                  data-last-in-range={isDateLastInRange(cell.date) || undefined}
+                >
+                  <span className={styles["day-cell__surface"]} aria-hidden="true" />
+                  <span className={styles["day-cell__label"]}>{cell.label}</span>
+                </button>
+              ))}
+            </div>
           </div>
         </>
       ) : calendarType === DateSegmentEnum.MONTH ? (
@@ -972,8 +1007,22 @@ const DateRangePickerMenu = ({
       )}
       {hasAction && (
         <div className={styles["rte-datepicker-dropdown-actions"]}>
-          <Button label="Annuler" size="s" variant="transparent" onClick={handleOnCancel} />
-          <Button label="Confirmer" size="s" variant="transparent" onClick={handleOnClickValidate} />
+          <Button
+            label="Annuler"
+            size="s"
+            variant="transparent"
+            tabIndex={DATEPICKER_KEYBOARD_ORDER_TAB_INDEX}
+            data-datepicker-tab={DATEPICKER_TAB_DATA.cancel}
+            onClick={handleOnCancel}
+          />
+          <Button
+            label="Confirmer"
+            size="s"
+            variant="transparent"
+            tabIndex={DATEPICKER_KEYBOARD_ORDER_TAB_INDEX}
+            data-datepicker-tab={DATEPICKER_TAB_DATA.confirm}
+            onClick={handleOnClickValidate}
+          />
         </div>
       )}
     </div>
