@@ -30,6 +30,7 @@ import {
   FileUpload,
   TimePicker,
   DatePicker,
+  Header,
 } from "@design-system-rte/react";
 import "./App.css";
 import { useState } from "react";
@@ -239,235 +240,104 @@ function App() {
     setDate(newDate);
   };
 
+  const headerProps = {
+    applicationName: "Nom de l'application",
+    compactSpacing: false,
+    appearance: "brand",
+    hasDivider: false,
+    hasAvatar: true,
+    hasSearchbar: true,
+    actionButton: { label: "Partager", iconName: "share" },
+    iconButtons: [
+      {
+        iconName: "notification",
+        ariaLabel: "Notification",
+        badge: { count: 3, badgeType: "indicator", size: "s", content: "number" },
+      },
+      {
+        iconName: "map",
+        ariaLabel: "Map",
+      },
+      {
+        iconName: "info",
+        ariaLabel: "Help",
+      },
+      {
+        iconName: "settings",
+        ariaLabel: "Settings",
+      },
+    ],
+    navigationItems: [
+      { label: "Accueil", href: "/" },
+      { label: "Tableau de bord", href: "/dashboard", active: true },
+      { label: "Documentation", href: "/documentation", disabled: true },
+    ],
+    avatarProps: {
+      alt: "Profil",
+      initials: "JD",
+      layout: "initials",
+      colorType: "brand",
+      status: "available",
+    },
+    subHeaderConfig: {
+      items: [
+        { label: "Accueil", link: "/" },
+        { label: "Section", link: "/section" },
+        { label: "Page active", link: "/active-page" },
+      ],
+      ariaLabel: "Breadcrumbs",
+    },
+    isSticky: true,
+  };
+
   return (
-    <SideNav
-      headerConfig={headerConfig}
-      items={navigationItems}
-      footerItems={footerItems}
-      collapsible={true}
-      appearance="brand"
-      activeItem={activeItem}
-    >
-      <Drawer
-        title="Example Responsive Drawer"
-        isOpen={isDrawerOpen}
-        onClose={() => setIsDrawerOpen(false)}
-        content={<span>Contenu du drawer</span>}
-        position={"responsive"}
-        width="400px"
-        closeOnOverlayClick={true}
-        footer={<div>Footer Content</div>}
+    <>
+      <Header {...headerProps} />
+      <SideNav
+        headerConfig={headerConfig}
+        items={navigationItems}
+        footerItems={footerItems}
+        collapsible={true}
+        appearance="brand"
+        activeItem={activeItem}
       >
-        <Button label="Open drawer" onClick={() => setIsDrawerOpen(true)}></Button>
-        <div>
-          <h3>Select</h3>
-          <Select options={selectOptions} value={selectedOptions} onChange={handleOnChange} multiple />
-          <span>
-            Selected values :{" "}
-            {selectedOptions.length > 0 ? selectedOptions.map((option) => option).join(", ") : "No value"}
-            {/* {selectedOptions ? selectOptions.find((option) => option.value === selectedOptions)?.label : "No value"} */}
-          </span>
-        </div>
-        <div>
+        <Drawer
+          title="Example Responsive Drawer"
+          isOpen={isDrawerOpen}
+          onClose={() => setIsDrawerOpen(false)}
+          content={<span>Contenu du drawer</span>}
+          position={"responsive"}
+          width="400px"
+          closeOnOverlayClick={true}
+          footer={<div>Footer Content</div>}
+        >
+          <Button label="Open drawer" onClick={() => setIsDrawerOpen(true)}></Button>
           <div>
-            <h3>Tab</h3>
-            <Tab options={tabs} selectedTabId={selectedTab} onChange={handleTabClick} />
-            <div style={{ height: "50px", border: "1px solid #ccc", padding: "8px", marginTop: "16px" }}>
-              {tabs.map((tab) => (
-                <div
-                  key={tab.id}
-                  role="tabpanel"
-                  id={tab.panelId}
-                  aria-labelledby={tab.id}
-                  hidden={selectedTab !== tab.id}
-                >
-                  Contenu onglet {tab.label}
-                </div>
-              ))}
-            </div>
+            <h3>Select</h3>
+            <Select options={selectOptions} value={selectedOptions} onChange={handleOnChange} multiple />
+            <span>
+              Selected values :{" "}
+              {selectedOptions.length > 0 ? selectedOptions.map((option) => option).join(", ") : "No value"}
+              {/* {selectedOptions ? selectOptions.find((option) => option.value === selectedOptions)?.label : "No value"} */}
+            </span>
           </div>
-          <div>
-            <h3>Banner</h3>
-            <Banner
-              type="info"
-              title="La mise à jour est disponible"
-              message="This is an info banner"
-              closable
-              isOpen={isInfoBannerVisible}
-            />
-            <Banner
-              type="error"
-              title="Alert Banner"
-              message="This is an alert banner"
-              closable
-              isOpen={isAlertBannerVisible}
-            />
-            <Button label={isInfoBannerVisible ? "Close info banner" : "Show info banner"} onClick={toggleInfoBanner} />
-            <Button
-              label={isAlertBannerVisible ? "Close alert banner" : "Show alert banner"}
-              onClick={toggleAlertBanner}
-            />
-          </div>
-          <div>
-            <h3>Icon</h3>
-            <Icon name="check" />
-          </div>
-          <hr />
-          <div>
-            <h3>Button</h3>
-            <Button label="Click me" />
-          </div>
-          <hr />
-          <div>
-            <h3>SplitButton</h3>
-            <SplitButton
-              appearance="primary"
-              ariaLabelRight="Open menu"
-              label="Button Label"
-              position="bottom-start"
-              options={defaultSegmentedButtonOptions}
-            >
-              <Button label="Click me" />
-            </SplitButton>
-          </div>
-          <hr />
-          <div>
-            <h3>Tooltip</h3>
-            <Tooltip label="Tooltip">
-              <Button label="Click me" />
-            </Tooltip>
-          </div>
-          <hr />
-          <div>
-            <h3>TextInput</h3>
-            <TextInput label="Label" value={inputValue} onChange={handleInputChange} />
-            <h4>The input is : {inputValue}</h4>
-          </div>
-          <hr />
-          <div>
-            <h3>Icon Button Toggle</h3>
-            <IconButtonToggle
-              onClick={handleIconButtonToggleClick}
-              selected={isIconButtonToggleSelected}
-              name="settings"
-            />
-          </div>
-          <hr />
-          <div>
-            <h3>Chip</h3>
-            <Chip label="Chip Label" type="single" onClick={() => console.log("Chip clicked")} />
-          </div>
-          <hr />
-          <div>
-            <h3>Badge</h3>
-            <div style={{ display: "inline-block", backgroundColor: "bisque" }}>
-              <Badge count={1}>A badge host</Badge>
-            </div>
-          </div>
-          <hr />
-          <div>
-            <h3>Textarea</h3>
-            <Textarea
-              label="This is a textarea"
-              labelPosition="top"
-              assistiveTextLabel="This is a label"
-              assistiveTextAppearance="description"
-              required
-            />
-          </div>
-          <hr />
-          <h3>Divider</h3>
-          <p> First text </p>
-          <Divider />
-          <p> Second text </p>
-          <Divider thickness="medium" />
-          <div style={{ display: "flex", flexDirection: "row" }}>
-            <p style={{ margin: "20px" }}> left text </p>
-            <Divider orientation="vertical" />
-            <p style={{ margin: "20px" }}> middle text </p>
-            <Divider orientation="vertical" thickness="medium" />
-            <p style={{ margin: "20px" }}> right text </p>
-            <Divider orientation="vertical" thickness="bold" />
-          </div>
-          <Divider orientation="horizontal" thickness="bold" />
-          <hr />
-          <div>
-            <h3>Switch</h3>
-            <Switch
-              label="Switch Label"
-              appearance="brand"
-              showLabel={true}
-              showIcon={true}
-              disabled={false}
-              readOnly={false}
-            />
-            <Switch
-              label="Disabled Switch"
-              appearance="brand"
-              showLabel={true}
-              showIcon={true}
-              disabled={true}
-              readOnly={false}
-            />
-            <Switch
-              label="Read-Only Switch"
-              appearance="brand"
-              showLabel={true}
-              showIcon={true}
-              disabled={false}
-              readOnly={true}
-            />
-          </div>
-          <hr />
-          <div>
-            <h3>Segmented Control</h3>
-            <SegmentedControl
-              options={selectOptions}
-              selected={segmentedControlValue}
-              onClick={handleSegmentedControlClick}
-            />
-          </div>
-          <hr />
-          <div>
-            <h3>Breadcrumbs</h3>
-            <Breadcrumbs
-              items={[
-                { link: "/", label: "Home" },
-                { link: "/products", label: "Products" },
-                { link: "/electronics", label: "Electronics" },
-                { link: "/smartphones", label: "Smartphones" },
-              ]}
-            />
-          </div>
-          <hr />
-          <Popover
-            content="This is the popover content"
-            primaryButtonLabel="Confirm"
-            secondaryButtonLabel="Cancel"
-            title="Popover Title"
-          >
-            <Button label="Open Popover" />
-          </Popover>
-          <Divider />
-          <Button variant="primary" label="Open Modal" onClick={() => setIsModalOpen(true)} />
           <div>
             <div>
-              <h3>Stepper</h3>
-              <div style={{ width: "auto", margin: "0 auto" }}>
-                <Stepper steps={allClickableSteps} activeStepId={activeStepperStepId} />
+              <h3>Tab</h3>
+              <Tab options={tabs} selectedTabId={selectedTab} onChange={handleTabClick} />
+              <div style={{ height: "50px", border: "1px solid #ccc", padding: "8px", marginTop: "16px" }}>
+                {tabs.map((tab) => (
+                  <div
+                    key={tab.id}
+                    role="tabpanel"
+                    id={tab.panelId}
+                    aria-labelledby={tab.id}
+                    hidden={selectedTab !== tab.id}
+                  >
+                    Contenu onglet {tab.label}
+                  </div>
+                ))}
               </div>
-            </div>
-            <Divider />
-            <h3>Card</h3>
-            <div style={{ display: "flex", flexDirection: "column", gap: "16px", alignItems: "flex-start" }}>
-              <Card size="m" cardType="default">
-                <div style={{ padding: "16px" }}>
-                  <h4 style={{ margin: "0 0 12px 0", fontSize: "18px", fontWeight: "600" }}>Default Card</h4>
-                  <p style={{ margin: "0", color: "#666", lineHeight: "1.5" }}>
-                    This is a default card with medium size. It uses elevation shadow styling.
-                  </p>
-                </div>
-              </Card>
             </div>
             <div>
               <h3>Banner</h3>
@@ -608,13 +478,9 @@ function App() {
             <div>
               <h3>Segmented Control</h3>
               <SegmentedControl
-                options={[
-                  { id: "label-1", label: "Label 1" },
-                  { id: "label-2", label: "Label 2" },
-                  { id: "label-3", label: "Label 3" },
-                ]}
-                selectedSegment={segmentedControlValue}
-                onChange={handleSegmentedControlClick}
+                options={selectOptions}
+                selected={segmentedControlValue}
+                onClick={handleSegmentedControlClick}
               />
             </div>
             <hr />
@@ -640,93 +506,284 @@ function App() {
             </Popover>
             <Divider />
             <Button variant="primary" label="Open Modal" onClick={() => setIsModalOpen(true)} />
-            <Modal
-              title="Modal Title"
-              description="This is the modal description"
-              isOpen={isModalOpen}
-              onClose={() => setIsModalOpen(false)}
-              primaryButton={<Button variant="primary" label="Continue" onClick={() => setIsModalOpen(false)} />}
-              secondaryButton={<Button variant="neutral" label="Cancel" onClick={() => setIsModalOpen(false)} />}
-            >
+            <div>
               <div>
-                <Badge count={5}>Modal Content Badge</Badge>
-                <TextInput label="Modal Input" value={inputValue} onChange={handleInputChange} />
+                <h3>Stepper</h3>
+                <div style={{ width: "auto", margin: "0 auto" }}>
+                  <Stepper steps={allClickableSteps} activeStepId={activeStepperStepId} />
+                </div>
               </div>
-            </Modal>
-          </div>
-          <Divider />
-          <div>
-            <Select
-              options={[
-                { value: "option1", label: "Option 1" },
-                { value: "option2", label: "Option 2" },
-                { value: "option3", label: "Option 3" },
-              ]}
+              <Divider />
+              <h3>Card</h3>
+              <div style={{ display: "flex", flexDirection: "column", gap: "16px", alignItems: "flex-start" }}>
+                <Card size="m" cardType="default">
+                  <div style={{ padding: "16px" }}>
+                    <h4 style={{ margin: "0 0 12px 0", fontSize: "18px", fontWeight: "600" }}>Default Card</h4>
+                    <p style={{ margin: "0", color: "#666", lineHeight: "1.5" }}>
+                      This is a default card with medium size. It uses elevation shadow styling.
+                    </p>
+                  </div>
+                </Card>
+              </div>
+              <div>
+                <h3>Banner</h3>
+                <Banner
+                  type="info"
+                  title="La mise à jour est disponible"
+                  message="This is an info banner"
+                  closable
+                  isOpen={isInfoBannerVisible}
+                />
+                <Banner
+                  type="error"
+                  title="Alert Banner"
+                  message="This is an alert banner"
+                  closable
+                  isOpen={isAlertBannerVisible}
+                />
+                <Button
+                  label={isInfoBannerVisible ? "Close info banner" : "Show info banner"}
+                  onClick={toggleInfoBanner}
+                />
+                <Button
+                  label={isAlertBannerVisible ? "Close alert banner" : "Show alert banner"}
+                  onClick={toggleAlertBanner}
+                />
+              </div>
+              <div>
+                <h3>Icon</h3>
+                <Icon name="check" />
+              </div>
+              <hr />
+              <div>
+                <h3>Button</h3>
+                <Button label="Click me" />
+              </div>
+              <hr />
+              <div>
+                <h3>SplitButton</h3>
+                <SplitButton
+                  appearance="primary"
+                  ariaLabelRight="Open menu"
+                  label="Button Label"
+                  position="bottom-start"
+                  options={defaultSegmentedButtonOptions}
+                >
+                  <Button label="Click me" />
+                </SplitButton>
+              </div>
+              <hr />
+              <div>
+                <h3>Tooltip</h3>
+                <Tooltip label="Tooltip">
+                  <Button label="Click me" />
+                </Tooltip>
+              </div>
+              <hr />
+              <div>
+                <h3>TextInput</h3>
+                <TextInput label="Label" value={inputValue} onChange={handleInputChange} />
+                <h4>The input is : {inputValue}</h4>
+              </div>
+              <hr />
+              <div>
+                <h3>Icon Button Toggle</h3>
+                <IconButtonToggle
+                  onClick={handleIconButtonToggleClick}
+                  selected={isIconButtonToggleSelected}
+                  name="settings"
+                />
+              </div>
+              <hr />
+              <div>
+                <h3>Chip</h3>
+                <Chip label="Chip Label" type="single" onClick={() => console.log("Chip clicked")} />
+              </div>
+              <hr />
+              <div>
+                <h3>Badge</h3>
+                <div style={{ display: "inline-block", backgroundColor: "bisque" }}>
+                  <Badge count={1}>A badge host</Badge>
+                </div>
+              </div>
+              <hr />
+              <div>
+                <h3>Textarea</h3>
+                <Textarea
+                  label="This is a textarea"
+                  labelPosition="top"
+                  assistiveTextLabel="This is a label"
+                  assistiveTextAppearance="description"
+                  required
+                />
+              </div>
+              <hr />
+              <h3>Divider</h3>
+              <p> First text </p>
+              <Divider />
+              <p> Second text </p>
+              <Divider thickness="medium" />
+              <div style={{ display: "flex", flexDirection: "row" }}>
+                <p style={{ margin: "20px" }}> left text </p>
+                <Divider orientation="vertical" />
+                <p style={{ margin: "20px" }}> middle text </p>
+                <Divider orientation="vertical" thickness="medium" />
+                <p style={{ margin: "20px" }}> right text </p>
+                <Divider orientation="vertical" thickness="bold" />
+              </div>
+              <Divider orientation="horizontal" thickness="bold" />
+              <hr />
+              <div>
+                <h3>Switch</h3>
+                <Switch
+                  label="Switch Label"
+                  appearance="brand"
+                  showLabel={true}
+                  showIcon={true}
+                  disabled={false}
+                  readOnly={false}
+                />
+                <Switch
+                  label="Disabled Switch"
+                  appearance="brand"
+                  showLabel={true}
+                  showIcon={true}
+                  disabled={true}
+                  readOnly={false}
+                />
+                <Switch
+                  label="Read-Only Switch"
+                  appearance="brand"
+                  showLabel={true}
+                  showIcon={true}
+                  disabled={false}
+                  readOnly={true}
+                />
+              </div>
+              <hr />
+              <div>
+                <h3>Segmented Control</h3>
+                <SegmentedControl
+                  options={[
+                    { id: "label-1", label: "Label 1" },
+                    { id: "label-2", label: "Label 2" },
+                    { id: "label-3", label: "Label 3" },
+                  ]}
+                  selectedSegment={segmentedControlValue}
+                  onChange={handleSegmentedControlClick}
+                />
+              </div>
+              <hr />
+              <div>
+                <h3>Breadcrumbs</h3>
+                <Breadcrumbs
+                  items={[
+                    { link: "/", label: "Home" },
+                    { link: "/products", label: "Products" },
+                    { link: "/electronics", label: "Electronics" },
+                    { link: "/smartphones", label: "Smartphones" },
+                  ]}
+                />
+              </div>
+              <hr />
+              <Popover
+                content="This is the popover content"
+                primaryButtonLabel="Confirm"
+                secondaryButtonLabel="Cancel"
+                title="Popover Title"
+              >
+                <Button label="Open Popover" />
+              </Popover>
+              <Divider />
+              <Button variant="primary" label="Open Modal" onClick={() => setIsModalOpen(true)} />
+              <Modal
+                title="Modal Title"
+                description="This is the modal description"
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                primaryButton={<Button variant="primary" label="Continue" onClick={() => setIsModalOpen(false)} />}
+                secondaryButton={<Button variant="neutral" label="Cancel" onClick={() => setIsModalOpen(false)} />}
+              >
+                <div>
+                  <Badge count={5}>Modal Content Badge</Badge>
+                  <TextInput label="Modal Input" value={inputValue} onChange={handleInputChange} />
+                </div>
+              </Modal>
+            </div>
+            <Divider />
+            <div>
+              <Select
+                options={[
+                  { value: "option1", label: "Option 1" },
+                  { value: "option2", label: "Option 2" },
+                  { value: "option3", label: "Option 3" },
+                ]}
+              />
+            </div>
+            <Divider />
+            <Button
+              label="Toggle error toast"
+              onClick={() => setIsErrorOpen(!isErrorOpen)}
+              style={{ marginBottom: "16px" }}
+              variant="danger"
             />
-          </div>
-          <Divider />
-          <Button
-            label="Toggle error toast"
-            onClick={() => setIsErrorOpen(!isErrorOpen)}
-            style={{ marginBottom: "16px" }}
-            variant="danger"
-          />
-          <ToastQueueProvider>
-            <Toast
-              id="my-toast-error-z"
-              type={"error"}
-              autoDismiss={true}
-              closable={true}
-              isOpen={isErrorOpen}
-              message="Error toast"
-              // actionButton={<Button label="Mettre à jour" variant={"text"} />}
-              onClose={() => {
-                setIsErrorOpen(false);
+            <ToastQueueProvider>
+              <Toast
+                id="my-toast-error-z"
+                type={"error"}
+                autoDismiss={true}
+                closable={true}
+                isOpen={isErrorOpen}
+                message="Error toast"
+                // actionButton={<Button label="Mettre à jour" variant={"text"} />}
+                onClose={() => {
+                  setIsErrorOpen(false);
+                }}
+              />
+            </ToastQueueProvider>
+            <Loader />
+            <Treeview items={baseNavigationData} onItemClick={(id) => console.log("Clicked item id:", id)} />
+            <Avatar
+              layout="icon"
+              type="user"
+              status="available"
+              size={32}
+              onClick={() => {
+                alert("Clicked on avatar");
               }}
             />
-          </ToastQueueProvider>
-          <Loader />
-          <Treeview items={baseNavigationData} onItemClick={(id) => console.log("Clicked item id:", id)} />
-          <Avatar
-            layout="icon"
-            type="user"
-            status="available"
-            size={32}
-            onClick={() => {
-              alert("Clicked on avatar");
-            }}
-          />
-          <h3>File Upload</h3>
-          <FileUpload
-            id="file-upload-1"
-            label="Upload your files"
-            buttonLabel="Sélectionner un ou plusieurs fichiers"
-            multiple={true}
-          />
-          <div>
-            <h3>TimePicker</h3>
-            <TimePicker id="time-picker" value={timepickerValue} onChange={setTimepickerValue} />
-            <p style={{ marginTop: "1rem" }}>
-              Selected time value: {`${timepickerValue.hh}:${timepickerValue.mm}:${timepickerValue.ss}`}
-            </p>
-          </div>
-          <div>
-            <h3>DatePicker</h3>
-            <DatePicker
-              id="date-picker"
-              label="Select a date"
-              labelId="date-picker-label"
-              value={date}
-              onChange={onChange}
+            <h3>File Upload</h3>
+            <FileUpload
+              id="file-upload-1"
+              label="Upload your files"
+              buttonLabel="Sélectionner un ou plusieurs fichiers"
+              multiple={true}
             />
-            <p style={{ marginTop: "1rem" }}>
-              Selected date value:{" "}
-              {date ? new Intl.DateTimeFormat(navigator.language, { dateStyle: "long" }).format(date) : "aucune"}
-            </p>
+            <div>
+              <h3>TimePicker</h3>
+              <TimePicker id="time-picker" value={timepickerValue} onChange={setTimepickerValue} />
+              <p style={{ marginTop: "1rem" }}>
+                Selected time value: {`${timepickerValue.hh}:${timepickerValue.mm}:${timepickerValue.ss}`}
+              </p>
+            </div>
+            <div>
+              <h3>DatePicker</h3>
+              <DatePicker
+                id="date-picker"
+                label="Select a date"
+                labelId="date-picker-label"
+                value={date}
+                onChange={onChange}
+              />
+              <p style={{ marginTop: "1rem" }}>
+                Selected date value:{" "}
+                {date ? new Intl.DateTimeFormat(navigator.language, { dateStyle: "long" }).format(date) : "aucune"}
+              </p>
+            </div>
           </div>
-        </div>
-      </Drawer>
-    </SideNav>
+        </Drawer>
+      </SideNav>
+    </>
   );
 }
 
