@@ -1,14 +1,11 @@
 @use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
 
-
-
-
 .rte-daterangepicker-menu {
   @include typography-text-m;
 
   box-sizing: border-box;
   width: 100%;
-  min-width: 248px;
+  min-width: 320px;
   padding: $positive-spacing_100 0;
   display: flex;
   flex-direction: column;
