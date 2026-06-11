@@ -28,6 +28,7 @@ import { ARROW_DOWN_KEY, ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/co
 
 import { DropdownService } from "../../services/dropdown.service";
 import { OverlayService } from "../../services/overlay.service";
+import { isElementInParentWithOverlay } from "../../utils";
 
 import { DropdownMenuComponent } from "./dropdown-menu/dropdown-menu.component";
 import { DropdownTriggerDirective } from "./dropdown-trigger/dropdown-trigger.directive";
@@ -145,6 +146,14 @@ export class DropdownDirective implements AfterContentInit {
       }
     });
 
+    effect(
+      (onCleanup) => {
+        const teardown = this.setupScrollBehavior();
+        onCleanup(teardown);
+      },
+      { allowSignalWrites: true },
+    );
+
     this.registerViewportResizeRepositionHandling();
   }
 
@@ -223,6 +232,15 @@ export class DropdownDirective implements AfterContentInit {
     this.menuEvent.emit(event);
   }
 
+  private setupScrollBehavior(): () => void {
+    const onScroll = (): void => {
+      waitForNextFrame(() => this.positionDropdownMenu(this.rteDropdownPosition()));
+    };
+
+    window.addEventListener("scroll", onScroll, true);
+    return () => window.removeEventListener("scroll", onScroll, true);
+  }
+
   ngAfterContentInit(): void {
     const trigger = this.trigger();
     if (!trigger) return;
@@ -280,6 +298,10 @@ export class DropdownDirective implements AfterContentInit {
   private assignInputs(): void {
     if (this.dropdownMenuRef) {
       const items = this.menu()?.items() ?? [];
+      this.dropdownMenuRef.setInput(
+        "isInParentWithOverlay",
+        isElementInParentWithOverlay(this.trigger()?.elementRef.nativeElement),
+      );
       this.dropdownMenuRef.setInput("items", items);
       this.dropdownMenuRef.setInput("bodyTemplate", this.menu()?.bodyDirective()?.templateRef);
       this.dropdownMenuRef.setInput("headerTemplate", this.menu()?.headerDirective()?.templateRef);
@@ -376,7 +398,7 @@ export class DropdownDirective implements AfterContentInit {
   };
 
   private addClickOutsideListener(): void {
-    document.addEventListener("mousedown", this.handleClickOutside);
+    document.addEventListener("mousedown", this.handleClickOutside, { passive: true });
   }
 
   private removeClickOutsideListener(): void {
@@ -386,8 +408,8 @@ export class DropdownDirective implements AfterContentInit {
   private closeDropdown(): void {
     this.dropdownMenuRef?.setInput("isOpen", false);
     this.isActive.set(false);
-
     setTimeout(() => {
+      this.trigger()?.elementRef.nativeElement.focus({ preventScroll: true });
       this.dropdownService.closeAllMenus();
     }, DROPDOWN_ANIMATION_DURATION);
   }

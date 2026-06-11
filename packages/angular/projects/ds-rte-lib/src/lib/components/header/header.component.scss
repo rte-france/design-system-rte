@@ -8,7 +8,7 @@
   &[data-sticky='true'] {
     position: sticky;
     top: 0;
-    z-index: 10;
+    z-index: $level-2;
   }
 
   &[data-sticky='true'][data-visible='false'] {
@@ -137,6 +137,7 @@
   display: flex;
   align-items: center;
   gap: $positive-spacing_025;
+
   ::ng-deep {
     rte-icon-button {
       .rte-icon-button {
@@ -172,6 +173,7 @@
   background: var(--background-default);
   box-sizing: border-box;
   height: 48px;
+
   &.compact {
     height: 24px;
   }

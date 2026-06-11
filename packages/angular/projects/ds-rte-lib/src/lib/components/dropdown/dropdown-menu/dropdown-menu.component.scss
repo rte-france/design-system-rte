@@ -25,6 +25,12 @@
   overflow-x: hidden;
   overflow-y: auto;
 
+  z-index: $level-1;
+
+  &[data-overlay-level='high'] {
+    z-index: $backdrop + 1;
+  }
+
   &-header,
   &-content,
   &-footer {
@@ -34,7 +40,6 @@
   &.open {
     opacity: 1;
   }
-
 
   .rte-dropdown-items {
     width: 100%;

@@ -410,6 +410,7 @@ const Drawer = ({
                 className={styles["drawer"]}
                 data-open={isAnimating}
                 data-fixed-header={fixedHeader}
+                data-position={position}
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby={`${id}-drawer-title`}

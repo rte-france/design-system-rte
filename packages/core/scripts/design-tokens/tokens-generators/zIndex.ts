@@ -5,9 +5,9 @@ import { buildScssFileName, generateScssFile, PrivacyLevel, tokensOutputDir } fr
 export function generateZIndexTokensFile() {
   let scss = `// This file is auto-generated. Do not edit directly.\n\n`;
 
-  scss += `$level-0: 0;\n`;
-  scss += `$level-1: 10;\n`;
-  scss += `$level-2: 100;\n`;
+  scss += `$level-1: 1;\n`;
+  scss += `$level-2: 10;\n`;
+  scss += `$backdrop: 999;\n`;
 
   const filename = buildScssFileName("zIndex");
 

@@ -19,7 +19,8 @@
   opacity: 0;
   transition: opacity 150ms ease-in, transform 150ms ease-in;
   margin: auto;
-  z-index: $level-2 + 1; // Ensure the modal is above the backdrop
+  z-index: $backdrop + 1;
+  pointer-events: auto;
 
   &[data-open='true'] {
     opacity: 1;
