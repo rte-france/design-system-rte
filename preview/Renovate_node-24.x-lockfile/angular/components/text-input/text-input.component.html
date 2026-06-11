@@ -16,7 +16,7 @@
   [maxLength]="maxLength()"
   [disabled]="disabled()"
   [readOnly]="readOnly()"
-  [width]="width()"
+  [width]="computedWidth()"
   [ariaLabel]="ariaLabel()"
   [ariaRequired]="ariaRequired()"
   [ariaLabelledby]="ariaLabelledby()"
@@ -24,4 +24,5 @@
   [autocomplete]="autocomplete()"
   (valueChange)="valueChange.emit($event)"
   (rightIconClick)="rightIconClick.emit($event)"
+  (enterKeyDown)="enterKeyDown.emit($event)"
 />

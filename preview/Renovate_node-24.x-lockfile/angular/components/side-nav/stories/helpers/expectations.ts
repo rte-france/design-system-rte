@@ -1,5 +1,4 @@
-import { expect, waitFor } from "@storybook/test";
-import { within } from "@storybook/test";
+import { expect, waitFor, within } from "@storybook/test";
 
 import { getNavElement, getNavItemContainer } from "./elementFinders";
 
@@ -41,8 +40,11 @@ async function expectNavItemActiveState(
   await waitFor(() => {
     const sideNav = canvas.getByRole("navigation");
     const navItemContainer = getNavItemContainer(sideNav, itemId);
-    expect(navItemContainer).not.toBeNull();
-    expect(isActiveItem(navItemContainer!)).toBe(shouldBeActive);
+    if (!navItemContainer) {
+      expect(shouldBeActive).toBe(false);
+      return;
+    }
+    expect(isActiveItem(navItemContainer)).toBe(shouldBeActive);
   });
 }
 

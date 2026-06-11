@@ -78,6 +78,7 @@ export class SelectComponent implements AfterViewInit {
   readonly value = input<string | string[]>();
   readonly withSelectAll = input<boolean>(false);
   readonly optionToDisplay = input<SelectProps["optionToDisplay"]>("first-selected");
+  readonly width = input<number | string>("350px");
 
   readonly selectRef = viewChild<ElementRef<HTMLElement>>("selectRef");
   readonly buttonsContainerRef = viewChild<ElementRef<HTMLElement>>("buttonsContainerRef");
@@ -157,6 +158,14 @@ export class SelectComponent implements AfterViewInit {
       return nativeElement.getBoundingClientRect().width;
     }
     return null;
+  });
+
+  readonly computedWidth = computed(() => {
+    const width = this.width().toString();
+    if (width.includes("px") || width.includes("%") || width.includes("em") || width.includes("rem")) {
+      return width;
+    }
+    return `${this.width()}px`;
   });
 
   ngAfterViewInit() {

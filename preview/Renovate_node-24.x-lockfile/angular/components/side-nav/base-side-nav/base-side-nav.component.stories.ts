@@ -20,7 +20,11 @@ const meta: Meta<BaseSideNavComponent> = {
       options: ["neutral", "brand"],
       description: "Appearance of the side navigation",
     },
-    collapsed: {
+    contrast: {
+      control: "select",
+      options: ["low", "high"],
+    },
+    isCollapsed: {
       control: "boolean",
       description: "Whether the side navigation is collapsed",
     },
@@ -61,7 +65,7 @@ const PageContent = `
 export const BodyOnly: Story = {
   args: {
     size: "m",
-    collapsed: false,
+    isCollapsed: false,
     showHeader: false,
     showFooter: false,
     appearance: "brand",
@@ -71,10 +75,11 @@ export const BodyOnly: Story = {
     template: `
       <rte-base-side-nav
         [size]="size"
-        [collapsed]="collapsed"
+        [isCollapsed]="isCollapsed"
         [showHeader]="showHeader"
         [showFooter]="showFooter"
-        [appearance]="appearance">
+        [appearance]="appearance"
+        [contrast]="contrast">
         <div side-nav-body>${SimpleBody}</div>
         <div side-nav-content>${PageContent}</div>
       </rte-base-side-nav>
@@ -85,7 +90,7 @@ export const BodyOnly: Story = {
 export const HeaderWithBody: Story = {
   args: {
     size: "m",
-    collapsed: false,
+    isCollapsed: false,
     showHeader: true,
     showFooter: false,
   },
@@ -94,10 +99,11 @@ export const HeaderWithBody: Story = {
     template: `
       <rte-base-side-nav
         [size]="size"
-        [collapsed]="collapsed"
+        [isCollapsed]="isCollapsed"
         [showHeader]="showHeader"
         [showFooter]="showFooter"
-        [appearance]="appearance">
+        [appearance]="appearance"
+        [contrast]="contrast">
         <div side-nav-header>
           <div style="font-weight: 600; font-size: 0.875rem;">Menu</div>
         </div>
@@ -111,7 +117,7 @@ export const HeaderWithBody: Story = {
 export const BodyWithFooter: Story = {
   args: {
     size: "m",
-    collapsed: false,
+    isCollapsed: false,
     showHeader: false,
     showFooter: true,
   },
@@ -120,10 +126,11 @@ export const BodyWithFooter: Story = {
     template: `
       <rte-base-side-nav
         [size]="size"
-        [collapsed]="collapsed"
+        [isCollapsed]="isCollapsed"
         [showHeader]="showHeader"
         [showFooter]="showFooter"
-        [appearance]="appearance">
+        [appearance]="appearance"
+        [contrast]="contrast">
         <div side-nav-body>${SimpleBody}</div>
         <div side-nav-footer>
           <div style="font-size: 0.75rem; color: #666;">Footer</div>
@@ -137,7 +144,7 @@ export const BodyWithFooter: Story = {
 export const HeaderBodyFooter: Story = {
   args: {
     size: "m",
-    collapsed: false,
+    isCollapsed: false,
     showHeader: true,
     showFooter: true,
   },
@@ -146,10 +153,11 @@ export const HeaderBodyFooter: Story = {
     template: `
       <rte-base-side-nav
         [size]="size"
-        [collapsed]="collapsed"
+        [isCollapsed]="isCollapsed"
         [showHeader]="showHeader"
         [showFooter]="showFooter"
-        [appearance]="appearance">
+        [appearance]="appearance"
+        [contrast]="contrast">
         <div side-nav-header>
           <div style="font-weight: 600; font-size: 0.875rem;">Navigation</div>
         </div>
@@ -167,7 +175,7 @@ export const ColoredSections: Story = {
   args: {
     size: "m",
     appearance: "brand",
-    collapsed: false,
+    isCollapsed: false,
     showHeader: true,
     showFooter: true,
   },
@@ -176,10 +184,11 @@ export const ColoredSections: Story = {
     template: `
       <rte-base-side-nav
         [size]="size"
-        [collapsed]="collapsed"
+        [isCollapsed]="isCollapsed"
         [showHeader]="showHeader"
         [showFooter]="showFooter"
-        [appearance]="appearance">
+        [appearance]="appearance"
+        [contrast]="contrast">
         <div side-nav-header style="font-weight: 600; color: #000; padding: 1rem; background-color: #E8F4F8; box-sizing: border-box;">
           📍 Header Section
         </div>

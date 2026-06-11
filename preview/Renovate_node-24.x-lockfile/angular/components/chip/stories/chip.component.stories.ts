@@ -76,19 +76,42 @@ export const SingleSelect: Story = {
         },
       },
       template: `
-        <div style="display: flex; gap: 10px;" role="radiogroup" data-testid="test-chip-group">
-          <rte-chip
-            *ngFor="let option of options"
-            [id]="option.id"
-            [label]="option.label"
-            [selected]="selectedChip === option.id"
-            [type]="type"
-            [compactSpacing]="compactSpacing"
-            (click)="onChipClick(option.id)"
-            class="chip"
-          ></rte-chip>
+       <p style="font-family: Arial, sans-sérif">Chip sélectionnée: {{ selectedLabel }}</p>
+       <div style="display: flex; flex-direction: column; gap: 30px;">
+       <div>
+          <p style="font-family: Arial, sans-sérif">Appearance: brand</p>
+            <div style="display: flex; gap: 10px;" role="radiogroup" data-testid="test-chip-group">
+              <rte-chip
+                *ngFor="let option of options"
+                [id]="option.id"
+                [label]="option.label"
+                [selected]="selectedChip === option.id"
+                [type]="type"
+                [compactSpacing]="compactSpacing"
+                (clickChip)="onChipClick(option.id)"
+                class="chip"
+                [disabled]="disabled"
+              ></rte-chip>
+            </div>
+          </div>
+          <div>
+            <p style="font-family: Arial, sans-sérif">Appearance: neutral</p>
+            <div style="display: flex; gap: 10px;" role="radiogroup" data-testid="test-chip-group-neutral">
+              <rte-chip
+              *ngFor="let option of options"
+              [id]="option.id"
+              [label]="option.label"
+              [selected]="selectedChip === option.id"
+              [type]="type"
+              [compactSpacing]="compactSpacing"
+              (clickChip)="onChipClick(option.id)"
+              class="chip"
+              appearance="neutral"
+              [disabled]="disabled"
+              ></rte-chip>
+            </div>
+          </div>
         </div>
-        <p style="font-family: Arial, sans-sérif">Chip sélectionnée: {{ selectedLabel }}</p>
       `,
     };
   },
@@ -133,6 +156,7 @@ export const MultiSelect: Story = {
         selectedChips: new Set<string>(),
         displayedChips: "",
         onChipClick(optionId: string) {
+          console.log("Chip clicked:", { optionId });
           if (this["selectedChips"].has(optionId)) {
             this["selectedChips"].delete(optionId);
           } else {
@@ -146,19 +170,42 @@ export const MultiSelect: Story = {
         },
       },
       template: `
-        <div style="display: flex; gap: 10px;" role="group">
-          <rte-chip
-            *ngFor="let option of options"
-            [id]="option.id"
-            [label]="option.label"
-            [selected]="selectedChips.has(option.id)"
-            [type]="type"
-            [compactSpacing]="compactSpacing"
-            (click)="onChipClick(option.id)"
-            class="chip"
-          ></rte-chip>
+       <p style="font-family: Arial, sans-sérif">Chips sélectionnées: {{ displayedChips }}</p>
+       <div style="display: flex; flex-direction: column; gap: 30px;">
+       <div>
+          <p style="font-family: Arial, sans-sérif">Appearance: brand</p>
+            <div style="display: flex; gap: 10px;" role="group" data-testid="test-chip-group">
+              <rte-chip
+                *ngFor="let option of options"
+                [id]="option.id"
+                [label]="option.label"
+                [selected]="selectedChips.has(option.id)"
+                [type]="type"
+                [compactSpacing]="compactSpacing"
+                (clickChip)="onChipClick(option.id)"
+                class="chip"
+                [disabled]="disabled"
+              ></rte-chip>
+            </div>
           </div>
-          <p style="font-family: Arial, sans-sérif">Chips sélectionnées: {{ displayedChips }}</p>
+          <div>
+            <p style="font-family: Arial, sans-sérif">Appearance: neutral</p>
+            <div style="display: flex; gap: 10px;" role="group" data-testid="test-chip-group-neutral">
+              <rte-chip
+              *ngFor="let option of options"
+              [id]="option.id"
+              [label]="option.label"
+              [selected]="selectedChips.has(option.id)"
+              [type]="type"
+              [compactSpacing]="compactSpacing"
+              (click)="onChipClick(option.id)"
+              class="chip"
+              appearance="neutral"
+              [disabled]="disabled"
+              ></rte-chip>
+            </div>
+          </div>
+         </div>
       `,
     };
   },
@@ -231,6 +278,17 @@ export const InputChip: Story = {
         ></rte-text-input>
           <button rteButton (click)="handleAddChip()">Add Chip</button>
         </div>
+        <div style="display: flex; gap: 10px;" role="listbox" aria-label="Chips List" data-testid="chips-list">
+          <rte-chip
+            *ngFor="let chip of chipsValues"
+            [id]="'chip-' + chip"
+            [label]="chip"
+            [type]="type"
+            (close)="onClose($event)"
+            [disabled]="disabled"
+          >
+          </rte-chip>
+        </div>
         <div style="display: flex; gap: 10px;" role="listbox" aria-label="Chips List">
           <rte-chip
             *ngFor="let chip of chipsValues"
@@ -238,6 +296,8 @@ export const InputChip: Story = {
             [label]="chip"
             [type]="type"
             (close)="onClose($event)"
+            appearance="neutral"
+            [disabled]="disabled"
           >
           </rte-chip>
         </div>
@@ -255,7 +315,9 @@ export const InputChip: Story = {
     await userEvent.type(input, "Another Chip");
     await userEvent.keyboard(TESTING_ENTER_KEY);
 
-    const allChipsList = canvas.getAllByRole("option");
+    const allChipsList = canvas
+      .getByTestId("chips-list")
+      .querySelectorAll("[role='option']") as NodeListOf<HTMLElement>;
 
     expect(allChipsList).toHaveLength(2);
 
@@ -263,32 +325,45 @@ export const InputChip: Story = {
 
     await userEvent.click(closeButton);
 
-    const remainingChips = canvas.getAllByRole("option");
+    const remainingChips = canvas
+      .getByTestId("chips-list")
+      .querySelectorAll("[role='option']") as NodeListOf<HTMLElement>;
 
     expect(remainingChips).toHaveLength(1);
 
     await userEvent.type(input, "More Chip");
     await userEvent.keyboard(TESTING_ENTER_KEY);
 
-    const newRemainingChips = canvas.getAllByRole("option");
+    const newRemainingChips = canvas
+      .getByTestId("chips-list")
+      .querySelectorAll("[role='option']") as NodeListOf<HTMLElement>;
+
     expect(newRemainingChips).toHaveLength(2);
 
     newRemainingChips[0].focus();
     await userEvent.tab();
     await userEvent.keyboard(TESTING_ENTER_KEY);
 
-    expect(canvas.getAllByRole("option")).toHaveLength(1);
+    expect(
+      canvas.getByTestId("chips-list").querySelectorAll("[role='option']") as NodeListOf<HTMLElement>,
+    ).toHaveLength(1);
 
     await userEvent.type(input, "Last Chip");
     await userEvent.keyboard(TESTING_ENTER_KEY);
 
-    expect(canvas.getAllByRole("option")).toHaveLength(2);
+    expect(
+      canvas.getByTestId("chips-list").querySelectorAll("[role='option']") as NodeListOf<HTMLElement>,
+    ).toHaveLength(2);
 
-    const lastChip = canvas.getAllByRole("option")[1];
+    const lastChip = (
+      canvas.getByTestId("chips-list").querySelectorAll("[role='option']") as NodeListOf<HTMLElement>
+    )[1];
     lastChip.focus();
     await userEvent.tab();
     await userEvent.keyboard(TESTING_SPACE_KEY);
 
-    expect(canvas.getAllByRole("option")).toHaveLength(1);
+    expect(
+      canvas.getByTestId("chips-list").querySelectorAll("[role='option']") as NodeListOf<HTMLElement>,
+    ).toHaveLength(1);
   },
 };
