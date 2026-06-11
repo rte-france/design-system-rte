@@ -13,7 +13,6 @@ import {
   signal,
 } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
-import { DATERANGEPICKER_DEFAULT_WIDTH, normalizeDate, type DateRangePickerValue } from "@design-system-rte/core";
 import { waitForNextFrame } from "@design-system-rte/core/common/animation";
 import {
   alignViewDateToSelectedMonthIfNeeded,
@@ -31,6 +30,11 @@ import {
   type DatepickerCalendarType,
   type DatepickerDisabledConstraints,
 } from "@design-system-rte/core/components/datepicker";
+import {
+  DATERANGEPICKER_DEFAULT_WIDTH,
+  type DateRangePickerValue,
+} from "@design-system-rte/core/components/daterangepicker";
+import { normalizeDate } from "@design-system-rte/core/components/pickers";
 import { REQUIREMENT_INDICATOR_VALUE } from "@design-system-rte/core/components/required-indicator/required-indicator.constant";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 

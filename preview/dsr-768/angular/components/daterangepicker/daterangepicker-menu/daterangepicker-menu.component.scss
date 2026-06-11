@@ -28,13 +28,13 @@
     display: flex;
     align-items: center;
     gap: $positive-spacing_050;
+  }
 
-    button {
-      &:focus-visible {
-        outline: 1px solid var(--border-brand-focused);
-        border-radius: $radius-xs;
-        outline-offset: 0;
-      }
+  .nav-button {
+    ::ng-deep .rte-icon-button:focus-visible {
+      outline: 1px solid var(--border-brand-focused);
+      border-radius: $radius-xs;
+      outline-offset: 0;
     }
   }
 
@@ -368,6 +368,7 @@
   @include typography-text-m;
 
   position: relative;
+  isolation: isolate;
   box-sizing: border-box;
   width: 40px;
   height: 40px;
@@ -402,7 +403,7 @@
     transform: translate(-50%, -50%);
     border-radius: 999px;
     box-sizing: border-box;
-    z-index: 2;
+    z-index: 1;
     pointer-events: none;
     border: 2px solid transparent;
     background-color: transparent;
@@ -410,6 +411,25 @@
       background-color 120ms,
       border-color 120ms;
 
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
+  }
+
+  &::after {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 999px;
+    box-sizing: border-box;
+    z-index: 0;
+    pointer-events: none;
+    background-color: transparent;
   }
 
   &:focus {
@@ -489,6 +509,9 @@
   }
 
   &[data-datepicker-active="true"]:not(:disabled) {
+    &[data-cell-type="selected"] .day-cell__surface {
+      background-color: var(--background-brand-selected-hover);
+    }
 
     &[data-cell-type="today"] {
       color: var(--content-brand-hover);
@@ -516,11 +539,6 @@
         }
       }
     }
-
-    .day-cell__surface {
-      background-color: var(--background-brand-selected-hover);
-    }
-
   }
 
   &:disabled {
