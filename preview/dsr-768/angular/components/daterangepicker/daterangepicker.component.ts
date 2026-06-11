@@ -91,7 +91,6 @@ export class DaterangepickerComponent implements ControlValueAccessor, AfterView
   readonly assistiveTextAppearance = input<"description" | "error">("description");
   readonly showAssistiveIcon = input<boolean>(false);
 
-  readonly fieldAriaLabel = input<string>("");
   readonly fieldAriaLabelledby = input<string>("");
 
   readonly disabled = input<boolean>(false);
