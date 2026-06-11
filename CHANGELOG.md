@@ -2,6 +2,90 @@
 
 # Angular
 
+## 2.0.0
+
+### Text-input
+
+#### Minor Changes
+
+- add enterKeyDown event
+
+### Toast
+
+#### Minor Changes
+
+- add top-center position
+
+### Tag
+
+#### Minor Changes
+
+- add decorative color + align names with token value
+
+### Chip
+
+#### Minor Changes
+
+- add neutral variant
+
+### Sidenav
+
+#### Minor Changes
+
+- correct new Focus display for Items and Menus in new possible style combinations
+- add compact Badges to compact Sidenav
+- add Tooltip for Sidenav Header
+- correct Header Identifier & Title display
+- correct width of component and add ellipsis to its header
+- correct import statements of new core imports
+- correct active zone for nav items
+- add compact mode for standardization with Header
+- correct active state handling for sub-items
+- add contrast capacities to component
+- remove Drawer-Responsive logic from Sidenav & simplify template and rendering
+
+### Input
+
+#### Patch Changes
+
+- add or configure width props to be used
+
+### Modal
+
+#### Patch Changes
+
+- angular - remove the display dependance of custom content with description
+
+### Radio-button
+
+#### Patch Changes
+
+- add support for external checked control
+
+### Select
+
+#### Patch Changes
+
+- add missing background color
+
+### Treeview
+
+#### Patch Changes
+
+- set right color for chevron and icon
+
+### Other
+
+#### Patch Changes
+
+- Updated dependencies [6e839c8]
+- Updated dependencies [e4dc52f]
+- Updated dependencies [7053ac6]
+- Updated dependencies [65af3dd]
+- Updated dependencies [e7afe99]
+- Updated dependencies [6be38db]
+- @design-system-rte/core@1.10.0
+
 ## 1.9.0
 
 ### Datepicker
@@ -111,63 +195,103 @@
 - Updated dependencies [ad4c602]
 - Updated dependencies [5cb6e5d]
 - @design-system-rte/core@1.8.0
+# React
 
-## 1.7.0
+## 1.11.0
 
-### File-upload
-
-#### Minor Changes
-
-- add angular component
-
-### Tooltip
+### Text-input
 
 #### Minor Changes
 
-- remove max width + fix positionning on angular component
+- add enterKeyDown event
 
-### Datepicker
+### Toast
 
 #### Minor Changes
 
-- set segmented-field placeholder values to jj/mm/aaaa
-- add a11y support for segmented field and datepicker-menu
-- add keyboard page switch navigation for month and year calendar views
-- introduce hasAction boolean option to control calendar behavior
-- add min, max and disable dates features
-- add keyboard navigation and controls for segmented-date-field
-- add segmented-date-field inner component
-- handle different views  navigations
-- add base Datepicker structure
+- add top-center position
+
+### Tag
+
+#### Minor Changes
+
+- add decorative color + align names with token value
+
+### Chip
+
+#### Minor Changes
+
+- add neutral variant
+
+### Sidenav
+
+#### Minor Changes
+
+- correct new Focus display for Items and Menus in new possible style combinations
+- add compact Badges to compact Sidenav
+- add Tooltip for Sidenav Header
+- correct Header Identifier & Title display
+- correct width of component and add ellipsis to its header
+- correct import statements of new core imports
+- correct active zone for nav items
+- add compact mode for standardization with Header
+- correct active state handling for sub-items
+- add contrast capacities to component
+- remove Drawer-Responsive logic from Sidenav & simplify template and rendering
 
 ### Input
 
-#### Minor Changes
+#### Patch Changes
 
-- correct rightIcon not showing in disabled and readonly inputs
-- correct display for projected inputs
+- add or configure width props to be used
 
-### Dropdown
-
-#### Minor Changes
-
-- add custom body capacities for Datepicker implementation and Searchbar requirements
-
-### Accordion
+### Modal
 
 #### Patch Changes
 
-- add missing title input signal
+- react - add conditional rendering of description html element
+
+### Radio-button
+
+#### Patch Changes
+
+- add support for external checked control
+
+### Select
+
+#### Patch Changes
+
+- add missing background color
+
+### Treeview
+
+#### Patch Changes
+
+- set right color for chevron and icon
+
+### Dropdown
+
+#### Patch Changes
+
+- activate click event with on link
+
+### Base-input-picker
+
+#### Patch Changes
+
+- react - set button type as button to prevent form sending
 
 ### Other
 
 #### Patch Changes
 
-- Updated dependencies [6469a9e]
-- Updated dependencies [a6d573a]
-- Updated dependencies [3b5b20a]
-- @design-system-rte/core@1.7.0
-# React
+- Updated dependencies [6e839c8]
+- Updated dependencies [e4dc52f]
+- Updated dependencies [7053ac6]
+- Updated dependencies [65af3dd]
+- Updated dependencies [e7afe99]
+- Updated dependencies [6be38db]
+- @design-system-rte/core@1.10.0
 
 ## 1.10.0
 
@@ -276,48 +400,52 @@
 - Updated dependencies [ad4c602]
 - Updated dependencies [5cb6e5d]
 - @design-system-rte/core@1.8.0
+# Core
 
-## 1.8.0
+## 1.10.0
 
-### File-upload
-
-#### Minor Changes
-
-- allow hiding assistive text
-- add missing autodocs tag to story
-- add react component
-- allow hiding assistive text
-- add missing autodocs tag to story
-- add react component
-
-### Loader
+### Toast
 
 #### Minor Changes
 
-- remove gap when there is no label
-- remove gap when there is no label
+- add top-center position
 
-### Tooltip
-
-#### Minor Changes
-
-- react - remove max width
-- react - remove max width
-
-### Other
+### Tag
 
 #### Minor Changes
 
-- add id generation function
-- add id generation function
+- add decorative color + align names with token value
+
+### Chip
+
+#### Minor Changes
+
+- add neutral variant
+
+### Sidenav
+
+#### Minor Changes
+
+- add compact Badges to compact Sidenav
+- add Tooltip for Sidenav Header
+- add compact mode for standardization with Header
+- add contrast capacities to component
+- remove Drawer-Responsive logic from Sidenav & simplify template and rendering
+
+### Input
 
 #### Patch Changes
 
-- Updated dependencies [6469a9e]
-- Updated dependencies [a6d573a]
-- Updated dependencies [3b5b20a]
-- @design-system-rte/core@1.7.0
-# Core
+- add or configure width props to be used
+
+### Radio-button
+
+#### Patch Changes
+
+- add support for external checked control
+
+### Other
+
 
 ## 1.9.0
 
@@ -393,36 +521,33 @@
 
 ### Other
 
+# Design Docs
 
-## 1.7.0
+## 1.3.0
 
-### File-upload
-
-#### Minor Changes
-
-- allow hiding assistive text
-- add react component
-
-### Datepicker
+### Tag
 
 #### Minor Changes
 
-- add a11y support for segmented field and datepicker-menu
-- add keyboard page switch navigation for month and year calendar views
-- add min, max and disable dates features
-- add keyboard navigation and controls for segmented-date-field
-- add segmented-date-field inner component
-- handle different views  navigations
-
-### Dropdown
-
-#### Minor Changes
-
-- correct autofocus behavior
+- add decorative color + align names with token value
 
 ### Other
 
-# Design Docs
+#### Patch Changes
+
+- Updated dependencies [220fb58]
+- Updated dependencies [6e839c8]
+- Updated dependencies [e4dc52f]
+- Updated dependencies [7053ac6]
+- Updated dependencies [65af3dd]
+- Updated dependencies [e7afe99]
+- Updated dependencies [00c80a4]
+- Updated dependencies [6be38db]
+- Updated dependencies [07b55ba]
+- Updated dependencies [2598109]
+- Updated dependencies [98a5f9b]
+- Updated dependencies [0cd5597]
+- @design-system-rte/react@1.11.0
 
 ## 1.2.1
 
@@ -525,53 +650,3 @@
 - Updated dependencies [ddd932b]
 - Updated dependencies [0a36e15]
 - @design-system-rte/react@1.1.0
-
-## 1.0.0
-
-### Public Release
-
-#### Major Changes
-
-- Public Release
-
-### Docs
-
-#### Minor Changes
-
-- add correct component link
-- extract introduction in general bloc
-- add new templating to get started docs for devs
-- add missing link to Icons docs page
-- add new Home page for docs
-- update Governance scheme in docs
-- add missing libraries image for Design startup docs
-- add design startup docs
-- Add page valeurs
-- add Kit de migration - general page
-- add corrected Governance Scheme to docs
-- add missing links to Contribution docs
-- add missing Figma link to Icons page
-- add contribution/icons docs
-- add bugs docs
-- add evolutions docs
-- add governance docs
-- rearange component navigation structure
-- update accessibility page to match global layout
-- change title from Typographie to Typography
-- add icons docs
-- add navigation for GetStarted sections
-- rearange navigation sections for common part
-- Add Elevation page
-- add grids docs
-- add border docs
-- correct typography content padding
-- correct typography redaction
-- remove scaffolding files from typography implementation
-- prune typography doc files
-- add typography docs
-- add heading level 4 style
-- Add Colors page
-- Add design tokens page
-
-### Other
-
