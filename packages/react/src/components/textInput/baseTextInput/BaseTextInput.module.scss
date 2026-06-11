@@ -2,7 +2,7 @@
 
 .container {
     display: flex;
-    width: 300px;
+    width: 100%;
     padding: var(--positive-spacing_0);
     flex-direction: column;
     justify-content: center;
@@ -13,6 +13,7 @@
         .inputContainer {
             height: 24px;
             min-height: 24px;
+
             .input {
                 .inputBar {
                     .inputField {
@@ -20,7 +21,7 @@
                     }
                 }
             }
-        }   
+        }
     }
 
     &[data-label-position="side"] {
@@ -89,6 +90,10 @@
                 align-items: center;
                 width: 100%;
 
+                &[data-compact-spacing="true"] {
+                    height: 24px;
+                }
+
                 &.withLeftIcon {
                     .inputField {
                         padding-left: $positive-spacing-400;
@@ -111,7 +116,7 @@
                     position: absolute;
                     right: $positive-spacing-100;
                     color: var(--content-secondary);
-                    
+
                     &:focus {
                         outline: none;
                     }
@@ -145,7 +150,8 @@
                         border: $width-xs solid var(--border-primary);
                     }
 
-                    &:focus, &[data-highlighted="true"] {
+                    &:focus,
+                    &[data-highlighted="true"] {
                         outline: 1px solid var(--border-brand-default);
                         border: $width-xs solid var(--border-brand-default);
                     }
