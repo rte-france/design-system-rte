@@ -116,6 +116,9 @@ export class DaterangepickerComponent implements ControlValueAccessor, AfterView
   readonly pendingRange = signal<DateRangeBound>([null, null]);
   readonly selectionMode = signal<DateRangeSelectionMode>("start");
   readonly activeInput = signal<DateRangeInputTarget>("start");
+  readonly isInputsFocused = signal(false);
+
+  readonly inputsHighlighted = computed(() => this.isInputsFocused() || this.isOpen());
 
   readonly viewDate = signal<Date>(new Date());
   readonly textValueStart = signal<string>("");
@@ -416,10 +419,22 @@ export class DaterangepickerComponent implements ControlValueAccessor, AfterView
   onInputBlurred(): void {
     if (this.hasActions() && this.hasPendingChanges()) {
       this.restoreCommittedRangeToFields();
-      this.onChange(this.committedSnapshot());
-      this.valueChange.emit(this.committedSnapshot());
     }
     this.onTouched();
+  }
+
+  onInputsGroupFocusIn(event: FocusEvent): void {
+    this.isInputsFocused.set(true);
+    this.updateActiveInputFromFocusTarget(event.target);
+  }
+
+  onInputsGroupFocusOut(event: FocusEvent): void {
+    const group = event.currentTarget;
+    const nextFocus = event.relatedTarget;
+    if (group instanceof HTMLElement && nextFocus instanceof Node && group.contains(nextFocus)) {
+      return;
+    }
+    this.isInputsFocused.set(false);
   }
 
   onStartInputValueChange(value: string): void {
@@ -480,6 +495,22 @@ export class DaterangepickerComponent implements ControlValueAccessor, AfterView
     this.selectionMode.set(target === "end" ? "end" : "start");
     this.syncDropdownWidthFromInputsWrapper();
     this.isOpen.set(true);
+  }
+
+  private updateActiveInputFromFocusTarget(focusTarget: EventTarget | null): void {
+    if (!(focusTarget instanceof Node)) {
+      return;
+    }
+    const fieldHosts = this.elementRef.nativeElement.querySelectorAll("rte-datepicker-segmented-field");
+    const startFieldHost = fieldHosts[0];
+    const endFieldHost = fieldHosts[1];
+    if (startFieldHost?.contains(focusTarget)) {
+      this.activeInput.set("start");
+      return;
+    }
+    if (endFieldHost?.contains(focusTarget)) {
+      this.activeInput.set("end");
+    }
   }
 
   onStartCalendarIconTriggered(event: MouseEvent | KeyboardEvent): void {
@@ -555,8 +586,6 @@ export class DaterangepickerComponent implements ControlValueAccessor, AfterView
       this.syncTextValuesFromRange(nextRange);
       if (this.hasActions()) {
         this.hasPendingChanges.set(true);
-        this.onChange(nextRange);
-        this.valueChange.emit(nextRange);
         return;
       }
       this.selectedRange.set(nextRange);
@@ -572,8 +601,6 @@ export class DaterangepickerComponent implements ControlValueAccessor, AfterView
       this.syncTextValuesFromRange(resetRange);
       if (this.hasActions()) {
         this.hasPendingChanges.set(true);
-        this.onChange(resetRange);
-        this.valueChange.emit(resetRange);
         return;
       }
       this.selectedRange.set(resetRange);
@@ -598,8 +625,6 @@ export class DaterangepickerComponent implements ControlValueAccessor, AfterView
     }
 
     this.hasPendingChanges.set(true);
-    this.onChange(completedRange);
-    this.valueChange.emit(completedRange);
   }
 
   onMenuNavigateViewFromHeaderControls(date: Date): void {
@@ -646,8 +671,6 @@ export class DaterangepickerComponent implements ControlValueAccessor, AfterView
 
   onCancel(): void {
     this.restoreCommittedRangeToFields();
-    this.onChange(this.committedSnapshot());
-    this.valueChange.emit(this.committedSnapshot());
     this.calendarType.set(DATEPICKER_DEFAULT_CALENDAR_TYPE);
     this.isOpen.set(false);
   }

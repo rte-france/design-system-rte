@@ -352,10 +352,6 @@ export class DaterangepickerMenuComponent {
     this.navigateViewFromHeaderControls.emit(nextDate);
   }
 
-  setCalendarType(type: DatepickerCalendarType): void {
-    this.calendarTypeChange.emit(type);
-  }
-
   onHeaderLabelClick(): void {
     const type = this.calendarType();
     if (type === "day") {
@@ -436,6 +432,10 @@ export class DaterangepickerMenuComponent {
     if (mode === "year") {
       this.handleYearGridKeyDown(event);
     }
+  }
+
+  private setCalendarType(type: DatepickerCalendarType): void {
+    this.calendarTypeChange.emit(type);
   }
 
   private handleDayGridKeyDown(event: KeyboardEvent): void {

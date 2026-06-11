@@ -31,6 +31,8 @@
       rteDropdownTrigger
       role="group"
       [attr.aria-labelledby]="groupAriaLabelledby()"
+      (focusin)="onInputsGroupFocusIn($event)"
+      (focusout)="onInputsGroupFocusOut($event)"
     >
       <span class="visually-hidden" [id]="startInputLabelId()">Date de début</span>
       <rte-datepicker-segmented-field
@@ -46,7 +48,7 @@
         [error]="isError()"
         [disabled]="isDisabled()"
         [readOnly]="readOnly()"
-        [highlighted]="isOpen() && activeInput() === 'start'"
+        [highlighted]="inputsHighlighted()"
         [rightIconAriaLabel]="startCalendarButtonAriaLabel()"
         (valueChange)="onStartInputValueChange($event)"
         (rightIconClick)="onStartCalendarIconTriggered($event)"
@@ -54,7 +56,7 @@
         (segmentedControlClick)="onSegmentedControlClicked()"
         (inputBlur)="onInputBlurred()"
       />
-      <rte-icon class="rte-daterangepicker-separator" name="arrow-double-right" size="20" />
+      <rte-icon class="rte-daterangepicker-separator" name="arrow-double-right" [size]="20" />
       <span class="visually-hidden" [id]="endInputLabelId()">Date de fin</span>
       <rte-datepicker-segmented-field
         [id]="endFieldId()"
@@ -69,7 +71,7 @@
         [error]="isError()"
         [disabled]="isDisabled()"
         [readOnly]="readOnly()"
-        [highlighted]="isOpen() && activeInput() === 'end'"
+        [highlighted]="inputsHighlighted()"
         [rightIconAriaLabel]="endCalendarButtonAriaLabel()"
         (valueChange)="onEndInputValueChange($event)"
         (rightIconClick)="onEndCalendarIconTriggered($event)"
