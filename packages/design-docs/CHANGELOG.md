@@ -1,5 +1,28 @@
 # @design-system-rte/design-docs
 
+## 1.3.0
+
+### Minor Changes
+
+- e4dc52f: ## Changes
+  - (Tag) add decorative color + align names with token value
+
+### Patch Changes
+
+- Updated dependencies [220fb58]
+- Updated dependencies [6e839c8]
+- Updated dependencies [e4dc52f]
+- Updated dependencies [7053ac6]
+- Updated dependencies [65af3dd]
+- Updated dependencies [e7afe99]
+- Updated dependencies [00c80a4]
+- Updated dependencies [6be38db]
+- Updated dependencies [07b55ba]
+- Updated dependencies [2598109]
+- Updated dependencies [98a5f9b]
+- Updated dependencies [0cd5597]
+  - @design-system-rte/react@1.11.0
+
 ## 1.2.1
 
 ### Patch Changes

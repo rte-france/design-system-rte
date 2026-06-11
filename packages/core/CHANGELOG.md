@@ -1,5 +1,33 @@
 # @design-system-rte/core
 
+## 1.10.0
+
+### Minor Changes
+
+- 6e839c8: ## Changes
+  - (Toast) add top-center position
+
+- e4dc52f: ## Changes
+  - (Tag) add decorative color + align names with token value
+
+- 7053ac6: ## Changes
+  - (Chip) add neutral variant
+
+- e7afe99: ## Changes
+  - (Sidenav) add compact Badges to compact Sidenav
+  - (Sidenav) add Tooltip for Sidenav Header
+  - (Sidenav) add compact mode for standardization with Header
+  - (Sidenav) add contrast capacities to component
+  - (Sidenav) remove Drawer-Responsive logic from Sidenav & simplify template and rendering
+
+### Patch Changes
+
+- 65af3dd: ## Changes
+  - (Input) add or configure width props to be used
+
+- 6be38db: ## Changes
+  - (Radio-button) add support for external checked control
+
 ## 1.9.0
 
 ### Minor Changes
