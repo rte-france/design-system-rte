@@ -1,6 +1,6 @@
 @use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
 
-$range-field-width: 176px;
+$daterangepicker-min-width: 320px;
 
 .rte-daterangepicker {
   box-sizing: border-box;
@@ -8,7 +8,7 @@ $range-field-width: 176px;
   flex-direction: column;
   align-items: flex-start;
   gap: $positive-spacing_0;
-  min-width: 248px;
+  min-width: $daterangepicker-min-width;
 }
 
 .rte-daterangepicker-header {
@@ -46,23 +46,25 @@ $range-field-width: 176px;
 
 .rte-daterangepicker-dropdown {
   display: block;
-  width: fit-content;
+  width: 100%;
 }
 
 .rte-daterangepicker-inputs {
   display: flex;
   gap: $positive-spacing_050;
   align-items: center;
-  width: fit-content;
+  width: 100%;
 
   rte-datepicker-segmented-field {
-    flex: 0 0 $range-field-width;
-    width: $range-field-width;
-    max-width: $range-field-width;
+    flex: 1 1 0;
+    min-width: 0;
+    width: auto;
+    max-width: none;
   }
 }
 
 .rte-daterangepicker-separator {
+  flex: 0 0 auto;
   flex-shrink: 0;
   align-self: center;
   color: var(--content-primary);

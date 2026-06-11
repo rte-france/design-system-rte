@@ -1,7 +1,11 @@
 import { Component, effect, input, output, signal } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { TESTING_ESCAPE_KEY, type DateRangePickerValue } from "@design-system-rte/core";
-import { DATEPICKER_DEFAULT_WIDTH } from "@design-system-rte/core/components/datepicker";
+import {
+  DATERANGEPICKER_DEFAULT_WIDTH,
+  DATERANGEPICKER_MIN_WIDTH,
+  TESTING_ESCAPE_KEY,
+  type DateRangePickerValue,
+} from "@design-system-rte/core";
 import type { Meta, StoryObj } from "@storybook/angular";
 import { expect, userEvent, waitFor, within } from "@storybook/test";
 
@@ -128,7 +132,7 @@ class DaterangepickerStoryHostComponent {
   readonly assistiveTextAppearance = input<"description" | "error">("description");
   readonly showAssistiveIcon = input(true);
   readonly locale = input("fr-FR");
-  readonly width = input(DATEPICKER_DEFAULT_WIDTH);
+  readonly width = input(DATERANGEPICKER_DEFAULT_WIDTH);
   readonly minDate = input<Date | undefined>(undefined);
   readonly maxDate = input<Date | undefined>(undefined);
   readonly disabledDates = input<readonly Date[]>([]);
@@ -207,6 +211,7 @@ const meta: Meta<DaterangepickerStoryHostComponent> = {
   tags: ["autodocs"],
   argTypes: {
     labelPosition: { control: "select", options: ["top", "side"] },
+    width: { control: "text" },
     valueChange: { action: "value changed" },
     openedChange: { action: "opened changed" },
   },
@@ -229,7 +234,7 @@ const meta: Meta<DaterangepickerStoryHostComponent> = {
     locale: "fr-FR",
     disabledDates: [],
     hasActions: true,
-    width: DATEPICKER_DEFAULT_WIDTH,
+    width: DATERANGEPICKER_DEFAULT_WIDTH,
   },
 };
 
@@ -237,6 +242,13 @@ export default meta;
 type Story = StoryObj<DaterangepickerStoryHostComponent>;
 
 export const Default: Story = {
+  render: buildRender(defaultRange),
+};
+
+export const MinWidth: Story = {
+  args: {
+    width: DATERANGEPICKER_MIN_WIDTH,
+  },
   render: buildRender(defaultRange),
 };
 

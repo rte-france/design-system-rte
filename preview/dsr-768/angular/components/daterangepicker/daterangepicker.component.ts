@@ -13,14 +13,13 @@ import {
   signal,
 } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
-import { normalizeDate, type DateRangePickerValue } from "@design-system-rte/core";
+import { DATERANGEPICKER_DEFAULT_WIDTH, normalizeDate, type DateRangePickerValue } from "@design-system-rte/core";
 import { waitForNextFrame } from "@design-system-rte/core/common/animation";
 import {
   alignViewDateToSelectedMonthIfNeeded,
   applyDatepickerTextInputChange,
   DATEPICKER_DEFAULT_CALENDAR_TYPE,
   DATEPICKER_DEFAULT_LOCALE,
-  DATEPICKER_DEFAULT_WIDTH,
   formatDate,
   getDayOfMonthOrNull,
   normalizeDatepickerMenuSelectionDate,
@@ -48,8 +47,6 @@ type DateRangeBound = [Date | null, Date | null];
 type DateRangeInputTarget = "start" | "end";
 type DateRangeSelectionMode = "start" | "end";
 
-const DATERANGEPICKER_FIELD_WIDTH = "176px";
-
 @Component({
   selector: "rte-daterangepicker",
   imports: [
@@ -74,8 +71,6 @@ const DATERANGEPICKER_FIELD_WIDTH = "176px";
   ],
 })
 export class DaterangepickerComponent implements ControlValueAccessor, AfterViewInit {
-  readonly rangeFieldWidth = DATERANGEPICKER_FIELD_WIDTH;
-
   readonly id = input.required<string>();
   readonly labelText = input<string>("Label");
   readonly hasLabel = input<boolean>(true);
@@ -84,7 +79,7 @@ export class DaterangepickerComponent implements ControlValueAccessor, AfterView
   readonly required = input<boolean>(false);
   readonly showLabelRequirement = input<boolean>(false);
 
-  readonly width = input<string>(DATEPICKER_DEFAULT_WIDTH);
+  readonly width = input<string>(DATERANGEPICKER_DEFAULT_WIDTH);
 
   readonly hasAssistiveText = input<boolean>(false);
   readonly assistiveTextLabel = input<string>("");
