@@ -1,4 +1,5 @@
 import { Component, computed, output, signal, inject } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 import { RouterOutlet } from "@angular/router";
 import {
   AccordionComponent,
@@ -30,8 +31,11 @@ import {
   StepperComponent,
   DropdownModule,
   TimePickerComponent,
+  DatepickerComponent,
+  DaterangepickerComponent,
 } from "@design-system-rte/angular";
 import { RegularIconIdKey, TogglableIconIdKey } from "@design-system-rte/angular/lib/components/icon/icon.service";
+import type { DateRangePickerValue } from "@design-system-rte/core";
 import type {
   HeaderActionButtonConfig,
   HeaderAvatarConfig,
@@ -48,6 +52,7 @@ import { TreeviewItemProps } from "@design-system-rte/core/components/treeview";
   selector: "app-root",
   standalone: true,
   imports: [
+    FormsModule,
     RouterOutlet,
     HeaderComponent,
     AccordionComponent,
@@ -77,6 +82,8 @@ import { TreeviewItemProps } from "@design-system-rte/core/components/treeview";
     StepperComponent,
     DropdownModule,
     TimePickerComponent,
+    DatepickerComponent,
+    DaterangepickerComponent,
   ],
   providers: [ToastService],
   templateUrl: "./app.component.html",
@@ -92,10 +99,37 @@ export class AppComponent {
 
   readonly timePickerValue = signal<TimeFormat>({ hh: "", mm: "", ss: "" });
 
+  datepickerValue: Date | null = null;
+
+  dateRangeValue: DateRangePickerValue = [null, null];
+
   readonly activeStepId = signal("1");
 
   onTimePickerValueChange(time: TimeFormat): void {
     this.timePickerValue.set({ hh: time.hh, mm: time.mm, ss: time.ss });
+  }
+
+  onDatepickerValueChange(date: Date | null): void {
+    this.datepickerValue = date;
+  }
+
+  onDateRangeValueChange(value: DateRangePickerValue): void {
+    this.dateRangeValue = value;
+  }
+
+  formatPickerDate(date: Date | null): string {
+    if (!date) {
+      return "—";
+    }
+    return new Intl.DateTimeFormat("fr-FR", { dateStyle: "long" }).format(date);
+  }
+
+  dateRangeSummary(): string {
+    if (!this.dateRangeValue) {
+      return "—";
+    }
+    const [start, end] = this.dateRangeValue;
+    return `${this.formatPickerDate(start)} → ${this.formatPickerDate(end)}`;
   }
 
   handleInputChange(value: string) {

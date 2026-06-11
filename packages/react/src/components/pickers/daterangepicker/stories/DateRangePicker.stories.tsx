@@ -1,4 +1,4 @@
-import { TESTING_ESCAPE_KEY } from "@design-system-rte/core";
+import { DATERANGEPICKER_DEFAULT_WIDTH, DATERANGEPICKER_MIN_WIDTH, TESTING_ESCAPE_KEY } from "@design-system-rte/core";
 import type { Meta, StoryObj } from "@storybook/react";
 import { expect, userEvent, waitFor, within } from "@storybook/test";
 import { useState } from "react";
@@ -10,6 +10,9 @@ const meta = {
   title: "Composants/DateRangePicker/DateRangePicker",
   component: DateRangePicker,
   tags: ["autodocs"],
+  argTypes: {
+    width: { control: "text" },
+  },
 } satisfies Meta<typeof DateRangePicker>;
 
 export default meta;
@@ -73,8 +76,17 @@ export const Default: Story = {
     showAssistiveIcon: true,
     readonly: false,
     hasAction: true,
+    width: DATERANGEPICKER_DEFAULT_WIDTH,
   },
 
+  render: buildRender(defaultRange),
+};
+
+export const MinWidth: Story = {
+  args: {
+    ...Default.args,
+    width: DATERANGEPICKER_MIN_WIDTH,
+  },
   render: buildRender(defaultRange),
 };
 

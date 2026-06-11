@@ -26,4 +26,5 @@ export interface DateRangePickerProps extends InputProps<DateRangePickerValue> {
   minDate?: Date;
   maxDate?: Date;
   disabledDates?: Date[];
+  width?: string;
 }
