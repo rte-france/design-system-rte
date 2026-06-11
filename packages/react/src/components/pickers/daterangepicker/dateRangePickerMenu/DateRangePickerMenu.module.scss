@@ -1,14 +1,11 @@
 @use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
 
-
-
-
 .rte-datepicker-dropdown {
   @include typography-text-m;
 
   box-sizing: border-box;
   width: 100%;
-  min-width: 248px;
+  min-width: 320px;
   padding: $positive-spacing_100 0;
   display: flex;
   flex-direction: column;
@@ -89,17 +86,288 @@
 
 
 .rte-datepicker-day-grid {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: $positive-spacing_050;
   padding: 0 $positive-spacing_150;
+
+  &__range-links,
+  &__cells {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: $positive-spacing_050;
+    align-items: center;
+  }
+
+  &__range-links {
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  &__cells {
+    z-index: 1;
+  }
+}
+
+.day-cell-range-links {
+  position: relative;
+  box-sizing: border-box;
+  width: 40px;
+  height: 40px;
+  max-width: 40px;
+  min-width: 40px;
+  min-height: 40px;
+  justify-self: center;
+
+  .rte-date-rangepicker-link {
+    background-color: var(--background-brand-unselected-default);
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    height: 32px;
+    display: none;
+    transform: translateY(-50%);
+
+    &[data-position="start-cell"] {
+      transform: translateX(-50%) translateY(-50%);
+    }
+
+    &[data-position="start-line"] {
+      transform: translateX(-100%) translateY(-50%);
+    }
+
+    &[data-position="end-cell"] {
+      transform: translateX(50%) translateY(-50%);
+    }
+
+    &[data-position="end-line"] {
+      transform: translateX(100%) translateY(-50%);
+    }
+
+    &[data-link-position="start"] {
+      border-top-left-radius: $radius-pill;
+      border-bottom-left-radius: $radius-pill;
+    }
+
+    &[data-link-position="end"] {
+      border-top-right-radius: $radius-pill;
+      border-bottom-right-radius: $radius-pill;
+    }
+  }
+
+  &[data-in-range="true"] {
+    .rte-date-rangepicker-link {
+
+      &[data-position="start-cell"],
+      &[data-position="end-cell"],
+      &[data-position="start-line"],
+      &[data-position="end-line"] {
+        display: block;
+      }
+    }
+
+    &[data-first-in-range="true"] {
+      .rte-date-rangepicker-link {
+
+        &[data-position="start-cell"],
+        &[data-position="start-line"] {
+          display: none;
+        }
+      }
+    }
+
+    &[data-last-in-range="true"] {
+      .rte-date-rangepicker-link {
+
+        &[data-position="end-cell"],
+        &[data-position="end-line"] {
+          display: none;
+        }
+      }
+
+      &[data-in-preview="true"] {
+        .rte-date-rangepicker-link {
+
+          &[data-position="end-cell"],
+          &[data-position="end-line"] {
+            display: block;
+          }
+        }
+      }
+    }
+  }
+
+  &[data-in-preview="true"] {
+    .rte-date-rangepicker-link {
+
+      &[data-position="start-cell"],
+      &[data-position="end-cell"],
+      &[data-position="start-line"],
+      &[data-position="end-line"] {
+        display: block;
+      }
+    }
+
+    &[data-first-in-preview="true"] {
+      .rte-date-rangepicker-link {
+
+        &[data-position="start-cell"],
+        &[data-position="start-line"] {
+          display: none;
+        }
+      }
+    }
+
+    &[data-last-in-preview="true"] {
+      .rte-date-rangepicker-link {
+
+        &[data-position="end-cell"],
+        &[data-position="end-line"] {
+          display: none;
+        }
+      }
+    }
+
+    &[data-first-in-range="true"] {
+      .rte-date-rangepicker-link {
+
+        &[data-position="start-cell"],
+        &[data-position="start-line"] {
+          display: none;
+        }
+      }
+    }
+  }
+
+  &[data-day-hovered="true"][data-cell-type="selected"] {
+    &[data-last-in-preview="true"] {
+      .rte-date-rangepicker-link {
+
+        &[data-position="end-cell"],
+        &[data-position="end-line"] {
+          display: none;
+        }
+      }
+
+      &[data-in-range="true"] {
+        .rte-date-rangepicker-link {
+
+          &[data-position="end-cell"],
+          &[data-position="end-line"] {
+            display: block;
+          }
+        }
+      }
+    }
+
+    &[data-in-range="true"] {
+      &[data-last-in-range="true"] {
+        .rte-date-rangepicker-link {
+
+          &[data-position="end-cell"],
+          &[data-position="end-line"] {
+            display: none;
+          }
+        }
+      }
+    }
+
+    &[data-in-preview="true"] {
+      &[data-first-in-preview="true"] {
+        .rte-date-rangepicker-link {
+
+          &[data-position="end-cell"],
+          &[data-position="end-line"] {
+            display: none;
+          }
+        }
+
+        &[data-first-in-range="true"] {
+          .rte-date-rangepicker-link {
+
+            &[data-position="end-cell"],
+            &[data-position="end-line"] {
+              display: block;
+            }
+          }
+        }
+
+        &[data-last-in-range="true"] {
+          .rte-date-rangepicker-link {
+
+            &[data-position="start-cell"],
+            &[data-position="start-line"] {
+              display: block;
+            }
+          }
+        }
+
+        &[data-last-in-preview="true"] {
+          .rte-date-rangepicker-link {
+
+            &[data-position="end-cell"],
+            &[data-position="end-line"] {
+              display: none;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &[data-day-hovered="true"]:not([data-cell-type="selected"]):not([data-cell-type="today"]) {
+    &[data-in-preview="true"] {
+      .rte-date-rangepicker-link {
+
+        &[data-position="start-cell"],
+        &[data-position="end-cell"],
+        &[data-position="start-line"],
+        &[data-position="end-line"] {
+          display: block;
+        }
+      }
+
+      &[data-last-in-preview="true"] {
+        .rte-date-rangepicker-link {
+
+          &[data-position="end-cell"],
+          &[data-position="end-line"] {
+            display: none;
+          }
+        }
+
+        &[data-in-range="true"] {
+          .rte-date-rangepicker-link {
+
+            &[data-position="end-cell"],
+            &[data-position="end-line"] {
+              display: block;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.day-cell-range-links[data-first-in-range="true"] + .day-cell-range-links[data-last-in-range="true"],
+.day-cell-range-links[data-in-preview="true"] + .day-cell-range-links[data-first-in-preview="true"] {
+  .rte-date-rangepicker-link {
+
+    &[data-position="start-cell"],
+    &[data-position="start-line"] {
+      display: none;
+    }
+  }
 }
 
 .day-cell {
   @include typography-text-m;
 
   position: relative;
-  isolation: isolate;
   box-sizing: border-box;
   width: 40px;
   height: 40px;
@@ -191,88 +459,11 @@
     }
   }
 
-
   &:hover:not(:disabled) {
     &[data-cell-type="selected"] {
-
       .day-cell__surface {
         background-color: var(--background-brand-selected-hover);
       }
-
-      &[data-last-in-preview="true"] {
-        .rte-date-rangepicker-link {
-
-          &[data-position="end-cell"],
-          &[data-position="end-line"] {
-            display: none;
-          }
-        }
-
-        &[data-in-range="true"] {
-          .rte-date-rangepicker-link {
-
-            &[data-position="end-cell"],
-            &[data-position="end-line"] {
-              display: block;
-            }
-          }
-        }
-      }
-
-      &[data-in-range="true"] {
-        &[data-last-in-range="true"] {
-          .rte-date-rangepicker-link {
-
-            &[data-position="end-cell"],
-            &[data-position="end-line"] {
-              display: none;
-            }
-          }
-        }
-      }
-
-      &[data-in-preview="true"] {
-        &[data-first-in-preview="true"] {
-          .rte-date-rangepicker-link {
-
-            &[data-position="end-cell"],
-            &[data-position="end-line"] {
-              display: none;
-            }
-          }
-
-          &[data-first-in-range="true"] {
-            .rte-date-rangepicker-link {
-
-              &[data-position="end-cell"],
-              &[data-position="end-line"] {
-                display: block;
-              }
-            }
-          }
-
-          &[data-last-in-range="true"] {
-            .rte-date-rangepicker-link {
-
-              &[data-position="start-cell"],
-              &[data-position="start-line"] {
-                display: block;
-              }
-            }
-          }
-
-          &[data-last-in-preview="true"] {
-            .rte-date-rangepicker-link {
-
-              &[data-position="end-cell"],
-              &[data-position="end-line"] {
-                display: none;
-              }
-            }
-          }
-        }
-      }
-
     }
 
     &[data-cell-type="today"] {
@@ -299,45 +490,10 @@
           background-color: var(--background-brand-unselected-hover);
         }
       }
-
-      &[data-in-preview="true"] {
-        .rte-date-rangepicker-link {
-
-          &[data-position="start-cell"],
-          &[data-position="end-cell"],
-          &[data-position="start-line"],
-          &[data-position="end-line"] {
-            display: block;
-          }
-        }
-
-        &[data-last-in-preview="true"] {
-          .rte-date-rangepicker-link {
-
-            &[data-position="end-cell"],
-            &[data-position="end-line"] {
-              display: none;
-            }
-          }
-
-          &[data-in-range="true"] {
-            .rte-date-rangepicker-link {
-
-              &[data-position="end-cell"],
-              &[data-position="end-line"] {
-                display: block;
-              }
-            }
-          }
-        }
-      }
     }
-
-
   }
 
   &[data-datepicker-active="true"]:not(:disabled) {
-
     &[data-cell-type="today"] {
       color: var(--content-brand-hover);
 
@@ -352,7 +508,6 @@
     }
 
     &:not([data-cell-type="selected"]):not([data-cell-type="today"]) {
-
       .day-cell__surface {
         background-color: var(--background-hover, #ebebea);
       }
@@ -368,7 +523,6 @@
     .day-cell__surface {
       background-color: var(--background-brand-selected-hover);
     }
-
   }
 
   &:disabled {
@@ -381,128 +535,6 @@
       .day-cell__surface {
         border-color: var(--border-disabled);
         background-color: transparent;
-      }
-    }
-  }
-
-  .rte-date-rangepicker-link {
-    background-color: var(--background-brand-unselected-default);
-    position: absolute;
-    width: 100%;
-    height: 32px;
-
-    display: none;
-
-
-    &[data-position="start-cell"] {
-      transform: translateX(-50%);
-    }
-
-    &[data-position="start-line"] {
-      transform: translateX(-100%);
-    }
-
-    &[data-position="end-cell"] {
-      transform: translateX(50%);
-    }
-
-    &[data-position="end-line"] {
-      transform: translateX(100%);
-    }
-
-    &[data-link-position="start"] {
-      border-top-left-radius: $radius-pill;
-      border-bottom-left-radius: $radius-pill;
-    }
-
-    &[data-link-position="end"] {
-      border-top-right-radius: $radius-pill;
-      border-bottom-right-radius: $radius-pill;
-    }
-
-
-  }
-
-  &[data-in-range="true"] {
-    .rte-date-rangepicker-link {
-
-      &[data-position="start-cell"],
-      &[data-position="end-cell"],
-      &[data-position="start-line"],
-      &[data-position="end-line"] {
-        display: block;
-      }
-    }
-
-    &[data-first-in-range="true"] {
-      .rte-date-rangepicker-link {
-
-        &[data-position="start-cell"],
-        &[data-position="start-line"] {
-          display: none;
-        }
-      }
-    }
-
-    &[data-last-in-range="true"] {
-      .rte-date-rangepicker-link {
-
-        &[data-position="end-cell"],
-        &[data-position="end-line"] {
-          display: none;
-        }
-      }
-
-      &[data-in-preview="true"] {
-        .rte-date-rangepicker-link {
-
-          &[data-position="end-cell"],
-          &[data-position="end-line"] {
-            display: block;
-          }
-        }
-      }
-    }
-  }
-
-  &[data-in-preview="true"] {
-    .rte-date-rangepicker-link {
-
-      &[data-position="start-cell"],
-      &[data-position="end-cell"],
-      &[data-position="start-line"],
-      &[data-position="end-line"] {
-        display: block;
-      }
-    }
-
-    &[data-first-in-preview="true"] {
-      .rte-date-rangepicker-link {
-
-        &[data-position="start-cell"],
-        &[data-position="start-line"] {
-          display: none;
-        }
-      }
-    }
-
-    &[data-last-in-preview="true"] {
-      .rte-date-rangepicker-link {
-
-        &[data-position="end-cell"],
-        &[data-position="end-line"] {
-          display: none;
-        }
-      }
-    }
-
-    &[data-first-in-range="true"] {
-      .rte-date-rangepicker-link {
-
-        &[data-position="start-cell"],
-        &[data-position="start-line"] {
-          display: none;
-        }
       }
     }
   }

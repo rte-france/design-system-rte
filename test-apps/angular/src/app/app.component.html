@@ -132,6 +132,46 @@
       </p>
     </section>
     <hr />
+    <section style="max-width: 500px">
+      <h4 style="margin: 0 0 12px 0; font-size: 18px; font-weight: 600">Date picker</h4>
+      <p style="margin: 0 0 12px 0; color: #666; line-height: 1.5; font-size: 14px">
+        Bundled library smoke test: segmented field, calendar overlay, and confirm/cancel actions.
+      </p>
+      <rte-datepicker
+        id="integration-datepicker"
+        labelText="Date"
+        [hasLabel]="true"
+        assistiveTextLabel="French locale (fr-FR)."
+        [hasAssistiveText]="true"
+        locale="fr-FR"
+        [(ngModel)]="datepickerValue"
+        (valueChange)="onDatepickerValueChange($event)"
+      />
+      <p style="margin: 12px 0 0 0; font-family: monospace; font-size: 13px; color: #333">
+        value: {{ formatPickerDate(datepickerValue) }}
+      </p>
+    </section>
+    <hr />
+    <section style="max-width: 500px">
+      <h4 style="margin: 0 0 12px 0; font-size: 18px; font-weight: 600">Date range picker</h4>
+      <p style="margin: 0 0 12px 0; color: #666; line-height: 1.5; font-size: 14px">
+        Bundled library smoke test: dual segmented fields, range selection, and calendar overlay.
+      </p>
+      <rte-daterangepicker
+        id="integration-daterangepicker"
+        labelText="Période"
+        [hasLabel]="true"
+        assistiveTextLabel="Select a start and end date."
+        [hasAssistiveText]="true"
+        locale="fr-FR"
+        [(ngModel)]="dateRangeValue"
+        (valueChange)="onDateRangeValueChange($event)"
+      />
+      <p style="margin: 12px 0 0 0; font-family: monospace; font-size: 13px; color: #333">
+        value: {{ dateRangeSummary() }}
+      </p>
+    </section>
+    <hr />
     <rte-chip label="Chip Label" type="single"></rte-chip>
     <hr />
 

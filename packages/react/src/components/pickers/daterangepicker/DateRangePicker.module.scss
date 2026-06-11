@@ -3,13 +3,41 @@
 .date-range-picker {
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
+}
+
+.date-range-picker-dropdown {
+  width: 100%;
+
+  > div:first-of-type {
+    width: 100%;
+  }
 }
 
 .date-range-picker-inputs {
   display: flex;
   gap: $positive-spacing_050;
   align-items: center;
-  width: fit-content;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.date-range-picker-field {
+  flex: 1 1 0;
+  min-width: 0;
+
+  > div {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+  }
+}
+
+.date-range-picker-separator {
+  flex: 0 0 auto;
+  flex-shrink: 0;
+  color: var(--content-primary);
 }
 
 .visually-hidden {

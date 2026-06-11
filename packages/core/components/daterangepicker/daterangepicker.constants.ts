@@ -1,0 +1,3 @@
+export const DATERANGEPICKER_DEFAULT_WIDTH = "490px";
+
+export const DATERANGEPICKER_MIN_WIDTH = "320px";
