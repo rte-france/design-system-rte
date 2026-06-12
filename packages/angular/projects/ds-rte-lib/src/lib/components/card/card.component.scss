@@ -28,9 +28,15 @@
     }
 
     &.card-outlined {
-        @include elevation-neutral-shadow-1;
+        box-shadow: none;
+        background: var(--background-default);
         flex-shrink: 0;
         border: $width-xs solid var(--border-tertiary);
+
+        &:hover {
+            box-shadow: none;
+            background: var(--background-default);
+        }
 
         &:active {
             &.clickable {
