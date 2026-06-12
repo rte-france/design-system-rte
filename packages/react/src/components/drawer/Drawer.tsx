@@ -402,22 +402,24 @@ const Drawer = ({
           )}
           {shouldRender && (
             <Overlay>
-              <Backdrop isAnimating={isAnimating} />
-              <div
-                ref={drawerRef}
-                className={styles["drawer"]}
-                data-open={isAnimating}
-                data-fixed-header={fixedHeader}
-                role="dialog"
-                aria-modal="true"
-                aria-labelledby={`${id}-drawer-title`}
-                style={{
-                  width,
-                }}
-                {...props}
-              >
-                <HeaderWithContent {...headerWithContentProps} />
-                <Footer {...footerProps} />
+              <div className={styles["drawer-modal-layer"]}>
+                <Backdrop isAnimating={isAnimating} />
+                <div
+                  ref={drawerRef}
+                  className={styles["drawer"]}
+                  data-open={isAnimating}
+                  data-fixed-header={fixedHeader}
+                  role="dialog"
+                  aria-modal="true"
+                  aria-labelledby={`${id}-drawer-title`}
+                  style={{
+                    width,
+                  }}
+                  {...props}
+                >
+                  <HeaderWithContent {...headerWithContentProps} />
+                  <Footer {...footerProps} />
+                </div>
               </div>
             </Overlay>
           )}
