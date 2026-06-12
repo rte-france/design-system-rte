@@ -20,6 +20,7 @@ import { ModalComponent } from "./modal.component";
 
 @Directive({
   selector: "[rteModal]",
+  exportAs: "rteModal",
   standalone: true,
 })
 export class ModalDirective implements AfterContentInit, OnDestroy {
@@ -87,7 +88,7 @@ export class ModalDirective implements AfterContentInit, OnDestroy {
     this.modalCompRef = this.overlayService.create(ModalComponent, this.viewContainerRef);
 
     this.modalCompRef?.instance.closeModal.subscribe(() => {
-      this.closeModal();
+      this.close();
     });
 
     this.modalElement = this.modalCompRef?.location.nativeElement.children[0].children[1];
@@ -96,10 +97,18 @@ export class ModalDirective implements AfterContentInit, OnDestroy {
     document.body.style.overflow = "hidden";
   }
 
+  close(): void {
+    if (this.modalCompRef) {
+      this.modalCompRef.setInput("isOpen", false);
+
+      setTimeout(() => this.destroyModal(), 200);
+    }
+  }
+
   private handleKeydown(event: KeyboardEvent) {
     if (event.key === ESCAPE_KEY && this.rteModalCloseOnClickOutside()) {
       event.preventDefault();
-      this.closeModal();
+      this.close();
     }
   }
 
@@ -128,15 +137,7 @@ export class ModalDirective implements AfterContentInit, OnDestroy {
     if (elements.some((element) => !element)) return;
     const shouldIgnore = elements.some((element) => element.contains(event.target as Node));
     if (!shouldIgnore && this.rteModalCloseOnClickOutside()) {
-      this.closeModal();
-    }
-  }
-
-  private closeModal(): void {
-    if (this.modalCompRef) {
-      this.modalCompRef.setInput("isOpen", false);
-
-      setTimeout(() => this.destroyModal(), 200);
+      this.close();
     }
   }
 
