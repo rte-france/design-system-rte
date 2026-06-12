@@ -10,7 +10,7 @@
   min-width: 0;
   display: flex;
   align-items: stretch;
-  border-radius: $radius-m;
+  border-radius: $radius-s;
   transition: outline 200ms, border 200ms;
 
   &:focus-within {
