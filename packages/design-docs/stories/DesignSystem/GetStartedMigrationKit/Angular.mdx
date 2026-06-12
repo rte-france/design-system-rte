@@ -257,6 +257,7 @@ import "../../../src/styles/GeneralDocs.scss";
                     <!-- Approche déclarative avec directive -->
                     <div
                       rteModal
+                      #modalHost="rteModal"
                       [rteModalId]="'my-modal'"
                       [rteModalTitle]="'Title'"
                       [rteModalDescription]="'Content'"
@@ -264,10 +265,10 @@ import "../../../src/styles/GeneralDocs.scss";
                     >
                       <button rteButton rteButtonVariant="primary" rteModalTrigger>Open Modal</button>
                       <ng-template #primaryButton>
-                        <button rteButton rteButtonVariant="primary" (click)="handleValidate()">Validate</button>
+                        <button rteButton rteButtonVariant="primary" (click)="handleValidate(); modalHost.close()">Validate</button>
                       </ng-template>
                       <ng-template #secondaryButton>
-                        <button rteButton rteButtonVariant="neutral" (click)="handleCancel()">Cancel</button>
+                        <button rteButton rteButtonVariant="neutral" (click)="handleCancel(); modalHost.close()">Cancel</button>
                       </ng-template>
                     </div>
                     ```
