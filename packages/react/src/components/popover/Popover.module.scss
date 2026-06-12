@@ -7,7 +7,7 @@
 
 .popover {
     @include elevation-neutral-drop-shadow-2;
-    position: absolute;
+    position: relative;
     pointer-events: auto;
     top: 0;
     left: 0;
@@ -18,10 +18,16 @@
     background: var(--background-default);
     transition: opacity 150ms ease-out;
     opacity: 0;
-    z-index: 1000;
+    z-index: $level-1;
     min-width: 320px;
     max-width: 600px;
     width: fit-content;
+
+    z-index: $level-1;
+
+    &[data-overlay-level='high'] {
+        z-index: $backdrop + 1;
+    }
 
     .popoverInner {
         display: flex;

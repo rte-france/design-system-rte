@@ -14,6 +14,10 @@ export const Overlay = ({ children }: OverlayPortalProps) => {
     if (!root) {
       root = document.createElement("div");
       root.setAttribute("id", "overlay-root");
+      root.style.position = "absolute";
+      root.style.pointerEvents = "none";
+      root.style.inset = "0";
+      root.style.zIndex = "1";
       document.body.appendChild(root);
     }
     setOverlayRoot(root);

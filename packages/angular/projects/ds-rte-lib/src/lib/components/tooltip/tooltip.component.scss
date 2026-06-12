@@ -1,4 +1,4 @@
-@use '@design-system-rte/core/design-tokens/main.scss' as *;
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
 
 $max-height: 40px;
 
@@ -20,6 +20,10 @@ $max-height: 40px;
     padding-inline: $positive-spacing_200;
     border-radius: $radius-s;
     background: var(--background-inverse);
+
+    &[data-overlay-level='high'] {
+        z-index: $backdrop + 1;
+    }
 
     &-label {
         @include typography-tooltip-label;

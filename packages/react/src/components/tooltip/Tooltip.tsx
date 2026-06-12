@@ -5,6 +5,7 @@ import { getAutoPlacement, getCoordinates } from "@design-system-rte/core/compon
 import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
 
 import useAnimatedMount from "../../hooks/useAnimatedMount";
+import useGetOverlayLayerLevel from "../../hooks/useGetOverlayLayerLevel";
 import { Overlay } from "../overlay/Overlay";
 import { concatClassNames } from "../utils";
 
@@ -40,6 +41,8 @@ const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
     const [isOpen, setIsOpen] = useState(false);
 
     const { shouldRender, isAnimating } = useAnimatedMount(isOpen, TOOLTIP_ANIMATION_DURATION);
+
+    const overlayLevel = useGetOverlayLayerLevel();
 
     const tooltipCallbackRef = useCallback(
       (node: HTMLDivElement | null) => {
@@ -106,6 +109,7 @@ const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
               data-open={isAnimating || undefined}
               data-alignment={alignment}
               data-arrow={arrow}
+              data-overlay-level={overlayLevel}
               style={{
                 top: `${coordinates.top}px`,
                 left: `${coordinates.left}px`,

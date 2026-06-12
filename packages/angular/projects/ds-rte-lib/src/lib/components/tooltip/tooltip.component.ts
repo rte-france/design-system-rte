@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, input } from "@angular/core";
+import { Component, computed, input } from "@angular/core";
 import { Alignment, Position } from "@design-system-rte/core";
 
 @Component({
@@ -14,4 +14,7 @@ export class TooltipComponent {
   readonly position = input<Exclude<Position, "auto">>("top");
   readonly alignment = input<Alignment>("center");
   readonly arrow = input<boolean>(true);
+  readonly isInParentWithOverlay = input<boolean>(false);
+
+  readonly overlayLevel = computed(() => (this.isInParentWithOverlay() ? "high" : "low"));
 }

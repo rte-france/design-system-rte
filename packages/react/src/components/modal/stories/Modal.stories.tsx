@@ -10,6 +10,8 @@ import { useState } from "react";
 import { focusElementBeforeComponent } from "../../../../.storybook/testing/testing.utils";
 import Button from "../../button/Button";
 import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../../icon/IconMap";
+import Popover from "../../popover/Popover";
+import Select from "../../select/Select";
 import Textarea from "../../textarea/Textarea";
 import Modal from "../Modal";
 
@@ -138,15 +140,34 @@ export const WithCustomContent: Story = {
     secondaryButton: <Button variant="neutral" label="Annuler" />,
     size: "m",
     closeOnOverlayClick: true,
-    children: <Textarea resizeable={true} />,
   },
 
   render: (args) => {
     const [isOpen, setIsOpen] = useState(args.isOpen);
+
+    const [selectedOption, setSelectedOption] = useState<string>();
+
+    const selectOptions = [
+      { value: "label-1", label: "Label 1" },
+      { value: "label-2", label: "Label 2" },
+      { value: "label-3", label: "Label 3" },
+    ];
     return (
       <>
         <Button variant="primary" label="Open Modal" onClick={() => setIsOpen(true)} />
-        <Modal {...args} isOpen={args.isOpen || isOpen} onClose={() => setIsOpen(false)} />
+        <Modal {...args} isOpen={args.isOpen || isOpen} onClose={() => setIsOpen(false)}>
+          <Textarea resizeable={true} />
+          <Select
+            id="select-1"
+            label="Select an option"
+            options={selectOptions}
+            value={selectedOption}
+            onChange={(option) => setSelectedOption(option)}
+          />
+          <Popover content="Contenu du popover" title="Titre du popover" primaryButtonLabel={"Accepter"}>
+            <Button variant="primary" label="Custom Action" />
+          </Popover>
+        </Modal>
       </>
     );
   },

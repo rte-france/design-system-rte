@@ -17,7 +17,7 @@
 .dropdown {
   @include elevation-neutral-shadow-2;
   background-color: var(--background-default);
-  position: absolute;
+  position: relative;
   top: 0;
   left: 0;
   display: flex;
@@ -32,7 +32,11 @@
   pointer-events: auto;
   overflow-x: hidden;
   overflow-y: auto;
-  z-index: $level-2;
+  z-index: $level-1;
+
+  &[data-overlay-level='high'] {
+    z-index: $backdrop + 1;
+  }
 
   &[data-has-max-width='true'] {
     max-width: 300px;

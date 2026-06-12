@@ -37,6 +37,7 @@ export class ModalComponent implements AfterViewInit, OnDestroy {
   readonly isOpen = input<boolean>(false);
   readonly size = input<Size>("m");
   readonly ariaDescribedby = input<string | undefined>(undefined);
+  readonly closeOnClickOutside = input<boolean>(true);
 
   readonly primaryButton = input<TemplateRef<ButtonComponent> | null>(null);
   readonly secondaryButton = input<TemplateRef<ButtonComponent> | null>(null);
@@ -66,4 +67,10 @@ export class ModalComponent implements AfterViewInit, OnDestroy {
   onClose() {
     this.closeModal.emit();
   }
+
+  handleClickBackdrop = () => {
+    if (this.closeOnClickOutside()) {
+      this.closeModal.emit();
+    }
+  };
 }

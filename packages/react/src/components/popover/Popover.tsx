@@ -11,6 +11,7 @@ import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
 import useAnimatedMount from "../../hooks/useAnimatedMount";
 import { useClickAway } from "../../hooks/useClickAway";
 import { useFocusTrap } from "../../hooks/useFocusTrap";
+import useGetOverlayLayerLevel from "../../hooks/useGetOverlayLayerLevel";
 import { useKeydownEscape } from "../../hooks/useKeydownEscape";
 import { useScrollEvent } from "../../hooks/useScrollEvent";
 import Button from "../button/Button";
@@ -90,6 +91,7 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
     useClickAway(handleClickAway, triggerRef.current!, popoverElement!);
     useKeydownEscape(handleKeydownEscape);
     useScrollEvent(updatePopoverPosition);
+    const overlayLayerLevel = useGetOverlayLayerLevel(triggerRef.current);
 
     const popoverCallbackRef = useCallback(
       (node: HTMLDivElement | null) => {
@@ -163,6 +165,7 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
               role="dialog"
               aria-modal="true"
               data-arrow={arrow}
+              data-overlay-level={overlayLayerLevel}
               data-position={autoPosition}
               data-alignment={autoAlignment}
               data-open={(positionReady && isAnimating) || undefined}
