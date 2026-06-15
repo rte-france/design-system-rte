@@ -35,7 +35,6 @@ const RadioButton = forwardRef<HTMLInputElement, RadioButtonProps>(
         return;
       }
 
-      console.log(event.target.value);
       if (onChange) {
         onChange(event);
       }

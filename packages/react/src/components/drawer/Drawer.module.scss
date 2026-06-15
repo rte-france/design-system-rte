@@ -17,6 +17,7 @@
   align-items: flex-start;
   transform: translateX(100%);
   transition: transform 240ms ease-out;
+  pointer-events: auto;
 
   @include elevation-neutral-shadow-3;
   background-color: var(--background-default);

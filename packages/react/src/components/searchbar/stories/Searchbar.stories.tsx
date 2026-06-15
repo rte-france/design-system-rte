@@ -87,7 +87,6 @@ export const WithDropdown: Story = {
     }
 
     function handleOptionSelect(option: string) {
-      console.log("Selected option:", option);
       setSearchValue(option);
       setIsOpen(false);
     }

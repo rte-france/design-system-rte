@@ -127,7 +127,6 @@ export const BaseDropdown = forwardRef<HTMLDivElement, BaseDropdownProps>(
 
     const handleKeyUp = (e: React.KeyboardEvent<HTMLDivElement>) => {
       if (e.key === ESCAPE_KEY) {
-        console.log("escape");
         e.stopPropagation();
         e.preventDefault();
         closeDropdown();

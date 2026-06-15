@@ -11,6 +11,7 @@
 
 .rte-drawer-root {
   position: relative;
+  pointer-events: auto;
 
   &[data-position='responsive'] {
     flex: 1 1 auto;
