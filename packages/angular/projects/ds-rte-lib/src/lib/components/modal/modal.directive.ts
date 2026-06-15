@@ -131,14 +131,6 @@ export class ModalDirective implements AfterContentInit, OnDestroy {
     }
   }
 
-  private closeModal(): void {
-    if (this.modalCompRef) {
-      this.modalCompRef.setInput("isOpen", false);
-
-      setTimeout(() => this.destroyModal(), 200);
-    }
-  }
-
   private destroyModal(): void {
     if (this.modalCompRef) {
       this.modalCompRef.destroy();
