@@ -18,7 +18,6 @@ export class OverlayService {
         this.overlayRoot.tabIndex = -1;
         this.overlayRoot.style.position = "absolute";
         this.overlayRoot.style.inset = "0";
-        this.overlayRoot.style.zIndex = "999";
         this.overlayRoot.style.pointerEvents = "none";
         document.body.appendChild(this.overlayRoot);
       }
