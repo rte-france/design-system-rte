@@ -124,7 +124,7 @@ $mobile-search-transition: 150ms;
           content: '';
           position: absolute;
           inset: 0;
-          border-radius: $radius-m;
+          border-radius: $radius-s;
           border: $width-xs solid var(--border-secondary);
           background:
             linear-gradient(0deg, var(--elevation-surface-inner-shadow) 0%, var(--elevation-surface-inner-shadow) 100%),
