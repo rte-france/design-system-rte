@@ -287,7 +287,9 @@ export class DropdownDirective implements AfterContentInit {
 
           this.removeClickOutsideListener();
           dropdownStateSubscription.unsubscribe();
-          this.focusTriggerElementAfterMenuClosed();
+          if (this.rteDropdownAutofocus()) {
+            this.focusTriggerElementAfterMenuClosed();
+          }
         }
       }
     });

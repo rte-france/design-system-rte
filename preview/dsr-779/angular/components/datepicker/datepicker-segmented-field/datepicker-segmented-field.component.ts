@@ -56,6 +56,8 @@ export class DatepickerSegmentedFieldComponent {
   readonly ariaRequired = input<boolean>(false);
   readonly hasLabel = input<boolean>(true);
   readonly hasAssistiveText = input<boolean>(false);
+  readonly width = input<string>("100%");
+  readonly describedBy = input<string | null>(null);
 
   readonly value = input<string>("");
   readonly locale = input<string>("fr-FR");

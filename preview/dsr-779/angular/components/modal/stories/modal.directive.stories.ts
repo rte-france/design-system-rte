@@ -18,6 +18,27 @@ import { ModalModule } from "../modal.module";
 const RegularIconIds = Object.keys(RegularIconsList);
 const TogglableIconIds = Object.keys(TogglableIconsList);
 
+const modalUsageDoc = `
+\`\`\`html
+<div
+  rteModal
+  #modalHost="rteModal"
+  [rteModalId]="'my-modal'"
+  [rteModalTitle]="'Title'"
+  [rteModalDescription]="'Content'"
+  [rteModalSize]="'m'"
+>
+  <button rteButton rteButtonVariant="primary" rteModalTrigger>Open Modal</button>
+  <ng-template #primaryButton>
+    <button rteButton rteButtonVariant="primary" (click)="onValidate(); modalHost.close()">Validate</button>
+  </ng-template>
+  <ng-template #secondaryButton>
+    <button rteButton rteButtonVariant="neutral" (click)="modalHost.close()">Cancel</button>
+  </ng-template>
+</div>
+\`\`\`
+`;
+
 const meta: Meta<ModalDirective> = {
   title: "Composants/Modal",
   component: ModalDirective,
@@ -56,6 +77,13 @@ const meta: Meta<ModalDirective> = {
       defaultValue: true,
     },
   },
+  parameters: {
+    docs: {
+      description: {
+        component: modalUsageDoc,
+      },
+    },
+  },
 };
 export default meta;
 type Story = StoryObj<ModalDirective>;
@@ -88,6 +116,7 @@ export const Default: Story = {
     declarations: [ModalDirective],
     template: `<div
                 rteModal
+                #modalHost="rteModal"
                 [rteModalId]="rteModalId"
                 [rteModalIconAppearance]="rteModalIconAppearance"
                 [rteModalTitle]="rteModalTitle"
@@ -99,10 +128,10 @@ export const Default: Story = {
                 >
                 <button rteButton rteButtonVariant="primary" rteModalTrigger>Open Modal</button>
                 <ng-template #primaryButton>
-                  <button rteButton rteButtonVariant="primary" (click)="handlePrimaryClick()">Continue</button>
+                  <button rteButton rteButtonVariant="primary" (click)="handlePrimaryClick(); modalHost.close()">Continue</button>
                 </ng-template>
                 <ng-template #secondaryButton>
-                  <button rteButton rteButtonVariant="neutral" (click)="handleSecondaryClick()">Cancel</button>
+                  <button rteButton rteButtonVariant="neutral" (click)="handleSecondaryClick(); modalHost.close()">Cancel</button>
                 </ng-template>
               </div>
       `,
@@ -136,6 +165,7 @@ export const Sizes: Story = {
     <div style="display: flex; gap: 12px; margin-bottom: 16px;">
     <div
                 rteModal
+                #modalHostXs="rteModal"
                 [rteModalId]="'modal-xs'"
                 [rteModalIconAppearance]="rteModalIconAppearance"
                 [rteModalTitle]="rteModalTitle"
@@ -147,14 +177,15 @@ export const Sizes: Story = {
                 >
                 <button rteButton rteButtonVariant="primary" rteModalTrigger>Open Modal xs</button>
                 <ng-template #primaryButton>
-                  <button rteButton rteButtonVariant="primary" (click)="handlePrimaryClick()">Continue</button>
+                  <button rteButton rteButtonVariant="primary" (click)="handlePrimaryClick(); modalHostXs.close()">Continue</button>
                 </ng-template>
                 <ng-template #secondaryButton>
-                  <button rteButton rteButtonVariant="neutral" (click)="handleSecondaryClick()">Cancel</button>
+                  <button rteButton rteButtonVariant="neutral" (click)="handleSecondaryClick(); modalHostXs.close()">Cancel</button>
                 </ng-template>
               </div>
               <div
                 rteModal
+                #modalHostS="rteModal"
                 [rteModalId]="'modal-s'"
                 [rteModalIconAppearance]="rteModalIconAppearance"
                 [rteModalTitle]="rteModalTitle"
@@ -166,14 +197,15 @@ export const Sizes: Story = {
                 >
                 <button rteButton rteButtonVariant="primary" rteModalTrigger>Open Modal s</button>
                 <ng-template #primaryButton>
-                  <button rteButton rteButtonVariant="primary" (click)="handlePrimaryClick()">Continue</button>
+                  <button rteButton rteButtonVariant="primary" (click)="handlePrimaryClick(); modalHostS.close()">Continue</button>
                 </ng-template>
                 <ng-template #secondaryButton>
-                  <button rteButton rteButtonVariant="neutral" (click)="handleSecondaryClick()">Cancel</button>
+                  <button rteButton rteButtonVariant="neutral" (click)="handleSecondaryClick(); modalHostS.close()">Cancel</button>
                 </ng-template>
               </div>
               <div
                 rteModal
+                #modalHostM="rteModal"
                 [rteModalId]="'modal-m'"
                 [rteModalIconAppearance]="rteModalIconAppearance"
                 [rteModalTitle]="rteModalTitle"
@@ -185,14 +217,15 @@ export const Sizes: Story = {
                 >
                 <button rteButton rteButtonVariant="primary" rteModalTrigger>Open Modal m</button>
                 <ng-template #primaryButton>
-                  <button rteButton rteButtonVariant="primary" (click)="handlePrimaryClick()">Continue</button>
+                  <button rteButton rteButtonVariant="primary" (click)="handlePrimaryClick(); modalHostM.close()">Continue</button>
                 </ng-template>
                 <ng-template #secondaryButton>
-                  <button rteButton rteButtonVariant="neutral" (click)="handleSecondaryClick()">Cancel</button>
+                  <button rteButton rteButtonVariant="neutral" (click)="handleSecondaryClick(); modalHostM.close()">Cancel</button>
                 </ng-template>
               </div>
               <div
                 rteModal
+                #modalHostL="rteModal"
                 [rteModalId]="'modal-l'"
                 [rteModalIconAppearance]="rteModalIconAppearance"
                 [rteModalTitle]="rteModalTitle"
@@ -204,14 +237,15 @@ export const Sizes: Story = {
                 >
                 <button rteButton rteButtonVariant="primary" rteModalTrigger>Open Modal l</button>
                 <ng-template #primaryButton>
-                  <button rteButton rteButtonVariant="primary" (click)="handlePrimaryClick()">Continue</button>
+                  <button rteButton rteButtonVariant="primary" (click)="handlePrimaryClick(); modalHostL.close()">Continue</button>
                 </ng-template>
                 <ng-template #secondaryButton>
-                  <button rteButton rteButtonVariant="neutral" (click)="handleSecondaryClick()">Cancel</button>
+                  <button rteButton rteButtonVariant="neutral" (click)="handleSecondaryClick(); modalHostL.close()">Cancel</button>
                 </ng-template>
               </div>
               <div
                 rteModal
+                #modalHostXl="rteModal"
                 [rteModalId]="'modal-xl'"
                 [rteModalIconAppearance]="rteModalIconAppearance"
                 [rteModalTitle]="rteModalTitle"
@@ -223,10 +257,10 @@ export const Sizes: Story = {
                 >
                 <button rteButton rteButtonVariant="primary" rteModalTrigger>Open Modal xl</button>
                 <ng-template #primaryButton>
-                  <button rteButton rteButtonVariant="primary" (click)="handlePrimaryClick()">Continue</button>
+                  <button rteButton rteButtonVariant="primary" (click)="handlePrimaryClick(); modalHostXl.close()">Continue</button>
                 </ng-template>
                 <ng-template #secondaryButton>
-                  <button rteButton rteButtonVariant="neutral" (click)="handleSecondaryClick()">Cancel</button>
+                  <button rteButton rteButtonVariant="neutral" (click)="handleSecondaryClick(); modalHostXl.close()">Cancel</button>
                 </ng-template>
               </div>
     </div>
@@ -258,6 +292,7 @@ export const WithCustomContent: Story = {
     declarations: [ModalDirective],
     template: `<div
                 rteModal
+                #modalHost="rteModal"
                 [rteModalId]="rteModalId"
                 [rteModalIconAppearance]="rteModalIconAppearance"
                 [rteModalTitle]="rteModalTitle"
@@ -268,10 +303,10 @@ export const WithCustomContent: Story = {
                 >
                 <button rteButton rteButtonVariant="primary" rteModalTrigger>Open Modal</button>
                 <ng-template #primaryButton>
-                  <button rteButton rteButtonVariant="primary"(click)="handlePrimaryClick()">Continue</button>
+                  <button rteButton rteButtonVariant="primary" (click)="handlePrimaryClick(); modalHost.close()">Continue</button>
                 </ng-template>
                 <ng-template #secondaryButton>
-                  <button rteButton rteButtonVariant="neutral" (click)="handleSecondaryClick()">Cancel</button>
+                  <button rteButton rteButtonVariant="neutral" (click)="handleSecondaryClick(); modalHost.close()">Cancel</button>
                 </ng-template>
                 <ng-template #customContent>
                   <rte-textarea resizeable="true" />
@@ -318,6 +353,7 @@ export const KeyboardInteraction: Story = {
     declarations: [ModalDirective],
     template: `<div
                 rteModal
+                #modalHost="rteModal"
                 [rteModalId]="rteModalId"
                 [rteModalIconAppearance]="rteModalIconAppearance"
                 [rteModalTitle]="rteModalTitle"
@@ -329,10 +365,10 @@ export const KeyboardInteraction: Story = {
                 >
                 <button rteButton rteModalTrigger variant="primary">Open Modal</button>
                 <ng-template #primaryButton>
-                  <button rteButton rteButtonVariant="danger" (click)="handlePrimaryClick()">Continue</button>
+                  <button rteButton rteButtonVariant="danger" (click)="handlePrimaryClick(); modalHost.close()">Continue</button>
                 </ng-template>
                 <ng-template #secondaryButton>
-                  <button rteButton rteButtonVariant="neutral" (click)="handleSecondaryClick()">Cancel</button>
+                  <button rteButton rteButtonVariant="neutral" (click)="handleSecondaryClick(); modalHost.close()">Cancel</button>
                 </ng-template>
               </div>
       `,
