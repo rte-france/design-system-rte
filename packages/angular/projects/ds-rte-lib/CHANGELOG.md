@@ -1,5 +1,80 @@
 # @design-system-rte/angular
 
+## 2.0.0
+
+### Minor Changes
+
+- 220fb58: ## Changes
+  - (Text-input) add enterKeyDown event
+
+- 6e839c8: ## Changes
+  - (Toast) add top-center position
+
+- e4dc52f: ## Changes
+  - (Tag) add decorative color + align names with token value
+
+- 7053ac6: ## Changes
+  - (Chip) add neutral variant
+
+- dad03e5: ## Changes
+  - (Header) add missing padding on link
+  - (Header) add missing padding on mobile
+  - (Header) react - add component
+
+- e7afe99: ## Changes
+  - (Sidenav) correct new Focus display for Items and Menus in new possible style combinations
+  - (Sidenav) add compact Badges to compact Sidenav
+  - (Sidenav) add Tooltip for Sidenav Header
+  - (Sidenav) correct Header Identifier & Title display
+  - (Sidenav) correct width of component and add ellipsis to its header
+  - (Sidenav) correct import statements of new core imports
+  - (Sidenav) correct active zone for nav items
+  - (Sidenav) add compact mode for standardization with Header
+  - (Sidenav) correct active state handling for sub-items
+  - (Sidenav) add contrast capacities to component
+  - (Sidenav) remove Drawer-Responsive logic from Sidenav & simplify template and rendering
+
+- 77a7b3f: ## Changes
+  - (Date Picker) create a two-layer system for Menu so range in menu can be displayed properly in any size
+  - (Date Range Picker) synchronize input highlight
+  - (Date Range Picker) add Angular component
+
+- 39dee3c: ## Changes
+  - (Searchbar) change border radius from 8px to 4px
+
+### Patch Changes
+
+- 65af3dd: ## Changes
+  - (Input) add or configure width props to be used
+
+- 0b1b660: ## Changes
+  - (Modal) expose public close method
+
+- 00c80a4: ## Changes
+  - (Modal) angular - remove the display dependance of custom content with description
+
+- 6be38db: ## Changes
+  - (Radio-button) add support for external checked control
+
+- 07b55ba: ## Changes
+  - (Select) add missing background color
+
+- 2598109: ## Changes
+  - (Treeview) set right color for chevron and icon
+
+- 9fce4e2: ## Changes
+  - (Card) remove shadow from outlined version
+
+- Updated dependencies [6e839c8]
+- Updated dependencies [e4dc52f]
+- Updated dependencies [7053ac6]
+- Updated dependencies [65af3dd]
+- Updated dependencies [e7afe99]
+- Updated dependencies [77a7b3f]
+- Updated dependencies [39dee3c]
+- Updated dependencies [6be38db]
+  - @design-system-rte/core@1.10.0
+
 ## 1.9.0
 
 ### Minor Changes
