@@ -17,7 +17,7 @@ import {
 import AssistiveText from "../../assistivetext/AssistiveText";
 import Icon from "../../icon/Icon";
 import IconButton from "../../iconButton/IconButton";
-import RequiredIndicator from "../../requiredindicator/RequiredIndicator";
+import Label from "../../label/Label";
 import { concatClassNames } from "../../utils";
 
 import style from "./BaseTextInput.module.scss";
@@ -172,13 +172,7 @@ const BaseTextInput = forwardRef<HTMLInputElement, BaseTextInputProps>(
       >
         {label && (
           <div className={style.text}>
-            <div className={style.labelContainer}>
-              <label className={style.inputLabel} id={`inputLabel-${id}`} htmlFor={id} data-disabled={disabled}>
-                {" "}
-                {label}{" "}
-              </label>
-              <RequiredIndicator required={required} showLabelRequirement={showLabelRequirement} />
-            </div>
+            <Label id={id} label={label} required={required} showLabelRequirement={showLabelRequirement} />
             {displayCounter && labelPosition === "top" && (
               <p className={style.inputCounter} data-testid="input-counter">
                 {" "}

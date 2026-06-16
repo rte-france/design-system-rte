@@ -67,6 +67,7 @@ export const Default: Story = {
     optionToDisplay: "first-selected",
     compactSpacing: false,
     placeholder: "Select an option",
+    required: false,
   },
   render: (args) => {
     const [selectedOption, setSelectedOption] = useState<{ label: string; value: string }>();

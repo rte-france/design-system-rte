@@ -21,18 +21,6 @@
     }
   }
 
-  .select-label {
-    @include typography-text-m;
-    display: flex;
-    padding: $positive-spacing_025 $positive-spacing_100;
-    color: var(--content-secondary);
-    max-width: 300px;
-    align-items: center;
-    white-space: normal;
-    overflow-wrap: normal;
-    word-break: normal;
-  }
-
   .select-wrapper {
     @include elevation-neutral-inner-shadow;
     background-color: var(--background-default);

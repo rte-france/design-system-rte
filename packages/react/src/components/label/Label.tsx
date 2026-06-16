@@ -16,10 +16,12 @@ const Label = ({
   showLabelRequirement?: boolean;
 }) => {
   return (
-    <label id={id} htmlFor={htmlFor} className={styles["rte-label"]}>
-      {label}
+    <div className={styles["rte-label-container"]} data-show-label-requirement={showLabelRequirement}>
+      <label id={id} htmlFor={htmlFor} className={styles["rte-label"]}>
+        {label}
+      </label>
       <RequiredIndicator required={required} showLabelRequirement={showLabelRequirement} />
-    </label>
+    </div>
   );
 };
 

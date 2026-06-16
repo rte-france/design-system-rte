@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import { generateId } from "../../utils";
 import AssistiveText from "../assistivetext/AssistiveText";
 import Button from "../button/Button";
-import RequiredIndicator from "../requiredindicator/RequiredIndicator";
+import Label from "../label/Label";
 
 import FileItem from "./file-item/FileItem";
 import styles from "./FileUpload.module.scss";
@@ -89,10 +89,13 @@ const FileUpload = ({
   return (
     <div className={styles["rte-file-upload"]}>
       {showLabel && (
-        <label htmlFor={localId} id={labelId} className={styles["rte-file-upload-label"]}>
-          <span>{label}</span>
-          <RequiredIndicator required={required} showLabelRequirement={showLabelRequirement} />
-        </label>
+        <Label
+          htmlFor={localId}
+          id={labelId}
+          label={label}
+          required={required}
+          showLabelRequirement={showLabelRequirement}
+        />
       )}
       {shouldDisplayAssistiveText && (
         <AssistiveText

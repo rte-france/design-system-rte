@@ -77,6 +77,8 @@ export const Default: Story = {
     readonly: false,
     hasAction: true,
     width: DATERANGEPICKER_DEFAULT_WIDTH,
+    required: false,
+    showLabelRequirement: false,
   },
 
   render: buildRender(defaultRange),

@@ -6,7 +6,7 @@
 >
   <ng-container *ngIf="label()">
     <div class="text">
-      <div class="label-container">
+      <div class="label-container" [attr.data-show-label-requirement]="showLabelRequirement()">
         <label
           id="input-label-{{ id() }}"
           class="input-label"
@@ -16,19 +16,11 @@
         >
           {{ label() }}
         </label>
-        <ng-container *ngIf="required()">
-          <ng-container *ngIf="showLabelRequirement(); else requiredIcon">
-            <span class="required-text">(obligatoire)</span>
-          </ng-container>
-          <ng-template #requiredIcon>
-            <span class="required-icon-container">
-              <rte-icon name="asterisk" [size]="8" />
-            </span>
-          </ng-template>
-        </ng-container>
-        <ng-container *ngIf="!required() && showLabelRequirement()">
-          <span class="required-text">(optionnel)</span>
-        </ng-container>
+        <rte-required-indicator
+          *ngIf="required() || showLabelRequirement()"
+          [required]="required()"
+          [showLabelRequirement]="showLabelRequirement()"
+        />
       </div>
       <ng-container *ngIf="displayCounter() && labelPosition() === 'top'">
         <p class="input-counter" data-testid="input-counter">{{ characterCount() }}/{{ maxLength() }}</p>

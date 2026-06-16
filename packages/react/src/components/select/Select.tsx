@@ -15,7 +15,7 @@ import Dropdown from "../dropdown/Dropdown";
 import DropdownItem from "../dropdown/dropdownItem/DropdownItem";
 import Icon from "../icon/Icon";
 import IconButton from "../iconButton/IconButton";
-import RequiredIndicator from "../requiredindicator/RequiredIndicator";
+import Label from "../label/Label";
 import { concatClassNames } from "../utils";
 
 import styles from "./Select.module.scss";
@@ -190,17 +190,17 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
       <>
         <div className={styles["select-container"]} data-label-position={labelPosition} style={{ width }}>
           {showLabel && labelPosition === "side" && (
-            <label htmlFor={id} id={label} className={styles["select-label"]}>
-              {label}
-              <RequiredIndicator required={required} showLabelRequirement={showLabelRequirement} />
-            </label>
+            <Label id={id} label={label} htmlFor={id} required={required} showLabelRequirement={showLabelRequirement} />
           )}
           <div className={styles["select-header"]}>
             {showLabel && labelPosition === "top" && (
-              <label htmlFor={id} id={label} className={styles["select-label"]}>
-                {label}
-                <RequiredIndicator required={required} showLabelRequirement={showLabelRequirement} />
-              </label>
+              <Label
+                id={id}
+                label={label}
+                htmlFor={id}
+                required={required}
+                showLabelRequirement={showLabelRequirement}
+              />
             )}
             <Dropdown
               style={{ width }}
