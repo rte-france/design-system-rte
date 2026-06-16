@@ -22,7 +22,7 @@ import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
 import { useFocusTrap } from "../../../hooks/useFocusTrap";
 import AssistiveText from "../../assistivetext/AssistiveText";
 import { BaseDropdown } from "../../dropdown/BaseDropdown";
-import RequiredIndicator from "../../requiredindicator/RequiredIndicator";
+import Label from "../../label/Label";
 import BaseInputPicker from "../baseInputPicker/BaseInputPicker";
 
 import { useNavigateBetweenTimeSegment } from "./hooks/useNavigateBetweenTimeSegment";
@@ -345,14 +345,7 @@ const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
 
     return (
       <>
-        <div className={styles["rte-time-picker-header"]}>
-          {showLabel && (
-            <label htmlFor={id} id={labelId} className={styles["rte-time-picker-label"]}>
-              {label}
-              <RequiredIndicator required={required} showLabelRequirement={showLabelRequirement} />
-            </label>
-          )}
-        </div>
+        {showLabel && <Label label={label} required={required} showLabelRequirement={showLabelRequirement} />}
         <BaseDropdown
           dropdownId={id ? `${id}-dropdown` : undefined}
           isList={false}

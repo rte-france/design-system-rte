@@ -34,6 +34,8 @@ export const Default: Story = {
     showAssistiveIcon: true,
     readonly: false,
     hasAction: true,
+    required: false,
+    showLabelRequirement: false,
   },
 
   render: (args) => {

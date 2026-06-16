@@ -2,6 +2,15 @@
 
 .rte-label {
   @include typography-text-m;
-  padding: $positive-spacing_025 $positive-spacing_100;
   color: var(--content-secondary);
+}
+
+.rte-label-container {
+  display: flex;
+  align-items: flex-start;
+  padding: $positive-spacing_025 $positive-spacing_100;
+
+  &[data-show-label-requirement="true"] {
+    align-items: center;
+  }
 }

@@ -2,7 +2,7 @@ import type { TextareaProps as CoreTextareaProps } from "@design-system-rte/core
 import { ChangeEvent, FocusEvent, forwardRef, MutableRefObject, TextareaHTMLAttributes, useRef, useState } from "react";
 
 import AssistiveText from "../assistivetext/AssistiveText";
-import RequiredIndicator from "../requiredindicator/RequiredIndicator";
+import Label from "../label/Label";
 import { concatClassNames } from "../utils";
 
 import style from "./Textarea.module.scss";
@@ -69,18 +69,24 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       <div style={{ width }}>
         <div className={style.container} data-label-position={labelPosition}>
           {label && labelPosition === "side" && (
-            <label id={labelId} className={style.label} htmlFor={id} data-label-position={labelPosition}>
-              {label}
-              <RequiredIndicator required={required} showLabelRequirement={showLabelRequirement} />
-            </label>
+            <Label
+              id={labelId}
+              htmlFor={id}
+              required={required}
+              label={label}
+              showLabelRequirement={showLabelRequirement}
+            />
           )}
           <div className={style["top-position-container"]} data-label-position={labelPosition}>
             <div className={style["header-container"]} data-label-position={labelPosition}>
               {label && labelPosition === "top" && (
-                <label id={labelId} className={style.label} htmlFor={id} data-label-position={labelPosition}>
-                  {label}
-                  <RequiredIndicator required={required} showLabelRequirement={showLabelRequirement} />
-                </label>
+                <Label
+                  id={labelId}
+                  htmlFor={id}
+                  required={required}
+                  label={label}
+                  showLabelRequirement={showLabelRequirement}
+                />
               )}
               {displayCounter && (
                 <span className={style["character-counter"]}>

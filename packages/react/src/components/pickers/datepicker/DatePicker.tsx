@@ -17,7 +17,7 @@ import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
 
 import AssistiveText from "../../assistivetext/AssistiveText";
 import { BaseDropdown } from "../../dropdown/BaseDropdown";
-import RequiredIndicator from "../../requiredindicator/RequiredIndicator";
+import Label from "../../label/Label";
 import BaseInputPicker from "../baseInputPicker/BaseInputPicker";
 import useDatePickerInternalValue from "../hooks/useDatePickerInternalValue";
 import { useNavigateBetweenDateSegment } from "../hooks/useNavigateBetweenDateSegment";
@@ -255,12 +255,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatepickerProps>(
 
     return (
       <div className={styles["rte-date-picker"]} style={{ minWidth: "248px", width }} ref={ref}>
-        <div className={styles["rte-date-picker-header"]}>
-          <label htmlFor={id} id={labelId ?? label} className={styles["rte-datepicker-label"]}>
-            {label}
-            <RequiredIndicator required={required} showLabelRequirement={showLabelRequirement} />
-          </label>
-        </div>
+        <Label id={labelId} label={label} required={required} showLabelRequirement={showLabelRequirement} />
         <BaseDropdown
           style={{ width: pickerRef.current?.offsetWidth }}
           isList={false}
