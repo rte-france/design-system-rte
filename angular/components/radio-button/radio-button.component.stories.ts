@@ -12,6 +12,10 @@ const meta: Meta<RadioButtonComponent> = {
       control: "text",
       defaultValue: "Radio Button",
     },
+    value: {
+      control: "text",
+      defaultValue: "radio-value",
+    },
     groupName: {
       control: "text",
       defaultValue: "radio-group",
@@ -32,6 +36,11 @@ const meta: Meta<RadioButtonComponent> = {
       control: "boolean",
       defaultValue: false,
     },
+
+    isChecked: {
+      control: "boolean",
+      defaultValue: false,
+    },
   },
 };
 export default meta;
@@ -40,11 +49,13 @@ type Story = StoryObj<RadioButtonComponent>;
 export const Default: Story = {
   args: {
     label: "Radio Button",
+    value: "radio-value",
     groupName: "radio-group",
     showLabel: true,
     disabled: false,
     error: false,
     readOnly: false,
+    isChecked: false,
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -75,5 +86,19 @@ export const ReadOnly: Story = {
     ...Default.args,
     groupName: "readonly-radio-group",
     readOnly: true,
+  },
+};
+
+export const InitiallyChecked: Story = {
+  args: {
+    ...Default.args,
+    groupName: "checked-radio-group",
+    isChecked: true,
+  },
+
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const radioButton = canvas.getByRole("radio", { name: /radio button/i });
+    expect(radioButton).toBeChecked();
   },
 };

@@ -1,11 +1,12 @@
-@if (collapsed() && label()) {
+@if (isCollapsed() && label()) {
   <li
     class="nav-menu-container {{ appearance() }}"
     rteTooltip
     rteTooltipPosition="right"
     rteTooltipAlignment="center"
     [rteTooltipGap]="12"
-    [ngClass]="{ collapsed: collapsed(), open: open(), nested: isNested() }"
+    [id]="id()"
+    [ngClass]="{ collapsed: isCollapsed(), open: open(), nested: isNested(), active: active() }"
     [rteTooltip]="label()"
     [rteTooltipArrow]="false"
     [rteTooltipShouldFocusTrigger]="false"
@@ -16,12 +17,31 @@
 } @else {
   <li
     class="nav-menu-container {{ appearance() }}"
-    [ngClass]="{ collapsed: collapsed(), open: open(), nested: isNested() }"
+    [id]="id()"
+    [ngClass]="{ collapsed: isCollapsed(), open: open(), nested: isNested(), active: active() }"
   >
     <ng-container [ngTemplateOutlet]="menuContentTemplate"></ng-container>
     <ng-container [ngTemplateOutlet]="nestedMenuTemplate"></ng-container>
   </li>
 }
+
+<ng-template #menuIconTemplate>
+  @if (hasLeadingIcon() && icon()) {
+    @if (shouldShowCollapsedBadge()) {
+      <span
+        class="nav-item-icon-badge-host"
+        rteBadge
+        rteBadgeSize="xs"
+        rteBadgeContent="empty"
+        [rteBadgeType]="collapsedBadgeType()"
+      >
+        <rte-icon class="icon" [name]="icon()!" [size]="iconSize()" />
+      </span>
+    } @else {
+      <rte-icon class="icon" [name]="icon()!" [size]="iconSize()" />
+    }
+  }
+</ng-template>
 
 <ng-template #menuContentTemplate>
   @if (link()) {
@@ -33,28 +53,28 @@
       (click)="toggleMenu()"
     >
       <div class="menu-content-left">
-        @if (showIcon() && icon()) {
-          <rte-icon class="icon" [name]="icon()!" [size]="iconSize()" />
-        }
-        @if (!collapsed()) {
+        <ng-container *ngTemplateOutlet="menuIconTemplate" />
+        @if (!isCollapsed()) {
           <span>{{ label() }}</span>
         }
       </div>
-      <div class="menu-content-right">
-        @if (badge()) {
-          <rte-badge
-            [badgeType]="badge()!.badgeType || 'brand'"
-            [badgeSize]="badge()!.size || 'm'"
-            [badgeContent]="badge()!.content || 'number'"
-            [count]="badge()!.count"
-            [icon]="badge()!.icon || 'notification'"
-            [simpleBadge]="true"
-          />
-        }
-        @if (shouldShowMenu() && showMenuIcon()) {
-          <rte-icon name="arrow-chevron-right" class="menu-icon" [ngClass]="{ 'menu-icon-open': open() }" />
-        }
-      </div>
+      @if (!isCollapsed()) {
+        <div class="menu-content-right">
+          @if (shouldShowExpandedBadge()) {
+            <rte-badge
+              [badgeType]="badge()!.badgeType || 'brand'"
+              [badgeSize]="badge()!.size || 'm'"
+              [badgeContent]="badge()!.content || 'number'"
+              [count]="badge()!.count"
+              [icon]="badge()!.icon || 'notification'"
+              [simpleBadge]="true"
+            />
+          }
+          @if (shouldShowMenu() && hasMenuIcon()) {
+            <rte-icon name="arrow-chevron-right" class="menu-icon" [ngClass]="{ 'menu-icon-open': open() }" />
+          }
+        </div>
+      }
     </a>
   } @else {
     <span
@@ -65,28 +85,28 @@
       (keydown)="handleKeyDown($event)"
     >
       <div class="menu-content-left">
-        @if (showIcon() && icon()) {
-          <rte-icon class="icon" [name]="icon()!" [size]="iconSize()" />
-        }
-        @if (!collapsed()) {
+        <ng-container *ngTemplateOutlet="menuIconTemplate" />
+        @if (!isCollapsed()) {
           <span>{{ label() }}</span>
         }
       </div>
-      <div class="menu-content-right">
-        @if (badge()) {
-          <rte-badge
-            [badgeType]="badge()!.badgeType || 'brand'"
-            [badgeSize]="badge()!.size || 'm'"
-            [badgeContent]="badge()!.content || 'number'"
-            [count]="badge()!.count"
-            [icon]="badge()!.icon || 'notification'"
-            [simpleBadge]="true"
-          />
-        }
-        @if (shouldShowMenu() && showMenuIcon()) {
-          <rte-icon name="arrow-chevron-right" class="menu-icon" [ngClass]="{ 'menu-icon-open': open() }" />
-        }
-      </div>
+      @if (!isCollapsed()) {
+        <div class="menu-content-right">
+          @if (shouldShowExpandedBadge()) {
+            <rte-badge
+              [badgeType]="badge()!.badgeType || 'brand'"
+              [badgeSize]="badge()!.size || 'm'"
+              [badgeContent]="badge()!.content || 'number'"
+              [count]="badge()!.count"
+              [icon]="badge()!.icon || 'notification'"
+              [simpleBadge]="true"
+            />
+          }
+          @if (shouldShowMenu() && hasMenuIcon()) {
+            <rte-icon name="arrow-chevron-right" class="menu-icon" [ngClass]="{ 'menu-icon-open': open() }" />
+          }
+        </div>
+      }
     </span>
   }
 </ng-template>
@@ -101,18 +121,20 @@
               [id]="item.id"
               [label]="item.label"
               [icon]="item.icon"
-              [showIcon]="item.showIcon ?? true"
-              [collapsed]="collapsed()"
+              [hasLeadingIcon]="item.hasLeadingIcon ?? true"
+              [isCollapsed]="isCollapsed()"
               [link]="item.link"
               [items]="item.items || []"
-              [showMenuIcon]="showMenuIcon()"
+              [hasMenuIcon]="hasMenuIcon()"
               [isNested]="true"
               [open]="item.open"
+              [active]="item.active ?? false"
               [parentMenuOpen]="open()"
               [appearance]="appearance()"
-              [showDivider]="item.showDivider!"
+              [contrast]="contrast()"
+              [hasDivider]="item.hasDivider!"
               [badge]="item.badge"
-              (itemClick)="handleMenuClick($event)"
+              (itemClick)="itemClick.emit($event)"
               (openChange)="handleMenuOpenChange($event)"
             />
           } @else {
@@ -121,18 +143,19 @@
                 [id]="item.id"
                 [label]="item.label"
                 [icon]="item.icon"
-                [showIcon]="item.showIcon ?? true"
-                [collapsed]="collapsed()"
+                [hasLeadingIcon]="item.hasLeadingIcon ?? true"
+                [isCollapsed]="isCollapsed()"
                 [link]="item.link"
                 [isNested]="true"
                 [parentMenuOpen]="open()"
                 [appearance]="appearance()"
-                [showDivider]="item.showDivider!"
+                [active]="item.active ?? false"
+                [hasDivider]="item.hasDivider!"
                 [badge]="item.badge"
                 (itemClick)="itemClick.emit($event)"
               />
             </li>
-            @if (item.showDivider) {
+            @if (item.hasDivider) {
               <rte-divider [appearance]="dividerAppearance()" />
             }
           }
@@ -142,6 +165,6 @@
   }
 </ng-template>
 
-@if (showDivider()) {
+@if (hasDivider()) {
   <rte-divider [appearance]="dividerAppearance()" />
 }

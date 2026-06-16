@@ -2,4 +2,5 @@ import { NavItemProps } from '../../../../../../core/components/side-nav/nav-ite
 import { Decorator } from '@storybook/react';
 declare function createCollapsedStateDecorator(): Decorator;
 declare function createActiveItemStateDecorator(navigationItems: NavItemProps[]): Decorator;
-export { createCollapsedStateDecorator, createActiveItemStateDecorator };
+declare function createNestedActiveItemStateDecorator(navigationItems: NavItemProps[], initialActiveId: string): Decorator;
+export { createCollapsedStateDecorator, createActiveItemStateDecorator, createNestedActiveItemStateDecorator };

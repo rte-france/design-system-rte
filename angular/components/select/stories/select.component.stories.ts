@@ -99,11 +99,11 @@ export const Default: Story = {
     multiple: false,
     withSelectAll: false,
     optionToDisplay: "first-selected",
+    width: "350px",
   },
   render: (args) => ({
     props: { ...args },
     template: `
-    <div style="width: 350px">
       <rte-select
         [id]="id"
         [label]="label"
@@ -122,8 +122,8 @@ export const Default: Story = {
         [isError]="isError"
         [showResetButton]="showResetButton"
         [showAssistiveIcon]="showAssistiveIcon"
+        [width]="width"
         />
-    </div>
     `,
   }),
 };
@@ -137,7 +137,6 @@ export const Error: Story = {
   render: (args) => ({
     props: { ...args },
     template: `
-    <div style="width: 350px">
       <rte-select
         [id]="id"
         [label]="label"
@@ -156,8 +155,8 @@ export const Error: Story = {
         (change)="change($event)"
         [showResetButton]="showResetButton"
         [showAssistiveIcon]="showAssistiveIcon"
+        [width]="width"
         />
-    </div>
     `,
   }),
 };
@@ -171,7 +170,6 @@ export const ReadOnly: Story = {
   render: (args) => ({
     props: { ...args },
     template: `
-    <div style="width: 350px">
       <rte-select
         [id]="id"
         [label]="label"
@@ -189,8 +187,8 @@ export const ReadOnly: Story = {
         (change)="change($event)"
         [showResetButton]="showResetButton"
         [showAssistiveIcon]="showAssistiveIcon"
+        [width]="width"
         />
-    </div>
     `,
   }),
   play: async ({ canvasElement }) => {
@@ -210,7 +208,6 @@ export const Disabled: Story = {
   render: (args) => ({
     props: { ...args },
     template: `
-    <div style="width: 350px">
       <rte-select
         [id]="id"
         [label]="label"
@@ -228,8 +225,8 @@ export const Disabled: Story = {
         (change)="change($event)"
         [showResetButton]="showResetButton"
         [showAssistiveIcon]="showAssistiveIcon"
+        [width]="width"
         />
-    </div>
     `,
   }),
   play: async ({ canvasElement }) => {
@@ -299,7 +296,6 @@ export const Multiple: Story = {
         displayedValues,
       },
       template: `
-    <div style="width: 350px">
       <rte-select
         [id]="id"
         [label]="label"
@@ -320,11 +316,11 @@ export const Multiple: Story = {
         [multiple]="multiple"
         [withSelectAll]="withSelectAll"
         [optionToDisplay]="optionToDisplay"
+        [width]="width"
         />
         <span style="font-family: Arial; color: var(--content-primary);">
           Selected values : {{ displayedValues() }}
         </span>
-    </div>
     `,
     };
   },
@@ -338,7 +334,6 @@ export const KeyboardInteraction: Story = {
   render: (args) => ({
     props: { ...args },
     template: `
-    <div style="width: 350px">
       <rte-select
         [id]="id"
         [label]="label"
@@ -356,8 +351,8 @@ export const KeyboardInteraction: Story = {
         (change)="change($event)"
         [showResetButton]="showResetButton"
         [showAssistiveIcon]="showAssistiveIcon"
+        [width]="width"
         />
-    </div>
     `,
   }),
   play: async ({ canvasElement }) => {
