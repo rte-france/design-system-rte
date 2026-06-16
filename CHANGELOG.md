@@ -2,7 +2,7 @@
 
 # Angular
 
-## 2.0.0
+## 1.10.0
 
 ### Text-input
 
@@ -34,7 +34,6 @@
 
 - add missing padding on link
 - add missing padding on mobile
-- react - add component
 
 ### Sidenav
 
