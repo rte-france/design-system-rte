@@ -62,7 +62,7 @@ export class FocusTrapService {
     this.getOrderedFocusables = null;
 
     if (this.previouslyFocusedElement) {
-      this.previouslyFocusedElement.focus();
+      this.previouslyFocusedElement.focus({ preventScroll: true });
     }
 
     this.activeTrapElement = null;
@@ -102,7 +102,7 @@ export class FocusTrapService {
       const currentIndex = focusable.indexOf(current);
       if (currentIndex === -1) {
         event.preventDefault();
-        focusable[0]?.focus();
+        focusable[0]?.focus({ preventScroll: true });
         return;
       }
       event.preventDefault();
@@ -111,7 +111,7 @@ export class FocusTrapService {
         focusableLength: focusable.length,
         shiftKey: event.shiftKey,
       });
-      focusable[nextIndex].focus();
+      focusable[nextIndex].focus({ preventScroll: true });
       return;
     }
 
@@ -119,10 +119,10 @@ export class FocusTrapService {
     const last = focusable[focusable.length - 1];
 
     if (event.shiftKey && current === first) {
-      last.focus();
+      last.focus({ preventScroll: true });
       event.preventDefault();
     } else if (!event.shiftKey && current === last) {
-      first.focus();
+      first.focus({ preventScroll: true });
       event.preventDefault();
     }
   }

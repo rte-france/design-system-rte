@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   ComponentRef,
   Directive,
+  effect,
   ElementRef,
   HostListener,
   inject,
@@ -11,7 +12,7 @@ import {
   Renderer2,
   ViewContainerRef,
 } from "@angular/core";
-import { PopoverPosition } from "@design-system-rte/core";
+import { PopoverPosition, waitForNextFrame } from "@design-system-rte/core";
 import { POPOVER_GAP, POPOVER_GAP_ARROW } from "@design-system-rte/core/components/popover/popover.constants";
 import {
   getAutoAlignment,
@@ -68,16 +69,22 @@ export class PopoverDirective implements AfterViewInit, OnDestroy {
     this.overlayService = inject(OverlayService);
     this.hostElement = this.elementRef.nativeElement;
     this.hostElement.setAttribute("tabindex", "0");
+
+    effect(
+      (onCleanup) => {
+        const teardown = this.setupScrollBehavior();
+        onCleanup(teardown);
+      },
+      { allowSignalWrites: true },
+    );
   }
 
   ngAfterViewInit() {
-    window.addEventListener("scroll", this.onScroll);
     document.addEventListener("mousedown", this.onMouseDown);
     document.addEventListener("keydown", this.onKeyDown);
   }
 
   ngOnDestroy() {
-    window.removeEventListener("scroll", this.onScroll);
     document.removeEventListener("mousedown", this.onMouseDown);
     document.removeEventListener("keydown", this.onKeyDown);
     this.destroyPopover();
@@ -190,6 +197,15 @@ export class PopoverDirective implements AfterViewInit, OnDestroy {
     }
   }
 
+  private setupScrollBehavior(): () => void {
+    const onScroll = (): void => {
+      waitForNextFrame(() => this.positionPopover());
+    };
+
+    window.addEventListener("scroll", onScroll, true);
+    return () => window.removeEventListener("scroll", onScroll, true);
+  }
+
   private hidePopover(): void {
     if (this.popoverRef) {
       this.popoverRef.setInput("isOpen", false);
@@ -207,6 +223,7 @@ export class PopoverDirective implements AfterViewInit, OnDestroy {
       this.popoverRef.destroy();
       this.popoverRef = null;
       this.overlayService.destroy();
+      this.hostElement.focus({ preventScroll: true });
     }
   }
 }
