@@ -111,6 +111,9 @@ function assertHeaderApplicationNameVisuallyHidden(header: HTMLElement, shouldBe
 }
 
 export const Default: Story = {
+  parameters: {
+    viewport: { defaultViewport: "desktop" },
+  },
   args: {
     appearance: "brand",
     isCompact: false,
