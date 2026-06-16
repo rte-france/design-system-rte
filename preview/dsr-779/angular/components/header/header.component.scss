@@ -91,6 +91,7 @@
 
 .rte-header-nav-item {
   flex: 0 1 auto;
+  padding: $positive-spacing_025 $positive-spacing_100;
 }
 
 .rte-header-nav-link {
@@ -99,7 +100,7 @@
   text-decoration: none;
   color: var(--content-brand-default);
   @include typography-button-s;
-  padding: $positive-spacing_025 $positive-spacing_100;
+  padding: 0 $positive-spacing_050;
   border-radius: $radius-s;
   white-space: nowrap;
   overflow: hidden;

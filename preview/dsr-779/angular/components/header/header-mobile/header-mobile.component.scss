@@ -15,6 +15,7 @@ $mobile-search-transition: 150ms;
   max-width: 100%;
   width: 100%;
   gap: $positive-spacing_100;
+  padding-left: $positive-spacing_100;
 
   .left-section {
     flex: 0 0 auto;
@@ -185,6 +186,7 @@ $mobile-search-transition: 150ms;
 
   @media (prefers-reduced-motion: reduce) {
     .mid-section {
+
       .rte-header-app-name,
       .search-action__trigger,
       .search-action__field {
