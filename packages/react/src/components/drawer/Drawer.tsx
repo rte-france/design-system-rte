@@ -13,7 +13,6 @@ import Backdrop from "../../abstract/backdrop/Backdrop";
 import BaseFooter from "../../abstract/baseFooter/BaseFooter";
 import BaseHeader from "../../abstract/baseHeader/BaseHeader";
 import useAnimatedMount from "../../hooks/useAnimatedMount";
-import { useClickAway } from "../../hooks/useClickAway";
 import { useFocusTrap } from "../../hooks/useFocusTrap";
 import { useKeydownEscape } from "../../hooks/useKeydownEscape";
 import Button from "../button/Button";
@@ -253,7 +252,6 @@ const Drawer = ({
 
   const drawerLeftPosition = drawerRef.current?.clientWidth || 0;
 
-  useClickAway(closeOnOverlayClick && position === "modal" ? onClose : () => {}, drawerRef.current!);
   useKeydownEscape(closeOnEscape ? onClose : () => {});
   useFocusTrap(drawerRef.current!, shouldRender);
   useFreezeNavigation(position === "modal" && isOpen);
@@ -404,7 +402,7 @@ const Drawer = ({
           )}
           {shouldRender && (
             <Overlay>
-              <Backdrop isAnimating={isAnimating} />
+              <Backdrop isAnimating={isAnimating} onClick={closeOnOverlayClick ? onClose : undefined} />
               <div
                 ref={drawerRef}
                 className={styles["drawer"]}
