@@ -152,7 +152,7 @@
   &[data-sticky='true'] {
     position: sticky;
     top: 0;
-    z-index: $level-0 + 1;
+    z-index: $level-2;
     transition: transform 150ms;
   }
 
