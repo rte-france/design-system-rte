@@ -73,7 +73,12 @@
 
   @if (position() === "modal" && shouldRenderModalLayer()) {
     <div class="rte-drawer-modal-layer">
-      <div class="rte-drawer-backdrop" [attr.data-open]="isAnimating() ? 'true' : 'false'"></div>
+      <div
+        class="rte-drawer-backdrop"
+        [attr.data-open]="isAnimating() ? 'true' : 'false'"
+        [attr.data-interactive]="!!closeOnOverlayClick()"
+        (click)="handleClickBackdrop()"
+      ></div>
       <div
         #drawerPanelModal
         class="drawer"
