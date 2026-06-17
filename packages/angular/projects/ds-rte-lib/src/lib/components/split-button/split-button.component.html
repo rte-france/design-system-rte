@@ -7,6 +7,7 @@
     data-testid="Main action button"
     type="button"
     [disabled]="disabled()"
+    (click)="handleClickLeftButton()"
   >
     <rte-icon *ngIf="icon()" [name]="icon()!" [size]="splitButtonLeftIconSize()" />
     <p class="split-button-label size-{{ size() }}">
@@ -39,7 +40,7 @@
         [attr.aria-expanded]="isOpen()"
         [attr.aria-label]="ariaLabelRight()"
         [disabled]="disabled()"
-        (click)="isOpen.set(true)"
+        (click)="handleClickRightButton()"
         (keydown)="handleKeyDownOnRightButton($event)"
       >
         <div class="split-button-right-icon-container">
@@ -58,7 +59,7 @@
         [attr.aria-expanded]="isOpen()"
         [attr.aria-label]="ariaLabelRight()"
         [disabled]="disabled()"
-        (click)="isOpen.set(true)"
+        (click)="handleClickRightButton()"
         (keydown)="handleKeyDownOnRightButton($event)"
       >
         <div class="split-button-right-icon-container">
