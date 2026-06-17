@@ -18,12 +18,13 @@ import { REQUIREMENT_INDICATOR_VALUE } from "@design-system-rte/core/components/
 
 import { AssistiveTextComponent } from "../assistive-text/assistive-text.component";
 import { ButtonComponent } from "../button/button.component";
+import { RequiredIndicatorComponent } from "../input/required-indicator/required-indicator.component";
 
 import { FileItemComponent } from "./file-item/file-item.component";
 
 @Component({
   selector: "rte-file-upload",
-  imports: [CommonModule, ButtonComponent, AssistiveTextComponent, FileItemComponent],
+  imports: [CommonModule, ButtonComponent, AssistiveTextComponent, FileItemComponent, RequiredIndicatorComponent],
   standalone: true,
   templateUrl: "./file-upload.component.html",
   styleUrl: "./file-upload.component.scss",

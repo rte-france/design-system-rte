@@ -3,15 +3,7 @@
     <div class="rte-daterangepicker-header">
       <label class="rte-daterangepicker-label" [attr.id]="groupLabelId()">
         {{ labelText() }}
-        @if (required() || showLabelRequirement()) {
-          <span
-            class="requirement-indicator"
-            aria-hidden="true"
-            [class.required]="required()"
-            [class.show-label-requirement]="showLabelRequirement()"
-            >{{ requirementIndicatorValue() }}</span
-          >
-        }
+        <rte-required-indicator [required]="required()" [showLabelRequirement]="showLabelRequirement()" />
       </label>
     </div>
   }

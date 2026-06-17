@@ -2,15 +2,11 @@
   @if (showLabel()) {
     <label class="rte-file-upload-label" [attr.for]="id()">
       <span>{{ label() }}</span>
-      @if (required() || showLabelRequirement()) {
-        <span
-          class="requirement-indicator"
-          aria-hidden="true"
-          [class.required]="required()"
-          [class.show-label-requirement]="showLabelRequirement()"
-          >{{ requirementIndicatorValue() }}</span
-        >
-      }
+      <rte-required-indicator
+        *ngIf="required() || showLabelRequirement()"
+        [required]="required()"
+        [showLabelRequirement]="showLabelRequirement()"
+      />
     </label>
   }
 

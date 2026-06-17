@@ -5,33 +5,23 @@
     [attr.data-label-position]="labelPosition()"
     [attr.id]="labelId()"
     [attr.for]="id()"
-    >{{ label()
-    }}<span
-      *ngIf="required() || showLabelRequirement()"
-      class="requirement-indicator"
-      aria-hidden="true"
-      [ngClass]="{
-        required: required(),
-        'show-label-requirement': showLabelRequirement(),
-      }"
-      >{{ requirementIndicatorValue() }}</span
-    ></label
-  >
+    >{{ label() }}
+    <rte-required-indicator
+      *ngIf="label() && labelPosition() === 'side' && (required() || showLabelRequirement())"
+      [required]="required()"
+      [showLabelRequirement]="showLabelRequirement()"
+    />
+  </label>
 
   <div class="rte-select-header" [attr.data-label-position]="labelPosition()">
     <label *ngIf="label() && labelPosition() === 'top'" class="rte-select-label" [attr.id]="labelId()" [attr.for]="id()"
-      >{{ label()
-      }}<span
-        *ngIf="required() || showLabelRequirement()"
-        class="requirement-indicator"
-        aria-hidden="true"
-        [ngClass]="{
-          required: required(),
-          'show-label-requirement': showLabelRequirement(),
-        }"
-        >{{ requirementIndicatorValue() }}</span
-      ></label
-    >
+      >{{ label() }}
+      <rte-required-indicator
+        *ngIf="label() && labelPosition() === 'top' && (required() || showLabelRequirement())"
+        [required]="required()"
+        [showLabelRequirement]="showLabelRequirement()"
+      />
+    </label>
   </div>
   <div
     rteDropdown

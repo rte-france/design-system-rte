@@ -79,6 +79,7 @@
             align-items: flex-start;
 
             .input-label {
+                display: flex;
                 color: var(--content-secondary);
                 @include typography-text-m-regular;
             }

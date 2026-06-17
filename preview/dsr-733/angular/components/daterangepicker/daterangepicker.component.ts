@@ -44,6 +44,7 @@ import { DatepickerMenuService } from "../datepicker/datepicker-menu.service";
 import { DatepickerSegmentedFieldComponent } from "../datepicker/datepicker-segmented-field/datepicker-segmented-field.component";
 import { DropdownModule } from "../dropdown";
 import { IconComponent } from "../icon/icon.component";
+import { RequiredIndicatorComponent } from "../input/required-indicator/required-indicator.component";
 
 import { DaterangepickerMenuComponent } from "./daterangepicker-menu/daterangepicker-menu.component";
 
@@ -60,6 +61,7 @@ type DateRangeSelectionMode = "start" | "end";
     DaterangepickerMenuComponent,
     IconComponent,
     AssistiveTextComponent,
+    RequiredIndicatorComponent,
   ],
   standalone: true,
   templateUrl: "./daterangepicker.component.html",

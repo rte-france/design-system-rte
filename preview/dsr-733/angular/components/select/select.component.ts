@@ -29,6 +29,7 @@ import { DropdownModule } from "../dropdown";
 import { DropdownItemConfig } from "../dropdown/dropdown-item/dropdown-item.component";
 import { IconComponent } from "../icon/icon.component";
 import { IconButtonComponent } from "../icon-button/icon-button.component";
+import { RequiredIndicatorComponent } from "../input/required-indicator/required-indicator.component";
 
 import { SelectFooterDirective } from "./select-footer.directive";
 import { SelectHeaderDirective } from "./select-header.directive";
@@ -43,6 +44,7 @@ import { SelectHeaderDirective } from "./select-header.directive";
     AssistiveTextComponent,
     ChipComponent,
     BadgeComponent,
+    RequiredIndicatorComponent,
   ],
   standalone: true,
   templateUrl: "./select.component.html",

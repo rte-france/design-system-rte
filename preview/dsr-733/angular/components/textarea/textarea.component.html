@@ -5,26 +5,21 @@
     [attr.id]="labelId()"
     [attr.for]="id()"
     >{{ label()
-    }}<span
+    }}<rte-required-indicator
       *ngIf="required() || showLabelRequirement()"
-      class="requirement-indicator"
-      aria-hidden="true"
-      [ngClass]="{ required: required(), 'show-label-requirement': showLabelRequirement() }"
-      >{{ requirementIndicatorValue() }}</span
-    ></label
-  >
+      [required]="required()"
+      [showLabelRequirement]="showLabelRequirement()"
+  /></label>
   <div class="top-position-container" [attr.data-label-position]="labelPosition()">
     <div class="header-container" [attr.data-label-position]="labelPosition()">
       <label *ngIf="label() && labelPosition() === 'top'" [attr.id]="labelId()" [attr.for]="id()"
         >{{ label()
-        }}<span
+        }}<rte-required-indicator
           *ngIf="required() || showLabelRequirement()"
-          class="requirement-indicator"
-          aria-hidden="true"
-          [ngClass]="{ required: required(), 'show-label-requirement': showLabelRequirement() }"
-          >{{ requirementIndicatorValue() }}</span
-        ></label
-      >
+          [required]="required()"
+          [showLabelRequirement]="showLabelRequirement()"
+        />
+      </label>
       <span *ngIf="isCounterVisible()" class="character-counter">{{ characterCount }}/{{ maxLength() }}</span>
     </div>
     <div class="textarea-container" [attr.data-label-position]="labelPosition()">

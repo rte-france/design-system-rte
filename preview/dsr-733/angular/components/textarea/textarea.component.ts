@@ -9,11 +9,12 @@ import type {
 } from "@design-system-rte/core/components/textarea/textarea.interface";
 
 import { IconComponent } from "../icon/icon.component";
+import { RequiredIndicatorComponent } from "../input/required-indicator/required-indicator.component";
 import { LinkComponent } from "../link/link.component";
 
 @Component({
   selector: "rte-textarea",
-  imports: [CommonModule, IconComponent, LinkComponent],
+  imports: [CommonModule, IconComponent, LinkComponent, RequiredIndicatorComponent],
   standalone: true,
   templateUrl: "./textarea.component.html",
   styleUrl: "./textarea.component.scss",

@@ -13,17 +13,12 @@
           (click)="onLabelClick($event)"
         >
           {{ label() }}
+          <rte-required-indicator
+            *ngIf="required() || showLabelRequirement()"
+            [required]="required()"
+            [showLabelRequirement]="showLabelRequirement()"
+          />
         </label>
-        <span
-          *ngIf="required() || showLabelRequirement()"
-          class="requirement-indicator"
-          aria-hidden="true"
-          [ngClass]="{ required: required(), 'show-label-requirement': showLabelRequirement() }"
-          >{{ requirementIndicatorValue() }}</span
-        >
-        <ng-container *ngIf="!required() && showLabelRequirement()">
-          <span class="required-text">(optionnel)</span>
-        </ng-container>
       </div>
       <ng-container *ngIf="displayCounter() && labelPosition() === 'top'">
         <p class="input-counter" data-testid="input-counter">{{ characterCount() }}/{{ maxLength() }}</p>
