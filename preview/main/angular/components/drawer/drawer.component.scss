@@ -11,6 +11,7 @@
 
 .rte-drawer-root {
   position: relative;
+  pointer-events: auto;
 
   &[data-position='responsive'] {
     flex: 1 1 auto;
@@ -32,7 +33,7 @@
 .rte-drawer-modal-host-layer {
   position: fixed;
   inset: 0;
-  z-index: 999;
+  z-index: $backdrop + 1;
   pointer-events: none;
 
   .drawer-toggle--floating {
@@ -58,6 +59,10 @@
 
   &[data-open='true'] {
     opacity: 1;
+  }
+
+  &[data-interactive='true'] {
+    cursor: pointer;
   }
 }
 

@@ -8,6 +8,7 @@
   [attr.data-alignment]="alignment()"
   [attr.data-open]="isOpen()"
   [style]="{ top: coordinates().top + 'px', left: coordinates().left + 'px' }"
+  [attr.data-overlay-level]="overlayLayerLevel()"
 >
   <div class="popoverInner">
     <div class="popoverContentContainer">
