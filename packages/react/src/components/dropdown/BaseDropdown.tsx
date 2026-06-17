@@ -38,6 +38,7 @@ export interface BaseDropdownProps extends CoreDropdownProps, React.HTMLAttribut
   isList?: boolean;
   hasMaxWidth?: boolean;
   overlayLevel?: OverlayPriority;
+  maxHeight?: number | string;
 }
 
 export const BaseDropdown = forwardRef<HTMLDivElement, BaseDropdownProps>(
@@ -61,6 +62,7 @@ export const BaseDropdown = forwardRef<HTMLDivElement, BaseDropdownProps>(
       isList = true,
       hasMaxWidth = true,
       overlayLevel,
+      maxHeight,
       ...props
     },
     ref,
@@ -253,6 +255,7 @@ export const BaseDropdown = forwardRef<HTMLDivElement, BaseDropdownProps>(
                 ...style,
                 top: coordinates.top,
                 left: coordinates.left,
+                maxHeight,
               }}
               ref={dropdownCallbackRef}
               onKeyUp={handleKeyUp}

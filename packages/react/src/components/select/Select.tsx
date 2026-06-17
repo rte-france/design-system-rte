@@ -66,6 +66,7 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
       compactSpacing = false,
       placeholder,
       variant = "default",
+      maxHeight,
     },
     ref,
   ) => {
@@ -211,6 +212,7 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
               offset={SELECT_DROPDOWN_OFFSET}
               autoClose={!multiple}
               hasMaxWidth={false}
+              maxHeight={maxHeight}
               trigger={
                 <div
                   ref={selectRefCallback}
