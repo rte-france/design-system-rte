@@ -1,0 +1,100 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+.rte-banner {
+  @include elevation-neutral-shadow-2;
+  display: flex;
+  padding: $positive-spacing_200;
+  gap: $positive-spacing_200;
+  align-self: stretch;
+  border-radius: 0 0 $radius-s $radius-s;
+  display: flex;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 320px;
+  justify-content: center;
+  align-items: center;
+  color: var(--content-info-default);
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transition: opacity 200ms ease, transform 200ms ease;
+  z-index: $level-1;
+  border-bottom: $width-l solid var(--border-info);
+  background-color: var(--background-default);
+
+  &.error {
+    color: var(--content-danger-default);
+    border-bottom-color: var(--border-danger);
+  }
+
+  &.success {
+    color: var(--content-success-default);
+    border-bottom-color: var(--border-success);
+  }
+
+  &.warning {
+    color: var(--content-primary);
+    border-bottom-color: var(--border-warning);
+  }
+
+  &.overlay {
+    position: fixed;
+  }
+
+  &.open {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  &.close {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  .rte-banner-icon {
+    display: flex;
+    padding: $positive-spacing_0 $positive-spacing_0 $positive-spacing_0 $positive-spacing_200;
+    justify-content: center;
+    align-items: center;
+    gap: var(--positive-spacing_0, 0);
+    align-self: stretch;
+  }
+
+  .banner-close-icon {
+    color: var(--content-secondary);
+  }
+
+  .rte-banner-content {
+    display: flex;
+    padding: $positive-spacing_0 $positive-spacing_200;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $positive-spacing_100;
+    flex: 1 0 0;
+    border-radius: $radius-none;
+    opacity: $opacity-100;
+
+    .rte-banner-title {
+      @include typography-heading-s;
+    }
+
+    .rte-banner-action-button {
+      width: max-content;
+    }
+
+    .rte-banner-message {
+      @include typography-text-m;
+      color: var(--content-secondary);
+      display: flex;
+      align-items: center;
+      gap: $positive-spacing_300;
+      padding: $positive-spacing_100 0;
+      justify-content: space-between;
+      width: 100%;
+    }
+  }
+
+  .rte-banner-close-icon {
+    color: var(--content-secondary);
+  }
+}
