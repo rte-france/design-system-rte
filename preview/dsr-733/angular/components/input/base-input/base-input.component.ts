@@ -11,7 +11,7 @@ import {
   signal,
   viewChild,
 } from "@angular/core";
-import { ButtonSize, REQUIREMENT_INDICATOR_VALUE } from "@design-system-rte/core";
+import { ButtonSize } from "@design-system-rte/core";
 
 import { IconComponent } from "../../icon/icon.component";
 import { RegularIconIdKey, TogglableIconIdKey } from "../../icon/icon.service";
@@ -200,12 +200,4 @@ export class BaseInputComponent {
 
     focusTarget?.focus();
   }
-
-  readonly requirementIndicatorValue = computed(() =>
-    this.required()
-      ? this.showLabelRequirement()
-        ? REQUIREMENT_INDICATOR_VALUE.required
-        : REQUIREMENT_INDICATOR_VALUE.requiredIcon
-      : REQUIREMENT_INDICATOR_VALUE.optional,
-  );
 }

@@ -13,7 +13,6 @@ import {
   TemplateRef,
 } from "@angular/core";
 import { NG_VALUE_ACCESSOR } from "@angular/forms";
-import { REQUIREMENT_INDICATOR_VALUE } from "@design-system-rte/core/components/required-indicator/required-indicator.constant";
 import {
   SELECT_DROPDOWN_OFFSET,
   THRESHOLD_BOTTOM_POSITION,
@@ -133,14 +132,6 @@ export class SelectComponent implements AfterViewInit {
   );
 
   readonly internalValue = signal(this.value());
-
-  readonly requirementIndicatorValue = computed(() =>
-    this.required()
-      ? this.showLabelRequirement()
-        ? REQUIREMENT_INDICATOR_VALUE.required
-        : REQUIREMENT_INDICATOR_VALUE.requiredIcon
-      : REQUIREMENT_INDICATOR_VALUE.optional,
-  );
 
   readonly valueChange = output<string>();
 

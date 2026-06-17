@@ -35,7 +35,6 @@ import {
   type DateRangePickerValue,
 } from "@design-system-rte/core/components/daterangepicker";
 import { normalizeDate } from "@design-system-rte/core/components/pickers";
-import { REQUIREMENT_INDICATOR_VALUE } from "@design-system-rte/core/components/required-indicator/required-indicator.constant";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
 import { FocusTrapService } from "../../services/focus-trap.service";
@@ -147,16 +146,6 @@ export class DaterangepickerComponent implements ControlValueAccessor, AfterView
       return explicit;
     }
     return this.hasLabel() ? this.groupLabelId() : null;
-  });
-
-  readonly requirementIndicatorValue = computed(() => {
-    if (!this.required()) {
-      return REQUIREMENT_INDICATOR_VALUE.optional;
-    }
-    if (this.showLabelRequirement()) {
-      return REQUIREMENT_INDICATOR_VALUE.required;
-    }
-    return REQUIREMENT_INDICATOR_VALUE.requiredIcon;
   });
 
   readonly fieldDescribedBy = computed(() => {

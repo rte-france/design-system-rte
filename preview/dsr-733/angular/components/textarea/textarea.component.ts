@@ -1,7 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { Component, input, computed, output, ElementRef, viewChild } from "@angular/core";
 import { NG_VALUE_ACCESSOR } from "@angular/forms";
-import { REQUIREMENT_INDICATOR_VALUE } from "@design-system-rte/core/components/required-indicator/required-indicator.constant";
 import { TEXTAREA_ICON_SIZE } from "@design-system-rte/core/components/textarea/textarea.constants";
 import type {
   TextareaAssistiveTextAppearance,
@@ -57,14 +56,6 @@ export class TextareaComponent {
   });
 
   readonly assistiveTextIconSize = TEXTAREA_ICON_SIZE;
-
-  readonly requirementIndicatorValue = computed(() =>
-    this.required()
-      ? this.showLabelRequirement()
-        ? REQUIREMENT_INDICATOR_VALUE.required
-        : REQUIREMENT_INDICATOR_VALUE.requiredIcon
-      : REQUIREMENT_INDICATOR_VALUE.optional,
-  );
 
   readonly change = output<Event>();
   readonly blur = output<FocusEvent>();
