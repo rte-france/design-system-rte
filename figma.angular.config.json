@@ -1,6 +1,9 @@
 {
   "codeConnect": {
-    "include": ["packages/angular/projects/ds-rte-lib/src/**/*.figma.ts"],
+    "include": [
+      "packages/angular/projects/ds-rte-lib/src/**/*.figma.ts",
+      "packages/angular/projects/ds-rte-lib/src/**/*.figma.batch.json"
+    ],
     "parser": "html",
     "label": "Angular",
     "language": "html"
