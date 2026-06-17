@@ -16,6 +16,7 @@ import { getTooltipGap } from "@design-system-rte/core/components/tooltip/toolti
 import { FOCUSABLE_ELEMENTS_QUERY } from "@design-system-rte/core/constants/dom/dom.constants";
 
 import { OverlayService } from "../../services/overlay.service";
+import { isElementInParentWithOverlay } from "../../utils";
 
 import { TooltipComponent } from "./tooltip.component";
 
@@ -103,6 +104,8 @@ export class TooltipDirective implements AfterViewInit, OnDestroy {
           ? getAutoPlacement(this.hostElement, tooltipElement, "top", gap, true)
           : this.rteTooltipPosition();
 
+      const isInParentWithOverlay = isElementInParentWithOverlay(this.hostElement);
+      this.tooltipRef.setInput("isInParentWithOverlay", isInParentWithOverlay);
       this.tooltipRef.setInput("label", this.rteTooltip());
       this.tooltipRef.setInput("position", position);
       this.tooltipRef.setInput("alignment", this.rteTooltipAlignment());

@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   ComponentRef,
   Directive,
+  effect,
   ElementRef,
   HostListener,
   inject,
@@ -11,6 +12,7 @@ import {
   Renderer2,
   ViewContainerRef,
 } from "@angular/core";
+import { PopoverPosition, waitForNextFrame } from "@design-system-rte/core";
 import { POPOVER_GAP, POPOVER_GAP_ARROW } from "@design-system-rte/core/components/popover/popover.constants";
 import {
   getAutoAlignment,
@@ -20,6 +22,7 @@ import {
 import { ESCAPE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
 import { OverlayService } from "../../services/overlay.service";
+import { isElementInParentWithOverlay } from "../../utils";
 
 import { PopoverComponent } from "./popover.component";
 
@@ -66,16 +69,22 @@ export class PopoverDirective implements AfterViewInit, OnDestroy {
     this.overlayService = inject(OverlayService);
     this.hostElement = this.elementRef.nativeElement;
     this.hostElement.setAttribute("tabindex", "0");
+
+    effect(
+      (onCleanup) => {
+        const teardown = this.setupScrollBehavior();
+        onCleanup(teardown);
+      },
+      { allowSignalWrites: true },
+    );
   }
 
   ngAfterViewInit() {
-    window.addEventListener("scroll", this.onScroll);
     document.addEventListener("mousedown", this.onMouseDown);
     document.addEventListener("keydown", this.onKeyDown);
   }
 
   ngOnDestroy() {
-    window.removeEventListener("scroll", this.onScroll);
     document.removeEventListener("mousedown", this.onMouseDown);
     document.removeEventListener("keydown", this.onKeyDown);
     this.destroyPopover();
@@ -118,7 +127,7 @@ export class PopoverDirective implements AfterViewInit, OnDestroy {
     }
   }
 
-  private assignDirectiveToComponent(): void {
+  private refreshPopoverPosition() {
     if (this.popoverRef) {
       const popoverElement = this.popoverRef.location.nativeElement.children[0];
 
@@ -132,10 +141,19 @@ export class PopoverDirective implements AfterViewInit, OnDestroy {
             )
           : this.rtePopoverPosition();
 
-      this.popoverRef.setInput("title", this.rtePopoverTitle());
-      this.popoverRef.setInput("content", this.rtePopoverContent());
       this.popoverRef.setInput("position", position);
       this.popoverRef.setInput("alignment", this.rtePopoverAlignment());
+    }
+  }
+
+  private assignDirectiveToComponent(): void {
+    if (this.popoverRef) {
+      this.refreshPopoverPosition();
+
+      this.popoverRef.setInput("isInParentWithOverlay", isElementInParentWithOverlay(this.hostElement));
+      this.popoverRef.setInput("title", this.rtePopoverTitle());
+      this.popoverRef.setInput("content", this.rtePopoverContent());
+
       this.popoverRef.setInput("arrow", this.rtePopoverArrow());
       this.popoverRef.setInput("primaryButtonLabel", this.rtePopoverPrimaryButtonLabel());
       this.popoverRef.setInput("secondaryButtonLabel", this.rtePopoverSecondaryButtonLabel());
@@ -155,13 +173,14 @@ export class PopoverDirective implements AfterViewInit, OnDestroy {
 
   private positionPopover(): void {
     if (this.popoverRef) {
-      const popoverElement = this.popoverRef.location.nativeElement.children[0];
+      const popoverElement = this.popoverRef.location.nativeElement.children[0] as HTMLElement;
+      this.refreshPopoverPosition();
 
       const autoAlignment = getAutoAlignment(this.hostElement, popoverElement, this.popoverRef.instance.position());
       this.popoverRef.setInput("alignment", autoAlignment);
 
       const positions = getCoordinates(
-        this.popoverRef.instance.position(),
+        this.popoverRef.instance.position() as Exclude<PopoverPosition, "auto">,
         this.hostElement,
         popoverElement,
         this.rtePopoverArrow() ? POPOVER_GAP_ARROW : POPOVER_GAP,
@@ -176,6 +195,15 @@ export class PopoverDirective implements AfterViewInit, OnDestroy {
       this.renderer.setStyle(popoverElement, "left", `${positions.left}px`);
       this.popoverRef.setInput("isOpen", true);
     }
+  }
+
+  private setupScrollBehavior(): () => void {
+    const onScroll = (): void => {
+      waitForNextFrame(() => this.positionPopover());
+    };
+
+    window.addEventListener("scroll", onScroll, true);
+    return () => window.removeEventListener("scroll", onScroll, true);
   }
 
   private hidePopover(): void {
@@ -195,6 +223,7 @@ export class PopoverDirective implements AfterViewInit, OnDestroy {
       this.popoverRef.destroy();
       this.popoverRef = null;
       this.overlayService.destroy();
+      this.hostElement.focus({ preventScroll: true });
     }
   }
 }

@@ -69,7 +69,6 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
 
   private readonly effectiveOpen = signal(false);
 
-  private readonly onMouseDown = (mouseEvent: MouseEvent) => this.handleClickAway(mouseEvent);
   private readonly onKeyDown = (keyboardEvent: KeyboardEvent) => this.handleKeydown(keyboardEvent);
 
   @HostBinding("class.rte-drawer-host--responsive-layout")
@@ -168,7 +167,6 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
   }
 
   ngAfterContentInit(): void {
-    document.addEventListener("mousedown", this.onMouseDown);
     document.addEventListener("keydown", this.onKeyDown);
   }
 
@@ -186,7 +184,6 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    document.removeEventListener("mousedown", this.onMouseDown);
     document.removeEventListener("keydown", this.onKeyDown);
     this.teardownDrawer();
   }
@@ -343,28 +340,5 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
       keyboardEvent.preventDefault();
       this.close();
     }
-  }
-
-  private handleClickAway(mouseEvent: MouseEvent): void {
-    if (!this.effectiveOpen()) {
-      return;
-    }
-    if (this.rteDrawerPosition() !== "modal") {
-      return;
-    }
-    if (!this.rteDrawerCloseOnOverlayClick()) {
-      return;
-    }
-
-    const hostElement = this.elementRef.nativeElement as HTMLElement;
-    const target = mouseEvent.target as Node;
-    if (hostElement.contains(target)) {
-      return;
-    }
-    if (this.drawerPanelElement?.contains(target)) {
-      return;
-    }
-
-    this.close();
   }
 }
