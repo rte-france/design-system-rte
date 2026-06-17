@@ -127,7 +127,7 @@
         </div>
       </div>
     </div>
-    <rte-dropdown-menu [items]="optionsFormatted()">
+    <rte-dropdown-menu [items]="optionsFormatted()" [maxHeight]="maxHeight()">
       @if (hasHeaderContent()) {
         <ng-template rteDropdownMenuHeader>
           <div #headerContent>

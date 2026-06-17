@@ -13,4 +13,5 @@ export interface SelectProps extends InputProps {
   compactSpacing?: boolean;
   placeholder?: string;
   variant?: "default" | "visibly-selected";
+  maxHeight?: number | string;
 }

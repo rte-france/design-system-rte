@@ -83,6 +83,7 @@ export class SelectComponent implements AfterViewInit {
   readonly compactSpacing = input<boolean>(false);
   readonly placeholder = input<string>();
   readonly variant = input<SelectProps["variant"]>("default");
+  readonly maxHeight = input<number>(200);
 
   readonly selectRef = viewChild<ElementRef<HTMLElement>>("selectRef");
   readonly buttonsContainerRef = viewChild<ElementRef<HTMLElement>>("buttonsContainerRef");
