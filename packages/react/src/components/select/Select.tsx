@@ -1,3 +1,4 @@
+import { IconSize } from "@design-system-rte/core";
 import {
   SELECT_DROPDOWN_OFFSET,
   THRESHOLD_BOTTOM_POSITION,
@@ -62,6 +63,9 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
       header,
       footer,
       width = "350px",
+      compactSpacing = false,
+      placeholder,
+      variant = "default",
     },
     ref,
   ) => {
@@ -89,6 +93,14 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
     const selectedOptionToDisplay = getSelectedOption(optionToDisplay, options, internalValue);
 
     const shouldDisplayErrorIcon = isError && !disabled && !readonly;
+
+    const shouldDisplaySelectedIcon =
+      variant === "visibly-selected" &&
+      !shouldDisplayErrorIcon &&
+      !multiple &&
+      !!internalValue &&
+      !disabled &&
+      !readonly;
 
     const computeDropdownPosition = () => {
       const selectElement = selectRef.current;
@@ -204,10 +216,14 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
                   ref={selectRefCallback}
                   aria-expanded={isActive}
                   aria-labelledby={label}
-                  data-error={isError ? "true" : "false"}
-                  data-active={isActive ? "true" : "false"}
-                  data-disabled={disabled ? "true" : "false"}
-                  data-read-only={readonly ? "true" : "false"}
+                  data-error={isError}
+                  data-active={isActive}
+                  data-disabled={disabled}
+                  data-read-only={readonly}
+                  data-compact-spacing={compactSpacing}
+                  data-multiple={multiple}
+                  data-variant={variant}
+                  data-has-value={!!internalValue}
                   id={id}
                   className={styles["select-wrapper"]}
                   role="combobox"
@@ -216,16 +232,29 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
                   onKeyDown={handleKeyDown}
                 >
                   <div className={styles["select-content"]}>
-                    {shouldDisplayErrorIcon && <Icon name="error" className={styles["error-icon"]} />}
+                    {shouldDisplayErrorIcon && (
+                      <Icon
+                        name="error"
+                        className={styles["error-icon"]}
+                        size={compactSpacing ? IconSize["s"] : IconSize["m"]}
+                      />
+                    )}
+                    {shouldDisplaySelectedIcon && (
+                      <Icon
+                        name="check-circle"
+                        appearance="filled"
+                        className={styles["selected-icon"]}
+                        size={compactSpacing ? IconSize["s"] : IconSize["m"]}
+                      />
+                    )}
                     <div className={styles["select-value"]}>
-                      {selectedOptionToDisplay && (
+                      {selectedOptionToDisplay ? (
                         <>
                           {multiple ? (
                             <div className={styles["select-multiple-values"]}>
                               <Chip
                                 id={id + "-chip"}
                                 label={selectedOptionToDisplay.label}
-                                compactSpacing
                                 type="input"
                                 onClose={(e) => handleClearChip(e, selectedOptionToDisplay.value)}
                               />
@@ -240,10 +269,22 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
                               )}
                             </div>
                           ) : (
-                            <span>{selectedOptionToDisplay.label}</span>
+                            <>
+                              <div className={styles["select-single-value-wrapper"]} data-variant={variant}>
+                                <span
+                                  className={styles["select-single-value"]}
+                                  data-variant={variant}
+                                  data-active={isActive}
+                                >
+                                  {selectedOptionToDisplay.label}
+                                </span>
+                              </div>
+                            </>
                           )}
                         </>
-                      )}
+                      ) : placeholder ? (
+                        <span className={styles["select-placeholder"]}>{placeholder}</span>
+                      ) : null}
                     </div>
                     <div className={styles["select-right-icons"]}>
                       {shouldDisplayClearButton && (
@@ -253,12 +294,14 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
                           className={concatClassNames(styles["icon-button"], styles["clear-icon"])}
                           onClick={handleOnClear}
                           disabled={disabled}
+                          data-active={isActive}
                         />
                       )}
                       <Icon
                         name={isActive ? "arrow-chevron-up" : "arrow-chevron-down"}
                         data-testid="trigger-icon"
-                        className={styles["trigger-icon"]}
+                        className={concatClassNames(styles["icon-button"], styles["trigger-icon"])}
+                        data-active={isActive}
                       />
                     </div>
                   </div>

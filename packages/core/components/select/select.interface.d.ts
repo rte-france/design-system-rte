@@ -10,4 +10,7 @@ export interface SelectProps extends InputProps {
   multiple?: boolean;
   withSelectAll?: boolean;
   optionToDisplay?: OptionToDisplay;
+  compactSpacing?: boolean;
+  placeholder?: string;
+  variant?: "default" | "visibly-selected";
 }

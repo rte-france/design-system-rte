@@ -13,6 +13,7 @@ import {
   TemplateRef,
 } from "@angular/core";
 import { NG_VALUE_ACCESSOR } from "@angular/forms";
+import { IconSize } from "@design-system-rte/core";
 import { REQUIREMENT_INDICATOR_VALUE } from "@design-system-rte/core/components/required-indicator/required-indicator.constant";
 import {
   SELECT_DROPDOWN_OFFSET,
@@ -79,6 +80,9 @@ export class SelectComponent implements AfterViewInit {
   readonly withSelectAll = input<boolean>(false);
   readonly optionToDisplay = input<SelectProps["optionToDisplay"]>("first-selected");
   readonly width = input<number | string>("350px");
+  readonly compactSpacing = input<boolean>(false);
+  readonly placeholder = input<string>();
+  readonly variant = input<SelectProps["variant"]>("default");
 
   readonly selectRef = viewChild<ElementRef<HTMLElement>>("selectRef");
   readonly buttonsContainerRef = viewChild<ElementRef<HTMLElement>>("buttonsContainerRef");
@@ -150,6 +154,16 @@ export class SelectComponent implements AfterViewInit {
 
   readonly shouldDisplayErrorIcon = computed(() => this.isError() && !this.disabled() && !this.readOnly());
 
+  readonly shouldDisplaySelectedIcon = computed(() => {
+    return (
+      this.variant() === "visibly-selected" &&
+      !this.shouldDisplayErrorIcon() &&
+      !this.disabled() &&
+      !this.readOnly() &&
+      !!this.internalValue()
+    );
+  });
+
   readonly isActive = signal(false);
 
   readonly selectWidth = computed(() => {
@@ -167,6 +181,8 @@ export class SelectComponent implements AfterViewInit {
     }
     return `${this.width()}px`;
   });
+
+  readonly iconSize = computed(() => (this.compactSpacing() ? IconSize["s"] : IconSize["m"]));
 
   ngAfterViewInit() {
     this.regenerateOptionsFormatted();
