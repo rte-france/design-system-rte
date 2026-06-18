@@ -37,6 +37,9 @@ const meta = {
       control: { type: "select" },
       options: ["first-selected", "last-selected", "highest-selected"],
     },
+    compactSpacing: { control: "boolean" },
+    placeholder: { control: "text" },
+    variant: { control: { type: "select" }, options: ["default", "visibly-selected"] },
   },
 } satisfies Meta<typeof Select>;
 
@@ -62,6 +65,8 @@ export const Default: Story = {
     showResetButton: false,
     withSelectAll: false,
     optionToDisplay: "first-selected",
+    compactSpacing: false,
+    placeholder: "Select an option",
   },
   render: (args) => {
     const [selectedOption, setSelectedOption] = useState<{ label: string; value: string }>();
@@ -169,6 +174,54 @@ export const Disabled: Story = {
   },
 };
 
+export const CompactSpacing: Story = {
+  args: {
+    ...Default.args,
+    compactSpacing: true,
+  },
+  render: (args) => {
+    const [selectedOption, setSelectedOption] = useState<{ label: string; value: string }>();
+
+    const handleOnChange = (value: string | string[]) => {
+      const stringValue = Array.isArray(value) ? value[0] : value;
+      setSelectedOption(args.options.find((option) => option.value === stringValue));
+    };
+
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+        <Select {...args} onChange={handleOnChange} value={selectedOption?.value} multiple={false} />
+        <span style={{ fontFamily: "Arial", color: "var(--content-primary)" }}>
+          Selected value : {selectedOption?.label || "No value"}
+        </span>
+      </div>
+    );
+  },
+};
+
+export const VisiblySelected: Story = {
+  args: {
+    ...Default.args,
+    variant: "visibly-selected",
+  },
+  render: (args) => {
+    const [selectedOption, setSelectedOption] = useState<{ label: string; value: string }>();
+
+    const handleOnChange = (value: string | string[]) => {
+      const stringValue = Array.isArray(value) ? value[0] : value;
+      setSelectedOption(args.options.find((option) => option.value === stringValue));
+    };
+
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+        <Select {...args} onChange={handleOnChange} value={selectedOption?.value} multiple={false} />
+        <span style={{ fontFamily: "Arial", color: "var(--content-primary)" }}>
+          Selected value : {selectedOption?.label || "No value"}
+        </span>
+      </div>
+    );
+  },
+};
+
 export const Multiple: Story = {
   args: {
     ...Default.args,
@@ -230,7 +283,7 @@ export const KeyboardInteraction: Story = {
     );
   },
 
-  play: async ({ canvasElement }) => {
+  play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
     const select = canvas.getByRole("combobox");
     focusElementBeforeComponent(canvasElement);
@@ -246,7 +299,7 @@ export const KeyboardInteraction: Story = {
     const toggleIcon = select.querySelector("[data-testid='trigger-icon']");
 
     await userEvent.click(clearButton!);
-    expect(select).toHaveTextContent("");
+    expect(select).toHaveTextContent(args.placeholder!);
 
     await userEvent.click(toggleIcon!);
 
