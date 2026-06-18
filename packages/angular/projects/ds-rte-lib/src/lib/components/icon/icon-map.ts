@@ -62,6 +62,7 @@ export const RegularIcons = {
   "download-done": "download_done",
   "drag-handle": "drag_handle",
   "drag-indicator": "drag_indicator",
+  euro: "euro",
   exclamation: "exclamation",
   "explore-travel": "explore_travel",
   "external-link": "external_link",
