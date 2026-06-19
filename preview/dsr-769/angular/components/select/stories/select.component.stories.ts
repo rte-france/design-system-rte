@@ -100,6 +100,8 @@ export const Default: Story = {
     withSelectAll: false,
     optionToDisplay: "first-selected",
     width: "350px",
+    placeholder: "Select an option",
+    compactSpacing: false,
   },
   render: (args) => ({
     props: { ...args },
@@ -123,6 +125,9 @@ export const Default: Story = {
         [showResetButton]="showResetButton"
         [showAssistiveIcon]="showAssistiveIcon"
         [width]="width"
+        [placeholder]="placeholder"
+        [compactSpacing]="compactSpacing"
+        [variant]="variant"
         />
     `,
   }),
@@ -156,6 +161,9 @@ export const Error: Story = {
         [showResetButton]="showResetButton"
         [showAssistiveIcon]="showAssistiveIcon"
         [width]="width"
+        [placeholder]="placeholder"
+        [compactSpacing]="compactSpacing"
+        [variant]="variant"
         />
     `,
   }),
@@ -188,6 +196,9 @@ export const ReadOnly: Story = {
         [showResetButton]="showResetButton"
         [showAssistiveIcon]="showAssistiveIcon"
         [width]="width"
+        [placeholder]="placeholder"
+        [compactSpacing]="compactSpacing"
+        [variant]="variant"
         />
     `,
   }),
@@ -226,6 +237,9 @@ export const Disabled: Story = {
         [showResetButton]="showResetButton"
         [showAssistiveIcon]="showAssistiveIcon"
         [width]="width"
+        [placeholder]="placeholder"
+        [compactSpacing]="compactSpacing"
+        [variant]="variant"
         />
     `,
   }),
@@ -236,6 +250,74 @@ export const Disabled: Story = {
     await userEvent.tab();
     expect(select).not.toHaveFocus();
   },
+};
+
+export const CompactSpacing: Story = {
+  args: {
+    ...Default.args,
+    compactSpacing: true,
+  },
+  render: (args) => ({
+    props: { ...args },
+    template: `
+      <rte-select
+        [id]="id"
+        [label]="label"
+        [labelId]="labelId"
+        [labelPosition]="labelPosition"
+        [assistiveTextLabel]="assistiveTextLabel"
+        [assistiveTextLink]="assistiveTextLink"
+        [assistiveTextAppearance]="assistiveTextAppearance"
+        [required]="required"
+        [showLabelRequirement]="showLabelRequirement"
+        [readOnly]="readOnly"
+        [value]="value"
+        [disabled]="disabled"
+        [options]="options"
+        (change)="change($event)"
+        [showResetButton]="showResetButton"
+        [showAssistiveIcon]="showAssistiveIcon"
+        [width]="width"
+        [placeholder]="placeholder"
+        [compactSpacing]="compactSpacing"
+        [variant]="variant"
+        />
+    `,
+  }),
+};
+
+export const VisiblySelected: Story = {
+  args: {
+    ...Default.args,
+    variant: "visibly-selected",
+  },
+  render: (args) => ({
+    props: { ...args },
+    template: `
+      <rte-select
+        [id]="id"
+        [label]="label"
+        [labelId]="labelId"
+        [labelPosition]="labelPosition"
+        [assistiveTextLabel]="assistiveTextLabel"
+        [assistiveTextLink]="assistiveTextLink"
+        [assistiveTextAppearance]="assistiveTextAppearance"
+        [required]="required"
+        [showLabelRequirement]="showLabelRequirement"
+        [readOnly]="readOnly"
+        [value]="value"
+        [disabled]="disabled"
+        [options]="options"
+        (change)="change($event)"
+        [showResetButton]="showResetButton"
+        [showAssistiveIcon]="showAssistiveIcon"
+        [width]="width"
+        [placeholder]="placeholder"
+        [compactSpacing]="compactSpacing"
+        [variant]="variant"
+        />
+    `,
+  }),
 };
 
 export const Multiple: Story = {
@@ -317,6 +399,9 @@ export const Multiple: Story = {
         [withSelectAll]="withSelectAll"
         [optionToDisplay]="optionToDisplay"
         [width]="width"
+        [placeholder]="placeholder"
+        [compactSpacing]="compactSpacing"
+        [variant]="variant"
         />
         <span style="font-family: Arial; color: var(--content-primary);">
           Selected values : {{ displayedValues() }}
@@ -352,6 +437,9 @@ export const KeyboardInteraction: Story = {
         [showResetButton]="showResetButton"
         [showAssistiveIcon]="showAssistiveIcon"
         [width]="width"
+        [placeholder]="placeholder"
+        [compactSpacing]="compactSpacing"
+        [variant]="variant"
         />
     `,
   }),

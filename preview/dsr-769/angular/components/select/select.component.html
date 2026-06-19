@@ -59,32 +59,52 @@
       [attr.aria-labelledby]="labelId()"
       [attr.aria-expanded]="isActive()"
       [attr.data-active]="isActive()"
+      [attr.data-variant]="variant()"
+      [attr.data-compact-spacing]="compactSpacing()"
+      [attr.data-has-value]="!!internalValue()"
       (dropdownTriggered)="handleOnClickTrigger()"
       (dropdownKeyDown)="handleOnKeyDownTrigger($event)"
     >
       <div class="rte-select-content">
-        <rte-icon *ngIf="shouldDisplayErrorIcon()" name="error" class="error-icon" />
+        <rte-icon *ngIf="shouldDisplayErrorIcon()" name="error" class="rte-error-icon" [size]="iconSize()" />
+        <rte-icon
+          *ngIf="shouldDisplaySelectedIcon()"
+          name="check-circle"
+          class="rte-selected-icon"
+          appearance="filled"
+          [size]="iconSize()"
+        />
 
         <div class="rte-select-value">
-          @if (this.multiple() && currentDisplayedOption()) {
-            <div class="rte-select-multiple-values">
-              <rte-chip
-                type="input"
-                [label]="currentDisplayedOption()!.label"
-                (close)="handleOnCloseChip($event, currentDisplayedOption()!.value)"
-              />
-              <rte-badge
-                *ngIf="internalValue()!.length > 1"
-                content="number"
-                badgeType="brand"
-                size="m"
-                [count]="internalValue()!.length - 1"
-                [withPlusSign]="true"
-                [simpleBadge]="true"
-              />
-            </div>
+          @if (currentDisplayedOption()) {
+            @if (this.multiple()) {
+              <div class="rte-select-multiple-values">
+                <rte-chip
+                  type="input"
+                  [label]="currentDisplayedOption()!.label"
+                  (close)="handleOnCloseChip($event, currentDisplayedOption()!.value)"
+                />
+                <rte-badge
+                  *ngIf="internalValue()!.length > 1"
+                  content="number"
+                  badgeType="brand"
+                  size="m"
+                  [count]="internalValue()!.length - 1"
+                  [withPlusSign]="true"
+                  [simpleBadge]="true"
+                />
+              </div>
+            } @else {
+              <div class="rte-select-single-value-wrapper" [attr.data-variant]="variant()">
+                <span class="rte-select-single-value" [attr.data-variant]="variant()" [attr.data-active]="isActive()">
+                  {{ currentDisplayedOption()!.label }}
+                </span>
+              </div>
+            }
           } @else {
-            <span>{{ currentDisplayedOption()?.label }}</span>
+            @if (placeholder()) {
+              <span class="rte-select-placeholder">{{ placeholder() }}</span>
+            }
           }
         </div>
         <div #buttonsContainerRef class="rte-select-right-icons">
