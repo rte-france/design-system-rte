@@ -443,7 +443,7 @@ export const KeyboardInteraction: Story = {
         />
     `,
   }),
-  play: async ({ canvasElement }) => {
+  play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
     const select = canvas.getByRole("combobox");
     focusElementBeforeComponent(canvasElement);
@@ -459,7 +459,7 @@ export const KeyboardInteraction: Story = {
     const toggleIcon = select.querySelector("rte-icon.trigger-icon-down");
 
     await userEvent.click(clearButton!);
-    expect(select).toHaveTextContent("");
+    expect(select).toHaveTextContent(args.placeholder!);
 
     await userEvent.click(toggleIcon!);
 
