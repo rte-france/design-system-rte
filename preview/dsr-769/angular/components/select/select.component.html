@@ -40,6 +40,7 @@
     [rteDropdownOffset]="selectDropdownOffset"
     [rteDropdownWidth]="selectWidth()"
     [rteCloseOnItemClick]="multiple() ? false : true"
+    [rteDropdownAutoOpen]="false"
     (menuEvent)="handleOnClickItem($event.id)"
     (menuChangeEvent)="handleOnClickItem($event.id)"
     (clickedOutside)="handleOnClickOutside()"
