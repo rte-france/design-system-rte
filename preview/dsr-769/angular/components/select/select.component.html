@@ -111,15 +111,16 @@
           <rte-icon-button
             *ngIf="shouldDisplayClearButton()"
             name="cancel"
-            variant="neutral"
             class="rte-select-icon-button clear-icon"
+            [variant]="variant() === 'visibly-selected' ? (isActive() ? 'reverse' : 'transparent') : 'neutral'"
             [disabled]="disabled()"
+            [attr.data-active]="isActive()"
             (clickEvent)="handleOnClickClearButton($event)"
           />
           <rte-icon
-            class="trigger-icon trigger-icon-{{ isActive() ? 'up' : 'down' }}"
-            variant="neutral"
+            class="rte-select-icon-button trigger-icon trigger-icon-{{ isActive() ? 'up' : 'down' }}"
             [name]="isActive() ? 'arrow-chevron-up' : 'arrow-chevron-down'"
+            [attr.data-active]="isActive()"
           />
         </div>
       </div>

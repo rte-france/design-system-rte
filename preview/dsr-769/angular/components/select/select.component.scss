@@ -51,14 +51,6 @@
       max-height: 24px;
     }
 
-    .trigger-icon {
-      color: var(--content-tertiary);
-
-      &[data-active="true"] {
-        color: var(--content-brand-default);
-      }
-    }
-
     &:hover {
       border-color: var(--border-primary);
       cursor: pointer;
@@ -159,11 +151,20 @@
       &[data-has-value="true"] {
         background-color: var(--background-brand-subtle-default);
 
-        .trigger-icon {
-          color: var(--content-brand-default);
+        .rte-select-content {
+          .rte-select-right-icons {
+            .rte-select-icon-button {
 
-          &[data-active="true"] {
-            color: var(--content-primary-inverse);
+              color: var(--content-brand-default);
+
+              &:hover {
+                color: var(--content-brand-hover);
+              }
+
+              &[data-active="true"] {
+                color: var(--content-primary-inverse);
+              }
+            }
           }
         }
       }
@@ -250,24 +251,25 @@
         align-items: center;
         gap: $positive-spacing_100;
 
-        .icon-button {
-          padding: 0;
-          height: 20px;
-          width: 20px;
+        .rte-select-icon-button {
           color: var(--content-secondary);
 
           &:hover {
             color: var(--content-primary);
           }
 
-          &:active {
-            color: var(--content-tertiary);
-          }
-
           &:focus-visible {
             outline: 1px solid var(--border-brand-focused);
             border-radius: $radius-xs;
             outline-offset: 3px;
+          }
+
+          &.rte-trigger-icon {
+            color: var(--content-tertiary);
+          }
+
+          &[data-active="true"] {
+            color: var(--content-brand-default);
           }
         }
       }
