@@ -22,7 +22,7 @@ import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
 import { useFocusTrap } from "../../../hooks/useFocusTrap";
 import useGetOverlayLayerLevel from "../../../hooks/useGetOverlayLayerLevel";
 import AssistiveText from "../../assistivetext/AssistiveText";
-import { BaseDropdown } from "../../dropdown/BaseDropdown";
+import Dropdown from "../../dropdown/Dropdown";
 import Label from "../../label/Label";
 import BaseInputPicker from "../baseInputPicker/BaseInputPicker";
 import { areSameTime } from "../picker.utils";
@@ -372,7 +372,7 @@ const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
     return (
       <>
         {showLabel && <Label label={label} required={required} showLabelRequirement={showLabelRequirement} />}
-        <BaseDropdown
+        <Dropdown
           dropdownId={id ? `${id}-dropdown` : undefined}
           isList={false}
           onClose={handleOnCloseTimePicker}
@@ -436,7 +436,7 @@ const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
               readOnly={isSecondReadOnly}
             />
           </div>
-        </BaseDropdown>
+        </Dropdown>
         {assistiveTextLabel && !isOpen && (
           <AssistiveText
             label={assistiveTextLabel!}

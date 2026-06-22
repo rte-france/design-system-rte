@@ -5,7 +5,6 @@ import { RegularIconIdKey, TogglableIconIdKey } from "src/components/icon/Icon";
 import useAnimatedMount from "../../../hooks/useAnimatedMount";
 import { useClickAway } from "../../../hooks/useClickAway";
 import { useNavigationLinkComponent } from "../../../provider/NavigationContext";
-import { BaseDropdown } from "../../dropdown/BaseDropdown";
 import Dropdown from "../../dropdown/Dropdown";
 import DropdownItem from "../../dropdown/dropdownItem/DropdownItem";
 import IconButton from "../../iconButton/IconButton";
@@ -167,9 +166,9 @@ const HeaderMobile = ({
       </div>
       <div className={styles["rte-header-right"]}>
         {mobileMenuContent ? (
-          <BaseDropdown {...dropdownProps}>{mobileMenuContent}</BaseDropdown>
+          <Dropdown {...dropdownProps}>{mobileMenuContent}</Dropdown>
         ) : mobileMenuItems ? (
-          <Dropdown {...dropdownProps}>
+          <Dropdown {...dropdownProps} isList={true}>
             {mobileMenuItems.map((item, index) => (
               <DropdownItem key={index} {...item} />
             ))}
