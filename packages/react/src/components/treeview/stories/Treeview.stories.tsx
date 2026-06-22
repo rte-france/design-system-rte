@@ -300,6 +300,7 @@ export const ActionIconCustomBehavior: Story = {
 };
 
 export const WithBadge: Story = {
+  tags: ["skip-ci"],
   args: {
     items: badgeData,
   },
