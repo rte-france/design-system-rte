@@ -26,6 +26,7 @@ interface SingleSelectProps extends Omit<coreSelectProps, "value" | "onChange"> 
   header?: React.ReactNode;
   footer?: React.ReactNode;
   onChange?: (value: string) => void;
+  body?: React.ReactNode;
 }
 
 interface MultiSelectProps extends Omit<coreSelectProps, "value" | "onChange"> {
@@ -34,6 +35,7 @@ interface MultiSelectProps extends Omit<coreSelectProps, "value" | "onChange"> {
   header?: React.ReactNode;
   footer?: React.ReactNode;
   onChange?: (value: string[]) => void;
+  body?: React.ReactNode;
 }
 
 export type SelectProps = SingleSelectProps | MultiSelectProps;
@@ -70,6 +72,7 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
       placeholder,
       variant = "default",
       maxHeight,
+      body,
     },
     ref,
   ) => {
@@ -258,6 +261,7 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
               autoClose={!multiple}
               hasMaxWidth={false}
               maxHeight={maxHeight}
+              isList={!body}
               trigger={
                 <div
                   ref={selectRefCallback}
@@ -360,30 +364,36 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
               isOpen={isActive}
               position={computeDropdownPosition()}
             >
-              {options.length === 0 && <DropdownItem label="No options available" />}
-              {withSelectAll && multiple && options.length > 0 && (
-                <DropdownItem
-                  label="Sélectionner tout"
-                  isSelected={Array.isArray(internalValue) && internalValue.length === options.length}
-                  isIndeterminate={
-                    Array.isArray(internalValue) && !!internalValue.length && internalValue.length < options.length
-                  }
-                  onClick={handleOnClickSelectAll}
-                  hasCheckbox
-                  hasSeparator
-                />
+              {body ? (
+                body
+              ) : (
+                <>
+                  {options.length === 0 && <DropdownItem label="No options available" />}
+                  {withSelectAll && multiple && options.length > 0 && (
+                    <DropdownItem
+                      label="Sélectionner tout"
+                      isSelected={Array.isArray(internalValue) && internalValue.length === options.length}
+                      isIndeterminate={
+                        Array.isArray(internalValue) && !!internalValue.length && internalValue.length < options.length
+                      }
+                      onClick={handleOnClickSelectAll}
+                      hasCheckbox
+                      hasSeparator
+                    />
+                  )}
+                  {options.map(({ value, label }, index) => (
+                    <DropdownItem
+                      key={index + value}
+                      label={label}
+                      isSelected={multiple ? (internalValue as string[]).includes(value) : internalValue === value}
+                      onClick={() => {
+                        handleOnChange(value);
+                      }}
+                      hasCheckbox={multiple}
+                    />
+                  ))}
+                </>
               )}
-              {options.map(({ value, label }, index) => (
-                <DropdownItem
-                  key={index + value}
-                  label={label}
-                  isSelected={multiple ? (internalValue as string[]).includes(value) : internalValue === value}
-                  onClick={() => {
-                    handleOnChange(value);
-                  }}
-                  hasCheckbox={multiple}
-                />
-              ))}
             </Dropdown>
 
             {assistiveTextLabel && (

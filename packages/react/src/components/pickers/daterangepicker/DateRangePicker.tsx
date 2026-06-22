@@ -10,9 +10,9 @@ import {
 import { waitForNextFrame } from "@design-system-rte/core/common/animation";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import { BaseDropdown } from "../../../components/dropdown/BaseDropdown";
 import useGetOverlayLayerLevel from "../../../hooks/useGetOverlayLayerLevel";
 import AssistiveText from "../../assistivetext/AssistiveText";
+import Dropdown from "../../dropdown/Dropdown";
 import Icon from "../../icon/Icon";
 import Label from "../../label/Label";
 import useDatePickerInternalValue from "../hooks/useDatePickerInternalValue";
@@ -424,7 +424,7 @@ const DateRangePicker = ({
     <div className={styles["date-range-picker"]} style={{ width, minWidth: DATERANGEPICKER_MIN_WIDTH }}>
       <Label id={groupLabelId} label={label} required={required} showLabelRequirement={showLabelRequirement} />
       <div className={styles["date-range-picker-dropdown"]}>
-        <BaseDropdown
+        <Dropdown
           style={{ width: inputsWidth }}
           isList={false}
           isOpen={isDropdownOpen}
@@ -542,7 +542,7 @@ const DateRangePicker = ({
             selectionMode={selectionMode}
             setInitialValue={(date) => setInitialValue(date)}
           />
-        </BaseDropdown>
+        </Dropdown>
       </div>
       {shouldDisplayAssistiveText && (
         <div id={assistiveTextId}>

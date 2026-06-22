@@ -18,7 +18,7 @@ import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
 
 import useGetOverlayLayerLevel from "../../../hooks/useGetOverlayLayerLevel";
 import AssistiveText from "../../assistivetext/AssistiveText";
-import { BaseDropdown } from "../../dropdown/BaseDropdown";
+import Dropdown from "../../dropdown/Dropdown";
 import Label from "../../label/Label";
 import BaseInputPicker from "../baseInputPicker/BaseInputPicker";
 import useDatePickerInternalValue from "../hooks/useDatePickerInternalValue";
@@ -285,7 +285,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatepickerProps>(
     return (
       <div className={styles["rte-date-picker"]} style={{ minWidth: "248px", width }} ref={ref}>
         <Label id={labelId} label={label} required={required} showLabelRequirement={showLabelRequirement} />
-        <BaseDropdown
+        <Dropdown
           style={{ width: pickerRef.current?.offsetWidth }}
           isList={false}
           isOpen={isDropdownOpen}
@@ -328,7 +328,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatepickerProps>(
             maxDate={maxDate}
             disabledDates={disabledDates}
           />
-        </BaseDropdown>
+        </Dropdown>
         {shouldDisplayAssistiveText && (
           <AssistiveText
             label={assistiveTextLabel}

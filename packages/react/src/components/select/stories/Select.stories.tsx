@@ -94,7 +94,7 @@ export const Default: Story = {
     });
 
     const handleOnChange = (value: string) => {
-      setSelectedOption(args.options.find((option) => option.value === value));
+      setSelectedOption(args.options?.find((option) => option.value === value));
     };
 
     return (
@@ -118,7 +118,7 @@ export const Error: Story = {
 
     const handleOnChange = (value: string | string[]) => {
       if (typeof value === "string") {
-        setSelectedOption(args.options.find((option) => option.value === value));
+        setSelectedOption(args.options?.find((option) => option.value === value));
       }
     };
 
@@ -143,7 +143,7 @@ export const ReadOnly: Story = {
 
     const handleOnChange = (value: string) => {
       if (typeof value === "string") {
-        setSelectedOption(args.options.find((option) => option.value === value));
+        setSelectedOption(args.options?.find((option) => option.value === value));
       }
     };
 
@@ -175,7 +175,7 @@ export const Disabled: Story = {
 
     const handleOnChange = (value: string | string[]) => {
       const stringValue = Array.isArray(value) ? value[0] : value;
-      setSelectedOption(args.options.find((option) => option.value === stringValue));
+      setSelectedOption(args.options?.find((option) => option.value === stringValue));
     };
 
     return (
@@ -206,7 +206,7 @@ export const CompactSpacing: Story = {
 
     const handleOnChange = (value: string | string[]) => {
       const stringValue = Array.isArray(value) ? value[0] : value;
-      setSelectedOption(args.options.find((option) => option.value === stringValue));
+      setSelectedOption(args.options?.find((option) => option.value === stringValue));
     };
 
     return (
@@ -230,7 +230,7 @@ export const VisiblySelected: Story = {
 
     const handleOnChange = (value: string | string[]) => {
       const stringValue = Array.isArray(value) ? value[0] : value;
-      setSelectedOption(args.options.find((option) => option.value === stringValue));
+      setSelectedOption(args.options?.find((option) => option.value === stringValue));
     };
 
     return (
@@ -268,6 +268,49 @@ export const Multiple: Story = {
   },
 };
 
+export const CustomSelectBody: Story = {
+  args: {
+    ...Default.args,
+  },
+  render: (args) => {
+    const [selectedOption, setSelectedOption] = useState<{ label: string; value: string }>();
+
+    const options = [
+      { value: "option-1", label: "Option 1" },
+      { value: "option-2", label: "Option 2" },
+      { value: "option-3", label: "Option 3" },
+      { value: "option-4", label: "Option 4" },
+    ];
+
+    const handleOnChange = (value: string) => {
+      setSelectedOption(options.find((option) => option.value === value));
+    };
+
+    const CustomBody = () => {
+      return (
+        <>
+          <div style={{ padding: "16px", fontFamily: "Arial", color: "var(--content-primary)" }}>
+            This is a custom body for the select component.
+          </div>
+          <button onClick={() => handleOnChange(options[0].value)}>Select Option 1</button>
+          <button onClick={() => handleOnChange(options[1].value)}>Select Option 2</button>
+          <button onClick={() => handleOnChange(options[2].value)}>Select Option 3</button>
+          <button onClick={() => handleOnChange(options[3].value)}>Select Option 4</button>
+        </>
+      );
+    };
+
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+        <Select {...args} body={<CustomBody />} />
+        <span style={{ fontFamily: "Arial", color: "var(--content-primary)" }}>
+          Selected value : {selectedOption?.label || "No value"}
+        </span>
+      </div>
+    );
+  },
+};
+
 export const KeyboardInteraction: Story = {
   args: {
     ...Default.args,
@@ -278,7 +321,7 @@ export const KeyboardInteraction: Story = {
 
     const handleOnChange = (value: string | string[]) => {
       const stringValue = Array.isArray(value) ? value[0] : value;
-      setSelectedOption(args.options.find((option) => option.value === stringValue));
+      setSelectedOption(args.options?.find((option) => option.value === stringValue));
     };
 
     return (
