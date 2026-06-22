@@ -24,6 +24,7 @@ interface SingleSelectProps extends Omit<coreSelectProps, "value"> {
   value?: string;
   header?: React.ReactNode;
   footer?: React.ReactNode;
+  body?: React.ReactNode;
 }
 
 interface MultiSelectProps extends Omit<coreSelectProps, "value"> {
@@ -31,6 +32,7 @@ interface MultiSelectProps extends Omit<coreSelectProps, "value"> {
   value?: string[];
   header?: React.ReactNode;
   footer?: React.ReactNode;
+  body?: React.ReactNode;
 }
 
 export type SelectProps = SingleSelectProps | MultiSelectProps;
@@ -62,6 +64,7 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
       header,
       footer,
       width = "350px",
+      body,
     },
     ref,
   ) => {
@@ -266,6 +269,7 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
               }
               header={header}
               footer={footer}
+              body={body}
               isOpen={isActive}
               position={computeDropdownPosition()}
             >

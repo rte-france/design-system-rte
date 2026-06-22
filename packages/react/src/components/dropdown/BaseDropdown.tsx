@@ -35,6 +35,7 @@ export interface BaseDropdownProps extends CoreDropdownProps, React.HTMLAttribut
   trigger: React.ReactNode;
   header?: React.ReactNode;
   footer?: React.ReactNode;
+  body?: React.ReactNode;
   isList?: boolean;
   hasMaxWidth?: boolean;
   overlayLevel?: OverlayPriority;
@@ -53,6 +54,7 @@ export const BaseDropdown = forwardRef<HTMLDivElement, BaseDropdownProps>(
       isOpen = false,
       onClose = () => {},
       children,
+      body,
       offset = 0,
       alignment = "start",
       autofocus = true,
@@ -265,6 +267,7 @@ export const BaseDropdown = forwardRef<HTMLDivElement, BaseDropdownProps>(
                 </div>
               )}
               <div className={concatClassNames(styles["dropdown-menu-content"], "rte-dropdown-menu-content")}>
+                {body && <div className={styles["dropdown-body"]}>{body}</div>}
                 {isList ? (
                   <ul className={styles["dropdown-items"]} role="menu">
                     {children}

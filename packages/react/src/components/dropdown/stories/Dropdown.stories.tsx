@@ -472,3 +472,47 @@ export const WithFilterableHeader: Story = {
     });
   },
 };
+
+export const WithCustomBody: Story = {
+  args: {
+    ...Default.args,
+  },
+  render: (args) => {
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+
+    return (
+      <>
+        <div
+          style={{
+            position: "relative",
+            width: "800px",
+            height: "200px",
+            display: "flex",
+            justifyContent: "space-between",
+            gap: "500px",
+          }}
+        >
+          <Dropdown
+            {...args}
+            onClose={() => {
+              setIsOpen(false);
+            }}
+            trigger={
+              <button onClick={() => setIsOpen(true)} style={{ color: "black" }}>
+                Custom Body Menu ⬇
+              </button>
+            }
+            style={{ width: "250px" }}
+            isOpen={isOpen}
+            body={
+              <div style={{ padding: "16px", color: "black" }}>
+                This is a custom body content. You can put anything you want here, like text, images, or even other
+                components!
+              </div>
+            }
+          />
+        </div>
+      </>
+    );
+  },
+};

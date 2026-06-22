@@ -207,6 +207,33 @@ export const Multiple: Story = {
   },
 };
 
+export const CustomSelectBody: Story = {
+  args: {
+    ...Default.args,
+    body: (
+      <div style={{ padding: "16px", fontFamily: "Arial", color: "var(--content-primary)" }}>
+        This is a custom body for the select component.
+      </div>
+    ),
+  },
+  render: (args) => {
+    const [selectedOption, setSelectedOption] = useState<{ label: string; value: string }>();
+
+    const handleOnChange = (value: string) => {
+      setSelectedOption(args.options.find((option) => option.value === value));
+    };
+
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+        <Select {...args} onChange={handleOnChange} value={selectedOption?.value} multiple={false} />
+        <span style={{ fontFamily: "Arial", color: "var(--content-primary)" }}>
+          Selected value : {selectedOption?.label || "No value"}
+        </span>
+      </div>
+    );
+  },
+};
+
 export const KeyboardInteraction: Story = {
   args: {
     ...Default.args,
