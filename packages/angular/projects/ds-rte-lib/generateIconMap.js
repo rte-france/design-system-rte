@@ -103,7 +103,11 @@ function generateIconFigmaTemplate() {
   string += `    return renderedIconName;\n`;
   string += `  }\n\n`;
   string += `  const iconInstance = figma.properties.__instance__("icon");\n`;
-  string += `  if (isRecord(iconInstance) && "executeTemplate" in iconInstance && typeof iconInstance["executeTemplate"] === "function") {\n`;
+  string += `  if (\n`;
+  string += `    isRecord(iconInstance) &&\n`;
+  string += `    "executeTemplate" in iconInstance &&\n`;
+  string += `    typeof iconInstance["executeTemplate"] === "function"\n`;
+  string += `  ) {\n`;
   string += `    return renderCodeConnectValue(iconInstance["executeTemplate"]().example);\n`;
   string += `  }\n\n`;
   string += `  return "";\n`;
