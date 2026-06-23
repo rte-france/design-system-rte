@@ -193,3 +193,21 @@ export const InitialValueSelected: Story = {
     expect(radioButton).toBeChecked();
   },
 };
+
+export const VerticalLongLabel: Story = {
+  args: {
+    ...Default.args,
+    direction: "vertical",
+    items: [
+      { label: "Option 1 with a very long label that should wrap to the next line", value: "option1" },
+      { label: "Option 2 with a very long label that should wrap to the next line", value: "option2" },
+      { label: "Option 3 with a very long label that should wrap to the next line", value: "option3" },
+    ],
+  },
+
+  render: (args) => (
+    <div style={{ width: "300px" }}>
+      <RadioButtonGroup {...args} />
+    </div>
+  ),
+};
