@@ -127,3 +127,21 @@ export const Vertical: Story = {
     direction: "vertical",
   },
 };
+
+export const VerticalLongLabel: Story = {
+  args: {
+    ...Default.args,
+    direction: "vertical",
+    items: [
+      "Option 1 with a very long label that should wrap to the next line",
+      "Option 2 with a very long label that should wrap to the next line",
+      "Option 3 with a very long label that should wrap to the next line",
+    ],
+  },
+
+  render: (args) => (
+    <div style={{ width: "300px" }}>
+      <CheckboxGroup {...args} />
+    </div>
+  ),
+};
