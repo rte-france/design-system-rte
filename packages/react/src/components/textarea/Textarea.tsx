@@ -37,6 +37,8 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       showCounter,
       value,
       width = "350px",
+      disabled = false,
+      readOnly = false,
       ...props
     },
     ref,
@@ -104,6 +106,8 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
                 onBlur={handleBlur}
                 defaultValue={defaultValue}
                 value={value}
+                disabled={disabled}
+                readOnly={readOnly}
                 {...props}
               />
               {assistiveTextLabel && (

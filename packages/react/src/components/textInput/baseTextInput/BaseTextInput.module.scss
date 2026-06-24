@@ -66,6 +66,10 @@
             .inputLabel {
                 color: var(--content-secondary);
                 @include typography-text-m-regular;
+
+                &[data-disabled="true"] {
+                    pointer-events: none;
+                }
             }
         }
     }
@@ -81,6 +85,9 @@
         align-self: stretch;
 
         .input {
+            &[data-disabled="true"] {
+                cursor: not-allowed;
+            }
 
             display: flex;
 
@@ -166,7 +173,10 @@
                         border: $width-xs solid var(--border-disabled);
                         background: linear-gradient(0deg, var(--elevation-surface-inner-shadow) 0%, var(--elevation-surface-inner-shadow) 100%), var(--background-disabled);
                         cursor: not-allowed;
-                        box-shadow: none;
+                    }
+
+                    &:disabled {
+                        pointer-events: none;
                     }
 
                     &[data-error='true'] {
@@ -175,7 +185,7 @@
                     }
 
                     &::placeholder {
-                        color: var(--content-tertiary);
+                        color: var(--content-disabled);
                     }
                 }
             }
