@@ -165,6 +165,7 @@ const BaseTextInput = forwardRef<HTMLInputElement, BaseTextInputProps>(
       <div
         className={style.container}
         data-label-position={labelPosition}
+        data-disabled={disabled}
         data-error={error}
         style={{ width }}
         data-compact-spacing={compactSpacing}
@@ -172,7 +173,7 @@ const BaseTextInput = forwardRef<HTMLInputElement, BaseTextInputProps>(
         {label && (
           <div className={style.text}>
             <div className={style.labelContainer}>
-              <label className={style.inputLabel} id={`inputLabel-${id}`} htmlFor={id}>
+              <label className={style.inputLabel} id={`inputLabel-${id}`} htmlFor={id} data-disabled={disabled}>
                 {" "}
                 {label}{" "}
               </label>
