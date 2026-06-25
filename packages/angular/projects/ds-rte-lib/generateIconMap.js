@@ -148,19 +148,24 @@ function getFigmaIconEntries() {
   const figmaIconKeys = [...regularIcons, ...togglableIcons].sort((leftKey, rightKey) =>
     leftKey.localeCompare(rightKey),
   );
+  const missingFigmaIconKeys = figmaIconKeys.filter((figmaIconKey) => !figmaIconNodeIds[figmaIconKey]);
 
-  return figmaIconKeys.map((figmaIconKey) => {
-    const nodeId = figmaIconNodeIds[figmaIconKey];
-    if (!nodeId) {
-      throw new Error(`Missing Figma node id for icon "${figmaIconKey}" in ${figmaNodeMapPath}`);
-    }
+  if (missingFigmaIconKeys.length) {
+    console.warn(
+      `Skipping Figma Code Connect for icons without node ids in ${figmaNodeMapPath}: ${missingFigmaIconKeys.join(", ")}`,
+    );
+  }
 
-    return {
-      name: figmaIconKey,
-      angularName: toAngularIconName(figmaIconKey),
-      url: `https://www.figma.com/design/tKntdNwiF1x3jSpJ9Q0O0q/01.3-Iconography?node-id=${nodeId.replace(":", "-")}`,
-    };
-  });
+  return figmaIconKeys
+    .filter((figmaIconKey) => figmaIconNodeIds[figmaIconKey])
+    .map((figmaIconKey) => {
+      const nodeId = figmaIconNodeIds[figmaIconKey];
+      return {
+        name: figmaIconKey,
+        angularName: toAngularIconName(figmaIconKey),
+        url: `https://www.figma.com/design/tKntdNwiF1x3jSpJ9Q0O0q/01.3-Iconography?node-id=${nodeId.replace(":", "-")}`,
+      };
+    });
 }
 
 function generateIconGlyphFigmaBatchTemplate() {
