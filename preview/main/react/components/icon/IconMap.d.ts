@@ -58,6 +58,7 @@ export declare const RegularIcons: {
     "download-done": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
     "drag-handle": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
     "drag-indicator": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
+    euro: ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
     exclamation: ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
     "explore-travel": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
     "external-link": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
@@ -114,6 +115,7 @@ export declare const RegularIcons: {
     "support-agent": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
     "swap-horiz": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
     "swap-vert": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
+    thermostat: ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
     timeline: ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
     "trending-down": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
     "trending-flat": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
@@ -172,6 +174,7 @@ export declare const TogglableIcons: {
     "check-circle": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     checkbox: (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     "checkbox-indeterminate": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
+    "circuit-generator": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     clock: (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     "cloud-download": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     cloud: (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
@@ -191,8 +194,11 @@ export declare const TogglableIcons: {
     eco: (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     edit: (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     "electric-meter": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
+    "energy-savings-leaf": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     eraser: (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     error: (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
+    "event-next": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
+    "event-repeat": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     explore: (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     "explore-off": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     "export-xls": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
@@ -241,6 +247,7 @@ export declare const TogglableIcons: {
     lightbulb: (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     "linked-services": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     "list-alt": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
+    "location-add": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     "location-me": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     "location-off": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     "location-on": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
