@@ -1,10 +1,10 @@
 <div class="rte-daterangepicker" [style.width]="width()">
   @if (hasLabel()) {
-    <div class="rte-daterangepicker-header">
+    <div class="rte-daterangepicker-header" [attr.data-show-label-requirement]="showLabelRequirement()">
       <label class="rte-daterangepicker-label" [attr.id]="groupLabelId()">
         {{ labelText() }}
-        <rte-required-indicator [required]="required()" [showLabelRequirement]="showLabelRequirement()" />
       </label>
+      <rte-required-indicator [required]="required()" [showLabelRequirement]="showLabelRequirement()" />
     </div>
   }
 

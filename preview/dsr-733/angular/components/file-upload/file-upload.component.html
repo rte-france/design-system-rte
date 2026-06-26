@@ -1,13 +1,15 @@
 <div #fileUploadRef class="rte-file-upload">
   @if (showLabel()) {
-    <label class="rte-file-upload-label" [attr.for]="id()">
-      <span>{{ label() }}</span>
+    <div class="rte-file-upload-header" [attr.data-show-label-requirement]="showLabelRequirement()">
+      <label class="rte-file-upload-label" [attr.for]="id()">
+        <span>{{ label() }}</span>
+      </label>
       <rte-required-indicator
         *ngIf="required() || showLabelRequirement()"
         [required]="required()"
         [showLabelRequirement]="showLabelRequirement()"
       />
-    </label>
+    </div>
   }
 
   @if (shouldDisplayAssistiveText()) {

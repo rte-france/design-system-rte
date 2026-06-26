@@ -1,6 +1,11 @@
 @use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
 
+:host {
+  display: inline-flex;
+}
+
 .requirement-indicator {
+
   margin-left: $positive-spacing_025;
 
   @include typography-text-s;

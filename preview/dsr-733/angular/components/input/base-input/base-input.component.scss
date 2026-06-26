@@ -82,6 +82,10 @@
             display: flex;
             align-items: flex-start;
 
+            &[data-show-label-requirement="true"] {
+                align-items: center;
+            }
+
             .input-label {
                 display: flex;
                 color: var(--content-secondary);

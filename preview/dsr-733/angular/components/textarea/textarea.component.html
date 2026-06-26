@@ -1,25 +1,36 @@
 <div class="container" [attr.data-label-position]="labelPosition()" [style]="'width : ' + computedWidth()">
-  <label
+  <div
     *ngIf="label() && labelPosition() === 'side'"
+    class="header-container"
     [attr.data-label-position]="labelPosition()"
-    [attr.id]="labelId()"
-    [attr.for]="id()"
-    >{{ label()
-    }}<rte-required-indicator
+    [attr.data-show-label-requirement]="showLabelRequirement()"
+  >
+    <label
+      *ngIf="label() && labelPosition() === 'side'"
+      [attr.data-label-position]="labelPosition()"
+      [attr.id]="labelId()"
+      [attr.for]="id()"
+      >{{ label() }}</label
+    >
+    <rte-required-indicator
       *ngIf="required() || showLabelRequirement()"
       [required]="required()"
       [showLabelRequirement]="showLabelRequirement()"
-  /></label>
+    />
+  </div>
   <div class="top-position-container" [attr.data-label-position]="labelPosition()">
-    <div class="header-container" [attr.data-label-position]="labelPosition()">
-      <label *ngIf="label() && labelPosition() === 'top'" [attr.id]="labelId()" [attr.for]="id()"
-        >{{ label()
-        }}<rte-required-indicator
-          *ngIf="required() || showLabelRequirement()"
-          [required]="required()"
-          [showLabelRequirement]="showLabelRequirement()"
-        />
-      </label>
+    <div
+      *ngIf="label() && labelPosition() === 'top'"
+      class="header-container"
+      [attr.data-label-position]="labelPosition()"
+      [attr.data-show-label-requirement]="showLabelRequirement()"
+    >
+      <label *ngIf="label() && labelPosition() === 'top'" [attr.id]="labelId()" [attr.for]="id()">{{ label() }} </label>
+      <rte-required-indicator
+        *ngIf="required() || showLabelRequirement()"
+        [required]="required()"
+        [showLabelRequirement]="showLabelRequirement()"
+      />
       <span *ngIf="isCounterVisible()" class="character-counter">{{ characterCount }}/{{ maxLength() }}</span>
     </div>
     <div class="textarea-container" [attr.data-label-position]="labelPosition()">

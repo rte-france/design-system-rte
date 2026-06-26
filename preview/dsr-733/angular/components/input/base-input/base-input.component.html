@@ -6,7 +6,7 @@
 >
   <ng-container *ngIf="label()">
     <div class="text">
-      <div class="label-container">
+      <div class="label-container" [attr.data-show-label-requirement]="showLabelRequirement()">
         <label
           id="input-label-{{ id() }}"
           class="input-label"
@@ -15,12 +15,12 @@
           (click)="onLabelClick($event)"
         >
           {{ label() }}
-          <rte-required-indicator
-            *ngIf="required() || showLabelRequirement()"
-            [required]="required()"
-            [showLabelRequirement]="showLabelRequirement()"
-          />
         </label>
+        <rte-required-indicator
+          *ngIf="required() || showLabelRequirement()"
+          [required]="required()"
+          [showLabelRequirement]="showLabelRequirement()"
+        />
       </div>
       <ng-container *ngIf="displayCounter() && labelPosition() === 'top'">
         <p class="input-counter" data-testid="input-counter">{{ characterCount() }}/{{ maxLength() }}</p>
