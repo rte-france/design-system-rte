@@ -13,6 +13,10 @@
     align-items: flex-start;
     gap: $positive-spacing_0;
 
+    &[data-disabled="true"] {
+        cursor: not-allowed;
+    }
+
     &.compact-spacing {
         .input-container {
             height: 24px;
@@ -215,8 +219,8 @@
                     &:disabled {
                         border-color: var(--border-disabled);
                         background: linear-gradient(0deg, var(--elevation-surface-inner-shadow) 0%, var(--elevation-surface-inner-shadow) 100%), var(--background-disabled);
-                        cursor: not-allowed;
-                        box-shadow: none;
+                        pointer-events: none;
+                        color: var(--content-disabled);
                     }
 
                     &.error {

@@ -2,6 +2,7 @@
   class="container {{ labelPosition() }}"
   [ngClass]="{ error: error(), 'compact-spacing': compactSpacing() }"
   [style.width]="width()"
+  [attr.data-disabled]="disabled()"
 >
   <ng-container *ngIf="label()">
     <div class="text">
@@ -9,6 +10,7 @@
         <label
           id="input-label-{{ id() }}"
           class="input-label"
+          [attr.data-disabled]="disabled() || null"
           [attr.for]="useLabelForAttribute() && id() ? id() : null"
           (click)="onLabelClick($event)"
         >
