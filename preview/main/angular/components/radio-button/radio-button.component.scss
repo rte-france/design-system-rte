@@ -2,7 +2,7 @@
 
 .rte-radio-button-container {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: $positive-spacing_150;
     cursor: pointer;
 
@@ -165,6 +165,8 @@
         height: 16px;
         box-sizing: content-box;
         position: relative;
+        flex: none;
+        margin: 4px 0;
 
         .rte-radio-button-outer,
         .rte-radio-button-inner {

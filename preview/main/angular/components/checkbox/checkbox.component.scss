@@ -41,6 +41,7 @@
     align-items: center;
     justify-content: center;
     margin: $positive-spacing_050 0;
+    flex: none;
 
     &::before {
       content: '';
