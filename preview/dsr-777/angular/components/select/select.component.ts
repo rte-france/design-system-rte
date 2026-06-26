@@ -79,7 +79,7 @@ export class SelectComponent implements AfterViewInit {
   readonly withSelectAll = input<boolean>(false);
   readonly optionToDisplay = input<SelectProps["optionToDisplay"]>("first-selected");
   readonly width = input<number | string>("350px");
-  readonly maxHeight = input<number | string>("200px");
+  readonly maxHeight = input<number>(200);
 
   readonly selectRef = viewChild<ElementRef<HTMLElement>>("selectRef");
   readonly buttonsContainerRef = viewChild<ElementRef<HTMLElement>>("buttonsContainerRef");

@@ -58,7 +58,7 @@ export class DropdownMenuComponent implements OnDestroy {
   readonly isInParentWithOverlay = input<boolean>(false);
   readonly items = input<DropdownItemConfig[]>([]);
   readonly menuId = input<string>();
-  readonly maxHeight = input<string | number | null>(null);
+  readonly maxHeight = input<number | null>(null);
 
   readonly itemEvent = output<{ event: Event; id: string; item?: DropdownItemConfig }>();
 
@@ -73,6 +73,7 @@ export class DropdownMenuComponent implements OnDestroy {
       "max-width": this.width() ? this.width() + "px" : undefined,
       "max-height": this.maxHeight() ? this.maxHeight() + "px" : undefined,
     };
+    console.log('"Computed Style:', computedStyle);
     return computedStyle;
   });
 

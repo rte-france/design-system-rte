@@ -57,7 +57,7 @@ const meta: Meta<SelectComponent> = {
       options: ["first-selected", "last-selected", "highest-selected"],
       description: "Option to display when multiple options are selected",
     },
-    maxHeight: { control: "text" },
+    maxHeight: { control: { type: "number" } },
   },
   decorators: [
     moduleMetadata({
