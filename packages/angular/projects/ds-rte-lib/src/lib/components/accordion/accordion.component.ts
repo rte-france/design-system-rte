@@ -53,34 +53,28 @@ export class AccordionComponent {
   private readonly contentArea = viewChild<ElementRef<HTMLElement>>("accordionContent");
 
   constructor() {
-    effect(
-      () => {
-        const fromParent = this.isOpen();
-        if (fromParent !== undefined) {
-          this.internalOpen.set(fromParent);
-        }
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      const fromParent = this.isOpen();
+      if (fromParent !== undefined) {
+        this.internalOpen.set(fromParent);
+      }
+    });
 
-    effect(
-      (onCleanup) => {
-        const open = this.internalOpen();
-        if (open) {
-          this.isAnimating.set(false);
-          this.panelHeightPx.set(0);
-          const cancelWaitForNextFrame = waitForNextFrame(() => {
-            this.isAnimating.set(true);
-            this.syncPanelHeightFromContent();
-          });
-          onCleanup(cancelWaitForNextFrame);
-        } else {
-          this.isAnimating.set(false);
-          this.panelHeightPx.set(0);
-        }
-      },
-      { allowSignalWrites: true },
-    );
+    effect((onCleanup) => {
+      const open = this.internalOpen();
+      if (open) {
+        this.isAnimating.set(false);
+        this.panelHeightPx.set(0);
+        const cancelWaitForNextFrame = waitForNextFrame(() => {
+          this.isAnimating.set(true);
+          this.syncPanelHeightFromContent();
+        });
+        onCleanup(cancelWaitForNextFrame);
+      } else {
+        this.isAnimating.set(false);
+        this.panelHeightPx.set(0);
+      }
+    });
   }
 
   protected summaryElementId(): string {

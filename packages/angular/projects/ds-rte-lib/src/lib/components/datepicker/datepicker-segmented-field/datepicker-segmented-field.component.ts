@@ -121,29 +121,26 @@ export class DatepickerSegmentedFieldComponent {
   });
 
   constructor() {
-    effect(
-      () => {
-        const externalValue = this.value();
-        untracked(() => {
-          const previous = this.segmentedState();
-          const fromState = buildMaskedDdMmYyyyFromState(previous);
-          if (externalValue === fromState) {
-            return;
-          }
-          const next = segmentedStateFromDdMmYyyyString(externalValue);
-          const segmentsMatch =
-            previous.dayDigits === next.dayDigits &&
-            previous.monthDigits === next.monthDigits &&
-            previous.yearDigits === next.yearDigits;
-          if (segmentsMatch) {
-            this.segmentedState.set({ ...next, activeSegment: previous.activeSegment });
-            return;
-          }
-          this.segmentedState.set(next);
-        });
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      const externalValue = this.value();
+      untracked(() => {
+        const previous = this.segmentedState();
+        const fromState = buildMaskedDdMmYyyyFromState(previous);
+        if (externalValue === fromState) {
+          return;
+        }
+        const next = segmentedStateFromDdMmYyyyString(externalValue);
+        const segmentsMatch =
+          previous.dayDigits === next.dayDigits &&
+          previous.monthDigits === next.monthDigits &&
+          previous.yearDigits === next.yearDigits;
+        if (segmentsMatch) {
+          this.segmentedState.set({ ...next, activeSegment: previous.activeSegment });
+          return;
+        }
+        this.segmentedState.set(next);
+      });
+    });
 
     effect(() => {
       this.segmentedState();

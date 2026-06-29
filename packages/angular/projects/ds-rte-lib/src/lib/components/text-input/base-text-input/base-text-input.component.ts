@@ -32,16 +32,13 @@ export class BaseTextInputComponent extends BaseInputComponent {
   constructor() {
     super();
 
-    effect(
-      () => {
-        if (this.visibilityIcons()) {
-          this.isHiddenInput.set(this.rightIconAction() === "visibilityOn");
-        } else {
-          this.isHiddenInput.set(false);
-        }
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      if (this.visibilityIcons()) {
+        this.isHiddenInput.set(this.rightIconAction() === "visibilityOn");
+      } else {
+        this.isHiddenInput.set(false);
+      }
+    });
   }
 
   protected override computeInputType(): "text" | "password" {

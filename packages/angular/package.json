@@ -19,11 +19,11 @@
     "generate-icons": "mkdir -p projects/ds-rte-lib/src/lib/assets/icons && cp -R ../core/assets/icons projects/ds-rte-lib/src/lib/assets && node ./projects/ds-rte-lib/generateIconMap.js"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^18.2.14",
-    "@angular/cli": "^18.2.21",
-    "@angular/compiler-cli": "^18.2.14",
-    "@angular/forms": "^18.2.14",
-    "@angular/platform-browser-dynamic": "^18.2.14",
+    "@angular-devkit/build-angular": "^19.2.25",
+    "@angular/cli": "^19.2.27",
+    "@angular/compiler-cli": "^19.2.25",
+    "@angular/forms": "^19.2.25",
+    "@angular/platform-browser-dynamic": "^19.2.25",
     "@babel/core": "^7.27.4",
     "@babel/plugin-proposal-decorators": "^7.28.0",
     "@babel/preset-env": "^7.27.2",
@@ -47,9 +47,9 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "ng-packagr": "^18.2.1",
+    "ng-packagr": "^19.2.2",
     "storybook": "~8.6.0",
-    "typescript": "~5.4.2"
+    "typescript": "~5.8.0"
   },
   "dependencies": {
     "@babel/preset-typescript": "^7.27.1"
