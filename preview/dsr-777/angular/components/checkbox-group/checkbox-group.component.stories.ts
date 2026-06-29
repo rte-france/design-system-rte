@@ -114,3 +114,36 @@ export const Horizontal: Story = {
     direction: "horizontal",
   },
 };
+
+export const VerticalLongLabel: Story = {
+  args: {
+    ...Default.args,
+    direction: "vertical",
+    items: [
+      "Option 1 with a very long label that should wrap to the next line",
+      "Option 2 with a very long label that should wrap to the next line",
+      "Option 3 with a very long label that should wrap to the next line",
+    ],
+  },
+
+  render: (args) => ({
+    props: args,
+    template: `
+    <div style="width: 300px;">
+      <rte-checkbox-group
+        [items]="items"
+        [direction]="direction"
+        [showItemsLabel]="showItemsLabel"
+        [groupTitle]="groupTitle"
+        [showGroupTitle]="showGroupTitle"
+        [groupHelpText]="groupHelpText"
+        [showHelpText]="showHelpText"
+        [errorMessage]="errorMessage"
+        [error]="error"
+        [disabled]="disabled"
+        [readOnly]="readOnly">
+      </rte-checkbox-group>
+    </div>
+    `,
+  }),
+};
