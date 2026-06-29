@@ -100,12 +100,15 @@
         background-color: var(--background-disabled);
       }
 
-      &:disabled {
-        resize: none;
+      &:read-only {
+        border-color: var(--border-tertiary);
+        color: var(--content-secondary);
       }
 
-      &:read-only {
-        color: var(--content-secondary);
+      &:disabled {
+        border-color: var(--border-disabled);
+        resize: none;
+        color: var(--content-disabled);
       }
     }
 

@@ -98,7 +98,11 @@ export const Default: Story = {
     options: defaultOptions,
   },
   render: (args) => ({
-    props: args,
+    props: {
+      ...args,
+      handleClickLeftButton: () => console.log("Left button clicked"),
+      handleClickRightButton: () => console.log("Right button clicked"),
+    },
     template: `
       <rte-split-button
         label="${args.label}"
@@ -110,6 +114,8 @@ export const Default: Story = {
         [disabled]="${args.disabled}"
         [icon]="icon"
         [options]="options"
+        (clickLeftButton)="handleClickLeftButton()"
+        (clickRightButton)="handleClickRightButton()"
       />
         
       

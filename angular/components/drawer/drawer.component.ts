@@ -223,6 +223,12 @@ export class DrawerComponent implements OnDestroy {
     this.clickSecondaryButton.emit();
   }
 
+  handleClickBackdrop(): void {
+    if (this.closeOnOverlayClick()) {
+      this.onClose();
+    }
+  }
+
   ngOnDestroy(): void {
     this.resizeObserver?.disconnect();
     if (this.focusTrapActive) {

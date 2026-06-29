@@ -1,5 +1,6 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component, computed, input, signal, OnInit, OnDestroy } from "@angular/core";
+import { ChangeDetectionStrategy, Component, computed, input, signal, OnInit, OnDestroy, output } from "@angular/core";
+import { ENTER_KEY, ESCAPE_KEY } from "@design-system-rte/core";
 import { BadgeContent, BadgeSize, BadgeType } from "@design-system-rte/core/components/badge/badge.interface";
 import { shouldDisplayBadge } from "@design-system-rte/core/components/badge/badge.utils";
 import { Alignment, Position } from "@design-system-rte/core/components/common/common-types";
@@ -48,6 +49,9 @@ export class SplitButtonComponent implements OnInit, OnDestroy {
   readonly splitButtonLeftIconSize = computed(() => splitButtonLeftIconSize[this.size()]);
   readonly splitButtonRightIconSize = computed(() => splitButtonRightIconSize[this.size()]);
 
+  readonly clickLeftButton = output<void>();
+  readonly clickRightButton = output<void>();
+
   readonly isOpen = signal(false);
 
   readonly internalPosition = computed(() => {
@@ -85,19 +89,30 @@ export class SplitButtonComponent implements OnInit, OnDestroy {
   }
 
   handleKeyDownOnRightButton(event: KeyboardEvent): void {
-    this.handleKeyDown(event, ARROW_DOWN_KEY, () => this.isOpen.set(true));
-    this.handleKeyDown(event, SPACE_KEY, () => this.isOpen.set(true));
-    this.handleKeyDown(event, "Escape", () => this.isOpen.set(false));
+    if ([ARROW_DOWN_KEY, SPACE_KEY, ENTER_KEY].includes(event.key)) {
+      event.preventDefault();
+      this.handleClickRightButton();
+    }
   }
 
   handleKeyDownOnMenu(event: KeyboardEvent): void {
-    this.handleKeyDown(event, "Escape", () => this.isOpen.set(false));
+    if ([ARROW_DOWN_KEY, SPACE_KEY, ENTER_KEY].includes(event.key)) {
+      event.preventDefault();
+      this.handleClickRightButton();
+      return;
+    }
+    if (event.key === ESCAPE_KEY) {
+      event.preventDefault();
+      this.isOpen.set(false);
+    }
   }
 
-  private handleKeyDown(event: KeyboardEvent, key: string, callback: () => void): void {
-    if (event.key === key) {
-      event.preventDefault();
-      callback();
-    }
+  handleClickLeftButton(): void {
+    this.clickLeftButton.emit();
+  }
+
+  handleClickRightButton(): void {
+    this.isOpen.set(!this.isOpen());
+    this.clickRightButton.emit();
   }
 }

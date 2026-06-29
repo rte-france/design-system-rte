@@ -30,7 +30,8 @@
   border-bottom: $width-m solid var(--border-info);
   color: var(--content-primary);
   background-color: var(--background-default);
-  z-index: $level-1;
+  z-index: $level-2;
+  pointer-events: auto;
 
   position: fixed;
   top: auto;

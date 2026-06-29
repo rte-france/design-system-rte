@@ -186,3 +186,40 @@ export const InitialValueSelected: Story = {
     expect(radioButton).toBeChecked();
   },
 };
+
+export const VerticalLongLabel: Story = {
+  args: {
+    ...Default.args,
+    groupName: "vertical-long-label-radio-group",
+    direction: "vertical",
+    items: [
+      { label: "Option 1 with a very long label that should wrap to the next line", value: "option1" },
+      { label: "Option 2 with a very long label that should wrap to the next line", value: "option2" },
+      { label: "Option 3 with a very long label that should wrap to the next line", value: "option3" },
+    ],
+  },
+
+  render: (args) => ({
+    props: args,
+    template: `
+    <div style="width: 300px;">
+      <rte-radio-button-group
+        [groupName]="groupName"
+        [items]="items"
+        [direction]="direction"
+        [showItemsLabel]="showItemsLabel"
+        [groupTitle]="groupTitle"
+        [showGroupTitle]="showGroupTitle"
+        [groupHelpText]="groupHelpText"
+        [showHelpText]="showHelpText"
+        [errorMessage]="errorMessage"
+        [error]="error"
+        [disabled]="disabled"
+        [readOnly]="readOnly"
+        [selectedValue]="selectedValue"
+        (changeEvent)="changeEvent($event)"
+      />
+    </div>
+    `,
+  }),
+};
