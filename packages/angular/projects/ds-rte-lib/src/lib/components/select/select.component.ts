@@ -128,39 +128,19 @@ export class SelectComponent implements AfterViewInit {
     return "bottom";
   });
 
-  readonly optionsFormatted = computed<DropdownItemConfig[]>(() => {
-    if (this.withSelectAll()) {
-      const withSelectAllOption = [
-        {
-          id: "select-all",
-          label: "Sélectionner tout",
-          selected: this.areAllOptionsSelected(),
-          hasCheckbox: true,
-          hasSeparator: true,
-          isIndeterminate:
-            this.options().some((option) => this.isSelected(option.value)) && !this.areAllOptionsSelected(),
-        },
-        ...this.options().map((option) => this.mapOptionToDropdownItemConfig(option)),
-      ];
-      return withSelectAllOption;
-    } else {
-      return this.options().map((option) => ({ ...this.mapOptionToDropdownItemConfig(option), hasSeparator: false }));
-    }
-  });
+  readonly optionsFormatted = signal<DropdownItemConfig[]>(
+    this.options().map(({ value, label }) => ({
+      id: value,
+      label: label,
+      selected: this.isSelected(value),
+    })),
+  );
 
   readonly internalValue = signal(this.value());
 
-  readonly requirementIndicatorValue = computed(() =>
-    this.required()
-      ? this.showLabelRequirement()
-        ? REQUIREMENT_INDICATOR_VALUE.required
-        : REQUIREMENT_INDICATOR_VALUE.requiredIcon
-      : REQUIREMENT_INDICATOR_VALUE.optional,
-  );
-
   readonly valueChange = output<string | string[]>();
 
-  readonly currentDisplayedOption = computed(() =>
+  readonly currentDisplayedOption = signal(
     getSelectedOption(this.optionToDisplay() || "first-selected", this.options(), this.internalValue()!),
   );
 
@@ -200,6 +180,10 @@ export class SelectComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.internalValue.set(this.value());
+    this.currentDisplayedOption.set(
+      getSelectedOption(this.optionToDisplay() || "first-selected", this.options(), this.internalValue()!),
+    );
+    this.regenerateOptionsFormatted();
     this.computeShouldDisplayClearButton();
   }
 
@@ -245,7 +229,11 @@ export class SelectComponent implements AfterViewInit {
         if (valueIndex > -1) {
           currentValue.splice(valueIndex, 1);
           this.internalValue.set(currentValue);
+          this.regenerateOptionsFormatted();
           this.valueChange.emit(currentValue);
+          this.currentDisplayedOption.set(
+            getSelectedOption(this.optionToDisplay() || "first-selected", this.options(), this.internalValue()!),
+          );
           this.computeShouldDisplayClearButton();
         }
       }
@@ -276,6 +264,11 @@ export class SelectComponent implements AfterViewInit {
       this.isActive.set(!this.isActive());
       this.valueChange.emit(value);
     }
+    this.regenerateOptionsFormatted();
+
+    this.currentDisplayedOption.set(
+      getSelectedOption(this.optionToDisplay() || "first-selected", this.options(), this.internalValue()!),
+    );
     this.computeShouldDisplayClearButton();
     this.selectRef()?.nativeElement.focus();
   }
@@ -298,15 +291,41 @@ export class SelectComponent implements AfterViewInit {
   }
 
   private clearSelection() {
-    if (!this.multiple()) {
-      this.internalValue.set("");
-    } else {
+    if (this.multiple()) {
       this.internalValue.set([]);
+      this.valueChange.emit([]);
+    } else {
+      this.internalValue.set("");
+      this.valueChange.emit("");
     }
     this.isActive.set(false);
-    this.valueChange.emit("select-all");
     this.selectRef()?.nativeElement.dispatchEvent(new Event("clearContent"));
+    this.regenerateOptionsFormatted();
+    this.currentDisplayedOption.set(
+      getSelectedOption(this.optionToDisplay() || "first-selected", this.options(), this.internalValue()!),
+    );
     this.computeShouldDisplayClearButton();
+  }
+
+  private regenerateOptionsFormatted() {
+    if (this.withSelectAll()) {
+      this.optionsFormatted.set([
+        {
+          id: "select-all",
+          label: "Sélectionner tout",
+          selected: this.areAllOptionsSelected(),
+          hasCheckbox: true,
+          hasSeparator: true,
+          isIndeterminate:
+            this.options().some((option) => this.isSelected(option.value)) && !this.areAllOptionsSelected(),
+        },
+        ...this.options().map((option) => this.mapOptionToDropdownItemConfig(option)),
+      ]);
+    } else {
+      this.optionsFormatted.set(
+        this.options().map((option) => ({ ...this.mapOptionToDropdownItemConfig(option), hasSeparator: false })),
+      );
+    }
   }
 
   private isSelected(value: string): boolean {

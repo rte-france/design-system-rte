@@ -138,9 +138,11 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
       e.stopPropagation();
       if (multiple) {
         setInternalValue([]);
+        onChange?.([]);
         onClear?.();
       } else {
-        handleOnChange("");
+        setInternalValue("");
+        onChange?.("");
         onClear?.();
       }
       selectRef.current?.focus();
