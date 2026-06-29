@@ -1,6 +1,6 @@
 # @design-system-rte/angular
 
-## 2.0.0
+## 1.11.0
 
 ### Minor Changes
 
@@ -20,7 +20,7 @@
   - (Checkbox) prevent checkbox case from shrinking with narrow container and label overflow
 
 - a8cceb9: ## Changes
-  - (Split-button) angular - add event output on clicking on the buttons
+  - (Split-button) add event output on clicking on the buttons
 
 - d69c832: ## Changes
   - harmonise disabled state appearance on textinput, textarea and select
