@@ -127,13 +127,25 @@ export class SelectComponent implements AfterViewInit {
     return "bottom";
   });
 
-  readonly optionsFormatted = signal<DropdownItemConfig[]>(
-    this.options().map(({ value, label }) => ({
-      id: value,
-      label: label,
-      selected: this.isSelected(value),
-    })),
-  );
+  readonly optionsFormatted = computed<DropdownItemConfig[]>(() => {
+    if (this.withSelectAll()) {
+      const withSelectAllOption = [
+        {
+          id: "select-all",
+          label: "Sélectionner tout",
+          selected: this.areAllOptionsSelected(),
+          hasCheckbox: true,
+          hasSeparator: true,
+          isIndeterminate:
+            this.options().some((option) => this.isSelected(option.value)) && !this.areAllOptionsSelected(),
+        },
+        ...this.options().map((option) => this.mapOptionToDropdownItemConfig(option)),
+      ];
+      return withSelectAllOption;
+    } else {
+      return this.options().map((option) => ({ ...this.mapOptionToDropdownItemConfig(option), hasSeparator: false }));
+    }
+  });
 
   readonly internalValue = signal(this.value());
 
@@ -147,7 +159,7 @@ export class SelectComponent implements AfterViewInit {
 
   readonly valueChange = output<string | string[]>();
 
-  readonly currentDisplayedOption = signal(
+  readonly currentDisplayedOption = computed(() =>
     getSelectedOption(this.optionToDisplay() || "first-selected", this.options(), this.internalValue()!),
   );
 
@@ -186,7 +198,7 @@ export class SelectComponent implements AfterViewInit {
   readonly iconSize = computed(() => (this.compactSpacing() ? IconSize["s"] : IconSize["m"]));
 
   ngAfterViewInit() {
-    this.regenerateOptionsFormatted();
+    this.internalValue.set(this.value());
     this.computeShouldDisplayClearButton();
   }
 
@@ -232,11 +244,7 @@ export class SelectComponent implements AfterViewInit {
         if (valueIndex > -1) {
           currentValue.splice(valueIndex, 1);
           this.internalValue.set(currentValue);
-          this.regenerateOptionsFormatted();
           this.valueChange.emit(currentValue);
-          this.currentDisplayedOption.set(
-            getSelectedOption(this.optionToDisplay() || "first-selected", this.options(), this.internalValue()!),
-          );
           this.computeShouldDisplayClearButton();
         }
       }
@@ -267,11 +275,6 @@ export class SelectComponent implements AfterViewInit {
       this.isActive.set(!this.isActive());
       this.valueChange.emit(value);
     }
-    this.regenerateOptionsFormatted();
-
-    this.currentDisplayedOption.set(
-      getSelectedOption(this.optionToDisplay() || "first-selected", this.options(), this.internalValue()!),
-    );
     this.computeShouldDisplayClearButton();
     this.selectRef()?.nativeElement.focus();
   }
@@ -302,32 +305,7 @@ export class SelectComponent implements AfterViewInit {
     this.isActive.set(false);
     this.valueChange.emit("select-all");
     this.selectRef()?.nativeElement.dispatchEvent(new Event("clearContent"));
-    this.regenerateOptionsFormatted();
-    this.currentDisplayedOption.set(
-      getSelectedOption(this.optionToDisplay() || "first-selected", this.options(), this.internalValue()!),
-    );
     this.computeShouldDisplayClearButton();
-  }
-
-  private regenerateOptionsFormatted() {
-    if (this.withSelectAll()) {
-      this.optionsFormatted.set([
-        {
-          id: "select-all",
-          label: "Sélectionner tout",
-          selected: this.areAllOptionsSelected(),
-          hasCheckbox: true,
-          hasSeparator: true,
-          isIndeterminate:
-            this.options().some((option) => this.isSelected(option.value)) && !this.areAllOptionsSelected(),
-        },
-        ...this.options().map((option) => this.mapOptionToDropdownItemConfig(option)),
-      ]);
-    } else {
-      this.optionsFormatted.set(
-        this.options().map((option) => ({ ...this.mapOptionToDropdownItemConfig(option), hasSeparator: false })),
-      );
-    }
   }
 
   private isSelected(value: string): boolean {

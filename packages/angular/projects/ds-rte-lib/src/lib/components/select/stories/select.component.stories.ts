@@ -82,7 +82,7 @@ export const Default: Story = {
     assistiveTextLink: "https://example.com",
     assistiveTextAppearance: "description",
     required: false,
-    value: "",
+    value: "option-2",
     showLabelRequirement: false,
     valueChange: (value: string | string[]) => {
       mockFn(value);
@@ -343,14 +343,19 @@ export const Multiple: Story = {
   args: {
     ...Default.args,
     multiple: true,
-    value: [],
+    value: ["option-1", "option-2"],
     withSelectAll: true,
   },
   render: (args) => {
     const options = args.options;
 
-    const values = signal<string[] | undefined>(undefined);
-    const displayedValues = signal("");
+    const displayedValues = signal(
+      args.value
+        ? Array.isArray(args.value)
+          ? args.value.map((val) => options.find((option) => option.value === val)?.label).join(", ")
+          : options.find((option) => option.value === args.value)?.label || ""
+        : "",
+    );
 
     function handleChange(value: string[]) {
       displayedValues.set(
@@ -367,7 +372,6 @@ export const Multiple: Story = {
       props: {
         ...args,
         handleChange,
-        values,
         displayedValues,
       },
       template: `
@@ -407,6 +411,7 @@ export const Multiple: Story = {
 export const KeyboardInteraction: Story = {
   args: {
     ...Default.args,
+    value: "",
     showResetButton: true,
   },
   render: (args) => ({
