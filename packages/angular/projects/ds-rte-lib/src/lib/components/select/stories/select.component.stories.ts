@@ -84,7 +84,7 @@ export const Default: Story = {
     required: false,
     value: "",
     showLabelRequirement: false,
-    valueChange: (value: string) => {
+    valueChange: (value: string | string[]) => {
       mockFn(value);
     },
     options: [
@@ -138,7 +138,7 @@ export const Default: Story = {
         [value]="value"
         [disabled]="disabled"
         [options]="options"
-        (change)="change($event)"
+        (valueChange)="valueChange($event)"
         [isError]="isError"
         [showResetButton]="showResetButton"
         [showAssistiveIcon]="showAssistiveIcon"
@@ -175,8 +175,8 @@ export const Error: Story = {
         [value]="value"
         [disabled]="disabled"
         [options]="options"
-        isError="true"
-        (change)="change($event)"
+        [isError]="isError"
+        (valueChange)="valueChange($event)"
         [showResetButton]="showResetButton"
         [showAssistiveIcon]="showAssistiveIcon"
         [width]="width"
@@ -211,7 +211,7 @@ export const ReadOnly: Story = {
         [value]="value"
         [disabled]="disabled"
         [options]="options"
-        (change)="change($event)"
+        (valueChange)="valueChange($event)"
         [showResetButton]="showResetButton"
         [showAssistiveIcon]="showAssistiveIcon"
         [width]="width"
@@ -252,7 +252,7 @@ export const Disabled: Story = {
         [value]="value"
         [disabled]="disabled"
         [options]="options"
-        (change)="change($event)"
+        (valueChange)="valueChange($event)"
         [showResetButton]="showResetButton"
         [showAssistiveIcon]="showAssistiveIcon"
         [width]="width"
@@ -293,7 +293,7 @@ export const CompactSpacing: Story = {
         [value]="value"
         [disabled]="disabled"
         [options]="options"
-        (change)="change($event)"
+        (valueChange)="valueChange($event)"
         [showResetButton]="showResetButton"
         [showAssistiveIcon]="showAssistiveIcon"
         [width]="width"
@@ -327,7 +327,7 @@ export const VisiblySelected: Story = {
         [value]="value"
         [disabled]="disabled"
         [options]="options"
-        (change)="change($event)"
+        (valueChange)="valueChange($event)"
         [showResetButton]="showResetButton"
         [showAssistiveIcon]="showAssistiveIcon"
         [width]="width"
@@ -352,41 +352,15 @@ export const Multiple: Story = {
     const values = signal<string[] | undefined>(undefined);
     const displayedValues = signal("");
 
-    function handleChange(value: string) {
-      const valuesArray = values();
-      if (value === "select-all") {
-        if (valuesArray) {
-          if (valuesArray.length === options.length) {
-            values.set([]);
-            displayedValues.set("");
-          } else {
-            values.set(options.map((option) => option.value));
-            displayedValues.set(options.map((option) => option.label).join(", "));
-          }
-        } else {
-          values.set(options.map((option) => option.value));
-          displayedValues.set(options.map((option) => option.label).join(", "));
-        }
-      } else {
-        if (valuesArray) {
-          if (valuesArray.includes(value)) {
-            valuesArray.splice(valuesArray.indexOf(value), 1);
-          } else {
-            valuesArray.push(value);
-          }
-          values.set(valuesArray);
-          displayedValues.set(
-            options
-              .filter((option) => values()?.includes(option.value))
+    function handleChange(value: string[]) {
+      displayedValues.set(
+        value
+          ? options
+              .filter((option) => value.includes(option.value))
               .map((option) => option.label)
-              .join(", "),
-          );
-        } else {
-          values.set([value]);
-          const selectedOption = options.find((option) => option.value === value);
-          displayedValues.set(selectedOption ? selectedOption.label : "");
-        }
-      }
+              .join(", ")
+          : "",
+      );
     }
 
     return {
@@ -452,7 +426,7 @@ export const KeyboardInteraction: Story = {
         [value]="value"
         [disabled]="disabled"
         [options]="options"
-        (change)="change($event)"
+        (valueChange)="valueChange($event)"
         [showResetButton]="showResetButton"
         [showAssistiveIcon]="showAssistiveIcon"
         [width]="width"
