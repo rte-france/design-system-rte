@@ -1,5 +1,43 @@
 # @design-system-rte/angular
 
+## 2.0.0
+
+### Minor Changes
+
+- 4854f8d: ## Changes
+  - (Icon) add circuit_amperemetre_filled, circuit_amperemetre_outlined, circuit_bulb_filled, circuit_bulb_outlined, circuit_capacitor, circuit_cell, circuit_ground, circuit_inductor, circuit_motor_filled, circuit_motor_outlined, circuit_voltmetre_filled, circuit_voltmetre_outlined, journal_filled, journal_outlined, pylon, version_filled, version_outlined
+
+- b44a590: ## Changes
+  - (Select) add variant visibly-selected + add compactSpacing props
+
+### Patch Changes
+
+- 6b5fb35: ## Changes
+  - (Drawer) stretch content to component width when fixedHeader is disabled and width takes a no-default value
+
+- 69708cb: ## Changes
+  - (Radio Button) prevent radio button marker from shrinking with narrow container and label overflow
+  - (Checkbox) prevent checkbox case from shrinking with narrow container and label overflow
+
+- a8cceb9: ## Changes
+  - (Split-button) angular - add event output on clicking on the buttons
+
+- d69c832: ## Changes
+  - harmonise disabled state appearance on textinput, textarea and select
+
+- b0ed7db: ## Changes
+  - (Toast) add pointer event auto
+  - prevent scrolling on focus
+  - (Drawer) simplify closing behavior on clicking on the backdrop
+  - (Overlay) remove z-index
+  - (Segmented-control) react - add relative position to prevent misplacement of selected indicator on resize or dom changes
+  - update z-index values across components and introduce get overlay layer utils for overlay management
+
+- Updated dependencies [4854f8d]
+- Updated dependencies [b44a590]
+- Updated dependencies [b0ed7db]
+  - @design-system-rte/core@1.11.0
+
 ## 1.10.0
 
 ### Minor Changes
