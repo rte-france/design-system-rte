@@ -2,7 +2,7 @@
 
 # Angular
 
-## 2.0.0
+## 1.11.0
 
 ### Icon
 
@@ -39,7 +39,7 @@
 
 #### Patch Changes
 
-- angular - add event output on clicking on the buttons
+- add event output on clicking on the buttons
 
 ### Toast
 
