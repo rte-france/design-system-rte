@@ -3,4 +3,4 @@ export declare const DropdownContextProvider: ({ dropdownId, closeRoot, autoClos
     autoClose?: boolean;
     closeRoot: () => void;
     children: React.ReactNode;
-}) => import("react/jsx-runtime").JSX.Element;
+}) => import("react").JSX.Element;
