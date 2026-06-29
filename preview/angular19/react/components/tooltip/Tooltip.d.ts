@@ -4,5 +4,5 @@ interface TooltipProps extends CoreTooltipProps, Omit<React.HTMLAttributes<HTMLD
     triggerStyles?: React.CSSProperties;
     shouldFocusTrigger?: boolean;
 }
-declare const Tooltip: import('../../../../../node_modules/react').ForwardRefExoticComponent<TooltipProps & import('../../../../../node_modules/react').RefAttributes<HTMLDivElement>>;
+declare const Tooltip: import('../../../node_modules/react').ForwardRefExoticComponent<TooltipProps & import('../../../node_modules/react').RefAttributes<HTMLDivElement>>;
 export default Tooltip;

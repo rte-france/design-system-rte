@@ -112,19 +112,16 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
       });
     });
 
-    effect(
-      () => {
-        const open = this.effectiveOpen();
-        untracked(() => {
-          if (open) {
-            this.runOpenTransition();
-          } else {
-            this.runCloseTransition();
-          }
-        });
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      const open = this.effectiveOpen();
+      untracked(() => {
+        if (open) {
+          this.runOpenTransition();
+        } else {
+          this.runCloseTransition();
+        }
+      });
+    });
   }
 
   open(): void {

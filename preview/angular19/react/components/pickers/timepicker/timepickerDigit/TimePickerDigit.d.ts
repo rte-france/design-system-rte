@@ -8,5 +8,5 @@ export type TimePickerDigitProps = {
     withSeparator?: boolean;
     readOnly?: boolean;
 };
-declare const TimePickerDigit: import('../../../../../../../node_modules/react').ForwardRefExoticComponent<TimePickerDigitProps & import('../../../../../../../node_modules/react').RefAttributes<HTMLInputElement>>;
+declare const TimePickerDigit: import('../../../../../node_modules/react').ForwardRefExoticComponent<TimePickerDigitProps & import('../../../../../node_modules/react').RefAttributes<HTMLInputElement>>;
 export default TimePickerDigit;

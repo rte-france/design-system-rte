@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_design_system_rte_angular_builder=self.webpackChunk_design_system_rte_angular_builder||[]).push([[48647],{"./projects/ds-rte-lib/src/lib/assets/icons/export_xls_outlined.svg"(module,__unused_webpack_exports,__webpack_require__){module.exports=__webpack_require__.p+"static/media/export_xls_outlined.58d94af8.svg"}}]);

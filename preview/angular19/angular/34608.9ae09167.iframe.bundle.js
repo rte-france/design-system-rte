@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_design_system_rte_angular_builder=self.webpackChunk_design_system_rte_angular_builder||[]).push([[34608],{"./projects/ds-rte-lib/src/lib/assets/icons/energy_savings_leaf_filled.svg"(module,__unused_webpack_exports,__webpack_require__){module.exports=__webpack_require__.p+"static/media/energy_savings_leaf_filled.76be0834.svg"}}]);

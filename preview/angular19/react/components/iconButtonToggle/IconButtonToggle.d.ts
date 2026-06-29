@@ -5,5 +5,5 @@ interface IconButtonToggleProps extends Omit<CoreIconButtonToggleProps, "icon">,
     onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
     defaultSelected?: boolean;
 }
-declare const IconButtonToggle: import('../../../../../node_modules/react').ForwardRefExoticComponent<IconButtonToggleProps & import('../../../../../node_modules/react').RefAttributes<HTMLButtonElement>>;
+declare const IconButtonToggle: import('../../../node_modules/react').ForwardRefExoticComponent<IconButtonToggleProps & import('../../../node_modules/react').RefAttributes<HTMLButtonElement>>;
 export default IconButtonToggle;

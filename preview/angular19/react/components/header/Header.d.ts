@@ -9,5 +9,5 @@ interface HeaderProps extends CoreHeaderProps, Omit<React.HTMLAttributes<HTMLEle
     mobileMenuIconProps?: HeaderIconButtonConfig<RegularIconIdKey | TogglableIconIdKey>;
     searchbarProps?: React.ComponentProps<typeof Searchbar>;
 }
-declare const Header: import('../../../../../node_modules/react').ForwardRefExoticComponent<HeaderProps & import('../../../../../node_modules/react').RefAttributes<HTMLElement>>;
+declare const Header: import('../../../node_modules/react').ForwardRefExoticComponent<HeaderProps & import('../../../node_modules/react').RefAttributes<HTMLElement>>;
 export default Header;

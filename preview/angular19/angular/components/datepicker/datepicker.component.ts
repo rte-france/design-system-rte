@@ -141,68 +141,55 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
   private resizeObserver: ResizeObserver | null = null;
 
   constructor() {
-    effect(
-      () => {
-        this.openedChange.emit(this.isOpen());
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      this.openedChange.emit(this.isOpen());
+    });
 
-    effect(
-      () => {
-        const open = this.isOpen();
-        if (open && !this.wasDatepickerOpen) {
-          this.applyStateWhenMenuOpens();
-        }
-        this.wasDatepickerOpen = open;
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      const open = this.isOpen();
+      if (open && !this.wasDatepickerOpen) {
+        this.applyStateWhenMenuOpens();
+      }
+      this.wasDatepickerOpen = open;
+    });
 
-    effect(
-      () => {
-        const open = this.isOpen();
-        const calendarType = this.calendarType();
+    effect(() => {
+      const open = this.isOpen();
+      const calendarType = this.calendarType();
 
-        if (!open) {
-          this.focusTrapService.deactivate();
+      if (!open) {
+        this.focusTrapService.deactivate();
+        return;
+      }
+      waitForNextFrame(() => {
+        const overlayRoot = document.getElementById("overlay-root");
+        const menuHost = overlayRoot?.querySelector("rte-datepicker-menu") as HTMLElement | null;
+        if (!menuHost) {
           return;
         }
-        waitForNextFrame(() => {
-          const overlayRoot = document.getElementById("overlay-root");
-          const menuHost = overlayRoot?.querySelector("rte-datepicker-menu") as HTMLElement | null;
-          if (!menuHost) {
-            return;
-          }
 
-          this.focusTrapService.deactivate();
-          const orderedFocusables = this.datepickerMenuService.collectDatepickerMenuTabOrder(menuHost, calendarType);
-          const initialFocusIndex = this.datepickerMenuService.getInitialFocusIndexForMenu(
-            menuHost,
-            calendarType,
-            orderedFocusables,
-          );
-          this.focusTrapService.activate(menuHost, {
-            getOrderedFocusables: () =>
-              this.datepickerMenuService.collectDatepickerMenuTabOrder(menuHost, calendarType),
-            initialFocusIndex,
-          });
+        this.focusTrapService.deactivate();
+        const orderedFocusables = this.datepickerMenuService.collectDatepickerMenuTabOrder(menuHost, calendarType);
+        const initialFocusIndex = this.datepickerMenuService.getInitialFocusIndexForMenu(
+          menuHost,
+          calendarType,
+          orderedFocusables,
+        );
+        this.focusTrapService.activate(menuHost, {
+          getOrderedFocusables: () => this.datepickerMenuService.collectDatepickerMenuTabOrder(menuHost, calendarType),
+          initialFocusIndex,
         });
-      },
-      { allowSignalWrites: true },
-    );
+      });
+    });
 
-    effect(
-      () => {
-        if (!this.isOpen()) {
-          return;
-        }
-        waitForNextFrame(() => {
-          this.syncDropdownWidthFromInputBar();
-        });
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      if (!this.isOpen()) {
+        return;
+      }
+      waitForNextFrame(() => {
+        this.syncDropdownWidthFromInputBar();
+      });
+    });
   }
 
   ngAfterViewInit(): void {

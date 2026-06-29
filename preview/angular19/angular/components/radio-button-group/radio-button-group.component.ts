@@ -32,12 +32,7 @@ export class RadioButtonGroupComponent {
   readonly isDisplayed = computed(() => !(this.disabled() && this.error()));
 
   constructor() {
-    effect(
-      () => {
-        this.internalSelectedValue.set(this.selectedValue());
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => this.internalSelectedValue.set(this.selectedValue()));
   }
 
   onChange(value: string) {

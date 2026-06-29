@@ -1,5 +1,5 @@
 import { BadgeProps } from '../../../../../core/components/badge/badge.interface';
-import { ReactNode } from '../../../../../../node_modules/react';
+import { ReactNode } from '../../../../node_modules/react';
 interface NavLabelProps {
     icon?: string;
     hasLeadingIcon?: boolean;

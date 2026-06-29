@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_design_system_rte_angular_builder=self.webpackChunk_design_system_rte_angular_builder||[]).push([[97546],{"./projects/ds-rte-lib/src/lib/assets/icons/text_snippet_outlined.svg"(module,__unused_webpack_exports,__webpack_require__){module.exports=__webpack_require__.p+"static/media/text_snippet_outlined.1e549c7f.svg"}}]);

@@ -142,12 +142,9 @@ class DaterangepickerStoryHostComponent {
   readonly range = signal<DateRangeBound>([null, null]);
 
   constructor() {
-    effect(
-      () => {
-        this.range.set(this.initialRange());
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      this.range.set(this.initialRange());
+    });
   }
 
   onRangeChange(value: DateRangePickerValue): void {

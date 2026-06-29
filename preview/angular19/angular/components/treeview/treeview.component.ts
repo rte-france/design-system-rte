@@ -70,38 +70,24 @@ export class TreeviewComponent implements AfterViewInit {
   readonly hasNestedItems = computed(() => hasNestedItemsInTree(this.items()));
 
   constructor() {
-    effect(
-      () => {
-        const id = this.selectedId();
-        this.selectionService.select(id);
-        this.selectionChange.emit({ id, selected: true });
-      },
-      { allowSignalWrites: true },
-    );
-    effect(
-      () => {
-        const pathString = this.selectedPath();
-        const currentItems = this.items();
-        if (pathString != null && pathString !== "" && currentItems.length > 0) {
-          this.selectionService.selectByNodePath(pathString, currentItems);
-        }
-      },
-      { allowSignalWrites: true },
-    );
-    effect(
-      () => {
-        const ids = this.checkService.checkedIds();
-        this.checkedIdsChange.emit(ids);
-        this.cdr.markForCheck();
-      },
-      { allowSignalWrites: true },
-    );
-    effect(
-      () => {
-        this.checkService.setRootItems(this.items());
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      const id = this.selectedId();
+      this.selectionService.select(id);
+      this.selectionChange.emit({ id, selected: true });
+    });
+    effect(() => {
+      const pathString = this.selectedPath();
+      const currentItems = this.items();
+      if (pathString != null && pathString !== "" && currentItems.length > 0) {
+        this.selectionService.selectByNodePath(pathString, currentItems);
+      }
+    });
+    effect(() => {
+      const ids = this.checkService.checkedIds();
+      this.checkedIdsChange.emit(ids);
+      this.cdr.markForCheck();
+    });
+    effect(() => this.checkService.setRootItems(this.items()));
   }
 
   private setupKeyboardListeners(): void {
