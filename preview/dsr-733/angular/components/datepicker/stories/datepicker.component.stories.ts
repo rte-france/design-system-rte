@@ -65,7 +65,6 @@ const datepickerStoryFieldBindings = `
           [disabled]="disabled"
           [readOnly]="readOnly"
           [error]="error"
-          [isRequiredOptional]="isRequiredOptional"
           [required]="required"
           [showLabelRequirement]="showLabelRequirement"
           [hasAssistiveText]="hasAssistiveText"
