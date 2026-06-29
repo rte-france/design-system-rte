@@ -11,20 +11,29 @@
     align-self: start;
 
     .rte-select-header {
-      display: flex;
-      flex-direction: column;
+      &[data-show-label-requirement="true"] {
+        align-items: baseline;
+      }
     }
 
     .rte-select-label {
       height: 32px;
-      padding: 0 $positive-spacing_100;
+    }
+  }
+
+  .rte-select-header {
+    display: flex;
+    align-items: flex-start;
+    padding: $positive-spacing_025 $positive-spacing_100;
+
+    &[data-show-label-requirement="true"] {
+      align-items: center;
     }
   }
 
   .rte-select-label {
     @include typography-text-m;
     display: flex;
-    padding: $positive-spacing_025 $positive-spacing_100;
     color: var(--content-secondary);
     max-width: 300px;
     align-items: center;

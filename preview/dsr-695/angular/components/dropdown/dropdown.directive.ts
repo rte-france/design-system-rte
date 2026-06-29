@@ -300,11 +300,13 @@ export class DropdownDirective implements AfterContentInit {
   private assignInputs(): void {
     if (this.dropdownMenuRef) {
       const items = this.menu()?.items() ?? [];
+      const maxHeight = this.menu()?.maxHeight() ?? null;
       this.dropdownMenuRef.setInput(
         "isInParentWithOverlay",
         isElementInParentWithOverlay(this.trigger()?.elementRef.nativeElement),
       );
       this.dropdownMenuRef.setInput("items", items);
+      this.dropdownMenuRef.setInput("maxHeight", maxHeight);
       this.dropdownMenuRef.setInput("bodyTemplate", this.menu()?.bodyDirective()?.templateRef);
       this.dropdownMenuRef.setInput("headerTemplate", this.menu()?.headerDirective()?.templateRef);
       this.dropdownMenuRef.setInput("footerTemplate", this.menu()?.footerDirective()?.templateRef);

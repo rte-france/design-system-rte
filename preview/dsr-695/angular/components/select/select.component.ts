@@ -14,7 +14,6 @@ import {
 } from "@angular/core";
 import { NG_VALUE_ACCESSOR } from "@angular/forms";
 import { IconSize } from "@design-system-rte/core";
-import { REQUIREMENT_INDICATOR_VALUE } from "@design-system-rte/core/components/required-indicator/required-indicator.constant";
 import {
   SELECT_DROPDOWN_OFFSET,
   THRESHOLD_BOTTOM_POSITION,
@@ -30,6 +29,7 @@ import { DropdownModule } from "../dropdown";
 import { DropdownItemConfig } from "../dropdown/dropdown-item/dropdown-item.component";
 import { IconComponent } from "../icon/icon.component";
 import { IconButtonComponent } from "../icon-button/icon-button.component";
+import { RequiredIndicatorComponent } from "../input/required-indicator/required-indicator.component";
 
 import { SelectFooterDirective } from "./select-footer.directive";
 import { SelectHeaderDirective } from "./select-header.directive";
@@ -44,6 +44,7 @@ import { SelectHeaderDirective } from "./select-header.directive";
     AssistiveTextComponent,
     ChipComponent,
     BadgeComponent,
+    RequiredIndicatorComponent,
   ],
   standalone: true,
   templateUrl: "./select.component.html",
@@ -83,6 +84,7 @@ export class SelectComponent implements AfterViewInit {
   readonly compactSpacing = input<boolean>(false);
   readonly placeholder = input<string>();
   readonly variant = input<SelectProps["variant"]>("default");
+  readonly maxHeight = input<number>(200);
 
   readonly selectRef = viewChild<ElementRef<HTMLElement>>("selectRef");
   readonly buttonsContainerRef = viewChild<ElementRef<HTMLElement>>("buttonsContainerRef");
@@ -135,14 +137,6 @@ export class SelectComponent implements AfterViewInit {
   );
 
   readonly internalValue = signal(this.value());
-
-  readonly requirementIndicatorValue = computed(() =>
-    this.required()
-      ? this.showLabelRequirement()
-        ? REQUIREMENT_INDICATOR_VALUE.required
-        : REQUIREMENT_INDICATOR_VALUE.requiredIcon
-      : REQUIREMENT_INDICATOR_VALUE.optional,
-  );
 
   readonly valueChange = output<string | string[]>();
 

@@ -13,13 +13,19 @@ $daterangepicker-min-width: 320px;
 
 .rte-daterangepicker-header {
   width: 100%;
+  display: flex;
+  align-items: flex-start;
+  padding: $positive-spacing_025 $positive-spacing_100;
+
+  &[data-show-label-requirement='true'] {
+    align-items: center;
+  }
 }
 
 .rte-daterangepicker-label {
   @include typography-text-m;
 
   display: flex;
-  padding: $positive-spacing_025 $positive-spacing_100;
   color: var(--content-secondary);
   align-items: center;
   white-space: normal;

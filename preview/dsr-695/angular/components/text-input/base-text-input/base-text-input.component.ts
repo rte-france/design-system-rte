@@ -5,12 +5,20 @@ import { IconComponent } from "../../icon/icon.component";
 import { RegularIconIdKey, TogglableIconIdKey } from "../../icon/icon.service";
 import { IconButtonComponent } from "../../icon-button/icon-button.component";
 import { BaseInputComponent } from "../../input/base-input/base-input.component";
+import { RequiredIndicatorComponent } from "../../input/required-indicator/required-indicator.component";
 import { RteBaseInputControlDirective } from "../../input/rte-base-input-control.directive";
 import { LinkComponent } from "../../link/link.component";
 
 @Component({
   selector: "rte-base-text-input",
-  imports: [CommonModule, IconComponent, IconButtonComponent, LinkComponent, RteBaseInputControlDirective],
+  imports: [
+    CommonModule,
+    IconComponent,
+    IconButtonComponent,
+    LinkComponent,
+    RteBaseInputControlDirective,
+    RequiredIndicatorComponent,
+  ],
   standalone: true,
   templateUrl: "../../input/base-input/base-input.component.html",
   styleUrl: "../../input/base-input/base-input.component.scss",
