@@ -48,6 +48,10 @@ export declare const RegularIcons: {
     "check-indeterminate": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
     "check-small": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
     "checkbox-empty": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
+    "circuit-capacitor": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
+    "circuit-cell": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
+    "circuit-ground": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
+    "circuit-inductor": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
     close: ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
     company: ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
     compare: ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
@@ -100,6 +104,7 @@ export declare const RegularIcons: {
     "priority-high": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
     public: ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
     publish: ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
+    pylon: ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
     "question-mark": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
     radar: ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
     "radio-button-empty": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element;
@@ -174,7 +179,11 @@ export declare const TogglableIcons: {
     "check-circle": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     checkbox: (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     "checkbox-indeterminate": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
+    "circuit-amperemetre": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
+    "circuit-bulb": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     "circuit-generator": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
+    "circuit-motor": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
+    "circuit-voltmetre": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     clock: (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     "cloud-download": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     cloud: (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
@@ -235,6 +244,7 @@ export declare const TogglableIcons: {
     "image-gallery": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     inbox: (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     info: (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
+    journal: (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     keep: (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     "keep-off": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     label: (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
@@ -301,6 +311,7 @@ export declare const TogglableIcons: {
     user: (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     "user-settings": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     verified: (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
+    version: (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     "video-camera": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     "video-camera-off": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
     "video-gallery": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react/jsx-runtime").JSX.Element)[];
