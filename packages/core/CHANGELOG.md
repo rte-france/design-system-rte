@@ -1,5 +1,20 @@
 # @design-system-rte/core
 
+## 1.11.0
+
+### Minor Changes
+
+- 4854f8d: ## Changes
+  - (Icon) add circuit_amperemetre_filled, circuit_amperemetre_outlined, circuit_bulb_filled, circuit_bulb_outlined, circuit_capacitor, circuit_cell, circuit_ground, circuit_inductor, circuit_motor_filled, circuit_motor_outlined, circuit_voltmetre_filled, circuit_voltmetre_outlined, journal_filled, journal_outlined, pylon, version_filled, version_outlined
+
+- b44a590: ## Changes
+  - (Select) add variant visibly-selected + add compactSpacing props
+
+### Patch Changes
+
+- b0ed7db: ## Changes
+  - update z-index values across components and introduce get overlay layer utils for overlay management
+
 ## 1.10.0
 
 ### Minor Changes
