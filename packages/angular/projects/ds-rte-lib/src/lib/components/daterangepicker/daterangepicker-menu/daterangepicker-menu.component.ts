@@ -149,59 +149,47 @@ export class DaterangepickerMenuComponent {
   readonly datepickerTabData = DATEPICKER_TAB_DATA;
 
   constructor() {
-    effect(
-      () => {
-        this.focusSessionId();
-        const initial = this.initialActiveDate();
-        if (initial != null) {
-          this.activeDate.set(initial);
-        }
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      this.focusSessionId();
+      const initial = this.initialActiveDate();
+      if (initial != null) {
+        this.activeDate.set(initial);
+      }
+    });
 
-    effect(
-      () => {
-        const view = this.viewDate();
-        if (this.calendarType() !== "month") {
-          return;
-        }
-        const monthIndex = this.activeDate().getMonth();
-        const aligned = new Date(view.getFullYear(), monthIndex, 1);
-        if (aligned.getTime() !== this.activeDate().getTime()) {
-          this.activeDate.set(aligned);
-        }
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      const view = this.viewDate();
+      if (this.calendarType() !== "month") {
+        return;
+      }
+      const monthIndex = this.activeDate().getMonth();
+      const aligned = new Date(view.getFullYear(), monthIndex, 1);
+      if (aligned.getTime() !== this.activeDate().getTime()) {
+        this.activeDate.set(aligned);
+      }
+    });
 
-    effect(
-      () => {
-        const view = this.viewDate();
-        if (this.calendarType() !== "year") {
-          return;
-        }
-        const decadeStart = getDecadeStartYear(view.getFullYear());
-        const year = this.activeDate().getFullYear();
-        if (year < decadeStart || year > decadeStart + DATEPICKER_YEAR_GRID_PAGE_SIZE - 1) {
-          this.activeDate.set(new Date(decadeStart, 0, 1));
-        }
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      const view = this.viewDate();
+      if (this.calendarType() !== "year") {
+        return;
+      }
+      const decadeStart = getDecadeStartYear(view.getFullYear());
+      const year = this.activeDate().getFullYear();
+      if (year < decadeStart || year > decadeStart + DATEPICKER_YEAR_GRID_PAGE_SIZE - 1) {
+        this.activeDate.set(new Date(decadeStart, 0, 1));
+      }
+    });
 
-    effect(
-      () => {
-        if (this.calendarType() !== "day") {
-          return;
-        }
-        this.dayCells();
-        this.activeDate();
-        this.initialActiveDate();
-        this.synchronizeActiveDateWithDayGrid();
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      if (this.calendarType() !== "day") {
+        return;
+      }
+      this.dayCells();
+      this.activeDate();
+      this.initialActiveDate();
+      this.synchronizeActiveDateWithDayGrid();
+    });
   }
 
   isDateInRange(date: Date): boolean {

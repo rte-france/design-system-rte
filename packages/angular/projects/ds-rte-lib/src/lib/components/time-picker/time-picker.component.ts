@@ -153,50 +153,39 @@ export class TimePickerComponent implements ControlValueAccessor {
   private readonly destroyRef = inject(DestroyRef);
 
   constructor() {
-    effect(
-      () => {
-        this.applyValueInputToInternalState();
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => this.applyValueInputToInternalState());
 
-    effect(
-      () => {
-        const segment = this.activeTimeSegment();
-        const timeValue = this.internalTimeValue();
-        void segment;
-        void timeValue;
-        this.scheduleSelectActiveSegment();
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      const segment = this.activeTimeSegment();
+      const timeValue = this.internalTimeValue();
+      void segment;
+      void timeValue;
+      this.scheduleSelectActiveSegment();
+    });
 
-    effect(
-      () => {
-        const open = this.isPanelOpen();
-        if (!open) {
-          const shouldMoveFocusToOpenTrigger = this.timePickerMenuTrapWasActive;
-          this.timePickerMenuTrapWasActive = false;
-          this.focusTrap.deactivate();
-          if (shouldMoveFocusToOpenTrigger) {
-            waitForNextFrame(() => {
-              this.focusOpenMenuTriggerButton();
-            });
-          }
-          return;
+    effect(() => {
+      const open = this.isPanelOpen();
+      if (!open) {
+        const shouldMoveFocusToOpenTrigger = this.timePickerMenuTrapWasActive;
+        this.timePickerMenuTrapWasActive = false;
+        this.focusTrap.deactivate();
+        if (shouldMoveFocusToOpenTrigger) {
+          waitForNextFrame(() => {
+            this.focusOpenMenuTriggerButton();
+          });
         }
-        waitForNextFrame(() => {
-          const menuElement = document.querySelector(`[data-menu-id="${this.dropdownMenuId()}"]`) as HTMLElement | null;
-          if (menuElement && this.isPanelOpen()) {
-            this.timePickerMenuTrapWasActive = true;
-            this.focusTrap.activate(menuElement, {
-              restoreFocusTo: this.getOpenMenuTriggerButton(),
-            });
-          }
-        });
-      },
-      { allowSignalWrites: true },
-    );
+        return;
+      }
+      waitForNextFrame(() => {
+        const menuElement = document.querySelector(`[data-menu-id="${this.dropdownMenuId()}"]`) as HTMLElement | null;
+        if (menuElement && this.isPanelOpen()) {
+          this.timePickerMenuTrapWasActive = true;
+          this.focusTrap.activate(menuElement, {
+            restoreFocusTo: this.getOpenMenuTriggerButton(),
+          });
+        }
+      });
+    });
 
     const dropdownStateSubscription = this.dropdownService.state$.subscribe((state) => {
       if (state === null && this.isPanelOpen()) {

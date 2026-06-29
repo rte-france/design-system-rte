@@ -61,17 +61,14 @@ export class FileItemComponent implements AfterViewInit {
   readonly formatFileSize = formatFileSize;
 
   constructor() {
-    effect(
-      () => {
-        const fileName = this.file().name;
-        this.truncatedFileName.set(fileName);
-        this.hasEllipsis.set(false);
-        if (this.isViewInitialized) {
-          this.updateTruncation();
-        }
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      const fileName = this.file().name;
+      this.truncatedFileName.set(fileName);
+      this.hasEllipsis.set(false);
+      if (this.isViewInitialized) {
+        this.updateTruncation();
+      }
+    });
   }
 
   ngAfterViewInit(): void {

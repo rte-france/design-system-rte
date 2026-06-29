@@ -67,14 +67,11 @@ export class NavMenuComponent {
   readonly openChange = output<NavMenuOpenChangeEvent>();
 
   constructor() {
-    effect(
-      () => {
-        if (this.parentMenuOpen() === false && this.open()) {
-          this.closeMenu();
-        }
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      if (this.parentMenuOpen() === false && this.open()) {
+        this.closeMenu();
+      }
+    });
   }
 
   readonly hasNestedItems = computed<boolean>(() => !!this.items().length);

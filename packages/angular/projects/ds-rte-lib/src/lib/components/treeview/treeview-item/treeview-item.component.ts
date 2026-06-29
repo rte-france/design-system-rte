@@ -186,12 +186,7 @@ export class TreeviewItemComponent {
   }
 
   constructor() {
-    effect(
-      () => {
-        this.isOpenSignal.set(this.isOpen());
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => this.isOpenSignal.set(this.isOpen()));
   }
 
   toggleOpen(): void {

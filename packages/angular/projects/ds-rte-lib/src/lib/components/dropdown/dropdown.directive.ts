@@ -146,13 +146,10 @@ export class DropdownDirective implements AfterContentInit {
       }
     });
 
-    effect(
-      (onCleanup) => {
-        const teardown = this.setupScrollBehavior();
-        onCleanup(teardown);
-      },
-      { allowSignalWrites: true },
-    );
+    effect((onCleanup) => {
+      const teardown = this.setupScrollBehavior();
+      onCleanup(teardown);
+    });
 
     this.registerViewportResizeRepositionHandling();
   }

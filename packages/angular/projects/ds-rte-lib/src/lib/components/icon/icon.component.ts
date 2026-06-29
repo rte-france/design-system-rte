@@ -39,12 +39,9 @@ export class IconComponent {
   private cdr = inject(ChangeDetectorRef);
 
   constructor() {
-    effect(
-      () => {
-        this.setSvgContent(this.name(), this.size(), this.appearance(), this.color());
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      this.setSvgContent(this.name(), this.size(), this.appearance(), this.color());
+    });
   }
 
   private setSvgContent(

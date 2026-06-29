@@ -25,15 +25,12 @@ class DropdownWrapperComponent {
   readonly width = signal<number | undefined>(undefined);
 
   constructor() {
-    effect(
-      () => {
-        const element = this.wrapperRef()?.nativeElement;
-        if (element) {
-          this.width.set(element.offsetWidth);
-        }
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      const element = this.wrapperRef()?.nativeElement;
+      if (element) {
+        this.width.set(element.offsetWidth);
+      }
+    });
   }
 }
 
