@@ -2,6 +2,75 @@
 
 # Angular
 
+## 2.0.0
+
+### Icon
+
+#### Minor Changes
+
+- add circuit_amperemetre_filled, circuit_amperemetre_outlined, circuit_bulb_filled, circuit_bulb_outlined, circuit_capacitor, circuit_cell, circuit_ground, circuit_inductor, circuit_motor_filled, circuit_motor_outlined, circuit_voltmetre_filled, circuit_voltmetre_outlined, journal_filled, journal_outlined, pylon, version_filled, version_outlined
+
+### Select
+
+#### Minor Changes
+
+- add variant visibly-selected + add compactSpacing props
+
+### Drawer
+
+#### Patch Changes
+
+- stretch content to component width when fixedHeader is disabled and width takes a no-default value
+- simplify closing behavior on clicking on the backdrop
+
+### Radio Button
+
+#### Patch Changes
+
+- prevent radio button marker from shrinking with narrow container and label overflow
+
+### Checkbox
+
+#### Patch Changes
+
+- prevent checkbox case from shrinking with narrow container and label overflow
+
+### Split-button
+
+#### Patch Changes
+
+- angular - add event output on clicking on the buttons
+
+### Toast
+
+#### Patch Changes
+
+- add pointer event auto
+
+### Overlay
+
+#### Patch Changes
+
+- remove z-index
+
+### Segmented-control
+
+#### Patch Changes
+
+- react - add relative position to prevent misplacement of selected indicator on resize or dom changes
+
+### Other
+
+#### Patch Changes
+
+- harmonise disabled state appearance on textinput, textarea and select
+- prevent scrolling on focus
+- update z-index values across components and introduce get overlay layer utils for overlay management
+- Updated dependencies [4854f8d]
+- Updated dependencies [b44a590]
+- Updated dependencies [b0ed7db]
+- @design-system-rte/core@1.11.0
+
 ## 1.10.0
 
 ### Text-input
@@ -187,50 +256,74 @@
 - Updated dependencies [319a507]
 - Updated dependencies [b7d1755]
 - @design-system-rte/core@1.9.0
+# React
 
-## 1.8.0
+## 1.12.0
 
-### Input
-
-#### Minor Changes
-
-- correct focus ring display of right-icon & input selection via label
-- correct display & colors in dark mode
-
-### Datepicker
+### Icon
 
 #### Minor Changes
 
-- angular - remove mutted color on placeholder
+- add circuit_amperemetre_filled, circuit_amperemetre_outlined, circuit_bulb_filled, circuit_bulb_outlined, circuit_capacitor, circuit_cell, circuit_ground, circuit_inductor, circuit_motor_filled, circuit_motor_outlined, circuit_voltmetre_filled, circuit_voltmetre_outlined, journal_filled, journal_outlined, pylon, version_filled, version_outlined
 
-### Timepicker
-
-#### Minor Changes
-
-- remove up/down keyboard controls from main input segments
-- remove focus on readonly digit
-- set base Angular implementation
-
-### Dropdown
+### Select
 
 #### Minor Changes
 
-- correct menu elevation in Angular implementation
+- add variant visibly-selected + add compactSpacing props
+
+### Drawer
+
+#### Patch Changes
+
+- stretch content to component width when fixedHeader is disabled and width takes a no-default value
+- simplify closing behavior on clicking on the backdrop
+
+### Radio Button
+
+#### Patch Changes
+
+- prevent radio button marker from shrinking with narrow container and label overflow
 
 ### Checkbox
 
 #### Patch Changes
 
-- add missing output signal for change
+- prevent checkbox case from shrinking with narrow container and label overflow
+
+### Toast
+
+#### Patch Changes
+
+- add pointer event auto
+
+### Overlay
+
+#### Patch Changes
+
+- remove z-index
+- re add absolute and full width style + fix position for popover and drawer
+- reintroduce fixed position for overlay
+- re add absolute and full width style + fix position for popover and drawer
+- reintroduce fixed position for overlay
+
+### Segmented-control
+
+#### Patch Changes
+
+- react - add relative position to prevent misplacement of selected indicator on resize or dom changes
 
 ### Other
 
 #### Patch Changes
 
-- Updated dependencies [ad4c602]
-- Updated dependencies [5cb6e5d]
-- @design-system-rte/core@1.8.0
-# React
+- harmonise disabled state appearance on textinput, textarea and select
+- prevent scrolling on focus
+- update z-index values across components and introduce get overlay layer utils for overlay management
+- Updated dependencies [4854f8d]
+- Updated dependencies [b44a590]
+- Updated dependencies [b0ed7db]
+- @design-system-rte/core@1.11.0
 
 ## 1.11.0
 
@@ -423,50 +516,27 @@
 - Updated dependencies [319a507]
 - Updated dependencies [b7d1755]
 - @design-system-rte/core@1.9.0
+# Core
 
-## 1.9.0
+## 1.11.0
 
-### Datepicker
-
-#### Minor Changes
-
-- react - move component to picker folder
-- react - add calendar picker
-- react - add basic date input picker
-
-### Input
+### Icon
 
 #### Minor Changes
 
-- correct display & colors in dark mode
+- add circuit_amperemetre_filled, circuit_amperemetre_outlined, circuit_bulb_filled, circuit_bulb_outlined, circuit_capacitor, circuit_cell, circuit_ground, circuit_inductor, circuit_motor_filled, circuit_motor_outlined, circuit_voltmetre_filled, circuit_voltmetre_outlined, journal_filled, journal_outlined, pylon, version_filled, version_outlined
 
-### Timepicker
-
-#### Minor Changes
-
-- react - remove focus on readonly digit
-- react - add missing space between time segment value
-- improve general logic and fix typos
-- add react component
-
-### Dropdown
+### Select
 
 #### Minor Changes
 
-- extract baseDropdown component to add flexibility
+- add variant visibly-selected + add compactSpacing props
 
 ### Other
 
-#### Minor Changes
-
-- improve story file generation with autodocs tag
-
 #### Patch Changes
 
-- Updated dependencies [ad4c602]
-- Updated dependencies [5cb6e5d]
-- @design-system-rte/core@1.8.0
-# Core
+- update z-index values across components and introduce get overlay layer utils for overlay management
 
 ## 1.10.0
 
@@ -567,35 +637,6 @@
 #### Patch Changes
 
 - add output events for primary & secondary buttons in footer
-
-### Other
-
-
-## 1.8.0
-
-### Datepicker
-
-#### Minor Changes
-
-- react - move component to picker folder
-- react - add calendar picker
-- react - add basic date input picker
-
-### Dropdown
-
-#### Minor Changes
-
-- correct menu elevation in Angular implementation
-
-### Timepicker
-
-#### Minor Changes
-
-- set base Angular implementation
-- react - remove focus on readonly digit
-- react - add missing space between time segment value
-- improve general logic and fix typos
-- add react component
 
 ### Other
 
