@@ -88,7 +88,10 @@ export const Default: Story = {
     required: false,
   },
   render: (args) => {
-    const [selectedOption, setSelectedOption] = useState<{ label: string; value: string }>();
+    const [selectedOption, setSelectedOption] = useState<{ label: string; value: string } | undefined>({
+      label: "Option 2",
+      value: "option-2",
+    });
 
     const handleOnChange = (value: string) => {
       setSelectedOption(args.options.find((option) => option.value === value));
@@ -247,24 +250,10 @@ export const Multiple: Story = {
     withSelectAll: true,
   },
   render: (args) => {
-    const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+    const [selectedOptions, setSelectedOptions] = useState<string[]>(["option-2", "option-1"]);
 
-    const handleOnChange = (value: string) => {
-      if (value === "select-all") {
-        if (selectedOptions.length === args.options.length) {
-          setSelectedOptions([]);
-        } else {
-          setSelectedOptions(args.options.map((option) => option.value));
-        }
-        return;
-      }
-      if (selectedOptions) {
-        if (selectedOptions.includes(value)) {
-          setSelectedOptions(selectedOptions.filter((option) => option !== value));
-        } else {
-          setSelectedOptions([...selectedOptions, value]);
-        }
-      }
+    const handleOnChange = (value: string[]) => {
+      setSelectedOptions(value);
     };
 
     return (

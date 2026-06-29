@@ -20,18 +20,20 @@ import { concatClassNames } from "../utils";
 
 import styles from "./Select.module.scss";
 
-interface SingleSelectProps extends Omit<coreSelectProps, "value"> {
+interface SingleSelectProps extends Omit<coreSelectProps, "value" | "onChange"> {
   multiple?: false;
   value?: string;
   header?: React.ReactNode;
   footer?: React.ReactNode;
+  onChange?: (value: string) => void;
 }
 
-interface MultiSelectProps extends Omit<coreSelectProps, "value"> {
+interface MultiSelectProps extends Omit<coreSelectProps, "value" | "onChange"> {
   multiple: true;
   value?: string[];
   header?: React.ReactNode;
   footer?: React.ReactNode;
+  onChange?: (value: string[]) => void;
 }
 
 export type SelectProps = SingleSelectProps | MultiSelectProps;
@@ -136,9 +138,11 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
       e.stopPropagation();
       if (multiple) {
         setInternalValue([]);
+        onChange?.([]);
         onClear?.();
       } else {
-        handleOnChange("");
+        setInternalValue("");
+        onChange?.("");
         onClear?.();
       }
       selectRef.current?.focus();
@@ -154,11 +158,11 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
           if (Array.isArray(prevValue)) {
             const newValue = prevValue.filter((value) => value !== valueToClear);
 
+            onChange?.(newValue);
             return newValue;
           }
           return prevValue;
         });
-        onChange?.(valueToClear);
       }
     };
 
@@ -172,11 +176,24 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
           newArrayValue.push(newValue);
         }
         setInternalValue(newArrayValue);
-        onChange?.(newValue);
+        onChange?.(newArrayValue);
       } else {
         setInternalValue(newValue);
         onChange?.(newValue);
         setIsActive(false);
+      }
+    };
+
+    const handleOnClickSelectAll = () => {
+      if (multiple) {
+        if (Array.isArray(internalValue) && internalValue.length === options.length) {
+          setInternalValue([]);
+          onChange?.([]);
+        } else {
+          const allValues = options.map((option) => option.value);
+          setInternalValue(allValues);
+          onChange?.(allValues);
+        }
       }
     };
 
@@ -322,15 +339,7 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
                   isIndeterminate={
                     Array.isArray(internalValue) && internalValue.length > 0 && internalValue.length < options.length
                   }
-                  onClick={() => {
-                    if (Array.isArray(internalValue) && internalValue.length === options.length) {
-                      setInternalValue([]);
-                    } else {
-                      const allValues = options.map((option) => option.value);
-                      setInternalValue(allValues);
-                    }
-                    onChange?.("select-all");
-                  }}
+                  onClick={handleOnClickSelectAll}
                   hasCheckbox
                   hasSeparator
                 />

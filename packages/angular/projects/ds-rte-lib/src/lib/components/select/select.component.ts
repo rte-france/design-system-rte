@@ -138,7 +138,7 @@ export class SelectComponent implements AfterViewInit {
 
   readonly internalValue = signal(this.value());
 
-  readonly valueChange = output<string>();
+  readonly valueChange = output<string | string[]>();
 
   readonly currentDisplayedOption = signal(
     getSelectedOption(this.optionToDisplay() || "first-selected", this.options(), this.internalValue()!),
@@ -179,6 +179,10 @@ export class SelectComponent implements AfterViewInit {
   readonly iconSize = computed(() => (this.compactSpacing() ? IconSize["s"] : IconSize["m"]));
 
   ngAfterViewInit() {
+    this.internalValue.set(this.value());
+    this.currentDisplayedOption.set(
+      getSelectedOption(this.optionToDisplay() || "first-selected", this.options(), this.internalValue()!),
+    );
     this.regenerateOptionsFormatted();
     this.computeShouldDisplayClearButton();
   }
@@ -226,7 +230,7 @@ export class SelectComponent implements AfterViewInit {
           currentValue.splice(valueIndex, 1);
           this.internalValue.set(currentValue);
           this.regenerateOptionsFormatted();
-          this.valueChange.emit(value);
+          this.valueChange.emit(currentValue);
           this.currentDisplayedOption.set(
             getSelectedOption(this.optionToDisplay() || "first-selected", this.options(), this.internalValue()!),
           );
@@ -258,10 +262,10 @@ export class SelectComponent implements AfterViewInit {
     } else {
       this.internalValue.set(value);
       this.isActive.set(!this.isActive());
+      this.valueChange.emit(value);
     }
     this.regenerateOptionsFormatted();
 
-    this.valueChange.emit(value);
     this.currentDisplayedOption.set(
       getSelectedOption(this.optionToDisplay() || "first-selected", this.options(), this.internalValue()!),
     );
@@ -287,13 +291,14 @@ export class SelectComponent implements AfterViewInit {
   }
 
   private clearSelection() {
-    if (!this.multiple()) {
-      this.internalValue.set("");
-    } else {
+    if (this.multiple()) {
       this.internalValue.set([]);
+      this.valueChange.emit([]);
+    } else {
+      this.internalValue.set("");
+      this.valueChange.emit("");
     }
     this.isActive.set(false);
-    this.valueChange.emit("select-all");
     this.selectRef()?.nativeElement.dispatchEvent(new Event("clearContent"));
     this.regenerateOptionsFormatted();
     this.currentDisplayedOption.set(
@@ -346,8 +351,10 @@ export class SelectComponent implements AfterViewInit {
   private clickedSelectAll() {
     if (this.areAllOptionsSelected()) {
       this.internalValue.set([]);
+      this.valueChange.emit([]);
     } else {
       this.internalValue.set(this.options().map((option) => option.value));
+      this.valueChange.emit(this.options().map((option) => option.value));
     }
   }
 
@@ -365,6 +372,7 @@ export class SelectComponent implements AfterViewInit {
           valuesArray.push(value);
         }
         this.internalValue.set(valuesArray);
+        this.valueChange.emit(valuesArray);
       }
     }
   }
