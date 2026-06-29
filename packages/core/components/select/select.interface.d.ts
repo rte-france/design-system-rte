@@ -2,7 +2,7 @@ import { InputProps } from "../common/input/input.interface";
 
 export type OptionToDisplay = "first-selected" | "last-selected" | "highest-selected";
 
-export interface SelectProps extends InputProps {
+export interface SelectProps extends InputProps<string | string[]> {
   onClear?: () => void;
   options: { value: string; label: string }[];
   showResetButton?: boolean;
