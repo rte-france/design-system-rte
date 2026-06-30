@@ -1,5 +1,21 @@
 # @design-system-rte/react
 
+## 1.12.1
+
+### Patch Changes
+
+- 88872f1: ## Changes
+
+  - harmonise required indicator style
+
+- 83d7ea1: ## Changes
+
+  - (Select) add maxheight props to allow scrolling behaviour
+
+- Updated dependencies [6984541]
+- Updated dependencies [83d7ea1]
+  - @design-system-rte/core@1.12.0
+
 ## 1.12.0
 
 ### Minor Changes
