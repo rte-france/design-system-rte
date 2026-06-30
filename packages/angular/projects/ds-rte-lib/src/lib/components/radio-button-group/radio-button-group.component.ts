@@ -6,7 +6,6 @@ import { RadioButtonComponent } from "../radio-button/radio-button.component";
 @Component({
   selector: "rte-radio-button-group",
   imports: [CommonModule, RadioButtonComponent],
-  standalone: true,
   templateUrl: "./radio-button-group.component.html",
   styleUrl: "./radio-button-group.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

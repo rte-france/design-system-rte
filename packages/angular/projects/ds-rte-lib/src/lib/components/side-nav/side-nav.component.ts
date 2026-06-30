@@ -25,7 +25,6 @@ const TRANSITION_DURATION = 300;
 @Component({
   selector: "rte-side-nav",
   imports: [CommonModule, BaseSideNavComponent, DividerComponent, NavItemComponent, NavMenuComponent, TooltipDirective],
-  standalone: true,
   templateUrl: "./side-nav.component.html",
   styleUrl: "./side-nav.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

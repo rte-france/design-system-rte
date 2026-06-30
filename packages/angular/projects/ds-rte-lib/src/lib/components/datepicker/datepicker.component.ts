@@ -46,7 +46,6 @@ import { DatepickerSegmentedFieldComponent } from "./datepicker-segmented-field/
 @Component({
   selector: "rte-datepicker",
   imports: [CommonModule, DropdownModule, DatepickerSegmentedFieldComponent, DatepickerMenuComponent],
-  standalone: true,
   templateUrl: "./datepicker.component.html",
   styleUrl: "./datepicker.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

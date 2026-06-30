@@ -33,7 +33,6 @@ const segmentClass = "rte-stepper-button";
 @Component({
   selector: "rte-stepper",
   imports: [CommonModule, IconComponent],
-  standalone: true,
   templateUrl: "./stepper.component.html",
   styleUrl: "./stepper.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

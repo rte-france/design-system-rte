@@ -35,7 +35,6 @@ import { TabItemComponent } from "./tab-item/tab-item.component";
 @Component({
   selector: "rte-tab",
   imports: [CommonModule, TabItemComponent, IconButtonComponent, DropdownModule, IconComponent, BadgeComponent],
-  standalone: true,
   templateUrl: "./tab.component.html",
   styleUrl: "./tab.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

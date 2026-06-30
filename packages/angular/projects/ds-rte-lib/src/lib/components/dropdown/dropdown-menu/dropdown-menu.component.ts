@@ -42,7 +42,6 @@ import { DropdownMenuHeaderDirective } from "./dropdown-menu-header.directive";
 @Component({
   selector: "rte-dropdown-menu",
   imports: [CommonModule, DropdownItemComponent, DividerComponent],
-  standalone: true,
   templateUrl: "./dropdown-menu.component.html",
   styleUrl: "./dropdown-menu.component.scss",
   host: { "[attr.data-menu-id]": "menuId()" },

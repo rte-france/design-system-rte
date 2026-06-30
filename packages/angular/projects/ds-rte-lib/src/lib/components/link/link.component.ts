@@ -6,7 +6,6 @@ import { IconComponent } from "../icon/icon.component";
 @Component({
   selector: "rte-link",
   imports: [CommonModule, IconComponent],
-  standalone: true,
   templateUrl: "./link.component.html",
   styleUrl: "./link.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

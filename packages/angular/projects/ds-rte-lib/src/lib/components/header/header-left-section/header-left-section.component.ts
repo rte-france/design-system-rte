@@ -5,7 +5,6 @@ const DEFAULT_HOME_LINK = "/";
 
 @Component({
   selector: "rte-header-left-section",
-  standalone: true,
   templateUrl: "./header-left-section.component.html",
   styleUrl: "./header-left-section.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

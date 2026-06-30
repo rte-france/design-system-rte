@@ -33,7 +33,6 @@ import { RteBaseInputControlDirective } from "../../input/rte-base-input-control
 @Component({
   selector: "rte-datepicker-segmented-field",
   imports: [CommonModule, BaseInputComponent, RteBaseInputControlDirective],
-  standalone: true,
   templateUrl: "./datepicker-segmented-field.component.html",
   styleUrl: "./datepicker-segmented-field.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

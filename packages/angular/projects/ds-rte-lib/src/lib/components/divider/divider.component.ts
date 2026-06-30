@@ -5,7 +5,6 @@ import { DividerProps } from "@design-system-rte/core/components/divider/divider
 @Component({
   selector: "rte-divider",
   imports: [CommonModule],
-  standalone: true,
   templateUrl: "./divider.component.html",
   styleUrl: "./divider.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -54,7 +54,6 @@ type DateRangeSelectionMode = "start" | "end";
 @Component({
   selector: "rte-daterangepicker-menu",
   imports: [CommonModule, IconButtonComponent, ButtonComponent, DividerComponent],
-  standalone: true,
   templateUrl: "./daterangepicker-menu.component.html",
   styleUrl: "./daterangepicker-menu.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
