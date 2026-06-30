@@ -6,7 +6,6 @@ import { IconComponent } from "../icon/icon.component";
 @Component({
   selector: "rte-checkbox",
   imports: [CommonModule, IconComponent],
-  standalone: true,
   templateUrl: "./checkbox.component.html",
   styleUrl: "./checkbox.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

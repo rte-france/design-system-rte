@@ -28,7 +28,6 @@ import { PopoverComponent } from "./popover.component";
 
 @Directive({
   selector: "[rtePopover]",
-  standalone: true,
 })
 export class PopoverDirective implements AfterViewInit, OnDestroy {
   readonly rtePopoverContent = input.required<string>();

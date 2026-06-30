@@ -34,7 +34,6 @@ import { TooltipDirective } from "../../tooltip/tooltip.directive";
     LoaderComponent,
     TooltipDirective,
   ],
-  standalone: true,
   templateUrl: "./file-item.component.html",
   styleUrl: "./file-item.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

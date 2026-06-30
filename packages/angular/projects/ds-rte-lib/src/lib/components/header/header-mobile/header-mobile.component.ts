@@ -46,7 +46,6 @@ const MOBILE_SEARCH_TRIGGER_SIZE_PX = 32;
     DropdownMenuBodyDirective,
     DropdownTriggerDirective,
   ],
-  standalone: true,
   templateUrl: "./header-mobile.component.html",
   styleUrl: "./header-mobile.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -29,7 +29,6 @@ import { DrawerComponent } from "./drawer.component";
 @Directive({
   selector: "[rteDrawer]",
   exportAs: "rteDrawer",
-  standalone: true,
 })
 export class DrawerDirective implements AfterContentInit, OnDestroy {
   private drawerCompRef: ComponentRef<DrawerComponent> | null = null;

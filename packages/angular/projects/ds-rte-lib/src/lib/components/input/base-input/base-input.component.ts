@@ -30,7 +30,6 @@ import { RteBaseInputControlDirective } from "../rte-base-input-control.directiv
     RteBaseInputControlDirective,
     RequiredIndicatorComponent,
   ],
-  standalone: true,
   templateUrl: "./base-input.component.html",
   styleUrl: "./base-input.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

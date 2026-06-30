@@ -62,7 +62,6 @@ type DateRangeSelectionMode = "start" | "end";
     AssistiveTextComponent,
     RequiredIndicatorComponent,
   ],
-  standalone: true,
   templateUrl: "./daterangepicker.component.html",
   styleUrl: "./daterangepicker.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

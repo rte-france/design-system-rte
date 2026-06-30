@@ -74,7 +74,6 @@ const [HOURS_SEGMENT, MINUTES_SEGMENT] = TIME_SEGMENT_ORDER;
     TimePickerMenuComponent,
     RequiredIndicatorComponent,
   ],
-  standalone: true,
   templateUrl: "./time-picker.component.html",
   styleUrl: "./time-picker.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

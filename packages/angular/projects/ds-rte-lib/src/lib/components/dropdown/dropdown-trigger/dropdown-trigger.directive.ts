@@ -2,7 +2,6 @@ import { Directive, ElementRef, HostListener, inject, input, output } from "@ang
 
 @Directive({
   selector: "[rteDropdownTrigger]",
-  standalone: true,
 })
 export class DropdownTriggerDirective {
   readonly elementRef = inject(ElementRef);

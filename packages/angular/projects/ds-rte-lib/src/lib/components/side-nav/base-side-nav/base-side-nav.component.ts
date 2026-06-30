@@ -8,7 +8,6 @@ type SideNavSize = "s" | "m" | "l";
 @Component({
   selector: "rte-base-side-nav",
   imports: [CommonModule],
-  standalone: true,
   templateUrl: "./base-side-nav.component.html",
   styleUrl: "./base-side-nav.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -19,7 +19,6 @@ import { IconComponent } from "../icon/icon.component";
 @Component({
   selector: "rte-accordion",
   imports: [IconComponent, DividerComponent],
-  standalone: true,
   templateUrl: "./accordion.component.html",
   styleUrl: "./accordion.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

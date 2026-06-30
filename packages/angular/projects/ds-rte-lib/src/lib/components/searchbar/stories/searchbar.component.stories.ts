@@ -13,7 +13,6 @@ import { SearchbarComponent } from "../searchbar.component";
 
 @Component({
   selector: "story-dropdown-wrapper",
-  standalone: true,
   template: `
     <div #wrapperRef style="width: fit-content">
       <ng-content></ng-content>

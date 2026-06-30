@@ -7,7 +7,6 @@ import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard
 @Component({
   selector: "rte-card",
   imports: [CommonModule],
-  standalone: true,
   templateUrl: "./card.component.html",
   styleUrl: "./card.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

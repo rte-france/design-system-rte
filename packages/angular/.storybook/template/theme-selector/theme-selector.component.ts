@@ -8,7 +8,6 @@ import { IconButtonComponent } from "../../../projects/ds-rte-lib/src/lib/compon
 @Component({
   selector: "rte-theme-selector",
   imports: [ChipComponent, CommonModule, IconButtonComponent],
-  standalone: true,
   templateUrl: "./theme-selector.component.html",
   styleUrl: "./theme-selector.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

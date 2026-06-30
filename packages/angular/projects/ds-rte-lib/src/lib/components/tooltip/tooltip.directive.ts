@@ -22,7 +22,6 @@ import { TooltipComponent } from "./tooltip.component";
 
 @Directive({
   selector: "[rteTooltip]",
-  standalone: true,
 })
 export class TooltipDirective implements AfterViewInit, OnDestroy {
   readonly rteTooltip = input.required<string>();

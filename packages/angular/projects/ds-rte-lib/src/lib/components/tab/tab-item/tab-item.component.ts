@@ -19,7 +19,6 @@ import { IconComponent } from "../../icon/icon.component";
 @Component({
   selector: "rte-tab-item",
   imports: [CommonModule, IconComponent, BadgeComponent],
-  standalone: true,
   templateUrl: "./tab-item.component.html",
   styleUrl: "./tab-item.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

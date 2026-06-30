@@ -19,7 +19,6 @@ import { LinkComponent } from "../../link/link.component";
     RteBaseInputControlDirective,
     RequiredIndicatorComponent,
   ],
-  standalone: true,
   templateUrl: "../../input/base-input/base-input.component.html",
   styleUrl: "../../input/base-input/base-input.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

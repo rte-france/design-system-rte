@@ -8,7 +8,6 @@ import { IconComponent } from "../icon/icon.component";
 @Component({
   selector: "rte-switch",
   imports: [CommonModule, IconComponent],
-  standalone: true,
   templateUrl: "./switch.component.html",
   styleUrl: "./switch.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
