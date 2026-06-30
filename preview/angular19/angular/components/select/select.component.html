@@ -1,37 +1,32 @@
 <div class="rte-select-container" [attr.data-label-position]="labelPosition()" [style.width]="computedWidth()">
-  <label
+  <div
     *ngIf="label() && labelPosition() === 'side'"
-    class="rte-select-label"
+    class="rte-select-header"
     [attr.data-label-position]="labelPosition()"
-    [attr.id]="labelId()"
-    [attr.for]="id()"
-    >{{ label()
-    }}<span
-      *ngIf="required() || showLabelRequirement()"
-      class="requirement-indicator"
-      aria-hidden="true"
-      [ngClass]="{
-        required: required(),
-        'show-label-requirement': showLabelRequirement(),
-      }"
-      >{{ requirementIndicatorValue() }}</span
-    ></label
+    [attr.data-show-label-requirement]="showLabelRequirement()"
   >
+    <label class="rte-select-label" [attr.id]="labelId()" [attr.for]="id()">{{ label() }}</label>
+    <rte-required-indicator
+      *ngIf="label() && labelPosition() === 'side' && (required() || showLabelRequirement())"
+      [required]="required()"
+      [showLabelRequirement]="showLabelRequirement()"
+    />
+  </div>
 
-  <div class="rte-select-header" [attr.data-label-position]="labelPosition()">
+  <div
+    *ngIf="label() && labelPosition() === 'top'"
+    class="rte-select-header"
+    [attr.data-label-position]="labelPosition()"
+    [attr.data-show-label-requirement]="showLabelRequirement()"
+  >
     <label *ngIf="label() && labelPosition() === 'top'" class="rte-select-label" [attr.id]="labelId()" [attr.for]="id()"
-      >{{ label()
-      }}<span
-        *ngIf="required() || showLabelRequirement()"
-        class="requirement-indicator"
-        aria-hidden="true"
-        [ngClass]="{
-          required: required(),
-          'show-label-requirement': showLabelRequirement(),
-        }"
-        >{{ requirementIndicatorValue() }}</span
-      ></label
-    >
+      >{{ label() }}
+    </label>
+    <rte-required-indicator
+      *ngIf="label() && labelPosition() === 'top' && (required() || showLabelRequirement())"
+      [required]="required()"
+      [showLabelRequirement]="showLabelRequirement()"
+    />
   </div>
   <div
     rteDropdown
@@ -127,7 +122,7 @@
         </div>
       </div>
     </div>
-    <rte-dropdown-menu [items]="optionsFormatted()">
+    <rte-dropdown-menu [items]="optionsFormatted()" [maxHeight]="maxHeight()">
       @if (hasHeaderContent()) {
         <ng-template rteDropdownMenuHeader>
           <div #headerContent>

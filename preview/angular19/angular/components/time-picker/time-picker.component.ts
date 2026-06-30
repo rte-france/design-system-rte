@@ -15,7 +15,6 @@ import {
 } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { waitForNextFrame } from "@design-system-rte/core/common/animation";
-import { REQUIREMENT_INDICATOR_VALUE } from "@design-system-rte/core/components/required-indicator/required-indicator.constant";
 import {
   DEFAULT_TIME_INPUT_VALUE,
   TIME_PICKER_WARN_ERROR_WITHOUT_ASSISTIVE_TEXT,
@@ -56,6 +55,7 @@ import { DropdownMenuComponent } from "../dropdown/dropdown-menu/dropdown-menu.c
 import { DropdownTriggerDirective } from "../dropdown/dropdown-trigger/dropdown-trigger.directive";
 import { DropdownDirective } from "../dropdown/dropdown.directive";
 import { IconComponent } from "../icon/icon.component";
+import { RequiredIndicatorComponent } from "../input/required-indicator/required-indicator.component";
 
 import { TimePickerMenuComponent } from "./time-picker-menu/time-picker-menu.component";
 
@@ -72,6 +72,7 @@ const [HOURS_SEGMENT, MINUTES_SEGMENT] = TIME_SEGMENT_ORDER;
     DropdownMenuComponent,
     DropdownMenuBodyDirective,
     TimePickerMenuComponent,
+    RequiredIndicatorComponent,
   ],
   templateUrl: "./time-picker.component.html",
   styleUrl: "./time-picker.component.scss",
@@ -123,18 +124,6 @@ export class TimePickerComponent implements ControlValueAccessor {
   private readonly disabledFromControl = signal(false);
 
   readonly isEffectivelyDisabled = computed(() => this.disabled() || this.disabledFromControl());
-
-  readonly requirementIndicatorValue = computed(() => {
-    const required = this.required();
-    const showLabelRequirement = this.showLabelRequirement();
-    if (!required) {
-      return REQUIREMENT_INDICATOR_VALUE.optional;
-    }
-    if (showLabelRequirement) {
-      return REQUIREMENT_INDICATOR_VALUE.required;
-    }
-    return REQUIREMENT_INDICATOR_VALUE.requiredIcon;
-  });
 
   readonly shouldRender = computed(() => {
     const timeValue = this.internalTimeValue();

@@ -14,16 +14,16 @@ import {
   viewChild,
 } from "@angular/core";
 import { AssistiveTextProps } from "@design-system-rte/core/components/assistive-text/assistive-text.interface";
-import { REQUIREMENT_INDICATOR_VALUE } from "@design-system-rte/core/components/required-indicator/required-indicator.constant";
 
 import { AssistiveTextComponent } from "../assistive-text/assistive-text.component";
 import { ButtonComponent } from "../button/button.component";
+import { RequiredIndicatorComponent } from "../input/required-indicator/required-indicator.component";
 
 import { FileItemComponent } from "./file-item/file-item.component";
 
 @Component({
   selector: "rte-file-upload",
-  imports: [CommonModule, ButtonComponent, AssistiveTextComponent, FileItemComponent],
+  imports: [CommonModule, ButtonComponent, AssistiveTextComponent, FileItemComponent, RequiredIndicatorComponent],
   templateUrl: "./file-upload.component.html",
   styleUrl: "./file-upload.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -61,14 +61,6 @@ export class FileUploadComponent implements AfterViewInit, OnDestroy {
 
   private resizeObserver?: ResizeObserver;
   private readonly zone = inject(NgZone);
-
-  readonly requirementIndicatorValue = computed(() =>
-    this.required()
-      ? this.showLabelRequirement()
-        ? REQUIREMENT_INDICATOR_VALUE.required
-        : REQUIREMENT_INDICATOR_VALUE.requiredIcon
-      : REQUIREMENT_INDICATOR_VALUE.optional,
-  );
 
   readonly shouldDisplayAssistiveText = computed(() => {
     return this.showAssistiveText() && !!this.assistiveTextLabel() && this.errorFilesMap()?.length === 0;

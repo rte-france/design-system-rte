@@ -63,7 +63,6 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
   readonly labelText = input<string>("Label");
   readonly hasLabel = input<boolean>(true);
   readonly labelPosition = input<"top" | "side">("top");
-  readonly isRequiredOptional = input<boolean>(false);
   readonly required = input<boolean>(false);
   readonly showLabelRequirement = input<boolean>(false);
 

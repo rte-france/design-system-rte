@@ -96,7 +96,6 @@ const typeRangeFieldDigits = async (field: HTMLElement, digits: string): Promise
       [disabled]="disabled()"
       [readOnly]="readOnly()"
       [error]="error()"
-      [isRequiredOptional]="isRequiredOptional()"
       [required]="required()"
       [showLabelRequirement]="showLabelRequirement()"
       [hasAssistiveText]="hasAssistiveText()"
@@ -123,7 +122,6 @@ class DaterangepickerStoryHostComponent {
   readonly disabled = input(false);
   readonly readOnly = input(false);
   readonly error = input(false);
-  readonly isRequiredOptional = input(false);
   readonly required = input(false);
   readonly showLabelRequirement = input(false);
   readonly hasAssistiveText = input(true);
@@ -177,7 +175,6 @@ const storyBindings = `
     [disabled]="disabled"
     [readOnly]="readOnly"
     [error]="error"
-    [isRequiredOptional]="isRequiredOptional"
     [required]="required"
     [showLabelRequirement]="showLabelRequirement"
     [hasAssistiveText]="hasAssistiveText"
@@ -220,7 +217,6 @@ const meta: Meta<DaterangepickerStoryHostComponent> = {
     disabled: false,
     readOnly: false,
     error: false,
-    isRequiredOptional: false,
     required: false,
     showLabelRequirement: false,
     hasAssistiveText: true,

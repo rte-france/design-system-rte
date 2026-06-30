@@ -16,7 +16,7 @@
     [label]="labelText()"
     [labelPosition]="labelPosition()"
     [required]="required()"
-    [showLabelRequirement]="isRequiredOptional() ? showLabelRequirement() : false"
+    [showLabelRequirement]="showLabelRequirement()"
     [hasAssistiveText]="hasAssistiveText()"
     [assistiveTextLabel]="hasAssistiveText() ? assistiveTextLabel() : ''"
     [assistiveAppearance]="isError() ? 'error' : assistiveTextAppearance()"

@@ -35,7 +35,6 @@ import {
   type DateRangePickerValue,
 } from "@design-system-rte/core/components/daterangepicker";
 import { normalizeDate } from "@design-system-rte/core/components/pickers";
-import { REQUIREMENT_INDICATOR_VALUE } from "@design-system-rte/core/components/required-indicator/required-indicator.constant";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
 import { FocusTrapService } from "../../services/focus-trap.service";
@@ -44,6 +43,7 @@ import { DatepickerMenuService } from "../datepicker/datepicker-menu.service";
 import { DatepickerSegmentedFieldComponent } from "../datepicker/datepicker-segmented-field/datepicker-segmented-field.component";
 import { DropdownModule } from "../dropdown";
 import { IconComponent } from "../icon/icon.component";
+import { RequiredIndicatorComponent } from "../input/required-indicator/required-indicator.component";
 
 import { DaterangepickerMenuComponent } from "./daterangepicker-menu/daterangepicker-menu.component";
 
@@ -60,6 +60,7 @@ type DateRangeSelectionMode = "start" | "end";
     DaterangepickerMenuComponent,
     IconComponent,
     AssistiveTextComponent,
+    RequiredIndicatorComponent,
   ],
   templateUrl: "./daterangepicker.component.html",
   styleUrl: "./daterangepicker.component.scss",
@@ -78,7 +79,6 @@ export class DaterangepickerComponent implements ControlValueAccessor, AfterView
   readonly labelText = input<string>("Label");
   readonly hasLabel = input<boolean>(true);
   readonly labelPosition = input<"top" | "side">("top");
-  readonly isRequiredOptional = input<boolean>(false);
   readonly required = input<boolean>(false);
   readonly showLabelRequirement = input<boolean>(false);
 
@@ -144,16 +144,6 @@ export class DaterangepickerComponent implements ControlValueAccessor, AfterView
       return explicit;
     }
     return this.hasLabel() ? this.groupLabelId() : null;
-  });
-
-  readonly requirementIndicatorValue = computed(() => {
-    if (!this.required()) {
-      return REQUIREMENT_INDICATOR_VALUE.optional;
-    }
-    if (this.showLabelRequirement()) {
-      return REQUIREMENT_INDICATOR_VALUE.required;
-    }
-    return REQUIREMENT_INDICATOR_VALUE.requiredIcon;
   });
 
   readonly fieldDescribedBy = computed(() => {
