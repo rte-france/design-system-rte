@@ -2,6 +2,83 @@
 
 # Angular
 
+## 2.0.0
+
+### Divider
+
+#### Minor Changes
+
+- add Code Connect template files for Figma
+
+### Tooltip
+
+#### Minor Changes
+
+- add Code Connect template files for Figma
+
+### Icon Button
+
+#### Minor Changes
+
+- add Code Connect template files for Figma
+
+### Tag
+
+#### Minor Changes
+
+- add Code Connect template files for Figma
+
+### Card
+
+#### Minor Changes
+
+- add Code Connect template files for Figma
+
+### Avatar
+
+#### Minor Changes
+
+- add Code Connect template files for Figma
+
+### Header
+
+#### Minor Changes
+
+- add Code Connect template files for Figma
+
+### Sidenav
+
+#### Minor Changes
+
+- add Code Connect template files for Figma
+
+### Icon
+
+#### Minor Changes
+
+- map Figma Icon instances to Angular Icon components
+
+### Angular
+
+#### Minor Changes
+
+- create template file for Figma Code Connect
+
+### Select
+
+#### Patch Changes
+
+- add maxheight props to allow scrolling behaviour
+
+### Other
+
+#### Patch Changes
+
+- harmonise required indicator style
+- Updated dependencies [6984541]
+- Updated dependencies [83d7ea1]
+- @design-system-rte/core@1.12.0
+
 ## 1.11.0
 
 ### Icon
@@ -189,74 +266,24 @@
 - Updated dependencies [39dee3c]
 - Updated dependencies [6be38db]
 - @design-system-rte/core@1.10.0
+# React
 
-## 1.9.0
+## 1.12.1
 
-### Datepicker
-
-#### Minor Changes
-
-- angular - remove mutted color on placeholder
-- add segmented-date-field inner component
-- add base Datepicker structure
-
-### Date Range Picker
-
-#### Minor Changes
-
-- extract common method and hooks into pickers folder
-
-### Searchbar
-
-#### Minor Changes
-
-- allow customized width
-
-### Grid
-
-#### Minor Changes
-
-- add rte-\* prefix to css class
-
-### Header
-
-#### Minor Changes
-
-- correct nav items layering when items contains a badge
-- add Dropdown menu capacities to mobile menu
-- add header-mobile to support UI for small devices
-- correct subheader rendering & display
-- add Header component
-
-### Dropdown
-
-#### Minor Changes
-
-- correct dropdown-item display when handling link elements
-
-### Overlay
+### Select
 
 #### Patch Changes
 
-- add navigation freezing only on modal and prevent auto scroll
-
-### Drawer
-
-#### Patch Changes
-
-- add output events for primary & secondary buttons in footer
+- add maxheight props to allow scrolling behaviour
 
 ### Other
 
 #### Patch Changes
 
-- Updated dependencies [b4e910a]
-- Updated dependencies [0687530]
-- Updated dependencies [1964611]
-- Updated dependencies [319a507]
-- Updated dependencies [b7d1755]
-- @design-system-rte/core@1.9.0
-# React
+- harmonise required indicator style
+- Updated dependencies [6984541]
+- Updated dependencies [83d7ea1]
+- @design-system-rte/core@1.12.0
 
 ## 1.12.0
 
@@ -518,6 +545,20 @@
 - @design-system-rte/core@1.9.0
 # Core
 
+## 1.12.0
+
+### Select
+
+#### Patch Changes
+
+- add maxheight props to allow scrolling behaviour
+
+### Other
+
+#### Minor Changes
+
+- add Code Connect template files for Figma
+
 ## 1.11.0
 
 ### Icon
@@ -591,52 +632,6 @@
 #### Patch Changes
 
 - add support for external checked control
-
-### Other
-
-
-## 1.9.0
-
-### Date Range Picker
-
-#### Minor Changes
-
-- react - better handle acessibility label feature + improve code syntax
-- react - handle all behavior
-- extract common method and hooks into pickers folder
-
-### Grid
-
-#### Minor Changes
-
-- add rte-\* prefix to css class
-
-### Core
-
-#### Minor Changes
-
-- add new color tokens
-
-### Header
-
-#### Minor Changes
-
-- correct nav items layering when items contains a badge
-- add header-mobile to support UI for small devices
-- correct subheader rendering & display
-- add Header component
-
-### Dropdown
-
-#### Minor Changes
-
-- correct dropdown-item display when handling link elements
-
-### Drawer
-
-#### Patch Changes
-
-- add output events for primary & secondary buttons in footer
 
 ### Other
 
