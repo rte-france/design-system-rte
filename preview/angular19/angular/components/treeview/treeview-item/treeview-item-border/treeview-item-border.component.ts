@@ -5,7 +5,6 @@ import type { TreeviewBorderType } from "@design-system-rte/core/components/tree
 
 @Component({
   selector: "rte-treeview-item-border",
-  standalone: true,
   templateUrl: "./treeview-item-border.component.html",
   styleUrl: "./treeview-item-border.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

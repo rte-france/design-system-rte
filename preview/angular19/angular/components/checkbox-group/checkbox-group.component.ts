@@ -6,7 +6,6 @@ import { CheckboxComponent } from "../checkbox/checkbox.component";
 @Component({
   selector: "rte-checkbox-group",
   imports: [CommonModule, CheckboxComponent],
-  standalone: true,
   templateUrl: "./checkbox-group.component.html",
   styleUrl: "./checkbox-group.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

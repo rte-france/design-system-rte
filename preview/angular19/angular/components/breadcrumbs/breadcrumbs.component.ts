@@ -21,7 +21,6 @@ import { BreadcrumbItemComponent } from "./breadcrumb-item/breadcrumb-item.compo
 @Component({
   selector: "rte-breadcrumbs",
   imports: [CommonModule, DropdownModule, IconButtonComponent, BreadcrumbItemComponent, BadgeComponent],
-  standalone: true,
   templateUrl: "./breadcrumbs.component.html",
   styleUrl: "./breadcrumbs.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

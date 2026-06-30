@@ -40,7 +40,6 @@ export interface NavMenuOpenChangeEvent {
     NavItemComponent,
     TooltipDirective,
   ],
-  standalone: true,
   templateUrl: "./nav-menu.component.html",
   styleUrl: "./nav-menu.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

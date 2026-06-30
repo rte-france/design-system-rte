@@ -14,7 +14,6 @@ import { LinkComponent } from "../link/link.component";
 @Component({
   selector: "rte-textarea",
   imports: [CommonModule, IconComponent, LinkComponent],
-  standalone: true,
   templateUrl: "./textarea.component.html",
   styleUrl: "./textarea.component.scss",
   providers: [

@@ -44,7 +44,6 @@ const segmentSelector = `.${segmentClass}`;
 @Component({
   selector: "rte-segmented-control",
   imports: [CommonModule, IconComponent, BadgeComponent],
-  standalone: true,
   templateUrl: "./segmented-control.component.html",
   styleUrl: "./segmented-control.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

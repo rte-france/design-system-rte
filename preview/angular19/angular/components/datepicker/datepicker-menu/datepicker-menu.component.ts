@@ -53,7 +53,6 @@ import { IconButtonComponent } from "../../icon-button/icon-button.component";
 @Component({
   selector: "rte-datepicker-menu",
   imports: [CommonModule, IconButtonComponent, ButtonComponent, DividerComponent],
-  standalone: true,
   templateUrl: "./datepicker-menu.component.html",
   styleUrl: "./datepicker-menu.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

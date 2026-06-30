@@ -11,7 +11,6 @@ import { LinkComponent } from "../../link/link.component";
 @Component({
   selector: "rte-base-text-input",
   imports: [CommonModule, IconComponent, IconButtonComponent, LinkComponent, RteBaseInputControlDirective],
-  standalone: true,
   templateUrl: "../../input/base-input/base-input.component.html",
   styleUrl: "../../input/base-input/base-input.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -17,7 +17,6 @@ import { IconService, RegularIconIdKey, TogglableIconIdKey } from "./icon.servic
 @Component({
   selector: "rte-icon",
   imports: [CommonModule],
-  standalone: true,
   templateUrl: "./icon.component.html",
   styleUrl: "./icon.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

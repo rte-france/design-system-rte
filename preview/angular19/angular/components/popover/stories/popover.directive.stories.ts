@@ -80,7 +80,7 @@ export const Default: Story = {
   },
   render: (args) => ({
     props: args,
-    declarations: [PopoverDirective],
+    imports: [PopoverDirective],
     template: mockHost(`
             rtePopover
             [rtePopoverContent]="rtePopoverContent"
@@ -107,7 +107,7 @@ export const WithTwoButtons: Story = {
   },
   render: (args) => ({
     props: args,
-    declarations: [PopoverDirective],
+    imports: [PopoverDirective],
     template: mockHost(`
             rtePopover
             [rtePopoverContent]="rtePopoverContent"
@@ -132,7 +132,7 @@ export const WithoutTitle: Story = {
   },
   render: (args) => ({
     props: args,
-    declarations: [PopoverDirective],
+    imports: [PopoverDirective],
     template: mockHost(`
             rtePopover
             [rtePopoverContent]="rtePopoverContent"
@@ -158,7 +158,7 @@ export const WithoutArrow: Story = {
   },
   render: (args) => ({
     props: args,
-    declarations: [PopoverDirective],
+    imports: [PopoverDirective],
     template: mockHost(`
             rtePopover
             [rtePopoverContent]="rtePopoverContent"
@@ -186,7 +186,7 @@ export const KeyboardInteraction: Story = {
   },
   render: (args) => ({
     props: args,
-    declarations: [PopoverDirective],
+    imports: [PopoverDirective],
     template: mockHost(`
             rtePopover
             [rtePopoverContent]="rtePopoverContent"

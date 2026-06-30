@@ -73,7 +73,6 @@ const [HOURS_SEGMENT, MINUTES_SEGMENT] = TIME_SEGMENT_ORDER;
     DropdownMenuBodyDirective,
     TimePickerMenuComponent,
   ],
-  standalone: true,
   templateUrl: "./time-picker.component.html",
   styleUrl: "./time-picker.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

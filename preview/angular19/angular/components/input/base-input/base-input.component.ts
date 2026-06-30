@@ -22,7 +22,6 @@ import { RteBaseInputControlDirective } from "../rte-base-input-control.directiv
 @Component({
   selector: "rte-base-input",
   imports: [CommonModule, IconComponent, IconButtonComponent, LinkComponent, RteBaseInputControlDirective],
-  standalone: true,
   templateUrl: "./base-input.component.html",
   styleUrl: "./base-input.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

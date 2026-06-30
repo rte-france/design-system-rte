@@ -2,7 +2,6 @@ import { Directive, ElementRef, HostListener, inject, output } from "@angular/co
 
 @Directive({
   selector: "[rteModalTrigger]",
-  standalone: true,
 })
 export class ModalTriggerDirective {
   readonly elementRef = inject(ElementRef);

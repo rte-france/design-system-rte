@@ -45,7 +45,6 @@ import { SelectHeaderDirective } from "./select-header.directive";
     ChipComponent,
     BadgeComponent,
   ],
-  standalone: true,
   templateUrl: "./select.component.html",
   styleUrl: "./select.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

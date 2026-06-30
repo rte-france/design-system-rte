@@ -113,7 +113,7 @@ export const Default: Story = {
       handlePrimaryClick: () => console.log("Primary button clicked"),
       handleSecondaryClick: () => console.log("Secondary button clicked"),
     },
-    declarations: [ModalDirective],
+    imports: [ModalDirective],
     template: `<div
                 rteModal
                 #modalHost="rteModal"
@@ -160,7 +160,7 @@ export const Sizes: Story = {
       handlePrimaryClick: () => console.log("Primary button clicked"),
       handleSecondaryClick: () => console.log("Secondary button clicked"),
     },
-    declarations: [ModalDirective],
+    imports: [ModalDirective],
     template: `
     <div style="display: flex; gap: 12px; margin-bottom: 16px;">
     <div
@@ -289,7 +289,7 @@ export const WithCustomContent: Story = {
       handlePrimaryClick: () => console.log("Primary button clicked"),
       handleSecondaryClick: () => console.log("Secondary button clicked"),
     },
-    declarations: [ModalDirective],
+    imports: [ModalDirective],
     template: `<div
                 rteModal
                 #modalHost="rteModal"
@@ -350,7 +350,7 @@ export const KeyboardInteraction: Story = {
       },
       handleSecondaryClick: () => console.log("Secondary button clicked"),
     },
-    declarations: [ModalDirective],
+    imports: [ModalDirective],
     template: `<div
                 rteModal
                 #modalHost="rteModal"

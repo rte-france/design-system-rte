@@ -15,7 +15,6 @@ import { IconComponent } from "../icon/icon.component";
 @Component({
   selector: "rte-badge",
   imports: [CommonModule, IconComponent],
-  standalone: true,
   templateUrl: "./badge.component.html",
   styleUrl: "./badge.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

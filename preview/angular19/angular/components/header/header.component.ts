@@ -62,7 +62,6 @@ const DEFAULT_HOME_LINK = "/";
     HeaderRightDirective,
     DividerComponent,
   ],
-  standalone: true,
   templateUrl: "./header.component.html",
   styleUrl: "./header.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
