@@ -41,7 +41,6 @@ import { focusDropdownFirstElement } from "./dropdown.utils";
     "[class.dropdown]": "true",
     "[attr.data-dropdown-id]": "dropdownId",
   },
-  standalone: true,
 })
 export class DropdownDirective implements AfterContentInit {
   private static idCounter = 0;

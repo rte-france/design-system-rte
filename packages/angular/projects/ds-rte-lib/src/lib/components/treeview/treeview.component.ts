@@ -30,7 +30,6 @@ import { TreeviewSelectionService } from "./treeview-selection.service";
 @Component({
   selector: "rte-treeview",
   imports: [CommonModule, TreeviewItemComponent],
-  standalone: true,
   templateUrl: "./treeview.component.html",
   styleUrl: "./treeview.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

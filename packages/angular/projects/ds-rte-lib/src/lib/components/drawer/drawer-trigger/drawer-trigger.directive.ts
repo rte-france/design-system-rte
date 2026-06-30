@@ -2,7 +2,6 @@ import { Directive, HostListener, output } from "@angular/core";
 
 @Directive({
   selector: "[rteDrawerTrigger]",
-  standalone: true,
   host: {
     "[attr.data-rte-drawer-trigger]": "true",
   },

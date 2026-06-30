@@ -84,7 +84,6 @@ const typeRangeFieldDigits = async (field: HTMLElement, digits: string): Promise
 @Component({
   selector: "daterangepicker-story-host",
   imports: [FormsModule, DaterangepickerComponent],
-  standalone: true,
   template: `
     <p>Date sélectionnée: {{ rangeSummary() }}</p>
     <rte-daterangepicker

@@ -3,7 +3,6 @@ import { GridType } from "@design-system-rte/core/components/grid/grid.interface
 
 @Directive({
   selector: "[rteGrid]",
-  standalone: true,
 })
 export class GridDirective {
   readonly gridType = input<GridType>("fluid");

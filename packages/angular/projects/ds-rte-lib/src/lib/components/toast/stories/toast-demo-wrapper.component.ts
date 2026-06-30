@@ -6,7 +6,6 @@ import { ToastConfig, ToastService } from "../toast.service";
 @Component({
   selector: "toast-demo-wrapper",
   imports: [ButtonComponent],
-  standalone: true,
   template: `
     <button rteButton rteButtonVariant="danger" (click)="toggleToast('error-toast')">Toggle Error Toast</button>
     <button rteButton rteButtonVariant="secondary" (click)="toggleToast('warning-toast')">Toggle Warning Toast</button>

@@ -56,7 +56,6 @@ import { TreeviewItemBorderComponent } from "./treeview-item-border/treeview-ite
     DropdownTriggerDirective,
     DropdownMenuComponent,
   ],
-  standalone: true,
   templateUrl: "./treeview-item.component.html",
   styleUrl: "./treeview-item.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

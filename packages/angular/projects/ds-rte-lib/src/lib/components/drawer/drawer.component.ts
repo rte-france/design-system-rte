@@ -36,7 +36,6 @@ import { IconButtonComponent } from "../icon-button/icon-button.component";
 @Component({
   selector: "rte-drawer",
   imports: [CommonModule, ButtonComponent, DividerComponent, IconComponent, IconButtonComponent],
-  standalone: true,
   templateUrl: "./drawer.component.html",
   styleUrl: "./drawer.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

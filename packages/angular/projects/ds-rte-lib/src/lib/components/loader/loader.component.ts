@@ -7,7 +7,6 @@ import { LoaderProps } from "@design-system-rte/core/components/loader/loader.in
 @Component({
   selector: "rte-loader",
   imports: [CommonModule],
-  standalone: true,
   templateUrl: "./loader.component.html",
   styleUrl: "./loader.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

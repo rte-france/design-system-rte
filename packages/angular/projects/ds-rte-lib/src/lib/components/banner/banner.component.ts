@@ -19,7 +19,6 @@ import { IconButtonComponent } from "../icon-button/icon-button.component";
 @Component({
   selector: "rte-banner",
   imports: [CommonModule, IconComponent, IconButtonComponent, ButtonComponent],
-  standalone: true,
   templateUrl: "./banner.component.html",
   styleUrl: "./banner.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

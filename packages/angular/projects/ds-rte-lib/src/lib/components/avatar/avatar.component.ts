@@ -18,7 +18,6 @@ import { StatusComponent } from "./assets/status/status.component";
 @Component({
   selector: "rte-avatar",
   imports: [CommonModule, IconComponent, StatusComponent],
-  standalone: true,
   templateUrl: "./avatar.component.html",
   styleUrl: "./avatar.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
