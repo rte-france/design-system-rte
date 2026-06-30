@@ -9,5 +9,5 @@ interface TreeviewProps extends Omit<React.HTMLAttributes<HTMLUListElement>, "on
     hasCheckbox?: boolean;
     id?: string;
 }
-declare const Treeview: ({ items, isCompact, selectedId, onChange, selectedPath, hasCheckbox, id, }: TreeviewProps) => import("react/jsx-runtime").JSX.Element;
+declare const Treeview: ({ items, isCompact, selectedId, onChange, selectedPath, hasCheckbox, id, }: TreeviewProps) => import("react").JSX.Element;
 export default Treeview;

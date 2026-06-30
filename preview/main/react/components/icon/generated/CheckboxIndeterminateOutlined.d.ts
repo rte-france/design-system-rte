@@ -1,3 +1,3 @@
 import { IconProps } from '../Icon';
-declare const SvgCheckboxIndeterminateOutlined: ({ width, height, fill, ...props }: IconProps) => import("react/jsx-runtime").JSX.Element;
+declare const SvgCheckboxIndeterminateOutlined: ({ width, height, fill, ...props }: IconProps) => import("react").JSX.Element;
 export default SvgCheckboxIndeterminateOutlined;
