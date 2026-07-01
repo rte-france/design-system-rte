@@ -1,0 +1,67 @@
+@use '@design-system-rte/core/design-tokens/main.scss' as *;
+
+.rte-loader {
+    width: fit-content;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: $positive-spacing_050;
+    gap: $positive-spacing_100;
+    animation: fade-in 150ms linear;
+
+    &.labelPosition--under {
+        flex-direction: column;
+        padding: $positive-spacing_0;
+        gap: $positive-spacing_100;
+    }
+
+    .svgLoader {
+        animation: spin 2s infinite linear;
+    }
+
+    .loaderLabel {
+
+        color: var(--content-brand-default);
+        word-wrap: break-word;
+
+        &.appearance--reverse {
+            color: var(--content-primary-inverse);
+        }
+
+        &.size--small{
+            @include typography-text-xs;
+        }
+
+        &.size--medium {
+            @include typography-text-s;
+        }
+
+        &.size--large {
+            @include typography-text-m;
+        }
+
+
+    }
+
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+
+}
+
+@keyframes fade-in {
+    from{
+        opacity:0
+    }
+    to{
+        opacity:1
+    }
+}
