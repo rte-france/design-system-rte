@@ -13,7 +13,6 @@ import { RegularIconIdKey, TogglableIconIdKey } from "../icon/icon.service";
 @Component({
   selector: "rte-icon-button",
   imports: [CommonModule, IconComponent, BadgeDirective],
-  standalone: true,
   templateUrl: "./icon-button.component.html",
   styleUrl: "./icon-button.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

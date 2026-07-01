@@ -25,7 +25,6 @@ const TRANSITION_DURATION = 300;
 @Component({
   selector: "rte-side-nav",
   imports: [CommonModule, BaseSideNavComponent, DividerComponent, NavItemComponent, NavMenuComponent, TooltipDirective],
-  standalone: true,
   templateUrl: "./side-nav.component.html",
   styleUrl: "./side-nav.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -48,31 +47,25 @@ export class SideNavComponent {
   private titleTimeoutId: ReturnType<typeof setTimeout> | null = null;
 
   constructor() {
-    effect(
-      () => {
-        this.collapsedState.set(this.isCollapsed());
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      this.collapsedState.set(this.isCollapsed());
+    });
 
-    effect(
-      () => {
-        if (this.titleTimeoutId) {
-          clearTimeout(this.titleTimeoutId);
+    effect(() => {
+      if (this.titleTimeoutId) {
+        clearTimeout(this.titleTimeoutId);
+        this.titleTimeoutId = null;
+      }
+
+      if (this.collapsedState()) {
+        this.shouldShowTitle.set(false);
+      } else {
+        this.titleTimeoutId = setTimeout(() => {
+          this.shouldShowTitle.set(true);
           this.titleTimeoutId = null;
-        }
-
-        if (this.collapsedState()) {
-          this.shouldShowTitle.set(false);
-        } else {
-          this.titleTimeoutId = setTimeout(() => {
-            this.shouldShowTitle.set(true);
-            this.titleTimeoutId = null;
-          }, TRANSITION_DURATION);
-        }
-      },
-      { allowSignalWrites: true },
-    );
+        }, TRANSITION_DURATION);
+      }
+    });
   }
 
   readonly collapseIcon = computed<string>(() => {

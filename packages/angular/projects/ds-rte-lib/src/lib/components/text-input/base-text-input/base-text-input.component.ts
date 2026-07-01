@@ -19,7 +19,6 @@ import { LinkComponent } from "../../link/link.component";
     RteBaseInputControlDirective,
     RequiredIndicatorComponent,
   ],
-  standalone: true,
   templateUrl: "../../input/base-input/base-input.component.html",
   styleUrl: "../../input/base-input/base-input.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -32,16 +31,13 @@ export class BaseTextInputComponent extends BaseInputComponent {
   constructor() {
     super();
 
-    effect(
-      () => {
-        if (this.visibilityIcons()) {
-          this.isHiddenInput.set(this.rightIconAction() === "visibilityOn");
-        } else {
-          this.isHiddenInput.set(false);
-        }
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      if (this.visibilityIcons()) {
+        this.isHiddenInput.set(this.rightIconAction() === "visibilityOn");
+      } else {
+        this.isHiddenInput.set(false);
+      }
+    });
   }
 
   protected override computeInputType(): "text" | "password" {

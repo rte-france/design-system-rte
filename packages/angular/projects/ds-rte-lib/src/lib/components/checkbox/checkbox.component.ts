@@ -6,7 +6,6 @@ import { IconComponent } from "../icon/icon.component";
 @Component({
   selector: "rte-checkbox",
   imports: [CommonModule, IconComponent],
-  standalone: true,
   templateUrl: "./checkbox.component.html",
   styleUrl: "./checkbox.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -30,12 +29,9 @@ export class CheckboxComponent {
   readonly internalChecked = signal<boolean>(false);
 
   constructor() {
-    effect(
-      () => {
-        this.internalChecked.set(this.checked());
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      this.internalChecked.set(this.checked());
+    });
   }
 
   onClick(event: MouseEvent) {

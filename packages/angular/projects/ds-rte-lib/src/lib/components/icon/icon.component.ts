@@ -17,7 +17,6 @@ import { IconService, RegularIconIdKey, TogglableIconIdKey } from "./icon.servic
 @Component({
   selector: "rte-icon",
   imports: [CommonModule],
-  standalone: true,
   templateUrl: "./icon.component.html",
   styleUrl: "./icon.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -39,12 +38,9 @@ export class IconComponent {
   private cdr = inject(ChangeDetectorRef);
 
   constructor() {
-    effect(
-      () => {
-        this.setSvgContent(this.name(), this.size(), this.appearance(), this.color());
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      this.setSvgContent(this.name(), this.size(), this.appearance(), this.color());
+    });
   }
 
   private setSvgContent(

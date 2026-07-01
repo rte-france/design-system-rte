@@ -10,7 +10,6 @@ import { LinkComponent } from "../link/link.component";
 @Component({
   selector: "rte-assistive-text",
   imports: [CommonModule, IconComponent, LinkComponent],
-  standalone: true,
   templateUrl: "./assistive-text.component.html",
   styleUrl: "./assistive-text.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

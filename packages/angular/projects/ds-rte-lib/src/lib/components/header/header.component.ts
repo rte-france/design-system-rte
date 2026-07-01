@@ -62,7 +62,6 @@ const DEFAULT_HOME_LINK = "/";
     HeaderRightDirective,
     DividerComponent,
   ],
-  standalone: true,
   templateUrl: "./header.component.html",
   styleUrl: "./header.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -181,43 +180,29 @@ export class HeaderComponent {
     this.internalIsSearchActive.set(this.isSearchActive());
     this.lastSeenExternalIsSearchActive.set(this.isSearchActive());
 
-    effect(
-      () => {
-        this.syncViewportMode();
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => this.syncViewportMode());
 
-    effect(
-      () => {
-        const nextExternal = this.isSearchActive();
-        if (nextExternal === this.lastSeenExternalIsSearchActive()) {
-          return;
+    effect(() => {
+      const nextExternal = this.isSearchActive();
+      if (nextExternal === this.lastSeenExternalIsSearchActive()) {
+        return;
+      }
+      this.lastSeenExternalIsSearchActive.set(nextExternal);
+      this.internalIsSearchActive.set(nextExternal);
+    });
+
+    effect((onCleanup) => {
+      const teardown = this.setupScrollBehavior();
+      onCleanup(teardown);
+    });
+
+    effect(() => {
+      if (this.isDesktop()) {
+        if (this.internalIsSearchActive()) {
+          this.handleIsSearchActiveChange(false);
         }
-        this.lastSeenExternalIsSearchActive.set(nextExternal);
-        this.internalIsSearchActive.set(nextExternal);
-      },
-      { allowSignalWrites: true },
-    );
-
-    effect(
-      (onCleanup) => {
-        const teardown = this.setupScrollBehavior();
-        onCleanup(teardown);
-      },
-      { allowSignalWrites: true },
-    );
-
-    effect(
-      () => {
-        if (this.isDesktop()) {
-          if (this.internalIsSearchActive()) {
-            this.handleIsSearchActiveChange(false);
-          }
-        }
-      },
-      { allowSignalWrites: true },
-    );
+      }
+    });
   }
 
   private syncViewportMode(): void {

@@ -20,7 +20,6 @@ import { IconButtonComponent } from "../icon-button/icon-button.component";
 @Component({
   selector: "rte-toast",
   imports: [CommonModule, IconComponent, IconButtonComponent, ButtonComponent],
-  standalone: true,
   templateUrl: "./toast.component.html",
   styleUrl: "./toast.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

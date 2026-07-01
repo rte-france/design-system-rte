@@ -7,7 +7,6 @@ import { FileUploadComponent } from "../file-upload.component";
 @Component({
   selector: "story-file-upload-async-wrapper",
   imports: [FileUploadComponent],
-  standalone: true,
   template: `
     <rte-file-upload
       id="file-upload-async"

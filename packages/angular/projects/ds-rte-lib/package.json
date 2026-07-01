@@ -7,8 +7,8 @@
     "access": "public"
   },
   "peerDependencies": {
-    "@angular/common": "^18.2.14",
-    "@angular/core": "^18.2.14",
+    "@angular/common": "^19.2.25",
+    "@angular/core": "^19.2.25",
     "@design-system-rte/core": "^1.11.0"
   },
   "dependencies": {

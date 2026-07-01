@@ -24,7 +24,6 @@ import { RegularIconIdKey, TogglableIconIdKey } from "../icon/icon.service";
 @Component({
   selector: "rte-split-button",
   imports: [CommonModule, IconComponent, DropdownModule, BadgeDirective],
-  standalone: true,
   templateUrl: "./split-button.component.html",
   styleUrl: "./split-button.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

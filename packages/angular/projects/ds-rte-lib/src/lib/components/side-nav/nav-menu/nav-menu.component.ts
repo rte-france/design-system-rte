@@ -40,7 +40,6 @@ export interface NavMenuOpenChangeEvent {
     NavItemComponent,
     TooltipDirective,
   ],
-  standalone: true,
   templateUrl: "./nav-menu.component.html",
   styleUrl: "./nav-menu.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -67,14 +66,11 @@ export class NavMenuComponent {
   readonly openChange = output<NavMenuOpenChangeEvent>();
 
   constructor() {
-    effect(
-      () => {
-        if (this.parentMenuOpen() === false && this.open()) {
-          this.closeMenu();
-        }
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      if (this.parentMenuOpen() === false && this.open()) {
+        this.closeMenu();
+      }
+    });
   }
 
   readonly hasNestedItems = computed<boolean>(() => !!this.items().length);

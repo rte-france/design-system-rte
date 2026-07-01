@@ -5,7 +5,6 @@ import { BaseTextInputComponent } from "./base-text-input/base-text-input.compon
 @Component({
   selector: "rte-text-input",
   imports: [BaseTextInputComponent],
-  standalone: true,
   templateUrl: "./text-input.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

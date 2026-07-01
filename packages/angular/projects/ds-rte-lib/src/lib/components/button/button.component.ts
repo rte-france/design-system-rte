@@ -9,7 +9,6 @@ import { IconComponent } from "../icon/icon.component";
 @Component({
   selector: "button[rteButton]",
   imports: [IconComponent],
-  standalone: true,
   templateUrl: "./button.component.html",
   styleUrl: "./button.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

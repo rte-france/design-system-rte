@@ -28,7 +28,6 @@ const SUB_MENU_CLOSE_DELAY_MS = 300;
 @Component({
   selector: "rte-dropdown-item",
   imports: [CommonModule, IconComponent, DividerComponent, BadgeComponent, CheckboxComponent],
-  standalone: true,
   templateUrl: "./dropdown-item.component.html",
   styleUrl: "./dropdown-item.component.scss",
 })

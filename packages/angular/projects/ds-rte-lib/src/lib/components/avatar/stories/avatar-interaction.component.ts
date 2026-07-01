@@ -9,7 +9,6 @@ import user from "./user.png";
 @Component({
   selector: "avatar-interaction",
   imports: [AvatarComponent, ButtonComponent],
-  standalone: true,
   template: `
     <div style="display: flex; gap: 16px; align-items: center;">
       <rte-avatar

@@ -56,7 +56,6 @@ import { TreeviewItemBorderComponent } from "./treeview-item-border/treeview-ite
     DropdownTriggerDirective,
     DropdownMenuComponent,
   ],
-  standalone: true,
   templateUrl: "./treeview-item.component.html",
   styleUrl: "./treeview-item.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -186,12 +185,7 @@ export class TreeviewItemComponent {
   }
 
   constructor() {
-    effect(
-      () => {
-        this.isOpenSignal.set(this.isOpen());
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => this.isOpenSignal.set(this.isOpen()));
   }
 
   toggleOpen(): void {

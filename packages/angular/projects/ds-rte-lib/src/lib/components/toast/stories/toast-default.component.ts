@@ -7,7 +7,6 @@ import { ToastConfig, ToastService } from "../toast.service";
 @Component({
   selector: "toast-default",
   imports: [ButtonComponent],
-  standalone: true,
   template: ` <button rteButton (click)="toggleToast()">Toggle toast</button> `,
 })
 export class ToastDefaultComponent {
