@@ -20,17 +20,23 @@ const useSelectedIndicatorPosition = (
     const node = containerRef.current.querySelector(`#${selectedId}`) as HTMLElement | undefined;
 
     if (node && node?.getAttribute("data-disabled") !== "true") {
+      const containerRect = containerRef.current.getBoundingClientRect();
+      const nodeRect = node.getBoundingClientRect();
       if (position === "bottom") {
-        setIndicatorStyle({ left: node.offsetLeft, bottom: 0, width: node.offsetWidth });
+        setIndicatorStyle({ left: nodeRect.left - containerRect.left, bottom: 0, width: nodeRect.width });
       } else if (position === "left") {
         setIndicatorStyle({
           left: 0,
-          top: node.offsetTop,
-          height: node.offsetHeight,
+          top: nodeRect.top - containerRect.top,
+          height: nodeRect.height,
           width: 2,
         });
       } else {
-        setIndicatorStyle({ left: node.offsetLeft, top: node.offsetTop, width: node.offsetWidth });
+        setIndicatorStyle({
+          left: nodeRect.left - containerRect.left,
+          top: nodeRect.top - containerRect.top,
+          width: nodeRect.width,
+        });
       }
     }
   }, [selectedId, containerRef, position]);
