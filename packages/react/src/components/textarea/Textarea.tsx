@@ -3,7 +3,7 @@ import { ChangeEvent, FocusEvent, forwardRef, MutableRefObject, TextareaHTMLAttr
 
 import AssistiveText from "../assistivetext/AssistiveText";
 import Label from "../label/Label";
-import { concatClassNames } from "../utils";
+import { concatClassNames, deleteFromProps } from "../utils";
 
 import style from "./Textarea.module.scss";
 
@@ -114,7 +114,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
                 value={value}
                 disabled={disabled}
                 readOnly={readOnly}
-                {...props}
+                {...deleteFromProps(props, "placeholder")}
               />
               {assistiveTextLabel && (
                 <AssistiveText
