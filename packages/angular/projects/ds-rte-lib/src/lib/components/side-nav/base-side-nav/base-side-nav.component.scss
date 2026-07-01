@@ -72,9 +72,10 @@
     gap: $positive-spacing_0;
     box-sizing: border-box;
     border-radius: 0;
-    transition: min-width 300ms;
+    transition: min-width 300ms, max-width 300ms;
     color: var(--rte-side-nav-shell-content);
     height: 100%;
+    overflow: hidden;
 }
 
 .side-nav-header {

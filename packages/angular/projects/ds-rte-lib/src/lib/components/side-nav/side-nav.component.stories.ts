@@ -322,7 +322,6 @@ export const Default: Story = {
       title: "My Header",
       icon: "home",
       identifier: "MA",
-      link: "/my-application",
     },
     appearance: "brand",
     size: "m",

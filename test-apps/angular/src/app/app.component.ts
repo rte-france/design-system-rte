@@ -223,7 +223,6 @@ export class AppComponent {
     title: "Design System",
     version: "V1.0.0",
     icon: "home",
-    link: "/",
   };
 
   readonly headerSubHeaderConfig: HeaderSubHeaderConfig = {

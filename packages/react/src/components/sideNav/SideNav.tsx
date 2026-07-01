@@ -111,7 +111,7 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
     const headerTitleContent = (
       <div className={style.sideNavHeaderTitle}>
         <div className={style.sideNavHeaderIdentifier}>{headerConfig?.identifier}</div>
-        {!isCollapsed && <h1 data-hidden={!shouldShowTitle}>{headerConfig?.title}</h1>}
+        {!isCollapsed && <h1>{headerConfig?.title}</h1>}
       </div>
     );
 
