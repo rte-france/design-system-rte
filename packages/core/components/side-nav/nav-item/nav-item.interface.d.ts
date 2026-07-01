@@ -7,7 +7,6 @@ export interface NavItemProps {
   label: string;
   icon?: string;
   hasLeadingIcon?: boolean;
-  hasBadge?: boolean;
   isCollapsed?: boolean;
   link?: string;
   onClick?: () => void;
