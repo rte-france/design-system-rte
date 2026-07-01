@@ -284,6 +284,7 @@ const defaultHeaderConfig = {
   title: "My Application",
   version: "V1.2.3",
   icon: "home",
+  link: "/",
 };
 
 const longApplicationTitle =
