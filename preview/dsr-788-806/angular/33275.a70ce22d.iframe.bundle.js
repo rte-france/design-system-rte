@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_design_system_rte_angular_builder=self.webpackChunk_design_system_rte_angular_builder||[]).push([[33275],{"./projects/ds-rte-lib/src/lib/assets/icons/battery_alt_full.svg":(module,__unused_webpack_exports,__webpack_require__)=>{module.exports=__webpack_require__.p+"static/media/battery_alt_full.fa534de1.svg"}}]);
