@@ -69,8 +69,10 @@ export class TooltipDirective implements AfterViewInit, OnDestroy {
     if (!this.rteTooltipShouldFocusTrigger()) {
       this.renderer.setAttribute(this.hostElement, "tabindex", "-1");
       const focusableTrigger = this.hostElement.querySelectorAll(FOCUSABLE_ELEMENTS_QUERY)[0];
-      focusableTrigger.addEventListener("focus", () => this.onFocus());
-      focusableTrigger.addEventListener("blur", () => this.onBlur());
+      if (focusableTrigger) {
+        focusableTrigger.addEventListener("focus", () => this.onFocus());
+        focusableTrigger.addEventListener("blur", () => this.onBlur());
+      }
     } else {
       this.renderer.setAttribute(this.hostElement, "tabindex", "0");
     }
@@ -80,8 +82,10 @@ export class TooltipDirective implements AfterViewInit, OnDestroy {
   ngOnDestroy() {
     if (!this.rteTooltipShouldFocusTrigger()) {
       const focusableTrigger = this.hostElement.querySelectorAll(FOCUSABLE_ELEMENTS_QUERY)[0];
-      focusableTrigger.removeEventListener("focus", () => this.onFocus());
-      focusableTrigger.removeEventListener("blur", () => this.onBlur());
+      if (focusableTrigger) {
+        focusableTrigger.removeEventListener("focus", () => this.onFocus());
+        focusableTrigger.removeEventListener("blur", () => this.onBlur());
+      }
     }
     window.removeEventListener("scroll", this.positionTooltip.bind(this));
   }

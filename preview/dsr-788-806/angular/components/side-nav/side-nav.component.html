@@ -12,7 +12,7 @@
           <div class="side-nav-header-title">
             <div class="side-nav-header-identifier">{{ headerConfig()?.identifier }}</div>
             @if (!collapsedState()) {
-              <h1 [ngClass]="{ hidden: !shouldShowTitle() }">{{ headerConfig()?.title }}</h1>
+              <h1>{{ headerConfig()?.title }}</h1>
             }
           </div>
         </ng-template>

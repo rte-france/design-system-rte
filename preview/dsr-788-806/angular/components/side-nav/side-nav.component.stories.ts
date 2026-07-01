@@ -284,7 +284,6 @@ const defaultHeaderConfig = {
   title: "My Application",
   version: "V1.2.3",
   icon: "home",
-  link: "/",
 };
 
 const longApplicationTitle =
@@ -322,7 +321,6 @@ export const Default: Story = {
       title: "My Header",
       icon: "home",
       identifier: "MA",
-      link: "/my-application",
     },
     appearance: "brand",
     size: "m",
