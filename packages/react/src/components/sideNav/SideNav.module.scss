@@ -29,23 +29,18 @@
     position: relative;
     flex-direction: column;
     justify-content: center;
-    align-items: flex-start;
     gap: $positive-spacing_050;
     flex: 1 0 0;
     align-self: stretch;
-    transition: opacity 300ms;
+    transition: opacity 300ms, justify-content 300ms;
 
     &[data-collapsed='true'] {
         padding: $positive-spacing_0;
-        justify-content: center;
-        align-items: center;
         flex: 1 0 0;
         align-self: stretch;
 
         .sideNavHeaderTitleContainer {
-            padding: $positive-spacing_050;
-            justify-content: center;
-            align-items: center;
+            padding: $positive-spacing_050 $positive-spacing_150;
             flex: 0 0 auto;
             gap: 0;
             align-self: auto;
@@ -56,7 +51,6 @@
 
             .sideNavHeaderIdentifier {
                 flex: 0 0 auto;
-                border-radius: $radius-s;
             }
         }
     }
@@ -72,7 +66,8 @@
         text-decoration: none;
         color: inherit;
         max-height: 32px;
-        transition: background 0.3s ease;
+        justify-content: start;
+        transition: background 0.3s ease, padding 0.3s ease;
 
         &[href],
         &[role="button"] {
@@ -121,14 +116,6 @@
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
-                transition: opacity 300ms;
-
-                &[data-hidden='true'] {
-                    opacity: 0;
-                    max-height: 0;
-                    padding: 0;
-                    margin: 0;
-                }
             }
         }
     }
@@ -179,6 +166,7 @@
         display: flex;
         flex-direction: column;
         gap: $positive-spacing_100;
+        overflow: hidden;
     }
 }
 

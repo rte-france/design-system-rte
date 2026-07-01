@@ -14,6 +14,10 @@
     border-left: $width-m solid transparent;
     color: var(--rte-side-nav-item-label);
 
+    span {
+        white-space: nowrap;
+    }
+
     &:link,
     &:visited {
         text-decoration: none;
@@ -68,12 +72,10 @@
 
     &[data-collapsed='true'] {
         padding: $positive-spacing_100 $positive-spacing_150;
-        justify-content: center;
         border-left: none;
         gap: 0;
 
         .navItem {
-            justify-content: center;
             gap: 0;
         }
     }
