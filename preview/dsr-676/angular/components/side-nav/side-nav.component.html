@@ -1,0 +1,221 @@
+<rte-base-side-nav [size]="size()" [isCollapsed]="collapsedState()" [appearance]="appearance()" [contrast]="contrast()">
+  <div side-nav-header>
+    <div
+      class="side-nav-header-container"
+      [ngClass]="{ collapsed: collapsedState(), compact: headerConfig()?.isCompact ?? false }"
+    >
+      <div
+        class="side-nav-header {{ appearance() }}"
+        [ngClass]="{ collapsed: collapsedState(), compact: headerConfig()?.isCompact ?? false }"
+      >
+        <ng-template #headerTitleInner>
+          <div class="side-nav-header-title">
+            <div class="side-nav-header-identifier">{{ headerConfig()?.identifier }}</div>
+            @if (!collapsedState()) {
+              <h1 [ngClass]="{ hidden: !shouldShowTitle() }">{{ headerConfig()?.title }}</h1>
+            }
+          </div>
+        </ng-template>
+        @if (collapsedState() && headerTooltip()) {
+          @if (headerConfig()?.link) {
+            <a
+              class="side-nav-header-title-container"
+              rteTooltip
+              rteTooltipPosition="right"
+              rteTooltipAlignment="center"
+              [rteTooltip]="headerTooltip()"
+              [rteTooltipArrow]="false"
+              [rteTooltipGap]="20"
+              [rteTooltipShouldFocusTrigger]="true"
+              [href]="headerConfig()!.link!"
+              [attr.aria-label]="headerConfig()?.ariaLabel"
+              (click)="handleHeaderClick()"
+            >
+              <ng-container *ngTemplateOutlet="headerTitleInner" />
+            </a>
+          } @else if (headerConfig()?.onClick) {
+            <div
+              class="side-nav-header-title-container"
+              rteTooltip
+              rteTooltipPosition="right"
+              rteTooltipAlignment="center"
+              tabindex="0"
+              role="button"
+              [rteTooltip]="headerTooltip()"
+              [rteTooltipArrow]="false"
+              [rteTooltipGap]="20"
+              [rteTooltipShouldFocusTrigger]="true"
+              [attr.aria-label]="headerConfig()?.ariaLabel"
+              (click)="handleHeaderClick()"
+              (keydown)="handleHeaderKeyDown($event)"
+            >
+              <ng-container *ngTemplateOutlet="headerTitleInner" />
+            </div>
+          } @else {
+            <div
+              class="side-nav-header-title-container"
+              rteTooltip
+              rteTooltipPosition="right"
+              rteTooltipAlignment="center"
+              [rteTooltip]="headerTooltip()"
+              [rteTooltipArrow]="false"
+              [rteTooltipGap]="20"
+              [rteTooltipShouldFocusTrigger]="false"
+            >
+              <ng-container *ngTemplateOutlet="headerTitleInner" />
+            </div>
+          }
+        } @else {
+          @if (headerConfig()?.link) {
+            <a
+              class="side-nav-header-title-container"
+              [href]="headerConfig()!.link!"
+              [attr.aria-label]="headerConfig()?.ariaLabel"
+              (click)="handleHeaderClick()"
+            >
+              <ng-container *ngTemplateOutlet="headerTitleInner" />
+            </a>
+          } @else if (headerConfig()?.onClick) {
+            <div
+              class="side-nav-header-title-container"
+              tabindex="0"
+              role="button"
+              [attr.aria-label]="headerConfig()?.ariaLabel"
+              (click)="handleHeaderClick()"
+              (keydown)="handleHeaderKeyDown($event)"
+            >
+              <ng-container *ngTemplateOutlet="headerTitleInner" />
+            </div>
+          } @else {
+            <div class="side-nav-header-title-container">
+              <ng-container *ngTemplateOutlet="headerTitleInner" />
+            </div>
+          }
+        }
+        @if (!headerConfig()?.isCompact) {
+          <div class="side-nav-header-version" [ngClass]="{ hidden: !shouldShowTitle() }">
+            <span>{{ headerConfig()?.version }}</span>
+          </div>
+        }
+      </div>
+      <rte-divider [appearance]="dividerAppearance()" />
+    </div>
+  </div>
+  <div side-nav-body>
+    <div class="side-nav-body">
+      <ul>
+        @for (item of items(); track item.label) {
+          @if (hasNestedItems(item)) {
+            <rte-nav-menu
+              [id]="item.id"
+              [label]="item.label"
+              [icon]="item.icon"
+              [hasLeadingIcon]="item.hasLeadingIcon ?? true"
+              [isCollapsed]="collapsedState()"
+              [link]="item.link"
+              [open]="item.open"
+              [active]="item.active ?? false"
+              [items]="item.items || []"
+              [appearance]="appearance()"
+              [contrast]="contrast()"
+              [badge]="item.badge"
+              [hasDivider]="item.hasDivider!"
+              (itemClick)="handleItemClick($event)"
+              (openChange)="handleMenuOpenChange($event)"
+            />
+          } @else {
+            <li>
+              <rte-nav-item
+                [id]="item.id"
+                [label]="item.label"
+                [icon]="item.icon"
+                [hasLeadingIcon]="item.hasLeadingIcon ?? true"
+                [isCollapsed]="collapsedState()"
+                [link]="item.link"
+                [appearance]="appearance()"
+                [active]="item.active ?? false"
+                [badge]="item.badge"
+                (itemClick)="handleItemClick(item.id || item.label)"
+              ></rte-nav-item>
+            </li>
+            @if (item.hasDivider) {
+              <rte-divider [appearance]="dividerAppearance()" />
+            }
+          }
+        }
+      </ul>
+    </div>
+  </div>
+  @if (footerItems()?.length || collapsible()) {
+    <div side-nav-footer>
+      <div class="side-nav-footer-container">
+        @if (footerItems()?.length) {
+          <div class="side-nav-footer-items">
+            <ul>
+              @for (item of footerItems()!; track item.id || item.label) {
+                @if (hasNestedItems(item)) {
+                  <rte-nav-menu
+                    [id]="item.id"
+                    [label]="item.label"
+                    [icon]="item.icon"
+                    [hasLeadingIcon]="item.hasLeadingIcon ?? true"
+                    [isCollapsed]="collapsedState()"
+                    [link]="item.link"
+                    [open]="item.open"
+                    [active]="item.active ?? false"
+                    [items]="item.items || []"
+                    [appearance]="appearance()"
+                    [contrast]="contrast()"
+                    [badge]="item.badge"
+                    [hasDivider]="item.hasDivider!"
+                    (itemClick)="handleFooterItemClick($event)"
+                    (openChange)="handleFooterMenuOpenChange($event)"
+                  />
+                } @else {
+                  <li>
+                    <rte-nav-item
+                      [id]="item.id"
+                      [label]="item.label"
+                      [icon]="item.icon"
+                      [hasLeadingIcon]="item.hasLeadingIcon ?? true"
+                      [isCollapsed]="collapsedState()"
+                      [link]="item.link"
+                      [appearance]="appearance()"
+                      [active]="item.active ?? false"
+                      [badge]="item.badge"
+                      (itemClick)="handleFooterItemClick(item.id || item.label)"
+                    ></rte-nav-item>
+                  </li>
+                  @if (item.hasDivider) {
+                    <rte-divider [appearance]="dividerAppearance()" />
+                  }
+                }
+              }
+            </ul>
+          </div>
+        }
+        <rte-divider [appearance]="dividerAppearance()" />
+        @if (collapsible()) {
+          <div class="side-nav-footer">
+            <div class="collapsible-section">
+              <ul>
+                <li>
+                  <rte-nav-item
+                    [label]="collapsedState() ? 'Ouvrir le menu' : 'Réduire le menu'"
+                    [icon]="collapseIcon()"
+                    [isCollapsed]="collapsedState()"
+                    [appearance]="appearance()"
+                    (itemClick)="handleCollapseClick()"
+                  />
+                </li>
+              </ul>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+  <div side-nav-content>
+    <ng-content select="[content]"></ng-content>
+  </div>
+</rte-base-side-nav>
