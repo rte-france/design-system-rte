@@ -1,4 +1,4 @@
-import { DATE_SEGMENT_MIN_VALUE, DATE_SEGMENTS_ORDER, DateSegmentEnum } from "@design-system-rte/core";
+import { DATE_SEGMENT_MIN_VALUE, DATE_SEGMENTS_ORDER, DateSegmentEnum, TimeFormat } from "@design-system-rte/core";
 
 export const getNextSegment = (seg: DateSegmentEnum): DateSegmentEnum =>
   DATE_SEGMENTS_ORDER[Math.min(DATE_SEGMENTS_ORDER.indexOf(seg) + 1, 2)];
@@ -50,4 +50,28 @@ export const computeDateSegmentRanges = (): Record<DateSegmentEnum, [number, num
     [DateSegmentEnum.MONTH]: [monthValueStartIndex, monthValueStartIndex + monthValueLength],
     [DateSegmentEnum.YEAR]: [yearValueStartIndex, yearValueStartIndex + yearValueLength],
   };
+};
+
+export const areSameDate = (firstDate: Date | null, secondDate: Date | null): boolean => {
+  if (firstDate === secondDate) {
+    return true;
+  }
+
+  if (!firstDate || !secondDate) {
+    return false;
+  }
+
+  return firstDate.getTime() === secondDate.getTime();
+};
+
+export const areSameTime = (firstTime: TimeFormat | null, secondTime: TimeFormat | null): boolean => {
+  if (firstTime === secondTime) {
+    return true;
+  }
+
+  if (!firstTime || !secondTime) {
+    return false;
+  }
+
+  return firstTime.hh === secondTime.hh && firstTime.mm === secondTime.mm && firstTime.ss === secondTime.ss;
 };

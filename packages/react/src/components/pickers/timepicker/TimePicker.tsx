@@ -16,7 +16,7 @@ import {
   formatNumberToDigitValue,
   getPrevSegment,
 } from "@design-system-rte/core";
-import type { TimePickerProps as coreTimePickerProps } from "@design-system-rte/core";
+import type { TimeFormat, TimePickerProps as coreTimePickerProps } from "@design-system-rte/core";
 import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
 
 import { useFocusTrap } from "../../../hooks/useFocusTrap";
@@ -24,6 +24,7 @@ import AssistiveText from "../../assistivetext/AssistiveText";
 import { BaseDropdown } from "../../dropdown/BaseDropdown";
 import Label from "../../label/Label";
 import BaseInputPicker from "../baseInputPicker/BaseInputPicker";
+import { areSameTime } from "../picker.utils";
 
 import { useNavigateBetweenTimeSegment } from "./hooks/useNavigateBetweenTimeSegment";
 import useTimePickerDropdown from "./hooks/useTimePickerDropdown";
@@ -70,6 +71,8 @@ const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
     const [isFocused, setIsFocused] = useState(false);
     const timePickerRef = useRef<HTMLDivElement | null>(null);
     const timePickerInputRef = useRef<HTMLInputElement | null>(null);
+    const onChangeRef = useRef(onChange);
+    const lastEmittedValueRef = useRef<TimeFormat | null>(value ?? null);
 
     const { timePickerDropdownElement, timePickerDropdownRef } = useTimePickerDropdown(isOpen);
 
@@ -330,8 +333,17 @@ const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
     }, [selectActiveSegment]);
 
     useEffect(() => {
-      onChange?.(internalTimeValue);
-    }, [internalTimeValue, onChange]);
+      onChangeRef.current = onChange;
+    }, [onChange]);
+
+    useEffect(() => {
+      if (areSameTime(lastEmittedValueRef.current, internalTimeValue)) {
+        return;
+      }
+
+      lastEmittedValueRef.current = internalTimeValue;
+      onChangeRef.current?.(internalTimeValue);
+    }, [internalTimeValue]);
 
     if (readOnly && (internalTimeValue.hh === "" || internalTimeValue.mm === "" || internalTimeValue.ss === "")) {
       console.warn(TIME_PICKER_WARN_READ_ONLY_INCOMPLETE_VALUE);
