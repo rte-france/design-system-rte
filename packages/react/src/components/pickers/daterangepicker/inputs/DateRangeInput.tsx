@@ -12,7 +12,7 @@ import {
 import { useEffect, useMemo, useRef } from "react";
 
 import BaseInputPicker, { BaseInputPickerProps } from "../../baseInputPicker/BaseInputPicker";
-import { formatNumberToParseSegmentValue } from "../../picker.utils";
+import { areSameDate, formatNumberToParseSegmentValue } from "../../picker.utils";
 
 interface DateRangeInputProps extends Omit<BaseInputPickerProps, "value" | "onChange"> {
   value: Date | null;
@@ -39,18 +39,6 @@ const numberRegex = /^\d*$/;
 
 const isDateStateEmpty = (dateState: DdMmYyyyDigitParts): boolean => {
   return dateState.dayDigits === "" && dateState.monthDigits === "" && dateState.yearDigits === "";
-};
-
-const areSameDate = (a: Date | null, b: Date | null): boolean => {
-  if (a === b) {
-    return true;
-  }
-
-  if (!a || !b) {
-    return false;
-  }
-
-  return a.getTime() === b.getTime();
 };
 
 const DateRangeInput = ({

@@ -8,6 +8,7 @@ import {
   DATE_SEGMENT_MAX_VALUE,
   DATE_SEGMENTS_ORDER,
   DateSegmentEnum,
+  DdMmYyyyDigitParts,
   DELETE_KEY,
   getDatepickerCalendarButtonAriaLabel,
   waitForNextFrame,
@@ -21,12 +22,16 @@ import Label from "../../label/Label";
 import BaseInputPicker from "../baseInputPicker/BaseInputPicker";
 import useDatePickerInternalValue from "../hooks/useDatePickerInternalValue";
 import { useNavigateBetweenDateSegment } from "../hooks/useNavigateBetweenDateSegment";
-import { computeDateSegmentRanges, formatNumberToParseSegmentValue } from "../picker.utils";
+import { areSameDate, computeDateSegmentRanges, formatNumberToParseSegmentValue } from "../picker.utils";
 
 import styles from "./DatePicker.module.scss";
 import DatePickerMenu from "./datePickerMenu/DatePickerMenu";
 
 const numberRegex = /^\d*$/;
+
+const isDateStateEmpty = (dateState: DdMmYyyyDigitParts): boolean => {
+  return dateState.dayDigits === "" && dateState.monthDigits === "" && dateState.yearDigits === "";
+};
 
 interface DatepickerProps
   extends CoreDatePickerProps, Omit<React.HTMLAttributes<HTMLDivElement>, "id" | "onChange" | "defaultValue"> {}
@@ -84,13 +89,26 @@ const DatePicker = forwardRef<HTMLDivElement, DatepickerProps>(
     const { moveToNextSegment, moveToPreviousSegment, setActiveDateSegment, activeDateSegment } =
       useNavigateBetweenDateSegment();
 
+    const onChangeRef = useRef(onChange);
+    const lastEmittedValueRef = useRef<Date | null>(value ?? null);
+
     useEffect(() => {
-      if (!internalValue) {
-        onChange?.(null);
-      } else {
-        onChange?.(internalValue);
+      onChangeRef.current = onChange;
+    }, [onChange]);
+
+    useEffect(() => {
+      if (internalValue === null && !isDateStateEmpty(dateState)) {
+        onChangeRef.current?.(internalValue);
+        return;
       }
-    }, [internalValue, onChange]);
+
+      if (areSameDate(lastEmittedValueRef.current, internalValue)) {
+        return;
+      }
+
+      lastEmittedValueRef.current = internalValue;
+      onChangeRef.current?.(internalValue);
+    }, [internalValue, dateState]);
 
     const dateInputRef = useRef<HTMLInputElement>(null);
     const pickerRef = useRef<HTMLDivElement>(null);
