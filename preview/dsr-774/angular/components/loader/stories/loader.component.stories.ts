@@ -49,3 +49,50 @@ export const Default: Story = {
     showLabel: true,
   },
 };
+
+export const SizesComparison: Story = {
+  args: {
+    appearance: "brand",
+    labelPosition: "under",
+    showLabel: true,
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <div style="display: flex; gap: 32px; align-items: flex-start;">
+        <rte-loader appearance="${args.appearance}" labelPosition="${args.labelPosition}" [showLabel]="${args.showLabel}" size="small" label="Small" />
+        <rte-loader appearance="${args.appearance}" labelPosition="${args.labelPosition}" [showLabel]="${args.showLabel}" size="medium" label="Medium" />
+        <rte-loader appearance="${args.appearance}" labelPosition="${args.labelPosition}" [showLabel]="${args.showLabel}" size="large" label="Large" />
+      </div>
+    `,
+  }),
+};
+
+export const WithoutLabelDefinition: Story = {
+  args: {
+    appearance: "brand",
+    size: "medium",
+    showLabel: true,
+    labelPosition: "under",
+  },
+};
+
+export const ShowLabelFalse: Story = {
+  args: {
+    appearance: "brand",
+    size: "medium",
+    showLabel: false,
+    label: "Chargement",
+    labelPosition: "under",
+  },
+};
+
+export const LabelPositionRight: Story = {
+  args: {
+    appearance: "brand",
+    size: "medium",
+    showLabel: true,
+    label: "Chargement",
+    labelPosition: "right",
+  },
+};
