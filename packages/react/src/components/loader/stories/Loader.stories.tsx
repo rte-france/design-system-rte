@@ -59,3 +59,42 @@ export const WithoutLabel: Story = {
     showLabel: false,
   },
 };
+
+export const SizesComparison: Story = {
+  args: {
+    labelPosition: "under",
+  },
+  render: (args) => (
+    <div style={{ display: "flex", gap: 32, alignItems: "flex-start" }}>
+      <Loader {...args} size="small" label="Small" />
+      <Loader {...args} size="medium" label="Medium" />
+      <Loader {...args} size="large" label="Large" />
+    </div>
+  ),
+};
+
+export const WithoutLabelDefinition: Story = {
+  args: {
+    size: "medium",
+    showLabel: true,
+    labelPosition: "under",
+  },
+};
+
+export const ShowLabelFalse: Story = {
+  args: {
+    size: "medium",
+    showLabel: false,
+    label: "Chargement",
+    labelPosition: "under",
+  },
+};
+
+export const LabelPositionRight: Story = {
+  args: {
+    size: "medium",
+    showLabel: true,
+    label: "Chargement",
+    labelPosition: "right",
+  },
+};
