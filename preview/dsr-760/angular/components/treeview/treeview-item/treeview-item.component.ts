@@ -1,0 +1,285 @@
+import { CommonModule } from "@angular/common";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  HostBinding,
+  inject,
+  input,
+  output,
+  signal,
+  Signal,
+} from "@angular/core";
+import {
+  TreeviewBorderType,
+  TreeviewItemProps,
+  TreeviewOpenChangeEvent,
+  TreeviewNodePath,
+} from "@design-system-rte/core/components/treeview/treeview-item.interface";
+import {
+  allDescendantsChecked,
+  BuildTreeviewNodeIdParams,
+  buildTreeviewNodeId,
+  canToggleOpen,
+  computeCheckboxId,
+  computeConnectorBorderTypes,
+  getChildBorderTypes,
+  getTreeviewItemKey,
+  hasChildren as hasChildrenUtil,
+  isItemSelected,
+  isNodeIndeterminate,
+} from "@design-system-rte/core/components/treeview/treeview.utils";
+import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
+
+import { BadgeComponent } from "../../badge/badge.component";
+import { CheckboxComponent } from "../../checkbox/checkbox.component";
+import { DropdownMenuComponent } from "../../dropdown/dropdown-menu/dropdown-menu.component";
+import { DropdownTriggerDirective } from "../../dropdown/dropdown-trigger/dropdown-trigger.directive";
+import { DropdownDirective } from "../../dropdown/dropdown.directive";
+import { DropdownItemConfig, DropdownItemEvent } from "../../dropdown/dropdown.types";
+import { IconComponent } from "../../icon/icon.component";
+import { TreeviewCheckService } from "../treeview-check.service";
+import { TreeviewSelectionService } from "../treeview-selection.service";
+
+import { TreeviewItemBorderComponent } from "./treeview-item-border/treeview-item-border.component";
+
+@Component({
+  selector: "li[rteTreeviewItem]",
+  imports: [
+    CommonModule,
+    CheckboxComponent,
+    IconComponent,
+    BadgeComponent,
+    TreeviewItemBorderComponent,
+    DropdownDirective,
+    DropdownTriggerDirective,
+    DropdownMenuComponent,
+  ],
+  standalone: true,
+  templateUrl: "./treeview-item.component.html",
+  styleUrl: "./treeview-item.component.scss",
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class TreeviewItemComponent {
+  @HostBinding("class") get hostClasses(): string {
+    const classes = ["treeview-item"];
+    if (this.isCompact()) classes.push("compact");
+    if (this.isSelected()) classes.push("selected");
+    if (this.disabled()) classes.push("disabled");
+    if (this.hasChildren()) classes.push("has-children");
+    if (this.hasChildren() && this.isOpenSignal()) classes.push("is-expanded");
+    if (this.effectiveDepth() === 0) classes.push("root-depth");
+    return classes.join(" ");
+  }
+
+  @HostBinding("attr.role") readonly role = "treeitem";
+
+  @HostBinding("attr.data-item-id") get dataItemId(): string {
+    return this.itemId();
+  }
+
+  @HostBinding("attr.aria-level") get ariaLevel(): number {
+    return this.effectiveDepth() + 1;
+  }
+
+  @HostBinding("attr.aria-expanded") get ariaExpanded(): boolean | undefined {
+    return this.hasChildren() ? this.isOpenSignal() : undefined;
+  }
+
+  @HostBinding("attr.aria-selected") get ariaSelected(): boolean {
+    return !!this.isSelected();
+  }
+
+  readonly treeId = input.required<string>();
+  readonly nodePath = input<TreeviewNodePath>([]);
+  readonly labelText = input.required<string>();
+  readonly icon = input<string | undefined>();
+  readonly disabled = input<boolean>(false);
+  readonly isCompact = input<boolean>(false);
+  readonly hasCheckbox = input<boolean>(false);
+  readonly isOpen = input<boolean>(false);
+  readonly hasIcon = input<boolean>(false);
+  readonly hasBadge = input<boolean>(false);
+  readonly items = input<TreeviewItemProps[]>([]);
+  readonly rootItems = input<TreeviewItemProps[] | undefined>(undefined);
+  readonly id = input<string | undefined>();
+  readonly depth = input<number | undefined>(undefined);
+  readonly isLastChild = input<boolean | undefined>(undefined);
+  readonly borderTypes = input<TreeviewBorderType[]>([]);
+  readonly actionIcon = input<string | undefined>();
+  readonly actionMenuItems = input<DropdownItemConfig[] | undefined>();
+
+  readonly isOpenSignal = signal<boolean>(false);
+
+  readonly itemClick = output<string | undefined>();
+  readonly openChange = output<TreeviewOpenChangeEvent>();
+  readonly actionIconClick = output<{ itemId: string; event: Event }>();
+  readonly actionMenuClick = output<{
+    itemId: string;
+    menuItemId: string;
+    menuItemLabel: string;
+    event: Event;
+    item?: DropdownItemConfig;
+  }>();
+
+  private readonly parentItem = inject(TreeviewItemComponent, { optional: true, skipSelf: true });
+  private readonly selectionService = inject(TreeviewSelectionService, { optional: true });
+  private readonly checkService = inject(TreeviewCheckService, { optional: true });
+
+  readonly hasChildren = computed(() => hasChildrenUtil(this.items()));
+
+  readonly isChecked = computed(() => {
+    const ids = this.checkService?.checkedIds() ?? new Set();
+    const node = { id: this.itemId(), labelText: this.labelText(), items: this.items() };
+    const hasChildren = hasChildrenUtil(this.items());
+    return allDescendantsChecked(node, ids) || (ids.has(this.itemId()) && !hasChildren);
+  });
+
+  readonly isIndeterminate = computed(() => {
+    const ids = this.checkService?.checkedIds() ?? new Set();
+    const node = { id: this.itemId(), labelText: this.labelText(), items: this.items() };
+    return isNodeIndeterminate(node, ids);
+  });
+
+  readonly itemId = computed(() => this.id() ?? this.labelText());
+
+  readonly isSelected = computed(
+    () => this.selectionService && !!isItemSelected(this.itemId(), this.selectionService.selectedId()),
+  );
+
+  readonly effectiveDepth: Signal<number> = computed(() => {
+    const depthInput = this.depth();
+    if (depthInput !== undefined) {
+      return depthInput;
+    }
+    const parent = this.parentItem;
+    return parent ? parent.effectiveDepth() + 1 : 0;
+  });
+
+  readonly nodeUid = computed(() =>
+    buildTreeviewNodeId({
+      treeId: this.treeId(),
+      path: this.nodePath(),
+      itemId: this.itemId(),
+    } as BuildTreeviewNodeIdParams),
+  );
+
+  readonly checkboxId = computed(() => computeCheckboxId(this.nodeUid()));
+
+  readonly resolvedBorderTypes = computed(() => {
+    const inputBorderTypes = this.borderTypes();
+    return inputBorderTypes.length > 0 ? inputBorderTypes : [];
+  });
+
+  readonly connectorBorderTypes = computed(() =>
+    computeConnectorBorderTypes({
+      depth: this.effectiveDepth(),
+      isCompact: this.isCompact(),
+      resolvedBorderTypes: this.resolvedBorderTypes(),
+      hasChildren: this.hasChildren(),
+    }),
+  );
+
+  getChildBorderTypes(isLastChild: boolean): TreeviewBorderType[] {
+    return getChildBorderTypes(this.resolvedBorderTypes(), isLastChild);
+  }
+
+  constructor() {
+    effect(
+      () => {
+        this.isOpenSignal.set(this.isOpen());
+      },
+      { allowSignalWrites: true },
+    );
+  }
+
+  toggleOpen(): void {
+    if (!canToggleOpen(this.hasChildren(), this.disabled())) {
+      return;
+    }
+    const newOpen = !this.isOpenSignal();
+    this.isOpenSignal.set(newOpen);
+    this.openChange.emit({ id: this.itemId(), open: newOpen });
+  }
+
+  handleContentClick(): void {
+    if (this.disabled()) {
+      return;
+    }
+    const service = this.selectionService;
+    if (service) {
+      const currentItemId = this.itemId();
+      service.select(currentItemId);
+    }
+    this.itemClick.emit(this.itemId());
+  }
+
+  handleChevronKeyDown(event: KeyboardEvent): void {
+    if ([SPACE_KEY, ENTER_KEY].includes(event.key)) {
+      event.preventDefault();
+      this.toggleOpen();
+    }
+  }
+
+  handleContentKeyDown(event: KeyboardEvent): void {
+    if ([SPACE_KEY, ENTER_KEY].includes(event.key)) {
+      event.preventDefault();
+      this.handleContentClick();
+    }
+  }
+
+  handleCheckboxClick(event: Event): void {
+    event.preventDefault();
+    event.stopPropagation();
+    if (this.disabled()) {
+      return;
+    }
+    this.checkService?.toggleChecked(
+      { id: this.itemId(), labelText: this.labelText(), items: this.items() },
+      this.rootItems(),
+    );
+  }
+
+  handleCheckboxKeydown(event: KeyboardEvent): void {
+    if ([SPACE_KEY, ENTER_KEY].includes(event.key)) {
+      event.preventDefault();
+      this.handleCheckboxClick(event);
+    }
+  }
+
+  handleActionIconClick(event: Event): void {
+    event.stopPropagation();
+    if (this.disabled()) {
+      return;
+    }
+    this.actionIconClick.emit({ itemId: this.itemId(), event });
+  }
+
+  handleActionIconKeyDown(event: KeyboardEvent): void {
+    if ([SPACE_KEY, ENTER_KEY].includes(event.key)) {
+      event.preventDefault();
+      event.stopPropagation();
+      this.handleActionIconClick(event);
+    }
+  }
+
+  handleActionMenuClick(menuEvent: DropdownItemEvent): void {
+    if (this.disabled()) {
+      return;
+    }
+    const menuItemId = menuEvent.id;
+    const menuItemLabel = menuEvent.item?.label ?? menuItemId;
+    this.actionMenuClick.emit({
+      itemId: this.itemId(),
+      menuItemId,
+      menuItemLabel,
+      event: menuEvent.event,
+      item: menuEvent.item,
+    });
+  }
+
+  trackChild(child: TreeviewItemProps): string {
+    return getTreeviewItemKey(child);
+  }
+}

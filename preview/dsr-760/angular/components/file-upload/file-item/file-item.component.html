@@ -1,0 +1,43 @@
+<div class="rte-file-upload-file-container">
+  <div class="rte-file-upload-file">
+    <div class="rte-file-upload-file-icon">
+      @if (isLoading()) {
+        <rte-loader size="small" [showLabel]="false" />
+      } @else {
+        @if (isError()) {
+          <rte-icon name="error" color="var(--content-danger-default)" [size]="20" />
+        } @else {
+          <rte-icon name="check-circle" color="var(--content-success-default)" [size]="20" />
+        }
+      }
+    </div>
+
+    <div #fileInfoRef class="rte-file-upload-file-info">
+      @if (hasEllipsis()) {
+        <span
+          #fileNameRef
+          class="rte-file-upload-file-name"
+          [attr.data-is-compact]="compact()"
+          [rteTooltip]="file().name"
+          [rteTooltipArrow]="true"
+        >
+          {{ truncatedFileName() }}
+        </span>
+      } @else {
+        <span #fileNameRef class="rte-file-upload-file-name" [attr.data-is-compact]="compact()">
+          {{ file().name }}
+        </span>
+      }
+
+      <span #fileSizeRef class="rte-file-upload-file-size" [attr.data-is-compact]="compact()">
+        {{ formatFileSize(file().size) }}
+      </span>
+    </div>
+
+    <rte-icon-button name="close" variant="neutral" size="m" (clickEvent)="onRemove()" />
+  </div>
+
+  @if (errorMessage()) {
+    <rte-assistive-text appearance="error" [label]="errorMessage()" />
+  }
+</div>

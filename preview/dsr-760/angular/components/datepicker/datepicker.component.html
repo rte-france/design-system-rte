@@ -1,0 +1,66 @@
+<div
+  class="rte-datepicker"
+  rteDropdown
+  [rteDropdownAutoOpen]="false"
+  [rteDropdownIsOpen]="isOpen()"
+  [rteDropdownWidth]="dropdownWidth()"
+  [rteDropdownOffset]="8"
+  [style.width]="computedWidth()"
+  (clickedOutside)="onClickedOutside()"
+  (closedDropdown)="onClosedDropdown()"
+>
+  <rte-datepicker-segmented-field
+    rteDropdownTrigger
+    [id]="id()"
+    [hasLabel]="hasLabel()"
+    [label]="labelText()"
+    [labelPosition]="labelPosition()"
+    [required]="required()"
+    [showLabelRequirement]="showLabelRequirement()"
+    [hasAssistiveText]="hasAssistiveText()"
+    [assistiveTextLabel]="hasAssistiveText() ? assistiveTextLabel() : ''"
+    [assistiveAppearance]="isError() ? 'error' : assistiveTextAppearance()"
+    [showAssistiveIcon]="showAssistiveIcon()"
+    [ariaLabel]="fieldAriaLabel()"
+    [ariaLabelledby]="segmentedFieldAriaLabelledby()"
+    [ariaRequired]="required()"
+    [locale]="locale()"
+    [value]="textValue()"
+    [error]="isError()"
+    [disabled]="isDisabled()"
+    [readOnly]="readOnly()"
+    [highlighted]="isOpen()"
+    [rightIconAriaLabel]="calendarButtonAriaLabel()"
+    (valueChange)="onInputValueChange($event)"
+    (rightIconClick)="onCalendarIconTriggered($event)"
+    (rightIconKeydown)="onCalendarIconTriggered($event)"
+    (segmentedControlClick)="onSegmentedControlClicked()"
+    (inputBlur)="onInputBlurred()"
+  />
+
+  <rte-dropdown-menu>
+    <ng-template rteDropdownMenuBody>
+      <rte-datepicker-menu
+        [calendarType]="calendarType()"
+        [viewDate]="viewDate()"
+        [selectedDate]="selectedDate()"
+        [pendingDate]="pendingDate()"
+        [minDate]="minDate()"
+        [maxDate]="maxDate()"
+        [disabledDates]="disabledDates()"
+        [locale]="locale()"
+        [hasActions]="hasActions()"
+        [focusSessionId]="menuFocusSessionId()"
+        [initialActiveDate]="menuInitialActiveDate()"
+        (dismiss)="onDismiss()"
+        (dateSelected)="onMenuDateSelected($event)"
+        (navigateViewFromHeaderControls)="onMenuNavigateViewFromHeaderControls($event)"
+        (navigateViewFromStructurePick)="onMenuNavigateViewFromStructurePick($event)"
+        (dateKeyboardNavigate)="onMenuKeyboardNavigate($event)"
+        (calendarTypeChange)="onMenuCalendarTypeChange($event)"
+        (cancel)="onCancel()"
+        (confirm)="onConfirm()"
+      />
+    </ng-template>
+  </rte-dropdown-menu>
+</div>

@@ -1,0 +1,225 @@
+import { computed, signal } from "@angular/core";
+import { Meta, StoryObj } from "@storybook/angular";
+import { userEvent, within, expect } from "@storybook/test";
+
+import { RadioButtonGroupComponent } from "./radio-button-group.component";
+
+const meta: Meta<RadioButtonGroupComponent> = {
+  title: "Composants/RadioButtonGroup",
+  component: RadioButtonGroupComponent,
+  tags: ["autodocs"],
+  argTypes: {
+    groupName: {
+      control: "text",
+      defaultValue: "group1",
+    },
+    items: {
+      control: "object",
+      defaultValue: [
+        { label: "Option 1", value: "option1" },
+        { label: "Option 2", value: "option2" },
+        { label: "Option 3", value: "option3" },
+      ],
+    },
+    direction: {
+      control: "select",
+      options: ["horizontal", "vertical"],
+      defaultValue: "horizontal",
+    },
+    showItemsLabel: {
+      control: "boolean",
+      defaultValue: true,
+    },
+    groupTitle: {
+      control: "text",
+      defaultValue: "Radio Button Group Title",
+    },
+    showGroupTitle: {
+      control: "boolean",
+      defaultValue: true,
+    },
+    groupHelpText: {
+      control: "text",
+      defaultValue: "This is a help text for the radio button group.",
+    },
+    showHelpText: {
+      control: "boolean",
+      defaultValue: true,
+    },
+    errorMessage: {
+      control: "text",
+      defaultValue: "This is an error message. Please select an option.",
+    },
+    error: {
+      control: "boolean",
+      defaultValue: false,
+    },
+    disabled: {
+      control: "boolean",
+      defaultValue: false,
+    },
+    readOnly: {
+      control: "boolean",
+      defaultValue: false,
+    },
+  },
+};
+export default meta;
+type Story = StoryObj<RadioButtonGroupComponent>;
+
+export const Default: Story = {
+  args: {
+    groupName: "group1",
+    items: [
+      { label: "Option 1", value: "option1" },
+      { label: "Option 2", value: "option2" },
+      { label: "Option 3", value: "option3" },
+    ],
+    direction: "horizontal",
+    showItemsLabel: true,
+    groupTitle: "Radio Button Group Title",
+    showGroupTitle: true,
+    groupHelpText: "This is a help text for the radio button group.",
+    showHelpText: true,
+    errorMessage: "This is an error message. Please select an option.",
+    error: false,
+    disabled: false,
+    readOnly: false,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const radioButton = canvas.getByLabelText("Option 1");
+    await userEvent.click(radioButton);
+    expect(radioButton).toBeChecked();
+  },
+};
+
+export const Disabled: Story = {
+  args: {
+    ...Default.args,
+    groupName: "disabled-radio-group",
+    disabled: true,
+  },
+};
+
+export const Error: Story = {
+  args: {
+    ...Default.args,
+    groupName: "error-radio-group",
+    error: true,
+  },
+};
+
+export const ReadOnly: Story = {
+  args: {
+    ...Default.args,
+    groupName: "readonly-radio-group",
+    readOnly: true,
+  },
+};
+
+export const Vertical: Story = {
+  args: {
+    ...Default.args,
+    groupName: "vertical-radio-group",
+    direction: "vertical",
+  },
+};
+
+export const Horizontal: Story = {
+  args: {
+    ...Default.args,
+    groupName: "horizontal-radio-group",
+    direction: "horizontal",
+  },
+};
+
+export const InitialValueSelected: Story = {
+  args: {
+    ...Default.args,
+    selectedValue: "option2",
+  },
+
+  render: (args) => {
+    const selectedValue = signal(args.selectedValue);
+
+    const valueChange = (value: string) => {
+      selectedValue.set(value);
+    };
+
+    const selectedLabel = computed(() => args.items.find((item) => item.value === selectedValue())?.label || "None");
+
+    return {
+      props: {
+        ...args,
+        valueChange,
+        selectedValue,
+        selectedLabel,
+      },
+      template: `
+      <div style="display: flex; gap: 8px;">
+      <rte-radio-button-group
+      [groupName]="groupName"
+      [items]="items"
+      [direction]="direction"
+      [showItemsLabel]="showItemsLabel"
+      [groupTitle]="groupTitle"
+      [showGroupTitle]="showGroupTitle"
+      [groupHelpText]="groupHelpText"
+      [showHelpText]="showHelpText"
+      [errorMessage]="errorMessage"
+      [error]="error"
+      [disabled]="disabled"
+      [readOnly]="readOnly"
+      [selectedValue]="selectedValue()"
+      (changeEvent)="valueChange($event)"
+      />
+      </div>
+      <p>Selected Value: {{ selectedLabel() }}</p>
+      `,
+    };
+  },
+
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const radioButton = canvas.getByLabelText("Option 2");
+    expect(radioButton).toBeChecked();
+  },
+};
+
+export const VerticalLongLabel: Story = {
+  args: {
+    ...Default.args,
+    groupName: "vertical-long-label-radio-group",
+    direction: "vertical",
+    items: [
+      { label: "Option 1 with a very long label that should wrap to the next line", value: "option1" },
+      { label: "Option 2 with a very long label that should wrap to the next line", value: "option2" },
+      { label: "Option 3 with a very long label that should wrap to the next line", value: "option3" },
+    ],
+  },
+
+  render: (args) => ({
+    props: args,
+    template: `
+    <div style="width: 300px;">
+      <rte-radio-button-group
+        [groupName]="groupName"
+        [items]="items"
+        [direction]="direction"
+        [showItemsLabel]="showItemsLabel"
+        [groupTitle]="groupTitle"
+        [showGroupTitle]="showGroupTitle"
+        [groupHelpText]="groupHelpText"
+        [showHelpText]="showHelpText"
+        [errorMessage]="errorMessage"
+        [error]="error"
+        [disabled]="disabled"
+        [readOnly]="readOnly"
+        [selectedValue]="selectedValue"
+        (changeEvent)="changeEvent($event)"
+      />
+    </div>
+    `,
+  }),
+};
