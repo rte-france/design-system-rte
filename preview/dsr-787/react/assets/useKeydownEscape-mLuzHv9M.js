@@ -1,1 +1,0 @@
-import{r}from"./index-G8LIXM5I.js";const s=e=>{r.useEffect(()=>{const t=n=>{n.key==="Escape"&&(n.preventDefault(),e())};return document.addEventListener("keydown",t),()=>document.removeEventListener("keydown",t)},[e])};export{s as u};
