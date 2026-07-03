@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, input, computed, output, ElementRef, viewChild } from "@angular/core";
+import { Component, input, computed, effect, output, signal, ElementRef, viewChild } from "@angular/core";
 import { NG_VALUE_ACCESSOR } from "@angular/forms";
 import { TEXTAREA_ICON_SIZE } from "@design-system-rte/core/components/textarea/textarea.constants";
 import type {
@@ -8,6 +8,7 @@ import type {
 } from "@design-system-rte/core/components/textarea/textarea.interface";
 
 import { IconComponent } from "../icon/icon.component";
+import { BaseValueAccessor } from "../input/base-value-accessor";
 import { RequiredIndicatorComponent } from "../input/required-indicator/required-indicator.component";
 import { LinkComponent } from "../link/link.component";
 
@@ -24,7 +25,7 @@ import { LinkComponent } from "../link/link.component";
     },
   ],
 })
-export class TextareaComponent {
+export class TextareaComponent extends BaseValueAccessor<string> {
   readonly id = input<string | undefined>(undefined);
   readonly name = input<string | undefined>(undefined);
   readonly ariaLabelledby = input<string | undefined>(undefined);
@@ -61,24 +62,54 @@ export class TextareaComponent {
 
   readonly textareaRef = viewChild<ElementRef<HTMLTextAreaElement>>("textarea");
 
+  readonly internalValue = signal<string>(this.value() ?? this.defaultValue() ?? "");
+
+  readonly isDisabled = computed(() => this.disabled() || this.formDisabled());
+
   readonly isAssistiveTextLinkVisible = computed(
     () => this.assistiveTextAppearance() === "link" && this.assistiveTextLink() !== undefined,
   );
 
-  characterCount = 0;
+  characterCount = (this.value() ?? this.defaultValue() ?? "").length;
 
   readonly isCounterVisible = computed(() => {
     return this.showCounter() && this.maxLength();
   });
 
+  private lastParentValue = this.value();
+
+  constructor() {
+    super();
+    effect(
+      () => {
+        const parentValue = this.value();
+        if (parentValue !== undefined && parentValue !== this.lastParentValue) {
+          this.lastParentValue = parentValue;
+          this.internalValue.set(parentValue);
+          this.characterCount = parentValue.length;
+        }
+      },
+      { allowSignalWrites: true },
+    );
+  }
+
+  writeValue(value: string): void {
+    const next = value ?? "";
+    this.internalValue.set(next);
+    this.characterCount = next.length;
+  }
+
   onInput(event: Event) {
     const target = event.target as HTMLTextAreaElement;
+    this.internalValue.set(target.value);
     this.characterCount = target.value.length;
+    this.onChange(target.value);
     this.change.emit(event);
   }
 
   onBlur(event: FocusEvent) {
     this.textareaRef()?.nativeElement?.scrollTo({ top: 0 });
+    this.onTouched();
     this.blur.emit(event);
   }
 }

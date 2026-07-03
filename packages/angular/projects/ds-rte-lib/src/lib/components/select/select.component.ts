@@ -29,6 +29,7 @@ import { DropdownModule } from "../dropdown";
 import { DropdownItemConfig } from "../dropdown/dropdown-item/dropdown-item.component";
 import { IconComponent } from "../icon/icon.component";
 import { IconButtonComponent } from "../icon-button/icon-button.component";
+import { BaseValueAccessor } from "../input/base-value-accessor";
 import { RequiredIndicatorComponent } from "../input/required-indicator/required-indicator.component";
 
 import { SelectFooterDirective } from "./select-footer.directive";
@@ -57,7 +58,7 @@ import { SelectHeaderDirective } from "./select-header.directive";
     },
   ],
 })
-export class SelectComponent implements AfterViewInit {
+export class SelectComponent extends BaseValueAccessor<string | string[]> implements AfterViewInit {
   readonly id = input<string>();
   readonly name = input<string>();
   readonly ariaLabelledby = input<string>();
@@ -145,13 +146,13 @@ export class SelectComponent implements AfterViewInit {
 
   readonly shouldDisplayClearButton = signal(false);
 
-  readonly shouldDisplayErrorIcon = computed(() => this.isError() && !this.disabled() && !this.readOnly());
+  readonly shouldDisplayErrorIcon = computed(() => this.isError() && !this.isDisabled() && !this.readOnly());
 
   readonly shouldDisplaySelectedIcon = computed(() => {
     return (
       this.variant() === "visibly-selected" &&
       !this.shouldDisplayErrorIcon() &&
-      !this.disabled() &&
+      !this.isDisabled() &&
       !this.readOnly() &&
       !!this.internalValue()
     );
@@ -177,6 +178,8 @@ export class SelectComponent implements AfterViewInit {
 
   readonly iconSize = computed(() => (this.compactSpacing() ? IconSize["s"] : IconSize["m"]));
 
+  readonly isDisabled = computed(() => this.disabled() || this.formDisabled());
+
   ngAfterViewInit() {
     this.internalValue.set(this.value());
     this.currentDisplayedOption.set(
@@ -186,19 +189,32 @@ export class SelectComponent implements AfterViewInit {
     this.computeShouldDisplayClearButton();
   }
 
+  writeValue(value: string | string[]): void {
+    this.internalValue.set(value ?? (this.multiple() ? [] : ""));
+    this.regenerateOptionsFormatted();
+    this.currentDisplayedOption.set(
+      getSelectedOption(this.optionToDisplay() || "first-selected", this.options(), this.internalValue()!),
+    );
+    this.computeShouldDisplayClearButton();
+  }
+
+  private emitFormChange(): void {
+    this.onChange(this.internalValue() ?? (this.multiple() ? [] : ""));
+  }
+
   areAllOptionsSelected(): boolean {
     return this.multiple() && this.options().every((option) => this.internalValue()?.includes(option.value));
   }
 
   handleOnClickTrigger() {
-    if (this.readOnly() || this.disabled()) {
+    if (this.readOnly() || this.isDisabled()) {
       return;
     }
     this.toggleDropdown();
   }
 
   handleOnKeyDownTrigger(event: KeyboardEvent) {
-    if (this.readOnly() || this.disabled()) {
+    if (this.readOnly() || this.isDisabled()) {
       return;
     }
     if (this.shouldDisplayClearButton()) {
@@ -217,7 +233,7 @@ export class SelectComponent implements AfterViewInit {
 
   handleOnCloseChip(event: Event, value: string) {
     event.stopPropagation();
-    if (this.readOnly() || this.disabled()) {
+    if (this.readOnly() || this.isDisabled()) {
       return;
     }
 
@@ -230,6 +246,7 @@ export class SelectComponent implements AfterViewInit {
           this.internalValue.set(currentValue);
           this.regenerateOptionsFormatted();
           this.valueChange.emit(currentValue);
+          this.emitFormChange();
           this.currentDisplayedOption.set(
             getSelectedOption(this.optionToDisplay() || "first-selected", this.options(), this.internalValue()!),
           );
@@ -240,7 +257,7 @@ export class SelectComponent implements AfterViewInit {
   }
 
   handleOnClickClearButton(event: Event): void {
-    if (this.readOnly() || this.disabled()) {
+    if (this.readOnly() || this.isDisabled()) {
       return;
     }
     event.stopPropagation();
@@ -248,7 +265,7 @@ export class SelectComponent implements AfterViewInit {
   }
 
   handleOnClickItem(value: string) {
-    if (this.readOnly() || this.disabled()) {
+    if (this.readOnly() || this.isDisabled()) {
       return;
     }
 
@@ -265,6 +282,8 @@ export class SelectComponent implements AfterViewInit {
     }
     this.regenerateOptionsFormatted();
 
+    this.valueChange.emit(value);
+    this.emitFormChange();
     this.currentDisplayedOption.set(
       getSelectedOption(this.optionToDisplay() || "first-selected", this.options(), this.internalValue()!),
     );
@@ -274,10 +293,12 @@ export class SelectComponent implements AfterViewInit {
 
   handleOnClosingDropdown() {
     this.isActive.set(false);
+    this.onTouched();
   }
 
   handleOnClickOutside() {
     this.isActive.set(false);
+    this.onTouched();
   }
 
   private toggleDropdown() {
@@ -298,6 +319,8 @@ export class SelectComponent implements AfterViewInit {
       this.valueChange.emit("");
     }
     this.isActive.set(false);
+    this.valueChange.emit("select-all");
+    this.emitFormChange();
     this.selectRef()?.nativeElement.dispatchEvent(new Event("clearContent"));
     this.regenerateOptionsFormatted();
     this.currentDisplayedOption.set(
@@ -343,7 +366,7 @@ export class SelectComponent implements AfterViewInit {
       (this.multiple()
         ? Array.isArray(this.internalValue()) && this.internalValue()!.length > 0
         : !!this.internalValue()) &&
-      !this.disabled();
+      !this.isDisabled();
     this.shouldDisplayClearButton.set(shouldDisplay);
   }
 

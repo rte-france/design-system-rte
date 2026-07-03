@@ -1,5 +1,5 @@
 import { Component, computed, output, signal, inject } from "@angular/core";
-import { FormsModule } from "@angular/forms";
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
 import { RouterOutlet } from "@angular/router";
 import {
   AccordionComponent,
@@ -53,6 +53,7 @@ import { TreeviewItemProps } from "@design-system-rte/core/components/treeview";
   standalone: true,
   imports: [
     FormsModule,
+    ReactiveFormsModule,
     RouterOutlet,
     HeaderComponent,
     AccordionComponent,
@@ -96,6 +97,60 @@ export class AppComponent {
   private currentOpenedToastId = "";
 
   readonly inputValue = signal("Hello");
+
+  readonly profileForm = new FormGroup({
+    fullName: new FormControl("", { nonNullable: true, validators: [Validators.required, Validators.minLength(3)] }),
+    role: new FormControl("", { nonNullable: true, validators: [Validators.required] }),
+    bio: new FormControl("", { nonNullable: true, validators: [Validators.maxLength(200)] }),
+    appointmentDate: new FormControl<Date | null>(null, { validators: [Validators.required] }),
+    period: new FormControl<DateRangePickerValue>([null, null]),
+    appointmentTime: new FormControl<TimeFormat>({ hh: "", mm: "", ss: "" }, { nonNullable: true }),
+  });
+
+  readonly submittedValue = signal<string | null>(null);
+
+  onFormSubmit(): void {
+    this.profileForm.markAllAsTouched();
+    if (this.profileForm.invalid) {
+      this.submittedValue.set(null);
+      return;
+    }
+    this.submittedValue.set(this.formSummary());
+  }
+
+  resetForm(): void {
+    this.profileForm.reset();
+    this.submittedValue.set(null);
+  }
+
+  toggleFormDisabled(): void {
+    if (this.profileForm.disabled) {
+      this.profileForm.enable();
+    } else {
+      this.profileForm.disable();
+    }
+  }
+
+  formSummary(): string {
+    const value = this.profileForm.getRawValue();
+    const time = value.appointmentTime;
+    return [
+      `fullName: ${value.fullName || "—"}`,
+      `role: ${value.role || "—"}`,
+      `bio: ${value.bio ? `${value.bio.length} chars` : "—"}`,
+      `appointmentDate: ${this.formatPickerDate(value.appointmentDate)}`,
+      `period: ${this.formatRange(value.period)}`,
+      `appointmentTime: ${time.hh || "--"}:${time.mm || "--"}:${time.ss || "--"}`,
+    ].join("\n");
+  }
+
+  private formatRange(range: DateRangePickerValue): string {
+    if (!range) {
+      return "—";
+    }
+    const [start, end] = range;
+    return `${this.formatPickerDate(start)} → ${this.formatPickerDate(end)}`;
+  }
 
   readonly timePickerValue = signal<TimeFormat>({ hh: "", mm: "", ss: "" });
 

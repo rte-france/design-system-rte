@@ -23,6 +23,98 @@
       (iconButtonClick)="handleHeaderIconButtonClick($event)"
       (avatarClick)="handleHeaderAvatarClick()"
     />
+    <section
+      style="
+        max-width: 560px;
+        margin: 16px 0;
+        padding: 20px;
+        border: 1px solid #c7dbf0;
+        border-radius: 8px;
+        font-family: Arial;
+      "
+    >
+      <h3 style="margin: 0 0 4px 0">Reactive form integration</h3>
+      <p style="margin: 0 0 20px 0; color: #666; font-size: 14px">
+        All form-capable DS components bound with <code>formControlName</code> inside a single Angular reactive form.
+      </p>
+
+      <form
+        [formGroup]="profileForm"
+        (ngSubmit)="onFormSubmit()"
+        style="display: flex; flex-direction: column; gap: 16px"
+      >
+        <rte-text-input
+          formControlName="fullName"
+          id="form-full-name"
+          label="Full name"
+          [required]="true"
+          assistiveTextLabel="Required, min. 3 characters."
+        />
+
+        <rte-select
+          formControlName="role"
+          id="form-role"
+          label="Role"
+          [options]="selectOptions"
+          [required]="true"
+          [showResetButton]="true"
+          placeholder="Select a role"
+        />
+
+        <rte-textarea
+          formControlName="bio"
+          id="form-bio"
+          label="Bio"
+          [showCounter]="true"
+          [maxLength]="200"
+          assistiveTextLabel="Max. 200 characters."
+        />
+
+        <rte-datepicker
+          formControlName="appointmentDate"
+          id="form-appointment-date"
+          labelText="Appointment date"
+          [hasLabel]="true"
+          locale="fr-FR"
+        />
+
+        <rte-daterangepicker
+          formControlName="period"
+          id="form-period"
+          labelText="Availability period"
+          [hasLabel]="true"
+          locale="fr-FR"
+        />
+
+        <rte-time-picker
+          formControlName="appointmentTime"
+          id="form-appointment-time"
+          labelId="form-appointment-time-label"
+          label="Appointment time"
+          [showLabel]="true"
+        />
+
+        <div style="display: flex; gap: 12px; flex-wrap: wrap">
+          <button rteButton type="submit" [disabled]="profileForm.invalid">Submit</button>
+          <button rteButton rteButtonVariant="neutral" type="button" (click)="resetForm()">Reset</button>
+          <button rteButton rteButtonVariant="neutral" type="button" (click)="toggleFormDisabled()">
+            {{ profileForm.disabled ? "Enable all" : "Disable all" }}
+          </button>
+        </div>
+      </form>
+
+      <div style="margin-top: 20px; font-family: monospace; font-size: 13px; color: #333">
+        <p style="margin: 0">status: {{ profileForm.status }}</p>
+        <p style="margin: 4px 0 0 0">
+          valid: {{ profileForm.valid }} | touched: {{ profileForm.touched }} | dirty: {{ profileForm.dirty }}
+        </p>
+        <pre style="white-space: pre-wrap; margin: 8px 0 0 0">{{ formSummary() }}</pre>
+        @if (submittedValue()) {
+          <p style="margin: 8px 0 0 0; color: #1a7f37">Submitted:</p>
+          <pre style="white-space: pre-wrap; margin: 4px 0 0 0; color: #1a7f37">{{ submittedValue() }}</pre>
+        }
+      </div>
+    </section>
     <div style="width: 400px; background: #c7dbf0; padding: 16px">
       <rte-accordion icon="power-wind" appearance="brand" alignement="right" size="small">
         <p style="margin: 0; font-family: Arial">
