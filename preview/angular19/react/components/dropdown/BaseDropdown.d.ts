@@ -9,4 +9,4 @@ export interface BaseDropdownProps extends CoreDropdownProps, React.HTMLAttribut
     overlayLevel?: OverlayPriority;
     maxHeight?: number | string;
 }
-export declare const BaseDropdown: import('../../../node_modules/react').ForwardRefExoticComponent<BaseDropdownProps & import('../../../node_modules/react').RefAttributes<HTMLDivElement>>;
+export declare const BaseDropdown: import('../../../../../node_modules/react').ForwardRefExoticComponent<BaseDropdownProps & import('../../../../../node_modules/react').RefAttributes<HTMLDivElement>>;

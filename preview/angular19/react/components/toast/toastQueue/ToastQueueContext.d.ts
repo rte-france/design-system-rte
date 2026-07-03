@@ -8,7 +8,7 @@ export type ToastQueueItem = {
     priority: number;
     isOpen?: boolean;
 };
-export declare const ToastQueueContext: import('../../../../node_modules/react').Context<{
+export declare const ToastQueueContext: import('../../../../../../node_modules/react').Context<{
     addToQueue: (toast: InputToast) => void;
     removeFromQueue: (id: string) => void;
     isFirstInQueue: (id: string) => boolean;

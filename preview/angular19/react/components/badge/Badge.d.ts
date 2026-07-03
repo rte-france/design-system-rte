@@ -3,5 +3,5 @@ export interface BadgeProps extends BadgePropsCore, Omit<React.HTMLAttributes<HT
     children?: React.ReactNode;
     icon?: string;
 }
-declare const Badge: import('../../../node_modules/react').ForwardRefExoticComponent<BadgeProps & import('../../../node_modules/react').RefAttributes<HTMLDivElement>>;
+declare const Badge: import('../../../../../node_modules/react').ForwardRefExoticComponent<BadgeProps & import('../../../../../node_modules/react').RefAttributes<HTMLDivElement>>;
 export default Badge;
