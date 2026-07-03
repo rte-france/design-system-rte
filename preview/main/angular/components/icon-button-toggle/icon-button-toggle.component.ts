@@ -10,7 +10,6 @@ import { IconButtonComponent } from "../icon-button/icon-button.component";
 @Component({
   selector: "rte-icon-button-toggle",
   imports: [CommonModule, IconButtonComponent],
-  standalone: true,
   templateUrl: "./icon-button-toggle.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

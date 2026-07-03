@@ -29,7 +29,6 @@ import { DrawerComponent } from "./drawer.component";
 @Directive({
   selector: "[rteDrawer]",
   exportAs: "rteDrawer",
-  standalone: true,
 })
 export class DrawerDirective implements AfterContentInit, OnDestroy {
   private drawerCompRef: ComponentRef<DrawerComponent> | null = null;
@@ -112,19 +111,16 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
       });
     });
 
-    effect(
-      () => {
-        const open = this.effectiveOpen();
-        untracked(() => {
-          if (open) {
-            this.runOpenTransition();
-          } else {
-            this.runCloseTransition();
-          }
-        });
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      const open = this.effectiveOpen();
+      untracked(() => {
+        if (open) {
+          this.runOpenTransition();
+        } else {
+          this.runCloseTransition();
+        }
+      });
+    });
   }
 
   open(): void {

@@ -84,7 +84,6 @@ const typeRangeFieldDigits = async (field: HTMLElement, digits: string): Promise
 @Component({
   selector: "daterangepicker-story-host",
   imports: [FormsModule, DaterangepickerComponent],
-  standalone: true,
   template: `
     <p>Date sélectionnée: {{ rangeSummary() }}</p>
     <rte-daterangepicker
@@ -140,12 +139,9 @@ class DaterangepickerStoryHostComponent {
   readonly range = signal<DateRangeBound>([null, null]);
 
   constructor() {
-    effect(
-      () => {
-        this.range.set(this.initialRange());
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      this.range.set(this.initialRange());
+    });
   }
 
   onRangeChange(value: DateRangePickerValue): void {

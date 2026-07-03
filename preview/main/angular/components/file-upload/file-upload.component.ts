@@ -24,7 +24,6 @@ import { FileItemComponent } from "./file-item/file-item.component";
 @Component({
   selector: "rte-file-upload",
   imports: [CommonModule, ButtonComponent, AssistiveTextComponent, FileItemComponent, RequiredIndicatorComponent],
-  standalone: true,
   templateUrl: "./file-upload.component.html",
   styleUrl: "./file-upload.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -30,7 +30,6 @@ import { RteBaseInputControlDirective } from "../rte-base-input-control.directiv
     RteBaseInputControlDirective,
     RequiredIndicatorComponent,
   ],
-  standalone: true,
   templateUrl: "./base-input.component.html",
   styleUrl: "./base-input.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -118,25 +117,19 @@ export class BaseInputComponent {
   });
 
   constructor() {
-    effect(
-      () => {
-        if (this.projectedControl()) {
-          this.projectedControlLatch.set(true);
-        }
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      if (this.projectedControl()) {
+        this.projectedControlLatch.set(true);
+      }
+    });
 
-    effect(
-      () => {
-        const parentValue = this.value();
-        if (parentValue !== this.lastParentValue) {
-          this.lastParentValue = parentValue;
-          this.internalValue.set(parentValue);
-        }
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      const parentValue = this.value();
+      if (parentValue !== this.lastParentValue) {
+        this.lastParentValue = parentValue;
+        this.internalValue.set(parentValue);
+      }
+    });
   }
 
   handleChange(event: Event): void {

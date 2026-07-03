@@ -5,7 +5,6 @@ import { Alignment, Position } from "@design-system-rte/core";
 @Component({
   selector: "rte-tooltip",
   imports: [CommonModule],
-  standalone: true,
   templateUrl: "./tooltip.component.html",
   styleUrl: "./tooltip.component.scss",
 })

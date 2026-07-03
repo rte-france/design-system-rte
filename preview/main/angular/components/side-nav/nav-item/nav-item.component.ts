@@ -21,7 +21,6 @@ function getNavTabIndex(parentMenuOpen?: boolean): number {
 @Component({
   selector: "rte-nav-item",
   imports: [CommonModule, IconComponent, BadgeComponent, BadgeDirective, TooltipDirective],
-  standalone: true,
   templateUrl: "./nav-item.component.html",
   styleUrl: "./nav-item.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

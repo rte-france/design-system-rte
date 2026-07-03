@@ -46,7 +46,6 @@ const MOBILE_SEARCH_TRIGGER_SIZE_PX = 32;
     DropdownMenuBodyDirective,
     DropdownTriggerDirective,
   ],
-  standalone: true,
   templateUrl: "./header-mobile.component.html",
   styleUrl: "./header-mobile.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -106,30 +105,27 @@ export class HeaderMobileComponent {
   readonly searchState = computed<"open" | "closed">(() => (this.isSearchExpanded() ? "open" : "closed"));
 
   constructor() {
-    effect(
-      () => {
-        if (!this.hasSearchbar()) {
-          this.teardownOutsideCloseListener();
-          this.clearCollapseTransitionTimer();
-          this.shouldRenderSearchbar.set(false);
-          this.isSearchExpanded.set(false);
-          this.isSearchCollapsing.set(false);
-          return;
-        }
-
-        const isActive = this.isSearchActive();
-        this.syncSearchVisualState(isActive);
-
-        if (isActive) {
-          this.closeMobileMenu();
-          this.ensureOutsideCloseListener();
-          return;
-        }
-
+    effect(() => {
+      if (!this.hasSearchbar()) {
         this.teardownOutsideCloseListener();
-      },
-      { allowSignalWrites: true },
-    );
+        this.clearCollapseTransitionTimer();
+        this.shouldRenderSearchbar.set(false);
+        this.isSearchExpanded.set(false);
+        this.isSearchCollapsing.set(false);
+        return;
+      }
+
+      const isActive = this.isSearchActive();
+      this.syncSearchVisualState(isActive);
+
+      if (isActive) {
+        this.closeMobileMenu();
+        this.ensureOutsideCloseListener();
+        return;
+      }
+
+      this.teardownOutsideCloseListener();
+    });
 
     this.destroyRef.onDestroy(() => {
       this.teardownOutsideCloseListener();

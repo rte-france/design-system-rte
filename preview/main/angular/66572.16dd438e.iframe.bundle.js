@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_design_system_rte_angular_builder=self.webpackChunk_design_system_rte_angular_builder||[]).push([[66572],{"./projects/ds-rte-lib/src/lib/assets/icons/arrow_alt_down.svg"(module,__unused_webpack_exports,__webpack_require__){module.exports=__webpack_require__.p+"static/media/arrow_alt_down.d71524cf.svg"}}]);

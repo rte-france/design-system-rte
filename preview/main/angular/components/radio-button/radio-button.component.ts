@@ -5,7 +5,6 @@ import { labelSize } from "@design-system-rte/core/components/radio-button/radio
 @Component({
   selector: "rte-radio-button",
   imports: [CommonModule],
-  standalone: true,
   templateUrl: "./radio-button.component.html",
   styleUrl: "./radio-button.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

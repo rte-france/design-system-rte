@@ -3,7 +3,6 @@ import { AvatarStatus } from "@design-system-rte/core/components/avatar/avatar.i
 
 @Component({
   selector: "rte-status",
-  standalone: true,
   templateUrl: "./status.component.html",
   styleUrl: "./status.component.scss",
 })

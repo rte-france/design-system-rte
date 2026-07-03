@@ -2,7 +2,6 @@ import { Directive, HostBinding, input } from "@angular/core";
 
 @Directive({
   selector: "[rteCol]",
-  standalone: true,
 })
 export class ColDirective {
   readonly xxs = input<number>();

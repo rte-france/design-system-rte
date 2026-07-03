@@ -8,7 +8,6 @@ import { ButtonComponent } from "../button/button.component";
 @Component({
   selector: "rte-popover",
   imports: [CommonModule, ButtonComponent],
-  standalone: true,
   templateUrl: "./popover.component.html",
   styleUrl: "./popover.component.scss",
 })

@@ -14,7 +14,6 @@ import { IconComponent } from "../icon/icon.component";
 @Component({
   selector: "rte-chip",
   imports: [CommonModule, IconComponent],
-  standalone: true,
   templateUrl: "./chip.component.html",
   styleUrl: "./chip.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
