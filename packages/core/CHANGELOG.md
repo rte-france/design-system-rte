@@ -1,5 +1,27 @@
 # @design-system-rte/core
 
+## 1.12.0
+
+### Minor Changes
+
+- d801d54: ## Changes
+
+  - update to Angular@19
+
+- 6984541: ## Changes
+
+  - add Code Connect template files for Figma
+
+### Patch Changes
+
+- 83d7ea1: ## Changes
+
+  - (Select) add maxheight props to allow scrolling behaviour
+
+- 19d47a0: ## Changes
+
+  - (Sidenav) remove legacy hasBadge property unused in SideNavItems
+
 ## 1.11.0
 
 ### Minor Changes
