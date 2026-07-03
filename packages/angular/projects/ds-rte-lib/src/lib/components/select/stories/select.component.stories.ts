@@ -452,13 +452,13 @@ export const KeyboardInteraction: Story = {
     await userEvent.tab();
     await userEvent.keyboard(TESTING_DOWN_KEY);
     await userEvent.keyboard(TESTING_ENTER_KEY);
-    expect(select).toHaveTextContent("Option 2");
+    await waitFor(() => expect(select).toHaveTextContent("Option 2"));
 
     const clearButton = select.querySelector("rte-icon-button.clear-icon button");
     const toggleIcon = select.querySelector("rte-icon.trigger-icon-down");
 
     await userEvent.click(clearButton!);
-    expect(select).toHaveTextContent(args.placeholder!);
+    await waitFor(() => expect(select).toHaveTextContent(args.placeholder!));
 
     await userEvent.click(toggleIcon!);
 
@@ -467,7 +467,7 @@ export const KeyboardInteraction: Story = {
     await userEvent.keyboard(TESTING_DOWN_KEY);
     await userEvent.keyboard(TESTING_DOWN_KEY);
     await userEvent.keyboard(TESTING_ENTER_KEY);
-    expect(select).toHaveTextContent("Option 3");
+    await waitFor(() => expect(select).toHaveTextContent("Option 3"));
   },
 };
 
@@ -521,15 +521,20 @@ export const ReactiveForm: Story = {
     const modelTouched = canvas.getByTestId("model-touched");
     const modelStatus = canvas.getByTestId("model-status");
 
+    const getMenuItems = () =>
+      document
+        .querySelector("[data-menu-id='dropdown_select_select-reactive-form']")
+        ?.querySelectorAll<HTMLElement>("li[role='menuitem']");
+
     focusElementBeforeComponent(canvasElement);
     await userEvent.tab();
     expect(select).toHaveFocus();
     await userEvent.keyboard(TESTING_ENTER_KEY);
-    await userEvent.tab();
-    await userEvent.keyboard(TESTING_DOWN_KEY);
-    await userEvent.keyboard(TESTING_ENTER_KEY);
 
-    expect(select).toHaveTextContent("Option 2");
+    await waitFor(() => expect(getMenuItems()?.length).toBeGreaterThan(0));
+    await userEvent.click(getMenuItems()![1]);
+
+    await waitFor(() => expect(select).toHaveTextContent("Option 2"));
     await waitFor(() => expect(modelValue).toHaveTextContent("option-2"));
     await waitFor(() => expect(modelTouched).toHaveTextContent("true"));
 
@@ -572,17 +577,15 @@ export const ReactiveFormMultiple: Story = {
     const select = canvas.getByRole("combobox");
     const modelValue = canvas.getByTestId("model-value");
 
+    const getItems = () =>
+      document
+        .querySelector("[data-menu-id='dropdown_select_select-multiple-reactive-form']")
+        ?.querySelectorAll<HTMLElement>("li[role='menuitem']");
+
     focusElementBeforeComponent(canvasElement);
     await userEvent.tab();
     expect(select).toHaveFocus();
     await userEvent.keyboard(TESTING_ENTER_KEY);
-
-    const getItems = () =>
-      document
-        .getElementById("overlay-root")
-        ?.querySelector("[data-menu-id]")
-        ?.querySelector("ul")
-        ?.querySelectorAll("li");
 
     await waitFor(() => expect(getItems()?.length).toBeGreaterThan(0));
 

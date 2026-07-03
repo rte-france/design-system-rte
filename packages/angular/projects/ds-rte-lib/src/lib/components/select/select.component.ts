@@ -144,7 +144,17 @@ export class SelectComponent extends BaseValueAccessor<string | string[]> implem
     getSelectedOption(this.optionToDisplay() || "first-selected", this.options(), this.internalValue()!),
   );
 
-  readonly shouldDisplayClearButton = signal(false);
+  readonly hasSelectedValue = computed(() => {
+    const currentValue = this.internalValue();
+    return this.multiple() ? Array.isArray(currentValue) && !!currentValue?.length : !!currentValue;
+  });
+
+  readonly shouldDisplayClearButton = computed(() => {
+    if (!this.showResetButton() || this.isDisabled()) {
+      return false;
+    }
+    return this.hasSelectedValue();
+  });
 
   readonly shouldDisplayErrorIcon = computed(() => this.isError() && !this.isDisabled() && !this.readOnly());
 
@@ -154,7 +164,7 @@ export class SelectComponent extends BaseValueAccessor<string | string[]> implem
       !this.shouldDisplayErrorIcon() &&
       !this.isDisabled() &&
       !this.readOnly() &&
-      !!this.internalValue()
+      this.hasSelectedValue()
     );
   });
 
@@ -186,16 +196,18 @@ export class SelectComponent extends BaseValueAccessor<string | string[]> implem
       getSelectedOption(this.optionToDisplay() || "first-selected", this.options(), this.internalValue()!),
     );
     this.regenerateOptionsFormatted();
-    this.computeShouldDisplayClearButton();
   }
 
   writeValue(value: string | string[]): void {
-    this.internalValue.set(value ?? (this.multiple() ? [] : ""));
+    if (Array.isArray(value)) {
+      this.internalValue.set([...value]);
+    } else {
+      this.internalValue.set(value ?? (this.multiple() ? [] : ""));
+    }
     this.regenerateOptionsFormatted();
     this.currentDisplayedOption.set(
       getSelectedOption(this.optionToDisplay() || "first-selected", this.options(), this.internalValue()!),
     );
-    this.computeShouldDisplayClearButton();
   }
 
   private emitFormChange(): void {
@@ -242,15 +254,13 @@ export class SelectComponent extends BaseValueAccessor<string | string[]> implem
       if (currentValue && Array.isArray(currentValue)) {
         const valueIndex = currentValue.indexOf(value);
         if (valueIndex > -1) {
-          currentValue.splice(valueIndex, 1);
-          this.internalValue.set(currentValue);
+          this.internalValue.set(currentValue.filter((currentItem) => currentItem !== value));
           this.regenerateOptionsFormatted();
           this.valueChange.emit(currentValue);
           this.emitFormChange();
           this.currentDisplayedOption.set(
             getSelectedOption(this.optionToDisplay() || "first-selected", this.options(), this.internalValue()!),
           );
-          this.computeShouldDisplayClearButton();
         }
       }
     }
@@ -287,7 +297,6 @@ export class SelectComponent extends BaseValueAccessor<string | string[]> implem
     this.currentDisplayedOption.set(
       getSelectedOption(this.optionToDisplay() || "first-selected", this.options(), this.internalValue()!),
     );
-    this.computeShouldDisplayClearButton();
     this.selectRef()?.nativeElement.focus();
   }
 
@@ -326,7 +335,6 @@ export class SelectComponent extends BaseValueAccessor<string | string[]> implem
     this.currentDisplayedOption.set(
       getSelectedOption(this.optionToDisplay() || "first-selected", this.options(), this.internalValue()!),
     );
-    this.computeShouldDisplayClearButton();
   }
 
   private regenerateOptionsFormatted() {
@@ -360,16 +368,6 @@ export class SelectComponent extends BaseValueAccessor<string | string[]> implem
     return this.internalValue() === value;
   }
 
-  private computeShouldDisplayClearButton() {
-    const shouldDisplay =
-      this.showResetButton() &&
-      (this.multiple()
-        ? Array.isArray(this.internalValue()) && this.internalValue()!.length > 0
-        : !!this.internalValue()) &&
-      !this.isDisabled();
-    this.shouldDisplayClearButton.set(shouldDisplay);
-  }
-
   private clickedSelectAll() {
     if (this.areAllOptionsSelected()) {
       this.internalValue.set([]);
@@ -382,21 +380,15 @@ export class SelectComponent extends BaseValueAccessor<string | string[]> implem
 
   private clickedSelectItemMultiple(value: string) {
     const currentValue = this.internalValue();
-    if (currentValue === undefined) {
+    if (!Array.isArray(currentValue)) {
       this.internalValue.set([value]);
-    } else {
-      if (Array.isArray(currentValue)) {
-        const valuesArray = currentValue;
-        const valueIndex = valuesArray.indexOf(value);
-        if (valueIndex > -1) {
-          valuesArray.splice(valueIndex, 1);
-        } else {
-          valuesArray.push(value);
-        }
-        this.internalValue.set(valuesArray);
-        this.valueChange.emit(valuesArray);
-      }
+      return;
     }
+    const valueIndex = currentValue.indexOf(value);
+    const valuesArray =
+      valueIndex > -1 ? currentValue.filter((currentItem) => currentItem !== value) : [...currentValue, value];
+    this.internalValue.set(valuesArray);
+        this.valueChange.emit(valuesArray);
   }
 
   private mapOptionToDropdownItemConfig(option: { value: string; label: string }): DropdownItemConfig {
