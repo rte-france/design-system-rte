@@ -4,12 +4,6 @@
 
 ## 2.0.0
 
-### now they are implicit
-
-#### Major Changes
-
-- remove standalone explicit declarations
-
 ### Divider
 
 #### Minor Changes
@@ -80,6 +74,7 @@
 
 #### Major Changes
 
+- remove standalone explicit declarations. They are implicit now
 - update to Angular@19
 
 #### Patch Changes

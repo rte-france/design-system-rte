@@ -6,7 +6,7 @@
 
 - d801d54: ## Changes
 
-  - remove standalone explicit declarations (now they are implicit)
+  - remove standalone explicit declarations. They are implicit now
   - update to Angular@19
 
 ### Minor Changes
