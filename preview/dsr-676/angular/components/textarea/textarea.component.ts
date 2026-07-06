@@ -72,25 +72,20 @@ export class TextareaComponent extends BaseValueAccessor<string> {
 
   characterCount = (this.value() ?? this.defaultValue() ?? "").length;
 
-  readonly isCounterVisible = computed(() => {
-    return this.showCounter() && this.maxLength();
-  });
+  readonly isCounterVisible = computed(() => this.showCounter() && !!this.maxLength());
 
   private lastParentValue = this.value();
 
   constructor() {
     super();
-    effect(
-      () => {
-        const parentValue = this.value();
-        if (parentValue !== undefined && parentValue !== this.lastParentValue) {
-          this.lastParentValue = parentValue;
-          this.internalValue.set(parentValue);
-          this.characterCount = parentValue.length;
-        }
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      const parentValue = this.value();
+      if (parentValue !== undefined && parentValue !== this.lastParentValue) {
+        this.lastParentValue = parentValue;
+        this.internalValue.set(parentValue);
+        this.characterCount = parentValue.length;
+      }
+    });
   }
 
   writeValue(value: string): void {

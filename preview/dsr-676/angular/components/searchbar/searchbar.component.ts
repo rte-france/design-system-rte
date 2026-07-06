@@ -58,16 +58,13 @@ export class SearchbarComponent extends BaseValueAccessor<string> {
 
   constructor() {
     super();
-    effect(
-      () => {
-        const parentValue = this.value();
-        if (parentValue !== this.lastParentValue) {
-          this.lastParentValue = parentValue;
-          this.internalValue.set(parentValue);
-        }
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      const parentValue = this.value();
+      if (parentValue !== this.lastParentValue) {
+        this.lastParentValue = parentValue;
+        this.internalValue.set(parentValue);
+      }
+    });
   }
 
   writeValue(value: string): void {

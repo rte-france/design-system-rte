@@ -146,10 +146,7 @@ export class SelectComponent extends BaseValueAccessor<string | string[]> implem
 
   readonly hasSelectedValue = computed(() => {
     const currentValue = this.internalValue();
-    if (this.multiple()) {
-      return Array.isArray(currentValue) && currentValue.length > 0;
-    }
-    return !!currentValue;
+    return this.multiple() ? Array.isArray(currentValue) && !!currentValue?.length : !!currentValue;
   });
 
   readonly shouldDisplayClearButton = computed(() => {
