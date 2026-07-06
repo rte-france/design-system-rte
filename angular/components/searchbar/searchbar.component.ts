@@ -16,7 +16,6 @@ import { BaseTextInputComponent } from "../text-input/base-text-input/base-text-
 @Component({
   selector: "rte-searchbar",
   imports: [CommonModule, BaseTextInputComponent, IconButtonComponent],
-  standalone: true,
   templateUrl: "./searchbar.component.html",
   styleUrl: "./searchbar.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

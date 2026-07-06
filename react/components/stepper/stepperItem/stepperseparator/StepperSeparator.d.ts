@@ -3,5 +3,5 @@ export interface StepperSeparatorProps {
     isComplete: boolean;
     orientation?: Direction;
 }
-declare const StepperSeparator: ({ isComplete, orientation }: StepperSeparatorProps) => import("react/jsx-runtime").JSX.Element;
+declare const StepperSeparator: ({ isComplete, orientation }: StepperSeparatorProps) => import("react").JSX.Element;
 export default StepperSeparator;

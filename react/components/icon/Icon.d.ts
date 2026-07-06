@@ -9,5 +9,5 @@ interface IconWrapperProps extends CoreIconWrapperProps, Omit<React.SVGProps<SVG
     name: string;
     appearance?: "outlined" | "filled";
 }
-declare const Icon: ({ name, size, color, appearance, ...props }: IconWrapperProps) => import("react/jsx-runtime").JSX.Element | null;
+declare const Icon: ({ name, size, color, appearance, ...props }: IconWrapperProps) => import("react").JSX.Element | null;
 export default Icon;

@@ -17,12 +17,19 @@ import { IconComponent } from "../../icon/icon.component";
 import { RegularIconIdKey, TogglableIconIdKey } from "../../icon/icon.service";
 import { IconButtonComponent } from "../../icon-button/icon-button.component";
 import { LinkComponent } from "../../link/link.component";
+import { RequiredIndicatorComponent } from "../required-indicator/required-indicator.component";
 import { RteBaseInputControlDirective } from "../rte-base-input-control.directive";
 
 @Component({
   selector: "rte-base-input",
-  imports: [CommonModule, IconComponent, IconButtonComponent, LinkComponent, RteBaseInputControlDirective],
-  standalone: true,
+  imports: [
+    CommonModule,
+    IconComponent,
+    IconButtonComponent,
+    LinkComponent,
+    RteBaseInputControlDirective,
+    RequiredIndicatorComponent,
+  ],
   templateUrl: "./base-input.component.html",
   styleUrl: "./base-input.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -110,25 +117,19 @@ export class BaseInputComponent {
   });
 
   constructor() {
-    effect(
-      () => {
-        if (this.projectedControl()) {
-          this.projectedControlLatch.set(true);
-        }
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      if (this.projectedControl()) {
+        this.projectedControlLatch.set(true);
+      }
+    });
 
-    effect(
-      () => {
-        const parentValue = this.value();
-        if (parentValue !== this.lastParentValue) {
-          this.lastParentValue = parentValue;
-          this.internalValue.set(parentValue);
-        }
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      const parentValue = this.value();
+      if (parentValue !== this.lastParentValue) {
+        this.lastParentValue = parentValue;
+        this.internalValue.set(parentValue);
+      }
+    });
   }
 
   handleChange(event: Event): void {

@@ -5,10 +5,19 @@
   flex-direction: column;
 }
 
+.rte-file-upload-header {
+  display: flex;
+  align-items: flex-start;
+  padding: $positive-spacing_025 $positive-spacing_100;
+
+  &[data-show-label-requirement='true'] {
+    align-items: center;
+  }
+}
+
 .rte-file-upload-label {
   @include typography-text-m;
   display: flex;
-  padding: $positive-spacing_025 $positive-spacing_100;
   color: var(--content-secondary);
   max-width: 300px;
   align-items: center;

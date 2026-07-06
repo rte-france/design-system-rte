@@ -18,7 +18,6 @@ import { BadgeComponent } from "./badge.component";
 
 @Directive({
   selector: "[rteBadge]",
-  standalone: true,
 })
 export class BadgeDirective implements OnInit, OnChanges, OnDestroy {
   readonly rteBadgeType = input<BadgeType>("brand");

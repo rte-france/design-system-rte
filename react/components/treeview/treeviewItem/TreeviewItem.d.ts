@@ -11,5 +11,5 @@ interface TreeviewItemProps extends coreTreeviewItem, Omit<React.HTMLAttributes<
     isChecked?: boolean;
     onClick?: (id: string) => void;
 }
-declare const TreeviewItem: ({ id, treeId, itemIndex, labelText, icon, disabled, isCompact, hasCheckbox, isOpen, hasIcon, hasBadge, items, borderTypes, actionIcon, actionMenuItems, depth, onOpenChange, onChange, onActionIconClick, onCheckedIdsChange, selectedId, checkedIds, }: TreeviewItemProps) => import("react/jsx-runtime").JSX.Element;
+declare const TreeviewItem: ({ id, treeId, itemIndex, labelText, icon, disabled, isCompact, hasCheckbox, isOpen, hasIcon, hasBadge, items, borderTypes, actionIcon, actionMenuItems, depth, onOpenChange, onChange, onActionIconClick, onCheckedIdsChange, selectedId, checkedIds, }: TreeviewItemProps) => import("react").JSX.Element;
 export default TreeviewItem;

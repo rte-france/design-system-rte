@@ -35,7 +35,6 @@ import {
   type DateRangePickerValue,
 } from "@design-system-rte/core/components/daterangepicker";
 import { normalizeDate } from "@design-system-rte/core/components/pickers";
-import { REQUIREMENT_INDICATOR_VALUE } from "@design-system-rte/core/components/required-indicator/required-indicator.constant";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
 import { FocusTrapService } from "../../services/focus-trap.service";
@@ -44,6 +43,7 @@ import { DatepickerMenuService } from "../datepicker/datepicker-menu.service";
 import { DatepickerSegmentedFieldComponent } from "../datepicker/datepicker-segmented-field/datepicker-segmented-field.component";
 import { DropdownModule } from "../dropdown";
 import { IconComponent } from "../icon/icon.component";
+import { RequiredIndicatorComponent } from "../input/required-indicator/required-indicator.component";
 
 import { DaterangepickerMenuComponent } from "./daterangepicker-menu/daterangepicker-menu.component";
 
@@ -60,8 +60,8 @@ type DateRangeSelectionMode = "start" | "end";
     DaterangepickerMenuComponent,
     IconComponent,
     AssistiveTextComponent,
+    RequiredIndicatorComponent,
   ],
-  standalone: true,
   templateUrl: "./daterangepicker.component.html",
   styleUrl: "./daterangepicker.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -79,7 +79,6 @@ export class DaterangepickerComponent implements ControlValueAccessor, AfterView
   readonly labelText = input<string>("Label");
   readonly hasLabel = input<boolean>(true);
   readonly labelPosition = input<"top" | "side">("top");
-  readonly isRequiredOptional = input<boolean>(false);
   readonly required = input<boolean>(false);
   readonly showLabelRequirement = input<boolean>(false);
 
@@ -147,16 +146,6 @@ export class DaterangepickerComponent implements ControlValueAccessor, AfterView
     return this.hasLabel() ? this.groupLabelId() : null;
   });
 
-  readonly requirementIndicatorValue = computed(() => {
-    if (!this.required()) {
-      return REQUIREMENT_INDICATOR_VALUE.optional;
-    }
-    if (this.showLabelRequirement()) {
-      return REQUIREMENT_INDICATOR_VALUE.required;
-    }
-    return REQUIREMENT_INDICATOR_VALUE.requiredIcon;
-  });
-
   readonly fieldDescribedBy = computed(() => {
     if (!this.hasAssistiveText() || !this.assistiveTextLabel() || this.isOpen()) {
       return null;
@@ -202,69 +191,56 @@ export class DaterangepickerComponent implements ControlValueAccessor, AfterView
   private resizeObserver: ResizeObserver | null = null;
 
   constructor() {
-    effect(
-      () => {
-        this.openedChange.emit(this.isOpen());
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      this.openedChange.emit(this.isOpen());
+    });
 
-    effect(
-      () => {
-        const open = this.isOpen();
-        if (open && !this.wasMenuOpen) {
-          this.applyStateWhenMenuOpens();
-        }
-        this.wasMenuOpen = open;
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      const open = this.isOpen();
+      if (open && !this.wasMenuOpen) {
+        this.applyStateWhenMenuOpens();
+      }
+      this.wasMenuOpen = open;
+    });
 
-    effect(
-      () => {
-        const open = this.isOpen();
-        const calendarType = this.calendarType();
+    effect(() => {
+      const open = this.isOpen();
+      const calendarType = this.calendarType();
 
-        if (!open) {
-          this.focusTrapService.deactivate();
+      if (!open) {
+        this.focusTrapService.deactivate();
+        return;
+      }
+      waitForNextFrame(() => {
+        const overlayRoot = document.getElementById("overlay-root");
+        const menuHost = overlayRoot?.querySelector("rte-daterangepicker-menu") as HTMLElement | null;
+        if (!menuHost) {
           return;
         }
-        waitForNextFrame(() => {
-          const overlayRoot = document.getElementById("overlay-root");
-          const menuHost = overlayRoot?.querySelector("rte-daterangepicker-menu") as HTMLElement | null;
-          if (!menuHost) {
-            return;
-          }
 
-          this.focusTrapService.deactivate();
-          const orderedFocusables = this.datepickerMenuService.collectDatepickerMenuTabOrder(menuHost, calendarType);
-          const initialFocusIndex = this.datepickerMenuService.getInitialFocusIndexForMenu(
-            menuHost,
-            calendarType,
-            orderedFocusables,
-          );
-          this.focusTrapService.activate(menuHost, {
-            getOrderedFocusables: () =>
-              this.datepickerMenuService.collectDatepickerMenuTabOrder(menuHost, calendarType),
-            initialFocusIndex,
-            restoreFocusTo: this.getCalendarButtonForInput(this.menuOpenedFromInput),
-          });
+        this.focusTrapService.deactivate();
+        const orderedFocusables = this.datepickerMenuService.collectDatepickerMenuTabOrder(menuHost, calendarType);
+        const initialFocusIndex = this.datepickerMenuService.getInitialFocusIndexForMenu(
+          menuHost,
+          calendarType,
+          orderedFocusables,
+        );
+        this.focusTrapService.activate(menuHost, {
+          getOrderedFocusables: () => this.datepickerMenuService.collectDatepickerMenuTabOrder(menuHost, calendarType),
+          initialFocusIndex,
+          restoreFocusTo: this.getCalendarButtonForInput(this.menuOpenedFromInput),
         });
-      },
-      { allowSignalWrites: true },
-    );
+      });
+    });
 
-    effect(
-      () => {
-        if (!this.isOpen()) {
-          return;
-        }
-        waitForNextFrame(() => {
-          this.syncDropdownWidthFromInputsWrapper();
-        });
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      if (!this.isOpen()) {
+        return;
+      }
+      waitForNextFrame(() => {
+        this.syncDropdownWidthFromInputsWrapper();
+      });
+    });
   }
 
   ngAfterViewInit(): void {

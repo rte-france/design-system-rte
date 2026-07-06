@@ -9,7 +9,6 @@ import { AccordionComponent } from "../accordion.component";
 @Component({
   selector: "story-accordion-exclusive-demo",
   imports: [AccordionComponent],
-  standalone: true,
   template: `
     <div style="width: 400px; background: #c7dbf0; padding: 16px; overflow: scroll; height: 200px;">
       <rte-accordion

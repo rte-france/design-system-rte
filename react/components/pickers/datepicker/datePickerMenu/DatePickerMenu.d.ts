@@ -12,5 +12,5 @@ interface DatePickerMenuProps {
     disabledDates?: readonly Date[];
     onChange?: (date: Date | null) => void;
 }
-declare const DatePickerMenu: ({ isOpen, currentValue, hasAction, updateFullDate, updateDisplayedDate, onValidate, onCancel, displayValue, minDate, maxDate, disabledDates, onChange, }: DatePickerMenuProps) => import("react/jsx-runtime").JSX.Element;
+declare const DatePickerMenu: ({ isOpen, currentValue, hasAction, updateFullDate, updateDisplayedDate, onValidate, onCancel, displayValue, minDate, maxDate, disabledDates, onChange, }: DatePickerMenuProps) => import("react").JSX.Element;
 export default DatePickerMenu;

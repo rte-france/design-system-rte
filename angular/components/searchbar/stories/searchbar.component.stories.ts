@@ -13,7 +13,6 @@ import { SearchbarComponent } from "../searchbar.component";
 
 @Component({
   selector: "story-dropdown-wrapper",
-  standalone: true,
   template: `
     <div #wrapperRef style="width: fit-content">
       <ng-content></ng-content>
@@ -25,15 +24,12 @@ class DropdownWrapperComponent {
   readonly width = signal<number | undefined>(undefined);
 
   constructor() {
-    effect(
-      () => {
-        const element = this.wrapperRef()?.nativeElement;
-        if (element) {
-          this.width.set(element.offsetWidth);
-        }
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      const element = this.wrapperRef()?.nativeElement;
+      if (element) {
+        this.width.set(element.offsetWidth);
+      }
+    });
   }
 }
 

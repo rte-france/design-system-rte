@@ -79,7 +79,7 @@ export const Default: Story = {
   },
   render: (args) => ({
     props: args,
-    declarations: [BadgeDirective],
+    imports: [BadgeDirective],
     template: mockHost(`
             [rteBadgeType]="rteBadgeType"
             [rteBadgeSize]="rteBadgeSize"
@@ -99,7 +99,7 @@ export const IconBadge: Story = {
   },
   render: (args) => ({
     props: args,
-    declarations: [BadgeDirective],
+    imports: [BadgeDirective],
     template: mockHost(`
       [rteBadgeType]="rteBadgeType"
       [rteBadgeSize]="rteBadgeSize"
@@ -116,7 +116,7 @@ export const BadgeDisplay: Story = {
   },
   render: (args) => ({
     props: args,
-    declarations: [BadgeDirective],
+    imports: [BadgeDirective],
     template: `
     <div style="display: flex; flex-direction: column; align-items: center; font-family: 'Nunito Sans', sans-serif;">
       <h4>Appearance: Text</h4>
@@ -215,7 +215,7 @@ export const Sizes: Story = {
     props: {
       ...args,
     },
-    declarations: [BadgeDirective],
+    imports: [BadgeDirective],
     template: `
             <div style="display: flex; gap: 16px; align-items: center;">
                 ${mockHost(`
@@ -256,7 +256,7 @@ export const CountLimit: Story = {
       count99: 99,
       count100: 100,
     },
-    declarations: [BadgeDirective],
+    imports: [BadgeDirective],
     template: `
             <div style="display: flex; gap: 16px; align-items: center;">
                 ${mockHost(`
@@ -290,7 +290,7 @@ export const Icons: Story = {
   },
   render: (args) => ({
     props: args,
-    declarations: [BadgeDirective],
+    imports: [BadgeDirective],
     template: `
             <div style="display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
                 ${mockHost(`
@@ -343,7 +343,7 @@ export const BadgeVisibility: Story = {
   },
   render: (args) => ({
     props: args,
-    declarations: [BadgeDirective],
+    imports: [BadgeDirective],
     template: `
           <div style="display: flex; flex-direction: column; gap: 8px;">
             ${mockHost(`
@@ -381,7 +381,7 @@ export const KeyboardInteraction: Story = {
   args: Default.args,
   render: (args) => ({
     props: args,
-    declarations: [BadgeDirective],
+    imports: [BadgeDirective],
     template: `
         <div style="display: flex; gap: 8px;">
             ${mockHost(`
@@ -405,7 +405,7 @@ export const BadgeType: Story = {
   },
   render: (args) => ({
     props: args,
-    declarations: [BadgeDirective],
+    imports: [BadgeDirective],
     template: `
       <div style="display: flex; gap: 24px; font-family: 'Nunito Sans', sans-serif;">
         <div>

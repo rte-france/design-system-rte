@@ -23,7 +23,6 @@ import { IconButtonComponent } from "../icon-button/icon-button.component";
 @Component({
   selector: "rte-modal",
   imports: [CommonModule, IconButtonComponent, IconComponent, DividerComponent],
-  standalone: true,
   templateUrl: "./modal.component.html",
   styleUrl: "./modal.component.scss",
 })

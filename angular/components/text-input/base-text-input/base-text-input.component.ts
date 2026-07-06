@@ -5,13 +5,20 @@ import { IconComponent } from "../../icon/icon.component";
 import { RegularIconIdKey, TogglableIconIdKey } from "../../icon/icon.service";
 import { IconButtonComponent } from "../../icon-button/icon-button.component";
 import { BaseInputComponent } from "../../input/base-input/base-input.component";
+import { RequiredIndicatorComponent } from "../../input/required-indicator/required-indicator.component";
 import { RteBaseInputControlDirective } from "../../input/rte-base-input-control.directive";
 import { LinkComponent } from "../../link/link.component";
 
 @Component({
   selector: "rte-base-text-input",
-  imports: [CommonModule, IconComponent, IconButtonComponent, LinkComponent, RteBaseInputControlDirective],
-  standalone: true,
+  imports: [
+    CommonModule,
+    IconComponent,
+    IconButtonComponent,
+    LinkComponent,
+    RteBaseInputControlDirective,
+    RequiredIndicatorComponent,
+  ],
   templateUrl: "../../input/base-input/base-input.component.html",
   styleUrl: "../../input/base-input/base-input.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -24,16 +31,13 @@ export class BaseTextInputComponent extends BaseInputComponent {
   constructor() {
     super();
 
-    effect(
-      () => {
-        if (this.visibilityIcons()) {
-          this.isHiddenInput.set(this.rightIconAction() === "visibilityOn");
-        } else {
-          this.isHiddenInput.set(false);
-        }
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      if (this.visibilityIcons()) {
+        this.isHiddenInput.set(this.rightIconAction() === "visibilityOn");
+      } else {
+        this.isHiddenInput.set(false);
+      }
+    });
   }
 
   protected override computeInputType(): "text" | "password" {

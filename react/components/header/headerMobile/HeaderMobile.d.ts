@@ -22,5 +22,5 @@ interface HeaderMobileProps {
     mobileMenuIconProps?: HeaderIconButtonConfig<RegularIconIdKey | TogglableIconIdKey>;
     hasSearchbar?: boolean;
 }
-declare const HeaderMobile: ({ homeLink, hasLeftSection, leftSectionContent, logoSrc, applicationName, compactSpacing, appearance, mobileSearchButtonAriaLabel, onSearchActiveChange, mobileMenuContent, onMobileMenuClick, isMobileMenuOpen, mobileMenuItems, onMobileMenuClose, mobileMenuIconProps, hasSearchbar, }: HeaderMobileProps) => import("react/jsx-runtime").JSX.Element;
+declare const HeaderMobile: ({ homeLink, hasLeftSection, leftSectionContent, logoSrc, applicationName, compactSpacing, appearance, mobileSearchButtonAriaLabel, onSearchActiveChange, mobileMenuContent, onMobileMenuClick, isMobileMenuOpen, mobileMenuItems, onMobileMenuClose, mobileMenuIconProps, hasSearchbar, }: HeaderMobileProps) => import("react").JSX.Element;
 export default HeaderMobile;

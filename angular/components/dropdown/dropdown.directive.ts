@@ -41,7 +41,6 @@ import { focusDropdownFirstElement } from "./dropdown.utils";
     "[class.dropdown]": "true",
     "[attr.data-dropdown-id]": "dropdownId",
   },
-  standalone: true,
 })
 export class DropdownDirective implements AfterContentInit {
   private static idCounter = 0;
@@ -146,13 +145,10 @@ export class DropdownDirective implements AfterContentInit {
       }
     });
 
-    effect(
-      (onCleanup) => {
-        const teardown = this.setupScrollBehavior();
-        onCleanup(teardown);
-      },
-      { allowSignalWrites: true },
-    );
+    effect((onCleanup) => {
+      const teardown = this.setupScrollBehavior();
+      onCleanup(teardown);
+    });
 
     this.registerViewportResizeRepositionHandling();
   }
@@ -300,11 +296,13 @@ export class DropdownDirective implements AfterContentInit {
   private assignInputs(): void {
     if (this.dropdownMenuRef) {
       const items = this.menu()?.items() ?? [];
+      const maxHeight = this.menu()?.maxHeight() ?? null;
       this.dropdownMenuRef.setInput(
         "isInParentWithOverlay",
         isElementInParentWithOverlay(this.trigger()?.elementRef.nativeElement),
       );
       this.dropdownMenuRef.setInput("items", items);
+      this.dropdownMenuRef.setInput("maxHeight", maxHeight);
       this.dropdownMenuRef.setInput("bodyTemplate", this.menu()?.bodyDirective()?.templateRef);
       this.dropdownMenuRef.setInput("headerTemplate", this.menu()?.headerDirective()?.templateRef);
       this.dropdownMenuRef.setInput("footerTemplate", this.menu()?.footerDirective()?.templateRef);

@@ -42,9 +42,8 @@ const meta: Meta<DatepickerComponent> = {
     disabled: false,
     readOnly: false,
     error: false,
-    isRequiredOptional: false,
     required: false,
-    showLabelRequirement: false,
+    showLabelRequirement: true,
     hasAssistiveText: false,
     assistiveTextLabel: "",
     assistiveTextAppearance: "description",
@@ -66,7 +65,6 @@ const datepickerStoryFieldBindings = `
           [disabled]="disabled"
           [readOnly]="readOnly"
           [error]="error"
-          [isRequiredOptional]="isRequiredOptional"
           [required]="required"
           [showLabelRequirement]="showLabelRequirement"
           [hasAssistiveText]="hasAssistiveText"
@@ -86,6 +84,7 @@ const datepickerStoryInnerTemplate = `
           [maxDate]="maxDate"
           [disabledDates]="disabledDates"
           [hasActions]="hasActions"
+          [showLabelRequirement]="true"
         />`;
 
 function rteDatepickerWithPickerId(pickerId: string, hasActionsBinding = `[hasActions]="hasActions"`): string {

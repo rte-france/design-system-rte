@@ -21,7 +21,6 @@ import { ModalComponent } from "./modal.component";
 @Directive({
   selector: "[rteModal]",
   exportAs: "rteModal",
-  standalone: true,
 })
 export class ModalDirective implements AfterContentInit, OnDestroy {
   private modalCompRef: ComponentRef<ModalComponent> | null = null;

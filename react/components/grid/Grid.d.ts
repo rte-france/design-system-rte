@@ -6,7 +6,7 @@ interface ColProps extends CoreColProps, Omit<React.HTMLAttributes<HTMLDivElemen
     children?: React.ReactNode;
 }
 declare const Grid: {
-    ({ gridType, className, children }: GridProps): import("react/jsx-runtime").JSX.Element;
-    Col: ({ children, className, xxs, xs, s, m, l, xl, ...props }: ColProps) => import("react/jsx-runtime").JSX.Element;
+    ({ gridType, className, children }: GridProps): import("react").JSX.Element;
+    Col: ({ children, className, xxs, xs, s, m, l, xl, ...props }: ColProps) => import("react").JSX.Element;
 };
 export default Grid;
