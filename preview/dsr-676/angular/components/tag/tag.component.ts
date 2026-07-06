@@ -9,7 +9,6 @@ import { RegularIconIdKey, TogglableIconIdKey } from "../icon/icon.service";
 @Component({
   selector: "rte-tag",
   imports: [CommonModule, IconComponent],
-  standalone: true,
   templateUrl: "./tag.component.html",
   styleUrl: "./tag.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

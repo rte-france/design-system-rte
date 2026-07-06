@@ -36,7 +36,6 @@ import { IconButtonComponent } from "../icon-button/icon-button.component";
 @Component({
   selector: "rte-drawer",
   imports: [CommonModule, ButtonComponent, DividerComponent, IconComponent, IconButtonComponent],
-  standalone: true,
   templateUrl: "./drawer.component.html",
   styleUrl: "./drawer.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -115,43 +114,37 @@ export class DrawerComponent implements OnDestroy {
   private focusTrapActive = false;
 
   constructor() {
-    effect(
-      () => {
-        const open = this.isOpen();
-        const usesModalLayer = this.position() === "modal";
+    effect(() => {
+      const open = this.isOpen();
+      const usesModalLayer = this.position() === "modal";
 
-        if (open) {
-          this.handleDrawerOpen(usesModalLayer);
-        } else {
-          this.handleDrawerClose(usesModalLayer);
-        }
-      },
-      { allowSignalWrites: true },
-    );
+      if (open) {
+        this.handleDrawerOpen(usesModalLayer);
+      } else {
+        this.handleDrawerClose(usesModalLayer);
+      }
+    });
 
-    effect(
-      () => {
-        const modalPanel = this.drawerPanelModal()?.nativeElement;
-        const responsivePanel = this.drawerPanelResponsive()?.nativeElement;
-        const panel = modalPanel ?? responsivePanel;
-        if (!panel) {
-          untracked(() => {
-            this.resizeObserver?.disconnect();
-            this.resizeObserver = null;
-          });
-          return;
-        }
+    effect(() => {
+      const modalPanel = this.drawerPanelModal()?.nativeElement;
+      const responsivePanel = this.drawerPanelResponsive()?.nativeElement;
+      const panel = modalPanel ?? responsivePanel;
+      if (!panel) {
         untracked(() => {
           this.resizeObserver?.disconnect();
-          this.resizeObserver = new ResizeObserver(() => {
-            this.panelWidthPx.set(panel.clientWidth);
-          });
-          this.resizeObserver.observe(panel);
+          this.resizeObserver = null;
+        });
+        return;
+      }
+      untracked(() => {
+        this.resizeObserver?.disconnect();
+        this.resizeObserver = new ResizeObserver(() => {
           this.panelWidthPx.set(panel.clientWidth);
         });
-      },
-      { allowSignalWrites: true },
-    );
+        this.resizeObserver.observe(panel);
+        this.panelWidthPx.set(panel.clientWidth);
+      });
+    });
 
     this.destroyRef.onDestroy(() => {
       this.resizeObserver?.disconnect();

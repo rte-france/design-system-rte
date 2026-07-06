@@ -46,12 +46,12 @@
       #selectRef
       rteDropdownTrigger
       class="rte-select-wrapper"
-      [attr.tabIndex]="disabled() || readOnly() ? -1 : 0"
+      [attr.tabIndex]="isDisabled() || readOnly() ? -1 : 0"
       [attr.role]="'combobox'"
       [attr.data-error]="isError()"
-      [attr.data-disabled]="disabled()"
+      [attr.data-disabled]="isDisabled()"
       [attr.data-read-only]="readOnly()"
-      [attr.aria-disabled]="disabled()"
+      [attr.aria-disabled]="isDisabled()"
       [attr.aria-readonly]="readOnly()"
       [attr.aria-labelledby]="labelId()"
       [attr.aria-expanded]="isActive()"
@@ -74,7 +74,7 @@
 
         <div class="rte-select-value">
           @if (currentDisplayedOption()) {
-            @if (this.multiple()) {
+            @if (multiple()) {
               <div class="rte-select-multiple-values">
                 <rte-chip
                   type="input"
@@ -110,7 +110,7 @@
             name="cancel"
             class="rte-select-icon-button clear-icon"
             [variant]="variant() === 'visibly-selected' ? (isActive() ? 'reverse' : 'transparent') : 'neutral'"
-            [disabled]="disabled()"
+            [disabled]="isDisabled()"
             [attr.data-active]="isActive()"
             (clickEvent)="handleOnClickClearButton($event)"
           />

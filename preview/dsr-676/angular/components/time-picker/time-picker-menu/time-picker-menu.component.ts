@@ -6,7 +6,6 @@ import { IconComponent } from "../../icon/icon.component";
 @Component({
   selector: "rte-time-picker-menu",
   imports: [CommonModule, IconComponent],
-  standalone: true,
   templateUrl: "./time-picker-menu.component.html",
   styleUrl: "./time-picker-menu.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

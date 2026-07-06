@@ -1,4 +1,5 @@
 import { Component, ElementRef, signal, viewChild, effect, computed } from "@angular/core";
+import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { DROPDOWN_OFFSET } from "@design-system-rte/core/components/searchbar/searchbar.constants";
 import {
   TESTING_DOWN_KEY,
@@ -13,7 +14,6 @@ import { SearchbarComponent } from "../searchbar.component";
 
 @Component({
   selector: "story-dropdown-wrapper",
-  standalone: true,
   template: `
     <div #wrapperRef style="width: fit-content">
       <ng-content></ng-content>
@@ -25,15 +25,12 @@ class DropdownWrapperComponent {
   readonly width = signal<number | undefined>(undefined);
 
   constructor() {
-    effect(
-      () => {
-        const element = this.wrapperRef()?.nativeElement;
-        if (element) {
-          this.width.set(element.offsetWidth);
-        }
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      const element = this.wrapperRef()?.nativeElement;
+      if (element) {
+        this.width.set(element.offsetWidth);
+      }
+    });
   }
 }
 
@@ -489,5 +486,63 @@ export const KeyboardNavigationAndSearch: Story = {
 
     const searchButton = canvas.getByRole("button", { name: args.label });
     await userEvent.click(searchButton);
+  },
+};
+
+@Component({
+  selector: "searchbar-reactive-form-host",
+  imports: [ReactiveFormsModule, SearchbarComponent],
+  standalone: true,
+  template: `
+    <rte-searchbar id="searchbar-reactive-form" [showResetButton]="true" [formControl]="control" />
+    <button type="button" data-testid="blur-away">Blur away</button>
+    <button type="button" data-testid="set-from-model" (click)="control.setValue('from model')">Set from model</button>
+    <button type="button" data-testid="toggle-disabled" (click)="toggleDisabled()">Toggle disabled</button>
+    <span data-testid="model-value">{{ control.value }}</span>
+    <span data-testid="model-touched">{{ control.touched }}</span>
+    <span data-testid="model-status">{{ control.status }}</span>
+  `,
+})
+class SearchbarReactiveFormHostComponent {
+  readonly control = new FormControl("");
+
+  toggleDisabled(): void {
+    if (this.control.disabled) {
+      this.control.enable();
+    } else {
+      this.control.disable();
+    }
+  }
+}
+
+export const ReactiveForm: Story = {
+  render: () => ({
+    moduleMetadata: { imports: [SearchbarReactiveFormHostComponent] },
+    template: `<searchbar-reactive-form-host />`,
+  }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByRole("textbox") as HTMLInputElement;
+    const modelValue = canvas.getByTestId("model-value");
+    const modelTouched = canvas.getByTestId("model-touched");
+    const modelStatus = canvas.getByTestId("model-status");
+
+    await userEvent.type(input, "abc");
+    await waitFor(() => expect(modelValue).toHaveTextContent("abc"));
+
+    expect(modelTouched).toHaveTextContent("false");
+    await userEvent.click(canvas.getByTestId("blur-away"));
+    await waitFor(() => expect(modelTouched).toHaveTextContent("true"));
+
+    const clearButton = canvas.getByTestId("right-icon").querySelector("button");
+    await userEvent.click(clearButton!);
+    await waitFor(() => expect(input).toHaveValue(""));
+
+    await userEvent.click(canvas.getByTestId("set-from-model"));
+    await waitFor(() => expect(input).toHaveValue("from model"));
+
+    await userEvent.click(canvas.getByTestId("toggle-disabled"));
+    await waitFor(() => expect(modelStatus).toHaveTextContent("DISABLED"));
+    expect(input).toBeDisabled();
   },
 };

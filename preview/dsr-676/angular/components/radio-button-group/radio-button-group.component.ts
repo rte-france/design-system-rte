@@ -6,7 +6,6 @@ import { RadioButtonComponent } from "../radio-button/radio-button.component";
 @Component({
   selector: "rte-radio-button-group",
   imports: [CommonModule, RadioButtonComponent],
-  standalone: true,
   templateUrl: "./radio-button-group.component.html",
   styleUrl: "./radio-button-group.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -32,12 +31,7 @@ export class RadioButtonGroupComponent {
   readonly isDisplayed = computed(() => !(this.disabled() && this.error()));
 
   constructor() {
-    effect(
-      () => {
-        this.internalSelectedValue.set(this.selectedValue());
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => this.internalSelectedValue.set(this.selectedValue()));
   }
 
   onChange(value: string) {

@@ -42,7 +42,6 @@ import { DropdownMenuHeaderDirective } from "./dropdown-menu-header.directive";
 @Component({
   selector: "rte-dropdown-menu",
   imports: [CommonModule, DropdownItemComponent, DividerComponent],
-  standalone: true,
   templateUrl: "./dropdown-menu.component.html",
   styleUrl: "./dropdown-menu.component.scss",
   host: { "[attr.data-menu-id]": "menuId()" },
@@ -68,13 +67,11 @@ export class DropdownMenuComponent implements OnDestroy {
   readonly closingMenu = output<void>();
 
   readonly menuStyle = computed(() => {
-    const computedStyle = {
+    return {
       width: this.width() ? this.width() + "px" : undefined,
       "max-width": this.width() ? this.width() + "px" : undefined,
       "max-height": this.maxHeight() ? this.maxHeight() + "px" : undefined,
     };
-    console.log('"Computed Style:', computedStyle);
-    return computedStyle;
   });
 
   readonly headerDirective = contentChild(DropdownMenuHeaderDirective);

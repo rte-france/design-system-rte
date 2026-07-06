@@ -60,7 +60,7 @@ export const Default: Story = {
   },
   render: (args) => ({
     props: args,
-    declarations: [TooltipDirective],
+    imports: [TooltipDirective],
     template: mockHost(`
             [rteTooltip]="rteTooltip"
             [rteTooltipPosition]="rteTooltipPosition"
@@ -74,7 +74,7 @@ export const Position: Story = {
   args: Default.args,
   render: (args) => ({
     props: args,
-    declarations: [TooltipDirective],
+    imports: [TooltipDirective],
     template: `
         <div style="display: flex; flex-direction: column; align-items: center; gap: 16px;">
             ${mockHost(`
@@ -110,7 +110,7 @@ export const Alignment: Story = {
   args: Default.args,
   render: (args) => ({
     props: args,
-    declarations: [TooltipDirective],
+    imports: [TooltipDirective],
     template: `
         <div style="display: flex; flex-direction: column; align-items: center; gap: 16px;">
             ${mockHost(`
@@ -140,7 +140,7 @@ export const Arrow: Story = {
   args: Default.args,
   render: (args) => ({
     props: args,
-    declarations: [TooltipDirective],
+    imports: [TooltipDirective],
     template: `
         <div style="display: flex; gap: 8;">
             ${mockHost(`
@@ -162,7 +162,7 @@ export const AutoPlacement: Story = {
   args: Default.args,
   render: (args) => ({
     props: args,
-    declarations: [TooltipDirective],
+    imports: [TooltipDirective],
     template: `
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
             <div style="display: flex; align-items: flex-start; justify-content: flex-start; gap: 8px; border: 1px solid red; width: 75px; height: 250px;">
@@ -201,7 +201,7 @@ export const KeyboardInteraction: Story = {
   args: Default.args,
   render: (args) => ({
     props: args,
-    declarations: [TooltipDirective],
+    imports: [TooltipDirective],
     template: `
         <div style="display: flex; gap: 8px;">
             ${mockHost(`[rteTooltip]="rteTooltip"`)}

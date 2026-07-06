@@ -19,7 +19,6 @@ import { TooltipDirective } from "../../tooltip/tooltip.directive";
 @Component({
   selector: "rte-breadcrumb-item",
   imports: [CommonModule, LinkComponent, TooltipDirective, BadgeComponent],
-  standalone: true,
   templateUrl: "./breadcrumb-item.component.html",
   styleUrl: "./breadcrumb-item.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
