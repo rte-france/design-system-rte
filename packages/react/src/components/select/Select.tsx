@@ -309,6 +309,7 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
                       {shouldDisplayClearButton && (
                         <IconButton
                           name="cancel"
+                          size="s"
                           variant="neutral"
                           className={concatClassNames(styles["icon-button"], styles["clear-icon"])}
                           onClick={handleOnClear}

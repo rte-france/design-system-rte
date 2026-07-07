@@ -109,6 +109,7 @@
             *ngIf="shouldDisplayClearButton()"
             name="cancel"
             class="rte-select-icon-button clear-icon"
+            size="s"
             [variant]="variant() === 'visibly-selected' ? (isActive() ? 'reverse' : 'transparent') : 'neutral'"
             [disabled]="isDisabled()"
             [attr.data-active]="isActive()"
