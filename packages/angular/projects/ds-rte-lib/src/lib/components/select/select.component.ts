@@ -388,7 +388,7 @@ export class SelectComponent extends BaseValueAccessor<string | string[]> implem
     const valuesArray =
       valueIndex > -1 ? currentValue.filter((currentItem) => currentItem !== value) : [...currentValue, value];
     this.internalValue.set(valuesArray);
-        this.valueChange.emit(valuesArray);
+    this.valueChange.emit(valuesArray);
   }
 
   private mapOptionToDropdownItemConfig(option: { value: string; label: string }): DropdownItemConfig {

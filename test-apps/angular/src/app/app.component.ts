@@ -52,7 +52,6 @@ import { FormResetDemoComponent } from "./form-reset-demo/form-reset-demo.compon
 
 @Component({
   selector: "app-root",
-  standalone: true,
   imports: [
     FormsModule,
     ReactiveFormsModule,
