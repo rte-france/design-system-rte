@@ -48,6 +48,8 @@ import { Step } from "@design-system-rte/core/components/stepper/stepper.interfa
 import type { TimeFormat } from "@design-system-rte/core/components/timepicker/timepicker.interface";
 import { TreeviewItemProps } from "@design-system-rte/core/components/treeview";
 
+import { FormResetDemoComponent } from "./form-reset-demo/form-reset-demo.component";
+
 @Component({
   selector: "app-root",
   standalone: true,
@@ -85,6 +87,7 @@ import { TreeviewItemProps } from "@design-system-rte/core/components/treeview";
     TimePickerComponent,
     DatepickerComponent,
     DaterangepickerComponent,
+    FormResetDemoComponent,
   ],
   providers: [ToastService],
   templateUrl: "./app.component.html",
