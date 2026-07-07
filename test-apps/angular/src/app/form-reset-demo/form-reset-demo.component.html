@@ -1,0 +1,55 @@
+<section class="form-reset-demo">
+  <h3>Validation reset parent → enfant</h3>
+  <p class="form-reset-demo__description">
+    Reproduces the OPARC bug: after filling filters and calling
+    <code>reinitialiserFiltres()</code>, form values and component UI must stay in sync.
+  </p>
+
+  <form [formGroup]="filtersForm" #formContainer class="form-reset-demo__form">
+    <rte-switch formControlName="enabled" label="Activer le filtre" id="filter-enabled" />
+
+    <rte-text-input
+      formControlName="query"
+      id="filter-query"
+      label="Recherche"
+      placeholder="Saisir une recherche"
+    />
+
+    <rte-select
+      formControlName="category"
+      id="filter-category"
+      label="Catégorie"
+      [options]="categoryOptions"
+      [showResetButton]="true"
+      placeholder="Select a category"
+    />
+
+    <div class="form-reset-demo__actions">
+      <button rteButton rteButtonVariant="neutral" type="button" (click)="fillTestValues()">
+        Remplir valeurs de test
+      </button>
+      <button rteButton rteButtonVariant="neutral" type="button" (click)="reinitialiserFiltres()">
+        Réinitialiser les filtres
+      </button>
+    </div>
+  </form>
+
+  <div class="form-reset-demo__debug">
+    <p><strong>Form value:</strong> {{ filtersForm.value | json }}</p>
+
+    <ul class="form-reset-demo__sync-list">
+      <li>
+        <span>enabled</span>
+        <span [class]="syncBadgeClass(isEnabledInSync())">{{ syncBadgeLabel(isEnabledInSync()) }}</span>
+      </li>
+      <li>
+        <span>query</span>
+        <span [class]="syncBadgeClass(isQueryInSync())">{{ syncBadgeLabel(isQueryInSync()) }}</span>
+      </li>
+      <li>
+        <span>category</span>
+        <span [class]="syncBadgeClass(isCategoryInSync())">{{ syncBadgeLabel(isCategoryInSync()) }}</span>
+      </li>
+    </ul>
+  </div>
+</section>
