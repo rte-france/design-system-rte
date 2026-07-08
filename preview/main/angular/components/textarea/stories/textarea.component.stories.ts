@@ -1,5 +1,7 @@
+import { Component } from "@angular/core";
+import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import type { Meta, StoryObj } from "@storybook/angular";
-import { fn, userEvent, within, expect } from "@storybook/test";
+import { fn, userEvent, waitFor, within, expect } from "@storybook/test";
 
 import { focusElementBeforeComponent } from "../../../../../../../.storybook/testing/testing.utils";
 import { TextareaComponent } from "../textarea.component";
@@ -297,5 +299,58 @@ export const KeyboardInteraction: Story = {
     await userEvent.tab();
     expect(textarea).toHaveFocus();
     textarea.blur();
+  },
+};
+
+@Component({
+  selector: "textarea-reactive-form-host",
+  imports: [ReactiveFormsModule, TextareaComponent],
+  standalone: true,
+  template: `
+    <rte-textarea label="Bio" id="textarea-reactive-form" [formControl]="control" />
+    <button type="button" data-testid="set-from-model" (click)="control.setValue('from model')">Set from model</button>
+    <button type="button" data-testid="toggle-disabled" (click)="toggleDisabled()">Toggle disabled</button>
+    <span data-testid="model-value">{{ control.value }}</span>
+    <span data-testid="model-touched">{{ control.touched }}</span>
+    <span data-testid="model-status">{{ control.status }}</span>
+  `,
+})
+class TextareaReactiveFormHostComponent {
+  readonly control = new FormControl("");
+
+  toggleDisabled(): void {
+    if (this.control.disabled) {
+      this.control.enable();
+    } else {
+      this.control.disable();
+    }
+  }
+}
+
+export const ReactiveForm: Story = {
+  render: () => ({
+    moduleMetadata: { imports: [TextareaReactiveFormHostComponent] },
+    template: `<textarea-reactive-form-host />`,
+  }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const textarea = canvas.getByRole("textbox") as HTMLTextAreaElement;
+    const modelValue = canvas.getByTestId("model-value");
+    const modelTouched = canvas.getByTestId("model-touched");
+    const modelStatus = canvas.getByTestId("model-status");
+
+    await userEvent.type(textarea, "hello");
+    await waitFor(() => expect(modelValue).toHaveTextContent("hello"));
+
+    expect(modelTouched).toHaveTextContent("false");
+    await userEvent.tab();
+    await waitFor(() => expect(modelTouched).toHaveTextContent("true"));
+
+    await userEvent.click(canvas.getByTestId("set-from-model"));
+    await waitFor(() => expect(textarea).toHaveValue("from model"));
+
+    await userEvent.click(canvas.getByTestId("toggle-disabled"));
+    await waitFor(() => expect(modelStatus).toHaveTextContent("DISABLED"));
+    expect(textarea).toBeDisabled();
   },
 };

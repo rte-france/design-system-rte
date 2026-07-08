@@ -1,7 +1,7 @@
 <div class="searchbar-container" role="search" [ngClass]="appearance()" [style.width]="width()">
   <div
     class="text-input-wrapper"
-    [attr.data-disabled]="disabled()"
+    [attr.data-disabled]="isDisabled()"
     (focusin)="handleFocusIn()"
     (focusout)="handleFocusOut($event)"
   >
@@ -11,8 +11,8 @@
       [width]="width()"
       [id]="id() ?? ''"
       [placeholder]="placeholder()"
-      [disabled]="disabled()"
-      [value]="value()"
+      [disabled]="isDisabled()"
+      [value]="internalValue()"
       [showRightIcon]="showResetButton()"
       [assistiveTextLabel]="assistiveText()"
       [compactSpacing]="compactSpacing()"
@@ -31,7 +31,7 @@
           appearance="filled"
           class="search-button"
           [ariaLabel]="label()"
-          [disabled]="disabled()"
+          [disabled]="isDisabled()"
           [compactSpacing]="compactSpacing()"
           [customStyle]="searchButtonStyles()"
           (clickEvent)="handleSearch()"
