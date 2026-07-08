@@ -1,10 +1,10 @@
 import { TimeSegmentEnum } from '../../../../../../core/components/timepicker/timepicker.constants';
 import { TimeFormat } from '../../../../../../core/components/timepicker/timepicker.interface';
-declare const useTimePickerInternalValue: (value?: TimeFormat, incrementConfig?: {
+declare const useTimePickerInternalValue: (value: TimeFormat | undefined, incrementConfig?: {
     hourIncrement?: number;
     minuteIncrement?: number;
     secondIncrement?: number;
-}) => {
+}, isControlled?: boolean) => {
     internalTimeValue: TimeFormat;
     updateTimeSegment: (segment: TimeSegmentEnum, val: string) => void;
     handleOnChangeHours: (e: React.ChangeEvent<HTMLInputElement>) => void;
