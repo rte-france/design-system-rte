@@ -6,7 +6,7 @@ import {
 import { SelectProps as coreSelectProps } from "@design-system-rte/core/components/select/select.interface";
 import { getSelectedOption } from "@design-system-rte/core/components/select/select.utils";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
-import { forwardRef, useRef, useState } from "react";
+import { forwardRef, useEffect, useRef, useState } from "react";
 
 import AssistiveText from "../assistivetext/AssistiveText";
 import Badge from "../badge/Badge";
@@ -46,6 +46,7 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
       labelPosition = "top",
       required = false,
       value,
+      defaultValue,
       showLabel = true,
       isError,
       assistiveAppearance = "description",
@@ -72,7 +73,8 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
     },
     ref,
   ) => {
-    const [internalValue, setInternalValue] = useState<string | string[]>(value || (multiple ? [] : ""));
+    const isControlled = value !== undefined;
+    const [internalValue, setInternalValue] = useState<string | string[]>(defaultValue ?? (multiple ? [] : ""));
 
     const [isActive, setIsActive] = useState(false);
 
@@ -86,6 +88,19 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
         ref.current = node;
       }
     };
+
+    useEffect(() => {
+      if (!isControlled) {
+        return;
+      }
+
+      if (multiple) {
+        setInternalValue(Array.isArray(value) ? value : []);
+        return;
+      }
+
+      setInternalValue(Array.isArray(value) ? "" : (value ?? ""));
+    }, [isControlled, multiple, value]);
 
     const shouldDisplayClearButton =
       showResetButton &&
@@ -137,11 +152,15 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
     const handleOnClear = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       e.stopPropagation();
       if (multiple) {
-        setInternalValue([]);
+        if (!isControlled) {
+          setInternalValue([]);
+        }
         onChange?.([]);
         onClear?.();
       } else {
-        setInternalValue("");
+        if (!isControlled) {
+          setInternalValue("");
+        }
         onChange?.("");
         onClear?.();
       }
@@ -154,31 +173,36 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
     ) => {
       event.stopPropagation();
       if (multiple) {
-        setInternalValue((prevValue) => {
-          if (Array.isArray(prevValue)) {
-            const newValue = prevValue.filter((value) => value !== valueToClear);
-
-            onChange?.(newValue);
-            return newValue;
-          }
-          return prevValue;
-        });
+        const prevValue = internalValue;
+        if (!Array.isArray(prevValue)) {
+          return;
+        }
+        const newValue = prevValue.filter((value) => value !== valueToClear);
+        if (!isControlled) {
+          setInternalValue(newValue);
+        }
+        onChange?.(newValue);
       }
     };
 
     const handleOnChange = (newValue: string) => {
       if (multiple) {
-        const newArrayValue = Array.isArray(internalValue) ? [...internalValue] : [];
+        const prevValue = internalValue;
+        const newArrayValue = Array.isArray(prevValue) ? [...prevValue] : [];
         const valueIndex = newArrayValue.indexOf(newValue);
         if (valueIndex > -1) {
           newArrayValue.splice(valueIndex, 1);
         } else {
           newArrayValue.push(newValue);
         }
-        setInternalValue(newArrayValue);
+        if (!isControlled) {
+          setInternalValue(newArrayValue);
+        }
         onChange?.(newArrayValue);
       } else {
-        setInternalValue(newValue);
+        if (!isControlled) {
+          setInternalValue(newValue);
+        }
         onChange?.(newValue);
         setIsActive(false);
       }
@@ -187,11 +211,15 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
     const handleOnClickSelectAll = () => {
       if (multiple) {
         if (Array.isArray(internalValue) && internalValue.length === options.length) {
-          setInternalValue([]);
+          if (!isControlled) {
+            setInternalValue([]);
+          }
           onChange?.([]);
         } else {
           const allValues = options.map((option) => option.value);
-          setInternalValue(allValues);
+          if (!isControlled) {
+            setInternalValue(allValues);
+          }
           onChange?.(allValues);
         }
       }
@@ -277,7 +305,7 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
                                 type="input"
                                 onClose={(e) => handleClearChip(e, selectedOptionToDisplay.value)}
                               />
-                              {internalValue.length > 1 && (
+                              {Array.isArray(internalValue) && internalValue.length > 1 && (
                                 <Badge
                                   count={internalValue.length - 1}
                                   content={"number"}
@@ -338,7 +366,7 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
                   label="Sélectionner tout"
                   isSelected={Array.isArray(internalValue) && internalValue.length === options.length}
                   isIndeterminate={
-                    Array.isArray(internalValue) && internalValue.length > 0 && internalValue.length < options.length
+                    Array.isArray(internalValue) && !!internalValue.length && internalValue.length < options.length
                   }
                   onClick={handleOnClickSelectAll}
                   hasCheckbox
@@ -349,7 +377,7 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
                 <DropdownItem
                   key={index + value}
                   label={label}
-                  isSelected={multiple ? internalValue.includes(value) : internalValue === value}
+                  isSelected={multiple ? (internalValue as string[]).includes(value) : internalValue === value}
                   onClick={() => {
                     handleOnChange(value);
                   }}

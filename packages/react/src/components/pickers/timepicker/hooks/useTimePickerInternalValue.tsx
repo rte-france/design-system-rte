@@ -10,7 +10,7 @@ import {
   getDecreasedValueWithBounds,
   getIncreasedValueWithBounds,
 } from "@design-system-rte/core/components/timepicker/timepicker.utils";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const numberRegex = /^\d*$/;
 
@@ -21,8 +21,21 @@ const useTimePickerInternalValue = (
     minuteIncrement?: number;
     secondIncrement?: number;
   },
+  isControlled = false,
 ) => {
   const [internalTimeValue, setInternalTimeValue] = useState<TimeFormat>(value ?? DEFAULT_TIME_INPUT_VALUE);
+
+  useEffect(() => {
+    if (!isControlled) {
+      return;
+    }
+
+    const nextValue = value ?? DEFAULT_TIME_INPUT_VALUE;
+    setInternalTimeValue((prev) => {
+      const isSame = prev.hh === nextValue.hh && prev.mm === nextValue.mm && prev.ss === nextValue.ss;
+      return isSame ? prev : nextValue;
+    });
+  }, [value, isControlled]);
 
   const { hourIncrement = 1, minuteIncrement = 1, secondIncrement = 1 } = incrementConfig ?? {};
 

@@ -65,6 +65,18 @@ export const Error: Story = {
   args: { ...Default.args, isError: true },
 };
 
+export const UncontrolledDefaultValue: Story = {
+  args: {
+    ...Default.args,
+    value: undefined,
+  },
+  render: (args) => {
+    const { value: _ignored, ...rest } = args;
+    void _ignored;
+    return <DatePicker {...rest} defaultValue={new Date(2026, 5, 15)} />;
+  },
+};
+
 export const TypingDate: Story = {
   args: { ...Default.args, value: null },
 
@@ -115,6 +127,23 @@ export const TypingDate: Story = {
     await userEvent.keyboard(TESTING_ARROW_DOWN_KEY);
     await userEvent.keyboard(TESTING_ARROW_DOWN_KEY);
     expect(normalizedDateInputValue(input)).toBe("16/05/2023");
+  },
+};
+
+export const ControlledPropUpdate: Story = {
+  args: { ...Default.args, value: null },
+  render: (args) => {
+    const [date, setDate] = useState<Date | null>(new Date(2026, 5, 10));
+
+    return (
+      <>
+        <div style={{ display: "flex", gap: 8 }}>
+          <button onClick={() => setDate(new Date(2026, 5, 22))}>Set to 22/06/2026</button>
+          <button onClick={() => setDate(null)}>Clear</button>
+        </div>
+        <DatePicker {...args} value={date} onChange={setDate} />
+      </>
+    );
   },
 };
 

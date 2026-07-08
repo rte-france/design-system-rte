@@ -61,7 +61,7 @@ export type DatepickerTextInputApplyResult =
     };
 
 export interface DatepickerProps extends DatepickerDisabledConstraints, InputProps<Date | null> {
-  value: Date | null;
+  value?: Date | null;
   onChange?: (newDate: Date | null) => void;
   onValidate?: () => void;
   onCancel?: () => void;

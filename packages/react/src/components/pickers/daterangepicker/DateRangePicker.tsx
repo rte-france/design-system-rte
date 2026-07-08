@@ -34,6 +34,7 @@ const DateRangePicker = ({
   required = false,
   showLabelRequirement = false,
   value,
+  defaultValue,
   onChange,
   hasAction = false,
   onValidate,
@@ -77,10 +78,19 @@ const DateRangePicker = ({
     onChangeRef.current = onChange;
   }, [onChange]);
 
-  const [internalRange, setInternalRange] = useState<[Date | null, Date | null]>(value ?? [null, null]);
-  const internalRangeRef = useRef<[Date | null, Date | null]>(
-    value ? [value[0] ? normalizeDate(value[0]!) : null, value[1] ? normalizeDate(value[1]!) : null] : [null, null],
-  );
+  const normalizeRange = (range: [Date | null, Date | null] | null | undefined): [Date | null, Date | null] | null => {
+    if (!range) {
+      return null;
+    }
+    const [start, end] = range;
+    return [start ? normalizeDate(start) : null, end ? normalizeDate(end) : null];
+  };
+
+  const sourceRange = value !== undefined ? value : defaultValue;
+  const normalizedRange = normalizeRange(sourceRange);
+
+  const [internalRange, setInternalRange] = useState<[Date | null, Date | null]>(normalizedRange ?? [null, null]);
+  const internalRangeRef = useRef<[Date | null, Date | null]>(normalizedRange ?? [null, null]);
 
   const {
     dateState: dateStateStart,
@@ -116,7 +126,7 @@ const DateRangePicker = ({
 
   const [selectionMode, setSelectionMode] = useState<"start" | "end">("start");
 
-  const [initialValue, setInitialValue] = useState<[Date | null, Date | null] | null>(value);
+  const [initialValue, setInitialValue] = useState<[Date | null, Date | null] | null>(normalizedRange);
 
   const {
     moveToNextSegment,
