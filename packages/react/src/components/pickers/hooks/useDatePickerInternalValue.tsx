@@ -87,6 +87,25 @@ const useDatePickerInternalValue = (
 
   const [displayValue, setDisplayValue] = useState<string>(placeholderDisplayValue);
 
+  useEffect(() => {
+    setDateState((prev) => {
+      const nextDateState: DdMmYyyyDigitParts = value
+        ? {
+            dayDigits: formatNumberToParseSegmentValue(value.getDate(), DateSegmentEnum.DAY),
+            monthDigits: formatNumberToParseSegmentValue(value.getMonth() + 1, DateSegmentEnum.MONTH),
+            yearDigits: formatNumberToParseSegmentValue(value.getFullYear(), DateSegmentEnum.YEAR),
+          }
+        : { dayDigits: "", monthDigits: "", yearDigits: "" };
+
+      const isSame =
+        prev.dayDigits === nextDateState.dayDigits &&
+        prev.monthDigits === nextDateState.monthDigits &&
+        prev.yearDigits === nextDateState.yearDigits;
+
+      return isSame ? prev : nextDateState;
+    });
+  }, [value]);
+
   const internalDate = useMemo(
     () => buildInternalValue(dateState, minDate, maxDate, disabledDates),
     [dateState, minDate, maxDate, disabledDates],

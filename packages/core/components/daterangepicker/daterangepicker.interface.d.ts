@@ -18,7 +18,7 @@ export type DateRangePickerValue = [Date | null, Date | null] | null;
 
 export interface DateRangePickerProps extends InputProps<DateRangePickerValue> {
   id: string;
-  value: DateRangePickerValue;
+  value?: DateRangePickerValue;
   onChange?: (value: DateRangePickerValue) => void;
   hasAction?: boolean;
   onValidate?: () => void;

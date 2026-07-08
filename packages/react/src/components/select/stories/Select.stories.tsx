@@ -99,7 +99,7 @@ export const Default: Story = {
 
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-        <Select {...args} onChange={handleOnChange} value={selectedOption?.value} multiple={false} />
+        <Select {...args} onChange={handleOnChange} value={selectedOption?.value ?? ""} multiple={false} />
         <span style={{ fontFamily: "Arial", color: "var(--content-primary)" }}>
           Selected value : {selectedOption?.label || "No value"}
         </span>
@@ -124,7 +124,7 @@ export const Error: Story = {
 
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-        <Select {...args} onChange={handleOnChange} value={selectedOption?.value} multiple={false} />
+        <Select {...args} onChange={handleOnChange} value={selectedOption?.value ?? ""} multiple={false} />
         <span style={{ fontFamily: "Arial", color: "var(--content-primary)" }}>
           Selected value : {selectedOption?.label || "No value"}
         </span>
@@ -149,7 +149,7 @@ export const ReadOnly: Story = {
 
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-        <Select {...args} onChange={handleOnChange} value={selectedOption?.value} multiple={false} />
+        <Select {...args} onChange={handleOnChange} value={selectedOption?.value ?? ""} multiple={false} />
         <span style={{ fontFamily: "Arial", color: "var(--content-primary)" }}>
           Selected value : {selectedOption?.label || "No value"}
         </span>
@@ -180,7 +180,7 @@ export const Disabled: Story = {
 
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-        <Select {...args} onChange={handleOnChange} value={selectedOption?.value} multiple={false} />
+        <Select {...args} onChange={handleOnChange} value={selectedOption?.value ?? ""} multiple={false} />
         <span style={{ fontFamily: "Arial", color: "var(--content-primary)" }}>
           Selected value : {selectedOption?.label || "No value"}
         </span>
@@ -211,7 +211,7 @@ export const CompactSpacing: Story = {
 
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-        <Select {...args} onChange={handleOnChange} value={selectedOption?.value} multiple={false} />
+        <Select {...args} onChange={handleOnChange} value={selectedOption?.value ?? ""} multiple={false} />
         <span style={{ fontFamily: "Arial", color: "var(--content-primary)" }}>
           Selected value : {selectedOption?.label || "No value"}
         </span>
@@ -235,7 +235,7 @@ export const VisiblySelected: Story = {
 
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-        <Select {...args} onChange={handleOnChange} value={selectedOption?.value} multiple={false} />
+        <Select {...args} onChange={handleOnChange} value={selectedOption?.value ?? ""} multiple={false} />
         <span style={{ fontFamily: "Arial", color: "var(--content-primary)" }}>
           Selected value : {selectedOption?.label || "No value"}
         </span>
@@ -283,7 +283,7 @@ export const KeyboardInteraction: Story = {
 
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-        <Select {...args} onChange={handleOnChange} value={selectedOption?.value} multiple={false} />
+        <Select {...args} onChange={handleOnChange} value={selectedOption?.value ?? ""} multiple={false} />
         <span style={{ fontFamily: "Arial", color: "var(--content-primary)" }}>
           Selected value : {selectedOption?.label || "No value"}
         </span>
@@ -318,5 +318,26 @@ export const KeyboardInteraction: Story = {
     await userEvent.keyboard(TESTING_DOWN_KEY);
     await userEvent.keyboard(TESTING_ENTER_KEY);
     expect(select).toHaveTextContent("Option 3");
+  },
+};
+
+export const UncontrolledDefaultValue: Story = {
+  args: {
+    ...Default.args,
+  },
+  render: (args) => {
+    const [lastValue, setLastValue] = useState<string | null>(null);
+
+    const { value: _value, ...rest } = args;
+    void _value;
+
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+        <Select {...rest} defaultValue={"option-3"} onChange={(v) => setLastValue(v)} multiple={false} />
+        <span style={{ fontFamily: "Arial", color: "var(--content-primary)" }}>
+          Last emitted value : {lastValue || "None yet"}
+        </span>
+      </div>
+    );
   },
 };

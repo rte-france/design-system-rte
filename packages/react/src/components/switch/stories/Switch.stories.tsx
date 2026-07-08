@@ -1,6 +1,7 @@
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 import { Meta, StoryObj } from "@storybook/react";
 import { expect, within, userEvent } from "@storybook/test";
+import { useEffect, useState } from "react";
 
 import { focusElementBeforeComponent } from "../../../../.storybook/testing/testing.utils";
 import Switch from "../Switch";
@@ -57,11 +58,15 @@ const meta = {
     },
     checked: {
       control: "boolean",
-      description: "Initial checked state of the switch",
+      description: "Checked state (controlled)",
+      defaultValue: false,
+    },
+    defaultChecked: {
+      control: "boolean",
+      description: "Default checked state (uncontrolled)",
       defaultValue: false,
     },
     onChange: {
-      action: "changed",
       description: "Function called when the switch state changes",
     },
   },
@@ -70,6 +75,13 @@ const meta = {
 export default meta;
 
 type Story = StoryObj<typeof meta>;
+
+const setSwitchStateDisplay = (checked: boolean) => {
+  const switchStateElement = document.getElementById("switch-state");
+  if (switchStateElement) {
+    switchStateElement.textContent = checked ? "ON" : "OFF";
+  }
+};
 
 export const Default: Story = {
   args: {
@@ -80,13 +92,21 @@ export const Default: Story = {
     appearance: "brand",
     showIcon: true,
     checked: false,
-    onChange: (e) => {
-      const switchState = e.target.checked ? "ON" : "OFF";
-      const switchStateElement = document.getElementById("switch-state");
-      if (switchStateElement) {
-        switchStateElement.textContent = switchState;
-      }
-    },
+  },
+  render: (args) => {
+    const [checked, setChecked] = useState(!!args.checked);
+
+    return (
+      <Switch
+        {...args}
+        checked={checked}
+        onChange={(e) => {
+          setChecked(e.target.checked);
+          setSwitchStateDisplay(e.target.checked);
+          args.onChange?.(e);
+        }}
+      />
+    );
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -104,6 +124,28 @@ export const Default: Story = {
 
     await userEvent.keyboard(ENTER_KEY);
     await expect(switchElement).not.toBeChecked();
+  },
+};
+
+export const Uncontrolled: Story = {
+  args: {
+    label: "Uncontrolled Switch",
+    defaultChecked: true,
+  },
+  render: (args) => {
+    useEffect(() => {
+      setSwitchStateDisplay(!!args.defaultChecked);
+    }, [args.defaultChecked]);
+
+    return (
+      <Switch
+        {...args}
+        onChange={(e) => {
+          setSwitchStateDisplay(e.target.checked);
+          args.onChange?.(e);
+        }}
+      />
+    );
   },
 };
 

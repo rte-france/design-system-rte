@@ -53,6 +53,33 @@ export const Default: Story = {
   },
 };
 
+export const UncontrolledDefaultValue: Story = {
+  args: {
+    ...Default.args,
+  },
+  render: (args) => {
+    return <TimePicker {...args} defaultValue={{ hh: "08", mm: "15", ss: "00" }} onChange={() => {}} />;
+  },
+};
+
+export const ControlledPropUpdate: Story = {
+  args: {
+    ...Default.args,
+  },
+  render: (args) => {
+    const [value, setValue] = useState<TimeFormat>({ hh: "12", mm: "30", ss: "45" });
+    return (
+      <>
+        <div style={{ display: "flex", gap: 8 }}>
+          <button onClick={() => setValue({ hh: "09", mm: "00", ss: "00" })}>Set to 09:00:00</button>
+          <button onClick={() => setValue({ hh: "", mm: "", ss: "" })}>Clear</button>
+        </div>
+        <TimePicker {...args} value={value} onChange={setValue} />
+      </>
+    );
+  },
+};
+
 export const Disabled: Story = {
   args: {
     ...Default.args,

@@ -48,6 +48,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatepickerProps>(
       showLabelRequirement = false,
       disabled = false,
       value,
+      defaultValue,
       readonly = false,
       onChange,
       hasAction = false,
@@ -70,6 +71,10 @@ const DatePicker = forwardRef<HTMLDivElement, DatepickerProps>(
 
     const shouldDisplayAssistiveText = assistiveTextLabel && !isDropdownOpen;
 
+    const isControlled = value !== undefined;
+    const initialValueRef = useRef<Date | null>(value ?? defaultValue ?? null);
+    const currentValue = isControlled ? (value ?? null) : initialValueRef.current;
+
     const {
       increaseActiveSegmentValue,
       decreaseActiveSegmentValue,
@@ -80,7 +85,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatepickerProps>(
       displayValue,
       dateState,
       updateDisplayedDate,
-    } = useDatePickerInternalValue(value, {
+    } = useDatePickerInternalValue(currentValue, {
       minDate,
       maxDate,
       disabledDates,
@@ -90,11 +95,15 @@ const DatePicker = forwardRef<HTMLDivElement, DatepickerProps>(
       useNavigateBetweenDateSegment();
 
     const onChangeRef = useRef(onChange);
-    const lastEmittedValueRef = useRef<Date | null>(value ?? null);
+    const lastEmittedValueRef = useRef<Date | null>(currentValue ?? null);
 
     useEffect(() => {
       onChangeRef.current = onChange;
     }, [onChange]);
+
+    useEffect(() => {
+      lastEmittedValueRef.current = currentValue ?? null;
+    }, [currentValue]);
 
     useEffect(() => {
       if (internalValue === null && !isDateStateEmpty(dateState)) {

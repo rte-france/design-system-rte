@@ -84,6 +84,37 @@ export const Default: Story = {
   render: buildRender(defaultRange),
 };
 
+export const UncontrolledDefaultValue: Story = {
+  args: {
+    ...Default.args,
+    value: undefined,
+  },
+  render: (args) => {
+    const { value: _ignored, ...rest } = args;
+    void _ignored;
+    return <DateRangePicker {...rest} defaultValue={defaultRange} onChange={() => {}} />;
+  },
+};
+
+export const ControlledPropUpdate: Story = {
+  args: {
+    ...Default.args,
+    value: null,
+  },
+  render: (args) => {
+    const [date, setDate] = useState<DateRangeValue>(defaultRange);
+    return (
+      <>
+        <div style={{ display: "flex", gap: 8 }}>
+          <button onClick={() => setDate([new Date(2026, 5, 1), new Date(2026, 5, 10)])}>Set range</button>
+          <button onClick={() => setDate(null)}>Clear</button>
+        </div>
+        <DateRangePicker {...args} value={date} onChange={setDate} />
+      </>
+    );
+  },
+};
+
 export const MinWidth: Story = {
   args: {
     ...Default.args,

@@ -46,6 +46,7 @@ const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
       id,
       labelId,
       value,
+      defaultValue,
       onChange,
       label,
       showLabel,
@@ -72,7 +73,10 @@ const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
     const timePickerRef = useRef<HTMLDivElement | null>(null);
     const timePickerInputRef = useRef<HTMLInputElement | null>(null);
     const onChangeRef = useRef(onChange);
-    const lastEmittedValueRef = useRef<TimeFormat | null>(value ?? null);
+    const isControlled = value !== undefined;
+    const initialValueRef = useRef<TimeFormat | undefined>(value ?? defaultValue);
+    const currentValue = isControlled ? value : initialValueRef.current;
+    const lastEmittedValueRef = useRef<TimeFormat | null>(currentValue ?? null);
 
     const { timePickerDropdownElement, timePickerDropdownRef } = useTimePickerDropdown(isOpen);
 
@@ -97,11 +101,15 @@ const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
       decreaseSeconds,
       increaseHours,
       decreaseHours,
-    } = useTimePickerInternalValue(value, {
-      hourIncrement,
-      minuteIncrement,
-      secondIncrement,
-    });
+    } = useTimePickerInternalValue(
+      currentValue,
+      {
+        hourIncrement,
+        minuteIncrement,
+        secondIncrement,
+      },
+      isControlled,
+    );
 
     useFocusTrap(timePickerDropdownElement!, isOpen);
     const displayValue = buildDisplayValue(internalTimeValue, activeTimeSegment);
@@ -335,6 +343,10 @@ const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
     useEffect(() => {
       onChangeRef.current = onChange;
     }, [onChange]);
+
+    useEffect(() => {
+      lastEmittedValueRef.current = currentValue ?? null;
+    }, [currentValue]);
 
     useEffect(() => {
       if (areSameTime(lastEmittedValueRef.current, internalTimeValue)) {
