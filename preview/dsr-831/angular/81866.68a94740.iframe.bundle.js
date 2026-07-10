@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_design_system_rte_angular_builder=self.webpackChunk_design_system_rte_angular_builder||[]).push([[81866],{"./projects/ds-rte-lib/src/lib/assets/icons/power_outlined.svg"(module,__unused_webpack_exports,__webpack_require__){module.exports=__webpack_require__.p+"static/media/power_outlined.a20c223c.svg"}}]);
