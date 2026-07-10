@@ -1,5 +1,13 @@
 # @design-system-rte/core
 
+## 1.12.1
+
+### Patch Changes
+
+- 3907f5d: ## Changes
+
+  - (Select) onChange return the full array empty or filled when clicking on selectAll
+
 ## 1.12.0
 
 ### Minor Changes
