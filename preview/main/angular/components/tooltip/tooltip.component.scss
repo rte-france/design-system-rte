@@ -6,13 +6,13 @@ $max-height: 40px;
     position: absolute;
     pointer-events: none;
     transition: opacity 150ms ease-out;
-    max-height: $max-height;
 }
 
 .tooltip {
     color: var(--content-primary-inverse);
     text-align: center;
     z-index: 1;
+    max-height: $max-height;
     padding-block: $positive-spacing_050;
     padding-inline: $positive-spacing_200;
     border-radius: $radius-s;
@@ -24,7 +24,10 @@ $max-height: 40px;
 
     &-label {
         @include typography-tooltip-label;
+        display: block;
         width: fit-content;
+        max-height: $max-height;
+        overflow: hidden;
     }
 
     &.top {
