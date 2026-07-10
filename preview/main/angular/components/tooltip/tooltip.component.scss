@@ -4,12 +4,9 @@ $max-height: 40px;
 
 :host {
     position: absolute;
+    pointer-events: none;
     transition: opacity 150ms ease-out;
     max-height: $max-height;
-
-    &:not(:hover) {
-        transition: opacity 100ms ease-in;
-    }
 }
 
 .tooltip {
