@@ -32,6 +32,7 @@ export class TooltipDirective implements AfterViewInit, OnDestroy {
   readonly rteTooltipGap = input<number>(TOOLTIP_GAP);
 
   private tooltipRef: ComponentRef<TooltipComponent> | null = null;
+  private hideTimeout: ReturnType<typeof setTimeout> | null = null;
   private hostElement: HTMLElement;
   private overlayService: OverlayService;
 
@@ -79,6 +80,7 @@ export class TooltipDirective implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.clearHideTimeout();
     if (!this.rteTooltipShouldFocusTrigger()) {
       const focusableTrigger = this.hostElement.querySelectorAll(FOCUSABLE_ELEMENTS_QUERY)[0];
       if (focusableTrigger) {
@@ -87,9 +89,12 @@ export class TooltipDirective implements AfterViewInit, OnDestroy {
       }
     }
     window.removeEventListener("scroll", this.positionTooltip.bind(this));
+    this.hideTooltip();
   }
 
   showTooltip(): void {
+    this.clearHideTimeout();
+
     if (this.tooltipRef) {
       this.tooltipRef.destroy();
     }
@@ -100,17 +105,10 @@ export class TooltipDirective implements AfterViewInit, OnDestroy {
 
   private assignDirectiveToComponent(): void {
     if (this.tooltipRef) {
-      const tooltipElement = this.tooltipRef.location.nativeElement;
-      const gap = getTooltipGap(this.rteTooltipArrow(), this.rteTooltipGap());
-      const position =
-        this.rteTooltipPosition() === "auto"
-          ? getAutoPlacement(this.hostElement, tooltipElement, "top", gap, true)
-          : this.rteTooltipPosition();
-
       const isInParentWithOverlay = isElementInParentWithOverlay(this.hostElement);
       this.tooltipRef.setInput("isInParentWithOverlay", isInParentWithOverlay);
       this.tooltipRef.setInput("label", this.rteTooltip());
-      this.tooltipRef.setInput("position", position);
+      this.tooltipRef.setInput("position", this.getResolvedPosition());
       this.tooltipRef.setInput("alignment", this.rteTooltipAlignment());
       this.tooltipRef.setInput("arrow", this.rteTooltipArrow());
 
@@ -118,16 +116,31 @@ export class TooltipDirective implements AfterViewInit, OnDestroy {
     }
   }
 
+  private getResolvedPosition(): Exclude<Position, "auto"> {
+    const configuredPosition = this.rteTooltipPosition();
+
+    if (configuredPosition !== "auto") {
+      return configuredPosition;
+    }
+
+    if (!this.tooltipRef) {
+      return "top";
+    }
+
+    const tooltipElement = this.tooltipRef.location.nativeElement;
+    const gap = getTooltipGap(this.rteTooltipArrow(), this.rteTooltipGap());
+    return getAutoPlacement(this.hostElement, tooltipElement, "top", gap, true);
+  }
+
   private positionTooltip(): void {
     if (this.tooltipRef) {
       const tooltipElement = this.tooltipRef.location.nativeElement as HTMLElement;
       const gap = getTooltipGap(this.rteTooltipArrow(), this.rteTooltipGap());
-      const computedCoordinates = getCoordinates(
-        this.tooltipRef.instance.position(),
-        this.hostElement,
-        tooltipElement,
-        gap,
-      );
+      const position = this.getResolvedPosition();
+
+      this.tooltipRef.setInput("position", position);
+
+      const computedCoordinates = getCoordinates(position, this.hostElement, tooltipElement, gap);
 
       this.renderer.setStyle(this.hostElement, "position", "relative");
       this.renderer.setStyle(tooltipElement, "top", `${computedCoordinates.top}px`);
@@ -136,18 +149,30 @@ export class TooltipDirective implements AfterViewInit, OnDestroy {
   }
 
   private hideTooltip(): void {
-    if (this.tooltipRef) {
-      const tooltipElement = this.tooltipRef.location.nativeElement;
+    if (!this.tooltipRef) {
+      return;
+    }
 
-      this.renderer.setStyle(tooltipElement, "opacity", "0");
+    const tooltipRef = this.tooltipRef;
+    const tooltipElement = tooltipRef.location.nativeElement;
 
-      setTimeout(() => {
-        if (this.tooltipRef) {
-          this.tooltipRef.destroy();
-          this.tooltipRef = null;
-          this.overlayService.destroy();
-        }
-      }, TOOLTIP_FADE_OUT_DURATION);
+    this.renderer.setStyle(tooltipElement, "opacity", "0");
+
+    this.clearHideTimeout();
+    this.hideTimeout = setTimeout(() => {
+      if (this.tooltipRef === tooltipRef) {
+        tooltipRef.destroy();
+        this.tooltipRef = null;
+        this.overlayService.destroy();
+      }
+      this.hideTimeout = null;
+    }, TOOLTIP_FADE_OUT_DURATION);
+  }
+
+  private clearHideTimeout(): void {
+    if (this.hideTimeout) {
+      clearTimeout(this.hideTimeout);
+      this.hideTimeout = null;
     }
   }
 }
