@@ -41,11 +41,7 @@ const Tag = forwardRef<HTMLDivElement, TagProps>(
         {iconName && isValidIconName(iconName) && (tagType === "status" || showLeftIcon) && (
           <Icon name={iconName} size={16} />
         )}
-        {label && (
-          <span className={style["tag-label"]} data-compact-spacing={compactSpacing}>
-            {label}
-          </span>
-        )}
+        {label && <span className={style["tag-label"]}>{label}</span>}
       </div>
     );
   },
