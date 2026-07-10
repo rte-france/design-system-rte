@@ -1,5 +1,43 @@
 # @design-system-rte/angular
 
+## 2.1.0
+
+### Minor Changes
+
+- e4be799: ## Changes
+
+  - (Select) correct clear button size. It was medium sized instead of small as Design expected
+  - (Switch) add Angular Form integration via Control Value Accessor
+  - (Select) correct display and behavior while disabled
+  - (Forms) add Angular Forms integration via Control Value Accessor to input & input-like components
+
+### Patch Changes
+
+- 3907f5d: ## Changes
+
+  - (Select) reset button send valid empty string or empty array value
+  - (Select) angular - set initial value from value props
+  - (Select) onChange return the full array empty or filled when clicking on selectAll
+
+- 99bd563: ## Changes
+
+  - (Tooltip) correct unwanted tooltip display blinking while hovering
+
+- 6095ec7: ## Changes
+
+  - (Tooltip) correct overflow clipping
+
+- 13f81a0: ## Changes
+
+  - (Sidenav) correct opening & closing behavior and transition
+
+- 12681b1: ## Changes
+
+  - (Tag) correct height & font-size for standard and compact mode
+
+- Updated dependencies [3907f5d]
+  - @design-system-rte/core@1.12.1
+
 ## 2.0.0
 
 ### Major Changes

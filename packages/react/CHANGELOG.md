@@ -1,5 +1,39 @@
 # @design-system-rte/react
 
+## 1.12.2
+
+### Patch Changes
+
+- 7db2573: ## Changes
+
+  - (Select) correct clear button size. It was medium sized instead of small as Design expected
+
+- 3907f5d: ## Changes
+
+  - (Select) reset button send valid empty string or empty array value
+  - (Select) angular - set initial value from value props
+  - (Select) onChange return the full array empty or filled when clicking on selectAll
+
+- 6095ec7: ## Changes
+
+  - (Tooltip) correct overflow clipping
+
+- fb7f7e2: ## Changes
+
+  - (Datepicker) prevent blocking loop in value assignation
+  - (Timepicker) prevent blocking loop in value assignation
+
+- 13f81a0: ## Changes
+
+  - (Sidenav) correct opening & closing behavior and transition
+
+- 12681b1: ## Changes
+
+  - (Tag) correct height & font-size for standard and compact mode
+
+- Updated dependencies [3907f5d]
+  - @design-system-rte/core@1.12.1
+
 ## 1.12.1
 
 ### Patch Changes
