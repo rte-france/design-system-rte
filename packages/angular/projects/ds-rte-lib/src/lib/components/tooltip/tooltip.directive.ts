@@ -116,6 +116,11 @@ export class TooltipDirective implements AfterViewInit, OnDestroy {
     }
   }
 
+  private getTooltipBodyElement(): HTMLElement {
+    const hostElement = this.tooltipRef!.location.nativeElement as HTMLElement;
+    return hostElement.querySelector<HTMLElement>(".tooltip") ?? hostElement;
+  }
+
   private getResolvedPosition(): Exclude<Position, "auto"> {
     const configuredPosition = this.rteTooltipPosition();
 
@@ -127,20 +132,21 @@ export class TooltipDirective implements AfterViewInit, OnDestroy {
       return "top";
     }
 
-    const tooltipElement = this.tooltipRef.location.nativeElement;
+    const tooltipBodyElement = this.getTooltipBodyElement();
     const gap = getTooltipGap(this.rteTooltipArrow(), this.rteTooltipGap());
-    return getAutoPlacement(this.hostElement, tooltipElement, "top", gap, true);
+    return getAutoPlacement(this.hostElement, tooltipBodyElement, "top", gap, true);
   }
 
   private positionTooltip(): void {
     if (this.tooltipRef) {
       const tooltipElement = this.tooltipRef.location.nativeElement as HTMLElement;
+      const tooltipBodyElement = this.getTooltipBodyElement();
       const gap = getTooltipGap(this.rteTooltipArrow(), this.rteTooltipGap());
       const position = this.getResolvedPosition();
 
       this.tooltipRef.setInput("position", position);
 
-      const computedCoordinates = getCoordinates(position, this.hostElement, tooltipElement, gap);
+      const computedCoordinates = getCoordinates(position, this.hostElement, tooltipBodyElement, gap);
 
       this.renderer.setStyle(this.hostElement, "position", "relative");
       this.renderer.setStyle(tooltipElement, "top", `${computedCoordinates.top}px`);
