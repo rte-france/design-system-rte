@@ -2,6 +2,59 @@
 
 # Angular
 
+## 2.1.0
+
+### Select
+
+#### Minor Changes
+
+- correct clear button size. It was medium sized instead of small as Design expected
+- correct display and behavior while disabled
+
+#### Patch Changes
+
+- reset button send valid empty string or empty array value
+- angular - set initial value from value props
+- onChange return the full array empty or filled when clicking on selectAll
+
+### Switch
+
+#### Minor Changes
+
+- add Angular Form integration via Control Value Accessor
+
+### Forms
+
+#### Minor Changes
+
+- add Angular Forms integration via Control Value Accessor to input & input-like components
+
+### Tooltip
+
+#### Patch Changes
+
+- correct unwanted tooltip display blinking while hovering
+- correct overflow clipping
+
+### Sidenav
+
+#### Patch Changes
+
+- correct opening & closing behavior and transition
+
+### Tag
+
+#### Patch Changes
+
+- correct height & font-size for standard and compact mode
+
+### Other
+
+#### Patch Changes
+
+- Updated dependencies [3907f5d]
+- @design-system-rte/core@1.12.1
+
 ## 2.0.0
 
 ### Divider
@@ -154,126 +207,55 @@
 - Updated dependencies [b44a590]
 - Updated dependencies [b0ed7db]
 - @design-system-rte/core@1.11.0
+# React
 
-## 1.10.0
-
-### Text-input
-
-#### Minor Changes
-
-- add enterKeyDown event
-
-### Toast
-
-#### Minor Changes
-
-- add top-center position
-
-### Tag
-
-#### Minor Changes
-
-- add decorative color + align names with token value
-
-### Chip
-
-#### Minor Changes
-
-- add neutral variant
-
-### Header
-
-#### Minor Changes
-
-- add missing padding on link
-- add missing padding on mobile
-
-### Sidenav
-
-#### Minor Changes
-
-- correct new Focus display for Items and Menus in new possible style combinations
-- add compact Badges to compact Sidenav
-- add Tooltip for Sidenav Header
-- correct Header Identifier & Title display
-- correct width of component and add ellipsis to its header
-- correct import statements of new core imports
-- correct active zone for nav items
-- add compact mode for standardization with Header
-- correct active state handling for sub-items
-- add contrast capacities to component
-- remove Drawer-Responsive logic from Sidenav & simplify template and rendering
-
-### Date Picker
-
-#### Minor Changes
-
-- create a two-layer system for Menu so range in menu can be displayed properly in any size
-
-### Date Range Picker
-
-#### Minor Changes
-
-- synchronize input highlight
-- add Angular component
-
-### Searchbar
-
-#### Minor Changes
-
-- change border radius from 8px to 4px
-
-### Input
-
-#### Patch Changes
-
-- add or configure width props to be used
-
-### Modal
-
-#### Patch Changes
-
-- expose public close method
-- angular - remove the display dependance of custom content with description
-
-### Radio-button
-
-#### Patch Changes
-
-- add support for external checked control
+## 1.12.2
 
 ### Select
 
 #### Patch Changes
 
-- add missing background color
+- correct clear button size. It was medium sized instead of small as Design expected
+- reset button send valid empty string or empty array value
+- angular - set initial value from value props
+- onChange return the full array empty or filled when clicking on selectAll
 
-### Treeview
-
-#### Patch Changes
-
-- set right color for chevron and icon
-
-### Card
+### Tooltip
 
 #### Patch Changes
 
-- remove shadow from outlined version
+- correct overflow clipping
+
+### Datepicker
+
+#### Patch Changes
+
+- prevent blocking loop in value assignation
+
+### Timepicker
+
+#### Patch Changes
+
+- prevent blocking loop in value assignation
+
+### Sidenav
+
+#### Patch Changes
+
+- correct opening & closing behavior and transition
+
+### Tag
+
+#### Patch Changes
+
+- correct height & font-size for standard and compact mode
 
 ### Other
 
 #### Patch Changes
 
-- Updated dependencies [6e839c8]
-- Updated dependencies [e4dc52f]
-- Updated dependencies [7053ac6]
-- Updated dependencies [65af3dd]
-- Updated dependencies [e7afe99]
-- Updated dependencies [77a7b3f]
-- Updated dependencies [39dee3c]
-- Updated dependencies [6be38db]
-- @design-system-rte/core@1.10.0
-# React
+- Updated dependencies [3907f5d]
+- @design-system-rte/core@1.12.1
 
 ## 1.12.1
 
@@ -559,6 +541,17 @@
 - Updated dependencies [b7d1755]
 - @design-system-rte/core@1.9.0
 # Core
+
+## 1.12.1
+
+### Select
+
+#### Patch Changes
+
+- onChange return the full array empty or filled when clicking on selectAll
+
+### Other
+
 
 ## 1.12.0
 
