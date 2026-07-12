@@ -1,6 +1,7 @@
 @use '@design-system-rte/core/design-tokens/main.scss' as *;
 
 .rte-tag {
+    box-sizing: border-box;
     height: 32px;
     display: inline-flex;
     padding: $positive-spacing_050 $positive-spacing_075;
@@ -10,18 +11,18 @@
     border-radius: $radius-s;
     text-wrap: nowrap;
 
-    &[data-compact-spacing="true"] {
-        padding: $positive-spacing_0 $positive-spacing_075;
-        height: 24px;
-    }
-
     .tag-label {
         padding: $positive-spacing_0 $positive-spacing_075;
         @include typography-text-l;
         color: var(--content-status);
+    }
 
-        &[data-compact-spacing="true"] {
-            @include typography-text-m
+    &[data-compact-spacing="true"] {
+        padding: $positive-spacing_0 $positive-spacing_075;
+        height: 20px;
+
+        .tag-label {
+            @include typography-text-m;
         }
     }
 
