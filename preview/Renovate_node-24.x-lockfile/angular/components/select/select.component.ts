@@ -29,6 +29,7 @@ import { DropdownModule } from "../dropdown";
 import { DropdownItemConfig } from "../dropdown/dropdown-item/dropdown-item.component";
 import { IconComponent } from "../icon/icon.component";
 import { IconButtonComponent } from "../icon-button/icon-button.component";
+import { BaseValueAccessor } from "../input/base-value-accessor";
 import { RequiredIndicatorComponent } from "../input/required-indicator/required-indicator.component";
 
 import { SelectFooterDirective } from "./select-footer.directive";
@@ -57,7 +58,7 @@ import { SelectHeaderDirective } from "./select-header.directive";
     },
   ],
 })
-export class SelectComponent implements AfterViewInit {
+export class SelectComponent extends BaseValueAccessor<string | string[]> implements AfterViewInit {
   readonly id = input<string>();
   readonly name = input<string>();
   readonly ariaLabelledby = input<string>();
@@ -143,17 +144,27 @@ export class SelectComponent implements AfterViewInit {
     getSelectedOption(this.optionToDisplay() || "first-selected", this.options(), this.internalValue()!),
   );
 
-  readonly shouldDisplayClearButton = signal(false);
+  readonly hasSelectedValue = computed(() => {
+    const currentValue = this.internalValue();
+    return this.multiple() ? Array.isArray(currentValue) && !!currentValue?.length : !!currentValue;
+  });
 
-  readonly shouldDisplayErrorIcon = computed(() => this.isError() && !this.disabled() && !this.readOnly());
+  readonly shouldDisplayClearButton = computed(() => {
+    if (!this.showResetButton() || this.isDisabled()) {
+      return false;
+    }
+    return this.hasSelectedValue();
+  });
+
+  readonly shouldDisplayErrorIcon = computed(() => this.isError() && !this.isDisabled() && !this.readOnly());
 
   readonly shouldDisplaySelectedIcon = computed(() => {
     return (
       this.variant() === "visibly-selected" &&
       !this.shouldDisplayErrorIcon() &&
-      !this.disabled() &&
+      !this.isDisabled() &&
       !this.readOnly() &&
-      !!this.internalValue()
+      this.hasSelectedValue()
     );
   });
 
@@ -177,13 +188,30 @@ export class SelectComponent implements AfterViewInit {
 
   readonly iconSize = computed(() => (this.compactSpacing() ? IconSize["s"] : IconSize["m"]));
 
+  readonly isDisabled = computed(() => this.disabled() || this.formDisabled());
+
   ngAfterViewInit() {
     this.internalValue.set(this.value());
     this.currentDisplayedOption.set(
       getSelectedOption(this.optionToDisplay() || "first-selected", this.options(), this.internalValue()!),
     );
     this.regenerateOptionsFormatted();
-    this.computeShouldDisplayClearButton();
+  }
+
+  writeValue(value: string | string[]): void {
+    if (Array.isArray(value)) {
+      this.internalValue.set([...value]);
+    } else {
+      this.internalValue.set(value ?? (this.multiple() ? [] : ""));
+    }
+    this.regenerateOptionsFormatted();
+    this.currentDisplayedOption.set(
+      getSelectedOption(this.optionToDisplay() || "first-selected", this.options(), this.internalValue()!),
+    );
+  }
+
+  private emitFormChange(): void {
+    this.onChange(this.internalValue() ?? (this.multiple() ? [] : ""));
   }
 
   areAllOptionsSelected(): boolean {
@@ -191,14 +219,14 @@ export class SelectComponent implements AfterViewInit {
   }
 
   handleOnClickTrigger() {
-    if (this.readOnly() || this.disabled()) {
+    if (this.readOnly() || this.isDisabled()) {
       return;
     }
     this.toggleDropdown();
   }
 
   handleOnKeyDownTrigger(event: KeyboardEvent) {
-    if (this.readOnly() || this.disabled()) {
+    if (this.readOnly() || this.isDisabled()) {
       return;
     }
     if (this.shouldDisplayClearButton()) {
@@ -217,7 +245,7 @@ export class SelectComponent implements AfterViewInit {
 
   handleOnCloseChip(event: Event, value: string) {
     event.stopPropagation();
-    if (this.readOnly() || this.disabled()) {
+    if (this.readOnly() || this.isDisabled()) {
       return;
     }
 
@@ -226,21 +254,20 @@ export class SelectComponent implements AfterViewInit {
       if (currentValue && Array.isArray(currentValue)) {
         const valueIndex = currentValue.indexOf(value);
         if (valueIndex > -1) {
-          currentValue.splice(valueIndex, 1);
-          this.internalValue.set(currentValue);
+          this.internalValue.set(currentValue.filter((currentItem) => currentItem !== value));
           this.regenerateOptionsFormatted();
           this.valueChange.emit(currentValue);
+          this.emitFormChange();
           this.currentDisplayedOption.set(
             getSelectedOption(this.optionToDisplay() || "first-selected", this.options(), this.internalValue()!),
           );
-          this.computeShouldDisplayClearButton();
         }
       }
     }
   }
 
   handleOnClickClearButton(event: Event): void {
-    if (this.readOnly() || this.disabled()) {
+    if (this.readOnly() || this.isDisabled()) {
       return;
     }
     event.stopPropagation();
@@ -248,7 +275,7 @@ export class SelectComponent implements AfterViewInit {
   }
 
   handleOnClickItem(value: string) {
-    if (this.readOnly() || this.disabled()) {
+    if (this.readOnly() || this.isDisabled()) {
       return;
     }
 
@@ -265,19 +292,22 @@ export class SelectComponent implements AfterViewInit {
     }
     this.regenerateOptionsFormatted();
 
+    this.valueChange.emit(value);
+    this.emitFormChange();
     this.currentDisplayedOption.set(
       getSelectedOption(this.optionToDisplay() || "first-selected", this.options(), this.internalValue()!),
     );
-    this.computeShouldDisplayClearButton();
     this.selectRef()?.nativeElement.focus();
   }
 
   handleOnClosingDropdown() {
     this.isActive.set(false);
+    this.onTouched();
   }
 
   handleOnClickOutside() {
     this.isActive.set(false);
+    this.onTouched();
   }
 
   private toggleDropdown() {
@@ -298,12 +328,13 @@ export class SelectComponent implements AfterViewInit {
       this.valueChange.emit("");
     }
     this.isActive.set(false);
+    this.valueChange.emit("select-all");
+    this.emitFormChange();
     this.selectRef()?.nativeElement.dispatchEvent(new Event("clearContent"));
     this.regenerateOptionsFormatted();
     this.currentDisplayedOption.set(
       getSelectedOption(this.optionToDisplay() || "first-selected", this.options(), this.internalValue()!),
     );
-    this.computeShouldDisplayClearButton();
   }
 
   private regenerateOptionsFormatted() {
@@ -337,16 +368,6 @@ export class SelectComponent implements AfterViewInit {
     return this.internalValue() === value;
   }
 
-  private computeShouldDisplayClearButton() {
-    const shouldDisplay =
-      this.showResetButton() &&
-      (this.multiple()
-        ? Array.isArray(this.internalValue()) && this.internalValue()!.length > 0
-        : !!this.internalValue()) &&
-      !this.disabled();
-    this.shouldDisplayClearButton.set(shouldDisplay);
-  }
-
   private clickedSelectAll() {
     if (this.areAllOptionsSelected()) {
       this.internalValue.set([]);
@@ -359,21 +380,15 @@ export class SelectComponent implements AfterViewInit {
 
   private clickedSelectItemMultiple(value: string) {
     const currentValue = this.internalValue();
-    if (currentValue === undefined) {
+    if (!Array.isArray(currentValue)) {
       this.internalValue.set([value]);
-    } else {
-      if (Array.isArray(currentValue)) {
-        const valuesArray = currentValue;
-        const valueIndex = valuesArray.indexOf(value);
-        if (valueIndex > -1) {
-          valuesArray.splice(valueIndex, 1);
-        } else {
-          valuesArray.push(value);
-        }
-        this.internalValue.set(valuesArray);
-        this.valueChange.emit(valuesArray);
-      }
+      return;
     }
+    const valueIndex = currentValue.indexOf(value);
+    const valuesArray =
+      valueIndex > -1 ? currentValue.filter((currentItem) => currentItem !== value) : [...currentValue, value];
+    this.internalValue.set(valuesArray);
+    this.valueChange.emit(valuesArray);
   }
 
   private mapOptionToDropdownItemConfig(option: { value: string; label: string }): DropdownItemConfig {
