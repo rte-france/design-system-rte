@@ -43,9 +43,9 @@
         [attr.aria-labelledby]="labelId() || ariaLabelledby()"
         [attr.required]="required() || null"
         [attr.maxLength]="maxLength() !== undefined ? maxLength() : null"
-        [attr.disabled]="disabled() || null"
+        [attr.disabled]="isDisabled() || null"
         [attr.readonly]="readOnly() || null"
-        [value]="value() !== undefined ? value() : null"
+        [value]="internalValue()"
         [defaultValue]="defaultValue() !== undefined ? defaultValue() : null"
         [attr.rows]="rows()"
         (input)="onInput($event)"
@@ -62,7 +62,7 @@
       <div
         *ngIf="assistiveTextAppearance() !== 'link'"
         class="assistive-text {{ assistiveTextAppearance() }}"
-        [ngClass]="{ disabled: disabled() }"
+        [ngClass]="{ disabled: isDisabled() }"
       >
         <rte-icon *ngIf="assistiveTextAppearance() === 'error'" name="error" [size]="assistiveTextIconSize"></rte-icon>
         <rte-icon

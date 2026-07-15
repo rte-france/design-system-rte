@@ -1,11 +1,12 @@
-import { signal } from "@angular/core";
+import { Component, signal } from "@angular/core";
+import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import {
   TESTING_DOWN_KEY,
   TESTING_ENTER_KEY,
 } from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
 import type { Meta, StoryObj } from "@storybook/angular";
 import { moduleMetadata } from "@storybook/angular";
-import { fn, userEvent, within, expect } from "@storybook/test";
+import { fn, userEvent, waitFor, within, expect } from "@storybook/test";
 
 import { focusElementBeforeComponent } from "../../../../../../../.storybook/testing/testing.utils";
 import { SelectFooterDirective } from "../select-footer.directive";
@@ -451,13 +452,13 @@ export const KeyboardInteraction: Story = {
     await userEvent.tab();
     await userEvent.keyboard(TESTING_DOWN_KEY);
     await userEvent.keyboard(TESTING_ENTER_KEY);
-    expect(select).toHaveTextContent("Option 2");
+    await waitFor(() => expect(select).toHaveTextContent("Option 2"));
 
     const clearButton = select.querySelector("rte-icon-button.clear-icon button");
     const toggleIcon = select.querySelector("rte-icon.trigger-icon-down");
 
     await userEvent.click(clearButton!);
-    expect(select).toHaveTextContent(args.placeholder!);
+    await waitFor(() => expect(select).toHaveTextContent(args.placeholder!));
 
     await userEvent.click(toggleIcon!);
 
@@ -466,6 +467,135 @@ export const KeyboardInteraction: Story = {
     await userEvent.keyboard(TESTING_DOWN_KEY);
     await userEvent.keyboard(TESTING_DOWN_KEY);
     await userEvent.keyboard(TESTING_ENTER_KEY);
-    expect(select).toHaveTextContent("Option 3");
+    await waitFor(() => expect(select).toHaveTextContent("Option 3"));
+  },
+};
+
+const REACTIVE_FORM_OPTIONS = [
+  { value: "option-1", label: "Option 1" },
+  { value: "option-2", label: "Option 2" },
+  { value: "option-3", label: "Option 3" },
+];
+
+@Component({
+  selector: "select-reactive-form-host",
+  imports: [ReactiveFormsModule, SelectComponent],
+  standalone: true,
+  template: `
+    <rte-select
+      label="Role"
+      id="select-reactive-form"
+      [options]="options"
+      [showResetButton]="true"
+      [formControl]="control"
+    />
+    <button type="button" data-testid="set-from-model" (click)="control.setValue('option-3')">Set from model</button>
+    <button type="button" data-testid="toggle-disabled" (click)="toggleDisabled()">Toggle disabled</button>
+    <span data-testid="model-value">{{ control.value }}</span>
+    <span data-testid="model-touched">{{ control.touched }}</span>
+    <span data-testid="model-status">{{ control.status }}</span>
+  `,
+})
+class SelectReactiveFormHostComponent {
+  readonly options = REACTIVE_FORM_OPTIONS;
+  readonly control = new FormControl<string | null>("");
+
+  toggleDisabled(): void {
+    if (this.control.disabled) {
+      this.control.enable();
+    } else {
+      this.control.disable();
+    }
+  }
+}
+
+export const ReactiveForm: Story = {
+  render: () => ({
+    moduleMetadata: { imports: [SelectReactiveFormHostComponent] },
+    template: `<select-reactive-form-host />`,
+  }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const select = canvas.getByRole("combobox");
+    const modelValue = canvas.getByTestId("model-value");
+    const modelTouched = canvas.getByTestId("model-touched");
+    const modelStatus = canvas.getByTestId("model-status");
+
+    const getMenuItems = () =>
+      document
+        .querySelector("[data-menu-id='dropdown_select_select-reactive-form']")
+        ?.querySelectorAll<HTMLElement>("li[role='menuitem']");
+
+    focusElementBeforeComponent(canvasElement);
+    await userEvent.tab();
+    expect(select).toHaveFocus();
+    await userEvent.keyboard(TESTING_ENTER_KEY);
+
+    await waitFor(() => expect(getMenuItems()?.length).toBeGreaterThan(0));
+    await userEvent.click(getMenuItems()![1]);
+
+    await waitFor(() => expect(select).toHaveTextContent("Option 2"));
+    await waitFor(() => expect(modelValue).toHaveTextContent("option-2"));
+    await waitFor(() => expect(modelTouched).toHaveTextContent("true"));
+
+    await userEvent.click(canvas.getByTestId("set-from-model"));
+    await waitFor(() => expect(select).toHaveTextContent("Option 3"));
+
+    await userEvent.click(canvas.getByTestId("toggle-disabled"));
+    await waitFor(() => expect(modelStatus).toHaveTextContent("DISABLED"));
+    expect(select).toHaveAttribute("data-disabled", "true");
+  },
+};
+
+@Component({
+  selector: "select-multiple-reactive-form-host",
+  imports: [ReactiveFormsModule, SelectComponent],
+  standalone: true,
+  template: `
+    <rte-select
+      label="Roles"
+      id="select-multiple-reactive-form"
+      [options]="options"
+      [multiple]="true"
+      [formControl]="control"
+    />
+    <span data-testid="model-value">{{ control.value }}</span>
+  `,
+})
+class SelectMultipleReactiveFormHostComponent {
+  readonly options = REACTIVE_FORM_OPTIONS;
+  readonly control = new FormControl<string[]>([]);
+}
+
+export const ReactiveFormMultiple: Story = {
+  render: () => ({
+    moduleMetadata: { imports: [SelectMultipleReactiveFormHostComponent] },
+    template: `<select-multiple-reactive-form-host />`,
+  }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const select = canvas.getByRole("combobox");
+    const modelValue = canvas.getByTestId("model-value");
+
+    const getItems = () =>
+      document
+        .querySelector("[data-menu-id='dropdown_select_select-multiple-reactive-form']")
+        ?.querySelectorAll<HTMLElement>("li[role='menuitem']");
+
+    focusElementBeforeComponent(canvasElement);
+    await userEvent.tab();
+    expect(select).toHaveFocus();
+    await userEvent.keyboard(TESTING_ENTER_KEY);
+
+    await waitFor(() => expect(getItems()?.length).toBeGreaterThan(0));
+
+    await userEvent.click(getItems()![0]);
+    await waitFor(() => expect(modelValue).toHaveTextContent("option-1"));
+
+    await userEvent.click(getItems()![1]);
+    await waitFor(() => {
+      expect(modelValue).toHaveTextContent("option-1");
+      expect(modelValue).toHaveTextContent("option-2");
+    });
   },
 };

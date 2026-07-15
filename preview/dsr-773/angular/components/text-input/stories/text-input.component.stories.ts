@@ -1,3 +1,5 @@
+import { Component } from "@angular/core";
+import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 import { Meta, StoryObj } from "@storybook/angular";
 import { expect, fn, userEvent, waitFor, within } from "@storybook/test";
@@ -354,5 +356,58 @@ export const KeyboardRightIconVisibility: Story = {
     expect(textInput).toHaveAttribute("type", "password");
     await userEvent.keyboard(SPACE_KEY);
     expect(textInput).toHaveAttribute("type", "text");
+  },
+};
+
+@Component({
+  selector: "text-input-reactive-form-host",
+  imports: [ReactiveFormsModule, TextInputComponent],
+  standalone: true,
+  template: `
+    <rte-text-input data-testid="input" label="Name" id="text-input-reactive-form" [formControl]="control" />
+    <button type="button" data-testid="set-from-model" (click)="control.setValue('from model')">Set from model</button>
+    <button type="button" data-testid="toggle-disabled" (click)="toggleDisabled()">Toggle disabled</button>
+    <span data-testid="model-value">{{ control.value }}</span>
+    <span data-testid="model-touched">{{ control.touched }}</span>
+    <span data-testid="model-status">{{ control.status }}</span>
+  `,
+})
+class TextInputReactiveFormHostComponent {
+  readonly control = new FormControl("");
+
+  toggleDisabled(): void {
+    if (this.control.disabled) {
+      this.control.enable();
+    } else {
+      this.control.disable();
+    }
+  }
+}
+
+export const ReactiveForm: Story = {
+  render: () => ({
+    moduleMetadata: { imports: [TextInputReactiveFormHostComponent] },
+    template: `<text-input-reactive-form-host />`,
+  }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByTestId("input").querySelector("input") as HTMLInputElement;
+    const modelValue = canvas.getByTestId("model-value");
+    const modelTouched = canvas.getByTestId("model-touched");
+    const modelStatus = canvas.getByTestId("model-status");
+
+    await userEvent.type(input, "hello");
+    await waitFor(() => expect(modelValue).toHaveTextContent("hello"));
+
+    expect(modelTouched).toHaveTextContent("false");
+    await userEvent.tab();
+    await waitFor(() => expect(modelTouched).toHaveTextContent("true"));
+
+    await userEvent.click(canvas.getByTestId("set-from-model"));
+    await waitFor(() => expect(input).toHaveValue("from model"));
+
+    await userEvent.click(canvas.getByTestId("toggle-disabled"));
+    await waitFor(() => expect(modelStatus).toHaveTextContent("DISABLED"));
+    expect(input).toBeDisabled();
   },
 };
