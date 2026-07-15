@@ -20,6 +20,7 @@ import type { TimeFormat, TimePickerProps as coreTimePickerProps } from "@design
 import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
 
 import { useFocusTrap } from "../../../hooks/useFocusTrap";
+import useGetOverlayLayerLevel from "../../../hooks/useGetOverlayLayerLevel";
 import AssistiveText from "../../assistivetext/AssistiveText";
 import { BaseDropdown } from "../../dropdown/BaseDropdown";
 import Label from "../../label/Label";
@@ -71,6 +72,7 @@ const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
     const [isFocused, setIsFocused] = useState(false);
     const timePickerRef = useRef<HTMLDivElement | null>(null);
     const timePickerInputRef = useRef<HTMLInputElement | null>(null);
+    const overlayLayerLevel = useGetOverlayLayerLevel(timePickerInputRef.current);
     const onChangeRef = useRef(onChange);
     const lastEmittedValueRef = useRef<TimeFormat | null>(value ?? null);
 
@@ -363,6 +365,7 @@ const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
           isList={false}
           onClose={handleOnCloseTimePicker}
           offset={8}
+          overlayLevel={overlayLayerLevel}
           style={{ width: timePickerRef.current?.offsetWidth }}
           trigger={
             <BaseInputPicker

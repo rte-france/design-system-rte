@@ -16,6 +16,7 @@ import {
 import { DatepickerProps as CoreDatePickerProps } from "@design-system-rte/core/components/datepicker/datepicker.interface";
 import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
 
+import useGetOverlayLayerLevel from "../../../hooks/useGetOverlayLayerLevel";
 import AssistiveText from "../../assistivetext/AssistiveText";
 import { BaseDropdown } from "../../dropdown/BaseDropdown";
 import Label from "../../label/Label";
@@ -112,6 +113,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatepickerProps>(
 
     const dateInputRef = useRef<HTMLInputElement>(null);
     const pickerRef = useRef<HTMLDivElement>(null);
+    const overlayLayerLevel = useGetOverlayLayerLevel(dateInputRef.current);
 
     const handleOnFocus = () => {
       focusDatePicker();
@@ -280,6 +282,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatepickerProps>(
           isOpen={isDropdownOpen}
           onClose={handleOnClose}
           offset={8}
+          overlayLevel={overlayLayerLevel}
           trigger={
             <BaseInputPicker
               id={id}
