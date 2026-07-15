@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import {
   RegularIconIdKey,
   TogglableIconIdKey,
-} from "../../../projects/ds-rte-lib/src/lib/components/icon/icon.service";
+} from "../../../projects/ds-rte-lib/src/lib/components/icon/icon-registry.service";
 import "./IconTitle.css";
 
 interface IconTitleProps {
@@ -17,7 +17,8 @@ const IconTitle = ({ title, icon }: IconTitleProps) => {
   useEffect(() => {
     const loadIcon = async () => {
       try {
-        const module = await import(`../../../projects/ds-rte-lib/src/lib/assets/icons/${icon}.svg`);
+        const iconFileName = icon.replace(/-/g, "_");
+        const module = await import(`../../../../../core/assets/icons/${iconFileName}.svg`);
         setIconSrc(module.default);
       } catch (error) {
         console.error(`Failed to load icon: ${icon}`, error);

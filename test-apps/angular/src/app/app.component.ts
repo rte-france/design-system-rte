@@ -34,7 +34,7 @@ import {
   DatepickerComponent,
   DaterangepickerComponent,
 } from "@design-system-rte/angular";
-import { RegularIconIdKey, TogglableIconIdKey } from "@design-system-rte/angular/lib/components/icon/icon.service";
+import { RegularIconIdKey, TogglableIconIdKey } from "@design-system-rte/angular";
 import type { DateRangePickerValue } from "@design-system-rte/core";
 import type {
   HeaderActionButtonConfig,

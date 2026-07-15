@@ -4,7 +4,7 @@ import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const assetsDir = path.resolve(__dirname, "src/lib/assets/icons");
+const assetsDir = path.resolve(__dirname, "../../../core/assets/icons");
 const iconDir = path.resolve(__dirname, "src/lib/components/icon");
 const figmaNodeMapPath = path.resolve(iconDir, "icon.figma-nodes.json");
 const ALL_ICONS = getIconsName();
@@ -46,6 +46,7 @@ function generateIconMaps() {
   string += generateIsValidIconNameFunction();
 
   fs.writeFileSync(path.resolve(iconDir, "icon-map.ts"), string);
+  fs.writeFileSync(path.resolve(iconDir, "icon-glyphs.ts"), generateIconGlyphs());
   fs.writeFileSync(path.resolve(iconDir, "icon.figma.ts"), generateIconFigmaTemplate());
   fs.writeFileSync(path.resolve(iconDir, "icon-glyph.figma.batch.ts"), generateIconGlyphFigmaBatchTemplate());
   fs.writeFileSync(path.resolve(iconDir, "icon-glyphs.figma.batch.json"), generateIconGlyphFigmaBatch());
@@ -213,4 +214,38 @@ function generateTogglableIconsMap() {
 
 function generateIsValidIconNameFunction() {
   return `\nexport function isValidIconName(iconName: string): boolean {\n  return isValidIconNameShared(iconName, RegularIcons, TogglableIcons);\n}\n`;
+}
+
+function normalizeSvgContent(rawSvg) {
+  let svg = rawSvg.trim();
+  svg = svg.replace(/<\?xml[^?]*\?>\s*/i, "");
+  svg = svg.replace(/<svg([^>]*)>/i, (_match, attributes) => {
+    const cleanedAttributes = attributes
+      .replace(/\s(width|height)=("[^"]*"|'[^']*')/gi, "")
+      .replace(/\s+/g, " ")
+      .trim();
+    const attributeSuffix = cleanedAttributes ? ` ${cleanedAttributes}` : "";
+    return `<svg${attributeSuffix}>`;
+  });
+  return svg;
+}
+
+function escapeSvgForTemplateLiteral(svg) {
+  return svg.replace(/\\/g, "\\\\").replace(/`/g, "\\`").replace(/\$\{/g, "\\${");
+}
+
+function generateIconGlyphs() {
+  let string = `// This file is auto-generated. Do not edit manually.\n\n`;
+  string += `export const IconGlyphs = {\n`;
+
+  ALL_ICONS.sort((leftKey, rightKey) => leftKey.localeCompare(rightKey)).forEach((iconName) => {
+    const svgPath = path.resolve(assetsDir, `${iconName}.svg`);
+    const rawSvg = fs.readFileSync(svgPath, "utf8");
+    const normalizedSvg = normalizeSvgContent(rawSvg);
+    string += `  ${formatIconMapKey(iconName)}: \`${escapeSvgForTemplateLiteral(normalizedSvg)}\`,\n`;
+  });
+
+  string += `} as const;\n\n`;
+  string += `export type IconGlyphKey = keyof typeof IconGlyphs;\n`;
+  return string;
 }

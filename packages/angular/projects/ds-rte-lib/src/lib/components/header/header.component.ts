@@ -34,8 +34,8 @@ import { BreadcrumbsComponent } from "../breadcrumbs/breadcrumbs.component";
 import { ButtonComponent } from "../button/button.component";
 import { DividerComponent } from "../divider/divider.component";
 import type { DropdownItemConfig } from "../dropdown/dropdown.types";
+import { RegularIconIdKey, TogglableIconIdKey } from "../icon/icon-registry.service";
 import { IconComponent } from "../icon/icon.component";
-import { RegularIconIdKey, TogglableIconIdKey } from "../icon/icon.service";
 import { IconButtonComponent } from "../icon-button/icon-button.component";
 import { SearchbarComponent } from "../searchbar/searchbar.component";
 
