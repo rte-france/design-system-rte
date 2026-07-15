@@ -9,6 +9,7 @@ import { normalizeDate, areSameRange } from "@design-system-rte/core/components/
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { BaseDropdown } from "../../../components/dropdown/BaseDropdown";
+import useGetOverlayLayerLevel from "../../../hooks/useGetOverlayLayerLevel";
 import AssistiveText from "../../assistivetext/AssistiveText";
 import Icon from "../../icon/Icon";
 import Label from "../../label/Label";
@@ -63,6 +64,7 @@ const DateRangePicker = ({
   const dateInputStartRef = useRef<HTMLInputElement | null>(null);
   const dateInputEndRef = useRef<HTMLInputElement | null>(null);
   const inputsRef = useRef<HTMLDivElement | null>(null);
+  const overlayLayerLevel = useGetOverlayLayerLevel(inputsRef.current);
   const onChangeRef = useRef(onChange);
   const groupLabelId = labelId ?? `${id}-label`;
   const startInputLabelId = `${id}-start-label`;
@@ -426,6 +428,7 @@ const DateRangePicker = ({
           isOpen={isDropdownOpen}
           onClose={handleOnClose}
           offset={8}
+          overlayLevel={overlayLayerLevel}
           hasMaxWidth={false}
           autofocus={false}
           trigger={
