@@ -24,11 +24,11 @@ Icons in the Design System are centralized in the `core` package and automatical
 ### Files involved:
 
 ```
-packages/core/assets/icons/                              ← single source of truth (SVG files)
-packages/react/src/components/icon/generated/            ← auto-generated React components
-packages/react/src/components/icon/IconMap.ts            ← auto-generated React map
-packages/angular/.../src/lib/assets/icons/               ← SVG files copied for Angular
-packages/angular/.../src/lib/components/icon/icon-map.ts ← auto-generated Angular map
+packages/core/assets/icons/                                      ← single source of truth (SVG files)
+packages/react/src/components/icon/generated/                    ← auto-generated React components
+packages/react/src/components/icon/IconMap.ts                    ← auto-generated React map
+packages/angular/.../src/lib/components/icon/icon-map.ts       ← auto-generated Angular map
+packages/angular/.../src/lib/components/icon/icon-glyphs.ts      ← auto-generated SVG literals for Angular
 ```
 
 Only the first step is manual: **placing the correct SVG in `packages/core/assets/icons/`**. The rest is handled by `npm run generate:icons`.
@@ -54,7 +54,7 @@ Icons whose name ends with `_filled` or `_outlined` are automatically recognized
 The `npm run generate:icons` command chains three operations:
 
 1. **React** — Converts all SVGs from `packages/core/assets/icons/` into `.tsx` components via `@svgr/cli`, then regenerates `IconMap.ts` and `generated/index.ts`
-2. **Angular** — Copies SVGs to `packages/angular/.../src/lib/assets/icons/` and regenerates `icon-map.ts`
+2. **Angular** — Reads SVGs from `packages/core/assets/icons/` and regenerates `icon-map.ts` and `icon-glyphs.ts`
 3. **Lint** — Runs `lint:fix` across the entire project
 
 No manual changes to the generated files are needed.

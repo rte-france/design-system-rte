@@ -47,3 +47,4 @@ Thumbs.db
 documentation.json
 
 projects/ds-rte-lib/src/lib/assets/icons/
+projects/ds-rte-lib/src/lib/components/icon/icon-glyphs.ts

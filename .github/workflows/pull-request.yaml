@@ -129,7 +129,7 @@ jobs:
         with:
           path: |
             ./packages/react/src/components/icon/generated
-            ./packages/angular/projects/ds-rte-lib/src/lib/assets/icons
+            ./packages/angular/projects/ds-rte-lib/src/lib/components/icon/icon-glyphs.ts
           key: icons-${{ hashFiles('package-lock.json') }}-${{ github.sha }}
 
       - name: Generate icons
@@ -179,7 +179,7 @@ jobs:
         with:
           path: |
             ./packages/react/src/components/icon/generated
-            ./packages/angular/projects/ds-rte-lib/src/lib/assets/icons
+            ./packages/angular/projects/ds-rte-lib/src/lib/components/icon/icon-glyphs.ts
           key: icons-${{ hashFiles('package-lock.json') }}-${{ github.sha }}
 
       - name: Restore cache build core
@@ -229,7 +229,7 @@ jobs:
         with:
           path: |
             ./packages/react/src/components/icon/generated
-            ./packages/angular/projects/ds-rte-lib/src/lib/assets/icons
+            ./packages/angular/projects/ds-rte-lib/src/lib/components/icon/icon-glyphs.ts
           key: icons-${{ hashFiles('package-lock.json') }}-${{ github.sha }}
 
       - name: Restore cache build core
@@ -284,7 +284,7 @@ jobs:
         with:
           path: |
             ./packages/react/src/components/icon/generated
-            ./packages/angular/projects/ds-rte-lib/src/lib/assets/icons
+            ./packages/angular/projects/ds-rte-lib/src/lib/components/icon/icon-glyphs.ts
           key: icons-${{ hashFiles('package-lock.json') }}-${{ github.sha }}
 
       - name: Restore cache build core
@@ -334,7 +334,7 @@ jobs:
         with:
           path: |
             ./packages/react/src/components/icon/generated
-            ./packages/angular/projects/ds-rte-lib/src/lib/assets/icons
+            ./packages/angular/projects/ds-rte-lib/src/lib/components/icon/icon-glyphs.ts
           key: icons-${{ hashFiles('package-lock.json') }}-${{ github.sha }}
 
       - name: Restore cache build core

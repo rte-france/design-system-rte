@@ -21,7 +21,3 @@
 3. **Use Components:**
    
    Implement the different components as documented in the [Storybook](https://opensource.rte-france.com/design-system-rte/?path=/docs/angular_composants-button--docs) provided with the library.
-
-4. **Icon Component Usage:**
-   
-   To use the Icon Component (rte-icon), copy the `.svg` files from `node_modules/@design-system-rte/core/assets/icons` to the `/assets/icons` directory of your application.
