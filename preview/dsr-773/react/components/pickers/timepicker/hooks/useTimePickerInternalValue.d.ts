@@ -1,6 +1,6 @@
 import { TimeSegmentEnum } from '../../../../../../core/components/timepicker/timepicker.constants';
 import { TimeFormat } from '../../../../../../core/components/timepicker/timepicker.interface';
-declare const useTimePickerInternalValue: (value: TimeFormat | undefined, incrementConfig?: {
+declare const useTimePickerInternalValue: (value?: TimeFormat, incrementConfig?: {
     hourIncrement?: number;
     minuteIncrement?: number;
     secondIncrement?: number;
