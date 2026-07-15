@@ -27,7 +27,7 @@ import { DropdownMenuComponent } from "../../dropdown/dropdown-menu/dropdown-men
 import { DropdownTriggerDirective } from "../../dropdown/dropdown-trigger/dropdown-trigger.directive";
 import { DropdownDirective } from "../../dropdown/dropdown.directive";
 import type { DropdownItemConfig } from "../../dropdown/dropdown.types";
-import { RegularIconIdKey, TogglableIconIdKey } from "../../icon/icon.service";
+import { RegularIconIdKey, TogglableIconIdKey } from "../../icon/icon-registry.service";
 import { IconButtonComponent } from "../../icon-button/icon-button.component";
 import { SearchbarComponent } from "../../searchbar/searchbar.component";
 
