@@ -1,11 +1,12 @@
-import { signal } from "@angular/core";
+import { Component, signal } from "@angular/core";
+import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import {
   TESTING_DOWN_KEY,
   TESTING_ENTER_KEY,
 } from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
 import type { Meta, StoryObj } from "@storybook/angular";
 import { moduleMetadata } from "@storybook/angular";
-import { fn, userEvent, within, expect } from "@storybook/test";
+import { fn, userEvent, waitFor, within, expect } from "@storybook/test";
 
 import { focusElementBeforeComponent } from "../../../../../../../.storybook/testing/testing.utils";
 import { SelectFooterDirective } from "../select-footer.directive";
@@ -82,9 +83,9 @@ export const Default: Story = {
     assistiveTextLink: "https://example.com",
     assistiveTextAppearance: "description",
     required: false,
-    value: "",
+    value: "option-2",
     showLabelRequirement: false,
-    valueChange: (value: string) => {
+    valueChange: (value: string | string[]) => {
       mockFn(value);
     },
     options: [
@@ -138,7 +139,7 @@ export const Default: Story = {
         [value]="value"
         [disabled]="disabled"
         [options]="options"
-        (change)="change($event)"
+        (valueChange)="valueChange($event)"
         [isError]="isError"
         [showResetButton]="showResetButton"
         [showAssistiveIcon]="showAssistiveIcon"
@@ -175,8 +176,8 @@ export const Error: Story = {
         [value]="value"
         [disabled]="disabled"
         [options]="options"
-        isError="true"
-        (change)="change($event)"
+        [isError]="isError"
+        (valueChange)="valueChange($event)"
         [showResetButton]="showResetButton"
         [showAssistiveIcon]="showAssistiveIcon"
         [width]="width"
@@ -211,7 +212,7 @@ export const ReadOnly: Story = {
         [value]="value"
         [disabled]="disabled"
         [options]="options"
-        (change)="change($event)"
+        (valueChange)="valueChange($event)"
         [showResetButton]="showResetButton"
         [showAssistiveIcon]="showAssistiveIcon"
         [width]="width"
@@ -252,7 +253,7 @@ export const Disabled: Story = {
         [value]="value"
         [disabled]="disabled"
         [options]="options"
-        (change)="change($event)"
+        (valueChange)="valueChange($event)"
         [showResetButton]="showResetButton"
         [showAssistiveIcon]="showAssistiveIcon"
         [width]="width"
@@ -293,7 +294,7 @@ export const CompactSpacing: Story = {
         [value]="value"
         [disabled]="disabled"
         [options]="options"
-        (change)="change($event)"
+        (valueChange)="valueChange($event)"
         [showResetButton]="showResetButton"
         [showAssistiveIcon]="showAssistiveIcon"
         [width]="width"
@@ -327,7 +328,7 @@ export const VisiblySelected: Story = {
         [value]="value"
         [disabled]="disabled"
         [options]="options"
-        (change)="change($event)"
+        (valueChange)="valueChange($event)"
         [showResetButton]="showResetButton"
         [showAssistiveIcon]="showAssistiveIcon"
         [width]="width"
@@ -343,57 +344,35 @@ export const Multiple: Story = {
   args: {
     ...Default.args,
     multiple: true,
-    value: [],
+    value: ["option-1", "option-2"],
     withSelectAll: true,
   },
   render: (args) => {
     const options = args.options;
 
-    const values = signal<string[] | undefined>(undefined);
-    const displayedValues = signal("");
+    const displayedValues = signal(
+      args.value
+        ? Array.isArray(args.value)
+          ? args.value.map((val) => options.find((option) => option.value === val)?.label).join(", ")
+          : options.find((option) => option.value === args.value)?.label || ""
+        : "",
+    );
 
-    function handleChange(value: string) {
-      const valuesArray = values();
-      if (value === "select-all") {
-        if (valuesArray) {
-          if (valuesArray.length === options.length) {
-            values.set([]);
-            displayedValues.set("");
-          } else {
-            values.set(options.map((option) => option.value));
-            displayedValues.set(options.map((option) => option.label).join(", "));
-          }
-        } else {
-          values.set(options.map((option) => option.value));
-          displayedValues.set(options.map((option) => option.label).join(", "));
-        }
-      } else {
-        if (valuesArray) {
-          if (valuesArray.includes(value)) {
-            valuesArray.splice(valuesArray.indexOf(value), 1);
-          } else {
-            valuesArray.push(value);
-          }
-          values.set(valuesArray);
-          displayedValues.set(
-            options
-              .filter((option) => values()?.includes(option.value))
+    function handleChange(value: string[]) {
+      displayedValues.set(
+        value
+          ? options
+              .filter((option) => value.includes(option.value))
               .map((option) => option.label)
-              .join(", "),
-          );
-        } else {
-          values.set([value]);
-          const selectedOption = options.find((option) => option.value === value);
-          displayedValues.set(selectedOption ? selectedOption.label : "");
-        }
-      }
+              .join(", ")
+          : "",
+      );
     }
 
     return {
       props: {
         ...args,
         handleChange,
-        values,
         displayedValues,
       },
       template: `
@@ -433,6 +412,7 @@ export const Multiple: Story = {
 export const KeyboardInteraction: Story = {
   args: {
     ...Default.args,
+    value: "",
     showResetButton: true,
   },
   render: (args) => ({
@@ -452,7 +432,7 @@ export const KeyboardInteraction: Story = {
         [value]="value"
         [disabled]="disabled"
         [options]="options"
-        (change)="change($event)"
+        (valueChange)="valueChange($event)"
         [showResetButton]="showResetButton"
         [showAssistiveIcon]="showAssistiveIcon"
         [width]="width"
@@ -472,13 +452,13 @@ export const KeyboardInteraction: Story = {
     await userEvent.tab();
     await userEvent.keyboard(TESTING_DOWN_KEY);
     await userEvent.keyboard(TESTING_ENTER_KEY);
-    expect(select).toHaveTextContent("Option 2");
+    await waitFor(() => expect(select).toHaveTextContent("Option 2"));
 
     const clearButton = select.querySelector("rte-icon-button.clear-icon button");
     const toggleIcon = select.querySelector("rte-icon.trigger-icon-down");
 
     await userEvent.click(clearButton!);
-    expect(select).toHaveTextContent(args.placeholder!);
+    await waitFor(() => expect(select).toHaveTextContent(args.placeholder!));
 
     await userEvent.click(toggleIcon!);
 
@@ -487,6 +467,135 @@ export const KeyboardInteraction: Story = {
     await userEvent.keyboard(TESTING_DOWN_KEY);
     await userEvent.keyboard(TESTING_DOWN_KEY);
     await userEvent.keyboard(TESTING_ENTER_KEY);
-    expect(select).toHaveTextContent("Option 3");
+    await waitFor(() => expect(select).toHaveTextContent("Option 3"));
+  },
+};
+
+const REACTIVE_FORM_OPTIONS = [
+  { value: "option-1", label: "Option 1" },
+  { value: "option-2", label: "Option 2" },
+  { value: "option-3", label: "Option 3" },
+];
+
+@Component({
+  selector: "select-reactive-form-host",
+  imports: [ReactiveFormsModule, SelectComponent],
+  standalone: true,
+  template: `
+    <rte-select
+      label="Role"
+      id="select-reactive-form"
+      [options]="options"
+      [showResetButton]="true"
+      [formControl]="control"
+    />
+    <button type="button" data-testid="set-from-model" (click)="control.setValue('option-3')">Set from model</button>
+    <button type="button" data-testid="toggle-disabled" (click)="toggleDisabled()">Toggle disabled</button>
+    <span data-testid="model-value">{{ control.value }}</span>
+    <span data-testid="model-touched">{{ control.touched }}</span>
+    <span data-testid="model-status">{{ control.status }}</span>
+  `,
+})
+class SelectReactiveFormHostComponent {
+  readonly options = REACTIVE_FORM_OPTIONS;
+  readonly control = new FormControl<string | null>("");
+
+  toggleDisabled(): void {
+    if (this.control.disabled) {
+      this.control.enable();
+    } else {
+      this.control.disable();
+    }
+  }
+}
+
+export const ReactiveForm: Story = {
+  render: () => ({
+    moduleMetadata: { imports: [SelectReactiveFormHostComponent] },
+    template: `<select-reactive-form-host />`,
+  }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const select = canvas.getByRole("combobox");
+    const modelValue = canvas.getByTestId("model-value");
+    const modelTouched = canvas.getByTestId("model-touched");
+    const modelStatus = canvas.getByTestId("model-status");
+
+    const getMenuItems = () =>
+      document
+        .querySelector("[data-menu-id='dropdown_select_select-reactive-form']")
+        ?.querySelectorAll<HTMLElement>("li[role='menuitem']");
+
+    focusElementBeforeComponent(canvasElement);
+    await userEvent.tab();
+    expect(select).toHaveFocus();
+    await userEvent.keyboard(TESTING_ENTER_KEY);
+
+    await waitFor(() => expect(getMenuItems()?.length).toBeGreaterThan(0));
+    await userEvent.click(getMenuItems()![1]);
+
+    await waitFor(() => expect(select).toHaveTextContent("Option 2"));
+    await waitFor(() => expect(modelValue).toHaveTextContent("option-2"));
+    await waitFor(() => expect(modelTouched).toHaveTextContent("true"));
+
+    await userEvent.click(canvas.getByTestId("set-from-model"));
+    await waitFor(() => expect(select).toHaveTextContent("Option 3"));
+
+    await userEvent.click(canvas.getByTestId("toggle-disabled"));
+    await waitFor(() => expect(modelStatus).toHaveTextContent("DISABLED"));
+    expect(select).toHaveAttribute("data-disabled", "true");
+  },
+};
+
+@Component({
+  selector: "select-multiple-reactive-form-host",
+  imports: [ReactiveFormsModule, SelectComponent],
+  standalone: true,
+  template: `
+    <rte-select
+      label="Roles"
+      id="select-multiple-reactive-form"
+      [options]="options"
+      [multiple]="true"
+      [formControl]="control"
+    />
+    <span data-testid="model-value">{{ control.value }}</span>
+  `,
+})
+class SelectMultipleReactiveFormHostComponent {
+  readonly options = REACTIVE_FORM_OPTIONS;
+  readonly control = new FormControl<string[]>([]);
+}
+
+export const ReactiveFormMultiple: Story = {
+  render: () => ({
+    moduleMetadata: { imports: [SelectMultipleReactiveFormHostComponent] },
+    template: `<select-multiple-reactive-form-host />`,
+  }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const select = canvas.getByRole("combobox");
+    const modelValue = canvas.getByTestId("model-value");
+
+    const getItems = () =>
+      document
+        .querySelector("[data-menu-id='dropdown_select_select-multiple-reactive-form']")
+        ?.querySelectorAll<HTMLElement>("li[role='menuitem']");
+
+    focusElementBeforeComponent(canvasElement);
+    await userEvent.tab();
+    expect(select).toHaveFocus();
+    await userEvent.keyboard(TESTING_ENTER_KEY);
+
+    await waitFor(() => expect(getItems()?.length).toBeGreaterThan(0));
+
+    await userEvent.click(getItems()![0]);
+    await waitFor(() => expect(modelValue).toHaveTextContent("option-1"));
+
+    await userEvent.click(getItems()![1]);
+    await waitFor(() => {
+      expect(modelValue).toHaveTextContent("option-1");
+      expect(modelValue).toHaveTextContent("option-2");
+    });
   },
 };

@@ -94,6 +94,7 @@ export class DropdownDirective implements AfterContentInit {
   dropdownMenuRef: ComponentRef<DropdownMenuComponent> | null = null;
   private itemEventSubscription: { unsubscribe: () => void } | null = null;
   private viewportResizeFrameId: number | null = null;
+  private closeDropdownTimeoutId: ReturnType<typeof setTimeout> | null = null;
 
   private readonly onViewportOrWindowResize = (): void => {
     if (this.viewportResizeFrameId !== null) {
@@ -111,6 +112,7 @@ export class DropdownDirective implements AfterContentInit {
     this.destroyRef.onDestroy(() => {
       this.unsubscribeItemEvent();
       this.removeClickOutsideListener();
+      this.clearCloseDropdownTimeout();
       this.dropdownMenuRef?.destroy();
       this.dropdownMenuRef = null;
     });
@@ -252,6 +254,7 @@ export class DropdownDirective implements AfterContentInit {
   }
 
   showDropdownMenu(): void {
+    this.clearCloseDropdownTimeout();
     this.unsubscribeItemEvent();
     if (this.dropdownMenuRef) {
       this.dropdownMenuRef.destroy();
@@ -283,6 +286,7 @@ export class DropdownDirective implements AfterContentInit {
 
           this.removeClickOutsideListener();
           dropdownStateSubscription.unsubscribe();
+          this.closedDropdown.emit();
           if (this.rteDropdownAutofocus()) {
             this.focusTriggerElementAfterMenuClosed();
           }
@@ -408,9 +412,18 @@ export class DropdownDirective implements AfterContentInit {
   private closeDropdown(): void {
     this.dropdownMenuRef?.setInput("isOpen", false);
     this.isActive.set(false);
-    setTimeout(() => {
+    this.clearCloseDropdownTimeout();
+    this.closeDropdownTimeoutId = setTimeout(() => {
+      this.closeDropdownTimeoutId = null;
       this.trigger()?.elementRef.nativeElement.focus({ preventScroll: true });
       this.dropdownService.closeAllMenus();
     }, DROPDOWN_ANIMATION_DURATION);
+  }
+
+  private clearCloseDropdownTimeout(): void {
+    if (this.closeDropdownTimeoutId !== null) {
+      clearTimeout(this.closeDropdownTimeoutId);
+      this.closeDropdownTimeoutId = null;
+    }
   }
 }
