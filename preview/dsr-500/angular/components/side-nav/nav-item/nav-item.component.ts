@@ -75,7 +75,9 @@ export class NavItemComponent {
   });
 
   handleClick(event: Event): void {
-    event.stopPropagation();
+    if (!this.isNavigable()) {
+      event.stopPropagation();
+    }
     this.itemClick.emit(this.id() || this.label());
   }
 

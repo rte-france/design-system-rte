@@ -20,5 +20,5 @@ export function effectiveRouterLink(
 }
 
 export function hasNavigation(routerLink?: RouterLinkValue, deprecatedLink?: RouterLinkValue, href?: string): boolean {
-  return effectiveRouterLink(routerLink, deprecatedLink) !== undefined || href !== undefined;
+  return !!(effectiveRouterLink(routerLink, deprecatedLink) || href);
 }
