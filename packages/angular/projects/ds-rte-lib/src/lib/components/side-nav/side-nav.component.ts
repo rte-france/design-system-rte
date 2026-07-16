@@ -1,5 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, effect, input, output, signal } from "@angular/core";
+import { RouterLink } from "@angular/router";
 import { DividerAppearance } from "@design-system-rte/core/components/divider/divider.interface";
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
 import { setNavMenuOpenById } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.utils";
@@ -13,6 +14,7 @@ import {
 } from "@design-system-rte/core/components/side-nav/side-nav.interface";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
+import { NavigationElement } from "../../utils/navigation/navigation-element";
 import { DividerComponent } from "../divider/divider.component";
 import { TooltipDirective } from "../tooltip/tooltip.directive";
 
@@ -20,11 +22,21 @@ import { BaseSideNavComponent } from "./base-side-nav/base-side-nav.component";
 import { NavItemComponent } from "./nav-item/nav-item.component";
 import { NavMenuComponent, NavMenuOpenChangeEvent } from "./nav-menu/nav-menu.component";
 
+export type NavItem = (NavItemProps | NavMenuProps) & NavigationElement;
+
 const TRANSITION_DURATION = 300;
 
 @Component({
   selector: "rte-side-nav",
-  imports: [CommonModule, BaseSideNavComponent, DividerComponent, NavItemComponent, NavMenuComponent, TooltipDirective],
+  imports: [
+    CommonModule,
+    BaseSideNavComponent,
+    DividerComponent,
+    NavItemComponent,
+    NavMenuComponent,
+    TooltipDirective,
+    RouterLink,
+  ],
   templateUrl: "./side-nav.component.html",
   styleUrl: "./side-nav.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -33,8 +45,8 @@ export class SideNavComponent {
   readonly size = input<SideNavSize>("m" as SideNavSize);
   readonly collapsible = input<boolean>(false);
   readonly headerConfig = input<SideNavHeaderConfig | undefined>();
-  readonly items = input<NavItemProps[]>([]);
-  readonly footerItems = input<NavItemProps[] | undefined>();
+  readonly items = input<NavItem[]>([]);
+  readonly footerItems = input<NavItem[] | undefined>();
   readonly isCollapsed = input<boolean>(false);
   readonly appearance = input<SideNavAppearance>("brand");
   readonly contrast = input<SideNavContrast>("high");
@@ -81,6 +93,10 @@ export class SideNavComponent {
     return config?.tooltip ?? config?.title ?? "";
   });
 
+  readonly showHeaderTooltip = computed<boolean>(() => {
+    return this.collapsedState() && !!this.headerTooltip();
+  });
+
   handleHeaderKeyDown(event: KeyboardEvent): void {
     if ([SPACE_KEY, ENTER_KEY].includes(event.key)) {
       event.preventDefault();
@@ -98,7 +114,7 @@ export class SideNavComponent {
     }
   }
 
-  hasNestedItems(item: NavItemProps): item is NavMenuProps {
+  hasNestedItems(item: NavItem): item is NavMenuProps & NavigationElement {
     return !!item.items?.length;
   }
 
@@ -106,19 +122,8 @@ export class SideNavComponent {
     this.itemClicked.emit(itemId);
   }
 
-  handleFooterItemClick(itemId: string): void {
-    this.itemClicked.emit(itemId);
-  }
-
-  handleMenuOpenChange(event: NavMenuOpenChangeEvent): void {
-    setNavMenuOpenById(this.items(), event.id, event.open);
-  }
-
-  handleFooterMenuOpenChange(event: NavMenuOpenChangeEvent): void {
-    const footerItems = this.footerItems();
-    if (footerItems) {
-      setNavMenuOpenById(footerItems, event.id, event.open);
-    }
+  handleMenuOpenChange(navItems: NavItem[], event: NavMenuOpenChangeEvent): void {
+    setNavMenuOpenById(navItems, event.id, event.open);
   }
 
   handleCollapseClick(): void {
