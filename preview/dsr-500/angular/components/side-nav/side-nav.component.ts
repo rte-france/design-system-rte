@@ -1,5 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, effect, input, output, signal } from "@angular/core";
+import { RouterLink } from "@angular/router";
 import { DividerAppearance } from "@design-system-rte/core/components/divider/divider.interface";
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
 import { setNavMenuOpenById } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.utils";
@@ -24,7 +25,15 @@ const TRANSITION_DURATION = 300;
 
 @Component({
   selector: "rte-side-nav",
-  imports: [CommonModule, BaseSideNavComponent, DividerComponent, NavItemComponent, NavMenuComponent, TooltipDirective],
+  imports: [
+    CommonModule,
+    BaseSideNavComponent,
+    DividerComponent,
+    NavItemComponent,
+    NavMenuComponent,
+    TooltipDirective,
+    RouterLink,
+  ],
   templateUrl: "./side-nav.component.html",
   styleUrl: "./side-nav.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

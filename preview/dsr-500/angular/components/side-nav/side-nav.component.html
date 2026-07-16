@@ -27,7 +27,7 @@
               [rteTooltipArrow]="false"
               [rteTooltipGap]="20"
               [rteTooltipShouldFocusTrigger]="true"
-              [href]="headerConfig()!.link!"
+              [routerLink]="headerConfig()!.link!"
               [attr.aria-label]="headerConfig()?.ariaLabel"
               (click)="handleHeaderClick()"
             >
@@ -69,7 +69,7 @@
           @if (headerConfig()?.link) {
             <a
               class="side-nav-header-title-container"
-              [href]="headerConfig()!.link!"
+              [routerLink]="headerConfig()!.link!"
               [attr.aria-label]="headerConfig()?.ariaLabel"
               (click)="handleHeaderClick()"
             >
@@ -112,6 +112,7 @@
               [icon]="item.icon"
               [hasLeadingIcon]="item.hasLeadingIcon ?? true"
               [isCollapsed]="collapsedState()"
+              [routerLink]="item.link"
               [link]="item.link"
               [open]="item.open"
               [active]="item.active ?? false"
@@ -131,6 +132,7 @@
                 [icon]="item.icon"
                 [hasLeadingIcon]="item.hasLeadingIcon ?? true"
                 [isCollapsed]="collapsedState()"
+                [routerLink]="item.link"
                 [link]="item.link"
                 [appearance]="appearance()"
                 [active]="item.active ?? false"
@@ -160,6 +162,7 @@
                     [icon]="item.icon"
                     [hasLeadingIcon]="item.hasLeadingIcon ?? true"
                     [isCollapsed]="collapsedState()"
+                    [routerLink]="item.link"
                     [link]="item.link"
                     [open]="item.open"
                     [active]="item.active ?? false"
@@ -179,6 +182,7 @@
                       [icon]="item.icon"
                       [hasLeadingIcon]="item.hasLeadingIcon ?? true"
                       [isCollapsed]="collapsedState()"
+                      [routerLink]="item.link"
                       [link]="item.link"
                       [appearance]="appearance()"
                       [active]="item.active ?? false"

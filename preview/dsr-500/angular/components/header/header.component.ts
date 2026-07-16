@@ -11,6 +11,7 @@ import {
   output,
   signal,
 } from "@angular/core";
+import { RouterLink } from "@angular/router";
 import { BadgeSize } from "@design-system-rte/core/components/badge/badge.interface";
 import { ButtonSize, type ButtonVariant } from "@design-system-rte/core/components/button/common/common-button";
 import {
@@ -61,6 +62,7 @@ const DEFAULT_HOME_LINK = "/";
     HeaderLeftSectionComponent,
     HeaderRightDirective,
     DividerComponent,
+    RouterLink,
   ],
   templateUrl: "./header.component.html",
   styleUrl: "./header.component.scss",

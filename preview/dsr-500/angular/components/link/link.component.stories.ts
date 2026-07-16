@@ -10,6 +10,18 @@ const meta: Meta<LinkComponent> = {
   component: LinkComponent,
   tags: ["autodocs"],
   argTypes: {
+    routerLink: {
+      control: "text",
+      description: "Angular Router link for SPA navigation (preferred over deprecated `link`)",
+    },
+    link: {
+      control: "text",
+      description: "Deprecated alias of `routerLink`",
+    },
+    href: {
+      control: "text",
+      description: "External or native browser navigation URL",
+    },
     subtle: {
       control: "boolean",
     },
@@ -49,6 +61,7 @@ export const ExternalLink: Story = {
   args: {
     ...Default.args,
     externalLink: true,
+    href: "https://angular.dev",
   },
 };
 

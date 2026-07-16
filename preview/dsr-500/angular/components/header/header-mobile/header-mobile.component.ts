@@ -14,6 +14,7 @@ import {
   signal,
   viewChild,
 } from "@angular/core";
+import { RouterLink } from "@angular/router";
 import {
   HEADER_MOBILE_SEARCH_TRANSITION_MS,
   buildHeaderHomeAriaLabel,
@@ -45,6 +46,7 @@ const MOBILE_SEARCH_TRIGGER_SIZE_PX = 32;
     DropdownMenuComponent,
     DropdownMenuBodyDirective,
     DropdownTriggerDirective,
+    RouterLink,
   ],
   templateUrl: "./header-mobile.component.html",
   styleUrl: "./header-mobile.component.scss",

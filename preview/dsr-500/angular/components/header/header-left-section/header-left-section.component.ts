@@ -1,10 +1,12 @@
 import { ChangeDetectionStrategy, Component, computed, input } from "@angular/core";
+import { RouterLink } from "@angular/router";
 import { buildHeaderHomeAriaLabel, type HeaderLeftSectionConfig } from "@design-system-rte/core/components/header";
 
 const DEFAULT_HOME_LINK = "/";
 
 @Component({
   selector: "rte-header-left-section",
+  imports: [RouterLink],
   templateUrl: "./header-left-section.component.html",
   styleUrl: "./header-left-section.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

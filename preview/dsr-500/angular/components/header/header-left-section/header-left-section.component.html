@@ -1,4 +1,4 @@
-<a class="rte-header-home" [href]="homeLink()" [attr.aria-label]="homeAriaLabel()">
+<a class="rte-header-home" [routerLink]="homeLink()" [attr.aria-label]="homeAriaLabel()">
   @if (shouldRenderLogo()) {
     <img class="rte-header-logo" alt="" aria-hidden="true" [src]="logoSrc()" />
   }

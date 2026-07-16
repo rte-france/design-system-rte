@@ -1,5 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, effect, input, output } from "@angular/core";
+import { RouterLink } from "@angular/router";
 import { BadgeProps } from "@design-system-rte/core/components/badge/badge.interface";
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
 import {
@@ -13,6 +14,12 @@ import { getDividerAppearanceBySideNavTheme } from "@design-system-rte/core/comp
 import { SideNavAppearance, SideNavContrast } from "@design-system-rte/core/components/side-nav/side-nav.interface";
 import { ENTER_KEY, ESCAPE_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
+import {
+  effectiveRouterLink,
+  hasNavigation,
+  RouterLinkConfig,
+  RouterLinkValue,
+} from "../../../navigation/router-link-inputs";
 import { BadgeComponent } from "../../badge/badge.component";
 import { BadgeDirective } from "../../badge/badge.directive";
 import { DividerComponent } from "../../divider/divider.component";
@@ -39,6 +46,7 @@ export interface NavMenuOpenChangeEvent {
     DividerComponent,
     NavItemComponent,
     TooltipDirective,
+    RouterLink,
   ],
   templateUrl: "./nav-menu.component.html",
   styleUrl: "./nav-menu.component.scss",
@@ -50,7 +58,11 @@ export class NavMenuComponent {
   readonly hasLeadingIcon = input<boolean>(true);
   readonly label = input.required<string>();
   readonly isCollapsed = input<boolean>(false);
-  readonly link = input<string | undefined>();
+  /** @deprecated Use `routerLink` instead. */
+  readonly link = input<RouterLinkValue>();
+  readonly routerLink = input<RouterLinkValue>();
+  readonly routerLinkConfig = input<RouterLinkConfig>();
+  readonly href = input<string>();
   readonly items = input.required<NavItemProps[]>();
   readonly open = input<boolean | undefined>(false);
   readonly hasMenuIcon = input<boolean>(true);
@@ -64,6 +76,9 @@ export class NavMenuComponent {
 
   readonly itemClick = output<string>();
   readonly openChange = output<NavMenuOpenChangeEvent>();
+
+  readonly effectiveRouterLink = computed(() => effectiveRouterLink(this.routerLink(), this.link()));
+  readonly isNavigable = computed(() => hasNavigation(this.routerLink(), this.link(), this.href()));
 
   constructor() {
     effect(() => {

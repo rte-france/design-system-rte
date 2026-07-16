@@ -10,6 +10,7 @@ import {
   output,
   signal,
 } from "@angular/core";
+import { RouterLink } from "@angular/router";
 import { shouldDisplayBadge } from "@design-system-rte/core/components/badge/badge.utils";
 import { DropdownManager } from "@design-system-rte/core/components/dropdown/DropdownManager";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
@@ -27,7 +28,7 @@ const SUB_MENU_CLOSE_DELAY_MS = 300;
 
 @Component({
   selector: "rte-dropdown-item",
-  imports: [CommonModule, IconComponent, DividerComponent, BadgeComponent, CheckboxComponent],
+  imports: [CommonModule, IconComponent, DividerComponent, BadgeComponent, CheckboxComponent, RouterLink],
   templateUrl: "./dropdown-item.component.html",
   styleUrl: "./dropdown-item.component.scss",
 })

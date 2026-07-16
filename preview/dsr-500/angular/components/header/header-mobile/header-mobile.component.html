@@ -1,7 +1,7 @@
 <div #rootRef class="rte-header-mobile" [attr.data-search-state]="searchState()" (keydown)="handleRootKeyDown($event)">
   @if (hasLeftSection() && shouldRenderLogo()) {
     <div class="left-section">
-      <a class="rte-header-home" [href]="homeLink()" [attr.aria-label]="computedHomeAriaLabel()">
+      <a class="rte-header-home" [routerLink]="homeLink()" [attr.aria-label]="computedHomeAriaLabel()">
         <img class="rte-header-logo" alt="" aria-hidden="true" [src]="logoSrc()" />
       </a>
     </div>

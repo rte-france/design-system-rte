@@ -1,5 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, input, output, signal } from "@angular/core";
+import { RouterLink } from "@angular/router";
 import { BadgeProps } from "@design-system-rte/core/components/badge/badge.interface";
 import {
   getCollapsedSideNavBadgeType,
@@ -9,6 +10,12 @@ import {
 import { SideNavAppearance } from "@design-system-rte/core/components/side-nav/side-nav.interface";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
+import {
+  effectiveRouterLink,
+  hasNavigation,
+  RouterLinkConfig,
+  RouterLinkValue,
+} from "../../../navigation/router-link-inputs";
 import { BadgeComponent } from "../../badge/badge.component";
 import { BadgeDirective } from "../../badge/badge.directive";
 import { IconComponent } from "../../icon/icon.component";
@@ -20,7 +27,7 @@ function getNavTabIndex(parentMenuOpen?: boolean): number {
 
 @Component({
   selector: "rte-nav-item",
-  imports: [CommonModule, IconComponent, BadgeComponent, BadgeDirective, TooltipDirective],
+  imports: [CommonModule, IconComponent, BadgeComponent, BadgeDirective, TooltipDirective, RouterLink],
   templateUrl: "./nav-item.component.html",
   styleUrl: "./nav-item.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -31,7 +38,11 @@ export class NavItemComponent {
   readonly hasLeadingIcon = input<boolean>(true);
   readonly label = input.required<string>();
   readonly isCollapsed = input<boolean>(false);
-  readonly link = input<string | undefined>();
+  /** @deprecated Use `routerLink` instead. */
+  readonly link = input<RouterLinkValue>();
+  readonly routerLink = input<RouterLinkValue>();
+  readonly routerLinkConfig = input<RouterLinkConfig>();
+  readonly href = input<string>();
   readonly appearance = input<SideNavAppearance>("brand");
   readonly active = input<boolean>(false);
   readonly badge = input<BadgeProps | undefined>();
@@ -42,6 +53,8 @@ export class NavItemComponent {
 
   readonly focused = signal<boolean>(false);
   readonly tabIndex = computed<number>(() => getNavTabIndex(this.parentMenuOpen()));
+  readonly effectiveRouterLink = computed(() => effectiveRouterLink(this.routerLink(), this.link()));
+  readonly isNavigable = computed(() => hasNavigation(this.routerLink(), this.link(), this.href()));
 
   readonly itemClick = output<string>();
 
