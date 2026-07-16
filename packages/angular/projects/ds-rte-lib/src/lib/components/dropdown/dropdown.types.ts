@@ -1,6 +1,8 @@
 import { ComponentRef, EventEmitter } from "@angular/core";
 import { DropdownItemProps } from "@design-system-rte/core/components/dropdown/dropdown.interface";
 
+import { NavigationElement } from "../../utils/navigation/navigation-element";
+
 export interface SubmenuCreatedResult {
   componentRef: ComponentRef<unknown>;
   hostElement: HTMLElement;
@@ -13,7 +15,7 @@ export interface SubmenuRequestEvent {
   onCreated: (result: SubmenuCreatedResult) => void;
 }
 
-export interface DropdownItemConfig extends Omit<DropdownItemProps, "onClick"> {
+export interface DropdownItemConfig extends Omit<DropdownItemProps, "onClick">, NavigationElement {
   id?: string;
   selected?: boolean;
   label: string;

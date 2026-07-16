@@ -1,7 +1,8 @@
 import { registerLocaleData } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
 import localeFr from "@angular/common/locales/fr";
-import { importProvidersFrom } from "@angular/core";
+import { Component, importProvidersFrom } from "@angular/core";
+import { provideRouter, withHashLocation } from "@angular/router";
 import { setCompodocJson } from "@storybook/addon-docs/angular";
 import { applicationConfig, type Preview, componentWrapperDecorator, moduleMetadata } from "@storybook/angular";
 
@@ -14,9 +15,18 @@ setCompodocJson(docJson);
 
 registerLocaleData(localeFr);
 
+@Component({
+  standalone: true,
+  template: "",
+})
+class StorybookEmptyRouteComponent {}
+
 const decorators = [
   applicationConfig({
-    providers: [importProvidersFrom(HttpClientModule)],
+    providers: [
+      provideRouter([{ path: "**", component: StorybookEmptyRouteComponent }], withHashLocation()),
+      importProvidersFrom(HttpClientModule),
+    ],
   }),
   moduleMetadata({
     imports: [ThemeSelectorComponent],

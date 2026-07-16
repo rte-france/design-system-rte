@@ -78,6 +78,19 @@ import AccessibilityTable from "./AccessibilityTable";
       <DocsSection>
         <Usage />
       </DocsSection>
+      <DocsSection title="Angular Router (Angular uniquement)">
+        <p>
+          Pour la navigation SPA interne, utilisez l&apos;input <code>routerLink</code>. Pour les URL externes ou la
+          navigation native du navigateur, utilisez <code>href</code> avec <code>externalLink</code> pour ouvrir dans un
+          nouvel onglet.
+        </p>
+        <p>
+          L&apos;input déprécié <code>link</code> reste disponible comme alias rétrocompatible de{" "}
+          <code>routerLink</code>. Les applications doivent configurer Angular Router (
+          <code>provideRouter</code> ou <code>RouterModule</code>) et déclarer <code>@angular/router</code> comme
+          dépendance.
+        </p>
+      </DocsSection>
       <DocsSection>
         <Options />
       </DocsSection>

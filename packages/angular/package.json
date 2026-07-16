@@ -24,6 +24,7 @@
     "@angular/compiler-cli": "^19.2.25",
     "@angular/forms": "^19.2.25",
     "@angular/platform-browser-dynamic": "^19.2.25",
+    "@angular/router": "^19.2.25",
     "@babel/core": "^7.27.4",
     "@babel/plugin-proposal-decorators": "^7.28.0",
     "@babel/preset-env": "^7.27.2",

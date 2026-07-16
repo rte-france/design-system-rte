@@ -9,6 +9,7 @@
   "peerDependencies": {
     "@angular/common": "^19.2.25",
     "@angular/core": "^19.2.25",
+    "@angular/router": "^19.2.25",
     "@design-system-rte/core": "^1.12.1"
   },
   "dependencies": {

@@ -25,12 +25,33 @@
     ></rte-checkbox>
     <span *ngIf="item()?.hasIndent && !item()?.leftIcon" style="width: 20px"></span>
     <rte-icon *ngIf="item()?.leftIcon" [name]="item()?.leftIcon ?? ''" />
-    <ng-container [ngSwitch]="!!item()?.link">
-      <a *ngSwitchCase="true" style="flex: 2; text-decoration: none; color: inherit" [href]="item()?.link"
-        >{{ item()?.label }}
-      </a>
-      <span *ngSwitchDefault style="flex: 2">{{ item()?.label }}</span>
-    </ng-container>
+    @if (isNavigableLink()) {
+      @if (navigationHref()) {
+        <a
+          style="flex: 2; text-decoration: none; color: inherit"
+          [href]="navigationHref()!"
+          [attr.target]="item()?.externalLink ? '_blank' : null"
+          [attr.rel]="item()?.externalLink ? 'noopener noreferrer' : null"
+        >
+          {{ item()?.label }}
+        </a>
+      } @else {
+        <a
+          style="flex: 2; text-decoration: none; color: inherit"
+          [routerLink]="navigationRouterLink()"
+          [queryParams]="item()?.routerLinkConfig?.queryParams"
+          [fragment]="item()?.routerLinkConfig?.fragment"
+          [queryParamsHandling]="item()?.routerLinkConfig?.queryParamsHandling"
+          [preserveFragment]="item()?.routerLinkConfig?.preserveFragment"
+          [replaceUrl]="item()?.routerLinkConfig?.replaceUrl"
+          [state]="item()?.routerLinkConfig?.state"
+        >
+          {{ item()?.label }}
+        </a>
+      }
+    } @else {
+      <span style="flex: 2">{{ item()?.label }}</span>
+    }
     <rte-icon *ngIf="hasChildren()" name="arrow-chevron-right" />
     <div *ngIf="item()?.trailingText">{{ item()?.trailingText }}</div>
     <rte-badge
