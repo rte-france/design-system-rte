@@ -2,7 +2,7 @@
 
 ## Content
 
- RTE's Design System : Minimum Viable Product
+RTE's Design System : Minimum Viable Product
 
 ## Usage
 
@@ -16,3 +16,5 @@ cd design-system-rte
 ## Contributing
 
 In order to adopt the RTE's Design System in our own open-source projects, we publish our design system. No contributions are awaited.
+
+This is a random change to test the commit and push process.
