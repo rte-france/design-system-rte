@@ -15,11 +15,16 @@ import { SideNavAppearance, SideNavContrast } from "@design-system-rte/core/comp
 import { ENTER_KEY, ESCAPE_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
 import {
+  NavigationElement,
+  resolveNavigationHref,
+  resolveNavigationRouterLink,
+} from "../../../utils/navigation/navigation-element";
+import {
   effectiveRouterLink,
   hasNavigation,
   RouterLinkConfig,
   RouterLinkValue,
-} from "../../../navigation/router-link-inputs";
+} from "../../../utils/navigation/router-link-inputs";
 import { BadgeComponent } from "../../badge/badge.component";
 import { BadgeDirective } from "../../badge/badge.directive";
 import { DividerComponent } from "../../divider/divider.component";
@@ -63,7 +68,8 @@ export class NavMenuComponent {
   readonly routerLink = input<RouterLinkValue>();
   readonly routerLinkConfig = input<RouterLinkConfig>();
   readonly href = input<string>();
-  readonly items = input.required<NavItemProps[]>();
+  readonly externalLink = input<boolean>();
+  readonly items = input.required<(NavItemProps & NavigationElement)[]>();
   readonly open = input<boolean | undefined>(false);
   readonly hasMenuIcon = input<boolean>(true);
   readonly isNested = input<boolean>(false);
@@ -133,8 +139,16 @@ export class NavMenuComponent {
     }
   }
 
-  hasNestedItemsForItem(item: NavItemProps): item is NavMenuProps {
+  hasNestedItemsForItem(item: NavItemProps & NavigationElement): item is NavMenuProps & NavigationElement {
     return !!item.items?.length;
+  }
+
+  resolveItemHref(item: NavItemProps & NavigationElement): string | undefined {
+    return resolveNavigationHref(item);
+  }
+
+  resolveItemRouterLink(item: NavItemProps & NavigationElement) {
+    return resolveNavigationRouterLink(item);
   }
 
   handleMenuOpenChange(event: NavMenuOpenChangeEvent): void {

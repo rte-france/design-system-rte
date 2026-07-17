@@ -14,12 +14,19 @@ import {
 } from "@design-system-rte/core/components/side-nav/side-nav.interface";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
+import {
+  NavigationElement,
+  resolveNavigationHref,
+  resolveNavigationRouterLink,
+} from "../../utils/navigation/navigation-element";
 import { DividerComponent } from "../divider/divider.component";
 import { TooltipDirective } from "../tooltip/tooltip.directive";
 
 import { BaseSideNavComponent } from "./base-side-nav/base-side-nav.component";
 import { NavItemComponent } from "./nav-item/nav-item.component";
 import { NavMenuComponent, NavMenuOpenChangeEvent } from "./nav-menu/nav-menu.component";
+
+export type NavItem = (NavItemProps | NavMenuProps) & NavigationElement;
 
 const TRANSITION_DURATION = 300;
 
@@ -42,8 +49,8 @@ export class SideNavComponent {
   readonly size = input<SideNavSize>("m" as SideNavSize);
   readonly collapsible = input<boolean>(false);
   readonly headerConfig = input<SideNavHeaderConfig | undefined>();
-  readonly items = input<NavItemProps[]>([]);
-  readonly footerItems = input<NavItemProps[] | undefined>();
+  readonly items = input<NavItem[]>([]);
+  readonly footerItems = input<NavItem[] | undefined>();
   readonly isCollapsed = input<boolean>(false);
   readonly appearance = input<SideNavAppearance>("brand");
   readonly contrast = input<SideNavContrast>("high");
@@ -107,8 +114,16 @@ export class SideNavComponent {
     }
   }
 
-  hasNestedItems(item: NavItemProps): item is NavMenuProps {
+  hasNestedItems(item: NavItem): item is NavMenuProps & NavigationElement {
     return !!item.items?.length;
+  }
+
+  resolveItemHref(item: NavItem): string | undefined {
+    return resolveNavigationHref(item);
+  }
+
+  resolveItemRouterLink(item: NavItem) {
+    return resolveNavigationRouterLink(item);
   }
 
   handleItemClick(itemId: string): void {

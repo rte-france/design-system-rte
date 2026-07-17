@@ -15,7 +15,7 @@ import {
   hasNavigation,
   RouterLinkConfig,
   RouterLinkValue,
-} from "../../../navigation/router-link-inputs";
+} from "../../../utils/navigation/router-link-inputs";
 import { BadgeComponent } from "../../badge/badge.component";
 import { BadgeDirective } from "../../badge/badge.directive";
 import { IconComponent } from "../../icon/icon.component";
@@ -43,6 +43,7 @@ export class NavItemComponent {
   readonly routerLink = input<RouterLinkValue>();
   readonly routerLinkConfig = input<RouterLinkConfig>();
   readonly href = input<string>();
+  readonly externalLink = input<boolean>();
   readonly appearance = input<SideNavAppearance>("brand");
   readonly active = input<boolean>(false);
   readonly badge = input<BadgeProps | undefined>();

@@ -30,6 +30,8 @@ import {
 } from "@design-system-rte/core/components/header";
 import { SearchBarAppearance, SearchBarProps } from "@design-system-rte/core/components/searchbar";
 
+import { NavigationElement, resolveNavigationRouterLink } from "../../utils/navigation/navigation-element";
+import { RouterLinkValue } from "../../utils/navigation/router-link-inputs";
 import { AvatarComponent } from "../avatar/avatar.component";
 import { BreadcrumbsComponent } from "../breadcrumbs/breadcrumbs.component";
 import { ButtonComponent } from "../button/button.component";
@@ -47,6 +49,8 @@ import { HeaderMobileMenuDirective } from "./header-mobile-menu.directive";
 import { HeaderRightDirective } from "./header-right.directive";
 
 const DEFAULT_HOME_LINK = "/";
+
+export type HeaderNavigationElement = HeaderNavigationItem & NavigationElement;
 
 @Component({
   selector: "rte-header",
@@ -89,7 +93,7 @@ export class HeaderComponent {
 
   readonly hasMidSection = input<boolean>(true);
   readonly navigationAriaLabel = input<string>(HEADER_DEFAULT_NAV_ARIA_LABEL);
-  readonly navigationItems = input<HeaderNavigationItem[]>([]);
+  readonly navigationItems = input<HeaderNavigationElement[]>([]);
 
   readonly hasSearchbar = input<boolean>(true);
   readonly searchbarProps = input<SearchBarProps | undefined>(undefined);
@@ -246,7 +250,7 @@ export class HeaderComponent {
     return () => window.removeEventListener("scroll", onScroll);
   }
 
-  handleNavigationItemClick(item: HeaderNavigationItem, event: MouseEvent): void {
+  handleNavigationItemClick(item: HeaderNavigationElement, event: MouseEvent): void {
     if (item.disabled) {
       event.preventDefault();
       return;
@@ -281,5 +285,17 @@ export class HeaderComponent {
   handleIsSearchActiveChange(nextValue: boolean): void {
     this.internalIsSearchActive.set(nextValue);
     this.isSearchActiveChange.emit(nextValue);
+  }
+
+  headerNativeHref(item: HeaderNavigationElement): string | undefined {
+    if (!item.disabled && item.externalLink) {
+      return item.href;
+    }
+  }
+
+  headerRouterLink(item: HeaderNavigationElement): RouterLinkValue | undefined {
+    if (!item.disabled && !item.externalLink) {
+      return resolveNavigationRouterLink(item) ?? item.href;
+    }
   }
 }

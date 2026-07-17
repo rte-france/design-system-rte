@@ -2,7 +2,7 @@ import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, input } from "@angular/core";
 import { RouterLink } from "@angular/router";
 
-import { effectiveRouterLink, RouterLinkConfig, RouterLinkValue } from "../../navigation/router-link-inputs";
+import { effectiveRouterLink, RouterLinkConfig, RouterLinkValue } from "../../utils/navigation/router-link-inputs";
 import { IconComponent } from "../icon/icon.component";
 
 @Component({

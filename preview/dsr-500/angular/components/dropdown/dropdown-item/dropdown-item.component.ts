@@ -15,6 +15,7 @@ import { shouldDisplayBadge } from "@design-system-rte/core/components/badge/bad
 import { DropdownManager } from "@design-system-rte/core/components/dropdown/DropdownManager";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
+import { resolveNavigationHref, resolveNavigationRouterLink } from "../../../utils/navigation/navigation-element";
 import { BadgeComponent } from "../../badge/badge.component";
 import { CheckboxComponent } from "../../checkbox/checkbox.component";
 import { DividerComponent } from "../../divider/divider.component";
@@ -65,6 +66,25 @@ export class DropdownItemComponent implements OnDestroy {
     });
   });
 
+  readonly isNavigableLink = computed(() => {
+    const item = this.item();
+    return !!((item && resolveNavigationHref(item)) || resolveNavigationRouterLink(item!));
+  });
+
+  readonly navigationHref = computed(() => {
+    const item = this.item();
+    if (item && !item.disabled && !this.hasChildren()) {
+      return resolveNavigationHref(item);
+    }
+  });
+
+  readonly navigationRouterLink = computed(() => {
+    const item = this.item();
+    if (item && !item.disabled && !this.hasChildren()) {
+      return resolveNavigationRouterLink(item);
+    }
+  });
+
   handleClick(event: Event): void {
     if (this.item()?.disabled) {
       event.preventDefault();
@@ -87,7 +107,7 @@ export class DropdownItemComponent implements OnDestroy {
   handleKeyDown(event: KeyboardEvent): void {
     event.preventDefault();
 
-    if (this.item()?.link && [SPACE_KEY, ENTER_KEY].includes(event.key)) {
+    if (this.isNavigableLink() && [SPACE_KEY, ENTER_KEY].includes(event.key)) {
       const link = (event.target as HTMLElement).closest("li")?.querySelector("a");
       link?.click();
       return;

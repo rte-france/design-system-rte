@@ -37,6 +37,8 @@
       [rteTooltipGap]="12"
       [rteTooltipShouldFocusTrigger]="true"
       [href]="href()!"
+      [attr.target]="externalLink() ? '_blank' : null"
+      [attr.rel]="externalLink() ? 'noopener noreferrer' : null"
       [attr.aria-label]="label()"
     >
       <ng-container [ngTemplateOutlet]="contentTemplate" />
@@ -82,6 +84,8 @@
       [ngClass]="{ collapsed: isCollapsed(), nested: isNested(), active: active(), focused: focused() }"
       [attr.role]="role()"
       [href]="href()!"
+      [attr.target]="externalLink() ? '_blank' : null"
+      [attr.rel]="externalLink() ? 'noopener noreferrer' : null"
     >
       <ng-container [ngTemplateOutlet]="contentTemplate" />
     </a>
