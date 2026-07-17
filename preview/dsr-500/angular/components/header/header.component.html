@@ -15,7 +15,7 @@
               <ng-content select="[rteHeaderLeft]" />
             </div>
           } @else {
-            <rte-header-left-section [config]="computedLeftSectionConfig()" />
+            <rte-header-left-section [config]="leftSectionConfig()" />
           }
         </div>
       }
@@ -141,11 +141,7 @@
         [hasLogo]="hasLogo()"
         [applicationName]="applicationName()"
         [logoSrc]="logoSrc()"
-        [homeLink]="homeLink()"
-        [homeRouterLink]="homeRouterLink()"
-        [homeRouterLinkConfig]="homeRouterLinkConfig()"
-        [homeHref]="homeHref()"
-        [homeExternalLink]="homeExternalLink()"
+        [homeNavigation]="leftSectionConfig().homeNavigation"
         [homeAriaLabel]="homeAriaLabel()"
         [hasSearchbar]="hasSearchbar()"
         [searchbarProps]="searchbarProps()"

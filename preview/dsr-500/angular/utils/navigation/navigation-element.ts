@@ -9,6 +9,13 @@ export interface NavigationElement {
   link?: RouterLinkValue;
 }
 
+export interface ResolvedNavigation {
+  href?: string;
+  externalLink?: boolean;
+  routerLink?: RouterLinkValue;
+  routerLinkConfig?: RouterLinkConfig;
+}
+
 export function resolveNavigationHref(element: NavigationElement): string | undefined {
   return element.href?.trim();
 }
@@ -17,4 +24,15 @@ export function resolveNavigationRouterLink(element: NavigationElement): RouterL
   if (!resolveNavigationHref(element)) {
     return effectiveRouterLink(element.routerLink, element.link);
   }
+}
+
+export function resolveNavigation(element: NavigationElement, fallbackRouterLink: RouterLinkValue): ResolvedNavigation {
+  const href = resolveNavigationHref(element);
+  if (href) {
+    return { href, externalLink: element.externalLink };
+  }
+  return {
+    routerLink: resolveNavigationRouterLink(element) ?? fallbackRouterLink,
+    routerLinkConfig: element.routerLinkConfig,
+  };
 }

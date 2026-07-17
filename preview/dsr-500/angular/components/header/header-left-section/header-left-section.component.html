@@ -1,37 +1,39 @@
-@if (navigationHref()) {
-  <a
-    class="rte-header-home"
-    [href]="navigationHref()!"
-    [attr.target]="navigationExternalLink() ? '_blank' : null"
-    [attr.rel]="navigationExternalLink() ? 'noopener noreferrer' : null"
-    [attr.aria-label]="homeAriaLabel()"
-  >
-    @if (shouldRenderLogo()) {
-      <img class="rte-header-logo" alt="" aria-hidden="true" [src]="logoSrc()" />
-    }
+@if (homeNavigation(); as navigation) {
+  @if (navigation.href) {
+    <a
+      class="rte-header-home"
+      [href]="navigation.href"
+      [attr.target]="navigation.externalLink ? '_blank' : null"
+      [attr.rel]="navigation.externalLink ? 'noopener noreferrer' : null"
+      [attr.aria-label]="homeAriaLabel()"
+    >
+      @if (shouldRenderLogo()) {
+        <img class="rte-header-logo" alt="" aria-hidden="true" [src]="logoSrc()" />
+      }
 
-    @if (applicationName()) {
-      <span class="rte-header-app-name">{{ applicationName() }}</span>
-    }
-  </a>
-} @else {
-  <a
-    class="rte-header-home"
-    [routerLink]="navigationRouterLink()!"
-    [queryParams]="homeLinkConfig()?.queryParams"
-    [fragment]="homeLinkConfig()?.fragment"
-    [queryParamsHandling]="homeLinkConfig()?.queryParamsHandling"
-    [preserveFragment]="homeLinkConfig()?.preserveFragment"
-    [replaceUrl]="homeLinkConfig()?.replaceUrl"
-    [state]="homeLinkConfig()?.state"
-    [attr.aria-label]="homeAriaLabel()"
-  >
-    @if (shouldRenderLogo()) {
-      <img class="rte-header-logo" alt="" aria-hidden="true" [src]="logoSrc()" />
-    }
+      @if (applicationName()) {
+        <span class="rte-header-app-name">{{ applicationName() }}</span>
+      }
+    </a>
+  } @else {
+    <a
+      class="rte-header-home"
+      [routerLink]="navigation.routerLink"
+      [queryParams]="navigation.routerLinkConfig?.queryParams"
+      [fragment]="navigation.routerLinkConfig?.fragment"
+      [queryParamsHandling]="navigation.routerLinkConfig?.queryParamsHandling"
+      [preserveFragment]="navigation.routerLinkConfig?.preserveFragment"
+      [replaceUrl]="navigation.routerLinkConfig?.replaceUrl"
+      [state]="navigation.routerLinkConfig?.state"
+      [attr.aria-label]="homeAriaLabel()"
+    >
+      @if (shouldRenderLogo()) {
+        <img class="rte-header-logo" alt="" aria-hidden="true" [src]="logoSrc()" />
+      }
 
-    @if (applicationName()) {
-      <span class="rte-header-app-name">{{ applicationName() }}</span>
-    }
-  </a>
+      @if (applicationName()) {
+        <span class="rte-header-app-name">{{ applicationName() }}</span>
+      }
+    </a>
+  }
 }

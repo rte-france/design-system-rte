@@ -29,7 +29,11 @@ import {
 } from "@design-system-rte/core/components/header";
 import { SearchBarAppearance, SearchBarProps } from "@design-system-rte/core/components/searchbar";
 
-import { NavigationElement, resolveNavigationRouterLink } from "../../utils/navigation/navigation-element";
+import {
+  NavigationElement,
+  resolveNavigation,
+  resolveNavigationRouterLink,
+} from "../../utils/navigation/navigation-element";
 import { RouterLinkConfig, RouterLinkValue } from "../../utils/navigation/router-link-inputs";
 import { AvatarComponent } from "../avatar/avatar.component";
 import { BreadcrumbsComponent } from "../breadcrumbs/breadcrumbs.component";
@@ -43,7 +47,7 @@ import { SearchbarComponent } from "../searchbar/searchbar.component";
 
 import {
   HeaderLeftSectionComponent,
-  HeaderLeftSectionNavigationConfig,
+  HeaderLeftSectionViewConfig,
 } from "./header-left-section/header-left-section.component";
 import { HeaderLeftDirective } from "./header-left.directive";
 import { HeaderMobileComponent } from "./header-mobile/header-mobile.component";
@@ -90,6 +94,7 @@ export class HeaderComponent {
   readonly hasLogo = input<boolean>(true);
   readonly applicationName = input<string>("");
   readonly logoSrc = input<string | undefined>(undefined);
+  /** @deprecated Use `homeRouterLink` instead. */
   readonly homeLink = input<string>(DEFAULT_HOME_LINK);
   readonly homeRouterLink = input<RouterLinkValue>();
   readonly homeRouterLinkConfig = input<RouterLinkConfig>();
@@ -141,17 +146,21 @@ export class HeaderComponent {
   readonly projectedLeftSection = contentChild(HeaderLeftDirective);
   readonly projectedMobileMenu = contentChild(HeaderMobileMenuDirective);
 
-  readonly computedLeftSectionConfig = computed<HeaderLeftSectionNavigationConfig | undefined>(() => {
+  readonly leftSectionConfig = computed<HeaderLeftSectionViewConfig>(() => {
     return {
       hasLogo: this.hasLogo(),
       applicationName: this.applicationName(),
       logoSrc: this.logoSrc(),
-      homeLink: this.homeLink(),
       homeAriaLabel: this.homeAriaLabel(),
-      routerLink: this.homeRouterLink(),
-      routerLinkConfig: this.homeRouterLinkConfig(),
-      href: this.homeHref(),
-      externalLink: this.homeExternalLink(),
+      homeNavigation: resolveNavigation(
+        {
+          routerLink: this.homeRouterLink() ?? this.homeLink(),
+          routerLinkConfig: this.homeRouterLinkConfig(),
+          href: this.homeHref(),
+          externalLink: this.homeExternalLink(),
+        },
+        DEFAULT_HOME_LINK,
+      ),
     };
   });
 
