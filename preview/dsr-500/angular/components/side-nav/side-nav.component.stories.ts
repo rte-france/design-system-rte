@@ -580,7 +580,7 @@ export const HeaderWithLink: Story = {
       const headerTitleContainer = getHeaderTitleContainer(sideNav);
       expect(headerTitleContainer).not.toBeNull();
       expect(headerTitleContainer?.tagName).toBe("A");
-      expect(headerTitleContainer).toHaveAttribute("href", "/");
+      expect(headerTitleContainer).toHaveAttribute("href", "#/");
       expect(headerTitleContainer).toHaveStyle({ cursor: "pointer" });
     });
 
