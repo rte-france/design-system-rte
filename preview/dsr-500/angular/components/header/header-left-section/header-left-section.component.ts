@@ -2,7 +2,16 @@ import { ChangeDetectionStrategy, Component, computed, input } from "@angular/co
 import { RouterLink } from "@angular/router";
 import { buildHeaderHomeAriaLabel, type HeaderLeftSectionConfig } from "@design-system-rte/core/components/header";
 
+import {
+  NavigationElement,
+  resolveNavigationHref,
+  resolveNavigationRouterLink,
+} from "../../../utils/navigation/navigation-element";
+import { effectiveRouterLink } from "../../../utils/navigation/router-link-inputs";
+
 const DEFAULT_HOME_LINK = "/";
+
+export type HeaderLeftSectionNavigationConfig = HeaderLeftSectionConfig & NavigationElement;
 
 @Component({
   selector: "rte-header-left-section",
@@ -12,16 +21,32 @@ const DEFAULT_HOME_LINK = "/";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderLeftSectionComponent {
-  readonly config = input<HeaderLeftSectionConfig | undefined>(undefined);
+  readonly config = input<HeaderLeftSectionNavigationConfig | undefined>(undefined);
 
   readonly hasLogo = computed(() => this.config()?.hasLogo ?? true);
   readonly applicationName = computed(() => this.config()?.applicationName ?? "");
   readonly logoSrc = computed(() => this.config()?.logoSrc);
-  readonly homeLink = computed(() => this.config()?.homeLink ?? DEFAULT_HOME_LINK);
 
   readonly homeAriaLabel = computed(() => {
     return this.config()?.homeAriaLabel ?? buildHeaderHomeAriaLabel(this.applicationName());
   });
 
   readonly shouldRenderLogo = computed(() => this.hasLogo() && !!this.logoSrc());
+
+  readonly navigationHref = computed(() => {
+    if (this.config()) {
+      return resolveNavigationHref(this.config()!);
+    }
+  });
+
+  readonly navigationExternalLink = computed(() => !!this.config()?.externalLink);
+
+  readonly navigationRouterLink = computed(() => {
+    const config = this.config();
+    if (config && !resolveNavigationHref(config)) {
+      return resolveNavigationRouterLink(config) ?? effectiveRouterLink(config.homeLink) ?? DEFAULT_HOME_LINK;
+    }
+  });
+
+  readonly homeLinkConfig = computed(() => this.config()?.routerLinkConfig);
 }

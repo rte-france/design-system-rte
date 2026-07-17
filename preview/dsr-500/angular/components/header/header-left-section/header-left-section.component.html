@@ -1,9 +1,37 @@
-<a class="rte-header-home" [routerLink]="homeLink()" [attr.aria-label]="homeAriaLabel()">
-  @if (shouldRenderLogo()) {
-    <img class="rte-header-logo" alt="" aria-hidden="true" [src]="logoSrc()" />
-  }
+@if (navigationHref()) {
+  <a
+    class="rte-header-home"
+    [href]="navigationHref()!"
+    [attr.target]="navigationExternalLink() ? '_blank' : null"
+    [attr.rel]="navigationExternalLink() ? 'noopener noreferrer' : null"
+    [attr.aria-label]="homeAriaLabel()"
+  >
+    @if (shouldRenderLogo()) {
+      <img class="rte-header-logo" alt="" aria-hidden="true" [src]="logoSrc()" />
+    }
 
-  @if (applicationName()) {
-    <span class="rte-header-app-name">{{ applicationName() }}</span>
-  }
-</a>
+    @if (applicationName()) {
+      <span class="rte-header-app-name">{{ applicationName() }}</span>
+    }
+  </a>
+} @else {
+  <a
+    class="rte-header-home"
+    [routerLink]="navigationRouterLink()!"
+    [queryParams]="homeLinkConfig()?.queryParams"
+    [fragment]="homeLinkConfig()?.fragment"
+    [queryParamsHandling]="homeLinkConfig()?.queryParamsHandling"
+    [preserveFragment]="homeLinkConfig()?.preserveFragment"
+    [replaceUrl]="homeLinkConfig()?.replaceUrl"
+    [state]="homeLinkConfig()?.state"
+    [attr.aria-label]="homeAriaLabel()"
+  >
+    @if (shouldRenderLogo()) {
+      <img class="rte-header-logo" alt="" aria-hidden="true" [src]="logoSrc()" />
+    }
+
+    @if (applicationName()) {
+      <span class="rte-header-app-name">{{ applicationName() }}</span>
+    }
+  </a>
+}

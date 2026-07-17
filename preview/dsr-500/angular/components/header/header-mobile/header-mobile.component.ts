@@ -23,6 +23,12 @@ import {
 import { SearchBarAppearance, SearchBarProps } from "@design-system-rte/core/components/searchbar";
 import { ESCAPE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
+import {
+  NavigationElement,
+  resolveNavigationHref,
+  resolveNavigationRouterLink,
+} from "../../../utils/navigation/navigation-element";
+import { effectiveRouterLink, RouterLinkConfig, RouterLinkValue } from "../../../utils/navigation/router-link-inputs";
 import { DropdownMenuBodyDirective } from "../../dropdown/dropdown-menu/dropdown-menu-body.directive";
 import { DropdownMenuComponent } from "../../dropdown/dropdown-menu/dropdown-menu.component";
 import { DropdownTriggerDirective } from "../../dropdown/dropdown-trigger/dropdown-trigger.directive";
@@ -65,6 +71,10 @@ export class HeaderMobileComponent {
   readonly applicationName = input<string>("");
   readonly logoSrc = input<string | undefined>(undefined);
   readonly homeLink = input<string>(DEFAULT_HOME_LINK);
+  readonly homeRouterLink = input<RouterLinkValue>();
+  readonly homeRouterLinkConfig = input<RouterLinkConfig>();
+  readonly homeHref = input<string>();
+  readonly homeExternalLink = input<boolean>(false);
   readonly homeAriaLabel = input<string | undefined>(undefined);
 
   readonly hasSearchbar = input<boolean>(true);
@@ -100,6 +110,24 @@ export class HeaderMobileComponent {
   readonly computedHomeAriaLabel = computed(
     () => this.homeAriaLabel() ?? buildHeaderHomeAriaLabel(this.applicationName()),
   );
+
+  readonly homeNavigationElement = computed<NavigationElement>(() => ({
+    routerLink: this.homeRouterLink(),
+    routerLinkConfig: this.homeRouterLinkConfig(),
+    href: this.homeHref(),
+    externalLink: this.homeExternalLink(),
+  }));
+
+  readonly navigationHref = computed(() => resolveNavigationHref(this.homeNavigationElement()));
+
+  readonly navigationRouterLink = computed(() => {
+    const element = this.homeNavigationElement();
+    if (!resolveNavigationHref(element)) {
+      return resolveNavigationRouterLink(element) ?? effectiveRouterLink(this.homeLink()) ?? DEFAULT_HOME_LINK;
+    }
+  });
+
+  readonly navigationRouterLinkConfig = computed(() => this.homeRouterLinkConfig());
 
   readonly searchbarAppearance = computed<SearchBarAppearance>(() =>
     this.appearance() === "neutral" ? "secondary" : "primary",
