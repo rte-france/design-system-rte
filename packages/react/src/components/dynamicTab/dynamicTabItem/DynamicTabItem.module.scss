@@ -16,11 +16,15 @@
   background: var(--background-neutral-subtle-default);
   color: var(--content-tertiary);
 
-  padding: 0;
   opacity: 0;
 
   justify-content: space-between;
   box-sizing: border-box;
+
+  &[data-compact-spacing="true"] {
+    padding-top: $positive-spacing_050;
+    padding-bottom: $positive-spacing_050;
+  }
 
   &[data-hidden="true"] {
     visibility: hidden;
@@ -35,11 +39,8 @@
     transition: max-width 0.3s ease, padding 0.3s ease;
     min-width: 76px;
     max-width: 280px;
-    padding: $positive-spacing_150;
     opacity: 1;
-  }
 
-  &[data-is-animating="true"]:not([data-hidden="true"]) {
     &[data-is-disappearing="true"] {
       transition: max-width 0.3s ease, opacity 0.3s ease, padding 0.3s ease;
       max-width: 0;
@@ -50,11 +51,6 @@
     }
   }
 
-
-  &[data-compact-spacing="true"] {
-    padding-top: $positive-spacing_050;
-    padding-bottom: $positive-spacing_050;
-  }
 
   &:hover {
     background: var(--background-neutral-subtle-hover);
