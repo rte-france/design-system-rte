@@ -160,6 +160,11 @@ const DynamicTab = forwardRef<HTMLDivElement, DynamicTabProps>(
           }
         }}
         data-appearance={appearance}
+        onFocus={(event) => {
+          if (!event.currentTarget.contains(event.relatedTarget)) {
+            focusSelectedTab();
+          }
+        }}
       >
         {internalOptions.length > 0 && (
           <div
@@ -220,57 +225,61 @@ const DynamicTab = forwardRef<HTMLDivElement, DynamicTabProps>(
               }
               return null;
             })}
-            <li className={styles["rte-dynamic-tab__more-menu-container"]}>
-              <Dropdown
-                style={{
-                  width: triggerRef?.current?.offsetWidth,
-                  visibility: hasOverflow ? "visible" : "hidden",
-                }}
-                isOpen={isMoreMenuOpen}
-                offset={8}
-                onClose={() => setIsMoreMenuOpen(false)}
-                trigger={
-                  <>
-                    <button
-                      ref={triggerRef}
-                      className={styles["rte-dynamic-tab__more-menu"]}
-                      data-appearance={appearance}
-                      data-overflow={hasOverflow}
-                      onClick={() => setIsMoreMenuOpen(!isMoreMenuOpen)}
-                    >
-                      <span className={styles["rte-dynamic-tab__more-menu__text"]}>
-                        + {internalOptions.length - maxNumberOfVisibleTabs} onglet(s)
-                      </span>
-                      <Icon name={isMoreMenuOpen ? "arrow-chevron-up" : "arrow-chevron-down"} />
-                    </button>
-                    <button
-                      className={styles["rte-dynamic-tab__add-button"]}
-                      data-appearance={appearance}
-                      data-compact-spacing={compactSpacing}
-                      onClick={handleAddTab}
-                    >
-                      <Icon name="add" />
-                    </button>
-                  </>
-                }
-              >
-                {internalOptions.map((option, index) => {
-                  if (index >= maxNumberOfVisibleTabs) {
-                    return (
-                      <DropdownItem
-                        key={option.id}
-                        label={option.title}
-                        onClick={() => {
-                          setInternalSelectedTabId(option.id);
-                          onChangeActiveTab?.(option.id);
-                        }}
-                      />
-                    );
-                  }
-                })}
-              </Dropdown>
-            </li>
           </ul>
+          <div className={styles["rte-dynamic-tab__more-menu-container"]}>
+            <Dropdown
+              style={{
+                width: triggerRef?.current?.offsetWidth,
+                visibility: hasOverflow ? "visible" : "hidden",
+              }}
+              isOpen={isMoreMenuOpen}
+              offset={8}
+              onClose={() => setIsMoreMenuOpen(false)}
+              trigger={
+                <>
+                  <button
+                    ref={triggerRef}
+                    className={styles["rte-dynamic-tab__more-menu"]}
+                    data-appearance={appearance}
+                    data-compact-spacing={compactSpacing}
+                    data-overflow={hasOverflow}
+                    onClick={() => setIsMoreMenuOpen(!isMoreMenuOpen)}
+                    type="button"
+                  >
+                    <span className={styles["rte-dynamic-tab__more-menu__text"]}>
+                      + {internalOptions.length - maxNumberOfVisibleTabs} onglet(s)
+                    </span>
+                    <Icon name={isMoreMenuOpen ? "arrow-chevron-up" : "arrow-chevron-down"} />
+                  </button>
+                  <button
+                    className={styles["rte-dynamic-tab__add-button"]}
+                    data-appearance={appearance}
+                    data-compact-spacing={compactSpacing}
+                    onClick={handleAddTab}
+                    type="button"
+                    aria-label="Add new tabitem"
+                  >
+                    <Icon name="add" />
+                  </button>
+                </>
+              }
+            >
+              {internalOptions.map((option, index) => {
+                if (index >= maxNumberOfVisibleTabs) {
+                  return (
+                    <DropdownItem
+                      key={option.id}
+                      label={option.title}
+                      onClick={() => {
+                        setInternalSelectedTabId(option.id);
+                        onChangeActiveTab?.(option.id);
+                      }}
+                    />
+                  );
+                }
+              })}
+            </Dropdown>
+          </div>
         </DragAndDropProvider>
       </div>
     );

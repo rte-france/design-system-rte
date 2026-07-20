@@ -43,7 +43,6 @@ const DynamicTabItem = ({
   isHidden = false,
   setIsMoving: setIsMovingExternal,
   isMoving: isMovingExternal,
-  ...props
 }: DynamicTabItemProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const tabItemRef = useRef<HTMLLIElement | null>(null);
@@ -233,7 +232,6 @@ const DynamicTabItem = ({
       aria-selected={isActive}
       onKeyDown={handleKeyDown}
       onKeyUp={handleKeyUp}
-      {...props}
     >
       <div
         ref={tabItemContentRef}
