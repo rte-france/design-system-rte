@@ -7,8 +7,8 @@ import { ButtonIconSize } from "@design-system-rte/core/components/button/common
 
 import { BadgeDirective } from "../badge/badge.directive";
 import { isValidIconName } from "../icon/icon-map";
+import { RegularIconIdKey, TogglableIconIdKey } from "../icon/icon-registry.service";
 import { IconComponent } from "../icon/icon.component";
-import { RegularIconIdKey, TogglableIconIdKey } from "../icon/icon.service";
 
 @Component({
   selector: "rte-icon-button",
