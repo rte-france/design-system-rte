@@ -1,8 +1,8 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, effect, input, signal } from "@angular/core";
 
+import { RegularIconIdKey, TogglableIconIdKey } from "../../icon/icon-registry.service";
 import { IconComponent } from "../../icon/icon.component";
-import { RegularIconIdKey, TogglableIconIdKey } from "../../icon/icon.service";
 import { IconButtonComponent } from "../../icon-button/icon-button.component";
 import { BaseInputComponent } from "../../input/base-input/base-input.component";
 import { RequiredIndicatorComponent } from "../../input/required-indicator/required-indicator.component";

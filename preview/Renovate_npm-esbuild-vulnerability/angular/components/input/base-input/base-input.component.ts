@@ -13,8 +13,8 @@ import {
 } from "@angular/core";
 import { ButtonSize } from "@design-system-rte/core";
 
+import { RegularIconIdKey, TogglableIconIdKey } from "../../icon/icon-registry.service";
 import { IconComponent } from "../../icon/icon.component";
-import { RegularIconIdKey, TogglableIconIdKey } from "../../icon/icon.service";
 import { IconButtonComponent } from "../../icon-button/icon-button.component";
 import { LinkComponent } from "../../link/link.component";
 import { RequiredIndicatorComponent } from "../required-indicator/required-indicator.component";
