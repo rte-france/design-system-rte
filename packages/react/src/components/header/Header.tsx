@@ -6,6 +6,7 @@ import {
 } from "@design-system-rte/core";
 import { forwardRef } from "react";
 
+import { useNavigationLinkComponent } from "../../provider/NavigationContext";
 import Avatar from "../avatar/Avatar";
 import Breadcrumbs from "../breadcrumbs/Breadcrumbs";
 import Button from "../button/Button";
@@ -73,6 +74,8 @@ const Header = forwardRef<HTMLElement, HeaderProps>(
 
     const { isVisible } = useHeaderScrollBehavior({ isSticky, showAtScrollUp });
 
+    const LinkComponent = useNavigationLinkComponent();
+
     return (
       <header
         ref={ref}
@@ -86,7 +89,6 @@ const Header = forwardRef<HTMLElement, HeaderProps>(
         <div className={styles["rte-header-main"]} data-compact={compactSpacing}>
           {isMobile ? (
             <HeaderMobile
-              homeLink={homeLink}
               logoSrc={logoSrc}
               applicationName={applicationName}
               hasLeftSection={hasLeftSection}
@@ -108,10 +110,10 @@ const Header = forwardRef<HTMLElement, HeaderProps>(
               <div className={styles["rte-header-left"]}>
                 {hasLeftSection ? (
                   leftSectionContent || (
-                    <a href={homeLink} className={styles["rte-header-home"]}>
+                    <LinkComponent href={homeLink} className={styles["rte-header-home"]}>
                       {logoSrc && <img src={logoSrc} alt="Logo" className={styles["rte-header-logo"]} />}
                       {applicationName && <span className={styles["rte-header-app-name"]}>{applicationName}</span>}
-                    </a>
+                    </LinkComponent>
                   )
                 ) : (
                   <></>
@@ -123,7 +125,7 @@ const Header = forwardRef<HTMLElement, HeaderProps>(
                     <ul className={styles["rte-header-nav-list"]}>
                       {navigationItems.map((item, index) => (
                         <li key={index} className={styles["rte-header-nav-item"]} data-disabled={item.disabled}>
-                          <a
+                          <LinkComponent
                             href={item.href}
                             aria-label={item.ariaLabel || item.label}
                             className={styles["rte-header-nav-link"]}
@@ -134,7 +136,7 @@ const Header = forwardRef<HTMLElement, HeaderProps>(
                             data-disabled={item.disabled}
                           >
                             {item.label}
-                          </a>
+                          </LinkComponent>
                         </li>
                       ))}
                     </ul>

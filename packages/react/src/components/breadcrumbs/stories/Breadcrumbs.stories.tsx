@@ -7,6 +7,8 @@ import { Meta, StoryObj } from "@storybook/react";
 import { expect, userEvent, waitFor, within } from "@storybook/test";
 
 import { focusElementBeforeComponent } from "../../../../.storybook/testing/testing.utils";
+import NavigationProvider from "../../../provider/NavigationProvider";
+import { FakeRouterLink } from "../../../utils/stories";
 import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../../icon/IconMap";
 import Breadcrumbs from "../Breadcrumbs";
 
@@ -67,6 +69,17 @@ export const Default: Story = {
     items: mockItems,
   },
   render: (args) => <Breadcrumbs {...args} data-testid="breadcrumbs" />,
+};
+
+export const WithCustomRouter: Story = {
+  args: {
+    items: mockItems,
+  },
+  render: (args) => (
+    <NavigationProvider linkComponent={FakeRouterLink}>
+      <Breadcrumbs {...args} data-testid="breadcrumbs" />
+    </NavigationProvider>
+  ),
 };
 
 export const KeyboardNavigation: Story = {

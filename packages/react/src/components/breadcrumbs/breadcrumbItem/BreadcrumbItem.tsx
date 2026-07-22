@@ -2,6 +2,7 @@ import { shouldDisplayBadge as coreShouldDisplayBadge } from "@design-system-rte
 import { BreadcrumbProps } from "@design-system-rte/core/components/breadcrumbs/breadcrumbs.interface";
 import { useEffect, useRef, useState } from "react";
 
+import { useNavigationLinkComponent } from "../../../provider/NavigationContext";
 import Badge from "../../badge/Badge";
 import Link from "../../link/Link";
 import Tooltip from "../../tooltip/Tooltip";
@@ -12,6 +13,7 @@ const BreadcrumbItem = ({ item, isLast, breadcrumbItemMaxWidth }: BreadcrumbProp
   const [isEllipsisActive, setIsEllipsisActive] = useState<boolean>(false);
   const initialScrollWidth = useRef<number>();
   const ref = useRef<HTMLDivElement>(null);
+  const LinkComponent = useNavigationLinkComponent();
 
   useEffect(() => {
     if (ref.current) {
@@ -101,6 +103,7 @@ const BreadcrumbItem = ({ item, isLast, breadcrumbItemMaxWidth }: BreadcrumbProp
                 href={item.link}
                 label={item.label}
                 subtle
+                customLinkComponent={LinkComponent}
                 style={{ color: "var(--content-tertiary)", maxWidth: `${breadcrumbItemMaxWidth}px` }}
               />{" "}
               {shouldDisplayBadge && (
@@ -113,6 +116,7 @@ const BreadcrumbItem = ({ item, isLast, breadcrumbItemMaxWidth }: BreadcrumbProp
                 href={item.link}
                 label={item.label}
                 subtle
+                customLinkComponent={LinkComponent}
                 style={{ color: "var(--content-tertiary)", maxWidth: `${breadcrumbItemMaxWidth}px` }}
               />
               {shouldDisplayBadge && (

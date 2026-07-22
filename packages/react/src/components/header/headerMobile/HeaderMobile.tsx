@@ -4,6 +4,7 @@ import { RegularIconIdKey, TogglableIconIdKey } from "src/components/icon/Icon";
 
 import useAnimatedMount from "../../../hooks/useAnimatedMount";
 import { useClickAway } from "../../../hooks/useClickAway";
+import { useNavigationLinkComponent } from "../../../provider/NavigationContext";
 import { BaseDropdown } from "../../dropdown/BaseDropdown";
 import Dropdown from "../../dropdown/Dropdown";
 import DropdownItem from "../../dropdown/dropdownItem/DropdownItem";
@@ -75,6 +76,8 @@ const HeaderMobile = ({
 
   const { isAnimating: isSearchbarExpandedAnimating } = useAnimatedMount(isSearchbarExpanded, 200);
 
+  const LinkComponent = useNavigationLinkComponent();
+
   const dropdownProps = {
     id: "mobile-menu-dropdown",
     onClose: () => onMobileMenuClose?.(),
@@ -106,9 +109,9 @@ const HeaderMobile = ({
           leftSectionContent || (
             <>
               {logoSrc && (
-                <a href={homeLink} aria-label="Home" className={styles["rte-header-home"]}>
+                <LinkComponent href={homeLink} aria-label="Home" className={styles["rte-header-home"]}>
                   <img src={logoSrc} alt="Logo" className={styles["rte-header-logo"]} />
-                </a>
+                </LinkComponent>
               )}
             </>
           )

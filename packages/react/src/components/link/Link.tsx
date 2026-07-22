@@ -1,17 +1,25 @@
 import { LinkProps as CoreLinkProps } from "@design-system-rte/core/components/link/link.interface";
 import { forwardRef } from "react";
 
+import type { RoutingComponentProps } from "../../abstract/routing/routing.interface";
+import { useNavigationLinkComponent } from "../../provider/NavigationContext";
 import Icon from "../icon/Icon";
 import { concatClassNames } from "../utils";
 
 import style from "./Link.module.scss";
 
-interface LinkProps extends CoreLinkProps, React.AnchorHTMLAttributes<HTMLAnchorElement> {}
+interface LinkProps extends CoreLinkProps, RoutingComponentProps, React.AnchorHTMLAttributes<HTMLAnchorElement> {}
 
 const Link = forwardRef<HTMLAnchorElement, LinkProps>(
-  ({ label, href, subtle = false, externalLink = false, className = "", reverse, ...props }, ref) => {
+  (
+    { label, href, subtle = false, externalLink = false, className = "", reverse, customLinkComponent, ...props },
+    ref,
+  ) => {
+    const LinkComponent = useNavigationLinkComponent();
+    const Component = customLinkComponent ?? LinkComponent;
+
     return (
-      <a
+      <Component
         ref={ref}
         href={href}
         role="link"
@@ -25,7 +33,7 @@ const Link = forwardRef<HTMLAnchorElement, LinkProps>(
       >
         <span className={style.label}>{label}</span>
         {externalLink && <Icon name="external-link" size={12} className={style["external-link-icon"]} />}
-      </a>
+      </Component>
     );
   },
 );
