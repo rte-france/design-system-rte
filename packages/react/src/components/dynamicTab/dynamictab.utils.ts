@@ -11,7 +11,6 @@ export const buildNewTab = (
   const newTab: DynamicTabItemOption = {
     id: hasDuplicateId ? newTabConfig.id + `-${generateId()}` : newTabConfig.id,
     title: newTabConfig.title,
-    iconName: newTabConfig.iconName,
     badgeContent: newTabConfig.badgeContent,
     badgeCount: newTabConfig.badgeCount,
     badgeIcon: newTabConfig.badgeIcon,

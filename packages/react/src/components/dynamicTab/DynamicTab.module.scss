@@ -76,9 +76,13 @@
     min-width: 0;
     width: auto;
     overflow-x: hidden;
-    flex: 1;
+    flex: 1 1 auto;
     justify-content: flex-start;
 
+
+    &[data-hidden="true"] {
+      flex: 0
+    }
   }
 
   &__add-button {
@@ -96,7 +100,6 @@
   .rte-dynamic-tab__more-menu-container {
     display: flex;
     align-items: center;
-    position: relative;
   }
 
   .rte-dynamic-tab__more-menu {

@@ -2,12 +2,10 @@
 
 .rte-dynamic-tab-item {
   display: flex;
-  min-width: 76px;
-  max-width: 280px;
+  min-width: 44px;
   flex-direction: row;
   padding: $positive-spacing_150;
   align-items: center;
-  gap: $positive-spacing_150;
   border: none;
   cursor: default;
   flex: 1 0 0;
@@ -37,8 +35,7 @@
 
   &[data-is-animating="true"]:not([data-hidden="true"]) {
     transition: max-width 0.3s ease, padding 0.3s ease;
-    min-width: 76px;
-    max-width: 280px;
+    min-width: 44px;
     opacity: 1;
 
     &[data-is-disappearing="true"] {
@@ -77,13 +74,14 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    min-width: 12px;
+    min-width: 0px;
 
     span {
       opacity: 0;
       transition: opacity 0.3s ease;
       overflow: hidden;
       text-overflow: ellipsis;
+      min-width: 0;
 
       &[data-is-animating="true"] {
         opacity: 1;
@@ -100,6 +98,7 @@
     border: none;
     cursor: pointer;
     color: var(--content-primary);
+    flex: 0 0 auto;
 
     &:hover {
       background-color: none;
@@ -129,4 +128,14 @@
       color: var(--content-brand-pressed);
     }
   }
+}
+
+.rte-dynamic-tab-item__title {
+  &:focus-visible {
+    outline: 1px solid var(--border-brand-focused);
+    outline-offset: $radius-s;
+    border-radius: $radius-s;
+    width: 100px;
+  }
+
 }

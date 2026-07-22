@@ -11,5 +11,3 @@ export const extractFileNameParts = (name: string) => {
   const baseName = fileTypeIndex !== -1 ? name.substring(0, fileTypeIndex) : name;
   return { baseName, fileType };
 };
-
-export const getStringWidthFromContext = (ctx: CanvasRenderingContext2D) => (t: string) => ctx.measureText(t).width;

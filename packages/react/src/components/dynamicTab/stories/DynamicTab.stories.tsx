@@ -26,8 +26,9 @@ export const Default: Story = {
     id: "dynamic-tab",
     appearance: "neutral",
     selectedTabId: "tab3",
-    closable: true,
-    editable: true,
+    isClosable: true,
+    isEditable: true,
+    iconName: "star",
     options: [
       {
         id: "tab1",
@@ -35,7 +36,6 @@ export const Default: Story = {
         badgeContent: "number",
         badgeCount: 5,
         badgeType: "indicator",
-        iconName: "star",
       },
       { id: "tab2", title: "Tab 2" },
       { id: "tab3", title: "Tab 3" },
@@ -54,7 +54,6 @@ export const Default: Story = {
         badgeContent: "number",
         badgeCount: 5,
         badgeType: "indicator",
-        iconName: "star",
       },
       { id: "tab2", title: "Tab 2" },
       { id: "tab3", title: "Tab 3" },
@@ -109,7 +108,6 @@ export const CompactSpacing: Story = {
         badgeContent: "number",
         badgeCount: 5,
         badgeType: "indicator",
-        iconName: "star",
       },
       { id: "tab2", title: "Tab 2" },
       { id: "tab3", title: "Tab 3" },
@@ -152,8 +150,8 @@ export const KeyboardInteraction: Story = {
   args: {
     ...Default.args,
     selectedTabId: "tab1",
-    closable: false,
-    editable: false,
+    isClosable: false,
+    isEditable: false,
   },
 
   render: (args) => {
@@ -240,8 +238,8 @@ export const TabManagement: Story = {
   args: {
     ...Default.args,
     selectedTabId: "tab1",
-    closable: true,
-    editable: false,
+    isClosable: true,
+    isEditable: false,
   },
 
   render: (args) => {

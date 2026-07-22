@@ -1,6 +1,7 @@
-import { DynamicTabItemOption, DynamicTabProps, SPACE_KEY } from "@design-system-rte/core";
+import { DynamicTabItemOption, DynamicTabProps, SPACE_KEY, TAB_KEY } from "@design-system-rte/core";
 import { MutableRefObject, useEffect, useMemo, useRef, useState, forwardRef, useCallback } from "react";
 
+import useElementResizeEvent from "../../hooks/useElementResizeEvent";
 import useMutationEvent from "../../hooks/useMutationEvent";
 import useSelectedIndicatorPosition from "../../hooks/useSelectedIndicatorPosition";
 import { generateId } from "../../utils";
@@ -11,6 +12,7 @@ import Icon from "../icon/Icon";
 import styles from "./DynamicTab.module.scss";
 import { buildNewTab } from "./dynamictab.utils";
 import DynamicTabItem from "./dynamicTabItem/DynamicTabItem";
+import useLastPressedKey from "./hooks/useLastPressedKey";
 import DragAndDropProvider from "./provider/DragAndDropProvider";
 
 const WIDTH_ACTION_BUTTONS = 188;
@@ -26,8 +28,9 @@ const DynamicTab = forwardRef<HTMLDivElement, DynamicTabProps>(
       onUpdateTabs,
       newTabConfig,
       compactSpacing,
-      closable = true,
-      editable = false,
+      isClosable = true,
+      isEditable = true,
+      iconName,
     },
     ref,
   ) => {
@@ -43,6 +46,8 @@ const DynamicTab = forwardRef<HTMLDivElement, DynamicTabProps>(
       "bottom",
     );
 
+    const lastPressedKey = useLastPressedKey();
+
     const listId = useMemo(() => `${id}-list-${generateId()}`, [id]);
 
     const [internalOptions, setInternalOptions] = useState<DynamicTabItemOption[]>(options);
@@ -54,12 +59,21 @@ const DynamicTab = forwardRef<HTMLDivElement, DynamicTabProps>(
 
     useMutationEvent(listRef.current!, updateIndicator);
 
+    const numberOfHiddenTabs = internalOptions.length - maxNumberOfVisibleTabs;
+
+    const handleResize = () => {
+      if (containerRef.current) {
+        const containerWidth = containerRef.current.offsetWidth;
+        const availableWidthForTabs = containerWidth - WIDTH_ACTION_BUTTONS;
+        const maxVisibleTabs = Math.max(1, Math.floor(availableWidthForTabs / 44));
+        setMaxNumberOfVisibleTabs(maxVisibleTabs);
+      }
+    };
+
+    useElementResizeEvent(containerRef.current, handleResize);
+
     useEffect(() => {
-      if (!containerRef.current) return;
-      const containerWidth = containerRef.current.offsetWidth;
-      const availableWidthForTabs = containerWidth - WIDTH_ACTION_BUTTONS;
-      const maxVisibleTabs = Math.floor(availableWidthForTabs / 100);
-      setMaxNumberOfVisibleTabs(maxVisibleTabs);
+      handleResize();
     }, []);
 
     const hasOverflow = useMemo(() => {
@@ -148,6 +162,34 @@ const DynamicTab = forwardRef<HTMLDivElement, DynamicTabProps>(
       };
     }, [isMoving]);
 
+    const selectTab = (tabId: string) => {
+      setInternalSelectedTabId(tabId);
+      onChangeActiveTab?.(tabId);
+    };
+
+    const handleContainerFocusCapture = (event: React.FocusEvent<HTMLDivElement>) => {
+      const container = containerRef.current;
+      if (!container || internalOptions.length === 0) return;
+
+      if (lastPressedKey !== TAB_KEY) return;
+
+      const related = event.relatedTarget as Node | null;
+      const isEnteringFromOutside = !related || !container.contains(related);
+      if (!isEnteringFromOutside) return;
+
+      const firstTab = listRef.current?.querySelector('[role="tab"]') as HTMLElement | null;
+      if (!firstTab) return;
+
+      const firstTabId = firstTab.getAttribute("data-tab-id");
+      if (firstTabId && firstTabId !== internalSelectedTabId) {
+        selectTab(firstTabId);
+      }
+
+      if (event.target !== firstTab) {
+        requestAnimationFrame(() => firstTab.focus());
+      }
+    };
+
     return (
       <div
         className={styles["rte-dynamic-tab"]}
@@ -160,17 +202,13 @@ const DynamicTab = forwardRef<HTMLDivElement, DynamicTabProps>(
           }
         }}
         data-appearance={appearance}
-        onFocus={(event) => {
-          if (!event.currentTarget.contains(event.relatedTarget)) {
-            focusSelectedTab();
-          }
-        }}
+        onFocusCapture={handleContainerFocusCapture}
       >
         {internalOptions.length > 0 && (
           <div
             className={styles["rte-dynamic-tab__indicator"]}
             style={{
-              visibility: isMoving ? "hidden" : "visible",
+              visibility: isMoving || maxNumberOfVisibleTabs === 0 ? "hidden" : "visible",
               left: indicatorStyle.left,
               width: indicatorStyle.width,
               top: indicatorStyle.top,
@@ -185,7 +223,13 @@ const DynamicTab = forwardRef<HTMLDivElement, DynamicTabProps>(
           onDragEndCallback={() => setIsMoving(false)}
           onBeforeDragStartCallback={() => setIsMoving(true)}
         >
-          <ul className={styles["rte-dynamic-tab__list"]} role="tablist" id={listId} ref={listRef}>
+          <ul
+            className={styles["rte-dynamic-tab__list"]}
+            role="tablist"
+            id={listId}
+            ref={listRef}
+            data-hidden={maxNumberOfVisibleTabs === 0}
+          >
             {internalOptions.map((option, index) => {
               if (index < maxNumberOfVisibleTabs) {
                 return (
@@ -199,18 +243,15 @@ const DynamicTab = forwardRef<HTMLDivElement, DynamicTabProps>(
                     title={option.title}
                     appearance={appearance}
                     parentId={listId}
-                    closable={closable}
-                    editable={editable}
+                    isClosable={isClosable}
+                    isEditable={isEditable}
                     isActive={option.id === internalSelectedTabId}
-                    onClick={() => {
-                      setInternalSelectedTabId(option.id);
-                      onChangeActiveTab?.(option.id);
-                    }}
+                    onClick={() => selectTab(option.id)}
                     badgeContent={option.badgeContent}
                     badgeCount={option.badgeCount}
                     badgeIcon={option.badgeIcon}
                     badgeType={option.badgeType}
-                    iconName={option.iconName}
+                    iconName={iconName}
                     compactSpacing={compactSpacing}
                     onClickClose={() => handleOnClickCloseTab(option.id)}
                     onChangeTabTitle={(newTitle) => {
@@ -247,7 +288,7 @@ const DynamicTab = forwardRef<HTMLDivElement, DynamicTabProps>(
                     type="button"
                   >
                     <span className={styles["rte-dynamic-tab__more-menu__text"]}>
-                      + {internalOptions.length - maxNumberOfVisibleTabs} onglet(s)
+                      + {numberOfHiddenTabs} onglet{numberOfHiddenTabs > 1 ? "s" : ""}
                     </span>
                     <Icon name={isMoreMenuOpen ? "arrow-chevron-up" : "arrow-chevron-down"} />
                   </button>
