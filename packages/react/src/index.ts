@@ -44,6 +44,8 @@ import Toast from "./components/toast/Toast.tsx";
 import ToastQueueProvider from "./components/toast/toastQueue/ToastQueueProvider.tsx";
 import Tooltip from "./components/tooltip/Tooltip.tsx";
 import Treeview from "./components/treeview/Treeview.tsx";
+import { useNavigationLinkComponent } from "./provider/NavigationContext.tsx";
+import NavigationProvider from "./provider/NavigationProvider.tsx";
 
 export {
   Avatar,
@@ -91,4 +93,6 @@ export {
   DropdownItem,
   DateRangePicker,
   Header,
+  NavigationProvider,
+  useNavigationLinkComponent,
 };

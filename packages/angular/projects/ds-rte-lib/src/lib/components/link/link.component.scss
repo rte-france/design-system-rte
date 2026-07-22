@@ -63,17 +63,17 @@
             text-decoration: none;
 
             &:hover {
-                color: var(--content-link-secondary);
+                color: var(--content-secondary);
                 text-decoration: underline;
             }
 
             &:active {
-                color: var(--content-link-primary);
+                color: var(--content-primary);
                 text-decoration: none;
             }
 
             &:focus-visible {
-                color: var(--content-link-primary);
+                color: var(--content-primary);
                 text-decoration: none;
                 outline: 1px solid var(--border-brand-focused);
                 outline-offset: $radius-s;

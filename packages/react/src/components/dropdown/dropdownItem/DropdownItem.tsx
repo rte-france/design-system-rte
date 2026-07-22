@@ -16,6 +16,7 @@ import Badge from "../../badge/Badge";
 import Checkbox from "../../checkbox/Checkbox";
 import Divider from "../../divider/Divider";
 import Icon from "../../icon/Icon";
+import Link from "../../link/Link";
 import { DropdownParentContext } from "../context/DropdownContext";
 import Dropdown from "../Dropdown";
 import { focusDropdownFirstElement, focusParentDropdownFirstElement } from "../DropdownUtils";
@@ -77,7 +78,10 @@ const DropdownItem = ({
       onClick(event);
     } else {
       if (link) {
-        handleOnClickLink(event);
+        event.preventDefault();
+        if (!(event.target instanceof HTMLSpanElement)) {
+          handleOnClickLink(event);
+        }
       }
     }
     if (autoClose && closeRoot) {
@@ -171,9 +175,12 @@ const DropdownItem = ({
                 />
               )}
               {link ? (
-                <a href={link} style={{ flex: "2", textDecoration: "none", color: "inherit" }}>
-                  {label}
-                </a>
+                <Link
+                  href={link}
+                  label={label || ""}
+                  className={styles["dropdown-item-link"]}
+                  style={{ textDecoration: "none", color: "inherit" }}
+                />
               ) : (
                 <span style={{ flex: "2" }}>{label}</span>
               )}
@@ -219,9 +226,12 @@ const DropdownItem = ({
         {hasIndent && !leftIcon && <span style={{ width: "20px" }} />}
         {leftIcon && <Icon name={leftIcon} className={styles["dropdown-item-icon"]} />}
         {link ? (
-          <a href={link} style={{ flex: "2", textDecoration: "none", color: "inherit" }}>
-            {label}
-          </a>
+          <Link
+            href={link}
+            label={label || ""}
+            className={styles["dropdown-item-link"]}
+            style={{ textDecoration: "none", color: "inherit" }}
+          />
         ) : (
           <span style={{ flex: "2" }}>{label}</span>
         )}

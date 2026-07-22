@@ -3,6 +3,7 @@ import { expect, fn, userEvent, waitFor, within } from "@storybook/test";
 import { useState } from "react";
 
 import headerStoryRteLogoUrl from "../../../../../design-docs/src/img/rte.png";
+import NavigationProvider from "../../../provider/NavigationProvider";
 import Header from "../Header";
 
 const meta = {
@@ -66,6 +67,40 @@ export const Default: Story = {
       ],
       ariaLabel: "Breadcrumbs",
     },
+  },
+};
+
+export const WithCustomRouter: Story = {
+  args: {
+    ...Default.args,
+  },
+  render: (args) => {
+    const [currentLink, setCurrentLink] = useState<string>();
+
+    const FakeRouterLink = ({ href, children, ...props }: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
+      <a
+        href={href}
+        onClick={(event) => {
+          event.preventDefault();
+
+          setCurrentLink(href);
+          console.log(`SPA navigation to ${href}`);
+        }}
+        {...props}
+      >
+        {children}
+      </a>
+    );
+
+    return (
+      <>
+        <NavigationProvider linkComponent={FakeRouterLink}>
+          <Header {...args} />
+        </NavigationProvider>
+
+        {currentLink && <div>Lien router vers {currentLink}</div>}
+      </>
+    );
   },
 };
 
