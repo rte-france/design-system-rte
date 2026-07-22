@@ -1,8 +1,7 @@
-import { FileItemProps } from "@design-system-rte/core";
+import { FileItemProps, getTextWidth } from "@design-system-rte/core";
 import { extractFileNameParts, formatFileSize } from "@design-system-rte/core/components/file-upload/file-upload.util";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import { getTextWidth } from "../../../utils/stringUtil";
 import AssistiveText from "../../assistivetext/AssistiveText";
 import Icon from "../../icon/Icon";
 import IconButton from "../../iconButton/IconButton";
