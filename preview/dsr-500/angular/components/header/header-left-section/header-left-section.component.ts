@@ -4,7 +4,7 @@ import { buildHeaderHomeAriaLabel } from "@design-system-rte/core/components/hea
 
 import { ResolvedNavigation } from "../../../utils/navigation/navigation-element";
 
-export interface HeaderLeftSectionViewConfig {
+export interface HeaderLeftSectionConfig {
   hasLogo?: boolean;
   applicationName?: string;
   logoSrc?: string;
@@ -20,7 +20,7 @@ export interface HeaderLeftSectionViewConfig {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderLeftSectionComponent {
-  readonly config = input<HeaderLeftSectionViewConfig | undefined>(undefined);
+  readonly config = input<HeaderLeftSectionConfig | undefined>(undefined);
 
   readonly hasLogo = computed(() => this.config()?.hasLogo ?? true);
   readonly applicationName = computed(() => this.config()?.applicationName ?? "");

@@ -47,7 +47,7 @@ import { SearchbarComponent } from "../searchbar/searchbar.component";
 
 import {
   HeaderLeftSectionComponent,
-  HeaderLeftSectionViewConfig,
+  HeaderLeftSectionConfig,
 } from "./header-left-section/header-left-section.component";
 import { HeaderLeftDirective } from "./header-left.directive";
 import { HeaderMobileComponent } from "./header-mobile/header-mobile.component";
@@ -146,7 +146,7 @@ export class HeaderComponent {
   readonly projectedLeftSection = contentChild(HeaderLeftDirective);
   readonly projectedMobileMenu = contentChild(HeaderMobileMenuDirective);
 
-  readonly leftSectionConfig = computed<HeaderLeftSectionViewConfig>(() => {
+  readonly leftSectionConfig = computed<HeaderLeftSectionConfig>(() => {
     return {
       hasLogo: this.hasLogo(),
       applicationName: this.applicationName(),

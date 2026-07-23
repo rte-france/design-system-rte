@@ -19,12 +19,7 @@ import {
   resolveNavigationHref,
   resolveNavigationRouterLink,
 } from "../../../utils/navigation/navigation-element";
-import {
-  effectiveRouterLink,
-  hasNavigation,
-  RouterLinkConfig,
-  RouterLinkValue,
-} from "../../../utils/navigation/router-link-inputs";
+import { RouterLinkConfig, RouterLinkValue } from "../../../utils/navigation/router-link-inputs";
 import { BadgeComponent } from "../../badge/badge.component";
 import { BadgeDirective } from "../../badge/badge.directive";
 import { DividerComponent } from "../../divider/divider.component";
@@ -83,8 +78,15 @@ export class NavMenuComponent {
   readonly itemClick = output<string>();
   readonly openChange = output<NavMenuOpenChangeEvent>();
 
-  readonly effectiveRouterLink = computed(() => effectiveRouterLink(this.routerLink(), this.link()));
-  readonly isNavigable = computed(() => hasNavigation(this.routerLink(), this.link(), this.href()));
+  readonly resolvedHref = computed(() => resolveNavigationHref({ href: this.href() }));
+  readonly effectiveRouterLink = computed(() =>
+    resolveNavigationRouterLink({
+      href: this.href(),
+      routerLink: this.routerLink(),
+      link: this.link(),
+    }),
+  );
+  readonly isNavigable = computed(() => !!(this.resolvedHref() || this.effectiveRouterLink()));
 
   constructor() {
     effect(() => {
@@ -141,14 +143,6 @@ export class NavMenuComponent {
 
   hasNestedItemsForItem(item: NavItemProps & NavigationElement): item is NavMenuProps & NavigationElement {
     return !!item.items?.length;
-  }
-
-  resolveItemHref(item: NavItemProps & NavigationElement): string | undefined {
-    return resolveNavigationHref(item);
-  }
-
-  resolveItemRouterLink(item: NavItemProps & NavigationElement) {
-    return resolveNavigationRouterLink(item);
   }
 
   handleMenuOpenChange(event: NavMenuOpenChangeEvent): void {

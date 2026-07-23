@@ -14,11 +14,7 @@ import {
 } from "@design-system-rte/core/components/side-nav/side-nav.interface";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
-import {
-  NavigationElement,
-  resolveNavigationHref,
-  resolveNavigationRouterLink,
-} from "../../utils/navigation/navigation-element";
+import { NavigationElement } from "../../utils/navigation/navigation-element";
 import { DividerComponent } from "../divider/divider.component";
 import { TooltipDirective } from "../tooltip/tooltip.directive";
 
@@ -97,6 +93,10 @@ export class SideNavComponent {
     return config?.tooltip ?? config?.title ?? "";
   });
 
+  readonly showHeaderTooltip = computed<boolean>(() => {
+    return this.collapsedState() && !!this.headerTooltip();
+  });
+
   handleHeaderKeyDown(event: KeyboardEvent): void {
     if ([SPACE_KEY, ENTER_KEY].includes(event.key)) {
       event.preventDefault();
@@ -118,31 +118,12 @@ export class SideNavComponent {
     return !!item.items?.length;
   }
 
-  resolveItemHref(item: NavItem): string | undefined {
-    return resolveNavigationHref(item);
-  }
-
-  resolveItemRouterLink(item: NavItem) {
-    return resolveNavigationRouterLink(item);
-  }
-
   handleItemClick(itemId: string): void {
     this.itemClicked.emit(itemId);
   }
 
-  handleFooterItemClick(itemId: string): void {
-    this.itemClicked.emit(itemId);
-  }
-
-  handleMenuOpenChange(event: NavMenuOpenChangeEvent): void {
-    setNavMenuOpenById(this.items(), event.id, event.open);
-  }
-
-  handleFooterMenuOpenChange(event: NavMenuOpenChangeEvent): void {
-    const footerItems = this.footerItems();
-    if (footerItems) {
-      setNavMenuOpenById(footerItems, event.id, event.open);
-    }
+  handleMenuOpenChange(navItems: NavItem[], event: NavMenuOpenChangeEvent): void {
+    setNavMenuOpenById(navItems, event.id, event.open);
   }
 
   handleCollapseClick(): void {

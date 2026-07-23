@@ -10,12 +10,8 @@ import {
 import { SideNavAppearance } from "@design-system-rte/core/components/side-nav/side-nav.interface";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
-import {
-  effectiveRouterLink,
-  hasNavigation,
-  RouterLinkConfig,
-  RouterLinkValue,
-} from "../../../utils/navigation/router-link-inputs";
+import { resolveNavigationHref, resolveNavigationRouterLink } from "../../../utils/navigation/navigation-element";
+import { RouterLinkConfig, RouterLinkValue } from "../../../utils/navigation/router-link-inputs";
 import { BadgeComponent } from "../../badge/badge.component";
 import { BadgeDirective } from "../../badge/badge.directive";
 import { IconComponent } from "../../icon/icon.component";
@@ -54,8 +50,15 @@ export class NavItemComponent {
 
   readonly focused = signal<boolean>(false);
   readonly tabIndex = computed<number>(() => getNavTabIndex(this.parentMenuOpen()));
-  readonly effectiveRouterLink = computed(() => effectiveRouterLink(this.routerLink(), this.link()));
-  readonly isNavigable = computed(() => hasNavigation(this.routerLink(), this.link(), this.href()));
+  readonly resolvedHref = computed(() => resolveNavigationHref({ href: this.href() }));
+  readonly effectiveRouterLink = computed(() =>
+    resolveNavigationRouterLink({
+      href: this.href(),
+      routerLink: this.routerLink(),
+      link: this.link(),
+    }),
+  );
+  readonly isNavigable = computed(() => !!(this.resolvedHref() || this.effectiveRouterLink()));
 
   readonly itemClick = output<string>();
 

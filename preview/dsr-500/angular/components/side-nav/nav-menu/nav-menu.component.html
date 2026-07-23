@@ -44,16 +44,12 @@
 </ng-template>
 
 <ng-template #menuContentTemplate>
-  @if (effectiveRouterLink()) {
+  @if (resolvedHref()) {
     <a
       class="nav-menu"
-      [routerLink]="effectiveRouterLink()!"
-      [queryParams]="routerLinkConfig()?.queryParams"
-      [fragment]="routerLinkConfig()?.fragment"
-      [queryParamsHandling]="routerLinkConfig()?.queryParamsHandling"
-      [preserveFragment]="routerLinkConfig()?.preserveFragment"
-      [replaceUrl]="routerLinkConfig()?.replaceUrl"
-      [state]="routerLinkConfig()?.state"
+      [href]="resolvedHref()!"
+      [attr.target]="externalLink() ? '_blank' : null"
+      [attr.rel]="externalLink() ? 'noopener noreferrer' : null"
       [attr.tabindex]="tabIndex()"
       [attr.aria-label]="label()"
       (click)="toggleMenu()"
@@ -82,12 +78,16 @@
         </div>
       }
     </a>
-  } @else if (href()) {
+  } @else if (effectiveRouterLink()) {
     <a
       class="nav-menu"
-      [href]="href()!"
-      [attr.target]="externalLink() ? '_blank' : null"
-      [attr.rel]="externalLink() ? 'noopener noreferrer' : null"
+      [routerLink]="effectiveRouterLink()!"
+      [queryParams]="routerLinkConfig()?.queryParams"
+      [fragment]="routerLinkConfig()?.fragment"
+      [queryParamsHandling]="routerLinkConfig()?.queryParamsHandling"
+      [preserveFragment]="routerLinkConfig()?.preserveFragment"
+      [replaceUrl]="routerLinkConfig()?.replaceUrl"
+      [state]="routerLinkConfig()?.state"
       [attr.tabindex]="tabIndex()"
       [attr.aria-label]="label()"
       (click)="toggleMenu()"
@@ -163,9 +163,10 @@
               [icon]="item.icon"
               [hasLeadingIcon]="item.hasLeadingIcon ?? true"
               [isCollapsed]="isCollapsed()"
-              [href]="resolveItemHref(item)"
+              [href]="item.href"
               [externalLink]="item.externalLink"
-              [link]="resolveItemHref(item) ? undefined : resolveItemRouterLink(item)"
+              [routerLink]="item.routerLink"
+              [link]="item.link"
               [routerLinkConfig]="item.routerLinkConfig"
               [items]="item.items || []"
               [hasMenuIcon]="hasMenuIcon()"
@@ -188,9 +189,10 @@
                 [icon]="item.icon"
                 [hasLeadingIcon]="item.hasLeadingIcon ?? true"
                 [isCollapsed]="isCollapsed()"
-                [href]="resolveItemHref(item)"
+                [href]="item.href"
                 [externalLink]="item.externalLink"
-                [link]="resolveItemHref(item) ? undefined : resolveItemRouterLink(item)"
+                [routerLink]="item.routerLink"
+                [link]="item.link"
                 [routerLinkConfig]="item.routerLinkConfig"
                 [isNested]="true"
                 [parentMenuOpen]="open()"
