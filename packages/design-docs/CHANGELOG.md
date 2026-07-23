@@ -1,5 +1,23 @@
 # @design-system-rte/design-docs
 
+## 1.4.0
+
+### Minor Changes
+
+- d9965bc: ## Changes
+
+  - (Navigation) add RouterLink support
+
+- dba508d: ## Changes
+
+  - (Icon) create new Icon Registry to avoid Http request for each icon instance
+
+### Patch Changes
+
+- Updated dependencies [459a1d3]
+- Updated dependencies [d3332d9]
+  - @design-system-rte/react@1.13.0
+
 ## 1.3.0
 
 ### Minor Changes

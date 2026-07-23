@@ -1,5 +1,13 @@
 # @design-system-rte/core
 
+## 1.13.0
+
+### Minor Changes
+
+- 459a1d3: ## Changes
+
+  - add Uncontrolled component optional capacities to Select, Switch, Datepicker, Timepicker & DateRangePicker
+
 ## 1.12.1
 
 ### Patch Changes

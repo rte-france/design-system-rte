@@ -1,5 +1,26 @@
 # @design-system-rte/angular
 
+## 3.0.0
+
+### Minor Changes
+
+- d9965bc: ## Changes
+
+  - (Navigation) add RouterLink support
+
+- dba508d: ## Changes
+
+  - (Icon) create new Icon Registry to avoid Http request for each icon instance
+
+### Patch Changes
+
+- d3332d9: ## Changes
+
+  - (Dropdown) correct overlay position when projected from Datepicker, Daterangepicker or Timepicker
+
+- Updated dependencies [459a1d3]
+  - @design-system-rte/core@1.13.0
+
 ## 2.1.0
 
 ### Minor Changes

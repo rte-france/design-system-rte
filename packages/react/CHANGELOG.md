@@ -1,5 +1,22 @@
 # @design-system-rte/react
 
+## 1.13.0
+
+### Minor Changes
+
+- 459a1d3: ## Changes
+
+  - add Uncontrolled component optional capacities to Select, Switch, Datepicker, Timepicker & DateRangePicker
+
+### Patch Changes
+
+- d3332d9: ## Changes
+
+  - (Dropdown) correct overlay position when projected from Datepicker, Daterangepicker or Timepicker
+
+- Updated dependencies [459a1d3]
+  - @design-system-rte/core@1.13.0
+
 ## 1.12.2
 
 ### Patch Changes
