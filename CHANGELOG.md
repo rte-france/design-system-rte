@@ -2,6 +2,33 @@
 
 # Angular
 
+## 3.0.0
+
+### Navigation
+
+#### Minor Changes
+
+- add RouterLink support
+
+### Icon
+
+#### Minor Changes
+
+- create new Icon Registry to avoid Http request for each icon instance
+
+### Dropdown
+
+#### Patch Changes
+
+- correct overlay position when projected from Datepicker, Daterangepicker or Timepicker
+
+### Other
+
+#### Patch Changes
+
+- Updated dependencies [459a1d3]
+- @design-system-rte/core@1.13.0
+
 ## 2.1.0
 
 ### Select
@@ -138,76 +165,26 @@
 - Updated dependencies [83d7ea1]
 - Updated dependencies [19d47a0]
 - @design-system-rte/core@1.12.0
+# React
 
-## 1.11.0
+## 1.13.0
 
-### Icon
-
-#### Minor Changes
-
-- add circuit_amperemetre_filled, circuit_amperemetre_outlined, circuit_bulb_filled, circuit_bulb_outlined, circuit_capacitor, circuit_cell, circuit_ground, circuit_inductor, circuit_motor_filled, circuit_motor_outlined, circuit_voltmetre_filled, circuit_voltmetre_outlined, journal_filled, journal_outlined, pylon, version_filled, version_outlined
-
-### Select
-
-#### Minor Changes
-
-- add variant visibly-selected + add compactSpacing props
-
-### Drawer
+### Dropdown
 
 #### Patch Changes
 
-- stretch content to component width when fixedHeader is disabled and width takes a no-default value
-- simplify closing behavior on clicking on the backdrop
-
-### Radio Button
-
-#### Patch Changes
-
-- prevent radio button marker from shrinking with narrow container and label overflow
-
-### Checkbox
-
-#### Patch Changes
-
-- prevent checkbox case from shrinking with narrow container and label overflow
-
-### Split-button
-
-#### Patch Changes
-
-- add event output on clicking on the buttons
-
-### Toast
-
-#### Patch Changes
-
-- add pointer event auto
-
-### Overlay
-
-#### Patch Changes
-
-- remove z-index
-
-### Segmented-control
-
-#### Patch Changes
-
-- react - add relative position to prevent misplacement of selected indicator on resize or dom changes
+- correct overlay position when projected from Datepicker, Daterangepicker or Timepicker
 
 ### Other
 
+#### Minor Changes
+
+- add Uncontrolled component optional capacities to Select, Switch, Datepicker, Timepicker & DateRangePicker
+
 #### Patch Changes
 
-- harmonise disabled state appearance on textinput, textarea and select
-- prevent scrolling on focus
-- update z-index values across components and introduce get overlay layer utils for overlay management
-- Updated dependencies [4854f8d]
-- Updated dependencies [b44a590]
-- Updated dependencies [b0ed7db]
-- @design-system-rte/core@1.11.0
-# React
+- Updated dependencies [459a1d3]
+- @design-system-rte/core@1.13.0
 
 ## 1.12.2
 
@@ -475,72 +452,13 @@
 - Updated dependencies [39dee3c]
 - Updated dependencies [6be38db]
 - @design-system-rte/core@1.10.0
-
-## 1.10.0
-
-### Datepicker
-
-#### Minor Changes
-
-- react - move component to picker folder
-- react - add calendar picker
-- react - add basic date input picker
-
-### Date Range Picker
-
-#### Minor Changes
-
-- react - handle ending date selection
-- react - better handle acessibility label feature + improve code syntax
-- react - handle all behavior
-- extract common method and hooks into pickers folder
-- add react component
-
-### Searchbar
-
-#### Minor Changes
-
-- allow customized width
-
-### Grid
-
-#### Minor Changes
-
-- add rte-\* prefix to css class
-
-### Overlay
-
-#### Patch Changes
-
-- add navigation freezing only on modal and prevent auto scroll
-
-### Drawer
-
-#### Patch Changes
-
-- add output events for primary & secondary buttons in footer
-
-### Dropdown
-
-#### Patch Changes
-
-- add missing export statements in index file
-
-### Other
-
-#### Minor Changes
-
-- improve story file generation with autodocs tag
-
-#### Patch Changes
-
-- Updated dependencies [b4e910a]
-- Updated dependencies [0687530]
-- Updated dependencies [1964611]
-- Updated dependencies [319a507]
-- Updated dependencies [b7d1755]
-- @design-system-rte/core@1.9.0
 # Core
+
+## 1.13.0
+
+#### Minor Changes
+
+- add Uncontrolled component optional capacities to Select, Switch, Datepicker, Timepicker & DateRangePicker
 
 ## 1.12.1
 
@@ -593,64 +511,29 @@
 #### Patch Changes
 
 - update z-index values across components and introduce get overlay layer utils for overlay management
+# Design Docs
 
-## 1.10.0
+## 1.4.0
 
-### Toast
-
-#### Minor Changes
-
-- add top-center position
-
-### Tag
+### Navigation
 
 #### Minor Changes
 
-- add decorative color + align names with token value
+- add RouterLink support
 
-### Chip
-
-#### Minor Changes
-
-- add neutral variant
-
-### Sidenav
+### Icon
 
 #### Minor Changes
 
-- add compact Badges to compact Sidenav
-- add Tooltip for Sidenav Header
-- add compact mode for standardization with Header
-- add contrast capacities to component
-- remove Drawer-Responsive logic from Sidenav & simplify template and rendering
-
-### Searchbar
-
-#### Minor Changes
-
-- change border radius from 8px to 4px
-
-### Input
-
-#### Patch Changes
-
-- add or configure width props to be used
-
-### Date Picker
-
-#### Patch Changes
-
-- create a two-layer system for Menu so range in menu can be displayed properly in any size
-
-### Radio-button
-
-#### Patch Changes
-
-- add support for external checked control
+- create new Icon Registry to avoid Http request for each icon instance
 
 ### Other
 
-# Design Docs
+#### Patch Changes
+
+- Updated dependencies [459a1d3]
+- Updated dependencies [d3332d9]
+- @design-system-rte/react@1.13.0
 
 ## 1.3.0
 
@@ -749,43 +632,3 @@
 - Updated dependencies [2cff3de]
 - Updated dependencies [29e0462]
 - @design-system-rte/react@1.2.0
-
-## 1.1.0
-
-### Docs
-
-#### Minor Changes
-
-- add presentation video to home page
-- move theme and mode switcher to component page
-
-#### Patch Changes
-
-- correct general migration kit points table
-
-### Design-docs
-
-#### Minor Changes
-
-- add react package as dependencies
-
-### Core
-
-#### Minor Changes
-
-- add Nunito font to serve to react and angular package
-
-### Other
-
-#### Minor Changes
-
-- better export of module to access style and component
-
-#### Patch Changes
-
-- Updated dependencies [f39a6fb]
-- Updated dependencies [aa4024c]
-- Updated dependencies [ddb8b02]
-- Updated dependencies [ddd932b]
-- Updated dependencies [0a36e15]
-- @design-system-rte/react@1.1.0
