@@ -1,5 +1,6 @@
 import { ReactNode, KeyboardEvent } from "react";
 
+import { useNavigationLinkComponent } from "../../../provider/NavigationContext";
 import navItemStyle from "../navItem/NavItem.module.scss";
 import navMenuStyle from "../navMenu/NavMenu.module.scss";
 
@@ -26,6 +27,7 @@ function NavContentWrapper({
   children,
   styleType = "item",
 }: NavContentWrapperProps): ReactNode {
+  const LinkComponent = useNavigationLinkComponent();
   const style = styleType === "menu" ? navMenuStyle : navItemStyle;
   const className = styleType === "menu" ? style.navMenu : style.navItem;
 
@@ -41,9 +43,9 @@ function NavContentWrapper({
 
   if (link) {
     return (
-      <a href={link} {...commonProps}>
+      <LinkComponent href={link} {...commonProps}>
         {children}
-      </a>
+      </LinkComponent>
     );
   }
 

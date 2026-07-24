@@ -2,6 +2,7 @@ import { NavItemProps as CoreNavItemProps } from "@design-system-rte/core/compon
 import { shouldDisplaySideNavBadge } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.utils";
 import { ForwardedRef, forwardRef, HTMLAttributes, ReactNode, useRef } from "react";
 
+import { useNavigationLinkComponent } from "../../../provider/NavigationContext";
 import Badge from "../../badge/Badge";
 import NavContentWrapper from "../shared/NavContentWrapper";
 import NavLabel from "../shared/NavLabel";
@@ -13,6 +14,7 @@ import style from "./NavItem.module.scss";
 
 interface NavItemProps extends CoreNavItemProps, Omit<HTMLAttributes<HTMLDivElement>, "onClick" | "id"> {
   children?: ReactNode;
+  onActiveItemChange?: (id: string | undefined) => void;
 }
 
 const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
@@ -25,27 +27,37 @@ const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
       label,
       isCollapsed,
       link,
+      href,
       isNested,
       parentMenuOpen,
       appearance = "brand",
       active,
       badge,
+      onActiveItemChange,
       ...props
     }: NavItemProps,
     ref: ForwardedRef<HTMLDivElement>,
   ) => {
+    const LinkComponent = useNavigationLinkComponent();
     const listItemRef = useRef<HTMLDivElement | null>(null);
+    const linkItemRef = useRef<HTMLAnchorElement | null>(null);
+
+    const hasLink = !!(href || link);
 
     const { onKeyDown } = useNavKeyboard<HTMLSpanElement>({
       onEnterOrSpace: onClick,
     });
 
     function handleFocus() {
+      console.log("NavItem focused:", id);
       listItemRef.current?.setAttribute("data-focused", "true");
+      linkItemRef.current?.setAttribute("data-focused", "true");
     }
 
     function handleBlur() {
+      console.log("NavItem blurred:", id);
       listItemRef.current?.removeAttribute("data-focused");
+      linkItemRef.current?.removeAttribute("data-focused");
     }
 
     const tabIndex = getNavTabIndex(parentMenuOpen);
@@ -71,18 +83,23 @@ const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
       </>
     );
 
-    const listItem = link ? (
-      <a
+    const listItem = hasLink ? (
+      <LinkComponent
         id={id}
         aria-label={label}
         className={style.navItemContainer}
         data-collapsed={isCollapsed}
         data-appearance={appearance}
         data-nested={isNested}
-        href={link}
+        data-active={active}
+        href={href ?? link}
+        to={href ?? link}
+        onClick={() => onActiveItemChange?.(id)}
+        onBlur={handleBlur}
+        ref={linkItemRef}
       >
         {labelContent}
-      </a>
+      </LinkComponent>
     ) : (
       <div
         id={id}

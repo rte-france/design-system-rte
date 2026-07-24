@@ -14,7 +14,7 @@ export const decorators: Preview["decorators"] = [
     const [globals] = useGlobals();
     const framework = (globals?.framework as "angular" | "react") || "react";
 
-    const noAutoMarginStoriesIds = ["composants-grid", "composants-header"];
+    const noAutoMarginStoriesIds = ["composants-grid", "composants-header", "sidenav"];
 
     const hasAutoMargins = !noAutoMarginStoriesIds.some((id) => context?.id?.includes(id));
 
