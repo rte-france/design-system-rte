@@ -6,6 +6,7 @@ import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard
 import { forwardRef, Fragment, ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 
 import { useActiveKeyboard } from "../../hooks/useActiveKeyboard";
+import { useNavigationLinkComponent } from "../../provider/NavigationContext";
 import Divider from "../divider/Divider";
 
 import BaseSideNav from "./baseSideNav/BaseSideNav";
@@ -18,6 +19,7 @@ interface SideNavProps extends Partial<CoreSideNavProps>, Omit<React.HTMLAttribu
   children?: ReactNode;
   defaultCollapsed?: boolean;
   onCollapsedChange?: (collapsed: boolean) => void;
+  onActiveItemChange?: (id: string | undefined) => void;
 }
 
 const TRANSITION_DURATION = 300;
@@ -34,6 +36,7 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
       isCollapsed: controlledIsCollapsed,
       defaultCollapsed = false,
       onCollapsedChange,
+      onActiveItemChange,
       appearance = "brand",
       contrast = "high",
       activeItem,
@@ -43,6 +46,10 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
     const [isCollapsed, setIsCollapsed] = useState(controlledIsCollapsed ?? defaultCollapsed);
     const [shouldShowTitle, setShouldShowTitle] = useState(true);
     const [menuOpenOverrides, setMenuOpenOverrides] = useState<Record<string, boolean>>({});
+
+    const [activeItemState, setActiveItem] = useState<string | undefined>(activeItem);
+
+    const LinkComponent = useNavigationLinkComponent();
 
     const handleMenuOpenChange = useCallback((menuId: string, open: boolean) => {
       setMenuOpenOverrides((previous) => ({ ...previous, [menuId]: open }));
@@ -57,6 +64,15 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
         return (item as NavMenuProps).open;
       },
       [menuOpenOverrides],
+    );
+
+    const handleOnActiveItemChange = useCallback(
+      (id: string | undefined) => {
+        console.log("Active item changed to:", id);
+        setActiveItem(id);
+        onActiveItemChange?.(id);
+      },
+      [onActiveItemChange],
     );
 
     useEffect(() => {
@@ -118,14 +134,14 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
     const ariaLabel = headerConfig?.ariaLabel;
 
     const headerTitleLink = (
-      <a
+      <LinkComponent
         href={headerConfig?.link ?? ""}
         className={style.sideNavHeaderTitleContainer}
         onClick={headerConfig?.onClick}
         aria-label={ariaLabel}
       >
         {headerTitleContent}
-      </a>
+      </LinkComponent>
     );
 
     const clickableHeaderTitle = (
@@ -202,10 +218,11 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
                     icon={item.icon}
                     hasLeadingIcon={item.hasLeadingIcon}
                     isCollapsed={isCollapsed}
-                    link={item.link}
+                    link={item.href ?? item.link}
                     onClick={item.onClick}
                     appearance={appearance}
-                    active={item.active ?? (item.id === activeItem && !!activeItem)}
+                    active={item.active ?? (item.id === activeItemState && !!activeItemState)}
+                    onActiveItemChange={handleOnActiveItemChange}
                   />
                 </li>
                 {item.hasDivider && <Divider appearance={dividerAppearance} />}

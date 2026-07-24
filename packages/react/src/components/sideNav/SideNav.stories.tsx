@@ -7,8 +7,11 @@ import {
 } from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
 import { Meta, StoryObj } from "@storybook/react";
 import { expect, userEvent, within } from "@storybook/test";
+import { useEffect } from "react";
+import { BrowserRouter, NavLink, Route, Routes, useNavigate } from "react-router";
 
 import { focusElementBeforeComponent } from "../../../.storybook/testing/testing.utils";
+import NavigationProvider from "../../provider/NavigationProvider";
 
 import SideNav from "./SideNav";
 import {
@@ -33,7 +36,7 @@ import {
 import { getCanvasAndSideNav, waitForTooltip } from "./stories/helpers/testHelpers";
 
 const meta = {
-  title: "Composants/SideNav",
+  title: "Composants/SideNav/SideNav",
   id: "SideNav",
   component: SideNav,
   tags: ["autodocs"],
@@ -117,6 +120,14 @@ const baseNavItems = [
   { ...baseNavItem, id: "analytics", label: "Analytics", icon: "analytics" },
   { ...baseNavItem, id: "settings", label: "Settings", icon: "settings" },
   { ...baseNavItem, id: "profile", label: "Profile", icon: "user", link: "/profile" },
+];
+
+const baseNavItemsRouting = [
+  { ...baseNavItem, id: "home", label: "Home", icon: "home", href: "/" },
+  { ...baseNavItem, id: "dashboard", label: "Dashboard", icon: "dashboard", href: "/dashboard" },
+  { ...baseNavItem, id: "analytics", label: "Analytics", icon: "analytics", href: "/analytics" },
+  { ...baseNavItem, id: "settings", label: "Settings", icon: "settings", href: "/settings" },
+  { ...baseNavItem, id: "profile", label: "Profile", icon: "user", href: "/profile" },
 ];
 
 const navigationItems = baseNavItems;
@@ -316,6 +327,93 @@ export const Collapsible: Story = {
   args: {
     ...Default.args,
     collapsible: true,
+  },
+};
+
+export const WithCustomRouter: Story = {
+  tags: ["skip-ci"],
+  args: {
+    ...Default.args,
+    items: baseNavItemsRouting,
+  },
+  render: (args) => {
+    const StoryComponent = () => {
+      const navigate = useNavigate();
+      useEffect(() => {
+        navigate("/");
+      }, []);
+      return (
+        <SideNav {...args} activeItem="home" onActiveItemChange={(id) => console.log("Active item changed to:", id)}>
+          <div style={{ padding: "2rem" }}>
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <div>
+                    <h1 style={{ margin: "0 0 1rem 0" }}>Home</h1>
+                    <p style={{ lineHeight: "1.6", color: "#555", marginBottom: "1rem" }}>
+                      Welcome to the home. Use the navigation on the left to explore different sections.
+                    </p>
+                  </div>
+                }
+              />
+              <Route
+                path="/dashboard"
+                element={
+                  <div>
+                    <h1 style={{ margin: "0 0 1rem 0" }}>Dashboard</h1>
+                    <p style={{ lineHeight: "1.6", color: "#555", marginBottom: "1rem" }}>
+                      This is the dashboard page. Here you can find an overview of your application's performance and
+                    </p>
+                  </div>
+                }
+              />
+              <Route
+                path="/analytics"
+                element={
+                  <div>
+                    <h1 style={{ margin: "0 0 1rem 0" }}>Analytics</h1>
+                    <p style={{ lineHeight: "1.6", color: "#555", marginBottom: "1rem" }}>
+                      This is the analytics page. Here you can find detailed insights and data visualizations about your
+                    </p>
+                  </div>
+                }
+              />
+              <Route
+                path="/settings"
+                element={
+                  <div>
+                    <h1 style={{ margin: "0 0 1rem 0" }}>Settings</h1>
+                    <p style={{ lineHeight: "1.6", color: "#555", marginBottom: "1rem" }}>
+                      This is the settings page. Here you can configure your application's preferences and options.
+                    </p>
+                  </div>
+                }
+              />
+              <Route
+                path="/profile"
+                element={
+                  <div>
+                    <h1 style={{ margin: "0 0 1rem 0" }}>Profile</h1>
+                    <p style={{ lineHeight: "1.6", color: "#555", marginBottom: "1rem" }}>
+                      This is the profile page. Here you can view and edit your personal information.
+                    </p>
+                  </div>
+                }
+              />
+            </Routes>
+          </div>
+        </SideNav>
+      );
+    };
+
+    return (
+      <BrowserRouter>
+        <NavigationProvider linkComponent={NavLink}>
+          <StoryComponent />
+        </NavigationProvider>
+      </BrowserRouter>
+    );
   },
 };
 

@@ -8,7 +8,8 @@ export interface NavItemProps {
   icon?: string;
   hasLeadingIcon?: boolean;
   isCollapsed?: boolean;
-  link?: string;
+  link?: string; // Deprecated: use href instead
+  href?: string;
   onClick?: () => void;
   items?: NavItemProps[];
   active?: boolean;
