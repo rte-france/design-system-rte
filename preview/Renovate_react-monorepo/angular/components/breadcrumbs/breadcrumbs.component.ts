@@ -3,10 +3,7 @@ import { ChangeDetectionStrategy, Component, computed, input } from "@angular/co
 import { BadgeProps } from "@design-system-rte/core/components/badge/badge.interface";
 import { shouldDisplayBadge as coreShouldDisplayBadge } from "@design-system-rte/core/components/badge/badge.utils";
 import { BREADCRUMBS_DEFAULT_ARIA_LABEL } from "@design-system-rte/core/components/breadcrumbs/breadcrumbs.constants";
-import {
-  BreadcrumbItemProps,
-  BreadcrumbsTruncatedItems,
-} from "@design-system-rte/core/components/breadcrumbs/breadcrumbs.interface";
+import { BreadcrumbsTruncatedItems } from "@design-system-rte/core/components/breadcrumbs/breadcrumbs.interface";
 import {
   getBreadcrumbsTruncatedItems,
   shouldTruncateBreadcrumbs,
@@ -16,7 +13,7 @@ import { BadgeComponent } from "../badge/badge.component";
 import { DropdownModule } from "../dropdown";
 import { IconButtonComponent } from "../icon-button/icon-button.component";
 
-import { BreadcrumbItemComponent } from "./breadcrumb-item/breadcrumb-item.component";
+import { BreadcrumbItemComponent, BreadcrumbItem } from "./breadcrumb-item/breadcrumb-item.component";
 
 @Component({
   selector: "rte-breadcrumbs",
@@ -26,7 +23,7 @@ import { BreadcrumbItemComponent } from "./breadcrumb-item/breadcrumb-item.compo
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BreadcrumbsComponent {
-  readonly items = input<BreadcrumbItemProps[]>([]);
+  readonly items = input<BreadcrumbItem[]>([]);
   readonly ariaLabel = input<string>(BREADCRUMBS_DEFAULT_ARIA_LABEL);
   readonly breadcrumbItemMaxWidth = input<number>(150);
   readonly badgeContent = input<BadgeProps["content"]>();
