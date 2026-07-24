@@ -45,13 +45,18 @@ You can do it using **via `NavigationProvider`** configured once at the root of 
 
 ```tsx
 import { NavigationProvider } from "@design-system-rte/react";
-import { Link as RouterLink } from "react-router-dom"; // or TanStack Router's Link, next/link, ...
+import { Link as RouterLink } from "react-router-dom"; // or any other router library
 
 <NavigationProvider linkComponent={RouterLink}>
   <App />
 </NavigationProvider>;
 ```
 
-> The injected component must accept an `href` prop. If your router's component expects a different prop (e.g. `to` for react-router), wrap it: `const RouterLinkAdapter = ({ href, ...props }) => <RouterLink to={href} {...props} />;`
+You can also use the `customLinkComponent` prop on the `Link` component to override the default behavior for a specific link.
+
+```tsx
+import { Link as RouterLink } from "react-router-dom"; // or any other router library
+<Link to="/home" label="Home" customLinkComponent={RouterLink} />;
+```
 
 Without any configuration, all components keep rendering our native `<Link>` component — this is fully backward compatible.

@@ -8,20 +8,23 @@ import { concatClassNames } from "../utils";
 
 import style from "./Link.module.scss";
 
-interface LinkProps extends CoreLinkProps, RoutingComponentProps, React.AnchorHTMLAttributes<HTMLAnchorElement> {}
+interface LinkProps extends CoreLinkProps, RoutingComponentProps, React.AnchorHTMLAttributes<HTMLAnchorElement> {
+  to?: string;
+}
 
 const Link = forwardRef<HTMLAnchorElement, LinkProps>(
   (
     { label, href, subtle = false, externalLink = false, className = "", reverse, customLinkComponent, ...props },
     ref,
   ) => {
-    const LinkComponent = useNavigationLinkComponent();
-    const Component = customLinkComponent ?? LinkComponent;
+    const contextLinkComponent = useNavigationLinkComponent();
+    const Component = customLinkComponent ?? contextLinkComponent;
 
     return (
       <Component
         ref={ref}
         href={href}
+        to={href}
         role="link"
         aria-label={label}
         className={concatClassNames(style.link, className)}

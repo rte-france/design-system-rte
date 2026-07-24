@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { userEvent, within, expect } from "@storybook/test";
-import { forwardRef } from "react";
+import { BrowserRouter, Outlet, Route, Link as RouterLink, Routes } from "react-router";
 
 import { focusElementBeforeComponent } from "../../../.storybook/testing/testing.utils";
 import NavigationProvider from "../../provider/NavigationProvider";
@@ -96,24 +96,6 @@ export const KeyboardInteraction: Story = {
   },
 };
 
-const FakeRouterLink = forwardRef<HTMLAnchorElement, React.AnchorHTMLAttributes<HTMLAnchorElement>>(
-  ({ href, children, onClick, ...props }, ref) => (
-    <a
-      ref={ref}
-      href={href}
-      onClick={(event) => {
-        event.preventDefault();
-        onClick?.(event);
-
-        console.log(`SPA navigation to ${href}`);
-      }}
-      {...props}
-    >
-      {children}
-    </a>
-  ),
-);
-
 export const WithCustomRouter: Story = {
   args: {
     label: "SPA Link",
@@ -121,13 +103,20 @@ export const WithCustomRouter: Story = {
   },
   render: (args) => {
     return (
-      <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-        <Link {...args} customLinkComponent={FakeRouterLink} />
+      <BrowserRouter>
+        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          <NavigationProvider linkComponent={RouterLink}>
+            <Link {...args} customLinkComponent={RouterLink} href="/home" label="SPA Link via customLinkComponent" />
+            <Link {...args} label="SPA Link via NavigationProvider" />
+          </NavigationProvider>
+        </div>
+        <Routes>
+          <Route path="/home" element={<div>Home Page</div>} />
+          <Route path="/dashboard" element={<div>Dashboard Page</div>} />
+        </Routes>
 
-        <NavigationProvider linkComponent={FakeRouterLink}>
-          <Link {...args} label="SPA Link via NavigationProvider" />
-        </NavigationProvider>
-      </div>
+        <Outlet />
+      </BrowserRouter>
     );
   },
 };
