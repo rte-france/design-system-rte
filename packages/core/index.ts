@@ -44,6 +44,7 @@ export * from "./components/treeview";
 export * from "./components/tooltip";
 export * from "./components/utils";
 export * from "./components/stepper";
+export * from "./components/pagination";
 export * from "./components/accordion";
 export * from "./components/avatar";
 export * from "./utils";

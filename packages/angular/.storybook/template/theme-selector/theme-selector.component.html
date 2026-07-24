@@ -6,7 +6,7 @@
       [id]="theme.id"
       [label]="theme.label"
       [selected]="selectedTheme() === theme.id"
-      (click)="selectTheme(theme.id)"
+      (clickChip)="selectTheme(theme.id)"
     />
   </div>
   <div style="display: flex">
@@ -14,7 +14,7 @@
       label="Toggle Theme Mode"
       data-testid="mode-switcher"
       [name]="iconName()"
-      (click)="selectMode(nextMode())"
+      (clickEvent)="selectMode(nextMode())"
     />
   </div>
 </div>

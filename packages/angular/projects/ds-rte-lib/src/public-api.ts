@@ -22,6 +22,7 @@ export * from "./lib/components/divider/divider.component";
 export * from "./lib/components/switch/switch.component";
 export * from "./lib/components/segmented-control/segmented-control.component";
 export * from "./lib/components/breadcrumbs/breadcrumbs.component";
+export * from "./lib/components/pagination/pagination.component";
 export * from "./lib/components/accordion/accordion.component";
 export * from "./lib/components/banner/banner.component";
 export * from "./lib/components/card/card.component";

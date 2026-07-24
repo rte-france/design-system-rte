@@ -1,0 +1,84 @@
+<nav
+  class="rte-pagination"
+  data-testid="pagination"
+  [attr.aria-label]="ariaLabel()"
+  [attr.data-appearance]="appearance()"
+>
+  @if (hasGoToFirst()) {
+    <rte-icon-button
+      name="skip-previous"
+      size="s"
+      appearance="filled"
+      data-testid="pagination-go-to-first"
+      [variant]="iconButtonVariant()"
+      [disabled]="isFirstPage()"
+      [ariaLabel]="goToFirstLabel"
+      (clickEvent)="goToFirst()"
+    />
+  }
+  @if (hasGoToPrev()) {
+    <rte-icon-button
+      name="arrow-chevron-left"
+      size="s"
+      appearance="filled"
+      data-testid="pagination-go-to-prev"
+      [variant]="iconButtonVariant()"
+      [disabled]="isFirstPage()"
+      [ariaLabel]="goToPrevLabel"
+      (clickEvent)="goToPrev()"
+    />
+  }
+
+  <div class="rte-pagination-pages">
+    @for (item of items(); track item.type === "page" ? item.page : "ellipsis-" + $index) {
+      @if (item.type === "ellipsis") {
+        <span class="rte-pagination-ellipsis" aria-hidden="true">...</span>
+      } @else if (isPageActive(item.page)) {
+        <span
+          class="rte-pagination-page"
+          data-active="true"
+          aria-current="page"
+          [attr.aria-label]="getPageLabel(item.page)"
+          [attr.data-testid]="'pagination-page-' + item.page"
+        >
+          {{ item.page }}
+        </span>
+      } @else {
+        <button
+          type="button"
+          class="rte-pagination-page"
+          [attr.aria-label]="getPageLabel(item.page)"
+          [attr.data-testid]="'pagination-page-' + item.page"
+          (click)="goToPage(item.page)"
+        >
+          {{ item.page }}
+        </button>
+      }
+    }
+  </div>
+
+  @if (hasGoToNext()) {
+    <rte-icon-button
+      name="arrow-chevron-right"
+      size="s"
+      appearance="filled"
+      data-testid="pagination-go-to-next"
+      [variant]="iconButtonVariant()"
+      [disabled]="isLastPage()"
+      [ariaLabel]="goToNextLabel"
+      (clickEvent)="goToNext()"
+    />
+  }
+  @if (hasGoToLast()) {
+    <rte-icon-button
+      name="skip-next"
+      size="s"
+      appearance="filled"
+      data-testid="pagination-go-to-last"
+      [variant]="iconButtonVariant()"
+      [disabled]="isLastPage()"
+      [ariaLabel]="goToLastLabel"
+      (clickEvent)="goToLast()"
+    />
+  }
+</nav>
