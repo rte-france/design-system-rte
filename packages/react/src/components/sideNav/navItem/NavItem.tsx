@@ -49,13 +49,11 @@ const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
     });
 
     function handleFocus() {
-      console.log("NavItem focused:", id);
       listItemRef.current?.setAttribute("data-focused", "true");
       linkItemRef.current?.setAttribute("data-focused", "true");
     }
 
     function handleBlur() {
-      console.log("NavItem blurred:", id);
       listItemRef.current?.removeAttribute("data-focused");
       linkItemRef.current?.removeAttribute("data-focused");
     }
