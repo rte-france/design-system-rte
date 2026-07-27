@@ -23,6 +23,7 @@ const meta = {
     isCollapsible: { control: "boolean" },
     position: { control: "select", options: ["modal", "responsive"] },
     fixedHeader: { control: "boolean" },
+    showHeader: { control: "boolean" },
     onClickPrimaryButton: { action: "primary click", control: false },
     onClickSecondaryButton: { action: "secondary click", control: false },
   },
@@ -46,6 +47,7 @@ export const Default: Story = {
     isCollapsible: false,
     position: "modal",
     fixedHeader: true,
+    showHeader: true,
     width: "400px",
     isClosable: true,
     onClickToggle() {
@@ -283,6 +285,43 @@ export const CloseOnOverlayClick: Story = {
     const backdropElement = dialog.previousElementSibling;
     expect(backdropElement).not.toBeNull();
     await userEvent.click(backdropElement as HTMLElement);
+    await waitFor(() => {
+      expect(within(document.body).queryByRole("dialog")).not.toBeInTheDocument();
+    });
+  },
+};
+
+export const WithoutHeader: Story = {
+  args: {
+    ...Default.args,
+    id: "drawer-without-header",
+    title: undefined,
+    icon: undefined,
+    showHeader: false,
+  },
+  render: Default.render,
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Modal drawer with **showHeader** set to `false`. The header (title, icon, close control) is not rendered, and neither a title nor a custom header is required.",
+      },
+    },
+  },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole("button", { name: "Open drawer" }));
+    const drawer = within(document.body).getByRole("dialog");
+    expect(drawer).toBeInTheDocument();
+    expect(within(drawer).queryByRole("heading")).not.toBeInTheDocument();
+    expect(within(drawer).queryByTestId("modal-close-button")).not.toBeInTheDocument();
+
+    await userEvent.click(within(drawer).getByRole("button", { name: "Cancel" }));
+    expect(args.onClickSecondaryButton).toHaveBeenCalled();
+    expect(drawer).toBeInTheDocument();
+
+    await userEvent.click(within(drawer).getByRole("button", { name: "Confirm" }));
+    expect(args.onClickPrimaryButton).toHaveBeenCalled();
     await waitFor(() => {
       expect(within(document.body).queryByRole("dialog")).not.toBeInTheDocument();
     });

@@ -53,6 +53,7 @@ export class DrawerComponent implements OnDestroy {
   readonly secondaryButtonLabel = input<string>();
   readonly isCollapsible = input<boolean>(false);
   readonly fixedHeader = input<boolean>(false);
+  readonly showHeader = input<boolean>(true);
   readonly closeOnEscape = input<boolean>(false);
   readonly isClosable = input<boolean>(true);
   readonly modalHostMode = input<boolean>(false);
