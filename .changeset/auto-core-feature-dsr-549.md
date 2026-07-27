@@ -4,4 +4,4 @@
   
   ## Changes
 
-- (Pagination) add  Angular component
+- (Pagination) add Angular component

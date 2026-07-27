@@ -166,13 +166,13 @@ export const SinglePage: Story = {
     const nav = within(pagination);
 
     expect(nav.getByTestId("pagination-page-1")).toHaveAttribute("aria-current", "page");
-    expect(nav.getByTestId("pagination-page-1").tagName).toBe("SPAN");
-    expect(nav.queryAllByRole("button", { name: /^Page \d/ })).toHaveLength(0);
+    expect(nav.getByTestId("pagination-page-1").tagName).toBe("BUTTON");
+    expect(nav.getByLabelText("Page 1")).toBeInTheDocument();
 
-    expect(nav.getByLabelText("Première page")).toBeDisabled();
-    expect(nav.getByLabelText("Page précédente")).toBeDisabled();
-    expect(nav.getByLabelText("Page suivante")).toBeDisabled();
-    expect(nav.getByLabelText("Dernière page")).toBeDisabled();
+    expect(nav.getByLabelText("Première page")).toHaveAttribute("aria-disabled", "true");
+    expect(nav.getByLabelText("Page précédente")).toHaveAttribute("aria-disabled", "true");
+    expect(nav.getByLabelText("Page suivante")).toHaveAttribute("aria-disabled", "true");
+    expect(nav.getByLabelText("Dernière page")).toHaveAttribute("aria-disabled", "true");
   },
 };
 
@@ -212,10 +212,10 @@ export const Interactions: Story = {
 
     expect(nav.getByTestId("pagination-page-1")).toHaveAttribute("aria-current", "page");
 
-    expect(nav.getByLabelText("Première page")).toBeDisabled();
-    expect(nav.getByLabelText("Page précédente")).toBeDisabled();
-    expect(nav.getByLabelText("Page suivante")).not.toBeDisabled();
-    expect(nav.getByLabelText("Dernière page")).not.toBeDisabled();
+    expect(nav.getByLabelText("Première page")).toHaveAttribute("aria-disabled", "true");
+    expect(nav.getByLabelText("Page précédente")).toHaveAttribute("aria-disabled", "true");
+    expect(nav.getByLabelText("Page suivante")).not.toHaveAttribute("aria-disabled");
+    expect(nav.getByLabelText("Dernière page")).not.toHaveAttribute("aria-disabled");
 
     await userEvent.click(nav.getByTestId("pagination-page-3"));
     expect(args["pageChange"]).toHaveBeenCalledWith(3);
@@ -225,6 +225,9 @@ export const Interactions: Story = {
 
     await userEvent.click(nav.getByLabelText("Dernière page"));
     expect(args["pageChange"]).toHaveBeenCalledWith(10);
+    expect(nav.getByLabelText("Dernière page")).toHaveFocus();
+    expect(nav.getByLabelText("Dernière page")).toHaveAttribute("aria-disabled", "true");
+    expect(nav.getByLabelText("Page suivante")).toHaveAttribute("aria-disabled", "true");
 
     await focusElementBeforeComponent(canvasElement);
     await userEvent.tab();
@@ -283,6 +286,9 @@ export const KeyboardNavigation: Story = {
 
     await userEvent.tab();
     expect(nav.getByLabelText("Page 4")).toHaveFocus();
+
+    await userEvent.tab();
+    expect(nav.getByLabelText("Page 5")).toHaveFocus();
 
     await userEvent.tab();
     expect(nav.getByLabelText("Page 6")).toHaveFocus();
