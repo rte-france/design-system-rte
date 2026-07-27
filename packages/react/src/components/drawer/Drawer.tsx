@@ -40,6 +40,7 @@ const Header = ({
   isAnimating,
   handleOnClickToggle,
   shouldDisplayDefaultHeader,
+  showHeader,
   id,
   title,
   icon,
@@ -55,6 +56,7 @@ const Header = ({
   isAnimating: boolean;
   handleOnClickToggle: () => void;
   shouldDisplayDefaultHeader: boolean;
+  showHeader: boolean;
   id: string;
   title?: string;
   icon?: string;
@@ -80,18 +82,19 @@ const Header = ({
         aria-label={`Close drawer ${id}`}
       />
     )}
-    {shouldDisplayDefaultHeader ? (
-      <BaseHeader
-        id={id}
-        title={title!}
-        icon={icon}
-        iconAppearance={iconAppearance}
-        onClose={onClose}
-        isClosable={isClosable}
-      />
-    ) : (
-      <>{header}</>
-    )}
+    {showHeader &&
+      (shouldDisplayDefaultHeader ? (
+        <BaseHeader
+          id={id}
+          title={title!}
+          icon={icon}
+          iconAppearance={iconAppearance}
+          onClose={onClose}
+          isClosable={isClosable}
+        />
+      ) : (
+        <>{header}</>
+      ))}
   </>
 );
 
@@ -119,6 +122,7 @@ const HeaderWithContent = ({
   isAnimating,
   handleOnClickToggle,
   shouldDisplayDefaultHeader,
+  showHeader,
   onClose,
   isClosable,
   header,
@@ -136,56 +140,43 @@ const HeaderWithContent = ({
   isAnimating: boolean;
   handleOnClickToggle: () => void;
   shouldDisplayDefaultHeader: boolean;
+  showHeader: boolean;
   onClose: () => void;
   isClosable: boolean;
   header?: React.ReactNode | React.ReactNode[];
   drawerLeftPosition: number;
   content?: React.ReactNode | React.ReactNode[];
-}) => (
-  <>
-    {fixedHeader ? (
-      <>
-        <Header
-          id={id}
-          title={title}
-          icon={icon}
-          iconAppearance={iconAppearance}
-          isCollapsible={isCollapsible}
-          iconToggleCloseContainerRef={iconToggleCloseContainerRef}
-          isOpen={isOpen}
-          isAnimating={isAnimating}
-          handleOnClickToggle={handleOnClickToggle}
-          shouldDisplayDefaultHeader={!!shouldDisplayDefaultHeader}
-          onClose={onClose}
-          isClosable={isClosable}
-          header={header}
-          drawerLeftPosition={drawerLeftPosition}
-        />
-        <Content content={content} fixedHeader={fixedHeader} />
-      </>
-    ) : (
-      <div className={styles["drawer-header-content"]}>
-        <Header
-          id={id}
-          title={title}
-          icon={icon}
-          iconAppearance={iconAppearance}
-          isCollapsible={isCollapsible}
-          iconToggleCloseContainerRef={iconToggleCloseContainerRef}
-          isOpen={isOpen}
-          isAnimating={isAnimating}
-          handleOnClickToggle={handleOnClickToggle}
-          shouldDisplayDefaultHeader={!!shouldDisplayDefaultHeader}
-          onClose={onClose}
-          isClosable={isClosable}
-          header={header}
-          drawerLeftPosition={drawerLeftPosition}
-        />
-        <Content content={content} />
-      </div>
-    )}
-  </>
-);
+}) => {
+  const headerProps = {
+    id,
+    title,
+    icon,
+    iconAppearance,
+    isCollapsible,
+    iconToggleCloseContainerRef,
+    isOpen,
+    isAnimating,
+    handleOnClickToggle,
+    shouldDisplayDefaultHeader: !!shouldDisplayDefaultHeader,
+    showHeader,
+    onClose,
+    isClosable,
+    header,
+    drawerLeftPosition,
+  };
+
+  return fixedHeader ? (
+    <>
+      <Header {...headerProps} />
+      <Content content={content} fixedHeader={fixedHeader} />
+    </>
+  ) : (
+    <div className={styles["drawer-header-content"]}>
+      <Header {...headerProps} />
+      <Content content={content} />
+    </div>
+  );
+};
 
 const Footer = ({
   fixedHeader,
@@ -239,6 +230,7 @@ const Drawer = ({
   width,
   children,
   fixedHeader,
+  showHeader = true,
   closeOnEscape = false,
   isClosable = true,
   onClickPrimaryButton,
@@ -266,6 +258,7 @@ const Drawer = ({
     hasPrimaryButtonLabel: !!primaryButtonLabel,
     position,
     hasMainContent: !!children,
+    showHeader,
   });
   if (configurationIssues) {
     console.warn(configurationIssues);
@@ -286,6 +279,8 @@ const Drawer = ({
     onClickToggle();
   };
 
+  const labelledBy = showHeader ? `${id}-drawer-title` : undefined;
+
   const headerWithContentProps = {
     fixedHeader,
     id,
@@ -298,6 +293,7 @@ const Drawer = ({
     isAnimating,
     handleOnClickToggle,
     shouldDisplayDefaultHeader: !!shouldDisplayDefaultHeader,
+    showHeader,
     onClose,
     isClosable,
     header,
@@ -353,7 +349,7 @@ const Drawer = ({
               ref={drawerRef}
               data-open={isAnimating}
               role="region"
-              aria-labelledby={`${id}-drawer-title`}
+              aria-labelledby={labelledBy}
               data-position={position}
               data-fixed-header={fixedHeader}
               style={{
@@ -411,7 +407,7 @@ const Drawer = ({
                 data-position={position}
                 role="dialog"
                 aria-modal="true"
-                aria-labelledby={`${id}-drawer-title`}
+                aria-labelledby={labelledBy}
                 style={{
                   width,
                 }}

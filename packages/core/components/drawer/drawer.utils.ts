@@ -7,6 +7,7 @@ export interface DrawerValidationInput {
   hasPrimaryButtonLabel: boolean;
   position: DrawerPosition | undefined;
   hasMainContent: boolean;
+  showHeader?: boolean;
 }
 
 interface ValidationRule {
@@ -24,7 +25,7 @@ const CONFIGURATION_ISSUES = {
 
 const VALIDATION_RULES: ValidationRule[] = [
   {
-    condition: (input) => !input.hasCustomHeader && !input.hasTitle,
+    condition: (input) => !!input.showHeader && !input.hasCustomHeader && !input.hasTitle,
     issue: CONFIGURATION_ISSUES.MISSING_HEADER_OR_TITLE,
   },
   {
