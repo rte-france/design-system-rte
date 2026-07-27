@@ -12,7 +12,7 @@ import {
 } from "@angular/core";
 import { BadgeType, BadgeSize, BadgeContent } from "@design-system-rte/core/components/badge/badge.interface";
 
-import { RegularIconIdKey, TogglableIconIdKey } from "../icon/icon.service";
+import { RegularIconIdKey, TogglableIconIdKey } from "../icon/icon-registry.service";
 
 import { BadgeComponent } from "./badge.component";
 

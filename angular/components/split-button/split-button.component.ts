@@ -18,8 +18,8 @@ import { ARROW_DOWN_KEY, SPACE_KEY } from "@design-system-rte/core/constants/key
 
 import { BadgeDirective } from "../badge/badge.directive";
 import { DropdownModule } from "../dropdown";
+import { RegularIconIdKey, TogglableIconIdKey } from "../icon/icon-registry.service";
 import { IconComponent } from "../icon/icon.component";
-import { RegularIconIdKey, TogglableIconIdKey } from "../icon/icon.service";
 
 @Component({
   selector: "rte-split-button",

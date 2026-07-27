@@ -38,7 +38,23 @@
         [style.overflow]="'unset'"
         [rteTooltipShouldFocusTrigger]="false"
       >
-        <rte-link [href]="item()!.link" [label]="item()!.label" [subtle]="true" [maxWidth]="breadcrumbItemMaxWidth()" />
+        @if (navigationHref()) {
+          <rte-link
+            [href]="navigationHref()!"
+            [externalLink]="!!item()?.externalLink"
+            [label]="item()!.label"
+            [subtle]="true"
+            [maxWidth]="breadcrumbItemMaxWidth()"
+          />
+        } @else {
+          <rte-link
+            [routerLink]="navigationRouterLink()!"
+            [routerLinkConfig]="item()?.routerLinkConfig"
+            [label]="item()!.label"
+            [subtle]="true"
+            [maxWidth]="breadcrumbItemMaxWidth()"
+          />
+        }
       </div>
       <rte-badge
         *ngIf="shouldDisplayBadge()"
@@ -50,7 +66,23 @@
         [badgeSize]="item()!.badgeSize!"
       />
     } @else {
-      <rte-link [href]="item()!.link" [label]="item()!.label" [subtle]="true" [maxWidth]="breadcrumbItemMaxWidth()" />
+      @if (navigationHref()) {
+        <rte-link
+          [href]="navigationHref()!"
+          [externalLink]="!!item()?.externalLink"
+          [label]="item()!.label"
+          [subtle]="true"
+          [maxWidth]="breadcrumbItemMaxWidth()"
+        />
+      } @else {
+        <rte-link
+          [routerLink]="navigationRouterLink()!"
+          [routerLinkConfig]="item()?.routerLinkConfig"
+          [label]="item()!.label"
+          [subtle]="true"
+          [maxWidth]="breadcrumbItemMaxWidth()"
+        />
+      }
       <rte-badge
         *ngIf="shouldDisplayBadge()"
         [count]="item()!.badgeCount"

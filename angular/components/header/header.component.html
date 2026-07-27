@@ -15,7 +15,7 @@
               <ng-content select="[rteHeaderLeft]" />
             </div>
           } @else {
-            <rte-header-left-section [config]="computedLeftSectionConfig()" />
+            <rte-header-left-section [config]="leftSectionConfig()" />
           }
         </div>
       }
@@ -30,17 +30,33 @@
                   [attr.data-disabled]="item.disabled"
                   [attr.data-active]="item.active ?? null"
                 >
-                  <a
-                    class="rte-header-nav-link"
-                    [href]="item.href"
-                    [attr.aria-label]="item.ariaLabel || item.label"
-                    [attr.aria-disabled]="item.disabled ? 'true' : null"
-                    [attr.aria-current]="item.active ? 'page' : null"
-                    [attr.tabindex]="item.disabled ? -1 : null"
-                    (click)="handleNavigationItemClick(item, $event)"
-                  >
-                    {{ item.label }}
-                  </a>
+                  @if (item.externalLink) {
+                    <a
+                      class="rte-header-nav-link"
+                      [href]="headerNativeHref(item)"
+                      [attr.target]="item.externalLink ? '_blank' : null"
+                      [attr.rel]="item.externalLink ? 'noopener noreferrer' : null"
+                      [attr.aria-label]="item.ariaLabel || item.label"
+                      [attr.aria-disabled]="item.disabled ? 'true' : null"
+                      [attr.aria-current]="item.active ? 'page' : null"
+                      [attr.tabindex]="item.disabled ? -1 : null"
+                      (click)="handleNavigationItemClick(item, $event)"
+                    >
+                      {{ item.label }}
+                    </a>
+                  } @else {
+                    <a
+                      class="rte-header-nav-link"
+                      [routerLink]="headerRouterLink(item)"
+                      [attr.aria-label]="item.ariaLabel || item.label"
+                      [attr.aria-disabled]="item.disabled ? 'true' : null"
+                      [attr.aria-current]="item.active ? 'page' : null"
+                      [attr.tabindex]="item.disabled ? -1 : null"
+                      (click)="handleNavigationItemClick(item, $event)"
+                    >
+                      {{ item.label }}
+                    </a>
+                  }
                 </li>
               }
             </ul>
@@ -125,7 +141,7 @@
         [hasLogo]="hasLogo()"
         [applicationName]="applicationName()"
         [logoSrc]="logoSrc()"
-        [homeLink]="homeLink()"
+        [homeNavigation]="leftSectionConfig().homeNavigation"
         [homeAriaLabel]="homeAriaLabel()"
         [hasSearchbar]="hasSearchbar()"
         [searchbarProps]="searchbarProps()"

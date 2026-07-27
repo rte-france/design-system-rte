@@ -1,18 +1,7 @@
 import { CommonModule } from "@angular/common";
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  DestroyRef,
-  effect,
-  inject,
-  input,
-} from "@angular/core";
-import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
-import { Observable } from "rxjs";
+import { ChangeDetectionStrategy, Component, effect, ElementRef, inject, input, viewChild } from "@angular/core";
 
-import { IconService, RegularIconIdKey, TogglableIconIdKey } from "./icon.service";
+import { IconRegistry, RegularIconIdKey, TogglableIconIdKey } from "./icon-registry.service";
 
 @Component({
   selector: "rte-icon",
@@ -20,7 +9,6 @@ import { IconService, RegularIconIdKey, TogglableIconIdKey } from "./icon.servic
   templateUrl: "./icon.component.html",
   styleUrl: "./icon.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [IconService],
 })
 export class IconComponent {
   readonly name = input.required<string>();
@@ -28,34 +16,42 @@ export class IconComponent {
   readonly color = input<string>();
   readonly classes = input("");
   readonly appearance = input<"outlined" | "filled">();
-  destroyRef = inject(DestroyRef);
 
-  svgContent: SafeHtml | null = null;
-  svg!: Observable<string>;
-
-  private sanitizer = inject(DomSanitizer);
-  private iconService = inject(IconService);
-  private cdr = inject(ChangeDetectorRef);
+  private readonly iconHost = viewChild<ElementRef<HTMLElement>>("iconHost");
+  private iconRegistry = inject(IconRegistry);
 
   constructor() {
     effect(() => {
-      this.setSvgContent(this.name(), this.size(), this.appearance(), this.color());
+      this.renderIcon(this.name(), this.size(), this.appearance(), this.color());
     });
   }
 
-  private setSvgContent(
+  private renderIcon(
     svgName: string,
     size: number,
     appearance: "outlined" | "filled" | undefined,
     color: string | undefined,
   ) {
-    const svgFile = this.iconService.getSvg(svgName as RegularIconIdKey | TogglableIconIdKey, appearance || "outlined");
+    const hostRef = this.iconHost();
+    if (!hostRef) {
+      return;
+    }
 
-    svgFile.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((res) => {
-      const svgWithSize = res.replace(/<svg([^>]*)>/, `<svg$1 width="${size}" height="${size}" color="${color}">`);
+    const host = hostRef.nativeElement;
+    const svg = this.iconRegistry.getIconElement(
+      svgName as RegularIconIdKey | TogglableIconIdKey,
+      appearance || "outlined",
+    );
 
-      this.svgContent = this.sanitizer.bypassSecurityTrustHtml(svgWithSize);
-      this.cdr.markForCheck();
-    });
+    svg.setAttribute("width", String(size));
+    svg.setAttribute("height", String(size));
+
+    if (color) {
+      svg.setAttribute("color", color);
+    } else {
+      svg.removeAttribute("color");
+    }
+
+    host.replaceChildren(svg);
   }
 }

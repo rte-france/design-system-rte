@@ -3,8 +3,8 @@ import { ChangeDetectionStrategy, Component, input, computed } from "@angular/co
 import { TagProps } from "@design-system-rte/core/components/tag/tag.interface";
 
 import { isValidIconName } from "../icon/icon-map";
+import { RegularIconIdKey, TogglableIconIdKey } from "../icon/icon-registry.service";
 import { IconComponent } from "../icon/icon.component";
-import { RegularIconIdKey, TogglableIconIdKey } from "../icon/icon.service";
 
 @Component({
   selector: "rte-tag",
