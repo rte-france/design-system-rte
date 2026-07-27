@@ -2,11 +2,13 @@
 
 ## 3.0.0
 
-### Minor Changes
+### Major Changes
 
 - d9965bc: ## Changes
 
   - (Navigation) add RouterLink support
+
+### Minor Changes
 
 - dba508d: ## Changes
 

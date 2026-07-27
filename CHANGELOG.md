@@ -6,7 +6,7 @@
 
 ### Navigation
 
-#### Minor Changes
+#### Major Changes
 
 - add RouterLink support
 
