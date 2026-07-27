@@ -4,4 +4,5 @@
   
   ## Changes
 
-- (Pagination) add  Angular component
+- (Pagination) correct controls' focus behavoir
+- (Pagination) add Angular component
