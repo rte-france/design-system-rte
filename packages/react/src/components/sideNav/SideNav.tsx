@@ -68,7 +68,6 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
 
     const handleOnActiveItemChange = useCallback(
       (id: string | undefined) => {
-        console.log("Active item changed to:", id);
         setActiveItem(id);
         onActiveItemChange?.(id);
       },
