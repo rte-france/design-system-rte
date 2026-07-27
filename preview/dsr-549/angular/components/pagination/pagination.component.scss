@@ -4,22 +4,39 @@ $pagination-transition-hover: 120ms;
 $pagination-transition-state: 160ms;
 $pagination-cell-size: 24px;
 
+@mixin pagination-focus-ring {
+  &:focus-visible {
+    outline: none;
+    box-shadow: inset 0 0 0 1px var(--border-brand-focused);
+  }
+}
+
 .rte-pagination {
   display: inline-flex;
   align-items: center;
   gap: $positive-spacing_0;
   height: $pagination-cell-size;
 
-  ::ng-deep button.rte-icon-button {
+  .rte-pagination-nav-control {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     box-sizing: border-box;
     width: $pagination-cell-size;
     height: $pagination-cell-size;
+    margin: 0;
     padding: $positive-spacing_0;
-    justify-content: center;
+    border: none;
+    border-radius: $radius-s;
+    background: transparent;
+    cursor: pointer;
+    overflow: clip;
 
-    &:disabled {
-      background: transparent;
-      background-color: transparent;
+    @include pagination-focus-ring;
+
+    &[data-disabled='true'] {
+      cursor: default;
+      color: var(--content-disabled);
     }
   }
 
@@ -59,15 +76,20 @@ $pagination-cell-size: 24px;
       background-color $pagination-transition-hover ease-in-out,
       color $pagination-transition-hover ease-in-out;
 
-    &:focus-visible {
-      outline: 1px solid var(--border-brand-focused);
-      outline-offset: 2px;
-    }
+    @include pagination-focus-ring;
   }
 
   &[data-appearance='brand'] {
     .rte-pagination-ellipsis {
       color: var(--content-brand-default);
+    }
+
+    .rte-pagination-nav-control {
+      color: var(--content-brand-default);
+
+      &[data-disabled='true'] {
+        color: var(--content-disabled);
+      }
     }
 
     .rte-pagination-page {
@@ -85,11 +107,24 @@ $pagination-cell-size: 24px;
         transition:
           background-color $pagination-transition-state ease-in-out,
           color $pagination-transition-state ease-in-out;
+
+        &:hover {
+          color: var(--content-brand-pressed);
+          background: var(--background-brand-unselected-hover);
+        }
       }
     }
   }
 
   &[data-appearance='neutral'] {
+    .rte-pagination-nav-control {
+      color: var(--content-primary);
+
+      &[data-disabled='true'] {
+        color: var(--content-disabled);
+      }
+    }
+
     .rte-pagination-page {
       color: var(--content-primary);
 
@@ -103,6 +138,10 @@ $pagination-cell-size: 24px;
         transition:
           background-color $pagination-transition-state ease-in-out,
           color $pagination-transition-state ease-in-out;
+
+        &:hover {
+          background: var(--background-neutral-subtle-pressed);
+        }
       }
     }
   }

@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, computed, input, output } from "@angular/core";
-import { ButtonVariant } from "@design-system-rte/core/components/button/common/common-button";
 import {
   getPaginationPageLabel,
   PAGINATION_DEFAULT_ARIA_LABEL,
@@ -11,11 +10,11 @@ import {
 import { PaginationAppearance } from "@design-system-rte/core/components/pagination/pagination.interface";
 import { getPaginationItems } from "@design-system-rte/core/components/pagination/pagination.utils";
 
-import { IconButtonComponent } from "../icon-button/icon-button.component";
+import { IconComponent } from "../icon/icon.component";
 
 @Component({
   selector: "rte-pagination",
-  imports: [IconButtonComponent],
+  imports: [IconComponent],
   templateUrl: "./pagination.component.html",
   styleUrl: "./pagination.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -43,16 +42,43 @@ export class PaginationComponent {
 
   readonly isLastPage = computed(() => this.activePage() >= this.totalPages());
 
-  readonly iconButtonVariant = computed<ButtonVariant>(() =>
-    this.appearance() === "brand" ? "transparent" : "neutral",
-  );
-
   getPageLabel(pageNumber: number): string {
     return getPaginationPageLabel(pageNumber);
   }
 
   isPageActive(pageNumber: number): boolean {
     return pageNumber === this.activePage();
+  }
+
+  onPageClick(targetPage: number): void {
+    if (this.isPageActive(targetPage)) {
+      return;
+    }
+    this.goToPage(targetPage);
+  }
+
+  onFirstNavClick(event: Event): void {
+    this.onNavControlClick(event, this.isFirstPage(), () => this.goToFirst());
+  }
+
+  onPrevNavClick(event: Event): void {
+    this.onNavControlClick(event, this.isFirstPage(), () => this.goToPrev());
+  }
+
+  onNextNavClick(event: Event): void {
+    this.onNavControlClick(event, this.isLastPage(), () => this.goToNext());
+  }
+
+  onLastNavClick(event: Event): void {
+    this.onNavControlClick(event, this.isLastPage(), () => this.goToLast());
+  }
+
+  private onNavControlClick(event: Event, isDisabled: boolean, navigate: () => void): void {
+    if (isDisabled) {
+      event.preventDefault();
+      return;
+    }
+    navigate();
   }
 
   goToPage(targetPage: number): void {
