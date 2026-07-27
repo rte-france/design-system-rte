@@ -60,6 +60,7 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
   readonly rteDrawerSecondaryButtonLabel = input<string>();
   readonly rteDrawerIsCollapsible = input<boolean>(false);
   readonly rteDrawerFixedHeader = input<boolean>(false);
+  readonly rteDrawerShowHeader = input<boolean>(true);
   readonly rteDrawerCloseOnEscape = input<boolean>(false);
   readonly rteDrawerIsClosable = input<boolean>(true);
 
@@ -298,6 +299,7 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
     componentRef.setInput("secondaryButtonLabel", this.rteDrawerSecondaryButtonLabel());
     componentRef.setInput("isCollapsible", this.rteDrawerIsCollapsible());
     componentRef.setInput("fixedHeader", this.rteDrawerFixedHeader());
+    componentRef.setInput("showHeader", this.rteDrawerShowHeader());
     componentRef.setInput("closeOnEscape", this.rteDrawerCloseOnEscape());
     componentRef.setInput("isClosable", this.rteDrawerIsClosable());
     componentRef.setInput("modalHostMode", this.rteDrawerPosition() === "modal" && this.rteDrawerIsCollapsible());
@@ -320,6 +322,7 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
       hasPrimaryButtonLabel: !!this.rteDrawerPrimaryButtonLabel(),
       position: this.rteDrawerPosition(),
       hasMainContent: !!this.drawerContextContent(),
+      showHeader: this.rteDrawerShowHeader(),
     });
     if (issues) {
       console.warn(issues);
