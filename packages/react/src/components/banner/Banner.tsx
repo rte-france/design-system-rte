@@ -24,6 +24,7 @@ const Banner = forwardRef<HTMLDivElement, BannerProps>(
       actionLabel,
       className = "",
       isOpen = true,
+      isCompact = false,
       ...props
     },
     ref,
@@ -61,6 +62,7 @@ const Banner = forwardRef<HTMLDivElement, BannerProps>(
           ref={ref}
           data-type={type}
           data-position={position}
+          data-compact={isCompact ? "true" : undefined}
           data-open={isAnimating || undefined}
           {...props}
         >
@@ -76,11 +78,17 @@ const Banner = forwardRef<HTMLDivElement, BannerProps>(
             )}
           </div>
           {actionCallback && actionLabel && (
-            <Button label={actionLabel} onClick={actionCallback} variant="text" aria-label={actionLabel} size="s" />
+            <Button
+              label={actionLabel}
+              onClick={actionCallback}
+              variant="text"
+              aria-label={actionLabel}
+              size={isCompact ? "s" : "m"}
+            />
           )}
           {closable && (
             <div className={style["banner-close-icon"]}>
-              <IconButton variant="neutral" name="close" onClick={handleOnClose} aria-label="close banner" />
+              <IconButton variant="neutral" name="close" onClick={handleOnClose} aria-label="close banner" size="s" />
             </div>
           )}
         </section>

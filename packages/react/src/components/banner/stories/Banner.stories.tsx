@@ -18,6 +18,7 @@ const meta = {
       control: "select",
       options: ["info", "error", "success", "warning"],
     },
+    isCompact: { control: "boolean" },
     closable: { control: "boolean" },
     actionCallback: { action: "actionCallback" },
     actionLabel: { control: "text" },
@@ -44,6 +45,24 @@ export const Alert: Story = {
     message:
       "Dans le cadre des changements de serveur à venir le 18 mai 2026, votre application évolue et sera par conséquent indisponible du 29 mars au 12 avril 2026.",
     type: "error",
+  },
+};
+
+export const Compact: Story = {
+  args: {
+    ...Default.args,
+    isCompact: true,
+    message: "Sample banner message.",
+    actionLabel: "Visualiser",
+    closable: true,
+  },
+  render: (args) => {
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+        <Banner {...args} isCompact />
+        <Banner {...args} isCompact={false} />
+      </div>
+    );
   },
 };
 

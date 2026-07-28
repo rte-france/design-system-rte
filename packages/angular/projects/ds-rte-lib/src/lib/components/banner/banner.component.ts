@@ -11,6 +11,7 @@ import {
   computed,
 } from "@angular/core";
 import { BannerPosition, BannerType } from "@design-system-rte/core/components/banner/banner.interface";
+import { ButtonSize } from "@design-system-rte/core/components/button/common/common-button";
 
 import { ButtonComponent } from "../button/button.component";
 import { IconComponent } from "../icon/icon.component";
@@ -30,6 +31,7 @@ export class BannerComponent implements OnInit, OnChanges {
   readonly title = input<string>();
   readonly closable = input<boolean>(false);
   readonly isOpen = input<boolean>(true);
+  readonly isCompact = input<boolean>(false);
   readonly actionLabel = input<string>();
 
   readonly click = output<void>();
@@ -49,6 +51,8 @@ export class BannerComponent implements OnInit, OnChanges {
   readonly iconName = computed(() => {
     return this.iconTypeMap[this.type()];
   });
+
+  readonly actionButtonSize = computed<ButtonSize>(() => (this.isCompact() ? "s" : "m"));
 
   ngOnInit() {
     this.visible.set(this.isOpen());

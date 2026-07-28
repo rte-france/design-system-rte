@@ -83,6 +83,7 @@ const booleanOptions = {
       "isClosable",
       "Permet d'indiquer que la banner est manuellement refermable ou non, en faisant apparaître une croix",
     ],
+    ["isCompact", "Permet d'utiliser la version compacte de la banner"],
     ["showTitle", "Permet d'ajouter un titre avant le texte du message"],
     [
       "showButton",
