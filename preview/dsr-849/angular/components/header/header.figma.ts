@@ -4,6 +4,7 @@ type HeaderCodeConnectProps = {
   appearance: string;
   leftSection: {
     applicationName: string;
+    versionNumber?: string;
   };
   isCompact: boolean;
   isSearchActive: boolean;
