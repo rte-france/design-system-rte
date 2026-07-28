@@ -3,6 +3,14 @@
 :host {
   display: flex;
   align-items: center;
+  align-self: stretch;
+}
+
+.rte-header-left-section {
+  position: relative;
+  display: flex;
+  align-items: center;
+  align-self: stretch;
 }
 
 .rte-header-home {
@@ -32,4 +40,16 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.rte-header-version {
+  display: flex;
+  position: absolute;
+  bottom: $positive-spacing_075;
+  right: $positive-spacing_100;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  color: var(--content-secondary);
+  @include typography-text-xs;
 }
