@@ -34,6 +34,7 @@ const Header = forwardRef<HTMLElement, HeaderProps>(
     {
       logoSrc,
       applicationName,
+      versionNumber,
       leftSectionContent,
       hasLeftSection = true,
       hasRightSection = true,
@@ -74,6 +75,8 @@ const Header = forwardRef<HTMLElement, HeaderProps>(
 
     const { isVisible } = useHeaderScrollBehavior({ isSticky, showAtScrollUp });
 
+    const shouldDisplayVersionNumber = !compactSpacing && versionNumber;
+
     const LinkComponent = useNavigationLinkComponent();
 
     return (
@@ -106,14 +109,29 @@ const Header = forwardRef<HTMLElement, HeaderProps>(
               hasSearchbar={hasSearchbar}
             />
           ) : (
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                width: "100%",
+                alignSelf: "stretch",
+              }}
+            >
               <div className={styles["rte-header-left"]}>
                 {hasLeftSection ? (
                   leftSectionContent || (
-                    <LinkComponent href={homeLink} className={styles["rte-header-home"]}>
-                      {logoSrc && <img src={logoSrc} alt="Logo" className={styles["rte-header-logo"]} />}
-                      {applicationName && <span className={styles["rte-header-app-name"]}>{applicationName}</span>}
-                    </LinkComponent>
+                    <>
+                      <LinkComponent href={homeLink} className={styles["rte-header-home"]}>
+                        {logoSrc && <img src={logoSrc} alt="Logo" className={styles["rte-header-logo"]} />}
+                        {applicationName && <span className={styles["rte-header-app-name"]}>{applicationName}</span>}
+                      </LinkComponent>
+                      {shouldDisplayVersionNumber && (
+                        <div className={styles["rte-header-version"]}>
+                          <span>{versionNumber}</span>
+                        </div>
+                      )}
+                    </>
                   )
                 ) : (
                   <></>

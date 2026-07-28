@@ -13,6 +13,9 @@ const meta = {
   parameters: {
     viewport: { defaultViewport: "desktop" },
   },
+  argTypes: {
+    versionNumber: { control: "text" },
+  },
 } satisfies Meta<typeof Header>;
 
 export default meta;
@@ -123,6 +126,46 @@ export const Compact: Story = {
       <Header {...args} appearance="neutral" />
     </div>
   ),
+};
+
+export const WithVersionNumber: Story = {
+  args: {
+    ...Default.args,
+    applicationName: "Nom de l'appli/page",
+    versionNumber: "V1.1.3",
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Desktop header with **versionNumber** displayed below the application name, aligned to the bottom-right of the left section. Hidden in compact mode.",
+      },
+    },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    expect(canvas.getByText("V1.1.3")).toBeInTheDocument();
+    expect(canvas.getByText("Nom de l'appli/page")).toBeInTheDocument();
+  },
+};
+
+export const WithVersionNumberCompact: Story = {
+  args: {
+    ...WithVersionNumber.args,
+    compactSpacing: true,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: "In compact mode, **versionNumber** is hidden.",
+      },
+    },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    expect(canvas.queryByText("V1.1.3")).not.toBeInTheDocument();
+    expect(canvas.getByText("Nom de l'appli/page")).toBeInTheDocument();
+  },
 };
 
 export const NoMidSection: Story = {

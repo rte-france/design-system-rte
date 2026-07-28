@@ -9,6 +9,7 @@ export type HeaderAppearance = "brand" | "neutral";
 export interface HeaderProps {
   logoSrc?: string;
   applicationName?: string;
+  versionNumber?: string;
   compactSpacing?: boolean;
   hasLeftSection?: boolean;
   appearance?: HeaderAppearance;
@@ -44,6 +45,7 @@ export interface HeaderSubHeaderConfig {
 export interface HeaderLeftSectionConfig {
   hasLogo?: boolean;
   applicationName?: string;
+  versionNumber?: string;
   logoSrc?: string;
   homeLink?: string;
   homeAriaLabel?: string;
