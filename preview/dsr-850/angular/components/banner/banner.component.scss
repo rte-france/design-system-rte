@@ -32,11 +32,6 @@
     gap: $positive-spacing_100;
     border-bottom-width: $width-m;
 
-    .rte-banner-icon {
-      padding: $positive-spacing_0;
-      margin-right: $positive-spacing_200;
-    }
-
     .rte-banner-content {
       gap: $positive-spacing_0;
 
@@ -85,6 +80,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-right: $positive-spacing_200;
     gap: var(--positive-spacing_0, 0);
     align-self: stretch;
   }
