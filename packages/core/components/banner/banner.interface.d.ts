@@ -8,6 +8,10 @@ export interface BannerProps {
   actionCallback?: () => void;
   actionLabel?: string;
   isOpen?: boolean;
+  /**
+   * When true, applies the compact banner layout (reduced padding + typography).
+   */
+  isCompact?: boolean;
 }
 
 export type BannerType = "info" | "error" | "success" | "warning";
