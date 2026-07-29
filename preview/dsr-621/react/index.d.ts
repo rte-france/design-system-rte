@@ -43,4 +43,6 @@ import { default as Toast } from './components/toast/Toast.tsx';
 import { default as ToastQueueProvider } from './components/toast/toastQueue/ToastQueueProvider.tsx';
 import { default as Tooltip } from './components/tooltip/Tooltip.tsx';
 import { default as Treeview } from './components/treeview/Treeview.tsx';
-export { Avatar, Accordion, Button, Grid, Checkbox, CheckboxGroup, Link, RadioButton, RadioButtonGroup, Icon, IconButton, IconButtonToggle, Loader, SplitButton, Tooltip, BaseTextInput as TextInput, Chip, Badge, Textarea, Divider, Drawer, Switch, SegmentedControl, Breadcrumbs, Banner, Popover, Modal, SideNav, Stepper, BaseSideNav, Card, Toast, ToastQueueProvider, Tag, Tab, TimePicker, Treeview, Searchbar, Select, FileUpload, DatePicker, Dropdown, DropdownItem, DateRangePicker, Header, };
+import { useNavigationLinkComponent } from './provider/NavigationContext.tsx';
+import { default as NavigationProvider } from './provider/NavigationProvider.tsx';
+export { Avatar, Accordion, Button, Grid, Checkbox, CheckboxGroup, Link, RadioButton, RadioButtonGroup, Icon, IconButton, IconButtonToggle, Loader, SplitButton, Tooltip, BaseTextInput as TextInput, Chip, Badge, Textarea, Divider, Drawer, Switch, SegmentedControl, Breadcrumbs, Banner, Popover, Modal, SideNav, Stepper, BaseSideNav, Card, Toast, ToastQueueProvider, Tag, Tab, TimePicker, Treeview, Searchbar, Select, FileUpload, DatePicker, Dropdown, DropdownItem, DateRangePicker, Header, NavigationProvider, useNavigationLinkComponent, };
