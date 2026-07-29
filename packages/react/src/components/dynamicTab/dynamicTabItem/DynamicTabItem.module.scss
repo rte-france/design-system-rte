@@ -2,18 +2,54 @@
 
 .rte-dynamic-tab-item {
   display: flex;
-  min-width: 44px;
+  min-width: 76px;
   max-width: 280px;
   flex-direction: row;
   padding: $positive-spacing_150;
   align-items: center;
   gap: $positive-spacing_150;
   border: none;
-  cursor: pointer;
+  cursor: default;
+  flex: 1 0 0;
 
   border-right: $width-xs solid var(--border-tertiary);
   background: var(--background-neutral-subtle-default);
   color: var(--content-tertiary);
+
+  padding: 0;
+  opacity: 0;
+
+  justify-content: space-between;
+  box-sizing: border-box;
+
+  &[data-hidden="true"] {
+    visibility: hidden;
+    width: 0;
+    padding: 0;
+    margin: 0;
+    min-width: 0;
+    border: none;
+  }
+
+  &[data-is-animating="true"]:not([data-hidden="true"]) {
+    transition: max-width 0.3s ease, padding 0.3s ease;
+    min-width: 76px;
+    max-width: 280px;
+    padding: $positive-spacing_150;
+    opacity: 1;
+  }
+
+  &[data-is-animating="true"]:not([data-hidden="true"]) {
+    &[data-is-disappearing="true"] {
+      transition: max-width 0.3s ease, opacity 0.3s ease, padding 0.3s ease;
+      max-width: 0;
+      min-width: 0;
+      width: 0;
+      padding: 0;
+      opacity: 0;
+    }
+  }
+
 
   &[data-compact-spacing="true"] {
     padding-top: $positive-spacing_050;
@@ -26,6 +62,10 @@
     color: var(--content-secondary);
   }
 
+  &:focus-visible {
+    outline: none;
+  }
+
   &[data-active="true"] {
     background: var(--background-neutral-subtle-pressed);
     color: var(--content-primary);
@@ -34,9 +74,25 @@
 
   &__title {
     @include typography-text-m;
-    overflow: hidden;
-    text-overflow: ellipsis;
+
     box-sizing: border-box;
+    white-space: nowrap;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 12px;
+
+    span {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      &[data-is-animating="true"] {
+        opacity: 1;
+      }
+    }
   }
 
   &__close-button {
@@ -51,11 +107,7 @@
 
     &:hover {
       background-color: none;
-
-      & svg {
-        // Todo modify
-        color: red;
-      }
+      cursor: pointer;
     }
 
     &:focus-visible {

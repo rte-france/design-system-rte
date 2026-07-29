@@ -36,6 +36,7 @@
   "description": "",
   "dependencies": {
     "@design-system-rte/core": "^1.13.0",
+    "@dnd-kit/react": "^0.5.0",
     "clsx": "^2.1.1",
     "sass": "^1.85.1"
   },

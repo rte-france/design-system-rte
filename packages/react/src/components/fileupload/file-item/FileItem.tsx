@@ -1,11 +1,8 @@
 import { FileItemProps } from "@design-system-rte/core";
-import {
-  extractFileNameParts,
-  formatFileSize,
-  getStringWidthFromContext,
-} from "@design-system-rte/core/components/file-upload/file-upload.util";
+import { extractFileNameParts, formatFileSize } from "@design-system-rte/core/components/file-upload/file-upload.util";
 import { useCallback, useEffect, useRef, useState } from "react";
 
+import { getTextWidth } from "../../../utils/stringUtil";
 import AssistiveText from "../../assistivetext/AssistiveText";
 import Icon from "../../icon/Icon";
 import IconButton from "../../iconButton/IconButton";
@@ -38,12 +35,11 @@ const FileItem = ({ file, removeFile, isError, errorMessage, compact, isLoading 
       if (!fileNameElement) {
         return fileName;
       } else {
-        const ctx = computeContextStyle(fileNameElement);
-        const getTextWidth = getStringWidthFromContext(ctx);
+        const textWidth = getTextWidth(fileNameElement);
 
-        if (getTextWidth(fileName) <= availableWidth) return fileName;
+        if (textWidth(fileName) <= availableWidth) return fileName;
 
-        const availableFileNameSpace = availableWidth - getTextWidth(ellipsis) - getTextWidth(fileType);
+        const availableFileNameSpace = availableWidth - textWidth(ellipsis) - textWidth(fileType);
 
         if (availableFileNameSpace <= 0) return defaultTruncatedName;
 
@@ -52,7 +48,7 @@ const FileItem = ({ file, removeFile, isError, errorMessage, compact, isLoading 
         while (lowerIndex < higherIndex) {
           const midIndex = Math.ceil((lowerIndex + higherIndex) / 2);
           const { startStr, endStr } = computeStartAndEndStr(midIndex, baseName);
-          if (getTextWidth(startStr) + getTextWidth(endStr) <= availableFileNameSpace) {
+          if (textWidth(startStr) + textWidth(endStr) <= availableFileNameSpace) {
             lowerIndex = midIndex;
           } else {
             higherIndex = midIndex - 1;
@@ -83,14 +79,6 @@ const FileItem = ({ file, removeFile, isError, errorMessage, compact, isLoading 
       const availableWidth = fileInformationElement.offsetWidth - sizeElement.offsetWidth - gap;
       return availableWidth;
     }
-  };
-
-  const computeContextStyle = (fileNameElement: HTMLSpanElement) => {
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d")!;
-    const style = window.getComputedStyle(fileNameElement);
-    ctx.font = `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
-    return ctx;
   };
 
   const computeStartAndEndStr = (mid: number, baseName: string) => {

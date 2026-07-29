@@ -1,11 +1,13 @@
-import { waitForNextFrame } from "@design-system-rte/core/common/animation";
-import { DATE_SEGMENTS_ORDER, DateSegmentEnum } from "@design-system-rte/core/components/datepicker";
 import {
   DATERANGEPICKER_DEFAULT_WIDTH,
   DATERANGEPICKER_MIN_WIDTH,
   DateRangePickerProps,
-} from "@design-system-rte/core/components/daterangepicker";
-import { normalizeDate, areSameRange } from "@design-system-rte/core/components/pickers";
+  DATE_SEGMENTS_ORDER,
+  DateSegmentEnum,
+  normalizeDate,
+  areSameRange,
+} from "@design-system-rte/core";
+import { waitForNextFrame } from "@design-system-rte/core/common/animation";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { BaseDropdown } from "../../../components/dropdown/BaseDropdown";
