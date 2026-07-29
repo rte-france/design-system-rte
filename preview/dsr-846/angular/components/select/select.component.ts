@@ -210,8 +210,10 @@ export class SelectComponent extends BaseValueAccessor<string | string[]> implem
     );
   }
 
-  private emitFormChange(): void {
-    this.onChange(this.internalValue() ?? (this.multiple() ? [] : ""));
+  private emitValueChange(): void {
+    const value = this.internalValue() ?? (this.multiple() ? [] : "");
+    this.valueChange.emit(value);
+    this.onChange(value);
   }
 
   areAllOptionsSelected(): boolean {
@@ -256,8 +258,7 @@ export class SelectComponent extends BaseValueAccessor<string | string[]> implem
         if (valueIndex > -1) {
           this.internalValue.set(currentValue.filter((currentItem) => currentItem !== value));
           this.regenerateOptionsFormatted();
-          this.valueChange.emit(currentValue);
-          this.emitFormChange();
+          this.emitValueChange();
           this.currentDisplayedOption.set(
             getSelectedOption(this.optionToDisplay() || "first-selected", this.options(), this.internalValue()!),
           );
@@ -288,12 +289,10 @@ export class SelectComponent extends BaseValueAccessor<string | string[]> implem
     } else {
       this.internalValue.set(value);
       this.isActive.set(!this.isActive());
-      this.valueChange.emit(value);
     }
     this.regenerateOptionsFormatted();
 
-    this.valueChange.emit(value);
-    this.emitFormChange();
+    this.emitValueChange();
     this.currentDisplayedOption.set(
       getSelectedOption(this.optionToDisplay() || "first-selected", this.options(), this.internalValue()!),
     );
@@ -320,16 +319,9 @@ export class SelectComponent extends BaseValueAccessor<string | string[]> implem
   }
 
   private clearSelection() {
-    if (this.multiple()) {
-      this.internalValue.set([]);
-      this.valueChange.emit([]);
-    } else {
-      this.internalValue.set("");
-      this.valueChange.emit("");
-    }
+    this.internalValue.set(this.multiple() ? [] : "");
     this.isActive.set(false);
-    this.valueChange.emit("select-all");
-    this.emitFormChange();
+    this.emitValueChange();
     this.selectRef()?.nativeElement.dispatchEvent(new Event("clearContent"));
     this.regenerateOptionsFormatted();
     this.currentDisplayedOption.set(
@@ -371,10 +363,8 @@ export class SelectComponent extends BaseValueAccessor<string | string[]> implem
   private clickedSelectAll() {
     if (this.areAllOptionsSelected()) {
       this.internalValue.set([]);
-      this.valueChange.emit([]);
     } else {
       this.internalValue.set(this.options().map((option) => option.value));
-      this.valueChange.emit(this.options().map((option) => option.value));
     }
   }
 
@@ -388,7 +378,6 @@ export class SelectComponent extends BaseValueAccessor<string | string[]> implem
     const valuesArray =
       valueIndex > -1 ? currentValue.filter((currentItem) => currentItem !== value) : [...currentValue, value];
     this.internalValue.set(valuesArray);
-    this.valueChange.emit(valuesArray);
   }
 
   private mapOptionToDropdownItemConfig(option: { value: string; label: string }): DropdownItemConfig {
