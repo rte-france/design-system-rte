@@ -15,6 +15,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
   (
     {
       width = DEFAULT_CARD_WIDTH,
+      height = "auto",
       cardType = "default",
       clickable = false,
       disabled = false,
@@ -48,7 +49,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
       <div
         ref={ref}
         className={styles.card}
-        style={{ width }}
+        style={{ width, height }}
         data-card-type={cardType}
         data-clickable={clickable}
         data-disabled={disabled}
