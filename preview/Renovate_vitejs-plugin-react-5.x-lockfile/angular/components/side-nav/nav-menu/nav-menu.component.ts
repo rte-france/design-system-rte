@@ -1,5 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, effect, input, output } from "@angular/core";
+import { RouterLink } from "@angular/router";
 import { BadgeProps } from "@design-system-rte/core/components/badge/badge.interface";
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
 import {
@@ -13,6 +14,12 @@ import { getDividerAppearanceBySideNavTheme } from "@design-system-rte/core/comp
 import { SideNavAppearance, SideNavContrast } from "@design-system-rte/core/components/side-nav/side-nav.interface";
 import { ENTER_KEY, ESCAPE_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
+import {
+  NavigationElement,
+  resolveNavigationHref,
+  resolveNavigationRouterLink,
+} from "../../../utils/navigation/navigation-element";
+import { RouterLinkConfig, RouterLinkValue } from "../../../utils/navigation/router-link-inputs";
 import { BadgeComponent } from "../../badge/badge.component";
 import { BadgeDirective } from "../../badge/badge.directive";
 import { DividerComponent } from "../../divider/divider.component";
@@ -39,6 +46,7 @@ export interface NavMenuOpenChangeEvent {
     DividerComponent,
     NavItemComponent,
     TooltipDirective,
+    RouterLink,
   ],
   templateUrl: "./nav-menu.component.html",
   styleUrl: "./nav-menu.component.scss",
@@ -50,8 +58,13 @@ export class NavMenuComponent {
   readonly hasLeadingIcon = input<boolean>(true);
   readonly label = input.required<string>();
   readonly isCollapsed = input<boolean>(false);
-  readonly link = input<string | undefined>();
-  readonly items = input.required<NavItemProps[]>();
+  /** @deprecated Use `routerLink` instead. */
+  readonly link = input<RouterLinkValue>();
+  readonly routerLink = input<RouterLinkValue>();
+  readonly routerLinkConfig = input<RouterLinkConfig>();
+  readonly href = input<string>();
+  readonly externalLink = input<boolean>();
+  readonly items = input.required<(NavItemProps & NavigationElement)[]>();
   readonly open = input<boolean | undefined>(false);
   readonly hasMenuIcon = input<boolean>(true);
   readonly isNested = input<boolean>(false);
@@ -64,6 +77,16 @@ export class NavMenuComponent {
 
   readonly itemClick = output<string>();
   readonly openChange = output<NavMenuOpenChangeEvent>();
+
+  readonly resolvedHref = computed(() => resolveNavigationHref({ href: this.href() }));
+  readonly effectiveRouterLink = computed(() =>
+    resolveNavigationRouterLink({
+      href: this.href(),
+      routerLink: this.routerLink(),
+      link: this.link(),
+    }),
+  );
+  readonly isNavigable = computed(() => !!(this.resolvedHref() || this.effectiveRouterLink()));
 
   constructor() {
     effect(() => {
@@ -118,7 +141,7 @@ export class NavMenuComponent {
     }
   }
 
-  hasNestedItemsForItem(item: NavItemProps): item is NavMenuProps {
+  hasNestedItemsForItem(item: NavItemProps & NavigationElement): item is NavMenuProps & NavigationElement {
     return !!item.items?.length;
   }
 
