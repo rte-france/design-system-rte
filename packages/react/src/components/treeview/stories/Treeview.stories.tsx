@@ -6,6 +6,10 @@ import {
   TESTING_SPACE_KEY,
 } from "@design-system-rte/core";
 import {
+  disabledItemsScenarioData,
+  disabledItemsScenarioSelectedId,
+} from "@design-system-rte/core/components/treeview/treeview-disabled-items.story-data";
+import {
   TreeviewActionMenuItem,
   TreeviewItemProps,
 } from "@design-system-rte/core/components/treeview/treeview-item.interface";
@@ -569,6 +573,30 @@ export const KeyboardNavigation: Story = {
       description: {
         story:
           "Keyboard navigation: Tab enters tree (first content focused). ArrowUp/Down move between rows (stay at boundaries). ArrowLeft/Right move within row (checkbox→chevron→content→action). Space on content selects, on chevron expands/collapses, on checkbox toggles, on action emits. Tab exits; re-entry focuses first item.",
+      },
+    },
+  },
+};
+
+export const DisabledItemsScenario: Story = {
+  args: {
+    items: disabledItemsScenarioData,
+    selectedId: disabledItemsScenarioSelectedId,
+    hasCheckbox: true,
+    id: "treeview-disabled-items-scenario",
+  },
+  decorators: [
+    (Story) => (
+      <div style={{ minWidth: "420px", maxHeight: "520px", overflow: "auto" }}>
+        <Story />
+      </div>
+    ),
+  ],
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Reproduces a business scenario with mixed enabled and disabled items (phases and indices). Uses the treeview checkbox system. Disabled nodes use disabled: true — they appear greyed out and must not be selectable, clickable, or checkable. Use this story to manually verify mouse and keyboard interaction on disabled items.",
       },
     },
   },

@@ -7,6 +7,7 @@ import {
   findFocusedPosition,
   getNextFocusTarget,
   getVisibleFocusableRows,
+  isTreeitemDisabled,
   isTreeviewFocusable,
   resetMovingTabIndex,
   setMovingTabindex,
@@ -28,7 +29,7 @@ const handleArrowKey = (treeElement: HTMLElement, event: KeyboardEvent): void =>
     return;
   }
 
-  if (!isTreeviewFocusable(target)) {
+  if (!isTreeviewFocusable(target) || isTreeitemDisabled(target)) {
     return;
   }
 
@@ -74,7 +75,7 @@ const handleArrowKey = (treeElement: HTMLElement, event: KeyboardEvent): void =>
 
 export const onFocusIn = (treeElement: HTMLElement, event: FocusEvent): void => {
   const target = event.target as HTMLElement;
-  if (treeElement.contains(target) && isTreeviewFocusable(target)) {
+  if (treeElement.contains(target) && isTreeviewFocusable(target) && !isTreeitemDisabled(target)) {
     setMovingTabindex(treeElement, target);
   }
 };
