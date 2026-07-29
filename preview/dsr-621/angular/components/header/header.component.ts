@@ -11,6 +11,7 @@ import {
   output,
   signal,
 } from "@angular/core";
+import { RouterLink } from "@angular/router";
 import { BadgeSize } from "@design-system-rte/core/components/badge/badge.interface";
 import { ButtonSize, type ButtonVariant } from "@design-system-rte/core/components/button/common/common-button";
 import {
@@ -23,12 +24,17 @@ import {
   type HeaderAppearance,
   type HeaderAvatarConfig,
   type HeaderIconButtonConfig,
-  type HeaderLeftSectionConfig,
   type HeaderNavigationItem,
   type ScrollDirectionState,
 } from "@design-system-rte/core/components/header";
 import { SearchBarAppearance, SearchBarProps } from "@design-system-rte/core/components/searchbar";
 
+import {
+  NavigationElement,
+  resolveNavigation,
+  resolveNavigationRouterLink,
+} from "../../utils/navigation/navigation-element";
+import { RouterLinkConfig, RouterLinkValue } from "../../utils/navigation/router-link-inputs";
 import { AvatarComponent } from "../avatar/avatar.component";
 import { BreadcrumbsComponent } from "../breadcrumbs/breadcrumbs.component";
 import { ButtonComponent } from "../button/button.component";
@@ -39,13 +45,18 @@ import { IconComponent } from "../icon/icon.component";
 import { IconButtonComponent } from "../icon-button/icon-button.component";
 import { SearchbarComponent } from "../searchbar/searchbar.component";
 
-import { HeaderLeftSectionComponent } from "./header-left-section/header-left-section.component";
+import {
+  HeaderLeftSectionComponent,
+  HeaderLeftSectionConfig,
+} from "./header-left-section/header-left-section.component";
 import { HeaderLeftDirective } from "./header-left.directive";
 import { HeaderMobileComponent } from "./header-mobile/header-mobile.component";
 import { HeaderMobileMenuDirective } from "./header-mobile-menu.directive";
 import { HeaderRightDirective } from "./header-right.directive";
 
 const DEFAULT_HOME_LINK = "/";
+
+export type HeaderNavigationElement = HeaderNavigationItem & NavigationElement;
 
 @Component({
   selector: "rte-header",
@@ -61,6 +72,7 @@ const DEFAULT_HOME_LINK = "/";
     HeaderLeftSectionComponent,
     HeaderRightDirective,
     DividerComponent,
+    RouterLink,
   ],
   templateUrl: "./header.component.html",
   styleUrl: "./header.component.scss",
@@ -82,12 +94,17 @@ export class HeaderComponent {
   readonly hasLogo = input<boolean>(true);
   readonly applicationName = input<string>("");
   readonly logoSrc = input<string | undefined>(undefined);
+  /** @deprecated Use `homeRouterLink` instead. */
   readonly homeLink = input<string>(DEFAULT_HOME_LINK);
+  readonly homeRouterLink = input<RouterLinkValue>();
+  readonly homeRouterLinkConfig = input<RouterLinkConfig>();
+  readonly homeHref = input<string>();
+  readonly homeExternalLink = input<boolean>(false);
   readonly homeAriaLabel = input<string | undefined>(undefined);
 
   readonly hasMidSection = input<boolean>(true);
   readonly navigationAriaLabel = input<string>(HEADER_DEFAULT_NAV_ARIA_LABEL);
-  readonly navigationItems = input<HeaderNavigationItem[]>([]);
+  readonly navigationItems = input<HeaderNavigationElement[]>([]);
 
   readonly hasSearchbar = input<boolean>(true);
   readonly searchbarProps = input<SearchBarProps | undefined>(undefined);
@@ -129,13 +146,21 @@ export class HeaderComponent {
   readonly projectedLeftSection = contentChild(HeaderLeftDirective);
   readonly projectedMobileMenu = contentChild(HeaderMobileMenuDirective);
 
-  readonly computedLeftSectionConfig = computed<HeaderLeftSectionConfig | undefined>(() => {
+  readonly leftSectionConfig = computed<HeaderLeftSectionConfig>(() => {
     return {
       hasLogo: this.hasLogo(),
       applicationName: this.applicationName(),
       logoSrc: this.logoSrc(),
-      homeLink: this.homeLink(),
       homeAriaLabel: this.homeAriaLabel(),
+      homeNavigation: resolveNavigation(
+        {
+          routerLink: this.homeRouterLink() ?? this.homeLink(),
+          routerLinkConfig: this.homeRouterLinkConfig(),
+          href: this.homeHref(),
+          externalLink: this.homeExternalLink(),
+        },
+        DEFAULT_HOME_LINK,
+      ),
     };
   });
 
@@ -244,7 +269,7 @@ export class HeaderComponent {
     return () => window.removeEventListener("scroll", onScroll);
   }
 
-  handleNavigationItemClick(item: HeaderNavigationItem, event: MouseEvent): void {
+  handleNavigationItemClick(item: HeaderNavigationElement, event: MouseEvent): void {
     if (item.disabled) {
       event.preventDefault();
       return;
@@ -279,5 +304,17 @@ export class HeaderComponent {
   handleIsSearchActiveChange(nextValue: boolean): void {
     this.internalIsSearchActive.set(nextValue);
     this.isSearchActiveChange.emit(nextValue);
+  }
+
+  headerNativeHref(item: HeaderNavigationElement): string | undefined {
+    if (!item.disabled && item.externalLink) {
+      return item.href;
+    }
+  }
+
+  headerRouterLink(item: HeaderNavigationElement): RouterLinkValue | undefined {
+    if (!item.disabled && !item.externalLink) {
+      return resolveNavigationRouterLink(item) ?? item.href;
+    }
   }
 }
