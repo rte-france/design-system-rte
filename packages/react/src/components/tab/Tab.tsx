@@ -49,7 +49,7 @@ const Tab = forwardRef<HTMLDivElement, TabProps>(
 
     const containerRef: MutableRefObject<HTMLDivElement | null> = useRef<HTMLDivElement>(null);
 
-    const sliderStyle = useSelectedIndicatorPosition(
+    const { indicatorStyle } = useSelectedIndicatorPosition(
       containerRef,
       selectedTabId,
       direction === "horizontal" ? "bottom" : "left",
@@ -175,10 +175,10 @@ const Tab = forwardRef<HTMLDivElement, TabProps>(
             <div
               className={style["tab-selected-indicator"]}
               style={{
-                left: shouldDisplayDropdown ? 0 : sliderStyle.left,
-                width: (sliderStyle.width ?? 0) + (shouldDisplayDropdown ? 32 : 0),
-                top: sliderStyle.top,
-                height: sliderStyle.height,
+                left: shouldDisplayDropdown ? 0 : indicatorStyle.left,
+                width: (indicatorStyle.width ?? 0) + (shouldDisplayDropdown ? 32 : 0),
+                top: indicatorStyle.top,
+                height: indicatorStyle.height,
               }}
             ></div>
             {shouldDisplayDropdown && selectedOption && (

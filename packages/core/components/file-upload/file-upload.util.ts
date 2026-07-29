@@ -1,5 +1,3 @@
-export const getStringWidthFromContext = (ctx: CanvasRenderingContext2D) => (t: string) => ctx.measureText(t).width;
-
 export const formatFileSize = (bytes: number) => {
   if (bytes < 1024) return `${bytes} o`;
   if (bytes < 1024 ** 2) return `${(bytes / 1024).toFixed(2)} Ko`;
@@ -13,3 +11,5 @@ export const extractFileNameParts = (name: string) => {
   const baseName = fileTypeIndex !== -1 ? name.substring(0, fileTypeIndex) : name;
   return { baseName, fileType };
 };
+
+export const getStringWidthFromContext = (ctx: CanvasRenderingContext2D) => (t: string) => ctx.measureText(t).width;

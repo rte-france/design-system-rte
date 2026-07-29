@@ -52,3 +52,4 @@ export * from "./components/file-upload";
 export * from "./components/timepicker";
 export * from "./components/pickers";
 export * from "./components/daterangepicker";
+export * from "./components/dynamic-tab";

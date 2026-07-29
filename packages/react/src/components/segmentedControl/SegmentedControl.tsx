@@ -18,7 +18,7 @@ interface SegmentedControlProps
 const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps>(
   ({ options, onChange, selectedSegment, appearance = "brand", compactSpacing = false, ...props }, ref) => {
     const containerRef: MutableRefObject<HTMLDivElement | null> = useRef<HTMLDivElement>(null);
-    const sliderStyle = useSelectedIndicatorPosition(containerRef, selectedSegment);
+    const { indicatorStyle } = useSelectedIndicatorPosition(containerRef, selectedSegment);
 
     const handleOnClick = (event: React.MouseEvent<HTMLDivElement> | React.KeyboardEvent<HTMLDivElement>) => {
       const target = event.currentTarget as HTMLDivElement;
@@ -47,9 +47,9 @@ const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps>(
           className={style["segment-selected-indicator"]}
           data-compact-spacing={compactSpacing}
           style={{
-            left: sliderStyle.left,
-            top: sliderStyle.top,
-            width: sliderStyle.width,
+            left: indicatorStyle.left,
+            top: indicatorStyle.top,
+            width: indicatorStyle.width,
           }}
         />
         {options.map((option, index) => (

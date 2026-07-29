@@ -1,14 +1,124 @@
 @use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
 
+@mixin dynamic-tab-button-style {
+  display: flex;
+  max-width: 280px;
+  flex-direction: row;
+  padding: $positive-spacing_150;
+  align-items: center;
+  gap: $positive-spacing_150;
+  border: none;
+  height: 100%;
+  flex: 1 0 auto;
+  background: var(--background-neutral-subtle-default);
+  color: var(--content-tertiary);
+  list-style: none;
+
+  &__text {
+    @include typography-text-m;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    box-sizing: border-box;
+  }
+
+  &[data-compact-spacing="true"] {
+    padding-top: $positive-spacing_050;
+    padding-bottom: $positive-spacing_050;
+  }
+
+  &:hover {
+    background: var(--background-neutral-subtle-hover);
+    color: var(--content-secondary);
+  }
+
+  &:focus-visible {
+    outline: none;
+    background: var(--background-neutral-subtle-hover);
+    color: var(--content-secondary);
+  }
+
+  &[data-active="true"] {
+    background: var(--background-neutral-subtle-pressed);
+    color: var(--content-primary);
+    border: none;
+  }
+
+  &[data-appearance="brand"] {
+    background: var(--background-brand-subtle-default);
+    color: var(--content-brand-default);
+
+    &:hover {
+      background: var(--background-brand-subtle-hover);
+      color: var(--content-brand-hover);
+    }
+  }
+}
+
 .rte-dynamic-tab {
   display: flex;
   align-items: center;
   position: relative;
+  width: 100%;
+  justify-content: flex-start;
+
 
   &[data-appearance="brand"] {
     .rte-dynamic-tab__indicator {
 
       background: var(--background-brand-default);
+    }
+  }
+
+  &__list {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    min-width: 0;
+    width: auto;
+    overflow-x: hidden;
+    flex: 1;
+    justify-content: flex-start;
+
+  }
+
+  &__add-button {
+    @include dynamic-tab-button-style;
+    min-width: 44px;
+  }
+
+  &__action {
+    display: flex;
+    position: absolute;
+    right: 0;
+    align-items: center;
+  }
+
+  .rte-dynamic-tab__more-menu-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+
+  .rte-dynamic-tab__more-menu {
+    @include dynamic-tab-button-style;
+    border-right: $width-xs solid var(--border-tertiary);
+    width: 144px;
+    min-width: 144px;
+    max-width: 144px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: $positive-spacing_050;
+    visibility: hidden;
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+
+    &[data-overflow="true"] {
+      visibility: visible;
+      position: relative;
+      opacity: 1;
+      pointer-events: auto;
     }
   }
 
