@@ -75,6 +75,7 @@ const meta: Meta<HeaderComponent> = {
     hasRightSection: { control: "boolean" },
     hasSubHeader: { control: "boolean" },
     hasDivider: { control: "boolean" },
+    versionNumber: { control: "text" },
   },
 };
 
@@ -185,6 +186,75 @@ export const NeutralCompact: Story = {
     ...Default.args,
     appearance: "neutral",
     isCompact: true,
+  },
+};
+
+export const WithVersionNumber: Story = {
+  parameters: {
+    viewport: { defaultViewport: "desktop" },
+    docs: {
+      description: {
+        story:
+          "Desktop header with **versionNumber** displayed below the application name, aligned to the bottom-right of the left section. Hidden in compact mode.",
+      },
+    },
+  },
+  args: {
+    ...Default.args,
+    applicationName: "Nom de l'appli/page",
+    versionNumber: "V1.1.3",
+  },
+  render: (args) => ({
+    props: { ...args },
+    template: `
+      <rte-header
+        [appearance]="appearance"
+        [isCompact]="isCompact"
+        [hasLeftSection]="hasLeftSection"
+        [hasMidSection]="hasMidSection"
+        [hasRightSection]="hasRightSection"
+        [hasLogo]="hasLogo"
+        [applicationName]="applicationName"
+        [versionNumber]="versionNumber"
+        [logoSrc]="logoSrc"
+        [homeLink]="homeLink"
+        [navigationItems]="navigationItems"
+        [hasSearchbar]="hasSearchbar"
+        [searchbarProps]="searchbarProps"
+        [hasActionButton]="hasActionButton"
+        [actionButton]="actionButton"
+        [hasIconButtons]="hasIconButtons"
+        [iconButtons]="iconButtons"
+        [hasAvatar]="hasAvatar"
+        [avatarProps]="avatarProps"
+      />
+    `,
+  }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    expect(canvas.getByText("V1.1.3")).toBeInTheDocument();
+    expect(canvas.getByText("Nom de l'appli/page")).toBeInTheDocument();
+  },
+};
+
+export const WithVersionNumberCompact: Story = {
+  parameters: {
+    viewport: { defaultViewport: "desktop" },
+    docs: {
+      description: {
+        story: "In compact mode, **versionNumber** is hidden (same behavior as SideNav header version).",
+      },
+    },
+  },
+  args: {
+    ...WithVersionNumber.args,
+    isCompact: true,
+  },
+  render: WithVersionNumber.render,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    expect(canvas.queryByText("V1.1.3")).not.toBeInTheDocument();
+    expect(canvas.getByText("Nom de l'appli/page")).toBeInTheDocument();
   },
 };
 
