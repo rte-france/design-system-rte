@@ -2,6 +2,69 @@
 
 # Angular
 
+## 4.0.0
+
+### Routing
+
+#### Minor Changes
+
+- add provider to support routing library link component
+
+### Pagination
+
+#### Minor Changes
+
+- correct controls' focus behavoir
+- add Angular component
+
+### Drawer
+
+#### Minor Changes
+
+- addd an option to hide component's Header
+
+### Header
+
+#### Minor Changes
+
+- add versionNumber property for left section
+
+### Card
+
+#### Minor Changes
+
+- add customizable height property
+
+### Treeview
+
+#### Patch Changes
+
+- correct keyboard navigation & interaction
+
+### Chip
+
+#### Patch Changes
+
+- correct compact height to be 20px instead of 24px
+
+### Select
+
+#### Patch Changes
+
+- correct multiple emits on value change
+
+### Other
+
+#### Patch Changes
+
+- Updated dependencies [c333cc2]
+- Updated dependencies [20f45ff]
+- Updated dependencies [7eb542d]
+- Updated dependencies [da54bc8]
+- Updated dependencies [35b5e6b]
+- Updated dependencies [e7b53d3]
+- @design-system-rte/core@1.14.0
+
 ## 3.0.0
 
 ### Navigation
@@ -81,91 +144,73 @@
 
 - Updated dependencies [3907f5d]
 - @design-system-rte/core@1.12.1
+# React
 
-## 2.0.0
+## 1.14.0
 
-### Divider
-
-#### Minor Changes
-
-- add Code Connect template files for Figma
-
-### Tooltip
+### Link
 
 #### Minor Changes
 
-- add Code Connect template files for Figma
-
-### Icon Button
-
-#### Minor Changes
-
-- add Code Connect template files for Figma
-
-### Tag
-
-#### Minor Changes
-
-- add Code Connect template files for Figma
-
-### Card
-
-#### Minor Changes
-
-- add Code Connect template files for Figma
-
-### Avatar
-
-#### Minor Changes
-
-- add Code Connect template files for Figma
-
-### Header
-
-#### Minor Changes
-
-- add Code Connect template files for Figma
+- add support for to props
 
 ### Sidenav
 
 #### Minor Changes
 
-- add Code Connect template files for Figma
+- add support for router link component and update active item state
 
-### Icon
-
-#### Minor Changes
-
-- map Figma Icon instances to Angular Icon components
-
-### Angular
+### Routing
 
 #### Minor Changes
 
-- create template file for Figma Code Connect
+- add provider to support routing library link component
 
-### Select
+### Drawer
+
+#### Minor Changes
+
+- addd an option to hide component's Header
+
+### Header
+
+#### Minor Changes
+
+- add versionNumber property for left section
+
+### Card
+
+#### Minor Changes
+
+- add customizable height property
+
+### Treeview
 
 #### Patch Changes
 
-- add maxheight props to allow scrolling behaviour
+- correct keyboard navigation & interaction
+
+### Chip
+
+#### Patch Changes
+
+- correct compact height to be 20px instead of 24px
 
 ### Other
 
-#### Major Changes
+#### Minor Changes
 
-- remove standalone explicit declarations. They are implicit now
-- update to Angular@19
+- remove console.log
 
 #### Patch Changes
 
-- harmonise required indicator style
-- Updated dependencies [d801d54]
-- Updated dependencies [6984541]
-- Updated dependencies [83d7ea1]
-- Updated dependencies [19d47a0]
-- @design-system-rte/core@1.12.0
-# React
+- Updated dependencies [c333cc2]
+- Updated dependencies [20f45ff]
+- Updated dependencies [7eb542d]
+- Updated dependencies [da54bc8]
+- Updated dependencies [35b5e6b]
+- Updated dependencies [e7b53d3]
+- @design-system-rte/core@1.14.0
 
 ## 1.13.0
 
@@ -325,134 +370,48 @@
 - Updated dependencies [b44a590]
 - Updated dependencies [b0ed7db]
 - @design-system-rte/core@1.11.0
+# Core
 
-## 1.11.0
-
-### Text-input
-
-#### Minor Changes
-
-- add enterKeyDown event
-
-### Toast
-
-#### Minor Changes
-
-- add top-center position
-
-### Tag
-
-#### Minor Changes
-
-- add decorative color + align names with token value
-
-### Chip
-
-#### Minor Changes
-
-- add neutral variant
-
-### Header
-
-#### Minor Changes
-
-- react - export component
-- add missing padding on link
-- add missing padding on mobile
-- react - extract interface + fix review comments
-- react add interaction stories
-- react - add component
+## 1.14.0
 
 ### Sidenav
 
 #### Minor Changes
 
-- correct new Focus display for Items and Menus in new possible style combinations
-- add compact Badges to compact Sidenav
-- add Tooltip for Sidenav Header
-- correct Header Identifier & Title display
-- correct width of component and add ellipsis to its header
-- correct import statements of new core imports
-- correct active zone for nav items
-- add compact mode for standardization with Header
-- correct active state handling for sub-items
-- add contrast capacities to component
-- remove Drawer-Responsive logic from Sidenav & simplify template and rendering
+- add support for router link component and update active item state
 
-### Searchbar
+### Pagination
 
 #### Minor Changes
 
-- change border radius from 8px to 4px
+- add Angular component
 
-### Input
+### Drawer
 
-#### Patch Changes
+#### Minor Changes
 
-- add or configure width props to be used
+- addd an option to hide component's Header
 
-### Date Picker
+### Header
 
-#### Patch Changes
+#### Minor Changes
 
-- create a two-layer system for Menu so range in menu can be displayed properly in any size
+- add versionNumber property for left section
 
-### Modal
+### Card
 
-#### Patch Changes
+#### Minor Changes
 
-- react - add conditional rendering of description html element
-
-### Radio-button
-
-#### Patch Changes
-
-- add support for external checked control
-
-### Select
-
-#### Patch Changes
-
-- add missing background color
+- add customizable height property
 
 ### Treeview
 
 #### Patch Changes
 
-- set right color for chevron and icon
-
-### Dropdown
-
-#### Patch Changes
-
-- activate click event with on link
-
-### Base-input-picker
-
-#### Patch Changes
-
-- react - set button type as button to prevent form sending
-
-### Card
-
-#### Patch Changes
-
-- remove shadow from outlined version
+- correct keyboard navigation & interaction
 
 ### Other
 
-#### Patch Changes
-
-- Updated dependencies [6e839c8]
-- Updated dependencies [e4dc52f]
-- Updated dependencies [7053ac6]
-- Updated dependencies [65af3dd]
-- Updated dependencies [e7afe99]
-- Updated dependencies [77a7b3f]
-- Updated dependencies [39dee3c]
-- Updated dependencies [6be38db]
-- @design-system-rte/core@1.10.0
-# Core
 
 ## 1.13.0
 
@@ -491,26 +450,6 @@
 
 - update to Angular@19
 - add Code Connect template files for Figma
-
-## 1.11.0
-
-### Icon
-
-#### Minor Changes
-
-- add circuit_amperemetre_filled, circuit_amperemetre_outlined, circuit_bulb_filled, circuit_bulb_outlined, circuit_capacitor, circuit_cell, circuit_ground, circuit_inductor, circuit_motor_filled, circuit_motor_outlined, circuit_voltmetre_filled, circuit_voltmetre_outlined, journal_filled, journal_outlined, pylon, version_filled, version_outlined
-
-### Select
-
-#### Minor Changes
-
-- add variant visibly-selected + add compactSpacing props
-
-### Other
-
-#### Patch Changes
-
-- update z-index values across components and introduce get overlay layer utils for overlay management
 # Design Docs
 
 ## 1.4.0
