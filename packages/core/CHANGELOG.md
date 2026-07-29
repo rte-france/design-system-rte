@@ -1,5 +1,35 @@
 # @design-system-rte/core
 
+## 1.14.0
+
+### Minor Changes
+
+- c333cc2: ## Changes
+
+  - (Sidenav) add support for router link component and update active item state
+
+- 20f45ff: ## Changes
+
+  - (Pagination) add Angular component
+
+- 7eb542d: ## Changes
+
+  - (Drawer) addd an option to hide component's Header
+
+- da54bc8: ## Changes
+
+  - (Header) add versionNumber property for left section
+
+- 35b5e6b: ## Changes
+
+  - (Card) add customizable height property
+
+### Patch Changes
+
+- e7b53d3: ## Changes
+
+  - (Treeview) correct keyboard navigation & interaction
+
 ## 1.13.0
 
 ### Minor Changes

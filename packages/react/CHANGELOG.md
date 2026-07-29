@@ -1,5 +1,46 @@
 # @design-system-rte/react
 
+## 1.14.0
+
+### Minor Changes
+
+- c333cc2: ## Changes
+
+  - remove console.log
+  - (Link) add support for to props
+  - (Sidenav) add support for router link component and update active item state
+  - (Routing) add provider to support routing library link component
+
+- 7eb542d: ## Changes
+
+  - (Drawer) addd an option to hide component's Header
+
+- da54bc8: ## Changes
+
+  - (Header) add versionNumber property for left section
+
+- 35b5e6b: ## Changes
+
+  - (Card) add customizable height property
+
+### Patch Changes
+
+- e7b53d3: ## Changes
+
+  - (Treeview) correct keyboard navigation & interaction
+
+- 68db803: ## Changes
+
+  - (Chip) correct compact height to be 20px instead of 24px
+
+- Updated dependencies [c333cc2]
+- Updated dependencies [20f45ff]
+- Updated dependencies [7eb542d]
+- Updated dependencies [da54bc8]
+- Updated dependencies [35b5e6b]
+- Updated dependencies [e7b53d3]
+  - @design-system-rte/core@1.14.0
+
 ## 1.13.0
 
 ### Minor Changes

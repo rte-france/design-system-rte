@@ -1,5 +1,52 @@
 # @design-system-rte/angular
 
+## 4.0.0
+
+### Minor Changes
+
+- c333cc2: ## Changes
+
+  - (Routing) add provider to support routing library link component
+
+- 20f45ff: ## Changes
+
+  - (Pagination) correct controls' focus behavoir
+  - (Pagination) add Angular component
+
+- 7eb542d: ## Changes
+
+  - (Drawer) addd an option to hide component's Header
+
+- da54bc8: ## Changes
+
+  - (Header) add versionNumber property for left section
+
+- 35b5e6b: ## Changes
+
+  - (Card) add customizable height property
+
+### Patch Changes
+
+- e7b53d3: ## Changes
+
+  - (Treeview) correct keyboard navigation & interaction
+
+- 68db803: ## Changes
+
+  - (Chip) correct compact height to be 20px instead of 24px
+
+- a919ec4: ## Changes
+
+  - (Select) correct multiple emits on value change
+
+- Updated dependencies [c333cc2]
+- Updated dependencies [20f45ff]
+- Updated dependencies [7eb542d]
+- Updated dependencies [da54bc8]
+- Updated dependencies [35b5e6b]
+- Updated dependencies [e7b53d3]
+  - @design-system-rte/core@1.14.0
+
 ## 3.0.0
 
 ### Major Changes
