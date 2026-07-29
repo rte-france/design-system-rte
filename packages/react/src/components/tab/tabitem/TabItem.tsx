@@ -180,6 +180,7 @@ const TabItem = forwardRef<HTMLButtonElement, TabItemProps>(
     return (
       <>
         <button
+          type="button"
           id={id}
           className={style["tabitem"]}
           role="tab"
