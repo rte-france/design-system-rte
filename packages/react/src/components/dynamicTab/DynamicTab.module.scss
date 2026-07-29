@@ -1,0 +1,25 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+.rte-dynamic-tab {
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  &[data-appearance="brand"] {
+    .rte-dynamic-tab__indicator {
+
+      background: var(--background-brand-default);
+    }
+  }
+
+  .rte-dynamic-tab__indicator {
+    position: absolute;
+    bottom: 0;
+    height: 2px;
+    background: var(--background-neutral-bold-default);
+    transition: left 0.2s ease, width 0.2s ease;
+    pointer-events: none;
+    z-index: $level-1;
+    width: 100%;
+  }
+}
