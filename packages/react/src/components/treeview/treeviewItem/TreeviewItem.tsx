@@ -3,6 +3,7 @@ import { TreeviewItemProps as coreTreeviewItem } from "@design-system-rte/core/c
 import {
   buildTreeviewNodeId,
   BuildTreeviewNodeIdParams,
+  canToggleOpen,
   computeCheckboxId,
   computeConnectorBorderTypes,
   getChildBorderTypes,
@@ -75,6 +76,9 @@ const TreeviewItem = ({
   const handleActionIconClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
     event.preventDefault();
+    if (disabled) {
+      return;
+    }
     onActionIconClick?.(itemId);
   };
 
@@ -82,12 +86,17 @@ const TreeviewItem = ({
     if (event.key === "Enter" || event.key === " ") {
       event.preventDefault();
       event.stopPropagation();
+      if (disabled) {
+        return;
+      }
       onActionIconClick?.(itemId);
     }
   };
 
   const handleItemClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (disabled) return;
+    if (disabled) {
+      return;
+    }
     event.stopPropagation();
     onChange?.(itemId);
   };
@@ -104,6 +113,9 @@ const TreeviewItem = ({
   });
 
   const toggleOpen = () => {
+    if (!canToggleOpen(hasChildren(items), !!disabled)) {
+      return;
+    }
     setIsOpenInternal((prev) => !prev);
     onOpenChange?.(itemId, !isOpenInternal);
   };
@@ -111,6 +123,9 @@ const TreeviewItem = ({
   const handleActionMenuClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
     event.preventDefault();
+    if (disabled) {
+      return;
+    }
     setIsActionMenuOpen(true);
   };
 
@@ -118,6 +133,9 @@ const TreeviewItem = ({
     if ([SPACE_KEY, ENTER_KEY].includes(event.key)) {
       event.stopPropagation();
       event.preventDefault();
+      if (disabled) {
+        return;
+      }
       setIsActionMenuOpen(true);
     }
   };
@@ -135,17 +153,26 @@ const TreeviewItem = ({
   const handleOnKeyDownCheckbox = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if ([SPACE_KEY, ENTER_KEY].includes(event.key)) {
       event.preventDefault();
+      if (disabled) {
+        return;
+      }
       handleCheckedIdsChange();
     }
   };
 
   const handleCheckedIdsChange = () => {
+    if (disabled) {
+      return;
+    }
     onCheckedIdsChange?.({ id: itemId, labelText: labelText, items: items });
   };
 
   const handleContentKeydown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if ([SPACE_KEY, ENTER_KEY].includes(event.key)) {
       event.preventDefault();
+      if (disabled) {
+        return;
+      }
       onChange?.(itemId);
     }
   };
@@ -162,6 +189,7 @@ const TreeviewItem = ({
       data-is-selected={selectedId === itemId}
       data-depth={internalDepth}
       role="treeitem"
+      aria-disabled={disabled ? true : undefined}
       aria-expanded={hasChildren(items) ? isOpenInternal : undefined}
       aria-selected={selectedId === itemId}
       aria-level={internalDepth + 1}
