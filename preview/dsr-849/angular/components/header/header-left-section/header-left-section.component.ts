@@ -36,5 +36,5 @@ export class HeaderLeftSectionComponent {
   });
 
   readonly shouldRenderLogo = computed(() => this.hasLogo() && !!this.logoSrc());
-  readonly shouldRenderVersionNumber = computed(() => !this.isCompact() && !!this.versionNumber());
+  readonly shouldDisplayVersionNumber = computed(() => !this.isCompact() && !!this.versionNumber());
 }

@@ -9,14 +9,10 @@
     position: sticky;
     top: 0;
     z-index: $level-2;
-  }
-
-  &[data-sticky='true'][data-visible='false'] {
-    transform: translateY(-100%);
-  }
-
-  &[data-sticky='true'] {
     transition: transform 150ms;
+    &[data-visible='false'] {
+      transform: translateY(-100%);
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
