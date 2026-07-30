@@ -17,14 +17,26 @@ export interface DynamicTabKeyboardContext {
   selectTab: (tabId: string) => void;
   reorderTabs: (fromIndex: number, toIndex: number) => void;
   getTabIndex: (tabId: string) => number;
+  onExitMoveMode: () => void;
 }
 
 @Injectable()
 export class DynamicTabKeyboardService {
   readonly lastKey = signal<string | null>(null);
 
+  private suppressSpaceMoveEnter = false;
+
   trackDocumentKeydown(event: KeyboardEvent): void {
     this.lastKey.set(event.key);
+  }
+
+  shouldEnterMoveModeOnSpaceKeyup(): boolean {
+    if (this.suppressSpaceMoveEnter) {
+      this.suppressSpaceMoveEnter = false;
+      return false;
+    }
+
+    return true;
   }
 
   handleContainerFocusCapture(
@@ -65,7 +77,15 @@ export class DynamicTabKeyboardService {
   }
 
   handleTabKeydown(event: KeyboardEvent, context: DynamicTabKeyboardContext): boolean {
-    const { listElement, visibleTabIds, selectedTabId, isMoving, selectTab, reorderTabs, getTabIndex } = context;
+    const { listElement, visibleTabIds, selectedTabId, isMoving, selectTab, reorderTabs, getTabIndex, onExitMoveMode } =
+      context;
+
+    if (isMoving && event.key === SPACE_KEY) {
+      event.preventDefault();
+      this.suppressSpaceMoveEnter = true;
+      onExitMoveMode();
+      return true;
+    }
 
     if (isMoving && (event.key === ARROW_LEFT_KEY || event.key === ARROW_RIGHT_KEY)) {
       event.preventDefault();
@@ -74,13 +94,13 @@ export class DynamicTabKeyboardService {
       }
 
       const currentIndex = getTabIndex(selectedTabId);
-      const direction = event.key === ARROW_RIGHT_KEY ? 1 : -1;
-      const nextIndex = (currentIndex + direction + visibleTabIds.length) % visibleTabIds.length;
+      const nextIndex = currentIndex + (event.key === ARROW_RIGHT_KEY ? 1 : -1);
 
-      if (nextIndex !== currentIndex) {
-        reorderTabs(currentIndex, nextIndex);
+      if (nextIndex < 0 || nextIndex >= visibleTabIds.length) {
+        return true;
       }
 
+      reorderTabs(currentIndex, nextIndex);
       return true;
     }
 
@@ -125,6 +145,7 @@ export class DynamicTabKeyboardService {
 
     event.preventDefault();
     event.stopPropagation();
+    this.suppressSpaceMoveEnter = true;
     onExitMoveMode();
   }
 

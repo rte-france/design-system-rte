@@ -194,6 +194,7 @@ export class DynamicTabComponent implements AfterViewInit, OnDestroy {
       selectTab: (id) => this.selectTab(id),
       reorderTabs: (fromIndex, toIndex) => this.reorderVisibleTabs(fromIndex, toIndex),
       getTabIndex: (id) => visibleTabIds.indexOf(id),
+      onExitMoveMode: () => this.isMoving.set(false),
     });
 
     if (event.key === "Escape" && this.isMoving()) {
@@ -202,8 +203,7 @@ export class DynamicTabComponent implements AfterViewInit, OnDestroy {
   }
 
   onEnterMoveMode(): void {
-    if (this.isMoving()) {
-      this.isMoving.set(false);
+    if (!this.keyboardService.shouldEnterMoveModeOnSpaceKeyup()) {
       return;
     }
 
