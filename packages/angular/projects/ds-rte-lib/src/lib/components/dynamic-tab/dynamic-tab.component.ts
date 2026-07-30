@@ -9,9 +9,11 @@ import {
   effect,
   ElementRef,
   inject,
+  Injector,
   input,
   OnDestroy,
   output,
+  afterNextRender,
   signal,
   viewChild,
   viewChildren,
@@ -37,6 +39,9 @@ import { IconComponent } from "../icon/icon.component";
 import { DynamicTabItemComponent } from "./dynamic-tab-item/dynamic-tab-item.component";
 import { DynamicTabKeyboardService } from "./dynamic-tab-keyboard.service";
 
+const KEYBOARD_REORDER_TRANSITION_MS = 250;
+const KEYBOARD_REORDER_TRANSITION = `transform ${KEYBOARD_REORDER_TRANSITION_MS}ms cubic-bezier(0.25, 1, 0.5, 1)`;
+
 @Component({
   selector: "rte-dynamic-tab",
   imports: [CommonModule, DragDropModule, DropdownModule, IconComponent, DynamicTabItemComponent],
@@ -52,6 +57,7 @@ import { DynamicTabKeyboardService } from "./dynamic-tab-keyboard.service";
 })
 export class DynamicTabComponent implements AfterViewInit, OnDestroy {
   private readonly destroyRef = inject(DestroyRef);
+  private readonly injector = inject(Injector);
   private readonly keyboardService = inject(DynamicTabKeyboardService);
 
   readonly id = input("dynamic-tab");
@@ -194,6 +200,7 @@ export class DynamicTabComponent implements AfterViewInit, OnDestroy {
       selectTab: (id) => this.selectTab(id),
       reorderTabs: (fromIndex, toIndex) => this.reorderVisibleTabs(fromIndex, toIndex),
       getTabIndex: (id) => visibleTabIds.indexOf(id),
+      onExitMoveMode: () => this.isMoving.set(false),
     });
 
     if (event.key === "Escape" && this.isMoving()) {
@@ -202,8 +209,7 @@ export class DynamicTabComponent implements AfterViewInit, OnDestroy {
   }
 
   onEnterMoveMode(): void {
-    if (this.isMoving()) {
-      this.isMoving.set(false);
+    if (!this.keyboardService.shouldEnterMoveModeOnSpaceKeyup()) {
       return;
     }
 
@@ -219,16 +225,19 @@ export class DynamicTabComponent implements AfterViewInit, OnDestroy {
 
     const closingIndex = currentOptions.findIndex((option) => option.id === tabId);
     const updatedOptions = currentOptions.filter((option) => option.id !== tabId);
+    const isClosingActiveTab = this.selectedTabId() === tabId;
+    const nextSelectedTabId = isClosingActiveTab
+      ? (closingIndex === currentOptions.length - 1 ? updatedOptions[closingIndex - 1] : updatedOptions[closingIndex])
+          .id
+      : this.selectedTabId();
 
-    if (this.selectedTabId() === tabId) {
-      const nextTab =
-        closingIndex === currentOptions.length - 1 ? updatedOptions[closingIndex - 1] : updatedOptions[closingIndex];
-      this.changeActiveTab.emit(nextTab.id);
+    if (isClosingActiveTab && nextSelectedTabId) {
+      this.changeActiveTab.emit(nextSelectedTabId);
     }
 
     this.updateTabs.emit(updatedOptions);
     this.scheduleIndicatorUpdate();
-    this.focusSelectedTab();
+    this.focusTab(nextSelectedTabId);
   }
 
   onChangeTabTitle(event: { id: string; title: string }): void {
@@ -261,7 +270,7 @@ export class DynamicTabComponent implements AfterViewInit, OnDestroy {
     this.updateTabs.emit(updatedOptions);
     this.changeActiveTab.emit(event.id);
     this.scheduleIndicatorUpdate();
-    this.focusSelectedTab();
+    this.focusTab(event.id);
   }
 
   onDrop(event: CdkDragDrop<DynamicTabItemOption[]>): void {
@@ -301,25 +310,106 @@ export class DynamicTabComponent implements AfterViewInit, OnDestroy {
   }
 
   private reorderVisibleTabs(fromIndex: number, toIndex: number): void {
+    const listElement = this.tabListRef()?.nativeElement;
+
+    if (this.isMoving() && listElement && !this.prefersReducedMotion()) {
+      this.animateKeyboardReorder(listElement, () => this.applyVisibleTabReorder(fromIndex, toIndex));
+      return;
+    }
+
+    this.applyVisibleTabReorder(fromIndex, toIndex);
+  }
+
+  private applyVisibleTabReorder(fromIndex: number, toIndex: number): void {
     const visibleCount = this.maxVisibleTabs();
     const updatedOptions = [...this.options()];
     const visibleSlice = updatedOptions.splice(0, visibleCount);
     moveItemInArray(visibleSlice, fromIndex, toIndex);
     this.updateTabs.emit([...visibleSlice, ...updatedOptions]);
     this.scheduleIndicatorUpdate();
-    this.focusSelectedTab();
+    this.focusTab(this.selectedTabId());
   }
 
-  private focusSelectedTab(): void {
-    requestAnimationFrame(() => {
-      const selectedTabId = this.selectedTabId();
-      const container = this.containerRef()?.nativeElement;
+  private animateKeyboardReorder(listElement: HTMLElement, applyReorder: () => void): void {
+    const firstPositions = this.captureTabPositions(listElement);
 
-      if (!selectedTabId || !container) {
+    applyReorder();
+
+    afterNextRender(
+      () => {
+        this.playFlipAnimation(listElement, firstPositions);
+      },
+      { injector: this.injector },
+    );
+  }
+
+  private captureTabPositions(listElement: HTMLElement): Map<string, DOMRect> {
+    const positions = new Map<string, DOMRect>();
+
+    listElement.querySelectorAll('[role="tab"]').forEach((element) => {
+      const tabId = element.getAttribute("data-tab-id");
+
+      if (tabId) {
+        positions.set(tabId, element.getBoundingClientRect());
+      }
+    });
+
+    return positions;
+  }
+
+  private playFlipAnimation(listElement: HTMLElement, firstPositions: Map<string, DOMRect>): void {
+    const tabs = Array.from(listElement.querySelectorAll('[role="tab"]')) as HTMLElement[];
+
+    tabs.forEach((tab) => {
+      const tabId = tab.getAttribute("data-tab-id");
+      const firstPosition = tabId ? firstPositions.get(tabId) : null;
+
+      if (!firstPosition) {
         return;
       }
 
-      const selectedElement = container.querySelector(`[data-tab-id="${selectedTabId}"]`) as HTMLElement | null;
+      const deltaX = firstPosition.left - tab.getBoundingClientRect().left;
+
+      if (deltaX === 0) {
+        return;
+      }
+
+      tab.style.transform = `translate3d(${deltaX}px, 0, 0)`;
+      tab.style.transition = "none";
+    });
+
+    requestAnimationFrame(() => {
+      tabs.forEach((tab) => {
+        if (!tab.style.transform) {
+          return;
+        }
+
+        tab.style.transition = KEYBOARD_REORDER_TRANSITION;
+        tab.style.transform = "";
+      });
+
+      window.setTimeout(() => {
+        tabs.forEach((tab) => {
+          tab.style.transition = "";
+          tab.style.transform = "";
+        });
+      }, KEYBOARD_REORDER_TRANSITION_MS);
+    });
+  }
+
+  private prefersReducedMotion(): boolean {
+    return typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }
+
+  private focusTab(tabId: string | undefined): void {
+    requestAnimationFrame(() => {
+      const container = this.containerRef()?.nativeElement;
+
+      if (!tabId || !container) {
+        return;
+      }
+
+      const selectedElement = container.querySelector(`[data-tab-id="${tabId}"]`) as HTMLElement | null;
       selectedElement?.focus();
     });
   }

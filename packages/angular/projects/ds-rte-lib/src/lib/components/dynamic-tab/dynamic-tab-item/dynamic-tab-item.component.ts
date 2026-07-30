@@ -45,6 +45,7 @@ import { IconComponent } from "../../icon/icon.component";
     "[attr.data-is-animating]": "isAnimating()",
     "[attr.data-is-disappearing]": "isDisappearing()",
     "[attr.aria-selected]": "isActive()",
+    "[attr.aria-label]": "isEditing() ? titleText() : option().title",
     "[tabIndex]": "isActive() ? 0 : -1",
     "[style.width.px]": "tabWidth()",
     "[style.min-width.px]": "tabWidth()",
