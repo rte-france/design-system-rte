@@ -37,28 +37,10 @@ const defaultTabs: DynamicTabItemOption[] = [
   { id: "tab5", title: "Tab 5" },
 ];
 
-const manualTestChecklist = `
-**Manual test checklist (spec a11y):**
-- TAB enters component and reaches tabs, title, close, +N, + in DOM order
-- Arrow Left/Right cycles tabs and updates selection immediately
-- SPACE on active tab enters move mode; arrows reorder; SPACE exits
-- Double-click renames; Enter validates; Esc cancels; empty input reverts
-- Active tab visually distinct; drag elevates tab; edit state visible
-- Close button shows pointer cursor; rest of tab shows default cursor
-- Touch targets on close/add buttons ≥ 24×24 px
-`;
-
 const meta: Meta<DynamicTabComponent> = {
-  title: "Composants/DynamicTab",
+  title: "Composants/DynamicTab/DynamicTab",
   component: DynamicTabComponent,
   tags: ["autodocs"],
-  parameters: {
-    docs: {
-      description: {
-        component: manualTestChecklist,
-      },
-    },
-  },
   argTypes: {
     appearance: {
       control: "select",
@@ -74,23 +56,21 @@ const meta: Meta<DynamicTabComponent> = {
 export default meta;
 type Story = StoryObj<DynamicTabComponent>;
 
-const renderDynamicTab =
-  (containerWidth = "1000px") =>
-  (args: Story["args"]) => ({
-    props: {
-      ...args,
-      tabOptions: [...(args?.options ?? defaultTabs)],
-      selectedTabId: args?.selectedTabId ?? "tab3",
-      newTabConfig: args?.newTabConfig ?? { id: "new-tab", title: "New Tab" },
-      onChangeActiveTab(id: string) {
-        this["selectedTabId"] = id;
-      },
-      onUpdateTabs(tabs: DynamicTabItemOption[]) {
-        this["tabOptions"] = tabs;
-      },
+const renderDynamicTab = (args: Story["args"]) => ({
+  props: {
+    ...args,
+    tabOptions: [...(args?.options ?? defaultTabs)],
+    selectedTabId: args?.selectedTabId ?? "tab3",
+    newTabConfig: args?.newTabConfig ?? { id: "new-tab", title: "New Tab" },
+    onChangeActiveTab(id: string) {
+      this["selectedTabId"] = id;
     },
-    template: `
-    <div style="width: ${containerWidth}">
+    onUpdateTabs(tabs: DynamicTabItemOption[]) {
+      this["tabOptions"] = tabs;
+    },
+  },
+  template: `
+    <div style="width: 1000px">
       <rte-dynamic-tab
         [id]="id"
         [appearance]="appearance"
@@ -105,11 +85,11 @@ const renderDynamicTab =
         (updateTabs)="onUpdateTabs($event)"
       />
       <p style="font-family: Arial, sans-serif; margin-top: 16px">
-        Selected tab: {{ selectedTabId }}
+        Selected Tab ID: {{ selectedTabId }}
       </p>
     </div>
   `,
-  });
+});
 
 export const Default: Story = {
   args: {
@@ -122,7 +102,7 @@ export const Default: Story = {
     iconName: "star",
     options: defaultTabs,
   },
-  render: renderDynamicTab(),
+  render: renderDynamicTab,
 };
 
 export const CompactSpacing: Story = {
@@ -130,43 +110,13 @@ export const CompactSpacing: Story = {
     ...Default.args,
     compactSpacing: true,
   },
-  render: renderDynamicTab(),
-};
-
-export const AppearanceBrand: Story = {
-  args: {
-    ...Default.args,
-    appearance: "brand",
-  },
-  render: renderDynamicTab(),
-};
-
-export const Overflow: Story = {
-  args: {
-    ...Default.args,
-    options: [
-      { id: "tab1", title: "Tab 1" },
-      { id: "tab2", title: "Tab 2" },
-      { id: "tab3", title: "Tab 3" },
-      { id: "tab4", title: "Tab 4" },
-      { id: "tab5", title: "Tab 5" },
-      { id: "tab6", title: "Tab 6" },
-      { id: "tab7", title: "Tab 7" },
-      { id: "tab8", title: "Tab 8" },
-      { id: "tab9", title: "Tab 9" },
-      { id: "tab10", title: "Tab 10" },
-    ],
-    selectedTabId: "tab1",
-  },
-  render: renderDynamicTab("400px"),
+  render: renderDynamicTab,
 };
 
 export const KeyboardInteraction: Story = {
   args: {
-    id: "dynamic-tab",
-    appearance: "neutral",
+    ...Default.args,
     selectedTabId: "tab1",
-    compactSpacing: false,
     isClosable: false,
     isEditable: false,
     options: keyboardTabs,
@@ -197,7 +147,7 @@ export const KeyboardInteraction: Story = {
   }),
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
-    focusElementBeforeComponent(canvasElement);
+    await focusElementBeforeComponent(canvasElement);
 
     const tab1 = canvas.getByRole("tab", { name: "Tab 1" });
     const tab2 = canvas.getByRole("tab", { name: "Tab 2" });
@@ -256,10 +206,8 @@ export const KeyboardInteraction: Story = {
 
 export const TabManagement: Story = {
   args: {
-    id: "dynamic-tab",
-    appearance: "neutral",
+    ...Default.args,
     selectedTabId: "tab1",
-    compactSpacing: false,
     isClosable: true,
     isEditable: false,
     options: tabManagementTabs,
@@ -322,52 +270,4 @@ export const TabManagement: Story = {
       expect(canvas.queryByRole("tab", { name: "Tab 2" })).not.toBeInTheDocument();
     });
   },
-};
-
-export const Rename: Story = {
-  args: {
-    ...Default.args,
-    selectedTabId: "tab1",
-    isClosable: false,
-    isEditable: true,
-    options: defaultTabs.slice(0, 3),
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: "Manual: Double-click tab title to edit. Enter validates, Esc cancels, empty input reverts.",
-      },
-    },
-  },
-  render: renderDynamicTab(),
-};
-
-export const DragAndDrop: Story = {
-  args: {
-    ...Default.args,
-    selectedTabId: "tab2",
-    isClosable: false,
-    isEditable: false,
-    options: defaultTabs.slice(0, 5),
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: "Manual: Drag tabs horizontally. Use SPACE on active tab then arrows to reorder via keyboard.",
-      },
-    },
-  },
-  render: renderDynamicTab(),
-};
-
-export const ManualTestGuide: Story = {
-  args: Default.args,
-  parameters: {
-    docs: {
-      description: {
-        story: manualTestChecklist,
-      },
-    },
-  },
-  render: renderDynamicTab(),
 };
