@@ -14,6 +14,7 @@ import {
   signal,
   viewChild,
 } from "@angular/core";
+import { RouterLink } from "@angular/router";
 import {
   HEADER_MOBILE_SEARCH_TRANSITION_MS,
   buildHeaderHomeAriaLabel,
@@ -22,12 +23,13 @@ import {
 import { SearchBarAppearance, SearchBarProps } from "@design-system-rte/core/components/searchbar";
 import { ESCAPE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
+import { ResolvedNavigation } from "../../../utils/navigation/navigation-element";
 import { DropdownMenuBodyDirective } from "../../dropdown/dropdown-menu/dropdown-menu-body.directive";
 import { DropdownMenuComponent } from "../../dropdown/dropdown-menu/dropdown-menu.component";
 import { DropdownTriggerDirective } from "../../dropdown/dropdown-trigger/dropdown-trigger.directive";
 import { DropdownDirective } from "../../dropdown/dropdown.directive";
 import type { DropdownItemConfig } from "../../dropdown/dropdown.types";
-import { RegularIconIdKey, TogglableIconIdKey } from "../../icon/icon.service";
+import { RegularIconIdKey, TogglableIconIdKey } from "../../icon/icon-registry.service";
 import { IconButtonComponent } from "../../icon-button/icon-button.component";
 import { SearchbarComponent } from "../../searchbar/searchbar.component";
 
@@ -45,6 +47,7 @@ const MOBILE_SEARCH_TRIGGER_SIZE_PX = 32;
     DropdownMenuComponent,
     DropdownMenuBodyDirective,
     DropdownTriggerDirective,
+    RouterLink,
   ],
   templateUrl: "./header-mobile.component.html",
   styleUrl: "./header-mobile.component.scss",
@@ -62,7 +65,7 @@ export class HeaderMobileComponent {
   readonly hasLogo = input<boolean>(true);
   readonly applicationName = input<string>("");
   readonly logoSrc = input<string | undefined>(undefined);
-  readonly homeLink = input<string>(DEFAULT_HOME_LINK);
+  readonly homeNavigation = input<ResolvedNavigation>({ routerLink: DEFAULT_HOME_LINK });
   readonly homeAriaLabel = input<string | undefined>(undefined);
 
   readonly hasSearchbar = input<boolean>(true);

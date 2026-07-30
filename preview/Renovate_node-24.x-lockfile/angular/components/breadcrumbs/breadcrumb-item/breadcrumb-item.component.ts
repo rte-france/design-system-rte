@@ -12,9 +12,16 @@ import {
 import { shouldDisplayBadge as coreShouldDisplayBadge } from "@design-system-rte/core/components/badge/badge.utils";
 import { BreadcrumbItemProps } from "@design-system-rte/core/components/breadcrumbs/breadcrumbs.interface";
 
+import {
+  NavigationElement,
+  resolveNavigationHref,
+  resolveNavigationRouterLink,
+} from "../../../utils/navigation/navigation-element";
 import { BadgeComponent } from "../../badge/badge.component";
 import { LinkComponent } from "../../link/link.component";
 import { TooltipDirective } from "../../tooltip/tooltip.directive";
+
+export type BreadcrumbItem = BreadcrumbItemProps & NavigationElement;
 
 @Component({
   selector: "rte-breadcrumb-item",
@@ -24,7 +31,7 @@ import { TooltipDirective } from "../../tooltip/tooltip.directive";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BreadcrumbItemComponent implements AfterViewInit {
-  readonly item = input<BreadcrumbItemProps>();
+  readonly item = input<BreadcrumbItem>();
   readonly isLast = input<boolean>(false);
   readonly breadcrumbItemMaxWidth = input<number>();
   readonly initialScrollWidth = signal<number>(Number.MAX_VALUE);
@@ -59,8 +66,11 @@ export class BreadcrumbItemComponent implements AfterViewInit {
     return `${this.breadcrumbItemMaxWidth() ? "max-width:" + this.breadcrumbItemMaxWidth() + "px" : ""}`;
   });
 
+  readonly navigationHref = computed(() => this.item() && resolveNavigationHref(this.item()!));
+  readonly navigationRouterLink = computed(() => this.item() && resolveNavigationRouterLink(this.item()!));
+
   ngAfterViewInit() {
-    const el = this.elementRef.nativeElement.querySelector(".rte-breadcrumb-item");
-    this.initialScrollWidth.set(el.scrollWidth);
+    const element = this.elementRef.nativeElement.querySelector(".rte-breadcrumb-item");
+    this.initialScrollWidth.set(element.scrollWidth);
   }
 }

@@ -4,7 +4,7 @@ import { ButtonType } from "@design-system-rte/core/components/button/button.int
 import { ButtonSize, ButtonVariant } from "@design-system-rte/core/components/button/common/common-button";
 import { ButtonIconSize } from "@design-system-rte/core/components/button/common/common-button.constants";
 
-import { RegularIconIdKey, TogglableIconIdKey } from "../icon/icon.service";
+import { RegularIconIdKey, TogglableIconIdKey } from "../icon/icon-registry.service";
 import { IconButtonComponent } from "../icon-button/icon-button.component";
 
 @Component({

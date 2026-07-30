@@ -4,7 +4,7 @@ declare const useTimePickerInternalValue: (value?: TimeFormat, incrementConfig?:
     hourIncrement?: number;
     minuteIncrement?: number;
     secondIncrement?: number;
-}) => {
+}, isControlled?: boolean) => {
     internalTimeValue: TimeFormat;
     updateTimeSegment: (segment: TimeSegmentEnum, val: string) => void;
     handleOnChangeHours: (e: React.ChangeEvent<HTMLInputElement>) => void;

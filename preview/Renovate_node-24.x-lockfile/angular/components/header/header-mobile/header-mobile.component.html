@@ -1,9 +1,33 @@
 <div #rootRef class="rte-header-mobile" [attr.data-search-state]="searchState()" (keydown)="handleRootKeyDown($event)">
   @if (hasLeftSection() && shouldRenderLogo()) {
     <div class="left-section">
-      <a class="rte-header-home" [href]="homeLink()" [attr.aria-label]="computedHomeAriaLabel()">
-        <img class="rte-header-logo" alt="" aria-hidden="true" [src]="logoSrc()" />
-      </a>
+      @if (homeNavigation(); as navigation) {
+        @if (navigation.href) {
+          <a
+            class="rte-header-home"
+            [href]="navigation.href"
+            [attr.target]="navigation.externalLink ? '_blank' : null"
+            [attr.rel]="navigation.externalLink ? 'noopener noreferrer' : null"
+            [attr.aria-label]="computedHomeAriaLabel()"
+          >
+            <img class="rte-header-logo" alt="" aria-hidden="true" [src]="logoSrc()" />
+          </a>
+        } @else {
+          <a
+            class="rte-header-home"
+            [routerLink]="navigation.routerLink"
+            [queryParams]="navigation.routerLinkConfig?.queryParams"
+            [fragment]="navigation.routerLinkConfig?.fragment"
+            [queryParamsHandling]="navigation.routerLinkConfig?.queryParamsHandling"
+            [preserveFragment]="navigation.routerLinkConfig?.preserveFragment"
+            [replaceUrl]="navigation.routerLinkConfig?.replaceUrl"
+            [state]="navigation.routerLinkConfig?.state"
+            [attr.aria-label]="computedHomeAriaLabel()"
+          >
+            <img class="rte-header-logo" alt="" aria-hidden="true" [src]="logoSrc()" />
+          </a>
+        }
+      }
     </div>
   }
 

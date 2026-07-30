@@ -13,6 +13,7 @@ import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard
 })
 export class CardComponent {
   readonly width = input<string>(DEFAULT_CARD_WIDTH);
+  readonly height = input<string>("auto");
   readonly cardType = input<CardType>("default");
   readonly clickable = input<boolean>(false);
   readonly disabled = input<boolean>(false);

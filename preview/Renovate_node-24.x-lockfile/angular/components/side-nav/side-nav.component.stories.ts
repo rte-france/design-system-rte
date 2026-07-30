@@ -1,4 +1,6 @@
-import { computed, signal } from "@angular/core";
+import { Component, computed, inject, signal } from "@angular/core";
+import { toSignal } from "@angular/core/rxjs-interop";
+import { NavigationEnd, Router } from "@angular/router";
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
 import { NavMenuProps } from "@design-system-rte/core/components/side-nav/nav-menu/nav-menu.interface";
 import { sideNavPanelSize } from "@design-system-rte/core/components/side-nav/side-nav.constants";
@@ -8,10 +10,11 @@ import {
 } from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
 import { componentWrapperDecorator, Meta, StoryObj } from "@storybook/angular";
 import { expect, userEvent, within } from "@storybook/test";
+import { filter, map, startWith } from "rxjs";
 
 import { focusElementBeforeComponent } from "../../../../../../.storybook/testing/testing.utils";
 
-import { SideNavComponent } from "./side-nav.component";
+import { SideNavComponent, NavItem } from "./side-nav.component";
 import {
   getFooterNavElement,
   getHeaderTitleContainer,
@@ -338,6 +341,71 @@ export const Collapsible: Story = {
   render: defaultRender,
 };
 
+const routerNavigationItems: NavItem[] = [
+  { ...baseNavItem, id: "home", label: "Home", icon: "home", routerLink: "/home" },
+  { ...baseNavItem, id: "dashboard", label: "Dashboard", icon: "dashboard", routerLink: "/dashboard" },
+  {
+    ...baseNavItem,
+    id: "settings",
+    label: "Settings",
+    icon: "settings",
+    items: [
+      { id: "general", label: "General", routerLink: "/settings/general" },
+      { id: "privacy", label: "Privacy", routerLink: "/settings/privacy" },
+    ] as NavItem[],
+  },
+  {
+    ...baseNavItem,
+    id: "docs",
+    label: "Angular docs",
+    icon: "link",
+    href: "https://angular.dev",
+    externalLink: true,
+  },
+];
+
+@Component({
+  selector: "rte-side-nav-router-demo",
+  imports: [SideNavComponent],
+  standalone: true,
+  template: `
+    <rte-side-nav size="m" appearance="brand" [collapsible]="true" [headerConfig]="headerConfig" [items]="items">
+      <div content style="padding: 2rem;">
+        <h1 style="margin: 0 0 1rem 0;">Router navigation</h1>
+        <p style="line-height: 1.6; color: #555; margin-bottom: 1rem;">
+          Click items with <code>routerLink</code> to navigate in-app (hash URL updates, no reload). The external item
+          uses <code>href</code> and opens in a new tab.
+        </p>
+        <p style="margin: 0; font-family: monospace; font-size: 12px;">Current route: {{ currentUrl() }}</p>
+      </div>
+    </rte-side-nav>
+  `,
+})
+class SideNavRouterDemoComponent {
+  private readonly router = inject(Router);
+
+  readonly currentUrl = toSignal(
+    this.router.events.pipe(
+      filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+      map(() => this.router.url),
+      startWith(this.router.url),
+    ),
+    { initialValue: this.router.url },
+  );
+
+  readonly headerConfig = { ...defaultHeaderConfig, link: "/home" };
+  readonly items = routerNavigationItems;
+}
+
+export const WithRouterNavigation: Story = {
+  render: () => ({
+    template: `<rte-side-nav-router-demo />`,
+    moduleMetadata: {
+      imports: [SideNavRouterDemoComponent],
+    },
+  }),
+};
+
 export const HeaderWithVersion: Story = {
   args: {
     ...Default.args,
@@ -580,7 +648,7 @@ export const HeaderWithLink: Story = {
       const headerTitleContainer = getHeaderTitleContainer(sideNav);
       expect(headerTitleContainer).not.toBeNull();
       expect(headerTitleContainer?.tagName).toBe("A");
-      expect(headerTitleContainer).toHaveAttribute("href", "/");
+      expect(headerTitleContainer).toHaveAttribute("href", "#/");
       expect(headerTitleContainer).toHaveStyle({ cursor: "pointer" });
     });
 

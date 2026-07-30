@@ -35,6 +35,8 @@ import { DropdownTriggerDirective } from "./dropdown-trigger/dropdown-trigger.di
 import { DropdownItemConfig } from "./dropdown.types";
 import { focusDropdownFirstElement } from "./dropdown.utils";
 
+export type DropdownOverlayLevel = "low" | "high";
+
 @Directive({
   selector: "[rteDropdown]",
   host: {
@@ -56,6 +58,7 @@ export class DropdownDirective implements AfterContentInit {
   readonly rteDropdownAutofocus = input<boolean>(true);
   readonly rteDropdownAutoOpen = input<boolean>(true);
   readonly rteDropdownWidth = input<number | null>(null);
+  readonly rteDropdownOverlayLevel = input<DropdownOverlayLevel | undefined>(undefined);
   readonly rteCloseOnItemClick = input<boolean>(true);
 
   readonly menuEvent = output<{ event: Event; id: string; item?: DropdownItemConfig }>();
@@ -297,14 +300,18 @@ export class DropdownDirective implements AfterContentInit {
     this.destroyRef.onDestroy(() => dropdownStateSubscription.unsubscribe());
   }
 
+  private resolveDropdownUsesHighOverlayLevel(): boolean {
+    if (this.rteDropdownOverlayLevel()) {
+      return this.rteDropdownOverlayLevel() === "high";
+    }
+    return isElementInParentWithOverlay(this.trigger()?.elementRef.nativeElement);
+  }
+
   private assignInputs(): void {
     if (this.dropdownMenuRef) {
       const items = this.menu()?.items() ?? [];
       const maxHeight = this.menu()?.maxHeight() ?? null;
-      this.dropdownMenuRef.setInput(
-        "isInParentWithOverlay",
-        isElementInParentWithOverlay(this.trigger()?.elementRef.nativeElement),
-      );
+      this.dropdownMenuRef.setInput("isInParentWithOverlay", this.resolveDropdownUsesHighOverlayLevel());
       this.dropdownMenuRef.setInput("items", items);
       this.dropdownMenuRef.setInput("maxHeight", maxHeight);
       this.dropdownMenuRef.setInput("bodyTemplate", this.menu()?.bodyDirective()?.templateRef);

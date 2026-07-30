@@ -5,3 +5,4 @@ export { DropdownTriggerDirective } from "./dropdown-trigger/dropdown-trigger.di
 export { DropdownMenuComponent } from "./dropdown-menu/dropdown-menu.component";
 export { DropdownItemComponent } from "./dropdown-item/dropdown-item.component";
 export type { DropdownItemConfig } from "./dropdown.types";
+export type { DropdownOverlayLevel } from "./dropdown.directive";

@@ -1,5 +1,5 @@
 @if (isCollapsed() && label()) {
-  @if (link()) {
+  @if (resolvedHref()) {
     <a
       class="nav-item-container {{ appearance() }}"
       rteTooltip
@@ -12,7 +12,33 @@
       [rteTooltipArrow]="false"
       [rteTooltipGap]="12"
       [rteTooltipShouldFocusTrigger]="true"
-      [href]="link()!"
+      [href]="resolvedHref()!"
+      [attr.target]="externalLink() ? '_blank' : null"
+      [attr.rel]="externalLink() ? 'noopener noreferrer' : null"
+      [attr.aria-label]="label()"
+    >
+      <ng-container [ngTemplateOutlet]="contentTemplate" />
+    </a>
+  } @else if (effectiveRouterLink()) {
+    <a
+      class="nav-item-container {{ appearance() }}"
+      rteTooltip
+      rteTooltipPosition="right"
+      rteTooltipAlignment="center"
+      [id]="id()"
+      [ngClass]="{ collapsed: isCollapsed(), nested: isNested(), active: active(), focused: focused() }"
+      [attr.role]="role()"
+      [rteTooltip]="label()"
+      [rteTooltipArrow]="false"
+      [rteTooltipGap]="12"
+      [rteTooltipShouldFocusTrigger]="true"
+      [routerLink]="effectiveRouterLink()!"
+      [queryParams]="routerLinkConfig()?.queryParams"
+      [fragment]="routerLinkConfig()?.fragment"
+      [queryParamsHandling]="routerLinkConfig()?.queryParamsHandling"
+      [preserveFragment]="routerLinkConfig()?.preserveFragment"
+      [replaceUrl]="routerLinkConfig()?.replaceUrl"
+      [state]="routerLinkConfig()?.state"
       [attr.aria-label]="label()"
     >
       <ng-container [ngTemplateOutlet]="contentTemplate" />
@@ -35,13 +61,31 @@
     </div>
   }
 } @else {
-  @if (link()) {
+  @if (resolvedHref()) {
     <a
       class="nav-item-container {{ appearance() }}"
       [id]="id()"
       [ngClass]="{ collapsed: isCollapsed(), nested: isNested(), active: active(), focused: focused() }"
       [attr.role]="role()"
-      [href]="link()!"
+      [href]="resolvedHref()!"
+      [attr.target]="externalLink() ? '_blank' : null"
+      [attr.rel]="externalLink() ? 'noopener noreferrer' : null"
+    >
+      <ng-container [ngTemplateOutlet]="contentTemplate" />
+    </a>
+  } @else if (effectiveRouterLink()) {
+    <a
+      class="nav-item-container {{ appearance() }}"
+      [id]="id()"
+      [ngClass]="{ collapsed: isCollapsed(), nested: isNested(), active: active(), focused: focused() }"
+      [attr.role]="role()"
+      [routerLink]="effectiveRouterLink()!"
+      [queryParams]="routerLinkConfig()?.queryParams"
+      [fragment]="routerLinkConfig()?.fragment"
+      [queryParamsHandling]="routerLinkConfig()?.queryParamsHandling"
+      [preserveFragment]="routerLinkConfig()?.preserveFragment"
+      [replaceUrl]="routerLinkConfig()?.replaceUrl"
+      [state]="routerLinkConfig()?.state"
     >
       <ng-container [ngTemplateOutlet]="contentTemplate" />
     </a>
@@ -60,7 +104,7 @@
 <ng-template #contentTemplate>
   <span
     class="nav-item"
-    [attr.tabindex]="link() ? undefined : tabIndex()"
+    [attr.tabindex]="isNavigable() ? undefined : tabIndex()"
     [attr.aria-label]="label()"
     (click)="handleClick($event)"
     (keydown)="handleKeyDown($event)"
