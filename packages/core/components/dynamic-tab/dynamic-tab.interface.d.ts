@@ -1,13 +1,13 @@
 import { BadgeHolderProps } from "../badge/badge.interface";
 
-type DynamicTabAppearance = "neutral" | "brand";
+export type DynamicTabAppearance = "neutral" | "brand";
 
 export interface DynamicTabItemOption extends BadgeHolderProps {
   id: string;
   title: string;
 }
 
-interface DynamicTabItemProps extends BadgeHolderProps, React.HTMLAttributes<HTMLLIElement> {
+export interface DynamicTabItemProps extends BadgeHolderProps {
   id: string;
   index: number;
   title: string;
@@ -28,8 +28,8 @@ interface DynamicTabItemProps extends BadgeHolderProps, React.HTMLAttributes<HTM
   iconName?: string;
 }
 
-interface DynamicTabProps {
-  id: string;
+export interface DynamicTabProps {
+  id?: string;
   appearance?: DynamicTabAppearance;
   options: DynamicTabItemOption[];
   selectedTabId?: string;

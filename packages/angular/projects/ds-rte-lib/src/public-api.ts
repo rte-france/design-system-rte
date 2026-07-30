@@ -43,6 +43,7 @@ export * from "./lib/components/toast/toast.service";
 export * from "./lib/components/tag/tag.component";
 export * from "./lib/components/select/select.component";
 export * from "./lib/components/tab/tab.component";
+export * from "./lib/components/dynamic-tab/dynamic-tab.component";
 export * from "./lib/components/treeview";
 export * from "./lib/components/dropdown/dropdown.directive";
 export * from "./lib/components/dropdown/dropdown-trigger/dropdown-trigger.directive";
