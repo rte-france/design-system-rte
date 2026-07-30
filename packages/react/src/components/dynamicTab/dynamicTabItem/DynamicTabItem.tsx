@@ -1,7 +1,7 @@
 import {
   ARROW_LEFT_KEY,
   ARROW_RIGHT_KEY,
-  DynamicTabItemProps,
+  DynamicTabItemProps as DynamicTabItemBaseProps,
   ENTER_KEY,
   ESCAPE_KEY,
   SPACE_KEY,
@@ -10,7 +10,7 @@ import {
 } from "@design-system-rte/core";
 import { RestrictToHorizontalAxis } from "@dnd-kit/abstract/modifiers";
 import { useSortable } from "@dnd-kit/react/sortable";
-import { useRef, KeyboardEvent, useState, useEffect, useCallback } from "react";
+import { useRef, KeyboardEvent, useState, useEffect, useCallback, HTMLAttributes } from "react";
 
 import useAnimatedMount from "../../../hooks/useAnimatedMount";
 import Badge from "../../badge/Badge";
@@ -18,6 +18,9 @@ import useDisplayTabItemElement from "../../dynamicTab/hooks/useDisplayTabItemEl
 import Icon from "../../icon/Icon";
 
 import styles from "./DynamicTabItem.module.scss";
+
+interface DynamicTabItemProps
+  extends DynamicTabItemBaseProps, Omit<HTMLAttributes<HTMLLIElement>, keyof DynamicTabItemBaseProps> {}
 
 const DynamicTabItem = ({
   id,
