@@ -89,6 +89,10 @@ const meta: Meta<DrawerDirective> = {
     rteDrawerSecondaryButtonLabel: { control: "text" },
     rteDrawerIsCollapsible: { control: "boolean" },
     rteDrawerFixedHeader: { control: "boolean" },
+    rteDrawerShowHeader: {
+      control: "boolean",
+      description: "When false, hides the drawer header (title/custom header not required)",
+    },
     rteDrawerCloseOnEscape: { control: "boolean" },
     rteDrawerIsClosable: { control: "boolean" },
     rteDrawerOnPrimary: { action: "primary click", control: false },
@@ -120,6 +124,7 @@ export const Default: Story = {
     rteDrawerSecondaryButtonLabel: "Cancel",
     rteDrawerIsCollapsible: false,
     rteDrawerFixedHeader: true,
+    rteDrawerShowHeader: true,
     rteDrawerCloseOnEscape: false,
     rteDrawerIsClosable: true,
     rteDrawerOnPrimary: fn(),
@@ -141,6 +146,7 @@ export const Default: Story = {
       [rteDrawerSecondaryButtonLabel]="rteDrawerSecondaryButtonLabel"
       [rteDrawerIsCollapsible]="rteDrawerIsCollapsible"
       [rteDrawerFixedHeader]="rteDrawerFixedHeader"
+      [rteDrawerShowHeader]="rteDrawerShowHeader"
       [rteDrawerCloseOnEscape]="rteDrawerCloseOnEscape"
       [rteDrawerIsClosable]="rteDrawerIsClosable"
       (rteDrawerOnPrimary)="rteDrawerOnPrimary(); drawerHost.close()"
@@ -199,6 +205,51 @@ ${drawerModalModeDoc.trim()}`,
   },
 };
 
+export const WithoutHeader: Story = {
+  decorators: [
+    moduleMetadata({
+      imports: [DrawerModule, ButtonComponent],
+    }),
+  ],
+  args: {
+    ...Default.args,
+    rteDrawerId: "drawer-without-header",
+    rteDrawerTitle: undefined,
+    rteDrawerIcon: undefined,
+    rteDrawerShowHeader: false,
+  },
+  render: Default.render,
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Modal drawer with **rteDrawerShowHeader** set to `false`. The header (title, icon, close control) is not rendered, and neither a title nor a custom `#drawerHeader` is required.",
+      },
+    },
+  },
+  play: async ({ canvasElement, args }) => {
+    focusElementBeforeComponent(canvasElement);
+    const canvas = within(canvasElement);
+    const openButton = await canvas.getByRole("button", { name: "Open drawer" });
+    await userEvent.click(openButton);
+    const drawer = await within(document.body).findByRole("dialog");
+    expect(drawer).toBeInTheDocument();
+    expect(within(drawer).queryByRole("heading")).not.toBeInTheDocument();
+    expect(within(drawer).queryByTestId("drawer-close-button")).not.toBeInTheDocument();
+
+    const drawerBody = within(drawer);
+    await userEvent.click(drawerBody.getByRole("button", { name: "Cancel" }));
+    expect(args.rteDrawerOnSecondary).toHaveBeenCalled();
+    expect(drawer).toBeInTheDocument();
+
+    await userEvent.click(drawerBody.getByRole("button", { name: "Confirm" }));
+    expect(args.rteDrawerOnPrimary).toHaveBeenCalled();
+    await waitFor(() => {
+      expect(within(document.body).queryByRole("dialog")).not.toBeInTheDocument();
+    });
+  },
+};
+
 export const CloseOnEscape: Story = {
   decorators: [
     moduleMetadata({
@@ -227,6 +278,7 @@ export const CloseOnEscape: Story = {
       [rteDrawerSecondaryButtonLabel]="rteDrawerSecondaryButtonLabel"
       [rteDrawerIsCollapsible]="rteDrawerIsCollapsible"
       [rteDrawerFixedHeader]="rteDrawerFixedHeader"
+      [rteDrawerShowHeader]="rteDrawerShowHeader"
       [rteDrawerCloseOnEscape]="rteDrawerCloseOnEscape"
       [rteDrawerIsClosable]="rteDrawerIsClosable"
     >
@@ -279,6 +331,7 @@ export const CloseOnOverlayClick: Story = {
       [rteDrawerSecondaryButtonLabel]="rteDrawerSecondaryButtonLabel"
       [rteDrawerIsCollapsible]="rteDrawerIsCollapsible"
       [rteDrawerFixedHeader]="rteDrawerFixedHeader"
+      [rteDrawerShowHeader]="rteDrawerShowHeader"
       [rteDrawerCloseOnEscape]="rteDrawerCloseOnEscape"
       [rteDrawerIsClosable]="rteDrawerIsClosable"
     >
@@ -345,6 +398,7 @@ ${drawerResponsiveModeDoc.trim()}`,
       [rteDrawerSecondaryButtonLabel]="rteDrawerSecondaryButtonLabel"
       [rteDrawerIsCollapsible]="rteDrawerIsCollapsible"
       [rteDrawerFixedHeader]="rteDrawerFixedHeader"
+      [rteDrawerShowHeader]="rteDrawerShowHeader"
       [rteDrawerCloseOnEscape]="rteDrawerCloseOnEscape"
       [rteDrawerIsClosable]="rteDrawerIsClosable"
       (rteDrawerOnPrimary)="rteDrawerOnPrimary(); drawerHost.close()"
@@ -415,6 +469,7 @@ export const CustomHeaderFooter: Story = {
       [rteDrawerSecondaryButtonLabel]="rteDrawerSecondaryButtonLabel"
       [rteDrawerIsCollapsible]="rteDrawerIsCollapsible"
       [rteDrawerFixedHeader]="rteDrawerFixedHeader"
+      [rteDrawerShowHeader]="rteDrawerShowHeader"
       [rteDrawerCloseOnEscape]="rteDrawerCloseOnEscape"
       [rteDrawerIsClosable]="rteDrawerIsClosable"
     >

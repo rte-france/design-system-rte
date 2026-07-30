@@ -87,7 +87,7 @@
 }
 
 .chip-label {
-  @include typography-button-m;
+  @include typography-button-s;
   padding: $positive-spacing_0 $positive-spacing_075;
 
   &[data-type='input'] {
