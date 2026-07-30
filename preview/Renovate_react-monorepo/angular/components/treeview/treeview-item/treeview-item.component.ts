@@ -90,6 +90,10 @@ export class TreeviewItemComponent {
     return !!this.isSelected();
   }
 
+  @HostBinding("attr.aria-disabled") get ariaDisabled(): "true" | null {
+    return this.disabled() ? "true" : null;
+  }
+
   readonly treeId = input.required<string>();
   readonly nodePath = input<TreeviewNodePath>([]);
   readonly labelText = input.required<string>();
