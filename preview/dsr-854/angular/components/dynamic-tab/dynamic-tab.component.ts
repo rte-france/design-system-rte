@@ -219,16 +219,19 @@ export class DynamicTabComponent implements AfterViewInit, OnDestroy {
 
     const closingIndex = currentOptions.findIndex((option) => option.id === tabId);
     const updatedOptions = currentOptions.filter((option) => option.id !== tabId);
+    const isClosingActiveTab = this.selectedTabId() === tabId;
+    const nextSelectedTabId = isClosingActiveTab
+      ? (closingIndex === currentOptions.length - 1 ? updatedOptions[closingIndex - 1] : updatedOptions[closingIndex])
+          .id
+      : this.selectedTabId();
 
-    if (this.selectedTabId() === tabId) {
-      const nextTab =
-        closingIndex === currentOptions.length - 1 ? updatedOptions[closingIndex - 1] : updatedOptions[closingIndex];
-      this.changeActiveTab.emit(nextTab.id);
+    if (isClosingActiveTab && nextSelectedTabId) {
+      this.changeActiveTab.emit(nextSelectedTabId);
     }
 
     this.updateTabs.emit(updatedOptions);
     this.scheduleIndicatorUpdate();
-    this.focusSelectedTab();
+    this.focusTab(nextSelectedTabId);
   }
 
   onChangeTabTitle(event: { id: string; title: string }): void {
@@ -261,7 +264,7 @@ export class DynamicTabComponent implements AfterViewInit, OnDestroy {
     this.updateTabs.emit(updatedOptions);
     this.changeActiveTab.emit(event.id);
     this.scheduleIndicatorUpdate();
-    this.focusSelectedTab();
+    this.focusTab(event.id);
   }
 
   onDrop(event: CdkDragDrop<DynamicTabItemOption[]>): void {
@@ -307,19 +310,18 @@ export class DynamicTabComponent implements AfterViewInit, OnDestroy {
     moveItemInArray(visibleSlice, fromIndex, toIndex);
     this.updateTabs.emit([...visibleSlice, ...updatedOptions]);
     this.scheduleIndicatorUpdate();
-    this.focusSelectedTab();
+    this.focusTab(this.selectedTabId());
   }
 
-  private focusSelectedTab(): void {
+  private focusTab(tabId: string | undefined): void {
     requestAnimationFrame(() => {
-      const selectedTabId = this.selectedTabId();
       const container = this.containerRef()?.nativeElement;
 
-      if (!selectedTabId || !container) {
+      if (!tabId || !container) {
         return;
       }
 
-      const selectedElement = container.querySelector(`[data-tab-id="${selectedTabId}"]`) as HTMLElement | null;
+      const selectedElement = container.querySelector(`[data-tab-id="${tabId}"]`) as HTMLElement | null;
       selectedElement?.focus();
     });
   }
