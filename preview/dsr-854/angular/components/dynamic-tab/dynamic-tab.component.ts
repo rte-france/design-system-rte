@@ -9,9 +9,11 @@ import {
   effect,
   ElementRef,
   inject,
+  Injector,
   input,
   OnDestroy,
   output,
+  afterNextRender,
   signal,
   viewChild,
   viewChildren,
@@ -37,6 +39,9 @@ import { IconComponent } from "../icon/icon.component";
 import { DynamicTabItemComponent } from "./dynamic-tab-item/dynamic-tab-item.component";
 import { DynamicTabKeyboardService } from "./dynamic-tab-keyboard.service";
 
+const KEYBOARD_REORDER_TRANSITION_MS = 250;
+const KEYBOARD_REORDER_TRANSITION = `transform ${KEYBOARD_REORDER_TRANSITION_MS}ms cubic-bezier(0.25, 1, 0.5, 1)`;
+
 @Component({
   selector: "rte-dynamic-tab",
   imports: [CommonModule, DragDropModule, DropdownModule, IconComponent, DynamicTabItemComponent],
@@ -52,6 +57,7 @@ import { DynamicTabKeyboardService } from "./dynamic-tab-keyboard.service";
 })
 export class DynamicTabComponent implements AfterViewInit, OnDestroy {
   private readonly destroyRef = inject(DestroyRef);
+  private readonly injector = inject(Injector);
   private readonly keyboardService = inject(DynamicTabKeyboardService);
 
   readonly id = input("dynamic-tab");
@@ -304,6 +310,17 @@ export class DynamicTabComponent implements AfterViewInit, OnDestroy {
   }
 
   private reorderVisibleTabs(fromIndex: number, toIndex: number): void {
+    const listElement = this.tabListRef()?.nativeElement;
+
+    if (this.isMoving() && listElement && !this.prefersReducedMotion()) {
+      this.animateKeyboardReorder(listElement, () => this.applyVisibleTabReorder(fromIndex, toIndex));
+      return;
+    }
+
+    this.applyVisibleTabReorder(fromIndex, toIndex);
+  }
+
+  private applyVisibleTabReorder(fromIndex: number, toIndex: number): void {
     const visibleCount = this.maxVisibleTabs();
     const updatedOptions = [...this.options()];
     const visibleSlice = updatedOptions.splice(0, visibleCount);
@@ -311,6 +328,77 @@ export class DynamicTabComponent implements AfterViewInit, OnDestroy {
     this.updateTabs.emit([...visibleSlice, ...updatedOptions]);
     this.scheduleIndicatorUpdate();
     this.focusTab(this.selectedTabId());
+  }
+
+  private animateKeyboardReorder(listElement: HTMLElement, applyReorder: () => void): void {
+    const firstPositions = this.captureTabPositions(listElement);
+
+    applyReorder();
+
+    afterNextRender(
+      () => {
+        this.playFlipAnimation(listElement, firstPositions);
+      },
+      { injector: this.injector },
+    );
+  }
+
+  private captureTabPositions(listElement: HTMLElement): Map<string, DOMRect> {
+    const positions = new Map<string, DOMRect>();
+
+    listElement.querySelectorAll('[role="tab"]').forEach((element) => {
+      const tabId = element.getAttribute("data-tab-id");
+
+      if (tabId) {
+        positions.set(tabId, element.getBoundingClientRect());
+      }
+    });
+
+    return positions;
+  }
+
+  private playFlipAnimation(listElement: HTMLElement, firstPositions: Map<string, DOMRect>): void {
+    const tabs = Array.from(listElement.querySelectorAll('[role="tab"]')) as HTMLElement[];
+
+    tabs.forEach((tab) => {
+      const tabId = tab.getAttribute("data-tab-id");
+      const firstPosition = tabId ? firstPositions.get(tabId) : null;
+
+      if (!firstPosition) {
+        return;
+      }
+
+      const deltaX = firstPosition.left - tab.getBoundingClientRect().left;
+
+      if (deltaX === 0) {
+        return;
+      }
+
+      tab.style.transform = `translate3d(${deltaX}px, 0, 0)`;
+      tab.style.transition = "none";
+    });
+
+    requestAnimationFrame(() => {
+      tabs.forEach((tab) => {
+        if (!tab.style.transform) {
+          return;
+        }
+
+        tab.style.transition = KEYBOARD_REORDER_TRANSITION;
+        tab.style.transform = "";
+      });
+
+      window.setTimeout(() => {
+        tabs.forEach((tab) => {
+          tab.style.transition = "";
+          tab.style.transform = "";
+        });
+      }, KEYBOARD_REORDER_TRANSITION_MS);
+    });
+  }
+
+  private prefersReducedMotion(): boolean {
+    return typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   }
 
   private focusTab(tabId: string | undefined): void {
