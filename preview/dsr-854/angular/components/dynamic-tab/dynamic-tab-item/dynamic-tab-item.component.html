@@ -4,7 +4,7 @@
       <rte-badge
         badgeContent="empty"
         [simpleBadge]="true"
-        [badgeType]="option().badgeType || 'neutral'"
+        [badgeType]="badgeType()"
         [icon]="option().badgeIcon || ''"
         [count]="option().badgeCount"
         [class.rte-dynamic-tab-item__badge-compact]="isZeroToExtraSmall()"
@@ -19,7 +19,7 @@
       <div
         #tabTitle
         class="rte-dynamic-tab-item__title"
-        [tabIndex]="isActive() && isEditable() ? 0 : -1"
+        [tabIndex]="tabIndex()"
         (dblclick)="onTitleDoubleClick()"
         (keydown)="onTitleKeydown($event)"
       >

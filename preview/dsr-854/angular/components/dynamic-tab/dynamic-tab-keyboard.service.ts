@@ -132,11 +132,9 @@ export class DynamicTabKeyboardService {
   }
 
   handleTabKeyup(event: KeyboardEvent, isActive: boolean, isEditing: boolean, onEnterMoveMode: () => void): void {
-    if (event.key !== SPACE_KEY || !isActive || isEditing) {
-      return;
+    if (event.key === SPACE_KEY && isActive && !isEditing) {
+      onEnterMoveMode();
     }
-
-    onEnterMoveMode();
   }
 
   handleGlobalKeydownWhileMoving(event: KeyboardEvent, isMoving: boolean, onExitMoveMode: () => void): void {
@@ -157,20 +155,18 @@ export class DynamicTabKeyboardService {
   ): void {
     const tabElements = Array.from(listElement.querySelectorAll('[role="tab"]')) as HTMLElement[];
 
-    if (tabElements.length === 0) {
-      return;
+    if (tabElements.length) {
+      const currentIndex = tabElements.findIndex((tab) => tab === document.activeElement);
+      const startIndex = currentIndex === -1 ? 0 : currentIndex;
+      const nextIndex = getAdjacentTabIndex(startIndex, direction, tabElements.length);
+      const nextTab = tabElements[nextIndex];
+      const tabId = nextTab.getAttribute("data-tab-id");
+
+      if (tabId) {
+        selectTab(tabId);
+      }
+
+      nextTab.focus();
     }
-
-    const currentIndex = tabElements.findIndex((tab) => tab === document.activeElement);
-    const startIndex = currentIndex === -1 ? 0 : currentIndex;
-    const nextIndex = getAdjacentTabIndex(startIndex, direction, tabElements.length);
-    const nextTab = tabElements[nextIndex];
-    const tabId = nextTab.getAttribute("data-tab-id");
-
-    if (tabId) {
-      selectTab(tabId);
-    }
-
-    nextTab.focus();
   }
 }

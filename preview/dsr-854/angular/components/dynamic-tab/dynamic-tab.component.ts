@@ -90,7 +90,7 @@ export class DynamicTabComponent implements AfterViewInit, OnDestroy {
     const width = this.containerWidth();
     const totalTabs = this.options().length;
 
-    if (width === 0) {
+    if (!width) {
       return { maxVisibleTabs: totalTabs, hasOverflow: false, tabWidth: 44 };
     }
 
@@ -107,24 +107,13 @@ export class DynamicTabComponent implements AfterViewInit, OnDestroy {
   readonly hiddenDropdownItems = computed((): DropdownItemConfig[] =>
     this.options()
       .slice(this.maxVisibleTabs())
-      .map((option) => ({
-        id: option.id,
-        label: option.title,
-      })),
+      .map(({ id, title }) => ({ id, label: title })),
   );
 
-  readonly hiddenTabsText = computed(() => {
-    const customLabel = this.hiddenTabsLabel();
-
-    if (customLabel) {
-      return customLabel;
-    }
-
-    return formatHiddenTabsLabel(this.hiddenCount());
-  });
+  readonly hiddenTabsText = computed(() => this.hiddenTabsLabel() || formatHiddenTabsLabel(this.hiddenCount()));
 
   readonly indicatorStyle = computed(() => ({
-    visibility: this.isMoving() || this.visibleOptions().length === 0 ? ("hidden" as const) : ("visible" as const),
+    visibility: this.isMoving() || !this.visibleOptions()?.length ? ("hidden" as const) : ("visible" as const),
     left: `${this.sliderLeft()}px`,
     width: `${this.sliderWidth()}px`,
   }));
@@ -173,13 +162,11 @@ export class DynamicTabComponent implements AfterViewInit, OnDestroy {
   onContainerFocusCapture(event: FocusEvent): void {
     const container = this.containerRef()?.nativeElement;
 
-    if (!container || this.options().length === 0) {
-      return;
+    if (container && this.options()?.length) {
+      this.keyboardService.handleContainerFocusCapture(event, container, this.selectedTabId(), (tabId) =>
+        this.selectTab(tabId),
+      );
     }
-
-    this.keyboardService.handleContainerFocusCapture(event, container, this.selectedTabId(), (tabId) =>
-      this.selectTab(tabId),
-    );
   }
 
   onTabClick(tabId: string): void {
@@ -212,11 +199,9 @@ export class DynamicTabComponent implements AfterViewInit, OnDestroy {
   }
 
   onEnterMoveMode(): void {
-    if (!this.keyboardService.shouldEnterMoveModeOnSpaceKeyup()) {
-      return;
+    if (this.keyboardService.shouldEnterMoveModeOnSpaceKeyup()) {
+      this.isMoving.set(true);
     }
-
-    this.isMoving.set(true);
   }
 
   onCloseTab(tabId: string): void {
@@ -249,14 +234,12 @@ export class DynamicTabComponent implements AfterViewInit, OnDestroy {
   onAddTab(): void {
     const newTab = buildNewTab(this.newTabConfig(), this.options());
 
-    if (!newTab) {
-      return;
+    if (newTab) {
+      const updatedOptions = [...this.options(), newTab];
+      this.updateTabs.emit(updatedOptions);
+      this.changeActiveTab.emit(newTab.id);
+      this.scheduleIndicatorUpdate();
     }
-
-    const updatedOptions = [...this.options(), newTab];
-    this.updateTabs.emit(updatedOptions);
-    this.changeActiveTab.emit(newTab.id);
-    this.scheduleIndicatorUpdate();
   }
 
   onHiddenTabSelect(event: { id: string }): void {
@@ -343,28 +326,24 @@ export class DynamicTabComponent implements AfterViewInit, OnDestroy {
     requestAnimationFrame(() => {
       const container = this.containerRef()?.nativeElement;
 
-      if (!tabId || !container) {
-        return;
+      if (tabId && container) {
+        const selectedElement = container.querySelector(`[data-tab-id="${tabId}"]`) as HTMLElement | null;
+        selectedElement?.focus();
       }
-
-      const selectedElement = container.querySelector(`[data-tab-id="${tabId}"]`) as HTMLElement | null;
-      selectedElement?.focus();
     });
   }
 
   private setupResizeObserver(): void {
     const container = this.containerRef()?.nativeElement;
 
-    if (!container) {
-      return;
-    }
-
-    this.containerWidth.set(container.offsetWidth);
-    this.resizeObserver = new ResizeObserver(() => {
+    if (container) {
       this.containerWidth.set(container.offsetWidth);
-      this.scheduleIndicatorUpdate();
-    });
-    this.resizeObserver.observe(container);
+      this.resizeObserver = new ResizeObserver(() => {
+        this.containerWidth.set(container.offsetWidth);
+        this.scheduleIndicatorUpdate();
+      });
+      this.resizeObserver.observe(container);
+    }
   }
 
   private setupKeyboardTracking(): void {
@@ -392,11 +371,9 @@ export class DynamicTabComponent implements AfterViewInit, OnDestroy {
     const selectedItem = this.tabItemRefs().find((item) => item.option().id === selectedTabId);
     const tabElement = selectedItem?.hostElement.nativeElement;
 
-    if (!tabElement) {
-      return;
+    if (tabElement) {
+      this.sliderLeft.set(tabElement.offsetLeft);
+      this.sliderWidth.set(tabElement.offsetWidth);
     }
-
-    this.sliderLeft.set(tabElement.offsetLeft);
-    this.sliderWidth.set(tabElement.offsetWidth);
   }
 }

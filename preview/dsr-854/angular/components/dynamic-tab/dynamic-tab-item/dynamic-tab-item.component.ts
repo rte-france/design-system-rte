@@ -3,6 +3,7 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  computed,
   effect,
   ElementRef,
   inject,
@@ -91,6 +92,9 @@ export class DynamicTabItemComponent implements AfterViewInit, OnDestroy {
   private resizeObserver: ResizeObserver | null = null;
   private closeAnimationTimeout: ReturnType<typeof setTimeout> | null = null;
 
+  readonly badgeType = computed(() => this.option().badgeType || "neutral");
+  readonly tabIndex = computed(() => (this.isActive() && this.isEditable() ? 0 : -1));
+
   constructor() {
     effect(() => {
       const title = this.option().title;
@@ -147,11 +151,12 @@ export class DynamicTabItemComponent implements AfterViewInit, OnDestroy {
   }
 
   onTitleKeydown(event: KeyboardEvent): void {
-    if (this.isEditing()) {
-      return;
-    }
-
-    if ((event.key === ENTER_KEY || event.key === SPACE_KEY) && this.isActive() && this.isEditable()) {
+    if (
+      !this.isEditing() &&
+      (event.key === ENTER_KEY || event.key === SPACE_KEY) &&
+      this.isActive() &&
+      this.isEditable()
+    ) {
       event.stopPropagation();
       this.enableEditingMode();
     }
@@ -192,7 +197,7 @@ export class DynamicTabItemComponent implements AfterViewInit, OnDestroy {
   hasBadgeContent(): boolean {
     const option = this.option();
     return !!(
-      (option.badgeCount && option.badgeCount > 0 && option.badgeContent === "number") ||
+      (!!option.badgeCount && option.badgeContent === "number") ||
       (option.badgeContent === "icon" && option.badgeIcon)
     );
   }
