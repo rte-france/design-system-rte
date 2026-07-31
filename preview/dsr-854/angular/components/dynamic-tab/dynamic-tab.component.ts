@@ -1,4 +1,4 @@
-import { CdkDragDrop, DragDropModule, moveItemInArray } from "@angular/cdk/drag-drop";
+import { CdkDragDrop, DragDropModule } from "@angular/cdk/drag-drop";
 import { CommonModule } from "@angular/common";
 import {
   AfterViewInit,
@@ -21,10 +21,16 @@ import {
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import {
   buildNewTab,
+  captureTabPositions,
   computeVisibleTabCount,
   ensureSelectedTabVisible,
   formatHiddenTabsLabel,
-  promoteHiddenTab,
+  getSelectedTabIdAfterClose,
+  playFlipReorderAnimation,
+  prefersReducedMotion,
+  removeTab,
+  reorderOptionsSlice,
+  updateTabTitle,
 } from "@design-system-rte/core/components/dynamic-tab";
 import {
   DynamicTabAppearance,
@@ -38,9 +44,6 @@ import { IconComponent } from "../icon/icon.component";
 
 import { DynamicTabItemComponent } from "./dynamic-tab-item/dynamic-tab-item.component";
 import { DynamicTabKeyboardService } from "./dynamic-tab-keyboard.service";
-
-const KEYBOARD_REORDER_TRANSITION_MS = 250;
-const KEYBOARD_REORDER_TRANSITION = `transform ${KEYBOARD_REORDER_TRANSITION_MS}ms cubic-bezier(0.25, 1, 0.5, 1)`;
 
 @Component({
   selector: "rte-dynamic-tab",
@@ -223,13 +226,11 @@ export class DynamicTabComponent implements AfterViewInit, OnDestroy {
       return;
     }
 
-    const closingIndex = currentOptions.findIndex((option) => option.id === tabId);
-    const updatedOptions = currentOptions.filter((option) => option.id !== tabId);
     const isClosingActiveTab = this.selectedTabId() === tabId;
     const nextSelectedTabId = isClosingActiveTab
-      ? (closingIndex === currentOptions.length - 1 ? updatedOptions[closingIndex - 1] : updatedOptions[closingIndex])
-          .id
+      ? getSelectedTabIdAfterClose(currentOptions, tabId)
       : this.selectedTabId();
+    const updatedOptions = removeTab(currentOptions, tabId);
 
     if (isClosingActiveTab && nextSelectedTabId) {
       this.changeActiveTab.emit(nextSelectedTabId);
@@ -241,10 +242,7 @@ export class DynamicTabComponent implements AfterViewInit, OnDestroy {
   }
 
   onChangeTabTitle(event: { id: string; title: string }): void {
-    const updatedOptions = this.options().map((option) =>
-      option.id === event.id ? { ...option, title: event.title } : option,
-    );
-    this.updateTabs.emit(updatedOptions);
+    this.updateTabs.emit(updateTabTitle(this.options(), event.id, event.title));
     this.scheduleIndicatorUpdate();
   }
 
@@ -266,8 +264,12 @@ export class DynamicTabComponent implements AfterViewInit, OnDestroy {
       return;
     }
 
-    const updatedOptions = promoteHiddenTab(this.options(), event.id, this.maxVisibleTabs());
-    this.updateTabs.emit(updatedOptions);
+    const updatedOptions = ensureSelectedTabVisible(this.options(), event.id, this.maxVisibleTabs());
+
+    if (updatedOptions !== this.options()) {
+      this.updateTabs.emit(updatedOptions);
+    }
+
     this.changeActiveTab.emit(event.id);
     this.scheduleIndicatorUpdate();
     this.focusTab(event.id);
@@ -279,11 +281,9 @@ export class DynamicTabComponent implements AfterViewInit, OnDestroy {
       return;
     }
 
-    const visibleCount = this.maxVisibleTabs();
-    const updatedOptions = [...this.options()];
-    const visibleSlice = updatedOptions.splice(0, visibleCount);
-    moveItemInArray(visibleSlice, event.previousIndex, event.currentIndex);
-    this.updateTabs.emit([...visibleSlice, ...updatedOptions]);
+    this.updateTabs.emit(
+      reorderOptionsSlice(this.options(), event.previousIndex, event.currentIndex, this.maxVisibleTabs()),
+    );
     this.isMoving.set(false);
     this.scheduleIndicatorUpdate();
   }
@@ -312,7 +312,7 @@ export class DynamicTabComponent implements AfterViewInit, OnDestroy {
   private reorderVisibleTabs(fromIndex: number, toIndex: number): void {
     const listElement = this.tabListRef()?.nativeElement;
 
-    if (this.isMoving() && listElement && !this.prefersReducedMotion()) {
+    if (this.isMoving() && listElement && !prefersReducedMotion()) {
       this.animateKeyboardReorder(listElement, () => this.applyVisibleTabReorder(fromIndex, toIndex));
       return;
     }
@@ -321,84 +321,22 @@ export class DynamicTabComponent implements AfterViewInit, OnDestroy {
   }
 
   private applyVisibleTabReorder(fromIndex: number, toIndex: number): void {
-    const visibleCount = this.maxVisibleTabs();
-    const updatedOptions = [...this.options()];
-    const visibleSlice = updatedOptions.splice(0, visibleCount);
-    moveItemInArray(visibleSlice, fromIndex, toIndex);
-    this.updateTabs.emit([...visibleSlice, ...updatedOptions]);
+    this.updateTabs.emit(reorderOptionsSlice(this.options(), fromIndex, toIndex, this.maxVisibleTabs()));
     this.scheduleIndicatorUpdate();
     this.focusTab(this.selectedTabId());
   }
 
   private animateKeyboardReorder(listElement: HTMLElement, applyReorder: () => void): void {
-    const firstPositions = this.captureTabPositions(listElement);
+    const firstPositions = captureTabPositions(listElement);
 
     applyReorder();
 
     afterNextRender(
       () => {
-        this.playFlipAnimation(listElement, firstPositions);
+        playFlipReorderAnimation(listElement, firstPositions);
       },
       { injector: this.injector },
     );
-  }
-
-  private captureTabPositions(listElement: HTMLElement): Map<string, DOMRect> {
-    const positions = new Map<string, DOMRect>();
-
-    listElement.querySelectorAll('[role="tab"]').forEach((element) => {
-      const tabId = element.getAttribute("data-tab-id");
-
-      if (tabId) {
-        positions.set(tabId, element.getBoundingClientRect());
-      }
-    });
-
-    return positions;
-  }
-
-  private playFlipAnimation(listElement: HTMLElement, firstPositions: Map<string, DOMRect>): void {
-    const tabs = Array.from(listElement.querySelectorAll('[role="tab"]')) as HTMLElement[];
-
-    tabs.forEach((tab) => {
-      const tabId = tab.getAttribute("data-tab-id");
-      const firstPosition = tabId ? firstPositions.get(tabId) : null;
-
-      if (!firstPosition) {
-        return;
-      }
-
-      const deltaX = firstPosition.left - tab.getBoundingClientRect().left;
-
-      if (deltaX === 0) {
-        return;
-      }
-
-      tab.style.transform = `translate3d(${deltaX}px, 0, 0)`;
-      tab.style.transition = "none";
-    });
-
-    requestAnimationFrame(() => {
-      tabs.forEach((tab) => {
-        if (!tab.style.transform) {
-          return;
-        }
-
-        tab.style.transition = KEYBOARD_REORDER_TRANSITION;
-        tab.style.transform = "";
-      });
-
-      window.setTimeout(() => {
-        tabs.forEach((tab) => {
-          tab.style.transition = "";
-          tab.style.transform = "";
-        });
-      }, KEYBOARD_REORDER_TRANSITION_MS);
-    });
-  }
-
-  private prefersReducedMotion(): boolean {
-    return typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   }
 
   private focusTab(tabId: string | undefined): void {

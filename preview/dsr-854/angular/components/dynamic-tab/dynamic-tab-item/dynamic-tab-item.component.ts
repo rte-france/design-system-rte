@@ -14,11 +14,11 @@ import {
 } from "@angular/core";
 import { waitForNextFrame } from "@design-system-rte/core/common/animation";
 import {
+  computeTabItemDisplayState,
   DYNAMIC_TAB_CLOSE_ANIMATION_MS,
-  DYNAMIC_TAB_ITEM_SMALL_WIDTH,
-  DYNAMIC_TAB_ITEM_XSMALL_WIDTH,
   DYNAMIC_TAB_MIN_WIDTH,
-} from "@design-system-rte/core/components/dynamic-tab/dynamic-tab.constants";
+  resolveCommittedTitle,
+} from "@design-system-rte/core/components/dynamic-tab";
 import {
   DynamicTabAppearance,
   DynamicTabItemOption,
@@ -198,32 +198,18 @@ export class DynamicTabItemComponent implements AfterViewInit, OnDestroy {
   }
 
   private updateDisplayElements(hostElement: HTMLElement): void {
-    const width = hostElement.offsetWidth || this.tabWidth();
-    const isActive = this.isActive();
-    const isClosable = this.isClosable();
-    const hasBadge = this.hasBadgeContent();
-    const hasIcon = !!this.iconName();
+    const displayState = computeTabItemDisplayState(hostElement.offsetWidth || this.tabWidth(), {
+      isActive: this.isActive(),
+      hasBadge: this.hasBadgeContent(),
+      iconName: this.iconName(),
+      isClosable: this.isClosable(),
+    });
 
-    if (width <= DYNAMIC_TAB_MIN_WIDTH && isActive) {
-      this.isZeroToExtraSmall.set(true);
-      this.shouldDisplayBadge.set(false);
-      this.shouldDisplayIcon.set(false);
-      this.shouldDisplayText.set(false);
-      this.shouldDisplayCloseButton.set(isClosable);
-      return;
-    }
-
-    const isZeroToExtraSmall = width <= DYNAMIC_TAB_ITEM_XSMALL_WIDTH;
-    const isExtraSmallToSmall = width > DYNAMIC_TAB_ITEM_XSMALL_WIDTH && width <= DYNAMIC_TAB_ITEM_SMALL_WIDTH;
-    const isSmallOrMore = width > DYNAMIC_TAB_ITEM_SMALL_WIDTH;
-
-    this.isZeroToExtraSmall.set(isZeroToExtraSmall);
-    this.shouldDisplayBadge.set(hasBadge && (!isZeroToExtraSmall || !isActive));
-    this.shouldDisplayIcon.set(hasIcon && (isSmallOrMore || (isZeroToExtraSmall && !hasBadge) || isExtraSmallToSmall));
-    this.shouldDisplayText.set(isExtraSmallToSmall || isSmallOrMore);
-    this.shouldDisplayCloseButton.set(
-      isClosable && (isSmallOrMore || ((isZeroToExtraSmall || isExtraSmallToSmall) && isActive)),
-    );
+    this.isZeroToExtraSmall.set(displayState.isZeroToExtraSmall);
+    this.shouldDisplayBadge.set(displayState.shouldDisplayBadge);
+    this.shouldDisplayIcon.set(displayState.shouldDisplayIcon);
+    this.shouldDisplayText.set(displayState.shouldDisplayText);
+    this.shouldDisplayCloseButton.set(displayState.shouldDisplayCloseButton);
   }
 
   private enableEditingMode(): void {
@@ -256,18 +242,15 @@ export class DynamicTabItemComponent implements AfterViewInit, OnDestroy {
 
   private commitTabTitle(): void {
     this.isEditing.set(false);
-    const trimmedTitle = this.titleText().trim();
+    const { title, changed } = resolveCommittedTitle(this.titleText(), this.previousTabTitle());
 
-    if (trimmedTitle === "") {
-      this.titleText.set(this.previousTabTitle());
-      return;
+    this.titleText.set(title);
+
+    if (changed) {
+      this.changeTitle.emit({ id: this.option().id, title });
     }
 
-    if (trimmedTitle !== this.previousTabTitle()) {
-      this.changeTitle.emit({ id: this.option().id, title: trimmedTitle });
-    }
-
-    this.previousTabTitle.set(trimmedTitle);
+    this.previousTabTitle.set(title);
   }
 
   private cancelEditing(): void {

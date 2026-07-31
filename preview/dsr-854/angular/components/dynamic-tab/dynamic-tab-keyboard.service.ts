@@ -1,5 +1,9 @@
 import { Injectable, signal } from "@angular/core";
-import { DynamicTabItemOption } from "@design-system-rte/core/components/dynamic-tab/dynamic-tab.interface";
+import {
+  getAdjacentTabIndex,
+  getReorderIndex,
+  SpaceMoveModeState,
+} from "@design-system-rte/core/components/dynamic-tab/dynamic-tab.utils";
 import {
   ARROW_LEFT_KEY,
   ARROW_RIGHT_KEY,
@@ -24,19 +28,14 @@ export interface DynamicTabKeyboardContext {
 export class DynamicTabKeyboardService {
   readonly lastKey = signal<string | null>(null);
 
-  private suppressSpaceMoveEnter = false;
+  private readonly spaceMoveModeState = new SpaceMoveModeState();
 
   trackDocumentKeydown(event: KeyboardEvent): void {
     this.lastKey.set(event.key);
   }
 
   shouldEnterMoveModeOnSpaceKeyup(): boolean {
-    if (this.suppressSpaceMoveEnter) {
-      this.suppressSpaceMoveEnter = false;
-      return false;
-    }
-
-    return true;
+    return this.spaceMoveModeState.shouldEnterOnKeyup();
   }
 
   handleContainerFocusCapture(
@@ -82,21 +81,23 @@ export class DynamicTabKeyboardService {
 
     if (isMoving && event.key === SPACE_KEY) {
       event.preventDefault();
-      this.suppressSpaceMoveEnter = true;
+      this.spaceMoveModeState.suppressAndExit();
       onExitMoveMode();
       return true;
     }
 
     if (isMoving && (event.key === ARROW_LEFT_KEY || event.key === ARROW_RIGHT_KEY)) {
       event.preventDefault();
+
       if (!selectedTabId) {
         return true;
       }
 
       const currentIndex = getTabIndex(selectedTabId);
-      const nextIndex = currentIndex + (event.key === ARROW_RIGHT_KEY ? 1 : -1);
+      const direction = event.key === ARROW_RIGHT_KEY ? "next" : "previous";
+      const nextIndex = getReorderIndex(currentIndex, direction, visibleTabIds.length);
 
-      if (nextIndex < 0 || nextIndex >= visibleTabIds.length) {
+      if (nextIndex === null) {
         return true;
       }
 
@@ -145,7 +146,7 @@ export class DynamicTabKeyboardService {
 
     event.preventDefault();
     event.stopPropagation();
-    this.suppressSpaceMoveEnter = true;
+    this.spaceMoveModeState.suppressAndExit();
     onExitMoveMode();
   }
 
@@ -162,11 +163,7 @@ export class DynamicTabKeyboardService {
 
     const currentIndex = tabElements.findIndex((tab) => tab === document.activeElement);
     const startIndex = currentIndex === -1 ? 0 : currentIndex;
-    const nextIndex =
-      direction === "next"
-        ? (startIndex + 1) % tabElements.length
-        : (startIndex - 1 + tabElements.length) % tabElements.length;
-
+    const nextIndex = getAdjacentTabIndex(startIndex, direction, tabElements.length);
     const nextTab = tabElements[nextIndex];
     const tabId = nextTab.getAttribute("data-tab-id");
 
@@ -175,12 +172,5 @@ export class DynamicTabKeyboardService {
     }
 
     nextTab.focus();
-  }
-
-  swapTabOrder(options: DynamicTabItemOption[], fromIndex: number, toIndex: number): DynamicTabItemOption[] {
-    const updated = [...options];
-    const [moved] = updated.splice(fromIndex, 1);
-    updated.splice(toIndex, 0, moved);
-    return updated;
   }
 }
