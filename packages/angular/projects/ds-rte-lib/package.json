@@ -1,6 +1,6 @@
 {
   "name": "@design-system-rte/angular",
-  "version": "4.0.0",
+  "version": "3.1.0",
   "description": "Angular components for the Design System RTE",
   "license": "Apache-2.0",
   "publishConfig": {

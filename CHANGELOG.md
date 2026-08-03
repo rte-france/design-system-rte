@@ -2,13 +2,7 @@
 
 # Angular
 
-## 4.0.0
-
-### Routing
-
-#### Minor Changes
-
-- add provider to support routing library link component
+## 3.1.0
 
 ### Pagination
 
@@ -21,7 +15,7 @@
 
 #### Minor Changes
 
-- addd an option to hide component's Header
+- add an option to hide component's Header
 
 ### Header
 
@@ -197,10 +191,6 @@
 - correct compact height to be 20px instead of 24px
 
 ### Other
-
-#### Minor Changes
-
-- remove console.log
 
 #### Patch Changes
 
