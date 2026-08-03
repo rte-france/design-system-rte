@@ -31,6 +31,7 @@ import {
   TimePicker,
   DatePicker,
   Header,
+  Pagination,
 } from "@design-system-rte/react";
 import "./App.css";
 import { useState } from "react";
@@ -312,6 +313,10 @@ function App() {
           footer={<div>Footer Content</div>}
         >
           <Button label="Open drawer" onClick={() => setIsDrawerOpen(true)}></Button>
+          <div>
+            <h3>Pagination</h3>
+            <Pagination totalPages={10} activePage={1} onPageChange={(page) => console.log(page)} appearance="brand" />
+          </div>
           <div>
             <h3>Select</h3>
             <Select options={selectOptions} value={selectedOptions} onChange={handleOnChange} multiple />
