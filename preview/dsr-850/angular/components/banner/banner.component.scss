@@ -27,7 +27,7 @@
     min-height: 60px;
     padding-top: $positive-spacing_050;
     padding-right: $positive-spacing_200;
-    padding-bottom: $positive-spacing_150;
+    padding-bottom: $positive-spacing_100;
     padding-left: $positive-spacing_300;
     gap: $positive-spacing_100;
     border-bottom-width: $width-m;
@@ -85,10 +85,6 @@
     align-self: stretch;
   }
 
-  .banner-close-icon {
-    color: var(--content-secondary);
-  }
-
   .rte-banner-content {
     display: flex;
     padding-right: $positive-spacing_100;
@@ -120,5 +116,11 @@
 
   .rte-banner-close-icon {
     color: var(--content-secondary);
+    display: flex;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+    min-height: 24px;
   }
 }
