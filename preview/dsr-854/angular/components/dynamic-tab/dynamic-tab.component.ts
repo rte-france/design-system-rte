@@ -86,16 +86,7 @@ export class DynamicTabComponent implements AfterViewInit, OnDestroy {
   readonly sliderLeft = signal(0);
   readonly sliderWidth = signal(0);
 
-  readonly overflowState = computed(() => {
-    const width = this.containerWidth();
-    const totalTabs = this.options().length;
-
-    if (!width) {
-      return { maxVisibleTabs: totalTabs, hasOverflow: false, tabWidth: 44 };
-    }
-
-    return computeVisibleTabCount(width, totalTabs);
-  });
+  readonly overflowState = computed(() => computeVisibleTabCount(this.containerWidth(), this.options().length));
 
   readonly maxVisibleTabs = computed(() => this.overflowState().maxVisibleTabs);
   readonly hasOverflow = computed(() => this.overflowState().hasOverflow);

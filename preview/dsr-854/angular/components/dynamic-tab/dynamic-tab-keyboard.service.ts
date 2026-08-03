@@ -55,10 +55,7 @@ export class DynamicTabKeyboardService {
       return;
     }
 
-    const selectedTab = selectedTabId
-      ? (container.querySelector(`[data-tab-id="${selectedTabId}"]`) as HTMLElement | null)
-      : null;
-    const firstTab = (container.querySelector('[role="tab"]') as HTMLElement | null) ?? selectedTab;
+    const firstTab = container.querySelector('[role="tab"]') as HTMLElement | null;
 
     if (!firstTab) {
       return;
