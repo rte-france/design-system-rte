@@ -4,6 +4,7 @@ interface SideNavProps extends Partial<CoreSideNavProps>, Omit<React.HTMLAttribu
     children?: ReactNode;
     defaultCollapsed?: boolean;
     onCollapsedChange?: (collapsed: boolean) => void;
+    onActiveItemChange?: (id: string | undefined) => void;
 }
 declare const SideNav: import('../../../../../node_modules/react').ForwardRefExoticComponent<SideNavProps & import('../../../../../node_modules/react').RefAttributes<HTMLDivElement | HTMLElement>>;
 export default SideNav;
