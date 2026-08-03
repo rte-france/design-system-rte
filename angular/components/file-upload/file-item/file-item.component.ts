@@ -12,11 +12,8 @@ import {
   signal,
   viewChild,
 } from "@angular/core";
-import {
-  extractFileNameParts,
-  formatFileSize,
-  getStringWidthFromContext,
-} from "@design-system-rte/core/components/file-upload/file-upload.util";
+import { getStringWidthFromContext } from "@design-system-rte/core";
+import { extractFileNameParts, formatFileSize } from "@design-system-rte/core/components/file-upload/file-upload.util";
 
 import { AssistiveTextComponent } from "../../assistive-text/assistive-text.component";
 import { IconComponent } from "../../icon/icon.component";

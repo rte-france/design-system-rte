@@ -6,5 +6,5 @@ interface DrawerProps extends coreDrawerProps, Omit<React.HTMLAttributes<HTMLDiv
     children?: React.ReactNode | React.ReactNode[];
     width?: string;
 }
-declare const Drawer: ({ id, title, icon, iconAppearance, isOpen, onClose, onClickToggle, closeOnOverlayClick, primaryButtonLabel, secondaryButtonLabel, isCollapsible, content, header, footer, position, width, children, fixedHeader, closeOnEscape, isClosable, onClickPrimaryButton, onClickSecondaryButton, ...props }: DrawerProps) => import("react").JSX.Element | null;
+declare const Drawer: ({ id, title, icon, iconAppearance, isOpen, onClose, onClickToggle, closeOnOverlayClick, primaryButtonLabel, secondaryButtonLabel, isCollapsible, content, header, footer, position, width, children, fixedHeader, showHeader, closeOnEscape, isClosable, onClickPrimaryButton, onClickSecondaryButton, ...props }: DrawerProps) => import("react").JSX.Element | null;
 export default Drawer;

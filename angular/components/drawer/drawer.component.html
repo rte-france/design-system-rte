@@ -51,7 +51,7 @@
         [attr.data-open]="isAnimating() ? 'true' : 'false'"
         [attr.data-position]="position()"
         [attr.data-fixed-header]="fixedHeader() ? 'true' : 'false'"
-        [attr.aria-labelledby]="id() + '-drawer-title'"
+        [attr.aria-labelledby]="showHeader() ? id() + '-drawer-title' : null"
         [style.width]="width()"
         [style.transform]="isAnimating() ? 'none' : 'translateX(' + (width() ?? '100%') + ')'"
         [style.visibility]="isAnimating() ? 'visible' : 'hidden'"
@@ -87,7 +87,7 @@
         aria-modal="true"
         [attr.data-open]="isAnimating() ? 'true' : 'false'"
         [attr.data-fixed-header]="fixedHeader() ? 'true' : 'false'"
-        [attr.aria-labelledby]="id() + '-drawer-title'"
+        [attr.aria-labelledby]="showHeader() ? id() + '-drawer-title' : null"
         [style.width]="width()"
       >
         <ng-container *ngTemplateOutlet="headerAndContent" />
@@ -121,31 +121,33 @@
       (clickEvent)="onClickToggle()"
     />
   }
-  @if (shouldDisplayDefaultHeader()) {
-    <div class="rte-drawer-base-header">
-      <div class="rte-drawer-base-header-text">
-        @if (icon()) {
-          <rte-icon [name]="icon() ?? ''" [size]="iconSize()" [appearance]="iconAppearance()" />
-        }
-        <h2 id="{{ id() }}-drawer-title" class="rte-drawer-base-header-title">
-          {{ title() }}
-        </h2>
-        @if (isClosable()) {
-          <rte-icon-button
-            ariaLabel="Close drawer {{ id() }}"
-            data-testid="drawer-close-button"
-            name="close"
-            size="l"
-            class="rte-drawer-close-icon"
-            variant="neutral"
-            (clickEvent)="onClose()"
-          />
-        }
+  @if (showHeader()) {
+    @if (shouldDisplayDefaultHeader()) {
+      <div class="rte-drawer-base-header">
+        <div class="rte-drawer-base-header-text">
+          @if (icon()) {
+            <rte-icon [name]="icon() ?? ''" [size]="iconSize()" [appearance]="iconAppearance()" />
+          }
+          <h2 id="{{ id() }}-drawer-title" class="rte-drawer-base-header-title">
+            {{ title() }}
+          </h2>
+          @if (isClosable()) {
+            <rte-icon-button
+              ariaLabel="Close drawer {{ id() }}"
+              data-testid="drawer-close-button"
+              name="close"
+              size="l"
+              class="rte-drawer-close-icon"
+              variant="neutral"
+              (clickEvent)="onClose()"
+            />
+          }
+        </div>
+        <rte-divider />
       </div>
-      <rte-divider />
-    </div>
-  } @else {
-    <ng-container *ngTemplateOutlet="drawerHeader() ?? null" />
+    } @else {
+      <ng-container *ngTemplateOutlet="drawerHeader() ?? null" />
+    }
   }
 </ng-template>
 
