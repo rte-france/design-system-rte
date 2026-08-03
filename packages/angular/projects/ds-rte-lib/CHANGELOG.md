@@ -1,12 +1,8 @@
 # @design-system-rte/angular
 
-## 4.0.0
+## 3.1.0
 
 ### Minor Changes
-
-- c333cc2: ## Changes
-
-  - (Routing) add provider to support routing library link component
 
 - 20f45ff: ## Changes
 
@@ -15,7 +11,7 @@
 
 - 7eb542d: ## Changes
 
-  - (Drawer) addd an option to hide component's Header
+  - (Drawer) add an option to hide component's Header
 
 - da54bc8: ## Changes
 
