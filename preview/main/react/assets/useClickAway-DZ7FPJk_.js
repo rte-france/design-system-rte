@@ -1,1 +1,0 @@
-import{r as s}from"./index-G8LIXM5I.js";const d=(t,...o)=>{s.useEffect(()=>{function n(r){if(o.length===0||o.some(e=>!e))return;o.some(e=>e.contains(r.target))||t()}return document.addEventListener("mousedown",n),()=>document.removeEventListener("mousedown",n)},[t,o])};export{d as u};
