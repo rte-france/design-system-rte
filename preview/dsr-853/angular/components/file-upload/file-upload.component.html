@@ -1,0 +1,63 @@
+<div #fileUploadRef class="rte-file-upload">
+  @if (showLabel()) {
+    <div class="rte-file-upload-header" [attr.data-show-label-requirement]="showLabelRequirement()">
+      <label class="rte-file-upload-label" [attr.for]="id()">
+        <span>{{ label() }}</span>
+      </label>
+      <rte-required-indicator
+        *ngIf="required() || showLabelRequirement()"
+        [required]="required()"
+        [showLabelRequirement]="showLabelRequirement()"
+      />
+    </div>
+  }
+
+  @if (shouldDisplayAssistiveText()) {
+    <rte-assistive-text
+      [label]="assistiveTextLabel()"
+      [appearance]="isError() ? 'error' : assistiveAppearance()"
+      [showIcon]="showAssistiveIcon()"
+      [href]="assistiveTextLink()"
+    />
+  }
+
+  <input
+    #inputRef
+    type="file"
+    class="rte-file-upload-input"
+    [attr.id]="id()"
+    [multiple]="multiple()"
+    [disabled]="disabled()"
+    [attr.accept]="accept() || null"
+    [attr.aria-label]="showLabel() ? null : label()"
+    (change)="handleOnChange($event)"
+  />
+
+  <button
+    #buttonRef
+    type="button"
+    rteButton
+    rteButtonVariant="primary"
+    rteButtonIcon="upload"
+    rteButtonIconPosition="left"
+    [rteButtonSize]="buttonSize()"
+    [disabled]="disabled()"
+    [class.rte-file-upload-button-compact]="compactSpacing()"
+    (click)="handleOnClick($event)"
+  >
+    {{ buttonLabel() }}
+  </button>
+
+  <div [style.width]="buttonWidth()">
+    @for (file of selectedFiles(); track file.name + file.lastModified; let i = $index) {
+      <rte-file-item
+        [file]="file"
+        [isError]="isFileError(i)"
+        [errorMessage]="getFileErrorMessage(i)"
+        [compact]="compactSpacing()"
+        [isLoading]="isFileLoading(file)"
+        (removeFile)="handleRemoveFile(file)"
+      />
+    }
+  </div>
+</div>
