@@ -8,7 +8,6 @@
   gap: $positive-spacing_100;
   align-self: stretch;
   border-radius: 0 0 $radius-s $radius-s;
-  display: flex;
   box-sizing: border-box;
   width: 100%;
   min-width: 320px;
@@ -81,8 +80,12 @@
     align-self: stretch;
   }
 
-  .banner-close-icon {
+  .banner-close-button {
     color: var(--content-secondary);
+    display: flex;
+    justify-content: center;
+    min-width: 24px;
+    min-height: 24px;
   }
 
   .banner-content {
