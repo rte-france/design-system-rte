@@ -1,10 +1,11 @@
 import { BannerProps as CoreBannerProps } from "@design-system-rte/core/components/banner/banner.interface";
+import { IconSize } from "@design-system-rte/core/components/icon/icon.constants";
 import { forwardRef, useEffect, useState } from "react";
 
 import useAnimatedMount from "../../hooks/useAnimatedMount";
 import Button from "../button/Button";
 import Icon from "../icon/Icon";
-import IconButton from "../iconButton/IconButton";
+import iconButtonStyle from "../iconButton/IconButton.module.scss";
 import { concatClassNames } from "../utils";
 
 import style from "./Banner.module.scss";
@@ -87,9 +88,17 @@ const Banner = forwardRef<HTMLDivElement, BannerProps>(
             />
           )}
           {closable && (
-            <div className={style["banner-close-icon"]}>
-              <IconButton variant="neutral" name="close" onClick={handleOnClose} aria-label="close banner" size="s" />
-            </div>
+            <button
+              type="button"
+              className={concatClassNames(iconButtonStyle["icon-button"], style["banner-close-button"])}
+              data-size="m"
+              data-variant="neutral"
+              data-compact-spacing={true}
+              aria-label="close banner"
+              onClick={handleOnClose}
+            >
+              <Icon name="close" size={IconSize["m"]} />
+            </button>
           )}
         </section>
       )

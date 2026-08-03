@@ -15,13 +15,12 @@ import { ButtonSize } from "@design-system-rte/core/components/button/common/com
 
 import { ButtonComponent } from "../button/button.component";
 import { IconComponent } from "../icon/icon.component";
-import { IconButtonComponent } from "../icon-button/icon-button.component";
 
 @Component({
   selector: "rte-banner",
-  imports: [CommonModule, IconComponent, IconButtonComponent, ButtonComponent],
+  imports: [CommonModule, IconComponent, ButtonComponent],
   templateUrl: "./banner.component.html",
-  styleUrl: "./banner.component.scss",
+  styleUrls: ["./banner.component.scss", "../icon-button/icon-button.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BannerComponent implements OnInit, OnChanges {
