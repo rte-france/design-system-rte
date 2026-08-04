@@ -22,6 +22,7 @@ import IconButtonToggle from "./components/iconButtonToggle/IconButtonToggle.tsx
 import Link from "./components/link/Link.tsx";
 import Loader from "./components/loader/Loader.tsx";
 import Modal from "./components/modal/Modal.tsx";
+import Pagination from "./components/pagination/Pagination.tsx";
 import DatePicker from "./components/pickers/datepicker/DatePicker.tsx";
 import DateRangePicker from "./components/pickers/daterangepicker/DateRangePicker.tsx";
 import TimePicker from "./components/pickers/timepicker/TimePicker.tsx";
@@ -95,4 +96,5 @@ export {
   Header,
   NavigationProvider,
   useNavigationLinkComponent,
+  Pagination,
 };
