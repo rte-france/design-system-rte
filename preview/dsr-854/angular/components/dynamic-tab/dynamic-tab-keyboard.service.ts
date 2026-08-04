@@ -24,6 +24,18 @@ export interface DynamicTabKeyboardContext {
   onExitMoveMode: () => void;
 }
 
+export interface DynamicTabContainerFocusContext {
+  container: HTMLElement;
+  selectedTabId: string | undefined;
+  selectTab: (tabId: string) => void;
+}
+
+export interface DynamicTabKeyupContext {
+  isActive: boolean;
+  isEditing: boolean;
+  onEnterMoveMode: () => void;
+}
+
 @Injectable()
 export class DynamicTabKeyboardService {
   readonly lastKey = signal<string | null>(null);
@@ -38,75 +50,66 @@ export class DynamicTabKeyboardService {
     return this.spaceMoveModeState.shouldEnterOnKeyup();
   }
 
-  handleContainerFocusCapture(
-    event: FocusEvent,
-    container: HTMLElement,
-    selectedTabId: string | undefined,
-    selectTab: (tabId: string) => void,
-  ): void {
+  handleContainerFocusCapture(event: FocusEvent, context: DynamicTabContainerFocusContext): void {
+    const { container, selectedTabId, selectTab } = context;
+
     if (this.lastKey() !== TAB_KEY) {
-      return;
-    }
-
-    const relatedTarget = event.relatedTarget as Node | null;
-    const isEnteringFromOutside = !relatedTarget || !container.contains(relatedTarget);
-
-    if (!isEnteringFromOutside) {
       return;
     }
 
     const firstTab = container.querySelector('[role="tab"]') as HTMLElement | null;
 
-    if (!firstTab) {
-      return;
-    }
+    if (firstTab) {
+      const firstTabId = firstTab.getAttribute("data-tab-id");
 
-    const firstTabId = firstTab.getAttribute("data-tab-id");
+      if (firstTabId && firstTabId !== selectedTabId) {
+        selectTab(firstTabId);
+      }
 
-    if (firstTabId && firstTabId !== selectedTabId) {
-      selectTab(firstTabId);
-    }
-
-    if (event.target !== firstTab) {
-      requestAnimationFrame(() => firstTab.focus());
+      if (event.target !== firstTab) {
+        requestAnimationFrame(() => firstTab.focus());
+      }
     }
   }
 
-  handleTabKeydown(event: KeyboardEvent, context: DynamicTabKeyboardContext): boolean {
-    const { listElement, visibleTabIds, selectedTabId, isMoving, selectTab, reorderTabs, getTabIndex, onExitMoveMode } =
-      context;
-
-    if (isMoving && event.key === SPACE_KEY) {
-      event.preventDefault();
-      this.spaceMoveModeState.suppressAndExit();
-      onExitMoveMode();
-      return true;
-    }
+  private handleTabArrowKeydown(event: KeyboardEvent, context: DynamicTabKeyboardContext): void {
+    const { isMoving, selectedTabId, getTabIndex, visibleTabIds, reorderTabs, listElement, selectTab } = context;
 
     if (isMoving && (event.key === ARROW_LEFT_KEY || event.key === ARROW_RIGHT_KEY)) {
       event.preventDefault();
 
       if (!selectedTabId) {
-        return true;
+        return;
       }
 
       const currentIndex = getTabIndex(selectedTabId);
       const direction = event.key === ARROW_RIGHT_KEY ? "next" : "previous";
       const nextIndex = getReorderIndex(currentIndex, direction, visibleTabIds.length);
 
-      if (nextIndex === null) {
-        return true;
+      if (nextIndex !== null) {
+        reorderTabs(currentIndex, nextIndex);
       }
 
-      reorderTabs(currentIndex, nextIndex);
-      return true;
+      return;
     }
 
     if (event.key === ARROW_LEFT_KEY || event.key === ARROW_RIGHT_KEY) {
       event.preventDefault();
       this.focusAdjacentTab(listElement, event.key === ARROW_RIGHT_KEY ? "next" : "previous", selectTab);
-      return true;
     }
+  }
+
+  handleTabKeydown(event: KeyboardEvent, context: DynamicTabKeyboardContext): void {
+    const { isMoving, selectTab, onExitMoveMode } = context;
+
+    if (isMoving && event.key === SPACE_KEY) {
+      event.preventDefault();
+      this.spaceMoveModeState.suppressAndExit();
+      onExitMoveMode();
+      return;
+    }
+
+    this.handleTabArrowKeydown(event, context);
 
     if (event.key === ENTER_KEY || event.key === SPACE_KEY) {
       event.preventDefault();
@@ -116,33 +119,29 @@ export class DynamicTabKeyboardService {
       if (tabId) {
         selectTab(tabId);
       }
-
-      return true;
+      return;
     }
 
     if (event.key === ESCAPE_KEY && isMoving) {
       event.preventDefault();
-      return true;
     }
-
-    return false;
   }
 
-  handleTabKeyup(event: KeyboardEvent, isActive: boolean, isEditing: boolean, onEnterMoveMode: () => void): void {
+  handleTabKeyup(event: KeyboardEvent, context: DynamicTabKeyupContext): void {
+    const { isActive, isEditing, onEnterMoveMode } = context;
+
     if (event.key === SPACE_KEY && isActive && !isEditing) {
       onEnterMoveMode();
     }
   }
 
   handleGlobalKeydownWhileMoving(event: KeyboardEvent, isMoving: boolean, onExitMoveMode: () => void): void {
-    if (!isMoving || event.key !== SPACE_KEY) {
-      return;
+    if (isMoving && event.key === SPACE_KEY) {
+      event.preventDefault();
+      event.stopPropagation();
+      this.spaceMoveModeState.suppressAndExit();
+      onExitMoveMode();
     }
-
-    event.preventDefault();
-    event.stopPropagation();
-    this.spaceMoveModeState.suppressAndExit();
-    onExitMoveMode();
   }
 
   private focusAdjacentTab(
