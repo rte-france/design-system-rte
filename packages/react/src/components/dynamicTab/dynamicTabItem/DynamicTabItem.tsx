@@ -1,7 +1,7 @@
 import {
   ARROW_LEFT_KEY,
   ARROW_RIGHT_KEY,
-  DynamicTabItemProps as DynamicTabItemBaseProps,
+  DynamicTabItemProps as CoreDynamicTabItemProps,
   ENTER_KEY,
   ESCAPE_KEY,
   SPACE_KEY,
@@ -20,7 +20,7 @@ import Icon from "../../icon/Icon";
 import styles from "./DynamicTabItem.module.scss";
 
 interface DynamicTabItemProps
-  extends DynamicTabItemBaseProps, Omit<HTMLAttributes<HTMLLIElement>, keyof DynamicTabItemBaseProps> {}
+  extends CoreDynamicTabItemProps, Omit<HTMLAttributes<HTMLLIElement>, keyof CoreDynamicTabItemProps> {}
 
 const DynamicTabItem = ({
   id,
@@ -315,6 +315,7 @@ const DynamicTabItem = ({
       )}
       {isClosable && shouldDisplayCloseButton && (
         <button
+          type="button"
           className={styles["rte-dynamic-tab-item__close-button"]}
           aria-label={`Close ${tabTitle} tab`}
           onClick={handleOnClickCloseTab}

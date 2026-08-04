@@ -104,11 +104,14 @@ export class DynamicTabItemComponent implements AfterViewInit, OnDestroy {
         this.previousTabTitle.set(title);
       }
     });
+
+    effect(() => {
+      this.updateDisplayElements(this.hostElement.nativeElement);
+    });
   }
 
   ngAfterViewInit(): void {
     this.isAnimating.set(true);
-    this.updateDisplayElements(this.hostElement.nativeElement);
     this.resizeObserver = new ResizeObserver(() => this.updateDisplayElements(this.hostElement.nativeElement));
     this.resizeObserver.observe(this.hostElement.nativeElement);
   }
