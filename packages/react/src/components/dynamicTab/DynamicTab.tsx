@@ -1,4 +1,16 @@
-import { DynamicTabItemOption, DynamicTabProps, SPACE_KEY, TAB_KEY } from "@design-system-rte/core";
+import {
+  DynamicTabItemOption,
+  DynamicTabProps,
+  SPACE_KEY,
+  TAB_KEY,
+  buildNewTab,
+  computeVisibleTabCount,
+  ensureSelectedTabVisible,
+  formatHiddenTabsLabel,
+  getSelectedTabIdAfterClose,
+  removeTab,
+  updateTabTitle,
+} from "@design-system-rte/core";
 import { MutableRefObject, useEffect, useMemo, useRef, useState, forwardRef, useCallback } from "react";
 
 import useElementResizeEvent from "../../hooks/useElementResizeEvent";
@@ -10,12 +22,9 @@ import DropdownItem from "../dropdown/dropdownItem/DropdownItem";
 import Icon from "../icon/Icon";
 
 import styles from "./DynamicTab.module.scss";
-import { buildNewTab } from "./dynamictab.utils";
 import DynamicTabItem from "./dynamicTabItem/DynamicTabItem";
 import useLastPressedKey from "./hooks/useLastPressedKey";
 import DragAndDropProvider from "./provider/DragAndDropProvider";
-
-const WIDTH_ACTION_BUTTONS = 188;
 
 const DynamicTab = forwardRef<HTMLDivElement, DynamicTabProps>(
   (
@@ -63,9 +72,7 @@ const DynamicTab = forwardRef<HTMLDivElement, DynamicTabProps>(
 
     const handleResize = () => {
       if (containerRef.current) {
-        const containerWidth = containerRef.current.offsetWidth;
-        const availableWidthForTabs = containerWidth - WIDTH_ACTION_BUTTONS;
-        const maxVisibleTabs = Math.max(1, Math.floor(availableWidthForTabs / 44));
+        const { maxVisibleTabs } = computeVisibleTabCount(containerRef.current.offsetWidth, internalOptions.length);
         setMaxNumberOfVisibleTabs(maxVisibleTabs);
       }
     };
@@ -105,14 +112,15 @@ const DynamicTab = forwardRef<HTMLDivElement, DynamicTabProps>(
 
     const handleOnClickCloseTab = (tabId: string) => {
       if (internalSelectedTabId === tabId) {
-        const currentIndex = internalOptions.findIndex((option) => option.id === tabId);
-        const totalItems = internalOptions.length;
-        const newSelectedTabId =
-          currentIndex === totalItems - 1 ? internalOptions[totalItems - 2].id : internalOptions[currentIndex + 1].id;
-        setInternalSelectedTabId(newSelectedTabId);
-        onChangeActiveTab?.(newSelectedTabId);
+        const newSelectedTabId = getSelectedTabIdAfterClose(internalOptions, tabId);
+
+        if (newSelectedTabId) {
+          setInternalSelectedTabId(newSelectedTabId);
+          onChangeActiveTab?.(newSelectedTabId);
+        }
       }
-      const updatedOptions = internalOptions.filter((option) => option.id !== tabId);
+
+      const updatedOptions = removeTab(internalOptions, tabId);
       setInternalOptions(updatedOptions);
       onUpdateTabsRef.current?.(updatedOptions);
       focusSelectedTab();
@@ -126,14 +134,9 @@ const DynamicTab = forwardRef<HTMLDivElement, DynamicTabProps>(
     useEffect(() => {
       if (hasOverflow) {
         const options = internalOptionsRef.current;
-        const lastVisibleTabIndex = maxNumberOfVisibleTabs - 1;
-        const firstPart = options.slice(0, lastVisibleTabIndex);
-        const secondPart = options.slice(lastVisibleTabIndex);
-        const currentSelectedTab = options.find((option) => option.id === internalSelectedTabId);
-        if (currentSelectedTab && secondPart.includes(currentSelectedTab)) {
-          const newVisibleTabs = [...firstPart, currentSelectedTab];
-          const newHiddenTabs = secondPart.filter((tab) => tab.id !== currentSelectedTab.id);
-          const updatedOptions = [...newVisibleTabs, ...newHiddenTabs];
+        const updatedOptions = ensureSelectedTabVisible(options, internalSelectedTabId, maxNumberOfVisibleTabs);
+
+        if (updatedOptions !== options) {
           setInternalOptions(updatedOptions);
           onUpdateTabsRef.current?.(updatedOptions);
         }
@@ -255,9 +258,7 @@ const DynamicTab = forwardRef<HTMLDivElement, DynamicTabProps>(
                     compactSpacing={compactSpacing}
                     onClickClose={() => handleOnClickCloseTab(option.id)}
                     onChangeTabTitle={(newTitle) => {
-                      const updatedOptions = internalOptions.map((opt) =>
-                        opt.id === option.id ? { ...opt, title: newTitle } : opt,
-                      );
+                      const updatedOptions = updateTabTitle(internalOptions, option.id, newTitle);
                       setInternalOptions(updatedOptions);
                       onUpdateTabsRef.current?.(updatedOptions);
                     }}
@@ -288,7 +289,7 @@ const DynamicTab = forwardRef<HTMLDivElement, DynamicTabProps>(
                     type="button"
                   >
                     <span className={styles["rte-dynamic-tab__more-menu__text"]}>
-                      + {numberOfHiddenTabs} onglet{numberOfHiddenTabs > 1 ? "s" : ""}
+                      {formatHiddenTabsLabel(numberOfHiddenTabs)}
                     </span>
                     <Icon name={isMoreMenuOpen ? "arrow-chevron-up" : "arrow-chevron-down"} />
                   </button>

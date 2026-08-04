@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, RefObject } from "react";
 
 import { isValidIconName } from "../../icon/IconMap";
 
@@ -9,7 +9,7 @@ const useDisplayTabItemElement = ({
   iconName,
   isClosable,
 }: {
-  tabItem: React.RefObject<HTMLLIElement>;
+  tabItem: RefObject<HTMLLIElement>;
   isActive: boolean;
   hasBadgeContent: boolean;
   iconName?: string;
