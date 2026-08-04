@@ -154,9 +154,11 @@ export class DynamicTabComponent implements AfterViewInit, OnDestroy {
     const container = this.containerRef()?.nativeElement;
 
     if (container && this.options()?.length) {
-      this.keyboardService.handleContainerFocusCapture(event, container, this.selectedTabId(), (tabId) =>
-        this.selectTab(tabId),
-      );
+      this.keyboardService.handleContainerFocusCapture(event, {
+        container,
+        selectedTabId: this.selectedTabId(),
+        selectTab: (tabId) => this.selectTab(tabId),
+      });
     }
   }
 
