@@ -4,6 +4,7 @@
   class="rte-banner"
   [ngClass]="{ open: visible(), close: !visible() }"
   [attr.role]="type() === 'error' ? 'alert' : 'status'"
+  [attr.data-compact]="isCompact()"
 >
   <div class="rte-banner-icon">
     <rte-icon [name]="iconName()" [size]="32" />
@@ -18,13 +19,19 @@
     *ngIf="actionLabel()"
     rteButton
     rteButtonVariant="text"
-    rteButtonSize="s"
+    [rteButtonSize]="actionButtonSize()"
     [attr.aria-label]="actionLabel()!"
     (click)="clickAction()"
   >
     {{ actionLabel() }}
   </button>
-  <div *ngIf="closable()" class="rte-banner-close-icon">
-    <rte-icon-button name="close" variant="neutral" ariaLabel="close banner" (clickEvent)="closeBanner()" />
-  </div>
+  <button
+    *ngIf="closable()"
+    type="button"
+    class="rte-banner-close-icon rte-icon-button neutral size-m compact-spacing"
+    aria-label="close banner"
+    (click)="closeBanner()"
+  >
+    <rte-icon name="close" [size]="20" />
+  </button>
 </section>
