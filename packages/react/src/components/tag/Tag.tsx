@@ -18,7 +18,10 @@ const statusIconMap: Record<string, RegularIconIdKey | TogglableIconIdKey> = {
 };
 
 const Tag = forwardRef<HTMLDivElement, TagProps>(
-  ({ tagType = "status", status, color, compactSpacing, label, showLeftIcon = false, iconName, ...props }, ref) => {
+  (
+    { tagType = "status", status = "success", color, compactSpacing, label, showLeftIcon = false, iconName, ...props },
+    ref,
+  ) => {
     if (tagType === "status" && status && statusIconMap[status]) {
       iconName = statusIconMap[status];
     }
