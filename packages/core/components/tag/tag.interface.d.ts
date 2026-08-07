@@ -49,6 +49,5 @@ export interface TagProps {
   color?: TagColor;
   compactSpacing?: boolean;
   label?: string;
-  showLeftIcon?: boolean;
   iconName?: string;
 }
