@@ -1,5 +1,23 @@
 # @design-system-rte/react
 
+## 1.15.0
+
+### Minor Changes
+
+- 37ad849: ## Changes
+
+  - (Banner) correct close button size
+  - (Banner) add compact version & correct inner elements position
+
+### Patch Changes
+
+- 87c57cf: ## Changes
+
+  - (Tab) avoid forms unwanted submitting while interacting with component inner button elements
+
+- Updated dependencies [37ad849]
+  - @design-system-rte/core@1.15.0
+
 ## 1.14.0
 
 ### Minor Changes
