@@ -26,6 +26,7 @@
     "publish:all": "node scripts/publish-all.js",
     "tag-release": "node scripts/tags/generate-release-tag.js",
     "release": "tsx scripts/release.ts",
+    "release:github": "tsx scripts/release/create-github-releases.ts",
     "tag:latest": "tsx scripts/tags/get-latest-date-tag.ts",
     "lint": "eslint . && npm --prefix packages/react run lint && npm --prefix packages/angular run lint",
     "lint:fix": "eslint . --fix && npm --prefix packages/react run lint:fix && npm --prefix packages/angular run lint:fix",

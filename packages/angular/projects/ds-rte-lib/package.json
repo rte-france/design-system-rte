@@ -11,13 +11,13 @@
     "@angular/common": "^19.2.25",
     "@angular/core": "^19.2.25",
     "@angular/router": "^19.2.25",
-    "@design-system-rte/core": "^1.14.0"
+    "@design-system-rte/core": "~1.14.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"
   },
   "devDependencies": {
-    "@design-system-rte/core": "^1.14.0"
+    "@design-system-rte/core": "~1.14.0"
   },
   "sideEffects": false,
   "private": false
