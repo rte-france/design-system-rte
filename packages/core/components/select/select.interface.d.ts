@@ -4,7 +4,7 @@ export type OptionToDisplay = "first-selected" | "last-selected" | "highest-sele
 
 export interface SelectProps extends InputProps<string | string[]> {
   onClear?: () => void;
-  options: { value: string; label: string }[];
+  options?: { value: string; label: string }[];
   showResetButton?: boolean;
   width?: number;
   multiple?: boolean;

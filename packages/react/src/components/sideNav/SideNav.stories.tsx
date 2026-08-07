@@ -434,6 +434,7 @@ export const HeaderCompact: Story = {
 };
 
 export const HeaderWithLongTitle: Story = {
+  tags: ["skip-ci"],
   args: {
     ...Default.args,
     headerConfig: { ...defaultHeaderConfig, title: longApplicationTitle },

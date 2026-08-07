@@ -72,7 +72,7 @@ export class SelectComponent extends BaseValueAccessor<string | string[]> implem
   readonly showLabelRequirement = input<boolean>(false);
   readonly disabled = input<boolean>(false);
   readonly readOnly = input<boolean>(false);
-  readonly options = input<SelectProps["options"]>([]);
+  readonly options = input<{ value: string; label: string }[]>([]);
   readonly isError = input<boolean>(false);
   readonly showAssistiveIcon = input<boolean>(false);
   readonly showResetButton = input<boolean>(false);
