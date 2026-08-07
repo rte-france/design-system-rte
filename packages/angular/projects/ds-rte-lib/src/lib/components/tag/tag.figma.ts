@@ -13,13 +13,11 @@ figma.connect("https://www.figma.com/design/Wiy8uWsWjoagf95lOmPXNU/01.0-Design-S
       false: false,
       true: true,
     }),
-    showLeftIcon: figma.boolean("showLeftIcon"),
   },
   example: ({
     label,
     status,
     compactSpacing,
-    showLeftIcon,
   }: {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [key: string]: any;
@@ -29,7 +27,6 @@ figma.connect("https://www.figma.com/design/Wiy8uWsWjoagf95lOmPXNU/01.0-Design-S
       [status]="'${status}'"
       [compactSpacing]="${compactSpacing}"
       [label]="'${label}'"
-      [showLeftIcon]="${showLeftIcon}"
     />`,
   imports: ['import { TagComponent } from "@design-system-rte/angular";'],
 });

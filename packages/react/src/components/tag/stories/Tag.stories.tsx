@@ -70,12 +70,9 @@ const meta = {
     compactSpacing: {
       control: "boolean",
     },
-    showLeftIcon: {
-      control: "boolean",
-    },
     iconName: {
       control: "select",
-      options: [...RegularIconIds, ...TogglableIconIds],
+      options: [undefined, ...RegularIconIds, ...TogglableIconIds],
       description: "Icon to display on the tag",
     },
   },
@@ -90,8 +87,7 @@ export const Default: Story = {
     color: "brand",
     compactSpacing: false,
     label: "Tag Label",
-    showLeftIcon: false,
-    iconName: "check",
+    iconName: undefined,
   },
 };
 export const Decorative: Story = {
@@ -100,7 +96,6 @@ export const Decorative: Story = {
     tagType: "decorative",
     color: "jaune",
     label: "Decorative Tag",
-    showLeftIcon: false,
   },
   render: (args) => {
     return (
@@ -116,7 +111,7 @@ export const WithIcon: Story = {
     tagType: "decorative",
     color: "jaune",
     label: "Decorative Tag with Icon",
-    showLeftIcon: true,
+    iconName: "check",
   },
   render: (args) => (
     <div style={{ display: "flex", gap: 8 }}>
