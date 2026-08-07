@@ -1,5 +1,13 @@
 # @design-system-rte/core
 
+## 1.15.0
+
+### Minor Changes
+
+- 37ad849: ## Changes
+
+  - (Banner) add compact version & correct inner elements position
+
 ## 1.14.0
 
 ### Minor Changes
