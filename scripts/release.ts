@@ -21,6 +21,8 @@ async function release(): Promise<void> {
 
     publishAllPackages();
 
+    createGitHubReleases();
+
     createReleaseTag();
 
     const latestTag: string = getLatestTag();
@@ -42,21 +44,27 @@ function publishAllPackages(): void {
   console.log("✅ All packages published successfully.\n");
 }
 
+function createGitHubReleases(): void {
+  console.log("📝 Step 2: Creating GitHub releases...");
+  run("npm run release:github");
+  console.log("✅ GitHub releases created successfully.\n");
+}
+
 function createReleaseTag(): void {
-  console.log("🏷️  Step 2: Creating release tag...");
+  console.log("🏷️  Step 3: Creating release tag...");
   run("npm run tag-release");
   console.log("✅ Release tag created successfully.\n");
 }
 
 function getLatestTag(): string {
-  console.log("🔍 Step 3: Getting latest tag...");
+  console.log("🔍 Step 4: Getting latest tag...");
   const latestTag: string = runSilent("npm run -s tag:latest");
   console.log(`📌 Latest tag: ${latestTag}\n`);
   return latestTag;
 }
 
 function pushTagToOrigin(tag: string): void {
-  console.log("📤 Step 4: Pushing tag to origin...");
+  console.log("📤 Step 5: Pushing tag to origin...");
   run(`git push origin ${tag}`);
   console.log(`✅ Tag ${tag} pushed to origin successfully.\n`);
 }

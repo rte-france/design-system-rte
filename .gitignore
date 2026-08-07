@@ -6,3 +6,4 @@ storybook-static
 .cursor
 dist
 .idea
+.release
