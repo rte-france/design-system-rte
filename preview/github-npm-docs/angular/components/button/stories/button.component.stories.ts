@@ -195,7 +195,6 @@ export const WithIcon: Story = {
 };
 
 export const KeyboardInteraction: Story = {
-  tags: ["!autodocs"],
   args: {
     ...Default.args,
   },
