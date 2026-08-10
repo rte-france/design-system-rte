@@ -78,14 +78,10 @@ const meta: Meta<TagComponent> = {
       control: "text",
       description: "Label text for tag",
     },
-    showLeftIcon: {
-      control: "boolean",
-      description: "Show icon on the left",
-    },
     iconName: {
       control: "select",
       description: "Custom icon name",
-      options: [...RegularIconIds, ...TogglableIconIds],
+      options: [undefined, ...RegularIconIds, ...TogglableIconIds],
     },
     computedIconName: {
       table: {
@@ -109,7 +105,6 @@ export const Default: Story = {
     tagType: "status",
     status: "success",
     compactSpacing: false,
-    showLeftIcon: false,
     iconName: "check",
   },
 };
@@ -120,7 +115,6 @@ export const Decorative: Story = {
     color: "saumon",
     compactSpacing: false,
     label: "Decorative Tag",
-    showLeftIcon: false,
   },
 };
 
@@ -131,7 +125,6 @@ export const WithIcon: Story = {
     color: "saumon",
     compactSpacing: false,
     label: "Tag with Icon",
-    showLeftIcon: true,
   },
 };
 
@@ -141,6 +134,5 @@ export const Compact: Story = {
     color: "saumon",
     compactSpacing: true,
     label: "Compact Tag",
-    showLeftIcon: false,
   },
 };

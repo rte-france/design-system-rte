@@ -19,7 +19,6 @@ export class TagComponent {
   readonly color = input<TagProps["color"]>("brand");
   readonly compactSpacing = input<boolean>(false);
   readonly label = input<string>("");
-  readonly showLeftIcon = input<boolean>(false);
   readonly iconName = input<RegularIconIdKey | TogglableIconIdKey>();
   readonly ariaLabel = input<string>();
 
@@ -36,7 +35,7 @@ export class TagComponent {
         return statusIconMap[statusValue];
       }
     }
-    return this.iconName() ?? "check";
+    return this.iconName();
   });
 
   readonly isValidIconName = computed(() => {
