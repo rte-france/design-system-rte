@@ -1,5 +1,48 @@
 # @design-system-rte/react
 
+## 1.15.0
+
+### Minor Changes
+
+- 8c6060f: ## Changes
+
+  - (Dropdown) allow custom fully custom children on component
+
+- a5ecd10: ## Changes
+
+  - (Pagination) react - add component
+
+- 37ad849: ## Changes
+
+  - (Banner) correct close button size
+  - (Banner) add compact version & correct inner elements position
+
+- 9e88591: ## Changes
+
+  - (Dynamic-tab) correct component selected behavior & forms integration
+  - (Dynamic-tab) uplift common logic to core
+  - (Dynamic-tab) add Angular component
+
+- c5a93e2: ## Changes
+
+  - (Github) add github releases notes in CI flow
+
+### Patch Changes
+
+- 87c57cf: ## Changes
+
+  - (Tab) avoid forms unwanted submitting while interacting with component inner button elements
+
+- 610e235: ## Changes
+
+  - (Tag) improve icon displaying mechanisme with iconName props
+  - (Tag) add default success value for status props
+
+- Updated dependencies [37ad849]
+- Updated dependencies [9e88591]
+- Updated dependencies [610e235]
+  - @design-system-rte/core@1.15.0
+
 ## 1.14.0
 
 ### Minor Changes
