@@ -1,0 +1,34 @@
+<ul
+  #treeRef
+  class="treeview"
+  role="tree"
+  [class.compact]="isCompact()"
+  [class.has-checked-items]="hasCheckedItems()"
+  [class.has-nested-items]="hasNestedItems()"
+>
+  @for (item of items(); track itemTrack(item); let itemIndex = $index) {
+    <li
+      rteTreeviewItem
+      [rootItems]="items()"
+      [treeId]="id()"
+      [nodePath]="[itemIndex]"
+      [id]="item.id"
+      [labelText]="item.labelText"
+      [icon]="item.icon"
+      [disabled]="item.disabled ?? false"
+      [isCompact]="item.isCompact ?? isCompact()"
+      [hasCheckbox]="item.hasCheckbox ?? hasCheckbox()"
+      [isOpen]="item.isOpen ?? false"
+      [hasIcon]="item.hasIcon ?? false"
+      [hasBadge]="item.hasBadge ?? false"
+      [items]="item.items ?? []"
+      [actionIcon]="item.actionIcon"
+      [actionMenuItems]="item.actionMenuItems"
+      [isLastChild]="itemIndex === items().length - 1"
+      (itemClick)="itemClick.emit($event)"
+      (openChange)="openChange.emit($event)"
+      (actionIconClick)="actionIconClick.emit($event)"
+      (actionMenuClick)="actionMenuClick.emit($event)"
+    ></li>
+  }
+</ul>
