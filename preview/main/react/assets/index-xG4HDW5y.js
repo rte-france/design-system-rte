@@ -1,1 +1,0 @@
-import{v as c}from"./v4-C6aID195.js";const d=t=>{const e=a(t);return s(e)},r=t=>{const{fontWeight:e,fontSize:n,fontFamily:o}=window.getComputedStyle(t);return`${e} ${n} ${o}`},s=t=>e=>t.measureText(e).width,a=t=>{const n=document.createElement("canvas").getContext("2d");return n.font=r(t),n},g=()=>c();export{g as a,d as g};
