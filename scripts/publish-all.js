@@ -177,20 +177,21 @@ function publishReactViaChangesetIfNew() {
 
 async function publishAllPackages() {
   const publishedPackages = [];
+
+  const coreEntry = publishCorePackageIfNew();
+  if (coreEntry) {
+    publishedPackages.push(coreEntry);
+  }
+
+  const angularEntry = publishAngularPackageIfNew();
+  if (angularEntry) {
+    publishedPackages.push(angularEntry);
+  }
+
   const angularOriginalPrivacyState = temporarilyMarkPrivate(angularPackagePath);
   const coreOriginalPrivacyState = temporarilyMarkPrivate(corePackagePath);
 
   try {
-    const coreEntry = publishCorePackageIfNew();
-    if (coreEntry) {
-      publishedPackages.push(coreEntry);
-    }
-
-    const angularEntry = publishAngularPackageIfNew();
-    if (angularEntry) {
-      publishedPackages.push(angularEntry);
-    }
-
     const reactEntry = publishReactViaChangesetIfNew();
     if (reactEntry) {
       publishedPackages.push(reactEntry);

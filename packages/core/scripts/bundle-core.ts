@@ -155,6 +155,7 @@ function main(): void {
   };
   delete distPackageJson.scripts;
   delete distPackageJson.devDependencies;
+  delete distPackageJson.private;
   fs.writeFileSync(path.join(distDir, "package.json"), JSON.stringify(distPackageJson, null, 2));
 
   console.log("\n✅ Build complete: dist/");
