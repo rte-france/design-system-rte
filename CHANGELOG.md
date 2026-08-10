@@ -2,6 +2,51 @@
 
 # Angular
 
+## 4.0.0
+
+### Banner
+
+#### Minor Changes
+
+- correct close button size
+- add compact version & correct inner elements position
+
+### Dynamic-tab
+
+#### Minor Changes
+
+- correct component selected behavior & forms integration
+- uplift common logic to core
+- correct Angular Drag-n-drop keyboard behavior
+- add Angular component
+
+### Github
+
+#### Minor Changes
+
+- add github releases notes in CI flow
+
+### Tab
+
+#### Patch Changes
+
+- avoid forms unwanted submitting while interacting with component inner button elements
+
+### Tag
+
+#### Patch Changes
+
+- improve icon displaying mechanisme with iconName props
+
+### Other
+
+#### Patch Changes
+
+- Updated dependencies [37ad849]
+- Updated dependencies [9e88591]
+- Updated dependencies [610e235]
+- @design-system-rte/core@1.15.0
+
 ## 3.1.0
 
 ### Pagination
@@ -85,60 +130,64 @@
 
 - Updated dependencies [459a1d3]
 - @design-system-rte/core@1.13.0
+# React
 
-## 2.1.0
+## 1.15.0
 
-### Select
-
-#### Minor Changes
-
-- correct clear button size. It was medium sized instead of small as Design expected
-- correct display and behavior while disabled
-
-#### Patch Changes
-
-- reset button send valid empty string or empty array value
-- angular - set initial value from value props
-- onChange return the full array empty or filled when clicking on selectAll
-
-### Switch
+### Dropdown
 
 #### Minor Changes
 
-- add Angular Form integration via Control Value Accessor
+- allow custom fully custom children on component
 
-### Forms
+### Pagination
 
 #### Minor Changes
 
-- add Angular Forms integration via Control Value Accessor to input & input-like components
+- react - add component
 
-### Tooltip
+### Banner
+
+#### Minor Changes
+
+- correct close button size
+- add compact version & correct inner elements position
+
+### Dynamic-tab
+
+#### Minor Changes
+
+- correct component selected behavior & forms integration
+- uplift common logic to core
+- add Angular component
+
+### Github
+
+#### Minor Changes
+
+- add github releases notes in CI flow
+
+### Tab
 
 #### Patch Changes
 
-- correct unwanted tooltip display blinking while hovering
-- correct overflow clipping
-
-### Sidenav
-
-#### Patch Changes
-
-- correct opening & closing behavior and transition
+- avoid forms unwanted submitting while interacting with component inner button elements
 
 ### Tag
 
 #### Patch Changes
 
-- correct height & font-size for standard and compact mode
+- improve icon displaying mechanisme with iconName props
+- add default success value for status props
 
 ### Other
 
 #### Patch Changes
 
-- Updated dependencies [3907f5d]
-- @design-system-rte/core@1.12.1
-# React
+- Updated dependencies [37ad849]
+- Updated dependencies [9e88591]
+- Updated dependencies [610e235]
+- @design-system-rte/core@1.15.0
 
 ## 1.14.0
 
@@ -220,147 +269,31 @@
 
 - Updated dependencies [459a1d3]
 - @design-system-rte/core@1.13.0
+# Core
 
-## 1.12.2
+## 1.15.0
 
-### Select
+### Banner
 
-#### Patch Changes
+#### Minor Changes
 
-- correct clear button size. It was medium sized instead of small as Design expected
-- reset button send valid empty string or empty array value
-- angular - set initial value from value props
-- onChange return the full array empty or filled when clicking on selectAll
+- add compact version & correct inner elements position
 
-### Tooltip
+### Dynamic-tab
 
-#### Patch Changes
+#### Minor Changes
 
-- correct overflow clipping
-
-### Datepicker
-
-#### Patch Changes
-
-- prevent blocking loop in value assignation
-
-### Timepicker
-
-#### Patch Changes
-
-- prevent blocking loop in value assignation
-
-### Sidenav
-
-#### Patch Changes
-
-- correct opening & closing behavior and transition
+- uplift common logic to core
+- add Angular component
 
 ### Tag
 
 #### Patch Changes
 
-- correct height & font-size for standard and compact mode
+- improve icon displaying mechanisme with iconName props
 
 ### Other
 
-#### Patch Changes
-
-- Updated dependencies [3907f5d]
-- @design-system-rte/core@1.12.1
-
-## 1.12.1
-
-### Select
-
-#### Patch Changes
-
-- add maxheight props to allow scrolling behaviour
-
-### Textarea
-
-#### Patch Changes
-
-- remove placeholder props insertion
-
-### Other
-
-#### Patch Changes
-
-- harmonise required indicator style
-- Updated dependencies [d801d54]
-- Updated dependencies [6984541]
-- Updated dependencies [83d7ea1]
-- Updated dependencies [19d47a0]
-- @design-system-rte/core@1.12.0
-
-## 1.12.0
-
-### Icon
-
-#### Minor Changes
-
-- add circuit_amperemetre_filled, circuit_amperemetre_outlined, circuit_bulb_filled, circuit_bulb_outlined, circuit_capacitor, circuit_cell, circuit_ground, circuit_inductor, circuit_motor_filled, circuit_motor_outlined, circuit_voltmetre_filled, circuit_voltmetre_outlined, journal_filled, journal_outlined, pylon, version_filled, version_outlined
-
-### Select
-
-#### Minor Changes
-
-- add variant visibly-selected + add compactSpacing props
-
-### Drawer
-
-#### Patch Changes
-
-- stretch content to component width when fixedHeader is disabled and width takes a no-default value
-- simplify closing behavior on clicking on the backdrop
-
-### Radio Button
-
-#### Patch Changes
-
-- prevent radio button marker from shrinking with narrow container and label overflow
-
-### Checkbox
-
-#### Patch Changes
-
-- prevent checkbox case from shrinking with narrow container and label overflow
-
-### Toast
-
-#### Patch Changes
-
-- add pointer event auto
-
-### Overlay
-
-#### Patch Changes
-
-- remove z-index
-- re add absolute and full width style + fix position for popover and drawer
-- reintroduce fixed position for overlay
-- re add absolute and full width style + fix position for popover and drawer
-- reintroduce fixed position for overlay
-
-### Segmented-control
-
-#### Patch Changes
-
-- react - add relative position to prevent misplacement of selected indicator on resize or dom changes
-
-### Other
-
-#### Patch Changes
-
-- harmonise disabled state appearance on textinput, textarea and select
-- prevent scrolling on focus
-- update z-index values across components and introduce get overlay layer utils for overlay management
-- Updated dependencies [4854f8d]
-- Updated dependencies [b44a590]
-- Updated dependencies [b0ed7db]
-- @design-system-rte/core@1.11.0
-# Core
 
 ## 1.14.0
 
@@ -408,39 +341,28 @@
 #### Minor Changes
 
 - add Uncontrolled component optional capacities to Select, Switch, Datepicker, Timepicker & DateRangePicker
+# Design Docs
 
-## 1.12.1
+## 1.5.0
 
-### Select
-
-#### Patch Changes
-
-- onChange return the full array empty or filled when clicking on selectAll
-
-### Other
-
-
-## 1.12.0
-
-### Select
-
-#### Patch Changes
-
-- add maxheight props to allow scrolling behaviour
-
-### Sidenav
-
-#### Patch Changes
-
-- remove legacy hasBadge property unused in SideNavItems
-
-### Other
+### Banner
 
 #### Minor Changes
 
-- update to Angular@19
-- add Code Connect template files for Figma
-# Design Docs
+- add compact version & correct inner elements position
+
+### Other
+
+#### Patch Changes
+
+- Updated dependencies [8c6060f]
+- Updated dependencies [a5ecd10]
+- Updated dependencies [37ad849]
+- Updated dependencies [9e88591]
+- Updated dependencies [c5a93e2]
+- Updated dependencies [87c57cf]
+- Updated dependencies [610e235]
+- @design-system-rte/react@1.15.0
 
 ## 1.4.0
 
@@ -499,65 +421,3 @@
 - Updated dependencies [0cd5597]
 - Updated dependencies [9fce4e2]
 - @design-system-rte/react@1.11.0
-
-## 1.2.1
-
-#### Patch Changes
-
-- add Template D → Évolution Dev to Jira templates section
-- update intro text to reflect 4 contribution types including Évolution Dev
-- Updated dependencies [d7726a1]
-- Updated dependencies [ea178db]
-- Updated dependencies [4fbabfe]
-- Updated dependencies [c855acb]
-- Updated dependencies [16fed7b]
-- Updated dependencies [94b9002]
-- Updated dependencies [b6fdcfd]
-- @design-system-rte/react@1.7.0
-
-## 1.2.0
-
-### Design Docs
-
-#### Minor Changes
-
-- correct sub-storybook context detection
-- add guideline page
-
-### Angular Storybook
-
-#### Minor Changes
-
-- correct font resolutions from assets retrieved from core during webpack build
-
-### Badge
-
-#### Minor Changes
-
-- add new Badge docs
-
-### Breadcrumbs
-
-#### Minor Changes
-
-- add new Breadcrumbs docs
-
-### Doc
-
-#### Patch Changes
-
-- update stylesheet path to use to access global style and font
-
-### Other
-
-#### Patch Changes
-
-- Updated dependencies [8c512ea]
-- Updated dependencies [f5946ce]
-- Updated dependencies [0dbb025]
-- Updated dependencies [c6867f7]
-- Updated dependencies [251ae74]
-- Updated dependencies [88a14d9]
-- Updated dependencies [2cff3de]
-- Updated dependencies [29e0462]
-- @design-system-rte/react@1.2.0
