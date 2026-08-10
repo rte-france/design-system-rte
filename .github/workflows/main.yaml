@@ -418,13 +418,16 @@ jobs:
       - name: Generate changelog
         run: npm run changelog
 
+      - name: Generate compatibility matrix
+        run: npm run docs:compatibility-matrix
+
       - name: Commit changelog to PR
         if: steps.changesets.outputs.pullRequestNumber
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add .
-          git commit -m "chore: update main changelog" --no-verify || exit 0
+          git commit -m "chore: update main changelog and compatibility matrix" --no-verify || exit 0
           git push origin -u changeset-release/main
 
       - name: Trigger Storybook Preview

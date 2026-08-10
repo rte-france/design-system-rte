@@ -1,4 +1,12 @@
-### Installation Instructions
+### Installation
+
+```bash
+npm install @design-system-rte/react
+```
+
+`@design-system-rte/core` is installed automatically as a dependency. See the [root README](https://github.com/rte-france/design-system-rte#quick-install) for other packages.
+
+### Setup
 
 1. **Add Design System base styles:**
 

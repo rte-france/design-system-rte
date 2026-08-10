@@ -1,4 +1,14 @@
-### Installation Instructions
+### Installation
+
+Install the Angular package and its core peer dependency:
+
+```bash
+npm install @design-system-rte/angular @design-system-rte/core
+```
+
+See the [root README](https://github.com/rte-france/design-system-rte#quick-install) and [compatibility matrix](https://github.com/rte-france/design-system-rte/blob/main/docs/COMPATIBILITY.md) for version requirements.
+
+### Setup
 
 1. **Add Branding/Theme Mixin:**
    
