@@ -1,5 +1,24 @@
 # @design-system-rte/core
 
+## 1.15.0
+
+### Minor Changes
+
+- 37ad849: ## Changes
+
+  - (Banner) add compact version & correct inner elements position
+
+- 9e88591: ## Changes
+
+  - (Dynamic-tab) uplift common logic to core
+  - (Dynamic-tab) add Angular component
+
+### Patch Changes
+
+- 610e235: ## Changes
+
+  - (Tag) improve icon displaying mechanisme with iconName props
+
 ## 1.14.0
 
 ### Minor Changes

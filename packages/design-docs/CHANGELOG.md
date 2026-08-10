@@ -1,5 +1,24 @@
 # @design-system-rte/design-docs
 
+## 1.5.0
+
+### Minor Changes
+
+- 37ad849: ## Changes
+
+  - (Banner) add compact version & correct inner elements position
+
+### Patch Changes
+
+- Updated dependencies [8c6060f]
+- Updated dependencies [a5ecd10]
+- Updated dependencies [37ad849]
+- Updated dependencies [9e88591]
+- Updated dependencies [c5a93e2]
+- Updated dependencies [87c57cf]
+- Updated dependencies [610e235]
+  - @design-system-rte/react@1.15.0
+
 ## 1.4.0
 
 ### Minor Changes

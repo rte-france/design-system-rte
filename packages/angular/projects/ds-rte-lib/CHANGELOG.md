@@ -1,5 +1,40 @@
 # @design-system-rte/angular
 
+## 4.0.0
+
+### Minor Changes
+
+- 37ad849: ## Changes
+
+  - (Banner) correct close button size
+  - (Banner) add compact version & correct inner elements position
+
+- 9e88591: ## Changes
+
+  - (Dynamic-tab) correct component selected behavior & forms integration
+  - (Dynamic-tab) uplift common logic to core
+  - (Dynamic-tab) correct Angular Drag-n-drop keyboard behavior
+  - (Dynamic-tab) add Angular component
+
+- c5a93e2: ## Changes
+
+  - (Github) add github releases notes in CI flow
+
+### Patch Changes
+
+- 87c57cf: ## Changes
+
+  - (Tab) avoid forms unwanted submitting while interacting with component inner button elements
+
+- 610e235: ## Changes
+
+  - (Tag) improve icon displaying mechanisme with iconName props
+
+- Updated dependencies [37ad849]
+- Updated dependencies [9e88591]
+- Updated dependencies [610e235]
+  - @design-system-rte/core@1.15.0
+
 ## 3.1.0
 
 ### Minor Changes
