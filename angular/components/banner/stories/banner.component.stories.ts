@@ -16,6 +16,9 @@ const meta: Meta<BannerComponent> = {
       control: "select",
       options: ["info", "error", "success", "warning"],
     },
+    isCompact: {
+      control: "boolean",
+    },
     title: {
       control: "text",
     },
@@ -61,6 +64,41 @@ export const Alert: Story = {
       "Dans le cadre des changements de serveur à venir le 18 mai 2026, votre application évolue et sera par conséquent indisponible du 29 mars au 12 avril 2026.",
     type: "error",
   },
+};
+
+export const Compact: Story = {
+  args: {
+    ...Default.args,
+    isCompact: true,
+    message: "Sample banner message.",
+    actionLabel: "Visualiser",
+    closable: true,
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+    <div style="display: flex; flex-direction: column; gap: 16px;">
+      <rte-banner
+        [title]="title"
+        [message]="message"
+        [type]="type"
+        [isCompact]="true"
+        [actionLabel]="actionLabel"
+        [closable]="closable"
+        [isOpen]="isOpen"
+      />
+      <rte-banner
+        [title]="title"
+        [message]="message"
+        [type]="type"
+        [isCompact]="false"
+        [actionLabel]="actionLabel"
+        [closable]="closable"
+        [isOpen]="isOpen"
+      />
+    </div>
+    `,
+  }),
 };
 
 export const WithIcon: Story = {
