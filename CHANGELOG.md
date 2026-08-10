@@ -2,7 +2,7 @@
 
 # Angular
 
-## 4.0.0
+## 3.2.0
 
 ### Banner
 
@@ -159,7 +159,6 @@
 
 - correct component selected behavior & forms integration
 - uplift common logic to core
-- add Angular component
 
 ### Github
 
