@@ -6,25 +6,45 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 function generateComponent() {
+  const componentName = getComponentName();
+  const componentDir = getComponentDir(componentName);
+  const storiesDir = path.join(componentDir, "stories");
+  const docsDir = path.join(componentDir, "docs");
+
+  createDirectories(componentDir, storiesDir, docsDir);
+  createComponentFiles(componentName, componentDir, storiesDir);
+  generateDocs(componentName, docsDir);
+
+  console.log(`Component ${componentName} and its story have been created.`);
+}
+
+function getComponentName() {
   const componentName = process.argv[2];
   if (!componentName) {
     console.error("Please provide a component name.");
     process.exit(1);
   }
 
-  const pkgRoot = path.resolve(__dirname, `..`);
+  return componentName;
+}
 
-  const componentDir = path.join(pkgRoot, "src", "components", componentName.toLocaleLowerCase());
-  const storiesDir = path.join(componentDir, "stories");
+function getComponentDir(componentName) {
+  const pkgRoot = path.resolve(__dirname, "..");
+  return path.join(pkgRoot, "src", "components", toCamelCase(componentName));
+}
 
-  if (!fs.existsSync(componentDir)) {
-    fs.mkdirSync(componentDir, { recursive: true });
-  }
-  if (!fs.existsSync(storiesDir)) {
-    fs.mkdirSync(storiesDir, { recursive: true });
-  }
+function createDirectories(...directories) {
+  directories.forEach((directory) => fs.mkdirSync(directory, { recursive: true }));
+}
 
-  const componentTemplate = `import styles from "./${componentName}.module.scss";
+function createComponentFiles(componentName, componentDir, storiesDir) {
+  fs.writeFileSync(path.join(componentDir, `${componentName}.tsx`), getComponentTemplate(componentName));
+  fs.writeFileSync(path.join(storiesDir, `${componentName}.stories.tsx`), getStoriesTemplate(componentName));
+  fs.writeFileSync(path.join(componentDir, `${componentName}.module.scss`), getScssTemplate(componentName));
+}
+
+function getComponentTemplate(componentName) {
+  return `import styles from "./${componentName}.module.scss";
   
   const ${componentName} = () => {
   return <div>${componentName}</div>;
@@ -32,8 +52,10 @@ function generateComponent() {
 
 export default ${componentName};
 `;
+}
 
-  const storiesTemplate = `import type { Meta, StoryObj } from "@storybook/react";
+function getStoriesTemplate(componentName) {
+  return `import type { Meta, StoryObj } from "@storybook/react";
 import ${componentName} from "../${componentName}";
 
 const meta = {
@@ -49,16 +71,29 @@ export const Default: Story = {
   args: {}
 };
 `;
+}
 
-  fs.writeFileSync(path.join(componentDir, `${componentName}.tsx`), componentTemplate);
-  fs.writeFileSync(path.join(storiesDir, `${componentName}.stories.tsx`), storiesTemplate);
-  fs.writeFileSync(
-    path.join(componentDir, `${componentName}.module.scss`),
-    `@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
-// Styles for ${componentName} will go here.`,
-  );
+function getScssTemplate(componentName) {
+  return `@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+// Styles for ${componentName} will go here.
+`;
+}
 
-  console.log(`Component ${componentName} and its story have been created.`);
+function generateDocs(componentName, dir) {
+  const overviewTemplate = `\`\`\`tsx
+import { ${componentName} } from "@design-system-rte/react";
+\`\`\``;
+
+  fs.writeFileSync(path.join(dir, `Overview.md`), overviewTemplate);
+  fs.writeFileSync(path.join(dir, `Usage.md`), "");
+  fs.writeFileSync(path.join(dir, `API.md`), "");
+  fs.writeFileSync(path.join(dir, `FAQ.md`), "");
+}
+
+function toCamelCase(value) {
+  return value
+    .replace(/^[A-Z]+/, (letters) => letters.toLowerCase())
+    .replace(/[-_\s]+(.)?/g, (_, character) => character?.toUpperCase() ?? "");
 }
 
 generateComponent();
