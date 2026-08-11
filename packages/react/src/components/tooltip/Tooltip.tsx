@@ -73,9 +73,11 @@ const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
     useEffect(() => {
       computePosition();
       window.addEventListener("scroll", computePosition);
+      window.addEventListener("resize", computePosition);
 
       return () => {
         window.removeEventListener("scroll", computePosition);
+        window.removeEventListener("resize", computePosition);
       };
     }, [computePosition]);
 
