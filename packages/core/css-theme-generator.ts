@@ -11,18 +11,36 @@ if (!fs.existsSync(outputDir)) {
   fs.mkdirSync(outputDir);
 }
 
+function themeRules(theme: string): string {
+  return `
+            [data-theme=${theme}][data-mode=light] {
+                @include apply-theme('${theme}', light);
+            }
+
+            [data-mode=light] [data-theme=${theme}]:not([data-mode]) {
+                @include apply-theme('${theme}', light);
+            }
+
+            [data-theme=${theme}][data-mode=dark] {
+                @include apply-theme('${theme}', dark);
+            }
+
+            [data-mode=dark] [data-theme=${theme}]:not([data-mode]) {
+                @include apply-theme('${theme}', dark);
+            }
+
+            [data-theme=${theme}]:not([data-mode]) {
+                @include apply-theme('${theme}', light);
+            }
+  `;
+}
+
 themes.forEach((theme) => {
   const sassContent = `
         @use 'design-tokens/abstract/mixins/theme' as *;
 
         :root {
-            [data-theme=${theme}][data-mode=light] {
-                @include apply-theme(${theme}, light);
-            }
-
-            [data-theme=${theme}][data-mode=dark] {
-                @include apply-theme(${theme}, dark);
-            }
+            ${themeRules(theme)}
         }
     `;
 
@@ -38,19 +56,7 @@ themes.forEach((theme) => {
 const allThemesSassContent = `
     @use 'design-tokens/abstract/mixins/theme' as *;
 
-    ${themes
-      .map(
-        (theme) => `
-        [data-theme="${theme}"][data-mode="light"] {
-            @include apply-theme('${theme}', 'light');
-        }
-
-        [data-theme="${theme}"][data-mode="dark"] {
-            @include apply-theme('${theme}', 'dark');
-        }
-    `,
-      )
-      .join("\n")}
+    ${themes.map((theme) => themeRules(theme)).join("\n")}
 `;
 
 const allThemesResult = sass.compileString(allThemesSassContent, {

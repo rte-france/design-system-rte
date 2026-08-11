@@ -3,6 +3,7 @@
 1. **Add Branding/Theme Mixin:**
    
    Include the branding/theme mixin in your main `.scss` file. This will create a style scope for the components.
+   (If you don't have scss support, you can use the .css files in `@design-system-rte/core/css/rte-themes.css` and add them to your main styles file).
    ```scss
     @use "@design-system-rte/core/design-tokens/tokens/mixins" as *;
 
@@ -16,7 +17,9 @@
     <body data-theme="bleu_iceberg" data-mode="light">
         <app-root/>
     </body>
-   ```
+    ```
+
+    `data-theme` is required on each themed scope. When `data-mode` is omitted, the mode is inherited from an ancestor carrying `data-mode`. If no ancestor defines a mode, `light` is used as the default.
 
 3. **Use Components:**
    
