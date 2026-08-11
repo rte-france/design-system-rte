@@ -1,5 +1,6 @@
+import { RefObject } from '../../../../../../node_modules/react';
 declare const useDisplayTabItemElement: ({ tabItem, isActive, hasBadgeContent, iconName, isClosable, }: {
-    tabItem: React.RefObject<HTMLLIElement>;
+    tabItem: RefObject<HTMLLIElement>;
     isActive: boolean;
     hasBadgeContent: boolean;
     iconName?: string;
