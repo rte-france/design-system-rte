@@ -41,6 +41,8 @@ npm install @design-system-rte/react
    </body>
    ```
 
+   `data-theme` is required on each themed scope. When `data-mode` is omitted, the mode is inherited from an ancestor carrying `data-mode`. If no ancestor defines a mode, `light` is used as the default.
+
 4. **Use Components:**
 
    Implement the different components as documented in the [Storybook](https://opensource.rte-france.com/design-system-rte/?path=/docs/react_composants-button--docs) provided with the library.

@@ -95,6 +95,12 @@ import "../../../src/styles/GeneralDocs.scss";
                     </body>
                     ```
 
+                    <Paragraph>
+                        <code>data-theme</code> est requis sur chaque scope thématisé. Lorsque <code>data-mode</code> est omis,
+                        le mode est hérité d'un ancêtre portant <code>data-mode</code>. Si aucun ancêtre ne définit de mode,
+                        <code>light</code> est utilisé par défaut.
+                    </Paragraph>
+
                     <Paragraph>Ces attributs peuvent être modifiés dynamiquement pour changer de thème ou de mode (clair/sombre) à l'exécution.</Paragraph>
                 </DocsSection>
 
@@ -149,7 +155,7 @@ import "../../../src/styles/GeneralDocs.scss";
                 </DocsSection>
 
                 <DocsSection title="Changer de thème" headingLevel={3}>
-                    <Paragraph>Pour changer de thème, modifiez les attributs <code>data-theme</code> et <code>data-mode</code> sur l'élément qui heberge le thème.</Paragraph>
+                    <Paragraph>Pour changer de thème, modifiez les attributs <code>data-theme</code> et <code>data-mode</code> sur l'élément qui héberge le thème.</Paragraph>
 
                     ```html
                     <!-- Thème bleu_iceberg en mode clair -->
@@ -158,6 +164,26 @@ import "../../../src/styles/GeneralDocs.scss";
                     <!-- Thème vert_foret en mode sombre -->
                     <body data-theme="vert_foret" data-mode="dark">
                     ```
+
+                    <Paragraph>
+                        Pour appliquer un thème local à une section de l'application, il suffit de définir{" "}
+                        <code>data-theme</code> sur l'élément conteneur. Le mode est hérité du parent le plus proche
+                        portant <code>data-mode</code> (généralement <code>&lt;body&gt;</code> ou <code>&lt;html&gt;</code>).
+                    </Paragraph>
+
+                    ```html
+                    <body data-theme="bleu_iceberg" data-mode="light">
+                      <app-root></app-root>
+                      <div data-theme="violet">
+                        <!-- Composants RTE en thème violet, mode light hérité -->
+                      </div>
+                    </body>
+                    ```
+
+                    <Paragraph>
+                        Pour forcer un mode localement (par exemple en mode sombre), définissez explicitement les deux
+                        attributs sur le même élément : <code>data-theme="violet" data-mode="dark"</code>.
+                    </Paragraph>
 
                     <Paragraph>Vous pouvez également changer ces attributs dynamiquement pour changer le thème ou mode pendant l'exécution de l'application.</Paragraph>
                 </DocsSection>

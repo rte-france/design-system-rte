@@ -12,6 +12,16 @@
   [data-theme="#{$targetTheme}"][data-mode="#{$mode}"] {
     @include extract-custom-properties-from-theme($theme);
   }
+
+  [data-mode="#{$mode}"] [data-theme="#{$targetTheme}"]:not([data-mode]) {
+    @include extract-custom-properties-from-theme($theme);
+  }
+
+  @if $mode == light {
+    [data-theme="#{$targetTheme}"]:not([data-mode]) {
+      @include extract-custom-properties-from-theme($theme);
+    }
+  }
 }
 
 @mixin extract-custom-properties-from-theme($theme) {
