@@ -17,14 +17,15 @@ export const getAutoPlacement = (
 ): Exclude<Position, "auto"> => {
   let sides: Record<Exclude<Position, "auto">, boolean>;
   const triggerRect = hostElement.getBoundingClientRect();
+
   if (hasParent) {
     const triggerParent = hostElement.parentElement;
     if (!triggerParent) {
       return defaultPosition;
     }
 
-    const maxWidth = parseInt(getComputedStyle(castedElement).getPropertyValue("max-width"));
-    const maxHeight = parseInt(getComputedStyle(castedElement).getPropertyValue("max-height"));
+    const maxWidth = parseInt(getComputedStyle(castedElement).getPropertyValue("width"));
+    const maxHeight = parseInt(getComputedStyle(castedElement).getPropertyValue("height"));
     const parentRect = triggerParent.getBoundingClientRect();
     sides = {
       top: triggerRect.top - parentRect.top > maxHeight + offset,
