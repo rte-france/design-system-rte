@@ -35,6 +35,9 @@ export class TooltipDirective implements AfterViewInit, OnDestroy {
   private hideTimeout: ReturnType<typeof setTimeout> | null = null;
   private hostElement: HTMLElement;
   private overlayService: OverlayService;
+  private readonly handleViewportChange = () => this.positionTooltip();
+  private readonly handleFocusableTriggerFocus = () => this.onFocus();
+  private readonly handleFocusableTriggerBlur = () => this.onBlur();
 
   private elementRef = inject(ElementRef);
   private viewContainerRef = inject(ViewContainerRef);
@@ -70,13 +73,14 @@ export class TooltipDirective implements AfterViewInit, OnDestroy {
       this.renderer.setAttribute(this.hostElement, "tabindex", "-1");
       const focusableTrigger = this.hostElement.querySelectorAll(FOCUSABLE_ELEMENTS_QUERY)[0];
       if (focusableTrigger) {
-        focusableTrigger.addEventListener("focus", () => this.onFocus());
-        focusableTrigger.addEventListener("blur", () => this.onBlur());
+        focusableTrigger.addEventListener("focus", this.handleFocusableTriggerFocus);
+        focusableTrigger.addEventListener("blur", this.handleFocusableTriggerBlur);
       }
     } else {
       this.renderer.setAttribute(this.hostElement, "tabindex", "0");
     }
-    window.addEventListener("scroll", this.positionTooltip.bind(this));
+    window.addEventListener("scroll", this.handleViewportChange);
+    window.addEventListener("resize", this.handleViewportChange);
   }
 
   ngOnDestroy() {
@@ -84,11 +88,12 @@ export class TooltipDirective implements AfterViewInit, OnDestroy {
     if (!this.rteTooltipShouldFocusTrigger()) {
       const focusableTrigger = this.hostElement.querySelectorAll(FOCUSABLE_ELEMENTS_QUERY)[0];
       if (focusableTrigger) {
-        focusableTrigger.removeEventListener("focus", () => this.onFocus());
-        focusableTrigger.removeEventListener("blur", () => this.onBlur());
+        focusableTrigger.removeEventListener("focus", this.handleFocusableTriggerFocus);
+        focusableTrigger.removeEventListener("blur", this.handleFocusableTriggerBlur);
       }
     }
-    window.removeEventListener("scroll", this.positionTooltip.bind(this));
+    window.removeEventListener("scroll", this.handleViewportChange);
+    window.removeEventListener("resize", this.handleViewportChange);
     this.hideTooltip();
   }
 
