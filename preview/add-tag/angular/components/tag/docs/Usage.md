@@ -1,5 +1,3 @@
-## Usage
-
 La propriété `tagType` détermine la manière dont le composant Tag utilise ses autres propriétés visuelles :
 
 - Avec `tagType="status"`, la valeur de `status` contrôle à la fois l’état sémantique et l’icône. Le composant sélectionne automatiquement :
