@@ -21,11 +21,18 @@ interface PackageManifest {
   dependencies?: Record<string, string>;
 }
 
+interface LatestPublishedVersions {
+  core: string;
+  angular: string;
+  react: string;
+}
+
 interface CompatibilityMatrix {
   angularPeer: string;
   reactPeer: string;
   coreRangeAngular: string;
   coreRangeReact: string;
+  latestPublishedVersions: LatestPublishedVersions;
   angularNpmLines: AngularNpmLine[];
 }
 
@@ -42,8 +49,6 @@ interface NpmPackageMetadata {
   dependencies?: Record<string, string>;
 }
 
-generateCompatibilityMatrix();
-
 function generateCompatibilityMatrix(): void {
   const matrix = buildCompatibilityMatrix();
   const markdown = formatCompatibilityMarkdown(matrix);
@@ -51,15 +56,28 @@ function generateCompatibilityMatrix(): void {
   console.log(`Compatibility matrix written to ${OUTPUT_PATH}`);
 }
 
+function readPeerDependency(
+  peerDependencies: PackageManifest["peerDependencies"] | undefined,
+  dependencyName: string,
+  manifestPath: string,
+): string {
+  const range = peerDependencies?.[dependencyName];
+  if (!range) {
+    throw new Error(`Missing peer dependency "${dependencyName}" in ${manifestPath}.`);
+  }
+  return range;
+}
+
 function buildCompatibilityMatrix(): CompatibilityMatrix {
   const angularManifest = readManifest(PACKAGE_MANIFESTS.angular);
   const reactManifest = readManifest(PACKAGE_MANIFESTS.react);
 
   return {
-    angularPeer: formatAngularPeerRange(angularManifest.peerDependencies),
-    reactPeer: reactManifest.peerDependencies?.react ?? ">=18.0.0",
+    angularPeer: readPeerDependency(angularManifest.peerDependencies, "@angular/core", PACKAGE_MANIFESTS.angular),
+    reactPeer: readPeerDependency(reactManifest.peerDependencies, "react", PACKAGE_MANIFESTS.react),
     coreRangeAngular: angularManifest.peerDependencies?.["@design-system-rte/core"] ?? "—",
     coreRangeReact: reactManifest.dependencies?.["@design-system-rte/core"] ?? "—",
+    latestPublishedVersions: fetchLatestPublishedVersions(),
     angularNpmLines: fetchAngularNpmLines(),
   };
 }
@@ -68,13 +86,17 @@ function readManifest(manifestPath: string): PackageManifest {
   return JSON.parse(fs.readFileSync(manifestPath, "utf-8")) as PackageManifest;
 }
 
-function formatAngularPeerRange(peerDependencies: PackageManifest["peerDependencies"]): string {
-  if (!peerDependencies) {
-    return "^19.2.25";
-  }
+function readLatestPublishedVersion(packageName: string): string {
+  const output = execSync(`npm view ${packageName} version`, { encoding: "utf-8" });
+  return output.trim();
+}
 
-  const angularCore = peerDependencies["@angular/core"];
-  return angularCore ?? "^19.2.25";
+function fetchLatestPublishedVersions(): LatestPublishedVersions {
+  return {
+    core: readLatestPublishedVersion("@design-system-rte/core"),
+    angular: readLatestPublishedVersion("@design-system-rte/angular"),
+    react: readLatestPublishedVersion("@design-system-rte/react"),
+  };
 }
 
 function readNpmPackageMetadata(packageName: string, version: string): NpmPackageMetadata {
@@ -84,36 +106,60 @@ function readNpmPackageMetadata(packageName: string, version: string): NpmPackag
   return JSON.parse(output) as NpmPackageMetadata;
 }
 
-function formatCoreRelationship(metadata: NpmPackageMetadata): string {
+function isLatestDistTag(distTag: string): boolean {
+  return distTag === "latest";
+}
+
+function formatPackageVersionForDisplay(distTag: string, resolvedVersion: string): string {
+  return isLatestDistTag(distTag) ? "latest" : resolvedVersion;
+}
+
+function formatCoreRelationship(metadata: NpmPackageMetadata, distTag: string): string {
   const corePeer = metadata.peerDependencies?.["@design-system-rte/core"];
+  let output = "—";
   if (corePeer) {
-    return `peer \`@design-system-rte/core\` ${corePeer}`;
+    output = "peer `@design-system-rte/core`";
+    if (isLatestDistTag(distTag)) {
+      output += " (latest)";
+    }
+    output += ` ${corePeer}`;
   }
 
   const coreDependency = metadata.dependencies?.["@design-system-rte/core"];
   if (coreDependency) {
-    return `dependency \`@design-system-rte/core\` ${coreDependency}`;
+    output = "dependency `@design-system-rte/core`";
+    if (isLatestDistTag(distTag)) {
+      output += " (latest)";
+    }
+    output += ` ${coreDependency}`;
   }
 
-  return "—";
+  return output;
+}
+
+function formatCoreInstallSpecifier(distTag: string, coreRange: string): string {
+  if (isLatestDistTag(distTag)) {
+    return "@design-system-rte/core";
+  }
+
+  const coreVersion = coreRange.replace(/^[\^~]/, "");
+  return `@design-system-rte/core@${coreVersion}`;
 }
 
 function buildAngularInstallCommand(distTag: string, metadata: NpmPackageMetadata): string {
-  const packageSpecifier =
-    distTag === "latest" ? "@design-system-rte/angular" : `@design-system-rte/angular@${distTag}`;
+  const packageSpecifier = isLatestDistTag(distTag)
+    ? "@design-system-rte/angular"
+    : `@design-system-rte/angular@${distTag}`;
   const corePeer = metadata.peerDependencies?.["@design-system-rte/core"];
   const coreDependency = metadata.dependencies?.["@design-system-rte/core"];
+  const coreRange = corePeer ?? coreDependency;
+  let outputCommand = `npm install ${packageSpecifier}`;
 
-  if (corePeer) {
-    const coreVersion = corePeer.replace(/^[\^~]/, "");
-    return `npm install ${packageSpecifier} @design-system-rte/core@${coreVersion}`;
+  if (coreRange) {
+    outputCommand += ` ${formatCoreInstallSpecifier(distTag, coreRange)}`;
   }
 
-  if (coreDependency) {
-    return `npm install ${packageSpecifier}`;
-  }
-
-  return `npm install ${packageSpecifier}`;
+  return outputCommand;
 }
 
 function fetchAngularNpmLines(): AngularNpmLine[] {
@@ -130,9 +176,9 @@ function fetchAngularNpmLines(): AngularNpmLine[] {
 
       return {
         distTag,
-        packageVersion,
+        packageVersion: formatPackageVersionForDisplay(distTag, packageVersion),
         angularPeer,
-        coreRelationship: formatCoreRelationship(metadata),
+        coreRelationship: formatCoreRelationship(metadata, distTag),
         installCommand: buildAngularInstallCommand(distTag, metadata),
       };
     });
@@ -187,10 +233,6 @@ function formatAngularInstallSection(lines: AngularNpmLine[]): string[] {
 }
 
 function formatCompatibilityMarkdown(matrix: CompatibilityMatrix): string {
-  const coreManifest = readManifest(PACKAGE_MANIFESTS.core);
-  const angularManifest = readManifest(PACKAGE_MANIFESTS.angular);
-  const reactManifest = readManifest(PACKAGE_MANIFESTS.react);
-
   const lines: string[] = [
     "<!-- Generated by npm run docs:compatibility-matrix — do not edit manually -->",
     "",
@@ -215,9 +257,9 @@ function formatCompatibilityMarkdown(matrix: CompatibilityMatrix): string {
     "",
     "| Package | Version | Core relationship |",
     "|---------|---------|-------------------|",
-    `| \`@design-system-rte/core\` | ${coreManifest.version} | — |`,
-    `| \`@design-system-rte/angular\` | ${angularManifest.version} | peer \`@design-system-rte/core\` ${matrix.coreRangeAngular} |`,
-    `| \`@design-system-rte/react\` | ${reactManifest.version} | dependency \`@design-system-rte/core\` ${matrix.coreRangeReact} |`,
+    `| \`@design-system-rte/core\` | ${matrix.latestPublishedVersions.core} | — |`,
+    `| \`@design-system-rte/angular\` | ${matrix.latestPublishedVersions.angular} | peer \`@design-system-rte/core\` ${matrix.coreRangeAngular} |`,
+    `| \`@design-system-rte/react\` | ${matrix.latestPublishedVersions.react} | dependency \`@design-system-rte/core\` ${matrix.coreRangeReact} |`,
     "",
     ...formatAngularInstallSection(matrix.angularNpmLines),
     "**React** — core is bundled as a dependency:",
@@ -232,3 +274,5 @@ function formatCompatibilityMarkdown(matrix: CompatibilityMatrix): string {
 
   return lines.join("\n");
 }
+
+generateCompatibilityMatrix();

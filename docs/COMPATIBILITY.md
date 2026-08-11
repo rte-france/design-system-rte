@@ -24,9 +24,9 @@ Do **not** run `npm install @design-system-rte/angular` on an Angular 17/18 app 
 
 | npm dist-tag | Package version | Angular peer | `@design-system-rte/core` | Install |
 |--------------|-----------------|--------------|---------------------------|---------|
-| `latest` | 3.1.0 | `^19.2.25` | peer `@design-system-rte/core` ^1.14.0 | `npm install @design-system-rte/angular @design-system-rte/core@1.14.0` |
+| `latest` | latest | `^19.2.25` | peer `@design-system-rte/core` (latest) ~1.15.0 | `npm install @design-system-rte/angular @design-system-rte/core` |
 | `angular18` | 1.11.0 | `^18.2.14` | peer `@design-system-rte/core` ^1.11.0 | `npm install @design-system-rte/angular@angular18 @design-system-rte/core@1.11.0` |
-| `angular17` | 0.13.0 | `^17.3.12` | dependency `@design-system-rte/core` ^0.17.0 | `npm install @design-system-rte/angular@angular17` |
+| `angular17` | 0.13.0 | `^17.3.12` | dependency `@design-system-rte/core` ^0.17.0 | `npm install @design-system-rte/angular@angular17 @design-system-rte/core@0.17.0` |
 
 Other npm dist-tags (`rc`, `routerlink`, …) are internal or preview lines — not for production consumers.
 
@@ -34,16 +34,16 @@ Other npm dist-tags (`rc`, `routerlink`, …) are internal or preview lines — 
 
 | Package | Version | Core relationship |
 |---------|---------|-------------------|
-| `@design-system-rte/core` | 1.14.0 | — |
-| `@design-system-rte/angular` | 3.1.0 | peer `@design-system-rte/core` ~1.14.0 |
-| `@design-system-rte/react` | 1.14.0 | dependency `@design-system-rte/core` ~1.14.0 |
+| `@design-system-rte/core` | 1.15.0 | — |
+| `@design-system-rte/angular` | 3.2.0 | peer `@design-system-rte/core` ~1.15.0 |
+| `@design-system-rte/react` | 1.15.0 | dependency `@design-system-rte/core` ~1.15.0 |
 
 ## Installing a compatible set
 
 **Angular 19 (current line)** — use `@latest`:
 
 ```bash
-npm install @design-system-rte/angular @design-system-rte/core@1.14.0
+npm install @design-system-rte/angular @design-system-rte/core
 ```
 
 **Angular 18 (legacy line)** — use the `angular18` dist-tag:
@@ -55,7 +55,7 @@ npm install @design-system-rte/angular@angular18 @design-system-rte/core@1.11.0
 **Angular 17 (legacy line)** — use the `angular17` dist-tag:
 
 ```bash
-npm install @design-system-rte/angular@angular17
+npm install @design-system-rte/angular@angular17 @design-system-rte/core@0.17.0
 ```
 
 Ensure `@design-system-rte/core` matches the range for the dist-tag you chose (see tables above). **Angular 20+ is not supported** on any line.
