@@ -2,7 +2,26 @@
   "name": "@design-system-rte/angular",
   "version": "3.2.0",
   "description": "Angular components for the Design System RTE",
+  "keywords": [
+    "design-system",
+    "angular",
+    "components",
+    "ui",
+    "rte",
+    "storybook",
+    "accessibility"
+  ],
+  "author": "RTE",
   "license": "Apache-2.0",
+  "homepage": "https://opensource.rte-france.com/design-system-rte/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rte-france/design-system-rte.git",
+    "directory": "packages/angular/projects/ds-rte-lib"
+  },
+  "bugs": {
+    "url": "https://opensource.rte-france.com/design-system-rte/?path=/docs/design-system-get-started-contribuer-bugs-et-anomalies--docs"
+  },
   "publishConfig": {
     "access": "public"
   },

@@ -30,10 +30,27 @@
     "prepublishOnly": "npm run generate-icons && npm run build",
     "generate:component": "node scripts/generate-component.js"
   },
-  "keywords": [],
-  "author": "",
+  "description": "React components for Luciole (RTE Design System)",
+  "keywords": [
+    "design-system",
+    "react",
+    "components",
+    "ui",
+    "rte",
+    "storybook",
+    "accessibility"
+  ],
+  "author": "RTE",
   "license": "Apache-2.0",
-  "description": "",
+  "homepage": "https://opensource.rte-france.com/design-system-rte/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rte-france/design-system-rte.git",
+    "directory": "packages/react"
+  },
+  "bugs": {
+    "url": "https://opensource.rte-france.com/design-system-rte/?path=/docs/design-system-get-started-contribuer-bugs-et-anomalies--docs"
+  },
   "dependencies": {
     "@design-system-rte/core": "~1.15.0",
     "@dnd-kit/react": "^0.5.0",

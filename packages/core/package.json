@@ -31,10 +31,26 @@
     "generate:tokens": "ts-node ./scripts/design-tokens/generator.ts",
     "prepublishOnly": "npm run build"
   },
-  "keywords": [],
-  "author": "",
+  "description": "Design tokens, shared interfaces, and utilities for Luciole (RTE Design System)",
+  "keywords": [
+    "design-system",
+    "design-tokens",
+    "sass",
+    "ui",
+    "rte",
+    "accessibility"
+  ],
+  "author": "RTE",
   "license": "Apache-2.0",
-  "description": "Design Tokens, interfaces and utilities for the Design System RTE",
+  "homepage": "https://opensource.rte-france.com/design-system-rte/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rte-france/design-system-rte.git",
+    "directory": "packages/core"
+  },
+  "bugs": {
+    "url": "https://opensource.rte-france.com/design-system-rte/?path=/docs/design-system-get-started-contribuer-bugs-et-anomalies--docs"
+  },
   "publishConfig": {
     "access": "public"
   },

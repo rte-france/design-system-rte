@@ -37,10 +37,24 @@
     "build:all": "npm --prefix packages/react run build && npm --prefix packages/angular run build",
     "changelog": "tsx scripts/changelog/generate-changelog.ts"
   },
-  "keywords": [],
-  "author": "",
+  "description": "Luciole — RTE Design System monorepo (Angular, React, design tokens)",
+  "keywords": [
+    "design-system",
+    "angular",
+    "react",
+    "storybook",
+    "accessibility"
+  ],
+  "author": "RTE",
   "license": "ISC",
-  "description": "",
+  "homepage": "https://opensource.rte-france.com/design-system-rte/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rte-france/design-system-rte.git"
+  },
+  "bugs": {
+    "url": "https://opensource.rte-france.com/design-system-rte/?path=/docs/design-system-get-started-contribuer-bugs-et-anomalies--docs"
+  },
   "workspaces": [
     "packages/*",
     "packages/angular/projects/*"
