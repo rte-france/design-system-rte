@@ -1,0 +1,100 @@
+<div class="rte-time-picker-dropdown">
+  <div class="rte-time-picker-segment-root">
+    <div class="rte-time-picker-segment-container">
+      <div class="rte-time-picker-segment-controls">
+        <button
+          type="button"
+          class="rte-time-picker-segment-controls-button"
+          tabindex="-1"
+          (click)="onHoursIncrementClick()"
+        >
+          <rte-icon name="arrow-chevron-up" appearance="outlined" [size]="24" />
+        </button>
+        <input
+          class="rte-time-picker-segment-input"
+          type="text"
+          [value]="hours() || '00'"
+          [readOnly]="isHourReadOnly()"
+          [tabindex]="isHourReadOnly() ? -1 : 0"
+          (keydown)="onHoursKeydown($event)"
+          (input)="onHoursInput($event)"
+        />
+        <button
+          type="button"
+          class="rte-time-picker-segment-controls-button"
+          tabindex="-1"
+          (click)="onHoursDecrementClick()"
+        >
+          <rte-icon name="arrow-chevron-down" appearance="outlined" [size]="24" />
+        </button>
+      </div>
+      <span>h</span>
+    </div>
+    <span class="rte-time-picker-segment-separator">:</span>
+  </div>
+  <div class="rte-time-picker-segment-root">
+    <div class="rte-time-picker-segment-container">
+      <div class="rte-time-picker-segment-controls">
+        <button
+          type="button"
+          class="rte-time-picker-segment-controls-button"
+          tabindex="-1"
+          (click)="onMinutesIncrementClick()"
+        >
+          <rte-icon name="arrow-chevron-up" appearance="outlined" [size]="24" />
+        </button>
+        <input
+          class="rte-time-picker-segment-input"
+          type="text"
+          [value]="minutes() || '00'"
+          [readOnly]="isMinuteReadOnly()"
+          [tabindex]="isMinuteReadOnly() ? -1 : 0"
+          (keydown)="onMinutesKeydown($event)"
+          (input)="onMinutesInput($event)"
+        />
+        <button
+          type="button"
+          class="rte-time-picker-segment-controls-button"
+          tabindex="-1"
+          (click)="onMinutesDecrementClick()"
+        >
+          <rte-icon name="arrow-chevron-down" appearance="outlined" [size]="24" />
+        </button>
+      </div>
+      <span>m</span>
+    </div>
+    <span class="rte-time-picker-segment-separator">:</span>
+  </div>
+  <div class="rte-time-picker-segment-root">
+    <div class="rte-time-picker-segment-container">
+      <div class="rte-time-picker-segment-controls">
+        <button
+          type="button"
+          class="rte-time-picker-segment-controls-button"
+          tabindex="-1"
+          (click)="onSecondsIncrementClick()"
+        >
+          <rte-icon name="arrow-chevron-up" appearance="outlined" [size]="24" />
+        </button>
+        <input
+          class="rte-time-picker-segment-input"
+          type="text"
+          [value]="seconds() || '00'"
+          [readOnly]="isSecondReadOnly()"
+          [tabindex]="isSecondReadOnly() ? -1 : 0"
+          (keydown)="onSecondsKeydown($event)"
+          (input)="onSecondsInput($event)"
+        />
+        <button
+          type="button"
+          class="rte-time-picker-segment-controls-button"
+          tabindex="-1"
+          (click)="onSecondsDecrementClick()"
+        >
+          <rte-icon name="arrow-chevron-down" appearance="outlined" [size]="24" />
+        </button>
+      </div>
+      <span>s</span>
+    </div>
+  </div>
+</div>
