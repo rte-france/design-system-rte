@@ -415,11 +415,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Generate changelog
-        run: npm run changelog
-
-      - name: Generate compatibility matrix
-        run: npm run docs:compatibility-matrix
+      - name: Generate release docs
+        run: npm run docs:release
 
       - name: Commit changelog to PR
         if: steps.changesets.outputs.pullRequestNumber

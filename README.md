@@ -8,13 +8,13 @@ RTE France's design system — shared UI components, design tokens, and document
 
 Officially supported and CI-validated versions. See [docs/COMPATIBILITY.md](docs/COMPATIBILITY.md) for the full matrix, including what npm peer ranges allow vs. what is actually supported.
 
-| Runtime | Officially supported | npm install | Important |
-|---------|---------------------|-------------|-----------|
-| **Angular 19** | 19.2.x (`@latest`) | `npm install @design-system-rte/angular @design-system-rte/core` | Current line — CI-validated. |
-| **Angular 18** | 18.2.x (legacy) | `npm install @design-system-rte/angular@angular18 @design-system-rte/core@1.11.0` | Use `@angular18` dist-tag, not `@latest`. |
-| **Angular 17** | 17.3.x (legacy) | `npm install @design-system-rte/angular@angular17` | Use `@angular17` dist-tag. Core bundled on this line. |
-| **React** | 18.x | `npm install @design-system-rte/react` | npm peer allows 19/20+, but only 18.x is CI-tested. |
-| **Node.js** | 20 LTS | — | Matches CI. |
+| Runtime | Officially supported | npm install |
+|---------|---------------------|-------------|
+| **Angular 19** | 19.2.25 (`@latest`) | `npm install @design-system-rte/angular @design-system-rte/core` |
+| **Angular 18** | 18.2.14 (legacy) | `npm install @design-system-rte/angular@angular18 @design-system-rte/core@1.11.0` |
+| **Angular 17** | 17.3.12 (legacy) | `npm install @design-system-rte/angular@angular17 @design-system-rte/core@0.17.0` |
+| **React** | 18.3.1 | `npm install @design-system-rte/react` |
+| **Node.js** | 20 LTS | — |
 
 There is **no `angular19` npm dist-tag** — Angular 19 is `@latest`. See [docs/COMPATIBILITY.md](docs/COMPATIBILITY.md) for the full matrix.
 
@@ -28,8 +28,8 @@ Full component documentation, design guidelines, and setup guides live in Storyb
 
 Get started guides (French):
 
-- [Angular](https://opensource.rte-france.com/design-system-rte/?path=/docs/design-system-get-started---kit-de-d%C3%A9marrage-angular--docs)
-- [React](https://opensource.rte-france.com/design-system-rte/?path=/docs/design-system-get-started---kit-de-d%C3%A9marrage-react--docs)
+- [Angular](https://opensource.rte-france.com/design-system-rte/?path=/docs/design-system-get-started-kit-de-d%C3%A9marrage-angular--docs)
+- [React](https://opensource.rte-france.com/design-system-rte/?path=/docs/design-system-get-started-kit-de-d%C3%A9marrage-react--docs)
 
 
 

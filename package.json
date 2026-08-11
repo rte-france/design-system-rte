@@ -36,7 +36,8 @@
     "prepare": "husky",
     "build:all": "npm --prefix packages/react run build && npm --prefix packages/angular run build",
     "changelog": "tsx scripts/changelog/generate-changelog.ts",
-    "docs:compatibility-matrix": "tsx scripts/docs/generate-compatibility-matrix.ts"
+    "docs:compatibility-matrix": "tsx scripts/docs/generate-compatibility-matrix.ts",
+    "docs:release": "npm run changelog && npm run docs:compatibility-matrix"
   },
   "keywords": [],
   "author": "",
