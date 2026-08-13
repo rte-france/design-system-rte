@@ -1,0 +1,5 @@
+- La taille conditionne l'affichage du badge en fonction de son contenu :
+	- Avec `content="empty"`, toutes les tailles s'affichent.
+	- Avec `content="number"`, seules les tailles M et L s'affichent.
+	- Avec `content="icon"`, seules les tailles M et L s'affichent.
+- Avec `content="number"`, la valeur maximale affichée est 99. Un `+` est ajouté pour les nombres suivants.
