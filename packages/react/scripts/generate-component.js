@@ -88,6 +88,7 @@ import { ${componentName} } from "@design-system-rte/react";
   fs.writeFileSync(path.join(dir, `Usage.md`), "");
   fs.writeFileSync(path.join(dir, `API.md`), "");
   fs.writeFileSync(path.join(dir, `FAQ.md`), "");
+  fs.writeFileSync(path.join(dir, `Limitation.md`), "");
 }
 
 function toCamelCase(value) {

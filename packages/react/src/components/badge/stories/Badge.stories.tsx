@@ -75,6 +75,15 @@ export const Default: Story = {
   },
 };
 
+export const StandaloneBadge: Story = {
+  args: {
+    badgeType: "brand",
+    size: "m",
+    content: "number",
+    count: 1,
+  },
+};
+
 export const IconBadge: Story = {
   args: {
     badgeType: "brand",
@@ -169,6 +178,16 @@ export const CountLimit: Story = {
       <Badge {...args} count={100} />
     </div>
   ),
+};
+
+export const WithPlusSign: Story = {
+  args: {
+    badgeType: "brand",
+    content: "number",
+    size: "m",
+    count: 5,
+    withPlusSign: true,
+  },
 };
 
 export const Icons: Story = {
