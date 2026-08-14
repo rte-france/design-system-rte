@@ -155,6 +155,7 @@ export const Multiple: Story = {
 };
 
 export const KeyboardInteraction: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     message: "Une mise à jour est disponible",
