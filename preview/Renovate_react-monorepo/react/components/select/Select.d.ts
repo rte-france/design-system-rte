@@ -5,6 +5,7 @@ interface SingleSelectProps extends Omit<coreSelectProps, "value" | "onChange"> 
     header?: React.ReactNode;
     footer?: React.ReactNode;
     onChange?: (value: string) => void;
+    body?: React.ReactNode;
 }
 interface MultiSelectProps extends Omit<coreSelectProps, "value" | "onChange"> {
     multiple: true;
@@ -12,6 +13,7 @@ interface MultiSelectProps extends Omit<coreSelectProps, "value" | "onChange"> {
     header?: React.ReactNode;
     footer?: React.ReactNode;
     onChange?: (value: string[]) => void;
+    body?: React.ReactNode;
 }
 export type SelectProps = SingleSelectProps | MultiSelectProps;
 declare const Select: import('../../../../../node_modules/react').ForwardRefExoticComponent<SelectProps & import('../../../../../node_modules/react').RefAttributes<HTMLDivElement>>;
