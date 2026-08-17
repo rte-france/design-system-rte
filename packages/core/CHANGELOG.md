@@ -1,5 +1,19 @@
 # @design-system-rte/core
 
+## 1.16.0
+
+### Minor Changes
+
+- 9c2be7c: ## Changes
+
+  - (Styles) add fallback support for missing or default Mode for Design Tokens. Theme still requires explicit definition
+
+### Patch Changes
+
+- 9e3af77: ## Changes
+
+  - (Tooltip) correct auto placement algorithm
+
 ## 1.15.0
 
 ### Minor Changes

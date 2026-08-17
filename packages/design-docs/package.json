@@ -1,6 +1,6 @@
 {
   "name": "@design-system-rte/design-docs",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "main": "index.js",
   "private": true,
   "scripts": {
@@ -35,7 +35,7 @@
     "vitest": "^3.0.9"
   },
   "dependencies": {
-    "@design-system-rte/react": "^1.15.0",
+    "@design-system-rte/react": "^1.16.0",
     "@storybook/addon-themes": "^8.6.11"
   }
 }

@@ -1,5 +1,23 @@
 # @design-system-rte/angular
 
+## 4.0.0
+
+### Minor Changes
+
+- 9c2be7c: ## Changes
+
+  - (Styles) add fallback support for missing or default Mode for Design Tokens. Theme still requires explicit definition
+
+### Patch Changes
+
+- 9e3af77: ## Changes
+
+  - (Tooltip) correct auto placement algorithm
+
+- Updated dependencies [9c2be7c]
+- Updated dependencies [9e3af77]
+  - @design-system-rte/core@1.16.0
+
 ## 3.2.0
 
 ### Minor Changes
