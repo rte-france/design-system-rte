@@ -2,6 +2,28 @@
 
 # Angular
 
+## 4.0.0
+
+### Styles
+
+#### Minor Changes
+
+- add fallback support for missing or default Mode for Design Tokens. Theme still requires explicit definition
+
+### Tooltip
+
+#### Patch Changes
+
+- correct auto placement algorithm
+
+### Other
+
+#### Patch Changes
+
+- Updated dependencies [9c2be7c]
+- Updated dependencies [9e3af77]
+- @design-system-rte/core@1.16.0
+
 ## 3.2.0
 
 ### Banner
@@ -103,34 +125,29 @@
 - Updated dependencies [35b5e6b]
 - Updated dependencies [e7b53d3]
 - @design-system-rte/core@1.14.0
+# React
 
-## 3.0.0
+## 1.16.0
 
-### Navigation
-
-#### Major Changes
-
-- add RouterLink support
-
-### Icon
+### Styles
 
 #### Minor Changes
 
-- create new Icon Registry to avoid Http request for each icon instance
+- add fallback support for missing or default Mode for Design Tokens. Theme still requires explicit definition
 
-### Dropdown
+### Tooltip
 
 #### Patch Changes
 
-- correct overlay position when projected from Datepicker, Daterangepicker or Timepicker
+- correct auto placement algorithm
 
 ### Other
 
 #### Patch Changes
 
-- Updated dependencies [459a1d3]
-- @design-system-rte/core@1.13.0
-# React
+- Updated dependencies [9c2be7c]
+- Updated dependencies [9e3af77]
+- @design-system-rte/core@1.16.0
 
 ## 1.15.0
 
@@ -249,26 +266,24 @@
 - Updated dependencies [35b5e6b]
 - Updated dependencies [e7b53d3]
 - @design-system-rte/core@1.14.0
+# Core
 
-## 1.13.0
+## 1.16.0
 
-### Dropdown
-
-#### Patch Changes
-
-- correct overlay position when projected from Datepicker, Daterangepicker or Timepicker
-
-### Other
+### Styles
 
 #### Minor Changes
 
-- add Uncontrolled component optional capacities to Select, Switch, Datepicker, Timepicker & DateRangePicker
+- add fallback support for missing or default Mode for Design Tokens. Theme still requires explicit definition
+
+### Tooltip
 
 #### Patch Changes
 
-- Updated dependencies [459a1d3]
-- @design-system-rte/core@1.13.0
-# Core
+- correct auto placement algorithm
+
+### Other
+
 
 ## 1.15.0
 
@@ -334,13 +349,23 @@
 
 ### Other
 
+# Design Docs
 
-## 1.13.0
+## 1.6.0
+
+### Styles
 
 #### Minor Changes
 
-- add Uncontrolled component optional capacities to Select, Switch, Datepicker, Timepicker & DateRangePicker
-# Design Docs
+- add fallback support for missing or default Mode for Design Tokens. Theme still requires explicit definition
+
+### Other
+
+#### Patch Changes
+
+- Updated dependencies [9c2be7c]
+- Updated dependencies [9e3af77]
+- @design-system-rte/react@1.16.0
 
 ## 1.5.0
 
@@ -384,39 +409,3 @@
 - Updated dependencies [459a1d3]
 - Updated dependencies [d3332d9]
 - @design-system-rte/react@1.13.0
-
-## 1.3.0
-
-### Tag
-
-#### Minor Changes
-
-- add decorative color + align names with token value
-
-### Modal
-
-#### Patch Changes
-
-- expose public close method
-
-### Other
-
-#### Patch Changes
-
-- Updated dependencies [220fb58]
-- Updated dependencies [6e839c8]
-- Updated dependencies [e4dc52f]
-- Updated dependencies [7053ac6]
-- Updated dependencies [65af3dd]
-- Updated dependencies [dad03e5]
-- Updated dependencies [e7afe99]
-- Updated dependencies [77a7b3f]
-- Updated dependencies [39dee3c]
-- Updated dependencies [00c80a4]
-- Updated dependencies [6be38db]
-- Updated dependencies [07b55ba]
-- Updated dependencies [2598109]
-- Updated dependencies [98a5f9b]
-- Updated dependencies [0cd5597]
-- Updated dependencies [9fce4e2]
-- @design-system-rte/react@1.11.0
