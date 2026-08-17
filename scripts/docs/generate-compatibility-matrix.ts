@@ -69,6 +69,7 @@ function readPeerDependency(
 }
 
 function buildCompatibilityMatrix(): CompatibilityMatrix {
+  const coreManifest = readManifest(PACKAGE_MANIFESTS.core);
   const angularManifest = readManifest(PACKAGE_MANIFESTS.angular);
   const reactManifest = readManifest(PACKAGE_MANIFESTS.react);
 
@@ -77,26 +78,17 @@ function buildCompatibilityMatrix(): CompatibilityMatrix {
     reactPeer: readPeerDependency(reactManifest.peerDependencies, "react", PACKAGE_MANIFESTS.react),
     coreRangeAngular: angularManifest.peerDependencies?.["@design-system-rte/core"] ?? "—",
     coreRangeReact: reactManifest.dependencies?.["@design-system-rte/core"] ?? "—",
-    latestPublishedVersions: fetchLatestPublishedVersions(),
+    latestPublishedVersions: {
+      core: coreManifest.version,
+      angular: angularManifest.version,
+      react: reactManifest.version,
+    },
     angularNpmLines: fetchAngularNpmLines(),
   };
 }
 
 function readManifest(manifestPath: string): PackageManifest {
   return JSON.parse(fs.readFileSync(manifestPath, "utf-8")) as PackageManifest;
-}
-
-function readLatestPublishedVersion(packageName: string): string {
-  const output = execSync(`npm view ${packageName} version`, { encoding: "utf-8" });
-  return output.trim();
-}
-
-function fetchLatestPublishedVersions(): LatestPublishedVersions {
-  return {
-    core: readLatestPublishedVersion("@design-system-rte/core"),
-    angular: readLatestPublishedVersion("@design-system-rte/angular"),
-    react: readLatestPublishedVersion("@design-system-rte/react"),
-  };
 }
 
 function readNpmPackageMetadata(packageName: string, version: string): NpmPackageMetadata {
