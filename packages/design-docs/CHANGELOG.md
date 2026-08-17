@@ -1,5 +1,19 @@
 # @design-system-rte/design-docs
 
+## 1.6.0
+
+### Minor Changes
+
+- 9c2be7c: ## Changes
+
+  - (Styles) add fallback support for missing or default Mode for Design Tokens. Theme still requires explicit definition
+
+### Patch Changes
+
+- Updated dependencies [9c2be7c]
+- Updated dependencies [9e3af77]
+  - @design-system-rte/react@1.16.0
+
 ## 1.5.0
 
 ### Minor Changes
