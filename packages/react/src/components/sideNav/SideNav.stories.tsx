@@ -456,6 +456,38 @@ export const HeaderWithLongTitle: Story = {
   },
 };
 
+const longNavItemLabel = "Supervision des processus et des opérations en temps réel";
+
+export const WithLongItemLabel: Story = {
+  tags: ["skip-ci", "!autodocs"],
+  args: {
+    ...Default.args,
+    headerConfig: defaultHeaderConfig,
+    items: [
+      { ...baseNavItem, id: "supervision", label: longNavItemLabel, icon: "dashboard" },
+      ...navigationItems.slice(1),
+    ],
+    size: "m",
+  },
+  play: async ({ canvasElement, step }) => {
+    const { sideNav } = getCanvasAndSideNav(canvasElement);
+
+    await step("Side nav keeps the fixed M panel width with a long item label", async () => {
+      expect(sideNav.offsetWidth).toBe(sideNavPanelSize.m);
+    });
+
+    await step("Nav item label is truncated with an ellipsis", async () => {
+      const navItem = getNavElement(sideNav, longNavItemLabel);
+      expect(navItem).not.toBeNull();
+
+      const label = navItem?.querySelector('[class*="navItemLeft"] span:last-child') as HTMLElement;
+      expect(label).not.toBeNull();
+      expect(getComputedStyle(label).textOverflow).toBe("ellipsis");
+      expect(label.scrollWidth).toBeGreaterThan(label.clientWidth);
+    });
+  },
+};
+
 export const WithNestedMenus: Story = {
   tags: ["skip-ci"],
   args: {
