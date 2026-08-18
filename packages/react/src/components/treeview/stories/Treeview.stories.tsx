@@ -33,8 +33,12 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+const simpleArborescence: TreeviewItemProps[] = [
+  { id: "home", labelText: "Accueil", icon: "home" },
+  { id: "settings", labelText: "Paramètres", icon: "settings" },
+];
+
 const baseNavigationData: TreeviewItemProps[] = [
-  { id: "home", labelText: "Home", icon: "home" },
   {
     id: "documents",
     labelText: "Documents",
@@ -82,7 +86,7 @@ const actionIconDropdownData = withActionIcon(baseNavigationData, "more-horiz", 
 
 const actionIconCustomBehaviorData = withActionIcon(baseNavigationData, "info-i");
 
-const navigationData = baseNavigationData;
+const navigationData = [{ id: "home", labelText: "Home", icon: "home" }, ...baseNavigationData];
 
 const badgeData: TreeviewItemProps[] = [
   {
@@ -193,6 +197,13 @@ function createConnectorLinesData(options: { middleOpen?: boolean } = {}): Treev
     },
   ];
 }
+
+export const Default: Story = {
+  tags: ["skip-ci"],
+  args: {
+    items: simpleArborescence,
+  },
+};
 
 export const NestedItems: Story = {
   tags: ["skip-ci"],
