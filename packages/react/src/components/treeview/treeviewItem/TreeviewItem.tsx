@@ -23,10 +23,9 @@ import { computeIsChecked } from "../treeviewUtil";
 
 import styles from "./TreeviewItem.module.scss";
 
-interface TreeviewItemProps
-  extends coreTreeviewItem, Omit<React.HTMLAttributes<HTMLLIElement>, "onChange" | "onClick"> {
+interface TreeviewItemProps extends coreTreeviewItem, Omit<React.HTMLAttributes<HTMLLIElement>, "onClick"> {
   onOpenChange?: (id: string, isOpen: boolean) => void;
-  onChange?: (id: string) => void;
+  onClickElement?: (id: string) => void;
   isSelected?: boolean;
   selectedId?: string;
   onActionIconClick?: (id: string) => void;
@@ -55,7 +54,7 @@ const TreeviewItem = ({
   actionMenuItems,
   depth,
   onOpenChange,
-  onChange,
+  onClickElement,
   onActionIconClick,
   onCheckedIdsChange,
   selectedId,
@@ -98,7 +97,7 @@ const TreeviewItem = ({
       return;
     }
     event.stopPropagation();
-    onChange?.(itemId);
+    onClickElement?.(itemId);
   };
 
   const resolvedBorderTypes = () => {
@@ -173,7 +172,7 @@ const TreeviewItem = ({
       if (disabled) {
         return;
       }
-      onChange?.(itemId);
+      onClickElement?.(itemId);
     }
   };
 
@@ -335,7 +334,7 @@ const TreeviewItem = ({
               depth={internalDepth + 1}
               borderTypes={getChildBorderTypes(resolvedBorderTypes(), index === items!.length - 1)}
               isCompact={isCompact}
-              onChange={(id) => onChange?.(id)}
+              onClickElement={(id) => onClickElement?.(id)}
               selectedId={selectedId}
               hasCheckbox={child.hasCheckbox ?? hasCheckbox}
               onCheckedIdsChange={onCheckedIdsChange}

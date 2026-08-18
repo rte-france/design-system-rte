@@ -1,5 +1,9 @@
-import { computeCheckedIdsAfterToggle, resetMovingTabIndex } from "@design-system-rte/core";
-import { TreeviewItemProps } from "@design-system-rte/core/components/treeview/treeview-item.interface";
+import {
+  computeCheckedIdsAfterToggle,
+  resetMovingTabIndex,
+  TreeviewProps as CoreTreeViewProps,
+  TreeviewItemProps,
+} from "@design-system-rte/core";
 import { Fragment, useEffect, useRef, useState } from "react";
 
 import { useSelectItem } from "./hooks/useSelectItem";
@@ -7,22 +11,14 @@ import styles from "./Treeview.module.scss";
 import TreeviewItem from "./treeviewItem/TreeviewItem";
 import { onFocusIn, onFocusOut, onKeyDown } from "./treeviewService";
 
-interface TreeviewProps extends Omit<React.HTMLAttributes<HTMLUListElement>, "onChange"> {
-  items: TreeviewItemProps[];
-  isCompact?: boolean;
-  selectedId?: string;
-  onChange?: (id: string) => void;
-  onCheckedIdsChange?: (checkedIds: string[]) => void;
-  selectedPath?: string;
-  hasCheckbox?: boolean;
-  id?: string;
-}
+interface TreeviewProps extends CoreTreeViewProps, Omit<React.HTMLAttributes<HTMLUListElement>, "onChange"> {}
 
 const Treeview = ({
   items,
   isCompact,
   selectedId,
   onChange,
+  onSelectionChange,
   selectedPath,
   hasCheckbox,
   id = "treeview",
@@ -72,6 +68,7 @@ const Treeview = ({
   const handleItemChange = (id: string) => {
     setInternalSelectedId(id);
     onChange?.(id);
+    onSelectionChange?.(id);
   };
 
   return (
@@ -89,7 +86,7 @@ const Treeview = ({
             key={item.id}
             {...item}
             isCompact={isCompact}
-            onChange={handleItemChange}
+            onClickElement={handleItemChange}
             selectedId={internalSelectedId!}
             hasCheckbox={item.hasCheckbox ?? hasCheckbox}
             onCheckedIdsChange={handleCheckedIdsChange}
