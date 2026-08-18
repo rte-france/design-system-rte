@@ -1,6 +1,6 @@
-### Inputs de la directive `rteBadge`
+### Directive `rteBadge`
 
-| Input                | Type                          | Valeur par défaut | Description                                      |
+| Nom                  | Type                          | Valeur par défaut | Description                                      |
 | -------------------- | ----------------------------- | ----------------- | ------------------------------------------------ |
 | rteBadgeType         | brand \| neutral \| indicator | brand             | Type visuel du badge.                            |
 | rteBadgeSize         | xs \| s \| m \| l             | m                 | Taille du badge.                                 |
@@ -9,9 +9,9 @@
 | rteBadgeIcon         | string                        | settings          | Nom de l'icône lorsque le contenu est une icône. |
 | rteBadgeWithPlusSign | boolean                       | false             | Ajoute le signe + avant le nombre affiché.       |
 
-### Inputs du composant `rte-badge`
+### Composant `rte-badge`
 
-| Input        | Type                          | Valeur par défaut | Description                                      |
+| Nom          | Type                          | Valeur par défaut | Description                                      |
 | ------------ | ----------------------------- | ----------------- | ------------------------------------------------ |
 | badgeType    | brand \| neutral \| indicator | brand             | Type visuel du badge.                            |
 | badgeSize    | xs \| s \| m \| l             | m                 | Taille du badge.                                 |
