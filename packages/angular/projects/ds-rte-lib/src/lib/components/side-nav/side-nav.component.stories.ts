@@ -407,6 +407,7 @@ export const WithRouterNavigation: Story = {
 };
 
 export const HeaderWithVersion: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     headerConfig: defaultHeaderConfig,
@@ -415,6 +416,7 @@ export const HeaderWithVersion: Story = {
 };
 
 export const HeaderCompact: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     headerConfig: { ...defaultHeaderConfig, isCompact: true },
@@ -423,6 +425,7 @@ export const HeaderCompact: Story = {
 };
 
 export const HeaderWithLongTitle: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     headerConfig: { ...defaultHeaderConfig, title: longApplicationTitle },
@@ -479,6 +482,7 @@ const keyboardNavigationRender = (args: StoryArgs) => ({
 });
 
 export const KeyboardNavigation: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     headerConfig: defaultHeaderConfig,
@@ -614,6 +618,7 @@ export const KeyboardNavigation: Story = {
 };
 
 export const HeaderClickability: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     headerConfig: { ...defaultHeaderConfig, link: null },
@@ -635,6 +640,7 @@ export const HeaderClickability: Story = {
 };
 
 export const HeaderWithLink: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     headerConfig: headerConfigWithLink,
@@ -661,6 +667,7 @@ export const HeaderWithLink: Story = {
 };
 
 export const HeaderWithOnClick: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     headerConfig: { ...headerConfigWithOnClick, link: null },
@@ -690,6 +697,7 @@ export const HeaderWithOnClick: Story = {
 };
 
 export const CollapsedTooltip: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     headerConfig: defaultHeaderConfig,
@@ -750,7 +758,7 @@ export const CollapsedTooltip: Story = {
 };
 
 export const CollapsedHeaderTooltipCustom: Story = {
-  tags: ["skip-ci"],
+  tags: ["skip-ci", "!autodocs"],
   args: {
     ...Default.args,
     headerConfig: { ...defaultHeaderConfig, tooltip: "Custom header tooltip" },
@@ -776,6 +784,7 @@ export const CollapsedHeaderTooltipCustom: Story = {
 };
 
 export const CollapsedTooltipWithNested: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     headerConfig: defaultHeaderConfig,
@@ -806,7 +815,7 @@ export const CollapsedTooltipWithNested: Story = {
 };
 
 export const NestedItemActivePreselected: Story = {
-  tags: ["skip-ci"],
+  tags: ["skip-ci", "!autodocs"],
   args: {
     ...Default.args,
     headerConfig: defaultHeaderConfig,
@@ -839,7 +848,7 @@ export const NestedItemActivePreselected: Story = {
 };
 
 export const NestedNavMenuActivePreselected: Story = {
-  tags: ["skip-ci"],
+  tags: ["skip-ci", "!autodocs"],
   args: {
     ...Default.args,
     headerConfig: defaultHeaderConfig,
@@ -874,7 +883,7 @@ export const NestedNavMenuActivePreselected: Story = {
 };
 
 export const NestedNavMenuActiveOnClick: Story = {
-  tags: ["skip-ci"],
+  tags: ["skip-ci", "!autodocs"],
   args: {
     ...Default.args,
     headerConfig: defaultHeaderConfig,
@@ -938,7 +947,7 @@ export const NestedNavMenuActiveOnClick: Story = {
 };
 
 export const NestedItemActiveOnClick: Story = {
-  tags: ["skip-ci"],
+  tags: ["skip-ci", "!autodocs"],
   args: {
     ...Default.args,
     headerConfig: defaultHeaderConfig,
@@ -1017,6 +1026,7 @@ export const NestedItemActiveOnClick: Story = {
 };
 
 export const ActiveItemState: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     headerConfig: defaultHeaderConfig,
@@ -1100,6 +1110,7 @@ export const WithFooterItems: Story = {
 };
 
 export const FooterItemsOnly: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     headerConfig: defaultHeaderConfig,
@@ -1111,6 +1122,7 @@ export const FooterItemsOnly: Story = {
 };
 
 export const FooterItemsWithNested: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     headerConfig: defaultHeaderConfig,
@@ -1147,6 +1159,7 @@ export const FooterItemsWithNested: Story = {
 };
 
 export const WithBadges: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     headerConfig: defaultHeaderConfig,
@@ -1157,6 +1170,7 @@ export const WithBadges: Story = {
 };
 
 export const CollapsedWithBadges: Story = {
+  tags: ["!autodocs"],
   args: {
     ...WithBadges.args,
     isCollapsed: true,
@@ -1194,6 +1208,7 @@ export const CollapsedWithBadges: Story = {
 };
 
 export const WithDividers: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     headerConfig: defaultHeaderConfig,
