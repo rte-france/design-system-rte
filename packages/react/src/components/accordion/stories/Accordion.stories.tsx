@@ -69,7 +69,7 @@ export const Default: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const buttons = await canvas.findAllByTestId("accordion-button");
-    focusElementBeforeComponent(canvasElement);
+    focusElementBeforeComponent();
 
     await userEvent.tab();
     await userEvent.keyboard("{Enter}");

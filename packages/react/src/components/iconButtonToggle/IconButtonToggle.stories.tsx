@@ -136,7 +136,7 @@ export const KeyboardInteraction: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const button = canvas.getByRole("button", { name: "icon button toggle aria label" });
-    focusElementBeforeComponent(canvasElement);
+    focusElementBeforeComponent();
     await userEvent.tab();
     expect(button).toHaveFocus();
     await userEvent.keyboard(TESTING_ENTER_KEY);

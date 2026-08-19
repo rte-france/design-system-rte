@@ -136,7 +136,7 @@ export const WithIncrement: Story = {
   },
 
   play: async ({ canvasElement }) => {
-    await focusElementBeforeComponent(canvasElement);
+    await focusElementBeforeComponent();
     const input = canvasElement.querySelector("input") as HTMLInputElement;
     await userEvent.tab();
     await userEvent.tab();
@@ -160,7 +160,7 @@ export const KeyboardInteractions: Story = {
   },
 
   play: async ({ canvasElement }) => {
-    await focusElementBeforeComponent(canvasElement);
+    await focusElementBeforeComponent();
     const input = canvasElement.querySelector("input") as HTMLInputElement;
     await userEvent.tab();
     await userEvent.keyboard("a");

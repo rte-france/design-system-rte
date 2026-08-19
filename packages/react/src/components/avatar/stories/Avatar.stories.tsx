@@ -336,7 +336,7 @@ export const Interactive: Story = {
   },
 
   play: async ({ canvasElement }) => {
-    focusElementBeforeComponent(canvasElement);
+    focusElementBeforeComponent();
     const availableAvatar = canvasElement.querySelector('button[data-avatar-type="user"]');
 
     await userEvent.tab();

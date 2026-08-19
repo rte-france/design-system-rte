@@ -8,7 +8,46 @@
 @include theme-selector('vert_foret');
 @include theme-selector('vert_foret', 'dark');
 
+html {
+  height: 100%;
+  background-color: var(--background-default);
+}
+
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  &.sb-show-main.sb-main-padded {
+    padding: 0;
+
+  }
+
+  &.sb-show-main.sb-main-centered #storybook-root {
+    padding: 0;
+    width: 100%;
+  }
+
+  .sbdocs {
+    &.sbdocs-preview {
+      .docs-story {
+        &>div {
+          padding: 0;
+
+          &>div {
+            width: 100%;
+
+            &>div {
+              &>div {
+                border: none !important;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+#storybook-root {
+  height: 100%;
 }

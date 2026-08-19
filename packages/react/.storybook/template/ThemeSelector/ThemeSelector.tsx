@@ -1,58 +1,50 @@
-import { Mode, Theme } from "@design-system-rte/core/common/common-types";
-import { Chip, IconButton } from "@design-system-rte/react";
-import { useState } from "react";
+import { ThemeMode, Theme, Mode } from "@design-system-rte/core/common/common-types";
+import { Select } from "@design-system-rte/react";
+import { useState, useEffect } from "react";
 
 import styles from "./ThemeSelector.module.scss";
 
 const ThemeSelector = () => {
-  const [currentMode, setCurrentMode] = useState<Mode>("light");
-  const [currentTheme, setCurrentTheme] = useState<Theme>("bleu_iceberg");
-
-  const switchMode = (mode: "light" | "dark") => {
-    document.querySelector("html")?.setAttribute("data-mode", mode);
-    setCurrentMode(mode);
-  };
-
-  const switchTheme = (theme: "bleu_iceberg" | "vert_foret" | "violet") => {
-    document.querySelector("html")?.setAttribute("data-theme", theme);
-    setCurrentTheme(theme);
-  };
+  const [currentThemeMode, setCurrentThemeMode] = useState<ThemeMode>("bleu_iceberg-light");
 
   const themes = [
-    { id: "bleu_iceberg", label: "Bleu Iceberg" },
-    { id: "violet", label: "Violet" },
-    { id: "vert_foret", label: "Vert Forêt" },
+    { id: "bleu_iceberg-light", label: "Bleu Iceberg - Light" },
+    { id: "bleu_iceberg-dark", label: "Bleu Iceberg - Dark" },
+    { id: "violet-light", label: "Violet - Light" },
+    { id: "violet-dark", label: "Violet - Dark" },
+    { id: "vert_foret-light", label: "Vert Forêt - Light" },
+    { id: "vert_foret-dark", label: "Vert Forêt - Dark" },
   ];
 
-  const handleClick = (event: React.MouseEvent<HTMLSpanElement> | React.KeyboardEvent<HTMLSpanElement>) => {
-    const clickedChipId = event.currentTarget.id as "bleu_iceberg" | "vert_foret" | "violet";
-    switchTheme(clickedChipId);
+  const handleOnChange = (value: ThemeMode) => {
+    setCurrentThemeMode(value);
+    const [theme, mode] = value.split("-") as [Theme, Mode];
+
+    document.querySelector("html")?.setAttribute("data-theme", theme);
+    document.querySelector("html")?.setAttribute("data-mode", mode);
   };
 
+  useEffect(() => {
+    const currentActiveTheme = document.querySelector("html")?.getAttribute("data-theme");
+    const currentActiveMode = document.querySelector("html")?.getAttribute("data-mode");
+    const currentActiveThemeMode = `${currentActiveTheme}-${currentActiveMode}` as ThemeMode;
+
+    if (currentActiveThemeMode !== currentThemeMode) {
+      setCurrentThemeMode(currentActiveThemeMode);
+    }
+  }, []);
+
   return (
-    <div className={styles["theme-selector"]}>
-      <div className={styles["theme-selector__chips"]} role="radiogroup">
-        {themes.map(({ id, label }) => (
-          <Chip
-            id={id}
-            key={id}
-            label={label}
-            selected={currentTheme === id}
-            onClick={handleClick}
-            type="single"
-            className="chip"
-          />
-        ))}
-      </div>
-      <div style={{ display: "flex" }}>
-        <IconButton
-          name={currentMode === "light" ? "mode-dark" : "mode-light"}
-          aria-label={"Toggle Theme Mode"}
-          onClick={() => switchMode(currentMode === "light" ? "dark" : "light")}
-          data-testid="mode-switcher"
+    <>
+      <div className={styles["theme-selector"]}>
+        <Select
+          label="Sélecteur de thème et mode"
+          options={themes.map(({ id, label }) => ({ value: id, label }))}
+          value={currentThemeMode}
+          onChange={handleOnChange}
         />
       </div>
-    </div>
+    </>
   );
 };
 

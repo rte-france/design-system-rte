@@ -291,7 +291,7 @@ export const KeyboardNavigation: Story = {
     const allSteps = stepper.querySelectorAll("button");
     const currentActiveStep = stepper.querySelector("[aria-current='step'] button");
 
-    focusElementBeforeComponent(canvasElement);
+    focusElementBeforeComponent();
     await userEvent.tab();
 
     await waitFor(() => {

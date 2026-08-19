@@ -69,56 +69,58 @@ export const ResponsiveColumns: Story = {
   },
   render: (args) => {
     return (
-      <Grid gridType={args.gridType} data-testid="grid">
-        <Grid.Col xxs={1} xs={1} s={3} m={4} l={4} xl={12} data-testid="col0">
-          <div>
-            <p>xxs : Span 1 de 2</p>
-            <p>xs : Span 1 de 6</p>
-            <p>s : Span 3 de 6</p>
-          </div>
-          <div>
-            <p>m : Span 4 de 12</p>
-            <p>l : Span 4 de 12</p>
-            <p>xl : Span 12 de 12</p>
-          </div>
-        </Grid.Col>
-        <Grid.Col xxs={1} xs={3} s={3} m={4} l={8} xl={12} data-testid="col1">
-          <div>
-            <p>xxs : Span 1 de 2</p>
-            <p>xs : Span 3 de 6</p>
-            <p>s : Span 3 de 6</p>
-          </div>
-          <div>
-            <p>m : Span 4 de 12</p>
-            <p>l : Span 8 de 12</p>
-            <p>xl : Span 12 de 12</p>
-          </div>
-        </Grid.Col>
-        <Grid.Col xxs={2} xs={2} s={3} m={4} l={10} xl={12} data-testid="col1">
-          <div>
-            <p>xxs : Span 2 de 2</p>
-            <p>xs : Span 2 de 6</p>
-            <p>s : Span 3 de 6</p>
-          </div>
-          <div>
-            <p>m : Span 4 de 12</p>
-            <p>l : Span 10 de 12</p>
-            <p>xl : Span 12 de 12</p>
-          </div>
-        </Grid.Col>
-        <Grid.Col xxs={2} xs={6} s={6} m={4} l={12} xl={12} data-testid="col1">
-          <div>
-            <p>xxs : Span 2 de 2</p>
-            <p>xs : Span 6 de 6</p>
-            <p>s : Span 6 de 6</p>
-          </div>
-          <div>
-            <p>m : Span 4 de 12</p>
-            <p>l : Span 12 de 12</p>
-            <p>xl : Span 12 de 12</p>
-          </div>
-        </Grid.Col>
-      </Grid>
+      <div style={{ color: "var(--content-primary)", fontFamily: "Arial, sans-serif" }}>
+        <Grid gridType={args.gridType} data-testid="grid">
+          <Grid.Col xxs={1} xs={1} s={3} m={4} l={4} xl={12} data-testid="col0">
+            <div>
+              <p>xxs : Span 1 de 2</p>
+              <p>xs : Span 1 de 6</p>
+              <p>s : Span 3 de 6</p>
+            </div>
+            <div>
+              <p>m : Span 4 de 12</p>
+              <p>l : Span 4 de 12</p>
+              <p>xl : Span 12 de 12</p>
+            </div>
+          </Grid.Col>
+          <Grid.Col xxs={1} xs={3} s={3} m={4} l={8} xl={12} data-testid="col1">
+            <div>
+              <p>xxs : Span 1 de 2</p>
+              <p>xs : Span 3 de 6</p>
+              <p>s : Span 3 de 6</p>
+            </div>
+            <div>
+              <p>m : Span 4 de 12</p>
+              <p>l : Span 8 de 12</p>
+              <p>xl : Span 12 de 12</p>
+            </div>
+          </Grid.Col>
+          <Grid.Col xxs={2} xs={2} s={3} m={4} l={10} xl={12} data-testid="col1">
+            <div>
+              <p>xxs : Span 2 de 2</p>
+              <p>xs : Span 2 de 6</p>
+              <p>s : Span 3 de 6</p>
+            </div>
+            <div>
+              <p>m : Span 4 de 12</p>
+              <p>l : Span 10 de 12</p>
+              <p>xl : Span 12 de 12</p>
+            </div>
+          </Grid.Col>
+          <Grid.Col xxs={2} xs={6} s={6} m={4} l={12} xl={12} data-testid="col1">
+            <div>
+              <p>xxs : Span 2 de 2</p>
+              <p>xs : Span 6 de 6</p>
+              <p>s : Span 6 de 6</p>
+            </div>
+            <div>
+              <p>m : Span 4 de 12</p>
+              <p>l : Span 12 de 12</p>
+              <p>xl : Span 12 de 12</p>
+            </div>
+          </Grid.Col>
+        </Grid>
+      </div>
     );
   },
 };

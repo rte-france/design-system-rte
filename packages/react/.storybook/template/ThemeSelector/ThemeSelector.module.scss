@@ -1,8 +1,26 @@
 .theme-selector {
   display: flex;
-  flex-direction: row;
-  gap: 24px;
-  justify-content: flex-end;
+  flex-direction: column;
+  position: fixed;
+  background-color: var(--background-neutral-subtle-default);
+  padding: 16px;
+  gap: 12px;
+  width: 100%;
+  color: var(--content-primary);
+  font-family: "Arial";
+  z-index: 10;
+  border-bottom: 1px solid var(--border-divider);
+  top: 0;
+  left: 0;
+
+  &__controls {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+    position: relative;
+    background-color: var(--background-neutral-subtle-default);
+    width: 100%;
+  }
 
   &__chips {
     display: flex;
