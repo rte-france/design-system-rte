@@ -34,25 +34,23 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const baseNavigationData: TreeviewItemProps[] = [
-  { id: "home", labelText: "Home", icon: "home", hasIcon: true },
+  { id: "home", labelText: "Home", icon: "home" },
   {
     id: "documents",
     labelText: "Documents",
     icon: "folder",
-    hasIcon: true,
     isOpen: true,
     items: [
       {
         id: "work",
         labelText: "Work",
         icon: "folder",
-        hasIcon: true,
         items: [
           { id: "project-a", labelText: "Project A" },
           { id: "project-b", labelText: "Project B" },
         ],
       },
-      { id: "personal", labelText: "Personal", icon: "folder", hasIcon: true },
+      { id: "personal", labelText: "Personal", icon: "folder" },
     ],
   },
 ];
@@ -91,7 +89,6 @@ const badgeData: TreeviewItemProps[] = [
     id: "settings",
     labelText: "Label",
     icon: "settings",
-    hasIcon: true,
     hasBadge: true,
     actionIcon: "more-horiz",
     actionMenuItems: actionMenuItems,
@@ -128,7 +125,6 @@ const keyboardNavigationData: TreeviewItemProps[] = [
     id: "folder",
     labelText: "Folder",
     icon: "folder",
-    hasIcon: true,
     isOpen: true,
     hasCheckbox: true,
     actionIcon: "info-i",
@@ -137,7 +133,6 @@ const keyboardNavigationData: TreeviewItemProps[] = [
         id: "subfolder",
         labelText: "Subfolder",
         icon: "folder",
-        hasIcon: true,
         isOpen: true,
         hasCheckbox: true,
         actionIcon: "info-i",
@@ -147,7 +142,6 @@ const keyboardNavigationData: TreeviewItemProps[] = [
             id: "file",
             labelText: "File",
             icon: "file-copy",
-            hasIcon: true,
             hasCheckbox: true,
             actionIcon: "info-i",
           },
@@ -163,43 +157,38 @@ function createConnectorLinesData(options: { middleOpen?: boolean } = {}): Treev
     {
       id: "root",
       labelText: "Root",
-      hasIcon: true,
       icon: "folder",
       isOpen: true,
       items: [
         {
           id: "first",
           labelText: "First (branch/T-shape)",
-          hasIcon: true,
           icon: "folder",
           isOpen: true,
           items: [
             {
               id: "first-1",
               labelText: "First-1 (branch)",
-              hasIcon: true,
               icon: "folder",
               isOpen: true,
             },
             {
               id: "first-2",
               labelText: "First-2 (corner/L-shape)",
-              hasIcon: true,
               icon: "folder",
               isOpen: true,
-              items: [{ id: "first-2-a", labelText: "First-2-a (level 4)", hasIcon: true, icon: "folder" }],
+              items: [{ id: "first-2-a", labelText: "First-2-a (level 4)", icon: "folder" }],
             },
           ],
         },
         {
           id: "middle",
           labelText: "Middle (branch/T-shape)",
-          hasIcon: true,
           icon: "folder",
           isOpen: middleOpen,
-          items: [{ id: "middle-1", labelText: "Middle-1 (corner/L-shape)", hasIcon: true, icon: "folder" }],
+          items: [{ id: "middle-1", labelText: "Middle-1 (corner/L-shape)", icon: "folder" }],
         },
-        { id: "last", labelText: "Last (corner/L-shape)", hasIcon: true, icon: "folder" },
+        { id: "last", labelText: "Last (corner/L-shape)", icon: "folder" },
       ],
     },
   ];
@@ -625,19 +614,17 @@ const createSelectionTrees = (prefix: string): TreeviewItemProps[] => {
       id: `${prefix}-a`,
       labelText: `${prefix} A`,
       icon: "folder",
-      hasIcon: true,
       isOpen: true,
       items: [
-        { id: `${prefix}-a1`, labelText: `${prefix} A1`, icon: "folder", hasIcon: true },
-        { id: `${prefix}-a2`, labelText: `${prefix} A2`, icon: "folder", hasIcon: true },
+        { id: `${prefix}-a1`, labelText: `${prefix} A1`, icon: "folder" },
+        { id: `${prefix}-a2`, labelText: `${prefix} A2`, icon: "folder" },
       ],
     },
     {
       id: `${prefix}-b`,
       labelText: `${prefix} B`,
       icon: "folder",
-      hasIcon: true,
-      items: [{ id: `${prefix}-b1`, labelText: `${prefix} B1`, icon: "folder", hasIcon: true }],
+      items: [{ id: `${prefix}-b1`, labelText: `${prefix} B1`, icon: "folder" }],
     },
   ];
 };

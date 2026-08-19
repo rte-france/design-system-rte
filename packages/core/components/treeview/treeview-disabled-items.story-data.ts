@@ -7,7 +7,6 @@ export const disabledItemsScenarioData: TreeviewItemProps[] = [
     id: "dem0265433-reflecto",
     labelText: "DEM0265433-Reflecto_P.ORG-RC",
     icon: "folder",
-    hasIcon: true,
     isOpen: true,
     items: [
       {
@@ -43,10 +42,10 @@ export const disabledItemsScenarioData: TreeviewItemProps[] = [
             id: disabledItemsScenarioSelectedId,
             labelText: "Indice 1",
             isOpen: true,
-            items: [{ id: "phase2-inuit-1-rejouer-nested", labelText: "Rejouer", icon: "play-circle", hasIcon: true }],
+            items: [{ id: "phase2-inuit-1-rejouer-nested", labelText: "Rejouer", icon: "play-circle" }],
           },
           { id: "phase2-inuit-1-indice-3", labelText: "Indice 3" },
-          { id: "phase2-inuit-1-rejouer", labelText: "Rejouer", icon: "play-circle", hasIcon: true },
+          { id: "phase2-inuit-1-rejouer", labelText: "Rejouer", icon: "play-circle" },
         ],
       },
       {
@@ -71,7 +70,6 @@ export const disabledItemsScenarioData: TreeviewItemProps[] = [
         id: "nouvelle-ait",
         labelText: "Nouvelle AIT",
         icon: "add-circle",
-        hasIcon: true,
         actionIcon: "add-circle",
       },
     ],

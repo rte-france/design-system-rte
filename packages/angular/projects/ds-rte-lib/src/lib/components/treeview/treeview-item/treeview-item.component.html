@@ -42,7 +42,7 @@
   </div>
   <div class="treeview-item-content-wrapper">
     <div class="treeview-item-main-content" (keydown)="handleContentKeyDown($event)" (click)="handleContentClick()">
-      @if (hasIcon() && icon() && !isCompact()) {
+      @if (icon() && !isCompact()) {
         <rte-icon class="treeview-item-icon" [name]="icon()!" [size]="16" />
       }
       <div
@@ -112,7 +112,6 @@
         [isCompact]="child.isCompact ?? isCompact()"
         [hasCheckbox]="child.hasCheckbox ?? hasCheckbox()"
         [isOpen]="child.isOpen ?? false"
-        [hasIcon]="child.hasIcon ?? hasIcon()"
         [hasBadge]="child.hasBadge ?? false"
         [items]="child.items ?? []"
         [actionIcon]="child.actionIcon"

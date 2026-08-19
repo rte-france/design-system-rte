@@ -47,7 +47,6 @@ const TreeviewItem = ({
   isCompact,
   hasCheckbox,
   isOpen,
-  hasIcon,
   hasBadge,
   items,
   borderTypes,
@@ -246,9 +245,7 @@ const TreeviewItem = ({
             onKeyDown={handleContentKeydown}
             data-testid={`treeview-item-main-content-${id}`}
           >
-            {hasIcon && icon && !isCompact && (
-              <Icon name={icon} className={styles["rte-treeview-item-icon"]} size={16} />
-            )}
+            {icon && !isCompact && <Icon name={icon} className={styles["rte-treeview-item-icon"]} size={16} />}
             <div
               className={concatClassNames(
                 styles["rte-treeview-item-content"],

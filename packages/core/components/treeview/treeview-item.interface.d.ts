@@ -10,7 +10,6 @@ export interface TreeviewItemProps {
   isCompact?: boolean;
   hasCheckbox?: boolean;
   isOpen?: boolean;
-  hasIcon?: boolean;
   hasBadge?: boolean;
   items?: TreeviewItemProps[];
   borderTypes?: TreeviewBorderType[];
