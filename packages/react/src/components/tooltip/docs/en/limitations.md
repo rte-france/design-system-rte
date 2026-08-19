@@ -1,6 +1,4 @@
-# Limitations
-
-## Text length
+### Text length
 
 The tooltip label is limited to **two lines of text**.
 
