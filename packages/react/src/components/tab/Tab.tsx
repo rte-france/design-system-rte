@@ -37,6 +37,7 @@ const Tab = forwardRef<HTMLDivElement, TabProps>(
       compactSpacing,
       overflowType = "scrollable",
       inverted = false,
+      ...props
     },
     ref,
   ) => {
@@ -166,11 +167,11 @@ const Tab = forwardRef<HTMLDivElement, TabProps>(
               else if (ref) ref.current = node;
             }}
             role="tablist"
-            aria-label="Sample Tabs"
             className={style["tab"]}
             data-alignment={isScrollable ? "start" : alignment}
             data-direction={direction}
             data-overflow-type={overflowType}
+            {...props}
           >
             <div
               className={style["tab-selected-indicator"]}
