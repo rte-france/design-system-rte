@@ -24,7 +24,6 @@
 | disabled        | boolean                  | -                 | Désactive les interactions de l'élément.                                                            |
 | hasBadge        | boolean                  | -                 | Affiche le badge intégré.                                                                           |
 | hasCheckbox     | boolean                  | -                 | Active une case à cocher pour l'élément.                                                            |
-| hasIcon         | boolean                  | -                 | Affiche icon lorsque cette valeur est vraie.                                                        |
 | id              | string                   | -                 | Identifiant de l'élément. À défaut, labelText est utilisé.                                          |
 | isOpen          | boolean                  | -                 | État ouvert initial si l'élément possède des enfants.                                               |
 | items           | TreeviewItemProps[]      | -                 | Enfants récursifs de l'élément.                                                                     |
