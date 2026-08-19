@@ -464,6 +464,7 @@ export const OverflowType: Story = {
 };
 
 export const KeyboardInteraction: Story = {
+  tags: ["!autodocs"],
   args: {
     options: [
       {

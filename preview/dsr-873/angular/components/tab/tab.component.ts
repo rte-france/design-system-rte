@@ -47,6 +47,7 @@ export class TabComponent implements AfterViewInit, OnChanges, OnDestroy {
   readonly compactSpacing = input<TabProps["compactSpacing"]>(false);
   readonly overflowType = input<TabProps["overflowType"]>("scrollable");
   readonly inverted = input<boolean>(false);
+  readonly ariaLabel = input<string>("");
 
   readonly sliderLeft = signal(0);
   readonly sliderWidth = signal(0);
