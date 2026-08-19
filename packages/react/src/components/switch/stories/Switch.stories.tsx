@@ -111,7 +111,7 @@ export const Default: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const switchElement = canvas.getByRole("switch");
-    focusElementBeforeComponent(canvasElement);
+    focusElementBeforeComponent();
 
     await userEvent.tab();
     await expect(switchElement).toHaveFocus();

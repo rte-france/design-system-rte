@@ -192,8 +192,8 @@ export const KeyboardNavigationWithDropdown: Story = {
   render: (args) => {
     return <Breadcrumbs {...args} data-testid="breadcrumbs" />;
   },
-  play: async ({ canvasElement }) => {
-    focusElementBeforeComponent(canvasElement);
+  play: async () => {
+    focusElementBeforeComponent();
     await userEvent.tab();
     await userEvent.tab();
     await userEvent.keyboard(TESTING_ENTER_KEY);

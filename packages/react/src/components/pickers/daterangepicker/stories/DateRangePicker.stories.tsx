@@ -49,7 +49,9 @@ const buildRender = (
 
     return (
       <>
-        <p>Date sélectionnée: {formatRange(date)}</p>
+        <p style={{ color: "var(--content-primary)", fontFamily: "Arial, sans-serif" }}>
+          Date sélectionnée: {formatRange(date)}
+        </p>
         <DateRangePicker {...args} {...pickerProps} onChange={handleOnChange} value={date} />
       </>
     );

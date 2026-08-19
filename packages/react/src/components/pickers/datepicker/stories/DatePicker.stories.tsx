@@ -89,7 +89,7 @@ export const TypingDate: Story = {
 
     return (
       <>
-        <p>
+        <p style={{ color: "var(--content-primary)", fontFamily: "Arial, sans-serif" }}>
           Date sélectionnée:{" "}
           {date ? new Intl.DateTimeFormat(navigator.language, { dateStyle: "long" }).format(date) : "aucune"}
         </p>
@@ -99,7 +99,7 @@ export const TypingDate: Story = {
   },
 
   play: async ({ canvasElement }) => {
-    focusElementBeforeComponent(canvasElement);
+    focusElementBeforeComponent();
     await userEvent.tab();
     for (const digit of "15062023") {
       await userEvent.keyboard(digit);
@@ -164,7 +164,7 @@ export const WithAction: Story = {
 
     return (
       <>
-        <p>
+        <p style={{ color: "var(--content-primary)", fontFamily: "Arial, sans-serif" }}>
           Date sélectionnée:{" "}
           {date ? new Intl.DateTimeFormat(navigator.language, { dateStyle: "long" }).format(date) : "aucune"}
         </p>
@@ -221,7 +221,7 @@ export const TabNavigation: Story = {
 
     return (
       <>
-        <p>
+        <p style={{ color: "var(--content-primary)", fontFamily: "Arial, sans-serif" }}>
           Date sélectionnée:{" "}
           {date ? new Intl.DateTimeFormat(navigator.language, { dateStyle: "long" }).format(date) : "aucune"}
         </p>
@@ -374,7 +374,7 @@ export const WithMinMax: Story = {
 
     return (
       <>
-        <p>
+        <p style={{ color: "var(--content-primary)", fontFamily: "Arial, sans-serif" }}>
           Date sélectionnée:{" "}
           {date ? new Intl.DateTimeFormat(navigator.language, { dateStyle: "long" }).format(date) : "aucune"}
         </p>
@@ -464,7 +464,7 @@ export const DisabledDates: Story = {
 
     return (
       <>
-        <p>
+        <p style={{ color: "var(--content-primary)", fontFamily: "Arial, sans-serif" }}>
           Date sélectionnée:{" "}
           {date ? new Intl.DateTimeFormat(navigator.language, { dateStyle: "long" }).format(date) : "aucune"}
         </p>

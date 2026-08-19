@@ -81,12 +81,12 @@ export const SingleSelect: Story = {
 
     return (
       <>
-        <p style={{ fontFamily: "Arial, sans-serif", marginTop: "20px" }}>
+        <p style={{ fontFamily: "Arial, sans-serif", marginTop: "20px", color: "var(--content-primary)" }}>
           Chip sélectionnée: {options.find((option) => option.id === selectedChip)?.label || "Aucune"}
         </p>
         <div style={{ display: "flex", gap: "30px", flexDirection: "column" }}>
           <div>
-            <p style={{ fontFamily: "arial" }}>Appearance: brand</p>
+            <p style={{ fontFamily: "arial", color: "var(--content-primary)" }}>Appearance: brand</p>
             <div style={{ display: "flex", gap: "10px" }} role="radiogroup" data-testid="test-chip-group">
               {options.map(({ id, label }) => (
                 <Chip
@@ -104,7 +104,7 @@ export const SingleSelect: Story = {
             </div>
           </div>
           <div>
-            <p style={{ fontFamily: "arial" }}>Appearance: neutral</p>
+            <p style={{ fontFamily: "arial", color: "var(--content-primary)" }}>Appearance: neutral</p>
             <div style={{ display: "flex", gap: "10px" }} role="radiogroup" data-testid="test-chip-group-neutral">
               {options.map(({ id, label }) => (
                 <Chip
@@ -171,7 +171,7 @@ export const MultiSelect: Story = {
 
     return (
       <>
-        <p style={{ fontFamily: "Arial, sans-serif", marginTop: "20px" }}>
+        <p style={{ fontFamily: "Arial, sans-serif", marginTop: "20px", color: "var(--content-primary)" }}>
           Chip(s) sélectionnée(s):{" "}
           {options
             .filter((option) => selectedChips.includes(option.id))
@@ -180,7 +180,7 @@ export const MultiSelect: Story = {
         </p>
         <div style={{ display: "flex", gap: "30px", flexDirection: "column" }}>
           <div>
-            <p style={{ fontFamily: "arial" }}>Appearance: brand</p>
+            <p style={{ fontFamily: "arial", color: "var(--content-primary)" }}>Appearance: brand</p>
             <div style={{ display: "flex", gap: "10px" }} role="group">
               {options.map(({ id, label }) => (
                 <Chip
@@ -197,7 +197,7 @@ export const MultiSelect: Story = {
             </div>
           </div>
           <div>
-            <p style={{ fontFamily: "arial" }}>Appearance: neutral</p>
+            <p style={{ fontFamily: "arial", color: "var(--content-primary)" }}>Appearance: neutral</p>
             <div style={{ display: "flex", gap: "10px" }} role="group">
               {options.map(({ id, label }) => (
                 <Chip

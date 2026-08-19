@@ -13,6 +13,7 @@
       @include typography-heading-s;
       align-self: stretch;
       margin: $positive-spacing_0;
+      color: var(--content-primary);
     }
 
     .groupHelpText {

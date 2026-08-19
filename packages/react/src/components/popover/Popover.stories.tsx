@@ -149,8 +149,8 @@ export const KeyboardInteraction: Story = {
     secondaryButtonLabel: "Cancel",
     children: <button>Open Popover</button>,
   },
-  play: async ({ canvasElement }) => {
-    focusElementBeforeComponent(canvasElement);
+  play: async () => {
+    focusElementBeforeComponent();
     await userEvent.tab();
     await userEvent.keyboard(TESTING_ENTER_KEY);
     const popover = within(document.body).getByRole("dialog");

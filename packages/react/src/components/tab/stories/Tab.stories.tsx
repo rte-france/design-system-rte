@@ -78,16 +78,32 @@ export const Default: Story = {
     return (
       <>
         <div>
-          <div style={{ height: "100%", padding: "16px" }}>
-            <span style={{ fontFamily: "Arial" }}>Normal</span>
+          <div style={{ height: "100%", padding: "16px", fontFamily: "Arial" }}>
+            <span style={{ color: "var(--content-primary)" }}>Normal</span>
             <Tab {...args} options={tabs} selectedTabId={selectedTab} onChange={handleTabClick} />
           </div>
-          <div style={{ backgroundColor: "var(--background-inverse)", marginTop: "16px", padding: "10px" }}>
-            <span style={{ color: "var(--content-primary-inverse)", fontFamily: "Arial" }}>Inverted</span>
+          <div
+            style={{
+              backgroundColor: "var(--background-inverse)",
+              marginTop: "16px",
+              padding: "10px",
+              fontFamily: "Arial",
+            }}
+          >
+            <span style={{ color: "var(--content-primary-inverse)" }}>Inverted</span>
             <Tab {...args} options={tabs} selectedTabId={selectedTab} onChange={handleTabClick} inverted={true} />
           </div>
         </div>
-        <div style={{ height: "100px", border: "1px solid #ccc", padding: "8px", marginTop: "64px" }}>
+        <div
+          style={{
+            height: "100px",
+            border: "1px solid #ccc",
+            padding: "8px",
+            marginTop: "64px",
+            color: "var(--content-secondary)",
+            fontFamily: "Arial",
+          }}
+        >
           {tabs.map((tab) => (
             <div key={tab.id} role="tabpanel" id={tab.panelId} aria-labelledby={tab.id} hidden={selectedTab !== tab.id}>
               Contenu onglet {tab.label}
@@ -137,9 +153,12 @@ export const Vertical: Story = {
         <Tab {...args} options={tabs} selectedTabId={selectedTab} onChange={handleTabClick} />
         <div
           style={{
-            width: "100%",
-            border: "1px solid #ccc",
+            height: "100px",
+            border: "1px solid var(--border-secondary)",
             padding: "8px",
+            marginTop: "16px",
+            color: "var(--content-secondary)",
+            fontFamily: "Arial",
           }}
         >
           <div role="tabpanel" id="panel-1" aria-labelledby="tab-1" hidden={selectedTab !== "tab-1"}>
@@ -194,7 +213,16 @@ export const CompactSpacing: Story = {
       <div style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
         <div>
           <Tab {...args} options={tabs} selectedTabId={selectedTab} onChange={handleTabClick} />
-          <div style={{ height: "100px", border: "1px solid #ccc", padding: "8px", marginTop: "16px" }}>
+          <div
+            style={{
+              height: "100px",
+              border: "1px solid var(--border-secondary)",
+              padding: "8px",
+              marginTop: "16px",
+              color: "var(--content-secondary)",
+              fontFamily: "Arial",
+            }}
+          >
             {tabs.map((tab) => (
               <div
                 key={tab.id}
@@ -212,9 +240,12 @@ export const CompactSpacing: Story = {
           <Tab {...args} direction="vertical" options={tabs} selectedTabId={selectedTab} onChange={handleTabClick} />
           <div
             style={{
-              width: "100%",
-              border: "1px solid #ccc",
+              height: "100px",
+              border: "1px solid var(--border-secondary)",
               padding: "8px",
+              marginTop: "16px",
+              color: "var(--content-secondary)",
+              fontFamily: "Arial",
             }}
           >
             {tabs.map((tab) => (
@@ -258,7 +289,16 @@ export const WithIcons: Story = {
     return (
       <>
         <Tab {...args} options={tabs} selectedTabId={selectedTab} onChange={handleTabClick} />
-        <div style={{ height: "100px", border: "1px solid #ccc", padding: "8px", marginTop: "16px" }}>
+        <div
+          style={{
+            height: "100px",
+            border: "1px solid var(--border-secondary)",
+            padding: "8px",
+            marginTop: "16px",
+            color: "var(--content-secondary)",
+            fontFamily: "Arial",
+          }}
+        >
           {tabs.map((tab) => (
             <div key={tab.id} role="tabpanel" id={tab.panelId} aria-labelledby={tab.id} hidden={selectedTab !== tab.id}>
               Contenu onglet {tab.label}
@@ -294,7 +334,16 @@ export const IconsOnly: Story = {
     return (
       <>
         <Tab {...args} options={tabs} selectedTabId={selectedTab} onChange={handleTabClick} />
-        <div style={{ height: "100px", border: "1px solid #ccc", padding: "8px", marginTop: "16px" }}>
+        <div
+          style={{
+            height: "100px",
+            border: "1px solid var(--border-secondary)",
+            padding: "8px",
+            marginTop: "16px",
+            color: "var(--content-secondary)",
+            fontFamily: "Arial",
+          }}
+        >
           {tabs.map((tab) => (
             <div key={tab.id} role="tabpanel" id={tab.panelId} aria-labelledby={tab.id} hidden={selectedTab !== tab.id}>
               Contenu onglet {tab.id}
@@ -338,7 +387,16 @@ export const WithBadge: Story = {
     return (
       <>
         <Tab {...args} options={tabs} selectedTabId={selectedTab} onChange={handleTabClick} />
-        <div style={{ height: "100px", border: "1px solid #ccc", padding: "8px", marginTop: "16px" }}>
+        <div
+          style={{
+            height: "100px",
+            border: "1px solid var(--border-secondary)",
+            padding: "8px",
+            marginTop: "16px",
+            color: "var(--content-secondary)",
+            fontFamily: "Arial",
+          }}
+        >
           {tabs.map((tab) => (
             <div key={tab.id} role="tabpanel" id={tab.panelId} aria-labelledby={tab.id} hidden={selectedTab !== tab.id}>
               Contenu onglet {tab.label}
@@ -394,11 +452,26 @@ export const OverflowType: Story = {
     };
 
     return (
-      <div style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "32px",
+          color: "var(--content-secondary)",
+          fontFamily: "Arial",
+        }}
+      >
         <div style={{ width: "400px" }}>
           <span style={{ fontFamily: "Arial" }}>Scrollable</span>
           <Tab {...args} options={tabs} selectedTabId={selectedTab} onChange={handleTabClick} />
-          <div style={{ height: "100px", border: "1px solid #ccc", padding: "8px", marginTop: "16px" }}>
+          <div
+            style={{
+              height: "100px",
+              border: "1px solid #ccc",
+              padding: "8px",
+              marginTop: "16px",
+            }}
+          >
             {tabs.map((tab) => (
               <div
                 key={tab.id}
@@ -494,7 +567,7 @@ export const KeyboardInteraction: Story = {
 
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
-    focusElementBeforeComponent(canvasElement);
+    focusElementBeforeComponent();
     const firstTab = await canvas.getByRole("tab", { name: "First Tab" });
     const secondTab = await canvas.getByRole("tab", { name: "Second Tab" });
     const thirdTab = await canvas.getByRole("tab", { name: "Third Tab" });

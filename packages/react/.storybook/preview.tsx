@@ -1,74 +1,63 @@
+import { Title, Subtitle, Description, Primary, Controls, Stories } from "@storybook/blocks";
 import { useGlobals } from "@storybook/preview-api";
 import type { Preview } from "@storybook/react";
+
+import { FrameworkProvider } from "../../design-docs/src/components/ComponentDocs/FrameworkContext";
+import ThemeSelector from "../.storybook/template/ThemeSelector/ThemeSelector";
 import "@design-system-rte/react/style.css";
 import "@design-system-rte/core/css/rte-fonts.css";
 
 import "./preview.scss";
 
-import { FrameworkProvider } from "../../design-docs/src/components/ComponentDocs/FrameworkContext";
-
-import ThemeSelector from "./template/ThemeSelector/ThemeSelector";
-
 export const decorators: Preview["decorators"] = [
   (Story, context) => {
+    const isStory = context?.viewMode === "story";
     const [globals] = useGlobals();
     const framework = (globals?.framework as "angular" | "react") || "react";
 
-    const noAutoMarginStoriesIds = ["composants-grid", "composants-header", "sidenav"];
+    const noAutoMarginStoriesIds = ["composants-header", "sidenav"];
+    const topBottomMarginStoriesIds = ["composants-grid"];
 
     const hasAutoMargins = !noAutoMarginStoriesIds.some((id) => context?.id?.includes(id));
+    const hasTopBottomMargins = topBottomMarginStoriesIds.some((id) => context?.id?.includes(id));
 
     return (
-      <FrameworkProvider framework={framework}>
-        <div
-          style={{
-            backgroundColor: "var(--background-default)",
-            width: "auto",
-            height: "100%",
-            display: "flex",
-            flexDirection: "column",
-            gap: "96px",
-          }}
-        >
+      <>
+        <FrameworkProvider framework={framework}>
+          {isStory && <ThemeSelector />}
           <div
             style={{
-              padding: "16px 16px 80px 50px",
+              backgroundColor: "var(--background-default)",
+              marginTop: isStory ? "180px" : "0",
+              padding: "24px",
+              height: "100%",
+              alignContent: "center",
+              width: "auto",
+              overflow: "scroll",
             }}
           >
-            <ThemeSelector />
+            <div
+              style={{
+                margin: hasTopBottomMargins ? "auto 0" : hasAutoMargins ? "auto" : "0",
+                width: hasAutoMargins ? "fit-content" : "100%",
+              }}
+            >
+              <Story {...context} />
+            </div>
           </div>
-          <div
-            style={{
-              margin: hasAutoMargins ? "auto" : "0",
-            }}
-          >
-            <Story {...context} />
-          </div>
-        </div>
-      </FrameworkProvider>
+        </FrameworkProvider>
+      </>
     );
   },
 ];
 
 const preview: Preview = {
   decorators: decorators,
-  globalTypes: {
-    framework: {
-      name: "Framework",
-      description: "Framework context for documentation",
-      defaultValue: "react",
-      toolbar: {
-        icon: "circlehollow",
-        items: [
-          { value: "angular", title: "Angular" },
-          { value: "react", title: "React" },
-        ],
-        showName: false,
-      },
-    },
-  },
+  globalTypes: {},
   initialGlobals: {
     framework: "react",
+    mode: "light",
+    theme: "bleu_iceberg",
   },
   parameters: {
     controls: {
@@ -86,6 +75,21 @@ const preview: Preview = {
     },
     composed: {
       remoteId: "react",
+    },
+    docs: {
+      page: () => (
+        <>
+          <ThemeSelector />
+          <div style={{ marginTop: "50px" }}>
+            <Title />
+            <Subtitle />
+            <Description />
+            <Primary />
+            <Controls />
+            <Stories />
+          </div>
+        </>
+      ),
     },
   },
 };

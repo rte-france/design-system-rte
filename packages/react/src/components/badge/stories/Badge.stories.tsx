@@ -266,7 +266,15 @@ export const KeyboardInteraction: Story = {
 export const BadgeType: Story = {
   args: Default.args,
   render: (args) => (
-    <div style={{ display: "flex", gap: "24px", alignItems: "center", fontFamily: "Nunito Sans, sans-serif" }}>
+    <div
+      style={{
+        display: "flex",
+        gap: "24px",
+        alignItems: "center",
+        fontFamily: "Nunito Sans, sans-serif",
+        color: "var(--content-primary)",
+      }}
+    >
       <div>
         <h4>Brand</h4>
         <Badge {...args} badgeType="brand" />

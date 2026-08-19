@@ -4,6 +4,7 @@ export type Direction = "horizontal" | "vertical";
 export type Size = "xs" | "s" | "m" | "l" | "xl";
 export type Mode = "light" | "dark";
 export type Theme = "bleu_iceberg" | "vert_foret" | "violet";
+export type ThemeMode = `${Theme}-${Mode}`;
 export type DecorativeColor =
   | "neutral"
   | "bleu-iceberg"

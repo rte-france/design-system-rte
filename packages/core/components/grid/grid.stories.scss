@@ -9,7 +9,7 @@
   .rte-grid {
     .rte-col {
       @include typography-text-l;
-      background-color: #FFFFFF;
+      background-color: var(--background-default);
       box-shadow: 0 0 0 1px $jaune-indications-400;
       min-block-size: 100px;
       display: flex;

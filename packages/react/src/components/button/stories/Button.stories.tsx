@@ -125,7 +125,7 @@ export const KeyboardInteraction: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    focusElementBeforeComponent(canvasElement);
+    focusElementBeforeComponent();
     const button = canvas.getByRole("button", { name: "Button" });
     await userEvent.tab();
     expect(button).toHaveFocus();

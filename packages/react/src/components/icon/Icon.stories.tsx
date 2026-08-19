@@ -48,7 +48,7 @@ export const Default: Story = {
     appearance: "outlined",
   },
 
-  render: (args) => <Icon {...args} aria-label={args.name} />,
+  render: (args) => <Icon {...args} color="var(--content-primary)" aria-label={args.name} />,
 };
 
 export const RegularIcons: Story = {
@@ -57,7 +57,16 @@ export const RegularIcons: Story = {
     size: 20,
   },
   render: (args) => (
-    <div style={{ display: "flex", flexDirection: "column", flexWrap: "wrap", gap: "10px", height: "700px" }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        flexWrap: "wrap",
+        gap: "10px",
+        height: "700px",
+        color: "var(--content-primary)",
+      }}
+    >
       {RegularIconIds.map((iconName) => (
         <div
           key={iconName}
@@ -77,7 +86,16 @@ export const TogglableIcons: Story = {
     size: 20,
   },
   render: (args) => (
-    <div style={{ display: "flex", flexDirection: "column", flexWrap: "wrap", gap: "10px", height: "700px" }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        flexWrap: "wrap",
+        gap: "10px",
+        height: "700px",
+        color: "var(--content-primary)",
+      }}
+    >
       {TogglableIconIds.map((iconName) => (
         <div
           key={iconName}

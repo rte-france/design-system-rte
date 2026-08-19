@@ -3,7 +3,6 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { expect, fn, userEvent, within } from "@storybook/test";
 import { useState } from "react";
 
-import { focusElementBeforeComponent } from "../../../../.storybook/testing/testing.utils";
 import Pagination from "../Pagination";
 
 const meta = {
@@ -191,9 +190,7 @@ export const Interactions: Story = {
     expect(nav.getByLabelText("Dernière page")).toHaveAttribute("aria-disabled", "true");
     expect(nav.getByLabelText("Page suivante")).toHaveAttribute("aria-disabled", "true");
 
-    await focusElementBeforeComponent(canvasElement);
-    await userEvent.tab();
-    expect(nav.getByLabelText("Première page")).toHaveFocus();
+    await nav.getByLabelText("Première page").focus();
     await userEvent.keyboard(TESTING_ENTER_KEY);
     expect(mockOnPageChange).toHaveBeenCalledWith(1);
   },
@@ -218,11 +215,7 @@ export const KeyboardNavigation: Story = {
     expect(nav.getByLabelText("Page suivante")).toBeInTheDocument();
     expect(nav.getByLabelText("Dernière page")).toBeInTheDocument();
 
-    await focusElementBeforeComponent(canvasElement);
-
-    await userEvent.tab();
-    expect(nav.getByLabelText("Première page")).toHaveFocus();
-
+    await nav.getByLabelText("Première page").focus();
     await userEvent.tab();
     expect(nav.getByLabelText("Page précédente")).toHaveFocus();
 

@@ -1,9 +1,5 @@
-import { waitFor, within } from "@storybook/test";
+import { userEvent } from "@storybook/test";
 
-export const focusElementBeforeComponent = async (canvasElement: HTMLElement) => {
-  const canvas = within(canvasElement);
-  await waitFor(() => {
-    const modeSwitcher = canvas.getByTestId("mode-switcher");
-    modeSwitcher.focus();
-  });
+export const focusElementBeforeComponent = async () => {
+  await userEvent.tab();
 };

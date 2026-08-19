@@ -159,7 +159,7 @@ export const ReadOnly: Story = {
 
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const select = canvas.getByRole("combobox");
+    const select = canvas.getAllByRole("combobox")[1];
     await userEvent.tab();
     expect(select).not.toHaveFocus();
   },
@@ -190,7 +190,7 @@ export const Disabled: Story = {
 
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const select = canvas.getByRole("combobox");
+    const select = canvas.getAllByRole("combobox")[1];
     await userEvent.tab();
     expect(select).not.toHaveFocus();
   },
@@ -336,8 +336,8 @@ export const KeyboardInteraction: Story = {
 
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
-    const select = canvas.getByRole("combobox");
-    focusElementBeforeComponent(canvasElement);
+    const select = canvas.getAllByRole("combobox")[1];
+    focusElementBeforeComponent();
     await userEvent.tab();
     expect(select).toHaveFocus();
     await userEvent.keyboard(TESTING_ENTER_KEY);

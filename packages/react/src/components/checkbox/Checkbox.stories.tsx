@@ -90,7 +90,7 @@ export const ReadOnly: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    focusElementBeforeComponent(canvasElement);
+    focusElementBeforeComponent();
     const checkbox = canvas.getByRole("checkbox");
     await userEvent.tab();
     expect(checkbox).toHaveFocus();
@@ -112,7 +112,7 @@ export const KeyboardInteractions: Story = {
     ...Default.args,
   },
   play: async ({ canvasElement }) => {
-    focusElementBeforeComponent(canvasElement);
+    focusElementBeforeComponent();
     const canvas = within(canvasElement);
     const checkbox = canvas.getByRole("checkbox");
     await userEvent.tab();
