@@ -31,6 +31,10 @@ const meta = {
       control: "select",
       options: ["scrollable", "dropdown"],
     },
+    "aria-label": {
+      control: "text",
+      description: "Accessible name for the tab list",
+    },
   },
   parameters: {},
 } satisfies Meta<typeof Tab>;
@@ -44,6 +48,7 @@ export const Default: Story = {
     options: [],
     alignment: "start",
     overflowType: "scrollable",
+    "aria-label": "Sample tabs",
   },
 
   render: (args) => {
@@ -430,6 +435,7 @@ export const OverflowType: Story = {
 };
 
 export const KeyboardInteraction: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     onChange: () => {},
