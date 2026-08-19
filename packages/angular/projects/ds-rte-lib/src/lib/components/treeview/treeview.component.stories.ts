@@ -29,6 +29,11 @@ const meta: Meta<TreeviewComponent> = {
 export default meta;
 type Story = StoryObj<TreeviewComponent>;
 
+const simpleArborescence: TreeviewItemProps[] = [
+  { id: "home", labelText: "Accueil", icon: "home", hasIcon: true },
+  { id: "settings", labelText: "Paramètres", icon: "settings", hasIcon: true },
+];
+
 const baseNavigationData: TreeviewItemProps[] = [
   { id: "home", labelText: "Home", icon: "home", hasIcon: true },
   {
@@ -115,6 +120,18 @@ function createConnectorLinesData(options: { middleOpen?: boolean } = {}): Treev
     },
   ];
 }
+
+export const Default: Story = {
+  render: () => ({
+    props: {
+      items: simpleArborescence,
+    },
+    template: `<rte-treeview id="treeview-default" [items]="items" />`,
+    moduleMetadata: {
+      imports: [TreeviewComponent, TreeviewItemComponent],
+    },
+  }),
+};
 
 export const NestedItems: Story = {
   render: () => ({
