@@ -2,6 +2,17 @@
 
 # Angular
 
+## 3.3.1
+
+### Sidenav
+
+#### Patch Changes
+
+- truncate nav-items text
+
+### Other
+
+
 ## 3.3.0
 
 ### Styles
@@ -126,6 +137,17 @@
 - Updated dependencies [e7b53d3]
 - @design-system-rte/core@1.14.0
 # React
+
+## 1.16.1
+
+### Sidenav
+
+#### Patch Changes
+
+- truncate nav-items text
+
+### Other
+
 
 ## 1.16.0
 

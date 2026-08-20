@@ -1,5 +1,13 @@
 # @design-system-rte/angular
 
+## 3.3.1
+
+### Patch Changes
+
+- 5c0f510: ## Changes
+
+  - (Sidenav) truncate nav-items text
+
 ## 3.3.0
 
 ### Minor Changes
