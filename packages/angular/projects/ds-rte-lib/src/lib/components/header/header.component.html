@@ -108,7 +108,6 @@
                     [badgeCount]="button.badge?.count"
                     [badgeContent]="button.badge?.count ? 'number' : undefined"
                     [badgeType]="button.badge?.badgeType ?? 'indicator'"
-                    [badgeSize]="button.badge?.count ? badgeSize() : undefined"
                     (clickEvent)="handleIconButtonClick(button)"
                   />
                 </div>

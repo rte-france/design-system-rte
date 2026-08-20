@@ -1,0 +1,16 @@
+| Nom            | Type                                                                                      | Valeur par défaut | Description                                                                                       |
+| -------------- | ----------------------------------------------------------------------------------------- | ----------------- | ------------------------------------------------------------------------------------------------- |
+| appearance     | "outlined" \| "filled"                                                                    | "outlined"        | Apparence pour les icônes togglables.                                                             |
+| badgeContent   | "number" \| "icon" \| "empty"                                                             | -                 | Type de contenu du badge.                                                                         |
+| badgeCount     | number                                                                                    | -                 | Nombre affiché dans le badge lorsque `badgeContent` vaut `"number"` et que le nombre est positif. |
+| badgeIcon      | string                                                                                    | -                 | Icône du badge. La valeur doit appartenir aux clés `RegularIconIdKey` ou `TogglableIconIdKey`.    |
+| badgeType      | "brand" \| "neutral" \| "indicator"                                                       | -                 | Type visuel du badge.                                                                             |
+| compactSpacing | boolean                                                                                   | -                 |                                                                                                   |
+| disabled       | boolean                                                                                   | -                 |                                                                                                   |
+| name           | RegularIconIdKey \| TogglableIconIdKey                                                    | -                 | Nom de l'icône à afficher.                                                                        |
+| onClick        | (e: React.MouseEvent\<HTMLButtonElement\>) => void                                        | -                 |                                                                                                   |
+| size           | "s" \| "m" \| "l"                                                                         | "m"               |                                                                                                   |
+| type           | "button" \| "submit" \| "reset"                                                           | "button"          | Type natif du bouton HTML.                                                                        |
+| variant        | "primary" \| "secondary" \| "text" \| "transparent" \| "danger" \| "neutral" \| "reverse" | "primary"         | Variante visuelle du bouton.                                                                      |
+
+Le composant hérite des propriétés HTML standard pour les boutons.
