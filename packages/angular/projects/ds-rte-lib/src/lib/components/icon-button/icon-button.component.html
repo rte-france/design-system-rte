@@ -1,6 +1,6 @@
 @if (shouldDisplayBadge()) {
   <button
-    *ngIf="isValidIconName"
+    *ngIf="isValidIconName()"
     class="rte-icon-button {{ variant() }} size-{{ size() }}"
     rteBadge
     [class.compact-spacing]="compactSpacing()"
@@ -13,7 +13,7 @@
     [attr.tabindex]="tabIndex() !== undefined ? tabIndex() : null"
     [type]="type()"
     [rteBadgeType]="badgeType() ?? 'brand'"
-    [rteBadgeSize]="badgeSize() ?? 'm'"
+    [rteBadgeSize]="size()"
     [rteBadgeContent]="size() === 's' ? 'empty' : (badgeContent() ?? 'number')"
     [rteBadgeCount]="badgeCount()"
     [rteBadgeIcon]="badgeIcon()"
@@ -23,7 +23,7 @@
   </button>
 } @else {
   <button
-    *ngIf="isValidIconName"
+    *ngIf="isValidIconName()"
     class="rte-icon-button {{ variant() }} size-{{ size() }}"
     [class.compact-spacing]="compactSpacing()"
     [ngStyle]="customStyle()"
