@@ -1,9 +1,9 @@
 import { Injectable, ComponentRef, ViewContainerRef, inject, signal, effect } from "@angular/core";
 import { ToastDuration, ToastPlacement, ToastType } from "@design-system-rte/core/components/toast/toast.interface";
 import { getToastPriority } from "@design-system-rte/core/components/toast/toast.utils";
+import { v4 as uuidv4 } from "uuid";
 
 import { OverlayService } from "../../services/overlay.service";
-import { generateId } from "../../utils";
 
 import { ToastComponent } from "./toast.component";
 
@@ -131,7 +131,7 @@ export class ToastService {
       onActionButtonClick,
     } = config;
     toast.setInput("message", message);
-    toast.setInput("id", generateId());
+    toast.setInput("id", uuidv4());
     toast.setInput("type", type);
     toast.setInput("closable", closable);
     toast.setInput("autoDismiss", autoDismiss);
