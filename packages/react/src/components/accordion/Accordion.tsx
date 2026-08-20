@@ -1,9 +1,9 @@
 import { AccordionIconSizeMap } from "@design-system-rte/core/components/accordion/accordion.constants";
 import { AccordionProps as coreAccordionProps } from "@design-system-rte/core/components/accordion/accordion.interface";
 import { forwardRef, useEffect, useRef, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
 
 import useAnimatedMount from "../../hooks/useAnimatedMount";
+import { generateId } from "../../utils";
 import Divider from "../divider/Divider";
 import Icon from "../icon/Icon";
 import { concatClassNames } from "../utils";
@@ -36,7 +36,7 @@ const Accordion = forwardRef<HTMLButtonElement, AccordionProps>(
     const [isInternalOpen, setIsInternalOpen] = useState(isOpen ?? false);
     const innerContentRef = useRef<HTMLDivElement>(null);
 
-    const baseIdRef = useRef<string>(id ?? uuidv4());
+    const baseIdRef = useRef<string>(id ?? generateId());
     const summaryId = `accordion-summary-${baseIdRef.current}`;
     const contentId = `accordion-content-${baseIdRef.current}`;
 
