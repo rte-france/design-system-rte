@@ -81,7 +81,7 @@ export const Default: Story = {
     appearance: "outlined",
     disabled: false,
     compactSpacing: false,
-    ["aria-label"]: "icon button aria label",
+    ["aria-label"]: "Ouvrir les paramètres",
     onClick: mockFn,
   },
 
@@ -89,10 +89,45 @@ export const Default: Story = {
 
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const iconButton = canvas.getByLabelText("icon button aria label");
+    const iconButton = canvas.getByLabelText("Ouvrir les paramètres");
     await userEvent.click(iconButton);
     expect(mockFn).toHaveBeenCalled();
     iconButton.blur();
+  },
+};
+
+export const Variants: Story = {
+  args: {
+    ...Default.args,
+  },
+  render: (args) => {
+    return (
+      <div style={{ display: "flex", gap: 8 }}>
+        <IconButton {...args} variant="primary" data-testid="primary-icon-button" />
+        <IconButton {...args} variant="secondary" data-testid="secondary-icon-button" />
+        <IconButton {...args} variant="text" data-testid="text-icon-button" />
+        <IconButton {...args} variant="transparent" data-testid="transparent-icon-button" />
+        <IconButton {...args} variant="danger" data-testid="danger-icon-button" />
+        <IconButton {...args} variant="neutral" data-testid="neutral-icon-button" />
+        <div style={{ backgroundColor: "var(--background-inverse)" }}>
+          <IconButton {...args} variant="reverse" data-testid="reverse-icon-button" />
+        </div>
+      </div>
+    );
+  },
+};
+
+export const Appearances: Story = {
+  args: {
+    ...Default.args,
+  },
+  render: (args) => {
+    return (
+      <div style={{ display: "flex", gap: 8 }}>
+        <IconButton {...args} appearance="outlined" data-testid="outlined-icon-button" />
+        <IconButton {...args} appearance="filled" data-testid="filled-icon-button" />
+      </div>
+    );
   },
 };
 
@@ -103,9 +138,9 @@ export const Sizing: Story = {
   render: (args) => {
     return (
       <div style={{ display: "flex", gap: 8 }}>
-        <IconButton {...args} size="s" data-testid="small-icon-button" />
-        <IconButton {...args} data-testid="medium-icon-button" />
-        <IconButton {...args} size="l" data-testid="large-icon-button" />
+        <IconButton {...args} size="s" data-testid="small-icon-button" aria-label="Petit bouton" />
+        <IconButton {...args} size="m" data-testid="medium-icon-button" aria-label="Bouton moyen" />
+        <IconButton {...args} size="l" data-testid="large-icon-button" aria-label="Grand bouton" />
       </div>
     );
   },
@@ -129,9 +164,9 @@ export const CompactSizing: Story = {
   render: (args) => {
     return (
       <div style={{ display: "flex", gap: 8 }}>
-        <IconButton {...args} size="s" data-testid="small-icon-button" />
-        <IconButton {...args} data-testid="medium-icon-button" />
-        <IconButton {...args} size="l" data-testid="large-icon-button" />
+        <IconButton {...args} size="s" data-testid="small-icon-button" aria-label="Petit bouton" />
+        <IconButton {...args} size="m" data-testid="medium-icon-button" aria-label="Bouton moyen" />
+        <IconButton {...args} size="l" data-testid="large-icon-button" aria-label="Grand bouton" />
       </div>
     );
   },
@@ -170,7 +205,7 @@ export const KeyboardInteraction: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const button = canvas.getByRole("button", { name: "icon button aria label" });
+    const button = canvas.getByRole("button", { name: "Ouvrir les paramètres" });
     focusElementBeforeComponent(canvasElement);
     await userEvent.tab();
     expect(button).toHaveFocus();
