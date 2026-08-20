@@ -34,12 +34,19 @@ const Checkbox = ({
       }
     }
   };
+
   return (
-    <div className={styles["container"]} data-show-label={showLabel}>
+    <div
+      className={styles.container}
+      data-show-label={showLabel}
+      data-disabled={disabled}
+      data-read-only={readOnly}
+      data-error={!!error}
+    >
       <input
         type="checkbox"
         id={id}
-        className={styles["checkbox"]}
+        className={styles.checkbox}
         disabled={disabled}
         ref={inputRef}
         data-read-only={readOnly}
@@ -47,16 +54,25 @@ const Checkbox = ({
         onKeyDown={handleKeyDown}
         {...props}
       />
-      <div className={`${styles["checkbox-icon-selected"]} ${styles["checkbox-icons"]}`}>
-        <Icon name="check-small" size={16} />
+      <div
+        className={styles.checkboxBackground}
+        data-disabled={disabled}
+        data-read-only={readOnly}
+        data-error={!!error}
+      >
+        <div className={styles.checkboxOuter}></div>
+        <div className={styles.checkboxInner}></div>
+        <div className={`${styles.checkboxIconSelected} ${styles.checkboxIcons}`}>
+          <Icon name="check-small" size={16} />
+        </div>
+        <div className={`${styles.checkboxIconIndeterminated} ${styles.checkboxIcons}`}>
+          <Icon name="check-indeterminate" size={16} />
+        </div>
       </div>
-      <div className={`${styles["checkbox-icon-indeterminated"]} ${styles["checkbox-icons"]}`}>
-        <Icon name="check-indeterminate" size={16} />
-      </div>
-      <div className={styles["checkbox-text-container"]} data-disabled={disabled}>
+      <div className={styles.checkboxTextContainer} data-disabled={disabled}>
         {showLabel && <label htmlFor={id}>{label}</label>}
-        <p className={styles["checkbox-description"]}>{description}</p>
-        {error && errorMessage && <p className={styles["checkbox-error"]}>{errorMessage}</p>}
+        <p className={styles.checkboxDescription}>{description}</p>
+        {error && errorMessage && <p className={styles.checkboxError}>{errorMessage}</p>}
       </div>
     </div>
   );
