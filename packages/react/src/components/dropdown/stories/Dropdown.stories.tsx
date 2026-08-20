@@ -174,6 +174,7 @@ export const WithBadge: StoryObj<{
 };
 
 export const KeyboardNavigation: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
   },
@@ -212,6 +213,7 @@ export const KeyboardNavigation: Story = {
 };
 
 export const KeyboardNavigationWithLink: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
   },
@@ -280,6 +282,7 @@ const MOCKUP_ITEMS = [
 ];
 
 export const WithProjectedHeaderAndFooter: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
   },
@@ -362,6 +365,7 @@ export const WithProjectedHeaderAndFooter: Story = {
 };
 
 export const WithFilterableHeader: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
   },
