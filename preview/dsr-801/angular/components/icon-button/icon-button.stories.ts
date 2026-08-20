@@ -280,7 +280,7 @@ export const KeyboardInteraction: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const button = canvas.getByRole("button", { name: "icon button aria label" });
+    const button = canvas.getByRole("button", { name: "Ouvrir les paramètres" });
     focusElementBeforeComponent(canvasElement);
     await userEvent.tab();
     expect(button).toHaveFocus();
