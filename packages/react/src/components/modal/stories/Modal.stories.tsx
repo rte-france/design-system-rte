@@ -174,6 +174,7 @@ export const WithCustomContent: Story = {
 };
 
 export const KeyboardInteraction: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     id: "modal-3",
