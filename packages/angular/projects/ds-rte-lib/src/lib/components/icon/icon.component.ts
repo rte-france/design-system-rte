@@ -1,6 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, effect, ElementRef, inject, input, viewChild } from "@angular/core";
 
+import { isValidIconName } from "./icon-map";
 import { IconRegistry, RegularIconIdKey, TogglableIconIdKey } from "./icon-registry.service";
 
 @Component({
@@ -38,6 +39,13 @@ export class IconComponent {
     }
 
     const host = hostRef.nativeElement;
+
+    if (!isValidIconName(svgName)) {
+      console.warn(`Icon: Invalid icon name "${svgName}". Please use a valid icon key.`);
+      host.replaceChildren();
+      return;
+    }
+
     const svg = this.iconRegistry.getIconElement(
       svgName as RegularIconIdKey | TogglableIconIdKey,
       appearance || "outlined",
