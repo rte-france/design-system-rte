@@ -327,7 +327,6 @@ export const WithCustomContent: Story = {
 };
 
 export const KeyboardInteraction: Story = {
-  tags: ["!autodocs"],
   decorators: [
     moduleMetadata({
       imports: [ModalModule, ButtonComponent],
