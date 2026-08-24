@@ -1,9 +1,9 @@
+import { generateId } from "@design-system-rte/core";
 import { AccordionIconSizeMap } from "@design-system-rte/core/components/accordion/accordion.constants";
 import { AccordionProps as coreAccordionProps } from "@design-system-rte/core/components/accordion/accordion.interface";
 import { forwardRef, useEffect, useRef, useState } from "react";
 
 import useAnimatedMount from "../../hooks/useAnimatedMount";
-import { generateId } from "../../utils";
 import Divider from "../divider/Divider";
 import Icon from "../icon/Icon";
 import { concatClassNames } from "../utils";

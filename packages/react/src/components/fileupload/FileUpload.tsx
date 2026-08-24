@@ -1,7 +1,6 @@
-import { FileUploadProps } from "@design-system-rte/core";
+import { FileUploadProps, generateId } from "@design-system-rte/core";
 import { useRef, useState } from "react";
 
-import { generateId } from "../../utils";
 import AssistiveText from "../assistivetext/AssistiveText";
 import Button from "../button/Button";
 import Label from "../label/Label";
