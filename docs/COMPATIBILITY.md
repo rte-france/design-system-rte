@@ -24,7 +24,7 @@ Do **not** run `npm install @design-system-rte/angular` on an Angular 17/18 app 
 
 | npm dist-tag | Package version | Angular peer | `@design-system-rte/core` | Install |
 |--------------|-----------------|--------------|---------------------------|---------|
-| `latest` | latest | `^19.2.25` | peer `@design-system-rte/core` (latest) ~1.15.0 | `npm install @design-system-rte/angular @design-system-rte/core` |
+| `latest` | latest | `^19.2.25` | peer `@design-system-rte/core` (latest) ~1.16.0 | `npm install @design-system-rte/angular @design-system-rte/core` |
 | `angular18` | 1.11.0 | `^18.2.14` | peer `@design-system-rte/core` ^1.11.0 | `npm install @design-system-rte/angular@angular18 @design-system-rte/core@1.11.0` |
 | `angular17` | 0.13.0 | `^17.3.12` | dependency `@design-system-rte/core` ^0.17.0 | `npm install @design-system-rte/angular@angular17 @design-system-rte/core@0.17.0` |
 
@@ -34,9 +34,9 @@ Other npm dist-tags (`rc`, `routerlink`, …) are internal or preview lines — 
 
 | Package | Version | Core relationship |
 |---------|---------|-------------------|
-| `@design-system-rte/core` | 1.16.0 | — |
-| `@design-system-rte/angular` | 3.3.0 | peer `@design-system-rte/core` ~1.16.0 |
-| `@design-system-rte/react` | 1.16.0 | dependency `@design-system-rte/core` ~1.16.0 |
+| `@design-system-rte/core` | 1.16.1 | — |
+| `@design-system-rte/angular` | 3.3.1 | peer `@design-system-rte/core` ~1.16.1 |
+| `@design-system-rte/react` | 1.16.1 | dependency `@design-system-rte/core` ~1.16.1 |
 
 ## Installing a compatible set
 

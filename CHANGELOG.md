@@ -2,6 +2,27 @@
 
 # Angular
 
+## 3.3.1
+
+### Sidenav
+
+#### Patch Changes
+
+- truncate nav-items text
+
+### Uuid
+
+#### Patch Changes
+
+- replace uuid undeclared dependency for native crypto.randomUUID for random id generation
+
+### Other
+
+#### Patch Changes
+
+- Updated dependencies [e14dbf6]
+- @design-system-rte/core@1.16.1
+
 ## 3.3.0
 
 ### Styles
@@ -126,6 +147,27 @@
 - Updated dependencies [e7b53d3]
 - @design-system-rte/core@1.14.0
 # React
+
+## 1.16.1
+
+### Sidenav
+
+#### Patch Changes
+
+- truncate nav-items text
+
+### Uuid
+
+#### Patch Changes
+
+- replace uuid undeclared dependency for native crypto.randomUUID for random id generation
+
+### Other
+
+#### Patch Changes
+
+- Updated dependencies [e14dbf6]
+- @design-system-rte/core@1.16.1
 
 ## 1.16.0
 
@@ -267,6 +309,17 @@
 - Updated dependencies [e7b53d3]
 - @design-system-rte/core@1.14.0
 # Core
+
+## 1.16.1
+
+### Uuid
+
+#### Patch Changes
+
+- replace uuid undeclared dependency for native crypto.randomUUID for random id generation
+
+### Other
+
 
 ## 1.16.0
 
