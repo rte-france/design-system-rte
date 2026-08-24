@@ -15,6 +15,8 @@
 
   span {
     white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 
   &:link,
@@ -72,6 +74,8 @@
       display: flex;
       align-items: center;
       gap: $positive-spacing_100;
+      min-width: 0;
+      overflow: hidden;
 
       .nav-item-icon-badge-host {
         display: inline-flex;
