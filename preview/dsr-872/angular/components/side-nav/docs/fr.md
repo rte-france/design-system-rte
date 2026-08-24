@@ -28,8 +28,8 @@ items = [
 Le composant `rte-side-nav` constitue l'API publique. Les consommateurs configurent la navigation via les inputs du composant et projettent le contenu de page avec l'attribut `[content]`.
 
 
-| Property     | Type                  | Default   | Description                                                                  |
-| ------------ | --------------------- | --------- | ---------------------------------------------------------------------------- |
+| Nom | Type | Valeur par défaut | Description |
+|-----|------|-------------------|-------------|
 | size         | `"s" | "m" | "l"`     | `"m"`     | Largeur du panneau en mode déplié.                                           |
 | appearance   | `"neutral" | "brand"` | `"brand"` | Thème visuel du panneau de navigation.                                       |
 | contrast     | `"low" | "high"`      | `"high"`  | Niveau de contraste associé à `appearance`.                                  |
@@ -41,8 +41,8 @@ Le composant `rte-side-nav` constitue l'API publique. Les consommateurs configur
 
 
 
-| Output      | Type     | Description                                                                                                  |
-| ----------- | -------- | ------------------------------------------------------------------------------------------------------------ |
+| Sortie | Type | Description |
+|--------|------|-------------|
 | itemClicked | `string` | Émet l'`id` (ou le `label` en repli) de l'entrée cliquée. Utilisez-le pour piloter l'état actif côté parent. |
 
 
@@ -51,8 +51,8 @@ Le composant `rte-side-nav` constitue l'API publique. Les consommateurs configur
 ### SideNavHeaderConfig
 
 
-| Property   | Type            | Default    | Description                                                                     |
-| ---------- | --------------- | ---------- | ------------------------------------------------------------------------------- |
+| Nom | Type | Valeur par défaut | Description |
+|-----|------|-------------------|-------------|
 | title      | string          | — (requis) | Titre de l'application affiché dans l'en-tête.                                  |
 | identifier | string          | —          | Identifiant court affiché au-dessus du titre (par exemple des initiales).       |
 | version    | string          | —          | Chaîne de version affichée sous le titre lorsque le mode compact est désactivé. |
@@ -71,8 +71,8 @@ Le composant `rte-side-nav` constitue l'API publique. Les consommateurs configur
 Chaque entrée est soit un élément feuille, soit un menu imbriqué lorsque `items` est fourni.
 
 
-| Property         | Type               | Default    | Description                                                                          |
-| ---------------- | ------------------ | ---------- | ------------------------------------------------------------------------------------ |
+| Nom | Type | Valeur par défaut | Description |
+|-----|------|-------------------|-------------|
 | id               | string             | —          | Identifiant unique. Émis par `itemClicked` et utilisé pour le suivi de l'état actif. |
 | label            | string             | — (requis) | Libellé visible.                                                                     |
 | icon             | string             | —          | Nom de l'icône principale.                                                           |
