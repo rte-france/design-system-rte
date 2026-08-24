@@ -1,5 +1,13 @@
 # @design-system-rte/core
 
+## 1.16.1
+
+### Patch Changes
+
+- e14dbf6: ## Changes
+
+  - (Uuid) replace uuid undeclared dependency for native crypto.randomUUID for random id generation
+
 ## 1.16.0
 
 ### Minor Changes

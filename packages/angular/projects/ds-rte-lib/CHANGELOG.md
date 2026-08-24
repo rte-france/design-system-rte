@@ -1,5 +1,20 @@
 # @design-system-rte/angular
 
+## 3.3.1
+
+### Patch Changes
+
+- 5c0f510: ## Changes
+
+  - (Sidenav) truncate nav-items text
+
+- e14dbf6: ## Changes
+
+  - (Uuid) replace uuid undeclared dependency for native crypto.randomUUID for random id generation
+
+- Updated dependencies [e14dbf6]
+  - @design-system-rte/core@1.16.1
+
 ## 3.3.0
 
 ### Minor Changes
