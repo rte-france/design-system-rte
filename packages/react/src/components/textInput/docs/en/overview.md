@@ -1,0 +1,11 @@
+```tsx
+<TextInput
+  id="text-input-default"
+  label="Label"
+  labelPosition="top"
+  maxLength={150}
+  value=""
+  aria-required
+  autoComplete="off"
+/>
+```

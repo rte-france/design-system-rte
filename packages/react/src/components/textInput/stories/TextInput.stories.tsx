@@ -78,6 +78,21 @@ export const Default: Story = {
 };
 
 export const CharacterCount: Story = {
+  tags: ["!autodocs"],
+  args: {
+    ...Default.args,
+    maxLength: 15,
+    showCounter: true,
+  } as TextInputProps,
+  render: (args) => (
+    <div data-testid="input-container">
+      <TextInput {...args} />
+    </div>
+  ),
+};
+
+export const CharacterCountTest: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     maxLength: 15,
@@ -257,6 +272,7 @@ export const LeftIcon: Story = {
 };
 
 export const RightIconClean: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     rightIconAction: "clean",
@@ -279,6 +295,7 @@ export const RightIconClean: Story = {
 };
 
 export const KeyboardInteraction: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
   } as TextInputProps,
@@ -293,6 +310,7 @@ export const KeyboardInteraction: Story = {
 };
 
 export const KeyboardRightIconClean: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     rightIconAction: "clean",
@@ -310,6 +328,7 @@ export const KeyboardRightIconClean: Story = {
 };
 
 export const EnterKeyDown: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     onEnterKeyDown: mockFn,
@@ -344,6 +363,7 @@ export const EnterKeyDown: Story = {
 };
 
 export const KeyboardRightIconVisibility: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     rightIconAction: "visibilityOff",
