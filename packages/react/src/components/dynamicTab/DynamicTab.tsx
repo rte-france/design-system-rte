@@ -7,6 +7,7 @@ import {
   computeVisibleTabCount,
   ensureSelectedTabVisible,
   formatHiddenTabsLabel,
+  generateId,
   getSelectedTabIdAfterClose,
   removeTab,
   updateTabTitle,
@@ -16,7 +17,6 @@ import { MutableRefObject, useEffect, useMemo, useRef, useState, forwardRef, use
 import useElementResizeEvent from "../../hooks/useElementResizeEvent";
 import useMutationEvent from "../../hooks/useMutationEvent";
 import useSelectedIndicatorPosition from "../../hooks/useSelectedIndicatorPosition";
-import { generateId } from "../../utils";
 import Dropdown from "../dropdown/Dropdown";
 import DropdownItem from "../dropdown/dropdownItem/DropdownItem";
 import Icon from "../icon/Icon";

@@ -1,9 +1,9 @@
+import { generateId } from "@design-system-rte/core";
 import { IconSize, IconTypeMap } from "@design-system-rte/core/components/icon/icon.constants";
 import { ToastProps as coreToastProps } from "@design-system-rte/core/components/toast/toast.interface";
 import { forwardRef, MouseEventHandler, useCallback, useEffect, useState } from "react";
 
 import useAnimatedMount from "../../hooks/useAnimatedMount";
-import { generateId } from "../../utils";
 import Button from "../button/Button";
 import Icon from "../icon/Icon";
 import { isValidIconName } from "../icon/IconMap";
