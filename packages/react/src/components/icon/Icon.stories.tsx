@@ -64,7 +64,6 @@ export const RegularIcons: Story = {
         flexWrap: "wrap",
         gap: "10px",
         height: "700px",
-        color: "var(--content-primary)",
       }}
     >
       {RegularIconIds.map((iconName) => (
@@ -93,7 +92,6 @@ export const TogglableIcons: Story = {
         flexWrap: "wrap",
         gap: "10px",
         height: "700px",
-        color: "var(--content-primary)",
       }}
     >
       {TogglableIconIds.map((iconName) => (

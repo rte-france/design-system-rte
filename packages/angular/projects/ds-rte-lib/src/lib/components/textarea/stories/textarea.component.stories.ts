@@ -213,7 +213,7 @@ export const ReadOnly: Story = {
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
     const textarea = canvas.getByRole("textbox");
-    focusElementBeforeComponent(canvasElement);
+    focusElementBeforeComponent();
     await userEvent.tab();
     expect(textarea).toHaveFocus();
     await userEvent.type(textarea, "Hello World");
@@ -256,7 +256,7 @@ export const Disabled: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const textarea = canvas.getByRole("textbox");
-    focusElementBeforeComponent(canvasElement);
+    focusElementBeforeComponent();
     await userEvent.tab();
     expect(textarea).not.toHaveFocus();
   },
@@ -295,7 +295,7 @@ export const KeyboardInteraction: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const textarea = canvas.getByRole("textbox");
-    focusElementBeforeComponent(canvasElement);
+    focusElementBeforeComponent();
     await userEvent.tab();
     expect(textarea).toHaveFocus();
     textarea.blur();

@@ -165,7 +165,7 @@ export const Default: Story = {
     </div>`,
   }),
   play: async ({ canvasElement, args }) => {
-    focusElementBeforeComponent(canvasElement);
+    focusElementBeforeComponent();
     const canvas = within(canvasElement);
     const openButton = await canvas.getByRole("button", { name: "Open drawer" });
     await userEvent.click(openButton);
@@ -232,7 +232,7 @@ export const WithoutHeader: Story = {
     },
   },
   play: async ({ canvasElement, args }) => {
-    focusElementBeforeComponent(canvasElement);
+    focusElementBeforeComponent();
     const canvas = within(canvasElement);
     const openButton = await canvas.getByRole("button", { name: "Open drawer" });
     await userEvent.click(openButton);
@@ -305,7 +305,7 @@ export const WithoutFooter: Story = {
     },
   },
   play: async ({ canvasElement }) => {
-    focusElementBeforeComponent(canvasElement);
+    focusElementBeforeComponent();
     const canvas = within(canvasElement);
     const openButton = await canvas.getByRole("button", { name: "Open drawer" });
     await userEvent.click(openButton);
@@ -379,7 +379,7 @@ export const ResponsiveWithoutFooter: Story = {
     },
   },
   play: async ({ canvasElement }) => {
-    focusElementBeforeComponent(canvasElement);
+    focusElementBeforeComponent();
     const canvas = within(canvasElement);
     const openButton = await canvas.getByRole("button", { name: "Open drawer" });
     await userEvent.click(openButton);
@@ -431,7 +431,7 @@ export const CloseOnEscape: Story = {
     </div>`,
   }),
   play: async ({ canvasElement }) => {
-    focusElementBeforeComponent(canvasElement);
+    focusElementBeforeComponent();
     const canvas = within(canvasElement);
     await userEvent.click(canvas.getByRole("button", { name: "Open drawer" }));
     const dialog = await within(document.body).findByRole("dialog");
@@ -484,7 +484,7 @@ export const CloseOnOverlayClick: Story = {
     </div>`,
   }),
   play: async ({ canvasElement }) => {
-    focusElementBeforeComponent(canvasElement);
+    focusElementBeforeComponent();
     const canvas = within(canvasElement);
     await userEvent.click(canvas.getByRole("button", { name: "Open drawer" }));
     const dialog = await within(document.body).findByRole("dialog");
@@ -560,7 +560,7 @@ ${drawerResponsiveModeDoc.trim()}`,
     </div>`,
   }),
   play: async ({ canvasElement, args }) => {
-    focusElementBeforeComponent(canvasElement);
+    focusElementBeforeComponent();
     const canvas = within(canvasElement);
     const openButton = await canvas.getByRole("button", { name: "Open drawer" });
     await userEvent.click(openButton);

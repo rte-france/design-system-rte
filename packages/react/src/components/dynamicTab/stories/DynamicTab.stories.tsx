@@ -83,7 +83,7 @@ export const Default: Story = {
             onUpdateTabs={(updatedTabs) => setTabOptions(updatedTabs)}
           />
           <div style={{ fontFamily: "Arial" }}>
-            <p style={{ color: "var(--content-primary)" }}>Selected Tab ID: {selectedTabId}</p>
+            <p>Selected Tab ID: {selectedTabId}</p>
           </div>
         </div>
       </>
@@ -137,7 +137,7 @@ export const CompactSpacing: Story = {
             onUpdateTabs={(updatedTabs) => setTabOptions(updatedTabs)}
           />
           <div style={{ fontFamily: "Arial" }}>
-            <p style={{ color: "var(--content-primary)" }}>Selected Tab ID: {selectedTabId}</p>
+            <p>Selected Tab ID: {selectedTabId}</p>
           </div>
         </div>
       </>

@@ -69,7 +69,7 @@ export const ResponsiveColumns: Story = {
   },
   render: (args) => {
     return (
-      <div style={{ color: "var(--content-primary)", fontFamily: "Arial, sans-serif" }}>
+      <div style={{ fontFamily: "Arial, sans-serif" }}>
         <Grid gridType={args.gridType} data-testid="grid">
           <Grid.Col xxs={1} xs={1} s={3} m={4} l={4} xl={12} data-testid="col0">
             <div>

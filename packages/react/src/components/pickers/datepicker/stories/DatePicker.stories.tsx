@@ -89,7 +89,7 @@ export const TypingDate: Story = {
 
     return (
       <>
-        <p style={{ color: "var(--content-primary)", fontFamily: "Arial, sans-serif" }}>
+        <p style={{ fontFamily: "Arial, sans-serif" }}>
           Date sélectionnée:{" "}
           {date ? new Intl.DateTimeFormat(navigator.language, { dateStyle: "long" }).format(date) : "aucune"}
         </p>
@@ -164,7 +164,7 @@ export const WithAction: Story = {
 
     return (
       <>
-        <p style={{ color: "var(--content-primary)", fontFamily: "Arial, sans-serif" }}>
+        <p style={{ fontFamily: "Arial, sans-serif" }}>
           Date sélectionnée:{" "}
           {date ? new Intl.DateTimeFormat(navigator.language, { dateStyle: "long" }).format(date) : "aucune"}
         </p>
@@ -221,7 +221,7 @@ export const TabNavigation: Story = {
 
     return (
       <>
-        <p style={{ color: "var(--content-primary)", fontFamily: "Arial, sans-serif" }}>
+        <p style={{ fontFamily: "Arial, sans-serif" }}>
           Date sélectionnée:{" "}
           {date ? new Intl.DateTimeFormat(navigator.language, { dateStyle: "long" }).format(date) : "aucune"}
         </p>
@@ -374,7 +374,7 @@ export const WithMinMax: Story = {
 
     return (
       <>
-        <p style={{ color: "var(--content-primary)", fontFamily: "Arial, sans-serif" }}>
+        <p style={{ fontFamily: "Arial, sans-serif" }}>
           Date sélectionnée:{" "}
           {date ? new Intl.DateTimeFormat(navigator.language, { dateStyle: "long" }).format(date) : "aucune"}
         </p>
@@ -464,7 +464,7 @@ export const DisabledDates: Story = {
 
     return (
       <>
-        <p style={{ color: "var(--content-primary)", fontFamily: "Arial, sans-serif" }}>
+        <p style={{ fontFamily: "Arial, sans-serif" }}>
           Date sélectionnée:{" "}
           {date ? new Intl.DateTimeFormat(navigator.language, { dateStyle: "long" }).format(date) : "aucune"}
         </p>

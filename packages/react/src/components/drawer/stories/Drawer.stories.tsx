@@ -57,7 +57,7 @@ export const Default: Story = {
     onClickPrimaryButton: fn(),
     onClickSecondaryButton: fn(),
     content: (
-      <span style={{ fontFamily: "arial", fontSize: "14px", lineHeight: "20px", color: "var(--content-primary)" }}>
+      <span style={{ fontFamily: "arial", fontSize: "14px", lineHeight: "20px" }}>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum quis urna lacus. Praesent tempor nisl non
         arcu molestie gravida. Nam nec tincidunt sapien. Vestibulum a malesuada nisl. Maecenas nec magna nisi. Etiam
         tempus massa lobortis massa blandit ultricies. Ut in odio ex. Quisque a feugiat tellus. Proin vehicula risus non
@@ -157,9 +157,7 @@ export const Responsive: Story = {
           onClickToggle={handleOnClickToggle}
           onClickPrimaryButton={handleClickPrimaryButton}
           content={
-            <span
-              style={{ fontFamily: "arial", fontSize: "14px", lineHeight: "20px", color: "var(--content-primary)" }}
-            >
+            <span style={{ fontFamily: "arial", fontSize: "14px", lineHeight: "20px" }}>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum quis urna lacus. Praesent tempor nisl
               non arcu molestie gravida. Nam nec tincidunt sapien. Vestibulum a malesuada nisl. Maecenas nec magna nisi.
               Etiam tempus massa lobortis massa blandit ultricies. Ut in odio ex. Quisque a feugiat tellus. Proin
@@ -190,9 +188,7 @@ export const Responsive: Story = {
             }}
           >
             <Button label="Open drawer" onClick={() => setIsOpen(true)}></Button>
-            <span
-              style={{ fontFamily: "arial", fontSize: "14px", lineHeight: "20px", color: "var(--content-primary)" }}
-            >
+            <span style={{ fontFamily: "arial", fontSize: "14px", lineHeight: "20px" }}>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum quis urna lacus. Praesent tempor nisl
               non arcu molestie gravida. Nam nec tincidunt sapien. Vestibulum a malesuada nisl. Maecenas nec magna nisi.
               Etiam tempus massa lobortis massa blandit ultricies. Ut in odio ex. Quisque a feugiat tellus. Proin
@@ -387,11 +383,7 @@ export const CustomHeaderFooter: Story = {
                 width: "100%",
               }}
             >
-              <span
-                style={{ fontSize: "16px", fontWeight: "bold", fontFamily: "arial", color: "var(--content-primary)" }}
-              >
-                Custom Header
-              </span>
+              <span style={{ fontSize: "16px", fontWeight: "bold", fontFamily: "arial" }}>Custom Header</span>
               <IconButton name="close" size="m" onClick={() => setIsOpen(false)} aria-label="Close drawer" />
             </div>
           }
