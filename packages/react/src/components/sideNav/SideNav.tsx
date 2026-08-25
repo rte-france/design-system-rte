@@ -2,21 +2,29 @@ import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-it
 import { NavMenuProps } from "@design-system-rte/core/components/side-nav/nav-menu/nav-menu.interface";
 import { getDividerAppearanceBySideNavTheme } from "@design-system-rte/core/components/side-nav/side-nav.constants";
 import { SideNavProps as CoreSideNavProps } from "@design-system-rte/core/components/side-nav/side-nav.interface";
-import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
-import { forwardRef, Fragment, ReactNode, useCallback, useEffect, useMemo, useState } from "react";
+import {
+  getSideNavConfigurationIssues,
+  shouldShowSideNavFooter,
+  shouldShowSideNavHeader,
+  shouldUseSideNavDefaultFooter,
+  shouldUseSideNavDefaultHeader,
+} from "@design-system-rte/core/components/side-nav/side-nav.utils";
+import { forwardRef, Fragment, ReactNode, useCallback, useEffect, useState } from "react";
 
-import { useActiveKeyboard } from "../../hooks/useActiveKeyboard";
-import { useNavigationLinkComponent } from "../../provider/NavigationContext";
 import Divider from "../divider/Divider";
 
 import BaseSideNav from "./baseSideNav/BaseSideNav";
 import NavItem from "./navItem/NavItem";
 import NavMenu from "./navMenu/NavMenu";
-import NavTooltipWrapper from "./shared/NavTooltipWrapper";
 import style from "./SideNav.module.scss";
+import SideNavDefaultFooter from "./SideNavDefaultFooter";
+import SideNavDefaultHeader from "./SideNavDefaultHeader";
+import SideNavHeaderContainer from "./SideNavHeaderContainer";
 
 interface SideNavProps extends Partial<CoreSideNavProps>, Omit<React.HTMLAttributes<HTMLDivElement>, "content"> {
   children?: ReactNode;
+  header?: ReactNode;
+  footer?: ReactNode;
   defaultCollapsed?: boolean;
   onCollapsedChange?: (collapsed: boolean) => void;
   onActiveItemChange?: (id: string | undefined) => void;
@@ -30,6 +38,8 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
       size = "m",
       collapsible,
       children,
+      header,
+      footer,
       headerConfig,
       items,
       footerItems,
@@ -48,8 +58,6 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
     const [menuOpenOverrides, setMenuOpenOverrides] = useState<Record<string, boolean>>({});
 
     const [activeItemState, setActiveItem] = useState<string | undefined>(activeItem);
-
-    const LinkComponent = useNavigationLinkComponent();
 
     const handleMenuOpenChange = useCallback((menuId: string, open: boolean) => {
       setMenuOpenOverrides((previous) => ({ ...previous, [menuId]: open }));
@@ -107,73 +115,24 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
 
     const dividerAppearance = getDividerAppearanceBySideNavTheme(appearance, contrast);
 
-    const handleHeaderKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-      if ([SPACE_KEY, ENTER_KEY].includes(e.key)) {
-        e.preventDefault();
-        if (headerConfig?.onClick) {
-          headerConfig.onClick();
-        }
+    const shouldDisplayDefaultHeader = shouldUseSideNavDefaultHeader(header, headerConfig);
+    const shouldDisplayDefaultFooter = shouldUseSideNavDefaultFooter(footer, footerItems, collapsible);
+    const showHeader = shouldShowSideNavHeader(header, headerConfig);
+    const showFooter = shouldShowSideNavFooter(footer, footerItems, collapsible);
+
+    useEffect(() => {
+      const configurationIssue = getSideNavConfigurationIssues({
+        hasCustomHeader: !!header,
+        hasHeaderConfig: !!headerConfig,
+        hasCustomFooter: !!footer,
+        hasFooterItems: !!footerItems?.length,
+        collapsible,
+      });
+
+      if (configurationIssue) {
+        console.warn(configurationIssue);
       }
-    };
-
-    const { onKeyDown: headerOnKeyDown } = useActiveKeyboard<HTMLDivElement>(
-      { onKeyDown: handleHeaderKeyDown },
-      {
-        interactiveKeyCodes: [SPACE_KEY, ENTER_KEY],
-      },
-    );
-
-    const headerTitleContent = (
-      <div className={style.sideNavHeaderTitle}>
-        <div className={style.sideNavHeaderIdentifier}>{headerConfig?.identifier}</div>
-        {!isCollapsed && <h1>{headerConfig?.title}</h1>}
-      </div>
-    );
-
-    const ariaLabel = headerConfig?.ariaLabel;
-
-    const headerTitleLink = (
-      <LinkComponent
-        href={headerConfig?.link ?? ""}
-        className={style.sideNavHeaderTitleContainer}
-        onClick={headerConfig?.onClick}
-        aria-label={ariaLabel}
-      >
-        {headerTitleContent}
-      </LinkComponent>
-    );
-
-    const clickableHeaderTitle = (
-      <div
-        className={style.sideNavHeaderTitleContainer}
-        tabIndex={0}
-        onClick={headerConfig?.onClick}
-        onKeyDown={headerOnKeyDown}
-        role="button"
-        aria-label={ariaLabel}
-      >
-        {headerTitleContent}
-      </div>
-    );
-
-    const headerTitle = headerConfig?.link ? (
-      headerTitleLink
-    ) : headerConfig?.onClick ? (
-      clickableHeaderTitle
-    ) : (
-      <div className={style.sideNavHeaderTitleContainer}>{headerTitleContent}</div>
-    );
-
-    const headerTooltip = useMemo(
-      () => headerConfig?.tooltip ?? headerConfig?.title ?? "",
-      [headerConfig?.tooltip, headerConfig?.title],
-    );
-
-    const headerTitleWithTooltip = (
-      <NavTooltipWrapper label={headerTooltip} isCollapsed={isCollapsed}>
-        {headerTitle}
-      </NavTooltipWrapper>
-    );
+    }, [header, headerConfig, footer, footerItems, collapsible]);
 
     function renderNavItems(itemsToRender: NavItemProps[] | undefined) {
       if (!itemsToRender?.length) {
@@ -232,6 +191,52 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
       );
     }
 
+    function buildHeaderContent(): ReactNode {
+      if (!showHeader) {
+        return null;
+      }
+
+      if (shouldDisplayDefaultHeader && headerConfig) {
+        return (
+          <SideNavDefaultHeader
+            headerConfig={headerConfig}
+            isCollapsed={isCollapsed}
+            shouldShowTitle={shouldShowTitle}
+            appearance={appearance}
+            dividerAppearance={dividerAppearance}
+          />
+        );
+      }
+
+      return (
+        <SideNavHeaderContainer isCollapsed={isCollapsed} appearance={appearance} dividerAppearance={dividerAppearance}>
+          {header}
+        </SideNavHeaderContainer>
+      );
+    }
+
+    function buildFooterContent(): ReactNode {
+      if (!showFooter) {
+        return null;
+      }
+
+      if (shouldDisplayDefaultFooter) {
+        return (
+          <SideNavDefaultFooter
+            footerItemsContent={renderNavItems(footerItems)}
+            collapsible={collapsible}
+            isCollapsed={isCollapsed}
+            appearance={appearance}
+            dividerAppearance={dividerAppearance}
+            collapseIcon={collapseIcon}
+            onCollapse={collapseSideNav}
+          />
+        );
+      }
+
+      return footer ?? null;
+    }
+
     return (
       <BaseSideNav
         ref={ref}
@@ -239,53 +244,9 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
         isCollapsed={isCollapsed}
         appearance={appearance}
         contrast={contrast}
-        header={
-          <div
-            className={style.sideNavHeaderContainer}
-            data-compact={headerConfig?.isCompact ?? false}
-            data-collapsed={isCollapsed}
-          >
-            <div
-              className={style.sideNavHeader}
-              data-collapsed={isCollapsed}
-              data-appearance={appearance}
-              data-compact={headerConfig?.isCompact ?? false}
-            >
-              {headerTitleWithTooltip}
-              {!headerConfig?.isCompact && (
-                <div className={style.sideNavHeaderVersion} data-hidden={!shouldShowTitle}>
-                  <span>{headerConfig?.version}</span>
-                </div>
-              )}
-            </div>
-            <Divider appearance={dividerAppearance} />
-          </div>
-        }
+        header={buildHeaderContent()}
         body={<div className={style.sideNavBody}>{renderNavItems(items)}</div>}
-        footer={
-          (footerItems?.length || collapsible) && (
-            <div className={style.sideNavFooterContainer}>
-              {footerItems?.length && <div className={style.sideNavFooterItems}>{renderNavItems(footerItems)}</div>}
-              <Divider appearance={dividerAppearance} />
-              <div className={style.sideNavFooter}>
-                {collapsible && (
-                  <div className={style.collapsibleSection}>
-                    <NavItem
-                      id="collapse-button"
-                      icon={collapseIcon}
-                      hasLeadingIcon={true}
-                      isCollapsed={isCollapsed}
-                      onClick={collapseSideNav}
-                      label={isCollapsed ? "Ouvrir le menu" : "Réduire le menu"}
-                      appearance={appearance}
-                      role="button"
-                    />
-                  </div>
-                )}
-              </div>
-            </div>
-          )
-        }
+        footer={buildFooterContent()}
       >
         {children}
       </BaseSideNav>

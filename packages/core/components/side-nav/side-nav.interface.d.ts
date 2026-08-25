@@ -23,7 +23,7 @@ export interface SideNavProps extends BaseSideNavProps {
   items: NavItemProps[];
   footerItems?: NavItemProps[];
   activeItem?: string;
-  headerConfig: SideNavHeaderConfig;
+  headerConfig?: SideNavHeaderConfig;
 }
 
 export interface BaseSideNavProps {
