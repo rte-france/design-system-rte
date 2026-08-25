@@ -314,7 +314,7 @@ export const KeyboardInteraction: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const textInput = canvas.getByTestId("input").querySelector("input");
-    focusElementBeforeComponent(canvasElement);
+    focusElementBeforeComponent();
     await userEvent.tab();
     expect(textInput).toHaveFocus();
   },

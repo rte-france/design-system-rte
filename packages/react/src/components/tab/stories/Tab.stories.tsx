@@ -79,7 +79,7 @@ export const Default: Story = {
       <>
         <div>
           <div style={{ height: "100%", padding: "16px", fontFamily: "Arial" }}>
-            <span style={{ color: "var(--content-primary)" }}>Normal</span>
+            <span>Normal</span>
             <Tab {...args} options={tabs} selectedTabId={selectedTab} onChange={handleTabClick} />
           </div>
           <div

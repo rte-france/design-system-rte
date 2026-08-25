@@ -147,7 +147,7 @@ export const KeyboardInteraction: Story = {
   }),
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
-    await focusElementBeforeComponent(canvasElement);
+    await focusElementBeforeComponent();
 
     const tab1 = canvas.getByRole("tab", { name: "Tab 1" });
     const tab2 = canvas.getByRole("tab", { name: "Tab 2" });

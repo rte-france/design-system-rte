@@ -105,7 +105,7 @@ export const KeyboardNavigation: StoryObj<BreadcrumbsComponent> = {
     const canvas = within(canvasElement);
     const breadcrumbs = canvas.getByTestId("breadcrumbs").querySelectorAll("div");
     const breadCrumbsHead = breadcrumbs[breadcrumbs.length - 1].querySelector("a");
-    focusElementBeforeComponent(canvasElement);
+    focusElementBeforeComponent();
 
     args.items.forEach(async () => {
       await userEvent.tab();
@@ -217,8 +217,8 @@ export const KeyboardNavigationWithDropdown: StoryObj<BreadcrumbsComponent> = {
       template: `<rte-breadcrumbs [items]="items" [ariaLabel]="ariaLabel" data-testid="breadcrumbs"/>`,
     };
   },
-  play: async ({ canvasElement }) => {
-    focusElementBeforeComponent(canvasElement);
+  play: async () => {
+    focusElementBeforeComponent();
 
     await userEvent.tab();
     await userEvent.tab();

@@ -100,9 +100,7 @@ export const Default: Story = {
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
         <Select {...args} onChange={handleOnChange} value={selectedOption?.value ?? ""} multiple={false} />
-        <span style={{ fontFamily: "Arial", color: "var(--content-primary)" }}>
-          Selected value : {selectedOption?.label || "No value"}
-        </span>
+        <span style={{ fontFamily: "Arial" }}>Selected value : {selectedOption?.label || "No value"}</span>
       </div>
     );
   },
@@ -125,9 +123,7 @@ export const Error: Story = {
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
         <Select {...args} onChange={handleOnChange} value={selectedOption?.value ?? ""} multiple={false} />
-        <span style={{ fontFamily: "Arial", color: "var(--content-primary)" }}>
-          Selected value : {selectedOption?.label || "No value"}
-        </span>
+        <span style={{ fontFamily: "Arial" }}>Selected value : {selectedOption?.label || "No value"}</span>
       </div>
     );
   },
@@ -150,9 +146,7 @@ export const ReadOnly: Story = {
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
         <Select {...args} onChange={handleOnChange} value={selectedOption?.value ?? ""} multiple={false} />
-        <span style={{ fontFamily: "Arial", color: "var(--content-primary)" }}>
-          Selected value : {selectedOption?.label || "No value"}
-        </span>
+        <span style={{ fontFamily: "Arial" }}>Selected value : {selectedOption?.label || "No value"}</span>
       </div>
     );
   },
@@ -181,9 +175,7 @@ export const Disabled: Story = {
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
         <Select {...args} onChange={handleOnChange} value={selectedOption?.value ?? ""} multiple={false} />
-        <span style={{ fontFamily: "Arial", color: "var(--content-primary)" }}>
-          Selected value : {selectedOption?.label || "No value"}
-        </span>
+        <span style={{ fontFamily: "Arial" }}>Selected value : {selectedOption?.label || "No value"}</span>
       </div>
     );
   },
@@ -212,9 +204,7 @@ export const CompactSpacing: Story = {
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
         <Select {...args} onChange={handleOnChange} value={selectedOption?.value ?? ""} multiple={false} />
-        <span style={{ fontFamily: "Arial", color: "var(--content-primary)" }}>
-          Selected value : {selectedOption?.label || "No value"}
-        </span>
+        <span style={{ fontFamily: "Arial" }}>Selected value : {selectedOption?.label || "No value"}</span>
       </div>
     );
   },
@@ -236,9 +226,7 @@ export const VisiblySelected: Story = {
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
         <Select {...args} onChange={handleOnChange} value={selectedOption?.value ?? ""} multiple={false} />
-        <span style={{ fontFamily: "Arial", color: "var(--content-primary)" }}>
-          Selected value : {selectedOption?.label || "No value"}
-        </span>
+        <span style={{ fontFamily: "Arial" }}>Selected value : {selectedOption?.label || "No value"}</span>
       </div>
     );
   },
@@ -259,7 +247,7 @@ export const Multiple: Story = {
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
         <Select {...args} onChange={handleOnChange} value={selectedOptions} multiple={true} />
-        <span style={{ fontFamily: "Arial", color: "var(--content-primary)" }}>
+        <span style={{ fontFamily: "Arial" }}>
           Selected values :{" "}
           {selectedOptions.length > 0 ? selectedOptions.map((option) => option).join(", ") : "No value"}
         </span>
@@ -289,9 +277,7 @@ export const CustomSelectBody: Story = {
     const CustomBody = () => {
       return (
         <>
-          <div style={{ padding: "16px", fontFamily: "Arial", color: "var(--content-primary)" }}>
-            This is a custom body for the select component.
-          </div>
+          <div style={{ padding: "16px", fontFamily: "Arial" }}>This is a custom body for the select component.</div>
           <button onClick={() => handleOnChange(options[0].value)}>Select Option 1</button>
           <button onClick={() => handleOnChange(options[1].value)}>Select Option 2</button>
           <button onClick={() => handleOnChange(options[2].value)}>Select Option 3</button>
@@ -303,9 +289,7 @@ export const CustomSelectBody: Story = {
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
         <Select {...args} body={<CustomBody />} />
-        <span style={{ fontFamily: "Arial", color: "var(--content-primary)" }}>
-          Selected value : {selectedOption?.label || "No value"}
-        </span>
+        <span style={{ fontFamily: "Arial" }}>Selected value : {selectedOption?.label || "No value"}</span>
       </div>
     );
   },
@@ -327,9 +311,7 @@ export const KeyboardInteraction: Story = {
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
         <Select {...args} onChange={handleOnChange} value={selectedOption?.value ?? ""} multiple={false} />
-        <span style={{ fontFamily: "Arial", color: "var(--content-primary)" }}>
-          Selected value : {selectedOption?.label || "No value"}
-        </span>
+        <span style={{ fontFamily: "Arial" }}>Selected value : {selectedOption?.label || "No value"}</span>
       </div>
     );
   },
@@ -377,9 +359,7 @@ export const UncontrolledDefaultValue: Story = {
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
         <Select {...rest} defaultValue={"option-3"} onChange={(v) => setLastValue(v)} multiple={false} />
-        <span style={{ fontFamily: "Arial", color: "var(--content-primary)" }}>
-          Last emitted value : {lastValue || "None yet"}
-        </span>
+        <span style={{ fontFamily: "Arial" }}>Last emitted value : {lastValue || "None yet"}</span>
       </div>
     );
   },

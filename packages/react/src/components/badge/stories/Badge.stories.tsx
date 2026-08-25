@@ -272,7 +272,6 @@ export const BadgeType: Story = {
         gap: "24px",
         alignItems: "center",
         fontFamily: "Nunito Sans, sans-serif",
-        color: "var(--content-primary)",
       }}
     >
       <div>

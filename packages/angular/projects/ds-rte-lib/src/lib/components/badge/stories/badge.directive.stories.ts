@@ -206,16 +206,18 @@ export const BadgeDisplay: Story = {
   }),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const badgeTextS = canvas.getByTestId("badge-text-s-host").querySelector(".badge");
-    expect(badgeTextS).not.toBeVisible();
-    const badgeIconS = canvas.getByTestId("badge-icon-s-host").querySelector(".badge");
-    expect(badgeIconS).not.toBeVisible();
-    const badgeEmptyS = canvas.getByTestId("badge-empty-s-host").querySelector(".badge");
-    expect(badgeEmptyS).toBeVisible();
-    const badgeTextM = canvas.getByTestId("badge-text-m-host").querySelector(".badge");
-    expect(badgeTextM).toBeVisible();
-    const badgeIconM = canvas.getByTestId("badge-icon-m-host").querySelector(".badge");
-    expect(badgeIconM).toBeVisible();
+    await waitFor(() => {
+      const badgeTextS = canvas.getByTestId("badge-text-s-host").querySelector(".badge");
+      expect(badgeTextS).not.toBeVisible();
+      const badgeIconS = canvas.getByTestId("badge-icon-s-host").querySelector(".badge");
+      expect(badgeIconS).not.toBeVisible();
+      const badgeEmptyS = canvas.getByTestId("badge-empty-s-host").querySelector(".badge");
+      expect(badgeEmptyS).toBeVisible();
+      const badgeTextM = canvas.getByTestId("badge-text-m-host").querySelector(".badge");
+      expect(badgeTextM).toBeVisible();
+      const badgeIconM = canvas.getByTestId("badge-icon-m-host").querySelector(".badge");
+      expect(badgeIconM).toBeVisible();
+    });
   },
 };
 
