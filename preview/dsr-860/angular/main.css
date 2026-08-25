@@ -2613,9 +2613,34 @@
   --background-hover-opacity-50: rgba(62, 62, 61, 0.5);
 }
 
+html {
+  height: 100%;
+  background-color: var(--background-default);
+}
+
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+body.sb-show-main.sb-main-padded {
+  padding: 0;
+}
+body.sb-show-main.sb-main-centered #storybook-root {
+  padding: 0;
+  width: 100%;
+}
+body .sbdocs.sbdocs-preview .docs-story > div {
+  padding: 0;
+}
+body .sbdocs.sbdocs-preview .docs-story > div > div {
+  width: 100%;
+}
+body .sbdocs.sbdocs-preview .docs-story > div > div > div > div {
+  border: none !important;
+}
+
+#storybook-root {
+  height: 100%;
 }
 .storybook_header .storybook_header_content {
   display: flex;
