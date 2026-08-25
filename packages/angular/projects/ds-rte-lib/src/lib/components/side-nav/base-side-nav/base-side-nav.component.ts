@@ -24,6 +24,7 @@ export class BaseSideNavComponent {
   readonly showFooter = input<boolean>(true);
 
   readonly minWidth = computed<string>(() => {
-    return this.isCollapsed() ? `${this.collapsedSize}px` : `${this.panelSize[this.size()]}px`;
+    const size = this.size() ?? "m";
+    return this.isCollapsed() ? `${this.collapsedSize}px` : `${this.panelSize[size]}px`;
   });
 }

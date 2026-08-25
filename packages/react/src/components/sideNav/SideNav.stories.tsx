@@ -1110,3 +1110,68 @@ export const WithDividers: Story = {
     collapsible: true,
   },
 };
+
+const customHeaderContent = (
+  <div
+    style={{
+      display: "flex",
+      alignItems: "center",
+      gap: "0.5rem",
+      padding: "0 1rem",
+      color: "white",
+      fontWeight: 600,
+    }}
+  >
+    <span style={{ fontSize: "1.25rem" }}>⬡</span>
+    <span>My App</span>
+  </div>
+);
+
+const customFooterContent = (
+  <div style={{ padding: "1rem", color: "white", fontSize: "0.875rem" }}>Custom footer content</div>
+);
+
+export const WithCustomHeader: Story = {
+  args: {
+    items: navigationItems,
+    appearance: "brand",
+  },
+  render: (args) => (
+    <SideNav {...args} header={customHeaderContent}>
+      {PageContent}
+    </SideNav>
+  ),
+};
+
+export const WithCustomFooter: Story = {
+  args: {
+    items: navigationItems,
+    appearance: "brand",
+  },
+  render: (args) => (
+    <SideNav {...args} footer={customFooterContent}>
+      {PageContent}
+    </SideNav>
+  ),
+};
+
+export const WithCustomHeaderAndFooter: Story = {
+  args: {
+    items: navigationItems,
+    appearance: "brand",
+  },
+  render: (args) => (
+    <SideNav {...args} header={customHeaderContent} footer={customFooterContent}>
+      {PageContent}
+    </SideNav>
+  ),
+};
+
+export const WithoutHeaderOrFooter: Story = {
+  args: {
+    items: navigationItems,
+    appearance: "brand",
+    collapsible: false,
+  },
+  render: (args) => <SideNav {...args}>{PageContent}</SideNav>,
+};
