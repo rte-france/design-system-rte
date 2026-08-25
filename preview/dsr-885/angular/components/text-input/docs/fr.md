@@ -16,36 +16,40 @@
 
 Le composant `TextInputComponent` (`<rte-text-input>`) constitue l'API publique. Liez ses inputs et outputs dans les templates, ou connectez-le aux formulaires réactifs via `formControl` / `formControlName`.
 
-| Nom | Type | Valeur par défaut | Description |
-|-----|------|-------------------|-------------|
-| id | string | — | Associe le libellé au champ de saisie. Requis pour une association accessible label/champ. |
-| label | string | `""` | Texte du libellé visible. |
-| labelPosition | `"top" \| "side"` | `"top"` | Position du libellé par rapport au champ. |
-| required | boolean | `false` | Marque le champ comme obligatoire pour l'indicateur du libellé. |
-| showCounter | boolean | `false` | Affiche un compteur de caractères lorsque `maxLength` est défini. |
-| value | string | `""` | Valeur courante du champ (liaison unidirectionnelle). |
-| maxLength | number | `150` | Nombre maximal de caractères autorisés. |
-| leftIcon | string \| null | `null` | Nom de l'icône à gauche. Remplacée par l'icône d'erreur lorsque `error` est `true`. |
-| showRightIcon | boolean | `true` | Active l'emplacement de l'icône à droite. |
-| rightIconAction | `"clean" \| "visibilityOn" \| "visibilityOff"` | `"clean"` | Comportement de l'icône droite : effacer la valeur ou basculer la visibilité du mot de passe. |
-| rightIconSize | `"s" \| "m"` | `"s"` | Taille du bouton icône à droite. |
-| showLabelRequirement | boolean | `false` | Affiche le texte facultatif/obligatoire à côté du libellé. |
-| assistiveAppearance | `"description" \| "error" \| "success" \| "link"` | `"description"` | Style visuel du texte d'aide. |
-| showAssistiveIcon | boolean | `false` | Affiche une icône à côté du texte d'aide (erreur et succès uniquement). |
-| assistiveTextLabel | string | `""` | Texte d'aide affiché sous le champ. |
-| error | boolean | `false` | Applique le style d'erreur au champ. |
-| disabled | boolean | `false` | Désactive le champ. Également activé automatiquement lorsque le `FormControl` lié est disabled. |
-| readOnly | boolean | `false` | Rend le champ en lecture seule. |
-| width | string | `"300px"` | Largeur du conteneur (px, %, em ou rem). Les valeurs numériques sont traitées en pixels. |
-| ariaLabel | string | `""` | Nom accessible lorsqu'aucun libellé visible n'est fourni. |
-| ariaRequired | boolean | `false` | Expose l'état obligatoire aux technologies d'assistance. |
-| ariaLabelledby | string | `""` | ID d'un élément externe qui libelle le champ. Remplace l'association automatique générée par le libellé. |
-| autocomplete | string | `""` | Valeur de l'attribut natif `autocomplete`. |
-| customStyle | `Record<string, string>` | — | Styles inline appliqués à l'élément natif `<input>`. |
-| valueChange | `Output<string>` | — | Émet la valeur mise à jour à chaque événement input. |
-| enterKeyDown | `Output<string>` | — | Émet la valeur courante lorsque Entrée est pressée. |
-| inputBlur | `Output<void>` | — | Émet lorsque le champ perd le focus. |
-| rightIconClick | `Output<MouseEvent \| KeyboardEvent>` | — | Émet lorsque l'icône droite est activée. L'action intégrée (effacer ou basculer la visibilité) s'exécute après cet événement. |
+
+| Nom                  | Type                                           | Valeur par défaut | Description                                                                                                                   |
+| -------------------- | ---------------------------------------------- | ----------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| id                   | string                                         | —                 | Associe le libellé au champ de saisie. Requis pour une association accessible label/champ.                                    |
+| label                | string                                         | `""`              | Texte du libellé visible.                                                                                                     |
+| labelPosition        | `"top" | "side"`                               | `"top"`           | Position du libellé par rapport au champ.                                                                                     |
+| required             | boolean                                        | `false`           | Marque le champ comme obligatoire pour l'indicateur du libellé.                                                               |
+| showCounter          | boolean                                        | `false`           | Affiche un compteur de caractères lorsque `maxLength` est défini.                                                             |
+| value                | string                                         | `""`              | Valeur courante du champ (liaison unidirectionnelle).                                                                         |
+| maxLength            | number                                         | `150`             | Nombre maximal de caractères autorisés.                                                                                       |
+| leftIcon             | string | null                                  | `null`            | Nom de l'icône à gauche. Remplacée par l'icône d'erreur lorsque `error` est `true`.                                           |
+| showRightIcon        | boolean                                        | `true`            | Active l'emplacement de l'icône à droite.                                                                                     |
+| rightIconAction      | `"clean" | "visibilityOn" | "visibilityOff"`   | `"clean"`         | Comportement de l'icône droite : effacer la valeur ou basculer la visibilité du mot de passe.                                 |
+| rightIconSize        | `"s" | "m"`                                    | `"s"`             | Taille du bouton icône à droite.                                                                                              |
+| showLabelRequirement | boolean                                        | `false`           | Affiche le texte facultatif/obligatoire à côté du libellé.                                                                    |
+| assistiveAppearance  | `"description" | "error" | "success" | "link"` | `"description"`   | Style visuel du texte d'aide.                                                                                                 |
+| showAssistiveIcon    | boolean                                        | `false`           | Affiche une icône à côté du texte d'aide (erreur et succès uniquement).                                                       |
+| assistiveTextLabel   | string                                         | `""`              | Texte d'aide affiché sous le champ.                                                                                           |
+| error                | boolean                                        | `false`           | Applique le style d'erreur au champ.                                                                                          |
+| disabled             | boolean                                        | `false`           | Désactive le champ. Également activé automatiquement lorsque le `FormControl` lié est disabled.                               |
+| readOnly             | boolean                                        | `false`           | Rend le champ en lecture seule.                                                                                               |
+| width                | string                                         | `"300px"`         | Largeur du conteneur (px, %, em ou rem). Les valeurs numériques sont traitées en pixels.                                      |
+| ariaLabel            | string                                         | `""`              | Nom accessible lorsqu'aucun libellé visible n'est fourni.                                                                     |
+| ariaRequired         | boolean                                        | `false`           | Expose l'état obligatoire aux technologies d'assistance.                                                                      |
+| ariaLabelledby       | string                                         | `""`              | ID d'un élément externe qui libelle le champ. Remplace l'association automatique générée par le libellé.                      |
+| autocomplete         | string                                         | `""`              | Valeur de l'attribut natif `autocomplete`.                                                                                    |
+| customStyle          | `Record<string, string>`                       | —                 | Styles inline appliqués à l'élément natif `<input>`.                                                                          |
+| valueChange          | `Output<string>`                               | —                 | Émet la valeur mise à jour à chaque événement input.                                                                          |
+| enterKeyDown         | `Output<string>`                               | —                 | Émet la valeur courante lorsque Entrée est pressée.                                                                           |
+| inputBlur            | `Output<void>`                                 | —                 | Émet lorsque le champ perd le focus.                                                                                          |
+| rightIconClick       | `Output<MouseEvent | KeyboardEvent>`           | —                 | Émet lorsque l'icône droite est activée. L'action intégrée (effacer ou basculer la visibilité) s'exécute après cet événement. |
+
+
+
 
 ## Usage
 
@@ -80,6 +84,8 @@ export class ExampleComponent {
 N'utilisez pas `<rte-base-text-input>` dans les templates applicatifs — ce sélecteur est interne à la librairie.
 
 ### Examples
+
+
 
 #### Error
 
@@ -208,6 +214,8 @@ Affiche le texte d'aide sous le champ dans différentes apparences (`"descriptio
 
 ## Limitations
 
+
+
 ### Largeur minimale du champ
 
 Le champ de saisie a une largeur minimale de `48px`. Les largeurs de conteneur inférieures (par exemple `width="20px"`) sont visuellement limitées au minimum.
@@ -237,6 +245,10 @@ Utilisez `assistiveTextLabel` pour les indications et instructions. Le contenu p
 Lorsque le composant est lié via `formControl` / `formControlName`, l'état disabled du FormControl prend le pas sur l'input `disabled`.
 
 ## FAQ
+
+Q : Lorsque `disabled` est `true`, pourquoi le TextInput n'affiche-t-il pas sa valeur ?
+
+R : Par conception, `disabled` représente un champ auquel l'utilisateur n'a pas accès et qui n'affiche pas de valeur. Pour afficher une valeur pré-remplie, par défaut ou bloquée sans permettre la modification, utilisez `readOnly` à la place. 
 
 Q : Puis-je utiliser une classe CSS personnalisée sur l'élément hôte pour définir la largeur du champ ? (AIT)
 

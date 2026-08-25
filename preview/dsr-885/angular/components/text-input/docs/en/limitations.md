@@ -25,3 +25,7 @@ Use `assistiveTextLabel` for hints and instructions. Placeholder content is not 
 ### Reactive forms disabled state
 
 When bound via `formControl` / `formControlName`, the disabled state from the form control takes precedence over the `disabled` input.
+
+### Disabled vs readOnly
+
+The `disabled` state is for fields the user cannot access; it is not intended to display pre-filled or locked values. Use `readOnly` when the value must remain visible but not editable.
