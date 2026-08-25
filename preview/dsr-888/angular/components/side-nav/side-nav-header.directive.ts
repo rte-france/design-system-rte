@@ -4,5 +4,5 @@ import { Directive, TemplateRef, inject } from "@angular/core";
   selector: "[rteSideNavHeader]",
 })
 export class SideNavHeaderDirective {
-  readonly templateRef = inject(TemplateRef<HTMLElement>, { optional: true });
+  readonly templateRef = inject(TemplateRef<unknown>, { optional: true });
 }

@@ -8,13 +8,14 @@ import {
   TESTING_ENTER_KEY,
   TESTING_SPACE_KEY,
 } from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
-import { componentWrapperDecorator, Meta, StoryObj } from "@storybook/angular";
+import { componentWrapperDecorator, Meta, moduleMetadata, StoryObj } from "@storybook/angular";
 import { expect, userEvent, within } from "@storybook/test";
 import { filter, map, startWith } from "rxjs";
 
 import { focusElementBeforeComponent } from "../../../../../../.storybook/testing/testing.utils";
 
 import { SideNavComponent, NavItem } from "./side-nav.component";
+import { SideNavModule } from "./side-nav.module";
 import {
   getFooterNavElement,
   getHeaderTitleContainer,
@@ -1234,4 +1235,103 @@ export const WithDividers: Story = {
     collapsible: true,
   },
   render: defaultRender,
+};
+
+const customHeaderMarkup = `
+  <div style="display: flex; align-items: center; gap: 0.5rem; padding: 0 1rem; color: white; font-weight: 600;">
+    <span style="font-size: 1.25rem;">⬡</span>
+    <span>My App</span>
+  </div>
+`;
+
+const customFooterMarkup = `
+  <div style="padding: 1rem; color: white; font-size: 0.875rem;">Custom footer content</div>
+`;
+
+const customHeaderFooterSideNavBindings = `
+  [size]="size"
+  [appearance]="appearance"
+  [contrast]="contrast"
+  [items]="items"
+`;
+
+export const WithCustomHeader: Story = {
+  decorators: [
+    moduleMetadata({
+      imports: [SideNavModule],
+    }),
+  ],
+  args: {
+    items: navigationItems,
+    appearance: "brand",
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <rte-side-nav ${customHeaderFooterSideNavBindings}>
+        <ng-template rteSideNavHeader>${customHeaderMarkup}</ng-template>
+        <div content>${PageContent}</div>
+      </rte-side-nav>
+    `,
+  }),
+};
+
+export const WithCustomFooter: Story = {
+  decorators: [
+    moduleMetadata({
+      imports: [SideNavModule],
+    }),
+  ],
+  args: {
+    items: navigationItems,
+    appearance: "brand",
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <rte-side-nav ${customHeaderFooterSideNavBindings}>
+        <ng-template rteSideNavFooter>${customFooterMarkup}</ng-template>
+        <div content>${PageContent}</div>
+      </rte-side-nav>
+    `,
+  }),
+};
+
+export const WithCustomHeaderAndFooter: Story = {
+  decorators: [
+    moduleMetadata({
+      imports: [SideNavModule],
+    }),
+  ],
+  args: {
+    items: navigationItems,
+    appearance: "brand",
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <rte-side-nav ${customHeaderFooterSideNavBindings}>
+        <ng-template rteSideNavHeader>${customHeaderMarkup}</ng-template>
+        <ng-template rteSideNavFooter>${customFooterMarkup}</ng-template>
+        <div content>${PageContent}</div>
+      </rte-side-nav>
+    `,
+  }),
+};
+
+export const WithoutHeaderOrFooter: Story = {
+  args: {
+    items: navigationItems,
+    appearance: "brand",
+    collapsible: false,
+    size: "m",
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <rte-side-nav ${customHeaderFooterSideNavBindings}>
+        <div content>${PageContent}</div>
+      </rte-side-nav>
+    `,
+  }),
 };
