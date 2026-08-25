@@ -374,8 +374,8 @@ export const KeyboardInteraction: Story = {
       `,
   }),
 
-  play: async ({ canvasElement }) => {
-    focusElementBeforeComponent(canvasElement);
+  play: async () => {
+    focusElementBeforeComponent();
 
     await userEvent.tab();
     await userEvent.keyboard(TESTING_SPACE_KEY);

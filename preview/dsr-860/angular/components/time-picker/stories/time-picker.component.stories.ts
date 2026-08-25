@@ -213,7 +213,7 @@ export const WithIncrement: Story = {
   },
   render: Default.render,
   play: async ({ canvasElement }) => {
-    await focusElementBeforeComponent(canvasElement);
+    await focusElementBeforeComponent();
     const mainInput = canvasElement.querySelector(".rte-base-input-picker-input") as HTMLInputElement;
     expect(mainInput).toBeTruthy();
 
@@ -293,7 +293,7 @@ export const KeyboardInteractions: Story = {
     };
   },
   play: async ({ canvasElement }) => {
-    await focusElementBeforeComponent(canvasElement);
+    await focusElementBeforeComponent();
     const input = canvasElement.querySelector(".rte-base-input-picker-input") as HTMLInputElement;
     expect(input).toBeTruthy();
     await userEvent.tab();

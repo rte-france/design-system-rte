@@ -229,8 +229,7 @@ export const Interactions: Story = {
     expect(nav.getByLabelText("Dernière page")).toHaveAttribute("aria-disabled", "true");
     expect(nav.getByLabelText("Page suivante")).toHaveAttribute("aria-disabled", "true");
 
-    await focusElementBeforeComponent(canvasElement);
-    await userEvent.tab();
+    await nav.getByLabelText("Première page").focus();
     expect(nav.getByLabelText("Première page")).toHaveFocus();
     await userEvent.keyboard(TESTING_ENTER_KEY);
     expect(args["pageChange"]).toHaveBeenCalledWith(1);
@@ -273,7 +272,7 @@ export const KeyboardNavigation: Story = {
     expect(nav.getByLabelText("Page suivante")).toBeInTheDocument();
     expect(nav.getByLabelText("Dernière page")).toBeInTheDocument();
 
-    await focusElementBeforeComponent(canvasElement);
+    await focusElementBeforeComponent();
 
     await userEvent.tab();
     expect(nav.getByLabelText("Première page")).toHaveFocus();

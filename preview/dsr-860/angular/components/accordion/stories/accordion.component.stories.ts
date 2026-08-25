@@ -149,7 +149,7 @@ export const Default: Story = {
   play: async ({ canvasElement }) => {
     const buttons = canvasElement.querySelectorAll<HTMLButtonElement>(".rte-accordion-summary");
     await expect(buttons.length).toBe(2);
-    await focusElementBeforeComponent(canvasElement);
+    await focusElementBeforeComponent();
     await userEvent.tab();
     await userEvent.keyboard("{Enter}");
     await userEvent.tab();
