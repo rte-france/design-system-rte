@@ -1,20 +1,8 @@
 <div class="rte-theme-selector">
-  <div class="rte-theme-selector__chips" role="radiogroup">
-    <rte-chip
-      *ngFor="let theme of themes"
-      type="single"
-      [id]="theme.id"
-      [label]="theme.label"
-      [selected]="selectedTheme() === theme.id"
-      (clickChip)="selectTheme(theme.id)"
-    />
-  </div>
-  <div style="display: flex">
-    <rte-icon-button
-      label="Toggle Theme Mode"
-      data-testid="mode-switcher"
-      [name]="iconName()"
-      (clickEvent)="selectMode(nextMode())"
-    />
-  </div>
+  <rte-select
+    label="Sélecteur de thème et mode"
+    [options]="themes"
+    [value]="selectedThemeMode()"
+    (valueChange)="selectThemeMode($event)"
+  />
 </div>

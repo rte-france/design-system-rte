@@ -5,7 +5,6 @@ import { Component, importProvidersFrom } from "@angular/core";
 import { provideRouter, withHashLocation } from "@angular/router";
 import { setCompodocJson } from "@storybook/addon-docs/angular";
 import { applicationConfig, type Preview, componentWrapperDecorator, moduleMetadata } from "@storybook/angular";
-
 import "@design-system-rte/core/css/rte-fonts.css";
 
 import docJson from "../documentation.json";
@@ -33,6 +32,11 @@ const decorators = [
   }),
 ];
 const preview: Preview = {
+  globalTypes: {},
+  initialGlobals: {
+    mode: "light",
+    theme: "bleu_iceberg",
+  },
   parameters: {
     controls: {
       matchers: {
@@ -56,26 +60,42 @@ const preview: Preview = {
     componentWrapperDecorator(
       (story) => {
         return `
-          <div style="padding: 16px 16px 80px 50px; background-color: var(--background-default); width: auto; height: 100%; display: flex; flex-direction: column; gap: 96px;">
-            <rte-theme-selector/>
-            <div [style.margin]="isGridStory ? '0' : 'auto'">
+        <div *ngIf="isStory">
+          <rte-theme-selector />
+          </div>
+          
+          <div
+            style="background-color: var(--background-default); padding: 24px; height: 100%; align-content: center; width: auto; overflow: scroll;"
+            
+            [style.margin-top]="isStory ? '180px' : '0'"
+          >
+            <div
+            [style.margin]="hasTopBottomMargins ? 'auto 0' : hasAutoMargins ? 'auto' : '0'"
+            [style.width]="hasAutoMargins ? 'fit-content' : '100%'"
+            >
               ${story}
             </div>
           </div>
         `;
       },
-      ({ title }) => {
-        const isGridStory = title?.includes("/Grid") === true;
+      ({ context }) => {
+        const noAutoMarginStoriesIds = ["composants-header", "sidenav"];
+        const topBottomMarginStoriesIds = ["composants-grid"];
+
+        const hasAutoMargins = !noAutoMarginStoriesIds.some((id) => context?.id?.includes(id));
+        const hasTopBottomMargins = topBottomMarginStoriesIds.some((id) => context?.id?.includes(id));
 
         return {
-          isGridStory,
+          hasAutoMargins,
+          hasTopBottomMargins,
+          isStory: context?.viewMode === "story",
         };
       },
     ),
   ],
 };
 
-document.querySelector("html")?.setAttribute("data-theme", "bleu_iceberg");
-document.querySelector("html")?.setAttribute("data-mode", "light");
+document.documentElement.setAttribute("data-theme", "bleu_iceberg");
+document.documentElement.setAttribute("data-mode", "light");
 
 export default preview;
