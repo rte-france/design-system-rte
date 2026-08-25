@@ -1,38 +1,48 @@
-import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component, computed, signal } from "@angular/core";
+import { ChangeDetectionStrategy, Component, OnInit, signal } from "@angular/core";
 import { Mode, Theme } from "@design-system-rte/core";
 
-import { ChipComponent } from "../../../projects/ds-rte-lib/src/lib/components/chip/chip.component";
-import { IconButtonComponent } from "../../../projects/ds-rte-lib/src/lib/components/icon-button/icon-button.component";
+import { SelectComponent } from "../../../projects/ds-rte-lib/src/lib/components/select/select.component";
+
+type ThemeMode = `${Theme}-${Mode}`;
 
 @Component({
   selector: "rte-theme-selector",
-  imports: [ChipComponent, CommonModule, IconButtonComponent],
+  imports: [SelectComponent],
   templateUrl: "./theme-selector.component.html",
   styleUrl: "./theme-selector.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ThemeSelectorComponent {
-  readonly themes: Array<{ id: Theme; label: string }> = [
-    { id: "bleu_iceberg", label: "Bleu Iceberg" },
-    { id: "violet", label: "Violet" },
-    { id: "vert_foret", label: "Vert Forêt" },
+export class ThemeSelectorComponent implements OnInit {
+  readonly themes: Array<{ value: ThemeMode; label: string }> = [
+    { value: "bleu_iceberg-light", label: "Bleu Iceberg - Light" },
+    { value: "bleu_iceberg-dark", label: "Bleu Iceberg - Dark" },
+    { value: "violet-light", label: "Violet - Light" },
+    { value: "violet-dark", label: "Violet - Dark" },
+    { value: "vert_foret-light", label: "Vert Forêt - Light" },
+    { value: "vert_foret-dark", label: "Vert Forêt - Dark" },
   ];
 
-  readonly selectedTheme = signal<Theme>("bleu_iceberg");
+  readonly selectedThemeMode = signal<ThemeMode>("bleu_iceberg-light");
 
-  readonly selectedMode = signal<Mode>("light");
+  ngOnInit(): void {
+    const theme = document.documentElement.getAttribute("data-theme") as Theme | null;
+    const mode = document.documentElement.getAttribute("data-mode") as Mode | null;
 
-  readonly iconName = computed(() => (this.selectedMode() === "light" ? "mode-dark" : "mode-light"));
-  readonly nextMode = computed<Mode>(() => (this.selectedMode() === "light" ? "dark" : "light"));
-
-  selectTheme(theme: Theme): void {
-    this.selectedTheme.set(theme);
-    document.documentElement.setAttribute("data-theme", theme);
+    if (theme && mode) {
+      this.selectedThemeMode.set(`${theme}-${mode}`);
+    }
   }
 
-  selectMode(mode: Mode): void {
-    this.selectedMode.set(mode);
+  selectThemeMode(value: string | string[]): void {
+    if (Array.isArray(value)) {
+      return;
+    }
+
+    const themeMode = value as ThemeMode;
+    const [theme, mode] = themeMode.split("-") as [Theme, Mode];
+
+    this.selectedThemeMode.set(themeMode);
+    document.documentElement.setAttribute("data-theme", theme);
     document.documentElement.setAttribute("data-mode", mode);
   }
 }

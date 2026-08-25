@@ -1,11 +1,15 @@
 .rte-theme-selector {
   display: flex;
-  flex-direction: row;
-  gap: 24px;
-  justify-content: flex-end;
-
-  &__chips {
-    display: flex;
-    gap: 8px;
-  }
+  flex-direction: column;
+  position: fixed;
+  background-color: var(--background-neutral-subtle-default);
+  padding: 16px;
+  gap: 12px;
+  width: 100%;
+  color: var(--content-primary);
+  font-family: "Arial";
+  z-index: 10;
+  border-bottom: 1px solid var(--border-divider);
+  top: 0;
+  left: 0;
 }

@@ -1,9 +1,11 @@
-import { waitFor, within } from "@storybook/test";
+import { waitFor } from "@storybook/test";
 
 export const focusElementBeforeComponent = async (canvasElement: HTMLElement) => {
-  const canvas = within(canvasElement);
   await waitFor(() => {
-    const modeSwitcher = within(canvas.getByTestId("mode-switcher")).getByRole("button");
-    modeSwitcher.focus();
+    const themeSelector = canvasElement.querySelector<HTMLElement>("rte-theme-selector [role='combobox']");
+    if (!themeSelector) {
+      throw new Error("Theme selector combobox not found");
+    }
+    themeSelector.focus();
   });
 };
