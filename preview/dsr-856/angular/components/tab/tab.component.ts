@@ -299,7 +299,7 @@ export class TabComponent implements AfterViewInit, OnChanges, OnDestroy {
     const containerNativeElement = this.containerRef()?.nativeElement;
     if (containerNativeElement) {
       const isOverflowingRight =
-        containerNativeElement.scrollWidth - containerNativeElement.clientWidth - containerNativeElement.scrollLeft > 0;
+        containerNativeElement.scrollWidth - containerNativeElement.clientWidth - containerNativeElement.scrollLeft > 1;
       this.isOverflowingRight.set(this.isScrollable() && isOverflowingRight);
     }
   }
