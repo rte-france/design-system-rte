@@ -37,7 +37,7 @@ const Checkbox = ({
 
   return (
     <div
-      className={styles.container}
+      className={styles["rte-checkbox-container"]}
       data-show-label={showLabel}
       data-disabled={disabled}
       data-read-only={readOnly}
@@ -46,7 +46,7 @@ const Checkbox = ({
       <input
         type="checkbox"
         id={id}
-        className={styles.checkbox}
+        className={styles["rte-checkbox"]}
         disabled={disabled}
         ref={inputRef}
         data-read-only={readOnly}
@@ -55,24 +55,24 @@ const Checkbox = ({
         {...props}
       />
       <div
-        className={styles.checkboxBackground}
+        className={styles["rte-checkbox-background"]}
         data-disabled={disabled}
         data-read-only={readOnly}
         data-error={!!error}
       >
-        <div className={styles.checkboxOuter}></div>
-        <div className={styles.checkboxInner}></div>
-        <div className={`${styles.checkboxIconSelected} ${styles.checkboxIcons}`}>
+        <div className={styles["rte-checkbox-outer"]}></div>
+        <div className={styles["rte-checkbox-inner"]}></div>
+        <div className={`${styles["rte-checkbox-icon-selected"]} ${styles["rte-checkbox-icons"]}`}>
           <Icon name="check-small" size={16} />
         </div>
-        <div className={`${styles.checkboxIconIndeterminated} ${styles.checkboxIcons}`}>
+        <div className={`${styles["rte-checkbox-icon-indeterminated"]} ${styles["rte-checkbox-icons"]}`}>
           <Icon name="check-indeterminate" size={16} />
         </div>
       </div>
-      <div className={styles.checkboxTextContainer} data-disabled={disabled}>
+      <div className={styles["rte-checkbox-text-container"]} data-disabled={disabled}>
         {showLabel && <label htmlFor={id}>{label}</label>}
-        <p className={styles.checkboxDescription}>{description}</p>
-        {error && errorMessage && <p className={styles.checkboxError}>{errorMessage}</p>}
+        <p className={styles["rte-checkbox-description"]}>{description}</p>
+        {error && errorMessage && <p className={styles["rte-checkbox-error"]}>{errorMessage}</p>}
       </div>
     </div>
   );
