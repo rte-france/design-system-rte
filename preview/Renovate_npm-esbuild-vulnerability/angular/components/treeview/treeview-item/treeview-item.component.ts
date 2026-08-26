@@ -102,7 +102,6 @@ export class TreeviewItemComponent {
   readonly isCompact = input<boolean>(false);
   readonly hasCheckbox = input<boolean>(false);
   readonly isOpen = input<boolean>(false);
-  readonly hasIcon = input<boolean>(false);
   readonly hasBadge = input<boolean>(false);
   readonly items = input<TreeviewItemProps[]>([]);
   readonly rootItems = input<TreeviewItemProps[] | undefined>(undefined);
