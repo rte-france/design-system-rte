@@ -1,3 +1,4 @@
+import { CloseButtonAriaLabel } from "@design-system-rte/core";
 import { BannerProps as CoreBannerProps } from "@design-system-rte/core/components/banner/banner.interface";
 import { IconSize } from "@design-system-rte/core/components/icon/icon.constants";
 import { forwardRef, useEffect, useState } from "react";
@@ -94,7 +95,7 @@ const Banner = forwardRef<HTMLDivElement, BannerProps>(
               data-size="m"
               data-variant="neutral"
               data-compact-spacing={true}
-              aria-label="close banner"
+              aria-label={CloseButtonAriaLabel}
               onClick={handleOnClose}
             >
               <Icon name="close" size={IconSize["m"]} />
