@@ -24,6 +24,7 @@ const meta = {
     position: { control: "select", options: ["modal", "responsive"] },
     fixedHeader: { control: "boolean" },
     showHeader: { control: "boolean" },
+    showFooter: { control: "boolean" },
     onClickPrimaryButton: { action: "primary click", control: false },
     onClickSecondaryButton: { action: "secondary click", control: false },
   },
@@ -288,6 +289,33 @@ export const CloseOnOverlayClick: Story = {
     await waitFor(() => {
       expect(within(document.body).queryByRole("dialog")).not.toBeInTheDocument();
     });
+  },
+};
+
+export const WithoutFooter: Story = {
+  args: {
+    ...Default.args,
+    id: "drawer-without-footer",
+    primaryButtonLabel: undefined,
+    secondaryButtonLabel: undefined,
+    showFooter: false,
+  },
+  render: Default.render,
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Modal drawer with **showFooter** set to `false`. The footer (primary/secondary buttons or custom footer) is not rendered, and neither a primary button label nor a custom footer is required.",
+      },
+    },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole("button", { name: "Open drawer" }));
+    const drawer = within(document.body).getByRole("dialog");
+    expect(drawer).toBeInTheDocument();
+    expect(within(drawer).queryByRole("button", { name: "Confirm" })).not.toBeInTheDocument();
+    expect(within(drawer).queryByRole("button", { name: "Cancel" })).not.toBeInTheDocument();
   },
 };
 
