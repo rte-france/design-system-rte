@@ -9,6 +9,7 @@ import {
   signal,
   viewChild,
 } from "@angular/core";
+import { generateId } from "@design-system-rte/core";
 import { waitForNextFrame } from "@design-system-rte/core/common/animation";
 import { AccordionIconSizeMap } from "@design-system-rte/core/components/accordion/accordion.constants";
 import { AccordionProps } from "@design-system-rte/core/components/accordion/accordion.interface";
@@ -24,8 +25,6 @@ import { IconComponent } from "../icon/icon.component";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AccordionComponent {
-  private static nextFallbackId = 0;
-
   readonly id = input<string | undefined>(undefined);
   readonly title = input<string>();
   readonly appearance = input<AccordionProps["appearance"]>("brand");
@@ -48,7 +47,7 @@ export class AccordionComponent {
     return ["rte-accordion", this.internalOpen() ? "is-open" : ""].filter(Boolean).join(" ");
   }
 
-  private readonly generatedInstanceId = AccordionComponent.createInstanceId();
+  private readonly generatedInstanceId = generateId();
   private readonly contentArea = viewChild<ElementRef<HTMLElement>>("accordionContent");
 
   constructor() {
@@ -105,13 +104,5 @@ export class AccordionComponent {
       return;
     }
     this.panelHeightPx.set(contentElement.scrollHeight);
-  }
-
-  private static createInstanceId(): string {
-    if (typeof globalThis.crypto !== "undefined" && "randomUUID" in globalThis.crypto) {
-      return globalThis.crypto.randomUUID();
-    }
-    AccordionComponent.nextFallbackId += 1;
-    return `accordion-${AccordionComponent.nextFallbackId}`;
   }
 }

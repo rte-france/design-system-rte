@@ -88,6 +88,7 @@ export const Multiple: Story = {
   }),
 };
 export const KeyboardInteraction: Story = {
+  tags: ["!autodocs"],
   args: {
     message: "Une mise à jour est disponible",
     type: "info",

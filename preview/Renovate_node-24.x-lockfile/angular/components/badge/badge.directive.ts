@@ -25,6 +25,7 @@ export class BadgeDirective implements OnInit, OnChanges, OnDestroy {
   readonly rteBadgeContent = input<BadgeContent>("number");
   readonly rteBadgeCount = input<number | undefined>();
   readonly rteBadgeIcon = input<RegularIconIdKey | TogglableIconIdKey>("settings");
+  readonly rteBadgeWithPlusSign = input<boolean>(false);
 
   private badgeComponentRef: ComponentRef<BadgeComponent> | null = null;
   private hostElement: HTMLElement;
@@ -62,6 +63,7 @@ export class BadgeDirective implements OnInit, OnChanges, OnDestroy {
       this.badgeComponentRef.setInput("badgeContent", this.rteBadgeContent());
       this.badgeComponentRef.setInput("count", this.rteBadgeCount());
       this.badgeComponentRef.setInput("icon", this.rteBadgeIcon());
+      this.badgeComponentRef.setInput("withPlusSign", this.rteBadgeWithPlusSign());
     }
   }
 
