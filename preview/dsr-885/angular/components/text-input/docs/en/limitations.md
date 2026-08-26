@@ -6,10 +6,6 @@ The input field has a minimum width of `48px`. Container widths below this value
 
 The default container width is `300px`. Pass `width` to override it; numeric values without a unit are treated as pixels.
 
-### Character counter
-
-The counter is displayed only when both `showCounter` is `true` and `maxLength` is a number. Counter placement depends on `labelPosition`: above the input bar when `"top"`, beside the container when `"side"`.
-
 ### Right icon visibility
 
 The right icon is hidden when the input is `disabled` or `readOnly`. With `rightIconAction="clean"`, the icon appears only when the field contains text. With visibility actions (`"visibilityOn"` / `"visibilityOff"`), the icon is always shown when `showRightIcon` is enabled.
@@ -25,7 +21,3 @@ Use `assistiveTextLabel` for hints and instructions. Placeholder content is not 
 ### Reactive forms disabled state
 
 When bound via `formControl` / `formControlName`, the disabled state from the form control takes precedence over the `disabled` input.
-
-### Disabled vs readOnly
-
-The `disabled` state is for fields the user cannot access; it is not intended to display pre-filled or locked values. Use `readOnly` when the value must remain visible but not editable.

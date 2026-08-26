@@ -83,6 +83,10 @@ export class ExampleComponent {
 
 N'utilisez pas `<rte-base-text-input>` dans les templates applicatifs — ce sélecteur est interne à la librairie.
 
+### Compteur de caractères
+
+Le compteur s'affiche uniquement lorsque `showCounter` est `true` et `maxLength` est un nombre. Son placement dépend de `labelPosition` : au-dessus de la barre de saisie pour `"top"`, à côté du conteneur pour `"side"`.
+
 ### Examples
 
 
@@ -224,10 +228,6 @@ Le champ de saisie a une largeur minimale de `48px`. Les largeurs de conteneur i
 
 La largeur par défaut du conteneur est `300px`. Passez `width` pour la modifier ; les valeurs numériques sans unité sont traitées en pixels.
 
-### Compteur de caractères
-
-Le compteur s'affiche uniquement lorsque `showCounter` est `true` et `maxLength` est un nombre. Son placement dépend de `labelPosition` : au-dessus de la barre de saisie pour `"top"`, à côté du conteneur pour `"side"`.
-
 ### Visibilité de l'icône droite
 
 L'icône droite est masquée lorsque le champ est `disabled` ou `readOnly`. Avec `rightIconAction="clean"`, l'icône n'apparaît que lorsque le champ contient du texte. Avec les actions de visibilité (`"visibilityOn"` / `"visibilityOff"`), l'icône est toujours affichée lorsque `showRightIcon` est activé.
@@ -244,11 +244,7 @@ Utilisez `assistiveTextLabel` pour les indications et instructions. Le contenu p
 
 Lorsque le composant est lié via `formControl` / `formControlName`, l'état disabled du FormControl prend le pas sur l'input `disabled`.
 
-## FAQ
-
-Q : Lorsque `disabled` est `true`, pourquoi le TextInput n'affiche-t-il pas sa valeur ?
-
-R : Par conception, `disabled` représente un champ auquel l'utilisateur n'a pas accès et qui n'affiche pas de valeur. Pour afficher une valeur pré-remplie, par défaut ou bloquée sans permettre la modification, utilisez `readOnly` à la place. 
+## FAQ 
 
 Q : Puis-je utiliser une classe CSS personnalisée sur l'élément hôte pour définir la largeur du champ ? (AIT)
 

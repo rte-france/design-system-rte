@@ -28,6 +28,10 @@ export class ExampleComponent {
 
 Do not use `<rte-base-text-input>` in application templates — that selector is internal to the library.
 
+### Character counter
+
+The counter is displayed only when both `showCounter` is `true` and `maxLength` is a number. Counter placement depends on `labelPosition`: above the input bar when `"top"`, beside the container when `"side"`.
+
 ### Examples
 
 #### Error
