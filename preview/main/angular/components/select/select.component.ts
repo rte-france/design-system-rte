@@ -128,31 +128,19 @@ export class SelectComponent extends BaseValueAccessor<string | string[]> implem
     return "bottom";
   });
 
-  readonly optionsFormatted = computed(() => {
-    const options = this.options();
-
-    if (this.withSelectAll()) {
-      return [
-        {
-          id: "select-all",
-          label: "Sélectionner tout",
-          selected: this.areAllOptionsSelected(),
-          hasCheckbox: true,
-          hasSeparator: true,
-          isIndeterminate: options.some((option) => this.isSelected(option.value)) && !this.areAllOptionsSelected(),
-        },
-        ...options.map((option) => this.mapOptionToDropdownItemConfig(option)),
-      ];
-    }
-
-    return options.map((option) => ({ ...this.mapOptionToDropdownItemConfig(option), hasSeparator: false }));
-  });
+  readonly optionsFormatted = signal<DropdownItemConfig[]>(
+    this.options().map(({ value, label }) => ({
+      id: value,
+      label: label,
+      selected: this.isSelected(value),
+    })),
+  );
 
   readonly internalValue = signal(this.value());
 
   readonly valueChange = output<string | string[]>();
 
-  readonly currentDisplayedOption = computed(() =>
+  readonly currentDisplayedOption = signal(
     getSelectedOption(this.optionToDisplay() || "first-selected", this.options(), this.internalValue()!),
   );
 
@@ -204,6 +192,10 @@ export class SelectComponent extends BaseValueAccessor<string | string[]> implem
 
   ngAfterViewInit() {
     this.internalValue.set(this.value());
+    this.currentDisplayedOption.set(
+      getSelectedOption(this.optionToDisplay() || "first-selected", this.options(), this.internalValue()!),
+    );
+    this.regenerateOptionsFormatted();
   }
 
   writeValue(value: string | string[]): void {
@@ -212,6 +204,10 @@ export class SelectComponent extends BaseValueAccessor<string | string[]> implem
     } else {
       this.internalValue.set(value ?? (this.multiple() ? [] : ""));
     }
+    this.regenerateOptionsFormatted();
+    this.currentDisplayedOption.set(
+      getSelectedOption(this.optionToDisplay() || "first-selected", this.options(), this.internalValue()!),
+    );
   }
 
   private emitValueChange(): void {
@@ -261,7 +257,11 @@ export class SelectComponent extends BaseValueAccessor<string | string[]> implem
         const valueIndex = currentValue.indexOf(value);
         if (valueIndex > -1) {
           this.internalValue.set(currentValue.filter((currentItem) => currentItem !== value));
+          this.regenerateOptionsFormatted();
           this.emitValueChange();
+          this.currentDisplayedOption.set(
+            getSelectedOption(this.optionToDisplay() || "first-selected", this.options(), this.internalValue()!),
+          );
         }
       }
     }
@@ -290,8 +290,12 @@ export class SelectComponent extends BaseValueAccessor<string | string[]> implem
       this.internalValue.set(value);
       this.isActive.set(!this.isActive());
     }
+    this.regenerateOptionsFormatted();
 
     this.emitValueChange();
+    this.currentDisplayedOption.set(
+      getSelectedOption(this.optionToDisplay() || "first-selected", this.options(), this.internalValue()!),
+    );
     this.selectRef()?.nativeElement.focus();
   }
 
@@ -319,6 +323,31 @@ export class SelectComponent extends BaseValueAccessor<string | string[]> implem
     this.isActive.set(false);
     this.emitValueChange();
     this.selectRef()?.nativeElement.dispatchEvent(new Event("clearContent"));
+    this.regenerateOptionsFormatted();
+    this.currentDisplayedOption.set(
+      getSelectedOption(this.optionToDisplay() || "first-selected", this.options(), this.internalValue()!),
+    );
+  }
+
+  private regenerateOptionsFormatted() {
+    if (this.withSelectAll()) {
+      this.optionsFormatted.set([
+        {
+          id: "select-all",
+          label: "Sélectionner tout",
+          selected: this.areAllOptionsSelected(),
+          hasCheckbox: true,
+          hasSeparator: true,
+          isIndeterminate:
+            this.options().some((option) => this.isSelected(option.value)) && !this.areAllOptionsSelected(),
+        },
+        ...this.options().map((option) => this.mapOptionToDropdownItemConfig(option)),
+      ]);
+    } else {
+      this.optionsFormatted.set(
+        this.options().map((option) => ({ ...this.mapOptionToDropdownItemConfig(option), hasSeparator: false })),
+      );
+    }
   }
 
   private isSelected(value: string): boolean {
