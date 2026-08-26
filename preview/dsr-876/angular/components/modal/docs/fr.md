@@ -229,6 +229,10 @@ La modale ne s'ouvre pas sans template `#primaryButton`. S'il est absent, la dir
 
 La largeur de la modale est contrôlée par des presets de taille, pas par du CSS consommateur. Largeurs par défaut : `xs` 496 px, `s` 656 px, `m` 936 px, `l` 1168 px, `xl` 1328 px.
 
+### Hauteur maximale et corps défilant
+
+La boîte de dialogue est plafonnée à `90vh`. La zone de contenu défile lorsque la description et le contenu personnalisé dépassent la hauteur disponible.
+
 ### Verrouillage du défilement du body
 
 Tant qu'elle est ouverte, la directive définit `document.body.style.overflow` à `"hidden"`. Elle le restaure à `"unset"` lorsque la modale est détruite.

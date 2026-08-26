@@ -18,6 +18,10 @@ The modal does not open without a `#primaryButton` template. If it is missing, t
 
 Modal width is controlled by size presets, not by consumer CSS. Default widths: `xs` 496px, `s` 656px, `m` 936px, `l` 1168px, `xl` 1328px.
 
+### Maximum height and scrollable body
+
+The dialog is capped at `90vh`. The content area scrolls when description and custom content exceed the available height.
+
 ### Body scroll lock
 
 While open, the directive sets `document.body.style.overflow` to `"hidden"`. It restores `"unset"` when the modal is destroyed.
