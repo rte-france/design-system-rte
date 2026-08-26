@@ -8,13 +8,14 @@ import {
   TESTING_ENTER_KEY,
   TESTING_SPACE_KEY,
 } from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
-import { componentWrapperDecorator, Meta, StoryObj } from "@storybook/angular";
+import { componentWrapperDecorator, Meta, moduleMetadata, StoryObj } from "@storybook/angular";
 import { expect, userEvent, within } from "@storybook/test";
 import { filter, map, startWith } from "rxjs";
 
 import { focusElementBeforeComponent } from "../../../../../../.storybook/testing/testing.utils";
 
 import { SideNavComponent, NavItem } from "./side-nav.component";
+import { SideNavModule } from "./side-nav.module";
 import {
   getFooterNavElement,
   getHeaderTitleContainer,
@@ -407,6 +408,7 @@ export const WithRouterNavigation: Story = {
 };
 
 export const HeaderWithVersion: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     headerConfig: defaultHeaderConfig,
@@ -415,6 +417,7 @@ export const HeaderWithVersion: Story = {
 };
 
 export const HeaderCompact: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     headerConfig: { ...defaultHeaderConfig, isCompact: true },
@@ -423,9 +426,10 @@ export const HeaderCompact: Story = {
 };
 
 export const HeaderWithLongTitle: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
-    headerConfig: { ...defaultHeaderConfig, title: longApplicationTitle },
+    headerConfig: { ...defaultHeaderConfig, title: longApplicationTitle, ariaLabel: "My Aria Label" },
     size: "m",
   },
   render: defaultRender,
@@ -441,6 +445,39 @@ export const HeaderWithLongTitle: Story = {
       expect(title).not.toBeNull();
       expect(getComputedStyle(title).textOverflow).toBe("ellipsis");
       expect(title.scrollWidth).toBeGreaterThan(title.clientWidth);
+    });
+  },
+};
+
+const longNavItemLabel = "Supervision des processus et des opérations en temps réel";
+
+export const WithLongItemLabel: Story = {
+  tags: ["!autodocs"],
+  args: {
+    ...Default.args,
+    headerConfig: defaultHeaderConfig,
+    items: [
+      { ...baseNavItem, id: "supervision", label: longNavItemLabel, icon: "dashboard" },
+      ...navigationItems.slice(1),
+    ],
+    size: "m",
+  },
+  render: defaultRender,
+  play: async ({ canvasElement, step }) => {
+    const { sideNav } = getCanvasAndSideNav(canvasElement);
+
+    await step("Side nav keeps the fixed M panel width with a long item label", async () => {
+      expect(sideNav.offsetWidth).toBe(sideNavPanelSize.m);
+    });
+
+    await step("Nav item label is truncated with an ellipsis", async () => {
+      const navItem = getNavElement(sideNav, longNavItemLabel);
+      expect(navItem).not.toBeNull();
+
+      const label = navItem?.querySelector(".nav-item-left span:last-child") as HTMLElement;
+      expect(label).not.toBeNull();
+      expect(getComputedStyle(label).textOverflow).toBe("ellipsis");
+      expect(label.scrollWidth).toBeGreaterThan(label.clientWidth);
     });
   },
 };
@@ -479,6 +516,7 @@ const keyboardNavigationRender = (args: StoryArgs) => ({
 });
 
 export const KeyboardNavigation: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     headerConfig: defaultHeaderConfig,
@@ -614,6 +652,7 @@ export const KeyboardNavigation: Story = {
 };
 
 export const HeaderClickability: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     headerConfig: { ...defaultHeaderConfig, link: null },
@@ -635,6 +674,7 @@ export const HeaderClickability: Story = {
 };
 
 export const HeaderWithLink: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     headerConfig: headerConfigWithLink,
@@ -661,6 +701,7 @@ export const HeaderWithLink: Story = {
 };
 
 export const HeaderWithOnClick: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     headerConfig: { ...headerConfigWithOnClick, link: null },
@@ -690,6 +731,7 @@ export const HeaderWithOnClick: Story = {
 };
 
 export const CollapsedTooltip: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     headerConfig: defaultHeaderConfig,
@@ -750,7 +792,7 @@ export const CollapsedTooltip: Story = {
 };
 
 export const CollapsedHeaderTooltipCustom: Story = {
-  tags: ["skip-ci"],
+  tags: ["skip-ci", "!autodocs"],
   args: {
     ...Default.args,
     headerConfig: { ...defaultHeaderConfig, tooltip: "Custom header tooltip" },
@@ -776,6 +818,7 @@ export const CollapsedHeaderTooltipCustom: Story = {
 };
 
 export const CollapsedTooltipWithNested: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     headerConfig: defaultHeaderConfig,
@@ -806,7 +849,7 @@ export const CollapsedTooltipWithNested: Story = {
 };
 
 export const NestedItemActivePreselected: Story = {
-  tags: ["skip-ci"],
+  tags: ["skip-ci", "!autodocs"],
   args: {
     ...Default.args,
     headerConfig: defaultHeaderConfig,
@@ -839,7 +882,7 @@ export const NestedItemActivePreselected: Story = {
 };
 
 export const NestedNavMenuActivePreselected: Story = {
-  tags: ["skip-ci"],
+  tags: ["skip-ci", "!autodocs"],
   args: {
     ...Default.args,
     headerConfig: defaultHeaderConfig,
@@ -874,7 +917,7 @@ export const NestedNavMenuActivePreselected: Story = {
 };
 
 export const NestedNavMenuActiveOnClick: Story = {
-  tags: ["skip-ci"],
+  tags: ["skip-ci", "!autodocs"],
   args: {
     ...Default.args,
     headerConfig: defaultHeaderConfig,
@@ -938,7 +981,7 @@ export const NestedNavMenuActiveOnClick: Story = {
 };
 
 export const NestedItemActiveOnClick: Story = {
-  tags: ["skip-ci"],
+  tags: ["skip-ci", "!autodocs"],
   args: {
     ...Default.args,
     headerConfig: defaultHeaderConfig,
@@ -1017,6 +1060,7 @@ export const NestedItemActiveOnClick: Story = {
 };
 
 export const ActiveItemState: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     headerConfig: defaultHeaderConfig,
@@ -1100,6 +1144,7 @@ export const WithFooterItems: Story = {
 };
 
 export const FooterItemsOnly: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     headerConfig: defaultHeaderConfig,
@@ -1111,6 +1156,7 @@ export const FooterItemsOnly: Story = {
 };
 
 export const FooterItemsWithNested: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     headerConfig: defaultHeaderConfig,
@@ -1147,6 +1193,7 @@ export const FooterItemsWithNested: Story = {
 };
 
 export const WithBadges: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     headerConfig: defaultHeaderConfig,
@@ -1157,6 +1204,7 @@ export const WithBadges: Story = {
 };
 
 export const CollapsedWithBadges: Story = {
+  tags: ["!autodocs"],
   args: {
     ...WithBadges.args,
     isCollapsed: true,
@@ -1194,6 +1242,7 @@ export const CollapsedWithBadges: Story = {
 };
 
 export const WithDividers: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     headerConfig: defaultHeaderConfig,
@@ -1201,4 +1250,103 @@ export const WithDividers: Story = {
     collapsible: true,
   },
   render: defaultRender,
+};
+
+const customHeaderMarkup = `
+  <div style="display: flex; align-items: center; gap: 0.5rem; padding: 0 1rem; color: white; font-weight: 600;">
+    <span style="font-size: 1.25rem;">⬡</span>
+    <span>My App</span>
+  </div>
+`;
+
+const customFooterMarkup = `
+  <div style="padding: 1rem; color: white; font-size: 0.875rem;">Custom footer content</div>
+`;
+
+const customHeaderFooterSideNavBindings = `
+  [size]="size"
+  [appearance]="appearance"
+  [contrast]="contrast"
+  [items]="items"
+`;
+
+export const WithCustomHeader: Story = {
+  decorators: [
+    moduleMetadata({
+      imports: [SideNavModule],
+    }),
+  ],
+  args: {
+    items: navigationItems,
+    appearance: "brand",
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <rte-side-nav ${customHeaderFooterSideNavBindings}>
+        <ng-template rteSideNavHeader>${customHeaderMarkup}</ng-template>
+        <div content>${PageContent}</div>
+      </rte-side-nav>
+    `,
+  }),
+};
+
+export const WithCustomFooter: Story = {
+  decorators: [
+    moduleMetadata({
+      imports: [SideNavModule],
+    }),
+  ],
+  args: {
+    items: navigationItems,
+    appearance: "brand",
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <rte-side-nav ${customHeaderFooterSideNavBindings}>
+        <ng-template rteSideNavFooter>${customFooterMarkup}</ng-template>
+        <div content>${PageContent}</div>
+      </rte-side-nav>
+    `,
+  }),
+};
+
+export const WithCustomHeaderAndFooter: Story = {
+  decorators: [
+    moduleMetadata({
+      imports: [SideNavModule],
+    }),
+  ],
+  args: {
+    items: navigationItems,
+    appearance: "brand",
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <rte-side-nav ${customHeaderFooterSideNavBindings}>
+        <ng-template rteSideNavHeader>${customHeaderMarkup}</ng-template>
+        <ng-template rteSideNavFooter>${customFooterMarkup}</ng-template>
+        <div content>${PageContent}</div>
+      </rte-side-nav>
+    `,
+  }),
+};
+
+export const WithoutHeaderOrFooter: Story = {
+  args: {
+    items: navigationItems,
+    appearance: "brand",
+    collapsible: false,
+    size: "m",
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <rte-side-nav ${customHeaderFooterSideNavBindings}>
+        <div content>${PageContent}</div>
+      </rte-side-nav>
+    `,
+  }),
 };

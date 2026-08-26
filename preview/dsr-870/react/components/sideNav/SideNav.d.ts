@@ -2,6 +2,8 @@ import { SideNavProps as CoreSideNavProps } from '../../../../core/components/si
 import { ReactNode } from '../../../../../node_modules/react';
 interface SideNavProps extends Partial<CoreSideNavProps>, Omit<React.HTMLAttributes<HTMLDivElement>, "content"> {
     children?: ReactNode;
+    header?: ReactNode;
+    footer?: ReactNode;
     defaultCollapsed?: boolean;
     onCollapsedChange?: (collapsed: boolean) => void;
     onActiveItemChange?: (id: string | undefined) => void;

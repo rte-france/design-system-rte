@@ -1,5 +1,13 @@
 @use '@design-system-rte/core/design-tokens/main.scss' as *;
 
+:host {
+    display: flex;
+    flex: 1 1 auto;
+    align-self: stretch;
+    min-height: 0;
+    height: 100%;
+}
+
 .side-nav-container {
     height: 100vh;
     padding: $positive-spacing_0;
