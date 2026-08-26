@@ -120,25 +120,38 @@ export class TabComponent implements AfterViewInit, OnChanges, OnDestroy {
     height: `${this.sliderHeight()}px`,
   }));
 
-  ngAfterViewInit() {
-    this.updateSelectedTabItemIndicator();
+  private resizeObserver?: ResizeObserver;
+
+  private readonly onResize = () => {
     this.computeScrollableSignals();
-    window.addEventListener("resize", this.updateSelectedTabItemIndicator.bind(this));
-    window.addEventListener("resize", this.computeScrollableSignals.bind(this));
-    if (this.containerRef()) {
-      this.containerRef()?.nativeElement.addEventListener("scroll", this.computeScrollableSignals.bind(this));
+    this.updateSelectedTabItemIndicator();
+  };
+
+  ngAfterViewInit() {
+    this.onResize();
+    window.addEventListener("resize", this.onResize);
+
+    const container = this.containerRef()?.nativeElement;
+    if (container) {
+      container.addEventListener("scroll", this.computeScrollableSignals);
+      this.resizeObserver = new ResizeObserver(() => this.onResize());
+      this.resizeObserver.observe(container);
     }
+
     this.hoverIndicatorRefs().forEach((hoverIndicator) => {
       hoverIndicator.nativeElement.style.opacity = "0";
     });
   }
 
   ngOnDestroy() {
-    window.removeEventListener("resize", this.updateSelectedTabItemIndicator.bind(this));
-    window.removeEventListener("resize", this.computeScrollableSignals.bind(this));
-    if (this.containerRef()) {
-      this.containerRef()?.nativeElement.removeEventListener("scroll", this.computeScrollableSignals.bind(this));
+    window.removeEventListener("resize", this.onResize);
+
+    const container = this.containerRef()?.nativeElement;
+    if (container) {
+      container.removeEventListener("scroll", this.computeScrollableSignals);
     }
+
+    this.resizeObserver?.disconnect();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
