@@ -1,5 +1,16 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component, computed, effect, input, output, signal } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  contentChild,
+  effect,
+  ElementRef,
+  input,
+  output,
+  signal,
+  viewChild,
+} from "@angular/core";
 import { RouterLink } from "@angular/router";
 import { DividerAppearance } from "@design-system-rte/core/components/divider/divider.interface";
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
@@ -12,7 +23,15 @@ import {
   SideNavHeaderConfig,
   SideNavSize,
 } from "@design-system-rte/core/components/side-nav/side-nav.interface";
+import {
+  getSideNavConfigurationIssues,
+  shouldShowSideNavFooter,
+  shouldShowSideNavHeader,
+  shouldUseSideNavDefaultFooter,
+  shouldUseSideNavDefaultHeader,
+} from "@design-system-rte/core/components/side-nav/side-nav.utils";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
+import { logWarn } from "@design-system-rte/core/utils/log-handlers";
 
 import { NavigationElement } from "../../utils/navigation/navigation-element";
 import { DividerComponent } from "../divider/divider.component";
@@ -21,6 +40,8 @@ import { TooltipDirective } from "../tooltip/tooltip.directive";
 import { BaseSideNavComponent } from "./base-side-nav/base-side-nav.component";
 import { NavItemComponent } from "./nav-item/nav-item.component";
 import { NavMenuComponent, NavMenuOpenChangeEvent } from "./nav-menu/nav-menu.component";
+import { SideNavFooterDirective } from "./side-nav-footer.directive";
+import { SideNavHeaderDirective } from "./side-nav-header.directive";
 
 export type NavItem = (NavItemProps | NavMenuProps) & NavigationElement;
 
@@ -36,6 +57,8 @@ const TRANSITION_DURATION = 300;
     NavMenuComponent,
     TooltipDirective,
     RouterLink,
+    SideNavHeaderDirective,
+    SideNavFooterDirective,
   ],
   templateUrl: "./side-nav.component.html",
   styleUrl: "./side-nav.component.scss",
@@ -56,7 +79,44 @@ export class SideNavComponent {
 
   readonly itemClicked = output<string>();
 
+  readonly headerDirective = contentChild(SideNavHeaderDirective);
+  readonly footerDirective = contentChild(SideNavFooterDirective);
+  readonly projectedHeader = contentChild("[side-nav-header]", { read: ElementRef<HTMLElement> });
+  readonly projectedFooter = contentChild("[side-nav-footer]", { read: ElementRef<HTMLElement> });
+  readonly headerContentRef = viewChild<ElementRef<HTMLElement>>("headerContent");
+  readonly footerContentRef = viewChild<ElementRef<HTMLElement>>("footerContent");
+
   private titleTimeoutId: ReturnType<typeof setTimeout> | null = null;
+
+  readonly hasHeaderContent = computed(() => {
+    const hasTemplate = !!this.headerDirective()?.templateRef;
+    const hasProjectedHeader = !!this.projectedHeader()?.nativeElement.children.length;
+    const hasContentRef = !!this.headerContentRef()?.nativeElement?.children.length;
+    return hasTemplate || hasProjectedHeader || hasContentRef;
+  });
+
+  readonly hasFooterContent = computed(() => {
+    const hasTemplate = !!this.footerDirective()?.templateRef;
+    const hasProjectedFooter = !!this.projectedFooter()?.nativeElement.children.length;
+    const hasContentRef = !!this.footerContentRef()?.nativeElement?.children.length;
+    return hasTemplate || hasProjectedFooter || hasContentRef;
+  });
+
+  readonly shouldDisplayDefaultHeader = computed(() => {
+    return shouldUseSideNavDefaultHeader(this.hasHeaderContent(), this.headerConfig());
+  });
+
+  readonly shouldDisplayDefaultFooter = computed(() => {
+    return shouldUseSideNavDefaultFooter(this.hasFooterContent(), this.footerItems(), this.collapsible());
+  });
+
+  readonly shouldShowHeader = computed(() => {
+    return shouldShowSideNavHeader(this.hasHeaderContent(), this.headerConfig());
+  });
+
+  readonly shouldShowFooter = computed(() => {
+    return shouldShowSideNavFooter(this.hasFooterContent(), this.footerItems(), this.collapsible());
+  });
 
   constructor() {
     effect(() => {
@@ -76,6 +136,20 @@ export class SideNavComponent {
           this.shouldShowTitle.set(true);
           this.titleTimeoutId = null;
         }, TRANSITION_DURATION);
+      }
+    });
+
+    effect(() => {
+      const configurationIssue = getSideNavConfigurationIssues({
+        hasCustomHeader: this.hasHeaderContent(),
+        hasHeaderConfig: !!this.headerConfig(),
+        hasCustomFooter: this.hasFooterContent(),
+        hasFooterItems: !!this.footerItems()?.length,
+        collapsible: this.collapsible(),
+      });
+
+      if (configurationIssue) {
+        logWarn("SideNavComponent", configurationIssue);
       }
     });
   }
