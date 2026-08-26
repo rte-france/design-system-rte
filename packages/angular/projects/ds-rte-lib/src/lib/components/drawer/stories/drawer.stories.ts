@@ -93,6 +93,10 @@ const meta: Meta<DrawerDirective> = {
       control: "boolean",
       description: "When false, hides the drawer header (title/custom header not required)",
     },
+    rteDrawerShowFooter: {
+      control: "boolean",
+      description: "When false, hides the drawer footer (primary button/custom footer not required)",
+    },
     rteDrawerCloseOnEscape: { control: "boolean" },
     rteDrawerIsClosable: { control: "boolean" },
     rteDrawerOnPrimary: { action: "primary click", control: false },
@@ -247,6 +251,142 @@ export const WithoutHeader: Story = {
     await waitFor(() => {
       expect(within(document.body).queryByRole("dialog")).not.toBeInTheDocument();
     });
+  },
+};
+
+export const WithoutFooter: Story = {
+  decorators: [
+    moduleMetadata({
+      imports: [DrawerModule, ButtonComponent],
+    }),
+  ],
+  args: {
+    ...Default.args,
+    rteDrawerId: "drawer-without-footer",
+    rteDrawerPrimaryButtonLabel: undefined,
+    rteDrawerSecondaryButtonLabel: undefined,
+    rteDrawerShowFooter: false,
+  },
+  render: (args) => ({
+    props: args,
+    template: `<div
+      rteDrawer
+      #drawerHost="rteDrawer"
+      [rteDrawerId]="rteDrawerId"
+      [rteDrawerTitle]="rteDrawerTitle"
+      [rteDrawerIcon]="rteDrawerIcon"
+      [rteDrawerIconAppearance]="rteDrawerIconAppearance"
+      [rteDrawerPosition]="rteDrawerPosition"
+      [rteDrawerWidth]="rteDrawerWidth"
+      [rteDrawerCloseOnOverlayClick]="rteDrawerCloseOnOverlayClick"
+      [rteDrawerPrimaryButtonLabel]="rteDrawerPrimaryButtonLabel"
+      [rteDrawerSecondaryButtonLabel]="rteDrawerSecondaryButtonLabel"
+      [rteDrawerIsCollapsible]="rteDrawerIsCollapsible"
+      [rteDrawerFixedHeader]="rteDrawerFixedHeader"
+      [rteDrawerShowHeader]="rteDrawerShowHeader"
+      [rteDrawerShowFooter]="rteDrawerShowFooter"
+      [rteDrawerCloseOnEscape]="rteDrawerCloseOnEscape"
+      [rteDrawerIsClosable]="rteDrawerIsClosable"
+    >
+      <button rteButton rteButtonVariant="primary" rteDrawerTrigger>Open drawer</button>
+      <ng-template #drawerContent>
+        <span style="font-family: arial; font-size: 14px; line-height: 20px; color: var(--content-primary)">
+          ${loremShort}
+        </span>
+      </ng-template>
+    </div>`,
+  }),
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Modal drawer with **rteDrawerShowFooter** set to `false`. The footer (primary/secondary buttons or custom `#drawerFooter`) is not rendered, and neither a primary button label nor a custom footer is required.",
+      },
+    },
+  },
+  play: async ({ canvasElement }) => {
+    focusElementBeforeComponent(canvasElement);
+    const canvas = within(canvasElement);
+    const openButton = await canvas.getByRole("button", { name: "Open drawer" });
+    await userEvent.click(openButton);
+    const drawer = await within(document.body).findByRole("dialog");
+    expect(drawer).toBeInTheDocument();
+    expect(within(drawer).queryByRole("button", { name: "Confirm" })).not.toBeInTheDocument();
+    expect(within(drawer).queryByRole("button", { name: "Cancel" })).not.toBeInTheDocument();
+  },
+};
+
+export const ResponsiveWithoutFooter: Story = {
+  decorators: [
+    moduleMetadata({
+      imports: [DrawerModule, ButtonComponent],
+    }),
+  ],
+  args: {
+    ...Default.args,
+    rteDrawerId: "responsive-drawer-without-footer",
+    rteDrawerTitle: "Responsive Drawer",
+    rteDrawerPosition: "responsive",
+    rteDrawerIcon: undefined,
+    rteDrawerPrimaryButtonLabel: undefined,
+    rteDrawerSecondaryButtonLabel: undefined,
+    rteDrawerShowFooter: false,
+    rteDrawerWidth: "400px",
+  },
+  render: (args) => ({
+    props: args,
+    template: `<div
+      style="border: 1px solid #ccc; width: 600px; height: 500px"
+      rteDrawer
+      #drawerHost="rteDrawer"
+      [rteDrawerId]="rteDrawerId"
+      [rteDrawerTitle]="rteDrawerTitle"
+      [rteDrawerIcon]="rteDrawerIcon"
+      [rteDrawerIconAppearance]="rteDrawerIconAppearance"
+      [rteDrawerPosition]="rteDrawerPosition"
+      [rteDrawerWidth]="rteDrawerWidth"
+      [rteDrawerCloseOnOverlayClick]="rteDrawerCloseOnOverlayClick"
+      [rteDrawerPrimaryButtonLabel]="rteDrawerPrimaryButtonLabel"
+      [rteDrawerSecondaryButtonLabel]="rteDrawerSecondaryButtonLabel"
+      [rteDrawerIsCollapsible]="rteDrawerIsCollapsible"
+      [rteDrawerFixedHeader]="rteDrawerFixedHeader"
+      [rteDrawerShowHeader]="rteDrawerShowHeader"
+      [rteDrawerShowFooter]="rteDrawerShowFooter"
+      [rteDrawerCloseOnEscape]="rteDrawerCloseOnEscape"
+      [rteDrawerIsClosable]="rteDrawerIsClosable"
+    >
+      <ng-template #drawerContent>
+        <span style="font-family: arial; font-size: 14px; line-height: 20px; color: var(--content-primary)">
+          ${loremShort}
+        </span>
+      </ng-template>
+      <ng-template #drawerContextContent>
+        <div style="height: 100%; display: flex; flex-direction: column; gap: 16px; padding: 16px">
+          <button rteButton rteButtonVariant="primary" rteDrawerTrigger>Open drawer</button>
+          <span style="font-family: arial; font-size: 14px; line-height: 20px; color: var(--content-primary)">
+            ${loremShort}
+          </span>
+        </div>
+      </ng-template>
+    </div>`,
+  }),
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Responsive drawer with **rteDrawerShowFooter** set to `false`. Useful when the panel only needs header and content, without reserving space for footer actions.",
+      },
+    },
+  },
+  play: async ({ canvasElement }) => {
+    focusElementBeforeComponent(canvasElement);
+    const canvas = within(canvasElement);
+    const openButton = await canvas.getByRole("button", { name: "Open drawer" });
+    await userEvent.click(openButton);
+    const drawer = await canvas.findByRole("region", { name: /Responsive Drawer/i }, { timeout: 5000 });
+    expect(drawer).toBeInTheDocument();
+    expect(within(drawer).queryByRole("button", { name: "Confirm" })).not.toBeInTheDocument();
+    expect(within(drawer).queryByRole("button", { name: "Cancel" })).not.toBeInTheDocument();
   },
 };
 

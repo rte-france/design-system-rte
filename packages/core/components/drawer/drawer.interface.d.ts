@@ -15,6 +15,7 @@ export interface DrawerProps {
   position?: DrawerPosition;
   fixedHeader?: boolean;
   showHeader?: boolean;
+  showFooter?: boolean;
   closeOnEscape?: boolean;
   isClosable?: boolean;
   onClickPrimaryButton?: () => void;

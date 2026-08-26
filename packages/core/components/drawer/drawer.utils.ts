@@ -8,6 +8,7 @@ export interface DrawerValidationInput {
   position: DrawerPosition | undefined;
   hasMainContent: boolean;
   showHeader?: boolean;
+  showFooter?: boolean;
 }
 
 interface ValidationRule {
@@ -29,7 +30,7 @@ const VALIDATION_RULES: ValidationRule[] = [
     issue: CONFIGURATION_ISSUES.MISSING_HEADER_OR_TITLE,
   },
   {
-    condition: (input) => !input.hasCustomFooter && !input.hasPrimaryButtonLabel,
+    condition: (input) => !!input.showFooter && !input.hasCustomFooter && !input.hasPrimaryButtonLabel,
     issue: CONFIGURATION_ISSUES.MISSING_FOOTER_OR_PRIMARY,
   },
   {

@@ -186,6 +186,7 @@ const Footer = ({
   footer,
   onClickPrimaryButton,
   onClickSecondaryButton,
+  showFooter,
 }: {
   fixedHeader?: boolean;
   shouldDisplayDefaultFooter: boolean;
@@ -194,22 +195,29 @@ const Footer = ({
   footer?: React.ReactNode | React.ReactNode[];
   onClickPrimaryButton?: () => void;
   onClickSecondaryButton?: () => void;
-}) => (
-  <div className={styles["drawer-footer"]} data-fixed-header={fixedHeader}>
-    {shouldDisplayDefaultFooter ? (
-      <BaseFooter
-        primaryButton={<Button label={primaryButtonLabel!} variant="primary" onClick={onClickPrimaryButton} />}
-        secondaryButton={
-          secondaryButtonLabel ? (
-            <Button label={secondaryButtonLabel} variant="secondary" onClick={onClickSecondaryButton} />
-          ) : undefined
-        }
-      />
-    ) : (
-      footer && <>{footer}</>
-    )}
-  </div>
-);
+  showFooter: boolean;
+}) => {
+  if (!showFooter) {
+    return null;
+  }
+
+  return (
+    <div className={styles["drawer-footer"]} data-fixed-header={fixedHeader}>
+      {shouldDisplayDefaultFooter ? (
+        <BaseFooter
+          primaryButton={<Button label={primaryButtonLabel!} variant="primary" onClick={onClickPrimaryButton} />}
+          secondaryButton={
+            secondaryButtonLabel ? (
+              <Button label={secondaryButtonLabel} variant="secondary" onClick={onClickSecondaryButton} />
+            ) : undefined
+          }
+        />
+      ) : (
+        footer && <>{footer}</>
+      )}
+    </div>
+  );
+};
 
 const Drawer = ({
   id,
@@ -231,6 +239,7 @@ const Drawer = ({
   children,
   fixedHeader,
   showHeader = true,
+  showFooter = true,
   closeOnEscape = false,
   isClosable = true,
   onClickPrimaryButton,
@@ -259,6 +268,7 @@ const Drawer = ({
     position,
     hasMainContent: !!children,
     showHeader,
+    showFooter,
   });
   if (configurationIssues) {
     console.warn(configurationIssues);
@@ -309,6 +319,7 @@ const Drawer = ({
     footer,
     onClickPrimaryButton,
     onClickSecondaryButton,
+    showFooter,
   };
 
   return (
