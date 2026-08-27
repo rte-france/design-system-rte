@@ -104,6 +104,7 @@ export default meta;
 type Story = StoryObj<AccordionComponent>;
 
 export const Default: Story = {
+  tags: ["!autodocs"],
   args: {
     alignement: "right",
     title: "Accordion title",
