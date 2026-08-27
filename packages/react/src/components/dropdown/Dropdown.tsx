@@ -29,6 +29,9 @@ import { DropdownContextProvider } from "./context/DropdownContextProvider";
 import { focusDropdownFirstElement, focusNextElement, focusPreviousElement } from "./DropdownUtils";
 import { useDropdownState } from "./hooks/useDropdownState";
 
+const getSubmenuHostElement = (triggerElement: HTMLDivElement): HTMLElement =>
+  triggerElement.querySelector("li") ?? triggerElement;
+
 export type OverlayPriority = "low" | "high";
 
 export interface DropdownProps extends CoreDropdownProps, React.HTMLAttributes<HTMLDivElement> {
@@ -135,6 +138,8 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
         const buttonTrigger = triggerRef.current?.querySelectorAll(FOCUSABLE_BUTTONS_QUERY)[0] as HTMLElement;
         if (buttonTrigger) {
           buttonTrigger.focus({ preventScroll: true });
+        } else if (hasParent && triggerRef.current) {
+          getSubmenuHostElement(triggerRef.current).focus({ preventScroll: true });
         } else {
           triggerRef.current?.focus({ preventScroll: true });
         }
@@ -166,28 +171,30 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
       return () => document.removeEventListener("mousedown", handleClickOutside);
     }, [closeDropdown]);
 
+    const submenuOffset = offset || 0;
+
     const positionChildDropdown = useCallback(
-      (triggerElement: HTMLDivElement, dropdownElement: HTMLDivElement) => {
+      (hostElement: HTMLElement, dropdownElement: HTMLDivElement) => {
         const computedPosition = getAutoPlacementDropdown({
-          hostElement: triggerElement,
+          hostElement,
           castedElement: dropdownElement,
           defaultPosition: "right",
-          offset,
+          offset: submenuOffset,
           hasDropdownParent: true,
         });
-        const autoAlignment = getAutoAlignment(triggerElement!, dropdownElement!, computedPosition);
+        const autoAlignment = getAutoAlignment(hostElement, dropdownElement, computedPosition);
         const computedCoordinates = getCoordinates(
           computedPosition,
-          triggerElement!,
-          dropdownElement!,
-          offset,
+          hostElement,
+          dropdownElement,
+          submenuOffset,
           autoAlignment,
         );
 
         setAutoPosition(computedPosition);
         setCoordinates(computedCoordinates);
       },
-      [offset],
+      [submenuOffset],
     );
 
     const positionDropdown = useCallback(
@@ -215,19 +222,24 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
       [offset],
     );
 
-    useScrollEvent(() => {
+    const repositionDropdown = useCallback(() => {
       if (!triggerElement || !dropdownElement) return;
-      positionDropdown(triggerElement, dropdownElement, position, alignment);
-    });
 
-    useEffect(() => {
-      if (!triggerElement || !dropdownElement) return;
       if (hasParent) {
-        positionChildDropdown(triggerElement, dropdownElement);
+        positionChildDropdown(getSubmenuHostElement(triggerElement), dropdownElement);
       } else {
         positionDropdown(triggerElement, dropdownElement, position, alignment);
       }
-    }, [hasParent, dropdownElement, triggerElement, position, alignment, positionChildDropdown, positionDropdown]);
+    }, [alignment, dropdownElement, hasParent, position, positionChildDropdown, positionDropdown, triggerElement]);
+
+    useScrollEvent(repositionDropdown);
+
+    useEffect(() => {
+      if (triggerElement && dropdownElement) {
+        const frameId = requestAnimationFrame(repositionDropdown);
+        return () => cancelAnimationFrame(frameId);
+      }
+    }, [dropdownElement, repositionDropdown, triggerElement]);
 
     useEffect(() => {
       if (isOpen && dropdownElement && autofocus) {
@@ -237,7 +249,13 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
 
     return (
       <DropdownContextProvider dropdownId={autoId} closeRoot={closeDropdown} autoClose={autoClose}>
-        <div ref={triggerCallbackRef} className={styles.trigger} tabIndex={-1} onKeyDown={handleOnKeyDownTrigger}>
+        <div
+          ref={triggerCallbackRef}
+          className={styles.trigger}
+          data-has-parent={hasParent || undefined}
+          tabIndex={hasParent ? undefined : -1}
+          onKeyDown={hasParent ? undefined : handleOnKeyDownTrigger}
+        >
           {trigger}
         </div>
 
