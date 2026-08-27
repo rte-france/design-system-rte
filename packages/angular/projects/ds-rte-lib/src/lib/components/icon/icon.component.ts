@@ -17,6 +17,7 @@ export class IconComponent {
   readonly color = input<string>();
   readonly classes = input("");
   readonly appearance = input<"outlined" | "filled">();
+  readonly ariaHidden = input<boolean>(false);
 
   private readonly iconHost = viewChild<ElementRef<HTMLElement>>("iconHost");
   private iconRegistry = inject(IconRegistry);

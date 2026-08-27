@@ -1,17 +1,22 @@
 <section
   *ngIf="rendering()"
-  class="rte-banner-container {{ type() }} {{ position() }}"
-  class="rte-banner"
+  #banner
+  class="rte-banner rte-banner-container {{ type() }} {{ position() }}"
   [ngClass]="{ open: visible(), close: !visible() }"
   [attr.role]="type() === 'error' ? 'alert' : 'status'"
   [attr.data-compact]="isCompact()"
+  [attr.aria-labelledby]="title() ? titleId() : null"
+  [attr.aria-describedby]="message() ? messageId() : null"
+  [attr.tabindex]="-1"
 >
   <div class="rte-banner-icon">
-    <rte-icon [name]="iconName()" [size]="32" />
+    <rte-icon [name]="iconName()" [size]="32" [ariaHidden]="true" />
   </div>
   <div class="rte-banner-content">
-    <span *ngIf="title()" class="rte-banner-title">{{ title() }}</span>
-    <div *ngIf="message()" class="rte-banner-message">
+    <span *ngIf="title()" class="rte-banner-title" [attr.id]="titleId()">
+      <span class="rte-sr-only">{{ computedBannerTypeLabel() }} </span>{{ title() }}
+    </span>
+    <div *ngIf="message()" class="rte-banner-message" [attr.id]="messageId()">
       <span>{{ message() }}</span>
     </div>
   </div>
@@ -27,9 +32,9 @@
   </button>
   <button
     *ngIf="closable()"
-    [attr.aria-label]="closeButtonAriaLabel"
     type="button"
     class="rte-banner-close-icon rte-icon-button neutral size-m compact-spacing"
+    [attr.aria-label]="closeButtonAriaLabel"
     (click)="closeBanner()"
   >
     <rte-icon name="close" [size]="20" />
