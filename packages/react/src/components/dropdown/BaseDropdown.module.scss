@@ -5,6 +5,10 @@
   height: fit-content;
   display: inherit;
 
+  &[data-has-parent='true'] {
+    display: contents;
+  }
+
   &[data-disabled='true'] {
     cursor: not-allowed;
 
@@ -17,7 +21,7 @@
 .dropdown {
   @include elevation-neutral-shadow-2;
   background-color: var(--background-default);
-  position: relative;
+  position: absolute;
   top: 0;
   left: 0;
   display: flex;
