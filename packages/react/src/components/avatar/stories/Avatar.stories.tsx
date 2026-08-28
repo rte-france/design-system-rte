@@ -77,9 +77,88 @@ export const Default: Story = {
   args: {
     imgSrc: img,
     alt: "Avatar of Jane Doe",
-    size: 32,
+    size: 64,
     colorType: "neutral",
     type: "user",
+    layout: "image",
+    status: "available",
+  },
+};
+
+export const Icon: Story = {
+  args: {
+    ...Default.args,
+    layout: "icon",
+  },
+  render: (args) => (
+    <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "center" }}>
+      <Avatar {...args} layout="icon" type="user" />
+      <Avatar {...args} layout="icon" type="entity" />
+    </div>
+  ),
+};
+
+export const Initials: Story = {
+  args: {
+    ...Default.args,
+    layout: "initials",
+    initials: "MB",
+  },
+};
+
+export const Sizes: Story = {
+  args: {
+    ...Default.args,
+    layout: "image",
+  },
+
+  render: (args) => (
+    <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "center" }}>
+      {sizeOptions.map((size) => (
+        <Avatar key={size} {...args} size={size} layout="image" imgSrc={img} />
+      ))}
+    </div>
+  ),
+};
+
+export const Entity: Story = {
+  args: {
+    ...Default.args,
+    type: "entity",
+    imgSrc: logo,
+  },
+};
+
+export const User: Story = {
+  args: {
+    ...Default.args,
+    type: "user",
+    layout: "initials",
+    initials: "MB",
+  },
+};
+
+export const Neutral: Story = {
+  args: {
+    ...Default.args,
+    layout: "initials",
+    initials: "MB",
+    colorType: "neutral",
+  },
+};
+
+export const Brand: Story = {
+  args: {
+    ...Neutral.args,
+    colorType: "brand",
+  },
+};
+
+export const Decorative: Story = {
+  args: {
+    ...Neutral.args,
+    colorType: "decorative",
+    decorativeColor: "violet",
   },
 };
 
@@ -233,67 +312,18 @@ export const Status: Story = {
   },
 
   render: (args) => (
-    <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-      <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "center" }}>
-        {sizeOptions.map((size) => (
-          <Avatar key={size} {...args} size={size} imgSrc={img} layout="image" alt="Avatar of Jane Doe" />
-        ))}
-      </div>
-      <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "center" }}>
-        {sizeOptions.map((size) => (
-          <Avatar key={size} {...args} size={size} layout="icon" status="busy" />
-        ))}
-      </div>
-      <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "center" }}>
-        {sizeOptions.map((size) => (
-          <Avatar
-            key={size}
-            {...args}
-            size={size}
-            layout="initials"
-            initials="MB"
-            type="entity"
-            status="away"
-            colorType="brand"
-          />
-        ))}
-      </div>
-      <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "center" }}>
-        {sizeOptions.map((size) => (
-          <Avatar
-            key={size}
-            {...args}
-            size={size}
-            layout="image"
-            imgSrc={logo}
-            alt="Company Logo"
-            type="entity"
-            status="offline"
-            colorType="decorative"
-            decorativeColor="violet"
-          />
-        ))}
-      </div>
-      <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "center" }}>
-        {sizeOptions.map((size) => (
-          <Avatar
-            key={size}
-            {...args}
-            size={size}
-            layout="icon"
-            alt="Company Logo"
-            type="entity"
-            status="unknown"
-            colorType="decorative"
-            decorativeColor="violet"
-          />
-        ))}
-      </div>
+    <div style={{ display: "flex", flexDirection: "row", gap: "16px" }}>
+      <Avatar {...args} layout="image" imgSrc={img} status="available" />
+      <Avatar {...args} layout="icon" status="busy" />
+      <Avatar {...args} layout="initials" initials="MB" status="away" />
+      <Avatar {...args} layout="image" imgSrc={logo} type="entity" status="offline" />
+      <Avatar {...args} layout="icon" type="entity" status="unknown" />
     </div>
   ),
 };
 
 export const Interactive: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     onClick: () => {},
