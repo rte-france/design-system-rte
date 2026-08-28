@@ -297,7 +297,7 @@ export const KeyboardInteraction: Story = {
 
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    focusElementBeforeComponent(canvasElement);
+    focusElementBeforeComponent();
     const banner = await canvas.getByRole("status");
     const closeButton = await within(banner).getAllByRole("button")[1];
     await userEvent.tab();
