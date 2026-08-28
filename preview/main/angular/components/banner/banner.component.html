@@ -29,7 +29,7 @@
     *ngIf="closable()"
     type="button"
     class="rte-banner-close-icon rte-icon-button neutral size-m compact-spacing"
-    aria-label="close banner"
+    [attr.aria-label]="closeButtonAriaLabel"
     (click)="closeBanner()"
   >
     <rte-icon name="close" [size]="20" />

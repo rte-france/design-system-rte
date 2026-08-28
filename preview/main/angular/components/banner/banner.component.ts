@@ -10,6 +10,7 @@ import {
   OnChanges,
   computed,
 } from "@angular/core";
+import { CloseButtonAriaLabel } from "@design-system-rte/core";
 import { BannerPosition, BannerType } from "@design-system-rte/core/components/banner/banner.interface";
 import { ButtonSize } from "@design-system-rte/core/components/button/common/common-button";
 
@@ -52,6 +53,8 @@ export class BannerComponent implements OnInit, OnChanges {
   });
 
   readonly actionButtonSize = computed<ButtonSize>(() => (this.isCompact() ? "s" : "m"));
+
+  readonly closeButtonAriaLabel = CloseButtonAriaLabel;
 
   ngOnInit() {
     this.visible.set(this.isOpen());
