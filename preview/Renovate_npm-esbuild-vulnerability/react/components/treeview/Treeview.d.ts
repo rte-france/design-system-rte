@@ -1,13 +1,5 @@
-import { TreeviewItemProps } from '../../../../core/components/treeview/treeview-item.interface';
-interface TreeviewProps extends Omit<React.HTMLAttributes<HTMLUListElement>, "onChange"> {
-    items: TreeviewItemProps[];
-    isCompact?: boolean;
-    selectedId?: string;
-    onChange?: (id: string) => void;
-    onCheckedIdsChange?: (checkedIds: string[]) => void;
-    selectedPath?: string;
-    hasCheckbox?: boolean;
-    id?: string;
+import { TreeviewProps as CoreTreeViewProps } from '../../../../core';
+interface TreeviewProps extends CoreTreeViewProps, Omit<React.HTMLAttributes<HTMLUListElement>, "onChange"> {
 }
-declare const Treeview: ({ items, isCompact, selectedId, onChange, selectedPath, hasCheckbox, id, }: TreeviewProps) => import("react").JSX.Element;
+declare const Treeview: ({ items, isCompact, selectedId, onChange, onSelectionChange, selectedPath, hasCheckbox, id, }: TreeviewProps) => import("react").JSX.Element;
 export default Treeview;
