@@ -1,5 +1,51 @@
 # @design-system-rte/react
 
+## 1.17.0
+
+### Minor Changes
+
+- fde18a4: ## Changes
+
+  - (Treeview) add documentation
+  - (Treeview) react - deprecate onChange and add OnSelectionChange event handler prop
+
+- 975ea4d: ## Changes
+
+  - (Drawer) add showFooter to opt out the default or provided footer
+
+- 15bf517: ## Changes
+
+  - (Sidenav) add content projection for custom content in Sidenav header and footer
+
+### Patch Changes
+
+- 9a34c34: ## Changes
+
+  - (Tab) add missing aria-label input/props and docs
+
+- 02413a0: ## Changes
+
+  - (Checkbox) add missing halo when interacting with component
+
+- ab74e4f: ## Changes
+
+  - (Radio-button) set correct position for focus indicator
+
+- 7628a6d: ## Changes
+
+  - (Dropdown) show nested menus that were not showing
+
+- a7cdb36: ## Changes
+
+  - (Banner) translate close button aria label value
+
+- Updated dependencies [fde18a4]
+- Updated dependencies [975ea4d]
+- Updated dependencies [15bf517]
+- Updated dependencies [7628a6d]
+- Updated dependencies [a7cdb36]
+  - @design-system-rte/core@1.17.0
+
 ## 1.16.1
 
 ### Patch Changes
