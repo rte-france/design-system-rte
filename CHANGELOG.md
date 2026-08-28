@@ -2,6 +2,68 @@
 
 # Angular
 
+## 4.0.0
+
+### Drawer
+
+#### Minor Changes
+
+- add showFooter to opt out the default or provided footer
+
+### Sidenav
+
+#### Minor Changes
+
+- add content projection for custom content in Sidenav header and footer
+
+### Tab
+
+#### Patch Changes
+
+- add missing aria-label input/props and docs
+- attach scroll & selectTab calculation to a single resize event listener to avoid logic leaks & enhance performance
+
+### Icon
+
+#### Patch Changes
+
+- handle wrong icon names gracefully to let the render of others icons work when a wrong name is provided
+
+### Select
+
+#### Patch Changes
+
+- synchronize options state for rendered dropdown via computed instead of signal manipulation
+
+### Checkbox
+
+#### Patch Changes
+
+- add missing halo when interacting with component
+
+### Radio-button
+
+#### Patch Changes
+
+- set correct position for focus indicator
+
+### Banner
+
+#### Patch Changes
+
+- translate close button aria label value
+
+### Other
+
+#### Patch Changes
+
+- Updated dependencies [fde18a4]
+- Updated dependencies [975ea4d]
+- Updated dependencies [15bf517]
+- Updated dependencies [7628a6d]
+- Updated dependencies [a7cdb36]
+- @design-system-rte/core@1.17.0
+
 ## 3.3.1
 
 ### Sidenav
@@ -89,64 +151,69 @@
 - Updated dependencies [9e88591]
 - Updated dependencies [610e235]
 - @design-system-rte/core@1.15.0
+# React
 
-## 3.1.0
+## 1.17.0
 
-### Pagination
+### Treeview
 
 #### Minor Changes
 
-- correct controls' focus behavoir
-- add Angular component
+- add documentation
+- react - deprecate onChange and add OnSelectionChange event handler prop
 
 ### Drawer
 
 #### Minor Changes
 
-- add an option to hide component's Header
+- add showFooter to opt out the default or provided footer
 
-### Header
-
-#### Minor Changes
-
-- add versionNumber property for left section
-
-### Card
+### Sidenav
 
 #### Minor Changes
 
-- add customizable height property
+- add content projection for custom content in Sidenav header and footer
 
-### Treeview
-
-#### Patch Changes
-
-- correct keyboard navigation & interaction
-
-### Chip
+### Tab
 
 #### Patch Changes
 
-- correct compact height to be 20px instead of 24px
+- add missing aria-label input/props and docs
 
-### Select
+### Checkbox
 
 #### Patch Changes
 
-- correct multiple emits on value change
+- add missing halo when interacting with component
+
+### Radio-button
+
+#### Patch Changes
+
+- set correct position for focus indicator
+
+### Dropdown
+
+#### Patch Changes
+
+- show nested menus that were not showing
+
+### Banner
+
+#### Patch Changes
+
+- translate close button aria label value
 
 ### Other
 
 #### Patch Changes
 
-- Updated dependencies [c333cc2]
-- Updated dependencies [20f45ff]
-- Updated dependencies [7eb542d]
-- Updated dependencies [da54bc8]
-- Updated dependencies [35b5e6b]
-- Updated dependencies [e7b53d3]
-- @design-system-rte/core@1.14.0
-# React
+- Updated dependencies [fde18a4]
+- Updated dependencies [975ea4d]
+- Updated dependencies [15bf517]
+- Updated dependencies [7628a6d]
+- Updated dependencies [a7cdb36]
+- @design-system-rte/core@1.17.0
 
 ## 1.16.1
 
@@ -246,69 +313,42 @@
 - Updated dependencies [9e88591]
 - Updated dependencies [610e235]
 - @design-system-rte/core@1.15.0
+# Core
 
-## 1.14.0
+## 1.17.0
 
-### Link
-
-#### Minor Changes
-
-- add support for to props
-
-### Sidenav
+### Treeview
 
 #### Minor Changes
 
-- add support for router link component and update active item state
-
-### Routing
-
-#### Minor Changes
-
-- add provider to support routing library link component
+- react - deprecate onChange and add OnSelectionChange event handler prop
 
 ### Drawer
 
 #### Minor Changes
 
-- addd an option to hide component's Header
+- add showFooter to opt out the default or provided footer
 
-### Header
-
-#### Minor Changes
-
-- add versionNumber property for left section
-
-### Card
+### Sidenav
 
 #### Minor Changes
 
-- add customizable height property
+- add content projection for custom content in Sidenav header and footer
 
-### Treeview
-
-#### Patch Changes
-
-- correct keyboard navigation & interaction
-
-### Chip
+### Dropdown
 
 #### Patch Changes
 
-- correct compact height to be 20px instead of 24px
+- show nested menus that were not showing
+
+### Banner
+
+#### Patch Changes
+
+- translate close button aria label value
 
 ### Other
 
-#### Patch Changes
-
-- Updated dependencies [c333cc2]
-- Updated dependencies [20f45ff]
-- Updated dependencies [7eb542d]
-- Updated dependencies [da54bc8]
-- Updated dependencies [35b5e6b]
-- Updated dependencies [e7b53d3]
-- @design-system-rte/core@1.14.0
-# Core
 
 ## 1.16.1
 
@@ -358,47 +398,6 @@
 #### Patch Changes
 
 - improve icon displaying mechanisme with iconName props
-
-### Other
-
-
-## 1.14.0
-
-### Sidenav
-
-#### Minor Changes
-
-- add support for router link component and update active item state
-
-### Pagination
-
-#### Minor Changes
-
-- add Angular component
-
-### Drawer
-
-#### Minor Changes
-
-- addd an option to hide component's Header
-
-### Header
-
-#### Minor Changes
-
-- add versionNumber property for left section
-
-### Card
-
-#### Minor Changes
-
-- add customizable height property
-
-### Treeview
-
-#### Patch Changes
-
-- correct keyboard navigation & interaction
 
 ### Other
 
