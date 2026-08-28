@@ -1,3 +1,6 @@
+import { Component, inject, OnInit } from "@angular/core";
+import { toSignal } from "@angular/core/rxjs-interop";
+import { NavigationEnd, Router } from "@angular/router";
 import {
   TESTING_DOWN_KEY,
   TESTING_ENTER_KEY,
@@ -5,6 +8,7 @@ import {
 } from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
 import { Meta, StoryObj } from "@storybook/angular";
 import { expect, userEvent, waitFor, within } from "@storybook/test";
+import { filter, map, startWith } from "rxjs";
 
 import { focusElementBeforeComponent } from "../../../../../../../.storybook/testing/testing.utils";
 import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../../icon/icon-map";
@@ -60,6 +64,57 @@ const mockItems = [
   { label: "Smartphones", link: "/products/electronics/smartphones" },
 ];
 
+const spaNavigationItems = [
+  { label: "Home", link: "/home" },
+  { label: "Products", link: "/products" },
+  { label: "Electronics", link: "/products/electronics" },
+  { label: "Smartphones", link: "/products/electronics/smartphones" },
+];
+
+function getOverflowMenu() {
+  const menu = document.getElementById("overlay-root")?.querySelector("ul.rte-dropdown-items");
+  if (!menu) {
+    throw new Error("Overflow menu not found");
+  }
+  return within(menu as HTMLElement);
+}
+
+@Component({
+  selector: "rte-breadcrumbs-spa-navigation-demo",
+  imports: [BreadcrumbsComponent],
+  standalone: true,
+  template: `
+    <div style="display: flex; flex-direction: column; gap: 16px; max-width: 640px;">
+      <p style="margin: 0; line-height: 1.6; color: #555;">
+        Click breadcrumb items with <code>link</code> to navigate in-app (hash URL updates, no reload). With four items,
+        <code>Products</code> is collapsed into the overflow menu (<code>...</code>).
+      </p>
+      <rte-breadcrumbs [items]="items" data-testid="breadcrumbs-spa" />
+      <p style="margin: 0; font-family: monospace; font-size: 12px;" data-testid="current-route">
+        Current route: <span data-testid="current-pathname">{{ currentUrl() }}</span>
+      </p>
+    </div>
+  `,
+})
+class BreadcrumbsSpaNavigationDemoComponent implements OnInit {
+  private readonly router = inject(Router);
+
+  readonly currentUrl = toSignal(
+    this.router.events.pipe(
+      filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+      map(() => this.router.url),
+      startWith(this.router.url),
+    ),
+    { initialValue: this.router.url },
+  );
+
+  readonly items = spaNavigationItems;
+
+  ngOnInit() {
+    void this.router.navigateByUrl("/products/electronics/smartphones");
+  }
+}
+
 export const Default: StoryObj<BreadcrumbsComponent> = {
   args: {
     items: mockItems,
@@ -73,6 +128,46 @@ export const Default: StoryObj<BreadcrumbsComponent> = {
       <rte-breadcrumbs [items]="items" [ariaLabel]="ariaLabel" data-testid="breadcrumbs" [breadcrumbItemMaxWidth]="breadcrumbItemMaxWidth"/>
     `,
   }),
+};
+
+export const SpaNavigation: StoryObj<BreadcrumbsComponent> = {
+  tags: ["!autodocs"],
+  render: () => ({
+    template: `<rte-breadcrumbs-spa-navigation-demo />`,
+    moduleMetadata: {
+      imports: [BreadcrumbsSpaNavigationDemoComponent],
+    },
+  }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const currentPathname = canvas.getByTestId("current-pathname");
+
+    await waitFor(() => {
+      expect(currentPathname).toHaveTextContent("/products/electronics/smartphones");
+    });
+
+    expect(canvas.getByTestId("show-more")).toBeInTheDocument();
+
+    await userEvent.click(canvas.getByRole("link", { name: "Electronics" }));
+
+    await waitFor(() => {
+      expect(currentPathname).toHaveTextContent("/products/electronics");
+    });
+
+    await userEvent.click(canvas.getByTestId("show-more"));
+
+    await waitFor(() => {
+      expect(document.getElementById("overlay-root")?.querySelector("ul.rte-dropdown-items")).toBeInTheDocument();
+    });
+
+    await userEvent.click(getOverflowMenu().getByRole("link", { name: "Products" }));
+
+    await waitFor(() => {
+      expect(currentPathname).toHaveTextContent("/products");
+    });
+
+    expect(canvas.getByTestId("breadcrumbs-spa")).toBeInTheDocument();
+  },
 };
 
 export const MaxWidthBreadcrumbItem: StoryObj<BreadcrumbsComponent> = {
