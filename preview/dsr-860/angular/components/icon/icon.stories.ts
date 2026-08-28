@@ -177,3 +177,59 @@ export const TableWithRepeatedIcons: StoryObj<IconTableStoryArgs> = {
     `,
   }),
 };
+
+export const TableWithInvalidIcon: Story = {
+  tags: ["!autodocs"],
+  name: "Table avec icône invalide",
+  decorators: [
+    moduleMetadata({
+      imports: [CommonModule, IconComponent],
+    }),
+  ],
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Une icône avec un nom manquant ou incorrect ne doit pas empêcher l’affichage des autres icônes du tableau.",
+      },
+    },
+  },
+  render: () => ({
+    props: {
+      rows: [
+        { id: 1, label: "Ligne 1", icons: ["edit", "delete", "settings"] },
+        { id: 2, label: "Ligne 2", icons: ["edit", "", "settings"] },
+        { id: 3, label: "Ligne 3", icons: ["edit", "unknown-icon", "settings"] },
+      ],
+    },
+    template: `
+      <table style="width: 100%; max-width: 640px; border-collapse: collapse; font-size: 14px;">
+        <thead>
+          <tr style="border-bottom: 2px solid #ddd; text-align: left;">
+            <th style="padding: 8px 12px;">ID</th>
+            <th style="padding: 8px 12px;">Libellé</th>
+            <th style="padding: 8px 12px;">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let row of rows"
+            style="border-bottom: 1px solid #eee;"
+          >
+            <td style="padding: 8px 12px;">{{ row.id }}</td>
+            <td style="padding: 8px 12px;">{{ row.label }}</td>
+            <td style="padding: 8px 12px;">
+              <div style="display: flex; gap: 8px; align-items: center; min-height: 20px;">
+                <rte-icon
+                  *ngFor="let iconName of row.icons"
+                  [name]="iconName"
+                  [size]="20"
+                />
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    `,
+  }),
+};
