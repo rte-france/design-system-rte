@@ -2,6 +2,8 @@ import { CommonModule } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
+  AfterViewInit,
   input,
   output,
   signal,
@@ -9,8 +11,9 @@ import {
   OnInit,
   OnChanges,
   computed,
+  viewChild,
 } from "@angular/core";
-import { CloseButtonAriaLabel } from "@design-system-rte/core";
+import { bannerTypeLabel, CloseButtonAriaLabel, generateId, iconTypeMap } from "@design-system-rte/core";
 import { BannerPosition, BannerType } from "@design-system-rte/core/components/banner/banner.interface";
 import { ButtonSize } from "@design-system-rte/core/components/button/common/common-button";
 
@@ -24,7 +27,8 @@ import { IconComponent } from "../icon/icon.component";
   styleUrls: ["./banner.component.scss", "../icon-button/icon-button.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BannerComponent implements OnInit, OnChanges {
+export class BannerComponent implements OnInit, OnChanges, AfterViewInit {
+  readonly bannerElement = viewChild<ElementRef<HTMLElement>>("banner");
   readonly type = input<BannerType>("info");
   readonly message = input.required<string>();
   readonly position = input<BannerPosition>("push");
@@ -41,20 +45,20 @@ export class BannerComponent implements OnInit, OnChanges {
 
   readonly close = output<void>();
 
-  readonly iconTypeMap: Record<string, string> = {
-    info: "info",
-    error: "dangerous",
-    success: "check-circle",
-    warning: "warning",
-  };
-
   readonly iconName = computed(() => {
-    return this.iconTypeMap[this.type()];
+    return iconTypeMap[this.type()];
   });
 
   readonly actionButtonSize = computed<ButtonSize>(() => (this.isCompact() ? "s" : "m"));
 
   readonly closeButtonAriaLabel = CloseButtonAriaLabel;
+
+  readonly customId = generateId();
+
+  readonly titleId = computed(() => `banner-title-${this.customId}`);
+  readonly messageId = computed(() => `banner-message-${this.customId}`);
+
+  readonly computedBannerTypeLabel = computed(() => bannerTypeLabel[this.type()]);
 
   ngOnInit() {
     this.visible.set(this.isOpen());
@@ -74,6 +78,12 @@ export class BannerComponent implements OnInit, OnChanges {
     }
   }
 
+  ngAfterViewInit() {
+    if (this.isOpen() && this.type() === "error") {
+      this.focusBanner();
+    }
+  }
+
   clickAction() {
     this.click.emit();
   }
@@ -90,7 +100,14 @@ export class BannerComponent implements OnInit, OnChanges {
     if (this.rendering()) return;
     this.rendering.set(true);
     requestAnimationFrame(() => {
-      requestAnimationFrame(() => this.visible.set(true));
+      requestAnimationFrame(() => {
+        this.visible.set(true);
+        if (this.type() === "error") this.focusBanner();
+      });
     });
+  }
+
+  private focusBanner() {
+    requestAnimationFrame(() => this.bannerElement()?.nativeElement.focus());
   }
 }
