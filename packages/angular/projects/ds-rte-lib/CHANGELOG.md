@@ -1,5 +1,54 @@
 # @design-system-rte/angular
 
+## 4.0.0
+
+### Minor Changes
+
+- 975ea4d: ## Changes
+
+  - (Drawer) add showFooter to opt out the default or provided footer
+
+- 15bf517: ## Changes
+
+  - (Sidenav) add content projection for custom content in Sidenav header and footer
+
+### Patch Changes
+
+- 9a34c34: ## Changes
+
+  - (Tab) add missing aria-label input/props and docs
+
+- 3015a54: ## Changes
+
+  - (Tab) attach scroll & selectTab calculation to a single resize event listener to avoid logic leaks & enhance performance
+
+- ceb38ab: ## Changes
+
+  - (Icon) handle wrong icon names gracefully to let the render of others icons work when a wrong name is provided
+
+- b416fcc: ## Changes
+
+  - (Select) synchronize options state for rendered dropdown via computed instead of signal manipulation
+
+- 02413a0: ## Changes
+
+  - (Checkbox) add missing halo when interacting with component
+
+- ab74e4f: ## Changes
+
+  - (Radio-button) set correct position for focus indicator
+
+- a7cdb36: ## Changes
+
+  - (Banner) translate close button aria label value
+
+- Updated dependencies [fde18a4]
+- Updated dependencies [975ea4d]
+- Updated dependencies [15bf517]
+- Updated dependencies [7628a6d]
+- Updated dependencies [a7cdb36]
+  - @design-system-rte/core@1.17.0
+
 ## 3.3.1
 
 ### Patch Changes

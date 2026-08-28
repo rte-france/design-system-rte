@@ -1,5 +1,31 @@
 # @design-system-rte/core
 
+## 1.17.0
+
+### Minor Changes
+
+- fde18a4: ## Changes
+
+  - (Treeview) react - deprecate onChange and add OnSelectionChange event handler prop
+
+- 975ea4d: ## Changes
+
+  - (Drawer) add showFooter to opt out the default or provided footer
+
+- 15bf517: ## Changes
+
+  - (Sidenav) add content projection for custom content in Sidenav header and footer
+
+### Patch Changes
+
+- 7628a6d: ## Changes
+
+  - (Dropdown) show nested menus that were not showing
+
+- a7cdb36: ## Changes
+
+  - (Banner) translate close button aria label value
+
 ## 1.16.1
 
 ### Patch Changes
