@@ -76,9 +76,10 @@ const Accordion = forwardRef<HTMLButtonElement, AccordionProps>(
                   data-animating={isAnimating}
                   name={"arrow-chevron-down"}
                   size={AccordionIconSizeMap[size]}
+                  aria-hidden="true"
                 />
               )}
-              {icon && <Icon name={icon} size={AccordionIconSizeMap[size]} />}
+              {icon && <Icon name={icon} size={AccordionIconSizeMap[size]} aria-hidden="true" />}
               <span className={styles["accordion-title"]} data-size={size}>
                 {title}
               </span>
@@ -88,6 +89,7 @@ const Accordion = forwardRef<HTMLButtonElement, AccordionProps>(
                   data-animating={isAnimating}
                   name={"arrow-chevron-down"}
                   size={AccordionIconSizeMap[size]}
+                  aria-hidden="true"
                 />
               )}
             </div>
