@@ -50,7 +50,7 @@ const Accordion = forwardRef<HTMLButtonElement, AccordionProps>(
       if (onClick) onClick(e);
     };
 
-    const { shouldRender, isAnimating } = useAnimatedMount(isInternalOpen, 120);
+    const { isAnimating } = useAnimatedMount(isInternalOpen, 120);
 
     return (
       <>
@@ -92,23 +92,19 @@ const Accordion = forwardRef<HTMLButtonElement, AccordionProps>(
               )}
             </div>
           </button>
-          {shouldRender && (
-            <>
-              <div
-                className={styles["accordion-content"]}
-                data-open={isInternalOpen}
-                data-animating={isAnimating}
-                data-disabled={disabled}
-                id={contentId}
-                aria-hidden={!isInternalOpen}
-                aria-labelledby={summaryId}
-                role="region"
-                style={{ height: isInternalOpen ? innerContentRef.current?.scrollHeight : 0 }}
-              >
-                <div ref={innerContentRef}>{children}</div>
-              </div>
-            </>
-          )}
+          <div
+            className={styles["accordion-content"]}
+            data-open={isInternalOpen}
+            data-animating={isAnimating}
+            data-disabled={disabled}
+            id={contentId}
+            aria-hidden={!isInternalOpen}
+            aria-labelledby={summaryId}
+            role="region"
+            style={{ height: isInternalOpen ? innerContentRef.current?.scrollHeight : 0 }}
+          >
+            <div ref={innerContentRef}>{children}</div>
+          </div>
           <Divider thickness="light" />
         </div>
       </>
