@@ -76,6 +76,10 @@
   }
 
   .rte-banner-icon {
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
+
     display: flex;
     justify-content: center;
     align-items: center;
