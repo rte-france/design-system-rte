@@ -356,7 +356,7 @@ export const Disabled: Story = {
     const field = canvasElement.querySelector(".segmented-date-field") as HTMLElement | null;
     expect(field).toBeInTheDocument();
     expect(field).toHaveAttribute("tabindex", "-1");
-    focusElementBeforeComponent(canvasElement);
+    focusElementBeforeComponent();
     await userEvent.tab();
     await userEvent.tab();
     expect(canvas.queryByTestId("right-icon")).toBeInTheDocument();

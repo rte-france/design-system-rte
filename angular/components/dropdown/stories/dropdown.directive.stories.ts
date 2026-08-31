@@ -144,6 +144,7 @@ export const WithBadge: StoryObj<{
 };
 
 export const KeyboardNavigation: Story = {
+  tags: ["!autodocs"],
   decorators: [
     moduleMetadata({
       imports: [DropdownModule],
@@ -197,6 +198,7 @@ export const KeyboardNavigation: Story = {
 };
 
 export const KeyboardNavigationWithLink: Story = {
+  tags: ["!autodocs"],
   decorators: [
     moduleMetadata({
       imports: [DropdownModule],
@@ -245,6 +247,7 @@ export const KeyboardNavigationWithLink: Story = {
 };
 
 export const WithProjectedHeaderAndFooter: Story = {
+  tags: ["!autodocs"],
   decorators: [
     moduleMetadata({
       imports: [DropdownModule],
@@ -302,6 +305,7 @@ export const WithProjectedHeaderAndFooter: Story = {
 };
 
 export const WithCustomBody: Story = {
+  tags: ["!autodocs"],
   decorators: [
     moduleMetadata({
       imports: [DropdownModule],
@@ -369,6 +373,7 @@ const NESTED_ITEMS_MULTI_LEVEL = [
 ];
 
 export const WithNestedItems: Story = {
+  tags: ["!autodocs"],
   decorators: [
     moduleMetadata({
       imports: [DropdownModule],
@@ -471,7 +476,7 @@ export const WithNestedItems: Story = {
 };
 
 export const WithFilterableHeader: Story = {
-  tags: ["skip-ci"],
+  tags: ["skip-ci", "!autodocs"],
   decorators: [
     moduleMetadata({
       imports: [DropdownModule],

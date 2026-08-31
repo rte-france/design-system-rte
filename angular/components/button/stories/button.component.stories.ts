@@ -195,6 +195,7 @@ export const WithIcon: Story = {
 };
 
 export const KeyboardInteraction: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
   },
@@ -212,7 +213,7 @@ export const KeyboardInteraction: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const button = canvas.getByRole("button", { name: "Button" });
-    focusElementBeforeComponent(canvasElement);
+    focusElementBeforeComponent();
     await userEvent.tab();
     expect(button).toHaveFocus();
     await userEvent.keyboard(TESTING_ENTER_KEY);

@@ -71,6 +71,7 @@ export const Default: Story = {
 };
 
 export const CharacterCount: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     maxLength: 15,
@@ -255,6 +256,7 @@ export const LeftIcon: Story = {
 };
 
 export const RightIconClean: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     rightIconAction: "clean",
@@ -280,6 +282,7 @@ export const RightIconClean: Story = {
 };
 
 export const EnterKey: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     enterKeyDown: fn(),
@@ -300,6 +303,7 @@ export const EnterKey: Story = {
 };
 
 export const KeyboardInteraction: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
   },
@@ -310,13 +314,14 @@ export const KeyboardInteraction: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const textInput = canvas.getByTestId("input").querySelector("input");
-    focusElementBeforeComponent(canvasElement);
+    focusElementBeforeComponent();
     await userEvent.tab();
     expect(textInput).toHaveFocus();
   },
 };
 
 export const KeyboardRightIconClean: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     rightIconAction: "clean",
@@ -337,6 +342,7 @@ export const KeyboardRightIconClean: Story = {
 };
 
 export const KeyboardRightIconVisibility: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     rightIconAction: "visibilityOff",
@@ -385,6 +391,7 @@ class TextInputReactiveFormHostComponent {
 }
 
 export const ReactiveForm: Story = {
+  tags: ["!autodocs"],
   render: () => ({
     moduleMetadata: { imports: [TextInputReactiveFormHostComponent] },
     template: `<text-input-reactive-form-host />`,
