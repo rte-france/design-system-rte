@@ -1,5 +1,9 @@
 import { labelSize } from "@design-system-rte/core/components/radio-button/radio-button.constants";
 import { RadioButtonProps as CoreRadioButtonProps } from "@design-system-rte/core/components/radio-button/radio-button.interface";
+import {
+  getRadioButtonAccessibleName,
+  RADIO_BUTTON_MISSING_ACCESSIBLE_NAME_ERROR,
+} from "@design-system-rte/core/components/radio-button/radio-button.utils";
 import React, { forwardRef } from "react";
 
 import { concatClassNames } from "../utils";
@@ -30,6 +34,13 @@ const RadioButton = forwardRef<HTMLInputElement, RadioButtonProps>(
       return null;
     }
 
+    const accessibleLabel = getRadioButtonAccessibleName(label, props["aria-label"]);
+
+    if (!accessibleLabel) {
+      console.error(RADIO_BUTTON_MISSING_ACCESSIBLE_NAME_ERROR);
+      return null;
+    }
+
     const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       if (disabled || readOnly) {
         return;
@@ -55,6 +66,7 @@ const RadioButton = forwardRef<HTMLInputElement, RadioButtonProps>(
           data-read-only={readOnly}
           onChange={handleOnChange}
           checked={isChecked}
+          aria-label={accessibleLabel}
           {...props}
         />
         <div
