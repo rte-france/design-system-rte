@@ -79,6 +79,10 @@
     transform: translateY(-10px);
   }
 
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+
   .rte-banner-icon {
     display: flex;
     justify-content: center;
