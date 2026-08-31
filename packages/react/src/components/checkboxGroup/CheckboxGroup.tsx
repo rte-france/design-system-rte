@@ -6,13 +6,13 @@ import { concatClassNames } from "../utils";
 
 import style from "./CheckboxGroup.module.scss";
 
-interface CheckboxGroupProps extends CoreCheckboxGroupProps, React.InputHTMLAttributes<HTMLDivElement> {}
+interface CheckboxGroupProps extends CoreCheckboxGroupProps, React.FieldsetHTMLAttributes<HTMLFieldSetElement> {}
 
-const CheckboxGroup = forwardRef<HTMLDivElement, CheckboxGroupProps>(
+const CheckboxGroup = forwardRef<HTMLFieldSetElement, CheckboxGroupProps>(
   (
     {
       items,
-      direction = "horizontal",
+      direction = "vertical",
       showItemsLabel = true,
       groupTitle = "",
       showGroupTitle = false,
@@ -32,18 +32,33 @@ const CheckboxGroup = forwardRef<HTMLDivElement, CheckboxGroupProps>(
     }
 
     return (
-      <div ref={ref} className={concatClassNames(style.checkboxGroupContainer, className)} {...props}>
+      <fieldset
+        ref={ref}
+        className={concatClassNames(style.checkboxGroupContainer, className)}
+        disabled={disabled}
+        {...props}
+      >
+        {groupTitle && (
+          <legend
+            className={style.groupTitle}
+            data-visible={showGroupTitle}
+            data-error={error}
+            data-disabled={disabled}
+            data-read-only={readOnly}
+          >
+            {groupTitle}
+          </legend>
+        )}
         <div
-          className={style.checkboxGroupHeader}
+          className={style["checkboxGroupSubheader"]}
           data-error={error}
           data-disabled={disabled}
           data-read-only={readOnly}
         >
-          {groupTitle && showGroupTitle && <h3 className={style.groupTitle}>{groupTitle}</h3>}
           {groupHelpText && showHelpText && <p className={style.groupHelpText}>{groupHelpText}</p>}
           {errorMessage && error && <p className={style.errorMessage}>{errorMessage}</p>}
         </div>
-        <div className={style.checkboxGroup} data-direction={direction}>
+        <div className={style["checkboxGroup"]} data-direction={direction}>
           {items.map((item, index) => (
             <Checkbox
               id={`${item}-${index}`}
@@ -53,10 +68,11 @@ const CheckboxGroup = forwardRef<HTMLDivElement, CheckboxGroupProps>(
               disabled={disabled}
               error={error}
               readOnly={readOnly}
+              aria-label={showItemsLabel ? undefined : item}
             />
           ))}
         </div>
-      </div>
+      </fieldset>
     );
   },
 );

@@ -23,6 +23,7 @@ export class CheckboxComponent {
   readonly readOnly = input(false);
   readonly checked = input(false);
   readonly tabindex = input<string | number | undefined>(undefined);
+  readonly ariaLabel = input<string | undefined>(undefined);
 
   readonly checkedChange = output<boolean>();
 
