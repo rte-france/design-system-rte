@@ -99,6 +99,11 @@ export const Default: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const radioButton = canvas.getByRole("radio", { name: "Option 1" });
+    const fieldset = canvasElement.querySelector("fieldset");
+    const legend = fieldset?.querySelector("legend");
+
+    expect(fieldset).not.toBeNull();
+    expect(legend).toHaveTextContent("Radio Button Group Title");
     await userEvent.click(radioButton);
     expect(radioButton).toBeChecked();
   },

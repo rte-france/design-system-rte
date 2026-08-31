@@ -51,32 +51,32 @@ const RadioButtonGroup = forwardRef<HTMLDivElement, RadioButtonGroupProps>(
 
     return (
       <div ref={ref} className={concatClassNames(style.radioButtonGroupContainer, className)} {...props}>
-        <div
-          className={style.radioButtonGroupHeader}
+        <fieldset
+          className={style.radioButtonGroupFieldset}
           data-error={error}
           data-disabled={disabled}
           data-read-only={readOnly}
         >
-          {groupTitle && showGroupTitle && <h3 className={style.groupTitle}>{groupTitle}</h3>}
+          {groupTitle && showGroupTitle && <legend className={style.groupTitle}>{groupTitle}</legend>}
           {groupHelpText && showHelpText && <p className={style.groupHelpText}>{groupHelpText}</p>}
           {errorMessage && error && <p className={style.errorMessage}>{errorMessage}</p>}
-        </div>
-        <div className={style.radioButtonGroup} data-direction={direction}>
-          {items.map(({ label, value }, index) => (
-            <RadioButton
-              key={value + index}
-              label={label}
-              value={value}
-              groupName={groupName}
-              showLabel={showItemsLabel}
-              disabled={disabled}
-              error={error}
-              readOnly={readOnly}
-              onChange={handleOnChangeRadioButton}
-              isChecked={internalSelectedValue === value}
-            />
-          ))}
-        </div>
+          <div className={style.radioButtonGroup} data-direction={direction}>
+            {items.map(({ label, value }, index) => (
+              <RadioButton
+                key={value + index}
+                label={label}
+                value={value}
+                groupName={groupName}
+                showLabel={showItemsLabel}
+                disabled={disabled}
+                error={error}
+                readOnly={readOnly}
+                onChange={handleOnChangeRadioButton}
+                isChecked={internalSelectedValue === value}
+              />
+            ))}
+          </div>
+        </fieldset>
       </div>
     );
   },
