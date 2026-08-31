@@ -6,15 +6,25 @@
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    gap: $positive-spacing_100;
 
-    .radioButtonGroupHeader {
+    .radioButtonGroupFieldset {
+        display: flex;
+        padding: $positive-spacing_0;
+        margin: $positive-spacing_0;
+        border: none;
+        min-width: 0;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        gap: $positive-spacing_100;
 
         .groupTitle {
             @include typography-heading-s;
-            align-self: stretch;
+            display: block;
+            width: 100%;
+            padding: $positive-spacing_0;
             margin: $positive-spacing_0;
-
+            align-self: stretch;
         }
 
         .groupHelpText {
@@ -45,7 +55,6 @@
         }
 
         &[data-disabled='true'] {
-
             pointer-events: none;
 
             .groupTitle {
@@ -62,9 +71,7 @@
                 color: var(--content-danger-default);
             }
         }
-
     }
-
 
     .radioButtonGroup {
         display: flex;
