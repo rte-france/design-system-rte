@@ -1,5 +1,6 @@
 export interface RadioButtonProps {
-  label: string;
+  label?: string;
+  ariaLabel?: string;
   value: string;
   groupName: string;
   showLabel?: boolean;

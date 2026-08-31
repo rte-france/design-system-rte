@@ -117,3 +117,33 @@ export const InitialChecked: Story = {
     expect(radioButton).toBeChecked();
   },
 };
+
+export const HiddenLabel: Story = {
+  tags: ["!autodocs"],
+  args: {
+    ...Default.args,
+    groupName: "hidden-label-radio-group",
+    showLabel: false,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const radioButton = canvas.getByRole("radio", { name: /radio button/i });
+    expect(radioButton).toBeInTheDocument();
+  },
+};
+
+export const HiddenLabelWithAriaLabelOnly: Story = {
+  tags: ["!autodocs"],
+  args: {
+    ...Default.args,
+    label: "",
+    "aria-label": "Radio Button",
+    groupName: "hidden-label-aria-only-radio-group",
+    showLabel: false,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const radioButton = canvas.getByRole("radio", { name: /radio button/i });
+    expect(radioButton).toBeInTheDocument();
+  },
+};
