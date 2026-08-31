@@ -1,6 +1,10 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component, computed, input, output } from "@angular/core";
+import { ChangeDetectionStrategy, Component, computed, effect, input, output } from "@angular/core";
 import { labelSize } from "@design-system-rte/core/components/radio-button/radio-button.constants";
+import {
+  getRadioButtonAccessibleName,
+  RADIO_BUTTON_MISSING_ACCESSIBLE_NAME_ERROR,
+} from "@design-system-rte/core/components/radio-button/radio-button.utils";
 
 @Component({
   selector: "rte-radio-button",
@@ -11,6 +15,7 @@ import { labelSize } from "@design-system-rte/core/components/radio-button/radio
 })
 export class RadioButtonComponent {
   readonly label = input("");
+  readonly ariaLabel = input("");
   readonly value = input("");
   readonly groupName = input("");
   readonly showLabel = input(true);
@@ -20,9 +25,19 @@ export class RadioButtonComponent {
   labelSize = labelSize;
   readonly isChecked = input(false);
 
-  readonly isDisplayed = computed(() => !(this.disabled() && this.error()));
+  readonly accessibleLabel = computed(() => getRadioButtonAccessibleName(this.label(), this.ariaLabel()));
+
+  readonly isDisplayed = computed(() => !(this.disabled() && this.error()) && this.accessibleLabel() !== null);
 
   readonly changeEvent = output<string>();
+
+  constructor() {
+    effect(() => {
+      if (!this.accessibleLabel()) {
+        console.error(RADIO_BUTTON_MISSING_ACCESSIBLE_NAME_ERROR);
+      }
+    });
+  }
 
   onChange() {
     if (this.disabled() || this.readOnly()) {
