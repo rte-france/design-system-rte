@@ -38,13 +38,20 @@ export const Default: Story = {
     closable: true,
   },
 };
-export const Alert: Story = {
+export const Type: Story = {
   args: {
     ...Default.args,
-    title: "Indisponibilité de l’application",
-    message:
-      "Dans le cadre des changements de serveur à venir le 18 mai 2026, votre application évolue et sera par conséquent indisponible du 29 mars au 12 avril 2026.",
-    type: "error",
+  },
+
+  render: () => {
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: "16px", width: "700px" }}>
+        <Banner title="Information" message="Votre demande a été prise en compte." type="info" />
+        <Banner title="Erreur" message="L’application est indisponible." type="error" />
+        <Banner title="Succès" message="Le fichier a été enregistré." type="success" />
+        <Banner title="Attention" message="Une action est requise." type="warning" />
+      </div>
+    );
   },
 };
 
@@ -52,7 +59,7 @@ export const Compact: Story = {
   args: {
     ...Default.args,
     isCompact: true,
-    message: "Sample banner message.",
+    message: "Consultez les nouveautés.",
     actionLabel: "Visualiser",
     closable: true,
   },
@@ -60,21 +67,6 @@ export const Compact: Story = {
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
         <Banner {...args} isCompact />
-        <Banner {...args} isCompact={false} />
-      </div>
-    );
-  },
-};
-
-export const WithIcon: Story = {
-  args: {
-    ...Default.args,
-  },
-  render: (args) => {
-    return (
-      <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-        <Banner {...args} />
-        <Banner {...Alert.args} />
       </div>
     );
   },
@@ -122,7 +114,6 @@ export const Overlay: Story = {
       <>
         <Banner
           {...args}
-          closable
           onClose={() => setShowBanner(false)}
           isOpen={showBanner}
           position={isOverlay ? "overlay" : "push"}
@@ -158,6 +149,7 @@ export const Overlay: Story = {
 };
 
 export const KeyboardInteraction: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     closable: true,
