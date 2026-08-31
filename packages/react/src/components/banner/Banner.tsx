@@ -61,10 +61,7 @@ const Banner = forwardRef<HTMLElement, BannerProps>(
       onClose?.();
     };
 
-    if (closable === false && position === "overlay") {
-      console.warn("Banner: 'closable' and 'onClose' props must be set when 'position' has 'overlay' value.");
-      return null;
-    }
+    const isClosable = closable || position === "overlay";
 
     return (
       shouldRender && (
@@ -115,7 +112,7 @@ const Banner = forwardRef<HTMLElement, BannerProps>(
               size={isCompact ? "s" : "m"}
             />
           )}
-          {closable && (
+          {isClosable && (
             <button
               type="button"
               className={concatClassNames(iconButtonStyle["icon-button"], style["rte-banner-close-button"])}

@@ -56,7 +56,7 @@ export const Default: Story = {
   },
 };
 
-export const Alert: Story = {
+export const Type: Story = {
   args: {
     ...Default.args,
     title: "Indisponibilité de l’application",
@@ -64,6 +64,18 @@ export const Alert: Story = {
       "Dans le cadre des changements de serveur à venir le 18 mai 2026, votre application évolue et sera par conséquent indisponible du 29 mars au 12 avril 2026.",
     type: "error",
   },
+
+  render: (args) => ({
+    props: args,
+    template: `
+    <div style="display: flex; flex-direction: column; gap: 16px; width: 700px;">
+      <rte-banner title="Information" message="Votre demande a été prise en compte." type="info" />
+      <rte-banner title="Erreur" message="L’application est indisponible." type="error" />
+      <rte-banner title="Succès" message="Le fichier a été enregistré." type="success" />
+      <rte-banner title="Attention" message="Une action est requise." type="warning" />
+    </div>
+    `,
+  }),
 };
 
 export const Compact: Story = {
@@ -83,15 +95,6 @@ export const Compact: Story = {
         [message]="message"
         [type]="type"
         [isCompact]="true"
-        [actionLabel]="actionLabel"
-        [closable]="closable"
-        [isOpen]="isOpen"
-      />
-      <rte-banner
-        [title]="title"
-        [message]="message"
-        [type]="type"
-        [isCompact]="false"
         [actionLabel]="actionLabel"
         [closable]="closable"
         [isOpen]="isOpen"
@@ -257,6 +260,7 @@ export const KeyboardInteraction: Story = {
       imports: [ButtonComponent],
     }),
   ],
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     closable: true,

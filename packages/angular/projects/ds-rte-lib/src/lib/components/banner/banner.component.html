@@ -31,7 +31,7 @@
     {{ actionLabel() }}
   </button>
   <button
-    *ngIf="closable()"
+    *ngIf="isClosable()"
     type="button"
     class="rte-banner-close-icon rte-icon-button neutral size-m compact-spacing"
     [attr.aria-label]="closeButtonAriaLabel"
