@@ -20,7 +20,13 @@ export class RadioButtonComponent {
   labelSize = labelSize;
   readonly isChecked = input(false);
 
-  readonly isDisplayed = computed(() => !(this.disabled() && this.error()));
+  readonly isDisplayed = computed(() => {
+    if (this.disabled() && this.error()) {
+      console.warn("RadioButton cannot be both disabled and in an error state. Please choose one state or the other.");
+      return false;
+    }
+    return true;
+  });
 
   readonly changeEvent = output<string>();
 
