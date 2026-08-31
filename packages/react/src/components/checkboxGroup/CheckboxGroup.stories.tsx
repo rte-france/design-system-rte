@@ -17,7 +17,7 @@ const meta = {
       control: "select",
       options: ["horizontal", "vertical"],
       description: "The direction of the checkbox group.",
-      defaultValue: "horizontal",
+      defaultValue: "vertical",
     },
     showItemsLabel: {
       control: "boolean",
@@ -73,7 +73,6 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     items: ["Option 1", "Option 2", "Option 3"],
-    direction: "horizontal",
     showItemsLabel: true,
     groupTitle: "Checkbox Group Title",
     showGroupTitle: true,
@@ -86,6 +85,8 @@ export const Default: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
+    const group = canvas.getByRole("group", { name: "Checkbox Group Title" });
+    expect(group.querySelector("[data-direction]")).toHaveAttribute("data-direction", "vertical");
     const checkbox = canvas.getByRole("checkbox", { name: "Option 1" });
     await userEvent.click(checkbox);
     expect(checkbox).toBeChecked();
@@ -96,6 +97,17 @@ export const Disabled: Story = {
   args: {
     ...Default.args,
     disabled: true,
+  },
+};
+
+export const WithoutVisibleItemLabels: Story = {
+  args: {
+    ...Default.args,
+    showItemsLabel: false,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    expect(canvas.getByRole("checkbox", { name: "Option 1" })).toBeInTheDocument();
   },
 };
 
