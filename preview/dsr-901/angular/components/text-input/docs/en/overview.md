@@ -1,9 +1,0 @@
-```html
-<rte-text-input
-  id="text-input-default"
-  label="Label"
-  labelPosition="top"
-  [maxLength]="150"
-  width="300px"
-></rte-text-input>
-```
