@@ -14,6 +14,7 @@ import { getAutoPlacement, getCoordinates, Position } from "@design-system-rte/c
 import { TOOLTIP_FADE_OUT_DURATION, TOOLTIP_GAP } from "@design-system-rte/core/components/tooltip/tooltip.constants";
 import { getTooltipGap } from "@design-system-rte/core/components/tooltip/tooltip.utils";
 import { FOCUSABLE_ELEMENTS_QUERY } from "@design-system-rte/core/constants/dom/dom.constants";
+import { hasEllipsisInSubtree } from "@design-system-rte/core/utils/ellipsis.utils";
 
 import { OverlayService } from "../../services/overlay.service";
 import { isElementInParentWithOverlay } from "../../utils";
@@ -30,6 +31,7 @@ export class TooltipDirective implements AfterViewInit, OnDestroy {
   readonly rteTooltipArrow = input(true);
   readonly rteTooltipShouldFocusTrigger = input(true);
   readonly rteTooltipGap = input<number>(TOOLTIP_GAP);
+  readonly rteTooltipShowOnEllipsis = input(false);
 
   private tooltipRef: ComponentRef<TooltipComponent> | null = null;
   private hideTimeout: ReturnType<typeof setTimeout> | null = null;
@@ -98,6 +100,10 @@ export class TooltipDirective implements AfterViewInit, OnDestroy {
   }
 
   showTooltip(): void {
+    if (this.rteTooltipShowOnEllipsis() && !hasEllipsisInSubtree(this.hostElement)) {
+      return;
+    }
+
     this.clearHideTimeout();
 
     if (this.tooltipRef) {

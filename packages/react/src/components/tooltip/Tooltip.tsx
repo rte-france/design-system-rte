@@ -2,6 +2,7 @@ import { TOOLTIP_ANIMATION_DURATION, TOOLTIP_GAP } from "@design-system-rte/core
 import { TooltipProps as CoreTooltipProps } from "@design-system-rte/core/components/tooltip/tooltip.interface";
 import { getTooltipGap } from "@design-system-rte/core/components/tooltip/tooltip.utils";
 import { getAutoPlacement, getCoordinates } from "@design-system-rte/core/components/utils/auto-placement";
+import { hasEllipsisInSubtree } from "@design-system-rte/core/utils/ellipsis.utils";
 import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
 
 import useAnimatedMount from "../../hooks/useAnimatedMount";
@@ -15,6 +16,7 @@ interface TooltipProps extends CoreTooltipProps, Omit<React.HTMLAttributes<HTMLD
   children: React.ReactNode;
   triggerStyles?: React.CSSProperties;
   shouldFocusTrigger?: boolean;
+  showOnEllipsis?: boolean;
 }
 
 const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
@@ -29,6 +31,7 @@ const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
       triggerStyles,
       shouldFocusTrigger = true,
       gap = TOOLTIP_GAP,
+      showOnEllipsis = false,
       ...props
     },
     ref,
@@ -82,6 +85,14 @@ const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
     }, [computePosition]);
 
     const openTooltip = () => {
+      if (showOnEllipsis) {
+        const triggerElement = triggerRef.current;
+
+        if (!triggerElement || !hasEllipsisInSubtree(triggerElement)) {
+          return;
+        }
+      }
+
       setIsOpen(true);
     };
 
