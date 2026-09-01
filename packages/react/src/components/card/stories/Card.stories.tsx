@@ -76,6 +76,7 @@ export const CardTypes: Story = {
 };
 
 export const Clickable: Story = {
+  tags: ["!autodocs"],
   args: clickableStoryArgs,
   render: (args) => (
     <Card {...args} onClick={args.onClick}>
