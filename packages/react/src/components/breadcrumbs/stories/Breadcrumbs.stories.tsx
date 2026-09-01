@@ -277,6 +277,7 @@ export const WithBadge: Story = {
     badgeCount: 5,
     badgeType: "indicator",
     showBadge: true,
+    badgeSize: "xs",
   },
   render: (args) => <Breadcrumbs {...args} data-testid="breadcrumbs" />,
 };
