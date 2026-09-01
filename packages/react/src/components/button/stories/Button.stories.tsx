@@ -114,12 +114,52 @@ export const Sizing: Story = {
 export const WithIcon: Story = {
   args: {
     ...Default.args,
-    icon: "add",
+    icon: "add-circle",
     label: "Button with Icon",
+  },
+
+  render: (args) => {
+    return (
+      <div style={{ display: "flex", gap: 8 }}>
+        <Button {...args} iconPosition="left" iconAppearance="filled" />
+        <Button {...args} iconPosition="right" icon="add-circle" iconAppearance="outlined" />
+      </div>
+    );
+  },
+};
+
+export const Variants: Story = {
+  args: {
+    ...Default.args,
+  },
+  render: (args) => {
+    return (
+      <div style={{ display: "flex", gap: 8 }}>
+        <Button {...args} variant="primary" label="Primary" />
+        <Button {...args} variant="secondary" label="Secondary" />
+        <Button {...args} variant="text" label="Text" />
+        <Button {...args} variant="transparent" label="Transparent" />
+        <Button {...args} variant="danger" label="Danger" />
+        <Button {...args} variant="neutral" label="Neutral" />
+        <Button {...args} variant="reverse" label="Reverse" />
+      </div>
+    );
+  },
+};
+export const withBadge: Story = {
+  args: {
+    ...Default.args,
+    badgeContent: "number",
+    badgeCount: 5,
+    badgeType: "indicator",
+  },
+  render: (args) => {
+    return <Button {...args} label="Button with Badge" />;
   },
 };
 
 export const KeyboardInteraction: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
   },
