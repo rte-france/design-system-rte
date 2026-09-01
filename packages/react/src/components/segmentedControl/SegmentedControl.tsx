@@ -3,7 +3,7 @@ import {
   isValidSegmentedControlOptions,
 } from "@design-system-rte/core/components/segmented-control/segmented-control-utils";
 import { SegmentedControlProps as CoreSegmentedControlProps } from "@design-system-rte/core/components/segmented-control/segmented-control.interface";
-import { forwardRef, MutableRefObject, useRef } from "react";
+import { forwardRef, MutableRefObject, useEffect, useRef, useState } from "react";
 
 import useSelectedIndicatorPosition from "../../hooks/useSelectedIndicatorPosition";
 
@@ -18,7 +18,13 @@ interface SegmentedControlProps
 const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps>(
   ({ options, onChange, selectedSegment, appearance = "brand", compactSpacing = false, ...props }, ref) => {
     const containerRef: MutableRefObject<HTMLDivElement | null> = useRef<HTMLDivElement>(null);
+    const [isInitialAnimationDisabled, setIsInitialAnimationDisabled] = useState(true);
     const { indicatorStyle } = useSelectedIndicatorPosition(containerRef, selectedSegment);
+
+    useEffect(() => {
+      const frameId = requestAnimationFrame(() => setIsInitialAnimationDisabled(false));
+      return () => cancelAnimationFrame(frameId);
+    }, []);
 
     const handleOnClick = (event: React.MouseEvent<HTMLDivElement> | React.KeyboardEvent<HTMLDivElement>) => {
       const target = event.currentTarget as HTMLDivElement;
@@ -46,6 +52,7 @@ const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps>(
         <span
           className={style["segment-selected-indicator"]}
           data-compact-spacing={compactSpacing}
+          data-initial-animation-disabled={isInitialAnimationDisabled}
           style={{
             left: indicatorStyle.left,
             top: indicatorStyle.top,
