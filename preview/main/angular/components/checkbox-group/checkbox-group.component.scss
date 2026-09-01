@@ -3,20 +3,45 @@
 .checkbox-group-container {
     display: flex;
     padding: $positive-spacing_0;
+    margin: $positive-spacing_0;
+    border: 0;
+    min-inline-size: 0;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
     gap: $positive-spacing_100;
 
-    .checkbox-group-header {
+    >.group-title {
+        @include typography-heading-s;
+        align-self: stretch;
+        margin: $positive-spacing_0;
 
-        .group-title {
-            @include typography-heading-s;
-            align-self: stretch;
-            margin: $positive-spacing_0;
-
+        &.visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
         }
 
+        &.error {
+            color: var(--content-danger-default);
+        }
+
+        &.read-only {
+            color: var(--content-tertiary);
+        }
+
+        &.disabled {
+            color: var(--content-disabled);
+        }
+    }
+
+    .checkbox-group-subheader {
         .group-help-text {
             @include typography-text-m;
             color: var(--content-tertiary);
@@ -32,31 +57,9 @@
             margin-top: $positive-spacing_050;
         }
 
-        &.error {
-            .group-title {
-                color: var(--content-danger-default);
-            }
-        }
-
-        &.read-only {
-            .group-title {
-                color: var(--content-tertiary);
-            }
-
-            .error {
-                .group-title {
-                    color: var(--content-danger-default);
-                }
-            }
-        }
-
         &.disabled {
 
             pointer-events: none;
-
-            .group-title {
-                color: var(--content-disabled);
-            }
 
             .group-help-text {
                 color: var(--content-disabled);
