@@ -1,4 +1,5 @@
 import { Meta, StoryObj } from "@storybook/angular";
+import { expect } from "@storybook/test";
 
 import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../../icon/icon-map";
 import { TagComponent } from "../tag.component";
@@ -106,6 +107,16 @@ export const Default: Story = {
     status: "success",
     compactSpacing: false,
     iconName: "check",
+  },
+};
+
+export const WithoutLabel: Story = {
+  args: {
+    ...Default.args,
+    label: "",
+  },
+  play: async ({ canvasElement }) => {
+    expect(canvasElement.querySelector(".rte-tag")).not.toBeInTheDocument();
   },
 };
 

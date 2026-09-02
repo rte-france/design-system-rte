@@ -1,3 +1,4 @@
+import { TAG_ERROR_NO_LABEL } from "@design-system-rte/core";
 import { TagProps as TagPropsCore } from "@design-system-rte/core/components/tag/tag.interface";
 import { forwardRef } from "react";
 
@@ -25,6 +26,11 @@ const Tag = forwardRef<HTMLDivElement, TagProps>(
 
     if (iconName && !isValidIconName(iconName)) {
       console.warn(`Tag: Invalid icon name "${iconName}". Please use a valid icon key.`);
+      return null;
+    }
+
+    if (!label) {
+      console.error(TAG_ERROR_NO_LABEL);
       return null;
     }
 
