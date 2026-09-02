@@ -13,7 +13,7 @@ export const sideNavPanelSize: Record<SideNavSize, number> = {
 type SideNavThemeKey = `${SideNavAppearance}-${SideNavContrast}`;
 
 export const dividerAppearanceBySideNavTheme: Record<SideNavThemeKey, DividerAppearance> = {
-  "neutral-low": "default",
+  "neutral-low": "neutral",
   "neutral-high": "inverse",
   "brand-low": "brand",
   "brand-high": "inverse",

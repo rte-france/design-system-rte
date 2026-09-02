@@ -6,7 +6,7 @@ import style from "./Divider.module.scss";
 interface DividerProps extends coreDividerProps, Omit<React.HTMLAttributes<HTMLDivElement>, "role"> {}
 
 const Divider = forwardRef<HTMLDivElement, DividerProps>(
-  ({ orientation = "horizontal", thickness = "light", appearance = "default", endPoint = "round", ...props }, ref) => {
+  ({ orientation = "horizontal", thickness = "light", appearance = "neutral", endPoint = "round", ...props }, ref) => {
     return orientation === "horizontal" ? (
       <hr
         ref={ref as React.Ref<HTMLHRElement>}

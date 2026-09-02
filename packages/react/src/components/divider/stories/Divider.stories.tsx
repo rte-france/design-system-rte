@@ -31,9 +31,9 @@ const meta = {
     },
     appearance: {
       control: "select",
-      options: ["default", "inverse", "brand"],
+      options: ["neutral", "inverse", "brand"],
       description: "Color of the divider",
-      defaultValue: "default",
+      defaultValue: "neutral",
     },
     endPoint: {
       control: "select",
@@ -50,7 +50,7 @@ export const Default: Story = {
   args: {
     orientation: "horizontal",
     thickness: "light",
-    appearance: "default",
+    appearance: "neutral",
   },
 };
 
@@ -66,7 +66,7 @@ export const VerticalSizes: Story = {
   args: {
     orientation: "vertical",
     thickness: "light",
-    appearance: "default",
+    appearance: "neutral",
   },
   render: (args) => (
     <div style={{ display: "flex", justifyContent: "space-between", gap: "20px", height: "100px", width: "500px" }}>
@@ -81,7 +81,7 @@ export const HorizontalSizes: Story = {
   args: {
     orientation: "horizontal",
     thickness: "light",
-    appearance: "default",
+    appearance: "neutral",
   },
   render: (args) => (
     <div
@@ -98,7 +98,7 @@ export const SquaredEnd: Story = {
   args: {
     orientation: "horizontal",
     thickness: "light",
-    appearance: "default",
+    appearance: "neutral",
     endPoint: "square",
   },
   render: (args) => (
