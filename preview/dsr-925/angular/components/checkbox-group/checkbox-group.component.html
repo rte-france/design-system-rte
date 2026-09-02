@@ -1,0 +1,45 @@
+<fieldset *ngIf="isDisplayed()" class="checkbox-group-container" [disabled]="disabled()">
+  <legend
+    *ngIf="groupTitle()"
+    class="group-title"
+    [ngClass]="{
+      'visually-hidden': !showGroupTitle(),
+      disabled: disabled(),
+      error: error(),
+      'read-only': readOnly(),
+    }"
+  >
+    {{ groupTitle() }}
+  </legend>
+  <div
+    class="checkbox-group-subheader"
+    [ngClass]="{
+      disabled: disabled(),
+      error: error(),
+      'read-only': readOnly(),
+    }"
+  >
+    <p *ngIf="showHelpText()" class="group-help-text">
+      {{ groupHelpText() }}
+    </p>
+    <p *ngIf="error()" class="group-error-message">
+      {{ errorMessage() }}
+    </p>
+  </div>
+  <div
+    class="checkbox-group"
+    [ngClass]="{ horizontal: direction() === 'horizontal', vertical: direction() === 'vertical' }"
+  >
+    <ng-container *ngFor="let item of items(); let i = index">
+      <rte-checkbox
+        [id]="item + '-' + i"
+        [label]="item"
+        [showLabel]="showItemsLabel()"
+        [disabled]="disabled()"
+        [error]="error()"
+        [readOnly]="readOnly()"
+        [ariaLabel]="showItemsLabel() ? undefined : item"
+      />
+    </ng-container>
+  </div>
+</fieldset>
