@@ -57,6 +57,19 @@ export const Default: Story = {
   },
 };
 
+export const Disabled: Story = {
+  args: {
+    id: "chip-disabled",
+    label: "Disabled",
+    disabled: true,
+  },
+  play: async ({ canvasElement }) => {
+    const chip = within(canvasElement).getByRole("radio");
+
+    expect(chip).toHaveAttribute("aria-disabled", "true");
+  },
+};
+
 export const SingleSelect: Story = {
   args: {
     ...Default.args,
@@ -243,6 +256,97 @@ export const MultiSelect: Story = {
 export const Input: Story = {
   args: {
     ...Default.args,
+    type: "input",
+  },
+  render: (args) => {
+    const [inputValue, setInputValue] = useState("");
+    const [chipsValue, setChipsValue] = useState<string[]>(["Chip 1", "Chip 2"]);
+
+    const handleOnChange = (value: string) => {
+      setInputValue(value);
+    };
+
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+      if (event.key === ENTER_KEY) {
+        event.preventDefault();
+        handleAddChip();
+      }
+    };
+
+    const handleAddChip = () => {
+      if (inputValue && !chipsValue.includes(inputValue)) {
+        setChipsValue((prev) => [...prev, inputValue]);
+        setInputValue("");
+      }
+    };
+
+    const handleRemoveChip = (event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLButtonElement>) => {
+      const chipsToRemove = event.currentTarget.value;
+      setChipsValue((chipsValue) =>
+        chipsValue.includes(chipsToRemove) ? chipsValue.filter((value) => value !== chipsToRemove) : chipsValue,
+      );
+    };
+
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+        <div style={{ display: "flex", gap: "10px", alignItems: "end" }}>
+          <TextInput
+            id="input-add-chip"
+            label="Ajouter un chip"
+            value={inputValue}
+            onChange={handleOnChange}
+            onKeyDown={handleKeyDown}
+          />
+
+          <Button label="Ajouter" onClick={handleAddChip}></Button>
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+          {chipsValue.length > 0 && (
+            <div
+              style={{ display: "flex", gap: "10px" }}
+              role="listbox"
+              aria-label="Chips list"
+              data-testid="chips-list"
+            >
+              {chipsValue.map((value, index) => (
+                <Chip
+                  id={`chip-${index}-${value}`}
+                  key={index + value}
+                  label={value}
+                  selected={false}
+                  disabled={args.disabled}
+                  type="input"
+                  onClose={handleRemoveChip}
+                />
+              ))}
+            </div>
+          )}
+          {chipsValue.length > 0 && (
+            <div style={{ display: "flex", gap: "10px" }} role="listbox" aria-label="Chips list">
+              {chipsValue.map((value, index) => (
+                <Chip
+                  id={`chip-${index}-${value}`}
+                  key={index + value}
+                  label={value}
+                  selected={false}
+                  disabled={args.disabled}
+                  type="input"
+                  onClose={handleRemoveChip}
+                  appearance="neutral"
+                />
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  },
+};
+
+export const InputInteraction: Story = {
+  tags: ["!autodocs"],
+  args: {
+    ...Input.args,
     type: "input",
   },
   render: (args) => {
