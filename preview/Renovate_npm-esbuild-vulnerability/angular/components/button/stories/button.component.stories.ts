@@ -123,7 +123,7 @@ export const WithBadge: StoryObj<ButtonComponent & BadgeDirective> = {
     rteButtonSize: "m",
     rteBadgeContent: "number",
     rteBadgeCount: 5,
-    rteBadgeType: "brand",
+    rteBadgeType: "indicator",
     rteBadgeIcon: "notification",
     rteBadgeSize: "m",
   },
@@ -181,15 +181,71 @@ export const WithIcon: Story = {
   render: (args) => ({
     props: { ...args, click: mockFn },
     template: `
-    <button rteButton
-      [rteButtonVariant]="rteButtonVariant"
-      [rteButtonSize]="rteButtonSize"
-      [rteButtonIcon]="rteButtonIcon"
-      [rteButtonIconPosition]="rteButtonIconPosition"
-      [rteButtonIconAppearance]="rteButtonIconAppearance"
-      data-testid="button"
-      (click)="click()"
-    >Button</button>
+    <div style="display: flex; gap: 8px;">
+      <button rteButton
+        [rteButtonVariant]="rteButtonVariant"
+        [rteButtonSize]="rteButtonSize"
+        [rteButtonIcon]="'add-circle'"
+        [rteButtonIconPosition]="rteButtonIconPosition"
+        [rteButtonIconAppearance]="'outlined'"
+        data-testid="button-with-icon-left"
+        (click)="click()"
+      >Button with Icon</button>
+      <button rteButton
+        [rteButtonVariant]="rteButtonVariant"
+        [rteButtonSize]="rteButtonSize"
+        [rteButtonIcon]="'add-circle'"
+        [rteButtonIconPosition]="'right'"
+        [rteButtonIconAppearance]="'filled'"
+        data-testid="button-with-icon-right"
+        (click)="click()"
+      >Button with Icon</button>
+    </div>
+    `,
+  }),
+};
+
+export const Variants: Story = {
+  render: (args) => ({
+    props: { ...args },
+    template: `
+    <div style="display: flex; gap: 8px;">
+        <button rteButton 
+          rteButtonVariant="primary"
+          rteButtonSize="m"
+          data-testid="primary-button"
+        >Primary</button>
+        <button rteButton 
+          rteButtonVariant="secondary"
+          rteButtonSize="m"
+          data-testid="secondary-button"
+        >Secondary</button>
+        <button rteButton 
+          rteButtonVariant="text"
+          rteButtonSize="m"
+          data-testid="text-button"
+        >Text</button>
+        <button rteButton 
+          rteButtonVariant="transparent"
+          rteButtonSize="m"
+          data-testid="transparent-button"
+        >Transparent</button>
+        <button rteButton 
+          rteButtonVariant="danger"
+          rteButtonSize="m"
+          data-testid="danger-button"
+        >Danger</button>
+        <button rteButton 
+          rteButtonVariant="neutral"
+          rteButtonSize="m"
+          data-testid="neutral-button"
+        >Neutral</button>
+        <button rteButton 
+          rteButtonVariant="reverse"
+          rteButtonSize="m"
+          data-testid="reverse-button"
+        >Reverse</button>
+    </div>
     `,
   }),
 };
