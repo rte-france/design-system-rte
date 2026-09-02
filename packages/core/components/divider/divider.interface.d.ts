@@ -1,5 +1,6 @@
 export type DividerThickness = "light" | "medium" | "bold";
-export type DividerAppearance = "neutral" | "inverse" | "brand" | "brand-navigation";
+export type DividerAppearance = "neutral" | "inverse" | "brand";
+
 export type DividerEndPoint = "square" | "round";
 
 export interface DividerProps {
