@@ -12,7 +12,7 @@ import { CheckboxComponent } from "../checkbox/checkbox.component";
 })
 export class CheckboxGroupComponent {
   readonly items = input.required<string[]>();
-  readonly direction = input("horizontal");
+  readonly direction = input("vertical");
   readonly showItemsLabel = input(true);
   readonly groupTitle = input("");
   readonly showGroupTitle = input(false);

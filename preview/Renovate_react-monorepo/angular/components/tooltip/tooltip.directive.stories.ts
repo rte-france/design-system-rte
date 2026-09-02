@@ -211,7 +211,7 @@ export const KeyboardInteraction: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const tooltipTrigger = canvas.queryByText("Hover Me!");
-    focusElementBeforeComponent(canvasElement);
+    focusElementBeforeComponent();
     await userEvent.tab();
     const tooltip = within(document.body).getByRole("tooltip");
     expect(tooltipTrigger).toHaveFocus();

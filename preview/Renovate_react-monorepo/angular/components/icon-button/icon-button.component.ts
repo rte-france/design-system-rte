@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, input, output } from "@angular/core";
-import { BadgeContent, BadgeSize, BadgeType } from "@design-system-rte/core/components/badge/badge.interface";
+import { BadgeContent, BadgeType } from "@design-system-rte/core/components/badge/badge.interface";
 import { ButtonType } from "@design-system-rte/core/components/button/button.interface";
 import { ButtonSize, ButtonVariant } from "@design-system-rte/core/components/button/common/common-button";
 import { ButtonIconSize } from "@design-system-rte/core/components/button/common/common-button.constants";
@@ -32,7 +32,6 @@ export class IconButtonComponent {
   readonly badgeCount = input<number>();
   readonly badgeContent = input<BadgeContent>();
   readonly badgeType = input<BadgeType>();
-  readonly badgeSize = input<BadgeSize | undefined>(undefined);
   readonly badgeIcon = input<RegularIconIdKey | TogglableIconIdKey>("settings");
   readonly customStyle = input<Record<string, string>>();
   readonly tabIndex = input<number | undefined>(undefined);

@@ -10,7 +10,7 @@
   font-size: 16px;
   line-height: 24px;
   letter-spacing: 0px;
-  background-color: #FFFFFF;
+  background-color: var(--background-default);
   box-shadow: 0 0 0 1px #f4922b;
   min-block-size: 100px;
   display: flex;
@@ -2613,9 +2613,35 @@
   --background-hover-opacity-50: rgba(62, 62, 61, 0.5);
 }
 
+html {
+  height: 100%;
+  background-color: var(--background-default);
+}
+
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color: var(--content-primary);
+}
+body.sb-show-main.sb-main-padded {
+  padding: 0;
+}
+body.sb-show-main.sb-main-centered #storybook-root {
+  padding: 0;
+  width: 100%;
+}
+body .sbdocs.sbdocs-preview .docs-story > div {
+  padding: 0;
+}
+body .sbdocs.sbdocs-preview .docs-story > div > div {
+  width: 100%;
+}
+body .sbdocs.sbdocs-preview .docs-story > div > div > div > div {
+  border: none !important;
+}
+
+#storybook-root {
+  height: 100%;
 }
 .storybook_header .storybook_header_content {
   display: flex;
