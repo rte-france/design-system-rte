@@ -1,3 +1,7 @@
+import {
+  disabledItemsScenarioData,
+  disabledItemsScenarioSelectedId,
+} from "@design-system-rte/core/components/treeview/treeview-disabled-items.story-data";
 import type {
   TreeviewActionMenuItem,
   TreeviewItemProps,
@@ -25,26 +29,29 @@ const meta: Meta<TreeviewComponent> = {
 export default meta;
 type Story = StoryObj<TreeviewComponent>;
 
+const simpleArborescence: TreeviewItemProps[] = [
+  { id: "home", labelText: "Accueil", icon: "home" },
+  { id: "settings", labelText: "Paramètres", icon: "settings" },
+];
+
 const baseNavigationData: TreeviewItemProps[] = [
-  { id: "home", labelText: "Home", icon: "home", hasIcon: true },
+  { id: "home", labelText: "Home", icon: "home" },
   {
     id: "documents",
     labelText: "Documents",
     icon: "folder",
-    hasIcon: true,
     isOpen: true,
     items: [
       {
         id: "work",
         labelText: "Work",
         icon: "folder",
-        hasIcon: true,
         items: [
           { id: "project-a", labelText: "Project A" },
           { id: "project-b", labelText: "Project B" },
         ],
       },
-      { id: "personal", labelText: "Personal", icon: "folder", hasIcon: true },
+      { id: "personal", labelText: "Personal", icon: "folder" },
     ],
   },
 ];
@@ -70,62 +77,59 @@ function createConnectorLinesData(options: { middleOpen?: boolean } = {}): Treev
     {
       id: "root",
       labelText: "Root",
-      hasIcon: true,
       icon: "folder",
       isOpen: true,
       items: [
         {
           id: "first",
           labelText: "First (branch/T-shape)",
-          hasIcon: true,
           icon: "folder",
           isOpen: true,
           items: [
             {
               id: "first-1",
               labelText: "First-1 (branch)",
-              hasIcon: true,
               icon: "folder",
               isOpen: true,
             },
             {
               id: "first-2",
               labelText: "First-2 (corner/L-shape)",
-              hasIcon: true,
               icon: "folder",
               isOpen: true,
-              items: [{ id: "first-2-a", labelText: "First-2-a (level 4)", hasIcon: true, icon: "folder" }],
+              items: [{ id: "first-2-a", labelText: "First-2-a (level 4)", icon: "folder" }],
             },
           ],
         },
         {
           id: "middle",
           labelText: "Middle (branch/T-shape)",
-          hasIcon: true,
           icon: "folder",
           isOpen: middleOpen,
-          items: [{ id: "middle-1", labelText: "Middle-1 (corner/L-shape)", hasIcon: true, icon: "folder" }],
+          items: [{ id: "middle-1", labelText: "Middle-1 (corner/L-shape)", icon: "folder" }],
         },
-        { id: "last", labelText: "Last (corner/L-shape)", hasIcon: true, icon: "folder" },
+        { id: "last", labelText: "Last (corner/L-shape)", icon: "folder" },
       ],
     },
   ];
 }
 
+export const Default: Story = {
+  render: () => ({
+    props: {
+      items: simpleArborescence,
+    },
+    template: `<rte-treeview id="treeview-default" [items]="items" />`,
+    moduleMetadata: {
+      imports: [TreeviewComponent, TreeviewItemComponent],
+    },
+  }),
+};
+
 export const NestedItems: Story = {
   render: () => ({
     props: {
       items: createConnectorLinesData({ middleOpen: true }),
-      // items: [
-      //   {
-      //     id: "root",
-      //     labelText: "Root",
-      //     hasIcon: true,
-      //     icon: "folder",
-      //     isOpen: true,
-      //     items: [],
-      //   },
-      // ],
     },
     template: `<rte-treeview id="treeview-nested-items" [items]="items" />`,
     moduleMetadata: {
@@ -181,19 +185,17 @@ function createSelectionTrees(prefix: string): TreeviewItemProps[] {
       id: `${prefix}-a`,
       labelText: `${prefix} A`,
       icon: "folder",
-      hasIcon: true,
       isOpen: true,
       items: [
-        { id: `${prefix}-a1`, labelText: `${prefix} A1`, icon: "folder", hasIcon: true },
-        { id: `${prefix}-a2`, labelText: `${prefix} A2`, icon: "folder", hasIcon: true },
+        { id: `${prefix}-a1`, labelText: `${prefix} A1`, icon: "folder" },
+        { id: `${prefix}-a2`, labelText: `${prefix} A2`, icon: "folder" },
       ],
     },
     {
       id: `${prefix}-b`,
       labelText: `${prefix} B`,
       icon: "folder",
-      hasIcon: true,
-      items: [{ id: `${prefix}-b1`, labelText: `${prefix} B1`, icon: "folder", hasIcon: true }],
+      items: [{ id: `${prefix}-b1`, labelText: `${prefix} B1`, icon: "folder" }],
     },
   ];
 }
@@ -315,7 +317,6 @@ const badgeData: TreeviewItemProps[] = [
     id: "settings",
     labelText: "Label",
     icon: "settings",
-    hasIcon: true,
     hasBadge: true,
     actionIcon: "more-horiz",
     actionMenuItems: actionMenuItems,
@@ -607,7 +608,6 @@ const keyboardNavigationData: TreeviewItemProps[] = [
     id: "folder",
     labelText: "Folder",
     icon: "folder",
-    hasIcon: true,
     isOpen: true,
     hasCheckbox: true,
     actionIcon: "info-i",
@@ -616,7 +616,6 @@ const keyboardNavigationData: TreeviewItemProps[] = [
         id: "subfolder",
         labelText: "Subfolder",
         icon: "folder",
-        hasIcon: true,
         isOpen: true,
         hasCheckbox: true,
         actionIcon: "info-i",
@@ -626,7 +625,6 @@ const keyboardNavigationData: TreeviewItemProps[] = [
             id: "file",
             labelText: "File",
             icon: "file-copy",
-            hasIcon: true,
             hasCheckbox: true,
             actionIcon: "info-i",
           },
@@ -793,6 +791,32 @@ export const KeyboardNavigation: Story = {
       description: {
         story:
           "Keyboard navigation: Tab enters tree (first content focused). ArrowUp/Down move between rows (stay at boundaries). ArrowLeft/Right move within row (checkbox→chevron→content→action). Space on content selects, on chevron expands/collapses, on checkbox toggles, on action emits. Tab exits; re-entry focuses first item.",
+      },
+    },
+  },
+};
+
+export const DisabledItemsScenario: Story = {
+  render: () => ({
+    props: {
+      items: disabledItemsScenarioData,
+      selectedId: disabledItemsScenarioSelectedId,
+    },
+    template: `<rte-treeview id="treeview-disabled-items-scenario" [items]="items" [selectedId]="selectedId" [hasCheckbox]="true" />`,
+    moduleMetadata: {
+      imports: [TreeviewComponent, TreeviewItemComponent],
+    },
+  }),
+  decorators: [
+    componentWrapperDecorator(
+      (story) => `<div style="min-width: 420px; max-height: 520px; overflow: auto;">${story}</div>`,
+    ),
+  ],
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Reproduces a business scenario with mixed enabled and disabled items (phases and indices). Uses the treeview checkbox system. Disabled nodes use disabled: true — they appear greyed out and must not be selectable, clickable, or checkable. Use this story to manually verify mouse and keyboard interaction on disabled items.",
       },
     },
   },

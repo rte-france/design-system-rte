@@ -4,6 +4,7 @@ type HeaderCodeConnectProps = {
   appearance: string;
   leftSection: {
     applicationName: string;
+    versionNumber?: string;
   };
   isCompact: boolean;
   isSearchActive: boolean;
@@ -21,6 +22,10 @@ figma.connect("https://www.figma.com/design/Wiy8uWsWjoagf95lOmPXNU/01.0-Design-S
     }),
     leftSection: figma.nestedProps("Left Section", {
       applicationName: figma.string("app/pageNameText"),
+      versionNumber: figma.boolean("hasVersionNumber", {
+        true: figma.string("versionNumber"),
+        false: undefined,
+      }),
     }),
     isCompact: figma.enum("isCompact", {
       true: true,
@@ -67,6 +72,7 @@ figma.connect("https://www.figma.com/design/Wiy8uWsWjoagf95lOmPXNU/01.0-Design-S
       [hasDivider]="${hasDivider}"
       [hasLogo]="true"
       applicationName="${leftSection.applicationName}"
+      versionNumber="${leftSection.versionNumber}"
       homeLink="/"
       [navigationItems]="[{ id: 'home', label: 'Accueil', href: '/' }, { id: 'dashboard', label: 'Tableau de bord', href: '/dashboard', active: true }, { id: 'docs', label: 'Documentation', href: '/docs' }]"
       [hasSearchbar]="true"

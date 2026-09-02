@@ -1,7 +1,8 @@
-import { Meta, StoryObj } from "@storybook/angular";
+import { Meta, StoryObj, moduleMetadata } from "@storybook/angular";
 import { expect, userEvent, waitFor, within } from "@storybook/test";
 
 import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../../icon/icon-map";
+import { BadgeComponent } from "../badge.component";
 import { BadgeDirective } from "../badge.directive";
 
 const RegularIconIds = Object.keys(RegularIconsList);
@@ -10,6 +11,11 @@ const TogglableIconIds = Object.keys(TogglableIconsList);
 const meta: Meta<BadgeDirective> = {
   title: "Composants/Badge/Badge",
   component: BadgeDirective,
+  decorators: [
+    moduleMetadata({
+      imports: [BadgeComponent],
+    }),
+  ],
   tags: ["autodocs"],
   argTypes: {
     rteBadgeType: {
@@ -87,6 +93,13 @@ export const Default: Story = {
             [rteBadgeCount]="rteBadgeCount"
             [rteBadgeIcon]="rteBadgeIcon"
         `),
+  }),
+};
+
+export const StandaloneBadge: Story = {
+  render: () => ({
+    template: `
+    <rte-badge badgeType="brand" badgeSize="m" badgeContent="number" [count]="1" [simpleBadge]="true"></rte-badge>`,
   }),
 };
 
@@ -193,16 +206,18 @@ export const BadgeDisplay: Story = {
   }),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const badgeTextS = canvas.getByTestId("badge-text-s-host").querySelector(".badge");
-    expect(badgeTextS).not.toBeVisible();
-    const badgeIconS = canvas.getByTestId("badge-icon-s-host").querySelector(".badge");
-    expect(badgeIconS).not.toBeVisible();
-    const badgeEmptyS = canvas.getByTestId("badge-empty-s-host").querySelector(".badge");
-    expect(badgeEmptyS).toBeVisible();
-    const badgeTextM = canvas.getByTestId("badge-text-m-host").querySelector(".badge");
-    expect(badgeTextM).toBeVisible();
-    const badgeIconM = canvas.getByTestId("badge-icon-m-host").querySelector(".badge");
-    expect(badgeIconM).toBeVisible();
+    await waitFor(() => {
+      const badgeTextS = canvas.getByTestId("badge-text-s-host").querySelector(".badge");
+      expect(badgeTextS).not.toBeVisible();
+      const badgeIconS = canvas.getByTestId("badge-icon-s-host").querySelector(".badge");
+      expect(badgeIconS).not.toBeVisible();
+      const badgeEmptyS = canvas.getByTestId("badge-empty-s-host").querySelector(".badge");
+      expect(badgeEmptyS).toBeVisible();
+      const badgeTextM = canvas.getByTestId("badge-text-m-host").querySelector(".badge");
+      expect(badgeTextM).toBeVisible();
+      const badgeIconM = canvas.getByTestId("badge-icon-m-host").querySelector(".badge");
+      expect(badgeIconM).toBeVisible();
+    });
   },
 };
 

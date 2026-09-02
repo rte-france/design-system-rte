@@ -1,87 +1,108 @@
 @use '@design-system-rte/core/design-tokens/main.scss' as *;
 
-@mixin checked-indeterminate-style {
+@mixin checked-indeterminate-inner-style {
   border: 1px solid var(--content-brand-default);
   background: var(--background-brand-default);
-
-  &:hover {
-    &:not(:disabled):not(:active)::before {
-      opacity: $opacity-20;
-      background: var(--background-brand-default);
-    }
-  }
-
-  &:disabled {
-    border: 1px solid var(--content-disabled);
-    background: var(--background-disabled);
-
-    ~.rte-checkbox-icons {
-      color: var(--content-disabled);
-    }
-  }
-
-  &.error {
-    background: var(--background-danger-default);
-  }
 }
 
 .rte-checkbox-container {
   display: flex;
+  align-items: flex-start;
   gap: $positive-spacing-150;
+  position: relative;
+  cursor: pointer;
+
+  &.read-only {
+    cursor: default;
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+  }
 
   .rte-checkbox {
+    cursor: pointer;
     appearance: none;
+    position: absolute;
     display: flex;
-    width: 16px;
-    height: 16px;
-    border-radius: $radius-xs;
-    border: 1px solid var(--content-tertiary);
-    opacity: $opacity-100;
-    background: var(--background-default);
-    align-items: center;
-    justify-content: center;
-    margin: $positive-spacing_050 0;
+    width: 32px;
+    height: 32px;
+    padding: $positive-spacing_0;
+    margin: 0;
+    top: -4px;
+    left: -8px;
+    z-index: 1;
     flex: none;
-
-    &::before {
-      content: '';
-      display: none;
-      position: absolute;
-      border-radius: $radius-pill;
-      background: var(--background-hover);
-      width: 32px;
-      height: 32px;
-      z-index: -1;
-    }
-
-    &:active::before {
-      opacity: $opacity-100;
-      transform: scale(0);
-      transition: transform 0s, opacity 0s;
-    }
+    opacity: $opacity-100;
 
     &:focus-visible {
-      outline: 1px solid var(--border-brand-focused);
-      outline-offset: 4px;
+      outline: none;
+
+      &::after {
+        border-radius: $radius-s;
+        content: '';
+        position: absolute;
+        top: 4px;
+        left: 4px;
+        width: 24px;
+        height: 24px;
+        outline: 1px solid var(--border-brand-focused);
+      }
+    }
+
+    &.read-only {
+      cursor: default;
+      pointer-events: none;
+    }
+
+    &.error {
+      &:hover {
+        & + .rte-checkbox-background {
+          .rte-checkbox-outer {
+            transition: background 0.15s ease-in-out;
+            background: var(--background-hover-opacity-50);
+          }
+        }
+
+        &:checked,
+        &:indeterminate {
+          & + .rte-checkbox-background {
+            .rte-checkbox-outer {
+              background: var(--background-danger-hover-opacity-20);
+            }
+          }
+        }
+      }
     }
 
     &:hover {
-      cursor: pointer;
-
-      &:not(:disabled)::before {
-        display: inline-block;
+      & + .rte-checkbox-background {
+        .rte-checkbox-outer {
+          transition: background 0.15s ease-in-out;
+          background: var(--background-hover-opacity-50);
+        }
       }
 
-      &:not(:disabled):not(:active)::before {
-        opacity: $opacity-50;
-        transition: transform 0.15s ease, opacity 0.3s ease;
+      &:checked,
+      &:indeterminate {
+        & + .rte-checkbox-background {
+          .rte-checkbox-outer {
+            background: var(--background-brand-hover-opacity-20);
+          }
+        }
+      }
+
+      &:disabled {
+        & + .rte-checkbox-background {
+          .rte-checkbox-outer {
+            background: transparent;
+          }
+        }
       }
     }
 
     &:disabled {
-      cursor: default;
-      border: 1px solid var(--content-disabled);
-      background: var(--background-disabled);
+      cursor: not-allowed;
 
       ~.rte-checkbox-text-container {
 
@@ -92,59 +113,117 @@
       }
     }
 
-    &:checked {
-      @include checked-indeterminate-style;
+    &:checked + .rte-checkbox-background .rte-checkbox-inner,
+    &:indeterminate + .rte-checkbox-background .rte-checkbox-inner {
+      @include checked-indeterminate-inner-style;
+    }
 
-      &:not(:indeterminate) {
-        ~.rte-checkbox-icon-selected {
-          display: block;
-        }
+    &.error + .rte-checkbox-background .rte-checkbox-inner {
+      border: 1px solid var(--content-danger-default);
+      background: var(--background-default);
+    }
+
+    &.error:checked + .rte-checkbox-background .rte-checkbox-inner,
+    &.error:indeterminate + .rte-checkbox-background .rte-checkbox-inner {
+      border: 1px solid var(--content-danger-default);
+      background: var(--background-danger-default);
+    }
+
+    &:disabled + .rte-checkbox-background {
+      .rte-checkbox-inner {
+        border: 1px solid var(--content-disabled);
+        background: var(--background-disabled);
+      }
+
+      .rte-checkbox-icons {
+        color: var(--content-disabled);
       }
     }
 
-    &:indeterminate {
-      @include checked-indeterminate-style;
+    &:checked:disabled + .rte-checkbox-background .rte-checkbox-inner,
+    &:indeterminate:disabled + .rte-checkbox-background .rte-checkbox-inner {
+      border: 1px solid var(--content-disabled);
+      background: var(--background-disabled);
+    }
 
-      ~.rte-checkbox-icon-indeterminated {
-        display: block;
+    &.read-only + .rte-checkbox-background {
+      .rte-checkbox-inner {
+        border: 1px solid var(--content-tertiary);
+        background: var(--background-disabled);
       }
+
+      .rte-checkbox-icons {
+        color: var(--content-tertiary);
+      }
+    }
+
+    &.read-only.error + .rte-checkbox-background .rte-checkbox-inner {
+      border: 1px solid var(--content-danger-default);
+      background: var(--background-disabled);
     }
 
     &.read-only {
-      pointer-events: none;
-      cursor: default;
-      border: 1px solid var(--content-tertiary);
-      opacity: $opacity-100;
-      background: var(--background-disabled);
-
       ~.rte-checkbox-text-container {
-
         label,
-        .checkbox-description {
+        .rte-checkbox-description {
           color: var(--content-tertiary);
         }
       }
-
-      ~.rte-checkbox-icons {
-        color: var(--content-tertiary);
-      }
-
-      &.error {
-        border: 1px solid var(--content-danger-default);
-        background: var(--background-disabled);
-      }
     }
 
-    &.error {
-      border: 1px solid var(--content-danger-default);
-      background: var(--background-default);
+    &:checked:not(:indeterminate) + .rte-checkbox-background .rte-checkbox-icon-selected {
+      display: flex;
+    }
 
-      &:hover {
-        &:not(:disabled):not(:active)::before {
-          opacity: $opacity-20;
-          background: var(--background-danger-hover);
-        }
-      }
+    &:indeterminate + .rte-checkbox-background .rte-checkbox-icon-indeterminated {
+      display: flex;
+    }
+  }
+
+  .rte-checkbox-background {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    box-sizing: content-box;
+    position: relative;
+    flex: none;
+    margin: $positive-spacing_050 0;
+
+    .rte-checkbox-outer,
+    .rte-checkbox-inner {
+      position: absolute;
+      top: 0;
+      left: 0;
+      box-sizing: border-box;
+    }
+
+    .rte-checkbox-outer {
+      top: -8px;
+      left: -8px;
+      width: 32px;
+      height: 32px;
+      border-radius: $radius-pill;
+      background: transparent;
+      transition: background 0.3s ease-in-out;
+    }
+
+    .rte-checkbox-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: $radius-xs;
+      border: 1px solid var(--content-tertiary);
+      background: var(--background-default);
+    }
+
+    .rte-checkbox-icons {
+      display: none;
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      color: white;
+      align-items: center;
+      justify-content: center;
     }
   }
 
@@ -167,12 +246,7 @@
     }
   }
 
-  .rte-checkbox-icons {
-    display: none;
-    z-index: 1;
-    pointer-events: none;
-    transform: translateY(4px);
-    position: absolute;
-    color: white;
+  &.read-only .rte-checkbox:hover + .rte-checkbox-background .rte-checkbox-outer {
+    background: transparent;
   }
 }

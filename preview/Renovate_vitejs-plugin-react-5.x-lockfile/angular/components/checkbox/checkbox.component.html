@@ -1,10 +1,11 @@
-<div class="rte-checkbox-container">
+<div class="rte-checkbox-container" [ngClass]="{ 'read-only': readOnly(), disabled: disabled() }">
   <input
     type="checkbox"
     class="rte-checkbox"
     [id]="id()"
     [value]="value()"
     [attr.tabindex]="tabindex()"
+    [attr.aria-label]="ariaLabel()"
     [ngClass]="{ error: error(), 'read-only': readOnly() }"
     [disabled]="disabled()"
     [indeterminate]="indeterminate()"
@@ -13,8 +14,12 @@
     (change)="onChange($event)"
     (keydown)="onKeydown($event)"
   />
-  <rte-icon class="rte-checkbox-icons rte-checkbox-icon-selected" name="check-small" [size]="16" />
-  <rte-icon class="rte-checkbox-icons rte-checkbox-icon-indeterminated" name="check-indeterminate" [size]="16" />
+  <div class="rte-checkbox-background" [ngClass]="{ error: error(), 'read-only': readOnly(), disabled: disabled() }">
+    <div class="rte-checkbox-outer"></div>
+    <div class="rte-checkbox-inner"></div>
+    <rte-icon class="rte-checkbox-icons rte-checkbox-icon-selected" name="check-small" [size]="16" />
+    <rte-icon class="rte-checkbox-icons rte-checkbox-icon-indeterminated" name="check-indeterminate" [size]="16" />
+  </div>
   <div class="rte-checkbox-text-container">
     <label
       *ngIf="showLabel()"

@@ -464,6 +464,7 @@ export const OverflowType: Story = {
 };
 
 export const KeyboardInteraction: Story = {
+  tags: ["!autodocs"],
   args: {
     options: [
       {
@@ -540,7 +541,7 @@ export const KeyboardInteraction: Story = {
   }),
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
-    focusElementBeforeComponent(canvasElement);
+    focusElementBeforeComponent();
     const firstTab = await canvas.getByRole("tab", { name: "First Tab" });
     const secondTab = await canvas.getByRole("tab", { name: "Second Tab" });
     const thirdTab = await canvas.getByRole("tab", { name: "Third Tab" });

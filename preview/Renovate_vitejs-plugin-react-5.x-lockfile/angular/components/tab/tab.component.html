@@ -22,8 +22,8 @@
     <div
       #tabList
       role="tablist"
-      aria-label="Sample Tabs"
       class="rte-tab"
+      [attr.aria-label]="ariaLabel()"
       [attr.data-alignment]="shouldDisplayDropdown() ? 'start' : alignment()"
       [attr.data-direction]="direction()"
       [attr.data-overflow-type]="overflowType()"
@@ -36,6 +36,7 @@
         (menuEvent)="onClickTabItem($event.id)"
       >
         <button
+          type="button"
           rteDropdownTrigger
           class="rte-tab-dropdown-button"
           [attr.data-inverted]="inverted()"

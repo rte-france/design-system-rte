@@ -44,6 +44,7 @@ export const Default: Story = {
     template: `
       <rte-card
         [width]="width"
+        [height]="height"
         [cardType]="cardType"
         [clickable]="clickable"
         [disabled]="disabled"
@@ -108,6 +109,7 @@ export const CardTypes: Story = {
 };
 
 export const Clickable: Story = {
+  tags: ["!autodocs"],
   args: clickableStoryArgs,
   render: (args) => ({
     props: {
@@ -120,6 +122,7 @@ export const Clickable: Story = {
     template: `
       <rte-card
         [width]="width"
+        [height]="height"
         [cardType]="cardType"
         [clickable]="clickable"
         [disabled]="disabled"
@@ -220,7 +223,7 @@ export const WithButtons: Story = {
     },
     template: `
       <div style="display: flex; flex-direction: column; gap: 16px;">
-        <rte-card [width]="width" [cardType]="cardType" [clickable]="clickable" [disabled]="disabled">
+        <rte-card [width]="width" [height]="height" [cardType]="cardType" [clickable]="clickable" [disabled]="disabled">
           <div style="padding: 16px;">
             <h3 style="margin: 0 0 12px 0; font-size: 18px; font-weight: 600;">Primary Button</h3>
             <p style="margin: 0 0 16px 0; color: #666; line-height: 1.5;">
@@ -231,7 +234,7 @@ export const WithButtons: Story = {
             </button>
           </div>
         </rte-card>
-        <rte-card [width]="width" [cardType]="cardType" [clickable]="clickable" [disabled]="disabled">
+        <rte-card [width]="width" [height]="height" [cardType]="cardType" [clickable]="clickable" [disabled]="disabled">
           <div style="padding: 16px;">
             <h3 style="margin: 0 0 12px 0; font-size: 18px; font-weight: 600;">Secondary Button</h3>
             <p style="margin: 0 0 16px 0; color: #666; line-height: 1.5;">
@@ -242,7 +245,7 @@ export const WithButtons: Story = {
             </button>
           </div>
         </rte-card>
-        <rte-card [width]="width" [cardType]="cardType" [clickable]="clickable" [disabled]="disabled">
+        <rte-card [width]="width" [height]="height" [cardType]="cardType" [clickable]="clickable" [disabled]="disabled">
           <div style="padding: 16px;">
             <h3 style="margin: 0 0 12px 0; font-size: 18px; font-weight: 600;">Multiple Buttons</h3>
             <p style="margin: 0 0 16px 0; color: #666; line-height: 1.5;">
@@ -285,6 +288,7 @@ export const ClickableWithContent: Story = {
     template: `
       <rte-card
         [width]="width"
+        [height]="height"
         [cardType]="cardType"
         [clickable]="clickable"
         [disabled]="disabled"

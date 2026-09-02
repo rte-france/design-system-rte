@@ -90,6 +90,10 @@ export class TreeviewItemComponent {
     return !!this.isSelected();
   }
 
+  @HostBinding("attr.aria-disabled") get ariaDisabled(): "true" | null {
+    return this.disabled() ? "true" : null;
+  }
+
   readonly treeId = input.required<string>();
   readonly nodePath = input<TreeviewNodePath>([]);
   readonly labelText = input.required<string>();
@@ -98,7 +102,6 @@ export class TreeviewItemComponent {
   readonly isCompact = input<boolean>(false);
   readonly hasCheckbox = input<boolean>(false);
   readonly isOpen = input<boolean>(false);
-  readonly hasIcon = input<boolean>(false);
   readonly hasBadge = input<boolean>(false);
   readonly items = input<TreeviewItemProps[]>([]);
   readonly rootItems = input<TreeviewItemProps[] | undefined>(undefined);

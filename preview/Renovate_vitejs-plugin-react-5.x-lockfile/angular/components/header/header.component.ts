@@ -93,6 +93,7 @@ export class HeaderComponent {
 
   readonly hasLogo = input<boolean>(true);
   readonly applicationName = input<string>("");
+  readonly versionNumber = input<string>();
   readonly logoSrc = input<string | undefined>(undefined);
   /** @deprecated Use `homeRouterLink` instead. */
   readonly homeLink = input<string>(DEFAULT_HOME_LINK);
@@ -150,6 +151,8 @@ export class HeaderComponent {
     return {
       hasLogo: this.hasLogo(),
       applicationName: this.applicationName(),
+      versionNumber: this.versionNumber(),
+      isCompact: this.isCompact(),
       logoSrc: this.logoSrc(),
       homeAriaLabel: this.homeAriaLabel(),
       homeNavigation: resolveNavigation(
