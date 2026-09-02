@@ -1,4 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
+import { expect } from "@storybook/test";
 
 import { RegularIcons, TogglableIcons } from "../../icon/IconMap";
 import Tag from "../Tag";
@@ -90,6 +91,17 @@ export const Default: Story = {
     iconName: undefined,
   },
 };
+
+export const WithoutLabel: Story = {
+  args: {
+    ...Default.args,
+    label: "",
+  },
+  play: async ({ canvasElement }) => {
+    expect(canvasElement.querySelector('[data-tag-type="status"]')).not.toBeInTheDocument();
+  },
+};
+
 export const Decorative: Story = {
   args: {
     ...Default.args,

@@ -48,6 +48,6 @@ export interface TagProps {
   status?: TagStatus;
   color?: TagColor;
   compactSpacing?: boolean;
-  label?: string;
+  label: string;
   iconName?: string;
 }
