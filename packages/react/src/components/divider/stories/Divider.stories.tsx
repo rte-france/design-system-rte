@@ -9,13 +9,6 @@ const meta = {
   parameters: {
     layout: "centered",
   },
-  decorators: [
-    (Story) => (
-      <div style={{ height: "100px", width: "500px" }}>
-        <Story />
-      </div>
-    ),
-  ],
   argTypes: {
     orientation: {
       control: "select",
@@ -52,6 +45,11 @@ export const Default: Story = {
     thickness: "light",
     appearance: "neutral",
   },
+  render: (args) => (
+    <div style={{ height: "100px", width: "500px" }}>
+      <Divider {...args} />
+    </div>
+  ),
 };
 
 export const Brand: Story = {
@@ -60,24 +58,32 @@ export const Brand: Story = {
     thickness: "light",
     appearance: "brand",
   },
+  render: (args) => (
+    <div style={{ height: "100px", width: "500px" }}>
+      <Divider {...args} />
+    </div>
+  ),
 };
 
-export const VerticalSizes: Story = {
+export const Vertical: Story = {
   args: {
     orientation: "vertical",
     thickness: "light",
     appearance: "neutral",
   },
   render: (args) => (
-    <div style={{ display: "flex", justifyContent: "space-between", gap: "20px", height: "100px", width: "500px" }}>
-      <Divider {...args} thickness="light" />
-      <Divider {...args} thickness="medium" />
-      <Divider {...args} thickness="bold" />
+    <div
+      style={{ display: "flex", flexDirection: "column", gap: "20px", justifyContent: "space-between", width: "250px" }}
+    >
+      <Divider orientation="horizontal" />
+      <div style={{ height: "100px", margin: "0 auto" }}>
+        <Divider {...args} />
+      </div>
     </div>
   ),
 };
 
-export const HorizontalSizes: Story = {
+export const Sizes: Story = {
   args: {
     orientation: "horizontal",
     thickness: "light",
@@ -105,8 +111,6 @@ export const SquaredEnd: Story = {
     <div
       style={{ display: "flex", flexDirection: "column", gap: "20px", justifyContent: "space-between", width: "500px" }}
     >
-      <Divider {...args} thickness="light" />
-      <Divider {...args} thickness="medium" />
       <Divider {...args} thickness="bold" />
     </div>
   ),
@@ -120,14 +124,14 @@ export const InverseColor: Story = {
   },
   decorators: [
     (Story) => (
-      <div style={{ backgroundColor: "#214770", width: "100%", padding: "20px" }}>
+      <div style={{ backgroundColor: "var(--background-brand-pressed)", width: "500px", padding: "20px" }}>
         <Story />
       </div>
     ),
   ],
   render: (args) => (
     <div
-      style={{ display: "flex", flexDirection: "column", gap: "20px", justifyContent: "space-between", width: "500px" }}
+      style={{ display: "flex", flexDirection: "column", gap: "20px", justifyContent: "space-between", width: "100%" }}
     >
       <Divider {...args} thickness="light" />
       <Divider {...args} thickness="medium" />
