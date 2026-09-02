@@ -38,7 +38,7 @@ const Tag = forwardRef<HTMLDivElement, TagProps>(
         data-compact-spacing={compactSpacing}
         {...props}
       >
-        {iconName && isValidIconName(iconName) && <Icon name={iconName} size={16} />}
+        {iconName && isValidIconName(iconName) && <Icon aria-hidden="true" name={iconName} size={16} />}
         {label && <span className={style["tag-label"]}>{label}</span>}
       </div>
     );
