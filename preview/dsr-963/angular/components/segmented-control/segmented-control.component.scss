@@ -27,7 +27,7 @@
   border-radius: $radius-pill;
   transition: left 0.2s ease-out, width 0.2s ease-out;
 
-  &[data-disable-initial-animation="true"] {
+  &[data-initial-animation-disabled="true"] {
     transition: none;
   }
 

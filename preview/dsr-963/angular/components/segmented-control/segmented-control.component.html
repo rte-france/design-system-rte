@@ -10,7 +10,7 @@
     class="rte-segment-selected-indicator"
     [ngStyle]="segmentSelectedIndicatorStyle()"
     [attr.data-compact-spacing]="compactSpacing()"
-    [attr.data-disable-initial-animation]="disableInitialAnimation() && !initialAnimationComplete()"
+    [attr.data-initial-animation-disabled]="isInitialAnimationDisabled()"
   ></span>
   <ng-container *ngFor="let option of options(); let idx = index">
     <div

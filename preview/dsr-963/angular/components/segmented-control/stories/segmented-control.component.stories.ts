@@ -54,9 +54,6 @@ const meta: Meta<SegmentedControlComponent> = {
       compactSpacing: {
         control: "boolean",
       },
-      disableInitialAnimation: {
-        control: "boolean",
-      },
     },
   },
 };
@@ -73,7 +70,6 @@ export const Default: Story = {
     selectedSegment: "option1",
     appearance: "brand",
     compactSpacing: false,
-    disableInitialAnimation: false,
   },
   render: (args) => ({
     props: {
@@ -89,7 +85,6 @@ export const Default: Story = {
         [selectedSegment]="selectedSegment"
         [appearance]="appearance"
         [compactSpacing]="compactSpacing"
-        [disableInitialAnimation]="disableInitialAnimation"
         (change)="change($event)"
         />
     </div>
@@ -141,7 +136,6 @@ export const Appearance: Story = {
         [selectedSegment]="selectedSegment"
         [appearance]="appearance"
         [compactSpacing]="compactSpacing"
-        [disableInitialAnimation]="disableInitialAnimation"
         (change)="change($event)"
         />
       <rte-segmented-control
@@ -149,7 +143,6 @@ export const Appearance: Story = {
         [selectedSegment]="selectedSegment"
         [appearance]="'neutral'"
         [compactSpacing]="compactSpacing"
-        [disableInitialAnimation]="disableInitialAnimation"
         (change)="change($event)"
         />
     </div>
@@ -176,7 +169,6 @@ export const CompactSpacing: Story = {
         [selectedSegment]="selectedSegment"
         [appearance]="appearance"
         [compactSpacing]="compactSpacing"
-        [disableInitialAnimation]="disableInitialAnimation"
         (change)="change($event)"
         />
         <rte-segmented-control
@@ -184,7 +176,6 @@ export const CompactSpacing: Story = {
         [selectedSegment]="selectedSegment"
         [appearance]="'neutral'"
         [compactSpacing]="compactSpacing"
-        [disableInitialAnimation]="disableInitialAnimation"
         (change)="change($event)"
         />
     </div>
@@ -214,7 +205,6 @@ export const TwoOptions: Story = {
         [selectedSegment]="selectedSegment"
         [appearance]="appearance"
         [compactSpacing]="compactSpacing"
-        [disableInitialAnimation]="disableInitialAnimation"
         (change)="change($event)"
         />
     </div>
@@ -246,7 +236,6 @@ export const Icons: Story = {
         [selectedSegment]="selectedSegment"
         [appearance]="appearance"
         [compactSpacing]="compactSpacing"
-        [disableInitialAnimation]="disableInitialAnimation"
         (change)="change($event)"
         />
     </div>
@@ -284,7 +273,6 @@ export const WithBadge: Story = {
         [selectedSegment]="selectedSegment"
         [appearance]="appearance"
         [compactSpacing]="compactSpacing"
-        [disableInitialAnimation]="disableInitialAnimation"
         (change)="change($event)"
         />
     </div>
