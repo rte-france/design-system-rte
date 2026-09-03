@@ -28,7 +28,7 @@ export class AvatarComponent {
   readonly imgSrc = input<string>();
   readonly alt = input<string>("Avatar");
   readonly status = input<AvatarStatus>();
-  readonly layout = input<AvatarLayout>("initials");
+  readonly layout = input<AvatarLayout>("image");
   readonly initials = input<string>();
   readonly colorType = input<AvatarColorType>("neutral");
   readonly decorativeColor = input<DecorativeColor>();
