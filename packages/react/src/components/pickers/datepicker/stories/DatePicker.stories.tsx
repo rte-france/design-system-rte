@@ -78,6 +78,7 @@ export const UncontrolledDefaultValue: Story = {
 };
 
 export const TypingDate: Story = {
+  tags: ["!autodocs"],
   args: { ...Default.args, value: null },
 
   render: (args) => {
@@ -148,7 +149,7 @@ export const ControlledPropUpdate: Story = {
 };
 
 export const WithAction: Story = {
-  tags: ["skip-ci"],
+  tags: ["skip-ci", "!autodocs"],
   args: {
     ...Default.args,
     value: null,
@@ -205,7 +206,7 @@ export const WithAction: Story = {
 };
 
 export const TabNavigation: Story = {
-  tags: ["skip-ci"],
+  tags: ["skip-ci", "!autodocs"],
   args: {
     ...Default.args,
     value: null,
@@ -357,6 +358,7 @@ export const TabNavigation: Story = {
 };
 
 export const WithMinMax: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     value: null,
@@ -448,6 +450,7 @@ export const WithMinMax: Story = {
 };
 
 export const DisabledDates: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     value: null,
