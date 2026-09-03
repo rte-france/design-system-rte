@@ -95,14 +95,6 @@ Définissez `error` et `errorMessage` pour afficher un retour de validation.
 
 L'état indéterminé est contrôlé programmatiquement via l'input `indeterminate`. Il ne représente pas une troisième valeur soumise — l'input natif se résout toujours en coché ou non coché après une interaction utilisateur.
 
-### Affichage du message d'erreur
-
-Le message d'erreur est rendu uniquement lorsque `error` est `true` et que `errorMessage` est une chaîne non vide.
-
-### Libellé masqué
-
-Lorsque `showLabel` est `false`, le libellé visible est retiré du DOM. Fournissez `ariaLabel` pour que la checkbox conserve un nom accessible.
-
 ### Mode lecture seule
 
 En mode lecture seule, les interactions clic et touche Espace ne modifient pas l'état coché. L'input natif reçoit également `pointer-events: none`, seule la case reçoit le focus — pas le libellé, la description ni le message d'erreur.
