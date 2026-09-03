@@ -9,7 +9,7 @@ The `CardComponent` (`<rte-card>`) is the public API. Consumers set inputs on th
 | disabled | boolean | `false` | Disables interaction and applies disabled styling. |
 | ariaLabel | string | — | Accessible label when no visible label is present. |
 | ariaLabelledby | string | — | ID of the element that labels the card. |
-| ariaRole | string | — | Sets the HTML `role` attribute on the card container (for example `button`). Screen readers announce this role when the card is focusable. |
+| ariaRole | string | — | ARIA role applied to the card container. |
 
 ### Outputs
 

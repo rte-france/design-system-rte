@@ -21,7 +21,7 @@ import { CardComponent } from "@design-system-rte/angular";
 export class ExampleComponent {}
 ```
 
-Set `[clickable]="true"` and listen to `(cardClicked)` when the entire card should act as a single interactive target. Provide `ariaLabel` or `ariaLabelledby` for accessible naming, and set `ariaRole="button"` (or another appropriate role) so screen readers announce the card as an interactive element rather than static content.
+Set `[clickable]="true"` and listen to `(cardClicked)` when the entire card should act as a single interactive target. Provide `ariaLabel` or `ariaLabelledby` for accessible naming.
 
 #### Widths
 
@@ -90,12 +90,7 @@ Place buttons or other components inside the card. Add internal padding in your 
 #### Clickable with content
 
 ```html
-<rte-card
-  [clickable]="true"
-  ariaRole="button"
-  ariaLabel="Open card details"
-  (cardClicked)="onCardClick()"
->
+<rte-card [clickable]="true" (cardClicked)="onCardClick()">
   <div style="padding: 16px;">
     <h2>Clickable Card with Button</h2>
     <p>Click the card surface to trigger the card action.</p>
