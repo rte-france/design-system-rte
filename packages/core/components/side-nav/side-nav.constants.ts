@@ -2,6 +2,8 @@ import { DividerAppearance } from "../divider/divider.interface";
 
 import type { SideNavAppearance, SideNavContrast, SideNavSize } from "./side-nav.interface";
 
+export const SIDENAV_DEFAULT_NAV_ARIA_LABEL = "Navigation latérale";
+
 export const sideNavCollapsedSize: number = 64;
 
 export const sideNavPanelSize: Record<SideNavSize, number> = {
