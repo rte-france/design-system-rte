@@ -27,7 +27,13 @@ export class RadioButtonComponent {
 
   readonly accessibleLabel = computed(() => getRadioButtonAccessibleName(this.label(), this.ariaLabel()));
 
-  readonly isDisplayed = computed(() => !(this.disabled() && this.error()) && this.accessibleLabel() !== null);
+  readonly isDisplayed = computed(() => {
+    if (this.disabled() && this.error()) {
+      console.warn("RadioButton cannot be both disabled and in an error state. Please choose one state or the other.");
+      return false;
+    }
+    return this.accessibleLabel() !== null;
+  });
 
   readonly changeEvent = output<string>();
 
