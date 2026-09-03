@@ -234,7 +234,7 @@ const Drawer = ({
   content,
   header,
   footer,
-  position,
+  position = "modal",
   width,
   children,
   fixedHeader,

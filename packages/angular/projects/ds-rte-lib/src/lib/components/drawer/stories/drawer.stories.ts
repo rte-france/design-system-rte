@@ -107,8 +107,7 @@ const meta: Meta<DrawerDirective> = {
 export default meta;
 type Story = StoryObj<DrawerDirective>;
 
-const loremShort =
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum quis urna lacus. Praesent tempor nisl non arcu molestie gravida.";
+const content = "Body content.";
 
 export const Default: Story = {
   decorators: [
@@ -159,11 +158,16 @@ export const Default: Story = {
       <button rteButton rteButtonVariant="primary" rteDrawerTrigger>Open drawer</button>
       <ng-template #drawerContent>
         <span style="font-family: arial; font-size: 14px; line-height: 20px; color: var(--content-primary)">
-          ${loremShort}
+          Body content.
         </span>
       </ng-template>
     </div>`,
   }),
+};
+
+export const ModalInteractive: Story = {
+  ...Default,
+  tags: ["!autodocs"],
   play: async ({ canvasElement, args }) => {
     focusElementBeforeComponent();
     const canvas = within(canvasElement);
@@ -197,7 +201,6 @@ export const Modal: Story = {
     rteDrawerTitle: "Modal drawer",
   },
   render: Default.render,
-  play: Default.play,
   parameters: {
     docs: {
       description: {
@@ -231,6 +234,11 @@ export const WithoutHeader: Story = {
       },
     },
   },
+};
+
+export const WithoutHeaderInteractive: Story = {
+  ...WithoutHeader,
+  tags: ["!autodocs"],
   play: async ({ canvasElement, args }) => {
     focusElementBeforeComponent();
     const canvas = within(canvasElement);
@@ -291,7 +299,7 @@ export const WithoutFooter: Story = {
       <button rteButton rteButtonVariant="primary" rteDrawerTrigger>Open drawer</button>
       <ng-template #drawerContent>
         <span style="font-family: arial; font-size: 14px; line-height: 20px; color: var(--content-primary)">
-          ${loremShort}
+          Drawer panel.
         </span>
       </ng-template>
     </div>`,
@@ -304,6 +312,11 @@ export const WithoutFooter: Story = {
       },
     },
   },
+};
+
+export const WithoutFooterInteractive: Story = {
+  ...WithoutFooter,
+  tags: ["!autodocs"],
   play: async ({ canvasElement }) => {
     focusElementBeforeComponent();
     const canvas = within(canvasElement);
@@ -357,14 +370,14 @@ export const ResponsiveWithoutFooter: Story = {
     >
       <ng-template #drawerContent>
         <span style="font-family: arial; font-size: 14px; line-height: 20px; color: var(--content-primary)">
-          ${loremShort}
+          ${content}
         </span>
       </ng-template>
       <ng-template #drawerContextContent>
         <div style="height: 100%; display: flex; flex-direction: column; gap: 16px; padding: 16px">
           <button rteButton rteButtonVariant="primary" rteDrawerTrigger>Open drawer</button>
           <span style="font-family: arial; font-size: 14px; line-height: 20px; color: var(--content-primary)">
-            ${loremShort}
+            Main area next to the panel.
           </span>
         </div>
       </ng-template>
@@ -378,6 +391,11 @@ export const ResponsiveWithoutFooter: Story = {
       },
     },
   },
+};
+
+export const ResponsiveWithoutFooterInteractive: Story = {
+  ...ResponsiveWithoutFooter,
+  tags: ["!autodocs"],
   play: async ({ canvasElement }) => {
     focusElementBeforeComponent();
     const canvas = within(canvasElement);
@@ -425,11 +443,16 @@ export const CloseOnEscape: Story = {
       <button rteButton rteButtonVariant="primary" rteDrawerTrigger>Open drawer</button>
       <ng-template #drawerContent>
         <span style="font-family: arial; font-size: 14px; line-height: 20px; color: var(--content-primary)">
-          ${loremShort}
+          ${content}
         </span>
       </ng-template>
     </div>`,
   }),
+};
+
+export const CloseOnEscapeInteractive: Story = {
+  ...CloseOnEscape,
+  tags: ["!autodocs"],
   play: async ({ canvasElement }) => {
     focusElementBeforeComponent();
     const canvas = within(canvasElement);
@@ -478,11 +501,16 @@ export const CloseOnOverlayClick: Story = {
       <button rteButton rteButtonVariant="primary" rteDrawerTrigger>Open drawer</button>
       <ng-template #drawerContent>
         <span style="font-family: arial; font-size: 14px; line-height: 20px; color: var(--content-primary)">
-          ${loremShort}
+          ${content}
         </span>
       </ng-template>
     </div>`,
   }),
+};
+
+export const CloseOnOverlayClickInteractive: Story = {
+  ...CloseOnOverlayClick,
+  tags: ["skip-ci", "!autodocs"],
   play: async ({ canvasElement }) => {
     focusElementBeforeComponent();
     const canvas = within(canvasElement);
@@ -546,19 +574,24 @@ ${drawerResponsiveModeDoc.trim()}`,
     >
       <ng-template #drawerContent>
         <span style="font-family: arial; font-size: 14px; line-height: 20px; color: var(--content-primary)">
-          ${loremShort}
+          ${content}
         </span>
       </ng-template>
       <ng-template #drawerContextContent>
         <div style="height: 100%; display: flex; flex-direction: column; gap: 16px; padding: 16px">
           <button rteButton rteButtonVariant="primary" rteDrawerTrigger>Open drawer</button>
           <span style="font-family: arial; font-size: 14px; line-height: 20px; color: var(--content-primary)">
-            ${loremShort}
+            ${content}
           </span>
         </div>
       </ng-template>
     </div>`,
   }),
+};
+
+export const ResponsiveInteractive: Story = {
+  ...Responsive,
+  tags: ["!autodocs"],
   play: async ({ canvasElement, args }) => {
     focusElementBeforeComponent();
     const canvas = within(canvasElement);
@@ -616,7 +649,7 @@ export const CustomHeaderFooter: Story = {
       <button rteButton rteButtonVariant="primary" rteDrawerTrigger>Open drawer</button>
       <ng-template #drawerContent>
         <span style="font-family: arial; font-size: 14px; line-height: 20px; color: var(--content-primary)">
-          ${loremShort}
+          ${content}
         </span>
       </ng-template>
       <ng-template #drawerHeader>
