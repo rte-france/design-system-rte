@@ -1,7 +1,7 @@
 import { TreeviewItemProps as coreTreeviewItem } from '../../../../../core/components/treeview/treeview-item.interface';
-interface TreeviewItemProps extends coreTreeviewItem, Omit<React.HTMLAttributes<HTMLLIElement>, "onChange" | "onClick"> {
+interface TreeviewItemProps extends coreTreeviewItem, Omit<React.HTMLAttributes<HTMLLIElement>, "onClick"> {
     onOpenChange?: (id: string, isOpen: boolean) => void;
-    onChange?: (id: string) => void;
+    onClickElement?: (id: string) => void;
     isSelected?: boolean;
     selectedId?: string;
     onActionIconClick?: (id: string) => void;
@@ -11,5 +11,5 @@ interface TreeviewItemProps extends coreTreeviewItem, Omit<React.HTMLAttributes<
     isChecked?: boolean;
     onClick?: (id: string) => void;
 }
-declare const TreeviewItem: ({ id, treeId, itemIndex, labelText, icon, disabled, isCompact, hasCheckbox, isOpen, hasBadge, items, borderTypes, actionIcon, actionMenuItems, depth, onOpenChange, onChange, onActionIconClick, onCheckedIdsChange, selectedId, checkedIds, }: TreeviewItemProps) => import("react").JSX.Element;
+declare const TreeviewItem: ({ id, treeId, itemIndex, labelText, icon, disabled, isCompact, hasCheckbox, isOpen, hasBadge, items, borderTypes, actionIcon, actionMenuItems, depth, onOpenChange, onClickElement, onActionIconClick, onCheckedIdsChange, selectedId, checkedIds, }: TreeviewItemProps) => import("react").JSX.Element;
 export default TreeviewItem;

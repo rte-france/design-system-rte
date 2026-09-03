@@ -224,8 +224,7 @@ export const ReadOnly: Story = {
   }),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const select = canvas.getByRole("combobox");
-    focusElementBeforeComponent(canvasElement);
+    const select = canvas.getAllByRole("combobox")[1];
     await userEvent.tab();
     expect(select).not.toHaveFocus();
   },
@@ -265,8 +264,7 @@ export const Disabled: Story = {
   }),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const select = canvas.getByRole("combobox");
-    focusElementBeforeComponent(canvasElement);
+    const select = canvas.getAllByRole("combobox")[1];
     await userEvent.tab();
     expect(select).not.toHaveFocus();
   },
@@ -444,8 +442,8 @@ export const KeyboardInteraction: Story = {
   }),
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
-    const select = canvas.getByRole("combobox");
-    focusElementBeforeComponent(canvasElement);
+    const select = canvas.getAllByRole("combobox")[1];
+    focusElementBeforeComponent();
     await userEvent.tab();
     expect(select).toHaveFocus();
     await userEvent.keyboard(TESTING_ENTER_KEY);
@@ -516,7 +514,7 @@ export const ReactiveForm: Story = {
   }),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const select = canvas.getByRole("combobox");
+    const select = canvas.getAllByRole("combobox")[1];
     const modelValue = canvas.getByTestId("model-value");
     const modelTouched = canvas.getByTestId("model-touched");
     const modelStatus = canvas.getByTestId("model-status");
@@ -526,7 +524,7 @@ export const ReactiveForm: Story = {
         .querySelector("[data-menu-id='dropdown_select_select-reactive-form']")
         ?.querySelectorAll<HTMLElement>("li[role='menuitem']");
 
-    focusElementBeforeComponent(canvasElement);
+    focusElementBeforeComponent();
     await userEvent.tab();
     expect(select).toHaveFocus();
     await userEvent.keyboard(TESTING_ENTER_KEY);
@@ -574,7 +572,7 @@ export const ReactiveFormMultiple: Story = {
   }),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const select = canvas.getByRole("combobox");
+    const select = canvas.getAllByRole("combobox")[1];
     const modelValue = canvas.getByTestId("model-value");
 
     const getItems = () =>
@@ -582,7 +580,7 @@ export const ReactiveFormMultiple: Story = {
         .querySelector("[data-menu-id='dropdown_select_select-multiple-reactive-form']")
         ?.querySelectorAll<HTMLElement>("li[role='menuitem']");
 
-    focusElementBeforeComponent(canvasElement);
+    focusElementBeforeComponent();
     await userEvent.tab();
     expect(select).toHaveFocus();
     await userEvent.keyboard(TESTING_ENTER_KEY);

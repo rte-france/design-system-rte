@@ -831,7 +831,7 @@ export const CollapsedTooltipWithNested: Story = {
     const { sideNav } = getCanvasAndSideNav(canvasElement);
 
     await step("Verify tooltips appear when tabbing to menu items", async () => {
-      focusElementBeforeComponent(canvasElement);
+      focusElementBeforeComponent();
       await waitDelay();
       const dashboardMenu = getNavElementInCollapsedState(sideNav, 1);
       expect(dashboardMenu).not.toBeNull();

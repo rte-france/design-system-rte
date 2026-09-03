@@ -84,17 +84,46 @@ export const Default: Story = {
     disabled: false,
     compactSpacing: false,
     variant: "primary",
-    ariaLabel: "icon button aria label",
+    ariaLabel: "Ouvrir les paramètres",
     clickEvent: mockFn,
   },
 
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const iconButton = canvas.getByLabelText("icon button aria label");
+    const iconButton = canvas.getByLabelText("Ouvrir les paramètres");
     await userEvent.click(iconButton);
     expect(mockFn).toHaveBeenCalled();
     iconButton.blur();
   },
+};
+
+export const Variants: Story = {
+  render: () => ({
+    template: `
+      <div style="display: flex; gap: 8px">
+        <rte-icon-button name="settings" variant="primary" ariaLabel="Primary" />
+        <rte-icon-button name="settings" variant="secondary" ariaLabel="Secondary" />
+        <rte-icon-button name="settings" variant="text" ariaLabel="Text" />
+        <rte-icon-button name="settings" variant="transparent" ariaLabel="Transparent" />
+        <rte-icon-button name="settings" variant="danger" ariaLabel="Danger" />
+        <rte-icon-button name="settings" variant="neutral" ariaLabel="Neutral" />
+        <div style="background: var(--background-inverse)">
+          <rte-icon-button name="settings" variant="reverse" ariaLabel="Reverse" />
+        </div>
+      </div>
+    `,
+  }),
+};
+
+export const Appearances: Story = {
+  render: () => ({
+    template: `
+      <div style="display: flex; gap: 8px">
+        <rte-icon-button name="settings" appearance="outlined" ariaLabel="Outlined" />
+        <rte-icon-button name="settings" appearance="filled" ariaLabel="Filled" />
+      </div>
+    `,
+  }),
 };
 
 export const Sizing: Story = {
@@ -113,7 +142,7 @@ export const Sizing: Story = {
     [compactSpacing]="${args.compactSpacing}" 
     [disabled]="${args.disabled}"
     [appearance]="${args.appearance}"
-    [ariaLabel]="'Small Icon Button'"
+    [ariaLabel]="'Petit bouton'"
     [type]="'${args.type}'"
     [variant]="'${args.variant}'"
     />
@@ -123,7 +152,7 @@ export const Sizing: Story = {
     [compactSpacing]="${args.compactSpacing}" 
     [disabled]="${args.disabled}"
     [appearance]="${args.appearance}"
-    [ariaLabel]="'Small Icon Button'"
+    [ariaLabel]="'Bouton moyen'"
     [type]="'${args.type}'"
     [variant]="'${args.variant}'"
     />
@@ -134,7 +163,7 @@ export const Sizing: Story = {
     [compactSpacing]="${args.compactSpacing}" 
     [disabled]="${args.disabled}"
     [appearance]="${args.appearance}"
-    [ariaLabel]="'Small Icon Button'"
+    [ariaLabel]="'Grand bouton'"
     [type]="'${args.type}'"
     [variant]="'${args.variant}'"
     />
@@ -169,7 +198,7 @@ export const CompactSizing: Story = {
     [compactSpacing]="${args.compactSpacing}" 
     [disabled]="${args.disabled}"
     [appearance]="${args.appearance}"
-    [ariaLabel]="'Small Icon Button'"
+    [ariaLabel]="'Petit bouton'"
     [type]="'${args.type}'"
     [variant]="'${args.variant}'"
     />
@@ -179,7 +208,7 @@ export const CompactSizing: Story = {
     [compactSpacing]="${args.compactSpacing}" 
     [disabled]="${args.disabled}"
     [appearance]="${args.appearance}"
-    [ariaLabel]="'Small Icon Button'"
+    [ariaLabel]="'Bouton moyen'"
     [type]="'${args.type}'"
     [variant]="'${args.variant}'"
     />
@@ -190,7 +219,7 @@ export const CompactSizing: Story = {
     [compactSpacing]="${args.compactSpacing}" 
     [disabled]="${args.disabled}"
     [appearance]="${args.appearance}"
-    [ariaLabel]="'Small Icon Button'"
+    [ariaLabel]="'Grand bouton'"
     [type]="'${args.type}'"
     [variant]="'${args.variant}'"
     />
@@ -251,8 +280,8 @@ export const KeyboardInteraction: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const button = canvas.getByRole("button", { name: "icon button aria label" });
-    focusElementBeforeComponent(canvasElement);
+    const button = canvas.getByRole("button", { name: "Ouvrir les paramètres" });
+    focusElementBeforeComponent();
     await userEvent.tab();
     expect(button).toHaveFocus();
     await userEvent.keyboard(TESTING_ENTER_KEY);
