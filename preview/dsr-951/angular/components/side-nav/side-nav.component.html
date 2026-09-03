@@ -1,4 +1,10 @@
-<rte-base-side-nav [size]="size()" [isCollapsed]="collapsedState()" [appearance]="appearance()" [contrast]="contrast()">
+<rte-base-side-nav
+  [size]="size()"
+  [isCollapsed]="collapsedState()"
+  [appearance]="appearance()"
+  [contrast]="contrast()"
+  [ariaLabel]="ariaLabel()"
+>
   @if (shouldShowHeader()) {
     <div side-nav-header>
       @if (shouldDisplayDefaultHeader()) {

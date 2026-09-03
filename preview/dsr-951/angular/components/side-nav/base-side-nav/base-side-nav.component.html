@@ -1,6 +1,7 @@
 <div class="side-nav-container">
   <nav
     class="side-nav"
+    [attr.aria-label]="ariaLabel()"
     [ngClass]="{ collapsed: isCollapsed() }"
     [attr.data-appearance]="appearance()"
     [attr.data-contrast]="contrast()"

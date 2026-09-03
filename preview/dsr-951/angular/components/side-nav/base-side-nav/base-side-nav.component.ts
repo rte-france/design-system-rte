@@ -1,6 +1,10 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, input } from "@angular/core";
-import { sideNavCollapsedSize, sideNavPanelSize } from "@design-system-rte/core/components/side-nav/side-nav.constants";
+import {
+  SIDENAV_DEFAULT_NAV_ARIA_LABEL,
+  sideNavCollapsedSize,
+  sideNavPanelSize,
+} from "@design-system-rte/core/components/side-nav/side-nav.constants";
 import { SideNavAppearance, SideNavContrast } from "@design-system-rte/core/components/side-nav/side-nav.interface";
 
 type SideNavSize = "s" | "m" | "l";
@@ -22,6 +26,7 @@ export class BaseSideNavComponent {
   readonly isCollapsed = input<boolean>(false);
   readonly showHeader = input<boolean>(true);
   readonly showFooter = input<boolean>(true);
+  readonly ariaLabel = input<string>(SIDENAV_DEFAULT_NAV_ARIA_LABEL);
 
   readonly minWidth = computed<string>(() => {
     const size = this.size() ?? "m";
