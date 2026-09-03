@@ -26,7 +26,7 @@ Le composant `CardComponent` (`<rte-card>`) constitue l'API publique. Les consom
 | `disabled` | `boolean` | `false` | Désactive l'interaction et applique le style désactivé. |
 | `ariaLabel` | `string` | — | Libellé accessible lorsqu'aucun libellé visible n'est présent. |
 | `ariaLabelledby` | `string` | — | Identifiant de l'élément qui libelle la card. |
-| `ariaRole` | `string` | — | Rôle ARIA appliqué au conteneur de la card. |
+| `ariaRole` | `string` | — | Définit l'attribut HTML `role` sur le conteneur de la card (par exemple `button`). Les lecteurs d'écran annoncent ce rôle lorsque la card est focusable. |
 
 ### Outputs
 
@@ -59,7 +59,7 @@ import { CardComponent } from "@design-system-rte/angular";
 export class ExampleComponent {}
 ```
 
-Définissez `[clickable]="true"` et écoutez `(cardClicked)` lorsque l'ensemble de la card doit agir comme une cible interactive unique. Fournissez `ariaLabel` ou `ariaLabelledby` pour le nom accessible.
+Définissez `[clickable]="true"` et écoutez `(cardClicked)` lorsque l'ensemble de la card doit agir comme une cible interactive unique. Fournissez `ariaLabel` ou `ariaLabelledby` pour le nom accessible, et définissez `ariaRole="button"` (ou un autre rôle adapté) afin que les lecteurs d'écran annoncent la card comme un élément interactif plutôt qu'un contenu statique.
 
 #### Widths
 
@@ -128,7 +128,12 @@ Placez des boutons ou d'autres composants à l'intérieur de la card. Ajoutez le
 #### Clickable with content
 
 ```html
-<rte-card [clickable]="true" (cardClicked)="onCardClick()">
+<rte-card
+  [clickable]="true"
+  ariaRole="button"
+  ariaLabel="Open card details"
+  (cardClicked)="onCardClick()"
+>
   <div style="padding: 16px;">
     <h2>Clickable Card with Button</h2>
     <p>Click the card surface to trigger the card action.</p>
