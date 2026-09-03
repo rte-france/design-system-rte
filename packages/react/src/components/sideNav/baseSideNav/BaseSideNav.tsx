@@ -1,4 +1,8 @@
-import { sideNavCollapsedSize, sideNavPanelSize } from "@design-system-rte/core/components/side-nav/side-nav.constants";
+import {
+  SIDENAV_DEFAULT_NAV_ARIA_LABEL,
+  sideNavCollapsedSize,
+  sideNavPanelSize,
+} from "@design-system-rte/core/components/side-nav/side-nav.constants";
 import { BaseSideNavProps as CoreSideNavProps } from "@design-system-rte/core/components/side-nav/side-nav.interface";
 import { forwardRef, ReactNode } from "react";
 
@@ -25,6 +29,7 @@ const BaseSideNav = forwardRef<HTMLElement | HTMLDivElement, BaseSideNavProps>(
       appearance = "brand",
       contrast = "high",
       isCollapsed,
+      "aria-label": ariaLabel = SIDENAV_DEFAULT_NAV_ARIA_LABEL,
       className,
       ...props
     },
@@ -37,6 +42,7 @@ const BaseSideNav = forwardRef<HTMLElement | HTMLDivElement, BaseSideNavProps>(
         <nav
           ref={ref}
           className={style.sideNav}
+          aria-label={ariaLabel}
           data-collapsed={isCollapsed}
           data-appearance={appearance}
           data-contrast={contrast}

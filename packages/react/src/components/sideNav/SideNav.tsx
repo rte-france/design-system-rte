@@ -50,6 +50,7 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
       appearance = "brand",
       contrast = "high",
       activeItem,
+      "aria-label": ariaLabel,
     }: SideNavProps,
     ref,
   ) => {
@@ -244,6 +245,7 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
         isCollapsed={isCollapsed}
         appearance={appearance}
         contrast={contrast}
+        aria-label={ariaLabel}
         header={buildHeaderContent()}
         body={<div className={style.sideNavBody}>{renderNavItems(items)}</div>}
         footer={buildFooterContent()}

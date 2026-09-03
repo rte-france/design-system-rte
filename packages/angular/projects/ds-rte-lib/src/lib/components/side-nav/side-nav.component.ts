@@ -16,7 +16,10 @@ import { DividerAppearance } from "@design-system-rte/core/components/divider/di
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
 import { setNavMenuOpenById } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.utils";
 import { NavMenuProps } from "@design-system-rte/core/components/side-nav/nav-menu/nav-menu.interface";
-import { getDividerAppearanceBySideNavTheme } from "@design-system-rte/core/components/side-nav/side-nav.constants";
+import {
+  getDividerAppearanceBySideNavTheme,
+  SIDENAV_DEFAULT_NAV_ARIA_LABEL,
+} from "@design-system-rte/core/components/side-nav/side-nav.constants";
 import {
   SideNavAppearance,
   SideNavContrast,
@@ -73,6 +76,7 @@ export class SideNavComponent {
   readonly isCollapsed = input<boolean>(false);
   readonly appearance = input<SideNavAppearance>("brand");
   readonly contrast = input<SideNavContrast>("high");
+  readonly ariaLabel = input<string>(SIDENAV_DEFAULT_NAV_ARIA_LABEL);
 
   readonly collapsedState = signal<boolean>(false);
   readonly shouldShowTitle = signal<boolean>(true);
