@@ -56,6 +56,7 @@ export class SegmentedControlComponent implements OnChanges, AfterViewInit, OnDe
   readonly ariaLabelledBy = input<string>();
   readonly appearance = input<"brand" | "neutral">("brand");
   readonly compactSpacing = input<boolean>(false);
+  readonly isInitialAnimationDisabled = signal(true);
 
   readonly segmentRefs = viewChildren<ElementRef<HTMLDivElement>>("segment");
 
@@ -79,6 +80,7 @@ export class SegmentedControlComponent implements OnChanges, AfterViewInit, OnDe
 
   ngAfterViewInit() {
     this.updateSelectedSegmentIndicator();
+    requestAnimationFrame(() => this.isInitialAnimationDisabled.set(false));
     window.addEventListener("resize", this.updateSelectedSegmentIndicator.bind(this));
     window.addEventListener("keydown", this.onGlobalKeyDown.bind(this));
 
