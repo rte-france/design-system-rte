@@ -341,7 +341,7 @@ export const InputChipInteraction: Story = {
       props: {
         ...args,
         inputValue: "",
-        chipsValues: ["Chip 1", "Chip 2"],
+        chipsValues: [],
         onChange(value: string) {
           this["inputValue"] = value;
         },
