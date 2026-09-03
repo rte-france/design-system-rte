@@ -259,6 +259,7 @@ export const Error: Story = {
 };
 
 export const EmptyValue: Story = {
+  tags: ["!autodocs"],
   render: buildRender([null, null]),
   play: async ({ canvasElement }) => {
     const picker = getPicker(canvasElement);
@@ -268,6 +269,7 @@ export const EmptyValue: Story = {
 };
 
 export const WithAction: Story = {
+  tags: ["!autodocs"],
   render: buildRender([null, null]),
   play: async ({ canvasElement }) => {
     const dropdown = await openDaterangepickerOverlay(canvasElement);
@@ -288,6 +290,7 @@ export const WithAction: Story = {
 };
 
 export const WithMinMax: Story = {
+  tags: ["!autodocs"],
   render: buildRender([new Date(2026, 4, 5), new Date(2026, 4, 12)]),
   args: {
     minDate: new Date(2026, 4, 1),
@@ -308,6 +311,7 @@ export const WithMinMax: Story = {
 };
 
 export const DisabledDates: Story = {
+  tags: ["!autodocs"],
   render: buildRender([new Date(2026, 4, 10), new Date(2026, 4, 18)]),
   args: {
     disabledDates: [new Date(2026, 4, 12), new Date(2026, 4, 15), new Date(2026, 4, 20)],
@@ -325,7 +329,7 @@ export const Readonly: Story = {
 };
 
 export const TabNavigation: Story = {
-  tags: ["skip-ci"],
+  tags: ["skip-ci", "!autodocs"],
   render: buildRender([new Date(2026, 4, 10), new Date(2026, 4, 18)]),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);

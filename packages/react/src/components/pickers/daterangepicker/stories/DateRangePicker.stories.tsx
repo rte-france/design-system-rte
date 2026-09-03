@@ -142,6 +142,7 @@ export const Error: Story = {
 };
 
 export const EmptyValue: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     value: null,
@@ -169,6 +170,7 @@ export const EmptyValue: Story = {
 };
 
 export const WithAction: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     value: null,
@@ -200,6 +202,7 @@ export const WithAction: Story = {
 };
 
 export const WithMinMax: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     value: null,
@@ -231,6 +234,7 @@ export const WithMinMax: Story = {
 };
 
 export const DisabledDates: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     value: null,
@@ -266,7 +270,7 @@ export const Readonly: Story = {
 };
 
 export const TabNavigation: Story = {
-  tags: ["skip-ci"],
+  tags: ["skip-ci", "!autodocs"],
   args: {
     ...Default.args,
     value: null,
