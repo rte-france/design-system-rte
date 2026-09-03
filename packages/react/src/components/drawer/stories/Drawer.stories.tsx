@@ -56,6 +56,58 @@ export const Default: Story = {
     },
     onClickPrimaryButton: fn(),
     onClickSecondaryButton: fn(),
+    content: <span style={{ fontFamily: "arial", fontSize: "14px", lineHeight: "20px" }}>Body content.</span>,
+  },
+  render: (args) => {
+    const [isOpen, setIsOpen] = useState(args.isOpen);
+
+    const handleOnClickToggle = () => {
+      setIsOpen((prev) => !prev);
+    };
+
+    const handleClickPrimaryButton = () => {
+      args.onClickPrimaryButton?.();
+      setIsOpen(false);
+    };
+
+    return (
+      <>
+        <Button label="Open drawer" onClick={() => setIsOpen(true)}></Button>
+        <Drawer
+          {...args}
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          onClickToggle={handleOnClickToggle}
+          onClickPrimaryButton={handleClickPrimaryButton}
+        />
+      </>
+    );
+  },
+};
+export const ModalInteractive: Story = {
+  tags: ["!autodocs"],
+  args: {
+    isOpen: false,
+    onClose() {
+      console.log("Drawer closed");
+    },
+    id: "example-drawer",
+    title: "Example Drawer",
+    icon: "settings",
+    iconAppearance: "outlined",
+    primaryButtonLabel: "Confirm",
+    secondaryButtonLabel: "Cancel",
+    isCollapsible: false,
+    position: "modal",
+    fixedHeader: true,
+    showHeader: true,
+    width: "400px",
+    isClosable: true,
+    onClickToggle() {
+      console.log("Toggle drawer");
+    },
+    onClickPrimaryButton: fn(),
+    onClickSecondaryButton: fn(),
     content: (
       <span style={{ fontFamily: "arial", fontSize: "14px", lineHeight: "20px" }}>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum quis urna lacus. Praesent tempor nisl non
@@ -128,6 +180,58 @@ export const Default: Story = {
   },
 };
 export const Responsive: Story = {
+  args: {
+    ...Default.args,
+    id: "responsive-drawer",
+    title: "Responsive Drawer",
+    position: "responsive",
+    icon: undefined,
+    isClosable: true,
+  },
+  render: (args) => {
+    const [isOpen, setIsOpen] = useState(args.isOpen);
+
+    const handleOnClickToggle = () => {
+      setIsOpen((prev) => !prev);
+    };
+
+    const handleClickPrimaryButton = () => {
+      args.onClickPrimaryButton?.();
+      setIsOpen(false);
+    };
+
+    return (
+      <div style={{ border: "1px solid #ccc", width: "600px", height: "500px" }}>
+        <Drawer
+          {...args}
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          onClickToggle={handleOnClickToggle}
+          onClickPrimaryButton={handleClickPrimaryButton}
+          content={<span style={{ fontFamily: "arial", fontSize: "14px", lineHeight: "20px" }}>Drawer panel.</span>}
+          width="400px"
+        >
+          <div
+            style={{
+              height: "100%",
+              display: "flex",
+              flexDirection: "column",
+              gap: "16px",
+              padding: "16px",
+            }}
+          >
+            <Button label="Open drawer" onClick={() => setIsOpen(true)}></Button>
+            <span style={{ fontFamily: "arial", fontSize: "14px", lineHeight: "20px" }}>
+              Main area next to the panel.
+            </span>
+          </div>
+        </Drawer>
+      </div>
+    );
+  },
+};
+export const ResponsiveInteractive: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     id: "responsive-drawer",
@@ -245,6 +349,26 @@ export const CloseOnEscape: Story = {
       },
     },
   },
+};
+
+export const CloseOnEscapeInteractive: Story = {
+  tags: ["autodocs"],
+  args: {
+    ...Default.args,
+    id: "drawer-close-on-escape",
+    title: "Close on Escape",
+    closeOnEscape: true,
+    position: "modal",
+  },
+  render: Default.render,
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Modal drawer with **closeOnEscape** enabled (spec: close on Esc). Press Escape to dismiss without using the header close control.",
+      },
+    },
+  },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await userEvent.click(canvas.getByRole("button", { name: "Open drawer" }));
@@ -259,6 +383,26 @@ export const CloseOnEscape: Story = {
 
 export const CloseOnOverlayClick: Story = {
   tags: ["skip-ci"],
+  args: {
+    ...Default.args,
+    id: "drawer-close-on-overlay-click",
+    title: "Close on overlay click",
+    closeOnOverlayClick: true,
+    position: "modal",
+  },
+  render: Default.render,
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Modal drawer with **closeOnOverlayClick** enabled. Clicking the backdrop (outside the panel) dismisses the drawer. Only applies when **position** is `modal`.",
+      },
+    },
+  },
+};
+
+export const CloseOnOverlayClickInteractive: Story = {
+  tags: ["skip-ci", "!autodocs"],
   args: {
     ...Default.args,
     id: "drawer-close-on-overlay-click",
@@ -305,6 +449,26 @@ export const WithoutFooter: Story = {
       },
     },
   },
+};
+
+export const WithoutFooterInteractive: Story = {
+  tags: ["!autodocs"],
+  args: {
+    ...Default.args,
+    id: "drawer-without-footer",
+    primaryButtonLabel: undefined,
+    secondaryButtonLabel: undefined,
+    showFooter: false,
+  },
+  render: Default.render,
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Modal drawer with **showFooter** set to `false`. The footer (primary/secondary buttons or custom footer) is not rendered, and neither a primary button label nor a custom footer is required.",
+      },
+    },
+  },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await userEvent.click(canvas.getByRole("button", { name: "Open drawer" }));
@@ -316,6 +480,25 @@ export const WithoutFooter: Story = {
 };
 
 export const WithoutHeader: Story = {
+  args: {
+    ...Default.args,
+    id: "drawer-without-header",
+    title: undefined,
+    icon: undefined,
+    showHeader: false,
+  },
+  render: Default.render,
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Modal drawer with **showHeader** set to `false`. The header (title, icon, close control) is not rendered, and neither a title nor a custom header is required.",
+      },
+    },
+  },
+};
+export const WithoutHeaderInteractive: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     id: "drawer-without-header",
