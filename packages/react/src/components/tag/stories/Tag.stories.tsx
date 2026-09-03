@@ -1,6 +1,8 @@
+import { TAG_ERROR_NO_LABEL } from "@design-system-rte/core";
 import { Meta, StoryObj } from "@storybook/react";
 import { expect } from "@storybook/test";
 
+import { acceptLogError } from "../../../../.storybook/testing/testing.utils";
 import { RegularIcons, TogglableIcons } from "../../icon/IconMap";
 import Tag from "../Tag";
 
@@ -97,6 +99,7 @@ export const WithoutLabel: Story = {
     ...Default.args,
     label: "",
   },
+  beforeEach: acceptLogError(TAG_ERROR_NO_LABEL),
   play: async ({ canvasElement }) => {
     expect(canvasElement.querySelector('[data-tag-type="status"]')).not.toBeInTheDocument();
   },
