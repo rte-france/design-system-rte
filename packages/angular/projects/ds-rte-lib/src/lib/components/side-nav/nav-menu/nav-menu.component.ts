@@ -1,6 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, effect, input, output } from "@angular/core";
 import { RouterLink } from "@angular/router";
+import { generateId } from "@design-system-rte/core";
 import { BadgeProps } from "@design-system-rte/core/components/badge/badge.interface";
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
 import {
@@ -53,6 +54,8 @@ export interface NavMenuOpenChangeEvent {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavMenuComponent {
+  private readonly generatedInstanceId = generateId();
+
   readonly id = input<string | undefined>();
   readonly icon = input<string | undefined>();
   readonly hasLeadingIcon = input<boolean>(true);
@@ -99,6 +102,10 @@ export class NavMenuComponent {
   readonly hasNestedItems = computed<boolean>(() => !!this.items().length);
   readonly shouldShowMenu = computed<boolean>(() => !this.isCollapsed() && this.hasNestedItems());
   readonly tabIndex = computed<number>(() => getNavTabIndex(this.parentMenuOpen()));
+  readonly nestedMenuElementId = computed(() => `nav-menu-content-${this.id() ?? this.generatedInstanceId}`);
+  readonly ariaExpanded = computed<boolean | null>(() => (this.shouldShowMenu() ? (this.open() ?? false) : null));
+  readonly ariaControls = computed<string | null>(() => (this.shouldShowMenu() ? this.nestedMenuElementId() : null));
+  readonly isDisclosureTrigger = computed(() => this.shouldShowMenu() && !this.isNavigable());
 
   readonly dividerAppearance = computed(() => getDividerAppearanceBySideNavTheme(this.appearance(), this.contrast()));
 
