@@ -2,6 +2,88 @@
 
 # Angular
 
+## 4.0.0
+
+### Tag
+
+#### Minor Changes
+
+- allow intended error log on test to validate
+- enforce required label prop rule and return error otherwise
+
+#### Patch Changes
+
+- set icon as decorative
+
+### Checkbox
+
+#### Minor Changes
+
+- add fieldset / legend for checkbox group + set vertical as default layout + add missing aria-label
+
+### Segmented Control
+
+#### Patch Changes
+
+- disable initial selection animation
+
+### Banner
+
+#### Patch Changes
+
+- disable transitions for reduced motion preference
+
+### Accordion
+
+#### Patch Changes
+
+- add aria-hidden true to decorative icons
+- add prefers-reduced-motion for chevron rotation
+
+### Radio Button
+
+#### Patch Changes
+
+- add semantic html tags and correct screen reader behavior
+- add fallback case for missing aria-label and error handler for missing label and aria-label
+- add exception for disabled & error state used simultanously
+
+### Chip
+
+#### Patch Changes
+
+- expand close icon clickable zone to 24px
+
+### Sidenav
+
+#### Patch Changes
+
+- add missing aria-label to main nav element
+
+### Divider
+
+#### Patch Changes
+
+- change appearance value to neutral instead of default
+
+### Card
+
+#### Patch Changes
+
+- correct missassigned role attribute
+- add prefers-reduced-motion for transitions
+
+### Other
+
+#### Patch Changes
+
+- Updated dependencies [c363231]
+- Updated dependencies [3580994]
+- Updated dependencies [ac2dcee]
+- Updated dependencies [ebf4aa9]
+- Updated dependencies [50628e5]
+- @design-system-rte/core@1.18.0
+
 ## 3.4.0
 
 ### Drawer
@@ -106,52 +188,87 @@
 - Updated dependencies [9c2be7c]
 - Updated dependencies [9e3af77]
 - @design-system-rte/core@1.16.0
+# React
 
-## 3.2.0
-
-### Banner
-
-#### Minor Changes
-
-- correct close button size
-- add compact version & correct inner elements position
-
-### Dynamic-tab
-
-#### Minor Changes
-
-- correct component selected behavior & forms integration
-- uplift common logic to core
-- correct Angular Drag-n-drop keyboard behavior
-- add Angular component
-
-### Github
-
-#### Minor Changes
-
-- add github releases notes in CI flow
-
-### Tab
-
-#### Patch Changes
-
-- avoid forms unwanted submitting while interacting with component inner button elements
+## 1.18.0
 
 ### Tag
 
+#### Minor Changes
+
+- allow intended error log on test to validate
+- enforce required label prop rule and return error otherwise
+
 #### Patch Changes
 
-- improve icon displaying mechanisme with iconName props
+- set icon as decorative
+
+### Checkbox
+
+#### Minor Changes
+
+- add fieldset / legend for checkbox group + set vertical as default layout + add missing aria-label
+
+### Segmented Control
+
+#### Patch Changes
+
+- disable initial selection animation
+
+### Banner
+
+#### Patch Changes
+
+- disable transitions for reduced motion preference
+
+### Accordion
+
+#### Patch Changes
+
+- add aria-hidden true to decorative icons
+- preserve accordion content in the DOM even while content is hidden
+
+### Radio Button
+
+#### Patch Changes
+
+- add semantic html tags and correct screen reader behavior
+- add fallback case for missing aria-label and error handler for missing label and aria-label
+
+### Chip
+
+#### Patch Changes
+
+- expand close icon clickable zone to 24px
+
+### Sidenav
+
+#### Patch Changes
+
+- add missing aria-label to main nav element
+
+### Divider
+
+#### Patch Changes
+
+- change appearance value to neutral instead of default
+
+### Card
+
+#### Patch Changes
+
+- add prefers-reduced-motion for transitions
 
 ### Other
 
 #### Patch Changes
 
-- Updated dependencies [37ad849]
-- Updated dependencies [9e88591]
-- Updated dependencies [610e235]
-- @design-system-rte/core@1.15.0
-# React
+- Updated dependencies [c363231]
+- Updated dependencies [3580994]
+- Updated dependencies [ac2dcee]
+- Updated dependencies [ebf4aa9]
+- Updated dependencies [50628e5]
+- @design-system-rte/core@1.18.0
 
 ## 1.17.0
 
@@ -257,63 +374,37 @@
 - Updated dependencies [9c2be7c]
 - Updated dependencies [9e3af77]
 - @design-system-rte/core@1.16.0
+# Core
 
-## 1.15.0
-
-### Dropdown
-
-#### Minor Changes
-
-- allow custom fully custom children on component
-
-### Pagination
-
-#### Minor Changes
-
-- react - add component
-
-### Banner
-
-#### Minor Changes
-
-- correct close button size
-- add compact version & correct inner elements position
-
-### Dynamic-tab
-
-#### Minor Changes
-
-- correct component selected behavior & forms integration
-- uplift common logic to core
-
-### Github
-
-#### Minor Changes
-
-- add github releases notes in CI flow
-
-### Tab
-
-#### Patch Changes
-
-- avoid forms unwanted submitting while interacting with component inner button elements
+## 1.18.0
 
 ### Tag
 
+#### Minor Changes
+
+- enforce required label prop rule and return error otherwise
+
+### Divider
+
 #### Patch Changes
 
-- improve icon displaying mechanisme with iconName props
-- add default success value for status props
+- remove unused brand-navigation appearance
+- change appearance value to neutral instead of default
+
+### Radio Button
+
+#### Patch Changes
+
+- add fallback case for missing aria-label and error handler for missing label and aria-label
+
+### Sidenav
+
+#### Patch Changes
+
+- add missing aria-label to main nav element
 
 ### Other
 
-#### Patch Changes
-
-- Updated dependencies [37ad849]
-- Updated dependencies [9e88591]
-- Updated dependencies [610e235]
-- @design-system-rte/core@1.15.0
-# Core
 
 ## 1.17.0
 
@@ -374,30 +465,6 @@
 #### Patch Changes
 
 - correct auto placement algorithm
-
-### Other
-
-
-## 1.15.0
-
-### Banner
-
-#### Minor Changes
-
-- add compact version & correct inner elements position
-
-### Dynamic-tab
-
-#### Minor Changes
-
-- uplift common logic to core
-- add Angular component
-
-### Tag
-
-#### Patch Changes
-
-- improve icon displaying mechanisme with iconName props
 
 ### Other
 
