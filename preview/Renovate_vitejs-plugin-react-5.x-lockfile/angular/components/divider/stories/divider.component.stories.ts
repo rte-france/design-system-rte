@@ -23,7 +23,7 @@ const meta: Meta<DividerComponent> = {
     },
     appearance: {
       control: "select",
-      options: ["default", "inverse", "brand"],
+      options: ["neutral", "inverse", "brand"],
       description: "Color of the divider",
     },
     endPoint: {
