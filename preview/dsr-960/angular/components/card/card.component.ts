@@ -10,7 +10,10 @@ import {
   signal,
   viewChild,
 } from "@angular/core";
-import { DEFAULT_CARD_WIDTH } from "@design-system-rte/core/components/card/card.constants";
+import {
+  CARD_MISSING_ACCESSIBLE_NAME_ERROR,
+  DEFAULT_CARD_WIDTH,
+} from "@design-system-rte/core/components/card/card.constants";
 import { CardType } from "@design-system-rte/core/components/card/card.interface";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 import { logError } from "@design-system-rte/core/utils/log-handlers";
@@ -44,7 +47,7 @@ export class CardComponent implements AfterViewInit {
       !!this.ariaLabel() || !!this.ariaLabelledby() || !!this.cardElement()?.nativeElement.textContent?.trim();
 
     if (this.clickable() && !hasAccessibleName) {
-      logError("Card", "Clickable cards must have an accessible name via ariaLabel, ariaLabelledby, or text content.");
+      logError("Card", CARD_MISSING_ACCESSIBLE_NAME_ERROR);
       this.shouldRender.set(false);
     }
   }

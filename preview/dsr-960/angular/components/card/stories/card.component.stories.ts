@@ -1,3 +1,4 @@
+import { CARD_MISSING_ACCESSIBLE_NAME_ERROR } from "@design-system-rte/core";
 import {
   cardStoryArgTypes,
   widthExamples,
@@ -10,6 +11,7 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { moduleMetadata } from "@storybook/angular";
 import { fn, userEvent, within, expect } from "@storybook/test";
 
+import { acceptLogError } from "../../../../../../../.storybook/testing/testing.utils";
 import { ButtonComponent } from "../../button/button.component";
 import { CardComponent } from "../card.component";
 
@@ -153,6 +155,7 @@ export const Clickable: Story = {
 export const ClickableWithoutAccessibleName: Story = {
   tags: ["!autodocs"],
   args: clickableStoryArgs,
+  beforeEach: acceptLogError(`[Card] ${CARD_MISSING_ACCESSIBLE_NAME_ERROR}`),
   render: (args) => ({
     props: args,
     template: `
