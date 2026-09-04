@@ -520,6 +520,9 @@ export const KeyboardNavigation: Story = {
       await userEvent.tab();
       const dashboardMenu = getNavElement(sideNav, "Dashboard");
       expectElementToHaveFocus(dashboardMenu);
+      expect(dashboardMenu).toHaveAttribute("role", "button");
+      expect(dashboardMenu).toHaveAttribute("aria-expanded", "false");
+      expect(dashboardMenu?.getAttribute("aria-controls")).toBeTruthy();
       expectElementNotToHaveFocus(sideNav, "Overview");
       expectElementNotToHaveFocus(sideNav, "Reports");
       expectElementNotToHaveFocus(sideNav, "Analytics");
@@ -527,6 +530,8 @@ export const KeyboardNavigation: Story = {
       await userEvent.tab();
       const settingsMenu = getNavElement(sideNav, "Settings");
       expectElementToHaveFocus(settingsMenu);
+      expect(settingsMenu).toHaveAttribute("role", "button");
+      expect(settingsMenu).toHaveAttribute("aria-expanded", "false");
       expectElementNotToHaveFocus(sideNav, "General");
       expectElementNotToHaveFocus(sideNav, "Privacy");
       expectElementNotToHaveFocus(sideNav, "Advanced");
@@ -539,6 +544,9 @@ export const KeyboardNavigation: Story = {
     await step("Open Dashboard menu and verify nested items are accessible", async () => {
       const dashboardMenu = getNavElement(sideNav, "Dashboard");
       await userEvent.click(dashboardMenu!);
+
+      expect(dashboardMenu).toHaveAttribute("aria-expanded", "true");
+      expect(document.getElementById(dashboardMenu!.getAttribute("aria-controls")!)).not.toBeNull();
 
       expectElementToBeAccessible(sideNav, "Overview");
       expectElementToBeAccessible(sideNav, "Reports");
@@ -560,6 +568,8 @@ export const KeyboardNavigation: Story = {
     await step("Close Dashboard menu and verify nested items are skipped again", async () => {
       const dashboardMenu = getNavElement(sideNav, "Dashboard");
       await userEvent.click(dashboardMenu!);
+
+      expect(dashboardMenu).toHaveAttribute("aria-expanded", "false");
 
       expectElementToBeSkipped(sideNav, "Overview");
       expectElementToBeSkipped(sideNav, "Reports");
