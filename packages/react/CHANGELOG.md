@@ -1,5 +1,71 @@
 # @design-system-rte/react
 
+## 1.18.0
+
+### Minor Changes
+
+- 3580994: ## Changes
+
+  - (Tag) allow intended error log on test to validate
+  - (Tag) enforce required label prop rule and return error otherwise
+
+- 7982ca5: ## Changes
+
+  - (Checkbox) add fieldset / legend for checkbox group + set vertical as default layout + add missing aria-label
+
+### Patch Changes
+
+- c70fdaa: ## Changes
+
+  - (Tag) set icon as decorative
+
+- 2b6602c: ## Changes
+
+  - (Segmented Control) disable initial selection animation
+
+- 67ab084: ## Changes
+
+  - (Banner) disable transitions for reduced motion preference
+
+- a1ce533: ## Changes
+
+  - (Accordion) add aria-hidden true to decorative icons
+
+- daa4935: ## Changes
+
+  - (Accordion) preserve accordion content in the DOM even while content is hidden
+
+- 841590f: ## Changes
+
+  - (Radio Button) add semantic html tags and correct screen reader behavior
+
+- ac2dcee: ## Changes
+
+  - (Radio Button) add fallback case for missing aria-label and error handler for missing label and aria-label
+
+- de58c8a: ## Changes
+
+  - (Chip) expand close icon clickable zone to 24px
+
+- ebf4aa9: ## Changes
+
+  - (Sidenav) add missing aria-label to main nav element
+
+- 50628e5: ## Changes
+
+  - (Divider) change appearance value to neutral instead of default
+
+- 6f0ed61: ## Changes
+
+  - (Card) add prefers-reduced-motion for transitions
+
+- Updated dependencies [c363231]
+- Updated dependencies [3580994]
+- Updated dependencies [ac2dcee]
+- Updated dependencies [ebf4aa9]
+- Updated dependencies [50628e5]
+  - @design-system-rte/core@1.18.0
+
 ## 1.17.0
 
 ### Minor Changes
