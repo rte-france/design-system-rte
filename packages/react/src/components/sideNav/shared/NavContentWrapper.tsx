@@ -14,6 +14,9 @@ interface NavContentWrapperProps {
   onClick?: () => void;
   children: ReactNode;
   styleType?: "item" | "menu";
+  ariaExpanded?: boolean;
+  ariaControls?: string;
+  role?: "button";
 }
 
 function NavContentWrapper({
@@ -26,6 +29,9 @@ function NavContentWrapper({
   onClick,
   children,
   styleType = "item",
+  ariaExpanded,
+  ariaControls,
+  role,
 }: NavContentWrapperProps): ReactNode {
   const LinkComponent = useNavigationLinkComponent();
   const style = styleType === "menu" ? navMenuStyle : navItemStyle;
@@ -35,6 +41,9 @@ function NavContentWrapper({
     className,
     tabIndex,
     "aria-label": label,
+    ...(ariaExpanded !== undefined && { "aria-expanded": ariaExpanded }),
+    ...(ariaControls && { "aria-controls": ariaControls }),
+    ...(role && { role }),
     ...(onFocus && { onFocus }),
     ...(onBlur && { onBlur }),
     ...(onClick && { onClick }),

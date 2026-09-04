@@ -1,9 +1,10 @@
+import { generateId } from "@design-system-rte/core";
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
 import { shouldDisplaySideNavBadge } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.utils";
 import { NavMenuProps as CoreNavMenuProps } from "@design-system-rte/core/components/side-nav/nav-menu/nav-menu.interface";
 import type { NavMenuProps as CoreNavMenuItemProps } from "@design-system-rte/core/components/side-nav/nav-menu/nav-menu.interface";
 import { getDividerAppearanceBySideNavTheme } from "@design-system-rte/core/components/side-nav/side-nav.constants";
-import { forwardRef, Fragment, HTMLAttributes, ReactNode, useState } from "react";
+import { forwardRef, Fragment, HTMLAttributes, ReactNode, useRef, useState } from "react";
 
 import Badge from "../../badge/Badge";
 import Divider from "../../divider/Divider";
@@ -56,6 +57,9 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
     const [internalOpen, setInternalOpen] = useState(false);
     const isOpen = controlledOpen ?? internalOpen;
     const isControlled = controlledOpen !== undefined;
+    const generatedIdRef = useRef<string>(generateId());
+    const baseId = id ?? generatedIdRef.current;
+    const nestedMenuId = `nav-menu-content-${baseId}`;
 
     function toggleMenu() {
       const nextOpen = !isOpen;
@@ -158,11 +162,14 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
           onClick={toggleMenu}
           onKeyDown={onKeyDown}
           styleType="menu"
+          ariaExpanded={shouldShowMenu ? isOpen : undefined}
+          ariaControls={shouldShowMenu ? nestedMenuId : undefined}
+          role={shouldShowMenu && !link ? "button" : undefined}
         >
           {menuContent}
         </NavContentWrapper>
         {shouldShowMenu && (
-          <ul className={style.nestedMenu} data-open={isOpen}>
+          <ul id={nestedMenuId} className={style.nestedMenu} data-open={isOpen}>
             {items.map((item: NavItemProps) => {
               const hasNestedItems = !!item.items?.length;
               if (hasNestedItems) {
