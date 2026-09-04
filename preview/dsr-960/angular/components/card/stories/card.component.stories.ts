@@ -150,6 +150,24 @@ export const Clickable: Story = {
   },
 };
 
+export const ClickableWithoutAccessibleName: Story = {
+  tags: ["!autodocs"],
+  args: clickableStoryArgs,
+  render: (args) => ({
+    props: args,
+    template: `
+      <rte-card
+        [clickable]="clickable"
+        [disabled]="disabled"
+        (cardClicked)="cardClicked()"
+      ></rte-card>
+    `,
+  }),
+  play: async ({ canvasElement }) => {
+    expect(canvasElement.querySelector(".card")).not.toBeInTheDocument();
+  },
+};
+
 export const Disabled: Story = {
   args: disabledStoryArgs,
   render: (args) => ({
