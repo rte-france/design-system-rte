@@ -105,7 +105,7 @@ export const Disabled: Story = {
   args: disabledStoryArgs,
   render: (args) => (
     <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-      <Card {...args} cardType="default">
+      <Card {...args} cardType="default" clickable>
         <div style={{ padding: "16px" }}>
           <h2 style={{ margin: "0 0 12px 0", fontSize: "20px", fontWeight: "600" }}>Disabled Default Card</h2>
           <p style={{ margin: "0", color: "#666", lineHeight: "1.5" }}>This card is disabled and cannot be clicked.</p>
@@ -124,6 +124,8 @@ export const Disabled: Story = {
     expect(cards.length).toBeGreaterThan(0);
     cards.forEach((card) => {
       expect(card).toHaveAttribute("data-disabled", "true");
+      expect(card).toHaveAttribute("aria-disabled", "true");
+      expect(card).toHaveAttribute("tabindex", "-1");
     });
   },
 };
