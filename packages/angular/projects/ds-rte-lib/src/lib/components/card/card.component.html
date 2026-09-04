@@ -1,15 +1,18 @@
-<div
-  class="card card-{{ cardType() }}"
-  [style.width]="width()"
-  [style.height]="height()"
-  [attr.disabled]="disabled()"
-  [attr.aria-label]="ariaLabel()"
-  [attr.aria-labelledby]="ariaLabelledby()"
-  [attr.aria-role]="ariaRole()"
-  [ngClass]="{ clickable: clickable() }"
-  [tabIndex]="tabIndex()"
-  (click)="onClick()"
-  (keydown)="onKeyDown($event)"
->
-  <ng-content />
-</div>
+@if (shouldRender()) {
+  <div
+    #cardElement
+    class="card card-{{ cardType() }}"
+    [style.width]="width()"
+    [style.height]="height()"
+    [attr.disabled]="disabled()"
+    [attr.aria-label]="ariaLabel()"
+    [attr.aria-labelledby]="ariaLabelledby()"
+    [attr.role]="ariaRole() || (clickable() ? 'button' : null)"
+    [ngClass]="{ clickable: clickable() }"
+    [tabIndex]="tabIndex()"
+    (click)="onClick()"
+    (keydown)="onKeyDown($event)"
+  >
+    <ng-content />
+  </div>
+}
