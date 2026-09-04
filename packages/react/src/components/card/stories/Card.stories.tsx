@@ -1,3 +1,4 @@
+import { CARD_MISSING_ACCESSIBLE_NAME_ERROR } from "@design-system-rte/core";
 import {
   cardStoryArgTypes,
   widthExamples,
@@ -9,6 +10,7 @@ import {
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn, userEvent, within, expect } from "@storybook/test";
 
+import { acceptLogError } from "../../../../.storybook/testing/testing.utils";
 import Button from "../../button/Button";
 import Card from "../Card";
 
@@ -98,6 +100,15 @@ export const Clickable: Story = {
     expect(card).toBeInTheDocument();
     await userEvent.click(card);
     expect(args.onClick).toHaveBeenCalled();
+  },
+};
+
+export const ClickableWithoutAccessibleName: Story = {
+  tags: ["!autodocs"],
+  args: { ...clickableStoryArgs, children: undefined },
+  beforeEach: acceptLogError(`[Card] ${CARD_MISSING_ACCESSIBLE_NAME_ERROR}`),
+  play: async ({ canvasElement }) => {
+    expect(canvasElement.querySelector("[data-clickable='true']")).not.toBeInTheDocument();
   },
 };
 
