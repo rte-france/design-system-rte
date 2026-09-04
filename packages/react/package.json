@@ -1,6 +1,6 @@
 {
   "name": "@design-system-rte/react",
-  "version": "1.17.0",
+  "version": "1.18.0",
   "type": "module",
   "module": "./dist/react-package.js",
   "main": "./dist/react-package.js",
@@ -52,7 +52,7 @@
     "url": "https://opensource.rte-france.com/design-system-rte/?path=/docs/design-system-get-started-contribuer-bugs-et-anomalies--docs"
   },
   "dependencies": {
-    "@design-system-rte/core": "~1.17.0",
+    "@design-system-rte/core": "~1.18.0",
     "@dnd-kit/react": "^0.5.0",
     "clsx": "^2.1.1",
     "sass": "^1.85.1"

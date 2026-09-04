@@ -1,5 +1,31 @@
 # @design-system-rte/core
 
+## 1.18.0
+
+### Minor Changes
+
+- 3580994: ## Changes
+
+  - (Tag) enforce required label prop rule and return error otherwise
+
+### Patch Changes
+
+- c363231: ## Changes
+
+  - (Divider) remove unused brand-navigation appearance
+
+- ac2dcee: ## Changes
+
+  - (Radio Button) add fallback case for missing aria-label and error handler for missing label and aria-label
+
+- ebf4aa9: ## Changes
+
+  - (Sidenav) add missing aria-label to main nav element
+
+- 50628e5: ## Changes
+
+  - (Divider) change appearance value to neutral instead of default
+
 ## 1.17.0
 
 ### Minor Changes
