@@ -181,7 +181,6 @@ export const Default: Story = {
 };
 
 export const SegmentedField: Story = {
-  tags: ["!autodocs"],
   name: "Segmented field: typing, navigation, and a11y (7 phases)",
   render: (args) => ({
     props: { ...args },
@@ -347,7 +346,6 @@ export const Error: Story = {
 };
 
 export const Disabled: Story = {
-  tags: ["!autodocs"],
   args: {
     ...Default.args,
     disabled: true,
@@ -367,7 +365,7 @@ export const Disabled: Story = {
 
 export const CalendarConstraints: Story = {
   name: "Calendar constraints: min, max, range, and disabledDates (4 instances)",
-  tags: ["skip-ci", "!autodocs"],
+  tags: ["skip-ci"],
   render: (args) => ({
     props: {
       ...args,
@@ -437,7 +435,6 @@ export const CalendarConstraints: Story = {
 };
 
 export const SmokeOpenMenuFlows: Story = {
-  tags: ["!autodocs"],
   name: "Smoke: open, confirm selection, then Esc closes",
   render: Default.render,
   play: async ({ canvasElement }) => {
@@ -483,7 +480,7 @@ export const SmokeOpenMenuFlows: Story = {
 export const OverlayChromeAndTabOrder: Story = {
   name: "Overlay: view modes + Tab order (day and month views)",
   render: Default.render,
-  tags: ["skip-ci", "!autodocs"],
+  tags: ["skip-ci"],
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const calendarButton = canvas.getByRole("button", { name: calendarTriggerAccessibleName });
@@ -618,7 +615,7 @@ export const OverlayChromeAndTabOrder: Story = {
 
 export const OpenCalendarAndHeaderSync: Story = {
   name: "Open calendar: partial input vs full date header",
-  tags: ["skip-ci", "!autodocs"],
+  tags: ["skip-ci"],
   render: (args) => ({
     props: { ...args },
     template: openCalendarHeaderSyncTemplate,
@@ -657,7 +654,7 @@ export const OpenCalendarAndHeaderSync: Story = {
 export const MonthGridKeyboardNavigation: Story = {
   name: "Month grid: ArrowLeft, ArrowRight, ArrowUp (year boundaries)",
   render: Default.render,
-  tags: ["skip-ci", "!autodocs"],
+  tags: ["skip-ci"],
   play: async ({ canvasElement }) => {
     await playMonthGridKeyboardScenario(canvasElement, {
       typedDigits: "15012024",
@@ -692,7 +689,6 @@ export const MonthGridKeyboardNavigation: Story = {
 };
 
 export const YearGridKeyboardNavigation: Story = {
-  tags: ["!autodocs"],
   name: "Year grid: ArrowLeft and ArrowRight (decade paging)",
   render: Default.render,
   play: async ({ canvasElement }) => {
@@ -719,7 +715,6 @@ export const YearGridKeyboardNavigation: Story = {
 };
 
 export const DayGridAnchorAndMonthChevron: Story = {
-  tags: ["!autodocs"],
   name: "Day grid: anchor month navigation + chevron cell count",
   render: Default.render,
   play: async ({ canvasElement }) => {
@@ -779,7 +774,7 @@ export const DayGridAnchorAndMonthChevron: Story = {
 export const DayGridLayout: Story = {
   name: "Day grid: row counts (Feb 2021, March 2026, March with April pending)",
   render: Default.render,
-  tags: ["skip-ci", "!autodocs"],
+  tags: ["skip-ci"],
   play: async ({ canvasElement }) => {
     let overlay = await openDayGridAfterTyping(canvasElement, {
       digits: "15022021",
@@ -819,7 +814,6 @@ export const DayGridLayout: Story = {
 };
 
 export const DayGridKeyboardAndBoundaries: Story = {
-  tags: ["!autodocs"],
   name: "Day grid: keyboard navigation and month boundaries",
   render: Default.render,
   play: async ({ canvasElement }) => {
@@ -994,7 +988,6 @@ export const DayGridKeyboardAndBoundaries: Story = {
 };
 
 export const PendingVersusCommitted: Story = {
-  tags: ["!autodocs"],
   name: "Pending vs committed: hasActions false + restore flows",
   render: (args) => ({
     props: { ...args },
