@@ -22,11 +22,6 @@ const meta = {
       description: "size of the Loader",
       defaultValue: "medium",
     },
-    showLabel: {
-      control: "boolean",
-      description: "show the label of the Loader",
-      defaultValue: "true",
-    },
     labelPosition: {
       control: "select",
       options: ["right", "under"],
@@ -48,7 +43,6 @@ export const Default: Story = {
   args: {
     appearance: "brand",
     size: "medium",
-    showLabel: true,
     labelPosition: "right",
     label: "Loading...",
   },
@@ -56,6 +50,6 @@ export const Default: Story = {
 
 export const WithoutLabel: Story = {
   args: {
-    showLabel: false,
+    label: undefined,
   },
 };

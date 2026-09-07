@@ -14,7 +14,6 @@ import { LoaderProps } from "@design-system-rte/core/components/loader/loader.in
 export class LoaderComponent {
   readonly appearance = input<LoaderProps["appearance"]>("brand");
   readonly size = input<LoaderProps["size"]>("medium");
-  readonly showLabel = input(true);
   readonly label = input("");
   readonly labelPosition = input<LoaderProps["labelPosition"]>("right");
 
