@@ -60,6 +60,8 @@ export class BannerComponent implements OnInit, OnChanges, AfterViewInit {
 
   readonly computedBannerTypeLabel = computed(() => bannerTypeLabel[this.type()]);
 
+  readonly isClosable = computed(() => this.closable() || this.position() === "overlay");
+
   ngOnInit() {
     this.visible.set(this.isOpen());
     this.rendering.set(this.isOpen());
