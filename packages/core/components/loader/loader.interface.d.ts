@@ -5,7 +5,6 @@ export type LoaderLabelPosition = "right" | "under";
 export interface LoaderProps {
   appearance?: LoaderAppearance;
   size?: LoaderSize;
-  showLabel?: boolean;
   label?: string;
   labelPosition?: LoaderLabelPosition;
 }

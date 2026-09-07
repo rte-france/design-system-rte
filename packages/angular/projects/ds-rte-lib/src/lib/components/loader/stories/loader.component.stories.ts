@@ -19,11 +19,6 @@ const meta: Meta<LoaderComponent> = {
       description: "size of the Loader",
       defaultValue: "medium",
     },
-    showLabel: {
-      control: "boolean",
-      description: "show the label of the Loader",
-      defaultValue: "true",
-    },
     labelPosition: {
       control: "select",
       options: ["right", "under"],
@@ -46,6 +41,5 @@ export const Default: Story = {
     labelPosition: "right",
     label: "Chargement...",
     size: "medium",
-    showLabel: true,
   },
 };
