@@ -66,6 +66,10 @@ function getNavItemContainer(sideNav: HTMLElement, itemId: string): HTMLElement 
   return navItem as HTMLElement | null;
 }
 
+function getCollapseButton(sideNav: HTMLElement): HTMLButtonElement | null {
+  return sideNav.querySelector("#collapse-button") as HTMLButtonElement | null;
+}
+
 export {
   getNavElement,
   getNavElementInCollapsedState,
@@ -73,4 +77,5 @@ export {
   getHeaderTitleContainer,
   getNavItemContainer,
   getInteractiveElementFromListItem,
+  getCollapseButton,
 };
