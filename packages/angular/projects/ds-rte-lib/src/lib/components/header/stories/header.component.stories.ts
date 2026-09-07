@@ -181,6 +181,13 @@ export const Default: Story = {
   },
 };
 
+export const Neutral: Story = {
+  args: {
+    ...Default.args,
+    appearance: "neutral",
+  },
+};
+
 export const NeutralCompact: Story = {
   args: {
     ...Default.args,
@@ -433,8 +440,87 @@ export const WithLeftSlot: Story = {
   },
 };
 
-export const MobileSearchInteraction: Story = {
+export const CustomHeader: Story = {
+  args: {
+    ...Default.args,
+  },
+  render: (args) => {
+    return {
+      props: { ...args },
+      template: `
+        <rte-header
+          [appearance]="appearance"
+          [hasDivider]="hasDivider"
+          [hasLogo]="hasLogo"
+          [applicationName]="applicationName"
+          [logoSrc]="logoSrc"
+          [homeLink]="homeLink"
+          [navigationItems]="navigationItems"
+          [searchbarProps]="searchbarProps"
+          [actionButton]="actionButton"
+          [iconButtons]="iconButtons"
+          [avatarProps]="avatarProps"
+        >
+           <div rteHeaderLeft>Contexte de navigation</div>
+            <div rteHeaderRight>Indicateur personnalisé</div>
+        </rte-header>
+      `,
+    };
+  },
+};
+
+export const MobileSearch: Story = {
   tags: ["skip-ci"],
+  args: {
+    ...Default.args,
+    isCompact: false,
+  },
+  parameters: {
+    viewport: { defaultViewport: "mobile2" },
+  },
+  render: (args) => {
+    const isSearchActive = signal(false);
+
+    function handleIsSearchActiveChange(nextValue: boolean): void {
+      isSearchActive.set(nextValue);
+    }
+
+    return {
+      props: {
+        ...args,
+        isSearchActive,
+        handleIsSearchActiveChange,
+      },
+      template: `
+        <div style="height: 200vh; padding-top: 8px">
+          <rte-header
+            [appearance]="appearance"
+            [hasDivider]="hasDivider"
+            [hasLeftSection]="hasLeftSection"
+            [hasRightSection]="hasRightSection"
+            [hasLogo]="hasLogo"
+            [applicationName]="applicationName"
+            [logoSrc]="logoSrc"
+            [homeLink]="homeLink"
+            [navigationItems]="navigationItems"
+            [hasSearchbar]="true"
+            [searchbarProps]="searchbarProps"
+            [mobileSearchButtonAriaLabel]="'Rechercher'"
+            [isSearchActive]="isSearchActive()"
+            (isSearchActiveChange)="handleIsSearchActiveChange($event)"
+          />
+
+          <div style="padding: 12px 16px; font-family: monospace">
+            isSearchActive: <strong>{{ isSearchActive() }}</strong>
+          </div>
+        </div>
+      `,
+    };
+  },
+};
+
+export const MobileSearchInteraction: Story = {
+  tags: ["skip-ci", "!autodocs"],
   args: {
     ...Default.args,
     isCompact: false,
@@ -515,7 +601,7 @@ export const MobileSearchInteraction: Story = {
 };
 
 export const MobileSearchActiveDebug: Story = {
-  tags: ["skip-ci"],
+  tags: ["skip-ci", "!autodocs"],
   args: {
     ...Default.args,
     isCompact: false,
@@ -634,7 +720,7 @@ export const MobileLongApplicationName: Story = {
 };
 
 export const MobileMenuItemsDropdown: Story = {
-  tags: ["skip-ci"],
+  tags: ["skip-ci", "!autodocs"],
   args: {
     ...Default.args,
     mobileMenuItems,
@@ -709,7 +795,7 @@ export const MobileMenuItemsDropdown: Story = {
 };
 
 export const MobileMenuInterceptSelectedItemId: Story = {
-  tags: ["skip-ci"],
+  tags: ["skip-ci", "!autodocs"],
   args: {
     ...Default.args,
     mobileMenuItems: mobileMenuItemsInterceptSelectionStory,
@@ -791,7 +877,7 @@ export const MobileMenuInterceptSelectedItemId: Story = {
 };
 
 export const MobileMenuProjectionDropdown: Story = {
-  tags: ["skip-ci"],
+  tags: ["skip-ci", "!autodocs"],
   args: {
     ...Default.args,
   },
@@ -868,6 +954,7 @@ export const MobileMenuProjectionDropdown: Story = {
 };
 
 export const DesktopSearchEventInteraction: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     hasSubHeader: false,
@@ -908,6 +995,7 @@ export const DesktopSearchEventInteraction: Story = {
 };
 
 export const DesktopActionButtonClickInteraction: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     hasSubHeader: false,
@@ -947,6 +1035,7 @@ export const DesktopActionButtonClickInteraction: Story = {
 };
 
 export const DesktopIconButtonClickInteraction: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     hasSubHeader: false,
@@ -987,6 +1076,7 @@ export const DesktopIconButtonClickInteraction: Story = {
 };
 
 export const DesktopAvatarClickInteraction: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     hasSubHeader: false,
