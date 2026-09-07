@@ -1,0 +1,70 @@
+<ng-container>
+  <li
+    #itemRef
+    class="rte-dropdown-item"
+    role="menuitem"
+    tabindex="0"
+    [attr.data-disabled]="item()?.disabled"
+    [attr.data-active]="hasChildren() ? subMenuOpen() : item()?.selected"
+    [attr.aria-haspopup]="hasChildren() ? 'menu' : null"
+    [attr.aria-expanded]="hasChildren() ? subMenuOpen() : null"
+    (click)="handleClick($event)"
+    (keydown)="handleKeyDown($event)"
+    (mouseenter)="handleMouseEnter()"
+    (mouseleave)="handleMouseLeave()"
+    (focus)="handleFocus()"
+  >
+    <rte-checkbox
+      *ngIf="item()?.hasCheckbox"
+      [label]="item()?.label ?? ''"
+      [id]="menuId() + ':' + item()?.id"
+      [checked]="item()?.selected ?? false"
+      [disabled]="item()?.disabled ?? false"
+      [showLabel]="false"
+      [indeterminate]="item()?.isIndeterminate ?? false"
+    ></rte-checkbox>
+    <span *ngIf="item()?.hasIndent && !item()?.leftIcon" style="width: 20px"></span>
+    <rte-icon *ngIf="item()?.leftIcon" [name]="item()?.leftIcon ?? ''" />
+    @if (isNavigableLink()) {
+      @if (navigationHref()) {
+        <a
+          style="flex: 2; text-decoration: none; color: inherit"
+          [href]="navigationHref()!"
+          [attr.target]="item()?.externalLink ? '_blank' : null"
+          [attr.rel]="item()?.externalLink ? 'noopener noreferrer' : null"
+        >
+          {{ item()?.label }}
+        </a>
+      } @else {
+        <a
+          style="flex: 2; text-decoration: none; color: inherit"
+          [routerLink]="navigationRouterLink()"
+          [queryParams]="item()?.routerLinkConfig?.queryParams"
+          [fragment]="item()?.routerLinkConfig?.fragment"
+          [queryParamsHandling]="item()?.routerLinkConfig?.queryParamsHandling"
+          [preserveFragment]="item()?.routerLinkConfig?.preserveFragment"
+          [replaceUrl]="item()?.routerLinkConfig?.replaceUrl"
+          [state]="item()?.routerLinkConfig?.state"
+        >
+          {{ item()?.label }}
+        </a>
+      }
+    } @else {
+      <span style="flex: 2">{{ item()?.label }}</span>
+    }
+    <rte-icon *ngIf="hasChildren()" name="arrow-chevron-right" />
+    <div *ngIf="item()?.trailingText">{{ item()?.trailingText }}</div>
+    <rte-badge
+      *ngIf="shouldDisplayBadge()"
+      [badgeType]="item()?.badgeType!"
+      [badgeContent]="item()?.badgeContent!"
+      [count]="item()?.badgeCount"
+      [simpleBadge]="true"
+      [icon]="item()?.badgeIcon ?? ''"
+      [badgeSize]="item()?.badgeSize!"
+    ></rte-badge>
+  </li>
+  <div *ngIf="item()?.hasSeparator" class="dropdown-divider">
+    <rte-divider />
+  </div>
+</ng-container>
