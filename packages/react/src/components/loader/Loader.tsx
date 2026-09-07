@@ -9,10 +9,7 @@ import style from "./Loader.module.scss";
 interface LoaderProps extends CoreLoaderProps, React.HTMLAttributes<HTMLDivElement> {}
 
 const Loader = forwardRef<HTMLDivElement, LoaderProps>(
-  (
-    { appearance = "brand", size = "medium", showLabel = true, label, labelPosition = "right", className, ...props },
-    ref,
-  ) => {
+  ({ appearance = "brand", size = "medium", label, labelPosition = "right", className, ...props }, ref) => {
     return (
       <div
         className={concatClassNames(style.loader, className)}
@@ -89,7 +86,7 @@ const Loader = forwardRef<HTMLDivElement, LoaderProps>(
             </defs>
           </svg>
         )}
-        {showLabel && (
+        {label && (
           <span role="status" aria-live="polite" className={style.label} data-size={size} data-appearance={appearance}>
             {label}
           </span>
