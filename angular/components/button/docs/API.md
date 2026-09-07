@@ -1,0 +1,17 @@
+| Nom                     | Type                                                                                      | Valeur par défaut | Description                                                                                     |
+| ----------------------- | ----------------------------------------------------------------------------------------- | ----------------- | ----------------------------------------------------------------------------------------------- |
+| rteBadgeContent         | "number" \| "icon" \| "empty"                                                             | -                 | Type de contenu du badge, utilisé avec `rteBadge`.                                              |
+| rteBadgeCount           | number                                                                                    | -                 | Nombre du badge.                                                                                |
+| rteBadgeIcon            | string                                                                                    | "settings"        | Icône du badge. La valeur doit appartenir aux clés `RegularIconIdKey` ou `TogglableIconIdKey`.  |
+| rteBadgeSize            | "xs" \| "s" \| "m" \| "l"                                                                 | "m"               | Taille du badge.                                                                                |
+| rteBadgeType            | "brand" \| "neutral" \| "indicator"                                                       | "brand"           | Type visuel du badge.                                                                           |
+| rteBadgeWithPlusSign    | boolean                                                                                   | false             | Ajoute un signe plus au contenu du badge.                                                       |
+| rteButtonIcon           | string                                                                                    | -                 | Icône du bouton. La valeur doit appartenir aux clés `RegularIconIdKey` ou `TogglableIconIdKey`. |
+| rteButtonIconAppearance | "filled" \| "outlined"                                                                    | "filled"          | Apparence de l'icône.                                                                           |
+| rteButtonIconPosition   | "left" \| "right"                                                                         | "left"            | Position de l'icône.                                                                            |
+| rteButtonSize           | "s" \| "m" \| "l"                                                                         | "m"               | Taille du bouton.                                                                               |
+| rteButtonVariant        | "primary" \| "secondary" \| "text" \| "transparent" \| "danger" \| "neutral" \| "reverse" | "primary"         | Variante visuelle du bouton.                                                                    |
+
+`ButtonComponent` est appliqué à un élément HTML `button` avec l'attribut `rteButton`. Les événements et attributs natifs de l'élément hôte, notamment `(click)` et `disabled`, restent disponibles.
+
+`BadgeDirective` doit être ajoutée avec l'attribut `rteBadge` pour utiliser ses inputs `rteBadgeType`, `rteBadgeSize`, `rteBadgeContent`, `rteBadgeCount`, `rteBadgeIcon` et `rteBadgeWithPlusSign`.

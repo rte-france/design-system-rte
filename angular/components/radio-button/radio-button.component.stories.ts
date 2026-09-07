@@ -24,6 +24,10 @@ const meta: Meta<RadioButtonComponent> = {
       control: "boolean",
       defaultValue: true,
     },
+    ariaLabel: {
+      control: "text",
+      defaultValue: "",
+    },
     disabled: {
       control: "boolean",
       defaultValue: false,
@@ -100,5 +104,35 @@ export const InitiallyChecked: Story = {
     const canvas = within(canvasElement);
     const radioButton = canvas.getByRole("radio", { name: /radio button/i });
     expect(radioButton).toBeChecked();
+  },
+};
+
+export const HiddenLabel: Story = {
+  tags: ["!autodocs"],
+  args: {
+    ...Default.args,
+    groupName: "hidden-label-radio-group",
+    showLabel: false,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const radioButton = canvas.getByRole("radio", { name: /radio button/i });
+    expect(radioButton).toBeInTheDocument();
+  },
+};
+
+export const HiddenLabelWithAriaLabelOnly: Story = {
+  tags: ["!autodocs"],
+  args: {
+    ...Default.args,
+    label: "",
+    ariaLabel: "Radio Button",
+    groupName: "hidden-label-aria-only-radio-group",
+    showLabel: false,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const radioButton = canvas.getByRole("radio", { name: /radio button/i });
+    expect(radioButton).toBeInTheDocument();
   },
 };

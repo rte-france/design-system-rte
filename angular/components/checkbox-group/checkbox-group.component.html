@@ -1,15 +1,24 @@
-<div *ngIf="isDisplayed()" class="checkbox-group-container">
+<fieldset *ngIf="isDisplayed()" class="checkbox-group-container" [disabled]="disabled()">
+  <legend
+    *ngIf="groupTitle()"
+    class="group-title"
+    [ngClass]="{
+      'visually-hidden': !showGroupTitle(),
+      disabled: disabled(),
+      error: error(),
+      'read-only': readOnly(),
+    }"
+  >
+    {{ groupTitle() }}
+  </legend>
   <div
-    class="checkbox-group-header"
+    class="checkbox-group-subheader"
     [ngClass]="{
       disabled: disabled(),
       error: error(),
       'read-only': readOnly(),
     }"
   >
-    <h3 *ngIf="showGroupTitle()" class="group-title">
-      {{ groupTitle() }}
-    </h3>
     <p *ngIf="showHelpText()" class="group-help-text">
       {{ groupHelpText() }}
     </p>
@@ -29,7 +38,8 @@
         [disabled]="disabled()"
         [error]="error()"
         [readOnly]="readOnly()"
+        [ariaLabel]="showItemsLabel() ? undefined : item"
       />
     </ng-container>
   </div>
-</div>
+</fieldset>

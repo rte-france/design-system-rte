@@ -109,6 +109,7 @@ export const CardTypes: Story = {
 };
 
 export const Clickable: Story = {
+  tags: ["!autodocs"],
   args: clickableStoryArgs,
   render: (args) => ({
     props: {

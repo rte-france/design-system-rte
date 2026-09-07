@@ -6,7 +6,7 @@ import { CheckboxGroupComponent } from "./checkbox-group.component";
 const meta: Meta<CheckboxGroupComponent> = {
   title: "Composants/CheckboxGroup",
   component: CheckboxGroupComponent,
-  tags: ["autodocs"],
+  tags: ["autodocs", "checkboxgroup"],
   argTypes: {
     items: {
       control: "object",
@@ -15,7 +15,7 @@ const meta: Meta<CheckboxGroupComponent> = {
     direction: {
       control: "select",
       options: ["horizontal", "vertical"],
-      defaultValue: "horizontal",
+      defaultValue: "vertical",
     },
     showItemsLabel: {
       control: "boolean",
@@ -61,7 +61,6 @@ type Story = StoryObj<CheckboxGroupComponent>;
 export const Default: Story = {
   args: {
     items: ["Option 1", "Option 2", "Option 3"],
-    direction: "horizontal",
     showItemsLabel: true,
     groupTitle: "Checkbox Title",
     showGroupTitle: true,
@@ -74,6 +73,8 @@ export const Default: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
+    const group = canvas.getByRole("group", { name: "Checkbox Title" });
+    expect(group.querySelector(".checkbox-group")).toHaveClass("vertical");
     const radioButton = canvas.getByLabelText("Option 1");
     await userEvent.click(radioButton);
     expect(radioButton).toBeChecked();
@@ -84,6 +85,17 @@ export const Disabled: Story = {
   args: {
     ...Default.args,
     disabled: true,
+  },
+};
+
+export const WithoutVisibleItemLabels: Story = {
+  args: {
+    ...Default.args,
+    showItemsLabel: false,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    expect(canvas.getByRole("checkbox", { name: "Option 1" })).toBeInTheDocument();
   },
 };
 

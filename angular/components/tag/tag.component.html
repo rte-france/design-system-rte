@@ -1,4 +1,5 @@
 <div
+  *ngIf="isValidTag()"
   class="rte-tag"
   [attr.data-tag-type]="tagType()"
   [attr.data-status]="status()"
@@ -7,7 +8,7 @@
   [attr.aria-label]="ariaLabel()"
 >
   <ng-container *ngIf="isValidIconName()">
-    <rte-icon [name]="computedIconName()!" [size]="16"></rte-icon>
+    <rte-icon [name]="computedIconName()!" [size]="16" [attr.aria-hidden]="true"></rte-icon>
   </ng-container>
   <ng-container *ngIf="label">
     <span class="tag-label">{{ label() }}</span>

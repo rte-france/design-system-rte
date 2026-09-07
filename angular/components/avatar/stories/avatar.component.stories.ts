@@ -83,11 +83,81 @@ export const Default: Story = {
   args: {
     imgSrc: img,
     alt: "Avatar of Jane Doe",
-    size: 32,
+    size: 64,
     colorType: "neutral",
     type: "user",
     layout: "image",
     status: "available",
+  },
+};
+
+export const Icon: Story = {
+  args: {
+    ...Default.args,
+    layout: "icon",
+  },
+};
+
+export const Initials: Story = {
+  args: {
+    ...Default.args,
+    layout: "initials",
+    initials: "MB",
+  },
+};
+
+export const Sizes: Story = {
+  args: {
+    ...Default.args,
+    layout: "image",
+  },
+  render: (args) => ({
+    props: { ...args, sizeOptions },
+    template: `
+    <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+        <rte-avatar *ngFor="let size of sizeOptions" [size]="size" [imgSrc]="imgSrc" [layout]="'image'" [colorType]="colorType" />
+    </div>`,
+  }),
+};
+
+export const Entity: Story = {
+  args: {
+    ...Default.args,
+    type: "entity",
+    imgSrc: logo,
+  },
+};
+
+export const User: Story = {
+  args: {
+    ...Default.args,
+    type: "user",
+    initials: "MB",
+    layout: "initials",
+  },
+};
+
+export const Neutral: Story = {
+  args: {
+    ...Default.args,
+    layout: "initials",
+    initials: "MB",
+    colorType: "neutral",
+  },
+};
+
+export const Brand: Story = {
+  args: {
+    ...Neutral.args,
+    colorType: "brand",
+  },
+};
+
+export const Decorative: Story = {
+  args: {
+    ...Neutral.args,
+    colorType: "decorative",
+    decorativeColor: "violet",
   },
 };
 
@@ -227,27 +297,18 @@ export const Status: Story = {
   render: (args) => ({
     props: { ...args, sizeOptions, logo },
     template: `
-    <div style="display: flex; flex-direction: column; gap: 16px;">
-      <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
-          <rte-avatar *ngFor="let size of sizeOptions" [size]="size" [imgSrc]="imgSrc" [layout]="'image'" [colorType]="colorType" [status]="status" />
-      </div>
-      <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
-          <rte-avatar *ngFor="let size of sizeOptions" [size]="size" [layout]="'icon'" [colorType]="colorType" [status]="'busy'" />
-      </div>
-      <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
-        <rte-avatar *ngFor="let size of sizeOptions" [size]="size" type="entity" [layout]="'initials'" [initials]="'MB'" colorType="brand" status="away" />
-      </div>
-      <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
-        <rte-avatar *ngFor="let size of sizeOptions" [size]="size" type="entity" layout="image" [imgSrc]="logo" [initials]="'MB'" colorType="brand" status="offline" />
-      </div>
-      <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
-        <rte-avatar *ngFor="let size of sizeOptions" [size]="size" type="entity" layout="icon" colorType="decorative" status="unknown" decorativeColor="violet" />
-      </div>
+    <div style="display: flex; flex-direction: row; gap: 16px;">
+      <rte-avatar size="64" layout="image" [imgSrc]="imgSrc" status="available"></rte-avatar>
+      <rte-avatar size="64" layout="icon" status="busy"></rte-avatar>
+      <rte-avatar size="64" layout="initials" initials="MB" status="away"></rte-avatar>
+      <rte-avatar size="64" layout="image" [imgSrc]="logo" type="entity" status="offline"></rte-avatar>
+      <rte-avatar size="64" layout="icon" type="entity" status="unknown"></rte-avatar>
     </div>`,
   }),
 };
 
 export const Interactive: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     isInteractive: true,

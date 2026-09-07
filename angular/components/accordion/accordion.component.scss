@@ -78,6 +78,10 @@
     .rte-accordion-chevron {
       transition: transform 0.11s cubic-bezier(0, 0, 0.38, 0.9) allow-discrete;
 
+      @media (prefers-reduced-motion: reduce) {
+        transition: none;
+      }
+
       &.animating {
         transform: rotate(180deg);
       }
@@ -104,6 +108,10 @@
   overflow: hidden;
   opacity: 0;
   transition: all 0.12s cubic-bezier(0, 0, 0.38, 0.9) allow-discrete;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
 
   &.animating {
     padding: $positive-spacing_200 $positive-spacing_100;

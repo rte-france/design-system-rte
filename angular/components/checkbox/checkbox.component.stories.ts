@@ -42,6 +42,10 @@ const meta: Meta<CheckboxComponent> = {
       control: "boolean",
       defaultValue: false,
     },
+    ariaLabel: {
+      control: "text",
+      defaultValue: undefined,
+    },
   },
 };
 export default meta;
@@ -61,9 +65,24 @@ export const Default: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const checkbox = canvas.getByRole("checkbox");
+    const checkboxBounds = checkbox.getBoundingClientRect();
+    expect(checkboxBounds.width).toBeGreaterThanOrEqual(24);
+    expect(checkboxBounds.height).toBeGreaterThanOrEqual(24);
     await userEvent.click(checkbox);
     expect(checkbox).toBeChecked();
     checkbox.blur();
+  },
+};
+
+export const WithAriaLabel: Story = {
+  args: {
+    ...Default.args,
+    showLabel: false,
+    ariaLabel: "Accessible checkbox label",
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    expect(canvas.getByRole("checkbox", { name: "Accessible checkbox label" })).toBeInTheDocument();
   },
 };
 
@@ -114,6 +133,7 @@ export const Error: Story = {
 };
 
 export const KeyboardInteractions: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
   },
@@ -157,6 +177,7 @@ export const CheckedChangeOutput: Story = {
           [readOnly]="readOnly"
           [checked]="checked"
           [tabindex]="tabindex"
+          [ariaLabel]="ariaLabel"
           (checkedChange)="onCheckedChange($event)"
         />
         <div data-testid="checked">lastCheckedChange={{ lastCheckedChange }}</div>

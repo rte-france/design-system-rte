@@ -12,7 +12,7 @@ figma.connect("https://www.figma.com/design/Wiy8uWsWjoagf95lOmPXNU/01.0-Design-S
       bold: "bold",
     }),
     appearance: figma.enum("appearance", {
-      neutral: "default",
+      neutral: "neutral",
       brand: "brand",
       inverse: "inverse",
     }),
