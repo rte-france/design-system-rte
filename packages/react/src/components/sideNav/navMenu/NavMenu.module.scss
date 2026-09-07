@@ -6,6 +6,11 @@
     flex-direction: column;
     justify-content: flex-start;
     transition: background-color 300ms;
+
+    @media (prefers-reduced-motion: reduce) {
+        transition: none;
+    }
+
     box-sizing: border-box;
 
     .navMenu {
@@ -23,6 +28,10 @@
         border-left: $width-m solid transparent;
         color: var(--rte-side-nav-item-label);
         transition: border-left 0.2s ease;
+
+        @media (prefers-reduced-motion: reduce) {
+            transition: none;
+        }
 
         .menuContentLeft {
             display: flex;
@@ -81,6 +90,10 @@
             border-left: $width-xs solid var(--rte-side-nav-item-border-hierarchy);
             padding: $positive-spacing_050 $positive-spacing_100;
             transition: border-left 0.2s ease;
+
+            @media (prefers-reduced-motion: reduce) {
+                transition: none;
+            }
         }
 
         &[data-active='true'] {
@@ -115,6 +128,11 @@
     &:not([data-collapsed='true']) .menuIcon {
         flex-shrink: 0;
         transition: transform 200ms;
+
+        @media (prefers-reduced-motion: reduce) {
+            transition: none;
+        }
+
         margin-left: auto;
 
         &[data-open='true'] {
@@ -129,6 +147,11 @@
         max-height: 0;
         overflow: hidden;
         transition: max-height 300ms, padding 300ms;
+
+        @media (prefers-reduced-motion: reduce) {
+            transition: none;
+        }
+
         padding-left: $positive-spacing_200;
         gap: 0;
 
