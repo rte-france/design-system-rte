@@ -214,6 +214,8 @@ const Header = forwardRef<HTMLElement, HeaderProps>(
                       colorType={avatarProps.colorType}
                       layout={avatarProps.layout}
                       status={avatarProps.status}
+                      type={avatarProps.type ?? "user"}
+                      decorativeColor={avatarProps.decorativeColor}
                     />
                   )}
                   {rightSectionContent}

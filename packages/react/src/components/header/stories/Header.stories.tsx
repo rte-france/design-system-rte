@@ -255,8 +255,47 @@ export const WithLeftSectionContent: Story = {
   },
 };
 
-export const MobileSearchInteraction: Story = {
+export const CustomHeader: Story = {
+  args: {
+    ...Default.args,
+    leftSectionContent: <div>Contexte de navigation</div>,
+    rightSectionContent: <div>Indicateur personnalisé</div>,
+    mobileMenuContent: <div>Menu personnalisé</div>,
+  },
+};
+
+export const MobileSearch: Story = {
   tags: ["skip-ci"],
+  parameters: {
+    viewport: { defaultViewport: "mobile2" },
+  },
+  args: {
+    ...Default.args,
+    hasSearchbar: true,
+  },
+
+  render: (args) => {
+    const [isSearchActive, setIsSearchActive] = useState(false);
+
+    return (
+      <>
+        <Header {...args} onSearchActiveChange={setIsSearchActive} />
+        <div
+          style={{
+            margin: "1rem",
+          }}
+        >
+          <p style={{ fontFamily: "monospace" }}>
+            isSearchActive: <strong>{isSearchActive ? "true" : "false"}</strong>
+          </p>
+        </div>
+      </>
+    );
+  },
+};
+
+export const MobileSearchInteraction: Story = {
+  tags: ["skip-ci", "!autodocs"],
   parameters: {
     viewport: { defaultViewport: "mobile2" },
   },
