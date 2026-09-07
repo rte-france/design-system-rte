@@ -1,4 +1,5 @@
 <div
+  *ngIf="isValidTag()"
   class="rte-tag"
   [attr.data-tag-type]="tagType()"
   [attr.data-status]="status()"

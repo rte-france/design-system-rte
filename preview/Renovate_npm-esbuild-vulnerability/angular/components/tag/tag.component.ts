@@ -1,6 +1,7 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component, input, computed } from "@angular/core";
+import { ChangeDetectionStrategy, Component, input, computed, AfterViewInit, signal } from "@angular/core";
 import { TagProps } from "@design-system-rte/core/components/tag/tag.interface";
+import { TAG_ERROR_NO_LABEL } from "@design-system-rte/core/dist";
 
 import { isValidIconName } from "../icon/icon-map";
 import { RegularIconIdKey, TogglableIconIdKey } from "../icon/icon-registry.service";
@@ -13,14 +14,24 @@ import { IconComponent } from "../icon/icon.component";
   styleUrl: "./tag.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TagComponent {
+export class TagComponent implements AfterViewInit {
+  readonly label = input.required<string>();
   readonly tagType = input<TagProps["tagType"]>("status");
   readonly status = input<TagProps["status"]>("success");
   readonly color = input<TagProps["color"]>("brand");
   readonly compactSpacing = input<boolean>(false);
-  readonly label = input<string>("");
   readonly iconName = input<RegularIconIdKey | TogglableIconIdKey>();
   readonly ariaLabel = input<string>();
+
+  readonly isValidTag = signal(false);
+
+  ngAfterViewInit(): void {
+    if (!this.label()) {
+      console.error(TAG_ERROR_NO_LABEL);
+    } else {
+      this.isValidTag.set(true);
+    }
+  }
 
   readonly computedIconName = computed(() => {
     if (this.tagType() === "status") {

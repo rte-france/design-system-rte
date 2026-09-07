@@ -24,7 +24,7 @@ export class CardComponent {
 
   readonly cardClicked = output<void>();
 
-  readonly tabIndex = computed(() => (this.clickable() ? 0 : -1));
+  readonly tabIndex = computed(() => (this.clickable() && !this.disabled() ? 0 : -1));
 
   onClick(): void {
     if (!this.disabled() && this.clickable()) {

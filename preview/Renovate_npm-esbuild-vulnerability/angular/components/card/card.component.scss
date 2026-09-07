@@ -10,6 +10,10 @@
     @include elevation-neutral-shadow-1;
     transition: background-color 300ms, box-shadow 300ms;
 
+    @media (prefers-reduced-motion: reduce) {
+        transition: none;
+    }
+
     &:hover {
         @include elevation-neutral-shadow-2;
     }
