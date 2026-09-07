@@ -52,6 +52,8 @@
       [attr.rel]="externalLink() ? 'noopener noreferrer' : null"
       [attr.tabindex]="tabIndex()"
       [attr.aria-label]="label()"
+      [attr.aria-expanded]="ariaExpanded()"
+      [attr.aria-controls]="ariaControls()"
       (click)="toggleMenu()"
     >
       <div class="menu-content-left">
@@ -90,6 +92,8 @@
       [state]="routerLinkConfig()?.state"
       [attr.tabindex]="tabIndex()"
       [attr.aria-label]="label()"
+      [attr.aria-expanded]="ariaExpanded()"
+      [attr.aria-controls]="ariaControls()"
       (click)="toggleMenu()"
     >
       <div class="menu-content-left">
@@ -121,6 +125,9 @@
       class="nav-menu"
       [attr.tabindex]="tabIndex()"
       [attr.aria-label]="label()"
+      [attr.role]="isDisclosureTrigger() ? 'button' : null"
+      [attr.aria-expanded]="ariaExpanded()"
+      [attr.aria-controls]="ariaControls()"
       (click)="toggleMenu()"
       (keydown)="handleKeyDown($event)"
     >
@@ -153,7 +160,7 @@
 
 <ng-template #nestedMenuTemplate>
   @if (shouldShowMenu()) {
-    <ul class="nested-menu" [ngClass]="{ 'nested-menu-open': open() }">
+    <ul class="nested-menu" [id]="nestedMenuElementId()" [ngClass]="{ 'nested-menu-open': open() }">
       @if (open()) {
         @for (item of items(); track item.id || item.label) {
           @if (hasNestedItemsForItem(item)) {
