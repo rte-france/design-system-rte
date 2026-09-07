@@ -66,8 +66,9 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
 
     const resolveMenuOpen = useCallback(
       (item: NavItemProps): boolean | undefined => {
-        if (item.id && item.id in menuOpenOverrides) {
-          return menuOpenOverrides[item.id];
+        const menuKey = item.id ?? item.label;
+        if (menuKey && menuKey in menuOpenOverrides) {
+          return menuOpenOverrides[menuKey];
         }
 
         return (item as NavMenuProps).open;
@@ -82,6 +83,10 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
       },
       [onActiveItemChange],
     );
+
+    useEffect(() => {
+      setActiveItem(activeItem);
+    }, [activeItem]);
 
     useEffect(() => {
       setMenuOpenOverrides({});

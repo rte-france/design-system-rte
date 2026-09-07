@@ -25,11 +25,12 @@ function expectElementToBeSkipped(sideNav: HTMLElement, text: string): void {
   }
 }
 
-function expectElementToBeAccessible(sideNav: HTMLElement, text: string): void {
-  const element = getNavElement(sideNav, text);
-  if (element) {
+async function expectElementToBeAccessible(sideNav: HTMLElement, text: string): Promise<void> {
+  await waitFor(() => {
+    const element = getNavElement(sideNav, text);
+    expect(element).not.toBeNull();
     expect(element).toHaveAttribute("tabindex", "0");
-  }
+  });
 }
 
 async function expectNavItemActiveState(
