@@ -78,11 +78,15 @@ export class PopoverDirective implements AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     document.addEventListener("mousedown", this.onMouseDown);
     document.addEventListener("keydown", this.onKeyDown);
+    window.addEventListener("scroll", this.onScroll, true);
+    window.addEventListener("resize", this.onScroll, true);
   }
 
   ngOnDestroy() {
     document.removeEventListener("mousedown", this.onMouseDown);
     document.removeEventListener("keydown", this.onKeyDown);
+    window.removeEventListener("scroll", this.onScroll, true);
+    window.removeEventListener("resize", this.onScroll, true);
     this.destroyPopover();
   }
 
