@@ -118,6 +118,17 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
       }
     }, [isOpen, popoverElement, updatePopoverPosition]);
 
+    useEffect(() => {
+      updatePopoverPosition();
+      window.addEventListener("scroll", updatePopoverPosition);
+      window.addEventListener("resize", updatePopoverPosition);
+
+      return () => {
+        window.removeEventListener("scroll", updatePopoverPosition);
+        window.removeEventListener("resize", updatePopoverPosition);
+      };
+    }, [updatePopoverPosition]);
+
     const handleKeyDown = (e: React.KeyboardEvent) => {
       if (e.key === ENTER_KEY) {
         e.preventDefault();
