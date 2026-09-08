@@ -21,6 +21,7 @@ import {
   getHeaderTitleContainer,
   getNavElement,
   getNavElementInCollapsedState,
+  getCollapseButton,
 } from "./stories/helpers/elementFinders";
 import {
   expectElementNotToHaveFocus,
@@ -541,6 +542,9 @@ export const KeyboardNavigation: Story = {
       await userEvent.tab();
       const dashboardMenu = getNavElement(sideNav, "Dashboard");
       expectElementToHaveFocus(dashboardMenu);
+      await expect(dashboardMenu).toHaveAttribute("role", "button");
+      await expect(dashboardMenu).toHaveAttribute("aria-expanded", "false");
+      await expect(dashboardMenu?.getAttribute("aria-controls")).toBeTruthy();
       expectElementNotToHaveFocus(sideNav, "Overview");
       expectElementNotToHaveFocus(sideNav, "Reports");
       expectElementNotToHaveFocus(sideNav, "Analytics");
@@ -548,6 +552,8 @@ export const KeyboardNavigation: Story = {
       await userEvent.tab();
       const settingsMenu = getNavElement(sideNav, "Settings");
       expectElementToHaveFocus(settingsMenu);
+      await expect(settingsMenu).toHaveAttribute("role", "button");
+      await expect(settingsMenu).toHaveAttribute("aria-expanded", "false");
       expectElementNotToHaveFocus(sideNav, "General");
       expectElementNotToHaveFocus(sideNav, "Privacy");
       expectElementNotToHaveFocus(sideNav, "Advanced");
@@ -560,6 +566,9 @@ export const KeyboardNavigation: Story = {
     await step("Open Dashboard menu and verify nested items are accessible", async () => {
       const dashboardMenu = getNavElement(sideNav, "Dashboard");
       await userEvent.click(dashboardMenu!);
+
+      await expect(dashboardMenu).toHaveAttribute("aria-expanded", "true");
+      await expect(document.getElementById(dashboardMenu!.getAttribute("aria-controls")!)).not.toBeNull();
 
       expectElementToBeAccessible(sideNav, "Overview");
       expectElementToBeAccessible(sideNav, "Reports");
@@ -581,6 +590,8 @@ export const KeyboardNavigation: Story = {
     await step("Close Dashboard menu and verify nested items are skipped again", async () => {
       const dashboardMenu = getNavElement(sideNav, "Dashboard");
       await userEvent.click(dashboardMenu!);
+
+      await expect(dashboardMenu).toHaveAttribute("aria-expanded", "false");
 
       expectElementToBeSkipped(sideNav, "Overview");
       expectElementToBeSkipped(sideNav, "Reports");
@@ -647,6 +658,42 @@ export const KeyboardNavigation: Story = {
       expectElementToHaveFocus(profileElement);
       expectElementNotToHaveFocus(sideNav, "Security");
       expectElementNotToHaveFocus(sideNav, "API Keys");
+    });
+  },
+};
+
+export const CollapseButtonAccessibility: Story = {
+  tags: ["!autodocs"],
+  args: {
+    ...Default.args,
+    headerConfig: defaultHeaderConfig,
+    collapsible: true,
+  },
+  render: defaultRender,
+  play: async ({ canvasElement, step }) => {
+    const { sideNav } = getCanvasAndSideNav(canvasElement);
+
+    await step("Verify collapse control is a native button with a single accessible name", async () => {
+      const collapseButton = getCollapseButton(sideNav);
+      expect(collapseButton).not.toBeNull();
+      expect(collapseButton?.tagName).toBe("BUTTON");
+      expect(collapseButton).toHaveAttribute("type", "button");
+      expect(collapseButton).toHaveTextContent("Réduire le menu");
+      expect(collapseButton).not.toHaveAttribute("aria-label");
+      expect(within(sideNav).getByRole("button", { name: "Réduire le menu" })).toBe(collapseButton);
+    });
+
+    await step("Verify collapse button can be focused and activated with keyboard", async () => {
+      const collapseButton = getCollapseButton(sideNav);
+      collapseButton?.focus();
+      expectElementToHaveFocus(collapseButton);
+
+      await userEvent.keyboard("{Enter}");
+
+      const collapsedButton = getCollapseButton(sideNav);
+      expect(collapsedButton).toHaveAttribute("aria-label", "Ouvrir le menu");
+      expect(collapsedButton).not.toHaveTextContent("Réduire le menu");
+      expect(within(sideNav).getByRole("button", { name: "Ouvrir le menu" })).toBe(collapsedButton);
     });
   },
 };

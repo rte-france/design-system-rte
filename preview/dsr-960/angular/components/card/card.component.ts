@@ -40,7 +40,7 @@ export class CardComponent implements AfterViewInit {
 
   readonly cardClicked = output<void>();
 
-  readonly tabIndex = computed(() => (this.clickable() ? 0 : -1));
+  readonly tabIndex = computed(() => (this.clickable() && !this.disabled() ? 0 : -1));
 
   ngAfterViewInit(): void {
     const hasAccessibleName =

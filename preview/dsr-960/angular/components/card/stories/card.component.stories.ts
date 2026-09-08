@@ -218,6 +218,8 @@ export const Disabled: Story = {
     const cards = canvasElement.querySelectorAll(".card");
     cards.forEach((card) => {
       expect(card).toHaveAttribute("disabled", "true");
+      expect(card).toHaveAttribute("aria-disabled", "true");
+      expect(card).toHaveAttribute("tabindex", "-1");
     });
   },
 };

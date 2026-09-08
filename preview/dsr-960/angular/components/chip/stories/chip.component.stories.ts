@@ -34,6 +34,12 @@ const meta = {
       description: "Type of the chip",
       defaultValue: "single",
     },
+    appearance: {
+      control: "select",
+      options: ["brand", "neutral"],
+      description: "Appearance of the chip",
+      defaultValue: "brand",
+    },
   },
 } satisfies Meta<ChipComponent>;
 
@@ -48,6 +54,19 @@ export const Default: Story = {
     selected: false,
     disabled: false,
     compactSpacing: false,
+  },
+};
+
+export const Disabled: Story = {
+  args: {
+    id: "chip-disabled",
+    label: "Disabled",
+    disabled: true,
+  },
+  play: async ({ canvasElement }) => {
+    const chip = within(canvasElement).getByRole("radio");
+
+    expect(chip).toHaveAttribute("aria-disabled", "true");
   },
 };
 
@@ -230,6 +249,84 @@ export const MultiSelect: Story = {
   },
 };
 export const InputChip: Story = {
+  decorators: [
+    moduleMetadata({
+      imports: [ButtonComponent, TextInputComponent],
+    }),
+  ],
+  args: {
+    ...Default.args,
+    type: "input",
+  },
+  render: (args) => {
+    return {
+      props: {
+        ...args,
+        inputValue: "",
+        chipsValues: ["Chip 1", "Chip 2"],
+        onChange(value: string) {
+          this["inputValue"] = value;
+        },
+        onClose(event: Event) {
+          const target = event.currentTarget as HTMLInputElement;
+          this["chipsValues"] = this["chipsValues"].filter((chip: string) => chip !== target.value);
+        },
+        handleAddChip() {
+          if (this["inputValue"].trim()) {
+            this["chipsValues"].push(this["inputValue"]);
+            this["inputValue"] = "";
+          }
+        },
+        handleKeyDown(event: KeyboardEvent) {
+          const input = event.target as HTMLInputElement;
+          if (event.key === ENTER_KEY && input.value.trim()) {
+            event.preventDefault();
+            this["handleAddChip"]();
+          }
+        },
+      },
+      template: `
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <div style="display: flex; gap: 10px; align-items: end;">
+        <rte-text-input
+          id="input-add-chip"
+          label="Ajouter un chip"
+          [value]="inputValue"
+          (valueChange)="onChange($event)"
+          (keydown)="handleKeyDown($event)"
+        ></rte-text-input>
+          <button rteButton (click)="handleAddChip()">Add Chip</button>
+        </div>
+        <div style="display: flex; gap: 10px;" role="listbox" aria-label="Chips List" data-testid="chips-list">
+          <rte-chip
+            *ngFor="let chip of chipsValues"
+            [id]="'chip-' + chip"
+            [label]="chip"
+            [type]="type"
+            (close)="onClose($event)"
+            [disabled]="disabled"
+          >
+          </rte-chip>
+        </div>
+        <div style="display: flex; gap: 10px;" role="listbox" aria-label="Chips List">
+          <rte-chip
+            *ngFor="let chip of chipsValues"
+            [id]="'chip-' + chip"
+            [label]="chip"
+            [type]="type"
+            (close)="onClose($event)"
+            appearance="neutral"
+            [disabled]="disabled"
+          >
+          </rte-chip>
+        </div>
+      </div>
+    `,
+    };
+  },
+};
+
+export const InputChipInteraction: Story = {
   decorators: [
     moduleMetadata({
       imports: [ButtonComponent, TextInputComponent],
