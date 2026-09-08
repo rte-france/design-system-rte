@@ -101,7 +101,7 @@ const FileItem = ({ file, removeFile, isError, errorMessage, compact, isLoading 
         <div className={styles["rte-file-upload-file"]}>
           <div className={styles["rte-file-upload-file-icon"]} ref={iconRef}>
             {isLoading ? (
-              <Loader size="small" showLabel={false} />
+              <Loader size="small" />
             ) : (
               <>
                 {isError ? (
