@@ -18,10 +18,12 @@ export const decorators: Preview["decorators"] = [
     const noAutoMarginStoriesIds = ["composants-header", "sidenav"];
     const topBottomMarginStoriesIds = ["composants-grid"];
     const noPaddingStoriesIds = ["composants-header"];
+    const noMarginTopStoriesIds = ["composants-loader"];
 
     const hasAutoMargins = !noAutoMarginStoriesIds.some((id) => context?.id?.includes(id));
     const hasTopBottomMargins = topBottomMarginStoriesIds.some((id) => context?.id?.includes(id));
     const hasPadding = !noPaddingStoriesIds.some((id) => context?.id?.includes(id));
+    const hasMarginTop = !noMarginTopStoriesIds.some((id) => context?.id?.includes(id));
 
     return (
       <>
@@ -30,7 +32,7 @@ export const decorators: Preview["decorators"] = [
           <div
             style={{
               backgroundColor: "var(--background-default)",
-              marginTop: isStory ? "180px" : "0",
+              marginTop: isStory && hasMarginTop ? "180px" : "0",
               padding: hasPadding ? "24px" : "0",
               height: "100%",
               alignContent: "center",
