@@ -1,0 +1,10 @@
+<span
+  *ngIf="required() || showLabelRequirement()"
+  class="requirement-indicator"
+  aria-hidden="true"
+  [ngClass]="{
+    required: required(),
+    'show-label-requirement': showLabelRequirement(),
+  }"
+  >{{ requirementIndicatorValue() }}</span
+>
