@@ -1,0 +1,38 @@
+<div *ngIf="isDisplayed()" class="radio-button-group-container">
+  <fieldset
+    class="radio-button-group-fieldset"
+    [ngClass]="{
+      disabled: disabled(),
+      error: error(),
+      'read-only': readOnly(),
+    }"
+  >
+    <legend *ngIf="showGroupTitle() && groupTitle()" class="group-title">
+      {{ groupTitle() }}
+    </legend>
+    <p *ngIf="showHelpText() && groupHelpText()" class="group-help-text">
+      {{ groupHelpText() }}
+    </p>
+    <p *ngIf="error() && errorMessage()" class="group-error-message">
+      {{ errorMessage() }}
+    </p>
+    <div
+      class="radio-button-group"
+      [ngClass]="{ horizontal: direction() === 'horizontal', vertical: direction() === 'vertical' }"
+    >
+      <ng-container *ngFor="let item of items()">
+        <rte-radio-button
+          [label]="item.label"
+          [groupName]="groupName()"
+          [showLabel]="showItemsLabel()"
+          [disabled]="disabled()"
+          [error]="error()"
+          [readOnly]="readOnly()"
+          [value]="item.value"
+          [isChecked]="item.value === internalSelectedValue()"
+          (changeEvent)="onChange(item.value)"
+        />
+      </ng-container>
+    </div>
+  </fieldset>
+</div>
