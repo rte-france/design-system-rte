@@ -55,16 +55,21 @@ Le mode `responsive` affiche le Drawer à côté de `children`. Le conteneur par
 
 ## Sans header ou footer
 
-Définir `showHeader={false}` pour supprimer le header, ou `showFooter={false}` pour supprimer le footer et ses actions.
+Définir `showHeader={false}` pour supprimer le header, ou `showFooter={false}` pour supprimer le footer et ses actions. Lorsque le header par défaut n’est pas affiché, fournissez `ariaLabel` pour le nom accessible du Drawer.
 
 ```tsx
-<Drawer {...props} showHeader={false} showFooter={false} />
+<Drawer {...props} showHeader={false} showFooter={false} ariaLabel="Filters" />
 ```
 
 ## Header et footer personnalisés
 
-`header` et `footer` remplacent leurs versions par défaut. Un header personnalisé doit contenir son propre contrôle de fermeture.
+`header` et `footer` remplacent leurs versions par défaut. Un header personnalisé doit contenir son propre contrôle de fermeture. Fournissez `ariaLabel` pour le nom accessible du Drawer.
 
 ```tsx
-<Drawer {...props} header={<div>Custom Header</div>} footer={<Button label="Custom Action" variant="primary" />} />
+<Drawer
+  {...props}
+  ariaLabel="Custom drawer"
+  header={<div>Custom Header</div>}
+  footer={<Button label="Custom Action" variant="primary" />}
+/>
 ```

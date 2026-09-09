@@ -1,8 +1,10 @@
+import { DRAWER_MISSING_ACCESSIBLE_NAME_ERROR } from "@design-system-rte/core";
 import { TESTING_ESCAPE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn, userEvent, within, expect, waitFor } from "@storybook/test";
 import { useState } from "react";
 
+import { acceptLogError } from "../../../../.storybook/testing/testing.utils";
 import Button from "../../button/Button";
 import IconButton from "../../iconButton/IconButton";
 import Drawer from "../Drawer";
@@ -486,13 +488,14 @@ export const WithoutHeader: Story = {
     title: undefined,
     icon: undefined,
     showHeader: false,
+    ariaLabel: "Example drawer",
   },
   render: Default.render,
   parameters: {
     docs: {
       description: {
         story:
-          "Modal drawer with **showHeader** set to `false`. The header (title, icon, close control) is not rendered, and neither a title nor a custom header is required.",
+          "Modal drawer with **showHeader** set to `false`. The header (title, icon, close control) is not rendered. Provide **ariaLabel** so the drawer keeps an accessible name.",
       },
     },
   },
@@ -505,20 +508,21 @@ export const WithoutHeaderInteractive: Story = {
     title: undefined,
     icon: undefined,
     showHeader: false,
+    ariaLabel: "Example drawer",
   },
   render: Default.render,
   parameters: {
     docs: {
       description: {
         story:
-          "Modal drawer with **showHeader** set to `false`. The header (title, icon, close control) is not rendered, and neither a title nor a custom header is required.",
+          "Modal drawer with **showHeader** set to `false`. The header (title, icon, close control) is not rendered. Provide **ariaLabel** so the drawer keeps an accessible name.",
       },
     },
   },
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
     await userEvent.click(canvas.getByRole("button", { name: "Open drawer" }));
-    const drawer = within(document.body).getByRole("dialog");
+    const drawer = within(document.body).getByRole("dialog", { name: "Example drawer" });
     expect(drawer).toBeInTheDocument();
     expect(within(drawer).queryByRole("heading")).not.toBeInTheDocument();
     expect(within(drawer).queryByTestId("modal-close-button")).not.toBeInTheDocument();
@@ -532,6 +536,24 @@ export const WithoutHeaderInteractive: Story = {
     await waitFor(() => {
       expect(within(document.body).queryByRole("dialog")).not.toBeInTheDocument();
     });
+  },
+};
+
+export const WithoutHeaderMissingAccessibleName: Story = {
+  tags: ["!autodocs"],
+  args: {
+    ...Default.args,
+    id: "drawer-without-header-missing-aria",
+    title: undefined,
+    icon: undefined,
+    showHeader: false,
+  },
+  render: Default.render,
+  beforeEach: acceptLogError(`[Drawer] ${DRAWER_MISSING_ACCESSIBLE_NAME_ERROR}`),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole("button", { name: "Open drawer" }));
+    expect(within(document.body).queryByRole("dialog")).not.toBeInTheDocument();
   },
 };
 
@@ -554,6 +576,7 @@ export const CustomHeaderFooter: Story = {
         <Drawer
           {...args}
           isOpen={isOpen}
+          ariaLabel="Custom header drawer"
           onClose={() => setIsOpen(false)}
           onClickToggle={handleOnClickToggle}
           header={

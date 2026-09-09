@@ -1,4 +1,5 @@
 import {
+  DRAWER_MISSING_ACCESSIBLE_NAME_ERROR,
   getDrawerConfigurationIssues,
   DRAWER_PADDING,
   DRAWER_TRANSITION_DURATION,
@@ -6,7 +7,8 @@ import {
   shouldUseDrawerDefaultHeader,
 } from "@design-system-rte/core";
 import { DrawerProps as coreDrawerProps } from "@design-system-rte/core/components/drawer/drawer.interface";
-import { computeTransform } from "@design-system-rte/core/components/drawer/drawer.utils";
+import { computeTransform, getDrawerAriaAttributes } from "@design-system-rte/core/components/drawer/drawer.utils";
+import { logError } from "@design-system-rte/core/utils/log-handlers";
 import { RefObject, useRef } from "react";
 
 import Backdrop from "../../abstract/backdrop/Backdrop";
@@ -91,6 +93,7 @@ const Header = ({
           iconAppearance={iconAppearance}
           onClose={onClose}
           isClosable={isClosable}
+          titleElementId={`${id}-drawer-title`}
         />
       ) : (
         <>{header}</>
@@ -242,6 +245,7 @@ const Drawer = ({
   showFooter = true,
   closeOnEscape = false,
   isClosable = true,
+  ariaLabel,
   onClickPrimaryButton,
   onClickSecondaryButton,
   ...props
@@ -261,17 +265,22 @@ const Drawer = ({
   const shouldDisplayDefaultFooter = shouldUseDrawerDefaultFooter(footer, primaryButtonLabel);
 
   const configurationIssues = getDrawerConfigurationIssues({
-    hasCustomHeader: header !== undefined,
+    hasCustomHeader: !!header,
     hasTitle: !!title,
-    hasCustomFooter: footer !== undefined,
+    hasCustomFooter: !!footer,
     hasPrimaryButtonLabel: !!primaryButtonLabel,
     position,
     hasMainContent: !!children,
     showHeader,
     showFooter,
+    hasAriaLabel: !!ariaLabel?.trim(),
   });
   if (configurationIssues) {
-    console.warn(configurationIssues);
+    if (configurationIssues === DRAWER_MISSING_ACCESSIBLE_NAME_ERROR) {
+      logError("Drawer", configurationIssues);
+    } else {
+      console.warn(configurationIssues);
+    }
     return null;
   }
 
@@ -289,7 +298,13 @@ const Drawer = ({
     onClickToggle();
   };
 
-  const labelledBy = showHeader ? `${id}-drawer-title` : undefined;
+  const drawerAriaAttributes = getDrawerAriaAttributes({
+    id,
+    showHeader,
+    hasCustomHeader: !!header,
+    hasTitle: !!title,
+    ariaLabel,
+  });
 
   const headerWithContentProps = {
     fixedHeader,
@@ -360,7 +375,8 @@ const Drawer = ({
               ref={drawerRef}
               data-open={isAnimating}
               role="region"
-              aria-labelledby={labelledBy}
+              aria-labelledby={drawerAriaAttributes.ariaLabelledby}
+              aria-label={drawerAriaAttributes.ariaLabel}
               data-position={position}
               data-fixed-header={fixedHeader}
               style={{
@@ -418,7 +434,8 @@ const Drawer = ({
                 data-position={position}
                 role="dialog"
                 aria-modal="true"
-                aria-labelledby={labelledBy}
+                aria-labelledby={drawerAriaAttributes.ariaLabelledby}
+                aria-label={drawerAriaAttributes.ariaLabel}
                 style={{
                   width,
                 }}
