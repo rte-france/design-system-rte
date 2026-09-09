@@ -1,3 +1,4 @@
+import { logError } from "@design-system-rte/core";
 import { POPOVER_GAP, POPOVER_GAP_ARROW } from "@design-system-rte/core/components/popover/popover.constants";
 import { PopoverProps as CorePopoverProps } from "@design-system-rte/core/components/popover/popover.interface";
 import {
@@ -43,6 +44,7 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
       closeOnEscape = true,
       onClickPrimaryButton,
       onClickSecondaryButton,
+      "aria-label": ariaLabel,
       ...props
     },
     ref,
@@ -118,6 +120,22 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
       }
     }, [isOpen, popoverElement, updatePopoverPosition]);
 
+    useEffect(() => {
+      updatePopoverPosition();
+      window.addEventListener("scroll", updatePopoverPosition);
+      window.addEventListener("resize", updatePopoverPosition);
+
+      return () => {
+        window.removeEventListener("scroll", updatePopoverPosition);
+        window.removeEventListener("resize", updatePopoverPosition);
+      };
+    }, [updatePopoverPosition]);
+
+    if (!title && !ariaLabel) {
+      logError("Popover", "The 'title' or 'aria-label' prop is required.");
+      return null;
+    }
+
     const handleKeyDown = (e: React.KeyboardEvent) => {
       if (e.key === ENTER_KEY) {
         e.preventDefault();
@@ -164,6 +182,7 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
               className={concatClassNames(style.popover, className)}
               role="dialog"
               aria-modal="true"
+              aria-label={ariaLabel}
               data-arrow={arrow}
               data-overlay-level={overlayLayerLevel}
               data-position={autoPosition}

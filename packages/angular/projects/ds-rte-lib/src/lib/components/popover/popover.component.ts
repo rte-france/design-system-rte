@@ -18,6 +18,7 @@ export class PopoverComponent implements AfterViewInit, OnDestroy {
   readonly content = input<string>();
   readonly arrow = input<boolean>();
   readonly title = input<string>();
+  readonly ariaLabel = input<string>();
   readonly secondaryButtonLabel = input<string>();
   readonly isOpen = input<boolean>(false);
   readonly coordinates = input<{ top: number; left: number }>({ top: 0, left: 0 });
