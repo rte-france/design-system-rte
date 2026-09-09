@@ -6,6 +6,7 @@ import {
   getCoordinates,
 } from "@design-system-rte/core/components/utils/auto-placement";
 import { ENTER_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
+import { logError } from "@design-system-rte/core";
 import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
 
 import useAnimatedMount from "../../hooks/useAnimatedMount";
@@ -43,6 +44,7 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
       closeOnEscape = true,
       onClickPrimaryButton,
       onClickSecondaryButton,
+      "aria-label": ariaLabel,
       ...props
     },
     ref,
@@ -129,6 +131,11 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
       };
     }, [updatePopoverPosition]);
 
+    if (!title && !ariaLabel) {
+      logError("Popover", "The 'title' or 'aria-label' prop is required.");
+      return null;
+    }
+
     const handleKeyDown = (e: React.KeyboardEvent) => {
       if (e.key === ENTER_KEY) {
         e.preventDefault();
@@ -175,6 +182,7 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
               className={concatClassNames(style.popover, className)}
               role="dialog"
               aria-modal="true"
+              aria-label={ariaLabel}
               data-arrow={arrow}
               data-overlay-level={overlayLayerLevel}
               data-position={autoPosition}
