@@ -1,5 +1,6 @@
 | Nom                    | Type                                 | Valeur par défaut | Description                                                                                                |
 | ---------------------- | ------------------------------------ | ----------------- | ---------------------------------------------------------------------------------------------------------- |
+| ariaLabel              | string                               | -                 | Nom accessible requis lorsque le header par défaut n’est pas utilisé (`showHeader={false}` ou `header` personnalisé). |
 | children               | React.ReactNode \| React.ReactNode[] | -                 | Contenu principal voisin du Drawer en mode `responsive`.                                                   |
 | closeOnEscape          | boolean                              | false             | Ferme le Drawer avec Escape lorsqu’il est ouvert.                                                          |
 | closeOnOverlayClick    | boolean                              | false             | Ferme le Drawer modal lors d’un clic sur l’overlay.                                                        |

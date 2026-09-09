@@ -74,15 +74,16 @@ Le mode `responsive` affiche le Drawer à côté de `#drawerContextContent`. Le 
 
 ## Sans header ou footer
 
-Définir `rteDrawerShowHeader="false"` pour supprimer le header, ou `rteDrawerShowFooter="false"` pour supprimer le footer et ses actions.
+Définir `rteDrawerShowHeader="false"` pour supprimer le header, ou `rteDrawerShowFooter="false"` pour supprimer le footer et ses actions. Lorsque le header par défaut n’est pas affiché, fournissez `rteDrawerAriaLabel` pour le nom accessible du Drawer.
 
 ```html
 <div
   rteDrawer
   rteDrawerId="drawer-without-header-footer"
-  rteDrawerTitle="Example Drawer"
+  rteDrawerAriaLabel="Filters"
   [rteDrawerShowHeader]="false"
   [rteDrawerShowFooter]="false"
+  rteDrawerPrimaryButtonLabel="Confirm"
 >
   <ng-template #drawerContent><p>Body content.</p></ng-template>
 </div>
@@ -90,9 +91,12 @@ Définir `rteDrawerShowHeader="false"` pour supprimer le header, ou `rteDrawerSh
 
 ## Header et footer personnalisés
 
-`#drawerHeader` et `#drawerFooter` remplacent les blocs par défaut. Un header personnalisé doit gérer lui-même la fermeture si nécessaire.
+`#drawerHeader` et `#drawerFooter` remplacent les blocs par défaut. Un header personnalisé doit gérer lui-même la fermeture si nécessaire. Fournissez `rteDrawerAriaLabel` pour le nom accessible du Drawer.
 
 ```html
-<ng-template #drawerHeader><div>Custom Header</div></ng-template>
-<ng-template #drawerFooter><button rteButton rteButtonVariant="primary">Custom Action</button></ng-template>
+<div rteDrawer rteDrawerId="custom-drawer" rteDrawerAriaLabel="Custom drawer" rteDrawerPrimaryButtonLabel="Confirm">
+  <ng-template #drawerHeader><div>Custom Header</div></ng-template>
+  <ng-template #drawerFooter><button rteButton rteButtonVariant="primary">Custom Action</button></ng-template>
+  <ng-template #drawerContent><p>Body content.</p></ng-template>
+</div>
 ```

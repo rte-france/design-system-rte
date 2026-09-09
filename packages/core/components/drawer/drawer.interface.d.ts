@@ -18,6 +18,7 @@ export interface DrawerProps {
   showFooter?: boolean;
   closeOnEscape?: boolean;
   isClosable?: boolean;
+  ariaLabel?: string;
   onClickPrimaryButton?: () => void;
   onClickSecondaryButton?: () => void;
 }

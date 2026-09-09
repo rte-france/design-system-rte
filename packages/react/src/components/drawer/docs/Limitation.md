@@ -2,6 +2,10 @@
 
 Lorsque `showHeader` est activé, le Drawer n’est pas rendu si ni `title` ni `header` n’est fourni ; un avertissement est écrit dans la console.
 
+## L’absence de `ariaLabel` empêche le rendu lorsque le header par défaut n’est pas utilisé
+
+Lorsque `showHeader={false}` ou qu’un `header` personnalisé est fourni, le Drawer n’est pas rendu sans `ariaLabel` ; une erreur est écrite dans la console.
+
 ## Une chaîne vide ne valide pas `title` ou `primaryButtonLabel`
 
 Les règles évaluent la présence de la valeur ; une chaîne vide ne constitue donc pas un titre ou un libellé valide pour `title` ou `primaryButtonLabel`.

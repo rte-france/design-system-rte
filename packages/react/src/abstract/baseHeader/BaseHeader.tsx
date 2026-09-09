@@ -13,14 +13,23 @@ interface BaseHeaderProps {
   iconAppearance?: "outlined" | "filled";
   isClosable?: boolean;
   onClose: () => void;
+  titleElementId?: string;
 }
 
-const BaseHeader = ({ id, title, icon, iconAppearance, onClose, isClosable = true }: BaseHeaderProps) => {
+const BaseHeader = ({
+  id,
+  title,
+  icon,
+  iconAppearance,
+  onClose,
+  isClosable = true,
+  titleElementId,
+}: BaseHeaderProps) => {
   return (
     <div className={styles["base-header"]}>
       <div className={styles["base-header-text"]}>
         {icon && <Icon name={icon} size={IconSize["xl"]} appearance={iconAppearance} />}
-        <h2 id={`${id}-modal-title`} className={styles["base-header-title"]}>
+        <h2 id={titleElementId ?? `${id}-modal-title`} className={styles["base-header-title"]}>
           {title}
         </h2>
         {isClosable && (

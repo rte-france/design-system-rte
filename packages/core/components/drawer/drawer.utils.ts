@@ -1,3 +1,4 @@
+import { DRAWER_MISSING_ACCESSIBLE_NAME_ERROR } from "./drawer.constants";
 import type { DrawerPosition } from "./drawer.interface";
 
 export interface DrawerValidationInput {
@@ -9,6 +10,7 @@ export interface DrawerValidationInput {
   hasMainContent: boolean;
   showHeader?: boolean;
   showFooter?: boolean;
+  hasAriaLabel: boolean;
 }
 
 interface ValidationRule {
@@ -30,6 +32,10 @@ const VALIDATION_RULES: ValidationRule[] = [
     issue: CONFIGURATION_ISSUES.MISSING_HEADER_OR_TITLE,
   },
   {
+    condition: (input) => !hasDrawerDefaultAccessibleName(input) && !input.hasAriaLabel,
+    issue: DRAWER_MISSING_ACCESSIBLE_NAME_ERROR,
+  },
+  {
     condition: (input) => !!input.showFooter && !input.hasCustomFooter && !input.hasPrimaryButtonLabel,
     issue: CONFIGURATION_ISSUES.MISSING_FOOTER_OR_PRIMARY,
   },
@@ -42,6 +48,28 @@ const VALIDATION_RULES: ValidationRule[] = [
     issue: CONFIGURATION_ISSUES.MODAL_MUST_NOT_HAVE_MAIN_CONTENT,
   },
 ];
+
+export function hasDrawerDefaultAccessibleName(
+  input: Pick<DrawerValidationInput, "showHeader" | "hasCustomHeader" | "hasTitle">,
+): boolean {
+  return !!input.showHeader && !input.hasCustomHeader && input.hasTitle;
+}
+
+export function getDrawerAriaAttributes(params: {
+  id: string;
+  showHeader?: boolean;
+  hasCustomHeader: boolean;
+  hasTitle: boolean;
+  ariaLabel?: string;
+}): { ariaLabelledby?: string; ariaLabel?: string } {
+  const { id, showHeader, hasCustomHeader, hasTitle } = params;
+  if (hasDrawerDefaultAccessibleName({ showHeader: !!showHeader, hasCustomHeader, hasTitle })) {
+    return { ariaLabelledby: `${id}-drawer-title` };
+  }
+
+  const normalizedAriaLabel = params.ariaLabel?.trim();
+  return normalizedAriaLabel ? { ariaLabel: normalizedAriaLabel } : {};
+}
 
 export function getDrawerConfigurationIssues(input: DrawerValidationInput): string | undefined {
   return VALIDATION_RULES.find(({ condition }) => condition(input))?.issue;
