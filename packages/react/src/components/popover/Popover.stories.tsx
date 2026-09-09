@@ -4,6 +4,7 @@ import {
 } from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
 import { Meta, StoryObj } from "@storybook/react";
 import { expect, userEvent, waitFor, within } from "@storybook/test";
+import { useState } from "react";
 
 import { focusElementBeforeComponent } from "../../../.storybook/testing/testing.utils";
 
@@ -12,22 +13,6 @@ import Popover from "./Popover";
 const meta = {
   title: "Composants/Popover",
   component: Popover,
-  decorators: [
-    (Story) => (
-      <div
-        style={{
-          height: "400px",
-          width: "80%",
-          padding: "100px",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Story />
-      </div>
-    ),
-  ],
   tags: ["autodocs"],
   argTypes: {
     position: {
@@ -83,6 +68,9 @@ const meta = {
       },
     },
   },
+  parameters: {
+    layout: "centered",
+  },
 } satisfies Meta<typeof Popover>;
 
 export default meta;
@@ -94,15 +82,91 @@ export const Default: Story = {
     position: "auto",
     arrow: true,
     title: "Popover Title",
-    content:
-      "Le Popover est un composant de type superposition (overlay), qui apparaît au clic, au focus ou au survol d'un élément déclencheur (trigger). Il est utilisé pour afficher un contenu contextuel enrichi : aide, options, actions complémentaires…",
-    primaryButtonLabel: "Close",
-    secondaryButtonLabel: "Cancel",
-    children: <button>Open Popover</button>,
+    content: "Informations complémentaires.",
+    primaryButtonLabel: "Fermer",
+    children: <button>Afficher les informations</button>,
   },
 };
 
 export const WithTwoButtons: Story = {
+  args: {
+    position: "bottom",
+    alignment: "start",
+    arrow: true,
+    title: "Confirm Action",
+    content: "Are you sure you want to proceed with this action? This cannot be undone.",
+    primaryButtonLabel: "Confirm",
+    secondaryButtonLabel: "Cancel",
+    children: <button>Open Confirmation</button>,
+  },
+};
+
+export const Positions: Story = {
+  render: (args) => (
+    <div style={{ display: "flex", gap: "16px" }}>
+      <Popover {...args} position="top">
+        <button>Top</button>
+      </Popover>
+      <Popover {...args} position="bottom">
+        <button>Bottom</button>
+      </Popover>
+      <Popover {...args} position="right">
+        <button>Right</button>
+      </Popover>
+      <Popover {...args} position="left">
+        <button>Left</button>
+      </Popover>
+    </div>
+  ),
+  args: {
+    arrow: true,
+    alignment: "center",
+    title: "Popover position",
+    content: "This popover demonstrates a position.",
+    primaryButtonLabel: "Close",
+    children: <button>Position</button>,
+  },
+};
+
+export const Alignments: Story = {
+  render: (args) => (
+    <div style={{ display: "flex", gap: "16px" }}>
+      <Popover {...args} alignment="start">
+        <button>Start</button>
+      </Popover>
+      <Popover {...args} alignment="center">
+        <button>Center</button>
+      </Popover>
+      <Popover {...args} alignment="end">
+        <button>End</button>
+      </Popover>
+    </div>
+  ),
+  args: {
+    position: "bottom",
+    arrow: true,
+    title: "Popover alignment",
+    content: "This popover demonstrates an alignment.",
+    primaryButtonLabel: "Close",
+    children: <button>Alignment</button>,
+  },
+};
+
+export const Actions: Story = {
+  render: (args) => {
+    const [message, setMessage] = useState("Aucune action sélectionnée.");
+
+    return (
+      <div>
+        <Popover
+          {...args}
+          onClickPrimaryButton={() => setMessage("Action confirmée.")}
+          onClickSecondaryButton={() => setMessage("Action annulée.")}
+        />
+        <p>{message}</p>
+      </div>
+    );
+  },
   args: {
     position: "bottom",
     alignment: "start",
@@ -120,6 +184,7 @@ export const WithoutTitle: Story = {
     position: "top",
     alignment: "center",
     arrow: true,
+    "aria-label": "Informations complémentaires",
     content: "This popover has no title, just content and a close button.",
     primaryButtonLabel: "Got it",
     children: <button>Show Info</button>,
@@ -139,6 +204,7 @@ export const WithoutArrow: Story = {
 };
 
 export const KeyboardInteraction: Story = {
+  tags: ["!autodocs"],
   args: {
     position: "auto",
     arrow: true,
