@@ -22,11 +22,6 @@ const meta = {
       description: "size of the Loader",
       defaultValue: "medium",
     },
-    showLabel: {
-      control: "boolean",
-      description: "show the label of the Loader",
-      defaultValue: "true",
-    },
     labelPosition: {
       control: "select",
       options: ["right", "under"],
@@ -48,14 +43,46 @@ export const Default: Story = {
   args: {
     appearance: "brand",
     size: "medium",
-    showLabel: true,
     labelPosition: "right",
-    label: "Loading...",
+    label: "Chargement...",
   },
 };
 
 export const WithoutLabel: Story = {
   args: {
-    showLabel: false,
+    label: undefined,
   },
+};
+
+export const Appearance: Story = {
+  args: { ...Default.args },
+  render: (args) => (
+    <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+      <Loader {...args} appearance="brand" />
+      <div style={{ background: "#1f2937", padding: "16px" }}>
+        <Loader {...args} appearance="reverse" />
+      </div>
+    </div>
+  ),
+};
+
+export const LabelPosition: Story = {
+  args: { ...Default.args },
+  render: (args) => (
+    <div style={{ display: "flex", gap: "48px" }}>
+      <Loader {...args} labelPosition="right" />
+      <Loader {...args} labelPosition="under" />
+    </div>
+  ),
+};
+
+export const Size: Story = {
+  args: { ...Default.args },
+  render: (args) => (
+    <div style={{ display: "flex", alignItems: "center", gap: "32px" }}>
+      <Loader {...args} size="small" label="Small" />
+      <Loader {...args} size="medium" label="Medium" />
+      <Loader {...args} size="large" label="Large" />
+    </div>
+  ),
 };

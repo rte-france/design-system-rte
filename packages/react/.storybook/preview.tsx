@@ -17,9 +17,11 @@ export const decorators: Preview["decorators"] = [
 
     const noAutoMarginStoriesIds = ["composants-header", "sidenav"];
     const topBottomMarginStoriesIds = ["composants-grid"];
+    const noMarginTopStoriesIds = ["composants-loader"];
 
     const hasAutoMargins = !noAutoMarginStoriesIds.some((id) => context?.id?.includes(id));
     const hasTopBottomMargins = topBottomMarginStoriesIds.some((id) => context?.id?.includes(id));
+    const hasMarginTop = !noMarginTopStoriesIds.some((id) => context?.id?.includes(id));
 
     return (
       <>
@@ -28,7 +30,7 @@ export const decorators: Preview["decorators"] = [
           <div
             style={{
               backgroundColor: "var(--background-default)",
-              marginTop: isStory ? "180px" : "0",
+              marginTop: isStory && hasMarginTop ? "180px" : "0",
               padding: "24px",
               height: "100%",
               alignContent: "center",

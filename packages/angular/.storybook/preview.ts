@@ -67,7 +67,7 @@ const preview: Preview = {
           <div
             style="background-color: var(--background-default); padding: 24px; height: 100%; align-content: center; width: auto; overflow: scroll;"
             
-            [style.margin-top]="isStory ? '180px' : '0'"
+            [style.margin-top]="isStory && hasMarginTop ? '180px' : '0'"
           >
             <div
             [style.margin]="hasTopBottomMargins ? 'auto 0' : hasAutoMargins ? 'auto' : '0'"
@@ -81,14 +81,17 @@ const preview: Preview = {
       ({ context }) => {
         const noAutoMarginStoriesIds = ["composants-header", "sidenav"];
         const topBottomMarginStoriesIds = ["composants-grid"];
+        const noMarginTopStoriesIds = ["composants-loader"];
 
         const hasAutoMargins = !noAutoMarginStoriesIds.some((id) => context?.id?.includes(id));
         const hasTopBottomMargins = topBottomMarginStoriesIds.some((id) => context?.id?.includes(id));
+        const hasMarginTop = !noMarginTopStoriesIds.some((id) => context?.id?.includes(id));
 
         return {
           hasAutoMargins,
           hasTopBottomMargins,
           isStory: context?.viewMode === "story",
+          hasMarginTop,
         };
       },
     ),
