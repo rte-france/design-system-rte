@@ -118,6 +118,7 @@ export const Reverse: Story = {
 };
 
 export const KeyboardInteraction: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     href: "#",
