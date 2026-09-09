@@ -1,0 +1,55 @@
+@if (shouldDisplayBadge() || shouldDisplayIcon() || shouldDisplayText()) {
+  <div class="rte-dynamic-tab-item__content">
+    @if (shouldDisplayBadge()) {
+      <rte-badge
+        badgeContent="empty"
+        badgeSize="s"
+        [simpleBadge]="true"
+        [badgeType]="badgeType()"
+        [icon]="option().badgeIcon || ''"
+        [count]="option().badgeCount"
+        [class.rte-dynamic-tab-item__badge-compact]="isZeroToExtraSmall()"
+      />
+    }
+
+    @if (shouldDisplayIcon() && iconName()) {
+      <rte-icon [name]="iconName()!" [appearance]="isActive() ? 'filled' : 'outlined'" />
+    }
+
+    @if (shouldDisplayText()) {
+      <div
+        #tabTitle
+        class="rte-dynamic-tab-item__title"
+        [tabIndex]="tabIndex()"
+        (dblclick)="onTitleDoubleClick()"
+        (keydown)="onTitleKeydown($event)"
+      >
+        @if (isEditing()) {
+          <input
+            #titleInput
+            type="text"
+            class="rte-dynamic-tab-item__title-input"
+            [value]="titleText()"
+            (input)="onTitleInput($event)"
+            (blur)="onTitleBlur()"
+          />
+        } @else {
+          <span [attr.data-is-animating]="isAnimating()">{{ titleText() }}</span>
+        }
+      </div>
+    }
+  </div>
+}
+
+@if (isClosable() && shouldDisplayCloseButton()) {
+  <button
+    type="button"
+    class="rte-dynamic-tab-item__close-button"
+    [attr.aria-label]="'Fermer l\'onglet ' + titleText()"
+    (click)="onCloseClick($event)"
+    (keydown)="onCloseKeydown($event)"
+    (keyup)="onCloseKeyup($event)"
+  >
+    <rte-icon name="close" />
+  </button>
+}
