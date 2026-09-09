@@ -34,7 +34,13 @@
       </span>
     </div>
 
-    <rte-icon-button name="close" variant="neutral" size="m" (clickEvent)="onRemove()" />
+    <rte-icon-button
+      ariaLabel="Supprimer le fichier sélectionné : {{ file().name }}"
+      name="close"
+      variant="neutral"
+      size="m"
+      (clickEvent)="onRemove()"
+    />
   </div>
 
   @if (errorMessage()) {

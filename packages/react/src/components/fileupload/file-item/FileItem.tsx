@@ -136,7 +136,14 @@ const FileItem = ({ file, removeFile, isError, errorMessage, compact, isLoading 
               {formatFileSize(file.size)}
             </span>
           </div>
-          <IconButton ref={closeButtonRef} name="close" variant="neutral" onClick={removeFile} size="m" />
+          <IconButton
+            ref={closeButtonRef}
+            name="close"
+            variant="neutral"
+            onClick={removeFile}
+            size="m"
+            aria-label={"Supprimer le fichier sélectionné : " + file.name}
+          />
         </div>
         {errorMessage && <AssistiveText label={errorMessage} appearance="error" />}
       </div>
