@@ -12,7 +12,6 @@ const FileUpload = ({
   id,
   compactSpacing,
   label,
-  showLabel = true,
   required = false,
   showLabelRequirement = false,
   disabled = false,
@@ -70,6 +69,10 @@ const FileUpload = ({
         setSelectedFiles(newFiles);
         onRemovingFile?.(file);
         onChange?.(newFiles);
+        if (inputRef.current) {
+          inputRef.current.value = "";
+          inputRef.current.focus();
+        }
       }
     }
   };
@@ -87,7 +90,19 @@ const FileUpload = ({
 
   return (
     <div className={styles["rte-file-upload"]}>
-      {showLabel && (
+      <input
+        ref={inputRef}
+        type="file"
+        multiple={multiple}
+        id={localId}
+        className={styles["rte-file-upload-input"]}
+        onChange={handleOnChange}
+        aria-labelledby={label ? labelId : `${localId}-button`}
+        aria-describedby={shouldDisplayAssistiveText ? `${localId}-assistive-text` : undefined}
+        disabled={disabled}
+        accept={accept}
+      />
+      {label && (
         <Label
           htmlFor={localId}
           id={labelId}
@@ -98,25 +113,16 @@ const FileUpload = ({
       )}
       {shouldDisplayAssistiveText && (
         <AssistiveText
+          id={`${localId}-assistive-text`}
           label={assistiveTextLabel}
           appearance={isError ? "error" : assistiveAppearance}
           showIcon={showAssistiveIcon}
           href={assistiveTextLink}
         />
       )}
-      <input
-        ref={inputRef}
-        type="file"
-        multiple={multiple}
-        id={localId}
-        className={styles["rte-file-upload-input"]}
-        onChange={handleOnChange}
-        aria-label={showLabel ? undefined : label}
-        aria-labelledby={labelId}
-        disabled={disabled}
-        accept={accept}
-      />
+
       <Button
+        id={`${localId}-button`}
         disabled={disabled}
         variant="primary"
         label={buttonLabel}

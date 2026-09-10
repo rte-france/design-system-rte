@@ -7,7 +7,7 @@ import Link from "../link/Link";
 
 import styles from "./AssistiveText.module.scss";
 
-const AssistiveText = ({ label, appearance, showIcon, href, width }: AssistiveTextProps) => {
+const AssistiveText = ({ label, appearance, showIcon, href, width, id }: AssistiveTextProps) => {
   const icon = getIconNameFromAppearance(appearance);
 
   return (
@@ -20,7 +20,7 @@ const AssistiveText = ({ label, appearance, showIcon, href, width }: AssistiveTe
           size={ASSISTIVE_TEXT_ICON_SIZE}
         />
       )}
-      {appearance === "link" ? <Link label={label} href={href} externalLink /> : <span>{label}</span>}
+      {appearance === "link" ? <Link id={id} label={label} href={href} externalLink /> : <span id={id}>{label}</span>}
     </div>
   );
 };

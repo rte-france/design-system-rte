@@ -13,6 +13,7 @@ import { IconComponent } from "../icon/icon.component";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LinkComponent {
+  readonly id = input<string>();
   readonly label = input("");
   readonly href = input<string>("#");
   /** @deprecated Use `routerLink` instead. */
