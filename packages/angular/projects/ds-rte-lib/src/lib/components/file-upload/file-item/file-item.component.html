@@ -1,13 +1,16 @@
 <div class="rte-file-upload-file-container">
   <div class="rte-file-upload-file">
-    <div class="rte-file-upload-file-icon">
+    <div class="rte-file-upload-file-icon" aria-live="polite" aria-atomic="true">
       @if (isLoading()) {
-        <rte-loader size="small" [showLabel]="false" />
+        <span class="sr-only">{{ fileUploadItemAriaLabels.LOADING }}</span>
+        <rte-loader size="small" aria-hidden="true" [showLabel]="false" />
       } @else {
         @if (isError()) {
-          <rte-icon name="error" color="var(--content-danger-default)" [size]="20" />
+          <span class="sr-only">{{ fileUploadItemAriaLabels.ERROR }}</span>
+          <rte-icon name="error" color="var(--content-danger-default)" aria-hidden="true" [size]="20" />
         } @else {
-          <rte-icon name="check-circle" color="var(--content-success-default)" [size]="20" />
+          <span class="sr-only">{{ fileUploadItemAriaLabels.SUCCESS }}</span>
+          <rte-icon name="check-circle" color="var(--content-success-default)" aria-hidden="true" [size]="20" />
         }
       }
     </div>
