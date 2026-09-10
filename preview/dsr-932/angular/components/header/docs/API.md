@@ -68,3 +68,29 @@
 | --------- | --------------------- | ----------------- | ------------------------------------ |
 | ariaLabel | string                | -                 | Libellé accessible des breadcrumbs.  |
 | items     | BreadcrumbItemProps[] | -                 | Items affichés dans les breadcrumbs. |
+
+### HeaderIconButtonConfig
+
+| Nom       | Type                                   | Valeur par défaut | Description                                                                                    |
+| --------- | -------------------------------------- | ----------------- | ---------------------------------------------------------------------------------------------- |
+| ariaLabel | string                                 | -                 | Libellé accessible du bouton.                                                                  |
+| badge     | BadgeProps                             | -                 | Configuration du badge.                                                                        |
+| disabled  | boolean                                | -                 | Désactive le bouton.                                                                           |
+| iconName  | RegularIconIdKey \| TogglableIconIdKey | -                 | Nom de l’icône. La valeur doit appartenir aux clés `RegularIconIdKey` ou `TogglableIconIdKey`. |
+| id        | string                                 | -                 | Identifiant du bouton.                                                                         |
+
+### HeaderAvatarConfig
+
+| Nom             | Type                                            | Valeur par défaut | Description                     |
+| --------------- | ----------------------------------------------- | ----------------- | ------------------------------- |
+| alt             | string                                          | -                 | Texte alternatif de l’image.    |
+| aria-label      | string                                          | -                 | Libellé accessible de l’avatar. |
+| colorType       | neutral \| brand \| decorative                  | -                 | Type de couleur de l’avatar.    |
+| decorativeColor | DecorativeColor                                 | -                 | Couleur décorative de l’avatar. |
+| id              | string                                          | -                 | Identifiant de l’avatar.        |
+| imgSrc          | string                                          | -                 | Source de l’image.              |
+| initials        | string                                          | -                 | Initiales affichées.            |
+| layout          | image \| icon \| initials                       | -                 | Mode de rendu de l’avatar.      |
+| onClick         | () => void                                      | -                 | Callback exécuté au clic.       |
+| status          | available \| away \| busy \| offline \| unknown | -                 | Statut de l’avatar.             |
+| type            | user \| entity                                  | -                 | Type d’avatar.                  |
