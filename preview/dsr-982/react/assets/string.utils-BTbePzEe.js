@@ -1,0 +1,1 @@
+const a=t=>{const e=r(t);return s(e)},c=t=>{const{fontWeight:e,fontSize:n,fontFamily:o}=window.getComputedStyle(t);return`${e} ${n} ${o}`},s=t=>e=>t.measureText(e).width,r=t=>{const n=document.createElement("canvas").getContext("2d");return n.font=c(t),n};export{a as g};
