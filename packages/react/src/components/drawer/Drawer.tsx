@@ -258,7 +258,7 @@ const Drawer = ({
   const drawerLeftPosition = drawerRef.current?.clientWidth || 0;
 
   useKeydownEscape(closeOnEscape ? onClose : () => {});
-  useFocusTrap(drawerRef.current!, shouldRender);
+  useFocusTrap(drawerRef.current!, shouldRender && position === "modal");
   useFreezeNavigation(position === "modal" && isOpen);
 
   const shouldDisplayDefaultHeader = shouldUseDrawerDefaultHeader(header, title);
@@ -371,6 +371,15 @@ const Drawer = ({
               }}
             />
             <div
+              className={styles["drawer-children"]}
+              data-open={isAnimating}
+              style={{
+                marginRight: isAnimating ? width : 0,
+              }}
+            >
+              {children}
+            </div>
+            <div
               className={styles["drawer"]}
               ref={drawerRef}
               data-open={isAnimating}
@@ -388,19 +397,6 @@ const Drawer = ({
             >
               <HeaderWithContent {...headerWithContentProps} />
               <Footer {...footerProps} />
-            </div>
-            <div
-              className={styles["drawer-children"]}
-              data-open={isAnimating}
-              style={{
-                height: "100%",
-                transition: "margin-right 240ms ease-out",
-                marginRight: isAnimating ? width : 0,
-                maxHeight: isAnimating ? "100vh" : undefined,
-                overflowY: isAnimating ? "auto" : undefined,
-              }}
-            >
-              {children}
             </div>
           </div>
         </>
