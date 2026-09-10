@@ -170,17 +170,32 @@
     @if (collapsible()) {
       <div class="side-nav-footer">
         <div class="collapsible-section">
-          <ul>
-            <li>
-              <rte-nav-item
-                [label]="collapsedState() ? 'Ouvrir le menu' : 'Réduire le menu'"
-                [icon]="collapseIcon()"
-                [isCollapsed]="collapsedState()"
-                [appearance]="appearance()"
-                (itemClick)="handleCollapseClick()"
-              />
-            </li>
-          </ul>
+          <span
+            class="collapse-button-tooltip-host"
+            rteTooltip
+            rteTooltipPosition="right"
+            rteTooltipAlignment="center"
+            [rteTooltip]="collapseButtonLabel()"
+            [rteTooltipArrow]="false"
+            [rteTooltipGap]="12"
+            [rteTooltipShouldFocusTrigger]="false"
+          >
+            <button
+              class="collapse-button {{ appearance() }}"
+              type="button"
+              id="collapse-button"
+              [class.collapsed]="collapsedState()"
+              [attr.aria-label]="collapseButtonAccessibleName()"
+              (click)="handleCollapseClick()"
+            >
+              <span class="collapse-button-content">
+                <rte-icon class="icon" [name]="collapseIcon()" [size]="collapseButtonIconSize()" />
+                @if (!collapsedState()) {
+                  <span>{{ collapseButtonLabel() }}</span>
+                }
+              </span>
+            </button>
+          </span>
         </div>
       </div>
     }

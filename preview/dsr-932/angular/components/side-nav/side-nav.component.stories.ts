@@ -21,6 +21,7 @@ import {
   getHeaderTitleContainer,
   getNavElement,
   getNavElementInCollapsedState,
+  getCollapseButton,
 } from "./stories/helpers/elementFinders";
 import {
   expectElementNotToHaveFocus,
@@ -657,6 +658,42 @@ export const KeyboardNavigation: Story = {
       expectElementToHaveFocus(profileElement);
       expectElementNotToHaveFocus(sideNav, "Security");
       expectElementNotToHaveFocus(sideNav, "API Keys");
+    });
+  },
+};
+
+export const CollapseButtonAccessibility: Story = {
+  tags: ["!autodocs"],
+  args: {
+    ...Default.args,
+    headerConfig: defaultHeaderConfig,
+    collapsible: true,
+  },
+  render: defaultRender,
+  play: async ({ canvasElement, step }) => {
+    const { sideNav } = getCanvasAndSideNav(canvasElement);
+
+    await step("Verify collapse control is a native button with a single accessible name", async () => {
+      const collapseButton = getCollapseButton(sideNav);
+      expect(collapseButton).not.toBeNull();
+      expect(collapseButton?.tagName).toBe("BUTTON");
+      expect(collapseButton).toHaveAttribute("type", "button");
+      expect(collapseButton).toHaveTextContent("Réduire le menu");
+      expect(collapseButton).not.toHaveAttribute("aria-label");
+      expect(within(sideNav).getByRole("button", { name: "Réduire le menu" })).toBe(collapseButton);
+    });
+
+    await step("Verify collapse button can be focused and activated with keyboard", async () => {
+      const collapseButton = getCollapseButton(sideNav);
+      collapseButton?.focus();
+      expectElementToHaveFocus(collapseButton);
+
+      await userEvent.keyboard("{Enter}");
+
+      const collapsedButton = getCollapseButton(sideNav);
+      expect(collapsedButton).toHaveAttribute("aria-label", "Ouvrir le menu");
+      expect(collapsedButton).not.toHaveTextContent("Réduire le menu");
+      expect(within(sideNav).getByRole("button", { name: "Ouvrir le menu" })).toBe(collapsedButton);
     });
   },
 };
