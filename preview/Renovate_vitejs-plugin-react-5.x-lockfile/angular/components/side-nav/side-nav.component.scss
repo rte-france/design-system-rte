@@ -42,6 +42,10 @@
     align-self: stretch;
     transition: opacity 300ms, justify-content 300ms;
 
+    @media (prefers-reduced-motion: reduce) {
+        transition: none;
+    }
+
     &.collapsed {
         padding: $positive-spacing_0;
         flex: 1 0 0;
@@ -76,6 +80,10 @@
         max-height: 32px;
         justify-content: start;
         transition: background 0.3s ease, padding 0.3s ease;
+
+        @media (prefers-reduced-motion: reduce) {
+            transition: none;
+        }
 
         &[href],
         &[role="button"] {
@@ -140,6 +148,11 @@
         align-self: stretch;
         @include typography-text-xs;
         transition: opacity 300ms, max-height 300ms;
+
+        @media (prefers-reduced-motion: reduce) {
+            transition: none;
+        }
+
         max-height: 50px;
         overflow: hidden;
         opacity: 1;
@@ -222,5 +235,72 @@
         margin: 0;
         width: 100%;
         box-sizing: border-box;
+    }
+
+    .collapse-button-tooltip-host {
+        display: block;
+        width: 100%;
+    }
+
+    .collapse-button {
+        @include typography-button-m;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        box-sizing: border-box;
+        border: none;
+        border-left: $width-m solid transparent;
+        margin: 0;
+        background: transparent;
+        padding: $positive-spacing_100 $positive-spacing_075;
+        cursor: pointer;
+        transition: background-color 0.3s ease, border-left 0.2s ease;
+        color: var(--rte-side-nav-item-label);
+        text-align: inherit;
+        appearance: none;
+
+        &:hover {
+            background: var(--rte-side-nav-item-bg-hover);
+            color: var(--rte-side-nav-item-label);
+        }
+
+        &:focus-visible {
+            outline: none;
+            background: var(--rte-side-nav-item-bg-hover);
+            border-radius: 0;
+            border-left-color: var(--rte-side-nav-item-border-focus);
+            box-shadow:
+                inset 0 $width-xs 0 0 var(--rte-side-nav-item-border-focus),
+                inset 0 calc(-1 * #{$width-xs}) 0 0 var(--rte-side-nav-item-border-focus),
+                inset calc(-1 * #{$width-xs}) 0 0 0 var(--rte-side-nav-item-border-focus);
+        }
+
+        &.collapsed {
+            padding: $positive-spacing_100 $positive-spacing_150;
+            border-left: none;
+
+            &:focus-visible {
+                box-shadow: inset 0 0 0 $width-xs var(--rte-side-nav-item-border-focus);
+            }
+        }
+
+        .collapse-button-content {
+            display: flex;
+            align-items: center;
+            gap: $positive-spacing_100;
+            min-width: 0;
+            overflow: hidden;
+            user-select: none;
+
+            span {
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+        }
+
+        &.collapsed .collapse-button-content {
+            gap: 0;
+        }
     }
 }

@@ -8,6 +8,11 @@
   gap: $positive-spacing_100;
   cursor: pointer;
   transition: background-color 0.3s ease, border-left 0.2s ease;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+
   align-items: center;
   box-sizing: border-box;
   border-left: $width-m solid transparent;
@@ -104,6 +109,10 @@
 
     border-left: $width-xs solid var(--rte-side-nav-item-border-hierarchy);
     transition: border-left 0.2s ease;
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
 
     .nav-item {
       padding: $positive-spacing_050 $positive-spacing_100;
