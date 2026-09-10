@@ -1,0 +1,14 @@
+<div class="rte-assistive-text {{ appearance() }}" [ngStyle]="{ width: widthStyle() }">
+  <rte-icon
+    *ngIf="showIcon() && iconName()"
+    class="assistive-icon-{{ appearance() }}"
+    [name]="iconName()!"
+    [size]="assistiveTextIconSize"
+  ></rte-icon>
+  @if (isLink()) {
+    <rte-link class="assistive-text-link" [externalLink]="true" [href]="href() || ''" [label]="label() || ''">
+    </rte-link>
+  } @else {
+    <span>{{ label() }}</span>
+  }
+</div>
