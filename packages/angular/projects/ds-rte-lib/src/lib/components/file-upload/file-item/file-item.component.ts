@@ -12,7 +12,7 @@ import {
   signal,
   viewChild,
 } from "@angular/core";
-import { getStringWidthFromContext } from "@design-system-rte/core";
+import { getStringWidthFromContext, FILE_UPLOAD_ITEM_ARIA_LABELS } from "@design-system-rte/core";
 import { extractFileNameParts, formatFileSize } from "@design-system-rte/core/components/file-upload/file-upload.util";
 
 import { AssistiveTextComponent } from "../../assistive-text/assistive-text.component";
@@ -55,6 +55,8 @@ export class FileItemComponent implements AfterViewInit {
   private isViewInitialized = false;
 
   readonly formatFileSize = formatFileSize;
+
+  readonly fileUploadItemAriaLabels = FILE_UPLOAD_ITEM_ARIA_LABELS;
 
   constructor() {
     effect(() => {
