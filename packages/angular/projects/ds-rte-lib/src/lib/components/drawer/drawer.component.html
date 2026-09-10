@@ -43,6 +43,15 @@
         <rte-divider orientation="vertical" />
       </div>
       <div
+        class="drawer-children"
+        [attr.data-open]="!!isAnimating()"
+        [style.marginRight]="responsiveMainMarginRight()"
+        [style.maxHeight]="isAnimating() ? '100%' : undefined"
+        [style.overflowY]="isAnimating() ? 'auto' : undefined"
+      >
+        <ng-container *ngTemplateOutlet="drawerContextContent() ?? null" />
+      </div>
+      <div
         #drawerPanelResponsive
         class="drawer"
         data-drawer-panel
@@ -59,15 +68,6 @@
       >
         <ng-container *ngTemplateOutlet="headerAndContent" />
         <ng-container *ngTemplateOutlet="footerBlock" />
-      </div>
-      <div
-        class="drawer-children"
-        [attr.data-open]="isAnimating() ? 'true' : 'false'"
-        [style.marginRight]="responsiveMainMarginRight()"
-        [style.maxHeight]="isAnimating() ? '100%' : undefined"
-        [style.overflowY]="isAnimating() ? 'auto' : undefined"
-      >
-        <ng-container *ngTemplateOutlet="drawerContextContent() ?? null" />
       </div>
     </div>
   }

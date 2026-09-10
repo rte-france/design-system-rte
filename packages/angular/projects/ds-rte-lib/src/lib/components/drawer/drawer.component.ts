@@ -196,7 +196,9 @@ export class DrawerComponent implements OnDestroy {
     untracked(() => {
       waitForNextFrame(() => {
         this.isAnimating.set(true);
-        this.activateFocusTrapForPanel(resolvePanel);
+        if (usesModalLayer) {
+          this.activateFocusTrapForPanel(resolvePanel);
+        }
       });
     });
   }
