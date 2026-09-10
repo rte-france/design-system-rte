@@ -146,7 +146,7 @@ export const Variants: Story = {
     );
   },
 };
-export const withBadge: Story = {
+export const WithBadge: Story = {
   args: {
     ...Default.args,
     badgeContent: "number",
