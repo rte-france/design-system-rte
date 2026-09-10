@@ -14,6 +14,6 @@ Les règles évaluent la présence de la valeur ; une chaîne vide ne constitue 
 
 `closeOnEscape` dépend de `onClose` ; le callback doit mettre à jour `isOpen` pour que le Drawer se ferme réellement.
 
-## Le focus reste piégé dans le Drawer pendant son affichage
+## Le focus reste piégé dans le Drawer en position modal
 
-Le focus est piégé dans le Drawer pendant son affichage ; les contenus interactifs doivent donc rester accessibles depuis le Drawer.
+En position `modal`, le focus est piégé dans le Drawer pendant son affichage ; les contenus interactifs doivent donc rester accessibles depuis le Drawer. En position `responsive`, Tab et Shift+Tab peuvent quitter le Drawer pour atteindre le reste de la page.

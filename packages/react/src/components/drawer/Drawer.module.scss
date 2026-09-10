@@ -6,6 +6,20 @@
   height: 100%;
 }
 
+.drawer-children {
+  height: 100%;
+  transition: margin-right 240ms ease-out;
+
+  &[data-open='true'] {
+    max-height: 100vh;
+    overflow-y: auto;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
 .drawer {
   display: flex;
   height: 100%;
@@ -27,6 +41,7 @@
   background-color: var(--background-default);
 
   position: absolute;
+  top: 0;
   right: 0;
 
   &[data-position="modal"] {
