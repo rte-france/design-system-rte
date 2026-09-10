@@ -1,4 +1,4 @@
-import type { AvatarProps, AvatarSize } from "../avatar/avatar.interface";
+import type { AvatarProps } from "../avatar/avatar.interface";
 import type { BadgeProps } from "../badge/badge.interface";
 import type { BreadcrumbItemProps } from "../breadcrumbs/breadcrumbs.interface";
 import { IconButtonProps } from "../button";
@@ -23,7 +23,7 @@ export interface HeaderProps {
   navigationAriaLabel?: string;
   navigationItems?: HeaderNavigationItem[];
   hasAvatar?: boolean;
-  avatarProps?: AvatarProps;
+  avatarProps?: HeaderAvatarConfig;
   isSticky?: boolean;
   showAtScrollUp?: boolean;
   homeLink?: string;
@@ -82,11 +82,4 @@ export interface HeaderIconButtonConfig<TIconName = string> {
   badge?: BadgeProps;
 }
 
-export interface HeaderAvatarConfig {
-  imgSrc?: string;
-  alt?: string;
-  initials?: string;
-  size?: AvatarSize;
-  isInteractive?: boolean;
-  colorType?: "color" | "surface";
-}
+export type HeaderAvatarConfig = Omit<AvatarProps, "size">;

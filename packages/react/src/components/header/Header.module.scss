@@ -4,6 +4,8 @@
   width: 100%;
   display: block;
   position: relative;
+  font-family: $heading-s-semibold-font-family;
+  ;
 
   .rte-header-main {
     height: 96px;
@@ -164,6 +166,7 @@
     top: 0;
     z-index: $level-2;
     transition: transform 150ms;
+
     &[data-visible='false'] {
       transform: translateY(-100%);
     }
