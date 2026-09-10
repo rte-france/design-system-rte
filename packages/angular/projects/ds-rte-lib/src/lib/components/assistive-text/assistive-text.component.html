@@ -6,9 +6,15 @@
     [size]="assistiveTextIconSize"
   ></rte-icon>
   @if (isLink()) {
-    <rte-link class="assistive-text-link" [externalLink]="true" [href]="href() || ''" [label]="label() || ''">
+    <rte-link
+      class="assistive-text-link"
+      [id]="id()"
+      [externalLink]="true"
+      [href]="href() || ''"
+      [label]="label() || ''"
+    >
     </rte-link>
   } @else {
-    <span>{{ label() }}</span>
+    <span [id]="id()">{{ label() }}</span>
   }
 </div>

@@ -15,6 +15,7 @@ import { LinkComponent } from "../link/link.component";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AssistiveTextComponent {
+  readonly id = input<string>();
   readonly label = input<string>();
   readonly appearance = input<AssistiveTextProps["appearance"]>("description");
   readonly showIcon = input<boolean>(false);
