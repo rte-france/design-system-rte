@@ -1,5 +1,42 @@
 # @design-system-rte/angular
 
+## 4.0.0
+
+### Minor Changes
+
+- 59cd691: ## Changes
+
+  - (Drawer) add accessibility control in case the component can't resolve a valid aria label
+
+### Patch Changes
+
+- de17750: ## Changes
+
+  - (Side Navigation) add aria attributes for Sidenav's menus
+
+- 882d50e: ## Changes
+
+  - (Side Navigation) enhance accessibility of footer's collapse button
+
+- 58137a8: ## Changes
+
+  - (Side Navigation) add missing prefers-reduced-motion for component transitions
+
+- ec8bce6: ## Changes
+
+  - (Card) enforce clickable card accessibility feature
+
+- f46c141: ## Changes
+
+  - (Card) enforce disabled accesibility state
+
+- 2dffb9e: ## Changes
+
+  - (Drawer) add prefers-reduced-motion for transitions
+
+- Updated dependencies [59cd691]
+  - @design-system-rte/core@1.19.0
+
 ## 3.5.0
 
 ### Minor Changes
