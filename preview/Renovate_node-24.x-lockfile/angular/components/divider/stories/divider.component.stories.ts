@@ -9,7 +9,6 @@ const meta: Meta<DividerComponent> = {
   parameters: {
     layout: "centered",
   },
-  decorators: [componentWrapperDecorator((story) => `<div style="height: 100px; width: 500px;">${story}</div>`)],
   argTypes: {
     orientation: {
       control: "select",
@@ -48,6 +47,19 @@ export const Default: Story = {
     thickness: "light",
     endPoint: "round",
   },
+  render: (args) => ({
+    props: args,
+    template: `
+      <div style="height: 100px; width: 500px;">
+        <rte-divider
+          [orientation]="orientation"
+          [thickness]="thickness"
+          [appearance]="appearance"
+          [endPoint]="endPoint">
+        </rte-divider>
+      </div>
+    `,
+  }),
 };
 
 export const Brand: Story = {
@@ -57,9 +69,22 @@ export const Brand: Story = {
     endPoint: "round",
     appearance: "brand",
   },
+  render: (args) => ({
+    props: args,
+    template: `
+      <div style="height: 100px; width: 500px;">
+        <rte-divider
+          [orientation]="orientation"
+          [thickness]="thickness"
+          [appearance]="appearance"
+          [endPoint]="endPoint">
+        </rte-divider>
+      </div>
+    `,
+  }),
 };
 
-export const VerticalSizes: Story = {
+export const Vertical: Story = {
   args: {
     orientation: "vertical",
     thickness: "light",
@@ -68,28 +93,22 @@ export const VerticalSizes: Story = {
   render: (args) => ({
     props: args,
     template: `
-        <div style="display: flex; justify-content: space-between; gap: 20px; height: 100px; width: 500px;">
-            <rte-divider
-                orientation="vertical"
-                thickness="light"
-                data-testid="vertical-light-divider">
-            </rte-divider>
-            <rte-divider
-                orientation="vertical"
-                thickness="medium"
-                data-testid="vertical-medium-divider">
-            </rte-divider>
-            <rte-divider
-                orientation="vertical"
-                thickness="bold"
-                data-testid="vertical-bold-divider">
-            </rte-divider>
+        <div style="display: flex; flex-direction: column; gap: 20px; justify-content: space-between; width: 250px;">
+            <rte-divider orientation="horizontal"></rte-divider>
+            <div style="height: 100px; margin: 0 auto;">
+                <rte-divider
+                    [orientation]="orientation"
+                    [thickness]="thickness"
+                    [appearance]="appearance"
+                    [endPoint]="endPoint">
+                </rte-divider>
+            </div>
         </div>
         `,
   }),
 };
 
-export const HorizontalSizes: Story = {
+export const Sizes: Story = {
   args: {
     orientation: "horizontal",
     thickness: "light",
@@ -98,21 +117,9 @@ export const HorizontalSizes: Story = {
     props: args,
     template: `
         <div style="display: flex; flex-direction: column; gap: 20px; height: 100px; width: 500px;">
-            <rte-divider
-                orientation="horizontal"
-                thickness="light"
-                data-testid="horizontal-light-divider">
-            </rte-divider>
-            <rte-divider
-                orientation="horizontal"
-                thickness="medium"
-                data-testid="horizontal-medium-divider">
-            </rte-divider>
-            <rte-divider
-                orientation="horizontal"
-                thickness="bold"
-                data-testid="horizontal-bold-divider">
-            </rte-divider>
+            <rte-divider [orientation]="orientation" [appearance]="appearance" thickness="light"></rte-divider>
+            <rte-divider [orientation]="orientation" [appearance]="appearance" thickness="medium"></rte-divider>
+            <rte-divider [orientation]="orientation" [appearance]="appearance" thickness="bold"></rte-divider>
         </div>
         `,
   }),
@@ -128,24 +135,7 @@ export const SquaredEnd: Story = {
     props: args,
     template: `
         <div style="display: flex; flex-direction: column; gap: 20px; height: 100px; width: 500px;">
-            <rte-divider
-                orientation="horizontal"
-                thickness="light"
-                endPoint="square"
-                data-testid="horizontal-light-divider">
-            </rte-divider>
-            <rte-divider
-                orientation="horizontal"
-                thickness="medium"
-                endPoint="square"
-                data-testid="horizontal-medium-divider">
-            </rte-divider>
-            <rte-divider
-                orientation="horizontal"
-                thickness="bold"
-                endPoint="square"
-                data-testid="horizontal-bold-divider">
-            </rte-divider>
+            <rte-divider [orientation]="orientation" [appearance]="appearance" endPoint="square" thickness="bold"></rte-divider>
         </div>
         `,
   }),
@@ -159,13 +149,14 @@ export const InverseColor: Story = {
   },
   decorators: [
     componentWrapperDecorator(
-      (story) => `<div style="background-color: #214770; width: 100%; padding: 20px;">${story}</div>`,
+      (story) =>
+        `<div style="background-color: var(--background-brand-pressed); width: 500px; padding: 20px;">${story}</div>`,
     ),
   ],
   render: (args) => ({
     props: args,
     template: `
-                <div style="display: flex; flex-direction: column; gap: 20px; justify-content: space-between; width: 500px;">
+                <div style="display: flex; flex-direction: column; gap: 20px; justify-content: space-between; width: 100%;">
                         <rte-divider
                                 orientation="horizontal"
                                 thickness="light"

@@ -9,6 +9,9 @@ interface NavContentWrapperProps {
     onClick?: () => void;
     children: ReactNode;
     styleType?: "item" | "menu";
+    ariaExpanded?: boolean;
+    ariaControls?: string;
+    role?: "button";
 }
-declare function NavContentWrapper({ link, label, tabIndex, onKeyDown, onFocus, onBlur, onClick, children, styleType, }: NavContentWrapperProps): ReactNode;
+declare function NavContentWrapper({ link, label, tabIndex, onKeyDown, onFocus, onBlur, onClick, children, styleType, ariaExpanded, ariaControls, role, }: NavContentWrapperProps): ReactNode;
 export default NavContentWrapper;

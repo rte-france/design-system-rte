@@ -27,6 +27,10 @@
   border-radius: $radius-pill;
   transition: left 0.2s ease-out, width 0.2s ease-out;
 
+  &[data-initial-animation-disabled="true"] {
+    transition: none;
+  }
+
   &[data-compact-spacing="true"] {
     height: 24px;
   }

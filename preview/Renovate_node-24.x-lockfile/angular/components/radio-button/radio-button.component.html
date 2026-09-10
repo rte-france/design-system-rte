@@ -13,6 +13,7 @@
     [ngClass]="{ error: error(), 'read-only': readOnly() }"
     [disabled]="disabled()"
     [checked]="isChecked()"
+    [attr.aria-label]="accessibleLabel()"
     (change)="onChange()"
   />
   <div

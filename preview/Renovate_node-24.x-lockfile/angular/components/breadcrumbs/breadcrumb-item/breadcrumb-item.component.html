@@ -1,26 +1,25 @@
 <div class="rte-breadcrumb-item">
   @if (isLast()) {
-    @if (isEllipsisActive()) {
-      <div [rteTooltip]="item()!.label" [rteTooltipPosition]="'bottom'" [style]="tooltipTriggerStyle()">
-        <a role="link" aria-current="page" tabindex="-1" [attr.aria-label]="item()!.label" [style]="linkStyle()">
-          {{ item()!.label }}
-        </a>
-      </div>
-      <rte-badge
-        *ngIf="shouldDisplayBadge()"
-        [count]="item()!.badgeCount"
-        [badgeContent]="item()!.badgeContent!"
-        [icon]="item()!.badgeIcon!"
-        [badgeType]="item()!.badgeType!"
-        [simpleBadge]="true"
-        [badgeSize]="item()!.badgeSize!"
-      />
-    } @else {
-      <a role="link" aria-current="page" tabindex="0" [attr.aria-label]="item()!.label" [style]="linkStyle()">
+    @if (breadcrumbItemMaxWidth()) {
+      <a
+        role="link"
+        aria-current="page"
+        tabindex="0"
+        rteTooltipPosition="bottom"
+        [attr.aria-label]="item()!.label"
+        [style]="linkStyle()"
+        [rteTooltip]="item()!.label"
+        [rteTooltipShowOnEllipsis]="true"
+      >
         {{ item()!.label }}
       </a>
+    } @else {
+      <a role="link" aria-current="page" tabindex="0" [attr.aria-label]="item()!.label">
+        {{ item()!.label }}
+      </a>
+    }
+    @if (shouldDisplayBadge()) {
       <rte-badge
-        *ngIf="shouldDisplayBadge()"
         [count]="item()!.badgeCount"
         [badgeContent]="item()!.badgeContent!"
         [icon]="item()!.badgeIcon!"
@@ -30,13 +29,14 @@
       />
     }
   } @else {
-    @if (isEllipsisActive()) {
+    @if (breadcrumbItemMaxWidth()) {
       <div
+        rteTooltipPosition="bottom"
         [rteTooltip]="item()!.label"
-        [rteTooltipPosition]="'bottom'"
         [style]="tooltipTriggerStyle()"
         [style.overflow]="'unset'"
         [rteTooltipShouldFocusTrigger]="false"
+        [rteTooltipShowOnEllipsis]="true"
       >
         @if (navigationHref()) {
           <rte-link
@@ -56,15 +56,6 @@
           />
         }
       </div>
-      <rte-badge
-        *ngIf="shouldDisplayBadge()"
-        [count]="item()!.badgeCount"
-        [badgeContent]="item()!.badgeContent!"
-        [icon]="item()!.badgeIcon!"
-        [badgeType]="item()!.badgeType!"
-        [simpleBadge]="true"
-        [badgeSize]="item()!.badgeSize!"
-      />
     } @else {
       @if (navigationHref()) {
         <rte-link
@@ -83,8 +74,9 @@
           [maxWidth]="breadcrumbItemMaxWidth()"
         />
       }
+    }
+    @if (shouldDisplayBadge()) {
       <rte-badge
-        *ngIf="shouldDisplayBadge()"
         [count]="item()!.badgeCount"
         [badgeContent]="item()!.badgeContent!"
         [icon]="item()!.badgeIcon!"
