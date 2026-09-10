@@ -19,6 +19,10 @@
   transition: transform 240ms ease-out;
   pointer-events: auto;
 
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+
   @include elevation-neutral-shadow-3;
   background-color: var(--background-default);
 
@@ -48,6 +52,10 @@
     max-height: 100vh;
     background: transparent;
 
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
+
     &[data-open='true'] {
       transform: none;
     }
@@ -70,6 +78,10 @@
     top: 24px;
     right: 0;
     transition: transform 240ms ease-out;
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
 
     &:focus-visible {
       position: absolute;
