@@ -57,12 +57,14 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             onClick={onClick}
             {...props}
           >
-            {icon && iconPosition === "left" && <Icon name={icon} size={ButtonIconSize[size]} className={style.icon} />}
+            {icon && iconPosition === "left" && (
+              <Icon name={icon} size={ButtonIconSize[size]} className={style.icon} aria-hidden="true" />
+            )}
             <span data-size={size} className={style.label}>
               {label}
             </span>
             {icon && iconPosition === "right" && (
-              <Icon name={icon} size={ButtonIconSize[size]} className={style.icon} />
+              <Icon name={icon} size={ButtonIconSize[size]} className={style.icon} aria-hidden="true" />
             )}
           </button>
         </Badge>
@@ -79,13 +81,25 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           {...props}
         >
           {icon && iconPosition === "left" && (
-            <Icon name={icon} size={ButtonIconSize[size]} className={style.icon} appearance={iconAppearance} />
+            <Icon
+              name={icon}
+              size={ButtonIconSize[size]}
+              className={style.icon}
+              appearance={iconAppearance}
+              aria-hidden="true"
+            />
           )}
           <span data-size={size} className={style.label}>
             {label}
           </span>
           {icon && iconPosition === "right" && (
-            <Icon name={icon} size={ButtonIconSize[size]} className={style.icon} appearance={iconAppearance} />
+            <Icon
+              name={icon}
+              size={ButtonIconSize[size]}
+              className={style.icon}
+              appearance={iconAppearance}
+              aria-hidden="true"
+            />
           )}
         </button>
       );
