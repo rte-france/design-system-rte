@@ -177,6 +177,7 @@ export const SinglePage: Story = {
 };
 
 export const Interactions: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     appearance: "brand",
@@ -237,6 +238,7 @@ export const Interactions: Story = {
 };
 
 export const KeyboardNavigation: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     appearance: "neutral",
