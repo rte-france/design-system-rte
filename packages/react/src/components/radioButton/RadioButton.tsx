@@ -17,7 +17,6 @@ const RadioButton = forwardRef<HTMLInputElement, RadioButtonProps>(
     {
       label,
       groupName,
-      showLabel = true,
       disabled = false,
       error = false,
       readOnly = false,
@@ -25,6 +24,8 @@ const RadioButton = forwardRef<HTMLInputElement, RadioButtonProps>(
       onChange,
       value,
       isChecked,
+      ["aria-label"]: ariaLabel,
+      ["aria-labelledby"]: ariaLabelledBy,
       ...props
     },
     ref,
@@ -34,9 +35,9 @@ const RadioButton = forwardRef<HTMLInputElement, RadioButtonProps>(
       return null;
     }
 
-    const accessibleLabel = getRadioButtonAccessibleName(label, props["aria-label"]);
+    const accessibleLabel = getRadioButtonAccessibleName({ label, ariaLabel });
 
-    if (!accessibleLabel) {
+    if (!accessibleLabel && !ariaLabelledBy) {
       console.error(RADIO_BUTTON_MISSING_ACCESSIBLE_NAME_ERROR);
       return null;
     }
@@ -66,7 +67,8 @@ const RadioButton = forwardRef<HTMLInputElement, RadioButtonProps>(
           data-read-only={readOnly}
           onChange={handleOnChange}
           checked={isChecked}
-          aria-label={accessibleLabel}
+          aria-label={accessibleLabel ?? undefined}
+          aria-labelledby={ariaLabelledBy}
           {...props}
         />
         <div
@@ -78,14 +80,13 @@ const RadioButton = forwardRef<HTMLInputElement, RadioButtonProps>(
           <div className={style.radioButtonOuter}></div>
           <div className={style.radioButtonInner}></div>
         </div>
-        {showLabel && (
+        {label && (
           <label
             htmlFor={value}
             className={concatClassNames(style.radioButtonLabel, className)}
             data-disabled={disabled}
             data-error={error}
             data-read-only={readOnly}
-            data-show-label={showLabel}
           >
             {label}
           </label>

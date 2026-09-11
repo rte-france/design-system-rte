@@ -3,7 +3,6 @@ export interface RadioButtonProps {
   ariaLabel?: string;
   value: string;
   groupName: string;
-  showLabel?: boolean;
   description?: string;
   disabled?: boolean;
   error?: boolean;
