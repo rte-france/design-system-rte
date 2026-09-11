@@ -16,10 +16,6 @@ const meta = {
       control: "text",
       defaultValue: "radio-group",
     },
-    showLabel: {
-      control: "boolean",
-      defaultValue: true,
-    },
     disabled: {
       control: "boolean",
       defaultValue: false,
@@ -44,7 +40,6 @@ export const Default: Story = {
     label: "Radio Button",
     value: "radio-button",
     groupName: "radio-group",
-    showLabel: true,
     disabled: false,
     error: false,
     readOnly: false,
@@ -122,13 +117,13 @@ export const HiddenLabel: Story = {
   tags: ["!autodocs"],
   args: {
     ...Default.args,
+    label: "",
     groupName: "hidden-label-radio-group",
-    showLabel: false,
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const radioButton = canvas.getByRole("radio", { name: /radio button/i });
-    expect(radioButton).toBeInTheDocument();
+    const radioButton = await canvas.queryByRole("radio");
+    expect(radioButton).not.toBeInTheDocument();
   },
 };
 
@@ -139,7 +134,6 @@ export const HiddenLabelWithAriaLabelOnly: Story = {
     label: "",
     "aria-label": "Radio Button",
     groupName: "hidden-label-aria-only-radio-group",
-    showLabel: false,
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
