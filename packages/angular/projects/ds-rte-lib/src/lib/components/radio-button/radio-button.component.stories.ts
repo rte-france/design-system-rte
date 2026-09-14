@@ -20,10 +20,6 @@ const meta: Meta<RadioButtonComponent> = {
       control: "text",
       defaultValue: "radio-group",
     },
-    showLabel: {
-      control: "boolean",
-      defaultValue: true,
-    },
     ariaLabel: {
       control: "text",
       defaultValue: "",
@@ -55,7 +51,6 @@ export const Default: Story = {
     label: "Radio Button",
     value: "radio-value",
     groupName: "radio-group",
-    showLabel: true,
     disabled: false,
     error: false,
     readOnly: false,
@@ -67,6 +62,44 @@ export const Default: Story = {
     await userEvent.click(radioButton);
     expect(radioButton).toBeChecked();
   },
+};
+
+export const States: Story = {
+  args: {
+    ...Default.args,
+    groupName: "states-radio-group",
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <div style="display: flex; gap: 8px">
+        <rte-radio-button
+          label="Disabled"
+          value="disabled-radio-button"
+          [groupName]="groupName"
+          [disabled]="true"
+        ></rte-radio-button>
+        <rte-radio-button
+          label="Error"
+          value="error-radio-button"
+          [groupName]="groupName"
+          [error]="true"
+        ></rte-radio-button>
+        <rte-radio-button
+          label="Read Only"
+          value="readonly-radio-button"
+          [groupName]="groupName"
+          [readOnly]="true"
+        ></rte-radio-button>
+        <rte-radio-button
+          label="Initially Checked"
+          value="initial-checked-radio-button"
+          [groupName]="groupName"
+          [isChecked]="true"
+        ></rte-radio-button>
+      </div>
+    `,
+  }),
 };
 
 export const Disabled: Story = {
@@ -111,8 +144,8 @@ export const HiddenLabel: Story = {
   tags: ["!autodocs"],
   args: {
     ...Default.args,
+    label: "",
     groupName: "hidden-label-radio-group",
-    showLabel: false,
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -128,7 +161,6 @@ export const HiddenLabelWithAriaLabelOnly: Story = {
     label: "",
     ariaLabel: "Radio Button",
     groupName: "hidden-label-aria-only-radio-group",
-    showLabel: false,
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);

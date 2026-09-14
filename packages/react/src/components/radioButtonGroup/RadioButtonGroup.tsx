@@ -61,18 +61,19 @@ const RadioButtonGroup = forwardRef<HTMLDivElement, RadioButtonGroupProps>(
           {groupHelpText && showHelpText && <p className={style.groupHelpText}>{groupHelpText}</p>}
           {errorMessage && error && <p className={style.errorMessage}>{errorMessage}</p>}
           <div className={style.radioButtonGroup} data-direction={direction}>
-            {items.map(({ label, value }, index) => (
+            {items.map(({ label, value, ariaLabel, ariaLabelledBy }, index) => (
               <RadioButton
                 key={value + index}
-                label={label}
+                label={showItemsLabel ? label : undefined}
                 value={value}
                 groupName={groupName}
-                showLabel={showItemsLabel}
                 disabled={disabled}
                 error={error}
                 readOnly={readOnly}
                 onChange={handleOnChangeRadioButton}
                 isChecked={internalSelectedValue === value}
+                aria-label={ariaLabel}
+                aria-labelledby={ariaLabelledBy}
               />
             ))}
           </div>

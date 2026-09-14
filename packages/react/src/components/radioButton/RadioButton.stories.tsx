@@ -52,6 +52,21 @@ export const Default: Story = {
   },
 };
 
+export const States: Story = {
+  args: {
+    ...Default.args,
+    groupName: "states-radio-group",
+  },
+  render: (args) => (
+    <div style={{ display: "flex", gap: 8 }}>
+      <RadioButton {...args} label="Disabled" value="disabled-radio-button" disabled />
+      <RadioButton {...args} label="Error" value="error-radio-button" error />
+      <RadioButton {...args} label="Read Only" value="readonly-radio-button" readOnly />
+      <RadioButton {...args} label="Initially Checked" value="initial-checked-radio-button" isChecked />
+    </div>
+  ),
+};
+
 export const Disabled: Story = {
   args: {
     ...Default.args,
