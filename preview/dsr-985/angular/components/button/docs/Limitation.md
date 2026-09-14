@@ -1,0 +1,1 @@
+- Pour afficher un bouton contenant uniquement une icône, utiliser le composant `IconButtonComponent`.
