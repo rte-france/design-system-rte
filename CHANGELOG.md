@@ -2,6 +2,63 @@
 
 # Angular
 
+## 4.0.0
+
+### Drawer
+
+#### Minor Changes
+
+- add accessibility control in case the component can't resolve a valid aria label
+
+#### Patch Changes
+
+- add prefers-reduced-motion for transitions
+
+### Header
+
+#### Patch Changes
+
+- add dcumentation
+- add default font family
+
+### Popover
+
+#### Patch Changes
+
+- add documentation
+- enforce accesible name with title or aria label + use alignment value for angular
+- reposition popover on scroll
+
+### Side Navigation
+
+#### Patch Changes
+
+- add aria attributes for Sidenav's menus
+- enhance accessibility of footer's collapse button
+- add missing prefers-reduced-motion for component transitions
+
+### Card
+
+#### Patch Changes
+
+- enforce clickable card accessibility feature
+- enforce disabled accesibility state
+
+### File Upload
+
+#### Patch Changes
+
+- add aria label for file item delete button
+- add accessible description and label
+
+### Other
+
+#### Patch Changes
+
+- Updated dependencies [59cd691]
+- Updated dependencies [ba96671]
+- @design-system-rte/core@1.19.0
+
 ## 3.5.0
 
 ### Tag
@@ -145,50 +202,64 @@
 - Updated dependencies [7628a6d]
 - Updated dependencies [a7cdb36]
 - @design-system-rte/core@1.17.0
+# React
 
-## 3.3.1
+## 1.19.0
 
-### Sidenav
-
-#### Patch Changes
-
-- truncate nav-items text
-
-### Uuid
-
-#### Patch Changes
-
-- replace uuid undeclared dependency for native crypto.randomUUID for random id generation
-
-### Other
-
-#### Patch Changes
-
-- Updated dependencies [e14dbf6]
-- @design-system-rte/core@1.16.1
-
-## 3.3.0
-
-### Styles
+### Drawer
 
 #### Minor Changes
 
-- add fallback support for missing or default Mode for Design Tokens. Theme still requires explicit definition
-
-### Tooltip
+- add accessibility control in case the component can't resolve a valid aria label
 
 #### Patch Changes
 
-- correct auto placement algorithm
+- add prefers-reduced-motion for transitions
+
+### Header
+
+#### Patch Changes
+
+- add dcumentation
+- add default font family
+
+### Popover
+
+#### Patch Changes
+
+- add documentation
+- enforce accesible name with title or aria label + use alignment value for angular
+- reposition popover on scroll
+
+### Side Navigation
+
+#### Patch Changes
+
+- add aria attributes for Sidenav's menus
+- enhance accessibility of footer's collapse button
+- add missing prefers-reduced-motion for component transitions
+
+### Card
+
+#### Patch Changes
+
+- enforce clickable card accessibility feature
+- enforce disabled accesibility state
+
+### File Upload
+
+#### Patch Changes
+
+- add aria label for file item delete button
+- add accessible description and label
 
 ### Other
 
 #### Patch Changes
 
-- Updated dependencies [9c2be7c]
-- Updated dependencies [9e3af77]
-- @design-system-rte/core@1.16.0
-# React
+- Updated dependencies [59cd691]
+- Updated dependencies [ba96671]
+- @design-system-rte/core@1.19.0
 
 ## 1.18.0
 
@@ -331,50 +402,24 @@
 - Updated dependencies [7628a6d]
 - Updated dependencies [a7cdb36]
 - @design-system-rte/core@1.17.0
+# Core
 
-## 1.16.1
+## 1.19.0
 
-### Sidenav
-
-#### Patch Changes
-
-- truncate nav-items text
-
-### Uuid
-
-#### Patch Changes
-
-- replace uuid undeclared dependency for native crypto.randomUUID for random id generation
-
-### Other
-
-#### Patch Changes
-
-- Updated dependencies [e14dbf6]
-- @design-system-rte/core@1.16.1
-
-## 1.16.0
-
-### Styles
+### Drawer
 
 #### Minor Changes
 
-- add fallback support for missing or default Mode for Design Tokens. Theme still requires explicit definition
+- add accessibility control in case the component can't resolve a valid aria label
 
-### Tooltip
+### File Upload
 
 #### Patch Changes
 
-- correct auto placement algorithm
+- add accessible description and label
 
 ### Other
 
-#### Patch Changes
-
-- Updated dependencies [9c2be7c]
-- Updated dependencies [9e3af77]
-- @design-system-rte/core@1.16.0
-# Core
 
 ## 1.18.0
 
@@ -437,34 +482,6 @@
 #### Patch Changes
 
 - translate close button aria label value
-
-### Other
-
-
-## 1.16.1
-
-### Uuid
-
-#### Patch Changes
-
-- replace uuid undeclared dependency for native crypto.randomUUID for random id generation
-
-### Other
-
-
-## 1.16.0
-
-### Styles
-
-#### Minor Changes
-
-- add fallback support for missing or default Mode for Design Tokens. Theme still requires explicit definition
-
-### Tooltip
-
-#### Patch Changes
-
-- correct auto placement algorithm
 
 ### Other
 
