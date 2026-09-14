@@ -13,7 +13,7 @@ import { RadioButtonComponent } from "../radio-button/radio-button.component";
 })
 export class RadioButtonGroupComponent {
   readonly groupName = input("");
-  readonly items = input<{ label: string; value: string }[]>([]);
+  readonly items = input<{ label: string; value: string; ariaLabel?: string; ariaLabelledBy?: string }[]>([]);
   readonly direction = input("horizontal");
   readonly showItemsLabel = input(true);
   readonly groupTitle = input("");

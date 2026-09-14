@@ -15,11 +15,10 @@ import {
 })
 export class RadioButtonComponent {
   readonly label = input("");
-  readonly ariaLabel = input("");
-  readonly ariaLabelledBy = input("");
+  readonly ariaLabel = input<string | undefined>(undefined);
+  readonly ariaLabelledBy = input<string | undefined>(undefined);
   readonly value = input("");
   readonly groupName = input("");
-  readonly showLabel = input(true);
   readonly disabled = input(false);
   readonly error = input(false);
   readonly readOnly = input(false);
