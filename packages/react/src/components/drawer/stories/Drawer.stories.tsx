@@ -602,6 +602,7 @@ export const CustomHeaderFooter: Story = {
     closeOnEscape: true,
     id: "custom-header-footer-drawer",
   },
+  beforeEach: acceptLogError(`[Drawer] ${DRAWER_MISSING_ACCESSIBLE_NAME_ERROR}`),
   render: (args) => {
     const [isOpen, setIsOpen] = useState(args.isOpen);
 

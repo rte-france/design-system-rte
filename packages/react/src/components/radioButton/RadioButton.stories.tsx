@@ -1,5 +1,8 @@
+import { RADIO_BUTTON_MISSING_ACCESSIBLE_NAME_ERROR } from "@design-system-rte/core";
 import { Meta, StoryObj } from "@storybook/react";
 import { userEvent, within, expect } from "@storybook/test";
+
+import { acceptLogError } from "../../../.storybook/testing/testing.utils";
 
 import RadioButton from "./RadioButton";
 
@@ -50,6 +53,21 @@ export const Default: Story = {
     await userEvent.click(radioButton);
     expect(radioButton).toBeChecked();
   },
+};
+
+export const States: Story = {
+  args: {
+    ...Default.args,
+    groupName: "states-radio-group",
+  },
+  render: (args) => (
+    <div style={{ display: "flex", gap: 8 }}>
+      <RadioButton {...args} label="Disabled" value="disabled-radio-button" disabled />
+      <RadioButton {...args} label="Error" value="error-radio-button" error />
+      <RadioButton {...args} label="Read Only" value="readonly-radio-button" readOnly />
+      <RadioButton {...args} label="Initially Checked" value="initial-checked-radio-button" isChecked />
+    </div>
+  ),
 };
 
 export const Disabled: Story = {
@@ -120,6 +138,7 @@ export const HiddenLabel: Story = {
     label: "",
     groupName: "hidden-label-radio-group",
   },
+  beforeEach: acceptLogError(RADIO_BUTTON_MISSING_ACCESSIBLE_NAME_ERROR),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const radioButton = await canvas.queryByRole("radio");
