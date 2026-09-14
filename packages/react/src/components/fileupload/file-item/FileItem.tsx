@@ -1,5 +1,6 @@
 import { FileItemProps, getTextWidth } from "@design-system-rte/core";
 import { extractFileNameParts, formatFileSize } from "@design-system-rte/core/components/file-upload/file-upload.util";
+import { FILE_UPLOAD_ITEM_ARIA_LABELS } from "@design-system-rte/core/dist/components/file-upload/file-upload.constants";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import AssistiveText from "../../assistivetext/AssistiveText";
@@ -99,15 +100,30 @@ const FileItem = ({ file, removeFile, isError, errorMessage, compact, isLoading 
     <>
       <div className={styles["rte-file-upload-file-container"]}>
         <div className={styles["rte-file-upload-file"]}>
-          <div className={styles["rte-file-upload-file-icon"]} ref={iconRef}>
+          <div className={styles["rte-file-upload-file-icon"]} ref={iconRef} aria-live="polite" aria-atomic="true">
             {isLoading ? (
-              <Loader size="small" showLabel={false} />
+              <>
+                <span className={styles["sr-only"]}>{FILE_UPLOAD_ITEM_ARIA_LABELS.LOADING}</span>
+                <Loader size="small" showLabel={false} aria-hidden="true" />
+              </>
             ) : (
               <>
                 {isError ? (
-                  <Icon name="error" size={20} color="var(--content-danger-default)" />
+                  <>
+                    <span className={styles["sr-only"]}>{FILE_UPLOAD_ITEM_ARIA_LABELS.ERROR}</span>
+                    <Icon aria-hidden="true" name="error" size={20} color="var(--content-danger-default)" />
+                  </>
                 ) : (
-                  <Icon name="check-circle" size={20} color="var(--content-success-default)" />
+                  <>
+                    <span className={styles["sr-only"]}>{FILE_UPLOAD_ITEM_ARIA_LABELS.SUCCESS}</span>
+                    <Icon
+                      aria-hidden="true"
+                      name="check-circle"
+                      size={20}
+                      color="var(--content-success-default)"
+                      aria-label={FILE_UPLOAD_ITEM_ARIA_LABELS.SUCCESS}
+                    />
+                  </>
                 )}
               </>
             )}

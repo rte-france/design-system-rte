@@ -1,5 +1,6 @@
 import { loaderSize } from "@design-system-rte/core/components/loader/loader.constants";
 import { LoaderProps as CoreLoaderProps } from "@design-system-rte/core/components/loader/loader.interface";
+import { generateId } from "@design-system-rte/core/dist";
 import { forwardRef } from "react";
 
 import { concatClassNames } from "../utils";
@@ -10,9 +11,21 @@ interface LoaderProps extends CoreLoaderProps, React.HTMLAttributes<HTMLDivEleme
 
 const Loader = forwardRef<HTMLDivElement, LoaderProps>(
   (
-    { appearance = "brand", size = "medium", showLabel = true, label, labelPosition = "right", className, ...props },
+    {
+      appearance = "brand",
+      size = "medium",
+      showLabel = true,
+      label,
+      labelPosition = "right",
+      className,
+      "aria-label": ariaLabel,
+      "aria-hidden": ariaHidden,
+      ...props
+    },
     ref,
   ) => {
+    const loaderId = "loader" + generateId();
+
     return (
       <div
         className={concatClassNames(style.loader, className)}
@@ -21,6 +34,11 @@ const Loader = forwardRef<HTMLDivElement, LoaderProps>(
         ref={ref}
         {...props}
       >
+        {!!label && (
+          <span id={`${loaderId}-label`} className={style.loaderLabel}>
+            {label}
+          </span>
+        )}
         {appearance == "brand" ? (
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -29,6 +47,9 @@ const Loader = forwardRef<HTMLDivElement, LoaderProps>(
             className={style.svgLoader}
             viewBox="0 0 48 48"
             fill="none"
+            aria-labelledby={label ? `${loaderId}-label` : undefined}
+            aria-label={label ?? ariaLabel}
+            aria-hidden={ariaHidden}
           >
             <g clipPath="url(#paint0_angular_4438_67_clip_path)" data-figma-skip-parse="true">
               <g transform="matrix(0.0240793 7.6297e-08 -7.62968e-08 0.0240017 24.0001 24.0003)">
@@ -90,7 +111,14 @@ const Loader = forwardRef<HTMLDivElement, LoaderProps>(
           </svg>
         )}
         {showLabel && (
-          <span role="status" aria-live="polite" className={style.label} data-size={size} data-appearance={appearance}>
+          <span
+            id={`${loaderId}-label`}
+            role="status"
+            aria-live="polite"
+            className={style.label}
+            data-size={size}
+            data-appearance={appearance}
+          >
             {label}
           </span>
         )}

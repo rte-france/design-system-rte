@@ -7,6 +7,8 @@
       fill="none"
       [style.width]="sizeOfLoader()"
       [style.height]="sizeOfLoader()"
+      [attr.aria-labelledby]="label() ? loaderId + '-label' : null"
+      [attr.aria-label]="label() || ariaLabel() || null"
     >
       <g clip-path="url(#paint0_angular_4434_67_clip_path)" data-figma-skip-parse="true">
         <g transform="matrix(0.0240793 7.6297e-08 -7.62968e-08 0.0240017 24.0001 24.0003)">
@@ -73,8 +75,12 @@
     </svg>
   }
   @if (showLabel()) {
-    <span class="loaderLabel appearance--{{ appearance() }} size--{{ size() }}" role="status" aria-live="polite">{{
-      label()
-    }}</span>
+    <span
+      class="loaderLabel appearance--{{ appearance() }} size--{{ size() }}"
+      role="status"
+      aria-live="polite"
+      [id]="loaderId + '-label'"
+      >{{ label() }}</span
+    >
   }
 </div>
