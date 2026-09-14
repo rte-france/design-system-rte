@@ -1,7 +1,7 @@
 import { TESTING_ARROW_RIGHT_KEY, TESTING_ARROW_UP_KEY, TESTING_ENTER_KEY } from "@design-system-rte/core";
 import type { TimeFormat } from "@design-system-rte/core/components/timepicker/timepicker.interface";
 import type { Meta, StoryObj } from "@storybook/react";
-import { userEvent, expect } from "@storybook/test";
+import { userEvent, expect, within } from "@storybook/test";
 import { useState } from "react";
 
 import { focusElementBeforeComponent } from "../../../../../.storybook/testing/testing.utils";
@@ -100,7 +100,12 @@ export const Error: Story = {
     ...Default.args,
     isError: true,
     assistiveAppearance: "error",
-    assistiveTextLabel: "Error message",
+    assistiveTextLabel: "Assistive text",
+    errorMessage: "Error message",
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    expect(canvas.getByRole("textbox")).toHaveAttribute("aria-describedby", "time-picker-assistive-text");
   },
 };
 

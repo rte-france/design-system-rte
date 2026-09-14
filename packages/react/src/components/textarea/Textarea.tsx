@@ -5,7 +5,7 @@ import AssistiveText from "../assistivetext/AssistiveText";
 import Label from "../label/Label";
 import { concatClassNames, deleteFromProps } from "../utils";
 
-import style from "./Textarea.module.scss";
+import styles from "./Textarea.module.scss";
 
 interface TextareaProps
   extends
@@ -27,6 +27,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       labelId,
       labelPosition = "top",
       assistiveTextLabel,
+      errorMessage,
       assistiveTextAppearance = "description",
       ["aria-labelledby"]: ariaLabelledby,
       assistiveTextLink,
@@ -48,6 +49,9 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
     const textareaRef: MutableRefObject<HTMLTextAreaElement | null> = useRef<HTMLTextAreaElement>(null);
 
     const displayCounter = showCounter && maxLength;
+    const assistiveTextId = `${id}-assistive-text`;
+    const effectiveAssistiveTextLabel = props["aria-invalid"] ? errorMessage || assistiveTextLabel : assistiveTextLabel;
+    const describedBy = effectiveAssistiveTextLabel ? assistiveTextId : undefined;
 
     const handleBlur = (event: FocusEvent<HTMLTextAreaElement, Element>) => {
       if (onBlur) {
@@ -67,7 +71,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
 
     return (
       <div style={{ width }}>
-        <div className={style.container} data-label-position={labelPosition}>
+        <div className={styles["container"]} data-label-position={labelPosition}>
           {label && labelPosition === "side" && (
             <Label
               id={labelId}
@@ -77,8 +81,8 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
               showLabelRequirement={showLabelRequirement}
             />
           )}
-          <div className={style["top-position-container"]} data-label-position={labelPosition}>
-            <div className={style["header-container"]} data-label-position={labelPosition}>
+          <div className={styles["top-position-container"]} data-label-position={labelPosition}>
+            <div className={styles["header-container"]} data-label-position={labelPosition}>
               {label && labelPosition === "top" && (
                 <Label
                   id={labelId}
@@ -89,12 +93,12 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
                 />
               )}
               {displayCounter && (
-                <span className={style["character-counter"]}>
+                <span className={styles["character-counter"]}>
                   {characterCount}/{maxLength}
                 </span>
               )}
             </div>
-            <div className={style["textarea-container"]} data-label-position={labelPosition}>
+            <div className={styles["textarea-container"]} data-label-position={labelPosition}>
               <textarea
                 ref={(node) => {
                   textareaRef.current = node;
@@ -103,11 +107,12 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
                 }}
                 id={id}
                 name={name}
-                className={concatClassNames(style.textarea, className)}
+                className={concatClassNames(styles["textarea"], className)}
                 data-resizeable={resizeable}
                 data-assistive-text-appearance={assistiveTextAppearance}
                 onChange={handleChange}
                 aria-labelledby={labelId || ariaLabelledby}
+                aria-describedby={describedBy}
                 maxLength={maxLength}
                 onBlur={handleBlur}
                 defaultValue={defaultValue}
@@ -116,10 +121,11 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
                 readOnly={readOnly}
                 {...deleteFromProps(props, "placeholder")}
               />
-              {assistiveTextLabel && (
+              {effectiveAssistiveTextLabel && (
                 <AssistiveText
-                  label={assistiveTextLabel}
-                  appearance={assistiveTextAppearance}
+                  id={assistiveTextId}
+                  label={effectiveAssistiveTextLabel}
+                  appearance={props["aria-invalid"] ? "error" : assistiveTextAppearance}
                   showIcon={true}
                   href={assistiveTextLink}
                 />

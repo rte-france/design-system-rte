@@ -70,6 +70,7 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
 
   readonly hasAssistiveText = input<boolean>(false);
   readonly assistiveTextLabel = input<string>("");
+  readonly errorMessage = input<string>("");
   readonly assistiveTextAppearance = input<"description" | "error">("description");
   readonly showAssistiveIcon = input<boolean>(false);
 
@@ -111,6 +112,9 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
 
   readonly isDisabled = computed(() => this.disabled() || this.formDisabled());
   readonly isError = computed(() => this.error());
+  readonly effectiveAssistiveTextLabel = computed(() =>
+    this.isError() ? this.errorMessage() || this.assistiveTextLabel() : this.assistiveTextLabel(),
+  );
 
   readonly calendarButtonAriaLabel = computed(() => getDatepickerCalendarButtonAriaLabel(this.selectedDate()));
 

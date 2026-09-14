@@ -1,5 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, input } from "@angular/core";
+import { generateId } from "@design-system-rte/core";
 
 import { CheckboxComponent } from "../checkbox/checkbox.component";
 
@@ -22,6 +23,7 @@ export class CheckboxGroupComponent {
   readonly error = input(false);
   readonly disabled = input(false);
   readonly readOnly = input(false);
+  readonly errorMessageId = generateId();
 
   readonly isDisplayed = computed(() => !(this.disabled() && this.error()));
 }

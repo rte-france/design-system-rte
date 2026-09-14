@@ -1,10 +1,11 @@
+import { generateId } from "@design-system-rte/core";
 import { CheckboxGroupProps as CoreCheckboxGroupProps } from "@design-system-rte/core/components/checkbox-group/checkbox-group.interface";
-import React, { forwardRef } from "react";
+import React, { forwardRef, useRef } from "react";
 
 import Checkbox from "../checkbox/Checkbox";
 import { concatClassNames } from "../utils";
 
-import style from "./CheckboxGroup.module.scss";
+import styles from "./CheckboxGroup.module.scss";
 
 interface CheckboxGroupProps extends CoreCheckboxGroupProps, React.FieldsetHTMLAttributes<HTMLFieldSetElement> {}
 
@@ -27,6 +28,7 @@ const CheckboxGroup = forwardRef<HTMLFieldSetElement, CheckboxGroupProps>(
     },
     ref,
   ) => {
+    const errorMessageId = useRef(generateId()).current;
     if (disabled && error) {
       return;
     }
@@ -34,13 +36,14 @@ const CheckboxGroup = forwardRef<HTMLFieldSetElement, CheckboxGroupProps>(
     return (
       <fieldset
         ref={ref}
-        className={concatClassNames(style.checkboxGroupContainer, className)}
+        className={concatClassNames(styles["checkboxGroupContainer"], className)}
         disabled={disabled}
+        aria-describedby={error && errorMessage ? errorMessageId : undefined}
         {...props}
       >
         {groupTitle && (
           <legend
-            className={style.groupTitle}
+            className={styles["groupTitle"]}
             data-visible={showGroupTitle}
             data-error={error}
             data-disabled={disabled}
@@ -50,15 +53,19 @@ const CheckboxGroup = forwardRef<HTMLFieldSetElement, CheckboxGroupProps>(
           </legend>
         )}
         <div
-          className={style["checkboxGroupSubheader"]}
+          className={styles["checkboxGroupSubheader"]}
           data-error={error}
           data-disabled={disabled}
           data-read-only={readOnly}
         >
-          {groupHelpText && showHelpText && <p className={style.groupHelpText}>{groupHelpText}</p>}
-          {errorMessage && error && <p className={style.errorMessage}>{errorMessage}</p>}
+          {groupHelpText && showHelpText && <p className={styles["groupHelpText"]}>{groupHelpText}</p>}
+          {errorMessage && error && (
+            <p id={errorMessageId} className={styles["errorMessage"]}>
+              {errorMessage}
+            </p>
+          )}
         </div>
-        <div className={style["checkboxGroup"]} data-direction={direction}>
+        <div className={styles["checkboxGroup"]} data-direction={direction}>
           {items.map((item, index) => (
             <Checkbox
               id={`${item}-${index}`}

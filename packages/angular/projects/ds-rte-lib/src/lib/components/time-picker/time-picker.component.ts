@@ -95,6 +95,7 @@ export class TimePickerComponent implements ControlValueAccessor {
   readonly showLabelRequirement = input<boolean>(false);
   readonly readOnly = input<boolean>(false);
   readonly assistiveTextLabel = input<string>();
+  readonly errorMessage = input<string>();
   readonly assistiveAppearance = input<"description" | "error" | "success" | "link">("description");
   readonly showAssistiveIcon = input<boolean>(false);
   readonly assistiveTextLink = input<string>();
@@ -120,6 +121,10 @@ export class TimePickerComponent implements ControlValueAccessor {
 
   readonly displayValue = computed(() => buildDisplayValue(this.internalTimeValue(), this.activeTimeSegment()));
   readonly dropdownMenuId = computed(() => `time_picker_${this.id()}`);
+  readonly assistiveTextId = computed(() => `${this.id()}-assistive-text`);
+  readonly effectiveAssistiveTextLabel = computed(() =>
+    this.isError() ? this.errorMessage() || this.assistiveTextLabel() : this.assistiveTextLabel(),
+  );
 
   private readonly disabledFromControl = signal(false);
 
@@ -131,7 +136,7 @@ export class TimePickerComponent implements ControlValueAccessor {
       console.warn(TIME_PICKER_WARN_READ_ONLY_INCOMPLETE_VALUE);
       return false;
     }
-    if (this.isError() && !this.assistiveTextLabel()) {
+    if (this.isError() && !this.effectiveAssistiveTextLabel()) {
       console.warn(TIME_PICKER_WARN_ERROR_WITHOUT_ASSISTIVE_TEXT);
       return false;
     }

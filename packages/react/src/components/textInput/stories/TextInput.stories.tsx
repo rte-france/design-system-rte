@@ -126,6 +126,10 @@ export const Error: Story = {
     assistiveTextLabel: "Error message",
   } as TextInputProps,
   render: (args) => <TextInput {...args} />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    expect(canvas.getByRole("textbox")).toHaveAttribute("aria-describedby", "text-input-default-assistive-text");
+  },
 };
 
 export const InteractionStates: Story = {

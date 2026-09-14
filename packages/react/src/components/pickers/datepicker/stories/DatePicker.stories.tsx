@@ -63,6 +63,10 @@ export const Disabled: Story = {
 
 export const Error: Story = {
   args: { ...Default.args, isError: true },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    expect(canvas.getByRole("textbox")).toHaveAttribute("aria-describedby", "default-datepicker-assistive-text");
+  },
 };
 
 export const UncontrolledDefaultValue: Story = {

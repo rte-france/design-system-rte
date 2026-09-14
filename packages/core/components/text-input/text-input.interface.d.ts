@@ -19,6 +19,7 @@ export interface BaseTextInputProps {
   showAssistiveIcon?: boolean;
   assistiveTextLabel?: string;
   error?: boolean;
+  errorMessage?: string;
   compactSpacing?: boolean;
   placeholder?: string;
   highlighted?: boolean;
