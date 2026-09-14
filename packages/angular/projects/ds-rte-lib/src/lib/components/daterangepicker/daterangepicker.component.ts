@@ -86,6 +86,7 @@ export class DaterangepickerComponent implements ControlValueAccessor, AfterView
 
   readonly hasAssistiveText = input<boolean>(false);
   readonly assistiveTextLabel = input<string>("");
+  readonly errorMessage = input<string>("");
   readonly assistiveTextAppearance = input<"description" | "error">("description");
   readonly showAssistiveIcon = input<boolean>(false);
 
@@ -135,6 +136,9 @@ export class DaterangepickerComponent implements ControlValueAccessor, AfterView
 
   readonly isDisabled = computed(() => this.disabled() || this.formDisabled());
   readonly isError = computed(() => this.error());
+  readonly effectiveAssistiveTextLabel = computed(() =>
+    this.isError() ? this.errorMessage() || this.assistiveTextLabel() : this.assistiveTextLabel(),
+  );
 
   readonly groupLabelId = computed(() => `${this.id()}-label`);
 
@@ -147,7 +151,7 @@ export class DaterangepickerComponent implements ControlValueAccessor, AfterView
   });
 
   readonly fieldDescribedBy = computed(() => {
-    if (!this.hasAssistiveText() || !this.assistiveTextLabel() || this.isOpen()) {
+    if (!this.hasAssistiveText() || !this.effectiveAssistiveTextLabel() || this.isOpen()) {
       return null;
     }
     return `${this.id()}-assistive-text`;
