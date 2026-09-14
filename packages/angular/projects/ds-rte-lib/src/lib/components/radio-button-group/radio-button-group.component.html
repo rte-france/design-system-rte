@@ -1,6 +1,7 @@
 <div *ngIf="isDisplayed()" class="radio-button-group-container">
   <fieldset
     class="radio-button-group-fieldset"
+    [attr.aria-describedby]="error() && errorMessage() ? errorMessageId : null"
     [ngClass]="{
       disabled: disabled(),
       error: error(),
@@ -13,7 +14,7 @@
     <p *ngIf="showHelpText() && groupHelpText()" class="group-help-text">
       {{ groupHelpText() }}
     </p>
-    <p *ngIf="error() && errorMessage()" class="group-error-message">
+    <p *ngIf="error() && errorMessage()" class="group-error-message" [attr.id]="errorMessageId">
       {{ errorMessage() }}
     </p>
     <div

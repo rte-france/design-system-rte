@@ -127,6 +127,11 @@ export const Error: Story = {
       </div>
     );
   },
+  play: async ({ canvasElement }) => {
+    const select = canvasElement.querySelector("#select1");
+    console.log(select);
+    expect(select).toHaveAttribute("aria-describedby", "select1-assistive-text");
+  },
 };
 
 export const ReadOnly: Story = {

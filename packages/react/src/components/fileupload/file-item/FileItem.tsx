@@ -1,4 +1,4 @@
-import { FileItemProps, getTextWidth } from "@design-system-rte/core";
+import { FileItemProps, generateId, getTextWidth } from "@design-system-rte/core";
 import { extractFileNameParts, formatFileSize } from "@design-system-rte/core/components/file-upload/file-upload.util";
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -16,6 +16,7 @@ const FileItem = ({ file, removeFile, isError, errorMessage, compact, isLoading 
   const iconRef = useRef<HTMLDivElement>(null);
   const fileSizeRef = useRef<HTMLSpanElement>(null);
   const fileInfoRef = useRef<HTMLDivElement>(null);
+  const errorMessageId = useRef(generateId()).current;
 
   const [truncatedFileName, setTruncatedFileName] = useState(file.name);
 
@@ -145,7 +146,7 @@ const FileItem = ({ file, removeFile, isError, errorMessage, compact, isLoading 
             aria-label={"Supprimer le fichier sélectionné : " + file.name}
           />
         </div>
-        {errorMessage && <AssistiveText label={errorMessage} appearance="error" />}
+        {errorMessage && <AssistiveText id={errorMessageId} label={errorMessage} appearance="error" />}
       </div>
     </>
   );

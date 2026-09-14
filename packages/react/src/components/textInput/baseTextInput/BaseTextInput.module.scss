@@ -76,11 +76,9 @@
     .inputContainer {
         display: flex;
         flex-direction: column;
-        height: 32px;
         width: 100%;
         min-width: 48px;
         min-height: 32px;
-        max-height: 32px;
         align-self: stretch;
 
         .input {

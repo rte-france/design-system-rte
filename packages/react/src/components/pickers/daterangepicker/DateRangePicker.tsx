@@ -47,6 +47,7 @@ const DateRangePicker = ({
   disabledDates,
   disabled = false,
   assistiveTextLabel,
+  errorMessage,
   assistiveAppearance = "description",
   showAssistiveIcon = false,
   assistiveTextLink,
@@ -73,7 +74,8 @@ const DateRangePicker = ({
   const endInputLabelId = `${id}-end-label`;
   const assistiveTextId = `${id}-assistive-text`;
 
-  const shouldDisplayAssistiveText = assistiveTextLabel && !isDropdownOpen;
+  const effectiveAssistiveTextLabel = isError ? errorMessage || assistiveTextLabel : assistiveTextLabel;
+  const shouldDisplayAssistiveText = effectiveAssistiveTextLabel && !isDropdownOpen;
   const startInputAriaLabelledBy = `${groupLabelId} ${startInputLabelId}`;
   const endInputAriaLabelledBy = `${groupLabelId} ${endInputLabelId}`;
   const inputAriaDescribedBy = shouldDisplayAssistiveText ? assistiveTextId : undefined;
@@ -547,7 +549,7 @@ const DateRangePicker = ({
       {shouldDisplayAssistiveText && (
         <div id={assistiveTextId}>
           <AssistiveText
-            label={assistiveTextLabel}
+            label={effectiveAssistiveTextLabel}
             appearance={isError ? "error" : assistiveAppearance}
             showIcon={showAssistiveIcon}
             href={assistiveTextLink}

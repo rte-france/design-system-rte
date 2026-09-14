@@ -103,7 +103,7 @@
   @if (showAssistiveOnHost()) {
     <rte-assistive-text
       [attr.id]="fieldDescribedBy()"
-      [label]="assistiveTextLabel()"
+      [label]="effectiveAssistiveTextLabel()"
       [appearance]="isError() ? 'error' : assistiveTextAppearance()"
       [showIcon]="showAssistiveIcon()"
     />
