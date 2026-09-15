@@ -139,6 +139,11 @@ export const Error: Story = {
     assistiveAppearance: "error",
   },
   render: buildRender(defaultRange),
+  play: async ({ canvasElement }) => {
+    const [startInput, endInput] = getRangeInputs(canvasElement);
+    expect(startInput).toHaveAttribute("aria-describedby", "date-range-picker-assistive-text");
+    expect(endInput).toHaveAttribute("aria-describedby", "date-range-picker-assistive-text");
+  },
 };
 
 export const EmptyValue: Story = {

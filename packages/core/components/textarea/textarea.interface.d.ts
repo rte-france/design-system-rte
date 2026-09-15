@@ -14,6 +14,7 @@ export interface TextareaProps {
   value?: string;
   defaultValue?: string;
   assistiveTextLabel?: string;
+  errorMessage?: string;
   assistiveTextAppearance?: TextareaAssistiveTextAppearance;
   assistiveTextLink?: string;
   showHandleIcon?: boolean;

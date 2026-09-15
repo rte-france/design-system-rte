@@ -20,7 +20,7 @@ import IconButton from "../../iconButton/IconButton";
 import Label from "../../label/Label";
 import { concatClassNames } from "../../utils";
 
-import style from "./BaseTextInput.module.scss";
+import styles from "./BaseTextInput.module.scss";
 
 interface BaseTextInputProps
   extends
@@ -49,6 +49,7 @@ const BaseTextInput = forwardRef<HTMLInputElement, BaseTextInputProps>(
       assistiveAppearance = "description",
       showAssistiveIcon = false,
       assistiveTextLabel = "",
+      errorMessage,
       error = false,
       maxLength,
       disabled,
@@ -136,14 +137,17 @@ const BaseTextInput = forwardRef<HTMLInputElement, BaseTextInputProps>(
     const computedLeftIcon = error ? "error" : leftIcon;
 
     const computedInputBarClassName = concatClassNames(
-      style.inputBar,
-      computedLeftIcon ? style.withLeftIcon : "",
-      rightIconAction ? style.withRightIcon : "",
+      styles["inputBar"],
+      computedLeftIcon ? styles["withLeftIcon"] : "",
+      rightIconAction ? styles["withRightIcon"] : "",
     );
 
     const displayCounter = showCounter && typeof maxLength === "number";
     const rightIconName = getRightIconName(rightIconAction);
     const rightIconAriaLabel = getRightIconAriaLabel(rightIconAction);
+    const assistiveTextId = `${id}-assistive-text`;
+    const effectiveAssistiveTextLabel = error ? errorMessage || assistiveTextLabel : assistiveTextLabel;
+    const describedBy = effectiveAssistiveTextLabel ? assistiveTextId : undefined;
 
     const shouldShowRightIcon = () => {
       if (readOnly || disabled) {
@@ -163,7 +167,7 @@ const BaseTextInput = forwardRef<HTMLInputElement, BaseTextInputProps>(
 
     return (
       <div
-        className={style.container}
+        className={styles["container"]}
         data-label-position={labelPosition}
         data-disabled={disabled}
         data-error={error}
@@ -171,19 +175,19 @@ const BaseTextInput = forwardRef<HTMLInputElement, BaseTextInputProps>(
         data-compact-spacing={compactSpacing}
       >
         {label && (
-          <div className={style.text}>
+          <div className={styles["text"]}>
             <Label id={id} label={label} required={required} showLabelRequirement={showLabelRequirement} />
             {displayCounter && labelPosition === "top" && (
-              <p className={style.inputCounter} data-testid="input-counter">
+              <p className={styles["inputCounter"]} data-testid="input-counter">
                 {" "}
                 {characterCount}/{maxLength}
               </p>
             )}
           </div>
         )}
-        <div className={style.inputContainer}>
+        <div className={styles["inputContainer"]}>
           <div
-            className={style.input}
+            className={styles["input"]}
             data-label-position={labelPosition}
             data-disabled={disabled}
             data-read-only={readOnly}
@@ -193,7 +197,7 @@ const BaseTextInput = forwardRef<HTMLInputElement, BaseTextInputProps>(
                 <Icon
                   name={computedLeftIcon}
                   appearance="outlined"
-                  className={style.leftIcon}
+                  className={styles["leftIcon"]}
                   aria-hidden="true"
                   data-testid={`left-icon ${computedLeftIcon}`}
                 />
@@ -211,7 +215,7 @@ const BaseTextInput = forwardRef<HTMLInputElement, BaseTextInputProps>(
                 type={isHiddenInput ? "password" : "text"}
                 data-error={error}
                 data-highlighted={highlighted}
-                className={style.inputField}
+                className={styles["inputField"]}
                 maxLength={maxLength}
                 onChange={handleChange}
                 disabled={disabled}
@@ -219,6 +223,7 @@ const BaseTextInput = forwardRef<HTMLInputElement, BaseTextInputProps>(
                 value={disabled ? "" : inputValue}
                 placeholder={placeholder}
                 onKeyDown={handleOnKeyDown}
+                aria-describedby={describedBy}
                 {...props}
               />
 
@@ -229,7 +234,7 @@ const BaseTextInput = forwardRef<HTMLInputElement, BaseTextInputProps>(
                   variant="neutral"
                   size="s"
                   compactSpacing={true}
-                  className={style.rightIcon}
+                  className={styles["rightIcon"]}
                   aria-label={rightIconAriaLabel}
                   disabled={disabled}
                   onClick={onRightIconClickHandler}
@@ -237,14 +242,19 @@ const BaseTextInput = forwardRef<HTMLInputElement, BaseTextInputProps>(
                 />
               )}
             </div>
-            {rightSlot && <div className={style.rightSlot}>{rightSlot}</div>}
+            {rightSlot && <div className={styles["rightSlot"]}>{rightSlot}</div>}
           </div>
-          {assistiveTextLabel && (
-            <AssistiveText label={assistiveTextLabel} appearance={assistiveAppearance} showIcon={showAssistiveIcon} />
+          {effectiveAssistiveTextLabel && (
+            <AssistiveText
+              id={assistiveTextId}
+              label={effectiveAssistiveTextLabel}
+              appearance={error ? "error" : assistiveAppearance}
+              showIcon={showAssistiveIcon}
+            />
           )}
         </div>
         {displayCounter && labelPosition == "side" && (
-          <p className={style.inputCounter} data-testid="input-counter">
+          <p className={styles["inputCounter"]} data-testid="input-counter">
             {" "}
             {characterCount}/{maxLength}{" "}
           </p>

@@ -56,6 +56,7 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
       assistiveTextLink,
       showLabelRequirement = false,
       assistiveTextLabel,
+      errorMessage,
       onClear,
       onChange,
       options = [],
@@ -114,6 +115,9 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
     const selectedOptionToDisplay = getSelectedOption(optionToDisplay, options, internalValue);
 
     const shouldDisplayErrorIcon = isError && !disabled && !readonly;
+    const assistiveTextId = `${id}-assistive-text`;
+    const effectiveAssistiveTextLabel = isError ? errorMessage || assistiveTextLabel : assistiveTextLabel;
+    const describedBy = effectiveAssistiveTextLabel ? assistiveTextId : undefined;
 
     const shouldDisplaySelectedIcon =
       variant === "visibly-selected" &&
@@ -239,17 +243,11 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
       <>
         <div className={styles["select-container"]} data-label-position={labelPosition} style={{ width }}>
           {showLabel && labelPosition === "side" && (
-            <Label id={id} label={label} htmlFor={id} required={required} showLabelRequirement={showLabelRequirement} />
+            <Label label={label} htmlFor={id} required={required} showLabelRequirement={showLabelRequirement} />
           )}
           <div className={styles["select-header"]}>
             {showLabel && labelPosition === "top" && (
-              <Label
-                id={id}
-                label={label}
-                htmlFor={id}
-                required={required}
-                showLabelRequirement={showLabelRequirement}
-              />
+              <Label label={label} htmlFor={id} required={required} showLabelRequirement={showLabelRequirement} />
             )}
             <Dropdown
               style={{ width }}
@@ -267,6 +265,7 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
                   ref={selectRefCallback}
                   aria-expanded={isActive}
                   aria-labelledby={label}
+                  aria-describedby={describedBy}
                   data-error={isError}
                   data-active={isActive}
                   data-disabled={disabled}
@@ -396,9 +395,10 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
               )}
             </Dropdown>
 
-            {assistiveTextLabel && (
+            {effectiveAssistiveTextLabel && (
               <AssistiveText
-                label={assistiveTextLabel}
+                id={assistiveTextId}
+                label={effectiveAssistiveTextLabel}
                 appearance={isError ? "error" : assistiveAppearance}
                 showIcon={showAssistiveIcon}
                 href={assistiveTextLink}

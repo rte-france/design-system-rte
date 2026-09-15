@@ -17,6 +17,7 @@ The `TextInput` component is the public API. Pass props to control appearance an
 | showAssistiveIcon | boolean | `false` | Shows an icon alongside assistive text (error and success only). |
 | assistiveTextLabel | string | `""` | Assistive text displayed below the input. |
 | error | boolean | `false` | Applies error styling to the input. |
+| errorMessage | string | — | Error message displayed as assistive text when `error` is `true`. It takes precedence over `assistiveTextLabel`. |
 | disabled | boolean | `false` | Disables the input. |
 | readOnly | boolean | `false` | Makes the input read-only. |
 | width | string | `"300px"` | Container width. |

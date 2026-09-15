@@ -45,6 +45,7 @@ Le composant `DateRangePicker` constitue l'API publique. Ses props configurent l
 | `disabled` | `boolean` | `false` | Désactive les deux champs et les boutons d'ouverture du calendrier. |
 | `readonly` | `boolean` | `false` | Empêche la modification des champs segmentés et l'ouverture du calendrier. |
 | `isError` | `boolean` | `false` | Applique le style d'erreur aux champs. |
+| `errorMessage` | `string` | — | Message d'erreur affiché comme texte d'aide lorsque `isError` est `true`. Il est prioritaire sur `assistiveTextLabel`. |
 | `assistiveTextLabel` | `string` | — | Texte d'aide affiché sous le champ. |
 | `assistiveAppearance` | `"description" \| "error"` | `"description"` | Apparence du texte d'aide. Remplacée par `"error"` lorsque `isError` est `true`. |
 | `showAssistiveIcon` | `boolean` | `false` | Affiche une icône à côté du texte d'aide. |

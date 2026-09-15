@@ -6,6 +6,7 @@ export interface BaseInputProps<TValue = unknown> {
   showLabel?: boolean;
   showLabelRequirement?: boolean;
   assistiveTextLabel?: string;
+  errorMessage?: string;
   assistiveAppearance?: AssistiveTextProps["appearance"];
   showAssistiveIcon?: boolean;
   assistiveTextLink?: string;

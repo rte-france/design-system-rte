@@ -1,10 +1,11 @@
+import { generateId } from "@design-system-rte/core";
 import { RadioButtonGroupProps as CoreRadioButtonGroupProps } from "@design-system-rte/core/components/radio-button-group/radio-button-group.interface";
-import React, { forwardRef, useState } from "react";
+import React, { forwardRef, useRef, useState } from "react";
 
 import RadioButton from "../radioButton/RadioButton";
 import { concatClassNames } from "../utils";
 
-import style from "./RadioButtonGroup.module.scss";
+import styles from "./RadioButtonGroup.module.scss";
 
 interface RadioButtonGroupProps extends CoreRadioButtonGroupProps, React.InputHTMLAttributes<HTMLDivElement> {}
 
@@ -30,6 +31,7 @@ const RadioButtonGroup = forwardRef<HTMLDivElement, RadioButtonGroupProps>(
     },
     ref,
   ) => {
+    const errorMessageId = useRef(generateId()).current;
     const [internalSelectedValue, setInternalSelectedValue] = useState(selectedValue);
 
     if (disabled && error) {
@@ -50,17 +52,22 @@ const RadioButtonGroup = forwardRef<HTMLDivElement, RadioButtonGroupProps>(
     };
 
     return (
-      <div ref={ref} className={concatClassNames(style.radioButtonGroupContainer, className)} {...props}>
+      <div ref={ref} className={concatClassNames(styles["radioButtonGroupContainer"], className)} {...props}>
         <fieldset
-          className={style.radioButtonGroupFieldset}
+          className={styles["radioButtonGroupFieldset"]}
           data-error={error}
           data-disabled={disabled}
           data-read-only={readOnly}
+          aria-describedby={error && errorMessage ? errorMessageId : undefined}
         >
-          {groupTitle && showGroupTitle && <legend className={style.groupTitle}>{groupTitle}</legend>}
-          {groupHelpText && showHelpText && <p className={style.groupHelpText}>{groupHelpText}</p>}
-          {errorMessage && error && <p className={style.errorMessage}>{errorMessage}</p>}
-          <div className={style.radioButtonGroup} data-direction={direction}>
+          {groupTitle && showGroupTitle && <legend className={styles["groupTitle"]}>{groupTitle}</legend>}
+          {groupHelpText && showHelpText && <p className={styles["groupHelpText"]}>{groupHelpText}</p>}
+          {errorMessage && error && (
+            <p id={errorMessageId} className={styles["errorMessage"]}>
+              {errorMessage}
+            </p>
+          )}
+          <div className={styles["radioButtonGroup"]} data-direction={direction}>
             {items.map(({ label, value }, index) => (
               <RadioButton
                 key={value + index}

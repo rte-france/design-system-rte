@@ -104,6 +104,10 @@ export const Error: Story = {
   render: (args) => {
     return <Textarea {...args} />;
   },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    expect(canvas.getByRole("textbox")).toHaveAttribute("aria-describedby", "my-textarea-assistive-text");
+  },
 };
 
 export const ReadOnly: Story = {
