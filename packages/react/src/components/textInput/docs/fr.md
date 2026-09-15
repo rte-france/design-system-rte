@@ -35,6 +35,7 @@ Le composant `TextInput` constitue l'API publique. Passez les props pour contrô
 | showAssistiveIcon | boolean | `false` | Affiche une icône à côté du texte d'aide (erreur et succès uniquement). |
 | assistiveTextLabel | string | `""` | Texte d'aide affiché sous le champ. |
 | error | boolean | `false` | Applique le style d'erreur au champ. |
+| errorMessage | string | — | Message d'erreur affiché comme texte d'aide lorsque `error` est `true`. Il est prioritaire sur `assistiveTextLabel`. |
 | disabled | boolean | `false` | Désactive le champ. |
 | readOnly | boolean | `false` | Rend le champ en lecture seule. |
 | width | string | `"300px"` | Largeur du conteneur. |
