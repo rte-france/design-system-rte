@@ -2,6 +2,17 @@
 
 # Angular
 
+## 3.5.1
+
+### Tag
+
+#### Patch Changes
+
+- correct import of TAG_ERROR_NO_LABEL constant
+
+### Other
+
+
 ## 3.5.0
 
 ### Tag
