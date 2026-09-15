@@ -1,5 +1,13 @@
 # @design-system-rte/angular
 
+## 3.5.1
+
+### Patch Changes
+
+- 4066d12: ## Changes
+
+  - (Tag) correct import of TAG_ERROR_NO_LABEL constant
+
 ## 3.5.0
 
 ### Minor Changes
