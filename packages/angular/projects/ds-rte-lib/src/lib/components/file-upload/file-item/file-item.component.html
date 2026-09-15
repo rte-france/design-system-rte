@@ -42,6 +42,7 @@
       name="close"
       variant="neutral"
       size="m"
+      [ariaDescribedBy]="errorMessage() ? errorMessageId : undefined"
       (clickEvent)="onRemove()"
     />
   </div>
