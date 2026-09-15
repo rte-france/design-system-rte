@@ -31,6 +31,7 @@ Le composant `DatePicker` constitue l'API publique. Contrôlez la date sélectio
 | `disabled` | `boolean` | `false` | Désactive le champ et empêche l'ouverture du calendrier. |
 | `readonly` | `boolean` | `false` | Empêche la modification de la valeur et l'ouverture du calendrier. |
 | `isError` | `boolean` | — | Applique l'état visuel d'erreur au champ. |
+| `errorMessage` | `string` | — | Message d'erreur affiché comme texte d'aide lorsque `isError` est `true`. Il est prioritaire sur `assistiveTextLabel`. |
 | `assistiveTextLabel` | `string` | — | Texte d'aide sous le champ. Masqué pendant que le calendrier est ouvert. |
 | `assistiveAppearance` | `"description"` \| `"error"` \| `"success"` \| `"link"` | `"description"` | Style du texte d'aide. Remplacé par `"error"` lorsque `isError` est `true`. |
 | `showAssistiveIcon` | `boolean` | `false` | Affiche une icône à côté du texte d'aide. |
