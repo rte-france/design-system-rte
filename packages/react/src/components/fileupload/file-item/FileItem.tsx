@@ -144,6 +144,7 @@ const FileItem = ({ file, removeFile, isError, errorMessage, compact, isLoading 
             onClick={removeFile}
             size="m"
             aria-label={"Supprimer le fichier sélectionné : " + file.name}
+            aria-describedby={errorMessage ? errorMessageId : undefined}
           />
         </div>
         {errorMessage && <AssistiveText id={errorMessageId} label={errorMessage} appearance="error" />}
