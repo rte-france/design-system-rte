@@ -14,6 +14,7 @@ The `DatePicker` component is the public API. Control the selected date through 
 | `disabled` | `boolean` | `false` | Disables the field and prevents opening the calendar. |
 | `readonly` | `boolean` | `false` | Prevents editing the value and opening the calendar. |
 | `isError` | `boolean` | — | Applies the error visual state to the field. |
+| `errorMessage` | `string` | — | Error message displayed as assistive text when `isError` is `true`. It takes precedence over `assistiveTextLabel`. |
 | `assistiveTextLabel` | `string` | — | Assistive text rendered below the field. Hidden while the calendar is open. |
 | `assistiveAppearance` | `"description"` \| `"error"` \| `"success"` \| `"link"` | `"description"` | Assistive text style. Overridden to `"error"` when `isError` is `true`. |
 | `showAssistiveIcon` | `boolean` | `false` | Shows an icon alongside assistive text. |

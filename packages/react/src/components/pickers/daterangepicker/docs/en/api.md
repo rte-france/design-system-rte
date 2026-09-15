@@ -19,6 +19,7 @@ The `DateRangePicker` component is the public API. Its props configure the start
 | `disabled` | `boolean` | `false` | Disables both inputs and the calendar trigger buttons. |
 | `readonly` | `boolean` | `false` | Prevents editing the segmented inputs and opening the calendar. |
 | `isError` | `boolean` | `false` | Applies error styling to the inputs. |
+| `errorMessage` | `string` | — | Error message displayed as assistive text when `isError` is `true`. It takes precedence over `assistiveTextLabel`. |
 | `assistiveTextLabel` | `string` | — | Assistive text shown below the field. |
 | `assistiveAppearance` | `"description" \| "error"` | `"description"` | Assistive text appearance. Overridden by `"error"` when `isError` is `true`. |
 | `showAssistiveIcon` | `boolean` | `false` | Shows an icon next to the assistive text. |
