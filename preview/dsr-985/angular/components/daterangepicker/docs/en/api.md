@@ -11,6 +11,7 @@ The `rte-daterangepicker` component (`DaterangepickerComponent`) is the public A
 | `width` | `string` | `"490px"` | CSS width of the picker container. |
 | `hasAssistiveText` | `boolean` | `false` | Enables assistive text below the field. |
 | `assistiveTextLabel` | `string` | `""` | Assistive text content. |
+| `errorMessage` | `string` | `""` | Error message displayed as assistive text when `error` is `true`. It takes precedence over `assistiveTextLabel`. |
 | `assistiveTextAppearance` | `"description" \| "error"` | `"description"` | Assistive text appearance. Overridden by `"error"` when `error` is `true`. |
 | `showAssistiveIcon` | `boolean` | `false` | Shows an icon next to the assistive text. |
 | `fieldAriaLabelledby` | `string` | `""` | Custom `aria-labelledby` for the input group. When empty, falls back to the label id when `hasLabel` is `true`. |
