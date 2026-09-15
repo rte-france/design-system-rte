@@ -1,7 +1,19 @@
 <div #fileUploadRef class="rte-file-upload">
+  <input
+    #inputRef
+    type="file"
+    class="rte-file-upload-input"
+    [attr.id]="internalId()"
+    [multiple]="multiple()"
+    [disabled]="disabled()"
+    [attr.accept]="accept() || null"
+    [attr.aria-labelledby]="showLabel() ? internalId() + '-label' : internalId() + '-button'"
+    [attr.aria-describedby]="shouldDisplayAssistiveText() ? internalId() + '-assistive-text' : null"
+    (change)="handleOnChange($event)"
+  />
   @if (showLabel()) {
     <div class="rte-file-upload-header" [attr.data-show-label-requirement]="showLabelRequirement()">
-      <label class="rte-file-upload-label" [attr.for]="id()">
+      <label class="rte-file-upload-label" [attr.id]="internalId() + '-label'" [attr.for]="internalId()">
         <span>{{ label() }}</span>
       </label>
       <rte-required-indicator
@@ -18,21 +30,9 @@
       [appearance]="isError() ? 'error' : assistiveAppearance()"
       [showIcon]="showAssistiveIcon()"
       [href]="assistiveTextLink()"
+      [id]="internalId() + '-assistive-text'"
     />
   }
-
-  <input
-    #inputRef
-    type="file"
-    class="rte-file-upload-input"
-    [attr.id]="id()"
-    [multiple]="multiple()"
-    [disabled]="disabled()"
-    [attr.accept]="accept() || null"
-    [attr.aria-label]="showLabel() ? null : label()"
-    (change)="handleOnChange($event)"
-  />
-
   <button
     #buttonRef
     type="button"
@@ -43,6 +43,7 @@
     [rteButtonSize]="buttonSize()"
     [disabled]="disabled()"
     [class.rte-file-upload-button-compact]="compactSpacing()"
+    [attr.id]="internalId() + '-button'"
     (click)="handleOnClick($event)"
   >
     {{ buttonLabel() }}
