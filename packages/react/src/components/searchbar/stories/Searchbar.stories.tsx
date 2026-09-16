@@ -50,6 +50,41 @@ export const Default: Story = {
   },
 };
 
+export const Appearances: Story = {
+  render: (args) => (
+    <div style={{ display: "flex", flexDirection: "column", gap: "16px", width: "fit-content" }}>
+      <Searchbar {...args} id="searchbar-primary" appearance="primary" />
+      <Searchbar {...args} id="searchbar-secondary" appearance="secondary" />
+    </div>
+  ),
+  args: {
+    ...Default.args,
+    value: "",
+  },
+};
+
+export const CompactSpacing: Story = {
+  render: (args) => (
+    <div style={{ display: "flex", flexDirection: "column", gap: "16px", width: "fit-content" }}>
+      <Searchbar {...args} id="searchbar-primary-compact" appearance="primary" />
+      <Searchbar {...args} id="searchbar-secondary-compact" appearance="secondary" />
+    </div>
+  ),
+  args: {
+    ...Default.args,
+    compactSpacing: true,
+    value: "",
+  },
+};
+
+export const WithFilledValue: Story = {
+  args: {
+    ...Default.args,
+    value: "Texte recherché",
+    showResetButton: true,
+  },
+};
+
 export const WithDropdown: Story = {
   render: (args) => {
     const options = ["option1", "option2", "option3"];
