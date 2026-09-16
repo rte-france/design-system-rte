@@ -59,7 +59,7 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
               onClick={onClick}
               {...props}
             >
-              <Icon name={name} appearance={appearance} size={ButtonIconSize[size]} />
+              <Icon name={name} appearance={appearance} size={ButtonIconSize[size]} aria-hidden={true} />
             </button>
           </Badge>
         );
@@ -75,7 +75,7 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
             onClick={onClick}
             {...props}
           >
-            <Icon name={name} appearance={appearance} size={ButtonIconSize[size]} />
+            <Icon name={name} appearance={appearance} size={ButtonIconSize[size]} aria-hidden={true} />
           </button>
         );
       }

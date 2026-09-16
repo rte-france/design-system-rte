@@ -90,6 +90,9 @@ export const Default: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const iconButton = canvas.getByLabelText("Ouvrir les paramètres");
+    const iconSvg = iconButton.querySelector("svg");
+
+    expect(iconSvg).toHaveAttribute("aria-hidden", "true");
     await userEvent.click(iconButton);
     expect(mockFn).toHaveBeenCalled();
     iconButton.blur();

@@ -35,6 +35,19 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+const expectDecorativeIconSvg = (svg: Element | null | undefined): void => {
+  expect(svg).toBeTruthy();
+  expect(svg).toHaveAttribute("aria-hidden", "true");
+};
+
+const expectDecorativeButtonIcon = (button: Element | null | undefined): void => {
+  expect(button).toBeTruthy();
+  expectDecorativeIconSvg(button!.querySelector("svg"));
+};
+
+const getDrawerHeaderTitleIconSvg = (drawer: HTMLElement): SVGSVGElement | null =>
+  drawer.querySelector('[class*="base-header-text"] > svg');
+
 export const Default: Story = {
   args: {
     isOpen: false,
@@ -181,6 +194,32 @@ export const ModalInteractive: Story = {
     });
   },
 };
+
+export const ModalDecorativeIconsInteractive: Story = {
+  tags: ["!autodocs"],
+  args: {
+    ...Default.args,
+    isCollapsible: true,
+    id: "example-drawer",
+  },
+  render: Default.render,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(await canvas.getByRole("button", { name: "Open drawer" }));
+
+    const drawer = await within(document.body).findByRole("dialog");
+    const drawerBody = within(drawer);
+
+    expectDecorativeIconSvg(getDrawerHeaderTitleIconSvg(drawer));
+
+    expectDecorativeButtonIcon(drawerBody.getByRole("button", { name: "Close modal example-drawer" }));
+    expectDecorativeButtonIcon(drawerBody.getByRole("button", { name: "Close drawer example-drawer" }));
+
+    const floatingToggle = document.body.querySelector('[class*="drawer-toggle"]');
+    expectDecorativeButtonIcon(floatingToggle);
+  },
+};
+
 export const Responsive: Story = {
   args: {
     ...Default.args,

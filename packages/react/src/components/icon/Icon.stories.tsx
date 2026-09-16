@@ -1,10 +1,15 @@
 import { Meta, StoryObj } from "@storybook/react";
+import { expect } from "@storybook/test";
 
 import Icon from "./Icon";
 import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "./IconMap";
 
 const RegularIconIds = Object.keys(RegularIconsList);
 const TogglableIconIds = Object.keys(TogglableIconsList);
+const STORY_ICON_TARGET = "icon-story-target";
+
+const getStoryIconSvg = (canvasElement: HTMLElement): SVGSVGElement | null =>
+  canvasElement.querySelector(`[data-testid="${STORY_ICON_TARGET}"] svg`);
 
 const meta = {
   title: "Composants/Icon",
@@ -49,6 +54,45 @@ export const Default: Story = {
   },
 
   render: (args) => <Icon {...args} color="var(--content-primary)" aria-label={args.name} />,
+};
+
+export const DecorativeIcon: Story = {
+  args: {
+    name: "add",
+    size: 20,
+    appearance: "outlined",
+  },
+  render: (args) => (
+    <div data-testid={STORY_ICON_TARGET}>
+      <Icon {...args} />
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const iconSvg = getStoryIconSvg(canvasElement);
+
+    expect(iconSvg).toHaveAttribute("aria-hidden", "true");
+  },
+};
+
+export const SemanticIcon: Story = {
+  args: {
+    name: "add",
+    size: 20,
+    appearance: "outlined",
+    "aria-label": "Add item",
+    "aria-hidden": false,
+  },
+  render: (args) => (
+    <div data-testid={STORY_ICON_TARGET}>
+      <Icon {...args} />
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const iconSvg = getStoryIconSvg(canvasElement);
+
+    expect(iconSvg).toHaveAttribute("aria-label", "Add item");
+    expect(iconSvg).not.toHaveAttribute("aria-hidden", "true");
+  },
 };
 
 export const RegularIcons: Story = {
