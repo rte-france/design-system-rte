@@ -88,7 +88,7 @@ Utilisez `appearance="brand"` pour des numéros de page et des contrôles de nav
 
 (`"brand" | "neutral"`)
 
-#### Mid Position
+#### Position centrale
 
 ```html
 <rte-pagination
@@ -101,7 +101,7 @@ Utilisez `appearance="brand"` pour des numéros de page et des contrôles de nav
 
 Lorsque la page active est au milieu, la liste affiche la première page, une ellipse, une fenêtre autour de la page active, une autre ellipse et la dernière page.
 
-#### Without Ellipsis
+#### Sans ellipse
 
 ```html
 <rte-pagination
@@ -114,7 +114,7 @@ Lorsque la page active est au milieu, la liste affiche la première page, une el
 
 Lorsque `totalPages` est inférieur ou égal à sept, tous les numéros de page sont affichés sans ellipse.
 
-#### Hidden End Controls
+#### Contrôles de navigation masqués
 
 ```html
 <rte-pagination
