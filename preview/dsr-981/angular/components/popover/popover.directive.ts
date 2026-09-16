@@ -10,9 +10,10 @@ import {
   OnDestroy,
   output,
   Renderer2,
+  signal,
   ViewContainerRef,
 } from "@angular/core";
-import { PopoverPosition, waitForNextFrame } from "@design-system-rte/core";
+import { PopoverPosition, waitForNextFrame, logError, PopoverAlignment } from "@design-system-rte/core";
 import { POPOVER_GAP, POPOVER_GAP_ARROW } from "@design-system-rte/core/components/popover/popover.constants";
 import {
   getAutoAlignment,
@@ -33,9 +34,9 @@ export class PopoverDirective implements AfterViewInit, OnDestroy {
   readonly rtePopoverContent = input.required<string>();
   readonly rtePopoverTitle = input<string>();
   readonly rtePopoverPosition = input("auto");
-  readonly rtePopoverAlignment = input("center");
+  readonly rtePopoverAlignment = input<PopoverAlignment>();
   readonly rtePopoverArrow = input(true);
-  readonly rtePopoverPrimaryButtonLabel = input<string>();
+  readonly rtePopoverPrimaryButtonLabel = input.required<string>();
   readonly rtePopoverSecondaryButtonLabel = input<string>();
   readonly clickPrimaryButton = output<void>();
   readonly clickSecondaryButton = output<void>();
@@ -56,6 +57,8 @@ export class PopoverDirective implements AfterViewInit, OnDestroy {
   private onScroll = () => this.positionPopover();
   private onMouseDown = (e: MouseEvent) => this.handleClickAway(e);
   private onKeyDown = (e: KeyboardEvent) => this.handleKeydown(e);
+
+  private readonly hostAriaLabel = signal<string | null>(null);
 
   @HostListener("click")
   onClick(): void {
@@ -78,15 +81,25 @@ export class PopoverDirective implements AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     document.addEventListener("mousedown", this.onMouseDown);
     document.addEventListener("keydown", this.onKeyDown);
+    this.hostAriaLabel.set(this.hostElement.getAttribute("aria-label"));
+    window.addEventListener("scroll", this.onScroll, true);
+    window.addEventListener("resize", this.onScroll, true);
   }
 
   ngOnDestroy() {
     document.removeEventListener("mousedown", this.onMouseDown);
     document.removeEventListener("keydown", this.onKeyDown);
+    window.removeEventListener("scroll", this.onScroll, true);
+    window.removeEventListener("resize", this.onScroll, true);
     this.destroyPopover();
   }
 
   showPopover(): void {
+    if (!this.rtePopoverTitle() && !this.hostAriaLabel()) {
+      logError("Popover", "The 'title' or 'aria-label' prop is required.");
+      return;
+    }
+
     if (this.popoverRef) {
       this.popoverRef.destroy();
     }
@@ -99,6 +112,7 @@ export class PopoverDirective implements AfterViewInit, OnDestroy {
       this.handleClickSecondaryButton(),
     );
 
+    console.log("assignDirectiveToComponent called");
     this.assignDirectiveToComponent();
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
@@ -126,7 +140,6 @@ export class PopoverDirective implements AfterViewInit, OnDestroy {
   private refreshPopoverPosition() {
     if (this.popoverRef) {
       const popoverElement = this.popoverRef.location.nativeElement.children[0];
-
       const position =
         this.rtePopoverPosition() === "auto"
           ? getAutoPlacement(
@@ -148,6 +161,7 @@ export class PopoverDirective implements AfterViewInit, OnDestroy {
 
       this.popoverRef.setInput("isInParentWithOverlay", isElementInParentWithOverlay(this.hostElement));
       this.popoverRef.setInput("title", this.rtePopoverTitle());
+      this.popoverRef.setInput("ariaLabel", this.hostAriaLabel());
       this.popoverRef.setInput("content", this.rtePopoverContent());
 
       this.popoverRef.setInput("arrow", this.rtePopoverArrow());
@@ -172,7 +186,9 @@ export class PopoverDirective implements AfterViewInit, OnDestroy {
       const popoverElement = this.popoverRef.location.nativeElement.children[0] as HTMLElement;
       this.refreshPopoverPosition();
 
-      const autoAlignment = getAutoAlignment(this.hostElement, popoverElement, this.popoverRef.instance.position());
+      const autoAlignment =
+        this.rtePopoverAlignment() ??
+        getAutoAlignment(this.hostElement, popoverElement, this.popoverRef.instance.position());
       this.popoverRef.setInput("alignment", autoAlignment);
 
       const positions = getCoordinates(

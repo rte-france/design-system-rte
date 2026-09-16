@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, input, computed, AfterViewInit, signal } from "@angular/core";
+import { TAG_ERROR_NO_LABEL } from "@design-system-rte/core";
 import { TagProps } from "@design-system-rte/core/components/tag/tag.interface";
-import { TAG_ERROR_NO_LABEL } from "@design-system-rte/core/dist";
 
 import { isValidIconName } from "../icon/icon-map";
 import { RegularIconIdKey, TogglableIconIdKey } from "../icon/icon-registry.service";
