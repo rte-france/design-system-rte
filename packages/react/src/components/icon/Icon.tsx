@@ -19,18 +19,17 @@ interface IconWrapperProps
 }
 
 const Icon = ({ name, size, color, appearance, ...props }: IconWrapperProps) => {
+  const { "aria-hidden": ariaHidden = true, ...svgProps } = props;
+  const commonSvgProps = { width: size, height: size, fill: color, "aria-hidden": ariaHidden, ...svgProps };
+
   if (isValidIconName(name)) {
     const togglableIcon = TogglableIcons[name as TogglableIconIdKey];
     if (togglableIcon) {
       const [OutlinedIcon, FilledIcon] = togglableIcon;
-      return appearance === "filled" ? (
-        <FilledIcon width={size} height={size} fill={color} {...props} />
-      ) : (
-        <OutlinedIcon width={size} height={size} fill={color} {...props} />
-      );
+      return appearance === "filled" ? <FilledIcon {...commonSvgProps} /> : <OutlinedIcon {...commonSvgProps} />;
     } else {
       const Icon = RegularIcons[name as RegularIconIdKey];
-      return <Icon width={size} height={size} fill={color} {...props} />;
+      return <Icon {...commonSvgProps} />;
     }
   } else {
     console.warn(`Icon: Invalid icon name "${name}". Please use a valid icon key.`);
