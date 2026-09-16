@@ -20,6 +20,7 @@ import {
 import {
   DRAWER_PADDING,
   DRAWER_TRANSITION_DURATION,
+  getDrawerAriaAttributes,
   shouldUseDrawerDefaultFooter,
   shouldUseDrawerDefaultHeader,
   waitForNextFrame,
@@ -57,6 +58,7 @@ export class DrawerComponent implements OnDestroy {
   readonly showFooter = input<boolean>(true);
   readonly closeOnEscape = input<boolean>(false);
   readonly isClosable = input<boolean>(true);
+  readonly ariaLabel = input<string>();
   readonly modalHostMode = input<boolean>(false);
 
   readonly drawerContent = input<TemplateRef<unknown> | null>(null);
@@ -82,6 +84,16 @@ export class DrawerComponent implements OnDestroy {
   );
   readonly shouldDisplayDefaultFooter = computed(() =>
     shouldUseDrawerDefaultFooter(!!this.drawerFooter(), this.primaryButtonLabel()),
+  );
+
+  readonly drawerAriaAttributes = computed(() =>
+    getDrawerAriaAttributes({
+      id: this.id(),
+      showHeader: this.showHeader(),
+      hasCustomHeader: !!this.drawerHeader(),
+      hasTitle: !!this.title(),
+      ariaLabel: this.ariaLabel(),
+    }),
   );
 
   readonly panelWidthPx = signal(0);

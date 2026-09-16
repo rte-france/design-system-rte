@@ -13,6 +13,7 @@ import {
   signal,
   viewChild,
 } from "@angular/core";
+import { generateId } from "@design-system-rte/core";
 import { AssistiveTextProps } from "@design-system-rte/core/components/assistive-text/assistive-text.interface";
 
 import { AssistiveTextComponent } from "../assistive-text/assistive-text.component";
@@ -68,6 +69,8 @@ export class FileUploadComponent implements AfterViewInit, OnDestroy {
 
   readonly buttonSize = computed(() => (this.compactSpacing() ? "s" : "m"));
 
+  readonly internalId = computed(() => this.id() ?? generateId());
+
   ngAfterViewInit(): void {
     const buttonEl = this.buttonRef()?.nativeElement as HTMLElement | undefined;
     if (!buttonEl) return;
@@ -107,6 +110,7 @@ export class FileUploadComponent implements AfterViewInit, OnDestroy {
     fileInput.value = "";
     this.selectedFiles.set(files);
     this.filesChange.emit(files);
+    fileInput.focus();
 
     const onUpload = this.onUploadFile();
     if (onUpload) {
@@ -136,6 +140,11 @@ export class FileUploadComponent implements AfterViewInit, OnDestroy {
       this.selectedFiles.set(newFiles);
       this.fileRemoved.emit(file);
       this.filesChange.emit(newFiles);
+      const input = this.inputRef()?.nativeElement;
+      if (input) {
+        input.value = "";
+        input.focus();
+      }
     }
   }
 }
