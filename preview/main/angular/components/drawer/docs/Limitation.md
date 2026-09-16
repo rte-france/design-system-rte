@@ -14,6 +14,6 @@ Une chaîne vide ne constitue pas un titre ou un libellé valide pour `rteDrawer
 
 `rteDrawerIsOpen` est lu uniquement à l’initialisation ; pour les changements ultérieurs, utiliser `open()` ou `close()` via `#drawerHost`, ou un élément `rteDrawerTrigger`.
 
-## Le focus reste piégé dans le Drawer pendant son affichage
+## Le focus reste piégé dans le Drawer en position modal
 
-Le focus est piégé dans le Drawer pendant son affichage ; les contenus interactifs doivent rester accessibles depuis le Drawer.
+En position `modal`, le focus est piégé dans le Drawer pendant son affichage ; les contenus interactifs doivent rester accessibles depuis le Drawer. En position `responsive`, Tab et Shift+Tab peuvent quitter le Drawer pour atteindre le reste de la page.
