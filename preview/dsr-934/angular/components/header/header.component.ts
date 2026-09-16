@@ -12,6 +12,7 @@ import {
   signal,
 } from "@angular/core";
 import { RouterLink } from "@angular/router";
+import { HeaderAvatarConfig } from "@design-system-rte/core";
 import { BadgeSize } from "@design-system-rte/core/components/badge/badge.interface";
 import { ButtonSize, type ButtonVariant } from "@design-system-rte/core/components/button/common/common-button";
 import {
@@ -22,7 +23,6 @@ import {
   resolveScrollDirection,
   type HeaderActionButtonConfig,
   type HeaderAppearance,
-  type HeaderAvatarConfig,
   type HeaderIconButtonConfig,
   type HeaderNavigationItem,
   type ScrollDirectionState,
@@ -41,7 +41,6 @@ import { ButtonComponent } from "../button/button.component";
 import { DividerComponent } from "../divider/divider.component";
 import type { DropdownItemConfig } from "../dropdown/dropdown.types";
 import { RegularIconIdKey, TogglableIconIdKey } from "../icon/icon-registry.service";
-import { IconComponent } from "../icon/icon.component";
 import { IconButtonComponent } from "../icon-button/icon-button.component";
 import { SearchbarComponent } from "../searchbar/searchbar.component";
 
@@ -66,7 +65,6 @@ export type HeaderNavigationElement = HeaderNavigationItem & NavigationElement;
     ButtonComponent,
     SearchbarComponent,
     AvatarComponent,
-    IconComponent,
     BreadcrumbsComponent,
     HeaderMobileComponent,
     HeaderLeftSectionComponent,
@@ -117,7 +115,7 @@ export class HeaderComponent {
   readonly iconButtons = input<HeaderIconButtonConfig<RegularIconIdKey | TogglableIconIdKey>[] | undefined>(undefined);
 
   readonly hasAvatar = input<boolean>(true);
-  readonly avatarProps = input<HeaderAvatarConfig | undefined>(undefined);
+  readonly avatarProps = input<(HeaderAvatarConfig & { isInteractive?: boolean }) | undefined>(undefined);
 
   readonly mobileMenuButton = input<HeaderIconButtonConfig<RegularIconIdKey | TogglableIconIdKey> | undefined>(
     undefined,
