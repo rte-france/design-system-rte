@@ -1,16 +1,21 @@
 import { TAB_KEY } from "@design-system-rte/core";
 import { FOCUSABLE_ELEMENTS_QUERY } from "@design-system-rte/core/constants/dom/dom.constants";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 export const useFocusTrap = <TElement extends HTMLElement>(
   containerElement?: TElement,
   shouldRender?: boolean,
   shouldFocusFirst: boolean = true,
 ) => {
+  const initiallyFocusedElement = useRef<HTMLElement | undefined>(undefined);
+
   useEffect(() => {
     if (!shouldRender || !containerElement) {
       return;
     }
+
+    initiallyFocusedElement.current = document.activeElement as HTMLElement;
+
     const focusable = containerElement.querySelectorAll(FOCUSABLE_ELEMENTS_QUERY) as NodeListOf<HTMLElement>;
 
     if (shouldFocusFirst && focusable.length > 0) (focusable[0] as HTMLElement).focus({ preventScroll: true });
@@ -32,6 +37,12 @@ export const useFocusTrap = <TElement extends HTMLElement>(
       }
     };
     containerElement.addEventListener("keydown", handleKeyDown);
-    return () => containerElement.removeEventListener("keydown", handleKeyDown);
+    return () => {
+      containerElement.removeEventListener("keydown", handleKeyDown);
+      if (initiallyFocusedElement.current) {
+        initiallyFocusedElement.current.focus({ preventScroll: true });
+        initiallyFocusedElement.current = undefined;
+      }
+    };
   }, [containerElement, shouldRender, shouldFocusFirst]);
 };
