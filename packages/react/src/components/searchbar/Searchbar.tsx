@@ -52,11 +52,12 @@ function getTextInputStyles(appearance: SearchBarAppearance, hasLeftIcon: boolea
   return baseStyles;
 }
 
-function getSearchButtonStyles(hasCompactSpacing?: boolean): CSSProperties {
+function getSearchButtonStyles(hasCompactSpacing?: boolean, isFocused?: boolean): CSSProperties {
   return {
     width: SEARCHBAR_BUTTON_WIDTH,
     borderRadius: `0 ${SEARCHBAR_BORDER_RADIUS} ${SEARCHBAR_BORDER_RADIUS} 0`,
     height: hasCompactSpacing ? SEARCHBAR_BUTTON_HEIGHT_COMPACT : undefined,
+    outline: isFocused ? "1px solid var(--border-brand-default)" : undefined,
   };
 }
 
@@ -176,11 +177,24 @@ const Searchbar = forwardRef<HTMLInputElement, SearchbarProps>(
       [appearance, appearanceConfig.showLeftIcon, customInputStyle],
     );
 
-    const searchButtonStyles = useMemo(() => getSearchButtonStyles(compactSpacing), [compactSpacing]);
+    const searchButtonStyles = useMemo(
+      () => getSearchButtonStyles(compactSpacing, hasFocusWithin),
+      [compactSpacing, hasFocusWithin],
+    );
 
     return (
-      <div className={styles.searchbarContainer} role="search" data-appearance={appearance}>
-        <div ref={wrapperRef} className={styles.textInputWrapper} data-disabled={disabled}>
+      <div
+        className={styles.searchbarContainer}
+        role="search"
+        data-appearance={appearance}
+        data-compact-spacing={compactSpacing}
+      >
+        <div
+          ref={wrapperRef}
+          className={styles.textInputWrapper}
+          data-disabled={disabled}
+          data-compact-spacing={compactSpacing}
+        >
           <BaseTextInput
             id={id ?? ""}
             width={width}

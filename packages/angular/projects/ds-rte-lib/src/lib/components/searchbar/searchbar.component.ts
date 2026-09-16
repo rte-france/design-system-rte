@@ -98,6 +98,10 @@ export class SearchbarComponent extends BaseValueAccessor<string> {
     if (this.compactSpacing()) {
       styles["height"] = SEARCHBAR_BUTTON_HEIGHT_COMPACT;
     }
+    if (this.hasFocusWithin()) {
+      styles["outline"] = "1px solid var(--border-brand-default)";
+      styles["outline-offset"] = "0";
+    }
     return styles;
   });
 
