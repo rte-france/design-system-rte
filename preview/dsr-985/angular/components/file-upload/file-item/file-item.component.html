@@ -2,7 +2,7 @@
   <div class="rte-file-upload-file">
     <div class="rte-file-upload-file-icon">
       @if (isLoading()) {
-        <rte-loader size="small" [showLabel]="false" />
+        <rte-loader size="small" />
       } @else {
         @if (isError()) {
           <rte-icon name="error" color="var(--content-danger-default)" [size]="20" />

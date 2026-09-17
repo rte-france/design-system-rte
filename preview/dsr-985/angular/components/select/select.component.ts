@@ -92,7 +92,7 @@ export class SelectComponent extends BaseValueAccessor<string | string[]> implem
 
   readonly selectDropdownOffset = SELECT_DROPDOWN_OFFSET;
   readonly assistiveTextId = computed(() => (this.id() ? `${this.id()}-assistive-text` : null));
-  readonly effectiveAssistiveTextLabel = computed(() =>
+  readonly computedAssistiveTextLabel = computed(() =>
     this.isError() ? this.errorMessage() || this.assistiveTextLabel() : this.assistiveTextLabel(),
   );
 

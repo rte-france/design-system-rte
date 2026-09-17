@@ -90,6 +90,12 @@ export const Default: Story = {
     </div>
     `,
   }),
+};
+
+export const KeyboardInteraction: Story = {
+  tags: ["!autodocs"],
+  args: Default.args,
+  render: Default.render,
 
   play: async ({ canvasElement }) => {
     const canvas = canvasElement;
