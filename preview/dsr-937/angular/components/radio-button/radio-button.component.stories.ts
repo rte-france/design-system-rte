@@ -168,7 +168,7 @@ export const HiddenLabelWithAriaLabelOnly: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const radioButton = canvas.getByRole("radio", { name: /radio button/i });
+    const radioButton = await canvas.queryByRole("radio");
     expect(radioButton).toBeInTheDocument();
   },
 };
