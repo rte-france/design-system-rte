@@ -84,6 +84,8 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
 
     const selectRef = useRef<HTMLDivElement | null>(null);
 
+    const labelRef = useRef<HTMLDivElement | null>(null);
+
     const selectRefCallback = (node: HTMLDivElement | null) => {
       selectRef.current = node;
       if (typeof ref === "function") {
@@ -126,6 +128,15 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
       !!internalValue &&
       !disabled &&
       !readonly;
+
+    const computeDropdownWidth = () => {
+      if (labelRef.current) {
+        return typeof width === "number"
+          ? width - labelRef.current.clientWidth
+          : `calc(${width} - ${labelRef.current.clientWidth}px)`;
+      }
+      return width;
+    };
 
     const computeDropdownPosition = () => {
       const selectElement = selectRef.current;
@@ -243,14 +254,23 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
       <>
         <div className={styles["select-container"]} data-label-position={labelPosition} style={{ width }}>
           {showLabel && labelPosition === "side" && (
-            <Label label={label} htmlFor={id} required={required} showLabelRequirement={showLabelRequirement} />
+            <Label
+              id={id}
+              label={label}
+              htmlFor={id}
+              required={required}
+              showLabelRequirement={showLabelRequirement}
+              ref={labelRef}
+            />
           )}
           <div className={styles["select-header"]}>
             {showLabel && labelPosition === "top" && (
               <Label label={label} htmlFor={id} required={required} showLabelRequirement={showLabelRequirement} />
             )}
             <Dropdown
-              style={{ width }}
+              style={{
+                width: computeDropdownWidth(),
+              }}
               dropdownId={id + "-dropdown"}
               onClose={() => {
                 setIsActive(false);

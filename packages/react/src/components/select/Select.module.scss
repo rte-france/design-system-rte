@@ -13,11 +13,8 @@
     .select-header {
       display: flex;
       flex-direction: column;
-    }
-
-    .select-label {
-      height: 32px;
-      padding: 0 $positive-spacing_100;
+      flex: 1;
+      min-width: 0;
     }
   }
 
@@ -33,6 +30,7 @@
     border-radius: $radius-s;
     border: $width-xs solid var(--border-secondary);
     box-sizing: border-box;
+    width: 100%;
 
     &[data-compact-spacing="true"] {
       min-height: 24px;
