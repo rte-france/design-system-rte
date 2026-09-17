@@ -15,7 +15,6 @@ export class LoaderComponent {
   readonly loaderId = `loader${generateId()}`;
   readonly appearance = input<LoaderProps["appearance"]>("brand");
   readonly size = input<LoaderProps["size"]>("medium");
-  readonly showLabel = input(true);
   readonly label = input("");
   readonly ariaLabel = input<string | undefined>(undefined);
   readonly labelPosition = input<LoaderProps["labelPosition"]>("right");

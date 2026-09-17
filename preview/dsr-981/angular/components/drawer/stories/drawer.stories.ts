@@ -114,6 +114,19 @@ type Story = StoryObj<DrawerDirective>;
 
 const content = "Body content.";
 
+const expectDecorativeIconSvg = (svg: Element | null | undefined): void => {
+  expect(svg).toBeTruthy();
+  expect(svg).toHaveAttribute("aria-hidden", "true");
+};
+
+const expectDecorativeButtonIcon = (button: Element | null | undefined): void => {
+  expect(button).toBeTruthy();
+  expectDecorativeIconSvg(button!.querySelector("svg"));
+};
+
+const getDrawerHeaderTitleIconSvg = (drawer: HTMLElement): SVGSVGElement | null =>
+  drawer.querySelector(".rte-drawer-base-header-text rte-icon svg");
+
 export const Default: Story = {
   decorators: [
     moduleMetadata({
@@ -192,6 +205,34 @@ export const ModalInteractive: Story = {
     await waitFor(() => {
       expect(within(document.body).queryByRole("dialog")).not.toBeInTheDocument();
     });
+  },
+};
+
+export const ModalDecorativeIconsInteractive: Story = {
+  ...Default,
+  tags: ["!autodocs"],
+  args: {
+    ...Default.args,
+    rteDrawerIsCollapsible: true,
+    rteDrawerId: "example-drawer",
+  },
+  play: async ({ canvasElement }) => {
+    focusElementBeforeComponent();
+    const canvas = within(canvasElement);
+    await userEvent.click(await canvas.getByRole("button", { name: "Open drawer" }));
+
+    const drawer = await within(document.body).findByRole("dialog");
+    const drawerBody = within(drawer);
+
+    expectDecorativeIconSvg(getDrawerHeaderTitleIconSvg(drawer));
+
+    expectDecorativeButtonIcon(drawerBody.getByTestId("drawer-close-button"));
+
+    const headerToggleHost = drawer.querySelector("rte-icon-button.drawer-toggle:not(.drawer-toggle--floating)");
+    expectDecorativeButtonIcon(headerToggleHost?.querySelector("button"));
+
+    const floatingToggleHost = document.body.querySelector("rte-icon-button.drawer-toggle--floating");
+    expectDecorativeButtonIcon(floatingToggleHost?.querySelector("button"));
   },
 };
 
