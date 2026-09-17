@@ -41,7 +41,7 @@
         class="rte-base-input-picker-input"
         [attr.id]="id()"
         [attr.aria-labelledby]="labelId() || undefined"
-        [attr.aria-describedby]="effectiveAssistiveTextLabel() && !isPanelOpen() ? assistiveTextId() : null"
+        [attr.aria-describedby]="computedAssistiveTextLabel() && !isPanelOpen() ? assistiveTextId() : null"
         [attr.aria-label]="showLabel() ? undefined : label()"
         [value]="displayValue()"
         [readOnly]="readOnly()"
@@ -93,10 +93,10 @@
       </ng-template>
     </rte-dropdown-menu>
   </div>
-  @if (effectiveAssistiveTextLabel() && !isPanelOpen()) {
+  @if (computedAssistiveTextLabel() && !isPanelOpen()) {
     <rte-assistive-text
       [attr.id]="assistiveTextId()"
-      [label]="effectiveAssistiveTextLabel()!"
+      [label]="computedAssistiveTextLabel()!"
       [appearance]="isError() ? 'error' : (assistiveAppearance() ?? 'description')"
       [showIcon]="showAssistiveIcon()"
       [href]="assistiveTextLink()"

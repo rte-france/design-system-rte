@@ -116,8 +116,8 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
 
     const shouldDisplayErrorIcon = isError && !disabled && !readonly;
     const assistiveTextId = `${id}-assistive-text`;
-    const effectiveAssistiveTextLabel = isError ? errorMessage || assistiveTextLabel : assistiveTextLabel;
-    const describedBy = effectiveAssistiveTextLabel ? assistiveTextId : undefined;
+    const computedAssistiveTextLabel = isError ? errorMessage || assistiveTextLabel : assistiveTextLabel;
+    const describedBy = computedAssistiveTextLabel ? assistiveTextId : undefined;
 
     const shouldDisplaySelectedIcon =
       variant === "visibly-selected" &&
@@ -395,10 +395,10 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
               )}
             </Dropdown>
 
-            {effectiveAssistiveTextLabel && (
+            {computedAssistiveTextLabel && (
               <AssistiveText
                 id={assistiveTextId}
-                label={effectiveAssistiveTextLabel}
+                label={computedAssistiveTextLabel}
                 appearance={isError ? "error" : assistiveAppearance}
                 showIcon={showAssistiveIcon}
                 href={assistiveTextLink}

@@ -112,7 +112,7 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
 
   readonly isDisabled = computed(() => this.disabled() || this.formDisabled());
   readonly isError = computed(() => this.error());
-  readonly effectiveAssistiveTextLabel = computed(() =>
+  readonly computedAssistiveTextLabel = computed(() =>
     this.isError() ? this.errorMessage() || this.assistiveTextLabel() : this.assistiveTextLabel(),
   );
 

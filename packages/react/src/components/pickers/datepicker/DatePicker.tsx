@@ -71,8 +71,8 @@ const DatePicker = forwardRef<HTMLDivElement, DatepickerProps>(
     const [isFocused, setIsFocused] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-    const effectiveAssistiveTextLabel = isError ? errorMessage || assistiveTextLabel : assistiveTextLabel;
-    const shouldDisplayAssistiveText = effectiveAssistiveTextLabel && !isDropdownOpen;
+    const computedAssistiveTextLabel = isError ? errorMessage || assistiveTextLabel : assistiveTextLabel;
+    const shouldDisplayAssistiveText = computedAssistiveTextLabel && !isDropdownOpen;
     const assistiveTextId = `${id}-assistive-text`;
 
     const isControlled = value !== undefined;
@@ -336,7 +336,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatepickerProps>(
         {shouldDisplayAssistiveText && (
           <AssistiveText
             id={assistiveTextId}
-            label={effectiveAssistiveTextLabel}
+            label={computedAssistiveTextLabel}
             appearance={isError ? "error" : assistiveAppearance}
             showIcon={showAssistiveIcon}
             href={assistiveTextLink}

@@ -136,7 +136,7 @@ export class DaterangepickerComponent implements ControlValueAccessor, AfterView
 
   readonly isDisabled = computed(() => this.disabled() || this.formDisabled());
   readonly isError = computed(() => this.error());
-  readonly effectiveAssistiveTextLabel = computed(() =>
+  readonly computedAssistiveTextLabel = computed(() =>
     this.isError() ? this.errorMessage() || this.assistiveTextLabel() : this.assistiveTextLabel(),
   );
 
@@ -151,7 +151,7 @@ export class DaterangepickerComponent implements ControlValueAccessor, AfterView
   });
 
   readonly fieldDescribedBy = computed(() => {
-    if (!this.hasAssistiveText() || !this.effectiveAssistiveTextLabel() || this.isOpen()) {
+    if (!this.hasAssistiveText() || !this.computedAssistiveTextLabel() || this.isOpen()) {
       return null;
     }
     return `${this.id()}-assistive-text`;
