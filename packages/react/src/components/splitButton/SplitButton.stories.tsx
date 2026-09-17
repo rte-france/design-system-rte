@@ -178,6 +178,7 @@ export const WithBadge: Story = {
 };
 
 export const KeyboardInteraction: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
   },
