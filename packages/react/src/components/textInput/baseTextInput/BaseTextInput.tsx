@@ -146,8 +146,8 @@ const BaseTextInput = forwardRef<HTMLInputElement, BaseTextInputProps>(
     const rightIconName = getRightIconName(rightIconAction);
     const rightIconAriaLabel = getRightIconAriaLabel(rightIconAction);
     const assistiveTextId = `${id}-assistive-text`;
-    const effectiveAssistiveTextLabel = error ? errorMessage || assistiveTextLabel : assistiveTextLabel;
-    const describedBy = effectiveAssistiveTextLabel ? assistiveTextId : undefined;
+    const computedAssistiveTextLabel = error ? errorMessage || assistiveTextLabel : assistiveTextLabel;
+    const describedBy = computedAssistiveTextLabel ? assistiveTextId : undefined;
 
     const shouldShowRightIcon = () => {
       if (readOnly || disabled) {
@@ -244,10 +244,10 @@ const BaseTextInput = forwardRef<HTMLInputElement, BaseTextInputProps>(
             </div>
             {rightSlot && <div className={styles["rightSlot"]}>{rightSlot}</div>}
           </div>
-          {effectiveAssistiveTextLabel && (
+          {computedAssistiveTextLabel && (
             <AssistiveText
               id={assistiveTextId}
-              label={effectiveAssistiveTextLabel}
+              label={computedAssistiveTextLabel}
               appearance={error ? "error" : assistiveAppearance}
               showIcon={showAssistiveIcon}
             />

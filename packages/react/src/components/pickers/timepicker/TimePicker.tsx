@@ -118,7 +118,7 @@ const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
     const displayValue = buildDisplayValue(internalTimeValue, activeTimeSegment);
 
     const shouldOpenDropdown = isOpen && !disabled;
-    const effectiveAssistiveTextLabel = isError ? errorMessage || assistiveTextLabel : assistiveTextLabel;
+    const computedAssistiveTextLabel = isError ? errorMessage || assistiveTextLabel : assistiveTextLabel;
     const assistiveTextId = `${id}-assistive-text`;
 
     const getTimePickerInputRef = (element: HTMLInputElement) => {
@@ -386,7 +386,7 @@ const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
             <BaseInputPicker
               id={id}
               ariaLabelledBy={labelId}
-              ariaDescribedBy={effectiveAssistiveTextLabel && !isOpen ? assistiveTextId : undefined}
+              ariaDescribedBy={computedAssistiveTextLabel && !isOpen ? assistiveTextId : undefined}
               aria-label={showLabel ? undefined : label}
               value={displayValue}
               readOnly={readOnly}
@@ -441,10 +441,10 @@ const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
             />
           </div>
         </Dropdown>
-        {effectiveAssistiveTextLabel && !isOpen && (
+        {computedAssistiveTextLabel && !isOpen && (
           <AssistiveText
             id={assistiveTextId}
-            label={effectiveAssistiveTextLabel}
+            label={computedAssistiveTextLabel}
             appearance={isError ? "error" : assistiveAppearance!}
             showIcon={showAssistiveIcon}
             href={assistiveTextLink}

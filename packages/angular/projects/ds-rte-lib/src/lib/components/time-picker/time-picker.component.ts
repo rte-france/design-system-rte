@@ -122,7 +122,7 @@ export class TimePickerComponent implements ControlValueAccessor {
   readonly displayValue = computed(() => buildDisplayValue(this.internalTimeValue(), this.activeTimeSegment()));
   readonly dropdownMenuId = computed(() => `time_picker_${this.id()}`);
   readonly assistiveTextId = computed(() => `${this.id()}-assistive-text`);
-  readonly effectiveAssistiveTextLabel = computed(() =>
+  readonly computedAssistiveTextLabel = computed(() =>
     this.isError() ? this.errorMessage() || this.assistiveTextLabel() : this.assistiveTextLabel(),
   );
 
@@ -136,7 +136,7 @@ export class TimePickerComponent implements ControlValueAccessor {
       console.warn(TIME_PICKER_WARN_READ_ONLY_INCOMPLETE_VALUE);
       return false;
     }
-    if (this.isError() && !this.effectiveAssistiveTextLabel()) {
+    if (this.isError() && !this.computedAssistiveTextLabel()) {
       console.warn(TIME_PICKER_WARN_ERROR_WITHOUT_ASSISTIVE_TEXT);
       return false;
     }

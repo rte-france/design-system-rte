@@ -50,8 +50,8 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
 
     const displayCounter = showCounter && maxLength;
     const assistiveTextId = `${id}-assistive-text`;
-    const effectiveAssistiveTextLabel = props["aria-invalid"] ? errorMessage || assistiveTextLabel : assistiveTextLabel;
-    const describedBy = effectiveAssistiveTextLabel ? assistiveTextId : undefined;
+    const computedAssistiveTextLabel = props["aria-invalid"] ? errorMessage || assistiveTextLabel : assistiveTextLabel;
+    const describedBy = computedAssistiveTextLabel ? assistiveTextId : undefined;
 
     const handleBlur = (event: FocusEvent<HTMLTextAreaElement, Element>) => {
       if (onBlur) {
@@ -121,10 +121,10 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
                 readOnly={readOnly}
                 {...deleteFromProps(props, "placeholder")}
               />
-              {effectiveAssistiveTextLabel && (
+              {computedAssistiveTextLabel && (
                 <AssistiveText
                   id={assistiveTextId}
-                  label={effectiveAssistiveTextLabel}
+                  label={computedAssistiveTextLabel}
                   appearance={props["aria-invalid"] ? "error" : assistiveTextAppearance}
                   showIcon={true}
                   href={assistiveTextLink}
