@@ -1,5 +1,8 @@
+import { RADIO_BUTTON_MISSING_ACCESSIBLE_NAME_ERROR } from "@design-system-rte/core";
 import { Meta, StoryObj } from "@storybook/angular";
 import { userEvent, within, expect } from "@storybook/test";
+
+import { acceptLogError } from "../../../../../../.storybook/testing/testing.utils";
 
 import { RadioButtonComponent } from "./radio-button.component";
 
@@ -147,6 +150,7 @@ export const HiddenLabel: Story = {
     label: "",
     groupName: "hidden-label-radio-group",
   },
+  beforeEach: acceptLogError(RADIO_BUTTON_MISSING_ACCESSIBLE_NAME_ERROR),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const radioButton = canvas.getByRole("radio", { name: /radio button/i });
