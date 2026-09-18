@@ -38,18 +38,22 @@ const FileUpload = ({
   const [selectedFiles, setSelectedFiles] = useState<File[] | null>(null);
   const [loadingFiles, setLoadingFiles] = useState<Set<File>>(new Set());
 
-  const shouldDisplayAssistiveText =
-    showAssistiveText && assistiveTextLabel && assistiveAppearance && errorFilesMap?.length === 0;
+  const [localErrorFilesMap, setLocalErrorFilesMap] = useState<string[]>(errorFilesMap ?? []);
 
-  const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const shouldDisplayAssistiveText =
+    showAssistiveText && assistiveTextLabel && assistiveAppearance && localErrorFilesMap?.length === 0;
+
+  const handleOnChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files || []);
     onChange?.(files);
-    setSelectedFiles(files);
+    if (multiple) {
+      setSelectedFiles((prev) => (prev ? [...prev, ...files] : files));
+    } else {
+      setSelectedFiles(files);
+    }
 
     if (onUpload) {
-      files.forEach((file) => {
-        handleUploadFile(file);
-      });
+      await Promise.all(files.map((file) => handleUploadFile(file)));
     }
   };
 
@@ -79,13 +83,22 @@ const FileUpload = ({
 
   const handleUploadFile = (file: File) => {
     setLoadingFiles((prev) => new Set(prev).add(file));
-    onUpload!(file).finally(() => {
-      setLoadingFiles((prev) => {
-        const next = new Set(prev);
-        next.delete(file);
-        return next;
+    onUpload!(file)
+      .then(() => {
+        setLoadingFiles((prev) => {
+          const next = new Set(prev);
+          next.delete(file);
+          return next;
+        });
+      })
+      .catch(() => {
+        setLoadingFiles((prev) => {
+          const next = new Set(prev);
+          next.delete(file);
+          return next;
+        });
+        setLocalErrorFilesMap((prev) => [...prev, "Erreur lors du téléchargement du fichier."]);
       });
-    });
   };
 
   return (
@@ -141,8 +154,8 @@ const FileUpload = ({
             file={file}
             removeFile={() => handleRemoveFile(file)}
             isLoading={loadingFiles.has(file)}
-            isError={errorFilesMap?.[index] !== undefined}
-            errorMessage={errorFilesMap?.[index]}
+            isError={localErrorFilesMap?.[index] !== undefined}
+            errorMessage={localErrorFilesMap?.[index]}
             compact={compactSpacing}
           />
         ))}

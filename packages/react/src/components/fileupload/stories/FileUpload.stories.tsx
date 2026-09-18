@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import FileUpload from "../FileUpload";
 
@@ -57,6 +57,37 @@ export const MultipleFiles: Story = {
     ...Default.args,
     id: "file-upload-3",
     multiple: true,
+  },
+  render: (args) => {
+    const [, setFiles] = useState<File[]>([]);
+    const handleChange = (files: File[]) => {
+      setFiles(files);
+    };
+
+    const count = useRef(0);
+
+    const handleUpload = (file: File) => {
+      return new Promise<void>((resolve, reject) => {
+        if (count.current % 2 === 0) {
+          setTimeout(() => {
+            reject();
+            console.log("File not uploaded:", file);
+          }, 5000);
+        } else {
+          setTimeout(() => {
+            resolve();
+            console.log("File not uploaded:", file);
+          }, 5000);
+        }
+        count.current += 1;
+      });
+    };
+
+    const handleRemovingFile = (file: File) => {
+      setFiles((prev) => prev.filter((f) => f !== file));
+    };
+
+    return <FileUpload {...args} onUpload={handleUpload} onChange={handleChange} onRemovingFile={handleRemovingFile} />;
   },
 };
 
