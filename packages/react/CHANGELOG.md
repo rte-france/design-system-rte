@@ -1,5 +1,106 @@
 # @design-system-rte/react
 
+## 1.19.0
+
+### Minor Changes
+
+- d654a29: ## Changes
+
+  - (Loader) add documentation
+  - (Loader) remove showLabel prop
+
+- 59cd691: ## Changes
+
+  - (Drawer) add accessibility control in case the component can't resolve a valid aria label
+
+- 97fbf6b: ## Changes
+
+  - add focus back initial element after removing focus trap hook
+
+- 0a94e7c: ## Changes
+
+  - use computed prefix instead of effective
+  - add missing aria describedBy
+  - (Docs) update docs
+  - Enhance assistive text handling across input components
+
+### Patch Changes
+
+- aed0129: ## Changes
+
+  - (Header) add dcumentation
+  - (Header) add default font family
+
+- 6fab138: ## Changes
+
+  - (Popover) add documentation
+  - (Popover) enforce accesible name with title or aria label + use alignment value for angular
+  - (Popover) reposition popover on scroll
+
+- b094284: ## Changes
+
+  - (Searchbar) add documentation
+  - (Searchbar) allow assistive text to take space + correct focus appearance on searchbar input
+
+- 9830d6d: ## Changes
+
+  - (Select) add documentation
+  - (Select) harmonise style when labelPosition equals side
+
+- de17750: ## Changes
+
+  - (Side Navigation) add aria attributes for Sidenav's menus
+
+- 882d50e: ## Changes
+
+  - (Side Navigation) enhance accessibility of footer's collapse button
+
+- 58137a8: ## Changes
+
+  - (Side Navigation) add missing prefers-reduced-motion for component transitions
+
+- ec8bce6: ## Changes
+
+  - (Card) enforce clickable card accessibility feature
+
+- f46c141: ## Changes
+
+  - (Card) enforce disabled accesibility state
+
+- 653d0ae: ## Changes
+
+  - (Drawer) trigger focus trap only for modal position instead of responsive position
+
+- 2dffb9e: ## Changes
+
+  - (Drawer) add prefers-reduced-motion for transitions
+
+- 13263c2: ## Changes
+
+  - (Icon) handle aria-hidden and aria-label when the component has a decorative function instead of a semantic one
+
+- 1e2ab4b: ## Changes
+
+  - (File Upload) add aria label for file item delete button
+
+- ba96671: ## Changes
+
+  - (File Upload) add accessible description and label
+
+- 1d3a5a7: ## Changes
+
+  - (File-item) add descriptive text for status icon
+
+- 9c81c8e: ## Changes
+
+  - (Button) add aria-hidden attribute to icons for improved accessibility
+
+- Updated dependencies [d654a29]
+- Updated dependencies [59cd691]
+- Updated dependencies [ba96671]
+- Updated dependencies [0a94e7c]
+  - @design-system-rte/core@1.19.0
+
 ## 1.18.0
 
 ### Minor Changes
