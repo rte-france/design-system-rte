@@ -39,6 +39,7 @@ Le composant `FileUploadComponent` (`rte-file-upload`) constitue l'API publique.
 | isError | boolean | `false` | Bascule le texte d'aide en apparence erreur. |
 | errorFilesMap | string[] | `[]` | Messages d'erreur par fichier, alignés par index avec les fichiers sélectionnés. |
 | onUploadFile | `(file: File) => Promise<void>` | — | Gestionnaire de téléversement asynchrone optionnel. Affiche un état de chargement sur chaque fichier tant que la promesse est en cours. |
+| uploadErrorMessage | string \| `(file: File, error: unknown) => string` | "Erreur lors du téléchargement du fichier." | Message affiché lorsqu'un téléversement asynchrone est rejeté. Une fonction peut retourner un message différent selon le fichier et l'erreur. |
 | filesChange | output | — | Émet la liste courante des fichiers sélectionnés lorsque la sélection change ou qu'un fichier est retiré. |
 | fileRemoved | output | — | Émet le fichier retiré de la liste. |
 

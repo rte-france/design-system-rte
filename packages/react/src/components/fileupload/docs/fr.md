@@ -40,6 +40,7 @@ Le composant `FileUpload` constitue l'API publique. Les consommateurs le configu
 | errorFilesMap | string[] | `[]` | Messages d'erreur par fichier, alignés par index avec les fichiers sélectionnés. |
 | onChange | `(files: File[]) => void` | — | Appelé lorsque la liste de fichiers sélectionnés change ou qu'un fichier est retiré. |
 | onUpload | `(file: File) => Promise<void>` | — | Gestionnaire de téléversement asynchrone optionnel. Affiche un état de chargement sur chaque fichier tant que la promesse est en cours. |
+| uploadErrorMessage | string \| `(file: File, error: unknown) => string` | "Erreur lors du téléchargement du fichier." | Message affiché lorsqu'un téléversement asynchrone est rejeté. Une fonction peut retourner un message différent selon le fichier et l'erreur. |
 | onRemovingFile | `(file: File) => void` | — | Appelé lorsqu'un fichier est retiré de la liste. |
 
 ## Usage

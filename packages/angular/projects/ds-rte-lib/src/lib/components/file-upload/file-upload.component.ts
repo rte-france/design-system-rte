@@ -48,6 +48,9 @@ export class FileUploadComponent implements AfterViewInit, OnDestroy {
   readonly isError = input<boolean>(false);
   readonly errorFilesMap = input<string[]>([]);
   readonly onUploadFile = input<(file: File) => Promise<void>>();
+  readonly uploadErrorMessage = input<string | ((file: File, error: unknown) => string)>(
+    "Erreur lors du téléchargement du fichier.",
+  );
 
   readonly inputRef = viewChild<ElementRef<HTMLInputElement>>("inputRef");
   readonly buttonRef = viewChild("buttonRef", { read: ElementRef });
@@ -59,13 +62,18 @@ export class FileUploadComponent implements AfterViewInit, OnDestroy {
 
   readonly selectedFiles = signal<File[]>([]);
   readonly loadingFiles = signal<Set<File>>(new Set());
-  readonly localErrorFilesMap = signal<string[]>(this.errorFilesMap());
+  readonly uploadErrors = signal<Map<File, string>>(new Map());
 
   private resizeObserver?: ResizeObserver;
   private readonly zone = inject(NgZone);
 
   readonly shouldDisplayAssistiveText = computed(() => {
-    return this.showAssistiveText() && !!this.assistiveTextLabel() && this.localErrorFilesMap().length === 0;
+    return (
+      this.showAssistiveText() &&
+      !!this.assistiveTextLabel() &&
+      this.errorFilesMap().length === 0 &&
+      this.uploadErrors().size === 0
+    );
   });
 
   readonly buttonSize = computed(() => (this.compactSpacing() ? "s" : "m"));
@@ -97,11 +105,11 @@ export class FileUploadComponent implements AfterViewInit, OnDestroy {
   }
 
   isFileError(index: number): boolean {
-    return this.localErrorFilesMap()[index] !== undefined;
+    return this.errorFilesMap()[index] !== undefined || this.uploadErrors().has(this.selectedFiles()[index]);
   }
 
   getFileErrorMessage(index: number): string | undefined {
-    return this.localErrorFilesMap()[index];
+    return this.uploadErrors().get(this.selectedFiles()[index]) ?? this.errorFilesMap()[index];
   }
 
   async handleOnChange(event: Event): Promise<void> {
@@ -112,6 +120,7 @@ export class FileUploadComponent implements AfterViewInit, OnDestroy {
       this.selectedFiles.update((previousFiles) => [...previousFiles, ...files]);
     } else {
       this.selectedFiles.set(files);
+      this.uploadErrors.set(new Map());
     }
     this.filesChange.emit(files);
     fileInput.focus();
@@ -132,16 +141,18 @@ export class FileUploadComponent implements AfterViewInit, OnDestroy {
           return next;
         });
       })
-      .catch(() => {
+      .catch((error: unknown) => {
         this.loadingFiles.update((prev) => {
           const next = new Set(prev);
           next.delete(file);
           return next;
         });
-        this.localErrorFilesMap.update((previousErrors) => [
-          ...previousErrors,
-          "Erreur lors du téléchargement du fichier.",
-        ]);
+        const errorMessage = this.uploadErrorMessage();
+        const message = typeof errorMessage === "function" ? errorMessage(file, error) : errorMessage;
+        this.uploadErrors.update((previousErrors) => {
+          if (!this.selectedFiles().includes(file)) return previousErrors;
+          return new Map(previousErrors).set(file, message);
+        });
       });
   }
 
@@ -155,6 +166,16 @@ export class FileUploadComponent implements AfterViewInit, OnDestroy {
     const index = files.indexOf(file);
     if (index !== -1) {
       const newFiles = files.filter((_, i) => i !== index);
+      this.uploadErrors.update((previousErrors) => {
+        const next = new Map(previousErrors);
+        next.delete(file);
+        return next;
+      });
+      this.loadingFiles.update((previousFiles) => {
+        const next = new Set(previousFiles);
+        next.delete(file);
+        return next;
+      });
       this.selectedFiles.set(newFiles);
       this.fileRemoved.emit(file);
       this.filesChange.emit(newFiles);

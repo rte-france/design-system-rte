@@ -129,6 +129,7 @@ Displays a field-level error and per-file messages when validation fails. Consum
       buttonLabel="Select a file"
       [multiple]="true"
       [onUploadFile]="onUploadFile"
+      [uploadErrorMessage]="uploadErrorMessage"
       (filesChange)="onFilesChange($event)"
     />
   `,
@@ -136,6 +137,13 @@ Displays a field-level error and per-file messages when validation fails. Consum
 export class AsyncUploadComponent {
   onUploadFile = (file: File): Promise<void> => {
     return uploadToServer(file);
+  };
+
+  uploadErrorMessage = (file: File, error: unknown): string => {
+    if (error instanceof Error && error.message === "FILE_TOO_LARGE") {
+      return `${file.name} exceeds the maximum allowed size.`;
+    }
+    return `The upload of ${file.name} failed.`;
   };
 
   onFilesChange(files: File[]): void {
