@@ -331,7 +331,6 @@ export class DropdownDirective implements AfterContentInit {
     }
 
     const width = this.menuInputs()?.width ?? this.rteDropdownWidth();
-    console.log(width);
     if (width !== undefined && width !== null) {
       this.dropdownMenuRef.setInput("width", width);
       waitForNextFrame(() => this.dropdownMenuRef?.setInput("isOpen", true));

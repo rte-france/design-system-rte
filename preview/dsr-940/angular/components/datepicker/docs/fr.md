@@ -32,6 +32,7 @@ Le composant `<rte-datepicker>` constitue l'API publique. Il implémente `Contro
 | `disabled` | `boolean` | `false` | Désactive le champ et empêche l'ouverture du calendrier. |
 | `readOnly` | `boolean` | `false` | Empêche la modification de la valeur et l'ouverture du calendrier. |
 | `error` | `boolean` | `false` | Applique l'état visuel d'erreur au champ. |
+| `errorMessage` | `string` | `""` | Message d'erreur affiché comme texte d'aide lorsque `error` est `true`. Il est prioritaire sur `assistiveTextLabel`. |
 | `minDate` | `Date` \| `undefined` | `undefined` | Date sélectionnable la plus ancienne. Les dates antérieures sont désactivées dans le calendrier et rejetées à la validation. |
 | `maxDate` | `Date` \| `undefined` | `undefined` | Date sélectionnable la plus récente. Les dates postérieures sont désactivées dans le calendrier et rejetées à la validation. |
 | `disabledDates` | `readonly Date[]` | `[]` | Dates individuelles non sélectionnables. |

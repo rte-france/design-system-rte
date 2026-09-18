@@ -56,6 +56,7 @@
             [ngStyle]="customStyle()"
             [attr.aria-label]="ariaLabel()"
             [attr.aria-labelledby]="computedAriaLabelledby()"
+            [attr.aria-describedby]="computedAssistiveTextId()"
             [attr.aria-required]="ariaRequired()"
             [type]="computedInputType()"
             [maxLength]="maxLength()"
@@ -92,20 +93,20 @@
       </div>
     </div>
 
-    <ng-container *ngIf="assistiveTextLabel()">
-      <div class="assistive-text" [attr.id]="assistiveTextId() ?? null">
-        <ng-container *ngIf="showAssistiveIcon() && assistiveAppearance() === 'error'">
+    <ng-container *ngIf="computedAssistiveTextLabel()">
+      <div class="assistive-text" [attr.id]="computedAssistiveTextId()">
+        <ng-container *ngIf="showAssistiveIcon() && computedAssistiveAppearance() === 'error'">
           <rte-icon name="error" appearance="outlined" class="assistive-icon-error" [size]="12" />
         </ng-container>
-        <ng-container *ngIf="showAssistiveIcon() && assistiveAppearance() === 'success'">
+        <ng-container *ngIf="showAssistiveIcon() && computedAssistiveAppearance() === 'success'">
           <rte-icon name="check" appearance="outlined" class="assistive-icon-success" [size]="12" />
         </ng-container>
-        <ng-container *ngIf="assistiveAppearance() === 'link'; else assistiveLabel">
-          <rte-link [label]="assistiveTextLabel()" />
+        <ng-container *ngIf="computedAssistiveAppearance() === 'link'; else assistiveLabel">
+          <rte-link [label]="computedAssistiveTextLabel()" />
         </ng-container>
         <ng-template #assistiveLabel>
-          <p class="assistive-label" [ngClass]="assistiveAppearance()">
-            {{ assistiveTextLabel() }}
+          <p class="assistive-label" [ngClass]="computedAssistiveAppearance()">
+            {{ computedAssistiveTextLabel() }}
           </p>
         </ng-template>
       </div>

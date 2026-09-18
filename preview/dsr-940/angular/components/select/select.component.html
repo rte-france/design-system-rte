@@ -56,6 +56,7 @@
       [attr.aria-disabled]="isDisabled()"
       [attr.aria-readonly]="readOnly()"
       [attr.aria-labelledby]="labelId()"
+      [attr.aria-describedby]="computedAssistiveTextLabel() ? assistiveTextId() : null"
       [attr.aria-expanded]="isActive()"
       [attr.data-active]="isActive()"
       [attr.data-variant]="variant()"
@@ -158,8 +159,9 @@
       }
     </rte-dropdown-menu>
     <rte-assistive-text
-      *ngIf="assistiveTextLabel()"
-      [label]="assistiveTextLabel()"
+      *ngIf="computedAssistiveTextLabel()"
+      [attr.id]="assistiveTextId()"
+      [label]="computedAssistiveTextLabel()"
       [appearance]="isError() ? 'error' : assistiveTextAppearance()!"
       [showIcon]="showAssistiveIcon()"
       [href]="assistiveTextLink()"

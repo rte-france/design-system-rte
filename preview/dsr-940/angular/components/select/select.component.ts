@@ -67,6 +67,7 @@ export class SelectComponent extends BaseValueAccessor<string | string[]> implem
   readonly labelId = input<string>();
   readonly labelPosition = input<SelectProps["labelPosition"]>("top");
   readonly assistiveTextLabel = input<string>();
+  readonly errorMessage = input<string>();
   readonly assistiveTextAppearance = input<SelectProps["assistiveAppearance"]>("description");
   readonly assistiveTextLink = input<string>();
   readonly required = input<boolean>(false);
@@ -94,6 +95,10 @@ export class SelectComponent extends BaseValueAccessor<string | string[]> implem
   readonly labelContainerWidth = signal<number | undefined>(undefined);
 
   readonly selectDropdownOffset = SELECT_DROPDOWN_OFFSET;
+  readonly assistiveTextId = computed(() => (this.id() ? `${this.id()}-assistive-text` : null));
+  readonly computedAssistiveTextLabel = computed(() =>
+    this.isError() ? this.errorMessage() || this.assistiveTextLabel() : this.assistiveTextLabel(),
+  );
 
   readonly headerDirective = contentChild(SelectHeaderDirective);
   readonly footerDirective = contentChild(SelectFooterDirective);
