@@ -66,11 +66,18 @@ export const MultipleFiles: Story = {
 
     const count = useRef(0);
 
+    const getUploadErrorMessage = (file: File, error: unknown) => {
+      if (error instanceof Error && error.message === "FILE_TOO_LARGE") {
+        return `${file.name} dépasse la taille maximale autorisée.`;
+      }
+      return `Le téléversement de ${file.name} a échoué.`;
+    };
+
     const handleUpload = (file: File) => {
       return new Promise<void>((resolve, reject) => {
         if (count.current % 2 === 0) {
           setTimeout(() => {
-            reject();
+            reject(new Error("FILE_TOO_LARGE"));
             console.log("File not uploaded:", file);
           }, 5000);
         } else {
@@ -87,7 +94,15 @@ export const MultipleFiles: Story = {
       setFiles((prev) => prev.filter((f) => f !== file));
     };
 
-    return <FileUpload {...args} onUpload={handleUpload} onChange={handleChange} onRemovingFile={handleRemovingFile} />;
+    return (
+      <FileUpload
+        {...args}
+        onUpload={handleUpload}
+        uploadErrorMessage={getUploadErrorMessage}
+        onChange={handleChange}
+        onRemovingFile={handleRemovingFile}
+      />
+    );
   },
 };
 

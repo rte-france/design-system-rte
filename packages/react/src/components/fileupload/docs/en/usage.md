@@ -139,6 +139,13 @@ const uploadFile = (file: File): Promise<void> => {
   return uploadToServer(file);
 };
 
+const getUploadErrorMessage = (file: File, error: unknown): string => {
+  if (error instanceof Error && error.message === "FILE_TOO_LARGE") {
+    return `${file.name} exceeds the maximum allowed size.`;
+  }
+  return `The upload of ${file.name} failed.`;
+};
+
 return (
   <FileUpload
     id="file-upload-async"
@@ -146,6 +153,7 @@ return (
     buttonLabel="Select a file"
     multiple
     onUpload={uploadFile}
+    uploadErrorMessage={getUploadErrorMessage}
     onChange={(files) => setFiles(files)}
     onRemovingFile={handleRemove}
   />
