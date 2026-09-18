@@ -2,6 +2,117 @@
 
 # Angular
 
+## 4.0.0
+
+### Loader
+
+#### Minor Changes
+
+- add documentation
+- remove showLabel prop
+
+### Drawer
+
+#### Minor Changes
+
+- add accessibility control in case the component can't resolve a valid aria label
+
+#### Patch Changes
+
+- trigger focus trap only for modal position instead of responsive position
+- add prefers-reduced-motion for transitions
+
+### Docs
+
+#### Minor Changes
+
+- update docs
+
+### Header
+
+#### Patch Changes
+
+- add dcumentation
+- add default font family
+
+### Popover
+
+#### Patch Changes
+
+- add documentation
+- enforce accesible name with title or aria label + use alignment value for angular
+- reposition popover on scroll
+
+### Searchbar
+
+#### Patch Changes
+
+- add documentation
+- allow assistive text to take space + correct focus appearance on searchbar input
+
+### Select
+
+#### Patch Changes
+
+- add documentation
+- harmonise style when labelPosition equals side
+
+### Side Navigation
+
+#### Patch Changes
+
+- add aria attributes for Sidenav's menus
+- enhance accessibility of footer's collapse button
+- add missing prefers-reduced-motion for component transitions
+
+### Card
+
+#### Patch Changes
+
+- enforce clickable card accessibility feature
+- enforce disabled accesibility state
+
+### Icon
+
+#### Patch Changes
+
+- handle aria-hidden and aria-label when the component has a decorative function instead of a semantic one
+
+### File Upload
+
+#### Patch Changes
+
+- add aria label for file item delete button
+- add accessible description and label
+
+### File-item
+
+#### Patch Changes
+
+- add descriptive text for status icon
+
+### Button
+
+#### Patch Changes
+
+- add aria-hidden attribute to icons for improved accessibility
+
+### Other
+
+#### Minor Changes
+
+- use computed prefix instead of effective
+- add missing aria describedBy
+- Enhance assistive text handling across input components
+
+#### Patch Changes
+
+- Updated dependencies [d654a29]
+- Updated dependencies [59cd691]
+- Updated dependencies [ba96671]
+- Updated dependencies [0a94e7c]
+- @design-system-rte/core@1.19.0
+
 ## 3.5.1
 
 ### Tag
@@ -156,50 +267,119 @@
 - Updated dependencies [7628a6d]
 - Updated dependencies [a7cdb36]
 - @design-system-rte/core@1.17.0
+# React
 
-## 3.3.1
+## 1.19.0
 
-### Sidenav
-
-#### Patch Changes
-
-- truncate nav-items text
-
-### Uuid
-
-#### Patch Changes
-
-- replace uuid undeclared dependency for native crypto.randomUUID for random id generation
-
-### Other
-
-#### Patch Changes
-
-- Updated dependencies [e14dbf6]
-- @design-system-rte/core@1.16.1
-
-## 3.3.0
-
-### Styles
+### Loader
 
 #### Minor Changes
 
-- add fallback support for missing or default Mode for Design Tokens. Theme still requires explicit definition
+- add documentation
+- remove showLabel prop
 
-### Tooltip
+### Drawer
+
+#### Minor Changes
+
+- add accessibility control in case the component can't resolve a valid aria label
 
 #### Patch Changes
 
-- correct auto placement algorithm
+- trigger focus trap only for modal position instead of responsive position
+- add prefers-reduced-motion for transitions
+
+### Docs
+
+#### Minor Changes
+
+- update docs
+
+### Header
+
+#### Patch Changes
+
+- add dcumentation
+- add default font family
+
+### Popover
+
+#### Patch Changes
+
+- add documentation
+- enforce accesible name with title or aria label + use alignment value for angular
+- reposition popover on scroll
+
+### Searchbar
+
+#### Patch Changes
+
+- add documentation
+- allow assistive text to take space + correct focus appearance on searchbar input
+
+### Select
+
+#### Patch Changes
+
+- add documentation
+- harmonise style when labelPosition equals side
+
+### Side Navigation
+
+#### Patch Changes
+
+- add aria attributes for Sidenav's menus
+- enhance accessibility of footer's collapse button
+- add missing prefers-reduced-motion for component transitions
+
+### Card
+
+#### Patch Changes
+
+- enforce clickable card accessibility feature
+- enforce disabled accesibility state
+
+### Icon
+
+#### Patch Changes
+
+- handle aria-hidden and aria-label when the component has a decorative function instead of a semantic one
+
+### File Upload
+
+#### Patch Changes
+
+- add aria label for file item delete button
+- add accessible description and label
+
+### File-item
+
+#### Patch Changes
+
+- add descriptive text for status icon
+
+### Button
+
+#### Patch Changes
+
+- add aria-hidden attribute to icons for improved accessibility
 
 ### Other
 
+#### Minor Changes
+
+- add focus back initial element after removing focus trap hook
+- use computed prefix instead of effective
+- add missing aria describedBy
+- Enhance assistive text handling across input components
+
 #### Patch Changes
 
-- Updated dependencies [9c2be7c]
-- Updated dependencies [9e3af77]
-- @design-system-rte/core@1.16.0
-# React
+- Updated dependencies [d654a29]
+- Updated dependencies [59cd691]
+- Updated dependencies [ba96671]
+- Updated dependencies [0a94e7c]
+- @design-system-rte/core@1.19.0
 
 ## 1.18.0
 
@@ -342,50 +522,33 @@
 - Updated dependencies [7628a6d]
 - Updated dependencies [a7cdb36]
 - @design-system-rte/core@1.17.0
+# Core
 
-## 1.16.1
+## 1.19.0
 
-### Sidenav
-
-#### Patch Changes
-
-- truncate nav-items text
-
-### Uuid
-
-#### Patch Changes
-
-- replace uuid undeclared dependency for native crypto.randomUUID for random id generation
-
-### Other
-
-#### Patch Changes
-
-- Updated dependencies [e14dbf6]
-- @design-system-rte/core@1.16.1
-
-## 1.16.0
-
-### Styles
+### Loader
 
 #### Minor Changes
 
-- add fallback support for missing or default Mode for Design Tokens. Theme still requires explicit definition
+- remove showLabel prop
 
-### Tooltip
+### Drawer
+
+#### Minor Changes
+
+- add accessibility control in case the component can't resolve a valid aria label
+
+### File Upload
 
 #### Patch Changes
 
-- correct auto placement algorithm
+- add accessible description and label
 
 ### Other
 
-#### Patch Changes
+#### Minor Changes
 
-- Updated dependencies [9c2be7c]
-- Updated dependencies [9e3af77]
-- @design-system-rte/core@1.16.0
-# Core
+- Enhance assistive text handling across input components
 
 ## 1.18.0
 
@@ -448,34 +611,6 @@
 #### Patch Changes
 
 - translate close button aria label value
-
-### Other
-
-
-## 1.16.1
-
-### Uuid
-
-#### Patch Changes
-
-- replace uuid undeclared dependency for native crypto.randomUUID for random id generation
-
-### Other
-
-
-## 1.16.0
-
-### Styles
-
-#### Minor Changes
-
-- add fallback support for missing or default Mode for Design Tokens. Theme still requires explicit definition
-
-### Tooltip
-
-#### Patch Changes
-
-- correct auto placement algorithm
 
 ### Other
 

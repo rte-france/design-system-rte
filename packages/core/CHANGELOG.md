@@ -1,5 +1,27 @@
 # @design-system-rte/core
 
+## 1.19.0
+
+### Minor Changes
+
+- d654a29: ## Changes
+
+  - (Loader) remove showLabel prop
+
+- 59cd691: ## Changes
+
+  - (Drawer) add accessibility control in case the component can't resolve a valid aria label
+
+- 0a94e7c: ## Changes
+
+  - Enhance assistive text handling across input components
+
+### Patch Changes
+
+- ba96671: ## Changes
+
+  - (File Upload) add accessible description and label
+
 ## 1.18.0
 
 ### Minor Changes
