@@ -10,6 +10,7 @@ export interface FileUploadProps extends Omit<InputProps, "value" | "onChange"> 
   accept?: string;
   onChange?: (files: File[]) => void;
   onUpload?: (file: File) => Promise<void>;
+  uploadErrorMessage?: string | ((file: File, error: unknown) => string);
   errorFilesMap?: string[];
   onRemovingFile?: (file: File) => void;
   showAssistiveText?: boolean;

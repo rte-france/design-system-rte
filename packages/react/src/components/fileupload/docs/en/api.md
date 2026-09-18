@@ -21,4 +21,5 @@ The `FileUpload` component is the public API. Consumers configure it via props a
 | errorFilesMap | string[] | `[]` | Per-file error messages aligned by index with the selected files. |
 | onChange | `(files: File[]) => void` | — | Called when the selected file list changes or a file is removed. |
 | onUpload | `(file: File) => Promise<void>` | — | Optional async upload handler. Shows a loading state on each file while the promise is pending. |
+| uploadErrorMessage | string \| `(file: File, error: unknown) => string` | "Erreur lors du téléchargement du fichier." | Message displayed for rejected async uploads. A function can return a different message for each file and error. |
 | onRemovingFile | `(file: File) => void` | — | Called when a file is removed from the list. |

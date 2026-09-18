@@ -57,6 +57,7 @@ Disables both the hidden file input and the upload button.
 ```
 
 Allows selecting more than one file in the native picker.
+Selecting files again adds them to the current list.
 
 #### With Error
 
@@ -138,6 +139,13 @@ const uploadFile = (file: File): Promise<void> => {
   return uploadToServer(file);
 };
 
+const getUploadErrorMessage = (file: File, error: unknown): string => {
+  if (error instanceof Error && error.message === "FILE_TOO_LARGE") {
+    return `${file.name} exceeds the maximum allowed size.`;
+  }
+  return `The upload of ${file.name} failed.`;
+};
+
 return (
   <FileUpload
     id="file-upload-async"
@@ -145,6 +153,7 @@ return (
     buttonLabel="Select a file"
     multiple
     onUpload={uploadFile}
+    uploadErrorMessage={getUploadErrorMessage}
     onChange={(files) => setFiles(files)}
     onRemovingFile={handleRemove}
   />
@@ -152,3 +161,4 @@ return (
 ```
 
 Runs an async upload per selected file and shows a loading indicator on each file item until the promise settles.
+When an upload rejects, the file displays the default upload error message.

@@ -26,6 +26,7 @@ const FileUpload = ({
   accept,
   onChange,
   onUpload,
+  uploadErrorMessage = "Erreur lors du téléchargement du fichier.",
   errorFilesMap = [],
   onRemovingFile,
 }: FileUploadProps) => {
@@ -38,18 +39,30 @@ const FileUpload = ({
   const [selectedFiles, setSelectedFiles] = useState<File[] | null>(null);
   const [loadingFiles, setLoadingFiles] = useState<Set<File>>(new Set());
 
-  const shouldDisplayAssistiveText =
-    showAssistiveText && assistiveTextLabel && assistiveAppearance && errorFilesMap?.length === 0;
+  const [uploadErrors, setUploadErrors] = useState<Map<File, string>>(new Map());
 
-  const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const shouldDisplayAssistiveText =
+    showAssistiveText &&
+    assistiveTextLabel &&
+    assistiveAppearance &&
+    errorFilesMap.length === 0 &&
+    uploadErrors.size === 0;
+
+  const handleOnChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files || []);
     onChange?.(files);
-    setSelectedFiles(files);
+    if (multiple) {
+      setSelectedFiles((prev) => {
+        const next = prev ? [...prev, ...files] : files;
+        return next;
+      });
+    } else {
+      setSelectedFiles(files);
+      setUploadErrors(new Map());
+    }
 
     if (onUpload) {
-      files.forEach((file) => {
-        handleUploadFile(file);
-      });
+      await Promise.all(files.map((file) => handleUploadFile(file)));
     }
   };
 
@@ -67,6 +80,16 @@ const FileUpload = ({
       if (index !== -1) {
         const newFiles = selectedFiles.filter((_, i) => i !== index);
         setSelectedFiles(newFiles);
+        setLoadingFiles((prev) => {
+          const next = new Set(prev);
+          next.delete(file);
+          return next;
+        });
+        setUploadErrors((prev) => {
+          const next = new Map(prev);
+          next.delete(file);
+          return next;
+        });
         onRemovingFile?.(file);
         onChange?.(newFiles);
         if (inputRef.current) {
@@ -79,13 +102,23 @@ const FileUpload = ({
 
   const handleUploadFile = (file: File) => {
     setLoadingFiles((prev) => new Set(prev).add(file));
-    onUpload!(file).finally(() => {
-      setLoadingFiles((prev) => {
-        const next = new Set(prev);
-        next.delete(file);
-        return next;
+    return onUpload!(file)
+      .then(() => {
+        setLoadingFiles((prev) => {
+          const next = new Set(prev);
+          next.delete(file);
+          return next;
+        });
+      })
+      .catch((error: unknown) => {
+        setLoadingFiles((prev) => {
+          const next = new Set(prev);
+          next.delete(file);
+          return next;
+        });
+        const message = typeof uploadErrorMessage === "function" ? uploadErrorMessage(file, error) : uploadErrorMessage;
+        setUploadErrors((prev) => new Map(prev).set(file, message));
       });
-    });
   };
 
   return (
@@ -141,8 +174,8 @@ const FileUpload = ({
             file={file}
             removeFile={() => handleRemoveFile(file)}
             isLoading={loadingFiles.has(file)}
-            isError={errorFilesMap?.[index] !== undefined}
-            errorMessage={errorFilesMap?.[index]}
+            isError={errorFilesMap[index] !== undefined || uploadErrors.has(file)}
+            errorMessage={uploadErrors.get(file) ?? errorFilesMap[index]}
             compact={compactSpacing}
           />
         ))}
