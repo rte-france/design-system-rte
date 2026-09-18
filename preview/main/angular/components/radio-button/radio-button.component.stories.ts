@@ -1,5 +1,8 @@
+import { RADIO_BUTTON_MISSING_ACCESSIBLE_NAME_ERROR } from "@design-system-rte/core";
 import { Meta, StoryObj } from "@storybook/angular";
 import { userEvent, within, expect } from "@storybook/test";
+
+import { acceptLogError } from "../../../../../../.storybook/testing/testing.utils";
 
 import { RadioButtonComponent } from "./radio-button.component";
 
@@ -19,10 +22,6 @@ const meta: Meta<RadioButtonComponent> = {
     groupName: {
       control: "text",
       defaultValue: "radio-group",
-    },
-    showLabel: {
-      control: "boolean",
-      defaultValue: true,
     },
     ariaLabel: {
       control: "text",
@@ -55,7 +54,6 @@ export const Default: Story = {
     label: "Radio Button",
     value: "radio-value",
     groupName: "radio-group",
-    showLabel: true,
     disabled: false,
     error: false,
     readOnly: false,
@@ -67,6 +65,44 @@ export const Default: Story = {
     await userEvent.click(radioButton);
     expect(radioButton).toBeChecked();
   },
+};
+
+export const States: Story = {
+  args: {
+    ...Default.args,
+    groupName: "states-radio-group",
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <div style="display: flex; gap: 8px">
+        <rte-radio-button
+          label="Disabled"
+          value="disabled-radio-button"
+          [groupName]="groupName"
+          [disabled]="true"
+        ></rte-radio-button>
+        <rte-radio-button
+          label="Error"
+          value="error-radio-button"
+          [groupName]="groupName"
+          [error]="true"
+        ></rte-radio-button>
+        <rte-radio-button
+          label="Read Only"
+          value="readonly-radio-button"
+          [groupName]="groupName"
+          [readOnly]="true"
+        ></rte-radio-button>
+        <rte-radio-button
+          label="Initially Checked"
+          value="initial-checked-radio-button"
+          [groupName]="groupName"
+          [isChecked]="true"
+        ></rte-radio-button>
+      </div>
+    `,
+  }),
 };
 
 export const Disabled: Story = {
@@ -111,13 +147,14 @@ export const HiddenLabel: Story = {
   tags: ["!autodocs"],
   args: {
     ...Default.args,
+    label: "",
     groupName: "hidden-label-radio-group",
-    showLabel: false,
   },
+  beforeEach: acceptLogError(RADIO_BUTTON_MISSING_ACCESSIBLE_NAME_ERROR),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const radioButton = canvas.getByRole("radio", { name: /radio button/i });
-    expect(radioButton).toBeInTheDocument();
+    const radioButton = await canvas.queryByRole("radio");
+    expect(radioButton).not.toBeInTheDocument();
   },
 };
 
@@ -128,11 +165,10 @@ export const HiddenLabelWithAriaLabelOnly: Story = {
     label: "",
     ariaLabel: "Radio Button",
     groupName: "hidden-label-aria-only-radio-group",
-    showLabel: false,
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const radioButton = canvas.getByRole("radio", { name: /radio button/i });
+    const radioButton = await canvas.queryByRole("radio");
     expect(radioButton).toBeInTheDocument();
   },
 };
