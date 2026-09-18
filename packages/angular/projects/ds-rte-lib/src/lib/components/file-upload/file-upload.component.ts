@@ -59,12 +59,13 @@ export class FileUploadComponent implements AfterViewInit, OnDestroy {
 
   readonly selectedFiles = signal<File[]>([]);
   readonly loadingFiles = signal<Set<File>>(new Set());
+  readonly localErrorFilesMap = signal<string[]>(this.errorFilesMap());
 
   private resizeObserver?: ResizeObserver;
   private readonly zone = inject(NgZone);
 
   readonly shouldDisplayAssistiveText = computed(() => {
-    return this.showAssistiveText() && !!this.assistiveTextLabel() && this.errorFilesMap()?.length === 0;
+    return this.showAssistiveText() && !!this.assistiveTextLabel() && this.localErrorFilesMap().length === 0;
   });
 
   readonly buttonSize = computed(() => (this.compactSpacing() ? "s" : "m"));
@@ -96,35 +97,52 @@ export class FileUploadComponent implements AfterViewInit, OnDestroy {
   }
 
   isFileError(index: number): boolean {
-    const errorFiles = this.errorFilesMap();
-    return errorFiles !== undefined && errorFiles[index] !== undefined;
+    return this.localErrorFilesMap()[index] !== undefined;
   }
 
   getFileErrorMessage(index: number): string | undefined {
-    return this.errorFilesMap()?.[index];
+    return this.localErrorFilesMap()[index];
   }
 
-  handleOnChange(event: Event): void {
+  async handleOnChange(event: Event): Promise<void> {
     const fileInput = event.target as HTMLInputElement;
     const files = Array.from(fileInput.files || []);
     fileInput.value = "";
-    this.selectedFiles.set(files);
+    if (this.multiple()) {
+      this.selectedFiles.update((previousFiles) => [...previousFiles, ...files]);
+    } else {
+      this.selectedFiles.set(files);
+    }
     this.filesChange.emit(files);
     fileInput.focus();
 
     const onUpload = this.onUploadFile();
     if (onUpload) {
-      files.forEach((file) => {
-        this.loadingFiles.update((prev) => new Set(prev).add(file));
-        onUpload(file).finally(() => {
-          this.loadingFiles.update((prev) => {
-            const next = new Set(prev);
-            next.delete(file);
-            return next;
-          });
-        });
-      });
+      await Promise.all(files.map((file) => this.handleUploadFile(file, onUpload)));
     }
+  }
+
+  private handleUploadFile(file: File, onUpload: (file: File) => Promise<void>): Promise<void> {
+    this.loadingFiles.update((prev) => new Set(prev).add(file));
+    return onUpload(file)
+      .then(() => {
+        this.loadingFiles.update((prev) => {
+          const next = new Set(prev);
+          next.delete(file);
+          return next;
+        });
+      })
+      .catch(() => {
+        this.loadingFiles.update((prev) => {
+          const next = new Set(prev);
+          next.delete(file);
+          return next;
+        });
+        this.localErrorFilesMap.update((previousErrors) => [
+          ...previousErrors,
+          "Erreur lors du téléchargement du fichier.",
+        ]);
+      });
   }
 
   handleOnClick(event: MouseEvent): void {

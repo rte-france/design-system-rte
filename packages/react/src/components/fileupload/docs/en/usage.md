@@ -57,6 +57,7 @@ Disables both the hidden file input and the upload button.
 ```
 
 Allows selecting more than one file in the native picker.
+Selecting files again adds them to the current list.
 
 #### With Error
 
@@ -152,3 +153,4 @@ return (
 ```
 
 Runs an async upload per selected file and shows a loading indicator on each file item until the promise settles.
+When an upload rejects, the file displays the default upload error message.

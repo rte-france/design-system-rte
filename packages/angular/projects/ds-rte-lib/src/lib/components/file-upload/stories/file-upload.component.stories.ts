@@ -18,11 +18,19 @@ import { FileUploadComponent } from "../file-upload.component";
   `,
 })
 class FileUploadAsyncWrapperComponent {
+  private uploadCount = 0;
+
   onUploadFile = (file: File): Promise<void> => {
-    return new Promise<void>((resolve) => {
+    return new Promise<void>((resolve, reject) => {
       setTimeout(() => {
-        console.log("Fichier uploadé :", file.name);
-        resolve();
+        if (this.uploadCount % 2 === 0) {
+          console.log("Fichier non téléversé :", file.name);
+          reject();
+        } else {
+          console.log("Fichier téléversé :", file.name);
+          resolve();
+        }
+        this.uploadCount += 1;
       }, 5000);
     });
   };
@@ -112,7 +120,9 @@ export const MultipleFiles: Story = {
     id: "file-upload-3",
     multiple: true,
   },
-  render: Default.render,
+  render: () => ({
+    template: `<story-file-upload-async-wrapper />`,
+  }),
 };
 
 export const WithError: Story = {
