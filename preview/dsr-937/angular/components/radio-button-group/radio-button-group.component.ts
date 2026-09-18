@@ -1,5 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, effect, input, output, signal } from "@angular/core";
+import { generateId } from "@design-system-rte/core";
 
 import { RadioButtonComponent } from "../radio-button/radio-button.component";
 
@@ -25,6 +26,7 @@ export class RadioButtonGroupComponent {
   readonly readOnly = input(false);
   readonly selectedValue = input("");
   readonly changeEvent = output<string>();
+  readonly errorMessageId = generateId();
 
   readonly internalSelectedValue = signal(this.selectedValue());
 
