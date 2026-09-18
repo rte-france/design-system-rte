@@ -42,11 +42,12 @@
       name="close"
       variant="neutral"
       size="m"
+      [ariaDescribedBy]="errorMessage() ? errorMessageId : undefined"
       (clickEvent)="onRemove()"
     />
   </div>
 
   @if (errorMessage()) {
-    <rte-assistive-text appearance="error" [label]="errorMessage()" />
+    <rte-assistive-text appearance="error" [attr.id]="errorMessageId" [label]="errorMessage()" />
   }
 </div>

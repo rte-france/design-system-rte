@@ -73,6 +73,9 @@ export class TextareaComponent extends BaseValueAccessor<string> {
   characterCount = (this.value() ?? this.defaultValue() ?? "").length;
 
   readonly isCounterVisible = computed(() => this.showCounter() && !!this.maxLength());
+  readonly assistiveTextId = computed(() =>
+    this.assistiveTextLabel() && this.id() ? `${this.id()}-assistive-text` : null,
+  );
 
   private lastParentValue = this.value();
 
