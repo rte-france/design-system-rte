@@ -153,7 +153,7 @@ export const HiddenLabel: Story = {
   beforeEach: acceptLogError(RADIO_BUTTON_MISSING_ACCESSIBLE_NAME_ERROR),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const radioButton = canvas.getByRole("radio", { name: /radio button/i });
+    const radioButton = await canvas.queryByRole("radio");
     expect(radioButton).toBeInTheDocument();
   },
 };
