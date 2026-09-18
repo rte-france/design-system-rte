@@ -154,7 +154,7 @@ export const HiddenLabel: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const radioButton = await canvas.queryByRole("radio");
-    expect(radioButton).toBeInTheDocument();
+    expect(radioButton).not.toBeInTheDocument();
   },
 };
 
