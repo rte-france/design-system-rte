@@ -19,11 +19,6 @@ const meta: Meta<LoaderComponent> = {
       description: "size of the Loader",
       defaultValue: "medium",
     },
-    showLabel: {
-      control: "boolean",
-      description: "show the label of the Loader",
-      defaultValue: "true",
-    },
     labelPosition: {
       control: "select",
       options: ["right", "under"],
@@ -36,6 +31,9 @@ const meta: Meta<LoaderComponent> = {
       defaultValue: "Chargement",
     },
   },
+  parameters: {
+    layout: "centered",
+  },
 };
 export default meta;
 type Story = StoryObj<LoaderComponent>;
@@ -46,6 +44,53 @@ export const Default: Story = {
     labelPosition: "right",
     label: "Chargement...",
     size: "medium",
-    showLabel: true,
   },
+};
+
+export const Appearance: Story = {
+  args: {
+    ...Default.args,
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 24px;">
+        <rte-loader [appearance]="'brand'" [label]="label"></rte-loader>
+        <div style="background: #1f2937; padding: 16px;">
+          <rte-loader [appearance]="'reverse'" [label]="label"></rte-loader>
+        </div>
+      </div>
+    `,
+  }),
+};
+
+export const LabelPosition: Story = {
+  args: {
+    ...Default.args,
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <div style="display: flex; gap: 48px;">
+        <rte-loader [labelPosition]="'right'" [label]="label"></rte-loader>
+        <rte-loader [labelPosition]="'under'" [label]="label"></rte-loader>
+      </div>
+    `,
+  }),
+};
+
+export const Size: Story = {
+  args: {
+    ...Default.args,
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <div style="display: flex; align-items: center; gap: 32px;">
+        <rte-loader [size]="'small'" [label]="label"></rte-loader>
+        <rte-loader [size]="'medium'" [label]="label"></rte-loader>
+        <rte-loader [size]="'large'" [label]="label"></rte-loader>
+      </div>
+    `,
+  }),
 };

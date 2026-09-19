@@ -1,4 +1,9 @@
-<fieldset *ngIf="isDisplayed()" class="checkbox-group-container" [disabled]="disabled()">
+<fieldset
+  *ngIf="isDisplayed()"
+  class="checkbox-group-container"
+  [disabled]="disabled()"
+  [attr.aria-describedby]="error() && errorMessage() ? errorMessageId : null"
+>
   <legend
     *ngIf="groupTitle()"
     class="group-title"
@@ -22,7 +27,7 @@
     <p *ngIf="showHelpText()" class="group-help-text">
       {{ groupHelpText() }}
     </p>
-    <p *ngIf="error()" class="group-error-message">
+    <p *ngIf="error() && errorMessage()" class="group-error-message" [attr.id]="errorMessageId">
       {{ errorMessage() }}
     </p>
   </div>
