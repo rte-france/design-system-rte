@@ -320,7 +320,9 @@ export class DropdownDirective implements AfterContentInit {
       this.dropdownMenuRef.setInput("bodyTemplate", this.menu()?.bodyDirective()?.templateRef);
     }
 
-    this.assignWidth();
+    waitForNextFrame(() => {
+      this.assignWidth();
+    });
   }
 
   private assignWidth(): void {

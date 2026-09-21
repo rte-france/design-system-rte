@@ -1,8 +1,8 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, effect, ElementRef, inject, input, viewChild } from "@angular/core";
 
-import { isValidIconName } from "./icon-map";
-import { IconRegistry, RegularIconIdKey, TogglableIconIdKey } from "./icon-registry.service";
+import { IconRegistry } from "./icon-registry.service";
+import { renderIcon } from "./icon-render";
 
 @Component({
   selector: "rte-icon",
@@ -17,50 +17,29 @@ export class IconComponent {
   readonly color = input<string>();
   readonly classes = input("");
   readonly appearance = input<"outlined" | "filled">();
-  readonly ariaHidden = input<boolean>(false);
+  readonly ariaHidden = input<boolean>(true);
+  readonly ariaLabel = input<string | undefined>();
 
   private readonly iconHost = viewChild<ElementRef<HTMLElement>>("iconHost");
   private iconRegistry = inject(IconRegistry);
 
   constructor() {
     effect(() => {
-      this.renderIcon(this.name(), this.size(), this.appearance(), this.color());
+      const hostRef = this.iconHost();
+      if (!hostRef) {
+        return;
+      }
+
+      renderIcon({
+        host: hostRef.nativeElement,
+        iconRegistry: this.iconRegistry,
+        name: this.name(),
+        size: this.size(),
+        appearance: this.appearance(),
+        color: this.color(),
+        ariaHidden: this.ariaHidden(),
+        ariaLabel: this.ariaLabel(),
+      });
     });
-  }
-
-  private renderIcon(
-    svgName: string,
-    size: number,
-    appearance: "outlined" | "filled" | undefined,
-    color: string | undefined,
-  ) {
-    const hostRef = this.iconHost();
-    if (!hostRef) {
-      return;
-    }
-
-    const host = hostRef.nativeElement;
-
-    if (!isValidIconName(svgName)) {
-      console.warn(`Icon: Invalid icon name "${svgName}". Please use a valid icon key.`);
-      host.replaceChildren();
-      return;
-    }
-
-    const svg = this.iconRegistry.getIconElement(
-      svgName as RegularIconIdKey | TogglableIconIdKey,
-      appearance || "outlined",
-    );
-
-    svg.setAttribute("width", String(size));
-    svg.setAttribute("height", String(size));
-
-    if (color) {
-      svg.setAttribute("color", color);
-    } else {
-      svg.removeAttribute("color");
-    }
-
-    host.replaceChildren(svg);
   }
 }

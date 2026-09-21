@@ -27,6 +27,7 @@ export class IconButtonComponent {
   readonly compactSpacing = input<boolean>(false);
   readonly ariaLabel = input<string | undefined>(undefined);
   readonly ariaLabelledBy = input<string | undefined>(undefined);
+  readonly ariaDescribedBy = input<string | undefined>(undefined);
   readonly ariaExpanded = input<boolean | undefined>(undefined);
   readonly ariaHaspopup = input<string | undefined>(undefined);
   readonly badgeCount = input<number>();

@@ -15,17 +15,22 @@ import {
 })
 export class RadioButtonComponent {
   readonly label = input("");
-  readonly ariaLabel = input("");
+  readonly ariaLabel = input<string | undefined>(undefined);
+  readonly ariaLabelledBy = input<string | undefined>(undefined);
   readonly value = input("");
   readonly groupName = input("");
-  readonly showLabel = input(true);
   readonly disabled = input(false);
   readonly error = input(false);
   readonly readOnly = input(false);
   labelSize = labelSize;
   readonly isChecked = input(false);
 
-  readonly accessibleLabel = computed(() => getRadioButtonAccessibleName(this.label(), this.ariaLabel()));
+  readonly accessibleLabel = computed(() =>
+    getRadioButtonAccessibleName({
+      label: this.label(),
+      ariaLabel: this.ariaLabel(),
+    }),
+  );
 
   readonly isDisplayed = computed(() => {
     if (this.disabled() && this.error()) {
@@ -39,7 +44,7 @@ export class RadioButtonComponent {
 
   constructor() {
     effect(() => {
-      if (!this.accessibleLabel()) {
+      if (!this.accessibleLabel() && !this.ariaLabelledBy()) {
         console.error(RADIO_BUTTON_MISSING_ACCESSIBLE_NAME_ERROR);
       }
     });

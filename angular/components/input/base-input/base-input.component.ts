@@ -54,6 +54,7 @@ export class BaseInputComponent {
   readonly assistiveAppearance = input<"description" | "error" | "success" | "link">("description");
   readonly showAssistiveIcon = input<boolean>(false);
   readonly assistiveTextLabel = input<string>("");
+  readonly errorMessage = input<string>("");
   readonly assistiveTextId = input<string | null>(null);
   readonly error = input<boolean>(false);
   readonly maxLength = input<number>(150);
@@ -79,6 +80,16 @@ export class BaseInputComponent {
   readonly characterCount = signal<number>(this.internalValue().length);
   readonly displayedLeftIcon = computed(() => (this.error() ? "error" : this.leftIcon()));
   readonly displayCounter = computed(() => this.showCounter() && typeof this.maxLength() === "number");
+  readonly computedAssistiveTextId = computed(() => {
+    if (!this.computedAssistiveTextLabel()) {
+      return null;
+    }
+    return this.assistiveTextId() ?? (this.id() ? `${this.id()}-assistive-text` : null);
+  });
+  readonly computedAssistiveTextLabel = computed(() =>
+    this.error() ? this.errorMessage() || this.assistiveTextLabel() : this.assistiveTextLabel(),
+  );
+  readonly computedAssistiveAppearance = computed(() => (this.error() ? "error" : this.assistiveAppearance()));
 
   readonly shouldShowRightIcon = computed(() => this.computeShouldShowRightIcon());
 

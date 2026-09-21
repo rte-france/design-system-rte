@@ -117,11 +117,15 @@
 
           @if (hasAvatar() && avatarProps()) {
             <rte-avatar
-              [size]="avatarProps()!.size ?? 32"
+              [size]="isCompact() ? 24 : 32"
               [imgSrc]="avatarProps()!.imgSrc"
               [alt]="avatarProps()!.alt ?? 'Avatar'"
               [initials]="avatarProps()!.initials"
               [isInteractive]="avatarProps()!.isInteractive ?? true"
+              [type]="avatarProps()!.type ?? 'user'"
+              [status]="avatarProps()!.status"
+              [layout]="avatarProps()!.layout ?? 'image'"
+              [decorativeColor]="avatarProps()!.decorativeColor"
               (avatarClick)="handleAvatarClick()"
             />
           }

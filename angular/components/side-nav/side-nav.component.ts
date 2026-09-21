@@ -14,7 +14,10 @@ import {
 import { RouterLink } from "@angular/router";
 import { DividerAppearance } from "@design-system-rte/core/components/divider/divider.interface";
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
-import { setNavMenuOpenById } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.utils";
+import {
+  getNavItemLabelIconSize,
+  setNavMenuOpenById,
+} from "@design-system-rte/core/components/side-nav/nav-item/nav-item.utils";
 import { NavMenuProps } from "@design-system-rte/core/components/side-nav/nav-menu/nav-menu.interface";
 import {
   getDividerAppearanceBySideNavTheme,
@@ -38,6 +41,7 @@ import { logWarn } from "@design-system-rte/core/utils/log-handlers";
 
 import { NavigationElement } from "../../utils/navigation/navigation-element";
 import { DividerComponent } from "../divider/divider.component";
+import { IconComponent } from "../icon/icon.component";
 import { TooltipDirective } from "../tooltip/tooltip.directive";
 
 import { BaseSideNavComponent } from "./base-side-nav/base-side-nav.component";
@@ -60,6 +64,7 @@ const TRANSITION_DURATION = 300;
     NavMenuComponent,
     TooltipDirective,
     RouterLink,
+    IconComponent,
     SideNavHeaderDirective,
     SideNavFooterDirective,
   ],
@@ -161,6 +166,12 @@ export class SideNavComponent {
   readonly collapseIcon = computed<string>(() => {
     return this.collapsedState() ? "arrow-double-right" : "arrow-double-left";
   });
+
+  readonly collapseButtonLabel = computed(() => (this.collapsedState() ? "Ouvrir le menu" : "Réduire le menu"));
+
+  readonly collapseButtonIconSize = computed(() => getNavItemLabelIconSize(false, this.collapsedState()));
+
+  readonly collapseButtonAccessibleName = computed(() => (this.collapsedState() ? this.collapseButtonLabel() : null));
 
   readonly dividerAppearance = computed<DividerAppearance>(() => {
     return getDividerAppearanceBySideNavTheme(this.appearance(), this.contrast());
