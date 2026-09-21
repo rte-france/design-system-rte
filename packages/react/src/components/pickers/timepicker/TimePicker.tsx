@@ -140,6 +140,16 @@ const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
       }
     };
 
+    const isSegmentReadOnly = (segment: string) => {
+      if (segment === HOURS_SEGMENT) {
+        return isHourReadOnly;
+      } else if (segment === MINUTES_SEGMENT) {
+        return isMinuteReadOnly;
+      } else {
+        return isSecondReadOnly;
+      }
+    };
+
     const handleOnKeyDownSeconds = (e: React.KeyboardEvent<HTMLInputElement>) => {
       const key = e.key;
       if (key === ARROW_UP_KEY) {
@@ -175,6 +185,11 @@ const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
 
     const handleFunctionKey = (key: string) => {
       if (key === BACKSPACE_KEY || key === DELETE_KEY) {
+        console.log({ activeTimeSegment });
+
+        if (isCurrentSegmentReadOnly()) {
+          return;
+        }
         handleDeleteSegmentValue();
       }
 
@@ -203,6 +218,7 @@ const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
 
     const handleOnKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
       const key = e.key;
+      console.log("key", key);
 
       if ([ARROW_UP_KEY, ARROW_DOWN_KEY, ARROW_LEFT_KEY, ARROW_RIGHT_KEY, BACKSPACE_KEY, DELETE_KEY].includes(key)) {
         e.preventDefault();
@@ -216,6 +232,7 @@ const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
       }
 
       if (isCurrentSegmentReadOnly()) {
+        console.log("Current segment is read-only");
         selectActiveSegment();
         return;
       } else {
@@ -243,10 +260,17 @@ const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
 
     const handleDeleteSegmentValue = () => {
       if (internalTimeValue[activeTimeSegment] !== "") {
+        console.log("Deleting segment value for active segment:", activeTimeSegment);
         updateTimeSegment(activeTimeSegment, "");
       } else {
         const prev = getPrevSegment(activeTimeSegment);
+        console.log("Active segment is empty, moving to previous segment:", prev);
+        console.log({ activeTimeSegment });
         if (prev !== activeTimeSegment) {
+          console.log("updateTimeSegment:", prev);
+          if (isSegmentReadOnly(prev)) {
+            return;
+          }
           updateTimeSegment(prev, "");
           moveToPreviousSegment();
         }
@@ -373,7 +397,7 @@ const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
     }
 
     return (
-      <>
+      <div>
         {showLabel && <Label label={label} required={required} showLabelRequirement={showLabelRequirement} />}
         <Dropdown
           dropdownId={id ? `${id}-dropdown` : undefined}
@@ -450,7 +474,7 @@ const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
             href={assistiveTextLink}
           />
         )}
-      </>
+      </div>
     );
   },
 );
