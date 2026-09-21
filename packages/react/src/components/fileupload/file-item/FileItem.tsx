@@ -1,6 +1,6 @@
 import { FileItemProps, generateId, getTextWidth } from "@design-system-rte/core";
 import { extractFileNameParts, formatFileSize } from "@design-system-rte/core/components/file-upload/file-upload.util";
-import { FILE_UPLOAD_ITEM_ARIA_LABELS } from "@design-system-rte/core/dist/components/file-upload/file-upload.constants";
+import { FILE_UPLOAD_ITEM_ARIA_LABELS } from "@design-system-rte/core/components/file-upload/file-upload.constants";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import AssistiveText from "../../assistivetext/AssistiveText";
