@@ -1,7 +1,7 @@
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 import { Meta, StoryObj } from "@storybook/react";
 import { expect, within, userEvent } from "@storybook/test";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { focusElementBeforeComponent } from "../../../../.storybook/testing/testing.utils";
 import Switch from "../Switch";
@@ -9,20 +9,6 @@ import Switch from "../Switch";
 const meta = {
   title: "Composants/Switch/Switch",
   component: Switch,
-  decorators: [
-    (Story) => (
-      <div style={{ height: "50px", width: "200px" }}>
-        <Story />
-        <div>
-          {" "}
-          <p>
-            {" "}
-            Switch State : <span id="switch-state"> </span>
-          </p>
-        </div>
-      </div>
-    ),
-  ],
   tags: ["autodocs"],
   argTypes: {
     label: {
@@ -71,13 +57,6 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-const setSwitchStateDisplay = (checked: boolean) => {
-  const switchStateElement = document.getElementById("switch-state");
-  if (switchStateElement) {
-    switchStateElement.textContent = checked ? "ON" : "OFF";
-  }
-};
-
 export const Default: Story = {
   args: {
     label: "Label",
@@ -96,7 +75,6 @@ export const Default: Story = {
         checked={checked}
         onChange={(e) => {
           setChecked(e.target.checked);
-          setSwitchStateDisplay(e.target.checked);
           args.onChange?.(e);
         }}
       />
@@ -121,21 +99,34 @@ export const Default: Story = {
   },
 };
 
+export const Appearances: Story = {
+  render: () => (
+    <div style={{ display: "flex", gap: "16px" }}>
+      <Switch label="Brand Switch" appearance="brand" />
+      <Switch label="Neutral Switch" appearance="neutral" />
+    </div>
+  ),
+};
+
+export const IconVisibility: Story = {
+  render: () => (
+    <div style={{ display: "flex", gap: "16px" }}>
+      <Switch label="Avec label et icône" showIcon />
+      <Switch label="Sans icône" showIcon={false} />
+    </div>
+  ),
+};
+
 export const Uncontrolled: Story = {
   args: {
     label: "Uncontrolled Switch",
     defaultChecked: true,
   },
   render: (args) => {
-    useEffect(() => {
-      setSwitchStateDisplay(!!args.defaultChecked);
-    }, [args.defaultChecked]);
-
     return (
       <Switch
         {...args}
         onChange={(e) => {
-          setSwitchStateDisplay(e.target.checked);
           args.onChange?.(e);
         }}
       />
