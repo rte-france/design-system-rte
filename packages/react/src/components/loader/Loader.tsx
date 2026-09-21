@@ -1,6 +1,6 @@
+import { generateId } from "@design-system-rte/core";
 import { loaderSize } from "@design-system-rte/core/components/loader/loader.constants";
 import { LoaderProps as CoreLoaderProps } from "@design-system-rte/core/components/loader/loader.interface";
-import { generateId } from "@design-system-rte/core";
 import { forwardRef } from "react";
 
 import { concatClassNames } from "../utils";
