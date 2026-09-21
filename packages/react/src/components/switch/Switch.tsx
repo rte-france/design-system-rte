@@ -1,4 +1,9 @@
-import { switchHeight, switchWidth } from "@design-system-rte/core/components/switch/switch.constants";
+import { generateId, logError } from "@design-system-rte/core";
+import {
+  SWITCH_MISSING_ACCESSIBLE_NAME_ERROR,
+  switchHeight,
+  switchWidth,
+} from "@design-system-rte/core/components/switch/switch.constants";
 import { SwitchProps as CoreSwitchProps } from "@design-system-rte/core/components/switch/switch.interface";
 import { InputHTMLAttributes, useMemo, useState } from "react";
 
@@ -14,13 +19,14 @@ interface SwitchProps extends CoreSwitchProps, InputHTMLAttributes<HTMLInputElem
 const Switch = ({
   label,
   appearance = "brand",
-  showLabel = true,
   showIcon = true,
   disabled = false,
   readOnly = false,
   checked,
   defaultChecked = false,
   onChange,
+  ["aria-labelledby"]: ariaLabelledBy,
+  ["aria-label"]: ariaLabel,
   ...props
 }: SwitchProps) => {
   const isControlled = checked !== undefined;
@@ -31,7 +37,8 @@ const Switch = ({
     if (props.id) {
       return props.id;
     }
-    return label ? `${label}-switch` : undefined;
+    const generatedId = generateId();
+    return `${label ?? generatedId}-switch`;
   }, [label, props.id]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -60,6 +67,11 @@ const Switch = ({
     const inputElement = e.currentTarget.querySelector('input[type="checkbox"]') as HTMLInputElement | null;
     inputElement?.click();
   };
+
+  if (!label && !ariaLabelledBy && !ariaLabel) {
+    logError("Switch", SWITCH_MISSING_ACCESSIBLE_NAME_ERROR);
+    return;
+  }
 
   return (
     <div
@@ -91,7 +103,7 @@ const Switch = ({
         {showIcon && isChecked && <Icon name="check" size={16} />}
         {showIcon && !isChecked && <Icon name="close" size={16} />}
       </div>
-      {showLabel && label && (
+      {label && (
         <label htmlFor={inputId} className={concatClassNames(style["switch-label"])}>
           {label}
         </label>

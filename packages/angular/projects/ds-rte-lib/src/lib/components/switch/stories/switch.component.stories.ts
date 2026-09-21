@@ -32,10 +32,6 @@ const meta: Meta<SwitchComponent> = {
       options: ["brand", "neutral"],
       defaultValue: "brand",
     },
-    showLabel: {
-      control: "boolean",
-      defaultValue: true,
-    },
     showIcon: {
       control: "boolean",
       defaultValue: true,
@@ -76,7 +72,6 @@ export const Default: Story = {
   args: {
     label: "Switch",
     appearance: "brand",
-    showLabel: true,
     showIcon: true,
     disabled: false,
     readOnly: false,
@@ -113,7 +108,6 @@ export const Disabled: Story = {
   args: {
     label: "Switch",
     appearance: "brand",
-    showLabel: true,
     showIcon: true,
     disabled: true,
     readOnly: false,
@@ -125,7 +119,6 @@ export const ReadOnly: Story = {
   args: {
     label: "Switch",
     appearance: "brand",
-    showLabel: true,
     showIcon: true,
     disabled: false,
     readOnly: true,

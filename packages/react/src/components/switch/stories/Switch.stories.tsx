@@ -36,11 +36,6 @@ const meta = {
       description: "Appearance of the switch",
       defaultValue: "brand",
     },
-    showLabel: {
-      control: "boolean",
-      description: "Whether to show the label",
-      defaultValue: true,
-    },
     showIcon: {
       control: "boolean",
       description: "Whether to show the icon",
@@ -86,7 +81,6 @@ const setSwitchStateDisplay = (checked: boolean) => {
 export const Default: Story = {
   args: {
     label: "Label",
-    showLabel: true,
     disabled: false,
     readOnly: false,
     appearance: "brand",

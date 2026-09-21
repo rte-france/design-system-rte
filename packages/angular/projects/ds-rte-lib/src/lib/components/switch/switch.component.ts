@@ -1,6 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, effect, input, output, signal } from "@angular/core";
 import { NG_VALUE_ACCESSOR } from "@angular/forms";
+import { generateId, SWITCH_MISSING_ACCESSIBLE_NAME_ERROR } from "@design-system-rte/core";
 import { switchHeight, switchWidth } from "@design-system-rte/core/components/switch/switch.constants";
 import { SwitchProps } from "@design-system-rte/core/components/switch/switch.interface";
 
@@ -24,11 +25,12 @@ import { BaseValueAccessor } from "../input/base-value-accessor";
 export class SwitchComponent extends BaseValueAccessor<boolean> {
   readonly label = input("");
   readonly appearance = input<SwitchProps["appearance"]>("brand");
-  readonly showLabel = input(true);
   readonly showIcon = input(true);
   readonly disabled = input(false);
   readonly readOnly = input(false);
   readonly checked = input(false);
+  readonly ariaLabel = input("");
+  readonly ariaLabelledBy = input("");
 
   readonly stateChange = output<Event>();
 
@@ -39,6 +41,11 @@ export class SwitchComponent extends BaseValueAccessor<boolean> {
 
   readonly isDisabled = computed(() => this.disabled() || this.formDisabled());
 
+  readonly computedSwitchId = computed(() => {
+    const generatedId = generateId();
+    return `${this.label() ?? generatedId}-switch`;
+  });
+
   private lastParentChecked = this.checked();
 
   constructor() {
@@ -48,6 +55,11 @@ export class SwitchComponent extends BaseValueAccessor<boolean> {
       if (parentChecked !== this.lastParentChecked) {
         this.lastParentChecked = parentChecked;
         this.isChecked.set(parentChecked);
+      }
+    });
+    effect(() => {
+      if (!this.label() && !this.ariaLabel() && !this.ariaLabelledBy()) {
+        console.error(SWITCH_MISSING_ACCESSIBLE_NAME_ERROR);
       }
     });
   }
