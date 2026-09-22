@@ -133,13 +133,35 @@ export const SecondReadOnly: Story = {
   },
 };
 
+export const AllSegmentsReadOnly: Story = {
+  args: {
+    ...Default.args,
+  },
+  render: (args) => (
+    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+      <TimePicker {...args} id="hour-read-only-time-picker" isHourReadOnly value={{ hh: "12", mm: "30", ss: "45" }} />
+      <TimePicker
+        {...args}
+        id="minute-read-only-time-picker"
+        isMinuteReadOnly
+        value={{ hh: "12", mm: "30", ss: "45" }}
+      />
+      <TimePicker
+        {...args}
+        id="second-read-only-time-picker"
+        isSecondReadOnly
+        value={{ hh: "12", mm: "30", ss: "45" }}
+      />
+    </div>
+  ),
+};
+
 export const WithIncrement: Story = {
   tags: ["skip-ci"],
   args: {
     ...Default.args,
     minuteIncrement: 15,
   },
-
   play: async ({ canvasElement }) => {
     await focusElementBeforeComponent();
     const input = canvasElement.querySelector("input") as HTMLInputElement;
