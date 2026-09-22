@@ -131,6 +131,19 @@ const baseNavItemsRouting = [
   { ...baseNavItem, id: "profile", label: "Profile", icon: "user", href: "/profile" },
 ];
 
+const sideNavItemsWithExternalLink: NavItemProps[] = [
+  { ...baseNavItem, id: "home", label: "Home", icon: "home", href: "/" },
+  { ...baseNavItem, id: "dashboard", label: "Dashboard", icon: "dashboard", href: "/dashboard" },
+  {
+    ...baseNavItem,
+    id: "docs",
+    label: "Angular docs",
+    icon: "link",
+    href: "https://angular.dev",
+    externalLink: true,
+  },
+];
+
 const navigationItems = baseNavItems;
 
 const navigationItemsWithNestedAndIds: NavItemProps[] = [
@@ -327,6 +340,29 @@ export const Collapsible: Story = {
     ...Default.args,
     collapsible: true,
   },
+};
+
+export const ExternalLinkScreenReader: Story = {
+  args: {
+    ...Default.args,
+    collapsible: true,
+    items: sideNavItemsWithExternalLink,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Manual accessibility check (NVDA / VoiceOver): focus **Angular docs** in the side navigation. The link should announce its name followed by « ouvre dans un nouvel onglet » and open in a new tab.",
+      },
+    },
+  },
+  render: (args) => (
+    <BrowserRouter>
+      <NavigationProvider linkComponent={NavLink}>
+        <SideNav {...args}>{PageContent}</SideNav>
+      </NavigationProvider>
+    </BrowserRouter>
+  ),
 };
 
 export const WithCustomRouter: Story = {

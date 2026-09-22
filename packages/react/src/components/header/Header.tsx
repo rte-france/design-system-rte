@@ -4,6 +4,7 @@ import {
   HeaderIconButtonConfig,
   HeaderProps as CoreHeaderProps,
 } from "@design-system-rte/core";
+import { appendExternalLinkHint } from "@design-system-rte/core/components/link";
 import { forwardRef } from "react";
 
 import { useNavigationLinkComponent } from "../../provider/NavigationContext";
@@ -143,18 +144,35 @@ const Header = forwardRef<HTMLElement, HeaderProps>(
                     <ul className={styles["rte-header-nav-list"]}>
                       {navigationItems.map((item, index) => (
                         <li key={index} className={styles["rte-header-nav-item"]} data-disabled={item.disabled}>
-                          <LinkComponent
-                            href={item.href}
-                            aria-label={item.ariaLabel || item.label}
-                            className={styles["rte-header-nav-link"]}
-                            aria-disabled={item.disabled}
-                            aria-current={item.active ? "page" : undefined}
-                            tabIndex={item.disabled ? -1 : 0}
-                            data-active={item.active}
-                            data-disabled={item.disabled}
-                          >
-                            {item.label}
-                          </LinkComponent>
+                          {item.externalLink ? (
+                            <a
+                              href={item.href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              aria-label={appendExternalLinkHint(item.ariaLabel || item.label)}
+                              className={styles["rte-header-nav-link"]}
+                              aria-disabled={item.disabled}
+                              aria-current={item.active ? "page" : undefined}
+                              tabIndex={item.disabled ? -1 : 0}
+                              data-active={item.active}
+                              data-disabled={item.disabled}
+                            >
+                              {item.label}
+                            </a>
+                          ) : (
+                            <LinkComponent
+                              href={item.href}
+                              aria-label={item.ariaLabel || item.label}
+                              className={styles["rte-header-nav-link"]}
+                              aria-disabled={item.disabled}
+                              aria-current={item.active ? "page" : undefined}
+                              tabIndex={item.disabled ? -1 : 0}
+                              data-active={item.active}
+                              data-disabled={item.disabled}
+                            >
+                              {item.label}
+                            </LinkComponent>
+                          )}
                         </li>
                       ))}
                     </ul>
