@@ -78,6 +78,7 @@ export const Default: Story = {
 };
 
 export const CharacterCount: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     maxLength: 10,
@@ -111,6 +112,7 @@ export const Error: Story = {
 };
 
 export const ReadOnly: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     readOnly: true,
@@ -132,6 +134,7 @@ export const ReadOnly: Story = {
 };
 
 export const Disabled: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     disabled: true,
@@ -148,6 +151,7 @@ export const Disabled: Story = {
 };
 
 export const KeyboardInteraction: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
   },
