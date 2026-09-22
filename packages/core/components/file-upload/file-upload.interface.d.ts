@@ -23,4 +23,5 @@ export interface FileItemProps {
   errorMessage?: string;
   compact?: boolean;
   isLoading?: boolean;
+  isRemoving?: boolean;
 }

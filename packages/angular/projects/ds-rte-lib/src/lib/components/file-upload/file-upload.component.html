@@ -57,6 +57,7 @@
         [errorMessage]="getFileErrorMessage(i)"
         [compact]="compactSpacing()"
         [isLoading]="isFileLoading(file)"
+        [isRemoving]="isFileRemoving(file)"
         (removeFile)="handleRemoveFile(file)"
       />
     }

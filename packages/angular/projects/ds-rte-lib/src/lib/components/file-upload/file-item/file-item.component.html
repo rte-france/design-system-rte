@@ -1,4 +1,4 @@
-<div class="rte-file-upload-file-container">
+<div class="rte-file-upload-file-container" [attr.data-is-removing]="isRemoving()">
   <div class="rte-file-upload-file">
     <div class="rte-file-upload-file-icon" aria-live="polite" aria-atomic="true">
       @if (isLoading()) {
