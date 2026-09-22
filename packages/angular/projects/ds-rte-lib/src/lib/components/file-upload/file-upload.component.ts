@@ -63,6 +63,7 @@ export class FileUploadComponent implements AfterViewInit, OnDestroy {
   readonly selectedFiles = signal<File[]>([]);
   readonly loadingFiles = signal<Set<File>>(new Set());
   readonly uploadErrors = signal<Map<File, string>>(new Map());
+  readonly removalAnnouncement = signal("");
 
   private resizeObserver?: ResizeObserver;
   private readonly zone = inject(NgZone);
@@ -115,7 +116,7 @@ export class FileUploadComponent implements AfterViewInit, OnDestroy {
   async handleOnChange(event: Event): Promise<void> {
     const fileInput = event.target as HTMLInputElement;
     const files = Array.from(fileInput.files || []);
-    fileInput.value = "";
+    // fileInput.value = "";
     if (this.multiple()) {
       this.selectedFiles.update((previousFiles) => [...previousFiles, ...files]);
     } else {
@@ -177,12 +178,18 @@ export class FileUploadComponent implements AfterViewInit, OnDestroy {
         return next;
       });
       this.selectedFiles.set(newFiles);
+      this.removalAnnouncement.set(
+        `${file.name} a été supprimé. ${newFiles.length} fichier${newFiles.length > 1 ? "s" : ""} restant${newFiles.length > 1 ? "s" : ""}.`,
+      );
       this.fileRemoved.emit(file);
       this.filesChange.emit(newFiles);
       const input = this.inputRef()?.nativeElement;
+      const button = this.buttonRef()?.nativeElement as HTMLButtonElement | undefined;
       if (input) {
         input.value = "";
-        input.focus();
+      }
+      if (button) {
+        button.focus();
       }
     }
   }
