@@ -38,6 +38,7 @@ const FileUpload = ({
 
   const [selectedFiles, setSelectedFiles] = useState<File[] | null>(null);
   const [loadingFiles, setLoadingFiles] = useState<Set<File>>(new Set());
+  const [removalAnnouncement, setRemovalAnnouncement] = useState("");
 
   const [uploadErrors, setUploadErrors] = useState<Map<File, string>>(new Map());
 
@@ -80,6 +81,9 @@ const FileUpload = ({
       if (index !== -1) {
         const newFiles = selectedFiles.filter((_, i) => i !== index);
         setSelectedFiles(newFiles);
+        setRemovalAnnouncement(
+          `${file.name} a été supprimé. ${newFiles.length} fichier${newFiles.length > 1 ? "s" : ""} restant${newFiles.length > 1 ? "s" : ""}.`,
+        );
         setLoadingFiles((prev) => {
           const next = new Set(prev);
           next.delete(file);
@@ -92,9 +96,11 @@ const FileUpload = ({
         });
         onRemovingFile?.(file);
         onChange?.(newFiles);
-        if (inputRef.current) {
-          inputRef.current.value = "";
-          inputRef.current.focus();
+        if (buttonRef.current) {
+          if (inputRef.current) {
+            inputRef.current.value = "";
+          }
+          buttonRef.current?.focus();
         }
       }
     }
@@ -179,6 +185,9 @@ const FileUpload = ({
             compact={compactSpacing}
           />
         ))}
+      </div>
+      <div role="status" aria-live="polite" aria-atomic="true" className={styles["sr-only"]}>
+        {removalAnnouncement}
       </div>
     </div>
   );

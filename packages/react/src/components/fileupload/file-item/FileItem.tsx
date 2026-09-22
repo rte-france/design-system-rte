@@ -104,26 +104,26 @@ const FileItem = ({ file, removeFile, isError, errorMessage, compact, isLoading 
           <div className={styles["rte-file-upload-file-icon"]} ref={iconRef} aria-live="polite" aria-atomic="true">
             {isLoading ? (
               <>
-                <span className={styles["sr-only"]}>{FILE_UPLOAD_ITEM_ARIA_LABELS.LOADING}</span>
+                <span className={styles["sr-only"]}>
+                  {FILE_UPLOAD_ITEM_ARIA_LABELS.LOADING} : {file.name}
+                </span>
                 <Loader size="small" aria-hidden="true" />
               </>
             ) : (
               <>
                 {isError ? (
                   <>
-                    <span className={styles["sr-only"]}>{FILE_UPLOAD_ITEM_ARIA_LABELS.ERROR}</span>
+                    <span className={styles["sr-only"]}>
+                      {FILE_UPLOAD_ITEM_ARIA_LABELS.ERROR} : {file.name}
+                    </span>
                     <Icon aria-hidden="true" name="error" size={20} color="var(--content-danger-default)" />
                   </>
                 ) : (
                   <>
-                    <span className={styles["sr-only"]}>{FILE_UPLOAD_ITEM_ARIA_LABELS.SUCCESS}</span>
-                    <Icon
-                      aria-hidden="true"
-                      name="check-circle"
-                      size={20}
-                      color="var(--content-success-default)"
-                      aria-label={FILE_UPLOAD_ITEM_ARIA_LABELS.SUCCESS}
-                    />
+                    <span className={styles["sr-only"]}>
+                      {FILE_UPLOAD_ITEM_ARIA_LABELS.SUCCESS} : {file.name}
+                    </span>
+                    <Icon aria-hidden="true" name="check-circle" size={20} color="var(--content-success-default)" />
                   </>
                 )}
               </>
@@ -163,7 +163,11 @@ const FileItem = ({ file, removeFile, isError, errorMessage, compact, isLoading 
             aria-describedby={errorMessage ? errorMessageId : undefined}
           />
         </div>
-        {errorMessage && <AssistiveText id={errorMessageId} label={errorMessage} appearance="error" />}
+        {errorMessage && (
+          <div role="alert" aria-live="assertive">
+            <AssistiveText id={errorMessageId} label={errorMessage} appearance="error" />
+          </div>
+        )}
       </div>
     </>
   );
