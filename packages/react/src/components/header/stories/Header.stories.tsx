@@ -73,6 +73,38 @@ export const Default: Story = {
   },
 };
 
+const navigationItemsWithExternalLink = [
+  { label: "Accueil", href: "/" },
+  { label: "Tableau de bord", href: "/dashboard", active: true },
+  {
+    label: "Documentation externe",
+    href: "https://angular.dev",
+    externalLink: true,
+  },
+];
+
+export const ExternalLinkScreenReader: Story = {
+  args: {
+    ...Default.args,
+    hasDivider: false,
+    subHeaderConfig: undefined,
+    navigationItems: navigationItemsWithExternalLink,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Manual accessibility check (NVDA / VoiceOver): focus **Documentation externe** in the nav bar. The link should announce its name followed by « ouvre dans un nouvel onglet » and open in a new tab.",
+      },
+    },
+  },
+  render: (args) => (
+    <NavigationProvider linkComponent="a">
+      <Header {...args} />
+    </NavigationProvider>
+  ),
+};
+
 export const WithCustomRouter: Story = {
   args: {
     ...Default.args,

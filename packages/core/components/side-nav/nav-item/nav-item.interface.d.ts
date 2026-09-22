@@ -10,6 +10,7 @@ export interface NavItemProps {
   isCollapsed?: boolean;
   link?: string; // Deprecated: use href instead
   href?: string;
+  externalLink?: boolean;
   onClick?: () => void;
   items?: NavItemProps[];
   active?: boolean;

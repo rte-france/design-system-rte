@@ -66,6 +66,7 @@ export interface HeaderNavigationItem {
   ariaLabel?: string;
   disabled?: boolean;
   active?: boolean;
+  externalLink?: boolean;
 }
 
 export interface HeaderActionButtonConfig {

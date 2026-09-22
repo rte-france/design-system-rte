@@ -1,3 +1,4 @@
+import { appendExternalLinkHint, EXTERNAL_LINK_HINT } from "@design-system-rte/core/components/link";
 import { NavItemProps as CoreNavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
 import { shouldDisplaySideNavBadge } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.utils";
 import { ForwardedRef, forwardRef, HTMLAttributes, ReactNode, useRef } from "react";
@@ -28,6 +29,7 @@ const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
       isCollapsed,
       link,
       href,
+      externalLink,
       isNested,
       parentMenuOpen,
       appearance = "brand",
@@ -81,10 +83,13 @@ const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
       </>
     );
 
+    const hrefLinkAriaLabel =
+      isCollapsed && externalLink ? appendExternalLinkHint(label) : isCollapsed ? label : undefined;
+
     const listItem = hasLink ? (
       <LinkComponent
         id={id}
-        aria-label={label}
+        aria-label={hrefLinkAriaLabel}
         className={style.navItemContainer}
         data-collapsed={isCollapsed}
         data-appearance={appearance}
@@ -92,11 +97,14 @@ const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
         data-active={active}
         href={href ?? link}
         to={href ?? link}
+        target={externalLink ? "_blank" : undefined}
+        rel={externalLink ? "noopener noreferrer" : undefined}
         onClick={() => onActiveItemChange?.(id)}
         onBlur={handleBlur}
         ref={linkItemRef}
       >
         {labelContent}
+        {externalLink && !isCollapsed && <span className={style.srOnly}>, {EXTERNAL_LINK_HINT}</span>}
       </LinkComponent>
     ) : (
       <div

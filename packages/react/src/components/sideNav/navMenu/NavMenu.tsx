@@ -36,6 +36,8 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
       label,
       isCollapsed,
       link,
+      href,
+      externalLink,
       items = [],
       open: controlledOpen,
       onOpenChange,
@@ -156,7 +158,9 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
         {...props}
       >
         <NavContentWrapper
-          link={link}
+          link={href ?? link}
+          externalLink={externalLink}
+          isCollapsed={isCollapsed}
           label={label}
           tabIndex={tabIndex}
           onClick={toggleMenu}
@@ -181,7 +185,9 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
                     icon={item.icon}
                     hasLeadingIcon={item.hasLeadingIcon}
                     isCollapsed={isCollapsed}
-                    link={item.link}
+                    link={item.href ?? item.link}
+                    href={item.href}
+                    externalLink={item.externalLink}
                     onClick={item.onClick}
                     items={item.items || []}
                     open={getMenuOpen ? getMenuOpen(item) : (item as CoreNavMenuItemProps).open}
@@ -208,7 +214,9 @@ const NavMenu = forwardRef<HTMLLIElement, NavMenuProps>(
                       icon={item.icon}
                       hasLeadingIcon={item.hasLeadingIcon}
                       isCollapsed={isCollapsed}
-                      link={item.link}
+                      href={item.href}
+                      link={item.href ?? item.link}
+                      externalLink={item.externalLink}
                       onClick={item.onClick}
                       isNested={true}
                       parentMenuOpen={nestedItemsParentMenuOpen}
