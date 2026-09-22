@@ -11,7 +11,7 @@ import Tooltip from "../../tooltip/Tooltip";
 
 import styles from "./FileItem.module.scss";
 
-const FileItem = ({ file, removeFile, isError, errorMessage, compact, isLoading }: FileItemProps) => {
+const FileItem = ({ file, removeFile, isError, errorMessage, compact, isLoading, isRemoving }: FileItemProps) => {
   const fileNameRef = useRef<HTMLSpanElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const iconRef = useRef<HTMLDivElement>(null);
@@ -99,7 +99,7 @@ const FileItem = ({ file, removeFile, isError, errorMessage, compact, isLoading 
 
   return (
     <>
-      <div className={styles["rte-file-upload-file-container"]}>
+      <div className={styles["rte-file-upload-file-container"]} data-is-removing={isRemoving}>
         <div className={styles["rte-file-upload-file"]}>
           <div className={styles["rte-file-upload-file-icon"]} ref={iconRef} aria-live="polite" aria-atomic="true">
             {isLoading ? (

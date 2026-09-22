@@ -1,5 +1,5 @@
 import { FileUploadProps, generateId } from "@design-system-rte/core";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import AssistiveText from "../assistivetext/AssistiveText";
 import Button from "../button/Button";
@@ -38,9 +38,17 @@ const FileUpload = ({
 
   const [selectedFiles, setSelectedFiles] = useState<File[] | null>(null);
   const [loadingFiles, setLoadingFiles] = useState<Set<File>>(new Set());
+  const [removingFiles, setRemovingFiles] = useState<Set<File>>(new Set());
   const [removalAnnouncement, setRemovalAnnouncement] = useState("");
+  const removalTimers = useRef(new Map<File, ReturnType<typeof setTimeout>>());
 
   const [uploadErrors, setUploadErrors] = useState<Map<File, string>>(new Map());
+
+  useEffect(() => {
+    return () => {
+      removalTimers.current.forEach((timer) => clearTimeout(timer));
+    };
+  }, []);
 
   const shouldDisplayAssistiveText =
     showAssistiveText &&
@@ -76,32 +84,41 @@ const FileUpload = ({
   };
 
   const handleRemoveFile = (file: File) => {
-    if (selectedFiles) {
+    if (selectedFiles && !removingFiles.has(file)) {
       const index = selectedFiles.indexOf(file);
       if (index !== -1) {
         const newFiles = selectedFiles.filter((_, i) => i !== index);
-        setSelectedFiles(newFiles);
+        setRemovingFiles((prev) => new Set(prev).add(file));
         setRemovalAnnouncement(
           `${file.name} a été supprimé. ${newFiles.length} fichier${newFiles.length > 1 ? "s" : ""} restant${newFiles.length > 1 ? "s" : ""}.`,
         );
-        setLoadingFiles((prev) => {
-          const next = new Set(prev);
-          next.delete(file);
-          return next;
-        });
-        setUploadErrors((prev) => {
-          const next = new Map(prev);
-          next.delete(file);
-          return next;
-        });
-        onRemovingFile?.(file);
-        onChange?.(newFiles);
-        if (buttonRef.current) {
-          if (inputRef.current) {
-            inputRef.current.value = "";
-          }
-          buttonRef.current?.focus();
+        if (inputRef.current) {
+          inputRef.current.value = "";
         }
+        buttonRef.current?.focus();
+
+        const timer = setTimeout(() => {
+          setSelectedFiles(newFiles);
+          setRemovingFiles((prev) => {
+            const next = new Set(prev);
+            next.delete(file);
+            return next;
+          });
+          setLoadingFiles((prev) => {
+            const next = new Set(prev);
+            next.delete(file);
+            return next;
+          });
+          setUploadErrors((prev) => {
+            const next = new Map(prev);
+            next.delete(file);
+            return next;
+          });
+          onRemovingFile?.(file);
+          onChange?.(newFiles);
+          removalTimers.current.delete(file);
+        }, 300);
+        removalTimers.current.set(file, timer);
       }
     }
   };
@@ -180,6 +197,7 @@ const FileUpload = ({
             file={file}
             removeFile={() => handleRemoveFile(file)}
             isLoading={loadingFiles.has(file)}
+            isRemoving={removingFiles.has(file)}
             isError={errorFilesMap[index] !== undefined || uploadErrors.has(file)}
             errorMessage={uploadErrors.get(file) ?? errorFilesMap[index]}
             compact={compactSpacing}
