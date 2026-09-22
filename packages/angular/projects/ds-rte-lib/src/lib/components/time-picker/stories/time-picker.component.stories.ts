@@ -206,6 +206,70 @@ export const SecondReadOnly: Story = {
   },
 };
 
+export const AllSegmentsReadOnly: Story = {
+  args: {
+    ...Default.args,
+  },
+  render: (args) => ({
+    props: { args },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 16px">
+        <rte-time-picker
+          id="hour-read-only-time-picker"
+          [label]="args.label"
+          [labelId]="args.labelId"
+          [showLabel]="args.showLabel"
+          [required]="args.required"
+          [showLabelRequirement]="args.showLabelRequirement"
+          [assistiveTextLabel]="args.assistiveTextLabel"
+          [assistiveAppearance]="args.assistiveAppearance"
+          [showAssistiveIcon]="args.showAssistiveIcon"
+          [assistiveTextLink]="args.assistiveTextLink"
+          [isError]="args.isError"
+          [disabled]="args.disabled"
+          [readOnly]="args.readOnly"
+          [value]="{ hh: '12', mm: '30', ss: '45' }"
+          [isHourReadOnly]="true"
+        />
+        <rte-time-picker
+          id="minute-read-only-time-picker"
+          [label]="args.label"
+          [labelId]="args.labelId"
+          [showLabel]="args.showLabel"
+          [required]="args.required"
+          [showLabelRequirement]="args.showLabelRequirement"
+          [assistiveTextLabel]="args.assistiveTextLabel"
+          [assistiveAppearance]="args.assistiveAppearance"
+          [showAssistiveIcon]="args.showAssistiveIcon"
+          [assistiveTextLink]="args.assistiveTextLink"
+          [isError]="args.isError"
+          [disabled]="args.disabled"
+          [readOnly]="args.readOnly"
+          [value]="{ hh: '12', mm: '30', ss: '45' }"
+          [isMinuteReadOnly]="true"
+        />
+        <rte-time-picker
+          id="second-read-only-time-picker"
+          [label]="args.label"
+          [labelId]="args.labelId"
+          [showLabel]="args.showLabel"
+          [required]="args.required"
+          [showLabelRequirement]="args.showLabelRequirement"
+          [assistiveTextLabel]="args.assistiveTextLabel"
+          [assistiveAppearance]="args.assistiveAppearance"
+          [showAssistiveIcon]="args.showAssistiveIcon"
+          [assistiveTextLink]="args.assistiveTextLink"
+          [isError]="args.isError"
+          [disabled]="args.disabled"
+          [readOnly]="args.readOnly"
+          [value]="{ hh: '12', mm: '30', ss: '45' }"
+          [isSecondReadOnly]="true"
+        />
+      </div>
+    `,
+  }),
+};
+
 export const WithIncrement: Story = {
   args: {
     ...Default.args,
