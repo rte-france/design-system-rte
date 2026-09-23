@@ -1,6 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, input } from "@angular/core";
 import { RouterLink } from "@angular/router";
+import { EXTERNAL_LINK_HINT } from "@design-system-rte/core/components/link";
 
 import { effectiveRouterLink, RouterLinkConfig, RouterLinkValue } from "../../utils/navigation/router-link-inputs";
 import { IconComponent } from "../icon/icon.component";
@@ -13,6 +14,8 @@ import { IconComponent } from "../icon/icon.component";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LinkComponent {
+  readonly externalLinkHint = EXTERNAL_LINK_HINT;
+
   readonly id = input<string>();
   readonly label = input("");
   readonly href = input<string>("#");
