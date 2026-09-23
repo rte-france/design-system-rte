@@ -17,7 +17,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
-    "@react-router/dev": "^7.18.1",
+    "@react-router/dev": "^7.18.2",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",
@@ -27,8 +27,19 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
+    "postcss": "^8.5.18",
+    "react-router": "^7.18.2",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.4",
-    "vite": "^7.2.4"
+    "vite": "^7.3.5"
+  },
+  "overrides": {
+    "brace-expansion": "2.1.4",
+    "browserslist": "4.28.7",
+    "flatted": "3.4.2",
+    "js-yaml": "4.3.2",
+    "minimatch": "9.0.7",
+    "picomatch": "4.0.4",
+    "rollup": "4.59.0"
   }
 }
