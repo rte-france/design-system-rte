@@ -23,6 +23,9 @@ const meta = {
     },
   },
 } satisfies Meta<typeof Link>;
+
+const longLabel =
+  "This is a very long link label that should remain fully readable when the container is narrow or the page is zoomed to 400%";
 export default meta;
 type Story = StoryObj<typeof meta>;
 
@@ -79,6 +82,28 @@ export const Reverse: Story = {
         <Link {...args} label="External Link" href="#" externalLink />
       </div>
     );
+  },
+};
+
+export const LabelWrappingInText: Story = {
+  args: {
+    label: longLabel,
+    href: "#",
+  },
+  render: (args) => (
+    <div style={{ maxWidth: 200, padding: 8, border: "1px dashed var(--border-secondary)" }}>
+      <p style={{ margin: 0 }}>
+        Before the link, <Link {...args} /> after the link in running text.
+      </p>
+    </div>
+  ),
+};
+
+export const LabelTruncationWithMaxWidth: Story = {
+  args: {
+    label: longLabel,
+    href: "#",
+    style: { maxWidth: 120 },
   },
 };
 

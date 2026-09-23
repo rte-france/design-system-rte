@@ -15,11 +15,22 @@ interface LinkProps extends CoreLinkProps, RoutingComponentProps, React.AnchorHT
 
 const Link = forwardRef<HTMLAnchorElement, LinkProps>(
   (
-    { label, href, subtle = false, externalLink = false, className = "", reverse, customLinkComponent, ...props },
+    {
+      label,
+      href,
+      subtle = false,
+      externalLink = false,
+      className = "",
+      reverse,
+      customLinkComponent,
+      style: styleProp,
+      ...props
+    },
     ref,
   ) => {
     const contextLinkComponent = useNavigationLinkComponent();
     const Component = customLinkComponent ?? contextLinkComponent;
+    const truncate = styleProp?.maxWidth != null && styleProp.maxWidth !== "";
     const { "aria-label": ariaLabel, ...restProps } = props;
 
     const hasExplicitAriaLabel = ariaLabel !== undefined && ariaLabel !== null;
@@ -37,15 +48,21 @@ const Link = forwardRef<HTMLAnchorElement, LinkProps>(
         href={href}
         to={href}
         role="link"
-        className={concatClassNames(style.link, className)}
+        className={concatClassNames(style.link, truncate && style.truncate, className)}
         data-subtle={subtle}
         target={externalLink ? "_blank" : undefined}
         rel={externalLink ? "noopener noreferrer" : undefined}
         data-reverse={reverse}
-        {...restProps}
+        style={styleProp}
         aria-label={resolvedAriaLabel}
+        {...restProps}
       >
-        <span className={style.label}>{label}</span>
+        <span
+          className={concatClassNames(style.label, truncate && style.labelTruncate)}
+          style={truncate ? { maxWidth: styleProp?.maxWidth } : undefined}
+        >
+          {label}
+        </span>
         {showExternalLinkHintInContent && <span className={style["sr-only"]}>, {EXTERNAL_LINK_HINT}</span>}
         {externalLink && <Icon name="external-link" size={12} className={style["external-link-icon"]} />}
       </Component>

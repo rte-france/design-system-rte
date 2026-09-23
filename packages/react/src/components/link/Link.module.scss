@@ -145,10 +145,22 @@
         margin-left: $positive-spacing_025;
     }
 
+    max-width: 100%;
+
     .label {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+        white-space: normal;
+        overflow-wrap: break-word;
+    }
+
+    &.truncate {
+        min-width: 0;
+
+        .labelTruncate {
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
     }
 }
 
