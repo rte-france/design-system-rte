@@ -151,10 +151,22 @@
 }
 
 .rte-link {
+    max-width: 100%;
+
     .rte-link-label {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+        white-space: normal;
+        overflow-wrap: break-word;
+    }
+
+    &.rte-link--truncate {
+        min-width: 0;
+
+        .rte-link-label--truncate {
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
     }
 }
 
