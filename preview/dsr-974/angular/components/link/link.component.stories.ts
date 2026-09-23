@@ -57,6 +57,9 @@ const meta: Meta<LinkComponent> = {
     reverse: {
       control: "boolean",
     },
+    maxWidth: {
+      control: "number",
+    },
   },
 };
 export default meta;
@@ -115,6 +118,36 @@ export const Reverse: Story = {
         <rte-link [label]="label" [href]="href" [reverse]="reverse" [subtle]="subtle"/>
       </div>`,
   }),
+};
+
+const longLabel =
+  "This is a very long link label that should remain fully readable when the container is narrow or the page is zoomed to 400%";
+
+export const LabelWrappingInText: Story = {
+  args: {
+    label: longLabel,
+    href: "#",
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <div style="max-width: 200px; padding: 8px; border: 1px dashed var(--border-secondary);">
+        <p style="margin: 0;">
+          Before the link,
+          <rte-link [label]="label" [href]="href" />
+          after the link in running text.
+        </p>
+      </div>
+    `,
+  }),
+};
+
+export const LabelTruncationWithMaxWidth: Story = {
+  args: {
+    label: longLabel,
+    href: "#",
+    maxWidth: 120,
+  },
 };
 
 export const KeyboardInteraction: Story = {
