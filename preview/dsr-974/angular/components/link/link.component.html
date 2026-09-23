@@ -37,6 +37,9 @@
     >
       {{ label() }}
     </span>
+    @if (externalLink()) {
+      <span class="sr-only">, {{ externalLinkHint }}</span>
+    }
     <rte-icon
       *ngIf="externalLink()"
       name="external-link"
