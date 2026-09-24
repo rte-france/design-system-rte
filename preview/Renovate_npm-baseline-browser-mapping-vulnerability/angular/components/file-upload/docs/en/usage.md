@@ -59,6 +59,7 @@ Disables both the hidden file input and the upload button.
 ```
 
 Allows selecting more than one file in the native picker.
+Selecting files again adds them to the current list.
 
 #### With Error
 
@@ -128,6 +129,7 @@ Displays a field-level error and per-file messages when validation fails. Consum
       buttonLabel="Select a file"
       [multiple]="true"
       [onUploadFile]="onUploadFile"
+      [uploadErrorMessage]="uploadErrorMessage"
       (filesChange)="onFilesChange($event)"
     />
   `,
@@ -137,6 +139,13 @@ export class AsyncUploadComponent {
     return uploadToServer(file);
   };
 
+  uploadErrorMessage = (file: File, error: unknown): string => {
+    if (error instanceof Error && error.message === "FILE_TOO_LARGE") {
+      return `${file.name} exceeds the maximum allowed size.`;
+    }
+    return `The upload of ${file.name} failed.`;
+  };
+
   onFilesChange(files: File[]): void {
     // Handle updated file list
   }
@@ -144,3 +153,4 @@ export class AsyncUploadComponent {
 ```
 
 Runs an async upload per selected file and shows a loading indicator on each file item until the promise settles.
+When an upload rejects, the file displays the default upload error message.

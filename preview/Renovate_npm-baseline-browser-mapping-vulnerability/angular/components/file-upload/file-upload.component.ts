@@ -48,6 +48,9 @@ export class FileUploadComponent implements AfterViewInit, OnDestroy {
   readonly isError = input<boolean>(false);
   readonly errorFilesMap = input<string[]>([]);
   readonly onUploadFile = input<(file: File) => Promise<void>>();
+  readonly uploadErrorMessage = input<string | ((file: File, error: unknown) => string)>(
+    "Erreur lors du téléchargement du fichier.",
+  );
 
   readonly inputRef = viewChild<ElementRef<HTMLInputElement>>("inputRef");
   readonly buttonRef = viewChild("buttonRef", { read: ElementRef });
@@ -59,12 +62,18 @@ export class FileUploadComponent implements AfterViewInit, OnDestroy {
 
   readonly selectedFiles = signal<File[]>([]);
   readonly loadingFiles = signal<Set<File>>(new Set());
+  readonly uploadErrors = signal<Map<File, string>>(new Map());
 
   private resizeObserver?: ResizeObserver;
   private readonly zone = inject(NgZone);
 
   readonly shouldDisplayAssistiveText = computed(() => {
-    return this.showAssistiveText() && !!this.assistiveTextLabel() && this.errorFilesMap()?.length === 0;
+    return (
+      this.showAssistiveText() &&
+      !!this.assistiveTextLabel() &&
+      this.errorFilesMap().length === 0 &&
+      this.uploadErrors().size === 0
+    );
   });
 
   readonly buttonSize = computed(() => (this.compactSpacing() ? "s" : "m"));
@@ -96,35 +105,55 @@ export class FileUploadComponent implements AfterViewInit, OnDestroy {
   }
 
   isFileError(index: number): boolean {
-    const errorFiles = this.errorFilesMap();
-    return errorFiles !== undefined && errorFiles[index] !== undefined;
+    return this.errorFilesMap()[index] !== undefined || this.uploadErrors().has(this.selectedFiles()[index]);
   }
 
   getFileErrorMessage(index: number): string | undefined {
-    return this.errorFilesMap()?.[index];
+    return this.uploadErrors().get(this.selectedFiles()[index]) ?? this.errorFilesMap()[index];
   }
 
-  handleOnChange(event: Event): void {
+  async handleOnChange(event: Event): Promise<void> {
     const fileInput = event.target as HTMLInputElement;
     const files = Array.from(fileInput.files || []);
     fileInput.value = "";
-    this.selectedFiles.set(files);
+    if (this.multiple()) {
+      this.selectedFiles.update((previousFiles) => [...previousFiles, ...files]);
+    } else {
+      this.selectedFiles.set(files);
+      this.uploadErrors.set(new Map());
+    }
     this.filesChange.emit(files);
     fileInput.focus();
 
     const onUpload = this.onUploadFile();
     if (onUpload) {
-      files.forEach((file) => {
-        this.loadingFiles.update((prev) => new Set(prev).add(file));
-        onUpload(file).finally(() => {
-          this.loadingFiles.update((prev) => {
-            const next = new Set(prev);
-            next.delete(file);
-            return next;
-          });
+      await Promise.all(files.map((file) => this.handleUploadFile(file, onUpload)));
+    }
+  }
+
+  private handleUploadFile(file: File, onUpload: (file: File) => Promise<void>): Promise<void> {
+    this.loadingFiles.update((prev) => new Set(prev).add(file));
+    return onUpload(file)
+      .then(() => {
+        this.loadingFiles.update((prev) => {
+          const next = new Set(prev);
+          next.delete(file);
+          return next;
+        });
+      })
+      .catch((error: unknown) => {
+        this.loadingFiles.update((prev) => {
+          const next = new Set(prev);
+          next.delete(file);
+          return next;
+        });
+        const errorMessage = this.uploadErrorMessage();
+        const message = typeof errorMessage === "function" ? errorMessage(file, error) : errorMessage;
+        this.uploadErrors.update((previousErrors) => {
+          if (!this.selectedFiles().includes(file)) return previousErrors;
+          return new Map(previousErrors).set(file, message);
         });
       });
-    }
   }
 
   handleOnClick(event: MouseEvent): void {
@@ -137,6 +166,16 @@ export class FileUploadComponent implements AfterViewInit, OnDestroy {
     const index = files.indexOf(file);
     if (index !== -1) {
       const newFiles = files.filter((_, i) => i !== index);
+      this.uploadErrors.update((previousErrors) => {
+        const next = new Map(previousErrors);
+        next.delete(file);
+        return next;
+      });
+      this.loadingFiles.update((previousFiles) => {
+        const next = new Set(previousFiles);
+        next.delete(file);
+        return next;
+      });
       this.selectedFiles.set(newFiles);
       this.fileRemoved.emit(file);
       this.filesChange.emit(newFiles);
