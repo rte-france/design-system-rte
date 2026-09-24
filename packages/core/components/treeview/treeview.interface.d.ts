@@ -1,4 +1,4 @@
-import { TreeviewItemProps } from "./treeviewItem/treeviewItem.interface";
+import { TreeviewItemProps } from "./treeview-item.interface";
 
 export interface TreeviewProps {
   items: TreeviewItemProps[];
