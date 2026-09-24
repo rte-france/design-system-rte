@@ -1,5 +1,45 @@
 # @design-system-rte/react
 
+## 1.20.0
+
+### Minor Changes
+
+- 1a5cb9f: ## Changes
+
+  - (File Upload) add animation on adding and deleting files
+  - (File Upload) allow screen reader to announce status changes
+
+### Patch Changes
+
+- bbb07e5: ## Changes
+
+  - (Switch) add documentation
+  - (Switch) enforce accessibility
+
+- 2ed234b: ## Changes
+
+  - (Time Picker) add documentation
+  - (Time Picker) prevent deleting value from input when digit is readonly
+
+- a17f77a: ## Changes
+
+  - (Link) handle external link aria attributes for screen reader announcement
+
+- 2c99ac1: ## Changes
+
+  - (Link) avoid unwanted ellipsis from maxWidth not handled correctly
+
+- 90a22ed: ## Changes
+
+  - (File Upload) handle multiple error message on upload
+  - (File Upload) allow mutiple files to be added with already existing files
+
+- Updated dependencies [bbb07e5]
+- Updated dependencies [a17f77a]
+- Updated dependencies [441a083]
+- Updated dependencies [90a22ed]
+  - @design-system-rte/core@1.20.0
+
 ## 1.19.0
 
 ### Minor Changes

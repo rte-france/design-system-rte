@@ -1,5 +1,27 @@
 # @design-system-rte/core
 
+## 1.20.0
+
+### Minor Changes
+
+- 441a083: ## Changes
+
+  - (File Upload) add animation on adding and deleting files
+
+### Patch Changes
+
+- bbb07e5: ## Changes
+
+  - (Switch) enforce accessibility
+
+- a17f77a: ## Changes
+
+  - (Link) handle external link aria attributes for screen reader announcement
+
+- 90a22ed: ## Changes
+
+  - (File Upload) handle multiple error message on upload
+
 ## 1.19.0
 
 ### Minor Changes
