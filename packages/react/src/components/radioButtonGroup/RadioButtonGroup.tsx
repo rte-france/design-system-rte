@@ -3,6 +3,7 @@ import { RadioButtonGroupProps as CoreRadioButtonGroupProps } from "@design-syst
 import React, { forwardRef, useRef, useState } from "react";
 
 import RadioButton from "../radioButton/RadioButton";
+import RequiredIndicator from "../requiredindicator/RequiredIndicator";
 import { concatClassNames } from "../utils";
 
 import styles from "./RadioButtonGroup.module.scss";
@@ -27,6 +28,8 @@ const RadioButtonGroup = forwardRef<HTMLDivElement, RadioButtonGroupProps>(
       className = "",
       onValueChange,
       selectedValue,
+      required = false,
+      showLabelRequirement = false,
       ...props
     },
     ref,
@@ -60,7 +63,13 @@ const RadioButtonGroup = forwardRef<HTMLDivElement, RadioButtonGroupProps>(
           data-read-only={readOnly}
           aria-describedby={error && errorMessage ? errorMessageId : undefined}
         >
-          {groupTitle && showGroupTitle && <legend className={styles["groupTitle"]}>{groupTitle}</legend>}
+          <div
+            className={styles["rte-radioButtonGroupTitleContainer"]}
+            data-show-label-requirement={showLabelRequirement}
+          >
+            {groupTitle && showGroupTitle && <legend className={styles["groupTitle"]}>{groupTitle}</legend>}
+            <RequiredIndicator required={required} showLabelRequirement={showLabelRequirement} />
+          </div>
           {groupHelpText && showHelpText && <p className={styles["groupHelpText"]}>{groupHelpText}</p>}
           {errorMessage && error && <p className={styles["errorMessage"]}>{errorMessage}</p>}
           <div className={styles["radioButtonGroup"]} data-direction={direction}>

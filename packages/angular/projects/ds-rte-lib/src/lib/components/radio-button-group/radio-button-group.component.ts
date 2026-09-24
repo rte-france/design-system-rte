@@ -2,11 +2,12 @@ import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, effect, input, output, signal } from "@angular/core";
 import { generateId } from "@design-system-rte/core";
 
+import { RequiredIndicatorComponent } from "../input/required-indicator/required-indicator.component";
 import { RadioButtonComponent } from "../radio-button/radio-button.component";
 
 @Component({
   selector: "rte-radio-button-group",
-  imports: [CommonModule, RadioButtonComponent],
+  imports: [CommonModule, RadioButtonComponent, RequiredIndicatorComponent],
   templateUrl: "./radio-button-group.component.html",
   styleUrl: "./radio-button-group.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -24,6 +25,8 @@ export class RadioButtonGroupComponent {
   readonly error = input(false);
   readonly disabled = input(false);
   readonly readOnly = input(false);
+  readonly required = input(false);
+  readonly showLabelRequirement = input(false);
   readonly selectedValue = input("");
   readonly changeEvent = output<string>();
   readonly errorMessageId = generateId();

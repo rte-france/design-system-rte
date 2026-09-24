@@ -18,4 +18,6 @@ export interface RadioButtonGroupProps {
   readOnly?: boolean;
   onValueChange?: (value: string) => void;
   selectedValue?: string;
+  required?: boolean;
+  showLabelRequirement?: boolean;
 }
