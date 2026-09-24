@@ -82,7 +82,9 @@ export class ModalDirective implements AfterContentInit, OnDestroy {
       return;
     }
 
-    this.modalCompRef = this.overlayService.create(ModalComponent, this.viewContainerRef);
+    this.modalCompRef = this.overlayService.create(ModalComponent, this.viewContainerRef, {
+      hideBackgroundFromAssistiveTechnology: true,
+    });
 
     this.modalCompRef?.instance.closeModal.subscribe(() => {
       this.close();

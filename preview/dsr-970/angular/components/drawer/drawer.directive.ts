@@ -249,7 +249,9 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
     const useOverlay = position === "modal" && !collapsible;
 
     if (useOverlay) {
-      this.drawerCompRef = this.overlayService.create(DrawerComponent, this.viewContainerRef);
+      this.drawerCompRef = this.overlayService.create(DrawerComponent, this.viewContainerRef, {
+        hideBackgroundFromAssistiveTechnology: true,
+      });
       this.usedOverlay = true;
     } else {
       this.drawerCompRef = this.viewContainerRef.createComponent(DrawerComponent);

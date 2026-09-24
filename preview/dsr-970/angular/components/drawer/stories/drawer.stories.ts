@@ -127,6 +127,16 @@ const expectDecorativeButtonIcon = (button: Element | null | undefined): void =>
 const getDrawerHeaderTitleIconSvg = (drawer: HTMLElement): SVGSVGElement | null =>
   drawer.querySelector(".rte-drawer-base-header-text rte-icon svg");
 
+const modalBackgroundScreenReaderManualCheckDescription = `Manual accessibility check (NVDA / VoiceOver):
+
+1. Open the modal drawer with **Open drawer**.
+2. Use browse / virtual navigation (NVDA: browse mode; VoiceOver: VO + arrow keys in the web area)—**not Tab** (focus trap is expected with Tab).
+3. Move through the page with arrow keys.
+
+**Expected:** Background markers must **not** be announced or reachable: heading « Page d'accueil — contenu masqué visuellement », paragraph « Ce paragraphe ne doit pas être lu lorsque le drawer modal est ouvert. », button « Action page — ne pas atteindre en modal », link « Lien page arrière-plan — repère a11y ».
+
+**If they are still read:** background content is still exposed to virtual browse while the modal drawer is open.`;
+
 export const Default: Story = {
   decorators: [
     moduleMetadata({
@@ -256,6 +266,93 @@ export const Modal: Story = {
 ${drawerModalModeDoc.trim()}`,
       },
     },
+  },
+};
+
+export const ModalBackgroundScreenReaderManualCheck: Story = {
+  decorators: [
+    moduleMetadata({
+      imports: [DrawerModule, ButtonComponent],
+    }),
+  ],
+  args: {
+    ...Default.args,
+    rteDrawerId: "modal-background-screen-reader-check",
+    rteDrawerTitle: "Modal drawer",
+    rteDrawerPosition: "modal",
+  },
+  render: (args) => ({
+    props: args,
+    template: `<main
+      aria-label="Page principale derrière l'overlay"
+      style="font-family: arial; font-size: 14px; line-height: 20px; color: var(--content-primary)"
+    >
+      <h1 style="font-size: 20px; margin: 0 0 12px">Page d'accueil — contenu masqué visuellement</h1>
+      <p style="margin: 0 0 12px">
+        Ce paragraphe ne doit pas être lu lorsque le drawer modal est ouvert.
+      </p>
+      <button type="button" style="margin: 0 12px 12px 0">Action page — ne pas atteindre en modal</button>
+      <a href="#background-page-marker">Lien page arrière-plan — repère a11y</a>
+      <div style="margin-top: 16px">
+        <div
+          rteDrawer
+          #drawerHost="rteDrawer"
+          [rteDrawerId]="rteDrawerId"
+          [rteDrawerTitle]="rteDrawerTitle"
+          [rteDrawerIcon]="rteDrawerIcon"
+          [rteDrawerIconAppearance]="rteDrawerIconAppearance"
+          [rteDrawerPosition]="rteDrawerPosition"
+          [rteDrawerWidth]="rteDrawerWidth"
+          [rteDrawerCloseOnOverlayClick]="rteDrawerCloseOnOverlayClick"
+          [rteDrawerPrimaryButtonLabel]="rteDrawerPrimaryButtonLabel"
+          [rteDrawerSecondaryButtonLabel]="rteDrawerSecondaryButtonLabel"
+          [rteDrawerIsCollapsible]="rteDrawerIsCollapsible"
+          [rteDrawerFixedHeader]="rteDrawerFixedHeader"
+          [rteDrawerShowHeader]="rteDrawerShowHeader"
+          [rteDrawerCloseOnEscape]="rteDrawerCloseOnEscape"
+          [rteDrawerIsClosable]="rteDrawerIsClosable"
+          (rteDrawerOnPrimary)="rteDrawerOnPrimary(); drawerHost.close()"
+          (rteDrawerOnSecondary)="rteDrawerOnSecondary()"
+        >
+          <button rteButton rteButtonVariant="primary" rteDrawerTrigger>Open drawer</button>
+          <ng-template #drawerContent>
+            <span style="font-family: arial; font-size: 14px; line-height: 20px; color: var(--content-primary)">
+              Contenu du drawer modal. Seul ce panneau doit être accessible en navigation virtuelle.
+            </span>
+          </ng-template>
+        </div>
+      </div>
+    </main>`,
+  }),
+  parameters: {
+    docs: {
+      description: {
+        story: modalBackgroundScreenReaderManualCheckDescription,
+      },
+    },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole("button", { name: "Open drawer" }));
+
+    await waitFor(() => {
+      expect(within(document.body).getByRole("dialog", { name: "Modal drawer" })).toBeInTheDocument();
+    });
+
+    const overlayRoot = document.getElementById("overlay-root");
+    const hiddenPageShell = Array.from(document.body.children).find(
+      (element) =>
+        element !== overlayRoot && element instanceof HTMLElement && element.getAttribute("aria-hidden") === "true",
+    );
+    expect(hiddenPageShell).toBeTruthy();
+    expect(hiddenPageShell).toHaveProperty("inert", true);
+
+    const backgroundScope = within(document.body);
+    expect(backgroundScope.queryByRole("heading", { name: /Page d'accueil/ })).not.toBeInTheDocument();
+    expect(
+      backgroundScope.queryByRole("button", { name: "Action page — ne pas atteindre en modal" }),
+    ).not.toBeInTheDocument();
+    expect(backgroundScope.queryByRole("link", { name: /Lien page arrière-plan/ })).not.toBeInTheDocument();
   },
 };
 
