@@ -216,3 +216,15 @@ export const VerticalLongLabel: Story = {
     </div>
   ),
 };
+
+export const WithRequired: Story = {
+  args: {
+    ...Default.args,
+    groupName: "with-required-radio-group",
+    required: true,
+    showLabelRequirement: true,
+  },
+  render: (args) => {
+    return <RadioButtonGroup {...args} />;
+  },
+};

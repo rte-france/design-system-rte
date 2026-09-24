@@ -62,6 +62,14 @@ const meta: Meta<RadioButtonGroupComponent> = {
       control: "boolean",
       defaultValue: false,
     },
+    required: {
+      control: "boolean",
+      defaultValue: false,
+    },
+    showLabelRequirement: {
+      control: "boolean",
+      defaultValue: false,
+    },
   },
 };
 export default meta;
@@ -225,6 +233,38 @@ export const VerticalLongLabel: Story = {
         (changeEvent)="changeEvent($event)"
       />
     </div>
+    `,
+  }),
+};
+
+export const WithRequired: Story = {
+  args: {
+    ...Default.args,
+    groupName: "with-required-radio-group",
+    required: true,
+    showLabelRequirement: true,
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+        <rte-radio-button-group
+          [groupName]="groupName"
+          [items]="items"
+          [direction]="direction"
+          [showItemsLabel]="showItemsLabel"
+          [groupTitle]="groupTitle"
+          [showGroupTitle]="showGroupTitle"
+          [groupHelpText]="groupHelpText"
+          [showHelpText]="showHelpText"
+          [errorMessage]="errorMessage"
+          [error]="error"
+          [disabled]="disabled"
+          [readOnly]="readOnly"
+          [required]="required"
+          [showLabelRequirement]="showLabelRequirement"
+          [selectedValue]="selectedValue"
+          (changeEvent)="changeEvent($event)"
+        />
     `,
   }),
 };

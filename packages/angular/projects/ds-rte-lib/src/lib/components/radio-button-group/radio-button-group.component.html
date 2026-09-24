@@ -8,9 +8,14 @@
       'read-only': readOnly(),
     }"
   >
-    <legend *ngIf="showGroupTitle() && groupTitle()" class="group-title">
-      {{ groupTitle() }}
-    </legend>
+    <div class="radio-button-group-title-container" [attr.data-show-label-requirement]="showLabelRequirement()">
+      <legend *ngIf="showGroupTitle() && groupTitle()" class="group-title">{{ groupTitle() }}</legend>
+      <rte-required-indicator
+        *ngIf="required() || showLabelRequirement()"
+        [required]="required()"
+        [showLabelRequirement]="showLabelRequirement()"
+      />
+    </div>
     <p *ngIf="showHelpText() && groupHelpText()" class="group-help-text">
       {{ groupHelpText() }}
     </p>
