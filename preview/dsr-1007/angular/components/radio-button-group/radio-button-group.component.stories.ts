@@ -247,7 +247,6 @@ export const WithRequired: Story = {
   render: (args) => ({
     props: args,
     template: `
-      <div style="width: 300px;">
         <rte-radio-button-group
           [groupName]="groupName"
           [items]="items"
@@ -266,7 +265,6 @@ export const WithRequired: Story = {
           [selectedValue]="selectedValue"
           (changeEvent)="changeEvent($event)"
         />
-      </div>
     `,
   }),
 };
