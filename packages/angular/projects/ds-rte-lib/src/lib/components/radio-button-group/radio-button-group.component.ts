@@ -18,9 +18,7 @@ export class RadioButtonGroupComponent {
   readonly direction = input("horizontal");
   readonly showItemsLabel = input(true);
   readonly groupTitle = input("");
-  readonly showGroupTitle = input(false);
   readonly groupHelpText = input("");
-  readonly showHelpText = input(false);
   readonly errorMessage = input("");
   readonly error = input(false);
   readonly disabled = input(false);

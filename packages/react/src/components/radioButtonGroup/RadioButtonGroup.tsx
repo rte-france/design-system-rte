@@ -18,9 +18,7 @@ const RadioButtonGroup = forwardRef<HTMLDivElement, RadioButtonGroupProps>(
       direction = "horizontal",
       showItemsLabel = true,
       groupTitle = "",
-      showGroupTitle = false,
       groupHelpText = "",
-      showHelpText = false,
       errorMessage = "",
       error = false,
       disabled = false,
@@ -67,11 +65,11 @@ const RadioButtonGroup = forwardRef<HTMLDivElement, RadioButtonGroupProps>(
             className={styles["rte-radioButtonGroupTitleContainer"]}
             data-show-label-requirement={showLabelRequirement}
           >
-            {groupTitle && showGroupTitle && <legend className={styles["groupTitle"]}>{groupTitle}</legend>}
+            {groupTitle && <legend className={styles["groupTitle"]}>{groupTitle}</legend>}
             <RequiredIndicator required={required} showLabelRequirement={showLabelRequirement} />
           </div>
-          {groupHelpText && showHelpText && <p className={styles["groupHelpText"]}>{groupHelpText}</p>}
-          {errorMessage && error && <p className={styles["errorMessage"]}>{errorMessage}</p>}
+          {groupHelpText && <p className={styles["groupHelpText"]}>{groupHelpText}</p>}
+          {errorMessage && error && <p className={styles["errorMessage"]}>{errorMessageId}</p>}
           <div className={styles["radioButtonGroup"]} data-direction={direction}>
             {items.map(({ label, value, ariaLabel, ariaLabelledBy }, index) => (
               <RadioButton

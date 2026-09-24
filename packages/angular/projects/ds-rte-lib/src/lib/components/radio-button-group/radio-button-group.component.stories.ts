@@ -34,17 +34,9 @@ const meta: Meta<RadioButtonGroupComponent> = {
       control: "text",
       defaultValue: "Radio Button Group Title",
     },
-    showGroupTitle: {
-      control: "boolean",
-      defaultValue: true,
-    },
     groupHelpText: {
       control: "text",
       defaultValue: "This is a help text for the radio button group.",
-    },
-    showHelpText: {
-      control: "boolean",
-      defaultValue: true,
     },
     errorMessage: {
       control: "text",
@@ -86,13 +78,13 @@ export const Default: Story = {
     direction: "horizontal",
     showItemsLabel: true,
     groupTitle: "Radio Button Group Title",
-    showGroupTitle: true,
     groupHelpText: "This is a help text for the radio button group.",
-    showHelpText: true,
     errorMessage: "This is an error message. Please select an option.",
     error: false,
     disabled: false,
     readOnly: false,
+    required: false,
+    showLabelRequirement: false,
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
