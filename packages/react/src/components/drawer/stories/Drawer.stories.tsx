@@ -48,6 +48,13 @@ const expectDecorativeButtonIcon = (button: Element | null | undefined): void =>
 const getDrawerHeaderTitleIconSvg = (drawer: HTMLElement): SVGSVGElement | null =>
   drawer.querySelector('[class*="base-header-text"] > svg');
 
+const pageBehindOverlayStyle = {
+  fontFamily: "arial",
+  fontSize: "14px",
+  lineHeight: "20px",
+  color: "var(--content-primary)",
+} as const;
+
 export const Default: Story = {
   args: {
     isOpen: false,
@@ -99,6 +106,68 @@ export const Default: Story = {
     );
   },
 };
+
+export const ModalBackgroundScreenReaderManualCheck: Story = {
+  tags: ["!autodocs"],
+  args: {
+    ...Default.args,
+    id: "modal-background-screen-reader-check",
+    title: "Modal drawer",
+    position: "modal",
+  },
+  render: (args) => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    const handleClickPrimaryButton = () => {
+      args.onClickPrimaryButton?.();
+      setIsOpen(false);
+    };
+
+    return (
+      <>
+        <main style={pageBehindOverlayStyle} aria-label="Page principale derrière l'overlay">
+          <h1 style={{ fontSize: "20px", margin: "0 0 12px" }}>Page d&apos;accueil — contenu masqué visuellement</h1>
+          <p style={{ margin: "0 0 12px" }}>Ce paragraphe ne doit pas être lu lorsque le drawer modal est ouvert.</p>
+          <button type="button" style={{ margin: "0 12px 12px 0" }} onClick={() => console.log("background action")}>
+            Action page — ne pas atteindre en modal
+          </button>
+          <a href="#background-page-marker">Lien page arrière-plan — repère a11y</a>
+          <div style={{ marginTop: "16px" }}>
+            <Button label="Open drawer" onClick={() => setIsOpen(true)} />
+          </div>
+        </main>
+        <Drawer
+          {...args}
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          onClickToggle={() => setIsOpen((previous) => !previous)}
+          onClickPrimaryButton={handleClickPrimaryButton}
+        />
+      </>
+    );
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole("button", { name: "Open drawer" }));
+
+    const pageMain = canvasElement.querySelector("main");
+    expect(pageMain).toBeTruthy();
+
+    await waitFor(() => {
+      expect(within(document.body).getByRole("dialog", { name: "Modal drawer" })).toBeInTheDocument();
+      expect(pageMain?.closest('[aria-hidden="true"]')).toBeTruthy();
+      expect(pageMain?.closest("[inert]")).toBeTruthy();
+
+      const backgroundScope = within(document.body);
+      expect(backgroundScope.queryByRole("heading", { name: /Page d'accueil/ })).not.toBeInTheDocument();
+      expect(
+        backgroundScope.queryByRole("button", { name: "Action page — ne pas atteindre en modal" }),
+      ).not.toBeInTheDocument();
+      expect(backgroundScope.queryByRole("link", { name: /Lien page arrière-plan/ })).not.toBeInTheDocument();
+    });
+  },
+};
+
 export const ModalInteractive: Story = {
   tags: ["!autodocs"],
   args: {

@@ -1,6 +1,6 @@
 import { TAB_KEY } from "@design-system-rte/core";
 import { FOCUSABLE_ELEMENTS_QUERY } from "@design-system-rte/core/constants/dom/dom.constants";
-import { useEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 
 export const useFocusTrap = <TElement extends HTMLElement>(
   containerElement?: TElement,
@@ -9,12 +9,16 @@ export const useFocusTrap = <TElement extends HTMLElement>(
 ) => {
   const initiallyFocusedElement = useRef<HTMLElement | undefined>(undefined);
 
+  useLayoutEffect(() => {
+    if (shouldRender) {
+      initiallyFocusedElement.current = document.activeElement as HTMLElement;
+    }
+  }, [shouldRender]);
+
   useEffect(() => {
     if (!shouldRender || !containerElement) {
       return;
     }
-
-    initiallyFocusedElement.current = document.activeElement as HTMLElement;
 
     const focusable = containerElement.querySelectorAll(FOCUSABLE_ELEMENTS_QUERY) as NodeListOf<HTMLElement>;
 
