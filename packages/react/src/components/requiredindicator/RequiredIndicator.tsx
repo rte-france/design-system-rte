@@ -1,6 +1,8 @@
 import { REQUIREMENT_INDICATOR_VALUE } from "@design-system-rte/core/components/required-indicator/required-indicator.constant";
 import { RequiredIndicatorProps } from "@design-system-rte/core/components/required-indicator/required-indicator.interface";
 
+import Icon from "../icon/Icon";
+
 import styles from "./RequiredIndicator.module.scss";
 
 const RequiredIndicator = ({ required, showLabelRequirement }: RequiredIndicatorProps) => {
@@ -19,7 +21,11 @@ const RequiredIndicator = ({ required, showLabelRequirement }: RequiredIndicator
           data-show-label-requirement={showLabelRequirement}
           aria-hidden="true"
         >
-          {computedRequirementIndicatorValue}
+          {computedRequirementIndicatorValue === REQUIREMENT_INDICATOR_VALUE.requiredIcon ? (
+            <Icon name="asterisk" size={8} />
+          ) : (
+            computedRequirementIndicatorValue
+          )}
         </span>
       )}
     </>

@@ -82,7 +82,7 @@
             align-items: flex-start;
 
             &[data-show-label-requirement="true"] {
-                align-items: center;
+                align-items: baseline;
             }
 
             .input-label {
