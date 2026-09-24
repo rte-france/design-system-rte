@@ -20,6 +20,7 @@ import {
   buildHeaderHomeAriaLabel,
   type HeaderIconButtonConfig,
 } from "@design-system-rte/core/components/header";
+import { appendExternalLinkHint } from "@design-system-rte/core/components/link";
 import { SearchBarAppearance, SearchBarProps } from "@design-system-rte/core/components/searchbar";
 import { ESCAPE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
@@ -98,9 +99,14 @@ export class HeaderMobileComponent {
   readonly shouldRenderLogo = computed(() => this.hasLogo() && !!this.logoSrc());
   readonly isDropdownMenuEnabled = computed(() => this.hasProjectedMobileMenu() || !!this.mobileMenuItems().length);
 
-  readonly computedHomeAriaLabel = computed(
-    () => this.homeAriaLabel() ?? buildHeaderHomeAriaLabel(this.applicationName()),
-  );
+  readonly computedHomeAriaLabel = computed(() => {
+    const baseLabel = this.homeAriaLabel() ?? buildHeaderHomeAriaLabel(this.applicationName());
+    const navigation = this.homeNavigation();
+    if (navigation?.externalLink) {
+      return appendExternalLinkHint(baseLabel);
+    }
+    return baseLabel;
+  });
 
   readonly searchbarAppearance = computed<SearchBarAppearance>(() =>
     this.appearance() === "neutral" ? "secondary" : "primary",

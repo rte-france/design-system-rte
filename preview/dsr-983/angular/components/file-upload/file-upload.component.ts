@@ -123,7 +123,6 @@ export class FileUploadComponent implements AfterViewInit, OnDestroy {
   async handleOnChange(event: Event): Promise<void> {
     const fileInput = event.target as HTMLInputElement;
     const files = Array.from(fileInput.files || []);
-    // fileInput.value = "";
     if (this.multiple()) {
       this.selectedFiles.update((previousFiles) => [...previousFiles, ...files]);
     } else {

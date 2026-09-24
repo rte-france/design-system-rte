@@ -112,7 +112,6 @@ export class PopoverDirective implements AfterViewInit, OnDestroy {
       this.handleClickSecondaryButton(),
     );
 
-    console.log("assignDirectiveToComponent called");
     this.assignDirectiveToComponent();
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {

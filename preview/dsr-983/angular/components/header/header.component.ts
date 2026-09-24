@@ -27,6 +27,7 @@ import {
   type HeaderNavigationItem,
   type ScrollDirectionState,
 } from "@design-system-rte/core/components/header";
+import { appendExternalLinkHint } from "@design-system-rte/core/components/link";
 import { SearchBarAppearance, SearchBarProps } from "@design-system-rte/core/components/searchbar";
 
 import {
@@ -77,6 +78,8 @@ export type HeaderNavigationElement = HeaderNavigationItem & NavigationElement;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent {
+  protected readonly appendExternalLinkHint = appendExternalLinkHint;
+
   private readonly destroyRef = inject(DestroyRef);
 
   readonly appearance = input<HeaderAppearance>("brand");

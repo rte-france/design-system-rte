@@ -9,10 +9,14 @@
     [preserveFragment]="routerLinkConfig()?.preserveFragment"
     [replaceUrl]="routerLinkConfig()?.replaceUrl"
     [state]="routerLinkConfig()?.state"
-    [ngClass]="{ subtle: subtle(), reverse: reverse() }"
-    [style.max-width]="maxWidth() + 'px'"
+    [ngClass]="{ subtle: subtle(), reverse: reverse(), 'rte-link--truncate': maxWidth() !== null }"
+    [style.max-width.px]="maxWidth()"
   >
-    <span class="rte-link-label" [style.max-width]="maxWidth() + 'px'">
+    <span
+      class="rte-link-label"
+      [class.rte-link-label--truncate]="maxWidth() !== null"
+      [style.max-width.px]="maxWidth()"
+    >
       {{ label() }}
     </span>
   </a>
@@ -21,14 +25,21 @@
     class="rte-link"
     role="link"
     [href]="href()"
-    [ngClass]="{ subtle: subtle(), reverse: reverse() }"
+    [ngClass]="{ subtle: subtle(), reverse: reverse(), 'rte-link--truncate': maxWidth() !== null }"
     [attr.target]="externalLink() ? '_blank' : null"
     [attr.rel]="externalLink() ? 'noopener noreferrer' : null"
-    [style.max-width]="maxWidth() + 'px'"
+    [style.max-width.px]="maxWidth()"
   >
-    <span class="rte-link-label" [style.max-width]="maxWidth() + 'px'">
+    <span
+      class="rte-link-label"
+      [class.rte-link-label--truncate]="maxWidth() !== null"
+      [style.max-width.px]="maxWidth()"
+    >
       {{ label() }}
     </span>
+    @if (externalLink()) {
+      <span class="sr-only">, {{ externalLinkHint }}</span>
+    }
     <rte-icon
       *ngIf="externalLink()"
       name="external-link"
