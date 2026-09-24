@@ -2,6 +2,51 @@
 
 # Angular
 
+## 4.0.0
+
+### File Upload
+
+#### Minor Changes
+
+- add animation on adding and deleting files
+- allow screen reader to announce status changes
+
+#### Patch Changes
+
+- handle multiple error message on upload
+- allow mutiple files to be added with already existing files
+
+### Switch
+
+#### Patch Changes
+
+- add documentation
+- enforce accessibility
+
+### Time Picker
+
+#### Patch Changes
+
+- add documentation
+- prevent deleting value from input when digit is readonly
+
+### Link
+
+#### Patch Changes
+
+- handle external link aria attributes for screen reader announcement
+- avoid unwanted ellipsis from maxWidth not handled correctly
+
+### Other
+
+#### Patch Changes
+
+- Updated dependencies [bbb07e5]
+- Updated dependencies [a17f77a]
+- Updated dependencies [441a083]
+- Updated dependencies [90a22ed]
+- @design-system-rte/core@1.20.0
+
 ## 3.6.0
 
 ### Loader
@@ -205,69 +250,52 @@
 - Updated dependencies [ebf4aa9]
 - Updated dependencies [50628e5]
 - @design-system-rte/core@1.18.0
+# React
 
-## 3.4.0
+## 1.20.0
 
-### Drawer
-
-#### Minor Changes
-
-- add showFooter to opt out the default or provided footer
-
-### Sidenav
+### File Upload
 
 #### Minor Changes
 
-- add content projection for custom content in Sidenav header and footer
-
-### Tab
-
-#### Patch Changes
-
-- add missing aria-label input/props and docs
-- attach scroll & selectTab calculation to a single resize event listener to avoid logic leaks & enhance performance
-
-### Icon
+- add animation on adding and deleting files
+- allow screen reader to announce status changes
 
 #### Patch Changes
 
-- handle wrong icon names gracefully to let the render of others icons work when a wrong name is provided
+- handle multiple error message on upload
+- allow mutiple files to be added with already existing files
 
-### Select
-
-#### Patch Changes
-
-- synchronize options state for rendered dropdown via computed instead of signal manipulation
-
-### Checkbox
+### Switch
 
 #### Patch Changes
 
-- add missing halo when interacting with component
+- add documentation
+- enforce accessibility
 
-### Radio-button
-
-#### Patch Changes
-
-- set correct position for focus indicator
-
-### Banner
+### Time Picker
 
 #### Patch Changes
 
-- translate close button aria label value
+- add documentation
+- prevent deleting value from input when digit is readonly
+
+### Link
+
+#### Patch Changes
+
+- handle external link aria attributes for screen reader announcement
+- avoid unwanted ellipsis from maxWidth not handled correctly
 
 ### Other
 
 #### Patch Changes
 
-- Updated dependencies [fde18a4]
-- Updated dependencies [975ea4d]
-- Updated dependencies [15bf517]
-- Updated dependencies [7628a6d]
-- Updated dependencies [a7cdb36]
-- @design-system-rte/core@1.17.0
-# React
+- Updated dependencies [bbb07e5]
+- Updated dependencies [a17f77a]
+- Updated dependencies [441a083]
+- Updated dependencies [90a22ed]
+- @design-system-rte/core@1.20.0
 
 ## 1.19.0
 
@@ -460,69 +488,34 @@
 - Updated dependencies [ebf4aa9]
 - Updated dependencies [50628e5]
 - @design-system-rte/core@1.18.0
+# Core
 
-## 1.17.0
+## 1.20.0
 
-### Treeview
-
-#### Minor Changes
-
-- add documentation
-- react - deprecate onChange and add OnSelectionChange event handler prop
-
-### Drawer
+### File Upload
 
 #### Minor Changes
 
-- add showFooter to opt out the default or provided footer
-
-### Sidenav
-
-#### Minor Changes
-
-- add content projection for custom content in Sidenav header and footer
-
-### Tab
+- add animation on adding and deleting files
 
 #### Patch Changes
 
-- add missing aria-label input/props and docs
+- handle multiple error message on upload
 
-### Checkbox
-
-#### Patch Changes
-
-- add missing halo when interacting with component
-
-### Radio-button
+### Switch
 
 #### Patch Changes
 
-- set correct position for focus indicator
+- enforce accessibility
 
-### Dropdown
-
-#### Patch Changes
-
-- show nested menus that were not showing
-
-### Banner
+### Link
 
 #### Patch Changes
 
-- translate close button aria label value
+- handle external link aria attributes for screen reader announcement
 
 ### Other
 
-#### Patch Changes
-
-- Updated dependencies [fde18a4]
-- Updated dependencies [975ea4d]
-- Updated dependencies [15bf517]
-- Updated dependencies [7628a6d]
-- Updated dependencies [a7cdb36]
-- @design-system-rte/core@1.17.0
-# Core
 
 ## 1.19.0
 
@@ -576,41 +569,6 @@
 #### Patch Changes
 
 - add missing aria-label to main nav element
-
-### Other
-
-
-## 1.17.0
-
-### Treeview
-
-#### Minor Changes
-
-- react - deprecate onChange and add OnSelectionChange event handler prop
-
-### Drawer
-
-#### Minor Changes
-
-- add showFooter to opt out the default or provided footer
-
-### Sidenav
-
-#### Minor Changes
-
-- add content projection for custom content in Sidenav header and footer
-
-### Dropdown
-
-#### Patch Changes
-
-- show nested menus that were not showing
-
-### Banner
-
-#### Patch Changes
-
-- translate close button aria label value
 
 ### Other
 
