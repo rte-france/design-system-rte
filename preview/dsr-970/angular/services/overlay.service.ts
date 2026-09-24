@@ -14,6 +14,7 @@ type BackgroundHideLifecycle = {
   cancelled: boolean;
   applied: boolean;
   deferBackgroundHide: boolean;
+  scheduledHideGeneration: number;
 };
 
 @Injectable({ providedIn: "root" })
@@ -39,15 +40,27 @@ export class OverlayService {
     return this.overlayRoot;
   }
 
+  private invalidatePendingBackgroundHide(lifecycle: BackgroundHideLifecycle): void {
+    lifecycle.scheduledHideGeneration += 1;
+  }
+
   private scheduleBackgroundHide(componentRef: ComponentRef<unknown>, overlayRoot: HTMLElement): void {
+    const state = this.backgroundHideLifecycle.get(componentRef);
+    if (!state || state.cancelled) {
+      return;
+    }
+
+    const generation = state.scheduledHideGeneration + 1;
+    state.scheduledHideGeneration = generation;
+
     queueMicrotask(() => {
-      const state = this.backgroundHideLifecycle.get(componentRef);
-      if (!state || state.cancelled || state.applied) {
+      const current = this.backgroundHideLifecycle.get(componentRef);
+      if (!current || current.cancelled || current.applied || current.scheduledHideGeneration !== generation) {
         return;
       }
 
       hideNonOverlaySiblingsFromAssistiveTechnology(overlayRoot);
-      state.applied = true;
+      current.applied = true;
     });
   }
 
@@ -62,7 +75,13 @@ export class OverlayService {
 
   releaseBackgroundHide(componentRef: ComponentRef<unknown>): void {
     const lifecycle = this.backgroundHideLifecycle.get(componentRef);
-    if (!lifecycle?.applied) {
+    if (!lifecycle) {
+      return;
+    }
+
+    this.invalidatePendingBackgroundHide(lifecycle);
+
+    if (!lifecycle.applied) {
       return;
     }
 
@@ -95,6 +114,7 @@ export class OverlayService {
         cancelled: false,
         applied: false,
         deferBackgroundHide,
+        scheduledHideGeneration: 0,
       };
       this.backgroundHideLifecycle.set(componentRef, lifecycle);
 
@@ -111,6 +131,7 @@ export class OverlayService {
         const lifecycle = this.backgroundHideLifecycle.get(componentRef);
         if (lifecycle) {
           lifecycle.cancelled = true;
+          this.invalidatePendingBackgroundHide(lifecycle);
           if (lifecycle.applied) {
             restoreNonOverlaySiblingsFromAssistiveTechnology();
           }
