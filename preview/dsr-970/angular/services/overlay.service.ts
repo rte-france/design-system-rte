@@ -13,6 +13,7 @@ export type OverlayCreateOptions = {
 type BackgroundHideLifecycle = {
   cancelled: boolean;
   applied: boolean;
+  deferBackgroundHide: boolean;
 };
 
 @Injectable({ providedIn: "root" })
@@ -20,7 +21,6 @@ export class OverlayService {
   private overlayRoot?: HTMLElement;
   private activeOverlays = new Set<ComponentRef<unknown>>();
   private backgroundHideLifecycle = new WeakMap<ComponentRef<unknown>, BackgroundHideLifecycle>();
-  private deferredBackgroundHideComponentRef: ComponentRef<unknown> | null = null;
 
   private getOverlayRoot(): HTMLElement {
     if (!this.overlayRoot) {
@@ -51,12 +51,23 @@ export class OverlayService {
     });
   }
 
-  applyDeferredBackgroundHide(): void {
-    if (!this.deferredBackgroundHideComponentRef) {
+  applyDeferredBackgroundHide(componentRef: ComponentRef<unknown>): void {
+    const lifecycle = this.backgroundHideLifecycle.get(componentRef);
+    if (!lifecycle || lifecycle.cancelled || lifecycle.applied || !lifecycle.deferBackgroundHide) {
       return;
     }
 
-    this.scheduleBackgroundHide(this.deferredBackgroundHideComponentRef, this.getOverlayRoot());
+    this.scheduleBackgroundHide(componentRef, this.getOverlayRoot());
+  }
+
+  releaseBackgroundHide(componentRef: ComponentRef<unknown>): void {
+    const lifecycle = this.backgroundHideLifecycle.get(componentRef);
+    if (!lifecycle?.applied) {
+      return;
+    }
+
+    restoreNonOverlaySiblingsFromAssistiveTechnology();
+    lifecycle.applied = false;
   }
 
   createWithoutAppend<T>(component: Type<T>, viewContainer: ViewContainerRef): ComponentRef<T> {
@@ -80,12 +91,14 @@ export class OverlayService {
     this.activeOverlays.add(componentRef);
 
     if (hideBackground) {
-      const lifecycle: BackgroundHideLifecycle = { cancelled: false, applied: false };
+      const lifecycle: BackgroundHideLifecycle = {
+        cancelled: false,
+        applied: false,
+        deferBackgroundHide,
+      };
       this.backgroundHideLifecycle.set(componentRef, lifecycle);
 
-      if (deferBackgroundHide) {
-        this.deferredBackgroundHideComponentRef = componentRef;
-      } else {
+      if (!deferBackgroundHide) {
         this.scheduleBackgroundHide(componentRef, root);
       }
     }
@@ -101,10 +114,6 @@ export class OverlayService {
           if (lifecycle.applied) {
             restoreNonOverlaySiblingsFromAssistiveTechnology();
           }
-        }
-
-        if (this.deferredBackgroundHideComponentRef === componentRef) {
-          this.deferredBackgroundHideComponentRef = null;
         }
       }
 
