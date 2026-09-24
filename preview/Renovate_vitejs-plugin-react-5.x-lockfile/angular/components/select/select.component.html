@@ -1,7 +1,8 @@
 <div class="rte-select-container" [attr.data-label-position]="labelPosition()" [style.width]="computedWidth()">
   <div
     *ngIf="label() && labelPosition() === 'side'"
-    class="rte-select-header"
+    #labelContainerRef
+    class="rte-select-label-container"
     [attr.data-label-position]="labelPosition()"
     [attr.data-show-label-requirement]="showLabelRequirement()"
   >
@@ -30,11 +31,12 @@
   </div>
   <div
     rteDropdown
+    class="rte-select-dropdown"
     [rteDropdownAutoOpen]="false"
     [rteDropdownId]="'dropdown_select_' + id()"
     [rteDropdownPosition]="dropdownPosition()"
     [rteDropdownOffset]="selectDropdownOffset"
-    [rteDropdownWidth]="selectWidth()"
+    [rteDropdownWidth]="dropdownWidth()"
     [rteCloseOnItemClick]="multiple() ? false : true"
     [rteDropdownAutoOpen]="false"
     (menuEvent)="handleOnClickItem($event.id)"
@@ -54,6 +56,7 @@
       [attr.aria-disabled]="isDisabled()"
       [attr.aria-readonly]="readOnly()"
       [attr.aria-labelledby]="labelId()"
+      [attr.aria-describedby]="computedAssistiveTextLabel() ? assistiveTextId() : null"
       [attr.aria-expanded]="isActive()"
       [attr.data-active]="isActive()"
       [attr.data-variant]="variant()"
@@ -156,8 +159,9 @@
       }
     </rte-dropdown-menu>
     <rte-assistive-text
-      *ngIf="assistiveTextLabel()"
-      [label]="assistiveTextLabel()"
+      *ngIf="computedAssistiveTextLabel()"
+      [attr.id]="assistiveTextId()"
+      [label]="computedAssistiveTextLabel()"
       [appearance]="isError() ? 'error' : assistiveTextAppearance()!"
       [showIcon]="showAssistiveIcon()"
       [href]="assistiveTextLink()"

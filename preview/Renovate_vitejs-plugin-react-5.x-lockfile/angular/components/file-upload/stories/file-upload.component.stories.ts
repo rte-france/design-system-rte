@@ -14,15 +14,31 @@ import { FileUploadComponent } from "../file-upload.component";
       buttonLabel="Sélectionner un fichier"
       [multiple]="true"
       [onUploadFile]="onUploadFile"
+      [uploadErrorMessage]="uploadErrorMessage"
     />
   `,
 })
 class FileUploadAsyncWrapperComponent {
+  private uploadCount = 0;
+
+  uploadErrorMessage = (file: File, error: unknown): string => {
+    if (error instanceof Error && error.message === "FILE_TOO_LARGE") {
+      return `${file.name} dépasse la taille maximale autorisée.`;
+    }
+    return `Le téléversement de ${file.name} a échoué.`;
+  };
+
   onUploadFile = (file: File): Promise<void> => {
-    return new Promise<void>((resolve) => {
+    return new Promise<void>((resolve, reject) => {
       setTimeout(() => {
-        console.log("Fichier uploadé :", file.name);
-        resolve();
+        if (this.uploadCount % 2 === 0) {
+          console.log("Fichier non téléversé :", file.name);
+          reject(new Error("FILE_TOO_LARGE"));
+        } else {
+          console.log("Fichier téléversé :", file.name);
+          resolve();
+        }
+        this.uploadCount += 1;
       }, 5000);
     });
   };
@@ -112,7 +128,9 @@ export const MultipleFiles: Story = {
     id: "file-upload-3",
     multiple: true,
   },
-  render: Default.render,
+  render: () => ({
+    template: `<story-file-upload-async-wrapper />`,
+  }),
 };
 
 export const WithError: Story = {
