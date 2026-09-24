@@ -1,3 +1,5 @@
+export const OVERLAY_ROOT_ID = "overlay-root";
+
 export const FOCUSABLE_ELEMENTS = [
   'button:not([tabindex="-1"])',
   "a[href]",
