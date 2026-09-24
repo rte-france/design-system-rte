@@ -62,9 +62,12 @@ export class FileUploadComponent implements AfterViewInit, OnDestroy {
 
   readonly selectedFiles = signal<File[]>([]);
   readonly loadingFiles = signal<Set<File>>(new Set());
+  readonly removingFiles = signal<Set<File>>(new Set());
   readonly uploadErrors = signal<Map<File, string>>(new Map());
+  readonly removalAnnouncement = signal("");
 
   private resizeObserver?: ResizeObserver;
+  private readonly removalTimers = new Map<File, ReturnType<typeof setTimeout>>();
   private readonly zone = inject(NgZone);
 
   readonly shouldDisplayAssistiveText = computed(() => {
@@ -94,6 +97,7 @@ export class FileUploadComponent implements AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.resizeObserver?.disconnect();
+    this.removalTimers.forEach((timer) => clearTimeout(timer));
   }
 
   private updateButtonWidth(el: HTMLElement): void {
@@ -102,6 +106,10 @@ export class FileUploadComponent implements AfterViewInit, OnDestroy {
 
   isFileLoading(file: File): boolean {
     return this.loadingFiles().has(file);
+  }
+
+  isFileRemoving(file: File): boolean {
+    return this.removingFiles().has(file);
   }
 
   isFileError(index: number): boolean {
@@ -115,7 +123,6 @@ export class FileUploadComponent implements AfterViewInit, OnDestroy {
   async handleOnChange(event: Event): Promise<void> {
     const fileInput = event.target as HTMLInputElement;
     const files = Array.from(fileInput.files || []);
-    fileInput.value = "";
     if (this.multiple()) {
       this.selectedFiles.update((previousFiles) => [...previousFiles, ...files]);
     } else {
@@ -164,26 +171,43 @@ export class FileUploadComponent implements AfterViewInit, OnDestroy {
   handleRemoveFile(file: File): void {
     const files = this.selectedFiles();
     const index = files.indexOf(file);
-    if (index !== -1) {
+    if (index !== -1 && !this.removingFiles().has(file)) {
       const newFiles = files.filter((_, i) => i !== index);
-      this.uploadErrors.update((previousErrors) => {
-        const next = new Map(previousErrors);
-        next.delete(file);
-        return next;
-      });
-      this.loadingFiles.update((previousFiles) => {
-        const next = new Set(previousFiles);
-        next.delete(file);
-        return next;
-      });
-      this.selectedFiles.set(newFiles);
-      this.fileRemoved.emit(file);
-      this.filesChange.emit(newFiles);
+      this.removingFiles.update((previousFiles) => new Set(previousFiles).add(file));
+      this.removalAnnouncement.set(
+        `${file.name} a été supprimé. ${newFiles.length} fichier${newFiles.length > 1 ? "s" : ""} restant${newFiles.length > 1 ? "s" : ""}.`,
+      );
       const input = this.inputRef()?.nativeElement;
+      const button = this.buttonRef()?.nativeElement as HTMLButtonElement | undefined;
       if (input) {
         input.value = "";
-        input.focus();
       }
+      if (button) {
+        button.focus();
+      }
+
+      const timer = setTimeout(() => {
+        this.uploadErrors.update((previousErrors) => {
+          const next = new Map(previousErrors);
+          next.delete(file);
+          return next;
+        });
+        this.loadingFiles.update((previousFiles) => {
+          const next = new Set(previousFiles);
+          next.delete(file);
+          return next;
+        });
+        this.selectedFiles.set(newFiles);
+        this.removingFiles.update((previousFiles) => {
+          const next = new Set(previousFiles);
+          next.delete(file);
+          return next;
+        });
+        this.fileRemoved.emit(file);
+        this.filesChange.emit(newFiles);
+        this.removalTimers.delete(file);
+      }, 200);
+      this.removalTimers.set(file, timer);
     }
   }
 }

@@ -57,8 +57,12 @@
         [errorMessage]="getFileErrorMessage(i)"
         [compact]="compactSpacing()"
         [isLoading]="isFileLoading(file)"
+        [isRemoving]="isFileRemoving(file)"
         (removeFile)="handleRemoveFile(file)"
       />
     }
+  </div>
+  <div role="status" aria-live="polite" aria-atomic="true" class="sr-only">
+    {{ removalAnnouncement() }}
   </div>
 </div>
