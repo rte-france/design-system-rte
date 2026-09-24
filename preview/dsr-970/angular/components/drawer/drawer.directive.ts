@@ -251,6 +251,7 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
     if (useOverlay) {
       this.drawerCompRef = this.overlayService.create(DrawerComponent, this.viewContainerRef, {
         hideBackgroundFromAssistiveTechnology: true,
+        deferBackgroundHide: true,
       });
       this.usedOverlay = true;
     } else {

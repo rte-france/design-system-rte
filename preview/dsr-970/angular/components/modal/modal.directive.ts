@@ -47,6 +47,7 @@ export class ModalDirective implements AfterContentInit, OnDestroy {
   readonly customContent = contentChild<unknown>("customContent");
 
   private modalElement: HTMLElement | null = null;
+  private modalRestoreFocusTo: HTMLElement | null = null;
 
   private onKeyDown = (e: KeyboardEvent) => this.handleKeydown(e);
 
@@ -81,6 +82,8 @@ export class ModalDirective implements AfterContentInit, OnDestroy {
       console.warn("Primary button required, add it as child to the modal directive.");
       return;
     }
+
+    this.modalRestoreFocusTo = document.activeElement instanceof HTMLElement ? document.activeElement : null;
 
     this.modalCompRef = this.overlayService.create(ModalComponent, this.viewContainerRef, {
       hideBackgroundFromAssistiveTechnology: true,
@@ -124,6 +127,7 @@ export class ModalDirective implements AfterContentInit, OnDestroy {
       this.modalCompRef.setInput("secondaryButton", this.secondaryButton());
       this.modalCompRef.setInput("customContent", this.customContent());
       this.modalCompRef.setInput("closeOnClickOutside", this.rteModalCloseOnClickOutside());
+      this.modalCompRef.setInput("restoreFocusTo", this.modalRestoreFocusTo);
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           this.modalCompRef?.setInput("isOpen", true);

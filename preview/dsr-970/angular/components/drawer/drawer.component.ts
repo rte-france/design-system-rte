@@ -29,6 +29,7 @@ import {
 import { IconSize } from "@design-system-rte/core/components/icon/icon.constants";
 
 import { FocusTrapService } from "../../services/focus-trap.service";
+import { OverlayService } from "../../services/overlay.service";
 import { ButtonComponent } from "../button/button.component";
 import { DividerComponent } from "../divider/divider.component";
 import { IconComponent } from "../icon/icon.component";
@@ -122,6 +123,7 @@ export class DrawerComponent implements OnDestroy {
   readonly responsiveMainMarginRight = computed(() => (this.isAnimating() ? (this.width() ?? "0") : "0"));
 
   private readonly focusTrap = inject(FocusTrapService);
+  private readonly overlayService = inject(OverlayService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly injector = inject(Injector);
   private resizeObserver: ResizeObserver | null = null;
@@ -169,13 +171,19 @@ export class DrawerComponent implements OnDestroy {
     });
   }
 
-  private activateFocusTrapForPanel(resolvePanel: () => HTMLElement | undefined): void {
+  private activateFocusTrapForPanel(
+    resolvePanel: () => HTMLElement | undefined,
+    restoreFocusTarget: HTMLElement | null,
+  ): void {
     afterNextRender(
       () => {
         const panelElement = resolvePanel();
         if (panelElement && !this.focusTrapActive) {
-          this.focusTrap.activate(panelElement);
+          this.focusTrap.activate(panelElement, {
+            restoreFocusTo: restoreFocusTarget,
+          });
           this.focusTrapActive = true;
+          this.overlayService.applyDeferredBackgroundHide();
         }
       },
       { injector: this.injector },
@@ -183,6 +191,8 @@ export class DrawerComponent implements OnDestroy {
   }
 
   private handleDrawerOpen(usesModalLayer: boolean): void {
+    const restoreFocusTarget = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+
     if (usesModalLayer) {
       this.shouldRenderModalLayer.set(true);
     }
@@ -197,7 +207,7 @@ export class DrawerComponent implements OnDestroy {
       waitForNextFrame(() => {
         this.isAnimating.set(true);
         if (usesModalLayer) {
-          this.activateFocusTrapForPanel(resolvePanel);
+          this.activateFocusTrapForPanel(resolvePanel, restoreFocusTarget);
         }
       });
     });
