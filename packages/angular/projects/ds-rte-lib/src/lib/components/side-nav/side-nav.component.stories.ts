@@ -315,6 +315,8 @@ const defaultRender = (args: StoryArgs) => ({
       [contrast]="contrast"
       [items]="items"
       [isCollapsed]="isCollapsed"
+      [openCollapseText]="openCollapseText"
+      [closeCollapseText]="closeCollapseText"
       [footerItems]="footerItems">
       <div content>${PageContent}</div>
     </rte-side-nav>
@@ -331,6 +333,8 @@ export const Default: Story = {
     appearance: "brand",
     size: "m",
     items: navigationItems,
+    openCollapseText: "Ouvrir le menu",
+    closeCollapseText: "Réduire le menu",
   },
   render: defaultRender,
 };
@@ -341,6 +345,31 @@ export const Collapsible: Story = {
     collapsible: true,
   },
   render: defaultRender,
+};
+
+export const CustomCollapseButtonLabels: Story = {
+  args: {
+    ...Collapsible.args,
+    openCollapseText: "Ouvrir la navigation",
+    closeCollapseText: "Fermer la navigation",
+  },
+  render: defaultRender,
+  play: async ({ canvasElement, step }) => {
+    const { sideNav } = getCanvasAndSideNav(canvasElement);
+
+    await step("Verify the custom expanded label", async () => {
+      const collapseButton = getCollapseButton(sideNav);
+      expect(collapseButton).toHaveTextContent("Fermer la navigation");
+      expect(within(sideNav).getByRole("button", { name: "Fermer la navigation" })).toBe(collapseButton);
+    });
+
+    await step("Verify the custom collapsed label", async () => {
+      await userEvent.click(getCollapseButton(sideNav)!);
+      const collapseButton = getCollapseButton(sideNav);
+      expect(collapseButton).toHaveAttribute("aria-label", "Ouvrir la navigation");
+      expect(within(sideNav).getByRole("button", { name: "Ouvrir la navigation" })).toBe(collapseButton);
+    });
+  },
 };
 
 const routerNavigationItems: NavItem[] = [

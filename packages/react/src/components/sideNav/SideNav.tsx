@@ -51,6 +51,8 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
       contrast = "high",
       activeItem,
       "aria-label": ariaLabel,
+      openCollapseText = "Ouvrir le menu",
+      closeCollapseText = "Réduire le menu",
     }: SideNavProps,
     ref,
   ) => {
@@ -240,6 +242,8 @@ const SideNav = forwardRef<HTMLElement | HTMLDivElement, SideNavProps>(
             dividerAppearance={dividerAppearance}
             collapseIcon={collapseIcon}
             onCollapse={collapseSideNav}
+            openCollapseText={openCollapseText}
+            closeCollapseText={closeCollapseText}
           />
         );
       }

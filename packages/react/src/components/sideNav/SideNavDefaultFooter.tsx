@@ -18,6 +18,8 @@ interface SideNavDefaultFooterProps {
   dividerAppearance: DividerAppearance;
   collapseIcon: string;
   onCollapse: () => void;
+  openCollapseText: string;
+  closeCollapseText: string;
 }
 
 function SideNavDefaultFooter({
@@ -28,8 +30,10 @@ function SideNavDefaultFooter({
   dividerAppearance,
   collapseIcon,
   onCollapse,
+  openCollapseText,
+  closeCollapseText,
 }: SideNavDefaultFooterProps) {
-  const collapseLabel = isCollapsed ? "Ouvrir le menu" : "Réduire le menu";
+  const collapseLabel = isCollapsed ? openCollapseText : closeCollapseText;
   const collapseIconSize = getNavItemLabelIconSize(false, isCollapsed);
 
   return (
