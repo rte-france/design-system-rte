@@ -24,6 +24,8 @@ export interface SideNavProps extends BaseSideNavProps {
   footerItems?: NavItemProps[];
   activeItem?: string;
   headerConfig?: SideNavHeaderConfig;
+  openCollapseText?: string;
+  closeCollapseText?: string;
 }
 
 export interface BaseSideNavProps {

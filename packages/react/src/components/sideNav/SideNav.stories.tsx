@@ -68,6 +68,8 @@ const meta = {
       isCollapsed={args.isCollapsed}
       activeItem={args.activeItem}
       onCollapsedChange={args.onCollapsedChange}
+      openCollapseText={args.openCollapseText}
+      closeCollapseText={args.closeCollapseText}
     >
       {PageContent}
     </SideNav>
@@ -339,6 +341,30 @@ export const Collapsible: Story = {
   args: {
     ...Default.args,
     collapsible: true,
+  },
+};
+
+export const CustomCollapseButtonLabels: Story = {
+  args: {
+    ...Collapsible.args,
+    openCollapseText: "Ouvrir la navigation",
+    closeCollapseText: "Fermer la navigation",
+  },
+  play: async ({ canvasElement, step }) => {
+    const { sideNav } = getCanvasAndSideNav(canvasElement);
+
+    await step("Verify the custom expanded label", async () => {
+      const collapseButton = getCollapseButton(sideNav);
+      expect(collapseButton).toHaveTextContent("Fermer la navigation");
+      expect(within(sideNav).getByRole("button", { name: "Fermer la navigation" })).toBe(collapseButton);
+    });
+
+    await step("Verify the custom collapsed label", async () => {
+      await userEvent.click(getCollapseButton(sideNav)!);
+      const collapseButton = getCollapseButton(sideNav);
+      expect(collapseButton).toHaveAttribute("aria-label", "Ouvrir la navigation");
+      expect(within(sideNav).getByRole("button", { name: "Ouvrir la navigation" })).toBe(collapseButton);
+    });
   },
 };
 

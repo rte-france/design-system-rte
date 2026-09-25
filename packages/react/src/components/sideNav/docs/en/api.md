@@ -8,6 +8,8 @@ The `SideNav` component is the public API. Consumers configure navigation throug
 | collapsible | boolean | — | Shows a footer control to collapse and expand the panel. |
 | isCollapsed | boolean | — | Controlled collapsed state. When omitted, the component manages collapse internally. |
 | defaultCollapsed | boolean | `false` | Initial collapsed state when `isCollapsed` is not provided. |
+| openCollapseText | string | `"Ouvrir le menu"` | Label used by the collapse control when the panel is collapsed. |
+| closeCollapseText | string | `"Réduire le menu"` | Label used by the collapse control when the panel is expanded. |
 | headerConfig | `SideNavHeaderConfig` | — | Header area configuration (title, identifier, version, link). |
 | items | `NavItemProps[]` | — (required) | Primary navigation items. |
 | footerItems | `NavItemProps[]` | — | Optional footer navigation items. |
