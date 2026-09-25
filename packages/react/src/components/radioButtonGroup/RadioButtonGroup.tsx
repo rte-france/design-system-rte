@@ -17,12 +17,12 @@ const RadioButtonGroup = forwardRef<HTMLDivElement, RadioButtonGroupProps>(
       items,
       direction = "horizontal",
       showItemsLabel = true,
-      groupTitle = "",
+      groupTitleText = "",
       groupHelpText = "",
-      errorMessage = "",
-      error = false,
+      errorText = "",
+      isError = false,
       disabled = false,
-      readOnly = false,
+      isReadOnly = false,
       className = "",
       onValueChange,
       selectedValue,
@@ -35,7 +35,7 @@ const RadioButtonGroup = forwardRef<HTMLDivElement, RadioButtonGroupProps>(
     const errorMessageId = useRef(generateId()).current;
     const [internalSelectedValue, setInternalSelectedValue] = useState(selectedValue);
 
-    if (disabled && error) {
+    if (disabled && isError) {
       console.warn(
         "RadioButtonGroup cannot be both disabled and in an error state. Please choose one state or the other.",
       );
@@ -44,7 +44,7 @@ const RadioButtonGroup = forwardRef<HTMLDivElement, RadioButtonGroupProps>(
     }
 
     const handleOnChangeRadioButton = (event: React.ChangeEvent<HTMLInputElement>) => {
-      if (disabled || readOnly) {
+      if (disabled || isReadOnly) {
         return;
       }
 
@@ -56,20 +56,20 @@ const RadioButtonGroup = forwardRef<HTMLDivElement, RadioButtonGroupProps>(
       <div ref={ref} className={concatClassNames(styles["radioButtonGroupContainer"], className)} {...props}>
         <fieldset
           className={styles["radioButtonGroupFieldset"]}
-          data-error={error}
+          data-error={isError}
           data-disabled={disabled}
-          data-read-only={readOnly}
-          aria-describedby={error && errorMessage ? errorMessageId : undefined}
+          data-read-only={isReadOnly}
+          aria-describedby={isError && errorText ? errorMessageId : undefined}
         >
           <div
             className={styles["rte-radioButtonGroupTitleContainer"]}
             data-show-label-requirement={showLabelRequirement}
           >
-            {groupTitle && <legend className={styles["groupTitle"]}>{groupTitle}</legend>}
+            {groupTitleText && <legend className={styles["groupTitle"]}>{groupTitleText}</legend>}
             <RequiredIndicator required={required} showLabelRequirement={showLabelRequirement} />
           </div>
           {groupHelpText && <p className={styles["groupHelpText"]}>{groupHelpText}</p>}
-          {errorMessage && error && <p className={styles["errorMessage"]}>{errorMessageId}</p>}
+          {errorText && isError && <p className={styles["errorMessage"]}>{errorText}</p>}
           <div className={styles["radioButtonGroup"]} data-direction={direction}>
             {items.map(({ label, value, ariaLabel, ariaLabelledBy }, index) => (
               <RadioButton
@@ -78,8 +78,8 @@ const RadioButtonGroup = forwardRef<HTMLDivElement, RadioButtonGroupProps>(
                 value={value}
                 groupName={groupName}
                 disabled={disabled}
-                error={error}
-                readOnly={readOnly}
+                error={isError}
+                readOnly={isReadOnly}
                 onChange={handleOnChangeRadioButton}
                 isChecked={internalSelectedValue === value}
                 aria-label={ariaLabel}

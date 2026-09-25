@@ -30,7 +30,7 @@ const meta: Meta<RadioButtonGroupComponent> = {
       control: "boolean",
       defaultValue: true,
     },
-    groupTitle: {
+    groupTitleText: {
       control: "text",
       defaultValue: "Radio Button Group Title",
     },
@@ -38,11 +38,11 @@ const meta: Meta<RadioButtonGroupComponent> = {
       control: "text",
       defaultValue: "This is a help text for the radio button group.",
     },
-    errorMessage: {
+    errorText: {
       control: "text",
       defaultValue: "This is an error message. Please select an option.",
     },
-    error: {
+    isError: {
       control: "boolean",
       defaultValue: false,
     },
@@ -50,7 +50,7 @@ const meta: Meta<RadioButtonGroupComponent> = {
       control: "boolean",
       defaultValue: false,
     },
-    readOnly: {
+    isReadOnly: {
       control: "boolean",
       defaultValue: false,
     },
@@ -77,12 +77,12 @@ export const Default: Story = {
     ],
     direction: "horizontal",
     showItemsLabel: true,
-    groupTitle: "Radio Button Group Title",
+    groupTitleText: "Radio Button Group Title",
     groupHelpText: "This is a help text for the radio button group.",
-    errorMessage: "This is an error message. Please select an option.",
-    error: false,
+    errorText: "This is an error message. Please select an option.",
+    isError: false,
     disabled: false,
-    readOnly: false,
+    isReadOnly: false,
     required: false,
     showLabelRequirement: false,
   },
@@ -111,7 +111,7 @@ export const Error: Story = {
   args: {
     ...Default.args,
     groupName: "error-radio-group",
-    error: true,
+    isError: true,
   },
 };
 
@@ -119,7 +119,7 @@ export const ReadOnly: Story = {
   args: {
     ...Default.args,
     groupName: "readonly-radio-group",
-    readOnly: true,
+    isReadOnly: true,
   },
 };
 
@@ -168,14 +168,12 @@ export const InitialValueSelected: Story = {
       [items]="items"
       [direction]="direction"
       [showItemsLabel]="showItemsLabel"
-      [groupTitle]="groupTitle"
-      [showGroupTitle]="showGroupTitle"
+      [groupTitleText]="groupTitleText"
       [groupHelpText]="groupHelpText"
-      [showHelpText]="showHelpText"
-      [errorMessage]="errorMessage"
-      [error]="error"
+      [errorText]="errorText"
+      [isError]="isError"
       [disabled]="disabled"
-      [readOnly]="readOnly"
+      [isReadOnly]="isReadOnly"
       [selectedValue]="selectedValue()"
       (changeEvent)="valueChange($event)"
       />
@@ -213,14 +211,12 @@ export const VerticalLongLabel: Story = {
         [items]="items"
         [direction]="direction"
         [showItemsLabel]="showItemsLabel"
-        [groupTitle]="groupTitle"
-        [showGroupTitle]="showGroupTitle"
+        [groupTitleText]="groupTitleText"
         [groupHelpText]="groupHelpText"
-        [showHelpText]="showHelpText"
-        [errorMessage]="errorMessage"
-        [error]="error"
+        [errorText]="errorText"
+        [isError]="isError"
         [disabled]="disabled"
-        [readOnly]="readOnly"
+        [isReadOnly]="isReadOnly"
         [selectedValue]="selectedValue"
         (changeEvent)="changeEvent($event)"
       />
@@ -244,14 +240,12 @@ export const WithRequired: Story = {
           [items]="items"
           [direction]="direction"
           [showItemsLabel]="showItemsLabel"
-          [groupTitle]="groupTitle"
-          [showGroupTitle]="showGroupTitle"
+          [groupTitleText]="groupTitleText"
           [groupHelpText]="groupHelpText"
-          [showHelpText]="showHelpText"
-          [errorMessage]="errorMessage"
-          [error]="error"
+          [errorText]="errorText"
+          [isError]="isError"
           [disabled]="disabled"
-          [readOnly]="readOnly"
+          [isReadOnly]="isReadOnly"
           [required]="required"
           [showLabelRequirement]="showLabelRequirement"
           [selectedValue]="selectedValue"

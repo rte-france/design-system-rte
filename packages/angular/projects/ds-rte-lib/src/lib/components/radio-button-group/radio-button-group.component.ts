@@ -17,12 +17,12 @@ export class RadioButtonGroupComponent {
   readonly items = input<{ label: string; value: string; ariaLabel?: string; ariaLabelledBy?: string }[]>([]);
   readonly direction = input("horizontal");
   readonly showItemsLabel = input(true);
-  readonly groupTitle = input("");
+  readonly groupTitleText = input("");
   readonly groupHelpText = input("");
-  readonly errorMessage = input("");
-  readonly error = input(false);
+  readonly errorText = input("");
+  readonly isError = input(false);
   readonly disabled = input(false);
-  readonly readOnly = input(false);
+  readonly isReadOnly = input(false);
   readonly required = input(false);
   readonly showLabelRequirement = input(false);
   readonly selectedValue = input("");
@@ -31,14 +31,14 @@ export class RadioButtonGroupComponent {
 
   readonly internalSelectedValue = signal(this.selectedValue());
 
-  readonly isDisplayed = computed(() => !(this.disabled() && this.error()));
+  readonly isDisplayed = computed(() => !(this.disabled() && this.isError()));
 
   constructor() {
     effect(() => this.internalSelectedValue.set(this.selectedValue()));
   }
 
   onChange(value: string) {
-    if (this.disabled() || this.readOnly()) {
+    if (this.disabled() || this.isReadOnly()) {
       return;
     }
     this.internalSelectedValue.set(value);

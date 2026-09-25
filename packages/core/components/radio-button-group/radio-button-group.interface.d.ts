@@ -8,12 +8,12 @@ export interface RadioButtonGroupProps {
   }[];
   direction?: import("../common/common-types").Direction;
   showItemsLabel?: boolean;
-  groupTitle?: string;
+  groupTitleText?: string;
   groupHelpText?: string;
-  errorMessage?: string;
-  error?: boolean;
+  errorText?: string;
+  isError?: boolean;
   disabled?: boolean;
-  readOnly?: boolean;
+  isReadOnly?: boolean;
   onValueChange?: (value: string) => void;
   selectedValue?: string;
   required?: boolean;
