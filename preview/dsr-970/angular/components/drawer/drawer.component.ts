@@ -129,7 +129,7 @@ export class DrawerComponent implements OnDestroy {
   private readonly injector = inject(Injector);
   private resizeObserver: ResizeObserver | null = null;
   private focusTrapActive = false;
-  overlayHideOwnerRef: ComponentRef<unknown> | null = null;
+  backdropLayerOverlayRef: ComponentRef<unknown> | null = null;
 
   constructor() {
     effect(() => {
@@ -185,9 +185,6 @@ export class DrawerComponent implements OnDestroy {
             restoreFocusTo: restoreFocusTarget,
           });
           this.focusTrapActive = true;
-          if (this.overlayHideOwnerRef) {
-            this.overlayService.applyDeferredBackgroundHide(this.overlayHideOwnerRef);
-          }
         }
       },
       { injector: this.injector },
@@ -219,8 +216,8 @@ export class DrawerComponent implements OnDestroy {
 
   private handleDrawerClose(usesModalLayer: boolean): void {
     this.isAnimating.set(false);
-    if (this.overlayHideOwnerRef) {
-      this.overlayService.releaseBackgroundHide(this.overlayHideOwnerRef);
+    if (this.backdropLayerOverlayRef) {
+      this.overlayService.releaseBackdropLayer(this.backdropLayerOverlayRef);
     }
     if (this.focusTrapActive) {
       this.focusTrap.deactivate();
