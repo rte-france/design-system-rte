@@ -30,27 +30,19 @@ const meta: Meta<RadioButtonGroupComponent> = {
       control: "boolean",
       defaultValue: true,
     },
-    groupTitle: {
+    groupTitleText: {
       control: "text",
       defaultValue: "Radio Button Group Title",
-    },
-    showGroupTitle: {
-      control: "boolean",
-      defaultValue: true,
     },
     groupHelpText: {
       control: "text",
       defaultValue: "This is a help text for the radio button group.",
     },
-    showHelpText: {
-      control: "boolean",
-      defaultValue: true,
-    },
-    errorMessage: {
+    errorText: {
       control: "text",
       defaultValue: "This is an error message. Please select an option.",
     },
-    error: {
+    isError: {
       control: "boolean",
       defaultValue: false,
     },
@@ -58,7 +50,15 @@ const meta: Meta<RadioButtonGroupComponent> = {
       control: "boolean",
       defaultValue: false,
     },
-    readOnly: {
+    isReadOnly: {
+      control: "boolean",
+      defaultValue: false,
+    },
+    required: {
+      control: "boolean",
+      defaultValue: false,
+    },
+    showLabelRequirement: {
       control: "boolean",
       defaultValue: false,
     },
@@ -77,14 +77,14 @@ export const Default: Story = {
     ],
     direction: "horizontal",
     showItemsLabel: true,
-    groupTitle: "Radio Button Group Title",
-    showGroupTitle: true,
+    groupTitleText: "Radio Button Group Title",
     groupHelpText: "This is a help text for the radio button group.",
-    showHelpText: true,
-    errorMessage: "This is an error message. Please select an option.",
-    error: false,
+    errorText: "This is an error message. Please select an option.",
+    isError: false,
     disabled: false,
-    readOnly: false,
+    isReadOnly: false,
+    required: false,
+    showLabelRequirement: false,
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -111,7 +111,7 @@ export const Error: Story = {
   args: {
     ...Default.args,
     groupName: "error-radio-group",
-    error: true,
+    isError: true,
   },
 };
 
@@ -119,7 +119,7 @@ export const ReadOnly: Story = {
   args: {
     ...Default.args,
     groupName: "readonly-radio-group",
-    readOnly: true,
+    isReadOnly: true,
   },
 };
 
@@ -168,14 +168,12 @@ export const InitialValueSelected: Story = {
       [items]="items"
       [direction]="direction"
       [showItemsLabel]="showItemsLabel"
-      [groupTitle]="groupTitle"
-      [showGroupTitle]="showGroupTitle"
+      [groupTitleText]="groupTitleText"
       [groupHelpText]="groupHelpText"
-      [showHelpText]="showHelpText"
-      [errorMessage]="errorMessage"
-      [error]="error"
+      [errorText]="errorText"
+      [isError]="isError"
       [disabled]="disabled"
-      [readOnly]="readOnly"
+      [isReadOnly]="isReadOnly"
       [selectedValue]="selectedValue()"
       (changeEvent)="valueChange($event)"
       />
@@ -213,18 +211,46 @@ export const VerticalLongLabel: Story = {
         [items]="items"
         [direction]="direction"
         [showItemsLabel]="showItemsLabel"
-        [groupTitle]="groupTitle"
-        [showGroupTitle]="showGroupTitle"
+        [groupTitleText]="groupTitleText"
         [groupHelpText]="groupHelpText"
-        [showHelpText]="showHelpText"
-        [errorMessage]="errorMessage"
-        [error]="error"
+        [errorText]="errorText"
+        [isError]="isError"
         [disabled]="disabled"
-        [readOnly]="readOnly"
+        [isReadOnly]="isReadOnly"
         [selectedValue]="selectedValue"
         (changeEvent)="changeEvent($event)"
       />
     </div>
+    `,
+  }),
+};
+
+export const WithRequired: Story = {
+  args: {
+    ...Default.args,
+    groupName: "with-required-radio-group",
+    required: true,
+    showLabelRequirement: true,
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+        <rte-radio-button-group
+          [groupName]="groupName"
+          [items]="items"
+          [direction]="direction"
+          [showItemsLabel]="showItemsLabel"
+          [groupTitleText]="groupTitleText"
+          [groupHelpText]="groupHelpText"
+          [errorText]="errorText"
+          [isError]="isError"
+          [disabled]="disabled"
+          [isReadOnly]="isReadOnly"
+          [required]="required"
+          [showLabelRequirement]="showLabelRequirement"
+          [selectedValue]="selectedValue"
+          (changeEvent)="changeEvent($event)"
+        />
     `,
   }),
 };
