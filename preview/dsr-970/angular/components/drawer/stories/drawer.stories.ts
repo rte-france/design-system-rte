@@ -260,6 +260,7 @@ ${drawerModalModeDoc.trim()}`,
 };
 
 export const ModalBackgroundScreenReaderManualCheck: Story = {
+  tags: ["!autodocs"],
   decorators: [
     moduleMetadata({
       imports: [DrawerModule, ButtonComponent],
