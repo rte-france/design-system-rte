@@ -1,6 +1,5 @@
 import { CommonModule } from "@angular/common";
 import {
-  afterNextRender,
   ChangeDetectionStrategy,
   Component,
   ComponentRef,
@@ -9,7 +8,6 @@ import {
   effect,
   ElementRef,
   inject,
-  Injector,
   input,
   OnDestroy,
   output,
@@ -126,9 +124,9 @@ export class DrawerComponent implements OnDestroy {
   private readonly focusTrap = inject(FocusTrapService);
   private readonly overlayService = inject(OverlayService);
   private readonly destroyRef = inject(DestroyRef);
-  private readonly injector = inject(Injector);
   private resizeObserver: ResizeObserver | null = null;
   private focusTrapActive = false;
+  private modalLayerRestoreFocusTarget: HTMLElement | null = null;
   backdropOwnerRef: ComponentRef<unknown> | null = null;
 
   constructor() {
@@ -164,6 +162,28 @@ export class DrawerComponent implements OnDestroy {
       });
     });
 
+    effect(() => {
+      if (!this.isOpen() || this.position() !== "modal" || !this.shouldRenderModalLayer()) {
+        return;
+      }
+
+      const panelElement = this.drawerPanelModal()?.nativeElement;
+      if (!panelElement || this.focusTrapActive) {
+        return;
+      }
+
+      untracked(() => {
+        this.focusTrap.activate(panelElement, {
+          restoreFocusTo: this.modalLayerRestoreFocusTarget ?? undefined,
+        });
+        this.focusTrapActive = true;
+
+        if (this.backdropOwnerRef) {
+          this.overlayService.applyBackdrop(this.backdropOwnerRef);
+        }
+      });
+    });
+
     this.destroyRef.onDestroy(() => {
       this.resizeObserver?.disconnect();
       if (this.focusTrapActive) {
@@ -173,58 +193,16 @@ export class DrawerComponent implements OnDestroy {
     });
   }
 
-  private activateFocusTrapForPanel(
-    resolvePanel: () => HTMLElement | undefined,
-    restoreFocusTarget: HTMLElement | null,
-  ): void {
-    afterNextRender(
-      () => {
-        const attemptActivation = (attemptsRemaining: number): void => {
-          const panelElement = resolvePanel();
-          if (!panelElement) {
-            if (attemptsRemaining > 0) {
-              waitForNextFrame(() => attemptActivation(attemptsRemaining - 1));
-            }
-            return;
-          }
-
-          if (!this.focusTrapActive) {
-            this.focusTrap.activate(panelElement, {
-              restoreFocusTo: restoreFocusTarget ?? undefined,
-            });
-            this.focusTrapActive = true;
-          }
-
-          if (this.backdropOwnerRef) {
-            this.overlayService.applyBackdrop(this.backdropOwnerRef);
-          }
-        };
-
-        attemptActivation(30);
-      },
-      { injector: this.injector },
-    );
-  }
-
   private handleDrawerOpen(usesModalLayer: boolean): void {
-    const restoreFocusTarget = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    this.modalLayerRestoreFocusTarget = document.activeElement instanceof HTMLElement ? document.activeElement : null;
 
     if (usesModalLayer) {
       this.shouldRenderModalLayer.set(true);
     }
     this.isAnimating.set(false);
-    const resolvePanel = () => {
-      if (usesModalLayer) {
-        return this.drawerPanelModal()?.nativeElement ?? this.drawerPanelResponsive()?.nativeElement;
-      }
-      return this.drawerPanelResponsive()?.nativeElement;
-    };
     untracked(() => {
       waitForNextFrame(() => {
         this.isAnimating.set(true);
-        if (usesModalLayer) {
-          this.activateFocusTrapForPanel(resolvePanel, restoreFocusTarget);
-        }
       });
     });
   }
