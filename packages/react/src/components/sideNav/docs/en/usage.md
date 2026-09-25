@@ -53,6 +53,20 @@ When using React Router, wrap with `NavigationProvider`:
 
 Enable the collapse control in the footer with `collapsible`.
 
+Customize its labels with `openCollapseText` and `closeCollapseText`:
+
+```tsx
+<SideNav
+  headerConfig={headerConfig}
+  items={items}
+  collapsible
+  openCollapseText="Open navigation"
+  closeCollapseText="Close navigation"
+>
+  Page content
+</SideNav>
+```
+
 #### With custom router
 
 ```tsx

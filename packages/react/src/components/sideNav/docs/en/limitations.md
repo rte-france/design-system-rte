@@ -26,10 +26,6 @@ When the panel is collapsed, nested sub-menus cannot be opened or accessed. Only
 
 Nested items inside a closed menu are removed from the tab order. Users must open the parent menu before nested entries receive focus.
 
-### Collapse control labels
-
-The collapse button labels are fixed in French (`Ouvrir le menu` / `Réduire le menu`).
-
 ### Internal components
 
 Do not use `NavItem`, `NavMenu`, or `BaseSideNav` directly in application code. Configure navigation only through `SideNav` props.

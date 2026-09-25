@@ -31,6 +31,8 @@ Le composant `SideNav` constitue l'API publique. Les consommateurs configurent l
 | collapsible        | boolean                            | —          | Affiche un contrôle dans le pied de page pour replier et déplier le panneau.     |
 | isCollapsed        | boolean                            | —          | État replié contrôlé. Lorsqu'il est omis, le composant gère le repli en interne. |
 | defaultCollapsed   | boolean                            | `false`    | État replié initial lorsque `isCollapsed` n'est pas fourni.                      |
+| openCollapseText   | string                             | `"Ouvrir le menu"` | Libellé utilisé lorsque le panneau est replié.                         |
+| closeCollapseText  | string                             | `"Réduire le menu"` | Libellé utilisé lorsque le panneau est déplié.                         |
 | headerConfig       | `SideNavHeaderConfig`              | —          | Configuration de la zone d'en-tête (titre, identifiant, version, lien).          |
 | items              | `NavItemProps[]`                   | — (requis) | Entrées de navigation principales.                                               |
 | footerItems        | `NavItemProps[]`                   | —          | Entrées de navigation optionnelles dans le pied de page.                         |
@@ -143,6 +145,20 @@ Avec React Router, enveloppez avec `NavigationProvider` :
 ```
 
 Activez le contrôle de repli dans le pied de page avec `collapsible`.
+
+Personnalisez ses libellés avec `openCollapseText` et `closeCollapseText` :
+
+```tsx
+<SideNav
+  headerConfig={headerConfig}
+  items={items}
+  collapsible
+  openCollapseText="Ouvrir la navigation"
+  closeCollapseText="Fermer la navigation"
+>
+  Contenu de la page
+</SideNav>
+```
 
 #### With custom router
 
@@ -259,10 +275,6 @@ Lorsque le panneau est replié, les sous-menus imbriqués ne peuvent pas être o
 ### Menus imbriqués fermés et navigation clavier
 
 Les entrées imbriquées d'un menu fermé sont retirées de l'ordre de tabulation. L'utilisateur doit ouvrir le menu parent avant que les entrées imbriquées reçoivent le focus.
-
-### Libellés du contrôle de repli
-
-Les libellés du bouton de repli sont fixes en français (`Ouvrir le menu` / `Réduire le menu`).
 
 ### Composants internes
 
