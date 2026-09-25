@@ -86,7 +86,7 @@ export class ModalDirective implements AfterContentInit, OnDestroy {
     this.modalRestoreFocusTo = document.activeElement instanceof HTMLElement ? document.activeElement : null;
 
     this.modalCompRef = this.overlayService.create(ModalComponent, this.viewContainerRef, {
-      backdropLayer: true,
+      hideBackgroundFromAssistiveTechnology: true,
     });
 
     this.modalCompRef?.instance.closeModal.subscribe(() => {
