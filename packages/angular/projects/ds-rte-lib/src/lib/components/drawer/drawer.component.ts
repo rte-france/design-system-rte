@@ -1,14 +1,13 @@
 import { CommonModule } from "@angular/common";
 import {
-  afterNextRender,
   ChangeDetectionStrategy,
   Component,
+  ComponentRef,
   computed,
   DestroyRef,
   effect,
   ElementRef,
   inject,
-  Injector,
   input,
   OnDestroy,
   output,
@@ -29,6 +28,7 @@ import {
 import { IconSize } from "@design-system-rte/core/components/icon/icon.constants";
 
 import { FocusTrapService } from "../../services/focus-trap.service";
+import { OverlayService } from "../../services/overlay.service";
 import { ButtonComponent } from "../button/button.component";
 import { DividerComponent } from "../divider/divider.component";
 import { IconComponent } from "../icon/icon.component";
@@ -122,10 +122,13 @@ export class DrawerComponent implements OnDestroy {
   readonly responsiveMainMarginRight = computed(() => (this.isAnimating() ? (this.width() ?? "0") : "0"));
 
   private readonly focusTrap = inject(FocusTrapService);
+  private readonly overlayService = inject(OverlayService);
   private readonly destroyRef = inject(DestroyRef);
-  private readonly injector = inject(Injector);
   private resizeObserver: ResizeObserver | null = null;
   private focusTrapActive = false;
+  private modalLayerRestoreFocusTarget: HTMLElement | null = null;
+  private modalLayerCloseTimer: ReturnType<typeof setTimeout> | null = null;
+  backdropOwnerRef: ComponentRef<unknown> | null = null;
 
   constructor() {
     effect(() => {
@@ -160,59 +163,86 @@ export class DrawerComponent implements OnDestroy {
       });
     });
 
+    effect(() => {
+      if (!this.isOpen() || this.position() !== "modal" || !this.shouldRenderModalLayer()) {
+        return;
+      }
+
+      const panelElement = this.drawerPanelModal()?.nativeElement;
+      if (!panelElement || this.focusTrapActive) {
+        return;
+      }
+
+      untracked(() => {
+        this.focusTrap.activate(panelElement, {
+          restoreFocusTo: this.modalLayerRestoreFocusTarget ?? undefined,
+        });
+        this.focusTrapActive = true;
+
+        if (this.backdropOwnerRef) {
+          this.overlayService.applyBackdrop(this.backdropOwnerRef);
+        }
+      });
+    });
+
     this.destroyRef.onDestroy(() => {
       this.resizeObserver?.disconnect();
-      if (this.focusTrapActive) {
-        this.focusTrap.deactivate();
-        this.focusTrapActive = false;
-      }
+      this.clearModalLayerCloseTimer();
+      this.releaseModalLayerSuppression();
     });
   }
 
-  private activateFocusTrapForPanel(resolvePanel: () => HTMLElement | undefined): void {
-    afterNextRender(
-      () => {
-        const panelElement = resolvePanel();
-        if (panelElement && !this.focusTrapActive) {
-          this.focusTrap.activate(panelElement);
-          this.focusTrapActive = true;
-        }
-      },
-      { injector: this.injector },
-    );
-  }
-
   private handleDrawerOpen(usesModalLayer: boolean): void {
+    this.clearModalLayerCloseTimer();
+    this.modalLayerRestoreFocusTarget = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+
     if (usesModalLayer) {
       this.shouldRenderModalLayer.set(true);
     }
     this.isAnimating.set(false);
-    const resolvePanel = () => {
-      if (usesModalLayer) {
-        return this.drawerPanelModal()?.nativeElement ?? this.drawerPanelResponsive()?.nativeElement;
-      }
-      return this.drawerPanelResponsive()?.nativeElement;
-    };
     untracked(() => {
       waitForNextFrame(() => {
         this.isAnimating.set(true);
-        if (usesModalLayer) {
-          this.activateFocusTrapForPanel(resolvePanel);
-        }
       });
     });
   }
 
   private handleDrawerClose(usesModalLayer: boolean): void {
     this.isAnimating.set(false);
+
+    if (usesModalLayer && this.shouldRenderModalLayer()) {
+      this.clearModalLayerCloseTimer();
+      this.modalLayerCloseTimer = setTimeout(() => {
+        this.modalLayerCloseTimer = null;
+        this.releaseModalLayerSuppression();
+        this.shouldRenderModalLayer.set(false);
+      }, DRAWER_TRANSITION_DURATION);
+      return;
+    }
+
+    this.releaseModalLayerSuppression();
+    if (usesModalLayer) {
+      this.shouldRenderModalLayer.set(false);
+    }
+  }
+
+  private clearModalLayerCloseTimer(): void {
+    if (this.modalLayerCloseTimer === null) {
+      return;
+    }
+
+    clearTimeout(this.modalLayerCloseTimer);
+    this.modalLayerCloseTimer = null;
+  }
+
+  private releaseModalLayerSuppression(): void {
+    if (this.backdropOwnerRef) {
+      this.overlayService.releaseBackdrop(this.backdropOwnerRef);
+    }
+
     if (this.focusTrapActive) {
       this.focusTrap.deactivate();
       this.focusTrapActive = false;
-    }
-    if (usesModalLayer && this.shouldRenderModalLayer()) {
-      setTimeout(() => {
-        this.shouldRenderModalLayer.set(false);
-      }, DRAWER_TRANSITION_DURATION);
     }
   }
 
@@ -240,9 +270,7 @@ export class DrawerComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.resizeObserver?.disconnect();
-    if (this.focusTrapActive) {
-      this.focusTrap.deactivate();
-      this.focusTrapActive = false;
-    }
+    this.clearModalLayerCloseTimer();
+    this.releaseModalLayerSuppression();
   }
 }

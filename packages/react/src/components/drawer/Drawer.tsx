@@ -9,7 +9,7 @@ import {
 import { DrawerProps as coreDrawerProps } from "@design-system-rte/core/components/drawer/drawer.interface";
 import { computeTransform, getDrawerAriaAttributes } from "@design-system-rte/core/components/drawer/drawer.utils";
 import { logError } from "@design-system-rte/core/utils/log-handlers";
-import { RefObject, useRef } from "react";
+import { RefObject, useEffect, useRef, useState } from "react";
 
 import Backdrop from "../../abstract/backdrop/Backdrop";
 import BaseFooter from "../../abstract/baseFooter/BaseFooter";
@@ -252,6 +252,18 @@ const Drawer = ({
 }: DrawerProps) => {
   const { shouldRender, isAnimating } = useAnimatedMount(isOpen, DRAWER_TRANSITION_DURATION);
   const drawerRef = useRef<HTMLDivElement | null>(null);
+  const [modalPanelReady, setModalPanelReady] = useState(false);
+
+  useEffect(() => {
+    if (!shouldRender) {
+      setModalPanelReady(false);
+    }
+  }, [shouldRender]);
+
+  const assignDrawerPanelRef = useRef((node: HTMLDivElement | null) => {
+    drawerRef.current = node;
+    setModalPanelReady(node !== null);
+  }).current;
   const iconToggleOpenContainerRef = useRef<HTMLButtonElement | null>(null);
   const iconToggleCloseContainerRef = useRef<HTMLButtonElement | null>(null);
 
@@ -420,10 +432,10 @@ const Drawer = ({
             />
           )}
           {shouldRender && (
-            <Overlay>
+            <Overlay hasBackdrop={modalPanelReady}>
               <Backdrop isAnimating={isAnimating} onClick={closeOnOverlayClick ? onClose : undefined} />
               <div
-                ref={drawerRef}
+                ref={assignDrawerPanelRef}
                 className={styles["drawer"]}
                 data-open={isAnimating}
                 data-fixed-header={fixedHeader}

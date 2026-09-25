@@ -61,7 +61,7 @@ const Modal = forwardRef<HTMLDialogElement, ModalProps>(
     return (
       <>
         {shouldRender && (
-          <Overlay>
+          <Overlay hasBackdrop>
             <Backdrop isAnimating={isAnimating} onClick={closeOnOverlayClick ? onClose : undefined} />
             <dialog
               ref={modalCallbackRef}
