@@ -127,6 +127,7 @@ export class DrawerComponent implements OnDestroy {
   private resizeObserver: ResizeObserver | null = null;
   private focusTrapActive = false;
   private modalLayerRestoreFocusTarget: HTMLElement | null = null;
+  private modalLayerCloseTimer: ReturnType<typeof setTimeout> | null = null;
   backdropOwnerRef: ComponentRef<unknown> | null = null;
 
   constructor() {
@@ -186,14 +187,13 @@ export class DrawerComponent implements OnDestroy {
 
     this.destroyRef.onDestroy(() => {
       this.resizeObserver?.disconnect();
-      if (this.focusTrapActive) {
-        this.focusTrap.deactivate();
-        this.focusTrapActive = false;
-      }
+      this.clearModalLayerCloseTimer();
+      this.releaseModalLayerSuppression();
     });
   }
 
   private handleDrawerOpen(usesModalLayer: boolean): void {
+    this.clearModalLayerCloseTimer();
     this.modalLayerRestoreFocusTarget = document.activeElement instanceof HTMLElement ? document.activeElement : null;
 
     if (usesModalLayer) {
@@ -209,17 +209,40 @@ export class DrawerComponent implements OnDestroy {
 
   private handleDrawerClose(usesModalLayer: boolean): void {
     this.isAnimating.set(false);
+
+    if (usesModalLayer && this.shouldRenderModalLayer()) {
+      this.clearModalLayerCloseTimer();
+      this.modalLayerCloseTimer = setTimeout(() => {
+        this.modalLayerCloseTimer = null;
+        this.releaseModalLayerSuppression();
+        this.shouldRenderModalLayer.set(false);
+      }, DRAWER_TRANSITION_DURATION);
+      return;
+    }
+
+    this.releaseModalLayerSuppression();
+    if (usesModalLayer) {
+      this.shouldRenderModalLayer.set(false);
+    }
+  }
+
+  private clearModalLayerCloseTimer(): void {
+    if (this.modalLayerCloseTimer === null) {
+      return;
+    }
+
+    clearTimeout(this.modalLayerCloseTimer);
+    this.modalLayerCloseTimer = null;
+  }
+
+  private releaseModalLayerSuppression(): void {
     if (this.backdropOwnerRef) {
       this.overlayService.releaseBackdrop(this.backdropOwnerRef);
     }
+
     if (this.focusTrapActive) {
       this.focusTrap.deactivate();
       this.focusTrapActive = false;
-    }
-    if (usesModalLayer && this.shouldRenderModalLayer()) {
-      setTimeout(() => {
-        this.shouldRenderModalLayer.set(false);
-      }, DRAWER_TRANSITION_DURATION);
     }
   }
 
@@ -247,9 +270,7 @@ export class DrawerComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.resizeObserver?.disconnect();
-    if (this.focusTrapActive) {
-      this.focusTrap.deactivate();
-      this.focusTrapActive = false;
-    }
+    this.clearModalLayerCloseTimer();
+    this.releaseModalLayerSuppression();
   }
 }
