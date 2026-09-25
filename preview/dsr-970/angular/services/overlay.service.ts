@@ -1,27 +1,21 @@
 import { Injectable, ComponentRef, Type, ViewContainerRef } from "@angular/core";
-import {
-  hideNonOverlaySiblingsFromAssistiveTechnology,
-  OVERLAY_ROOT_ID,
-  restoreNonOverlaySiblingsFromAssistiveTechnology,
-} from "@design-system-rte/core";
+import { hideBelowElements, OVERLAY_ROOT_ID, restoreBelowElements } from "@design-system-rte/core";
 
 export type OverlayCreateOptions = {
-  hideBackgroundFromAssistiveTechnology?: boolean;
-  deferBackgroundHide?: boolean;
+  hasBackdrop?: boolean;
 };
 
-type BackgroundHideLifecycle = {
+type BackdropLifecycle = {
   cancelled: boolean;
   applied: boolean;
-  deferBackgroundHide: boolean;
-  scheduledHideGeneration: number;
+  scheduledApplyGeneration: number;
 };
 
 @Injectable({ providedIn: "root" })
 export class OverlayService {
   private overlayRoot?: HTMLElement;
   private activeOverlays = new Set<ComponentRef<unknown>>();
-  private backgroundHideLifecycle = new WeakMap<ComponentRef<unknown>, BackgroundHideLifecycle>();
+  private backdropLifecycle = new WeakMap<ComponentRef<unknown>, BackdropLifecycle>();
 
   private getOverlayRoot(): HTMLElement {
     if (!this.overlayRoot) {
@@ -40,52 +34,52 @@ export class OverlayService {
     return this.overlayRoot;
   }
 
-  private invalidatePendingBackgroundHide(lifecycle: BackgroundHideLifecycle): void {
-    lifecycle.scheduledHideGeneration += 1;
+  private invalidatePendingBackdropApply(lifecycle: BackdropLifecycle): void {
+    lifecycle.scheduledApplyGeneration += 1;
   }
 
-  private scheduleBackgroundHide(componentRef: ComponentRef<unknown>, overlayRoot: HTMLElement): void {
-    const state = this.backgroundHideLifecycle.get(componentRef);
+  private scheduleBackdropApply(componentRef: ComponentRef<unknown>, overlayRoot: HTMLElement): void {
+    const state = this.backdropLifecycle.get(componentRef);
     if (!state || state.cancelled) {
       return;
     }
 
-    const generation = state.scheduledHideGeneration + 1;
-    state.scheduledHideGeneration = generation;
+    const generation = state.scheduledApplyGeneration + 1;
+    state.scheduledApplyGeneration = generation;
 
     queueMicrotask(() => {
-      const current = this.backgroundHideLifecycle.get(componentRef);
-      if (!current || current.cancelled || current.applied || current.scheduledHideGeneration !== generation) {
+      const current = this.backdropLifecycle.get(componentRef);
+      if (!current || current.cancelled || current.applied || current.scheduledApplyGeneration !== generation) {
         return;
       }
 
-      hideNonOverlaySiblingsFromAssistiveTechnology(overlayRoot);
+      hideBelowElements(overlayRoot);
       current.applied = true;
     });
   }
 
-  applyDeferredBackgroundHide(componentRef: ComponentRef<unknown>): void {
-    const lifecycle = this.backgroundHideLifecycle.get(componentRef);
-    if (!lifecycle || lifecycle.cancelled || lifecycle.applied || !lifecycle.deferBackgroundHide) {
+  applyBackdrop(componentRef: ComponentRef<unknown>): void {
+    const lifecycle = this.backdropLifecycle.get(componentRef);
+    if (!lifecycle || lifecycle.cancelled || lifecycle.applied) {
       return;
     }
 
-    this.scheduleBackgroundHide(componentRef, this.getOverlayRoot());
+    this.scheduleBackdropApply(componentRef, this.getOverlayRoot());
   }
 
-  releaseBackgroundHide(componentRef: ComponentRef<unknown>): void {
-    const lifecycle = this.backgroundHideLifecycle.get(componentRef);
+  releaseBackdrop(componentRef: ComponentRef<unknown>): void {
+    const lifecycle = this.backdropLifecycle.get(componentRef);
     if (!lifecycle) {
       return;
     }
 
-    this.invalidatePendingBackgroundHide(lifecycle);
+    this.invalidatePendingBackdropApply(lifecycle);
 
     if (!lifecycle.applied) {
       return;
     }
 
-    restoreNonOverlaySiblingsFromAssistiveTechnology();
+    restoreBelowElements();
     lifecycle.applied = false;
   }
 
@@ -101,39 +95,33 @@ export class OverlayService {
 
   create<T>(component: Type<T>, viewContainer: ViewContainerRef, options?: OverlayCreateOptions): ComponentRef<T> {
     const root = this.getOverlayRoot();
-    const hideBackground = options?.hideBackgroundFromAssistiveTechnology ?? false;
-    const deferBackgroundHide = options?.deferBackgroundHide ?? false;
+    const hasBackdrop = options?.hasBackdrop ?? false;
 
     const componentRef = viewContainer.createComponent(component);
 
     root.appendChild(componentRef.location.nativeElement);
     this.activeOverlays.add(componentRef);
 
-    if (hideBackground) {
-      const lifecycle: BackgroundHideLifecycle = {
+    if (hasBackdrop) {
+      const lifecycle: BackdropLifecycle = {
         cancelled: false,
         applied: false,
-        deferBackgroundHide,
-        scheduledHideGeneration: 0,
+        scheduledApplyGeneration: 0,
       };
-      this.backgroundHideLifecycle.set(componentRef, lifecycle);
-
-      if (!deferBackgroundHide) {
-        this.scheduleBackgroundHide(componentRef, root);
-      }
+      this.backdropLifecycle.set(componentRef, lifecycle);
     }
 
     const originalDestroy = componentRef.destroy.bind(componentRef);
     componentRef.destroy = () => {
       this.activeOverlays.delete(componentRef);
 
-      if (hideBackground) {
-        const lifecycle = this.backgroundHideLifecycle.get(componentRef);
+      if (hasBackdrop) {
+        const lifecycle = this.backdropLifecycle.get(componentRef);
         if (lifecycle) {
           lifecycle.cancelled = true;
-          this.invalidatePendingBackgroundHide(lifecycle);
+          this.invalidatePendingBackdropApply(lifecycle);
           if (lifecycle.applied) {
-            restoreNonOverlaySiblingsFromAssistiveTechnology();
+            restoreBelowElements();
           }
         }
       }

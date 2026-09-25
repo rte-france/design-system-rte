@@ -1,8 +1,7 @@
 import { ReactNode } from '../../../../../node_modules/react';
 type OverlayPortalProps = {
     children: ReactNode;
-    hideBackgroundFromAssistiveTechnology?: boolean;
-    backgroundHideReady?: boolean;
+    hasBackdrop?: boolean;
 };
-export declare const Overlay: ({ children, hideBackgroundFromAssistiveTechnology, backgroundHideReady, }: OverlayPortalProps) => import("react").JSX.Element | null;
+export declare const Overlay: ({ children, hasBackdrop }: OverlayPortalProps) => import("react").JSX.Element | null;
 export {};

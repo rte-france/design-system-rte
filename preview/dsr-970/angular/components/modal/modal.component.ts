@@ -2,6 +2,7 @@ import { CommonModule } from "@angular/common";
 import {
   afterNextRender,
   Component,
+  ComponentRef,
   ElementRef,
   inject,
   Injector,
@@ -16,6 +17,7 @@ import { Size } from "@design-system-rte/core/components/common/common-types";
 import { IconSize } from "@design-system-rte/core/components/icon/icon.constants";
 
 import { FocusTrapService } from "../../services/focus-trap.service";
+import { OverlayService } from "../../services/overlay.service";
 import { ButtonComponent } from "../button/button.component";
 import { DividerComponent } from "../divider/divider.component";
 import { IconComponent } from "../icon/icon.component";
@@ -46,7 +48,10 @@ export class ModalComponent implements OnDestroy {
 
   private readonly elementRef = viewChild<ElementRef<HTMLDivElement>>("modal");
 
+  backdropOwnerRef: ComponentRef<unknown> | null = null;
+
   private focusTrap = inject(FocusTrapService);
+  private overlayService = inject(OverlayService);
   private injector = inject(Injector);
   private focusTrapActive = false;
 
@@ -59,6 +64,9 @@ export class ModalComponent implements OnDestroy {
             restoreFocusTo: this.restoreFocusTo() ?? undefined,
           });
           this.focusTrapActive = true;
+          if (this.backdropOwnerRef) {
+            this.overlayService.applyBackdrop(this.backdropOwnerRef);
+          }
         }
       },
       { injector: this.injector },

@@ -129,7 +129,7 @@ export class DrawerComponent implements OnDestroy {
   private readonly injector = inject(Injector);
   private resizeObserver: ResizeObserver | null = null;
   private focusTrapActive = false;
-  overlayHideOwnerRef: ComponentRef<unknown> | null = null;
+  backdropOwnerRef: ComponentRef<unknown> | null = null;
 
   constructor() {
     effect(() => {
@@ -179,16 +179,28 @@ export class DrawerComponent implements OnDestroy {
   ): void {
     afterNextRender(
       () => {
-        const panelElement = resolvePanel();
-        if (panelElement && !this.focusTrapActive) {
-          this.focusTrap.activate(panelElement, {
-            restoreFocusTo: restoreFocusTarget,
-          });
-          this.focusTrapActive = true;
-          if (this.overlayHideOwnerRef) {
-            this.overlayService.applyDeferredBackgroundHide(this.overlayHideOwnerRef);
+        const attemptActivation = (attemptsRemaining: number): void => {
+          const panelElement = resolvePanel();
+          if (!panelElement) {
+            if (attemptsRemaining > 0) {
+              waitForNextFrame(() => attemptActivation(attemptsRemaining - 1));
+            }
+            return;
           }
-        }
+
+          if (!this.focusTrapActive) {
+            this.focusTrap.activate(panelElement, {
+              restoreFocusTo: restoreFocusTarget ?? undefined,
+            });
+            this.focusTrapActive = true;
+          }
+
+          if (this.backdropOwnerRef) {
+            this.overlayService.applyBackdrop(this.backdropOwnerRef);
+          }
+        };
+
+        attemptActivation(30);
       },
       { injector: this.injector },
     );
@@ -219,8 +231,8 @@ export class DrawerComponent implements OnDestroy {
 
   private handleDrawerClose(usesModalLayer: boolean): void {
     this.isAnimating.set(false);
-    if (this.overlayHideOwnerRef) {
-      this.overlayService.releaseBackgroundHide(this.overlayHideOwnerRef);
+    if (this.backdropOwnerRef) {
+      this.overlayService.releaseBackdrop(this.backdropOwnerRef);
     }
     if (this.focusTrapActive) {
       this.focusTrap.deactivate();
