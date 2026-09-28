@@ -12,9 +12,7 @@ function Example() {
       dropdownId="example-dropdown"
       isOpen={isOpen}
       onClose={() => setIsOpen(false)}
-      trigger={
-        <button onClick={() => setIsOpen(true)}>Menu</button>
-      }
+      trigger={<button onClick={() => setIsOpen(true)}>Menu</button>}
     >
       <DropdownItem label="Messages" leftIcon="mail" hasSeparator onClick={() => console.log("click")} />
       <DropdownItem label="Actions" leftIcon="settings">
@@ -44,14 +42,7 @@ Nested submenus are declared by nesting `DropdownItem` children. Leaf items with
   onClose={() => setIsOpen(false)}
   trigger={<button onClick={() => setIsOpen(true)}>Menu</button>}
 >
-  <DropdownItem
-    label="Messages"
-    leftIcon="mail"
-    showBadge
-    badgeCount={5}
-    badgeContent="number"
-    badgeType="indicator"
-  />
+  <DropdownItem label="Messages" leftIcon="mail" showBadge badgeCount={5} badgeContent="number" badgeType="indicator" />
   <DropdownItem label="Username" leftIcon="user-circle" link="/username" />
 </Dropdown>
 ```
@@ -59,6 +50,25 @@ Nested submenus are declared by nesting `DropdownItem` children. Leaf items with
 Display a badge on a menu item using the badge props (`showBadge`, `badgeCount`, `badgeContent`, `badgeType`, `badgeIcon`, `badgeSize`).
 
 (`"number" | "icon" | "empty"`), (`"brand" | "neutral" | "indicator"`), (`"xs" | "s" | "m" | "l"`)
+
+#### With critical items
+
+```tsx
+<Dropdown
+  dropdownId="dropdown-critical"
+  isOpen={isOpen}
+  onClose={() => setIsOpen(false)}
+  trigger={<button onClick={() => setIsOpen(true)}>Menu</button>}
+>
+  <DropdownItem label="Actions" leftIcon="settings" isCritical={true}>
+  {...}
+  </DropdownItem>
+  {...}
+  <DropdownItem label="More information" leftIcon="info" hasSeparator isCritical />
+</Dropdown>
+```
+
+Set `isCritical` on an item to apply the critical color treatment to its default, hover, focus, active, and disabled states.
 
 #### With custom body
 
@@ -70,9 +80,7 @@ Display a badge on a menu item using the badge props (`showBadge`, `badgeCount`,
   isList={false}
   trigger={<button onClick={() => setIsOpen(true)}>Custom body</button>}
 >
-  <div style={{ padding: "16px" }}>
-    Custom body content — any React node can go here.
-  </div>
+  <div style={{ padding: "16px" }}>Custom body content — any React node can go here.</div>
 </Dropdown>
 ```
 

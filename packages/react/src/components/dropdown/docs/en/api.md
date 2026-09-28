@@ -37,6 +37,7 @@ The `Dropdown` and `DropdownItem` components are the public API. Control open st
 | hasCheckbox | boolean | `false` | Renders a checkbox before the label. |
 | isSelected | boolean | `false` | Selected state for checkbox items. |
 | isIndeterminate | boolean | `false` | Indeterminate state for checkbox items. |
+| isCritical | boolean | `false` | Applies the critical visual style to the item and its interactive states. |
 | onClick | `(event: React.MouseEvent<HTMLLIElement> \| React.KeyboardEvent<HTMLLIElement>) => void` | — | Handler for item activation (click, Space, or Enter). |
 | showBadge | boolean | — | Shows a badge when combined with badge props. |
 | badgeCount | number | — | Numeric badge value when `badgeContent` is `"number"`. |

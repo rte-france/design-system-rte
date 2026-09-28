@@ -26,4 +26,5 @@ export interface DropdownItemProps extends BadgeHolderProps {
   isSelected?: boolean;
   isIndeterminate?: boolean;
   hasCheckbox?: boolean;
+  isCritical?: boolean;
 }
