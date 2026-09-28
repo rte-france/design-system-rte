@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component, computed, effect, input, output } f
 import { RouterLink } from "@angular/router";
 import { generateId } from "@design-system-rte/core";
 import { BadgeProps } from "@design-system-rte/core/components/badge/badge.interface";
+import { appendExternalLinkHint, EXTERNAL_LINK_HINT } from "@design-system-rte/core/components/link";
 import { NavItemProps } from "@design-system-rte/core/components/side-nav/nav-item/nav-item.interface";
 import {
   getCollapsedSideNavBadgeType,
@@ -124,6 +125,18 @@ export class NavMenuComponent {
   readonly collapsedBadgeType = computed(() => {
     return getCollapsedSideNavBadgeType(this.badge()!);
   });
+
+  readonly externalLinkHint = EXTERNAL_LINK_HINT;
+
+  hrefLinkAriaLabel(): string | null {
+    if (!this.isCollapsed()) {
+      return null;
+    }
+    if (this.externalLink()) {
+      return appendExternalLinkHint(this.label());
+    }
+    return this.label();
+  }
 
   toggleMenu(): void {
     const menuId = this.id() || this.label();

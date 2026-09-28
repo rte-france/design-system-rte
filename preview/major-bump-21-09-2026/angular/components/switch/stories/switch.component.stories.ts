@@ -1,22 +1,11 @@
 import { Component } from "@angular/core";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
-import { componentWrapperDecorator, Meta, StoryObj } from "@storybook/angular";
+import { Meta, StoryObj } from "@storybook/angular";
 import { expect, within, userEvent, waitFor } from "@storybook/test";
 
 import { focusElementBeforeComponent } from "../../../../../../../.storybook/testing/testing.utils";
 import { SwitchComponent } from "../switch.component";
-
-const switchStateWrapperDecorator = componentWrapperDecorator(
-  (story) => `<div style="height: 50px; width: 200px;">
-    ${story}
-    <div>
-      <p>
-        Switch State : <span id="switch-state">  </span>
-      </p>
-    </div>
-  </div>`,
-);
 
 const meta: Meta<SwitchComponent> = {
   title: "Composants/Switch/Switch",
@@ -31,10 +20,6 @@ const meta: Meta<SwitchComponent> = {
       control: "select",
       options: ["brand", "neutral"],
       defaultValue: "brand",
-    },
-    showLabel: {
-      control: "boolean",
-      defaultValue: true,
     },
     showIcon: {
       control: "boolean",
@@ -72,11 +57,9 @@ export default meta;
 type Story = StoryObj<SwitchComponent>;
 
 export const Default: Story = {
-  decorators: [switchStateWrapperDecorator],
   args: {
     label: "Switch",
     appearance: "brand",
-    showLabel: true,
     showIcon: true,
     disabled: false,
     readOnly: false,
@@ -108,12 +91,32 @@ export const Default: Story = {
   },
 };
 
+export const Appearances: Story = {
+  render: () => ({
+    template: `
+    <div style="display: flex; gap: 16px;">
+      <rte-switch label="Brand Switch" appearance="brand" />
+      <rte-switch label="Neutral Switch" appearance="neutral" />
+    </div>
+    `,
+  }),
+};
+
+export const IconVisibility: Story = {
+  render: () => ({
+    template: `
+    <div style="display: flex; gap: 16px;">
+      <rte-switch label="Avec label et icône" [showIcon]="true" />
+      <rte-switch label="Sans icône" [showIcon]="false" />
+    </div>
+    `,
+  }),
+};
+
 export const Disabled: Story = {
-  decorators: [switchStateWrapperDecorator],
   args: {
     label: "Switch",
     appearance: "brand",
-    showLabel: true,
     showIcon: true,
     disabled: true,
     readOnly: false,
@@ -121,11 +124,9 @@ export const Disabled: Story = {
 };
 
 export const ReadOnly: Story = {
-  decorators: [switchStateWrapperDecorator],
   args: {
     label: "Switch",
     appearance: "brand",
-    showLabel: true,
     showIcon: true,
     disabled: false,
     readOnly: true,

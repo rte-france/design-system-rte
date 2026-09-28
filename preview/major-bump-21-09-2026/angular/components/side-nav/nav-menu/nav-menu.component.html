@@ -51,7 +51,7 @@
       [attr.target]="externalLink() ? '_blank' : null"
       [attr.rel]="externalLink() ? 'noopener noreferrer' : null"
       [attr.tabindex]="tabIndex()"
-      [attr.aria-label]="label()"
+      [attr.aria-label]="hrefLinkAriaLabel()"
       [attr.aria-expanded]="ariaExpanded()"
       [attr.aria-controls]="ariaControls()"
       (click)="toggleMenu()"
@@ -78,6 +78,9 @@
             <rte-icon name="arrow-chevron-right" class="menu-icon" [ngClass]="{ 'menu-icon-open': open() }" />
           }
         </div>
+      }
+      @if (externalLink() && !isCollapsed()) {
+        <span class="sr-only">, {{ externalLinkHint }}</span>
       }
     </a>
   } @else if (effectiveRouterLink()) {

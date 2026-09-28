@@ -341,6 +341,7 @@ export const LinearProgression: Story = {
 };
 
 export const KeyboardNavigation: Story = {
+  tags: ["!autodocs"],
   args: {
     steps: allClickableSteps,
     orientation: "horizontal",
