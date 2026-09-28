@@ -32,6 +32,33 @@
     background: var(--background-disabled);
   }
 
+  &[data-critical='true'] {
+    color: var(--content-danger-default);
+
+    &:hover {
+      color: var(--content-primary-inverse);
+      background-color: var(--background-danger-hover);
+    }
+
+    &[data-active='true'] {
+      color: var(--content-primary-inverse);
+      background-color: var(--background-danger-pressed);
+    }
+
+    &:focus-visible {
+      color: var(--content-primary-inverse);
+      background-color: var(--background-danger-hover);
+    }
+
+    &[data-disabled='true'] {
+      cursor: not-allowed;
+      color: var(--content-disabled);
+      background: var(--background-disabled);
+    }
+  }
+
+
+
   &:focus-visible {
     outline: none;
     background-color: var(--background-hover);
