@@ -1,0 +1,53 @@
+<div class="rte-file-upload-file-container">
+  <div class="rte-file-upload-file">
+    <div class="rte-file-upload-file-icon" aria-live="polite" aria-atomic="true">
+      @if (isLoading()) {
+        <span class="sr-only">{{ fileUploadItemAriaLabels.LOADING }}</span>
+        <rte-loader size="small" aria-hidden="true" />
+      } @else {
+        @if (isError()) {
+          <span class="sr-only">{{ fileUploadItemAriaLabels.ERROR }}</span>
+          <rte-icon name="error" color="var(--content-danger-default)" aria-hidden="true" [size]="20" />
+        } @else {
+          <span class="sr-only">{{ fileUploadItemAriaLabels.SUCCESS }}</span>
+          <rte-icon name="check-circle" color="var(--content-success-default)" aria-hidden="true" [size]="20" />
+        }
+      }
+    </div>
+
+    <div #fileInfoRef class="rte-file-upload-file-info">
+      @if (hasEllipsis()) {
+        <span
+          #fileNameRef
+          class="rte-file-upload-file-name"
+          [attr.data-is-compact]="compact()"
+          [rteTooltip]="file().name"
+          [rteTooltipArrow]="true"
+        >
+          {{ truncatedFileName() }}
+        </span>
+      } @else {
+        <span #fileNameRef class="rte-file-upload-file-name" [attr.data-is-compact]="compact()">
+          {{ file().name }}
+        </span>
+      }
+
+      <span #fileSizeRef class="rte-file-upload-file-size" [attr.data-is-compact]="compact()">
+        {{ formatFileSize(file().size) }}
+      </span>
+    </div>
+
+    <rte-icon-button
+      ariaLabel="Supprimer le fichier sélectionné : {{ file().name }}"
+      name="close"
+      variant="neutral"
+      size="m"
+      [ariaDescribedBy]="errorMessage() ? errorMessageId : undefined"
+      (clickEvent)="onRemove()"
+    />
+  </div>
+
+  @if (errorMessage()) {
+    <rte-assistive-text appearance="error" [attr.id]="errorMessageId" [label]="errorMessage()" />
+  }
+</div>

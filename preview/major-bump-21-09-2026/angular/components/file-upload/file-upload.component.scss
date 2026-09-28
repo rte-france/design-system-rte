@@ -1,0 +1,48 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+.rte-file-upload-header {
+  display: flex;
+  align-items: flex-start;
+  padding: $positive-spacing_025 $positive-spacing_100;
+
+  &[data-show-label-requirement='true'] {
+    align-items: center;
+  }
+}
+
+.rte-file-upload-label {
+  @include typography-text-m;
+  display: flex;
+  color: var(--content-secondary);
+  max-width: 300px;
+  align-items: center;
+  white-space: normal;
+  overflow-wrap: normal;
+  word-break: normal;
+
+  .requirement-indicator {
+    &.required {
+      color: var(--content-danger-default);
+    }
+
+    &.show-label-requirement {
+      color: var(--content-tertiary);
+    }
+  }
+}
+
+.rte-file-upload-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.rte-file-upload-button-compact {
+  padding: $positive-spacing_025 $positive-spacing_100;
+}

@@ -1,0 +1,64 @@
+<div #fileUploadRef class="rte-file-upload">
+  <input
+    #inputRef
+    type="file"
+    class="rte-file-upload-input"
+    [attr.id]="internalId()"
+    [multiple]="multiple()"
+    [disabled]="disabled()"
+    [attr.accept]="accept() || null"
+    [attr.aria-labelledby]="showLabel() ? internalId() + '-label' : internalId() + '-button'"
+    [attr.aria-describedby]="shouldDisplayAssistiveText() ? internalId() + '-assistive-text' : null"
+    (change)="handleOnChange($event)"
+  />
+  @if (showLabel()) {
+    <div class="rte-file-upload-header" [attr.data-show-label-requirement]="showLabelRequirement()">
+      <label class="rte-file-upload-label" [attr.id]="internalId() + '-label'" [attr.for]="internalId()">
+        <span>{{ label() }}</span>
+      </label>
+      <rte-required-indicator
+        *ngIf="required() || showLabelRequirement()"
+        [required]="required()"
+        [showLabelRequirement]="showLabelRequirement()"
+      />
+    </div>
+  }
+
+  @if (shouldDisplayAssistiveText()) {
+    <rte-assistive-text
+      [label]="assistiveTextLabel()"
+      [appearance]="isError() ? 'error' : assistiveAppearance()"
+      [showIcon]="showAssistiveIcon()"
+      [href]="assistiveTextLink()"
+      [id]="internalId() + '-assistive-text'"
+    />
+  }
+  <button
+    #buttonRef
+    type="button"
+    rteButton
+    rteButtonVariant="primary"
+    rteButtonIcon="upload"
+    rteButtonIconPosition="left"
+    [rteButtonSize]="buttonSize()"
+    [disabled]="disabled()"
+    [class.rte-file-upload-button-compact]="compactSpacing()"
+    [attr.id]="internalId() + '-button'"
+    (click)="handleOnClick($event)"
+  >
+    {{ buttonLabel() }}
+  </button>
+
+  <div [style.width]="buttonWidth()">
+    @for (file of selectedFiles(); track file.name + file.lastModified; let i = $index) {
+      <rte-file-item
+        [file]="file"
+        [isError]="isFileError(i)"
+        [errorMessage]="getFileErrorMessage(i)"
+        [compact]="compactSpacing()"
+        [isLoading]="isFileLoading(file)"
+        (removeFile)="handleRemoveFile(file)"
+      />
+    }
+  </div>
+</div>
