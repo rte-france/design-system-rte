@@ -1,0 +1,311 @@
+@use '@design-system-rte/core/design-tokens/main.scss' as *;
+
+$row-gap: $positive-spacing_050;
+$icon-size: $positive-spacing_200;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  min-height: 32px;
+
+  &.root-depth:not(.has-children) .treeview-item-borders-container {
+    padding-left: var(--treeview-root-indent, 0);
+  }
+
+  &.compact {
+    min-height: 24px;
+
+    .treeview-item-row {
+      min-height: 24px;
+    }
+
+    .treeview-item-main-content {
+      height: 20px;
+      padding: $positive-spacing_025 $positive-spacing_050;
+    }
+
+    .treeview-item-chevron {
+      background: transparent;
+
+      &:hover {
+        background: transparent;
+      }
+
+      &:focus-visible {
+        outline: 1px solid var(--border-brand-focused);
+        outline-offset: 0;
+      }
+    }
+  }
+
+  &.disabled {
+    .treeview-item-row {
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    .treeview-item-main-content {
+      background: var(--background-disabled);
+    }
+
+    .treeview-item-content,
+    .treeview-item-icon {
+      color: var(--content-disabled);
+    }
+  }
+
+  &.selected>.treeview-item-row {
+    .treeview-item-main-content {
+      background: var(--background-brand-default);
+      color: var(--content-primary-inverse);
+    }
+
+    .treeview-item-content,
+    .treeview-item-icon {
+      color: var(--content-primary-inverse);
+    }
+
+    &:hover .treeview-item-main-content {
+      background: var(--background-brand-hover);
+    }
+  }
+
+  &.is-expanded:not(.compact)>.treeview-item-row .treeview-item-chevron::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: $width-xs;
+    height: calc(#{$positive-spacing_200} / 2);
+    background: var(--border-tertiary);
+    transform: translateX(-50%) translateY(100%);
+  }
+}
+
+.treeview-item-row {
+  display: flex;
+  align-items: center;
+  gap: $row-gap;
+  min-height: 32px;
+  border-radius: $radius-s;
+  cursor: pointer;
+  box-sizing: border-box;
+  flex: 1;
+  min-width: 0;
+
+  .treeview-item-main-content:hover {
+    background: var(--background-hover);
+  }
+}
+
+.treeview-item-borders-container {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.treeview-item-content-wrapper {
+  display: flex;
+  align-items: center;
+  gap: $row-gap;
+  flex: 1;
+  min-width: 0;
+}
+
+.treeview-item-main-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: $row-gap;
+  min-width: 0;
+  padding: $row-gap;
+  border-radius: $radius-s;
+  transition: background-color 120ms;
+  box-sizing: border-box;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+
+  &:focus-within:not(:has(.treeview-item-action-button:focus)) {
+    box-shadow: 0 0 0 1px var(--border-brand-focused);
+    border-radius: $radius-s;
+  }
+}
+
+.treeview-item-checkbox {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: $icon-size;
+  visibility: hidden;
+  cursor: pointer;
+  border-radius: $radius-xs;
+
+
+  :host-context(.has-checked-items) &,
+  .treeview-item-row:hover &,
+  .treeview-item-row:focus-within & {
+    visibility: visible;
+  }
+
+  &:focus-visible {
+    outline: 1px solid var(--border-brand-focused);
+    outline-offset: 0;
+  }
+
+  ::ng-deep {
+    .rte-checkbox {
+      margin: 0;
+    }
+
+    .rte-checkbox-container,
+    .rte-checkbox-container * {
+      pointer-events: none;
+    }
+
+    .rte-checkbox-container {
+      padding: 0 $row-gap;
+      gap: 0;
+    }
+  }
+}
+
+.treeview-item-checkbox-spacer {
+  flex-shrink: 0;
+  width: $positive-spacing_250;
+  min-width: $positive-spacing_250;
+}
+
+.treeview-item-chevron {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: $icon-size;
+  min-width: $icon-size;
+  height: $icon-size;
+  padding: 0;
+  background: var(--background-neutral-regular-default);
+  border: none;
+  border-radius: $radius-xs;
+  cursor: pointer;
+  position: relative;
+  color: var(--content-secondary);
+
+
+  &:hover {
+    background: var(--background-neutral-navigation-hover);
+  }
+
+  &:focus-visible {
+    outline: 1px solid var(--border-brand-focused);
+    outline-offset: 0;
+  }
+}
+
+.treeview-item-chevron-spacer {
+  flex-shrink: 0;
+  width: $icon-size;
+  min-width: $icon-size;
+}
+
+.treeview-item-action {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.treeview-item-action-button {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: $icon-size;
+  height: $icon-size;
+  background: transparent;
+  border: none;
+  border-radius: $radius-xs;
+  cursor: pointer;
+  color: inherit;
+  padding: 0;
+
+  &:hover {
+    background: transparent;
+  }
+
+  &:focus-visible {
+    outline: 1px solid var(--border-brand-focused);
+    outline-offset: 0;
+  }
+
+  :host(.selected) & {
+    &:focus-visible {
+      outline-color: var(--border-inverse);
+    }
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+.treeview-item-icon {
+  flex-shrink: 0;
+  color: var(--content-secondary);
+}
+
+.treeview-item-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: $row-gap;
+  min-width: 0;
+  @include typography-button-s;
+  color: var(--content-secondary);
+
+  &:focus,
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+.treeview-item-label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: inherit;
+}
+
+.treeview-item-badge {
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.treeview-item-children {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 140ms ease-out;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+
+  &.treeview-item-children-open {
+    max-height: 2000px;
+    overflow: visible;
+  }
+}
