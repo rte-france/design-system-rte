@@ -121,11 +121,6 @@ export const Default: Story = {
       
     `,
   }),
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    const button = canvas.getByTestId("Main action button");
-    await userEvent.click(button);
-  },
 };
 
 export const Appearance: Story = {
@@ -316,6 +311,7 @@ export const Position: Story = {
 };
 
 export const WithBadge: Story = {
+  tags: ["!autodocs"],
   args: {
     label: "Button Label",
     ariaLabelRight: "Open menu",
@@ -380,6 +376,7 @@ export const WithBadge: Story = {
   },
 };
 export const KeyboardInteraction: Story = {
+  tags: ["!autodocs"],
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const button = canvas.getByTestId("Menu button");

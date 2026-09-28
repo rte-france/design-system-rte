@@ -355,6 +355,9 @@ export class TimePickerComponent implements ControlValueAccessor {
 
   private handleFunctionKey(key: string): void {
     if ([BACKSPACE_KEY, DELETE_KEY].includes(key)) {
+      if (this.isCurrentSegmentReadOnly()) {
+        return;
+      }
       this.handleDeleteSegmentValue();
     } else if (key === ARROW_LEFT_KEY) {
       this.moveToPreviousSegment();
@@ -373,7 +376,7 @@ export class TimePickerComponent implements ControlValueAccessor {
       this.updateTimeSegment(activeSegment, "");
     } else {
       const previous = getPrevSegment(activeSegment);
-      if (previous !== activeSegment) {
+      if (previous !== activeSegment && !this.isSegmentReadOnly(previous)) {
         this.updateTimeSegment(previous, "");
         this.moveToPreviousSegment();
       }
@@ -407,10 +410,14 @@ export class TimePickerComponent implements ControlValueAccessor {
 
   private isCurrentSegmentReadOnly(): boolean {
     const activeSegment = this.activeTimeSegment();
-    if (activeSegment === TimeSegmentEnum.HOURS) {
+    return this.isSegmentReadOnly(activeSegment);
+  }
+
+  private isSegmentReadOnly(segment: TimeSegmentEnum): boolean {
+    if (segment === TimeSegmentEnum.HOURS) {
       return this.isHourReadOnly();
     }
-    if (activeSegment === TimeSegmentEnum.MINUTES) {
+    if (segment === TimeSegmentEnum.MINUTES) {
       return this.isMinuteReadOnly();
     }
     return this.isSecondReadOnly();

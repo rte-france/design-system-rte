@@ -1,15 +1,15 @@
-<div class="rte-file-upload-file-container">
+<div class="rte-file-upload-file-container" [attr.data-is-removing]="isRemoving()">
   <div class="rte-file-upload-file">
     <div class="rte-file-upload-file-icon" aria-live="polite" aria-atomic="true">
       @if (isLoading()) {
-        <span class="sr-only">{{ fileUploadItemAriaLabels.LOADING }}</span>
+        <span class="sr-only">{{ fileUploadItemAriaLabels.LOADING }} : {{ file().name }}</span>
         <rte-loader size="small" aria-hidden="true" />
       } @else {
         @if (isError()) {
-          <span class="sr-only">{{ fileUploadItemAriaLabels.ERROR }}</span>
+          <span class="sr-only">{{ fileUploadItemAriaLabels.ERROR }} : {{ file().name }}</span>
           <rte-icon name="error" color="var(--content-danger-default)" aria-hidden="true" [size]="20" />
         } @else {
-          <span class="sr-only">{{ fileUploadItemAriaLabels.SUCCESS }}</span>
+          <span class="sr-only">{{ fileUploadItemAriaLabels.SUCCESS }} : {{ file().name }}</span>
           <rte-icon name="check-circle" color="var(--content-success-default)" aria-hidden="true" [size]="20" />
         }
       }
@@ -48,6 +48,12 @@
   </div>
 
   @if (errorMessage()) {
-    <rte-assistive-text appearance="error" [attr.id]="errorMessageId" [label]="errorMessage()" />
+    <rte-assistive-text
+      appearance="error"
+      role="alert"
+      aria-live="assertive"
+      [attr.id]="errorMessageId"
+      [label]="errorMessage()"
+    />
   }
 </div>

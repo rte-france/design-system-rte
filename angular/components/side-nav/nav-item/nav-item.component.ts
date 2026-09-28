@@ -2,6 +2,7 @@ import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, input, output, signal } from "@angular/core";
 import { RouterLink } from "@angular/router";
 import { BadgeProps } from "@design-system-rte/core/components/badge/badge.interface";
+import { appendExternalLinkHint, EXTERNAL_LINK_HINT } from "@design-system-rte/core/components/link";
 import {
   getCollapsedSideNavBadgeType,
   getNavItemLabelIconSize,
@@ -77,6 +78,18 @@ export class NavItemComponent {
   readonly collapsedBadgeType = computed(() => {
     return getCollapsedSideNavBadgeType(this.badge()!);
   });
+
+  readonly externalLinkHint = EXTERNAL_LINK_HINT;
+
+  hrefLinkAriaLabel(): string | null {
+    if (!this.isCollapsed()) {
+      return null;
+    }
+    if (this.externalLink()) {
+      return appendExternalLinkHint(this.label());
+    }
+    return this.label();
+  }
 
   handleClick(event: Event): void {
     if (!this.isNavigable()) {

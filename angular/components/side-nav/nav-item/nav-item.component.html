@@ -15,9 +15,12 @@
       [href]="resolvedHref()!"
       [attr.target]="externalLink() ? '_blank' : null"
       [attr.rel]="externalLink() ? 'noopener noreferrer' : null"
-      [attr.aria-label]="label()"
+      [attr.aria-label]="hrefLinkAriaLabel()"
     >
       <ng-container [ngTemplateOutlet]="contentTemplate" />
+      @if (externalLink() && !isCollapsed()) {
+        <span class="sr-only">, {{ externalLinkHint }}</span>
+      }
     </a>
   } @else if (effectiveRouterLink()) {
     <a
@@ -70,8 +73,12 @@
       [href]="resolvedHref()!"
       [attr.target]="externalLink() ? '_blank' : null"
       [attr.rel]="externalLink() ? 'noopener noreferrer' : null"
+      [attr.aria-label]="hrefLinkAriaLabel()"
     >
       <ng-container [ngTemplateOutlet]="contentTemplate" />
+      @if (externalLink() && !isCollapsed()) {
+        <span class="sr-only">, {{ externalLinkHint }}</span>
+      }
     </a>
   } @else if (effectiveRouterLink()) {
     <a

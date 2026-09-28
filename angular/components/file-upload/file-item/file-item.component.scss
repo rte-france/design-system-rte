@@ -5,6 +5,12 @@
   flex-direction: column;
   padding: $positive-spacing_050;
   width: 100%;
+  animation: rte-file-upload-file-appear 150ms ease-out both;
+
+  &[data-is-removing='true'] {
+    animation: rte-file-upload-file-remove var(--rte-file-upload-removal-duration, 120ms) ease-in both;
+    pointer-events: none;
+  }
 }
 
 .rte-file-upload-file {
@@ -21,6 +27,7 @@
   display: flex;
   flex: 0 0 auto;
   align-items: center;
+  animation: rte-file-upload-loader-appear var(--rte-file-upload-appearance-duration, 150ms) ease-out both;
 }
 
 .rte-file-upload-file-info {
@@ -70,4 +77,43 @@
 .sr-only:focus-visible {
   outline: none;
   border: 0;
+}
+
+@keyframes rte-file-upload-file-appear {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes rte-file-upload-loader-appear {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes rte-file-upload-file-remove {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .rte-file-upload-file-container,
+  .rte-file-upload-file-icon {
+    animation: none;
+    transition: none;
+  }
 }

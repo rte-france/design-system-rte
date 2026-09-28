@@ -10,9 +10,9 @@ The component does not validate file type, size, or count. Consumers must valida
 
 Assistive text is not shown while `errorFilesMap` contains any entry, even when `assistiveTextLabel` is set. Use per-file error messages in `errorFilesMap` or clear the map to show field-level assistive text again.
 
-### Selection replaces the current list
+### Multiple selection appends to the current list
 
-Each file picker interaction replaces the full selected file list. The component does not append newly picked files to an existing selection.
+When `multiple` is `true`, each file picker interaction appends newly picked files to the current list. When `multiple` is `false`, the current selection is replaced.
 
 ### Long file names
 

@@ -41,6 +41,7 @@ export class FileItemComponent implements AfterViewInit {
   readonly errorMessage = input<string>();
   readonly compact = input<boolean>(false);
   readonly isLoading = input<boolean>(false);
+  readonly isRemoving = input<boolean>(false);
 
   readonly removeFile = output<void>();
 
