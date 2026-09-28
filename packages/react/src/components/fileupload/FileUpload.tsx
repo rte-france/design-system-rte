@@ -177,20 +177,26 @@ const FileUpload = ({
         />
       )}
 
-      <Button
-        id={`${localId}-button`}
-        disabled={disabled}
-        variant="primary"
-        label={buttonLabel}
-        onClick={handleOnClick}
-        icon="upload"
-        iconPosition="left"
-        ref={buttonRef}
-        size={compactSpacing ? "s" : "m"}
-        className={compactSpacing ? styles["rte-file-upload-button-compact"] : undefined}
-      />
+      <div className={styles["rte-file-upload-button-slot"]}>
+        <Button
+          id={`${localId}-button`}
+          disabled={disabled}
+          variant="primary"
+          label={buttonLabel}
+          onClick={handleOnClick}
+          icon="upload"
+          iconPosition="left"
+          ref={buttonRef}
+          size={compactSpacing ? "s" : "m"}
+          className={
+            compactSpacing
+              ? `${styles["rte-file-upload-button"]} ${styles["rte-file-upload-button-compact"]}`
+              : styles["rte-file-upload-button"]
+          }
+        />
+      </div>
 
-      <div style={{ width: buttonRef.current?.offsetWidth ?? undefined }}>
+      <div className={styles["rte-file-upload-files"]}>
         {selectedFiles?.map((file, index) => (
           <FileItem
             key={file.lastModified + index}
