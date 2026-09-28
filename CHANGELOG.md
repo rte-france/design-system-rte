@@ -2,7 +2,7 @@
 
 # Angular
 
-## 3.6.0
+## 4.0.0
 
 ### Loader
 
@@ -269,7 +269,7 @@
 - @design-system-rte/core@1.17.0
 # React
 
-## 1.19.0
+## 2.0.0
 
 ### Loader
 
