@@ -1,6 +1,6 @@
 # @design-system-rte/react
 
-## 1.19.0
+## 2.0.0
 
 ### Minor Changes
 
