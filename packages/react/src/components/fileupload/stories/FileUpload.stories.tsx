@@ -1,7 +1,36 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { useRef, useState } from "react";
+import { type ComponentProps, useEffect, useRef, useState } from "react";
 
 import FileUpload from "../FileUpload";
+
+const fileUploadStoryOutlineStyle = {
+  display: "inline-block",
+  overflow: "visible",
+  outline: "1px dashed #9747FF",
+} as const;
+
+function FileUploadMinWidthDebugStory(props: ComponentProps<typeof FileUpload>) {
+  useEffect(() => {
+    const input = document.getElementById(props.id) as HTMLInputElement | null;
+    if (!input || input.files?.length) {
+      return;
+    }
+
+    const file = new File([new ArrayBuffer(3 * 1024 * 1024)], "NomDeFichierLongExample.pdf", {
+      type: "application/pdf",
+    });
+    const dataTransfer = new DataTransfer();
+    dataTransfer.items.add(file);
+    input.files = dataTransfer.files;
+    input.dispatchEvent(new Event("change", { bubbles: true }));
+  }, [props.id]);
+
+  return (
+    <div style={fileUploadStoryOutlineStyle}>
+      <FileUpload {...props} onChange={() => undefined} />
+    </div>
+  );
+}
 
 const meta = {
   title: "Composants/FileUpload",
@@ -199,6 +228,40 @@ export const MaxSizeExceeded: Story = {
       />
     );
   },
+};
+
+export const MinWidth: Story = {
+  args: {
+    id: "file-upload-min-width",
+    label: "Label",
+    buttonLabel: "Sélectionner un fichier",
+    showLabel: true,
+    showAssistiveText: false,
+    required: false,
+    compactSpacing: false,
+    multiple: false,
+    disabled: false,
+  },
+  render: (args) => <FileUploadMinWidthDebugStory {...args} />,
+};
+
+export const ContentWidth: Story = {
+  args: {
+    id: "file-upload-content-width",
+    label: "Label Label Label Label Label Label Label Label Label Label",
+    buttonLabel: "Sélectionner un fichier",
+    showLabel: true,
+    showAssistiveText: false,
+    required: false,
+    compactSpacing: false,
+    multiple: false,
+    disabled: false,
+  },
+  render: (args) => (
+    <div style={fileUploadStoryOutlineStyle}>
+      <FileUpload {...args} onChange={() => undefined} />
+    </div>
+  ),
 };
 
 export const Async: Story = {

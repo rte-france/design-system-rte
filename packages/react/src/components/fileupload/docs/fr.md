@@ -202,6 +202,20 @@ return (
 Exécute un téléversement asynchrone par fichier sélectionné et affiche un indicateur de chargement sur chaque élément jusqu'à la résolution de la promesse.
 En cas de rejet du téléversement, le fichier affiche le message d'erreur par défaut.
 
+#### Largeur minimale
+
+```tsx
+<FileUpload
+  id="file-upload-min-width"
+  label="Label"
+  buttonLabel="Sélectionner un fichier"
+  showAssistiveText={false}
+  onChange={() => undefined}
+/>
+```
+
+Utilise la largeur par défaut de 128px. Le bouton de téléversement peut dépasser cette largeur ; les fichiers sélectionnés se tronquent à l'intérieur du champ.
+
 ## Limitations
 
 ### Pas de validation intégrée
@@ -220,6 +234,18 @@ Le texte d'aide n'est pas affiché tant que `errorFilesMap` contient au moins un
 
 Lorsque `multiple` vaut `true`, chaque interaction avec le sélecteur ajoute les nouveaux fichiers à la liste courante. Lorsque `multiple` vaut `false`, la sélection courante est remplacée.
 
+### Largeur par défaut et surcharge consommateur
+
+La racine utilise une largeur par défaut et une `min-width` de 128px. Les consommateurs définissent la largeur du champ sur `FileUpload` (classe de mise en page ou `style={{ width: 320 }}`, par exemple) lorsqu'ils ont besoin de plus d'espace horizontal. Le composant n'applique pas de `max-width`.
+
+### Bouton de téléversement plus large que le champ
+
+Le bouton de téléversement s'adapte à son libellé et à son icône (`max-content`). Lorsque le bouton est plus large que le composant, il déborde de la racine tandis que les lignes de fichiers restent dans la largeur du composant. Le débordement de la racine reste visible pour ne pas rogner le bouton.
+
+### Largeur de la liste de fichiers
+
+Les lignes de fichiers sélectionnés occupent toute la largeur de la racine du composant (`width: 100%` sur le conteneur de liste). Elles ne suivent pas la largeur du bouton de téléversement lorsque celui-ci est plus large que le champ.
+
 ### Noms de fichiers longs
 
-Les noms de fichiers dans la liste sont tronqués lorsque l'espace est limité. Un tooltip affiche le nom complet en cas de troncature. La largeur de la liste de fichiers suit celle du bouton de téléversement.
+Les noms de fichiers sont tronqués lorsque l'espace horizontal est limité. La taille du fichier et le contrôle de suppression conservent leur place ; seul le nom est flexible et tronqué. Un tooltip affiche le nom complet en cas de troncature.

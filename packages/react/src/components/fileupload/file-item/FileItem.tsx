@@ -11,76 +11,26 @@ import Tooltip from "../../tooltip/Tooltip";
 
 import styles from "./FileItem.module.scss";
 
+const tooltipTriggerStyles = {
+  display: "block",
+  maxWidth: "100%",
+  minWidth: 0,
+  overflow: "hidden",
+  width: "100%",
+};
+
 const FileItem = ({ file, removeFile, isError, errorMessage, compact, isLoading, isRemoving }: FileItemProps) => {
   const fileNameRef = useRef<HTMLSpanElement>(null);
-  const closeButtonRef = useRef<HTMLButtonElement>(null);
-  const iconRef = useRef<HTMLDivElement>(null);
+  const fileNameSlotRef = useRef<HTMLDivElement>(null);
+  const fileRowRef = useRef<HTMLDivElement>(null);
   const fileSizeRef = useRef<HTMLSpanElement>(null);
-  const fileInfoRef = useRef<HTMLDivElement>(null);
   const errorMessageId = useRef(generateId()).current;
 
   const [truncatedFileName, setTruncatedFileName] = useState(file.name);
 
   const [hasEllipsis, setHasEllipsis] = useState(false);
 
-  const truncateFileName = useCallback((fileName: string): string => {
-    const availableWidth = getAvailableWidth();
-    const ellipsis = "...";
-    const { baseName, fileType } = extractFileNameParts(fileName);
-    const defaultTruncatedName = `${ellipsis}${fileType}`;
-
-    if (availableWidth <= 0) {
-      return defaultTruncatedName;
-    } else {
-      const fileNameElement = fileNameRef.current;
-      if (!fileNameElement) {
-        return fileName;
-      } else {
-        const textWidth = getTextWidth(fileNameElement);
-
-        if (textWidth(fileName) <= availableWidth) return fileName;
-
-        const availableFileNameSpace = availableWidth - textWidth(ellipsis) - textWidth(fileType);
-
-        if (availableFileNameSpace <= 0) return defaultTruncatedName;
-
-        let lowerIndex = 0;
-        let higherIndex = baseName.length;
-        while (lowerIndex < higherIndex) {
-          const midIndex = Math.ceil((lowerIndex + higherIndex) / 2);
-          const { startStr, endStr } = computeStartAndEndStr(midIndex, baseName);
-          if (textWidth(startStr) + textWidth(endStr) <= availableFileNameSpace) {
-            lowerIndex = midIndex;
-          } else {
-            higherIndex = midIndex - 1;
-          }
-        }
-
-        if (lowerIndex === 0) return defaultTruncatedName;
-
-        const prefixLength = Math.ceil(lowerIndex / 2);
-        const suffixLength = Math.floor(lowerIndex / 2);
-        const startStr = prefixLength > 0 ? baseName.substring(0, prefixLength) : "";
-        const endStr = suffixLength > 0 ? baseName.substring(baseName.length - suffixLength) : "";
-
-        return `${startStr}${ellipsis}${endStr}${fileType}`;
-      }
-    }
-  }, []);
-
-  const getAvailableWidth = () => {
-    const fileNameElement = fileNameRef.current;
-    const sizeElement = fileSizeRef.current;
-    const fileInformationElement = fileInfoRef.current;
-
-    if (!fileNameElement || !sizeElement || !fileInformationElement) {
-      return 0;
-    } else {
-      const gap = parseFloat(window.getComputedStyle(fileInformationElement).gap) || 0;
-      const availableWidth = fileInformationElement.offsetWidth - sizeElement.offsetWidth - gap;
-      return availableWidth;
-    }
-  };
+  const getAvailableWidth = () => fileNameSlotRef.current?.clientWidth ?? 0;
 
   const computeStartAndEndStr = (mid: number, baseName: string) => {
     const startIndex = Math.ceil(mid / 2);
@@ -91,17 +41,75 @@ const FileItem = ({ file, removeFile, isError, errorMessage, compact, isLoading,
     return { startStr, endStr };
   };
 
-  useEffect(() => {
+  const truncateFileName = useCallback((fileName: string): string => {
+    const availableWidth = getAvailableWidth();
+    const ellipsis = "...";
+    const { baseName, fileType } = extractFileNameParts(fileName);
+    const defaultTruncatedName = `${ellipsis}${fileType}`;
+
+    if (availableWidth <= 0) {
+      return defaultTruncatedName;
+    }
+
+    const fileNameElement = fileNameRef.current;
+    if (!fileNameElement) {
+      return fileName;
+    }
+
+    const textWidth = getTextWidth(fileNameElement);
+
+    if (textWidth(fileName) <= availableWidth) return fileName;
+
+    const availableFileNameSpace = availableWidth - textWidth(ellipsis) - textWidth(fileType);
+
+    if (availableFileNameSpace <= 0) return defaultTruncatedName;
+
+    let lowerIndex = 0;
+    let higherIndex = baseName.length;
+    while (lowerIndex < higherIndex) {
+      const midIndex = Math.ceil((lowerIndex + higherIndex) / 2);
+      const { startStr, endStr } = computeStartAndEndStr(midIndex, baseName);
+      if (textWidth(startStr) + textWidth(endStr) <= availableFileNameSpace) {
+        lowerIndex = midIndex;
+      } else {
+        higherIndex = midIndex - 1;
+      }
+    }
+
+    if (lowerIndex === 0) return defaultTruncatedName;
+
+    const prefixLength = Math.ceil(lowerIndex / 2);
+    const suffixLength = Math.floor(lowerIndex / 2);
+    const startStr = prefixLength > 0 ? baseName.substring(0, prefixLength) : "";
+    const endStr = suffixLength > 0 ? baseName.substring(baseName.length - suffixLength) : "";
+
+    return `${startStr}${ellipsis}${endStr}${fileType}`;
+  }, []);
+
+  const updateTruncation = useCallback(() => {
     const truncated = truncateFileName(file.name);
     setHasEllipsis(truncated !== file.name);
     setTruncatedFileName(truncated);
-  }, [file, truncateFileName]);
+  }, [file.name, truncateFileName]);
+
+  useEffect(() => {
+    updateTruncation();
+
+    const row = fileRowRef.current;
+    if (!row) {
+      return;
+    }
+
+    const observer = new ResizeObserver(() => updateTruncation());
+    observer.observe(row);
+    return () => observer.disconnect();
+  }, [updateTruncation]);
 
   return (
     <>
       <div className={styles["rte-file-upload-file-container"]} data-is-removing={isRemoving}>
-        <div className={styles["rte-file-upload-file"]}>
-          <div className={styles["rte-file-upload-file-icon"]} ref={iconRef} aria-live="polite" aria-atomic="true">
+        <div ref={fileRowRef} className={styles["rte-file-upload-file"]}>
+          <div className={styles["rte-file-upload-file-icon"]} aria-live="polite" aria-atomic="true">
             {isLoading ? (
               <>
                 <span className={styles["sr-only"]}>
@@ -129,16 +137,14 @@ const FileItem = ({ file, removeFile, isError, errorMessage, compact, isLoading,
               </>
             )}
           </div>
-          <div ref={fileInfoRef} className={styles["rte-file-upload-file-info"]}>
+          <div ref={fileNameSlotRef} className={styles["rte-file-upload-file-name-slot"]}>
             {hasEllipsis ? (
               <Tooltip
                 label={file.name}
                 alignment="center"
                 arrow={true}
                 shouldFocusTrigger={false}
-                triggerStyles={{
-                  maxWidth: `220px`,
-                }}
+                triggerStyles={tooltipTriggerStyles}
               >
                 <span ref={fileNameRef} className={styles["rte-file-upload-file-name"]} data-is-compact={compact}>
                   {truncatedFileName}
@@ -149,12 +155,11 @@ const FileItem = ({ file, removeFile, isError, errorMessage, compact, isLoading,
                 {file.name}
               </span>
             )}
-            <span ref={fileSizeRef} className={styles["rte-file-upload-file-size"]} data-is-compact={compact}>
-              {formatFileSize(file.size)}
-            </span>
           </div>
+          <span ref={fileSizeRef} className={styles["rte-file-upload-file-size"]} data-is-compact={compact}>
+            {formatFileSize(file.size)}
+          </span>
           <IconButton
-            ref={closeButtonRef}
             name="close"
             variant="neutral"
             onClick={removeFile}

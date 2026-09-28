@@ -162,3 +162,17 @@ return (
 
 Runs an async upload per selected file and shows a loading indicator on each file item until the promise settles.
 When an upload rejects, the file displays the default upload error message.
+
+#### Min width
+
+```tsx
+<FileUpload
+  id="file-upload-min-width"
+  label="Label"
+  buttonLabel="Sélectionner un fichier"
+  showAssistiveText={false}
+  onChange={() => undefined}
+/>
+```
+
+Uses the default 128px field width. The upload button can extend past that width; selected files truncate inside the field.
