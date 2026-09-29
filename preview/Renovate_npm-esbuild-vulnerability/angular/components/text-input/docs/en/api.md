@@ -18,6 +18,7 @@ The `TextInputComponent` (`<rte-text-input>`) is the public API. Bind its inputs
 | showAssistiveIcon | boolean | `false` | Shows an icon alongside assistive text (error and success only). |
 | assistiveTextLabel | string | `""` | Assistive text displayed below the input. |
 | error | boolean | `false` | Applies error styling to the input. |
+| errorMessage | string | `""` | Error message displayed as assistive text when `error` is `true`. It takes precedence over `assistiveTextLabel`. |
 | disabled | boolean | `false` | Disables the input. Also set automatically when the bound `FormControl` is disabled. |
 | readOnly | boolean | `false` | Makes the input read-only. |
 | width | string | `"300px"` | Container width (px, %, em, or rem). Numeric values are treated as pixels. |

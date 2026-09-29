@@ -39,6 +39,7 @@ Le composant `FileUploadComponent` (`rte-file-upload`) constitue l'API publique.
 | isError | boolean | `false` | Bascule le texte d'aide en apparence erreur. |
 | errorFilesMap | string[] | `[]` | Messages d'erreur par fichier, alignés par index avec les fichiers sélectionnés. |
 | onUploadFile | `(file: File) => Promise<void>` | — | Gestionnaire de téléversement asynchrone optionnel. Affiche un état de chargement sur chaque fichier tant que la promesse est en cours. |
+| uploadErrorMessage | string \| `(file: File, error: unknown) => string` | "Erreur lors du téléchargement du fichier." | Message affiché lorsqu'un téléversement asynchrone est rejeté. Une fonction peut retourner un message différent selon le fichier et l'erreur. |
 | filesChange | output | — | Émet la liste courante des fichiers sélectionnés lorsque la sélection change ou qu'un fichier est retiré. |
 | fileRemoved | output | — | Émet le fichier retiré de la liste. |
 
@@ -105,6 +106,7 @@ Désactive l'input fichier masqué et le bouton de téléversement.
 ```
 
 Autorise la sélection de plusieurs fichiers dans le sélecteur natif.
+Une nouvelle sélection ajoute les fichiers à la liste courante.
 
 #### With Error
 
@@ -190,6 +192,7 @@ export class AsyncUploadComponent {
 ```
 
 Exécute un téléversement asynchrone par fichier sélectionné et affiche un indicateur de chargement sur chaque élément jusqu'à la résolution de la promesse.
+En cas de rejet du téléversement, le fichier affiche le message d'erreur par défaut.
 
 ## Limitations
 
@@ -205,9 +208,9 @@ Les entrées de `errorFilesMap` sont associées aux fichiers sélectionnés par 
 
 Le texte d'aide n'est pas affiché tant que `errorFilesMap` contient au moins une entrée, même si `assistiveTextLabel` est défini. Utilisez les messages d'erreur par fichier dans `errorFilesMap` ou videz la carte pour réafficher le texte d'aide au niveau du champ.
 
-### La sélection remplace la liste courante
+### La sélection multiple ajoute à la liste courante
 
-Chaque interaction avec le sélecteur de fichiers remplace la liste complète des fichiers sélectionnés. Le composant n'ajoute pas les nouveaux fichiers à une sélection existante.
+Lorsque `multiple` vaut `true`, chaque interaction avec le sélecteur ajoute les nouveaux fichiers à la liste courante. Lorsque `multiple` vaut `false`, la sélection courante est remplacée.
 
 ### Noms de fichiers longs
 

@@ -19,7 +19,6 @@
 
     &.compact-spacing {
         .input-container {
-            height: 24px;
             min-height: 24px;
 
             .input {
@@ -117,11 +116,10 @@
     .input-container {
         display: flex;
         flex-direction: column;
-        height: 32px;
+        height: auto;
         width: 100%;
         min-width: 48px;
         min-height: 32px;
-        max-height: 32px;
         align-self: stretch;
 
         .input {
