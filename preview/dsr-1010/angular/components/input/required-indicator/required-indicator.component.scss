@@ -1,0 +1,26 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+:host {
+  display: inline-flex;
+}
+
+.requirement-indicator {
+
+  margin-left: $positive-spacing_025;
+
+  @include typography-text-s;
+
+  &.show-label-requirement {
+    color: var(--content-tertiary);
+
+    &:not(.required) {
+      font-style: italic;
+    }
+  }
+
+  &:not(.show-label-requirement) {
+    &.required {
+      color: var(--content-danger-default);
+    }
+  }
+}
