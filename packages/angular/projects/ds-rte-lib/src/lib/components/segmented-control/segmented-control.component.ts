@@ -12,6 +12,7 @@ import {
   signal,
   OnChanges,
   SimpleChanges,
+  viewChild,
 } from "@angular/core";
 import { shouldDisplayBadge as CoreShouldDisplayBadge } from "@design-system-rte/core/components/badge/badge.utils";
 import {
@@ -55,10 +56,11 @@ export class SegmentedControlComponent implements OnChanges, AfterViewInit, OnDe
   readonly ariaLabel = input<string>();
   readonly ariaLabelledBy = input<string>();
   readonly appearance = input<"brand" | "neutral">("brand");
-  readonly compactSpacing = input<boolean>(false);
+  readonly isCompact = input<boolean>(false);
   readonly isInitialAnimationDisabled = signal(true);
 
   readonly segmentRefs = viewChildren<ElementRef<HTMLDivElement>>("segment");
+  readonly segmentedControl = viewChild<ElementRef<HTMLDivElement>>("segmentedControl");
 
   readonly sliderLeft = signal(0);
   readonly sliderWidth = signal(0);
@@ -74,12 +76,11 @@ export class SegmentedControlComponent implements OnChanges, AfterViewInit, OnDe
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes["selectedSegment"]) {
-      this.updateSelectedSegmentIndicator();
+      requestAnimationFrame(() => requestAnimationFrame(() => this.updateSelectedSegmentIndicator()));
     }
   }
 
   ngAfterViewInit() {
-    this.updateSelectedSegmentIndicator();
     requestAnimationFrame(() => this.isInitialAnimationDisabled.set(false));
     window.addEventListener("resize", this.updateSelectedSegmentIndicator.bind(this));
     window.addEventListener("keydown", this.onGlobalKeyDown.bind(this));
@@ -167,9 +168,16 @@ export class SegmentedControlComponent implements OnChanges, AfterViewInit, OnDe
     const segment = this.segmentRefs()[idx]?.nativeElement;
 
     if (segment) {
-      this.sliderWidth.set(segment.offsetWidth);
-      this.sliderTop.set(segment.offsetTop);
-      this.sliderLeft.set(segment.offsetLeft);
+      const container = this.segmentedControl()?.nativeElement;
+
+      if (container) {
+        const segmentRect = segment.getBoundingClientRect();
+        const controlRect = container.getBoundingClientRect();
+
+        this.sliderWidth.set(segmentRect.width);
+        this.sliderTop.set(segmentRect.top - controlRect.top);
+        this.sliderLeft.set(segmentRect.left - controlRect.left);
+      }
     }
   }
 

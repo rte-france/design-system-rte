@@ -3,38 +3,34 @@
 ## Overview
 
 ```tsx
-<SegmentedControl
-  options={options}
-  selectedSegment={selectedSegment}
-  onChange={setSelectedSegment}
-/>
+<SegmentedControl options={options} selectedSegment={selectedSegment} onChange={setSelectedSegment} />
 ```
 
 ## API
 
 Le composant `SegmentedControl` constitue l'API publique. Passez les définitions de segments via `options`, contrôlez le segment actif avec `selectedSegment` et gérez les changements de sélection avec `onChange`.
 
-| Nom | Type | Valeur par défaut | Description |
-|----------|------|-------------------|-------------|
-| `options` | `SegmentOptions[]` | — (requis) | Définitions des segments affichés dans le contrôle. Doit contenir 2 ou 3 éléments. |
-| `onChange` | `(id: string) => void` | — (requis) | Appelé avec l'`id` du segment sélectionné par l'utilisateur. |
-| `selectedSegment` | `string` | — | Id du segment actuellement sélectionné. Doit correspondre à un `id` dans `options`. |
-| `appearance` | `"brand"` \| `"neutral"` | `"brand"` | Variante visuelle de l'arrière-plan et des bordures du contrôle. |
-| `compactSpacing` | `boolean` | `false` | Réduit la hauteur des segments et le padding horizontal. |
+| Nom               | Type                     | Valeur par défaut | Description                                                                         |
+| ----------------- | ------------------------ | ----------------- | ----------------------------------------------------------------------------------- |
+| `options`         | `SegmentOptions[]`       | — (requis)        | Définitions des segments affichés dans le contrôle. Doit contenir 2 ou 3 éléments.  |
+| `onChange`        | `(id: string) => void`   | — (requis)        | Appelé avec l'`id` du segment sélectionné par l'utilisateur.                        |
+| `selectedSegment` | `string`                 | —                 | Id du segment actuellement sélectionné. Doit correspondre à un `id` dans `options`. |
+| `appearance`      | `"brand"` \| `"neutral"` | `"brand"`         | Variante visuelle de l'arrière-plan et des bordures du contrôle.                    |
+| `isCompact`       | `boolean`                | `false`           | Réduit la hauteur des segments et le padding horizontal.                            |
 
 Chaque entrée de `options` accepte les champs suivants :
 
-| Nom | Type | Valeur par défaut | Description |
-|----------|------|-------------------|-------------|
-| `id` | `string` | — (requis) | Identifiant unique du segment. Passé à `onChange`. |
-| `label` | `string` | — (requis) | Libellé visible du segment. Utilisé également comme `aria-label` du segment. |
-| `icon` | `string` | — | Nom de l'icône. Lorsqu'il est défini sur une option, toutes les options doivent en définir une ; les libellés sont masqués et seules les icônes sont affichées. |
-| `showBadge` | `boolean` | — | Affiche le badge lorsque les critères de contenu du badge sont remplis. |
-| `badgeCount` | `number` | — | Valeur numérique affichée lorsque `badgeContent` vaut `"number"`. |
-| `badgeContent` | `"number"` \| `"icon"` \| `"empty"` | — | `"number"` affiche un compteur ; `"icon"` affiche `badgeIcon` ; `"empty"` affiche un point indicateur. |
-| `badgeIcon` | `string` | — | Nom de l'icône affichée lorsque `badgeContent` vaut `"icon"`. |
-| `badgeType` | `"brand"` \| `"neutral"` \| `"indicator"` | — | Variante visuelle du badge. |
-| `badgeSize` | `"xs"` \| `"s"` \| `"m"` \| `"l"` | — | Taille du badge. |
+| Nom            | Type                                      | Valeur par défaut | Description                                                                                                                                                     |
+| -------------- | ----------------------------------------- | ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`           | `string`                                  | — (requis)        | Identifiant unique du segment. Passé à `onChange`.                                                                                                              |
+| `labelText`    | `string`                                  | — (requis)        | Libellé visible du segment. Utilisé également comme `aria-label` du segment.                                                                                    |
+| `icon`         | `string`                                  | —                 | Nom de l'icône. Lorsqu'il est défini sur une option, toutes les options doivent en définir une ; les libellés sont masqués et seules les icônes sont affichées. |
+| `showBadge`    | `boolean`                                 | —                 | Affiche le badge lorsque les critères de contenu du badge sont remplis.                                                                                         |
+| `badgeCount`   | `number`                                  | —                 | Valeur numérique affichée lorsque `badgeContent` vaut `"number"`.                                                                                               |
+| `badgeContent` | `"number"` \| `"icon"` \| `"empty"`       | —                 | `"number"` affiche un compteur ; `"icon"` affiche `badgeIcon` ; `"empty"` affiche un point indicateur.                                                          |
+| `badgeIcon`    | `string`                                  | —                 | Nom de l'icône affichée lorsque `badgeContent` vaut `"icon"`.                                                                                                   |
+| `badgeType`    | `"brand"` \| `"neutral"` \| `"indicator"` | —                 | Variante visuelle du badge.                                                                                                                                     |
+| `badgeSize`    | `"xs"` \| `"s"` \| `"m"` \| `"l"`         | —                 | Taille du badge.                                                                                                                                                |
 
 ## Usage
 
@@ -45,9 +41,9 @@ import SegmentedControl from "@design-system-rte/react/components/segmentedContr
 import { useState } from "react";
 
 const options = [
-  { label: "Option 1", id: "option1" },
-  { label: "Option 2", id: "option2" },
-  { label: "Option 3", id: "option3" },
+  { labelText: "Option 1", id: "option1" },
+  { labelText: "Option 2", id: "option2" },
+  { labelText: "Option 3", id: "option3" },
 ];
 
 const [selectedSegment, setSelectedSegment] = useState("option1");
@@ -57,8 +53,8 @@ const [selectedSegment, setSelectedSegment] = useState("option1");
   selectedSegment={selectedSegment}
   onChange={setSelectedSegment}
   appearance="brand"
-  compactSpacing={false}
-/>
+  isCompact={false}
+/>;
 ```
 
 Vous pouvez passer des attributs HTML natifs (par exemple `aria-label`) à l'élément racine du groupe radio via les props DOM standard.
@@ -90,26 +86,26 @@ Basculez entre les styles brand et neutral avec `appearance`.
   options={options}
   selectedSegment={selectedSegment}
   onChange={setSelectedSegment}
-  compactSpacing
+  isCompact
 />
 <SegmentedControl
   options={options}
   selectedSegment={selectedSegment}
   onChange={setSelectedSegment}
   appearance="neutral"
-  compactSpacing
+  isCompact
 />
 ```
 
-Utilisez `compactSpacing` pour une mise en page plus dense dans les barres d'outils ou les conteneurs restreints.
+Utilisez `isCompact` pour une mise en page plus dense dans les barres d'outils ou les conteneurs restreints.
 
 #### Deux options
 
 ```tsx
 <SegmentedControl
   options={[
-    { label: "Option 1", id: "option1" },
-    { label: "Option 2", id: "option2" },
+    { labelText: "Option 1", id: "option1" },
+    { labelText: "Option 2", id: "option2" },
   ]}
   selectedSegment={selectedSegment}
   onChange={setSelectedSegment}
@@ -123,9 +119,9 @@ Le contrôle accepte exactement deux ou trois segments.
 ```tsx
 <SegmentedControl
   options={[
-    { id: "agenda", icon: "view-agenda", label: "Vue agenda" },
-    { id: "column", icon: "view-column", label: "Vue colonne" },
-    { id: "grid", icon: "view-grid", label: "Vue grille" },
+    { id: "agenda", icon: "view-agenda", labelText: "Vue agenda" },
+    { id: "column", icon: "view-column", labelText: "Vue colonne" },
+    { id: "grid", icon: "view-grid", labelText: "Vue grille" },
   ]}
   selectedSegment={selectedSegment}
   onChange={setSelectedSegment}
@@ -139,9 +135,9 @@ Lorsque chaque option définit une `icon`, le contrôle affiche des icônes au l
 ```tsx
 <SegmentedControl
   options={[
-    { label: "Option 1", id: "option1" },
+    { labelText: "Option 1", id: "option1" },
     {
-      label: "Option 2",
+      labelText: "Option 2",
       id: "option2",
       showBadge: true,
       badgeContent: "number",

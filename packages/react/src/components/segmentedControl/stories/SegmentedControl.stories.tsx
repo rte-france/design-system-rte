@@ -52,7 +52,7 @@ const meta = {
         control: "select",
         options: ["xs", "s", "m", "l"],
       },
-      compactSpacing: {
+      isCompact: {
         control: "boolean",
       },
     },
@@ -66,13 +66,13 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     options: [
-      { label: "Option 1", id: "option1" },
-      { label: "Option 2", id: "option2" },
-      { label: "Option 3", id: "option3" },
+      { labelText: "Option 1", id: "option1" },
+      { labelText: "Option 2", id: "option2" },
+      { labelText: "Option 3", id: "option3" },
     ],
     onChange: fn(),
     appearance: "brand",
-    compactSpacing: false,
+    isCompact: false,
   },
 
   render: (args) => {
@@ -84,6 +84,31 @@ export const Default: Story = {
 
     return (
       <div style={{ width: "420px" }} data-testid="segmented-control-story">
+        <SegmentedControl {...args} onChange={handleOnChange} selectedSegment={selected} />
+      </div>
+    );
+  },
+};
+
+export const DifferentLabelTextLengths: Story = {
+  args: {
+    ...Default.args,
+    options: [
+      { labelText: "Jour", id: "day" },
+      { labelText: "Semaine en cours", id: "current-week" },
+      { labelText: "Historique des consommations", id: "consumption-history" },
+    ],
+  },
+
+  render: (args) => {
+    const [selected, setSelected] = useState("day");
+
+    const handleOnChange = (id: string) => {
+      setSelected(id);
+    };
+
+    return (
+      <div style={{ width: "420px" }}>
         <SegmentedControl {...args} onChange={handleOnChange} selectedSegment={selected} />
       </div>
     );
@@ -149,7 +174,7 @@ export const Appearance: Story = {
 export const CompactSpacing: Story = {
   args: {
     ...Default.args,
-    compactSpacing: true,
+    isCompact: true,
   },
 
   render: (args) => {
@@ -175,8 +200,8 @@ export const TwoOptions: Story = {
   args: {
     ...Default.args,
     options: [
-      { label: "Option 1", id: "option1" },
-      { label: "Option 2", id: "option2" },
+      { labelText: "Option 1", id: "option1" },
+      { labelText: "Option 2", id: "option2" },
     ],
     onChange: fn(),
   },
@@ -200,9 +225,9 @@ export const Icons: Story = {
   args: {
     ...Default.args,
     options: [
-      { id: "agenda", icon: "view-agenda", label: "Vue agenda" },
-      { id: "column", icon: "view-column", label: "Vue colonne" },
-      { id: "grid", icon: "view-grid", label: "Vue grille" },
+      { id: "agenda", icon: "view-agenda", labelText: "Vue agenda" },
+      { id: "column", icon: "view-column", labelText: "Vue colonne" },
+      { id: "grid", icon: "view-grid", labelText: "Vue grille" },
     ],
     onChange: fn(),
   },
@@ -226,9 +251,9 @@ export const WithBadge: Story = {
   args: {
     ...Default.args,
     options: [
-      { label: "Option 1", id: "option1" },
+      { labelText: "Option 1", id: "option1" },
       {
-        label: "Option 2",
+        labelText: "Option 2",
         id: "option2",
         showBadge: true,
         badgeContent: "number",

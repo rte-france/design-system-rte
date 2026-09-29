@@ -33,11 +33,6 @@ const Loader = forwardRef<HTMLDivElement, LoaderProps>(
         ref={ref}
         {...props}
       >
-        {!!label && (
-          <span id={`${loaderId}-label`} className={style.loaderLabel}>
-            {label}
-          </span>
-        )}
         {appearance == "brand" ? (
           <svg
             xmlns="http://www.w3.org/2000/svg"

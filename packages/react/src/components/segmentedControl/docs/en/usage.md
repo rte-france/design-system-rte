@@ -5,9 +5,9 @@ import SegmentedControl from "@design-system-rte/react/components/segmentedContr
 import { useState } from "react";
 
 const options = [
-  { label: "Option 1", id: "option1" },
-  { label: "Option 2", id: "option2" },
-  { label: "Option 3", id: "option3" },
+  { labelText: "Option 1", id: "option1" },
+  { labelText: "Option 2", id: "option2" },
+  { labelText: "Option 3", id: "option3" },
 ];
 
 const [selectedSegment, setSelectedSegment] = useState("option1");
@@ -17,8 +17,8 @@ const [selectedSegment, setSelectedSegment] = useState("option1");
   selectedSegment={selectedSegment}
   onChange={setSelectedSegment}
   appearance="brand"
-  compactSpacing={false}
-/>
+  isCompact={false}
+/>;
 ```
 
 You can pass native HTML attributes (for example `aria-label`) to the root radiogroup element through standard DOM props.
@@ -50,26 +50,26 @@ Switch between brand and neutral styling with `appearance`.
   options={options}
   selectedSegment={selectedSegment}
   onChange={setSelectedSegment}
-  compactSpacing
+  isCompact
 />
 <SegmentedControl
   options={options}
   selectedSegment={selectedSegment}
   onChange={setSelectedSegment}
   appearance="neutral"
-  compactSpacing
+  isCompact
 />
 ```
 
-Use `compactSpacing` for a denser layout in toolbars or tight containers.
+Use `isCompact` for a denser layout in toolbars or tight containers.
 
 #### Two Options
 
 ```tsx
 <SegmentedControl
   options={[
-    { label: "Option 1", id: "option1" },
-    { label: "Option 2", id: "option2" },
+    { labelText: "Option 1", id: "option1" },
+    { labelText: "Option 2", id: "option2" },
   ]}
   selectedSegment={selectedSegment}
   onChange={setSelectedSegment}
@@ -78,14 +78,30 @@ Use `compactSpacing` for a denser layout in toolbars or tight containers.
 
 The control supports exactly two or three segments.
 
+#### Different Label Text Lengths
+
+```tsx
+<SegmentedControl
+  options={[
+    { labelText: "Jour", id: "day" },
+    { labelText: "Semaine en cours", id: "current-week" },
+    { labelText: "Historique des consommations", id: "consumption-history" },
+  ]}
+  selectedSegment={selectedSegment}
+  onChange={setSelectedSegment}
+/>
+```
+
+Segments adapt their width to the labels when the control has enough space. Labels that are too long are truncated.
+
 #### Icons
 
 ```tsx
 <SegmentedControl
   options={[
-    { id: "agenda", icon: "view-agenda", label: "Vue agenda" },
-    { id: "column", icon: "view-column", label: "Vue colonne" },
-    { id: "grid", icon: "view-grid", label: "Vue grille" },
+    { id: "agenda", icon: "view-agenda", labelText: "Vue agenda" },
+    { id: "column", icon: "view-column", labelText: "Vue colonne" },
+    { id: "grid", icon: "view-grid", labelText: "Vue grille" },
   ]}
   selectedSegment={selectedSegment}
   onChange={setSelectedSegment}
@@ -99,9 +115,9 @@ When every option defines an `icon`, the control renders icons instead of text l
 ```tsx
 <SegmentedControl
   options={[
-    { label: "Option 1", id: "option1" },
+    { labelText: "Option 1", id: "option1" },
     {
-      label: "Option 2",
+      labelText: "Option 2",
       id: "option2",
       showBadge: true,
       badgeContent: "number",
