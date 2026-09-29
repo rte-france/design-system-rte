@@ -1,5 +1,6 @@
 <div
   *ngIf="isValidOptions()"
+  #segmentedControl
   class="rte-segmented-control"
   role="radiogroup"
   [attr.aria-label]="ariaLabel()"
@@ -34,7 +35,13 @@
         (keydown)="handleKeyDown($event)"
         (keyup)="handleKeyUp($event)"
       >
-        <rte-icon *ngIf="isSegmentSelected(option.id)" name="check-small" class="rte-selected-icon" [size]="24" />
+        <rte-icon
+          *ngIf="isSegmentSelected(option.id)"
+          name="check-small"
+          class="rte-selected-icon"
+          [size]="compactSpacing() ? 20 : 24"
+          [attr.data-compact-spacing]="compactSpacing()"
+        />
         <div class="rte-segment-content">
           <ng-container *ngIf="option.icon; else label">
             <rte-icon

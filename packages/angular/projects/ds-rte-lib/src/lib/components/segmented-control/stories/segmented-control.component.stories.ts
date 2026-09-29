@@ -92,6 +92,37 @@ export const Default: Story = {
   }),
 };
 
+export const DifferentLabelLengths: Story = {
+  args: {
+    ...Default.args,
+    selectedSegment: "day",
+    options: [
+      { label: "Jour", id: "day" },
+      { label: "Semaine en cours", id: "current-week" },
+      { label: "Historique des consommations", id: "consumption-history" },
+    ],
+  },
+  render: (args) => ({
+    props: {
+      ...args,
+      change(id: string) {
+        this["selectedSegment"] = id;
+      },
+    },
+    template: `
+    <div style="width: 420px">
+      <rte-segmented-control
+        [options]="options"
+        [selectedSegment]="selectedSegment"
+        [appearance]="appearance"
+        [compactSpacing]="compactSpacing"
+        (change)="change($event)"
+        />
+    </div>
+    `,
+  }),
+};
+
 export const KeyboardInteraction: Story = {
   tags: ["!autodocs"],
   args: Default.args,

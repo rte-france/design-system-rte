@@ -90,6 +90,31 @@ export const Default: Story = {
   },
 };
 
+export const DifferentLabelLengths: Story = {
+  args: {
+    ...Default.args,
+    options: [
+      { label: "Jour", id: "day" },
+      { label: "Semaine en cours", id: "current-week" },
+      { label: "Historique des consommations", id: "consumption-history" },
+    ],
+  },
+
+  render: (args) => {
+    const [selected, setSelected] = useState("day");
+
+    const handleOnChange = (id: string) => {
+      setSelected(id);
+    };
+
+    return (
+      <div style={{ width: "420px" }}>
+        <SegmentedControl {...args} onChange={handleOnChange} selectedSegment={selected} />
+      </div>
+    );
+  },
+};
+
 export const KeyboardInteraction: Story = {
   tags: ["!autodocs"],
   args: Default.args,

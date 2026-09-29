@@ -124,7 +124,15 @@ const Segment = ({
         tabIndex={0}
         ref={ref}
       >
-        {isSelected && <Icon name="check-small" appearance="filled" size={24} className={style["selected-icon"]} />}
+        {isSelected && (
+          <Icon
+            name="check-small"
+            appearance="filled"
+            size={isCompact ? 20 : 24}
+            className={style["selected-icon"]}
+            data-compact-spacing={isCompact}
+          />
+        )}
         <div className={style["segment-content"]}>
           {icon ? (
             <Icon name={icon} appearance={isSelected ? "filled" : "outlined"} size={isCompact ? 20 : 24} />

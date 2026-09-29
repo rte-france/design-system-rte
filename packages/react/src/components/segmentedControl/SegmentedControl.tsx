@@ -55,6 +55,7 @@ const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps>(
           data-initial-animation-disabled={isInitialAnimationDisabled}
           style={{
             left: indicatorStyle.left,
+            // top: "5px",
             top: indicatorStyle.top,
             width: indicatorStyle.width,
           }}
