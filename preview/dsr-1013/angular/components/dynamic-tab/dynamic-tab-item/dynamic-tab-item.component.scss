@@ -1,0 +1,166 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+:host {
+  display: flex;
+  flex-direction: row;
+  padding: $positive-spacing_150;
+  align-items: center;
+  align-self: stretch;
+  border: none;
+  cursor: default;
+  box-sizing: border-box;
+  justify-content: space-between;
+  list-style: none;
+  opacity: 0;
+
+  border-right: $width-xs solid var(--border-tertiary);
+  background: var(--background-neutral-subtle-default);
+  color: var(--content-tertiary);
+
+  &[data-compact-spacing='true'] {
+    padding-top: $positive-spacing_050;
+    padding-bottom: $positive-spacing_050;
+  }
+
+  &[data-is-animating='true'] {
+    transition: max-width 0.08s ease, padding 0.08s ease, opacity 0.08s ease;
+    opacity: 1;
+
+    &[data-is-disappearing='true'] {
+      transition: max-width 0.08s ease, opacity 0.08s ease, padding 0.08s ease;
+      max-width: 0 !important;
+      min-width: 0 !important;
+      width: 0 !important;
+      padding: 0;
+      opacity: 0;
+    }
+  }
+
+  &:hover,
+  &:focus-visible {
+    outline: none;
+    background: var(--background-neutral-subtle-hover);
+    border-right-color: var(--background-neutral-subtle-hover);
+    color: var(--content-secondary);
+  }
+
+  &[data-active='true'] {
+    background: var(--background-neutral-subtle-pressed);
+    color: var(--content-primary);
+    border-right-color: var(--background-neutral-subtle-pressed);
+  }
+
+  &[data-appearance='brand'] {
+    background: var(--background-brand-subtle-default);
+    color: var(--content-brand-default);
+
+    &:hover,
+    &:focus-visible {
+      background: var(--background-brand-subtle-hover);
+      border-right-color: var(--background-brand-subtle-hover);
+      color: var(--content-brand-hover);
+    }
+
+    &[data-active='true'] {
+      background: var(--background-brand-subtle-pressed);
+      color: var(--content-brand-pressed);
+      border-right-color: var(--background-brand-subtle-pressed);
+    }
+  }
+
+  &.cdk-drag-preview {
+    z-index: $level-1;
+    box-shadow: 0 4px 8px rgb(0 0 0 / 12%);
+  }
+
+  &.cdk-drag-placeholder,
+  &.cdk-drag-placeholder[data-is-animating='true'] {
+    opacity: 0;
+    background: transparent;
+    border-color: transparent;
+  }
+
+  &.cdk-drag-animating {
+    transition: transform 140ms ease;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &.cdk-drag-animating,
+    &[data-is-animating='true'],
+    &[data-is-animating='true'][data-is-disappearing='true'] {
+      transition: none;
+    }
+  }
+}
+
+.rte-dynamic-tab-item__content {
+  display: flex;
+  align-items: center;
+  gap: $positive-spacing_150;
+  width: 100%;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.rte-dynamic-tab-item__badge-compact {
+  margin-left: $positive-spacing_050;
+}
+
+.rte-dynamic-tab-item__title {
+  @include typography-text-m;
+
+  box-sizing: border-box;
+  white-space: nowrap;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: $positive-spacing_150;
+  min-width: 0;
+
+  span {
+    opacity: 0;
+    transition: opacity 0.08s ease;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+
+    &[data-is-animating='true'] {
+      opacity: 1;
+    }
+  }
+
+  &:focus-visible {
+    outline: 1px solid var(--border-brand-focused);
+    outline-offset: $radius-s;
+    border-radius: $radius-s;
+  }
+}
+
+.rte-dynamic-tab-item__title-input {
+  @include typography-text-m;
+
+  border: none;
+  background: transparent;
+  color: inherit;
+  padding: 0;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.rte-dynamic-tab-item__close-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--content-primary);
+  flex: 0 0 auto;
+
+  &:focus-visible {
+    outline: 1px solid var(--border-brand-focused);
+    outline-offset: $radius-s;
+    border-radius: $radius-s;
+  }
+}
