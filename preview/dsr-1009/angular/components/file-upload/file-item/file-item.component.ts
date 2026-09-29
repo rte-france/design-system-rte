@@ -141,8 +141,7 @@ export class FileItemComponent implements AfterViewInit, OnDestroy {
 
   private getAvailableWidth(): number {
     const nameSlot = this.fileNameSlotRef()?.nativeElement;
-    if (!nameSlot) return 0;
-    return nameSlot.clientWidth;
+    return nameSlot?.clientWidth || 0;
   }
 
   private computeContextStyle(fileNameElement: HTMLSpanElement): CanvasRenderingContext2D {
