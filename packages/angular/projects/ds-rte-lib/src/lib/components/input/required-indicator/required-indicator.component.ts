@@ -2,9 +2,11 @@ import { CommonModule } from "@angular/common";
 import { Component, input, computed, ChangeDetectionStrategy } from "@angular/core";
 import { REQUIREMENT_INDICATOR_VALUE } from "@design-system-rte/core";
 
+import { IconComponent } from "../../icon/icon.component";
+
 @Component({
   selector: "rte-required-indicator",
-  imports: [CommonModule],
+  imports: [CommonModule, IconComponent],
   standalone: true,
   templateUrl: "./required-indicator.component.html",
   styleUrl: "./required-indicator.component.scss",

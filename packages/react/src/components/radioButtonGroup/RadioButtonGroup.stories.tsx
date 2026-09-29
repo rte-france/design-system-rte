@@ -30,34 +30,19 @@ const meta = {
       description: "Whether to show the label for each item.",
       defaultValue: true,
     },
-    groupTitle: {
+    groupTitleText: {
       control: "text",
       description: "The title of the radio button group.",
       defaultValue: "Radio Button Group Title",
-    },
-    showGroupTitle: {
-      control: "boolean",
-      description: "Whether to show the group title.",
-      defaultValue: true,
     },
     groupHelpText: {
       control: "text",
       description: "The help text for the radio button group.",
       defaultValue: "This is a help text for the radio button group.",
     },
-    showHelpText: {
+    isError: {
       control: "boolean",
-      description: "Whether to show the help text.",
-      defaultValue: true,
-    },
-    errorMessage: {
-      control: "text",
-      description: "The error message to display when there is an error. Use `error` prop to trigger this message.",
-      defaultValue: "This is an error message. Please select an option.",
-    },
-    error: {
-      control: "boolean",
-      description: "Whether to show the error message. Use `errorMessage` prop to set the message.",
+      description: "Whether to show the error message. Use `errorText` prop to set the message.",
       defaultValue: false,
     },
     disabled: {
@@ -65,7 +50,7 @@ const meta = {
       description: "Whether the radio button group is disabled. This will disable all radio buttons in the group.",
       defaultValue: false,
     },
-    readOnly: {
+    isReadOnly: {
       control: "boolean",
       description:
         "Whether the radio button group is read-only. This will make all radio buttons in the group read-only.",
@@ -87,14 +72,12 @@ export const Default: Story = {
     ],
     direction: "horizontal",
     showItemsLabel: true,
-    groupTitle: "Radio Button Group Title",
-    showGroupTitle: true,
+    groupTitleText: "Radio Button Group Title",
     groupHelpText: "This is a help text for the radio button group.",
-    showHelpText: true,
-    errorMessage: "This is an error message. Please select an option.",
-    error: false,
+    errorText: "This is an error message. Please select an option.",
+    isError: false,
     disabled: false,
-    readOnly: false,
+    isReadOnly: false,
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -128,7 +111,7 @@ export const Error: Story = {
   args: {
     ...Default.args,
     groupName: "error-radio-group",
-    error: true,
+    isError: true,
   },
   render: (args) => {
     return (
@@ -143,7 +126,7 @@ export const ReadOnly: Story = {
   args: {
     ...Default.args,
     groupName: "readonly-radio-group",
-    readOnly: true,
+    isReadOnly: true,
   },
   render: (args) => {
     return (
@@ -215,4 +198,16 @@ export const VerticalLongLabel: Story = {
       <RadioButtonGroup {...args} />
     </div>
   ),
+};
+
+export const WithRequired: Story = {
+  args: {
+    ...Default.args,
+    groupName: "with-required-radio-group",
+    required: true,
+    showLabelRequirement: true,
+  },
+  render: (args) => {
+    return <RadioButtonGroup {...args} />;
+  },
 };

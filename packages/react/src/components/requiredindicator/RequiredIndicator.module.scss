@@ -1,7 +1,7 @@
 @use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
 
 .requirement-indicator {
-  margin-left: $positive-spacing_025;
+  margin-left: $positive-spacing_050;
 
   @include typography-text-s;
 
@@ -15,6 +15,8 @@
 
   &[data-show-label-requirement='false'] {
     &[data-required='true'] {
+      display: flex;
+      align-items: flex-start;
       color: var(--content-danger-default);
     }
   }
