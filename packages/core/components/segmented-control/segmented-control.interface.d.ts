@@ -5,19 +5,19 @@ export interface SegmentedControlProps {
   onChange: (id: string) => void;
   selectedSegment?: string;
   appearance?: "brand" | "neutral";
-  compactSpacing?: boolean;
+  isCompact?: boolean;
 }
 
 export interface SegmentOptions extends BadgeHolderProps {
   id: string;
-  label: string;
+  labelText: string;
   icon?: string;
 }
 
 export interface SegmentProps extends BadgeHolderProps {
   id: string;
   position: "left" | "middle" | "right";
-  label?: string;
+  labelText?: string;
   icon?: string;
   isSelected?: boolean;
   appearance?: "brand" | "neutral";
