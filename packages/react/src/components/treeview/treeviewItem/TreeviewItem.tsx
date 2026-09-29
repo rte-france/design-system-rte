@@ -314,7 +314,7 @@ const TreeviewItem = ({
         </div>
       </div>
       {hasChildren(items) && (
-        <ul
+        <div
           className={concatClassNames(
             styles["rte-treeview-item-children"],
             isOpenInternal ? styles["rte-treeview-item-children-open"] : "",
@@ -324,22 +324,24 @@ const TreeviewItem = ({
           role="group"
           data-open={isOpen}
         >
-          {items!.map((child, index) => (
-            <TreeviewItem
-              key={child.id}
-              {...child}
-              depth={internalDepth + 1}
-              borderTypes={getChildBorderTypes(resolvedBorderTypes(), index === items!.length - 1)}
-              isCompact={isCompact}
-              onClickElement={(id) => onClickElement?.(id)}
-              selectedId={selectedId}
-              hasCheckbox={child.hasCheckbox ?? hasCheckbox}
-              onCheckedIdsChange={onCheckedIdsChange}
-              checkedIds={checkedIds}
-              onActionIconClick={child.onActionIconClick}
-            />
-          ))}
-        </ul>
+          <ul className={styles["rte-treeview-item-children-list"]}>
+            {items!.map((child, index) => (
+              <TreeviewItem
+                key={child.id}
+                {...child}
+                depth={internalDepth + 1}
+                borderTypes={getChildBorderTypes(resolvedBorderTypes(), index === items!.length - 1)}
+                isCompact={isCompact}
+                onClickElement={(id) => onClickElement?.(id)}
+                selectedId={selectedId}
+                hasCheckbox={child.hasCheckbox ?? hasCheckbox}
+                onCheckedIdsChange={onCheckedIdsChange}
+                checkedIds={checkedIds}
+                onActionIconClick={child.onActionIconClick}
+              />
+            ))}
+          </ul>
+        </div>
       )}
     </li>
   );

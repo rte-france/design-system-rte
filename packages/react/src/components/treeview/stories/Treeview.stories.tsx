@@ -13,7 +13,11 @@ import {
   TreeviewActionMenuItem,
   TreeviewItemProps,
 } from "@design-system-rte/core/components/treeview/treeview-item.interface";
-import type { Meta, StoryObj } from "@storybook/react";
+import {
+  largeExpansionNestedScenarioData,
+  largeExpansionScenarioData,
+} from "@design-system-rte/core/components/treeview/treeview-large-expansion.story-data";
+import type { Decorator, Meta, StoryObj } from "@storybook/react";
 import { userEvent, within, expect } from "@storybook/test";
 
 import Treeview from "../Treeview";
@@ -579,6 +583,12 @@ export const KeyboardNavigation: Story = {
   },
 };
 
+const scrollableTreeviewStoryDecorator: Decorator = (Story) => (
+  <div style={{ minWidth: "420px", maxHeight: "520px", overflow: "auto" }}>
+    <Story />
+  </div>
+);
+
 export const DisabledItemsScenario: Story = {
   args: {
     items: disabledItemsScenarioData,
@@ -586,18 +596,47 @@ export const DisabledItemsScenario: Story = {
     hasCheckbox: true,
     id: "treeview-disabled-items-scenario",
   },
-  decorators: [
-    (Story) => (
-      <div style={{ minWidth: "420px", maxHeight: "520px", overflow: "auto" }}>
-        <Story />
-      </div>
-    ),
-  ],
+  decorators: [scrollableTreeviewStoryDecorator],
   parameters: {
     docs: {
       description: {
         story:
           "Reproduces a business scenario with mixed enabled and disabled items (phases and indices). Uses the treeview checkbox system. Disabled nodes use disabled: true — they appear greyed out and must not be selectable, clickable, or checkable. Use this story to manually verify mouse and keyboard interaction on disabled items.",
+      },
+    },
+  },
+};
+
+export const LargeExpansionOverlap: Story = {
+  tags: ["!autodocs"],
+  args: {
+    items: largeExpansionScenarioData,
+    hasCheckbox: true,
+    id: "treeview-large-expansion-overlap",
+  },
+  decorators: [scrollableTreeviewStoryDecorator],
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Debug story for Concorde ticket: Phase2 branch expanded with many indices. Siblings such as CM-SiblingAfterLargeBranch should render below the branch with correct scroll height.",
+      },
+    },
+  },
+};
+
+export const LargeExpansionNestedOverlap: Story = {
+  tags: ["!autodocs"],
+  args: {
+    items: largeExpansionNestedScenarioData,
+    id: "treeview-large-expansion-nested-overlap",
+  },
+  decorators: [scrollableTreeviewStoryDecorator],
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Two expanded levels each with many children, to reproduce cumulative max-height limits per nested `<ul>`.",
       },
     },
   },
