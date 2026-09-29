@@ -1,0 +1,1 @@
+import{r}from"./index-G8LIXM5I.js";const o=(e,n=300)=>{const[t,u]=r.useState(e),[a,s]=r.useState(e);return r.useEffect(()=>{if(e)t||(u(!0),s(!1),requestAnimationFrame(()=>{requestAnimationFrame(()=>s(!0))}));else{s(!1);const i=setTimeout(()=>{u(!1)},n);return()=>clearTimeout(i)}},[e,n,t]),{shouldRender:t,isAnimating:a}};export{o as u};
