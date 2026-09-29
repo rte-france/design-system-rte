@@ -5,12 +5,12 @@
   role="radiogroup"
   [attr.aria-label]="ariaLabel()"
   [attr.data-number-of-segments]="options().length"
-  [attr.data-compact-spacing]="compactSpacing()"
+  [attr.data-compact-spacing]="isCompact()"
 >
   <span
     class="rte-segment-selected-indicator"
     [ngStyle]="segmentSelectedIndicatorStyle()"
-    [attr.data-compact-spacing]="compactSpacing()"
+    [attr.data-compact-spacing]="isCompact()"
     [attr.data-initial-animation-disabled]="isInitialAnimationDisabled()"
   ></span>
   <ng-container *ngFor="let option of options(); let idx = index">
@@ -18,7 +18,7 @@
       class="rte-segment-container"
       [attr.data-position]="getSegmentPosition(idx)"
       [attr.data-appearance]="appearance()"
-      [attr.data-compact-spacing]="compactSpacing()"
+      [attr.data-compact-spacing]="isCompact()"
     >
       <div
         #segment
@@ -27,10 +27,10 @@
         tabindex="0"
         [attr.data-id]="option.id"
         [attr.data-segment-type]="option.icon ? 'icon' : 'label'"
-        [attr.data-compact-spacing]="compactSpacing()"
+        [attr.data-compact-spacing]="isCompact()"
         [class.selected]="isSegmentSelected(option.id)"
         [attr.aria-checked]="isSegmentSelected(option.id)"
-        [attr.aria-label]="option.label"
+        [attr.aria-label]="option.labelText"
         (click)="selectSegment(option.id)"
         (keydown)="handleKeyDown($event)"
         (keyup)="handleKeyUp($event)"
@@ -39,19 +39,19 @@
           *ngIf="isSegmentSelected(option.id)"
           name="check-small"
           class="rte-selected-icon"
-          [size]="compactSpacing() ? 20 : 24"
-          [attr.data-compact-spacing]="compactSpacing()"
+          [size]="isCompact() ? 20 : 24"
+          [attr.data-compact-spacing]="isCompact()"
         />
         <div class="rte-segment-content">
           <ng-container *ngIf="option.icon; else label">
             <rte-icon
               [name]="option.icon"
-              [size]="compactSpacing() ? 20 : 24"
+              [size]="isCompact() ? 20 : 24"
               [appearance]="isSegmentSelected(option.id) ? 'filled' : 'outlined'"
             ></rte-icon>
           </ng-container>
           <ng-template #label>
-            <span class="rte-segment-label">{{ option.label }}</span>
+            <span class="rte-segment-label">{{ option.labelText }}</span>
           </ng-template>
         </div>
         <rte-badge

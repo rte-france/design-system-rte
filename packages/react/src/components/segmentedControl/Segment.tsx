@@ -30,7 +30,7 @@ interface SegmentProps extends CoreSegmentProps {
 const Segment = ({
   id,
   icon,
-  label,
+  labelText,
   position,
   isSelected,
   onClick,
@@ -112,7 +112,7 @@ const Segment = ({
         id={id}
         role="radio"
         aria-checked={isSelected}
-        aria-label={label}
+        aria-label={labelText}
         className={style.segment}
         data-segment-type={icon ? "icon" : "label"}
         data-selected={isSelected}
@@ -137,7 +137,7 @@ const Segment = ({
           {icon ? (
             <Icon name={icon} appearance={isSelected ? "filled" : "outlined"} size={isCompact ? 20 : 24} />
           ) : (
-            <span className={style["segment-label"]}>{label}</span>
+            <span className={style["segment-label"]}>{labelText}</span>
           )}
         </div>
         {shouldDisplayBadge({ showBadge: !!showBadge, badgeContent, badgeCount, badgeIcon }) && (
