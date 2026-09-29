@@ -13,7 +13,7 @@ const [isOpen, setIsOpen] = useState(false);
 >
   <DropdownItem label="Messages" leftIcon="mail" onClick={() => console.log("click")} />
   <DropdownItem label="Help" leftIcon="help" />
-</Dropdown>
+</Dropdown>;
 ```
 
 ## API
@@ -22,49 +22,50 @@ Les composants `Dropdown` et `DropdownItem` constituent l'API publique. Contrôl
 
 ### Dropdown
 
-| Property | Type | Default | Description |
-|----------|------|---------|-------------|
-| trigger | `React.ReactNode` | — (requis) | Élément qui ouvre le menu (généralement un bouton). |
-| isOpen | boolean | `false` | Contrôle la visibilité du panneau. |
-| onClose | `() => void` | `() => {}` | Appelé à la fermeture (clic extérieur, Échap, ou sélection d'un item lorsque `autoClose` est activé). |
-| dropdownId | string | auto-généré | Identifiant unique pour la gestion du focus et des sous-menus. |
-| position | `"auto" \| "top" \| "bottom" \| "left" \| "right"` | `"bottom"` | Placement préféré par rapport au déclencheur. `"auto"` choisit le meilleur emplacement dans la fenêtre. |
-| alignment | `"start" \| "center" \| "end"` | `"start"` | Alignement du panneau le long de l'axe de placement. |
-| offset | number | `0` | Espacement en pixels entre le déclencheur et le panneau. |
-| autoClose | boolean | `true` | Ferme le menu racine lorsqu'un item terminal est activé. |
-| autofocus | boolean | `true` | Déplace le focus sur le premier item à l'ouverture. |
-| hasParent | boolean | `false` | Marque un sous-menu imbriqué. Défini automatiquement par `DropdownItem` lorsqu'il a des enfants. |
-| header | `React.ReactNode` | — | Contenu optionnel au-dessus du corps du menu, séparé par un divider. |
-| footer | `React.ReactNode` | — | Contenu optionnel sous le corps du menu, séparé par un divider. |
-| isList | boolean | `true` | Lorsque `true`, enveloppe les enfants dans un `<ul role="menu">`. Mettre à `false` pour un corps personnalisé. |
-| hasMaxWidth | boolean | `true` | Applique la largeur maximale du design system (300px) au panneau. |
-| overlayLevel | `"low" \| "high"` | auto-détecté | Priorité d'empilement de l'overlay. `"high"` est utilisé lorsque le déclencheur se trouve dans un autre overlay. |
-| maxHeight | `number \| string` | — | Hauteur maximale du panneau ; le contenu défile au-delà. |
-| className | string | — | Classe CSS additionnelle sur le panneau. |
-| style | `React.CSSProperties` | — | Styles inline sur le panneau (par exemple `width`). |
+| Property     | Type                                               | Default      | Description                                                                                                      |
+| ------------ | -------------------------------------------------- | ------------ | ---------------------------------------------------------------------------------------------------------------- |
+| trigger      | `React.ReactNode`                                  | — (requis)   | Élément qui ouvre le menu (généralement un bouton).                                                              |
+| isOpen       | boolean                                            | `false`      | Contrôle la visibilité du panneau.                                                                               |
+| onClose      | `() => void`                                       | `() => {}`   | Appelé à la fermeture (clic extérieur, Échap, ou sélection d'un item lorsque `autoClose` est activé).            |
+| dropdownId   | string                                             | auto-généré  | Identifiant unique pour la gestion du focus et des sous-menus.                                                   |
+| position     | `"auto" \| "top" \| "bottom" \| "left" \| "right"` | `"bottom"`   | Placement préféré par rapport au déclencheur. `"auto"` choisit le meilleur emplacement dans la fenêtre.          |
+| alignment    | `"start" \| "center" \| "end"`                     | `"start"`    | Alignement du panneau le long de l'axe de placement.                                                             |
+| offset       | number                                             | `0`          | Espacement en pixels entre le déclencheur et le panneau.                                                         |
+| autoClose    | boolean                                            | `true`       | Ferme le menu racine lorsqu'un item terminal est activé.                                                         |
+| autofocus    | boolean                                            | `true`       | Déplace le focus sur le premier item à l'ouverture.                                                              |
+| hasParent    | boolean                                            | `false`      | Marque un sous-menu imbriqué. Défini automatiquement par `DropdownItem` lorsqu'il a des enfants.                 |
+| header       | `React.ReactNode`                                  | —            | Contenu optionnel au-dessus du corps du menu, séparé par un divider.                                             |
+| footer       | `React.ReactNode`                                  | —            | Contenu optionnel sous le corps du menu, séparé par un divider.                                                  |
+| isList       | boolean                                            | `true`       | Lorsque `true`, enveloppe les enfants dans un `<ul role="menu">`. Mettre à `false` pour un corps personnalisé.   |
+| hasMaxWidth  | boolean                                            | `true`       | Applique la largeur maximale du design system (300px) au panneau.                                                |
+| overlayLevel | `"low" \| "high"`                                  | auto-détecté | Priorité d'empilement de l'overlay. `"high"` est utilisé lorsque le déclencheur se trouve dans un autre overlay. |
+| maxHeight    | `number \| string`                                 | —            | Hauteur maximale du panneau ; le contenu défile au-delà.                                                         |
+| className    | string                                             | —            | Classe CSS additionnelle sur le panneau.                                                                         |
+| style        | `React.CSSProperties`                              | —            | Styles inline sur le panneau (par exemple `width`).                                                              |
 
 ### DropdownItem
 
-| Property | Type | Default | Description |
-|----------|------|---------|-------------|
-| label | string | — | Texte visible de l'item de menu. |
-| leftIcon | string | — | Nom de l'icône affichée avant le libellé. |
-| trailingText | string | — | Texte secondaire aligné à droite (par exemple un raccourci clavier). |
-| link | string | — | Affiche le libellé comme lien avec l'`href` fourni. |
-| disabled | boolean | `false` | Désactive l'interaction et applique le style désactivé. |
-| hasSeparator | boolean | `false` | Affiche un divider sous l'item. |
-| hasIndent | boolean | `false` | Ajoute une indentation à gauche. Ignoré lorsque `leftIcon` est défini. |
-| hasCheckbox | boolean | `false` | Affiche une checkbox avant le libellé. |
-| isSelected | boolean | `false` | État sélectionné pour les items avec checkbox. |
-| isIndeterminate | boolean | `false` | État indéterminé pour les items avec checkbox. |
-| onClick | `(event: React.MouseEvent<HTMLLIElement> \| React.KeyboardEvent<HTMLLIElement>) => void` | — | Gestionnaire d'activation (clic, Espace ou Entrée). |
-| showBadge | boolean | — | Affiche un badge lorsque combiné avec les props badge. |
-| badgeCount | number | — | Valeur numérique du badge lorsque `badgeContent` est `"number"`. |
-| badgeContent | `"number" \| "icon" \| "empty"` | — | Type de contenu du badge. |
-| badgeIcon | string | — | Nom de l'icône lorsque `badgeContent` est `"icon"`. |
-| badgeType | `"brand" \| "neutral" \| "indicator"` | — | Variante visuelle du badge. |
-| badgeSize | `"xs" \| "s" \| "m" \| "l"` | — | Taille du badge. |
-| children | `React.ReactNode` | — | Items de sous-menu imbriqués. Affiche un chevron et ouvre un `Dropdown` enfant au survol ou au clavier. |
+| Property        | Type                                                                                     | Default | Description                                                                                             |
+| --------------- | ---------------------------------------------------------------------------------------- | ------- | ------------------------------------------------------------------------------------------------------- |
+| label           | string                                                                                   | —       | Texte visible de l'item de menu.                                                                        |
+| leftIcon        | string                                                                                   | —       | Nom de l'icône affichée avant le libellé.                                                               |
+| trailingText    | string                                                                                   | —       | Texte secondaire aligné à droite (par exemple un raccourci clavier).                                    |
+| link            | string                                                                                   | —       | Affiche le libellé comme lien avec l'`href` fourni.                                                     |
+| disabled        | boolean                                                                                  | `false` | Désactive l'interaction et applique le style désactivé.                                                 |
+| hasSeparator    | boolean                                                                                  | `false` | Affiche un divider sous l'item.                                                                         |
+| hasIndent       | boolean                                                                                  | `false` | Ajoute une indentation à gauche. Ignoré lorsque `leftIcon` est défini.                                  |
+| hasCheckbox     | boolean                                                                                  | `false` | Affiche une checkbox avant le libellé.                                                                  |
+| isSelected      | boolean                                                                                  | `false` | État sélectionné pour les items avec checkbox.                                                          |
+| isIndeterminate | boolean                                                                                  | `false` | État indéterminé pour les items avec checkbox.                                                          |
+| isCritical      | boolean                                                                                  | `false` | Applique le style critique à l'item et à ses états interactifs.                                         |
+| onClick         | `(event: React.MouseEvent<HTMLLIElement> \| React.KeyboardEvent<HTMLLIElement>) => void` | —       | Gestionnaire d'activation (clic, Espace ou Entrée).                                                     |
+| showBadge       | boolean                                                                                  | —       | Affiche un badge lorsque combiné avec les props badge.                                                  |
+| badgeCount      | number                                                                                   | —       | Valeur numérique du badge lorsque `badgeContent` est `"number"`.                                        |
+| badgeContent    | `"number" \| "icon" \| "empty"`                                                          | —       | Type de contenu du badge.                                                                               |
+| badgeIcon       | string                                                                                   | —       | Nom de l'icône lorsque `badgeContent` est `"icon"`.                                                     |
+| badgeType       | `"brand" \| "neutral" \| "indicator"`                                                    | —       | Variante visuelle du badge.                                                                             |
+| badgeSize       | `"xs" \| "s" \| "m" \| "l"`                                                              | —       | Taille du badge.                                                                                        |
+| children        | `React.ReactNode`                                                                        | —       | Items de sous-menu imbriqués. Affiche un chevron et ouvre un `Dropdown` enfant au survol ou au clavier. |
 
 ## Usage
 
@@ -82,9 +83,7 @@ function Example() {
       dropdownId="example-dropdown"
       isOpen={isOpen}
       onClose={() => setIsOpen(false)}
-      trigger={
-        <button onClick={() => setIsOpen(true)}>Menu</button>
-      }
+      trigger={<button onClick={() => setIsOpen(true)}>Menu</button>}
     >
       <DropdownItem label="Messages" leftIcon="mail" hasSeparator onClick={() => console.log("click")} />
       <DropdownItem label="Actions" leftIcon="settings">
@@ -114,14 +113,7 @@ Les sous-menus imbriqués se déclarent en imbriquant des `DropdownItem`. Les it
   onClose={() => setIsOpen(false)}
   trigger={<button onClick={() => setIsOpen(true)}>Menu</button>}
 >
-  <DropdownItem
-    label="Messages"
-    leftIcon="mail"
-    showBadge
-    badgeCount={5}
-    badgeContent="number"
-    badgeType="indicator"
-  />
+  <DropdownItem label="Messages" leftIcon="mail" showBadge badgeCount={5} badgeContent="number" badgeType="indicator" />
   <DropdownItem label="Username" leftIcon="user-circle" link="/username" />
 </Dropdown>
 ```
@@ -129,6 +121,25 @@ Les sous-menus imbriqués se déclarent en imbriquant des `DropdownItem`. Les it
 Affiche un badge sur un item de menu via les props badge (`showBadge`, `badgeCount`, `badgeContent`, `badgeType`, `badgeIcon`, `badgeSize`).
 
 (`"number" | "icon" | "empty"`), (`"brand" | "neutral" | "indicator"`), (`"xs" | "s" | "m" | "l"`)
+
+#### With critical items
+
+```tsx
+<Dropdown
+  dropdownId="dropdown-critical"
+  isOpen={isOpen}
+  onClose={() => setIsOpen(false)}
+  trigger={<button onClick={() => setIsOpen(true)}>Menu</button>}
+>
+  <DropdownItem label="Actions" leftIcon="settings" isCritical={true}>
+  {...}
+  </DropdownItem>
+  {...}
+  <DropdownItem label="More information" leftIcon="info" hasSeparator isCritical />
+</Dropdown>
+```
+
+Définissez `isCritical` sur un item pour appliquer le traitement de couleur critique à ses états par défaut, au survol, au focus, actif et désactivé.
 
 #### With custom body
 
@@ -140,9 +151,7 @@ Affiche un badge sur un item de menu via les props badge (`showBadge`, `badgeCou
   isList={false}
   trigger={<button onClick={() => setIsOpen(true)}>Custom body</button>}
 >
-  <div style={{ padding: "16px" }}>
-    Custom body content — any React node can go here.
-  </div>
+  <div style={{ padding: "16px" }}>Custom body content — any React node can go here.</div>
 </Dropdown>
 ```
 

@@ -47,6 +47,7 @@ const DropdownItem = ({
   isIndeterminate,
   onClick,
   hasCheckbox,
+  isCritical,
   ...props
 }: DropdownItemProps) => {
   const { dropdownId, autoClose, closeRoot } = useContext(DropdownParentContext) || {};
@@ -157,6 +158,7 @@ const DropdownItem = ({
               className={styles["dropdown-item"]}
               data-active={isOpen}
               data-disabled={disabled}
+              data-critical={isCritical}
               role="menuitem"
               aria-haspopup={!!children}
               aria-expanded={!!children && isOpen}
@@ -204,6 +206,7 @@ const DropdownItem = ({
         className={styles["dropdown-item"]}
         data-disabled={disabled}
         data-active={isSelected}
+        data-critical={isCritical}
         role="menuitem"
         onClick={handleOnClick}
         onMouseOver={handleMouseOver}
