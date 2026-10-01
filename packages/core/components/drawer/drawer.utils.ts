@@ -1,4 +1,6 @@
-import { DRAWER_MISSING_ACCESSIBLE_NAME_ERROR } from "./drawer.constants";
+import { assertConfiguration } from "../../utils/log-handlers";
+
+import { DRAWER_MISSING_ACCESSIBLE_NAME_ERROR, DRAWER_MISSING_CONTENT_ERROR } from "./drawer.constants";
 import type { DrawerPosition } from "./drawer.interface";
 
 export interface DrawerValidationInput {
@@ -8,6 +10,7 @@ export interface DrawerValidationInput {
   hasPrimaryButtonLabel: boolean;
   position: DrawerPosition | undefined;
   hasMainContent: boolean;
+  hasDrawerContent: boolean;
   showHeader?: boolean;
   showFooter?: boolean;
   hasAriaLabel: boolean;
@@ -27,6 +30,10 @@ const CONFIGURATION_ISSUES = {
 } as const;
 
 const VALIDATION_RULES: ValidationRule[] = [
+  {
+    condition: (input) => !input.hasDrawerContent,
+    issue: DRAWER_MISSING_CONTENT_ERROR,
+  },
   {
     condition: (input) => !!input.showHeader && !input.hasCustomHeader && !input.hasTitle,
     issue: CONFIGURATION_ISSUES.MISSING_HEADER_OR_TITLE,
@@ -73,6 +80,10 @@ export function getDrawerAriaAttributes(params: {
 
 export function getDrawerConfigurationIssues(input: DrawerValidationInput): string | undefined {
   return VALIDATION_RULES.find(({ condition }) => condition(input))?.issue;
+}
+
+export function assertDrawerConfiguration(input: DrawerValidationInput): void {
+  assertConfiguration("Drawer", getDrawerConfigurationIssues(input));
 }
 
 export function shouldUseDrawerDefaultHeader(header: unknown | null, title?: string): boolean {
