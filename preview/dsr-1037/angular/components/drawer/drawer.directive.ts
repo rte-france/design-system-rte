@@ -8,8 +8,8 @@ import {
   HostListener,
   inject,
   input,
-  output,
   OnDestroy,
+  output,
   signal,
   TemplateRef,
   ViewContainerRef,
@@ -43,7 +43,7 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
   private readonly viewContainerRef = inject(ViewContainerRef);
   private readonly overlayService = inject(OverlayService);
 
-  readonly drawerContent = contentChild.required<TemplateRef<unknown>>("drawerContent");
+  readonly drawerContent = contentChild<TemplateRef<unknown>>("drawerContent");
   readonly drawerHeader = contentChild<TemplateRef<unknown>>("drawerHeader");
   readonly drawerFooter = contentChild<TemplateRef<unknown>>("drawerFooter");
   readonly drawerContextContent = contentChild<TemplateRef<unknown>>("drawerContextContent");
@@ -128,16 +128,13 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
     document.addEventListener("keydown", this.onKeyDown);
     this.contentReady = true;
 
-    const isResponsive = this.rteDrawerPosition() === "responsive";
-    const wantsInitialOpen = this.rteDrawerIsOpen();
-
-    if (isResponsive && !wantsInitialOpen) {
+    if (this.rteDrawerPosition() === "responsive" && !this.rteDrawerIsOpen()) {
       this.assertValidConfiguration();
       this.ensureDrawerInstance();
       this.drawerCompRef?.setInput("isOpen", false);
     }
 
-    if (wantsInitialOpen) {
+    if (this.rteDrawerIsOpen()) {
       this.applyOpenState(true);
     }
   }
@@ -284,7 +281,7 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
     componentRef.setInput("isClosable", this.rteDrawerIsClosable());
     componentRef.setInput("ariaLabel", this.rteDrawerAriaLabel());
     componentRef.setInput("modalHostMode", this.rteDrawerPosition() === "modal" && this.rteDrawerIsCollapsible());
-    componentRef.setInput("drawerContent", this.drawerContent());
+    componentRef.setInput("drawerContent", this.drawerContent() ?? null);
     componentRef.setInput("drawerHeader", this.drawerHeader() ?? null);
     componentRef.setInput("drawerFooter", this.drawerFooter() ?? null);
     componentRef.setInput("drawerContextContent", this.drawerContextContent() ?? null);
