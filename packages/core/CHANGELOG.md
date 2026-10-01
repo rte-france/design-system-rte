@@ -1,5 +1,19 @@
 # @design-system-rte/core
 
+## 1.21.0
+
+### Minor Changes
+
+- 6f84e04: ## Changes
+
+  - (Sidenav) add props to customize close/open collapsible button label
+
+### Patch Changes
+
+- 6ebeba7: ## Changes
+
+  - (Treeview) correct item layers overlap
+
 ## 1.20.0
 
 ### Minor Changes

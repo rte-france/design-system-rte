@@ -1,5 +1,31 @@
 # @design-system-rte/react
 
+## 2.2.0
+
+### Minor Changes
+
+- 6f84e04: ## Changes
+
+  - (Sidenav) add props to customize close/open collapsible button label
+
+### Patch Changes
+
+- 131d77b: ## Changes
+
+  - (File Upload) correct width and min-width behavior
+
+- 6ebeba7: ## Changes
+
+  - (Treeview) correct item layers overlap
+
+- 5e0725e: ## Changes
+
+  - (Tab) prevent tab label to overflow with other tabs
+
+- Updated dependencies [6f84e04]
+- Updated dependencies [6ebeba7]
+  - @design-system-rte/core@1.21.0
+
 ## 2.1.0
 
 ### Minor Changes
