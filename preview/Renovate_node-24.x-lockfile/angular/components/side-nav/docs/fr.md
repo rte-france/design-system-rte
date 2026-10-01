@@ -35,6 +35,8 @@ Le composant `rte-side-nav` constitue l'API publique. Les consommateurs configur
 | contrast     | `"low" | "high"`      | `"high"`  | Niveau de contraste associé à `appearance`.                                  |
 | collapsible  | boolean               | `false`   | Affiche un contrôle dans le pied de page pour replier et déplier le panneau. |
 | isCollapsed  | boolean               | `false`   | État replié initial ou contrôlé.                                             |
+| openCollapseText | string | `"Ouvrir le menu"` | Libellé utilisé lorsque le panneau est replié. |
+| closeCollapseText | string | `"Réduire le menu"` | Libellé utilisé lorsque le panneau est déplié. |
 | headerConfig | `SideNavHeaderConfig` | —         | Configuration de la zone d'en-tête (titre, identifiant, version, lien).      |
 | items        | `NavItem[]`           | `[]`      | Entrées de navigation principales.                                           |
 | footerItems  | `NavItem[]`           | —         | Entrées de navigation optionnelles dans le pied de page.                     |
@@ -146,6 +148,20 @@ N'utilisez pas `<rte-nav-item>`, `<rte-nav-menu>` ou `<rte-base-side-nav>` direc
 ```
 
 Activez le contrôle de repli dans le pied de page avec `collapsible`.
+
+Personnalisez ses libellés avec `openCollapseText` et `closeCollapseText` :
+
+```html
+<rte-side-nav
+  [headerConfig]="headerConfig"
+  [items]="items"
+  [collapsible]="true"
+  openCollapseText="Ouvrir la navigation"
+  closeCollapseText="Fermer la navigation"
+>
+  <div content>Contenu de la page</div>
+</rte-side-nav>
+```
 
 #### With router navigation
 
@@ -271,10 +287,6 @@ Lorsque le panneau est replié, les sous-menus imbriqués ne peuvent pas être o
 ### Menus imbriqués fermés et navigation clavier
 
 Les entrées imbriquées d'un menu fermé sont retirées de l'ordre de tabulation (`tabindex="-1"`). L'utilisateur doit ouvrir le menu parent avant que les entrées imbriquées reçoivent le focus.
-
-### Libellés du contrôle de repli
-
-Les libellés du bouton de repli sont fixes en français (`Ouvrir le menu` / `Réduire le menu`).
 
 ### Sélecteurs internes
 

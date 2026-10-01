@@ -354,7 +354,7 @@ export const OverflowType: Story = {
     options: [
       {
         id: "tab-1",
-        label: "First Tab",
+        label: "First Tab very long and descriptive",
         panelId: "panel-1",
       },
       {
