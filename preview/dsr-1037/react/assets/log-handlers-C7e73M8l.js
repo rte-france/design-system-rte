@@ -1,0 +1,1 @@
+function e(){return typeof console<"u"&&typeof console.error=="function"}function n(r,o){return`[${r}] ${o}`}function f(r,o,t){e()&&console.error(n(r,o))}function i(r,o){if(o)throw new Error(n(r,o))}export{i as a,f as l};
