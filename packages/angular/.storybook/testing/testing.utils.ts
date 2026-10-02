@@ -1,19 +1,43 @@
-import { userEvent } from "@storybook/test";
+import { expect, userEvent } from "@storybook/test";
 
 export const focusElementBeforeComponent = async () => {
   await userEvent.tab();
 };
 
+function consoleArgsIncludeMessage(args: unknown[], expectedMessage: string): boolean {
+  return args.some((arg) => {
+    return arg instanceof Error ? arg.message === expectedMessage : String(arg).includes(expectedMessage);
+  });
+}
+
 export const acceptLogError = (errorMessage: string) => {
-  const originalConsoleError = console.error;
+  const consoleError = console.error;
 
   console.error = (...args: unknown[]) => {
-    if (args[0] !== errorMessage) {
-      originalConsoleError(...args);
+    if (!consoleArgsIncludeMessage(args, errorMessage)) {
+      consoleError(...args);
     }
   };
 
   return () => {
-    console.error = originalConsoleError;
+    console.error = consoleError;
   };
 };
+
+export async function expectConsoleErrorDuring(expectedMessage: string, action: () => Promise<void>): Promise<void> {
+  const loggedCalls: unknown[][] = [];
+  const consoleError = console.error;
+
+  console.error = (...args: unknown[]) => {
+    loggedCalls.push(args);
+    consoleError(...args);
+  };
+
+  try {
+    await action();
+  } finally {
+    console.error = consoleError;
+  }
+
+  expect(loggedCalls.some((args) => consoleArgsIncludeMessage(args, expectedMessage))).toBe(true);
+}

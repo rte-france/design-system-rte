@@ -1,14 +1,16 @@
 import {
-  DRAWER_MISSING_ACCESSIBLE_NAME_ERROR,
-  getDrawerConfigurationIssues,
   DRAWER_PADDING,
   DRAWER_TRANSITION_DURATION,
   shouldUseDrawerDefaultFooter,
   shouldUseDrawerDefaultHeader,
 } from "@design-system-rte/core";
 import { DrawerProps as coreDrawerProps } from "@design-system-rte/core/components/drawer/drawer.interface";
-import { computeTransform, getDrawerAriaAttributes } from "@design-system-rte/core/components/drawer/drawer.utils";
-import { logError } from "@design-system-rte/core/utils/log-handlers";
+import {
+  computeTransform,
+  getDrawerAriaAttributes,
+  validateDrawerBeforeOpen,
+  type DrawerValidationInput,
+} from "@design-system-rte/core/components/drawer/drawer.utils";
 import { RefObject, useEffect, useRef, useState } from "react";
 
 import Backdrop from "../../abstract/backdrop/Backdrop";
@@ -222,7 +224,31 @@ const Footer = ({
   );
 };
 
-const Drawer = ({
+const buildDrawerValidationInput = ({
+  header,
+  title,
+  footer,
+  primaryButtonLabel,
+  position,
+  children,
+  content,
+  showHeader,
+  showFooter,
+  ariaLabel,
+}: DrawerProps): DrawerValidationInput => ({
+  hasCustomHeader: !!header,
+  hasTitle: !!title,
+  hasCustomFooter: !!footer,
+  hasPrimaryButtonLabel: !!primaryButtonLabel,
+  position,
+  hasMainContent: !!children,
+  hasDrawerContent: content == null ? false : true,
+  showHeader,
+  showFooter,
+  hasAriaLabel: !!ariaLabel?.trim(),
+});
+
+const DrawerMounted = ({
   id,
   title,
   icon,
@@ -275,26 +301,6 @@ const Drawer = ({
 
   const shouldDisplayDefaultHeader = shouldUseDrawerDefaultHeader(header, title);
   const shouldDisplayDefaultFooter = shouldUseDrawerDefaultFooter(footer, primaryButtonLabel);
-
-  const configurationIssues = getDrawerConfigurationIssues({
-    hasCustomHeader: !!header,
-    hasTitle: !!title,
-    hasCustomFooter: !!footer,
-    hasPrimaryButtonLabel: !!primaryButtonLabel,
-    position,
-    hasMainContent: !!children,
-    showHeader,
-    showFooter,
-    hasAriaLabel: !!ariaLabel?.trim(),
-  });
-  if (configurationIssues) {
-    if (configurationIssues === DRAWER_MISSING_ACCESSIBLE_NAME_ERROR) {
-      logError("Drawer", configurationIssues);
-    } else {
-      console.warn(configurationIssues);
-    }
-    return null;
-  }
 
   const computeTransform = (padding: number = 0) => {
     return isAnimating ? `translateX(-${drawerLeftPosition + padding}px)` : "none";
@@ -458,6 +464,13 @@ const Drawer = ({
       )}
     </>
   );
+};
+
+const Drawer = (props: DrawerProps) => {
+  if (props.isOpen && !validateDrawerBeforeOpen(buildDrawerValidationInput(props))) {
+    return null;
+  }
+  return <DrawerMounted {...props} />;
 };
 
 export default Drawer;
