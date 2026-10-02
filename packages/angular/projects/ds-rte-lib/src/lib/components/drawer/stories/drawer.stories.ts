@@ -1,13 +1,13 @@
 import {
   DRAWER_MISSING_ACCESSIBLE_NAME_ERROR,
   formatContextMessage,
+  getDrawerConfigurationIssues,
   TESTING_ESCAPE_KEY,
 } from "@design-system-rte/core";
 import { Meta, StoryObj, moduleMetadata } from "@storybook/angular";
 import { expect, fn, userEvent, waitFor, within } from "@storybook/test";
 
 import {
-  acceptLogError,
   expectConsoleErrorDuring,
   focusElementBeforeComponent,
 } from "../../../../../../../.storybook/testing/testing.utils";
@@ -407,27 +407,192 @@ export const WithoutHeaderMissingAccessibleName: Story = {
   tags: ["!autodocs"],
   args: {
     ...Default.args,
+    rteDrawerIsOpen: false,
     rteDrawerId: "drawer-without-header-missing-aria",
     rteDrawerTitle: undefined,
     rteDrawerIcon: undefined,
     rteDrawerShowHeader: false,
   },
   render: Default.render,
-  beforeEach: acceptLogError(drawerMissingAccessibleNameError),
   play: async ({ canvasElement, step }) => {
     focusElementBeforeComponent();
     const canvas = within(canvasElement);
 
-    await step("Clicking Open throws drawer configuration error", async () => {
+    await step("Open drawer logs configuration error and does not show dialog", async () => {
       await expectConsoleErrorDuring(drawerMissingAccessibleNameError, () =>
         userEvent.click(canvas.getByRole("button", { name: "Open drawer" })),
       );
-    });
-
-    await step("Drawer does not open", async () => {
       expect(within(document.body).queryByRole("dialog")).not.toBeInTheDocument();
     });
   },
+};
+
+const configurationErrorStoryDecorators = [
+  moduleMetadata({
+    imports: [DrawerModule, ButtonComponent],
+  }),
+];
+
+const expectedDrawerConfigurationError = (input: Parameters<typeof getDrawerConfigurationIssues>[0]): string => {
+  const issue = getDrawerConfigurationIssues(input);
+  return formatContextMessage("Drawer", issue ?? "");
+};
+
+const drawerConfigurationErrorTemplate = `<div
+  rteDrawer
+  #drawerHost="rteDrawer"
+  [rteDrawerId]="rteDrawerId"
+  [rteDrawerTitle]="rteDrawerTitle"
+  [rteDrawerIcon]="rteDrawerIcon"
+  [rteDrawerIconAppearance]="rteDrawerIconAppearance"
+  [rteDrawerPosition]="rteDrawerPosition"
+  [rteDrawerWidth]="rteDrawerWidth"
+  [rteDrawerCloseOnOverlayClick]="rteDrawerCloseOnOverlayClick"
+  [rteDrawerPrimaryButtonLabel]="rteDrawerPrimaryButtonLabel"
+  [rteDrawerSecondaryButtonLabel]="rteDrawerSecondaryButtonLabel"
+  [rteDrawerIsCollapsible]="rteDrawerIsCollapsible"
+  [rteDrawerFixedHeader]="rteDrawerFixedHeader"
+  [rteDrawerShowHeader]="rteDrawerShowHeader"
+  [rteDrawerShowFooter]="rteDrawerShowFooter"
+  [rteDrawerCloseOnEscape]="rteDrawerCloseOnEscape"
+  [rteDrawerIsClosable]="rteDrawerIsClosable"
+  (rteDrawerOnPrimary)="rteDrawerOnPrimary(); drawerHost.close()"
+  (rteDrawerOnSecondary)="rteDrawerOnSecondary()"
+>
+  <button rteButton rteButtonVariant="primary" rteDrawerTrigger>Open drawer</button>
+  <ng-template #drawerContent>
+    <span style="font-family: arial; font-size: 14px; line-height: 20px; color: var(--content-primary)">
+      Body content.
+    </span>
+  </ng-template>
+</div>`;
+
+const drawerConfigurationErrorTemplateWithoutContent = `<div
+  rteDrawer
+  #drawerHost="rteDrawer"
+  [rteDrawerId]="rteDrawerId"
+  [rteDrawerTitle]="rteDrawerTitle"
+  [rteDrawerIcon]="rteDrawerIcon"
+  [rteDrawerIconAppearance]="rteDrawerIconAppearance"
+  [rteDrawerPosition]="rteDrawerPosition"
+  [rteDrawerWidth]="rteDrawerWidth"
+  [rteDrawerCloseOnOverlayClick]="rteDrawerCloseOnOverlayClick"
+  [rteDrawerPrimaryButtonLabel]="rteDrawerPrimaryButtonLabel"
+  [rteDrawerSecondaryButtonLabel]="rteDrawerSecondaryButtonLabel"
+  [rteDrawerIsCollapsible]="rteDrawerIsCollapsible"
+  [rteDrawerFixedHeader]="rteDrawerFixedHeader"
+  [rteDrawerShowHeader]="rteDrawerShowHeader"
+  [rteDrawerShowFooter]="rteDrawerShowFooter"
+  [rteDrawerCloseOnEscape]="rteDrawerCloseOnEscape"
+  [rteDrawerIsClosable]="rteDrawerIsClosable"
+  (rteDrawerOnPrimary)="rteDrawerOnPrimary(); drawerHost.close()"
+  (rteDrawerOnSecondary)="rteDrawerOnSecondary()"
+>
+  <button rteButton rteButtonVariant="primary" rteDrawerTrigger>Open drawer</button>
+</div>`;
+
+const playExpectsConfigurationErrorOnOpen = (expectedError: string): NonNullable<Story["play"]> => {
+  return async ({ canvasElement, step }) => {
+    focusElementBeforeComponent();
+    const canvas = within(canvasElement);
+
+    await step("Open drawer logs configuration error and does not show dialog", async () => {
+      await expectConsoleErrorDuring(expectedError, () =>
+        userEvent.click(canvas.getByRole("button", { name: "Open drawer" })),
+      );
+      expect(within(document.body).queryByRole("dialog")).not.toBeInTheDocument();
+    });
+  };
+};
+
+const drawerMissingHeaderOrTitleError = expectedDrawerConfigurationError({
+  hasCustomHeader: false,
+  hasTitle: false,
+  hasCustomFooter: false,
+  hasPrimaryButtonLabel: true,
+  position: "modal",
+  hasMainContent: false,
+  hasDrawerContent: true,
+  showHeader: true,
+  showFooter: true,
+  hasAriaLabel: false,
+});
+
+export const WithoutHeaderOrTitle: Story = {
+  decorators: configurationErrorStoryDecorators,
+  tags: ["!autodocs"],
+  args: {
+    ...Default.args,
+    rteDrawerIsOpen: false,
+    rteDrawerId: "drawer-without-header-or-title",
+    rteDrawerTitle: undefined,
+    rteDrawerIcon: undefined,
+    rteDrawerShowHeader: true,
+  },
+  render: (args) => ({
+    props: args,
+    template: drawerConfigurationErrorTemplate,
+  }),
+  play: playExpectsConfigurationErrorOnOpen(drawerMissingHeaderOrTitleError),
+};
+
+const drawerMissingFooterOrPrimaryError = expectedDrawerConfigurationError({
+  hasCustomHeader: false,
+  hasTitle: true,
+  hasCustomFooter: false,
+  hasPrimaryButtonLabel: false,
+  position: "modal",
+  hasMainContent: false,
+  hasDrawerContent: true,
+  showHeader: true,
+  showFooter: true,
+  hasAriaLabel: false,
+});
+
+export const WithoutFooterOrPrimaryButtonLabel: Story = {
+  decorators: configurationErrorStoryDecorators,
+  tags: ["!autodocs"],
+  args: {
+    ...Default.args,
+    rteDrawerIsOpen: false,
+    rteDrawerId: "drawer-without-footer-or-primary",
+    rteDrawerPrimaryButtonLabel: undefined,
+    rteDrawerSecondaryButtonLabel: undefined,
+    rteDrawerShowFooter: true,
+  },
+  render: (args) => ({
+    props: args,
+    template: drawerConfigurationErrorTemplate,
+  }),
+  play: playExpectsConfigurationErrorOnOpen(drawerMissingFooterOrPrimaryError),
+};
+
+const drawerMissingContentError = expectedDrawerConfigurationError({
+  hasCustomHeader: false,
+  hasTitle: true,
+  hasCustomFooter: false,
+  hasPrimaryButtonLabel: true,
+  position: "modal",
+  hasMainContent: false,
+  hasDrawerContent: false,
+  showHeader: true,
+  showFooter: true,
+  hasAriaLabel: false,
+});
+
+export const WithoutContent: Story = {
+  decorators: configurationErrorStoryDecorators,
+  tags: ["!autodocs"],
+  args: {
+    ...Default.args,
+    rteDrawerIsOpen: false,
+    rteDrawerId: "drawer-without-content",
+  },
+  render: (args) => ({
+    props: args,
+    template: drawerConfigurationErrorTemplateWithoutContent,
+  }),
+  play: playExpectsConfigurationErrorOnOpen(drawerMissingContentError),
 };
 
 /** Regression repro for Coressy / NG0103: Jira minimal template (no `#drawerContent`). See `ResponsiveOpenAtStartupMissingAriaOnly` for aria-only failure. */
@@ -497,7 +662,7 @@ export const ResponsiveOpenAtStartupMissingAriaOnly: Story = {
   }),
 };
 
-/** Debug: responsive + open at startup + headerless + aria (Coressy-style). Default footer still requires a primary label unless `[rteDrawerShowFooter]="false"`. */
+/** CI regression: responsive + open at startup + headerless + aria (Coressy-style valid config). */
 export const ResponsiveOpenAtStartupDebug: Story = {
   decorators: [
     moduleMetadata({
@@ -509,7 +674,7 @@ export const ResponsiveOpenAtStartupDebug: Story = {
     docs: {
       description: {
         story:
-          'Repro template for debugging startup-open responsive drawer. If the story errors, check footer validation (`rteDrawerPrimaryButtonLabel` or `[rteDrawerShowFooter]="false"`).',
+          "Valid startup-open responsive drawer (headerless, aria label, no default footer). Guards against NG0103-style init loops on valid configuration.",
       },
     },
   },
@@ -523,6 +688,7 @@ export const ResponsiveOpenAtStartupDebug: Story = {
       [rteDrawerWidth]="'450px'"
       [rteDrawerId]="'debugDrawer'"
       [rteDrawerShowHeader]="false"
+      [rteDrawerShowFooter]="false"
       [rteDrawerIsOpen]="true"
       rteDrawerAriaLabel="My Description"
     >
@@ -538,6 +704,12 @@ export const ResponsiveOpenAtStartupDebug: Story = {
       </ng-template>
     </div>`,
   }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const drawer = await canvas.findByRole("region", { name: "My Description" }, { timeout: 5000 });
+    expect(drawer).toHaveAttribute("data-testid", "drawer-responsive-panel");
+    expect(drawer).toHaveAttribute("data-open", "true");
+  },
 };
 
 export const WithoutFooter: Story = {
