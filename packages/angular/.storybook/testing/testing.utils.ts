@@ -11,35 +11,33 @@ function consoleArgsIncludeMessage(args: unknown[], expectedMessage: string): bo
 }
 
 export const acceptLogError = (errorMessage: string) => {
-  const originalConsoleError = console.error;
+  const consoleError = console.error;
 
   console.error = (...args: unknown[]) => {
     if (!consoleArgsIncludeMessage(args, errorMessage)) {
-      originalConsoleError(...args);
+      consoleError(...args);
     }
   };
 
   return () => {
-    console.error = originalConsoleError;
+    console.error = consoleError;
   };
 };
 
 export async function expectConsoleErrorDuring(expectedMessage: string, action: () => Promise<void>): Promise<void> {
-  let seenExpectedMessage = false;
-  const originalConsoleError = console.error;
+  const loggedCalls: unknown[][] = [];
+  const consoleError = console.error;
 
   console.error = (...args: unknown[]) => {
-    if (consoleArgsIncludeMessage(args, expectedMessage)) {
-      seenExpectedMessage = true;
-    }
-    originalConsoleError.apply(console, args);
+    loggedCalls.push(args);
+    consoleError(...args);
   };
 
   try {
     await action();
   } finally {
-    console.error = originalConsoleError;
+    console.error = consoleError;
   }
 
-  expect(seenExpectedMessage).toBe(true);
+  expect(loggedCalls.some((args) => consoleArgsIncludeMessage(args, expectedMessage))).toBe(true);
 }

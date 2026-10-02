@@ -4,4 +4,5 @@
   
   ## Changes
 
-- (Drraer) avoid input validation infinite loop
+- (Drawer) correct validation system
+- (Drawer) avoid input validation infinite loop
