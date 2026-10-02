@@ -6,9 +6,10 @@ import {
 } from "@design-system-rte/core";
 import { DrawerProps as coreDrawerProps } from "@design-system-rte/core/components/drawer/drawer.interface";
 import {
-  assertDrawerConfiguration,
   computeTransform,
   getDrawerAriaAttributes,
+  validateDrawerBeforeOpen,
+  type DrawerValidationInput,
 } from "@design-system-rte/core/components/drawer/drawer.utils";
 import { RefObject, useEffect, useRef, useState } from "react";
 
@@ -223,7 +224,31 @@ const Footer = ({
   );
 };
 
-const Drawer = ({
+const buildDrawerValidationInput = ({
+  header,
+  title,
+  footer,
+  primaryButtonLabel,
+  position = "modal",
+  children,
+  content,
+  showHeader = true,
+  showFooter = true,
+  ariaLabel,
+}: DrawerProps): DrawerValidationInput => ({
+  hasCustomHeader: !!header,
+  hasTitle: !!title,
+  hasCustomFooter: !!footer,
+  hasPrimaryButtonLabel: !!primaryButtonLabel,
+  position,
+  hasMainContent: !!children,
+  hasDrawerContent: content == null ? false : true,
+  showHeader,
+  showFooter,
+  hasAriaLabel: !!ariaLabel?.trim(),
+});
+
+const DrawerMounted = ({
   id,
   title,
   icon,
@@ -276,23 +301,6 @@ const Drawer = ({
 
   const shouldDisplayDefaultHeader = shouldUseDrawerDefaultHeader(header, title);
   const shouldDisplayDefaultFooter = shouldUseDrawerDefaultFooter(footer, primaryButtonLabel);
-
-  const drawerValidationInput = {
-    hasCustomHeader: !!header,
-    hasTitle: !!title,
-    hasCustomFooter: !!footer,
-    hasPrimaryButtonLabel: !!primaryButtonLabel,
-    position,
-    hasMainContent: !!children,
-    hasDrawerContent: !!content,
-    showHeader,
-    showFooter,
-    hasAriaLabel: !!ariaLabel?.trim(),
-  };
-
-  if (position === "responsive" || isOpen) {
-    assertDrawerConfiguration(drawerValidationInput);
-  }
 
   const computeTransform = (padding: number = 0) => {
     return isAnimating ? `translateX(-${drawerLeftPosition + padding}px)` : "none";
@@ -456,6 +464,13 @@ const Drawer = ({
       )}
     </>
   );
+};
+
+const Drawer = (props: DrawerProps) => {
+  if (props.isOpen && !validateDrawerBeforeOpen(buildDrawerValidationInput(props))) {
+    return null;
+  }
+  return <DrawerMounted {...props} />;
 };
 
 export default Drawer;

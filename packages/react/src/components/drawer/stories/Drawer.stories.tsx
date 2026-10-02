@@ -1,10 +1,14 @@
-import { DRAWER_MISSING_ACCESSIBLE_NAME_ERROR } from "@design-system-rte/core";
+import {
+  DRAWER_MISSING_ACCESSIBLE_NAME_ERROR,
+  formatContextMessage,
+  getDrawerConfigurationIssues,
+} from "@design-system-rte/core";
 import { TESTING_ESCAPE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn, userEvent, within, expect, waitFor } from "@storybook/test";
-import { useState } from "react";
+import { useState, type ComponentProps } from "react";
 
-import { acceptLogError } from "../../../../.storybook/testing/testing.utils";
+import { acceptLogError, expectConsoleErrorDuring } from "../../../../.storybook/testing/testing.utils";
 import Button from "../../button/Button";
 import IconButton from "../../iconButton/IconButton";
 import Drawer from "../Drawer";
@@ -647,22 +651,180 @@ export const WithoutHeaderInteractive: Story = {
   },
 };
 
+const expectedDrawerConfigurationError = (input: Parameters<typeof getDrawerConfigurationIssues>[0]): string => {
+  const issue = getDrawerConfigurationIssues(input);
+  return formatContextMessage("Drawer", issue ?? "");
+};
+
+const playExpectsConfigurationErrorOnOpen = (expectedError: string): NonNullable<Story["play"]> => {
+  return async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+
+    await step("Open drawer logs configuration error and does not show dialog", async () => {
+      await expectConsoleErrorDuring(expectedError, () =>
+        userEvent.click(canvas.getByRole("button", { name: "Open drawer" })),
+      );
+      expect(within(document.body).queryByRole("dialog")).not.toBeInTheDocument();
+    });
+  };
+};
+
+const configurationErrorStoryHooks = (expectedError: string) => ({
+  beforeEach: acceptLogError(expectedError),
+  play: playExpectsConfigurationErrorOnOpen(expectedError),
+});
+
+const mergeDrawerConfigurationStoryProps = (
+  args: ComponentProps<typeof Drawer>,
+  overrides: Partial<ComponentProps<typeof Drawer>>,
+): ComponentProps<typeof Drawer> => {
+  const drawerProps = { ...args, ...overrides };
+
+  (Object.keys(overrides) as Array<keyof ComponentProps<typeof Drawer>>).forEach((key) => {
+    if (overrides[key] === undefined) {
+      delete drawerProps[key];
+    }
+  });
+
+  return drawerProps;
+};
+
+const renderDrawerConfigurationErrorStory = (
+  overrides: Partial<ComponentProps<typeof Drawer>>,
+): NonNullable<Story["render"]> => {
+  return (args) => {
+    const [isOpen, setIsOpen] = useState(false);
+    const drawerProps = mergeDrawerConfigurationStoryProps(args, overrides);
+
+    const handleClose = () => {
+      setIsOpen(false);
+    };
+
+    return (
+      <>
+        <Button label="Open drawer" onClick={() => setIsOpen(true)} />
+        <Drawer
+          {...drawerProps}
+          isOpen={isOpen}
+          onClose={handleClose}
+          onClickToggle={() => setIsOpen((open) => !open)}
+          onClickPrimaryButton={() => {
+            args.onClickPrimaryButton?.();
+            handleClose();
+          }}
+        />
+      </>
+    );
+  };
+};
+
+const drawerMissingAccessibleNameError = formatContextMessage("Drawer", DRAWER_MISSING_ACCESSIBLE_NAME_ERROR);
+
 export const WithoutHeaderMissingAccessibleName: Story = {
   tags: ["!autodocs"],
   args: {
     ...Default.args,
+    isOpen: false,
     id: "drawer-without-header-missing-aria",
     title: undefined,
     icon: undefined,
     showHeader: false,
   },
-  render: Default.render,
-  beforeEach: acceptLogError(`[Drawer] ${DRAWER_MISSING_ACCESSIBLE_NAME_ERROR}`),
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    await userEvent.click(canvas.getByRole("button", { name: "Open drawer" }));
-    expect(within(document.body).queryByRole("dialog")).not.toBeInTheDocument();
+  render: renderDrawerConfigurationErrorStory({
+    title: undefined,
+    icon: undefined,
+    showHeader: false,
+  }),
+  ...configurationErrorStoryHooks(drawerMissingAccessibleNameError),
+};
+
+const drawerMissingHeaderOrTitleError = expectedDrawerConfigurationError({
+  hasCustomHeader: false,
+  hasTitle: false,
+  hasCustomFooter: false,
+  hasPrimaryButtonLabel: true,
+  position: "modal",
+  hasMainContent: false,
+  hasDrawerContent: true,
+  showHeader: true,
+  showFooter: true,
+  hasAriaLabel: false,
+});
+
+export const WithoutHeaderOrTitle: Story = {
+  tags: ["!autodocs"],
+  args: {
+    ...Default.args,
+    isOpen: false,
+    id: "drawer-without-header-or-title",
+    title: undefined,
+    icon: undefined,
+    showHeader: true,
   },
+  render: renderDrawerConfigurationErrorStory({
+    title: undefined,
+    icon: undefined,
+    showHeader: true,
+  }),
+  ...configurationErrorStoryHooks(drawerMissingHeaderOrTitleError),
+};
+
+const drawerMissingFooterOrPrimaryError = expectedDrawerConfigurationError({
+  hasCustomHeader: false,
+  hasTitle: true,
+  hasCustomFooter: false,
+  hasPrimaryButtonLabel: false,
+  position: "modal",
+  hasMainContent: false,
+  hasDrawerContent: true,
+  showHeader: true,
+  showFooter: true,
+  hasAriaLabel: false,
+});
+
+export const WithoutFooterOrPrimaryButtonLabel: Story = {
+  tags: ["!autodocs"],
+  args: {
+    ...Default.args,
+    isOpen: false,
+    id: "drawer-without-footer-or-primary",
+    primaryButtonLabel: undefined,
+    secondaryButtonLabel: undefined,
+    showFooter: true,
+  },
+  render: renderDrawerConfigurationErrorStory({
+    primaryButtonLabel: undefined,
+    secondaryButtonLabel: undefined,
+    showFooter: true,
+  }),
+  ...configurationErrorStoryHooks(drawerMissingFooterOrPrimaryError),
+};
+
+const drawerMissingContentError = expectedDrawerConfigurationError({
+  hasCustomHeader: false,
+  hasTitle: true,
+  hasCustomFooter: false,
+  hasPrimaryButtonLabel: true,
+  position: "modal",
+  hasMainContent: false,
+  hasDrawerContent: false,
+  showHeader: true,
+  showFooter: true,
+  hasAriaLabel: false,
+});
+
+export const WithoutContent: Story = {
+  tags: ["!autodocs"],
+  args: {
+    ...Default.args,
+    isOpen: false,
+    id: "drawer-without-content",
+    content: undefined,
+  },
+  render: renderDrawerConfigurationErrorStory({
+    content: undefined,
+  }),
+  ...configurationErrorStoryHooks(drawerMissingContentError),
 };
 
 export const CustomHeaderFooter: Story = {
@@ -671,7 +833,6 @@ export const CustomHeaderFooter: Story = {
     closeOnEscape: true,
     id: "custom-header-footer-drawer",
   },
-  beforeEach: acceptLogError(`[Drawer] ${DRAWER_MISSING_ACCESSIBLE_NAME_ERROR}`),
   render: (args) => {
     const [isOpen, setIsOpen] = useState(args.isOpen);
 

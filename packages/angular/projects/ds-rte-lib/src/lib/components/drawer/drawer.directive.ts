@@ -15,7 +15,7 @@ import {
   ViewContainerRef,
 } from "@angular/core";
 import {
-  assertDrawerConfiguration,
+  validateDrawerBeforeOpen,
   DRAWER_TRANSITION_DURATION,
   waitForNextFrame,
   type DrawerValidationInput,
@@ -110,8 +110,8 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
     if (this.effectiveOpen() === open) {
       return;
     }
-    if (open) {
-      this.assertValidConfiguration();
+    if (open && !validateDrawerBeforeOpen(this.getDrawerValidationInput())) {
+      return;
     }
     this.effectiveOpen.set(open);
     if (!this.contentReady) {
@@ -129,7 +129,6 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
     this.contentReady = true;
 
     if (this.rteDrawerPosition() === "responsive" && !this.rteDrawerIsOpen()) {
-      this.assertValidConfiguration();
       this.ensureDrawerInstance();
       this.drawerCompRef?.setInput("isOpen", false);
     }
@@ -176,6 +175,9 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
     this.refreshDrawerPanelElement();
 
     waitForNextFrame(() => {
+      if (!this.effectiveOpen()) {
+        return;
+      }
       this.drawerCompRef?.setInput("isOpen", true);
       this.refreshDrawerPanelElement();
     });
@@ -305,10 +307,6 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
       showFooter: this.rteDrawerShowFooter(),
       hasAriaLabel: !!this.rteDrawerAriaLabel()?.trim(),
     };
-  }
-
-  private assertValidConfiguration(): void {
-    assertDrawerConfiguration(this.getDrawerValidationInput());
   }
 
   private handleKeydown(keyboardEvent: KeyboardEvent): void {

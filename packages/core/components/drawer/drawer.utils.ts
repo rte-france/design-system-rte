@@ -1,4 +1,4 @@
-import { assertConfiguration } from "../../utils/log-handlers";
+import { logError } from "../../utils/log-handlers";
 
 import { DRAWER_MISSING_ACCESSIBLE_NAME_ERROR, DRAWER_MISSING_CONTENT_ERROR } from "./drawer.constants";
 import type { DrawerPosition } from "./drawer.interface";
@@ -10,7 +10,7 @@ export interface DrawerValidationInput {
   hasPrimaryButtonLabel: boolean;
   position: DrawerPosition | undefined;
   hasMainContent: boolean;
-  hasDrawerContent: boolean;
+  hasDrawerContent?: boolean | null;
   showHeader?: boolean;
   showFooter?: boolean;
   hasAriaLabel: boolean;
@@ -31,7 +31,7 @@ const CONFIGURATION_ISSUES = {
 
 const VALIDATION_RULES: ValidationRule[] = [
   {
-    condition: (input) => !input.hasDrawerContent,
+    condition: (input) => input.hasDrawerContent === false,
     issue: DRAWER_MISSING_CONTENT_ERROR,
   },
   {
@@ -59,7 +59,8 @@ const VALIDATION_RULES: ValidationRule[] = [
 export function hasDrawerDefaultAccessibleName(
   input: Pick<DrawerValidationInput, "showHeader" | "hasCustomHeader" | "hasTitle">,
 ): boolean {
-  return !!input.showHeader && !input.hasCustomHeader && input.hasTitle;
+  const { showHeader, hasCustomHeader, hasTitle } = input;
+  return !!showHeader && !hasCustomHeader && hasTitle;
 }
 
 export function getDrawerAriaAttributes(params: {
@@ -78,12 +79,22 @@ export function getDrawerAriaAttributes(params: {
   return normalizedAriaLabel ? { ariaLabel: normalizedAriaLabel } : {};
 }
 
-export function getDrawerConfigurationIssues(input: DrawerValidationInput): string | undefined {
-  return VALIDATION_RULES.find(({ condition }) => condition(input))?.issue;
+function normalizeDrawerConfigurationIssue(issue: string): string {
+  return issue.startsWith("Drawer: ") ? issue.slice("Drawer: ".length) : issue;
 }
 
-export function assertDrawerConfiguration(input: DrawerValidationInput): void {
-  assertConfiguration("Drawer", getDrawerConfigurationIssues(input));
+export function getDrawerConfigurationIssues(input: DrawerValidationInput): string | undefined {
+  const issue = VALIDATION_RULES.find(({ condition }) => condition(input))?.issue;
+  return issue ? normalizeDrawerConfigurationIssue(issue) : undefined;
+}
+
+export function validateDrawerBeforeOpen(input: DrawerValidationInput): boolean {
+  const issue = getDrawerConfigurationIssues(input);
+  if (!issue) {
+    return true;
+  }
+  logError("Drawer", issue);
+  return false;
 }
 
 export function shouldUseDrawerDefaultHeader(header: unknown | null, title?: string): boolean {
