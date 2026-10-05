@@ -8,6 +8,7 @@ import { Meta, StoryObj, moduleMetadata } from "@storybook/angular";
 import { expect, fn, userEvent, waitFor, within } from "@storybook/test";
 
 import {
+  acceptLogError,
   expectConsoleErrorDuring,
   focusElementBeforeComponent,
 } from "../../../../../../../.storybook/testing/testing.utils";
@@ -396,37 +397,6 @@ export const WithoutHeaderInteractive: Story = {
   },
 };
 
-const drawerMissingAccessibleNameError = formatContextMessage("Drawer", DRAWER_MISSING_ACCESSIBLE_NAME_ERROR);
-
-export const WithoutHeaderMissingAccessibleName: Story = {
-  decorators: [
-    moduleMetadata({
-      imports: [DrawerModule, ButtonComponent],
-    }),
-  ],
-  tags: ["!autodocs"],
-  args: {
-    ...Default.args,
-    rteDrawerIsOpen: false,
-    rteDrawerId: "drawer-without-header-missing-aria",
-    rteDrawerTitle: undefined,
-    rteDrawerIcon: undefined,
-    rteDrawerShowHeader: false,
-  },
-  render: Default.render,
-  play: async ({ canvasElement, step }) => {
-    focusElementBeforeComponent();
-    const canvas = within(canvasElement);
-
-    await step("Open drawer logs configuration error and does not show dialog", async () => {
-      await expectConsoleErrorDuring(drawerMissingAccessibleNameError, () =>
-        userEvent.click(canvas.getByRole("button", { name: "Open drawer" })),
-      );
-      expect(within(document.body).queryByRole("dialog")).not.toBeInTheDocument();
-    });
-  },
-};
-
 const configurationErrorStoryDecorators = [
   moduleMetadata({
     imports: [DrawerModule, ButtonComponent],
@@ -505,6 +475,32 @@ const playExpectsConfigurationErrorOnOpen = (expectedError: string): NonNullable
   };
 };
 
+const configurationErrorStoryHooks = (expectedError: string) => ({
+  beforeEach: acceptLogError(expectedError),
+  play: playExpectsConfigurationErrorOnOpen(expectedError),
+});
+
+const drawerMissingAccessibleNameError = formatContextMessage("Drawer", DRAWER_MISSING_ACCESSIBLE_NAME_ERROR);
+
+export const WithoutHeaderMissingAccessibleName: Story = {
+  decorators: [
+    moduleMetadata({
+      imports: [DrawerModule, ButtonComponent],
+    }),
+  ],
+  tags: ["!autodocs"],
+  args: {
+    ...Default.args,
+    rteDrawerIsOpen: false,
+    rteDrawerId: "drawer-without-header-missing-aria",
+    rteDrawerTitle: undefined,
+    rteDrawerIcon: undefined,
+    rteDrawerShowHeader: false,
+  },
+  render: Default.render,
+  ...configurationErrorStoryHooks(drawerMissingAccessibleNameError),
+};
+
 const drawerMissingHeaderOrTitleError = expectedDrawerConfigurationError({
   hasCustomHeader: false,
   hasTitle: false,
@@ -533,7 +529,7 @@ export const WithoutHeaderOrTitle: Story = {
     props: args,
     template: drawerConfigurationErrorTemplate,
   }),
-  play: playExpectsConfigurationErrorOnOpen(drawerMissingHeaderOrTitleError),
+  ...configurationErrorStoryHooks(drawerMissingHeaderOrTitleError),
 };
 
 const drawerMissingFooterOrPrimaryError = expectedDrawerConfigurationError({
@@ -564,7 +560,7 @@ export const WithoutFooterOrPrimaryButtonLabel: Story = {
     props: args,
     template: drawerConfigurationErrorTemplate,
   }),
-  play: playExpectsConfigurationErrorOnOpen(drawerMissingFooterOrPrimaryError),
+  ...configurationErrorStoryHooks(drawerMissingFooterOrPrimaryError),
 };
 
 const drawerMissingContentError = expectedDrawerConfigurationError({
@@ -592,7 +588,7 @@ export const WithoutContent: Story = {
     props: args,
     template: drawerConfigurationErrorTemplateWithoutContent,
   }),
-  play: playExpectsConfigurationErrorOnOpen(drawerMissingContentError),
+  ...configurationErrorStoryHooks(drawerMissingContentError),
 };
 
 export const WithoutFooter: Story = {

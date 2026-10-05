@@ -175,6 +175,9 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
     this.refreshDrawerPanelElement();
 
     waitForNextFrame(() => {
+      if (!this.effectiveOpen()) {
+        return;
+      }
       this.drawerCompRef?.setInput("isOpen", true);
       this.refreshDrawerPanelElement();
     });
