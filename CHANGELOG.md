@@ -2,6 +2,78 @@
 
 # Angular
 
+## 5.0.0
+
+### Radio Button Group
+
+#### Minor Changes
+
+- rename props : - readOnly to isReadOnly - error to isError - errorMessage to errorText - groupTitle to groupTitleText
+- remove boolean text display
+- add required indication props
+
+### Required Indicator
+
+#### Minor Changes
+
+- set correct icon size and set baseline alignment for requirement text
+
+### Sidenav
+
+#### Minor Changes
+
+- add props to customize close/open collapsible button label
+
+### Segmented Control
+
+#### Minor Changes
+
+- rename props - compactSpacing > isCompact - label > labelText
+- modify layout and sizes
+
+### Dropdown
+
+#### Minor Changes
+
+- add critical variant to dropdown item
+
+### File Upload
+
+#### Patch Changes
+
+- correct width and min-width behavior
+
+### Treeview
+
+#### Patch Changes
+
+- correct item layers overlap
+
+### Tab
+
+#### Patch Changes
+
+- prevent tab label to overflow with other tabs
+
+### Drawer
+
+#### Patch Changes
+
+- correct validation system
+- avoid input validation infinite loop
+
+### Other
+
+#### Patch Changes
+
+- Updated dependencies [345026e]
+- Updated dependencies [6f84e04]
+- Updated dependencies [9c03756]
+- Updated dependencies [32d9b54]
+- Updated dependencies [6ebeba7]
+- Updated dependencies [fc945a9]
+- @design-system-rte/core@1.21.0
+
 ## 4.1.0
 
 ### File Upload
@@ -165,100 +237,85 @@
 - Updated dependencies [ba96671]
 - Updated dependencies [0a94e7c]
 - @design-system-rte/core@1.19.0
+# React
 
-## 3.5.1
+## 2.2.0
 
-### Tag
-
-#### Patch Changes
-
-- correct import of TAG_ERROR_NO_LABEL constant
-
-### Other
-
-
-## 3.5.0
-
-### Tag
+### Radio Button Group
 
 #### Minor Changes
 
-- allow intended error log on test to validate
-- enforce required label prop rule and return error otherwise
+- rename props : - readOnly to isReadOnly - error to isError - errorMessage to errorText - groupTitle to groupTitleText
+- remove boolean text display
+- add required indication props
 
-#### Patch Changes
-
-- set icon as decorative
-
-### Checkbox
+### Required Indicator
 
 #### Minor Changes
 
-- add fieldset / legend for checkbox group + set vertical as default layout + add missing aria-label
-
-### Segmented Control
-
-#### Patch Changes
-
-- disable initial selection animation
-
-### Banner
-
-#### Patch Changes
-
-- disable transitions for reduced motion preference
-
-### Accordion
-
-#### Patch Changes
-
-- add aria-hidden true to decorative icons
-- add prefers-reduced-motion for chevron rotation
-
-### Radio Button
-
-#### Patch Changes
-
-- add semantic html tags and correct screen reader behavior
-- add fallback case for missing aria-label and error handler for missing label and aria-label
-- add exception for disabled & error state used simultanously
-
-### Chip
-
-#### Patch Changes
-
-- expand close icon clickable zone to 24px
+- set correct icon size and set baseline alignment for requirement text
 
 ### Sidenav
 
+#### Minor Changes
+
+- add props to customize close/open collapsible button label
+
+### Segmented Control
+
+#### Minor Changes
+
+- rename props - compactSpacing > isCompact - label > labelText
+- modify layout and sizes
+
+### Loader
+
+#### Minor Changes
+
+- remove duplicate labelText
+
+### Dropdown
+
+#### Minor Changes
+
+- add critical variant to dropdown item
+
+### File Upload
+
 #### Patch Changes
 
-- add missing aria-label to main nav element
+- correct width and min-width behavior
 
-### Divider
-
-#### Patch Changes
-
-- change appearance value to neutral instead of default
-
-### Card
+### Treeview
 
 #### Patch Changes
 
-- correct missassigned role attribute
-- add prefers-reduced-motion for transitions
+- correct item layers overlap
+
+### Tab
+
+#### Patch Changes
+
+- prevent tab label to overflow with other tabs
+
+### Drawer
+
+#### Patch Changes
+
+- correct validation system
+- avoid input validation infinite loop
 
 ### Other
 
 #### Patch Changes
 
-- Updated dependencies [c363231]
-- Updated dependencies [3580994]
-- Updated dependencies [ac2dcee]
-- Updated dependencies [ebf4aa9]
-- Updated dependencies [50628e5]
-- @design-system-rte/core@1.18.0
-# React
+- Updated dependencies [345026e]
+- Updated dependencies [6f84e04]
+- Updated dependencies [9c03756]
+- Updated dependencies [32d9b54]
+- Updated dependencies [6ebeba7]
+- Updated dependencies [fc945a9]
+- @design-system-rte/core@1.21.0
 
 ## 2.1.0
 
@@ -424,87 +481,51 @@
 - Updated dependencies [ba96671]
 - Updated dependencies [0a94e7c]
 - @design-system-rte/core@1.19.0
+# Core
 
-## 1.18.0
+## 1.21.0
 
-### Tag
-
-#### Minor Changes
-
-- allow intended error log on test to validate
-- enforce required label prop rule and return error otherwise
-
-#### Patch Changes
-
-- set icon as decorative
-
-### Checkbox
+### Radio Button Group
 
 #### Minor Changes
 
-- add fieldset / legend for checkbox group + set vertical as default layout + add missing aria-label
-
-### Segmented Control
-
-#### Patch Changes
-
-- disable initial selection animation
-
-### Banner
-
-#### Patch Changes
-
-- disable transitions for reduced motion preference
-
-### Accordion
-
-#### Patch Changes
-
-- add aria-hidden true to decorative icons
-- preserve accordion content in the DOM even while content is hidden
-
-### Radio Button
-
-#### Patch Changes
-
-- add semantic html tags and correct screen reader behavior
-- add fallback case for missing aria-label and error handler for missing label and aria-label
-
-### Chip
-
-#### Patch Changes
-
-- expand close icon clickable zone to 24px
+- rename props : - readOnly to isReadOnly - error to isError - errorMessage to errorText - groupTitle to groupTitleText
+- remove boolean text display
+- add required indication props
 
 ### Sidenav
 
+#### Minor Changes
+
+- add props to customize close/open collapsible button label
+
+### Segmented Control
+
+#### Minor Changes
+
+- rename props - compactSpacing > isCompact - label > labelText
+
+### Dropdown
+
+#### Minor Changes
+
+- add critical variant to dropdown item
+
+### Treeview
+
 #### Patch Changes
 
-- add missing aria-label to main nav element
+- correct item layers overlap
 
-### Divider
-
-#### Patch Changes
-
-- change appearance value to neutral instead of default
-
-### Card
+### Drawer
 
 #### Patch Changes
 
-- add prefers-reduced-motion for transitions
+- correct validation system
+- avoid input validation infinite loop
 
 ### Other
 
-#### Patch Changes
-
-- Updated dependencies [c363231]
-- Updated dependencies [3580994]
-- Updated dependencies [ac2dcee]
-- Updated dependencies [ebf4aa9]
-- Updated dependencies [50628e5]
-- @design-system-rte/core@1.18.0
-# Core
 
 ## 1.20.0
 
@@ -570,36 +591,6 @@
 #### Minor Changes
 
 - Enhance assistive text handling across input components
-
-## 1.18.0
-
-### Tag
-
-#### Minor Changes
-
-- enforce required label prop rule and return error otherwise
-
-### Divider
-
-#### Patch Changes
-
-- remove unused brand-navigation appearance
-- change appearance value to neutral instead of default
-
-### Radio Button
-
-#### Patch Changes
-
-- add fallback case for missing aria-label and error handler for missing label and aria-label
-
-### Sidenav
-
-#### Patch Changes
-
-- add missing aria-label to main nav element
-
-### Other
-
 # Design Docs
 
 ## 1.6.0
