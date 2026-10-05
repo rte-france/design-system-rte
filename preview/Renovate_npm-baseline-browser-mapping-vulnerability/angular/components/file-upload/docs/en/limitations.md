@@ -14,6 +14,18 @@ Assistive text is not shown while `errorFilesMap` contains any entry, even when 
 
 When `multiple` is `true`, each file picker interaction appends newly picked files to the current list. When `multiple` is `false`, the current selection is replaced.
 
+### Default width and consumer override
+
+The root uses a default width and `min-width` of 128px. Consumers set the field width on `rte-file-upload` (for example a layout class or `style="width: 320px"`) when they need more horizontal space. The component does not apply a `max-width`.
+
+### Upload button wider than the field
+
+The upload button sizes to its label and icon (`max-content`). When the button is wider than the component width, it overflows the root while file rows stay inside the component width. Overflow on the root is visible so the button is not clipped.
+
+### File list width
+
+Selected file rows span the full width of the component root (`width: 100%` on the file list wrapper). They do not match or follow the upload button width when the button is wider than the field.
+
 ### Long file names
 
-File names in the list are truncated when space is limited. A tooltip shows the full name when truncation occurs. The file list width follows the upload button width.
+File names truncate when horizontal space is limited. The file size and remove control keep their space; only the name flexes and truncates. A tooltip shows the full name when truncation occurs.
