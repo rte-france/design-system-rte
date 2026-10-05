@@ -1,5 +1,38 @@
 # @design-system-rte/core
 
+## 1.21.0
+
+### Minor Changes
+
+- 345026e: ## Changes
+
+  - (Radio Button Group) rename props : - readOnly to isReadOnly - error to isError - errorMessage to errorText - groupTitle to groupTitleText
+  - (Radio Button Group) remove boolean text display
+  - (Radio Button Group) add required indication props
+
+- 6f84e04: ## Changes
+
+  - (Sidenav) add props to customize close/open collapsible button label
+
+- 9c03756: ## Changes
+
+  - (Segmented Control) rename props - compactSpacing > isCompact - label > labelText
+
+- 32d9b54: ## Changes
+
+  - (Dropdown) add critical variant to dropdown item
+
+### Patch Changes
+
+- 6ebeba7: ## Changes
+
+  - (Treeview) correct item layers overlap
+
+- fc945a9: ## Changes
+
+  - (Drawer) correct validation system
+  - (Drawer) avoid input validation infinite loop
+
 ## 1.20.0
 
 ### Minor Changes
