@@ -1,0 +1,14 @@
+<span
+  *ngIf="required() || showLabelRequirement()"
+  class="requirement-indicator"
+  aria-hidden="true"
+  [ngClass]="{
+    required: required(),
+    'show-label-requirement': showLabelRequirement(),
+  }"
+  [attr.data-required]="required()"
+  [attr.data-show-label-requirement]="showLabelRequirement()"
+  ><rte-icon *ngIf="required() && !showLabelRequirement()" name="asterisk" [size]="8" />{{
+    required() && !showLabelRequirement() ? "" : requirementIndicatorValue()
+  }}</span
+>
