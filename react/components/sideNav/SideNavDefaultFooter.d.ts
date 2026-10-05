@@ -9,6 +9,8 @@ interface SideNavDefaultFooterProps {
     dividerAppearance: DividerAppearance;
     collapseIcon: string;
     onCollapse: () => void;
+    openCollapseText: string;
+    closeCollapseText: string;
 }
-declare function SideNavDefaultFooter({ footerItemsContent, collapsible, isCollapsed, appearance, dividerAppearance, collapseIcon, onCollapse, }: SideNavDefaultFooterProps): import("react").JSX.Element;
+declare function SideNavDefaultFooter({ footerItemsContent, collapsible, isCollapsed, appearance, dividerAppearance, collapseIcon, onCollapse, openCollapseText, closeCollapseText, }: SideNavDefaultFooterProps): import("react").JSX.Element;
 export default SideNavDefaultFooter;

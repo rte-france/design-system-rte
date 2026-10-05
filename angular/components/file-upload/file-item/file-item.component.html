@@ -1,5 +1,5 @@
 <div class="rte-file-upload-file-container" [attr.data-is-removing]="isRemoving()">
-  <div class="rte-file-upload-file">
+  <div #fileRowRef class="rte-file-upload-file">
     <div class="rte-file-upload-file-icon" aria-live="polite" aria-atomic="true">
       @if (isLoading()) {
         <span class="sr-only">{{ fileUploadItemAriaLabels.LOADING }} : {{ file().name }}</span>
@@ -15,7 +15,7 @@
       }
     </div>
 
-    <div #fileInfoRef class="rte-file-upload-file-info">
+    <div #fileNameSlotRef class="rte-file-upload-file-name-slot">
       @if (hasEllipsis()) {
         <span
           #fileNameRef
@@ -31,11 +31,11 @@
           {{ file().name }}
         </span>
       }
-
-      <span #fileSizeRef class="rte-file-upload-file-size" [attr.data-is-compact]="compact()">
-        {{ formatFileSize(file().size) }}
-      </span>
     </div>
+
+    <span #fileSizeRef class="rte-file-upload-file-size" [attr.data-is-compact]="compact()">
+      {{ formatFileSize(file().size) }}
+    </span>
 
     <rte-icon-button
       ariaLabel="Supprimer le fichier sélectionné : {{ file().name }}"

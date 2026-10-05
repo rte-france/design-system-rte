@@ -291,21 +291,32 @@ $icon-size: $positive-spacing_200;
 }
 
 .treeview-item-children {
-  display: flex;
-  flex-direction: column;
-  list-style: none;
+  display: grid;
+  grid-template-rows: 0fr;
   margin: 0;
   padding: 0;
   overflow: hidden;
-  max-height: 0;
-  transition: max-height 140ms ease-out;
+  transition: grid-template-rows 160ms ease-out;
 
   @media (prefers-reduced-motion: reduce) {
     transition: none;
   }
 
   &.treeview-item-children-open {
-    max-height: 2000px;
+    grid-template-rows: 1fr;
+  }
+}
+
+.treeview-item-children-list {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  min-height: 0;
+  overflow: hidden;
+
+  .treeview-item-children-open > & {
     overflow: visible;
   }
 }

@@ -1,21 +1,26 @@
 <div *ngIf="isDisplayed()" class="radio-button-group-container">
   <fieldset
     class="radio-button-group-fieldset"
-    [attr.aria-describedby]="error() && errorMessage() ? errorMessageId : null"
+    [attr.aria-describedby]="isError() && errorText() ? errorMessageId : null"
     [ngClass]="{
       disabled: disabled(),
-      error: error(),
-      'read-only': readOnly(),
+      error: isError(),
+      'read-only': isReadOnly(),
     }"
   >
-    <legend *ngIf="showGroupTitle() && groupTitle()" class="group-title">
-      {{ groupTitle() }}
-    </legend>
-    <p *ngIf="showHelpText() && groupHelpText()" class="group-help-text">
+    <div class="radio-button-group-title-container" [attr.data-show-label-requirement]="showLabelRequirement()">
+      <legend *ngIf="groupTitleText()" class="group-title">{{ groupTitleText() }}</legend>
+      <rte-required-indicator
+        *ngIf="required() || showLabelRequirement()"
+        [required]="required()"
+        [showLabelRequirement]="showLabelRequirement()"
+      />
+    </div>
+    <p *ngIf="groupHelpText()" class="group-help-text">
       {{ groupHelpText() }}
     </p>
-    <p *ngIf="error() && errorMessage()" class="group-error-message" [attr.id]="errorMessageId">
-      {{ errorMessage() }}
+    <p *ngIf="isError() && errorText()" class="group-error-message" [attr.id]="errorMessageId">
+      {{ errorText() }}
     </p>
     <div
       class="radio-button-group"
@@ -26,8 +31,8 @@
           [label]="showItemsLabel() ? item.label : ''"
           [groupName]="groupName()"
           [disabled]="disabled()"
-          [error]="error()"
-          [readOnly]="readOnly()"
+          [error]="isError()"
+          [readOnly]="isReadOnly()"
           [value]="item.value"
           [isChecked]="item.value === internalSelectedValue()"
           [ariaLabel]="item.ariaLabel"
