@@ -1,9 +1,7 @@
 import { Params, QueryParamsHandling, UrlTree } from "@angular/router";
 
 export type RouterLinkValue =
-  | string
-  | UrlTree
-  | Array<string | number | boolean | null | undefined | Record<string, unknown>>;
+  string | UrlTree | Array<string | number | boolean | null | undefined | Record<string, unknown>>;
 
 export interface RouterLinkConfig {
   queryParams?: Params;
