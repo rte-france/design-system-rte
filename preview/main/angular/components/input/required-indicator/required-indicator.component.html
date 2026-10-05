@@ -6,5 +6,9 @@
     required: required(),
     'show-label-requirement': showLabelRequirement(),
   }"
-  >{{ requirementIndicatorValue() }}</span
+  [attr.data-required]="required()"
+  [attr.data-show-label-requirement]="showLabelRequirement()"
+  ><rte-icon *ngIf="required() && !showLabelRequirement()" name="asterisk" [size]="8" />{{
+    required() && !showLabelRequirement() ? "" : requirementIndicatorValue()
+  }}</span
 >
