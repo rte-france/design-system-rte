@@ -1,8 +1,8 @@
-declare const Label: ({ id, label, htmlFor, required, showLabelRequirement, }: {
+declare const Label: import('../../../../../node_modules/react').ForwardRefExoticComponent<{
     id?: string;
     label: string;
     htmlFor?: string;
     required?: boolean;
     showLabelRequirement?: boolean;
-}) => import("react").JSX.Element;
+} & import('../../../../../node_modules/react').RefAttributes<HTMLDivElement>>;
 export default Label;

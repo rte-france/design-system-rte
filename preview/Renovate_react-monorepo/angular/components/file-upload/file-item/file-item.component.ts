@@ -8,11 +8,12 @@ import {
   ElementRef,
   inject,
   input,
+  OnDestroy,
   output,
   signal,
   viewChild,
 } from "@angular/core";
-import { getStringWidthFromContext } from "@design-system-rte/core";
+import { generateId, getStringWidthFromContext, FILE_UPLOAD_ITEM_ARIA_LABELS } from "@design-system-rte/core";
 import { extractFileNameParts, formatFileSize } from "@design-system-rte/core/components/file-upload/file-upload.util";
 
 import { AssistiveTextComponent } from "../../assistive-text/assistive-text.component";
@@ -35,26 +36,32 @@ import { TooltipDirective } from "../../tooltip/tooltip.directive";
   styleUrl: "./file-item.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FileItemComponent implements AfterViewInit {
+export class FileItemComponent implements AfterViewInit, OnDestroy {
   readonly file = input.required<File>();
   readonly isError = input<boolean>(false);
   readonly errorMessage = input<string>();
   readonly compact = input<boolean>(false);
   readonly isLoading = input<boolean>(false);
+  readonly isRemoving = input<boolean>(false);
 
   readonly removeFile = output<void>();
 
   readonly fileNameRef = viewChild<ElementRef<HTMLSpanElement>>("fileNameRef");
   readonly fileSizeRef = viewChild<ElementRef<HTMLSpanElement>>("fileSizeRef");
-  readonly fileInfoRef = viewChild<ElementRef<HTMLDivElement>>("fileInfoRef");
+  readonly fileNameSlotRef = viewChild<ElementRef<HTMLDivElement>>("fileNameSlotRef");
+  readonly fileRowRef = viewChild<ElementRef<HTMLDivElement>>("fileRowRef");
 
   readonly truncatedFileName = signal<string>("");
   readonly hasEllipsis = signal<boolean>(false);
+  readonly errorMessageId = generateId();
 
   private readonly cdr = inject(ChangeDetectorRef);
   private isViewInitialized = false;
+  private resizeObserver?: ResizeObserver;
 
   readonly formatFileSize = formatFileSize;
+
+  readonly fileUploadItemAriaLabels = FILE_UPLOAD_ITEM_ARIA_LABELS;
 
   constructor() {
     effect(() => {
@@ -70,6 +77,16 @@ export class FileItemComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.isViewInitialized = true;
     this.updateTruncation();
+
+    const row = this.fileRowRef()?.nativeElement;
+    if (row) {
+      this.resizeObserver = new ResizeObserver(() => this.updateTruncation());
+      this.resizeObserver.observe(row);
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.resizeObserver?.disconnect();
   }
 
   onRemove(): void {
@@ -123,13 +140,8 @@ export class FileItemComponent implements AfterViewInit {
   }
 
   private getAvailableWidth(): number {
-    const sizeElement = this.fileSizeRef()?.nativeElement;
-    const fileInformationElement = this.fileInfoRef()?.nativeElement;
-
-    if (!sizeElement || !fileInformationElement) return 0;
-
-    const gap = parseFloat(window.getComputedStyle(fileInformationElement).gap) || 0;
-    return fileInformationElement.offsetWidth - sizeElement.offsetWidth - gap;
+    const nameSlot = this.fileNameSlotRef()?.nativeElement;
+    return nameSlot?.clientWidth || 0;
   }
 
   private computeContextStyle(fileNameElement: HTMLSpanElement): CanvasRenderingContext2D {

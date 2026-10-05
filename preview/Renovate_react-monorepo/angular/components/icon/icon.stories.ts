@@ -1,8 +1,21 @@
 import { CommonModule } from "@angular/common";
 import { moduleMetadata, type Meta, type StoryObj } from "@storybook/angular";
+import { expect } from "@storybook/test";
 
 import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "./icon-map";
 import { IconComponent } from "./icon.component";
+
+const getStoryIconSvg = (canvasElement: HTMLElement): SVGSVGElement | null => {
+  if (canvasElement.tagName.toLowerCase() === "rte-icon") {
+    return canvasElement.querySelector(".rte-icon-container svg");
+  }
+
+  const storyIcons = Array.from(canvasElement.querySelectorAll("rte-icon")).filter(
+    (icon) => !icon.closest(".rte-theme-selector"),
+  );
+
+  return storyIcons[0]?.querySelector(".rte-icon-container svg") ?? null;
+};
 
 const RegularIconIds = Object.keys(RegularIconsList);
 const TogglableIconIds = Object.keys(TogglableIconsList);
@@ -36,6 +49,14 @@ const meta = {
       description: "Couleur de l’icône",
       defaultValue: "#000000",
     },
+    ariaHidden: {
+      control: "boolean",
+      description: "Masque l’icône aux technologies d’assistance lorsqu’elle est décorative",
+    },
+    ariaLabel: {
+      control: "text",
+      description: "Nom accessible de l’icône lorsqu’elle est sémantique",
+    },
   },
 } satisfies Meta<IconComponent>;
 
@@ -49,6 +70,35 @@ export const Default: Story = {
     size: 20,
     color: "#000000",
     appearance: "outlined",
+  },
+};
+
+export const DecorativeIcon: Story = {
+  args: {
+    name: "add",
+    size: 20,
+    appearance: "outlined",
+  },
+  play: async ({ canvasElement }) => {
+    const iconSvg = getStoryIconSvg(canvasElement);
+
+    expect(iconSvg).toHaveAttribute("aria-hidden", "true");
+  },
+};
+
+export const SemanticIcon: Story = {
+  args: {
+    name: "add",
+    size: 20,
+    appearance: "outlined",
+    ariaLabel: "Add item",
+    ariaHidden: false,
+  },
+  play: async ({ canvasElement }) => {
+    const iconSvg = getStoryIconSvg(canvasElement);
+
+    expect(iconSvg).toHaveAttribute("aria-label", "Add item");
+    expect(iconSvg).not.toHaveAttribute("aria-hidden", "true");
   },
 };
 

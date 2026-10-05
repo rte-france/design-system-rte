@@ -43,6 +43,15 @@
         <rte-divider orientation="vertical" />
       </div>
       <div
+        class="drawer-children"
+        [attr.data-open]="!!isAnimating()"
+        [style.marginRight]="responsiveMainMarginRight()"
+        [style.maxHeight]="isAnimating() ? '100%' : undefined"
+        [style.overflowY]="isAnimating() ? 'auto' : undefined"
+      >
+        <ng-container *ngTemplateOutlet="drawerContextContent() ?? null" />
+      </div>
+      <div
         #drawerPanelResponsive
         class="drawer"
         data-drawer-panel
@@ -51,22 +60,14 @@
         [attr.data-open]="isAnimating() ? 'true' : 'false'"
         [attr.data-position]="position()"
         [attr.data-fixed-header]="fixedHeader() ? 'true' : 'false'"
-        [attr.aria-labelledby]="showHeader() ? id() + '-drawer-title' : null"
+        [attr.aria-labelledby]="drawerAriaAttributes().ariaLabelledby ?? null"
+        [attr.aria-label]="drawerAriaAttributes().ariaLabel ?? null"
         [style.width]="width()"
         [style.transform]="isAnimating() ? 'none' : 'translateX(' + (width() ?? '100%') + ')'"
         [style.visibility]="isAnimating() ? 'visible' : 'hidden'"
       >
         <ng-container *ngTemplateOutlet="headerAndContent" />
         <ng-container *ngTemplateOutlet="footerBlock" />
-      </div>
-      <div
-        class="drawer-children"
-        [attr.data-open]="isAnimating() ? 'true' : 'false'"
-        [style.marginRight]="responsiveMainMarginRight()"
-        [style.maxHeight]="isAnimating() ? '100%' : undefined"
-        [style.overflowY]="isAnimating() ? 'auto' : undefined"
-      >
-        <ng-container *ngTemplateOutlet="drawerContextContent() ?? null" />
       </div>
     </div>
   }
@@ -87,7 +88,8 @@
         aria-modal="true"
         [attr.data-open]="isAnimating() ? 'true' : 'false'"
         [attr.data-fixed-header]="fixedHeader() ? 'true' : 'false'"
-        [attr.aria-labelledby]="showHeader() ? id() + '-drawer-title' : null"
+        [attr.aria-labelledby]="drawerAriaAttributes().ariaLabelledby ?? null"
+        [attr.aria-label]="drawerAriaAttributes().ariaLabel ?? null"
         [style.width]="width()"
       >
         <ng-container *ngTemplateOutlet="headerAndContent" />

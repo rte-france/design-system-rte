@@ -18,9 +18,15 @@ import {
   untracked,
   ViewContainerRef,
 } from "@angular/core";
-import { DRAWER_TRANSITION_DURATION, getDrawerConfigurationIssues, waitForNextFrame } from "@design-system-rte/core";
+import {
+  DRAWER_MISSING_ACCESSIBLE_NAME_ERROR,
+  DRAWER_TRANSITION_DURATION,
+  getDrawerConfigurationIssues,
+  waitForNextFrame,
+} from "@design-system-rte/core";
 import type { DrawerPosition } from "@design-system-rte/core/components/drawer/drawer.interface";
 import { ESCAPE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
+import { logError } from "@design-system-rte/core/utils/log-handlers";
 
 import { OverlayService } from "../../services/overlay.service";
 
@@ -64,6 +70,7 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
   readonly rteDrawerShowFooter = input<boolean>(true);
   readonly rteDrawerCloseOnEscape = input<boolean>(false);
   readonly rteDrawerIsClosable = input<boolean>(true);
+  readonly rteDrawerAriaLabel = input<string>();
 
   readonly rteDrawerOnPrimary = output<void>();
   readonly rteDrawerOnSecondary = output<void>();
@@ -242,7 +249,10 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
     const useOverlay = position === "modal" && !collapsible;
 
     if (useOverlay) {
-      this.drawerCompRef = this.overlayService.create(DrawerComponent, this.viewContainerRef);
+      this.drawerCompRef = this.overlayService.create(DrawerComponent, this.viewContainerRef, {
+        hasBackdrop: true,
+      });
+      this.drawerCompRef.instance.backdropOwnerRef = this.drawerCompRef;
       this.usedOverlay = true;
     } else {
       this.drawerCompRef = this.viewContainerRef.createComponent(DrawerComponent);
@@ -304,6 +314,7 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
     componentRef.setInput("showFooter", this.rteDrawerShowFooter());
     componentRef.setInput("closeOnEscape", this.rteDrawerCloseOnEscape());
     componentRef.setInput("isClosable", this.rteDrawerIsClosable());
+    componentRef.setInput("ariaLabel", this.rteDrawerAriaLabel());
     componentRef.setInput("modalHostMode", this.rteDrawerPosition() === "modal" && this.rteDrawerIsCollapsible());
     componentRef.setInput("drawerContent", this.drawerContent());
     componentRef.setInput("drawerHeader", this.drawerHeader() ?? null);
@@ -326,9 +337,14 @@ export class DrawerDirective implements AfterContentInit, OnDestroy {
       hasMainContent: !!this.drawerContextContent(),
       showHeader: this.rteDrawerShowHeader(),
       showFooter: this.rteDrawerShowFooter(),
+      hasAriaLabel: !!this.rteDrawerAriaLabel()?.trim(),
     });
     if (issues) {
-      console.warn(issues);
+      if (issues === DRAWER_MISSING_ACCESSIBLE_NAME_ERROR) {
+        logError("Drawer", issues);
+      } else {
+        console.warn(issues);
+      }
       return false;
     }
     return true;

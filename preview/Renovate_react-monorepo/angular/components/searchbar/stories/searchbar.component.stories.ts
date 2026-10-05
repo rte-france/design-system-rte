@@ -72,6 +72,47 @@ export const Default: Story = {
   },
 };
 
+export const Appearances: Story = {
+  args: {
+    ...Default.args,
+    value: "",
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 16px; width: fit-content">
+        <rte-searchbar id="searchbar-primary" [appearance]="'primary'" [label]="label" [showResetButton]="showResetButton" />
+        <rte-searchbar id="searchbar-secondary" [appearance]="'secondary'" [label]="label" [showResetButton]="showResetButton" />
+      </div>
+    `,
+  }),
+};
+
+export const CompactSpacing: Story = {
+  args: {
+    ...Default.args,
+    compactSpacing: true,
+    value: "",
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 16px; width: fit-content">
+        <rte-searchbar id="searchbar-primary-compact" [appearance]="'primary'" [compactSpacing]="true" [label]="label" [showResetButton]="showResetButton" />
+        <rte-searchbar id="searchbar-secondary-compact" [appearance]="'secondary'" [compactSpacing]="true" [label]="label" [showResetButton]="showResetButton" />
+      </div>
+    `,
+  }),
+};
+
+export const WithFilledValue: Story = {
+  args: {
+    ...Default.args,
+    value: "Texte recherché",
+    showResetButton: true,
+  },
+};
+
 export const WithDropdown: Story = {
   args: {
     id: "searchbar-with-dropdown",

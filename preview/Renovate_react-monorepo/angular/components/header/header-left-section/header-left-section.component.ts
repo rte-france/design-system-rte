@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, input } from "@angular/core";
 import { RouterLink } from "@angular/router";
 import { buildHeaderHomeAriaLabel } from "@design-system-rte/core/components/header";
+import { appendExternalLinkHint } from "@design-system-rte/core/components/link";
 
 import { ResolvedNavigation } from "../../../utils/navigation/navigation-element";
 
@@ -32,7 +33,12 @@ export class HeaderLeftSectionComponent {
   readonly homeNavigation = computed(() => this.config()?.homeNavigation);
 
   readonly homeAriaLabel = computed(() => {
-    return this.config()?.homeAriaLabel ?? buildHeaderHomeAriaLabel(this.applicationName());
+    const baseLabel = this.config()?.homeAriaLabel ?? buildHeaderHomeAriaLabel(this.applicationName());
+    const navigation = this.homeNavigation();
+    if (navigation?.externalLink) {
+      return appendExternalLinkHint(baseLabel);
+    }
+    return baseLabel;
   });
 
   readonly shouldRenderLogo = computed(() => this.hasLogo() && !!this.logoSrc());

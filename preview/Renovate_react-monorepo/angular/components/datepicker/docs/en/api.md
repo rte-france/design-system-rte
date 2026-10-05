@@ -11,6 +11,7 @@ The `rte-datepicker` component is the public API. It implements `ControlValueAcc
 | `width` | `string` | `"248px"` | Field width. Values without a unit are treated as pixels. |
 | `hasAssistiveText` | `boolean` | `false` | Whether assistive text is rendered below the field. |
 | `assistiveTextLabel` | `string` | `""` | Assistive text content. Only shown when `hasAssistiveText` is `true`. |
+| `errorMessage` | `string` | `""` | Error message displayed as assistive text when `error` is `true`. It takes precedence over `assistiveTextLabel`. |
 | `assistiveTextAppearance` | `"description"` \| `"error"` | `"description"` | Assistive text style. Overridden to `"error"` when `error` is `true`. |
 | `showAssistiveIcon` | `boolean` | `false` | Shows an icon alongside assistive text. |
 | `fieldAriaLabel` | `string` | `""` | Accessible name for the segmented date field when no visible label is used. |

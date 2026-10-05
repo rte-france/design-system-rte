@@ -36,7 +36,7 @@
                       [href]="headerNativeHref(item)"
                       [attr.target]="item.externalLink ? '_blank' : null"
                       [attr.rel]="item.externalLink ? 'noopener noreferrer' : null"
-                      [attr.aria-label]="item.ariaLabel || item.label"
+                      [attr.aria-label]="appendExternalLinkHint(item.ariaLabel || item.label)"
                       [attr.aria-disabled]="item.disabled ? 'true' : null"
                       [attr.aria-current]="item.active ? 'page' : null"
                       [attr.tabindex]="item.disabled ? -1 : null"
@@ -117,11 +117,15 @@
 
           @if (hasAvatar() && avatarProps()) {
             <rte-avatar
-              [size]="avatarProps()!.size ?? 32"
+              [size]="isCompact() ? 24 : 32"
               [imgSrc]="avatarProps()!.imgSrc"
               [alt]="avatarProps()!.alt ?? 'Avatar'"
               [initials]="avatarProps()!.initials"
               [isInteractive]="avatarProps()!.isInteractive ?? true"
+              [type]="avatarProps()!.type ?? 'user'"
+              [status]="avatarProps()!.status"
+              [layout]="avatarProps()!.layout ?? 'image'"
+              [decorativeColor]="avatarProps()!.decorativeColor"
               (avatarClick)="handleAvatarClick()"
             />
           }

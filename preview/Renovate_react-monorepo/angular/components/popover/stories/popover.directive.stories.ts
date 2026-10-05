@@ -53,6 +53,9 @@ const meta: Meta<PopoverDirective> = {
     clickPrimaryButton: { action: "primary click", control: false },
     clickSecondaryButton: { action: "secondary click", control: false },
   },
+  parameters: {
+    layout: "centered",
+  },
 };
 export default meta;
 type Story = StoryObj<PopoverDirective>;
@@ -122,6 +125,118 @@ export const WithTwoButtons: Story = {
         `),
   }),
 };
+
+export const Positions: Story = {
+  args: {
+    rtePopoverContent: "This popover demonstrates a position.",
+    rtePopoverArrow: true,
+    rtePopoverAlignment: "center",
+    rtePopoverTitle: "Popover position",
+    rtePopoverPrimaryButtonLabel: "Close",
+  },
+  render: (args) => ({
+    props: args,
+    imports: [PopoverDirective],
+    template: `
+      <div style="display: flex; gap: 16px">
+        <button rtePopover rtePopoverPosition="top"
+          [rtePopoverContent]="rtePopoverContent"
+          [rtePopoverAlignment]="rtePopoverAlignment"
+          [rtePopoverArrow]="rtePopoverArrow"
+          [rtePopoverTitle]="rtePopoverTitle"
+          [rtePopoverPrimaryButtonLabel]="rtePopoverPrimaryButtonLabel">Top</button>
+        <button rtePopover rtePopoverPosition="bottom"
+          [rtePopoverContent]="rtePopoverContent"
+          [rtePopoverAlignment]="rtePopoverAlignment"
+          [rtePopoverArrow]="rtePopoverArrow"
+          [rtePopoverTitle]="rtePopoverTitle"
+          [rtePopoverPrimaryButtonLabel]="rtePopoverPrimaryButtonLabel">Bottom</button>
+        <button rtePopover rtePopoverPosition="right"
+          [rtePopoverContent]="rtePopoverContent"
+          [rtePopoverAlignment]="rtePopoverAlignment"
+          [rtePopoverArrow]="rtePopoverArrow"
+          [rtePopoverTitle]="rtePopoverTitle"
+          [rtePopoverPrimaryButtonLabel]="rtePopoverPrimaryButtonLabel">Right</button>
+        <button rtePopover rtePopoverPosition="left"
+          [rtePopoverContent]="rtePopoverContent"
+          [rtePopoverAlignment]="rtePopoverAlignment"
+          [rtePopoverArrow]="rtePopoverArrow"
+          [rtePopoverTitle]="rtePopoverTitle"
+          [rtePopoverPrimaryButtonLabel]="rtePopoverPrimaryButtonLabel">Left</button>
+      </div>
+    `,
+  }),
+};
+
+export const Alignments: Story = {
+  args: {
+    rtePopoverContent: "This popover demonstrates an alignment.",
+    rtePopoverPosition: "bottom",
+    rtePopoverArrow: true,
+    rtePopoverTitle: "Popover alignment",
+    rtePopoverPrimaryButtonLabel: "Close",
+    rtePopoverAlignment: "center",
+  },
+  render: (args) => ({
+    props: args,
+    imports: [PopoverDirective],
+    template: `
+      <div style="display: flex; gap: 16px">
+        <button rtePopover [rtePopoverAlignment]="'start'"
+          [rtePopoverContent]="rtePopoverContent"
+          [rtePopoverPosition]="rtePopoverPosition"
+          [rtePopoverArrow]="rtePopoverArrow"
+          [rtePopoverTitle]="rtePopoverTitle"
+          [rtePopoverPrimaryButtonLabel]="rtePopoverPrimaryButtonLabel">Start</button>
+        <button rtePopover [rtePopoverAlignment]="'center'"
+          [rtePopoverContent]="rtePopoverContent"
+          [rtePopoverPosition]="rtePopoverPosition"
+          [rtePopoverArrow]="rtePopoverArrow"
+          [rtePopoverTitle]="rtePopoverTitle"
+          [rtePopoverPrimaryButtonLabel]="rtePopoverPrimaryButtonLabel">Center</button>
+        <button rtePopover [rtePopoverAlignment]="'end'"
+          [rtePopoverContent]="rtePopoverContent"
+          [rtePopoverPosition]="rtePopoverPosition"
+          [rtePopoverArrow]="rtePopoverArrow"
+          [rtePopoverTitle]="rtePopoverTitle"
+          [rtePopoverPrimaryButtonLabel]="rtePopoverPrimaryButtonLabel">End</button>
+      </div>
+    `,
+  }),
+};
+
+export const Actions: Story = {
+  args: {
+    rtePopoverContent: "Are you sure you want to proceed with this action? This cannot be undone.",
+    rtePopoverPosition: "auto",
+    rtePopoverAlignment: "center",
+    rtePopoverArrow: true,
+    rtePopoverPrimaryButtonLabel: "Confirm",
+    rtePopoverSecondaryButtonLabel: "Cancel",
+    rtePopoverTitle: "Confirm Action",
+  },
+  render: (args) => ({
+    props: { ...args, actionMessage: "Aucune action sélectionnée." },
+    imports: [PopoverDirective],
+    template: `
+      <button
+        rtePopover
+        [rtePopoverContent]="rtePopoverContent"
+        [rtePopoverPosition]="rtePopoverPosition"
+        [rtePopoverAlignment]="rtePopoverAlignment"
+        [rtePopoverArrow]="rtePopoverArrow"
+        [rtePopoverPrimaryButtonLabel]="rtePopoverPrimaryButtonLabel"
+        [rtePopoverSecondaryButtonLabel]="rtePopoverSecondaryButtonLabel"
+        [rtePopoverTitle]="rtePopoverTitle"
+        (clickSecondaryButton)="actionMessage = 'Action annulée.'"
+        (clickPrimaryButton)="actionMessage = 'Action confirmée.'"
+      >
+        Open Confirmation
+      </button>
+      <p>{{ actionMessage }}</p>
+    `,
+  }),
+};
 export const WithoutTitle: Story = {
   args: {
     rtePopoverContent: "This popover has no title, just content and a close button.",
@@ -131,7 +246,8 @@ export const WithoutTitle: Story = {
     rtePopoverPrimaryButtonLabel: "Got it",
   },
   render: (args) => ({
-    props: args,
+    // props: args,
+    props: { ...args, ariaLabel: "Informations complémentaires" },
     imports: [PopoverDirective],
     template: mockHost(`
             rtePopover
@@ -144,6 +260,7 @@ export const WithoutTitle: Story = {
             [rtePopoverTitle]="rtePopoverTitle"
             (clickSecondaryButton)="clickSecondaryButton()"
             (clickPrimaryButton)="clickPrimaryButton()"
+            [attr.aria-label]="ariaLabel"
         `),
   }),
 };

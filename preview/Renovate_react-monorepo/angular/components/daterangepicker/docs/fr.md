@@ -45,6 +45,7 @@ Le composant `rte-daterangepicker` (`DaterangepickerComponent`) constitue l'API 
 | `disabled` | `boolean` | `false` | Désactive les deux champs et les boutons d'ouverture du calendrier. |
 | `readOnly` | `boolean` | `false` | Empêche la modification des champs segmentés et l'ouverture du calendrier. |
 | `error` | `boolean` | `false` | Applique le style d'erreur aux champs. |
+| `errorMessage` | `string` | `""` | Message d'erreur affiché comme texte d'aide lorsque `error` est `true`. Il est prioritaire sur `assistiveTextLabel`. |
 | `minDate` | `Date` | — | Date sélectionnable la plus ancienne (inclusive). |
 | `maxDate` | `Date` | — | Date sélectionnable la plus récente (inclusive). |
 | `disabledDates` | `readonly Date[]` | `[]` | Dates individuelles non sélectionnables. |

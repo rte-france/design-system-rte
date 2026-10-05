@@ -2,6 +2,7 @@
 
 | Nom                           | Type                            | Valeur par défaut | Description                                                                                                |
 | ----------------------------- | ------------------------------- | ----------------- | ---------------------------------------------------------------------------------------------------------- |
+| rteDrawerAriaLabel            | input `string`                  | -                 | Nom accessible requis lorsque le header par défaut n’est pas utilisé (`rteDrawerShowHeader={false}` ou `#drawerHeader` personnalisé). |
 | rteDrawerCloseOnEscape        | input `boolean`                 | false             | Ferme le Drawer avec Escape lorsqu’il est ouvert.                                                          |
 | rteDrawerCloseOnOverlayClick  | input `boolean`                 | false             | Ferme le Drawer modal lors d’un clic sur l’overlay.                                                        |
 | rteDrawerFixedHeader          | input `boolean`                 | false             | Fixe le header et laisse le contenu défiler séparément.                                                    |

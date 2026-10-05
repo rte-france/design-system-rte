@@ -20,5 +20,6 @@ The `FileUploadComponent` (`rte-file-upload`) is the public API. Consumers confi
 | isError | boolean | `false` | Switches assistive text to error appearance. |
 | errorFilesMap | string[] | `[]` | Per-file error messages aligned by index with the selected files. |
 | onUploadFile | `(file: File) => Promise<void>` | — | Optional async upload handler. Shows a loading state on each file while the promise is pending. |
+| uploadErrorMessage | string \| `(file: File, error: unknown) => string` | "Erreur lors du téléchargement du fichier." | Message displayed for rejected async uploads. A function can return a different message for each file and error. |
 | filesChange | output | — | Emits the current list of selected files when the selection changes or a file is removed. |
 | fileRemoved | output | — | Emits the file removed from the list. |

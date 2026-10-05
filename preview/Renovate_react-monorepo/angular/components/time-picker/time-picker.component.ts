@@ -95,6 +95,7 @@ export class TimePickerComponent implements ControlValueAccessor {
   readonly showLabelRequirement = input<boolean>(false);
   readonly readOnly = input<boolean>(false);
   readonly assistiveTextLabel = input<string>();
+  readonly errorMessage = input<string>();
   readonly assistiveAppearance = input<"description" | "error" | "success" | "link">("description");
   readonly showAssistiveIcon = input<boolean>(false);
   readonly assistiveTextLink = input<string>();
@@ -120,6 +121,10 @@ export class TimePickerComponent implements ControlValueAccessor {
 
   readonly displayValue = computed(() => buildDisplayValue(this.internalTimeValue(), this.activeTimeSegment()));
   readonly dropdownMenuId = computed(() => `time_picker_${this.id()}`);
+  readonly assistiveTextId = computed(() => `${this.id()}-assistive-text`);
+  readonly computedAssistiveTextLabel = computed(() =>
+    this.isError() ? this.errorMessage() || this.assistiveTextLabel() : this.assistiveTextLabel(),
+  );
 
   private readonly disabledFromControl = signal(false);
 
@@ -131,7 +136,7 @@ export class TimePickerComponent implements ControlValueAccessor {
       console.warn(TIME_PICKER_WARN_READ_ONLY_INCOMPLETE_VALUE);
       return false;
     }
-    if (this.isError() && !this.assistiveTextLabel()) {
+    if (this.isError() && !this.computedAssistiveTextLabel()) {
       console.warn(TIME_PICKER_WARN_ERROR_WITHOUT_ASSISTIVE_TEXT);
       return false;
     }
@@ -350,6 +355,9 @@ export class TimePickerComponent implements ControlValueAccessor {
 
   private handleFunctionKey(key: string): void {
     if ([BACKSPACE_KEY, DELETE_KEY].includes(key)) {
+      if (this.isCurrentSegmentReadOnly()) {
+        return;
+      }
       this.handleDeleteSegmentValue();
     } else if (key === ARROW_LEFT_KEY) {
       this.moveToPreviousSegment();
@@ -368,7 +376,7 @@ export class TimePickerComponent implements ControlValueAccessor {
       this.updateTimeSegment(activeSegment, "");
     } else {
       const previous = getPrevSegment(activeSegment);
-      if (previous !== activeSegment) {
+      if (previous !== activeSegment && !this.isSegmentReadOnly(previous)) {
         this.updateTimeSegment(previous, "");
         this.moveToPreviousSegment();
       }
@@ -402,10 +410,14 @@ export class TimePickerComponent implements ControlValueAccessor {
 
   private isCurrentSegmentReadOnly(): boolean {
     const activeSegment = this.activeTimeSegment();
-    if (activeSegment === TimeSegmentEnum.HOURS) {
+    return this.isSegmentReadOnly(activeSegment);
+  }
+
+  private isSegmentReadOnly(segment: TimeSegmentEnum): boolean {
+    if (segment === TimeSegmentEnum.HOURS) {
       return this.isHourReadOnly();
     }
-    if (activeSegment === TimeSegmentEnum.MINUTES) {
+    if (segment === TimeSegmentEnum.MINUTES) {
       return this.isMinuteReadOnly();
     }
     return this.isSecondReadOnly();

@@ -11,6 +11,7 @@ import {
   AfterViewInit,
   contentChild,
   TemplateRef,
+  effect,
 } from "@angular/core";
 import { NG_VALUE_ACCESSOR } from "@angular/forms";
 import { IconSize } from "@design-system-rte/core";
@@ -66,6 +67,7 @@ export class SelectComponent extends BaseValueAccessor<string | string[]> implem
   readonly labelId = input<string>();
   readonly labelPosition = input<SelectProps["labelPosition"]>("top");
   readonly assistiveTextLabel = input<string>();
+  readonly errorMessage = input<string>();
   readonly assistiveTextAppearance = input<SelectProps["assistiveAppearance"]>("description");
   readonly assistiveTextLink = input<string>();
   readonly required = input<boolean>(false);
@@ -88,8 +90,15 @@ export class SelectComponent extends BaseValueAccessor<string | string[]> implem
 
   readonly selectRef = viewChild<ElementRef<HTMLElement>>("selectRef");
   readonly buttonsContainerRef = viewChild<ElementRef<HTMLElement>>("buttonsContainerRef");
+  readonly labelContainerRef = viewChild<ElementRef<HTMLElement>>("labelContainerRef");
+
+  readonly labelContainerWidth = signal<number | undefined>(undefined);
 
   readonly selectDropdownOffset = SELECT_DROPDOWN_OFFSET;
+  readonly assistiveTextId = computed(() => (this.id() ? `${this.id()}-assistive-text` : null));
+  readonly computedAssistiveTextLabel = computed(() =>
+    this.isError() ? this.errorMessage() || this.assistiveTextLabel() : this.assistiveTextLabel(),
+  );
 
   readonly headerDirective = contentChild(SelectHeaderDirective);
   readonly footerDirective = contentChild(SelectFooterDirective);
@@ -201,6 +210,28 @@ export class SelectComponent extends BaseValueAccessor<string | string[]> implem
   readonly iconSize = computed(() => (this.compactSpacing() ? IconSize["s"] : IconSize["m"]));
 
   readonly isDisabled = computed(() => this.disabled() || this.formDisabled());
+
+  readonly dropdownWidth = computed(() => {
+    const width = this.computedWidth();
+    if (this.labelPosition() === "top") {
+      return this.selectWidth();
+    } else {
+      const nativeElementWidth = this.labelContainerWidth();
+      if (nativeElementWidth) {
+        const numericWidth = typeof width === "number" ? width : parseFloat(width);
+        return numericWidth - nativeElementWidth;
+      }
+    }
+    return null;
+  });
+
+  constructor() {
+    super();
+
+    effect(() => {
+      this.labelContainerWidth.set(this.labelContainerRef()?.nativeElement.clientWidth);
+    });
+  }
 
   ngAfterViewInit() {
     this.internalValue.set(this.value());

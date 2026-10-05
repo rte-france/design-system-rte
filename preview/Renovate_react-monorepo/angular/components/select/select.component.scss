@@ -16,8 +16,14 @@
       }
     }
 
-    .rte-select-label {
-      height: 32px;
+    .rte-select-label-container {
+      display: flex;
+      align-items: flex-start;
+      padding: $positive-spacing_025 $positive-spacing_100;
+
+      &[data-show-label-requirement="true"] {
+        align-items: center;
+      }
     }
   }
 
@@ -29,6 +35,12 @@
     &[data-show-label-requirement="true"] {
       align-items: center;
     }
+  }
+
+  .rte-select-dropdown {
+    width: 100%;
+    flex: 1;
+    min-width: 0;
   }
 
   .rte-select-label {

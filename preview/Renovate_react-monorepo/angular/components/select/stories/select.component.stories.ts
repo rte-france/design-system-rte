@@ -92,23 +92,6 @@ export const Default: Story = {
       { value: "option-1", label: "Option 1" },
       { value: "option-2", label: "Option 2" },
       { value: "option-3", label: "Option 3" },
-      { value: "option-4", label: "Option 4" },
-      { value: "option-5", label: "Option 5" },
-      { value: "option-6", label: "Option 6" },
-      { value: "option-7", label: "Option 7" },
-      { value: "option-8", label: "Option 8" },
-      { value: "option-9", label: "Option 9" },
-      { value: "option-10", label: "Option 10" },
-      { value: "option-11", label: "Option 11" },
-      { value: "option-12", label: "Option 12" },
-      { value: "option-13", label: "Option 13" },
-      { value: "option-14", label: "Option 14" },
-      { value: "option-15", label: "Option 15" },
-      { value: "option-16", label: "Option 16" },
-      { value: "option-17", label: "Option 17" },
-      { value: "option-18", label: "Option 18" },
-      { value: "option-19", label: "Option 19" },
-      { value: "option-20", label: "Option 20" },
     ],
     isError: false,
     readOnly: false,
@@ -149,6 +132,139 @@ export const Default: Story = {
         [variant]="variant"
         [maxHeight]="maxHeight"
         />
+    `,
+  }),
+};
+
+export const States: Story = {
+  args: {
+    ...Default.args,
+  },
+  render: (args) => ({
+    props: { ...args },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <rte-select
+          [id]="id"
+          [label]="label"
+          [options]="options"
+          [assistiveTextLabel]="assistiveTextLabel"
+          [isError]="true"
+          [value]=""
+        />
+        <rte-select
+          [id]="id + '-readonly'"
+          [label]="label"
+          [options]="options"
+          [assistiveTextLabel]="assistiveTextLabel"
+          [readOnly]="true"
+          [value]="value"
+        />
+        <rte-select
+          [id]="id + '-disabled'"
+          [label]="label"
+          [options]="options"
+          [assistiveTextLabel]="assistiveTextLabel"
+          [disabled]="true"
+          [value]="value"
+        />
+      </div>
+    `,
+  }),
+};
+
+export const LabelSide: Story = {
+  args: {
+    ...Default.args,
+    labelPosition: "side",
+  },
+  render: (args) => ({
+    props: { ...args },
+    template: `
+      <rte-select
+        [id]="id"
+        [label]="'Choisir une option'"
+        [labelId]="labelId"
+        [labelPosition]="labelPosition"
+        [assistiveTextLabel]="'
+This is a description for the select component.'"
+        [assistiveTextLink]="assistiveTextLink"
+        [assistiveTextAppearance]="assistiveTextAppearance"
+        [required]="required"
+        [showLabelRequirement]="showLabelRequirement"
+        [readOnly]="readOnly"
+        [value]="value"
+        [disabled]="disabled"
+        [options]="options"
+        (valueChange)="valueChange($event)"
+        [isError]="isError"
+        [showResetButton]="showResetButton"
+        [showAssistiveIcon]="showAssistiveIcon"
+        [width]="width"
+        [placeholder]="placeholder"
+        [compactSpacing]="compactSpacing"
+        [variant]="variant"
+        [maxHeight]="maxHeight"
+      />
+    `,
+  }),
+};
+
+export const ResetButton: Story = {
+  args: {
+    ...Default.args,
+    value: "option-2",
+    showResetButton: true,
+  },
+  render: (args) => ({
+    props: { ...args },
+    template: `
+      <rte-select
+        [id]="id"
+        [label]="label"
+        [labelId]="labelId"
+        [labelPosition]="labelPosition"
+        [assistiveTextLabel]="assistiveTextLabel"
+        [assistiveTextLink]="assistiveTextLink"
+        [assistiveTextAppearance]="assistiveTextAppearance"
+        [required]="required"
+        [showLabelRequirement]="showLabelRequirement"
+        [readOnly]="readOnly"
+        [value]="value"
+        [disabled]="disabled"
+        [options]="options"
+        (valueChange)="valueChange($event)"
+        [isError]="isError"
+        [showResetButton]="showResetButton"
+        [showAssistiveIcon]="showAssistiveIcon"
+        [width]="width"
+        [placeholder]="placeholder"
+        [compactSpacing]="compactSpacing"
+        [variant]="variant"
+        [maxHeight]="maxHeight"
+      />
+    `,
+  }),
+};
+
+export const HeaderFooter: Story = {
+  args: {
+    ...Default.args,
+  },
+  render: (args) => ({
+    props: { ...args },
+    template: `
+      <rte-select
+        [id]="id"
+        [label]="label"
+        [labelId]="labelId"
+        [labelPosition]="labelPosition"
+        [options]="options"
+        [value]="value"
+      >
+        <div select-header>Filtres</div>
+        <button type="button" select-footer>Confirmer</button>
+      </rte-select>
     `,
   }),
 };
@@ -408,6 +524,7 @@ export const Multiple: Story = {
 };
 
 export const KeyboardInteraction: Story = {
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     value: "",

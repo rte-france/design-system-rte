@@ -39,6 +39,7 @@ Le composant `FileUploadComponent` (`rte-file-upload`) constitue l'API publique.
 | isError | boolean | `false` | Bascule le texte d'aide en apparence erreur. |
 | errorFilesMap | string[] | `[]` | Messages d'erreur par fichier, alignés par index avec les fichiers sélectionnés. |
 | onUploadFile | `(file: File) => Promise<void>` | — | Gestionnaire de téléversement asynchrone optionnel. Affiche un état de chargement sur chaque fichier tant que la promesse est en cours. |
+| uploadErrorMessage | string \| `(file: File, error: unknown) => string` | "Erreur lors du téléchargement du fichier." | Message affiché lorsqu'un téléversement asynchrone est rejeté. Une fonction peut retourner un message différent selon le fichier et l'erreur. |
 | filesChange | output | — | Émet la liste courante des fichiers sélectionnés lorsque la sélection change ou qu'un fichier est retiré. |
 | fileRemoved | output | — | Émet le fichier retiré de la liste. |
 
@@ -105,6 +106,7 @@ Désactive l'input fichier masqué et le bouton de téléversement.
 ```
 
 Autorise la sélection de plusieurs fichiers dans le sélecteur natif.
+Une nouvelle sélection ajoute les fichiers à la liste courante.
 
 #### With Error
 
@@ -190,6 +192,20 @@ export class AsyncUploadComponent {
 ```
 
 Exécute un téléversement asynchrone par fichier sélectionné et affiche un indicateur de chargement sur chaque élément jusqu'à la résolution de la promesse.
+En cas de rejet du téléversement, le fichier affiche le message d'erreur par défaut.
+
+#### Largeur minimale
+
+```html
+<rte-file-upload
+  id="file-upload-min-width"
+  label="Label"
+  buttonLabel="Sélectionner un fichier"
+  [showAssistiveText]="false"
+/>
+```
+
+Utilise la largeur par défaut de 128px. Le bouton de téléversement peut dépasser cette largeur ; les fichiers sélectionnés se tronquent à l'intérieur du champ.
 
 ## Limitations
 
@@ -205,10 +221,22 @@ Les entrées de `errorFilesMap` sont associées aux fichiers sélectionnés par 
 
 Le texte d'aide n'est pas affiché tant que `errorFilesMap` contient au moins une entrée, même si `assistiveTextLabel` est défini. Utilisez les messages d'erreur par fichier dans `errorFilesMap` ou videz la carte pour réafficher le texte d'aide au niveau du champ.
 
-### La sélection remplace la liste courante
+### La sélection multiple ajoute à la liste courante
 
-Chaque interaction avec le sélecteur de fichiers remplace la liste complète des fichiers sélectionnés. Le composant n'ajoute pas les nouveaux fichiers à une sélection existante.
+Lorsque `multiple` vaut `true`, chaque interaction avec le sélecteur ajoute les nouveaux fichiers à la liste courante. Lorsque `multiple` vaut `false`, la sélection courante est remplacée.
+
+### Largeur par défaut et surcharge consommateur
+
+La racine utilise une largeur par défaut et une `min-width` de 128px. Les consommateurs définissent la largeur du champ sur `rte-file-upload` (classe de mise en page ou `style="width: 320px"`, par exemple) lorsqu'ils ont besoin de plus d'espace horizontal. Le composant n'applique pas de `max-width`.
+
+### Bouton de téléversement plus large que le champ
+
+Le bouton de téléversement s'adapte à son libellé et à son icône (`max-content`). Lorsque le bouton est plus large que le composant, il déborde de la racine tandis que les lignes de fichiers restent dans la largeur du composant. Le débordement de la racine reste visible pour ne pas rogner le bouton.
+
+### Largeur de la liste de fichiers
+
+Les lignes de fichiers sélectionnés occupent toute la largeur de la racine du composant (`width: 100%` sur le conteneur de liste). Elles ne suivent pas la largeur du bouton de téléversement lorsque celui-ci est plus large que le champ.
 
 ### Noms de fichiers longs
 
-Les noms de fichiers dans la liste sont tronqués lorsque l'espace est limité. Un tooltip affiche le nom complet en cas de troncature. La largeur de la liste de fichiers suit celle du bouton de téléversement.
+Les noms de fichiers sont tronqués lorsque l'espace horizontal est limité. La taille du fichier et le contrôle de suppression conservent leur place ; seul le nom est flexible et tronqué. Un tooltip affiche le nom complet en cas de troncature.
