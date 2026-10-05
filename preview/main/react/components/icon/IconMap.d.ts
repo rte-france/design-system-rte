@@ -40,6 +40,7 @@ export declare const RegularIcons: {
     "battery-charging": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react").JSX.Element;
     "battery-empty": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react").JSX.Element;
     "battery-full": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react").JSX.Element;
+    block: ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react").JSX.Element;
     bluetooth: ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react").JSX.Element;
     "bluetooth-off": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react").JSX.Element;
     "chart-bar": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react").JSX.Element;
@@ -79,6 +80,7 @@ export declare const RegularIcons: {
     history: ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react").JSX.Element;
     "hourglass-empty": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react").JSX.Element;
     "info-i": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react").JSX.Element;
+    justice: ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react").JSX.Element;
     language: ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react").JSX.Element;
     "last-page": ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react").JSX.Element;
     link: ({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react").JSX.Element;
@@ -191,6 +193,7 @@ export declare const TogglableIcons: {
     "cloud-upload": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react").JSX.Element)[];
     "comment-add": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react").JSX.Element)[];
     comment: (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react").JSX.Element)[];
+    complete: (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react").JSX.Element)[];
     contact: (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react").JSX.Element)[];
     copy: (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react").JSX.Element)[];
     dangerous: (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react").JSX.Element)[];
@@ -271,6 +274,7 @@ export declare const TogglableIcons: {
     "mic-off": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react").JSX.Element)[];
     "mode-dark": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react").JSX.Element)[];
     "mode-light": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react").JSX.Element)[];
+    "notification-add": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react").JSX.Element)[];
     notification: (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react").JSX.Element)[];
     "notification-important": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react").JSX.Element)[];
     "notification-off": (({ width, height, fill, ...props }: import('./Icon').IconProps) => import("react").JSX.Element)[];
