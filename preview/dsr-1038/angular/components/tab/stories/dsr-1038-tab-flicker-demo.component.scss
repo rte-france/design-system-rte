@@ -1,0 +1,51 @@
+/* Same global reset as Coressy (styles.scss). Applied to the Storybook canvas while this story is mounted. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.dsr-1038-tab-slot {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.dsr-1038-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 12px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+
+.dsr-1038-controls input[type='range'] {
+  flex: 1;
+  max-width: 320px;
+}
+
+.dsr-1038-flex-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  resize: horizontal;
+  overflow: auto;
+  min-width: 240px;
+  border: 1px dashed var(--border-neutral-regular-default);
+}
+
+.dsr-1038-intro {
+  margin: 0 0 12px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.dsr-1038-tab-panel {
+  margin-top: 16px;
+  padding: 12px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  border: 1px solid var(--border-neutral-regular-default);
+}

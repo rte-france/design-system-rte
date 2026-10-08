@@ -1,0 +1,97 @@
+<div class="dsr-1038-precision-shell">
+  <p class="dsr-1038-precision-intro">
+    DSR-1038 precision repro — Coressy layout (<code>space-between</code>, global border-box,
+    <code>compactSpacing</code>, OnPush + signal). Use <strong>Calibrate</strong> to measure tab content width, then
+    <strong>Oscillate at threshold</strong>
+    to swing slot width across the overflow edge (chevrons + ResizeObserver loop).
+  </p>
+
+  <div class="dsr-1038-precision-toolbar" [style.width.px]="toolbarWidth()">
+    <div class="dsr-1038-precision-tab-slot" [style.max-width.px]="tabSlotMaxWidth()">
+      <rte-tab
+        ariaLabel="Fiche entité"
+        [options]="tabOptions"
+        [selectedTabId]="selectedTabId()"
+        [compactSpacing]="true"
+        (change)="onSelectedTabChange($event)"
+      />
+    </div>
+    <div class="dsr-1038-precision-sibling">test</div>
+  </div>
+
+  @for (tab of tabOptions; track tab.id) {
+    <div
+      role="tabpanel"
+      class="dsr-1038-precision-tab-panel"
+      [id]="tab.panelId"
+      [attr.aria-labelledby]="tab.id"
+      [hidden]="selectedTabId() !== tab.id"
+    >
+      Contenu — {{ tab.label }}
+    </div>
+  }
+
+  <div class="dsr-1038-precision-panel">
+    <dl class="dsr-1038-precision-metrics">
+      <div>
+        <dt>tablist clientWidth</dt>
+        <dd>{{ metrics().clientWidth }}</dd>
+      </div>
+      <div>
+        <dt>tablist scrollWidth</dt>
+        <dd>{{ metrics().scrollWidth }}</dd>
+      </div>
+      <div [class.is-overflow]="metrics().overflows">
+        <dt>overflow (c &lt; s)</dt>
+        <dd>{{ metrics().overflows }}</dd>
+      </div>
+      <div>
+        <dt>delta (scroll − client)</dt>
+        <dd>{{ metrics().delta }}</dd>
+      </div>
+      <div>
+        <dt>chevron count</dt>
+        <dd>{{ metrics().chevronCount }}</dd>
+      </div>
+      <div>
+        <dt>calibrated scrollWidth</dt>
+        <dd>{{ calibratedScrollWidth() ?? "—" }}</dd>
+      </div>
+      <div>
+        <dt>tab slot max-width</dt>
+        <dd>{{ tabSlotMaxWidth() ?? "none" }}</dd>
+      </div>
+      <div>
+        <dt>toolbar width</dt>
+        <dd>{{ toolbarWidth() }}</dd>
+      </div>
+    </dl>
+
+    <div class="dsr-1038-precision-actions">
+      <button type="button" (click)="calibrate()">Calibrate</button>
+      <button type="button" (click)="applyThresholdOffset(-1)">Threshold −1px</button>
+      <button type="button" (click)="applyThresholdOffset(0)">Threshold 0</button>
+      <button type="button" (click)="applyThresholdOffset(1)">Threshold +1px</button>
+      <button type="button" [attr.data-active]="oscillationActive()" (click)="toggleOscillation()">
+        {{ oscillationActive() ? "Stop oscillation" : "Oscillate at threshold" }}
+      </button>
+    </div>
+
+    <label class="dsr-1038-precision-offset">
+      <span>Offset from calibrated width: {{ thresholdOffset() }}px</span>
+      <input
+        type="range"
+        min="-24"
+        max="24"
+        step="1"
+        [value]="thresholdOffset()"
+        (input)="onThresholdOffsetInput($event)"
+      />
+    </label>
+
+    <label class="dsr-1038-precision-offset">
+      <span>Toolbar width: {{ toolbarWidth() }}px</span>
+      <input type="range" min="320" max="900" step="1" [value]="toolbarWidth()" (input)="onToolbarWidthInput($event)" />
+    </label>
+  </div>
+</div>
