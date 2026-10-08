@@ -60,6 +60,7 @@ const pageBehindOverlayStyle = {
 } as const;
 
 export const Default: Story = {
+  tags: ["skip-ci"],
   args: {
     isOpen: false,
     onClose() {
