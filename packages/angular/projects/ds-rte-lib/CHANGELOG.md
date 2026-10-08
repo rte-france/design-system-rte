@@ -1,5 +1,13 @@
 # @design-system-rte/angular
 
+## 4.2.1
+
+### Patch Changes
+
+- 2e3b425: ## Changes
+
+  - (Checkbox) correct check icon color in dark mode
+
 ## 4.2.0
 
 ### Minor Changes
