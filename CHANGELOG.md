@@ -2,6 +2,17 @@
 
 # Angular
 
+## 4.2.1
+
+### Checkbox
+
+#### Patch Changes
+
+- correct check icon color in dark mode
+
+### Other
+
+
 ## 4.2.0
 
 ### Radio Button Group
@@ -238,6 +249,17 @@
 - Updated dependencies [0a94e7c]
 - @design-system-rte/core@1.19.0
 # React
+
+## 2.2.1
+
+### Checkbox
+
+#### Patch Changes
+
+- correct check icon color in dark mode
+
+### Other
+
 
 ## 2.2.0
 
