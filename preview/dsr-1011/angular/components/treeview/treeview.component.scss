@@ -1,0 +1,20 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+.treeview {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0 $positive-spacing_025;
+
+  &.has-nested-items {
+    --treeview-root-indent: 16px;
+  }
+
+  >li[rteTreeviewItem]:not(:first-child) {
+    padding-top: $positive-spacing_100;
+  }
+
+  &.compact>li[rteTreeviewItem]:not(:first-child) {
+    padding-top: $positive-spacing_050;
+  }
+}
