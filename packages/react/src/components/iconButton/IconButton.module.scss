@@ -48,12 +48,11 @@
 
     &[data-variant='primary'] {
         background: var(--background-brand-default);
-        border: var(--border-brand-default);
+        border: none;
         color: var(--content-primary-inverse);
 
         &:hover {
             background: var(--background-brand-hover);
-            border: var(--background-brand-hover);
         }
 
         &:active {

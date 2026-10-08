@@ -16,18 +16,47 @@
 
 Les hauteurs vérifiées sont de `24 px`, `32 px` et `40 px` pour les tailles `s`, `m` et `l`.
 
-## Variantes
+## Apparence et hiérarchie
+
+Le style du bouton se définit avec `rteButtonAppearance`, `rteButtonHierarchy`, et le cas échéant `[rteButtonIsCritical]="true"`. Sans prop de style, le rendu correspond à `brand` / `primary`.
 
 ```html
-<div style="display: flex; gap: 8px;">
-  <button rteButton rteButtonVariant="primary">Primary</button>
-  <button rteButton rteButtonVariant="secondary">Secondary</button>
-  <button rteButton rteButtonVariant="text">Text</button>
-  <button rteButton rteButtonVariant="transparent">Transparent</button>
-  <button rteButton rteButtonVariant="danger">Danger</button>
-  <button rteButton rteButtonVariant="neutral">Neutral</button>
-  <button rteButton rteButtonVariant="reverse">Reverse</button>
+<div style="display: flex; gap: 8px; flex-wrap: wrap;">
+  <button rteButton rteButtonAppearance="brand" rteButtonHierarchy="primary">Primary</button>
+  <button rteButton rteButtonAppearance="brand" rteButtonHierarchy="secondary">Secondary</button>
+  <button rteButton rteButtonAppearance="brand" rteButtonHierarchy="text">Text</button>
+  <button rteButton rteButtonAppearance="brand" rteButtonHierarchy="transparent">Transparent</button>
+  <button rteButton rteButtonAppearance="brand" rteButtonHierarchy="primary" [rteButtonIsCritical]="true">Danger</button>
+  <button rteButton rteButtonAppearance="neutral" rteButtonHierarchy="text">Neutral</button>
 </div>
+```
+
+## Reverse (`rteButtonIsReversed`)
+
+Dans Figma, **Reverse** correspond aux boutons **brand** posés sur une **surface inverse** (fond sombre), avec le booléen `isReversed` et une hiérarchie — la spec documente notamment **transparent** pour les tailles S, M et L.
+
+`rteButtonIsReversed` n’est pas un substitut à une hiérarchie `primary` sur fond clair : le conteneur doit fournir le fond inverse, et le bouton utilise les tokens inverse.
+
+```html
+<div style="background: var(--background-inverse, #201f1f); padding: 16px; border-radius: 8px;">
+  <button
+    rteButton
+    rteButtonAppearance="brand"
+    rteButtonHierarchy="transparent"
+    [rteButtonIsReversed]="true"
+  >
+    Reverse
+  </button>
+</div>
+```
+
+## Variante `rteButtonVariant` (déprécié)
+
+`rteButtonVariant` est un alias plat **déprécié** qui regroupe l’apparence, la hiérarchie et les flags en une seule valeur : `primary`, `secondary`, `text`, `transparent`, `danger`, `neutral`, `reverse`. Il reste pris en charge pour la migration, mais les inputs `rteButtonAppearance`, `rteButtonHierarchy`, `rteButtonIsCritical` et `rteButtonIsReversed` doivent être utilisés pour les nouveaux développements. Lorsqu’ils sont renseignés, ils **priment** sur `rteButtonVariant`.
+
+```html
+<!-- Déprécié — équivalent : appearance brand, hierarchy primary -->
+<button rteButton rteButtonVariant="primary">Primary</button>
 ```
 
 ## Icône
@@ -53,7 +82,8 @@ Le badge s'ajoute avec `BadgeDirective`, exportée par le package Angular.
 <button
   rteButton
   rteBadge
-  rteButtonVariant="primary"
+  rteButtonAppearance="brand"
+  rteButtonHierarchy="primary"
   rteButtonSize="m"
   rteBadgeContent="number"
   [rteBadgeCount]="5"
