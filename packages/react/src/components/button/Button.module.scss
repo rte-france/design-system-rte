@@ -1,5 +1,15 @@
 @use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
 
+@mixin button-disabled {
+    &:disabled {
+        background: var(--background-disabled);
+        border: solid $width-xs var(--border-disabled);
+        box-shadow: none;
+        color: var(--content-disabled);
+        cursor: default;
+    }
+}
+
 .button {
     align-items: center;
     cursor: pointer;
@@ -33,7 +43,23 @@
         padding: $positive-spacing_050 $positive-spacing_200;
     }
 
-    &[data-variant='primary'] {
+    &[data-appearance='brand'][data-hierarchy='primary'][data-critical='true'] {
+        background: var(--background-danger-default);
+        border: none;
+        color: var(--content-primary-inverse);
+
+        &:hover {
+            background: var(--background-danger-hover);
+        }
+
+        &:active {
+            background: var(--background-danger-pressed);
+        }
+
+        @include button-disabled;
+    }
+
+    &[data-appearance='brand'][data-hierarchy='primary'][data-critical='false'][data-reversed='false'] {
         background: var(--background-brand-default);
         border: var(--border-brand-default);
         color: var(--content-primary-inverse);
@@ -47,16 +73,10 @@
             background: var(--background-brand-pressed);
         }
 
-        &:disabled {
-            background: var(--background-disabled);
-            border: solid 1px var(--border-disabled);
-            box-shadow: none;
-            color: var(--content-disabled);
-            cursor: default;
-        }
+        @include button-disabled;
     }
 
-    &[data-variant='secondary'] {
+    &[data-appearance='brand'][data-hierarchy='secondary'][data-reversed='false'] {
         background: var(--background-default);
         border: solid $width-xs var(--border-brand-default);
         color: var(--content-brand-default);
@@ -69,15 +89,10 @@
             background: var(--background-brand-inverse-pressed);
         }
 
-        &:disabled {
-            background: var(--background-disabled);
-            border: solid $width-xs var(--border-disabled);
-            color: var(--content-disabled);
-            cursor: default;
-        }
+        @include button-disabled;
     }
 
-    &[data-variant='text'] {
+    &[data-appearance='brand'][data-hierarchy='text'][data-reversed='false'] {
         background: transparent;
         border: none;
         color: var(--content-brand-default);
@@ -90,14 +105,10 @@
             background: var(--background-brand-inverse-pressed);
         }
 
-        &:disabled {
-            background: var(--background-disabled);
-            color: var(--content-disabled);
-            cursor: default;
-        }
+        @include button-disabled;
     }
 
-    &[data-variant='transparent'] {
+    &[data-appearance='brand'][data-hierarchy='transparent'][data-reversed='false'] {
         background: transparent;
         border: none;
         color: var(--content-brand-default);
@@ -110,57 +121,10 @@
             color: var(--content-brand-pressed);
         }
 
-        &:disabled {
-            box-shadow: none;
-            color: var(--content-disabled);
-            cursor: default;
-        }
+        @include button-disabled;
     }
 
-    &[data-variant='danger'] {
-        background: var(--background-danger-default);
-        border: none;
-        color: var(--content-primary-inverse);
-
-        &:hover {
-            background: var(--background-danger-hover);
-        }
-
-        &:active {
-            background: var(--background-danger-pressed);
-        }
-
-        &:disabled {
-            background: var(--background-disabled);
-            border: var(--border-disabled);
-            box-shadow: none;
-            color: var(--content-disabled);
-            cursor: default;
-        }
-    }
-
-    &[data-variant='neutral'] {
-        background: none;
-        border: none;
-        color: var(--content-primary);
-
-        &:hover {
-            color: var(--content-secondary);
-        }
-
-        &:active {
-            color: var(--content-tertiary);
-        }
-
-        &:disabled {
-            background: var(--background-disabled);
-            box-shadow: none;
-            color: var(--content-disabled);
-            cursor: default;
-        }
-    }
-
-    &[data-variant='reverse'] {
+    &[data-appearance='brand'][data-reversed='true']:not([data-critical='true']) {
         background: none;
         border: none;
         color: var(--content-primary-inverse);
@@ -173,12 +137,87 @@
             color: var(--content-primary-inverse);
         }
 
-        &:disabled {
-            background: var(--background-disabled);
-            box-shadow: none;
-            color: var(--content-disabled);
-            cursor: default;
+        @include button-disabled;
+    }
+
+    &[data-appearance='neutral'][data-hierarchy='primary'] {
+        background: var(--background-neutral-bold-default);
+        border: none;
+        color: var(--content-primary-inverse);
+
+        &:hover {
+            background: var(--background-neutral-bold-hover);
         }
+
+        &:active {
+            background: var(--background-neutral-bold-pressed);
+        }
+
+        @include button-disabled;
+    }
+
+    &[data-appearance='neutral'][data-hierarchy='secondary'] {
+        background: var(--background-default);
+        border: solid $width-xs var(--content-primary);
+        color: var(--content-primary);
+
+        &:hover {
+            background: var(--background-neutral-subtle-hover);
+        }
+
+        &:active {
+            background: var(--background-neutral-subtle-pressed);
+        }
+
+        @include button-disabled;
+    }
+
+    &[data-appearance='neutral'][data-hierarchy='outlined'] {
+        background: transparent;
+        border: solid $width-xs var(--content-primary);
+        color: var(--content-primary);
+
+        &:hover {
+            background: var(--background-neutral-subtle-hover);
+        }
+
+        &:active {
+            background: var(--background-neutral-subtle-pressed);
+        }
+
+        @include button-disabled;
+    }
+
+    &[data-appearance='neutral'][data-hierarchy='text'] {
+        background: none;
+        border: none;
+        color: var(--content-primary);
+
+        &:hover {
+            color: var(--content-secondary);
+        }
+
+        &:active {
+            color: var(--content-tertiary);
+        }
+
+        @include button-disabled;
+    }
+
+    &[data-appearance='neutral'][data-hierarchy='transparent'] {
+        background: transparent;
+        border: none;
+        color: var(--content-primary);
+
+        &:hover {
+            color: var(--content-secondary);
+        }
+
+        &:active {
+            color: var(--content-tertiary);
+        }
+
+        @include button-disabled;
     }
 }
 

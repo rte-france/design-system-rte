@@ -19,9 +19,24 @@ const meta: Meta<ButtonComponent> = {
   component: ButtonComponent,
   tags: ["autodocs"],
   argTypes: {
+    rteButtonAppearance: {
+      control: "select",
+      options: ["brand", "neutral"],
+    },
+    rteButtonHierarchy: {
+      control: "select",
+      options: ["primary", "secondary", "text", "transparent", "outlined"],
+    },
+    rteButtonIsCritical: {
+      control: "boolean",
+    },
+    rteButtonIsReversed: {
+      control: "boolean",
+    },
     rteButtonVariant: {
       control: "select",
       options: ["primary", "secondary", "text", "transparent", "danger", "neutral", "reverse"],
+      description: "Deprecated flat visual alias.",
     },
     rteButtonSize: {
       control: "select",
@@ -49,7 +64,8 @@ const mockFn = fn();
 
 export const Default: Story = {
   args: {
-    rteButtonVariant: "primary",
+    rteButtonAppearance: "brand",
+    rteButtonHierarchy: "primary",
     rteButtonSize: "m",
     rteButtonIconPosition: "left",
     rteButtonIconAppearance: "filled",
@@ -58,7 +74,8 @@ export const Default: Story = {
     props: { ...args, click: mockFn },
     template: `
     <button rteButton
-      [rteButtonVariant]="rteButtonVariant"
+      [rteButtonAppearance]="rteButtonAppearance"
+      [rteButtonHierarchy]="rteButtonHierarchy"
       [rteButtonSize]="rteButtonSize"
       [rteButtonIcon]="rteButtonIcon"
       [rteButtonIconPosition]="rteButtonIconPosition"
@@ -84,17 +101,20 @@ export const Sizing: Story = {
     <div style="display: flex; gap: 8px;">
         <button rteButton 
           rteButtonSize="s"
-          rteButtonVariant="primary"
+          rteButtonAppearance="brand"
+          rteButtonHierarchy="primary"
           data-testid="small-button"
         >Small</button>
         <button rteButton 
           rteButtonSize="m"
-          rteButtonVariant="primary"
+          rteButtonAppearance="brand"
+          rteButtonHierarchy="primary"
           data-testid="medium-button"
         >Medium</button>
         <button rteButton 
           rteButtonSize="l"
-          rteButtonVariant="primary"
+          rteButtonAppearance="brand"
+          rteButtonHierarchy="primary"
           data-testid="large-button"
         >Large</button>
     </div>
@@ -119,7 +139,8 @@ export const WithBadge: StoryObj<ButtonComponent & BadgeDirective> = {
     }),
   ],
   args: {
-    rteButtonVariant: "primary",
+    rteButtonAppearance: "brand",
+    rteButtonHierarchy: "primary",
     rteButtonSize: "m",
     rteBadgeContent: "number",
     rteBadgeCount: 5,
@@ -158,7 +179,8 @@ export const WithBadge: StoryObj<ButtonComponent & BadgeDirective> = {
     template: `
     <button rteButton
     rteBadge
-      [rteButtonVariant]="rteButtonVariant"
+      [rteButtonAppearance]="rteButtonAppearance"
+      [rteButtonHierarchy]="rteButtonHierarchy"
       [rteButtonSize]="rteButtonSize"
       [rteBadgeContent]="rteBadgeContent"
       [rteBadgeCount]="rteBadgeCount"
@@ -183,7 +205,8 @@ export const WithIcon: Story = {
     template: `
     <div style="display: flex; gap: 8px;">
       <button rteButton
-        [rteButtonVariant]="rteButtonVariant"
+        [rteButtonAppearance]="rteButtonAppearance"
+        [rteButtonHierarchy]="rteButtonHierarchy"
         [rteButtonSize]="rteButtonSize"
         [rteButtonIcon]="'add-circle'"
         [rteButtonIconPosition]="rteButtonIconPosition"
@@ -192,7 +215,8 @@ export const WithIcon: Story = {
         (click)="click()"
       >Button with Icon</button>
       <button rteButton
-        [rteButtonVariant]="rteButtonVariant"
+        [rteButtonAppearance]="rteButtonAppearance"
+        [rteButtonHierarchy]="rteButtonHierarchy"
         [rteButtonSize]="rteButtonSize"
         [rteButtonIcon]="'add-circle'"
         [rteButtonIconPosition]="'right'"
@@ -205,11 +229,50 @@ export const WithIcon: Story = {
   }),
 };
 
-export const Variants: Story = {
+export const BrandHierarchies: Story = {
+  render: () => ({
+    template: `
+    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+        <button rteButton rteButtonAppearance="brand" rteButtonHierarchy="primary">Primary</button>
+        <button rteButton rteButtonAppearance="brand" rteButtonHierarchy="secondary">Secondary</button>
+        <button rteButton rteButtonAppearance="brand" rteButtonHierarchy="text">Text</button>
+        <button rteButton rteButtonAppearance="brand" rteButtonHierarchy="transparent">Transparent</button>
+    </div>
+    `,
+  }),
+};
+
+export const NeutralHierarchies: Story = {
+  render: () => ({
+    template: `
+    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+        <button rteButton rteButtonAppearance="neutral" rteButtonHierarchy="primary">Neutral primary</button>
+        <button rteButton rteButtonAppearance="neutral" rteButtonHierarchy="secondary">Neutral secondary</button>
+        <button rteButton rteButtonAppearance="neutral" rteButtonHierarchy="outlined">Neutral outlined</button>
+        <button rteButton rteButtonAppearance="neutral" rteButtonHierarchy="text">Neutral text</button>
+    </div>
+    `,
+  }),
+};
+
+export const CriticalAndReversed: Story = {
+  render: () => ({
+    template: `
+    <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
+        <button rteButton rteButtonAppearance="brand" rteButtonHierarchy="primary" [rteButtonIsCritical]="true">Critical</button>
+        <div style="background: var(--background-brand-default); padding: 16px; border-radius: 8px;">
+          <button rteButton rteButtonAppearance="brand" rteButtonHierarchy="primary" [rteButtonIsReversed]="true">Reversed</button>
+        </div>
+    </div>
+    `,
+  }),
+};
+
+export const LegacyVariants: Story = {
   render: (args) => ({
     props: { ...args },
     template: `
-    <div style="display: flex; gap: 8px;">
+    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
         <button rteButton 
           rteButtonVariant="primary"
           rteButtonSize="m"
@@ -259,7 +322,8 @@ export const KeyboardInteraction: Story = {
     props: { ...args, click: mockFn },
     template: `
     <button rteButton
-      [rteButtonVariant]="rteButtonVariant"
+      [rteButtonAppearance]="rteButtonAppearance"
+      [rteButtonHierarchy]="rteButtonHierarchy"
       [rteButtonSize]="rteButtonSize"
       data-testid="button"
       (click)="click()"
