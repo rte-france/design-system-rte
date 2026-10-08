@@ -16,7 +16,7 @@ import {
 } from "@angular/core";
 import { Direction } from "@design-system-rte/core/components/common/common-types";
 import { TabAlignment, TabItemProps, TabProps } from "@design-system-rte/core/components/tab/tab.interface";
-import { scrollToSelectedTab } from "@design-system-rte/core/components/tab/tab.utils";
+import { resolveTabListScrollableState, scrollToSelectedTab } from "@design-system-rte/core/components/tab/tab.utils";
 import {
   ARROW_DOWN_KEY,
   ARROW_LEFT_KEY,
@@ -276,8 +276,7 @@ export class TabComponent implements AfterViewInit, OnChanges, OnDestroy {
       const containerNativeElement = this.containerRef()?.nativeElement;
       if (containerNativeElement) {
         this.isScrollable.set(
-          containerNativeElement.offsetWidth < containerNativeElement.scrollWidth ||
-            containerNativeElement.offsetHeight < containerNativeElement.scrollHeight,
+          resolveTabListScrollableState(containerNativeElement, this.isScrollable()),
         );
       }
     }

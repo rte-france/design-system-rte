@@ -1,5 +1,5 @@
 import { TabProps as CoreTabProps } from "@design-system-rte/core/components/tab/tab.interface";
-import { scrollToSelectedTab } from "@design-system-rte/core/components/tab/tab.utils";
+import { resolveTabListScrollableState, scrollToSelectedTab } from "@design-system-rte/core/components/tab/tab.utils";
 import {
   forwardRef,
   HTMLAttributes,
@@ -61,23 +61,25 @@ const Tab = forwardRef<HTMLDivElement, TabProps>(
     const shouldDisplayDropdown = isHorizontalScrollable && overflowType === "dropdown";
 
     const computeScrollableState = useCallback(() => {
-      if (containerRef.current) {
-        const isScrollable =
-          containerRef.current.offsetWidth < containerRef.current.scrollWidth ||
-          containerRef.current.offsetHeight < containerRef.current.scrollHeight;
-
-        const isOverFlowingLeft = containerRef.current.scrollLeft > 0;
-        const isOverFlowingRight =
-          containerRef.current.scrollWidth - containerRef.current.clientWidth - containerRef.current.scrollLeft > 0;
-        const isOverFlowingTop = containerRef.current.scrollTop > 0;
-        const isOverFlowingBottom =
-          containerRef.current.scrollHeight - containerRef.current.clientHeight - containerRef.current.scrollTop > 0;
-        setIsScrollableLeft(isOverFlowingLeft);
-        setIsScrollableRight(isOverFlowingRight);
-        setIsScrollableTop(isOverFlowingTop);
-        setIsScrollableBottom(isOverFlowingBottom);
-        setIsScrollable(isScrollable);
+      const container = containerRef.current;
+      if (!container) {
+        return;
       }
+
+      setIsScrollable((isCurrentlyScrollable) => {
+        const nextScrollable = resolveTabListScrollableState(container, isCurrentlyScrollable);
+        const isOverFlowingLeft = container.scrollLeft > 0;
+        const isOverFlowingRight =
+          container.scrollWidth - container.clientWidth - container.scrollLeft > 1;
+        const isOverFlowingTop = container.scrollTop > 0;
+        const isOverFlowingBottom =
+          container.scrollHeight - container.clientHeight - container.scrollTop > 0;
+        setIsScrollableLeft(nextScrollable && isOverFlowingLeft);
+        setIsScrollableRight(nextScrollable && isOverFlowingRight);
+        setIsScrollableTop(nextScrollable && isOverFlowingTop);
+        setIsScrollableBottom(nextScrollable && isOverFlowingBottom);
+        return nextScrollable;
+      });
     }, [containerRef]);
 
     useEffect(() => {

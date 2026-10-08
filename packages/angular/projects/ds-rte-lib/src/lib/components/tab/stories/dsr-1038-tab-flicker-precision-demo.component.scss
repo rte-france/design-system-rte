@@ -1,0 +1,105 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.dsr-1038-precision-shell {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+  max-width: 960px;
+}
+
+.dsr-1038-precision-intro {
+  margin: 0 0 16px;
+}
+
+.dsr-1038-precision-tab-panel {
+  margin: 16px 0;
+  padding: 12px;
+  border: 1px solid var(--border-neutral-regular-default);
+  border-radius: 4px;
+}
+
+.dsr-1038-precision-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border: 1px dashed var(--border-neutral-regular-default);
+}
+
+.dsr-1038-precision-tab-slot {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.dsr-1038-precision-sibling {
+  flex-shrink: 0;
+  padding-left: 16px;
+}
+
+.dsr-1038-precision-panel {
+  margin-top: 16px;
+  padding: 12px;
+  border: 1px solid var(--border-neutral-regular-default);
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dsr-1038-precision-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 8px;
+  margin: 0;
+  font-family: ui-monospace, monospace;
+  font-size: 13px;
+}
+
+.dsr-1038-precision-metrics div {
+  padding: 6px 8px;
+  background: var(--background-neutral-subtle-default);
+  border-radius: 4px;
+}
+
+.dsr-1038-precision-metrics .is-overflow {
+  color: var(--content-negative);
+  font-weight: bold;
+}
+
+.dsr-1038-precision-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.dsr-1038-precision-actions button {
+  font: inherit;
+  padding: 6px 12px;
+  cursor: pointer;
+  border: 1px solid var(--border-neutral-regular-default);
+  border-radius: 4px;
+  background: var(--background-default);
+}
+
+.dsr-1038-precision-actions button[data-active='true'] {
+  border-color: var(--border-brand-focused);
+  outline: 1px solid var(--border-brand-focused);
+}
+
+.dsr-1038-precision-offset {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 240px;
+}
+
+.dsr-1038-precision-offset input[type='range'] {
+  flex: 1;
+}

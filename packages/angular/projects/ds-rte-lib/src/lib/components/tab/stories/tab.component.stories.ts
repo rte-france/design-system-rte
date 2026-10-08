@@ -2,11 +2,13 @@ import {
   TESTING_ARROW_LEFT_KEY,
   TESTING_ARROW_RIGHT_KEY,
 } from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
-import { Meta, StoryObj } from "@storybook/angular";
+import { Meta, moduleMetadata, StoryObj } from "@storybook/angular";
 import { userEvent, within, expect } from "@storybook/test";
 
 import { focusElementBeforeComponent } from "../../../../../../../.storybook/testing/testing.utils";
 import { TabComponent } from "../tab.component";
+import { Dsr1038TabFlickerDemoComponent } from "./dsr-1038-tab-flicker-demo.component";
+import { Dsr1038TabFlickerPrecisionDemoComponent } from "./dsr-1038-tab-flicker-precision-demo.component";
 
 const meta: Meta<TabComponent> = {
   title: "Composants/Tab",
@@ -591,4 +593,46 @@ export const KeyboardInteraction: Story = {
       expectTabToBeSelected(fifthTab);
     });
   },
+};
+
+export const Dsr1038FlexLayoutFlicker: Story = {
+  tags: ["!autodocs"],
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "Regression repro for [DSR-1038](https://gopro-tickets.rte-france.com/browse/DSR-1038): `rte-tab` flickers at certain container widths when used inside a flex `space-between` row with `compactSpacing`, OnPush, and global `box-sizing: border-box` (Coressy / Angular 22).",
+      },
+    },
+  },
+  decorators: [
+    moduleMetadata({
+      imports: [Dsr1038TabFlickerDemoComponent],
+    }),
+  ],
+  render: () => ({
+    template: `<story-dsr-1038-tab-flicker />`,
+  }),
+};
+
+export const Dsr1038PrecisionRepro: Story = {
+  tags: ["!autodocs"],
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "Precision repro for [DSR-1038](https://gopro-tickets.rte-france.com/browse/DSR-1038): calibrates tablist `scrollWidth`, constrains the flex slot to the overflow threshold, and can oscillate width to trigger chevron + ResizeObserver feedback. Watch **chevron count** and **overflow** while oscillating.",
+      },
+    },
+  },
+  decorators: [
+    moduleMetadata({
+      imports: [Dsr1038TabFlickerPrecisionDemoComponent],
+    }),
+  ],
+  render: () => ({
+    template: `<story-dsr-1038-tab-flicker-precision />`,
+  }),
 };

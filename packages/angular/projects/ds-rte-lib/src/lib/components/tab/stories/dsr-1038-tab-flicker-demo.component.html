@@ -1,0 +1,43 @@
+<div class="dsr-1038-scope" [style.max-width.px]="containerWidth()">
+  <p class="dsr-1038-intro">
+    DSR-1038 — Reproduces Coressy’s global <code>* &#123; box-sizing: border-box &#125;</code> reset, a
+    <code>space-between</code> flex toolbar (tab area constrained with <code>flex: 1; min-width: 0</code>), and
+    <code>compactSpacing</code>. Drag the dashed box or use the slider to hunt flickering widths (often near the
+    point where horizontal overflow starts).
+  </p>
+  <label class="dsr-1038-controls">
+    <span>Max width (px): {{ containerWidth() }}</span>
+    <input
+      type="range"
+      min="320"
+      max="1400"
+      step="1"
+      [value]="containerWidth()"
+      (input)="onContainerWidthInput($event)"
+    />
+  </label>
+  <div class="dsr-1038-flex-row">
+    <div class="dsr-1038-tab-slot">
+      <rte-tab
+        ariaLabel="Fiche entité"
+        [options]="tabOptions"
+        [selectedTabId]="selectedTabId()"
+        [compactSpacing]="true"
+        (change)="onSelectedTabChange($event)"
+      />
+    </div>
+    <div>test</div>
+  </div>
+
+  @for (tab of tabOptions; track tab.id) {
+    <div
+      [id]="tab.panelId"
+      role="tabpanel"
+      [attr.aria-labelledby]="tab.id"
+      [hidden]="selectedTabId() !== tab.id"
+      class="dsr-1038-tab-panel"
+    >
+      Contenu — {{ tab.label }}
+    </div>
+  }
+</div>

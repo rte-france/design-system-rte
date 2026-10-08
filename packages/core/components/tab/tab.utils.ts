@@ -1,3 +1,24 @@
+export const TAB_SCROLL_OVERFLOW_THRESHOLD_PX = 1;
+
+export const resolveTabListScrollableState = (
+  tabListElement: HTMLElement,
+  isCurrentlyScrollable: boolean,
+  thresholdPx = TAB_SCROLL_OVERFLOW_THRESHOLD_PX,
+): boolean => {
+  const widthOverflow = tabListElement.scrollWidth - tabListElement.clientWidth;
+  const heightOverflow = tabListElement.scrollHeight - tabListElement.clientHeight;
+
+  if (widthOverflow > thresholdPx || heightOverflow > thresholdPx) {
+    return true;
+  }
+
+  if (widthOverflow <= 0 && heightOverflow <= 0) {
+    return false;
+  }
+
+  return isCurrentlyScrollable;
+};
+
 export const scrollToSelectedTab = (
   target: HTMLElement,
   container: HTMLElement,
