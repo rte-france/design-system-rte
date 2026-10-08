@@ -222,7 +222,7 @@
       inset: 0;
       z-index: 1;
       pointer-events: none;
-      color: white;
+      color: var(--content-primary-inverse);
       align-items: center;
       justify-content: center;
     }
