@@ -2,28 +2,32 @@ import figma, { html } from "@figma/code-connect/html";
 
 figma.connect("https://www.figma.com/design/Wiy8uWsWjoagf95lOmPXNU/01.0-Design-System-RTE---WEB?node-id=1-6301", {
   props: {
-    label: figma.string("label"),
+    label: figma.string("labelText"),
     disabled: figma.enum("interactionState", {
       disabled: true,
-      enabled: false,
+      default: false,
       hover: false,
-      active: false,
+      pressed: false,
     }),
-    rteButtonVariant: figma.enum("appearance", {
+    rteButtonAppearance: figma.enum("appearance", {
+      brand: "brand",
+      neutral: "neutral",
+    }),
+    rteButtonHierarchy: figma.enum("hierarchy", {
       primary: "primary",
       secondary: "secondary",
       text: "text",
       transparent: "transparent",
-      danger: "danger",
-      neutral: "neutral",
-      reverse: "reverse",
+      outlined: "outlined",
     }),
+    rteButtonIsCritical: figma.boolean("isCritical"),
+    rteButtonIsReversed: figma.boolean("isReversed"),
     rteButtonSize: figma.enum("size", {
       S: "s",
       M: "m",
       L: "l",
     }),
-    activeIcon: figma.boolean("showLeftIcon", {
+    activeIcon: figma.boolean("hasLeftIcon", {
       true: figma.nestedProps("Icon", {
         rteButtonIcon: figma.instance<string>("icon"),
         rteButtonIconAppearance: figma.enum("iconAppearance", {
@@ -31,7 +35,7 @@ figma.connect("https://www.figma.com/design/Wiy8uWsWjoagf95lOmPXNU/01.0-Design-S
           filled: "filled",
         }),
       }),
-      false: figma.boolean("showRightIcon", {
+      false: figma.boolean("hasRightIcon", {
         true: figma.nestedProps("Icon", {
           rteButtonIcon: figma.instance<string>("icon"),
           rteButtonIconAppearance: figma.enum("iconAppearance", {
@@ -42,22 +46,22 @@ figma.connect("https://www.figma.com/design/Wiy8uWsWjoagf95lOmPXNU/01.0-Design-S
         false: undefined,
       }),
     }),
-    rteButtonIconPosition: figma.boolean("showLeftIcon", {
+    rteButtonIconPosition: figma.boolean("hasLeftIcon", {
       true: "left",
-      false: figma.boolean("showRightIcon", {
+      false: figma.boolean("hasRightIcon", {
         true: "right",
         false: undefined,
       }),
     }),
-    rteBadge: figma.boolean("showBadge", {
+    rteBadge: figma.boolean("hasBadge", {
       true: html`rteBadge`,
       false: html``,
     }),
-    rteBadgeContent: figma.boolean("showBadge", {
+    rteBadgeContent: figma.boolean("hasBadge", {
       true: "number",
       false: undefined,
     }),
-    rteBadgeCount: figma.boolean("showBadge", {
+    rteBadgeCount: figma.boolean("hasBadge", {
       true: "1",
       false: undefined,
     }),
@@ -65,7 +69,10 @@ figma.connect("https://www.figma.com/design/Wiy8uWsWjoagf95lOmPXNU/01.0-Design-S
   example: ({
     label,
     disabled,
-    rteButtonVariant,
+    rteButtonAppearance,
+    rteButtonHierarchy,
+    rteButtonIsCritical,
+    rteButtonIsReversed,
     rteButtonSize,
     activeIcon,
     rteButtonIconPosition,
@@ -79,11 +86,14 @@ figma.connect("https://www.figma.com/design/Wiy8uWsWjoagf95lOmPXNU/01.0-Design-S
     html`<button
       rteButton
       ${rteBadge}
-      rteButtonVariant=${rteButtonVariant}
+      rteButtonAppearance=${rteButtonAppearance}
+      rteButtonHierarchy=${rteButtonHierarchy}
+      rteButtonIsCritical=${rteButtonIsCritical}
+      rteButtonIsReversed=${rteButtonIsReversed}
       rteButtonSize=${rteButtonSize}
-      rteButtonIcon=${activeIcon.rteButtonIcon}
+      rteButtonIcon=${activeIcon?.rteButtonIcon}
       rteButtonIconPosition=${rteButtonIconPosition}
-      rteButtonIconAppearance=${activeIcon.rteButtonIconAppearance}
+      rteButtonIconAppearance=${activeIcon?.rteButtonIconAppearance}
       rteBadgeContent=${rteBadgeContent}
       rteBadgeCount=${rteBadgeCount}
       disabled=${disabled}

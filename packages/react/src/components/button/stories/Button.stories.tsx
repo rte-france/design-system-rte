@@ -17,9 +17,24 @@ const meta = {
   component: Button,
   tags: ["autodocs"],
   argTypes: {
+    appearance: {
+      control: "select",
+      options: ["brand", "neutral"],
+    },
+    hierarchy: {
+      control: "select",
+      options: ["primary", "secondary", "text", "transparent", "outlined"],
+    },
+    isCritical: {
+      control: "boolean",
+    },
+    isReversed: {
+      control: "boolean",
+    },
     variant: {
       control: "select",
       options: ["primary", "secondary", "text", "transparent", "danger", "neutral", "reverse"],
+      description: "Deprecated flat visual alias.",
     },
     size: {
       control: "select",
@@ -73,7 +88,8 @@ const mockFn = fn();
 
 export const Default: Story = {
   args: {
-    variant: "primary",
+    appearance: "brand",
+    hierarchy: "primary",
     label: "Button",
     onClick: mockFn,
   },
@@ -128,13 +144,62 @@ export const WithIcon: Story = {
   },
 };
 
-export const Variants: Story = {
+export const BrandHierarchies: Story = {
   args: {
     ...Default.args,
   },
   render: (args) => {
     return (
-      <div style={{ display: "flex", gap: 8 }}>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+        <Button {...args} appearance="brand" hierarchy="primary" label="Primary" />
+        <Button {...args} appearance="brand" hierarchy="secondary" label="Secondary" />
+        <Button {...args} appearance="brand" hierarchy="text" label="Text" />
+        <Button {...args} appearance="brand" hierarchy="transparent" label="Transparent" />
+      </div>
+    );
+  },
+};
+
+export const NeutralHierarchies: Story = {
+  args: {
+    ...Default.args,
+  },
+  render: (args) => {
+    return (
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+        <Button {...args} appearance="neutral" hierarchy="primary" label="Neutral primary" />
+        <Button {...args} appearance="neutral" hierarchy="secondary" label="Neutral secondary" />
+        <Button {...args} appearance="neutral" hierarchy="outlined" label="Neutral outlined" />
+        <Button {...args} appearance="neutral" hierarchy="text" label="Neutral text" />
+      </div>
+    );
+  },
+};
+
+export const CriticalAndReversed: Story = {
+  args: {
+    ...Default.args,
+  },
+  render: (args) => {
+    return (
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center" }}>
+        <Button {...args} appearance="brand" hierarchy="primary" isCritical label="Critical" />
+        <div style={{ background: "var(--background-brand-default)", padding: 16, borderRadius: 8 }}>
+          <Button {...args} appearance="brand" hierarchy="primary" isReversed label="Reversed" />
+        </div>
+      </div>
+    );
+  },
+};
+
+export const LegacyVariants: Story = {
+  args: {
+    label: "Button",
+    onClick: mockFn,
+  },
+  render: (args) => {
+    return (
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
         <Button {...args} variant="primary" label="Primary" />
         <Button {...args} variant="secondary" label="Secondary" />
         <Button {...args} variant="text" label="Text" />
@@ -146,6 +211,7 @@ export const Variants: Story = {
     );
   },
 };
+
 export const WithBadge: Story = {
   args: {
     ...Default.args,

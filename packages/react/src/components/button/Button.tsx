@@ -1,4 +1,5 @@
 import { ButtonProps as CoreButtonProps } from "@design-system-rte/core/components/button/button.interface";
+import { resolveButtonStyle } from "@design-system-rte/core/components/button/common/button-style.utils";
 import {
   ButtonBadgeSizeMapping,
   ButtonIconSize,
@@ -21,7 +22,11 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     {
       size = "m",
       label,
-      variant = "primary",
+      variant,
+      appearance,
+      hierarchy,
+      isCritical,
+      isReversed,
       className = "",
       onClick,
       type = "button",
@@ -36,6 +41,23 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref,
   ) => {
+    const resolvedStyle = resolveButtonStyle({
+      variant,
+      appearance,
+      hierarchy,
+      isCritical,
+      isReversed,
+    });
+
+    const styleAttributes = {
+      "data-size": size,
+      "data-appearance": resolvedStyle.appearance,
+      "data-hierarchy": resolvedStyle.hierarchy,
+      "data-critical": String(resolvedStyle.isCritical),
+      "data-reversed": String(resolvedStyle.isReversed),
+      ...(variant !== undefined ? { "data-variant": variant } : {}),
+    };
+
     const shouldDisplayBadge =
       (badgeCount && badgeCount > 0 && badgeContent === "number") || (badgeContent === "icon" && badgeIcon);
 
@@ -52,9 +74,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             ref={ref}
             type={type}
             className={concatClassNames(style.button, className)}
-            data-size={size}
-            data-variant={variant}
             onClick={onClick}
+            {...styleAttributes}
             {...props}
           >
             {icon && iconPosition === "left" && (
@@ -69,41 +90,40 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           </button>
         </Badge>
       );
-    } else {
-      return (
-        <button
-          ref={ref}
-          type={type}
-          className={concatClassNames(style.button, className)}
-          data-size={size}
-          data-variant={variant}
-          onClick={onClick}
-          {...props}
-        >
-          {icon && iconPosition === "left" && (
-            <Icon
-              name={icon}
-              size={ButtonIconSize[size]}
-              className={style.icon}
-              appearance={iconAppearance}
-              aria-hidden="true"
-            />
-          )}
-          <span data-size={size} className={style.label}>
-            {label}
-          </span>
-          {icon && iconPosition === "right" && (
-            <Icon
-              name={icon}
-              size={ButtonIconSize[size]}
-              className={style.icon}
-              appearance={iconAppearance}
-              aria-hidden="true"
-            />
-          )}
-        </button>
-      );
     }
+
+    return (
+      <button
+        ref={ref}
+        type={type}
+        className={concatClassNames(style.button, className)}
+        onClick={onClick}
+        {...styleAttributes}
+        {...props}
+      >
+        {icon && iconPosition === "left" && (
+          <Icon
+            name={icon}
+            size={ButtonIconSize[size]}
+            className={style.icon}
+            appearance={iconAppearance}
+            aria-hidden="true"
+          />
+        )}
+        <span data-size={size} className={style.label}>
+          {label}
+        </span>
+        {icon && iconPosition === "right" && (
+          <Icon
+            name={icon}
+            size={ButtonIconSize[size]}
+            className={style.icon}
+            appearance={iconAppearance}
+            aria-hidden="true"
+          />
+        )}
+      </button>
+    );
   },
 );
 
