@@ -11,6 +11,7 @@ import { ButtonComponent } from "../../button/button.component";
 import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../../icon/icon-map";
 import { PopoverDirective } from "../../popover/popover.directive";
 import { SelectComponent } from "../../select/select.component";
+import { SplitButtonComponent } from "../../split-button/split-button.component";
 import { TextareaComponent } from "../../textarea/textarea.component";
 import { ModalDirective } from "../modal.directive";
 import { ModalModule } from "../modal.module";
@@ -323,6 +324,101 @@ export const WithCustomContent: Story = {
                 </ng-template>
               </div>
       `,
+  }),
+};
+
+const splitMenuOptions = [
+  { id: "save-draft", label: "Save as draft" },
+  { id: "save-template", label: "Save as template" },
+];
+
+export const PrimaryDanger: Story = {
+  decorators: [
+    moduleMetadata({
+      imports: [ModalModule, ButtonComponent],
+    }),
+  ],
+  args: {
+    rteModalId: "modal-danger",
+    rteModalTitle: "Delete 3 documents",
+    rteModalDescription: "The selected documents will be deleted.",
+    rteModalSize: "s",
+    rteModalIcon: "delete",
+    rteModalIconAppearance: "filled",
+    rteModalCloseOnClickOutside: true,
+  },
+  render: (args) => ({
+    props: {
+      ...args,
+      handlePrimaryClick: () => console.log("Delete confirmed"),
+      handleSecondaryClick: () => console.log("Cancelled"),
+    },
+    imports: [ModalDirective],
+    template: `<div
+      rteModal
+      #modalHost="rteModal"
+      [rteModalId]="rteModalId"
+      [rteModalTitle]="rteModalTitle"
+      [rteModalDescription]="rteModalDescription"
+      [rteModalSize]="rteModalSize"
+      [rteModalIcon]="rteModalIcon"
+      [rteModalIconAppearance]="rteModalIconAppearance"
+      [rteModalCloseOnClickOutside]="rteModalCloseOnClickOutside"
+    >
+      <button rteButton rteButtonVariant="primary" rteModalTrigger>Open Modal</button>
+      <ng-template #primaryButton>
+        <button rteButton rteButtonVariant="danger" (click)="handlePrimaryClick(); modalHost.close()">Delete</button>
+      </ng-template>
+      <ng-template #secondaryButton>
+        <button rteButton rteButtonVariant="neutral" (click)="handleSecondaryClick(); modalHost.close()">Cancel</button>
+      </ng-template>
+    </div>`,
+  }),
+};
+
+export const PrimarySplitButton: Story = {
+  decorators: [
+    moduleMetadata({
+      imports: [ModalModule, ButtonComponent, SplitButtonComponent],
+    }),
+  ],
+  args: {
+    rteModalId: "modal-split",
+    rteModalTitle: "Save document",
+    rteModalDescription: "Choose how to save your changes.",
+    rteModalSize: "m",
+    rteModalCloseOnClickOutside: true,
+  },
+  render: (args) => ({
+    props: {
+      ...args,
+      splitMenuOptions,
+      handlePrimaryClick: () => console.log("Save"),
+      handleSecondaryClick: () => console.log("Cancel"),
+    },
+    imports: [ModalDirective],
+    template: `<div
+      rteModal
+      #modalHost="rteModal"
+      [rteModalId]="rteModalId"
+      [rteModalTitle]="rteModalTitle"
+      [rteModalDescription]="rteModalDescription"
+      [rteModalSize]="rteModalSize"
+      [rteModalCloseOnClickOutside]="rteModalCloseOnClickOutside"
+    >
+      <button rteButton rteButtonVariant="primary" rteModalTrigger>Open Modal</button>
+      <ng-template #primaryButton>
+        <rte-split-button
+          label="Save"
+          ariaLabelRight="More save options"
+          [options]="splitMenuOptions"
+          (clickLeftButton)="handlePrimaryClick(); modalHost.close()"
+        />
+      </ng-template>
+      <ng-template #secondaryButton>
+        <button rteButton rteButtonVariant="neutral" (click)="handleSecondaryClick(); modalHost.close()">Cancel</button>
+      </ng-template>
+    </div>`,
   }),
 };
 
