@@ -1,6 +1,7 @@
 import { ButtonIconSize } from "@design-system-rte/core/components/button/common/common-button.constants";
+import { resolveIconButtonVisual } from "@design-system-rte/core/components/button/common/resolve-icon-button-visual";
 import { IconButtonProps as CoreIconButtonProps } from "@design-system-rte/core/components/button/icon-button/icon-button.interface";
-import { forwardRef } from "react";
+import { forwardRef, useMemo } from "react";
 
 import Badge from "../badge/Badge";
 import Icon, { RegularIconIdKey, TogglableIconIdKey } from "../icon/Icon";
@@ -27,6 +28,10 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
       type = "button",
       name,
       appearance,
+      hierarchy,
+      isCritical,
+      isReversed,
+      iconAppearance,
       compactSpacing,
       badgeContent,
       badgeCount,
@@ -36,9 +41,29 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
     },
     ref,
   ) => {
+    const resolvedVisual = useMemo(
+      () =>
+        resolveIconButtonVisual({
+          variant,
+          appearance,
+          hierarchy,
+          isCritical,
+          isReversed,
+          iconAppearance,
+        }),
+      [variant, appearance, hierarchy, isCritical, isReversed, iconAppearance],
+    );
+
     if (isValidIconName(name)) {
       const shouldDisplayBadge =
         (badgeCount && badgeCount > 0 && badgeContent === "number") || (badgeContent === "icon" && badgeIcon);
+
+      const shellDataAttributes = {
+        "data-appearance": resolvedVisual.appearance,
+        "data-hierarchy": resolvedVisual.hierarchy,
+        ...(resolvedVisual.isCritical ? { "data-critical": true } : {}),
+        ...(resolvedVisual.isReversed ? { "data-reversed": true } : {}),
+      };
 
       if (shouldDisplayBadge) {
         return (
@@ -54,35 +79,40 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
               type={type}
               className={concatClassNames(style["icon-button"], className)}
               data-size={size}
-              data-variant={variant}
               data-compact-spacing={compactSpacing}
               onClick={onClick}
+              {...shellDataAttributes}
               {...props}
             >
-              <Icon name={name} appearance={appearance} size={ButtonIconSize[size]} aria-hidden={true} />
+              <Icon
+                name={name}
+                appearance={resolvedVisual.iconAppearance}
+                size={ButtonIconSize[size]}
+                aria-hidden={true}
+              />
             </button>
           </Badge>
         );
-      } else {
-        return (
-          <button
-            ref={ref}
-            type={type}
-            className={concatClassNames(style["icon-button"], className)}
-            data-size={size}
-            data-variant={variant}
-            data-compact-spacing={compactSpacing}
-            onClick={onClick}
-            {...props}
-          >
-            <Icon name={name} appearance={appearance} size={ButtonIconSize[size]} aria-hidden={true} />
-          </button>
-        );
       }
-    } else {
-      console.warn(`IconButton: Invalid icon name "${name}". Please use a valid icon key.`);
-      return null;
+
+      return (
+        <button
+          ref={ref}
+          type={type}
+          className={concatClassNames(style["icon-button"], className)}
+          data-size={size}
+          data-compact-spacing={compactSpacing}
+          onClick={onClick}
+          {...shellDataAttributes}
+          {...props}
+        >
+          <Icon name={name} appearance={resolvedVisual.iconAppearance} size={ButtonIconSize[size]} aria-hidden={true} />
+        </button>
+      );
     }
+
+    console.warn(`IconButton: Invalid icon name "${name}". Please use a valid icon key.`);
+    return null;
   },
 );
 
