@@ -26,7 +26,9 @@ const IconButtonToggle = forwardRef<HTMLButtonElement, IconButtonToggleProps>(
         onClick(e);
       }
     };
-    return <IconButton ref={ref} appearance={isSelected ? "filled" : "outlined"} onClick={handleOnClick} {...props} />;
+    return (
+      <IconButton ref={ref} iconAppearance={isSelected ? "filled" : "outlined"} onClick={handleOnClick} {...props} />
+    );
   },
 );
 

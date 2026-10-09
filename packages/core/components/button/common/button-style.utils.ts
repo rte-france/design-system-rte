@@ -1,4 +1,6 @@
-import { ButtonAppearance, ButtonHierarchy, ButtonVariant } from "./common-button";
+import type { ButtonIconAppearance } from "../button.interface";
+
+import { ButtonAppearance, ButtonHierarchy, ButtonVariant, IconButtonAppearanceInput } from "./common-button";
 
 export interface ResolvedButtonStyle {
   appearance: ButtonAppearance;
@@ -45,5 +47,51 @@ export function resolveButtonStyle(input: ButtonStyleInput): ResolvedButtonStyle
     hierarchy: hierarchy ?? fromVariant.hierarchy ?? DEFAULT_BUTTON_STYLE.hierarchy,
     isCritical: isCritical ?? fromVariant.isCritical ?? DEFAULT_BUTTON_STYLE.isCritical,
     isReversed: isReversed ?? fromVariant.isReversed ?? DEFAULT_BUTTON_STYLE.isReversed,
+  };
+}
+
+export interface IconButtonStyleInput {
+  variant?: ButtonVariant;
+  appearance?: IconButtonAppearanceInput;
+  hierarchy?: ButtonHierarchy;
+  isCritical?: boolean;
+  isReversed?: boolean;
+  iconAppearance?: ButtonIconAppearance;
+}
+
+export interface ResolvedIconButtonStyle extends ResolvedButtonStyle {
+  iconAppearance: ButtonIconAppearance;
+}
+
+function shellAppearanceFromInput(appearance: IconButtonAppearanceInput | undefined): ButtonAppearance | undefined {
+  if (appearance === "brand" || appearance === "neutral") {
+    return appearance;
+  }
+}
+
+function iconAppearanceFromInput(input: IconButtonStyleInput): ButtonIconAppearance {
+  if (input.iconAppearance !== undefined) {
+    return input.iconAppearance;
+  }
+
+  if (input.appearance === "filled" || input.appearance === "outlined") {
+    return input.appearance;
+  }
+
+  return "outlined";
+}
+
+export function resolveIconButtonStyle(input: IconButtonStyleInput): ResolvedIconButtonStyle {
+  const shell = resolveButtonStyle({
+    variant: input.variant,
+    appearance: shellAppearanceFromInput(input.appearance),
+    hierarchy: input.hierarchy,
+    isCritical: input.isCritical,
+    isReversed: input.isReversed,
+  });
+
+  return {
+    ...shell,
+    iconAppearance: iconAppearanceFromInput(input),
   };
 }

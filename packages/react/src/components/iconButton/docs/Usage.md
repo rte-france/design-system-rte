@@ -1,7 +1,16 @@
 ## Usage de base
 
+Le shell se configure avec `appearance`, `hierarchy`, `isCritical` et `isReversed`. Le glyphe togglable utilise `iconAppearance`.
+
 ```tsx
-<IconButton name="settings" aria-label="Ouvrir les paramètres" onClick={handleClick} />
+<IconButton
+  name="settings"
+  appearance="brand"
+  hierarchy="primary"
+  iconAppearance="outlined"
+  aria-label="Ouvrir les paramètres"
+  onClick={handleClick}
+/>
 ```
 
 ## Sizing
@@ -24,38 +33,74 @@ Avec `compactSpacing`, les hauteurs vérifiées sont de `16 px`, `20 px` et `24 
 </div>
 ```
 
-## Variantes
+## Apparence du shell
 
-Les variantes disponibles sont `primary`, `secondary`, `text`, `transparent`, `danger`, `neutral` et `reverse`.
+### Brand
 
 ```tsx
-<div style={{ display: "flex", gap: 8 }}>
-  <IconButton name="settings" variant="primary" aria-label="Ouvrir les paramètres" />
-  <IconButton name="settings" variant="secondary" aria-label="Ouvrir les paramètres" />
-  <IconButton name="settings" variant="text" aria-label="Ouvrir les paramètres" />
-  <IconButton name="settings" variant="transparent" aria-label="Ouvrir les paramètres" />
-  <IconButton name="settings" variant="danger" aria-label="Ouvrir les paramètres" />
-  <IconButton name="settings" variant="neutral" aria-label="Ouvrir les paramètres" />
-  <div style={{ backgroundColor: "var(--background-inverse)" }}>
-    <IconButton name="settings" variant="reverse" aria-label="Ouvrir les paramètres" />
-  </div>
+<div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+  <IconButton name="settings" appearance="brand" hierarchy="primary" aria-label="Primary" />
+  <IconButton name="settings" appearance="brand" hierarchy="secondary" aria-label="Secondary" />
+  <IconButton name="settings" appearance="brand" hierarchy="text" aria-label="Text" />
+  <IconButton name="settings" appearance="brand" hierarchy="transparent" aria-label="Transparent" />
+  <IconButton name="settings" appearance="brand" hierarchy="primary" isCritical aria-label="Critical" />
 </div>
 ```
 
-## Apparence de l'icône
+### Neutral
 
-L'apparence `outlined` ou `filled` s'applique aux icônes togglables.
+Le neutral à bordure (équivalent « outlined » côté Button) utilise `hierarchy="secondary"`, pas `appearance="outlined"`.
+
+```tsx
+<div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+  <IconButton name="settings" appearance="neutral" hierarchy="primary" aria-label="Neutral primary" />
+  <IconButton name="settings" appearance="neutral" hierarchy="secondary" aria-label="Neutral secondary" />
+  <IconButton name="settings" appearance="neutral" hierarchy="text" aria-label="Neutral text" />
+  <IconButton name="settings" appearance="neutral" hierarchy="transparent" aria-label="Neutral transparent" />
+</div>
+```
+
+### Critical et reversed
+
+```tsx
+<IconButton name="delete" appearance="brand" hierarchy="primary" isCritical aria-label="Supprimer" />
+
+<div style={{ backgroundColor: "var(--background-inverse)", display: "inline-flex", padding: 8 }}>
+  <IconButton name="settings" appearance="brand" hierarchy="transparent" isReversed aria-label="Reversed" />
+</div>
+```
+
+## Variantes dépréciées (`variant`)
+
+Les valeurs `variant` restent supportées pour compatibilité. Voir le tableau **Migration depuis `variant`** dans l’API.
+
+```tsx
+<IconButton name="settings" variant="danger" aria-label="Danger" />
+// Équivalent
+<IconButton name="settings" appearance="brand" hierarchy="primary" isCritical aria-label="Danger" />
+```
+
+## Apparence de l’icône
+
+Préférer `iconAppearance` pour les icônes togglables.
 
 ```tsx
 <div style={{ display: "flex", gap: 8 }}>
-  <IconButton name="settings" appearance="outlined" aria-label="Paramètres" />
-  <IconButton name="settings" appearance="filled" aria-label="Paramètres" />
+  <IconButton name="settings" iconAppearance="outlined" aria-label="Paramètres" />
+  <IconButton name="settings" iconAppearance="filled" aria-label="Paramètres" />
 </div>
+```
+
+Alias déprécié sur `appearance` (glyphe uniquement) :
+
+```tsx
+// Déprécié
+<IconButton name="settings" appearance="filled" aria-label="Paramètres" />
+// Équivalent
+<IconButton name="settings" iconAppearance="filled" aria-label="Paramètres" />
 ```
 
 ## Badge
-
-Avec les propriétés `badgeContent`, `badgeCount`, `badgeIcon`, `badgeSize` et `badgeType`, un badge peut être affiché sur le bouton.
 
 ```tsx
 <IconButton name="settings" aria-label="Paramètres" badgeContent="number" badgeCount={1} badgeType="brand" />
