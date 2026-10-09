@@ -21,6 +21,7 @@
   "exclude": [
     "node_modules",
     "dist",
+    "**/*.spec.ts",
     "**/docs/**",
     "**/stories/**",
     "scripts",

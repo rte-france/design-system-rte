@@ -1,15 +1,26 @@
 import { BadgeHolderProps } from "../../badge/badge.interface";
+import type { ButtonIconAppearance } from "../button.interface";
+import type {
+  ButtonSize,
+  ButtonVariant,
+  IconButtonAppearanceInput,
+  IconButtonHierarchy,
+} from "../common/common-button";
 
 export interface IconButtonProps extends BadgeHolderProps {
-  variant?: import("../common/common-button").ButtonVariant;
-  size?: import("../common/common-button").ButtonSize;
+  appearance?: IconButtonAppearanceInput;
+  hierarchy?: IconButtonHierarchy;
+  isCritical?: boolean;
+  isReversed?: boolean;
+  iconAppearance?: ButtonIconAppearance;
+  variant?: ButtonVariant;
+  size?: ButtonSize;
   compactSpacing?: boolean;
   disabled?: boolean;
   name: string;
-  appearance?: "outlined" | "filled";
 }
 
-export interface IconButtonToggleProps extends Omit<IconButtonProps, "appearance"> {
+export interface IconButtonToggleProps extends Omit<IconButtonProps, "iconAppearance"> {
   selected?: boolean;
   defaultSelected?: boolean;
 }

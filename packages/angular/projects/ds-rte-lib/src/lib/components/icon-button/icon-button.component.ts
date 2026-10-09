@@ -2,8 +2,14 @@ import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, input, output } from "@angular/core";
 import { BadgeContent, BadgeType } from "@design-system-rte/core/components/badge/badge.interface";
 import { ButtonType } from "@design-system-rte/core/components/button/button.interface";
-import { ButtonSize, ButtonVariant } from "@design-system-rte/core/components/button/common/common-button";
+import {
+  ButtonSize,
+  ButtonVariant,
+  IconButtonAppearanceInput,
+  IconButtonHierarchy,
+} from "@design-system-rte/core/components/button/common/common-button";
 import { ButtonIconSize } from "@design-system-rte/core/components/button/common/common-button.constants";
+import { resolveIconButtonVisual } from "@design-system-rte/core/components/button/common/resolve-icon-button-visual";
 
 import { BadgeDirective } from "../badge/badge.directive";
 import { isValidIconName } from "../icon/icon-map";
@@ -23,7 +29,11 @@ export class IconButtonComponent {
   readonly size = input<ButtonSize>("m");
   readonly variant = input<ButtonVariant>("primary");
   readonly type = input<ButtonType>("button");
-  readonly appearance = input<"outlined" | "filled">("outlined");
+  readonly appearance = input<IconButtonAppearanceInput | undefined>(undefined);
+  readonly hierarchy = input<IconButtonHierarchy | undefined>(undefined);
+  readonly isCritical = input<boolean | undefined>(undefined);
+  readonly isReversed = input<boolean | undefined>(undefined);
+  readonly iconAppearance = input<"filled" | "outlined" | undefined>(undefined);
   readonly compactSpacing = input<boolean>(false);
   readonly ariaLabel = input<string | undefined>(undefined);
   readonly ariaLabelledBy = input<string | undefined>(undefined);
@@ -40,6 +50,17 @@ export class IconButtonComponent {
   readonly buttonIconSize = computed(() => ButtonIconSize[this.size()]);
 
   readonly isValidIconName = computed(() => isValidIconName(this.name()));
+
+  readonly resolvedVisual = computed(() =>
+    resolveIconButtonVisual({
+      variant: this.variant(),
+      appearance: this.appearance(),
+      hierarchy: this.hierarchy(),
+      isCritical: this.isCritical(),
+      isReversed: this.isReversed(),
+      iconAppearance: this.iconAppearance(),
+    }),
+  );
 
   readonly clickEvent = output<MouseEvent | KeyboardEvent>();
 

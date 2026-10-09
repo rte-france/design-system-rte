@@ -1,7 +1,13 @@
 ## Usage de base
 
 ```html
-<rte-icon-button name="settings" ariaLabel="Ouvrir les paramètres" (clickEvent)="handleClick($event)" />
+<rte-icon-button
+  name="settings"
+  appearance="brand"
+  hierarchy="primary"
+  ariaLabel="Ouvrir les paramètres"
+  (clickEvent)="handleClick($event)"
+/>
 ```
 
 ## Sizing
@@ -26,36 +32,72 @@
 </div>
 ```
 
-## Variantes
+## Apparence du shell
 
-Les variantes disponibles sont `primary`, `secondary`, `text`, `transparent`, `danger`, `neutral` et `reverse`.
+### Brand
 
 ```html
-<div style="display: flex; gap: 8px">
-  <rte-icon-button name="settings" variant="primary" ariaLabel="Primary" />
-  <rte-icon-button name="settings" variant="secondary" ariaLabel="Secondary" />
-  <rte-icon-button name="settings" variant="text" ariaLabel="Text" />
-  <rte-icon-button name="settings" variant="transparent" ariaLabel="Transparent" />
-  <rte-icon-button name="settings" variant="danger" ariaLabel="Danger" />
-  <rte-icon-button name="settings" variant="neutral" ariaLabel="Neutral" />
-  <div style="background: var(--background-inverse)">
-    <rte-icon-button name="settings" variant="reverse" ariaLabel="Reverse" />
-  </div>
+<div style="display: flex; gap: 8px; flex-wrap: wrap">
+  <rte-icon-button name="settings" appearance="brand" hierarchy="primary" ariaLabel="Primary" />
+  <rte-icon-button name="settings" appearance="brand" hierarchy="secondary" ariaLabel="Secondary" />
+  <rte-icon-button name="settings" appearance="brand" hierarchy="text" ariaLabel="Text" />
+  <rte-icon-button name="settings" appearance="brand" hierarchy="transparent" ariaLabel="Transparent" />
 </div>
 ```
 
-## Apparence de l'icône
+### Neutral
 
-L'apparence `outlined` ou `filled` s'applique aux icônes togglables.
+Le neutral à bordure (équivalent « outlined » côté Button) utilise `hierarchy="secondary"`.
 
 ```html
-<rte-icon-button name="settings" appearance="outlined" ariaLabel="Paramètres" />
-<rte-icon-button name="settings" appearance="filled" ariaLabel="Paramètres" />
+<div style="display: flex; gap: 8px; flex-wrap: wrap">
+  <rte-icon-button name="settings" appearance="neutral" hierarchy="primary" ariaLabel="Neutral primary" />
+  <rte-icon-button name="settings" appearance="neutral" hierarchy="secondary" ariaLabel="Neutral secondary" />
+  <rte-icon-button name="settings" appearance="neutral" hierarchy="text" ariaLabel="Neutral text" />
+  <rte-icon-button name="settings" appearance="neutral" hierarchy="transparent" ariaLabel="Neutral transparent" />
+</div>
+```
+
+### Critical et reversed
+
+```html
+<rte-icon-button
+  name="delete"
+  appearance="brand"
+  hierarchy="primary"
+  [isCritical]="true"
+  ariaLabel="Supprimer"
+/>
+
+<div style="background: var(--background-inverse); display: inline-flex; padding: 8px">
+  <rte-icon-button
+    name="settings"
+    appearance="brand"
+    hierarchy="transparent"
+    [isReversed]="true"
+    ariaLabel="Reversed"
+  />
+</div>
+```
+
+## Variantes dépréciées (`variant`)
+
+Les valeurs `variant` restent supportées pour compatibilité ; migrer vers `appearance`, `hierarchy` et les drapeaux lors des mises à jour.
+
+```html
+<rte-icon-button name="settings" variant="danger" ariaLabel="Danger" />
+```
+
+## Apparence de l’icône
+
+Préférer `iconAppearance` pour les icônes togglables. `appearance="outlined"` ou `"filled"` reste un alias déprécié.
+
+```html
+<rte-icon-button name="settings" iconAppearance="outlined" ariaLabel="Paramètres" />
+<rte-icon-button name="settings" iconAppearance="filled" ariaLabel="Paramètres" />
 ```
 
 ## Badge
-
-Avec les propriétés `badgeContent`, `badgeCount`, `badgeIcon`, `badgeSize` et `badgeType`, un badge peut être affiché sur le bouton.
 
 ```html
 <rte-icon-button name="settings" ariaLabel="Paramètres" badgeContent="number" [badgeCount]="1" badgeType="brand" />
