@@ -1,5 +1,24 @@
 @use '@design-system-rte/core/design-tokens/main.scss' as *;
 
+@mixin icon-container-color($color) {
+    ::ng-deep {
+        .rte-icon-container {
+            color: $color;
+        }
+    }
+}
+
+@mixin shell-disabled {
+    &:disabled {
+        background: var(--background-disabled);
+        border: solid $width-xs var(--border-disabled);
+        box-shadow: none;
+        cursor: default;
+
+        @include icon-container-color(var(--content-disabled));
+    }
+}
+
 .rte-icon-button {
     display: flex;
     cursor: pointer;
@@ -46,15 +65,11 @@
         }
     }
 
-    &.primary {
+    &[data-appearance='brand'][data-hierarchy='primary']:not([data-critical='true']) {
         background: var(--background-brand-default);
         border: var(--border-brand-default);
 
-        ::ng-deep {
-            .rte-icon-container {
-                color: var(--content-primary-inverse);
-            }
-        }
+        @include icon-container-color(var(--content-primary-inverse));
 
         &:hover {
             background: var(--background-brand-hover);
@@ -65,25 +80,31 @@
             background: var(--background-brand-pressed);
         }
 
-        &:disabled {
-            background: var(--background-disabled);
-            border: solid $width-xs var(--border-disabled);
-            box-shadow: none;
-            color: var(--content-disabled);
-            cursor: default;
-
-            ::ng-deep {
-                .rte-icon-container {
-                    color: var(--content-disabled);
-                }
-            }
-        }
+        @include shell-disabled;
     }
 
-    &.secondary {
+    &[data-appearance='brand'][data-hierarchy='primary'][data-critical='true'] {
+        background: var(--background-danger-default);
+        border: none;
+
+        @include icon-container-color(var(--content-primary-inverse));
+
+        &:hover {
+            background: var(--background-danger-hover);
+        }
+
+        &:active {
+            background: var(--background-danger-pressed);
+        }
+
+        @include shell-disabled;
+    }
+
+    &[data-appearance='brand'][data-hierarchy='secondary'] {
         background: var(--background-default);
         border: solid $width-xs var(--border-brand-default);
-        color: var(--content-brand-default);
+
+        @include icon-container-color(var(--content-brand-default));
 
         &:hover {
             background: var(--background-brand-inverse-hover);
@@ -94,18 +115,14 @@
             background: var(--background-brand-inverse-pressed);
         }
 
-        &:disabled {
-            background: var(--background-disabled);
-            border: solid $width-xs var(--border-disabled);
-            color: var(--content-disabled);
-            cursor: default;
-        }
+        @include shell-disabled;
     }
 
-    &.text {
+    &[data-appearance='brand'][data-hierarchy='text'] {
         background: transparent;
         border: none;
-        color: var(--content-brand-default);
+
+        @include icon-container-color(var(--content-brand-default));
 
         &:hover {
             background: var(--background-brand-inverse-hover);
@@ -117,103 +134,131 @@
 
         &:disabled {
             background: var(--background-disabled);
-            color: var(--content-disabled);
             cursor: default;
+
+            @include icon-container-color(var(--content-disabled));
         }
     }
 
-    &.transparent {
+    &[data-appearance='brand'][data-hierarchy='transparent']:not([data-reversed='true']) {
         background: transparent;
         border: none;
-        color: var(--content-brand-default);
+
+        @include icon-container-color(var(--content-brand-default));
 
         &:hover {
-            color: var(--content-brand-hover);
+            @include icon-container-color(var(--content-brand-hover));
         }
 
         &:active {
-            color: var(--content-brand-pressed);
+            @include icon-container-color(var(--content-brand-pressed));
         }
 
         &:disabled {
-            box-shadow: none;
             background-color: var(--background-disabled);
-            color: var(--content-disabled);
             cursor: default;
+
+            @include icon-container-color(var(--content-disabled));
         }
     }
 
-    &.danger {
-        background: var(--background-danger-default);
-        border: none;
-
-        ::ng-deep {
-            .rte-icon-container {
-                color: var(--content-primary-inverse);
-            }
-        }
-
-        &:hover {
-            background: var(--background-danger-hover);
-        }
-
-        &:active {
-            background: var(--background-danger-pressed);
-        }
-
-        &:disabled {
-            background: var(--background-disabled);
-            border: solid $width-xs var(--border-disabled);
-            color: var(--content-disabled);
-            cursor: default;
-
-            ::ng-deep {
-                .rte-icon-container {
-                    color: var(--content-disabled);
-                }
-            }
-        }
-    }
-
-    &.neutral {
+    &[data-appearance='brand'][data-hierarchy='transparent'][data-reversed='true'] {
         background: none;
         border: none;
-        color: var(--content-primary);
+
+        @include icon-container-color(var(--content-primary-inverse));
 
         &:hover {
-            color: var(--content-secondary);
+            @include icon-container-color(var(--background-hover));
         }
 
         &:active {
-            color: var(--content-tertiary);
+            @include icon-container-color(var(--content-primary-inverse));
         }
 
         &:disabled {
             background: var(--background-disabled);
-            box-shadow: none;
-            color: var(--content-disabled);
             cursor: default;
+
+            @include icon-container-color(var(--content-disabled));
         }
     }
 
-    &.reverse {
-        background: none;
+    &[data-appearance='neutral'][data-hierarchy='primary'] {
+        background: var(--background-neutral-bold-default);
         border: none;
-        color: var(--content-primary-inverse);
+
+        @include icon-container-color(var(--content-primary-inverse));
 
         &:hover {
-            color: var(--background-hover);
+            background: var(--background-neutral-bold-hover);
         }
 
         &:active {
-            color: var(--content-primary-inverse);
+            background: var(--background-neutral-bold-pressed);
+        }
+
+        @include shell-disabled;
+    }
+
+    &[data-appearance='neutral'][data-hierarchy='secondary'] {
+        background: var(--background-neutral-subtle-default);
+        border: solid $width-xs var(--border-primary);
+
+        @include icon-container-color(var(--content-primary));
+
+        &:hover {
+            background: var(--background-neutral-subtle-hover);
+        }
+
+        &:active {
+            background: var(--background-neutral-subtle-pressed);
+        }
+
+        @include shell-disabled;
+    }
+
+    &[data-appearance='neutral'][data-hierarchy='text'] {
+        background: none;
+        border: none;
+
+        @include icon-container-color(var(--content-primary));
+
+        &:hover {
+            @include icon-container-color(var(--content-secondary));
+        }
+
+        &:active {
+            @include icon-container-color(var(--content-tertiary));
         }
 
         &:disabled {
             background: var(--background-disabled);
-            box-shadow: none;
-            color: var(--content-disabled);
             cursor: default;
+
+            @include icon-container-color(var(--content-disabled));
+        }
+    }
+
+    &[data-appearance='neutral'][data-hierarchy='transparent'] {
+        background: transparent;
+        border: none;
+
+        @include icon-container-color(var(--content-primary));
+
+        &:hover {
+            @include icon-container-color(var(--content-secondary));
+        }
+
+        &:active {
+            @include icon-container-color(var(--content-tertiary));
+        }
+
+        &:disabled {
+            background: var(--background-disabled);
+            cursor: default;
+
+            @include icon-container-color(var(--content-disabled));
         }
     }
 
