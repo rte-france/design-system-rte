@@ -2,9 +2,9 @@ Use `<rte-segmented-control>` to let users pick one option from a small set of m
 
 ```typescript
 options = [
-  { label: "Option 1", id: "option1" },
-  { label: "Option 2", id: "option2" },
-  { label: "Option 3", id: "option3" },
+  { labelText: "Option 1", id: "option1" },
+  { labelText: "Option 2", id: "option2" },
+  { labelText: "Option 3", id: "option3" },
 ];
 selectedSegment = "option1";
 ```
@@ -14,7 +14,7 @@ selectedSegment = "option1";
   [options]="options"
   [selectedSegment]="selectedSegment"
   [appearance]="appearance"
-  [compactSpacing]="compactSpacing"
+  [isCompact]="isCompact"
   (change)="selectedSegment = $event"
 />
 ```
@@ -48,27 +48,27 @@ Switch between brand and neutral styling with `appearance`.
 <rte-segmented-control
   [options]="options"
   [selectedSegment]="selectedSegment"
-  [compactSpacing]="true"
+  [isCompact]="true"
   (change)="selectedSegment = $event"
 />
 <rte-segmented-control
   [options]="options"
   [selectedSegment]="selectedSegment"
   appearance="neutral"
-  [compactSpacing]="true"
+  [isCompact]="true"
   (change)="selectedSegment = $event"
 />
 ```
 
-Use `compactSpacing` for a denser layout in toolbars or tight containers.
+Use `isCompact` for a denser layout in toolbars or tight containers.
 
 #### Two Options
 
 ```html
 <rte-segmented-control
   [options]="[
-    { label: 'Option 1', id: 'option1' },
-    { label: 'Option 2', id: 'option2' }
+    { labelText: 'Option 1', id: 'option1' },
+    { labelText: 'Option 2', id: 'option2' }
   ]"
   [selectedSegment]="selectedSegment"
   (change)="selectedSegment = $event"
@@ -77,14 +77,30 @@ Use `compactSpacing` for a denser layout in toolbars or tight containers.
 
 The control supports exactly two or three segments.
 
+#### Different Label Text Lengths
+
+```html
+<rte-segmented-control
+  [options]="[
+    { labelText: 'Jour', id: 'day' },
+    { labelText: 'Semaine en cours', id: 'current-week' },
+    { labelText: 'Historique des consommations', id: 'consumption-history' }
+  ]"
+  [selectedSegment]="selectedSegment"
+  (change)="selectedSegment = $event"
+/>
+```
+
+Segments adapt their width to the labels when the control has enough space. Labels that are too long are truncated.
+
 #### Icons
 
 ```html
 <rte-segmented-control
   [options]="[
-    { id: 'agenda', icon: 'view-agenda', label: 'Vue agenda' },
-    { id: 'column', icon: 'view-column', label: 'Vue colonne' },
-    { id: 'grid', icon: 'view-grid', label: 'Vue grille' }
+    { id: 'agenda', icon: 'view-agenda', labelText: 'Vue agenda' },
+    { id: 'column', icon: 'view-column', labelText: 'Vue colonne' },
+    { id: 'grid', icon: 'view-grid', labelText: 'Vue grille' }
   ]"
   [selectedSegment]="selectedSegment"
   (change)="selectedSegment = $event"
@@ -98,9 +114,9 @@ When every option defines an `icon`, the control renders icons instead of text l
 ```html
 <rte-segmented-control
   [options]="[
-    { label: 'Option 1', id: 'option1' },
+    { labelText: 'Option 1', id: 'option1' },
     {
-      label: 'Option 2',
+      labelText: 'Option 2',
       id: 'option2',
       showBadge: true,
       badgeContent: 'number',
