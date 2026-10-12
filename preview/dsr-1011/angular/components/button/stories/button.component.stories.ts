@@ -62,6 +62,32 @@ type Story = StoryObj<ButtonComponent>;
 
 const mockFn = fn();
 
+const defaultButtonStoryTemplate = `
+  <div
+    [style.background]="rteButtonIsReversed ? 'var(--background-inverse)' : 'transparent'"
+    [style.padding.px]="rteButtonIsReversed ? 16 : 0"
+    [style.border-radius.px]="rteButtonIsReversed ? 8 : 0"
+    style="display: inline-block"
+  >
+    <button
+      rteButton
+      [rteButtonAppearance]="rteButtonAppearance"
+      [rteButtonHierarchy]="rteButtonHierarchy"
+      [rteButtonSize]="rteButtonSize"
+      [rteButtonIcon]="rteButtonIcon"
+      [rteButtonIconPosition]="rteButtonIconPosition"
+      [rteButtonIconAppearance]="rteButtonIconAppearance"
+      [rteButtonIsCritical]="rteButtonIsCritical"
+      [rteButtonIsReversed]="rteButtonIsReversed"
+      [rteButtonVariant]="rteButtonVariant"
+      data-testid="button"
+      (click)="click()"
+    >
+      Button
+    </button>
+  </div>
+`;
+
 export const Default: Story = {
   args: {
     rteButtonAppearance: "brand",
@@ -69,21 +95,13 @@ export const Default: Story = {
     rteButtonSize: "m",
     rteButtonIconPosition: "left",
     rteButtonIconAppearance: "filled",
+    rteButtonIsCritical: false,
+    rteButtonIsReversed: false,
   },
   render: (args) => ({
     props: { ...args, click: mockFn },
-    template: `
-    <button rteButton
-      [rteButtonAppearance]="rteButtonAppearance"
-      [rteButtonHierarchy]="rteButtonHierarchy"
-      [rteButtonSize]="rteButtonSize"
-      [rteButtonIcon]="rteButtonIcon"
-      [rteButtonIconPosition]="rteButtonIconPosition"
-      [rteButtonIconAppearance]="rteButtonIconAppearance"
-      data-testid="button"
-      (click)="click()"
-    >Button</button>
-    `,
+    imports: [ButtonComponent],
+    template: defaultButtonStoryTemplate,
   }),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -260,8 +278,10 @@ export const CriticalAndReversed: Story = {
     template: `
     <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
         <button rteButton rteButtonAppearance="brand" rteButtonHierarchy="primary" [rteButtonIsCritical]="true">Critical</button>
-        <div style="background: var(--background-brand-default); padding: 16px; border-radius: 8px;">
-          <button rteButton rteButtonAppearance="brand" rteButtonHierarchy="primary" [rteButtonIsReversed]="true">Reversed</button>
+        <div style="background: var(--background-inverse); padding: 16px; border-radius: 8px; display: flex; gap: 8px; align-items: center;">
+          <button rteButton rteButtonAppearance="brand" rteButtonHierarchy="transparent" [rteButtonIsReversed]="true" rteButtonSize="s">Reversed S</button>
+          <button rteButton rteButtonAppearance="brand" rteButtonHierarchy="transparent" [rteButtonIsReversed]="true" rteButtonSize="m">Reversed M</button>
+          <button rteButton rteButtonAppearance="brand" rteButtonHierarchy="transparent" [rteButtonIsReversed]="true" rteButtonSize="l">Reversed L</button>
         </div>
     </div>
     `,
@@ -303,11 +323,13 @@ export const LegacyVariants: Story = {
           rteButtonSize="m"
           data-testid="neutral-button"
         >Neutral</button>
-        <button rteButton 
-          rteButtonVariant="reverse"
-          rteButtonSize="m"
-          data-testid="reverse-button"
-        >Reverse</button>
+        <div style="background: var(--background-inverse); padding: 8px; border-radius: 8px;">
+          <button rteButton 
+            rteButtonVariant="reverse"
+            rteButtonSize="m"
+            data-testid="reverse-button"
+          >Reverse</button>
+        </div>
     </div>
     `,
   }),
@@ -320,15 +342,8 @@ export const KeyboardInteraction: Story = {
   },
   render: (args) => ({
     props: { ...args, click: mockFn },
-    template: `
-    <button rteButton
-      [rteButtonAppearance]="rteButtonAppearance"
-      [rteButtonHierarchy]="rteButtonHierarchy"
-      [rteButtonSize]="rteButtonSize"
-      data-testid="button"
-      (click)="click()"
-    >Button</button>
-    `,
+    imports: [ButtonComponent],
+    template: defaultButtonStoryTemplate,
   }),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);

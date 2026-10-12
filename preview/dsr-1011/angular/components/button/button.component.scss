@@ -138,14 +138,11 @@
     }
 
     &[data-appearance='brand'][data-reversed='true']:not([data-critical='true']) {
-        background: none;
+        background: transparent;
         border: none;
         color: var(--content-primary-inverse);
 
-        &:hover {
-            color: var(--background-hover);
-        }
-
+        &:hover,
         &:active {
             color: var(--content-primary-inverse);
         }
