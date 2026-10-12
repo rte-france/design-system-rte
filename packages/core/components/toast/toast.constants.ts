@@ -1,3 +1,5 @@
+export const ToastCloseButtonAriaLabel = "Fermer le toast";
+
 const TOAST_DURATION_SMALL = 3000;
 const TOAST_DURATION_MEDIUM = 5000;
 const TOAST_DURATION_LARGE = 8000;
