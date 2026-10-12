@@ -228,7 +228,6 @@ export const WithIcon: Story = {
         [rteButtonSize]="rteButtonSize"
         [rteButtonIcon]="'add-circle'"
         [rteButtonIconPosition]="rteButtonIconPosition"
-        [rteButtonIconAppearance]="'outlined'"
         data-testid="button-with-icon-left"
         (click)="click()"
       >Button with Icon</button>
@@ -266,7 +265,6 @@ export const NeutralHierarchies: Story = {
     <div style="display: flex; flex-wrap: wrap; gap: 8px;">
         <button rteButton rteButtonAppearance="neutral" rteButtonHierarchy="primary">Neutral primary</button>
         <button rteButton rteButtonAppearance="neutral" rteButtonHierarchy="secondary">Neutral secondary</button>
-        <button rteButton rteButtonAppearance="neutral" rteButtonHierarchy="outlined">Neutral outlined</button>
         <button rteButton rteButtonAppearance="neutral" rteButtonHierarchy="text">Neutral text</button>
     </div>
     `,
