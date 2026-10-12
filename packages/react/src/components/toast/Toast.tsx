@@ -1,4 +1,4 @@
-import { generateId } from "@design-system-rte/core";
+import { generateId, ToastCloseButtonAriaLabel } from "@design-system-rte/core";
 import { IconSize, IconTypeMap } from "@design-system-rte/core/components/icon/icon.constants";
 import { ToastProps as coreToastProps } from "@design-system-rte/core/components/toast/toast.interface";
 import { forwardRef, MouseEventHandler, useCallback, useEffect, useState } from "react";
@@ -138,6 +138,7 @@ const Toast = forwardRef<HTMLDivElement, ToastProps>(
                 name="close"
                 variant={type === "neutral" ? "reverse" : "neutral"}
                 onClick={handleOnClickCloseButton}
+                aria-label={ToastCloseButtonAriaLabel}
               />
             )}
           </div>
