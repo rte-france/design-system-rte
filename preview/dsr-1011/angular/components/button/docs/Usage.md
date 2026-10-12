@@ -31,8 +31,6 @@ Le style du bouton se définit avec `rteButtonAppearance`, `rteButtonHierarchy`,
 </div>
 ```
 
-La hiérarchie `outlined` est disponible via `rteButtonHierarchy="outlined"` (non couverte par l’ancien alias de variante).
-
 ## Reverse (`rteButtonIsReversed`)
 
 Dans Figma, **Reverse** correspond aux boutons **brand** posés sur une **surface inverse** (fond sombre), avec le booléen `isReversed` et une hiérarchie — la spec documente notamment **transparent** pour les tailles S, M et L.

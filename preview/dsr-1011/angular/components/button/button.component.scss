@@ -137,7 +137,8 @@
         @include button-disabled;
     }
 
-    &[data-appearance='brand'][data-reversed='true']:not([data-critical='true']) {
+    &[data-appearance='brand'][data-reversed='true']:not([data-critical='true']),
+    &[data-appearance='neutral'][data-reversed='true'] {
         background: transparent;
         border: none;
         color: var(--content-primary-inverse);
@@ -150,7 +151,7 @@
         @include button-disabled;
     }
 
-    &[data-appearance='neutral'][data-hierarchy='primary'] {
+    &[data-appearance='neutral'][data-hierarchy='primary'][data-reversed='false'] {
         background: var(--background-neutral-bold-default);
         border: none;
         color: var(--content-primary-inverse);
@@ -166,7 +167,7 @@
         @include button-disabled;
     }
 
-    &[data-appearance='neutral'][data-hierarchy='secondary'] {
+    &[data-appearance='neutral'][data-hierarchy='secondary'][data-reversed='false'] {
         background: var(--background-default);
         border: solid $width-xs var(--content-primary);
         color: var(--content-primary);
@@ -182,23 +183,7 @@
         @include button-disabled;
     }
 
-    &[data-appearance='neutral'][data-hierarchy='outlined'] {
-        background: transparent;
-        border: solid $width-xs var(--content-primary);
-        color: var(--content-primary);
-
-        &:hover {
-            background: var(--background-neutral-subtle-hover);
-        }
-
-        &:active {
-            background: var(--background-neutral-subtle-pressed);
-        }
-
-        @include button-disabled;
-    }
-
-    &[data-appearance='neutral'][data-hierarchy='text'] {
+    &[data-appearance='neutral'][data-hierarchy='text'][data-reversed='false'] {
         background: none;
         border: none;
         color: var(--content-primary);
@@ -214,7 +199,7 @@
         @include button-disabled;
     }
 
-    &[data-appearance='neutral'][data-hierarchy='transparent'] {
+    &[data-appearance='neutral'][data-hierarchy='transparent'][data-reversed='false'] {
         background: transparent;
         border: none;
         color: var(--content-primary);

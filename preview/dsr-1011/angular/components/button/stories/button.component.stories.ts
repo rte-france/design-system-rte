@@ -25,7 +25,7 @@ const meta: Meta<ButtonComponent> = {
     },
     rteButtonHierarchy: {
       control: "select",
-      options: ["primary", "secondary", "text", "transparent", "outlined"],
+      options: ["primary", "secondary", "text", "transparent"],
     },
     rteButtonIsCritical: {
       control: "boolean",
@@ -266,9 +266,44 @@ export const NeutralHierarchies: Story = {
         <button rteButton rteButtonAppearance="neutral" rteButtonHierarchy="primary">Neutral primary</button>
         <button rteButton rteButtonAppearance="neutral" rteButtonHierarchy="secondary">Neutral secondary</button>
         <button rteButton rteButtonAppearance="neutral" rteButtonHierarchy="text">Neutral text</button>
+        <button rteButton rteButtonAppearance="neutral" rteButtonHierarchy="transparent">Neutral transparent</button>
     </div>
     `,
   }),
+};
+
+export const Disabled: Story = {
+  render: () => ({
+    template: `
+    <div style="display: flex; flex-direction: column; gap: 16px;">
+      <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+        <button rteButton rteButtonAppearance="brand" rteButtonHierarchy="primary" disabled>Primary</button>
+        <button rteButton rteButtonAppearance="brand" rteButtonHierarchy="secondary" disabled>Secondary</button>
+        <button rteButton rteButtonAppearance="brand" rteButtonHierarchy="text" disabled>Text</button>
+        <button rteButton rteButtonAppearance="brand" rteButtonHierarchy="transparent" disabled>Transparent</button>
+        <button rteButton rteButtonAppearance="brand" rteButtonHierarchy="primary" [rteButtonIsCritical]="true" disabled>Critical</button>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+        <button rteButton rteButtonAppearance="neutral" rteButtonHierarchy="primary" disabled>Neutral primary</button>
+        <button rteButton rteButtonAppearance="neutral" rteButtonHierarchy="secondary" disabled>Neutral secondary</button>
+        <button rteButton rteButtonAppearance="neutral" rteButtonHierarchy="text" disabled>Neutral text</button>
+        <button rteButton rteButtonAppearance="neutral" rteButtonHierarchy="transparent" disabled>Neutral transparent</button>
+      </div>
+      <div style="background: var(--background-inverse); padding: 16px; border-radius: 8px; display: flex; flex-wrap: wrap; gap: 8px;">
+        <button rteButton rteButtonAppearance="brand" rteButtonHierarchy="transparent" [rteButtonIsReversed]="true" disabled>Reversed</button>
+        <button rteButton rteButtonAppearance="neutral" rteButtonHierarchy="primary" [rteButtonIsReversed]="true" disabled>Neutral reversed</button>
+      </div>
+    </div>
+    `,
+  }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const buttons = canvas.getAllByRole("button");
+
+    for (const button of buttons) {
+      expect(button).toBeDisabled();
+    }
+  },
 };
 
 export const CriticalAndReversed: Story = {
@@ -280,6 +315,7 @@ export const CriticalAndReversed: Story = {
           <button rteButton rteButtonAppearance="brand" rteButtonHierarchy="transparent" [rteButtonIsReversed]="true" rteButtonSize="s">Reversed S</button>
           <button rteButton rteButtonAppearance="brand" rteButtonHierarchy="transparent" [rteButtonIsReversed]="true" rteButtonSize="m">Reversed M</button>
           <button rteButton rteButtonAppearance="brand" rteButtonHierarchy="transparent" [rteButtonIsReversed]="true" rteButtonSize="l">Reversed L</button>
+          <button rteButton rteButtonAppearance="neutral" rteButtonHierarchy="primary" [rteButtonIsReversed]="true">Neutral reversed</button>
         </div>
     </div>
     `,

@@ -18,7 +18,6 @@ figma.connect("https://www.figma.com/design/Wiy8uWsWjoagf95lOmPXNU/01.0-Design-S
       secondary: "secondary",
       text: "text",
       transparent: "transparent",
-      outlined: "outlined",
     }),
     rteButtonIsCritical: figma.boolean("isCritical"),
     rteButtonIsReversed: figma.boolean("isReversed"),
