@@ -1,0 +1,69 @@
+<div
+  *ngIf="isValidOptions()"
+  #segmentedControl
+  class="rte-segmented-control"
+  role="radiogroup"
+  [attr.aria-label]="ariaLabel()"
+  [attr.data-number-of-segments]="options().length"
+  [attr.data-compact-spacing]="isCompact()"
+>
+  <span
+    class="rte-segment-selected-indicator"
+    [ngStyle]="segmentSelectedIndicatorStyle()"
+    [attr.data-compact-spacing]="isCompact()"
+    [attr.data-initial-animation-disabled]="isInitialAnimationDisabled()"
+  ></span>
+  <ng-container *ngFor="let option of options(); let idx = index">
+    <div
+      class="rte-segment-container"
+      [attr.data-position]="getSegmentPosition(idx)"
+      [attr.data-appearance]="appearance()"
+      [attr.data-compact-spacing]="isCompact()"
+    >
+      <div
+        #segment
+        role="radio"
+        class="rte-segment"
+        tabindex="0"
+        [attr.data-id]="option.id"
+        [attr.data-segment-type]="option.icon ? 'icon' : 'label'"
+        [attr.data-compact-spacing]="isCompact()"
+        [class.selected]="isSegmentSelected(option.id)"
+        [attr.aria-checked]="isSegmentSelected(option.id)"
+        [attr.aria-label]="option.labelText"
+        (click)="selectSegment(option.id)"
+        (keydown)="handleKeyDown($event)"
+        (keyup)="handleKeyUp($event)"
+      >
+        <rte-icon
+          *ngIf="isSegmentSelected(option.id)"
+          name="check-small"
+          class="rte-selected-icon"
+          [size]="isCompact() ? 20 : 24"
+          [attr.data-compact-spacing]="isCompact()"
+        />
+        <div class="rte-segment-content">
+          <ng-container *ngIf="option.icon; else label">
+            <rte-icon
+              [name]="option.icon"
+              [size]="isCompact() ? 20 : 24"
+              [appearance]="isSegmentSelected(option.id) ? 'filled' : 'outlined'"
+            ></rte-icon>
+          </ng-container>
+          <ng-template #label>
+            <span class="rte-segment-label">{{ option.labelText }}</span>
+          </ng-template>
+        </div>
+        <rte-badge
+          *ngIf="shouldDisplayBadge(option)"
+          [count]="option.badgeCount"
+          [badgeContent]="option.badgeContent!"
+          [icon]="option.badgeIcon!"
+          [badgeType]="option.badgeType!"
+          [simpleBadge]="true"
+          [badgeSize]="option.badgeSize!"
+        ></rte-badge>
+      </div>
+    </div>
+  </ng-container>
+</div>
