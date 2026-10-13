@@ -18,6 +18,15 @@
         align-items: flex-start;
         gap: $positive-spacing_100;
 
+        .radio-button-group-title-container {
+            display: flex;
+            align-items: flex-start;
+
+            &[data-show-label-requirement="true"] {
+                align-items: center;
+            }
+        }
+
         .group-title {
             @include typography-heading-s;
             display: block;

@@ -57,7 +57,7 @@ export class BaseInputComponent {
   readonly errorMessage = input<string>("");
   readonly assistiveTextId = input<string | null>(null);
   readonly error = input<boolean>(false);
-  readonly maxLength = input<number>(150);
+  readonly maxLength = input<number | undefined>(150);
   readonly disabled = input<boolean>(false);
   readonly readOnly = input<boolean>(false);
   readonly width = input<string>("300px");

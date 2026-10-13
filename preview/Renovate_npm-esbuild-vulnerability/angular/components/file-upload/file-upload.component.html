@@ -33,23 +33,25 @@
       [id]="internalId() + '-assistive-text'"
     />
   }
-  <button
-    #buttonRef
-    type="button"
-    rteButton
-    rteButtonVariant="primary"
-    rteButtonIcon="upload"
-    rteButtonIconPosition="left"
-    [rteButtonSize]="buttonSize()"
-    [disabled]="disabled()"
-    [class.rte-file-upload-button-compact]="compactSpacing()"
-    [attr.id]="internalId() + '-button'"
-    (click)="handleOnClick($event)"
-  >
-    {{ buttonLabel() }}
-  </button>
+  <div class="rte-file-upload-button-slot">
+    <button
+      #buttonRef
+      type="button"
+      rteButton
+      rteButtonVariant="primary"
+      rteButtonIcon="upload"
+      rteButtonIconPosition="left"
+      [class.rte-file-upload-button-compact]="compactSpacing()"
+      [rteButtonSize]="buttonSize()"
+      [disabled]="disabled()"
+      [attr.id]="internalId() + '-button'"
+      (click)="handleOnClick($event)"
+    >
+      {{ buttonLabel() }}
+    </button>
+  </div>
 
-  <div [style.width]="buttonWidth()">
+  <div class="rte-file-upload-files">
     @for (file of selectedFiles(); track file.name + file.lastModified; let i = $index) {
       <rte-file-item
         [file]="file"

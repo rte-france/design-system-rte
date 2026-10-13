@@ -17,6 +17,8 @@
   display: flex;
   gap: $positive-spacing_100;
   align-items: center;
+  min-width: 0;
+  width: 100%;
 
   > :last-child {
     flex: 0 0 auto;
@@ -30,17 +32,17 @@
   animation: rte-file-upload-loader-appear var(--rte-file-upload-appearance-duration, 150ms) ease-out both;
 }
 
-.rte-file-upload-file-info {
-  display: flex;
-  align-items: baseline;
-  gap: $positive-spacing_050;
-  white-space: nowrap;
-  flex: 1 0 0;
+.rte-file-upload-file-name-slot {
+  flex: 1 1 0;
   min-width: 0;
+  overflow: hidden;
 }
 
 .rte-file-upload-file-name {
   @include typography-text-m-bold;
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
 
   &[data-is-error="true"] {
     color: var(--content-secondary);
@@ -54,6 +56,8 @@
 .rte-file-upload-file-size {
   @include typography-text-s-regular;
   color: var(--content-tertiary);
+  flex: 0 0 auto;
+  white-space: nowrap;
 
   &[data-is-compact="true"] {
     @include typography-text-xs;

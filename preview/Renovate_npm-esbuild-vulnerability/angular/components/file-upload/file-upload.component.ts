@@ -1,13 +1,10 @@
 import { CommonModule } from "@angular/common";
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   computed,
   ElementRef,
-  inject,
   input,
-  NgZone,
   OnDestroy,
   output,
   signal,
@@ -29,7 +26,7 @@ import { FileItemComponent } from "./file-item/file-item.component";
   styleUrl: "./file-upload.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FileUploadComponent implements AfterViewInit, OnDestroy {
+export class FileUploadComponent implements OnDestroy {
   readonly id = input.required<string>();
   readonly label = input.required<string>();
   readonly buttonLabel = input.required<string>();
@@ -55,8 +52,6 @@ export class FileUploadComponent implements AfterViewInit, OnDestroy {
   readonly inputRef = viewChild<ElementRef<HTMLInputElement>>("inputRef");
   readonly buttonRef = viewChild("buttonRef", { read: ElementRef });
 
-  readonly buttonWidth = signal<string | undefined>(undefined);
-
   readonly filesChange = output<File[]>();
   readonly fileRemoved = output<File>();
 
@@ -66,9 +61,7 @@ export class FileUploadComponent implements AfterViewInit, OnDestroy {
   readonly uploadErrors = signal<Map<File, string>>(new Map());
   readonly removalAnnouncement = signal("");
 
-  private resizeObserver?: ResizeObserver;
   private readonly removalTimers = new Map<File, ReturnType<typeof setTimeout>>();
-  private readonly zone = inject(NgZone);
 
   readonly shouldDisplayAssistiveText = computed(() => {
     return (
@@ -83,25 +76,8 @@ export class FileUploadComponent implements AfterViewInit, OnDestroy {
 
   readonly internalId = computed(() => this.id() ?? generateId());
 
-  ngAfterViewInit(): void {
-    const buttonEl = this.buttonRef()?.nativeElement as HTMLElement | undefined;
-    if (!buttonEl) return;
-
-    this.updateButtonWidth(buttonEl);
-
-    this.resizeObserver = new ResizeObserver(() => {
-      this.zone.run(() => this.updateButtonWidth(buttonEl));
-    });
-    this.resizeObserver.observe(buttonEl);
-  }
-
   ngOnDestroy(): void {
-    this.resizeObserver?.disconnect();
     this.removalTimers.forEach((timer) => clearTimeout(timer));
-  }
-
-  private updateButtonWidth(el: HTMLElement): void {
-    this.buttonWidth.set(`${el.offsetWidth}px`);
   }
 
   isFileLoading(file: File): boolean {

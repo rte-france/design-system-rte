@@ -51,7 +51,7 @@ const meta: Meta<SegmentedControlComponent> = {
         control: "select",
         options: ["xs", "s", "m", "l"],
       },
-      compactSpacing: {
+      isCompact: {
         control: "boolean",
       },
     },
@@ -63,13 +63,13 @@ type Story = StoryObj<SegmentedControlComponent>;
 export const Default: Story = {
   args: {
     options: [
-      { label: "Option 1", id: "option1" },
-      { label: "Option 2", id: "option2" },
-      { label: "Option 3", id: "option3" },
+      { labelText: "Option 1", id: "option1" },
+      { labelText: "Option 2", id: "option2" },
+      { labelText: "Option 3", id: "option3" },
     ],
     selectedSegment: "option1",
     appearance: "brand",
-    compactSpacing: false,
+    isCompact: false,
   },
   render: (args) => ({
     props: {
@@ -84,7 +84,38 @@ export const Default: Story = {
         [options]="options"
         [selectedSegment]="selectedSegment"
         [appearance]="appearance"
-        [compactSpacing]="compactSpacing"
+        [isCompact]="isCompact"
+        (change)="change($event)"
+        />
+    </div>
+    `,
+  }),
+};
+
+export const DifferentLabelTextLengths: Story = {
+  args: {
+    ...Default.args,
+    selectedSegment: "day",
+    options: [
+      { labelText: "Jour", id: "day" },
+      { labelText: "Semaine en cours", id: "current-week" },
+      { labelText: "Historique des consommations", id: "consumption-history" },
+    ],
+  },
+  render: (args) => ({
+    props: {
+      ...args,
+      change(id: string) {
+        this["selectedSegment"] = id;
+      },
+    },
+    template: `
+    <div style="width: 420px">
+      <rte-segmented-control
+        [options]="options"
+        [selectedSegment]="selectedSegment"
+        [appearance]="appearance"
+        [isCompact]="isCompact"
         (change)="change($event)"
         />
     </div>
@@ -141,14 +172,14 @@ export const Appearance: Story = {
         [options]="options"
         [selectedSegment]="selectedSegment"
         [appearance]="appearance"
-        [compactSpacing]="compactSpacing"
+        [isCompact]="isCompact"
         (change)="change($event)"
         />
       <rte-segmented-control
         [options]="options"
         [selectedSegment]="selectedSegment"
         [appearance]="'neutral'"
-        [compactSpacing]="compactSpacing"
+        [isCompact]="isCompact"
         (change)="change($event)"
         />
     </div>
@@ -159,7 +190,7 @@ export const Appearance: Story = {
 export const CompactSpacing: Story = {
   args: {
     ...Default.args,
-    compactSpacing: true,
+    isCompact: true,
   },
   render: (args) => ({
     props: {
@@ -174,14 +205,14 @@ export const CompactSpacing: Story = {
         [options]="options"
         [selectedSegment]="selectedSegment"
         [appearance]="appearance"
-        [compactSpacing]="compactSpacing"
+        [isCompact]="isCompact"
         (change)="change($event)"
         />
         <rte-segmented-control
         [options]="options"
         [selectedSegment]="selectedSegment"
         [appearance]="'neutral'"
-        [compactSpacing]="compactSpacing"
+        [isCompact]="isCompact"
         (change)="change($event)"
         />
     </div>
@@ -193,8 +224,8 @@ export const TwoOptions: Story = {
   args: {
     ...Default.args,
     options: [
-      { label: "Option 1", id: "option1" },
-      { label: "Option 2", id: "option2" },
+      { labelText: "Option 1", id: "option1" },
+      { labelText: "Option 2", id: "option2" },
     ],
   },
   render: (args) => ({
@@ -210,7 +241,7 @@ export const TwoOptions: Story = {
         [options]="options"
         [selectedSegment]="selectedSegment"
         [appearance]="appearance"
-        [compactSpacing]="compactSpacing"
+        [isCompact]="isCompact"
         (change)="change($event)"
         />
     </div>
@@ -222,9 +253,9 @@ export const Icons: Story = {
   args: {
     ...Default.args,
     options: [
-      { id: "agenda", icon: "view-agenda", label: "Vue agenda" },
-      { id: "column", icon: "view-column", label: "Vue colonne" },
-      { id: "grid", icon: "view-grid", label: "Vue grille" },
+      { id: "agenda", icon: "view-agenda", labelText: "Vue agenda" },
+      { id: "column", icon: "view-column", labelText: "Vue colonne" },
+      { id: "grid", icon: "view-grid", labelText: "Vue grille" },
     ],
     selectedSegment: "agenda",
   },
@@ -241,7 +272,7 @@ export const Icons: Story = {
         [options]="options"
         [selectedSegment]="selectedSegment"
         [appearance]="appearance"
-        [compactSpacing]="compactSpacing"
+        [isCompact]="isCompact"
         (change)="change($event)"
         />
     </div>
@@ -253,9 +284,9 @@ export const WithBadge: Story = {
   args: {
     ...Default.args,
     options: [
-      { label: "Option 1", id: "option1" },
+      { labelText: "Option 1", id: "option1" },
       {
-        label: "Option 2",
+        labelText: "Option 2",
         id: "option2",
         showBadge: true,
         badgeContent: "number",
@@ -278,7 +309,7 @@ export const WithBadge: Story = {
         [options]="options"
         [selectedSegment]="selectedSegment"
         [appearance]="appearance"
-        [compactSpacing]="compactSpacing"
+        [isCompact]="isCompact"
         (change)="change($event)"
         />
     </div>

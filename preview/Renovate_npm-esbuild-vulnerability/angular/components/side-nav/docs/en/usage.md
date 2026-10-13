@@ -49,6 +49,20 @@ Do not use `<rte-nav-item>`, `<rte-nav-menu>`, or `<rte-base-side-nav>` directly
 
 Enable the collapse control in the footer with `collapsible`.
 
+Customize its labels with `openCollapseText` and `closeCollapseText`:
+
+```html
+<rte-side-nav
+  [headerConfig]="headerConfig"
+  [items]="items"
+  [collapsible]="true"
+  openCollapseText="Open navigation"
+  closeCollapseText="Close navigation"
+>
+  <div content>Page content</div>
+</rte-side-nav>
+```
+
 #### With router navigation
 
 ```typescript

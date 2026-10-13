@@ -25,6 +25,7 @@
       name="close"
       [attr.data-testid]="'toast-close-button'"
       [variant]="type() === 'neutral' ? 'reverse' : 'neutral'"
+      [ariaLabel]="closeButtonAriaLabel"
       (clickEvent)="clickCloseButton()"
     />
   }

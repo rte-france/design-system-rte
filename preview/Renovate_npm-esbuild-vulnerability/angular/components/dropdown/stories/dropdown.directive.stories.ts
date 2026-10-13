@@ -143,6 +143,59 @@ export const WithBadge: StoryObj<{
   }),
 };
 
+export const WithCritical: Story = {
+  tags: ["!autodocs"],
+  decorators: [
+    moduleMetadata({
+      imports: [DropdownModule],
+    }),
+  ],
+  args: {
+    rteDropdownPosition: "bottom",
+  },
+  render: (args) => ({
+    props: {
+      ...args,
+      items: [
+        { label: "Messages", leftIcon: "mail", hasSeparator: true },
+        {
+          label: "Actions",
+          leftIcon: "settings",
+          isCritical: true,
+          children: [
+            {
+              label: "Edit",
+              leftIcon: "edit",
+              children: [
+                { label: "Cut", leftIcon: "cut", trailingText: "⌘X" },
+                { label: "Copy", leftIcon: "copy", trailingText: "⌘C" },
+                { label: "Paste", leftIcon: "paste", trailingText: "⌘V" },
+              ],
+            },
+            { label: "Archive", leftIcon: "archive" },
+            { label: "Delete", leftIcon: "delete" },
+          ],
+        },
+        { label: "Help", leftIcon: "help" },
+        { label: "More information", leftIcon: "info", hasSeparator: true, isCritical: true },
+        { label: "First option", hasIndent: true },
+        { label: "Second option", hasIndent: true },
+        { label: "Third option", hasSeparator: true, hasIndent: true },
+        { label: "Username", leftIcon: "user-circle", disabled: true, isCritical: true },
+      ],
+      onItemClick: (event: { event: Event; id: string }) => {
+        console.log("Item clicked:", event);
+      },
+    },
+    template: `
+    <div rteDropdown [rteDropdownPosition]="rteDropdownPosition" (menuEvent)="onItemClick($event)">
+      <button rteDropdownTrigger>Click me!</button>
+      <rte-dropdown-menu [items]="items"/>
+    </div>
+    `,
+  }),
+};
+
 export const KeyboardNavigation: Story = {
   tags: ["!autodocs"],
   decorators: [

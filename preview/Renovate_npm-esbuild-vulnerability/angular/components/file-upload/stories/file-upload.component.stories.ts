@@ -1,8 +1,43 @@
-import { Component } from "@angular/core";
+import { AfterViewInit, Component, viewChild } from "@angular/core";
 import type { Meta, StoryObj } from "@storybook/angular";
 import { moduleMetadata } from "@storybook/angular";
 
 import { FileUploadComponent } from "../file-upload.component";
+
+@Component({
+  selector: "story-file-upload-min-width-wrapper",
+  imports: [FileUploadComponent],
+  template: `
+    <div style="display: inline-block; overflow: visible; outline: 1px dashed #9747ff;">
+      <rte-file-upload
+        #fileUpload
+        id="file-upload-min-width"
+        label="Label"
+        buttonLabel="Sélectionner un fichier"
+        [showAssistiveText]="false"
+        [required]="false"
+      />
+    </div>
+  `,
+})
+class FileUploadMinWidthWrapperComponent implements AfterViewInit {
+  readonly fileUpload = viewChild<FileUploadComponent>("fileUpload");
+
+  ngAfterViewInit(): void {
+    const input = this.fileUpload()?.inputRef()?.nativeElement;
+    if (!input || input.files?.length) {
+      return;
+    }
+
+    const file = new File([new ArrayBuffer(3 * 1024 * 1024)], "NomDeFichierLongExample.pdf", {
+      type: "application/pdf",
+    });
+    const dataTransfer = new DataTransfer();
+    dataTransfer.items.add(file);
+    input.files = dataTransfer.files;
+    input.dispatchEvent(new Event("change", { bubbles: true }));
+  }
+}
 
 @Component({
   selector: "story-file-upload-async-wrapper",
@@ -50,7 +85,7 @@ const meta: Meta<FileUploadComponent> = {
   tags: ["autodocs"],
   decorators: [
     moduleMetadata({
-      imports: [FileUploadAsyncWrapperComponent],
+      imports: [FileUploadAsyncWrapperComponent, FileUploadMinWidthWrapperComponent],
     }),
   ],
   argTypes: {
@@ -175,5 +210,43 @@ export const MaxSizeExceeded: Story = {
 export const Async: Story = {
   render: () => ({
     template: `<story-file-upload-async-wrapper />`,
+  }),
+};
+
+export const MinWidth: Story = {
+  render: () => ({
+    template: `<story-file-upload-min-width-wrapper />`,
+  }),
+};
+
+export const ContentWidth: Story = {
+  args: {
+    id: "file-upload-content-width",
+    label: "Label Label Label Label Label Label Label Label Label Label",
+    buttonLabel: "Sélectionner un fichier",
+    showAssistiveText: false,
+    required: false,
+    showLabel: true,
+    compactSpacing: false,
+    multiple: false,
+    disabled: false,
+  },
+  render: (args) => ({
+    props: { ...args },
+    template: `
+      <div style="display: inline-block; overflow: visible; outline: 1px dashed #9747ff;">
+        <rte-file-upload
+          [id]="id"
+          [label]="label"
+          [buttonLabel]="buttonLabel"
+          [showLabel]="showLabel"
+          [showAssistiveText]="showAssistiveText"
+          [required]="required"
+          [compactSpacing]="compactSpacing"
+          [multiple]="multiple"
+          [disabled]="disabled"
+        />
+      </div>
+    `,
   }),
 };

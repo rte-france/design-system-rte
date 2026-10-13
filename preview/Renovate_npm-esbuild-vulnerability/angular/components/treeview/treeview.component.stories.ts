@@ -7,6 +7,10 @@ import type {
   TreeviewItemProps,
 } from "@design-system-rte/core/components/treeview/treeview-item.interface";
 import {
+  largeExpansionNestedScenarioData,
+  largeExpansionScenarioData,
+} from "@design-system-rte/core/components/treeview/treeview-large-expansion.story-data";
+import {
   TESTING_ARROW_LEFT_KEY,
   TESTING_ARROW_RIGHT_KEY,
   TESTING_DOWN_KEY,
@@ -817,6 +821,54 @@ export const DisabledItemsScenario: Story = {
       description: {
         story:
           "Reproduces a business scenario with mixed enabled and disabled items (phases and indices). Uses the treeview checkbox system. Disabled nodes use disabled: true — they appear greyed out and must not be selectable, clickable, or checkable. Use this story to manually verify mouse and keyboard interaction on disabled items.",
+      },
+    },
+  },
+};
+
+const largeExpansionScrollWrapper = componentWrapperDecorator(
+  (story) => `<div style="min-width: 420px; max-height: 520px; overflow: auto;">${story}</div>`,
+);
+
+export const LargeExpansionOverlap: Story = {
+  tags: ["!autodocs"],
+  render: () => ({
+    props: {
+      items: largeExpansionScenarioData,
+    },
+    template: `<rte-treeview id="treeview-large-expansion-overlap" data-testid="treeview-large-expansion-overlap" [items]="items" [hasCheckbox]="true" />`,
+    moduleMetadata: {
+      imports: [TreeviewComponent, TreeviewItemComponent],
+    },
+  }),
+  decorators: [largeExpansionScrollWrapper],
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Debug story for Concorde ticket: Phase2 branch expanded with more indices than the 2000px `.treeview-item-children-open` cap. Siblings such as CM-SiblingAfterLargeBranch should render below the branch; when the cap is exceeded they overlap and the scroll container underestimates scroll height. Adjust child count via `createLargeExpansionScenarioData()` in core story data.",
+      },
+    },
+  },
+};
+
+export const LargeExpansionNestedOverlap: Story = {
+  tags: ["!autodocs"],
+  render: () => ({
+    props: {
+      items: largeExpansionNestedScenarioData,
+    },
+    template: `<rte-treeview id="treeview-large-expansion-nested-overlap" [items]="items" />`,
+    moduleMetadata: {
+      imports: [TreeviewComponent, TreeviewItemComponent],
+    },
+  }),
+  decorators: [largeExpansionScrollWrapper],
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Two expanded levels each with many children, to reproduce cumulative max-height limits per nested `<ul>`.",
       },
     },
   },

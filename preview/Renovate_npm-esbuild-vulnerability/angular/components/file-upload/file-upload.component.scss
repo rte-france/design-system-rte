@@ -1,5 +1,28 @@
 @use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
 
+$rte-file-upload-min-width: 128px;
+
+.rte-file-upload {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: stretch;
+  min-width: $rte-file-upload-min-width;
+  width: $rte-file-upload-min-width;
+  overflow: visible;
+}
+
+.rte-file-upload-button-slot {
+  align-self: flex-start;
+  display: flex;
+  flex-shrink: 0;
+  width: max-content;
+}
+
+.rte-file-upload-files {
+  width: 100%;
+  min-width: 0;
+}
+
 .rte-file-upload-header {
   display: flex;
   align-items: flex-start;
@@ -14,7 +37,6 @@
   @include typography-text-m;
   display: flex;
   color: var(--content-secondary);
-  max-width: 300px;
   align-items: center;
   white-space: normal;
   overflow-wrap: normal;

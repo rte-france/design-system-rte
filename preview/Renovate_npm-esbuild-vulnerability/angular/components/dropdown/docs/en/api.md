@@ -65,6 +65,7 @@ Do not use `<rte-dropdown-item>` directly in application templates — items are
 | hasCheckbox | boolean | `false` | Renders a checkbox before the label. |
 | selected | boolean | `false` | Selected state for checkbox items. |
 | isIndeterminate | boolean | `false` | Indeterminate state for checkbox items. |
+| isCritical | boolean | `false` | Applies the critical visual style to the item and its interactive states. |
 | children | `DropdownItemConfig[]` | — | Nested submenu items. |
 | showBadge | boolean | — | Shows a badge when combined with badge props. |
 | badgeCount | number | — | Numeric badge value. |

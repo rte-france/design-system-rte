@@ -6,6 +6,7 @@
     tabindex="0"
     [attr.data-disabled]="item()?.disabled"
     [attr.data-active]="hasChildren() ? subMenuOpen() : item()?.selected"
+    [attr.data-critical]="item()?.isCritical"
     [attr.aria-haspopup]="hasChildren() ? 'menu' : null"
     [attr.aria-expanded]="hasChildren() ? subMenuOpen() : null"
     (click)="handleClick($event)"
