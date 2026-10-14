@@ -105,9 +105,13 @@ $width: 176px;
     display: flex;
     background: none;
     border: none;
-    margin: 0;
+    margin-right: -2px;
     padding: 0;
     border-radius: $radius-s;
+    width: 24px;
+    height: 24px;
+    justify-content: center;
+    align-items: center;
 
     cursor: pointer;
 
