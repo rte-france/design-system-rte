@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component, computed, effect, input, signal } from "@angular/core";
+import { ChangeDetectionStrategy, Component, computed, effect, input, output, signal } from "@angular/core";
 
 import { RegularIconIdKey, TogglableIconIdKey } from "../../icon/icon-registry.service";
 import { IconComponent } from "../../icon/icon.component";
@@ -27,6 +27,8 @@ export class BaseTextInputComponent extends BaseInputComponent {
   readonly rightIconAction = input<"clean" | "visibilityOn" | "visibilityOff">("clean");
   readonly isHiddenInput = signal<boolean>(false);
   readonly visibilityIcons = computed(() => ["visibilityOn", "visibilityOff"].includes(this.rightIconAction()));
+
+  override readonly valueChange = output<string>();
 
   constructor() {
     super();
