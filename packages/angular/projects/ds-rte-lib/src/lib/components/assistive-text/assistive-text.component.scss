@@ -3,10 +3,14 @@
 .rte-assistive-text {
   @include typography-text-s;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: $positive-spacing_050;
   padding: $positive-spacing_050 $positive-spacing_100;
   color: var(--content-secondary);
+
+  rte-icon {
+    @include assistive-text-inline-icon-alignment;
+  }
 
   &.error {
     color: var(--content-danger-default);

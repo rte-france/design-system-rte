@@ -15,6 +15,7 @@ export * from "./lib/components/icon-button/icon-button.component";
 export * from "./lib/components/icon-button-toggle/icon-button-toggle.component";
 export * from "./lib/components/loader/loader.component";
 export * from "./lib/components/text-input/text-input.component";
+export * from "./lib/components/number-input/number-input.component";
 export * from "./lib/components/chip/chip.component";
 export * from "./lib/components/badge/badge.directive";
 export * from "./lib/components/textarea/textarea.component";
