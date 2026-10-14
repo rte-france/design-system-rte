@@ -234,6 +234,14 @@
                         color: var(--content-tertiary);
                     }
 
+                    &.input-field--projected:has(.number-input-layout) {
+                        display: contents;
+                        padding: 0;
+                        border: none;
+                        background: transparent;
+                        box-shadow: none;
+                    }
+
                     &.input-field--projected {
                         flex: 1;
                         min-width: 0;
@@ -323,20 +331,26 @@
                 flex-shrink: 0;
                 position: relative;
             }
+
+            &:has(.number-input-layout) .right-slot:empty {
+                display: none;
+            }
         }
 
         .assistive-text {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: $positive-spacing-050;
             padding: $positive-spacing-050 $positive-spacing-100;
 
             .assistive-icon-error {
                 color: var(--content-danger-default);
+                @include assistive-text-inline-icon-alignment;
             }
 
             .assistive-icon-success {
                 color: var(--content-success-default);
+                @include assistive-text-inline-icon-alignment;
             }
 
             .assistive-label {
@@ -347,6 +361,14 @@
                     color: var(--content-danger-default);
                     @include typography-text-input-s-bold;
                     margin: $positive-spacing-0;
+                }
+
+                &.assistive-label--error-animated {
+                    animation: assistive-error-fade-in 100ms ease-in;
+
+                    @media (prefers-reduced-motion: reduce) {
+                        animation: none;
+                    }
                 }
 
                 &.success {
@@ -369,4 +391,14 @@
     color: var(--content-tertiary);
     @include typography-text-s-regular;
     margin-block: $positive-spacing-0;
+}
+
+@keyframes assistive-error-fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }

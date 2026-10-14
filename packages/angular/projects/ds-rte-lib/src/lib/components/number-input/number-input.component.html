@@ -1,0 +1,127 @@
+<rte-base-input
+  [id]="id()"
+  [useLabelForAttribute]="true"
+  [showRightIcon]="false"
+  [showErrorLeftIcon]="false"
+  [label]="label()"
+  [labelPosition]="labelPosition()"
+  [required]="required()"
+  [showLabelRequirement]="showLabelRequirement()"
+  [assistiveAppearance]="computedAssistiveAppearance()"
+  [showAssistiveIcon]="showErrorState()"
+  [assistiveTextLabel]="assistiveText()"
+  [error]="showErrorState()"
+  [errorMessage]="resolvedErrorMessage()"
+  [disabled]="isEffectivelyDisabled()"
+  [readOnly]="readOnly()"
+  [width]="computedWidth()"
+  [compactSpacing]="compactSpacing()"
+  [highlighted]="inputFocused()"
+>
+  <div
+    rteBaseInputControl
+    class="number-input-layout"
+    [attr.data-increment-position]="incrementPosition()"
+    [attr.data-appearance]="appearance()"
+  >
+    @if (incrementPosition() === "sides") {
+      <rte-icon-button
+        class="number-input-stepper number-input-stepper--decrement"
+        name="remove"
+        [size]="stepperSize()"
+        [variant]="stepperVariant()"
+        [appearance]="stepperAppearance()"
+        [compactSpacing]="compactSpacing()"
+        [disabled]="isEffectivelyDisabled() || readOnly() || !canDecrement()"
+        [attr.aria-disabled]="readOnly() ? true : null"
+        [ariaLabel]="decrementAriaLabel()"
+        [tabIndex]="-1"
+        (clickEvent)="handleDecrementClick($event)"
+      />
+    }
+
+    <div
+      class="number-input-control"
+      [ngClass]="{
+        error: showErrorState(),
+        highlighted: inputFocused(),
+        'number-input-control--disabled': isEffectivelyDisabled(),
+        'number-input-control--read-only': readOnly(),
+      }"
+    >
+      <div class="number-input-value">
+        <input
+          #spinbuttonRef
+          class="number-input-spinbutton"
+          type="text"
+          role="spinbutton"
+          [attr.inputmode]="inputMode()"
+          [id]="id()"
+          [name]="name() || null"
+          [value]="fieldDisplayText()"
+          [placeholder]="placeholder()"
+          [readOnly]="readOnly()"
+          [disabled]="isEffectivelyDisabled()"
+          [attr.aria-valuemin]="min()"
+          [attr.aria-valuemax]="max() ?? null"
+          [attr.aria-valuenow]="ariaValueNow()"
+          [attr.aria-valuetext]="ariaValueText()"
+          [attr.aria-invalid]="showErrorState() ? true : null"
+          [attr.aria-readonly]="readOnly() ? true : null"
+          [attr.aria-labelledby]="'input-label-' + id()"
+          (input)="handleInput($event)"
+          (blur)="handleBlur()"
+          (focus)="handleFocus()"
+          (keydown)="handleKeyDown($event)"
+        />
+        @if (unit()) {
+          <span class="number-input-unit" aria-hidden="true">{{ unit() }}</span>
+        }
+      </div>
+    </div>
+
+    @if (incrementPosition() === "sides") {
+      <rte-icon-button
+        class="number-input-stepper number-input-stepper--increment"
+        name="add"
+        [size]="stepperSize()"
+        [variant]="stepperVariant()"
+        [appearance]="stepperAppearance()"
+        [compactSpacing]="compactSpacing()"
+        [disabled]="isEffectivelyDisabled() || readOnly() || !canIncrement()"
+        [attr.aria-disabled]="readOnly() ? true : null"
+        [ariaLabel]="incrementAriaLabel()"
+        (clickEvent)="handleIncrementClick($event)"
+      />
+    } @else {
+      <div class="number-input-steppers-right">
+        <rte-icon-button
+          class="number-input-stepper number-input-stepper--decrement"
+          name="remove"
+          [size]="stepperSize()"
+          [variant]="stepperVariant()"
+          [appearance]="stepperAppearance()"
+          [compactSpacing]="compactSpacing()"
+          [disabled]="isEffectivelyDisabled() || readOnly() || !canDecrement()"
+          [attr.aria-disabled]="readOnly() ? true : null"
+          [ariaLabel]="decrementAriaLabel()"
+          [tabIndex]="-1"
+          (clickEvent)="handleDecrementClick($event)"
+        />
+        <rte-icon-button
+          class="number-input-stepper number-input-stepper--increment"
+          name="add"
+          [size]="stepperSize()"
+          [variant]="stepperVariant()"
+          [appearance]="stepperAppearance()"
+          [compactSpacing]="compactSpacing()"
+          [disabled]="isEffectivelyDisabled() || readOnly() || !canIncrement()"
+          [attr.aria-disabled]="readOnly() ? true : null"
+          [ariaLabel]="incrementAriaLabel()"
+          [tabIndex]="-1"
+          (clickEvent)="handleIncrementClick($event)"
+        />
+      </div>
+    }
+  </div>
+</rte-base-input>
