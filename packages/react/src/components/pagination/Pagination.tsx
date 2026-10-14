@@ -6,6 +6,7 @@ import {
   PAGINATION_GO_TO_NEXT_LABEL,
   PAGINATION_GO_TO_LAST_LABEL,
   getPaginationPageLabel,
+  PAGINATION_DEFAULT_ARIA_LABEL,
 } from "@design-system-rte/core";
 import { useEffect, useState } from "react";
 
@@ -26,6 +27,7 @@ const Pagination = ({
   hasGoToPrev = true,
   hasGoToNext = true,
   hasGoToLast = true,
+  ["aria-label"]: ariaLabel = PAGINATION_DEFAULT_ARIA_LABEL,
 }: PaginationProps) => {
   const [internalActivePage, setInternalActivePage] = useState(activePage);
 
@@ -86,7 +88,12 @@ const Pagination = ({
   }, [activePage]);
 
   return (
-    <nav className={styles["rte-pagination"]} data-testid="pagination" data-appearance={appearance}>
+    <nav
+      className={styles["rte-pagination"]}
+      data-testid="pagination"
+      data-appearance={appearance}
+      aria-label={ariaLabel}
+    >
       {hasGoToFirst && (
         <button
           type="button"
