@@ -37,6 +37,7 @@ import type {
 import {
   formatNumericValueOrEmpty,
   getDecimalSeparator,
+  normalizeDecimalPrecision,
   getRangeErrorMessage,
   isAtMax,
   isAtMin,
@@ -77,18 +78,13 @@ export class NumberInputComponent
   readonly labelPosition = input<"top" | "side">("top");
   readonly required = input<boolean>(false);
   readonly showLabelRequirement = input<boolean>(false);
-  readonly hasLabel = input<boolean>(true);
 
   readonly appearance = input<NumberInputAppearance>(NUMBER_INPUT_DEFAULT_APPEARANCE);
   readonly incrementPosition = input<NumberInputIncrementPosition>(NUMBER_INPUT_DEFAULT_INCREMENT_POSITION);
   readonly compactSpacing = input<boolean>(false);
 
-  readonly hasUnit = input<boolean>(false);
-  readonly unit = input<string>("kW");
-  readonly hasAssistiveText = input<boolean>(false);
-  readonly assistiveTextLabel = input<string>("");
-  readonly assistiveAppearance = input<"description" | "error" | "success" | "link">("description");
-  readonly showAssistiveIcon = input<boolean>(false);
+  readonly unit = input<string>("");
+  readonly assistiveText = input<string>("");
 
   readonly error = input<boolean>(false);
   readonly errorMessage = input<string>("");
@@ -98,9 +94,13 @@ export class NumberInputComponent
 
   readonly min = input<number>(NUMBER_INPUT_DEFAULT_MIN);
   readonly max = input<number | undefined>(undefined);
-  readonly step = input<number>(NUMBER_INPUT_DEFAULT_STEP);
+  readonly step = input(NUMBER_INPUT_DEFAULT_STEP, {
+    transform: (value: number | null | undefined) =>
+      typeof value === "number" && Number.isFinite(value) && value > 0 ? value : NUMBER_INPUT_DEFAULT_STEP,
+  });
   readonly decimalPrecision = input(NUMBER_INPUT_DEFAULT_DECIMAL_PRECISION, {
-    transform: (value: number | undefined | null) => value ?? NUMBER_INPUT_DEFAULT_DECIMAL_PRECISION,
+    transform: (value: number | undefined | null) =>
+      normalizeDecimalPrecision(value ?? NUMBER_INPUT_DEFAULT_DECIMAL_PRECISION),
   });
   readonly locale = input<string>(NUMBER_INPUT_DEFAULT_LOCALE);
   readonly defaultValue = input<number | undefined>(undefined);
@@ -119,8 +119,6 @@ export class NumberInputComponent
 
   private readonly destroyRef = inject(DestroyRef);
   private readonly spinbuttonRef = viewChild<ElementRef<HTMLInputElement>>("spinbuttonRef");
-
-  private lastExternalValue: number | null | undefined = undefined;
 
   readonly isEffectivelyDisabled = computed(() => this.disabled() || this.formDisabled());
 
@@ -143,6 +141,8 @@ export class NumberInputComponent
 
   readonly showErrorState = computed(() => this.error() || this.rangeErrorMessage() !== null);
 
+  readonly computedAssistiveAppearance = computed(() => (this.showErrorState() ? "error" : "description"));
+
   readonly resolvedErrorMessage = computed(() => {
     if (this.error()) {
       return this.errorMessage() || this.rangeErrorMessage() || "";
@@ -154,8 +154,8 @@ export class NumberInputComponent
     if (this.showErrorState()) {
       return this.resolvedErrorMessage();
     }
-    if (this.hasAssistiveText()) {
-      return this.assistiveTextLabel();
+    if (this.assistiveText()) {
+      return this.assistiveText();
     }
     return "";
   });
@@ -198,7 +198,7 @@ export class NumberInputComponent
     if (!valueText) {
       return null;
     }
-    if (this.hasUnit()) {
+    if (this.unit()) {
       return `${valueText} ${this.unit()}`;
     }
     return valueText;
@@ -226,10 +226,8 @@ export class NumberInputComponent
 
     effect(() => {
       const externalValue = this.value();
-      if (externalValue === this.lastExternalValue) {
-        return;
-      }
-      this.lastExternalValue = externalValue;
+      this.locale();
+      this.decimalPrecision();
       if (externalValue === undefined) {
         return;
       }
@@ -381,7 +379,7 @@ export class NumberInputComponent
     this.valueChange.emit(numeric);
   }
 
-  initializeDisplayFromDefault(): void {
+  private initializeDisplayFromDefault(): void {
     const initial = this.defaultValue();
     if (initial !== undefined) {
       this.applyNumericValue(initial, { emitChange: false });

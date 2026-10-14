@@ -1,15 +1,15 @@
 <rte-base-input
   [id]="id()"
-  [useLabelForAttribute]="false"
+  [useLabelForAttribute]="true"
   [showRightIcon]="false"
   [showErrorLeftIcon]="false"
-  [label]="hasLabel() ? label() : ''"
+  [label]="label()"
   [labelPosition]="labelPosition()"
   [required]="required()"
   [showLabelRequirement]="showLabelRequirement()"
-  [assistiveAppearance]="assistiveAppearance()"
-  [showAssistiveIcon]="showErrorState() ? true : showAssistiveIcon()"
-  [assistiveTextLabel]="assistiveLabelForField()"
+  [assistiveAppearance]="computedAssistiveAppearance()"
+  [showAssistiveIcon]="showErrorState()"
+  [assistiveTextLabel]="assistiveText()"
   [error]="showErrorState()"
   [errorMessage]="resolvedErrorMessage()"
   [disabled]="isEffectivelyDisabled()"
@@ -74,7 +74,7 @@
           (focus)="handleFocus()"
           (keydown)="handleKeyDown($event)"
         />
-        @if (hasUnit()) {
+        @if (unit()) {
           <span class="number-input-unit" aria-hidden="true">{{ unit() }}</span>
         }
       </div>

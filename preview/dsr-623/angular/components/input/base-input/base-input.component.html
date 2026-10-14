@@ -3,8 +3,6 @@
   [ngClass]="{ error: error(), 'compact-spacing': compactSpacing() }"
   [style.width]="width()"
   [attr.data-disabled]="disabled()"
-  [attr.role]="showProjectedShell() ? 'group' : null"
-  [attr.aria-labelledby]="showProjectedShell() ? computedAriaLabelledby() : null"
 >
   <ng-container *ngIf="label()">
     <div class="text">

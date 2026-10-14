@@ -198,7 +198,7 @@ export class BaseInputComponent {
       return;
     }
 
-    const canUseNativeLabelFocus = this.useLabelForAttribute() && !this.showProjectedShell() && !!this.id();
+    const canUseNativeLabelFocus = this.useLabelForAttribute() && !!this.id();
     if (canUseNativeLabelFocus) {
       return;
     }

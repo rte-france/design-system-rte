@@ -27,7 +27,6 @@ const defaultArgs = {
   max: 100,
   step: 1,
   defaultValue: 50,
-  hasUnit: true,
   unit: "kW",
   decimalPrecision: 0,
   locale: "fr-FR",
@@ -110,8 +109,7 @@ export const WithAssistiveText: Story = {
   args: {
     ...defaultArgs,
     id: "number-input-assistive",
-    hasAssistiveText: true,
-    assistiveTextLabel: "Entrez une valeur entre 0 et 100, par pas de 1.",
+    assistiveText: "Entrez une valeur entre 0 et 100, par pas de 1.",
   },
 };
 
@@ -139,7 +137,6 @@ export const InteractionPlay: Story = {
       [defaultValue]="defaultValue"
       [decimalPrecision]="decimalPrecision"
       [locale]="locale"
-      [hasUnit]="hasUnit"
       [unit]="unit"
     />`,
   }),
