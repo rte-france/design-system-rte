@@ -90,6 +90,6 @@ Masquez les contrôles première, précédente, suivante et dernière page lorsq
 
 Mettez à jour `activePage` dans votre gestionnaire `onPageChange`. Le composant maintient un état interne pour un retour visuel immédiat, mais la page affichée suit la prop `activePage` lorsqu'elle change.
 
-### Zéro page au total
+### Une page ou moins
 
-Lorsque `totalPages` vaut `0`, aucun bouton de page n'est rendu. Assurez-vous que `totalPages` reflète le nombre réel de pages avant d'afficher le composant.
+Lorsque `totalPages` est inférieur ou égal à `1`, le composant de pagination n'est pas rendu.

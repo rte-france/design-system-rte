@@ -2,6 +2,6 @@
 
 Update `activePage` in your `onPageChange` handler. The component maintains internal state for immediate UI feedback, but the displayed page follows the `activePage` prop when it changes.
 
-### Zero total pages
+### One page or fewer
 
-When `totalPages` is `0`, no page buttons are rendered. Ensure `totalPages` reflects the actual page count before displaying the component.
+When `totalPages` is less than or equal to `1`, the pagination component is not rendered.

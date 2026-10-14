@@ -32,6 +32,7 @@ const Pagination = ({
   const [internalActivePage, setInternalActivePage] = useState(activePage);
 
   const navActionIconSize = 16;
+  const shouldDisplay = totalPages > 1;
 
   const items = getPaginationItems(internalActivePage, totalPages);
 
@@ -86,6 +87,10 @@ const Pagination = ({
   useEffect(() => {
     setInternalActivePage(activePage);
   }, [activePage]);
+
+  if (!shouldDisplay) {
+    return null;
+  }
 
   return (
     <nav
