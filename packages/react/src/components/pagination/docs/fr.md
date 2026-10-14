@@ -9,13 +9,7 @@ import Pagination from "@design-system-rte/react/components/pagination/Paginatio
 export function MyPage() {
   const [activePage, setActivePage] = useState(1);
 
-  return (
-    <Pagination
-      activePage={activePage}
-      totalPages={10}
-      onPageChange={(page) => setActivePage(page)}
-    />
-  );
+  return <Pagination activePage={activePage} totalPages={10} onPageChange={(page) => setActivePage(page)} />;
 }
 ```
 
@@ -23,20 +17,17 @@ export function MyPage() {
 
 Le composant `Pagination` constitue l'API publique. Passez la page courante, le nombre total de pages et un gestionnaire de changement optionnel via les props du composant.
 
-
 | Nom          | Type                     | Valeur par défaut | Description                                                                                         |
 | ------------ | ------------------------ | ----------------- | --------------------------------------------------------------------------------------------------- |
 | activePage   | number                   | — (requis)        | Page active courante (base 1). Le composant synchronise son état interne lorsque cette prop change. |
 | totalPages   | number                   | — (requis)        | Nombre total de pages disponibles.                                                                  |
-| appearance   | `"brand" | "neutral"`    | `"neutral"`       | Variante visuelle appliquée aux numéros de page et aux contrôles de navigation.                     |
+| appearance   | `"brand"                 | "neutral"`        | `"neutral"`                                                                                         | Variante visuelle appliquée aux numéros de page et aux contrôles de navigation. |
 | hasGoToFirst | boolean                  | `true`            | Affiche ou masque le contrôle « première page ».                                                    |
 | hasGoToPrev  | boolean                  | `true`            | Affiche ou masque le contrôle « page précédente ».                                                  |
 | hasGoToNext  | boolean                  | `true`            | Affiche ou masque le contrôle « page suivante ».                                                    |
 | hasGoToLast  | boolean                  | `true`            | Affiche ou masque le contrôle « dernière page ».                                                    |
+| aria-label   | string                   | `"Pagination"`    | Nom accessible du repère de navigation de la pagination.                                            |
 | onPageChange | `(page: number) => void` | —                 | Appelé lorsque l'utilisateur sélectionne une page différente ou active un contrôle de navigation.   |
-
-
-
 
 ## Usage
 
@@ -48,24 +39,13 @@ import Pagination from "@design-system-rte/react/components/pagination/Paginatio
 
 const [activePage, setActivePage] = useState(1);
 
-<Pagination
-  activePage={activePage}
-  totalPages={10}
-  onPageChange={(page) => setActivePage(page)}
-/>;
+<Pagination activePage={activePage} totalPages={10} onPageChange={(page) => setActivePage(page)} />;
 ```
-
-
 
 #### Brand
 
 ```tsx
-<Pagination
-  activePage={activePage}
-  totalPages={10}
-  appearance="brand"
-  onPageChange={(page) => setActivePage(page)}
-/>
+<Pagination activePage={activePage} totalPages={10} appearance="brand" onPageChange={(page) => setActivePage(page)} />
 ```
 
 Utilisez `appearance="brand"` pour des numéros de page et des contrôles de navigation aux couleurs de la marque.
@@ -75,12 +55,7 @@ Utilisez `appearance="brand"` pour des numéros de page et des contrôles de nav
 #### Position centrale
 
 ```tsx
-<Pagination
-  activePage={5}
-  totalPages={10}
-  appearance="brand"
-  onPageChange={(page) => setActivePage(page)}
-/>
+<Pagination activePage={5} totalPages={10} appearance="brand" onPageChange={(page) => setActivePage(page)} />
 ```
 
 Lorsque la page active est au milieu, la liste affiche la première page, une ellipse, une fenêtre autour de la page active, une autre ellipse et la dernière page.
@@ -88,12 +63,7 @@ Lorsque la page active est au milieu, la liste affiche la première page, une el
 #### Sans ellipse
 
 ```tsx
-<Pagination
-  activePage={4}
-  totalPages={7}
-  appearance="brand"
-  onPageChange={(page) => setActivePage(page)}
-/>
+<Pagination activePage={4} totalPages={7} appearance="brand" onPageChange={(page) => setActivePage(page)} />
 ```
 
 Lorsque `totalPages` est inférieur ou égal à sept, tous les numéros de page sont affichés sans ellipse.
@@ -115,8 +85,6 @@ Lorsque `totalPages` est inférieur ou égal à sept, tous les numéros de page 
 Masquez les contrôles première, précédente, suivante et dernière page lorsque seule la sélection directe de page est nécessaire.
 
 ## Limitations
-
-
 
 ### Page active contrôlée
 
