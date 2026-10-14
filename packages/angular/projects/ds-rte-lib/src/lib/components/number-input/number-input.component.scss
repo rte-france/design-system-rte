@@ -1,0 +1,182 @@
+@use '@design-system-rte/core/design-tokens/main.scss' as *;
+
+:host {
+    display: block;
+    width: 100%;
+}
+
+.number-input-layout {
+    display: flex;
+    align-items: center;
+    gap: $positive-spacing-050;
+    flex: 1;
+    min-width: 128px;
+    width: 184px;
+}
+
+:host([data-compact-spacing='true']) .number-input-layout {
+    min-width: 112px;
+}
+
+.number-input-control {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    flex: 1;
+    min-width: 0;
+    height: 32px;
+    min-height: 32px;
+    border-radius: $radius-s;
+    border: $width-xs solid var(--border-secondary);
+    padding: $positive-spacing-050 $positive-spacing-100;
+    background: linear-gradient(0deg, var(--elevation-surface-inner-shadow) 0%, var(--elevation-surface-inner-shadow) 100%), var(--background-default);
+    transition: border-color 100ms ease, box-shadow 100ms ease;
+    color: var(--content-secondary);
+    cursor: text;
+    @include neutral-inner-shadow;
+
+    @media (prefers-reduced-motion: reduce) {
+        transition: none;
+    }
+
+    &:hover:not(.number-input-control--disabled):not(.number-input-control--read-only):not(.error) {
+        border-color: var(--border-primary);
+    }
+
+    &:focus-within:not(.error),
+    &.highlighted:not(.error),
+    &:active:not(.error) {
+        outline: none;
+        border-color: var(--border-brand-default);
+        box-shadow: inset 0 1px 4px 0 var(--elevation-shadow-key),
+            inset 0 0 0 1px var(--border-brand-default);
+    }
+
+    &.error {
+        outline: none;
+        border-color: var(--border-danger);
+        box-shadow: inset 0 1px 4px 0 var(--elevation-shadow-key),
+            inset 0 0 0 1px var(--border-danger);
+
+        &:focus-within,
+        &:active,
+        &.highlighted {
+            outline: none;
+            border-color: var(--border-danger);
+            box-shadow: inset 0 1px 4px 0 var(--elevation-shadow-key),
+                inset 0 0 0 1px var(--border-danger);
+        }
+    }
+
+    &.number-input-control--disabled {
+        border-color: var(--border-disabled);
+        background: linear-gradient(0deg, var(--elevation-surface-inner-shadow) 0%, var(--elevation-surface-inner-shadow) 100%), var(--background-disabled);
+        cursor: not-allowed;
+        box-shadow: none;
+
+        .number-input-unit {
+            color: var(--content-disabled);
+        }
+    }
+
+    &.number-input-control--read-only {
+        border-color: var(--border-tertiary);
+        background: linear-gradient(0deg, var(--elevation-surface-inner-shadow) 0%, var(--elevation-surface-inner-shadow) 100%), var(--background-disabled);
+        cursor: default;
+        box-shadow: none;
+
+        .number-input-unit {
+            color: var(--content-secondary);
+        }
+    }
+}
+
+:host([data-compact-spacing='true']) .number-input-control {
+    height: 24px;
+    min-height: 24px;
+    padding-block: 0;
+}
+
+:host([data-compact-spacing='true']) .number-input-spinbutton,
+:host([data-compact-spacing='true']) .number-input-unit {
+    line-height: 24px;
+}
+
+.number-input-value {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-width: 0;
+    height: 100%;
+    gap: $positive-spacing-050;
+}
+
+.number-input-spinbutton {
+    flex: 1;
+    min-width: 0;
+    height: 100%;
+    border: none;
+    background: transparent;
+    outline: none;
+    color: inherit;
+    padding: 0;
+    margin: 0;
+    @include typography-text-m-regular;
+
+    &::placeholder {
+        color: var(--content-disabled);
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+        color: var(--content-disabled);
+    }
+
+    &[readonly] {
+        cursor: default;
+    }
+}
+
+.number-input-unit {
+    flex-shrink: 0;
+    color: var(--content-tertiary);
+    @include typography-text-m-regular;
+    user-select: none;
+}
+
+.number-input-steppers-right {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    gap: $positive-spacing-050;
+}
+
+.number-input-stepper {
+    flex-shrink: 0;
+
+    ::ng-deep button {
+        min-width: 24px;
+        min-height: 24px;
+        justify-content: center;
+    }
+}
+
+.number-input-layout[data-appearance='neutral'] .number-input-stepper ::ng-deep button.neutral:not(:disabled) {
+    background: var(--background-neutral-bold-default);
+    border: none;
+    color: var(--content-primary-inverse);
+
+    .rte-icon-container {
+        color: var(--content-primary-inverse);
+    }
+
+    &:hover {
+        background: var(--background-neutral-bold-hover);
+        color: var(--content-primary-inverse);
+    }
+
+    &:active {
+        background: var(--background-neutral-bold-pressed);
+        color: var(--content-primary-inverse);
+    }
+}
