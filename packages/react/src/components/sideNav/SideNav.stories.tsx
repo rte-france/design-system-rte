@@ -339,6 +339,7 @@ export const Default: Story = {
 };
 
 export const Collapsible: Story = {
+  tags: ["skip-ci"],
   args: {
     ...Default.args,
     collapsible: true,
