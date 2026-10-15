@@ -61,6 +61,10 @@
       resize: vertical;
       box-sizing: border-box;
 
+      &::placeholder {
+        color: var(--content-disabled);
+      }
+
       @media (min-width: $breakpoints-m) {
         min-height: 56px;
         min-width: 112px;

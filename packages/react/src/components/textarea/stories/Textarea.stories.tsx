@@ -51,6 +51,7 @@ const meta = {
       control: "boolean",
       description: "Whether the textarea is read-only",
     },
+    placeholder: { control: "text" },
   },
 } satisfies Meta<typeof Textarea>;
 
@@ -71,6 +72,7 @@ export const Default: Story = {
     onChange: mockFn,
     readOnly: false,
     rows: 3,
+    placeholder: "Enter text here",
   },
   render: (args) => {
     return <Textarea {...args} />;
