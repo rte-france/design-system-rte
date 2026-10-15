@@ -1,4 +1,4 @@
-Import `Textarea` and bind it in your form or page. Use `label` and `assistiveTextLabel` for visible guidance instead of a placeholder. Set `aria-invalid` and `errorMessage` (or `assistiveTextLabel` with error content) when validation fails.
+Import `Textarea` and bind it in your form or page. Use `label` and `assistiveTextLabel` for persistent guidance. You may use `placeholder` for a short hint while the field is empty, but it does not replace a label or assistive text. Set `aria-invalid` and `errorMessage` (or `assistiveTextLabel` with error content) when validation fails.
 
 ```tsx
 import { Textarea } from "@design-system-rte/react";
@@ -17,7 +17,7 @@ function CommentField() {
 }
 ```
 
-You may pass other native textarea attributes (such as `rows` or `aria-invalid`) as props. Do not rely on `placeholder`; use assistive text for hints and examples.
+You may pass other native textarea attributes (such as `rows` or `aria-invalid`) as props.
 
 #### Error
 

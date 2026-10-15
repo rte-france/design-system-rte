@@ -8,9 +8,7 @@ import { concatClassNames, deleteFromProps } from "../utils";
 import styles from "./Textarea.module.scss";
 
 interface TextareaProps
-  extends
-    CoreTextareaProps,
-    Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "onChange" | "value" | "defaultValue" | "placeholder"> {
+  extends CoreTextareaProps, Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "onChange" | "value" | "defaultValue"> {
   onChange?: (event: ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
@@ -40,6 +38,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       width = "350px",
       disabled = false,
       readOnly = false,
+      placeholder,
       ...props
     },
     ref,
@@ -68,6 +67,10 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         setCharacterCount(event.target.value.length);
       }
     };
+
+    const shouldDisplayPlaceholder = !(disabled || readOnly);
+
+    const computedPlaceholder = shouldDisplayPlaceholder ? placeholder : undefined;
 
     return (
       <div style={{ width }}>
@@ -120,6 +123,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
                 disabled={disabled}
                 readOnly={readOnly}
                 {...deleteFromProps(props, "placeholder")}
+                placeholder={computedPlaceholder}
               />
               {computedAssistiveTextLabel && (
                 <AssistiveText
