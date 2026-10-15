@@ -1,5 +1,12 @@
 import { BadgeHolderProps } from "../badge/badge.interface";
 
+export interface FocusAdjacentOutsideSegmentOptions {
+  focusedIndex: number;
+  focusableElements: HTMLElement[];
+  segmentClass: string;
+  radiogroupElement: HTMLElement;
+}
+
 export interface SegmentedControlProps {
   options: SegmentOptions[];
   onChange: (id: string) => void;
@@ -10,8 +17,9 @@ export interface SegmentedControlProps {
 
 export interface SegmentOptions extends BadgeHolderProps {
   id: string;
-  labelText: string;
+  labelText?: string;
   icon?: string;
+  ariaLabel?: string;
 }
 
 export interface SegmentProps extends BadgeHolderProps {
@@ -19,6 +27,7 @@ export interface SegmentProps extends BadgeHolderProps {
   position: "left" | "middle" | "right";
   labelText?: string;
   icon?: string;
+  ariaLabel?: string;
   isSelected?: boolean;
   appearance?: "brand" | "neutral";
   isCompact?: boolean;

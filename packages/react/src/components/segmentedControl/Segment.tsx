@@ -4,6 +4,7 @@ import {
   focusNextSegmentElement,
   focusPreviousNotSegmentElement,
   focusPreviousSegmentElement,
+  getSegmentAriaLabel,
 } from "@design-system-rte/core/components/segmented-control/segmented-control-utils";
 import { SegmentProps as CoreSegmentProps } from "@design-system-rte/core/components/segmented-control/segmented-control.interface";
 import {
@@ -31,6 +32,7 @@ const Segment = ({
   id,
   icon,
   labelText,
+  ariaLabel,
   position,
   isSelected,
   onClick,
@@ -44,6 +46,16 @@ const Segment = ({
   isCompact,
   ...props
 }: SegmentProps) => {
+  const segmentAriaLabel = getSegmentAriaLabel({
+    id,
+    ariaLabel,
+    labelText,
+    icon,
+    showBadge,
+    badgeCount,
+    badgeContent,
+    badgeIcon,
+  });
   const ref = useRef<HTMLDivElement>(null);
 
   const allFocusableElement = useSelectFocusableElements();
@@ -73,15 +85,27 @@ const Segment = ({
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (event.key === TAB_KEY) {
+      const radiogroupElement = ref.current?.closest('[role="radiogroup"]');
+      if (!(radiogroupElement instanceof HTMLElement)) {
+        return;
+      }
+
       const currentActiveSegmentElement = document.activeElement;
       const currentActiveSegmentElementIndex = Array.from(allFocusableElement).indexOf(
         currentActiveSegmentElement as HTMLDivElement,
       );
 
+      const focusOptions = {
+        focusedIndex: currentActiveSegmentElementIndex,
+        focusableElements: Array.from(allFocusableElement) as HTMLElement[],
+        segmentClass: style.segment,
+        radiogroupElement,
+      };
+
       if (event.shiftKey) {
-        focusPreviousNotSegmentElement(currentActiveSegmentElementIndex, allFocusableElement, style.segment);
+        focusPreviousNotSegmentElement(focusOptions);
       } else {
-        focusNextNotSegmentElement(currentActiveSegmentElementIndex, allFocusableElement, style.segment);
+        focusNextNotSegmentElement(focusOptions);
       }
     }
   };
@@ -112,7 +136,7 @@ const Segment = ({
         id={id}
         role="radio"
         aria-checked={isSelected}
-        aria-label={labelText}
+        aria-label={segmentAriaLabel}
         className={style.segment}
         data-segment-type={icon ? "icon" : "label"}
         data-selected={isSelected}

@@ -13,11 +13,13 @@ Each entry in `options` accepts the following fields:
 | Property       | Type                                      | Default      | Description                                                                                                     |
 | -------------- | ----------------------------------------- | ------------ | --------------------------------------------------------------------------------------------------------------- |
 | `id`           | `string`                                  | — (required) | Unique identifier for the segment. Passed to `onChange`.                                                        |
-| `labelText`    | `string`                                  | — (required) | Visible segment label. Also used as the segment's `aria-label`.                                                 |
+| `labelText`    | `string`                                  | —            | Visible segment label. Required on each option unless `icon` is set.                                            |
 | `icon`         | `string`                                  | —            | Icon name. When set on one option, all options must define an icon; labels are hidden and only icons are shown. |
+| `ariaLabel`    | `string`                                  | —            | Accessible name for the segment. Replaces the default computed name (e.g. `3 nouvelles alertes`).             |
 | `showBadge`    | `boolean`                                 | —            | Shows the badge when badge content criteria are met.                                                            |
 | `badgeCount`   | `number`                                  | —            | Numeric value shown when `badgeContent` is `"number"`.                                                          |
 | `badgeContent` | `"number"` \| `"icon"` \| `"empty"`       | —            | `"number"` shows a count; `"icon"` shows `badgeIcon`; `"empty"` shows a dot indicator.                          |
 | `badgeIcon`    | `string`                                  | —            | Icon name shown when `badgeContent` is `"icon"`.                                                                |
 | `badgeType`    | `"brand"` \| `"neutral"` \| `"indicator"` | —            | Badge visual variant.                                                                                           |
 | `badgeSize`    | `"xs"` \| `"s"` \| `"m"` \| `"l"`         | —            | Badge size.                                                                                                     |
+

@@ -272,9 +272,239 @@ export const WithBadge: Story = {
     };
 
     return (
-      <div style={{ width: "380px" }}>
+      <div style={{ width: "380px" }} data-testid="segmented-control-with-badge">
         <SegmentedControl {...args} onChange={handleOnChange} selectedSegment={selected} />
       </div>
     );
+  },
+
+  play: async ({ canvasElement }) => {
+    const segments = Array.from(
+      within(canvasElement).getByTestId("segmented-control-with-badge").querySelectorAll("[role='radio']"),
+    );
+
+    expect(segments[1]).toHaveAttribute("aria-label", "Option 2, 5");
+  },
+};
+
+export const WithBadgeCustomAriaLabel: Story = {
+  args: {
+    ...Default.args,
+    options: [
+      { labelText: "Option 1", id: "option1" },
+      {
+        labelText: "Option 2",
+        id: "option2",
+        showBadge: true,
+        badgeContent: "number",
+        badgeCount: 5,
+        badgeType: "indicator",
+        ariaLabel: "3 nouvelles alertes",
+      },
+    ],
+    onChange: fn(),
+  },
+
+  render: WithBadge.render,
+
+  play: async ({ canvasElement }) => {
+    const segments = Array.from(
+      within(canvasElement).getByTestId("segmented-control-with-badge").querySelectorAll("[role='radio']"),
+    );
+
+    expect(segments[1]).toHaveAttribute("aria-label", "3 nouvelles alertes");
+  },
+};
+
+export const WithBadgeEmptyDefaultAriaLabel: Story = {
+  args: {
+    ...Default.args,
+    options: [
+      { labelText: "Option 1", id: "option1" },
+      {
+        labelText: "Alertes",
+        id: "option2",
+        showBadge: true,
+        badgeContent: "empty",
+        badgeType: "indicator",
+      },
+    ],
+    onChange: fn(),
+  },
+
+  render: WithBadge.render,
+
+  play: async ({ canvasElement }) => {
+    const segments = Array.from(
+      within(canvasElement).getByTestId("segmented-control-with-badge").querySelectorAll("[role='radio']"),
+    );
+
+    expect(segments[1]).toHaveAttribute("aria-label", "Alertes. Notification");
+  },
+};
+
+export const IconOnlyWithBadge: Story = {
+  tags: ["!autodocs"],
+  args: {
+    options: [
+      { id: "agenda", icon: "view-agenda" },
+      {
+        id: "column",
+        icon: "view-column",
+        showBadge: true,
+        badgeContent: "number",
+        badgeCount: 3,
+        badgeType: "indicator",
+      },
+    ],
+    onChange: fn(),
+  },
+
+  render: (args) => {
+    const [selected, setSelected] = useState("agenda");
+
+    const handleOnChange = (id: string) => {
+      setSelected(id);
+    };
+
+    return (
+      <div style={{ width: "380px" }} data-testid="segmented-control-icon-badge">
+        <SegmentedControl {...args} onChange={handleOnChange} selectedSegment={selected} />
+      </div>
+    );
+  },
+
+  play: async ({ canvasElement }) => {
+    const segments = Array.from(
+      within(canvasElement).getByTestId("segmented-control-icon-badge").querySelectorAll("[role='radio']"),
+    );
+
+    expect(segments[1]).toHaveAttribute("aria-label", "view-column. Notifications, 3");
+  },
+};
+
+const accessibleNameValidationCases = [
+  {
+    id: "labelText",
+    title: "labelText only",
+    expectedAriaLabel: "Libellé seul",
+    options: [
+      { labelText: "Référence", id: "ref" },
+      { labelText: "Libellé seul", id: "target" },
+    ],
+  },
+  {
+    id: "ariaLabel",
+    title: "ariaLabel override",
+    expectedAriaLabel: "3 nouvelles alertes",
+    options: [
+      { labelText: "Référence", id: "ref" },
+      { labelText: "Visible (ignoré SR)", id: "target", ariaLabel: "3 nouvelles alertes" },
+    ],
+  },
+  {
+    id: "labelTextNumberBadge",
+    title: "labelText + number badge",
+    expectedAriaLabel: "Alertes, 3",
+    options: [
+      { labelText: "Référence", id: "ref" },
+      {
+        labelText: "Alertes",
+        id: "target",
+        showBadge: true,
+        badgeContent: "number" as const,
+        badgeCount: 3,
+        badgeType: "indicator" as const,
+      },
+    ],
+  },
+  {
+    id: "iconOnly",
+    title: "icon without labelText",
+    expectedAriaLabel: "view-column",
+    options: [
+      { id: "ref", icon: "view-agenda" },
+      { id: "target", icon: "view-column" },
+    ],
+  },
+  {
+    id: "iconNumberBadge",
+    title: "icon + badgeCount",
+    expectedAriaLabel: "view-column. Notifications, 3",
+    options: [
+      { id: "ref", icon: "view-agenda" },
+      {
+        id: "target",
+        icon: "view-column",
+        showBadge: true,
+        badgeContent: "number" as const,
+        badgeCount: 3,
+        badgeType: "indicator" as const,
+      },
+    ],
+  },
+  {
+    id: "iconBadgeIcon",
+    title: "icon + badgeIcon (empty/icon badge)",
+    expectedAriaLabel: "view-grid. Notification",
+    options: [
+      { id: "ref", icon: "view-agenda" },
+      {
+        id: "target",
+        icon: "view-grid",
+        showBadge: true,
+        badgeContent: "icon" as const,
+        badgeIcon: "notification",
+        badgeType: "indicator" as const,
+      },
+    ],
+  },
+] as const;
+
+export const AccessibleNameValidation: Story = {
+  tags: ["!autodocs"],
+  args: {
+    ...Default.args,
+    onChange: fn(),
+  },
+  render: () => {
+    const [selectedByCase, setSelectedByCase] = useState<Record<string, string>>(
+      Object.fromEntries(accessibleNameValidationCases.map((validationCase) => [validationCase.id, "ref"])),
+    );
+
+    return (
+      <div
+        style={{ display: "flex", flexDirection: "column", gap: 28, maxWidth: 420, padding: 8 }}
+        data-testid="accessible-name-validation"
+      >
+        <p style={{ margin: 0, fontSize: 14 }}>
+          Focus the <strong>second segment</strong> of each control (right). Compare with the expected{" "}
+          <code>aria-label</code> below (screen reader or devtools).
+        </p>
+        {accessibleNameValidationCases.map((validationCase) => (
+          <section key={validationCase.id} aria-labelledby={`case-${validationCase.id}-title`}>
+            <h3 id={`case-${validationCase.id}-title`} style={{ margin: "0 0 4px", fontSize: 16 }}>
+              {validationCase.title}
+            </h3>
+            <p style={{ margin: "0 0 8px", fontSize: 13, color: "#555" }}>
+              Expected 2nd segment: <code>{validationCase.expectedAriaLabel}</code>
+            </p>
+            <SegmentedControl
+              options={[...validationCase.options]}
+              selectedSegment={selectedByCase[validationCase.id]}
+              onChange={(id) => setSelectedByCase((previous) => ({ ...previous, [validationCase.id]: id }))}
+            />
+          </section>
+        ))}
+      </div>
+    );
+  },
+  play: async ({ canvasElement }) => {
+    const sections = within(canvasElement).getByTestId("accessible-name-validation").querySelectorAll("section");
+
+    accessibleNameValidationCases.forEach((validationCase, index) => {
+      const segments = Array.from(sections[index].querySelectorAll("[role='radio']"));
+      expect(segments[1]).toHaveAttribute("aria-label", validationCase.expectedAriaLabel);
+    });
   },
 };

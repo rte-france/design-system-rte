@@ -25,14 +25,16 @@ Chaque entrée de `options` accepte les champs suivants :
 | Nom            | Type       | Valeur par défaut | Description                                                                                                                                                     |
 | -------------- | ---------- | ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `id`           | `string`   | — (requis)        | Identifiant unique du segment. Émis par `change`.                                                                                                               |
-| `labelText`    | `string`   | — (requis)        | Libellé visible du segment. Utilisé également comme `aria-label` du segment.                                                                                    |
+| `labelText`    | `string`   | —                 | Libellé visible du segment. Utilisé également comme `aria-label` du segment.                                                                                    |
 | `icon`         | `string`   | —                 | Nom de l'icône. Lorsqu'il est défini sur une option, toutes les options doivent en définir une ; les libellés sont masqués et seules les icônes sont affichées. |
+| `ariaLabel`    | `string`   | —                 | Nom accessible du segment. Remplace le nom calculé par défaut (ex. `3 nouvelles alertes`).                                                                       |
 | `showBadge`    | `boolean`  | —                 | Affiche le badge lorsque les critères de contenu du badge sont remplis.                                                                                         |
 | `badgeCount`   | `number`   | —                 | Valeur numérique affichée lorsque `badgeContent` vaut `"number"`.                                                                                               |
 | `badgeContent` | `"number"` | `"icon"`          | `"empty"`                                                                                                                                                       | —     | `"number"` affiche un compteur ; `"icon"` affiche `badgeIcon` ; `"empty"` affiche un point indicateur. |
 | `badgeIcon`    | `string`   | —                 | Nom de l'icône affichée lorsque `badgeContent` vaut `"icon"`.                                                                                                   |
 | `badgeType`    | `"brand"`  | `"neutral"`       | `"indicator"`                                                                                                                                                   | —     | Variante visuelle du badge.                                                                            |
 | `badgeSize`    | `"xs"`     | `"s"`             | `"m"`                                                                                                                                                           | `"l"` | —                                                                                                      | Taille du badge. |
+
 
 ## Usage
 
@@ -129,7 +131,7 @@ Le contrôle accepte exactement deux ou trois segments.
 />
 ```
 
-Lorsque chaque option définit une `icon`, le contrôle affiche des icônes au lieu de libellés texte. Les libellés restent disponibles pour les lecteurs d'écran via `aria-label`.
+Lorsque chaque option définit une `icon`, le contrôle affiche des icônes au lieu de libellés texte. Fournissez `labelText` ou `ariaLabel` sur chaque option pour un nom accessible explicite ; sans `labelText`, le nom repose sur la clé d'icône.
 
 #### Avec badge
 
