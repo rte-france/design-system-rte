@@ -372,7 +372,7 @@ export const WithBadgeEmptyDefaultAriaLabel: Story = {
       within(canvasElement).getByTestId("segmented-control-with-badge").querySelectorAll("[role='radio']"),
     );
 
-    expect(segments[1]).toHaveAttribute("aria-label", "Alertes, nouveau");
+    expect(segments[1]).toHaveAttribute("aria-label", "Alertes. Notification");
   },
 };
 

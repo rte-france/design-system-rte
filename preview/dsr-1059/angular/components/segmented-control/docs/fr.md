@@ -34,7 +34,6 @@ Chaque entrée de `options` accepte les champs suivants :
 | `badgeType`    | `"brand"`  | `"neutral"`       | `"indicator"`                                                                                                                                                   | —     | Variante visuelle du badge.                                                                            |
 | `badgeSize`    | `"xs"`     | `"s"`             | `"m"`                                                                                                                                                           | `"l"` | —                                                                                                      | Taille du badge. |
 
-Chaque segment reçoit un `aria-label` calculé ainsi : `ariaLabel` s'il est fourni ; sinon `labelText` ou la clé `icon` comme base. Avec `labelText` et un badge : `"number"` → `Alertes, 3` ; `"icon"` ou `"empty"` → `Alertes, nouveau`. Icône seule (sans `labelText`) avec badge : `"number"` → `{icon}. Notifications, {count}` ; `"icon"` ou `"empty"` → `{icon}. Notification`. Fournissez `ariaLabel` pour remplacer entièrement la formulation par défaut.
 
 ## Usage
 

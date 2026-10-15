@@ -24,4 +24,3 @@ Each entry in `options` accepts the following fields:
 | `badgeType`    | `"brand"` \| `"neutral"` \| `"indicator"` | —            | Badge visual variant.                                                                                           |
 | `badgeSize`    | `"xs"` \| `"s"` \| `"m"` \| `"l"`         | —            | Badge size.                                                                                                     |
 
-Each segment exposes an `aria-label` computed as follows: `ariaLabel` when provided; otherwise `labelText` or the `icon` key as a base. With `labelText` and a badge: `"number"` → `Alertes, 3`; `"icon"` or `"empty"` → `Alertes, nouveau`. Icon-only (no `labelText`) with a badge: `"number"` → `{icon}. Notifications, {count}`; `"icon"` or `"empty"` → `{icon}. Notification`. Provide `ariaLabel` to replace the default wording entirely.
