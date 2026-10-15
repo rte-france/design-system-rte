@@ -8,6 +8,7 @@ The `SegmentedControlComponent` (`<rte-segmented-control>`) is the public API. P
 | `appearance`      | `"brand"` \| `"neutral"` | `"brand"` | Visual variant of the control background and borders.                   |
 | `isCompact`       | `boolean`                | `false`   | Reduces segment height and horizontal padding.                          |
 | `ariaLabel`       | `string`                 | —         | Accessible name for the radiogroup when no visible label is associated. |
+| `ariaLabelledBy`  | `string`                 | —         | Id(s) of element(s) that label the radiogroup (same as `aria-labelledby`). |
 
 Each entry in `options` accepts the following fields:
 

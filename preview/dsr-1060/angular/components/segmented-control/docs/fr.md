@@ -18,6 +18,7 @@ Le composant `SegmentedControlComponent` (`<rte-segmented-control>`) constitue l
 | `appearance`      | `"brand"`              | `"neutral"`       | `"brand"`                                                                           | Variante visuelle de l'arrière-plan et des bordures du contrôle. |
 | `isCompact`       | `boolean`              | `false`           | Réduit la hauteur des segments et le padding horizontal.                            |
 | `ariaLabel`       | `string`               | —                 | Nom accessible du groupe radio lorsqu'aucun libellé visible n'est associé.          |
+| `ariaLabelledBy`  | `string`               | —                 | Id(s) d'élément(s) qui libellent le groupe radio (équivalent de `aria-labelledby`). |
 
 Chaque entrée de `options` accepte les champs suivants :
 
@@ -56,7 +57,7 @@ selectedSegment = "option1";
 />
 ```
 
-Fournissez `ariaLabel` lorsque le contrôle n'a pas de libellé visible dans la mise en page environnante.
+Fournissez `ariaLabelledBy` lorsqu'un libellé visible existe dans la mise en page (référencez son `id`). Fournissez `ariaLabel` lorsqu'il n'y a pas de libellé visible.
 
 #### Apparence
 
