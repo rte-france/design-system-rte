@@ -107,7 +107,7 @@ Segments adapt their width to the labels when the control has enough space. Labe
 />
 ```
 
-When every option defines an `icon`, the control renders icons instead of text labels. Labels remain available to screen readers through `aria-label`.
+When every option defines an `icon`, the control renders icons instead of text labels. Provide `labelText` or `ariaLabel` on each option for an explicit accessible name; without `labelText`, the name falls back to the icon key.
 
 #### With Badge
 

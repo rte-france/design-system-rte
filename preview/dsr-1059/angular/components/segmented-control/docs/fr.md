@@ -15,7 +15,7 @@ Le composant `SegmentedControlComponent` (`<rte-segmented-control>`) constitue l
 | `options`         | `SegmentOptions[]`     | `[]`              | Définitions des segments affichés dans le contrôle. Doit contenir 2 ou 3 éléments.  |
 | `selectedSegment` | `string`               | —                 | Id du segment actuellement sélectionné. Doit correspondre à un `id` dans `options`. |
 | `change`          | `EventEmitter<string>` | —                 | Émet l'`id` du segment sélectionné par l'utilisateur.                               |
-| `appearance`      | `"brand"`              | `"neutral"`       | `"brand"`                                                                           | Variante visuelle de l'arrière-plan et des bordures du contrôle. |
+| `appearance`      | `"brand"` \| `"neutral"` | `"brand"`         | Variante visuelle de l'arrière-plan et des bordures du contrôle.                    |
 | `isCompact`       | `boolean`              | `false`           | Réduit la hauteur des segments et le padding horizontal.                            |
 | `ariaLabel`       | `string`               | —                 | Nom accessible du groupe radio lorsqu'aucun libellé visible n'est associé.          |
 
@@ -24,14 +24,17 @@ Chaque entrée de `options` accepte les champs suivants :
 | Nom            | Type       | Valeur par défaut | Description                                                                                                                                                     |
 | -------------- | ---------- | ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `id`           | `string`   | — (requis)        | Identifiant unique du segment. Émis par `change`.                                                                                                               |
-| `labelText`    | `string`   | — (requis)        | Libellé visible du segment. Utilisé également comme `aria-label` du segment.                                                                                    |
+| `labelText`    | `string`   | —                 | Libellé visible du segment. Requis sur chaque option sauf si `icon` est défini.                                                                                   |
 | `icon`         | `string`   | —                 | Nom de l'icône. Lorsqu'il est défini sur une option, toutes les options doivent en définir une ; les libellés sont masqués et seules les icônes sont affichées. |
+| `ariaLabel`    | `string`   | —                 | Nom accessible du segment. Remplace le nom calculé par défaut (ex. `3 nouvelles alertes`).                                                                       |
 | `showBadge`    | `boolean`  | —                 | Affiche le badge lorsque les critères de contenu du badge sont remplis.                                                                                         |
 | `badgeCount`   | `number`   | —                 | Valeur numérique affichée lorsque `badgeContent` vaut `"number"`.                                                                                               |
-| `badgeContent` | `"number"` | `"icon"`          | `"empty"`                                                                                                                                                       | —     | `"number"` affiche un compteur ; `"icon"` affiche `badgeIcon` ; `"empty"` affiche un point indicateur. |
-| `badgeIcon`    | `string`   | —                 | Nom de l'icône affichée lorsque `badgeContent` vaut `"icon"`.                                                                                                   |
-| `badgeType`    | `"brand"`  | `"neutral"`       | `"indicator"`                                                                                                                                                   | —     | Variante visuelle du badge.                                                                            |
-| `badgeSize`    | `"xs"`     | `"s"`             | `"m"`                                                                                                                                                           | `"l"` | —                                                                                                      | Taille du badge. |
+| `badgeContent` | `"number"` \| `"icon"` \| `"empty"`       | —                 | `"number"` affiche un compteur ; `"icon"` affiche `badgeIcon` ; `"empty"` affiche un point indicateur.                                                          |
+| `badgeIcon`    | `string`                                  | —                 | Nom de l'icône affichée lorsque `badgeContent` vaut `"icon"`.                                                                                                   |
+| `badgeType`    | `"brand"` \| `"neutral"` \| `"indicator"` | —                 | Variante visuelle du badge.                                                                                                                                     |
+| `badgeSize`    | `"xs"` \| `"s"` \| `"m"` \| `"l"`         | —                 | Taille du badge.                                                                                                                                                |
+
+Chaque segment reçoit un `aria-label` calculé ainsi : `ariaLabel` s'il est fourni ; sinon `labelText` ou la clé `icon` comme base. Avec `labelText` et un badge : `"number"` → `Alertes, 3` ; `"icon"` ou `"empty"` → `Alertes, nouveau`. Icône seule (sans `labelText`) avec badge : `"number"` → `{icon}. Notifications, {count}` ; `"icon"` ou `"empty"` → `{icon}. Notification`. Fournissez `ariaLabel` pour remplacer entièrement la formulation par défaut.
 
 ## Usage
 
@@ -128,7 +131,7 @@ Le contrôle accepte exactement deux ou trois segments.
 />
 ```
 
-Lorsque chaque option définit une `icon`, le contrôle affiche des icônes au lieu de libellés texte. Les libellés restent disponibles pour les lecteurs d'écran via `aria-label`.
+Lorsque chaque option définit une `icon`, le contrôle affiche des icônes au lieu de libellés texte. Fournissez `labelText` ou `ariaLabel` sur chaque option pour un nom accessible explicite ; sans `labelText`, le nom repose sur la clé d'icône.
 
 #### Avec badge
 
