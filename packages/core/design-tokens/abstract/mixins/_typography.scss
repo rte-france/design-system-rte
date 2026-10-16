@@ -336,6 +336,11 @@
   letter-spacing: $text-s-bold-letter-spacing;
 }
 
+@mixin assistive-text-inline-icon-alignment($icon-size: 12px, $line-height: $text-s-bold-line-height) {
+  flex-shrink: 0;
+  margin-top: calc((#{$line-height} - #{$icon-size}) / 2);
+}
+
 @mixin typography-text-s-regular {
   font-family: $text-s-regular-font-family;
   font-size: $text-s-regular-font-size;

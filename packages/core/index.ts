@@ -38,6 +38,7 @@ export * from "./components/switch";
 export * from "./components/tab";
 export * from "./components/tag";
 export * from "./components/text-input";
+export * from "./components/number-input";
 export * from "./components/textarea";
 export * from "./components/toast";
 export * from "./components/treeview";

@@ -62,7 +62,7 @@
             [maxLength]="maxLength()"
             [disabled]="disabled()"
             [readOnly]="readOnly()"
-            [value]="internalValue()"
+            [value]="displayedInputValue()"
             [placeholder]="placeholder()"
             [attr.autocomplete]="autocomplete()"
             (input)="handleChange($event)"
@@ -94,7 +94,12 @@
     </div>
 
     <ng-container *ngIf="computedAssistiveTextLabel()">
-      <div class="assistive-text" [attr.id]="computedAssistiveTextId()">
+      <div
+        class="assistive-text"
+        [attr.id]="computedAssistiveTextId()"
+        [attr.role]="computedAssistiveAppearance() === 'error' ? 'alert' : null"
+        [attr.aria-live]="computedAssistiveAppearance() === 'error' ? 'polite' : null"
+      >
         <ng-container *ngIf="showAssistiveIcon() && computedAssistiveAppearance() === 'error'">
           <rte-icon name="error" appearance="outlined" class="assistive-icon-error" [size]="12" />
         </ng-container>
@@ -105,7 +110,11 @@
           <rte-link [label]="computedAssistiveTextLabel()" />
         </ng-container>
         <ng-template #assistiveLabel>
-          <p class="assistive-label" [ngClass]="computedAssistiveAppearance()">
+          <p
+            class="assistive-label"
+            [ngClass]="computedAssistiveAppearance()"
+            [class.assistive-label--error-animated]="computedAssistiveAppearance() === 'error'"
+          >
             {{ computedAssistiveTextLabel() }}
           </p>
         </ng-template>

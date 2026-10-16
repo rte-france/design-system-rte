@@ -151,9 +151,14 @@
     .assistive-text {
       @include typography-text-s-bold;
       display: flex;
+      align-items: flex-start;
       padding: $positive-spacing_050 $positive-spacing_100;
       color: var(--content-tertiary);
       gap: $positive-spacing_050;
+
+      rte-icon {
+        @include assistive-text-inline-icon-alignment;
+      }
 
       &.error {
         &:not(.disabled) {
