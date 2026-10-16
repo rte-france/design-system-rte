@@ -1,5 +1,38 @@
 # @design-system-rte/react
 
+## 2.3.0
+
+### Minor Changes
+
+- 2381f50: ## Changes
+
+  - (Textarea) add support for placeholder
+
+### Patch Changes
+
+- 25c8bc8: ## Changes
+
+  - (Pagination) prevent component rendering when totalPages is equal or less than 1
+
+- 360719a: ## Changes
+
+  - (Pagination) react - propagate aria-label props to nav element
+
+- 017cd21: ## Changes
+
+  - (Base Input) increase clickable icon area to 24px
+
+- d5987a1: ## Changes
+
+  - (Toast) add missing aria label for close button
+
+- 85c982b: ## Changes
+
+  - (Segmented Control) add missing prefers-reduced-motion for Selected Indicator animation
+
+- Updated dependencies [d5987a1]
+  - @design-system-rte/core@1.21.1
+
 ## 2.2.1
 
 ### Patch Changes

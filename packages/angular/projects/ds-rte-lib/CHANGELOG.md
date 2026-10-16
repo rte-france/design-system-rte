@@ -1,5 +1,42 @@
 # @design-system-rte/angular
 
+## 4.3.0
+
+### Minor Changes
+
+- 2381f50: ## Changes
+
+  - (Textarea) add support for placeholder
+
+### Patch Changes
+
+- 25c8bc8: ## Changes
+
+  - (Pagination) prevent component rendering when totalPages is equal or less than 1
+
+- 017cd21: ## Changes
+
+  - (Base Input) increase clickable icon area to 24px
+
+- 6c67d94: ## Changes
+
+  - (Segmented Control) add missing ariaLabelledBy input
+
+- d5987a1: ## Changes
+
+  - (Toast) add missing aria label for close button
+
+- 564438d: ## Changes
+
+  - (Select) repair auto-focus on component opening
+
+- 85c982b: ## Changes
+
+  - (Segmented Control) add missing prefers-reduced-motion for Selected Indicator animation
+
+- Updated dependencies [d5987a1]
+  - @design-system-rte/core@1.21.1
+
 ## 4.2.1
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @design-system-rte/core
 
+## 1.21.1
+
+### Patch Changes
+
+- d5987a1: ## Changes
+
+  - (Toast) add missing aria label for close button
+
 ## 1.21.0
 
 ### Minor Changes
