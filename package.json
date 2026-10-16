@@ -78,5 +78,15 @@
     "prettier": "^3.5.3",
     "prettier-eslint": "^17.1.2",
     "tsx": "^4.20.6"
+  },
+  "overrides": {
+    "@angular/cli": {
+      "pacote": "21.5.1"
+    },
+    "@compodoc/compodoc": {
+      "picomatch": "4.0.4"
+    },
+    "picomatch@^4.0.0": "4.0.4",
+    "brace-expansion@^2.0.0": "2.1.7"
   }
 }
