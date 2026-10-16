@@ -13,6 +13,7 @@ function Example() {
       label="Label"
       labelPosition="top"
       maxLength={150}
+      placeholder="Add text"
       value={value}
       onChange={setValue}
       aria-required
@@ -62,20 +63,34 @@ Sets container width. Values below the minimum input width (`48px`) are clamped.
 
 Places the label above (`"top"`) or beside (`"side"`) the input.
 
+### Compact spacing
+
+```tsx
+<TextInput id="text-input-placeholder" label="Label" placeholder="Add text" compactSpacing />
+```
+
 #### Required indicator
 
 ```tsx
-{/* Required with visible requirement text */}
-<TextInput id="text-input-required-visible" label="Label" width="400px" required showLabelRequirement />
+{
+  /* Required with visible requirement text */
+}
+<TextInput id="text-input-required-visible" label="Label" width="400px" required showLabelRequirement />;
 
-{/* Required with asterisk only */}
-<TextInput id="text-input-required-asterisk" label="Label" width="400px" required assistiveAppearance="error" />
+{
+  /* Required with asterisk only */
+}
+<TextInput id="text-input-required-asterisk" label="Label" width="400px" required assistiveAppearance="error" />;
 
-{/* Optional with requirement text */}
-<TextInput id="text-input-optional-visible" label="Label" width="400px" showLabelRequirement />
+{
+  /* Optional with requirement text */
+}
+<TextInput id="text-input-optional-visible" label="Label" width="400px" showLabelRequirement />;
 
-{/* Optional without requirement text */}
-<TextInput id="text-input-optional-hidden" label="Label" width="400px" assistiveAppearance="error" />
+{
+  /* Optional without requirement text */
+}
+<TextInput id="text-input-optional-hidden" label="Label" width="400px" assistiveAppearance="error" />;
 ```
 
 Controls how required and optional fields are indicated next to the label.

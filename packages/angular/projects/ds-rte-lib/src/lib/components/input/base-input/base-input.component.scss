@@ -206,6 +206,10 @@
                     color: var(--content-primary);
                     @include neutral-inner-shadow;
 
+                    &[data-compact-spacing="true"] {
+                        padding: 0 $positive-spacing-200;
+                    }
+
                     &:hover {
                         border-color: var(--border-primary);
                     }
@@ -239,7 +243,7 @@
                     }
 
                     &::placeholder {
-                        color: var(--content-tertiary);
+                        color: var(--content-disabled);
                     }
 
                     &.input-field--projected {

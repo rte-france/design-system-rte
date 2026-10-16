@@ -14,10 +14,6 @@ The right icon is hidden when the input is `disabled` or `readOnly`. With `right
 
 When `error` is `true`, the left icon is replaced by the error icon regardless of the `leftIcon` value.
 
-### Placeholder not supported
-
-`placeholder` is not part of the public `TextInput` API. Use `assistiveTextLabel` for hints and instructions instead.
-
 ### Custom className not supported for layout
 
 `className` is forwarded to the native `<input>` element, not the component container. CSS rules that set layout properties such as `width` on `className` can break the input bar layout. Use the `width` prop for container width instead.

@@ -23,6 +23,7 @@ Le composant `TextInput` constitue l'API publique. Passez les props pour contrô
 | id                   | string                                            | — (requis)        | Associe le libellé au champ de saisie.                                                                                     |
 | label                | string                                            | —                 | Texte du libellé visible.                                                                                                  |
 | labelPosition        | `"top" \| "side"`                                 | `"top"`           | Position du libellé par rapport au champ.                                                                                  |
+| placeholder          | string                                            | —                 | Texte indicatif affiché lorsque le champ est vide. Il est masqué lorsque le champ est `disabled` ou `readOnly`.            |
 | value                | string                                            | —                 | Valeur contrôlée du champ.                                                                                                 |
 | defaultValue         | string                                            | —                 | Valeur initiale en mode non contrôlé.                                                                                      |
 | maxLength            | number                                            | —                 | Nombre maximal de caractères autorisés.                                                                                    |
@@ -35,6 +36,7 @@ Le composant `TextInput` constitue l'API publique. Passez les props pour contrô
 | assistiveTextLabel   | string                                            | `""`              | Texte d'aide affiché sous le champ.                                                                                        |
 | error                | boolean                                           | `false`           | Applique le style d'erreur au champ.                                                                                       |
 | errorMessage         | string                                            | —                 | Message d'erreur affiché comme texte d'aide lorsque `error` est `true`. Il est prioritaire sur `assistiveTextLabel`.       |
+| compactSpacing       | boolean                                           | `false`           | Réduit les espacements internes du champ.                                                                                  |
 | disabled             | boolean                                           | `false`           | Désactive le champ.                                                                                                        |
 | readOnly             | boolean                                           | `false`           | Rend le champ en lecture seule.                                                                                            |
 | width                | string                                            | `"300px"`         | Largeur du conteneur.                                                                                                      |
@@ -42,7 +44,7 @@ Le composant `TextInput` constitue l'API publique. Passez les props pour contrô
 | onEnterKeyDown       | `(value: string) => void`                         | —                 | Appelé avec la valeur courante lorsque Entrée est pressée.                                                                 |
 | onRightIconClick     | `() => void`                                      | —                 | Appelé lors du clic sur l'icône droite. L'action intégrée (effacer ou basculer la visibilité) s'exécute après ce callback. |
 
-`TextInput` accepte également les attributs natifs standard (`autoComplete`, `aria-*`, `name`, etc.) sauf `id`, `onChange`, `value`, `defaultValue` et `placeholder`.
+`TextInput` accepte également les attributs natifs standard (`autoComplete`, `aria-*`, `name`, etc.) sauf `id`, `onChange`, `value` et `defaultValue`.
 
 ## Usage
 
@@ -61,6 +63,7 @@ function Example() {
       label="Label"
       labelPosition="top"
       maxLength={150}
+      placeholder="Ajouter du texte"
       value={value}
       onChange={setValue}
       aria-required
@@ -109,6 +112,12 @@ Définit la largeur du conteneur. Les valeurs inférieures à la largeur minimal
 ```
 
 Place le libellé au-dessus (`"top"`) ou à côté (`"side"`) du champ.
+
+### Compact spacing
+
+```tsx
+<TextInput id="text-input-placeholder" label="Label" placeholder="Ajouter du texte" compactSpacing />
+```
 
 #### Required indicator
 
@@ -166,10 +175,6 @@ L'icône droite est masquée lorsque le champ est `disabled` ou `readOnly`. Avec
 ### L'icône d'erreur remplace l'icône gauche
 
 Lorsque `error` est `true`, l'icône gauche est remplacée par l'icône d'erreur, quelle que soit la valeur de `leftIcon`.
-
-### Placeholder non supporté
-
-`placeholder` ne fait pas partie de l'API publique de `TextInput`. Utilisez `assistiveTextLabel` pour les indications et instructions.
 
 ### className personnalisé non supporté pour la mise en page
 

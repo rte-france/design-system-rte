@@ -21,6 +21,7 @@ Le composant `TextInputComponent` (`<rte-text-input>`) constitue l'API publique.
 | id                   | string                   | —                 | Associe le libellé au champ de saisie. Requis pour une association accessible label/champ.                           |
 | label                | string                   | `""`              | Texte du libellé visible.                                                                                            |
 | labelPosition        | `"top"                   | "side"`           | `"top"`                                                                                                              | Position du libellé par rapport au champ.                                                                                     |
+| placeholder          | string                   | `""`              | Texte indicatif affiché lorsque le champ est vide. Il est masqué lorsque le champ est `disabled` ou `readOnly`.      |
 | required             | boolean                  | `false`           | Marque le champ comme obligatoire pour l'indicateur du libellé.                                                      |
 | showCounter          | boolean                  | `false`           | Affiche un compteur de caractères lorsque `maxLength` est défini.                                                    |
 | value                | string                   | `""`              | Valeur courante du champ (liaison unidirectionnelle).                                                                |
@@ -34,6 +35,7 @@ Le composant `TextInputComponent` (`<rte-text-input>`) constitue l'API publique.
 | assistiveTextLabel   | string                   | `""`              | Texte d'aide affiché sous le champ.                                                                                  |
 | error                | boolean                  | `false`           | Applique le style d'erreur au champ.                                                                                 |
 | errorMessage         | string                   | `""`              | Message d'erreur affiché comme texte d'aide lorsque `error` est `true`. Il est prioritaire sur `assistiveTextLabel`. |
+| compactSpacing       | boolean                  | `false`           | Réduit les espacements internes du champ.                                                                            |
 | disabled             | boolean                  | `false`           | Désactive le champ. Également activé automatiquement lorsque le `FormControl` lié est disabled.                      |
 | readOnly             | boolean                  | `false`           | Rend le champ en lecture seule.                                                                                      |
 | width                | string                   | `"300px"`         | Largeur du conteneur (px, %, em ou rem). Les valeurs numériques sont traitées en pixels.                             |
@@ -66,6 +68,7 @@ import { TextInputComponent } from "@design-system-rte/angular";
       label="Label"
       labelPosition="top"
       [maxLength]="150"
+      placeholder="Ajouter du texte"
       width="300px"
       [value]="value"
       (valueChange)="value = $event"
@@ -119,6 +122,17 @@ Définit la largeur du conteneur. Les valeurs inférieures à la largeur minimal
 ```
 
 Place le libellé au-dessus (`"top"`) ou à côté (`"side"`) du champ.
+
+#### Compact spacing
+
+```html
+<rte-text-input
+  id="text-input-placeholder"
+  label="Label"
+  placeholder="Ajouter du texte"
+  [compactSpacing]="true"
+></rte-text-input>
+```
 
 #### Required indicator
 
@@ -227,10 +241,6 @@ L'icône droite est masquée lorsque le champ est `disabled` ou `readOnly`. Avec
 ### L'icône d'erreur remplace l'icône gauche
 
 Lorsque `error` est `true`, l'icône gauche est remplacée par l'icône d'erreur, quelle que soit la valeur de `leftIcon`.
-
-### Placeholder non supporté
-
-Utilisez `assistiveTextLabel` pour les indications et instructions. Le contenu placeholder n'est pas accessible, disparaît dès que l'utilisateur saisit du texte, et entre en conflit avec le texte d'aide lorsqu'ils véhiculent la même information.
 
 ### État disabled des formulaires réactifs
 
