@@ -5,6 +5,7 @@ The `TextInputComponent` (`<rte-text-input>`) is the public API. Bind its inputs
 | id                   | string                                            | —               | Associates the label with the input. Required for accessible label linking.                                      |
 | label                | string                                            | `""`            | Visible label text.                                                                                              |
 | labelPosition        | `"top" \| "side"`                                 | `"top"`         | Label placement relative to the input.                                                                           |
+| placeholder          | string                                            | `""`            | Hint text shown when the input is empty. Hidden when the input is `disabled` or `readOnly`.                      |
 | required             | boolean                                           | `false`         | Marks the field as required for the label indicator.                                                             |
 | showCounter          | boolean                                           | `false`         | Shows a character counter when `maxLength` is set.                                                               |
 | value                | string                                            | `""`            | Current input value (one-way binding).                                                                           |
@@ -18,6 +19,7 @@ The `TextInputComponent` (`<rte-text-input>`) is the public API. Bind its inputs
 | assistiveTextLabel   | string                                            | `""`            | Assistive text displayed below the input.                                                                        |
 | error                | boolean                                           | `false`         | Applies error styling to the input.                                                                              |
 | errorMessage         | string                                            | `""`            | Error message displayed as assistive text when `error` is `true`. It takes precedence over `assistiveTextLabel`. |
+| compactSpacing       | boolean                                           | `false`         | Reduces the input's internal spacing.                                                                            |
 | disabled             | boolean                                           | `false`         | Disables the input. Also set automatically when the bound `FormControl` is disabled.                             |
 | readOnly             | boolean                                           | `false`         | Makes the input read-only.                                                                                       |
 | width                | string                                            | `"300px"`       | Container width (px, %, em, or rem). Numeric values are treated as pixels.                                       |
