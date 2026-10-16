@@ -14,10 +14,6 @@ The right icon is hidden when the input is `disabled` or `readOnly`. With `right
 
 When `error` is `true`, the left icon is replaced by the error icon regardless of the `leftIcon` value.
 
-### Placeholder not supported
-
-Use `assistiveTextLabel` for hints and instructions. Placeholder content is not accessible, disappears once the user types, and conflicts with assistive text when both convey the same information.
-
 ### Reactive forms disabled state
 
 When bound via `formControl` / `formControlName`, the disabled state from the form control takes precedence over the `disabled` input.

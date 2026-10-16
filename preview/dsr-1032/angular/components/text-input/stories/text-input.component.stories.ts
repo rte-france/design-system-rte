@@ -73,6 +73,18 @@ export const Default: Story = {
   },
 };
 
+export const CompactSpacing: Story = {
+  args: {
+    ...Default.args,
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+        <rte-text-input [label]="'Label'" [width]="width" [placeholder]="placeholder" [compactSpacing]="true"></rte-text-input>
+    `,
+  }),
+};
+
 export const CharacterCount: Story = {
   tags: ["!autodocs"],
   args: {
