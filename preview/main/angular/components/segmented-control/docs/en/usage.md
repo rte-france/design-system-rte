@@ -19,7 +19,7 @@ selectedSegment = "option1";
 />
 ```
 
-Provide `ariaLabel` when the control has no visible label in the surrounding layout.
+Provide `ariaLabelledBy` when a visible label exists in the layout (reference its `id`). Provide `ariaLabel` when there is no visible label.
 
 #### Appearance
 
