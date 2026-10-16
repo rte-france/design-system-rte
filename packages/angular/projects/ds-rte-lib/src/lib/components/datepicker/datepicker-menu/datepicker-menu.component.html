@@ -57,7 +57,7 @@
       <button
         type="button"
         class="month-label"
-        [attr.aria-label]="headerTitle()"
+        [attr.aria-label]="headerAriaLabel()"
         [attr.tabindex]="tabIndexForKeyboardOrder()"
         [attr.data-datepicker-tab]="datepickerTabData.monthLabel"
         (click)="onHeaderLabelClick()"
