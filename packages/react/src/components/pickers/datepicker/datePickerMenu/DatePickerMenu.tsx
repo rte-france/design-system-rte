@@ -8,6 +8,7 @@ import {
   buildDayGrid,
   buildMonthGrid,
   buildYearGrid,
+  capitalize,
   DATEPICKER_TAB_DATA,
   DatepickerCalendarType,
   DatepickerCompactNavStep,
@@ -138,7 +139,7 @@ const DatePickerMenu = ({
     const currentCalendarType = calendarType;
 
     if (calendarType === DateSegmentEnum.DAY) {
-      return getMonthLabel(currentViewedDate);
+      return capitalize(getMonthLabel(currentViewedDate));
     } else if (currentCalendarType === DateSegmentEnum.MONTH) {
       return getYearLabel(currentViewedDate);
     } else {
@@ -704,7 +705,7 @@ const DatePickerMenu = ({
             <button
               className={styles["month-label"]}
               onClick={handleOnClickHeaderLabel}
-              aria-label={`Changer de vue, ${headerTitle} , appuyer pour voir les ${calendarType === DateSegmentEnum.DAY ? "mois" : "années"}`}
+              aria-label={`${headerTitle}, afficher les ${calendarType === DateSegmentEnum.DAY ? "mois" : "années"}`}
               data-datepicker-tab={DATEPICKER_TAB_DATA.monthLabel}
             >
               {headerTitle}
