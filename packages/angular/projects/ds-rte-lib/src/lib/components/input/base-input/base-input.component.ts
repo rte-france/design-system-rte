@@ -38,7 +38,7 @@ export class BaseInputComponent {
   readonly id = input<string>();
   readonly label = input<string>("");
   readonly labelPosition = input<"top" | "side">("top");
-  readonly placeholder = input<string>("");
+  readonly placeholder = input<string | undefined>("");
   readonly required = input<boolean>(false);
   readonly showCounter = input<boolean>(false);
   readonly value = input<string>("");
@@ -125,6 +125,10 @@ export class BaseInputComponent {
       return width;
     }
     return `${this.width()}px`;
+  });
+
+  readonly computedPlaceholder = computed(() => {
+    return !(this.disabled() || this.readOnly()) ? this.placeholder() : undefined;
   });
 
   constructor() {
