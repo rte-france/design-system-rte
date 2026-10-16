@@ -16,3 +16,5 @@ const computeContextStyle = (element: HTMLElement) => {
   ctx.font = getComputedFont(element);
   return ctx;
 };
+
+export const capitalize = (str: string): string => str.charAt(0).toUpperCase() + str.slice(1);
