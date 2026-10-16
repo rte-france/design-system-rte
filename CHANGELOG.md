@@ -2,6 +2,52 @@
 
 # Angular
 
+## 4.3.0
+
+### Textarea
+
+#### Minor Changes
+
+- add support for placeholder
+
+### Pagination
+
+#### Patch Changes
+
+- prevent component rendering when totalPages is equal or less than 1
+
+### Base Input
+
+#### Patch Changes
+
+- increase clickable icon area to 24px
+
+### Segmented Control
+
+#### Patch Changes
+
+- add missing ariaLabelledBy input
+- add missing prefers-reduced-motion for Selected Indicator animation
+
+### Toast
+
+#### Patch Changes
+
+- add missing aria label for close button
+
+### Select
+
+#### Patch Changes
+
+- repair auto-focus on component opening
+
+### Other
+
+#### Patch Changes
+
+- Updated dependencies [d5987a1]
+- @design-system-rte/core@1.21.1
+
 ## 4.2.1
 
 ### Checkbox
@@ -137,118 +183,47 @@
 - Updated dependencies [90a22ed]
 - Updated dependencies [cae9b18]
 - @design-system-rte/core@1.20.0
+# React
 
-## 4.0.0
+## 2.3.0
 
-### Loader
-
-#### Minor Changes
-
-- add documentation
-- remove showLabel prop
-
-### Drawer
+### Textarea
 
 #### Minor Changes
 
-- add accessibility control in case the component can't resolve a valid aria label
+- add support for placeholder
+
+### Pagination
 
 #### Patch Changes
 
-- trigger focus trap only for modal position instead of responsive position
-- add prefers-reduced-motion for transitions
+- prevent component rendering when totalPages is equal or less than 1
+- react - propagate aria-label props to nav element
 
-### Docs
-
-#### Minor Changes
-
-- update docs
-
-### Header
+### Base Input
 
 #### Patch Changes
 
-- add dcumentation
-- add default font family
+- increase clickable icon area to 24px
 
-### Popover
-
-#### Patch Changes
-
-- add documentation
-- enforce accesible name with title or aria label + use alignment value for angular
-- reposition popover on scroll
-
-### Searchbar
+### Toast
 
 #### Patch Changes
 
-- add documentation
-- allow assistive text to take space + correct focus appearance on searchbar input
+- add missing aria label for close button
 
-### Select
-
-#### Patch Changes
-
-- add documentation
-- harmonise style when labelPosition equals side
-
-### Side Navigation
+### Segmented Control
 
 #### Patch Changes
 
-- add aria attributes for Sidenav's menus
-- enhance accessibility of footer's collapse button
-- add missing prefers-reduced-motion for component transitions
-
-### Card
-
-#### Patch Changes
-
-- enforce clickable card accessibility feature
-- enforce disabled accesibility state
-
-### Icon
-
-#### Patch Changes
-
-- handle aria-hidden and aria-label when the component has a decorative function instead of a semantic one
-
-### File Upload
-
-#### Patch Changes
-
-- add aria label for file item delete button
-- add accessible description and label
-
-### File-item
-
-#### Patch Changes
-
-- add descriptive text for status icon
-
-### Button
-
-#### Patch Changes
-
-- add aria-hidden attribute to icons for improved accessibility
+- add missing prefers-reduced-motion for Selected Indicator animation
 
 ### Other
 
-#### Minor Changes
-
-- use computed prefix instead of effective
-- add missing aria describedBy
-- Enhance assistive text handling across input components
-
 #### Patch Changes
 
-- Updated dependencies [d654a29]
-- Updated dependencies [59cd691]
-- Updated dependencies [ba96671]
-- Updated dependencies [0a94e7c]
-- @design-system-rte/core@1.19.0
-# React
+- Updated dependencies [d5987a1]
+- @design-system-rte/core@1.21.1
 
 ## 2.2.1
 
@@ -391,119 +366,18 @@
 - Updated dependencies [90a22ed]
 - Updated dependencies [cae9b18]
 - @design-system-rte/core@1.20.0
+# Core
 
-## 2.0.0
+## 1.21.1
 
-### Loader
-
-#### Minor Changes
-
-- add documentation
-- remove showLabel prop
-
-### Drawer
-
-#### Minor Changes
-
-- add accessibility control in case the component can't resolve a valid aria label
+### Toast
 
 #### Patch Changes
 
-- trigger focus trap only for modal position instead of responsive position
-- add prefers-reduced-motion for transitions
-
-### Docs
-
-#### Minor Changes
-
-- update docs
-
-### Header
-
-#### Patch Changes
-
-- add dcumentation
-- add default font family
-
-### Popover
-
-#### Patch Changes
-
-- add documentation
-- enforce accesible name with title or aria label + use alignment value for angular
-- reposition popover on scroll
-
-### Searchbar
-
-#### Patch Changes
-
-- add documentation
-- allow assistive text to take space + correct focus appearance on searchbar input
-
-### Select
-
-#### Patch Changes
-
-- add documentation
-- harmonise style when labelPosition equals side
-
-### Side Navigation
-
-#### Patch Changes
-
-- add aria attributes for Sidenav's menus
-- enhance accessibility of footer's collapse button
-- add missing prefers-reduced-motion for component transitions
-
-### Card
-
-#### Patch Changes
-
-- enforce clickable card accessibility feature
-- enforce disabled accesibility state
-
-### Icon
-
-#### Patch Changes
-
-- handle aria-hidden and aria-label when the component has a decorative function instead of a semantic one
-
-### File Upload
-
-#### Patch Changes
-
-- add aria label for file item delete button
-- add accessible description and label
-
-### File-item
-
-#### Patch Changes
-
-- add descriptive text for status icon
-
-### Button
-
-#### Patch Changes
-
-- add aria-hidden attribute to icons for improved accessibility
+- add missing aria label for close button
 
 ### Other
 
-#### Minor Changes
-
-- add focus back initial element after removing focus trap hook
-- use computed prefix instead of effective
-- add missing aria describedBy
-- Enhance assistive text handling across input components
-
-#### Patch Changes
-
-- Updated dependencies [d654a29]
-- Updated dependencies [59cd691]
-- Updated dependencies [ba96671]
-- Updated dependencies [0a94e7c]
-- @design-system-rte/core@1.19.0
-# Core
 
 ## 1.21.0
 
