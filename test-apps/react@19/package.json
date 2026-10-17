@@ -34,12 +34,13 @@
     "vite": "^7.3.5"
   },
   "overrides": {
-    "brace-expansion": "2.1.4",
+    "brace-expansion": "2.1.7",
     "browserslist": "4.28.7",
     "flatted": "3.4.2",
     "js-yaml": "4.3.2",
     "minimatch": "9.0.7",
     "picomatch": "4.0.4",
-    "rollup": "4.59.0"
+    "rollup": "4.59.0",
+    "source-map-js": "1.2.2"
   }
 }
