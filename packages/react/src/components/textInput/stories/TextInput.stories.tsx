@@ -49,6 +49,8 @@ const meta: Meta<typeof TextInput> = {
     readOnly: { control: "boolean" },
     onChange: mockFn,
     onRightIconClick: { action: "right icon clicked" },
+    placeholder: { control: "text", defaultValue: "Placeholder" },
+    compactSpacing: { control: "boolean", defaultValue: false },
   },
 };
 export default meta;
@@ -69,12 +71,20 @@ export const Default: Story = {
     error: false,
     readOnly: false,
     maxLength: 150,
-    placeholder: "Placeholder",
+    placeholder: "Ajouter du texte",
     value: "",
     "aria-required": true,
     autoComplete: "off",
+    compactSpacing: false,
   } as TextInputProps,
   render: (args) => <TextInput {...args} />,
+};
+
+export const CompactSpacing: Story = {
+  args: {
+    ...Default.args,
+  } as TextInputProps,
+  render: (args) => <TextInput {...args} label="Label" compactSpacing />,
 };
 
 export const CharacterCount: Story = {
