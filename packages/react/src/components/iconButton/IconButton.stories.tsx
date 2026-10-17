@@ -24,15 +24,25 @@ const meta = {
       description: "Nom de l’icône à afficher",
       defaultValue: "check",
     },
-    variant: {
-      control: "select",
-      options: ["primary", "secondary", "text", "transparent", "danger", "neutral", "inverse"],
-    },
     appearance: {
       control: "select",
+      options: ["brand", "neutral", "outlined", "filled"],
+      description: "Apparence du shell (brand/neutral) ou alias déprécié icône (outlined/filled)",
+    },
+    hierarchy: {
+      control: "select",
+      options: ["primary", "secondary", "text", "transparent"],
+    },
+    isCritical: { control: "boolean" },
+    isReversed: { control: "boolean" },
+    iconAppearance: {
+      control: "select",
       options: ["outlined", "filled"],
-      description: "Apparence de l’icône (pour les icônes togglables)",
-      defaultValue: "outlined",
+      description: "Apparence de l’icône (togglable)",
+    },
+    variant: {
+      control: "select",
+      options: ["primary", "secondary", "text", "transparent", "danger", "neutral", "reverse"],
     },
     size: {
       control: "select",
@@ -78,7 +88,7 @@ export const Default: Story = {
   args: {
     name: "settings",
     size: "m",
-    appearance: "outlined",
+    iconAppearance: "outlined",
     disabled: false,
     compactSpacing: false,
     ["aria-label"]: "Ouvrir les paramètres",
@@ -120,18 +130,42 @@ export const Variants: Story = {
   },
 };
 
-export const Appearances: Story = {
+export const ShellAppearance: Story = {
   args: {
     ...Default.args,
   },
-  render: (args) => {
-    return (
-      <div style={{ display: "flex", gap: 8 }}>
-        <IconButton {...args} appearance="outlined" data-testid="outlined-icon-button" />
-        <IconButton {...args} appearance="filled" data-testid="filled-icon-button" />
+  render: (args) => (
+    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+      <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+        <IconButton {...args} appearance="brand" hierarchy="primary" aria-label="Brand primary" />
+        <IconButton {...args} appearance="brand" hierarchy="secondary" aria-label="Brand secondary" />
+        <IconButton {...args} appearance="brand" hierarchy="text" aria-label="Brand text" />
+        <IconButton {...args} appearance="brand" hierarchy="transparent" aria-label="Brand transparent" />
+        <IconButton {...args} appearance="brand" hierarchy="primary" isCritical aria-label="Critical" />
       </div>
-    );
+      <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+        <IconButton {...args} appearance="neutral" hierarchy="primary" aria-label="Neutral primary" />
+        <IconButton {...args} appearance="neutral" hierarchy="secondary" aria-label="Neutral secondary" />
+        <IconButton {...args} appearance="neutral" hierarchy="text" aria-label="Neutral text" />
+        <IconButton {...args} appearance="neutral" hierarchy="transparent" aria-label="Neutral transparent" />
+      </div>
+      <div style={{ background: "var(--background-inverse)", display: "inline-flex", padding: 8 }}>
+        <IconButton {...args} appearance="brand" hierarchy="transparent" isReversed aria-label="Reversed" />
+      </div>
+    </div>
+  ),
+};
+
+export const IconAppearances: Story = {
+  args: {
+    ...Default.args,
   },
+  render: (args) => (
+    <div style={{ display: "flex", gap: 8 }}>
+      <IconButton {...args} iconAppearance="outlined" data-testid="outlined-icon-button" />
+      <IconButton {...args} iconAppearance="filled" data-testid="filled-icon-button" />
+    </div>
+  ),
 };
 
 export const Sizing: Story = {
@@ -189,7 +223,7 @@ export const WithBadge: Story = {
   args: {
     name: "settings",
     size: "m",
-    appearance: "outlined",
+    iconAppearance: "outlined",
     disabled: false,
     compactSpacing: false,
     ["aria-label"]: "icon button aria label",

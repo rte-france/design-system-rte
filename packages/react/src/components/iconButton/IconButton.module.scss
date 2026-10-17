@@ -1,5 +1,15 @@
 @use '@design-system-rte/core/design-tokens/main.scss' as *;
 
+@mixin shell-disabled {
+    &:disabled {
+        background: var(--background-disabled);
+        border: solid $width-xs var(--border-disabled);
+        box-shadow: none;
+        color: var(--content-disabled);
+        cursor: default;
+    }
+}
+
 .icon-button {
     display: inline-flex;
     cursor: pointer;
@@ -46,7 +56,7 @@
         }
     }
 
-    &[data-variant='primary'] {
+    &[data-appearance='brand'][data-hierarchy='primary']:not([data-critical='true']) {
         background: var(--background-brand-default);
         border: var(--border-brand-default);
         color: var(--content-primary-inverse);
@@ -60,17 +70,26 @@
             background: var(--background-brand-pressed);
         }
 
-        &:disabled {
-            background: var(--background-disabled);
-            border: solid $width-xs var(--border-disabled);
-            box-shadow: none;
-            color: var(--content-disabled);
-            cursor: default;
-        }
+        @include shell-disabled;
     }
 
+    &[data-appearance='brand'][data-hierarchy='primary'][data-critical='true'] {
+        background: var(--background-danger-default);
+        border: none;
+        color: var(--content-primary-inverse);
 
-    &[data-variant='secondary'] {
+        &:hover {
+            background: var(--background-danger-hover);
+        }
+
+        &:active {
+            background: var(--background-danger-pressed);
+        }
+
+        @include shell-disabled;
+    }
+
+    &[data-appearance='brand'][data-hierarchy='secondary'] {
         background: var(--background-default);
         border: solid $width-xs var(--border-brand-default);
         color: var(--content-brand-default);
@@ -84,15 +103,10 @@
             background: var(--background-brand-inverse-pressed);
         }
 
-        &:disabled {
-            background: var(--background-disabled);
-            border: solid $width-xs var(--border-disabled);
-            color: var(--content-disabled);
-            cursor: default;
-        }
+        @include shell-disabled;
     }
 
-    &[data-variant='text'] {
+    &[data-appearance='brand'][data-hierarchy='text'] {
         background: transparent;
         border: none;
         color: var(--content-brand-default);
@@ -112,7 +126,7 @@
         }
     }
 
-    &[data-variant='transparent'] {
+    &[data-appearance='brand'][data-hierarchy='transparent']:not([data-reversed='true']) {
         background: transparent;
         border: none;
         color: var(--content-brand-default);
@@ -126,56 +140,13 @@
         }
 
         &:disabled {
-            box-shadow: none;
             background-color: var(--background-disabled);
             color: var(--content-disabled);
             cursor: default;
         }
     }
 
-    &[data-variant='danger'] {
-        background: var(--background-danger-default);
-        border: none;
-        color: var(--content-primary-inverse);
-
-        &:hover {
-            background: var(--background-danger-hover);
-        }
-
-        &:active {
-            background: var(--background-danger-pressed);
-        }
-
-        &:disabled {
-            background: var(--background-disabled);
-            border: solid $width-xs var(--border-disabled);
-            color: var(--content-disabled);
-            cursor: default;
-        }
-    }
-
-    &[data-variant='neutral'] {
-        background: none;
-        border: none;
-        color: var(--content-primary);
-
-        &:hover {
-            color: var(--content-secondary);
-        }
-
-        &:active {
-            color: var(--content-tertiary);
-        }
-
-        &:disabled {
-            background: var(--background-disabled);
-            box-shadow: none;
-            color: var(--content-disabled);
-            cursor: default;
-        }
-    }
-
-    &[data-variant='reverse'] {
+    &[data-appearance='brand'][data-hierarchy='transparent'][data-reversed='true'] {
         background: none;
         border: none;
         color: var(--content-primary-inverse);
@@ -190,7 +161,78 @@
 
         &:disabled {
             background: var(--background-disabled);
-            box-shadow: none;
+            color: var(--content-disabled);
+            cursor: default;
+        }
+    }
+
+    &[data-appearance='neutral'][data-hierarchy='primary'] {
+        background: var(--background-neutral-bold-default);
+        border: none;
+        color: var(--content-primary-inverse);
+
+        &:hover {
+            background: var(--background-neutral-bold-hover);
+        }
+
+        &:active {
+            background: var(--background-neutral-bold-pressed);
+        }
+
+        @include shell-disabled;
+    }
+
+    &[data-appearance='neutral'][data-hierarchy='secondary'] {
+        background: var(--background-neutral-subtle-default);
+        border: solid $width-xs var(--border-primary);
+        color: var(--content-primary);
+
+        &:hover {
+            background: var(--background-neutral-subtle-hover);
+        }
+
+        &:active {
+            background: var(--background-neutral-subtle-pressed);
+        }
+
+        @include shell-disabled;
+    }
+
+    &[data-appearance='neutral'][data-hierarchy='text'] {
+        background: none;
+        border: none;
+        color: var(--content-primary);
+
+        &:hover {
+            color: var(--content-secondary);
+        }
+
+        &:active {
+            color: var(--content-tertiary);
+        }
+
+        &:disabled {
+            background: var(--background-disabled);
+            color: var(--content-disabled);
+            cursor: default;
+        }
+    }
+
+    &[data-appearance='neutral'][data-hierarchy='transparent'] {
+        background: transparent;
+        border: none;
+        color: var(--content-primary);
+
+        &:hover {
+            color: var(--content-secondary);
+        }
+
+        &:active {
+            color: var(--content-tertiary);
+        }
+
+        &:disabled {
+            background: var(--background-disabled);
             color: var(--content-disabled);
             cursor: default;
         }

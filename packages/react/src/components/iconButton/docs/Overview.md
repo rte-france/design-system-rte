@@ -1,5 +1,7 @@
 ```tsx
-import { IconButton } from "@design-system-rte/react";
+import IconButton from "@design-system-rte/react/components/iconButton/IconButton";
+```
 
-const App = () => <IconButton name="settings" aria-label="Ouvrir les paramètres" />;
+```tsx
+<IconButton name="settings" appearance="brand" hierarchy="primary" aria-label="Ouvrir les paramètres" />
 ```

@@ -1,9 +1,13 @@
 @if (shouldDisplayBadge()) {
   <button
     *ngIf="isValidIconName()"
-    class="rte-icon-button {{ variant() }} size-{{ size() }}"
+    class="rte-icon-button size-{{ size() }}"
     rteBadge
     [class.compact-spacing]="compactSpacing()"
+    [attr.data-appearance]="resolvedVisual().appearance"
+    [attr.data-hierarchy]="resolvedVisual().hierarchy"
+    [attr.data-critical]="resolvedVisual().isCritical ? true : null"
+    [attr.data-reversed]="resolvedVisual().isReversed ? true : null"
     [ngStyle]="customStyle()"
     [disabled]="disabled()"
     [attr.aria-label]="ariaLabel()"
@@ -20,13 +24,22 @@
     [rteBadgeIcon]="badgeIcon()"
     (click)="onClick($event)"
   >
-    <rte-icon [name]="name()" [appearance]="appearance()" [size]="buttonIconSize()" [ariaHidden]="true" />
+    <rte-icon
+      [name]="name()"
+      [appearance]="resolvedVisual().iconAppearance"
+      [size]="buttonIconSize()"
+      [ariaHidden]="true"
+    />
   </button>
 } @else {
   <button
     *ngIf="isValidIconName()"
-    class="rte-icon-button {{ variant() }} size-{{ size() }}"
+    class="rte-icon-button size-{{ size() }}"
     [class.compact-spacing]="compactSpacing()"
+    [attr.data-appearance]="resolvedVisual().appearance"
+    [attr.data-hierarchy]="resolvedVisual().hierarchy"
+    [attr.data-critical]="resolvedVisual().isCritical ? true : null"
+    [attr.data-reversed]="resolvedVisual().isReversed ? true : null"
     [ngStyle]="customStyle()"
     [disabled]="disabled()"
     [attr.aria-label]="ariaLabel()"
@@ -38,6 +51,11 @@
     [type]="type()"
     (click)="onClick($event)"
   >
-    <rte-icon [name]="name()" [appearance]="appearance()" [size]="buttonIconSize()" [ariaHidden]="true" />
+    <rte-icon
+      [name]="name()"
+      [appearance]="resolvedVisual().iconAppearance"
+      [size]="buttonIconSize()"
+      [ariaHidden]="true"
+    />
   </button>
 }
