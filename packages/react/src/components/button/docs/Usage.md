@@ -16,18 +16,40 @@
 
 Les hauteurs vérifiées sont de `24 px`, `32 px` et `40 px` pour les tailles `s`, `m` et `l`.
 
-## Variants
+## Apparence et hiérarchie
+
+Le style du bouton se définit avec `appearance`, `hierarchy`, et le cas échéant `isCritical`. Sans prop de style, le rendu correspond à `brand` / `primary`.
 
 ```tsx
-<div style={{ display: "flex", gap: 8 }}>
-  <Button label="Primary" variant="primary" />
-  <Button label="Secondary" variant="secondary" />
-  <Button label="Text" variant="text" />
-  <Button label="Transparent" variant="transparent" />
-  <Button label="Danger" variant="danger" />
-  <Button label="Neutral" variant="neutral" />
-  <Button label="Reverse" variant="reverse" />
+<div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+  <Button label="Primary" appearance="brand" hierarchy="primary" />
+  <Button label="Secondary" appearance="brand" hierarchy="secondary" />
+  <Button label="Text" appearance="brand" hierarchy="text" />
+  <Button label="Transparent" appearance="brand" hierarchy="transparent" />
+  <Button label="Danger" appearance="brand" hierarchy="primary" isCritical />
+  <Button label="Neutral" appearance="neutral" hierarchy="text" />
 </div>
+```
+
+## Reverse (`isReversed`)
+
+Dans Figma, **Reverse** correspond aux boutons **brand** posés sur une **surface inverse** (fond sombre), avec le booléen `isReversed` et une hiérarchie — la spec documente notamment **transparent** pour les tailles S, M et L.
+
+`isReversed` n’est pas un substitut à une hiérarchie `primary` sur fond clair : le conteneur doit fournir le fond inverse, et le bouton utilise les tokens inverse.
+
+```tsx
+<div style={{ background: "var(--background-inverse, #201f1f)", padding: 16, borderRadius: 8 }}>
+  <Button label="Reverse" appearance="brand" hierarchy="transparent" isReversed />
+</div>
+```
+
+## Prop `variant` (déprécié)
+
+`variant` est un alias plat **déprécié** qui regroupe l’apparence, la hiérarchie et les flags en une seule valeur : `primary`, `secondary`, `text`, `transparent`, `danger`, `neutral`, `reverse`. Il reste pris en charge pour la migration, mais `appearance`, `hierarchy`, `isCritical` et `isReversed` doivent être utilisés pour les nouveaux développements. Lorsqu’ils sont renseignés, ils **priment** sur `variant`.
+
+```tsx
+// Déprécié — équivalent : appearance="brand" hierarchy="primary"
+<Button label="Primary" variant="primary" />
 ```
 
 ## Icône
