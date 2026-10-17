@@ -21,6 +21,7 @@ import {
   focusPreviousNotSegmentElement,
   focusNextSegmentElement,
   focusPreviousSegmentElement,
+  getSegmentAriaLabel as getCoreSegmentAriaLabel,
   isValidSegmentedControlOptions,
 } from "@design-system-rte/core/components/segmented-control/segmented-control-utils";
 import {
@@ -108,6 +109,10 @@ export class SegmentedControlComponent implements OnChanges, AfterViewInit, OnDe
     });
   }
 
+  getSegmentAriaLabel(option: SegmentOptions): string {
+    return getCoreSegmentAriaLabel(option);
+  }
+
   selectSegment(id: string) {
     this.change.emit(id);
   }
@@ -147,14 +152,26 @@ export class SegmentedControlComponent implements OnChanges, AfterViewInit, OnDe
       event.preventDefault();
     }
     if (event.key === TAB_KEY) {
+      const radiogroupElement = this.segmentedControl()?.nativeElement;
+      if (!radiogroupElement) {
+        return;
+      }
+
       const allFocusableElements = Array.from(document.querySelectorAll(FOCUSABLE_ELEMENTS_QUERY)) as HTMLElement[];
       const currentActiveElement = document.activeElement;
       const currentIndex = allFocusableElements.indexOf(currentActiveElement as HTMLElement);
 
+      const focusOptions = {
+        focusedIndex: currentIndex,
+        focusableElements: allFocusableElements,
+        segmentClass,
+        radiogroupElement,
+      };
+
       if (event.shiftKey) {
-        focusPreviousNotSegmentElement(currentIndex, allFocusableElements, segmentClass);
+        focusPreviousNotSegmentElement(focusOptions);
       } else {
-        focusNextNotSegmentElement(currentIndex, allFocusableElements, segmentClass);
+        focusNextNotSegmentElement(focusOptions);
       }
     }
   }
