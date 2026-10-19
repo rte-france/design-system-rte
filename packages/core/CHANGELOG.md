@@ -1,5 +1,17 @@
 # @design-system-rte/core
 
+## 1.21.1
+
+### Patch Changes
+
+- 7f092e9: ## Changes
+
+  - (Segmented Control) correct ariaLabel generation and provide default values
+
+- d5987a1: ## Changes
+
+  - (Toast) add missing aria label for close button
+
 ## 1.21.0
 
 ### Minor Changes
