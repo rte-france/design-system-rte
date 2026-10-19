@@ -38,6 +38,8 @@ export class PaginationComponent {
 
   readonly items = computed(() => getPaginationItems(this.activePage(), this.totalPages()));
 
+  readonly shouldDisplay = computed(() => this.totalPages() > 1);
+
   readonly isFirstPage = computed(() => this.activePage() <= 1);
 
   readonly isLastPage = computed(() => this.activePage() >= this.totalPages());
