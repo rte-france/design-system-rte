@@ -114,6 +114,9 @@ export class SegmentedControlComponent implements OnChanges, AfterViewInit, OnDe
   }
 
   selectSegment(id: string) {
+    if (id === this.selectedSegment()) {
+      return;
+    }
     this.change.emit(id);
   }
 
