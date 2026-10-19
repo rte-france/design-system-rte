@@ -33,7 +33,7 @@ export const Default: Story = {
     assistiveTextLabel: "Assistive text",
     showAssistiveIcon: true,
     readonly: false,
-    hasAction: true,
+    hasActions: true,
     required: false,
     showLabelRequirement: false,
   },
@@ -157,7 +157,7 @@ export const WithAction: Story = {
   args: {
     ...Default.args,
     value: null,
-    hasAction: true,
+    hasActions: true,
   },
 
   render: (args) => {
@@ -214,7 +214,7 @@ export const TabNavigation: Story = {
   args: {
     ...Default.args,
     value: null,
-    hasAction: true,
+    hasActions: true,
   },
 
   render: (args) => {
@@ -368,7 +368,7 @@ export const WithMinMax: Story = {
     value: null,
     minDate: new Date(2020, 0, 1),
     maxDate: new Date(2024, 7, 25),
-    hasAction: true,
+    hasActions: true,
   },
 
   render: (args) => {
@@ -459,7 +459,7 @@ export const DisabledDates: Story = {
     ...Default.args,
     value: null,
     disabledDates: [new Date(2023, 5, 15), new Date(2023, 5, 20)],
-    hasAction: true,
+    hasActions: true,
   },
 
   render: (args) => {

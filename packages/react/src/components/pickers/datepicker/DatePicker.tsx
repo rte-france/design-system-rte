@@ -52,7 +52,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatepickerProps>(
       defaultValue,
       readonly = false,
       onChange,
-      hasAction = false,
+      hasActions = true,
       onCancel,
       onValidate,
       minDate,
@@ -322,7 +322,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatepickerProps>(
           <DatePickerMenu
             isOpen={isDropdownOpen}
             currentValue={internalValue}
-            hasAction={hasAction}
+            hasActions={hasActions}
             onValidate={handleOnValidate}
             onCancel={handleOnCancel}
             updateDisplayedDate={updateDisplayedDate}

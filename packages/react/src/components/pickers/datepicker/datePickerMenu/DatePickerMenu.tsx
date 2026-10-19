@@ -52,7 +52,7 @@ interface DatePickerMenuProps {
   currentValue: Date | null;
   updateFullDate: (date: Date | null) => void;
   updateDisplayedDate: (date: Date | null) => void;
-  hasAction?: boolean;
+  hasActions?: boolean;
   onValidate?: () => void;
   onCancel?: () => void;
   displayValue: string;
@@ -65,7 +65,7 @@ interface DatePickerMenuProps {
 const DatePickerMenu = ({
   isOpen,
   currentValue,
-  hasAction,
+  hasActions,
   updateFullDate,
   updateDisplayedDate,
   onValidate,
@@ -195,7 +195,7 @@ const DatePickerMenu = ({
     if (normalizedDate === null) {
       return;
     }
-    if (!hasAction) {
+    if (!hasActions) {
       updateFullDate(normalizedDate);
       setValidatedDate(normalizedDate);
       onChange?.(normalizedDate);
@@ -859,7 +859,7 @@ const DatePickerMenu = ({
             </div>
           </>
         )}
-        {hasAction && (
+        {hasActions && (
           <div className={styles["rte-datepicker-dropdown-actions"]}>
             <Button label="Annuler" size="s" variant="transparent" onClick={onCancel} />
             <Button label="Confirmer" size="s" variant="transparent" onClick={handleOnClickValidate} />
