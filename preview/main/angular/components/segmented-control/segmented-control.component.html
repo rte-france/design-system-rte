@@ -31,7 +31,7 @@
         [attr.data-compact-spacing]="isCompact()"
         [class.selected]="isSegmentSelected(option.id)"
         [attr.aria-checked]="isSegmentSelected(option.id)"
-        [attr.aria-label]="option.labelText"
+        [attr.aria-label]="getSegmentAriaLabel(option)"
         (click)="selectSegment(option.id)"
         (keydown)="handleKeyDown($event)"
         (keyup)="handleKeyUp($event)"
