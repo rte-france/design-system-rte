@@ -1,7 +1,3 @@
-### React implementation
-
-Only the Angular `NumberInputComponent` is available in this release. There is no React Number Input yet.
-
 ### Text input instead of native number type
 
 The spinbutton uses `type="text"` with `inputmode` and `role="spinbutton"`, not `type="number"`. Decimal separators come from `locale` only; typing `.` or `,` is normalized to the locale separator.
@@ -25,6 +21,10 @@ When `disabled` is true (including via reactive forms `disable()`), the spinbutt
 ### Mouse wheel
 
 The wheel adjusts the value only while the spinbutton is focused; the event is prevented from scrolling the page in that case.
+
+### Accessible name
+
+Provide a non-empty `label`, or set `label` to `""` and supply `ariaLabel` (or `ariaLabelledby` for an external label). The component logs a console error when none of these are provided.
 
 ### Stepper focus order
 

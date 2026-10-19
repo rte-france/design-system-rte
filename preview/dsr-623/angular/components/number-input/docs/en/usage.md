@@ -64,7 +64,7 @@ Places decrement and increment steppers on the left and right of the field (`"ri
 />
 ```
 
-Uses neutral outlined steppers instead of brand-filled ones (`"brand" | "neutral"`).
+Uses neutral-bold filled steppers instead of brand-filled ones (`"brand" | "neutral"`).
 
 #### Compact spacing
 

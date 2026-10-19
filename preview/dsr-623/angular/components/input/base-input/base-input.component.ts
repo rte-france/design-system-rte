@@ -72,7 +72,7 @@ export class BaseInputComponent {
   readonly inputType = input<"text" | "password">("text");
   readonly useLabelForAttribute = input<boolean>(true);
 
-  readonly valueChange = output<string>();
+  readonly valueChange = output<string | number>();
   readonly enterKeyDown = output<string>();
   readonly inputBlur = output<void>();
   readonly rightIconClick = output<MouseEvent | KeyboardEvent>();

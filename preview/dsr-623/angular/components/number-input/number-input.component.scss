@@ -28,10 +28,10 @@
     min-height: 32px;
     border-radius: $radius-s;
     border: $width-xs solid var(--border-secondary);
-    padding: $positive-spacing-050 $positive-spacing-100 $positive-spacing-050 $positive-spacing-200;
+    padding: $positive-spacing-050 $positive-spacing-100;
     background: linear-gradient(0deg, var(--elevation-surface-inner-shadow) 0%, var(--elevation-surface-inner-shadow) 100%), var(--background-default);
     transition: border-color 100ms ease, box-shadow 100ms ease;
-    color: var(--content-primary);
+    color: var(--content-secondary);
     cursor: text;
     @include neutral-inner-shadow;
 
@@ -41,25 +41,6 @@
 
     &:hover:not(.number-input-control--disabled):not(.number-input-control--read-only):not(.error) {
         border-color: var(--border-primary);
-    }
-
-    &.highlighted:not(.error),
-    &:focus-within:not(.error) {
-        outline: none;
-        border-color: var(--border-brand-default);
-        box-shadow: inset 0 1px 4px 0 var(--elevation-shadow-key), inset 0 0 0 1px var(--border-brand-default);
-    }
-
-    &.error {
-        outline: none;
-        border-color: var(--border-danger);
-        box-shadow: inset 0 1px 4px 0 var(--elevation-shadow-key), inset 0 0 0 1px var(--border-danger);
-
-        &.highlighted,
-        &:focus-within {
-            border-color: var(--border-danger);
-            box-shadow: inset 0 1px 4px 0 var(--elevation-shadow-key), inset 0 0 0 1px var(--border-danger);
-        }
     }
 
     &.number-input-control--disabled {
@@ -74,10 +55,14 @@
     }
 
     &.number-input-control--read-only {
-        border-color: var(--border-disabled);
+        border-color: var(--border-tertiary);
         background: linear-gradient(0deg, var(--elevation-surface-inner-shadow) 0%, var(--elevation-surface-inner-shadow) 100%), var(--background-disabled);
         cursor: default;
         box-shadow: none;
+
+        .number-input-unit {
+            color: var(--content-secondary);
+        }
     }
 }
 
@@ -129,7 +114,7 @@
 
 .number-input-unit {
     flex-shrink: 0;
-    color: var(--content-secondary);
+    color: var(--content-tertiary);
     @include typography-text-m-regular;
     user-select: none;
 }
@@ -148,5 +133,25 @@
         min-width: 24px;
         min-height: 24px;
         justify-content: center;
+    }
+}
+
+.number-input-layout[data-appearance='neutral'] .number-input-stepper ::ng-deep button.neutral:not(:disabled) {
+    background: var(--background-neutral-bold-default);
+    border: none;
+    color: var(--content-primary-inverse);
+
+    .rte-icon-container {
+        color: var(--content-primary-inverse);
+    }
+
+    &:hover {
+        background: var(--background-neutral-bold-hover);
+        color: var(--content-primary-inverse);
+    }
+
+    &:active {
+        background: var(--background-neutral-bold-pressed);
+        color: var(--content-primary-inverse);
     }
 }

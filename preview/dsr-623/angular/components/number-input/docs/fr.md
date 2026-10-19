@@ -22,11 +22,12 @@ Le composant public est `NumberInputComponent` (`<rte-number-input>`). Importez-
 | Nom | Type | Valeur par défaut | Description |
 |-----|------|-------------------|-------------|
 | id | string | — (requis) | Identifiant stable pour le champ, l’association au libellé et le texte d’aide. |
-| label | string | `"Label"` | Texte du libellé visible. |
+| label | string | `"Label"` | Texte du libellé visible. À omettre ou laisser vide seulement si `ariaLabel` ou `ariaLabelledby` nomme le champ. |
+| ariaLabel | string | `""` | Nom accessible du spinbutton lorsqu’aucun libellé visible n’est affiché. Requis si `label` est vide. |
+| ariaLabelledby | string | `""` | Id d’un élément externe qui libelle le champ. Remplace l’association automatique au libellé. |
 | labelPosition | `"top" \| "side"` | `"top"` | Position du libellé par rapport au contrôle. |
 | required | boolean | `false` | Marque le champ comme requis pour l’indicateur d’obligation. |
 | showLabelRequirement | boolean | `false` | Affiche la mention d’obligation à côté du libellé le cas échéant. |
-| hasLabel | boolean | `true` | Si `false`, masque le libellé tout en conservant la structure. |
 | appearance | `"brand" \| "neutral"` | `"brand"` | Style visuel des steppers d’incrémentation et de décrémentation. |
 | incrementPosition | `"right" \| "sides"` | `"right"` | Disposition des steppers : empilés à droite ou de part et d’autre du champ. |
 | compactSpacing | boolean | `false` | Taille compacte du champ et des steppers (hauteur 24px). |
@@ -121,7 +122,7 @@ Place les steppers de décrémentation et d’incrémentation à gauche et à dr
 />
 ```
 
-Utilise des steppers neutres contourés plutôt que remplis brand (`"brand" | "neutral"`).
+Utilise des steppers neutres remplis (neutral-bold) plutôt que remplis brand (`"brand" | "neutral"`).
 
 #### Espacement compact
 
@@ -244,10 +245,6 @@ Affiche un texte d’aide sous le champ lorsqu’aucune erreur de plage automati
 
 ## Limitations
 
-### Implémentation React
-
-Seul le `NumberInputComponent` Angular est disponible dans cette version. Il n’y a pas encore de Number Input React.
-
 ### Saisie texte plutôt que type number natif
 
 Le spinbutton utilise `type="text"` avec `inputmode` et `role="spinbutton"`, pas `type="number"`. Les séparateurs décimaux viennent uniquement de `locale` ; la saisie `.` ou `,` est normalisée selon la locale.
@@ -271,6 +268,10 @@ Lorsque `disabled` est `true` (y compris via `disable()` sur un FormControl), le
 ### Molette de la souris
 
 La molette modifie la valeur uniquement lorsque le spinbutton a le focus ; l’événement est alors empêché de faire défiler la page.
+
+### Nom accessible
+
+Fournissez un `label` non vide, ou laissez `label` vide et renseignez `ariaLabel` (ou `ariaLabelledby` pour un libellé externe). Le composant journalise une erreur console si aucune de ces options n’est fournie.
 
 ### Ordre de tabulation des steppers
 

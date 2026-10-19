@@ -26,6 +26,7 @@ import {
   NUMBER_INPUT_DEFAULT_MIN,
   NUMBER_INPUT_DEFAULT_STEP,
   NUMBER_INPUT_DEFAULT_WIDTH,
+  NUMBER_INPUT_MISSING_ACCESSIBLE_NAME_ERROR,
   NUMBER_INPUT_STEPPER_DECREMENT_ARIA_PREFIX,
   NUMBER_INPUT_STEPPER_INCREMENT_ARIA_PREFIX,
 } from "@design-system-rte/core/components/number-input/number-input.constants";
@@ -49,7 +50,6 @@ import { fromEvent } from "rxjs";
 
 import { IconButtonComponent } from "../icon-button/icon-button.component";
 import { BaseInputComponent } from "../input/base-input/base-input.component";
-import { BaseValueAccessor } from "../input/base-value-accessor";
 import { RteBaseInputControlDirective } from "../input/rte-base-input-control.directive";
 
 @Component({
@@ -69,28 +69,16 @@ import { RteBaseInputControlDirective } from "../input/rte-base-input-control.di
     },
   ],
 })
-export class NumberInputComponent
-  extends BaseValueAccessor<number | null>
-  implements ControlValueAccessor, AfterViewInit, OnInit
-{
-  readonly id = input.required<string>();
-  readonly label = input<string>("Label");
-  readonly labelPosition = input<"top" | "side">("top");
-  readonly required = input<boolean>(false);
-  readonly showLabelRequirement = input<boolean>(false);
+export class NumberInputComponent extends BaseInputComponent implements ControlValueAccessor, AfterViewInit, OnInit {
+  override readonly id = input<string>();
+  override readonly label = input<string>("Label");
+  override readonly width = input<string>("184px");
 
   readonly appearance = input<NumberInputAppearance>(NUMBER_INPUT_DEFAULT_APPEARANCE);
   readonly incrementPosition = input<NumberInputIncrementPosition>(NUMBER_INPUT_DEFAULT_INCREMENT_POSITION);
-  readonly compactSpacing = input<boolean>(false);
 
   readonly unit = input<string>("");
   readonly assistiveText = input<string>("");
-
-  readonly error = input<boolean>(false);
-  readonly errorMessage = input<string>("");
-
-  readonly disabled = input<boolean>(false);
-  readonly readOnly = input<boolean>(false);
 
   readonly min = input<number>(NUMBER_INPUT_DEFAULT_MIN);
   readonly max = input<number | undefined>(undefined);
@@ -104,21 +92,20 @@ export class NumberInputComponent
   });
   readonly locale = input<string>(NUMBER_INPUT_DEFAULT_LOCALE);
   readonly defaultValue = input<number | undefined>(undefined);
-  readonly placeholder = input<string>("");
-  readonly width = input<string | undefined>(undefined);
   readonly name = input<string>("");
   readonly rangeErrorMessages = input<NumberInputRangeErrorMessages | undefined>(undefined);
-
-  readonly value = input<number | null | undefined>(undefined);
-
-  readonly valueChange = output<number | null>();
-  readonly inputBlur = output<void>();
 
   readonly displayText = signal("");
   readonly inputFocused = signal(false);
 
   private readonly destroyRef = inject(DestroyRef);
   private readonly spinbuttonRef = viewChild<ElementRef<HTMLInputElement>>("spinbuttonRef");
+
+  private onChange: (value: number | null) => void = () => {};
+  private onTouched: () => void = () => {};
+  private readonly formDisabled = signal(false);
+
+  override readonly valueChange = output<number>();
 
   readonly isEffectivelyDisabled = computed(() => this.disabled() || this.formDisabled());
 
@@ -141,7 +128,9 @@ export class NumberInputComponent
 
   readonly showErrorState = computed(() => this.error() || this.rangeErrorMessage() !== null);
 
-  readonly computedAssistiveAppearance = computed(() => (this.showErrorState() ? "error" : "description"));
+  override readonly computedAssistiveAppearance = computed(() =>
+    this.showErrorState() ? "error" : this.assistiveAppearance(),
+  );
 
   readonly resolvedErrorMessage = computed(() => {
     if (this.error()) {
@@ -150,25 +139,63 @@ export class NumberInputComponent
     return this.rangeErrorMessage() || "";
   });
 
-  readonly assistiveLabelForField = computed(() => {
-    if (this.showErrorState()) {
-      return this.resolvedErrorMessage();
+  readonly hasVisibleLabel = computed(() => this.label().trim().length > 0);
+
+  readonly displayedLabel = computed(() => (this.hasVisibleLabel() ? this.label() : ""));
+
+  readonly spinbuttonAriaLabelledby = computed(() => {
+    const explicitLabelledBy = this.ariaLabelledby().trim();
+    if (explicitLabelledBy) {
+      return explicitLabelledBy;
     }
-    if (this.assistiveText()) {
-      return this.assistiveText();
+    if (this.hasVisibleLabel() && this.id()) {
+      return `input-label-${this.id()}`;
     }
-    return "";
+    return null;
+  });
+
+  readonly spinbuttonAriaLabel = computed(() => {
+    if (this.spinbuttonAriaLabelledby()) {
+      return null;
+    }
+    const name = this.ariaLabel().trim();
+    return name || null;
+  });
+
+  readonly stepperFieldName = computed(() => {
+    if (this.hasVisibleLabel()) {
+      return this.label().trim();
+    }
+    return this.ariaLabel().trim();
+  });
+
+  readonly spinbuttonAriaDescribedBy = computed(() => {
+    const visibleAssistiveText = this.showErrorState()
+      ? this.resolvedErrorMessage() || this.assistiveText()
+      : this.assistiveText();
+    if (!visibleAssistiveText || !this.id()) {
+      return null;
+    }
+    return `${this.id()}-assistive-text`;
   });
 
   readonly stepperVariant = computed(() => (this.appearance() === "brand" ? "primary" : "neutral"));
 
-  readonly stepperAppearance = computed(() => (this.appearance() === "brand" ? "filled" : "outlined"));
-
   readonly stepperSize = computed((): Exclude<ButtonSize, "l"> => (this.compactSpacing() ? "s" : "m"));
 
-  readonly decrementAriaLabel = computed(() => `${NUMBER_INPUT_STEPPER_DECREMENT_ARIA_PREFIX} ${this.label()}`);
+  readonly decrementAriaLabel = computed(() => {
+    const fieldName = this.stepperFieldName();
+    return fieldName
+      ? `${NUMBER_INPUT_STEPPER_DECREMENT_ARIA_PREFIX} ${fieldName}`
+      : NUMBER_INPUT_STEPPER_DECREMENT_ARIA_PREFIX;
+  });
 
-  readonly incrementAriaLabel = computed(() => `${NUMBER_INPUT_STEPPER_INCREMENT_ARIA_PREFIX} ${this.label()}`);
+  readonly incrementAriaLabel = computed(() => {
+    const fieldName = this.stepperFieldName();
+    return fieldName
+      ? `${NUMBER_INPUT_STEPPER_INCREMENT_ARIA_PREFIX} ${fieldName}`
+      : NUMBER_INPUT_STEPPER_INCREMENT_ARIA_PREFIX;
+  });
 
   readonly stepperFallbackValue = computed(() => this.defaultValue() ?? this.min());
 
@@ -204,7 +231,7 @@ export class NumberInputComponent
     return valueText;
   });
 
-  readonly computedWidth = computed(() => {
+  override readonly computedWidth = computed(() => {
     const raw = this.width();
     if (raw === undefined || raw === "") {
       return NUMBER_INPUT_DEFAULT_WIDTH;
@@ -225,7 +252,13 @@ export class NumberInputComponent
     super();
 
     effect(() => {
-      const externalValue = this.value();
+      if (!this.hasVisibleLabel() && !this.ariaLabel().trim() && !this.ariaLabelledby().trim()) {
+        console.error(NUMBER_INPUT_MISSING_ACCESSIBLE_NAME_ERROR);
+      }
+    });
+
+    effect(() => {
+      const externalValue = Number(this.value());
       this.locale();
       this.decimalPrecision();
       if (externalValue === undefined) {
@@ -266,6 +299,18 @@ export class NumberInputComponent
     this.applyNumericValue(value, { emitChange: false });
   }
 
+  registerOnChange(fn: (value: number | null) => void): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: () => void): void {
+    this.onTouched = fn;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    this.formDisabled.set(isDisabled);
+  }
+
   handleInput(event: Event): void {
     const inputElement = event.target as HTMLInputElement;
     const sanitized = sanitizeNumericText({
@@ -299,7 +344,7 @@ export class NumberInputComponent
     this.inputFocused.set(true);
   }
 
-  handleKeyDown(event: KeyboardEvent): void {
+  override handleKeyDown(event: KeyboardEvent): void {
     if (this.isEffectivelyDisabled() || this.readOnly()) {
       return;
     }
@@ -317,7 +362,6 @@ export class NumberInputComponent
     }
 
     if (event.key === "Enter") {
-      event.preventDefault();
       this.spinbuttonRef()?.nativeElement.blur();
     }
   }
@@ -376,7 +420,7 @@ export class NumberInputComponent
   private emitValueChange(): void {
     const numeric = this.parsedValue();
     this.onChange(numeric);
-    this.valueChange.emit(numeric);
+    this.valueChange.emit(numeric ?? 0);
   }
 
   private initializeDisplayFromDefault(): void {

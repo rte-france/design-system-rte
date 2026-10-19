@@ -36,6 +36,7 @@ export class IconButtonComponent {
   readonly badgeIcon = input<RegularIconIdKey | TogglableIconIdKey>("settings");
   readonly customStyle = input<Record<string, string>>();
   readonly tabIndex = input<number | undefined>(undefined);
+  readonly ariaDisabled = input<boolean>(false);
 
   readonly buttonIconSize = computed(() => ButtonIconSize[this.size()]);
 

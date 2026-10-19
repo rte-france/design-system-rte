@@ -12,6 +12,7 @@
     [attr.aria-expanded]="ariaExpanded() !== undefined ? ariaExpanded() : null"
     [attr.aria-haspopup]="ariaHaspopup()"
     [attr.tabindex]="tabIndex() !== undefined ? tabIndex() : null"
+    [attr.aria-disabled]="ariaDisabled() ? true : null"
     [type]="type()"
     [rteBadgeType]="badgeType() ?? 'brand'"
     [rteBadgeSize]="size()"
@@ -35,6 +36,7 @@
     [attr.aria-expanded]="ariaExpanded() !== undefined ? ariaExpanded() : null"
     [attr.aria-haspopup]="ariaHaspopup()"
     [attr.tabindex]="tabIndex() !== undefined ? tabIndex() : null"
+    [attr.aria-disabled]="ariaDisabled() ? true : null"
     [type]="type()"
     (click)="onClick($event)"
   >

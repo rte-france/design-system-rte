@@ -3,11 +3,12 @@ The `NumberInputComponent` (`<rte-number-input>`) is the public API. Import it f
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
 | id | string | — (required) | Stable id for the field, label association, and assistive text. |
-| label | string | `"Label"` | Visible label text. |
+| label | string | `"Label"` | Visible label text. Omit or set to `""` only when `ariaLabel` or `ariaLabelledby` names the field. |
+| ariaLabel | string | `""` | Accessible name for the spinbutton when no visible label is shown. Required if `label` is empty. |
+| ariaLabelledby | string | `""` | Id of an external element that labels the field. Overrides automatic label association. |
 | labelPosition | `"top" \| "side"` | `"top"` | Label placement relative to the control. |
 | required | boolean | `false` | Marks the field as required for the required indicator. |
 | showLabelRequirement | boolean | `false` | Shows requirement wording next to the label when applicable. |
-| hasLabel | boolean | `true` | When `false`, hides the label while keeping layout hooks. |
 | appearance | `"brand" \| "neutral"` | `"brand"` | Visual style of the increment/decrement steppers. |
 | incrementPosition | `"right" \| "sides"` | `"right"` | Stepper layout: stacked on the right or on both sides of the field. |
 | compactSpacing | boolean | `false` | Compact field and stepper sizing (24px height). |

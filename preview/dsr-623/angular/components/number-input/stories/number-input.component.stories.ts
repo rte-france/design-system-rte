@@ -12,6 +12,15 @@ const meta: Meta<NumberInputComponent> = {
   argTypes: {
     appearance: { control: { type: "radio" }, options: ["brand", "neutral"] },
     incrementPosition: { control: { type: "radio" }, options: ["right", "sides"] },
+    error: { control: "boolean" },
+    errorMessage: { control: "text" },
+    readOnly: { control: "boolean" },
+    label: {
+      control: "text",
+      description: "Visible label. Leave empty only if ariaLabel (or ariaLabelledby) is set.",
+    },
+    ariaLabel: { control: "text", description: "Accessible name when label is empty." },
+    assistiveText: { control: "text", description: "Help text below the field when no error is shown." },
     valueChange: { action: "value changed" },
     width: { control: "text", description: "Total width (field + steppers). Defaults to 184px when omitted." },
   },
@@ -111,6 +120,31 @@ export const WithAssistiveText: Story = {
     id: "number-input-assistive",
     assistiveText: "Entrez une valeur entre 0 et 100, par pas de 1.",
   },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByRole("spinbutton");
+    expect(input).toHaveAttribute("aria-describedby", "number-input-assistive-assistive-text");
+    expect(canvasElement.querySelector("#number-input-assistive-assistive-text")).not.toBeNull();
+  },
+};
+
+export const Error: Story = {
+  args: {
+    ...defaultArgs,
+    id: "number-input-error",
+    error: true,
+    errorMessage: "Valeur invalide pour ce champ.",
+    assistiveText: "Ce texte d'aide ne s'affiche pas lorsque error est activé.",
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByRole("spinbutton");
+
+    expect(canvas.getByText("Valeur invalide pour ce champ.")).toBeInTheDocument();
+    expect(canvas.queryByText("Ce texte d'aide ne s'affiche pas lorsque error est activé.")).not.toBeInTheDocument();
+    expect(input).toHaveAttribute("aria-invalid", "true");
+    expect(input).toHaveAttribute("aria-describedby", "number-input-error-assistive-text");
+  },
 };
 
 export const InteractionPlay: Story = {
@@ -164,6 +198,7 @@ export const InteractionPlay: Story = {
     await userEvent.clear(input);
     await userEvent.type(input, "150");
     await waitFor(() => expect(canvas.getByText("La valeur doit être comprise entre 0 et 100.")).toBeInTheDocument());
+    expect(input).toHaveAttribute("aria-describedby", "number-input-play-assistive-text");
 
     await userEvent.clear(input);
     await userEvent.tab();
