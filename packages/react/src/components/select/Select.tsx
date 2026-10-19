@@ -121,6 +121,8 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
     const computedAssistiveTextLabel = isError ? errorMessage || assistiveTextLabel : assistiveTextLabel;
     const describedBy = computedAssistiveTextLabel ? assistiveTextId : undefined;
 
+    const shouldDisplayPlaceholder = placeholder && !(disabled || readonly);
+
     const shouldDisplaySelectedIcon =
       variant === "visibly-selected" &&
       !shouldDisplayErrorIcon &&
@@ -352,9 +354,9 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
                             </>
                           )}
                         </>
-                      ) : placeholder ? (
-                        <span className={styles["select-placeholder"]}>{placeholder}</span>
-                      ) : null}
+                      ) : (
+                        shouldDisplayPlaceholder && <span className={styles["select-placeholder"]}>{placeholder}</span>
+                      )}
                     </div>
                     <div className={styles["select-right-icons"]}>
                       {shouldDisplayClearButton && (
