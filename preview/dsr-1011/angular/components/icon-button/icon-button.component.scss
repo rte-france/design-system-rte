@@ -48,7 +48,7 @@
 
     &.primary {
         background: var(--background-brand-default);
-        border: var(--border-brand-default);
+        border: none;
 
         ::ng-deep {
             .rte-icon-container {
@@ -58,7 +58,6 @@
 
         &:hover {
             background: var(--background-brand-hover);
-            border: var(--background-brand-hover);
         }
 
         &:active {

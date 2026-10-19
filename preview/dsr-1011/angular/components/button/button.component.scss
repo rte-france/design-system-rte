@@ -73,13 +73,12 @@
     }
 
     &[data-appearance='brand'][data-hierarchy='primary'][data-critical='false'][data-reversed='false'] {
-        border: var(--border-brand-default);
+        border: none;
         color: var(--content-primary-inverse);
         background: var(--background-brand-default);
 
         &:hover {
             background: var(--background-brand-hover);
-            border: var(--background-brand-hover);
         }
 
         &:active {
@@ -168,8 +167,8 @@
     }
 
     &[data-appearance='neutral'][data-hierarchy='secondary'][data-reversed='false'] {
-        background: var(--background-default);
-        border: solid $width-xs var(--content-primary);
+        background: var(--background-neutral-subtle-default);
+        border: solid $width-xs var(--border-primary);
         color: var(--content-primary);
 
         &:hover {
@@ -184,16 +183,16 @@
     }
 
     &[data-appearance='neutral'][data-hierarchy='text'][data-reversed='false'] {
-        background: none;
+        background: transparent;
         border: none;
         color: var(--content-primary);
 
         &:hover {
-            color: var(--content-secondary);
+            background: var(--background-neutral-subtle-hover);
         }
 
         &:active {
-            color: var(--content-tertiary);
+            background: var(--background-neutral-subtle-pressed);
         }
 
         @include button-disabled;

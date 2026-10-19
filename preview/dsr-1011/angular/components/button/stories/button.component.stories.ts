@@ -11,6 +11,8 @@ import { BadgeDirective } from "../../badge/badge.directive";
 import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../../icon/icon-map";
 import { ButtonComponent } from "../button.component";
 
+import { ButtonVariantGridComponent } from "./button-variant-grid.component";
+
 const RegularIconIds = Object.keys(RegularIconsList);
 const TogglableIconIds = Object.keys(TogglableIconsList);
 
@@ -243,6 +245,21 @@ export const WithIcon: Story = {
       >Button with Icon</button>
     </div>
     `,
+  }),
+};
+
+export const FigmaVariantGrid: Story = {
+  tags: ["!autodocs"],
+  decorators: [
+    moduleMetadata({
+      imports: [ButtonVariantGridComponent],
+    }),
+  ],
+  parameters: {
+    layout: "fullscreen",
+  },
+  render: () => ({
+    template: `<rte-button-variant-grid />`,
   }),
 };
 
