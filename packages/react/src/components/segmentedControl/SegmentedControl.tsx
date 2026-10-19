@@ -29,6 +29,9 @@ const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps>(
     const handleOnClick = (event: React.MouseEvent<HTMLDivElement> | React.KeyboardEvent<HTMLDivElement>) => {
       const target = event.currentTarget as HTMLDivElement;
       const id = target.getAttribute("id") || "";
+      if (id === selectedSegment) {
+        return;
+      }
       onChange(id);
     };
 
