@@ -10,7 +10,7 @@ import {
   OnChanges,
 } from "@angular/core";
 import { IconSize, IconTypeMap } from "@design-system-rte/core/components/icon/icon.constants";
-import { ToastDurationMap } from "@design-system-rte/core/components/toast/toast.constants";
+import { ToastCloseButtonAriaLabel, ToastDurationMap } from "@design-system-rte/core/components/toast/toast.constants";
 import { ToastProps, ToastType } from "@design-system-rte/core/components/toast/toast.interface";
 
 import { ButtonComponent } from "../button/button.component";
@@ -118,4 +118,5 @@ export class ToastComponent implements OnChanges {
 
   readonly defaultIconName = computed(() => IconTypeMap[this.type()]);
   readonly iconSize = IconSize["xl"];
+  readonly closeButtonAriaLabel = ToastCloseButtonAriaLabel;
 }

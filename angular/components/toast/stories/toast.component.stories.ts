@@ -127,7 +127,7 @@ export const KeyboardInteraction: Story = {
 
     const toast = within(document.body).getByRole("status");
     const actionButton = await within(toast).getByRole("button", { name: "Mettre à jour" });
-    const closeButton = await within(toast).getByTestId("toast-close-button").getElementsByTagName("button")[0];
+    const closeButton = await within(toast).getByRole("button", { name: "Fermer le toast" });
 
     await userEvent.tab();
     expect(actionButton).toHaveFocus();

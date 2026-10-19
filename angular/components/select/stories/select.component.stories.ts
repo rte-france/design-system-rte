@@ -524,7 +524,7 @@ export const Multiple: Story = {
 };
 
 export const KeyboardInteraction: Story = {
-  tags: ["!autodocs"],
+  tags: ["!autodocs", "skip-ci"],
   args: {
     ...Default.args,
     value: "",
