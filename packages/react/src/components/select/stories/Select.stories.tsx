@@ -153,7 +153,6 @@ export const Error: Story = {
   },
   play: async ({ canvasElement }) => {
     const select = canvasElement.querySelector("#select1");
-    console.log(select);
     expect(select).toHaveAttribute("aria-describedby", "select1-assistive-text");
   },
 };
@@ -164,7 +163,10 @@ export const ReadOnly: Story = {
     readonly: true,
   },
   render: (args) => {
-    const [selectedOption, setSelectedOption] = useState<{ label: string; value: string }>();
+    const [selectedOption, setSelectedOption] = useState<{ label: string; value: string } | undefined>({
+      label: "Option 1",
+      value: "option-1",
+    });
 
     const handleOnChange = (value: string) => {
       if (typeof value === "string") {
