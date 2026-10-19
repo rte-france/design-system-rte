@@ -7,15 +7,7 @@ import { DatePicker } from "@design-system-rte/react";
 function Example() {
   const [date, setDate] = useState<Date | null>(null);
 
-  return (
-    <DatePicker
-      id="default-datepicker"
-      label="Date"
-      value={date}
-      onChange={setDate}
-      hasAction
-    />
-  );
+  return <DatePicker id="default-datepicker" label="Date" value={date} onChange={setDate} hasActions />;
 }
 ```
 
@@ -24,13 +16,7 @@ The calendar overlay is portaled to `#overlay-root`. Ensure the overlay root exi
 #### Disabled
 
 ```tsx
-<DatePicker
-  id="disabled-datepicker"
-  label="Date"
-  value={date}
-  onChange={setDate}
-  disabled
-/>
+<DatePicker id="disabled-datepicker" label="Date" value={date} onChange={setDate} disabled />
 ```
 
 Disables the segmented field and calendar trigger.
@@ -38,13 +24,7 @@ Disables the segmented field and calendar trigger.
 #### Error
 
 ```tsx
-<DatePicker
-  id="error-datepicker"
-  label="Date"
-  value={date}
-  onChange={setDate}
-  isError
-/>
+<DatePicker id="error-datepicker" label="Date" value={date} onChange={setDate} isError />
 ```
 
 Applies the error visual state to the field.
@@ -52,11 +32,7 @@ Applies the error visual state to the field.
 #### Uncontrolled default value
 
 ```tsx
-<DatePicker
-  id="uncontrolled-datepicker"
-  label="Date"
-  defaultValue={new Date(2026, 5, 15)}
-/>
+<DatePicker id="uncontrolled-datepicker" label="Date" defaultValue={new Date(2026, 5, 15)} />
 ```
 
 Initialises the picker with a date without controlling `value` from parent state.
@@ -74,12 +50,7 @@ return (
     <button type="button" onClick={() => setDate(null)}>
       Clear
     </button>
-    <DatePicker
-      id="controlled-datepicker"
-      label="Date"
-      value={date}
-      onChange={setDate}
-    />
+    <DatePicker id="controlled-datepicker" label="Date" value={date} onChange={setDate} />
   </>
 );
 ```

@@ -4,7 +4,7 @@ The input displays dates in **DD/MM/YYYY** format. Segment order and separators 
 
 ### Pending vs committed selection
 
-When `hasAction` is `true`, calendar day selection updates a pending value until the user clicks **Confirm**. With `hasAction` set to `false`, a day selection commits immediately and closes the menu. Cancel and overlay dismiss restore the last committed value when actions are enabled.
+When `hasActions` is `true`, calendar day selection updates a pending value until the user clicks **Confirm**. With `hasActions` set to `false`, a day selection commits immediately and closes the menu. Cancel and overlay dismiss restore the last committed value when actions are enabled.
 
 ### Assistive text visibility
 
