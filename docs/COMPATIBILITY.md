@@ -34,9 +34,9 @@ Other npm dist-tags (`rc`, `routerlink`, …) are internal or preview lines — 
 
 | Package | Version | Core relationship |
 |---------|---------|-------------------|
-| `@design-system-rte/core` | 1.21.0 | — |
-| `@design-system-rte/angular` | 4.2.1 | peer `@design-system-rte/core` ~1.21.0 |
-| `@design-system-rte/react` | 2.2.1 | dependency `@design-system-rte/core` ~1.21.0 |
+| `@design-system-rte/core` | 1.21.1 | — |
+| `@design-system-rte/angular` | 4.3.0 | peer `@design-system-rte/core` ~1.21.1 |
+| `@design-system-rte/react` | 2.3.0 | dependency `@design-system-rte/core` ~1.21.1 |
 
 ## Installing a compatible set
 
