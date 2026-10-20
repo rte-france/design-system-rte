@@ -1,6 +1,7 @@
 @use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
 
 $height: 32px;
+$compact-height: 24px;
 $width: 176px;
 
 .rte-time-picker-label {
@@ -48,6 +49,13 @@ $width: 176px;
   border-radius: $radius-s;
   border: $width-xs solid var(--border-secondary);
   @include neutral-inner-shadow;
+  gap: $positive-spacing_050;
+
+  &[data-is-compact="true"] {
+    min-height: $compact-height;
+    max-height: $compact-height;
+    padding: 0 $positive-spacing_100;
+  }
 
   &:hover {
     border: $width-xs solid var(--border-primary);
@@ -85,6 +93,7 @@ $width: 176px;
     }
   }
 
+
   &[data-is-read-only="true"] {
     background-color: var(--background-disabled);
     border: $width-xs solid var(--border-disabled);
@@ -107,6 +116,14 @@ $width: 176px;
     }
   }
 
+  rte-icon-button {
+    ::ng-deep {
+      button {
+        color: var(--content-secondary);
+      }
+    }
+  }
+
   .rte-base-input-picker-input {
     display: flex;
     height: 100%;
@@ -116,6 +133,11 @@ $width: 176px;
     width: 100%;
     background: transparent;
     color: var(--content-primary);
+    padding: 0 $positive-spacing_100;
+
+    &::placeholder {
+      color: var(--content-disabled);
+    }
 
     &:focus {
       outline: none;

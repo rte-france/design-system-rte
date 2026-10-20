@@ -32,6 +32,7 @@
       [attr.data-is-error]="isError() || undefined"
       [attr.data-is-disabled]="isEffectivelyDisabled() || undefined"
       [attr.data-is-read-only]="readOnly() || undefined"
+      [attr.data-is-compact]="isCompact() || undefined"
       (click)="onPickerShellClick()"
       (dropdownTriggered)="onPickerDropdownTriggered($event)"
       (dropdownKeyDown)="onPickerDropdownKeydown($event)"
@@ -46,11 +47,21 @@
         [value]="displayValue()"
         [readOnly]="readOnly()"
         [disabled]="isEffectivelyDisabled()"
+        [attr.placeholder]="shouldDisplayPlaceholder() ? placeholder() : undefined"
         (focus)="onMainInputFocus()"
         (blur)="onMainInputBlur($event)"
         (keydown)="onMainInputKeydown($event)"
         (mouseup)="onMainInputMouseup()"
       />
+      @if (shouldDisplayResetButton()) {
+        <rte-icon-button
+          name="cancel"
+          size="s"
+          variant="neutral"
+          ariaLabel="Reset time"
+          (clickEvent)="onResetClick($event)"
+        />
+      }
       <button
         type="button"
         class="rte-base-input-picker-button"
@@ -71,6 +82,7 @@
     <rte-dropdown-menu>
       <ng-template rteDropdownMenuBody>
         <rte-time-picker-menu
+          [displaySeconds]="displaySeconds()"
           [hours]="internalTimeValue().hh"
           [minutes]="internalTimeValue().mm"
           [seconds]="internalTimeValue().ss"
