@@ -23,6 +23,9 @@ const meta: Meta<TimePickerComponent> = {
       options: ["description", "error", "success", "link"],
     },
     valueChange: { action: "valueChange" },
+    displaySeconds: { control: { type: "boolean" } },
+    placeholder: { control: { type: "text" } },
+    isCompact: { control: { type: "boolean" } },
   },
 };
 
@@ -50,9 +53,12 @@ export const Default: Story = {
     isHourReadOnly: false,
     isMinuteReadOnly: false,
     isSecondReadOnly: false,
+    displaySeconds: true,
+    placeholder: "Enter time",
     hourIncrement: 1,
     minuteIncrement: 1,
     secondIncrement: 1,
+    isCompact: false,
   },
   render: (args) => {
     const timeValue = signal<TimeFormat>(emptyTime());
@@ -88,9 +94,21 @@ export const Default: Story = {
           [secondIncrement]="secondIncrement"
           [value]="timeValue()"
           (valueChange)="onValueChange($event)"
+          [displaySeconds]="displaySeconds"
+          [placeholder]="placeholder"
+          [isCompact]="isCompact"
         />
+        <span>{{timeValue().hh}}:{{timeValue().mm}}:{{timeValue().ss}}</span>
       `,
     };
+  },
+};
+
+export const Compact: Story = {
+  ...Default,
+  args: {
+    ...Default.args,
+    isCompact: true,
   },
 };
 
@@ -136,6 +154,8 @@ export const ReadOnly: Story = {
           [isSecondReadOnly]="isSecondReadOnly"
           [value]="timeValue()"
           (valueChange)="onValueChange($event)"
+          [displaySeconds]="displaySeconds"
+          [placeholder]="placeholder"
         />
       `,
   }),
@@ -185,6 +205,8 @@ export const HourReadOnly: Story = {
           [isSecondReadOnly]="isSecondReadOnly"
           [value]="timeValue()"
           (valueChange)="onValueChange($event)"
+          [displaySeconds]="displaySeconds"
+          [placeholder]="placeholder"
         />
       `,
   }),
@@ -209,6 +231,9 @@ export const SecondReadOnly: Story = {
 export const AllSegmentsReadOnly: Story = {
   args: {
     ...Default.args,
+    isHourReadOnly: true,
+    isMinuteReadOnly: true,
+    isSecondReadOnly: true,
   },
   render: (args) => ({
     props: { args },
@@ -230,6 +255,8 @@ export const AllSegmentsReadOnly: Story = {
           [readOnly]="args.readOnly"
           [value]="{ hh: '12', mm: '30', ss: '45' }"
           [isHourReadOnly]="true"
+          [displaySeconds]="true"
+          [placeholder]="'Enter time'"
         />
         <rte-time-picker
           id="minute-read-only-time-picker"
@@ -247,6 +274,8 @@ export const AllSegmentsReadOnly: Story = {
           [readOnly]="args.readOnly"
           [value]="{ hh: '12', mm: '30', ss: '45' }"
           [isMinuteReadOnly]="true"
+          [displaySeconds]="true"
+          [placeholder]="'Enter time'"
         />
         <rte-time-picker
           id="second-read-only-time-picker"
@@ -264,6 +293,8 @@ export const AllSegmentsReadOnly: Story = {
           [readOnly]="args.readOnly"
           [value]="{ hh: '12', mm: '30', ss: '45' }"
           [isSecondReadOnly]="true"
+          [displaySeconds]="true"
+          [placeholder]="'Enter time'"
         />
       </div>
     `,
@@ -352,6 +383,8 @@ export const KeyboardInteractions: Story = {
           [secondIncrement]="secondIncrement"
           [value]="timeValue()"
           (valueChange)="onValueChange($event)"
+          [displaySeconds]="true"
+          [placeholder]="'Enter time'"
         />
       `,
     };

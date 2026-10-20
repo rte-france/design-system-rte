@@ -14,4 +14,8 @@ export interface TimePickerProps extends BaseInputProps<TimeFormat> {
   hourIncrement?: number;
   minuteIncrement?: number;
   secondIncrement?: number;
+  displaySeconds?: boolean;
+  placeholder?: string;
+  isCompact?: boolean;
+  showResetIcon?: boolean;
 }

@@ -1,6 +1,12 @@
 import { TIME_SEGMENT_MIN_VALUE, TIME_SEGMENT_ORDER, TimeSegmentEnum } from "./timepicker.constants";
 import type { TimeFormat } from "./timepicker.interface";
 
+type TimepickerUtilsConfig = {
+  vals: Record<TimeSegmentEnum, string>;
+  activeSegment: TimeSegmentEnum;
+  displaySeconds: boolean;
+};
+
 export const getIncreasedValueWithBounds = (current: number, max: number, increment: number): string => {
   const normalizedCurrent = isNaN(current) ? TIME_SEGMENT_MIN_VALUE : current;
 
@@ -47,23 +53,35 @@ export const getNextSegment = (seg: TimeSegmentEnum): TimeSegmentEnum =>
 export const getPrevSegment = (seg: TimeSegmentEnum): TimeSegmentEnum =>
   TIME_SEGMENT_ORDER[Math.max(TIME_SEGMENT_ORDER.indexOf(seg) - 1, 0)];
 
-export const canSwitchToNextSegment = (vals: Record<TimeSegmentEnum, string>, seg: TimeSegmentEnum): boolean => {
-  if (seg === TimeSegmentEnum.HOURS) {
+export const canSwitchToNextSegment = ({
+  vals,
+  activeSegment,
+  displaySeconds = false,
+}: TimepickerUtilsConfig): boolean => {
+  if (activeSegment === TimeSegmentEnum.HOURS) {
     return !!vals[TimeSegmentEnum.MINUTES];
   }
-  if (seg === TimeSegmentEnum.MINUTES) {
-    return !!vals[TimeSegmentEnum.SECONDS];
+  if (activeSegment === TimeSegmentEnum.MINUTES) {
+    return !!vals[TimeSegmentEnum.SECONDS] && displaySeconds;
   }
   return true;
 };
 
-export const buildDisplayValue = (vals: Record<TimeSegmentEnum, string>, activeSegment: TimeSegmentEnum): string => {
-  let result = vals[TimeSegmentEnum.HOURS];
-  if (activeSegment !== TimeSegmentEnum.HOURS || vals[TimeSegmentEnum.MINUTES]) {
-    result += " : " + vals[TimeSegmentEnum.MINUTES];
+export const buildDisplayValue = ({ vals, activeSegment, displaySeconds = false }: TimepickerUtilsConfig): string => {
+  const hourValue = vals[TimeSegmentEnum.HOURS];
+  const minuteValue = vals[TimeSegmentEnum.MINUTES];
+  const secondValue = vals[TimeSegmentEnum.SECONDS];
+  let result = hourValue;
+
+  if (hourValue === "" && minuteValue === "" && (!displaySeconds || secondValue === "")) {
+    return "";
   }
-  if (activeSegment === TimeSegmentEnum.SECONDS || vals[TimeSegmentEnum.SECONDS]) {
-    result += " : " + vals[TimeSegmentEnum.SECONDS];
+
+  if (activeSegment !== TimeSegmentEnum.HOURS || minuteValue) {
+    result += " : " + minuteValue;
+  }
+  if (displaySeconds && (activeSegment === TimeSegmentEnum.SECONDS || secondValue)) {
+    result += " : " + secondValue;
   }
   return result;
 };
