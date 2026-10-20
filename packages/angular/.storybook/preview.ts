@@ -79,7 +79,7 @@ const preview: Preview = {
         `;
       },
       ({ context }) => {
-        const noAutoMarginStoriesIds = ["composants-header", "sidenav"];
+        const noAutoMarginStoriesIds = ["composants-header", "sidenav", "dsr-1005"];
         const topBottomMarginStoriesIds = ["composants-grid"];
         const noPaddingStoriesIds = ["composants-header"];
         const noMarginTopStoriesIds = ["composants-loader"];

@@ -1,0 +1,45 @@
+:host {
+  flex: 1;
+  display: block;
+}
+
+.card-pagination-entite {
+  &__body {
+    width: 100%;
+    height: 100%;
+  }
+
+  &__title {
+    font-family: var(--heading-s-semibold-font-family), serif;
+    font-size: var(--heading-s-semibold-font-size);
+    font-style: normal;
+    font-weight: var(--heading-s-semibold-font-weight);
+    line-height: var(--heading-s-semibold-line-height);
+    letter-spacing: var(--heading-s-semibold-letter-spacing);
+  }
+
+  &__quantite {
+    font-family: var(--text-s-regular-font-family), serif;
+    font-size: var(--text-s-regular-font-size);
+    font-style: normal;
+    font-weight: var(--text-s-regular-font-weight);
+    line-height: var(--text-s-regular-line-height);
+    letter-spacing: var(--text-s-regular-letter-spacing);
+    margin-bottom: var(--positive-spacing_200);
+  }
+
+  &__selectors {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  &__link {
+    text-decoration: none;
+    color: inherit;
+  }
+}
+
+.card-pagination-entite__header {
+  margin-bottom: var(--positive-spacing_200);
+}
