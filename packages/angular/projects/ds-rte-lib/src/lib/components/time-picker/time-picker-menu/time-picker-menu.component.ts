@@ -17,6 +17,7 @@ export class TimePickerMenuComponent {
   readonly isHourReadOnly = input<boolean>(false);
   readonly isMinuteReadOnly = input<boolean>(false);
   readonly isSecondReadOnly = input<boolean>(false);
+  readonly displaySeconds = input<boolean>(true);
 
   readonly hoursValueChange = output<string>();
   readonly minutesValueChange = output<string>();

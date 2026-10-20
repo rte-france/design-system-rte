@@ -1,6 +1,7 @@
 @use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
 
 $height: 32px;
+$compact-height: 24px;
 $width: 176px;
 
 .rte-base-input-picker {
@@ -16,6 +17,18 @@ $width: 176px;
   border-radius: $radius-s;
   border: $width-xs solid var(--border-secondary);
   @include neutral-inner-shadow;
+  gap: $positive-spacing_050;
+
+  &[data-is-compact="true"] {
+    min-height: $compact-height;
+    max-height: $compact-height;
+    padding: 0 $positive-spacing_100;
+  }
+
+  .reset-icon {
+    color: var(--content-secondary);
+
+  }
 
   .error-icon {
     padding: 0;
@@ -88,13 +101,17 @@ $width: 176px;
   .rte-base-input-picker-input {
     display: flex;
     height: 100%;
-    padding: 0 $positive-spacing_100;
+    padding: 0 0 0 $positive-spacing_100;
     align-items: center;
     flex: 1 0 0;
     border: none;
     width: 100%;
     background: transparent;
     color: var(--content-primary);
+
+    &::placeholder {
+      color: var(--content-disabled);
+    }
 
     &:focus {
       outline: none;
