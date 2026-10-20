@@ -10,6 +10,7 @@ import {
   TIME_SEGMENT_MAX_FIRST_DIGIT,
   TIME_SEGMENT_MAX_VALUE,
   TIME_SEGMENT_ORDER,
+  TimeSegmentEnum,
   buildDisplayValue,
   canSwitchToNextSegment,
   computeTimeSegmentRanges,
@@ -39,7 +40,7 @@ const [HOURS_SEGMENT, MINUTES_SEGMENT, SECONDS_SEGMENT] = TIME_SEGMENT_ORDER;
 interface TimePickerProps
   extends
     coreTimePickerProps,
-    Omit<React.InputHTMLAttributes<HTMLInputElement>, "id" | "onChange" | "value" | "defaultValue" | "placeholder"> {}
+    Omit<React.InputHTMLAttributes<HTMLInputElement>, "id" | "onChange" | "value" | "defaultValue"> {}
 
 const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
   (
@@ -67,6 +68,10 @@ const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
       hourIncrement = 1,
       minuteIncrement = 1,
       secondIncrement = 1,
+      displaySeconds = true,
+      placeholder,
+      isCompact = false,
+      showResetIcon = false,
     }: TimePickerProps,
     ref,
   ) => {
@@ -104,6 +109,7 @@ const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
       decreaseSeconds,
       increaseHours,
       decreaseHours,
+      resetValue,
     } = useTimePickerInternalValue(
       currentValue,
       {
@@ -115,7 +121,12 @@ const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
     );
 
     useFocusTrap(timePickerDropdownElement!, isOpen);
-    const displayValue = buildDisplayValue(internalTimeValue, activeTimeSegment);
+
+    const displayValue = buildDisplayValue({
+      vals: internalTimeValue,
+      activeSegment: activeTimeSegment,
+      displaySeconds,
+    });
 
     const shouldOpenDropdown = isOpen && !disabled;
     const computedAssistiveTextLabel = isError ? errorMessage || assistiveTextLabel : assistiveTextLabel;
@@ -202,7 +213,7 @@ const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
       }
 
       if (key === ARROW_RIGHT_KEY) {
-        if (canSwitchToNextSegment(internalTimeValue, activeTimeSegment)) {
+        if (canSwitchToNextSegment({ vals: internalTimeValue, activeSegment: activeTimeSegment, displaySeconds })) {
           moveToNextSegment();
           requestAnimationFrame(() => {
             requestAnimationFrame(() => {
@@ -232,6 +243,13 @@ const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
         selectActiveSegment();
         return;
       } else {
+        if (!displaySeconds) {
+          updateTimeSegment(TimeSegmentEnum.SECONDS, "00");
+          if (activeTimeSegment === TimeSegmentEnum.SECONDS) {
+            return;
+          }
+        }
+
         const currentActiveTimeSegmentValue = internalTimeValue[activeTimeSegment];
 
         if (currentActiveTimeSegmentValue.length >= 2) {
@@ -242,10 +260,16 @@ const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
 
           if (currentActiveTimeSegmentValue.length === 0 && Number(key) > maxFirstDigit) {
             updateTimeSegment(activeTimeSegment, formatNumberToDigitValue(Number(key)));
+            if (activeTimeSegment === TimeSegmentEnum.MINUTES && !displaySeconds) {
+              return;
+            }
             moveToNextSegment();
           } else if (next.length === 2) {
             const clamped = formatNumberToDigitValue(Math.min(Number(next), TIME_SEGMENT_MAX_VALUE[activeTimeSegment]));
             updateTimeSegment(activeTimeSegment, clamped);
+            if (activeTimeSegment === TimeSegmentEnum.MINUTES && !displaySeconds) {
+              return;
+            }
             moveToNextSegment();
           } else {
             updateTimeSegment(activeTimeSegment, formatNumberToDigitValue(Number(key)));
@@ -257,6 +281,7 @@ const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
     const handleDeleteSegmentValue = () => {
       if (internalTimeValue[activeTimeSegment] !== "") {
         updateTimeSegment(activeTimeSegment, "");
+        resetHiddenSecondsIfLastVisibleValueRemoved({ [activeTimeSegment]: "" });
       } else {
         const prev = getPrevSegment(activeTimeSegment);
         if (prev !== activeTimeSegment) {
@@ -264,8 +289,16 @@ const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
             return;
           }
           updateTimeSegment(prev, "");
+          resetHiddenSecondsIfLastVisibleValueRemoved({ [prev]: "" });
           moveToPreviousSegment();
         }
+      }
+    };
+
+    const resetHiddenSecondsIfLastVisibleValueRemoved = (updatedValue: Partial<TimeFormat>) => {
+      const nextValue = { ...internalTimeValue, ...updatedValue };
+      if (!displaySeconds && nextValue.hh === "" && nextValue.mm === "" && nextValue.ss !== "") {
+        updateTimeSegment(TimeSegmentEnum.SECONDS, "");
       }
     };
 
@@ -281,6 +314,9 @@ const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
             Math.min(Number(newValue), TIME_SEGMENT_MAX_VALUE[activeTimeSegment]),
           );
           updateTimeSegment(activeTimeSegment, formattedDigitValue);
+          if (activeTimeSegment === TimeSegmentEnum.MINUTES && !displaySeconds) {
+            return;
+          }
           moveToNextSegment();
         } else {
           updateTimeSegment(activeTimeSegment, key);
@@ -291,6 +327,9 @@ const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
           Math.min(newValue, TIME_SEGMENT_MAX_VALUE[activeTimeSegment]),
         );
         updateTimeSegment(activeTimeSegment, formattedDigitValue);
+        if (activeTimeSegment === TimeSegmentEnum.MINUTES && !displaySeconds) {
+          return;
+        }
         moveToNextSegment();
       }
     };
@@ -347,6 +386,11 @@ const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
     const handleOnCloseTimePicker = () => {
       setIsOpen(false);
       blurTimePicker();
+    };
+
+    const handleOnClickReset = () => {
+      resetValue();
+      setActiveTimeSegment(HOURS_SEGMENT);
     };
 
     const selectActiveSegment = useCallback(() => {
@@ -420,7 +464,11 @@ const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
               isError={isError}
               disabled={disabled}
               onChange={() => {}}
+              onClickReset={handleOnClickReset}
               openButtonAriaLabel="Open time picker dropdown"
+              placeholder={placeholder}
+              isCompact={isCompact}
+              showResetIcon={showResetIcon}
             />
           }
           isOpen={shouldOpenDropdown}
@@ -443,18 +491,20 @@ const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
               increase={increaseMinutes}
               decrease={decreaseMinutes}
               unit="m"
-              withSeparator
+              withSeparator={displaySeconds}
               readOnly={isMinuteReadOnly}
             />
-            <TimePickerDigit
-              value={internalTimeValue.ss}
-              onChange={handleOnChangeSeconds}
-              onKeyDown={handleOnKeyDownSeconds}
-              increase={increaseSeconds}
-              decrease={decreaseSeconds}
-              unit="s"
-              readOnly={isSecondReadOnly}
-            />
+            {displaySeconds && (
+              <TimePickerDigit
+                value={internalTimeValue.ss}
+                onChange={handleOnChangeSeconds}
+                onKeyDown={handleOnKeyDownSeconds}
+                increase={increaseSeconds}
+                decrease={decreaseSeconds}
+                unit="s"
+                readOnly={isSecondReadOnly}
+              />
+            )}
           </div>
         </Dropdown>
         {computedAssistiveTextLabel && !isOpen && (
