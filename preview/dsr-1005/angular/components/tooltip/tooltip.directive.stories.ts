@@ -1,9 +1,31 @@
-import { Meta, StoryObj } from "@storybook/angular";
+import { Meta, moduleMetadata, StoryObj } from "@storybook/angular";
 import { within, userEvent, expect, waitFor } from "@storybook/test";
 
 import { focusElementBeforeComponent } from "../../../../../../.storybook/testing/testing.utils";
 
+import { Dsr1005CanonicalPaginationComponent } from "./stories/dsr-1005-canonical-pagination.component";
+import { Dsr1005EntiteListPanelComponent } from "./stories/dsr-1005-entite-list-panel.component";
+import { CORESSY_DSR1005_ENTITIES } from "./stories/dsr-1005-story.constants";
+import { Dsr1005TriggerPositionDebugComponent } from "./stories/dsr-1005-trigger-position-debug.component";
 import { TooltipDirective } from "./tooltip.directive";
+
+const dsr1005StoryDecorators = [
+  moduleMetadata({
+    imports: [Dsr1005EntiteListPanelComponent],
+  }),
+];
+
+const dsr1005CanonicalDecorators = [
+  moduleMetadata({
+    imports: [Dsr1005CanonicalPaginationComponent],
+  }),
+];
+
+const dsr1005DebugDecorators = [
+  moduleMetadata({
+    imports: [Dsr1005TriggerPositionDebugComponent],
+  }),
+];
 
 const meta: Meta<TooltipDirective> = {
   title: "Composants/Tooltip",
@@ -194,6 +216,136 @@ export const AutoPlacement: Story = {
             </div>
         </div>
         `,
+  }),
+};
+
+export const CoressyCanonicalPaginationDSR1005: Story = {
+  name: "DSR-1005 Coressy canonical (paginated card + link)",
+  decorators: dsr1005CanonicalDecorators,
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "Canonical Coressy stack: `card-pagination-entite` selectors, `<a routerLink>` → `app-entite-list-item`, " +
+          "tooltip on `entite-list-item__container`, `__container { display: block }`, host `flex: 1`.",
+      },
+    },
+  },
+  render: () => ({
+    template: `<dsr-1005-canonical-pagination [entities]="entities" [selectedIndex]="2" />`,
+    props: { entities: CORESSY_DSR1005_ENTITIES },
+  }),
+};
+
+/** Keeps Storybook id `composants-tooltip--wide-row-trigger-dsr-1005` for saved URLs. */
+export const WideRowTriggerDSR1005: Story = CoressyCanonicalPaginationDSR1005;
+
+export const CoressyTriggerPositionDebugDSR1005: Story = {
+  name: "DSR-1005 debug trigger position relative",
+  decorators: dsr1005DebugDecorators,
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "Debug whether `rteTooltip` misplacement correlates with `position: relative` on the trigger " +
+          "(`positionTooltip()` in the directive). Hover a list row and read `triggerPosition`, rects, and " +
+          "`gapTriggerTopToTooltipBottom`. Compare static rows A vs B (relative without tooltip).",
+      },
+    },
+  },
+  render: () => ({
+    template: `<dsr-1005-trigger-position-debug />`,
+  }),
+};
+
+export const CoressyEntiteListDSR1005: Story = CoressyCanonicalPaginationDSR1005;
+
+export const CoressyEntiteListScrollDSR1005: Story = {
+  name: "DSR-1005 Coressy list (scroll)",
+  decorators: dsr1005StoryDecorators,
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "Same Coressy layout inside a scrollable list (`overflow: auto`). Scroll the list, then hover a row: " +
+          "misplacement can appear when the page or panel scrolls because `rteTooltip` only listens to `window` scroll.",
+      },
+    },
+  },
+  render: () => ({
+    template: `<dsr-1005-entite-list-panel [entities]="entities" [scrollable]="true" [selectedIndex]="2" />`,
+    props: {
+      entities: [
+        ...CORESSY_DSR1005_ENTITIES,
+        { code: "EDA-0200", type: "EDA" },
+        { code: "EDA-0201", type: "EDA" },
+        { code: "EDR-0099", type: "EDR" },
+      ],
+    },
+  }),
+};
+
+export const CoressyEntiteListInsideLinkDSR1005: Story = {
+  name: "DSR-1005 Coressy list (router link)",
+  decorators: dsr1005StoryDecorators,
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "Same as Coressy: each `app-entite-list-item` is wrapped in `<a [routerLink]>`. " +
+          "The tooltip stays on `entite-list-item__container` while the outer `<a>` is the navigation target " +
+          "(nested focusable + flex stretch on links can change layout vs a bare row).",
+      },
+    },
+  },
+  render: () => ({
+    template: `<dsr-1005-entite-list-panel [entities]="entities" [wrapWithRouterLink]="true" [selectedIndex]="2" />`,
+    props: { entities: CORESSY_DSR1005_ENTITIES },
+  }),
+};
+
+export const CoressyEntiteListInsideLinkStretchDSR1005: Story = {
+  name: "DSR-1005 Coressy list (router link stretch)",
+  decorators: dsr1005StoryDecorators,
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "Router link wrapper with tall flex children (`flex: 1`, `justify-content: flex-end`) to mimic paginated card selectors.",
+      },
+    },
+  },
+  render: () => ({
+    template: `<dsr-1005-entite-list-panel
+      [entities]="entities"
+      [wrapWithRouterLink]="true"
+      [linkStretch]="true"
+      [selectedIndex]="2"
+    />`,
+    props: { entities: CORESSY_DSR1005_ENTITIES },
+  }),
+};
+
+export const CoressyEntiteListStretchDSR1005: Story = {
+  name: "DSR-1005 Coressy list (flex stretch)",
+  decorators: dsr1005StoryDecorators,
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "List with extra height so each item host (`:host { flex: 1 }`) stretches like a flex child in a tall sidebar column.",
+      },
+    },
+  },
+  render: () => ({
+    template: `<dsr-1005-entite-list-panel [entities]="entities" [stretchList]="true" [selectedIndex]="2" />`,
+    props: { entities: CORESSY_DSR1005_ENTITIES },
   }),
 };
 
