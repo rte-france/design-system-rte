@@ -163,6 +163,14 @@
                         outline-offset: 2px;
                         border-radius: $radius-s;
                     }
+
+                    ::ng-deep button.rte-icon-button {
+                        width: 24px;
+                        height: 24px;
+                        justify-content: center;
+                        align-items: center;
+                        margin-right: -2px;
+                    }
                 }
 
                 &:has(.input-field--projected) .right-icon {
