@@ -98,32 +98,34 @@
   </div>
 </div>
 @if (hasChildren()) {
-  <ul class="treeview-item-children" role="group" [class.treeview-item-children-open]="isOpenSignal()">
-    @for (child of items(); track trackChild(child); let childIndex = $index) {
-      <li
-        rteTreeviewItem
-        [rootItems]="rootItems()"
-        [treeId]="treeId()"
-        [nodePath]="nodePath().concat(childIndex)"
-        [id]="child.id"
-        [labelText]="child.labelText"
-        [icon]="child.icon"
-        [disabled]="child.disabled ?? false"
-        [isCompact]="child.isCompact ?? isCompact()"
-        [hasCheckbox]="child.hasCheckbox ?? hasCheckbox()"
-        [isOpen]="child.isOpen ?? false"
-        [hasBadge]="child.hasBadge ?? false"
-        [items]="child.items ?? []"
-        [actionIcon]="child.actionIcon"
-        [actionMenuItems]="child.actionMenuItems"
-        [depth]="effectiveDepth() + 1"
-        [isLastChild]="childIndex === items().length - 1"
-        [borderTypes]="getChildBorderTypes(childIndex === items().length - 1)"
-        (itemClick)="itemClick.emit($event)"
-        (openChange)="openChange.emit($event)"
-        (actionIconClick)="actionIconClick.emit($event)"
-        (actionMenuClick)="actionMenuClick.emit($event)"
-      ></li>
-    }
-  </ul>
+  <div class="treeview-item-children" role="group" [class.treeview-item-children-open]="isOpenSignal()">
+    <ul class="treeview-item-children-list">
+      @for (child of items(); track trackChild(child); let childIndex = $index) {
+        <li
+          rteTreeviewItem
+          [rootItems]="rootItems()"
+          [treeId]="treeId()"
+          [nodePath]="nodePath().concat(childIndex)"
+          [id]="child.id"
+          [labelText]="child.labelText"
+          [icon]="child.icon"
+          [disabled]="child.disabled ?? false"
+          [isCompact]="child.isCompact ?? isCompact()"
+          [hasCheckbox]="child.hasCheckbox ?? hasCheckbox()"
+          [isOpen]="child.isOpen ?? false"
+          [hasBadge]="child.hasBadge ?? false"
+          [items]="child.items ?? []"
+          [actionIcon]="child.actionIcon"
+          [actionMenuItems]="child.actionMenuItems"
+          [depth]="effectiveDepth() + 1"
+          [isLastChild]="childIndex === items().length - 1"
+          [borderTypes]="getChildBorderTypes(childIndex === items().length - 1)"
+          (itemClick)="itemClick.emit($event)"
+          (openChange)="openChange.emit($event)"
+          (actionIconClick)="actionIconClick.emit($event)"
+          (actionMenuClick)="actionMenuClick.emit($event)"
+        ></li>
+      }
+    </ul>
+  </div>
 }

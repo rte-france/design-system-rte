@@ -11,9 +11,11 @@
     type="checkbox"
     role="switch"
     class="switch"
+    [id]="computedSwitchId()"
     [attr.aria-checked]="isChecked()"
-    [attr.aria-label]="label()"
+    [attr.aria-label]="ariaLabel()"
     [attr.aria-disabled]="isDisabled()"
+    [attr.aria-labelledby]="ariaLabelledBy()"
     [attr.aria-readonly]="readOnly()"
     [ariaLabel]="label()"
     [name]="label()"
@@ -38,8 +40,8 @@
       ></rte-icon>
     }
   </div>
-  @if (showLabel() && label()) {
-    <label class="switch-label" [for]="label()">
+  @if (label()) {
+    <label class="switch-label" [for]="computedSwitchId()">
       {{ label() }}
     </label>
   }

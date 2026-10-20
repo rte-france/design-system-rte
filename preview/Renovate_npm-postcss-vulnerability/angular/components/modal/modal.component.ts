@@ -1,20 +1,23 @@
 import { CommonModule } from "@angular/common";
 import {
+  afterNextRender,
   Component,
+  ComponentRef,
   ElementRef,
-  input,
-  TemplateRef,
-  OnDestroy,
-  viewChild,
-  AfterViewInit,
-  output,
   inject,
+  Injector,
+  input,
+  OnDestroy,
+  output,
   signal,
+  TemplateRef,
+  viewChild,
 } from "@angular/core";
 import { Size } from "@design-system-rte/core/components/common/common-types";
 import { IconSize } from "@design-system-rte/core/components/icon/icon.constants";
 
 import { FocusTrapService } from "../../services/focus-trap.service";
+import { OverlayService } from "../../services/overlay.service";
 import { ButtonComponent } from "../button/button.component";
 import { DividerComponent } from "../divider/divider.component";
 import { IconComponent } from "../icon/icon.component";
@@ -26,7 +29,7 @@ import { IconButtonComponent } from "../icon-button/icon-button.component";
   templateUrl: "./modal.component.html",
   styleUrl: "./modal.component.scss",
 })
-export class ModalComponent implements AfterViewInit, OnDestroy {
+export class ModalComponent implements OnDestroy {
   readonly id = input<string | undefined>();
   readonly icon = input<string | undefined>();
   readonly iconAppearance = input<"outlined" | "filled">("outlined");
@@ -37,6 +40,7 @@ export class ModalComponent implements AfterViewInit, OnDestroy {
   readonly size = input<Size>("m");
   readonly ariaDescribedby = input<string | undefined>(undefined);
   readonly closeOnClickOutside = input<boolean>(true);
+  readonly restoreFocusTo = input<HTMLElement | null>(null);
 
   readonly primaryButton = input<TemplateRef<ButtonComponent> | null>(null);
   readonly secondaryButton = input<TemplateRef<ButtonComponent> | null>(null);
@@ -44,23 +48,40 @@ export class ModalComponent implements AfterViewInit, OnDestroy {
 
   private readonly elementRef = viewChild<ElementRef<HTMLDivElement>>("modal");
 
-  private focusTrap = inject(FocusTrapService);
+  backdropOwnerRef: ComponentRef<unknown> | null = null;
 
-  constructor() {}
+  private focusTrap = inject(FocusTrapService);
+  private overlayService = inject(OverlayService);
+  private injector = inject(Injector);
+  private focusTrapActive = false;
+
+  constructor() {
+    afterNextRender(
+      () => {
+        const native = this.elementRef()?.nativeElement;
+        if (native && !this.focusTrapActive) {
+          this.focusTrap.activate(native, {
+            restoreFocusTo: this.restoreFocusTo() ?? undefined,
+          });
+          this.focusTrapActive = true;
+          if (this.backdropOwnerRef) {
+            this.overlayService.applyBackdrop(this.backdropOwnerRef);
+          }
+        }
+      },
+      { injector: this.injector },
+    );
+  }
 
   readonly closeModal = output<void>();
 
   readonly iconSize = signal(IconSize["xl"]);
 
-  ngAfterViewInit() {
-    const native = this.elementRef()?.nativeElement;
-    if (native) {
-      this.focusTrap.activate(native);
-    }
-  }
-
   ngOnDestroy() {
-    this.focusTrap.deactivate();
+    if (this.focusTrapActive) {
+      this.focusTrap.deactivate();
+      this.focusTrapActive = false;
+    }
   }
 
   onClose() {

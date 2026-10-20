@@ -79,6 +79,8 @@ export class SideNavComponent {
   readonly items = input<NavItem[]>([]);
   readonly footerItems = input<NavItem[] | undefined>();
   readonly isCollapsed = input<boolean>(false);
+  readonly openCollapseText = input<string>("Ouvrir le menu");
+  readonly closeCollapseText = input<string>("Réduire le menu");
   readonly appearance = input<SideNavAppearance>("brand");
   readonly contrast = input<SideNavContrast>("high");
   readonly ariaLabel = input<string>(SIDENAV_DEFAULT_NAV_ARIA_LABEL);
@@ -167,7 +169,9 @@ export class SideNavComponent {
     return this.collapsedState() ? "arrow-double-right" : "arrow-double-left";
   });
 
-  readonly collapseButtonLabel = computed(() => (this.collapsedState() ? "Ouvrir le menu" : "Réduire le menu"));
+  readonly collapseButtonLabel = computed(() =>
+    this.collapsedState() ? this.openCollapseText() : this.closeCollapseText(),
+  );
 
   readonly collapseButtonIconSize = computed(() => getNavItemLabelIconSize(false, this.collapsedState()));
 

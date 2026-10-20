@@ -7,6 +7,8 @@ The `rte-side-nav` component is the public API. Consumers configure navigation t
 | contrast | `"low" \| "high"` | `"high"` | Contrast level paired with `appearance`. |
 | collapsible | boolean | `false` | Shows a footer control to collapse and expand the panel. |
 | isCollapsed | boolean | `false` | Initial or controlled collapsed state. |
+| openCollapseText | string | `"Ouvrir le menu"` | Label used by the collapse control when the panel is collapsed. |
+| closeCollapseText | string | `"Réduire le menu"` | Label used by the collapse control when the panel is expanded. |
 | headerConfig | `SideNavHeaderConfig` | — | Header area configuration (title, identifier, version, link). |
 | items | `NavItem[]` | `[]` | Primary navigation items. |
 | footerItems | `NavItem[]` | — | Optional footer navigation items. |
