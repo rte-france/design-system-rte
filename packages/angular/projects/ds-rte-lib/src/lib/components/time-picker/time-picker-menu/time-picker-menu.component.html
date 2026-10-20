@@ -63,9 +63,9 @@
       </div>
       <span>m</span>
     </div>
-    <span class="rte-time-picker-segment-separator">:</span>
+    <span *ngIf="displaySeconds()" class="rte-time-picker-segment-separator">:</span>
   </div>
-  <div class="rte-time-picker-segment-root">
+  <div *ngIf="displaySeconds()" class="rte-time-picker-segment-root">
     <div class="rte-time-picker-segment-container">
       <div class="rte-time-picker-segment-controls">
         <button

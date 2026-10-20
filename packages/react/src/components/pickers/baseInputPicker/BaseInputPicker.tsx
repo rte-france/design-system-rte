@@ -1,11 +1,13 @@
 import type { BaseInputProps } from "@design-system-rte/core/components/common/input/input.interface";
 
 import Icon from "../../icon/Icon";
+import IconButton from "../../iconButton/IconButton";
 
 import styles from "./BaseInputPicker.module.scss";
 
 export interface BaseInputPickerProps extends BaseInputProps<string> {
   onChange?: () => void;
+  onClickReset?: () => void;
   icon?: string;
   isFocused?: boolean;
   pickerInputRef?: React.RefObject<HTMLInputElement> | ((element: HTMLInputElement) => void);
@@ -22,6 +24,9 @@ export interface BaseInputPickerProps extends BaseInputProps<string> {
   openButtonAriaLabel?: string;
   fixedWidth?: boolean;
   required?: boolean;
+  isCompact?: boolean;
+  placeholder?: string;
+  showResetIcon?: boolean;
 }
 
 const BaseInputPicker = ({
@@ -35,6 +40,7 @@ const BaseInputPicker = ({
   onMouseUp,
   onMouseDown,
   onOpenPicker,
+  onClickReset,
   onBlur,
   isFocused,
   pickerInputRef,
@@ -47,9 +53,16 @@ const BaseInputPicker = ({
   openButtonAriaLabel,
   fixedWidth = true,
   required,
+  isCompact = false,
+  placeholder,
+  showResetIcon = true,
 }: BaseInputPickerProps) => {
   const canInteractWithPicker = !disabled && !readOnly;
   const canBeFocused = canInteractWithPicker && isFocused;
+
+  const shouldDisplayPlaceholder = placeholder && !(disabled || readOnly);
+
+  const shouldDisplayResetIcon = showResetIcon && !!value && canInteractWithPicker;
 
   return (
     <>
@@ -63,6 +76,7 @@ const BaseInputPicker = ({
         data-is-disabled={disabled || undefined}
         data-is-read-only={readOnly || undefined}
         data-fixed-width={fixedWidth || undefined}
+        data-is-compact={isCompact || undefined}
       >
         {isError && <Icon name="error" className={styles["error-icon"]} />}
         <input
@@ -85,7 +99,18 @@ const BaseInputPicker = ({
           onChange={onChange}
           aria-required={required || undefined}
           aria-invalid={isError || undefined}
+          placeholder={shouldDisplayPlaceholder ? placeholder : undefined}
         />
+        {shouldDisplayResetIcon && (
+          <IconButton
+            color="var(--content-secondary)"
+            name="cancel"
+            className={styles["reset-icon"]}
+            variant="neutral"
+            size="s"
+            onClick={onClickReset}
+          />
+        )}
         <button
           ref={openButtonRef}
           onClick={canInteractWithPicker ? onOpenPicker : undefined}

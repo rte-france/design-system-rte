@@ -16,6 +16,15 @@ const meta = {
       options: ["description", "success", "error"],
       control: { type: "radio" },
     },
+    placeholder: {
+      control: { type: "text" },
+    },
+    isCompact: {
+      control: { type: "boolean" },
+    },
+    showResetIcon: {
+      control: { type: "boolean" },
+    },
   },
 } satisfies Meta<typeof TimePicker>;
 
@@ -40,16 +49,23 @@ export const Default: Story = {
     isHourReadOnly: false,
     isMinuteReadOnly: false,
     isSecondReadOnly: false,
+    displaySeconds: true,
+    placeholder: "Enter time",
+    isCompact: false,
+    showResetIcon: false,
   },
 
   render: (args) => {
     const [value, setValue] = useState<TimeFormat>({ hh: "", mm: "", ss: "" });
 
-    return (
-      <>
-        <TimePicker {...args} id="time-picker" value={value} onChange={setValue} />
-      </>
-    );
+    return <TimePicker {...args} id="time-picker" value={value} onChange={setValue} />;
+  },
+};
+
+export const Compact: Story = {
+  args: {
+    ...Default.args,
+    isCompact: true,
   },
 };
 
