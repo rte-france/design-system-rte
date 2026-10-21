@@ -1,10 +1,10 @@
 | Nom             | Type                                                                                      | Valeur par défaut | Déprécié | Description                                                                                                                                 |
 | --------------- | ----------------------------------------------------------------------------------------- | ----------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| appearance      | "brand" \| "neutral" \| "outlined" \| "filled"                                            | "brand" (shell)   | Partiel  | Shell : `brand` ou `neutral`. Valeurs `outlined` / `filled` : alias déprécié du style d’icône — préférer `iconAppearance`.                  |
-| hierarchy       | "primary" \| "secondary" \| "text" \| "transparent"                                       | "primary"         | —        | Hiérarchie visuelle dans l’apparence du shell.                                                                                              |
-| isCritical      | boolean                                                                                   | false             | —        | Style critique/destructeur (Figma : `brand` + `primary` uniquement).                                                                        |
-| isReversed      | boolean                                                                                   | false             | —        | Couleurs inversées pour fonds contrastés (Figma : `brand` + `transparent`).                                                                 |
-| iconAppearance  | "filled" \| "outlined"                                                                    | "outlined"        | —        | Style du glyphe d’icône (icônes togglables ; Figma `iconAppearance`).                                                                          |
+| appearance      | "brand" \| "neutral" \| "outlined" \| "filled"                                            | -                 | Partiel  | Apparence du bouton : `brand` ou `neutral`. Valeurs `outlined` / `filled` : alias déprécié du glyphe — préférer `iconAppearance`. Si omis, dérivé de `variant`. |
+| hierarchy       | "primary" \| "secondary" \| "text" \| "transparent"                                       | -                 | —        | Hiérarchie visuelle du bouton. Si omise, dérivée de `variant` (défaut `primary`).                                                          |
+| isCritical      | boolean                                                                                   | -                 | —        | Style critique/destructeur (`brand` + `primary`). Si omis, dérivé de `variant`.                                                             |
+| isReversed      | boolean                                                                                   | -                 | —        | Couleurs inversées (`brand` + `transparent`). Si omis, dérivé de `variant`.                                                                 |
+| iconAppearance  | "filled" \| "outlined"                                                                    | -                 | —        | Style du glyphe (icônes togglables ; Figma `iconAppearance`). Défaut effectif : `outlined`.                                                 |
 | name            | RegularIconIdKey \| TogglableIconIdKey                                                    | —                 | —        | Nom de l’icône à afficher.                                                                                                                  |
 | size            | "s" \| "m" \| "l"                                                                         | "m"               | —        | Taille du bouton.                                                                                                                           |
 | compactSpacing  | boolean                                                                                   | false             | —        | Espacement compact (Figma `isCompact`).                                                                                                     |
@@ -23,16 +23,29 @@
 | clickEvent      | output\<MouseEvent \| KeyboardEvent\>                                                     | -                 | —        | Émis au clic ou à l’activation clavier.                                                                                                     |
 | variant         | "primary" \| "secondary" \| "text" \| "transparent" \| "danger" \| "neutral" \| "reverse" | "primary"         | Oui      | Alias visuel plat déprécié. Préférer `appearance`, `hierarchy`, `isCritical` et `isReversed`.                                             |
 
-L’Icon Button n’expose pas `hierarchy="outlined"` : le neutral à bordure correspond à `appearance="neutral"` + `hierarchy="secondary"`.
+Sans props de style explicites, le rendu par défaut correspond à `variant="primary"` : bouton `brand` + `primary`, glyphe `outlined`.
+
+L’Icon Button n’expose pas `hierarchy="outlined"`. Le neutral à bordure correspond à `appearance="neutral"` + `hierarchy="secondary"`. `appearance="outlined"` sur l’Icon Button ne décrit pas l’apparence du bouton : c’est l’alias déprécié du glyphe (voir ci-dessous).
 
 ### Migration depuis `variant`
 
 | `variant` déprécié | Utiliser à la place |
 | ------------------ | ------------------- |
 | `primary` | `appearance="brand"` + `hierarchy="primary"` |
-| `secondary` / `text` / `transparent` | `appearance="brand"` + `hierarchy` correspondant |
+| `secondary` | `appearance="brand"` + `hierarchy="secondary"` |
+| `text` | `appearance="brand"` + `hierarchy="text"` |
+| `transparent` | `appearance="brand"` + `hierarchy="transparent"` |
 | `danger` | `appearance="brand"` + `hierarchy="primary"` + `[isCritical]="true"` |
 | `reverse` | `appearance="brand"` + `hierarchy="transparent"` + `[isReversed]="true"` |
-| `neutral` | `appearance="neutral"` + `hierarchy="text"` (neutral historique) |
+| `neutral` | `appearance="neutral"` + `hierarchy="transparent"` |
 
 Si `variant` et les nouvelles propriétés sont définis en même temps, les nouvelles propriétés explicites priment axe par axe.
+
+### Migration depuis `appearance` (alias icône)
+
+Ces valeurs n’affectent que le **glyphe**, pas l’apparence du bouton.
+
+| `appearance` déprécié | Utiliser à la place |
+| --------------------- | ------------------- |
+| `"outlined"` | `iconAppearance="outlined"` |
+| `"filled"` | `iconAppearance="filled"` |

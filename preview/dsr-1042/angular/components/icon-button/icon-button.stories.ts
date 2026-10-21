@@ -2,13 +2,14 @@ import {
   TESTING_ENTER_KEY,
   TESTING_SPACE_KEY,
 } from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
-import { Meta, StoryObj } from "@storybook/angular";
+import { Meta, StoryObj, moduleMetadata } from "@storybook/angular";
 import { fn, userEvent, within, expect } from "@storybook/test";
 
 import { focusElementBeforeComponent } from "../../../../../../.storybook/testing/testing.utils";
 import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../icon/icon-map";
 
 import { IconButtonComponent } from "./icon-button.component";
+import { IconButtonVariantGridComponent } from "./stories/icon-button-variant-grid.component";
 
 const RegularIconIds = Object.keys(RegularIconsList);
 const TogglableIconIds = Object.keys(TogglableIconsList);
@@ -27,7 +28,7 @@ const meta = {
     appearance: {
       control: "select",
       options: ["brand", "neutral", "outlined", "filled"],
-      description: "Apparence du shell (brand/neutral) ou alias déprécié icône (outlined/filled)",
+      description: "Apparence du bouton (brand/neutral) ou alias déprécié icône (outlined/filled)",
     },
     hierarchy: {
       control: "select",
@@ -127,7 +128,22 @@ export const Variants: Story = {
   }),
 };
 
-export const ShellAppearance: Story = {
+export const FigmaVariantGrid: Story = {
+  tags: ["!autodocs"],
+  decorators: [
+    moduleMetadata({
+      imports: [IconButtonVariantGridComponent],
+    }),
+  ],
+  parameters: {
+    layout: "fullscreen",
+  },
+  render: () => ({
+    template: `<rte-icon-button-variant-grid />`,
+  }),
+};
+
+export const ButtonAppearance: Story = {
   render: () => ({
     template: `
       <div style="display: flex; flex-direction: column; gap: 12px">

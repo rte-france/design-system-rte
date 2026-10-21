@@ -1,10 +1,13 @@
 ## Usage de base
 
+L’apparence du bouton se configure avec `appearance`, `hierarchy`, `isCritical` et `isReversed`. Le glyphe togglable utilise `iconAppearance`.
+
 ```html
 <rte-icon-button
   name="settings"
   appearance="brand"
   hierarchy="primary"
+  iconAppearance="outlined"
   ariaLabel="Ouvrir les paramètres"
   (clickEvent)="handleClick($event)"
 />
@@ -32,7 +35,7 @@
 </div>
 ```
 
-## Apparence du shell
+## Apparence du bouton
 
 ### Brand
 
@@ -42,12 +45,11 @@
   <rte-icon-button name="settings" appearance="brand" hierarchy="secondary" ariaLabel="Secondary" />
   <rte-icon-button name="settings" appearance="brand" hierarchy="text" ariaLabel="Text" />
   <rte-icon-button name="settings" appearance="brand" hierarchy="transparent" ariaLabel="Transparent" />
+  <rte-icon-button name="settings" appearance="brand" hierarchy="primary" [isCritical]="true" ariaLabel="Critical" />
 </div>
 ```
 
 ### Neutral
-
-Le neutral à bordure (équivalent « outlined » côté Button) utilise `hierarchy="secondary"`.
 
 ```html
 <div style="display: flex; gap: 8px; flex-wrap: wrap">
@@ -82,18 +84,35 @@ Le neutral à bordure (équivalent « outlined » côté Button) utilise `hierar
 
 ## Variantes dépréciées (`variant`)
 
-Les valeurs `variant` restent supportées pour compatibilité ; migrer vers `appearance`, `hierarchy` et les drapeaux lors des mises à jour.
+Les valeurs `variant` restent supportées pour compatibilité. Voir le tableau **Migration depuis `variant`** dans l’API.
 
 ```html
 <rte-icon-button name="settings" variant="danger" ariaLabel="Danger" />
+<!-- Équivalent -->
+<rte-icon-button
+  name="settings"
+  appearance="brand"
+  hierarchy="primary"
+  [isCritical]="true"
+  ariaLabel="Danger"
+/>
 ```
 
 ## Apparence de l’icône
 
-Préférer `iconAppearance` pour les icônes togglables. `appearance="outlined"` ou `"filled"` reste un alias déprécié.
+Préférer `iconAppearance` pour les icônes togglables.
 
 ```html
 <rte-icon-button name="settings" iconAppearance="outlined" ariaLabel="Paramètres" />
+<rte-icon-button name="settings" iconAppearance="filled" ariaLabel="Paramètres" />
+```
+
+Alias déprécié sur `appearance` (glyphe uniquement) :
+
+```html
+<!-- Déprécié -->
+<rte-icon-button name="settings" appearance="filled" ariaLabel="Paramètres" />
+<!-- Équivalent -->
 <rte-icon-button name="settings" iconAppearance="filled" ariaLabel="Paramètres" />
 ```
 

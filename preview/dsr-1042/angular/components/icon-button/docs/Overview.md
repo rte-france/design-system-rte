@@ -7,6 +7,7 @@ import { IconButtonComponent } from "@design-system-rte/angular";
   name="settings"
   appearance="brand"
   hierarchy="primary"
+  iconAppearance="outlined"
   ariaLabel="Ouvrir les paramètres"
 />
 ```

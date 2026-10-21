@@ -2,14 +2,15 @@ import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, input, output } from "@angular/core";
 import { BadgeContent, BadgeType } from "@design-system-rte/core/components/badge/badge.interface";
 import { ButtonType } from "@design-system-rte/core/components/button/button.interface";
+import { resolveIconButtonStyle } from "@design-system-rte/core/components/button/common/button-style.utils";
 import {
   ButtonSize,
   ButtonVariant,
+  ButtonHierarchy,
   IconButtonAppearanceInput,
-  IconButtonHierarchy,
 } from "@design-system-rte/core/components/button/common/common-button";
 import { ButtonIconSize } from "@design-system-rte/core/components/button/common/common-button.constants";
-import { resolveIconButtonVisual } from "@design-system-rte/core/components/button/common/resolve-icon-button-visual";
+import { IconAppearance } from "@design-system-rte/core/components/icon/icon.interface";
 
 import { BadgeDirective } from "../badge/badge.directive";
 import { isValidIconName } from "../icon/icon-map";
@@ -30,10 +31,10 @@ export class IconButtonComponent {
   readonly variant = input<ButtonVariant>("primary");
   readonly type = input<ButtonType>("button");
   readonly appearance = input<IconButtonAppearanceInput | undefined>(undefined);
-  readonly hierarchy = input<IconButtonHierarchy | undefined>(undefined);
+  readonly hierarchy = input<ButtonHierarchy | undefined>(undefined);
   readonly isCritical = input<boolean | undefined>(undefined);
   readonly isReversed = input<boolean | undefined>(undefined);
-  readonly iconAppearance = input<"filled" | "outlined" | undefined>(undefined);
+  readonly iconAppearance = input<IconAppearance | undefined>(undefined);
   readonly compactSpacing = input<boolean>(false);
   readonly ariaLabel = input<string | undefined>(undefined);
   readonly ariaLabelledBy = input<string | undefined>(undefined);
@@ -52,7 +53,7 @@ export class IconButtonComponent {
   readonly isValidIconName = computed(() => isValidIconName(this.name()));
 
   readonly resolvedVisual = computed(() =>
-    resolveIconButtonVisual({
+    resolveIconButtonStyle({
       variant: this.variant(),
       appearance: this.appearance(),
       hierarchy: this.hierarchy(),

@@ -67,13 +67,12 @@
 
     &[data-appearance='brand'][data-hierarchy='primary']:not([data-critical='true']) {
         background: var(--background-brand-default);
-        border: var(--border-brand-default);
+        border: none;
 
         @include icon-container-color(var(--content-primary-inverse));
 
         &:hover {
             background: var(--background-brand-hover);
-            border: var(--background-brand-hover);
         }
 
         &:active {
