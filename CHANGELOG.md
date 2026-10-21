@@ -2,6 +2,49 @@
 
 # Angular
 
+## 5.0.0
+
+### Button
+
+#### Minor Changes
+
+- add hierarchy system and integrate variant and appearance systems
+
+### Select
+
+#### Minor Changes
+
+- harmonise placeholder display
+
+### Icon Button
+
+#### Minor Changes
+
+- add hierarchy system in addition to appearance. Deprecate variant
+
+### Datepicker
+
+#### Patch Changes
+
+- harmonize header title button aria label
+
+### Segmented Control
+
+#### Patch Changes
+
+- handle window resize listeners destruction correctly
+- prevent selection of segments already selected
+
+### Other
+
+#### Patch Changes
+
+- Updated dependencies [b3eda66]
+- Updated dependencies [d262fe6]
+- Updated dependencies [13dd6ee]
+- Updated dependencies [7855135]
+- @design-system-rte/core@1.22.0
+
 ## 4.3.0
 
 ### Textarea
@@ -132,60 +175,50 @@
 - Updated dependencies [6ebeba7]
 - Updated dependencies [fc945a9]
 - @design-system-rte/core@1.21.0
+# React
 
-## 4.1.0
+## 2.4.0
 
-### File Upload
+### Button
 
 #### Minor Changes
 
-- add animation on adding and deleting files
-- allow screen reader to announce status changes
+- add hierarchy system and integrate variant and appearance systems
+
+### Select
+
+#### Minor Changes
+
+- harmonise placeholder display
+
+### Icon Button
+
+#### Minor Changes
+
+- add hierarchy system in addition to appearance. Deprecate variant
+
+### Datepicker
 
 #### Patch Changes
 
-- handle multiple error message on upload
-- allow mutiple files to be added with already existing files
+- harmonize header title button aria label
+- react - fix props name hasActions and set default value as true
 
-### Switch
-
-#### Patch Changes
-
-- add documentation
-- enforce accessibility
-
-### Time Picker
+### Segmented Control
 
 #### Patch Changes
 
-- add documentation
-- prevent deleting value from input when digit is readonly
-
-### Overlay
-
-#### Patch Changes
-
-- hide elements behind backdrop from TTS browse mode
-
-### Link
-
-#### Patch Changes
-
-- handle external link aria attributes for screen reader announcement
-- avoid unwanted ellipsis from maxWidth not handled correctly
+- prevent selection of segments already selected
 
 ### Other
 
 #### Patch Changes
 
-- Updated dependencies [bbb07e5]
-- Updated dependencies [f77718e]
-- Updated dependencies [a17f77a]
-- Updated dependencies [441a083]
-- Updated dependencies [90a22ed]
-- Updated dependencies [cae9b18]
-- @design-system-rte/core@1.20.0
-# React
+- Updated dependencies [b3eda66]
+- Updated dependencies [d262fe6]
+- Updated dependencies [13dd6ee]
+- Updated dependencies [7855135]
+- @design-system-rte/core@1.22.0
 
 ## 2.3.0
 
@@ -317,60 +350,31 @@
 - Updated dependencies [6ebeba7]
 - Updated dependencies [fc945a9]
 - @design-system-rte/core@1.21.0
+# Core
 
-## 2.1.0
+## 1.22.0
 
-### File Upload
+### Button
 
 #### Minor Changes
 
-- add animation on adding and deleting files
-- allow screen reader to announce status changes
+- add hierarchy system and integrate variant and appearance systems
+
+### Icon Button
+
+#### Minor Changes
+
+- add hierarchy system in addition to appearance. Deprecate variant
+
+### Datepicker
 
 #### Patch Changes
 
-- handle multiple error message on upload
-- allow mutiple files to be added with already existing files
-
-### Switch
-
-#### Patch Changes
-
-- add documentation
-- enforce accessibility
-
-### Time Picker
-
-#### Patch Changes
-
-- add documentation
-- prevent deleting value from input when digit is readonly
-
-### Overlay
-
-#### Patch Changes
-
-- hide elements behind backdrop from TTS browse mode
-
-### Link
-
-#### Patch Changes
-
-- handle external link aria attributes for screen reader announcement
-- avoid unwanted ellipsis from maxWidth not handled correctly
+- harmonize header title button aria label
+- react - fix props name hasActions and set default value as true
 
 ### Other
 
-#### Patch Changes
-
-- Updated dependencies [bbb07e5]
-- Updated dependencies [f77718e]
-- Updated dependencies [a17f77a]
-- Updated dependencies [441a083]
-- Updated dependencies [90a22ed]
-- Updated dependencies [cae9b18]
-- @design-system-rte/core@1.20.0
-# Core
 
 ## 1.21.1
 
@@ -471,33 +475,27 @@
 
 ### Other
 
+# Design Docs
 
-## 1.19.0
+## 1.7.0
 
-### Loader
-
-#### Minor Changes
-
-- remove showLabel prop
-
-### Drawer
+### Button
 
 #### Minor Changes
 
-- add accessibility control in case the component can't resolve a valid aria label
-
-### File Upload
-
-#### Patch Changes
-
-- add accessible description and label
+- add hierarchy system and integrate variant and appearance systems
 
 ### Other
 
-#### Minor Changes
+#### Patch Changes
 
-- Enhance assistive text handling across input components
-# Design Docs
+- Updated dependencies [b3eda66]
+- Updated dependencies [aa17f48]
+- Updated dependencies [d262fe6]
+- Updated dependencies [13dd6ee]
+- Updated dependencies [7855135]
+- Updated dependencies [e2083ab]
+- @design-system-rte/react@2.4.0
 
 ## 1.6.0
 
@@ -535,25 +533,3 @@
 - Updated dependencies [87c57cf]
 - Updated dependencies [610e235]
 - @design-system-rte/react@1.15.0
-
-## 1.4.0
-
-### Navigation
-
-#### Minor Changes
-
-- add RouterLink support
-
-### Icon
-
-#### Minor Changes
-
-- create new Icon Registry to avoid Http request for each icon instance
-
-### Other
-
-#### Patch Changes
-
-- Updated dependencies [459a1d3]
-- Updated dependencies [d3332d9]
-- @design-system-rte/react@1.13.0
