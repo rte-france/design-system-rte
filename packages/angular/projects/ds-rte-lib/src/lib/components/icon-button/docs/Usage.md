@@ -1,6 +1,6 @@
 ## Usage de base
 
-Le shell se configure avec `appearance`, `hierarchy`, `isCritical` et `isReversed`. Le glyphe togglable utilise `iconAppearance`.
+L’apparence du bouton se configure avec `appearance`, `hierarchy`, `isCritical` et `isReversed`. Le glyphe togglable utilise `iconAppearance`.
 
 ```html
 <rte-icon-button
@@ -35,7 +35,7 @@ Le shell se configure avec `appearance`, `hierarchy`, `isCritical` et `isReverse
 </div>
 ```
 
-## Apparence du shell
+## Apparence du bouton
 
 ### Brand
 
@@ -50,8 +50,6 @@ Le shell se configure avec `appearance`, `hierarchy`, `isCritical` et `isReverse
 ```
 
 ### Neutral
-
-Le neutral à bordure (équivalent « outlined » côté Button) utilise `hierarchy="secondary"`, pas `appearance="outlined"`.
 
 ```html
 <div style="display: flex; gap: 8px; flex-wrap: wrap">

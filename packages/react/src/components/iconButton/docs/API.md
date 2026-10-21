@@ -1,7 +1,7 @@
 | Nom            | Type                                                                                      | Valeur par défaut | Déprécié | Description                                                                                                                                 |
 | -------------- | ----------------------------------------------------------------------------------------- | ----------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| appearance     | "brand" \| "neutral" \| "outlined" \| "filled"                                            | -                 | Partiel  | Shell : `brand` ou `neutral`. `outlined` / `filled` : alias déprécié du glyphe — préférer `iconAppearance`. Si omis, dérivé de `variant`.   |
-| hierarchy      | "primary" \| "secondary" \| "text" \| "transparent"                                       | -                 | —        | Hiérarchie du shell. Si omise, dérivée de `variant` (défaut `primary`).                                                                   |
+| appearance     | "brand" \| "neutral" \| "outlined" \| "filled"                                            | -                 | Partiel  | Apparence du bouton : `brand` ou `neutral`. `outlined` / `filled` : alias déprécié du glyphe — préférer `iconAppearance`. Si omis, dérivé de `variant`. |
+| hierarchy      | "primary" \| "secondary" \| "text" \| "transparent"                                       | -                 | —        | Hiérarchie visuelle du bouton. Si omise, dérivée de `variant` (défaut `primary`).                                                          |
 | isCritical     | boolean                                                                                   | -                 | —        | Style critique/destructeur (`brand` + `primary`). Si omis, dérivé de `variant`.                                                             |
 | isReversed     | boolean                                                                                   | -                 | —        | Couleurs inversées (`brand` + `transparent`). Si omis, dérivé de `variant`.                                                                 |
 | iconAppearance | "filled" \| "outlined"                                                                    | -                 | —        | Style du glyphe (Figma `iconAppearance`). Défaut effectif : `outlined`.                                                                     |
@@ -19,9 +19,9 @@
 
 Le composant hérite des propriétés HTML standard pour les boutons.
 
-Sans props de style explicites, le rendu par défaut correspond à `variant="primary"` : shell `brand` + `primary`, glyphe `outlined`.
+Sans props de style explicites, le rendu par défaut correspond à `variant="primary"` : bouton `brand` + `primary`, glyphe `outlined`.
 
-L’Icon Button n’expose pas `hierarchy="outlined"`. Le neutral à bordure correspond à `appearance="neutral"` + `hierarchy="secondary"`. `appearance="outlined"` ne désigne pas ce shell : alias déprécié du glyphe.
+L’Icon Button n’expose pas `hierarchy="outlined"`. Le neutral à bordure correspond à `appearance="neutral"` + `hierarchy="secondary"`. `appearance="outlined"` ne décrit pas l’apparence du bouton : alias déprécié du glyphe.
 
 ### Migration depuis `variant`
 
@@ -44,4 +44,4 @@ Si `variant` et les nouvelles propriétés sont définis en même temps, les nou
 | `"outlined"` | `iconAppearance="outlined"` |
 | `"filled"` | `iconAppearance="filled"` |
 
-Ces valeurs n’affectent que le glyphe, pas le shell.
+Ces valeurs n’affectent que le glyphe, pas l’apparence du bouton.

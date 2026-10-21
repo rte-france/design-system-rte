@@ -1,6 +1,6 @@
 ## Usage de base
 
-Le shell se configure avec `appearance`, `hierarchy`, `isCritical` et `isReversed`. Le glyphe togglable utilise `iconAppearance`.
+L’apparence du bouton se configure avec `appearance`, `hierarchy`, `isCritical` et `isReversed`. Le glyphe togglable utilise `iconAppearance`.
 
 ```tsx
 <IconButton
@@ -33,7 +33,7 @@ Avec `compactSpacing`, les hauteurs vérifiées sont de `16 px`, `20 px` et `24 
 </div>
 ```
 
-## Apparence du shell
+## Apparence du bouton
 
 ### Brand
 
@@ -48,8 +48,6 @@ Avec `compactSpacing`, les hauteurs vérifiées sont de `16 px`, `20 px` et `24 
 ```
 
 ### Neutral
-
-Le neutral à bordure (équivalent « outlined » côté Button) utilise `hierarchy="secondary"`, pas `appearance="outlined"`.
 
 ```tsx
 <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>

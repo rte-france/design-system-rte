@@ -28,7 +28,7 @@ const meta = {
     appearance: {
       control: "select",
       options: ["brand", "neutral", "outlined", "filled"],
-      description: "Apparence du shell (brand/neutral) ou alias déprécié icône (outlined/filled)",
+      description: "Apparence du bouton (brand/neutral) ou alias déprécié icône (outlined/filled)",
     },
     hierarchy: {
       control: "select",
@@ -132,6 +132,9 @@ export const Variants: Story = {
 };
 
 export const FigmaVariantGrid: Story = {
+  args: {
+    name: "settings",
+  },
   tags: ["!autodocs"],
   parameters: {
     layout: "fullscreen",
@@ -139,7 +142,7 @@ export const FigmaVariantGrid: Story = {
   render: () => <IconButtonVariantGrid />,
 };
 
-export const ShellAppearance: Story = {
+export const ButtonAppearance: Story = {
   args: {
     ...Default.args,
   },
