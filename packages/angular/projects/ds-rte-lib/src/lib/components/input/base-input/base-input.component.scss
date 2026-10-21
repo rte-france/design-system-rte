@@ -210,20 +210,13 @@
                         border-color: var(--border-primary);
                     }
 
-                    &:focus,
-                    &.highlighted {
-                        outline: 1px solid var(--border-brand-default);
+                    &:focus:not(.error),
+                    &.highlighted:not(.error),
+                    &:active:not(.error) {
+                        outline: none;
                         border-color: var(--border-brand-default);
-                    }
-
-                    &:focus-within {
-                        outline: 1px solid var(--border-brand-default);
-                        border-color: var(--border-brand-default);
-                    }
-
-                    &:active {
-                        outline: 1px solid var(--border-brand-default);
-                        border-color: var(--border-brand-default)
+                        box-shadow: inset 0 1px 4px 0 var(--elevation-shadow-key),
+                            inset 0 0 0 1px var(--border-brand-default);
                     }
 
                     &:disabled {
@@ -234,15 +227,44 @@
                     }
 
                     &.error {
-                        outline: 1px solid var(--border-danger);
-                        border-color: var(--border-danger)
+                        outline: none;
+                        border-color: var(--border-danger);
+                        box-shadow: inset 0 1px 4px 0 var(--elevation-shadow-key),
+                            inset 0 0 0 1px var(--border-danger);
                     }
 
                     &::placeholder {
                         color: var(--content-tertiary);
                     }
 
-                    &.input-field--projected {
+                    &.input-field--projected:has(.number-input-layout) {
+                        display: contents;
+                        padding: 0;
+                        border: none;
+                        background: transparent;
+                        box-shadow: none;
+
+                        &:focus-within:not(.error) ::ng-deep .number-input-control,
+                        &.highlighted:not(.error) ::ng-deep .number-input-control,
+                        &:active:not(.error) ::ng-deep .number-input-control {
+                            outline: none;
+                            border-color: var(--border-brand-default);
+                            box-shadow: inset 0 1px 4px 0 var(--elevation-shadow-key),
+                                inset 0 0 0 1px var(--border-brand-default);
+                        }
+
+                        &.error ::ng-deep .number-input-control,
+                        &.error:focus-within ::ng-deep .number-input-control,
+                        &.error.highlighted ::ng-deep .number-input-control,
+                        &.error:active ::ng-deep .number-input-control {
+                            outline: none;
+                            border-color: var(--border-danger);
+                            box-shadow: inset 0 1px 4px 0 var(--elevation-shadow-key),
+                                inset 0 0 0 1px var(--border-danger);
+                        }
+                    }
+
+                    &.input-field--projected:not(:has(.number-input-layout)) {
                         flex: 1;
                         min-width: 0;
                         display: flex;
@@ -269,6 +291,7 @@
                             &:focus,
                             &:active,
                             &.highlighted {
+                                outline: none;
                                 border-color: var(--border-danger);
                                 box-shadow: inset 0 1px 4px 0 var(--elevation-shadow-key),
                                     inset 0 0 0 1px var(--border-danger);
@@ -284,7 +307,11 @@
                     }
 
                     &.input-field--projected.input-field--read-only {
-                        border-color: var(--border-disabled);
+                        border-color: var(--border-tertiary);
+
+                        ::ng-deep .number-input-control.number-input-control--read-only {
+                            border-color: var(--border-tertiary);
+                        }
                         background: linear-gradient(0deg, var(--elevation-surface-inner-shadow) 0%, var(--elevation-surface-inner-shadow) 100%), var(--background-disabled);
                         cursor: default;
                         box-shadow: none;
@@ -331,20 +358,26 @@
                 flex-shrink: 0;
                 position: relative;
             }
+
+            &:has(.number-input-layout) .right-slot:empty {
+                display: none;
+            }
         }
 
         .assistive-text {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: $positive-spacing-050;
             padding: $positive-spacing-050 $positive-spacing-100;
 
             .assistive-icon-error {
                 color: var(--content-danger-default);
+                @include assistive-text-inline-icon-alignment;
             }
 
             .assistive-icon-success {
                 color: var(--content-success-default);
+                @include assistive-text-inline-icon-alignment;
             }
 
             .assistive-label {
@@ -355,6 +388,14 @@
                     color: var(--content-danger-default);
                     @include typography-text-input-s-bold;
                     margin: $positive-spacing-0;
+                }
+
+                &.assistive-label--error-animated {
+                    animation: assistive-error-fade-in 100ms ease-in;
+
+                    @media (prefers-reduced-motion: reduce) {
+                        animation: none;
+                    }
                 }
 
                 &.success {
@@ -377,4 +418,14 @@
     color: var(--content-tertiary);
     @include typography-text-s-regular;
     margin-block: $positive-spacing-0;
+}
+
+@keyframes assistive-error-fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }

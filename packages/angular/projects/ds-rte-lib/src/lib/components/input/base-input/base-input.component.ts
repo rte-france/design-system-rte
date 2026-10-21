@@ -57,6 +57,7 @@ export class BaseInputComponent {
   readonly errorMessage = input<string>("");
   readonly assistiveTextId = input<string | null>(null);
   readonly error = input<boolean>(false);
+  readonly showErrorLeftIcon = input<boolean>(true);
   readonly maxLength = input<number | undefined>(150);
   readonly disabled = input<boolean>(false);
   readonly readOnly = input<boolean>(false);
@@ -71,14 +72,17 @@ export class BaseInputComponent {
   readonly inputType = input<"text" | "password">("text");
   readonly useLabelForAttribute = input<boolean>(true);
 
-  readonly valueChange = output<string>();
+  readonly valueChange = output<string | number>();
   readonly enterKeyDown = output<string>();
   readonly inputBlur = output<void>();
   readonly rightIconClick = output<MouseEvent | KeyboardEvent>();
   readonly rightIconKeydown = output<KeyboardEvent>();
 
   readonly characterCount = signal<number>(this.internalValue().length);
-  readonly displayedLeftIcon = computed(() => (this.error() ? "error" : this.leftIcon()));
+  readonly displayedInputValue = computed(() => (this.disabled() ? "" : this.internalValue()));
+  readonly displayedLeftIcon = computed(() => {
+    return this.error() && this.showErrorLeftIcon() ? "error" : this.leftIcon();
+  });
   readonly displayCounter = computed(() => this.showCounter() && typeof this.maxLength() === "number");
   readonly computedAssistiveTextId = computed(() => {
     if (!this.computedAssistiveTextLabel()) {
@@ -191,7 +195,7 @@ export class BaseInputComponent {
       return;
     }
 
-    const canUseNativeLabelFocus = this.useLabelForAttribute() && !this.showProjectedShell() && !!this.id();
+    const canUseNativeLabelFocus = this.useLabelForAttribute() && !!this.id();
     if (canUseNativeLabelFocus) {
       return;
     }
