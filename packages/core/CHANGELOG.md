@@ -1,5 +1,27 @@
 # @design-system-rte/core
 
+## 1.22.0
+
+### Minor Changes
+
+- b3eda66: ## Changes
+
+  - (Button) add hierarchy system and integrate variant and appearance systems
+
+- d262fe6: ## Changes
+
+  - (Icon Button) add hierarchy system in addition to appearance. Deprecate variant
+
+### Patch Changes
+
+- 13dd6ee: ## Changes
+
+  - (Datepicker) harmonize header title button aria label
+
+- 7855135: ## Changes
+
+  - (Datepicker) react - fix props name hasActions and set default value as true
+
 ## 1.21.1
 
 ### Patch Changes
