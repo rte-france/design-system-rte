@@ -30,6 +30,7 @@ export class IconButtonComponent {
   readonly ariaDescribedBy = input<string | undefined>(undefined);
   readonly ariaExpanded = input<boolean | undefined>(undefined);
   readonly ariaHaspopup = input<string | undefined>(undefined);
+  readonly ariaHidden = input<boolean>(false);
   readonly badgeCount = input<number>();
   readonly badgeContent = input<BadgeContent>();
   readonly badgeType = input<BadgeType>();

@@ -10,14 +10,13 @@
   [max]="100"
   [step]="1"
   [defaultValue]="50"
-  [hasUnit]="true"
   unit="kW"
 ></rte-number-input>
 ```
 
 ## API
 
-Le composant public est `NumberInputComponent` (`<rte-number-input>`). Importez-le depuis `@design-system-rte/angular` et liez les entrées, sorties ou un `FormControl` réactif pour des valeurs `number | null`.
+Le composant public est `NumberInputComponent` (`<rte-number-input>`). Importez-le depuis `@design-system-rte/angular` et liez ses entrées et sorties, ou connectez un `FormControl` / `formControlName` réactif de type `number | null`.
 
 | Nom | Type | Valeur par défaut | Description |
 |-----|------|-------------------|-------------|
@@ -31,34 +30,33 @@ Le composant public est `NumberInputComponent` (`<rte-number-input>`). Importez-
 | appearance | `"brand" \| "neutral"` | `"brand"` | Style visuel des steppers d’incrémentation et de décrémentation. |
 | incrementPosition | `"right" \| "sides"` | `"right"` | Disposition des steppers : empilés à droite ou de part et d’autre du champ. |
 | compactSpacing | boolean | `false` | Taille compacte du champ et des steppers (hauteur 24px). |
-| hasUnit | boolean | `false` | Affiche un suffixe d’unité dans le champ (par exemple `kW`). |
-| unit | string | `"kW"` | Texte de l’unité lorsque `hasUnit` est `true`. |
-| hasAssistiveText | boolean | `false` | Active le texte d’aide sous le champ lorsqu’aucune erreur de plage n’est affichée. |
-| assistiveTextLabel | string | `""` | Description d’aide lorsque `hasAssistiveText` est `true`. |
-| showAssistiveIcon | boolean | `false` | Affiche une icône à côté du texte d’aide (l’état d’erreur force l’icône d’erreur). |
-| error | boolean | `false` | Force le style d’erreur et utilise `errorMessage` si renseigné. |
+| unit | string | `""` | Suffixe d’unité affiché dans le champ lorsqu’il est non vide (par exemple `kW`). |
+| assistiveText | string | `""` | Texte d’aide sous le champ lorsqu’il est non vide et qu’aucun message d’erreur de plage ou personnalisé n’est affiché. |
+| error | boolean | `false` | Force le style d’erreur et utilise `errorMessage` si renseigné. La validation de plage déclenche aussi l’état d’erreur. |
 | errorMessage | string | `""` | Message d’erreur personnalisé lorsque `error` est `true`. |
 | disabled | boolean | `false` | Désactive le champ et les steppers ; la valeur affichée est masquée tandis que la valeur du modèle est conservée. |
 | readOnly | boolean | `false` | Champ en lecture seule ; la valeur reste visible, les steppers sont inactifs. |
 | min | number | `0` | Valeur minimale pour la validation et le pas. |
 | max | number | `undefined` | Valeur maximale ; omettre pour aucune borne supérieure. |
-| step | number | `1` | Pas d’incrémentation/décrémentation pour les steppers, les flèches clavier et la molette. |
-| decimalPrecision | number | `0` | Nombre de décimales (`0` pour entiers uniquement). |
+| step | number | `1` | Pas d’incrémentation/décrémentation pour les steppers, les flèches clavier et la molette. Les valeurs non finies ou non positives reviennent à `1`. |
+| decimalPrecision | number | `0` | Nombre de décimales (`0` pour entiers uniquement). Borné entre `0` et `100`. |
 | locale | string | `"fr-FR"` | Locale utilisée pour le séparateur décimal (`,` ou `.`). |
-| defaultValue | number | `undefined` | Valeur affichée initiale sans `value` ni formulaire ; aussi utilisée au blur si le champ est vidé. |
+| defaultValue | number | `undefined` | Valeur affichée initiale lorsque `value` est vide et sans formulaire ; aussi utilisée au blur si le champ est vidé. |
 | placeholder | string | `""` | Placeholder de l’entrée spinbutton. |
-| width | string | `undefined` | Largeur totale de la disposition (champ + steppers). Par défaut `184px` si omis. |
+| width | string | `"184px"` | Largeur totale de la disposition (champ + steppers). Les valeurs numériques sont traitées en pixels. |
 | name | string | `""` | Attribut `name` de l’entrée native. |
-| rangeErrorMessages | `NumberInputRangeErrorMessages` | Valeurs françaises par défaut (core) | Fonctions pour remplacer les messages automatiques min/max. |
-| value | `number \| null \| undefined` | `undefined` | Entrée modèle unidirectionnelle ; met à jour la valeur affichée lorsqu’elle est définie. |
-| valueChange | `number \| null` | — | Émet la valeur numérique analysée lors d’une saisie ou d’un pas. |
+| rangeErrorMessages | `NumberInputRangeErrorMessages` | Valeurs françaises par défaut (core) | Remplace les messages automatiques min/max via les callables `between`, `greaterThan` et `lessThan`. |
+| value | string | `""` | Liaison unidirectionnelle en texte numérique ; met à jour l’affichage lorsque la valeur est non vide et finie. Préférez `defaultValue` ou les formulaires réactifs pour un usage courant. |
+| valueChange | `number` | — | Émet la valeur numérique analysée lors d’une saisie ou d’un pas. Émet `0` si le champ est vide ou non analysable ; le modèle de formulaire reçoit toujours `number \| null`. |
 | inputBlur | `void` | — | Émis lorsque le spinbutton perd le focus. |
+
+Les erreurs de plage et de validation affichent automatiquement une icône d’erreur à côté du texte d’aide ; il n’existe pas d’entrée dédiée pour activer cette icône.
 
 ## Usage
 
 Importez `NumberInputComponent` depuis `@design-system-rte/angular` et utilisez `<rte-number-input>` dans votre template. Fournissez un `id` unique pour l’association libellé / texte d’aide.
 
-Liez `[value]` et écoutez `(valueChange)` pour un usage contrôlé, définissez `[defaultValue]` pour une valeur initiale sans formulaire, ou connectez le composant avec `formControl` / `formControlName` (`number | null`).
+Définissez `[defaultValue]` pour une valeur initiale sans formulaire, liez `[value]` en texte numérique pour des mises à jour unidirectionnelles, écoutez `(valueChange)` pour les nombres analysés, ou connectez le composant avec `formControl` / `formControlName` (`number | null`).
 
 ```typescript
 import { Component } from "@angular/core";
@@ -75,16 +73,40 @@ import { NumberInputComponent } from "@design-system-rte/angular";
       [max]="100"
       [step]="1"
       [defaultValue]="50"
-      [hasUnit]="true"
       unit="kW"
       (valueChange)="onPowerChange($event)"
     />
   `,
 })
 export class PowerFieldComponent {
-  onPowerChange(value: number | null): void {
-    // handle value
+  onPowerChange(value: number): void {
+    // traiter la valeur (0 lorsque le champ est vide)
   }
+}
+```
+
+Avec les formulaires réactifs, liez un `FormControl<number | null>` ; la valeur et l’état désactivé du contrôle restent synchronisés avec le spinbutton.
+
+```typescript
+import { Component } from "@angular/core";
+import { FormControl, ReactiveFormsModule } from "@angular/forms";
+import { NumberInputComponent } from "@design-system-rte/angular";
+
+@Component({
+  selector: "app-quantity-field",
+  imports: [ReactiveFormsModule, NumberInputComponent],
+  template: `
+    <rte-number-input
+      id="number-input-reactive"
+      label="Quantité"
+      [min]="0"
+      [max]="10"
+      [formControl]="quantity"
+    />
+  `,
+})
+export class QuantityFieldComponent {
+  readonly quantity = new FormControl<number | null>(3);
 }
 ```
 
@@ -100,7 +122,6 @@ N’utilisez pas dans les applications les briques internes telles que `<rte-bas
   [min]="0"
   [max]="100"
   [defaultValue]="50"
-  [hasUnit]="true"
   unit="kW"
 />
 ```
@@ -117,7 +138,6 @@ Place les steppers de décrémentation et d’incrémentation à gauche et à dr
   [min]="0"
   [max]="100"
   [defaultValue]="50"
-  [hasUnit]="true"
   unit="kW"
 />
 ```
@@ -134,7 +154,6 @@ Utilise des steppers neutres remplis (neutral-bold) plutôt que remplis brand (`
   [min]="0"
   [max]="100"
   [defaultValue]="50"
-  [hasUnit]="true"
   unit="kW"
 />
 ```
@@ -151,7 +170,6 @@ Réduit la hauteur du champ et des steppers pour les mises en page denses.
   [min]="0"
   [max]="100"
   [defaultValue]="50"
-  [hasUnit]="true"
   unit="kW"
 />
 ```
@@ -167,7 +185,6 @@ Définit la largeur totale de la disposition Number Input (champ et steppers).
   [decimalPrecision]="2"
   [defaultValue]="12.34"
   [max]="999"
-  [hasUnit]="true"
   unit="kW"
 />
 ```
@@ -184,7 +201,6 @@ Formate les décimales avec le séparateur de la locale (virgule pour `fr-FR`).
   [decimalPrecision]="2"
   [defaultValue]="12.34"
   [max]="999"
-  [hasUnit]="true"
   unit="kW"
 />
 ```
@@ -201,7 +217,6 @@ Utilise une locale anglaise : le séparateur décimal est un point.
   [min]="0"
   [max]="100"
   [defaultValue]="50"
-  [hasUnit]="true"
   unit="kW"
 />
 ```
@@ -218,7 +233,6 @@ Désactive l’interaction ; la valeur numérique n’est pas affichée, l’uni
   [min]="0"
   [max]="100"
   [defaultValue]="50"
-  [hasUnit]="true"
   unit="kW"
 />
 ```
@@ -231,12 +245,10 @@ Affiche la valeur sans permettre la modification ni le pas.
 <rte-number-input
   id="number-input-assistive"
   label="Puissance"
-  [hasAssistiveText]="true"
-  assistiveTextLabel="Entrez une valeur entre 0 et 100, par pas de 1."
+  assistiveText="Entrez une valeur entre 0 et 100, par pas de 1."
   [min]="0"
   [max]="100"
   [defaultValue]="50"
-  [hasUnit]="true"
   unit="kW"
 />
 ```
@@ -280,7 +292,3 @@ Les boutons icône d’incrémentation et de décrémentation ont `tabIndex="-1"
 ### État désactivé des formulaires réactifs
 
 Avec `formControl` / `formControlName`, l’état désactivé du contrôle de formulaire prime sur l’entrée `disabled`.
-
-## FAQ
-
-Aucune question signalée par les utilisateurs n’est documentée pour ce composant pour le moment.

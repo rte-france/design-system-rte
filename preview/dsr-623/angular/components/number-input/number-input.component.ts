@@ -258,10 +258,14 @@ export class NumberInputComponent extends BaseInputComponent implements ControlV
     });
 
     effect(() => {
-      const externalValue = Number(this.value());
+      const rawValue = this.value();
+      if (rawValue === "") {
+        return;
+      }
       this.locale();
       this.decimalPrecision();
-      if (externalValue === undefined) {
+      const externalValue = Number(rawValue);
+      if (!Number.isFinite(externalValue)) {
         return;
       }
       this.applyNumericValue(externalValue, { emitChange: false });
@@ -269,9 +273,14 @@ export class NumberInputComponent extends BaseInputComponent implements ControlV
   }
 
   ngOnInit(): void {
-    if (this.value() === undefined) {
-      this.initializeDisplayFromDefault();
+    if (this.value() !== undefined && this.value() !== "") {
+      return;
     }
+
+    if (this.displayText() !== "") {
+      return;
+    }
+    this.initializeDisplayFromDefault();
   }
 
   ngAfterViewInit(): void {

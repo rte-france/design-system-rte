@@ -81,10 +81,7 @@ export class BaseInputComponent {
   readonly characterCount = signal<number>(this.internalValue().length);
   readonly displayedInputValue = computed(() => (this.disabled() ? "" : this.internalValue()));
   readonly displayedLeftIcon = computed(() => {
-    if (this.error() && this.showErrorLeftIcon()) {
-      return "error";
-    }
-    return this.leftIcon();
+    return this.error() && this.showErrorLeftIcon() ? "error" : this.leftIcon();
   });
   readonly displayCounter = computed(() => this.showCounter() && typeof this.maxLength() === "number");
   readonly computedAssistiveTextId = computed(() => {

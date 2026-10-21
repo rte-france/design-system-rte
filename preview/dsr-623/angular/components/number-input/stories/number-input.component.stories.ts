@@ -178,21 +178,24 @@ export const InteractionPlay: Story = {
     const canvas = within(canvasElement);
     const host = canvas.getByTestId("number-input");
     const input = host.querySelector('input[role="spinbutton"]') as HTMLInputElement;
-    const incrementButton = canvas.getByRole("button", { name: /Augmenter/i });
-    const decrementButton = canvas.getByRole("button", { name: /Diminuer/i });
+    const incrementStepper = host.querySelector(".number-input-stepper--increment button") as HTMLButtonElement;
+    const decrementStepper = host.querySelector(".number-input-stepper--decrement button") as HTMLButtonElement;
 
     expect(input).toHaveAttribute("role", "spinbutton");
     expect(input).toHaveAttribute("aria-valuemin", "0");
     expect(input).toHaveAttribute("aria-valuemax", "100");
+    expect(incrementStepper).toHaveAttribute("aria-hidden", "true");
+    expect(decrementStepper).toHaveAttribute("aria-hidden", "true");
 
     await userEvent.clear(input);
     await userEvent.type(input, "1.251212");
     await waitFor(() => expect(input.value).toBe("1,25"));
 
-    await userEvent.click(incrementButton);
+    input.focus();
+    await userEvent.keyboard("{ArrowUp}");
     await waitFor(() => expect(input.value).toBe("2,25"));
 
-    await userEvent.click(decrementButton);
+    await userEvent.keyboard("{ArrowDown}");
     await waitFor(() => expect(input.value).toBe("1,25"));
 
     await userEvent.clear(input);
