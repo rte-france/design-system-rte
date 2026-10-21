@@ -28,7 +28,7 @@ const meta = {
     appearance: {
       control: "select",
       options: ["brand", "neutral", "outlined", "filled"],
-      description: "Apparence du shell (brand/neutral) ou alias déprécié icône (outlined/filled)",
+      description: "Apparence du bouton (brand/neutral) ou alias déprécié icône (outlined/filled)",
     },
     hierarchy: {
       control: "select",
@@ -143,7 +143,7 @@ export const FigmaVariantGrid: Story = {
   }),
 };
 
-export const ShellAppearance: Story = {
+export const ButtonAppearance: Story = {
   render: () => ({
     template: `
       <div style="display: flex; flex-direction: column; gap: 12px">
