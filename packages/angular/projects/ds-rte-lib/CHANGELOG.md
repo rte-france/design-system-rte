@@ -1,5 +1,41 @@
 # @design-system-rte/angular
 
+## 5.0.0
+
+### Minor Changes
+
+- b3eda66: ## Changes
+
+  - (Button) add hierarchy system and integrate variant and appearance systems
+
+- aa17f48: ## Changes
+
+  - (Select) harmonise placeholder display
+
+- d262fe6: ## Changes
+
+  - (Icon Button) add hierarchy system in addition to appearance. Deprecate variant
+
+### Patch Changes
+
+- 13dd6ee: ## Changes
+
+  - (Datepicker) harmonize header title button aria label
+
+- 45c1afc: ## Changes
+
+  - (Segmented Control) handle window resize listeners destruction correctly
+
+- e2083ab: ## Changes
+
+  - (Segmented Control) prevent selection of segments already selected
+
+- Updated dependencies [b3eda66]
+- Updated dependencies [d262fe6]
+- Updated dependencies [13dd6ee]
+- Updated dependencies [7855135]
+  - @design-system-rte/core@1.22.0
+
 ## 4.3.0
 
 ### Minor Changes
