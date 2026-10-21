@@ -1,5 +1,23 @@
 # @design-system-rte/design-docs
 
+## 1.7.0
+
+### Minor Changes
+
+- b3eda66: ## Changes
+
+  - (Button) add hierarchy system and integrate variant and appearance systems
+
+### Patch Changes
+
+- Updated dependencies [b3eda66]
+- Updated dependencies [aa17f48]
+- Updated dependencies [d262fe6]
+- Updated dependencies [13dd6ee]
+- Updated dependencies [7855135]
+- Updated dependencies [e2083ab]
+  - @design-system-rte/react@2.4.0
+
 ## 1.6.0
 
 ### Minor Changes
