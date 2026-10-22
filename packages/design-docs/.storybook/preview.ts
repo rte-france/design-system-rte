@@ -44,26 +44,6 @@ const preview = {
         disable: false,
       },
     },
-    options: {
-      storySort: {
-        order: [
-          "Design system",
-          [
-            "Accueil",
-            "Luciole",
-            "Get Started - Kit de démarrage",
-            ["Design", "Angular", "React"],
-            "Get Started - Kit de migration",
-            ["Général", "Pour les designers", "Angular", "React"],
-            "Get Started - Contribuer",
-            ["Gouvernance", "Évolutions et nouveaux composants", "Bugs et Anomalies", "Icônes"],
-          ],
-          "Guidelines",
-          "Fondations",
-        ],
-        locales: "fr-FR",
-      },
-    },
   },
 };
 
