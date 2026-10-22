@@ -12,6 +12,7 @@ import Button from "../../button/Button";
 import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../../icon/IconMap";
 import Popover from "../../popover/Popover";
 import Select from "../../select/Select";
+import SplitButton from "../../splitButton/SplitButton";
 import Textarea from "../../textarea/Textarea";
 import Modal from "../Modal";
 
@@ -168,6 +169,92 @@ export const WithCustomContent: Story = {
             <Button variant="primary" label="Custom Action" />
           </Popover>
         </Modal>
+      </>
+    );
+  },
+};
+
+const splitMenuOptions = [
+  { id: "save-draft", label: "Save as draft", onClick: () => console.log("Save as draft") },
+  { id: "save-template", label: "Save as template", onClick: () => console.log("Save as template") },
+];
+
+export const PrimaryDanger: Story = {
+  args: {
+    id: "modal-danger",
+    onClose: () => {},
+    isOpen: false,
+    title: "Delete 3 documents",
+    description: "The selected documents will be deleted.",
+    size: "s",
+    icon: "delete",
+    iconAppearance: "filled",
+    closeOnOverlayClick: true,
+    primaryButton: <Button variant="danger" label="Delete" onClick={() => {}} />,
+    secondaryButton: <Button variant="neutral" label="Cancel" onClick={() => {}} />,
+  },
+  render: (args) => {
+    const [isOpen, setIsOpen] = useState(args.isOpen);
+    return (
+      <>
+        <Button variant="primary" label="Open Modal" onClick={() => setIsOpen(true)} />
+        <Modal
+          {...args}
+          isOpen={args.isOpen || isOpen}
+          onClose={() => setIsOpen(false)}
+          primaryButton={
+            <Button
+              variant="danger"
+              label="Delete"
+              onClick={() => {
+                console.log("Delete confirmed");
+                setIsOpen(false);
+              }}
+            />
+          }
+          secondaryButton={<Button variant="neutral" label="Cancel" onClick={() => setIsOpen(false)} />}
+        />
+      </>
+    );
+  },
+};
+
+export const PrimarySplitButton: Story = {
+  args: {
+    id: "modal-split",
+    onClose: () => {},
+    isOpen: false,
+    title: "Save document",
+    description: "Choose how to save your changes.",
+    size: "m",
+    closeOnOverlayClick: true,
+    primaryButton: (
+      <SplitButton label="Save" ariaLabelRight="More save options" options={splitMenuOptions} onClick={() => {}} />
+    ),
+    secondaryButton: <Button variant="neutral" label="Cancel" onClick={() => {}} />,
+  },
+  render: (args) => {
+    const [isOpen, setIsOpen] = useState(args.isOpen);
+    return (
+      <>
+        <Button variant="primary" label="Open Modal" onClick={() => setIsOpen(true)} />
+        <Modal
+          {...args}
+          isOpen={args.isOpen || isOpen}
+          onClose={() => setIsOpen(false)}
+          primaryButton={
+            <SplitButton
+              label="Save"
+              ariaLabelRight="More save options"
+              options={splitMenuOptions}
+              onClick={() => {
+                console.log("Save");
+                setIsOpen(false);
+              }}
+            />
+          }
+          secondaryButton={<Button variant="neutral" label="Cancel" onClick={() => setIsOpen(false)} />}
+        />
       </>
     );
   },

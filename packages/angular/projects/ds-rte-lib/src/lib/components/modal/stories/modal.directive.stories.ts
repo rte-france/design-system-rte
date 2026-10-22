@@ -27,14 +27,12 @@ const modalUsageDoc = `
   [rteModalTitle]="'Title'"
   [rteModalDescription]="'Content'"
   [rteModalSize]="'m'"
+  [rteModalPrimaryActionLabel]="'Validate'"
+  [rteModalSecondaryActionLabel]="'Cancel'"
+  (rteModalPrimaryActionClick)="onValidate(); modalHost.close()"
+  (rteModalSecondaryActionClick)="modalHost.close()"
 >
   <button rteButton rteButtonVariant="primary" rteModalTrigger>Open Modal</button>
-  <ng-template #primaryButton>
-    <button rteButton rteButtonVariant="primary" (click)="onValidate(); modalHost.close()">Validate</button>
-  </ng-template>
-  <ng-template #secondaryButton>
-    <button rteButton rteButtonVariant="neutral" (click)="modalHost.close()">Cancel</button>
-  </ng-template>
 </div>
 \`\`\`
 `;
@@ -76,6 +74,14 @@ const meta: Meta<ModalDirective> = {
       description: "Close modal on outside click",
       defaultValue: true,
     },
+    rteModalPrimaryActionLabel: { control: "text", description: "Primary footer action label" },
+    rteModalSecondaryActionLabel: { control: "text", description: "Secondary footer action label" },
+    rteModalPrimaryActionType: {
+      control: "select",
+      options: ["button", "split-button"],
+      description: "Primary footer action type",
+    },
+    rteModalPrimaryActionIsCritical: { control: "boolean", description: "Critical primary button styling" },
   },
   parameters: {
     docs: {
@@ -106,6 +112,8 @@ export const Default: Story = {
     rteModalIcon: "wifi",
     rteModalIconAppearance: "filled",
     rteModalCloseOnClickOutside: true,
+    rteModalPrimaryActionLabel: "Continue",
+    rteModalSecondaryActionLabel: "Cancel",
   },
   render: (args) => ({
     props: {
@@ -125,14 +133,12 @@ export const Default: Story = {
                 [rteModalIcon]="rteModalIcon"
                 [rteModalAriaDescribedby]="rteModalAriaDescribedby"
                 [rteModalCloseOnClickOutside]="rteModalCloseOnClickOutside"
+                [rteModalPrimaryActionLabel]="rteModalPrimaryActionLabel"
+                [rteModalSecondaryActionLabel]="rteModalSecondaryActionLabel"
+                (rteModalPrimaryActionClick)="handlePrimaryClick(); modalHost.close()"
+                (rteModalSecondaryActionClick)="handleSecondaryClick(); modalHost.close()"
                 >
                 <button rteButton rteButtonVariant="primary" rteModalTrigger>Open Modal</button>
-                <ng-template #primaryButton>
-                  <button rteButton rteButtonVariant="primary" (click)="handlePrimaryClick(); modalHost.close()">Continue</button>
-                </ng-template>
-                <ng-template #secondaryButton>
-                  <button rteButton rteButtonVariant="neutral" (click)="handleSecondaryClick(); modalHost.close()">Cancel</button>
-                </ng-template>
               </div>
       `,
   }),
@@ -174,14 +180,12 @@ export const Sizes: Story = {
                 [rteModalIcon]="rteModalIcon"
                 [rteModalAriaDescribedby]="rteModalAriaDescribedby"
                 [rteModalCloseOnClickOutside]="rteModalCloseOnClickOutside"
+                [rteModalPrimaryActionLabel]="rteModalPrimaryActionLabel"
+                [rteModalSecondaryActionLabel]="rteModalSecondaryActionLabel"
+                (rteModalPrimaryActionClick)="handlePrimaryClick(); modalHostXs.close()"
+                (rteModalSecondaryActionClick)="handleSecondaryClick(); modalHostXs.close()"
                 >
                 <button rteButton rteButtonVariant="primary" rteModalTrigger>Open Modal xs</button>
-                <ng-template #primaryButton>
-                  <button rteButton rteButtonVariant="primary" (click)="handlePrimaryClick(); modalHostXs.close()">Continue</button>
-                </ng-template>
-                <ng-template #secondaryButton>
-                  <button rteButton rteButtonVariant="neutral" (click)="handleSecondaryClick(); modalHostXs.close()">Cancel</button>
-                </ng-template>
               </div>
               <div
                 rteModal
@@ -194,14 +198,12 @@ export const Sizes: Story = {
                 [rteModalIcon]="rteModalIcon"
                 [rteModalAriaDescribedby]="rteModalAriaDescribedby"
                 [rteModalCloseOnClickOutside]="rteModalCloseOnClickOutside"
+                [rteModalPrimaryActionLabel]="rteModalPrimaryActionLabel"
+                [rteModalSecondaryActionLabel]="rteModalSecondaryActionLabel"
+                (rteModalPrimaryActionClick)="handlePrimaryClick(); modalHostS.close()"
+                (rteModalSecondaryActionClick)="handleSecondaryClick(); modalHostS.close()"
                 >
                 <button rteButton rteButtonVariant="primary" rteModalTrigger>Open Modal s</button>
-                <ng-template #primaryButton>
-                  <button rteButton rteButtonVariant="primary" (click)="handlePrimaryClick(); modalHostS.close()">Continue</button>
-                </ng-template>
-                <ng-template #secondaryButton>
-                  <button rteButton rteButtonVariant="neutral" (click)="handleSecondaryClick(); modalHostS.close()">Cancel</button>
-                </ng-template>
               </div>
               <div
                 rteModal
@@ -214,14 +216,12 @@ export const Sizes: Story = {
                 [rteModalIcon]="rteModalIcon"
                 [rteModalAriaDescribedby]="rteModalAriaDescribedby"
                 [rteModalCloseOnClickOutside]="rteModalCloseOnClickOutside"
+                [rteModalPrimaryActionLabel]="rteModalPrimaryActionLabel"
+                [rteModalSecondaryActionLabel]="rteModalSecondaryActionLabel"
+                (rteModalPrimaryActionClick)="handlePrimaryClick(); modalHostM.close()"
+                (rteModalSecondaryActionClick)="handleSecondaryClick(); modalHostM.close()"
                 >
                 <button rteButton rteButtonVariant="primary" rteModalTrigger>Open Modal m</button>
-                <ng-template #primaryButton>
-                  <button rteButton rteButtonVariant="primary" (click)="handlePrimaryClick(); modalHostM.close()">Continue</button>
-                </ng-template>
-                <ng-template #secondaryButton>
-                  <button rteButton rteButtonVariant="neutral" (click)="handleSecondaryClick(); modalHostM.close()">Cancel</button>
-                </ng-template>
               </div>
               <div
                 rteModal
@@ -234,14 +234,12 @@ export const Sizes: Story = {
                 [rteModalIcon]="rteModalIcon"
                 [rteModalAriaDescribedby]="rteModalAriaDescribedby"
                 [rteModalCloseOnClickOutside]="rteModalCloseOnClickOutside"
+                [rteModalPrimaryActionLabel]="rteModalPrimaryActionLabel"
+                [rteModalSecondaryActionLabel]="rteModalSecondaryActionLabel"
+                (rteModalPrimaryActionClick)="handlePrimaryClick(); modalHostL.close()"
+                (rteModalSecondaryActionClick)="handleSecondaryClick(); modalHostL.close()"
                 >
                 <button rteButton rteButtonVariant="primary" rteModalTrigger>Open Modal l</button>
-                <ng-template #primaryButton>
-                  <button rteButton rteButtonVariant="primary" (click)="handlePrimaryClick(); modalHostL.close()">Continue</button>
-                </ng-template>
-                <ng-template #secondaryButton>
-                  <button rteButton rteButtonVariant="neutral" (click)="handleSecondaryClick(); modalHostL.close()">Cancel</button>
-                </ng-template>
               </div>
               <div
                 rteModal
@@ -254,14 +252,12 @@ export const Sizes: Story = {
                 [rteModalIcon]="rteModalIcon"
                 [rteModalAriaDescribedby]="rteModalAriaDescribedby"
                 [rteModalCloseOnClickOutside]="rteModalCloseOnClickOutside"
+                [rteModalPrimaryActionLabel]="rteModalPrimaryActionLabel"
+                [rteModalSecondaryActionLabel]="rteModalSecondaryActionLabel"
+                (rteModalPrimaryActionClick)="handlePrimaryClick(); modalHostXl.close()"
+                (rteModalSecondaryActionClick)="handleSecondaryClick(); modalHostXl.close()"
                 >
                 <button rteButton rteButtonVariant="primary" rteModalTrigger>Open Modal xl</button>
-                <ng-template #primaryButton>
-                  <button rteButton rteButtonVariant="primary" (click)="handlePrimaryClick(); modalHostXl.close()">Continue</button>
-                </ng-template>
-                <ng-template #secondaryButton>
-                  <button rteButton rteButtonVariant="neutral" (click)="handleSecondaryClick(); modalHostXl.close()">Cancel</button>
-                </ng-template>
               </div>
     </div>
       `,
@@ -300,14 +296,12 @@ export const WithCustomContent: Story = {
                 [rteModalIcon]="rteModalIcon"
                 [rteModalAriaDescribedby]="rteModalAriaDescribedby"
                 [rteModalCloseOnClickOutside]="rteModalCloseOnClickOutside"
+                [rteModalPrimaryActionLabel]="rteModalPrimaryActionLabel"
+                [rteModalSecondaryActionLabel]="rteModalSecondaryActionLabel"
+                (rteModalPrimaryActionClick)="handlePrimaryClick(); modalHost.close()"
+                (rteModalSecondaryActionClick)="handleSecondaryClick(); modalHost.close()"
                 >
                 <button rteButton rteButtonVariant="primary" rteModalTrigger>Open Modal</button>
-                <ng-template #primaryButton>
-                  <button rteButton rteButtonVariant="primary" (click)="handlePrimaryClick(); modalHost.close()">Continue</button>
-                </ng-template>
-                <ng-template #secondaryButton>
-                  <button rteButton rteButtonVariant="neutral" (click)="handleSecondaryClick(); modalHost.close()">Cancel</button>
-                </ng-template>
                 <ng-template #customContent>
                   <rte-textarea resizeable="true" />
                   <rte-select [options]="[{ label: 'Option 1', value: 'option1' }, { label: 'Option 2', value: 'option2' }]" />
@@ -326,6 +320,161 @@ export const WithCustomContent: Story = {
   }),
 };
 
+const splitMenuOptions = [
+  { id: "save-draft", label: "Save as draft" },
+  { id: "save-template", label: "Save as template" },
+];
+
+export const PrimaryDanger: Story = {
+  decorators: [
+    moduleMetadata({
+      imports: [ModalModule, ButtonComponent],
+    }),
+  ],
+  args: {
+    rteModalId: "modal-danger",
+    rteModalTitle: "Delete 3 documents",
+    rteModalDescription: "The selected documents will be deleted.",
+    rteModalSize: "s",
+    rteModalIcon: "delete",
+    rteModalIconAppearance: "filled",
+    rteModalCloseOnClickOutside: true,
+    rteModalPrimaryActionLabel: "Delete",
+    rteModalSecondaryActionLabel: "Cancel",
+    rteModalPrimaryActionIsCritical: true,
+  },
+  render: (args) => ({
+    props: {
+      ...args,
+      handlePrimaryClick: () => console.log("Delete confirmed"),
+      handleSecondaryClick: () => console.log("Cancelled"),
+    },
+    imports: [ModalDirective],
+    template: `<div
+      rteModal
+      #modalHost="rteModal"
+      [rteModalId]="rteModalId"
+      [rteModalTitle]="rteModalTitle"
+      [rteModalDescription]="rteModalDescription"
+      [rteModalSize]="rteModalSize"
+      [rteModalIcon]="rteModalIcon"
+      [rteModalIconAppearance]="rteModalIconAppearance"
+      [rteModalCloseOnClickOutside]="rteModalCloseOnClickOutside"
+      [rteModalPrimaryActionLabel]="rteModalPrimaryActionLabel"
+      [rteModalSecondaryActionLabel]="rteModalSecondaryActionLabel"
+      [rteModalPrimaryActionIsCritical]="rteModalPrimaryActionIsCritical"
+      (rteModalPrimaryActionClick)="handlePrimaryClick(); modalHost.close()"
+      (rteModalSecondaryActionClick)="handleSecondaryClick(); modalHost.close()"
+    >
+      <button rteButton rteButtonVariant="primary" rteModalTrigger>Open Modal</button>
+    </div>`,
+  }),
+};
+
+export const PrimarySplitButton: Story = {
+  decorators: [
+    moduleMetadata({
+      imports: [ModalModule, ButtonComponent],
+    }),
+  ],
+  args: {
+    rteModalId: "modal-split",
+    rteModalTitle: "Save document",
+    rteModalDescription: "Choose how to save your changes.",
+    rteModalSize: "m",
+    rteModalCloseOnClickOutside: true,
+    rteModalPrimaryActionLabel: "Save",
+    rteModalSecondaryActionLabel: "Cancel",
+    rteModalPrimaryActionType: "split-button",
+    rteModalPrimarySplitButtonAriaLabelRight: "More save options",
+  },
+  render: (args) => ({
+    props: {
+      ...args,
+      splitMenuOptions,
+      handlePrimaryClick: () => console.log("Save"),
+      handleSecondaryClick: () => console.log("Cancel"),
+    },
+    imports: [ModalDirective],
+    template: `<div
+      rteModal
+      #modalHost="rteModal"
+      [rteModalId]="rteModalId"
+      [rteModalTitle]="rteModalTitle"
+      [rteModalDescription]="rteModalDescription"
+      [rteModalSize]="rteModalSize"
+      [rteModalCloseOnClickOutside]="rteModalCloseOnClickOutside"
+      [rteModalPrimaryActionLabel]="rteModalPrimaryActionLabel"
+      [rteModalSecondaryActionLabel]="rteModalSecondaryActionLabel"
+      [rteModalPrimaryActionType]="rteModalPrimaryActionType"
+      [rteModalPrimarySplitButtonOptions]="splitMenuOptions"
+      [rteModalPrimarySplitButtonAriaLabelRight]="rteModalPrimarySplitButtonAriaLabelRight"
+      (rteModalPrimaryActionClick)="handlePrimaryClick(); modalHost.close()"
+      (rteModalSecondaryActionClick)="handleSecondaryClick(); modalHost.close()"
+    >
+      <button rteButton rteButtonVariant="primary" rteModalTrigger>Open Modal</button>
+    </div>`,
+  }),
+};
+
+export const InputAndLegacyFooterComparison: Story = {
+  decorators: [
+    moduleMetadata({
+      imports: [ModalModule, ButtonComponent],
+    }),
+  ],
+  args: {
+    rteModalTitle: "Save changes",
+    rteModalDescription: "Compare configured footer inputs with legacy footer templates.",
+    rteModalSize: "m",
+    rteModalCloseOnClickOutside: true,
+    rteModalPrimaryActionLabel: "Save",
+    rteModalSecondaryActionLabel: "Cancel",
+  },
+  render: (args) => ({
+    props: {
+      ...args,
+      handlePrimaryClick: () => console.log("Primary action"),
+      handleSecondaryClick: () => console.log("Secondary action"),
+    },
+    imports: [ModalDirective],
+    template: `<div style="display: flex; gap: 16px; flex-wrap: wrap;">
+      <div
+        rteModal
+        #inputModalHost="rteModal"
+        [rteModalId]="'modal-input-footer'"
+        [rteModalTitle]="rteModalTitle"
+        [rteModalDescription]="rteModalDescription"
+        [rteModalSize]="rteModalSize"
+        [rteModalCloseOnClickOutside]="rteModalCloseOnClickOutside"
+        [rteModalPrimaryActionLabel]="rteModalPrimaryActionLabel"
+        [rteModalSecondaryActionLabel]="rteModalSecondaryActionLabel"
+        (rteModalPrimaryActionClick)="handlePrimaryClick(); inputModalHost.close()"
+        (rteModalSecondaryActionClick)="handleSecondaryClick(); inputModalHost.close()"
+      >
+        <button rteButton rteButtonVariant="primary" rteModalTrigger>Open (input footer)</button>
+      </div>
+      <div
+        rteModal
+        #legacyModalHost="rteModal"
+        [rteModalId]="'modal-legacy-footer'"
+        [rteModalTitle]="rteModalTitle"
+        [rteModalDescription]="rteModalDescription"
+        [rteModalSize]="rteModalSize"
+        [rteModalCloseOnClickOutside]="rteModalCloseOnClickOutside"
+      >
+        <button rteButton rteButtonVariant="primary" rteModalTrigger>Open (legacy templates)</button>
+        <ng-template #primaryButton>
+          <button rteButton rteButtonVariant="primary" (click)="handlePrimaryClick(); legacyModalHost.close()">Save</button>
+        </ng-template>
+        <ng-template #secondaryButton>
+          <button rteButton rteButtonVariant="neutral" (click)="handleSecondaryClick(); legacyModalHost.close()">Cancel</button>
+        </ng-template>
+      </div>
+    </div>`,
+  }),
+};
+
 export const KeyboardInteraction: Story = {
   tags: ["!autodocs"],
   decorators: [
@@ -341,6 +490,9 @@ export const KeyboardInteraction: Story = {
     rteModalAriaDescribedby: undefined,
     rteModalSize: "xs",
     rteModalIcon: "delete",
+    rteModalPrimaryActionLabel: "Continue",
+    rteModalSecondaryActionLabel: "Cancel",
+    rteModalPrimaryActionIsCritical: true,
   },
   render: (args) => ({
     props: {
@@ -363,14 +515,13 @@ export const KeyboardInteraction: Story = {
                 [rteModalIcon]="rteModalIcon"
                 [rteModalAriaDescribedby]="rteModalAriaDescribedby"
                 [rteModalIsOpen]="rteModalIsOpen"
+                [rteModalPrimaryActionLabel]="rteModalPrimaryActionLabel"
+                [rteModalSecondaryActionLabel]="rteModalSecondaryActionLabel"
+                [rteModalPrimaryActionIsCritical]="rteModalPrimaryActionIsCritical"
+                (rteModalPrimaryActionClick)="handlePrimaryClick(); modalHost.close()"
+                (rteModalSecondaryActionClick)="handleSecondaryClick(); modalHost.close()"
                 >
                 <button rteButton rteModalTrigger variant="primary">Open Modal</button>
-                <ng-template #primaryButton>
-                  <button rteButton rteButtonVariant="danger" (click)="handlePrimaryClick(); modalHost.close()">Continue</button>
-                </ng-template>
-                <ng-template #secondaryButton>
-                  <button rteButton rteButtonVariant="neutral" (click)="handleSecondaryClick(); modalHost.close()">Cancel</button>
-                </ng-template>
               </div>
       `,
   }),
