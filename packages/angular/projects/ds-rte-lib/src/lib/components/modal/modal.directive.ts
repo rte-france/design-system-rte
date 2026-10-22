@@ -7,13 +7,21 @@ import {
   inject,
   input,
   OnDestroy,
+  output,
+  TemplateRef,
   ViewContainerRef,
 } from "@angular/core";
 import { Size } from "@design-system-rte/core/components/common/common-types";
+import type { ModalPrimaryActionType } from "@design-system-rte/core/components/modal/modal.interface";
+import {
+  shouldUseModalConfiguredFooter,
+  validateModalBeforeOpen,
+  warnModalLegacyAndConfiguredFooter,
+} from "@design-system-rte/core/components/modal/modal.utils";
+import type { SplitButtonItemProps } from "@design-system-rte/core/components/split-button/split-button.interface";
 import { ESCAPE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
 import { OverlayService } from "../../services/overlay.service";
-import { ButtonComponent } from "../button/button.component";
 
 import { ModalTriggerDirective } from "./modal-trigger/modal-trigger.directive";
 import { ModalComponent } from "./modal.component";
@@ -26,6 +34,9 @@ export class ModalDirective implements AfterContentInit, OnDestroy {
   private modalCompRef: ComponentRef<ModalComponent> | null = null;
   private hostElement: HTMLElement;
   private overlayService: OverlayService;
+
+  private subPrimaryAction?: { unsubscribe(): void };
+  private subSecondaryAction?: { unsubscribe(): void };
 
   private elementRef = inject(ElementRef);
   private viewContainerRef = inject(ViewContainerRef);
@@ -42,14 +53,28 @@ export class ModalDirective implements AfterContentInit, OnDestroy {
   readonly rteModalAriaDescribedby = input<string | undefined>();
   readonly rteModalCloseOnClickOutside = input<boolean>(true);
 
-  readonly primaryButton = contentChild.required<ButtonComponent>("primaryButton");
-  readonly secondaryButton = contentChild<ButtonComponent>("secondaryButton");
-  readonly customContent = contentChild<unknown>("customContent");
+  readonly rteModalPrimaryActionLabel = input<string>();
+  readonly rteModalSecondaryActionLabel = input<string>();
+  readonly rteModalPrimaryActionType = input<ModalPrimaryActionType>("button");
+  readonly rteModalPrimarySplitButtonOptions = input<SplitButtonItemProps[]>([]);
+  readonly rteModalPrimarySplitButtonAriaLabelRight = input<string>();
+  readonly rteModalPrimaryActionIsCritical = input<boolean>(false);
+
+  readonly rteModalPrimaryActionClick = output<void>();
+  readonly rteModalSecondaryActionClick = output<void>();
+
+  /** @deprecated Prefer `rteModalPrimaryActionLabel`, related primary action inputs, and `rteModalPrimaryActionClick`. */
+  readonly primaryButton = contentChild<TemplateRef<unknown>>("primaryButton");
+
+  /** @deprecated Prefer `rteModalSecondaryActionLabel` and `rteModalSecondaryActionClick`. */
+  readonly secondaryButton = contentChild<TemplateRef<unknown>>("secondaryButton");
+
+  readonly customContent = contentChild<TemplateRef<unknown>>("customContent");
 
   private modalElement: HTMLElement | null = null;
   private modalRestoreFocusTo: HTMLElement | null = null;
 
-  private onKeyDown = (e: KeyboardEvent) => this.handleKeydown(e);
+  private onKeyDown = (event: KeyboardEvent) => this.handleKeydown(event);
 
   constructor() {
     this.overlayService = inject(OverlayService);
@@ -75,11 +100,20 @@ export class ModalDirective implements AfterContentInit, OnDestroy {
 
   showModal(): void {
     if (this.modalCompRef) {
-      this.modalCompRef.destroy();
+      this.destroyModal();
     }
 
-    if (!this.primaryButton()) {
-      console.warn("Primary button required, add it as child to the modal directive.");
+    warnModalLegacyAndConfiguredFooter(this.primaryButton(), this.rteModalPrimaryActionLabel());
+
+    if (
+      !validateModalBeforeOpen({
+        hasLegacyPrimaryTemplate: !!this.primaryButton(),
+        hasPrimaryActionLabel: !!this.rteModalPrimaryActionLabel()?.trim(),
+        primaryActionType: this.rteModalPrimaryActionType(),
+        splitButtonOptionsCount: this.rteModalPrimarySplitButtonOptions().length,
+        hasSplitButtonAriaLabelRight: !!this.rteModalPrimarySplitButtonAriaLabelRight()?.trim(),
+      })
+    ) {
       return;
     }
 
@@ -90,7 +124,16 @@ export class ModalDirective implements AfterContentInit, OnDestroy {
     });
     this.modalCompRef.instance.backdropOwnerRef = this.modalCompRef;
 
-    this.modalCompRef?.instance.closeModal.subscribe(() => {
+    this.subPrimaryAction?.unsubscribe();
+    this.subSecondaryAction?.unsubscribe();
+    this.subPrimaryAction = this.modalCompRef.instance.primaryActionClick.subscribe(() => {
+      this.rteModalPrimaryActionClick.emit();
+    });
+    this.subSecondaryAction = this.modalCompRef.instance.secondaryActionClick.subscribe(() => {
+      this.rteModalSecondaryActionClick.emit();
+    });
+
+    this.modalCompRef.instance.closeModal.subscribe(() => {
       this.close();
     });
 
@@ -117,6 +160,8 @@ export class ModalDirective implements AfterContentInit, OnDestroy {
 
   private assignInputsValues(): void {
     if (this.modalCompRef) {
+      const useConfiguredFooter = shouldUseModalConfiguredFooter(this.rteModalPrimaryActionLabel());
+
       this.modalCompRef.setInput("id", this.rteModalId());
       this.modalCompRef.setInput("icon", this.rteModalIcon());
       this.modalCompRef.setInput("iconAppearance", this.rteModalIconAppearance());
@@ -124,8 +169,15 @@ export class ModalDirective implements AfterContentInit, OnDestroy {
       this.modalCompRef.setInput("description", this.rteModalDescription());
       this.modalCompRef.setInput("size", this.rteModalSize());
       this.modalCompRef.setInput("ariaDescribedby", this.rteModalAriaDescribedby());
-      this.modalCompRef.setInput("primaryButton", this.primaryButton());
-      this.modalCompRef.setInput("secondaryButton", this.secondaryButton());
+      this.modalCompRef.setInput("useConfiguredFooter", useConfiguredFooter);
+      this.modalCompRef.setInput("primaryActionLabel", this.rteModalPrimaryActionLabel());
+      this.modalCompRef.setInput("secondaryActionLabel", this.rteModalSecondaryActionLabel());
+      this.modalCompRef.setInput("primaryActionType", this.rteModalPrimaryActionType());
+      this.modalCompRef.setInput("primaryActionIsCritical", this.rteModalPrimaryActionIsCritical());
+      this.modalCompRef.setInput("primarySplitButtonOptions", this.rteModalPrimarySplitButtonOptions());
+      this.modalCompRef.setInput("primarySplitButtonAriaLabelRight", this.rteModalPrimarySplitButtonAriaLabelRight());
+      this.modalCompRef.setInput("primaryButton", useConfiguredFooter ? null : this.primaryButton());
+      this.modalCompRef.setInput("secondaryButton", useConfiguredFooter ? null : this.secondaryButton());
       this.modalCompRef.setInput("customContent", this.customContent());
       this.modalCompRef.setInput("closeOnClickOutside", this.rteModalCloseOnClickOutside());
       this.modalCompRef.setInput("restoreFocusTo", this.modalRestoreFocusTo);
@@ -138,6 +190,10 @@ export class ModalDirective implements AfterContentInit, OnDestroy {
   }
 
   private destroyModal(): void {
+    this.subPrimaryAction?.unsubscribe();
+    this.subSecondaryAction?.unsubscribe();
+    this.subPrimaryAction = undefined;
+    this.subSecondaryAction = undefined;
     if (this.modalCompRef) {
       this.modalCompRef.destroy();
       this.modalCompRef = null;

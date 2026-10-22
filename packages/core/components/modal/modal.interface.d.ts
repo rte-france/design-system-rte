@@ -8,3 +8,5 @@ export interface ModalProps {
   description?: string;
   size?: import("../common/common-types").Size;
 }
+
+export type ModalPrimaryActionType = "button" | "split-button";
