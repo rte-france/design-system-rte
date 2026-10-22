@@ -24,7 +24,7 @@ export class BioFieldComponent {
 }
 ```
 
-Use `assistiveTextLabel` and `assistiveTextAppearance` for help and validation messaging instead of a placeholder.
+Use `assistiveTextLabel` and `assistiveTextAppearance` for persistent help and validation messaging. You may use `placeholder` for a short hint while the field is empty, but it does not replace a label or assistive text. The placeholder is hidden when the textarea is disabled or read-only.
 
 #### Error
 
