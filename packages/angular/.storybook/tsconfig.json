@@ -23,10 +23,6 @@
     "../projects/ds-rte-lib/src/**/*.stories.*",
     "./preview.ts",
     "./template/**/*",
-    "../../design-docs/src/components/**/*.tsx",
-    "../../design-docs/src/components/**/*.ts",
-    "../../core/components/**/docs/**/*.tsx",
-    "../../core/components/**/docs/**/*.ts",
   ],
   "files": ["./typings.d.ts"]
 }

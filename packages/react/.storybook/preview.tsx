@@ -1,8 +1,6 @@
 import { Title, Subtitle, Description, Primary, Controls, Stories } from "@storybook/blocks";
-import { useGlobals } from "@storybook/preview-api";
 import type { Preview } from "@storybook/react";
 
-import { FrameworkProvider } from "../../design-docs/src/components/ComponentDocs/FrameworkContext";
 import ThemeSelector from "../.storybook/template/ThemeSelector/ThemeSelector";
 import "@design-system-rte/react/style.css";
 import "@design-system-rte/core/css/rte-fonts.css";
@@ -12,8 +10,6 @@ import "./preview.scss";
 export const decorators: Preview["decorators"] = [
   (Story, context) => {
     const isStory = context?.viewMode === "story";
-    const [globals] = useGlobals();
-    const framework = (globals?.framework as "angular" | "react") || "react";
 
     const noAutoMarginStoriesIds = ["composants-header", "sidenav"];
     const topBottomMarginStoriesIds = ["composants-grid"];
@@ -27,28 +23,26 @@ export const decorators: Preview["decorators"] = [
 
     return (
       <>
-        <FrameworkProvider framework={framework}>
-          {isStory && <ThemeSelector />}
+        {isStory && <ThemeSelector />}
+        <div
+          style={{
+            backgroundColor: "var(--background-default)",
+            marginTop: isStory && hasMarginTop ? "180px" : "0",
+            padding: hasPadding ? "24px" : "0",
+            height: "100%",
+            alignContent: "center",
+            width: "auto",
+          }}
+        >
           <div
             style={{
-              backgroundColor: "var(--background-default)",
-              marginTop: isStory && hasMarginTop ? "180px" : "0",
-              padding: hasPadding ? "24px" : "0",
-              height: "100%",
-              alignContent: "center",
-              width: "auto",
+              margin: hasTopBottomMargins ? "auto 0" : hasAutoMargins ? "auto" : "0",
+              width: hasAutoMargins ? "fit-content" : "100%",
             }}
           >
-            <div
-              style={{
-                margin: hasTopBottomMargins ? "auto 0" : hasAutoMargins ? "auto" : "0",
-                width: hasAutoMargins ? "fit-content" : "100%",
-              }}
-            >
-              <Story {...context} />
-            </div>
+            <Story {...context} />
           </div>
-        </FrameworkProvider>
+        </div>
       </>
     );
   },
@@ -58,7 +52,6 @@ const preview: Preview = {
   decorators: decorators,
   globalTypes: {},
   initialGlobals: {
-    framework: "react",
     mode: "light",
     theme: "bleu_iceberg",
   },
