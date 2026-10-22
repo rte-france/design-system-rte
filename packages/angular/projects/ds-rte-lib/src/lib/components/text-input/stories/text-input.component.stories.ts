@@ -46,6 +46,8 @@ const meta: Meta<TextInputComponent> = {
     readOnly: { control: "boolean" },
     valueChange: { action: "value changed" },
     rightIconClick: { action: "right icon clicked" },
+    placeholder: { control: "text", defaultValue: "Placeholder" },
+    compactSpacing: { control: "boolean", defaultValue: false },
   },
 };
 export default meta;
@@ -65,9 +67,22 @@ export const Default: Story = {
     readOnly: false,
     maxLength: 150,
     value: "",
-    placeholder: "Placeholder",
+    placeholder: "Ajouter du texte",
     width: "300px",
+    compactSpacing: false,
   },
+};
+
+export const CompactSpacing: Story = {
+  args: {
+    ...Default.args,
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+        <rte-text-input [label]="'Label'" [width]="width" [placeholder]="placeholder" [compactSpacing]="true"></rte-text-input>
+    `,
+  }),
 };
 
 export const CharacterCount: Story = {
@@ -92,6 +107,8 @@ export const CharacterCount: Story = {
           [value]="value"
           (valueChange)="valueChange($event)"
           [width]="width" 
+          [placeholder]="placeholder"
+          [compactSpacing]="compactSpacing"
         ></rte-text-input>
       </div>
     `,
@@ -128,10 +145,10 @@ export const InteractionStates: Story = {
     props: args,
     template: `
       <div style="display: flex; flex-direction: column; gap: 32px; font-family: Nunito Sans">
-        <rte-text-input [label]="'Enabled'" [value]="value" [width]="width"></rte-text-input>
-        <rte-text-input [label]="'Disabled'" [disabled]="true" [width]="width"></rte-text-input>
-        <rte-text-input [label]="'Read only'" [value]="'Read only text'" [readOnly]="true" [width]="width" data-testid="read-only"></rte-text-input>
-        <rte-text-input [label]="'Error'" [assistiveTextLabel]="'Error message'" [assistiveAppearance]="'error'" [error]="true" [width]="width"></rte-text-input>
+        <rte-text-input [label]="'Enabled'" [value]="value" [width]="width" [placeholder]="placeholder" [compactSpacing]="compactSpacing"></rte-text-input>
+        <rte-text-input [label]="'Disabled'" [disabled]="true" [width]="width" [placeholder]="placeholder" [compactSpacing]="compactSpacing"></rte-text-input>
+        <rte-text-input [label]="'Read only'" [value]="'Read only text'" [readOnly]="true" [width]="width" data-testid="read-only" [placeholder]="placeholder" [compactSpacing]="compactSpacing"></rte-text-input>
+        <rte-text-input [label]="'Error'" [assistiveTextLabel]="'Error message'" [assistiveAppearance]="'error'" [error]="true" [width]="width" [placeholder]="placeholder" [compactSpacing]="compactSpacing"></rte-text-input>
       </div>
     `,
   }),
@@ -153,15 +170,15 @@ export const Sizes: Story = {
       <div style="display: flex; flex-direction: column; gap: 32px; font-family: Nunito Sans">
         <div>
           <h3>Default width (300px)</h3>
-          <rte-text-input [label]="'Default'" [width]="width"></rte-text-input>
+          <rte-text-input [label]="'Default'" [width]="width" [placeholder]="placeholder" [compactSpacing]="compactSpacing"></rte-text-input>
         </div>
         <div>
           <h3>20px width (truncated to min-width 48px)</h3>
-          <rte-text-input [label]="'20px'" [width]="'20px'"></rte-text-input>
+          <rte-text-input [label]="'20px'" [width]="'20px'" [placeholder]="placeholder" [compactSpacing]="compactSpacing"></rte-text-input>
         </div>
         <div>
           <h3>100% width</h3>
-          <rte-text-input [label]="'100%'" [width]="'100%'"></rte-text-input>
+          <rte-text-input [label]="'100%'" [width]="'100%'" [placeholder]="placeholder" [compactSpacing]="compactSpacing"></rte-text-input>
         </div>
       </div>
     `,
@@ -176,8 +193,8 @@ export const LabelPosition: Story = {
     props: args,
     template: `
       <div style="display: flex; flex-direction: column; gap: 32px; font-family: Nunito Sans">
-        <rte-text-input [label]="'Top'" [labelPosition]="'top'"></rte-text-input>
-        <rte-text-input [label]="'Side'" [labelPosition]="'side'"></rte-text-input>
+        <rte-text-input [label]="'Top'" [labelPosition]="'top'" [placeholder]="placeholder" [compactSpacing]="compactSpacing"></rte-text-input>
+        <rte-text-input [label]="'Side'" [labelPosition]="'side'" [placeholder]="placeholder" [compactSpacing]="compactSpacing"></rte-text-input>
       </div>
     `,
   }),
@@ -193,19 +210,19 @@ export const RequiredIndicator: Story = {
       <div style="display: flex; flex-direction: column; gap: 32px; font-family: Nunito Sans">
         <div>
           <h3>Required (show label requirement)</h3>
-          <rte-text-input [width]="'400px'" [label]="'Label'" [required]="true" [showLabelRequirement]="true"></rte-text-input>
+          <rte-text-input [width]="'400px'" [label]="'Label'" [required]="true" [showLabelRequirement]="true" [placeholder]="placeholder" [compactSpacing]="compactSpacing"></rte-text-input>
         </div>
         <div>
           <h3>Required (hide label requirement)</h3>
-          <rte-text-input [width]="'400px'" [label]="'Label'" [required]="true" [assistiveAppearance]="'error'"></rte-text-input>
+          <rte-text-input [width]="'400px'" [label]="'Label'" [required]="true" [assistiveAppearance]="'error'" [placeholder]="placeholder" [compactSpacing]="compactSpacing"></rte-text-input>
         </div>
         <div>
           <h3>Not required (show label requirement)</h3>
-          <rte-text-input [width]="'400px'" [label]="'Label'" [showLabelRequirement]="true"></rte-text-input>
+          <rte-text-input [width]="'400px'" [label]="'Label'" [showLabelRequirement]="true" [placeholder]="placeholder" [compactSpacing]="compactSpacing"></rte-text-input>
         </div>
         <div>
           <h3>Not required (hide label requirement)</h3>
-          <rte-text-input [width]="'400px'" [label]="'Label'" [assistiveAppearance]="'error'"></rte-text-input>
+          <rte-text-input [width]="'400px'" [label]="'Label'" [assistiveAppearance]="'error'" [placeholder]="placeholder" [compactSpacing]="compactSpacing"></rte-text-input>
         </div>
       </div>
     `,
@@ -221,12 +238,12 @@ export const AssistiveText: Story = {
     props: args,
     template: `
       <div style="display: flex; flex-direction: column; gap: 32px; font-family: Nunito Sans">
-        <rte-text-input [width]="width" [label]="'Description'" [assistiveAppearance]="'description'" [assistiveTextLabel]="assistiveTextLabel"></rte-text-input>
-        <rte-text-input [width]="width" [label]="'Error'" [assistiveAppearance]="'error'" [error]="true" [assistiveTextLabel]="assistiveTextLabel"></rte-text-input>
-        <rte-text-input [width]="width" [label]="'Success'" [assistiveAppearance]="'success'" [assistiveTextLabel]="assistiveTextLabel"></rte-text-input>
-        <rte-text-input [width]="width" [label]="'Link'" [assistiveAppearance]="'link'" [assistiveTextLabel]="assistiveTextLabel"></rte-text-input>
-        <rte-text-input [width]="width" [label]="'Error + icon'" [assistiveAppearance]="'error'" [showAssistiveIcon]="true" [error]="true" [assistiveTextLabel]="assistiveTextLabel"></rte-text-input>
-        <rte-text-input [width]="width" [label]="'Success + icon'" [assistiveAppearance]="'success'" [showAssistiveIcon]="true" [assistiveTextLabel]="assistiveTextLabel"></rte-text-input>
+        <rte-text-input [width]="width" [label]="'Description'" [placeholder]="placeholder" [compactSpacing]="compactSpacing" [assistiveAppearance]="'description'" [assistiveTextLabel]="assistiveTextLabel"></rte-text-input>
+        <rte-text-input [width]="width" [label]="'Error'" [placeholder]="placeholder" [compactSpacing]="compactSpacing" [assistiveAppearance]="'error'" [error]="true" [assistiveTextLabel]="assistiveTextLabel"></rte-text-input>
+        <rte-text-input [width]="width" [label]="'Success'" [placeholder]="placeholder" [compactSpacing]="compactSpacing" [assistiveAppearance]="'success'" [assistiveTextLabel]="assistiveTextLabel"></rte-text-input>
+        <rte-text-input [width]="width" [label]="'Link'" [placeholder]="placeholder" [compactSpacing]="compactSpacing" [assistiveAppearance]="'link'" [assistiveTextLabel]="assistiveTextLabel"></rte-text-input>
+        <rte-text-input [width]="width" [label]="'Error + icon'" [placeholder]="placeholder" [compactSpacing]="compactSpacing" [assistiveAppearance]="'error'" [showAssistiveIcon]="true" [error]="true" [assistiveTextLabel]="assistiveTextLabel"></rte-text-input>
+        <rte-text-input [width]="width" [label]="'Success + icon'" [placeholder]="placeholder" [compactSpacing]="compactSpacing" [assistiveAppearance]="'success'" [showAssistiveIcon]="true" [assistiveTextLabel]="assistiveTextLabel"></rte-text-input>
       </div>
     `,
   }),
@@ -241,8 +258,8 @@ export const LeftIcon: Story = {
     props: args,
     template: `
       <div style="display: flex; flex-direction: column; gap: 32px; font-family: Nunito Sans">
-        <rte-text-input [width]="width" [label]="'Search icon'" [leftIcon]="'search'"></rte-text-input>
-        <rte-text-input [width]="width" [label]="'Search icon + error'" [leftIcon]="'search'" [error]="true" data-testid="error"></rte-text-input>
+        <rte-text-input [width]="width" [label]="'Search icon'" [leftIcon]="'search'" [placeholder]="placeholder" [compactSpacing]="compactSpacing"></rte-text-input>
+        <rte-text-input [width]="width" [label]="'Search icon + error'" [leftIcon]="'search'" [placeholder]="placeholder" [compactSpacing]="compactSpacing" [error]="true" data-testid="error"></rte-text-input>
       </div>
     `,
   }),
@@ -264,7 +281,7 @@ export const RightIconClean: Story = {
   },
   render: (args) => ({
     props: args,
-    template: `<rte-text-input [width]="width" [label]="label" data-testid="input" [rightIconAction]="rightIconAction" [showRightIcon]="showRightIcon"></rte-text-input>`,
+    template: `<rte-text-input [width]="width" [label]="label" data-testid="input" [rightIconAction]="rightIconAction" [showRightIcon]="showRightIcon" [placeholder]="placeholder" [compactSpacing]="compactSpacing"></rte-text-input>`,
   }),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -289,7 +306,7 @@ export const EnterKey: Story = {
   },
   render: (args) => ({
     props: args,
-    template: `<rte-text-input [width]="width" [label]="label" data-testid="input" (enterKeyDown)="enterKeyDown($event)"></rte-text-input>`,
+    template: `<rte-text-input [width]="width" [label]="label" data-testid="input" (enterKeyDown)="enterKeyDown($event)" [placeholder]="placeholder" [compactSpacing]="compactSpacing"></rte-text-input>`,
   }),
   play: async ({ args, canvasElement }) => {
     const canvas = within(canvasElement);
@@ -309,7 +326,7 @@ export const KeyboardInteraction: Story = {
   },
   render: (args) => ({
     props: args,
-    template: `<rte-text-input [width]="width" [label]="label" data-testid="input"></rte-text-input>`,
+    template: `<rte-text-input [width]="width" [label]="label" data-testid="input" [placeholder]="placeholder" [compactSpacing]="compactSpacing"></rte-text-input>`,
   }),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -329,7 +346,7 @@ export const KeyboardRightIconClean: Story = {
   },
   render: (args) => ({
     props: args,
-    template: `<rte-text-input [width]="width" [label]="label" data-testid="input" [rightIconAction]="rightIconAction" [showRightIcon]="showRightIcon"></rte-text-input>`,
+    template: `<rte-text-input [width]="width" [label]="label" data-testid="input" [rightIconAction]="rightIconAction" [showRightIcon]="showRightIcon" [placeholder]="placeholder" [compactSpacing]="compactSpacing"></rte-text-input>`,
   }),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -350,7 +367,7 @@ export const KeyboardRightIconVisibility: Story = {
   },
   render: (args) => ({
     props: args,
-    template: `<rte-text-input [width]="width" [label]="label" data-testid="input" [rightIconAction]="rightIconAction" [showRightIcon]="showRightIcon"></rte-text-input>`,
+    template: `<rte-text-input [width]="width" [label]="label" data-testid="input" [rightIconAction]="rightIconAction" [showRightIcon]="showRightIcon" [placeholder]="placeholder" [compactSpacing]="compactSpacing"></rte-text-input>`,
   }),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
