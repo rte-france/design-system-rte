@@ -6,12 +6,9 @@ import "./MainContent.scss";
 import Designers from "../assets/Designers.svg";
 import Devs from "../assets/Devs.svg";
 
-const DESIGNERS_LINK =
-  "https://opensource.rte-france.com/design-system-rte/?path=/docs/design-system-get-started-kit-de-démarrage-design--docs";
-const ANGULAR_LINK =
-  "https://opensource.rte-france.com/design-system-rte/?path=/docs/design-system-get-started-kit-de-démarrage-angular--docs";
-const REACT_LINK =
-  "https://opensource.rte-france.com/design-system-rte/?path=/docs/design-system-get-started-kit-de-démarrage-react--docs";
+const DESIGNERS_LINK = "https://zeroheight.com/687a5ae28/v/latest/p/178db0-kit-de-demarrage/b/632b63";
+const ANGULAR_LINK = "https://zeroheight.com/687a5ae28/v/latest/p/178db0-kit-de-demarrage/b/10c122";
+const REACT_LINK = "https://zeroheight.com/687a5ae28/v/latest/p/178db0-kit-de-demarrage/b/9285e2";
 
 type UserCardProps = {
   icon: string;
