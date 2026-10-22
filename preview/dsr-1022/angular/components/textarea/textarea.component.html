@@ -49,6 +49,7 @@
         [value]="internalValue()"
         [defaultValue]="defaultValue() !== undefined ? defaultValue() : null"
         [attr.rows]="rows()"
+        [attr.placeholder]="computedPlaceholder()"
         (input)="onInput($event)"
         (blur)="onBlur($event)"
       ></textarea>
