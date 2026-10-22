@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { expect, fn, userEvent, waitFor, within } from "@storybook/test";
 import { useState } from "react";
 
-import headerStoryRteLogoUrl from "../../../../../design-docs/src/img/rte.png";
+import headerStoryRteLogoUrl from "../../../../../core/assets/img/rte.png";
 import NavigationProvider from "../../../provider/NavigationProvider";
 import Header from "../Header";
 
