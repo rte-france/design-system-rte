@@ -39,7 +39,7 @@ When core receives a **minor** bump, framework packages are released in the same
 
 ## Getting help
 
-- **Documentation (Storybook):** [opensource.rte-france.com/design-system-rte](https://opensource.rte-france.com/design-system-rte/)
+- **Documentation (Zeroheight):** [zeroheight.com/687a5ae28](https://zeroheight.com/687a5ae28)
 - **Package changelogs:** [packages/core/CHANGELOG.md](packages/core/CHANGELOG.md), [packages/react/CHANGELOG.md](packages/react/CHANGELOG.md), [packages/angular/projects/ds-rte-lib/CHANGELOG.md](packages/angular/projects/ds-rte-lib/CHANGELOG.md)
 - **GitHub Issues:** [rte-france/design-system-rte/issues](https://github.com/rte-france/design-system-rte/issues)
 
@@ -47,5 +47,5 @@ When core receives a **minor** bump, framework packages are released in the same
 
 The following are intentionally not part of the consumer support surface:
 
-- **Date-based git tags** (`DD-MM-YYYY.N`) — internal Storybook deploy markers only; consumers should rely on npm package versions
+- **Date-based git tags** (`DD-MM-YYYY.N`) — internal QA deploy markers only; consumers should rely on npm package versions
 

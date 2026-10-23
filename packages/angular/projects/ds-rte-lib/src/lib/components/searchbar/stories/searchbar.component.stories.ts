@@ -35,7 +35,7 @@ class DropdownWrapperComponent {
 }
 
 const meta: Meta<SearchbarComponent> = {
-  title: "Composants/Searchbar/Searchbar",
+  title: "Composants/Searchbar",
   component: SearchbarComponent,
   tags: ["autodocs"],
   decorators: [

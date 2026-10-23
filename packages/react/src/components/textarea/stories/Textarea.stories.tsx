@@ -5,7 +5,7 @@ import { focusElementBeforeComponent } from "../../../../.storybook/testing/test
 import Textarea from "../Textarea";
 
 const meta = {
-  title: "Composants/Textarea/Textarea",
+  title: "Composants/Textarea",
   tags: ["autodocs"],
   component: Textarea,
   args: {

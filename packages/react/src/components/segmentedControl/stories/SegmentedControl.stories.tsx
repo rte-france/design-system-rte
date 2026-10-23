@@ -15,7 +15,7 @@ const RegularIconIds = Object.keys(RegularIconsList);
 const TogglableIconIds = Object.keys(TogglableIconsList);
 
 const meta = {
-  title: "Composants/SegmentedControl/SegmentedControl",
+  title: "Composants/SegmentedControl",
   component: SegmentedControl,
   tags: ["autodocs"],
   argTypes: {

@@ -19,7 +19,6 @@ The changelog generation process follows these steps:
    - Angular (`packages/angular/projects/ds-rte-lib/CHANGELOG.md`)
    - React (`packages/react/CHANGELOG.md`)
    - Core (`packages/core/CHANGELOG.md`)
-   - Design Docs (`packages/design-docs/CHANGELOG.md`)
 
 2. **Document Parsing**: For each package changelog:
    - Extracts version headers (e.g., `## 1.2.3`)

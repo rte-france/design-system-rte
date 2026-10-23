@@ -3,7 +3,7 @@ import type { HeaderIconButtonConfig, HeaderNavigationItem } from "@design-syste
 import { Meta, moduleMetadata, StoryObj } from "@storybook/angular";
 import { expect, fn, userEvent, waitFor, within } from "@storybook/test";
 
-import headerStoryRteLogoUrl from "../../../../../../../../design-docs/src/img/rte.png";
+import headerStoryRteLogoUrl from "../../../../../../../../core/assets/img/rte.png";
 import type { DropdownItemConfig } from "../../dropdown/dropdown.types";
 import { HeaderLeftDirective } from "../header-left.directive";
 import { HeaderMobileMenuDirective } from "../header-mobile-menu.directive";
@@ -65,7 +65,7 @@ const mobileMenuItemsInterceptSelectionStory: DropdownItemConfig[] = [
 ];
 
 const meta: Meta<HeaderComponent> = {
-  title: "Composants/Header/Header",
+  title: "Composants/Header",
   component: HeaderComponent,
   tags: ["autodocs"],
   parameters: {
