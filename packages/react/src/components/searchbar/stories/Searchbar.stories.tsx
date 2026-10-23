@@ -12,7 +12,7 @@ import DropdownItem from "../../dropdown/dropdownItem/DropdownItem";
 import Searchbar from "../Searchbar";
 
 const meta = {
-  title: "Composants/Searchbar/Searchbar",
+  title: "Composants/Searchbar",
   component: Searchbar,
   tags: ["autodocs"],
   argTypes: {

@@ -13,7 +13,7 @@ import logo from "./company.png";
 import img from "./user.png";
 
 const meta = {
-  title: "Composants/Avatar/Avatar",
+  title: "Composants/Avatar",
   component: Avatar,
   tags: ["autodocs"],
   argTypes: {

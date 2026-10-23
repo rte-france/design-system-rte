@@ -6,7 +6,7 @@ import { useState } from "react";
 import Pagination from "../Pagination";
 
 const meta = {
-  title: "Composants/Pagination/Pagination",
+  title: "Composants/Pagination",
   component: Pagination,
   tags: ["autodocs"],
   argTypes: {

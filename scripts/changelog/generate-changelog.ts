@@ -24,10 +24,6 @@ const packages = [
     name: "Core",
     changelogPath: path.resolve(__dirname, "../../packages/core/CHANGELOG.md"),
   },
-  {
-    name: "Design Docs",
-    changelogPath: path.resolve(__dirname, "../../packages/design-docs/CHANGELOG.md"),
-  },
 ];
 
 const outputPath = path.resolve(__dirname, "../../CHANGELOG.md");

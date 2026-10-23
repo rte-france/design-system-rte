@@ -11,8 +11,4 @@ export const packages = {
     dir: "packages/core",
     name: "@design-system-rte/core",
   },
-  designDocs: {
-    dir: "packages/design-docs",
-    name: "@design-system-rte/design-docs",
-  },
 };

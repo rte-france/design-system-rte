@@ -7,7 +7,7 @@ import { getDropdown, normalizedDateInputValue } from "../../datepicker/stories/
 import DateRangePicker from "../DateRangePicker";
 
 const meta = {
-  title: "Composants/DateRangePicker/DateRangePicker",
+  title: "Composants/DateRangePicker",
   component: DateRangePicker,
   tags: ["autodocs"],
   argTypes: {
