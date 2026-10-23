@@ -19,27 +19,6 @@ function applyTheme(themeName = "bleu_iceberg_light"): void {
 
 applyTheme();
 
-window.addEventListener("message", (event) => {
-  if (typeof event.data !== "string") {
-    return;
-  }
-
-  const parsedData = JSON.parse(event.data);
-  const globals = parsedData?.event.args[0].userGlobals;
-
-  if (!globals?.theme || !globals?.color) {
-    return;
-  }
-
-  const newTheme = `${globals.color}_${globals.theme}`;
-  applyTheme(newTheme);
-  _emitThemeChange(globals.theme, globals.color);
-});
-
-function _emitThemeChange(theme: string, color: string): void {
-  addons.getChannel().emit("THEME_CHANGED", { theme, color });
-}
-
 function _hideStories(storySections: Record<string, string[]>): void {
   if (!Object.keys(storySections).length) {
     return;

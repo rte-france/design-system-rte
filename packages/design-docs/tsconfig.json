@@ -17,6 +17,6 @@
     /* Linting */
     "strict": true
   },
-  "include": [".storybook/**/*", "src/**/*", "stories/**/*"]
+  "include": [".storybook/**/*", "stories/**/*"]
 }
 
