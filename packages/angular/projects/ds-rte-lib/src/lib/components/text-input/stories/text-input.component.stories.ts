@@ -12,7 +12,7 @@ const RegularIconIds = Object.keys(RegularIconsList);
 const TogglableIconIds = Object.keys(TogglableIconsList);
 
 const meta: Meta<TextInputComponent> = {
-  title: "Composants/TextInput",
+  title: "Composants/TextInput/TextInput",
   component: TextInputComponent,
   tags: ["autodocs"],
   argTypes: {

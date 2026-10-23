@@ -7,7 +7,7 @@ import { focusElementBeforeComponent } from "../../../../.storybook/testing/test
 import Switch from "../Switch";
 
 const meta = {
-  title: "Composants/Switch",
+  title: "Composants/Switch/Switch",
   component: Switch,
   tags: ["autodocs"],
   argTypes: {

@@ -65,7 +65,7 @@ const mobileMenuItemsInterceptSelectionStory: DropdownItemConfig[] = [
 ];
 
 const meta: Meta<HeaderComponent> = {
-  title: "Composants/Header",
+  title: "Composants/Header/Header",
   component: HeaderComponent,
   tags: ["autodocs"],
   parameters: {

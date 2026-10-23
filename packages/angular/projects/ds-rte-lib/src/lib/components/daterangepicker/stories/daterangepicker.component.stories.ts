@@ -199,7 +199,7 @@ const buildRender =
   });
 
 const meta: Meta<DaterangepickerStoryHostComponent> = {
-  title: "Composants/DateRangePicker",
+  title: "Composants/DateRangePicker/DateRangePicker",
   component: DaterangepickerStoryHostComponent,
   tags: ["autodocs"],
   argTypes: {

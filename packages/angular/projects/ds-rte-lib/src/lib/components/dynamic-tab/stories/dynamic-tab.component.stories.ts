@@ -38,7 +38,7 @@ const defaultTabs: DynamicTabItemOption[] = [
 ];
 
 const meta: Meta<DynamicTabComponent> = {
-  title: "Composants/DynamicTab",
+  title: "Composants/DynamicTab/DynamicTab",
   component: DynamicTabComponent,
   tags: ["autodocs"],
   argTypes: {

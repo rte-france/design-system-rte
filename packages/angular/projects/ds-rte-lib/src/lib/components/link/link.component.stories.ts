@@ -32,7 +32,7 @@ class LinkNavigationDemoComponent {
 }
 
 const meta: Meta<LinkComponent> = {
-  title: "Composants/Link",
+  title: "Composants/Link/Link",
   component: LinkComponent,
   tags: ["autodocs"],
   argTypes: {
