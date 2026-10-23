@@ -4,11 +4,13 @@ This document describes how to remove portal and design-narrative content from S
 
 ## Goals
 
-- Storybook = implementation catalog, interaction tests, and autodocs — not the design system website.
-- Preserve deployed composition: root shell with refs to `/angular/` and `/react/`.
+- Storybook = **developer tool only** (implementation catalog, interaction tests, autodocs) — not the design system website. Design and product documentation live on **Zeroheight**; consumers are expected to use Zeroheight without a separate “broken Storybook URL” comms pass.
+- **Keep the composition shell permanently** at the site root (`packages/design-docs` + refs to `/angular/` and `/react/`) to preserve composed URL integrity. No plan to drop the shell or add HTTP/query redirects to replace old paths.
 - **Preserve composed component story URLs at the site root** (inbound links must keep working).
 - **Preserve Accueil (home)** on the shell for this migration — keeps the default portal entry and avoids breaking inbound links; removing other portal pages only.
 - Do not change published npm packages (`@design-system-rte/core`, `angular`, `react`); only dev/build tooling and static Storybook output.
+
+
 
 ## Current migration scope (Accueil retained)
 
@@ -41,7 +43,7 @@ Standalone builds use the same slug **without** the ref prefix, e.g. `/angular/?
 
 **Breaks story URLs (out of scope / forbidden for this migration):** dropping the composition shell; changing ref keys or `remoteId`; renaming `meta.title` or stories; moving output dirs without updating refs and CI the same way as today.
 
-**Docs vs story paths:** design MDX often registers separate doc entries (e.g. `Composants/Button` in `component-docs` while stories live under `Composants/Button/Button`). Removing that MDX can break `**/docs/...`** links (e.g. `...?path=/docs/angular_composants-button--docs`) but does **not** by itself change `**/story/...`** slugs derived from `*.stories.*`. Other portal pages (Fondations, Get Started, etc.) may lose `**/docs/...**` links when removed; **Accueil and composed component story links stay stable in this migration.**
+**Docs vs story paths:** design MDX often registers separate doc entries (e.g. `Composants/Button` in `component-docs` while stories live under `Composants/Button/Button`). Removing that MDX can break `**/docs/...`** links (e.g. `...?path=/docs/angular_composants-button--docs`) but does **not** by itself change `**/story/...`** slugs derived from `*.stories.*`. Other portal pages (Fondations, Get Started, etc.) may lose `**/docs/...`** links when removed; **Accueil and composed component story links stay stable in this migration.**
 
 ## Current architecture
 
@@ -81,6 +83,8 @@ Most component stories already use `tags: ['autodocs']`. That remains the Storyb
 
 ## Coupling to unwind (simplification targets)
 
+
+
 ### Angular Storybook (`packages/angular/.storybook/main.ts`)
 
 `webpackFinal` compiles React/TSX and SCSS from `design-docs` inside an Angular Storybook (babel-loader, `ProvidePlugin` for React, ngtools excludes, extra SCSS rules). This exists for rich MDX docs, not for component stories. After removing MDX from globs, most of this can be deleted.
@@ -93,18 +97,24 @@ Imports `FrameworkProvider` from `design-docs/src/components/ComponentDocs/Frame
 
 - Header stories import `design-docs/src/img/rte.png` (Angular and React). Move to `packages/core/assets` or story-local assets before deleting `design-docs/src`.
 
+
+
 ### Shell manager
 
 `packages/design-docs/.storybook/manager.ts` — theming and hiding composed ref categories; keep if composition stays.
 
 ## Recommended phases
 
+
+
 ### Phase 0 — Prerequisites
 
 - [x] Inventory inbound links in two buckets:
-  - **Must preserve:** composed `**/story/angular_*`** and `**/story/react_***` URLs at the site root; **Accueil** `**/docs/design-system-accueil--docs`** (or current slug after build).
-  - **May break / replace:** Fondations, Guidelines, Get Started / Luciole and other shell `**/docs/*`** pages, ComponentDocs `**/docs/***` pages, co-located MDX doc pages — redirect or document on Zeroheight.
+  - **Must preserve:** composed `**/story/angular_*`** and `**/story/react_*`** URLs at the site root; **Accueil** `**/docs/design-system-accueil--docs`** (or current slug after build).
+  - **May break / replace:** Fondations, Guidelines, Get Started / Luciole and other shell `**/docs/*`** pages, ComponentDocs `**/docs/*`** pages, co-located MDX doc pages — content on Zeroheight only (no redirect layer in Storybook).
 - [x] Confirm Zeroheight (or equivalent) coverage for content you remove from Storybook.
+
+
 
 ### Phase 1 — Thin the shell (low risk)
 
@@ -117,7 +127,7 @@ Imports `FrameworkProvider` from `design-docs/src/components/ComponentDocs/Frame
 4. Run locally: `npm run design-docs` plus `npm run base-storybook` (three servers); verify Accueil and refs open Angular/React.
 5. Run `npm run build-design-docs && npm run build-base-storybook` and smoke-test static output.
 
-**Keep:** `design-docs/.storybook/main.ts` `refs`, `staticDirs`, deploy workflows, **`DesignSystem/Home/`**.
+**Keep:** `design-docs/.storybook/main.ts` `refs`, `staticDirs`, deploy workflows, `DesignSystem/Home/`.
 
 ### Phase 2 — Dev-only Angular and React Storybooks
 
@@ -136,6 +146,8 @@ Imports `FrameworkProvider` from `design-docs/src/components/ComponentDocs/Frame
 6. Run Storybook test-runner: `packages/angular` and `packages/react` `npm run test:ci` (or equivalent).
 7. **Regression:** open composed URLs at the **root** host, e.g. `?path=/story/angular_composants-accordion--default`, before and after the phase.
 
+
+
 ### Phase 3 — Retire the design-docs doc product
 
 **Intent:** `design-docs` = composition orchestrator only.
@@ -147,11 +159,24 @@ Imports `FrameworkProvider` from `design-docs/src/components/ComponentDocs/Frame
   - Drop unused Storybook addons only if Accueil and composition still work (e.g. `@storybook/addon-themes` if Accueil or shell preview still need it).
 4. Update changesets / changelog policy for `@design-system-rte/design-docs` if the package scope changes (still valid as deploy shell).
 
+
+
 ### Phase 4 — Optional hardening
 
-- [ ] Add a short note in root README: Storybook vs Zeroheight responsibilities.
-- [ ] Redirect or communicate breaking URL changes **only for removed portal/design doc paths** (Fondations, Get Started, etc.; not **Accueil**), ComponentDocs `/docs/angular_composants-*` entries that came from MDX-only titles, etc. — **not** for **Accueil**, composed component `**/story/angular_*`** / `**/story/react_***` links.
-- [ ] Chromatic / visual pipelines: confirm projects still match the three-build layout.
+**Explicitly out of scope:**
+
+- Root README note distinguishing Storybook vs Zeroheight (not needed).
+- Announcing or redirecting **broken design-doc URLs** removed in Phases 1–3 — Storybook is for developers; Zeroheight is the public doc surface.
+
+**Optional (if you use them):**
+
+- [ ] Chromatic / visual pipelines: confirm projects still match the three-build layout (shell + `angular/` + `react/`).
+
+**Permanent architecture (not optional):**
+
+- Keep the **composition shell** and three-build deploy — required for composed story and Accueil URL stability; no standalone-only deploy and no redirect map for legacy doc paths.
+
+
 
 ## What not to strip without an explicit decision
 
@@ -164,6 +189,8 @@ Imports `FrameworkProvider` from `design-docs/src/components/ComponentDocs/Frame
 - `composed.remoteId` in Angular/React previews (`angular` / `react`) — must match ref keys.
 - Output paths: Angular/React builds must still target `packages/design-docs/storybook-static/{angular,react}`.
 - `PRODUCTION_PATH` and preview workflow `sed` patches on `storybook-static/index.html` (refs must keep pointing at the same sibling folders).
+
+
 
 ## Verification checklist
 
@@ -186,9 +213,7 @@ npm run build-base-storybook
   - React: pick a stable story, e.g. `?path=/story/react_composants-accordion--default` (same `title` / export naming rules).
 - Angular and React: run `test:ci` for Storybook test-runner.
 
-## Alternative: drop the shell (not recommended)
 
-Deploy only `/angular/` and `/react/` with no root Storybook. Simplest runtime, but **breaks all existing composed links** at the root (`?path=/story/angular_`*, `?path=/story/react_*`), not only Accueil. Consumers would need new URLs under `/angular/` or `/react/` unless you add redirects mapping old query paths to new ones.
 
 ## Related repo assets
 
