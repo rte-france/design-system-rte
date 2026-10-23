@@ -14,7 +14,7 @@ import IconButton from "../../iconButton/IconButton";
 import Drawer from "../Drawer";
 
 const meta = {
-  title: "Composants/Drawer",
+  title: "Composants/Drawer/Drawer",
   component: Drawer,
   tags: ["autodocs"],
   argTypes: {

@@ -10,7 +10,7 @@ import { focusElementBeforeComponent } from "../../../../.storybook/testing/test
 import Select from "../Select";
 
 const meta = {
-  title: "Composants/Select",
+  title: "Composants/Select/Select",
   component: Select,
   tags: ["autodocs"],
   argTypes: {

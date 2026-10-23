@@ -26,7 +26,7 @@ import {
 } from "./datepicker.component.stories.helpers";
 
 const meta: Meta<DatepickerComponent> = {
-  title: "Composants/Datepicker",
+  title: "Composants/Datepicker/Datepicker",
   component: DatepickerComponent,
   tags: ["autodocs"],
   argTypes: {

@@ -14,7 +14,7 @@ import { SelectHeaderDirective } from "../select-header.directive";
 import { SelectComponent } from "../select.component";
 
 const meta: Meta<SelectComponent> = {
-  title: "Composants/Select",
+  title: "Composants/Select/Select",
   component: SelectComponent,
   tags: ["autodocs"],
   argTypes: {

@@ -13,7 +13,7 @@ import IconButton from "../../iconButton/IconButton";
 import Stepper from "../Stepper";
 
 const meta = {
-  title: "Composants/Stepper",
+  title: "Composants/Stepper/Stepper",
   component: Stepper,
   tags: ["autodocs"],
   argTypes: {

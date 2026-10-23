@@ -9,7 +9,7 @@ const RegularIconIds = Object.keys(RegularIconsList);
 const TogglableIconIds = Object.keys(TogglableIconsList);
 
 const meta = {
-  title: "Composants/Badge",
+  title: "Composants/Badge/Badge",
   component: Badge,
   tags: ["autodocs"],
   argTypes: {

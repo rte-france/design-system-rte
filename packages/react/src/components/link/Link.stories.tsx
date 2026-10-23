@@ -8,7 +8,7 @@ import NavigationProvider from "../../provider/NavigationProvider";
 import Link from "./Link";
 
 const meta = {
-  title: "Composants/Link",
+  title: "Composants/Link/Link",
   component: Link,
   tags: ["autodocs"],
   argTypes: {

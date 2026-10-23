@@ -23,7 +23,7 @@ import { userEvent, within, expect } from "@storybook/test";
 import Treeview from "../Treeview";
 
 const meta = {
-  title: "Composants/Treeview",
+  title: "Composants/Treeview/Treeview",
   component: Treeview,
   decorators: [
     (Story) => (

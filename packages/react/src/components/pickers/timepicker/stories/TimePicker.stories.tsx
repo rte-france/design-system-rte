@@ -8,7 +8,7 @@ import { focusElementBeforeComponent } from "../../../../../.storybook/testing/t
 import TimePicker from "../TimePicker";
 
 const meta = {
-  title: "Composants/TimePicker",
+  title: "Composants/TimePicker/TimePicker",
   component: TimePicker,
   tags: ["autodocs"],
   argTypes: {

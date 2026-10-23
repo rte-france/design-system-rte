@@ -8,7 +8,7 @@ import Switch from "../../switch/Switch";
 import Banner from "../Banner";
 
 const meta = {
-  title: "Composants/Banner",
+  title: "Composants/Banner/Banner",
   component: Banner,
   tags: ["autodocs"],
   argTypes: {
