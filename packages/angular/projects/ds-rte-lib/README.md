@@ -33,4 +33,4 @@ See the [root README](https://github.com/rte-france/design-system-rte#quick-inst
 
 3. **Use Components:**
    
-   Implement the different components as documented in the [Storybook](https://opensource.rte-france.com/design-system-rte/?path=/docs/angular_composants-button--docs) provided with the library.
+   Implement the different components as documented on [Zeroheight](https://zeroheight.com/687a5ae28/p/59e89d-------button/b/2464c2c9-4b2c-4752-9389-b1352f48501f).

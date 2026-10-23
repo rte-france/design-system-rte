@@ -220,5 +220,5 @@ npm run build-base-storybook
 - Deploy: `.github/workflows/deploy.yaml`, `.github/workflows/storybook-preview.yaml`
 - Root scripts: `package.json` (`design-docs`, `build-design-docs`, `build-base-storybook`)
 - Zeroheight authoring: `.agents/skills/zeroheight-component-docs/SKILL.md`
-- Production Storybook: [https://opensource.rte-france.com/design-system-rte/](https://opensource.rte-france.com/design-system-rte/)
+- Public documentation (Zeroheight): [https://zeroheight.com/687a5ae28](https://zeroheight.com/687a5ae28)
 
