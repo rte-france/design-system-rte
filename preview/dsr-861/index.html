@@ -72,41 +72,24 @@
     
     <link href="./sb-addons/storybook-12/manager-bundle.js" rel="modulepreload" />
       <style>
-  :root{
-    --stories-display: none;
+  /*
+   * Dev-only Storybook: always show canvas story entries in the sidebar (composed Angular/React refs).
+   * Do not toggle visibility; the former Utilisateur/Dev toolbar was removed.
+   */
+  :root {
+    --stories-display: block;
   }
 
-  /* This css rule target the element in the sidebar with the icon representing individual stories to hide them */
+  #storybook-explorer-tree [data-nodetype="story"] {
+    display: block !important;
+  }
+
+  /* Storybook ~8.6 manager: story rows use a bookmark-style icon (class hashes may change between releases) */
   .sidebar-item:has(div.css-99l9qv > svg.css-ndobih) {
-    display: var(--stories-display);
+    display: var(--stories-display) !important;
   }
 </style>
-
-<script>
-
-  let isDev = false
-
-  window.addEventListener('message', function () {
-
-    if (typeof event.data !== 'string'){
-      return;
-    }
-    
-    const globals = JSON.parse(event.data)?.event.args[0]?.userGlobals;
-
-    if (!globals?.modeDev) {
-
-      document.documentElement.style.setProperty('--stories-display', isDev ? 'block' : 'none');
-      return;
-    }
-
-    isDev = globals.modeDev === "dev";
-
-    document.documentElement.style.setProperty('--stories-display', isDev ? 'block' : 'none');
-  });
-
-
-</script> 
+ 
 
     <style>
       #storybook-root[hidden] {
