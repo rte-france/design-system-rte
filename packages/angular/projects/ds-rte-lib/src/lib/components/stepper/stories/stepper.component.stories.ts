@@ -13,7 +13,7 @@ import { IconButtonComponent } from "../../icon-button/icon-button.component";
 import { StepperComponent } from "../stepper.component";
 
 const meta: Meta<StepperComponent> = {
-  title: "Composants/Stepper/Stepper",
+  title: "Composants/Stepper",
   component: StepperComponent,
   tags: ["autodocs"],
   decorators: [

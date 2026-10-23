@@ -9,7 +9,7 @@ import { focusElementBeforeComponent } from "../../../../../../../.storybook/tes
 import { PaginationComponent } from "../pagination.component";
 
 const meta = {
-  title: "Composants/Pagination/Pagination",
+  title: "Composants/Pagination",
   component: PaginationComponent,
   tags: ["autodocs"],
   argTypes: {

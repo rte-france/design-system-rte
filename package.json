@@ -49,13 +49,13 @@
   ],
   "author": "RTE",
   "license": "ISC",
-  "homepage": "https://opensource.rte-france.com/design-system-rte/",
+  "homepage": "https://zeroheight.com/687a5ae28",
   "repository": {
     "type": "git",
     "url": "https://github.com/rte-france/design-system-rte.git"
   },
   "bugs": {
-    "url": "https://opensource.rte-france.com/design-system-rte/?path=/docs/design-system-get-started-contribuer-bugs-et-anomalies--docs"
+    "url": "https://zeroheight.com/687a5ae28/p/5173b5-contribuer/b/65c380"
   },
   "workspaces": [
     "packages/*",

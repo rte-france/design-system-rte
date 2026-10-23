@@ -7,7 +7,7 @@ import { focusElementBeforeComponent } from "../../../.storybook/testing/testing
 import Checkbox from "./Checkbox";
 
 const meta = {
-  title: "Composants/Checkbox/Checkbox",
+  title: "Composants/Checkbox",
   component: Checkbox,
   tags: ["autodocs"],
   argTypes: {

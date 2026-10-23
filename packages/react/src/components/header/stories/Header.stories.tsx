@@ -7,7 +7,7 @@ import NavigationProvider from "../../../provider/NavigationProvider";
 import Header from "../Header";
 
 const meta = {
-  title: "Composants/Header/Header",
+  title: "Composants/Header",
   component: Header,
   tags: ["autodocs"],
   parameters: {

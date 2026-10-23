@@ -45,7 +45,7 @@ npm install @design-system-rte/react
 
 4. **Use Components:**
 
-   Implement the different components as documented in the [Storybook](https://opensource.rte-france.com/design-system-rte/?path=/docs/react_composants-button--docs) provided with the library.
+   Implement the different components as documented on [Zeroheight](https://zeroheight.com/687a5ae28/p/59e89d-------button/b/941d67).
 
 ### Routing / SPA navigation
 
