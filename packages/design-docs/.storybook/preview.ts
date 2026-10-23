@@ -1,5 +1,3 @@
-import "../src/styles/CodeBlocks.css";
-
 /** @type { import('@storybook/react').Preview } */
 import "./preview.scss";
 

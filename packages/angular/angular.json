@@ -73,8 +73,7 @@
             ],
             "styles": [
               "@design-system-rte/core/design-tokens/main.scss",
-              ".storybook/preview.scss",
-              ".storybook/main.scss"
+              ".storybook/preview.scss"
             ],
             "port": 6006
           }
@@ -84,10 +83,7 @@
           "options": {
             "configDir": ".storybook",
             "browserTarget": "ds-rte-lib:build",
-            "styles": [
-              ".storybook/preview.scss",
-              ".storybook/main.scss"
-            ],
+            "styles": [".storybook/preview.scss"],
             "compodoc": true,
             "compodocArgs": [
               "-e",
