@@ -18,7 +18,7 @@ const RegularIconIds = Object.keys(RegularIconsList);
 const TogglableIconIds = Object.keys(TogglableIconsList);
 
 export default {
-  title: "Composants/Breadcrumbs/Breadcrumbs",
+  title: "Composants/Breadcrumbs",
   component: BreadcrumbsComponent,
   tags: ["autodocs"],
   argTypes: {

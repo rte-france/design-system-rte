@@ -6,7 +6,7 @@ import { useState } from "react";
 import DynamicTab from "../DynamicTab";
 
 const meta = {
-  title: "Composants/DynamicTab/DynamicTab",
+  title: "Composants/DynamicTab",
   component: DynamicTab,
   tags: ["autodocs"],
   argTypes: {

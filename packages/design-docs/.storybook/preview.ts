@@ -2,24 +2,6 @@
 import "./preview.scss";
 
 const preview = {
-  globalTypes: {
-    modeDev: {
-      name: "Mode Dev",
-      description: "Mode Dev pour les composants",
-      toolbar: {
-        icon: "eye",
-        title: "Vue",
-        items: [
-          { value: "utilisateur", right: "hide stories", title: "Utilisateur" },
-          { value: "dev", right: "show stories", title: "Dev" },
-        ],
-        showName: true,
-      },
-    },
-  },
-  initialGlobals: {
-    modeDev: "utilisateur",
-  },
   parameters: {
     actions: { argTypesRegex: "^on[A-Z].*" },
 

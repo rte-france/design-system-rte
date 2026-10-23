@@ -17,7 +17,7 @@ const RegularIconIds = Object.keys(RegularIconsList);
 const TogglableIconIds = Object.keys(TogglableIconsList);
 
 const meta = {
-  title: "Composants/Breadcrumbs/Breadcrumbs",
+  title: "Composants/Breadcrumbs",
   component: Breadcrumbs,
   tags: ["autodocs"],
   argTypes: {

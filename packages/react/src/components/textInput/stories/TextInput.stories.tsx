@@ -15,7 +15,7 @@ const TogglableIconIds = Object.keys(TogglableIconsList);
 const mockFn = fn();
 
 const meta: Meta<typeof TextInput> = {
-  title: "Composants/TextInput/TextInput",
+  title: "Composants/TextInput",
   component: TextInput,
   tags: ["autodocs"],
   argTypes: {

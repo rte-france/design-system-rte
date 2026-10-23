@@ -3,7 +3,7 @@ import { Meta, StoryObj } from "@storybook/angular";
 import { LoaderComponent } from "../loader.component";
 
 const meta: Meta<LoaderComponent> = {
-  title: "Composants/Loader/Loader",
+  title: "Composants/Loader",
   component: LoaderComponent,
   tags: ["autodocs"],
   argTypes: {

@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import Loader from "../Loader";
 
 const meta = {
-  title: "Composants/Loader/Loader",
+  title: "Composants/Loader",
   component: Loader,
   parameters: {
     layout: "centered",
