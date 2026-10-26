@@ -2,6 +2,9 @@
 
 .stepperItem {
   display: flex;
+  flex-direction: row;
+  gap: $positive-spacing_075;
+  align-items: start;
   width: 100%;
   flex: 1 0 0;
 
@@ -151,7 +154,7 @@
   }
 
   &[data-orientation="vertical"] {
-    flex-direction: row;
+    flex-direction: column;
 
     .stepButton {
       flex-direction: row;

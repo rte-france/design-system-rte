@@ -13,7 +13,7 @@ import {
   ARROW_UP_KEY,
   TAB_KEY,
 } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
-import { forwardRef, Fragment, useCallback, useRef, useState } from "react";
+import { forwardRef, useCallback, useRef, useState } from "react";
 
 import styles from "./Stepper.module.scss";
 import StepperItem from "./stepperItem/StepperItem";
@@ -102,22 +102,22 @@ const Stepper = forwardRef<HTMLElement, StepperProps>(
       >
         <ol className={styles.stepper} data-orientation={orientation}>
           {steps.map((step, index) => (
-            <Fragment key={step.name + index}>
-              <StepperItem
-                id={step.id}
-                number={index + 1}
-                name={step.name}
-                completionState={step.completionState}
-                orientation={orientation}
-                onKeyDown={handleKeyDown}
-                onClick={step.onClick}
-                isActive={step.id === activeStepId}
-                clickableCompleteStep={step.clickableCompleteStep}
-              />
+            <StepperItem
+              key={step.name + index}
+              id={step.id}
+              number={index + 1}
+              name={step.name}
+              completionState={step.completionState}
+              orientation={orientation}
+              onKeyDown={handleKeyDown}
+              onClick={step.onClick}
+              isActive={step.id === activeStepId}
+              clickableCompleteStep={step.clickableCompleteStep}
+            >
               {index < steps.length - 1 && (
                 <StepperSeparator isComplete={step.completionState === "complete"} orientation={orientation} />
               )}
-            </Fragment>
+            </StepperItem>
           ))}
         </ol>
       </nav>

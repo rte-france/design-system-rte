@@ -9,13 +9,8 @@ export interface StepperSeparatorProps {
 
 const StepperSeparator = ({ isComplete, orientation }: StepperSeparatorProps) => {
   return (
-    <div style={{ width: "100%", height: "100%" }}>
-      <div
-        className={styles.stepSeparator}
-        role="separator"
-        data-complete={isComplete}
-        data-orientation={orientation}
-      />
+    <div className={styles.stepSeparatorContainer} aria-hidden="true" data-orientation={orientation}>
+      <div className={styles.stepSeparator} data-complete={isComplete} data-orientation={orientation} />
     </div>
   );
 };
