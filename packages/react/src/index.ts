@@ -18,6 +18,7 @@ import Grid from "./components/grid/Grid.tsx";
 import Header from "./components/header/Header.tsx";
 import Icon from "./components/icon/Icon.tsx";
 import IconButton from "./components/iconButton/IconButton.tsx";
+import IconButtonGroup from "./components/iconButtonGroup/IconButtonGroup.tsx";
 import IconButtonToggle from "./components/iconButtonToggle/IconButtonToggle.tsx";
 import Link from "./components/link/Link.tsx";
 import Loader from "./components/loader/Loader.tsx";
@@ -95,4 +96,5 @@ export {
   Header,
   NavigationProvider,
   Pagination,
+  IconButtonGroup,
 };
