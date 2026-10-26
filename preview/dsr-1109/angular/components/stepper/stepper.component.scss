@@ -22,7 +22,7 @@
     width: 100%;
     flex: 1 0 0;
 
-    .rte-stepper-connector {
+    .rte-step-separator-container {
       flex: 1 1 auto;
       width: 100%;
       height: 100%;
@@ -178,7 +178,7 @@
     &[data-orientation="vertical"] {
       flex-direction: column;
 
-      .rte-stepper-connector {
+      .rte-step-separator-container {
         flex: 1 1 auto;
         min-height: 0;
       }
