@@ -1,3 +1,4 @@
+import { STEPPER_DEFAULT_NAV_ARIA_LABEL } from "@design-system-rte/core/components/stepper/stepper.constants";
 import { StepperProps as coreStepperProps } from "@design-system-rte/core/components/stepper/stepper.interface";
 import {
   focusNextNotStepElement,
@@ -93,7 +94,12 @@ const Stepper = forwardRef<HTMLElement, StepperProps>(
     }
 
     return (
-      <nav aria-label="Progression" style={{ width: "100%", height: "100%" }} ref={stepperCallbackRef} {...props}>
+      <nav
+        aria-label={STEPPER_DEFAULT_NAV_ARIA_LABEL}
+        style={{ width: "100%", height: "100%" }}
+        ref={stepperCallbackRef}
+        {...props}
+      >
         <ol className={styles.stepper} data-orientation={orientation}>
           {steps.map((step, index) => (
             <Fragment key={step.name + index}>
