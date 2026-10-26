@@ -29,17 +29,16 @@
           }
           <span class="rte-stepper-name">{{ step.name }}</span>
         </button>
+        @if (index < steps().length - 1) {
+          <div class="rte-step-separator-container" aria-hidden="true">
+            <div
+              class="rte-step-separator"
+              [attr.data-orientation]="orientation()"
+              [attr.data-complete]="step.completionState === 'complete'"
+            ></div>
+          </div>
+        }
       </li>
-      <ng-container *ngIf="index < steps().length - 1">
-        <div style="width: 100%; height: 100%">
-          <div
-            class="rte-step-separator"
-            role="separator"
-            [attr.data-orientation]="orientation()"
-            [attr.data-complete]="step.completionState === 'complete'"
-          ></div>
-        </div>
-      </ng-container>
     </ng-container>
   </ol>
 </nav>

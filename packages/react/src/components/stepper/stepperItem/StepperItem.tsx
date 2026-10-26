@@ -20,6 +20,7 @@ const StepperItem = ({
   onClick,
   clickableCompleteStep = false,
   isActive,
+  children,
   ...props
 }: StepperItemProps) => {
   const ref = useRef<HTMLLIElement>(null);
@@ -63,6 +64,7 @@ const StepperItem = ({
         )}
         <span className={styles.stepName}>{name}</span>
       </button>
+      {children}
     </li>
   );
 };
