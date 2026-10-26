@@ -41,13 +41,13 @@ const StepperItem = ({
       data-orientation={orientation}
       ref={ref}
       data-clickable={clickable}
-      aria-current={isActive ? "step" : undefined}
       data-active={isActive}
       {...props}
     >
       <button
         className={styles.stepButton}
         type="button"
+        aria-current={isActive ? "step" : undefined}
         onClick={handleOnClick}
         disabled={!focusable}
         tabIndex={isActive ? 0 : -1}

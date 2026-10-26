@@ -290,7 +290,7 @@ export const KeyboardNavigation: Story = {
     const stepper = await canvas.getByRole("list");
 
     const allSteps = stepper.querySelectorAll("button");
-    const currentActiveStep = stepper.querySelector("[aria-current='step'] button");
+    const currentActiveStep = stepper.querySelector("button[aria-current='step']");
 
     focusElementBeforeComponent();
     await userEvent.tab();
