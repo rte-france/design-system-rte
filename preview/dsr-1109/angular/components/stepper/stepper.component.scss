@@ -16,8 +16,18 @@
 
   .rte-stepper-item {
     display: flex;
+    flex-direction: row;
+    gap: $positive-spacing_075;
+    align-items: start;
     width: 100%;
     flex: 1 0 0;
+
+    .rte-stepper-connector {
+      flex: 1 1 auto;
+      width: 100%;
+      height: 100%;
+      min-width: 0;
+    }
 
     .rte-stepper-button {
       all: unset;
@@ -166,7 +176,12 @@
     }
 
     &[data-orientation="vertical"] {
-      flex-direction: row;
+      flex-direction: column;
+
+      .rte-stepper-connector {
+        flex: 1 1 auto;
+        min-height: 0;
+      }
 
       .rte-stepper-button {
         flex-direction: row;
@@ -191,6 +206,7 @@
     }
 
     &[data-orientation='vertical'] {
+      flex: 0 0 auto;
       width: 4px;
       height: 100%;
       margin-left: $positive-spacing_200;
