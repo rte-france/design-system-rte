@@ -1,6 +1,6 @@
 # @design-system-rte/angular
 
-## 5.0.0
+## 4.4.0
 
 ### Minor Changes
 
