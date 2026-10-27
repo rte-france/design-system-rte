@@ -22,6 +22,7 @@ import {
 import type { SplitButtonItemProps } from "@design-system-rte/core/components/split-button/split-button.interface";
 import { ESCAPE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
+import { DropdownService } from "../../services/dropdown.service";
 import { OverlayService } from "../../services/overlay.service";
 
 import { ModalTriggerDirective } from "./modal-trigger/modal-trigger.directive";
@@ -35,6 +36,7 @@ export class ModalDirective implements AfterContentInit, OnDestroy {
   private modalCompRef: ComponentRef<ModalComponent> | null = null;
   private hostElement: HTMLElement;
   private overlayService: OverlayService;
+  private dropdownService = inject(DropdownService);
 
   private subPrimaryAction?: { unsubscribe(): void };
   private subPrimaryActionOption?: { unsubscribe(): void };
@@ -89,7 +91,7 @@ export class ModalDirective implements AfterContentInit, OnDestroy {
   }
 
   ngAfterContentInit() {
-    document.addEventListener("keydown", this.onKeyDown);
+    document.addEventListener("keydown", this.onKeyDown, true);
     if (this.trigger()) {
       this.trigger()?.modalTriggerClicked.subscribe(() => {
         this.onTrigger();
@@ -98,6 +100,7 @@ export class ModalDirective implements AfterContentInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    document.removeEventListener("keydown", this.onKeyDown, true);
     this.destroyModal();
   }
 
@@ -159,10 +162,20 @@ export class ModalDirective implements AfterContentInit, OnDestroy {
   }
 
   private handleKeydown(event: KeyboardEvent) {
-    if (event.key === ESCAPE_KEY && this.rteModalCloseOnClickOutside()) {
-      event.preventDefault();
-      this.close();
+    if (event.key !== ESCAPE_KEY || !this.rteModalCloseOnClickOutside() || !this.modalCompRef) {
+      return;
     }
+
+    const activeMenuId = this.dropdownService.state$.getValue()?.activeMenuId;
+    if (activeMenuId) {
+      event.preventDefault();
+      event.stopPropagation();
+      this.dropdownService.closeAllMenus();
+      return;
+    }
+
+    event.preventDefault();
+    this.close();
   }
 
   private assignInputsValues(): void {

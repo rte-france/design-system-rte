@@ -1,3 +1,4 @@
+import { OVERLAY_ROOT_ID } from "@design-system-rte/core/constants/dom/dom.constants";
 import {
   TESTING_ENTER_KEY,
   TESTING_ESCAPE_KEY,
@@ -325,6 +326,9 @@ const splitMenuOptions = [
   { id: "save-template", label: "Save as template" },
 ];
 
+const getOpenOverlayDropdownMenu = (doc: Document) =>
+  doc.getElementById(OVERLAY_ROOT_ID)?.querySelector(".rte-dropdown-menu.open") ?? null;
+
 export const PrimaryDanger: Story = {
   decorators: [
     moduleMetadata({
@@ -417,6 +421,43 @@ export const PrimarySplitButton: Story = {
       <button rteButton rteButtonVariant="primary" rteModalTrigger>Open Modal</button>
     </div>`,
   }),
+};
+
+export const KeyboardInteractionSplitButton: Story = {
+  tags: ["!autodocs"],
+  ...PrimarySplitButton,
+  play: async ({ canvasElement }) => {
+    const doc = canvasElement.ownerDocument;
+
+    focusElementBeforeComponent();
+
+    await userEvent.tab();
+    await userEvent.keyboard(TESTING_SPACE_KEY);
+
+    await waitFor(() => {
+      const dialog = within(doc.body).getByRole("dialog");
+      expect(dialog).toHaveAttribute("data-open", "true");
+    });
+
+    const modal = within(doc.body).getByRole("dialog");
+    const menuButton = within(modal).getByTestId("Menu button");
+    await userEvent.click(menuButton);
+
+    await waitFor(() => {
+      expect(getOpenOverlayDropdownMenu(doc)).toBeTruthy();
+    });
+
+    await userEvent.keyboard(TESTING_ESCAPE_KEY);
+
+    await waitFor(() => {
+      expect(getOpenOverlayDropdownMenu(doc)).toBeFalsy();
+      expect(modal).toHaveAttribute("data-open", "true");
+    });
+
+    await userEvent.keyboard(TESTING_ESCAPE_KEY);
+
+    await waitFor(() => expect(modal).toHaveAttribute("data-open", "false"));
+  },
 };
 
 export const InputAndLegacyFooterComparison: Story = {
