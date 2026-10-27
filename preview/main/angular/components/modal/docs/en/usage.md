@@ -1,10 +1,10 @@
-Import `ModalModule` and compose a host element with the `[rteModal]` directive. Provide footer actions through `#primaryButton` and `#secondaryButton` templates.
+Import `ModalModule` and compose a host element with the `[rteModal]` directive. Provide footer actions through `rteModalPrimaryActionLabel`, optional `rteModalSecondaryActionLabel`, and `(rteModalPrimaryActionClick)` / `(rteModalSecondaryActionClick)`.
 
 Do not use the internal `rte-modal` selector in application templates. The directive creates and manages the overlay instance.
 
 ### Opening from a button
 
-Attach `[rteModalTrigger]` to the element that opens the modal on click. Call `modalHost.close()` from footer action buttons.
+Attach `[rteModalTrigger]` to the element that opens the modal on click. Call `modalHost.close()` from the action click outputs when the modal should dismiss.
 
 ```typescript
 import { ModalModule } from "@design-system-rte/angular";
@@ -21,14 +21,12 @@ import { ModalModule } from "@design-system-rte/angular";
   [rteModalIcon]="'wifi'"
   [rteModalIconAppearance]="'filled'"
   [rteModalCloseOnClickOutside]="true"
+  [rteModalPrimaryActionLabel]="'Continue'"
+  [rteModalSecondaryActionLabel]="'Cancel'"
+  (rteModalPrimaryActionClick)="onContinue(); modalHost.close()"
+  (rteModalSecondaryActionClick)="modalHost.close()"
 >
   <button rteButton rteButtonVariant="primary" rteModalTrigger>Open Modal</button>
-  <ng-template #primaryButton>
-    <button rteButton rteButtonVariant="primary" (click)="onContinue(); modalHost.close()">Continue</button>
-  </ng-template>
-  <ng-template #secondaryButton>
-    <button rteButton rteButtonVariant="neutral" (click)="modalHost.close()">Cancel</button>
-  </ng-template>
 </div>
 ```
 
@@ -51,14 +49,12 @@ import { ModalDirective, ModalModule } from "@design-system-rte/angular";
       [rteModalDescription]="'The selected documents will be deleted.'"
       [rteModalSize]="'xs'"
       [rteModalIcon]="'delete'"
-    >
-      <ng-template #primaryButton>
-        <button rteButton rteButtonVariant="danger" (click)="onConfirmDelete(); confirmModal.close()">Delete</button>
-      </ng-template>
-      <ng-template #secondaryButton>
-        <button rteButton rteButtonVariant="neutral" (click)="confirmModal.close()">Cancel</button>
-      </ng-template>
-    </div>
+      [rteModalPrimaryActionLabel]="'Delete'"
+      [rteModalSecondaryActionLabel]="'Cancel'"
+      [rteModalPrimaryActionIsCritical]="true"
+      (rteModalPrimaryActionClick)="onConfirmDelete(); confirmModal.close()"
+      (rteModalSecondaryActionClick)="confirmModal.close()"
+    ></div>
   `,
 })
 export class DocumentsComponent {
@@ -74,45 +70,30 @@ export class DocumentsComponent {
 }
 ```
 
-Use `@ViewChild` with the same template reference name as `#confirmModal="rteModal"`. Call `close()` from footer buttons and from any other close path in your component.
-
-### Storybook snippets vs. variant differences
-
-Angular Storybook autodocs display template markup. When several stories share the same HTML skeleton, the difference is usually a directive input binding (`[rteModalSize]`, `[rteModalTitle]`, `#customContent`, etc.) or component logic that calls `showModal()`. Those bindings are not always visible in the Storybook docs panel.
-
-This documentation calls out the binding that changes for each example below. Prefer these snippets over the Storybook HTML panel when comparing variants.
-
-### Examples
+Use `@ViewChild` with the same template reference name as `#confirmModal="rteModal"`. Call `close()` from action click handlers and from any other close path in your component.
 
 #### Sizes
 
 ```html
-<div rteModal #modalHostXs="rteModal" [rteModalId]="'modal-xs'" [rteModalTitle]="title" [rteModalDescription]="description" [rteModalSize]="'xs'" [rteModalIcon]="'settings'">
+<div
+  rteModal
+  #modalHostXs="rteModal"
+  [rteModalId]="'modal-xs'"
+  [rteModalTitle]="title"
+  [rteModalDescription]="description"
+  [rteModalSize]="'xs'"
+  [rteModalIcon]="'settings'"
+  [rteModalPrimaryActionLabel]="'Continue'"
+  [rteModalSecondaryActionLabel]="'Cancel'"
+  (rteModalPrimaryActionClick)="modalHostXs.close()"
+  (rteModalSecondaryActionClick)="modalHostXs.close()"
+>
   <button rteButton rteButtonVariant="primary" rteModalTrigger>Open modal xs</button>
-  <ng-template #primaryButton>
-    <button rteButton rteButtonVariant="primary" (click)="modalHostXs.close()">Continue</button>
-  </ng-template>
-  <ng-template #secondaryButton>
-    <button rteButton rteButtonVariant="neutral" (click)="modalHostXs.close()">Cancel</button>
-  </ng-template>
 </div>
-
-<div rteModal #modalHostS="rteModal" [rteModalId]="'modal-s'" [rteModalTitle]="title" [rteModalDescription]="description" [rteModalSize]="'s'" [rteModalIcon]="'settings'">
-  <button rteButton rteButtonVariant="primary" rteModalTrigger>Open modal s</button>
-  <ng-template #primaryButton>
-    <button rteButton rteButtonVariant="primary" (click)="modalHostS.close()">Continue</button>
-  </ng-template>
-  <ng-template #secondaryButton>
-    <button rteButton rteButtonVariant="neutral" (click)="modalHostS.close()">Cancel</button>
-  </ng-template>
-</div>
-
-<!-- Repeat for sizes 'm', 'l', and 'xl' -->
 ```
 
-Only `[rteModalSize]` changes between instances. Other inputs (`[rteModalTitle]`, `[rteModalDescription]`, `[rteModalIcon]`, etc.) stay the same.
-
-Use `[rteModalSize]` to pick a width preset: `xs` (496px), `s` (656px), `m` (936px), `l` (1168px), `xl` (1328px).
+Use `[rteModalSize]` to pick a width preset: `xs` (496px), `s` (656px), `m` 
+(936px), `l` (1168px), `xl` (1328px).
 
 (`"xs" | "s" | "m" | "l" | "xl"`)
 
@@ -126,15 +107,12 @@ Use `[rteModalSize]` to pick a width preset: `xs` (496px), `s` (656px), `m` (936
   [rteModalTitle]="'Préciser le motif du refus'"
   [rteModalDescription]="'En motivant votre refus, vous aidez votre collaborateur à mieux identifier comment corriger sa demande.'"
   [rteModalSize]="'m'"
-  [rteModalIcon]="'wifi'"
+  [rteModalPrimaryActionLabel]="'Continue'"
+  [rteModalSecondaryActionLabel]="'Cancel'"
+  (rteModalPrimaryActionClick)="modalHost.close()"
+  (rteModalSecondaryActionClick)="modalHost.close()"
 >
   <button rteButton rteButtonVariant="primary" rteModalTrigger>Open Modal</button>
-  <ng-template #primaryButton>
-    <button rteButton rteButtonVariant="primary" (click)="modalHost.close()">Continue</button>
-  </ng-template>
-  <ng-template #secondaryButton>
-    <button rteButton rteButtonVariant="neutral" (click)="modalHost.close()">Cancel</button>
-  </ng-template>
   <ng-template #customContent>
     <rte-textarea resizeable="true" />
     <rte-select [options]="selectOptions" />
@@ -142,6 +120,85 @@ Use `[rteModalSize]` to pick a width preset: `xs` (496px), `s` (656px), `m` (936
 </div>
 ```
 
-Compared to the default setup, this example adds a `#customContent` template and sets `[rteModalSize]="'m'"`. Storybook may omit `[rteModalDescription]` in the rendered snippet even when args define it — keep the binding in your template when you need a description paragraph.
+This example adds `#customContent` and sets `[rteModalSize]="'m'"`. Project form fields through `#customContent` when the description paragraph is not enough.
 
-Project form fields or other components through `#customContent` when the default description paragraph is not enough.
+#### Primary danger
+
+Use `[rteModalPrimaryActionIsCritical]="true"` for destructive primary actions (do not use the secondary slot for delete).
+
+```html
+<div
+  rteModal
+  #modalHost="rteModal"
+  [rteModalId]="'modal-danger'"
+  [rteModalTitle]="'Delete 3 documents'"
+  [rteModalDescription]="'The selected documents will be deleted.'"
+  [rteModalSize]="'s'"
+  [rteModalIcon]="'delete'"
+  [rteModalPrimaryActionLabel]="'Delete'"
+  [rteModalSecondaryActionLabel]="'Cancel'"
+  [rteModalPrimaryActionIsCritical]="true"
+  (rteModalPrimaryActionClick)="onDelete(); modalHost.close()"
+  (rteModalSecondaryActionClick)="modalHost.close()"
+>
+  <button rteButton rteButtonVariant="primary" rteModalTrigger>Open Modal</button>
+</div>
+```
+
+#### Primary split button
+
+Set `rteModalPrimaryActionType` to `split-button` and pass menu options plus `rteModalPrimarySplitButtonAriaLabelRight`.
+
+```html
+<div
+  rteModal
+  #modalHost="rteModal"
+  [rteModalId]="'modal-split'"
+  [rteModalTitle]="'Save document'"
+  [rteModalDescription]="'Choose how to save your changes.'"
+  [rteModalPrimaryActionLabel]="'Save'"
+  [rteModalSecondaryActionLabel]="'Cancel'"
+  [rteModalPrimaryActionType]="'split-button'"
+  [rteModalPrimarySplitButtonOptions]="splitMenuOptions"
+  [rteModalPrimarySplitButtonAriaLabelRight]="'More save options'"
+  (rteModalPrimaryActionClick)="onSave(); modalHost.close()"
+  (rteModalPrimaryActionOptionClick)="onSaveOption($event); modalHost.close()"
+  (rteModalSecondaryActionClick)="modalHost.close()"
+>
+  <button rteButton rteButtonVariant="primary" rteModalTrigger>Open Modal</button>
+</div>
+```
+
+Handle `(rteModalPrimaryActionOptionClick)` when the user picks an entry from the split-button menu. The emitted value is the matching option `id` from `rteModalPrimarySplitButtonOptions`.
+
+#### Input and legacy footer comparison
+
+Configured inputs (left) and deprecated `#primaryButton` / `#secondaryButton` templates (right) produce the same footer layout when labels match.
+
+```html
+<div style="display: flex; gap: 16px;">
+  <div
+    rteModal
+    #inputModalHost="rteModal"
+    [rteModalId]="'modal-input-footer'"
+    [rteModalTitle]="'Save changes'"
+    [rteModalPrimaryActionLabel]="'Save'"
+    [rteModalSecondaryActionLabel]="'Cancel'"
+    (rteModalPrimaryActionClick)="inputModalHost.close()"
+    (rteModalSecondaryActionClick)="inputModalHost.close()"
+  >
+    <button rteButton rteModalTrigger>Open (input footer)</button>
+  </div>
+  <div rteModal #legacyModalHost="rteModal" [rteModalId]="'modal-legacy-footer'" [rteModalTitle]="'Save changes'">
+    <button rteButton rteModalTrigger>Open (legacy templates)</button>
+    <ng-template #primaryButton>
+      <button rteButton (click)="legacyModalHost.close()">Save</button>
+    </ng-template>
+    <ng-template #secondaryButton>
+      <button rteButton (click)="legacyModalHost.close()">Cancel</button>
+    </ng-template>
+  </div>
+</div>
+```
+
+New integrations should use the input footer. Legacy templates remain for backward compatibility only.
