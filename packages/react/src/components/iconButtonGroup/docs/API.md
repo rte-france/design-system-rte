@@ -25,4 +25,4 @@
 
 Le composant expose une ref vers le conteneur `HTMLDivElement` et accepte ses attributs HTML, à l'exception de `className` et `onChange`.
 
-Les props de sélection sont discriminées par `selectionMode` : les noms singuliers ne sont pas disponibles en multiple et les noms pluriels ne sont pas disponibles en single ou single-strict. Retirer la prop de sélection contrôlée réactive l'ancien état interne, sans conserver la dernière valeur contrôlée. Une sélection contrôlée invalide ou l'absence de `aria-label` produit un avertissement et aucun rendu.
+Les props de sélection sont discriminées par `selectionMode` : les noms singuliers ne sont pas disponibles en multiple et les noms pluriels ne sont pas disponibles en single ou single-strict. Retirer la prop de sélection contrôlée réactive l'ancien état interne, sans conserver la dernière valeur contrôlée. Une sélection contrôlée invalide produit un avertissement et aucun rendu. L'absence de `aria-label`, ou un label vide, produit un avertissement sans empêcher le rendu.

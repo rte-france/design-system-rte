@@ -9,15 +9,6 @@
   color: inherit;
 }
 
-@mixin disabled-button-style {
-  background-color: var(--background-disabled);
-  color: var(--content-disabled);
-
-  &:hover {
-    cursor: not-allowed;
-  }
-}
-
 $width: 40px;
 $height: 40px;
 $compact_width: 32px;
@@ -29,8 +20,10 @@ $compact_height: 32px;
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
-  border: 1px solid var(--border-brand-default);
-  border-radius: 4px;
+  border-radius: $radius-s;
+  border: $width-xs solid var(--border-brand-default);
+  border-left: none;
+  border-right: none;
 
   &[data-compact-spacing="true"] {
     height: $compact_height;
@@ -39,11 +32,23 @@ $compact_height: 32px;
   &[data-orientation="vertical"] {
     flex-direction: column;
     width: $width;
-    height: 100%;
+    height: fit-content;
+    border-top: none;
+    border-bottom: none;
+    border-left: $width-xs solid var(--border-brand-default);
+    border-right: $width-xs solid var(--border-brand-default);
 
     &[data-compact-spacing="true"] {
       width: $compact_width;
     }
+  }
+
+  &[data-is-disabled="true"] {
+    border-color: var(--border-disabled);
+  }
+
+  &[data-appearance="neutral"] {
+    border-color: var(--border-divider);
   }
 
   &__item {
@@ -54,30 +59,35 @@ $compact_height: 32px;
     color: var(--content-brand-default);
     box-sizing: border-box;
     width: $width;
-    height: $height - 2px;
+    height: $height;
     background-color: var(--background-default);
     padding: $positive-spacing_100;
     position: relative;
+    border: $width-xs solid var(--border-brand-default);
+    border-left: none;
+    border-right: none;
 
     &:hover {
       background-color: var(--background-brand-subtle-hover);
+      color: var(--content-brand-hover);
     }
 
     &[data-compact-spacing="true"] {
       padding: $positive-spacing_075;
       width: $compact_width;
-      height: $compact_height - 2px;
+      height: $compact_height;
     }
 
     &[data-first="true"] {
-      border-top-left-radius: 3px;
-      border-bottom-left-radius: 3px;
-
+      border-top-left-radius: $radius-s;
+      border-bottom-left-radius: $radius-s;
+      border-left: $width-xs solid var(--border-brand-default);
     }
 
     &[data-last="true"] {
-      border-top-right-radius: 3px;
-      border-bottom-right-radius: 3px;
+      border-top-right-radius: $radius-s;
+      border-bottom-right-radius: $radius-s;
+      border-right: $width-xs solid var(--border-brand-default);
     }
 
     &[data-active="true"] {
@@ -87,6 +97,7 @@ $compact_height: 32px;
 
     &[data-appearance="neutral"] {
       color: var(--content-primary);
+      border-color: var(--border-divider);
 
       &:hover {
         background-color: var(--background-neutral-subtle-hover);
@@ -96,39 +107,45 @@ $compact_height: 32px;
         background-color: var(--background-neutral-bold-default);
         color: var(--content-primary-inverse);
       }
-
-      &:disabled {
-        @include disabled-button-style;
-      }
     }
 
     &:disabled {
-      @include disabled-button-style;
+      background-color: var(--background-disabled);
+      color: var(--content-disabled);
+
+      &:hover {
+        cursor: not-allowed;
+      }
+    }
+
+    &[data-is-all-disabled="true"] {
+      border-color: var(--border-disabled);
     }
 
     &:focus-visible {
-      z-index: 3;
+      z-index: $level-1;
       outline: none;
 
       &::after {
         content: '';
         position: absolute;
         inset: -3px;
-        border: 1px solid var(--border-brand-focused);
-        border-radius: 4px;
+        border: $width-xs solid var(--border-brand-focused);
+        border-radius: $radius-s;
         pointer-events: none;
       }
     }
 
     &[data-orientation="vertical"] {
-
-      width: $width - 2px;
-      height: $height;
+      border: $width-xs solid var(--border-brand-default);
+      border-top: none;
+      border-bottom: none;
 
       &[data-first="true"] {
-        border-bottom-left-radius: 0px;
-        border-top-left-radius: 3px;
-        border-top-right-radius: 3px;
+        border-top: $width-xs solid var(--border-brand-default);
+        border-bottom-left-radius: $radius-none;
+        border-top-left-radius: $radius-s;
+        border-top-right-radius: $radius-s;
 
         &:disabled {
           border-top-color: var(--border-disabled);
@@ -136,24 +153,16 @@ $compact_height: 32px;
       }
 
       &[data-last="true"] {
-        border-top-right-radius: 0px;
-        border-bottom-left-radius: 3px;
-        border-bottom-right-radius: 3px;
+        border-bottom: $width-xs solid var(--border-brand-default);
+        border-top-right-radius: $radius-none;
+        border-bottom-left-radius: $radius-s;
+        border-bottom-right-radius: $radius-s;
       }
 
       &[data-compact-spacing="true"] {
-        width: $compact_width - 2px;
-        height: $compact_height - 2px;
+        width: $compact_width;
+        height: $compact_height;
       }
     }
   }
-
-  &[data-appearance="neutral"] {
-    border-color: var(--border-divider);
-  }
-
-  &[data-is-disabled="true"] {
-    border-color: var(--border-disabled);
-  }
-
 }

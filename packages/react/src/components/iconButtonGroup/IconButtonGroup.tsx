@@ -1,13 +1,15 @@
 import {
   IconButtonGroupProps as CoreIconButtonGroupProps,
   computeNextIconButtonSelection,
+  computedDividerStyle,
   getIconButtonId,
   logWarn,
   normalizeIconButtonSelection,
   validateIconButtonConfiguration,
   validateIconButtonSelection,
+  validateSelectionShape,
 } from "@design-system-rte/core";
-import { useState, forwardRef } from "react";
+import { useState, forwardRef, CSSProperties } from "react";
 
 import styles from "./IconButtonGroup.module.scss";
 import IconButtonGroupItem from "./iconButtonGroupItem/IconButtonGroupItem";
@@ -49,7 +51,7 @@ const IconButtonGroup = forwardRef<HTMLDivElement, IconButtonGroupProps>(
         selectionMode,
       }),
     );
-    const configurationIssue = validateIconButtonConfiguration(iconButtonIds);
+
     const effectiveSelectedIds = isControlled
       ? toSelectedIds(controlledSelection)
       : normalizeIconButtonSelection({
@@ -75,21 +77,17 @@ const IconButtonGroup = forwardRef<HTMLDivElement, IconButtonGroupProps>(
       );
     }
 
-    const selectionShapeIssue =
-      isControlled &&
-      (selectionMode === "multiple"
-        ? !Array.isArray(controlledSelection)
-        : controlledSelection !== null && typeof controlledSelection !== "string")
-        ? selectionMode === "multiple"
-          ? "In multiple mode, selectedIds must be an array."
-          : "In single modes, selectedId must be a string or null."
-        : undefined;
-    const issue =
-      configurationIssue ??
-      selectionShapeIssue ??
-      (isControlled
-        ? validateIconButtonSelection({ ids: iconButtonIds, selectedIds: effectiveSelectedIds, selectionMode })
-        : undefined);
+    const configurationIssue = validateIconButtonConfiguration(iconButtonIds);
+
+    const selectionShapeIssue = validateSelectionShape({ isControlled, selectionMode, controlledSelection });
+
+    const iconButtonSelectionIssue = validateIconButtonSelection({
+      ids: iconButtonIds,
+      selectedIds: effectiveSelectedIds,
+      selectionMode,
+    });
+
+    const issue = configurationIssue ?? selectionShapeIssue ?? iconButtonSelectionIssue;
 
     if (issue) {
       logWarn("IconButtonGroup", issue);
@@ -98,7 +96,6 @@ const IconButtonGroup = forwardRef<HTMLDivElement, IconButtonGroupProps>(
 
     if (ariaLabel?.trim() === "" || ariaLabel === undefined) {
       logWarn("IconButtonGroup", "Missing required aria-label for accessibility.");
-      return null;
     }
 
     const computedTooltipPosition = orientation === "vertical" && tooltipPosition === "auto" ? "left" : tooltipPosition;
@@ -138,27 +135,47 @@ const IconButtonGroup = forwardRef<HTMLDivElement, IconButtonGroupProps>(
         {...props}
       >
         {iconButtons.map(({ isDisabled: buttonIsDisabled, ...button }, index) => (
-          <IconButtonGroupItem
-            key={iconButtonIds[index]}
-            button={button}
-            buttonId={iconButtonIds[index]}
-            isDisabled={isDisabled || buttonIsDisabled}
-            computedTooltipPosition={computedTooltipPosition}
-            isCompact={isCompact}
-            index={index}
-            isLast={index === iconButtons.length - 1}
-            orientation={orientation}
-            appearance={appearance}
-            isIconActive={effectiveSelectedIds.includes(iconButtonIds[index])}
-            isNextIconActive={effectiveSelectedIds.includes(iconButtonIds[index + 1])}
-            dividerAppearance={computedDividerAppearance({
-              leftActive: effectiveSelectedIds.includes(iconButtonIds[index]),
-              rightActive: effectiveSelectedIds.includes(iconButtonIds[index + 1]),
-              isDisabled: isDisabled,
-              appearance: appearance,
-            })}
-            onClick={handleOnClick}
-          />
+          <>
+            <IconButtonGroupItem
+              key={iconButtonIds[index]}
+              button={button}
+              buttonId={iconButtonIds[index]}
+              isAllDisabled={isDisabled}
+              isDisabled={buttonIsDisabled || isDisabled}
+              computedTooltipPosition={computedTooltipPosition}
+              isCompact={isCompact}
+              index={index}
+              isLast={index === iconButtons.length - 1}
+              orientation={orientation}
+              appearance={appearance}
+              isIconActive={effectiveSelectedIds.includes(iconButtonIds[index])}
+              isNextIconActive={effectiveSelectedIds.includes(iconButtonIds[index + 1])}
+              dividerAppearance={computedDividerAppearance({
+                leftDisabled: buttonIsDisabled,
+                rightDisabled: iconButtons[index + 1] ? iconButtons[index + 1].isDisabled : false,
+                leftActive: effectiveSelectedIds.includes(iconButtonIds[index]),
+                rightActive: effectiveSelectedIds.includes(iconButtonIds[index + 1]),
+                isDisabled: isDisabled,
+                appearance: appearance,
+              })}
+              onClick={handleOnClick}
+            />
+            {index < iconButtons.length - 1 && (
+              <div
+                style={
+                  computedDividerStyle({
+                    isCurrentAndLastActive:
+                      effectiveSelectedIds.includes(iconButtonIds[index]) &&
+                      effectiveSelectedIds.includes(iconButtonIds[index + 1]),
+                    isDisabled: isDisabled,
+                    appearance: appearance,
+                    isCompact: isCompact,
+                    orientation: orientation,
+                  }) as CSSProperties
+                }
+              ></div>
+            )}
+          </>
         ))}
       </div>
     );

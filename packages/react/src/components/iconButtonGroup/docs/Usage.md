@@ -30,7 +30,7 @@ Les modes `single` et `single-strict` utilisent `selectedId` et `defaultSelected
 
 `onSelectionChange` conserve le même nom dans tous les modes. Il reçoit une chaîne ou `null` dans les modes simples, et un nouveau tableau dans le mode multiple. Activer le bouton déjà sélectionné en `single-strict` ne déclenche pas de callback et ne vide jamais la sélection.
 
-Fournir un `aria-label` pour nommer le groupe. Son absence produit un avertissement et aucun rendu.
+Fournir un `aria-label` pour nommer le groupe. Son absence, ou un label vide, produit un avertissement sans empêcher le rendu.
 
 #### Sélection exclusive obligatoire
 
