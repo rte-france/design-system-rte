@@ -14,7 +14,7 @@ import { TimePickerComponent } from "../time-picker.component";
 const emptyTime = (): TimeFormat => ({ hh: "", mm: "", ss: "" });
 
 const meta: Meta<TimePickerComponent> = {
-  title: "Composants/TimePicker",
+  title: "Composants/TimePicker/TimePicker",
   component: TimePickerComponent,
   tags: ["autodocs"],
   argTypes: {
