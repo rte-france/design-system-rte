@@ -120,7 +120,7 @@ export const Disabled: Story = {
 export const PartiallyDisabled = {
   args: {
     ...Default.args,
-    iconButtons: iconButtonStrict.map((button, index) => ({ ...button, isDisabled: index === 1 })),
+    iconButtons: iconButtonStrict.map((button, index) => ({ ...button, isDisabled: index === 1 || index === 3 })),
     defaultSelectedId: "format-align-left",
     onSelectionChange: fn(),
   },
@@ -190,6 +190,82 @@ export const Compact: Story = {
   args: {
     ...Default.args,
     isCompact: true,
+  },
+};
+
+export const LayoutVariants: Story = {
+  args: {
+    ...SingleStrict.args,
+  },
+  render: (args) => (
+    <div style={{ display: "flex", flexWrap: "wrap", gap: 24 }}>
+      {(["horizontal", "vertical"] as const).flatMap((orientation) =>
+        [false, true].map((isCompact) => (
+          <div key={`${orientation}-${isCompact}`} style={{ display: "flex", height: 240 }}>
+            <IconButtonGroup
+              {...args}
+              orientation={orientation}
+              isCompact={isCompact}
+              aria-label={`${orientation} ${isCompact ? "compact" : "standard"}`}
+            />
+          </div>
+        )),
+      )}
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    for (const orientation of ["horizontal", "vertical"]) {
+      for (const isCompact of [false, true]) {
+        const group = canvas.getByRole("group", { name: `${orientation} ${isCompact ? "compact" : "standard"}` });
+        const itemSize = isCompact ? 32 : 40;
+        const groupLength = itemSize * 4 + 3;
+        const bounds = group.getBoundingClientRect();
+        await expect(bounds.width).toBe(orientation === "horizontal" ? groupLength : itemSize);
+        await expect(bounds.height).toBe(orientation === "vertical" ? groupLength : itemSize);
+        for (const button of within(group).getAllByRole("button")) {
+          const buttonBounds = button.getBoundingClientRect();
+          const iconBounds = button.querySelector("svg")?.getBoundingClientRect();
+          await expect(buttonBounds.width).toBe(itemSize);
+          await expect(buttonBounds.height).toBe(itemSize);
+          await expect(iconBounds?.width).toBe(isCompact ? 20 : 24);
+          await expect(iconBounds?.height).toBe(isCompact ? 20 : 24);
+        }
+        const activeButton = within(group).getByRole("button", { name: "Align Left" });
+        const activeBorder = getComputedStyle(activeButton, "::before");
+        await expect(activeBorder.borderStyle).toBe("solid");
+        await expect(parseFloat(activeBorder.borderWidth)).toBeGreaterThan(0);
+        await expect(parseFloat(activeBorder.borderWidth)).toBeLessThanOrEqual(1);
+      }
+    }
+  },
+};
+
+export const MissingGroupLabel: Story = {
+  tags: ["!autodocs"],
+  args: {
+    ...Default.args,
+  },
+  render: (args) => {
+    const [showLabel, setShowLabel] = useState(true);
+    return (
+      <>
+        <button type="button" onClick={() => setShowLabel(false)}>
+          Remove group label
+        </button>
+        <IconButtonGroup {...args} aria-label={showLabel ? args["aria-label"] : undefined} />
+      </>
+    );
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expectSelectionWarning(
+      () => userEvent.click(canvas.getByRole("button", { name: "Remove group label" })),
+      "Missing required aria-label for accessibility.",
+    );
+    const group = canvas.getByRole("group");
+    await expect(group).not.toHaveAttribute("aria-label");
+    await expect(within(group).getAllByRole("button")).toHaveLength(2);
   },
 };
 

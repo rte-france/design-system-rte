@@ -98,7 +98,6 @@ const IconButtonGroup = forwardRef<HTMLDivElement, IconButtonGroupProps>(
 
     if (ariaLabel?.trim() === "" || ariaLabel === undefined) {
       logWarn("IconButtonGroup", "Missing required aria-label for accessibility.");
-      return null;
     }
 
     const computedTooltipPosition = orientation === "vertical" && tooltipPosition === "auto" ? "left" : tooltipPosition;
@@ -152,6 +151,8 @@ const IconButtonGroup = forwardRef<HTMLDivElement, IconButtonGroupProps>(
             isIconActive={effectiveSelectedIds.includes(iconButtonIds[index])}
             isNextIconActive={effectiveSelectedIds.includes(iconButtonIds[index + 1])}
             dividerAppearance={computedDividerAppearance({
+              leftDisabled: buttonIsDisabled,
+              rightDisabled: iconButtons[index + 1] ? iconButtons[index + 1].isDisabled : false,
               leftActive: effectiveSelectedIds.includes(iconButtonIds[index]),
               rightActive: effectiveSelectedIds.includes(iconButtonIds[index + 1]),
               isDisabled: isDisabled,

@@ -30,7 +30,7 @@ $compact_height: 32px;
   align-items: center;
   box-sizing: border-box;
   border: 1px solid var(--border-brand-default);
-  border-radius: 4px;
+  border-radius: $radius-s;
 
   &[data-compact-spacing="true"] {
     height: $compact_height;
@@ -39,7 +39,7 @@ $compact_height: 32px;
   &[data-orientation="vertical"] {
     flex-direction: column;
     width: $width;
-    height: 100%;
+    height: fit-content;
 
     &[data-compact-spacing="true"] {
       width: $compact_width;
@@ -61,11 +61,12 @@ $compact_height: 32px;
 
     &:hover {
       background-color: var(--background-brand-subtle-hover);
+      color: var(--content-brand-hover);
     }
 
     &[data-compact-spacing="true"] {
       padding: $positive-spacing_075;
-      width: $compact_width;
+      width: $compact_width - 2px;
       height: $compact_height - 2px;
     }
 
@@ -73,11 +74,20 @@ $compact_height: 32px;
       border-top-left-radius: 3px;
       border-bottom-left-radius: 3px;
 
+      &[data-active="true"] {
+        border-top-left-radius: 2px;
+        border-bottom-left-radius: 2px;
+      }
     }
 
     &[data-last="true"] {
       border-top-right-radius: 3px;
       border-bottom-right-radius: 3px;
+
+      &[data-active="true"] {
+        border-top-right-radius: 2px;
+        border-bottom-right-radius: 2px;
+      }
     }
 
     &[data-active="true"] {
@@ -107,15 +117,15 @@ $compact_height: 32px;
     }
 
     &:focus-visible {
-      z-index: 3;
+      z-index: $level-1;
       outline: none;
 
       &::after {
         content: '';
         position: absolute;
         inset: -3px;
-        border: 1px solid var(--border-brand-focused);
-        border-radius: 4px;
+        border: $width-xs solid var(--border-brand-focused);
+        border-radius: $radius-s;
         pointer-events: none;
       }
     }
@@ -123,12 +133,17 @@ $compact_height: 32px;
     &[data-orientation="vertical"] {
 
       width: $width - 2px;
-      height: $height;
+      height: $height - 2px;
 
       &[data-first="true"] {
         border-bottom-left-radius: 0px;
         border-top-left-radius: 3px;
         border-top-right-radius: 3px;
+
+        &[data-active="true"] {
+          border-top-left-radius: 2px;
+          border-top-right-radius: 2px;
+        }
 
         &:disabled {
           border-top-color: var(--border-disabled);
@@ -139,6 +154,11 @@ $compact_height: 32px;
         border-top-right-radius: 0px;
         border-bottom-left-radius: 3px;
         border-bottom-right-radius: 3px;
+
+        &[data-active="true"] {
+          border-bottom-left-radius: 2px;
+          border-bottom-right-radius: 2px;
+        }
       }
 
       &[data-compact-spacing="true"] {
