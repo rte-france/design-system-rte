@@ -17,6 +17,7 @@ interface TooltipProps extends CoreTooltipProps, Omit<React.HTMLAttributes<HTMLD
   triggerStyles?: React.CSSProperties;
   shouldFocusTrigger?: boolean;
   showOnEllipsis?: boolean;
+  preventOpening?: boolean;
 }
 
 const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
@@ -32,6 +33,7 @@ const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
       shouldFocusTrigger = true,
       gap = TOOLTIP_GAP,
       showOnEllipsis = false,
+      preventOpening = false,
       ...props
     },
     ref,
@@ -85,6 +87,10 @@ const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
     }, [computePosition]);
 
     const openTooltip = () => {
+      if (preventOpening) {
+        return;
+      }
+
       if (showOnEllipsis) {
         const triggerElement = triggerRef.current;
 
