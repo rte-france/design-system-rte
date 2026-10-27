@@ -430,5 +430,12 @@ export const ReactiveForm: Story = {
     await userEvent.click(canvas.getByTestId("toggle-disabled"));
     await waitFor(() => expect(modelStatus).toHaveTextContent("DISABLED"));
     expect(input).toBeDisabled();
+    expect(input).toHaveValue("");
+    expect(modelValue).toHaveTextContent("from model");
+
+    await userEvent.click(canvas.getByTestId("toggle-disabled"));
+    await waitFor(() => expect(input).toBeEnabled());
+    expect(input).toHaveValue("from model");
+    expect(modelValue).toHaveTextContent("from model");
   },
 };

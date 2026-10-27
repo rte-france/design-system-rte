@@ -177,6 +177,7 @@
                     }
 
                     &:disabled {
+                        border-color: var(--border-disabled);
                         pointer-events: none;
                     }
 
