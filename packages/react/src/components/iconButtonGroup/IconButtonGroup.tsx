@@ -152,6 +152,8 @@ const IconButtonGroup = forwardRef<HTMLDivElement, IconButtonGroupProps>(
             isIconActive={effectiveSelectedIds.includes(iconButtonIds[index])}
             isNextIconActive={effectiveSelectedIds.includes(iconButtonIds[index + 1])}
             dividerAppearance={computedDividerAppearance({
+              leftDisabled: buttonIsDisabled,
+              rightDisabled: iconButtons[index + 1] ? iconButtons[index + 1].isDisabled : false,
               leftActive: effectiveSelectedIds.includes(iconButtonIds[index]),
               rightActive: effectiveSelectedIds.includes(iconButtonIds[index + 1]),
               isDisabled: isDisabled,

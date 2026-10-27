@@ -120,7 +120,7 @@ export const Disabled: Story = {
 export const PartiallyDisabled = {
   args: {
     ...Default.args,
-    iconButtons: iconButtonStrict.map((button, index) => ({ ...button, isDisabled: index === 1 })),
+    iconButtons: iconButtonStrict.map((button, index) => ({ ...button, isDisabled: index === 1 || index === 3 })),
     defaultSelectedId: "format-align-left",
     onSelectionChange: fn(),
   },

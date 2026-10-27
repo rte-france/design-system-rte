@@ -1,5 +1,6 @@
-import type { IconButtonItem } from "@design-system-rte/core";
-import { CSSProperties } from "react";
+import type { IconButtonItem, Orientation } from "@design-system-rte/core";
+import { Position } from "@design-system-rte/core/components/common/common-types";
+import type { CSSProperties } from "react";
 
 import Divider from "../../divider/Divider";
 import Icon from "../../icon/Icon";
@@ -10,11 +11,11 @@ interface IconButtonGroupItemProps {
   button: IconButtonItem;
   buttonId: string;
   isDisabled?: boolean;
-  computedTooltipPosition: "auto" | "top" | "bottom" | "left" | "right";
+  computedTooltipPosition: Position;
   isCompact?: boolean;
   index: number;
   isLast: boolean;
-  orientation: "horizontal" | "vertical";
+  orientation: Orientation;
   appearance?: "brand" | "neutral";
   isIconActive: boolean;
   isNextIconActive: boolean;
