@@ -62,7 +62,7 @@
             [maxLength]="maxLength()"
             [disabled]="disabled()"
             [readOnly]="readOnly()"
-            [value]="internalValue()"
+            [value]="disabled() ? '' : internalValue()"
             [attr.placeholder]="computedPlaceholder()"
             [attr.autocomplete]="autocomplete()"
             [attr.data-compact-spacing]="compactSpacing()"
