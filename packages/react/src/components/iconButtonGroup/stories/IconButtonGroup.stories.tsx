@@ -98,6 +98,7 @@ export const Multiple: Story = {
 export const Disabled: Story = {
   args: {
     ...Default.args,
+    iconButtons: iconButtonSingle,
     isDisabled: true,
     onSelectionChange: fn(),
   },
@@ -113,6 +114,60 @@ export const Disabled: Story = {
     await userEvent.tab();
     for (const button of buttons) await expect(button).not.toHaveFocus();
     await expect(args.onSelectionChange).not.toHaveBeenCalled();
+  },
+};
+
+export const PartiallyDisabled = {
+  args: {
+    ...Default.args,
+    iconButtons: iconButtonStrict.map((button, index) => ({ ...button, isDisabled: index === 1 })),
+    defaultSelectedId: "format-align-left",
+    onSelectionChange: fn(),
+  },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const firstButton = canvas.getByRole("button", { name: "Align Left" });
+    const disabledButton = canvas.getByRole("button", { name: "Align Center" });
+    const nextButton = canvas.getByRole("button", { name: "Align Right" });
+
+    await expect(firstButton).toBeEnabled();
+    await expect(disabledButton).toBeDisabled();
+    await expect(nextButton).toBeEnabled();
+    await userEvent.click(disabledButton);
+    disabledButton.focus();
+    await expect(disabledButton).not.toHaveFocus();
+    await expect(disabledButton).toHaveAttribute("aria-pressed", "false");
+    await expect(args.onSelectionChange).not.toHaveBeenCalled();
+
+    firstButton.focus();
+    await userEvent.tab();
+    await expect(nextButton).toHaveFocus();
+    await userEvent.keyboard(TESTING_ENTER_KEY);
+    await expect(nextButton).toHaveAttribute("aria-pressed", "true");
+    await expect(args.onSelectionChange).toHaveBeenCalledTimes(1);
+    await expect(args.onSelectionChange).toHaveBeenLastCalledWith(
+      args.selectionMode === "multiple" ? ["format-align-left", "format-align-right"] : "format-align-right",
+    );
+  },
+} satisfies Story;
+
+export const PartiallyDisabledSingleStrict: Story = {
+  ...PartiallyDisabled,
+  args: {
+    ...PartiallyDisabled.args,
+    selectionMode: "single-strict",
+    onSelectionChange: fn(),
+  },
+};
+
+export const PartiallyDisabledMultiple: Story = {
+  ...PartiallyDisabled,
+  args: {
+    ...PartiallyDisabled.args,
+    selectionMode: "multiple",
+    defaultSelectedId: undefined,
+    defaultSelectedIds: ["format-align-left"],
+    onSelectionChange: fn(),
   },
 };
 
