@@ -1,7 +1,16 @@
 ## Usage de base
 
+L’apparence du bouton se configure avec `appearance`, `hierarchy`, `isCritical` et `isReversed`. Le glyphe togglable utilise `iconAppearance`.
+
 ```html
-<rte-icon-button name="settings" ariaLabel="Ouvrir les paramètres" (clickEvent)="handleClick($event)" />
+<rte-icon-button
+  name="settings"
+  appearance="brand"
+  hierarchy="primary"
+  iconAppearance="outlined"
+  ariaLabel="Ouvrir les paramètres"
+  (clickEvent)="handleClick($event)"
+/>
 ```
 
 ## Sizing
@@ -26,36 +35,88 @@
 </div>
 ```
 
-## Variantes
+## Apparence du bouton
 
-Les variantes disponibles sont `primary`, `secondary`, `text`, `transparent`, `danger`, `neutral` et `reverse`.
+### Brand
 
 ```html
-<div style="display: flex; gap: 8px">
-  <rte-icon-button name="settings" variant="primary" ariaLabel="Primary" />
-  <rte-icon-button name="settings" variant="secondary" ariaLabel="Secondary" />
-  <rte-icon-button name="settings" variant="text" ariaLabel="Text" />
-  <rte-icon-button name="settings" variant="transparent" ariaLabel="Transparent" />
-  <rte-icon-button name="settings" variant="danger" ariaLabel="Danger" />
-  <rte-icon-button name="settings" variant="neutral" ariaLabel="Neutral" />
-  <div style="background: var(--background-inverse)">
-    <rte-icon-button name="settings" variant="reverse" ariaLabel="Reverse" />
-  </div>
+<div style="display: flex; gap: 8px; flex-wrap: wrap">
+  <rte-icon-button name="settings" appearance="brand" hierarchy="primary" ariaLabel="Primary" />
+  <rte-icon-button name="settings" appearance="brand" hierarchy="secondary" ariaLabel="Secondary" />
+  <rte-icon-button name="settings" appearance="brand" hierarchy="text" ariaLabel="Text" />
+  <rte-icon-button name="settings" appearance="brand" hierarchy="transparent" ariaLabel="Transparent" />
+  <rte-icon-button name="settings" appearance="brand" hierarchy="primary" [isCritical]="true" ariaLabel="Critical" />
 </div>
 ```
 
-## Apparence de l'icône
-
-L'apparence `outlined` ou `filled` s'applique aux icônes togglables.
+### Neutral
 
 ```html
-<rte-icon-button name="settings" appearance="outlined" ariaLabel="Paramètres" />
+<div style="display: flex; gap: 8px; flex-wrap: wrap">
+  <rte-icon-button name="settings" appearance="neutral" hierarchy="primary" ariaLabel="Neutral primary" />
+  <rte-icon-button name="settings" appearance="neutral" hierarchy="secondary" ariaLabel="Neutral secondary" />
+  <rte-icon-button name="settings" appearance="neutral" hierarchy="text" ariaLabel="Neutral text" />
+  <rte-icon-button name="settings" appearance="neutral" hierarchy="transparent" ariaLabel="Neutral transparent" />
+</div>
+```
+
+### Critical et reversed
+
+```html
+<rte-icon-button
+  name="delete"
+  appearance="brand"
+  hierarchy="primary"
+  [isCritical]="true"
+  ariaLabel="Supprimer"
+/>
+
+<div style="background: var(--background-inverse); display: inline-flex; padding: 8px">
+  <rte-icon-button
+    name="settings"
+    appearance="brand"
+    hierarchy="transparent"
+    [isReversed]="true"
+    ariaLabel="Reversed"
+  />
+</div>
+```
+
+## Variantes dépréciées (`variant`)
+
+Les valeurs `variant` restent supportées pour compatibilité. Voir le tableau **Migration depuis `variant`** dans l’API.
+
+```html
+<rte-icon-button name="settings" variant="danger" ariaLabel="Danger" />
+<!-- Équivalent -->
+<rte-icon-button
+  name="settings"
+  appearance="brand"
+  hierarchy="primary"
+  [isCritical]="true"
+  ariaLabel="Danger"
+/>
+```
+
+## Apparence de l’icône
+
+Préférer `iconAppearance` pour les icônes togglables.
+
+```html
+<rte-icon-button name="settings" iconAppearance="outlined" ariaLabel="Paramètres" />
+<rte-icon-button name="settings" iconAppearance="filled" ariaLabel="Paramètres" />
+```
+
+Alias déprécié sur `appearance` (glyphe uniquement) :
+
+```html
+<!-- Déprécié -->
 <rte-icon-button name="settings" appearance="filled" ariaLabel="Paramètres" />
+<!-- Équivalent -->
+<rte-icon-button name="settings" iconAppearance="filled" ariaLabel="Paramètres" />
 ```
 
 ## Badge
-
-Avec les propriétés `badgeContent`, `badgeCount`, `badgeIcon`, `badgeSize` et `badgeType`, un badge peut être affiché sur le bouton.
 
 ```html
 <rte-icon-button name="settings" ariaLabel="Paramètres" badgeContent="number" [badgeCount]="1" badgeType="brand" />
