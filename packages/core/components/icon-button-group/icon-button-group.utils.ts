@@ -25,7 +25,6 @@ export const validateIconButtonConfiguration = (ids: readonly string[]): string 
   if (ids.length < 2) return "The component requires at least 2 icon buttons.";
   if (ids.some((id) => id.trim().length === 0)) return "Icon button IDs must not be empty.";
   if (new Set(ids).size !== ids.length) return "Icon button IDs must be unique.";
-  return undefined;
 };
 
 export const validateIconButtonSelection = ({
@@ -41,7 +40,6 @@ export const validateIconButtonSelection = ({
   if (selectionMode === "single" && selectedIds.length > 1) {
     return "In single mode, at most one icon button must be selected.";
   }
-  return undefined;
 };
 
 export const normalizeIconButtonSelection = ({

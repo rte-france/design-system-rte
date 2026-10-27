@@ -35,4 +35,5 @@ export interface IconButtonItem {
   id?: string;
   name: string;
   label: string;
+  isDisabled?: boolean;
 }

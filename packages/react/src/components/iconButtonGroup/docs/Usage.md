@@ -118,6 +118,24 @@ Les identifiants effectifs doivent être non vides et uniques, y compris entre u
 />
 ```
 
+### Désactivation individuelle
+
+Chaque élément de `iconButtons` accepte `isDisabled`. Les autres boutons restent utilisables. Le `isDisabled` du groupe désactive tous les boutons, même ceux configurés avec `isDisabled: false`.
+
+```tsx
+<IconButtonGroup
+  iconButtons={[
+    { name: "format-align-left", label: "Align Left", isDisabled: false },
+    { name: "format-align-center", label: "Align Center", isDisabled: true },
+    { name: "format-align-right", label: "Align Right", isDisabled: false },
+    { name: "format-align-justify", label: "Align Justify", isDisabled: false },
+  ]}
+  selectionMode="single"
+  defaultSelectedId="format-align-left"
+  aria-label="Icon selection"
+/>
+```
+
 ### Sélection non contrôlée
 
 Omettre `selectedId` dans les modes simples, ou `selectedIds` en multiple, laisse le composant gérer la sélection. `defaultSelectedId` ou `defaultSelectedIds` est lu uniquement au montage, puis normalisé. Un rendu du parent, même avec un nouveau tableau de boutons équivalent, ne réinitialise pas la sélection. Modifier ensuite la prop de sélection initiale ne change pas la sélection courante.

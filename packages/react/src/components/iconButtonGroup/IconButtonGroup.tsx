@@ -137,12 +137,12 @@ const IconButtonGroup = forwardRef<HTMLDivElement, IconButtonGroupProps>(
         aria-label={ariaLabel}
         {...props}
       >
-        {iconButtons.map((button, index) => (
+        {iconButtons.map(({ isDisabled: buttonIsDisabled, ...button }, index) => (
           <IconButtonGroupItem
             key={iconButtonIds[index]}
             button={button}
             buttonId={iconButtonIds[index]}
-            isDisabled={isDisabled}
+            isDisabled={isDisabled || buttonIsDisabled}
             computedTooltipPosition={computedTooltipPosition}
             isCompact={isCompact}
             index={index}
