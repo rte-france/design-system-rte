@@ -16,11 +16,12 @@
 
 ### IconButtonItem
 
-| Nom   | Type   | Valeur par défaut | Description                                                                                                                                                   |
-| ----- | ------ | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| id    | string | -                 | Identifiant stable du bouton. En son absence, name sert d'identifiant. L'identifiant effectif doit être unique et non vide dans le groupe.                    |
-| label | string | -                 | Nom accessible du bouton et texte du tooltip. Obligatoire.                                                                                                    |
-| name  | string | -                 | Nom de l'icône, appartenant aux clés RegularIconIdKey ou TogglableIconIdKey. Obligatoire. Deux boutons peuvent utiliser la même icône avec des IDs distincts. |
+| Nom        | Type    | Valeur par défaut | Description                                                                                                                                                   |
+| ---------- | ------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| id         | string  | -                 | Identifiant stable du bouton. En son absence, name sert d'identifiant. L'identifiant effectif doit être unique et non vide dans le groupe.                    |
+| isDisabled | boolean | -                 | Désactive uniquement ce bouton. La désactivation du groupe reste prioritaire.                                                                                 |
+| label      | string  | -                 | Nom accessible du bouton et texte du tooltip. Obligatoire.                                                                                                    |
+| name       | string  | -                 | Nom de l'icône, appartenant aux clés RegularIconIdKey ou TogglableIconIdKey. Obligatoire. Deux boutons peuvent utiliser la même icône avec des IDs distincts. |
 
 Le composant expose une ref vers le conteneur `HTMLDivElement` et accepte ses attributs HTML, à l'exception de `className` et `onChange`.
 
