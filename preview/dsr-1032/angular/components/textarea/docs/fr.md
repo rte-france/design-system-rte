@@ -17,33 +17,34 @@
 
 Le composant `TextareaComponent` (`rte-textarea`) constitue l'API publique. Utilisez-le dans les templates et liez-le aux formulaires réactifs ou template-driven via `formControl`, `formControlName` ou `ngModel`.
 
-| Nom | Type | Valeur par défaut | Description |
-|-----|------|-------------------|-------------|
-| id | string | — | `id` du textarea natif ; sert à construire l'id du texte d'aide lorsque celui-ci est présent. |
-| name | string | — | Attribut `name` du textarea natif. |
-| ariaLabelledby | string | — | Alternative à `labelId` pour `aria-labelledby` lorsqu'aucun id de label visible n'est défini. |
-| label | string | — | Libellé visible du champ. |
-| labelId | string | — | `id` de l'élément label, relié au textarea via `aria-labelledby`. |
-| labelPosition | `"top" \| "side"` | `"top"` | Position du label par rapport au textarea. |
-| assistiveTextLabel | string | — | Texte affiché sous le champ ou libellé du lien lorsque l'apparence est `link`. |
-| assistiveTextAppearance | `"description" \| "error" \| "success" \| "link"` | `"description"` | Style visuel du texte d'aide, ou mode lien combiné à `assistiveTextLink`. |
-| assistiveTextLink | string | — | URL du texte d'aide lorsque `assistiveTextAppearance` est `"link"`. |
-| required | boolean | `false` | Définit l'attribut natif `required` et alimente l'indicateur de requirement. |
-| showLabelRequirement | boolean | `false` | Affiche l'indicateur obligatoire ou facultatif à côté du label. |
-| resizeable | boolean \| string | `true` | Active ou désactive le redimensionnement du textarea par l'utilisateur. |
-| maxLength | number | — | Nombre maximal de caractères ; appliqué par l'élément natif. |
-| disabled | boolean | `false` | Désactive le textarea (respecte aussi l'état disabled du `FormControl`). |
-| readOnly | boolean | `false` | Met le textarea en lecture seule. |
-| value | string | — | Valeur synchronisée depuis le parent lorsqu'elle est fournie. |
-| defaultValue | string | — | Valeur initiale sans liaison de formulaire. |
-| rows | number | `3` | Hauteur visible du textarea en lignes. |
-| showCounter | boolean | `false` | Affiche un compteur de caractères lorsque `maxLength` est défini. |
-| width | string \| number | `"350px"` | Largeur du conteneur externe ; les valeurs numériques sont interprétées en pixels sauf si une unité est incluse. |
+| Nom                     | Type                                              | Valeur par défaut | Description                                                                                                                                                              |
+| ----------------------- | ------------------------------------------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| id                      | string                                            | —                 | `id` du textarea natif ; sert à construire l'id du texte d'aide lorsque celui-ci est présent.                                                                            |
+| name                    | string                                            | —                 | Attribut `name` du textarea natif.                                                                                                                                       |
+| ariaLabelledby          | string                                            | —                 | Alternative à `labelId` pour `aria-labelledby` lorsqu'aucun id de label visible n'est défini.                                                                            |
+| label                   | string                                            | —                 | Libellé visible du champ.                                                                                                                                                |
+| labelId                 | string                                            | —                 | `id` de l'élément label, relié au textarea via `aria-labelledby`.                                                                                                        |
+| labelPosition           | `"top" \| "side"`                                 | `"top"`           | Position du label par rapport au textarea.                                                                                                                               |
+| assistiveTextLabel      | string                                            | —                 | Texte affiché sous le champ ou libellé du lien lorsque l'apparence est `link`.                                                                                           |
+| assistiveTextAppearance | `"description" \| "error" \| "success" \| "link"` | `"description"`   | Style visuel du texte d'aide, ou mode lien combiné à `assistiveTextLink`.                                                                                                |
+| assistiveTextLink       | string                                            | —                 | URL du texte d'aide lorsque `assistiveTextAppearance` est `"link"`.                                                                                                      |
+| required                | boolean                                           | `false`           | Définit l'attribut natif `required` et alimente l'indicateur de requirement.                                                                                             |
+| showLabelRequirement    | boolean                                           | `false`           | Affiche l'indicateur obligatoire ou facultatif à côté du label.                                                                                                          |
+| resizeable              | boolean \| string                                 | `true`            | Active ou désactive le redimensionnement du textarea par l'utilisateur.                                                                                                  |
+| maxLength               | number                                            | —                 | Nombre maximal de caractères ; appliqué par l'élément natif.                                                                                                             |
+| disabled                | boolean                                           | `false`           | Désactive le textarea (respecte aussi l'état disabled du `FormControl`).                                                                                                 |
+| readOnly                | boolean                                           | `false`           | Met le textarea en lecture seule.                                                                                                                                        |
+| value                   | string                                            | —                 | Valeur synchronisée depuis le parent lorsqu'elle est fournie.                                                                                                            |
+| defaultValue            | string                                            | —                 | Valeur initiale sans liaison de formulaire.                                                                                                                              |
+| placeholder             | string                                            | —                 | Texte indicatif affiché lorsque le textarea est vide. Il est masqué lorsque le textarea est désactivé ou en lecture seule et ne remplace ni le label ni le texte d'aide. |
+| rows                    | number                                            | `3`               | Hauteur visible du textarea en lignes.                                                                                                                                   |
+| showCounter             | boolean                                           | `false`           | Affiche un compteur de caractères lorsque `maxLength` est défini.                                                                                                        |
+| width                   | string \| number                                  | `"350px"`         | Largeur du conteneur externe ; les valeurs numériques sont interprétées en pixels sauf si une unité est incluse.                                                         |
 
-| Output | Type | Description |
-|--------|------|-------------|
-| change | `Event` | Émis sur l'`input` natif après mise à jour de la valeur. |
-| blur | `FocusEvent` | Émis lorsque le textarea perd le focus, après propagation du touch aux formulaires. |
+| Output | Type         | Description                                                                         |
+| ------ | ------------ | ----------------------------------------------------------------------------------- |
+| change | `Event`      | Émis sur l'`input` natif après mise à jour de la valeur.                            |
+| blur   | `FocusEvent` | Émis lorsque le textarea perd le focus, après propagation du touch aux formulaires. |
 
 ## Usage
 
@@ -73,7 +74,7 @@ export class BioFieldComponent {
 }
 ```
 
-Utilisez `assistiveTextLabel` et `assistiveTextAppearance` pour l'aide et les messages de validation plutôt qu'un placeholder.
+Utilisez `assistiveTextLabel` et `assistiveTextAppearance` pour l'aide persistante et les messages de validation. Vous pouvez utiliser `placeholder` pour un texte indicatif court lorsque le champ est vide, mais il ne remplace ni le label ni le texte d'aide. Le placeholder est masqué lorsque le textarea est désactivé ou en lecture seule.
 
 #### Erreur
 

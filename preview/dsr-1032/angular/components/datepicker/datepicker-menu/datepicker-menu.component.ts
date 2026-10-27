@@ -11,7 +11,7 @@ import {
   output,
   signal,
 } from "@angular/core";
-import { getDayCellIndexForDate, isSameDay } from "@design-system-rte/core";
+import { capitalize, getDayCellIndexForDate, isSameDay } from "@design-system-rte/core";
 import { waitForNextFrame } from "@design-system-rte/core/common/animation";
 import {
   addDays,
@@ -91,12 +91,21 @@ export class DatepickerMenuComponent {
     const view = this.viewDate();
     const type = this.calendarType();
     if (type === "day") {
-      return getMonthLabel(view, this.locale());
+      return capitalize(getMonthLabel(view, this.locale()));
     }
     if (type === "month") {
       return getYearLabel(view, this.locale());
     }
     return getDecadeRangeLabel(view);
+  });
+
+  readonly headerAriaLabel = computed(() => {
+    const type = this.calendarType();
+    if (type === "day") {
+      return `${this.headerTitle()}, afficher les mois`;
+    } else {
+      return `${this.headerTitle()}, afficher les années`;
+    }
   });
 
   readonly dayCells = computed(() =>
