@@ -14,6 +14,7 @@ import { SplitButtonItemProps } from "@design-system-rte/core";
       [options]="options"
       (clickLeftButton)="onPrimaryAction()"
       (clickRightButton)="onMenuToggle()"
+      (clickOption)="onOptionSelected($event)"
     />
   `,
 })
@@ -31,10 +32,14 @@ export class ExampleComponent {
   onMenuToggle(): void {
     console.log("Menu trigger clicked");
   }
+
+  onOptionSelected(optionId: string): void {
+    console.log("Menu option selected", optionId);
+  }
 }
 ```
 
-The dropdown menu is managed internally. Menu item selection events are not exposed on the component — see [Limitations](./limitations.md).
+The dropdown menu is managed internally. Listen to `(clickOption)` to react when the user selects a menu entry.
 
 #### Appearance
 

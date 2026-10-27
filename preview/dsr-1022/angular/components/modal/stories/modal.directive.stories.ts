@@ -393,6 +393,7 @@ export const PrimarySplitButton: Story = {
       ...args,
       splitMenuOptions,
       handlePrimaryClick: () => console.log("Save"),
+      handlePrimaryOptionClick: (optionId: string) => console.log("Save option", optionId),
       handleSecondaryClick: () => console.log("Cancel"),
     },
     imports: [ModalDirective],
@@ -410,11 +411,44 @@ export const PrimarySplitButton: Story = {
       [rteModalPrimarySplitButtonOptions]="splitMenuOptions"
       [rteModalPrimarySplitButtonAriaLabelRight]="rteModalPrimarySplitButtonAriaLabelRight"
       (rteModalPrimaryActionClick)="handlePrimaryClick(); modalHost.close()"
+      (rteModalPrimaryActionOptionClick)="handlePrimaryOptionClick($event); modalHost.close()"
       (rteModalSecondaryActionClick)="handleSecondaryClick(); modalHost.close()"
     >
       <button rteButton rteButtonVariant="primary" rteModalTrigger>Open Modal</button>
     </div>`,
   }),
+};
+
+export const KeyboardInteractionSplitButton: Story = {
+  tags: ["!autodocs"],
+  ...PrimarySplitButton,
+  play: async () => {
+    focusElementBeforeComponent();
+
+    await userEvent.tab();
+    await userEvent.keyboard(TESTING_SPACE_KEY);
+
+    const modal = within(document.body).getByRole("dialog");
+    expect(modal).toBeVisible();
+
+    const menuButton = within(modal).getByTestId("Menu button");
+    await userEvent.click(menuButton);
+
+    await waitFor(() => {
+      expect(document.body.querySelector("rte-dropdown-menu")).toBeTruthy();
+    });
+
+    await userEvent.keyboard(TESTING_ESCAPE_KEY);
+
+    await waitFor(() => {
+      expect(document.body.querySelector("rte-dropdown-menu")).toBeFalsy();
+    });
+    expect(modal).toBeVisible();
+
+    await userEvent.keyboard(TESTING_ESCAPE_KEY);
+
+    await waitFor(() => expect(modal).not.toBeVisible());
+  },
 };
 
 export const InputAndLegacyFooterComparison: Story = {
