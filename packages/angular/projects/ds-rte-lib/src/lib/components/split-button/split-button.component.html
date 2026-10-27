@@ -23,6 +23,7 @@
     [rteDropdownPosition]="internalPosition()"
     [rteDropdownAlignment]="internalAlignment()"
     [attr.data-testid]="'Menu container'"
+    (menuEvent)="handleMenuEvent($event)"
   >
     @if (hasBadge()) {
       <button

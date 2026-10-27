@@ -162,11 +162,14 @@ Set `rteModalPrimaryActionType` to `split-button` and pass menu options plus `rt
   [rteModalPrimarySplitButtonOptions]="splitMenuOptions"
   [rteModalPrimarySplitButtonAriaLabelRight]="'More save options'"
   (rteModalPrimaryActionClick)="onSave(); modalHost.close()"
+  (rteModalPrimaryActionOptionClick)="onSaveOption($event); modalHost.close()"
   (rteModalSecondaryActionClick)="modalHost.close()"
 >
   <button rteButton rteButtonVariant="primary" rteModalTrigger>Open Modal</button>
 </div>
 ```
+
+Handle `(rteModalPrimaryActionOptionClick)` when the user picks an entry from the split-button menu. The emitted value is the matching option `id` from `rteModalPrimarySplitButtonOptions`.
 
 #### Input and legacy footer comparison
 
