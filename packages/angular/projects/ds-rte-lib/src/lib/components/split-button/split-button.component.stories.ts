@@ -11,21 +11,9 @@ const RegularIconIds = Object.keys(RegularIconsList);
 const TogglableIconIds = Object.keys(TogglableIconsList);
 
 const defaultOptions = [
-  {
-    id: "option-1",
-    label: "Option 1",
-    click: () => console.log("Option 1 clicked"),
-  },
-  {
-    id: "option-2",
-    label: "Option 2",
-    click: () => console.log("Option 2 clicked"),
-  },
-  {
-    id: "option-3",
-    label: "Option 3",
-    click: () => console.log("Option 3 clicked"),
-  },
+  { id: "option-1", label: "Option 1" },
+  { id: "option-2", label: "Option 2" },
+  { id: "option-3", label: "Option 3" },
 ];
 
 const meta: Meta<SplitButtonComponent> = {
@@ -102,6 +90,7 @@ export const Default: Story = {
       ...args,
       handleClickLeftButton: () => console.log("Left button clicked"),
       handleClickRightButton: () => console.log("Right button clicked"),
+      handleClickOption: (optionId: string) => console.log("Option clicked", optionId),
     },
     template: `
       <rte-split-button
@@ -116,6 +105,7 @@ export const Default: Story = {
         [options]="options"
         (clickLeftButton)="handleClickLeftButton()"
         (clickRightButton)="handleClickRightButton()"
+        (clickOption)="handleClickOption($event)"
       />
         
       

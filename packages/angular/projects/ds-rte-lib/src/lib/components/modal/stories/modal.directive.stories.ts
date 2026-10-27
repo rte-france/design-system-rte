@@ -393,6 +393,7 @@ export const PrimarySplitButton: Story = {
       ...args,
       splitMenuOptions,
       handlePrimaryClick: () => console.log("Save"),
+      handlePrimaryOptionClick: (optionId: string) => console.log("Save option", optionId),
       handleSecondaryClick: () => console.log("Cancel"),
     },
     imports: [ModalDirective],
@@ -410,6 +411,7 @@ export const PrimarySplitButton: Story = {
       [rteModalPrimarySplitButtonOptions]="splitMenuOptions"
       [rteModalPrimarySplitButtonAriaLabelRight]="rteModalPrimarySplitButtonAriaLabelRight"
       (rteModalPrimaryActionClick)="handlePrimaryClick(); modalHost.close()"
+      (rteModalPrimaryActionOptionClick)="handlePrimaryOptionClick($event); modalHost.close()"
       (rteModalSecondaryActionClick)="handleSecondaryClick(); modalHost.close()"
     >
       <button rteButton rteButtonVariant="primary" rteModalTrigger>Open Modal</button>

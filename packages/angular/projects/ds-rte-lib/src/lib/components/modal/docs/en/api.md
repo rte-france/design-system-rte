@@ -25,6 +25,7 @@ The public API is the `[rteModal]` directive (with `exportAs="rteModal"`), the `
 | Property | Type | Description |
 |----------|------|-------------|
 | rteModalPrimaryActionClick | `void` | Emitted when the configured primary button or split-button left segment is activated. |
+| rteModalPrimaryActionOptionClick | `string` | Emitted when a split-button menu option is activated. The value is the option `id` from `rteModalPrimarySplitButtonOptions`. |
 | rteModalSecondaryActionClick | `void` | Emitted when the configured secondary button is activated. |
 
 ### ModalDirective methods
