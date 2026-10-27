@@ -395,6 +395,7 @@ export const WithMinMax: Story = {
     const calendarButton = canvas.getByRole("button", { name: calendarTriggerAccessibleName });
     calendarButton.focus();
     await userEvent.tab({ shift: true });
+    await userEvent.tab({ shift: true });
     for (const digit of "03012020") {
       await userEvent.keyboard(digit);
     }
@@ -420,6 +421,7 @@ export const WithMinMax: Story = {
       expect(calendarButton).toHaveFocus();
     });
 
+    await userEvent.tab({ shift: true });
     await userEvent.tab({ shift: true });
     await userEvent.keyboard(TESTING_BACKSPACE_KEY);
     await userEvent.keyboard(TESTING_ARROW_LEFT_KEY);
@@ -485,6 +487,7 @@ export const DisabledDates: Story = {
 
     const calendarButton = canvas.getByRole("button", { name: calendarTriggerAccessibleName });
     calendarButton.focus();
+    await userEvent.tab({ shift: true });
     await userEvent.tab({ shift: true });
     for (const digit of "14062023") {
       await userEvent.keyboard(digit);
