@@ -1,5 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, effect, ElementRef, inject, input, viewChild } from "@angular/core";
+import { IconAppearance } from "@design-system-rte/core/components/icon/icon.interface";
 
 import { IconRegistry } from "./icon-registry.service";
 import { renderIcon } from "./icon-render";
@@ -16,7 +17,7 @@ export class IconComponent {
   readonly size = input<number>(20);
   readonly color = input<string>();
   readonly classes = input("");
-  readonly appearance = input<"outlined" | "filled">();
+  readonly appearance = input<IconAppearance>();
   readonly ariaHidden = input<boolean>(true);
   readonly ariaLabel = input<string | undefined>();
 

@@ -1,13 +1,14 @@
-import { IconButtonItem } from '../../../../../core';
+import { IconButtonItem, Orientation } from '../../../../../core';
+import { Position } from '../../../../../core/components/common/common-types';
 interface IconButtonGroupItemProps {
     button: IconButtonItem;
     buttonId: string;
     isDisabled?: boolean;
-    computedTooltipPosition: "auto" | "top" | "bottom" | "left" | "right";
+    computedTooltipPosition: Position;
     isCompact?: boolean;
     index: number;
     isLast: boolean;
-    orientation: "horizontal" | "vertical";
+    orientation: Orientation;
     appearance?: "brand" | "neutral";
     isIconActive: boolean;
     isNextIconActive: boolean;
