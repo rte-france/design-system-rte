@@ -42,6 +42,25 @@ export const validateIconButtonSelection = ({
   }
 };
 
+export const validateSelectionShape = ({
+  isControlled,
+  selectionMode,
+  controlledSelection,
+}: {
+  isControlled: boolean;
+  selectionMode: "single" | "single-strict" | "multiple";
+  controlledSelection: string | null | readonly string[] | undefined;
+}) => {
+  return isControlled &&
+    (selectionMode === "multiple"
+      ? !Array.isArray(controlledSelection)
+      : controlledSelection !== null && typeof controlledSelection !== "string")
+    ? selectionMode === "multiple"
+      ? "In multiple mode, selectedIds must be an array."
+      : "In single modes, selectedId must be a string or null."
+    : undefined;
+};
+
 export const normalizeIconButtonSelection = ({
   ids,
   selectedIds,
@@ -63,4 +82,44 @@ export const computeNextIconButtonSelection = ({
   if (selectionMode === "single-strict") return [clickedId];
   if (selectionMode === "single") return selectedIds.includes(clickedId) ? [] : [clickedId];
   return ids.filter((id) => (id === clickedId ? !selectedIds.includes(id) : selectedIds.includes(id)));
+};
+
+export const computedDividerStyle = ({
+  isCurrentAndLastActive,
+  isDisabled,
+  appearance,
+  isCompact,
+  orientation,
+}: {
+  isCurrentAndLastActive: boolean;
+  isDisabled?: boolean;
+  appearance: "neutral" | "brand";
+  isCompact?: boolean;
+  orientation?: "horizontal" | "vertical";
+}) => {
+  const style = {
+    boxSizing: "border-box",
+    zIndex: 1,
+    backgroundColor: isDisabled
+      ? `var(--border-disabled)`
+      : isCurrentAndLastActive
+        ? `var(--background-default)`
+        : appearance === "neutral"
+          ? `var(--border-disabled)`
+          : `var(--border-brand-default)`,
+  };
+
+  if (isCompact) {
+    return {
+      ...style,
+      height: orientation === "horizontal" ? "32px" : "1px",
+      width: orientation === "vertical" ? "32px" : "1px",
+    };
+  }
+
+  return {
+    ...style,
+    height: orientation === "horizontal" ? "38px" : "1px",
+    width: orientation === "vertical" ? "38px" : "1px",
+  };
 };
