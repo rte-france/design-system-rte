@@ -4,9 +4,7 @@ Le composant génère un identifiant pour l'input natif et utilise désormais ce
 
 ### Nom accessible
 
-Le composant journalise une erreur lorsqu'aucun `label`, `ariaLabel` ou `ariaLabelledBy` n'est fourni. Vérifiez que l'attribut utilisé produit bien le nom accessible attendu.
-
-`ariaLabelledBy` est déclaré comme input mais n'est pas encore rendu par un attribut `aria-labelledby` dans le template. Utilisez un `label` ou vérifiez le nom accessible obtenu avec `ariaLabel`.
+Le composant retourne une erreur dans la console lorsqu'aucun `label`, `ariaLabel` ou `ariaLabelledBy` n'est fourni. Vérifiez que l'attribut utilisé produit bien le nom accessible attendu.
 
 ### Synchronisation de `checked`
 

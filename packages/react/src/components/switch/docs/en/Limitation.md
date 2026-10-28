@@ -1,8 +1,6 @@
 ### Nom accessible
 
-Le composant vérifie qu'un `label`, `aria-label` ou `aria-labelledby` est fourni. Sans l'un de ces attributs, il journalise une erreur et ne rend pas le switch.
-
-Les attributs `aria-label` et `aria-labelledby` sont toutefois retirés des propriétés transmises à l'input. Vérifiez leur restitution effective avec les outils d'accessibilité ciblés.
+Le composant vérifie qu'un `label`, `aria-label` ou `aria-labelledby` est fourni. Sans l'un de ces attributs, il retourne une erreur dans la console et ne rend pas le switch.
 
 ### Identifiant généré
 
