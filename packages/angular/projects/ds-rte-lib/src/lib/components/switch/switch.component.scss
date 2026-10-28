@@ -33,7 +33,11 @@
         border-radius: $radius-pill;
         transition: background-color 0.4s ease-in-out, border-color 0.4s ease-in-out;
 
-        &:focus-visible{
+        @media (prefers-reduced-motion: reduce) {
+            transition: none;
+        }
+
+        &:focus-visible {
             outline: 1px solid var(--border-brand-focused);
             outline-offset: 4px;
         }
@@ -60,6 +64,10 @@
         left: 4px;
 
         transition: background-color 0.4s ease-in-out, color 0.4s ease-in-out, transform 0.4s ease-in-out;
+
+        @media (prefers-reduced-motion: reduce) {
+            transition: none;
+        }
 
         &.checked {
             background-color: var(--background-default);
@@ -120,14 +128,14 @@
             }
 
             .switch-icon-check {
-            cursor: not-allowed;
+                cursor: not-allowed;
                 top: calc(50% - 10px);
                 left: 2px;
                 background-color: var(--background-default);
                 color: var(--border-primary);
                 border: $width-s solid var(--border-primary);
 
-                .icon{
+                .icon {
                     cursor: not-allowed;
                 }
             }
@@ -142,14 +150,14 @@
             }
 
             .switch-icon-check {
-            cursor: not-allowed;
+                cursor: not-allowed;
                 top: calc(50% - 10px);
                 left: 2px;
                 background-color: var(--background-default);
                 color: var(--border-disabled);
                 border: $width-s solid var(--border-disabled);
 
-                .icon{
+                .icon {
                     cursor: not-allowed;
                 }
             }
