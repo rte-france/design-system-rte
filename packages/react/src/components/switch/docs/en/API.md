@@ -5,6 +5,7 @@
 | defaultChecked | boolean                                            | false             | État initial utilisé lorsque `checked` n'est pas défini.                                         |
 | disabled       | boolean                                            | false             | Désactive le switch et empêche les interactions.                                                 |
 | label          | string                                             | -                 | Libellé utilisé pour le nom accessible et affiché lorsqu'il est fourni.                          |
+| name           | string                                             | -                 | Nom transmis à l'élément `input` natif.                                                          |
 | onChange       | (e: React.ChangeEvent\<HTMLInputElement\>) => void | -                 | Callback appelé lorsque l'état change.                                                           |
 | readOnly       | boolean                                            | false             | Empêche la modification de l'état.                                                               |
 | showIcon       | boolean                                            | true              | Affiche l'icône `check` lorsque le switch est activé et `close` lorsqu'il est désactivé.         |

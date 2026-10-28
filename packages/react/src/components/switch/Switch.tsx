@@ -83,10 +83,10 @@ const Switch = ({
       onClick={handleClick}
     >
       <input
-        aria-label={label}
+        aria-label={ariaLabel}
+        aria-labelledby={ariaLabelledBy}
         type="checkbox"
         role="switch"
-        name={label}
         id={inputId}
         className={style["switch"]}
         disabled={disabled}
