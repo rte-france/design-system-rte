@@ -151,6 +151,7 @@ export const States: Story = {
           [assistiveTextLabel]="assistiveTextLabel"
           [isError]="true"
           [value]=""
+          [placeholder]="placeholder"
         />
         <rte-select
           [id]="id + '-readonly'"
@@ -159,6 +160,7 @@ export const States: Story = {
           [assistiveTextLabel]="assistiveTextLabel"
           [readOnly]="true"
           [value]="value"
+          [placeholder]="placeholder"
         />
         <rte-select
           [id]="id + '-disabled'"
@@ -166,7 +168,7 @@ export const States: Story = {
           [options]="options"
           [assistiveTextLabel]="assistiveTextLabel"
           [disabled]="true"
-          [value]="value"
+          [placeholder]="placeholder"
         />
       </div>
     `,

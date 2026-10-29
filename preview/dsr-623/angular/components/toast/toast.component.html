@@ -4,6 +4,8 @@
   [ngClass]="{ open: isOpen() }"
   (mouseenter)="handleMouseEnter()"
   (mouseleave)="handleMouseLeave()"
+  (focusin)="handleFocusIn()"
+  (focusout)="handleFocusOut($event)"
 >
   <div class="rte-toast-content">
     @if (displayLeftIcon()) {

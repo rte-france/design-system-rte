@@ -11,6 +11,8 @@ import { BadgeDirective } from "../../badge/badge.directive";
 import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../../icon/icon-map";
 import { ButtonComponent } from "../button.component";
 
+import { ButtonVariantGridComponent } from "./button-variant-grid.component";
+
 const RegularIconIds = Object.keys(RegularIconsList);
 const TogglableIconIds = Object.keys(TogglableIconsList);
 
@@ -19,9 +21,24 @@ const meta: Meta<ButtonComponent> = {
   component: ButtonComponent,
   tags: ["autodocs"],
   argTypes: {
+    rteButtonAppearance: {
+      control: "select",
+      options: ["brand", "neutral"],
+    },
+    rteButtonHierarchy: {
+      control: "select",
+      options: ["primary", "secondary", "text", "transparent"],
+    },
+    rteButtonIsCritical: {
+      control: "boolean",
+    },
+    rteButtonIsReversed: {
+      control: "boolean",
+    },
     rteButtonVariant: {
       control: "select",
       options: ["primary", "secondary", "text", "transparent", "danger", "neutral", "reverse"],
+      description: "Deprecated flat visual alias.",
     },
     rteButtonSize: {
       control: "select",
@@ -47,26 +64,46 @@ type Story = StoryObj<ButtonComponent>;
 
 const mockFn = fn();
 
-export const Default: Story = {
-  args: {
-    rteButtonVariant: "primary",
-    rteButtonSize: "m",
-    rteButtonIconPosition: "left",
-    rteButtonIconAppearance: "filled",
-  },
-  render: (args) => ({
-    props: { ...args, click: mockFn },
-    template: `
-    <button rteButton
-      [rteButtonVariant]="rteButtonVariant"
+const defaultButtonStoryTemplate = `
+  <div
+    [style.background]="rteButtonIsReversed ? 'var(--background-inverse)' : 'transparent'"
+    [style.padding.px]="rteButtonIsReversed ? 16 : 0"
+    [style.border-radius.px]="rteButtonIsReversed ? 8 : 0"
+    style="display: inline-block"
+  >
+    <button
+      rteButton
+      [rteButtonAppearance]="rteButtonAppearance"
+      [rteButtonHierarchy]="rteButtonHierarchy"
       [rteButtonSize]="rteButtonSize"
       [rteButtonIcon]="rteButtonIcon"
       [rteButtonIconPosition]="rteButtonIconPosition"
       [rteButtonIconAppearance]="rteButtonIconAppearance"
+      [rteButtonIsCritical]="rteButtonIsCritical"
+      [rteButtonIsReversed]="rteButtonIsReversed"
+      [rteButtonVariant]="rteButtonVariant"
       data-testid="button"
       (click)="click()"
-    >Button</button>
-    `,
+    >
+      Button
+    </button>
+  </div>
+`;
+
+export const Default: Story = {
+  args: {
+    rteButtonAppearance: "brand",
+    rteButtonHierarchy: "primary",
+    rteButtonSize: "m",
+    rteButtonIconPosition: "left",
+    rteButtonIconAppearance: "filled",
+    rteButtonIsCritical: false,
+    rteButtonIsReversed: false,
+  },
+  render: (args) => ({
+    props: { ...args, click: mockFn },
+    imports: [ButtonComponent],
+    template: defaultButtonStoryTemplate,
   }),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -84,17 +121,20 @@ export const Sizing: Story = {
     <div style="display: flex; gap: 8px;">
         <button rteButton 
           rteButtonSize="s"
-          rteButtonVariant="primary"
+          rteButtonAppearance="brand"
+          rteButtonHierarchy="primary"
           data-testid="small-button"
         >Small</button>
         <button rteButton 
           rteButtonSize="m"
-          rteButtonVariant="primary"
+          rteButtonAppearance="brand"
+          rteButtonHierarchy="primary"
           data-testid="medium-button"
         >Medium</button>
         <button rteButton 
           rteButtonSize="l"
-          rteButtonVariant="primary"
+          rteButtonAppearance="brand"
+          rteButtonHierarchy="primary"
           data-testid="large-button"
         >Large</button>
     </div>
@@ -119,7 +159,8 @@ export const WithBadge: StoryObj<ButtonComponent & BadgeDirective> = {
     }),
   ],
   args: {
-    rteButtonVariant: "primary",
+    rteButtonAppearance: "brand",
+    rteButtonHierarchy: "primary",
     rteButtonSize: "m",
     rteBadgeContent: "number",
     rteBadgeCount: 5,
@@ -158,7 +199,8 @@ export const WithBadge: StoryObj<ButtonComponent & BadgeDirective> = {
     template: `
     <button rteButton
     rteBadge
-      [rteButtonVariant]="rteButtonVariant"
+      [rteButtonAppearance]="rteButtonAppearance"
+      [rteButtonHierarchy]="rteButtonHierarchy"
       [rteButtonSize]="rteButtonSize"
       [rteBadgeContent]="rteBadgeContent"
       [rteBadgeCount]="rteBadgeCount"
@@ -183,16 +225,17 @@ export const WithIcon: Story = {
     template: `
     <div style="display: flex; gap: 8px;">
       <button rteButton
-        [rteButtonVariant]="rteButtonVariant"
+        [rteButtonAppearance]="rteButtonAppearance"
+        [rteButtonHierarchy]="rteButtonHierarchy"
         [rteButtonSize]="rteButtonSize"
         [rteButtonIcon]="'add-circle'"
         [rteButtonIconPosition]="rteButtonIconPosition"
-        [rteButtonIconAppearance]="'outlined'"
         data-testid="button-with-icon-left"
         (click)="click()"
       >Button with Icon</button>
       <button rteButton
-        [rteButtonVariant]="rteButtonVariant"
+        [rteButtonAppearance]="rteButtonAppearance"
+        [rteButtonHierarchy]="rteButtonHierarchy"
         [rteButtonSize]="rteButtonSize"
         [rteButtonIcon]="'add-circle'"
         [rteButtonIconPosition]="'right'"
@@ -205,11 +248,102 @@ export const WithIcon: Story = {
   }),
 };
 
-export const Variants: Story = {
+export const FigmaVariantGrid: Story = {
+  tags: ["!autodocs"],
+  decorators: [
+    moduleMetadata({
+      imports: [ButtonVariantGridComponent],
+    }),
+  ],
+  parameters: {
+    layout: "fullscreen",
+  },
+  render: () => ({
+    template: `<rte-button-variant-grid />`,
+  }),
+};
+
+export const BrandHierarchies: Story = {
+  render: () => ({
+    template: `
+    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+        <button rteButton rteButtonAppearance="brand" rteButtonHierarchy="primary">Primary</button>
+        <button rteButton rteButtonAppearance="brand" rteButtonHierarchy="secondary">Secondary</button>
+        <button rteButton rteButtonAppearance="brand" rteButtonHierarchy="text">Text</button>
+        <button rteButton rteButtonAppearance="brand" rteButtonHierarchy="transparent">Transparent</button>
+    </div>
+    `,
+  }),
+};
+
+export const NeutralHierarchies: Story = {
+  render: () => ({
+    template: `
+    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+        <button rteButton rteButtonAppearance="neutral" rteButtonHierarchy="primary">Neutral primary</button>
+        <button rteButton rteButtonAppearance="neutral" rteButtonHierarchy="secondary">Neutral secondary</button>
+        <button rteButton rteButtonAppearance="neutral" rteButtonHierarchy="text">Neutral text</button>
+        <button rteButton rteButtonAppearance="neutral" rteButtonHierarchy="transparent">Neutral transparent</button>
+    </div>
+    `,
+  }),
+};
+
+export const Disabled: Story = {
+  render: () => ({
+    template: `
+    <div style="display: flex; flex-direction: column; gap: 16px;">
+      <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+        <button rteButton rteButtonAppearance="brand" rteButtonHierarchy="primary" disabled>Primary</button>
+        <button rteButton rteButtonAppearance="brand" rteButtonHierarchy="secondary" disabled>Secondary</button>
+        <button rteButton rteButtonAppearance="brand" rteButtonHierarchy="text" disabled>Text</button>
+        <button rteButton rteButtonAppearance="brand" rteButtonHierarchy="transparent" disabled>Transparent</button>
+        <button rteButton rteButtonAppearance="brand" rteButtonHierarchy="primary" [rteButtonIsCritical]="true" disabled>Critical</button>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+        <button rteButton rteButtonAppearance="neutral" rteButtonHierarchy="primary" disabled>Neutral primary</button>
+        <button rteButton rteButtonAppearance="neutral" rteButtonHierarchy="secondary" disabled>Neutral secondary</button>
+        <button rteButton rteButtonAppearance="neutral" rteButtonHierarchy="text" disabled>Neutral text</button>
+        <button rteButton rteButtonAppearance="neutral" rteButtonHierarchy="transparent" disabled>Neutral transparent</button>
+      </div>
+      <div style="background: var(--background-inverse); padding: 16px; border-radius: 8px; display: flex; flex-wrap: wrap; gap: 8px;">
+        <button rteButton rteButtonAppearance="brand" rteButtonHierarchy="transparent" [rteButtonIsReversed]="true" disabled>Reversed</button>
+        <button rteButton rteButtonAppearance="neutral" rteButtonHierarchy="primary" [rteButtonIsReversed]="true" disabled>Neutral reversed</button>
+      </div>
+    </div>
+    `,
+  }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const buttons = canvas.getAllByRole("button");
+
+    for (const button of buttons) {
+      expect(button).toBeDisabled();
+    }
+  },
+};
+
+export const CriticalAndReversed: Story = {
+  render: () => ({
+    template: `
+    <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
+        <button rteButton rteButtonAppearance="brand" rteButtonHierarchy="primary" [rteButtonIsCritical]="true">Critical</button>
+        <div style="background: var(--background-inverse); padding: 16px; border-radius: 8px; display: flex; gap: 8px; align-items: center;">
+          <button rteButton rteButtonAppearance="brand" rteButtonHierarchy="transparent" [rteButtonIsReversed]="true" rteButtonSize="s">Reversed S</button>
+          <button rteButton rteButtonAppearance="brand" rteButtonHierarchy="transparent" [rteButtonIsReversed]="true" rteButtonSize="m">Reversed M</button>
+          <button rteButton rteButtonAppearance="brand" rteButtonHierarchy="transparent" [rteButtonIsReversed]="true" rteButtonSize="l">Reversed L</button>
+          <button rteButton rteButtonAppearance="neutral" rteButtonHierarchy="primary" [rteButtonIsReversed]="true">Neutral reversed</button>
+        </div>
+    </div>
+    `,
+  }),
+};
+
+export const LegacyVariants: Story = {
   render: (args) => ({
     props: { ...args },
     template: `
-    <div style="display: flex; gap: 8px;">
+    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
         <button rteButton 
           rteButtonVariant="primary"
           rteButtonSize="m"
@@ -240,11 +374,13 @@ export const Variants: Story = {
           rteButtonSize="m"
           data-testid="neutral-button"
         >Neutral</button>
-        <button rteButton 
-          rteButtonVariant="reverse"
-          rteButtonSize="m"
-          data-testid="reverse-button"
-        >Reverse</button>
+        <div style="background: var(--background-inverse); padding: 8px; border-radius: 8px;">
+          <button rteButton 
+            rteButtonVariant="reverse"
+            rteButtonSize="m"
+            data-testid="reverse-button"
+          >Reverse</button>
+        </div>
     </div>
     `,
   }),
@@ -257,14 +393,8 @@ export const KeyboardInteraction: Story = {
   },
   render: (args) => ({
     props: { ...args, click: mockFn },
-    template: `
-    <button rteButton
-      [rteButtonVariant]="rteButtonVariant"
-      [rteButtonSize]="rteButtonSize"
-      data-testid="button"
-      (click)="click()"
-    >Button</button>
-    `,
+    imports: [ButtonComponent],
+    template: defaultButtonStoryTemplate,
   }),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
