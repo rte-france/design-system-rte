@@ -207,3 +207,53 @@ export const KeyboardInteraction: Story = {
     await waitFor(() => expect(toast).not.toBeInTheDocument());
   },
 };
+
+const AUTO_DISMISS_SHORT_MS = 3000;
+
+export const AutoDismissPausesOnKeyboardFocus: Story = {
+  tags: ["!autodocs", "skip-ci"],
+  args: {
+    message: "Une mise à jour est disponible",
+    type: "info",
+    autoDismiss: true,
+    duration: "short",
+    closable: true,
+    showActionButton: false,
+  },
+
+  render: (args) => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    return (
+      <>
+        <Button label="Toggle toast" onClick={() => setIsOpen(!isOpen)} style={{ marginBottom: "16px" }} />
+        <ToastQueueProvider>
+          <Toast
+            {...args}
+            isOpen={isOpen}
+            onClose={() => {
+              setIsOpen(false);
+            }}
+          />
+        </ToastQueueProvider>
+      </>
+    );
+  },
+
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const toggleButton = await canvas.getByRole("button", { name: "Toggle toast" });
+
+    await userEvent.click(toggleButton);
+
+    const toast = within(document.body).getByRole("status");
+    const closeButton = await within(toast).getByRole("button", { name: "Fermer le toast" });
+
+    await userEvent.tab();
+    expect(closeButton).toHaveFocus();
+
+    await new Promise((resolve) => setTimeout(resolve, AUTO_DISMISS_SHORT_MS + 500));
+
+    expect(toast).toBeInTheDocument();
+  },
+};

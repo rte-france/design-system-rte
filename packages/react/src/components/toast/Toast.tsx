@@ -1,7 +1,7 @@
 import { generateId, ToastCloseButtonAriaLabel } from "@design-system-rte/core";
 import { IconSize, IconTypeMap } from "@design-system-rte/core/components/icon/icon.constants";
 import { ToastProps as coreToastProps } from "@design-system-rte/core/components/toast/toast.interface";
-import { forwardRef, MouseEventHandler, useCallback, useEffect, useState } from "react";
+import { forwardRef, FocusEventHandler, MouseEventHandler, useCallback, useEffect, useRef, useState } from "react";
 
 import useAnimatedMount from "../../hooks/useAnimatedMount";
 import Button from "../button/Button";
@@ -78,18 +78,43 @@ const Toast = forwardRef<HTMLDivElement, ToastProps>(
       handleOnClose();
     };
 
-    const handleOnMouseHover: MouseEventHandler<HTMLDivElement> = (e) => {
-      e.stopPropagation();
+    const isHoveredRef = useRef(false);
+    const isFocusedRef = useRef(false);
+
+    const resumeTimer = useCallback(() => {
+      if (isAutoDismiss && !isHoveredRef.current && !isFocusedRef.current) {
+        initializeTimer();
+      }
+    }, [isAutoDismiss, initializeTimer]);
+
+    const handleOnMouseHover: MouseEventHandler<HTMLDivElement> = (event) => {
+      event.stopPropagation();
+      isHoveredRef.current = true;
       if (isAutoDismiss && isOpen) {
         removeTimer();
       }
     };
 
-    const handleOnMouseOut: MouseEventHandler<HTMLDivElement> = (e) => {
-      e.stopPropagation();
-      if (isAutoDismiss) {
-        initializeTimer();
+    const handleOnMouseOut: MouseEventHandler<HTMLDivElement> = (event) => {
+      event.stopPropagation();
+      isHoveredRef.current = false;
+      resumeTimer();
+    };
+
+    const handleOnFocusIn: FocusEventHandler<HTMLDivElement> = () => {
+      isFocusedRef.current = true;
+      if (isAutoDismiss && isOpen) {
+        removeTimer();
       }
+    };
+
+    const handleOnFocusOut: FocusEventHandler<HTMLDivElement> = (event) => {
+      const nextFocused = event.relatedTarget as Node | null;
+      if (nextFocused && event.currentTarget.contains(nextFocused)) {
+        return;
+      }
+      isFocusedRef.current = false;
+      resumeTimer();
     };
 
     const displayDefaultIcon = showLeftIcon && type !== "neutral";
@@ -108,6 +133,8 @@ const Toast = forwardRef<HTMLDivElement, ToastProps>(
             ref={ref}
             onMouseOver={handleOnMouseHover}
             onMouseOut={handleOnMouseOut}
+            onFocus={handleOnFocusIn}
+            onBlur={handleOnFocusOut}
             {...props}
           >
             <div className={styles["toast-content"]}>
