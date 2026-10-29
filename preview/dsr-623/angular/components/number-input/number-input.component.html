@@ -21,8 +21,11 @@
   <div
     rteBaseInputControl
     class="number-input-layout"
+    role="group"
     [attr.data-increment-position]="incrementPosition()"
     [attr.data-appearance]="appearance()"
+    [attr.aria-labelledby]="spinbuttonAriaLabelledby()"
+    [attr.aria-label]="spinbuttonAriaLabelledby() ? null : spinbuttonAriaLabel()"
   >
     @if (incrementPosition() === "sides") {
       <rte-icon-button
@@ -34,8 +37,6 @@
         [variant]="stepperVariant()"
         [compactSpacing]="compactSpacing()"
         [disabled]="isEffectivelyDisabled() || readOnly() || !canDecrement()"
-        [ariaDisabled]="readOnly()"
-        [ariaLabel]="decrementAriaLabel()"
         [tabIndex]="-1"
         (clickEvent)="handleDecrementClick($event)"
       />
@@ -69,6 +70,7 @@
           [attr.aria-valuetext]="ariaValueText()"
           [attr.aria-invalid]="!!showErrorState() || null"
           [attr.aria-readonly]="!!readOnly() || null"
+          [attr.aria-required]="required() || null"
           [attr.aria-labelledby]="spinbuttonAriaLabelledby()"
           [attr.aria-label]="spinbuttonAriaLabel()"
           [attr.aria-describedby]="spinbuttonAriaDescribedBy()"
@@ -93,7 +95,6 @@
         [variant]="stepperVariant()"
         [compactSpacing]="compactSpacing()"
         [disabled]="isEffectivelyDisabled() || readOnly() || !canIncrement()"
-        [ariaLabel]="incrementAriaLabel()"
         [tabIndex]="-1"
         (clickEvent)="handleIncrementClick($event)"
       />
@@ -108,7 +109,6 @@
           [variant]="stepperVariant()"
           [compactSpacing]="compactSpacing()"
           [disabled]="isEffectivelyDisabled() || readOnly() || !canDecrement()"
-          [ariaLabel]="decrementAriaLabel()"
           [tabIndex]="-1"
           (clickEvent)="handleDecrementClick($event)"
         />
@@ -121,7 +121,6 @@
           [variant]="stepperVariant()"
           [compactSpacing]="compactSpacing()"
           [disabled]="isEffectivelyDisabled() || readOnly() || !canIncrement()"
-          [ariaLabel]="incrementAriaLabel()"
           [tabIndex]="-1"
           (clickEvent)="handleIncrementClick($event)"
         />

@@ -29,7 +29,7 @@ The `NumberInputComponent` (`<rte-number-input>`) is the public API. Import it f
 | name | string | `""` | `name` attribute on the native input. |
 | rangeErrorMessages | `NumberInputRangeErrorMessages` | French defaults from core | Overrides automatic min/max messages via `between`, `greaterThan`, and `lessThan` callables. |
 | value | string | `""` | One-way binding as numeric text; when non-empty and finite, updates the displayed value. Prefer `defaultValue` or reactive forms for typical use. |
-| valueChange | `number` | — | Emits the parsed numeric value on input or stepping. Emits `0` when the field is empty or not parseable; the form model still receives `number \| null`. |
+| valueChange | `number \| null` | — | Emits the parsed numeric value on input or stepping. Emits `null` when the field is empty or not parseable (same as the reactive form model). |
 | inputBlur | `void` | — | Emits when the spinbutton loses focus. |
 
 Range and validation errors show an error icon next to assistive text automatically; there is no separate input to toggle that icon.

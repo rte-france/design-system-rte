@@ -27,8 +27,6 @@ import {
   NUMBER_INPUT_DEFAULT_STEP,
   NUMBER_INPUT_DEFAULT_WIDTH,
   NUMBER_INPUT_MISSING_ACCESSIBLE_NAME_ERROR,
-  NUMBER_INPUT_STEPPER_DECREMENT_ARIA_PREFIX,
-  NUMBER_INPUT_STEPPER_INCREMENT_ARIA_PREFIX,
 } from "@design-system-rte/core/components/number-input/number-input.constants";
 import type {
   NumberInputAppearance,
@@ -105,7 +103,7 @@ export class NumberInputComponent extends BaseInputComponent implements ControlV
   private onTouched: () => void = () => {};
   private readonly formDisabled = signal(false);
 
-  override readonly valueChange = output<number>();
+  override readonly valueChange = output<number | null>();
 
   readonly isEffectivelyDisabled = computed(() => this.disabled() || this.formDisabled());
 
@@ -162,13 +160,6 @@ export class NumberInputComponent extends BaseInputComponent implements ControlV
     return name || null;
   });
 
-  readonly stepperFieldName = computed(() => {
-    if (this.hasVisibleLabel()) {
-      return this.label().trim();
-    }
-    return this.ariaLabel().trim();
-  });
-
   readonly spinbuttonAriaDescribedBy = computed(() => {
     const visibleAssistiveText = this.showErrorState()
       ? this.resolvedErrorMessage() || this.assistiveText()
@@ -182,20 +173,6 @@ export class NumberInputComponent extends BaseInputComponent implements ControlV
   readonly stepperVariant = computed(() => (this.appearance() === "brand" ? "primary" : "neutral"));
 
   readonly stepperSize = computed((): Exclude<ButtonSize, "l"> => (this.compactSpacing() ? "s" : "m"));
-
-  readonly decrementAriaLabel = computed(() => {
-    const fieldName = this.stepperFieldName();
-    return fieldName
-      ? `${NUMBER_INPUT_STEPPER_DECREMENT_ARIA_PREFIX} ${fieldName}`
-      : NUMBER_INPUT_STEPPER_DECREMENT_ARIA_PREFIX;
-  });
-
-  readonly incrementAriaLabel = computed(() => {
-    const fieldName = this.stepperFieldName();
-    return fieldName
-      ? `${NUMBER_INPUT_STEPPER_INCREMENT_ARIA_PREFIX} ${fieldName}`
-      : NUMBER_INPUT_STEPPER_INCREMENT_ARIA_PREFIX;
-  });
 
   readonly stepperFallbackValue = computed(() => this.defaultValue() ?? this.min());
 
@@ -429,7 +406,7 @@ export class NumberInputComponent extends BaseInputComponent implements ControlV
   private emitValueChange(): void {
     const numeric = this.parsedValue();
     this.onChange(numeric);
-    this.valueChange.emit(numeric ?? 0);
+    this.valueChange.emit(numeric);
   }
 
   private initializeDisplayFromDefault(): void {

@@ -10,6 +10,10 @@ const meta: Meta<NumberInputComponent> = {
   component: NumberInputComponent,
   tags: ["autodocs"],
   argTypes: {
+    id: {
+      control: "text",
+      description: "Required. Stable id for the field, label association, and assistive text.",
+    },
     appearance: { control: { type: "radio" }, options: ["brand", "neutral"] },
     incrementPosition: { control: { type: "radio" }, options: ["right", "sides"] },
     error: { control: "boolean" },
@@ -23,6 +27,22 @@ const meta: Meta<NumberInputComponent> = {
     assistiveText: { control: "text", description: "Help text below the field when no error is shown." },
     valueChange: { action: "value changed" },
     width: { control: "text", description: "Total width (field + steppers). Defaults to 184px when omitted." },
+    maxLength: { table: { disable: true } },
+    showCounter: { table: { disable: true } },
+    leftIcon: { table: { disable: true } },
+    rightIcon: { table: { disable: true } },
+    inputType: { table: { disable: true } },
+    showRightIcon: { table: { disable: true } },
+    rightIconAriaLabel: { table: { disable: true } },
+    rightIconSize: { table: { disable: true } },
+    enterKeyDown: { table: { disable: true } },
+    rightIconClick: { table: { disable: true } },
+    rightIconKeydown: { table: { disable: true } },
+    value: { table: { disable: true } },
+    autocomplete: { table: { disable: true } },
+    customStyle: { table: { disable: true } },
+    assistiveTextId: { table: { disable: true } },
+    ariaRequired: { table: { disable: true } },
   },
 };
 

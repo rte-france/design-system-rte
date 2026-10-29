@@ -47,7 +47,7 @@ Le composant public est `NumberInputComponent` (`<rte-number-input>`). Importez-
 | name | string | `""` | Attribut `name` de l’entrée native. |
 | rangeErrorMessages | `NumberInputRangeErrorMessages` | Valeurs françaises par défaut (core) | Remplace les messages automatiques min/max via les callables `between`, `greaterThan` et `lessThan`. |
 | value | string | `""` | Liaison unidirectionnelle en texte numérique ; met à jour l’affichage lorsque la valeur est non vide et finie. Préférez `defaultValue` ou les formulaires réactifs pour un usage courant. |
-| valueChange | `number` | — | Émet la valeur numérique analysée lors d’une saisie ou d’un pas. Émet `0` si le champ est vide ou non analysable ; le modèle de formulaire reçoit toujours `number \| null`. |
+| valueChange | `number \| null` | — | Émet la valeur numérique analysée lors d’une saisie ou d’un pas. Émet `null` si le champ est vide ou non analysable (comme le modèle de formulaire réactif). |
 | inputBlur | `void` | — | Émis lorsque le spinbutton perd le focus. |
 
 Les erreurs de plage et de validation affichent automatiquement une icône d’erreur à côté du texte d’aide ; il n’existe pas d’entrée dédiée pour activer cette icône.
