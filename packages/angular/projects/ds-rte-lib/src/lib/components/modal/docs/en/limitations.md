@@ -2,21 +2,13 @@
 
 The footer supports one primary and one optional secondary action button, plus the header close icon button. A tertiary footer button is not supported. When more actions are needed, prefer opening the content outside the modal, grouping related actions in a Split Button as the primary action (see DSR-838), or placing additional actions in `#customContent`.
 
-### Configured footer vs legacy templates
-
-Prefer footer action inputs (`rteModalPrimaryActionLabel`, outputs, and related inputs). Legacy `#primaryButton` and `#secondaryButton` templates remain supported for existing applications but are deprecated in published documentation.
-
-When both configured inputs and legacy footer templates are present, the configured footer is rendered and a development console warning is logged.
-
-On the configured path, the primary action must be a design system Button (`rteModalPrimaryActionType` `"button"`) or Split Button (`"split-button"`). The secondary action is always a neutral Button when `rteModalSecondaryActionLabel` is set.
-
 ### Header icon size and color
 
 The header icon size is fixed (`xl`) and its color follows design tokens. Only the icon name (`rteModalIcon`) and appearance (`rteModalIconAppearance`: `outlined` or `filled`) are configurable. Custom size or color overrides are not supported.
 
-### Primary action required
+### Primary button required
 
-The modal does not open without a primary footer action. Provide `rteModalPrimaryActionLabel` on the configured path, or a legacy `#primaryButton` template. If neither is present, the directive logs an error and does not create the overlay.
+The modal does not open without a `#primaryButton` template. If it is missing, the directive logs a console warning and returns without creating the overlay.
 
 ### Internal component selector
 
@@ -40,7 +32,7 @@ The `rteModalIsOpen` input exists on the directive but is not used to control vi
 
 ### Focus trap
 
-Focus is trapped inside the dialog while it is open. Tab cycles through focusable elements within the modal, including footer buttons and the header close icon button.
+Focus is trapped inside the dialog while it is open. Tab cycles through focusable elements within the modal, including footer buttons and the header close button.
 
 ### Title truncation
 
