@@ -8,11 +8,13 @@
   [rteModalSize]="'xs'"
   [rteModalIcon]="'wifi'"
   [rteModalIconAppearance]="'filled'"
-  [rteModalPrimaryActionLabel]="'Continue'"
-  [rteModalSecondaryActionLabel]="'Cancel'"
-  (rteModalPrimaryActionClick)="modalHost.close()"
-  (rteModalSecondaryActionClick)="modalHost.close()"
 >
   <button rteButton rteButtonVariant="primary" rteModalTrigger>Open Modal</button>
+  <ng-template #primaryButton>
+    <button rteButton rteButtonVariant="primary" (click)="modalHost.close()">Continue</button>
+  </ng-template>
+  <ng-template #secondaryButton>
+    <button rteButton rteButtonVariant="neutral" (click)="modalHost.close()">Cancel</button>
+  </ng-template>
 </div>
 ```

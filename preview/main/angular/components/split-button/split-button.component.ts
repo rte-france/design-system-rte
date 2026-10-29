@@ -50,7 +50,6 @@ export class SplitButtonComponent implements OnInit, OnDestroy {
 
   readonly clickLeftButton = output<void>();
   readonly clickRightButton = output<void>();
-  readonly clickOption = output<string>();
 
   readonly isOpen = signal(false);
 
@@ -114,10 +113,5 @@ export class SplitButtonComponent implements OnInit, OnDestroy {
   handleClickRightButton(): void {
     this.isOpen.set(!this.isOpen());
     this.clickRightButton.emit();
-  }
-
-  handleMenuEvent(menuEvent: { id: string }): void {
-    this.isOpen.set(false);
-    this.clickOption.emit(menuEvent.id);
   }
 }
