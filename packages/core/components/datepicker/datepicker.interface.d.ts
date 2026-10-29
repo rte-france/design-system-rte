@@ -13,6 +13,7 @@ export interface DatepickerDayCell {
   readonly label: string;
   readonly cellType: DatepickerDayCellType;
   readonly isDisabled: boolean;
+  readonly isCurrent: boolean;
 }
 
 export interface DatepickerMonthCell {

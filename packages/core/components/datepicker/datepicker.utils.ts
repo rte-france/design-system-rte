@@ -432,6 +432,7 @@ export function buildDayGrid(params: {
       date: cellDate,
       label: `${cellDate.getDate()}`,
       cellType,
+      isCurrent: isToday,
       isDisabled: isDateDisabled({ date: cellDate, minDate, maxDate, disabledDates }),
     };
   });

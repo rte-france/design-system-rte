@@ -778,6 +778,7 @@ const DatePickerMenu = ({
                   role="gridcell"
                   onClick={() => handleOnClickDayCell(cell.date)}
                   aria-selected={isDayCellSelected(cell.date)}
+                  aria-current={cell.isCurrent ? "date" : undefined}
                   tabIndex={tabIndexForDayCell(cell.date, activeDate)}
                   disabled={cell.isDisabled}
                   data-cell-type={cell.cellType}
