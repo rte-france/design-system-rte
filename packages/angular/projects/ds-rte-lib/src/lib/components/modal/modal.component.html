@@ -51,7 +51,6 @@
             [options]="primarySplitButtonOptions()"
             [ariaLabelRight]="primarySplitButtonAriaLabelRight() ?? ''"
             (clickLeftButton)="primaryActionClick.emit()"
-            (clickOption)="primaryActionOptionClick.emit($event)"
           />
         } @else {
           <button

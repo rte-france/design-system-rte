@@ -22,7 +22,6 @@ The `SplitButtonComponent` (`<rte-split-button>`) is the public API. Consumers b
 |--------|------|-------------|
 | `clickLeftButton` | `void` | Emitted when the primary (left) button is activated. |
 | `clickRightButton` | `void` | Emitted when the menu trigger (right) button is activated. The dropdown open state toggles on each activation. |
-| `clickOption` | `string` | Emitted when a menu option is activated. The value is the option `id` from `options`. |
 
 ### Menu item (`SplitButtonItemProps`)
 
