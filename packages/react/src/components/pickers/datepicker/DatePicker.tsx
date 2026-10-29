@@ -315,6 +315,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatepickerProps>(
               isError={isError}
               disabled={disabled}
               readOnly={readonly}
+              required={required}
             />
           }
           position="bottom"
