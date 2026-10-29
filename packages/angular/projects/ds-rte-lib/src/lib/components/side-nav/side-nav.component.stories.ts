@@ -807,7 +807,7 @@ export const HeaderWithOnClick: Story = {
 };
 
 export const CollapsedTooltip: Story = {
-  tags: ["!autodocs", "skip-ci"],
+  tags: ["!autodocs"],
   args: {
     ...Default.args,
     headerConfig: defaultHeaderConfig,
