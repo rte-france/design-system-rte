@@ -20,6 +20,7 @@ export interface BaseInputPickerProps extends BaseInputProps<string> {
   ariaDescribedBy?: string;
   openButtonAriaLabel?: string;
   fixedWidth?: boolean;
+  required?: boolean;
 }
 
 const BaseInputPicker = ({
@@ -43,6 +44,7 @@ const BaseInputPicker = ({
   disabled,
   openButtonAriaLabel,
   fixedWidth = true,
+  required,
 }: BaseInputPickerProps) => {
   const canInteractWithPicker = !disabled && !readOnly;
   const canBeFocused = canInteractWithPicker && isFocused;
@@ -79,6 +81,8 @@ const BaseInputPicker = ({
           }}
           disabled={disabled}
           onChange={onChange}
+          aria-required={required || undefined}
+          aria-invalid={isError || undefined}
         />
         <button
           onClick={canInteractWithPicker ? onOpenPicker : undefined}

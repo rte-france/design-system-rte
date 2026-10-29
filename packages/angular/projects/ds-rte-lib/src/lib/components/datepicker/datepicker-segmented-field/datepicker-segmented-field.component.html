@@ -33,6 +33,7 @@
     [attr.aria-label]="ariaLabel() || null"
     [attr.aria-labelledby]="ariaLabelledby()"
     [attr.aria-required]="ariaRequired()"
+    [attr.aria-invalid]="error() ? 'true' : null"
     [attr.aria-describedby]="describedBy() ?? assistiveTextId()"
     [attr.aria-description]="ariaDescriptionForSegmentedGroup()"
     [attr.aria-activedescendant]="ariaActiveDescendantForSegmentedGroup()"
