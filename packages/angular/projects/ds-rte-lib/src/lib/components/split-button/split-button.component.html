@@ -24,7 +24,6 @@
     [rteDropdownAlignment]="internalAlignment()"
     [attr.data-testid]="'Menu container'"
     (menuEvent)="handleMenuEvent($event)"
-    (closedDropdown)="isOpen.set(false)"
   >
     @if (hasBadge()) {
       <button
