@@ -50,7 +50,6 @@ L'API publique est la directive `[rteModal]` (avec `exportAs="rteModal"`), la di
 | Nom | Type | Description |
 |-----|------|-------------|
 | rteModalPrimaryActionClick | `void` | Émise lors de l'activation du bouton principal configuré ou du segment gauche du split button. |
-| rteModalPrimaryActionOptionClick | `string` | Émise lors de l'activation d'une option du menu split button. La valeur est l'`id` de l'option dans `rteModalPrimarySplitButtonOptions`. |
 | rteModalSecondaryActionClick | `void` | Émise lors de l'activation du bouton secondaire configuré. |
 
 ### Méthodes ModalDirective
@@ -240,14 +239,11 @@ Définissez `rteModalPrimaryActionType` sur `split-button` et passez les options
   [rteModalPrimarySplitButtonOptions]="splitMenuOptions"
   [rteModalPrimarySplitButtonAriaLabelRight]="'More save options'"
   (rteModalPrimaryActionClick)="onSave(); modalHost.close()"
-  (rteModalPrimaryActionOptionClick)="onSaveOption($event); modalHost.close()"
   (rteModalSecondaryActionClick)="modalHost.close()"
 >
   <button rteButton rteButtonVariant="primary" rteModalTrigger>Open Modal</button>
 </div>
 ```
-
-Gérez `(rteModalPrimaryActionOptionClick)` lorsque l'utilisateur choisit une entrée du menu split button. La valeur émise est l'`id` correspondant dans `rteModalPrimarySplitButtonOptions`.
 
 #### Comparaison pied de page par entrées et templates legacy
 

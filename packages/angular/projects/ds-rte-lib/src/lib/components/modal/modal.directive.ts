@@ -11,7 +11,6 @@ import {
   TemplateRef,
   ViewContainerRef,
 } from "@angular/core";
-import { waitForNextFrame } from "@design-system-rte/core";
 import { Size } from "@design-system-rte/core/components/common/common-types";
 import type { ModalPrimaryActionType } from "@design-system-rte/core/components/modal/modal.interface";
 import {
@@ -37,7 +36,6 @@ export class ModalDirective implements AfterContentInit, OnDestroy {
   private overlayService: OverlayService;
 
   private subPrimaryAction?: { unsubscribe(): void };
-  private subPrimaryActionOption?: { unsubscribe(): void };
   private subSecondaryAction?: { unsubscribe(): void };
 
   private elementRef = inject(ElementRef);
@@ -63,7 +61,6 @@ export class ModalDirective implements AfterContentInit, OnDestroy {
   readonly rteModalPrimaryActionIsCritical = input<boolean>(false);
 
   readonly rteModalPrimaryActionClick = output<void>();
-  readonly rteModalPrimaryActionOptionClick = output<string>();
   readonly rteModalSecondaryActionClick = output<void>();
 
   /** @deprecated Prefer `rteModalPrimaryActionLabel`, related primary action inputs, and `rteModalPrimaryActionClick`. */
@@ -128,13 +125,9 @@ export class ModalDirective implements AfterContentInit, OnDestroy {
     this.modalCompRef.instance.backdropOwnerRef = this.modalCompRef;
 
     this.subPrimaryAction?.unsubscribe();
-    this.subPrimaryActionOption?.unsubscribe();
     this.subSecondaryAction?.unsubscribe();
     this.subPrimaryAction = this.modalCompRef.instance.primaryActionClick.subscribe(() => {
       this.rteModalPrimaryActionClick.emit();
-    });
-    this.subPrimaryActionOption = this.modalCompRef.instance.primaryActionOptionClick.subscribe((optionId) => {
-      this.rteModalPrimaryActionOptionClick.emit(optionId);
     });
     this.subSecondaryAction = this.modalCompRef.instance.secondaryActionClick.subscribe(() => {
       this.rteModalSecondaryActionClick.emit();
@@ -188,16 +181,18 @@ export class ModalDirective implements AfterContentInit, OnDestroy {
       this.modalCompRef.setInput("customContent", this.customContent());
       this.modalCompRef.setInput("closeOnClickOutside", this.rteModalCloseOnClickOutside());
       this.modalCompRef.setInput("restoreFocusTo", this.modalRestoreFocusTo);
-      waitForNextFrame(() => this.modalCompRef?.setInput("isOpen", true));
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          this.modalCompRef?.setInput("isOpen", true);
+        });
+      });
     }
   }
 
   private destroyModal(): void {
     this.subPrimaryAction?.unsubscribe();
-    this.subPrimaryActionOption?.unsubscribe();
     this.subSecondaryAction?.unsubscribe();
     this.subPrimaryAction = undefined;
-    this.subPrimaryActionOption = undefined;
     this.subSecondaryAction = undefined;
     if (this.modalCompRef) {
       this.modalCompRef.destroy();

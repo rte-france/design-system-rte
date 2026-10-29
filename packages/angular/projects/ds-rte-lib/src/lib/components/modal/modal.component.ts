@@ -85,7 +85,6 @@ export class ModalComponent implements OnDestroy {
 
   readonly closeModal = output<void>();
   readonly primaryActionClick = output<void>();
-  readonly primaryActionOptionClick = output<string>();
   readonly secondaryActionClick = output<void>();
 
   readonly iconSize = signal(IconSize["xl"]);
