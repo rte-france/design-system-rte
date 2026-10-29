@@ -3,6 +3,7 @@
 .rte-radio-button-container {
     display: flex;
     align-items: flex-start;
+    position: relative;
     gap: $positive-spacing_150;
     cursor: pointer;
 
@@ -19,13 +20,16 @@
         appearance: none;
         position: absolute;
         display: flex;
-        width: 28px;
-        height: 16px;
+        width: 24px;
+        height: 24px;
         padding: $positive-spacing_0;
+        top: 0;
+        left: -4px;
         justify-content: center;
         border-radius: $radius-pill;
         transition: box-shadow 0.3s ease-in-out;
         margin: 0;
+        flex: none;
         z-index: 1;
 
         &.error {
@@ -150,8 +154,8 @@
                 border-radius: $radius-s;
                 content: '';
                 position: absolute;
-                top: 0px;
-                left: -4px;
+                top: 0;
+                left: 0;
                 width: 24px;
                 height: 24px;
                 outline: 1px solid var(--border-brand-focused);
