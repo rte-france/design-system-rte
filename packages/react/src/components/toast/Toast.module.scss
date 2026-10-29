@@ -141,4 +141,18 @@
     color: var(--content-primary-inverse);
     border-bottom-color: var(--border-primary);
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: opacity 300ms ease;
+
+    &[data-position='top'][data-alignment='center'],
+    &[data-position='bottom'][data-alignment='center'] {
+      transform: translate(-50%, 0);
+    }
+
+    &[data-alignment='left'],
+    &[data-alignment='right'] {
+      transform: translate(0, 0);
+    }
+  }
 }
