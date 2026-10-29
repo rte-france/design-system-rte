@@ -10,6 +10,7 @@ export interface BaseInputPickerProps extends BaseInputProps<string> {
   isFocused?: boolean;
   pickerInputRef?: React.RefObject<HTMLInputElement> | ((element: HTMLInputElement) => void);
   pickerRef?: React.RefObject<HTMLDivElement>;
+  openButtonRef?: React.RefObject<HTMLButtonElement>;
   onFocus?: () => void;
   onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
   onMouseUp?: (event: React.MouseEvent<HTMLInputElement>) => void;
@@ -38,6 +39,7 @@ const BaseInputPicker = ({
   isFocused,
   pickerInputRef,
   pickerRef,
+  openButtonRef,
   ariaLabelledBy,
   ariaDescribedBy,
   isError,
@@ -85,6 +87,7 @@ const BaseInputPicker = ({
           aria-invalid={isError || undefined}
         />
         <button
+          ref={openButtonRef}
           onClick={canInteractWithPicker ? onOpenPicker : undefined}
           className={styles["rte-base-input-picker-button"]}
           aria-label={openButtonAriaLabel ?? "Open picker"}
