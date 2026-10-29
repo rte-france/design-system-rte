@@ -19,6 +19,7 @@ import {
   viewChildren,
 } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { prefersReducedMotion } from "@design-system-rte/core/common/animation";
 import {
   buildNewTab,
   captureTabPositions,
@@ -27,7 +28,6 @@ import {
   formatHiddenTabsLabel,
   getSelectedTabIdAfterClose,
   playFlipReorderAnimation,
-  prefersReducedMotion,
   removeTab,
   reorderOptionsSlice,
   updateTabTitle,
