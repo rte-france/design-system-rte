@@ -1,3 +1,4 @@
+import { prefersReducedMotion } from "@design-system-rte/core/common/animation";
 import { TabProps as CoreTabProps } from "@design-system-rte/core/components/tab/tab.interface";
 import { scrollToSelectedTab } from "@design-system-rte/core/components/tab/tab.utils";
 import {
@@ -116,14 +117,14 @@ const Tab = forwardRef<HTMLDivElement, TabProps>(
     const scrollBackward = () => {
       if (containerRef.current) {
         const scrollObject = direction === "horizontal" ? { left: -300 } : { top: -300 };
-        containerRef.current.scrollBy({ ...scrollObject, behavior: "smooth" });
+        containerRef.current.scrollBy({ ...scrollObject, behavior: prefersReducedMotion() ? "auto" : "smooth" });
       }
     };
 
     const scrollForward = () => {
       if (containerRef.current) {
         const scrollObject = direction === "horizontal" ? { left: 300 } : { top: 300 };
-        containerRef.current.scrollBy({ ...scrollObject, behavior: "smooth" });
+        containerRef.current.scrollBy({ ...scrollObject, behavior: prefersReducedMotion() ? "auto" : "smooth" });
       }
     };
 

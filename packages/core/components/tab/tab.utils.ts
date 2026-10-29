@@ -1,3 +1,5 @@
+import { prefersReducedMotion } from "../../common/animation";
+
 export const scrollToSelectedTab = (
   target: HTMLElement,
   container: HTMLElement,
@@ -10,10 +12,10 @@ export const scrollToSelectedTab = (
 
   if (scrollDirection === "horizontal") {
     const newScroll = container.scrollLeft + computeHorizontalScroll(targetClientRect, containerClientRect);
-    container.scrollTo({ left: newScroll, behavior: "smooth" });
+    container.scrollTo({ left: newScroll, behavior: prefersReducedMotion() ? "auto" : "smooth" });
   } else {
     const newScroll = container.scrollTop + computeVerticalScroll(targetClientRect, containerClientRect);
-    container.scrollTo({ top: newScroll, behavior: "smooth" });
+    container.scrollTo({ top: newScroll, behavior: prefersReducedMotion() ? "auto" : "smooth" });
   }
 };
 
