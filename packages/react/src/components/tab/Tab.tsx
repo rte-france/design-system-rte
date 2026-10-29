@@ -170,6 +170,7 @@ const Tab = forwardRef<HTMLDivElement, TabProps>(
             className={style["tab"]}
             data-alignment={isScrollable ? "start" : alignment}
             data-direction={direction}
+            aria-orientation={direction}
             data-overflow-type={overflowType}
             {...props}
           >
