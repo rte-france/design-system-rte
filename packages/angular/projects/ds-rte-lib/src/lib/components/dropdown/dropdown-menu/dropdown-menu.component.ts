@@ -189,6 +189,8 @@ export class DropdownMenuComponent implements OnDestroy {
 
     if (this.hasBodyContent()) {
       if (event.key === ESCAPE_KEY) {
+        event.preventDefault();
+        event.stopPropagation();
         this.closingMenu.emit();
         this.dropdownService.handleKeyboardInput(event.key, {
           menuElement: this.elementRef,
@@ -211,6 +213,11 @@ export class DropdownMenuComponent implements OnDestroy {
         this.closingMenu.emit();
         return;
       }
+    }
+
+    if (event.key === ESCAPE_KEY) {
+      event.preventDefault();
+      event.stopPropagation();
     }
 
     this.dropdownService.handleKeyboardInput(event.key, {
