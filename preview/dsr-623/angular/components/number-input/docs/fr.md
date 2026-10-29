@@ -283,7 +283,7 @@ La molette modifie la valeur uniquement lorsque le spinbutton a le focus ; l’�
 
 ### Nom accessible
 
-Fournissez un `label` non vide, ou laissez `label` vide et renseignez `ariaLabel` (ou `ariaLabelledby` pour un libellé externe). Le composant journalise une erreur console si aucune de ces options n’est fournie.
+Fournissez un `label` non vide, ou laissez `label` vide et renseignez `ariaLabel` (ou `ariaLabelledby` pour un libellé externe). Si aucune de ces options n’est fournie, le composant affiche une erreur dans la console.
 
 ### Ordre de tabulation des steppers
 
