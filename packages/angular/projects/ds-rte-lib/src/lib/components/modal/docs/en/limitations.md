@@ -34,8 +34,6 @@ While open, the directive sets `document.body.style.overflow` to `"hidden"`. It 
 
 Pressing Escape closes the modal only when `[rteModalCloseOnClickOutside]` is `true`. When set to `false`, backdrop clicks and Escape are both disabled.
 
-When a design system dropdown menu is open inside the modal (for example the split-button menu), the first Escape closes that menu; a second Escape closes the modal.
-
 ### rteModalIsOpen is not wired
 
 The `rteModalIsOpen` input exists on the directive but is not used to control visibility. Open the modal with `[rteModalTrigger]`, `showModal()`, or imperative calls on the `rteModal` export.
