@@ -125,6 +125,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatepickerProps>(
 
     const dateInputRef = useRef<HTMLInputElement>(null);
     const pickerRef = useRef<HTMLDivElement>(null);
+    const calendarButtonRef = useRef<HTMLButtonElement>(null);
     const overlayLayerLevel = useGetOverlayLayerLevel(dateInputRef.current);
 
     const handleOnFocus = () => {
@@ -132,9 +133,12 @@ const DatePicker = forwardRef<HTMLDivElement, DatepickerProps>(
       selectActiveSegment(activeDateSegment);
     };
 
-    const handleOnClose = () => {
-      setIsFocused(false);
+    const handleOnClose = (restoreFocus = false) => {
+      setIsFocused(restoreFocus);
       setIsDropdownOpen(false);
+      if (restoreFocus) {
+        calendarButtonRef.current?.focus({ preventScroll: true });
+      }
     };
 
     const focusDatePicker = () => {
@@ -273,12 +277,12 @@ const DatePicker = forwardRef<HTMLDivElement, DatepickerProps>(
 
     const handleOnCancel = () => {
       onCancel?.();
-      handleOnClose();
+      handleOnClose(true);
     };
 
     const handleOnValidate = () => {
       onValidate?.();
-      handleOnClose();
+      handleOnClose(true);
     };
 
     useEffect(() => {
@@ -311,6 +315,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatepickerProps>(
               onChange={() => {}}
               fixedWidth={false}
               pickerRef={pickerRef}
+              openButtonRef={calendarButtonRef}
               openButtonAriaLabel={getDatepickerCalendarButtonAriaLabel(internalValue)}
               isError={isError}
               disabled={disabled}
