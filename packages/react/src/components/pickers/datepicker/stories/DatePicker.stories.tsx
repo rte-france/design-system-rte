@@ -13,7 +13,13 @@ import { useState } from "react";
 import { focusElementBeforeComponent } from "../../../../../.storybook/testing/testing.utils";
 import DatePicker from "../DatePicker";
 
-import { calendarTriggerAccessibleName, getDropdown, normalizedDateInputValue } from "./DatePicker.stories.util";
+import {
+  calendarTriggerAccessibleName,
+  expectCalendarGridStructure,
+  expectCalendarWeekdayHeaders,
+  getDropdown,
+  normalizedDateInputValue,
+} from "./DatePicker.stories.util";
 
 const meta = {
   title: "Composants/DatePicker/DatePicker",
@@ -59,6 +65,14 @@ export const Default: Story = {
 
 export const AccessibleDateAnnouncements: Story = {
   tags: ["!autodocs"],
+  parameters: {
+    a11y: {
+      test: "error",
+      options: {
+        runOnly: { type: "rule", values: ["aria-required-parent", "aria-required-children"] },
+      },
+    },
+  },
   args: {
     ...Default.args,
     value: undefined,
@@ -69,6 +83,11 @@ export const AccessibleDateAnnouncements: Story = {
     await userEvent.click(within(canvasElement).getByRole("button", { name: calendarTriggerAccessibleName }));
     const dropdown = await getDropdown();
     const menu = within(dropdown);
+    expectCalendarGridStructure(menu.getByRole("grid", { name: "Calendrier" }), 7);
+    const weekdayNames = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"];
+    await waitFor(() => {
+      expectCalendarWeekdayHeaders(menu.getByRole("grid", { name: "Calendrier" }), weekdayNames);
+    });
     const period = menu.getByRole("status");
     expect(period).toHaveAttribute("aria-atomic", "true");
     expect(period).toHaveAttribute("aria-live", "polite");
@@ -119,6 +138,7 @@ export const AccessibleDateAnnouncements: Story = {
 
     await userEvent.click(menu.getByRole("button", { name: "Mars 2026, afficher les mois" }));
     await waitFor(() => expect(period).toHaveTextContent(/^2026$/));
+    expectCalendarGridStructure(menu.getByRole("grid", { name: "Mois" }), 3);
     await userEvent.click(menu.getByRole("button", { name: "Année suivante" }));
     await waitFor(() => expect(period).toHaveTextContent(/^2027$/));
     await userEvent.click(menu.getByRole("button", { name: "Année précédente" }));
@@ -133,6 +153,7 @@ export const AccessibleDateAnnouncements: Story = {
 
     await userEvent.click(menu.getByRole("button", { name: "2025, afficher les années" }));
     await waitFor(() => expect(period).toHaveTextContent("2020 – 2030"));
+    expectCalendarGridStructure(menu.getByRole("grid", { name: "Années" }), 3);
     await userEvent.click(menu.getByRole("button", { name: "Décennie suivante" }));
     await waitFor(() => expect(period).toHaveTextContent("2030 – 2040"));
     await userEvent.click(menu.getByRole("button", { name: "Décennie précédente" }));
@@ -144,6 +165,13 @@ export const AccessibleDateAnnouncements: Story = {
     }
     expect(period).toHaveTextContent("2010 – 2020");
     expect(dropdown.querySelector('[aria-live="polite"]')).toBe(period);
+    await userEvent.click(menu.getByRole("gridcell", { name: "2019" }));
+    await userEvent.click(menu.getByRole("gridcell", { name: "mars" }));
+    await waitFor(() => {
+      const grid = menu.getByRole("grid", { name: "Calendrier" });
+      expectCalendarGridStructure(grid, 7);
+      expectCalendarWeekdayHeaders(grid, weekdayNames);
+    });
   },
 };
 
