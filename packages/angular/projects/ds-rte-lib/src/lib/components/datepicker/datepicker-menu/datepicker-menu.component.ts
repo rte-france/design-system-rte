@@ -11,12 +11,13 @@ import {
   output,
   signal,
 } from "@angular/core";
-import { capitalize, getDayCellIndexForDate, isSameDay } from "@design-system-rte/core";
+import { capitalize, getDayCellIndexForDate, isSameDay, isSameMonth } from "@design-system-rte/core";
 import { waitForNextFrame } from "@design-system-rte/core/common/animation";
 import {
   addDays,
   addMonths,
   buildDayGrid,
+  buildDatepickerGridRows,
   buildMonthGrid,
   buildYearGrid,
   type DatepickerCalendarType,
@@ -26,11 +27,13 @@ import {
   DATEPICKER_YEAR_GRID_PAGE_SIZE,
   formatDate,
   getDatepickerGridArrowDelta,
+  getDayLabel,
   getDecadeRangeLabel,
   getDecadeStartYear,
   getMonthLabel,
   getNextGridCellIndex,
   getWeekdayShortLabels,
+  getWeekdayLongLabels,
   getYearLabel,
   isDateDisabled,
   navigateViewDate,
@@ -86,6 +89,7 @@ export class DatepickerMenuComponent {
   readonly dismiss = output<void>();
 
   readonly weekdayLabels = computed(() => getWeekdayShortLabels(this.locale()));
+  readonly weekdayLongLabels = computed(() => getWeekdayLongLabels(this.locale()));
 
   readonly headerTitle = computed(() => {
     const view = this.viewDate();
@@ -138,6 +142,10 @@ export class DatepickerMenuComponent {
       disabledDates: this.disabledDates(),
     }),
   );
+
+  readonly dayRows = computed(() => buildDatepickerGridRows(this.dayCells(), 7));
+  readonly monthRows = computed(() => buildDatepickerGridRows(this.monthCells(), 3));
+  readonly yearRows = computed(() => buildDatepickerGridRows(this.yearCells(), 3));
 
   readonly activeDate = signal<Date>(this.pendingDate() ?? this.selectedDate() ?? this.viewDate());
 
@@ -242,6 +250,10 @@ export class DatepickerMenuComponent {
   isDayCellSelected(date: Date): boolean {
     const selected = this.pendingDate() ?? this.selectedDate();
     return selected !== null && isSameDay(date, selected);
+  }
+
+  getDayAriaLabel(date: Date): string {
+    return getDayLabel(date, this.locale());
   }
 
   onHeaderLabelClick(): void {
@@ -453,7 +465,12 @@ export class DatepickerMenuComponent {
       return;
     }
 
-    this.activeDate.set(cells[nextIndex].date);
+    const nextActiveDate = cells[nextIndex].date;
+    if (!isSameMonth(nextActiveDate, this.viewDate())) {
+      this.dateKeyboardNavigate.emit(nextActiveDate);
+    } else {
+      this.activeDate.set(nextActiveDate);
+    }
     this.queueFocusActiveDayCell();
   }
 

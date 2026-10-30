@@ -315,6 +315,15 @@ export function isDateDisabled(params: {
   return isCalendarDayInDisabledDates(currentDay, disabledDates);
 }
 
+export function getDayLabel(date: Date, locale: string = DATEPICKER_DEFAULT_LOCALE): string {
+  return new Intl.DateTimeFormat(locale, {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  }).format(date);
+}
+
 export function getMonthLabel(date: Date, locale: string = DATEPICKER_DEFAULT_LOCALE): string {
   return new Intl.DateTimeFormat(locale, { month: "long", year: "numeric" }).format(date);
 }
@@ -337,6 +346,18 @@ export function getWeekdayShortLabels(locale: string = DATEPICKER_DEFAULT_LOCALE
     const firstLetter = label.trim().charAt(0);
     return firstLetter.toLocaleUpperCase(locale);
   });
+}
+
+export function getWeekdayLongLabels(locale: string = DATEPICKER_DEFAULT_LOCALE): string[] {
+  const monday = new Date(2021, 0, 4);
+  const formatter = new Intl.DateTimeFormat(locale, { weekday: "long" });
+  return Array.from({ length: 7 }, (_, index) => formatter.format(addDays(monday, index)));
+}
+
+export function buildDatepickerGridRows<T>(cells: readonly T[], columnCount: 3 | 7): T[][] {
+  return Array.from({ length: Math.ceil(cells.length / columnCount) }, (_, index) =>
+    cells.slice(index * columnCount, (index + 1) * columnCount),
+  );
 }
 
 export function resolveInitialCalendarDay(params: {

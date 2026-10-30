@@ -11,8 +11,11 @@ import {
   arrowRightUntilMonthHeaderMatches,
   calendarTriggerAccessibleName,
   dayCellButtonJune2024,
+  dayCellVisibleLabelText,
   dayGridMonthHeaderText,
   ensureDatepickerMenuClosed,
+  expectCalendarGridStructure,
+  expectCalendarWeekdayHeaders,
   findDayGridCellButton,
   getStoryOverlayRoot,
   normalizedSegmentedDateText,
@@ -178,6 +181,145 @@ export const Default: Story = {
       </div>
     `,
   }),
+};
+
+export const AccessibleDateAnnouncements: Story = {
+  tags: ["!autodocs"],
+  parameters: {
+    a11y: {
+      test: "error",
+      options: {
+        runOnly: { type: "rule", values: ["aria-required-parent", "aria-required-children"] },
+      },
+    },
+  },
+  args: { disabledDates: [new Date(2026, 2, 16)] },
+  render: Default.render,
+  play: async ({ canvasElement }) => {
+    const overlay = await openDayGridAfterTyping(canvasElement, {
+      digits: "31032026",
+      waitContains: ["31", "2026"],
+    });
+    const menu = within(overlay);
+    expectCalendarGridStructure(menu.getByRole("grid", { name: "Calendrier" }), 7);
+    const weekdayNames = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"];
+    await waitFor(() => {
+      expectCalendarWeekdayHeaders(menu.getByRole("grid", { name: "Calendrier" }), weekdayNames);
+    });
+    const period = menu.getByRole("status");
+    expect(period).toHaveAttribute("aria-atomic", "true");
+    expect(period).toHaveAttribute("aria-live", "polite");
+    expect(period.childElementCount).toBe(0);
+    expect(period.closest("button")).toBeNull();
+    expect(menu.getByRole("button", { name: "Mars 2026, afficher les mois" }).closest("[aria-live]")).toBeNull();
+    expect(period).toHaveTextContent(/^Mars 2026$/);
+    const sundayCell = menu.getByRole("gridcell", { name: "dimanche 15 mars 2026" });
+    expect(within(sundayCell).getByText("15")).toBeInTheDocument();
+    expect(within(sundayCell).getByText("dimanche 15 mars 2026")).not.toHaveAttribute("aria-hidden", "true");
+    expect(menu.getByRole("gridcell", { name: "lundi 16 mars 2026" })).toBeDisabled();
+    expect(within(menu.getByRole("gridcell", { name: "lundi 23 février 2026" })).getByText("23")).toBeInTheDocument();
+    expect(within(menu.getByRole("gridcell", { name: "mercredi 1 avril 2026" })).getByText("1")).toBeInTheDocument();
+    await waitFor(() => {
+      for (const cell of menu.getAllByRole("gridcell")) {
+        const dayNumber = within(cell).getByText(/^\d+$/);
+        expect(dayNumber).toBeVisible();
+        expect(dayNumber).toHaveAttribute("aria-hidden", "true");
+        expect(cell).not.toHaveAttribute("aria-hidden", "true");
+        expect(cell).not.toHaveAttribute("aria-label");
+      }
+    });
+    await waitFor(() => {
+      expect(menu.getByRole("gridcell", { name: "mardi 31 mars 2026", selected: true })).toHaveFocus();
+    });
+
+    await userEvent.keyboard("{ArrowRight}");
+    await waitFor(() => {
+      expect(menu.getByRole("gridcell", { name: "mercredi 1 avril 2026" })).toHaveFocus();
+      expect(period).toHaveTextContent("Avril 2026");
+    });
+    expect(menu.getByRole("gridcell", { name: "mardi 31 mars 2026", selected: true })).toBeInTheDocument();
+    await userEvent.keyboard("{ArrowLeft}");
+    await waitFor(() => {
+      expect(menu.getByRole("gridcell", { name: "mardi 31 mars 2026" })).toHaveFocus();
+      expect(period).toHaveTextContent("Mars 2026");
+    });
+
+    await userEvent.click(menu.getByRole("button", { name: "Mois suivant" }));
+    await waitFor(() => expect(period).toHaveTextContent(/^Avril 2026$/));
+    expect(menu.getByRole("button", { name: "Mois suivant" })).toHaveFocus();
+    expect(menu.getByRole("button", { name: "Avril 2026, afficher les mois" }).closest("[aria-live]")).toBeNull();
+    await userEvent.click(menu.getByRole("button", { name: "Année suivante" }));
+    await waitFor(() => expect(period).toHaveTextContent("Avril 2027"));
+    await userEvent.click(menu.getByRole("button", { name: "Année précédente" }));
+    await waitFor(() => expect(period).toHaveTextContent("Avril 2026"));
+    await userEvent.click(menu.getByRole("button", { name: "Mois précédent" }));
+    await waitFor(() => expect(period).toHaveTextContent("Mars 2026"));
+
+    await userEvent.click(menu.getByRole("button", { name: "Mars 2026, afficher les mois" }));
+    await waitFor(() => expect(period).toHaveTextContent(/^2026$/));
+    expectCalendarGridStructure(menu.getByRole("grid", { name: "Mois" }), 3);
+    await userEvent.click(menu.getByRole("button", { name: "Année suivante" }));
+    await waitFor(() => expect(period).toHaveTextContent(/^2027$/));
+    await userEvent.click(menu.getByRole("button", { name: "Année précédente" }));
+    await waitFor(() => expect(period).toHaveTextContent(/^2026$/));
+    menu.getByRole("gridcell", { name: "mars" }).focus();
+    expect(menu.getByRole("gridcell", { name: "mars" })).toHaveFocus();
+    for (const month of ["février", "janvier", "décembre"]) {
+      await userEvent.keyboard("{ArrowLeft}");
+      await waitFor(() => expect(menu.getByRole("gridcell", { name: month })).toHaveFocus());
+    }
+    expect(period).toHaveTextContent(/^2025$/);
+
+    await userEvent.click(menu.getByRole("button", { name: "2025, afficher les années" }));
+    await waitFor(() => expect(period).toHaveTextContent("2020 – 2030"));
+    expectCalendarGridStructure(menu.getByRole("grid", { name: "Années" }), 3);
+    await userEvent.click(menu.getByRole("button", { name: "Décennie suivante" }));
+    await waitFor(() => expect(period).toHaveTextContent("2030 – 2040"));
+    await userEvent.click(menu.getByRole("button", { name: "Décennie précédente" }));
+    await waitFor(() => expect(period).toHaveTextContent("2020 – 2030"));
+    menu.getByRole("gridcell", { name: "2030" }).focus();
+    for (let year = 2029; year >= 2019; year--) {
+      await userEvent.keyboard("{ArrowLeft}");
+      await waitFor(() => expect(menu.getByRole("gridcell", { name: String(year) })).toHaveFocus());
+    }
+    expect(period).toHaveTextContent("2010 – 2020");
+    expect(overlay.querySelector('[aria-live="polite"]')).toBe(period);
+    await userEvent.click(menu.getByRole("gridcell", { name: "2019" }));
+    await userEvent.click(menu.getByRole("gridcell", { name: "mars" }));
+    await waitFor(() => {
+      const grid = menu.getByRole("grid", { name: "Calendrier" });
+      expectCalendarGridStructure(grid, 7);
+      expectCalendarWeekdayHeaders(grid, weekdayNames);
+    });
+  },
+};
+
+export const AccessibleDateLocale: Story = {
+  tags: ["!autodocs"],
+  args: { locale: "en-US" },
+  render: Default.render,
+  play: async ({ canvasElement }) => {
+    const overlay = await openDayGridAfterTyping(canvasElement, {
+      digits: "15032026",
+      waitContains: ["15", "2026"],
+    });
+    const selectedDay = within(overlay).getByRole("gridcell", { name: "Sunday, March 15, 2026" });
+    expect(within(selectedDay).getByText("15")).toBeInTheDocument();
+    await waitFor(() => expect(selectedDay).toHaveFocus());
+    await waitFor(() => {
+      expectCalendarWeekdayHeaders(within(overlay).getByRole("grid", { name: "Calendrier" }), [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday",
+      ]);
+    });
+    expect(overlay.querySelector('[aria-live="polite"]')).toHaveTextContent("March 2026");
+    await ensureDatepickerMenuClosed(canvasElement);
+  },
 };
 
 export const SegmentedField: Story = {
@@ -649,7 +791,7 @@ export const OpenCalendarAndHeaderSync: Story = {
       const activeDay = overlay.querySelector(
         'rte-datepicker-menu .day-cell[data-datepicker-active="true"]',
       ) as HTMLElement | null;
-      expect(activeDay?.textContent?.trim()).toBe("13");
+      expect(activeDay).toHaveAccessibleName("jeudi 13 février 1992");
     });
   },
 };
@@ -732,13 +874,13 @@ export const DayGridAnchorAndMonthChevron: Story = {
     await waitFor(() => {
       const feb28 = findDayGridCellButton(overlay, 28, "current-month");
       expect(feb28).toBeTruthy();
-      expect(feb28?.getAttribute("aria-selected")).toBe("true");
+      expect(feb28?.closest('[role="gridcell"]')?.getAttribute("aria-selected")).toBe("true");
     });
     await userEvent.click(nextMonthButton);
     await waitFor(() => {
       const mar31 = findDayGridCellButton(overlay, 31, "current-month");
       expect(mar31).toBeTruthy();
-      expect(mar31?.getAttribute("aria-selected")).toBe("true");
+      expect(mar31?.closest('[role="gridcell"]')?.getAttribute("aria-selected")).toBe("true");
     });
     await ensureDatepickerMenuClosed(canvasElement);
 
@@ -751,13 +893,13 @@ export const DayGridAnchorAndMonthChevron: Story = {
     await waitFor(() => {
       const feb29 = findDayGridCellButton(overlay, 29, "current-month");
       expect(feb29).toBeTruthy();
-      expect(feb29?.getAttribute("aria-selected")).toBe("true");
+      expect(feb29?.closest('[role="gridcell"]')?.getAttribute("aria-selected")).toBe("true");
     });
     await userEvent.click(nextMonthButton);
     await waitFor(() => {
       const mar31Leap = findDayGridCellButton(overlay, 31, "current-month");
       expect(mar31Leap).toBeTruthy();
-      expect(mar31Leap?.getAttribute("aria-selected")).toBe("true");
+      expect(mar31Leap?.closest('[role="gridcell"]')?.getAttribute("aria-selected")).toBe("true");
     });
     await ensureDatepickerMenuClosed(canvasElement);
 
@@ -867,7 +1009,7 @@ export const DayGridKeyboardAndBoundaries: Story = {
     });
     await waitFor(() => {
       const selectedFeb26 = findDayGridCellButton(overlay, 26, "current-month");
-      expect(selectedFeb26?.getAttribute("aria-selected")).toBe("true");
+      expect(selectedFeb26?.closest('[role="gridcell"]')?.getAttribute("aria-selected")).toBe("true");
     });
     await ensureDatepickerMenuClosed(canvasElement);
 
@@ -884,7 +1026,7 @@ export const DayGridKeyboardAndBoundaries: Story = {
     if (!september7Cell) {
       throw new globalThis.Error("Expected 7 September 2019 in the grid.");
     }
-    expect(september7Cell.getAttribute("aria-selected")).toBe("true");
+    expect(september7Cell.closest('[role="gridcell"]')).toHaveAttribute("aria-selected", "true");
     const august26Cell = findDayGridCellButton(overlay, 26, "leading-or-trailing");
     if (!august26Cell) {
       throw new globalThis.Error("Expected August 26 2019 in the September 2019 grid.");
@@ -920,7 +1062,7 @@ export const DayGridKeyboardAndBoundaries: Story = {
     if (!september7BeforeRight) {
       throw new globalThis.Error("Expected 7 September 2019 in the grid.");
     }
-    expect(september7BeforeRight.getAttribute("aria-selected")).toBe("true");
+    expect(september7BeforeRight.closest('[role="gridcell"]')).toHaveAttribute("aria-selected", "true");
     const dayCellButtons = Array.from(
       overlay.querySelectorAll(".rte-datepicker-day-grid .day-cell"),
     ) as HTMLButtonElement[];
@@ -939,8 +1081,8 @@ export const DayGridKeyboardAndBoundaries: Story = {
       const activeAfterRight = overlay.querySelector(
         '.rte-datepicker-day-grid .day-cell[data-datepicker-active="true"]',
       ) as HTMLButtonElement | null;
-      expect(activeAfterRight?.textContent?.trim()).toBe("7");
-      expect(activeAfterRight?.hasAttribute("aria-label")).toBe(false);
+      expect(activeAfterRight ? dayCellVisibleLabelText(activeAfterRight) : "").toBe("7");
+      expect(activeAfterRight).toHaveAccessibleName("lundi 7 octobre 2019");
     });
     segmentedField = canvasElement.querySelector(".segmented-date-field");
     compactField = normalizedSegmentedDateText(segmentedField);
@@ -962,7 +1104,7 @@ export const DayGridKeyboardAndBoundaries: Story = {
       expect(monthHeaderAfterChevron?.textContent ?? "").toMatch(/octobre/i);
     });
     const sept7AfterChevron = findDayGridCellButton(overlay, 7, "leading-or-trailing");
-    expect(sept7AfterChevron?.getAttribute("aria-selected")).not.toBe("true");
+    expect(sept7AfterChevron?.closest('[role="gridcell"]')?.getAttribute("aria-selected")).not.toBe("true");
     await userEvent.keyboard("{Escape}");
     await waitFor(() => {
       expect(getStoryOverlayRoot(canvasElement)?.querySelector("rte-datepicker-menu")).not.toBeInTheDocument();
@@ -973,7 +1115,7 @@ export const DayGridKeyboardAndBoundaries: Story = {
     });
     const overlayAgain = getStoryOverlayRoot(canvasElement) as HTMLElement;
     const sept7Open = findDayGridCellButton(overlayAgain, 7, "current-month");
-    expect(sept7Open?.getAttribute("aria-selected")).toBe("true");
+    expect(sept7Open?.closest('[role="gridcell"]')?.getAttribute("aria-selected")).toBe("true");
     const august26Again = findDayGridCellButton(overlayAgain, 26, "leading-or-trailing");
     if (!august26Again) {
       throw new globalThis.Error("Expected August 26 2019 in the September 2019 grid.");
