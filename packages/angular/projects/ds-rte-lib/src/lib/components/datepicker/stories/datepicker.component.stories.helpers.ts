@@ -115,7 +115,7 @@ export function activeDayCellLabelText(overlay: HTMLElement): string {
   const cell = overlay.querySelector(
     '.rte-datepicker-day-grid .day-cell[data-datepicker-active="true"]:not([disabled])',
   ) as HTMLButtonElement | null;
-  return cell?.textContent?.trim() ?? "";
+  return cell ? dayCellVisibleLabelText(cell) : "";
 }
 
 export async function focusActiveDayCellForArrowNavigation(overlay: HTMLElement): Promise<void> {

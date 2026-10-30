@@ -1,5 +1,17 @@
 @use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
 
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .rte-datepicker-dropdown {
   @include typography-text-m;
 
@@ -36,6 +48,11 @@
         outline-offset: 0;
       }
     }
+  }
+
+  .period-label {
+    display: flex;
+    flex: 1;
   }
 
   .month-label {

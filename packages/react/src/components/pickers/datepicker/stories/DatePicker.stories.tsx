@@ -57,6 +57,96 @@ export const Default: Story = {
   },
 };
 
+export const AccessibleDateAnnouncements: Story = {
+  tags: ["!autodocs"],
+  args: {
+    ...Default.args,
+    value: undefined,
+    defaultValue: new Date(2026, 2, 31),
+    disabledDates: [new Date(2026, 2, 16)],
+  },
+  play: async ({ canvasElement }) => {
+    await userEvent.click(within(canvasElement).getByRole("button", { name: calendarTriggerAccessibleName }));
+    const dropdown = await getDropdown();
+    const menu = within(dropdown);
+    const period = menu.getByRole("status");
+    expect(period).toHaveAttribute("aria-atomic", "true");
+    expect(period).toHaveAttribute("aria-live", "polite");
+    expect(period.childElementCount).toBe(0);
+    expect(period.closest("button")).toBeNull();
+    expect(menu.getByRole("button", { name: "Mars 2026, afficher les mois" }).closest("[aria-live]")).toBeNull();
+    expect(period).toHaveTextContent(/^Mars 2026$/);
+    const sundayCell = menu.getByRole("gridcell", { name: "dimanche 15 mars 2026" });
+    expect(within(sundayCell).getByText("15")).toBeInTheDocument();
+    expect(within(sundayCell).getByText("dimanche 15 mars 2026")).not.toHaveAttribute("aria-hidden", "true");
+    expect(menu.getByRole("gridcell", { name: "lundi 16 mars 2026" })).toBeDisabled();
+    expect(within(menu.getByRole("gridcell", { name: "lundi 23 février 2026" })).getByText("23")).toBeInTheDocument();
+    expect(within(menu.getByRole("gridcell", { name: "mercredi 1 avril 2026" })).getByText("1")).toBeInTheDocument();
+    await waitFor(() => {
+      for (const cell of menu.getAllByRole("gridcell")) {
+        const dayNumber = within(cell).getByText(/^\d+$/);
+        expect(dayNumber).toBeVisible();
+        expect(dayNumber).toHaveAttribute("aria-hidden", "true");
+        expect(cell).not.toHaveAttribute("aria-hidden", "true");
+        expect(cell).not.toHaveAttribute("aria-label");
+      }
+    });
+    await waitFor(() => {
+      expect(menu.getByRole("gridcell", { name: "mardi 31 mars 2026", selected: true })).toHaveFocus();
+    });
+
+    await userEvent.keyboard(TESTING_ARROW_RIGHT_KEY);
+    await waitFor(() => {
+      expect(menu.getByRole("gridcell", { name: "mercredi 1 avril 2026" })).toHaveFocus();
+      expect(period).toHaveTextContent("Avril 2026");
+    });
+    expect(menu.getByRole("gridcell", { name: "mardi 31 mars 2026", selected: true })).toBeInTheDocument();
+    await userEvent.keyboard(TESTING_ARROW_LEFT_KEY);
+    await waitFor(() => {
+      expect(menu.getByRole("gridcell", { name: "mardi 31 mars 2026" })).toHaveFocus();
+      expect(period).toHaveTextContent("Mars 2026");
+    });
+
+    await userEvent.click(menu.getByRole("button", { name: "Mois suivant" }));
+    await waitFor(() => expect(period).toHaveTextContent(/^Avril 2026$/));
+    expect(menu.getByRole("button", { name: "Avril 2026, afficher les mois" }).closest("[aria-live]")).toBeNull();
+    await userEvent.click(menu.getByRole("button", { name: "Année suivante" }));
+    await waitFor(() => expect(period).toHaveTextContent("Avril 2027"));
+    await userEvent.click(menu.getByRole("button", { name: "Année précédente" }));
+    await waitFor(() => expect(period).toHaveTextContent("Avril 2026"));
+    await userEvent.click(menu.getByRole("button", { name: "Mois précédent" }));
+    await waitFor(() => expect(period).toHaveTextContent("Mars 2026"));
+
+    await userEvent.click(menu.getByRole("button", { name: "Mars 2026, afficher les mois" }));
+    await waitFor(() => expect(period).toHaveTextContent(/^2026$/));
+    await userEvent.click(menu.getByRole("button", { name: "Année suivante" }));
+    await waitFor(() => expect(period).toHaveTextContent(/^2027$/));
+    await userEvent.click(menu.getByRole("button", { name: "Année précédente" }));
+    await waitFor(() => expect(period).toHaveTextContent(/^2026$/));
+    menu.getByRole("gridcell", { name: "mars" }).focus();
+    expect(menu.getByRole("gridcell", { name: "mars" })).toHaveFocus();
+    for (const month of ["février", "janvier", "décembre"]) {
+      await userEvent.keyboard(TESTING_ARROW_LEFT_KEY);
+      await waitFor(() => expect(menu.getByRole("gridcell", { name: month })).toHaveFocus());
+    }
+    expect(period).toHaveTextContent(/^2025$/);
+
+    await userEvent.click(menu.getByRole("button", { name: "2025, afficher les années" }));
+    await waitFor(() => expect(period).toHaveTextContent("2020 – 2030"));
+    await userEvent.click(menu.getByRole("button", { name: "Décennie suivante" }));
+    await waitFor(() => expect(period).toHaveTextContent("2030 – 2040"));
+    await userEvent.click(menu.getByRole("button", { name: "Décennie précédente" }));
+    await waitFor(() => expect(period).toHaveTextContent("2020 – 2030"));
+    menu.getByRole("gridcell", { name: "2025" }).focus();
+    for (let year = 2024; year >= 2019; year--) {
+      await userEvent.keyboard(TESTING_ARROW_LEFT_KEY);
+      await waitFor(() => expect(menu.getByRole("gridcell", { name: String(year) })).toHaveFocus());
+    }
+    expect(period).toHaveTextContent("2010 – 2020");
+    expect(dropdown.querySelector('[aria-live="polite"]')).toBe(period);
+  },
+};
+
 export const Disabled: Story = {
   args: { ...Default.args, disabled: true },
 };
