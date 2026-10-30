@@ -14,7 +14,7 @@
     width: 184px;
 }
 
-:host([data-compact-spacing="true"]) .number-input-layout {
+:host([data-compact-spacing='true']) .number-input-layout {
     min-width: 112px;
 }
 
@@ -43,6 +43,31 @@
         border-color: var(--border-primary);
     }
 
+    &:focus-within:not(.error),
+    &.highlighted:not(.error),
+    &:active:not(.error) {
+        outline: none;
+        border-color: var(--border-brand-default);
+        box-shadow: inset 0 1px 4px 0 var(--elevation-shadow-key),
+            inset 0 0 0 1px var(--border-brand-default);
+    }
+
+    &.error {
+        outline: none;
+        border-color: var(--border-danger);
+        box-shadow: inset 0 1px 4px 0 var(--elevation-shadow-key),
+            inset 0 0 0 1px var(--border-danger);
+
+        &:focus-within,
+        &:active,
+        &.highlighted {
+            outline: none;
+            border-color: var(--border-danger);
+            box-shadow: inset 0 1px 4px 0 var(--elevation-shadow-key),
+                inset 0 0 0 1px var(--border-danger);
+        }
+    }
+
     &.number-input-control--disabled {
         border-color: var(--border-disabled);
         background: linear-gradient(0deg, var(--elevation-surface-inner-shadow) 0%, var(--elevation-surface-inner-shadow) 100%), var(--background-disabled);
@@ -66,14 +91,14 @@
     }
 }
 
-:host([data-compact-spacing="true"]) .number-input-control {
+:host([data-compact-spacing='true']) .number-input-control {
     height: 24px;
     min-height: 24px;
     padding-block: 0;
 }
 
-:host([data-compact-spacing="true"]) .number-input-spinbutton,
-:host([data-compact-spacing="true"]) .number-input-unit {
+:host([data-compact-spacing='true']) .number-input-spinbutton,
+:host([data-compact-spacing='true']) .number-input-unit {
     line-height: 24px;
 }
 
