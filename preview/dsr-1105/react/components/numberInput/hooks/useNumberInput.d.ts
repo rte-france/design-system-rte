@@ -1,0 +1,53 @@
+import { NUMBER_INPUT_DEFAULT_APPEARANCE, NUMBER_INPUT_DEFAULT_INCREMENT_POSITION } from '../../../../../core/components/number-input/number-input.constants';
+import { NumberInputRangeErrorMessages } from '../../../../../core/components/number-input/number-input.interface';
+import { ChangeEvent, KeyboardEvent, MouseEvent } from '../../../../../../node_modules/react';
+export interface UseNumberInputOptions {
+    id: string;
+    label: string;
+    value?: number | null;
+    defaultValue?: number | null;
+    onChange?: (value: number | null) => void;
+    onBlur?: () => void;
+    min?: number;
+    max?: number;
+    step?: number;
+    decimalPrecision?: number;
+    locale?: string;
+    unit?: string;
+    isError?: boolean;
+    errorMessage?: string;
+    assistiveTextLabel?: string;
+    disabled?: boolean;
+    readOnly?: boolean;
+    rangeErrorMessages?: NumberInputRangeErrorMessages;
+    ariaLabel?: string;
+    ariaLabelledby?: string;
+}
+export declare function useNumberInput({ id, label, value: controlledValue, defaultValue, onChange, onBlur, min, max, step: stepProp, decimalPrecision: decimalPrecisionProp, locale, unit, isError, errorMessage, assistiveTextLabel, disabled, readOnly, rangeErrorMessages, ariaLabel, ariaLabelledby, width, }: UseNumberInputOptions & {
+    width?: string;
+}): {
+    spinbuttonRef: import('../../../../../../node_modules/react').MutableRefObject<HTMLInputElement | null>;
+    computedWidth: string;
+    fieldDisplayText: string;
+    inputFocused: boolean;
+    inputMode: string;
+    showErrorState: boolean;
+    resolvedErrorMessage: string;
+    visibleAssistiveText: string;
+    displayedLabel: string;
+    hasVisibleLabel: boolean;
+    spinbuttonAriaLabelledby: string | undefined;
+    spinbuttonAriaLabel: string | undefined;
+    spinbuttonAriaDescribedBy: string | undefined;
+    canDecrement: boolean;
+    canIncrement: boolean;
+    ariaValueNow: number | undefined;
+    ariaValueText: string | undefined;
+    handleInput: (event: ChangeEvent<HTMLInputElement>) => void;
+    handleBlur: () => void;
+    handleFocus: () => void;
+    handleKeyDown: (event: KeyboardEvent<HTMLInputElement>) => void;
+    handleDecrementClick: (event: MouseEvent<HTMLButtonElement>) => void;
+    handleIncrementClick: (event: MouseEvent<HTMLButtonElement>) => void;
+};
+export { NUMBER_INPUT_DEFAULT_APPEARANCE, NUMBER_INPUT_DEFAULT_INCREMENT_POSITION };
