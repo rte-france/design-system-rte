@@ -1,5 +1,62 @@
 # @design-system-rte/angular
 
+## 4.4.1
+
+### Patch Changes
+
+- 232336a: ## Changes
+
+  - (Datepicker) add aria-invalid attribute and update required prop handling
+
+- 96f178e: ## Changes
+
+  - (Datepicker) aria-current attribute for day cells
+
+- 5c55d17: ## Changes
+
+  - (Switch) add support for prefers-reduced-motion
+
+- fc0a1a2: ## Changes
+
+  - (Switch) remove redondant aria-checked and aria-disabled + add name props for the native input + hide empty aria-label and aria-labelledBy
+
+- 3395122: ## Changes
+
+  - (Tab) add aria-orientation attribute based on tab direction
+
+- 97f46b9: ## Changes
+
+  - (Tab) add support for prefers-reduced-motion in scrolling behavior
+
+- 21e1694: ## Changes
+
+  - (Toast) add prefers-reduced-motion config for position transition
+
+- 86fe038: ## Changes
+
+  - (Stepper) move aria-current from li to the button that holds the focus
+
+- 9a838ec: ## Changes
+
+  - (Stepper) move separators inside list items and hide them from screen readers
+
+- 326b97a: ## Changes
+
+  - (Stepper) add missing ariaLabel default and input
+
+- bfbad4d: ## Changes
+
+  - (Radio Button) correct button target size
+
+- 9283ca1: ## Changes
+
+  - (Toast) handle autodismiss timer correctly with keyboard focus
+
+- Updated dependencies [96f178e]
+- Updated dependencies [97f46b9]
+- Updated dependencies [326b97a]
+  - @design-system-rte/core@1.22.1
+
 ## 4.4.0
 
 ### Minor Changes
