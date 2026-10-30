@@ -11,7 +11,7 @@ import {
   output,
   signal,
 } from "@angular/core";
-import { capitalize, getDayCellIndexForDate, isSameDay } from "@design-system-rte/core";
+import { capitalize, getDayCellIndexForDate, isSameDay, isSameMonth } from "@design-system-rte/core";
 import { waitForNextFrame } from "@design-system-rte/core/common/animation";
 import {
   addDays,
@@ -26,6 +26,7 @@ import {
   DATEPICKER_YEAR_GRID_PAGE_SIZE,
   formatDate,
   getDatepickerGridArrowDelta,
+  getDayLabel,
   getDecadeRangeLabel,
   getDecadeStartYear,
   getMonthLabel,
@@ -244,6 +245,10 @@ export class DatepickerMenuComponent {
     return selected !== null && isSameDay(date, selected);
   }
 
+  getDayAriaLabel(date: Date): string {
+    return getDayLabel(date, this.locale());
+  }
+
   onHeaderLabelClick(): void {
     const type = this.calendarType();
     if (type === "day") {
@@ -453,7 +458,12 @@ export class DatepickerMenuComponent {
       return;
     }
 
-    this.activeDate.set(cells[nextIndex].date);
+    const nextActiveDate = cells[nextIndex].date;
+    if (!isSameMonth(nextActiveDate, this.viewDate())) {
+      this.dateKeyboardNavigate.emit(nextActiveDate);
+    } else {
+      this.activeDate.set(nextActiveDate);
+    }
     this.queueFocusActiveDayCell();
   }
 

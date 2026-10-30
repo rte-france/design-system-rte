@@ -19,6 +19,7 @@ import {
   findClosestEnabledDate,
   getDatepickerGridArrowDelta,
   getDayCellIndexForDate,
+  getDayLabel,
   getDecadeRangeLabel,
   getMonthLabel,
   getNextGridCellIndex,
@@ -26,6 +27,7 @@ import {
   getYearLabel,
   isDateDisabled,
   isSameDay,
+  isSameMonth,
   normalizeDatepickerMenuSelectionDate,
   resolveDatepickerMenuKeyboardDayNavigation,
   resolveDatepickerMenuKeyboardMonthNavigation,
@@ -373,7 +375,11 @@ const DatePickerMenu = ({
     }
 
     const nextActiveDate = cells[nextIndex].date;
-    setActiveDate(nextActiveDate);
+    if (!isSameMonth(nextActiveDate, viewDate)) {
+      navigateToNewInvisibleTarget(nextActiveDate);
+    } else {
+      setActiveDate(nextActiveDate);
+    }
     queueFocusActiveDayCell();
   };
 
@@ -711,6 +717,9 @@ const DatePickerMenu = ({
               {headerTitle}
             </button>
           )}
+          <span className={styles["visually-hidden"]} role="status" aria-live="polite" aria-atomic="true">
+            {headerTitle}
+          </span>
 
           <div className={styles["nav-right"]}>
             {calendarType === DateSegmentEnum.DAY ? (
@@ -785,7 +794,12 @@ const DatePickerMenu = ({
                   data-datepicker-active={activeDate?.toDateString() === cell.date.toDateString() || undefined}
                 >
                   <span className={styles["day-cell__surface"]} aria-hidden="true"></span>
-                  <span className={styles["day-cell__label"]}>{cell.label}</span>
+                  <span id={`day-label-${cell.date.toISOString()}`} className={styles["visually-hidden"]}>
+                    {getDayLabel(cell.date)}
+                  </span>
+                  <span className={styles["day-cell__label"]} aria-hidden="true">
+                    {cell.label}
+                  </span>
                 </button>
               ))}
             </div>

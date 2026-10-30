@@ -51,20 +51,23 @@
       }
     </div>
 
-    @if (calendarType() === "year") {
-      <span class="month-label month-label-static" [attr.aria-label]="headerTitle()">{{ headerTitle() }}</span>
-    } @else {
-      <button
-        type="button"
-        class="month-label"
-        [attr.aria-label]="headerAriaLabel()"
-        [attr.tabindex]="tabIndexForKeyboardOrder()"
-        [attr.data-datepicker-tab]="datepickerTabData.monthLabel"
-        (click)="onHeaderLabelClick()"
-      >
-        {{ headerTitle() }}
-      </button>
-    }
+    <div class="period-label">
+      @if (calendarType() === "year") {
+        <span class="month-label month-label-static" [attr.aria-label]="headerTitle()">{{ headerTitle() }}</span>
+      } @else {
+        <button
+          type="button"
+          class="month-label"
+          [attr.aria-label]="headerAriaLabel()"
+          [attr.tabindex]="tabIndexForKeyboardOrder()"
+          [attr.data-datepicker-tab]="datepickerTabData.monthLabel"
+          (click)="onHeaderLabelClick()"
+        >
+          {{ headerTitle() }}
+        </button>
+      }
+    </div>
+    <span class="visually-hidden" role="status" aria-live="polite" aria-atomic="true">{{ headerTitle() }}</span>
 
     <div class="nav-right">
       @if (calendarType() === "day") {
@@ -145,7 +148,8 @@
           (focus)="setActiveDate(cell.date)"
         >
           <span class="day-cell__surface" aria-hidden="true"></span>
-          <span class="day-cell__label">{{ cell.label }}</span>
+          <span class="visually-hidden">{{ getDayAriaLabel(cell.date) }}</span>
+          <span class="day-cell__label" aria-hidden="true">{{ cell.label }}</span>
         </button>
       }
     </div>

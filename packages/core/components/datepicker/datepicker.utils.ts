@@ -315,6 +315,15 @@ export function isDateDisabled(params: {
   return isCalendarDayInDisabledDates(currentDay, disabledDates);
 }
 
+export function getDayLabel(date: Date, locale: string = DATEPICKER_DEFAULT_LOCALE): string {
+  return new Intl.DateTimeFormat(locale, {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  }).format(date);
+}
+
 export function getMonthLabel(date: Date, locale: string = DATEPICKER_DEFAULT_LOCALE): string {
   return new Intl.DateTimeFormat(locale, { month: "long", year: "numeric" }).format(date);
 }
