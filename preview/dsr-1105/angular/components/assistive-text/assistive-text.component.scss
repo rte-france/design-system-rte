@@ -1,0 +1,32 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+.rte-assistive-text {
+  @include typography-text-s;
+  display: flex;
+  align-items: flex-start;
+  gap: $positive-spacing_050;
+  padding: $positive-spacing_050 $positive-spacing_100;
+  color: var(--content-secondary);
+
+  rte-icon {
+    @include assistive-text-inline-icon-alignment;
+  }
+
+  &.error {
+    color: var(--content-danger-default);
+    @include typography-text-input-s-bold;
+    margin: $positive-spacing-0;
+  }
+
+  &.success {
+    color: var(--content-success-default);
+    @include typography-text-input-s-bold;
+    margin: $positive-spacing-0;
+  }
+
+  &.description {
+    color: var(--content-tertiary);
+    @include typography-text-input-tertiary-regular;
+    margin: $positive-spacing-0;
+  }
+}

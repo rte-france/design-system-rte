@@ -1,0 +1,64 @@
+@if (shouldDisplayBadge()) {
+  <button
+    *ngIf="isValidIconName()"
+    class="rte-icon-button size-{{ size() }}"
+    rteBadge
+    [class.compact-spacing]="compactSpacing()"
+    [attr.data-appearance]="resolvedVisual().appearance"
+    [attr.data-hierarchy]="resolvedVisual().hierarchy"
+    [attr.data-critical]="!!resolvedVisual().isCritical || null"
+    [attr.data-reversed]="!!resolvedVisual().isReversed || null"
+    [ngStyle]="customStyle()"
+    [disabled]="disabled()"
+    [attr.aria-label]="ariaLabel()"
+    [attr.aria-labelledby]="ariaLabelledBy()"
+    [attr.aria-describedby]="ariaDescribedBy()"
+    [attr.aria-expanded]="ariaExpanded() !== undefined ? ariaExpanded() : null"
+    [attr.aria-haspopup]="ariaHaspopup()"
+    [attr.tabindex]="tabIndex() !== undefined ? tabIndex() : null"
+    [attr.aria-disabled]="!!ariaDisabled() || null"
+    [type]="type()"
+    [rteBadgeType]="badgeType() ?? 'brand'"
+    [rteBadgeSize]="size()"
+    [rteBadgeContent]="size() === 's' ? 'empty' : (badgeContent() ?? 'number')"
+    [rteBadgeCount]="badgeCount()"
+    [rteBadgeIcon]="badgeIcon()"
+    (click)="onClick($event)"
+  >
+    <rte-icon
+      [name]="name()"
+      [appearance]="resolvedVisual().iconAppearance"
+      [size]="buttonIconSize()"
+      [ariaHidden]="true"
+    />
+  </button>
+} @else {
+  <button
+    *ngIf="isValidIconName()"
+    class="rte-icon-button size-{{ size() }}"
+    [class.compact-spacing]="compactSpacing()"
+    [attr.data-appearance]="resolvedVisual().appearance"
+    [attr.data-hierarchy]="resolvedVisual().hierarchy"
+    [attr.data-critical]="!!resolvedVisual().isCritical || null"
+    [attr.data-reversed]="!!resolvedVisual().isReversed || null"
+    [ngStyle]="customStyle()"
+    [disabled]="disabled()"
+    [attr.aria-label]="ariaLabel()"
+    [attr.aria-labelledby]="ariaLabelledBy()"
+    [attr.aria-describedby]="ariaDescribedBy()"
+    [attr.aria-expanded]="ariaExpanded() !== undefined ? ariaExpanded() : null"
+    [attr.aria-haspopup]="ariaHaspopup()"
+    [attr.tabindex]="tabIndex() !== undefined ? tabIndex() : null"
+    [attr.aria-disabled]="!!ariaDisabled() || null"
+    [attr.aria-hidden]="!!ariaHidden() || null"
+    [type]="type()"
+    (click)="onClick($event)"
+  >
+    <rte-icon
+      [name]="name()"
+      [appearance]="resolvedVisual().iconAppearance"
+      [size]="buttonIconSize()"
+      [ariaHidden]="true"
+    />
+  </button>
+}
