@@ -2,6 +2,59 @@
 
 # Angular
 
+## 4.4.1
+
+### Datepicker
+
+#### Patch Changes
+
+- add aria-invalid attribute and update required prop handling
+- aria-current attribute for day cells
+
+### Switch
+
+#### Patch Changes
+
+- add support for prefers-reduced-motion
+- remove redondant aria-checked and aria-disabled + add name props for the native input + hide empty aria-label and aria-labelledBy
+
+### Tab
+
+#### Patch Changes
+
+- add aria-orientation attribute based on tab direction
+- add support for prefers-reduced-motion in scrolling behavior
+
+### Toast
+
+#### Patch Changes
+
+- add prefers-reduced-motion config for position transition
+- handle autodismiss timer correctly with keyboard focus
+
+### Stepper
+
+#### Patch Changes
+
+- move aria-current from li to the button that holds the focus
+- move separators inside list items and hide them from screen readers
+- add missing ariaLabel default and input
+
+### Radio Button
+
+#### Patch Changes
+
+- correct button target size
+
+### Other
+
+#### Patch Changes
+
+- Updated dependencies [96f178e]
+- Updated dependencies [97f46b9]
+- Updated dependencies [326b97a]
+- @design-system-rte/core@1.22.1
+
 ## 4.4.0
 
 ### Button
@@ -176,6 +229,59 @@
 - Updated dependencies [fc945a9]
 - @design-system-rte/core@1.21.0
 # React
+
+## 2.4.1
+
+### Datepicker
+
+#### Patch Changes
+
+- add aria-invalid attribute and update required prop handling
+- aria-current attribute for day cells
+
+### Switch
+
+#### Patch Changes
+
+- add support for prefers-reduced-motion
+- remove redondant aria-checked and aria-disabled + add name props for the native input + hide empty aria-label and aria-labelledBy
+
+### Tab
+
+#### Patch Changes
+
+- add aria-orientation attribute based on tab direction
+- add support for prefers-reduced-motion in scrolling behavior
+
+### Toast
+
+#### Patch Changes
+
+- add prefers-reduced-motion config for position transition
+- handle autodismiss timer correctly with keyboard focus
+
+### Stepper
+
+#### Patch Changes
+
+- move aria-current from li to the button that holds the focus
+- move separators inside list items and hide them from screen readers
+- add missing ariaLabel default and input
+
+### Radio Button
+
+#### Patch Changes
+
+- correct button target size
+
+### Other
+
+#### Patch Changes
+
+- Updated dependencies [96f178e]
+- Updated dependencies [97f46b9]
+- Updated dependencies [326b97a]
+- @design-system-rte/core@1.22.1
 
 ## 2.4.0
 
@@ -352,6 +458,29 @@
 - @design-system-rte/core@1.21.0
 # Core
 
+## 1.22.1
+
+### Datepicker
+
+#### Patch Changes
+
+- aria-current attribute for day cells
+
+### Tab
+
+#### Patch Changes
+
+- add support for prefers-reduced-motion in scrolling behavior
+
+### Stepper
+
+#### Patch Changes
+
+- add missing ariaLabel default and input
+
+### Other
+
+
 ## 1.22.0
 
 ### Button
@@ -475,61 +604,3 @@
 
 ### Other
 
-# Design Docs
-
-## 1.7.0
-
-### Button
-
-#### Minor Changes
-
-- add hierarchy system and integrate variant and appearance systems
-
-### Other
-
-#### Patch Changes
-
-- Updated dependencies [b3eda66]
-- Updated dependencies [aa17f48]
-- Updated dependencies [d262fe6]
-- Updated dependencies [13dd6ee]
-- Updated dependencies [7855135]
-- Updated dependencies [e2083ab]
-- @design-system-rte/react@2.4.0
-
-## 1.6.0
-
-### Styles
-
-#### Minor Changes
-
-- add fallback support for missing or default Mode for Design Tokens. Theme still requires explicit definition
-
-### Other
-
-#### Patch Changes
-
-- Updated dependencies [9c2be7c]
-- Updated dependencies [9e3af77]
-- @design-system-rte/react@1.16.0
-
-## 1.5.0
-
-### Banner
-
-#### Minor Changes
-
-- add compact version & correct inner elements position
-
-### Other
-
-#### Patch Changes
-
-- Updated dependencies [8c6060f]
-- Updated dependencies [a5ecd10]
-- Updated dependencies [37ad849]
-- Updated dependencies [9e88591]
-- Updated dependencies [c5a93e2]
-- Updated dependencies [87c57cf]
-- Updated dependencies [610e235]
-- @design-system-rte/react@1.15.0
