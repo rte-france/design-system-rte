@@ -38,12 +38,12 @@ import {
 } from "@design-system-rte/core";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-import { useFocusTrap } from "../../../../hooks/useFocusTrap";
 import Button from "../../../button/Button";
 import Divider from "../../../divider/Divider";
 import IconButton from "../../../iconButton/IconButton";
 import { concatClassNames } from "../../../utils";
 import useActiveDate from "../../hooks/useActiveDate";
+import { useDatepickerMenuFocusTrap } from "../../hooks/useDatepickerMenuFocusTrap";
 
 import styles from "./DatePickerMenu.module.scss";
 
@@ -81,7 +81,7 @@ const DatePickerMenu = ({
   const [validatedDate, setValidatedDate] = useState<Date | null>(null);
   const [monthNavigationAnchorDay, setMonthNavigationAnchorDay] = useState<number | null>(null);
 
-  useFocusTrap(datePickerMenuRef.current!, isOpen, false);
+  useDatepickerMenuFocusTrap(datePickerMenuRef, isOpen, calendarType);
   const { viewDate, setViewDate, getNextDateForDayNavigation, getNextDateForCompactNavigation } =
     useActiveDate(currentValue);
 
@@ -861,8 +861,20 @@ const DatePickerMenu = ({
         )}
         {hasActions && (
           <div className={styles["rte-datepicker-dropdown-actions"]}>
-            <Button label="Annuler" size="s" variant="transparent" onClick={onCancel} />
-            <Button label="Confirmer" size="s" variant="transparent" onClick={handleOnClickValidate} />
+            <Button
+              label="Annuler"
+              size="s"
+              variant="transparent"
+              onClick={onCancel}
+              data-datepicker-tab={DATEPICKER_TAB_DATA.cancel}
+            />
+            <Button
+              label="Confirmer"
+              size="s"
+              variant="transparent"
+              onClick={handleOnClickValidate}
+              data-datepicker-tab={DATEPICKER_TAB_DATA.confirm}
+            />
           </div>
         )}
       </div>
