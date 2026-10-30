@@ -122,35 +122,41 @@
   </div>
 
   @if (calendarType() === "day") {
-    <div class="rte-datepicker-weekdays" aria-hidden="true">
-      @for (weekdayLabel of weekdayLabels(); track $index) {
-        <div class="weekday">{{ weekdayLabel }}</div>
-      }
-    </div>
-
-    <rte-divider appearance="brand" />
-
     <div class="rte-datepicker-day-grid" role="grid" aria-label="Calendrier">
-      @for (cell of dayCells(); track cell.date.toISOString()) {
-        <button
-          type="button"
-          class="day-cell"
-          role="gridcell"
-          [attr.aria-selected]="isDayCellSelected(cell.date)"
-          [attr.aria-current]="cell.isCurrent ? 'date' : null"
-          [attr.data-cell-type]="cell.cellType"
-          [attr.data-datepicker-active]="
-            calendarType() === 'day' && cell.date.toDateString() === activeDate().toDateString() ? 'true' : null
-          "
-          [attr.tabindex]="tabIndexForKeyboardOrder()"
-          [disabled]="cell.isDisabled"
-          (click)="onClickDay(cell.date, cell.isDisabled)"
-          (focus)="setActiveDate(cell.date)"
-        >
-          <span class="day-cell__surface" aria-hidden="true"></span>
-          <span class="visually-hidden">{{ getDayAriaLabel(cell.date) }}</span>
-          <span class="day-cell__label" aria-hidden="true">{{ cell.label }}</span>
-        </button>
+      <div class="rte-datepicker-weekdays" role="row">
+        @for (weekdayLabel of weekdayLabels(); track $index) {
+          <div class="weekday" role="columnheader" [attr.aria-label]="weekdayLongLabels()[$index]">
+            {{ weekdayLabel }}
+          </div>
+        }
+      </div>
+      <div class="calendar-divider" aria-hidden="true">
+        <rte-divider appearance="brand" />
+      </div>
+      @for (week of dayRows(); track week[0].date.toISOString(); let index = $index) {
+        <div class="day-row" role="row" [attr.aria-label]="`${index}`">
+          @for (cell of week; track cell.date.toISOString()) {
+            <button
+              type="button"
+              class="day-cell"
+              role="gridcell"
+              [attr.aria-selected]="isDayCellSelected(cell.date)"
+              [attr.aria-current]="cell.isCurrent ? 'date' : null"
+              [attr.data-cell-type]="cell.cellType"
+              [attr.data-datepicker-active]="
+                calendarType() === 'day' && cell.date.toDateString() === activeDate().toDateString() ? 'true' : null
+              "
+              [attr.tabindex]="tabIndexForKeyboardOrder()"
+              [disabled]="cell.isDisabled"
+              (click)="onClickDay(cell.date, cell.isDisabled)"
+              (focus)="setActiveDate(cell.date)"
+            >
+              <span class="day-cell__surface" aria-hidden="true"></span>
+              <span class="visually-hidden">{{ getDayAriaLabel(cell.date) }}</span>
+              <span class="day-cell__label" aria-hidden="true">{{ cell.label }}</span>
+            </button>
+          }
+        </div>
       }
     </div>
   } @else if (calendarType() === "month") {
@@ -164,27 +170,31 @@
       aria-label="Mois"
       aria-describedby="rte-datepicker-month-instruction"
     >
-      @for (cell of monthCells(); track cell.monthIndex) {
-        <button
-          type="button"
-          class="month-cell"
-          role="gridcell"
-          [attr.aria-selected]="cell.isSelected"
-          [attr.aria-current]="cell.isCurrent ? 'date' : null"
-          [attr.data-datepicker-active]="
-            cell.monthIndex === activeDate().getMonth() && viewDate().getFullYear() === activeDate().getFullYear()
-              ? 'true'
-              : null
-          "
-          [attr.data-selected]="cell.isSelected"
-          [attr.data-current]="cell.isCurrent"
-          [attr.tabindex]="tabIndexForKeyboardOrder()"
-          [disabled]="cell.isDisabled"
-          (click)="onClickMonth(cell.monthIndex, cell.isDisabled)"
-          (focus)="onMonthCellFocused(cell.monthIndex)"
-        >
-          <span class="month-cell__label">{{ cell.label }}</span>
-        </button>
+      @for (row of monthRows(); track row[0].monthIndex) {
+        <div class="compact-row" role="row">
+          @for (cell of row; track cell.monthIndex) {
+            <button
+              type="button"
+              class="month-cell"
+              role="gridcell"
+              [attr.aria-selected]="cell.isSelected"
+              [attr.aria-current]="cell.isCurrent ? 'date' : null"
+              [attr.data-datepicker-active]="
+                cell.monthIndex === activeDate().getMonth() && viewDate().getFullYear() === activeDate().getFullYear()
+                  ? 'true'
+                  : null
+              "
+              [attr.data-selected]="cell.isSelected"
+              [attr.data-current]="cell.isCurrent"
+              [attr.tabindex]="tabIndexForKeyboardOrder()"
+              [disabled]="cell.isDisabled"
+              (click)="onClickMonth(cell.monthIndex, cell.isDisabled)"
+              (focus)="onMonthCellFocused(cell.monthIndex)"
+            >
+              <span class="month-cell__label">{{ cell.label }}</span>
+            </button>
+          }
+        </div>
       }
     </div>
   } @else {
@@ -198,23 +208,27 @@
       aria-label="Années"
       aria-describedby="rte-datepicker-year-instruction"
     >
-      @for (cell of yearCells(); track cell.year) {
-        <button
-          type="button"
-          class="year-cell"
-          role="gridcell"
-          [attr.aria-selected]="cell.isSelected"
-          [attr.aria-current]="cell.isCurrent ? 'date' : null"
-          [attr.data-datepicker-active]="cell.year === activeDate().getFullYear() ? 'true' : null"
-          [attr.data-selected]="cell.isSelected"
-          [attr.data-current]="cell.isCurrent"
-          [attr.tabindex]="tabIndexForKeyboardOrder()"
-          [disabled]="cell.isDisabled"
-          (click)="onClickYear(cell.year, cell.isDisabled)"
-          (focus)="onYearCellFocused(cell.year)"
-        >
-          {{ cell.label }}
-        </button>
+      @for (row of yearRows(); track row[0].year) {
+        <div class="compact-row" role="row">
+          @for (cell of row; track cell.year) {
+            <button
+              type="button"
+              class="year-cell"
+              role="gridcell"
+              [attr.aria-selected]="cell.isSelected"
+              [attr.aria-current]="cell.isCurrent ? 'date' : null"
+              [attr.data-datepicker-active]="cell.year === activeDate().getFullYear() ? 'true' : null"
+              [attr.data-selected]="cell.isSelected"
+              [attr.data-current]="cell.isCurrent"
+              [attr.tabindex]="tabIndexForKeyboardOrder()"
+              [disabled]="cell.isDisabled"
+              (click)="onClickYear(cell.year, cell.isDisabled)"
+              (focus)="onYearCellFocused(cell.year)"
+            >
+              {{ cell.label }}
+            </button>
+          }
+        </div>
       }
     </div>
   }
