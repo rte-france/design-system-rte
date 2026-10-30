@@ -1,0 +1,228 @@
+@use '@design-system-rte/core/design-tokens/main.scss' as *;
+
+.container {
+    display: flex;
+    width: 100%;
+    padding: var(--positive-spacing_0);
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: var(--positive-spacing_0);
+
+    &[data-label-position="side"] {
+        align-items: center;
+        flex-direction: row;
+
+        .text {
+            width: auto;
+            align-items: center;
+        }
+    }
+
+    &[data-compact-spacing="true"] {
+        .numberInputLayout {
+            min-width: 112px;
+        }
+
+        .numberInputControl {
+            height: 24px;
+            min-height: 24px;
+            padding-block: 0;
+        }
+
+        .numberInputSpinbutton,
+        .numberInputUnit {
+            line-height: 24px;
+        }
+    }
+}
+
+.text {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+
+.inputContainer {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    width: 100%;
+    min-width: 48px;
+    min-height: 32px;
+    align-self: stretch;
+}
+
+.input {
+    display: flex;
+
+    &[data-disabled="true"] {
+        cursor: not-allowed;
+    }
+}
+
+.numberInputLayout {
+    display: flex;
+    align-items: center;
+    gap: $positive-spacing-050;
+    flex: 1;
+    min-width: 128px;
+    width: 184px;
+}
+
+.numberInputControl {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    flex: 1;
+    min-width: 0;
+    height: 32px;
+    min-height: 32px;
+    border-radius: $radius-s;
+    border: $width-xs solid var(--border-secondary);
+    padding: $positive-spacing-050 $positive-spacing-100;
+    background: linear-gradient(0deg, var(--elevation-surface-inner-shadow) 0%, var(--elevation-surface-inner-shadow) 100%), var(--background-default);
+    transition: border-color 100ms ease, box-shadow 100ms ease;
+    color: var(--content-secondary);
+    cursor: text;
+    @include neutral-inner-shadow;
+
+    @media (prefers-reduced-motion: reduce) {
+        transition: none;
+    }
+
+    &:hover:not(.numberInputControlDisabled):not(.numberInputControlReadOnly):not(.numberInputControlError) {
+        border-color: var(--border-primary);
+    }
+
+    &:focus-within:not(.numberInputControlError),
+    &.numberInputControlHighlighted:not(.numberInputControlError),
+    &:active:not(.numberInputControlError) {
+        outline: none;
+        border-color: var(--border-brand-default);
+        box-shadow: inset 0 1px 4px 0 var(--elevation-shadow-key),
+            inset 0 0 0 1px var(--border-brand-default);
+    }
+
+    &.numberInputControlError {
+        outline: none;
+        border-color: var(--border-danger);
+        box-shadow: inset 0 1px 4px 0 var(--elevation-shadow-key),
+            inset 0 0 0 1px var(--border-danger);
+
+        &:focus-within,
+        &:active,
+        &.numberInputControlHighlighted {
+            outline: none;
+            border-color: var(--border-danger);
+            box-shadow: inset 0 1px 4px 0 var(--elevation-shadow-key),
+                inset 0 0 0 1px var(--border-danger);
+        }
+    }
+
+    &.numberInputControlDisabled {
+        border-color: var(--border-disabled);
+        background: linear-gradient(0deg, var(--elevation-surface-inner-shadow) 0%, var(--elevation-surface-inner-shadow) 100%), var(--background-disabled);
+        cursor: not-allowed;
+        box-shadow: none;
+
+        .numberInputUnit {
+            color: var(--content-disabled);
+        }
+    }
+
+    &.numberInputControlReadOnly {
+        border-color: var(--border-tertiary);
+        background: linear-gradient(0deg, var(--elevation-surface-inner-shadow) 0%, var(--elevation-surface-inner-shadow) 100%), var(--background-disabled);
+        cursor: default;
+        box-shadow: none;
+
+        .numberInputUnit {
+            color: var(--content-secondary);
+        }
+    }
+}
+
+.numberInputValue {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-width: 0;
+    height: 100%;
+    gap: $positive-spacing-050;
+}
+
+.numberInputSpinbutton {
+    flex: 1;
+    min-width: 0;
+    height: 100%;
+    border: none;
+    background: transparent;
+    outline: none;
+    color: inherit;
+    padding: 0;
+    margin: 0;
+    @include typography-text-m-regular;
+
+    &::placeholder {
+        color: var(--content-disabled);
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+        color: var(--content-disabled);
+    }
+
+    &[readonly] {
+        cursor: default;
+    }
+}
+
+.numberInputUnit {
+    flex-shrink: 0;
+    color: var(--content-tertiary);
+    @include typography-text-m-regular;
+    user-select: none;
+}
+
+.numberInputSteppersRight {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    gap: $positive-spacing-050;
+}
+
+.numberInputStepper {
+    flex-shrink: 0;
+    display: inline-flex;
+
+    button {
+        min-width: 24px;
+        min-height: 24px;
+        justify-content: center;
+    }
+}
+
+.container:not([data-compact-spacing="true"]) {
+    .numberInputStepper button {
+        height: 32px;
+    }
+}
+
+.container[data-compact-spacing="true"] {
+    .inputContainer {
+        min-height: 24px;
+    }
+
+    .numberInputStepper button {
+        box-sizing: border-box;
+        width: 24px;
+        height: 24px;
+        min-width: 24px;
+        min-height: 24px;
+        padding: 0;
+    }
+}
