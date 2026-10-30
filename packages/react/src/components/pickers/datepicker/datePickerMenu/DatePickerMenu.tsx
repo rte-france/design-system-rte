@@ -6,6 +6,7 @@ import {
   ARROW_RIGHT_KEY,
   ARROW_UP_KEY,
   buildDayGrid,
+  buildDatepickerGridRows,
   buildMonthGrid,
   buildYearGrid,
   capitalize,
@@ -24,6 +25,7 @@ import {
   getMonthLabel,
   getNextGridCellIndex,
   getWeekdayShortLabels,
+  getWeekdayLongLabels,
   getYearLabel,
   isDateDisabled,
   isSameDay,
@@ -90,6 +92,7 @@ const DatePickerMenu = ({
   const [pendingDate, setPendingDate] = useState<Date | null>(null);
   const [activeDate, setActiveDate] = useState<Date>(currentValue ?? viewDate);
   const [initialDate] = useState<Date | null>(currentValue);
+  const weekdayLongLabels = useMemo(() => getWeekdayLongLabels(), []);
 
   const pickerConstraints: DatepickerDisabledConstraints = useMemo(
     () => ({
@@ -763,47 +766,59 @@ const DatePickerMenu = ({
           </div>
         </div>
         {calendarType === DateSegmentEnum.DAY ? (
-          <>
-            <div className={styles["rte-datepicker-weekdays"]} aria-hidden="true">
+          <div
+            className={concatClassNames(styles["rte-datepicker-day-grid"], "rte-datepicker-day-grid")}
+            role="grid"
+            aria-label="Calendrier"
+          >
+            <div className={styles["rte-datepicker-weekdays"]} role="row">
               {getWeekdayShortLabels().map((weekdayLabel, index) => (
-                <div key={index} className={styles["weekday"]}>
+                <div
+                  key={index}
+                  className={styles["weekday"]}
+                  role="columnheader"
+                  aria-label={weekdayLongLabels[index]}
+                >
                   {weekdayLabel}
                 </div>
               ))}
             </div>
-
-            <Divider appearance="brand" />
-
-            <div
-              className={concatClassNames(styles["rte-datepicker-day-grid"], "rte-datepicker-day-grid")}
-              role="grid"
-              aria-label="Calendrier"
-            >
-              {dayCells.map((cell) => (
-                <button
-                  type="button"
-                  key={cell.date.toISOString()}
-                  className={concatClassNames(styles["day-cell"], "day-cell")}
-                  role="gridcell"
-                  onClick={() => handleOnClickDayCell(cell.date)}
-                  aria-selected={isDayCellSelected(cell.date)}
-                  aria-current={cell.isCurrent ? "date" : undefined}
-                  tabIndex={tabIndexForDayCell(cell.date, activeDate)}
-                  disabled={cell.isDisabled}
-                  data-cell-type={cell.cellType}
-                  data-datepicker-active={activeDate?.toDateString() === cell.date.toDateString() || undefined}
-                >
-                  <span className={styles["day-cell__surface"]} aria-hidden="true"></span>
-                  <span id={`day-label-${cell.date.toISOString()}`} className={styles["visually-hidden"]}>
-                    {getDayLabel(cell.date)}
-                  </span>
-                  <span className={styles["day-cell__label"]} aria-hidden="true">
-                    {cell.label}
-                  </span>
-                </button>
-              ))}
+            <div className={styles["calendar-divider"]} aria-hidden="true">
+              <Divider appearance="brand" />
             </div>
-          </>
+            {buildDatepickerGridRows(dayCells, 7).map((week, index) => (
+              <div
+                className={styles["day-row"]}
+                role="row"
+                key={week[0].date.toISOString() + index}
+                aria-label={`${index}`}
+              >
+                {week.map((cell) => (
+                  <button
+                    type="button"
+                    key={cell.date.toISOString()}
+                    className={concatClassNames(styles["day-cell"], "day-cell")}
+                    role="gridcell"
+                    aria-selected={isDayCellSelected(cell.date)}
+                    onClick={() => handleOnClickDayCell(cell.date)}
+                    aria-current={cell.isCurrent ? "date" : undefined}
+                    tabIndex={tabIndexForDayCell(cell.date, activeDate)}
+                    disabled={cell.isDisabled}
+                    data-cell-type={cell.cellType}
+                    data-datepicker-active={activeDate?.toDateString() === cell.date.toDateString() || undefined}
+                  >
+                    <span className={styles["day-cell__surface"]} aria-hidden="true"></span>
+                    <span id={`day-label-${cell.date.toISOString()}`} className={styles["visually-hidden"]}>
+                      {getDayLabel(cell.date)}
+                    </span>
+                    <span className={styles["day-cell__label"]} aria-hidden="true">
+                      {cell.label}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            ))}
+          </div>
         ) : calendarType === DateSegmentEnum.MONTH ? (
           <>
             <Divider appearance="brand" />
@@ -815,30 +830,34 @@ const DatePickerMenu = ({
               role="grid"
               aria-label="Mois"
             >
-              {monthCells.map((cell) => (
-                <button
-                  type="button"
-                  key={cell.monthIndex}
-                  className={concatClassNames(styles["month-cell"], "month-cell")}
-                  role="gridcell"
-                  aria-selected={cell.isSelected}
-                  tabIndex={tabIndexForMonthCell(cell.monthIndex)}
-                  data-cell-month-index={cell.monthIndex}
-                  data-active-date-month={viewDate.getMonth()}
-                  data-active-date-year={activeDate.getFullYear()}
-                  data-active-view-year={viewDate.getFullYear()}
-                  data-datepicker-active={
-                    cell.monthIndex === activeDate.getMonth() && viewDate.getFullYear() === activeDate.getFullYear()
-                      ? true
-                      : undefined
-                  }
-                  data-current={cell.isCurrent}
-                  disabled={cell.isDisabled}
-                  data-selected={cell.isSelected}
-                  onClick={() => handleOnClickMonthCell(cell.monthIndex)}
-                >
-                  <span className={styles["month-cell__label"]}>{cell.label}</span>
-                </button>
+              {buildDatepickerGridRows(monthCells, 3).map((row) => (
+                <div className={styles["compact-row"]} role="row" key={row[0].monthIndex}>
+                  {row.map((cell) => (
+                    <button
+                      type="button"
+                      key={cell.monthIndex}
+                      className={concatClassNames(styles["month-cell"], "month-cell")}
+                      role="gridcell"
+                      aria-selected={cell.isSelected}
+                      tabIndex={tabIndexForMonthCell(cell.monthIndex)}
+                      data-cell-month-index={cell.monthIndex}
+                      data-active-date-month={viewDate.getMonth()}
+                      data-active-date-year={activeDate.getFullYear()}
+                      data-active-view-year={viewDate.getFullYear()}
+                      data-datepicker-active={
+                        cell.monthIndex === activeDate.getMonth() && viewDate.getFullYear() === activeDate.getFullYear()
+                          ? true
+                          : undefined
+                      }
+                      data-current={cell.isCurrent}
+                      disabled={cell.isDisabled}
+                      data-selected={cell.isSelected}
+                      onClick={() => handleOnClickMonthCell(cell.monthIndex)}
+                    >
+                      <span className={styles["month-cell__label"]}>{cell.label}</span>
+                    </button>
+                  ))}
+                </div>
               ))}
             </div>
           </>
@@ -854,22 +873,26 @@ const DatePickerMenu = ({
               role="grid"
               aria-label="Années"
             >
-              {yearCells.map((cell) => (
-                <button
-                  type="button"
-                  key={cell.year}
-                  className={concatClassNames(styles["year-cell"], "year-cell")}
-                  role="gridcell"
-                  data-datepicker-active={activeDate?.getFullYear() === cell.year || null}
-                  data-current={cell.isCurrent}
-                  tabIndex={tabIndexForYearCell(cell.year)}
-                  data-selected={cell.isSelected}
-                  aria-selected={cell.isSelected}
-                  disabled={cell.isDisabled}
-                  onClick={() => handleOnClickYearCell(cell.year)}
-                >
-                  {cell.label}
-                </button>
+              {buildDatepickerGridRows(yearCells, 3).map((row) => (
+                <div className={styles["compact-row"]} role="row" key={row[0].year}>
+                  {row.map((cell) => (
+                    <button
+                      type="button"
+                      key={cell.year}
+                      className={concatClassNames(styles["year-cell"], "year-cell")}
+                      role="gridcell"
+                      data-datepicker-active={activeDate?.getFullYear() === cell.year || null}
+                      data-current={cell.isCurrent}
+                      tabIndex={tabIndexForYearCell(cell.year)}
+                      data-selected={cell.isSelected}
+                      aria-selected={cell.isSelected}
+                      disabled={cell.isDisabled}
+                      onClick={() => handleOnClickYearCell(cell.year)}
+                    >
+                      {cell.label}
+                    </button>
+                  ))}
+                </div>
               ))}
             </div>
           </>

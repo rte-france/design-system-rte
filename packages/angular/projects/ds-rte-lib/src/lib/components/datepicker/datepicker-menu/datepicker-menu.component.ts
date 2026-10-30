@@ -17,6 +17,7 @@ import {
   addDays,
   addMonths,
   buildDayGrid,
+  buildDatepickerGridRows,
   buildMonthGrid,
   buildYearGrid,
   type DatepickerCalendarType,
@@ -32,6 +33,7 @@ import {
   getMonthLabel,
   getNextGridCellIndex,
   getWeekdayShortLabels,
+  getWeekdayLongLabels,
   getYearLabel,
   isDateDisabled,
   navigateViewDate,
@@ -87,6 +89,7 @@ export class DatepickerMenuComponent {
   readonly dismiss = output<void>();
 
   readonly weekdayLabels = computed(() => getWeekdayShortLabels(this.locale()));
+  readonly weekdayLongLabels = computed(() => getWeekdayLongLabels(this.locale()));
 
   readonly headerTitle = computed(() => {
     const view = this.viewDate();
@@ -139,6 +142,10 @@ export class DatepickerMenuComponent {
       disabledDates: this.disabledDates(),
     }),
   );
+
+  readonly dayRows = computed(() => buildDatepickerGridRows(this.dayCells(), 7));
+  readonly monthRows = computed(() => buildDatepickerGridRows(this.monthCells(), 3));
+  readonly yearRows = computed(() => buildDatepickerGridRows(this.yearCells(), 3));
 
   readonly activeDate = signal<Date>(this.pendingDate() ?? this.selectedDate() ?? this.viewDate());
 

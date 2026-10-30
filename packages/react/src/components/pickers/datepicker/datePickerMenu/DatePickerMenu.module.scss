@@ -87,10 +87,11 @@
 .rte-datepicker-weekdays {
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
-  gap: 0;
+  gap: $positive-spacing_050;
   align-items: center;
   min-height: 40px;
   padding: 0 $positive-spacing_150;
+  margin-bottom: $positive-spacing_050;
 
   .weekday {
     @include typography-text-m;
@@ -102,6 +103,16 @@
 
 
 .rte-datepicker-day-grid {
+  display: flex;
+  flex-direction: column;
+  gap: $positive-spacing_050;
+}
+
+.calendar-divider {
+  margin-bottom: $positive-spacing_050;
+}
+
+.day-row {
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: $positive-spacing_050;
@@ -282,10 +293,16 @@
 
 .rte-datepicker-month-grid,
 .rte-datepicker-year-grid {
+  display: flex;
+  flex-direction: column;
+  gap: $positive-spacing_150;
+  padding: 0 $positive-spacing_150;
+}
+
+.compact-row {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: $positive-spacing_150;
-  padding: 0 $positive-spacing_150;
 }
 
 .month-cell {
