@@ -1,0 +1,1 @@
+function t(n){let e=0;const r=requestAnimationFrame(()=>{e=requestAnimationFrame(()=>{e=0,n()})});return()=>{cancelAnimationFrame(r),e!==0&&cancelAnimationFrame(e)}}const a=()=>typeof window<"u"&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;export{a as p,t as w};
