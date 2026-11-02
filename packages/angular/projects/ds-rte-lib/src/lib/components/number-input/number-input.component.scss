@@ -97,7 +97,7 @@
     padding-block: 0;
 }
 
-:host([data-compact-spacing='true']) .number-input-spinbutton,
+:host([data-compact-spacing='true']) .number-input-field,
 :host([data-compact-spacing='true']) .number-input-unit {
     line-height: 24px;
 }
@@ -111,7 +111,7 @@
     gap: $positive-spacing-050;
 }
 
-.number-input-spinbutton {
+.number-input-field {
     flex: 1;
     min-width: 0;
     height: 100%;
