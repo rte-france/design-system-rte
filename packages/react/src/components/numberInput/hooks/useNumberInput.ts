@@ -1,24 +1,30 @@
 import {
-  DEFAULT_NUMBER_INPUT_RANGE_ERROR_MESSAGES,
   NUMBER_INPUT_DEFAULT_APPEARANCE,
-  NUMBER_INPUT_DEFAULT_DECIMAL_PRECISION,
   NUMBER_INPUT_DEFAULT_INCREMENT_POSITION,
   NUMBER_INPUT_DEFAULT_LOCALE,
   NUMBER_INPUT_DEFAULT_MIN,
-  NUMBER_INPUT_DEFAULT_STEP,
-  NUMBER_INPUT_DEFAULT_WIDTH,
-  NUMBER_INPUT_MISSING_ACCESSIBLE_NAME_ERROR,
 } from "@design-system-rte/core/components/number-input/number-input.constants";
 import type { NumberInputRangeErrorMessages } from "@design-system-rte/core/components/number-input/number-input.interface";
 import {
-  formatNumericValueOrEmpty,
+  assertNumberInputAccessibleName,
+  formatNumberInputDisplayValue,
   getDecimalSeparator,
+  getInitialNumberInputDisplayText,
+  getNumberInputAriaValueNow as getNumberInputAriaValueNow,
+  getNumberInputAriaValueText,
+  getNumberInputDisplayText,
+  getNumberInputInputMode,
+  getNumberInputSpinbuttonA11y,
+  getStepperCapabilities,
+  getNumberInputStepperFallbackValue,
+  getNumberInputValidationView,
   getRangeErrorMessage,
-  isAtMax,
-  isAtMin,
   normalizeDecimalPrecision,
   parseNumericText,
-  sanitizeNumericText,
+  resolveNumberInputBlurAction,
+  resolveNumberInputStep,
+  resolveNumberInputWidth,
+  sanitizeNumberInputText,
   stepValue,
 } from "@design-system-rte/core/components/number-input/number-input.utils";
 import { ChangeEvent, KeyboardEvent, MouseEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -46,33 +52,6 @@ export interface UseNumberInputOptions {
   ariaLabelledby?: string;
 }
 
-function resolveStep(step: number | undefined): number {
-  if (typeof step === "number" && Number.isFinite(step) && step > 0) {
-    return step;
-  }
-  return NUMBER_INPUT_DEFAULT_STEP;
-}
-
-function resolveDecimalPrecision(decimalPrecision: number | undefined): number {
-  return normalizeDecimalPrecision(decimalPrecision ?? NUMBER_INPUT_DEFAULT_DECIMAL_PRECISION);
-}
-
-function resolveComputedWidth(width: string | undefined): string {
-  if (width === undefined || width === "") {
-    return NUMBER_INPUT_DEFAULT_WIDTH;
-  }
-  const widthValue = width.toString();
-  if (
-    widthValue.includes("px") ||
-    widthValue.includes("%") ||
-    widthValue.includes("em") ||
-    widthValue.includes("rem")
-  ) {
-    return widthValue;
-  }
-  return `${widthValue}px`;
-}
-
 export function useNumberInput({
   id,
   label,
@@ -96,28 +75,24 @@ export function useNumberInput({
   ariaLabelledby = "",
   width,
 }: UseNumberInputOptions & { width?: string }) {
-  const step = resolveStep(stepProp);
-  const decimalPrecision = resolveDecimalPrecision(decimalPrecisionProp);
-  const computedWidth = resolveComputedWidth(width);
-  const decimalSeparatorInitial = getDecimalSeparator(locale);
+  const step = resolveNumberInputStep(stepProp);
+  const decimalPrecision = normalizeDecimalPrecision(decimalPrecisionProp);
+  const computedWidth = resolveNumberInputWidth(width);
 
-  const [displayText, setDisplayText] = useState(() => {
-    const initialNumeric =
-      controlledValue !== undefined ? controlledValue : defaultValue !== undefined ? defaultValue : null;
-    if (initialNumeric === null || initialNumeric === undefined) {
-      return "";
-    }
-    if (!Number.isFinite(initialNumeric)) {
-      return "";
-    }
-    return formatNumericValueOrEmpty(initialNumeric, decimalPrecision, decimalSeparatorInitial);
-  });
+  const [displayText, setDisplayText] = useState(() =>
+    getInitialNumberInputDisplayText({
+      value: controlledValue,
+      defaultValue,
+      decimalPrecision,
+      locale,
+    }),
+  );
   const [inputFocused, setInputFocused] = useState(false);
   const initializedRef = useRef(false);
   const spinbuttonRef = useRef<HTMLInputElement | null>(null);
 
   const decimalSeparator = useMemo(() => getDecimalSeparator(locale), [locale]);
-  const inputMode = decimalPrecision > 0 ? "decimal" : "numeric";
+  const inputMode = getNumberInputInputMode(decimalPrecision);
   const parsedValue = useMemo(() => parseNumericText(displayText, decimalSeparator), [displayText, decimalSeparator]);
 
   const rangeErrorMessage = useMemo(
@@ -126,90 +101,69 @@ export function useNumberInput({
         value: parsedValue,
         min,
         max,
-        messages: rangeErrorMessages ?? DEFAULT_NUMBER_INPUT_RANGE_ERROR_MESSAGES,
+        messages: rangeErrorMessages,
       }),
     [parsedValue, min, max, rangeErrorMessages],
   );
 
-  const showErrorState = isError || rangeErrorMessage !== null;
+  const { showErrorState, resolvedErrorMessage, visibleAssistiveText } = useMemo(
+    () =>
+      getNumberInputValidationView({
+        hasCustomError: isError,
+        errorMessage,
+        rangeErrorMessage,
+        assistiveText: assistiveTextLabel,
+      }),
+    [isError, errorMessage, rangeErrorMessage, assistiveTextLabel],
+  );
 
-  const resolvedErrorMessage = useMemo(() => {
-    if (isError) {
-      return errorMessage || rangeErrorMessage || "";
-    }
-    return rangeErrorMessage || "";
-  }, [isError, errorMessage, rangeErrorMessage]);
+  const displayedLabel = label.trim();
+  const hasVisibleLabel = displayedLabel.length > 0;
 
-  const hasVisibleLabel = label.trim().length > 0;
-  const displayedLabel = hasVisibleLabel ? label : "";
+  const spinbuttonA11y = useMemo(
+    () =>
+      getNumberInputSpinbuttonA11y({
+        id,
+        hasVisibleLabel,
+        ariaLabel,
+        ariaLabelledby,
+        visibleAssistiveText,
+      }),
+    [id, hasVisibleLabel, ariaLabel, ariaLabelledby, visibleAssistiveText],
+  );
 
-  const spinbuttonAriaLabelledby = useMemo(() => {
-    const explicitLabelledBy = ariaLabelledby.trim();
-    if (explicitLabelledBy) {
-      return explicitLabelledBy;
-    }
-    if (hasVisibleLabel && id) {
-      return `input-label-${id}`;
-    }
-    return undefined;
-  }, [ariaLabelledby, hasVisibleLabel, id]);
+  const spinbuttonAriaLabelledby = spinbuttonA11y.ariaLabelledby ?? undefined;
+  const spinbuttonAriaLabel = spinbuttonA11y.ariaLabel ?? undefined;
+  const spinbuttonAriaDescribedBy = spinbuttonA11y.ariaDescribedby ?? undefined;
 
-  const spinbuttonAriaLabel = useMemo(() => {
-    if (spinbuttonAriaLabelledby) {
-      return undefined;
-    }
-    const name = ariaLabel.trim();
-    return name || undefined;
-  }, [spinbuttonAriaLabelledby, ariaLabel]);
+  const stepperFallbackValue = getNumberInputStepperFallbackValue(defaultValue ?? undefined, min);
 
-  const visibleAssistiveText = showErrorState ? resolvedErrorMessage || assistiveTextLabel : assistiveTextLabel;
+  const { canDecrement, canIncrement } = useMemo(
+    () =>
+      getStepperCapabilities({
+        isDisabled: disabled,
+        readOnly,
+        parsedValue,
+        fallbackValue: stepperFallbackValue,
+        min,
+        max,
+      }),
+    [disabled, readOnly, parsedValue, stepperFallbackValue, min, max],
+  );
 
-  const spinbuttonAriaDescribedBy = visibleAssistiveText && id ? `${id}-assistive-text` : undefined;
-
-  const stepperFallbackValue = defaultValue ?? min;
-
-  const canDecrement = useMemo(() => {
-    if (disabled || readOnly) {
-      return false;
-    }
-    const current = parsedValue ?? stepperFallbackValue;
-    return !isAtMin(current, min);
-  }, [disabled, readOnly, parsedValue, stepperFallbackValue, min]);
-
-  const canIncrement = useMemo(() => {
-    if (disabled || readOnly) {
-      return false;
-    }
-    const current = parsedValue ?? stepperFallbackValue;
-    return !isAtMax(current, max);
-  }, [disabled, readOnly, parsedValue, stepperFallbackValue, max]);
-
-  const fieldDisplayText = disabled ? "" : displayText;
-
-  const ariaValueNow = disabled ? undefined : (parsedValue ?? undefined);
-  const ariaValueText = useMemo(() => {
-    if (disabled) {
-      return undefined;
-    }
-    if (!displayText) {
-      return undefined;
-    }
-    if (unit) {
-      return `${displayText} ${unit}`;
-    }
-    return displayText;
-  }, [disabled, displayText, unit]);
+  const fieldDisplayText = getNumberInputDisplayText(disabled, displayText);
+  const ariaValueNow = getNumberInputAriaValueNow(disabled, parsedValue) ?? undefined;
+  const ariaValueText = getNumberInputAriaValueText({ isDisabled: disabled, displayText, unit }) ?? undefined;
 
   const applyNumericValue = useCallback(
     (numericValue: number | null, options: { emitChange: boolean }) => {
-      const display =
-        numericValue === null ? "" : formatNumericValueOrEmpty(numericValue, decimalPrecision, decimalSeparator);
+      const display = formatNumberInputDisplayValue(numericValue, decimalPrecision, locale);
       setDisplayText(display);
       if (options.emitChange) {
         onChange?.(numericValue);
       }
     },
-    [decimalPrecision, decimalSeparator, onChange],
+    [decimalPrecision, locale, onChange],
   );
 
   const emitValueChange = useCallback(() => {
@@ -241,9 +195,7 @@ export function useNumberInput({
   }, [parsedValue, step, min, max, decimalPrecision, stepperFallbackValue, applyNumericValue]);
 
   useEffect(() => {
-    if (!hasVisibleLabel && !ariaLabel.trim() && !ariaLabelledby.trim()) {
-      console.error(NUMBER_INPUT_MISSING_ACCESSIBLE_NAME_ERROR);
-    }
+    assertNumberInputAccessibleName({ hasVisibleLabel, ariaLabel, ariaLabelledby });
   }, [hasVisibleLabel, ariaLabel, ariaLabelledby]);
 
   useEffect(() => {
@@ -272,11 +224,15 @@ export function useNumberInput({
       initializedRef.current = true;
       return;
     }
-    if (defaultValue !== undefined && defaultValue !== null) {
-      applyNumericValue(defaultValue, { emitChange: false });
-    }
+    setDisplayText(
+      getInitialNumberInputDisplayText({
+        defaultValue,
+        decimalPrecision,
+        locale,
+      }),
+    );
     initializedRef.current = true;
-  }, [controlledValue, defaultValue, displayText, applyNumericValue]);
+  }, [controlledValue, defaultValue, displayText, decimalPrecision, locale]);
 
   useEffect(() => {
     const inputElement = spinbuttonRef.current;
@@ -304,27 +260,28 @@ export function useNumberInput({
 
   const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
     const inputElement = event.target;
-    const sanitized = sanitizeNumericText({
+    const { displayedValue, parsedValue: numeric } = sanitizeNumberInputText({
       text: inputElement.value,
-      decimalSeparator,
+      locale,
       decimalPrecision,
-      allowNegative: min < 0,
+      min,
     });
-    if (inputElement.value !== sanitized) {
-      inputElement.value = sanitized;
+    if (inputElement.value !== displayedValue) {
+      inputElement.value = displayedValue;
     }
-    setDisplayText(sanitized);
-    const numeric = parseNumericText(sanitized, decimalSeparator);
+    setDisplayText(displayedValue);
     onChange?.(numeric);
   };
 
   const handleBlur = () => {
-    if (displayText.trim() === "") {
-      if (defaultValue !== undefined && defaultValue !== null) {
-        applyNumericValue(defaultValue, { emitChange: true });
-      } else {
-        emitValueChange();
-      }
+    const blurAction = resolveNumberInputBlurAction({
+      displayText,
+      defaultValue: defaultValue ?? undefined,
+    });
+    if (blurAction === "restoreDefault" && defaultValue !== undefined) {
+      applyNumericValue(defaultValue, { emitChange: true });
+    } else if (blurAction === "emitParsed") {
+      emitValueChange();
     }
     setInputFocused(false);
     onBlur?.();
