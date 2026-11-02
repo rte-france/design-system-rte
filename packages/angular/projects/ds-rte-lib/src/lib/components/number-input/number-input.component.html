@@ -24,8 +24,8 @@
     role="group"
     [attr.data-increment-position]="incrementPosition()"
     [attr.data-appearance]="appearance()"
-    [attr.aria-labelledby]="spinbuttonAriaLabelledby()"
-    [attr.aria-label]="spinbuttonAriaLabelledby() ? null : spinbuttonAriaLabel()"
+    [attr.aria-labelledby]="inputFieldAriaLabelledby()"
+    [attr.aria-label]="inputFieldAriaLabelledby() ? null : inputFieldAriaLabel()"
   >
     @if (incrementPosition() === "sides") {
       <rte-icon-button
@@ -53,8 +53,8 @@
     >
       <div class="number-input-value">
         <input
-          #spinbuttonRef
-          class="number-input-spinbutton"
+          #inputFieldRef
+          class="number-input-field"
           type="text"
           role="spinbutton"
           [attr.inputmode]="inputMode()"
@@ -71,9 +71,9 @@
           [attr.aria-invalid]="!!showErrorState() || null"
           [attr.aria-readonly]="!!readOnly() || null"
           [attr.aria-required]="required() || null"
-          [attr.aria-labelledby]="spinbuttonAriaLabelledby()"
-          [attr.aria-label]="spinbuttonAriaLabel()"
-          [attr.aria-describedby]="spinbuttonAriaDescribedBy()"
+          [attr.aria-labelledby]="inputFieldAriaLabelledby()"
+          [attr.aria-label]="inputFieldAriaLabel()"
+          [attr.aria-describedby]="inputFieldAriaDescribedBy()"
           (input)="handleInput($event)"
           (blur)="handleBlur()"
           (focus)="handleFocus()"

@@ -4,4 +4,4 @@
   
   ## Changes
 
-- (Number Input) add Angular component
+- (Number Input) uplift common component logic to core

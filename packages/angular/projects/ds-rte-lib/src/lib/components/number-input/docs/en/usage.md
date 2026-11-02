@@ -29,7 +29,7 @@ export class PowerFieldComponent {
 }
 ```
 
-With reactive forms, bind a `FormControl<number | null>`; the control’s value and disabled state stay in sync with the spinbutton.
+With reactive forms, bind a `FormControl<number | null>`; the control’s value and disabled state stay in sync with the input field.
 
 ```typescript
 import { Component } from "@angular/core";
@@ -72,22 +72,6 @@ Do not use internal building blocks such as `<rte-base-input>` with projected co
 
 Places decrement and increment steppers on the left and right of the field (`"right" | "sides"`).
 
-#### Neutral
-
-```html
-<rte-number-input
-  id="number-input-neutral"
-  label="Puissance"
-  appearance="neutral"
-  [min]="0"
-  [max]="100"
-  [defaultValue]="50"
-  unit="kW"
-/>
-```
-
-Uses neutral-bold filled steppers instead of brand-filled ones (`"brand" | "neutral"`).
-
 #### Compact spacing
 
 ```html
@@ -120,11 +104,13 @@ Reduces field and stepper height for dense layouts.
 
 Sets the total width of the number input layout (field plus steppers).
 
-#### Decimals fr
+#### Decimals
+
+Set `[decimalPrecision]` for fractional values. The displayed separator follows `locale` (comma with the default `fr-FR`; pass `locale="en-US"` for a period).
 
 ```html
 <rte-number-input
-  id="number-input-decimals-fr"
+  id="number-input-decimals"
   label="Puissance"
   [decimalPrecision]="2"
   [defaultValue]="12.34"
@@ -132,56 +118,6 @@ Sets the total width of the number input layout (field plus steppers).
   unit="kW"
 />
 ```
-
-Formats decimals with the locale separator (comma for `fr-FR`).
-
-#### Decimals en
-
-```html
-<rte-number-input
-  id="number-input-decimals-en"
-  label="Puissance"
-  locale="en-US"
-  [decimalPrecision]="2"
-  [defaultValue]="12.34"
-  [max]="999"
-  unit="kW"
-/>
-```
-
-Uses an English locale so the decimal separator is a period.
-
-#### Disabled
-
-```html
-<rte-number-input
-  id="number-input-disabled"
-  label="Puissance"
-  [disabled]="true"
-  [min]="0"
-  [max]="100"
-  [defaultValue]="50"
-  unit="kW"
-/>
-```
-
-Disables interaction; the numeric value is not shown, the unit appears greyed out, and steppers are inactive.
-
-#### Read-only
-
-```html
-<rte-number-input
-  id="number-input-readonly"
-  label="Puissance"
-  [readOnly]="true"
-  [min]="0"
-  [max]="100"
-  [defaultValue]="50"
-  unit="kW"
-/>
-```
-
-Shows the value without allowing edits or stepping.
 
 #### With assistive text
 
