@@ -34,19 +34,19 @@ import {
   assertNumberInputAccessibleName,
   formatNumberInputDisplayValue,
   getDecimalSeparator,
+  getInitialNumberInputDisplayText,
   getNumberInputAriaValueNow,
   getNumberInputAriaValueText,
-  getNumberInputFieldDisplayText,
+  getNumberInputDisplayText,
   getNumberInputInputMode,
-  getNumberInputLabelView,
-  getNumberInputRangeErrorMessage,
   getNumberInputSpinbuttonA11y,
-  getNumberInputStepperCapabilities,
+  getStepperCapabilities,
   getNumberInputStepperFallbackValue,
   getNumberInputValidationView,
+  getRangeErrorMessage,
+  normalizeDecimalPrecision,
   parseNumericText,
   resolveNumberInputBlurAction,
-  resolveNumberInputDecimalPrecision,
   resolveNumberInputStep,
   resolveNumberInputWidth,
   sanitizeNumberInputText,
@@ -92,7 +92,7 @@ export class NumberInputComponent extends BaseInputComponent implements ControlV
     transform: (value: number | null | undefined) => resolveNumberInputStep(value),
   });
   readonly decimalPrecision = input(NUMBER_INPUT_DEFAULT_DECIMAL_PRECISION, {
-    transform: (value: number | undefined | null) => resolveNumberInputDecimalPrecision(value),
+    transform: (value: number | undefined | null) => normalizeDecimalPrecision(value ?? undefined),
   });
   readonly locale = input<string>(NUMBER_INPUT_DEFAULT_LOCALE);
   readonly defaultValue = input<number | undefined>(undefined);
@@ -114,7 +114,7 @@ export class NumberInputComponent extends BaseInputComponent implements ControlV
   readonly isEffectivelyDisabled = computed(() => this.disabled() || this.formDisabled());
 
   readonly fieldDisplayText = computed(() =>
-    getNumberInputFieldDisplayText(this.isEffectivelyDisabled(), this.displayText()),
+    getNumberInputDisplayText(this.isEffectivelyDisabled(), this.displayText()),
   );
 
   readonly decimalSeparator = computed(() => getDecimalSeparator(this.locale()));
@@ -124,7 +124,12 @@ export class NumberInputComponent extends BaseInputComponent implements ControlV
   readonly parsedValue = computed(() => parseNumericText(this.displayText(), this.decimalSeparator()));
 
   readonly rangeErrorMessage = computed(() =>
-    getNumberInputRangeErrorMessage(this.parsedValue(), this.min(), this.max(), this.rangeErrorMessages()),
+    getRangeErrorMessage({
+      value: this.parsedValue(),
+      min: this.min(),
+      max: this.max(),
+      messages: this.rangeErrorMessages(),
+    }),
   );
 
   readonly validationView = computed(() =>
@@ -144,11 +149,8 @@ export class NumberInputComponent extends BaseInputComponent implements ControlV
 
   readonly resolvedErrorMessage = computed(() => this.validationView().resolvedErrorMessage);
 
-  readonly labelView = computed(() => getNumberInputLabelView(this.label()));
-
-  readonly hasVisibleLabel = computed(() => this.labelView().hasVisibleLabel);
-
-  readonly displayedLabel = computed(() => this.labelView().displayedLabel);
+  readonly displayedLabel = computed(() => this.label().trim());
+  readonly hasVisibleLabel = computed(() => this.displayedLabel().length > 0);
 
   readonly spinbuttonA11y = computed(() =>
     getNumberInputSpinbuttonA11y({
@@ -173,7 +175,7 @@ export class NumberInputComponent extends BaseInputComponent implements ControlV
   readonly stepperFallbackValue = computed(() => getNumberInputStepperFallbackValue(this.defaultValue(), this.min()));
 
   readonly stepperCapabilities = computed(() =>
-    getNumberInputStepperCapabilities({
+    getStepperCapabilities({
       isDisabled: this.isEffectivelyDisabled(),
       readOnly: this.readOnly(),
       parsedValue: this.parsedValue(),
@@ -275,16 +277,16 @@ export class NumberInputComponent extends BaseInputComponent implements ControlV
 
   handleInput(event: Event): void {
     const inputElement = event.target as HTMLInputElement;
-    const { sanitized } = sanitizeNumberInputText({
+    const { displayedValue } = sanitizeNumberInputText({
       text: inputElement.value,
       locale: this.locale(),
       decimalPrecision: this.decimalPrecision(),
       min: this.min(),
     });
-    if (inputElement.value !== sanitized) {
-      inputElement.value = sanitized;
+    if (inputElement.value !== displayedValue) {
+      inputElement.value = displayedValue;
     }
-    this.displayText.set(sanitized);
+    this.displayText.set(displayedValue);
     this.emitValueChange();
   }
 
@@ -387,11 +389,12 @@ export class NumberInputComponent extends BaseInputComponent implements ControlV
   }
 
   private initializeDisplayFromDefault(): void {
-    const initial = this.defaultValue();
-    if (initial !== undefined) {
-      this.applyNumericValue(initial, { emitChange: false });
-      return;
-    }
-    this.displayText.set("");
+    this.displayText.set(
+      getInitialNumberInputDisplayText({
+        defaultValue: this.defaultValue(),
+        decimalPrecision: this.decimalPrecision(),
+        locale: this.locale(),
+      }),
+    );
   }
 }
