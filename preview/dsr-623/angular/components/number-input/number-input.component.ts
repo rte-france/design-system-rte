@@ -18,12 +18,15 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { ButtonSize } from "@design-system-rte/core/components/button/common/common-button";
 import {
+  DEFAULT_NUMBER_INPUT_RANGE_ERROR_MESSAGES,
   NUMBER_INPUT_DEFAULT_APPEARANCE,
   NUMBER_INPUT_DEFAULT_DECIMAL_PRECISION,
   NUMBER_INPUT_DEFAULT_INCREMENT_POSITION,
   NUMBER_INPUT_DEFAULT_LOCALE,
   NUMBER_INPUT_DEFAULT_MIN,
   NUMBER_INPUT_DEFAULT_STEP,
+  NUMBER_INPUT_DEFAULT_WIDTH,
+  NUMBER_INPUT_MISSING_ACCESSIBLE_NAME_ERROR,
 } from "@design-system-rte/core/components/number-input/number-input.constants";
 import type {
   NumberInputAppearance,
@@ -31,25 +34,14 @@ import type {
   NumberInputRangeErrorMessages,
 } from "@design-system-rte/core/components/number-input/number-input.interface";
 import {
-  assertNumberInputAccessibleName,
-  formatNumberInputDisplayValue,
+  formatNumericValueOrEmpty,
   getDecimalSeparator,
-  getInitialNumberInputDisplayText,
-  getNumberInputAriaValueNow,
-  getNumberInputAriaValueText,
-  getNumberInputDisplayText,
-  getNumberInputInputMode,
-  getNumberInputSpinbuttonA11y,
-  getStepperCapabilities,
-  getNumberInputStepperFallbackValue,
-  getNumberInputValidationView,
-  getRangeErrorMessage,
   normalizeDecimalPrecision,
+  getRangeErrorMessage,
+  isAtMax,
+  isAtMin,
   parseNumericText,
-  resolveNumberInputBlurAction,
-  resolveNumberInputStep,
-  resolveNumberInputWidth,
-  sanitizeNumberInputText,
+  sanitizeNumericText,
   stepValue,
 } from "@design-system-rte/core/components/number-input/number-input.utils";
 import { fromEvent } from "rxjs";
@@ -89,10 +81,12 @@ export class NumberInputComponent extends BaseInputComponent implements ControlV
   readonly min = input<number>(NUMBER_INPUT_DEFAULT_MIN);
   readonly max = input<number | undefined>(undefined);
   readonly step = input(NUMBER_INPUT_DEFAULT_STEP, {
-    transform: (value: number | null | undefined) => resolveNumberInputStep(value),
+    transform: (value: number | null | undefined) =>
+      typeof value === "number" && Number.isFinite(value) && value > 0 ? value : NUMBER_INPUT_DEFAULT_STEP,
   });
   readonly decimalPrecision = input(NUMBER_INPUT_DEFAULT_DECIMAL_PRECISION, {
-    transform: (value: number | undefined | null) => normalizeDecimalPrecision(value ?? undefined),
+    transform: (value: number | undefined | null) =>
+      normalizeDecimalPrecision(value ?? NUMBER_INPUT_DEFAULT_DECIMAL_PRECISION),
   });
   readonly locale = input<string>(NUMBER_INPUT_DEFAULT_LOCALE);
   readonly defaultValue = input<number | undefined>(undefined);
@@ -113,13 +107,11 @@ export class NumberInputComponent extends BaseInputComponent implements ControlV
 
   readonly isEffectivelyDisabled = computed(() => this.disabled() || this.formDisabled());
 
-  readonly fieldDisplayText = computed(() =>
-    getNumberInputDisplayText(this.isEffectivelyDisabled(), this.displayText()),
-  );
+  readonly fieldDisplayText = computed(() => (this.isEffectivelyDisabled() ? "" : this.displayText()));
 
   readonly decimalSeparator = computed(() => getDecimalSeparator(this.locale()));
 
-  readonly inputMode = computed(() => getNumberInputInputMode(this.decimalPrecision()));
+  readonly inputMode = computed(() => (this.decimalPrecision() > 0 ? "decimal" : "numeric"));
 
   readonly parsedValue = computed(() => parseNumericText(this.displayText(), this.decimalSeparator()));
 
@@ -128,88 +120,118 @@ export class NumberInputComponent extends BaseInputComponent implements ControlV
       value: this.parsedValue(),
       min: this.min(),
       max: this.max(),
-      messages: this.rangeErrorMessages(),
+      messages: this.rangeErrorMessages() ?? DEFAULT_NUMBER_INPUT_RANGE_ERROR_MESSAGES,
     }),
   );
 
-  readonly validationView = computed(() =>
-    getNumberInputValidationView({
-      hasCustomError: this.error(),
-      errorMessage: this.errorMessage(),
-      rangeErrorMessage: this.rangeErrorMessage(),
-      assistiveText: this.assistiveText(),
-    }),
-  );
-
-  readonly showErrorState = computed(() => this.validationView().showErrorState);
+  readonly showErrorState = computed(() => this.error() || this.rangeErrorMessage() !== null);
 
   override readonly computedAssistiveAppearance = computed(() =>
     this.showErrorState() ? "error" : this.assistiveAppearance(),
   );
 
-  readonly resolvedErrorMessage = computed(() => this.validationView().resolvedErrorMessage);
+  readonly resolvedErrorMessage = computed(() => {
+    if (this.error()) {
+      return this.errorMessage() || this.rangeErrorMessage() || "";
+    }
+    return this.rangeErrorMessage() || "";
+  });
 
-  readonly displayedLabel = computed(() => this.label().trim());
-  readonly hasVisibleLabel = computed(() => this.displayedLabel().length > 0);
+  readonly hasVisibleLabel = computed(() => this.label().trim().length > 0);
 
-  readonly spinbuttonA11y = computed(() =>
-    getNumberInputSpinbuttonA11y({
-      id: this.id() ?? "",
-      hasVisibleLabel: this.hasVisibleLabel(),
-      ariaLabel: this.ariaLabel(),
-      ariaLabelledby: this.ariaLabelledby(),
-      visibleAssistiveText: this.validationView().visibleAssistiveText,
-    }),
-  );
+  readonly displayedLabel = computed(() => (this.hasVisibleLabel() ? this.label() : ""));
 
-  readonly spinbuttonAriaLabelledby = computed(() => this.spinbuttonA11y().ariaLabelledby);
+  readonly spinbuttonAriaLabelledby = computed(() => {
+    const explicitLabelledBy = this.ariaLabelledby().trim();
+    if (explicitLabelledBy) {
+      return explicitLabelledBy;
+    }
+    if (this.hasVisibleLabel() && this.id()) {
+      return `input-label-${this.id()}`;
+    }
+    return null;
+  });
 
-  readonly spinbuttonAriaLabel = computed(() => this.spinbuttonA11y().ariaLabel);
+  readonly spinbuttonAriaLabel = computed(() => {
+    if (this.spinbuttonAriaLabelledby()) {
+      return null;
+    }
+    const name = this.ariaLabel().trim();
+    return name || null;
+  });
 
-  readonly spinbuttonAriaDescribedBy = computed(() => this.spinbuttonA11y().ariaDescribedby);
+  readonly spinbuttonAriaDescribedBy = computed(() => {
+    const visibleAssistiveText = this.showErrorState()
+      ? this.resolvedErrorMessage() || this.assistiveText()
+      : this.assistiveText();
+    if (!visibleAssistiveText || !this.id()) {
+      return null;
+    }
+    return `${this.id()}-assistive-text`;
+  });
 
   readonly stepperVariant = computed(() => (this.appearance() === "brand" ? "primary" : "neutral"));
 
   readonly stepperSize = computed((): Exclude<ButtonSize, "l"> => (this.compactSpacing() ? "s" : "m"));
 
-  readonly stepperFallbackValue = computed(() => getNumberInputStepperFallbackValue(this.defaultValue(), this.min()));
+  readonly stepperFallbackValue = computed(() => this.defaultValue() ?? this.min());
 
-  readonly stepperCapabilities = computed(() =>
-    getStepperCapabilities({
-      isDisabled: this.isEffectivelyDisabled(),
-      readOnly: this.readOnly(),
-      parsedValue: this.parsedValue(),
-      fallbackValue: this.stepperFallbackValue(),
-      min: this.min(),
-      max: this.max(),
-    }),
-  );
+  readonly canDecrement = computed(() => {
+    if (this.isEffectivelyDisabled() || this.readOnly()) {
+      return false;
+    }
+    const current = this.parsedValue() ?? this.stepperFallbackValue();
+    return !isAtMin(current, this.min());
+  });
 
-  readonly canDecrement = computed(() => this.stepperCapabilities().canDecrement);
+  readonly canIncrement = computed(() => {
+    if (this.isEffectivelyDisabled() || this.readOnly()) {
+      return false;
+    }
+    const current = this.parsedValue() ?? this.stepperFallbackValue();
+    return !isAtMax(current, this.max());
+  });
 
-  readonly canIncrement = computed(() => this.stepperCapabilities().canIncrement);
+  readonly ariaValueNow = computed(() => (this.isEffectivelyDisabled() ? null : this.parsedValue()));
 
-  readonly ariaValueNow = computed(() => getNumberInputAriaValueNow(this.isEffectivelyDisabled(), this.parsedValue()));
+  readonly ariaValueText = computed(() => {
+    if (this.isEffectivelyDisabled()) {
+      return null;
+    }
+    const valueText = this.displayText();
+    if (!valueText) {
+      return null;
+    }
+    if (this.unit()) {
+      return `${valueText} ${this.unit()}`;
+    }
+    return valueText;
+  });
 
-  readonly ariaValueText = computed(() =>
-    getNumberInputAriaValueText({
-      isDisabled: this.isEffectivelyDisabled(),
-      displayText: this.displayText(),
-      unit: this.unit(),
-    }),
-  );
-
-  override readonly computedWidth = computed(() => resolveNumberInputWidth(this.width()));
+  override readonly computedWidth = computed(() => {
+    const raw = this.width();
+    if (raw === undefined || raw === "") {
+      return NUMBER_INPUT_DEFAULT_WIDTH;
+    }
+    const widthValue = raw.toString();
+    if (
+      widthValue.includes("px") ||
+      widthValue.includes("%") ||
+      widthValue.includes("em") ||
+      widthValue.includes("rem")
+    ) {
+      return widthValue;
+    }
+    return `${widthValue}px`;
+  });
 
   constructor() {
     super();
 
     effect(() => {
-      assertNumberInputAccessibleName({
-        hasVisibleLabel: this.hasVisibleLabel(),
-        ariaLabel: this.ariaLabel(),
-        ariaLabelledby: this.ariaLabelledby(),
-      });
+      if (!this.hasVisibleLabel() && !this.ariaLabel().trim() && !this.ariaLabelledby().trim()) {
+        console.error(NUMBER_INPUT_MISSING_ACCESSIBLE_NAME_ERROR);
+      }
     });
 
     effect(() => {
@@ -277,29 +299,27 @@ export class NumberInputComponent extends BaseInputComponent implements ControlV
 
   handleInput(event: Event): void {
     const inputElement = event.target as HTMLInputElement;
-    const { displayedValue } = sanitizeNumberInputText({
+    const sanitized = sanitizeNumericText({
       text: inputElement.value,
-      locale: this.locale(),
+      decimalSeparator: this.decimalSeparator(),
       decimalPrecision: this.decimalPrecision(),
-      min: this.min(),
+      allowNegative: this.min() < 0,
     });
-    if (inputElement.value !== displayedValue) {
-      inputElement.value = displayedValue;
+    if (inputElement.value !== sanitized) {
+      inputElement.value = sanitized;
     }
-    this.displayText.set(displayedValue);
+    this.displayText.set(sanitized);
     this.emitValueChange();
   }
 
   handleBlur(): void {
-    const blurAction = resolveNumberInputBlurAction({
-      displayText: this.displayText(),
-      defaultValue: this.defaultValue(),
-    });
-    const fallback = this.defaultValue();
-    if (blurAction === "restoreDefault" && fallback !== undefined) {
-      this.applyNumericValue(fallback, { emitChange: true });
-    } else if (blurAction === "emitParsed") {
-      this.emitValueChange();
+    if (this.displayText().trim() === "") {
+      const fallback = this.defaultValue();
+      if (fallback !== undefined) {
+        this.applyNumericValue(fallback, { emitChange: true });
+      } else {
+        this.emitValueChange();
+      }
     }
     this.inputFocused.set(false);
     this.onTouched();
@@ -375,7 +395,8 @@ export class NumberInputComponent extends BaseInputComponent implements ControlV
   }
 
   private applyNumericValue(value: number | null, options: { emitChange: boolean }): void {
-    const display = formatNumberInputDisplayValue(value, this.decimalPrecision(), this.locale());
+    const display =
+      value === null ? "" : formatNumericValueOrEmpty(value, this.decimalPrecision(), this.decimalSeparator());
     this.displayText.set(display);
     if (options.emitChange) {
       this.emitValueChange();
@@ -389,12 +410,11 @@ export class NumberInputComponent extends BaseInputComponent implements ControlV
   }
 
   private initializeDisplayFromDefault(): void {
-    this.displayText.set(
-      getInitialNumberInputDisplayText({
-        defaultValue: this.defaultValue(),
-        decimalPrecision: this.decimalPrecision(),
-        locale: this.locale(),
-      }),
-    );
+    const initial = this.defaultValue();
+    if (initial !== undefined) {
+      this.applyNumericValue(initial, { emitChange: false });
+      return;
+    }
+    this.displayText.set("");
   }
 }
