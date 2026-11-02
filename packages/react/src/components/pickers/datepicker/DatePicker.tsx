@@ -10,6 +10,7 @@ import {
   DateSegmentEnum,
   DdMmYyyyDigitParts,
   DELETE_KEY,
+  generateId,
   getDatepickerCalendarButtonAriaLabel,
   waitForNextFrame,
 } from "@design-system-rte/core";
@@ -35,7 +36,9 @@ const isDateStateEmpty = (dateState: DdMmYyyyDigitParts): boolean => {
 };
 
 interface DatepickerProps
-  extends CoreDatePickerProps, Omit<React.HTMLAttributes<HTMLDivElement>, "id" | "onChange" | "defaultValue"> {}
+  extends
+    Omit<CoreDatePickerProps, "labelId">,
+    Omit<React.HTMLAttributes<HTMLDivElement>, "id" | "onChange" | "defaultValue"> {}
 
 const [DAY, MONTH, YEAR] = DATE_SEGMENTS_ORDER;
 
@@ -44,7 +47,6 @@ const DatePicker = forwardRef<HTMLDivElement, DatepickerProps>(
     {
       id,
       label,
-      labelId,
       required = false,
       showLabelRequirement = false,
       disabled = false,
@@ -71,9 +73,11 @@ const DatePicker = forwardRef<HTMLDivElement, DatepickerProps>(
     const [isFocused, setIsFocused] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
+    const computedId = id ?? `datepicker-${generateId()}`;
+
     const computedAssistiveTextLabel = isError ? errorMessage || assistiveTextLabel : assistiveTextLabel;
     const shouldDisplayAssistiveText = computedAssistiveTextLabel && !isDropdownOpen;
-    const assistiveTextId = `${id}-assistive-text`;
+    const assistiveTextId = `${computedId}-assistive-text`;
 
     const isControlled = value !== undefined;
     const initialValueRef = useRef<Date | null>(value ?? defaultValue ?? null);
@@ -287,7 +291,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatepickerProps>(
 
     return (
       <div className={styles["rte-date-picker"]} style={{ minWidth: "248px", width }} ref={ref}>
-        <Label id={labelId} label={label} required={required} showLabelRequirement={showLabelRequirement} />
+        <Label htmlFor={computedId} label={label} required={required} showLabelRequirement={showLabelRequirement} />
         <Dropdown
           style={{ width: pickerRef.current?.offsetWidth }}
           isList={false}
@@ -297,8 +301,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatepickerProps>(
           overlayLevel={overlayLayerLevel}
           trigger={
             <BaseInputPicker
-              id={id}
-              ariaLabelledBy={labelId ?? label}
+              id={computedId}
               ariaDescribedBy={shouldDisplayAssistiveText ? assistiveTextId : undefined}
               icon="calendar-month"
               onFocus={handleOnFocus}
