@@ -30,7 +30,7 @@ export declare function useNumberInput({ id, label, value: controlledValue, defa
     computedWidth: string;
     fieldDisplayText: string;
     inputFocused: boolean;
-    inputMode: string;
+    inputMode: import('../../../../../core').NumberInputInputMode;
     showErrorState: boolean;
     resolvedErrorMessage: string;
     visibleAssistiveText: string;
