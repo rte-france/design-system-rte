@@ -19,7 +19,7 @@ selectedSegment = "option1";
 />
 ```
 
-Provide `ariaLabel` when the control has no visible label in the surrounding layout.
+Provide `ariaLabelledBy` when a visible label exists in the layout (reference its `id`). Provide `ariaLabel` when there is no visible label.
 
 #### Appearance
 
@@ -107,7 +107,7 @@ Segments adapt their width to the labels when the control has enough space. Labe
 />
 ```
 
-When every option defines an `icon`, the control renders icons instead of text labels. Labels remain available to screen readers through `aria-label`.
+When every option defines an `icon`, the control renders icons instead of text labels. Provide `labelText` or `ariaLabel` on each option for an explicit accessible name; without `labelText`, the name falls back to the icon key.
 
 #### With Badge
 

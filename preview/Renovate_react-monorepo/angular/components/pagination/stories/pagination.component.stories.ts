@@ -162,17 +162,7 @@ export const SinglePage: Story = {
   render: Default.render,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const pagination = canvas.getByTestId("pagination");
-    const nav = within(pagination);
-
-    expect(nav.getByTestId("pagination-page-1")).toHaveAttribute("aria-current", "page");
-    expect(nav.getByTestId("pagination-page-1").tagName).toBe("BUTTON");
-    expect(nav.getByLabelText("Page 1")).toBeInTheDocument();
-
-    expect(nav.getByLabelText("Première page")).toHaveAttribute("aria-disabled", "true");
-    expect(nav.getByLabelText("Page précédente")).toHaveAttribute("aria-disabled", "true");
-    expect(nav.getByLabelText("Page suivante")).toHaveAttribute("aria-disabled", "true");
-    expect(nav.getByLabelText("Dernière page")).toHaveAttribute("aria-disabled", "true");
+    expect(canvas.queryByTestId("pagination")).not.toBeInTheDocument();
   },
 };
 

@@ -127,7 +127,7 @@ export const KeyboardInteraction: Story = {
 
     const toast = within(document.body).getByRole("status");
     const actionButton = await within(toast).getByRole("button", { name: "Mettre à jour" });
-    const closeButton = await within(toast).getByTestId("toast-close-button").getElementsByTagName("button")[0];
+    const closeButton = await within(toast).getByRole("button", { name: "Fermer le toast" });
 
     await userEvent.tab();
     expect(actionButton).toHaveFocus();
@@ -140,5 +140,53 @@ export const KeyboardInteraction: Story = {
 
     await userEvent.click(closeButton);
     await waitFor(() => expect(toast).not.toBeInTheDocument());
+  },
+};
+
+const AUTO_DISMISS_SHORT_MS = 3000;
+
+export const AutoDismissPausesOnKeyboardFocus: Story = {
+  tags: ["!autodocs", "skip-ci"],
+  args: {
+    message: "Une mise à jour est disponible",
+    type: "info",
+    autoDismiss: true,
+    duration: "short",
+    closable: true,
+    isOpen: false,
+    placement: "bottom-right",
+    showActionButton: false,
+  },
+
+  render: (args) => ({
+    props: args,
+    template: `
+    <toast-default
+      [message]="message"
+      [type]="type"
+      [autoDismiss]="autoDismiss"
+      [duration]="duration"
+      [closable]="closable"
+      [isOpen]="isOpen"
+      [placement]="placement"
+      [showActionButton]="showActionButton"
+    />`,
+  }),
+
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const toggleButton = await canvas.getByRole("button", { name: "Toggle toast" });
+
+    await userEvent.click(toggleButton);
+
+    const toast = within(document.body).getByRole("status");
+    const closeButton = await within(toast).getByRole("button", { name: "Fermer le toast" });
+
+    await userEvent.tab();
+    expect(closeButton).toHaveFocus();
+
+    await new Promise((resolve) => setTimeout(resolve, AUTO_DISMISS_SHORT_MS + 500));
+
+    expect(toast).toBeInTheDocument();
   },
 };

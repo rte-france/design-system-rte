@@ -4,6 +4,8 @@
   [ngClass]="{ open: isOpen() }"
   (mouseenter)="handleMouseEnter()"
   (mouseleave)="handleMouseLeave()"
+  (focusin)="handleFocusIn()"
+  (focusout)="handleFocusOut($event)"
 >
   <div class="rte-toast-content">
     @if (displayLeftIcon()) {
@@ -25,6 +27,7 @@
       name="close"
       [attr.data-testid]="'toast-close-button'"
       [variant]="type() === 'neutral' ? 'reverse' : 'neutral'"
+      [ariaLabel]="closeButtonAriaLabel"
       (clickEvent)="clickCloseButton()"
     />
   }

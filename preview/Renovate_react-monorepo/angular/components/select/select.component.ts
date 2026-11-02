@@ -170,6 +170,10 @@ export class SelectComponent extends BaseValueAccessor<string | string[]> implem
     return this.multiple() ? Array.isArray(currentValue) && !!currentValue?.length : !!currentValue;
   });
 
+  readonly shouldDisplayPlaceholder = computed(() => {
+    return this.placeholder() && !(this.isDisabled() || this.readOnly());
+  });
+
   readonly shouldDisplayClearButton = computed(() => {
     if (!this.showResetButton() || this.isDisabled()) {
       return false;

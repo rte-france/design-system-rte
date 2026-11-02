@@ -46,6 +46,7 @@ export class TextareaComponent extends BaseValueAccessor<string> {
   readonly defaultValue = input<string | undefined>(undefined);
   readonly showCounter = input<boolean>(false);
   readonly width = input<string | number>("350px");
+  readonly placeholder = input<string | undefined>(undefined);
 
   readonly computedWidth = computed(() => {
     const width = this.width().toString();
@@ -54,6 +55,10 @@ export class TextareaComponent extends BaseValueAccessor<string> {
     }
     return `${this.width()}px`;
   });
+
+  readonly shouldDisplayPlaceholder = computed(() => !(this.disabled() || this.readOnly()));
+
+  readonly computedPlaceholder = computed(() => (this.shouldDisplayPlaceholder() ? this.placeholder() : undefined));
 
   readonly assistiveTextIconSize = TEXTAREA_ICON_SIZE;
 

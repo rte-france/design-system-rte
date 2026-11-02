@@ -125,9 +125,7 @@ export class DropdownDirective implements AfterContentInit {
       if (isOpen) {
         if (!this.dropdownMenuRef) {
           this.showDropdownMenu();
-          if (this.rteDropdownAutofocus()) {
-            waitForNextFrame(() => focusDropdownFirstElement(this.dropdownId));
-          }
+          this.scheduleAutofocusOnMenu();
         }
       } else if (this.dropdownMenuRef) {
         this.dropdownService.closeAllMenus();
@@ -190,14 +188,7 @@ export class DropdownDirective implements AfterContentInit {
   onTrigger(): void {
     if (this.rteDropdownAutoOpen()) {
       this.showDropdownMenu();
-      if (this.rteDropdownAutofocus()) {
-        waitForNextFrame(() => {
-          if (!this.dropdownMenuRef) {
-            return;
-          }
-          focusDropdownFirstElement(this.dropdownId);
-        });
-      }
+      this.scheduleAutofocusOnMenu();
     }
   }
 
@@ -215,9 +206,7 @@ export class DropdownDirective implements AfterContentInit {
       event.preventDefault();
       event.stopPropagation();
       this.showDropdownMenu();
-      if (this.rteDropdownAutofocus()) {
-        waitForNextFrame(() => focusDropdownFirstElement(this.dropdownId));
-      }
+      this.scheduleAutofocusOnMenu();
     }
   }
 
@@ -250,10 +239,26 @@ export class DropdownDirective implements AfterContentInit {
       trigger.dropdownTriggered.subscribe(() => this.onTrigger()),
       trigger.dropdownKeyDown.subscribe((event: KeyboardEvent) => this.onTriggerKeyEvent(event)),
       trigger.dropdownTriggerClearContent.subscribe(() => this.closeDropdown()),
-      trigger.dropdownTriggerOpenDropdown.subscribe(() => this.showDropdownMenu()),
+      trigger.dropdownTriggerOpenDropdown.subscribe(() => {
+        this.showDropdownMenu();
+        this.scheduleAutofocusOnMenu();
+      }),
       trigger.dropdownTriggerCloseDropdown.subscribe(() => this.closeDropdown()),
     ];
     this.destroyRef.onDestroy(() => triggerSubscriptions.forEach((subscription) => subscription.unsubscribe()));
+  }
+
+  private scheduleAutofocusOnMenu(): void {
+    if (!this.rteDropdownAutofocus()) {
+      return;
+    }
+    const menuId = this.rteDropdownId() || this.dropdownId;
+    waitForNextFrame(() => {
+      if (!this.dropdownMenuRef) {
+        return;
+      }
+      focusDropdownFirstElement(menuId);
+    });
   }
 
   showDropdownMenu(): void {

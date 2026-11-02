@@ -26,6 +26,10 @@
   border-radius: $radius-pill;
   transition: left 0.2s ease-out, width 0.2s ease-out;
 
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+
   &[data-initial-animation-disabled="true"] {
     transition: none;
   }
@@ -137,6 +141,11 @@
 
   &.selected {
     transition: color 0.2s ease-out;
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
+
     color: var(--content-brand-default);
 
     &:focus-visible {

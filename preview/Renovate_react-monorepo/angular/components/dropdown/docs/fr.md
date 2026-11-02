@@ -15,76 +15,77 @@ La directive `[rteDropdown]`, la directive `[rteDropdownTrigger]` et le composan
 
 ### DropdownDirective (`[rteDropdown]`)
 
-| Property | Type | Default | Description |
-|----------|------|---------|-------------|
-| rteDropdownId | string | auto-généré | Identifiant personnalisé optionnel de l'instance dropdown. |
-| rteDropdownPosition | `"auto" \| "top" \| "bottom" \| "left" \| "right"` | `"bottom"` | Placement préféré par rapport au déclencheur. `"auto"` choisit le meilleur emplacement dans la fenêtre. |
-| rteDropdownAlignment | `"start" \| "center" \| "end"` | `"start"` | Alignement du panneau le long de l'axe de placement. |
-| rteDropdownIsOpen | boolean | `false` | Ouvre le menu de manière programmatique lorsque `true`. |
-| rteDropdownOffset | number | `0` | Espacement en pixels entre le déclencheur et le panneau. |
-| rteDropdownAutofocus | boolean | `true` | Déplace le focus sur le premier item à l'ouverture. |
-| rteDropdownAutoOpen | boolean | `true` | Ouvre le menu au clic sur le déclencheur et à l'activation clavier. |
-| rteDropdownWidth | `number \| null` | `null` | Largeur fixe en pixels du panneau dropdown. |
-| rteDropdownOverlayLevel | `"low" \| "high"` | auto-détecté | Priorité d'empilement de l'overlay. `"high"` est utilisé lorsque le déclencheur se trouve dans un autre overlay. |
-| rteCloseOnItemClick | boolean | `true` | Ferme le menu lorsqu'un item terminal (sans enfants) est activé. |
+| Property                | Type                                               | Default      | Description                                                                                                      |
+| ----------------------- | -------------------------------------------------- | ------------ | ---------------------------------------------------------------------------------------------------------------- |
+| rteDropdownId           | string                                             | auto-généré  | Identifiant personnalisé optionnel de l'instance dropdown.                                                       |
+| rteDropdownPosition     | `"auto" \| "top" \| "bottom" \| "left" \| "right"` | `"bottom"`   | Placement préféré par rapport au déclencheur. `"auto"` choisit le meilleur emplacement dans la fenêtre.          |
+| rteDropdownAlignment    | `"start" \| "center" \| "end"`                     | `"start"`    | Alignement du panneau le long de l'axe de placement.                                                             |
+| rteDropdownIsOpen       | boolean                                            | `false`      | Ouvre le menu de manière programmatique lorsque `true`.                                                          |
+| rteDropdownOffset       | number                                             | `0`          | Espacement en pixels entre le déclencheur et le panneau.                                                         |
+| rteDropdownAutofocus    | boolean                                            | `true`       | Déplace le focus sur le premier item à l'ouverture.                                                              |
+| rteDropdownAutoOpen     | boolean                                            | `true`       | Ouvre le menu au clic sur le déclencheur et à l'activation clavier.                                              |
+| rteDropdownWidth        | `number \| null`                                   | `null`       | Largeur fixe en pixels du panneau dropdown.                                                                      |
+| rteDropdownOverlayLevel | `"low" \| "high"`                                  | auto-détecté | Priorité d'empilement de l'overlay. `"high"` est utilisé lorsque le déclencheur se trouve dans un autre overlay. |
+| rteCloseOnItemClick     | boolean                                            | `true`       | Ferme le menu lorsqu'un item terminal (sans enfants) est activé.                                                 |
 
-| Output | Payload | Description |
-|--------|---------|-------------|
-| menuEvent | `{ event: Event; id: string; item?: DropdownItemConfig }` | Émis lorsqu'un item terminal est cliqué ou activé au clavier. |
-| clickedOutside | `void` | Émis lorsque l'utilisateur clique en dehors du dropdown. |
-| closedDropdown | `void` | Émis après la fermeture complète du dropdown. |
+| Output         | Payload                                                   | Description                                                   |
+| -------------- | --------------------------------------------------------- | ------------------------------------------------------------- |
+| menuEvent      | `{ event: Event; id: string; item?: DropdownItemConfig }` | Émis lorsqu'un item terminal est cliqué ou activé au clavier. |
+| clickedOutside | `void`                                                    | Émis lorsque l'utilisateur clique en dehors du dropdown.      |
+| closedDropdown | `void`                                                    | Émis après la fermeture complète du dropdown.                 |
 
 ### DropdownTriggerDirective (`[rteDropdownTrigger]`)
 
-| Property | Type | Default | Description |
-|----------|------|---------|-------------|
+| Property                                | Type    | Default | Description                                                                |
+| --------------------------------------- | ------- | ------- | -------------------------------------------------------------------------- |
 | rteDropdownTriggerActivateWithArrowDown | boolean | `false` | Ouvre le menu lorsque la touche Flèche bas est pressée sur le déclencheur. |
 
 Appliquez cette directive sur l'élément qui ouvre le menu (par exemple un `<button>`).
 
 ### DropdownMenuComponent (`<rte-dropdown-menu>`)
 
-| Property | Type | Default | Description |
-|----------|------|---------|-------------|
-| items | `DropdownItemConfig[]` | `[]` | Entrées de menu. À omettre lors de l'utilisation d'un template de corps personnalisé. |
-| maxHeight | `number \| null` | `null` | Hauteur maximale du panneau en pixels. Le contenu défile au-delà. |
+| Property  | Type                   | Default | Description                                                                           |
+| --------- | ---------------------- | ------- | ------------------------------------------------------------------------------------- |
+| items     | `DropdownItemConfig[]` | `[]`    | Entrées de menu. À omettre lors de l'utilisation d'un template de corps personnalisé. |
+| maxHeight | `number \| null`       | `null`  | Hauteur maximale du panneau en pixels. Le contenu défile au-delà.                     |
 
 Projettez un en-tête, un pied de page ou un corps personnalisé avec `ng-template` :
 
-| Directive | Selector | Description |
-|-----------|----------|-------------|
-| DropdownMenuHeaderDirective | `[rteDropdownMenuHeader]` | Contenu au-dessus du corps du menu. |
-| DropdownMenuFooterDirective | `[rteDropdownMenuFooter]` | Contenu sous le corps du menu. |
-| DropdownMenuBodyDirective | `[rteDropdownMenuBody]` | Remplace la liste d'items par défaut par un contenu personnalisé. |
+| Directive                   | Selector                  | Description                                                       |
+| --------------------------- | ------------------------- | ----------------------------------------------------------------- |
+| DropdownMenuHeaderDirective | `[rteDropdownMenuHeader]` | Contenu au-dessus du corps du menu.                               |
+| DropdownMenuFooterDirective | `[rteDropdownMenuFooter]` | Contenu sous le corps du menu.                                    |
+| DropdownMenuBodyDirective   | `[rteDropdownMenuBody]`   | Remplace la liste d'items par défaut par un contenu personnalisé. |
 
 N'utilisez pas `<rte-dropdown-item>` directement dans les templates applicatifs — les items sont rendus en interne à partir du tableau `items`.
 
 ### DropdownItemConfig
 
-| Property | Type | Default | Description |
-|----------|------|---------|-------------|
-| label | string | — (requis) | Texte visible de l'item de menu. |
-| id | string | label | Identifiant émis dans `menuEvent`. |
-| leftIcon | string | — | Nom de l'icône affichée avant le libellé. |
-| trailingText | string | — | Texte secondaire aligné à droite. |
-| link | string | — | **Déprécié.** Utilisez `href` ou `routerLink` à la place. |
-| href | string | — | Affiche le libellé comme lien externe. |
-| routerLink | `string \| any[]` | — | Lien Angular router pour la navigation interne. |
-| routerLinkConfig | `RouterLinkConfig` | — | Options router link additionnelles (`queryParams`, `fragment`, etc.). |
-| externalLink | boolean | — | Ouvre les liens `href` dans un nouvel onglet. |
-| disabled | boolean | `false` | Désactive l'interaction. |
-| hasSeparator | boolean | `false` | Affiche un divider sous l'item. |
-| hasIndent | boolean | `false` | Ajoute une indentation à gauche. |
-| hasCheckbox | boolean | `false` | Affiche une checkbox avant le libellé. |
-| selected | boolean | `false` | État sélectionné pour les items avec checkbox. |
-| isIndeterminate | boolean | `false` | État indéterminé pour les items avec checkbox. |
-| children | `DropdownItemConfig[]` | — | Items de sous-menu imbriqués. |
-| showBadge | boolean | — | Affiche un badge lorsque combiné avec les props badge. |
-| badgeCount | number | — | Valeur numérique du badge. |
-| badgeContent | `"number" \| "icon" \| "empty"` | — | Type de contenu du badge. |
-| badgeIcon | string | — | Nom de l'icône lorsque `badgeContent` est `"icon"`. |
-| badgeType | `"brand" \| "neutral" \| "indicator"` | — | Variante visuelle du badge. |
-| badgeSize | `"xs" \| "s" \| "m" \| "l"` | — | Taille du badge. |
+| Property         | Type                                  | Default    | Description                                                           |
+| ---------------- | ------------------------------------- | ---------- | --------------------------------------------------------------------- |
+| label            | string                                | — (requis) | Texte visible de l'item de menu.                                      |
+| id               | string                                | label      | Identifiant émis dans `menuEvent`.                                    |
+| leftIcon         | string                                | —          | Nom de l'icône affichée avant le libellé.                             |
+| trailingText     | string                                | —          | Texte secondaire aligné à droite.                                     |
+| link             | string                                | —          | **Déprécié.** Utilisez `href` ou `routerLink` à la place.             |
+| href             | string                                | —          | Affiche le libellé comme lien externe.                                |
+| routerLink       | `string \| any[]`                     | —          | Lien Angular router pour la navigation interne.                       |
+| routerLinkConfig | `RouterLinkConfig`                    | —          | Options router link additionnelles (`queryParams`, `fragment`, etc.). |
+| externalLink     | boolean                               | —          | Ouvre les liens `href` dans un nouvel onglet.                         |
+| disabled         | boolean                               | `false`    | Désactive l'interaction.                                              |
+| hasSeparator     | boolean                               | `false`    | Affiche un divider sous l'item.                                       |
+| hasIndent        | boolean                               | `false`    | Ajoute une indentation à gauche.                                      |
+| hasCheckbox      | boolean                               | `false`    | Affiche une checkbox avant le libellé.                                |
+| selected         | boolean                               | `false`    | État sélectionné pour les items avec checkbox.                        |
+| isIndeterminate  | boolean                               | `false`    | État indéterminé pour les items avec checkbox.                        |
+| isCritical       | boolean                               | `false`    | Applique le style critique à l'item et à ses états interactifs.       |
+| children         | `DropdownItemConfig[]`                | —          | Items de sous-menu imbriqués.                                         |
+| showBadge        | boolean                               | —          | Affiche un badge lorsque combiné avec les props badge.                |
+| badgeCount       | number                                | —          | Valeur numérique du badge.                                            |
+| badgeContent     | `"number" \| "icon" \| "empty"`       | —          | Type de contenu du badge.                                             |
+| badgeIcon        | string                                | —          | Nom de l'icône lorsque `badgeContent` est `"icon"`.                   |
+| badgeType        | `"brand" \| "neutral" \| "indicator"` | —          | Variante visuelle du badge.                                           |
+| badgeSize        | `"xs" \| "s" \| "m" \| "l"`           | —          | Taille du badge.                                                      |
 
 ## Usage
 
@@ -111,11 +112,7 @@ export class ExampleComponent {
       label: "More information",
       leftIcon: "info",
       hasSeparator: true,
-      children: [
-        { label: "First option" },
-        { label: "Second option" },
-        { label: "Third option", hasSeparator: true },
-      ],
+      children: [{ label: "First option" }, { label: "Second option" }, { label: "Third option", hasSeparator: true }],
     },
     { label: "Username", leftIcon: "user-circle", disabled: true },
   ];
@@ -157,6 +154,30 @@ items: DropdownItemConfig[] = [
 Affiche un badge sur un item de menu via les propriétés badge de `DropdownItemConfig`.
 
 (`"number" | "icon" | "empty"`), (`"brand" | "neutral" | "indicator"`), (`"xs" | "s" | "m" | "l"`)
+
+#### With critical items
+
+```typescript
+items: DropdownItemConfig[] = [
+  { label: "Messages", leftIcon: "mail", hasSeparator: true },
+  {
+    label: "Actions",
+    leftIcon: "settings",
+    isCritical: true,
+    children: [{...}],
+  },
+  { label: "More information", leftIcon: "info", hasSeparator: true, isCritical: true },
+];
+```
+
+```html
+<div rteDropdown (menuEvent)="onItemClick($event)">
+  <button rteDropdownTrigger>Menu</button>
+  <rte-dropdown-menu [items]="items" />
+</div>
+```
+
+Définissez `isCritical` sur un item pour appliquer le traitement de couleur critique à ses états par défaut, au survol, au focus, actif et désactivé.
 
 ## Limitations
 

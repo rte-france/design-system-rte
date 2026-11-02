@@ -21,11 +21,7 @@ export class ExampleComponent {
       label: "More information",
       leftIcon: "info",
       hasSeparator: true,
-      children: [
-        { label: "First option" },
-        { label: "Second option" },
-        { label: "Third option", hasSeparator: true },
-      ],
+      children: [{ label: "First option" }, { label: "Second option" }, { label: "Third option", hasSeparator: true }],
     },
     { label: "Username", leftIcon: "user-circle", disabled: true },
   ];
@@ -67,3 +63,27 @@ items: DropdownItemConfig[] = [
 Display a badge on a menu item using the badge properties on `DropdownItemConfig`.
 
 (`"number" | "icon" | "empty"`), (`"brand" | "neutral" | "indicator"`), (`"xs" | "s" | "m" | "l"`)
+
+#### With critical items
+
+```typescript
+items: DropdownItemConfig[] = [
+  { label: "Messages", leftIcon: "mail", hasSeparator: true },
+  {
+    label: "Actions",
+    leftIcon: "settings",
+    isCritical: true,
+    children: [{...}],
+  },
+  { label: "More information", leftIcon: "info", hasSeparator: true, isCritical: true },
+];
+```
+
+```html
+<div rteDropdown (menuEvent)="onItemClick($event)">
+  <button rteDropdownTrigger>Menu</button>
+  <rte-dropdown-menu [items]="items" />
+</div>
+```
+
+Set `isCritical` on an item to apply the critical color treatment to its default, hover, focus, active, and disabled states.

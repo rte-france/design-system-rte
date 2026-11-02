@@ -50,6 +50,10 @@ const meta: Meta<TextareaComponent> = {
       control: "boolean",
       description: "Whether the textarea is read-only",
     },
+    placeholder: {
+      control: "text",
+      description: "Placeholder text for the textarea",
+    },
   },
 };
 
@@ -75,6 +79,7 @@ export const Default: Story = {
     showCounter: false,
     change: mockFn,
     width: "400px",
+    placeholder: "Enter text here",
   },
   render: (args) => ({
     props: { ...args },
@@ -98,6 +103,7 @@ export const Default: Story = {
         [rows]=${args.rows}
         [disabled]=${args.disabled}
         (change)="args.change($event)"
+        [placeholder]="'${args.placeholder}'"
         />
     `,
   }),
@@ -131,6 +137,7 @@ export const CharacterCount: Story = {
         [rows]=${args.rows}
         [disabled]=${args.disabled}
         (change)="change($event)"
+        [placeholder]="'${args.placeholder}'"
         />
     </div>
     `,
@@ -173,6 +180,7 @@ export const Error: Story = {
         [rows]=${args.rows}
         [disabled]=${args.disabled}
         (change)="change($event)"
+        [placeholder]="'${args.placeholder}'"
         />
     </div>
     `,
@@ -208,6 +216,7 @@ export const ReadOnly: Story = {
         [rows]=${args.rows}
         [disabled]=${args.disabled}
         (change)="change($event)"
+        [placeholder]="'${args.placeholder}'"
         />
     </div>
     `,
@@ -252,6 +261,7 @@ export const Disabled: Story = {
         [rows]=${args.rows}
         [disabled]=${args.disabled}
         (change)="change($event)"
+        [placeholder]="'${args.placeholder}'"
         />
     </div>
     `,
@@ -292,6 +302,7 @@ export const KeyboardInteraction: Story = {
         [rows]=${args.rows}
         [disabled]=${args.disabled}
         (change)="change($event)"
+        [placeholder]="'${args.placeholder}'"
         />
     </div>
     `,

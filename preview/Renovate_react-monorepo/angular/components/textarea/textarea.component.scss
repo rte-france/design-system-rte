@@ -101,6 +101,10 @@
         max-width: 1100px;
       }
 
+      &::placeholder {
+        color: var(--content-disabled);
+      }
+
       &:focus-visible,
       &:active {
         outline: none;
@@ -179,7 +183,6 @@ label {
   word-break: normal;
 
   &[data-label-position='side'] {
-    // padding: $positive-spacing_300 $positive-spacing_100;
     align-items: flex-start;
     gap: $positive-spacing_0;
     align-self: center;

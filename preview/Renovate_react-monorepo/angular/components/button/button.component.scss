@@ -1,7 +1,16 @@
 @use '@design-system-rte/core/design-tokens/main.scss' as *;
 
-:host {
+@mixin button-disabled {
+    &:disabled {
+        background: var(--background-disabled);
+        border: solid $width-xs var(--border-disabled);
+        box-shadow: none;
+        color: var(--content-disabled);
+        cursor: default;
+    }
+}
 
+:host {
     display: inline-flex;
     flex-shrink: 0;
     align-items: center;
@@ -47,91 +56,7 @@
         }
     }
 
-    &.primary {
-        border: var(--border-brand-default);
-        color: var(--content-primary-inverse);
-        background: var(--background-brand-default);
-
-        &:hover {
-            background: var(--background-brand-hover);
-            border: var(--background-brand-hover);
-        }
-
-        &:active {
-            background: var(--background-brand-pressed);
-        }
-
-        &:disabled {
-            background: var(--background-disabled);
-            border: solid $width-xs var(--border-disabled);
-            color: var(--content-disabled);
-            box-shadow: none;
-            cursor: default;
-        }
-    }
-
-    &.secondary {
-        background: var(--background-default);
-        border: solid $width-xs var(--border-brand-default);
-        color: var(--content-brand-default);
-
-        &:hover {
-            background: var(--background-brand-inverse-hover);
-        }
-
-        &:active {
-            background: var(--background-brand-inverse-pressed);
-        }
-
-        &:disabled {
-            background: var(--background-disabled);
-            border: solid $width-xs var(--border-disabled);
-            color: var(--content-disabled);
-            cursor: default;
-        }
-    }
-
-    &.text {
-        background: transparent;
-        border: none;
-        color: var(--content-brand-default);
-
-        &:hover {
-            background: var(--background-brand-inverse-hover);
-        }
-
-        &:active {
-            background: var(--background-brand-inverse-pressed);
-        }
-
-        &:disabled {
-            background: var(--background-disabled);
-            color: var(--content-disabled);
-            cursor: default;
-        }
-    }
-
-    &.transparent {
-        background: transparent;
-        border: none;
-        color: var(--content-brand-default);
-
-        &:hover {
-            color: var(--content-brand-hover);
-        }
-
-        &:active {
-            color: var(--content-brand-pressed);
-        }
-
-        &:disabled {
-            color: var(--content-disabled);
-            box-shadow: none;
-            cursor: default;
-        }
-    }
-
-    &.danger {
+    &[data-appearance='brand'][data-hierarchy='primary'][data-critical='true'] {
         background: var(--background-danger-default);
         border: none;
         color: var(--content-primary-inverse);
@@ -144,17 +69,137 @@
             background: var(--background-danger-pressed);
         }
 
-        &:disabled {
-            background: var(--background-disabled);
-            border: var(--border-disabled);
-            color: var(--content-disabled);
-            box-shadow: none;
-            cursor: default;
-        }
+        @include button-disabled;
     }
 
-    &.neutral {
-        background: none;
+    &[data-appearance='brand'][data-hierarchy='primary'][data-critical='false'][data-reversed='false'] {
+        border: none;
+        color: var(--content-primary-inverse);
+        background: var(--background-brand-default);
+
+        &:hover {
+            background: var(--background-brand-hover);
+        }
+
+        &:active {
+            background: var(--background-brand-pressed);
+        }
+
+        @include button-disabled;
+    }
+
+    &[data-appearance='brand'][data-hierarchy='secondary'][data-reversed='false'] {
+        background: var(--background-default);
+        border: solid $width-xs var(--border-brand-default);
+        color: var(--content-brand-default);
+
+        &:hover {
+            background: var(--background-brand-inverse-hover);
+        }
+
+        &:active {
+            background: var(--background-brand-inverse-pressed);
+        }
+
+        @include button-disabled;
+    }
+
+    &[data-appearance='brand'][data-hierarchy='text'][data-reversed='false'] {
+        background: transparent;
+        border: none;
+        color: var(--content-brand-default);
+
+        &:hover {
+            background: var(--background-brand-inverse-hover);
+        }
+
+        &:active {
+            background: var(--background-brand-inverse-pressed);
+        }
+
+        @include button-disabled;
+    }
+
+    &[data-appearance='brand'][data-hierarchy='transparent'][data-reversed='false'] {
+        background: transparent;
+        border: none;
+        color: var(--content-brand-default);
+
+        &:hover {
+            color: var(--content-brand-hover);
+        }
+
+        &:active {
+            color: var(--content-brand-pressed);
+        }
+
+        @include button-disabled;
+    }
+
+    &[data-appearance='brand'][data-reversed='true']:not([data-critical='true']),
+    &[data-appearance='neutral'][data-reversed='true'] {
+        background: transparent;
+        border: none;
+        color: var(--content-primary-inverse);
+
+        &:hover,
+        &:active {
+            color: var(--content-primary-inverse);
+        }
+
+        @include button-disabled;
+    }
+
+    &[data-appearance='neutral'][data-hierarchy='primary'][data-reversed='false'] {
+        background: var(--background-neutral-bold-default);
+        border: none;
+        color: var(--content-primary-inverse);
+
+        &:hover {
+            background: var(--background-neutral-bold-hover);
+        }
+
+        &:active {
+            background: var(--background-neutral-bold-pressed);
+        }
+
+        @include button-disabled;
+    }
+
+    &[data-appearance='neutral'][data-hierarchy='secondary'][data-reversed='false'] {
+        background: var(--background-neutral-subtle-default);
+        border: solid $width-xs var(--border-primary);
+        color: var(--content-primary);
+
+        &:hover {
+            background: var(--background-neutral-subtle-hover);
+        }
+
+        &:active {
+            background: var(--background-neutral-subtle-pressed);
+        }
+
+        @include button-disabled;
+    }
+
+    &[data-appearance='neutral'][data-hierarchy='text'][data-reversed='false'] {
+        background: transparent;
+        border: none;
+        color: var(--content-primary);
+
+        &:hover {
+            background: var(--background-neutral-subtle-hover);
+        }
+
+        &:active {
+            background: var(--background-neutral-subtle-pressed);
+        }
+
+        @include button-disabled;
+    }
+
+    &[data-appearance='neutral'][data-hierarchy='transparent'][data-reversed='false'] {
+        background: transparent;
         border: none;
         color: var(--content-primary);
 
@@ -166,32 +211,6 @@
             color: var(--content-tertiary);
         }
 
-        &:disabled {
-            background: var(--background-disabled);
-            box-shadow: none;
-            color: var(--content-disabled);
-            cursor: default;
-        }
-    }
-
-    &.reverse {
-        background: none;
-        border: none;
-        color: var(--content-primary-inverse);
-
-        &:hover {
-            color: var(--background-hover);
-        }
-
-        &:active {
-            color: var(--content-primary-inverse);
-        }
-
-        &:disabled {
-            background: var(--background-disabled);
-            box-shadow: none;
-            color: var(--content-disabled);
-            cursor: default;
-        }
+        @include button-disabled;
     }
 }
