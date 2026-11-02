@@ -1,5 +1,21 @@
 # @design-system-rte/core
 
+## 1.22.1
+
+### Patch Changes
+
+- 96f178e: ## Changes
+
+  - (Datepicker) aria-current attribute for day cells
+
+- 97f46b9: ## Changes
+
+  - (Tab) add support for prefers-reduced-motion in scrolling behavior
+
+- 326b97a: ## Changes
+
+  - (Stepper) add missing ariaLabel default and input
+
 ## 1.22.0
 
 ### Minor Changes

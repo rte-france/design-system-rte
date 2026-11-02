@@ -1,6 +1,6 @@
 {
   "name": "@design-system-rte/react",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "type": "module",
   "module": "./dist/react-package.js",
   "main": "./dist/react-package.js",
@@ -52,7 +52,7 @@
     "url": "https://zeroheight.com/687a5ae28/p/5173b5-contribuer/b/65c380"
   },
   "dependencies": {
-    "@design-system-rte/core": "~1.22.0",
+    "@design-system-rte/core": "~1.22.1",
     "@dnd-kit/react": "^0.5.0",
     "clsx": "^2.1.1",
     "sass": "^1.85.1"
