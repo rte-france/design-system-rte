@@ -4,7 +4,7 @@ The `NumberInputComponent` (`<rte-number-input>`) is the public API. Import it f
 |----------|------|---------|-------------|
 | id | string | — (required) | Stable id for the field, label association, and assistive text. |
 | label | string | `"Label"` | Visible label text. Omit or set to `""` only when `ariaLabel` or `ariaLabelledby` names the field. |
-| ariaLabel | string | `""` | Accessible name for the spinbutton when no visible label is shown. Required if `label` is empty. |
+| ariaLabel | string | `""` | Accessible name for the input field when no visible label is shown. Required if `label` is empty. |
 | ariaLabelledby | string | `""` | Id of an external element that labels the field. Overrides automatic label association. |
 | labelPosition | `"top" \| "side"` | `"top"` | Label placement relative to the control. |
 | required | boolean | `false` | Marks the field as required for the required indicator. |
@@ -24,12 +24,20 @@ The `NumberInputComponent` (`<rte-number-input>`) is the public API. Import it f
 | decimalPrecision | number | `0` | Number of decimal places (`0` for integers only). Clamped to `0`–`100`. |
 | locale | string | `"fr-FR"` | Locale used to derive the decimal separator (`,` or `.`). |
 | defaultValue | number | `undefined` | Initial display value when `value` is empty and when not using forms; also used on blur when the field is cleared. |
-| placeholder | string | `""` | Placeholder on the spinbutton input. |
+| placeholder | string | `""` | Placeholder on the input field. |
 | width | string | `"184px"` | Total width of the layout (field + steppers). Numeric values are treated as pixels. |
 | name | string | `""` | `name` attribute on the native input. |
-| rangeErrorMessages | `NumberInputRangeErrorMessages` | French defaults from core | Overrides automatic min/max messages via `between`, `greaterThan`, and `lessThan` callables. |
+| rangeErrorMessages | `NumberInputRangeErrorMessages` | See table below | Overrides automatic min/max range messages. When omitted, core French defaults apply. |
 | value | string | `""` | One-way binding as numeric text; when non-empty and finite, updates the displayed value. Prefer `defaultValue` or reactive forms for typical use. |
 | valueChange | `number \| null` | — | Emits the parsed numeric value on input or stepping. Emits `null` when the field is empty or not parseable (same as the reactive form model). |
-| inputBlur | `void` | — | Emits when the spinbutton loses focus. |
+| inputBlur | `void` | — | Emits when the input field loses focus. |
 
 Range and validation errors show an error icon next to assistive text automatically; there is no separate input to toggle that icon.
+
+### `NumberInputRangeErrorMessages`
+
+| Property | Type | Default message |
+|----------|------|-----------------|
+| between | `(min: number, max: number) => string` | La valeur doit être comprise entre ${min} et ${max}. |
+| greaterThan | `(min: number) => string` | La valeur doit être supérieure ou égale à ${min}. |
+| lessThan | `(max: number) => string` | La valeur doit être inférieure ou égale à ${max}. |

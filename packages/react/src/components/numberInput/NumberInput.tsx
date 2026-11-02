@@ -77,7 +77,7 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
     ref,
   ) => {
     const {
-      spinbuttonRef,
+      inputFieldRef,
       computedWidth,
       fieldDisplayText,
       inputFocused,
@@ -86,9 +86,9 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
       visibleAssistiveText,
       displayedLabel,
       hasVisibleLabel,
-      spinbuttonAriaLabelledby,
-      spinbuttonAriaLabel,
-      spinbuttonAriaDescribedBy,
+      inputFieldAriaLabelledby,
+      inputFieldAriaLabel,
+      inputFieldAriaDescribedBy,
       canDecrement,
       canIncrement,
       ariaValueNow,
@@ -202,8 +202,8 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
               role="group"
               data-increment-position={incrementPosition}
               data-appearance={appearance}
-              aria-labelledby={spinbuttonAriaLabelledby}
-              aria-label={spinbuttonAriaLabelledby ? undefined : spinbuttonAriaLabel}
+              aria-labelledby={inputFieldAriaLabelledby}
+              aria-label={inputFieldAriaLabelledby ? undefined : inputFieldAriaLabel}
             >
               {incrementPosition === "sides" && decrementStepper}
               <div className={controlClassName}>
@@ -211,7 +211,7 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
                   <input
                     {...inputProps}
                     ref={(node) => {
-                      spinbuttonRef.current = node;
+                      inputFieldRef.current = node;
                       if (typeof ref === "function") {
                         ref(node);
                       } else if (ref) {
@@ -220,7 +220,7 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
                     }}
                     id={id}
                     name={name || undefined}
-                    className={styles.numberInputSpinbutton}
+                    className={styles.numberInputField}
                     type="text"
                     role="spinbutton"
                     inputMode={inputMode as "decimal" | "numeric"}
@@ -228,16 +228,16 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
                     placeholder={placeholder}
                     readOnly={readOnly}
                     disabled={disabled}
-                    aria-valuemin={min}
+                    aria-valuemin={min ?? 0}
                     aria-valuemax={max ?? undefined}
                     aria-valuenow={ariaValueNow}
                     aria-valuetext={ariaValueText}
                     aria-invalid={showErrorState || undefined}
                     aria-readonly={readOnly || undefined}
                     aria-required={required || undefined}
-                    aria-labelledby={spinbuttonAriaLabelledby}
-                    aria-label={spinbuttonAriaLabel}
-                    aria-describedby={spinbuttonAriaDescribedBy}
+                    aria-labelledby={inputFieldAriaLabelledby}
+                    aria-label={inputFieldAriaLabel}
+                    aria-describedby={inputFieldAriaDescribedBy}
                     onChange={handleInput}
                     onBlur={handleBlur}
                     onFocus={handleFocus}

@@ -30,7 +30,7 @@
             padding-block: 0;
         }
 
-        .numberInputSpinbutton,
+        .numberInputField,
         .numberInputUnit {
             line-height: 24px;
         }
@@ -155,7 +155,7 @@
     gap: $positive-spacing-050;
 }
 
-.numberInputSpinbutton {
+.numberInputField {
     flex: 1;
     min-width: 0;
     height: 100%;
