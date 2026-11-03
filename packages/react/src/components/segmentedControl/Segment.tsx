@@ -1,8 +1,6 @@
 import { shouldDisplayBadge } from "@design-system-rte/core/components/badge/badge.utils";
 import {
-  focusNextNotSegmentElement,
   focusNextSegmentElement,
-  focusPreviousNotSegmentElement,
   focusPreviousSegmentElement,
   getSegmentAriaLabel,
 } from "@design-system-rte/core/components/segmented-control/segmented-control-utils";
@@ -12,20 +10,19 @@ import {
   ARROW_RIGHT_KEY,
   ENTER_KEY,
   SPACE_KEY,
-  TAB_KEY,
 } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 import { useRef } from "react";
 
 import { useActiveKeyboard } from "../../hooks/useActiveKeyboard";
-import { useSelectFocusableElements } from "../../hooks/useSelectFocusableElements";
 import Badge from "../badge/Badge";
 import Icon from "../icon/Icon";
 
-import useFocusCurrentSegmentElement from "./hooks/useFocusFirstSegment";
 import style from "./SegmentedControl.module.scss";
 
 interface SegmentProps extends CoreSegmentProps {
   onClick?: (event: React.MouseEvent<HTMLDivElement> | React.KeyboardEvent<HTMLDivElement>) => void;
+  segmentTabIndex: 0 | -1;
+  onSegmentFocus?: () => void;
 }
 
 const Segment = ({
@@ -44,6 +41,8 @@ const Segment = ({
   showBadge,
   appearance,
   isCompact,
+  segmentTabIndex,
+  onSegmentFocus,
   ...props
 }: SegmentProps) => {
   const segmentAriaLabel = getSegmentAriaLabel({
@@ -57,10 +56,6 @@ const Segment = ({
     badgeIcon,
   });
   const ref = useRef<HTMLDivElement>(null);
-
-  const allFocusableElement = useSelectFocusableElements();
-
-  useFocusCurrentSegmentElement(ref);
 
   const handleKeyUp = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (event.key === SPACE_KEY || event.key === ENTER_KEY) {
@@ -83,45 +78,22 @@ const Segment = ({
     }
   };
 
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
-    if (event.key === TAB_KEY) {
-      const radiogroupElement = ref.current?.closest('[role="radiogroup"]');
-      if (!(radiogroupElement instanceof HTMLElement)) {
-        return;
-      }
-
-      const currentActiveSegmentElement = document.activeElement;
-      const currentActiveSegmentElementIndex = Array.from(allFocusableElement).indexOf(
-        currentActiveSegmentElement as HTMLDivElement,
-      );
-
-      const focusOptions = {
-        focusedIndex: currentActiveSegmentElementIndex,
-        focusableElements: Array.from(allFocusableElement) as HTMLElement[],
-        segmentClass: style.segment,
-        radiogroupElement,
-      };
-
-      if (event.shiftKey) {
-        focusPreviousNotSegmentElement(focusOptions);
-      } else {
-        focusNextNotSegmentElement(focusOptions);
-      }
-    }
-  };
-
   const { onBlur, onKeyDown, onKeyUp } = useActiveKeyboard<HTMLDivElement>(
-    { onKeyUp: handleKeyUp, onKeyDown: handleKeyDown },
+    { onKeyUp: handleKeyUp },
     {
       id,
-      interactiveKeyCodes: [SPACE_KEY, ENTER_KEY, TAB_KEY, ARROW_LEFT_KEY, ARROW_RIGHT_KEY],
+      interactiveKeyCodes: [SPACE_KEY, ENTER_KEY, ARROW_LEFT_KEY, ARROW_RIGHT_KEY],
     },
   );
 
-  const handleClick = (e: React.MouseEvent<HTMLDivElement> | React.KeyboardEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-    onClick?.(e);
+  const handleClick = (event: React.MouseEvent<HTMLDivElement> | React.KeyboardEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
+    onClick?.(event);
+  };
+
+  const handleFocus = () => {
+    onSegmentFocus?.();
   };
 
   return (
@@ -144,8 +116,9 @@ const Segment = ({
         onKeyDown={onKeyDown}
         onKeyUp={onKeyUp}
         onBlur={onBlur}
+        onFocus={handleFocus}
         onClick={handleClick}
-        tabIndex={0}
+        tabIndex={segmentTabIndex}
         ref={ref}
       >
         {isSelected && (

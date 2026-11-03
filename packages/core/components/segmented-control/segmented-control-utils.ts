@@ -1,14 +1,6 @@
 import { getDisplayCount, shouldDisplayBadge } from "../badge/badge.utils";
 
-import { FocusAdjacentOutsideSegmentOptions, SegmentOptions, SegmentProps } from "./segmented-control.interface";
-
-function isSegmentInRadiogroup(
-  element: HTMLElement | undefined,
-  segmentClass: string,
-  radiogroupElement: HTMLElement,
-): boolean {
-  return !!element && element.classList.contains(segmentClass) && radiogroupElement.contains(element);
-}
+import { GetSegmentTabIndexParams, SegmentOptions, SegmentProps } from "./segmented-control.interface";
 
 const ICON_ONLY_NUMBER_BADGE_NOTIFICATIONS_LABEL = "Notifications";
 const NON_NUMBER_BADGE_ARIA_LABEL = "Notification";
@@ -89,60 +81,14 @@ export function getSegmentPosition(optionIndex: number, numberOfOptions: number)
   return "middle";
 }
 
-export function focusNextNotSegmentElement({
-  focusedIndex,
-  focusableElements,
-  segmentClass,
-  radiogroupElement,
-}: FocusAdjacentOutsideSegmentOptions) {
-  if (!focusableElements.length) {
-    return;
-  }
-
-  let nextIndex = focusedIndex + 1;
-  if (nextIndex >= focusableElements.length) {
-    nextIndex = 0;
-  }
-
-  const startIndex = nextIndex;
-
-  do {
-    const candidate = focusableElements[nextIndex];
-    if (!isSegmentInRadiogroup(candidate, segmentClass, radiogroupElement)) {
-      candidate.focus();
-      return;
-    }
-
-    nextIndex = nextIndex + 1 < focusableElements.length ? nextIndex + 1 : 0;
-  } while (nextIndex !== startIndex);
-}
-
-export function focusPreviousNotSegmentElement({
-  focusedIndex,
-  focusableElements,
-  segmentClass,
-  radiogroupElement,
-}: FocusAdjacentOutsideSegmentOptions) {
-  if (!focusableElements.length) {
-    return;
-  }
-
-  let previousIndex = focusedIndex - 1;
-  if (previousIndex < 0) {
-    previousIndex = focusableElements.length - 1;
-  }
-
-  const startIndex = previousIndex;
-
-  do {
-    const candidate = focusableElements[previousIndex];
-    if (!isSegmentInRadiogroup(candidate, segmentClass, radiogroupElement)) {
-      candidate.focus();
-      return;
-    }
-
-    previousIndex = previousIndex > 0 ? previousIndex - 1 : focusableElements.length - 1;
-  } while (previousIndex !== startIndex);
+export function getSegmentTabIndex({
+  segmentId,
+  selectedSegmentId,
+  focusedSegmentId,
+  fallbackTabStopSegmentId,
+}: GetSegmentTabIndexParams): 0 | -1 {
+  const tabStopSegmentId = focusedSegmentId ?? selectedSegmentId ?? fallbackTabStopSegmentId;
+  return tabStopSegmentId && tabStopSegmentId === segmentId ? 0 : -1;
 }
 
 export function focusNextSegmentElement(currentSegmentIndex: number, allSegmentElements: HTMLElement[]): void {
