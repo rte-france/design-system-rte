@@ -321,10 +321,10 @@ export const IconsOnly: Story = {
   render: (args) => {
     const [selectedTab, setSelectedTab] = useState("home");
     const tabs = [
-      { id: "home", panelId: "panel-1", icon: "home" },
-      { id: "bookmarks", panelId: "panel-2", icon: "bookmarks" },
-      { id: "chat", panelId: "panel-3", icon: "chat" },
-      { id: "settings", panelId: "panel-3", icon: "settings" },
+      { id: "home", panelId: "panel-1", icon: "home", ariaLabel: "Home" },
+      { id: "bookmarks", panelId: "panel-2", icon: "bookmarks", ariaLabel: "Bookmarks" },
+      { id: "chat", panelId: "panel-3", icon: "chat", ariaLabel: "Chat" },
+      { id: "settings", panelId: "panel-4", icon: "settings", ariaLabel: "Settings" },
     ];
 
     const handleTabClick = (tabId: string) => {
