@@ -71,6 +71,11 @@ export class SwitchComponent extends BaseValueAccessor<boolean> {
 
   handleChange(event: Event): void {
     const target = event.target as HTMLInputElement;
+    if (this.readOnly() || this.isDisabled()) {
+      target.checked = this.isChecked();
+      return;
+    }
+
     this.isChecked.set(target.checked);
     this.onChange(target.checked);
     this.onTouched();
@@ -79,6 +84,7 @@ export class SwitchComponent extends BaseValueAccessor<boolean> {
 
   handleClick(event: MouseEvent): void {
     if (this.readOnly() || this.isDisabled()) {
+      event.preventDefault();
       event.stopPropagation();
       return;
     }
