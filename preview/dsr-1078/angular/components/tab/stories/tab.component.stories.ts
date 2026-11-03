@@ -236,10 +236,10 @@ export const WithIcons: Story = {
 export const IconsOnly: Story = {
   args: {
     options: [
-      { id: "home", panelId: "panel-1", icon: "home" },
-      { id: "bookmarks", panelId: "panel-2", icon: "bookmarks" },
-      { id: "chat", panelId: "panel-3", icon: "chat" },
-      { id: "settings", panelId: "panel-3", icon: "settings" },
+      { id: "home", panelId: "panel-1", icon: "home", ariaLabel: "Home tab" },
+      { id: "bookmarks", panelId: "panel-2", icon: "bookmarks", ariaLabel: "Bookmarks tab" },
+      { id: "chat", panelId: "panel-3", icon: "chat", ariaLabel: "Chat tab" },
+      { id: "settings", panelId: "panel-3", icon: "settings", ariaLabel: "Settings tab" },
     ],
     selectedTabId: "home",
     alignment: "start",

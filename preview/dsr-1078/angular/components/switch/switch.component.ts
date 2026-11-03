@@ -31,6 +31,7 @@ export class SwitchComponent extends BaseValueAccessor<boolean> {
   readonly checked = input(false);
   readonly ariaLabel = input("");
   readonly ariaLabelledBy = input("");
+  readonly name = input("");
 
   readonly stateChange = output<Event>();
 
