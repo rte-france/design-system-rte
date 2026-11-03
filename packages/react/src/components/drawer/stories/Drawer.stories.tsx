@@ -113,7 +113,7 @@ export const Default: Story = {
 };
 
 export const ModalBackgroundScreenReaderManualCheck: Story = {
-  tags: ["!autodocs"],
+  tags: ["!autodocs", "skip-ci"],
   args: {
     ...Default.args,
     id: "modal-background-screen-reader-check",
