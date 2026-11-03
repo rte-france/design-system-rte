@@ -18,30 +18,29 @@
 
 Le composant `TextInput` constitue l'API publique. Passez les props pour contrôler l'apparence et le comportement ; utilisez `onChange` pour mettre à jour la valeur de manière contrôlée.
 
-| Nom | Type | Valeur par défaut | Description |
-|-----|------|-------------------|-------------|
-| id | string | — (requis) | Associe le libellé au champ de saisie. |
-| label | string | — | Texte du libellé visible. |
-| labelPosition | `"top" \| "side"` | `"top"` | Position du libellé par rapport au champ. |
-| value | string | — | Valeur contrôlée du champ. |
-| defaultValue | string | — | Valeur initiale en mode non contrôlé. |
-| maxLength | number | — | Nombre maximal de caractères autorisés. |
-| leftIcon | string | — | Nom de l'icône à gauche. Remplacée par l'icône d'erreur lorsque `error` est `true`. |
-| showRightIcon | boolean | `true` | Active l'emplacement de l'icône à droite. |
-| rightIconAction | `"clean" \| "visibilityOn" \| "visibilityOff"` | `"clean"` | Comportement de l'icône droite : effacer la valeur ou basculer la visibilité du mot de passe. |
-| rightIconSize | `"s" \| "m" \| "l"` | — | Taille du bouton icône à droite. |
-| showLabelRequirement | boolean | `false` | Affiche le texte facultatif/obligatoire à côté du libellé. |
-| assistiveAppearance | `"description" \| "error" \| "success" \| "link"` | `"description"` | Style visuel du texte d'aide. |
-| showAssistiveIcon | boolean | `false` | Affiche une icône à côté du texte d'aide (erreur et succès uniquement). |
-| assistiveTextLabel | string | `""` | Texte d'aide affiché sous le champ. |
-| error | boolean | `false` | Applique le style d'erreur au champ. |
-| errorMessage | string | — | Message d'erreur affiché comme texte d'aide lorsque `error` est `true`. Il est prioritaire sur `assistiveTextLabel`. |
-| disabled | boolean | `false` | Désactive le champ. |
-| readOnly | boolean | `false` | Rend le champ en lecture seule. |
-| width | string | `"300px"` | Largeur du conteneur. |
-| onChange | `(value: string) => void` | — | Appelé avec la valeur mise à jour à chaque saisie. |
-| onEnterKeyDown | `(value: string) => void` | — | Appelé avec la valeur courante lorsque Entrée est pressée. |
-| onRightIconClick | `() => void` | — | Appelé lors du clic sur l'icône droite. L'action intégrée (effacer ou basculer la visibilité) s'exécute après ce callback. |
+| Nom                  | Type                                              | Valeur par défaut | Description                                                                                                                |
+| -------------------- | ------------------------------------------------- | ----------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| id                   | string                                            | — (requis)        | Associe le libellé au champ de saisie.                                                                                     |
+| label                | string                                            | —                 | Texte du libellé visible.                                                                                                  |
+| labelPosition        | `"top" \| "side"`                                 | `"top"`           | Position du libellé par rapport au champ.                                                                                  |
+| value                | string                                            | —                 | Valeur contrôlée du champ.                                                                                                 |
+| defaultValue         | string                                            | —                 | Valeur initiale en mode non contrôlé.                                                                                      |
+| maxLength            | number                                            | —                 | Nombre maximal de caractères autorisés.                                                                                    |
+| leftIcon             | string                                            | —                 | Nom de l'icône à gauche. Remplacée par l'icône d'erreur lorsque `error` est `true`.                                        |
+| rightIconAction      | `"clean" \| "visibilityOn" \| "visibilityOff"`    | `"clean"`         | Comportement de l'icône droite : effacer la valeur ou basculer la visibilité du mot de passe.                              |
+| rightIconSize        | `"s" \| "m" \| "l"`                               | —                 | Taille du bouton icône à droite.                                                                                           |
+| showLabelRequirement | boolean                                           | `false`           | Affiche le texte facultatif/obligatoire à côté du libellé.                                                                 |
+| assistiveAppearance  | `"description" \| "error" \| "success" \| "link"` | `"description"`   | Style visuel du texte d'aide.                                                                                              |
+| showAssistiveIcon    | boolean                                           | `false`           | Affiche une icône à côté du texte d'aide (erreur et succès uniquement).                                                    |
+| assistiveTextLabel   | string                                            | `""`              | Texte d'aide affiché sous le champ.                                                                                        |
+| error                | boolean                                           | `false`           | Applique le style d'erreur au champ.                                                                                       |
+| errorMessage         | string                                            | —                 | Message d'erreur affiché comme texte d'aide lorsque `error` est `true`. Il est prioritaire sur `assistiveTextLabel`.       |
+| disabled             | boolean                                           | `false`           | Désactive le champ.                                                                                                        |
+| readOnly             | boolean                                           | `false`           | Rend le champ en lecture seule.                                                                                            |
+| width                | string                                            | `"300px"`         | Largeur du conteneur.                                                                                                      |
+| onChange             | `(value: string) => void`                         | —                 | Appelé avec la valeur mise à jour à chaque saisie.                                                                         |
+| onEnterKeyDown       | `(value: string) => void`                         | —                 | Appelé avec la valeur courante lorsque Entrée est pressée.                                                                 |
+| onRightIconClick     | `() => void`                                      | —                 | Appelé lors du clic sur l'icône droite. L'action intégrée (effacer ou basculer la visibilité) s'exécute après ce callback. |
 
 `TextInput` accepte également les attributs natifs standard (`autoComplete`, `aria-*`, `name`, etc.) sauf `id`, `onChange`, `value`, `defaultValue` et `placeholder`.
 
@@ -114,17 +113,25 @@ Place le libellé au-dessus (`"top"`) ou à côté (`"side"`) du champ.
 #### Required indicator
 
 ```tsx
-{/* Obligatoire avec texte de requirement visible */}
-<TextInput id="text-input-required-visible" label="Label" width="400px" required showLabelRequirement />
+{
+  /* Obligatoire avec texte de requirement visible */
+}
+<TextInput id="text-input-required-visible" label="Label" width="400px" required showLabelRequirement />;
 
-{/* Obligatoire avec astérisque uniquement */}
-<TextInput id="text-input-required-asterisk" label="Label" width="400px" required assistiveAppearance="error" />
+{
+  /* Obligatoire avec astérisque uniquement */
+}
+<TextInput id="text-input-required-asterisk" label="Label" width="400px" required assistiveAppearance="error" />;
 
-{/* Facultatif avec texte de requirement */}
-<TextInput id="text-input-optional-visible" label="Label" width="400px" showLabelRequirement />
+{
+  /* Facultatif avec texte de requirement */
+}
+<TextInput id="text-input-optional-visible" label="Label" width="400px" showLabelRequirement />;
 
-{/* Facultatif sans texte de requirement */}
-<TextInput id="text-input-optional-hidden" label="Label" width="400px" assistiveAppearance="error" />
+{
+  /* Facultatif sans texte de requirement */
+}
+<TextInput id="text-input-optional-hidden" label="Label" width="400px" assistiveAppearance="error" />;
 ```
 
 Contrôle la façon dont les champs obligatoires et facultatifs sont indiqués à côté du libellé.
@@ -154,7 +161,7 @@ La largeur par défaut du conteneur est `300px`. Passez `width` pour la modifier
 
 ### Visibilité de l'icône droite
 
-L'icône droite est masquée lorsque le champ est `disabled` ou `readOnly`. Avec `rightIconAction="clean"`, l'icône n'apparaît que lorsque le champ contient du texte. Avec les actions de visibilité (`"visibilityOn"` / `"visibilityOff"`), l'icône est toujours affichée lorsque `showRightIcon` est activé.
+L'icône droite est masquée lorsque le champ est `disabled` ou `readOnly`. Avec `rightIconAction="clean"`, l'icône n'apparaît que lorsque le champ contient du texte. Avec les actions de visibilité (`"visibilityOn"` / `"visibilityOff"`), l'icône est toujours affichée.
 
 ### L'icône d'erreur remplace l'icône gauche
 

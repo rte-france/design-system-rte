@@ -8,7 +8,7 @@ The default container width is `300px`. Pass `width` to override it.
 
 ### Right icon visibility
 
-The right icon is hidden when the input is `disabled` or `readOnly`. With `rightIconAction="clean"`, the icon appears only when the field contains text. With visibility actions (`"visibilityOn"` / `"visibilityOff"`), the icon is always shown when `showRightIcon` is enabled.
+The right icon is hidden when the input is `disabled` or `readOnly`. With `rightIconAction="clean"`, the icon appears only when the field contains text. With visibility actions (`"visibilityOn"` / `"visibilityOff"`), the icon is always shown.
 
 ### Error icon overrides left icon
 
