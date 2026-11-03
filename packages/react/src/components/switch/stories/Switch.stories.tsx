@@ -1,6 +1,6 @@
 import { ENTER_KEY, SPACE_KEY } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 import { Meta, StoryObj } from "@storybook/react";
-import { expect, within, userEvent } from "@storybook/test";
+import { expect, fn, within, userEvent } from "@storybook/test";
 import { useState } from "react";
 
 import { focusElementBeforeComponent } from "../../../../.storybook/testing/testing.utils";
@@ -145,5 +145,24 @@ export const ReadOnly: Story = {
   args: {
     label: "Read-Only Switch",
     readOnly: true,
+    onChange: fn(),
+  },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const switchElement = canvas.getByRole("switch");
+
+    await expect(switchElement).toHaveAttribute("aria-readonly", "true");
+    await expect(switchElement).not.toBeDisabled();
+
+    focusElementBeforeComponent();
+    await userEvent.tab();
+    await expect(switchElement).toHaveFocus();
+
+    await userEvent.keyboard(SPACE_KEY);
+    await expect(switchElement).not.toBeChecked();
+
+    await userEvent.click(switchElement);
+    await expect(switchElement).not.toBeChecked();
+    await expect(args.onChange).not.toHaveBeenCalled();
   },
 };

@@ -98,6 +98,7 @@ const Switch = ({
           minWidth: switchWidth,
         }}
         {...props}
+        aria-readonly={readOnly}
       />
       <div className={style["switch-icon-check"]} data-checked={isChecked}>
         {showIcon && isChecked && <Icon name="check" size={16} />}
