@@ -4,7 +4,7 @@ Le composant vérifie qu'un `label`, `aria-label` ou `aria-labelledby` est fourn
 
 ### Identifiant généré
 
-Lorsque `id` n'est pas fourni, le composant génère l'identifiant `${label}-switch` ou utilise un identifiant généré lorsque le label est absent. Fournissez un `id` unique si vous devez maîtriser la valeur de l'identifiant.
+Lorsque `id` n'est pas fourni, le composant génère un identifiant unique. Fournissez un `id` unique si vous devez maîtriser la valeur de l'identifiant.
 
 ### État contrôlé et non contrôlé
 

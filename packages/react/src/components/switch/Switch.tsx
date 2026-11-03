@@ -38,7 +38,7 @@ const Switch = ({
       return props.id;
     }
     const generatedId = generateId();
-    return `${label ?? generatedId}-switch`;
+    return `${generatedId}-switch`;
   }, [label, props.id]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
