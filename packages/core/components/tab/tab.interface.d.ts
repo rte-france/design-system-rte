@@ -26,4 +26,5 @@ export interface TabItemProps {
   direction?: import("../common/common-types").Direction;
   disabled?: boolean;
   inverted?: boolean;
+  ariaLabel?: string;
 }

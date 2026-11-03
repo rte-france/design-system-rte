@@ -1,10 +1,12 @@
 <button
+  *ngIf="shouldRender()"
   #tabItem
   type="button"
   class="rte-tabitem"
   role="tab"
   [id]="option()?.id"
   [attr.aria-selected]="isSelected()"
+  [attr.aria-label]="option()?.ariaLabel"
   [attr.aria-controls]="option()?.panelId"
   [tabIndex]="isSelected() ? 0 : -1"
   [attr.data-selected]="isSelected()"

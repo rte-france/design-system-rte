@@ -1,3 +1,4 @@
+import { logError } from "@design-system-rte/core";
 import { TabItemProps as CoreTabItemProps } from "@design-system-rte/core/components/tab/tab.interface";
 import {
   ARROW_DOWN_KEY,
@@ -34,6 +35,7 @@ const TabItem = forwardRef<HTMLButtonElement, TabItemProps>(
       direction,
       disabled,
       inverted,
+      ariaLabel,
       ...props
     },
     ref,
@@ -177,6 +179,11 @@ const TabItem = forwardRef<HTMLButtonElement, TabItemProps>(
       }
     }, [direction]);
 
+    if (!label && !ariaLabel) {
+      logError("Tab", 'Option with id "' + id + "\" must have either a label or an ariaLabel if it's icon only.");
+      return null;
+    }
+
     return (
       <>
         <button
@@ -186,6 +193,7 @@ const TabItem = forwardRef<HTMLButtonElement, TabItemProps>(
           role="tab"
           aria-selected={isSelected}
           aria-controls={panelId}
+          aria-label={ariaLabel}
           aria-disabled={disabled}
           tabIndex={isSelected ? 0 : -1}
           data-selected={isSelected}
