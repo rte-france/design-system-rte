@@ -5,6 +5,7 @@
 | appearance     | brand \| neutral | "brand"           | Apparence visuelle du switch.                                                               |
 | checked        | boolean          | false             | État fourni par le parent.                                                                  |
 | disabled       | boolean          | false             | Désactive le switch. L'état désactivé d'un formulaire réactif est également pris en compte. |
+| id             | string           | ""                | Identifiant unique du switch. Utilisé pour l'attribut `id` de l'input natif.                |
 | label          | string           | ""                | Libellé utilisé pour le nom accessible et affiché lorsqu'il est fourni.                     |
 | name           | string           | ""                | Valeur transmise à l'attribut `name` de `l'input` natif.                                    |
 | readOnly       | boolean          | false             | Empêche la modification de l'état.                                                          |
