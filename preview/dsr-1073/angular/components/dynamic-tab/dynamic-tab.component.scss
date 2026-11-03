@@ -1,0 +1,164 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+@mixin dynamic-tab-button-style {
+  display: flex;
+  flex-direction: row;
+  padding: $positive-spacing_150;
+  align-items: center;
+  gap: $positive-spacing_150;
+  border: none;
+  height: 100%;
+  background: var(--background-neutral-subtle-default);
+  color: var(--content-tertiary);
+  cursor: default;
+  box-sizing: border-box;
+
+  &[data-compact-spacing='true'] {
+    padding-top: $positive-spacing_050;
+    padding-bottom: $positive-spacing_050;
+  }
+
+  &:hover,
+  &:focus-visible {
+    outline: none;
+    background: var(--background-neutral-subtle-hover);
+    color: var(--content-secondary);
+  }
+
+  &[data-active='true'] {
+    background: var(--background-neutral-subtle-pressed);
+    color: var(--content-primary);
+  }
+
+  &[data-appearance='brand'] {
+    background: var(--background-brand-subtle-default);
+    color: var(--content-brand-default);
+
+    &:hover,
+    &:focus-visible {
+      background: var(--background-brand-subtle-hover);
+      color: var(--content-brand-hover);
+    }
+  }
+}
+
+:host {
+  display: block;
+  position: relative;
+  width: 100%;
+
+  &[data-appearance='brand'] {
+    .rte-dynamic-tab__indicator {
+      background: var(--background-brand-default);
+    }
+  }
+}
+
+.rte-dynamic-tab__container {
+  display: flex;
+  align-items: stretch;
+  position: relative;
+  width: 100%;
+}
+
+.rte-dynamic-tab__list {
+  display: flex;
+  align-items: stretch;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+  overflow-x: hidden;
+  flex: 1 1 auto;
+  list-style: none;
+}
+
+.rte-dynamic-tab__list.cdk-drop-list-dragging .rte-dynamic-tab-item:not(.cdk-drag-placeholder) {
+  transition: transform 140ms ease;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.rte-dynamic-tab__indicator {
+  position: absolute;
+  bottom: 0;
+  height: 2px;
+  background: var(--background-neutral-bold-default);
+  transition: left 0.12s ease, width 0.12s ease;
+  pointer-events: none;
+  z-index: $level-1;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.rte-dynamic-tab__actions {
+  display: flex;
+  align-items: stretch;
+  flex: 0 0 auto;
+}
+
+.rte-dynamic-tab__more-menu-container {
+  display: flex;
+  align-items: stretch;
+
+  .dropdown {
+    display: flex;
+    align-items: stretch;
+  }
+}
+
+.rte-dynamic-tab__more-menu {
+  @include dynamic-tab-button-style;
+
+  align-self: stretch;
+  border-right: $width-xs solid var(--border-tertiary);
+  width: 144px;
+  min-width: 144px;
+  max-width: 144px;
+  visibility: hidden;
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+
+  &[data-overflow='true'] {
+    visibility: visible;
+    position: relative;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  &__text {
+    @include typography-text-m;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+.rte-dynamic-tab__add-button {
+  @include dynamic-tab-button-style;
+
+  align-self: stretch;
+  width: 44px;
+  min-width: 44px;
+  max-width: 44px;
+  justify-content: center;
+}
+
+.rte-dynamic-tab__live-region {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
