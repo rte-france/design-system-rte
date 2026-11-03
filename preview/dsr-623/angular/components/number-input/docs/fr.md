@@ -136,22 +136,6 @@ N’utilisez pas dans les applications les briques internes telles que `<rte-bas
 
 Place les steppers de décrémentation et d’incrémentation à gauche et à droite du champ (`"right" | "sides"`).
 
-#### Apparence neutre
-
-```html
-<rte-number-input
-  id="number-input-neutral"
-  label="Puissance"
-  appearance="neutral"
-  [min]="0"
-  [max]="100"
-  [defaultValue]="50"
-  unit="kW"
-/>
-```
-
-Utilise des steppers neutres remplis (neutral-bold) plutôt que remplis brand (`"brand" | "neutral"`).
-
 #### Espacement compact
 
 ```html
@@ -184,11 +168,13 @@ Réduit la hauteur du champ et des steppers pour les mises en page denses.
 
 Définit la largeur totale de la disposition Number Input (champ et steppers).
 
-#### Décimales (fr-FR)
+#### Décimales
+
+Définissez `[decimalPrecision]` pour autoriser des fractions. Le séparateur affiché dépend de `locale` (virgule avec `fr-FR` par défaut ; passez `locale="en-US"` pour un point).
 
 ```html
 <rte-number-input
-  id="number-input-decimals-fr"
+  id="number-input-decimals"
   label="Puissance"
   [decimalPrecision]="2"
   [defaultValue]="12.34"
@@ -196,56 +182,6 @@ Définit la largeur totale de la disposition Number Input (champ et steppers).
   unit="kW"
 />
 ```
-
-Formate les décimales avec le séparateur de la locale (virgule pour `fr-FR`).
-
-#### Décimales (en-US)
-
-```html
-<rte-number-input
-  id="number-input-decimals-en"
-  label="Puissance"
-  locale="en-US"
-  [decimalPrecision]="2"
-  [defaultValue]="12.34"
-  [max]="999"
-  unit="kW"
-/>
-```
-
-Utilise une locale anglaise : le séparateur décimal est un point.
-
-#### Désactivé
-
-```html
-<rte-number-input
-  id="number-input-disabled"
-  label="Puissance"
-  [disabled]="true"
-  [min]="0"
-  [max]="100"
-  [defaultValue]="50"
-  unit="kW"
-/>
-```
-
-Désactive l’interaction ; la valeur numérique n’est pas affichée, l’unité apparaît grisée et les steppers sont inactifs.
-
-#### Lecture seule
-
-```html
-<rte-number-input
-  id="number-input-readonly"
-  label="Puissance"
-  [readOnly]="true"
-  [min]="0"
-  [max]="100"
-  [defaultValue]="50"
-  unit="kW"
-/>
-```
-
-Affiche la valeur sans permettre la modification ni le pas.
 
 #### Avec texte d’aide
 
@@ -264,18 +200,6 @@ Affiche la valeur sans permettre la modification ni le pas.
 Affiche un texte d’aide sous le champ lorsqu’aucune erreur de plage automatique n’est active.
 
 ## Limitations
-
-### Saisie texte plutôt que type number natif
-
-Le champ de saisie utilise `type="text"` avec `inputmode` et `role="spinbutton"`, pas `type="number"`. Les séparateurs décimaux viennent uniquement de `locale` ; la saisie `.` ou `,` est normalisée selon la locale.
-
-### Valeurs hors plage visibles
-
-Les valeurs en dehors de `min` / `max` restent dans le champ et déclenchent des messages de plage automatiques en français (sauf override via `rangeErrorMessages` ou `error` / `errorMessage`). Le composant ne borne pas la saisie à la plage.
-
-### Champ vide au blur
-
-Si l’utilisateur vide le champ puis quitte le focus, l’affichage revient à `defaultValue` lorsqu’il est défini ; sinon la valeur reste vide et le modèle émet `null`.
 
 ### Affichage désactivé
 
