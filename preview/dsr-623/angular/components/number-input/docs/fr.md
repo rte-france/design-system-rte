@@ -22,7 +22,7 @@ Le composant public est `NumberInputComponent` (`<rte-number-input>`). Importez-
 |-----|------|-------------------|-------------|
 | id | string | — (requis) | Identifiant stable pour le champ, l’association au libellé et le texte d’aide. |
 | label | string | `"Label"` | Texte du libellé visible. À omettre ou laisser vide seulement si `ariaLabel` ou `ariaLabelledby` nomme le champ. |
-| ariaLabel | string | `""` | Nom accessible du spinbutton lorsqu’aucun libellé visible n’est affiché. Requis si `label` est vide. |
+| ariaLabel | string | `""` | Nom accessible du champ de saisie lorsqu’aucun libellé visible n’est affiché. Requis si `label` est vide. |
 | ariaLabelledby | string | `""` | Id d’un élément externe qui libelle le champ. Remplace l’association automatique au libellé. |
 | labelPosition | `"top" \| "side"` | `"top"` | Position du libellé par rapport au contrôle. |
 | required | boolean | `false` | Marque le champ comme requis pour l’indicateur d’obligation. |
@@ -42,15 +42,23 @@ Le composant public est `NumberInputComponent` (`<rte-number-input>`). Importez-
 | decimalPrecision | number | `0` | Nombre de décimales (`0` pour entiers uniquement). Borné entre `0` et `100`. |
 | locale | string | `"fr-FR"` | Locale utilisée pour le séparateur décimal (`,` ou `.`). |
 | defaultValue | number | `undefined` | Valeur affichée initiale lorsque `value` est vide et sans formulaire ; aussi utilisée au blur si le champ est vidé. |
-| placeholder | string | `""` | Placeholder de l’entrée spinbutton. |
+| placeholder | string | `""` | Placeholder du champ de saisie. |
 | width | string | `"184px"` | Largeur totale de la disposition (champ + steppers). Les valeurs numériques sont traitées en pixels. |
 | name | string | `""` | Attribut `name` de l’entrée native. |
-| rangeErrorMessages | `NumberInputRangeErrorMessages` | Valeurs françaises par défaut (core) | Remplace les messages automatiques min/max via les callables `between`, `greaterThan` et `lessThan`. |
+| rangeErrorMessages | `NumberInputRangeErrorMessages` | Voir le tableau ci-dessous | Remplace les messages automatiques min/max de plage. Si omis, les valeurs par défaut françaises du core s’appliquent. |
 | value | string | `""` | Liaison unidirectionnelle en texte numérique ; met à jour l’affichage lorsque la valeur est non vide et finie. Préférez `defaultValue` ou les formulaires réactifs pour un usage courant. |
 | valueChange | `number \| null` | — | Émet la valeur numérique analysée lors d’une saisie ou d’un pas. Émet `null` si le champ est vide ou non analysable (comme le modèle de formulaire réactif). |
-| inputBlur | `void` | — | Émis lorsque le spinbutton perd le focus. |
+| inputBlur | `void` | — | Émis lorsque le champ de saisie perd le focus. |
 
 Les erreurs de plage et de validation affichent automatiquement une icône d’erreur à côté du texte d’aide ; il n’existe pas d’entrée dédiée pour activer cette icône.
+
+### `NumberInputRangeErrorMessages`
+
+| Nom | Type | Valeur par défaut |
+|-----|------|-------------------|
+| between | `(min: number, max: number) => string` | `(min, max) => \`La valeur doit être comprise entre ${min} et ${max}.\`` |
+| greaterThan | `(min: number) => string` | `(min) => \`La valeur doit être supérieure ou égale à ${min}.\`` |
+| lessThan | `(max: number) => string` | `(max) => \`La valeur doit être inférieure ou égale à ${max}.\`` |
 
 ## Usage
 
@@ -85,7 +93,7 @@ export class PowerFieldComponent {
 }
 ```
 
-Avec les formulaires réactifs, liez un `FormControl<number | null>` ; la valeur et l’état désactivé du contrôle restent synchronisés avec le spinbutton.
+Avec les formulaires réactifs, liez un `FormControl<number | null>` ; la valeur et l’état désactivé du contrôle restent synchronisés avec le champ de saisie.
 
 ```typescript
 import { Component } from "@angular/core";
@@ -259,7 +267,7 @@ Affiche un texte d’aide sous le champ lorsqu’aucune erreur de plage automati
 
 ### Saisie texte plutôt que type number natif
 
-Le spinbutton utilise `type="text"` avec `inputmode` et `role="spinbutton"`, pas `type="number"`. Les séparateurs décimaux viennent uniquement de `locale` ; la saisie `.` ou `,` est normalisée selon la locale.
+Le champ de saisie utilise `type="text"` avec `inputmode` et `role="spinbutton"`, pas `type="number"`. Les séparateurs décimaux viennent uniquement de `locale` ; la saisie `.` ou `,` est normalisée selon la locale.
 
 ### Valeurs hors plage visibles
 
@@ -271,7 +279,7 @@ Si l’utilisateur vide le champ puis quitte le focus, l’affichage revient à 
 
 ### Affichage désactivé
 
-Lorsque `disabled` est `true` (y compris via `disable()` sur un FormControl), le spinbutton n’affiche pas de valeur numérique. L’unité reste visible avec le style désactivé. La valeur sous-jacente `number | null` est conservée pour les formulaires et lorsque le contrôle est réactivé.
+Lorsque `disabled` est `true` (y compris via `disable()` sur un FormControl), le champ de saisie n’affiche pas de valeur numérique. L’unité reste visible avec le style désactivé. La valeur sous-jacente `number | null` est conservée pour les formulaires et lorsque le contrôle est réactivé.
 
 ### Largeur incluant les steppers
 
@@ -279,7 +287,7 @@ Lorsque `disabled` est `true` (y compris via `disable()` sur un FormControl), le
 
 ### Molette de la souris
 
-La molette modifie la valeur uniquement lorsque le spinbutton a le focus ; l’événement est alors empêché de faire défiler la page.
+La molette modifie la valeur uniquement lorsque le champ de saisie a le focus ; l’événement est alors empêché de faire défiler la page.
 
 ### Nom accessible
 
@@ -287,7 +295,7 @@ Fournissez un `label` non vide, ou laissez `label` vide et renseignez `ariaLabel
 
 ### Ordre de tabulation des steppers
 
-Les boutons icône d’incrémentation et de décrémentation ont `tabIndex="-1"`. Utilisez le spinbutton et les flèches (↑ / ↓), ou l’interaction pointeur sur les steppers, pour modifier la valeur.
+Les boutons icône d’incrémentation et de décrémentation ont `tabIndex="-1"`. Utilisez le champ de saisie et les flèches (↑ / ↓), ou l’interaction pointeur sur les steppers, pour modifier la valeur.
 
 ### État désactivé des formulaires réactifs
 

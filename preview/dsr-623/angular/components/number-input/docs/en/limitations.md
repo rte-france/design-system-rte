@@ -1,6 +1,6 @@
 ### Text input instead of native number type
 
-The spinbutton uses `type="text"` with `inputmode` and `role="spinbutton"`, not `type="number"`. Decimal separators come from `locale` only; typing `.` or `,` is normalized to the locale separator.
+The input field uses `type="text"` with `inputmode` and `role="spinbutton"`, not `type="number"`. Decimal separators come from `locale` only; typing `.` or `,` is normalized to the locale separator.
 
 ### Out-of-range values stay visible
 
@@ -12,7 +12,7 @@ If the user clears the field and blurs, the display resets to `defaultValue` whe
 
 ### Disabled display
 
-When `disabled` is true (including via reactive forms `disable()`), the spinbutton shows no numeric value. The unit remains visible in disabled styling. The underlying `number | null` value is preserved for forms and when the control is enabled again.
+When `disabled` is true (including via reactive forms `disable()`), the input field shows no numeric value. The unit remains visible in disabled styling. The underlying `number | null` value is preserved for forms and when the control is enabled again.
 
 ### Width includes steppers
 
@@ -20,7 +20,7 @@ When `disabled` is true (including via reactive forms `disable()`), the spinbutt
 
 ### Mouse wheel
 
-The wheel adjusts the value only while the spinbutton is focused; the event is prevented from scrolling the page in that case.
+The wheel adjusts the value only while the input field is focused; the event is prevented from scrolling the page in that case.
 
 ### Accessible name
 
@@ -28,7 +28,7 @@ Provide a non-empty `label`, or set `label` to `""` and supply `ariaLabel` (or `
 
 ### Stepper focus order
 
-Increment and decrement icon buttons use `tabIndex="-1"`. Use the spinbutton and arrow keys (↑ / ↓), or pointer interaction on steppers, to change the value.
+Increment and decrement icon buttons use `tabIndex="-1"`. Use the input field and arrow keys (↑ / ↓), or pointer interaction on steppers, to change the value.
 
 ### Reactive forms disabled state
 

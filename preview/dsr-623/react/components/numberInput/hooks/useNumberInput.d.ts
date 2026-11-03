@@ -26,19 +26,19 @@ export interface UseNumberInputOptions {
 export declare function useNumberInput({ id, label, value: controlledValue, defaultValue, onChange, onBlur, min, max, step: stepProp, decimalPrecision: decimalPrecisionProp, locale, unit, isError, errorMessage, assistiveTextLabel, disabled, readOnly, rangeErrorMessages, ariaLabel, ariaLabelledby, width, }: UseNumberInputOptions & {
     width?: string;
 }): {
-    spinbuttonRef: import('../../../../../../node_modules/react').MutableRefObject<HTMLInputElement | null>;
+    inputFieldRef: import('../../../../../../node_modules/react').MutableRefObject<HTMLInputElement | null>;
     computedWidth: string;
     fieldDisplayText: string;
     inputFocused: boolean;
-    inputMode: import('../../../../../core').NumberInputInputMode;
+    inputMode: import('../../../../../core').NumberInputMode;
     showErrorState: boolean;
     resolvedErrorMessage: string;
     visibleAssistiveText: string;
     displayedLabel: string;
     hasVisibleLabel: boolean;
-    spinbuttonAriaLabelledby: string | undefined;
-    spinbuttonAriaLabel: string | undefined;
-    spinbuttonAriaDescribedBy: string | undefined;
+    inputFieldAriaLabelledby: string | undefined;
+    inputFieldAriaLabel: string | undefined;
+    inputFieldAriaDescribedBy: string | undefined;
     canDecrement: boolean;
     canIncrement: boolean;
     ariaValueNow: number | undefined;

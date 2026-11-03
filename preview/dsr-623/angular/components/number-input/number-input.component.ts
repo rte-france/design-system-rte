@@ -38,8 +38,8 @@ import {
   getNumberInputAriaValueNow,
   getNumberInputAriaValueText,
   getNumberInputDisplayText,
-  getNumberInputInputMode,
-  getNumberInputSpinbuttonA11y,
+  getNumberInputMode,
+  getNumberInputFieldA11y,
   getStepperCapabilities,
   getNumberInputStepperFallbackValue,
   getNumberInputValidationView,
@@ -103,7 +103,7 @@ export class NumberInputComponent extends BaseInputComponent implements ControlV
   readonly inputFocused = signal(false);
 
   private readonly destroyRef = inject(DestroyRef);
-  private readonly spinbuttonRef = viewChild<ElementRef<HTMLInputElement>>("spinbuttonRef");
+  private readonly inputFieldRef = viewChild<ElementRef<HTMLInputElement>>("inputFieldRef");
 
   private onChange: (value: number | null) => void = () => {};
   private onTouched: () => void = () => {};
@@ -119,7 +119,7 @@ export class NumberInputComponent extends BaseInputComponent implements ControlV
 
   readonly decimalSeparator = computed(() => getDecimalSeparator(this.locale()));
 
-  readonly inputMode = computed(() => getNumberInputInputMode(this.decimalPrecision()));
+  readonly inputMode = computed(() => getNumberInputMode(this.decimalPrecision()));
 
   readonly parsedValue = computed(() => parseNumericText(this.displayText(), this.decimalSeparator()));
 
@@ -152,8 +152,8 @@ export class NumberInputComponent extends BaseInputComponent implements ControlV
   readonly displayedLabel = computed(() => this.label().trim());
   readonly hasVisibleLabel = computed(() => this.displayedLabel().length > 0);
 
-  readonly spinbuttonA11y = computed(() =>
-    getNumberInputSpinbuttonA11y({
+  readonly inputFieldA11y = computed(() =>
+    getNumberInputFieldA11y({
       id: this.id() ?? "",
       hasVisibleLabel: this.hasVisibleLabel(),
       ariaLabel: this.ariaLabel(),
@@ -162,11 +162,11 @@ export class NumberInputComponent extends BaseInputComponent implements ControlV
     }),
   );
 
-  readonly spinbuttonAriaLabelledby = computed(() => this.spinbuttonA11y().ariaLabelledby);
+  readonly inputFieldAriaLabelledby = computed(() => this.inputFieldA11y().ariaLabelledby);
 
-  readonly spinbuttonAriaLabel = computed(() => this.spinbuttonA11y().ariaLabel);
+  readonly inputFieldAriaLabel = computed(() => this.inputFieldA11y().ariaLabel);
 
-  readonly spinbuttonAriaDescribedBy = computed(() => this.spinbuttonA11y().ariaDescribedby);
+  readonly inputFieldAriaDescribedBy = computed(() => this.inputFieldA11y().ariaDescribedby);
 
   readonly stepperVariant = computed(() => (this.appearance() === "brand" ? "primary" : "neutral"));
 
@@ -239,7 +239,7 @@ export class NumberInputComponent extends BaseInputComponent implements ControlV
   }
 
   ngAfterViewInit(): void {
-    const inputElement = this.spinbuttonRef()?.nativeElement;
+    const inputElement = this.inputFieldRef()?.nativeElement;
     if (!inputElement) {
       return;
     }
@@ -328,7 +328,7 @@ export class NumberInputComponent extends BaseInputComponent implements ControlV
     }
 
     if (event.key === "Enter") {
-      this.spinbuttonRef()?.nativeElement.blur();
+      this.inputFieldRef()?.nativeElement.blur();
     }
   }
 
@@ -338,7 +338,7 @@ export class NumberInputComponent extends BaseInputComponent implements ControlV
       return;
     }
     this.decrement();
-    this.spinbuttonRef()?.nativeElement.focus();
+    this.inputFieldRef()?.nativeElement.focus();
   }
 
   handleIncrementClick(event: MouseEvent | KeyboardEvent): void {
@@ -347,7 +347,7 @@ export class NumberInputComponent extends BaseInputComponent implements ControlV
       return;
     }
     this.increment();
-    this.spinbuttonRef()?.nativeElement.focus();
+    this.inputFieldRef()?.nativeElement.focus();
   }
 
   private increment(): void {

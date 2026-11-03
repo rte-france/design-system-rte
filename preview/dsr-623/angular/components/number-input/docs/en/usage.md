@@ -29,7 +29,7 @@ export class PowerFieldComponent {
 }
 ```
 
-With reactive forms, bind a `FormControl<number | null>`; the control’s value and disabled state stay in sync with the spinbutton.
+With reactive forms, bind a `FormControl<number | null>`; the control’s value and disabled state stay in sync with the input field.
 
 ```typescript
 import { Component } from "@angular/core";
