@@ -54,11 +54,11 @@ Les erreurs de plage et de validation affichent automatiquement une icône d’e
 
 ### `NumberInputRangeErrorMessages`
 
-| Nom | Type | Valeur par défaut |
-|-----|------|-------------------|
-| between | `(min: number, max: number) => string` | `(min, max) => \`La valeur doit être comprise entre ${min} et ${max}.\`` |
-| greaterThan | `(min: number) => string` | `(min) => \`La valeur doit être supérieure ou égale à ${min}.\`` |
-| lessThan | `(max: number) => string` | `(max) => \`La valeur doit être inférieure ou égale à ${max}.\`` |
+| Nom | Type | Message par défaut |
+|-----|------|--------------------|
+| between | `(min: number, max: number) => string` | La valeur doit être comprise entre ${min} et ${max}. |
+| greaterThan | `(min: number) => string` | La valeur doit être supérieure ou égale à ${min}. |
+| lessThan | `(max: number) => string` | La valeur doit être inférieure ou égale à ${max}. |
 
 ## Usage
 

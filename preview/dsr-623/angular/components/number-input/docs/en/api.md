@@ -36,8 +36,8 @@ Range and validation errors show an error icon next to assistive text automatica
 
 ### `NumberInputRangeErrorMessages`
 
-| Property | Type | Default |
-|----------|------|---------|
-| between | `(min: number, max: number) => string` | `(min, max) => \`La valeur doit être comprise entre ${min} et ${max}.\`` |
-| greaterThan | `(min: number) => string` | `(min) => \`La valeur doit être supérieure ou égale à ${min}.\`` |
-| lessThan | `(max: number) => string` | `(max) => \`La valeur doit être inférieure ou égale à ${max}.\`` |
+| Property | Type | Default message |
+|----------|------|-----------------|
+| between | `(min: number, max: number) => string` | La valeur doit être comprise entre ${min} et ${max}. |
+| greaterThan | `(min: number) => string` | La valeur doit être supérieure ou égale à ${min}. |
+| lessThan | `(max: number) => string` | La valeur doit être inférieure ou égale à ${max}. |
