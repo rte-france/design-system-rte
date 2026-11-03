@@ -43,8 +43,7 @@ const BaseTextInput = forwardRef<HTMLInputElement, BaseTextInputProps>(
       showCounter,
       value,
       leftIcon,
-      showRightIcon = true,
-      rightIconAction = "clean",
+      rightIconAction,
       showLabelRequirement = false,
       assistiveAppearance = "description",
       showAssistiveIcon = false,
@@ -88,7 +87,7 @@ const BaseTextInput = forwardRef<HTMLInputElement, BaseTextInputProps>(
 
     const [inputValue, setInputValue] = useState(value ?? "");
     const [characterCount, setCharacterCount] = useState(inputValue.length);
-    const [isHiddenInput, setIsHiddenInput] = useState(!!showRightIcon && rightIconAction === "visibilityOn");
+    const [isHiddenInput, setIsHiddenInput] = useState(rightIconAction === "visibilityOn");
 
     useEffect(() => {
       if (value !== undefined) {
@@ -98,8 +97,8 @@ const BaseTextInput = forwardRef<HTMLInputElement, BaseTextInputProps>(
     }, [value]);
 
     useEffect(() => {
-      setIsHiddenInput(!!showRightIcon && rightIconAction === "visibilityOn");
-    }, [showRightIcon, rightIconAction]);
+      setIsHiddenInput(rightIconAction === "visibilityOn");
+    }, [rightIconAction]);
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
       const newValue = event.target.value;
@@ -118,7 +117,7 @@ const BaseTextInput = forwardRef<HTMLInputElement, BaseTextInputProps>(
           onChange("");
         }
       }
-      if (["visibilityOn", "visibilityOff"].includes(rightIconAction)) {
+      if (rightIconAction && ["visibilityOn", "visibilityOff"].includes(rightIconAction)) {
         toggleInputVisibility();
       }
     };
@@ -143,8 +142,8 @@ const BaseTextInput = forwardRef<HTMLInputElement, BaseTextInputProps>(
     );
 
     const displayCounter = showCounter && typeof maxLength === "number";
-    const rightIconName = getRightIconName(rightIconAction);
-    const rightIconAriaLabel = getRightIconAriaLabel(rightIconAction);
+    const rightIconName = rightIconAction ? getRightIconName(rightIconAction) : undefined;
+    const rightIconAriaLabel = rightIconAction ? getRightIconAriaLabel(rightIconAction) : undefined;
     const assistiveTextId = `${id}-assistive-text`;
     const computedAssistiveTextLabel = error ? errorMessage || assistiveTextLabel : assistiveTextLabel;
     const describedBy = computedAssistiveTextLabel ? assistiveTextId : undefined;
@@ -154,9 +153,9 @@ const BaseTextInput = forwardRef<HTMLInputElement, BaseTextInputProps>(
         return false;
       }
       if (rightIconAction === "clean") {
-        return !!inputValue?.length && showRightIcon;
+        return !!inputValue?.length;
       }
-      return showRightIcon && !!rightIconAction;
+      return !!rightIconAction;
     };
 
     const handleOnKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -227,7 +226,7 @@ const BaseTextInput = forwardRef<HTMLInputElement, BaseTextInputProps>(
                 {...props}
               />
 
-              {shouldShowRightIcon() && (
+              {shouldShowRightIcon() && rightIconName && (
                 <IconButton
                   name={rightIconName}
                   appearance="outlined"

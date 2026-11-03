@@ -11,7 +11,6 @@ export interface BaseTextInputProps {
   value?: string;
   defaultValue?: string;
   leftIcon?: string;
-  showRightIcon?: boolean;
   rightIconAction?: RightIconAction;
   rightIconSize?: import("../button/common/common-button").ButtonSize;
   showLabelRequirement?: boolean;

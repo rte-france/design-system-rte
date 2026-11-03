@@ -280,7 +280,6 @@ export const RightIconClean: Story = {
   args: {
     ...Default.args,
     rightIconAction: "clean",
-    showRightIcon: true,
   } as TextInputProps,
   render: (args) => <TextInput data-testid="input" {...args} />,
   play: async ({ canvasElement }) => {
@@ -318,7 +317,6 @@ export const KeyboardRightIconClean: Story = {
   args: {
     ...Default.args,
     rightIconAction: "clean",
-    showRightIcon: true,
   } as TextInputProps,
   render: (args) => <TextInput data-testid="input" {...args} />,
   play: async ({ canvasElement }) => {
@@ -371,7 +369,6 @@ export const KeyboardRightIconVisibility: Story = {
   args: {
     ...Default.args,
     rightIconAction: "visibilityOff",
-    showRightIcon: true,
   } as TextInputProps,
   render: (args) => <TextInput data-testid="input" {...args} />,
   play: async ({ canvasElement }) => {
