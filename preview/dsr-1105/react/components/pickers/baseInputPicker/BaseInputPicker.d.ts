@@ -5,6 +5,7 @@ export interface BaseInputPickerProps extends BaseInputProps<string> {
     isFocused?: boolean;
     pickerInputRef?: React.RefObject<HTMLInputElement> | ((element: HTMLInputElement) => void);
     pickerRef?: React.RefObject<HTMLDivElement>;
+    openButtonRef?: React.RefObject<HTMLButtonElement>;
     onFocus?: () => void;
     onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
     onMouseUp?: (event: React.MouseEvent<HTMLInputElement>) => void;
@@ -17,5 +18,5 @@ export interface BaseInputPickerProps extends BaseInputProps<string> {
     fixedWidth?: boolean;
     required?: boolean;
 }
-declare const BaseInputPicker: ({ id, value, readOnly, icon, onChange, onFocus, onKeyDown, onMouseUp, onMouseDown, onOpenPicker, onBlur, isFocused, pickerInputRef, pickerRef, ariaLabelledBy, ariaDescribedBy, isError, disabled, openButtonAriaLabel, fixedWidth, required, }: BaseInputPickerProps) => import("react").JSX.Element;
+declare const BaseInputPicker: ({ id, value, readOnly, icon, onChange, onFocus, onKeyDown, onMouseUp, onMouseDown, onOpenPicker, onBlur, isFocused, pickerInputRef, pickerRef, openButtonRef, ariaLabelledBy, ariaDescribedBy, isError, disabled, openButtonAriaLabel, fixedWidth, required, }: BaseInputPickerProps) => import("react").JSX.Element;
 export default BaseInputPicker;
