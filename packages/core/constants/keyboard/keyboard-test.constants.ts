@@ -1,6 +1,7 @@
 import {
   SPACE_KEY,
   ENTER_KEY,
+  TAB_KEY,
   BACKSPACE_KEY,
   DELETE_KEY,
   ARROW_RIGHT_KEY,
@@ -21,3 +22,4 @@ export const TESTING_ARROW_RIGHT_KEY = `{${ARROW_RIGHT_KEY}}`;
 export const TESTING_ARROW_LEFT_KEY = `{${ARROW_LEFT_KEY}}`;
 export const TESTING_ARROW_UP_KEY = `{${ARROW_UP_KEY}}`;
 export const TESTING_ARROW_DOWN_KEY = `{${ARROW_DOWN_KEY}}`;
+export const TESTING_SHIFT_TAB = `{Shift>}{${TAB_KEY}}{/Shift}`;

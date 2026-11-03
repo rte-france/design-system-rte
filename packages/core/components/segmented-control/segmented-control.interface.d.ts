@@ -1,12 +1,5 @@
 import { BadgeHolderProps } from "../badge/badge.interface";
 
-export interface FocusAdjacentOutsideSegmentOptions {
-  focusedIndex: number;
-  focusableElements: HTMLElement[];
-  segmentClass: string;
-  radiogroupElement: HTMLElement;
-}
-
 export interface SegmentedControlProps {
   options: SegmentOptions[];
   onChange: (id: string) => void;
@@ -31,4 +24,11 @@ export interface SegmentProps extends BadgeHolderProps {
   isSelected?: boolean;
   appearance?: "brand" | "neutral";
   isCompact?: boolean;
+}
+
+export interface GetSegmentTabIndexParams {
+  segmentId: string;
+  selectedSegmentId: string | undefined;
+  focusedSegmentId: string | null;
+  fallbackTabStopSegmentId?: string;
 }

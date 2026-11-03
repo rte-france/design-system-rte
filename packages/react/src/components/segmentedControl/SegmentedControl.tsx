@@ -1,5 +1,6 @@
 import {
   getSegmentPosition,
+  getSegmentTabIndex,
   isValidSegmentedControlOptions,
 } from "@design-system-rte/core/components/segmented-control/segmented-control-utils";
 import { SegmentedControlProps as CoreSegmentedControlProps } from "@design-system-rte/core/components/segmented-control/segmented-control.interface";
@@ -19,6 +20,7 @@ const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps>(
   ({ options, onChange, selectedSegment, appearance = "brand", isCompact = false, ...props }, ref) => {
     const containerRef: MutableRefObject<HTMLDivElement | null> = useRef<HTMLDivElement>(null);
     const [isInitialAnimationDisabled, setIsInitialAnimationDisabled] = useState(true);
+    const [focusedSegmentId, setFocusedSegmentId] = useState<string | null>(null);
     const { indicatorStyle } = useSelectedIndicatorPosition(containerRef, selectedSegment);
 
     useEffect(() => {
@@ -35,6 +37,15 @@ const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps>(
       onChange(id);
     };
 
+    const handleSegmentGroupBlurCapture = (event: React.FocusEvent<HTMLDivElement>) => {
+      const nextFocused = event.relatedTarget as Node | null;
+      if (!containerRef.current?.contains(nextFocused)) {
+        setFocusedSegmentId(null);
+      }
+    };
+
+    const fallbackTabStopSegmentId = options[0]?.id;
+
     if (!isValidSegmentedControlOptions(options)) {
       return null;
     }
@@ -50,6 +61,7 @@ const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps>(
         className={style["segmented-control"]}
         data-compact-spacing={isCompact}
         data-number-of-segments={options.length}
+        onBlurCapture={handleSegmentGroupBlurCapture}
         {...props}
       >
         <span
@@ -70,6 +82,13 @@ const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps>(
             isSelected={selectedSegment === option.id}
             appearance={appearance}
             isCompact={isCompact}
+            segmentTabIndex={getSegmentTabIndex({
+              segmentId: option.id,
+              selectedSegmentId: selectedSegment,
+              focusedSegmentId,
+              fallbackTabStopSegmentId,
+            })}
+            onSegmentFocus={() => setFocusedSegmentId(option.id)}
             {...option}
           />
         ))}
