@@ -1,0 +1,74 @@
+<div #container class="rte-dynamic-tab__container">
+  <span class="rte-dynamic-tab__indicator" aria-hidden="true" [ngStyle]="indicatorStyle()"></span>
+
+  <ul
+    #tabList
+    cdkDropList
+    cdkDropListOrientation="horizontal"
+    class="rte-dynamic-tab__list"
+    role="tablist"
+    [id]="id() + '-list'"
+    [attr.aria-label]="'Onglets dynamiques'"
+    (cdkDropListDropped)="onDrop($event)"
+  >
+    @for (option of visibleOptions(); track option.id) {
+      <rte-dynamic-tab-item
+        cdkDrag
+        cdkDragLockAxis="x"
+        [cdkDragData]="option"
+        [option]="option"
+        [appearance]="appearance()"
+        [isActive]="isTabActive(option.id)"
+        [compactSpacing]="compactSpacing()"
+        [isEditable]="isEditable()"
+        [isClosable]="isClosable()"
+        [iconName]="iconName()"
+        [tabWidth]="tabWidth()"
+        [isMoving]="isMoving()"
+        (tabClick)="onTabClick($event)"
+        (closeTab)="onCloseTab($event)"
+        (changeTitle)="onChangeTabTitle($event)"
+        (enterMoveMode)="onEnterMoveMode()"
+        (tabKeydown)="onTabKeydown($event)"
+        (cdkDragStarted)="onDragStarted()"
+        (cdkDragEnded)="onDragEnded()"
+      />
+    }
+  </ul>
+
+  <div class="rte-dynamic-tab__actions">
+    <div class="rte-dynamic-tab__more-menu-container">
+      <div rteDropdown [rteDropdownOffset]="8" (menuEvent)="onHiddenTabSelect($event)">
+        <button
+          rteDropdownTrigger
+          type="button"
+          class="rte-dynamic-tab__more-menu"
+          [attr.data-appearance]="appearance()"
+          [attr.data-compact-spacing]="compactSpacing()"
+          [attr.data-overflow]="hasOverflow()"
+          [attr.aria-hidden]="!hasOverflow()"
+          [tabIndex]="hasOverflow() ? 0 : -1"
+        >
+          <span class="rte-dynamic-tab__more-menu__text">{{ hiddenTabsText() }}</span>
+          <rte-icon name="arrow-chevron-down" appearance="outlined" />
+        </button>
+        <rte-dropdown-menu [items]="hiddenDropdownItems()" />
+      </div>
+
+      @if (newTabConfig()) {
+        <button
+          type="button"
+          class="rte-dynamic-tab__add-button"
+          aria-label="Ajouter un onglet"
+          [attr.data-appearance]="appearance()"
+          [attr.data-compact-spacing]="compactSpacing()"
+          (click)="onAddTab()"
+        >
+          <rte-icon name="add" appearance="outlined" />
+        </button>
+      }
+    </div>
+  </div>
+
+  <div class="rte-dynamic-tab__live-region" aria-live="polite" aria-atomic="true"></div>
+</div>
