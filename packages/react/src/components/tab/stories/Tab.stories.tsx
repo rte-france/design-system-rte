@@ -512,9 +512,9 @@ export const BadgeVisibility: Story = {
       });
     }
 
-    await expect(within(canvas.getByRole("tab", { name: "Number 5" })).getByTestId("badge")).toHaveTextContent("5");
+    await expect(within(canvas.getByRole("tab", { name: "Number, 5" })).getByTestId("badge")).toHaveTextContent("5");
     await expect(
-      within(canvas.getByRole("tab", { name: "Icon" }))
+      within(canvas.getByRole("tab", { name: "Icon. Notification" }))
         .getByTestId("badge")
         .querySelector("svg"),
     ).toBeInTheDocument();
@@ -959,5 +959,151 @@ export const FocusWithoutSelectionUpdate: Story = {
     await expect(args.onChange).toHaveBeenLastCalledWith(tabs[1].id);
     await expect(args.onChange).not.toHaveBeenCalledWith(tabs[0].id);
     await expect(tabs.filter((tab) => tab.tabIndex === 0)).toEqual([tabs[1]]);
+  },
+};
+
+const accessibleNameValidationCases = [
+  {
+    id: "label",
+    title: "label only",
+    expectedAriaLabel: "Libellé seul",
+    options: [
+      { label: "Référence", id: "ref", panelId: "ref-panel" },
+      { label: "Libellé seul", id: "target", panelId: "target-panel" },
+    ],
+  },
+  {
+    id: "ariaLabel",
+    title: "ariaLabel override",
+    expectedAriaLabel: "3 nouvelles alertes",
+    options: [
+      { label: "Référence", id: "ref", panelId: "ref-panel" },
+      { label: "Visible (ignoré SR)", id: "target", ariaLabel: "3 nouvelles alertes", panelId: "target-panel" },
+    ],
+  },
+  {
+    id: "labelNumberBadge",
+    title: "label + number badge",
+    expectedAriaLabel: "Alertes, 3",
+    options: [
+      { label: "Référence", id: "ref", panelId: "ref-panel" },
+      {
+        label: "Alertes",
+        id: "target",
+        panelId: "target-panel",
+        badgeContent: "number" as const,
+        badgeCount: 3,
+        badgeType: "indicator" as const,
+      },
+    ],
+  },
+  {
+    id: "labelEmptyBadge",
+    title: "label + empty badge",
+    expectedAriaLabel: "Favoris. Notification",
+    options: [
+      { label: "Référence", id: "ref", panelId: "ref-panel" },
+      {
+        label: "Favoris",
+        id: "target",
+        panelId: "target-panel",
+        showBadge: true,
+        badgeContent: "empty" as const,
+        badgeType: "indicator" as const,
+      },
+    ],
+  },
+  {
+    id: "iconOnly",
+    title: "icon without label",
+    expectedAriaLabel: "view-column",
+    options: [
+      { id: "ref", icon: "view-agenda", panelId: "ref-panel", ariaLabel: "view-agenda" },
+      { id: "target", icon: "view-column", panelId: "target-panel", ariaLabel: "view-column" },
+    ],
+  },
+  {
+    id: "iconNumberBadge",
+    title: "icon + badgeCount",
+    expectedAriaLabel: "view-column. Notifications, 3",
+    options: [
+      { id: "ref", icon: "view-agenda", panelId: "ref-panel", ariaLabel: "view-agenda" },
+      {
+        id: "target",
+        icon: "view-column",
+        ariaLabel: "view-column",
+        badgeContent: "number" as const,
+        badgeCount: 3,
+        badgeType: "indicator" as const,
+        panelId: "target-panel",
+      },
+    ],
+  },
+  {
+    id: "iconBadgeIcon",
+    title: "icon + badgeIcon (empty/icon badge)",
+    expectedAriaLabel: "view-grid. Notification",
+    options: [
+      { id: "ref", icon: "view-agenda", panelId: "ref-panel", ariaLabel: "view-agenda" },
+      {
+        id: "target",
+        icon: "view-grid",
+        ariaLabel: "view-grid",
+        badgeContent: "icon" as const,
+        badgeIcon: "notification",
+        badgeType: "indicator" as const,
+        panelId: "target-panel",
+      },
+    ],
+  },
+] as const;
+
+export const AccessibleNameValidation: Story = {
+  tags: ["!autodocs"],
+  args: {
+    ...Default.args,
+    onChange: () => {},
+    options: [],
+  },
+  render: () => {
+    const [selectedByCase, setSelectedByCase] = useState<Record<string, string>>(
+      Object.fromEntries(accessibleNameValidationCases.map((validationCase) => [validationCase.id, "ref"])),
+    );
+
+    return (
+      <div
+        style={{ display: "flex", flexDirection: "column", gap: 28, maxWidth: 520, padding: 8 }}
+        data-testid="accessible-name-validation"
+      >
+        <p style={{ margin: 0, fontSize: 14 }}>
+          Vérifiez le nom accessible du deuxième onglet de chaque liste avec un lecteur d’écran ou les outils de
+          développement.
+        </p>
+        {accessibleNameValidationCases.map((validationCase) => (
+          <section key={validationCase.id} aria-labelledby={`case-${validationCase.id}-title`}>
+            <h3 id={`case-${validationCase.id}-title`} style={{ margin: "0 0 4px", fontSize: 16 }}>
+              {validationCase.title}
+            </h3>
+            <p style={{ margin: "0 0 8px", fontSize: 13, color: "#555" }}>
+              Nom accessible attendu : <code>{validationCase.expectedAriaLabel}</code>
+            </p>
+            <Tab
+              options={[...validationCase.options]}
+              selectedTabId={selectedByCase[validationCase.id]}
+              onChange={(id) => setSelectedByCase((previous) => ({ ...previous, [validationCase.id]: id }))}
+              aria-label={validationCase.title}
+            />
+          </section>
+        ))}
+      </div>
+    );
+  },
+  play: async ({ canvasElement }) => {
+    const sections = within(canvasElement).getByTestId("accessible-name-validation").querySelectorAll("section");
+
+    accessibleNameValidationCases.forEach((validationCase, index) => {
+      const tabs = Array.from(sections[index].querySelectorAll("[role='tab']"));
+      expect(tabs[1]).toHaveAttribute("aria-label", validationCase.expectedAriaLabel);
+    });
   },
 };

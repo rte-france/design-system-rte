@@ -444,7 +444,7 @@ export const IconOnlyWithBadge: Story = {
   tags: ["!autodocs"],
   args: {
     options: [
-      { id: "agenda", icon: "view-agenda" },
+      { id: "agenda", icon: "view-agenda", ariaLabel: "view-agenda" },
       {
         id: "column",
         icon: "view-column",
@@ -452,6 +452,7 @@ export const IconOnlyWithBadge: Story = {
         badgeContent: "number",
         badgeCount: 3,
         badgeType: "indicator",
+        ariaLabel: "view-column",
       },
     ],
     onChange: fn(),
@@ -520,8 +521,8 @@ const accessibleNameValidationCases = [
     title: "icon without labelText",
     expectedAriaLabel: "view-column",
     options: [
-      { id: "ref", icon: "view-agenda" },
-      { id: "target", icon: "view-column" },
+      { id: "ref", icon: "view-agenda", ariaLabel: "view-agenda" },
+      { id: "target", icon: "view-column", ariaLabel: "view-column" },
     ],
   },
   {
@@ -529,10 +530,11 @@ const accessibleNameValidationCases = [
     title: "icon + badgeCount",
     expectedAriaLabel: "view-column. Notifications, 3",
     options: [
-      { id: "ref", icon: "view-agenda" },
+      { id: "ref", icon: "view-agenda", ariaLabel: "view-agenda" },
       {
         id: "target",
         icon: "view-column",
+        ariaLabel: "view-column",
         showBadge: true,
         badgeContent: "number" as const,
         badgeCount: 3,
@@ -549,6 +551,7 @@ const accessibleNameValidationCases = [
       {
         id: "target",
         icon: "view-grid",
+        ariaLabel: "view-grid",
         showBadge: true,
         badgeContent: "icon" as const,
         badgeIcon: "notification",

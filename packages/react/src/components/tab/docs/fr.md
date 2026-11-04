@@ -35,6 +35,7 @@ Chaque entrée de `options` accepte les champs suivants :
 | badgeContent | `"number" \| "icon" \| "empty"`       | `"empty"`     | `"number"` affiche un compteur ; `"icon"` affiche `badgeIcon` ; `"empty"` affiche un point indicateur. |
 | badgeIcon    | `string`                              | —             | Nom de l'icône affichée lorsque `badgeContent` vaut `"icon"`.                                          |
 | badgeType    | `"brand" \| "neutral" \| "indicator"` | `"indicator"` | Variante visuelle du badge.                                                                            |
+| ariaLabel    | `string`                              | —             | Nom accessible de l'onglet. Remplace le nom calculé à partir du libellé ou de l'icône et du badge.     |
 
 ## Usage
 
