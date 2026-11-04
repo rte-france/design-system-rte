@@ -49,6 +49,9 @@ const Tab = forwardRef<HTMLDivElement, TabProps>(
     const [isScrollable, setIsScrollable] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
+    const isScrollableStart = isScrollableLeft || isScrollableTop;
+    const isScrollableEnd = isScrollableRight || isScrollableBottom;
+
     const containerRef: MutableRefObject<HTMLDivElement | null> = useRef<HTMLDivElement>(null);
 
     const { indicatorStyle } = useSelectedIndicatorPosition(
@@ -151,12 +154,13 @@ const Tab = forwardRef<HTMLDivElement, TabProps>(
           {isScrollable && !shouldDisplayDropdown && (
             <IconButton
               name={direction === "horizontal" ? "arrow-chevron-left" : "arrow-chevron-up"}
-              aria-label="Previous tabs"
+              aria-label="Voir les onglets précédents"
               variant="transparent"
+              tabIndex={-1}
               style={{
                 zIndex: 11,
-                opacity: isScrollableLeft || isScrollableTop ? 1 : 0,
-                pointerEvents: isScrollableLeft || isScrollableTop ? "auto" : "none",
+                opacity: isScrollableStart ? 1 : 0,
+                pointerEvents: isScrollableStart ? "auto" : "none",
               }}
               onClick={scrollBackward}
             />
@@ -195,7 +199,7 @@ const Tab = forwardRef<HTMLDivElement, TabProps>(
                     type="button"
                     className={style["tab-dropdown-button"]}
                     onClick={() => setIsDropdownOpen((prev) => !prev)}
-                    aria-label="Select tab"
+                    aria-label="Afficher les onglets"
                     data-inverted={inverted}
                   >
                     {selectedOption && selectedOption.icon && <Icon name={selectedOption.icon} appearance="filled" />}
@@ -250,12 +254,13 @@ const Tab = forwardRef<HTMLDivElement, TabProps>(
           {isScrollable && !shouldDisplayDropdown && (
             <IconButton
               name={direction === "horizontal" ? "arrow-chevron-right" : "arrow-chevron-down"}
-              aria-label="Next tabs"
+              aria-label="Voir les onglets suivants"
               variant="transparent"
+              tabIndex={-1}
               style={{
                 zIndex: 11,
-                opacity: isScrollableRight || isScrollableBottom ? 1 : 0,
-                pointerEvents: isScrollableRight || isScrollableBottom ? "auto" : "none",
+                opacity: isScrollableEnd ? 1 : 0,
+                pointerEvents: isScrollableEnd ? "auto" : "none",
               }}
               onClick={scrollForward}
             />
