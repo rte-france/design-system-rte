@@ -1,4 +1,4 @@
-import { logError } from "@design-system-rte/core";
+import { getSegmentAriaLabel, logError } from "@design-system-rte/core";
 import { TabItemProps as CoreTabItemProps } from "@design-system-rte/core/components/tab/tab.interface";
 import {
   ARROW_DOWN_KEY,
@@ -40,6 +40,17 @@ const TabItem = forwardRef<HTMLButtonElement, TabItemProps>(
     },
     ref,
   ) => {
+    const segmentAriaLabel = getSegmentAriaLabel({
+      id,
+      ariaLabel,
+      labelText: label,
+      icon,
+      showBadge,
+      badgeCount,
+      badgeContent,
+      badgeIcon,
+    });
+
     const badgeProps = {
       count: badgeCount,
       content: badgeContent,
@@ -195,6 +206,7 @@ const TabItem = forwardRef<HTMLButtonElement, TabItemProps>(
           aria-controls={panelId}
           aria-label={ariaLabel}
           aria-disabled={disabled}
+          aria-label={segmentAriaLabel}
           tabIndex={isSelected ? 0 : -1}
           data-selected={isSelected}
           data-disabled={disabled}

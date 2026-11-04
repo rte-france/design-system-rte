@@ -14,12 +14,12 @@ import {
   SimpleChanges,
   viewChild,
 } from "@angular/core";
+import { getSegmentAriaLabel as getCoreSegmentAriaLabel } from "@design-system-rte/core";
 import { shouldDisplayBadge as CoreShouldDisplayBadge } from "@design-system-rte/core/components/badge/badge.utils";
 import {
   getSegmentPosition,
   focusNextSegmentElement,
   focusPreviousSegmentElement,
-  getSegmentAriaLabel as getCoreSegmentAriaLabel,
   getSegmentTabIndex,
   isValidSegmentedControlOptions,
 } from "@design-system-rte/core/components/segmented-control/segmented-control-utils";

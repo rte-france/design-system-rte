@@ -12,7 +12,7 @@ import {
   computed,
   effect,
 } from "@angular/core";
-import { logError } from "@design-system-rte/core";
+import { getSegmentAriaLabel, logError } from "@design-system-rte/core";
 import { TabItemProps } from "@design-system-rte/core/components/tab/tab.interface";
 
 import { BadgeComponent } from "../../badge/badge.component";
@@ -36,6 +36,21 @@ export class TabItemComponent implements AfterViewInit, OnDestroy {
   readonly isHidden = input<boolean>(false);
 
   readonly tabItemRef = viewChild<ElementRef<HTMLButtonElement>>("tabItem");
+  readonly accessibleName = computed(() => {
+    const option = this.option();
+    if (!option) return "";
+
+    return getSegmentAriaLabel({
+      id: option.id,
+      ariaLabel: option.ariaLabel,
+      labelText: option.label,
+      icon: option.icon,
+      showBadge: option.showBadge,
+      badgeCount: option.badgeCount,
+      badgeContent: option.badgeContent || "empty",
+      badgeIcon: option.badgeIcon,
+    });
+  });
 
   readonly hoverIndicatorStyle = signal<{
     width?: number;
