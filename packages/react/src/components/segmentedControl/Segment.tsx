@@ -1,8 +1,8 @@
+import { getSegmentAriaLabel } from "@design-system-rte/core";
 import { shouldDisplayBadge } from "@design-system-rte/core/components/badge/badge.utils";
 import {
   focusNextSegmentElement,
   focusPreviousSegmentElement,
-  getSegmentAriaLabel,
 } from "@design-system-rte/core/components/segmented-control/segmented-control-utils";
 import { SegmentProps as CoreSegmentProps } from "@design-system-rte/core/components/segmented-control/segmented-control.interface";
 import {
@@ -55,6 +55,7 @@ const Segment = ({
     badgeContent,
     badgeIcon,
   });
+
   const ref = useRef<HTMLDivElement>(null);
 
   const handleKeyUp = (event: React.KeyboardEvent<HTMLDivElement>) => {
