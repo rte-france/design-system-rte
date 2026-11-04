@@ -1,0 +1,159 @@
+@use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
+
+@mixin reset-button-style {
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+}
+
+@mixin disabled-button-style {
+  background-color: var(--background-disabled);
+  color: var(--content-disabled);
+
+  &:hover {
+    cursor: not-allowed;
+  }
+}
+
+$width: 40px;
+$height: 40px;
+$compact_width: 32px;
+$compact_height: 32px;
+
+.rte-icon-button-group {
+  display: inline-flex;
+  height: $height;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  border: 1px solid var(--border-brand-default);
+  border-radius: 4px;
+
+  &[data-compact-spacing="true"] {
+    height: $compact_height;
+  }
+
+  &[data-orientation="vertical"] {
+    flex-direction: column;
+    width: $width;
+    height: 100%;
+
+    &[data-compact-spacing="true"] {
+      width: $compact_width;
+    }
+  }
+
+  &__item {
+    @include reset-button-style;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--content-brand-default);
+    box-sizing: border-box;
+    width: $width;
+    height: $height - 2px;
+    background-color: var(--background-default);
+    padding: $positive-spacing_100;
+    position: relative;
+
+    &:hover {
+      background-color: var(--background-brand-subtle-hover);
+    }
+
+    &[data-compact-spacing="true"] {
+      padding: $positive-spacing_075;
+      width: $compact_width;
+      height: $compact_height - 2px;
+    }
+
+    &[data-first="true"] {
+      border-top-left-radius: 3px;
+      border-bottom-left-radius: 3px;
+
+    }
+
+    &[data-last="true"] {
+      border-top-right-radius: 3px;
+      border-bottom-right-radius: 3px;
+    }
+
+    &[data-active="true"] {
+      background-color: var(--background-brand-default);
+      color: var(--content-primary-inverse);
+    }
+
+    &[data-appearance="neutral"] {
+      color: var(--content-primary);
+
+      &:hover {
+        background-color: var(--background-neutral-subtle-hover);
+      }
+
+      &[data-active="true"] {
+        background-color: var(--background-neutral-bold-default);
+        color: var(--content-primary-inverse);
+      }
+
+      &:disabled {
+        @include disabled-button-style;
+      }
+    }
+
+    &:disabled {
+      @include disabled-button-style;
+    }
+
+    &:focus-visible {
+      z-index: 3;
+      outline: none;
+
+      &::after {
+        content: '';
+        position: absolute;
+        inset: -3px;
+        border: 1px solid var(--border-brand-focused);
+        border-radius: 4px;
+        pointer-events: none;
+      }
+    }
+
+    &[data-orientation="vertical"] {
+
+      width: $width - 2px;
+      height: $height;
+
+      &[data-first="true"] {
+        border-bottom-left-radius: 0px;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+
+        &:disabled {
+          border-top-color: var(--border-disabled);
+        }
+      }
+
+      &[data-last="true"] {
+        border-top-right-radius: 0px;
+        border-bottom-left-radius: 3px;
+        border-bottom-right-radius: 3px;
+      }
+
+      &[data-compact-spacing="true"] {
+        width: $compact_width - 2px;
+        height: $compact_height - 2px;
+      }
+    }
+  }
+
+  &[data-appearance="neutral"] {
+    border-color: var(--border-divider);
+  }
+
+  &[data-is-disabled="true"] {
+    border-color: var(--border-disabled);
+  }
+
+}
