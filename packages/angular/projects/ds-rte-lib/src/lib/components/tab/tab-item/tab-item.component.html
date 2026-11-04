@@ -6,6 +6,7 @@
   [id]="option()?.id"
   [attr.aria-selected]="isSelected()"
   [attr.aria-controls]="option()?.panelId"
+  [attr.aria-disabled]="option()?.disabled"
   [tabIndex]="isSelected() ? 0 : -1"
   [attr.data-selected]="isSelected()"
   [attr.data-inverted]="inverted()"
