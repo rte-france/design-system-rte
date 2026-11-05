@@ -24,9 +24,14 @@ import { LinkComponent } from "../../link/link.component";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BaseTextInputComponent extends BaseInputComponent {
-  readonly rightIconAction = input<"clean" | "visibilityOn" | "visibilityOff">("clean");
+  readonly rightIconAction = input<"clean" | "visibilityOn" | "visibilityOff">();
   readonly isHiddenInput = signal<boolean>(false);
-  readonly visibilityIcons = computed(() => ["visibilityOn", "visibilityOff"].includes(this.rightIconAction()));
+  readonly visibilityIcons = computed(() => {
+    const rightIconActionValue = this.rightIconAction();
+    if (rightIconActionValue) {
+      return ["visibilityOn", "visibilityOff"].includes(rightIconActionValue);
+    }
+  });
 
   constructor() {
     super();
@@ -76,15 +81,21 @@ export class BaseTextInputComponent extends BaseInputComponent {
   }
 
   protected override computeShouldShowRightIcon(): boolean {
+    console.log("computeShouldShowRightIcon called", {
+      readOnly: this.readOnly(),
+      disabled: this.disabled(),
+      rightIconAction: this.rightIconAction(),
+      internalValue: this.internalValue(),
+      visibilityIcons: this.visibilityIcons(),
+    });
+
     if (this.readOnly() || this.disabled()) {
       return false;
     }
-    if (!this.showRightIcon()) {
-      return false;
-    }
+
     if (this.rightIconAction() === "clean") {
       return !!this.internalValue()?.length;
     }
-    return this.visibilityIcons();
+    return !!this.visibilityIcons();
   }
 }

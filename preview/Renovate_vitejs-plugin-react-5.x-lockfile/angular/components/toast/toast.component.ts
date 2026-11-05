@@ -59,6 +59,8 @@ export class ToastComponent implements OnChanges {
   });
 
   readonly timer = signal<ReturnType<typeof setTimeout> | null>(null);
+  readonly isHovered = signal(false);
+  readonly isFocused = signal(false);
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes["isOpen"]) {
@@ -76,13 +78,38 @@ export class ToastComponent implements OnChanges {
   }
 
   handleMouseEnter(): void {
+    this.isHovered.set(true);
+    this.pauseTimer();
+  }
+
+  handleMouseLeave(): void {
+    this.isHovered.set(false);
+    this.resumeTimer();
+  }
+
+  handleFocusIn(): void {
+    this.isFocused.set(true);
+    this.pauseTimer();
+  }
+
+  handleFocusOut(event: FocusEvent): void {
+    const toastElement = event.currentTarget as HTMLElement;
+    const nextFocused = event.relatedTarget as Node | null;
+    if (nextFocused && toastElement.contains(nextFocused)) {
+      return;
+    }
+    this.isFocused.set(false);
+    this.resumeTimer();
+  }
+
+  private pauseTimer(): void {
     if (this.timer()) {
       this.stopTimer();
     }
   }
 
-  handleMouseLeave(): void {
-    if (this.shouldAutoDismiss()) {
+  private resumeTimer(): void {
+    if (this.shouldAutoDismiss() && !this.isHovered() && !this.isFocused()) {
       this.startTimer();
     }
   }
