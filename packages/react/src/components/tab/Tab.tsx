@@ -38,6 +38,8 @@ const Tab = forwardRef<HTMLDivElement, TabProps>(
       compactSpacing,
       overflowType = "scrollable",
       inverted = false,
+      "aria-label": ariaLabel,
+      "aria-labelledby": ariaLabelledBy,
       ...props
     },
     ref,
@@ -53,6 +55,7 @@ const Tab = forwardRef<HTMLDivElement, TabProps>(
     const isScrollableEnd = isScrollableRight || isScrollableBottom;
 
     const containerRef: MutableRefObject<HTMLDivElement | null> = useRef<HTMLDivElement>(null);
+    const dropdownButtonRef = useRef<HTMLButtonElement>(null);
 
     const { indicatorStyle } = useSelectedIndicatorPosition(
       containerRef,
@@ -111,6 +114,10 @@ const Tab = forwardRef<HTMLDivElement, TabProps>(
       const id = target.getAttribute("id") || "";
       onChange(id);
       setIsDropdownOpen(false);
+      if (shouldDisplayDropdown) {
+        dropdownButtonRef.current?.focus({ preventScroll: true });
+        return;
+      }
       const container = containerRef.current;
       if (container) {
         scrollToSelectedTab(target, container, direction);
@@ -171,11 +178,13 @@ const Tab = forwardRef<HTMLDivElement, TabProps>(
               if (typeof ref === "function") ref(node);
               else if (ref) ref.current = node;
             }}
-            role="tablist"
+            role={shouldDisplayDropdown ? undefined : "tablist"}
             className={style["tab"]}
             data-alignment={isScrollable ? "start" : alignment}
             data-direction={direction}
-            aria-orientation={direction}
+            aria-orientation={shouldDisplayDropdown ? undefined : direction}
+            aria-label={shouldDisplayDropdown ? undefined : ariaLabel}
+            aria-labelledby={shouldDisplayDropdown ? undefined : ariaLabelledBy}
             data-overflow-type={overflowType}
             {...props}
           >
@@ -195,26 +204,45 @@ const Tab = forwardRef<HTMLDivElement, TabProps>(
                 onClose={() => setIsDropdownOpen(false)}
                 offset={10}
                 trigger={
-                  <button
-                    type="button"
-                    className={style["tab-dropdown-button"]}
-                    onClick={() => setIsDropdownOpen((prev) => !prev)}
-                    aria-label="Afficher les onglets"
-                    data-inverted={inverted}
-                  >
-                    {selectedOption && selectedOption.icon && <Icon name={selectedOption.icon} appearance="filled" />}
-                    {selectedOption && <div style={{ flexShrink: 0 }}>{selectedOption?.label}</div>}
-                    {selectedOption.badgeCount &&
-                      selectedOption.badgeCount > 0 &&
-                      selectedOption.badgeContent === "number" && (
-                        <Badge
-                          badgeType={selectedOption.badgeType}
-                          content={selectedOption.badgeContent}
-                          count={selectedOption.badgeCount}
-                        />
-                      )}
-                    <Icon style={{ flexShrink: 0 }} name="arrow-chevron-down"></Icon>
-                  </button>
+                  <div className={style["tab-dropdown-layout"]}>
+                    <div
+                      role="tablist"
+                      className={style["tab-dropdown-tablist"]}
+                      aria-label={ariaLabel}
+                      aria-labelledby={ariaLabelledBy}
+                      aria-orientation={direction}
+                    >
+                      <div
+                        className={style["tab-dropdown-button"]}
+                        role="tab"
+                        aria-selected={true}
+                        aria-label={selectedOption.label}
+                        data-inverted={inverted}
+                      >
+                        {selectedOption.icon && <Icon name={selectedOption.icon} appearance="filled" />}
+                        {selectedOption.label && <div style={{ flexShrink: 0 }}>{selectedOption.label}</div>}
+                        {selectedOption.badgeCount &&
+                          selectedOption.badgeCount > 0 &&
+                          selectedOption.badgeContent === "number" && (
+                            <Badge
+                              badgeType={selectedOption.badgeType}
+                              content={selectedOption.badgeContent}
+                              count={selectedOption.badgeCount}
+                            />
+                          )}
+                      </div>
+                    </div>
+                    <IconButton
+                      ref={dropdownButtonRef}
+                      aria-label="Afficher les onglets"
+                      variant="neutral"
+                      style={{ flexShrink: 0, marginBottom: 0, padding: 0, height: "24px" }}
+                      aria-haspopup={true}
+                      aria-expanded={isDropdownOpen}
+                      name={isDropdownOpen ? "arrow-chevron-up" : "arrow-chevron-down"}
+                      onClick={() => setIsDropdownOpen((prev) => !prev)}
+                    ></IconButton>
+                  </div>
                 }
                 isOpen={isDropdownOpen}
               >
@@ -237,7 +265,6 @@ const Tab = forwardRef<HTMLDivElement, TabProps>(
                   ))}
               </Dropdown>
             )}
-
             {options.map((option, index) => (
               <TabItem
                 key={`${option.id}-${index}`}
