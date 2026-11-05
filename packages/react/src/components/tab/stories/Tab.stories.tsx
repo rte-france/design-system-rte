@@ -4,7 +4,7 @@ import {
   TESTING_ARROW_RIGHT_KEY,
 } from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
 import type { Meta, StoryObj } from "@storybook/react";
-import { within, expect, userEvent } from "@storybook/test";
+import { within, expect, userEvent, waitFor } from "@storybook/test";
 import { useState } from "react";
 
 import { focusElementBeforeComponent } from "../../../../.storybook/testing/testing.utils";
@@ -487,7 +487,14 @@ export const OverflowType: Story = {
         </div>
         <div style={{ width: "400px" }}>
           <span style={{ fontFamily: "Arial" }}>Dropdown</span>
-          <Tab {...args} options={tabs} selectedTabId={selectedTab} onChange={handleTabClick} overflowType="dropdown" />
+          <Tab
+            {...args}
+            options={tabs}
+            selectedTabId={selectedTab}
+            onChange={handleTabClick}
+            overflowType="dropdown"
+            aria-label="Dropdown tabs"
+          />
           <div style={{ height: "100px", border: "1px solid #ccc", padding: "8px", marginTop: "16px" }}>
             {tabs.map((tab) => (
               <div
@@ -504,6 +511,53 @@ export const OverflowType: Story = {
         </div>
       </div>
     );
+  },
+};
+
+export const OverflowTypeInteraction: Story = {
+  tags: ["!autodocs", "tab-dropdown-interaction"],
+  args: {
+    ...OverflowType.args,
+  },
+
+  render: OverflowType.render,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const page = within(canvasElement.ownerDocument.body);
+    const tabList = within(canvas.getByRole("tablist", { name: "Dropdown tabs" }));
+    const dropdownButton = await canvas.findByRole("button", { name: "Afficher les onglets" });
+
+    await expect(canvasElement.querySelector("button button")).toBeNull();
+    await expect(dropdownButton).toHaveAttribute("aria-haspopup", "true");
+    await expect(dropdownButton).toHaveAttribute("aria-expanded", "false");
+    await userEvent.click(dropdownButton);
+    await waitFor(() => expect(dropdownButton).toHaveAttribute("aria-expanded", "true"));
+    await userEvent.click(await page.findByRole("menuitem", { name: "Second Tab" }));
+    await waitFor(() => expect(page.queryByRole("menu")).not.toBeInTheDocument());
+    await expect(tabList.getByRole("tab", { name: "Second Tab", selected: true })).toBeVisible();
+    await expect(dropdownButton).toHaveAttribute("aria-expanded", "false");
+    await expect(dropdownButton).toHaveFocus();
+
+    await userEvent.keyboard("{Enter}");
+    const firstTab = await page.findByRole("menuitem", { name: "First Tab very long and descriptive" });
+    await waitFor(() => expect(firstTab).toHaveFocus());
+    await userEvent.keyboard("{ArrowDown}");
+    const thirdTab = await page.findByRole("menuitem", { name: "Third Tab" });
+    await expect(thirdTab).toHaveFocus();
+    await userEvent.keyboard("{Enter}");
+    await waitFor(() => expect(page.queryByRole("menu")).not.toBeInTheDocument());
+    const selectedTab = tabList.getByRole("tab", { name: "Third Tab", selected: true });
+    await expect(selectedTab).toBeVisible();
+    await expect(dropdownButton).toHaveFocus();
+
+    await userEvent.click(selectedTab);
+    await waitFor(() => expect(dropdownButton).toHaveAttribute("aria-expanded", "true"));
+    await waitFor(() =>
+      expect(page.getByRole("menuitem", { name: "First Tab very long and descriptive" })).toHaveFocus(),
+    );
+    await userEvent.keyboard("{Escape}");
+    await waitFor(() => expect(page.queryByRole("menu")).not.toBeInTheDocument());
+    await expect(selectedTab).toHaveFocus();
   },
 };
 

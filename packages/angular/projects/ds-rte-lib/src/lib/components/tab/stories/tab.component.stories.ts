@@ -3,7 +3,7 @@ import {
   TESTING_ARROW_RIGHT_KEY,
 } from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
 import { Meta, StoryObj } from "@storybook/angular";
-import { userEvent, within, expect } from "@storybook/test";
+import { userEvent, within, expect, waitFor } from "@storybook/test";
 
 import { focusElementBeforeComponent } from "../../../../../../../.storybook/testing/testing.utils";
 import { TabComponent } from "../tab.component";
@@ -438,6 +438,7 @@ export const OverflowType: Story = {
           [alignment]="alignment"
           [compactSpacing]="compactSpacing"
           [overflowType]="'dropdown'"
+          ariaLabel="Dropdown tabs"
           [inverted]="inverted"
         />
         <div style="height: 100px; border: 1px solid #ccc; padding: 8px; marginTop: 16px">
@@ -461,6 +462,37 @@ export const OverflowType: Story = {
     </div>
     `,
   }),
+};
+
+export const OverflowTypeInteraction: Story = {
+  tags: ["!autodocs"],
+  args: OverflowType.args,
+  render: OverflowType.render,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const tabList = within(canvas.getByRole("tablist", { name: "Dropdown tabs" }));
+    const selectedTab = await tabList.findByRole("tab", {
+      name: "First Tab very long and descriptive",
+      selected: true,
+    });
+
+    await expect(selectedTab).toHaveAttribute("aria-haspopup", "true");
+    await expect(selectedTab).toHaveAttribute("aria-expanded", "false");
+    await expect(selectedTab.querySelector("button")).toBeNull();
+
+    await userEvent.click(selectedTab);
+    await waitFor(() => expect(selectedTab).toHaveAttribute("aria-expanded", "true"));
+    await waitFor(() => expect(canvasElement.ownerDocument.activeElement?.closest('[role="menu"]')).not.toBeNull());
+    await userEvent.keyboard("{Escape}");
+    await waitFor(() => expect(selectedTab).toHaveAttribute("aria-expanded", "false"));
+    await waitFor(() => expect(selectedTab).toHaveFocus());
+
+    await userEvent.keyboard("{Enter}");
+    await waitFor(() => expect(selectedTab).toHaveAttribute("aria-expanded", "true"));
+    await waitFor(() => expect(canvasElement.ownerDocument.activeElement?.closest('[role="menu"]')).not.toBeNull());
+    await userEvent.keyboard("{Escape}");
+    await waitFor(() => expect(selectedTab).toHaveAttribute("aria-expanded", "false"));
+  },
 };
 
 export const KeyboardInteraction: Story = {
