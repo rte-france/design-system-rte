@@ -23,7 +23,6 @@ import { BaseValueAccessor } from "../input/base-value-accessor";
   ],
 })
 export class SwitchComponent extends BaseValueAccessor<boolean> {
-  readonly id = input("");
   readonly label = input("");
   readonly appearance = input<SwitchProps["appearance"]>("brand");
   readonly showIcon = input(true);
@@ -44,11 +43,8 @@ export class SwitchComponent extends BaseValueAccessor<boolean> {
   readonly isDisabled = computed(() => this.disabled() || this.formDisabled());
 
   readonly computedSwitchId = computed(() => {
-    if (this.id()) {
-      return this.id();
-    }
     const generatedId = generateId();
-    return `${generatedId}-switch`;
+    return `${this.label() ?? generatedId}-switch`;
   });
 
   private lastParentChecked = this.checked();
