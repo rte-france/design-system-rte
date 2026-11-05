@@ -83,6 +83,13 @@
   }
 }
 
+.tab-dropdown-layout,
+.tab-dropdown-tablist {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
 .tab-border-horizontal {
   background-color: var(--background-neutral-regular-default);
   position: relative;
@@ -118,14 +125,12 @@
   gap: $positive-spacing_150;
   background-color: transparent;
   border: none;
-  cursor: pointer;
+  cursor: initial;
   padding: 0;
   margin: $positive-spacing_150;
 
   &:focus-visible {
-    outline: 2px solid var(--border-brand-focused);
-    outline-offset: 12px;
-    z-index: $level-1;
+    outline: none;
   }
 
   &[data-inverted='true'] {
