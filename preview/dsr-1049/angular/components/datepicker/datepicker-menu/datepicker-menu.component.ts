@@ -466,10 +466,10 @@ export class DatepickerMenuComponent {
     }
 
     const nextActiveDate = cells[nextIndex].date;
-    if (!isSameMonth(nextActiveDate, this.viewDate())) {
-      this.dateKeyboardNavigate.emit(nextActiveDate);
-    } else {
+    if (isSameMonth(nextActiveDate, this.viewDate())) {
       this.activeDate.set(nextActiveDate);
+    } else {
+      this.dateKeyboardNavigate.emit(nextActiveDate);
     }
     this.queueFocusActiveDayCell();
   }
