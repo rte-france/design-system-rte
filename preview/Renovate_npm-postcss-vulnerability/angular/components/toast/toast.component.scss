@@ -144,4 +144,18 @@
     border-bottom-color: var(--border-primary);
   }
 
+  @media (prefers-reduced-motion: reduce) {
+    transition: opacity 300ms ease;
+
+    &.top.center,
+    &.bottom.center {
+      transform: translate(-50%, 0);
+    }
+
+    &.left,
+    &.right {
+      transform: translate(0, 0);
+    }
+  }
+
 }
