@@ -8,6 +8,8 @@
     [attr.data-hierarchy]="resolvedVisual().hierarchy"
     [attr.data-critical]="!!resolvedVisual().isCritical || null"
     [attr.data-reversed]="!!resolvedVisual().isReversed || null"
+    [attr.aria-haspopup]="ariaHaspopup()"
+    [attr.aria-expanded]="ariaExpanded() !== undefined ? ariaExpanded() : null"
     [ngStyle]="customStyle()"
     [disabled]="disabled()"
     [attr.aria-label]="ariaLabel()"

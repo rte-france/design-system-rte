@@ -39,35 +39,41 @@
         (closedDropdown)="isDropdownOpen.set(false)"
         (menuEvent)="onClickTabItem($event.id)"
       >
-        <button
-          type="button"
-          rteDropdownTrigger
-          class="rte-tab-dropdown-button"
-          role="tab"
-          aria-selected="true"
-          aria-haspopup="true"
-          [attr.aria-label]="selectedTab()?.label"
-          [attr.aria-expanded]="isDropdownOpen()"
-          [attr.data-inverted]="inverted()"
-          [attr.data-overflow-type]="overflowType()"
-          (dropdownTriggered)="isDropdownOpen.set(!isDropdownOpen())"
-        >
-          <rte-icon *ngIf="selectedTab()?.icon" appearance="filled" [name]="selectedTab()?.icon!"></rte-icon>
-          <span *ngIf="selectedTab()?.label">{{ selectedTab()?.label }}</span>
-          <rte-badge
-            *ngIf="selectedTab()?.badgeCount && selectedTab()?.badgeContent === 'number'"
-            [badgeType]="selectedTab()?.badgeType!"
-            [badgeContent]="selectedTab()?.badgeContent!"
-            [count]="selectedTab()?.badgeCount"
-            [simpleBadge]="true"
-          ></rte-badge>
+        <div style="display: flex; align-items: center">
+          <button
+            type="button"
+            rteDropdownTrigger
+            class="rte-tab-dropdown-button"
+            role="tab"
+            aria-selected="true"
+            aria-haspopup="true"
+            [attr.aria-label]="selectedTab()?.label"
+            [attr.aria-expanded]="isDropdownOpen()"
+            [attr.data-inverted]="inverted()"
+            [attr.data-overflow-type]="overflowType()"
+            (dropdownTriggered)="isDropdownOpen.set(!isDropdownOpen())"
+          >
+            <rte-icon *ngIf="selectedTab()?.icon" appearance="filled" [name]="selectedTab()?.icon!"></rte-icon>
+            <span *ngIf="selectedTab()?.label">{{ selectedTab()?.label }}</span>
+            <rte-badge
+              *ngIf="selectedTab()?.badgeCount && selectedTab()?.badgeContent === 'number'"
+              [badgeType]="selectedTab()?.badgeType!"
+              [badgeContent]="selectedTab()?.badgeContent!"
+              [count]="selectedTab()?.badgeCount"
+              [simpleBadge]="true"
+            ></rte-badge>
+          </button>
           <rte-icon-button
             appearance="outlined"
+            ariaLabel="Afficher les autres onglets"
             variant="neutral"
+            [ariaHaspopup]="'true'"
+            [ariaExpanded]="isDropdownOpen()"
             [name]="isDropdownOpen() ? 'arrow-chevron-up' : 'arrow-chevron-down'"
             [customStyle]="{ height: '24px', padding: '0', marginBottom: '0' }"
+            (clickEvent)="isDropdownOpen.set(!isDropdownOpen())"
           ></rte-icon-button>
-        </button>
+        </div>
         <rte-dropdown-menu [items]="dropdownFilteredOptions()" />
       </div>
       <ng-container *ngFor="let option of options(); let idx = index">
