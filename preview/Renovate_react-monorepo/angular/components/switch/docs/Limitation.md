@@ -1,6 +1,6 @@
 ### Identifiant généré
 
-Le composant génère un identifiant pour l'input natif et utilise désormais ce même identifiant pour l'attribut `for` du label. Lorsque `label` est vide, l'expression actuelle peut toutefois produire un identifiant se terminant par `-switch` au lieu d'un identifiant généré aléatoirement.
+Lorsque `id` n'est pas fourni, le composant génère un identifiant unique. Fournissez un `id` unique si vous devez maîtriser la valeur de l'identifiant.
 
 ### Nom accessible
 
