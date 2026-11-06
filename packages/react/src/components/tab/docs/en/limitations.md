@@ -4,7 +4,7 @@
 
 ### Automatic first-tab selection
 
-When `selectedTabId` is omitted and `options` contains at least one tab, `Tab` calls `onChange` with the first tab's `id` on mount.
+When `selectedTabId` is omitted or does not match any `id` in `options`, `Tab` calls `onChange` with the first non-disabled tab's `id`. The parent must pass that id back through `selectedTabId` to update selection and manage the associated panel.
 
 ### Dropdown overflow is horizontal only
 

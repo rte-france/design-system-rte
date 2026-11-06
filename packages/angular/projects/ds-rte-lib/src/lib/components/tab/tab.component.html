@@ -63,6 +63,7 @@
           [direction]="direction()"
           [compactSpacing]="compactSpacing()"
           [isSelected]="isSelected(option.id)"
+          [isFocusable]="option.id === focusableTabId()"
           [inverted]="inverted()"
           [attr.data-hidden]="shouldDisplayDropdown()"
           [isHidden]="shouldDisplayDropdown()"

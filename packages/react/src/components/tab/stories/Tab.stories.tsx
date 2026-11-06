@@ -2,9 +2,11 @@ import { BadgeContent, BadgeType } from "@design-system-rte/core/components/badg
 import {
   TESTING_ARROW_LEFT_KEY,
   TESTING_ARROW_RIGHT_KEY,
+  TESTING_ARROW_DOWN_KEY,
+  TESTING_ARROW_UP_KEY,
 } from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
 import type { Meta, StoryObj } from "@storybook/react";
-import { within, expect, userEvent } from "@storybook/test";
+import { within, expect, userEvent, fn } from "@storybook/test";
 import { useState } from "react";
 
 import { focusElementBeforeComponent } from "../../../../.storybook/testing/testing.utils";
@@ -616,5 +618,165 @@ export const KeyboardInteraction: Story = {
       await userEvent.keyboard(TESTING_ARROW_LEFT_KEY);
       expectTabToBeSelected(fifthTab);
     });
+  },
+};
+
+export const WithoutSelectedTab: Story = {
+  tags: ["!autodocs"],
+  args: {
+    options: [
+      { id: "tab-1", label: "First Tab", panelId: "panel-1" },
+      { id: "tab-2", label: "Second Tab", panelId: "panel-2" },
+      { id: "tab-3", label: "Third Tab", panelId: "panel-3" },
+    ],
+    onChange: fn(),
+  },
+  render: (args) => {
+    const [selectedTabId, setSelectedTabId] = useState(args.selectedTabId);
+    return (
+      <>
+        <button type="button">Before tabs</button>
+        <Tab
+          {...args}
+          aria-label="Fallback tabs"
+          selectedTabId={selectedTabId}
+          onChange={(id) => {
+            args.onChange(id);
+            setSelectedTabId(id);
+          }}
+        />
+        <button type="button">After tabs</button>
+        {args.options.map((tab) => (
+          <div key={tab.id} role="tabpanel" id={tab.panelId} aria-labelledby={tab.id} hidden={selectedTabId !== tab.id}>
+            Content for {tab.label}
+          </div>
+        ))}
+      </>
+    );
+  },
+  play: async ({ canvasElement, args, step }) => {
+    const canvas = within(canvasElement);
+    const tabs = within(canvas.getByRole("tablist")).getAllByRole("tab");
+    const enabledTabs = tabs.filter((tab) => tab.getAttribute("aria-disabled") !== "true");
+    const initialTab = enabledTabs.find((tab) => tab.id === args.selectedTabId) ?? enabledTabs[0];
+    const nextKey = args.direction === "vertical" ? TESTING_ARROW_DOWN_KEY : TESTING_ARROW_RIGHT_KEY;
+    const previousKey = args.direction === "vertical" ? TESTING_ARROW_UP_KEY : TESTING_ARROW_LEFT_KEY;
+
+    await step("TAB reaches the first enabled tab when selection is missing or invalid", async () => {
+      canvas.getByRole("button", { name: "Before tabs" }).focus();
+      await userEvent.tab();
+      await expect(initialTab).toHaveFocus();
+      await expect(initialTab).toHaveAttribute("aria-selected", "true");
+      await expect(tabs.filter((tab) => tab.tabIndex === 0)).toEqual([initialTab]);
+      if (!args.options.some((option) => option.id === args.selectedTabId)) {
+        await expect(args.onChange).toHaveBeenCalledWith(initialTab.id);
+      } else {
+        await expect(args.onChange).not.toHaveBeenCalled();
+      }
+      for (const tab of tabs.filter((tab) => !enabledTabs.includes(tab))) {
+        await expect(tab).toHaveAttribute("aria-selected", "false");
+        await expect(args.onChange).not.toHaveBeenCalledWith(tab.id);
+      }
+    });
+
+    await step("Arrow keys wrap and skip disabled tabs", async () => {
+      const previousTab = enabledTabs[(enabledTabs.indexOf(initialTab) - 1 + enabledTabs.length) % enabledTabs.length];
+      await userEvent.keyboard(previousKey);
+      await expect(previousTab).toHaveFocus();
+      await expect(previousTab).toHaveAttribute("aria-selected", "true");
+      await expect(args.onChange).toHaveBeenLastCalledWith(previousTab.id);
+      await expect(tabs.filter((tab) => tab.tabIndex === 0)).toEqual([previousTab]);
+      await userEvent.keyboard(nextKey);
+      await expect(initialTab).toHaveFocus();
+      await expect(initialTab).toHaveAttribute("aria-selected", "true");
+    });
+
+    await step("TAB leaves the tablist without visiting the other tabs", async () => {
+      await userEvent.tab();
+      await expect(canvas.getByRole("button", { name: "After tabs" })).toHaveFocus();
+    });
+  },
+};
+
+export const InvalidSelectedTab: Story = {
+  ...WithoutSelectedTab,
+  args: { ...WithoutSelectedTab.args, selectedTabId: "missing-tab" },
+  play: WithoutSelectedTab.play,
+};
+
+export const FirstTabDisabled: Story = {
+  ...WithoutSelectedTab,
+  args: {
+    ...WithoutSelectedTab.args,
+    options: WithoutSelectedTab.args?.options?.map((option, index) => ({ ...option, disabled: index === 0 })),
+  },
+  play: WithoutSelectedTab.play,
+};
+
+export const InvalidSelectedTabWithFirstDisabled: Story = {
+  ...FirstTabDisabled,
+  args: { ...FirstTabDisabled.args, selectedTabId: "missing-tab" },
+  play: WithoutSelectedTab.play,
+};
+
+export const VerticalWithoutSelectedTab: Story = {
+  ...WithoutSelectedTab,
+  args: { ...WithoutSelectedTab.args, direction: "vertical" },
+  play: WithoutSelectedTab.play,
+};
+
+export const SelectedTabIsPreserved: Story = {
+  ...WithoutSelectedTab,
+  args: { ...WithoutSelectedTab.args, selectedTabId: "tab-2" },
+  play: WithoutSelectedTab.play,
+};
+
+export const AllTabsDisabled: Story = {
+  ...WithoutSelectedTab,
+  args: {
+    ...WithoutSelectedTab.args,
+    options: WithoutSelectedTab.args?.options?.map((option) => ({ ...option, disabled: true })),
+  },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const tabs = within(canvas.getByRole("tablist")).queryAllByRole("tab");
+    await expect(tabs.every((tab) => tab.tabIndex === -1)).toBe(true);
+    await expect(tabs.every((tab) => tab.getAttribute("aria-selected") === "false")).toBe(true);
+    await expect(args.onChange).not.toHaveBeenCalled();
+    canvas.getByRole("button", { name: "Before tabs" }).focus();
+    await userEvent.tab();
+    await expect(canvas.getByRole("button", { name: "After tabs" })).toHaveFocus();
+  },
+};
+
+export const EmptyOptions: Story = {
+  ...WithoutSelectedTab,
+  args: { ...WithoutSelectedTab.args, options: [] },
+  play: AllTabsDisabled.play,
+};
+
+export const FocusWithoutSelectionUpdate: Story = {
+  ...FirstTabDisabled,
+  render: (args) => (
+    <>
+      <button type="button">Before tabs</button>
+      <Tab {...args} />
+    </>
+  ),
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const tabs = canvas.getAllByRole("tab");
+    canvas.getByRole("button", { name: "Before tabs" }).focus();
+    await userEvent.tab();
+    await expect(tabs[1]).toHaveFocus();
+    await expect(args.onChange).toHaveBeenCalledWith(tabs[1].id);
+    await userEvent.keyboard(TESTING_ARROW_RIGHT_KEY);
+    await expect(tabs[2]).toHaveFocus();
+    await expect(args.onChange).toHaveBeenLastCalledWith(tabs[2].id);
+    await userEvent.keyboard(TESTING_ARROW_RIGHT_KEY);
+    await expect(tabs[1]).toHaveFocus();
+    await expect(args.onChange).toHaveBeenLastCalledWith(tabs[1].id);
+    await expect(args.onChange).not.toHaveBeenCalledWith(tabs[0].id);
+    await expect(tabs.filter((tab) => tab.tabIndex === 0)).toEqual([tabs[1]]);
   },
 };
