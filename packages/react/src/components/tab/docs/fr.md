@@ -3,42 +3,38 @@
 ## Overview
 
 ```tsx
-<Tab
-  options={tabs}
-  selectedTabId={selectedTabId}
-  onChange={setSelectedTabId}
-/>
+<Tab options={tabs} selectedTabId={selectedTabId} onChange={setSelectedTabId} />
 ```
 
 ## API
 
 Le composant `Tab` constitue l'API publique. Passez les définitions d'onglets via `options`, contrôlez l'onglet actif avec `selectedTabId` et gérez les changements de sélection avec `onChange`.
 
-| Property | Type | Default | Description |
-|----------|------|---------|-------------|
-| options | `TabItemProps[]` | — (requis) | Définitions des onglets affichés dans la liste. |
-| onChange | `(id: string) => void` | — (requis) | Appelé avec l'`id` de l'onglet sélectionné par l'utilisateur. |
-| selectedTabId | `string` | — | Id de l'onglet sélectionné. Lorsqu'il est omis et que `options` n'est pas vide, le premier onglet est sélectionné automatiquement. |
-| direction | `"horizontal" \| "vertical"` | `"horizontal"` | Direction de la liste d'onglets. `"horizontal"` les dispose en ligne ; `"vertical"` les empile en colonne. |
-| alignment | `"start" \| "center"` | `"start"` | Alignement des onglets lorsqu'il n'y a pas de débordement. Forcé à `"start"` en cas de débordement. |
-| compactSpacing | `boolean` | `false` | Réduit l'espacement entre les onglets. |
-| overflowType | `"scrollable" \| "dropdown"` | `"scrollable"` | Gestion du débordement horizontal. `"scrollable"` ajoute des flèches de défilement ; `"dropdown"` regroupe les onglets dans un menu. |
-| inverted | `boolean` | `false` | Affiche les onglets sur fond inverse (sombre). |
+| Property       | Type                         | Default        | Description                                                                                                                          |
+| -------------- | ---------------------------- | -------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| options        | `TabItemProps[]`             | — (requis)     | Définitions des onglets affichés dans la liste.                                                                                      |
+| onChange       | `(id: string) => void`       | — (requis)     | Appelé avec l'`id` de l'onglet sélectionné par l'utilisateur.                                                                        |
+| selectedTabId  | `string`                     | —              | Id de l'onglet sélectionné. Lorsqu'il est omis et que `options` n'est pas vide, le premier onglet est sélectionné automatiquement.   |
+| direction      | `"horizontal" \| "vertical"` | `"horizontal"` | Direction de la liste d'onglets. `"horizontal"` les dispose en ligne ; `"vertical"` les empile en colonne.                           |
+| alignment      | `"start" \| "center"`        | `"start"`      | Alignement des onglets lorsqu'il n'y a pas de débordement. Forcé à `"start"` en cas de débordement.                                  |
+| compactSpacing | `boolean`                    | `false`        | Réduit l'espacement entre les onglets.                                                                                               |
+| overflowType   | `"scrollable" \| "dropdown"` | `"scrollable"` | Gestion du débordement horizontal. `"scrollable"` ajoute des flèches de défilement ; `"dropdown"` regroupe les onglets dans un menu. |
+| inverted       | `boolean`                    | `false`        | Affiche les onglets sur fond inverse (sombre).                                                                                       |
 
 Chaque entrée de `options` accepte les champs suivants :
 
-| Property | Type | Default | Description |
-|----------|------|---------|-------------|
-| id | `string` | — (requis) | Identifiant unique de l'onglet. Passé à `onChange`. |
-| panelId | `string` | — (requis) | Id du panneau associé, défini comme `aria-controls` sur le bouton d'onglet. |
-| label | `string` | — | Libellé visible de l'onglet. |
-| icon | `string` | — | Nom de l'icône affichée avant le libellé. |
-| disabled | `boolean` | `false` | Désactive l'onglet. Ignoré lors de la navigation au clavier. |
-| showBadge | `boolean` | — | Affiche le badge même si les critères de compteur ou d'icône ne sont pas remplis. |
-| badgeCount | `number` | — | Valeur numérique affichée lorsque `badgeContent` vaut `"number"`. |
-| badgeContent | `"number" \| "icon" \| "empty"` | `"empty"` | `"number"` affiche un compteur ; `"icon"` affiche `badgeIcon` ; `"empty"` affiche un point indicateur. |
-| badgeIcon | `string` | — | Nom de l'icône affichée lorsque `badgeContent` vaut `"icon"`. |
-| badgeType | `"brand" \| "neutral" \| "indicator"` | `"indicator"` | Variante visuelle du badge. |
+| Property     | Type                                  | Default       | Description                                                                                            |
+| ------------ | ------------------------------------- | ------------- | ------------------------------------------------------------------------------------------------------ |
+| id           | `string`                              | — (requis)    | Identifiant unique de l'onglet. Passé à `onChange`.                                                    |
+| panelId      | `string`                              | — (requis)    | Id du panneau associé, défini comme `aria-controls` sur le bouton d'onglet.                            |
+| label        | `string`                              | —             | Libellé visible de l'onglet.                                                                           |
+| icon         | `string`                              | —             | Nom de l'icône affichée avant le libellé.                                                              |
+| disabled     | `boolean`                             | `false`       | Désactive l'onglet. Ignoré lors de la navigation au clavier.                                           |
+| showBadge    | `boolean`                             | —             | Affichage du badge sur un onglet non désactivé.                                                        |
+| badgeCount   | `number`                              | —             | Valeur numérique affichée lorsque `badgeContent` vaut `"number"`.                                      |
+| badgeContent | `"number" \| "icon" \| "empty"`       | `"empty"`     | `"number"` affiche un compteur ; `"icon"` affiche `badgeIcon` ; `"empty"` affiche un point indicateur. |
+| badgeIcon    | `string`                              | —             | Nom de l'icône affichée lorsque `badgeContent` vaut `"icon"`.                                          |
+| badgeType    | `"brand" \| "neutral" \| "indicator"` | `"indicator"` | Variante visuelle du badge.                                                                            |
 
 ## Usage
 
@@ -49,12 +45,12 @@ Utilisez `Tab` pour afficher une liste d'onglets. Vous gérez l'onglet sélectio
 Suivez l'onglet sélectionné dans l'état et passez-le à `selectedTabId`. Affichez les panneaux séparément et montrez celui dont l'`id` correspond au `panelId` de l'onglet sélectionné.
 
 ```tsx
-const [selectedTabId, setSelectedTabId] = useState('tab-1');
+const [selectedTabId, setSelectedTabId] = useState("tab-1");
 
 const tabs = [
-  { id: 'tab-1', label: 'First Tab', panelId: 'panel-1' },
-  { id: 'tab-2', label: 'Second Tab', panelId: 'panel-2' },
-  { id: 'tab-3', label: 'Third Tab', panelId: 'panel-3' },
+  { id: "tab-1", label: "First Tab", panelId: "panel-1" },
+  { id: "tab-2", label: "Second Tab", panelId: "panel-2" },
+  { id: "tab-3", label: "Third Tab", panelId: "panel-3" },
 ];
 
 return (
@@ -62,13 +58,7 @@ return (
     <Tab options={tabs} selectedTabId={selectedTabId} onChange={setSelectedTabId} />
 
     {tabs.map((tab) => (
-      <div
-        key={tab.id}
-        role="tabpanel"
-        id={tab.panelId}
-        aria-labelledby={tab.id}
-        hidden={selectedTabId !== tab.id}
-      >
+      <div key={tab.id} role="tabpanel" id={tab.panelId} aria-labelledby={tab.id} hidden={selectedTabId !== tab.id}>
         Content for {tab.label}
       </div>
     ))}
@@ -81,12 +71,7 @@ return (
 #### Vertical
 
 ```tsx
-<Tab
-  options={tabs}
-  selectedTabId={selectedTabId}
-  onChange={setSelectedTabId}
-  direction="vertical"
-/>
+<Tab options={tabs} selectedTabId={selectedTabId} onChange={setSelectedTabId} direction="vertical" />
 ```
 
 Affiche une liste d'onglets verticale à côté du contenu du panneau.
@@ -96,12 +81,7 @@ Affiche une liste d'onglets verticale à côté du contenu du panneau.
 #### Compact spacing
 
 ```tsx
-<Tab
-  options={tabs}
-  selectedTabId={selectedTabId}
-  onChange={setSelectedTabId}
-  compactSpacing
-/>
+<Tab options={tabs} selectedTabId={selectedTabId} onChange={setSelectedTabId} compactSpacing />
 ```
 
 Réduit l'espacement entre les onglets.
@@ -111,9 +91,9 @@ Réduit l'espacement entre les onglets.
 ```tsx
 <Tab
   options={[
-    { id: 'photos', label: 'Photos', panelId: 'panel-1', icon: 'photo-camera' },
-    { id: 'videos', label: 'Videos', panelId: 'panel-2', icon: 'video-camera', disabled: true },
-    { id: 'music', label: 'Music', panelId: 'panel-3', icon: 'headphones' },
+    { id: "photos", label: "Photos", panelId: "panel-1", icon: "photo-camera" },
+    { id: "videos", label: "Videos", panelId: "panel-2", icon: "video-camera", disabled: true },
+    { id: "music", label: "Music", panelId: "panel-3", icon: "headphones" },
   ]}
   selectedTabId={selectedTabId}
   onChange={setSelectedTabId}
@@ -127,10 +107,10 @@ Ajoute une icône avant chaque libellé d'onglet.
 ```tsx
 <Tab
   options={[
-    { id: 'home', panelId: 'panel-1', icon: 'home' },
-    { id: 'bookmarks', panelId: 'panel-2', icon: 'bookmarks' },
-    { id: 'chat', panelId: 'panel-3', icon: 'chat' },
-    { id: 'settings', panelId: 'panel-4', icon: 'settings' },
+    { id: "home", panelId: "panel-1", icon: "home" },
+    { id: "bookmarks", panelId: "panel-2", icon: "bookmarks" },
+    { id: "chat", panelId: "panel-3", icon: "chat" },
+    { id: "settings", panelId: "panel-4", icon: "settings" },
   ]}
   selectedTabId={selectedTabId}
   onChange={setSelectedTabId}
@@ -145,17 +125,17 @@ Affiche des onglets avec icône uniquement, sans libellé.
 <Tab
   options={[
     {
-      id: 'photos',
-      label: 'Photos',
-      panelId: 'panel-1',
-      icon: 'photo-camera',
+      id: "photos",
+      label: "Photos",
+      panelId: "panel-1",
+      icon: "photo-camera",
       badgeCount: 5,
-      badgeContent: 'number',
-      badgeType: 'indicator',
+      badgeContent: "number",
+      badgeType: "indicator",
       showBadge: true,
     },
-    { id: 'videos', label: 'Videos', panelId: 'panel-2', icon: 'video-camera' },
-    { id: 'music', label: 'Music', panelId: 'panel-3', icon: 'headphones' },
+    { id: "videos", label: "Videos", panelId: "panel-2", icon: "video-camera" },
+    { id: "music", label: "Music", panelId: "panel-3", icon: "headphones" },
   ]}
   selectedTabId={selectedTabId}
   onChange={setSelectedTabId}
@@ -202,7 +182,9 @@ Lorsque `overflowType` vaut `"dropdown"`, la liste est remplacée par un menu d�
 
 ### Affichage du badge
 
-Sans `showBadge`, un badge n'apparaît que si `badgeCount` est supérieur à 0 avec `badgeContent: "number"`, ou si `badgeContent` vaut `"icon"` et `badgeIcon` est renseigné.
+Un onglet désactivé n'affiche jamais de badge, même si `showBadge` vaut `true`.
+
+Sur un onglet non désactivé, le badge est rendu si `showBadge` vaut `true`, si `badgeCount` est supérieur à 0 avec `badgeContent: "number"`, ou si `badgeContent` vaut `"icon"` et `badgeIcon` est renseigné. Définir uniquement `badgeType`, `badgeContent`, `badgeCount` ou `badgeIcon` ne force pas l'affichage.
 
 ### Contenu personnalisé du libellé
 
