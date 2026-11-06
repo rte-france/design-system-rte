@@ -50,6 +50,9 @@ const Tab = forwardRef<HTMLDivElement, TabProps>(
     const [isScrollableTop, setIsScrollableTop] = useState(false);
     const [isScrollable, setIsScrollable] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const firstEnabledOption = options.find((option) => !option.disabled);
+    const selectedOption = options.find((option) => option.id === selectedTabId) ?? firstEnabledOption;
+    const focusableTabId = (selectedOption?.disabled ? firstEnabledOption : selectedOption)?.id;
 
     const isScrollableStart = isScrollableLeft || isScrollableTop;
     const isScrollableEnd = isScrollableRight || isScrollableBottom;
@@ -98,10 +101,10 @@ const Tab = forwardRef<HTMLDivElement, TabProps>(
     }, [computeScrollableState]);
 
     useEffect(() => {
-      if (!selectedTabId && options.length > 0) {
-        onChange(options[0].id);
+      if (selectedOption && selectedOption.id !== selectedTabId) {
+        onChange(selectedOption.id);
       }
-    }, [selectedTabId, options, onChange]);
+    }, [selectedTabId, selectedOption, onChange]);
 
     const handleOnClick = (
       event:
@@ -137,8 +140,6 @@ const Tab = forwardRef<HTMLDivElement, TabProps>(
         containerRef.current.scrollBy({ ...scrollObject, behavior: prefersReducedMotion() ? "auto" : "smooth" });
       }
     };
-
-    const selectedOption = options.find((option) => option.id === selectedTabId);
 
     return (
       <div className={style["tab-container"]} data-direction={direction}>
@@ -275,6 +276,7 @@ const Tab = forwardRef<HTMLDivElement, TabProps>(
                 data-hidden={shouldDisplayDropdown}
                 inverted={inverted}
                 {...option}
+                tabIndex={option.id === focusableTabId ? 0 : -1}
               />
             ))}
           </div>

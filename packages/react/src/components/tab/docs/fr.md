@@ -10,16 +10,16 @@
 
 Le composant `Tab` constitue l'API publique. Passez les définitions d'onglets via `options`, contrôlez l'onglet actif avec `selectedTabId` et gérez les changements de sélection avec `onChange`.
 
-| Property       | Type                         | Default        | Description                                                                                                                          |
-| -------------- | ---------------------------- | -------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| options        | `TabItemProps[]`             | — (requis)     | Définitions des onglets affichés dans la liste.                                                                                      |
-| onChange       | `(id: string) => void`       | — (requis)     | Appelé avec l'`id` de l'onglet sélectionné par l'utilisateur.                                                                        |
-| selectedTabId  | `string`                     | —              | Id de l'onglet sélectionné. Lorsqu'il est omis et que `options` n'est pas vide, le premier onglet est sélectionné automatiquement.   |
-| direction      | `"horizontal" \| "vertical"` | `"horizontal"` | Direction de la liste d'onglets. `"horizontal"` les dispose en ligne ; `"vertical"` les empile en colonne.                           |
-| alignment      | `"start" \| "center"`        | `"start"`      | Alignement des onglets lorsqu'il n'y a pas de débordement. Forcé à `"start"` en cas de débordement.                                  |
-| compactSpacing | `boolean`                    | `false`        | Réduit l'espacement entre les onglets.                                                                                               |
-| overflowType   | `"scrollable" \| "dropdown"` | `"scrollable"` | Gestion du débordement horizontal. `"scrollable"` ajoute des flèches de défilement ; `"dropdown"` regroupe les onglets dans un menu. |
-| inverted       | `boolean`                    | `false`        | Affiche les onglets sur fond inverse (sombre).                                                                                       |
+| Property       | Type                         | Default        | Description                                                                                                                                                                                                                                                                                         |
+| -------------- | ---------------------------- | -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| options        | `TabItemProps[]`             | — (requis)     | Définitions des onglets affichés dans la liste.                                                                                                                                                                                                                                                     |
+| onChange       | `(id: string) => void`       | — (requis)     | Appelé avec l'`id` de l'onglet sélectionné, y compris le premier onglet non désactivé utilisé en repli lorsque `selectedTabId` est omis ou invalide.                                                                                                                                                |
+| selectedTabId  | `string`                     | —              | Id de l'onglet sélectionné. S'il est omis ou absent de `options`, `onChange` est appelé avec l'id du premier onglet non désactivé. Cet onglet reste accessible avec TAB même si le parent ne met pas à jour la sélection. Aucun repli si tous les onglets sont désactivés ou si `options` est vide. |
+| direction      | `"horizontal" \| "vertical"` | `"horizontal"` | Direction de la liste d'onglets. `"horizontal"` les dispose en ligne ; `"vertical"` les empile en colonne.                                                                                                                                                                                          |
+| alignment      | `"start" \| "center"`        | `"start"`      | Alignement des onglets lorsqu'il n'y a pas de débordement. Forcé à `"start"` en cas de débordement.                                                                                                                                                                                                 |
+| compactSpacing | `boolean`                    | `false`        | Réduit l'espacement entre les onglets.                                                                                                                                                                                                                                                              |
+| overflowType   | `"scrollable" \| "dropdown"` | `"scrollable"` | Gestion du débordement horizontal. `"scrollable"` ajoute des flèches de défilement ; `"dropdown"` regroupe les onglets dans un menu.                                                                                                                                                                |
+| inverted       | `boolean`                    | `false`        | Affiche les onglets sur fond inverse (sombre).                                                                                                                                                                                                                                                      |
 
 Chaque entrée de `options` accepte les champs suivants :
 
@@ -30,7 +30,7 @@ Chaque entrée de `options` accepte les champs suivants :
 | label        | `string`                              | —             | Libellé visible de l'onglet.                                                                           |
 | icon         | `string`                              | —             | Nom de l'icône affichée avant le libellé.                                                              |
 | disabled     | `boolean`                             | `false`       | Désactive l'onglet. Ignoré lors de la navigation au clavier.                                           |
-| showBadge    | `boolean`                             | —             | Affichage du badge sur un onglet non désactivé.                                                        |
+| showBadge    | `boolean`                             | —             | Affiche le badge même si les critères de compteur ou d'icône ne sont pas remplis.                      |
 | badgeCount   | `number`                              | —             | Valeur numérique affichée lorsque `badgeContent` vaut `"number"`.                                      |
 | badgeContent | `"number" \| "icon" \| "empty"`       | `"empty"`     | `"number"` affiche un compteur ; `"icon"` affiche `badgeIcon` ; `"empty"` affiche un point indicateur. |
 | badgeIcon    | `string`                              | —             | Nom de l'icône affichée lorsque `badgeContent` vaut `"icon"`.                                          |
@@ -174,7 +174,7 @@ Contrôle le comportement des onglets lorsqu'ils dépassent la largeur du conten
 
 ### Sélection automatique du premier onglet
 
-Lorsque `selectedTabId` est omis et que `options` contient au moins un onglet, `Tab` appelle `onChange` avec l'`id` du premier onglet au montage.
+Lorsque `selectedTabId` est omis ou ne correspond à aucun `id` dans `options`, `Tab` appelle `onChange` avec l'`id` du premier onglet non désactivé. Le parent doit transmettre cet id à `selectedTabId` pour mettre à jour la sélection et gérer le panneau associé.
 
 ### Le débordement en dropdown est horizontal uniquement
 
