@@ -2,6 +2,54 @@
 
 # Angular
 
+## 5.0.0
+
+### Base Input
+
+#### Minor Changes
+
+- add right icon logic to input bar to add space with the text
+- Remove showRightIcon property and update right icon logic
+
+### Datepicker
+
+#### Patch Changes
+
+- improve accessibility structure with row and accessible column header
+- add full date accessible value for day cells
+
+### Segmented Control
+
+#### Patch Changes
+
+- correct component roving system to comply with accessibility specifications
+
+### Switch
+
+#### Patch Changes
+
+- add unique id support
+- improve readOnly handling and add missing aria-readonly attribute
+
+### Tab
+
+#### Patch Changes
+
+- add aria-label to tab items for improved accessibility
+- angular - add aria-disabled attribute for better accessibility
+- hide navigation arrown in overflow mode from keyboard navigation + translate buttons label
+- update badge visibility logic + align default badge type value with react
+
+### Other
+
+#### Patch Changes
+
+- Updated dependencies [e87911b]
+- Updated dependencies [a1fa820]
+- Updated dependencies [4a53d30]
+- Updated dependencies [79fca5b]
+- @design-system-rte/core@1.23.0
+
 ## 4.4.1
 
 ### Datepicker
@@ -151,90 +199,55 @@
 - Updated dependencies [7f092e9]
 - Updated dependencies [d5987a1]
 - @design-system-rte/core@1.21.1
+# React
 
-## 4.2.1
+## 2.5.0
 
-### Checkbox
+### Base Input
+
+#### Minor Changes
+
+- Remove showRightIcon property and update right icon logic
+
+### Datepicker
 
 #### Patch Changes
 
-- correct check icon color in dark mode
-
-### Other
-
-
-## 4.2.0
-
-### Radio Button Group
-
-#### Minor Changes
-
-- rename props : - readOnly to isReadOnly - error to isError - errorMessage to errorText - groupTitle to groupTitleText
-- remove boolean text display
-- add required indication props
-
-### Required Indicator
-
-#### Minor Changes
-
-- set correct icon size and set baseline alignment for requirement text
-
-### Sidenav
-
-#### Minor Changes
-
-- add props to customize close/open collapsible button label
+- improve accessibility structure with row and accessible column header
+- add full date accessible value for day cells
+- remove unused labelId prop and add correct accesibility link with the label using htmlFor
 
 ### Segmented Control
 
-#### Minor Changes
+#### Patch Changes
 
-- rename props - compactSpacing > isCompact - label > labelText
-- modify layout and sizes
+- correct component roving system to comply with accessibility specifications
 
-### Dropdown
-
-#### Minor Changes
-
-- add critical variant to dropdown item
-
-### File Upload
+### Switch
 
 #### Patch Changes
 
-- correct width and min-width behavior
-
-### Treeview
-
-#### Patch Changes
-
-- correct item layers overlap
+- add unique id support
+- improve readOnly handling and add missing aria-readonly attribute
 
 ### Tab
 
 #### Patch Changes
 
-- prevent tab label to overflow with other tabs
-
-### Drawer
-
-#### Patch Changes
-
-- correct validation system
-- avoid input validation infinite loop
+- add aria-label to tab items for improved accessibility
+- hide navigation arrown in overflow mode from keyboard navigation + translate buttons label
+- update badge visibility logic + align default badge type value with react
+- react - prevent click event when the tab is selected
 
 ### Other
 
 #### Patch Changes
 
-- Updated dependencies [345026e]
-- Updated dependencies [6f84e04]
-- Updated dependencies [9c03756]
-- Updated dependencies [32d9b54]
-- Updated dependencies [6ebeba7]
-- Updated dependencies [fc945a9]
-- @design-system-rte/core@1.21.0
-# React
+- Updated dependencies [e87911b]
+- Updated dependencies [a1fa820]
+- Updated dependencies [4a53d30]
+- Updated dependencies [79fca5b]
+- @design-system-rte/core@1.23.0
 
 ## 2.4.1
 
@@ -374,96 +387,37 @@
 - Updated dependencies [7f092e9]
 - Updated dependencies [d5987a1]
 - @design-system-rte/core@1.21.1
+# Core
 
-## 2.2.1
+## 1.23.0
 
-### Checkbox
+### Base Input
+
+#### Minor Changes
+
+- Remove showRightIcon property and update right icon logic
+
+### Datepicker
 
 #### Patch Changes
 
-- correct check icon color in dark mode
-
-### Other
-
-
-## 2.2.0
-
-### Radio Button Group
-
-#### Minor Changes
-
-- rename props : - readOnly to isReadOnly - error to isError - errorMessage to errorText - groupTitle to groupTitleText
-- remove boolean text display
-- add required indication props
-
-### Required Indicator
-
-#### Minor Changes
-
-- set correct icon size and set baseline alignment for requirement text
-
-### Sidenav
-
-#### Minor Changes
-
-- add props to customize close/open collapsible button label
+- improve accessibility structure with row and accessible column header
+- add full date accessible value for day cells
 
 ### Segmented Control
 
-#### Minor Changes
-
-- rename props - compactSpacing > isCompact - label > labelText
-- modify layout and sizes
-
-### Loader
-
-#### Minor Changes
-
-- remove duplicate labelText
-
-### Dropdown
-
-#### Minor Changes
-
-- add critical variant to dropdown item
-
-### File Upload
-
 #### Patch Changes
 
-- correct width and min-width behavior
-
-### Treeview
-
-#### Patch Changes
-
-- correct item layers overlap
+- correct component roving system to comply with accessibility specifications
 
 ### Tab
 
 #### Patch Changes
 
-- prevent tab label to overflow with other tabs
-
-### Drawer
-
-#### Patch Changes
-
-- correct validation system
-- avoid input validation infinite loop
+- add aria-label to tab items for improved accessibility
 
 ### Other
 
-#### Patch Changes
-
-- Updated dependencies [345026e]
-- Updated dependencies [6f84e04]
-- Updated dependencies [9c03756]
-- Updated dependencies [32d9b54]
-- Updated dependencies [6ebeba7]
-- Updated dependencies [fc945a9]
-- @design-system-rte/core@1.21.0
-# Core
 
 ## 1.22.1
 
@@ -569,45 +523,6 @@
 
 - correct validation system
 - avoid input validation infinite loop
-
-### Other
-
-
-## 1.20.0
-
-### File Upload
-
-#### Minor Changes
-
-- add animation on adding and deleting files
-
-#### Patch Changes
-
-- handle multiple error message on upload
-
-### Switch
-
-#### Patch Changes
-
-- enforce accessibility
-
-### Overlay
-
-#### Patch Changes
-
-- hide elements behind backdrop from TTS browse mode
-
-### Link
-
-#### Patch Changes
-
-- handle external link aria attributes for screen reader announcement
-
-### Treeview
-
-#### Patch Changes
-
-- correct import statement
 
 ### Other
 
