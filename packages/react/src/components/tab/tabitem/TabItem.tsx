@@ -58,6 +58,8 @@ const TabItem = forwardRef<HTMLButtonElement, TabItemProps>(
       badgeType,
     };
 
+    console.log(segmentAriaLabel);
+
     const hasNumberBadge = badgeCount && badgeCount > 0 && badgeContent === "number";
     const hasIconBadge = badgeContent === "icon" && badgeIcon;
     const displayBadge = !disabled && (showBadge || hasNumberBadge || hasIconBadge);
@@ -204,7 +206,6 @@ const TabItem = forwardRef<HTMLButtonElement, TabItemProps>(
           role="tab"
           aria-selected={isSelected}
           aria-controls={panelId}
-          aria-label={ariaLabel}
           aria-disabled={disabled}
           aria-label={segmentAriaLabel}
           tabIndex={isSelected ? 0 : -1}

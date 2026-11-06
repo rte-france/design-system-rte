@@ -41,26 +41,26 @@ function getIconOnlySegmentAriaLabelWithBadge(segment: ItemOption): string | und
 }
 
 function getLabelWithBadgeAriaLabel(segment: ItemOption): string | undefined {
-  const { labelText, badgeContent, badgeCount } = segment;
-  if (!labelText || !isBadgeDisplayed(segment)) {
+  const { labelText, ariaLabel, badgeContent, badgeCount } = segment;
+  if ((!labelText && !ariaLabel) || !isBadgeDisplayed(segment)) {
     return;
   }
 
   if (badgeContent === "number") {
     const countLabel = getDisplayCount(badgeCount);
 
-    return countLabel ? `${labelText}, ${countLabel}` : labelText;
+    return countLabel ? `${labelText || ariaLabel}, ${countLabel}` : labelText || ariaLabel;
   }
 
   if (badgeContent === "icon" || badgeContent === "empty") {
-    return `${labelText}. ${NON_NUMBER_BADGE_ARIA_LABEL}`;
+    return `${labelText || ariaLabel}. ${NON_NUMBER_BADGE_ARIA_LABEL}`;
   }
 }
 
 export function getSegmentAriaLabel(item: ItemOption): string {
   const { ariaLabel, labelText, icon } = item;
   if (ariaLabel) {
-    return ariaLabel;
+    return getLabelWithBadgeAriaLabel(item) || ariaLabel;
   }
 
   if (!labelText && icon) {
