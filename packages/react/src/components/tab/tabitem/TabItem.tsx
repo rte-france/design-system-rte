@@ -59,7 +59,7 @@ const TabItem = forwardRef<HTMLButtonElement, TabItemProps>(
     } | null>(null);
 
     const handleOnClick = (event: MouseEvent<HTMLButtonElement>) => {
-      if (!disabled) {
+      if (!disabled && !isSelected) {
         onClick(event);
         setHoverIndicatorStyle((prev) => ({ ...prev, opacity: 0 }));
       } else {
