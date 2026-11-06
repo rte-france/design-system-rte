@@ -44,7 +44,9 @@ export class TabItemComponent implements AfterViewInit, OnDestroy {
   } | null>(null);
 
   readonly displayBadge = (option: TabItemProps): boolean => {
-    return !!(option.badgeContent || option.badgeType || option.badgeIcon || option.badgeCount);
+    const hasNumberBadge = option.badgeContent === "number" && option.badgeCount !== undefined && option.badgeCount > 0;
+    const hasIconBadge = option.badgeContent === "icon" && !!option.badgeIcon;
+    return !option.disabled && (!!option.showBadge || hasNumberBadge || hasIconBadge);
   };
 
   readonly hoverIndicatorWidth = computed(() => {

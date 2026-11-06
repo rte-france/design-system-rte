@@ -20,8 +20,10 @@ Each entry in `options` accepts the following fields:
 | label | `string` | — | Visible tab label. |
 | icon | `string` | — | Icon name displayed before the label. |
 | disabled | `boolean` | `false` | Disables the tab. Skipped during keyboard navigation. |
-| showBadge | `boolean` | — | Shows the badge even when count or icon criteria are not met. |
+| showBadge | `boolean` | — | Requests the badge on an enabled tab. Disabled tabs never display a badge. |
 | badgeCount | `number` | — | Numeric value shown when `badgeContent` is `"number"`. |
 | badgeContent | `"number" \| "icon" \| "empty"` | `"empty"` | `"number"` shows a count; `"icon"` shows `badgeIcon`; `"empty"` shows a dot indicator. |
 | badgeIcon | `string` | — | Icon name shown when `badgeContent` is `"icon"`. |
 | badgeType | `"brand" \| "neutral" \| "indicator"` | `"indicator"` | Badge visual variant. |
+
+On an enabled tab, the badge is rendered when `showBadge` is true, when `badgeContent` is `"number"` with a positive `badgeCount`, or when `badgeContent` is `"icon"` with a non-empty `badgeIcon`. Setting only `badgeType`, `badgeContent`, `badgeCount` or `badgeIcon` does not force display. The Badge component still applies its content validation.
