@@ -28,6 +28,7 @@ export class TabItemComponent implements AfterViewInit, OnDestroy {
   readonly option = input<TabItemProps>();
   readonly compactSpacing = input<boolean>();
   readonly isSelected = input<boolean>(false);
+  readonly isFocusable = input<boolean>(false);
   readonly click = output<string>();
   readonly handleKeydown = input<() => void>();
   readonly inverted = input<boolean>(false);

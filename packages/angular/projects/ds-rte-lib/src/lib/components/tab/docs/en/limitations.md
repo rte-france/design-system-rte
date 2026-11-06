@@ -2,9 +2,11 @@
 
 `rte-tab` renders the tab list only. You must create and manage tab panel content separately, wiring each panel's `id` to the corresponding `panelId` in `options`.
 
-### Selection is fully controlled
+### Automatic first-tab selection
 
-The component does not auto-select a tab. You must initialize `selectedTabId` to a valid tab `id` and update it when `(change)` fires.
+When `selectedTabId` is omitted or does not match any `id` in `options`, `rte-tab` emits `change` with the first non-disabled tab's `id`. The parent must pass that id back through `selectedTabId` to update selection and manage the associated panel.
+
+Until selection is updated, the first non-disabled tab receives `tabindex="0"` so that TAB can reach the tab list. If `options` is empty or all tabs are disabled, no automatic selection is requested and no tab receives `tabindex="0"`.
 
 ### Dropdown overflow is horizontal only
 

@@ -2,6 +2,7 @@ import { CommonModule } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
+  effect,
   input,
   computed,
   signal,
@@ -96,8 +97,12 @@ export class TabComponent implements AfterViewInit, OnChanges, OnDestroy {
   readonly shouldDisplayDropdown = computed(() => this.overflowType() === "dropdown" && this.isHorizontal());
 
   readonly selectedTab = computed(() => {
-    return this.options().find((option) => option.id === this.selectedTabId());
+    const options = this.options();
+    return options.find((option) => option.id === this.selectedTabId()) ?? options.find((option) => !option.disabled);
   });
+
+  readonly focusableTabId = computed(() => this.selectedTab()?.id);
+
   readonly dropdownFilteredOptions = computed(() => {
     return this.options().filter((option) => option.id !== this.selectedTabId()) as DropdownItemConfig[];
   });
@@ -127,6 +132,15 @@ export class TabComponent implements AfterViewInit, OnChanges, OnDestroy {
     this.computeScrollableSignals();
     this.updateSelectedTabItemIndicator();
   };
+
+  constructor() {
+    effect(() => {
+      const selectedTab = this.selectedTab();
+      if (selectedTab && selectedTab.id !== this.selectedTabId()) {
+        this.change.emit(selectedTab.id);
+      }
+    });
+  }
 
   ngAfterViewInit() {
     this.onResize();
@@ -215,7 +229,9 @@ export class TabComponent implements AfterViewInit, OnChanges, OnDestroy {
   };
 
   private focusItem = (direction: "next" | "previous") => {
-    const currentIndex = this.tabItemRefs().findIndex((tab) => tab === this.selectedTabRef());
+    const currentIndex = this.tabItemRefs().findIndex(
+      (tab) => tab.tabItemRef()?.nativeElement === document.activeElement,
+    );
     const maxIterations = this.tabItemRefs().length;
     let newIndex = this.computeNextItemIndex(currentIndex, maxIterations, direction);
     let counter = 0;
@@ -235,6 +251,7 @@ export class TabComponent implements AfterViewInit, OnChanges, OnDestroy {
   }
 
   private computeIndicatorStyle(tabItem: HTMLElement) {
+    console.log(this.direction());
     if (this.direction() === "horizontal") {
       return {
         width: tabItem.offsetWidth,
