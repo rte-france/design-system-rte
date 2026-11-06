@@ -5,6 +5,7 @@
   class="rte-tabitem"
   role="tab"
   [id]="option()?.id"
+  [attr.aria-label]="accessibleName()"
   [attr.aria-selected]="isSelected()"
   [attr.aria-label]="option()?.ariaLabel"
   [attr.aria-controls]="option()?.panelId"
