@@ -18,23 +18,20 @@ import { getSegmentAriaLabel as getCoreSegmentAriaLabel } from "@design-system-r
 import { shouldDisplayBadge as CoreShouldDisplayBadge } from "@design-system-rte/core/components/badge/badge.utils";
 import {
   getSegmentPosition,
-  focusNextNotSegmentElement,
-  focusPreviousNotSegmentElement,
   focusNextSegmentElement,
   focusPreviousSegmentElement,
+  getSegmentTabIndex,
   isValidSegmentedControlOptions,
 } from "@design-system-rte/core/components/segmented-control/segmented-control-utils";
 import {
   SegmentOptions,
   SegmentProps,
 } from "@design-system-rte/core/components/segmented-control/segmented-control.interface";
-import { FOCUSABLE_ELEMENTS_QUERY } from "@design-system-rte/core/constants/dom/dom.constants";
 import {
   ARROW_LEFT_KEY,
   ARROW_RIGHT_KEY,
   ENTER_KEY,
   SPACE_KEY,
-  TAB_KEY,
 } from "@design-system-rte/core/constants/keyboard/keyboard.constants";
 
 import { BadgeComponent } from "../badge/badge.component";
@@ -67,6 +64,8 @@ export class SegmentedControlComponent implements OnChanges, AfterViewInit, OnDe
   readonly sliderWidth = signal(0);
   readonly sliderTop = signal(0);
 
+  readonly focusedSegmentId = signal<string | null>(null);
+
   readonly segmentSelectedIndicatorStyle = computed(() => ({
     left: `${this.sliderLeft()}px`,
     top: `${this.sliderTop()}px`,
@@ -74,6 +73,24 @@ export class SegmentedControlComponent implements OnChanges, AfterViewInit, OnDe
   }));
 
   readonly isValidOptions = computed(() => isValidSegmentedControlOptions(this.options()));
+
+  readonly segmentTabIndexByOptionId = computed(() => {
+    const focusedSegmentId = this.focusedSegmentId();
+    const selectedSegmentId = this.selectedSegment();
+    const fallbackTabStopSegmentId = this.options()[0]?.id;
+
+    return Object.fromEntries(
+      this.options().map((option) => [
+        option.id,
+        getSegmentTabIndex({
+          segmentId: option.id,
+          selectedSegmentId,
+          focusedSegmentId,
+          fallbackTabStopSegmentId,
+        }),
+      ]),
+    ) as Record<string, 0 | -1>;
+  });
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes["selectedSegment"]) {
@@ -84,20 +101,10 @@ export class SegmentedControlComponent implements OnChanges, AfterViewInit, OnDe
   ngAfterViewInit() {
     requestAnimationFrame(() => this.isInitialAnimationDisabled.set(false));
     window.addEventListener("resize", this.updateSelectedSegmentIndicator);
-    window.addEventListener("keydown", this.onGlobalKeyDown);
-
-    this.segmentRefs().forEach((segmentElement) => {
-      segmentElement.nativeElement.addEventListener("focus", this.focusCurrentSegmentElement);
-    });
   }
 
   ngOnDestroy() {
     window.removeEventListener("resize", this.updateSelectedSegmentIndicator);
-    window.removeEventListener("keydown", this.onGlobalKeyDown);
-
-    this.segmentRefs().forEach((segmentElement) => {
-      segmentElement.nativeElement.removeEventListener("focus", this.focusCurrentSegmentElement);
-    });
   }
 
   shouldDisplayBadge(option: SegmentOptions): boolean {
@@ -111,6 +118,18 @@ export class SegmentedControlComponent implements OnChanges, AfterViewInit, OnDe
 
   getSegmentAriaLabel(option: SegmentOptions): string {
     return getCoreSegmentAriaLabel(option);
+  }
+
+  onSegmentFocus(optionId: string) {
+    this.focusedSegmentId.set(optionId);
+  }
+
+  onSegmentGroupFocusOut(event: FocusEvent) {
+    const relatedTarget = event.relatedTarget as Node | null;
+    const radiogroupElement = this.segmentedControl()?.nativeElement;
+    if (radiogroupElement && !radiogroupElement.contains(relatedTarget)) {
+      this.focusedSegmentId.set(null);
+    }
   }
 
   selectSegment(id: string) {
@@ -151,39 +170,14 @@ export class SegmentedControlComponent implements OnChanges, AfterViewInit, OnDe
   }
 
   handleKeyDown(event: KeyboardEvent) {
-    if (event.key === TAB_KEY || event.key === SPACE_KEY || event.key === ENTER_KEY) {
+    if (event.key === SPACE_KEY || event.key === ENTER_KEY) {
       event.preventDefault();
-    }
-    if (event.key === TAB_KEY) {
-      const radiogroupElement = this.segmentedControl()?.nativeElement;
-      if (!radiogroupElement) {
-        return;
-      }
-
-      const allFocusableElements = Array.from(document.querySelectorAll(FOCUSABLE_ELEMENTS_QUERY)) as HTMLElement[];
-      const currentActiveElement = document.activeElement;
-      const currentIndex = allFocusableElements.indexOf(currentActiveElement as HTMLElement);
-
-      const focusOptions = {
-        focusedIndex: currentIndex,
-        focusableElements: allFocusableElements,
-        segmentClass,
-        radiogroupElement,
-      };
-
-      if (event.shiftKey) {
-        focusPreviousNotSegmentElement(focusOptions);
-      } else {
-        focusNextNotSegmentElement(focusOptions);
-      }
     }
   }
 
   getSegmentPosition(index: number): SegmentProps["position"] {
     return getSegmentPosition(index, this.options().length);
   }
-
-  private lastKeydown: string | null = null;
 
   private readonly updateSelectedSegmentIndicator = () => {
     const idx = this.options().findIndex((opt) => opt.id === this.selectedSegment());
@@ -199,23 +193,6 @@ export class SegmentedControlComponent implements OnChanges, AfterViewInit, OnDe
         this.sliderWidth.set(segmentRect.width);
         this.sliderTop.set(segmentRect.top - controlRect.top);
         this.sliderLeft.set(segmentRect.left - controlRect.left);
-      }
-    }
-  };
-
-  private readonly onGlobalKeyDown = (event: KeyboardEvent) => {
-    this.lastKeydown = event.key;
-  };
-
-  private readonly focusCurrentSegmentElement = () => {
-    if (this.lastKeydown === "Tab") {
-      const selectedSegmentElement = this.segmentRefs().find((segment) =>
-        segment.nativeElement.classList.contains("selected"),
-      )?.nativeElement;
-      if (selectedSegmentElement) {
-        selectedSegmentElement.focus();
-      } else {
-        this.segmentRefs()[0]?.nativeElement?.focus();
       }
     }
   };

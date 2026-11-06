@@ -1,5 +1,47 @@
 import { expect, userEvent, waitFor, within } from "@storybook/test";
 
+export function expectCalendarGridStructure(grid: HTMLElement, columnCount: 3 | 7): void {
+  const rows = within(grid).getAllByRole("row");
+  const cells = within(grid).getAllByRole("gridcell");
+  const headerRowCount = within(grid).queryAllByRole("columnheader").length > 0 ? 1 : 0;
+  expect(rows).toHaveLength(Math.ceil(cells.length / columnCount) + headerRowCount);
+  for (const row of rows) {
+    expect(row.parentElement).toBe(grid);
+  }
+  for (const cell of cells) {
+    expect(cell.parentElement).toHaveAttribute("role", "row");
+  }
+  rows.slice(headerRowCount).forEach((row, index) => {
+    expect(within(row).getAllByRole("gridcell")).toHaveLength(
+      Math.min(columnCount, cells.length - index * columnCount),
+    );
+  });
+}
+
+export function expectCalendarWeekdayHeaders(grid: HTMLElement, weekdayNames: string[]): void {
+  expect(grid.tagName).toBe("DIV");
+  const headers = within(grid).getAllByRole("columnheader");
+  expect(headers).toHaveLength(weekdayNames.length);
+  const buttons = within(grid).getAllByRole("gridcell");
+  headers.forEach((header, index) => {
+    expect(header.tagName).toBe("DIV");
+    expect(header).toHaveAccessibleName(weekdayNames[index]);
+    expect(header.childElementCount).toBe(0);
+    expect(header).toHaveTextContent(weekdayNames[index][0].toUpperCase());
+    expect(header).toBeVisible();
+    const headerRect = header.getBoundingClientRect();
+    const buttonRect = buttons[index].getBoundingClientRect();
+    expect(Math.abs(headerRect.x + headerRect.width / 2 - buttonRect.x - buttonRect.width / 2)).toBeLessThan(1);
+  });
+  for (const button of buttons) {
+    expect(button.getBoundingClientRect().width).toBeCloseTo(40);
+    expect(button.getBoundingClientRect().height).toBeCloseTo(40);
+  }
+  if (buttons.length > 7) {
+    expect(buttons[7].getBoundingClientRect().top - buttons[0].getBoundingClientRect().bottom).toBeCloseTo(4);
+  }
+}
+
 export const calendarTriggerAccessibleName = /ouvrir le calendrier|changer la date/i;
 
 export function storyPreviewDocument(contextElement: HTMLElement): Document {
@@ -115,7 +157,7 @@ export function activeDayCellLabelText(overlay: HTMLElement): string {
   const cell = overlay.querySelector(
     '.rte-datepicker-day-grid .day-cell[data-datepicker-active="true"]:not([disabled])',
   ) as HTMLButtonElement | null;
-  return cell?.textContent?.trim() ?? "";
+  return cell ? dayCellVisibleLabelText(cell) : "";
 }
 
 export async function focusActiveDayCellForArrowNavigation(overlay: HTMLElement): Promise<void> {
@@ -225,6 +267,9 @@ export async function ensureDatepickerMenuClosed(relativeTo: HTMLElement): Promi
     if (!menu) {
       continue;
     }
+    await waitFor(() => {
+      expect(menu.contains(doc.activeElement)).toBe(true);
+    });
     await userEvent.keyboard("{Escape}");
     await waitFor(() => {
       expect(queryDatepickerMenuInDocument(doc)).not.toBeInTheDocument();
@@ -422,6 +467,7 @@ export async function playYearGridKeyboardScenario(
       "rte-datepicker-menu .year-cell[data-datepicker-active='true']",
     ) as HTMLElement | null;
     expect((active?.textContent ?? "").trim()).toBe(scenario.expectActiveYearTrimmed);
+    expect(active).toHaveFocus();
   });
 
   const segmentedAfter = canvasElement.querySelector(".segmented-date-field");
