@@ -3,7 +3,7 @@ The `rte-tab` component is the public API. Pass tab definitions through `options
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
 | options | `TabItemProps[]` | `[]` | Tab definitions rendered in the tab list. |
-| selectedTabId | `string` | — | Id of the currently selected tab. Must match an `id` in `options`. |
+| selectedTabId | `string` | — | Id of the currently selected tab. When omitted or not found in `options`, `change` emits the first non-disabled tab's id. That tab remains reachable with TAB even if the parent does not update selection. No fallback is applied when all tabs are disabled or `options` is empty. |
 | direction | `"horizontal" \| "vertical"` | `"horizontal"` | Layout direction of the tab list. `"horizontal"` lays tabs in a row; `"vertical"` stacks them in a column. |
 | alignment | `"start" \| "center"` | `"start"` | Alignment of tabs within the list when there is no overflow. Forced to `"start"` when tabs overflow. |
 | compactSpacing | `boolean` | `false` | Reduces spacing between tab items. |
@@ -12,7 +12,7 @@ The `rte-tab` component is the public API. Pass tab definitions through `options
 
 | Output | Type | Description |
 |--------|------|-------------|
-| change | `string` | Emits the `id` of the tab the user selected. |
+| change | `string` | Emits the selected tab's `id`, including the first non-disabled tab used as a fallback when `selectedTabId` is omitted or invalid. |
 
 Each entry in `options` accepts the following fields:
 

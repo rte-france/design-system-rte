@@ -3,8 +3,8 @@ The `Tab` component is the public API. Pass tab definitions through `options`, c
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
 | options | `TabItemProps[]` | — (required) | Tab definitions rendered in the tab list. |
-| onChange | `(id: string) => void` | — (required) | Called with the `id` of the tab the user selected. |
-| selectedTabId | `string` | — | Id of the currently selected tab. When omitted and `options` is non-empty, the first tab is selected automatically. |
+| onChange | `(id: string) => void` | — (required) | Called with the selected tab's `id`, including the first non-disabled tab used as a fallback when `selectedTabId` is omitted or invalid. |
+| selectedTabId | `string` | — | Id of the currently selected tab. When omitted or not found in `options`, `onChange` is called with the first non-disabled tab's id. That tab remains reachable with TAB even if the parent does not update selection. No fallback is applied when all tabs are disabled or `options` is empty. |
 | direction | `"horizontal" \| "vertical"` | `"horizontal"` | Layout direction of the tab list. `"horizontal"` lays tabs in a row; `"vertical"` stacks them in a column. |
 | alignment | `"start" \| "center"` | `"start"` | Alignment of tabs within the list when there is no overflow. Forced to `"start"` when tabs overflow. |
 | compactSpacing | `boolean` | `false` | Reduces spacing between tab items. |
