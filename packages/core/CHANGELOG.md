@@ -1,5 +1,28 @@
 # @design-system-rte/core
 
+## 1.23.0
+
+### Minor Changes
+
+- 4a53d30: ## Changes
+
+  - (Base Input) Remove showRightIcon property and update right icon logic
+
+### Patch Changes
+
+- e87911b: ## Changes
+
+  - (Datepicker) improve accessibility structure with row and accessible column header
+  - (Datepicker) add full date accessible value for day cells
+
+- a1fa820: ## Changes
+
+  - (Segmented Control) correct component roving system to comply with accessibility specifications
+
+- 79fca5b: ## Changes
+
+  - (Tab) add aria-label to tab items for improved accessibility
+
 ## 1.22.1
 
 ### Patch Changes
