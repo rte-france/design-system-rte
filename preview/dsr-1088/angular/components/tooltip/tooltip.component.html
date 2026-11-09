@@ -1,0 +1,7 @@
+<div
+  class="tooltip {{ position() }} {{ alignment() }}"
+  [ngClass]="{ arrow: arrow() }"
+  [attr.data-overlay-level]="overlayLevel()"
+>
+  <span role="tooltip" class="tooltip-label"> {{ label() }} </span>
+</div>
