@@ -1,6 +1,6 @@
 # @design-system-rte/angular
 
-## 5.0.0
+## 4.5.0
 
 ### Minor Changes
 
@@ -34,7 +34,7 @@
 
 - c1dda51: ## Changes
 
-  - (Tab) angular - add aria-disabled attribute for better accessibility
+  - (Tab) add aria-disabled attribute for better accessibility
 
 - 342107a: ## Changes
 
