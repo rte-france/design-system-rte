@@ -185,6 +185,26 @@ export const KeyboardInteraction: Story = {
   },
 };
 
+export const EscapeDoesNotCloseNonClosableToast: Story = {
+  ...KeyboardInteraction,
+  args: {
+    ...KeyboardInteraction.args,
+    closable: false,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole("button", { name: "Toggle toast" }));
+
+    const toast = await within(document.body).findByRole("status");
+    await userEvent.tab();
+    expect(within(toast).getByRole("button", { name: "Mettre à jour" })).toHaveFocus();
+
+    await userEvent.keyboard("{Escape}");
+    expect(toast).toBeInTheDocument();
+    expect(within(toast).queryByRole("button", { name: "Fermer le toast" })).not.toBeInTheDocument();
+  },
+};
+
 const AUTO_DISMISS_SHORT_MS = 3000;
 
 export const FocusRestorationAfterLeavingToast: Story = {
