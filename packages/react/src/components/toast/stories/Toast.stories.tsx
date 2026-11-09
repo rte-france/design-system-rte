@@ -3,7 +3,9 @@ import { userEvent, expect, within, waitFor } from "@storybook/test";
 import { useState } from "react";
 
 import Button from "../../button/Button";
+import Drawer from "../../drawer/Drawer";
 import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../../icon/IconMap";
+import Modal from "../../modal/Modal";
 import Toast from "../Toast";
 import ToastQueueProvider from "../toastQueue/ToastQueueProvider";
 
@@ -187,12 +189,18 @@ export const KeyboardInteraction: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const toggleButton = await canvas.getByRole("button", { name: "Toggle toast" });
+    const announcement = within(document.body).getByRole("status");
+
+    expect(announcement).toBeEmptyDOMElement();
 
     await userEvent.click(toggleButton);
 
-    const toast = within(document.body).getByRole("status");
-    const actionButton = await within(toast).getByRole("button", { name: "Mettre à jour" });
-    const closeButton = await within(toast).getByRole("button", { name: "Fermer le toast" });
+    await waitFor(() => expect(announcement).toHaveTextContent("Information : Une mise à jour est disponible"));
+    expect(within(document.body).getAllByRole("status")).toHaveLength(1);
+
+    const body = within(document.body);
+    const actionButton = body.getByRole("button", { name: "Mettre à jour" });
+    const closeButton = body.getByRole("button", { name: "Fermer le toast" });
 
     await userEvent.tab();
     expect(actionButton).toHaveFocus();
@@ -204,14 +212,95 @@ export const KeyboardInteraction: Story = {
     expect(actionButton).toHaveFocus();
 
     await userEvent.click(closeButton);
-    await waitFor(() => expect(toast).not.toBeInTheDocument());
+    await waitFor(() => expect(closeButton).not.toBeInTheDocument());
+    expect(announcement).toBeInTheDocument();
+
+    await userEvent.click(toggleButton);
+    expect(announcement).toBeEmptyDOMElement();
+    await waitFor(() => expect(announcement).toHaveTextContent("Information : Une mise à jour est disponible"));
+  },
+};
+
+export const AnnouncementsWithModalOverlays: Story = {
+  tags: ["!autodocs"],
+  args: {
+    ...Default.args,
+  },
+
+  render: (args) => {
+    const [overlay, setOverlay] = useState<"modal" | "drawer" | null>(null);
+    const [isToastOpen, setIsToastOpen] = useState(false);
+    const showToastButton = <Button label="Afficher le toast" onClick={() => setIsToastOpen(true)} />;
+
+    return (
+      <ToastQueueProvider>
+        <Button label="Ouvrir Modal" onClick={() => setOverlay("modal")} />
+        <Button label="Ouvrir Drawer" onClick={() => setOverlay("drawer")} />
+        <Modal
+          id="toast-announcement-modal"
+          title="Modal avec toast"
+          isOpen={overlay === "modal"}
+          onClose={() => setOverlay(null)}
+          primaryButton={<Button label="Fermer" onClick={() => setOverlay(null)} />}
+        >
+          {showToastButton}
+        </Modal>
+        <Drawer
+          id="toast-announcement-drawer"
+          title="Drawer avec toast"
+          position="modal"
+          isOpen={overlay === "drawer"}
+          onClose={() => setOverlay(null)}
+          onClickToggle={() => setOverlay(null)}
+          primaryButtonLabel="Fermer"
+          onClickPrimaryButton={() => setOverlay(null)}
+          content={showToastButton}
+        />
+        <Toast {...args} isOpen={isToastOpen} onClose={() => setIsToastOpen(false)} />
+      </ToastQueueProvider>
+    );
+  },
+
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const body = within(document.body);
+    const announcement = body.getByRole("status");
+
+    expect(announcement).toBeEmptyDOMElement();
+
+    for (const overlay of ["Modal", "Drawer"]) {
+      await userEvent.click(canvas.getByRole("button", { name: `Ouvrir ${overlay}` }));
+      const dialog = await body.findByRole("dialog", { name: `${overlay} avec toast` });
+
+      await waitFor(() => {
+        expect(canvasElement.closest('[aria-hidden="true"]')).not.toBeNull();
+        expect(canvasElement.closest("[inert]")).not.toBeNull();
+      });
+
+      expect(body.getByRole("status")).toBe(announcement);
+      expect(announcement.closest('[aria-hidden="true"], [inert]')).toBeNull();
+
+      await userEvent.click(within(dialog).getByRole("button", { name: "Afficher le toast" }));
+      await waitFor(() => expect(announcement).toHaveTextContent("Information : Une mise à jour est disponible"));
+      expect(body.getAllByRole("status")).toHaveLength(1);
+      expect(announcement.closest('[aria-hidden="true"], [inert]')).toBeNull();
+
+      await userEvent.click(within(dialog).getByRole("button", { name: "Fermer" }));
+      await waitFor(() => expect(dialog).not.toBeInTheDocument());
+      await waitFor(() => expect(canvasElement.closest('[aria-hidden="true"], [inert]')).toBeNull());
+      expect(body.getByRole("status")).toBe(announcement);
+
+      const closeToastButton = body.getByRole("button", { name: "Fermer le toast" });
+      await userEvent.click(closeToastButton);
+      await waitFor(() => expect(closeToastButton).not.toBeInTheDocument());
+    }
   },
 };
 
 const AUTO_DISMISS_SHORT_MS = 3000;
 
 export const AutoDismissPausesOnKeyboardFocus: Story = {
-  tags: ["!autodocs", "skip-ci"],
+  tags: ["!autodocs"],
   args: {
     message: "Une mise à jour est disponible",
     type: "info",
@@ -246,14 +335,45 @@ export const AutoDismissPausesOnKeyboardFocus: Story = {
 
     await userEvent.click(toggleButton);
 
-    const toast = within(document.body).getByRole("status");
-    const closeButton = await within(toast).getByRole("button", { name: "Fermer le toast" });
+    const closeButton = within(document.body).getByRole("button", { name: "Fermer le toast" });
 
     await userEvent.tab();
     expect(closeButton).toHaveFocus();
 
+    const announcement = within(document.body).getByRole("status");
+    expect(announcement).toBeEmptyDOMElement();
+    await waitFor(() => expect(announcement).toHaveTextContent("Information : Une mise à jour est disponible"));
+
     await new Promise((resolve) => setTimeout(resolve, AUTO_DISMISS_SHORT_MS + 500));
 
-    expect(toast).toBeInTheDocument();
+    expect(closeButton).toBeInTheDocument();
+    expect(closeButton).toHaveFocus();
+
+    await userEvent.tab({ shift: true });
+    expect(toggleButton).toHaveFocus();
+    await waitFor(() => expect(closeButton).not.toBeInTheDocument(), { timeout: AUTO_DISMISS_SHORT_MS + 1000 });
+  },
+};
+
+export const AutoDismissPausesOnHover: Story = {
+  ...AutoDismissPausesOnKeyboardFocus,
+
+  play: async ({ canvasElement }) => {
+    const toggleButton = within(canvasElement).getByRole("button", { name: "Toggle toast" });
+    await userEvent.click(toggleButton);
+
+    const body = within(document.body);
+    const closeButton = body.getByRole("button", { name: "Fermer le toast" });
+    await userEvent.hover(closeButton);
+
+    const announcement = body.getByRole("status");
+    expect(announcement).toBeEmptyDOMElement();
+    await waitFor(() => expect(announcement).toHaveTextContent("Information : Une mise à jour est disponible"));
+
+    await new Promise((resolve) => setTimeout(resolve, AUTO_DISMISS_SHORT_MS + 500));
+    expect(closeButton).toBeInTheDocument();
+
+    await userEvent.unhover(closeButton);
+    await waitFor(() => expect(closeButton).not.toBeInTheDocument(), { timeout: AUTO_DISMISS_SHORT_MS + 1000 });
   },
 };

@@ -1,3 +1,4 @@
+import { LiveAnnouncer } from "@angular/cdk/a11y";
 import { CommonModule } from "@angular/common";
 import {
   ChangeDetectionStrategy,
@@ -8,9 +9,14 @@ import {
   output,
   SimpleChanges,
   OnChanges,
+  inject,
 } from "@angular/core";
 import { IconSize, IconTypeMap } from "@design-system-rte/core/components/icon/icon.constants";
-import { ToastCloseButtonAriaLabel, ToastDurationMap } from "@design-system-rte/core/components/toast/toast.constants";
+import {
+  ToastCloseButtonAriaLabel,
+  ToastDurationMap,
+  ToastStatusMessageMap,
+} from "@design-system-rte/core/components/toast/toast.constants";
 import { ToastProps, ToastType } from "@design-system-rte/core/components/toast/toast.interface";
 
 import { ButtonComponent } from "../button/button.component";
@@ -25,6 +31,8 @@ import { IconButtonComponent } from "../icon-button/icon-button.component";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToastComponent implements OnChanges {
+  private readonly liveAnnouncer = inject(LiveAnnouncer);
+
   readonly id = input<string>("");
   readonly message = input<string>("");
   readonly type = input<ToastType>("info");
@@ -63,6 +71,10 @@ export class ToastComponent implements OnChanges {
   readonly isFocused = signal(false);
 
   ngOnChanges(changes: SimpleChanges) {
+    if (this.isOpen() && (changes["isOpen"] || changes["message"] || changes["type"])) {
+      void this.liveAnnouncer.announce(`${ToastStatusMessageMap[this.type()]} ${this.message()}`, "polite");
+    }
+
     if (changes["isOpen"]) {
       if (this.shouldAutoDismiss()) {
         this.startTimer();

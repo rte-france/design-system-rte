@@ -15,6 +15,7 @@ export type ToastQueueItem = {
 export const ToastQueueContext = createContext<{
   addToQueue: (toast: InputToast) => void;
   removeFromQueue: (id: string) => void;
+  announceToast: (message: string) => () => void;
   isFirstInQueue: (id: string) => boolean;
   isInQueue: (id: string) => boolean;
   queue: ToastQueueItem[];

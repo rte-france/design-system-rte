@@ -1,4 +1,4 @@
-import { generateId, ToastCloseButtonAriaLabel } from "@design-system-rte/core";
+import { generateId, ToastCloseButtonAriaLabel, ToastStatusMessageMap } from "@design-system-rte/core";
 import { IconSize, IconTypeMap } from "@design-system-rte/core/components/icon/icon.constants";
 import { ToastProps as coreToastProps } from "@design-system-rte/core/components/toast/toast.interface";
 import { forwardRef, FocusEventHandler, MouseEventHandler, useCallback, useEffect, useRef, useState } from "react";
@@ -48,7 +48,8 @@ const Toast = forwardRef<HTMLDivElement, ToastProps>(
     const [internalId] = useState<string>(id || generateId());
 
     const { isInternalOpen, hideToast } = useHandleQueueChanges(internalId, isOpen);
-    const { addToQueue, removeFromQueue } = useToastQueueContext();
+    const { addToQueue, removeFromQueue, announceToast, isFirstInQueue } = useToastQueueContext();
+    const isActiveToast = isOpen && isInternalOpen && isFirstInQueue(internalId);
     const { shouldRender, isAnimating } = useAnimatedMount(isInternalOpen, 300);
     const { initializeTimer, removeTimer } = useHandleTimer(
       { shouldStartTimer: isAutoDismiss && isInternalOpen, duration },
@@ -73,6 +74,14 @@ const Toast = forwardRef<HTMLDivElement, ToastProps>(
         handleOnClose();
       }
     }, [isOpen, hasActionButton, type, isAutoDismiss, internalId, addToQueue, handleOnClose]);
+
+    useEffect(() => {
+      if (!isActiveToast) {
+        return;
+      }
+
+      return announceToast(`${ToastStatusMessageMap[type]} ${message}`);
+    }, [isActiveToast, message, type, announceToast]);
 
     const handleOnClickCloseButton = () => {
       handleOnClose();
@@ -120,11 +129,12 @@ const Toast = forwardRef<HTMLDivElement, ToastProps>(
     const displayDefaultIcon = showLeftIcon && type !== "neutral";
     const displayCustomIcon = showLeftIcon && iconName && isValidIconName(iconName);
 
+    const computedStatusMessage = ToastStatusMessageMap[type];
+
     return (
       shouldRender && (
         <Overlay>
           <div
-            role="status"
             className={concatClassNames(styles["toast"], props.className)}
             data-type={type}
             data-position={position}
@@ -150,6 +160,7 @@ const Toast = forwardRef<HTMLDivElement, ToastProps>(
                   <Icon name={iconName} size={IconSize["xl"]} className={styles["toast-icon"]} aria-hidden="true" />
                 )
               )}
+              <span className={styles["sr-only"]}>{computedStatusMessage}</span>
               <span className={styles["toast-message"]}>{message}</span>
             </div>
             {hasActionButton && (
