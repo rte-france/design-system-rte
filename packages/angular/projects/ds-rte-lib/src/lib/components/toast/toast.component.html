@@ -18,7 +18,13 @@
     <span class="rte-toast-message">{{ message() }}</span>
   </div>
   @if (displayActionButton()) {
-    <button rteButton rteButtonVariant="text" class="rte-toast-action-button" (click)="onClickActionButton()">
+    <button
+      rteButton
+      rteButtonHierarchy="text"
+      class="rte-toast-action-button"
+      [rteButtonIsReversed]="type() === 'neutral'"
+      (click)="onClickActionButton()"
+    >
       {{ actionButtonLabel() }}
     </button>
   }

@@ -154,7 +154,8 @@ const Toast = forwardRef<HTMLDivElement, ToastProps>(
             </div>
             {hasActionButton && (
               <Button
-                variant={type === "neutral" ? "reverse" : "transparent"}
+                hierarchy="text"
+                isReversed={type === "neutral"}
                 onClick={onActionButtonClick}
                 label={actionButtonLabel}
               />
