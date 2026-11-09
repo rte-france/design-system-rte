@@ -45,7 +45,7 @@
 
 - 733b338: ## Changes
 
-  - (Tab) react - prevent click event when the tab is selected
+  - (Tab) prevent click event when the tab is selected
 
 - Updated dependencies [e87911b]
 - Updated dependencies [a1fa820]

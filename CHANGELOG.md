@@ -2,7 +2,7 @@
 
 # Angular
 
-## 5.0.0
+## 4.5.0
 
 ### Base Input
 
@@ -36,7 +36,7 @@
 #### Patch Changes
 
 - add aria-label to tab items for improved accessibility
-- angular - add aria-disabled attribute for better accessibility
+- add aria-disabled attribute for better accessibility
 - hide navigation arrown in overflow mode from keyboard navigation + translate buttons label
 - update badge visibility logic + align default badge type value with react
 
@@ -237,7 +237,7 @@
 - add aria-label to tab items for improved accessibility
 - hide navigation arrown in overflow mode from keyboard navigation + translate buttons label
 - update badge visibility logic + align default badge type value with react
-- react - prevent click event when the tab is selected
+- prevent click event when the tab is selected
 
 ### Other
 
