@@ -10,6 +10,7 @@ import {
   OnChanges,
   OnDestroy,
 } from "@angular/core";
+import { ESCAPE_KEY } from "@design-system-rte/core";
 import { IconSize, IconTypeMap } from "@design-system-rte/core/components/icon/icon.constants";
 import { ToastCloseButtonAriaLabel, ToastDurationMap } from "@design-system-rte/core/components/toast/toast.constants";
 import { ToastProps, ToastType } from "@design-system-rte/core/components/toast/toast.interface";
@@ -115,6 +116,12 @@ export class ToastComponent implements OnChanges, OnDestroy {
     this.isFocused.set(false);
     this.previousFocusedElement = null;
     this.resumeTimer();
+  }
+
+  handleKeyDown(event: KeyboardEvent): void {
+    if (event.key === ESCAPE_KEY && this.closable()) {
+      this.close.emit();
+    }
   }
 
   private pauseTimer(): void {

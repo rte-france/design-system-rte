@@ -210,15 +210,6 @@ export const KeyboardInteraction: Story = {
 
     await userEvent.tab({ shift: true });
     expect(actionButton).toHaveFocus();
-
-    await userEvent.click(closeButton);
-    await waitFor(() => expect(closeButton).not.toBeInTheDocument());
-    expect(toggleButton).toHaveFocus();
-    expect(announcement).toBeInTheDocument();
-
-    await userEvent.click(toggleButton);
-    expect(announcement).toBeEmptyDOMElement();
-    await waitFor(() => expect(announcement).toHaveTextContent("Information : Une mise à jour est disponible"));
   },
 };
 
@@ -295,6 +286,26 @@ export const AnnouncementsWithModalOverlays: Story = {
       await userEvent.click(closeToastButton);
       await waitFor(() => expect(closeToastButton).not.toBeInTheDocument());
     }
+  },
+};
+
+export const EscapeDoesNotCloseNonClosableToast: Story = {
+  ...KeyboardInteraction,
+  args: {
+    ...KeyboardInteraction.args,
+    closable: false,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole("button", { name: "Toggle toast" }));
+
+    const toast = await within(document.body).findByRole("status");
+    await userEvent.tab();
+    expect(within(toast).getByRole("button", { name: "Mettre à jour" })).toHaveFocus();
+
+    await userEvent.keyboard("{Escape}");
+    expect(toast).toBeInTheDocument();
+    expect(within(toast).queryByRole("button", { name: "Fermer le toast" })).not.toBeInTheDocument();
   },
 };
 

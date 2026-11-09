@@ -1,9 +1,10 @@
-import { generateId, ToastCloseButtonAriaLabel, ToastStatusMessageMap } from "@design-system-rte/core";
+import { ESCAPE_KEY, generateId, ToastCloseButtonAriaLabel, ToastStatusMessageMap } from "@design-system-rte/core";
 import { IconSize, IconTypeMap } from "@design-system-rte/core/components/icon/icon.constants";
 import { ToastProps as coreToastProps } from "@design-system-rte/core/components/toast/toast.interface";
 import {
   forwardRef,
   FocusEvent,
+  KeyboardEventHandler,
   FocusEventHandler,
   MouseEventHandler,
   useCallback,
@@ -160,6 +161,14 @@ const Toast = forwardRef<HTMLDivElement, ToastProps>(
       resumeTimer();
     };
 
+    const handleKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
+      if (event.key === ESCAPE_KEY) {
+        if (closable) {
+          handleOnClose();
+        }
+      }
+    };
+
     const displayDefaultIcon = showLeftIcon && type !== "neutral";
     const displayCustomIcon = showLeftIcon && iconName && isValidIconName(iconName);
 
@@ -179,6 +188,7 @@ const Toast = forwardRef<HTMLDivElement, ToastProps>(
             onMouseOut={handleOnMouseOut}
             onFocus={handleOnFocusIn}
             onBlur={handleOnFocusOut}
+            onKeyDown={handleKeyDown}
             {...props}
           >
             <div className={styles["toast-content"]}>
