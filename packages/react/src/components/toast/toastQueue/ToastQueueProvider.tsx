@@ -1,10 +1,24 @@
 import { getToastPriority } from "@design-system-rte/core/components/toast/toast.utils";
 import { useCallback, useState } from "react";
 
+import { Overlay } from "../../overlay/Overlay";
+import styles from "../Toast.module.scss";
+
 import { InputToast, ToastQueueContext, ToastQueueItem } from "./ToastQueueContext";
 
 const ToastQueueProvider = ({ children }: { children: React.ReactNode }) => {
   const [queue, setQueue] = useState<ToastQueueItem[]>([]);
+  const [announcement, setAnnouncement] = useState("");
+
+  const announceToast = useCallback((message: string) => {
+    setAnnouncement("");
+
+    const timeoutId = window.setTimeout(() => {
+      setAnnouncement(message);
+    }, 100);
+
+    return () => window.clearTimeout(timeoutId);
+  }, []);
 
   const addToQueue = useCallback((toast: InputToast) => {
     const priority = getToastPriority(toast);
@@ -27,7 +41,14 @@ const ToastQueueProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <ToastQueueContext.Provider value={{ addToQueue, removeFromQueue, isFirstInQueue, isInQueue, queue }}>
+    <ToastQueueContext.Provider
+      value={{ addToQueue, removeFromQueue, announceToast, isFirstInQueue, isInQueue, queue }}
+    >
+      <Overlay>
+        <div role="status" aria-atomic="true" className={styles["sr-only"]}>
+          {announcement}
+        </div>
+      </Overlay>
       {children}
     </ToastQueueContext.Provider>
   );
