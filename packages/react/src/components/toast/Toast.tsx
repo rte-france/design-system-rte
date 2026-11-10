@@ -25,7 +25,7 @@ const Toast = forwardRef<HTMLDivElement, ToastProps>(
     {
       id,
       message,
-      type = "error",
+      type = "neutral",
       closable = false,
       placement = "bottom-right",
       isOpen = true,

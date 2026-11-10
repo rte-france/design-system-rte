@@ -9,7 +9,7 @@ import { ToastComponent } from "./toast.component";
 
 export interface ToastConfig {
   message: string;
-  type: ToastType;
+  type?: ToastType;
   closable?: boolean;
   autoDismiss?: boolean;
   duration?: ToastDuration;
@@ -119,7 +119,7 @@ export class ToastService {
   private assignInputsValues(toast: ComponentRef<ToastComponent>, config: ToastConfig): void {
     const {
       message,
-      type = "info",
+      type = "neutral",
       closable = true,
       autoDismiss = false,
       duration = "medium",
