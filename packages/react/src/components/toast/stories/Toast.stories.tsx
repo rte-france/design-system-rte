@@ -71,6 +71,46 @@ export const Default: Story = {
   },
 };
 
+export const ManualDismissByDefault: Story = {
+  tags: ["!autodocs"],
+  args: {
+    message: "Notification",
+    duration: "short",
+    showActionButton: false,
+  },
+  render: Default.render,
+  play: async ({ canvasElement }) => {
+    await userEvent.click(within(canvasElement).getByRole("button", { name: "Toggle toast" }));
+    const body = within(document.body);
+    const message = await body.findByText("Notification");
+    const closeButton = body.getByRole("button", { name: "Fermer le toast" });
+    await new Promise((resolve) => setTimeout(resolve, 3500));
+    expect(message).toBeVisible();
+    await userEvent.click(closeButton);
+    await waitFor(() => expect(message).not.toBeInTheDocument());
+    expect(body.getByRole("status")).toBeInTheDocument();
+  },
+};
+
+export const CloseButtonWithoutAutoDismiss: Story = {
+  tags: ["!autodocs"],
+  args: {
+    message: "Notification",
+    autoDismiss: false,
+    closable: false,
+    showActionButton: false,
+  },
+  render: Default.render,
+  play: async ({ canvasElement }) => {
+    await userEvent.click(within(canvasElement).getByRole("button", { name: "Toggle toast" }));
+    const body = within(document.body);
+    const message = await body.findByText("Notification");
+    await userEvent.click(body.getByRole("button", { name: "Fermer le toast" }));
+    await waitFor(() => expect(message).not.toBeInTheDocument());
+    expect(body.getByRole("status")).toBeInTheDocument();
+  },
+};
+
 export const Multiple: Story = {
   args: {
     ...Default.args,
@@ -328,7 +368,12 @@ export const EscapeDoesNotCloseNonClosableToast: Story = {
     expect(actionButton).toBeVisible();
     expect(actionButton).toHaveFocus();
     expect(body.getByText("Une mise à jour est disponible")).toBeVisible();
-    expect(body.queryByRole("button", { name: "Fermer le toast" })).not.toBeInTheDocument();
+    const closeButton = body.getByRole("button", { name: "Fermer le toast" });
+    expect(closeButton).toBeVisible();
+
+    await userEvent.click(closeButton);
+    await waitFor(() => expect(actionButton).not.toBeInTheDocument());
+    expect(canvas.getByRole("button", { name: "Toggle toast" })).toHaveFocus();
   },
 };
 
