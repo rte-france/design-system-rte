@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { userEvent, expect, within, waitFor } from "@storybook/test";
-import { useState } from "react";
+import { userEvent, expect, fn, within, waitFor } from "@storybook/test";
+import { useCallback, useRef, useState } from "react";
 
 import Button from "../../button/Button";
 import Drawer from "../../drawer/Drawer";
@@ -213,6 +213,7 @@ export const KeyboardInteraction: Story = {
 
     await userEvent.click(closeButton);
     await waitFor(() => expect(closeButton).not.toBeInTheDocument());
+    expect(toggleButton).toHaveFocus();
     expect(announcement).toBeInTheDocument();
 
     await userEvent.click(toggleButton);
@@ -298,6 +299,166 @@ export const AnnouncementsWithModalOverlays: Story = {
 };
 
 const AUTO_DISMISS_SHORT_MS = 3000;
+const queuedToastOnClose = fn();
+const consumerToastOnClose = fn(() => document.activeElement);
+
+export const FocusRestorationWhenQueued: Story = {
+  tags: ["!autodocs", "toast-focus"],
+  args: {
+    ...Default.args,
+    onClose: queuedToastOnClose,
+  },
+
+  render: (args) => {
+    const [isOpen, setIsOpen] = useState(false);
+    const [isPriorityOpen, setIsPriorityOpen] = useState(false);
+    const closePriorityToast = useCallback(() => setIsPriorityOpen(false), []);
+
+    return (
+      <>
+        <Button label="Afficher le toast" onClick={() => setIsOpen(true)} />
+        <ToastQueueProvider>
+          <Toast
+            {...args}
+            isOpen={isOpen}
+            actionButtonLabel="Afficher une erreur"
+            onActionButtonClick={() => setIsPriorityOpen(true)}
+          />
+          <Toast
+            message="Erreur prioritaire"
+            type="error"
+            autoDismiss={false}
+            closable
+            isOpen={isPriorityOpen}
+            onClose={closePriorityToast}
+          />
+        </ToastQueueProvider>
+      </>
+    );
+  },
+
+  play: async ({ canvasElement }) => {
+    const showButton = within(canvasElement).getByRole("button", { name: "Afficher le toast" });
+    const body = within(document.body);
+    await userEvent.click(showButton);
+    const actionButton = await body.findByRole("button", { name: "Afficher une erreur" });
+    queuedToastOnClose.mockClear();
+
+    await userEvent.tab();
+    expect(actionButton).toHaveFocus();
+    await userEvent.keyboard("{Enter}");
+    await waitFor(() => expect(actionButton).not.toBeInTheDocument());
+    expect(showButton).toHaveFocus();
+    expect(queuedToastOnClose).not.toHaveBeenCalled();
+
+    await userEvent.click(body.getByRole("button", { name: "Fermer le toast" }));
+    await waitFor(() => expect(body.getByRole("button", { name: "Afficher une erreur" })).toBeVisible());
+    expect(queuedToastOnClose).not.toHaveBeenCalled();
+  },
+};
+
+export const ConsumerControlsFocusOnClose: Story = {
+  tags: ["!autodocs", "toast-focus"],
+  args: {
+    ...Default.args,
+    onClose: consumerToastOnClose,
+  },
+
+  render: (args) => {
+    const [isOpen, setIsOpen] = useState(false);
+    const targetRef = useRef<HTMLInputElement>(null);
+    const { onClose } = args;
+    const handleClose = useCallback(() => {
+      onClose?.();
+      setIsOpen(false);
+      targetRef.current?.focus();
+    }, [onClose]);
+
+    return (
+      <>
+        <Button label="Afficher le toast" onClick={() => setIsOpen(true)} />
+        <input ref={targetRef} aria-label="Cible du callback" />
+        <ToastQueueProvider>
+          <Toast {...args} isOpen={isOpen} onClose={handleClose} />
+        </ToastQueueProvider>
+      </>
+    );
+  },
+
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const showButton = canvas.getByRole("button", { name: "Afficher le toast" });
+    const target = canvas.getByRole("textbox", { name: "Cible du callback" });
+    await userEvent.click(showButton);
+    const closeButton = await within(document.body).findByRole("button", { name: "Fermer le toast" });
+    consumerToastOnClose.mockClear();
+    closeButton.focus();
+    expect(closeButton).toHaveFocus();
+
+    await userEvent.keyboard("{Enter}");
+    expect(consumerToastOnClose).toHaveReturnedWith(showButton);
+    expect(target).toHaveFocus();
+    await waitFor(() => expect(closeButton).not.toBeInTheDocument());
+    expect(target).toHaveFocus();
+  },
+};
+
+export const FocusRestorationAfterLeavingToast: Story = {
+  tags: ["!autodocs", "toast-focus"],
+  args: {
+    ...Default.args,
+    autoDismiss: true,
+    duration: "short",
+    showActionButton: false,
+  },
+
+  render: (args) => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    return (
+      <>
+        <Button label="Afficher le toast" onClick={() => setIsOpen(true)} />
+        <Button label="Autre élément" />
+        <ToastQueueProvider>
+          <Toast {...args} isOpen={isOpen} onClose={() => setIsOpen(false)} />
+        </ToastQueueProvider>
+      </>
+    );
+  },
+
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const body = within(document.body);
+    const showButton = canvas.getByRole("button", { name: "Afficher le toast" });
+    const otherButton = canvas.getByRole("button", { name: "Autre élément" });
+
+    await userEvent.click(showButton);
+    let closeButton = await body.findByRole("button", { name: "Fermer le toast" });
+    closeButton.focus();
+    expect(closeButton).toHaveFocus();
+
+    await userEvent.tab({ shift: true });
+    expect(otherButton).toHaveFocus();
+
+    await userEvent.tab();
+    expect(closeButton).toHaveFocus();
+    await userEvent.click(closeButton);
+    await waitFor(() => expect(closeButton).not.toBeInTheDocument());
+    expect(otherButton).toHaveFocus();
+
+    await userEvent.click(showButton);
+    closeButton = await body.findByRole("button", { name: "Fermer le toast" });
+    closeButton.focus();
+    expect(closeButton).toHaveFocus();
+
+    await userEvent.tab({ shift: true });
+    expect(otherButton).toHaveFocus();
+    await userEvent.unhover(closeButton);
+
+    await waitFor(() => expect(closeButton).not.toBeInTheDocument(), { timeout: AUTO_DISMISS_SHORT_MS + 1000 });
+    expect(otherButton).toHaveFocus();
+  },
+};
 
 export const AutoDismissPausesOnKeyboardFocus: Story = {
   tags: ["!autodocs"],

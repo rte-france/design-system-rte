@@ -1,7 +1,16 @@
 import { generateId, ToastCloseButtonAriaLabel, ToastStatusMessageMap } from "@design-system-rte/core";
 import { IconSize, IconTypeMap } from "@design-system-rte/core/components/icon/icon.constants";
 import { ToastProps as coreToastProps } from "@design-system-rte/core/components/toast/toast.interface";
-import { forwardRef, FocusEventHandler, MouseEventHandler, useCallback, useEffect, useRef, useState } from "react";
+import {
+  forwardRef,
+  FocusEvent,
+  FocusEventHandler,
+  MouseEventHandler,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 import useAnimatedMount from "../../hooks/useAnimatedMount";
 import Button from "../button/Button";
@@ -46,6 +55,7 @@ const Toast = forwardRef<HTMLDivElement, ToastProps>(
     const isAutoDismiss = autoDismiss && !hasActionButton;
 
     const [internalId] = useState<string>(id || generateId());
+    const previousFocusedElementRef = useRef<Element | null>(null);
 
     const { isInternalOpen, hideToast } = useHandleQueueChanges(internalId, isOpen);
     const { addToQueue, removeFromQueue, announceToast, isFirstInQueue } = useToastQueueContext();
@@ -60,12 +70,34 @@ const Toast = forwardRef<HTMLDivElement, ToastProps>(
 
     const [position, alignment] = placement.split("-");
 
+    const restorePreviousFocus = useCallback(() => {
+      const previousFocusedElement = previousFocusedElementRef.current;
+      previousFocusedElementRef.current = null;
+      if (previousFocusedElement instanceof HTMLElement) {
+        previousFocusedElement.focus();
+      }
+    }, []);
+
+    const savePreviousFocus = (event: FocusEvent<HTMLDivElement>) => {
+      if (previousFocusedElementRef.current === null) {
+        const previouslyFocusedElement = event.relatedTarget;
+        previousFocusedElementRef.current = previouslyFocusedElement;
+      }
+    };
+
     const handleOnClose = useCallback(() => {
+      restorePreviousFocus();
       hideToast();
       removeTimer();
       removeFromQueue(internalId);
       onClose?.();
-    }, [hideToast, removeTimer, removeFromQueue, internalId, onClose]);
+    }, [restorePreviousFocus, hideToast, removeTimer, removeFromQueue, internalId, onClose]);
+
+    useEffect(() => {
+      if (!isInternalOpen) {
+        restorePreviousFocus();
+      }
+    }, [isInternalOpen, restorePreviousFocus]);
 
     useEffect(() => {
       if (isOpen) {
@@ -91,10 +123,10 @@ const Toast = forwardRef<HTMLDivElement, ToastProps>(
     const isFocusedRef = useRef(false);
 
     const resumeTimer = useCallback(() => {
-      if (isAutoDismiss && !isHoveredRef.current && !isFocusedRef.current) {
+      if (isAutoDismiss && isInternalOpen && !isHoveredRef.current && !isFocusedRef.current) {
         initializeTimer();
       }
-    }, [isAutoDismiss, initializeTimer]);
+    }, [isAutoDismiss, isInternalOpen, initializeTimer]);
 
     const handleOnMouseHover: MouseEventHandler<HTMLDivElement> = (event) => {
       event.stopPropagation();
@@ -110,8 +142,9 @@ const Toast = forwardRef<HTMLDivElement, ToastProps>(
       resumeTimer();
     };
 
-    const handleOnFocusIn: FocusEventHandler<HTMLDivElement> = () => {
+    const handleOnFocusIn: FocusEventHandler<HTMLDivElement> = (event) => {
       isFocusedRef.current = true;
+      savePreviousFocus(event);
       if (isAutoDismiss && isOpen) {
         removeTimer();
       }
@@ -123,6 +156,7 @@ const Toast = forwardRef<HTMLDivElement, ToastProps>(
         return;
       }
       isFocusedRef.current = false;
+      previousFocusedElementRef.current = null;
       resumeTimer();
     };
 
