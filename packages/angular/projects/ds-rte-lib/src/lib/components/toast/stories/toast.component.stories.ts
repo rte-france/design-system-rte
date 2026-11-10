@@ -159,6 +159,7 @@ export const KeyboardInteraction: Story = {
 
     await userEvent.click(closeButton);
     await waitFor(() => expect(closeButton).not.toBeInTheDocument());
+    expect(toggleButton).toHaveFocus();
     expect(announcement).toBeInTheDocument();
 
     await userEvent.click(toggleButton);
@@ -168,6 +169,63 @@ export const KeyboardInteraction: Story = {
 };
 
 const AUTO_DISMISS_SHORT_MS = 3000;
+
+export const FocusRestorationAfterLeavingToast: Story = {
+  tags: ["!autodocs"],
+  args: {
+    ...Default.args,
+    autoDismiss: true,
+    duration: "short",
+    showActionButton: false,
+  },
+
+  render: (args) => ({
+    props: args,
+    template: `
+    <toast-default
+      [message]="message"
+      [type]="type"
+      [autoDismiss]="autoDismiss"
+      [duration]="duration"
+      [closable]="closable"
+      [showActionButton]="showActionButton"
+    />
+    <button rteButton>Autre élément</button>`,
+  }),
+
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const body = within(document.body);
+    const showButton = canvas.getByRole("button", { name: "Toggle toast" });
+    const otherButton = canvas.getByRole("button", { name: "Autre élément" });
+
+    await userEvent.click(showButton);
+    let closeButton = await body.findByRole("button", { name: "Fermer le toast" });
+    closeButton.focus();
+    expect(closeButton).toHaveFocus();
+
+    await userEvent.tab({ shift: true });
+    expect(otherButton).toHaveFocus();
+
+    await userEvent.tab();
+    expect(closeButton).toHaveFocus();
+    await userEvent.click(closeButton);
+    await waitFor(() => expect(closeButton).not.toBeInTheDocument());
+    expect(otherButton).toHaveFocus();
+
+    await userEvent.click(showButton);
+    closeButton = await body.findByRole("button", { name: "Fermer le toast" });
+    closeButton.focus();
+    expect(closeButton).toHaveFocus();
+
+    await userEvent.tab({ shift: true });
+    expect(otherButton).toHaveFocus();
+    await userEvent.unhover(closeButton);
+
+    await waitFor(() => expect(closeButton).not.toBeInTheDocument(), { timeout: AUTO_DISMISS_SHORT_MS + 1000 });
+    expect(otherButton).toHaveFocus();
+  },
+};
 
 export const AutoDismissPausesOnKeyboardFocus: Story = {
   tags: ["!autodocs", "skip-ci"],
