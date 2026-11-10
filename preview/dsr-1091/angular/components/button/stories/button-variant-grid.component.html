@@ -1,0 +1,62 @@
+<div class="button-figma-variant-grid">
+  <section class="button-figma-variant-grid__size-block">
+    <table class="button-figma-variant-grid__table">
+      <thead>
+        <tr>
+          <th scope="col"></th>
+          @for (section of mainSections; track section.key) {
+            <th class="button-figma-variant-grid__section-title" scope="col">{{ section.title }}</th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (hierarchy of hierarchies; track hierarchy) {
+          <tr>
+            <th class="button-figma-variant-grid__row-label" scope="row">{{ capitalize(hierarchy) }}</th>
+            @for (section of mainSections; track section.key) {
+              <td class="button-figma-variant-grid__cell">
+                @if (sectionSupportsHierarchy(section, hierarchy)) {
+                  <button
+                    rteButton
+                    [rteButtonSize]="gridSize"
+                    [rteButtonAppearance]="section.appearance"
+                    [rteButtonHierarchy]="hierarchy"
+                    [rteButtonIsCritical]="section.isCritical"
+                    [rteButtonIsReversed]="false"
+                  >
+                    {{ gridLabel }}
+                  </button>
+                }
+              </td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
+  </section>
+
+  <section class="button-figma-variant-grid__size-block button-figma-variant-grid__reversed">
+    <h2 class="button-figma-variant-grid__size-title">Reverse</h2>
+    <table class="button-figma-variant-grid__table">
+      <tbody>
+        @for (row of reversedRows; track row.rowLabel) {
+          <tr>
+            <th class="button-figma-variant-grid__row-label" scope="row">{{ row.rowLabel }}</th>
+            <td class="button-figma-variant-grid__cell">
+              <button
+                rteButton
+                [rteButtonSize]="row.size"
+                [rteButtonAppearance]="row.appearance"
+                [rteButtonHierarchy]="row.hierarchy"
+                [rteButtonIsCritical]="row.isCritical"
+                [rteButtonIsReversed]="true"
+              >
+                {{ gridLabel }}
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </section>
+</div>
