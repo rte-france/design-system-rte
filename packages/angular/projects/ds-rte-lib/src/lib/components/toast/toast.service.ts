@@ -76,11 +76,11 @@ export class ToastService {
     this.toastQueue.update((list) =>
       [...list, toast].sort((a, b) => {
         const priorityA = getToastPriority({
-          hasActionButton: a.instance.showActionButton()!,
+          hasActionButton: a.instance.showActionButton()! && !!a.instance.actionButtonLabel(),
           type: a.instance.type(),
         });
         const priorityB = getToastPriority({
-          hasActionButton: b.instance.showActionButton()!,
+          hasActionButton: b.instance.showActionButton()! && !!b.instance.actionButtonLabel(),
           type: b.instance.type(),
         });
         return priorityA - priorityB;
