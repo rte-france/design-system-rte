@@ -1,4 +1,10 @@
-import { ESCAPE_KEY, generateId, ToastCloseButtonAriaLabel, ToastStatusMessageMap } from "@design-system-rte/core";
+import {
+  ESCAPE_KEY,
+  generateId,
+  logWarn,
+  ToastCloseButtonAriaLabel,
+  ToastStatusMessageMap,
+} from "@design-system-rte/core";
 import { IconSize, IconTypeMap } from "@design-system-rte/core/components/icon/icon.constants";
 import { ToastProps as coreToastProps } from "@design-system-rte/core/components/toast/toast.interface";
 import {
@@ -36,10 +42,10 @@ const Toast = forwardRef<HTMLDivElement, ToastProps>(
       id,
       message,
       type = "neutral",
-      closable = false,
+      closable = true,
       placement = "bottom-right",
       isOpen = true,
-      autoDismiss = true,
+      autoDismiss = false,
       actionButtonLabel,
       onActionButtonClick,
       duration = "medium",
@@ -86,6 +92,12 @@ const Toast = forwardRef<HTMLDivElement, ToastProps>(
         previousFocusedElementRef.current = previouslyFocusedElement;
       }
     };
+
+    const computedClosable = closable || hasActionButton || !autoDismiss;
+
+    if (closable === false && hasActionButton) {
+      logWarn("Toast", "Toast is not closable but has an action button, making it closable by default.");
+    }
 
     const handleOnClose = useCallback(() => {
       restorePreviousFocus();
@@ -219,7 +231,7 @@ const Toast = forwardRef<HTMLDivElement, ToastProps>(
                 label={actionButtonLabel}
               />
             )}
-            {closable && (
+            {computedClosable && (
               <IconButton
                 data-testid="toast-close-button"
                 name="close"

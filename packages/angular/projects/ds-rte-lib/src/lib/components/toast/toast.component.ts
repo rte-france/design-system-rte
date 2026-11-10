@@ -34,7 +34,7 @@ export class ToastComponent implements OnChanges, OnDestroy {
   readonly isOpen = input<boolean>(false);
   readonly placement = input<ToastProps["placement"]>("bottom-right");
   readonly closable = input<ToastProps["closable"]>(true);
-  readonly autoDismiss = input<ToastProps["autoDismiss"]>(true);
+  readonly autoDismiss = input<ToastProps["autoDismiss"]>(false);
   readonly showActionButton = input<ToastProps["showActionButton"]>(true);
   readonly iconName = input<ToastProps["iconName"]>("");
   readonly showLeftIcon = input<ToastProps["showLeftIcon"]>(true);
@@ -57,23 +57,39 @@ export class ToastComponent implements OnChanges, OnDestroy {
   });
 
   readonly shouldAutoDismiss = computed(() => {
-    return this.isOpen() && this.autoDismiss() && (!this.actionButtonLabel() || !this.showActionButton());
+    return this.isOpen() && this.autoDismiss() && !this.displayActionButton();
   });
 
   readonly timer = signal<ReturnType<typeof setTimeout> | null>(null);
   readonly isHovered = signal(false);
   readonly isFocused = signal(false);
+  readonly computedClosable = computed(() => {
+    return this.closable() || !!this.displayActionButton() || !this.autoDismiss();
+  });
 
   private previousFocusedElement: EventTarget | null = null;
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes["isOpen"]) {
-      if (this.shouldAutoDismiss()) {
-        this.startTimer();
-      }
-      if (!this.isOpen()) {
+    const timerInputs = [
+      "isOpen",
+      "autoDismiss",
+      "duration",
+      "showActionButton",
+      "actionButtonLabel",
+      "onActionButtonClick",
+    ];
+    if (timerInputs.some((inputName) => changes[inputName])) {
+      if (changes["isOpen"]) {
+        if (this.shouldAutoDismiss()) {
+          this.startTimer();
+        }
+        if (!this.isOpen()) {
+          this.stopTimer();
+          this.restorePreviousFocus();
+        }
+      } else {
         this.stopTimer();
-        this.restorePreviousFocus();
+        this.resumeTimer();
       }
     }
   }
