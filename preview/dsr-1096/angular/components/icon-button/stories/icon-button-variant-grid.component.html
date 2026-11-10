@@ -1,0 +1,61 @@
+<div class="button-figma-variant-grid">
+  <section class="button-figma-variant-grid__size-block">
+    <table class="button-figma-variant-grid__table">
+      <thead>
+        <tr>
+          <th scope="col"></th>
+          @for (section of mainSections; track section.key) {
+            <th class="button-figma-variant-grid__section-title" scope="col">{{ section.title }}</th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (hierarchy of hierarchies; track hierarchy) {
+          <tr>
+            <th class="button-figma-variant-grid__row-label" scope="row">{{ capitalize(hierarchy) }}</th>
+            @for (section of mainSections; track section.key) {
+              <td class="button-figma-variant-grid__cell">
+                @if (sectionSupportsHierarchy(section, hierarchy)) {
+                  <rte-icon-button
+                    [name]="gridIconName"
+                    [size]="gridSize"
+                    [appearance]="section.appearance"
+                    [hierarchy]="hierarchy"
+                    [isCritical]="section.isCritical"
+                    [iconAppearance]="iconAppearance"
+                    [ariaLabel]="cellAriaLabel(section.title, hierarchy)"
+                  />
+                }
+              </td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
+  </section>
+
+  <section class="button-figma-variant-grid__size-block button-figma-variant-grid__reversed">
+    <h2 class="button-figma-variant-grid__size-title">Reverse</h2>
+    <table class="button-figma-variant-grid__table">
+      <tbody>
+        @for (row of reversedRows; track row.rowLabel) {
+          <tr>
+            <th class="button-figma-variant-grid__row-label" scope="row">{{ row.rowLabel }}</th>
+            <td class="button-figma-variant-grid__cell">
+              <rte-icon-button
+                [name]="gridIconName"
+                [size]="row.size"
+                [appearance]="row.appearance"
+                [hierarchy]="row.hierarchy"
+                [isCritical]="row.isCritical"
+                [isReversed]="true"
+                [iconAppearance]="iconAppearance"
+                [ariaLabel]="row.rowLabel"
+              />
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </section>
+</div>
