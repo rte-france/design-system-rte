@@ -21,7 +21,6 @@
 .rte-toast {
   @include elevation-neutral-shadow-2;
   display: flex;
-  width: 400px;
   min-width: 240px;
   max-width: 336px;
   padding: $positive-spacing_100 $positive-spacing_050 $positive-spacing_100 $positive-spacing_200;
@@ -40,7 +39,7 @@
   right: auto;
 
   opacity: 0;
-  transition: opacity 300ms ease, transform 200ms ease;
+  transition: opacity 300ms ease, transform 300ms ease;
 
   &.top {
     top: $positive-spacing_150;

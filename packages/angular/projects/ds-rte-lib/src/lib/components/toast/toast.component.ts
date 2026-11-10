@@ -35,7 +35,7 @@ export class ToastComponent implements OnChanges {
 
   readonly id = input<string>("");
   readonly message = input<string>("");
-  readonly type = input<ToastType>("info");
+  readonly type = input<ToastType>("neutral");
   readonly duration = input<ToastProps["duration"]>("medium");
   readonly isOpen = input<boolean>(false);
   readonly placement = input<ToastProps["placement"]>("bottom-right");
