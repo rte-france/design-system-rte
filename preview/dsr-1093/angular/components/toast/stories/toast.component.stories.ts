@@ -296,7 +296,12 @@ export const EscapeDoesNotCloseNonClosableToast: Story = {
     expect(actionButton).toBeVisible();
     expect(actionButton).toHaveFocus();
     expect(body.getByText("Une mise à jour est disponible")).toBeVisible();
-    expect(body.queryByRole("button", { name: "Fermer le toast" })).not.toBeInTheDocument();
+    const closeButton = body.getByRole("button", { name: "Fermer le toast" });
+    expect(closeButton).toBeVisible();
+
+    await userEvent.click(closeButton);
+    await waitFor(() => expect(actionButton).not.toBeInTheDocument());
+    expect(canvas.getByRole("button", { name: "Toggle toast" })).toHaveFocus();
   },
 };
 
