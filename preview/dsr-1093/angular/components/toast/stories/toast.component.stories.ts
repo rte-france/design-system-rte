@@ -12,7 +12,7 @@ import { ToastDemoWrapperComponent } from "./toast-demo-wrapper.component";
 const meta: Meta<ToastComponent> = {
   title: "Composants/Toast",
   component: ToastComponent,
-  tags: ["autodocs"],
+  tags: ["autodocs", "toast"],
   argTypes: {
     message: { control: "text" },
     type: { control: "select", options: ["info", "success", "warning", "error", "neutral"] },
@@ -100,8 +100,9 @@ export const AutoDismissWithoutActionCallback: Story = {
       />`,
   }),
   play: async ({ canvasElement, args }) => {
-    const toast = within(canvasElement).getByRole("status");
-    expect(within(toast).queryByRole("button")).not.toBeInTheDocument();
+    const canvas = within(canvasElement);
+    expect(canvas.getByText("Notification")).toBeVisible();
+    expect(canvas.queryByRole("button")).not.toBeInTheDocument();
     await waitFor(() => expect(args.close).toHaveBeenCalledTimes(1), { timeout: 5000 });
   },
 };
@@ -134,14 +135,14 @@ export const AutoDismissInputChanges: Story = {
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
     const toggleButton = canvas.getByRole("button", { name: "Toggle auto-dismiss" });
-    const toast = within(canvas.getByRole("status"));
-    expect(toast.getByRole("button", { name: "Fermer le toast" })).toBeInTheDocument();
+    expect(canvas.getByText("Notification")).toBeVisible();
+    expect(canvas.getByRole("button", { name: "Fermer le toast" })).toBeInTheDocument();
 
     await userEvent.click(toggleButton);
-    await waitFor(() => expect(toast.queryByRole("button", { name: "Fermer le toast" })).not.toBeInTheDocument());
+    await waitFor(() => expect(canvas.queryByRole("button", { name: "Fermer le toast" })).not.toBeInTheDocument());
 
     await userEvent.click(toggleButton);
-    expect(toast.getByRole("button", { name: "Fermer le toast" })).toBeInTheDocument();
+    expect(canvas.getByRole("button", { name: "Fermer le toast" })).toBeInTheDocument();
     await new Promise((resolve) => setTimeout(resolve, 3500));
     expect(args.close).not.toHaveBeenCalled();
 
@@ -165,6 +166,21 @@ export const Multiple: Story = {
     template: `
     <toast-demo-wrapper/>`,
   }),
+
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const body = within(document.body);
+
+    await userEvent.click(canvas.getByRole("button", { name: "Toggle Error Toast" }));
+    const announcement = await body.findByText("Erreur : Erreur lors de la sauvegarde des modifications");
+    const closeButton = body.getByRole("button", { name: "Fermer le toast" });
+
+    await userEvent.click(canvas.getByRole("button", { name: "Toggle Info Toast" }));
+    expect(announcement).toHaveTextContent("Erreur : Erreur lors de la sauvegarde des modifications");
+
+    await userEvent.click(closeButton);
+    await waitFor(() => expect(announcement).toHaveTextContent("Information : Une mise à jour est disponible"));
+  },
 };
 export const KeyboardInteraction: Story = {
   tags: ["!autodocs"],
@@ -204,9 +220,13 @@ export const KeyboardInteraction: Story = {
 
     await userEvent.click(toggleButton);
 
-    const toast = within(document.body).getByRole("status");
-    const actionButton = await within(toast).getByRole("button", { name: "Mettre à jour" });
-    const closeButton = await within(toast).getByRole("button", { name: "Fermer le toast" });
+    const body = within(document.body);
+    const announcement = await body.findByText("Information : Une mise à jour est disponible");
+    expect(announcement).toHaveAttribute("aria-live", "polite");
+    expect(announcement).toHaveAttribute("aria-atomic", "true");
+
+    const actionButton = body.getByRole("button", { name: "Mettre à jour" });
+    const closeButton = body.getByRole("button", { name: "Fermer le toast" });
 
     await userEvent.tab();
     expect(actionButton).toHaveFocus();
@@ -218,7 +238,12 @@ export const KeyboardInteraction: Story = {
     expect(actionButton).toHaveFocus();
 
     await userEvent.click(closeButton);
-    await waitFor(() => expect(toast).not.toBeInTheDocument());
+    await waitFor(() => expect(closeButton).not.toBeInTheDocument());
+    expect(announcement).toBeInTheDocument();
+
+    await userEvent.click(toggleButton);
+    await waitFor(() => expect(announcement).toBeEmptyDOMElement());
+    await waitFor(() => expect(announcement).toHaveTextContent("Information : Une mise à jour est disponible"));
   },
 };
 
@@ -258,14 +283,13 @@ export const AutoDismissPausesOnKeyboardFocus: Story = {
 
     await userEvent.click(toggleButton);
 
-    const toast = within(document.body).getByRole("status");
-    const closeButton = await within(toast).getByRole("button", { name: "Fermer le toast" });
+    const closeButton = within(document.body).getByRole("button", { name: "Fermer le toast" });
 
     await userEvent.tab();
     expect(closeButton).toHaveFocus();
 
     await new Promise((resolve) => setTimeout(resolve, AUTO_DISMISS_SHORT_MS + 500));
 
-    expect(toast).toBeInTheDocument();
+    expect(closeButton).toBeInTheDocument();
   },
 };
