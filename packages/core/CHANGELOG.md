@@ -1,5 +1,13 @@
 # @design-system-rte/core
 
+## 1.23.1
+
+### Patch Changes
+
+- c2ffdc1: ## Changes
+
+  - (Toast) add live announcements for toast messages with correct status
+
 ## 1.23.0
 
 ### Minor Changes
