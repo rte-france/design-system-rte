@@ -32,7 +32,7 @@ export class ToastComponent implements OnChanges {
   readonly isOpen = input<boolean>(false);
   readonly placement = input<ToastProps["placement"]>("bottom-right");
   readonly closable = input<ToastProps["closable"]>(true);
-  readonly autoDismiss = input<ToastProps["autoDismiss"]>(true);
+  readonly autoDismiss = input<ToastProps["autoDismiss"]>(false);
   readonly showActionButton = input<ToastProps["showActionButton"]>(true);
   readonly iconName = input<ToastProps["iconName"]>("");
   readonly showLeftIcon = input<ToastProps["showLeftIcon"]>(true);
@@ -55,7 +55,7 @@ export class ToastComponent implements OnChanges {
   });
 
   readonly shouldAutoDismiss = computed(() => {
-    return this.isOpen() && this.autoDismiss() && (!this.actionButtonLabel() || !this.showActionButton());
+    return this.isOpen() && this.autoDismiss() && !this.displayActionButton();
   });
 
   readonly timer = signal<ReturnType<typeof setTimeout> | null>(null);
@@ -63,18 +63,21 @@ export class ToastComponent implements OnChanges {
   readonly isFocused = signal(false);
 
   readonly computedClosable = computed(() => {
-    if (this.closable() === false && this.showActionButton() && this.actionButtonLabel()) {
-      console.warn("Toast", "Toast is not closable but has an action button, making it closable by default.");
-      return true;
-    }
-    return this.closable();
+    return this.closable() || !!this.displayActionButton() || !this.autoDismiss();
   });
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes["isOpen"]) {
-      if (this.shouldAutoDismiss()) {
-        this.startTimer();
-      }
+    const timerInputs = [
+      "isOpen",
+      "autoDismiss",
+      "duration",
+      "showActionButton",
+      "actionButtonLabel",
+      "onActionButtonClick",
+    ];
+    if (timerInputs.some((inputName) => changes[inputName])) {
+      this.stopTimer();
+      this.resumeTimer();
     }
   }
 
