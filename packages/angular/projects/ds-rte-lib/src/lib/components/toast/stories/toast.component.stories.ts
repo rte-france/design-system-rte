@@ -91,8 +91,13 @@ export const Multiple: Story = {
     const canvas = within(canvasElement);
     const body = within(document.body);
 
+    const liveRegion = await body.findByRole("status");
+    expect(liveRegion).toBeEmptyDOMElement();
+
     await userEvent.click(canvas.getByRole("button", { name: "Toggle Error Toast" }));
     const announcement = await body.findByText("Erreur : Erreur lors de la sauvegarde des modifications");
+    expect(announcement).toBe(liveRegion);
+    expect(body.getByRole("status")).toBe(announcement);
     const closeButton = body.getByRole("button", { name: "Fermer le toast" });
 
     await userEvent.click(canvas.getByRole("button", { name: "Toggle Info Toast" }));
@@ -100,6 +105,7 @@ export const Multiple: Story = {
 
     await userEvent.click(closeButton);
     await waitFor(() => expect(announcement).toHaveTextContent("Information : Une mise à jour est disponible"));
+    expect(body.getByRole("status")).toBe(liveRegion);
   },
 };
 export const KeyboardInteraction: Story = {
@@ -138,12 +144,22 @@ export const KeyboardInteraction: Story = {
     const canvas = within(canvasElement);
     const toggleButton = await canvas.getByRole("button", { name: "Toggle toast" });
 
+    const body = within(document.body);
+    const liveRegion = await body.findByRole("status");
+    expect(liveRegion).toBeEmptyDOMElement();
+
     await userEvent.click(toggleButton);
 
-    const body = within(document.body);
     const announcement = await body.findByText("Information : Une mise à jour est disponible");
+    expect(announcement).toBe(liveRegion);
+    expect(body.getAllByRole("status")).toHaveLength(1);
+    expect(announcement).toHaveAttribute("role", "status");
     expect(announcement).toHaveAttribute("aria-live", "polite");
     expect(announcement).toHaveAttribute("aria-atomic", "true");
+    expect(announcement.closest("#overlay-root")).not.toBeNull();
+    expect(announcement.closest('[inert], [aria-hidden="true"]')).toBeNull();
+    expect(getComputedStyle(announcement).clipPath).toBe("inset(50%)");
+    expect(document.querySelector(".cdk-live-announcer-element")).toBeNull();
 
     const actionButton = body.getByRole("button", { name: "Mettre à jour" });
     const closeButton = body.getByRole("button", { name: "Fermer le toast" });
@@ -164,6 +180,7 @@ export const KeyboardInteraction: Story = {
     await userEvent.click(toggleButton);
     await waitFor(() => expect(announcement).toBeEmptyDOMElement());
     await waitFor(() => expect(announcement).toHaveTextContent("Information : Une mise à jour est disponible"));
+    expect(body.getByRole("status")).toBe(announcement);
   },
 };
 
