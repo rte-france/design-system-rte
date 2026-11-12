@@ -18,6 +18,12 @@
         @include elevation-neutral-shadow-2;
     }
 
+    &:active {
+        &[data-clickable='true'] {
+            box-shadow: none;
+        }
+    }
+
     &[data-disabled='true'] {
         background: var(--background-disabled);
         opacity: $opacity-30;
