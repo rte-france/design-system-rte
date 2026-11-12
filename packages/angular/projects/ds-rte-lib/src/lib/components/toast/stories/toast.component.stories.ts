@@ -182,6 +182,14 @@ export const KeyboardInteraction: Story = {
     await waitFor(() => expect(announcement).toBeEmptyDOMElement());
     await waitFor(() => expect(announcement).toHaveTextContent("Information : Une mise à jour est disponible"));
     expect(body.getByRole("status")).toBe(announcement);
+
+    await userEvent.tab();
+    const reopenedActionButton = body.getByRole("button", { name: "Mettre à jour" });
+    expect(reopenedActionButton).toHaveFocus();
+    await userEvent.keyboard("{Escape}");
+    await waitFor(() => expect(reopenedActionButton).not.toBeInTheDocument());
+    expect(toggleButton).toHaveFocus();
+    expect(announcement).toBeInTheDocument();
   },
 };
 
@@ -195,13 +203,20 @@ export const EscapeDoesNotCloseNonClosableToast: Story = {
     const canvas = within(canvasElement);
     await userEvent.click(canvas.getByRole("button", { name: "Toggle toast" }));
 
-    const toast = await within(document.body).findByRole("status");
+    const body = within(document.body);
+    const actionButton = await body.findByRole("button", { name: "Mettre à jour" });
+    await waitFor(() =>
+      expect(body.getByRole("status")).toHaveTextContent("Information : Une mise à jour est disponible"),
+    );
     await userEvent.tab();
-    expect(within(toast).getByRole("button", { name: "Mettre à jour" })).toHaveFocus();
+    expect(actionButton).toHaveFocus();
 
     await userEvent.keyboard("{Escape}");
-    expect(toast).toBeInTheDocument();
-    expect(within(toast).queryByRole("button", { name: "Fermer le toast" })).not.toBeInTheDocument();
+    await new Promise((resolve) => setTimeout(resolve, 350));
+    expect(actionButton).toBeVisible();
+    expect(actionButton).toHaveFocus();
+    expect(body.getByText("Une mise à jour est disponible")).toBeVisible();
+    expect(body.queryByRole("button", { name: "Fermer le toast" })).not.toBeInTheDocument();
   },
 };
 

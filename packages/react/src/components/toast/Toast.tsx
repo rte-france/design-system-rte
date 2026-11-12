@@ -47,6 +47,7 @@ const Toast = forwardRef<HTMLDivElement, ToastProps>(
       iconName,
       showLeftIcon = true,
       showActionButton = true,
+      onKeyDown,
       ...props
     },
     ref,
@@ -164,9 +165,12 @@ const Toast = forwardRef<HTMLDivElement, ToastProps>(
     const handleKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
       if (event.key === ESCAPE_KEY) {
         if (closable) {
+          event.stopPropagation();
           handleOnClose();
+          return;
         }
       }
+      onKeyDown?.(event);
     };
 
     const displayDefaultIcon = showLeftIcon && type !== "neutral";
