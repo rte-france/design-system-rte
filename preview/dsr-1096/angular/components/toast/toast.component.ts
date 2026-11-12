@@ -8,6 +8,7 @@ import {
   output,
   SimpleChanges,
   OnChanges,
+  OnDestroy,
 } from "@angular/core";
 import { IconSize, IconTypeMap } from "@design-system-rte/core/components/icon/icon.constants";
 import { ToastCloseButtonAriaLabel, ToastDurationMap } from "@design-system-rte/core/components/toast/toast.constants";
@@ -24,7 +25,7 @@ import { IconButtonComponent } from "../icon-button/icon-button.component";
   styleUrl: "./toast.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ToastComponent implements OnChanges {
+export class ToastComponent implements OnChanges, OnDestroy {
   readonly id = input<string>("");
   readonly message = input<string>("");
   readonly type = input<ToastType>("neutral");
@@ -68,6 +69,10 @@ export class ToastComponent implements OnChanges {
         this.startTimer();
       }
     }
+  }
+
+  ngOnDestroy(): void {
+    this.stopTimer();
   }
 
   onClickActionButton(): void {
