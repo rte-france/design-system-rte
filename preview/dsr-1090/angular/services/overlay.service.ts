@@ -14,6 +14,7 @@ type BackdropLifecycle = {
 @Injectable({ providedIn: "root" })
 export class OverlayService {
   private overlayRoot?: HTMLElement;
+  private overlayElements = new Set<HTMLElement>();
   private activeOverlays = new Set<ComponentRef<unknown>>();
   private backdropLifecycle = new WeakMap<ComponentRef<unknown>, BackdropLifecycle>();
 
@@ -138,8 +139,19 @@ export class OverlayService {
     this.activeOverlays.add(componentRef);
   }
 
+  addElementToOverlay(element: HTMLElement): () => void {
+    this.getOverlayRoot().appendChild(element);
+    this.overlayElements.add(element);
+
+    return () => {
+      element.remove();
+      this.overlayElements.delete(element);
+      this.destroy();
+    };
+  }
+
   destroy() {
-    if (this.activeOverlays.size === 0) {
+    if (this.activeOverlays.size === 0 && this.overlayElements.size === 0) {
       this.overlayRoot?.remove();
       this.overlayRoot = undefined;
     }

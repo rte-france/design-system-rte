@@ -330,8 +330,8 @@ export const Interactive: Story = {
 
     await userEvent.keyboard(TESTING_SPACE_KEY);
 
-    const toast = within(document.body).getByRole("status");
+    const toastCloseButton = within(document.body).getByRole("button", { name: "Fermer le toast" });
 
-    expect(toast).toBeInTheDocument();
+    expect(toastCloseButton).toBeInTheDocument();
   },
 };
