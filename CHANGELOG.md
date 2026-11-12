@@ -2,6 +2,35 @@
 
 # Angular
 
+## 4.5.1
+
+### Toast
+
+#### Patch Changes
+
+- add live announcements for toast messages with correct status
+- replace deprecated variant props with appropriate props
+- prevent event propagation when closing toast with Escape key
+- implement keyboard interaction for closing toasts with Escape key
+- restore focus on previous element when the toast is closed
+- force closing button with action button
+- update toast priority calculation to consider action button label
+- hide accessibility live annoucement zone
+- update ToastConfig properties and default values for better consistency
+
+### Card
+
+#### Patch Changes
+
+- remove box-shadow on active state for clickable cards
+
+### Other
+
+#### Patch Changes
+
+- Updated dependencies [c2ffdc1]
+- @design-system-rte/core@1.23.1
+
 ## 4.5.0
 
 ### Base Input
@@ -201,6 +230,33 @@
 - @design-system-rte/core@1.21.1
 # React
 
+## 2.5.1
+
+### Toast
+
+#### Patch Changes
+
+- add live announcements for toast messages with correct status
+- replace deprecated variant props with appropriate props
+- prevent event propagation when closing toast with Escape key
+- implement keyboard interaction for closing toasts with Escape key
+- restore focus on previous element when the toast is closed
+- force closing button with action button
+- update ToastConfig properties and default values for better consistency
+
+### Card
+
+#### Patch Changes
+
+- remove box-shadow on active state for clickable cards
+
+### Other
+
+#### Patch Changes
+
+- Updated dependencies [c2ffdc1]
+- @design-system-rte/core@1.23.1
+
 ## 2.5.0
 
 ### Base Input
@@ -388,6 +444,17 @@
 - Updated dependencies [d5987a1]
 - @design-system-rte/core@1.21.1
 # Core
+
+## 1.23.1
+
+### Toast
+
+#### Patch Changes
+
+- add live announcements for toast messages with correct status
+
+### Other
+
 
 ## 1.23.0
 
