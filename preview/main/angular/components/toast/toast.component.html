@@ -1,10 +1,9 @@
 <div
   class="rte-toast {{ type() }} {{ position() }} {{ alignment() }}"
-  role="status"
   [ngClass]="{ open: isOpen() }"
   (mouseenter)="handleMouseEnter()"
   (mouseleave)="handleMouseLeave()"
-  (focusin)="handleFocusIn()"
+  (focusin)="handleFocusIn($event)"
   (focusout)="handleFocusOut($event)"
 >
   <div class="rte-toast-content">
@@ -18,7 +17,13 @@
     <span class="rte-toast-message">{{ message() }}</span>
   </div>
   @if (displayActionButton()) {
-    <button rteButton rteButtonVariant="text" class="rte-toast-action-button" (click)="onClickActionButton()">
+    <button
+      rteButton
+      rteButtonHierarchy="text"
+      class="rte-toast-action-button"
+      [rteButtonIsReversed]="type() === 'neutral'"
+      (click)="onClickActionButton()"
+    >
       {{ actionButtonLabel() }}
     </button>
   }
