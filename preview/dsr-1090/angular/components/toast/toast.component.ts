@@ -105,6 +105,7 @@ export class ToastComponent implements OnChanges {
 
   handleKeyDown(event: KeyboardEvent): void {
     if (event.key === ESCAPE_KEY && this.closable()) {
+      event.stopPropagation();
       this.close.emit();
     }
   }
