@@ -69,10 +69,11 @@ export class ToastComponent implements OnChanges {
   readonly timer = signal<ReturnType<typeof setTimeout> | null>(null);
   readonly isHovered = signal(false);
   readonly isFocused = signal(false);
-
   readonly computedClosable = computed(() => {
     return this.closable() || !!this.displayActionButton() || !this.autoDismiss();
   });
+
+  private previousFocusedElement: EventTarget | null = null;
 
   ngOnChanges(changes: SimpleChanges) {
     if (this.isOpen() && (changes["isOpen"] || changes["message"] || changes["type"])) {
@@ -88,8 +89,18 @@ export class ToastComponent implements OnChanges {
       "onActionButtonClick",
     ];
     if (timerInputs.some((inputName) => changes[inputName])) {
-      this.stopTimer();
-      this.resumeTimer();
+      if (changes["isOpen"]) {
+        if (this.shouldAutoDismiss()) {
+          this.startTimer();
+        }
+        if (!this.isOpen()) {
+          this.stopTimer();
+          this.restorePreviousFocus();
+        }
+      } else {
+        this.stopTimer();
+        this.resumeTimer();
+      }
     }
   }
 
@@ -110,7 +121,10 @@ export class ToastComponent implements OnChanges {
     this.resumeTimer();
   }
 
-  handleFocusIn(): void {
+  handleFocusIn(event: FocusEvent): void {
+    if (this.previousFocusedElement === null) {
+      this.previousFocusedElement = event.relatedTarget;
+    }
     this.isFocused.set(true);
     this.pauseTimer();
   }
@@ -122,6 +136,7 @@ export class ToastComponent implements OnChanges {
       return;
     }
     this.isFocused.set(false);
+    this.previousFocusedElement = null;
     this.resumeTimer();
   }
 
@@ -138,7 +153,21 @@ export class ToastComponent implements OnChanges {
   }
 
   clickCloseButton(): void {
+    this.handleClose();
+  }
+
+  private restorePreviousFocus(): void {
+    const previousFocusedElement = this.previousFocusedElement;
+    this.previousFocusedElement = null;
+    if (previousFocusedElement instanceof HTMLElement && previousFocusedElement.isConnected) {
+      previousFocusedElement.focus();
+    }
+  }
+
+  private handleClose(): void {
+    this.stopTimer();
     this.close.emit();
+    this.restorePreviousFocus();
   }
 
   startTimer(): void {
@@ -146,8 +175,7 @@ export class ToastComponent implements OnChanges {
     const duration = this.duration();
     if (duration) {
       const timerId = setTimeout(() => {
-        this.close.emit();
-        this.stopTimer();
+        this.handleClose();
       }, ToastDurationMap[duration]);
       this.timer.set(timerId);
     }
