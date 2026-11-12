@@ -1,5 +1,43 @@
 # @design-system-rte/angular
 
+## 4.5.1
+
+### Patch Changes
+
+- c2ffdc1: ## Changes
+
+  - (Toast) add live announcements for toast messages with correct status
+  - (Toast) replace deprecated variant props with appropriate props
+
+- 879174a: ## Changes
+
+  - (Toast) prevent event propagation when closing toast with Escape key
+  - (Toast) implement keyboard interaction for closing toasts with Escape key
+
+- 563d0f4: ## Changes
+
+  - (Toast) restore focus on previous element when the toast is closed
+
+- 719c91c: ## Changes
+
+  - (Toast) force closing button with action button
+
+- d652a58: ## Changes
+
+  - (Toast) update toast priority calculation to consider action button label
+
+- 5954956: ## Changes
+
+  - (Toast) hide accessibility live annoucement zone
+  - (Toast) update ToastConfig properties and default values for better consistency
+
+- 15ab98b: ## Changes
+
+  - (Card) remove box-shadow on active state for clickable cards
+
+- Updated dependencies [c2ffdc1]
+  - @design-system-rte/core@1.23.1
+
 ## 4.5.0
 
 ### Minor Changes
