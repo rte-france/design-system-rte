@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/angular";
 import { moduleMetadata } from "@storybook/angular";
-import { userEvent, within, expect, waitFor } from "@storybook/test";
+import { userEvent, within, expect, waitFor, fn } from "@storybook/test";
 
 import { ButtonComponent } from "../../button/button.component";
 import { ToastComponent } from "../toast.component";
@@ -71,6 +71,86 @@ export const Default: Story = {
     />`,
   }),
 };
+export const AutoDismissWithoutActionCallback: Story = {
+  tags: ["!autodocs"],
+  args: {
+    message: "Notification",
+    isOpen: true,
+    autoDismiss: true,
+    duration: "short",
+    closable: false,
+    showActionButton: true,
+    actionButtonLabel: "Mettre à jour",
+    onActionButtonClick: undefined,
+    close: fn(),
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <rte-toast
+        [message]="message"
+        [isOpen]="isOpen"
+        [autoDismiss]="autoDismiss"
+        [duration]="duration"
+        [closable]="closable"
+        [showActionButton]="showActionButton"
+        [actionButtonLabel]="actionButtonLabel"
+        [onActionButtonClick]="onActionButtonClick"
+        (close)="close($event)"
+      />`,
+  }),
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    expect(canvas.getByText("Notification")).toBeVisible();
+    expect(canvas.queryByRole("button")).not.toBeInTheDocument();
+    await waitFor(() => expect(args.close).toHaveBeenCalledTimes(1), { timeout: 5000 });
+  },
+};
+
+export const AutoDismissInputChanges: Story = {
+  tags: ["!autodocs"],
+  args: {
+    message: "Notification",
+    isOpen: true,
+    autoDismiss: false,
+    duration: "short",
+    closable: false,
+    showActionButton: false,
+    close: fn(),
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <button rteButton (click)="autoDismiss = !autoDismiss">Toggle auto-dismiss</button>
+      <rte-toast
+        [message]="message"
+        [isOpen]="isOpen"
+        [autoDismiss]="autoDismiss"
+        [duration]="duration"
+        [closable]="closable"
+        [showActionButton]="showActionButton"
+        (close)="close($event)"
+      />`,
+  }),
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const toggleButton = canvas.getByRole("button", { name: "Toggle auto-dismiss" });
+    expect(canvas.getByText("Notification")).toBeVisible();
+    expect(canvas.getByRole("button", { name: "Fermer le toast" })).toBeInTheDocument();
+
+    await userEvent.click(toggleButton);
+    await waitFor(() => expect(canvas.queryByRole("button", { name: "Fermer le toast" })).not.toBeInTheDocument());
+
+    await userEvent.click(toggleButton);
+    expect(canvas.getByRole("button", { name: "Fermer le toast" })).toBeInTheDocument();
+    await new Promise((resolve) => setTimeout(resolve, 3500));
+    expect(args.close).not.toHaveBeenCalled();
+
+    await userEvent.click(toggleButton);
+    await waitFor(() => expect(args.close).toHaveBeenCalledTimes(1), { timeout: 5000 });
+  },
+};
+
 export const Multiple: Story = {
   args: {
     message: "Une mise à jour est disponible",
@@ -216,7 +296,12 @@ export const EscapeDoesNotCloseNonClosableToast: Story = {
     expect(actionButton).toBeVisible();
     expect(actionButton).toHaveFocus();
     expect(body.getByText("Une mise à jour est disponible")).toBeVisible();
-    expect(body.queryByRole("button", { name: "Fermer le toast" })).not.toBeInTheDocument();
+    const closeButton = body.getByRole("button", { name: "Fermer le toast" });
+    expect(closeButton).toBeVisible();
+
+    await userEvent.click(closeButton);
+    await waitFor(() => expect(actionButton).not.toBeInTheDocument());
+    expect(canvas.getByRole("button", { name: "Toggle toast" })).toHaveFocus();
   },
 };
 

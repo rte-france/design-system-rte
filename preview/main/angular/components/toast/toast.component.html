@@ -28,7 +28,7 @@
       {{ actionButtonLabel() }}
     </button>
   }
-  @if (closable()) {
+  @if (computedClosable()) {
     <rte-icon-button
       name="close"
       [attr.data-testid]="'toast-close-button'"

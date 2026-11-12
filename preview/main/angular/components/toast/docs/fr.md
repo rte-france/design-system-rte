@@ -134,6 +134,10 @@ Lorsqu'un toast se ferme, le suivant dans la file apparaît automatiquement.
 
 La fermeture automatique est désactivée lorsqu'un bouton d'action est affiché (`actionButtonLabel` avec `showActionButton` activé). Les consommateurs doivent fermer le toast manuellement via le bouton de fermeture ou de manière programmatique.
 
+### Bouton de fermeture obligatoire avec une action
+
+Lorsque `showActionButton` est activé et `actionButtonLabel` est non vide, le bouton de fermeture reste affiché même si `closable` vaut `false`, et un avertissement est émis dans la console.
+
 ### Pause du minuteur au survol
 
 Lorsque la fermeture automatique est active, le survol du toast met le minuteur en pause. Le minuteur reprend lorsque le pointeur quitte le toast.
