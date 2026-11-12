@@ -5,6 +5,7 @@
   (mouseleave)="handleMouseLeave()"
   (focusin)="handleFocusIn($event)"
   (focusout)="handleFocusOut($event)"
+  (keydown)="handleKeyDown($event)"
 >
   <div class="rte-toast-content">
     @if (displayLeftIcon()) {
