@@ -1,6 +1,7 @@
 @use '@design-system-rte/core/design-tokens/main-internal.scss' as *;
 
 $height: 32px;
+$compact-height: 24px;
 $width: 176px;
 
 .rte-base-input-picker {
@@ -15,12 +16,16 @@ $width: 176px;
   align-self: stretch;
   border-radius: $radius-s;
   border: $width-xs solid var(--border-secondary);
+  background-color: var(--background-default);
   @include neutral-inner-shadow;
+  gap: $positive-spacing_100;
 
-  .error-icon {
-    padding: 0;
-    color: var(--content-danger-default);
+  &[data-is-compact="true"] {
+    min-height: $compact-height;
+    max-height: $compact-height;
+    padding: 0 $positive-spacing_100;
   }
+
 
   &[data-fixed-width="true"] {
     max-width: $width;
@@ -33,12 +38,14 @@ $width: 176px;
 
   &[data-focused="true"] {
     border: $width-xs solid var(--border-brand-default);
-    outline: $width-xs solid var(--border-brand-default);
+    box-shadow: inset 0 0 0 $width-xs var(--border-brand-default),
+      inset $inner-shadow-key-position-x $inner-shadow-key-position-y $inner-shadow-key-blur $inner-shadow-key-spread var(--elevation-shadow-key);
   }
 
   &[data-is-error="true"] {
     border: $width-xs solid var(--border-danger);
-    outline: $width-xs solid var(--border-danger);
+    box-shadow: inset 0 0 0 $width-xs var(--border-danger),
+      inset $inner-shadow-key-position-x $inner-shadow-key-position-y $inner-shadow-key-blur $inner-shadow-key-spread var(--elevation-shadow-key);
   }
 
   &[data-is-disabled="true"] {
@@ -65,7 +72,7 @@ $width: 176px;
 
   &[data-is-read-only="true"] {
     background-color: var(--background-disabled);
-    border: $width-xs solid var(--border-disabled);
+    border: $width-xs solid var(--border-tertiary);
 
     &:hover {
       cursor: default;
@@ -86,15 +93,21 @@ $width: 176px;
   }
 
   .rte-base-input-picker-input {
+    @include typography-text-m;
     display: flex;
     height: 100%;
-    padding: 0 $positive-spacing_100;
+    padding: 0 0 0 $positive-spacing_100;
     align-items: center;
     flex: 1 0 0;
+    min-width: 0;
     border: none;
     width: 100%;
     background: transparent;
-    color: var(--content-primary);
+    color: var(--content-secondary);
+
+    &::placeholder {
+      color: var(--content-disabled);
+    }
 
     &:focus {
       outline: none;
@@ -105,11 +118,12 @@ $width: 176px;
     display: flex;
     background: none;
     border: none;
-    margin-right: -2px;
+    margin: 0;
     padding: 0;
     border-radius: $radius-s;
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
     justify-content: center;
     align-items: center;
 

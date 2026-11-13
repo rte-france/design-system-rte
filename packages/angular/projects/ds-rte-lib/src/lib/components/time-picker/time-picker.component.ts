@@ -55,6 +55,7 @@ import { DropdownMenuComponent } from "../dropdown/dropdown-menu/dropdown-menu.c
 import { DropdownTriggerDirective } from "../dropdown/dropdown-trigger/dropdown-trigger.directive";
 import { DropdownDirective } from "../dropdown/dropdown.directive";
 import { IconComponent } from "../icon/icon.component";
+import { IconButtonComponent } from "../icon-button/icon-button.component";
 import { RequiredIndicatorComponent } from "../input/required-indicator/required-indicator.component";
 
 import { TimePickerMenuComponent } from "./time-picker-menu/time-picker-menu.component";
@@ -73,6 +74,7 @@ const [HOURS_SEGMENT, MINUTES_SEGMENT] = TIME_SEGMENT_ORDER;
     DropdownMenuBodyDirective,
     TimePickerMenuComponent,
     RequiredIndicatorComponent,
+    IconButtonComponent,
   ],
   templateUrl: "./time-picker.component.html",
   styleUrl: "./time-picker.component.scss",
@@ -107,6 +109,10 @@ export class TimePickerComponent implements ControlValueAccessor {
   readonly hourIncrement = input<number>(1);
   readonly minuteIncrement = input<number>(1);
   readonly secondIncrement = input<number>(1);
+  readonly displaySeconds = input<boolean>(true);
+  readonly placeholder = input<string>();
+  readonly isCompact = input<boolean>(false);
+  readonly showResetIcon = input<boolean>(false);
 
   readonly valueChange = output<TimeFormat>();
 
@@ -119,11 +125,21 @@ export class TimePickerComponent implements ControlValueAccessor {
   readonly isFocused = signal<boolean>(false);
   readonly pickerDropdownWidth = signal<number | null>(null);
 
-  readonly displayValue = computed(() => buildDisplayValue(this.internalTimeValue(), this.activeTimeSegment()));
+  readonly displayValue = computed(() =>
+    buildDisplayValue({
+      vals: this.internalTimeValue(),
+      activeSegment: this.activeTimeSegment(),
+      displaySeconds: this.displaySeconds(),
+    }),
+  );
   readonly dropdownMenuId = computed(() => `time_picker_${this.id()}`);
   readonly assistiveTextId = computed(() => `${this.id()}-assistive-text`);
   readonly computedAssistiveTextLabel = computed(() =>
     this.isError() ? this.errorMessage() || this.assistiveTextLabel() : this.assistiveTextLabel(),
+  );
+  readonly shouldDisplayPlaceholder = computed(() => this.placeholder() && !(this.disabled() || this.readOnly()));
+  readonly shouldDisplayResetButton = computed(
+    () => this.showResetIcon() && !!this.displayValue() && this.canInteractWithPicker(),
   );
 
   private readonly disabledFromControl = signal(false);
@@ -247,6 +263,16 @@ export class TimePickerComponent implements ControlValueAccessor {
     this.focusMainInput();
   }
 
+  onResetClick(event: MouseEvent | KeyboardEvent): void {
+    if (!this.canInteractWithPicker()) {
+      return;
+    }
+    event.stopPropagation();
+    this.internalTimeValue.set({ ...DEFAULT_TIME_INPUT_VALUE });
+    this.activeTimeSegment.set(TimeSegmentEnum.HOURS);
+    this.emitValue(this.internalTimeValue());
+  }
+
   onMainInputFocus(): void {
     if (!this.isEffectivelyDisabled() && !this.readOnly()) {
       this.isFocused.set(true);
@@ -334,6 +360,12 @@ export class TimePickerComponent implements ControlValueAccessor {
       return;
     }
     const activeSegment = this.activeTimeSegment();
+    if (!this.displaySeconds()) {
+      this.updateTimeSegment(TimeSegmentEnum.SECONDS, "00");
+      if (activeSegment === TimeSegmentEnum.SECONDS) {
+        return;
+      }
+    }
     const currentActiveTimeSegmentValue = this.internalTimeValue()[activeSegment];
     if (currentActiveTimeSegmentValue.length >= 2) {
       this.modifyCurrentSegmentValue(currentActiveTimeSegmentValue, formatNumberToDigitValue(Number(key)));
@@ -342,10 +374,16 @@ export class TimePickerComponent implements ControlValueAccessor {
       const maxFirstDigit = TIME_SEGMENT_MAX_FIRST_DIGIT[activeSegment];
       if (currentActiveTimeSegmentValue.length === 0 && Number(key) > maxFirstDigit) {
         this.updateTimeSegment(activeSegment, formatNumberToDigitValue(Number(key)));
+        if (activeSegment === TimeSegmentEnum.MINUTES && !this.displaySeconds()) {
+          return;
+        }
         this.moveToNextSegment();
       } else if (next.length === 2) {
         const clamped = formatNumberToDigitValue(Math.min(Number(next), TIME_SEGMENT_MAX_VALUE[activeSegment]));
         this.updateTimeSegment(activeSegment, clamped);
+        if (activeSegment === TimeSegmentEnum.MINUTES && !this.displaySeconds()) {
+          return;
+        }
         this.moveToNextSegment();
       } else {
         this.updateTimeSegment(activeSegment, formatNumberToDigitValue(Number(key)));
@@ -363,7 +401,13 @@ export class TimePickerComponent implements ControlValueAccessor {
       this.moveToPreviousSegment();
       this.scheduleSelectionRangeForSegment(this.activeTimeSegment());
     } else if (key === ARROW_RIGHT_KEY) {
-      if (canSwitchToNextSegment(this.internalTimeValue(), this.activeTimeSegment())) {
+      if (
+        canSwitchToNextSegment({
+          vals: this.internalTimeValue(),
+          activeSegment: this.activeTimeSegment(),
+          displaySeconds: this.displaySeconds(),
+        })
+      ) {
         this.moveToNextSegment();
         this.scheduleSelectionRangeForSegment(this.activeTimeSegment());
       }
@@ -374,12 +418,21 @@ export class TimePickerComponent implements ControlValueAccessor {
     const activeSegment = this.activeTimeSegment();
     if (this.internalTimeValue()[activeSegment] !== "") {
       this.updateTimeSegment(activeSegment, "");
+      this.resetHiddenSecondsIfLastVisibleValueRemoved();
     } else {
       const previous = getPrevSegment(activeSegment);
       if (previous !== activeSegment && !this.isSegmentReadOnly(previous)) {
         this.updateTimeSegment(previous, "");
+        this.resetHiddenSecondsIfLastVisibleValueRemoved();
         this.moveToPreviousSegment();
       }
+    }
+  }
+
+  private resetHiddenSecondsIfLastVisibleValueRemoved(): void {
+    const timeValue = this.internalTimeValue();
+    if (!this.displaySeconds() && timeValue.hh === "" && timeValue.mm === "" && timeValue.ss !== "") {
+      this.updateTimeSegment(TimeSegmentEnum.SECONDS, "");
     }
   }
 
@@ -396,6 +449,9 @@ export class TimePickerComponent implements ControlValueAccessor {
           Math.min(Number(newValue), TIME_SEGMENT_MAX_VALUE[activeSegment]),
         );
         this.updateTimeSegment(activeSegment, formattedDigitValue);
+        if (activeSegment === TimeSegmentEnum.MINUTES && !this.displaySeconds()) {
+          return;
+        }
         this.moveToNextSegment();
       } else {
         this.updateTimeSegment(activeSegment, key);
@@ -404,6 +460,9 @@ export class TimePickerComponent implements ControlValueAccessor {
       const newValue = Number(currentActiveTimeSegmentValue[0] + key);
       const formattedDigitValue = formatNumberToDigitValue(Math.min(newValue, TIME_SEGMENT_MAX_VALUE[activeSegment]));
       this.updateTimeSegment(activeSegment, formattedDigitValue);
+      if (activeSegment === TimeSegmentEnum.MINUTES && !this.displaySeconds()) {
+        return;
+      }
       this.moveToNextSegment();
     }
   }

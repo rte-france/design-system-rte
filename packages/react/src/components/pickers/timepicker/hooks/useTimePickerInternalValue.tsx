@@ -114,6 +114,12 @@ const useTimePickerInternalValue = (
     decreaseValue(TimeSegmentEnum.HOURS, hourIncrement);
   }, [hourIncrement, decreaseValue]);
 
+  const resetValue = useCallback(() => {
+    updateTimeSegment(TimeSegmentEnum.HOURS, "");
+    updateTimeSegment(TimeSegmentEnum.MINUTES, "");
+    updateTimeSegment(TimeSegmentEnum.SECONDS, "");
+  }, [updateTimeSegment]);
+
   return {
     internalTimeValue,
     updateTimeSegment,
@@ -126,6 +132,7 @@ const useTimePickerInternalValue = (
     decreaseMinutes,
     increaseHours,
     decreaseHours,
+    resetValue,
   };
 };
 
