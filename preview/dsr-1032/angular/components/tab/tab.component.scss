@@ -49,6 +49,12 @@
     .rte-tab-selected-indicator {
       width: 2px;
       transition: top 0.2s ease, height 0.2s ease;
+
+      @media (prefers-reduced-motion: reduce) {
+        scroll-behavior: auto;
+
+        transition: none;
+      }
     }
   }
 
@@ -64,6 +70,12 @@
     transition: left 0.2s ease, width 0.2s ease;
     pointer-events: none;
     z-index: 1;
+
+    @media (prefers-reduced-motion: reduce) {
+      scroll-behavior: auto;
+
+      transition: none;
+    }
   }
 
   .rte-tab-separator {

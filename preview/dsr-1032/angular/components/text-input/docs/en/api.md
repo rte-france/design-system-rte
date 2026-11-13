@@ -11,7 +11,6 @@ The `TextInputComponent` (`<rte-text-input>`) is the public API. Bind its inputs
 | value                | string                                            | `""`            | Current input value (one-way binding).                                                                           |
 | maxLength            | number                                            | `150`           | Maximum number of characters allowed.                                                                            |
 | leftIcon             | string \| null                                    | `null`          | Left icon name. Replaced by the error icon when `error` is `true`.                                               |
-| showRightIcon        | boolean                                           | `true`          | Enables the right icon slot.                                                                                     |
 | rightIconAction      | `"clean" \| "visibilityOn" \| "visibilityOff"`    | `"clean"`       | Right icon behaviour: clear value, or toggle password visibility.                                                |
 | rightIconSize        | `"s" \| "m"`                                      | `"s"`           | Size of the right icon button.                                                                                   |
 | showLabelRequirement | boolean                                           | `false`         | Shows optional/required text next to the label.                                                                  |

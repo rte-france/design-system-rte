@@ -277,11 +277,10 @@ export const RightIconClean: Story = {
   args: {
     ...Default.args,
     rightIconAction: "clean",
-    showRightIcon: true,
   },
   render: (args) => ({
     props: args,
-    template: `<rte-text-input [width]="width" [label]="label" data-testid="input" [rightIconAction]="rightIconAction" [showRightIcon]="showRightIcon" [placeholder]="placeholder" [compactSpacing]="compactSpacing"></rte-text-input>`,
+    template: `<rte-text-input [width]="width" [label]="label" data-testid="input" [rightIconAction]="rightIconAction" [placeholder]="placeholder" [compactSpacing]="compactSpacing"></rte-text-input>`,
   }),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -342,11 +341,10 @@ export const KeyboardRightIconClean: Story = {
   args: {
     ...Default.args,
     rightIconAction: "clean",
-    showRightIcon: true,
   },
   render: (args) => ({
     props: args,
-    template: `<rte-text-input [width]="width" [label]="label" data-testid="input" [rightIconAction]="rightIconAction" [showRightIcon]="showRightIcon" [placeholder]="placeholder" [compactSpacing]="compactSpacing"></rte-text-input>`,
+    template: `<rte-text-input [width]="width" [label]="label" data-testid="input" [rightIconAction]="rightIconAction" [placeholder]="placeholder" [compactSpacing]="compactSpacing"></rte-text-input>`,
   }),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -363,11 +361,10 @@ export const KeyboardRightIconVisibility: Story = {
   args: {
     ...Default.args,
     rightIconAction: "visibilityOff",
-    showRightIcon: true,
   },
   render: (args) => ({
     props: args,
-    template: `<rte-text-input [width]="width" [label]="label" data-testid="input" [rightIconAction]="rightIconAction" [showRightIcon]="showRightIcon" [placeholder]="placeholder" [compactSpacing]="compactSpacing"></rte-text-input>`,
+    template: `<rte-text-input [width]="width" [label]="label" data-testid="input" [rightIconAction]="rightIconAction" [placeholder]="placeholder" [compactSpacing]="compactSpacing"></rte-text-input>`,
   }),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -433,5 +430,12 @@ export const ReactiveForm: Story = {
     await userEvent.click(canvas.getByTestId("toggle-disabled"));
     await waitFor(() => expect(modelStatus).toHaveTextContent("DISABLED"));
     expect(input).toBeDisabled();
+    expect(input).toHaveValue("");
+    expect(modelValue).toHaveTextContent("from model");
+
+    await userEvent.click(canvas.getByTestId("toggle-disabled"));
+    await waitFor(() => expect(input).toBeEnabled());
+    expect(input).toHaveValue("from model");
+    expect(modelValue).toHaveTextContent("from model");
   },
 };

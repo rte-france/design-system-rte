@@ -45,7 +45,6 @@ export class BaseInputComponent {
   readonly internalValue = signal<string>(this.value());
   readonly leftIcon = input<RegularIconIdKey | TogglableIconIdKey | null>(null);
 
-  readonly showRightIcon = input<boolean>(true);
   readonly rightIcon = input<RegularIconIdKey | TogglableIconIdKey | null>(null);
   readonly rightIconAriaLabel = input<string>("");
   readonly rightIconSize = input<Exclude<ButtonSize, "l">>("s");
@@ -181,7 +180,7 @@ export class BaseInputComponent {
   protected handleRightIconClick(): void {}
 
   protected computeShouldShowRightIcon(): boolean {
-    return this.showRightIcon();
+    return this.rightIcon() !== null;
   }
 
   handleKeyDown(event: KeyboardEvent): void {
