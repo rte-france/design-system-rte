@@ -25,4 +25,4 @@ export interface BaseTextInputProps {
   onRightIconClick?: () => void;
 }
 
-export type TextInputProps = Omit<BaseTextInputProps, "compactSpacing" | "placeholder" | "highlighted">;
+export type TextInputProps = Omit<BaseTextInputProps, "highlighted">;

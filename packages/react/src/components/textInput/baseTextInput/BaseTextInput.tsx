@@ -215,6 +215,7 @@ const BaseTextInput = forwardRef<HTMLInputElement, BaseTextInputProps>(
                 data-error={error}
                 data-highlighted={highlighted}
                 className={styles["inputField"]}
+                data-compact-spacing={compactSpacing}
                 maxLength={maxLength}
                 onChange={handleChange}
                 disabled={disabled}
