@@ -6,7 +6,7 @@ import {
   TESTING_ENTER_KEY,
 } from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
 import type { Meta, StoryObj } from "@storybook/angular";
-import { expect, fn, userEvent, waitFor } from "@storybook/test";
+import { expect, fn, userEvent, waitFor, within } from "@storybook/test";
 
 import { focusElementBeforeComponent } from "../../../../../../../.storybook/testing/testing.utils";
 import { TimePickerComponent } from "../time-picker.component";
@@ -26,6 +26,7 @@ const meta: Meta<TimePickerComponent> = {
     displaySeconds: { control: { type: "boolean" } },
     placeholder: { control: { type: "text" } },
     isCompact: { control: { type: "boolean" } },
+    showResetIcon: { control: { type: "boolean" } },
   },
 };
 
@@ -59,6 +60,7 @@ export const Default: Story = {
     minuteIncrement: 1,
     secondIncrement: 1,
     isCompact: false,
+    showResetIcon: true,
   },
   render: (args) => {
     const timeValue = signal<TimeFormat>(emptyTime());
@@ -97,6 +99,7 @@ export const Default: Story = {
           [displaySeconds]="displaySeconds"
           [placeholder]="placeholder"
           [isCompact]="isCompact"
+          [showResetIcon]="showResetIcon"
         />
         <span>{{timeValue().hh}}:{{timeValue().mm}}:{{timeValue().ss}}</span>
       `,
@@ -113,10 +116,16 @@ export const Compact: Story = {
 };
 
 export const Disabled: Story = {
-  ...Default,
   args: {
     ...Default.args,
     disabled: true,
+    value: { hh: "12", mm: "30", ss: "45" },
+  },
+  play: async ({ canvasElement }) => {
+    const input = within(canvasElement).getByRole("textbox");
+    await expect(input).toBeDisabled();
+    await expect(input).toHaveValue("");
+    await expect(input).not.toHaveAttribute("placeholder");
   },
 };
 
@@ -156,6 +165,7 @@ export const ReadOnly: Story = {
           (valueChange)="onValueChange($event)"
           [displaySeconds]="displaySeconds"
           [placeholder]="placeholder"
+          [showResetIcon]="showResetIcon"
         />
       `,
   }),
@@ -207,6 +217,7 @@ export const HourReadOnly: Story = {
           (valueChange)="onValueChange($event)"
           [displaySeconds]="displaySeconds"
           [placeholder]="placeholder"
+          [showResetIcon]="showResetIcon"
         />
       `,
   }),
@@ -257,6 +268,7 @@ export const AllSegmentsReadOnly: Story = {
           [isHourReadOnly]="true"
           [displaySeconds]="true"
           [placeholder]="'Enter time'"
+          [showResetIcon]="showResetIcon"
         />
         <rte-time-picker
           id="minute-read-only-time-picker"
@@ -276,6 +288,7 @@ export const AllSegmentsReadOnly: Story = {
           [isMinuteReadOnly]="true"
           [displaySeconds]="true"
           [placeholder]="'Enter time'"
+          [showResetIcon]="showResetIcon"
         />
         <rte-time-picker
           id="second-read-only-time-picker"
@@ -295,6 +308,7 @@ export const AllSegmentsReadOnly: Story = {
           [isSecondReadOnly]="true"
           [displaySeconds]="true"
           [placeholder]="'Enter time'"
+          [showResetIcon]="showResetIcon"
         />
       </div>
     `,
@@ -315,7 +329,7 @@ export const WithIncrement: Story = {
     await userEvent.tab();
     await userEvent.tab();
     await userEvent.keyboard(TESTING_ENTER_KEY);
-    expect(mainInput.value).toBe("00 : 00 : 00");
+    expect(mainInput.value).toBe("00:00:00");
 
     const menuSelector = '[data-menu-id="time_picker_time-picker"]';
     await waitFor(() => {
@@ -336,10 +350,10 @@ export const WithIncrement: Story = {
     expect(document.activeElement).toBe(segmentInputs[1]);
 
     await userEvent.keyboard(TESTING_ARROW_UP_KEY);
-    expect(mainInput.value).toBe("00 : 15 : 00");
+    expect(mainInput.value).toBe("00:15:00");
 
     await userEvent.keyboard(TESTING_ARROW_UP_KEY);
-    expect(mainInput.value).toBe("00 : 30 : 00");
+    expect(mainInput.value).toBe("00:30:00");
   },
 };
 
@@ -385,6 +399,7 @@ export const KeyboardInteractions: Story = {
           (valueChange)="onValueChange($event)"
           [displaySeconds]="true"
           [placeholder]="'Enter time'"
+          [showResetIcon]="showResetIcon"
         />
       `,
     };
@@ -395,18 +410,18 @@ export const KeyboardInteractions: Story = {
     expect(input).toBeTruthy();
     await userEvent.tab();
     await userEvent.keyboard("a");
-    expect(input.value).toBe("12 : 30 : 45");
+    expect(input.value).toBe("12:30:45");
 
     await userEvent.keyboard(TESTING_ARROW_RIGHT_KEY);
     await userEvent.keyboard("3");
-    expect(input.value).toBe("12 : 03 : 45");
+    expect(input.value).toBe("12:03:45");
 
     await userEvent.keyboard("2");
-    expect(input.value).toBe("12 : 32 : 45");
+    expect(input.value).toBe("12:32:45");
 
     await userEvent.keyboard(TESTING_ARROW_RIGHT_KEY);
     await userEvent.keyboard("2");
-    expect(input.value).toBe("12 : 32 : 02");
+    expect(input.value).toBe("12:32:02");
 
     const menuSelectorKb = '[data-menu-id="time_picker_time-picker"]';
 
@@ -421,7 +436,7 @@ export const KeyboardInteractions: Story = {
       expect(document.activeElement).toBe(segments[0]);
     });
     await userEvent.keyboard(TESTING_ARROW_UP_KEY);
-    expect(input.value).toBe("13 : 32 : 02");
+    expect(input.value).toBe("13:32:02");
 
     await userEvent.tab();
     const menuHostAfterTab = document.querySelector(menuSelectorKb)!;
@@ -430,6 +445,6 @@ export const KeyboardInteractions: Story = {
     ) as NodeListOf<HTMLInputElement>;
     expect(document.activeElement).toBe(segmentsAfterTab[1]);
     await userEvent.keyboard(TESTING_ARROW_UP_KEY);
-    expect(input.value).toBe("13 : 33 : 02");
+    expect(input.value).toBe("13:33:02");
   },
 };

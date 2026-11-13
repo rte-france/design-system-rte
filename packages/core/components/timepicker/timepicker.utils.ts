@@ -33,7 +33,7 @@ export const formatNumberToDigitValue = (value: number): string => {
 
 export const computeTimeSegmentRanges = (vals: TimeFormat): Record<TimeSegmentEnum, [number, number]> => {
   const hourValueLength = vals[TimeSegmentEnum.HOURS].toString().length;
-  const dividerLength = 3;
+  const dividerLength = 1;
   const minuteValueStartIndex = hourValueLength + dividerLength;
   const minuteValueLength = vals[TimeSegmentEnum.MINUTES].toString().length;
   const secondValueStartIndex = minuteValueStartIndex + minuteValueLength + dividerLength;
@@ -78,10 +78,10 @@ export const buildDisplayValue = ({ vals, activeSegment, displaySeconds = false 
   }
 
   if (activeSegment !== TimeSegmentEnum.HOURS || minuteValue) {
-    result += " : " + minuteValue;
+    result += ":" + minuteValue;
   }
   if (displaySeconds && (activeSegment === TimeSegmentEnum.SECONDS || secondValue)) {
-    result += " : " + secondValue;
+    result += ":" + secondValue;
   }
   return result;
 };

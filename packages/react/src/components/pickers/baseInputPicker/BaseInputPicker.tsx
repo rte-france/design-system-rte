@@ -78,7 +78,6 @@ const BaseInputPicker = ({
         data-fixed-width={fixedWidth || undefined}
         data-is-compact={isCompact || undefined}
       >
-        {isError && <Icon name="error" className={styles["error-icon"]} />}
         <input
           id={id}
           aria-labelledby={ariaLabelledBy}
@@ -86,7 +85,7 @@ const BaseInputPicker = ({
           readOnly={readOnly}
           ref={pickerInputRef}
           className={styles["rte-base-input-picker-input"]}
-          value={value}
+          value={disabled ? "" : value}
           onFocus={canInteractWithPicker ? onFocus : undefined}
           onKeyDown={canInteractWithPicker ? onKeyDown : undefined}
           onMouseUp={canInteractWithPicker ? onMouseUp : undefined}
@@ -103,12 +102,13 @@ const BaseInputPicker = ({
         />
         {shouldDisplayResetIcon && (
           <IconButton
-            color="var(--content-secondary)"
             name="cancel"
-            className={styles["reset-icon"]}
             variant="neutral"
             size="s"
+            compactSpacing
+            aria-label="Réinitialiser la valeur"
             onClick={onClickReset}
+            style={{ color: "var(--content-secondary)" }}
           />
         )}
         <button
