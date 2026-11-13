@@ -8,7 +8,9 @@ import {
   output,
   SimpleChanges,
   OnChanges,
+  OnDestroy,
 } from "@angular/core";
+import { ESCAPE_KEY } from "@design-system-rte/core";
 import { IconSize, IconTypeMap } from "@design-system-rte/core/components/icon/icon.constants";
 import { ToastCloseButtonAriaLabel, ToastDurationMap } from "@design-system-rte/core/components/toast/toast.constants";
 import { ToastProps, ToastType } from "@design-system-rte/core/components/toast/toast.interface";
@@ -24,15 +26,15 @@ import { IconButtonComponent } from "../icon-button/icon-button.component";
   styleUrl: "./toast.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ToastComponent implements OnChanges {
+export class ToastComponent implements OnChanges, OnDestroy {
   readonly id = input<string>("");
   readonly message = input<string>("");
-  readonly type = input<ToastType>("info");
+  readonly type = input<ToastType>("neutral");
   readonly duration = input<ToastProps["duration"]>("medium");
   readonly isOpen = input<boolean>(false);
   readonly placement = input<ToastProps["placement"]>("bottom-right");
   readonly closable = input<ToastProps["closable"]>(true);
-  readonly autoDismiss = input<ToastProps["autoDismiss"]>(true);
+  readonly autoDismiss = input<ToastProps["autoDismiss"]>(false);
   readonly showActionButton = input<ToastProps["showActionButton"]>(true);
   readonly iconName = input<ToastProps["iconName"]>("");
   readonly showLeftIcon = input<ToastProps["showLeftIcon"]>(true);
@@ -55,17 +57,45 @@ export class ToastComponent implements OnChanges {
   });
 
   readonly shouldAutoDismiss = computed(() => {
-    return this.isOpen() && this.autoDismiss() && (!this.actionButtonLabel() || !this.showActionButton());
+    return this.isOpen() && this.autoDismiss() && !this.displayActionButton();
   });
 
   readonly timer = signal<ReturnType<typeof setTimeout> | null>(null);
+  readonly isHovered = signal(false);
+  readonly isFocused = signal(false);
+  readonly computedClosable = computed(() => {
+    return this.closable() || !!this.displayActionButton() || !this.autoDismiss();
+  });
+
+  private previousFocusedElement: EventTarget | null = null;
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes["isOpen"]) {
-      if (this.shouldAutoDismiss()) {
-        this.startTimer();
+    const timerInputs = [
+      "isOpen",
+      "autoDismiss",
+      "duration",
+      "showActionButton",
+      "actionButtonLabel",
+      "onActionButtonClick",
+    ];
+    if (timerInputs.some((inputName) => changes[inputName])) {
+      if (changes["isOpen"]) {
+        if (this.shouldAutoDismiss()) {
+          this.startTimer();
+        }
+        if (!this.isOpen()) {
+          this.stopTimer();
+          this.restorePreviousFocus();
+        }
+      } else {
+        this.stopTimer();
+        this.resumeTimer();
       }
     }
+  }
+
+  ngOnDestroy(): void {
+    this.stopTimer();
   }
 
   onClickActionButton(): void {
@@ -76,19 +106,69 @@ export class ToastComponent implements OnChanges {
   }
 
   handleMouseEnter(): void {
+    this.isHovered.set(true);
+    this.pauseTimer();
+  }
+
+  handleMouseLeave(): void {
+    this.isHovered.set(false);
+    this.resumeTimer();
+  }
+
+  handleFocusIn(event: FocusEvent): void {
+    if (this.previousFocusedElement === null) {
+      this.previousFocusedElement = event.relatedTarget;
+    }
+    this.isFocused.set(true);
+    this.pauseTimer();
+  }
+
+  handleFocusOut(event: FocusEvent): void {
+    const toastElement = event.currentTarget as HTMLElement;
+    const nextFocused = event.relatedTarget as Node | null;
+    if (nextFocused && toastElement.contains(nextFocused)) {
+      return;
+    }
+    this.isFocused.set(false);
+    this.previousFocusedElement = null;
+    this.resumeTimer();
+  }
+
+  handleKeyDown(event: KeyboardEvent): void {
+    if (event.key === ESCAPE_KEY && this.closable()) {
+      event.stopPropagation();
+      this.close.emit();
+    }
+  }
+
+  private pauseTimer(): void {
     if (this.timer()) {
       this.stopTimer();
     }
   }
 
-  handleMouseLeave(): void {
-    if (this.shouldAutoDismiss()) {
+  private resumeTimer(): void {
+    if (this.shouldAutoDismiss() && !this.isHovered() && !this.isFocused()) {
       this.startTimer();
     }
   }
 
   clickCloseButton(): void {
+    this.handleClose();
+  }
+
+  private restorePreviousFocus(): void {
+    const previousFocusedElement = this.previousFocusedElement;
+    this.previousFocusedElement = null;
+    if (previousFocusedElement instanceof HTMLElement && previousFocusedElement.isConnected) {
+      previousFocusedElement.focus();
+    }
+  }
+
+  private handleClose(): void {
+    this.stopTimer();
     this.close.emit();
+    this.restorePreviousFocus();
   }
 
   startTimer(): void {
@@ -96,8 +176,7 @@ export class ToastComponent implements OnChanges {
     const duration = this.duration();
     if (duration) {
       const timerId = setTimeout(() => {
-        this.close.emit();
-        this.stopTimer();
+        this.handleClose();
       }, ToastDurationMap[duration]);
       this.timer.set(timerId);
     }

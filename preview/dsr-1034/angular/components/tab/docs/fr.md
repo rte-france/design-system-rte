@@ -3,53 +3,41 @@
 ## Overview
 
 ```html
-<rte-tab
-  [options]="tabs"
-  [selectedTabId]="selectedTabId"
-  (change)="selectedTabId = $event"
-/>
+<rte-tab [options]="tabs" [selectedTabId]="selectedTabId" (change)="selectedTabId = $event" />
 ```
 
 ## API
 
 Le composant `rte-tab` constitue l'API publique. Passez les définitions d'onglets via `options`, contrôlez l'onglet actif avec `selectedTabId` et écoutez `(change)` pour mettre à jour la sélection.
 
-
-| Property       | Type                        | Default        | Description                                                                                                                          |
-| -------------- | --------------------------- | -------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| options        | `TabItemProps[]`            | `[]`           | Définitions des onglets affichés dans la liste.                                                                                      |
-| selectedTabId  | `string`                    | —              | Id de l'onglet sélectionné. Doit correspondre à un `id` dans `options`.                                                              |
-| direction      | `"horizontal" | "vertical"` | `"horizontal"` | Direction de la liste d'onglets. `"horizontal"` les dispose en ligne ; `"vertical"` les empile en colonne.                           |
-| alignment      | `"start" | "center"`        | `"start"`      | Alignement des onglets lorsqu'il n'y a pas de débordement. Forcé à `"start"` en cas de débordement.                                  |
-| compactSpacing | `boolean`                   | `false`        | Réduit l'espacement entre les onglets.                                                                                               |
-| overflowType   | `"scrollable" | "dropdown"` | `"scrollable"` | Gestion du débordement horizontal. `"scrollable"` ajoute des flèches de défilement ; `"dropdown"` regroupe les onglets dans un menu. |
-| inverted       | `boolean`                   | `false`        | Affiche les onglets sur fond inverse (sombre).                                                                                       |
-
-
+| Property       | Type             | Default     | Description                                                             |
+| -------------- | ---------------- | ----------- | ----------------------------------------------------------------------- |
+| options        | `TabItemProps[]` | `[]`        | Définitions des onglets affichés dans la liste.                         |
+| selectedTabId  | `string`         | —           | Id de l'onglet sélectionné. Doit correspondre à un `id` dans `options`. |
+| direction      | `"horizontal"    | "vertical"` | `"horizontal"`                                                          | Direction de la liste d'onglets. `"horizontal"` les dispose en ligne ; `"vertical"` les empile en colonne.                           |
+| alignment      | `"start"         | "center"`   | `"start"`                                                               | Alignement des onglets lorsqu'il n'y a pas de débordement. Forcé à `"start"` en cas de débordement.                                  |
+| compactSpacing | `boolean`        | `false`     | Réduit l'espacement entre les onglets.                                  |
+| overflowType   | `"scrollable"    | "dropdown"` | `"scrollable"`                                                          | Gestion du débordement horizontal. `"scrollable"` ajoute des flèches de défilement ; `"dropdown"` regroupe les onglets dans un menu. |
+| inverted       | `boolean`        | `false`     | Affiche les onglets sur fond inverse (sombre).                          |
 
 | Output | Type     | Description                                            |
 | ------ | -------- | ------------------------------------------------------ |
 | change | `string` | Émet l'`id` de l'onglet sélectionné par l'utilisateur. |
 
-
 Chaque entrée de `options` accepte les champs suivants :
 
-
-| Property     | Type                                | Default    | Description                                                                                            |
-| ------------ | ----------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------ |
-| id           | `string`                            | — (requis) | Identifiant unique de l'onglet. Utilisé comme valeur de l'événement `change`.                          |
-| panelId      | `string`                            | — (requis) | Id du panneau associé, défini comme `aria-controls` sur le bouton d'onglet.                            |
-| label        | `string`                            | —          | Libellé visible de l'onglet.                                                                           |
-| icon         | `string`                            | —          | Nom de l'icône affichée avant le libellé.                                                              |
-| disabled     | `boolean`                           | `false`    | Désactive l'onglet. Ignoré lors de la navigation au clavier.                                           |
-| showBadge    | `boolean`                           | —          | Affiche le badge même si les critères de compteur ou d'icône ne sont pas remplis.                      |
-| badgeCount   | `number`                            | —          | Valeur numérique affichée lorsque `badgeContent` vaut `"number"`.                                      |
-| badgeContent | `"number" | "icon" | "empty"`       | —          | `"number"` affiche un compteur ; `"icon"` affiche `badgeIcon` ; `"empty"` affiche un point indicateur. |
-| badgeIcon    | `string`                            | —          | Nom de l'icône affichée lorsque `badgeContent` vaut `"icon"`.                                          |
-| badgeType    | `"brand" | "neutral" | "indicator"` | —          | Variante visuelle du badge.                                                                            |
-
-
-
+| Property     | Type                                  | Default       | Description                                                                                            |
+| ------------ | ------------------------------------- | ------------- | ------------------------------------------------------------------------------------------------------ |
+| id           | `string`                              | — (requis)    | Identifiant unique de l'onglet. Utilisé comme valeur de l'événement `change`.                          |
+| panelId      | `string`                              | — (requis)    | Id du panneau associé, défini comme `aria-controls` sur le bouton d'onglet.                            |
+| label        | `string`                              | —             | Libellé visible de l'onglet.                                                                           |
+| icon         | `string`                              | —             | Nom de l'icône affichée avant le libellé.                                                              |
+| disabled     | `boolean`                             | `false`       | Désactive l'onglet. Ignoré lors de la navigation au clavier.                                           |
+| showBadge    | `boolean`                             | —             | Affichage du badge sur un onglet non désactivé.                                                        |
+| badgeCount   | `number`                              | —             | Valeur numérique affichée lorsque `badgeContent` vaut `"number"`.                                      |
+| badgeContent | `"number" \| "icon" \| "empty"`       | `"empty"`     | `"number"` affiche un compteur ; `"icon"` affiche `badgeIcon` ; `"empty"` affiche un point indicateur. |
+| badgeIcon    | `string`                              | —             | Nom de l'icône affichée lorsque `badgeContent` vaut `"icon"`.                                          |
+| badgeType    | `"brand" \| "neutral" \| "indicator"` | `"indicator"` | Variante visuelle du badge.                                                                            |
 
 ## Usage
 
@@ -62,50 +50,32 @@ Liez `selectedTabId` à l'état de votre composant et mettez-le à jour dans le 
 ```typescript
 @Component({
   template: `
-    <rte-tab
-      [options]="tabs"
-      [selectedTabId]="selectedTabId"
-      (change)="selectedTabId = $event"
-    />
+    <rte-tab [options]="tabs" [selectedTabId]="selectedTabId" (change)="selectedTabId = $event" />
 
     @for (tab of tabs; track tab.id) {
-      <div
-        [id]="tab.panelId"
-        role="tabpanel"
-        [attr.aria-labelledby]="tab.id"
-        [hidden]="selectedTabId !== tab.id"
-      >
+      <div [id]="tab.panelId" role="tabpanel" [attr.aria-labelledby]="tab.id" [hidden]="selectedTabId !== tab.id">
         Content for {{ tab.label }}
       </div>
     }
   `,
 })
 export class MyComponent {
-  selectedTabId = 'tab-1';
+  selectedTabId = "tab-1";
 
   tabs = [
-    { id: 'tab-1', label: 'First Tab', panelId: 'panel-1' },
-    { id: 'tab-2', label: 'Second Tab', panelId: 'panel-2' },
-    { id: 'tab-3', label: 'Third Tab', panelId: 'panel-3' },
+    { id: "tab-1", label: "First Tab", panelId: "panel-1" },
+    { id: "tab-2", label: "Second Tab", panelId: "panel-2" },
+    { id: "tab-3", label: "Third Tab", panelId: "panel-3" },
   ];
 }
 ```
 
-
-
 ### Examples
-
-
 
 #### Vertical
 
 ```html
-<rte-tab
-  [options]="tabs"
-  [selectedTabId]="selectedTabId"
-  (change)="selectedTabId = $event"
-  direction="vertical"
-/>
+<rte-tab [options]="tabs" [selectedTabId]="selectedTabId" (change)="selectedTabId = $event" direction="vertical" />
 ```
 
 Affiche une liste d'onglets verticale à côté du contenu du panneau.
@@ -173,19 +143,9 @@ Affiche un badge sur un onglet.
 #### Overflow type
 
 ```html
-<rte-tab
-  [options]="tabs"
-  [selectedTabId]="selectedTabId"
-  (change)="selectedTabId = $event"
-  overflowType="scrollable"
-/>
+<rte-tab [options]="tabs" [selectedTabId]="selectedTabId" (change)="selectedTabId = $event" overflowType="scrollable" />
 
-<rte-tab
-  [options]="tabs"
-  [selectedTabId]="selectedTabId"
-  (change)="selectedTabId = $event"
-  overflowType="dropdown"
-/>
+<rte-tab [options]="tabs" [selectedTabId]="selectedTabId" (change)="selectedTabId = $event" overflowType="dropdown" />
 ```
 
 Contrôle le comportement des onglets lorsqu'ils dépassent la largeur du conteneur.
@@ -193,8 +153,6 @@ Contrôle le comportement des onglets lorsqu'ils dépassent la largeur du conten
 (`"scrollable" | "dropdown"`)
 
 ## Limitations
-
-
 
 ### Les panneaux ne sont pas rendus
 
@@ -210,7 +168,9 @@ Lorsque `overflowType` vaut `"dropdown"`, la liste est remplacée par un menu d�
 
 ### Affichage du badge
 
-Sans `showBadge`, un badge n'apparaît que si `badgeCount` est supérieur à 0 avec `badgeContent: "number"`, ou si `badgeContent` vaut `"icon"` et `badgeIcon` est renseigné.
+Un onglet désactivé n'affiche jamais de badge, même si `showBadge` vaut `true`.
+
+Sur un onglet non désactivé, le badge est rendu si `showBadge` vaut `true`, si `badgeCount` est supérieur à 0 avec `badgeContent: "number"`, ou si `badgeContent` vaut `"icon"` et `badgeIcon` est renseigné. Définir uniquement `badgeType`, `badgeContent`, `badgeCount` ou `badgeIcon` ne force pas l'affichage.
 
 ### aria-label fixe sur la liste d'onglets
 

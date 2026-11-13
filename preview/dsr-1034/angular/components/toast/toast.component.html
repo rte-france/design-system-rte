@@ -1,9 +1,11 @@
 <div
   class="rte-toast {{ type() }} {{ position() }} {{ alignment() }}"
-  role="status"
   [ngClass]="{ open: isOpen() }"
   (mouseenter)="handleMouseEnter()"
   (mouseleave)="handleMouseLeave()"
+  (focusin)="handleFocusIn($event)"
+  (focusout)="handleFocusOut($event)"
+  (keydown)="handleKeyDown($event)"
 >
   <div class="rte-toast-content">
     @if (displayLeftIcon()) {
@@ -16,11 +18,17 @@
     <span class="rte-toast-message">{{ message() }}</span>
   </div>
   @if (displayActionButton()) {
-    <button rteButton rteButtonVariant="text" class="rte-toast-action-button" (click)="onClickActionButton()">
+    <button
+      rteButton
+      rteButtonHierarchy="text"
+      class="rte-toast-action-button"
+      [rteButtonIsReversed]="type() === 'neutral'"
+      (click)="onClickActionButton()"
+    >
       {{ actionButtonLabel() }}
     </button>
   }
-  @if (closable()) {
+  @if (computedClosable()) {
     <rte-icon-button
       name="close"
       [attr.data-testid]="'toast-close-button'"

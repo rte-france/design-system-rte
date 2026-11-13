@@ -44,7 +44,7 @@
         [attr.aria-labelledby]="labelId() || undefined"
         [attr.aria-describedby]="computedAssistiveTextLabel() && !isPanelOpen() ? assistiveTextId() : null"
         [attr.aria-label]="showLabel() ? undefined : label()"
-        [value]="displayValue()"
+        [value]="isEffectivelyDisabled() ? '' : displayValue()"
         [readOnly]="readOnly()"
         [disabled]="isEffectivelyDisabled()"
         [attr.placeholder]="shouldDisplayPlaceholder() ? placeholder() : undefined"

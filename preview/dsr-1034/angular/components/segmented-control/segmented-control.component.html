@@ -7,6 +7,7 @@
   [attr.aria-labelledby]="ariaLabelledBy()"
   [attr.data-number-of-segments]="options().length"
   [attr.data-compact-spacing]="isCompact()"
+  (focusout)="onSegmentGroupFocusOut($event)"
 >
   <span
     class="rte-segment-selected-indicator"
@@ -25,7 +26,7 @@
         #segment
         role="radio"
         class="rte-segment"
-        tabindex="0"
+        [attr.tabindex]="segmentTabIndexByOptionId()[option.id]"
         [attr.data-id]="option.id"
         [attr.data-segment-type]="option.icon ? 'icon' : 'label'"
         [attr.data-compact-spacing]="isCompact()"
@@ -33,6 +34,7 @@
         [attr.aria-checked]="isSegmentSelected(option.id)"
         [attr.aria-label]="getSegmentAriaLabel(option)"
         (click)="selectSegment(option.id)"
+        (focus)="onSegmentFocus(option.id)"
         (keydown)="handleKeyDown($event)"
         (keyup)="handleKeyUp($event)"
       >

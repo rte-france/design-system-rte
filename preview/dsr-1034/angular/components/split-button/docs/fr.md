@@ -38,7 +38,6 @@ Le composant `SplitButtonComponent` (`<rte-split-button>`) constitue l'API publi
 |--------|------|-------------|
 | `clickLeftButton` | `void` | Émis lorsque le bouton principal (gauche) est activé. |
 | `clickRightButton` | `void` | Émis lorsque le déclencheur de menu (droite) est activé. L'état d'ouverture du menu bascule à chaque activation. |
-| `clickOption` | `string` | Émis lorsqu'une option de menu est activée. La valeur est l'`id` de l'option dans `options`. |
 
 ### Item de menu (`SplitButtonItemProps`)
 
@@ -78,7 +77,6 @@ import { SplitButtonItemProps } from "@design-system-rte/core";
       [options]="options"
       (clickLeftButton)="onPrimaryAction()"
       (clickRightButton)="onMenuToggle()"
-      (clickOption)="onOptionSelected($event)"
     />
   `,
 })
@@ -96,14 +94,10 @@ export class ExampleComponent {
   onMenuToggle(): void {
     console.log("Menu trigger clicked");
   }
-
-  onOptionSelected(optionId: string): void {
-    console.log("Menu option selected", optionId);
-  }
 }
 ```
 
-Le menu déroulant est géré en interne. Écoutez `(clickOption)` pour réagir lorsque l'utilisateur sélectionne une entrée de menu.
+Le menu déroulant est géré en interne. Les événements de sélection d'item ne sont pas exposés sur le composant — voir la section Limitations.
 
 #### Apparence
 
@@ -155,4 +149,4 @@ Contrôlez l'ouverture du panneau de menu par rapport au déclencheur avec `posi
 
 ### Événements de sélection d'item de menu
 
-`(clickRightButton)` est émis lorsque le déclencheur de menu est activé, et non lorsqu'une option est choisie. Réagissez à la sélection d'item avec `(clickOption)`, qui émet l'`id` de l'option. Les actions de navigation peuvent toujours utiliser `link`, `routerLink` ou `href` sur les entrées sans gérer `(clickOption)`.
+Le composant n'expose pas d'output de sélection d'item. `(clickRightButton)` est émis lorsque le déclencheur de menu est activé, et non lorsqu'une option est choisie. Pour réagir à l'activation d'un item, utilisez les champs de navigation pris en charge par le menu déroulant intégré (`link`, `routerLink` ou `href`) sur les entrées d'options, ou routez l'action via le bouton principal.
