@@ -14,6 +14,7 @@ import {
   viewChild,
   OnDestroy,
 } from "@angular/core";
+import { prefersReducedMotion } from "@design-system-rte/core/common/animation";
 import { Direction } from "@design-system-rte/core/components/common/common-types";
 import { TabAlignment, TabItemProps, TabProps } from "@design-system-rte/core/components/tab/tab.interface";
 import { scrollToSelectedTab } from "@design-system-rte/core/components/tab/tab.utils";
@@ -192,14 +193,20 @@ export class TabComponent implements AfterViewInit, OnChanges, OnDestroy {
   scrollBackward() {
     if (this.containerRef()?.nativeElement) {
       const scrollObject = this.direction() === "horizontal" ? { left: -300 } : { top: -300 };
-      this.containerRef()?.nativeElement.scrollBy({ ...scrollObject, behavior: "smooth" });
+      this.containerRef()?.nativeElement.scrollBy({
+        ...scrollObject,
+        behavior: prefersReducedMotion() ? "auto" : "smooth",
+      });
     }
   }
 
   scrollForward() {
     if (this.containerRef() && this.containerRef()?.nativeElement) {
       const scrollObject = this.direction() === "horizontal" ? { left: 300 } : { top: 300 };
-      this.containerRef()?.nativeElement.scrollBy({ ...scrollObject, behavior: "smooth" });
+      this.containerRef()?.nativeElement.scrollBy({
+        ...scrollObject,
+        behavior: prefersReducedMotion() ? "auto" : "smooth",
+      });
     }
   }
 

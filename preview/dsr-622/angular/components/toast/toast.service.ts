@@ -1,4 +1,14 @@
-import { Injectable, ComponentRef, ViewContainerRef, inject, signal, effect } from "@angular/core";
+import {
+  afterNextRender,
+  Injectable,
+  ComponentRef,
+  OnDestroy,
+  ViewContainerRef,
+  inject,
+  signal,
+  effect,
+} from "@angular/core";
+import { ToastStatusMessageMap } from "@design-system-rte/core/components/toast/toast.constants";
 import { ToastDuration, ToastPlacement, ToastType } from "@design-system-rte/core/components/toast/toast.interface";
 import { getToastPriority } from "@design-system-rte/core/components/toast/toast.utils";
 
@@ -9,7 +19,7 @@ import { ToastComponent } from "./toast.component";
 
 export interface ToastConfig {
   message: string;
-  type: ToastType;
+  type?: ToastType;
   closable?: boolean;
   autoDismiss?: boolean;
   duration?: ToastDuration;
@@ -22,25 +32,31 @@ export interface ToastConfig {
 }
 
 @Injectable({ providedIn: "root" })
-export class ToastService {
+export class ToastService implements OnDestroy {
   private viewContainerRef = inject(ViewContainerRef);
   private overlayService: OverlayService;
   private currentOpenedToastRef: ComponentRef<ToastComponent> | null = null;
+  private announcementElement?: HTMLElement;
+  private announcementTimeout?: ReturnType<typeof setTimeout>;
+  private removeAnnouncementElement?: () => void;
 
   readonly toastQueue = signal<ComponentRef<ToastComponent>[]>([]);
 
   constructor() {
     this.overlayService = inject(OverlayService);
+    afterNextRender(() => this.getAnnouncementElement());
 
     effect(() => {
       const toastToOpen = this.toastQueue()[0];
       if (!toastToOpen) {
+        this.cancelAnnouncement();
         this.currentOpenedToastRef = null;
         return;
       }
       if (this.currentOpenedToastRef?.instance.id() === toastToOpen.instance.id()) {
         return;
       } else {
+        this.cancelAnnouncement();
         if (this.currentOpenedToastRef) {
           this.currentOpenedToastRef.setInput("isOpen", false);
         }
@@ -48,11 +64,64 @@ export class ToastService {
       this.overlayService.addToOverlay(toastToOpen);
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
+          if (this.toastQueue()[0] !== toastToOpen || toastToOpen.hostView.destroyed) {
+            return;
+          }
           toastToOpen.setInput("isOpen", true);
           this.currentOpenedToastRef = toastToOpen;
+          this.announce(toastToOpen);
         });
       });
     });
+  }
+
+  ngOnDestroy(): void {
+    this.cancelAnnouncement();
+    this.removeAnnouncementElement?.();
+  }
+
+  private getAnnouncementElement(): HTMLElement {
+    if (!this.announcementElement) {
+      this.announcementElement = document.createElement("div");
+      this.announcementElement.setAttribute("role", "status");
+      this.announcementElement.setAttribute("aria-live", "polite");
+      this.announcementElement.setAttribute("aria-atomic", "true");
+      Object.assign(this.announcementElement.style, {
+        border: "0",
+        clipPath: "inset(50%)",
+        height: "1px",
+        margin: "-1px",
+        overflow: "hidden",
+        padding: "0",
+        position: "absolute",
+        width: "1px",
+        whiteSpace: "nowrap",
+        insetInlineStart: "0",
+      });
+      this.removeAnnouncementElement = this.overlayService.addElementToOverlay(this.announcementElement);
+    }
+
+    return this.announcementElement;
+  }
+
+  private announce(toast: ComponentRef<ToastComponent>): void {
+    this.cancelAnnouncement();
+    const element = this.getAnnouncementElement();
+    element.textContent = "";
+    this.announcementTimeout = setTimeout(() => {
+      this.announcementTimeout = undefined;
+      if (this.toastQueue()[0] !== toast || toast.hostView.destroyed || !toast.instance.isOpen()) {
+        return;
+      }
+      element.textContent = `${ToastStatusMessageMap[toast.instance.type()]} ${toast.instance.message()}`;
+    }, 100);
+  }
+
+  private cancelAnnouncement(): void {
+    if (this.announcementTimeout !== undefined) {
+      clearTimeout(this.announcementTimeout);
+      this.announcementTimeout = undefined;
+    }
   }
 
   getAllToasts(): ComponentRef<ToastComponent>[] {
@@ -76,11 +145,11 @@ export class ToastService {
     this.toastQueue.update((list) =>
       [...list, toast].sort((a, b) => {
         const priorityA = getToastPriority({
-          hasActionButton: a.instance.showActionButton()!,
+          hasActionButton: a.instance.showActionButton()! && !!a.instance.actionButtonLabel(),
           type: a.instance.type(),
         });
         const priorityB = getToastPriority({
-          hasActionButton: b.instance.showActionButton()!,
+          hasActionButton: b.instance.showActionButton()! && !!b.instance.actionButtonLabel(),
           type: b.instance.type(),
         });
         return priorityA - priorityB;
@@ -119,7 +188,7 @@ export class ToastService {
   private assignInputsValues(toast: ComponentRef<ToastComponent>, config: ToastConfig): void {
     const {
       message,
-      type = "info",
+      type = "neutral",
       closable = true,
       autoDismiss = false,
       duration = "medium",

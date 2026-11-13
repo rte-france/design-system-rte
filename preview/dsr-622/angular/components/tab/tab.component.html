@@ -10,8 +10,9 @@
   >
     <rte-icon-button
       *ngIf="isScrollable() && !shouldDisplayDropdown()"
-      aria-label="Previous tabs"
       variant="transparent"
+      [ariaLabel]="'Voir les onglets précédents'"
+      [tabIndex]="-1"
       [name]="direction() === 'horizontal' ? 'arrow-chevron-left' : 'arrow-chevron-up'"
       [ngStyle]="{
         opacity: canScrollBackward() ? '1' : '0',
@@ -24,6 +25,7 @@
       role="tablist"
       class="rte-tab"
       [attr.aria-label]="ariaLabel()"
+      [attr.aria-orientation]="direction()"
       [attr.data-alignment]="shouldDisplayDropdown() ? 'start' : alignment()"
       [attr.data-direction]="direction()"
       [attr.data-overflow-type]="overflowType()"
@@ -39,6 +41,7 @@
           type="button"
           rteDropdownTrigger
           class="rte-tab-dropdown-button"
+          aria-label="Afficher les onglets"
           [attr.data-inverted]="inverted()"
           [attr.data-overflow-type]="overflowType()"
         >
@@ -72,8 +75,9 @@
     </div>
     <rte-icon-button
       *ngIf="isScrollable() && !shouldDisplayDropdown()"
-      aria-label="Next tabs"
       variant="transparent"
+      [ariaLabel]="'Voir les onglets suivants'"
+      [tabIndex]="-1"
       [name]="direction() === 'horizontal' ? 'arrow-chevron-right' : 'arrow-chevron-down'"
       [ngStyle]="{
         opacity: canScrollForward() ? '1' : '0',
