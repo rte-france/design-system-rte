@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component, computed, effect, input, signal } from "@angular/core";
+import { ChangeDetectionStrategy, Component, computed, effect, input, output, signal } from "@angular/core";
 
 import { RegularIconIdKey, TogglableIconIdKey } from "../../icon/icon-registry.service";
 import { IconComponent } from "../../icon/icon.component";
@@ -32,6 +32,8 @@ export class BaseTextInputComponent extends BaseInputComponent {
       return ["visibilityOn", "visibilityOff"].includes(rightIconActionValue);
     }
   });
+
+  override readonly valueChange = output<string>();
 
   constructor() {
     super();
