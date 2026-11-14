@@ -2,7 +2,7 @@ import type { ModalProps as coreModalProps } from "@design-system-rte/core/compo
 import { forwardRef, useCallback, useState } from "react";
 
 import Backdrop from "../../abstract/backdrop/Backdrop";
-import BaseFooter, { DSButtonElement } from "../../abstract/baseFooter/BaseFooter";
+import BaseFooter, { DSButtonElement, DSFooterActionElement } from "../../abstract/baseFooter/BaseFooter";
 import BaseHeader from "../../abstract/baseHeader/BaseHeader";
 import useAnimatedMount from "../../hooks/useAnimatedMount";
 import { useFocusTrap } from "../../hooks/useFocusTrap";
@@ -18,7 +18,7 @@ interface ModalProps extends coreModalProps, Omit<React.HTMLAttributes<HTMLDialo
   closeOnOverlayClick?: boolean;
   isOpen: boolean;
   children?: React.ReactNode | React.ReactNode[];
-  primaryButton: DSButtonElement;
+  primaryButton: DSFooterActionElement;
   secondaryButton?: DSButtonElement;
 }
 
