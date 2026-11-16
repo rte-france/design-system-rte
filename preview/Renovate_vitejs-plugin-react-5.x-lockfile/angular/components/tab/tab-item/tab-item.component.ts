@@ -10,7 +10,9 @@ import {
   output,
   OnDestroy,
   computed,
+  effect,
 } from "@angular/core";
+import { logError } from "@design-system-rte/core";
 import { TabItemProps } from "@design-system-rte/core/components/tab/tab.interface";
 
 import { BadgeComponent } from "../../badge/badge.component";
@@ -44,7 +46,9 @@ export class TabItemComponent implements AfterViewInit, OnDestroy {
   } | null>(null);
 
   readonly displayBadge = (option: TabItemProps): boolean => {
-    return !!(option.badgeContent || option.badgeType || option.badgeIcon || option.badgeCount);
+    const hasNumberBadge = option.badgeContent === "number" && option.badgeCount !== undefined && option.badgeCount > 0;
+    const hasIconBadge = option.badgeContent === "icon" && !!option.badgeIcon;
+    return !option.disabled && (!!option.showBadge || hasNumberBadge || hasIconBadge);
   };
 
   readonly hoverIndicatorWidth = computed(() => {
@@ -62,6 +66,19 @@ export class TabItemComponent implements AfterViewInit, OnDestroy {
   readonly hoverIndicatorOpacity = computed(() => {
     return this.hoverIndicatorStyle()?.opacity ?? 0;
   });
+
+  readonly shouldRender = signal<boolean>(true);
+
+  constructor() {
+    effect(() => {
+      const label = this.option()?.ariaLabel || this.option()?.label;
+      const id = this.option()?.id;
+      if (!label) {
+        logError("Tab", 'Option with id "' + id + "\" must have either a label or an ariaLabel if it's icon only.");
+        this.shouldRender.set(false);
+      }
+    });
+  }
 
   ngAfterViewInit() {
     this.computeHoverIndicatorStyle();
