@@ -130,6 +130,38 @@ export const ReadOnly: Story = {
     showIcon: true,
     disabled: false,
     readOnly: true,
+    checked: false,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const switchElement = canvas.getByRole("switch");
+
+    await expect(switchElement).toHaveAttribute("aria-readonly", "true");
+    await expect(switchElement).not.toBeDisabled();
+
+    await userEvent.click(switchElement);
+    await expect(switchElement).not.toBeChecked();
+
+    const track = canvasElement.querySelector(".switch-container");
+    if (!track) {
+      throw new Error("Switch track not found");
+    }
+    await userEvent.click(track);
+    await expect(switchElement).not.toBeChecked();
+
+    await userEvent.click(canvas.getByText("Switch"));
+    await expect(switchElement).not.toBeChecked();
+
+    const handle = canvasElement.querySelector(".switch-icon-check");
+    if (!handle) {
+      throw new Error("Switch handle not found");
+    }
+    await userEvent.click(handle);
+    await expect(switchElement).not.toBeChecked();
+
+    switchElement.focus();
+    await userEvent.keyboard(SPACE_KEY);
+    await expect(switchElement).not.toBeChecked();
   },
 };
 

@@ -19,27 +19,27 @@ Le `ToastService` constitue l'API publique. Les consommateurs passent un objet `
 
 ### ToastConfig
 
-| Property | Type | Default | Description |
-|----------|------|---------|-------------|
-| message | string | — (requis) | Texte affiché dans le toast. |
-| type | `"info" \| "success" \| "warning" \| "error" \| "neutral"` | — (requis) | Variante visuelle et priorité dans la file d'attente. |
-| closable | boolean | `true` | Affiche ou masque le bouton de fermeture. |
-| autoDismiss | boolean | `false` | Ferme automatiquement le toast après `duration` lorsque `true`. Désactivé lorsqu'un bouton d'action est affiché. |
-| duration | `"short" \| "medium" \| "long"` | `"medium"` | Délai avant fermeture automatique (`short` : 3 s, `medium` : 5 s, `long` : 8 s). |
-| placement | `"top-right" \| "top-left" \| "top-center" \| "bottom-right" \| "bottom-left" \| "bottom-center"` | `"bottom-right"` | Position du toast à l'écran. |
-| showActionButton | boolean | `true` | Active le bouton d'action lorsque `actionButtonLabel` et `onActionButtonClick` sont fournis. |
-| actionButtonLabel | string | — | Libellé du bouton d'action optionnel. |
-| onActionButtonClick | `() => void` | — | Callback invoqué lors du clic sur le bouton d'action. |
-| iconName | string | — | Nom de l'icône personnalisée. Lorsqu'il est défini avec `showLeftIcon`, remplace l'icône par défaut du type. |
-| showLeftIcon | boolean | `true` | Affiche l'icône par défaut du type ou une icône personnalisée via `iconName`. |
+| Property            | Type                                                                                              | Default          | Description                                                                                                      |
+| ------------------- | ------------------------------------------------------------------------------------------------- | ---------------- | ---------------------------------------------------------------------------------------------------------------- |
+| message             | string                                                                                            | — (requis)       | Texte affiché dans le toast.                                                                                     |
+| type                | `"info" \| "success" \| "warning" \| "error" \| "neutral"`                                        | "neutral"        | Variante visuelle et priorité dans la file d'attente.                                                            |
+| closable            | boolean                                                                                           | `true`           | Affiche ou masque le bouton de fermeture.                                                                        |
+| autoDismiss         | boolean                                                                                           | `false`          | Ferme automatiquement le toast après `duration` lorsque `true`. Désactivé lorsqu'un bouton d'action est affiché. |
+| duration            | `"short" \| "medium" \| "long"`                                                                   | `"medium"`       | Délai avant fermeture automatique (`short` : 3 s, `medium` : 5 s, `long` : 8 s).                                 |
+| placement           | `"top-right" \| "top-left" \| "top-center" \| "bottom-right" \| "bottom-left" \| "bottom-center"` | `"bottom-right"` | Position du toast à l'écran.                                                                                     |
+| showActionButton    | boolean                                                                                           | `true`           | Active le bouton d'action lorsque `actionButtonLabel` et `onActionButtonClick` sont fournis.                     |
+| actionButtonLabel   | string                                                                                            | —                | Libellé du bouton d'action optionnel.                                                                            |
+| onActionButtonClick | `() => void`                                                                                      | —                | Callback invoqué lors du clic sur le bouton d'action.                                                            |
+| iconName            | string                                                                                            | —                | Nom de l'icône personnalisée. Lorsqu'il est défini avec `showLeftIcon`, remplace l'icône par défaut du type.     |
+| showLeftIcon        | boolean                                                                                           | `true`           | Affiche l'icône par défaut du type ou une icône personnalisée via `iconName`.                                    |
 
 ### Méthodes du ToastService
 
-| Method | Returns | Description |
-|--------|---------|-------------|
-| `addToQueue(config: ToastConfig)` | `string` | Crée un toast, l'ajoute à la file d'attente et retourne son identifiant. |
-| `removeFromQueue(toastId: string)` | `void` | Retire un toast de la file d'attente et le ferme. |
-| `isInQueue(toastId: string)` | `boolean` | Indique si un identifiant de toast est actuellement dans la file d'attente. |
+| Method                             | Returns   | Description                                                                 |
+| ---------------------------------- | --------- | --------------------------------------------------------------------------- |
+| `addToQueue(config: ToastConfig)`  | `string`  | Crée un toast, l'ajoute à la file d'attente et retourne son identifiant.    |
+| `removeFromQueue(toastId: string)` | `void`    | Retire un toast de la file d'attente et le ferme.                           |
+| `isInQueue(toastId: string)`       | `boolean` | Indique si un identifiant de toast est actuellement dans la file d'attente. |
 
 ## Usage
 
@@ -133,6 +133,10 @@ Lorsqu'un toast se ferme, le suivant dans la file apparaît automatiquement.
 ### Fermeture automatique et bouton d'action
 
 La fermeture automatique est désactivée lorsqu'un bouton d'action est affiché (`actionButtonLabel` avec `showActionButton` activé). Les consommateurs doivent fermer le toast manuellement via le bouton de fermeture ou de manière programmatique.
+
+### Bouton de fermeture obligatoire avec une action
+
+Lorsque `showActionButton` est activé et `actionButtonLabel` est non vide, le bouton de fermeture reste affiché même si `closable` vaut `false`, et un avertissement est émis dans la console.
 
 ### Pause du minuteur au survol
 
