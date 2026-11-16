@@ -1,5 +1,24 @@
 # @design-system-rte/core
 
+## 1.24.0
+
+### Minor Changes
+
+- ea1d4c0: ## Changes
+
+  - (Text Input) add support for placeholder + add compact spacing
+
+- 4f74bda: ## Changes
+
+  - (Timepicker) remove value for disabled + fix various style and appearance
+  - (Timepicker) add support for placeholder + add compactSpacing + allow hiding seconds
+
+### Patch Changes
+
+- c2ffdc1: ## Changes
+
+  - (Toast) add live announcements for toast messages with correct status
+
 ## 1.23.0
 
 ### Minor Changes
