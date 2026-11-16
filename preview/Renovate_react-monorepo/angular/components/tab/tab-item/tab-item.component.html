@@ -1,11 +1,14 @@
 <button
+  *ngIf="shouldRender()"
   #tabItem
   type="button"
   class="rte-tabitem"
   role="tab"
   [id]="option()?.id"
   [attr.aria-selected]="isSelected()"
+  [attr.aria-label]="option()?.ariaLabel"
   [attr.aria-controls]="option()?.panelId"
+  [attr.aria-disabled]="option()?.disabled"
   [tabIndex]="isSelected() ? 0 : -1"
   [attr.data-selected]="isSelected()"
   [attr.data-inverted]="inverted()"
@@ -23,7 +26,7 @@
     *ngIf="displayBadge(option()!)"
     [simpleBadge]="true"
     [badgeContent]="option()?.badgeContent || 'empty'"
-    [badgeType]="option()?.badgeType || 'neutral'"
+    [badgeType]="option()?.badgeType || 'indicator'"
     [icon]="option()?.badgeIcon || ''"
     [count]="option()?.badgeCount"
   />

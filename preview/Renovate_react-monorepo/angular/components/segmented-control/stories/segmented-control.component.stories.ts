@@ -1,3 +1,4 @@
+import { signal } from "@angular/core";
 import {
   TESTING_ARROW_LEFT_KEY,
   TESTING_ARROW_RIGHT_KEY,
@@ -5,7 +6,7 @@ import {
   TESTING_SPACE_KEY,
 } from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
 import { Meta, StoryObj } from "@storybook/angular";
-import { userEvent, within, expect } from "@storybook/test";
+import { userEvent, within, expect, waitFor } from "@storybook/test";
 
 import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../../icon/icon-map";
 import { SegmentedControlComponent } from "../segmented-control.component";
@@ -123,35 +124,158 @@ export const DifferentLabelTextLengths: Story = {
   }),
 };
 
+const keyboardTabNavigationTemplate = `
+  <div
+    data-testid="tab-navigation-fixture"
+    style="display: flex; flex-direction: column; gap: 8px; width: 420px;"
+  >
+    <button type="button" data-testid="before-segmented-control">Before control</button>
+    <div style="width: 420px" data-testid="segmented-control-story">
+      <rte-segmented-control
+        [options]="options"
+        [selectedSegment]="selectedSegment()"
+        [appearance]="appearance"
+        [isCompact]="isCompact"
+        (change)="change($event)"
+      />
+    </div>
+    <button type="button" data-testid="after-segmented-control">After control</button>
+  </div>
+`;
+
 export const KeyboardInteraction: Story = {
   tags: ["!autodocs"],
   args: Default.args,
-  render: Default.render,
+  render: (args) => {
+    const selectedSegment = signal(args.selectedSegment ?? "option1");
+
+    return {
+      props: {
+        ...args,
+        selectedSegment,
+        change(id: string) {
+          selectedSegment.set(id);
+        },
+      },
+      template: keyboardTabNavigationTemplate,
+    };
+  },
 
   play: async ({ canvasElement }) => {
-    const canvas = canvasElement;
-    const [firstSegment, secondSegment, thirdSegment] = Array.from(
-      within(canvas).getByTestId("segmented-control-story").querySelectorAll("[role='radio']"),
-    );
+    const canvas = within(canvasElement);
+    const beforeControl = canvas.getByTestId("before-segmented-control");
+    const afterControl = canvas.getByTestId("after-segmented-control");
+    const storyRoot = canvas.getByTestId("segmented-control-story");
 
-    expect(firstSegment).toHaveAttribute("aria-checked", "true");
-    await userEvent.click(secondSegment);
-    expect(secondSegment).toHaveAttribute("aria-checked", "true");
-    await userEvent.click(thirdSegment);
-    expect(thirdSegment).toHaveAttribute("aria-checked", "true");
+    const getSegmentById = (segmentId: string) => storyRoot.querySelector(`[role='radio'][data-id="${segmentId}"]`);
 
-    await userEvent.click(firstSegment);
+    const waitForFocusOnSegment = async (segmentId: string) => {
+      await waitFor(() => {
+        const segment = getSegmentById(segmentId);
+        expect(segment).not.toBeNull();
+        expect(segment).toHaveFocus();
+      });
+    };
+
+    const waitForSelectedTabStop = async (segmentId: string) => {
+      await waitFor(() => {
+        const segment = getSegmentById(segmentId);
+        expect(segment).toHaveAttribute("aria-checked", "true");
+        expect(segment).toHaveAttribute("tabindex", "0");
+      });
+    };
+
+    const expectRovingTabIndex = (selectedSegmentId: string) => {
+      storyRoot.querySelectorAll("[role='radio']").forEach((segment) => {
+        const segmentId = segment.getAttribute("data-id");
+        if (segmentId === selectedSegmentId) {
+          expect(segment).toHaveAttribute("tabindex", "0");
+        } else {
+          expect(segment).toHaveAttribute("tabindex", "-1");
+        }
+      });
+    };
+
+    expectRovingTabIndex("option1");
+
+    await userEvent.click(beforeControl);
     await userEvent.tab();
+    await waitForFocusOnSegment("option1");
+
+    await userEvent.click(getSegmentById("option2")!);
+    await waitForSelectedTabStop("option2");
+    await userEvent.click(beforeControl);
+    await userEvent.tab();
+    await waitForFocusOnSegment("option2");
+    expectRovingTabIndex("option2");
+
+    await userEvent.tab();
+    await waitFor(() => expect(afterControl).toHaveFocus());
+
+    await userEvent.tab({ shift: true });
+    await waitForFocusOnSegment("option2");
+
+    await userEvent.tab({ shift: true });
+    await waitFor(() => expect(beforeControl).toHaveFocus());
+
+    await userEvent.click(getSegmentById("option1")!);
+    await waitForSelectedTabStop("option1");
+    await waitForFocusOnSegment("option1");
     await userEvent.keyboard(TESTING_ARROW_RIGHT_KEY);
-    expect(secondSegment).toHaveFocus();
+    await waitForFocusOnSegment("option2");
+    expect(getSegmentById("option2")).toHaveAttribute("aria-checked", "false");
     await userEvent.keyboard(TESTING_SPACE_KEY);
-    expect(secondSegment).toHaveAttribute("aria-checked", "true");
+    expect(getSegmentById("option2")).toHaveAttribute("aria-checked", "true");
     await userEvent.keyboard(TESTING_ARROW_LEFT_KEY);
     await userEvent.keyboard(TESTING_ENTER_KEY);
-    expect(firstSegment).toHaveAttribute("aria-checked", "true");
+    expect(getSegmentById("option1")).toHaveAttribute("aria-checked", "true");
     await userEvent.keyboard(TESTING_ARROW_RIGHT_KEY);
     await userEvent.keyboard(TESTING_ARROW_RIGHT_KEY);
-    expect(thirdSegment).toHaveFocus();
+    await waitForFocusOnSegment("option3");
+  },
+};
+
+export const TabExitEndOfPage: Story = {
+  tags: ["!autodocs"],
+  args: Default.args,
+  render: (args) => {
+    const selectedSegment = signal(args.selectedSegment ?? "option1");
+
+    return {
+      props: {
+        ...args,
+        selectedSegment,
+        change(id: string) {
+          selectedSegment.set(id);
+        },
+      },
+      template: `
+      <div data-testid="tab-exit-end-of-page" style="width: 420px;">
+        <button type="button" data-testid="before-end-only">Before end</button>
+        <rte-segmented-control
+          [options]="options"
+          [selectedSegment]="selectedSegment()"
+          [appearance]="appearance"
+          [isCompact]="isCompact"
+          (change)="change($event)"
+        />
+      </div>
+      `,
+    };
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const beforeEndOnly = canvas.getByTestId("before-end-only");
+    const endSegments = Array.from(canvas.getByTestId("tab-exit-end-of-page").querySelectorAll("[role='radio']"));
+    const lastEndSegment = endSegments[endSegments.length - 1];
+
+    await userEvent.click(lastEndSegment);
+    await waitFor(() => expect(lastEndSegment).toHaveFocus());
+    await userEvent.tab();
+    await waitFor(() => {
+      expect(beforeEndOnly).not.toHaveFocus();
+      expect(lastEndSegment).not.toHaveFocus();
+    });
   },
 };
 
