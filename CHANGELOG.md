@@ -2,6 +2,57 @@
 
 # Angular
 
+## 5.0.0
+
+### Base Input
+
+#### Minor Changes
+
+- angular - remove value when in disabled state
+- set valid text content color + use right border color token for readonly state
+
+### Text Input
+
+#### Minor Changes
+
+- add support for placeholder + add compact spacing
+
+### Timepicker
+
+#### Minor Changes
+
+- remove value for disabled + fix various style and appearance
+- add support for placeholder + add compactSpacing + allow hiding seconds
+
+### Toast
+
+#### Patch Changes
+
+- add live announcements for toast messages with correct status
+- replace deprecated variant props with appropriate props
+- prevent event propagation when closing toast with Escape key
+- implement keyboard interaction for closing toasts with Escape key
+- restore focus on previous element when the toast is closed
+- force closing button with action button
+- update toast priority calculation to consider action button label
+- hide accessibility live annoucement zone
+- update ToastConfig properties and default values for better consistency
+
+### Card
+
+#### Patch Changes
+
+- remove box-shadow on active state for clickable cards
+
+### Other
+
+#### Patch Changes
+
+- Updated dependencies [ea1d4c0]
+- Updated dependencies [4f74bda]
+- Updated dependencies [c2ffdc1]
+- @design-system-rte/core@1.24.0
+
 ## 4.5.0
 
 ### Base Input
@@ -151,55 +202,55 @@
 - Updated dependencies [13dd6ee]
 - Updated dependencies [7855135]
 - @design-system-rte/core@1.22.0
+# React
 
-## 4.3.0
-
-### Textarea
-
-#### Minor Changes
-
-- add support for placeholder
-
-### Pagination
-
-#### Patch Changes
-
-- prevent component rendering when totalPages is equal or less than 1
+## 2.6.0
 
 ### Base Input
 
-#### Patch Changes
+#### Minor Changes
 
-- increase clickable icon area to 24px
+- set valid text content color + use right border color token for readonly state
 
-### Segmented Control
+### Text Input
 
-#### Patch Changes
+#### Minor Changes
 
-- correct ariaLabel generation and provide default values
-- add missing ariaLabelledBy input
-- add missing prefers-reduced-motion for Selected Indicator animation
+- add support for placeholder + add compact spacing
+
+### Timepicker
+
+#### Minor Changes
+
+- remove value for disabled + fix various style and appearance
+- add support for placeholder + add compactSpacing + allow hiding seconds
 
 ### Toast
 
 #### Patch Changes
 
-- add missing aria label for close button
+- add live announcements for toast messages with correct status
+- replace deprecated variant props with appropriate props
+- prevent event propagation when closing toast with Escape key
+- implement keyboard interaction for closing toasts with Escape key
+- restore focus on previous element when the toast is closed
+- force closing button with action button
+- update ToastConfig properties and default values for better consistency
 
-### Select
+### Card
 
 #### Patch Changes
 
-- repair auto-focus on component opening
+- remove box-shadow on active state for clickable cards
 
 ### Other
 
 #### Patch Changes
 
-- Updated dependencies [7f092e9]
-- Updated dependencies [d5987a1]
-- @design-system-rte/core@1.21.1
-# React
+- Updated dependencies [ea1d4c0]
+- Updated dependencies [4f74bda]
+- Updated dependencies [c2ffdc1]
+- @design-system-rte/core@1.24.0
 
 ## 2.5.0
 
@@ -345,49 +396,31 @@
 - Updated dependencies [13dd6ee]
 - Updated dependencies [7855135]
 - @design-system-rte/core@1.22.0
+# Core
 
-## 2.3.0
+## 1.24.0
 
-### Textarea
+### Text Input
 
 #### Minor Changes
 
-- add support for placeholder
+- add support for placeholder + add compact spacing
 
-### Pagination
+### Timepicker
 
-#### Patch Changes
+#### Minor Changes
 
-- prevent component rendering when totalPages is equal or less than 1
-- react - propagate aria-label props to nav element
-
-### Base Input
-
-#### Patch Changes
-
-- increase clickable icon area to 24px
-
-### Segmented Control
-
-#### Patch Changes
-
-- correct ariaLabel generation and provide default values
-- add missing prefers-reduced-motion for Selected Indicator animation
+- remove value for disabled + fix various style and appearance
+- add support for placeholder + add compactSpacing + allow hiding seconds
 
 ### Toast
 
 #### Patch Changes
 
-- add missing aria label for close button
+- add live announcements for toast messages with correct status
 
 ### Other
 
-#### Patch Changes
-
-- Updated dependencies [7f092e9]
-- Updated dependencies [d5987a1]
-- @design-system-rte/core@1.21.1
-# Core
 
 ## 1.23.0
 
@@ -462,67 +495,6 @@
 
 - harmonize header title button aria label
 - react - fix props name hasActions and set default value as true
-
-### Other
-
-
-## 1.21.1
-
-### Segmented Control
-
-#### Patch Changes
-
-- correct ariaLabel generation and provide default values
-
-### Toast
-
-#### Patch Changes
-
-- add missing aria label for close button
-
-### Other
-
-
-## 1.21.0
-
-### Radio Button Group
-
-#### Minor Changes
-
-- rename props : - readOnly to isReadOnly - error to isError - errorMessage to errorText - groupTitle to groupTitleText
-- remove boolean text display
-- add required indication props
-
-### Sidenav
-
-#### Minor Changes
-
-- add props to customize close/open collapsible button label
-
-### Segmented Control
-
-#### Minor Changes
-
-- rename props - compactSpacing > isCompact - label > labelText
-
-### Dropdown
-
-#### Minor Changes
-
-- add critical variant to dropdown item
-
-### Treeview
-
-#### Patch Changes
-
-- correct item layers overlap
-
-### Drawer
-
-#### Patch Changes
-
-- correct validation system
-- avoid input validation infinite loop
 
 ### Other
 
