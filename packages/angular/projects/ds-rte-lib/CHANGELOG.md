@@ -1,5 +1,58 @@
 # @design-system-rte/angular
 
+## 5.0.0
+
+### Minor Changes
+
+- ea1d4c0: ## Changes
+
+  - (Base Input) angular - remove value when in disabled state
+  - (Base Input) set valid text content color + use right border color token for readonly state
+  - (Text Input) add support for placeholder + add compact spacing
+
+- 4f74bda: ## Changes
+
+  - (Timepicker) remove value for disabled + fix various style and appearance
+  - (Timepicker) add support for placeholder + add compactSpacing + allow hiding seconds
+
+### Patch Changes
+
+- c2ffdc1: ## Changes
+
+  - (Toast) add live announcements for toast messages with correct status
+  - (Toast) replace deprecated variant props with appropriate props
+
+- 879174a: ## Changes
+
+  - (Toast) prevent event propagation when closing toast with Escape key
+  - (Toast) implement keyboard interaction for closing toasts with Escape key
+
+- 563d0f4: ## Changes
+
+  - (Toast) restore focus on previous element when the toast is closed
+
+- 719c91c: ## Changes
+
+  - (Toast) force closing button with action button
+
+- d652a58: ## Changes
+
+  - (Toast) update toast priority calculation to consider action button label
+
+- 5954956: ## Changes
+
+  - (Toast) hide accessibility live annoucement zone
+  - (Toast) update ToastConfig properties and default values for better consistency
+
+- 15ab98b: ## Changes
+
+  - (Card) remove box-shadow on active state for clickable cards
+
+- Updated dependencies [ea1d4c0]
+- Updated dependencies [4f74bda]
+- Updated dependencies [c2ffdc1]
+  - @design-system-rte/core@1.24.0
+
 ## 4.5.0
 
 ### Minor Changes
