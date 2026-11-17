@@ -22,10 +22,10 @@
     />
     <div
       #tabList
-      role="tablist"
       class="rte-tab"
-      [attr.aria-label]="ariaLabel()"
-      [attr.aria-orientation]="direction()"
+      [attr.role]="shouldDisplayDropdown() ? null : 'tablist'"
+      [attr.aria-label]="shouldDisplayDropdown() ? null : ariaLabel()"
+      [attr.aria-orientation]="shouldDisplayDropdown() ? null : direction()"
       [attr.data-alignment]="shouldDisplayDropdown() ? 'start' : alignment()"
       [attr.data-direction]="direction()"
       [attr.data-overflow-type]="overflowType()"
@@ -37,33 +37,36 @@
         [rteDropdownOffset]="10"
         [rteDropdownIsOpen]="isDropdownOpen()"
         [rteDropdownAutoOpen]="false"
-        (closedDropdown)="isDropdownOpen.set(false)"
+        (closedDropdown)="onDropdownClosed()"
         (menuEvent)="onClickTabItem($event.id)"
       >
-        <div style="display: flex; align-items: center">
-          <button
-            type="button"
-            rteDropdownTrigger
-            class="rte-tab-dropdown-button"
-            role="tab"
-            aria-selected="true"
-            aria-haspopup="true"
-            [attr.aria-label]="selectedTab()?.label"
-            [attr.aria-expanded]="isDropdownOpen()"
-            [attr.data-inverted]="inverted()"
-            [attr.data-overflow-type]="overflowType()"
-            (dropdownTriggered)="isDropdownOpen.set(!isDropdownOpen())"
+        <div class="rte-tab-dropdown-layout">
+          <div
+            role="tablist"
+            class="rte-tab-dropdown-tablist"
+            [attr.aria-label]="ariaLabel()"
+            [attr.aria-orientation]="direction()"
           >
-            <rte-icon *ngIf="selectedTab()?.icon" appearance="filled" [name]="selectedTab()?.icon!"></rte-icon>
-            <span *ngIf="selectedTab()?.label">{{ selectedTab()?.label }}</span>
-            <rte-badge
-              *ngIf="selectedTab()?.badgeCount && selectedTab()?.badgeContent === 'number'"
-              [badgeType]="selectedTab()?.badgeType!"
-              [badgeContent]="selectedTab()?.badgeContent!"
-              [count]="selectedTab()?.badgeCount"
-              [simpleBadge]="true"
-            ></rte-badge>
-          </button>
+            <div
+              rteDropdownTrigger
+              class="rte-tab-dropdown-button"
+              role="tab"
+              aria-selected="true"
+              [attr.aria-label]="selectedTab()?.label"
+              [attr.data-inverted]="inverted()"
+              [attr.data-overflow-type]="overflowType()"
+            >
+              <rte-icon *ngIf="selectedTab()?.icon" appearance="filled" [name]="selectedTab()?.icon!"></rte-icon>
+              <span *ngIf="selectedTab()?.label">{{ selectedTab()?.label }}</span>
+              <rte-badge
+                *ngIf="selectedTab()?.badgeCount && selectedTab()?.badgeContent === 'number'"
+                [badgeType]="selectedTab()?.badgeType!"
+                [badgeContent]="selectedTab()?.badgeContent!"
+                [count]="selectedTab()?.badgeCount"
+                [simpleBadge]="true"
+              ></rte-badge>
+            </div>
+          </div>
           <rte-icon-button
             appearance="outlined"
             ariaLabel="Afficher les autres onglets"

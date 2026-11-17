@@ -191,13 +191,14 @@ export class TabComponent implements AfterViewInit, OnChanges, OnDestroy {
     }
   };
 
-  // onDropdownKeyDown(event: KeyboardEvent): void {
-  //   if (event.key === ENTER_KEY || event.key === SPACE_KEY) {
-  //     event.preventDefault();
-  //     event.stopPropagation();
-  //     this.isDropdownOpen.set(true);
-  //   }
-  // }
+  onDropdownClosed = () => {
+    this.isDropdownOpen.set(false);
+    setTimeout(() => {
+      this.containerRef()
+        ?.nativeElement.querySelector<HTMLButtonElement>('[aria-label="Afficher les autres onglets"]')
+        ?.focus({ preventScroll: true });
+    });
+  };
 
   scrollBackward() {
     if (this.containerRef()?.nativeElement) {
