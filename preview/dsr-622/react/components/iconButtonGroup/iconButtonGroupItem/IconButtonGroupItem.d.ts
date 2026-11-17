@@ -12,8 +12,9 @@ interface IconButtonGroupItemProps {
     appearance?: "brand" | "neutral";
     isIconActive: boolean;
     isNextIconActive: boolean;
+    isAllDisabled?: boolean;
     dividerAppearance?: "brand" | "neutral" | "inverse";
     onClick: (id: string) => void;
 }
-declare const IconButtonGroupItem: ({ button, buttonId, isDisabled, computedTooltipPosition, isCompact, index, isLast, orientation, appearance, isIconActive, isNextIconActive, dividerAppearance, onClick, }: IconButtonGroupItemProps) => import("react").JSX.Element;
+declare const IconButtonGroupItem: ({ button, buttonId, isDisabled, computedTooltipPosition, isCompact, index, isLast, orientation, appearance, isIconActive, isAllDisabled, onClick, }: IconButtonGroupItemProps) => import("react").JSX.Element;
 export default IconButtonGroupItem;
