@@ -90,6 +90,8 @@ export function useNumberInput({
   const [inputFocused, setInputFocused] = useState(false);
   const initializedRef = useRef(false);
   const inputFieldRef = useRef<HTMLInputElement | null>(null);
+  const pendingControlledValueRef = useRef<number | null | undefined>(undefined);
+  const isControlled = controlledValue !== undefined;
 
   const decimalSeparator = useMemo(() => getDecimalSeparator(locale), [locale]);
   const inputMode = getNumberInputMode(decimalPrecision);
@@ -158,12 +160,15 @@ export function useNumberInput({
   const applyNumericValue = useCallback(
     (numericValue: number | null, options: { emitChange: boolean }) => {
       const display = formatNumberInputDisplayValue(numericValue, decimalPrecision, locale);
+      if (isControlled) {
+        pendingControlledValueRef.current = numericValue;
+      }
       setDisplayText(display);
       if (options.emitChange) {
         onChange?.(numericValue);
       }
     },
-    [decimalPrecision, locale, onChange],
+    [decimalPrecision, isControlled, locale, onChange],
   );
 
   const emitValueChange = useCallback(() => {
@@ -199,18 +204,28 @@ export function useNumberInput({
   }, [hasVisibleLabel, ariaLabel, ariaLabelledby]);
 
   useEffect(() => {
-    if (controlledValue === undefined) {
+    if (!isControlled) {
+      pendingControlledValueRef.current = undefined;
       return;
     }
+
+    const pendingControlledValue = pendingControlledValueRef.current;
+    if (pendingControlledValue !== undefined) {
+      pendingControlledValueRef.current = undefined;
+      if (controlledValue === pendingControlledValue) {
+        return;
+      }
+    }
+
     if (controlledValue === null) {
-      applyNumericValue(null, { emitChange: false });
+      setDisplayText(formatNumberInputDisplayValue(null, decimalPrecision, locale));
       return;
     }
     if (!Number.isFinite(controlledValue)) {
       return;
     }
-    applyNumericValue(controlledValue, { emitChange: false });
-  }, [controlledValue, locale, decimalPrecision, applyNumericValue]);
+    setDisplayText(formatNumberInputDisplayValue(controlledValue, decimalPrecision, locale));
+  }, [controlledValue, decimalPrecision, displayText, isControlled, locale]);
 
   useEffect(() => {
     if (initializedRef.current) {
@@ -269,6 +284,9 @@ export function useNumberInput({
     if (inputElement.value !== displayedValue) {
       inputElement.value = displayedValue;
     }
+    if (isControlled) {
+      pendingControlledValueRef.current = numeric;
+    }
     setDisplayText(displayedValue);
     onChange?.(numeric);
   };
@@ -280,8 +298,14 @@ export function useNumberInput({
     });
     if (blurAction === "restoreDefault" && defaultValue !== undefined) {
       applyNumericValue(defaultValue, { emitChange: true });
+    } else if (displayText.trim() !== "") {
+      applyNumericValue(parsedValue, { emitChange: false });
     } else if (blurAction === "emitParsed") {
-      emitValueChange();
+      if (isControlled) {
+        applyNumericValue(parsedValue, { emitChange: true });
+      } else {
+        emitValueChange();
+      }
     }
     setInputFocused(false);
     onBlur?.();

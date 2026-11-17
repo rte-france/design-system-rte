@@ -4,7 +4,6 @@
     display: block;
     width: 100%;
 }
-
 .number-input-layout {
     display: flex;
     align-items: center;
@@ -155,28 +154,17 @@
     flex-shrink: 0;
 
     ::ng-deep button {
+        box-sizing: border-box;
+        width: 32px;
+        height: 32px;
         min-width: 24px;
         min-height: 24px;
         justify-content: center;
     }
 }
 
-.number-input-layout[data-appearance='neutral'] .number-input-stepper ::ng-deep button.neutral:not(:disabled) {
-    background: var(--background-neutral-bold-default);
-    border: none;
-    color: var(--content-primary-inverse);
-
-    .rte-icon-container {
-        color: var(--content-primary-inverse);
-    }
-
-    &:hover {
-        background: var(--background-neutral-bold-hover);
-        color: var(--content-primary-inverse);
-    }
-
-    &:active {
-        background: var(--background-neutral-bold-pressed);
-        color: var(--content-primary-inverse);
-    }
+:host([data-compact-spacing='true']) .number-input-stepper ::ng-deep button {
+    width: 24px;
+    height: 24px;
+    padding: 0;
 }

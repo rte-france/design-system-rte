@@ -207,11 +207,42 @@ const ControlledNumberInputHost = () => {
 
   return (
     <div data-testid="number-input-controlled">
-      <NumberInput id="number-input-controlled" label="Quantité" min={0} max={10} value={value} onChange={setValue} />
+      <NumberInput id="number-input-controlled" label="Quantité" min={0} max={99} value={value} onChange={setValue} />
       <button type="button" data-testid="set-from-model" onClick={() => setValue(7)}>
         Set from model
       </button>
       <span data-testid="model-value">{value}</span>
+    </div>
+  );
+};
+
+const RejectedControlledNumberInputHost = () => (
+  <div data-testid="number-input-rejected-controlled">
+    <NumberInput
+      id="number-input-rejected-controlled"
+      label="Quantité"
+      min={0}
+      max={10}
+      value={3}
+      onChange={() => {}}
+    />
+  </div>
+);
+
+const DecimalControlledNumberInputHost = () => {
+  const [value, setValue] = useState<number | null>(null);
+
+  return (
+    <div data-testid="number-input-decimal-controlled">
+      <NumberInput
+        id="number-input-decimal-controlled"
+        label="Quantité"
+        min={0}
+        max={100}
+        decimalPrecision={2}
+        value={value}
+        onChange={setValue}
+      />
     </div>
   );
 };
@@ -231,5 +262,46 @@ export const Controlled: Story = {
       expect(modelValue).toHaveTextContent("7");
       expect(input.value).toBe("7");
     });
+  },
+};
+
+export const RejectedControlled: Story = {
+  tags: ["!autodocs"],
+  render: () => <RejectedControlledNumberInputHost />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const host = canvas.getByTestId("number-input-rejected-controlled");
+    const input = host.querySelector('input[role="spinbutton"]') as HTMLInputElement;
+    const incrementStepper = host.querySelector(".number-input-stepper--increment button") as HTMLButtonElement;
+
+    await waitFor(() => expect(input.value).toBe("3"));
+    await userEvent.click(input);
+    await userEvent.type(input, "4");
+    await waitFor(() => expect(input.value).toBe("3"));
+
+    await userEvent.click(incrementStepper);
+    await waitFor(() => expect(input.value).toBe("3"));
+  },
+};
+
+export const EditableControlledDecimal: Story = {
+  tags: ["!autodocs"],
+  render: () => <DecimalControlledNumberInputHost />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByRole("spinbutton") as HTMLInputElement;
+
+    await waitFor(() => expect(input.value).toBe(""));
+    await userEvent.type(input, "1");
+    await waitFor(() => expect(input.value).toBe("1"));
+    await userEvent.type(input, "2");
+    await waitFor(() => expect(input.value).toBe("12"));
+    await userEvent.tab();
+    await waitFor(() => expect(input.value).toBe("12,00"));
+
+    await userEvent.click(input);
+    await userEvent.clear(input);
+    await userEvent.type(input, "34");
+    await waitFor(() => expect(input.value).toBe("34"));
   },
 };
