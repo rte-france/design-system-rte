@@ -236,10 +236,10 @@ export const WithIcons: Story = {
 export const IconsOnly: Story = {
   args: {
     options: [
-      { id: "home", panelId: "panel-1", icon: "home" },
-      { id: "bookmarks", panelId: "panel-2", icon: "bookmarks" },
-      { id: "chat", panelId: "panel-3", icon: "chat" },
-      { id: "settings", panelId: "panel-3", icon: "settings" },
+      { id: "home", panelId: "panel-1", icon: "home", ariaLabel: "Home tab" },
+      { id: "bookmarks", panelId: "panel-2", icon: "bookmarks", ariaLabel: "Bookmarks tab" },
+      { id: "chat", panelId: "panel-3", icon: "chat", ariaLabel: "Chat tab" },
+      { id: "settings", panelId: "panel-3", icon: "settings", ariaLabel: "Settings tab" },
     ],
     selectedTabId: "home",
     alignment: "start",
@@ -347,6 +347,124 @@ export const WithBadge: Story = {
     </div>
     `,
   }),
+};
+
+export const BadgeVisibility: Story = {
+  tags: ["!autodocs"],
+  args: {
+    options: [
+      { id: "none", label: "No badge", panelId: "panel-none" },
+      { id: "indicator", label: "Indicator", panelId: "panel-indicator", showBadge: true },
+      { id: "number", label: "Number", panelId: "panel-number", badgeContent: "number", badgeCount: 5 },
+      {
+        id: "number-auto",
+        label: "Automatic number",
+        panelId: "panel-number-auto",
+        badgeContent: "number",
+        badgeCount: 5,
+        showBadge: false,
+      },
+      { id: "icon", label: "Icon", panelId: "panel-icon", badgeContent: "icon", badgeIcon: "notification" },
+      {
+        id: "icon-auto",
+        label: "Automatic icon",
+        panelId: "panel-icon-auto",
+        badgeContent: "icon",
+        badgeIcon: "notification",
+        showBadge: false,
+      },
+      { id: "neutral", label: "Neutral", panelId: "panel-neutral", showBadge: true, badgeType: "neutral" },
+      { id: "hidden", label: "Explicitly hidden", panelId: "panel-hidden", showBadge: false },
+      { id: "type-only", label: "Type only", panelId: "panel-type-only", badgeType: "neutral" },
+      { id: "content-only", label: "Content only", panelId: "panel-content-only", badgeContent: "empty" },
+      { id: "count-only", label: "Count only", panelId: "panel-count-only", badgeCount: 5 },
+      { id: "icon-only", label: "Icon name only", panelId: "panel-icon-only", badgeIcon: "notification" },
+      { id: "missing-count", label: "Missing count", panelId: "panel-missing-count", badgeContent: "number" },
+      { id: "zero", label: "Zero", panelId: "panel-zero", badgeContent: "number", badgeCount: 0 },
+      { id: "negative", label: "Negative", panelId: "panel-negative", badgeContent: "number", badgeCount: -1 },
+      { id: "missing-icon", label: "Missing icon", panelId: "panel-missing-icon", badgeContent: "icon" },
+      {
+        id: "disabled-indicator",
+        label: "Disabled indicator",
+        panelId: "panel-disabled-indicator",
+        disabled: true,
+        showBadge: true,
+      },
+      {
+        id: "disabled-number",
+        label: "Disabled number",
+        panelId: "panel-disabled-number",
+        disabled: true,
+        showBadge: true,
+        badgeContent: "number",
+        badgeCount: 5,
+      },
+      {
+        id: "disabled-icon",
+        label: "Disabled icon",
+        panelId: "panel-disabled-icon",
+        disabled: true,
+        showBadge: true,
+        badgeContent: "icon",
+        badgeIcon: "notification",
+      },
+    ],
+    selectedTabId: "none",
+    direction: "vertical",
+  },
+  render: (args) => ({
+    props: {
+      ...args,
+      change(id: string) {
+        this["selectedTabId"] = id;
+      },
+    },
+    template: `
+      <rte-tab
+        [options]="options"
+        [selectedTabId]="selectedTabId"
+        [direction]="direction"
+        [inverted]="inverted"
+        ariaLabel="Badge visibility"
+        (change)="change($event)"
+      />
+      @for (option of options; track option.id) {
+        <div
+          role="tabpanel"
+          [id]="option.panelId"
+          [attr.aria-labelledby]="option.id"
+          [hidden]="selectedTabId !== option.id"
+        >
+          Content for {{ option.label }}
+        </div>
+      }
+    `,
+  }),
+  play: async ({ canvasElement, args, step }) => {
+    const canvas = within(canvasElement);
+    const tabs = canvas.getAllByRole("tab");
+    const tabsWithBadge = ["indicator", "number", "number-auto", "icon", "icon-auto", "neutral"];
+    await expect(tabs).toHaveLength(args.options.length);
+
+    for (const tab of tabs) {
+      await step(`Badge visibility: ${tab.id}`, async () => {
+        const badge = within(tab).queryByTestId("badge");
+        if (tabsWithBadge.includes(tab.id)) {
+          await expect(badge).toBeVisible();
+          await expect(badge).toHaveClass(tab.id === "neutral" ? "type-neutral" : "type-indicator");
+        } else {
+          await expect(badge).not.toBeInTheDocument();
+        }
+      });
+    }
+
+    await expect(within(canvas.getByRole("tab", { name: "Number 5" })).getByTestId("badge")).toHaveTextContent("5");
+    await expect(
+      within(canvas.getByRole("tab", { name: "Icon" }))
+        .getByTestId("badge")
+        .querySelector("svg"),
+    ).toBeInTheDocument();
+  },
 };
 
 export const OverflowType: Story = {

@@ -1,6 +1,6 @@
 import { TextInputProps as CoreTextInputProps } from '../../../../core/components/text-input/text-input.interface';
 import { InputHTMLAttributes } from '../../../../../node_modules/react';
-interface TextInputProps extends CoreTextInputProps, Omit<InputHTMLAttributes<HTMLInputElement>, "id" | "onChange" | "value" | "defaultValue" | "placeholder"> {
+interface TextInputProps extends CoreTextInputProps, Omit<InputHTMLAttributes<HTMLInputElement>, "id" | "onChange" | "value" | "defaultValue"> {
     onChange?: (value: string) => void;
     onEnterKeyDown?: (value: string) => void;
 }

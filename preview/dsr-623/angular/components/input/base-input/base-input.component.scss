@@ -206,20 +206,31 @@
                     padding: $positive-spacing-050 $positive-spacing-200;
                     background: linear-gradient(0deg, var(--elevation-surface-inner-shadow) 0%, var(--elevation-surface-inner-shadow) 100%), var(--background-default);
                     transition: border 200ms, outline 200ms, box-shadow 200ms;
-                    color: var(--content-primary);
+                    color: var(--content-secondary);
                     @include neutral-inner-shadow;
+
+                    &[data-compact-spacing="true"] {
+                        padding: 0 $positive-spacing-200;
+                    }
 
                     &:hover {
                         border-color: var(--border-primary);
                     }
 
-                    &:focus:not(.error),
-                    &.highlighted:not(.error),
-                    &:active:not(.error) {
-                        outline: none;
+                    &:focus,
+                    &.highlighted {
+                        outline: 1px solid var(--border-brand-default);
                         border-color: var(--border-brand-default);
-                        box-shadow: inset 0 1px 4px 0 var(--elevation-shadow-key),
-                            inset 0 0 0 1px var(--border-brand-default);
+                    }
+
+                    &:focus-within {
+                        outline: 1px solid var(--border-brand-default);
+                        border-color: var(--border-brand-default);
+                    }
+
+                    &:active {
+                        outline: 1px solid var(--border-brand-default);
+                        border-color: var(--border-brand-default);
                     }
 
                     &:disabled {
@@ -230,14 +241,12 @@
                     }
 
                     &.error {
-                        outline: none;
+                        outline: 1px solid var(--border-danger);
                         border-color: var(--border-danger);
-                        box-shadow: inset 0 1px 4px 0 var(--elevation-shadow-key),
-                            inset 0 0 0 1px var(--border-danger);
                     }
 
                     &::placeholder {
-                        color: var(--content-tertiary);
+                        color: var(--content-disabled);
                     }
                 }
 
@@ -315,9 +324,9 @@
                 }
 
                 input.input-field[readonly] {
-                    border-color: var(--border-disabled);
+                    border-color: var(--border-tertiary);
                     background: linear-gradient(0deg, var(--elevation-surface-inner-shadow) 0%, var(--elevation-surface-inner-shadow) 100%), var(--background-disabled);
-                    cursor: not-allowed;
+                    cursor: default;
                     box-shadow: none;
                 }
 
@@ -358,18 +367,16 @@
 
         .assistive-text {
             display: flex;
-            align-items: flex-start;
+            align-items: center;
             gap: $positive-spacing-050;
             padding: $positive-spacing-050 $positive-spacing-100;
 
             .assistive-icon-error {
                 color: var(--content-danger-default);
-                @include assistive-text-inline-icon-alignment;
             }
 
             .assistive-icon-success {
                 color: var(--content-success-default);
-                @include assistive-text-inline-icon-alignment;
             }
 
             .assistive-label {
@@ -380,14 +387,6 @@
                     color: var(--content-danger-default);
                     @include typography-text-input-s-bold;
                     margin: $positive-spacing-0;
-                }
-
-                &.assistive-label--error-animated {
-                    animation: assistive-error-fade-in 100ms ease-in;
-
-                    @media (prefers-reduced-motion: reduce) {
-                        animation: none;
-                    }
                 }
 
                 &.success {
@@ -410,6 +409,25 @@
     color: var(--content-tertiary);
     @include typography-text-s-regular;
     margin-block: $positive-spacing-0;
+}
+
+.container:has(.input-field--projected:has([data-increment-position])) {
+    .assistive-text {
+        align-items: flex-start;
+
+        .assistive-icon-error,
+        .assistive-icon-success {
+            @include assistive-text-inline-icon-alignment;
+        }
+
+        .assistive-label--error-animated {
+            animation: assistive-error-fade-in 100ms ease-in;
+
+            @media (prefers-reduced-motion: reduce) {
+                animation: none;
+            }
+        }
+    }
 }
 
 @keyframes assistive-error-fade-in {

@@ -8,15 +8,11 @@ The default container width is `300px`. Pass `width` to override it; numeric val
 
 ### Right icon visibility
 
-The right icon is hidden when the input is `disabled` or `readOnly`. With `rightIconAction="clean"`, the icon appears only when the field contains text. With visibility actions (`"visibilityOn"` / `"visibilityOff"`), the icon is always shown when `showRightIcon` is enabled.
+The right icon is hidden when the input is `disabled` or `readOnly`. With `rightIconAction="clean"`, the icon appears only when the field contains text. With visibility actions (`"visibilityOn"` / `"visibilityOff"`), the icon is always shown.
 
 ### Error icon overrides left icon
 
 When `error` is `true`, the left icon is replaced by the error icon regardless of the `leftIcon` value.
-
-### Placeholder not supported
-
-Use `assistiveTextLabel` for hints and instructions. Placeholder content is not accessible, disappears once the user types, and conflicts with assistive text when both convey the same information.
 
 ### Reactive forms disabled state
 

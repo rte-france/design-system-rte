@@ -14,7 +14,7 @@ export class ToastDefaultComponent {
   readonly myInfoNotificationId = signal<string | null>(null);
   readonly id = input<string>("");
   readonly message = input<string>("");
-  readonly type = input<ToastType>("info");
+  readonly type = input<ToastType>();
   readonly duration = input<ToastProps["duration"]>("medium");
   readonly isOpen = input<boolean>(false);
   readonly placement = input<ToastProps["placement"]>("bottom-right");

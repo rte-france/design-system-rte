@@ -30,7 +30,10 @@
 
   <div class="input-container">
     <div class="input {{ labelPosition() }}" [ngClass]="{ disabled: disabled(), 'read-only': readOnly() }">
-      <div class="input-bar" [ngClass]="{ 'with-left-icon': displayedLeftIcon() }">
+      <div
+        class="input-bar"
+        [ngClass]="{ 'with-left-icon': displayedLeftIcon(), 'with-right-icon': shouldShowRightIcon() }"
+      >
         <ng-container *ngIf="displayedLeftIcon()">
           <rte-icon appearance="outlined" class="left-icon" aria-hidden="true" [name]="displayedLeftIcon()!" />
         </ng-container>
@@ -62,9 +65,10 @@
             [maxLength]="maxLength()"
             [disabled]="disabled()"
             [readOnly]="readOnly()"
-            [value]="displayedInputValue()"
-            [placeholder]="placeholder()"
+            [value]="disabled() ? '' : displayedInputValue()"
+            [attr.placeholder]="computedPlaceholder()"
             [attr.autocomplete]="autocomplete()"
+            [attr.data-compact-spacing]="compactSpacing()"
             (input)="handleChange($event)"
             (blur)="inputBlur.emit()"
             (keydown)="handleKeyDown($event)"

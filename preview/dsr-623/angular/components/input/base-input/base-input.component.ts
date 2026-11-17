@@ -35,17 +35,16 @@ import { RteBaseInputControlDirective } from "../rte-base-input-control.directiv
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BaseInputComponent {
-  readonly id = input<string>();
+  readonly id = input<string>("");
   readonly label = input<string>("");
   readonly labelPosition = input<"top" | "side">("top");
-  readonly placeholder = input<string>("");
+  readonly placeholder = input<string | undefined>("");
   readonly required = input<boolean>(false);
   readonly showCounter = input<boolean>(false);
   readonly value = input<string>("");
   readonly internalValue = signal<string>(this.value());
   readonly leftIcon = input<RegularIconIdKey | TogglableIconIdKey | null>(null);
 
-  readonly showRightIcon = input<boolean>(true);
   readonly rightIcon = input<RegularIconIdKey | TogglableIconIdKey | null>(null);
   readonly rightIconAriaLabel = input<string>("");
   readonly rightIconSize = input<Exclude<ButtonSize, "l">>("s");
@@ -131,6 +130,10 @@ export class BaseInputComponent {
     return `${this.width()}px`;
   });
 
+  readonly computedPlaceholder = computed(() => {
+    return !(this.disabled() || this.readOnly()) ? this.placeholder() : undefined;
+  });
+
   constructor() {
     effect(() => {
       if (this.projectedControl()) {
@@ -181,7 +184,7 @@ export class BaseInputComponent {
   protected handleRightIconClick(): void {}
 
   protected computeShouldShowRightIcon(): boolean {
-    return this.showRightIcon();
+    return this.rightIcon() !== null;
   }
 
   handleKeyDown(event: KeyboardEvent): void {
