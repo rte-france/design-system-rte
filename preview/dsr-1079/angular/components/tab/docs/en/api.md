@@ -29,3 +29,5 @@ Each entry in `options` accepts the following fields:
 | badgeIcon    | `string`                              | —            | Icon name shown when `badgeContent` is `"icon"`.                                           |
 | badgeType    | `"brand" \| "neutral" \| "indicator"` | —            | Badge visual variant.                                                                      |
 | ariaLabel    | `string`                              | —            | Accessible name for the tab. Overrides the name computed from its label or icon and badge. |
+
+On an enabled tab, the badge is rendered when `showBadge` is true, when `badgeContent` is `"number"` with a positive `badgeCount`, or when `badgeContent` is `"icon"` with a non-empty `badgeIcon`. Setting only `badgeType`, `badgeContent`, `badgeCount` or `badgeIcon` does not force display. The Badge component still applies its content validation.
