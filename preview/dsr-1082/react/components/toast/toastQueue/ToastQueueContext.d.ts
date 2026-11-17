@@ -11,6 +11,7 @@ export type ToastQueueItem = {
 export declare const ToastQueueContext: import('../../../../../../node_modules/react').Context<{
     addToQueue: (toast: InputToast) => void;
     removeFromQueue: (id: string) => void;
+    announceToast: (message: string) => () => void;
     isFirstInQueue: (id: string) => boolean;
     isInQueue: (id: string) => boolean;
     queue: ToastQueueItem[];
