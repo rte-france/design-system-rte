@@ -14,6 +14,10 @@ When a toast closes, the next queued toast appears automatically.
 
 Auto-dismiss is disabled when an action button is displayed (`actionButtonLabel` with `showActionButton` enabled). Consumers must close the toast manually via the close button or programmatically.
 
+### Required close button with an action
+
+When `showActionButton` is enabled and `actionButtonLabel` is non-empty, the close button remains visible even if `closable` is `false`, and a console warning is emitted.
+
 ### Timer pause on hover
 
 When auto-dismiss is active, hovering the toast pauses the dismiss timer. The timer resumes when the pointer leaves the toast.

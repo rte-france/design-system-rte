@@ -15,6 +15,7 @@ import { TextInputComponent } from "@design-system-rte/angular";
       label="Label"
       labelPosition="top"
       [maxLength]="150"
+      placeholder="Add text"
       width="300px"
       [value]="value"
       (valueChange)="value = $event"
@@ -68,6 +69,17 @@ Sets container width. Values below the minimum input width (`48px`) are clamped.
 ```
 
 Places the label above (`"top"`) or beside (`"side"`) the input.
+
+#### Compact spacing
+
+```html
+<rte-text-input
+  id="text-input-placeholder"
+  label="Label"
+  placeholder="Add text"
+  [compactSpacing]="true"
+></rte-text-input>
+```
 
 #### Required indicator
 

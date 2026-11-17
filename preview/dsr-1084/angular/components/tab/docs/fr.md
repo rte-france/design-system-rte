@@ -168,7 +168,9 @@ Lorsque `overflowType` vaut `"dropdown"`, la liste est remplacée par un menu d�
 
 ### Affichage du badge
 
-Sans `showBadge`, un badge n'apparaît que si `badgeCount` est supérieur à 0 avec `badgeContent: "number"`, ou si `badgeContent` vaut `"icon"` et `badgeIcon` est renseigné.
+Un onglet désactivé n'affiche jamais de badge, même si `showBadge` vaut `true`.
+
+Sur un onglet non désactivé, le badge est rendu si `showBadge` vaut `true`, si `badgeCount` est supérieur à 0 avec `badgeContent: "number"`, ou si `badgeContent` vaut `"icon"` et `badgeIcon` est renseigné. Définir uniquement `badgeType`, `badgeContent`, `badgeCount` ou `badgeIcon` ne force pas l'affichage.
 
 ### aria-label fixe sur la liste d'onglets
 

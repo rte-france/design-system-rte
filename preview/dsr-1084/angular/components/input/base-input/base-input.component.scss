@@ -203,8 +203,12 @@
                     padding: $positive-spacing-050 $positive-spacing-200;
                     background: linear-gradient(0deg, var(--elevation-surface-inner-shadow) 0%, var(--elevation-surface-inner-shadow) 100%), var(--background-default);
                     transition: border 200ms, outline 200ms, box-shadow 200ms;
-                    color: var(--content-primary);
+                    color: var(--content-secondary);
                     @include neutral-inner-shadow;
+
+                    &[data-compact-spacing="true"] {
+                        padding: 0 $positive-spacing-200;
+                    }
 
                     &:hover {
                         border-color: var(--border-primary);
@@ -239,7 +243,7 @@
                     }
 
                     &::placeholder {
-                        color: var(--content-tertiary);
+                        color: var(--content-disabled);
                     }
 
                     &.input-field--projected {
@@ -293,9 +297,9 @@
                 }
 
                 input.input-field[readonly] {
-                    border-color: var(--border-disabled);
+                    border-color: var(--border-tertiary);
                     background: linear-gradient(0deg, var(--elevation-surface-inner-shadow) 0%, var(--elevation-surface-inner-shadow) 100%), var(--background-disabled);
-                    cursor: not-allowed;
+                    cursor: default;
                     box-shadow: none;
                 }
 

@@ -16,5 +16,6 @@ declare const useTimePickerInternalValue: (value?: TimeFormat, incrementConfig?:
     decreaseMinutes: () => void;
     increaseHours: () => void;
     decreaseHours: () => void;
+    resetValue: () => void;
 };
 export default useTimePickerInternalValue;
