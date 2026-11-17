@@ -1,7 +1,6 @@
 <rte-base-input
   [id]="id()"
   [useLabelForAttribute]="true"
-  [showRightIcon]="false"
   [showErrorLeftIcon]="false"
   [label]="displayedLabel()"
   [labelPosition]="labelPosition()"
@@ -31,7 +30,9 @@
       <rte-icon-button
         class="number-input-stepper number-input-stepper--decrement"
         name="remove"
-        appearance="filled"
+        iconAppearance="filled"
+        [appearance]="appearance() === 'neutral' ? 'neutral' : 'filled'"
+        [hierarchy]="appearance() === 'neutral' ? 'primary' : undefined"
         [ariaHidden]="true"
         [size]="stepperSize()"
         [variant]="stepperVariant()"
@@ -89,7 +90,9 @@
       <rte-icon-button
         class="number-input-stepper number-input-stepper--increment"
         name="add"
-        appearance="filled"
+        iconAppearance="filled"
+        [appearance]="appearance() === 'neutral' ? 'neutral' : 'filled'"
+        [hierarchy]="appearance() === 'neutral' ? 'primary' : undefined"
         [ariaHidden]="true"
         [size]="stepperSize()"
         [variant]="stepperVariant()"
@@ -103,7 +106,9 @@
         <rte-icon-button
           class="number-input-stepper number-input-stepper--decrement"
           name="remove"
-          appearance="filled"
+          iconAppearance="filled"
+          [appearance]="appearance() === 'neutral' ? 'neutral' : 'filled'"
+          [hierarchy]="appearance() === 'neutral' ? 'primary' : undefined"
           [ariaHidden]="true"
           [size]="stepperSize()"
           [variant]="stepperVariant()"
@@ -115,7 +120,9 @@
         <rte-icon-button
           class="number-input-stepper number-input-stepper--increment"
           name="add"
-          appearance="filled"
+          iconAppearance="filled"
+          [appearance]="appearance() === 'neutral' ? 'neutral' : 'filled'"
+          [hierarchy]="appearance() === 'neutral' ? 'primary' : undefined"
           [ariaHidden]="true"
           [size]="stepperSize()"
           [variant]="stepperVariant()"

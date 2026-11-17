@@ -17,6 +17,7 @@
     [attr.aria-haspopup]="ariaHaspopup()"
     [attr.tabindex]="tabIndex() !== undefined ? tabIndex() : null"
     [attr.aria-disabled]="!!ariaDisabled() || null"
+    [attr.aria-hidden]="!!ariaHidden() || null"
     [type]="type()"
     [rteBadgeType]="badgeType() ?? 'brand'"
     [rteBadgeSize]="size()"

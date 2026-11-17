@@ -124,10 +124,6 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
     });
 
     const stepperSize: Exclude<ButtonSize, "l"> = compactSpacing ? "s" : "m";
-    const stepperButtonProps =
-      appearance === "brand"
-        ? { variant: "primary" as const, appearance: "filled" as const }
-        : { appearance: "neutral" as const, hierarchy: "primary" as const, iconAppearance: "filled" as const };
     const labelId = hasVisibleLabel ? `input-label-${id}` : undefined;
     const computedAssistiveAppearance = showErrorState ? "error" : assistiveAppearance;
     const showAssistiveIconResolved = showErrorState || showAssistiveIcon;
@@ -153,7 +149,9 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
       <span className={concatClassNames(styles.numberInputStepper, `number-input-stepper--${stepperType}`)}>
         <IconButton
           name={options.name}
-          {...stepperButtonProps}
+          appearance={appearance}
+          hierarchy="primary"
+          iconAppearance="filled"
           size={stepperSize}
           compactSpacing={compactSpacing}
           disabled={options.disabled}

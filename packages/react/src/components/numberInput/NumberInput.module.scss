@@ -200,6 +200,9 @@
     display: inline-flex;
 
     button {
+        box-sizing: border-box;
+        width: 32px;
+        height: 32px;
         min-width: 24px;
         min-height: 24px;
         justify-content: center;
@@ -208,6 +211,7 @@
 
 .container:not([data-compact-spacing="true"]) {
     .numberInputStepper button {
+        width: 32px;
         height: 32px;
     }
 }

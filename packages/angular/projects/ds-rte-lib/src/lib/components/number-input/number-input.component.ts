@@ -65,6 +65,7 @@ import { RteBaseInputControlDirective } from "../input/rte-base-input-control.di
   styleUrl: "./number-input.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
+    "[attr.id]": "null",
     "[attr.data-compact-spacing]": "compactSpacing()",
   },
   providers: [
@@ -76,7 +77,7 @@ import { RteBaseInputControlDirective } from "../input/rte-base-input-control.di
   ],
 })
 export class NumberInputComponent extends BaseInputComponent implements ControlValueAccessor, AfterViewInit, OnInit {
-  override readonly id = input<string>();
+  override readonly id = input.required<string>();
   override readonly label = input<string>("Label");
   override readonly width = input<string>("184px");
 
@@ -298,6 +299,8 @@ export class NumberInputComponent extends BaseInputComponent implements ControlV
     const fallback = this.defaultValue();
     if (blurAction === "restoreDefault" && fallback !== undefined) {
       this.applyNumericValue(fallback, { emitChange: true });
+    } else if (this.displayText().trim() !== "") {
+      this.applyNumericValue(this.parsedValue(), { emitChange: false });
     } else if (blurAction === "emitParsed") {
       this.emitValueChange();
     }

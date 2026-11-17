@@ -35,7 +35,7 @@ import { RteBaseInputControlDirective } from "../rte-base-input-control.directiv
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BaseInputComponent {
-  readonly id = input<string>();
+  readonly id = input<string>("");
   readonly label = input<string>("");
   readonly labelPosition = input<"top" | "side">("top");
   readonly placeholder = input<string | undefined>("");

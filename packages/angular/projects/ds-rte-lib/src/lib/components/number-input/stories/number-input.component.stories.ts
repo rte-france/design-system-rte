@@ -32,7 +32,6 @@ const meta: Meta<NumberInputComponent> = {
     leftIcon: { table: { disable: true } },
     rightIcon: { table: { disable: true } },
     inputType: { table: { disable: true } },
-    showRightIcon: { table: { disable: true } },
     rightIconAriaLabel: { table: { disable: true } },
     rightIconSize: { table: { disable: true } },
     enterKeyDown: { table: { disable: true } },
@@ -223,6 +222,12 @@ export const InteractionPlay: Story = {
     await waitFor(() => expect(canvas.getByText("La valeur doit être comprise entre 0 et 100.")).toBeInTheDocument());
     expect(input).toHaveAttribute("aria-describedby", "number-input-play-assistive-text");
 
+    await userEvent.clear(input);
+    await userEvent.type(input, "1.2");
+    await userEvent.tab();
+    await waitFor(() => expect(input.value).toBe("1,20"));
+
+    await userEvent.click(input);
     await userEvent.clear(input);
     await userEvent.tab();
     await waitFor(() => expect(input.value).toBe("10,00"));
