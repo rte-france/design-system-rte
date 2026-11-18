@@ -585,7 +585,7 @@ export const OverflowType: Story = {
 };
 
 export const OverflowTypeInteraction: Story = {
-  tags: ["!autodocs", "tab-dropdown-interaction"],
+  tags: ["!autodocs"],
   args: OverflowType.args,
   render: OverflowType.render,
   play: async ({ canvasElement }) => {
