@@ -843,8 +843,8 @@ const accessibleNameValidationCases = [
     title: "icon without label",
     expectedAriaLabel: "view-column",
     options: [
-      { id: "ref", panelId: "ref-panel", icon: "view-agenda" },
-      { id: "target", panelId: "target-panel", icon: "view-column" },
+      { id: "ref", panelId: "ref-panel", icon: "view-agenda", ariaLabel: "view-agenda" },
+      { id: "target", panelId: "target-panel", icon: "view-column", ariaLabel: "view-column" },
     ],
   },
   {
@@ -852,11 +852,12 @@ const accessibleNameValidationCases = [
     title: "icon + badgeCount",
     expectedAriaLabel: "view-column. Notifications, 3",
     options: [
-      { id: "ref", panelId: "ref-panel", icon: "view-agenda" },
+      { id: "ref", panelId: "ref-panel", icon: "view-agenda", ariaLabel: "view-agenda" },
       {
         id: "target",
         panelId: "target-panel",
         icon: "view-column",
+        ariaLabel: "view-column",
         showBadge: true,
         badgeContent: "number",
         badgeCount: 3,
@@ -869,11 +870,12 @@ const accessibleNameValidationCases = [
     title: "icon + badgeIcon",
     expectedAriaLabel: "view-grid. Notification",
     options: [
-      { id: "ref", panelId: "ref-panel", icon: "view-agenda" },
+      { id: "ref", panelId: "ref-panel", icon: "view-agenda", ariaLabel: "view-agenda" },
       {
         id: "target",
         panelId: "target-panel",
         icon: "view-grid",
+        ariaLabel: "view-grid",
         showBadge: true,
         badgeContent: "icon",
         badgeIcon: "notification",
