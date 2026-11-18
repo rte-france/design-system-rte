@@ -26,18 +26,19 @@ Le composant `rte-tab` constitue l'API publique. Passez les définitions d'ongle
 
 Chaque entrée de `options` accepte les champs suivants :
 
-| Property     | Type      | Default    | Description                                                                       |
-| ------------ | --------- | ---------- | --------------------------------------------------------------------------------- |
-| id           | `string`  | — (requis) | Identifiant unique de l'onglet. Utilisé comme valeur de l'événement `change`.     |
-| panelId      | `string`  | — (requis) | Id du panneau associé, défini comme `aria-controls` sur le bouton d'onglet.       |
-| label        | `string`  | —          | Libellé visible de l'onglet.                                                      |
-| icon         | `string`  | —          | Nom de l'icône affichée avant le libellé.                                         |
-| disabled     | `boolean` | `false`    | Désactive l'onglet. Ignoré lors de la navigation au clavier.                      |
-| showBadge    | `boolean` | —          | Affiche le badge même si les critères de compteur ou d'icône ne sont pas remplis. |
-| badgeCount   | `number`  | —          | Valeur numérique affichée lorsque `badgeContent` vaut `"number"`.                 |
-| badgeContent | `"number" | "icon"     | "empty"`                                                                          | —   | `"number"` affiche un compteur ; `"icon"` affiche `badgeIcon` ; `"empty"` affiche un point indicateur. |
-| badgeIcon    | `string`  | —          | Nom de l'icône affichée lorsque `badgeContent` vaut `"icon"`.                     |
-| badgeType    | `"brand"  | "neutral"  | "indicator"`                                                                      | —   | Variante visuelle du badge.                                                                            |
+| Property     | Type      | Default    | Description                                                                                        |
+| ------------ | --------- | ---------- | -------------------------------------------------------------------------------------------------- |
+| id           | `string`  | — (requis) | Identifiant unique de l'onglet. Utilisé comme valeur de l'événement `change`.                      |
+| panelId      | `string`  | — (requis) | Id du panneau associé, défini comme `aria-controls` sur le bouton d'onglet.                        |
+| label        | `string`  | —          | Libellé visible de l'onglet.                                                                       |
+| icon         | `string`  | —          | Nom de l'icône affichée avant le libellé.                                                          |
+| disabled     | `boolean` | `false`    | Désactive l'onglet. Ignoré lors de la navigation au clavier.                                       |
+| showBadge    | `boolean` | —          | Affiche le badge même si les critères de compteur ou d'icône ne sont pas remplis.                  |
+| badgeCount   | `number`  | —          | Valeur numérique affichée lorsque `badgeContent` vaut `"number"`.                                  |
+| badgeContent | `"number" | "icon"     | "empty"`                                                                                           | —   | `"number"` affiche un compteur ; `"icon"` affiche `badgeIcon` ; `"empty"` affiche un point indicateur. |
+| badgeIcon    | `string`  | —          | Nom de l'icône affichée lorsque `badgeContent` vaut `"icon"`.                                      |
+| badgeType    | `"brand"  | "neutral"  | "indicator"`                                                                                       | —   | Variante visuelle du badge.                                                                            |
+| ariaLabel    | `string`  | —          | Nom accessible de l'onglet. Remplace le nom calculé à partir du libellé ou de l'icône et du badge. |
 
 ## Usage
 

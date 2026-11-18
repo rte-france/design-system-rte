@@ -460,9 +460,9 @@ export const BadgeVisibility: Story = {
       });
     }
 
-    await expect(within(canvas.getByRole("tab", { name: "Number 5" })).getByTestId("badge")).toHaveTextContent("5");
+    await expect(within(canvas.getByRole("tab", { name: "Number, 5" })).getByTestId("badge")).toHaveTextContent("5");
     await expect(
-      within(canvas.getByRole("tab", { name: "Icon" }))
+      within(canvas.getByRole("tab", { name: "Icon. Notification" }))
         .getByTestId("badge")
         .querySelector("svg"),
     ).toBeInTheDocument();
@@ -1017,6 +1017,158 @@ export const SelectionFallbackOnInputChanges: Story = {
       await userEvent.click(canvas.getByRole("button", { name: "Empty tabs" }));
       await expect(canvas.queryAllByRole("tab")).toHaveLength(0);
       await expect(args.change).toHaveBeenCalledTimes(3);
+    });
+  },
+};
+
+const accessibleNameValidationCases = [
+  {
+    id: "label",
+    title: "label only",
+    expectedAriaLabel: "Libellé seul",
+    options: [
+      { id: "ref", panelId: "ref-panel", label: "Référence" },
+      { id: "target", panelId: "target-panel", label: "Libellé seul" },
+    ],
+  },
+  {
+    id: "ariaLabel",
+    title: "ariaLabel override",
+    expectedAriaLabel: "3 nouvelles alertes",
+    options: [
+      { id: "ref", panelId: "ref-panel", label: "Référence" },
+      {
+        id: "target",
+        panelId: "target-panel",
+        label: "Visible (ignoré SR)",
+        ariaLabel: "3 nouvelles alertes",
+      },
+    ],
+  },
+  {
+    id: "labelNumberBadge",
+    title: "label + number badge",
+    expectedAriaLabel: "Alertes, 3",
+    options: [
+      { id: "ref", panelId: "ref-panel", label: "Référence" },
+      {
+        id: "target",
+        panelId: "target-panel",
+        label: "Alertes",
+        badgeContent: "number",
+        badgeCount: 3,
+        badgeType: "indicator",
+      },
+    ],
+  },
+  {
+    id: "labelEmptyBadge",
+    title: "label + empty badge",
+    expectedAriaLabel: "Favoris. Notification",
+    options: [
+      { id: "ref", panelId: "ref-panel", label: "Référence" },
+      {
+        id: "target",
+        panelId: "target-panel",
+        label: "Favoris",
+        showBadge: true,
+        badgeContent: "empty",
+        badgeType: "indicator",
+      },
+    ],
+  },
+  {
+    id: "iconOnly",
+    title: "icon without label",
+    expectedAriaLabel: "view-column",
+    options: [
+      { id: "ref", panelId: "ref-panel", icon: "view-agenda", ariaLabel: "view-agenda" },
+      { id: "target", panelId: "target-panel", icon: "view-column", ariaLabel: "view-column" },
+    ],
+  },
+  {
+    id: "iconNumberBadge",
+    title: "icon + badgeCount",
+    expectedAriaLabel: "view-column. Notifications, 3",
+    options: [
+      { id: "ref", panelId: "ref-panel", icon: "view-agenda", ariaLabel: "view-agenda" },
+      {
+        id: "target",
+        panelId: "target-panel",
+        icon: "view-column",
+        ariaLabel: "view-column",
+        badgeContent: "number",
+        badgeCount: 3,
+        badgeType: "indicator",
+      },
+    ],
+  },
+  {
+    id: "iconBadgeIcon",
+    title: "icon + badgeIcon",
+    expectedAriaLabel: "view-grid. Notification",
+    options: [
+      { id: "ref", panelId: "ref-panel", icon: "view-agenda", ariaLabel: "view-agenda" },
+      {
+        id: "target",
+        panelId: "target-panel",
+        icon: "view-grid",
+        ariaLabel: "view-grid",
+        badgeContent: "icon",
+        badgeIcon: "notification",
+        badgeType: "indicator",
+      },
+    ],
+  },
+];
+
+export const AccessibleNameValidation: Story = {
+  tags: ["!autodocs"],
+  render: () => ({
+    props: {
+      cases: accessibleNameValidationCases,
+      selectedByCase: Object.fromEntries(
+        accessibleNameValidationCases.map((validationCase) => [validationCase.id, "ref"]),
+      ),
+      onCaseChange(caseId: string, tabId: string) {
+        this["selectedByCase"] = { ...this["selectedByCase"], [caseId]: tabId };
+      },
+    },
+    template: `
+      <div
+        data-testid="accessible-name-validation"
+        style="display: flex; flex-direction: column; gap: 28px; max-width: 420px; padding: 8px;"
+      >
+        <p style="margin: 0; font-size: 14px;">
+          Focus the <strong>second tab</strong> of each list. Compare its <code>aria-label</code> with the expected
+          value below.
+        </p>
+        @for (validationCase of cases; track validationCase.id) {
+          <section [attr.aria-labelledby]="'case-' + validationCase.id + '-title'">
+            <h3 [id]="'case-' + validationCase.id + '-title'" style="margin: 0 0 4px; font-size: 16px;">
+              {{ validationCase.title }}
+            </h3>
+            <p style="margin: 0 0 8px; font-size: 13px; color: #555;">
+              Expected 2nd tab: <code>{{ validationCase.expectedAriaLabel }}</code>
+            </p>
+            <rte-tab
+              [options]="validationCase.options"
+              [selectedTabId]="selectedByCase[validationCase.id]"
+              [ariaLabel]="validationCase.title"
+              (change)="onCaseChange(validationCase.id, $event)"
+            />
+          </section>
+        }
+      </div>
+    `,
+  }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const sections = canvas.getByTestId("accessible-name-validation").querySelectorAll("section");
+
+    accessibleNameValidationCases.forEach((validationCase, index) => {
+      const tabs = Array.from(sections[index].querySelectorAll("[role='tab']"));
+      expect(tabs[1]).toHaveAttribute("aria-label", validationCase.expectedAriaLabel);
     });
   },
 };
