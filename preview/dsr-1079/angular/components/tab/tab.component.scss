@@ -84,6 +84,13 @@
   }
 }
 
+.rte-tab-dropdown-layout,
+.rte-tab-dropdown-tablist {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
 .rte-tab-border-horizontal {
   background-color: var(--background-neutral-regular-default);
   position: relative;

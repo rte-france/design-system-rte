@@ -13,6 +13,7 @@ import {
   effect,
 } from "@angular/core";
 import { getSegmentAriaLabel, logError } from "@design-system-rte/core";
+import { shouldDisplayBadge } from "@design-system-rte/core/components/badge/badge.utils";
 import { TabItemProps } from "@design-system-rte/core/components/tab/tab.interface";
 
 import { BadgeComponent } from "../../badge/badge.component";
@@ -45,7 +46,10 @@ export class TabItemComponent implements AfterViewInit, OnDestroy {
       ariaLabel: option.ariaLabel,
       labelText: option.label,
       icon: option.icon,
-      showBadge: option.showBadge,
+      showBadge:
+        option.showBadge ||
+        (option.badgeContent === "number" && option.badgeCount !== undefined && option.badgeCount > 0) ||
+        (option.badgeContent === "icon" && !!option.badgeIcon),
       badgeCount: option.badgeCount,
       badgeContent: option.badgeContent || "empty",
       badgeIcon: option.badgeIcon,
@@ -61,9 +65,20 @@ export class TabItemComponent implements AfterViewInit, OnDestroy {
   } | null>(null);
 
   readonly displayBadge = (option: TabItemProps): boolean => {
-    const hasNumberBadge = option.badgeContent === "number" && option.badgeCount !== undefined && option.badgeCount > 0;
-    const hasIconBadge = option.badgeContent === "icon" && !!option.badgeIcon;
-    return !option.disabled && (!!option.showBadge || hasNumberBadge || hasIconBadge);
+    const badgeIsDisplayed =
+      !!option.showBadge ||
+      (option.badgeContent === "number" && option.badgeCount !== undefined && option.badgeCount > 0) ||
+      (option.badgeContent === "icon" && !!option.badgeIcon);
+
+    return (
+      !option.disabled &&
+      shouldDisplayBadge({
+        showBadge: badgeIsDisplayed,
+        badgeContent: option.badgeContent || "empty",
+        badgeCount: option.badgeCount,
+        badgeIcon: option.badgeIcon,
+      })
+    );
   };
 
   readonly hoverIndicatorWidth = computed(() => {
