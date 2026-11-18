@@ -558,6 +558,7 @@ export const OverflowType: Story = {
           [alignment]="alignment"
           [compactSpacing]="compactSpacing"
           [overflowType]="'dropdown'"
+          ariaLabel="Dropdown tabs"
           [inverted]="inverted"
         />
         <div style="height: 100px; border: 1px solid #ccc; padding: 8px; marginTop: 16px">
@@ -581,6 +582,62 @@ export const OverflowType: Story = {
     </div>
     `,
   }),
+};
+
+export const OverflowTypeInteraction: Story = {
+  tags: ["!autodocs", "tab-dropdown-interaction"],
+  args: OverflowType.args,
+  render: OverflowType.render,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const page = within(canvasElement.ownerDocument.body);
+    const tabList = within(canvas.getByRole("tablist", { name: "Dropdown tabs" }));
+    const selectedTab = await tabList.findByRole("tab", {
+      name: "First Tab very long and descriptive",
+      selected: true,
+    });
+    const dropdownButton = await canvas.findByRole("button", { name: "Afficher les autres onglets" });
+    const expectChevronAlignment = async () => {
+      const selectedTab = tabList.getByRole("tab", { selected: true });
+      const tabBounds = selectedTab.getBoundingClientRect();
+      const buttonBounds = dropdownButton.getBoundingClientRect();
+
+      await expect(buttonBounds.left - tabBounds.right).toBeCloseTo(
+        parseFloat(getComputedStyle(selectedTab).marginRight),
+        1,
+      );
+      await expect(buttonBounds.top + buttonBounds.height / 2).toBeCloseTo(tabBounds.top + tabBounds.height / 2, 1);
+    };
+
+    await expect(selectedTab.querySelector("button")).toBeNull();
+    await expect(tabList.queryByRole("button", { name: "Afficher les autres onglets" })).toBeNull();
+    await expectChevronAlignment();
+    await expect(dropdownButton).toHaveAttribute("aria-haspopup", "true");
+    await expect(dropdownButton).toHaveAttribute("aria-expanded", "false");
+
+    await userEvent.click(selectedTab);
+    await expect(dropdownButton).toHaveAttribute("aria-expanded", "false");
+    await userEvent.click(dropdownButton);
+    await waitFor(() => expect(dropdownButton).toHaveAttribute("aria-expanded", "true"));
+    await waitFor(() => expect(canvasElement.ownerDocument.activeElement?.closest('[role="menu"]')).not.toBeNull());
+    await userEvent.keyboard("{Escape}");
+    await waitFor(() => expect(dropdownButton).toHaveAttribute("aria-expanded", "false"));
+    await waitFor(() => expect(dropdownButton).toHaveFocus());
+
+    await userEvent.keyboard("{Enter}");
+    await waitFor(() => expect(dropdownButton).toHaveAttribute("aria-expanded", "true"));
+    await waitFor(() => expect(canvasElement.ownerDocument.activeElement?.closest('[role="menu"]')).not.toBeNull());
+    await userEvent.keyboard("{Escape}");
+    await waitFor(() => expect(dropdownButton).toHaveAttribute("aria-expanded", "false"));
+    await waitFor(() => expect(dropdownButton).toHaveFocus());
+
+    await userEvent.keyboard("{Enter}");
+    await userEvent.click(await page.findByRole("menuitem", { name: "Second Tab 5" }));
+    await waitFor(() => expect(page.queryByRole("menu")).not.toBeInTheDocument());
+    await expect(tabList.getByRole("tab", { name: "Second Tab", selected: true })).toBeVisible();
+    await waitFor(() => expect(dropdownButton).toHaveFocus());
+    await expectChevronAlignment();
+  },
 };
 
 export const KeyboardInteraction: Story = {

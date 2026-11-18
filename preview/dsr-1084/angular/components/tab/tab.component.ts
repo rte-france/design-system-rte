@@ -76,6 +76,7 @@ export class TabComponent implements AfterViewInit, OnChanges, OnDestroy {
 
   readonly change = output<string>();
 
+  readonly isDropdownOpen = signal(false);
   readonly isScrollable = signal(false);
   private readonly isOverflowingLeft = signal(false);
   private readonly isOverflowingRight = signal(false);
@@ -121,7 +122,7 @@ export class TabComponent implements AfterViewInit, OnChanges, OnDestroy {
 
   readonly tabItemSelectedIndicatorStyle = computed(() => ({
     left: `${this.shouldDisplayDropdown() ? 0 : this.sliderLeft()}px`,
-    top: `${this.sliderTop()}px`,
+    top: `${this.direction() === "horizontal" ? undefined : this.sliderTop()}px`,
     width: `${this.sliderWidth() + (this.shouldDisplayDropdown() ? 32 : 0)}px`,
     height: `${this.sliderHeight()}px`,
   }));
@@ -202,6 +203,15 @@ export class TabComponent implements AfterViewInit, OnChanges, OnDestroy {
         }
       }
     }
+  };
+
+  onDropdownClosed = () => {
+    this.isDropdownOpen.set(false);
+    setTimeout(() => {
+      this.containerRef()
+        ?.nativeElement.querySelector<HTMLButtonElement>('[aria-label="Afficher les autres onglets"]')
+        ?.focus({ preventScroll: true });
+    });
   };
 
   scrollBackward() {
