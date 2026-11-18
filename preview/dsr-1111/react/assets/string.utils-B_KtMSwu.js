@@ -1,1 +1,0 @@
-const r=t=>{const e=a(t);return s(e)},c=t=>{const{fontWeight:e,fontSize:n,fontFamily:o}=window.getComputedStyle(t);return`${e} ${n} ${o}`},s=t=>e=>t.measureText(e).width,a=t=>{const n=document.createElement("canvas").getContext("2d");return n.font=c(t),n},i=t=>t.charAt(0).toUpperCase()+t.slice(1);export{i as c,r as g};
