@@ -65,7 +65,7 @@ const IconButtonGroupItem = ({
           data-is-all-disabled={isAllDisabled}
           onClick={handleOnClick}
         >
-          <Icon name={iconName} size={isCompact ? 20 : 24} />
+          <Icon name={iconName} size={isCompact ? 20 : 24} appearance={isIconActive ? "filled" : "outlined"} />
         </button>
       </Tooltip>
     </>
