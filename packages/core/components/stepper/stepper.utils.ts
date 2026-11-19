@@ -1,30 +1,25 @@
 import { FOCUSABLE_ELEMENTS_QUERY } from "@design-system-rte/core/constants/dom/dom.constants";
 
-export const focusNextStepElement = (currentFocusSteppedIndex: number, allSteps: HTMLElement[]) => {
-  let nextIndex = currentFocusSteppedIndex === allSteps.length - 1 ? 0 : currentFocusSteppedIndex + 1;
+const focusStepElement = (currentFocusSteppedIndex: number, allSteps: HTMLElement[], direction: 1 | -1) => {
+  let nextIndex = currentFocusSteppedIndex;
 
-  while (allSteps[nextIndex]?.getAttribute("aria-disabled") === "true") {
-    if (nextIndex === allSteps.length - 1) {
-      nextIndex = 0;
-    } else {
-      nextIndex++;
+  for (let visitedSteps = 0; visitedSteps < allSteps.length; visitedSteps++) {
+    nextIndex = (nextIndex + direction + allSteps.length) % allSteps.length;
+    const step = allSteps[nextIndex];
+
+    if (!step.matches(":disabled") && step.getAttribute("aria-disabled") !== "true") {
+      step.focus();
+      return;
     }
   }
-  (allSteps[nextIndex] as HTMLElement).focus();
+};
+
+export const focusNextStepElement = (currentFocusSteppedIndex: number, allSteps: HTMLElement[]) => {
+  focusStepElement(currentFocusSteppedIndex, allSteps, 1);
 };
 
 export const focusPreviousStepElement = (currentFocusSteppedIndex: number, allSteps: HTMLElement[]) => {
-  let previousIndex = currentFocusSteppedIndex === 0 ? allSteps.length - 1 : currentFocusSteppedIndex - 1;
-
-  while (allSteps[previousIndex]?.getAttribute("aria-disabled") === "true") {
-    if (previousIndex === 0) {
-      previousIndex = allSteps.length - 1;
-    } else {
-      previousIndex--;
-    }
-  }
-
-  (allSteps[previousIndex] as HTMLElement).focus();
+  focusStepElement(currentFocusSteppedIndex, allSteps, -1);
 };
 
 export const focusNextNotStepElement = (classCriteria: string, parent: HTMLElement) => {
