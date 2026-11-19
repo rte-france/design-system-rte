@@ -1,3 +1,4 @@
+import { COMPLETION_STATES } from "@design-system-rte/core";
 import { IconSize } from "@design-system-rte/core/components/icon/icon.constants";
 import { StepperItemProps as coreStepperItemProps } from "@design-system-rte/core/components/stepper/stepper.interface";
 import { isStepClickable } from "@design-system-rte/core/components/stepper/stepper.utils";
@@ -10,6 +11,7 @@ import styles from "./StepperItem.module.scss";
 export interface StepperItemProps
   extends coreStepperItemProps, Omit<React.HTMLAttributes<HTMLLIElement>, "onClick" | "id"> {
   onClick?: () => void;
+  totalSteps: number;
 }
 
 const StepperItem = ({
@@ -21,6 +23,7 @@ const StepperItem = ({
   clickableCompleteStep = false,
   isActive,
   children,
+  totalSteps,
   ...props
 }: StepperItemProps) => {
   const ref = useRef<HTMLLIElement>(null);
@@ -29,12 +32,13 @@ const StepperItem = ({
 
   const focusable = clickable || isActive;
 
+  const currentCompletionStep = COMPLETION_STATES[completionState];
+
   const handleOnClick = () => {
     if (clickable && !isActive && onClick) {
       onClick();
     }
   };
-
   return (
     <li
       className={styles.stepperItem}
@@ -53,16 +57,20 @@ const StepperItem = ({
         disabled={!focusable}
         tabIndex={isActive ? 0 : -1}
       >
+        <span className={styles["sr-only"]}>
+          Étape {number} sur {totalSteps},{" "}
+        </span>
         {completionState === "complete" && !isActive ? (
           <div className={styles.stepCompleteIndicator}>
             <Icon name="check" size={IconSize["m"]} aria-hidden="true" />
           </div>
         ) : (
-          <div className={styles.stepNumber} data-completion-state={completionState}>
+          <div className={styles.stepNumber} data-completion-state={completionState} aria-hidden="true">
             <span>{number}</span>
           </div>
         )}
         <span className={styles.stepName}>{name}</span>
+        {currentCompletionStep && <span className={styles["sr-only"]}>, {currentCompletionStep}</span>}
       </button>
       {children}
     </li>

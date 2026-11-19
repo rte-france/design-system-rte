@@ -161,7 +161,6 @@ export const NonLinearProgression: Story = {
 
   render: (args) => {
     const [activeStepId, setActiveStepId] = useState<string>(args.activeStepId!);
-
     const steps = args.steps.map((step) => ({
       ...step,
       onClick: () => setActiveStepId(step.id),
@@ -181,6 +180,30 @@ export const NonLinearProgression: Story = {
         </div>
       </div>
     );
+  },
+
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const completeStep = canvas.getByRole("button", {
+      name: /^Étape 1 sur 4, Étape 1\s*, terminée$/,
+    });
+    const incompleteStep = canvas.getByRole("button", {
+      name: /^Étape 2 sur 4, Étape 2\s*, partiellement complétée$/,
+    });
+    const unvisitedStep = canvas.getByRole("button", { name: "Étape 3 sur 4, Étape 3" });
+
+    await userEvent.click(completeStep);
+    expect(completeStep).toHaveAttribute("aria-current", "step");
+    expect(completeStep).toHaveAccessibleName(/^Étape 1 sur 4, Étape 1\s*, terminée$/);
+
+    await userEvent.click(incompleteStep);
+    expect(incompleteStep).toHaveAttribute("aria-current", "step");
+    expect(incompleteStep).toHaveAccessibleName(/^Étape 2 sur 4, Étape 2\s*, partiellement complétée$/);
+
+    await userEvent.click(unvisitedStep);
+    expect(unvisitedStep).toHaveAttribute("aria-current", "step");
+    expect(unvisitedStep).toHaveAccessibleName("Étape 3 sur 4, Étape 3");
+    expect(completeStep.querySelector("svg")).toHaveAttribute("aria-hidden", "true");
   },
 };
 
@@ -307,5 +330,9 @@ export const KeyboardNavigation: Story = {
     expect(allSteps[allSteps.length - 1]).toHaveFocus();
     await userEvent.keyboard(TESTING_ARROW_RIGHT_KEY);
     expect(allSteps[0]).toHaveFocus();
+
+    await userEvent.click(allSteps[0]);
+    expect(allSteps[0]).toHaveAttribute("aria-current", "step");
+    expect(allSteps[0]).toHaveAccessibleName(/^Étape 1 sur 7, Étape 1\s*, terminée$/);
   },
 };

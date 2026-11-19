@@ -10,7 +10,10 @@ import {
   inject,
 } from "@angular/core";
 import { IconSize } from "@design-system-rte/core/components/icon/icon.constants";
-import { STEPPER_DEFAULT_NAV_ARIA_LABEL } from "@design-system-rte/core/components/stepper/stepper.constants";
+import {
+  COMPLETION_STATES,
+  STEPPER_DEFAULT_NAV_ARIA_LABEL,
+} from "@design-system-rte/core/components/stepper/stepper.constants";
 import { StepperProps } from "@design-system-rte/core/components/stepper/stepper.interface";
 import {
   focusNextNotStepElement,
@@ -45,6 +48,7 @@ export class StepperComponent implements AfterViewInit, OnDestroy {
   readonly ariaLabel = input<string>(STEPPER_DEFAULT_NAV_ARIA_LABEL);
 
   readonly iconSize = IconSize;
+  readonly completionState = COMPLETION_STATES;
 
   private readonly stepperRef = inject(ElementRef);
 

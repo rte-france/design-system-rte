@@ -113,6 +113,7 @@ const Stepper = forwardRef<HTMLElement, StepperProps>(
               onClick={step.onClick}
               isActive={step.id === activeStepId}
               clickableCompleteStep={step.clickableCompleteStep}
+              totalSteps={steps.length}
             >
               {index < steps.length - 1 && (
                 <StepperSeparator isComplete={step.completionState === "complete"} orientation={orientation} />
