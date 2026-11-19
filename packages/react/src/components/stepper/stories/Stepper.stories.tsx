@@ -1,7 +1,9 @@
 import type { Step } from "@design-system-rte/core/components/stepper/stepper.interface";
 import {
+  TESTING_ARROW_DOWN_KEY,
   TESTING_ARROW_LEFT_KEY,
   TESTING_ARROW_RIGHT_KEY,
+  TESTING_ARROW_UP_KEY,
 } from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
 import type { Meta, StoryObj } from "@storybook/react";
 import { userEvent, within, expect, waitFor } from "@storybook/test";
@@ -308,4 +310,54 @@ export const KeyboardNavigation: Story = {
     await userEvent.keyboard(TESTING_ARROW_RIGHT_KEY);
     expect(allSteps[0]).toHaveFocus();
   },
+};
+
+export const KeyboardNavigationWithDisabledSteps: Story = {
+  tags: ["!autodocs"],
+  args: {
+    steps: allClickableSteps.slice(0, 3).map((step, index) => (index === 1 ? { ...step, onClick: undefined } : step)),
+    orientation: "horizontal",
+    activeStepId: "1",
+  },
+
+  render: (args) => (
+    <div style={{ width: "300px", height: "300px" }}>
+      <Stepper {...args} />
+    </div>
+  ),
+
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const firstStep = canvas.getByRole("button", { name: /^Étape 1 sur 3,/ });
+    const disabledStep = canvas.getByRole("button", { name: /^Étape 2 sur 3,/ });
+    const lastStep = canvas.getByRole("button", { name: "Étape 3 sur 3, Étape 3" });
+    const nextKey = args.orientation === "vertical" ? TESTING_ARROW_DOWN_KEY : TESTING_ARROW_RIGHT_KEY;
+    const previousKey = args.orientation === "vertical" ? TESTING_ARROW_UP_KEY : TESTING_ARROW_LEFT_KEY;
+
+    expect(disabledStep).toBeDisabled();
+    focusElementBeforeComponent();
+    await userEvent.tab();
+    await waitFor(() => {
+      expect(firstStep).toHaveFocus();
+    });
+
+    await userEvent.keyboard(nextKey);
+    expect(lastStep).toHaveFocus();
+    await userEvent.keyboard(previousKey);
+    expect(firstStep).toHaveFocus();
+    await userEvent.keyboard(previousKey);
+    expect(lastStep).toHaveFocus();
+    await userEvent.keyboard(nextKey);
+    expect(firstStep).toHaveFocus();
+  },
+};
+
+export const VerticalKeyboardNavigationWithDisabledSteps: Story = {
+  args: {
+    ...KeyboardNavigationWithDisabledSteps.args,
+    orientation: "vertical",
+  },
+  tags: ["!autodocs"],
+  render: KeyboardNavigationWithDisabledSteps.render,
+  play: KeyboardNavigationWithDisabledSteps.play,
 };
