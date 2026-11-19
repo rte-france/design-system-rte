@@ -10,25 +10,21 @@
 
 Le composant `Stepper` constitue l'API publique. Passez la liste d'étapes et l'identifiant de l'étape active ; gérez la navigation via le callback `onClick` de chaque étape.
 
-
-| Nom          | Type                        | Valeur par défaut | Description                                                                                                                              |
-| ------------ | --------------------------- | ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| steps        | `Step[]`                    | — (requis)        | Liste ordonnée des étapes à afficher. Doit contenir entre 2 et 7 entrées.                                                                |
-| activeStepId | `string | null`             | — (requis)        | Identifiant de l'étape active. Définit `aria-current="step"` sur l'étape correspondante. Passez `null` lorsqu'aucune étape n'est active. |
-| orientation  | `"horizontal" | "vertical"` | `"horizontal"`    | Direction de disposition du stepper.                                                                                                     |
-
+| Nom          | Type          | Valeur par défaut | Description                                                               |
+| ------------ | ------------- | ----------------- | ------------------------------------------------------------------------- |
+| steps        | `Step[]`      | — (requis)        | Liste ordonnée des étapes à afficher. Doit contenir entre 2 et 7 entrées. |
+| activeStepId | `string       | null`             | — (requis)                                                                | Identifiant de l'étape active. Définit `aria-current="step"` sur l'étape correspondante. Passez `null` lorsqu'aucune étape n'est active. |
+| orientation  | `"horizontal" | "vertical"`       | `"horizontal"`                                                            | Direction de disposition du stepper.                                                                                                     |
 
 Chaque entrée de `steps` suit l'interface `Step` :
 
-
-| Nom                   | Type                                      | Valeur par défaut | Description                                                                                                       |
-| --------------------- | ----------------------------------------- | ----------------- | ----------------------------------------------------------------------------------------------------------------- |
-| id                    | `string`                                  | — (requis)        | Identifiant unique de l'étape. Utilisé pour faire correspondre `activeStepId`.                                    |
-| name                  | `string`                                  | — (requis)        | Libellé affiché sous l'indicateur d'étape.                                                                        |
-| completionState       | `"unvisited" | "incomplete" | "complete"` | — (requis)        | État visuel de l'étape. Les étapes complétées affichent une icône de validation lorsqu'elles ne sont pas actives. |
-| clickableCompleteStep | `boolean`                                 | `false`           | Si `true`, les étapes complétées restent cliquables lorsqu'elles définissent `onClick`.                           |
-| onClick               | `() => void`                              | —                 | Callback invoqué lors du clic sur l'étape. Requis pour qu'une étape soit cliquable.                               |
-
+| Nom                   | Type         | Valeur par défaut | Description                                                                             |
+| --------------------- | ------------ | ----------------- | --------------------------------------------------------------------------------------- |
+| id                    | `string`     | — (requis)        | Identifiant unique de l'étape. Utilisé pour faire correspondre `activeStepId`.          |
+| name                  | `string`     | — (requis)        | Libellé affiché sous l'indicateur d'étape.                                              |
+| completionState       | `"unvisited" | "incomplete"      | "complete"`                                                                             | — (requis) | État visuel de l'étape. Les étapes complétées affichent une icône de validation lorsqu'elles ne sont pas actives. |
+| clickableCompleteStep | `boolean`    | `false`           | Si `true`, les étapes complétées restent cliquables lorsqu'elles définissent `onClick`. |
+| onClick               | `() => void` | —                 | Callback invoqué lors du clic sur l'étape. Requis pour qu'une étape soit cliquable.     |
 
 Les attributs HTML natifs (`className`, `style`, `aria-*`, et autres) peuvent être transmis à l'élément racine `<nav>`.
 
@@ -52,7 +48,7 @@ const [activeStepId, setActiveStepId] = useState("2");
 
 <div style={{ width: "300px" }}>
   <Stepper steps={steps.slice(0, 3)} activeStepId={activeStepId} orientation="horizontal" />
-</div>
+</div>;
 ```
 
 Pour réagir aux clics sur les étapes, fournissez `onClick` sur chaque étape et mettez à jour `activeStepId` dans le gestionnaire.
@@ -136,7 +132,7 @@ const clickableSteps = steps.slice(0, 4).map((step) => ({
 
 <div style={{ width: "400px" }}>
   <Stepper steps={clickableSteps} activeStepId={activeStepId} />
-</div>
+</div>;
 ```
 
 Activez la navigation libre en définissant `onClick` sur chaque étape et `clickableCompleteStep: true` sur les étapes complétées.
@@ -162,8 +158,6 @@ const [stepsState, setStepsState] = useState(linearSteps);
 Pilotez un parcours séquentiel depuis des actions externes. Définissez le `completionState` de l'étape courante sur `"complete"` ou `"incomplete"` dans le gestionnaire du bouton avant de faire avancer `activeStepId` vers l'étape suivante.
 
 ## Limitations
-
-
 
 ### Nombre d'étapes
 

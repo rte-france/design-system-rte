@@ -277,7 +277,9 @@ export const LinearProgression: Story = {
       ...args,
       validate() {
         const currentIndex = this["steps"].findIndex((step: Step) => step.id === this["activeStepId"]);
-        this["steps"][currentIndex].completionState = "complete";
+        this["steps"] = this["steps"].map((step: Step) =>
+          step.id === this["activeStepId"] ? { ...step, completionState: "complete" } : step,
+        );
         if (currentIndex < this["steps"].length - 1) {
           this["activeStepId"] = this["steps"][currentIndex + 1].id;
           console.log(`Changing to step ${this["steps"][currentIndex + 1].id}`);
@@ -287,7 +289,9 @@ export const LinearProgression: Story = {
       },
       validatePartially() {
         const currentIndex = this["steps"].findIndex((step: Step) => step.id === this["activeStepId"]);
-        this["steps"][currentIndex].completionState = "incomplete";
+        this["steps"] = this["steps"].map((step: Step) =>
+          step.id === this["activeStepId"] ? { ...step, completionState: "incomplete" } : step,
+        );
         if (currentIndex < this["steps"].length - 1) {
           this["activeStepId"] = this["steps"][currentIndex + 1].id;
         }
@@ -338,6 +342,22 @@ export const LinearProgression: Story = {
       </div>
     `,
   }),
+
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    await userEvent.click(canvas.getByRole("button", { name: "Valider et passer à l'étape suivante" }));
+    await waitFor(() => {
+      expect(canvas.getByRole("button", { name: /^Étape 1 sur 4, Étape 1\s*, terminée$/ })).toBeInTheDocument();
+    });
+
+    await userEvent.click(canvas.getByRole("button", { name: "Valider partiellement et passer à l'étape suivante" }));
+    await waitFor(() => {
+      expect(
+        canvas.getByRole("button", { name: /^Étape 2 sur 4, Étape 2\s*, partiellement complétée$/ }),
+      ).toBeInTheDocument();
+    });
+  },
 };
 
 export const KeyboardNavigation: Story = {
@@ -389,5 +409,11 @@ export const KeyboardNavigation: Story = {
     expect(allSteps[allSteps.length - 1]).toHaveFocus();
     await userEvent.keyboard(TESTING_ARROW_RIGHT_KEY);
     expect(allSteps[0]).toHaveFocus();
+
+    await userEvent.click(allSteps[0]);
+    await waitFor(() => {
+      expect(allSteps[0]).toHaveAttribute("aria-current", "step");
+      expect(allSteps[0]).toHaveAccessibleName(/^Étape 1 sur 7, Étape 1\s*, terminée$/);
+    });
   },
 };

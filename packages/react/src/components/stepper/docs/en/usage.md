@@ -16,7 +16,7 @@ const [activeStepId, setActiveStepId] = useState("2");
 
 <div style={{ width: "300px" }}>
   <Stepper steps={steps.slice(0, 3)} activeStepId={activeStepId} orientation="horizontal" />
-</div>
+</div>;
 ```
 
 To react to step clicks, provide `onClick` on each step and update `activeStepId` inside the handler.
@@ -100,7 +100,7 @@ const clickableSteps = steps.slice(0, 4).map((step) => ({
 
 <div style={{ width: "400px" }}>
   <Stepper steps={clickableSteps} activeStepId={activeStepId} />
-</div>
+</div>;
 ```
 
 Enable free navigation by setting `onClick` on each step and `clickableCompleteStep: true` on completed steps.
