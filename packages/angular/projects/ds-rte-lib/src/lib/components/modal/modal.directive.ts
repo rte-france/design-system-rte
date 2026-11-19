@@ -48,6 +48,7 @@ export class ModalDirective implements AfterContentInit, OnDestroy {
 
   private modalElement: HTMLElement | null = null;
   private modalRestoreFocusTo: HTMLElement | null = null;
+  // private modalCloseTimer: ReturnType<typeof setTimeout> | null = null;
 
   private onKeyDown = (e: KeyboardEvent) => this.handleKeydown(e);
 
@@ -74,6 +75,8 @@ export class ModalDirective implements AfterContentInit, OnDestroy {
   }
 
   showModal(): void {
+    // this.clearModalCloseTimer();
+
     if (this.modalCompRef) {
       this.modalCompRef.destroy();
     }
@@ -101,6 +104,19 @@ export class ModalDirective implements AfterContentInit, OnDestroy {
   }
 
   close(): void {
+    // const modalCompRef = this.modalCompRef;
+    // if (!modalCompRef) {
+    //   return;
+    // }
+
+    // modalCompRef.setInput("isOpen", false);
+    // this.clearModalCloseTimer();
+    // this.modalCloseTimer = setTimeout(() => {
+    //   this.modalCloseTimer = null;
+    //   if (this.modalCompRef === modalCompRef) {
+    //     this.destroyModal();
+    //   }
+    // }, 200);
     if (this.modalCompRef) {
       this.modalCompRef.setInput("isOpen", false);
 
@@ -138,6 +154,8 @@ export class ModalDirective implements AfterContentInit, OnDestroy {
   }
 
   private destroyModal(): void {
+    // this.clearModalCloseTimer();
+
     if (this.modalCompRef) {
       this.modalCompRef.destroy();
       this.modalCompRef = null;
@@ -145,4 +163,13 @@ export class ModalDirective implements AfterContentInit, OnDestroy {
       document.body.style.overflow = "unset";
     }
   }
+
+  // private clearModalCloseTimer(): void {
+  //   if (this.modalCloseTimer === null) {
+  //     return;
+  //   }
+
+  //   clearTimeout(this.modalCloseTimer);
+  //   this.modalCloseTimer = null;
+  // }
 }

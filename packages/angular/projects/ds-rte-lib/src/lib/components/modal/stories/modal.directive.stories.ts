@@ -1,3 +1,4 @@
+import { Component, inject } from "@angular/core";
 import {
   TESTING_ENTER_KEY,
   TESTING_ESCAPE_KEY,
@@ -8,10 +9,12 @@ import { userEvent, waitFor, within, expect, fn } from "@storybook/test";
 
 import { focusElementBeforeComponent } from "../../../../../../../.storybook/testing/testing.utils";
 import { ButtonComponent } from "../../button/button.component";
+import { DrawerModule } from "../../drawer/drawer.module";
 import { RegularIcons as RegularIconsList, TogglableIcons as TogglableIconsList } from "../../icon/icon-map";
 import { PopoverDirective } from "../../popover/popover.directive";
 import { SelectComponent } from "../../select/select.component";
 import { TextareaComponent } from "../../textarea/textarea.component";
+import { ToastConfig, ToastService } from "../../toast/toast.service";
 import { ModalDirective } from "../modal.directive";
 import { ModalModule } from "../modal.module";
 
@@ -89,6 +92,32 @@ export default meta;
 type Story = StoryObj<ModalDirective>;
 
 const mockFn = fn();
+const nestedModalPrimary = fn();
+
+@Component({
+  selector: "story-confirmation-toast",
+  template: "",
+})
+class ConfirmationToastStoryComponent {
+  private readonly toastService = inject(ToastService);
+  private toastId: string | null = null;
+
+  show(message: string): void {
+    if (this.toastId && this.toastService.isInQueue(this.toastId)) {
+      this.toastService.removeFromQueue(this.toastId);
+    }
+
+    const config: ToastConfig = {
+      message,
+      type: "success",
+      placement: "bottom-right",
+      autoDismiss: false,
+      closable: true,
+      showActionButton: false,
+    };
+    this.toastId = this.toastService.addToQueue(config);
+  }
+}
 
 export const Default: Story = {
   decorators: [
@@ -136,6 +165,120 @@ export const Default: Story = {
               </div>
       `,
   }),
+};
+
+export const NestedInDrawerReopen: Story = {
+  tags: ["!autodocs"],
+  decorators: [
+    moduleMetadata({
+      imports: [DrawerModule, ModalModule, ButtonComponent, ConfirmationToastStoryComponent],
+      providers: [ToastService],
+    }),
+  ],
+  args: {
+    ...Default.args,
+    rteModalId: "nested-modal",
+    rteModalTitle: "Confirm action",
+    rteModalDescription: "This modal is opened from a modal drawer.",
+    rteModalSize: "s",
+    rteModalCloseOnClickOutside: false,
+  },
+  render: (args) => ({
+    props: (() => {
+      const props = {
+        ...args,
+        handleModalPrimary: () => nestedModalPrimary(),
+      };
+      return props;
+    })(),
+    imports: [ModalDirective],
+    template: `
+      <div
+        rteDrawer
+        #drawerHost="rteDrawer"
+        rteDrawerId="nested-modal-drawer"
+        rteDrawerTitle="Actions drawer"
+        rteDrawerPosition="modal"
+        rteDrawerPrimaryButtonLabel="Drawer action"
+      >
+        <button rteButton rteButtonVariant="primary" rteDrawerTrigger>Open drawer</button>
+        <ng-template #drawerContent>
+          <div
+            rteModal
+            #modalHost="rteModal"
+            [rteModalId]="rteModalId"
+            [rteModalTitle]="rteModalTitle"
+            [rteModalDescription]="rteModalDescription"
+            [rteModalSize]="rteModalSize"
+            [rteModalCloseOnClickOutside]="rteModalCloseOnClickOutside"
+          >
+            <button rteButton rteButtonVariant="primary" rteModalTrigger>Open confirmation modal</button>
+            <ng-template #primaryButton>
+              <button
+                rteButton
+                rteButtonVariant="primary"
+                (click)="
+                  handleModalPrimary();
+                  confirmationToast.show('Action confirmed');
+                  modalHost.close();
+                  drawerHost.close()
+                "
+              >
+                Confirm modal action
+              </button>
+            </ng-template>
+            <ng-template #secondaryButton>
+              <button
+                rteButton
+                rteButtonVariant="neutral"
+                (click)="
+                  confirmationToast.show('Action cancelled');
+                  modalHost.close();
+                  drawerHost.close()
+                "
+              >
+                Cancel modal
+              </button>
+            </ng-template>
+          </div>
+        </ng-template>
+      </div>
+      <story-confirmation-toast #confirmationToast />
+    `,
+  }),
+  play: async ({ canvasElement }) => {
+    focusElementBeforeComponent();
+    const canvas = within(canvasElement);
+
+    await userEvent.click(canvas.getByRole("button", { name: "Open drawer" }));
+    const drawer = await within(document.body).findByRole("dialog", { name: "Actions drawer" });
+    const drawerBody = within(drawer);
+    const modalTrigger = drawerBody.getByRole("button", { name: "Open confirmation modal" });
+
+    await userEvent.click(modalTrigger);
+    const modal = await within(document.body).findByRole("dialog", { name: "Confirm action" });
+
+    await userEvent.click(within(modal).getByRole("button", { name: "Confirm modal action" }));
+    await waitFor(() => {
+      expect(within(document.body).queryByRole("dialog", { name: "Confirm action" })).not.toBeInTheDocument();
+      expect(within(document.body).queryByRole("dialog", { name: "Actions drawer" })).not.toBeInTheDocument();
+      expect(within(document.body).getByRole("status")).toHaveTextContent(/Action confirmed/);
+    });
+    expect(nestedModalPrimary).toHaveBeenCalled();
+
+    await userEvent.click(canvas.getByRole("button", { name: "Open drawer" }));
+    const reopenedDrawer = await within(document.body).findByRole("dialog", { name: "Actions drawer" });
+    const reopenedDrawerBody = within(reopenedDrawer);
+    await userEvent.click(reopenedDrawerBody.getByRole("button", { name: "Open confirmation modal" }));
+    const reopenedModal = await within(document.body).findByRole("dialog", { name: "Confirm action" });
+
+    await userEvent.click(within(reopenedModal).getByRole("button", { name: "Cancel modal" }));
+    await waitFor(() => {
+      expect(within(document.body).queryByRole("dialog", { name: "Confirm action" })).not.toBeInTheDocument();
+      expect(within(document.body).queryByRole("dialog", { name: "Actions drawer" })).not.toBeInTheDocument();
+      expect(within(document.body).getByRole("status")).toHaveTextContent(/Action cancelled/);
+    });
+  },
 };
 
 export const Sizes: Story = {
