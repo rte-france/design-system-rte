@@ -9,7 +9,7 @@ import {
   validateIconButtonSelection,
   validateSelectionShape,
 } from "@design-system-rte/core";
-import { useState, forwardRef, CSSProperties } from "react";
+import { useState, forwardRef, CSSProperties, Fragment } from "react";
 
 import styles from "./IconButtonGroup.module.scss";
 import IconButtonGroupItem from "./iconButtonGroupItem/IconButtonGroupItem";
@@ -135,9 +135,8 @@ const IconButtonGroup = forwardRef<HTMLDivElement, IconButtonGroupProps>(
         {...props}
       >
         {iconButtons.map(({ isDisabled: buttonIsDisabled, ...button }, index) => (
-          <>
+          <Fragment key={iconButtonIds[index]}>
             <IconButtonGroupItem
-              key={iconButtonIds[index]}
               button={button}
               buttonId={iconButtonIds[index]}
               isAllDisabled={isDisabled}
@@ -175,7 +174,7 @@ const IconButtonGroup = forwardRef<HTMLDivElement, IconButtonGroupProps>(
                 }
               ></div>
             )}
-          </>
+          </Fragment>
         ))}
       </div>
     );
