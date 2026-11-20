@@ -35,10 +35,10 @@ import { RteBaseInputControlDirective } from "../rte-base-input-control.directiv
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BaseInputComponent {
-  readonly id = input<string>();
+  readonly id = input<string>("");
   readonly label = input<string>("");
   readonly labelPosition = input<"top" | "side">("top");
-  readonly placeholder = input<string>("");
+  readonly placeholder = input<string | undefined>("");
   readonly required = input<boolean>(false);
   readonly showCounter = input<boolean>(false);
   readonly value = input<string>("");
@@ -56,6 +56,7 @@ export class BaseInputComponent {
   readonly errorMessage = input<string>("");
   readonly assistiveTextId = input<string | null>(null);
   readonly error = input<boolean>(false);
+  readonly showErrorLeftIcon = input<boolean>(true);
   readonly maxLength = input<number | undefined>(150);
   readonly disabled = input<boolean>(false);
   readonly readOnly = input<boolean>(false);
@@ -70,14 +71,17 @@ export class BaseInputComponent {
   readonly inputType = input<"text" | "password">("text");
   readonly useLabelForAttribute = input<boolean>(true);
 
-  readonly valueChange = output<string>();
+  readonly valueChange = output<string | number | null>();
   readonly enterKeyDown = output<string>();
   readonly inputBlur = output<void>();
   readonly rightIconClick = output<MouseEvent | KeyboardEvent>();
   readonly rightIconKeydown = output<KeyboardEvent>();
 
   readonly characterCount = signal<number>(this.internalValue().length);
-  readonly displayedLeftIcon = computed(() => (this.error() ? "error" : this.leftIcon()));
+  readonly displayedInputValue = computed(() => (this.disabled() ? "" : this.internalValue()));
+  readonly displayedLeftIcon = computed(() => {
+    return this.error() && this.showErrorLeftIcon() ? "error" : this.leftIcon();
+  });
   readonly displayCounter = computed(() => this.showCounter() && typeof this.maxLength() === "number");
   readonly computedAssistiveTextId = computed(() => {
     if (!this.computedAssistiveTextLabel()) {
@@ -124,6 +128,10 @@ export class BaseInputComponent {
       return width;
     }
     return `${this.width()}px`;
+  });
+
+  readonly computedPlaceholder = computed(() => {
+    return !(this.disabled() || this.readOnly()) ? this.placeholder() : undefined;
   });
 
   constructor() {
@@ -190,7 +198,7 @@ export class BaseInputComponent {
       return;
     }
 
-    const canUseNativeLabelFocus = this.useLabelForAttribute() && !this.showProjectedShell() && !!this.id();
+    const canUseNativeLabelFocus = this.useLabelForAttribute() && !!this.id();
     if (canUseNativeLabelFocus) {
       return;
     }

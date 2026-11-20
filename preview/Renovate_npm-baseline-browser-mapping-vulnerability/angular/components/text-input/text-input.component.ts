@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, signal } from "@angular/core";
+import { ChangeDetectionStrategy, Component, computed, output, signal } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 
 import { BaseTextInputComponent } from "./base-text-input/base-text-input.component";
@@ -22,6 +22,8 @@ export class TextInputComponent extends BaseTextInputComponent implements Contro
   private readonly formDisabled = signal(false);
 
   readonly isDisabled = computed(() => this.disabled() || this.formDisabled());
+
+  override readonly valueChange = output<string>();
 
   writeValue(value: string): void {
     this.internalValue.set(value ?? "");
