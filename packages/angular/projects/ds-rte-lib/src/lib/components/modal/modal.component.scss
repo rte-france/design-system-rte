@@ -79,6 +79,7 @@
       flex-direction: row;
       align-items: center;
       gap: $positive-spacing_100;
+      color: var(--content-primary);
 
       .rte-modal-title {
         @include typography-heading-m;

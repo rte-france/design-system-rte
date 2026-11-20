@@ -40,7 +40,7 @@ const BaseHeader = ({
             className={styles["close-icon"]}
             variant="neutral"
             onClick={onClose}
-            aria-label={`Close modal ${id}`}
+            aria-label={`Fermer`}
             style={{
               padding: 0,
               height: "24px",
