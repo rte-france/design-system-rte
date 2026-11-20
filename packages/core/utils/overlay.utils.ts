@@ -93,6 +93,7 @@ const applyHideToSiblings = (overlayContainer: HTMLElement): void => {
     sibling.setAttribute("aria-hidden", "true");
     sibling.inert = true;
     hiddenEntries.push({ element: sibling, previousAriaHidden, hadAriaHidden, hadInert });
+    console.log(hiddenEntries);
   }
 };
 
