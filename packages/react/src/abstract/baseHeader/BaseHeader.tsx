@@ -41,6 +41,12 @@ const BaseHeader = ({
             variant="neutral"
             onClick={onClose}
             aria-label={`Close modal ${id}`}
+            style={{
+              padding: 0,
+              height: "24px",
+              width: "24px",
+              borderRadius: "4px",
+            }}
           />
         )}
       </div>
