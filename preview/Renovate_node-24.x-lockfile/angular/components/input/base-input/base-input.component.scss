@@ -23,7 +23,8 @@
 
             .input {
                 .input-bar {
-                    .input-field {
+                    input.input-field,
+                    .input-field--projected:not(:has([data-increment-position])) {
                         height: 24px;
                         min-height: 24px;
                     }
@@ -136,13 +137,15 @@
                 flex: 1;
 
                 &.with-left-icon {
-                    .input-field {
+                    input.input-field,
+                    .input-field--projected:not(:has([data-increment-position])) {
                         padding-left: $positive-spacing-400;
                     }
                 }
 
                 &.with-right-icon {
-                    .input-field {
+                    input.input-field,
+                    .input-field--projected:not(:has([data-increment-position])) {
                         padding-right: $positive-spacing-400;
                     }
                 }
@@ -191,7 +194,7 @@
                     }
                 }
 
-                .input-field {
+                input.input-field {
                     box-sizing: border-box;
                     appearance: none;
                     width: 100%;
@@ -203,8 +206,12 @@
                     padding: $positive-spacing-050 $positive-spacing-200;
                     background: linear-gradient(0deg, var(--elevation-surface-inner-shadow) 0%, var(--elevation-surface-inner-shadow) 100%), var(--background-default);
                     transition: border 200ms, outline 200ms, box-shadow 200ms;
-                    color: var(--content-primary);
+                    color: var(--content-secondary);
                     @include neutral-inner-shadow;
+
+                    &[data-compact-spacing="true"] {
+                        padding: 0 $positive-spacing-200;
+                    }
 
                     &:hover {
                         border-color: var(--border-primary);
@@ -223,7 +230,7 @@
 
                     &:active {
                         outline: 1px solid var(--border-brand-default);
-                        border-color: var(--border-brand-default)
+                        border-color: var(--border-brand-default);
                     }
 
                     &:disabled {
@@ -235,67 +242,91 @@
 
                     &.error {
                         outline: 1px solid var(--border-danger);
-                        border-color: var(--border-danger)
+                        border-color: var(--border-danger);
                     }
 
                     &::placeholder {
-                        color: var(--content-tertiary);
+                        color: var(--content-disabled);
+                    }
+                }
+
+                .input-field--projected:not(:has([data-increment-position])) {
+                    box-sizing: border-box;
+                    width: 100%;
+                    height: 32px;
+                    min-width: 48px;
+                    max-height: 32px;
+                    border-radius: $radius-s;
+                    border: $width-xs solid var(--border-secondary);
+                    padding: $positive-spacing-050 $positive-spacing-200;
+                    background: linear-gradient(0deg, var(--elevation-surface-inner-shadow) 0%, var(--elevation-surface-inner-shadow) 100%), var(--background-default);
+                    transition: border 200ms, outline 200ms, box-shadow 200ms;
+                    color: var(--content-primary);
+                    flex: 1;
+                    min-width: 0;
+                    display: flex;
+                    align-items: center;
+                    cursor: text;
+                    @include neutral-inner-shadow;
+
+                    &:hover {
+                        border-color: var(--border-primary);
                     }
 
-                    &.input-field--projected {
-                        flex: 1;
-                        min-width: 0;
-                        display: flex;
-                        align-items: center;
-                        cursor: text;
+                    &:focus-within:not(.error),
+                    &:focus:not(.error),
+                    &:active:not(.error),
+                    &.highlighted:not(.error) {
+                        outline: none;
+                        border-color: var(--border-brand-default);
+                        box-shadow: inset 0 1px 4px 0 var(--elevation-shadow-key),
+                            inset 0 0 0 1px var(--border-brand-default);
+                    }
 
-                        &:focus-within:not(.error),
-                        &:focus:not(.error),
-                        &:active:not(.error),
-                        &.highlighted:not(.error) {
-                            outline: none;
-                            border-color: var(--border-brand-default);
-                            box-shadow: inset 0 1px 4px 0 var(--elevation-shadow-key),
-                                inset 0 0 0 1px var(--border-brand-default);
-                        }
+                    &.error {
+                        outline: none;
+                        border-color: var(--border-danger);
+                        box-shadow: inset 0 1px 4px 0 var(--elevation-shadow-key),
+                            inset 0 0 0 1px var(--border-danger);
 
-                        &.error {
+                        &:focus-within,
+                        &:focus,
+                        &:active,
+                        &.highlighted {
                             outline: none;
                             border-color: var(--border-danger);
                             box-shadow: inset 0 1px 4px 0 var(--elevation-shadow-key),
                                 inset 0 0 0 1px var(--border-danger);
-
-                            &:focus-within,
-                            &:focus,
-                            &:active,
-                            &.highlighted {
-                                border-color: var(--border-danger);
-                                box-shadow: inset 0 1px 4px 0 var(--elevation-shadow-key),
-                                    inset 0 0 0 1px var(--border-danger);
-                            }
                         }
                     }
 
-                    &.input-field--projected.input-field--disabled {
+                    &.input-field--disabled {
                         border-color: var(--border-disabled);
                         background: linear-gradient(0deg, var(--elevation-surface-inner-shadow) 0%, var(--elevation-surface-inner-shadow) 100%), var(--background-disabled);
                         cursor: not-allowed;
                         box-shadow: none;
                     }
 
-                    &.input-field--projected.input-field--read-only {
-                        border-color: var(--border-disabled);
+                    &.input-field--read-only {
+                        border-color: var(--border-tertiary);
                         background: linear-gradient(0deg, var(--elevation-surface-inner-shadow) 0%, var(--elevation-surface-inner-shadow) 100%), var(--background-disabled);
                         cursor: default;
                         box-shadow: none;
                     }
+                }
 
+                .input-field--projected:has([data-increment-position]) {
+                    display: contents;
+                }
+
+                &:has([data-increment-position]) .right-slot:empty {
+                    display: none;
                 }
 
                 input.input-field[readonly] {
-                    border-color: var(--border-disabled);
+                    border-color: var(--border-tertiary);
                     background: linear-gradient(0deg, var(--elevation-surface-inner-shadow) 0%, var(--elevation-surface-inner-shadow) 100%), var(--background-disabled);
-                    cursor: not-allowed;
+                    cursor: default;
                     box-shadow: none;
                 }
 
@@ -331,6 +362,7 @@
                 flex-shrink: 0;
                 position: relative;
             }
+
         }
 
         .assistive-text {
@@ -377,4 +409,33 @@
     color: var(--content-tertiary);
     @include typography-text-s-regular;
     margin-block: $positive-spacing-0;
+}
+
+.container:has(.input-field--projected:has([data-increment-position])) {
+    .assistive-text {
+        align-items: flex-start;
+
+        .assistive-icon-error,
+        .assistive-icon-success {
+            @include assistive-text-inline-icon-alignment;
+        }
+
+        .assistive-label--error-animated {
+            animation: assistive-error-fade-in 100ms ease-in;
+
+            @media (prefers-reduced-motion: reduce) {
+                animation: none;
+            }
+        }
+    }
+}
+
+@keyframes assistive-error-fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
