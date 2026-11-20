@@ -287,7 +287,7 @@ export const AnnouncementsWithModalOverlays: Story = {
           title="Modal avec toast"
           isOpen={overlay === "modal"}
           onClose={() => setOverlay(null)}
-          primaryButton={<Button label="Fermer" onClick={() => setOverlay(null)} />}
+          primaryButton={<Button label="Annuler" onClick={() => setOverlay(null)} />}
         >
           {showToastButton}
         </Modal>
@@ -298,7 +298,7 @@ export const AnnouncementsWithModalOverlays: Story = {
           isOpen={overlay === "drawer"}
           onClose={() => setOverlay(null)}
           onClickToggle={() => setOverlay(null)}
-          primaryButtonLabel="Fermer"
+          primaryButtonLabel="Annuler"
           onClickPrimaryButton={() => setOverlay(null)}
           content={showToastButton}
         />

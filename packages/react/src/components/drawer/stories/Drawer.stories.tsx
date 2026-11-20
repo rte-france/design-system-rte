@@ -286,7 +286,7 @@ export const ModalDecorativeIconsInteractive: Story = {
 
     expectDecorativeIconSvg(getDrawerHeaderTitleIconSvg(drawer));
 
-    expectDecorativeButtonIcon(drawerBody.getByRole("button", { name: "Close modal example-drawer" }));
+    expectDecorativeButtonIcon(drawerBody.getByRole("button", { name: "Fermer" }));
     expectDecorativeButtonIcon(drawerBody.getByRole("button", { name: "Close drawer example-drawer" }));
 
     const floatingToggle = document.body.querySelector('[class*="drawer-toggle"]');
