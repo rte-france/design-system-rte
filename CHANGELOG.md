@@ -2,6 +2,41 @@
 
 # Angular
 
+## 5.0.0
+
+### Number Input
+
+#### Minor Changes
+
+- uplift common component logic to core
+- add Angular component
+
+### Tab
+
+#### Minor Changes
+
+- implement automatic first-tab selection and update documentation
+
+#### Patch Changes
+
+- compute accessible aria-label when using badge
+- fix tab accesibility structure in dropdown mode
+
+### Stepper
+
+#### Patch Changes
+
+- remove unused lifecycle hooks and clean up imports
+
+### Other
+
+#### Patch Changes
+
+- Updated dependencies [c7b5c64]
+- Updated dependencies [b36dac9]
+- Updated dependencies [61b37c2]
+- @design-system-rte/core@1.25.0
+
 ## 4.6.0
 
 ### Base Input
@@ -100,109 +135,57 @@
 - Updated dependencies [4a53d30]
 - Updated dependencies [79fca5b]
 - @design-system-rte/core@1.23.0
+# React
 
-## 4.4.1
+## 2.7.0
 
-### Datepicker
+### Icon Button Group Item
+
+#### Minor Changes
+
+- add filled appearance to active icon button
+
+### Icon Button Group
+
+#### Minor Changes
+
+- allow disabling individual icon button
+- react - add component
 
 #### Patch Changes
 
-- add aria-invalid attribute and update required prop handling
-- aria-current attribute for day cells
+- replace fragment with keyed Fragment for improved rendering
 
-### Switch
+### Number Input
 
-#### Patch Changes
+#### Minor Changes
 
-- add support for prefers-reduced-motion
-- remove redondant aria-checked and aria-disabled + add name props for the native input + hide empty aria-label and aria-labelledBy
+- uplift common component logic to core
+- add React component
 
 ### Tab
 
-#### Patch Changes
+#### Minor Changes
 
-- add aria-orientation attribute based on tab direction
-- add support for prefers-reduced-motion in scrolling behavior
-
-### Toast
+- implement automatic first-tab selection and update documentation
 
 #### Patch Changes
 
-- add prefers-reduced-motion config for position transition
-- handle autodismiss timer correctly with keyboard focus
-
-### Stepper
-
-#### Patch Changes
-
-- move aria-current from li to the button that holds the focus
-- move separators inside list items and hide them from screen readers
-- add missing ariaLabel default and input
-
-### Loader
-
-#### Patch Changes
-
-- correct component not rendering correctly in Firefox
-
-### Radio Button
-
-#### Patch Changes
-
-- correct button target size
+- compute accessible aria-label when using badge
+- fix tab accesibility structure in dropdown mode
 
 ### Other
 
-#### Patch Changes
-
-- Updated dependencies [96f178e]
-- Updated dependencies [97f46b9]
-- Updated dependencies [326b97a]
-- @design-system-rte/core@1.22.1
-
-## 4.4.0
-
-### Button
-
 #### Minor Changes
 
-- add hierarchy system and integrate variant and appearance systems
-
-### Select
-
-#### Minor Changes
-
-- harmonise placeholder display
-
-### Icon Button
-
-#### Minor Changes
-
-- add hierarchy system in addition to appearance. Deprecate variant
-
-### Datepicker
+- use types from core package
 
 #### Patch Changes
 
-- harmonize header title button aria label
-
-### Segmented Control
-
-#### Patch Changes
-
-- handle window resize listeners destruction correctly
-- prevent selection of segments already selected
-
-### Other
-
-#### Patch Changes
-
-- Updated dependencies [b3eda66]
-- Updated dependencies [d262fe6]
-- Updated dependencies [13dd6ee]
-- Updated dependencies [7855135]
-- @design-system-rte/core@1.22.0
-# React
+- Updated dependencies [c7b5c64]
+- Updated dependencies [b36dac9]
+- Updated dependencies [61b37c2]
+- @design-system-rte/core@1.25.0
 
 ## 2.6.0
 
@@ -299,104 +282,34 @@
 - Updated dependencies [4a53d30]
 - Updated dependencies [79fca5b]
 - @design-system-rte/core@1.23.0
+# Core
 
-## 2.4.1
+## 1.25.0
 
-### Datepicker
+### Icon Button Group
 
-#### Patch Changes
+#### Minor Changes
 
-- react - restore calendar trigger focus after closing
-- add aria-invalid attribute and update required prop handling
-- aria-current attribute for day cells
+- allow disabling individual icon button
+- react - add component
 
-### Switch
+### Number Input
 
-#### Patch Changes
+#### Minor Changes
 
-- add support for prefers-reduced-motion
-- remove redondant aria-checked and aria-disabled + add name props for the native input + hide empty aria-label and aria-labelledBy
+- uplift common component logic to core
 
 ### Tab
 
 #### Patch Changes
 
-- add aria-orientation attribute based on tab direction
-- add support for prefers-reduced-motion in scrolling behavior
-
-### Toast
-
-#### Patch Changes
-
-- add prefers-reduced-motion config for position transition
-- handle autodismiss timer correctly with keyboard focus
-
-### Stepper
-
-#### Patch Changes
-
-- move aria-current from li to the button that holds the focus
-- move separators inside list items and hide them from screen readers
-- add missing ariaLabel default and input
-
-### Radio Button
-
-#### Patch Changes
-
-- correct button target size
+- compute accessible aria-label when using badge
 
 ### Other
 
-#### Patch Changes
-
-- Updated dependencies [96f178e]
-- Updated dependencies [97f46b9]
-- Updated dependencies [326b97a]
-- @design-system-rte/core@1.22.1
-
-## 2.4.0
-
-### Button
-
 #### Minor Changes
 
-- add hierarchy system and integrate variant and appearance systems
-
-### Select
-
-#### Minor Changes
-
-- harmonise placeholder display
-
-### Icon Button
-
-#### Minor Changes
-
-- add hierarchy system in addition to appearance. Deprecate variant
-
-### Datepicker
-
-#### Patch Changes
-
-- harmonize header title button aria label
-- react - fix props name hasActions and set default value as true
-
-### Segmented Control
-
-#### Patch Changes
-
-- prevent selection of segments already selected
-
-### Other
-
-#### Patch Changes
-
-- Updated dependencies [b3eda66]
-- Updated dependencies [d262fe6]
-- Updated dependencies [13dd6ee]
-- Updated dependencies [7855135]
-- @design-system-rte/core@1.22.0
-# Core
+- use types from core package
 
 ## 1.24.0
 
@@ -448,53 +361,6 @@
 #### Patch Changes
 
 - add aria-label to tab items for improved accessibility
-
-### Other
-
-
-## 1.22.1
-
-### Datepicker
-
-#### Patch Changes
-
-- aria-current attribute for day cells
-
-### Tab
-
-#### Patch Changes
-
-- add support for prefers-reduced-motion in scrolling behavior
-
-### Stepper
-
-#### Patch Changes
-
-- add missing ariaLabel default and input
-
-### Other
-
-
-## 1.22.0
-
-### Button
-
-#### Minor Changes
-
-- add hierarchy system and integrate variant and appearance systems
-
-### Icon Button
-
-#### Minor Changes
-
-- add hierarchy system in addition to appearance. Deprecate variant
-
-### Datepicker
-
-#### Patch Changes
-
-- harmonize header title button aria label
-- react - fix props name hasActions and set default value as true
 
 ### Other
 

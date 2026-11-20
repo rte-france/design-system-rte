@@ -1,5 +1,44 @@
 # @design-system-rte/react
 
+## 2.7.0
+
+### Minor Changes
+
+- c7b5c64: ## Changes
+
+  - (Icon Button Group Item) add filled appearance to active icon button
+  - use types from core package
+  - (Icon Button Group) allow disabling individual icon button
+  - (Icon Button Group) react - add component
+
+- b36dac9: ## Changes
+
+  - (Number Input) uplift common component logic to core
+  - (Number Input) add React component
+
+- e5f588d: ## Changes
+
+  - (Tab) implement automatic first-tab selection and update documentation
+
+### Patch Changes
+
+- 61b37c2: ## Changes
+
+  - (Tab) compute accessible aria-label when using badge
+
+- 805c457: ## Changes
+
+  - (Tab) fix tab accesibility structure in dropdown mode
+
+- 8d73e27: ## Changes
+
+  - (Icon Button Group) replace fragment with keyed Fragment for improved rendering
+
+- Updated dependencies [c7b5c64]
+- Updated dependencies [b36dac9]
+- Updated dependencies [61b37c2]
+  - @design-system-rte/core@1.25.0
+
 ## 2.6.0
 
 ### Minor Changes

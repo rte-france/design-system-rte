@@ -1,5 +1,37 @@
 # @design-system-rte/angular
 
+## 5.0.0
+
+### Minor Changes
+
+- b36dac9: ## Changes
+
+  - (Number Input) uplift common component logic to core
+  - (Number Input) add Angular component
+
+- e5f588d: ## Changes
+
+  - (Tab) implement automatic first-tab selection and update documentation
+
+### Patch Changes
+
+- 61b37c2: ## Changes
+
+  - (Tab) compute accessible aria-label when using badge
+
+- 805c457: ## Changes
+
+  - (Tab) fix tab accesibility structure in dropdown mode
+
+- 7be9294: ## Changes
+
+  - (Stepper) remove unused lifecycle hooks and clean up imports
+
+- Updated dependencies [c7b5c64]
+- Updated dependencies [b36dac9]
+- Updated dependencies [61b37c2]
+  - @design-system-rte/core@1.25.0
+
 ## 4.6.0
 
 ### Minor Changes
