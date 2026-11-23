@@ -117,7 +117,7 @@ const Breadcrumbs = forwardRef<HTMLDivElement, BreadcrumbsProps>(
     }
 
     return (
-      <nav ref={ref} className={style.breadcrumbsBadge} {...props} role="navigation" aria-label="Fil d'Ariane">
+      <nav ref={ref} className={style.breadcrumbsBadge} {...props} role="navigation" aria-label={ariaLabel}>
         {items.map((item, index) => (
           <Fragment key={item.label + index}>
             <BreadcrumbItem
