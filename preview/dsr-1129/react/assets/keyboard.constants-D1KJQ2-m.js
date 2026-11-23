@@ -1,0 +1,1 @@
+const t=" ",c="Enter",A="Tab",_="Backspace",n="Delete",s="ArrowLeft",E="ArrowRight",o="ArrowUp",a="ArrowDown",R="Escape",K=[s,E,o,a];export{a as A,_ as B,n as D,c as E,t as S,A as T,o as a,s as b,E as c,R as d,K as e};
