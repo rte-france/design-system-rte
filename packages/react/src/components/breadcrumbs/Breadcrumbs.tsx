@@ -83,7 +83,7 @@ const Breadcrumbs = forwardRef<HTMLDivElement, BreadcrumbsProps>(
                 </div>
               }
               isOpen={isTrucatedListOpened}
-              offset={6}
+              offset={8}
             >
               {truncated.map((item, idx) => (
                 <DropdownItem
