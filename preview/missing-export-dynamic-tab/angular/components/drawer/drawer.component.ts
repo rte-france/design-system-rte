@@ -1,0 +1,276 @@
+import { CommonModule } from "@angular/common";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ComponentRef,
+  computed,
+  DestroyRef,
+  effect,
+  ElementRef,
+  inject,
+  input,
+  OnDestroy,
+  output,
+  signal,
+  TemplateRef,
+  untracked,
+  viewChild,
+} from "@angular/core";
+import {
+  DRAWER_PADDING,
+  DRAWER_TRANSITION_DURATION,
+  getDrawerAriaAttributes,
+  shouldUseDrawerDefaultFooter,
+  shouldUseDrawerDefaultHeader,
+  waitForNextFrame,
+  DrawerPosition,
+} from "@design-system-rte/core";
+import { IconSize } from "@design-system-rte/core/components/icon/icon.constants";
+
+import { FocusTrapService } from "../../services/focus-trap.service";
+import { OverlayService } from "../../services/overlay.service";
+import { ButtonComponent } from "../button/button.component";
+import { DividerComponent } from "../divider/divider.component";
+import { IconComponent } from "../icon/icon.component";
+import { IconButtonComponent } from "../icon-button/icon-button.component";
+
+@Component({
+  selector: "rte-drawer",
+  imports: [CommonModule, ButtonComponent, DividerComponent, IconComponent, IconButtonComponent],
+  templateUrl: "./drawer.component.html",
+  styleUrl: "./drawer.component.scss",
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class DrawerComponent implements OnDestroy {
+  readonly id = input.required<string>();
+  readonly title = input<string>();
+  readonly icon = input<string>();
+  readonly iconAppearance = input<"outlined" | "filled">("outlined");
+  readonly isOpen = input<boolean>(false);
+  readonly position = input<DrawerPosition>("modal");
+  readonly width = input<string | undefined>();
+  readonly closeOnOverlayClick = input<boolean>(false);
+  readonly primaryButtonLabel = input<string>();
+  readonly secondaryButtonLabel = input<string>();
+  readonly isCollapsible = input<boolean>(false);
+  readonly fixedHeader = input<boolean>(false);
+  readonly showHeader = input<boolean>(true);
+  readonly showFooter = input<boolean>(true);
+  readonly closeOnEscape = input<boolean>(false);
+  readonly isClosable = input<boolean>(true);
+  readonly ariaLabel = input<string>();
+  readonly modalHostMode = input<boolean>(false);
+
+  readonly drawerContent = input<TemplateRef<unknown> | null>(null);
+  readonly drawerHeader = input<TemplateRef<unknown> | null>(null);
+  readonly drawerFooter = input<TemplateRef<unknown> | null>(null);
+  readonly drawerContextContent = input<TemplateRef<unknown> | null>(null);
+
+  readonly closed = output<void>();
+  readonly clickToggle = output<void>();
+  readonly clickPrimaryButton = output<void>();
+  readonly clickSecondaryButton = output<void>();
+
+  readonly iconSize = signal(IconSize["xl"]);
+
+  readonly drawerPanelModal = viewChild<ElementRef<HTMLElement>>("drawerPanelModal");
+  readonly drawerPanelResponsive = viewChild<ElementRef<HTMLElement>>("drawerPanelResponsive");
+
+  readonly isAnimating = signal(false);
+  readonly shouldRenderModalLayer = signal(false);
+
+  readonly shouldDisplayDefaultHeader = computed(() =>
+    shouldUseDrawerDefaultHeader(!!this.drawerHeader(), this.title()),
+  );
+  readonly shouldDisplayDefaultFooter = computed(() =>
+    shouldUseDrawerDefaultFooter(!!this.drawerFooter(), this.primaryButtonLabel()),
+  );
+
+  readonly drawerAriaAttributes = computed(() =>
+    getDrawerAriaAttributes({
+      id: this.id(),
+      showHeader: this.showHeader(),
+      hasCustomHeader: !!this.drawerHeader(),
+      hasTitle: !!this.title(),
+      ariaLabel: this.ariaLabel(),
+    }),
+  );
+
+  readonly panelWidthPx = signal(0);
+
+  readonly collapsibleToggleTransform = computed(() => {
+    const widthPx = this.panelWidthPx();
+    return this.isAnimating() ? `translateX(-${widthPx + DRAWER_PADDING}px)` : "none";
+  });
+
+  readonly responsiveDividerTransform = computed(() => {
+    const widthPx = this.panelWidthPx();
+    return this.isAnimating() ? `translateX(-${widthPx}px)` : "none";
+  });
+
+  readonly floatingToggleOpacity = computed(() => (this.isAnimating() ? 0 : 1));
+
+  readonly collapsibleToggleIconName = computed(() =>
+    this.isOpen() ? ("right-panel-close" as const) : ("right-panel-open" as const),
+  );
+
+  readonly collapsibleToggleAriaLabel = computed(() => {
+    const verb = this.isOpen() ? "Close" : "Open";
+    return `${verb} drawer ${this.id()}`;
+  });
+
+  readonly responsiveMainMarginRight = computed(() => (this.isAnimating() ? (this.width() ?? "0") : "0"));
+
+  private readonly focusTrap = inject(FocusTrapService);
+  private readonly overlayService = inject(OverlayService);
+  private readonly destroyRef = inject(DestroyRef);
+  private resizeObserver: ResizeObserver | null = null;
+  private focusTrapActive = false;
+  private modalLayerRestoreFocusTarget: HTMLElement | null = null;
+  private modalLayerCloseTimer: ReturnType<typeof setTimeout> | null = null;
+  backdropOwnerRef: ComponentRef<unknown> | null = null;
+
+  constructor() {
+    effect(() => {
+      const open = this.isOpen();
+      const usesModalLayer = this.position() === "modal";
+
+      if (open) {
+        this.handleDrawerOpen(usesModalLayer);
+      } else {
+        this.handleDrawerClose(usesModalLayer);
+      }
+    });
+
+    effect(() => {
+      const modalPanel = this.drawerPanelModal()?.nativeElement;
+      const responsivePanel = this.drawerPanelResponsive()?.nativeElement;
+      const panel = modalPanel ?? responsivePanel;
+      if (!panel) {
+        untracked(() => {
+          this.resizeObserver?.disconnect();
+          this.resizeObserver = null;
+        });
+        return;
+      }
+      untracked(() => {
+        this.resizeObserver?.disconnect();
+        this.resizeObserver = new ResizeObserver(() => {
+          this.panelWidthPx.set(panel.clientWidth);
+        });
+        this.resizeObserver.observe(panel);
+        this.panelWidthPx.set(panel.clientWidth);
+      });
+    });
+
+    effect(() => {
+      if (!this.isOpen() || this.position() !== "modal" || !this.shouldRenderModalLayer()) {
+        return;
+      }
+
+      const panelElement = this.drawerPanelModal()?.nativeElement;
+      if (!panelElement || this.focusTrapActive) {
+        return;
+      }
+
+      untracked(() => {
+        this.focusTrap.activate(panelElement, {
+          restoreFocusTo: this.modalLayerRestoreFocusTarget ?? undefined,
+        });
+        this.focusTrapActive = true;
+
+        if (this.backdropOwnerRef) {
+          this.overlayService.applyBackdrop(this.backdropOwnerRef);
+        }
+      });
+    });
+
+    this.destroyRef.onDestroy(() => {
+      this.resizeObserver?.disconnect();
+      this.clearModalLayerCloseTimer();
+      this.releaseModalLayerSuppression();
+    });
+  }
+
+  private handleDrawerOpen(usesModalLayer: boolean): void {
+    this.clearModalLayerCloseTimer();
+    this.modalLayerRestoreFocusTarget = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+
+    if (usesModalLayer) {
+      this.shouldRenderModalLayer.set(true);
+    }
+    this.isAnimating.set(false);
+    untracked(() => {
+      waitForNextFrame(() => {
+        this.isAnimating.set(true);
+      });
+    });
+  }
+
+  private handleDrawerClose(usesModalLayer: boolean): void {
+    this.isAnimating.set(false);
+
+    if (usesModalLayer && this.shouldRenderModalLayer()) {
+      this.clearModalLayerCloseTimer();
+      this.modalLayerCloseTimer = setTimeout(() => {
+        this.modalLayerCloseTimer = null;
+        this.releaseModalLayerSuppression();
+        this.shouldRenderModalLayer.set(false);
+      }, DRAWER_TRANSITION_DURATION);
+      return;
+    }
+
+    this.releaseModalLayerSuppression();
+    if (usesModalLayer) {
+      this.shouldRenderModalLayer.set(false);
+    }
+  }
+
+  private clearModalLayerCloseTimer(): void {
+    if (this.modalLayerCloseTimer === null) {
+      return;
+    }
+
+    clearTimeout(this.modalLayerCloseTimer);
+    this.modalLayerCloseTimer = null;
+  }
+
+  private releaseModalLayerSuppression(): void {
+    if (this.backdropOwnerRef) {
+      this.overlayService.releaseBackdrop(this.backdropOwnerRef);
+    }
+
+    if (this.focusTrapActive) {
+      this.focusTrap.deactivate();
+      this.focusTrapActive = false;
+    }
+  }
+
+  onClose(): void {
+    this.closed.emit();
+  }
+
+  onClickToggle(): void {
+    this.clickToggle.emit();
+  }
+
+  handleClickPrimaryButton(): void {
+    this.clickPrimaryButton.emit();
+  }
+
+  handleClickSecondaryButton(): void {
+    this.clickSecondaryButton.emit();
+  }
+
+  handleClickBackdrop(): void {
+    if (this.closeOnOverlayClick()) {
+      this.onClose();
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.resizeObserver?.disconnect();
+    this.clearModalLayerCloseTimer();
+    this.releaseModalLayerSuppression();
+  }
+}

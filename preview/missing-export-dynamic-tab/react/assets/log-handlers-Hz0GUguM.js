@@ -1,0 +1,1 @@
+function r(){return typeof console<"u"&&typeof console.warn=="function"}function t(){return typeof console<"u"&&typeof console.error=="function"}function e(o,n){return`[${o}] ${n}`}function i(o,n){r()&&console.warn(e(o,n))}function l(o,n,f){t()&&console.error(e(o,n))}export{i as a,e as f,l};
