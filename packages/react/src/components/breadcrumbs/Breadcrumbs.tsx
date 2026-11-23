@@ -1,3 +1,4 @@
+import { BREADCRUMBS_MORE_ITEMS_ARIA_LABEL } from "@design-system-rte/core";
 import { shouldDisplayBadge } from "@design-system-rte/core/components/badge/badge.utils";
 import { BREADCRUMBS_DEFAULT_ARIA_LABEL } from "@design-system-rte/core/components/breadcrumbs/breadcrumbs.constants";
 import { BreadcrumbsProps as BreadcrumbsPropsCore } from "@design-system-rte/core/components/breadcrumbs/breadcrumbs.interface";
@@ -69,6 +70,7 @@ const Breadcrumbs = forwardRef<HTMLDivElement, BreadcrumbsProps>(
                     data-testid="show-more"
                     variant="neutral"
                     compactSpacing
+                    aria-label={BREADCRUMBS_MORE_ITEMS_ARIA_LABEL}
                     onClick={() => setIsTruncatedListOpened(!isTrucatedListOpened)}
                   />
                   {shouldDisplayBadge({ showBadge: !!showBadge, badgeContent, badgeCount, badgeIcon }) && (
