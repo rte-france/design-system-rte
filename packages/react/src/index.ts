@@ -13,6 +13,7 @@ import Divider from "./components/divider/Divider.tsx";
 import Drawer from "./components/drawer/Drawer.tsx";
 import Dropdown from "./components/dropdown/Dropdown.tsx";
 import DropdownItem from "./components/dropdown/dropdownItem/DropdownItem.tsx";
+import DynamicTab from "./components/dynamicTab/DynamicTab.tsx";
 import FileUpload from "./components/fileupload/FileUpload.tsx";
 import Grid from "./components/grid/Grid.tsx";
 import Header from "./components/header/Header.tsx";
@@ -99,4 +100,5 @@ export {
   NavigationProvider,
   Pagination,
   IconButtonGroup,
+  DynamicTab,
 };
