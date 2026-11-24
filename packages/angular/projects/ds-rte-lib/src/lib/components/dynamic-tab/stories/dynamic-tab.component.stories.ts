@@ -105,6 +105,14 @@ export const Default: Story = {
   render: renderDynamicTab,
 };
 
+export const AppearanceBrand: Story = {
+  args: {
+    ...Default.args,
+    appearance: "brand",
+  },
+  render: renderDynamicTab,
+};
+
 export const CompactSpacing: Story = {
   args: {
     ...Default.args,
