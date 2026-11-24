@@ -1,9 +1,11 @@
 import {
   TESTING_ARROW_LEFT_KEY,
   TESTING_ARROW_RIGHT_KEY,
+  TESTING_ARROW_DOWN_KEY,
+  TESTING_ARROW_UP_KEY,
 } from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
 import { Meta, StoryObj } from "@storybook/angular";
-import { userEvent, within, expect } from "@storybook/test";
+import { userEvent, within, expect, fn, waitFor } from "@storybook/test";
 
 import { focusElementBeforeComponent } from "../../../../../../../.storybook/testing/testing.utils";
 import { TabComponent } from "../tab.component";
@@ -458,9 +460,9 @@ export const BadgeVisibility: Story = {
       });
     }
 
-    await expect(within(canvas.getByRole("tab", { name: "Number 5" })).getByTestId("badge")).toHaveTextContent("5");
+    await expect(within(canvas.getByRole("tab", { name: "Number, 5" })).getByTestId("badge")).toHaveTextContent("5");
     await expect(
-      within(canvas.getByRole("tab", { name: "Icon" }))
+      within(canvas.getByRole("tab", { name: "Icon. Notification" }))
         .getByTestId("badge")
         .querySelector("svg"),
     ).toBeInTheDocument();
@@ -556,6 +558,7 @@ export const OverflowType: Story = {
           [alignment]="alignment"
           [compactSpacing]="compactSpacing"
           [overflowType]="'dropdown'"
+          ariaLabel="Dropdown tabs"
           [inverted]="inverted"
         />
         <div style="height: 100px; border: 1px solid #ccc; padding: 8px; marginTop: 16px">
@@ -579,6 +582,62 @@ export const OverflowType: Story = {
     </div>
     `,
   }),
+};
+
+export const OverflowTypeInteraction: Story = {
+  tags: ["!autodocs"],
+  args: OverflowType.args,
+  render: OverflowType.render,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const page = within(canvasElement.ownerDocument.body);
+    const tabList = within(canvas.getByRole("tablist", { name: "Dropdown tabs" }));
+    const selectedTab = await tabList.findByRole("tab", {
+      name: "First Tab very long and descriptive",
+      selected: true,
+    });
+    const dropdownButton = await canvas.findByRole("button", { name: "Afficher les autres onglets" });
+    const expectChevronAlignment = async () => {
+      const selectedTab = tabList.getByRole("tab", { selected: true });
+      const tabBounds = selectedTab.getBoundingClientRect();
+      const buttonBounds = dropdownButton.getBoundingClientRect();
+
+      await expect(buttonBounds.left - tabBounds.right).toBeCloseTo(
+        parseFloat(getComputedStyle(selectedTab).marginRight),
+        1,
+      );
+      await expect(buttonBounds.top + buttonBounds.height / 2).toBeCloseTo(tabBounds.top + tabBounds.height / 2, 1);
+    };
+
+    await expect(selectedTab.querySelector("button")).toBeNull();
+    await expect(tabList.queryByRole("button", { name: "Afficher les autres onglets" })).toBeNull();
+    await expectChevronAlignment();
+    await expect(dropdownButton).toHaveAttribute("aria-haspopup", "true");
+    await expect(dropdownButton).toHaveAttribute("aria-expanded", "false");
+
+    await userEvent.click(selectedTab);
+    await expect(dropdownButton).toHaveAttribute("aria-expanded", "false");
+    await userEvent.click(dropdownButton);
+    await waitFor(() => expect(dropdownButton).toHaveAttribute("aria-expanded", "true"));
+    await waitFor(() => expect(canvasElement.ownerDocument.activeElement?.closest('[role="menu"]')).not.toBeNull());
+    await userEvent.keyboard("{Escape}");
+    await waitFor(() => expect(dropdownButton).toHaveAttribute("aria-expanded", "false"));
+    await waitFor(() => expect(dropdownButton).toHaveFocus());
+
+    await userEvent.keyboard("{Enter}");
+    await waitFor(() => expect(dropdownButton).toHaveAttribute("aria-expanded", "true"));
+    await waitFor(() => expect(canvasElement.ownerDocument.activeElement?.closest('[role="menu"]')).not.toBeNull());
+    await userEvent.keyboard("{Escape}");
+    await waitFor(() => expect(dropdownButton).toHaveAttribute("aria-expanded", "false"));
+    await waitFor(() => expect(dropdownButton).toHaveFocus());
+
+    await userEvent.keyboard("{Enter}");
+    await userEvent.click(await page.findByRole("menuitem", { name: "Second Tab 5" }));
+    await waitFor(() => expect(page.queryByRole("menu")).not.toBeInTheDocument());
+    await expect(tabList.getByRole("tab", { name: "Second Tab", selected: true })).toBeVisible();
+    await waitFor(() => expect(dropdownButton).toHaveFocus());
+    await expectChevronAlignment();
+  },
 };
 
 export const KeyboardInteraction: Story = {
@@ -707,6 +766,409 @@ export const KeyboardInteraction: Story = {
     await step("Navigate back to the last tab and select it", async () => {
       await userEvent.keyboard(TESTING_ARROW_LEFT_KEY);
       expectTabToBeSelected(fifthTab);
+    });
+  },
+};
+
+export const WithoutSelectedTab: Story = {
+  tags: ["!autodocs"],
+  args: {
+    options: [
+      { id: "tab-1", label: "First Tab", panelId: "panel-1" },
+      { id: "tab-2", label: "Second Tab", panelId: "panel-2" },
+      { id: "tab-3", label: "Third Tab", panelId: "panel-3" },
+    ],
+    change: fn(),
+    direction: "horizontal",
+  },
+  render: (args) => ({
+    props: {
+      ...args,
+      handleTabChange(id: string) {
+        args.change?.(id);
+        this["selectedTabId"] = id;
+      },
+    },
+    template: `
+      <button type="button">Before tabs</button>
+      <rte-tab
+        [options]="options"
+        [selectedTabId]="selectedTabId"
+        [direction]="direction"
+        ariaLabel="Fallback tabs"
+        (change)="handleTabChange($event)"
+      />
+      <button type="button">After tabs</button>
+      @for (tab of options; track tab.id) {
+        <div
+          role="tabpanel"
+          [id]="tab.panelId"
+          [attr.aria-labelledby]="tab.id"
+          [hidden]="selectedTabId !== tab.id"
+        >
+          Content for {{ tab.label }}
+        </div>
+      }
+    `,
+  }),
+  play: async ({ canvasElement, args, step }) => {
+    const canvas = within(canvasElement);
+    const tabs = within(canvas.getByRole("tablist")).getAllByRole("tab");
+    const enabledTabs = tabs.filter((tab) => tab.getAttribute("data-disabled") !== "true");
+    const initialTab = enabledTabs.find((tab) => tab.id === args.selectedTabId) ?? enabledTabs[0];
+    const nextKey = args.direction === "vertical" ? TESTING_ARROW_DOWN_KEY : TESTING_ARROW_RIGHT_KEY;
+    const previousKey = args.direction === "vertical" ? TESTING_ARROW_UP_KEY : TESTING_ARROW_LEFT_KEY;
+
+    await step("TAB reaches the first enabled tab when selection is missing or invalid", async () => {
+      canvas.getByRole("button", { name: "Before tabs" }).focus();
+      await userEvent.tab();
+      await expect(initialTab).toHaveFocus();
+      await expect(initialTab).toHaveAttribute("aria-selected", "true");
+      await expect(canvas.getByRole("tabpanel")).toHaveAttribute("aria-labelledby", initialTab.id);
+      await expect(tabs.filter((tab) => tab.tabIndex === 0)).toEqual([initialTab]);
+      if (!enabledTabs.some((tab) => tab.id === args.selectedTabId)) {
+        await expect(args.change).toHaveBeenCalledTimes(1);
+        await expect(args.change).toHaveBeenCalledWith(initialTab.id);
+      } else {
+        await expect(args.change).not.toHaveBeenCalled();
+      }
+      for (const tab of tabs.filter((tab) => !enabledTabs.includes(tab))) {
+        await expect(tab).toHaveAttribute("aria-selected", "false");
+        await expect(args.change).not.toHaveBeenCalledWith(tab.id);
+      }
+    });
+
+    await step("Arrow keys wrap and skip disabled tabs", async () => {
+      const previousTab = enabledTabs[(enabledTabs.indexOf(initialTab) - 1 + enabledTabs.length) % enabledTabs.length];
+      await userEvent.keyboard(previousKey);
+      await expect(previousTab).toHaveFocus();
+      await expect(previousTab).toHaveAttribute("aria-selected", "true");
+      await expect(args.change).toHaveBeenLastCalledWith(previousTab.id);
+      await expect(tabs.filter((tab) => tab.tabIndex === 0)).toEqual([previousTab]);
+      await userEvent.keyboard(nextKey);
+      await expect(initialTab).toHaveFocus();
+      await expect(initialTab).toHaveAttribute("aria-selected", "true");
+    });
+
+    await step("TAB leaves the tablist without visiting the other tabs", async () => {
+      await userEvent.tab();
+      await expect(canvas.getByRole("button", { name: "After tabs" })).toHaveFocus();
+    });
+  },
+};
+
+export const InvalidSelectedTab: Story = {
+  ...WithoutSelectedTab,
+  args: { ...WithoutSelectedTab.args, selectedTabId: "missing-tab" },
+  play: WithoutSelectedTab.play,
+};
+
+export const FirstTabDisabled: Story = {
+  ...WithoutSelectedTab,
+  args: {
+    ...WithoutSelectedTab.args,
+    options: WithoutSelectedTab.args?.options?.map((option, index) => ({ ...option, disabled: index === 0 })),
+  },
+  play: WithoutSelectedTab.play,
+};
+
+export const InvalidSelectedTabWithFirstDisabled: Story = {
+  ...FirstTabDisabled,
+  args: { ...FirstTabDisabled.args, selectedTabId: "missing-tab" },
+  play: WithoutSelectedTab.play,
+};
+
+export const VerticalWithoutSelectedTab: Story = {
+  ...WithoutSelectedTab,
+  args: { ...WithoutSelectedTab.args, direction: "vertical" },
+  play: WithoutSelectedTab.play,
+};
+
+export const SelectedTabIsPreserved: Story = {
+  ...WithoutSelectedTab,
+  args: { ...WithoutSelectedTab.args, selectedTabId: "tab-2" },
+  play: WithoutSelectedTab.play,
+};
+
+export const AllTabsDisabled: Story = {
+  ...WithoutSelectedTab,
+  args: {
+    ...WithoutSelectedTab.args,
+    options: WithoutSelectedTab.args?.options?.map((option) => ({ ...option, disabled: true })),
+  },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const tabs = within(canvas.getByRole("tablist")).queryAllByRole("tab");
+    await expect(tabs.every((tab) => tab.tabIndex === -1)).toBe(true);
+    await expect(tabs.every((tab) => tab.getAttribute("aria-selected") === "false")).toBe(true);
+    await expect(args.change).not.toHaveBeenCalled();
+    canvas.getByRole("button", { name: "Before tabs" }).focus();
+    await userEvent.tab();
+    await expect(canvas.getByRole("button", { name: "After tabs" })).toHaveFocus();
+  },
+};
+
+export const EmptyOptions: Story = {
+  ...WithoutSelectedTab,
+  args: { ...WithoutSelectedTab.args, options: [] },
+  play: AllTabsDisabled.play,
+};
+
+export const FocusWithoutSelectionUpdate: Story = {
+  ...FirstTabDisabled,
+  render: (args) => ({
+    props: args,
+    template: `
+      <button type="button">Before tabs</button>
+      <rte-tab [options]="options" [selectedTabId]="selectedTabId" (change)="change($event)" />
+    `,
+  }),
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const tabs = canvas.getAllByRole("tab");
+    canvas.getByRole("button", { name: "Before tabs" }).focus();
+    await userEvent.tab();
+    await expect(tabs[1]).toHaveFocus();
+    await expect(args.change).toHaveBeenCalledTimes(1);
+    await expect(args.change).toHaveBeenCalledWith(tabs[1].id);
+    await userEvent.keyboard(TESTING_ARROW_RIGHT_KEY);
+    await expect(tabs[2]).toHaveFocus();
+    await expect(args.change).toHaveBeenLastCalledWith(tabs[2].id);
+    await userEvent.keyboard(TESTING_ARROW_RIGHT_KEY);
+    await expect(tabs[1]).toHaveFocus();
+    await expect(args.change).toHaveBeenLastCalledWith(tabs[1].id);
+    await expect(args.change).not.toHaveBeenCalledWith(tabs[0].id);
+    await expect(tabs.filter((tab) => tab.tabIndex === 0)).toEqual([tabs[1]]);
+  },
+};
+
+export const SelectionFallbackOnInputChanges: Story = {
+  ...FirstTabDisabled,
+  render: (args) => ({
+    props: {
+      ...args,
+      currentOptions: [],
+      remainingOptions: args.options?.filter((option) => option.id !== "tab-2"),
+      handleTabChange(id: string) {
+        args.change?.(id);
+        this["selectedTabId"] = id;
+      },
+    },
+    template: `
+      <button type="button" (click)="currentOptions = options">Load tabs</button>
+      <button type="button" (click)="selectedTabId = 'missing-tab'">Invalidate selection</button>
+      <button type="button" (click)="currentOptions = remainingOptions">Remove selected tab</button>
+      <button type="button" (click)="currentOptions = []">Empty tabs</button>
+      <rte-tab
+        [options]="currentOptions"
+        [selectedTabId]="selectedTabId"
+        ariaLabel="Fallback tabs"
+        (change)="handleTabChange($event)"
+      />
+      @for (tab of currentOptions; track tab.id) {
+        <div
+          role="tabpanel"
+          [id]="tab.panelId"
+          [attr.aria-labelledby]="tab.id"
+          [hidden]="selectedTabId !== tab.id"
+        >
+          Content for {{ tab.label }}
+        </div>
+      }
+    `,
+  }),
+  play: async ({ canvasElement, args, step }) => {
+    const canvas = within(canvasElement);
+
+    await step("Select the first enabled tab when options arrive", async () => {
+      await expect(args.change).not.toHaveBeenCalled();
+      await userEvent.click(canvas.getByRole("button", { name: "Load tabs" }));
+      await waitFor(() => {
+        expect(canvas.getByRole("tab", { name: "Second Tab" })).toHaveAttribute("aria-selected", "true");
+      });
+      await expect(args.change).toHaveBeenCalledTimes(1);
+      await expect(args.change).toHaveBeenLastCalledWith("tab-2");
+      await expect(args.change).not.toHaveBeenCalledWith("tab-1");
+    });
+
+    await step("Restore the default when selectedTabId becomes invalid", async () => {
+      await userEvent.click(canvas.getByRole("button", { name: "Invalidate selection" }));
+      await waitFor(() => expect(args.change).toHaveBeenCalledTimes(2));
+      await expect(args.change).toHaveBeenLastCalledWith("tab-2");
+      await expect(canvas.getByRole("tab", { name: "Second Tab" })).toHaveAttribute("aria-selected", "true");
+    });
+
+    await step("Select the next enabled tab when the selected option is removed", async () => {
+      await userEvent.click(canvas.getByRole("button", { name: "Remove selected tab" }));
+      await waitFor(() => {
+        expect(canvas.getByRole("tab", { name: "Third Tab" })).toHaveAttribute("aria-selected", "true");
+      });
+      await expect(args.change).toHaveBeenCalledTimes(3);
+      await expect(args.change).toHaveBeenLastCalledWith("tab-3");
+    });
+
+    await step("Preserve a valid selection when other options return", async () => {
+      await userEvent.click(canvas.getByRole("button", { name: "Load tabs" }));
+      await expect(canvas.getByRole("tab", { name: "Third Tab" })).toHaveAttribute("aria-selected", "true");
+      await expect(args.change).toHaveBeenCalledTimes(3);
+    });
+
+    await step("Do not request selection when options become empty", async () => {
+      await userEvent.click(canvas.getByRole("button", { name: "Empty tabs" }));
+      await expect(canvas.queryAllByRole("tab")).toHaveLength(0);
+      await expect(args.change).toHaveBeenCalledTimes(3);
+    });
+  },
+};
+
+const accessibleNameValidationCases = [
+  {
+    id: "label",
+    title: "label only",
+    expectedAriaLabel: "Libellé seul",
+    options: [
+      { id: "ref", panelId: "ref-panel", label: "Référence" },
+      { id: "target", panelId: "target-panel", label: "Libellé seul" },
+    ],
+  },
+  {
+    id: "ariaLabel",
+    title: "ariaLabel override",
+    expectedAriaLabel: "3 nouvelles alertes",
+    options: [
+      { id: "ref", panelId: "ref-panel", label: "Référence" },
+      {
+        id: "target",
+        panelId: "target-panel",
+        label: "Visible (ignoré SR)",
+        ariaLabel: "3 nouvelles alertes",
+      },
+    ],
+  },
+  {
+    id: "labelNumberBadge",
+    title: "label + number badge",
+    expectedAriaLabel: "Alertes, 3",
+    options: [
+      { id: "ref", panelId: "ref-panel", label: "Référence" },
+      {
+        id: "target",
+        panelId: "target-panel",
+        label: "Alertes",
+        badgeContent: "number",
+        badgeCount: 3,
+        badgeType: "indicator",
+      },
+    ],
+  },
+  {
+    id: "labelEmptyBadge",
+    title: "label + empty badge",
+    expectedAriaLabel: "Favoris. Notification",
+    options: [
+      { id: "ref", panelId: "ref-panel", label: "Référence" },
+      {
+        id: "target",
+        panelId: "target-panel",
+        label: "Favoris",
+        showBadge: true,
+        badgeContent: "empty",
+        badgeType: "indicator",
+      },
+    ],
+  },
+  {
+    id: "iconOnly",
+    title: "icon without label",
+    expectedAriaLabel: "view-column",
+    options: [
+      { id: "ref", panelId: "ref-panel", icon: "view-agenda", ariaLabel: "view-agenda" },
+      { id: "target", panelId: "target-panel", icon: "view-column", ariaLabel: "view-column" },
+    ],
+  },
+  {
+    id: "iconNumberBadge",
+    title: "icon + badgeCount",
+    expectedAriaLabel: "view-column. Notifications, 3",
+    options: [
+      { id: "ref", panelId: "ref-panel", icon: "view-agenda", ariaLabel: "view-agenda" },
+      {
+        id: "target",
+        panelId: "target-panel",
+        icon: "view-column",
+        ariaLabel: "view-column",
+        badgeContent: "number",
+        badgeCount: 3,
+        badgeType: "indicator",
+      },
+    ],
+  },
+  {
+    id: "iconBadgeIcon",
+    title: "icon + badgeIcon",
+    expectedAriaLabel: "view-grid. Notification",
+    options: [
+      { id: "ref", panelId: "ref-panel", icon: "view-agenda", ariaLabel: "view-agenda" },
+      {
+        id: "target",
+        panelId: "target-panel",
+        icon: "view-grid",
+        ariaLabel: "view-grid",
+        badgeContent: "icon",
+        badgeIcon: "notification",
+        badgeType: "indicator",
+      },
+    ],
+  },
+];
+
+export const AccessibleNameValidation: Story = {
+  tags: ["!autodocs"],
+  render: () => ({
+    props: {
+      cases: accessibleNameValidationCases,
+      selectedByCase: Object.fromEntries(
+        accessibleNameValidationCases.map((validationCase) => [validationCase.id, "ref"]),
+      ),
+      onCaseChange(caseId: string, tabId: string) {
+        this["selectedByCase"] = { ...this["selectedByCase"], [caseId]: tabId };
+      },
+    },
+    template: `
+      <div
+        data-testid="accessible-name-validation"
+        style="display: flex; flex-direction: column; gap: 28px; max-width: 420px; padding: 8px;"
+      >
+        <p style="margin: 0; font-size: 14px;">
+          Focus the <strong>second tab</strong> of each list. Compare its <code>aria-label</code> with the expected
+          value below.
+        </p>
+        @for (validationCase of cases; track validationCase.id) {
+          <section [attr.aria-labelledby]="'case-' + validationCase.id + '-title'">
+            <h3 [id]="'case-' + validationCase.id + '-title'" style="margin: 0 0 4px; font-size: 16px;">
+              {{ validationCase.title }}
+            </h3>
+            <p style="margin: 0 0 8px; font-size: 13px; color: #555;">
+              Expected 2nd tab: <code>{{ validationCase.expectedAriaLabel }}</code>
+            </p>
+            <rte-tab
+              [options]="validationCase.options"
+              [selectedTabId]="selectedByCase[validationCase.id]"
+              [ariaLabel]="validationCase.title"
+              (change)="onCaseChange(validationCase.id, $event)"
+            />
+          </section>
+        }
+      </div>
+    `,
+  }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const sections = canvas.getByTestId("accessible-name-validation").querySelectorAll("section");
+
+    accessibleNameValidationCases.forEach((validationCase, index) => {
+      const tabs = Array.from(sections[index].querySelectorAll("[role='tab']"));
+      expect(tabs[1]).toHaveAttribute("aria-label", validationCase.expectedAriaLabel);
     });
   },
 };

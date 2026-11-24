@@ -3,44 +3,32 @@
 ## Overview
 
 ```html
-<rte-stepper
-  [steps]="steps"
-  [orientation]="orientation"
-  [activeStepId]="activeStepId"
-/>
+<rte-stepper [steps]="steps" [orientation]="orientation" [activeStepId]="activeStepId" />
 ```
 
 ## API
 
 Le composant `rte-stepper` constitue l'API publique. Liez la liste d'étapes, l'étape active et l'orientation optionnelle ; gérez la navigation via le callback `onClick` de chaque étape et la sortie `clickStep`.
 
-
-| Nom          | Type                        | Valeur par défaut | Description                                                                              |
-| ------------ | --------------------------- | ----------------- | ---------------------------------------------------------------------------------------- |
-| steps        | `Step[]`                    | `[]`              | Liste ordonnée des étapes à afficher.                                                    |
-| activeStepId | `string`                    | —                 | Identifiant de l'étape active. Définit `aria-current="step"` sur l'étape correspondante. |
-| orientation  | `"horizontal" | "vertical"` | `"horizontal"`    | Direction de disposition du stepper.                                                     |
-
-
+| Nom          | Type          | Valeur par défaut | Description                                                                              |
+| ------------ | ------------- | ----------------- | ---------------------------------------------------------------------------------------- |
+| steps        | `Step[]`      | `[]`              | Liste ordonnée des étapes à afficher.                                                    |
+| activeStepId | `string`      | —                 | Identifiant de l'étape active. Définit `aria-current="step"` sur l'étape correspondante. |
+| orientation  | `"horizontal" | "vertical"`       | `"horizontal"`                                                                           | Direction de disposition du stepper. |
 
 | Sortie    | Type   | Description                                                                                                        |
 | --------- | ------ | ------------------------------------------------------------------------------------------------------------------ |
 | clickStep | `Step` | Émise lorsqu'une étape cliquable est activée. Se déclenche après l'exécution du gestionnaire `onClick` de l'étape. |
 
-
 Chaque entrée de `steps` suit l'interface `Step` :
 
-
-| Nom                   | Type                                      | Valeur par défaut | Description                                                                                                       |
-| --------------------- | ----------------------------------------- | ----------------- | ----------------------------------------------------------------------------------------------------------------- |
-| id                    | `string`                                  | — (requis)        | Identifiant unique de l'étape. Utilisé pour faire correspondre `activeStepId`.                                    |
-| name                  | `string`                                  | — (requis)        | Libellé affiché sous l'indicateur d'étape.                                                                        |
-| completionState       | `"unvisited" | "incomplete" | "complete"` | — (requis)        | État visuel de l'étape. Les étapes complétées affichent une icône de validation lorsqu'elles ne sont pas actives. |
-| clickableCompleteStep | `boolean`                                 | `false`           | Si `true`, les étapes complétées restent cliquables lorsqu'elles définissent `onClick`.                           |
-| onClick               | `() => void`                              | —                 | Callback invoqué lors du clic sur l'étape. Requis pour qu'une étape soit cliquable.                               |
-
-
-
+| Nom                   | Type         | Valeur par défaut | Description                                                                             |
+| --------------------- | ------------ | ----------------- | --------------------------------------------------------------------------------------- |
+| id                    | `string`     | — (requis)        | Identifiant unique de l'étape. Utilisé pour faire correspondre `activeStepId`.          |
+| name                  | `string`     | — (requis)        | Libellé affiché sous l'indicateur d'étape.                                              |
+| completionState       | `"unvisited" | "incomplete"      | "complete"`                                                                             | — (requis) | État visuel de l'étape. Les étapes complétées affichent une icône de validation lorsqu'elles ne sont pas actives. |
+| clickableCompleteStep | `boolean`    | `false`           | Si `true`, les étapes complétées restent cliquables lorsqu'elles définissent `onClick`. |
+| onClick               | `() => void` | —                 | Callback invoqué lors du clic sur l'étape. Requis pour qu'une étape soit cliquable.     |
 
 ## Usage
 
@@ -62,11 +50,7 @@ orientation: "horizontal" | "vertical" = "horizontal";
 
 ```html
 <div style="width: 300px">
-  <rte-stepper
-    [steps]="steps.slice(0, 3)"
-    [orientation]="orientation"
-    [activeStepId]="activeStepId"
-  />
+  <rte-stepper [steps]="steps.slice(0, 3)" [orientation]="orientation" [activeStepId]="activeStepId" />
 </div>
 ```
 
@@ -76,11 +60,7 @@ Pour réagir aux clics sur les étapes, fournissez `onClick` sur chaque étape e
 
 ```html
 <div style="height: 300px">
-  <rte-stepper
-    [steps]="steps.slice(0, 3)"
-    orientation="vertical"
-    [activeStepId]="activeStepId"
-  />
+  <rte-stepper [steps]="steps.slice(0, 3)" orientation="vertical" [activeStepId]="activeStepId" />
 </div>
 ```
 
@@ -156,11 +136,7 @@ activeStepId = "3";
 
 ```html
 <div style="width: 400px">
-  <rte-stepper
-    [steps]="clickableSteps"
-    [activeStepId]="activeStepId"
-    (clickStep)="changeStep($event)"
-  />
+  <rte-stepper [steps]="clickableSteps" [activeStepId]="activeStepId" (clickStep)="changeStep($event)" />
 </div>
 ```
 
@@ -188,8 +164,6 @@ activeStepId = "1";
 Pilotez un parcours séquentiel depuis des actions externes. Définissez le `completionState` de l'étape courante sur `"complete"` ou `"incomplete"` dans `validate()` avant de faire avancer `activeStepId` vers l'étape suivante.
 
 ## Limitations
-
-
 
 ### Nombre d'étapes
 

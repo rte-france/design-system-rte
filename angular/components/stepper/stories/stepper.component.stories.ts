@@ -1,7 +1,9 @@
 import { Step } from "@design-system-rte/core/components/stepper/stepper.interface";
 import {
+  TESTING_ARROW_DOWN_KEY,
   TESTING_ARROW_LEFT_KEY,
   TESTING_ARROW_RIGHT_KEY,
+  TESTING_ARROW_UP_KEY,
 } from "@design-system-rte/core/constants/keyboard/keyboard-test.constants";
 import type { Meta, StoryObj } from "@storybook/angular";
 import { moduleMetadata } from "@storybook/angular";
@@ -277,7 +279,9 @@ export const LinearProgression: Story = {
       ...args,
       validate() {
         const currentIndex = this["steps"].findIndex((step: Step) => step.id === this["activeStepId"]);
-        this["steps"][currentIndex].completionState = "complete";
+        this["steps"] = this["steps"].map((step: Step) =>
+          step.id === this["activeStepId"] ? { ...step, completionState: "complete" } : step,
+        );
         if (currentIndex < this["steps"].length - 1) {
           this["activeStepId"] = this["steps"][currentIndex + 1].id;
           console.log(`Changing to step ${this["steps"][currentIndex + 1].id}`);
@@ -287,7 +291,9 @@ export const LinearProgression: Story = {
       },
       validatePartially() {
         const currentIndex = this["steps"].findIndex((step: Step) => step.id === this["activeStepId"]);
-        this["steps"][currentIndex].completionState = "incomplete";
+        this["steps"] = this["steps"].map((step: Step) =>
+          step.id === this["activeStepId"] ? { ...step, completionState: "incomplete" } : step,
+        );
         if (currentIndex < this["steps"].length - 1) {
           this["activeStepId"] = this["steps"][currentIndex + 1].id;
         }
@@ -338,6 +344,22 @@ export const LinearProgression: Story = {
       </div>
     `,
   }),
+
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    await userEvent.click(canvas.getByRole("button", { name: "Valider et passer à l'étape suivante" }));
+    await waitFor(() => {
+      expect(canvas.getByRole("button", { name: /^Étape 1 sur 4, Étape 1\s*, terminée$/ })).toBeInTheDocument();
+    });
+
+    await userEvent.click(canvas.getByRole("button", { name: "Valider partiellement et passer à l'étape suivante" }));
+    await waitFor(() => {
+      expect(
+        canvas.getByRole("button", { name: /^Étape 2 sur 4, Étape 2\s*, partiellement complétée$/ }),
+      ).toBeInTheDocument();
+    });
+  },
 };
 
 export const KeyboardNavigation: Story = {
@@ -389,5 +411,68 @@ export const KeyboardNavigation: Story = {
     expect(allSteps[allSteps.length - 1]).toHaveFocus();
     await userEvent.keyboard(TESTING_ARROW_RIGHT_KEY);
     expect(allSteps[0]).toHaveFocus();
+
+    await userEvent.click(allSteps[0]);
+    await waitFor(() => {
+      expect(allSteps[0]).toHaveAttribute("aria-current", "step");
+      expect(allSteps[0]).toHaveAccessibleName(/^Étape 1 sur 7, Étape 1\s*, terminée$/);
+    });
   },
+};
+
+export const KeyboardNavigationWithDisabledSteps: Story = {
+  tags: ["!autodocs"],
+  args: {
+    steps: allClickableSteps.slice(0, 3).map((step, index) => (index === 1 ? { ...step, onClick: undefined } : step)),
+    orientation: "horizontal",
+    activeStepId: "1",
+  },
+
+  render: (args) => ({
+    props: { ...args },
+    template: `
+    <div style="width: 300px; height: 300px">
+      <rte-stepper
+        [steps]="steps"
+        [orientation]="orientation"
+        [activeStepId]="activeStepId"
+      />
+    </div>
+    `,
+  }),
+
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const firstStep = canvas.getByRole("button", { name: /^Étape 1 sur 3,/ });
+    const disabledStep = canvas.getByRole("button", { name: /^Étape 2 sur 3,/ });
+    const lastStep = canvas.getByRole("button", { name: "Étape 3 sur 3, Étape 3" });
+    const nextKey = args.orientation === "vertical" ? TESTING_ARROW_DOWN_KEY : TESTING_ARROW_RIGHT_KEY;
+    const previousKey = args.orientation === "vertical" ? TESTING_ARROW_UP_KEY : TESTING_ARROW_LEFT_KEY;
+
+    expect(disabledStep).toBeDisabled();
+    focusElementBeforeComponent();
+    await userEvent.tab();
+    await waitFor(() => {
+      expect(firstStep).toHaveFocus();
+    });
+
+    await userEvent.keyboard(nextKey);
+    expect(lastStep).toHaveFocus();
+    await userEvent.keyboard(previousKey);
+    expect(firstStep).toHaveFocus();
+    await userEvent.keyboard(previousKey);
+    expect(lastStep).toHaveFocus();
+    await userEvent.keyboard(nextKey);
+    expect(firstStep).toHaveFocus();
+  },
+};
+
+export const VerticalKeyboardNavigationWithDisabledSteps: Story = {
+  args: {
+    ...KeyboardNavigationWithDisabledSteps.args,
+    orientation: "vertical",
+  },
+  tags: ["!autodocs"],
+  render: KeyboardNavigationWithDisabledSteps.render,
+  play: KeyboardNavigationWithDisabledSteps.play,
 };

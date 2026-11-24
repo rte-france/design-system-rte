@@ -10,34 +10,35 @@
 
 Le composant `rte-tab` constitue l'API publique. Passez les définitions d'onglets via `options`, contrôlez l'onglet actif avec `selectedTabId` et écoutez `(change)` pour mettre à jour la sélection.
 
-| Property       | Type             | Default     | Description                                                             |
-| -------------- | ---------------- | ----------- | ----------------------------------------------------------------------- |
-| options        | `TabItemProps[]` | `[]`        | Définitions des onglets affichés dans la liste.                         |
-| selectedTabId  | `string`         | —           | Id de l'onglet sélectionné. Doit correspondre à un `id` dans `options`. |
-| direction      | `"horizontal"    | "vertical"` | `"horizontal"`                                                          | Direction de la liste d'onglets. `"horizontal"` les dispose en ligne ; `"vertical"` les empile en colonne.                           |
-| alignment      | `"start"         | "center"`   | `"start"`                                                               | Alignement des onglets lorsqu'il n'y a pas de débordement. Forcé à `"start"` en cas de débordement.                                  |
-| compactSpacing | `boolean`        | `false`     | Réduit l'espacement entre les onglets.                                  |
-| overflowType   | `"scrollable"    | "dropdown"` | `"scrollable"`                                                          | Gestion du débordement horizontal. `"scrollable"` ajoute des flèches de défilement ; `"dropdown"` regroupe les onglets dans un menu. |
-| inverted       | `boolean`        | `false`     | Affiche les onglets sur fond inverse (sombre).                          |
+| Property       | Type             | Default     | Description                                                                                                                                                                                                                                                                            |
+| -------------- | ---------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| options        | `TabItemProps[]` | `[]`        | Définitions des onglets affichés dans la liste.                                                                                                                                                                                                                                        |
+| selectedTabId  | `string`         | —           | Id de l'onglet sélectionné. S'il est omis ou absent de `options`, `change` émet l'id du premier onglet non désactivé. Cet onglet reste accessible avec TAB même si le parent ne met pas à jour la sélection. Aucun repli si tous les onglets sont désactivés ou si `options` est vide. |
+| direction      | `"horizontal"    | "vertical"` | `"horizontal"`                                                                                                                                                                                                                                                                         | Direction de la liste d'onglets. `"horizontal"` les dispose en ligne ; `"vertical"` les empile en colonne.                           |
+| alignment      | `"start"         | "center"`   | `"start"`                                                                                                                                                                                                                                                                              | Alignement des onglets lorsqu'il n'y a pas de débordement. Forcé à `"start"` en cas de débordement.                                  |
+| compactSpacing | `boolean`        | `false`     | Réduit l'espacement entre les onglets.                                                                                                                                                                                                                                                 |
+| overflowType   | `"scrollable"    | "dropdown"` | `"scrollable"`                                                                                                                                                                                                                                                                         | Gestion du débordement horizontal. `"scrollable"` ajoute des flèches de défilement ; `"dropdown"` regroupe les onglets dans un menu. |
+| inverted       | `boolean`        | `false`     | Affiche les onglets sur fond inverse (sombre).                                                                                                                                                                                                                                         |
 
-| Output | Type     | Description                                            |
-| ------ | -------- | ------------------------------------------------------ |
-| change | `string` | Émet l'`id` de l'onglet sélectionné par l'utilisateur. |
+| Output | Type     | Description                                                                                                                                   |
+| ------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| change | `string` | Émet l'`id` de l'onglet sélectionné, y compris le premier onglet non désactivé utilisé en repli lorsque `selectedTabId` est omis ou invalide. |
 
 Chaque entrée de `options` accepte les champs suivants :
 
-| Property     | Type                                  | Default       | Description                                                                                            |
-| ------------ | ------------------------------------- | ------------- | ------------------------------------------------------------------------------------------------------ |
-| id           | `string`                              | — (requis)    | Identifiant unique de l'onglet. Utilisé comme valeur de l'événement `change`.                          |
-| panelId      | `string`                              | — (requis)    | Id du panneau associé, défini comme `aria-controls` sur le bouton d'onglet.                            |
-| label        | `string`                              | —             | Libellé visible de l'onglet.                                                                           |
-| icon         | `string`                              | —             | Nom de l'icône affichée avant le libellé.                                                              |
-| disabled     | `boolean`                             | `false`       | Désactive l'onglet. Ignoré lors de la navigation au clavier.                                           |
-| showBadge    | `boolean`                             | —             | Affichage du badge sur un onglet non désactivé.                                                        |
-| badgeCount   | `number`                              | —             | Valeur numérique affichée lorsque `badgeContent` vaut `"number"`.                                      |
-| badgeContent | `"number" \| "icon" \| "empty"`       | `"empty"`     | `"number"` affiche un compteur ; `"icon"` affiche `badgeIcon` ; `"empty"` affiche un point indicateur. |
-| badgeIcon    | `string`                              | —             | Nom de l'icône affichée lorsque `badgeContent` vaut `"icon"`.                                          |
-| badgeType    | `"brand" \| "neutral" \| "indicator"` | `"indicator"` | Variante visuelle du badge.                                                                            |
+| Property     | Type      | Default    | Description                                                                                        |
+| ------------ | --------- | ---------- | -------------------------------------------------------------------------------------------------- |
+| id           | `string`  | — (requis) | Identifiant unique de l'onglet. Utilisé comme valeur de l'événement `change`.                      |
+| panelId      | `string`  | — (requis) | Id du panneau associé, défini comme `aria-controls` sur le bouton d'onglet.                        |
+| label        | `string`  | —          | Libellé visible de l'onglet.                                                                       |
+| icon         | `string`  | —          | Nom de l'icône affichée avant le libellé.                                                          |
+| disabled     | `boolean` | `false`    | Désactive l'onglet. Ignoré lors de la navigation au clavier.                                       |
+| showBadge    | `boolean` | —          | Affiche le badge même si les critères de compteur ou d'icône ne sont pas remplis.                  |
+| badgeCount   | `number`  | —          | Valeur numérique affichée lorsque `badgeContent` vaut `"number"`.                                  |
+| badgeContent | `"number" | "icon"     | "empty"`                                                                                           | —   | `"number"` affiche un compteur ; `"icon"` affiche `badgeIcon` ; `"empty"` affiche un point indicateur. |
+| badgeIcon    | `string`  | —          | Nom de l'icône affichée lorsque `badgeContent` vaut `"icon"`.                                      |
+| badgeType    | `"brand"  | "neutral"  | "indicator"`                                                                                       | —   | Variante visuelle du badge.                                                                            |
+| ariaLabel    | `string`  | —          | Nom accessible de l'onglet. Remplace le nom calculé à partir du libellé ou de l'icône et du badge. |
 
 ## Usage
 
@@ -158,9 +159,9 @@ Contrôle le comportement des onglets lorsqu'ils dépassent la largeur du conten
 
 `rte-tab` affiche uniquement la liste d'onglets. Vous devez créer et gérer le contenu des panneaux séparément, en reliant l'`id` de chaque panneau au `panelId` correspondant dans `options`.
 
-### Sélection entièrement contrôlée
+### Sélection automatique du premier onglet
 
-Le composant ne sélectionne pas automatiquement un onglet. Vous devez initialiser `selectedTabId` avec un `id` valide et le mettre à jour lorsque `(change)` est émis.
+Lorsque `selectedTabId` est omis ou ne correspond à aucun `id` dans `options`, `rte-tab` émet `change` avec l'`id` du premier onglet non désactivé. Le parent doit transmettre cet id à `selectedTabId` pour mettre à jour la sélection et gérer le panneau associé.
 
 ### Le débordement en dropdown est horizontal uniquement
 

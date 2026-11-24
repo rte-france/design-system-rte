@@ -79,6 +79,7 @@
       flex-direction: row;
       align-items: center;
       gap: $positive-spacing_100;
+      color: var(--content-primary);
 
       .rte-modal-title {
         @include typography-heading-m;
@@ -87,6 +88,20 @@
         color: var(--content-primary);
         text-overflow: ellipsis;
         flex: 1 1 0;
+      }
+
+      rte-icon-button {
+        ::ng-deep {
+
+          .rte-icon-button {
+            padding: 0;
+            height: 24px;
+            width: 24px;
+            border-radius: $radius-s;
+          }
+
+
+        }
       }
     }
   }
