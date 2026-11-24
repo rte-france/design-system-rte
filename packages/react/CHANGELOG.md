@@ -1,5 +1,76 @@
 # @design-system-rte/react
 
+## 2.7.0
+
+### Minor Changes
+
+- c7b5c64: ## Changes
+
+  - (Icon Button Group Item) add filled appearance to active icon button
+  - use types from core package
+  - (Icon Button Group) allow disabling individual icon button
+  - (Icon Button Group) react - add component
+
+- b36dac9: ## Changes
+
+  - (Number Input) uplift common component logic to core
+  - (Number Input) add React component
+
+- e5f588d: ## Changes
+
+  - (Tab) implement automatic first-tab selection and update documentation
+
+### Patch Changes
+
+- 61b37c2: ## Changes
+
+  - (Tab) compute accessible aria-label when using badge
+
+- 805c457: ## Changes
+
+  - (Tab) fix tab accesibility structure in dropdown mode
+
+- 15e21d0: ## Changes
+
+  - (Stepper) explicit step information for accessibilty
+
+- 347484f: ## Changes
+
+  - (Stepper) add disabled state detection for keyboard navigation
+
+- 8c1c835: ## Changes
+
+  - (Modal) add valid close button aria label + set icon title color
+  - (Modal) harmonise header title and close button style
+
+- 102dccf: ## Changes
+
+  - (Breadcrumbs) update dropdown offset
+
+- 9f53034: ## Changes
+
+  - (Breadcrumbs) add aria label for more items button
+
+- fe1d444: ## Changes
+
+  - (Breadcrumbs) add missing use of aria-label prop
+
+- 5ba60e9: ## Changes
+
+  - (Toast) update padding with valid value
+
+- 8d73e27: ## Changes
+
+  - (Icon Button Group) replace fragment with keyed Fragment for improved rendering
+
+- Updated dependencies [c7b5c64]
+- Updated dependencies [b36dac9]
+- Updated dependencies [61b37c2]
+- Updated dependencies [15e21d0]
+- Updated dependencies [347484f]
+- Updated dependencies [9f53034]
+  - @design-system-rte/core@1.25.0
+
 ## 2.6.0
 
 ### Minor Changes

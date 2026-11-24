@@ -1,5 +1,37 @@
 # @design-system-rte/core
 
+## 1.25.0
+
+### Minor Changes
+
+- c7b5c64: ## Changes
+
+  - use types from core package
+  - (Icon Button Group) allow disabling individual icon button
+  - (Icon Button Group) react - add component
+
+- b36dac9: ## Changes
+
+  - (Number Input) uplift common component logic to core
+
+### Patch Changes
+
+- 61b37c2: ## Changes
+
+  - (Tab) compute accessible aria-label when using badge
+
+- 15e21d0: ## Changes
+
+  - (Stepper) explicit step information for accessibilty
+
+- 347484f: ## Changes
+
+  - (Stepper) add disabled state detection for keyboard navigation
+
+- 9f53034: ## Changes
+
+  - (Breadcrumbs) add aria label for more items button
+
 ## 1.24.0
 
 ### Minor Changes

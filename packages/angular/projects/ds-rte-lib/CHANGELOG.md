@@ -1,5 +1,65 @@
 # @design-system-rte/angular
 
+## 5.0.0
+
+### Minor Changes
+
+- b36dac9: ## Changes
+
+  - (Number Input) uplift common component logic to core
+  - (Number Input) add Angular component
+
+- e5f588d: ## Changes
+
+  - (Tab) implement automatic first-tab selection and update documentation
+
+### Patch Changes
+
+- 61b37c2: ## Changes
+
+  - (Tab) compute accessible aria-label when using badge
+
+- 805c457: ## Changes
+
+  - (Tab) fix tab accesibility structure in dropdown mode
+
+- 15e21d0: ## Changes
+
+  - (Stepper) explicit step information for accessibilty
+
+- 347484f: ## Changes
+
+  - (Stepper) add disabled state detection for keyboard navigation
+
+- 7be9294: ## Changes
+
+  - (Stepper) remove unused lifecycle hooks and clean up imports
+
+- 8c1c835: ## Changes
+
+  - (Modal) add valid close button aria label + set icon title color
+  - (Modal) harmonise header title and close button style
+
+- 102dccf: ## Changes
+
+  - (Dropdown-menu) align max-width
+
+- 9f53034: ## Changes
+
+  - (Breadcrumbs) add aria label for more items button
+
+- 5ba60e9: ## Changes
+
+  - (Toast) update padding with valid value
+
+- Updated dependencies [c7b5c64]
+- Updated dependencies [b36dac9]
+- Updated dependencies [61b37c2]
+- Updated dependencies [15e21d0]
+- Updated dependencies [347484f]
+- Updated dependencies [9f53034]
+  - @design-system-rte/core@1.25.0
+
 ## 4.6.0
 
 ### Minor Changes
