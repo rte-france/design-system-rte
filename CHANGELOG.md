@@ -2,7 +2,7 @@
 
 # Angular
 
-## 5.0.0
+## 4.7.0
 
 ### Number Input
 
@@ -165,6 +165,7 @@
 - Updated dependencies [4a53d30]
 - Updated dependencies [79fca5b]
 - @design-system-rte/core@1.23.0
+
 # React
 
 ## 2.7.0
@@ -343,6 +344,7 @@
 - Updated dependencies [4a53d30]
 - Updated dependencies [79fca5b]
 - @design-system-rte/core@1.23.0
+
 # Core
 
 ## 1.25.0
@@ -408,7 +410,6 @@
 
 ### Other
 
-
 ## 1.23.0
 
 ### Base Input
@@ -437,4 +438,3 @@
 - add aria-label to tab items for improved accessibility
 
 ### Other
-
