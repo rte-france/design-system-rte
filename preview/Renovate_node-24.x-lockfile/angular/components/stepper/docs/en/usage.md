@@ -16,11 +16,7 @@ orientation: "horizontal" | "vertical" = "horizontal";
 
 ```html
 <div style="width: 300px">
-  <rte-stepper
-    [steps]="steps.slice(0, 3)"
-    [orientation]="orientation"
-    [activeStepId]="activeStepId"
-  />
+  <rte-stepper [steps]="steps.slice(0, 3)" [orientation]="orientation" [activeStepId]="activeStepId" />
 </div>
 ```
 
@@ -30,11 +26,7 @@ To react to step clicks, provide `onClick` on each step and optionally listen to
 
 ```html
 <div style="height: 300px">
-  <rte-stepper
-    [steps]="steps.slice(0, 3)"
-    orientation="vertical"
-    [activeStepId]="activeStepId"
-  />
+  <rte-stepper [steps]="steps.slice(0, 3)" orientation="vertical" [activeStepId]="activeStepId" />
 </div>
 ```
 
@@ -110,11 +102,7 @@ activeStepId = "3";
 
 ```html
 <div style="width: 400px">
-  <rte-stepper
-    [steps]="clickableSteps"
-    [activeStepId]="activeStepId"
-    (clickStep)="changeStep($event)"
-  />
+  <rte-stepper [steps]="clickableSteps" [activeStepId]="activeStepId" (clickStep)="changeStep($event)" />
 </div>
 ```
 
