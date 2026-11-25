@@ -2,7 +2,10 @@ import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, input } from "@angular/core";
 import { BadgeProps } from "@design-system-rte/core/components/badge/badge.interface";
 import { shouldDisplayBadge as coreShouldDisplayBadge } from "@design-system-rte/core/components/badge/badge.utils";
-import { BREADCRUMBS_DEFAULT_ARIA_LABEL } from "@design-system-rte/core/components/breadcrumbs/breadcrumbs.constants";
+import {
+  BREADCRUMBS_DEFAULT_ARIA_LABEL,
+  BREADCRUMBS_MORE_ITEMS_ARIA_LABEL,
+} from "@design-system-rte/core/components/breadcrumbs/breadcrumbs.constants";
 import { BreadcrumbsTruncatedItems } from "@design-system-rte/core/components/breadcrumbs/breadcrumbs.interface";
 import {
   getBreadcrumbsTruncatedItems,
@@ -32,6 +35,8 @@ export class BreadcrumbsComponent {
   readonly badgeType = input<BadgeProps["badgeType"]>();
   readonly showBadge = input<boolean>(false);
   readonly badgeSize = input<BadgeProps["size"]>("s");
+
+  readonly breadcrumbsMoreItemsAriaLabel = BREADCRUMBS_MORE_ITEMS_ARIA_LABEL;
 
   readonly truncatedItems = computed<BreadcrumbsTruncatedItems | null>(() => {
     if (shouldTruncateBreadcrumbs(this.items())) {

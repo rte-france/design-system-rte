@@ -18,16 +18,20 @@
           [attr.disabled]="isStepFocusable(step) ? undefined : true"
           (click)="handleStepClick(step)"
         >
+          <span class="sr-only">Étape {{ index + 1 }} sur {{ steps().length }}, </span>
           @if (step.completionState === "complete" && !isStepActive(step.id)) {
             <div class="rte-stepper-complete-indicator">
               <rte-icon name="check" aria-hidden="true" [size]="iconSize['m']" />
             </div>
           } @else {
-            <div class="rte-stepper-number" [attr.data-completion-state]="step.completionState">
+            <div class="rte-stepper-number" aria-hidden="true" [attr.data-completion-state]="step.completionState">
               <span>{{ index + 1 }}</span>
             </div>
           }
           <span class="rte-stepper-name">{{ step.name }}</span>
+          <span *ngIf="completionState[step.completionState]" class="sr-only"
+            >, {{ completionState[step.completionState] }}</span
+          >
         </button>
         @if (index < steps().length - 1) {
           <div class="rte-step-separator-container" aria-hidden="true">
