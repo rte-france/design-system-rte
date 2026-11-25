@@ -2,6 +2,7 @@ import { CommonModule } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
+  effect,
   input,
   computed,
   signal,
@@ -75,6 +76,7 @@ export class TabComponent implements AfterViewInit, OnChanges, OnDestroy {
 
   readonly change = output<string>();
 
+  readonly isDropdownOpen = signal(false);
   readonly isScrollable = signal(false);
   private readonly isOverflowingLeft = signal(false);
   private readonly isOverflowingRight = signal(false);
@@ -96,8 +98,12 @@ export class TabComponent implements AfterViewInit, OnChanges, OnDestroy {
   readonly shouldDisplayDropdown = computed(() => this.overflowType() === "dropdown" && this.isHorizontal());
 
   readonly selectedTab = computed(() => {
-    return this.options().find((option) => option.id === this.selectedTabId());
+    const options = this.options();
+    return options.find((option) => option.id === this.selectedTabId()) ?? options.find((option) => !option.disabled);
   });
+
+  readonly focusableTabId = computed(() => this.selectedTab()?.id);
+
   readonly dropdownFilteredOptions = computed(() => {
     return this.options().filter((option) => option.id !== this.selectedTabId()) as DropdownItemConfig[];
   });
@@ -116,7 +122,7 @@ export class TabComponent implements AfterViewInit, OnChanges, OnDestroy {
 
   readonly tabItemSelectedIndicatorStyle = computed(() => ({
     left: `${this.shouldDisplayDropdown() ? 0 : this.sliderLeft()}px`,
-    top: `${this.sliderTop()}px`,
+    top: `${this.direction() === "horizontal" ? undefined : this.sliderTop()}px`,
     width: `${this.sliderWidth() + (this.shouldDisplayDropdown() ? 32 : 0)}px`,
     height: `${this.sliderHeight()}px`,
   }));
@@ -127,6 +133,15 @@ export class TabComponent implements AfterViewInit, OnChanges, OnDestroy {
     this.computeScrollableSignals();
     this.updateSelectedTabItemIndicator();
   };
+
+  constructor() {
+    effect(() => {
+      const selectedTab = this.selectedTab();
+      if (selectedTab && selectedTab.id !== this.selectedTabId()) {
+        this.change.emit(selectedTab.id);
+      }
+    });
+  }
 
   ngAfterViewInit() {
     this.onResize();
@@ -190,6 +205,15 @@ export class TabComponent implements AfterViewInit, OnChanges, OnDestroy {
     }
   };
 
+  onDropdownClosed = () => {
+    this.isDropdownOpen.set(false);
+    setTimeout(() => {
+      this.containerRef()
+        ?.nativeElement.querySelector<HTMLButtonElement>('[aria-label="Afficher les autres onglets"]')
+        ?.focus({ preventScroll: true });
+    });
+  };
+
   scrollBackward() {
     if (this.containerRef()?.nativeElement) {
       const scrollObject = this.direction() === "horizontal" ? { left: -300 } : { top: -300 };
@@ -215,7 +239,9 @@ export class TabComponent implements AfterViewInit, OnChanges, OnDestroy {
   };
 
   private focusItem = (direction: "next" | "previous") => {
-    const currentIndex = this.tabItemRefs().findIndex((tab) => tab === this.selectedTabRef());
+    const currentIndex = this.tabItemRefs().findIndex(
+      (tab) => tab.tabItemRef()?.nativeElement === document.activeElement,
+    );
     const maxIterations = this.tabItemRefs().length;
     let newIndex = this.computeNextItemIndex(currentIndex, maxIterations, direction);
     let counter = 0;
@@ -235,6 +261,7 @@ export class TabComponent implements AfterViewInit, OnChanges, OnDestroy {
   }
 
   private computeIndicatorStyle(tabItem: HTMLElement) {
+    console.log(this.direction());
     if (this.direction() === "horizontal") {
       return {
         width: tabItem.offsetWidth,

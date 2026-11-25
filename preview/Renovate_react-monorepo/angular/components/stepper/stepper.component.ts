@@ -1,16 +1,10 @@
 import { CommonModule } from "@angular/common";
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  input,
-  output,
-  AfterViewInit,
-  OnDestroy,
-  inject,
-} from "@angular/core";
+import { ChangeDetectionStrategy, Component, ElementRef, input, output, inject } from "@angular/core";
 import { IconSize } from "@design-system-rte/core/components/icon/icon.constants";
-import { STEPPER_DEFAULT_NAV_ARIA_LABEL } from "@design-system-rte/core/components/stepper/stepper.constants";
+import {
+  COMPLETION_STATES,
+  STEPPER_DEFAULT_NAV_ARIA_LABEL,
+} from "@design-system-rte/core/components/stepper/stepper.constants";
 import { StepperProps } from "@design-system-rte/core/components/stepper/stepper.interface";
 import {
   focusNextNotStepElement,
@@ -38,25 +32,18 @@ const segmentClass = "rte-stepper-button";
   styleUrl: "./stepper.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StepperComponent implements AfterViewInit, OnDestroy {
+export class StepperComponent {
   readonly steps = input<StepperProps["steps"]>([]);
   readonly activeStepId = input<string>();
   readonly orientation = input<StepperProps["orientation"]>("horizontal");
   readonly ariaLabel = input<string>(STEPPER_DEFAULT_NAV_ARIA_LABEL);
 
   readonly iconSize = IconSize;
+  readonly completionState = COMPLETION_STATES;
 
   private readonly stepperRef = inject(ElementRef);
 
   readonly clickStep = output<StepperProps["steps"][number]>();
-
-  ngAfterViewInit() {
-    window.addEventListener("keydown", this.onGlobalKeyDown.bind(this));
-  }
-
-  ngOnDestroy() {
-    window.removeEventListener("keydown", this.onGlobalKeyDown.bind(this));
-  }
 
   isStepActive(id: string): boolean {
     return this.activeStepId() === id;
@@ -129,10 +116,4 @@ export class StepperComponent implements AfterViewInit, OnDestroy {
       }
     }
   }
-
-  private lastKeydown: string | null = null;
-
-  private onGlobalKeyDown = (event: KeyboardEvent) => {
-    this.lastKeydown = event.key;
-  };
 }
