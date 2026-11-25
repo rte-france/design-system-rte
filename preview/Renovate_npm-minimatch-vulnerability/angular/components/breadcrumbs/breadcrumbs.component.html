@@ -11,11 +11,9 @@
       <rte-icon-button
         rteDropdownTrigger
         name="more-horiz"
-        role="menu"
         variant="neutral"
-        aria-label="More items"
         data-testid="show-more"
-        tabindex="-1"
+        [ariaLabel]="breadcrumbsMoreItemsAriaLabel"
         [compactSpacing]="true"
       />
       <rte-badge
