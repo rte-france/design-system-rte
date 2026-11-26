@@ -28,7 +28,7 @@
         }
 
         .groupTitle {
-            @include typography-heading-s;
+            @include typography-heading-xs;
             display: block;
             width: 100%;
             padding: $positive-spacing_0;
@@ -37,14 +37,14 @@
         }
 
         .groupHelpText {
-            @include typography-text-m;
+            @include typography-text-s;
             color: var(--content-tertiary);
             align-self: stretch;
             margin: $positive-spacing_0;
         }
 
         .errorMessage {
-            @include typography-text-m-bold;
+            @include typography-text-s-bold;
             color: var(--content-danger-default);
             align-self: stretch;
             margin: $positive-spacing_0;
