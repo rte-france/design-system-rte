@@ -39,9 +39,9 @@
       <rte-checkbox
         [id]="item + '-' + i"
         [label]="item"
-        [showLabel]="showItemsLabel()"
+        [hasLabel]="showItemsLabel()"
         [disabled]="disabled()"
-        [error]="error()"
+        [isError]="error()"
         [readOnly]="readOnly()"
         [ariaLabel]="showItemsLabel() ? undefined : item"
       />

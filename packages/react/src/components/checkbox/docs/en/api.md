@@ -4,10 +4,12 @@ The `Checkbox` component is the public API. It renders a styled native checkbox 
 |----------|------|---------|-------------|
 | id | string | — (required) | Unique identifier linked to the label and native input. |
 | label | string | — (required) | Visible label text displayed next to the checkbox. |
-| showLabel | boolean | `true` | Shows or hides the visible label. Provide `aria-label` when set to `false`. |
+| hasLabel | boolean | `true` | Shows or hides the visible label. Provide `aria-label` when set to `false`. |
+| showLabel | boolean | `true` | Deprecated alias of `hasLabel`. Prefer `hasLabel`. |
 | description | string | `undefined` | Secondary text displayed below the label. |
-| error | boolean | `undefined` | Applies error styling to the checkbox and label. |
-| errorMessage | string | `undefined` | Error text displayed below the description when `error` is `true`. |
+| isError | boolean | `false` | Applies error styling to the checkbox and label. |
+| error | boolean | `undefined` | Deprecated alias of `isError`. Prefer `isError`. |
+| errorMessage | string | `undefined` | Error text displayed below the description when `isError` is `true`. |
 | readOnly | boolean | `undefined` | Displays the current state without allowing changes. |
 | indeterminate | boolean | `undefined` | Sets the indeterminate visual state on the native input. |
 

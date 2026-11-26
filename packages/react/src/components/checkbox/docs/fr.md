@@ -18,10 +18,12 @@ Le composant `Checkbox` constitue l'API publique. Il rend un input checkbox nati
 |-----|------|-------------------|-------------|
 | id | string | — (requis) | Identifiant unique lié au libellé et à l'input natif. |
 | label | string | — (requis) | Texte du libellé visible affiché à côté de la checkbox. |
-| showLabel | boolean | `true` | Affiche ou masque le libellé visible. Fournissez `aria-label` lorsque la valeur est `false`. |
+| hasLabel | boolean | `true` | Affiche ou masque le libellé visible. Fournissez `aria-label` lorsque la valeur est `false`. |
+| showLabel | boolean | `true` | Alias déprécié de `hasLabel`. Préférez `hasLabel`. |
 | description | string | `undefined` | Texte secondaire affiché sous le libellé. |
-| error | boolean | `undefined` | Applique le style d'erreur à la checkbox et au libellé. |
-| errorMessage | string | `undefined` | Texte d'erreur affiché sous la description lorsque `error` est `true`. |
+| isError | boolean | `false` | Applique le style d'erreur à la checkbox et au libellé. |
+| error | boolean | `undefined` | Alias déprécié de `isError`. Préférez `isError`. |
+| errorMessage | string | `undefined` | Texte d'erreur affiché sous la description lorsque `isError` est `true`. |
 | readOnly | boolean | `undefined` | Affiche l'état courant sans permettre de modification. |
 | indeterminate | boolean | `undefined` | Applique l'état visuel indéterminé sur l'input natif. |
 
@@ -72,12 +74,12 @@ Utilisez `indeterminate` pour refléter un groupe ou un nœud d'arborescence par
   id="my-checkbox"
   label="Label"
   description="Description"
-  error
+  isError
   errorMessage="Error message"
 />
 ```
 
-Définissez `error` et `errorMessage` pour afficher un retour de validation.
+Définissez `isError` et `errorMessage` pour afficher un retour de validation.
 
 ## Limitations
 

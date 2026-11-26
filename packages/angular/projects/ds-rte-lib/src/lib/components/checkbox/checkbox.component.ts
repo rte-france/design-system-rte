@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component, effect, input, output, signal } from "@angular/core";
+import { ChangeDetectionStrategy, Component, computed, effect, input, output, signal } from "@angular/core";
 
 import { IconComponent } from "../icon/icon.component";
 
@@ -16,8 +16,12 @@ export class CheckboxComponent {
   readonly value = input("");
   readonly indeterminate = input(false);
   readonly description = input("");
+  readonly hasLabel = input(true);
+  /** @deprecated Use `hasLabel` instead. */
   readonly showLabel = input(true);
   readonly disabled = input(false);
+  readonly isError = input(false);
+  /** @deprecated Use `isError` instead. */
   readonly error = input(false);
   readonly errorMessage = input("");
   readonly readOnly = input(false);
@@ -26,6 +30,9 @@ export class CheckboxComponent {
   readonly ariaLabel = input<string | undefined>(undefined);
 
   readonly checkedChange = output<boolean>();
+
+  readonly effectiveHasLabel = computed(() => this.hasLabel() && this.showLabel());
+  readonly effectiveIsError = computed(() => this.isError() || this.error());
 
   readonly internalChecked = signal<boolean>(false);
 

@@ -71,9 +71,9 @@ const CheckboxGroup = forwardRef<HTMLFieldSetElement, CheckboxGroupProps>(
               id={`${item}-${index}`}
               key={`${item}-${index}`}
               label={item}
-              showLabel={showItemsLabel}
+              hasLabel={showItemsLabel}
               disabled={disabled}
-              error={error}
+              isError={error}
               readOnly={readOnly}
               aria-label={showItemsLabel ? undefined : item}
             />

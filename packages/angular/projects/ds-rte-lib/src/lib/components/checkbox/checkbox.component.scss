@@ -187,7 +187,7 @@
     box-sizing: content-box;
     position: relative;
     flex: none;
-    margin: $positive-spacing_050 0;
+    margin: $positive-spacing_025 0;
 
     .rte-checkbox-outer,
     .rte-checkbox-inner {
@@ -229,7 +229,7 @@
 
   .rte-checkbox-text-container {
     label {
-      @include typography-text-l;
+      @include typography-text-m;
       color: var(--content-primary);
     }
 

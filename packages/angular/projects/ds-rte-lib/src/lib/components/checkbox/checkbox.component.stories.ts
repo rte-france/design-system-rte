@@ -18,9 +18,13 @@ const meta: Meta<CheckboxComponent> = {
       control: "text",
       defaultValue: "Description",
     },
-    showLabel: {
+    hasLabel: {
       control: "boolean",
       defaultValue: true,
+    },
+    isError: {
+      control: "boolean",
+      defaultValue: false,
     },
     disabled: {
       control: "boolean",
@@ -58,7 +62,7 @@ export const Default: Story = {
     description: "Description",
     disabled: false,
     readOnly: false,
-    showLabel: true,
+    hasLabel: true,
     indeterminate: false,
     errorMessage: "",
   },
@@ -77,7 +81,7 @@ export const Default: Story = {
 export const WithAriaLabel: Story = {
   args: {
     ...Default.args,
-    showLabel: false,
+    hasLabel: false,
     ariaLabel: "Accessible checkbox label",
   },
   play: async ({ canvasElement }) => {
@@ -128,6 +132,7 @@ export const ReadOnly: Story = {
 export const Error: Story = {
   args: {
     ...Default.args,
+    isError: true,
     errorMessage: "Error message",
   },
 };
@@ -170,9 +175,9 @@ export const CheckedChangeOutput: Story = {
           [value]="value"
           [indeterminate]="indeterminate"
           [description]="description"
-          [showLabel]="showLabel"
+          [hasLabel]="hasLabel"
           [disabled]="disabled"
-          [error]="error"
+          [isError]="isError"
           [errorMessage]="errorMessage"
           [readOnly]="readOnly"
           [checked]="checked"

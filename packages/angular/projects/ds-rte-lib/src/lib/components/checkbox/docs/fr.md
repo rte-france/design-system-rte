@@ -21,10 +21,12 @@ Le composant `rte-checkbox` constitue l'API publique. Importez `CheckboxComponen
 | value | string | `""` | Valeur soumise avec l'input checkbox natif. |
 | indeterminate | boolean | `false` | Applique l'état visuel indéterminé sur l'input natif. |
 | description | string | `""` | Texte secondaire affiché sous le libellé. |
-| showLabel | boolean | `true` | Affiche ou masque le libellé visible. Fournissez `ariaLabel` lorsque la valeur est `false`. |
+| hasLabel | boolean | `true` | Affiche ou masque le libellé visible. Fournissez `ariaLabel` lorsque la valeur est `false`. |
+| showLabel | boolean | `true` | Alias déprécié de `hasLabel`. Préférez `hasLabel`. |
 | disabled | boolean | `false` | Désactive les interactions et applique le style disabled. |
-| error | boolean | `false` | Applique le style d'erreur à la checkbox et au libellé. |
-| errorMessage | string | `""` | Texte d'erreur affiché sous la description lorsque `error` est `true`. |
+| isError | boolean | `false` | Applique le style d'erreur à la checkbox et au libellé. |
+| error | boolean | `false` | Alias déprécié de `isError`. Préférez `isError`. |
+| errorMessage | string | `""` | Texte d'erreur affiché sous la description lorsque `isError` est `true`. |
 | readOnly | boolean | `false` | Affiche l'état courant sans permettre de modification. |
 | checked | boolean | `false` | État coché de la checkbox. À utiliser avec `(checkedChange)` en mode contrôlé. |
 | tabindex | string \| number | `undefined` | Surcharge de l'ordre de tabulation passée à l'input natif. |
@@ -82,12 +84,12 @@ Utilisez `indeterminate` pour refléter un groupe ou un nœud d'arborescence par
   id="my-checkbox"
   label="Label"
   description="Description"
-  [error]="true"
+  [isError]="true"
   errorMessage="Error message"
 />
 ```
 
-Définissez `error` et `errorMessage` pour afficher un retour de validation.
+Définissez `isError` et `errorMessage` pour afficher un retour de validation.
 
 ## Limitations
 

@@ -7,10 +7,12 @@ The `rte-checkbox` component is the public API. Import `CheckboxComponent` in th
 | value | string | `""` | Value submitted with the native checkbox input. |
 | indeterminate | boolean | `false` | Sets the indeterminate visual state on the native input. |
 | description | string | `""` | Secondary text displayed below the label. |
-| showLabel | boolean | `true` | Shows or hides the visible label. Provide `ariaLabel` when set to `false`. |
+| hasLabel | boolean | `true` | Shows or hides the visible label. Provide `ariaLabel` when set to `false`. |
+| showLabel | boolean | `true` | Deprecated alias of `hasLabel`. Prefer `hasLabel`. |
 | disabled | boolean | `false` | Disables interaction and applies disabled styling. |
-| error | boolean | `false` | Applies error styling to the checkbox and label. |
-| errorMessage | string | `""` | Error text displayed below the description when `error` is `true`. |
+| isError | boolean | `false` | Applies error styling to the checkbox and label. |
+| error | boolean | `false` | Deprecated alias of `isError`. Prefer `isError`. |
+| errorMessage | string | `""` | Error text displayed below the description when `isError` is `true`. |
 | readOnly | boolean | `false` | Displays the current state without allowing changes. |
 | checked | boolean | `false` | Checked state of the checkbox. Use with `(checkedChange)` for controlled usage. |
 | tabindex | string \| number | `undefined` | Tab order override passed to the native input. |

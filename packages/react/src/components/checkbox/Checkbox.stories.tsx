@@ -15,15 +15,15 @@ const meta = {
       control: "text",
       defaultValue: "Label",
     },
-    showLabel: {
+    hasLabel: {
       control: "boolean",
       defaultValue: true,
     },
-    disabled: {
+    isError: {
       control: "boolean",
       defaultValue: false,
     },
-    error: {
+    disabled: {
       control: "boolean",
       defaultValue: false,
     },
@@ -48,7 +48,7 @@ export const Default: Story = {
     description: "Description",
     disabled: false,
     readOnly: false,
-    showLabel: true,
+    hasLabel: true,
     indeterminate: false,
     errorMessage: "",
   },
@@ -67,7 +67,7 @@ export const Default: Story = {
 export const WithAriaLabel: Story = {
   args: {
     ...Default.args,
-    showLabel: false,
+    hasLabel: false,
     "aria-label": "Accessible checkbox label",
   },
   play: async ({ canvasElement }) => {
@@ -117,7 +117,7 @@ export const ReadOnly: Story = {
 export const Error: Story = {
   args: {
     ...Default.args,
-    error: true,
+    isError: true,
     errorMessage: "Error message",
   },
 };
