@@ -91,6 +91,14 @@ export const Default: Story = {
   },
 };
 
+export const AppearanceBrand: Story = {
+  args: {
+    ...Default.args,
+    appearance: "brand",
+  },
+  render: Default.render,
+};
+
 export const CompactSpacing: Story = {
   args: {
     ...Default.args,
