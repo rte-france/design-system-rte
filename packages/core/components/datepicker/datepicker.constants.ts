@@ -20,6 +20,7 @@ export const DATEPICKER_TAB_DATA = {
   monthLabel: "month-label",
   navNextMonth: "nav-next-month",
   navNextYear: "nav-next-year",
+  today: "today",
   navPrevCompact: "nav-prev-compact",
   navNextCompact: "nav-next-compact",
 } as const;
@@ -40,6 +41,7 @@ export const DATEPICKER_MENU_REST_TAB_KEYS_DAY = [
   "monthLabel",
   "navNextMonth",
   "navNextYear",
+  "today",
 ] as const satisfies readonly DatepickerTabDataKey[];
 
 export const DATEPICKER_MENU_HEADER_TAB_KEYS_COMPACT = [
@@ -53,6 +55,7 @@ export const DATEPICKER_MENU_FOOTER_TAB_KEYS = ["cancel", "confirm"] as const sa
 export const DATEPICKER_MENU_REST_TAB_KEYS_COMPACT = [
   ...DATEPICKER_MENU_HEADER_TAB_KEYS_COMPACT,
   ...DATEPICKER_MENU_FOOTER_TAB_KEYS,
+  "today",
 ] as const satisfies readonly DatepickerTabDataKey[];
 
 export const DATE_SEGMENTS_ORDER: DateSegmentEnum[] = [

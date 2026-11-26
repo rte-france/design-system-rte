@@ -84,6 +84,25 @@
   }
 }
 
+.today-button {
+  @include typography-button-s;
+  margin: auto;
+  text-align: center;
+  color: var(--content-brand-default);
+  border: none;
+  padding: 0 $positive-spacing_075;
+  background-color: var(--background-default);
+
+  &:hover {
+    color: var(--content-brand-hover);
+    cursor: pointer;
+  }
+
+  &:active {
+    color: var(--content-brand-pressed);
+  }
+}
+
 .rte-datepicker-weekdays {
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
