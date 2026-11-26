@@ -1,0 +1,11 @@
+```html
+<rte-number-input
+  id="number-input-default"
+  label="Puissance"
+  [min]="0"
+  [max]="100"
+  [step]="1"
+  [defaultValue]="50"
+  unit="kW"
+></rte-number-input>
+```
