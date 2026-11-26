@@ -2,6 +2,29 @@
 
 # Angular
 
+## 5.0.0
+
+### Modal
+
+#### Minor Changes
+
+- avoid closing Modal immediatly when a Primary Action Split Button's menu is active
+- add inputs to component to enforce compliance with footer elements instead of passing legacy porjected content
+- add Split Button capacities for component primary action button
+
+### Split Button
+
+#### Minor Changes
+
+- propagate dropdown menu events to be used for another parent components
+
+### Other
+
+#### Patch Changes
+
+- Updated dependencies [0512ad1]
+- @design-system-rte/core@1.26.0
+
 ## 4.7.0
 
 ### Number Input
@@ -117,56 +140,28 @@
 - Updated dependencies [4f74bda]
 - Updated dependencies [c2ffdc1]
 - @design-system-rte/core@1.24.0
+# React
 
-## 4.5.0
+## 2.8.0
 
-### Base Input
+### Modal
 
 #### Minor Changes
 
-- add right icon logic to input bar to add space with the text
-- Remove showRightIcon property and update right icon logic
+- add Split Button capacities for component primary action button
 
-### Datepicker
-
-#### Patch Changes
-
-- improve accessibility structure with row and accessible column header
-- add full date accessible value for day cells
-
-### Segmented Control
+### Dynamic Tab
 
 #### Patch Changes
 
-- correct component roving system to comply with accessibility specifications
-
-### Switch
-
-#### Patch Changes
-
-- add unique id support
-- improve readOnly handling and add missing aria-readonly attribute
-
-### Tab
-
-#### Patch Changes
-
-- add aria-label to tab items for improved accessibility
-- add aria-disabled attribute for better accessibility
-- hide navigation arrown in overflow mode from keyboard navigation + translate buttons label
-- update badge visibility logic + align default badge type value with react
+- add export to public api
 
 ### Other
 
 #### Patch Changes
 
-- Updated dependencies [e87911b]
-- Updated dependencies [a1fa820]
-- Updated dependencies [4a53d30]
-- Updated dependencies [79fca5b]
-- @design-system-rte/core@1.23.0
-
-# React
+- Updated dependencies [0512ad1]
+- @design-system-rte/core@1.26.0
 
 ## 2.7.0
 
@@ -296,56 +291,18 @@
 - Updated dependencies [4f74bda]
 - Updated dependencies [c2ffdc1]
 - @design-system-rte/core@1.24.0
+# Core
 
-## 2.5.0
+## 1.26.0
 
-### Base Input
+### Modal
 
 #### Minor Changes
 
-- Remove showRightIcon property and update right icon logic
-
-### Datepicker
-
-#### Patch Changes
-
-- improve accessibility structure with row and accessible column header
-- add full date accessible value for day cells
-- remove unused labelId prop and add correct accesibility link with the label using htmlFor
-
-### Segmented Control
-
-#### Patch Changes
-
-- correct component roving system to comply with accessibility specifications
-
-### Switch
-
-#### Patch Changes
-
-- add unique id support
-- improve readOnly handling and add missing aria-readonly attribute
-
-### Tab
-
-#### Patch Changes
-
-- add aria-label to tab items for improved accessibility
-- hide navigation arrown in overflow mode from keyboard navigation + translate buttons label
-- update badge visibility logic + align default badge type value with react
-- prevent click event when the tab is selected
+- add inputs to component to enforce compliance with footer elements instead of passing legacy porjected content
 
 ### Other
 
-#### Patch Changes
-
-- Updated dependencies [e87911b]
-- Updated dependencies [a1fa820]
-- Updated dependencies [4a53d30]
-- Updated dependencies [79fca5b]
-- @design-system-rte/core@1.23.0
-
-# Core
 
 ## 1.25.0
 
@@ -410,31 +367,3 @@
 
 ### Other
 
-## 1.23.0
-
-### Base Input
-
-#### Minor Changes
-
-- Remove showRightIcon property and update right icon logic
-
-### Datepicker
-
-#### Patch Changes
-
-- improve accessibility structure with row and accessible column header
-- add full date accessible value for day cells
-
-### Segmented Control
-
-#### Patch Changes
-
-- correct component roving system to comply with accessibility specifications
-
-### Tab
-
-#### Patch Changes
-
-- add aria-label to tab items for improved accessibility
-
-### Other
