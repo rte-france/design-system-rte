@@ -121,6 +121,16 @@
     </div>
   </div>
 
+  <button
+    type="button"
+    class="today-button"
+    [attr.tabindex]="tabIndexForKeyboardOrder()"
+    [attr.data-datepicker-tab]="datepickerTabData.today"
+    (click)="onTodayClick()"
+  >
+    Aujourd'hui
+  </button>
+
   @if (calendarType() === "day") {
     <div class="rte-datepicker-day-grid" role="grid" aria-label="Calendrier">
       <div class="rte-datepicker-weekdays" role="row">

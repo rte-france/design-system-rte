@@ -278,6 +278,18 @@ export class DatepickerMenuComponent {
     this.dateSelected.emit(date);
   }
 
+  onTodayClick(): void {
+    const today = new Date();
+    const isDisabled = isDateDisabled({
+      date: today,
+      minDate: this.minDate(),
+      maxDate: this.maxDate(),
+      disabledDates: this.disabledDates(),
+    });
+    this.onClickDay(today, isDisabled);
+    this.setCalendarType("day");
+  }
+
   setActiveDate(date: Date): void {
     this.activeDate.set(date);
   }

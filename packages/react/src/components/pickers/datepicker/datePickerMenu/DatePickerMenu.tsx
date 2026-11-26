@@ -236,6 +236,12 @@ const DatePickerMenu = ({
     return selectedDate !== null && isSameDay(date, selectedDate);
   };
 
+  const handleTodayButtonClick = () => {
+    const today = new Date();
+    handleOnClickDayCell(today);
+    setCalendarType(DateSegmentEnum.DAY);
+  };
+
   const handleOnKeyDown = (event: React.KeyboardEvent) => {
     if (event.key === "Escape") {
       onCancel?.();
@@ -765,6 +771,14 @@ const DatePickerMenu = ({
             )}
           </div>
         </div>
+        <button
+          type="button"
+          className={styles["today-button"]}
+          onClick={handleTodayButtonClick}
+          data-datepicker-tab={DATEPICKER_TAB_DATA.today}
+        >
+          Aujourd'hui
+        </button>
         {calendarType === DateSegmentEnum.DAY ? (
           <div
             className={concatClassNames(styles["rte-datepicker-day-grid"], "rte-datepicker-day-grid")}
