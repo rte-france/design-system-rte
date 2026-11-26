@@ -39,7 +39,7 @@
     }
   </div>
   @if (label()) {
-    <label class="switch-label" [for]="computedSwitchId()">
+    <label class="switch-label" [attr.htmlFor]="computedSwitchId()">
       {{ label() }}
     </label>
   }

@@ -167,7 +167,7 @@
 
     .switch-label {
         cursor: pointer;
-        @include typography-text-l;
+        @include typography-text-m;
         color: var(--content-primary);
         word-wrap: break-word;
     }
