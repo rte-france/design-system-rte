@@ -1,5 +1,13 @@
 # @design-system-rte/core
 
+## 1.26.0
+
+### Minor Changes
+
+- 0512ad1: ## Changes
+
+  - (Modal) add inputs to component to enforce compliance with footer elements instead of passing legacy porjected content
+
 ## 1.25.0
 
 ### Minor Changes

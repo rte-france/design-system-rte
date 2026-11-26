@@ -1,5 +1,22 @@
 # @design-system-rte/react
 
+## 2.8.0
+
+### Minor Changes
+
+- 0512ad1: ## Changes
+
+  - (Modal) add Split Button capacities for component primary action button
+
+### Patch Changes
+
+- 250b641: ## Changes
+
+  - (Dynamic Tab) add export to public api
+
+- Updated dependencies [0512ad1]
+  - @design-system-rte/core@1.26.0
+
 ## 2.7.0
 
 ### Minor Changes
