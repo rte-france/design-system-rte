@@ -12,10 +12,11 @@
   gap: $positive-spacing_100;
 
   >.groupTitle {
-    @include typography-heading-s;
+    @include typography-heading-xs;
     align-self: stretch;
     margin: $positive-spacing_0;
     color: var(--content-primary);
+    padding: 0;
 
     &[data-visible='false'] {
       position: absolute;
@@ -44,14 +45,14 @@
 
   .checkboxGroupSubheader {
     .groupHelpText {
-      @include typography-text-m;
+      @include typography-text-s;
       color: var(--content-tertiary);
       align-self: stretch;
       margin: $positive-spacing_0;
     }
 
     .errorMessage {
-      @include typography-text-m-bold;
+      @include typography-text-s-bold;
       color: var(--content-danger-default);
       align-self: stretch;
       margin: $positive-spacing_0;

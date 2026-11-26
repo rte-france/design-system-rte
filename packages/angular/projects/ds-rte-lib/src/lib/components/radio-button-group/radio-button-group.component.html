@@ -8,20 +8,22 @@
       'read-only': isReadOnly(),
     }"
   >
-    <div class="radio-button-group-title-container" [attr.data-show-label-requirement]="showLabelRequirement()">
-      <legend *ngIf="groupTitleText()" class="group-title">{{ groupTitleText() }}</legend>
-      <rte-required-indicator
-        *ngIf="required() || showLabelRequirement()"
-        [required]="required()"
-        [showLabelRequirement]="showLabelRequirement()"
-      />
+    <div class="radio-button-group-header">
+      <div class="radio-button-group-title-container" [attr.data-show-label-requirement]="showLabelRequirement()">
+        <legend *ngIf="groupTitleText()" class="group-title">{{ groupTitleText() }}</legend>
+        <rte-required-indicator
+          *ngIf="required() || showLabelRequirement()"
+          [required]="required()"
+          [showLabelRequirement]="showLabelRequirement()"
+        />
+      </div>
+      <p *ngIf="groupHelpText()" class="group-help-text">
+        {{ groupHelpText() }}
+      </p>
+      <p *ngIf="isError() && errorText()" class="group-error-message" [attr.id]="errorMessageId">
+        {{ errorText() }}
+      </p>
     </div>
-    <p *ngIf="groupHelpText()" class="group-help-text">
-      {{ groupHelpText() }}
-    </p>
-    <p *ngIf="isError() && errorText()" class="group-error-message" [attr.id]="errorMessageId">
-      {{ errorText() }}
-    </p>
     <div
       class="radio-button-group"
       [ngClass]="{ horizontal: direction() === 'horizontal', vertical: direction() === 'vertical' }"

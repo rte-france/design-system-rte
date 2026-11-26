@@ -61,15 +61,17 @@ const RadioButtonGroup = forwardRef<HTMLDivElement, RadioButtonGroupProps>(
           data-read-only={isReadOnly}
           aria-describedby={isError && errorText ? errorMessageId : undefined}
         >
-          <div
-            className={styles["rte-radioButtonGroupTitleContainer"]}
-            data-show-label-requirement={showLabelRequirement}
-          >
-            {groupTitleText && <legend className={styles["groupTitle"]}>{groupTitleText}</legend>}
-            <RequiredIndicator required={required} showLabelRequirement={showLabelRequirement} />
+          <div className={styles["radioButtonGroupHeader"]}>
+            <div
+              className={styles["rte-radioButtonGroupTitleContainer"]}
+              data-show-label-requirement={showLabelRequirement}
+            >
+              {groupTitleText && <legend className={styles["groupTitle"]}>{groupTitleText}</legend>}
+              <RequiredIndicator required={required} showLabelRequirement={showLabelRequirement} />
+            </div>
+            {groupHelpText && <p className={styles["groupHelpText"]}>{groupHelpText}</p>}
+            {errorText && isError && <p className={styles["errorMessage"]}>{errorText}</p>}
           </div>
-          {groupHelpText && <p className={styles["groupHelpText"]}>{groupHelpText}</p>}
-          {errorText && isError && <p className={styles["errorMessage"]}>{errorText}</p>}
           <div className={styles["radioButtonGroup"]} data-direction={direction}>
             {items.map(({ label, value, ariaLabel, ariaLabelledBy }, index) => (
               <RadioButton
