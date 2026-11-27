@@ -38,10 +38,9 @@
     <ng-container *ngFor="let item of items(); let i = index">
       <rte-checkbox
         [id]="item + '-' + i"
-        [label]="item"
-        [showLabel]="showItemsLabel()"
+        [label]="showItemsLabel() ? item : ''"
         [disabled]="disabled()"
-        [error]="error()"
+        [isError]="error()"
         [readOnly]="readOnly()"
         [ariaLabel]="showItemsLabel() ? undefined : item"
       />

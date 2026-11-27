@@ -6,7 +6,7 @@
     [value]="value()"
     [attr.tabindex]="tabindex()"
     [attr.aria-label]="ariaLabel()"
-    [ngClass]="{ error: error(), 'read-only': readOnly() }"
+    [ngClass]="{ error: effectiveIsError(), 'read-only': readOnly() }"
     [disabled]="disabled()"
     [indeterminate]="indeterminate()"
     [checked]="internalChecked()"
@@ -14,7 +14,10 @@
     (change)="onChange($event)"
     (keydown)="onKeydown($event)"
   />
-  <div class="rte-checkbox-background" [ngClass]="{ error: error(), 'read-only': readOnly(), disabled: disabled() }">
+  <div
+    class="rte-checkbox-background"
+    [ngClass]="{ error: effectiveIsError(), 'read-only': readOnly(), disabled: disabled() }"
+  >
     <div class="rte-checkbox-outer"></div>
     <div class="rte-checkbox-inner"></div>
     <rte-icon class="rte-checkbox-icons rte-checkbox-icon-selected" name="check-small" [size]="16" />
@@ -22,11 +25,11 @@
   </div>
   <div class="rte-checkbox-text-container">
     <label
-      *ngIf="showLabel()"
+      *ngIf="!!label() && showLabel()"
       class="rte-checkbox-label"
       [for]="id()"
       [ngClass]="{
-        error: error(),
+        error: effectiveIsError(),
         'read-only': readOnly(),
         disabled: disabled(),
       }"
@@ -34,6 +37,6 @@
       {{ label() }}
     </label>
     <p class="rte-checkbox-description">{{ description() }}</p>
-    <p *ngIf="error() && errorMessage()" class="rte-checkbox-error">{{ errorMessage() }}</p>
+    <p *ngIf="effectiveIsError() && errorMessage()" class="rte-checkbox-error">{{ errorMessage() }}</p>
   </div>
 </div>

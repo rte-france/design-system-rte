@@ -41,9 +41,9 @@ Use `indeterminate` to reflect a partially selected group or tree node.
   id="my-checkbox"
   label="Label"
   description="Description"
-  error
+  isError
   errorMessage="Error message"
 />
 ```
 
-Set both `error` and `errorMessage` to display validation feedback.
+Set both `isError` and `errorMessage` to display validation feedback.

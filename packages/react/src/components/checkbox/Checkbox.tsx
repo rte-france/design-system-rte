@@ -9,16 +9,19 @@ interface CheckboxProps extends CoreCheckboxProps, Omit<React.InputHTMLAttribute
 
 const Checkbox = ({
   id,
-  label,
+  label = "",
   showLabel = true,
   disabled,
   description,
+  isError = false,
   error,
   errorMessage,
   readOnly,
   indeterminate,
   ...props
 }: CheckboxProps) => {
+  const showVisibleLabel = Boolean(label) && showLabel;
+  const effectiveIsError = isError || Boolean(error);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -38,10 +41,10 @@ const Checkbox = ({
   return (
     <div
       className={styles["rte-checkbox-container"]}
-      data-show-label={showLabel}
+      data-show-label={showVisibleLabel}
       data-disabled={disabled}
       data-read-only={readOnly}
-      data-error={!!error}
+      data-error={effectiveIsError}
     >
       <input
         type="checkbox"
@@ -50,7 +53,7 @@ const Checkbox = ({
         disabled={disabled}
         ref={inputRef}
         data-read-only={readOnly}
-        data-error={!!error}
+        data-error={effectiveIsError}
         onKeyDown={handleKeyDown}
         {...props}
       />
@@ -58,7 +61,7 @@ const Checkbox = ({
         className={styles["rte-checkbox-background"]}
         data-disabled={disabled}
         data-read-only={readOnly}
-        data-error={!!error}
+        data-error={effectiveIsError}
       >
         <div className={styles["rte-checkbox-outer"]}></div>
         <div className={styles["rte-checkbox-inner"]}></div>
@@ -70,9 +73,9 @@ const Checkbox = ({
         </div>
       </div>
       <div className={styles["rte-checkbox-text-container"]} data-disabled={disabled}>
-        {showLabel && <label htmlFor={id}>{label}</label>}
+        {showVisibleLabel && <label htmlFor={id}>{label}</label>}
         <p className={styles["rte-checkbox-description"]}>{description}</p>
-        {error && errorMessage && <p className={styles["rte-checkbox-error"]}>{errorMessage}</p>}
+        {effectiveIsError && errorMessage && <p className={styles["rte-checkbox-error"]}>{errorMessage}</p>}
       </div>
     </div>
   );

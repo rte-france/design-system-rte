@@ -219,9 +219,9 @@ const DropdownItem = ({
         {hasCheckbox && (
           <Checkbox
             id={dropdownId + ":" + label}
-            label={label || ""}
+            label=""
+            aria-label={label || ""}
             checked={isSelected}
-            showLabel={false}
             indeterminate={isIndeterminate}
             onChange={handleOnChange}
           />
