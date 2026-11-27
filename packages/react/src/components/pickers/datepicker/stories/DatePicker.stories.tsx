@@ -512,11 +512,12 @@ export const WithMinMax: Story = {
 
     const calendarButton = canvas.getByRole("button", { name: calendarTriggerAccessibleName });
     calendarButton.focus();
-    await userEvent.tab({ shift: true });
-    await userEvent.tab({ shift: true });
-    for (const digit of "03012020") {
-      await userEvent.keyboard(digit);
-    }
+
+    const input = canvasElement.querySelector("input");
+    await userEvent.click(canvas.getByRole("textbox"));
+    await userEvent.keyboard("03012020");
+    await waitFor(() => expect(normalizedDateInputValue(input)).toBe("03/01/2020"));
+
     await userEvent.click(calendarButton);
 
     let dropdown = await getDropdown();
@@ -605,11 +606,10 @@ export const DisabledDates: Story = {
 
     const calendarButton = canvas.getByRole("button", { name: calendarTriggerAccessibleName });
     calendarButton.focus();
-    await userEvent.tab({ shift: true });
-    await userEvent.tab({ shift: true });
-    for (const digit of "14062023") {
-      await userEvent.keyboard(digit);
-    }
+    const input = canvasElement.querySelector("input");
+    await userEvent.click(canvas.getByRole("textbox"));
+    await userEvent.keyboard("14062023");
+    await waitFor(() => expect(normalizedDateInputValue(input)).toBe("14/06/2023"));
     await userEvent.click(calendarButton);
 
     const dropdown = await getDropdown();

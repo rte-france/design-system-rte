@@ -3,46 +3,44 @@
 ## Overview
 
 ```html
-<rte-datepicker
-  id="datepicker"
-  labelText="Label"
-  [hasLabel]="true"
-/>
+<rte-datepicker id="datepicker" labelText="Label" [hasLabel]="true" />
 ```
 
 ## API
 
 Le composant `<rte-datepicker>` constitue l'API publique. Il implémente `ControlValueAccessor` et expose des entrées et sorties pour la configuration du champ, les contraintes de date et le comportement du calendrier.
 
-| Nom | Type | Valeur par défaut | Description |
-| --- | --- | --- | --- |
-| `id` | `string` | — | Identifiant unique du champ et du libellé associé. |
-| `labelText` | `string` | `"Label"` | Texte du libellé visible. |
-| `hasLabel` | `boolean` | `true` | Affiche ou masque le libellé. |
-| `labelPosition` | `"top"` \| `"side"` | `"top"` | Position du libellé par rapport au champ. |
-| `required` | `boolean` | `false` | Marque le champ comme requis pour le libellé et le contrôle segmenté. |
-| `showLabelRequirement` | `boolean` | `false` | Affiche l'indicateur de champ requis lorsque `required` est `true`. |
-| `width` | `string` | `"248px"` | Largeur du champ. Les valeurs sans unité sont interprétées en pixels. |
-| `hasAssistiveText` | `boolean` | `false` | Affiche le texte d'aide sous le champ. |
-| `assistiveTextLabel` | `string` | `""` | Contenu du texte d'aide. Affiché uniquement lorsque `hasAssistiveText` est `true`. |
-| `assistiveTextAppearance` | `"description"` \| `"error"` | `"description"` | Style du texte d'aide. Remplacé par `"error"` lorsque `error` est `true`. |
-| `showAssistiveIcon` | `boolean` | `false` | Affiche une icône à côté du texte d'aide. |
-| `fieldAriaLabel` | `string` | `""` | Nom accessible du champ segmenté lorsqu'aucun libellé visible n'est utilisé. |
-| `fieldAriaLabelledby` | `string` | `""` | ID d'un élément externe qui libelle le champ. Lorsque vide et `hasLabel` est `true`, l'ID du libellé interne est utilisé. |
-| `disabled` | `boolean` | `false` | Désactive le champ et empêche l'ouverture du calendrier. |
-| `readOnly` | `boolean` | `false` | Empêche la modification de la valeur et l'ouverture du calendrier. |
-| `error` | `boolean` | `false` | Applique l'état visuel d'erreur au champ. |
-| `errorMessage` | `string` | `""` | Message d'erreur affiché comme texte d'aide lorsque `error` est `true`. Il est prioritaire sur `assistiveTextLabel`. |
-| `minDate` | `Date` \| `undefined` | `undefined` | Date sélectionnable la plus ancienne. Les dates antérieures sont désactivées dans le calendrier et rejetées à la validation. |
-| `maxDate` | `Date` \| `undefined` | `undefined` | Date sélectionnable la plus récente. Les dates postérieures sont désactivées dans le calendrier et rejetées à la validation. |
-| `disabledDates` | `readonly Date[]` | `[]` | Dates individuelles non sélectionnables. |
-| `locale` | `string` | `"fr-FR"` | Locale utilisée pour les libellés du calendrier et le formatage du champ. |
-| `hasActions` | `boolean` | `true` | Lorsque `true`, le calendrier affiche Annuler et Confirmer et conserve la sélection en attente jusqu'à Confirmer. Lorsque `false`, la sélection d'un jour valide immédiatement et ferme le menu. |
+| Nom                       | Type                         | Valeur par défaut | Description                                                                                                                                                                                                              |
+| ------------------------- | ---------------------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `placeholder`             | `string` \| `undefined`      | `"JJ/MM/YYYY"`    | Texte affiché tant que le champ est vide, y compris au focus. Les segments apparaissent uniquement à partir de la saisie. Masqué lorsque le champ est désactivé ou en lecture seule. Ne modifie pas le format de saisie. |
+| `id`                      | `string`                     | —                 | Identifiant unique du champ et du libellé associé.                                                                                                                                                                       |
+| isCompact                 | boolean                      | false             | Active l'espacement compact du champ de date. |
+| `labelText`               | `string`                     | `"Label"`         | Texte du libellé visible.                                                                                                                                                                                                |
+| `hasLabel`                | `boolean`                    | `true`            | Affiche ou masque le libellé.                                                                                                                                                                                            |
+| `labelPosition`           | `"top"` \| `"side"`          | `"top"`           | Position du libellé par rapport au champ.                                                                                                                                                                                |
+| `required`                | `boolean`                    | `false`           | Marque le champ comme requis pour le libellé et le contrôle segmenté.                                                                                                                                                    |
+| `showLabelRequirement`    | `boolean`                    | `false`           | Affiche l'indicateur de champ requis lorsque `required` est `true`.                                                                                                                                                      |
+| `width`                   | `string`                     | `"248px"`         | Largeur du champ. Les valeurs sans unité sont interprétées en pixels.                                                                                                                                                    |
+| `hasAssistiveText`        | `boolean`                    | `false`           | Affiche le texte d'aide sous le champ.                                                                                                                                                                                   |
+| `assistiveTextLabel`      | `string`                     | `""`              | Contenu du texte d'aide. Affiché uniquement lorsque `hasAssistiveText` est `true`.                                                                                                                                       |
+| `assistiveTextAppearance` | `"description"` \| `"error"` | `"description"`   | Style du texte d'aide. Remplacé par `"error"` lorsque `error` est `true`.                                                                                                                                                |
+| `showAssistiveIcon`       | `boolean`                    | `false`           | Affiche une icône à côté du texte d'aide.                                                                                                                                                                                |
+| `fieldAriaLabel`          | `string`                     | `""`              | Nom accessible du champ segmenté lorsqu'aucun libellé visible n'est utilisé.                                                                                                                                             |
+| `fieldAriaLabelledby`     | `string`                     | `""`              | ID d'un élément externe qui libelle le champ. Lorsque vide et `hasLabel` est `true`, l'ID du libellé interne est utilisé.                                                                                                |
+| `disabled`                | `boolean`                    | `false`           | Désactive le champ et empêche l'ouverture du calendrier.                                                                                                                                                                 |
+| `readOnly`                | `boolean`                    | `false`           | Empêche la modification de la valeur et l'ouverture du calendrier.                                                                                                                                                       |
+| `error`                   | `boolean`                    | `false`           | Applique l'état visuel d'erreur au champ.                                                                                                                                                                                |
+| `errorMessage`            | `string`                     | `""`              | Message d'erreur affiché comme texte d'aide lorsque `error` est `true`. Il est prioritaire sur `assistiveTextLabel`.                                                                                                     |
+| `minDate`                 | `Date` \| `undefined`        | `undefined`       | Date sélectionnable la plus ancienne. Les dates antérieures sont désactivées dans le calendrier et rejetées à la validation.                                                                                             |
+| `maxDate`                 | `Date` \| `undefined`        | `undefined`       | Date sélectionnable la plus récente. Les dates postérieures sont désactivées dans le calendrier et rejetées à la validation.                                                                                             |
+| `disabledDates`           | `readonly Date[]`            | `[]`              | Dates individuelles non sélectionnables.                                                                                                                                                                                 |
+| `locale`                  | `string`                     | `"fr-FR"`         | Locale utilisée pour les libellés du calendrier et le formatage du champ.                                                                                                                                                |
+| `hasActions`              | `boolean`                    | `true`            | Lorsque `true`, le calendrier affiche Annuler et Confirmer et conserve la sélection en attente jusqu'à Confirmer. Lorsque `false`, la sélection d'un jour valide immédiatement et ferme le menu.                         |
 
-| Sortie | Type | Description |
-| --- | --- | --- |
-| `valueChange` | `Date \| null` | Émis lorsque la valeur validée change (saisie, Confirmer, ou sélection immédiate lorsque `hasActions` est `false`). |
-| `openedChange` | `boolean` | Émis lorsque le calendrier s'ouvre ou se ferme. |
+| Sortie         | Type           | Description                                                                                                                                          |
+| -------------- | -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `valueChange`  | `Date \| null` | Émis lorsque la valeur validée change (saisie, Confirmer, réinitialisation, désactivation, ou sélection immédiate lorsque `hasActions` est `false`). |
+| `openedChange` | `boolean`      | Émis lorsque le calendrier s'ouvre ou se ferme.                                                                                                      |
 
 Le composant prend aussi en charge les formulaires Angular via `formControlName`, `formControl` ou `[(ngModel)]`. Le type de valeur du contrôle de formulaire est `Date | null`.
 

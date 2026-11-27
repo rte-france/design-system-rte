@@ -23,6 +23,7 @@
 
             .input {
                 .input-bar {
+
                     input.input-field,
                     .input-field--projected:not(:has([data-increment-position])) {
                         height: 24px;
@@ -137,6 +138,7 @@
                 flex: 1;
 
                 &.with-left-icon {
+
                     input.input-field,
                     .input-field--projected:not(:has([data-increment-position])) {
                         padding-left: $positive-spacing-400;
@@ -144,9 +146,10 @@
                 }
 
                 &.with-right-icon {
+
                     input.input-field,
                     .input-field--projected:not(:has([data-increment-position])) {
-                        padding-right: $positive-spacing-400;
+                        padding-right: 34px;
                     }
                 }
 

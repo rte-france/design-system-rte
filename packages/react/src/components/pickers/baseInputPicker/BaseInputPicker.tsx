@@ -7,7 +7,7 @@ import styles from "./BaseInputPicker.module.scss";
 
 export interface BaseInputPickerProps extends BaseInputProps<string> {
   onChange?: () => void;
-  onClickReset?: () => void;
+  onClickReset?: React.MouseEventHandler<HTMLButtonElement>;
   icon?: string;
   isFocused?: boolean;
   pickerInputRef?: React.RefObject<HTMLInputElement> | ((element: HTMLInputElement) => void);

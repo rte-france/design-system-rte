@@ -27,12 +27,13 @@ import {
   type SegmentedDateFieldState,
 } from "@design-system-rte/core/components/datepicker";
 
+import { IconButtonComponent } from "../../icon-button/icon-button.component";
 import { BaseInputComponent } from "../../input/base-input/base-input.component";
 import { RteBaseInputControlDirective } from "../../input/rte-base-input-control.directive";
 
 @Component({
   selector: "rte-datepicker-segmented-field",
-  imports: [CommonModule, BaseInputComponent, RteBaseInputControlDirective],
+  imports: [CommonModule, BaseInputComponent, RteBaseInputControlDirective, IconButtonComponent],
   templateUrl: "./datepicker-segmented-field.component.html",
   styleUrl: "./datepicker-segmented-field.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -57,8 +58,10 @@ export class DatepickerSegmentedFieldComponent {
   readonly hasAssistiveText = input<boolean>(false);
   readonly width = input<string>("100%");
   readonly describedBy = input<string | null>(null);
+  readonly isCompact = input<boolean>(false);
 
   readonly value = input<string>("");
+  readonly placeholder = input<string | undefined>("jj / mm / aaaa");
   readonly locale = input<string>("fr-FR");
   readonly rightIconAriaLabel = input<string>("");
 
@@ -67,11 +70,19 @@ export class DatepickerSegmentedFieldComponent {
   readonly rightIconClick = output<MouseEvent | KeyboardEvent>();
   readonly rightIconKeydown = output<KeyboardEvent>();
   readonly segmentedControlClick = output<void>();
+  readonly resetClick = output<void>();
 
   readonly segmentedState = signal<SegmentedDateFieldState>(createEmptySegmentedDateFieldState());
 
   private readonly controlHasFocus = signal(false);
   private readonly segmentA11yInteractionStarted = signal(false);
+
+  readonly isEmpty = computed(() => buildDigitsOnlyFromState(this.segmentedState()).length === 0);
+
+  readonly showPlaceholder = computed(
+    () => !!this.placeholder() && !this.disabled() && !this.readOnly() && this.isEmpty(),
+  );
+  readonly showResetButton = computed(() => !this.isEmpty() && !this.disabled() && !this.readOnly());
 
   readonly controlRef = viewChild<ElementRef<HTMLElement>>("controlRef");
   private readonly daySegmentRef = viewChild<ElementRef<HTMLElement>>("daySegment");
@@ -166,10 +177,14 @@ export class DatepickerSegmentedFieldComponent {
     });
   }
 
-  onControlBlur(): void {
+  onControlBlur(event: FocusEvent): void {
     this.controlHasFocus.set(false);
     this.segmentA11yInteractionStarted.set(false);
     globalThis.getSelection()?.removeAllRanges();
+    if (event.relatedTarget instanceof Node && this.controlRef()?.nativeElement.contains(event.relatedTarget)) {
+      this.inputBlur.emit();
+      return;
+    }
     const beforeMask = buildMaskedDdMmYyyyFromState(this.segmentedState());
     const afterBlur = resetIncompleteSegmentsOnBlur(this.segmentedState());
     this.segmentedState.set(afterBlur);
@@ -178,6 +193,16 @@ export class DatepickerSegmentedFieldComponent {
       this.valueChange.emit(afterMask);
     }
     this.inputBlur.emit();
+  }
+
+  onResetClick(event: MouseEvent | KeyboardEvent): void {
+    event.stopPropagation();
+    if (this.disabled() || this.readOnly()) {
+      return;
+    }
+    this.segmentedState.set(createEmptySegmentedDateFieldState());
+    this.segmentA11yInteractionStarted.set(false);
+    this.resetClick.emit();
   }
 
   onControlKeydown(event: KeyboardEvent): void {

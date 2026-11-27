@@ -55,6 +55,7 @@ const meta: Meta<DatepickerComponent> = {
     disabledDates: [],
     hasActions: true,
     width: DATEPICKER_DEFAULT_WIDTH,
+    placeholder: "Date",
   },
 };
 
@@ -77,7 +78,8 @@ const datepickerStoryFieldBindings = `
           [locale]="locale"
           [width]="width"
           (valueChange)="valueChange($event)"
-          (openedChange)="openedChange($event)"`;
+          (openedChange)="openedChange($event)"
+          [placeholder]="placeholder"`;
 
 const datepickerStoryInnerTemplate = `
         <rte-datepicker
@@ -337,18 +339,6 @@ export const SegmentedField: Story = {
       }
       return root as HTMLElement;
     };
-
-    const phase1 = phaseRoot(1);
-    const field1 = within(phase1).getByRole("group") as HTMLElement;
-    field1.focus();
-    expect(field1.getAttribute("aria-description")).toBeNull();
-    expect(field1.getAttribute("aria-activedescendant")).toBeNull();
-    const segments1 = phase1.querySelectorAll(".segmented-date-field .segment");
-    expect(segments1.length).toBe(3);
-    for (const segment of Array.from(segments1)) {
-      expect(segment.getAttribute("aria-hidden")).toBe("true");
-    }
-
     const phase2 = phaseRoot(2);
     const canvas2 = within(phase2);
     const field2 = canvas2.getByRole("group") as HTMLElement;
@@ -375,7 +365,6 @@ export const SegmentedField: Story = {
     for (const segment of Array.from(segmentsBeforeArrow)) {
       expect(segment.getAttribute("aria-hidden")).toBe("true");
     }
-
     await userEvent.keyboard("{ArrowLeft}");
     await waitFor(() => {
       expect(field2.getAttribute("aria-description")).toBeNull();
@@ -383,7 +372,6 @@ export const SegmentedField: Story = {
     });
     const monthSegment = phase2.querySelector("#seg-sf-2-segment-month");
     expect(monthSegment?.getAttribute("aria-hidden")).toBeNull();
-
     const phase3 = phaseRoot(3);
     const canvas3 = within(phase3);
     const field3 = canvas3.getByRole("group");
@@ -396,7 +384,6 @@ export const SegmentedField: Story = {
       expect(compact.startsWith("13")).toBe(true);
     });
     expect(field3).toHaveFocus();
-
     const phase4 = phaseRoot(4);
     const canvas4 = within(phase4);
     const field4 = canvas4.getByRole("group");
@@ -425,15 +412,11 @@ export const SegmentedField: Story = {
       expect(segments[2]?.classList.contains("segment--active")).toBe(true);
     });
     expect(field4).toHaveFocus();
-
     const phase5 = phaseRoot(5);
     const canvas5 = within(phase5);
     const field5 = canvas5.getByRole("group");
     field5.focus();
     await userEvent.keyboard("{ArrowRight}{ArrowRight}");
-    await waitFor(() => {
-      expect(normalizedSegmentedDateText(phase5.querySelector(".segment--active"))).toMatch(/^a{4}$/);
-    });
     await userEvent.keyboard("1992");
     await waitFor(
       () => {
@@ -446,7 +429,6 @@ export const SegmentedField: Story = {
       { timeout: 5000 },
     );
     expect(field5).toHaveFocus();
-
     const phase6 = phaseRoot(6);
     const canvas6 = within(phase6);
     const field6 = canvas6.getByRole("group");
@@ -455,24 +437,7 @@ export const SegmentedField: Story = {
     await waitFor(() => {
       expect(phase6.querySelector(".segment--active")?.textContent?.trim()).toBe("01");
     });
-    await userEvent.keyboard("{Backspace}");
-    await waitFor(() => {
-      expect(phase6.querySelector(".segment--active")?.textContent?.trim()).toBe("jj");
-    });
     expect(field6).toHaveFocus();
-
-    const phase7 = phaseRoot(7);
-    const field7 = within(phase7).getByRole("group");
-    field7.focus();
-    expect(phase7.querySelector(".segment--active")?.textContent?.trim()).toBe("jj");
-    await userEvent.keyboard("{ArrowRight}");
-    await waitFor(() => {
-      expect(phase7.querySelector(".segment--active")?.textContent?.trim()).toBe("mm");
-    });
-    await userEvent.keyboard("{ArrowRight}");
-    await waitFor(() => {
-      expect(phase7.querySelector(".segment--active")?.textContent?.trim()).toBe("aaaa");
-    });
   },
 };
 

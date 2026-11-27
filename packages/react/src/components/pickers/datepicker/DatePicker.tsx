@@ -67,6 +67,8 @@ const DatePicker = forwardRef<HTMLDivElement, DatepickerProps>(
       showAssistiveIcon = false,
       assistiveTextLink,
       width = "248px",
+      isCompact = false,
+      placeholder = "jj / mm / yyyy",
     }: DatepickerProps,
     ref,
   ) => {
@@ -93,7 +95,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatepickerProps>(
       displayValue,
       dateState,
       updateDisplayedDate,
-    } = useDatePickerInternalValue(currentValue, {
+    } = useDatePickerInternalValue(disabled ? null : currentValue, {
       minDate,
       maxDate,
       disabledDates,
@@ -110,10 +112,24 @@ const DatePicker = forwardRef<HTMLDivElement, DatepickerProps>(
     }, [onChange]);
 
     useEffect(() => {
-      lastEmittedValueRef.current = currentValue ?? null;
-    }, [currentValue]);
+      if (!disabled) {
+        lastEmittedValueRef.current = currentValue ?? null;
+      }
+    }, [currentValue, disabled]);
 
     useEffect(() => {
+      if (disabled) {
+        initialValueRef.current = null;
+        setIsFocused(false);
+        setIsDropdownOpen(false);
+        updateFullDate(null);
+        if (lastEmittedValueRef.current !== null || !isDateStateEmpty(dateState)) {
+          lastEmittedValueRef.current = null;
+          onChangeRef.current?.(null);
+        }
+        return;
+      }
+
       if (internalValue === null && !isDateStateEmpty(dateState)) {
         onChangeRef.current?.(internalValue);
         return;
@@ -125,7 +141,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatepickerProps>(
 
       lastEmittedValueRef.current = internalValue;
       onChangeRef.current?.(internalValue);
-    }, [internalValue, dateState]);
+    }, [internalValue, dateState, disabled, updateFullDate]);
 
     const dateInputRef = useRef<HTMLInputElement>(null);
     const pickerRef = useRef<HTMLDivElement>(null);
@@ -289,17 +305,32 @@ const DatePicker = forwardRef<HTMLDivElement, DatepickerProps>(
       handleOnClose(true);
     };
 
+    const handleOnClickReset = (event: React.MouseEvent<HTMLButtonElement>) => {
+      event.stopPropagation();
+      initialValueRef.current = null;
+      lastEmittedValueRef.current = null;
+      updateFullDate(null);
+      updateDisplayedDate(null);
+      setActiveDateSegment(DAY);
+      onChangeRef.current?.(null);
+      handleOnClose(true);
+    };
+
     useEffect(() => {
       selectActiveSegment(activeDateSegment);
     }, [activeDateSegment, selectActiveSegment]);
+
+    const isEmpty = isDateStateEmpty(dateState) && !/\d/.test(displayValue);
+    const shouldDisplayPlaceholder = !!placeholder && !disabled && !readonly && isEmpty;
 
     return (
       <div className={styles["rte-date-picker"]} style={{ minWidth: "248px", width }} ref={ref}>
         <Label htmlFor={computedId} label={label} required={required} showLabelRequirement={showLabelRequirement} />
         <Dropdown
+          key={disabled ? "disabled" : "enabled"}
           style={{ width: pickerRef.current?.offsetWidth }}
           isList={false}
-          isOpen={isDropdownOpen}
+          isOpen={isDropdownOpen && !disabled}
           onClose={handleOnClose}
           offset={8}
           overlayLevel={overlayLayerLevel}
@@ -312,7 +343,8 @@ const DatePicker = forwardRef<HTMLDivElement, DatepickerProps>(
               isFocused={isFocused}
               pickerInputRef={dateInputRef}
               onOpenPicker={handleOpenDatePicker}
-              value={displayValue}
+              value={isEmpty || disabled ? "" : displayValue}
+              placeholder={shouldDisplayPlaceholder ? placeholder : undefined}
               onKeyDown={handleOnKeyDown}
               onMouseUp={handleOnMouseUp}
               onChange={() => {}}
@@ -324,23 +356,27 @@ const DatePicker = forwardRef<HTMLDivElement, DatepickerProps>(
               disabled={disabled}
               readOnly={readonly}
               required={required}
+              isCompact={isCompact}
+              onClickReset={handleOnClickReset}
             />
           }
           position="bottom"
         >
-          <DatePickerMenu
-            isOpen={isDropdownOpen}
-            currentValue={internalValue}
-            hasActions={hasActions}
-            onValidate={handleOnValidate}
-            onCancel={handleOnCancel}
-            updateDisplayedDate={updateDisplayedDate}
-            updateFullDate={updateFullDate}
-            displayValue={displayValue}
-            minDate={minDate}
-            maxDate={maxDate}
-            disabledDates={disabledDates}
-          />
+          {!disabled && (
+            <DatePickerMenu
+              isOpen={isDropdownOpen}
+              currentValue={internalValue}
+              hasActions={hasActions}
+              onValidate={handleOnValidate}
+              onCancel={handleOnCancel}
+              updateDisplayedDate={updateDisplayedDate}
+              updateFullDate={updateFullDate}
+              displayValue={displayValue}
+              minDate={minDate}
+              maxDate={maxDate}
+              disabledDates={disabledDates}
+            />
+          )}
         </Dropdown>
         {shouldDisplayAssistiveText && (
           <AssistiveText
