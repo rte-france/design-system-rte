@@ -25,7 +25,7 @@
   </div>
   <div class="rte-checkbox-text-container">
     <label
-      *ngIf="effectiveHasLabel()"
+      *ngIf="!!label() && showLabel()"
       class="rte-checkbox-label"
       [for]="id()"
       [ngClass]="{
