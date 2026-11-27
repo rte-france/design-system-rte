@@ -14,7 +14,6 @@
     .tag-label {
         padding: $positive-spacing_0 $positive-spacing_075;
         @include typography-text-l;
-        color: var(--content-status);
     }
 
     &[data-compact-spacing="true"] {
