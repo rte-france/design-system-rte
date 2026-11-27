@@ -3,9 +3,8 @@ The `Checkbox` component is the public API. It renders a styled native checkbox 
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
 | id | string | — (required) | Unique identifier linked to the label and native input. |
-| label | string | — (required) | Visible label text displayed next to the checkbox. |
-| hasLabel | boolean | `true` | Shows or hides the visible label. Provide `aria-label` when set to `false`. |
-| showLabel | boolean | `true` | Deprecated alias of `hasLabel`. Prefer `hasLabel`. |
+| label | string | `""` | Visible label text displayed next to the checkbox. Omit the value or pass an empty string to hide the label. |
+| showLabel | boolean | `true` | Deprecated. Visible label display is controlled by `label` instead. |
 | description | string | `undefined` | Secondary text displayed below the label. |
 | isError | boolean | `false` | Applies error styling to the checkbox and label. |
 | error | boolean | `undefined` | Deprecated alias of `isError`. Prefer `isError`. |

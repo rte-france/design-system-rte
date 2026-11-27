@@ -17,9 +17,8 @@ Le composant `Checkbox` constitue l'API publique. Il rend un input checkbox nati
 | Nom | Type | Valeur par défaut | Description |
 |-----|------|-------------------|-------------|
 | id | string | — (requis) | Identifiant unique lié au libellé et à l'input natif. |
-| label | string | — (requis) | Texte du libellé visible affiché à côté de la checkbox. |
-| hasLabel | boolean | `true` | Affiche ou masque le libellé visible. Fournissez `aria-label` lorsque la valeur est `false`. |
-| showLabel | boolean | `true` | Alias déprécié de `hasLabel`. Préférez `hasLabel`. |
+| label | string | `""` | Texte du libellé visible affiché à côté de la checkbox. Omettre la valeur ou passer une chaîne vide pour masquer le libellé. |
+| showLabel | boolean | `true` | Déprécié. L'affichage du libellé visible est contrôlé par `label`. |
 | description | string | `undefined` | Texte secondaire affiché sous le libellé. |
 | isError | boolean | `false` | Applique le style d'erreur à la checkbox et au libellé. |
 | error | boolean | `undefined` | Alias déprécié de `isError`. Préférez `isError`. |

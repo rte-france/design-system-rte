@@ -15,10 +15,6 @@ const meta = {
       control: "text",
       defaultValue: "Label",
     },
-    hasLabel: {
-      control: "boolean",
-      defaultValue: true,
-    },
     isError: {
       control: "boolean",
       defaultValue: false,
@@ -48,7 +44,6 @@ export const Default: Story = {
     description: "Description",
     disabled: false,
     readOnly: false,
-    hasLabel: true,
     indeterminate: false,
     errorMessage: "",
   },
@@ -67,7 +62,7 @@ export const Default: Story = {
 export const WithAriaLabel: Story = {
   args: {
     ...Default.args,
-    hasLabel: false,
+    label: "",
     "aria-label": "Accessible checkbox label",
   },
   play: async ({ canvasElement }) => {

@@ -4,6 +4,7 @@
 | --- | --- |
 | **Status** | Accepted |
 | **Date** | 2025-11-26 |
+| **Amended** | 2025-11-27 |
 | **Deciders** | Design System RTE engineering |
 | **Related** | [DSR-1118](https://gopro-tickets.rte-france.com/browse/DSR-1118) (Checkbox — label typography and API tweaks) |
 
@@ -18,6 +19,7 @@ Ticket DSR-1118 proposed several renames for Checkbox, including:
 | `isReadOnly` | `readOnly` |
 | `descriptionText` | `description` |
 | `hasDescription` | *(not used — description optional by content)* |
+| `hasLabel` / `showLabel` | *(being retired — label visibility inferred from `label`)* |
 | `errorText` | `errorMessage` |
 | `labelText` | `label` |
 | `hasErrorMessage` (new) | *(not used — visibility inferred from `errorMessage`)* |
@@ -37,7 +39,7 @@ We **keep** the following public naming standards for form and selection compone
 | Role | Standard name | Do not introduce |
 | --- | --- | --- |
 | Primary visible caption | `label` | `labelText` (for standard field labels) |
-| Whether the label is shown | `hasLabel` | `showLabel` (deprecated alias only) |
+| Whether the label is shown | *(inferred from `label` — non-empty means show)* | `hasLabel`, `showLabel` |
 | Secondary help under the control | `description` | `descriptionText`, `hasDescription` |
 | Validation / error state (boolean) | `isError` | `error` (deprecated alias only) |
 | User-facing validation message (string) | `errorMessage` | `errorText`, `hasErrorMessage` |
@@ -60,10 +62,13 @@ Boolean props use an **`is*`** or **`has*`** prefix when they describe component
 4. **`label` instead of `labelText` for field labels**  
    Form controls overwhelmingly use `label` for the main caption. Reserving `*Text` suffixes for group-level titles (`groupTitleText`, `groupHelpText` on Radio Button Group) is acceptable where Figma or information architecture distinguishes group copy from item `label`; it should not become the default for every control.
 
-5. **`isError` instead of `error`**  
+5. **`label` content instead of `hasLabel` / `showLabel` for label visibility**  
+   The catalogue previously used booleans (`hasLabel`, or `showLabel` as an alias) to toggle whether the visible label renders, while `label` still held the string. That duplicates the same information as optional `description` and `errorMessage`: **presence of content drives optional UI**. For labelled fields and selection controls (starting with Checkbox, 2025-11), a **non-empty `label`** means the caption is shown; **omit `label` or pass an empty string** to hide it. Consumers that need an accessible name without visible copy use platform props (`aria-label` / `ariaLabel`) rather than hiding the string behind `hasLabel: false`. Legacy `hasLabel` and `showLabel` may remain as deprecated props during migration; **do not** add them on new components.
+
+6. **`isError` instead of `error`**  
    `error` as a boolean reads like an object or slot name. `isError` is already the standard; legacy `error` may remain as a deprecated alias during transition (as on Checkbox today).
 
-6. **No `hasErrorMessage` — infer visibility from `errorMessage`**  
+7. **No `hasErrorMessage` — infer visibility from `errorMessage`**  
    The error line under the control is shown when **`isError` is true and `errorMessage` is non-empty** (see Checkbox implementations). That is enough for every case DSR-1118 describes:
 
    - **With inline copy:** set `isError` and a non-empty `errorMessage`.
@@ -80,6 +85,8 @@ These are exceptions to the standard above. **New work must not copy them**; ali
 | --- | --- | --- |
 | Radio Button Group | `isReadOnly` | `readOnly` |
 | Radio Button Group | `errorText` | `errorMessage` |
+| Checkbox (transition) | `showLabel`, docs still mention `hasLabel` | visibility from `label` only |
+| File Upload, Time Picker, Text Input (group), etc. | `showLabel` | visibility from `label` where applicable |
 
 Other outliers (`labelText` on Treeview items, Segmented Control, etc.) reflect domain-specific data shapes, not the default pattern for labelled form fields.
 
@@ -93,7 +100,7 @@ Other outliers (`labelText` on Treeview items, Segmented Control, etc.) reflect 
 
 ### Negative
 
-- Figma or internal specs that use `labelText` / `errorText` / `isReadOnly` / `hasErrorMessage` must be translated to canonical names at implementation time.
+- Figma or internal specs that use `labelText` / `errorText` / `isReadOnly` / `hasErrorMessage` / `hasLabel` / `showLabel` must be translated to canonical names at implementation time.
 - Radio Button Group remains inconsistent until a dedicated alignment ticket is done.
 
 ### Process
@@ -104,6 +111,6 @@ Other outliers (`labelText` on Treeview items, Segmented Control, etc.) reflect 
 
 ## References
 
-- DSR-1118 — Checkbox label size and related adjustments (proposed renames discussed in ticket comments, 2025-11-25).
+- DSR-1118 — Checkbox label size and related adjustments (proposed renames discussed in ticket comments, 2025-11-25; `showLabel` deprecated in favour of `label`-driven visibility, 2025-11-27).
 - Core types: `packages/core/components/checkbox/checkbox.interface.d.ts`, `packages/core/components/common/input/input.interface.d.ts`.
 - MDN: [readonly](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/readonly), [Error](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error).

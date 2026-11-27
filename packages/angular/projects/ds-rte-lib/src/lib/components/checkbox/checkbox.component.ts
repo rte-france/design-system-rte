@@ -12,12 +12,11 @@ import { IconComponent } from "../icon/icon.component";
 })
 export class CheckboxComponent {
   readonly id = input.required<string>();
-  readonly label = input.required<string>();
+  readonly label = input("");
   readonly value = input("");
   readonly indeterminate = input(false);
   readonly description = input("");
-  readonly hasLabel = input(true);
-  /** @deprecated Use `hasLabel` instead. */
+  /** @deprecated Element display should be controlled by `label` instead. */
   readonly showLabel = input(true);
   readonly disabled = input(false);
   readonly isError = input(false);
@@ -31,7 +30,6 @@ export class CheckboxComponent {
 
   readonly checkedChange = output<boolean>();
 
-  readonly effectiveHasLabel = computed(() => this.hasLabel() && this.showLabel());
   readonly effectiveIsError = computed(() => this.isError() || this.error());
 
   readonly internalChecked = signal<boolean>(false);

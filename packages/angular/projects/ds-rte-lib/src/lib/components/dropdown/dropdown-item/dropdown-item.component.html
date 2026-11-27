@@ -17,11 +17,11 @@
   >
     <rte-checkbox
       *ngIf="item()?.hasCheckbox"
-      [label]="item()?.label ?? ''"
+      [label]="''"
+      [ariaLabel]="item()?.label ?? ''"
       [id]="menuId() + ':' + item()?.id"
       [checked]="item()?.selected ?? false"
       [disabled]="item()?.disabled ?? false"
-      [showLabel]="false"
       [indeterminate]="item()?.isIndeterminate ?? false"
     ></rte-checkbox>
     <span *ngIf="item()?.hasIndent && !item()?.leftIcon" style="width: 20px"></span>

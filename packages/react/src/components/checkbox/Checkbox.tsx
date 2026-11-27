@@ -9,9 +9,8 @@ interface CheckboxProps extends CoreCheckboxProps, Omit<React.InputHTMLAttribute
 
 const Checkbox = ({
   id,
-  label,
-  hasLabel = true,
-  showLabel,
+  label = "",
+  showLabel = true,
   disabled,
   description,
   isError = false,
@@ -21,7 +20,7 @@ const Checkbox = ({
   indeterminate,
   ...props
 }: CheckboxProps) => {
-  const effectiveHasLabel = hasLabel && (showLabel ?? true);
+  const showVisibleLabel = Boolean(label) && showLabel;
   const effectiveIsError = isError || Boolean(error);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -42,7 +41,7 @@ const Checkbox = ({
   return (
     <div
       className={styles["rte-checkbox-container"]}
-      data-show-label={effectiveHasLabel}
+      data-show-label={showVisibleLabel}
       data-disabled={disabled}
       data-read-only={readOnly}
       data-error={effectiveIsError}
@@ -74,7 +73,7 @@ const Checkbox = ({
         </div>
       </div>
       <div className={styles["rte-checkbox-text-container"]} data-disabled={disabled}>
-        {effectiveHasLabel && <label htmlFor={id}>{label}</label>}
+        {showVisibleLabel && <label htmlFor={id}>{label}</label>}
         <p className={styles["rte-checkbox-description"]}>{description}</p>
         {effectiveIsError && errorMessage && <p className={styles["rte-checkbox-error"]}>{errorMessage}</p>}
       </div>

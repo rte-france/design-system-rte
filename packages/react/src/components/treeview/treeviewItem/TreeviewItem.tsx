@@ -206,8 +206,8 @@ const TreeviewItem = ({
           >
             <Checkbox
               id={checkboxId}
-              label={labelText}
-              showLabel={false}
+              label=""
+              aria-label={labelText}
               tabIndex={-1}
               disabled={disabled}
               onChange={handleCheckedIdsChange}
