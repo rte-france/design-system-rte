@@ -1,0 +1,1 @@
+import{r as e}from"./index-G8LIXM5I.js";const a=e.createContext("a"),s=()=>e.useContext(a),n="ouvre dans un nouvel onglet";function i(o){const t=o.trim();return t?`${t}, ${n}`:n}export{n as E,a as N,i as a,s as u};
