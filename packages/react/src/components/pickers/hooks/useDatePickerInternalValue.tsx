@@ -8,7 +8,7 @@ import {
   isDateDisabled,
   normalizeDate,
 } from "@design-system-rte/core";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import {
   formatNumberToParseSegmentValue,
@@ -161,7 +161,7 @@ const useDatePickerInternalValue = (
     setDateState(newDateState);
   };
 
-  const updateFullDate = (date: Date | null) => {
+  const updateFullDate = useCallback((date: Date | null) => {
     if (date) {
       const day = date.getDate();
       const month = date.getMonth() + 1;
@@ -193,7 +193,7 @@ const useDatePickerInternalValue = (
         };
       });
     }
-  };
+  }, []);
 
   const updateDisplayedDate = (date: Date | null) => {
     if (date) {

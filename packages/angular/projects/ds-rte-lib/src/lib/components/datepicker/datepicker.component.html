@@ -2,7 +2,7 @@
   class="rte-datepicker"
   rteDropdown
   [rteDropdownAutoOpen]="false"
-  [rteDropdownIsOpen]="isOpen()"
+  [rteDropdownIsOpen]="isOpen() && !isDisabled()"
   [rteDropdownWidth]="dropdownWidth()"
   [rteDropdownOverlayLevel]="'high'"
   [rteDropdownOffset]="8"
@@ -27,16 +27,19 @@
     [ariaRequired]="required()"
     [locale]="locale()"
     [value]="textValue()"
+    [placeholder]="placeholder()"
     [error]="isError()"
     [disabled]="isDisabled()"
     [readOnly]="readOnly()"
     [highlighted]="isOpen()"
+    [isCompact]="isCompact()"
     [rightIconAriaLabel]="calendarButtonAriaLabel()"
     (valueChange)="onInputValueChange($event)"
     (rightIconClick)="onCalendarIconTriggered($event)"
     (rightIconKeydown)="onCalendarIconTriggered($event)"
     (segmentedControlClick)="onSegmentedControlClicked()"
     (inputBlur)="onInputBlurred()"
+    (resetClick)="onResetClicked()"
   />
 
   <rte-dropdown-menu>

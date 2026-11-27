@@ -11,6 +11,7 @@ import {
   input,
   output,
   signal,
+  untracked,
 } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { waitForNextFrame } from "@design-system-rte/core/common/animation";
@@ -67,6 +68,7 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
   readonly showLabelRequirement = input<boolean>(false);
 
   readonly width = input<string>(DATEPICKER_DEFAULT_WIDTH);
+  readonly placeholder = input<string | undefined>("JJ/MM/YYYY");
 
   readonly hasAssistiveText = input<boolean>(false);
   readonly assistiveTextLabel = input<string>("");
@@ -86,6 +88,7 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
   readonly disabledDates = input<readonly Date[]>([]);
   readonly locale = input<string>(DATEPICKER_DEFAULT_LOCALE);
   readonly hasActions = input(true);
+  readonly isCompact = input<boolean>(false);
 
   readonly valueChange = output<Date | null>();
   readonly openedChange = output<boolean>();
@@ -144,6 +147,23 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
 
   constructor() {
     effect(() => {
+      if (!this.isDisabled()) {
+        return;
+      }
+      const hasValue = this.selectedDate() !== null || this.pendingDate() !== null || this.textValue() !== "";
+      untracked(() => {
+        this.isOpen.set(false);
+        this.calendarType.set(DATEPICKER_DEFAULT_CALENDAR_TYPE);
+        this.menuInitialActiveDate.set(null);
+        if (hasValue) {
+          this.writeValue(null);
+          this.onChange(null);
+          this.valueChange.emit(null);
+        }
+      });
+    });
+
+    effect(() => {
       this.openedChange.emit(this.isOpen());
     });
 
@@ -164,6 +184,9 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
         return;
       }
       waitForNextFrame(() => {
+        if (!this.isOpen() || this.isDisabled()) {
+          return;
+        }
         const overlayRoot = document.getElementById("overlay-root");
         const menuHost = overlayRoot?.querySelector("rte-datepicker-menu") as HTMLElement | null;
         if (!menuHost) {
@@ -298,6 +321,19 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
     this.onTouched();
   }
 
+  onResetClicked(): void {
+    if (this.readOnly() || this.isDisabled()) {
+      return;
+    }
+    this.writeValue(null);
+    this.menuInitialActiveDate.set(null);
+    this.onClosedDropdown();
+    this.onChange(null);
+    this.valueChange.emit(null);
+    this.focusTrapService.deactivate();
+    this.getInputBarElement()?.querySelector<HTMLButtonElement>(".right-icon button")?.focus();
+  }
+
   onInputValueChange(value: string): void {
     if (this.readOnly() || this.isDisabled()) {
       return;
@@ -372,6 +408,9 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
   }
 
   onMenuDateSelected(date: Date): void {
+    if (this.isDisabled()) {
+      return;
+    }
     const normalized = normalizeDatepickerMenuSelectionDate({
       date,
       constraints: this.pickerConstraints(),
@@ -446,6 +485,9 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit 
   }
 
   onConfirm(): void {
+    if (this.isDisabled()) {
+      return;
+    }
     const confirmedDate = this.pendingDate();
     this.selectedDate.set(confirmedDate);
     this.textValue.set(confirmedDate ? formatDate(confirmedDate) : "");
